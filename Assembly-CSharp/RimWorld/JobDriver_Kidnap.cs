@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_Kidnap : JobDriver_TakeAndExitMap
 	{
 		// Token: 0x170000A0 RID: 160
-		// (get) Token: 0x06000317 RID: 791 RVA: 0x00021A3C File Offset: 0x0001FE3C
+		// (get) Token: 0x06000317 RID: 791 RVA: 0x00021A4C File Offset: 0x0001FE4C
 		protected Pawn Takee
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000318 RID: 792 RVA: 0x00021A5C File Offset: 0x0001FE5C
+		// Token: 0x06000318 RID: 792 RVA: 0x00021A6C File Offset: 0x0001FE6C
 		public override string GetReport()
 		{
 			string result;
@@ -33,7 +33,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000319 RID: 793 RVA: 0x00021AC0 File Offset: 0x0001FEC0
+		// Token: 0x06000319 RID: 793 RVA: 0x00021AD0 File Offset: 0x0001FED0
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOn(() => this.Takee == null || (!this.Takee.Downed && this.Takee.Awake()));

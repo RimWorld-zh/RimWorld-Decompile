@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000116 RID: 278
 	public class JobGiver_WanderColony : JobGiver_Wander
 	{
-		// Token: 0x060005A8 RID: 1448 RVA: 0x0003CBCC File Offset: 0x0003AFCC
+		// Token: 0x060005A8 RID: 1448 RVA: 0x0003CBB8 File Offset: 0x0003AFB8
 		public JobGiver_WanderColony()
 		{
 			this.wanderRadius = 7f;
@@ -17,7 +17,7 @@ namespace RimWorld
 			this.wanderDestValidator = ((Pawn pawn, IntVec3 loc, IntVec3 root) => true);
 		}
 
-		// Token: 0x060005A9 RID: 1449 RVA: 0x0003CC20 File Offset: 0x0003B020
+		// Token: 0x060005A9 RID: 1449 RVA: 0x0003CC0C File Offset: 0x0003B00C
 		protected override IntVec3 GetWanderRoot(Pawn pawn)
 		{
 			if (pawn.RaceProps.Humanlike)

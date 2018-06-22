@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x0200004E RID: 78
 	public class JobDriver_Spectate : JobDriver
 	{
-		// Token: 0x06000270 RID: 624 RVA: 0x00019C98 File Offset: 0x00018098
+		// Token: 0x06000270 RID: 624 RVA: 0x00019CA0 File Offset: 0x000180A0
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000271 RID: 625 RVA: 0x00019CD0 File Offset: 0x000180D0
+		// Token: 0x06000271 RID: 625 RVA: 0x00019CD8 File Offset: 0x000180D8
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			bool haveChair = this.job.GetTarget(TargetIndex.A).HasThing;

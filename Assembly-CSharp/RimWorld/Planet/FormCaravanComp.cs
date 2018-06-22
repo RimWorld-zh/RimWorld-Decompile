@@ -5,12 +5,12 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000623 RID: 1571
+	// Token: 0x0200061F RID: 1567
 	[StaticConstructorOnStartup]
 	public class FormCaravanComp : WorldObjectComp
 	{
 		// Token: 0x170004C1 RID: 1217
-		// (get) Token: 0x06001FE5 RID: 8165 RVA: 0x00112AE4 File Offset: 0x00110EE4
+		// (get) Token: 0x06001FDC RID: 8156 RVA: 0x00112B38 File Offset: 0x00110F38
 		public WorldObjectCompProperties_FormCaravan Props
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004C2 RID: 1218
-		// (get) Token: 0x06001FE6 RID: 8166 RVA: 0x00112B04 File Offset: 0x00110F04
+		// (get) Token: 0x06001FDD RID: 8157 RVA: 0x00112B58 File Offset: 0x00110F58
 		private MapParent MapParent
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004C3 RID: 1219
-		// (get) Token: 0x06001FE7 RID: 8167 RVA: 0x00112B24 File Offset: 0x00110F24
+		// (get) Token: 0x06001FDE RID: 8158 RVA: 0x00112B78 File Offset: 0x00110F78
 		public bool Reform
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004C4 RID: 1220
-		// (get) Token: 0x06001FE8 RID: 8168 RVA: 0x00112B60 File Offset: 0x00110F60
+		// (get) Token: 0x06001FDF RID: 8159 RVA: 0x00112BB4 File Offset: 0x00110FB4
 		public bool CanFormOrReformCaravanNow
 		{
 			get
@@ -50,7 +50,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001FE9 RID: 8169 RVA: 0x00112BC8 File Offset: 0x00110FC8
+		// Token: 0x06001FE0 RID: 8160 RVA: 0x00112C1C File Offset: 0x0011101C
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			MapParent mapParent = (MapParent)this.parent;
@@ -93,7 +93,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x0400126D RID: 4717
+		// Token: 0x0400126A RID: 4714
 		public static readonly Texture2D FormCaravanCommand = ContentFinder<Texture2D>.Get("UI/Commands/FormCaravan", true);
 	}
 }

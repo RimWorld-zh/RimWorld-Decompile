@@ -9,14 +9,14 @@ namespace RimWorld
 	// Token: 0x02000383 RID: 899
 	public class DangerWatcher
 	{
-		// Token: 0x06000F91 RID: 3985 RVA: 0x00083710 File Offset: 0x00081B10
+		// Token: 0x06000F91 RID: 3985 RVA: 0x000838FC File Offset: 0x00081CFC
 		public DangerWatcher(Map map)
 		{
 			this.map = map;
 		}
 
 		// Token: 0x1700023C RID: 572
-		// (get) Token: 0x06000F92 RID: 3986 RVA: 0x00083740 File Offset: 0x00081B40
+		// (get) Token: 0x06000F92 RID: 3986 RVA: 0x0008392C File Offset: 0x00081D2C
 		public StoryDanger DangerRating
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F93 RID: 3987 RVA: 0x00083794 File Offset: 0x00081B94
+		// Token: 0x06000F93 RID: 3987 RVA: 0x00083980 File Offset: 0x00081D80
 		private StoryDanger CalculateDangerRating()
 		{
 			float num = (from x in this.map.attackTargetsCache.TargetsHostileToColony
@@ -73,25 +73,25 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000F94 RID: 3988 RVA: 0x0008392C File Offset: 0x00081D2C
+		// Token: 0x06000F94 RID: 3988 RVA: 0x00083B18 File Offset: 0x00081F18
 		public void Notify_ColonistHarmedExternally()
 		{
 			this.lastColonistHarmedTick = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x04000987 RID: 2439
+		// Token: 0x04000989 RID: 2441
 		private Map map;
 
-		// Token: 0x04000988 RID: 2440
+		// Token: 0x0400098A RID: 2442
 		private StoryDanger dangerRatingInt = StoryDanger.None;
 
-		// Token: 0x04000989 RID: 2441
+		// Token: 0x0400098B RID: 2443
 		private int lastUpdateTick = -10000;
 
-		// Token: 0x0400098A RID: 2442
+		// Token: 0x0400098C RID: 2444
 		private int lastColonistHarmedTick = -10000;
 
-		// Token: 0x0400098B RID: 2443
+		// Token: 0x0400098D RID: 2445
 		private const int UpdateInterval = 101;
 	}
 }

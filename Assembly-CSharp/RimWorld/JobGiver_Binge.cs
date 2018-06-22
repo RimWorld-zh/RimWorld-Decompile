@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000AC RID: 172
 	public abstract class JobGiver_Binge : ThinkNode_JobGiver
 	{
-		// Token: 0x06000428 RID: 1064 RVA: 0x00031BA0 File Offset: 0x0002FFA0
+		// Token: 0x06000428 RID: 1064 RVA: 0x00031B7C File Offset: 0x0002FF7C
 		protected bool IgnoreForbid(Pawn pawn)
 		{
 			return pawn.InMentalState;
@@ -16,7 +16,7 @@ namespace RimWorld
 		// Token: 0x06000429 RID: 1065
 		protected abstract int IngestInterval(Pawn pawn);
 
-		// Token: 0x0600042A RID: 1066 RVA: 0x00031BBC File Offset: 0x0002FFBC
+		// Token: 0x0600042A RID: 1066 RVA: 0x00031B98 File Offset: 0x0002FF98
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			int num = Find.TickManager.TicksGame - pawn.mindState.lastIngestTick;
@@ -31,7 +31,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x0600042B RID: 1067 RVA: 0x00031C10 File Offset: 0x00030010
+		// Token: 0x0600042B RID: 1067 RVA: 0x00031BEC File Offset: 0x0002FFEC
 		private Job IngestJob(Pawn pawn)
 		{
 			Thing thing = this.BestIngestTarget(pawn);

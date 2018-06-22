@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200059B RID: 1435
+	// Token: 0x02000597 RID: 1431
 	public class WorldLayer_Terrain : WorldLayer
 	{
-		// Token: 0x06001B5D RID: 7005 RVA: 0x000EB4D0 File Offset: 0x000E98D0
+		// Token: 0x06001B54 RID: 6996 RVA: 0x000EB524 File Offset: 0x000E9924
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();
@@ -105,7 +105,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001B5E RID: 7006 RVA: 0x000EB4FC File Offset: 0x000E98FC
+		// Token: 0x06001B55 RID: 6997 RVA: 0x000EB550 File Offset: 0x000E9950
 		public int GetTileIDFromRayHit(RaycastHit hit)
 		{
 			int i = 0;
@@ -121,7 +121,7 @@ namespace RimWorld.Planet
 			return -1;
 		}
 
-		// Token: 0x06001B5F RID: 7007 RVA: 0x000EB570 File Offset: 0x000E9970
+		// Token: 0x06001B56 RID: 6998 RVA: 0x000EB5C4 File Offset: 0x000E99C4
 		private IEnumerable RegenerateMeshColliders()
 		{
 			this.meshCollidersInOrder.Clear();
@@ -140,7 +140,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001B60 RID: 7008 RVA: 0x000EB59C File Offset: 0x000E999C
+		// Token: 0x06001B57 RID: 6999 RVA: 0x000EB5F0 File Offset: 0x000E99F0
 		private IEnumerable CalculateInterpolatedVerticesParams()
 		{
 			this.elevationValues.Clear();
@@ -204,13 +204,13 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x04001022 RID: 4130
+		// Token: 0x0400101F RID: 4127
 		private List<MeshCollider> meshCollidersInOrder = new List<MeshCollider>();
 
-		// Token: 0x04001023 RID: 4131
+		// Token: 0x04001020 RID: 4128
 		private List<List<int>> triangleIndexToTileID = new List<List<int>>();
 
-		// Token: 0x04001024 RID: 4132
+		// Token: 0x04001021 RID: 4129
 		private List<Vector3> elevationValues = new List<Vector3>();
 	}
 }

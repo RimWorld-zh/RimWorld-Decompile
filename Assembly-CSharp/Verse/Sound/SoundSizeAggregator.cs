@@ -3,18 +3,18 @@ using System.Collections.Generic;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DB9 RID: 3513
+	// Token: 0x02000DB6 RID: 3510
 	public class SoundSizeAggregator
 	{
-		// Token: 0x06004E6B RID: 20075 RVA: 0x0028F21B File Offset: 0x0028D61B
+		// Token: 0x06004E80 RID: 20096 RVA: 0x002907CB File Offset: 0x0028EBCB
 		public SoundSizeAggregator()
 		{
 			this.testSize = Rand.Value * 3f;
 			this.testSize *= this.testSize;
 		}
 
-		// Token: 0x17000CAE RID: 3246
-		// (get) Token: 0x06004E6C RID: 20076 RVA: 0x0028F254 File Offset: 0x0028D654
+		// Token: 0x17000CB0 RID: 3248
+		// (get) Token: 0x06004E81 RID: 20097 RVA: 0x00290804 File Offset: 0x0028EC04
 		public float AggregateSize
 		{
 			get
@@ -37,22 +37,22 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E6D RID: 20077 RVA: 0x0028F2E0 File Offset: 0x0028D6E0
+		// Token: 0x06004E82 RID: 20098 RVA: 0x00290890 File Offset: 0x0028EC90
 		public void RegisterReporter(ISizeReporter newRep)
 		{
 			this.reporters.Add(newRep);
 		}
 
-		// Token: 0x06004E6E RID: 20078 RVA: 0x0028F2EF File Offset: 0x0028D6EF
+		// Token: 0x06004E83 RID: 20099 RVA: 0x0029089F File Offset: 0x0028EC9F
 		public void RemoveReporter(ISizeReporter oldRep)
 		{
 			this.reporters.Remove(oldRep);
 		}
 
-		// Token: 0x04003436 RID: 13366
+		// Token: 0x04003441 RID: 13377
 		private List<ISizeReporter> reporters = new List<ISizeReporter>();
 
-		// Token: 0x04003437 RID: 13367
+		// Token: 0x04003442 RID: 13378
 		private float testSize;
 	}
 }

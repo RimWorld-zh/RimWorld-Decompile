@@ -8,7 +8,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x02000399 RID: 921
 	public class SymbolResolver_BasePart_Outdoors_Division_Grid : SymbolResolver
 	{
-		// Token: 0x0600100C RID: 4108 RVA: 0x00086ED8 File Offset: 0x000852D8
+		// Token: 0x0600100C RID: 4108 RVA: 0x000870C4 File Offset: 0x000854C4
 		public override bool CanResolve(ResolveParams rp)
 		{
 			bool result;
@@ -28,7 +28,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x0600100D RID: 4109 RVA: 0x00086F58 File Offset: 0x00085358
+		// Token: 0x0600100D RID: 4109 RVA: 0x00087144 File Offset: 0x00085544
 		public override void Resolve(ResolveParams rp)
 		{
 			this.FillOptions(rp.rect);
@@ -58,7 +58,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x0600100E RID: 4110 RVA: 0x00087018 File Offset: 0x00085418
+		// Token: 0x0600100E RID: 4110 RVA: 0x00087204 File Offset: 0x00085604
 		private void FillOptions(CellRect rect)
 		{
 			this.FillOptions(this.optionsX, rect.Width);
@@ -73,7 +73,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x0600100F RID: 4111 RVA: 0x000870F4 File Offset: 0x000854F4
+		// Token: 0x0600100F RID: 4111 RVA: 0x000872E0 File Offset: 0x000856E0
 		private void FillOptions(List<Pair<int, int>> outOptions, int length)
 		{
 			outOptions.Clear();
@@ -90,7 +90,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06001010 RID: 4112 RVA: 0x00087168 File Offset: 0x00085568
+		// Token: 0x06001010 RID: 4112 RVA: 0x00087354 File Offset: 0x00085754
 		private int GetRoomSize(int roomsPerRow, int pathwayWidth, int totalLength)
 		{
 			int num = totalLength - (roomsPerRow - 1) * pathwayWidth;
@@ -106,7 +106,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06001011 RID: 4113 RVA: 0x00087198 File Offset: 0x00085598
+		// Token: 0x06001011 RID: 4113 RVA: 0x00087384 File Offset: 0x00085784
 		private bool TryResolveRandomOption(int maxWidthHeightDiff, int maxPathwayWidthDiff, ResolveParams rp)
 		{
 			SymbolResolver_BasePart_Outdoors_Division_Grid.options.Clear();
@@ -140,7 +140,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06001012 RID: 4114 RVA: 0x00087338 File Offset: 0x00085738
+		// Token: 0x06001012 RID: 4114 RVA: 0x00087524 File Offset: 0x00085924
 		private void ResolveOption(int roomsPerRowX, int pathwayWidthX, int roomsPerRowZ, int pathwayWidthZ, ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -219,7 +219,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06001013 RID: 4115 RVA: 0x00087680 File Offset: 0x00085A80
+		// Token: 0x06001013 RID: 4115 RVA: 0x0008786C File Offset: 0x00085C6C
 		private void MergeRandomChildren()
 		{
 			if (this.children.Count >= 4)
@@ -248,52 +248,52 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x040009F5 RID: 2549
+		// Token: 0x040009F7 RID: 2551
 		private List<Pair<int, int>> optionsX = new List<Pair<int, int>>();
 
-		// Token: 0x040009F6 RID: 2550
+		// Token: 0x040009F8 RID: 2552
 		private List<Pair<int, int>> optionsZ = new List<Pair<int, int>>();
 
-		// Token: 0x040009F7 RID: 2551
+		// Token: 0x040009F9 RID: 2553
 		private List<SymbolResolver_BasePart_Outdoors_Division_Grid.Child> children = new List<SymbolResolver_BasePart_Outdoors_Division_Grid.Child>();
 
-		// Token: 0x040009F8 RID: 2552
+		// Token: 0x040009FA RID: 2554
 		private const int MinWidthOrHeight = 13;
 
-		// Token: 0x040009F9 RID: 2553
+		// Token: 0x040009FB RID: 2555
 		private const int MinRoomsPerRow = 2;
 
-		// Token: 0x040009FA RID: 2554
+		// Token: 0x040009FC RID: 2556
 		private const int MaxRoomsPerRow = 4;
 
-		// Token: 0x040009FB RID: 2555
+		// Token: 0x040009FD RID: 2557
 		private const int MinPathwayWidth = 1;
 
-		// Token: 0x040009FC RID: 2556
+		// Token: 0x040009FE RID: 2558
 		private const int MaxPathwayWidth = 5;
 
-		// Token: 0x040009FD RID: 2557
+		// Token: 0x040009FF RID: 2559
 		private const int MinRoomSize = 6;
 
-		// Token: 0x040009FE RID: 2558
+		// Token: 0x04000A00 RID: 2560
 		private const float AllowNonSquareRoomsInTheFirstStepChance = 0.2f;
 
-		// Token: 0x040009FF RID: 2559
+		// Token: 0x04000A01 RID: 2561
 		private static List<Pair<Pair<int, int>, Pair<int, int>>> options = new List<Pair<Pair<int, int>, Pair<int, int>>>();
 
 		// Token: 0x0200039A RID: 922
 		private class Child
 		{
-			// Token: 0x04000A03 RID: 2563
+			// Token: 0x04000A05 RID: 2565
 			public CellRect rect;
 
-			// Token: 0x04000A04 RID: 2564
+			// Token: 0x04000A06 RID: 2566
 			public int gridX;
 
-			// Token: 0x04000A05 RID: 2565
+			// Token: 0x04000A07 RID: 2567
 			public int gridY;
 
-			// Token: 0x04000A06 RID: 2566
+			// Token: 0x04000A08 RID: 2568
 			public bool merged;
 		}
 	}

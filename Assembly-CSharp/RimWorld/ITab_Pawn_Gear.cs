@@ -9,10 +9,10 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200084E RID: 2126
+	// Token: 0x0200084A RID: 2122
 	public class ITab_Pawn_Gear : ITab
 	{
-		// Token: 0x06003025 RID: 12325 RVA: 0x001A2A80 File Offset: 0x001A0E80
+		// Token: 0x0600301E RID: 12318 RVA: 0x001A2C60 File Offset: 0x001A1060
 		public ITab_Pawn_Gear()
 		{
 			this.size = new Vector2(460f, 450f);
@@ -20,8 +20,8 @@ namespace RimWorld
 			this.tutorTag = "Gear";
 		}
 
-		// Token: 0x170007AB RID: 1963
-		// (get) Token: 0x06003026 RID: 12326 RVA: 0x001A2AD8 File Offset: 0x001A0ED8
+		// Token: 0x170007AC RID: 1964
+		// (get) Token: 0x0600301F RID: 12319 RVA: 0x001A2CB8 File Offset: 0x001A10B8
 		public override bool IsVisible
 		{
 			get
@@ -31,8 +31,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170007AC RID: 1964
-		// (get) Token: 0x06003027 RID: 12327 RVA: 0x001A2B18 File Offset: 0x001A0F18
+		// Token: 0x170007AD RID: 1965
+		// (get) Token: 0x06003020 RID: 12320 RVA: 0x001A2CF8 File Offset: 0x001A10F8
 		private bool CanControl
 		{
 			get
@@ -42,8 +42,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170007AD RID: 1965
-		// (get) Token: 0x06003028 RID: 12328 RVA: 0x001A2BE0 File Offset: 0x001A0FE0
+		// Token: 0x170007AE RID: 1966
+		// (get) Token: 0x06003021 RID: 12321 RVA: 0x001A2DC0 File Offset: 0x001A11C0
 		private bool CanControlColonist
 		{
 			get
@@ -52,8 +52,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170007AE RID: 1966
-		// (get) Token: 0x06003029 RID: 12329 RVA: 0x001A2C10 File Offset: 0x001A1010
+		// Token: 0x170007AF RID: 1967
+		// (get) Token: 0x06003022 RID: 12322 RVA: 0x001A2DF0 File Offset: 0x001A11F0
 		private Pawn SelPawnForGear
 		{
 			get
@@ -76,7 +76,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600302A RID: 12330 RVA: 0x001A2C6C File Offset: 0x001A106C
+		// Token: 0x06003023 RID: 12323 RVA: 0x001A2E4C File Offset: 0x001A124C
 		protected override void FillTab()
 		{
 			Text.Font = GameFont.Small;
@@ -138,7 +138,7 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x0600302B RID: 12331 RVA: 0x001A3008 File Offset: 0x001A1408
+		// Token: 0x06003024 RID: 12324 RVA: 0x001A31E8 File Offset: 0x001A15E8
 		private void DrawThingRow(ref float y, float width, Thing thing, bool inventory = false)
 		{
 			Rect rect = new Rect(0f, y, width, 28f);
@@ -214,7 +214,7 @@ namespace RimWorld
 			y += 28f;
 		}
 
-		// Token: 0x0600302C RID: 12332 RVA: 0x001A3394 File Offset: 0x001A1794
+		// Token: 0x06003025 RID: 12325 RVA: 0x001A3574 File Offset: 0x001A1974
 		private void TryDrawOverallArmor(ref float curY, float width, StatDef stat, string label)
 		{
 			float num = 0f;
@@ -245,7 +245,7 @@ namespace RimWorld
 			curY += 22f;
 		}
 
-		// Token: 0x0600302D RID: 12333 RVA: 0x001A3504 File Offset: 0x001A1904
+		// Token: 0x06003026 RID: 12326 RVA: 0x001A36E4 File Offset: 0x001A1AE4
 		private void TryDrawMassInfo(ref float curY, float width)
 		{
 			if (!this.SelPawnForGear.Dead && this.ShouldShowInventory(this.SelPawnForGear))
@@ -262,7 +262,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600302E RID: 12334 RVA: 0x001A35A4 File Offset: 0x001A19A4
+		// Token: 0x06003027 RID: 12327 RVA: 0x001A3784 File Offset: 0x001A1B84
 		private void TryDrawComfyTemperatureRange(ref float curY, float width)
 		{
 			if (!this.SelPawnForGear.Dead)
@@ -282,7 +282,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600302F RID: 12335 RVA: 0x001A3654 File Offset: 0x001A1A54
+		// Token: 0x06003028 RID: 12328 RVA: 0x001A3834 File Offset: 0x001A1C34
 		private void InterfaceDrop(Thing t)
 		{
 			ThingWithComps thingWithComps = t as ThingWithComps;
@@ -302,7 +302,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003030 RID: 12336 RVA: 0x001A3764 File Offset: 0x001A1B64
+		// Token: 0x06003029 RID: 12329 RVA: 0x001A3944 File Offset: 0x001A1D44
 		private void InterfaceIngest(Thing t)
 		{
 			Job job = new Job(JobDefOf.Ingest, t);
@@ -311,58 +311,58 @@ namespace RimWorld
 			this.SelPawnForGear.jobs.TryTakeOrderedJob(job, JobTag.Misc);
 		}
 
-		// Token: 0x06003031 RID: 12337 RVA: 0x001A37E8 File Offset: 0x001A1BE8
+		// Token: 0x0600302A RID: 12330 RVA: 0x001A39C8 File Offset: 0x001A1DC8
 		private bool ShouldShowInventory(Pawn p)
 		{
 			return p.RaceProps.Humanlike || p.inventory.innerContainer.Any;
 		}
 
-		// Token: 0x06003032 RID: 12338 RVA: 0x001A3820 File Offset: 0x001A1C20
+		// Token: 0x0600302B RID: 12331 RVA: 0x001A3A00 File Offset: 0x001A1E00
 		private bool ShouldShowApparel(Pawn p)
 		{
 			return p.apparel != null && (p.RaceProps.Humanlike || p.apparel.WornApparel.Any<Apparel>());
 		}
 
-		// Token: 0x06003033 RID: 12339 RVA: 0x001A386C File Offset: 0x001A1C6C
+		// Token: 0x0600302C RID: 12332 RVA: 0x001A3A4C File Offset: 0x001A1E4C
 		private bool ShouldShowEquipment(Pawn p)
 		{
 			return p.equipment != null;
 		}
 
-		// Token: 0x06003034 RID: 12340 RVA: 0x001A3890 File Offset: 0x001A1C90
+		// Token: 0x0600302D RID: 12333 RVA: 0x001A3A70 File Offset: 0x001A1E70
 		private bool ShouldShowOverallArmor(Pawn p)
 		{
 			return p.RaceProps.Humanlike || this.ShouldShowApparel(p) || p.GetStatValue(StatDefOf.ArmorRating_Sharp, true) > 0f || p.GetStatValue(StatDefOf.ArmorRating_Blunt, true) > 0f || p.GetStatValue(StatDefOf.ArmorRating_Heat, true) > 0f;
 		}
 
-		// Token: 0x04001A0C RID: 6668
+		// Token: 0x04001A0A RID: 6666
 		private Vector2 scrollPosition = Vector2.zero;
 
-		// Token: 0x04001A0D RID: 6669
+		// Token: 0x04001A0B RID: 6667
 		private float scrollViewHeight = 0f;
 
-		// Token: 0x04001A0E RID: 6670
+		// Token: 0x04001A0C RID: 6668
 		private const float TopPadding = 20f;
 
-		// Token: 0x04001A0F RID: 6671
+		// Token: 0x04001A0D RID: 6669
 		public static readonly Color ThingLabelColor = new Color(0.9f, 0.9f, 0.9f, 1f);
 
-		// Token: 0x04001A10 RID: 6672
+		// Token: 0x04001A0E RID: 6670
 		public static readonly Color HighlightColor = new Color(0.5f, 0.5f, 0.5f, 1f);
 
-		// Token: 0x04001A11 RID: 6673
+		// Token: 0x04001A0F RID: 6671
 		private const float ThingIconSize = 28f;
 
-		// Token: 0x04001A12 RID: 6674
+		// Token: 0x04001A10 RID: 6672
 		private const float ThingRowHeight = 28f;
 
-		// Token: 0x04001A13 RID: 6675
+		// Token: 0x04001A11 RID: 6673
 		private const float ThingLeftX = 36f;
 
-		// Token: 0x04001A14 RID: 6676
+		// Token: 0x04001A12 RID: 6674
 		private const float StandardLineHeight = 22f;
 
-		// Token: 0x04001A15 RID: 6677
+		// Token: 0x04001A13 RID: 6675
 		private static List<Thing> workingInvList = new List<Thing>();
 	}
 }

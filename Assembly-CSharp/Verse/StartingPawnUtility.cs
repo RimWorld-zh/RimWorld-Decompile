@@ -6,11 +6,11 @@ using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x02000BE3 RID: 3043
+	// Token: 0x02000BDF RID: 3039
 	public static class StartingPawnUtility
 	{
-		// Token: 0x17000A6E RID: 2670
-		// (get) Token: 0x0600425A RID: 16986 RVA: 0x0022E334 File Offset: 0x0022C734
+		// Token: 0x17000A70 RID: 2672
+		// (get) Token: 0x0600425C RID: 16988 RVA: 0x0022EA50 File Offset: 0x0022CE50
 		private static List<Pawn> StartingAndOptionalPawns
 		{
 			get
@@ -19,7 +19,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600425B RID: 16987 RVA: 0x0022E354 File Offset: 0x0022C754
+		// Token: 0x0600425D RID: 16989 RVA: 0x0022EA70 File Offset: 0x0022CE70
 		public static void ClearAllStartingPawns()
 		{
 			for (int i = StartingPawnUtility.StartingAndOptionalPawns.Count - 1; i >= 0; i--)
@@ -35,19 +35,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600425C RID: 16988 RVA: 0x0022E3E4 File Offset: 0x0022C7E4
+		// Token: 0x0600425E RID: 16990 RVA: 0x0022EB00 File Offset: 0x0022CF00
 		public static Pawn RandomizeInPlace(Pawn p)
 		{
 			int index = StartingPawnUtility.StartingAndOptionalPawns.IndexOf(p);
-			Pawn pawn = StartingPawnUtility.RegenerateStartingPawnInPlace(index);
-			if (pawn.story.WorkTagIsDisabled(WorkTags.ManualDumb) || pawn.story.WorkTagIsDisabled(WorkTags.Violent))
-			{
-				pawn = StartingPawnUtility.RegenerateStartingPawnInPlace(index);
-			}
-			return pawn;
+			return StartingPawnUtility.RegenerateStartingPawnInPlace(index);
 		}
 
-		// Token: 0x0600425D RID: 16989 RVA: 0x0022E438 File Offset: 0x0022C838
+		// Token: 0x0600425F RID: 16991 RVA: 0x0022EB2C File Offset: 0x0022CF2C
 		private static Pawn RegenerateStartingPawnInPlace(int index)
 		{
 			Pawn pawn = StartingPawnUtility.StartingAndOptionalPawns[index];
@@ -68,7 +63,7 @@ namespace Verse
 			return pawn2;
 		}
 
-		// Token: 0x0600425E RID: 16990 RVA: 0x0022E4D8 File Offset: 0x0022C8D8
+		// Token: 0x06004260 RID: 16992 RVA: 0x0022EBCC File Offset: 0x0022CFCC
 		public static Pawn NewGeneratedStartingPawn()
 		{
 			PawnGenerationRequest request = new PawnGenerationRequest(Faction.OfPlayer.def.basicMemberKind, Faction.OfPlayer, PawnGenerationContext.PlayerStarter, -1, true, false, false, false, true, TutorSystem.TutorialMode, 20f, false, true, true, false, false, false, false, null, null, null, null, null, null, null, null);
@@ -87,7 +82,7 @@ namespace Verse
 			return pawn;
 		}
 
-		// Token: 0x0600425F RID: 16991 RVA: 0x0022E5A8 File Offset: 0x0022C9A8
+		// Token: 0x06004261 RID: 16993 RVA: 0x0022EC9C File Offset: 0x0022D09C
 		public static bool WorkTypeRequirementsSatisfied()
 		{
 			bool result;
@@ -130,7 +125,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004260 RID: 16992 RVA: 0x0022E6B4 File Offset: 0x0022CAB4
+		// Token: 0x06004262 RID: 16994 RVA: 0x0022EDA8 File Offset: 0x0022D1A8
 		public static IEnumerable<WorkTypeDef> RequiredWorkTypesDisabledForEveryone()
 		{
 			List<WorkTypeDef> workTypes = DefDatabase<WorkTypeDef>.AllDefsListForReading;

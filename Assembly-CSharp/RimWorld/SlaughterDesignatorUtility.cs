@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007DC RID: 2012
+	// Token: 0x020007D8 RID: 2008
 	public static class SlaughterDesignatorUtility
 	{
-		// Token: 0x06002C95 RID: 11413 RVA: 0x00177614 File Offset: 0x00175A14
+		// Token: 0x06002C8E RID: 11406 RVA: 0x001777EC File Offset: 0x00175BEC
 		public static void CheckWarnAboutBondedAnimal(Pawn designated)
 		{
 			if (designated.RaceProps.IsFlesh)

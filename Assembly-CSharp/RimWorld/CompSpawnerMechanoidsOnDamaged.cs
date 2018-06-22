@@ -8,10 +8,10 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200073E RID: 1854
+	// Token: 0x0200073A RID: 1850
 	public class CompSpawnerMechanoidsOnDamaged : ThingComp
 	{
-		// Token: 0x060028E9 RID: 10473 RVA: 0x0015CB1B File Offset: 0x0015AF1B
+		// Token: 0x060028E2 RID: 10466 RVA: 0x0015CCF3 File Offset: 0x0015B0F3
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -19,7 +19,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.pointsLeft, "mechanoidPointsLeft", 0f, false);
 		}
 
-		// Token: 0x060028EA RID: 10474 RVA: 0x0015CB4C File Offset: 0x0015AF4C
+		// Token: 0x060028E3 RID: 10467 RVA: 0x0015CD24 File Offset: 0x0015B124
 		public override void PostPreApplyDamage(DamageInfo dinfo, out bool absorbed)
 		{
 			base.PostPreApplyDamage(dinfo, out absorbed);
@@ -41,7 +41,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028EB RID: 10475 RVA: 0x0015CC09 File Offset: 0x0015B009
+		// Token: 0x060028E4 RID: 10468 RVA: 0x0015CDE1 File Offset: 0x0015B1E1
 		public void Notify_BlueprintReplacedWithSolidThingNearby(Pawn by)
 		{
 			if (by.Faction != Faction.OfMechanoids)
@@ -50,7 +50,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028EC RID: 10476 RVA: 0x0015CC24 File Offset: 0x0015B024
+		// Token: 0x060028E5 RID: 10469 RVA: 0x0015CDFC File Offset: 0x0015B1FC
 		private void TrySpawnMechanoids()
 		{
 			if (this.pointsLeft > 0f)
@@ -98,22 +98,22 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028ED RID: 10477 RVA: 0x0015CE1C File Offset: 0x0015B21C
+		// Token: 0x060028E6 RID: 10470 RVA: 0x0015CFF4 File Offset: 0x0015B3F4
 		private bool CanSpawnMechanoidAt(IntVec3 c)
 		{
 			return c.Walkable(this.parent.Map);
 		}
 
-		// Token: 0x04001663 RID: 5731
+		// Token: 0x04001661 RID: 5729
 		public float pointsLeft;
 
-		// Token: 0x04001664 RID: 5732
+		// Token: 0x04001662 RID: 5730
 		private Lord lord;
 
-		// Token: 0x04001665 RID: 5733
+		// Token: 0x04001663 RID: 5731
 		private const float MechanoidsDefendRadius = 21f;
 
-		// Token: 0x04001666 RID: 5734
+		// Token: 0x04001664 RID: 5732
 		public static readonly string MemoDamaged = "ShipPartDamaged";
 	}
 }

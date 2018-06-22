@@ -6,11 +6,11 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000658 RID: 1624
+	// Token: 0x02000654 RID: 1620
 	public static class AmbientSoundManager
 	{
 		// Token: 0x170004F6 RID: 1270
-		// (get) Token: 0x060021DB RID: 8667 RVA: 0x0011F230 File Offset: 0x0011D630
+		// (get) Token: 0x060021D3 RID: 8659 RVA: 0x0011F330 File Offset: 0x0011D730
 		private static bool WorldAmbientSoundCreated
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170004F7 RID: 1271
-		// (get) Token: 0x060021DC RID: 8668 RVA: 0x0011F25C File Offset: 0x0011D65C
+		// (get) Token: 0x060021D4 RID: 8660 RVA: 0x0011F35C File Offset: 0x0011D75C
 		private static bool AltitudeWindSoundCreated
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021DD RID: 8669 RVA: 0x0011F285 File Offset: 0x0011D685
+		// Token: 0x060021D5 RID: 8661 RVA: 0x0011F385 File Offset: 0x0011D785
 		public static void EnsureWorldAmbientSoundCreated()
 		{
 			if (!AmbientSoundManager.WorldAmbientSoundCreated)
@@ -38,13 +38,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021DE RID: 8670 RVA: 0x0011F2A3 File Offset: 0x0011D6A3
+		// Token: 0x060021D6 RID: 8662 RVA: 0x0011F3A3 File Offset: 0x0011D7A3
 		public static void Notify_SwitchedMap()
 		{
 			LongEventHandler.ExecuteWhenFinished(AmbientSoundManager.recreateMapSustainers);
 		}
 
-		// Token: 0x060021DF RID: 8671 RVA: 0x0011F2B0 File Offset: 0x0011D6B0
+		// Token: 0x060021D7 RID: 8663 RVA: 0x0011F3B0 File Offset: 0x0011D7B0
 		private static void RecreateMapSustainers()
 		{
 			if (!AmbientSoundManager.AltitudeWindSoundCreated)
@@ -72,7 +72,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021E0 RID: 8672 RVA: 0x0011F393 File Offset: 0x0011D793
+		// Token: 0x060021D8 RID: 8664 RVA: 0x0011F493 File Offset: 0x0011D893
 		// Note: this type is marked as 'beforefieldinit'.
 		static AmbientSoundManager()
 		{
@@ -83,13 +83,13 @@ namespace RimWorld
 			AmbientSoundManager.recreateMapSustainers = AmbientSoundManager.<>f__mg$cache0;
 		}
 
-		// Token: 0x0400132F RID: 4911
+		// Token: 0x0400132C RID: 4908
 		private static List<Sustainer> biomeAmbientSustainers = new List<Sustainer>();
 
-		// Token: 0x04001330 RID: 4912
+		// Token: 0x0400132D RID: 4909
 		private static Action recreateMapSustainers;
 
-		// Token: 0x04001331 RID: 4913
+		// Token: 0x0400132E RID: 4910
 		[CompilerGenerated]
 		private static Action <>f__mg$cache0;
 	}

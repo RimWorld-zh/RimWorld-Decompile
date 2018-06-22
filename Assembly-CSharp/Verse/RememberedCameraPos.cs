@@ -3,27 +3,27 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000AF4 RID: 2804
+	// Token: 0x02000AF0 RID: 2800
 	public class RememberedCameraPos : IExposable
 	{
-		// Token: 0x06003E0B RID: 15883 RVA: 0x0020B264 File Offset: 0x00209664
+		// Token: 0x06003E06 RID: 15878 RVA: 0x0020B588 File Offset: 0x00209988
 		public RememberedCameraPos(Map map)
 		{
 			this.rootPos = map.Center.ToVector3Shifted();
 			this.rootSize = 24f;
 		}
 
-		// Token: 0x06003E0C RID: 15884 RVA: 0x0020B298 File Offset: 0x00209698
+		// Token: 0x06003E07 RID: 15879 RVA: 0x0020B5BC File Offset: 0x002099BC
 		public void ExposeData()
 		{
 			Scribe_Values.Look<Vector3>(ref this.rootPos, "rootPos", default(Vector3), false);
 			Scribe_Values.Look<float>(ref this.rootSize, "rootSize", 0f, false);
 		}
 
-		// Token: 0x04002742 RID: 10050
+		// Token: 0x0400273D RID: 10045
 		public Vector3 rootPos;
 
-		// Token: 0x04002743 RID: 10051
+		// Token: 0x0400273E RID: 10046
 		public float rootSize;
 	}
 }

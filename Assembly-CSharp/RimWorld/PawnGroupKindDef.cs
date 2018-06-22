@@ -7,7 +7,7 @@ namespace RimWorld
 	public class PawnGroupKindDef : Def
 	{
 		// Token: 0x170001BC RID: 444
-		// (get) Token: 0x06000B9D RID: 2973 RVA: 0x00068A38 File Offset: 0x00066E38
+		// (get) Token: 0x06000B9B RID: 2971 RVA: 0x00068AA0 File Offset: 0x00066EA0
 		public PawnGroupKindWorker Worker
 		{
 			get
@@ -21,10 +21,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040006AF RID: 1711
+		// Token: 0x040006AE RID: 1710
 		public Type workerClass = typeof(PawnGroupKindWorker);
 
-		// Token: 0x040006B0 RID: 1712
+		// Token: 0x040006AF RID: 1711
 		[Unsaved]
 		private PawnGroupKindWorker workerInt;
 	}

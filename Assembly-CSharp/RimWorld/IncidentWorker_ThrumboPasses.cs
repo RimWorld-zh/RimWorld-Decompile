@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000342 RID: 834
 	public class IncidentWorker_ThrumboPasses : IncidentWorker
 	{
-		// Token: 0x06000E40 RID: 3648 RVA: 0x00078F20 File Offset: 0x00077320
+		// Token: 0x06000E40 RID: 3648 RVA: 0x00079020 File Offset: 0x00077420
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -15,7 +15,7 @@ namespace RimWorld
 			return !map.gameConditionManager.ConditionIsActive(GameConditionDefOf.ToxicFallout) && map.mapTemperature.SeasonAndOutdoorTemperatureAcceptableFor(ThingDefOf.Thrumbo) && this.TryFindEntryCell(map, out intVec);
 		}
 
-		// Token: 0x06000E41 RID: 3649 RVA: 0x00078F84 File Offset: 0x00077384
+		// Token: 0x06000E41 RID: 3649 RVA: 0x00079084 File Offset: 0x00077484
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -62,7 +62,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E42 RID: 3650 RVA: 0x000790F0 File Offset: 0x000774F0
+		// Token: 0x06000E42 RID: 3650 RVA: 0x000791F0 File Offset: 0x000775F0
 		private bool TryFindEntryCell(Map map, out IntVec3 cell)
 		{
 			return RCellFinder.TryFindRandomPawnEntryCell(out cell, map, CellFinder.EdgeRoadChance_Animal + 0.2f, null);

@@ -8,19 +8,19 @@ namespace RimWorld
 	// Token: 0x0200016A RID: 362
 	public class LordJob_AssistColony : LordJob
 	{
-		// Token: 0x0600076E RID: 1902 RVA: 0x00049EE7 File Offset: 0x000482E7
+		// Token: 0x0600076E RID: 1902 RVA: 0x00049ED3 File Offset: 0x000482D3
 		public LordJob_AssistColony()
 		{
 		}
 
-		// Token: 0x0600076F RID: 1903 RVA: 0x00049EF0 File Offset: 0x000482F0
+		// Token: 0x0600076F RID: 1903 RVA: 0x00049EDC File Offset: 0x000482DC
 		public LordJob_AssistColony(Faction faction, IntVec3 fallbackLocation)
 		{
 			this.faction = faction;
 			this.fallbackLocation = fallbackLocation;
 		}
 
-		// Token: 0x06000770 RID: 1904 RVA: 0x00049F08 File Offset: 0x00048308
+		// Token: 0x06000770 RID: 1904 RVA: 0x00049EF4 File Offset: 0x000482F4
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -71,7 +71,7 @@ namespace RimWorld
 			return stateGraph;
 		}
 
-		// Token: 0x06000771 RID: 1905 RVA: 0x0004A148 File Offset: 0x00048548
+		// Token: 0x06000771 RID: 1905 RVA: 0x0004A134 File Offset: 0x00048534
 		public override void ExposeData()
 		{
 			Scribe_References.Look<Faction>(ref this.faction, "faction", false);

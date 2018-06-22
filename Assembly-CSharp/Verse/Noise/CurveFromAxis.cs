@@ -6,25 +6,25 @@ namespace Verse.Noise
 	// Token: 0x02000F77 RID: 3959
 	public class CurveFromAxis : ModuleBase
 	{
-		// Token: 0x06005F6F RID: 24431 RVA: 0x0030928F File Offset: 0x0030768F
+		// Token: 0x06005F98 RID: 24472 RVA: 0x0030B333 File Offset: 0x00309733
 		public CurveFromAxis() : base(0)
 		{
 		}
 
-		// Token: 0x06005F70 RID: 24432 RVA: 0x00309299 File Offset: 0x00307699
+		// Token: 0x06005F99 RID: 24473 RVA: 0x0030B33D File Offset: 0x0030973D
 		public CurveFromAxis(SimpleCurve curve) : base(0)
 		{
 			this.curve = curve;
 		}
 
-		// Token: 0x06005F71 RID: 24433 RVA: 0x003092AC File Offset: 0x003076AC
+		// Token: 0x06005F9A RID: 24474 RVA: 0x0030B350 File Offset: 0x00309750
 		public override double GetValue(double x, double y, double z)
 		{
 			float x2 = Mathf.Abs((float)x);
 			return (double)this.curve.Evaluate(x2);
 		}
 
-		// Token: 0x04003EC5 RID: 16069
+		// Token: 0x04003ED7 RID: 16087
 		public SimpleCurve curve;
 	}
 }

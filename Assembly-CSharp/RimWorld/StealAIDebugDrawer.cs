@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020000DB RID: 219
 	public static class StealAIDebugDrawer
 	{
-		// Token: 0x060004D0 RID: 1232 RVA: 0x00035CE8 File Offset: 0x000340E8
+		// Token: 0x060004D0 RID: 1232 RVA: 0x00035CD4 File Offset: 0x000340D4
 		public static void DebugDraw()
 		{
 			if (!DebugViewSettings.drawStealDebug)
@@ -53,7 +53,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060004D1 RID: 1233 RVA: 0x00035EBC File Offset: 0x000342BC
+		// Token: 0x060004D1 RID: 1233 RVA: 0x00035EA8 File Offset: 0x000342A8
 		public static void Notify_ThingChanged(Thing thing)
 		{
 			if (StealAIDebugDrawer.debugDrawLord != null)
@@ -82,7 +82,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060004D2 RID: 1234 RVA: 0x00035FBC File Offset: 0x000343BC
+		// Token: 0x060004D2 RID: 1234 RVA: 0x00035FA8 File Offset: 0x000343A8
 		private static float TotalMarketValueAround(IntVec3 center, Map map, int pawnsCount)
 		{
 			float result;
@@ -114,7 +114,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004D3 RID: 1235 RVA: 0x00036090 File Offset: 0x00034490
+		// Token: 0x060004D3 RID: 1235 RVA: 0x0003607C File Offset: 0x0003447C
 		private static Lord FindHostileLord()
 		{
 			Lord lord = null;
@@ -132,7 +132,7 @@ namespace RimWorld
 			return lord;
 		}
 
-		// Token: 0x060004D4 RID: 1236 RVA: 0x00036134 File Offset: 0x00034534
+		// Token: 0x060004D4 RID: 1236 RVA: 0x00036120 File Offset: 0x00034520
 		private static void CheckInitDebugDrawGrid()
 		{
 			if (StealAIDebugDrawer.debugDrawGrid == null)

@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_BeatFire : JobDriver
 	{
 		// Token: 0x17000083 RID: 131
-		// (get) Token: 0x06000260 RID: 608 RVA: 0x00018FF8 File Offset: 0x000173F8
+		// (get) Token: 0x06000260 RID: 608 RVA: 0x00019000 File Offset: 0x00017400
 		protected Fire TargetFire
 		{
 			get
@@ -18,13 +18,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000261 RID: 609 RVA: 0x00019024 File Offset: 0x00017424
+		// Token: 0x06000261 RID: 609 RVA: 0x0001902C File Offset: 0x0001742C
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x06000262 RID: 610 RVA: 0x0001903C File Offset: 0x0001743C
+		// Token: 0x06000262 RID: 610 RVA: 0x00019044 File Offset: 0x00017444
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);
@@ -75,7 +75,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000263 RID: 611 RVA: 0x00019068 File Offset: 0x00017468
+		// Token: 0x06000263 RID: 611 RVA: 0x00019070 File Offset: 0x00017470
 		private bool StartBeatingFireIfAnyAt(IntVec3 cell, Toil nextToil)
 		{
 			List<Thing> thingList = cell.GetThingList(base.Map);

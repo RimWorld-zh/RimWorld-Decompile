@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020001B6 RID: 438
 	public class ThinkNode_DutyConstant : ThinkNode
 	{
-		// Token: 0x0600091E RID: 2334 RVA: 0x00055704 File Offset: 0x00053B04
+		// Token: 0x0600091C RID: 2332 RVA: 0x00055718 File Offset: 0x00053B18
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			ThinkResult result;
@@ -42,7 +42,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600091F RID: 2335 RVA: 0x000557D4 File Offset: 0x00053BD4
+		// Token: 0x0600091D RID: 2333 RVA: 0x000557E8 File Offset: 0x00053BE8
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode_DutyConstant thinkNode_DutyConstant = (ThinkNode_DutyConstant)base.DeepCopy(resolve);
@@ -58,7 +58,7 @@ namespace RimWorld
 			return thinkNode_DutyConstant;
 		}
 
-		// Token: 0x06000920 RID: 2336 RVA: 0x0005587C File Offset: 0x00053C7C
+		// Token: 0x0600091E RID: 2334 RVA: 0x00055890 File Offset: 0x00053C90
 		protected override void ResolveSubnodes()
 		{
 			this.dutyDefToSubNode = new DefMap<DutyDef, int>();
@@ -74,7 +74,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040003DA RID: 986
+		// Token: 0x040003D8 RID: 984
 		private DefMap<DutyDef, int> dutyDefToSubNode;
 	}
 }

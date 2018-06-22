@@ -7,11 +7,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006AA RID: 1706
+	// Token: 0x020006A6 RID: 1702
 	public class Building_Grave : Building_Casket, IStoreSettingsParent, IAssignableBuilding, IHaulDestination
 	{
 		// Token: 0x1700057D RID: 1405
-		// (get) Token: 0x06002474 RID: 9332 RVA: 0x00138090 File Offset: 0x00136490
+		// (get) Token: 0x0600246C RID: 9324 RVA: 0x001381D8 File Offset: 0x001365D8
 		public override Graphic Graphic
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700057E RID: 1406
-		// (get) Token: 0x06002475 RID: 9333 RVA: 0x0013810C File Offset: 0x0013650C
+		// (get) Token: 0x0600246D RID: 9325 RVA: 0x00138254 File Offset: 0x00136654
 		public bool HasCorpse
 		{
 			get
@@ -51,7 +51,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700057F RID: 1407
-		// (get) Token: 0x06002476 RID: 9334 RVA: 0x00138130 File Offset: 0x00136530
+		// (get) Token: 0x0600246E RID: 9326 RVA: 0x00138278 File Offset: 0x00136678
 		public Corpse Corpse
 		{
 			get
@@ -69,7 +69,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000580 RID: 1408
-		// (get) Token: 0x06002477 RID: 9335 RVA: 0x00138184 File Offset: 0x00136584
+		// (get) Token: 0x0600246F RID: 9327 RVA: 0x001382CC File Offset: 0x001366CC
 		public IEnumerable<Pawn> AssigningCandidates
 		{
 			get
@@ -91,7 +91,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000581 RID: 1409
-		// (get) Token: 0x06002478 RID: 9336 RVA: 0x00138220 File Offset: 0x00136620
+		// (get) Token: 0x06002470 RID: 9328 RVA: 0x00138368 File Offset: 0x00136768
 		public IEnumerable<Pawn> AssignedPawns
 		{
 			get
@@ -105,7 +105,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000582 RID: 1410
-		// (get) Token: 0x06002479 RID: 9337 RVA: 0x0013824C File Offset: 0x0013664C
+		// (get) Token: 0x06002471 RID: 9329 RVA: 0x00138394 File Offset: 0x00136794
 		public int MaxAssignedPawnsCount
 		{
 			get
@@ -114,13 +114,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600247A RID: 9338 RVA: 0x00138262 File Offset: 0x00136662
+		// Token: 0x06002472 RID: 9330 RVA: 0x001383AA File Offset: 0x001367AA
 		public void TryAssignPawn(Pawn pawn)
 		{
 			pawn.ownership.ClaimGrave(this);
 		}
 
-		// Token: 0x0600247B RID: 9339 RVA: 0x00138271 File Offset: 0x00136671
+		// Token: 0x06002473 RID: 9331 RVA: 0x001383B9 File Offset: 0x001367B9
 		public void TryUnassignPawn(Pawn pawn)
 		{
 			if (pawn == this.assignedPawn)
@@ -129,14 +129,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600247C RID: 9340 RVA: 0x0013828C File Offset: 0x0013668C
+		// Token: 0x06002474 RID: 9332 RVA: 0x001383D4 File Offset: 0x001367D4
 		public bool AssignedAnything(Pawn pawn)
 		{
 			return pawn.ownership.AssignedGrave != null;
 		}
 
 		// Token: 0x17000583 RID: 1411
-		// (get) Token: 0x0600247D RID: 9341 RVA: 0x001382B4 File Offset: 0x001366B4
+		// (get) Token: 0x06002475 RID: 9333 RVA: 0x001383FC File Offset: 0x001367FC
 		public bool StorageTabVisible
 		{
 			get
@@ -145,19 +145,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600247E RID: 9342 RVA: 0x001382E0 File Offset: 0x001366E0
+		// Token: 0x06002476 RID: 9334 RVA: 0x00138428 File Offset: 0x00136828
 		public StorageSettings GetStoreSettings()
 		{
 			return this.storageSettings;
 		}
 
-		// Token: 0x0600247F RID: 9343 RVA: 0x001382FC File Offset: 0x001366FC
+		// Token: 0x06002477 RID: 9335 RVA: 0x00138444 File Offset: 0x00136844
 		public StorageSettings GetParentStoreSettings()
 		{
 			return this.def.building.fixedStorageSettings;
 		}
 
-		// Token: 0x06002480 RID: 9344 RVA: 0x00138324 File Offset: 0x00136724
+		// Token: 0x06002478 RID: 9336 RVA: 0x0013846C File Offset: 0x0013686C
 		public override void PostMake()
 		{
 			base.PostMake();
@@ -168,7 +168,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002481 RID: 9345 RVA: 0x00138374 File Offset: 0x00136774
+		// Token: 0x06002479 RID: 9337 RVA: 0x001384BC File Offset: 0x001368BC
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -178,7 +178,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002482 RID: 9346 RVA: 0x00138397 File Offset: 0x00136797
+		// Token: 0x0600247A RID: 9338 RVA: 0x001384DF File Offset: 0x001368DF
 		public override void EjectContents()
 		{
 			base.EjectContents();
@@ -188,7 +188,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002483 RID: 9347 RVA: 0x001383C4 File Offset: 0x001367C4
+		// Token: 0x0600247B RID: 9339 RVA: 0x0013850C File Offset: 0x0013690C
 		public virtual void Notify_CorpseBuried(Pawn worker)
 		{
 			CompArt comp = base.GetComp<CompArt>();
@@ -206,7 +206,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002484 RID: 9348 RVA: 0x00138460 File Offset: 0x00136860
+		// Token: 0x0600247C RID: 9340 RVA: 0x001385A8 File Offset: 0x001369A8
 		public override bool Accepts(Thing thing)
 		{
 			bool result;
@@ -241,7 +241,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002485 RID: 9349 RVA: 0x001384F4 File Offset: 0x001368F4
+		// Token: 0x0600247D RID: 9341 RVA: 0x0013863C File Offset: 0x00136A3C
 		public override bool TryAcceptThing(Thing thing, bool allowSpecialEffects = true)
 		{
 			bool result;
@@ -268,7 +268,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002486 RID: 9350 RVA: 0x00138588 File Offset: 0x00136988
+		// Token: 0x0600247E RID: 9342 RVA: 0x001386D0 File Offset: 0x00136AD0
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
@@ -299,7 +299,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002487 RID: 9351 RVA: 0x001385B4 File Offset: 0x001369B4
+		// Token: 0x0600247F RID: 9343 RVA: 0x001386FC File Offset: 0x00136AFC
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -326,13 +326,13 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x04001432 RID: 5170
+		// Token: 0x04001430 RID: 5168
 		private StorageSettings storageSettings = null;
 
-		// Token: 0x04001433 RID: 5171
+		// Token: 0x04001431 RID: 5169
 		private Graphic cachedGraphicFull = null;
 
-		// Token: 0x04001434 RID: 5172
+		// Token: 0x04001432 RID: 5170
 		public Pawn assignedPawn = null;
 	}
 }

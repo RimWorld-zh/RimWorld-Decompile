@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000122 RID: 290
 	public class WorkGiver_Tame : WorkGiver_InteractAnimal
 	{
-		// Token: 0x060005FE RID: 1534 RVA: 0x0003FD48 File Offset: 0x0003E148
+		// Token: 0x060005FE RID: 1534 RVA: 0x0003FD34 File Offset: 0x0003E134
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			foreach (Designation des in pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Tame))
@@ -18,7 +18,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060005FF RID: 1535 RVA: 0x0003FD74 File Offset: 0x0003E174
+		// Token: 0x060005FF RID: 1535 RVA: 0x0003FD60 File Offset: 0x0003E160
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;

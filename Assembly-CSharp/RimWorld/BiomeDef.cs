@@ -11,7 +11,7 @@ namespace RimWorld
 	public class BiomeDef : Def
 	{
 		// Token: 0x17000197 RID: 407
-		// (get) Token: 0x06000B04 RID: 2820 RVA: 0x00063D14 File Offset: 0x00062114
+		// (get) Token: 0x06000B02 RID: 2818 RVA: 0x00063D70 File Offset: 0x00062170
 		public BiomeWorker Worker
 		{
 			get
@@ -25,7 +25,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000198 RID: 408
-		// (get) Token: 0x06000B05 RID: 2821 RVA: 0x00063D50 File Offset: 0x00062150
+		// (get) Token: 0x06000B03 RID: 2819 RVA: 0x00063DAC File Offset: 0x000621AC
 		public Material DrawMaterial
 		{
 			get
@@ -55,7 +55,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000199 RID: 409
-		// (get) Token: 0x06000B06 RID: 2822 RVA: 0x00063E14 File Offset: 0x00062214
+		// (get) Token: 0x06000B04 RID: 2820 RVA: 0x00063E70 File Offset: 0x00062270
 		public List<ThingDef> AllWildPlants
 		{
 			get
@@ -76,7 +76,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700019A RID: 410
-		// (get) Token: 0x06000B07 RID: 2823 RVA: 0x00063EBC File Offset: 0x000622BC
+		// (get) Token: 0x06000B05 RID: 2821 RVA: 0x00063F18 File Offset: 0x00062318
 		public int MaxWildAndCavePlantsClusterRadius
 		{
 			get
@@ -107,7 +107,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700019B RID: 411
-		// (get) Token: 0x06000B08 RID: 2824 RVA: 0x00063FE0 File Offset: 0x000623E0
+		// (get) Token: 0x06000B06 RID: 2822 RVA: 0x0006403C File Offset: 0x0006243C
 		public float LowestWildAndCavePlantOrder
 		{
 			get
@@ -135,7 +135,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700019C RID: 412
-		// (get) Token: 0x06000B09 RID: 2825 RVA: 0x000640F0 File Offset: 0x000624F0
+		// (get) Token: 0x06000B07 RID: 2823 RVA: 0x0006414C File Offset: 0x0006254C
 		public IEnumerable<PawnKindDef> AllWildAnimals
 		{
 			get
@@ -152,7 +152,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700019D RID: 413
-		// (get) Token: 0x06000B0A RID: 2826 RVA: 0x0006411C File Offset: 0x0006251C
+		// (get) Token: 0x06000B08 RID: 2824 RVA: 0x00064178 File Offset: 0x00062578
 		public float PlantCommonalitiesSum
 		{
 			get
@@ -162,7 +162,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B0B RID: 2827 RVA: 0x00064140 File Offset: 0x00062540
+		// Token: 0x06000B09 RID: 2825 RVA: 0x0006419C File Offset: 0x0006259C
 		public float CommonalityOfAnimal(PawnKindDef animalDef)
 		{
 			if (this.cachedAnimalCommonalities == null)
@@ -199,7 +199,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000B0C RID: 2828 RVA: 0x00064298 File Offset: 0x00062698
+		// Token: 0x06000B0A RID: 2826 RVA: 0x000642F4 File Offset: 0x000626F4
 		public float CommonalityOfPlant(ThingDef plantDef)
 		{
 			this.CachePlantCommonalitiesIfShould();
@@ -216,13 +216,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000B0D RID: 2829 RVA: 0x000642D4 File Offset: 0x000626D4
+		// Token: 0x06000B0B RID: 2827 RVA: 0x00064330 File Offset: 0x00062730
 		public float CommonalityPctOfPlant(ThingDef plantDef)
 		{
 			return this.CommonalityOfPlant(plantDef) / this.PlantCommonalitiesSum;
 		}
 
-		// Token: 0x06000B0E RID: 2830 RVA: 0x000642F8 File Offset: 0x000626F8
+		// Token: 0x06000B0C RID: 2828 RVA: 0x00064354 File Offset: 0x00062754
 		public float CommonalityOfDisease(IncidentDef diseaseInc)
 		{
 			if (this.cachedDiseaseCommonalities == null)
@@ -259,19 +259,19 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000B0F RID: 2831 RVA: 0x0006444C File Offset: 0x0006284C
+		// Token: 0x06000B0D RID: 2829 RVA: 0x000644A8 File Offset: 0x000628A8
 		public bool IsPackAnimalAllowed(ThingDef pawn)
 		{
 			return this.allowedPackAnimals.Contains(pawn);
 		}
 
-		// Token: 0x06000B10 RID: 2832 RVA: 0x00064470 File Offset: 0x00062870
+		// Token: 0x06000B0E RID: 2830 RVA: 0x000644CC File Offset: 0x000628CC
 		public static BiomeDef Named(string defName)
 		{
 			return DefDatabase<BiomeDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x06000B11 RID: 2833 RVA: 0x0006448C File Offset: 0x0006288C
+		// Token: 0x06000B0F RID: 2831 RVA: 0x000644E8 File Offset: 0x000628E8
 		private void CachePlantCommonalitiesIfShould()
 		{
 			if (this.cachedPlantCommonalities == null)
@@ -298,7 +298,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B12 RID: 2834 RVA: 0x000645F0 File Offset: 0x000629F0
+		// Token: 0x06000B10 RID: 2832 RVA: 0x0006464C File Offset: 0x00062A4C
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -322,121 +322,121 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0400056F RID: 1391
+		// Token: 0x0400056D RID: 1389
 		public Type workerClass = typeof(BiomeWorker);
 
-		// Token: 0x04000570 RID: 1392
+		// Token: 0x0400056E RID: 1390
 		public bool implemented = true;
 
-		// Token: 0x04000571 RID: 1393
+		// Token: 0x0400056F RID: 1391
 		public bool canBuildBase = true;
 
-		// Token: 0x04000572 RID: 1394
+		// Token: 0x04000570 RID: 1392
 		public bool canAutoChoose = true;
 
-		// Token: 0x04000573 RID: 1395
+		// Token: 0x04000571 RID: 1393
 		public bool allowRoads = true;
 
-		// Token: 0x04000574 RID: 1396
+		// Token: 0x04000572 RID: 1394
 		public bool allowRivers = true;
 
-		// Token: 0x04000575 RID: 1397
+		// Token: 0x04000573 RID: 1395
 		public float animalDensity = 0f;
 
-		// Token: 0x04000576 RID: 1398
+		// Token: 0x04000574 RID: 1396
 		public float plantDensity = 0f;
 
-		// Token: 0x04000577 RID: 1399
+		// Token: 0x04000575 RID: 1397
 		public float diseaseMtbDays = 60f;
 
-		// Token: 0x04000578 RID: 1400
+		// Token: 0x04000576 RID: 1398
 		public float factionBaseSelectionWeight = 1f;
 
-		// Token: 0x04000579 RID: 1401
+		// Token: 0x04000577 RID: 1399
 		public bool impassable;
 
-		// Token: 0x0400057A RID: 1402
+		// Token: 0x04000578 RID: 1400
 		public bool hasVirtualPlants = true;
 
-		// Token: 0x0400057B RID: 1403
+		// Token: 0x04000579 RID: 1401
 		public float forageability;
 
-		// Token: 0x0400057C RID: 1404
+		// Token: 0x0400057A RID: 1402
 		public ThingDef foragedFood;
 
-		// Token: 0x0400057D RID: 1405
+		// Token: 0x0400057B RID: 1403
 		public bool wildPlantsCareAboutLocalFertility = true;
 
-		// Token: 0x0400057E RID: 1406
+		// Token: 0x0400057C RID: 1404
 		public float wildPlantRegrowDays = 25f;
 
-		// Token: 0x0400057F RID: 1407
+		// Token: 0x0400057D RID: 1405
 		public float movementDifficulty = 1f;
 
-		// Token: 0x04000580 RID: 1408
+		// Token: 0x0400057E RID: 1406
 		public List<WeatherCommonalityRecord> baseWeatherCommonalities = new List<WeatherCommonalityRecord>();
 
-		// Token: 0x04000581 RID: 1409
+		// Token: 0x0400057F RID: 1407
 		public List<TerrainThreshold> terrainsByFertility = new List<TerrainThreshold>();
 
-		// Token: 0x04000582 RID: 1410
+		// Token: 0x04000580 RID: 1408
 		public List<SoundDef> soundsAmbient = new List<SoundDef>();
 
-		// Token: 0x04000583 RID: 1411
+		// Token: 0x04000581 RID: 1409
 		public List<TerrainPatchMaker> terrainPatchMakers = new List<TerrainPatchMaker>();
 
-		// Token: 0x04000584 RID: 1412
+		// Token: 0x04000582 RID: 1410
 		private List<BiomePlantRecord> wildPlants = new List<BiomePlantRecord>();
 
-		// Token: 0x04000585 RID: 1413
+		// Token: 0x04000583 RID: 1411
 		private List<BiomeAnimalRecord> wildAnimals = new List<BiomeAnimalRecord>();
 
-		// Token: 0x04000586 RID: 1414
+		// Token: 0x04000584 RID: 1412
 		private List<BiomeDiseaseRecord> diseases = new List<BiomeDiseaseRecord>();
 
-		// Token: 0x04000587 RID: 1415
+		// Token: 0x04000585 RID: 1413
 		private List<ThingDef> allowedPackAnimals = new List<ThingDef>();
 
-		// Token: 0x04000588 RID: 1416
+		// Token: 0x04000586 RID: 1414
 		public bool hasBedrock = true;
 
-		// Token: 0x04000589 RID: 1417
+		// Token: 0x04000587 RID: 1415
 		[NoTranslate]
 		public string texture;
 
-		// Token: 0x0400058A RID: 1418
+		// Token: 0x04000588 RID: 1416
 		[Unsaved]
 		private Dictionary<PawnKindDef, float> cachedAnimalCommonalities = null;
 
-		// Token: 0x0400058B RID: 1419
+		// Token: 0x04000589 RID: 1417
 		[Unsaved]
 		private Dictionary<ThingDef, float> cachedPlantCommonalities = null;
 
-		// Token: 0x0400058C RID: 1420
+		// Token: 0x0400058A RID: 1418
 		[Unsaved]
 		private Dictionary<IncidentDef, float> cachedDiseaseCommonalities = null;
 
-		// Token: 0x0400058D RID: 1421
+		// Token: 0x0400058B RID: 1419
 		[Unsaved]
 		private Material cachedMat;
 
-		// Token: 0x0400058E RID: 1422
+		// Token: 0x0400058C RID: 1420
 		[Unsaved]
 		private List<ThingDef> cachedWildPlants;
 
-		// Token: 0x0400058F RID: 1423
+		// Token: 0x0400058D RID: 1421
 		[Unsaved]
 		private int? cachedMaxWildPlantsClusterRadius;
 
-		// Token: 0x04000590 RID: 1424
+		// Token: 0x0400058E RID: 1422
 		[Unsaved]
 		private float cachedPlantCommonalitiesSum;
 
-		// Token: 0x04000591 RID: 1425
+		// Token: 0x0400058F RID: 1423
 		[Unsaved]
 		private float? cachedLowestWildPlantOrder;
 
-		// Token: 0x04000592 RID: 1426
+		// Token: 0x04000590 RID: 1424
 		[Unsaved]
 		private BiomeWorker workerInt;
 	}

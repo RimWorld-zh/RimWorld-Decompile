@@ -8,7 +8,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003AE RID: 942
 	public class SymbolResolver_EnsureCanHoldRoof : SymbolResolver
 	{
-		// Token: 0x06001056 RID: 4182 RVA: 0x00089D44 File Offset: 0x00088144
+		// Token: 0x06001056 RID: 4182 RVA: 0x00089F30 File Offset: 0x00088330
 		public override void Resolve(ResolveParams rp)
 		{
 			ThingDef wallStuff = rp.wallStuff ?? BaseGenUtility.RandomCheapWallStuff(rp.faction, false);
@@ -20,7 +20,7 @@ namespace RimWorld.BaseGen
 			while (this.TrySpawnPillar(rp.faction, wallStuff));
 		}
 
-		// Token: 0x06001057 RID: 4183 RVA: 0x00089DAC File Offset: 0x000881AC
+		// Token: 0x06001057 RID: 4183 RVA: 0x00089F98 File Offset: 0x00088398
 		private void CalculateRoofsAboutToCollapse(CellRect rect)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -60,7 +60,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06001058 RID: 4184 RVA: 0x00089EF8 File Offset: 0x000882F8
+		// Token: 0x06001058 RID: 4184 RVA: 0x0008A0E4 File Offset: 0x000884E4
 		private void CalculateEdgeRoofs(CellRect rect)
 		{
 			SymbolResolver_EnsureCanHoldRoof.edgeRoofs.Clear();
@@ -78,7 +78,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06001059 RID: 4185 RVA: 0x00089FA8 File Offset: 0x000883A8
+		// Token: 0x06001059 RID: 4185 RVA: 0x0008A194 File Offset: 0x00088594
 		private bool TrySpawnPillar(Faction faction, ThingDef wallStuff)
 		{
 			bool result;
@@ -120,7 +120,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x0600105A RID: 4186 RVA: 0x0008A094 File Offset: 0x00088494
+		// Token: 0x0600105A RID: 4186 RVA: 0x0008A280 File Offset: 0x00088680
 		private float GetPillarSpawnScore(IntVec3 c)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -153,13 +153,13 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x04000A17 RID: 2583
+		// Token: 0x04000A19 RID: 2585
 		private static HashSet<IntVec3> roofsAboutToCollapse = new HashSet<IntVec3>();
 
-		// Token: 0x04000A18 RID: 2584
+		// Token: 0x04000A1A RID: 2586
 		private static List<IntVec3> edgeRoofs = new List<IntVec3>();
 
-		// Token: 0x04000A19 RID: 2585
+		// Token: 0x04000A1B RID: 2587
 		private static HashSet<IntVec3> visited = new HashSet<IntVec3>();
 	}
 }

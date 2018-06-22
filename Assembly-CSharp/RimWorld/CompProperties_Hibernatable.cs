@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x02000260 RID: 608
 	public class CompProperties_Hibernatable : CompProperties
 	{
-		// Token: 0x06000A9F RID: 2719 RVA: 0x0005FF19 File Offset: 0x0005E319
+		// Token: 0x06000A9D RID: 2717 RVA: 0x0005FF75 File Offset: 0x0005E375
 		public CompProperties_Hibernatable()
 		{
 			this.compClass = typeof(CompHibernatable);
 		}
 
-		// Token: 0x06000AA0 RID: 2720 RVA: 0x0005FF44 File Offset: 0x0005E344
+		// Token: 0x06000A9E RID: 2718 RVA: 0x0005FFA0 File Offset: 0x0005E3A0
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0(parentDef))
@@ -33,10 +33,10 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x040004C7 RID: 1223
+		// Token: 0x040004C5 RID: 1221
 		public float startupDays = 15f;
 
-		// Token: 0x040004C8 RID: 1224
+		// Token: 0x040004C6 RID: 1222
 		public IncidentTargetTypeDef incidentTargetWhileStarting = null;
 	}
 }

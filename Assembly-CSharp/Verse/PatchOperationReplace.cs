@@ -4,10 +4,10 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000CD7 RID: 3287
+	// Token: 0x02000CD4 RID: 3284
 	public class PatchOperationReplace : PatchOperationPathed
 	{
-		// Token: 0x06004877 RID: 18551 RVA: 0x00260558 File Offset: 0x0025E958
+		// Token: 0x06004888 RID: 18568 RVA: 0x00261970 File Offset: 0x0025FD70
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
 			XmlNode node = this.value.node;
@@ -39,7 +39,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003106 RID: 12550
+		// Token: 0x04003111 RID: 12561
 		private XmlContainer value;
 	}
 }

@@ -8,7 +8,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003DD RID: 989
 	public class SymbolResolver_Ship_Populate : SymbolResolver
 	{
-		// Token: 0x060010F7 RID: 4343 RVA: 0x0009073C File Offset: 0x0008EB3C
+		// Token: 0x060010F7 RID: 4343 RVA: 0x00090928 File Offset: 0x0008ED28
 		public override void Resolve(ResolveParams rp)
 		{
 			if (rp.thrustAxis == null)
@@ -29,7 +29,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010F8 RID: 4344 RVA: 0x00090824 File Offset: 0x0008EC24
+		// Token: 0x060010F8 RID: 4344 RVA: 0x00090A10 File Offset: 0x0008EE10
 		public void AttemptToPlace(ThingDef thingDef, CellRect rect, Rot4 rotation, Faction faction)
 		{
 			Map map = BaseGen.globalSettings.map;

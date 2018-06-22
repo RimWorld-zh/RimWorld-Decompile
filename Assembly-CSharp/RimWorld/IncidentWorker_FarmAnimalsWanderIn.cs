@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200032B RID: 811
 	public class IncidentWorker_FarmAnimalsWanderIn : IncidentWorker
 	{
-		// Token: 0x06000DE0 RID: 3552 RVA: 0x00076810 File Offset: 0x00074C10
+		// Token: 0x06000DE0 RID: 3552 RVA: 0x000768C4 File Offset: 0x00074CC4
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -26,7 +26,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DE1 RID: 3553 RVA: 0x00076864 File Offset: 0x00074C64
+		// Token: 0x06000DE1 RID: 3553 RVA: 0x00076918 File Offset: 0x00074D18
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -63,7 +63,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DE2 RID: 3554 RVA: 0x0007697C File Offset: 0x00074D7C
+		// Token: 0x06000DE2 RID: 3554 RVA: 0x00076A30 File Offset: 0x00074E30
 		private bool TryFindRandomPawnKind(Map map, out PawnKindDef kind)
 		{
 			return (from x in DefDatabase<PawnKindDef>.AllDefs
@@ -71,10 +71,10 @@ namespace RimWorld
 			select x).TryRandomElementByWeight((PawnKindDef k) => 0.420000017f - k.RaceProps.wildness, out kind);
 		}
 
-		// Token: 0x040008CD RID: 2253
+		// Token: 0x040008CF RID: 2255
 		private const float MaxWildness = 0.35f;
 
-		// Token: 0x040008CE RID: 2254
+		// Token: 0x040008D0 RID: 2256
 		private const float TotalBodySizeToSpawn = 2.5f;
 	}
 }

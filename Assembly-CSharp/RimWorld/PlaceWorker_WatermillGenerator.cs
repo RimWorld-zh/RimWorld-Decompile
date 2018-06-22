@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000C7C RID: 3196
+	// Token: 0x02000C79 RID: 3193
 	public class PlaceWorker_WatermillGenerator : PlaceWorker
 	{
-		// Token: 0x060045F4 RID: 17908 RVA: 0x0024D0C0 File Offset: 0x0024B4C0
+		// Token: 0x060045FD RID: 17917 RVA: 0x0024E490 File Offset: 0x0024C890
 		public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Map map, Thing thingToIgnore = null)
 		{
 			foreach (IntVec3 c in CompPowerPlantWater.GroundPoints(loc, rot))
@@ -29,14 +29,14 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x060045F5 RID: 17909 RVA: 0x0024D1DC File Offset: 0x0024B5DC
+		// Token: 0x060045FE RID: 17918 RVA: 0x0024E5AC File Offset: 0x0024C9AC
 		public override void DrawGhost(ThingDef def, IntVec3 loc, Rot4 rot, Color ghostCol)
 		{
 			GenDraw.DrawFieldEdges(CompPowerPlantWater.GroundPoints(loc, rot).ToList<IntVec3>(), new Color(0.7f, 0.65f, 0.6f));
 			GenDraw.DrawFieldEdges(CompPowerPlantWater.WaterPoints(loc, rot).ToList<IntVec3>(), new Color(0.6f, 0.6f, 0.7f));
 		}
 
-		// Token: 0x060045F6 RID: 17910 RVA: 0x0024D234 File Offset: 0x0024B634
+		// Token: 0x060045FF RID: 17919 RVA: 0x0024E604 File Offset: 0x0024CA04
 		public override IEnumerable<TerrainAffordanceDef> DisplayAffordances()
 		{
 			yield return TerrainAffordanceDefOf.Medium;

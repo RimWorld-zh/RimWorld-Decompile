@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200043A RID: 1082
 	public class RoomRoleWorker_Workshop : RoomRoleWorker
 	{
-		// Token: 0x060012D5 RID: 4821 RVA: 0x000A2B48 File Offset: 0x000A0F48
+		// Token: 0x060012D5 RID: 4821 RVA: 0x000A2D2C File Offset: 0x000A112C
 		public override float GetScore(Room room)
 		{
 			int num = 0;

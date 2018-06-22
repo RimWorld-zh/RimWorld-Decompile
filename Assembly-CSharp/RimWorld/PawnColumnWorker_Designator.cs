@@ -3,25 +3,25 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200087E RID: 2174
+	// Token: 0x0200087A RID: 2170
 	public abstract class PawnColumnWorker_Designator : PawnColumnWorker_Checkbox
 	{
-		// Token: 0x170007F9 RID: 2041
-		// (get) Token: 0x06003198 RID: 12696
+		// Token: 0x170007FA RID: 2042
+		// (get) Token: 0x06003191 RID: 12689
 		protected abstract DesignationDef DesignationType { get; }
 
-		// Token: 0x06003199 RID: 12697 RVA: 0x001AE090 File Offset: 0x001AC490
+		// Token: 0x06003192 RID: 12690 RVA: 0x001AE278 File Offset: 0x001AC678
 		protected virtual void Notify_DesignationAdded(Pawn pawn)
 		{
 		}
 
-		// Token: 0x0600319A RID: 12698 RVA: 0x001AE094 File Offset: 0x001AC494
+		// Token: 0x06003193 RID: 12691 RVA: 0x001AE27C File Offset: 0x001AC67C
 		protected override bool GetValue(Pawn pawn)
 		{
 			return this.GetDesignation(pawn) != null;
 		}
 
-		// Token: 0x0600319B RID: 12699 RVA: 0x001AE0B8 File Offset: 0x001AC4B8
+		// Token: 0x06003194 RID: 12692 RVA: 0x001AE2A0 File Offset: 0x001AC6A0
 		protected override void SetValue(Pawn pawn, bool value)
 		{
 			if (value != this.GetValue(pawn))
@@ -42,7 +42,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600319C RID: 12700 RVA: 0x001AE130 File Offset: 0x001AC530
+		// Token: 0x06003195 RID: 12693 RVA: 0x001AE318 File Offset: 0x001AC718
 		private Designation GetDesignation(Pawn pawn)
 		{
 			Map mapHeld = pawn.MapHeld;

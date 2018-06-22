@@ -4,19 +4,19 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D5B RID: 3419
+	// Token: 0x02000D58 RID: 3416
 	public class Pawn_InventoryTracker : IThingHolder, IExposable
 	{
-		// Token: 0x06004C78 RID: 19576 RVA: 0x0027DAB0 File Offset: 0x0027BEB0
+		// Token: 0x06004C8C RID: 19596 RVA: 0x0027F050 File Offset: 0x0027D450
 		public Pawn_InventoryTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
 			this.innerContainer = new ThingOwner<Thing>(this, false, LookMode.Deep);
 		}
 
-		// Token: 0x17000C76 RID: 3190
-		// (get) Token: 0x06004C79 RID: 19577 RVA: 0x0027DADC File Offset: 0x0027BEDC
-		// (set) Token: 0x06004C7A RID: 19578 RVA: 0x0027DB05 File Offset: 0x0027BF05
+		// Token: 0x17000C78 RID: 3192
+		// (get) Token: 0x06004C8D RID: 19597 RVA: 0x0027F07C File Offset: 0x0027D47C
+		// (set) Token: 0x06004C8E RID: 19598 RVA: 0x0027F0A5 File Offset: 0x0027D4A5
 		public bool UnloadEverything
 		{
 			get
@@ -36,8 +36,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C77 RID: 3191
-		// (get) Token: 0x06004C7B RID: 19579 RVA: 0x0027DB2C File Offset: 0x0027BF2C
+		// Token: 0x17000C79 RID: 3193
+		// (get) Token: 0x06004C8F RID: 19599 RVA: 0x0027F0CC File Offset: 0x0027D4CC
 		private bool HasAnyUnloadableThing
 		{
 			get
@@ -46,8 +46,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C78 RID: 3192
-		// (get) Token: 0x06004C7C RID: 19580 RVA: 0x0027DB58 File Offset: 0x0027BF58
+		// Token: 0x17000C7A RID: 3194
+		// (get) Token: 0x06004C90 RID: 19600 RVA: 0x0027F0F8 File Offset: 0x0027D4F8
 		public ThingCount FirstUnloadableThing
 		{
 			get
@@ -103,8 +103,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C79 RID: 3193
-		// (get) Token: 0x06004C7D RID: 19581 RVA: 0x0027DE00 File Offset: 0x0027C200
+		// Token: 0x17000C7B RID: 3195
+		// (get) Token: 0x06004C91 RID: 19601 RVA: 0x0027F3A0 File Offset: 0x0027D7A0
 		public IThingHolder ParentHolder
 		{
 			get
@@ -113,7 +113,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C7E RID: 19582 RVA: 0x0027DE1C File Offset: 0x0027C21C
+		// Token: 0x06004C92 RID: 19602 RVA: 0x0027F3BC File Offset: 0x0027D7BC
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Thing>(ref this.itemsNotForSale, "itemsNotForSale", LookMode.Reference, new object[0]);
@@ -124,7 +124,7 @@ namespace Verse
 			Scribe_Values.Look<bool>(ref this.unloadEverything, "unloadEverything", false, false);
 		}
 
-		// Token: 0x06004C7F RID: 19583 RVA: 0x0027DE6D File Offset: 0x0027C26D
+		// Token: 0x06004C93 RID: 19603 RVA: 0x0027F40D File Offset: 0x0027D80D
 		public void InventoryTrackerTick()
 		{
 			this.innerContainer.ThingOwnerTick(true);
@@ -134,13 +134,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C80 RID: 19584 RVA: 0x0027DE99 File Offset: 0x0027C299
+		// Token: 0x06004C94 RID: 19604 RVA: 0x0027F439 File Offset: 0x0027D839
 		public void InventoryTrackerTickRare()
 		{
 			this.innerContainer.ThingOwnerTickRare(true);
 		}
 
-		// Token: 0x06004C81 RID: 19585 RVA: 0x0027DEA8 File Offset: 0x0027C2A8
+		// Token: 0x06004C95 RID: 19605 RVA: 0x0027F448 File Offset: 0x0027D848
 		public void DropAllNearPawn(IntVec3 pos, bool forbid = false, bool unforbid = false)
 		{
 			if (this.pawn.MapHeld == null)
@@ -173,25 +173,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C82 RID: 19586 RVA: 0x0027DF60 File Offset: 0x0027C360
+		// Token: 0x06004C96 RID: 19606 RVA: 0x0027F500 File Offset: 0x0027D900
 		public void DestroyAll(DestroyMode mode = DestroyMode.Vanish)
 		{
 			this.innerContainer.ClearAndDestroyContents(mode);
 		}
 
-		// Token: 0x06004C83 RID: 19587 RVA: 0x0027DF70 File Offset: 0x0027C370
+		// Token: 0x06004C97 RID: 19607 RVA: 0x0027F510 File Offset: 0x0027D910
 		public bool Contains(Thing item)
 		{
 			return this.innerContainer.Contains(item);
 		}
 
-		// Token: 0x06004C84 RID: 19588 RVA: 0x0027DF94 File Offset: 0x0027C394
+		// Token: 0x06004C98 RID: 19608 RVA: 0x0027F534 File Offset: 0x0027D934
 		public bool NotForSale(Thing item)
 		{
 			return this.itemsNotForSale.Contains(item);
 		}
 
-		// Token: 0x06004C85 RID: 19589 RVA: 0x0027DFB5 File Offset: 0x0027C3B5
+		// Token: 0x06004C99 RID: 19609 RVA: 0x0027F555 File Offset: 0x0027D955
 		public void TryAddItemNotForSale(Thing item)
 		{
 			if (this.innerContainer.TryAdd(item, false))
@@ -200,7 +200,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C86 RID: 19590 RVA: 0x0027DFD6 File Offset: 0x0027C3D6
+		// Token: 0x06004C9A RID: 19610 RVA: 0x0027F576 File Offset: 0x0027D976
 		public void Notify_ItemRemoved(Thing item)
 		{
 			this.itemsNotForSale.Remove(item);
@@ -210,34 +210,34 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C87 RID: 19591 RVA: 0x0027E004 File Offset: 0x0027C404
+		// Token: 0x06004C9B RID: 19611 RVA: 0x0027F5A4 File Offset: 0x0027D9A4
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.innerContainer;
 		}
 
-		// Token: 0x06004C88 RID: 19592 RVA: 0x0027E01F File Offset: 0x0027C41F
+		// Token: 0x06004C9C RID: 19612 RVA: 0x0027F5BF File Offset: 0x0027D9BF
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
-		// Token: 0x04003310 RID: 13072
+		// Token: 0x0400331B RID: 13083
 		public Pawn pawn;
 
-		// Token: 0x04003311 RID: 13073
+		// Token: 0x0400331C RID: 13084
 		public ThingOwner<Thing> innerContainer;
 
-		// Token: 0x04003312 RID: 13074
+		// Token: 0x0400331D RID: 13085
 		private bool unloadEverything;
 
-		// Token: 0x04003313 RID: 13075
+		// Token: 0x0400331E RID: 13086
 		private List<Thing> itemsNotForSale = new List<Thing>();
 
-		// Token: 0x04003314 RID: 13076
+		// Token: 0x0400331F RID: 13087
 		private static List<ThingDefCount> tmpDrugsToKeep = new List<ThingDefCount>();
 
-		// Token: 0x04003315 RID: 13077
+		// Token: 0x04003320 RID: 13088
 		private static List<Thing> tmpThingList = new List<Thing>();
 	}
 }

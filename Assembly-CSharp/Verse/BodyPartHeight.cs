@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000AFF RID: 2815
+	// Token: 0x02000AFB RID: 2811
 	public enum BodyPartHeight : byte
 	{
-		// Token: 0x0400276E RID: 10094
+		// Token: 0x0400276A RID: 10090
 		Undefined,
-		// Token: 0x0400276F RID: 10095
+		// Token: 0x0400276B RID: 10091
 		Bottom,
-		// Token: 0x04002770 RID: 10096
+		// Token: 0x0400276C RID: 10092
 		Middle,
-		// Token: 0x04002771 RID: 10097
+		// Token: 0x0400276D RID: 10093
 		Top
 	}
 }

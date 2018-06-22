@@ -10,7 +10,7 @@ namespace RimWorld
 	public class JobDriver_TendPatient : JobDriver
 	{
 		// Token: 0x17000087 RID: 135
-		// (get) Token: 0x06000278 RID: 632 RVA: 0x0001A1E8 File Offset: 0x000185E8
+		// (get) Token: 0x06000278 RID: 632 RVA: 0x0001A1F0 File Offset: 0x000185F0
 		protected Thing MedicineUsed
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000088 RID: 136
-		// (get) Token: 0x06000279 RID: 633 RVA: 0x0001A210 File Offset: 0x00018610
+		// (get) Token: 0x06000279 RID: 633 RVA: 0x0001A218 File Offset: 0x00018618
 		protected Pawn Deliveree
 		{
 			get
@@ -29,21 +29,21 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600027A RID: 634 RVA: 0x0001A23A File Offset: 0x0001863A
+		// Token: 0x0600027A RID: 634 RVA: 0x0001A242 File Offset: 0x00018642
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.usesMedicine, "usesMedicine", false, false);
 		}
 
-		// Token: 0x0600027B RID: 635 RVA: 0x0001A255 File Offset: 0x00018655
+		// Token: 0x0600027B RID: 635 RVA: 0x0001A25D File Offset: 0x0001865D
 		public override void Notify_Starting()
 		{
 			base.Notify_Starting();
 			this.usesMedicine = (this.MedicineUsed != null);
 		}
 
-		// Token: 0x0600027C RID: 636 RVA: 0x0001A270 File Offset: 0x00018670
+		// Token: 0x0600027C RID: 636 RVA: 0x0001A278 File Offset: 0x00018678
 		public override bool TryMakePreToilReservations()
 		{
 			bool result;
@@ -66,7 +66,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600027D RID: 637 RVA: 0x0001A32C File Offset: 0x0001872C
+		// Token: 0x0600027D RID: 637 RVA: 0x0001A334 File Offset: 0x00018734
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
@@ -149,7 +149,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600027E RID: 638 RVA: 0x0001A358 File Offset: 0x00018758
+		// Token: 0x0600027E RID: 638 RVA: 0x0001A360 File Offset: 0x00018760
 		public override void Notify_DamageTaken(DamageInfo dinfo)
 		{
 			base.Notify_DamageTaken(dinfo);

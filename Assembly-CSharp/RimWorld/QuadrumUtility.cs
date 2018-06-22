@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200090F RID: 2319
+	// Token: 0x0200090B RID: 2315
 	public static class QuadrumUtility
 	{
-		// Token: 0x17000898 RID: 2200
-		// (get) Token: 0x060035FC RID: 13820 RVA: 0x001CF714 File Offset: 0x001CDB14
+		// Token: 0x17000899 RID: 2201
+		// (get) Token: 0x060035F5 RID: 13813 RVA: 0x001CF8FC File Offset: 0x001CDCFC
 		public static Quadrum FirstQuadrum
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060035FD RID: 13821 RVA: 0x001CF72C File Offset: 0x001CDB2C
+		// Token: 0x060035F6 RID: 13814 RVA: 0x001CF914 File Offset: 0x001CDD14
 		public static Twelfth GetFirstTwelfth(this Quadrum quadrum)
 		{
 			Twelfth result;
@@ -42,7 +42,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060035FE RID: 13822 RVA: 0x001CF77C File Offset: 0x001CDB7C
+		// Token: 0x060035F7 RID: 13815 RVA: 0x001CF964 File Offset: 0x001CDD64
 		public static Twelfth GetMiddleTwelfth(this Quadrum quadrum)
 		{
 			Twelfth result;
@@ -67,13 +67,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060035FF RID: 13823 RVA: 0x001CF7CC File Offset: 0x001CDBCC
+		// Token: 0x060035F8 RID: 13816 RVA: 0x001CF9B4 File Offset: 0x001CDDB4
 		public static float GetMiddleYearPct(this Quadrum quadrum)
 		{
 			return quadrum.GetMiddleTwelfth().GetMiddleYearPct();
 		}
 
-		// Token: 0x06003600 RID: 13824 RVA: 0x001CF7EC File Offset: 0x001CDBEC
+		// Token: 0x060035F9 RID: 13817 RVA: 0x001CF9D4 File Offset: 0x001CDDD4
 		public static string Label(this Quadrum quadrum)
 		{
 			string result;
@@ -98,14 +98,14 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003601 RID: 13825 RVA: 0x001CF864 File Offset: 0x001CDC64
+		// Token: 0x060035FA RID: 13818 RVA: 0x001CFA4C File Offset: 0x001CDE4C
 		public static Season GetSeason(this Quadrum q, float latitude)
 		{
 			float middleYearPct = q.GetMiddleYearPct();
 			return SeasonUtility.GetReportedSeason(middleYearPct, latitude);
 		}
 
-		// Token: 0x06003602 RID: 13826 RVA: 0x001CF888 File Offset: 0x001CDC88
+		// Token: 0x060035FB RID: 13819 RVA: 0x001CFA70 File Offset: 0x001CDE70
 		public static string QuadrumsRangeLabel(List<Twelfth> twelfths)
 		{
 			string result;
@@ -137,7 +137,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003603 RID: 13827 RVA: 0x001CF924 File Offset: 0x001CDD24
+		// Token: 0x060035FC RID: 13820 RVA: 0x001CFB0C File Offset: 0x001CDF0C
 		private static string QuadrumsContinuousRangeLabel(List<Twelfth> twelfths, Twelfth rootTwelfth)
 		{
 			Twelfth leftMostTwelfth = TwelfthUtility.GetLeftMostTwelfth(twelfths, rootTwelfth);

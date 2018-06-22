@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000153 RID: 339
 	public class WorkGiver_PatientGoToBedRecuperate : WorkGiver
 	{
-		// Token: 0x060006FD RID: 1789 RVA: 0x00047570 File Offset: 0x00045970
+		// Token: 0x060006FD RID: 1789 RVA: 0x0004755C File Offset: 0x0004595C
 		public override Job NonScanJob(Pawn pawn)
 		{
 			ThinkResult thinkResult = WorkGiver_PatientGoToBedRecuperate.jgp.TryIssueJobPackage(pawn, default(JobIssueParams));

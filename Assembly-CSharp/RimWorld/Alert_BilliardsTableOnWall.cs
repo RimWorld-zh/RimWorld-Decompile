@@ -4,18 +4,18 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007AB RID: 1963
+	// Token: 0x020007A7 RID: 1959
 	public class Alert_BilliardsTableOnWall : Alert
 	{
-		// Token: 0x06002B62 RID: 11106 RVA: 0x0016E63F File Offset: 0x0016CA3F
+		// Token: 0x06002B5B RID: 11099 RVA: 0x0016E817 File Offset: 0x0016CC17
 		public Alert_BilliardsTableOnWall()
 		{
 			this.defaultLabel = "BilliardsNeedsSpace".Translate();
 			this.defaultExplanation = "BilliardsNeedsSpaceDesc".Translate();
 		}
 
-		// Token: 0x170006BC RID: 1724
-		// (get) Token: 0x06002B63 RID: 11107 RVA: 0x0016E668 File Offset: 0x0016CA68
+		// Token: 0x170006BD RID: 1725
+		// (get) Token: 0x06002B5C RID: 11100 RVA: 0x0016E840 File Offset: 0x0016CC40
 		private IEnumerable<Thing> BadTables
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B64 RID: 11108 RVA: 0x0016E68C File Offset: 0x0016CA8C
+		// Token: 0x06002B5D RID: 11101 RVA: 0x0016E864 File Offset: 0x0016CC64
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.BadTables);

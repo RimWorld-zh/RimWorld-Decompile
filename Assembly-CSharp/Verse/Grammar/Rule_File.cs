@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Verse.Grammar
 {
-	// Token: 0x02000BEC RID: 3052
+	// Token: 0x02000BE8 RID: 3048
 	public class Rule_File : Rule
 	{
-		// Token: 0x17000A77 RID: 2679
-		// (get) Token: 0x0600428A RID: 17034 RVA: 0x00230724 File Offset: 0x0022EB24
+		// Token: 0x17000A79 RID: 2681
+		// (get) Token: 0x0600428C RID: 17036 RVA: 0x00230FD8 File Offset: 0x0022F3D8
 		public override float BaseSelectionWeight
 		{
 			get
@@ -16,13 +16,13 @@ namespace Verse.Grammar
 			}
 		}
 
-		// Token: 0x0600428B RID: 17035 RVA: 0x00230748 File Offset: 0x0022EB48
+		// Token: 0x0600428D RID: 17037 RVA: 0x00230FFC File Offset: 0x0022F3FC
 		public override string Generate()
 		{
 			return this.cachedStrings.RandomElement<string>();
 		}
 
-		// Token: 0x0600428C RID: 17036 RVA: 0x00230768 File Offset: 0x0022EB68
+		// Token: 0x0600428E RID: 17038 RVA: 0x0023101C File Offset: 0x0022F41C
 		public override void Init()
 		{
 			if (!this.path.NullOrEmpty())
@@ -35,7 +35,7 @@ namespace Verse.Grammar
 			}
 		}
 
-		// Token: 0x0600428D RID: 17037 RVA: 0x002307E4 File Offset: 0x0022EBE4
+		// Token: 0x0600428F RID: 17039 RVA: 0x00231098 File Offset: 0x0022F498
 		private void LoadStringsFromFile(string filePath)
 		{
 			List<string> list;
@@ -48,7 +48,7 @@ namespace Verse.Grammar
 			}
 		}
 
-		// Token: 0x0600428E RID: 17038 RVA: 0x00230854 File Offset: 0x0022EC54
+		// Token: 0x06004290 RID: 17040 RVA: 0x00231108 File Offset: 0x0022F508
 		public override string ToString()
 		{
 			string result;
@@ -83,13 +83,17 @@ namespace Verse.Grammar
 			return result;
 		}
 
-		// Token: 0x04002D7F RID: 11647
-		private string path = null;
+		// Token: 0x04002D85 RID: 11653
+		[MayTranslate]
+		public string path = null;
 
-		// Token: 0x04002D80 RID: 11648
-		private List<string> pathList = new List<string>();
+		// Token: 0x04002D86 RID: 11654
+		[MayTranslate]
+		[TranslationCanChangeCount]
+		public List<string> pathList = new List<string>();
 
-		// Token: 0x04002D81 RID: 11649
+		// Token: 0x04002D87 RID: 11655
+		[Unsaved]
 		private List<string> cachedStrings = new List<string>();
 	}
 }

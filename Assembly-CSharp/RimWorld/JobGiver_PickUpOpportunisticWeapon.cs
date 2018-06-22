@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobGiver_PickUpOpportunisticWeapon : ThinkNode_JobGiver
 	{
 		// Token: 0x170000CB RID: 203
-		// (get) Token: 0x06000497 RID: 1175 RVA: 0x00034384 File Offset: 0x00032784
+		// (get) Token: 0x06000497 RID: 1175 RVA: 0x00034360 File Offset: 0x00032760
 		private float MinMeleeWeaponDPSThreshold
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000498 RID: 1176 RVA: 0x00034418 File Offset: 0x00032818
+		// Token: 0x06000498 RID: 1176 RVA: 0x000343F4 File Offset: 0x000327F4
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_PickUpOpportunisticWeapon jobGiver_PickUpOpportunisticWeapon = (JobGiver_PickUpOpportunisticWeapon)base.DeepCopy(resolve);
@@ -36,7 +36,7 @@ namespace RimWorld
 			return jobGiver_PickUpOpportunisticWeapon;
 		}
 
-		// Token: 0x06000499 RID: 1177 RVA: 0x00034448 File Offset: 0x00032848
+		// Token: 0x06000499 RID: 1177 RVA: 0x00034424 File Offset: 0x00032824
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -75,7 +75,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600049A RID: 1178 RVA: 0x0003457C File Offset: 0x0003297C
+		// Token: 0x0600049A RID: 1178 RVA: 0x00034558 File Offset: 0x00032958
 		private bool AlreadySatisfiedWithCurrentWeapon(Pawn pawn)
 		{
 			ThingWithComps primary = pawn.equipment.Primary;
@@ -102,13 +102,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600049B RID: 1179 RVA: 0x000345FC File Offset: 0x000329FC
+		// Token: 0x0600049B RID: 1179 RVA: 0x000345D8 File Offset: 0x000329D8
 		private bool ShouldEquip(Thing newWep, Pawn pawn)
 		{
 			return this.GetWeaponScore(newWep) > this.GetWeaponScore(pawn.equipment.Primary);
 		}
 
-		// Token: 0x0600049C RID: 1180 RVA: 0x0003462C File Offset: 0x00032A2C
+		// Token: 0x0600049C RID: 1180 RVA: 0x00034608 File Offset: 0x00032A08
 		private int GetWeaponScore(Thing wep)
 		{
 			int result;

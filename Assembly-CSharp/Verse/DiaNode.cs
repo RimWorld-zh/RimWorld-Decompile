@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000EBF RID: 3775
+	// Token: 0x02000EBE RID: 3774
 	public class DiaNode
 	{
-		// Token: 0x0600593B RID: 22843 RVA: 0x002DB345 File Offset: 0x002D9745
+		// Token: 0x0600595C RID: 22876 RVA: 0x002DCF91 File Offset: 0x002DB391
 		public DiaNode(string text)
 		{
 			this.text = text;
 		}
 
-		// Token: 0x0600593C RID: 22844 RVA: 0x002DB360 File Offset: 0x002D9760
+		// Token: 0x0600595D RID: 22877 RVA: 0x002DCFAC File Offset: 0x002DB3AC
 		public DiaNode(DiaNodeMold newDef)
 		{
 			this.def = newDef;
@@ -31,8 +31,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E0C RID: 3596
-		// (get) Token: 0x0600593D RID: 22845 RVA: 0x002DB444 File Offset: 0x002D9844
+		// Token: 0x17000E0F RID: 3599
+		// (get) Token: 0x0600595E RID: 22878 RVA: 0x002DD090 File Offset: 0x002DB490
 		protected Dialog_NodeTree OwnerBox
 		{
 			get
@@ -41,18 +41,18 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600593E RID: 22846 RVA: 0x002DB463 File Offset: 0x002D9863
+		// Token: 0x0600595F RID: 22879 RVA: 0x002DD0AF File Offset: 0x002DB4AF
 		public void PreClose()
 		{
 		}
 
-		// Token: 0x04003B89 RID: 15241
+		// Token: 0x04003B99 RID: 15257
 		public string text;
 
-		// Token: 0x04003B8A RID: 15242
+		// Token: 0x04003B9A RID: 15258
 		public List<DiaOption> options = new List<DiaOption>();
 
-		// Token: 0x04003B8B RID: 15243
+		// Token: 0x04003B9B RID: 15259
 		protected DiaNodeMold def;
 	}
 }

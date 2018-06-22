@@ -4,10 +4,10 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000CF7 RID: 3319
+	// Token: 0x02000CF4 RID: 3316
 	public class DamageWorker_Flame : DamageWorker_AddInjury
 	{
-		// Token: 0x06004913 RID: 18707 RVA: 0x00265EA8 File Offset: 0x002642A8
+		// Token: 0x06004924 RID: 18724 RVA: 0x002672C0 File Offset: 0x002656C0
 		public override DamageWorker.DamageResult Apply(DamageInfo dinfo, Thing victim)
 		{
 			Pawn pawn = victim as Pawn;
@@ -37,7 +37,7 @@ namespace Verse
 			return damageResult;
 		}
 
-		// Token: 0x06004914 RID: 18708 RVA: 0x00266008 File Offset: 0x00264408
+		// Token: 0x06004925 RID: 18725 RVA: 0x00267420 File Offset: 0x00265820
 		public override void ExplosionAffectCell(Explosion explosion, IntVec3 c, List<Thing> damagedThings, bool canThrowMotes)
 		{
 			base.ExplosionAffectCell(explosion, c, damagedThings, canThrowMotes);

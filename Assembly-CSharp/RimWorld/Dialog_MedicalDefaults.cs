@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000805 RID: 2053
+	// Token: 0x02000801 RID: 2049
 	public class Dialog_MedicalDefaults : Window
 	{
-		// Token: 0x06002DD3 RID: 11731 RVA: 0x00181D19 File Offset: 0x00180119
+		// Token: 0x06002DCC RID: 11724 RVA: 0x00181EF1 File Offset: 0x001802F1
 		public Dialog_MedicalDefaults()
 		{
 			this.forcePause = true;
@@ -17,8 +17,8 @@ namespace RimWorld
 			this.absorbInputAroundWindow = true;
 		}
 
-		// Token: 0x17000751 RID: 1873
-		// (get) Token: 0x06002DD4 RID: 11732 RVA: 0x00181D48 File Offset: 0x00180148
+		// Token: 0x17000752 RID: 1874
+		// (get) Token: 0x06002DCD RID: 11725 RVA: 0x00181F20 File Offset: 0x00180320
 		public override Vector2 InitialSize
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DD5 RID: 11733 RVA: 0x00181D6C File Offset: 0x0018016C
+		// Token: 0x06002DCE RID: 11726 RVA: 0x00181F44 File Offset: 0x00180344
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = new Rect(0f, 0f, 170f, 28f);
@@ -56,13 +56,13 @@ namespace RimWorld
 			MedicalCareUtility.MedicalCareSetter(rect2, ref Find.PlaySettings.defaultCareForHostileFaction);
 		}
 
-		// Token: 0x0400184E RID: 6222
+		// Token: 0x0400184C RID: 6220
 		private const float MedicalCareStartX = 170f;
 
-		// Token: 0x0400184F RID: 6223
+		// Token: 0x0400184D RID: 6221
 		private const float VerticalGap = 6f;
 
-		// Token: 0x04001850 RID: 6224
+		// Token: 0x0400184E RID: 6222
 		private const float VerticalBigGap = 24f;
 	}
 }

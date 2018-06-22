@@ -5,28 +5,28 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000AE5 RID: 2789
+	// Token: 0x02000AE1 RID: 2785
 	public static class GenAI
 	{
-		// Token: 0x06003DBE RID: 15806 RVA: 0x00208D78 File Offset: 0x00207178
+		// Token: 0x06003DB9 RID: 15801 RVA: 0x0020909C File Offset: 0x0020749C
 		public static bool MachinesLike(Faction machineFaction, Pawn p)
 		{
 			return (p.Faction != null || !p.NonHumanlikeOrWildMan() || (p.HostFaction == machineFaction && !p.IsPrisoner)) && (!p.IsPrisoner || p.HostFaction != machineFaction) && (p.Faction == null || !p.Faction.HostileTo(machineFaction));
 		}
 
-		// Token: 0x06003DBF RID: 15807 RVA: 0x00208E04 File Offset: 0x00207204
+		// Token: 0x06003DBA RID: 15802 RVA: 0x00209128 File Offset: 0x00207528
 		public static bool CanUseItemForWork(Pawn p, Thing item)
 		{
 			return !item.IsForbidden(p) && p.CanReserveAndReach(item, PathEndMode.ClosestTouch, p.NormalMaxDanger(), 1, -1, null, false);
 		}
 
-		// Token: 0x06003DC0 RID: 15808 RVA: 0x00208E50 File Offset: 0x00207250
+		// Token: 0x06003DBB RID: 15803 RVA: 0x00209174 File Offset: 0x00207574
 		public static bool CanBeArrestedBy(this Pawn pawn, Pawn arrester)
 		{
 			return pawn.RaceProps.Humanlike && (!pawn.InAggroMentalState || !pawn.HostileTo(arrester)) && !pawn.HostileTo(Faction.OfPlayer) && (!pawn.IsPrisonerOfColony || !pawn.Position.IsInPrisonCell(pawn.Map));
 		}
 
-		// Token: 0x06003DC1 RID: 15809 RVA: 0x00208ED4 File Offset: 0x002072D4
+		// Token: 0x06003DBC RID: 15804 RVA: 0x002091F8 File Offset: 0x002075F8
 		public static bool InDangerousCombat(Pawn pawn)
 		{
 			Region root = pawn.GetRegion(RegionType.Set_Passable);
@@ -49,7 +49,7 @@ namespace Verse.AI
 			return found;
 		}
 
-		// Token: 0x06003DC2 RID: 15810 RVA: 0x00208F3C File Offset: 0x0020733C
+		// Token: 0x06003DBD RID: 15805 RVA: 0x00209260 File Offset: 0x00207660
 		public static IntVec3 RandomRaidDest(IntVec3 raidSpawnLoc, Map map)
 		{
 			List<ThingDef> allBedDefBestToWorst = RestUtility.AllBedDefBestToWorst;
@@ -107,7 +107,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003DC3 RID: 15811 RVA: 0x00209180 File Offset: 0x00207580
+		// Token: 0x06003DBE RID: 15806 RVA: 0x002094A4 File Offset: 0x002078A4
 		public static bool EnemyIsNear(Pawn p, float radius)
 		{
 			bool result;

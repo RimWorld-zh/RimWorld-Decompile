@@ -8,19 +8,19 @@ namespace RimWorld
 	// Token: 0x02000178 RID: 376
 	public class LordJob_TradeWithColony : LordJob
 	{
-		// Token: 0x060007BD RID: 1981 RVA: 0x0004BB46 File Offset: 0x00049F46
+		// Token: 0x060007BD RID: 1981 RVA: 0x0004BB32 File Offset: 0x00049F32
 		public LordJob_TradeWithColony()
 		{
 		}
 
-		// Token: 0x060007BE RID: 1982 RVA: 0x0004BB4F File Offset: 0x00049F4F
+		// Token: 0x060007BE RID: 1982 RVA: 0x0004BB3B File Offset: 0x00049F3B
 		public LordJob_TradeWithColony(Faction faction, IntVec3 chillSpot)
 		{
 			this.faction = faction;
 			this.chillSpot = chillSpot;
 		}
 
-		// Token: 0x060007BF RID: 1983 RVA: 0x0004BB68 File Offset: 0x00049F68
+		// Token: 0x060007BF RID: 1983 RVA: 0x0004BB54 File Offset: 0x00049F54
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -129,7 +129,7 @@ namespace RimWorld
 			return stateGraph;
 		}
 
-		// Token: 0x060007C0 RID: 1984 RVA: 0x0004BFA0 File Offset: 0x0004A3A0
+		// Token: 0x060007C0 RID: 1984 RVA: 0x0004BF8C File Offset: 0x0004A38C
 		public override void ExposeData()
 		{
 			Scribe_References.Look<Faction>(ref this.faction, "faction", false);

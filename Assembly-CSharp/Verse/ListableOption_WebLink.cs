@@ -3,29 +3,29 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E9E RID: 3742
+	// Token: 0x02000E9D RID: 3741
 	public class ListableOption_WebLink : ListableOption
 	{
-		// Token: 0x06005844 RID: 22596 RVA: 0x002D3315 File Offset: 0x002D1715
+		// Token: 0x06005864 RID: 22628 RVA: 0x002D4F25 File Offset: 0x002D3325
 		public ListableOption_WebLink(string label, Texture2D image) : base(label, null, null)
 		{
 			this.minHeight = 24f;
 			this.image = image;
 		}
 
-		// Token: 0x06005845 RID: 22597 RVA: 0x002D3333 File Offset: 0x002D1733
+		// Token: 0x06005865 RID: 22629 RVA: 0x002D4F43 File Offset: 0x002D3343
 		public ListableOption_WebLink(string label, string url, Texture2D image) : this(label, image)
 		{
 			this.url = url;
 		}
 
-		// Token: 0x06005846 RID: 22598 RVA: 0x002D3345 File Offset: 0x002D1745
+		// Token: 0x06005866 RID: 22630 RVA: 0x002D4F55 File Offset: 0x002D3355
 		public ListableOption_WebLink(string label, Action action, Texture2D image) : this(label, image)
 		{
 			this.action = action;
 		}
 
-		// Token: 0x06005847 RID: 22599 RVA: 0x002D3358 File Offset: 0x002D1758
+		// Token: 0x06005867 RID: 22631 RVA: 0x002D4F68 File Offset: 0x002D3368
 		public override float DrawOption(Vector2 pos, float width)
 		{
 			float num = width - ListableOption_WebLink.Imagesize.x - 3f;
@@ -59,13 +59,13 @@ namespace Verse
 			return num3;
 		}
 
-		// Token: 0x04003A65 RID: 14949
+		// Token: 0x04003A75 RID: 14965
 		public Texture2D image;
 
-		// Token: 0x04003A66 RID: 14950
+		// Token: 0x04003A76 RID: 14966
 		public string url;
 
-		// Token: 0x04003A67 RID: 14951
+		// Token: 0x04003A77 RID: 14967
 		private static readonly Vector2 Imagesize = new Vector2(24f, 18f);
 	}
 }

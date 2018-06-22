@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x0200005A RID: 90
 	public class JobDriver_SitFacingBuilding : JobDriver
 	{
-		// Token: 0x060002A5 RID: 677 RVA: 0x0001C540 File Offset: 0x0001A940
+		// Token: 0x060002A5 RID: 677 RVA: 0x0001C548 File Offset: 0x0001A948
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.targetA, this.job, this.job.def.joyMaxParticipants, 0, null) && this.pawn.Reserve(this.job.targetB, this.job, 1, -1, null);
 		}
 
-		// Token: 0x060002A6 RID: 678 RVA: 0x0001C5AC File Offset: 0x0001A9AC
+		// Token: 0x060002A6 RID: 678 RVA: 0x0001C5B4 File Offset: 0x0001A9B4
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.EndOnDespawnedOrNull(TargetIndex.A, JobCondition.Incompletable);
@@ -23,7 +23,7 @@ namespace RimWorld
 			Toil play = new Toil();
 			play.tickAction = delegate()
 			{
-				this.pawn.rotationTracker.FaceCell(base.TargetA.Cell);
+				this.pawn.rotationTracker.FaceTarget(base.TargetA);
 				this.pawn.GainComfortFromCellIfPossible();
 				Pawn pawn = this.pawn;
 				Building joySource = (Building)base.TargetThingA;
@@ -41,12 +41,12 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060002A7 RID: 679 RVA: 0x0001C5D6 File Offset: 0x0001A9D6
+		// Token: 0x060002A7 RID: 679 RVA: 0x0001C5DE File Offset: 0x0001A9DE
 		protected virtual void ModifyPlayToil(Toil toil)
 		{
 		}
 
-		// Token: 0x060002A8 RID: 680 RVA: 0x0001C5DC File Offset: 0x0001A9DC
+		// Token: 0x060002A8 RID: 680 RVA: 0x0001C5E4 File Offset: 0x0001A9E4
 		public override object[] TaleParameters()
 		{
 			return new object[]

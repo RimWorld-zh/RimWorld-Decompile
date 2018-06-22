@@ -8,7 +8,7 @@ namespace Verse
 	// Token: 0x02000F0D RID: 3853
 	public class DebugLogsUtility
 	{
-		// Token: 0x06005C64 RID: 23652 RVA: 0x002EDD3C File Offset: 0x002EC13C
+		// Token: 0x06005C8C RID: 23692 RVA: 0x002EFD70 File Offset: 0x002EE170
 		public static string ThingListToUniqueCountString(IEnumerable<Thing> things)
 		{
 			string result;

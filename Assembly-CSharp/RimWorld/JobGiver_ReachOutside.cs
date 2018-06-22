@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000112 RID: 274
 	public class JobGiver_ReachOutside : ThinkNode_JobGiver
 	{
-		// Token: 0x060005A1 RID: 1441 RVA: 0x0003C96C File Offset: 0x0003AD6C
+		// Token: 0x060005A1 RID: 1441 RVA: 0x0003C958 File Offset: 0x0003AD58
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Room room = pawn.GetRoom(RegionType.Set_Passable);

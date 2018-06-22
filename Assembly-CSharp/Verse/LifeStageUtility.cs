@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000F5D RID: 3933
 	public static class LifeStageUtility
 	{
-		// Token: 0x06005F1B RID: 24347 RVA: 0x0030748C File Offset: 0x0030588C
+		// Token: 0x06005F44 RID: 24388 RVA: 0x00309530 File Offset: 0x00307930
 		public static void PlayNearestLifestageSound(Pawn pawn, Func<LifeStageAge, SoundDef> getter, float volumeFactor = 1f)
 		{
 			SoundDef soundDef;
@@ -25,7 +25,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005F1C RID: 24348 RVA: 0x003074F4 File Offset: 0x003058F4
+		// Token: 0x06005F45 RID: 24389 RVA: 0x00309598 File Offset: 0x00307998
 		private static void GetNearestLifestageSound(Pawn pawn, Func<LifeStageAge, SoundDef> getter, out SoundDef def, out float pitch, out float volume)
 		{
 			int num = pawn.ageTracker.CurLifeStageIndex;

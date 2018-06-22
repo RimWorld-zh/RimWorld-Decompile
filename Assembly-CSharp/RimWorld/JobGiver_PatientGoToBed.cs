@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000E8 RID: 232
 	public class JobGiver_PatientGoToBed : ThinkNode
 	{
-		// Token: 0x060004FE RID: 1278 RVA: 0x00037A74 File Offset: 0x00035E74
+		// Token: 0x060004FE RID: 1278 RVA: 0x00037A60 File Offset: 0x00035E60
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			ThinkResult result;

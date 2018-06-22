@@ -4,16 +4,16 @@ using System.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000D1E RID: 3358
+	// Token: 0x02000D1B RID: 3355
 	public class HediffCompProperties_VerbGiver : HediffCompProperties
 	{
-		// Token: 0x060049E6 RID: 18918 RVA: 0x00269EAE File Offset: 0x002682AE
+		// Token: 0x060049F7 RID: 18935 RVA: 0x0026B2E2 File Offset: 0x002696E2
 		public HediffCompProperties_VerbGiver()
 		{
 			this.compClass = typeof(HediffComp_VerbGiver);
 		}
 
-		// Token: 0x060049E7 RID: 18919 RVA: 0x00269ED8 File Offset: 0x002682D8
+		// Token: 0x060049F8 RID: 18936 RVA: 0x0026B30C File Offset: 0x0026970C
 		public override IEnumerable<string> ConfigErrors(HediffDef parentDef)
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0(parentDef))
@@ -33,10 +33,10 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0400321F RID: 12831
+		// Token: 0x0400322A RID: 12842
 		public List<VerbProperties> verbs = null;
 
-		// Token: 0x04003220 RID: 12832
+		// Token: 0x0400322B RID: 12843
 		public List<Tool> tools = null;
 	}
 }

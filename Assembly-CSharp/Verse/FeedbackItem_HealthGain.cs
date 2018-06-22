@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E61 RID: 3681
+	// Token: 0x02000E60 RID: 3680
 	public class FeedbackItem_HealthGain : FeedbackItem
 	{
-		// Token: 0x060056A0 RID: 22176 RVA: 0x002C9D40 File Offset: 0x002C8140
+		// Token: 0x060056C0 RID: 22208 RVA: 0x002CB950 File Offset: 0x002C9D50
 		public FeedbackItem_HealthGain(Vector2 ScreenPos, int Amount, Pawn Healer) : base(ScreenPos)
 		{
 			this.Amount = Amount;
 			this.Healer = Healer;
 		}
 
-		// Token: 0x060056A1 RID: 22177 RVA: 0x002C9D60 File Offset: 0x002C8160
+		// Token: 0x060056C1 RID: 22209 RVA: 0x002CB970 File Offset: 0x002C9D70
 		public override void FeedbackOnGUI()
 		{
 			string text;
@@ -29,10 +29,10 @@ namespace Verse
 			base.DrawFloatingText(text, Color.red);
 		}
 
-		// Token: 0x04003967 RID: 14695
+		// Token: 0x04003976 RID: 14710
 		protected Pawn Healer;
 
-		// Token: 0x04003968 RID: 14696
+		// Token: 0x04003977 RID: 14711
 		protected int Amount = 0;
 	}
 }

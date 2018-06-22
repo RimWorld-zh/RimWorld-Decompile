@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DFF RID: 3583
+	// Token: 0x02000DFC RID: 3580
 	public class CompAffectsSky : ThingComp
 	{
-		// Token: 0x17000D47 RID: 3399
-		// (get) Token: 0x06005116 RID: 20758 RVA: 0x0029A038 File Offset: 0x00298438
+		// Token: 0x17000D49 RID: 3401
+		// (get) Token: 0x0600512A RID: 20778 RVA: 0x0029B614 File Offset: 0x00299A14
 		public CompProperties_AffectsSky Props
 		{
 			get
@@ -16,8 +16,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D48 RID: 3400
-		// (get) Token: 0x06005117 RID: 20759 RVA: 0x0029A058 File Offset: 0x00298458
+		// Token: 0x17000D4A RID: 3402
+		// (get) Token: 0x0600512B RID: 20779 RVA: 0x0029B634 File Offset: 0x00299A34
 		public virtual float LerpFactor
 		{
 			get
@@ -49,8 +49,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D49 RID: 3401
-		// (get) Token: 0x06005118 RID: 20760 RVA: 0x0029A114 File Offset: 0x00298514
+		// Token: 0x17000D4B RID: 3403
+		// (get) Token: 0x0600512C RID: 20780 RVA: 0x0029B6F0 File Offset: 0x00299AF0
 		public bool HasAutoAnimation
 		{
 			get
@@ -59,8 +59,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D4A RID: 3402
-		// (get) Token: 0x06005119 RID: 20761 RVA: 0x0029A150 File Offset: 0x00298550
+		// Token: 0x17000D4C RID: 3404
+		// (get) Token: 0x0600512D RID: 20781 RVA: 0x0029B72C File Offset: 0x00299B2C
 		public virtual SkyTarget SkyTarget
 		{
 			get
@@ -69,8 +69,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D4B RID: 3403
-		// (get) Token: 0x0600511A RID: 20762 RVA: 0x0029A198 File Offset: 0x00298598
+		// Token: 0x17000D4D RID: 3405
+		// (get) Token: 0x0600512E RID: 20782 RVA: 0x0029B774 File Offset: 0x00299B74
 		public virtual Vector2? OverrideShadowVector
 		{
 			get
@@ -79,7 +79,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600511B RID: 20763 RVA: 0x0029A1B8 File Offset: 0x002985B8
+		// Token: 0x0600512F RID: 20783 RVA: 0x0029B794 File Offset: 0x00299B94
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -90,7 +90,7 @@ namespace Verse
 			Scribe_Values.Look<float>(ref this.autoAnimationTarget, "autoAnimationTarget", 0f, false);
 		}
 
-		// Token: 0x0600511C RID: 20764 RVA: 0x0029A22A File Offset: 0x0029862A
+		// Token: 0x06005130 RID: 20784 RVA: 0x0029B806 File Offset: 0x00299C06
 		public void StartFadeInHoldFadeOut(int fadeInDuration, int holdDuration, int fadeOutDuration, float target = 1f)
 		{
 			this.autoAnimationStartTick = Find.TickManager.TicksGame;
@@ -100,19 +100,19 @@ namespace Verse
 			this.autoAnimationTarget = target;
 		}
 
-		// Token: 0x0400353F RID: 13631
+		// Token: 0x04003546 RID: 13638
 		private int autoAnimationStartTick;
 
-		// Token: 0x04003540 RID: 13632
+		// Token: 0x04003547 RID: 13639
 		private int fadeInDuration;
 
-		// Token: 0x04003541 RID: 13633
+		// Token: 0x04003548 RID: 13640
 		private int holdDuration;
 
-		// Token: 0x04003542 RID: 13634
+		// Token: 0x04003549 RID: 13641
 		private int fadeOutDuration;
 
-		// Token: 0x04003543 RID: 13635
+		// Token: 0x0400354A RID: 13642
 		private float autoAnimationTarget;
 	}
 }

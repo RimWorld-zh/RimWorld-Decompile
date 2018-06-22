@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000056 RID: 86
 	public class JobDriver_PlayHoopstone : JobDriver_WatchBuilding
 	{
-		// Token: 0x06000297 RID: 663 RVA: 0x0001C4A8 File Offset: 0x0001A8A8
+		// Token: 0x06000297 RID: 663 RVA: 0x0001C4B0 File Offset: 0x0001A8B0
 		protected override void WatchTickAction()
 		{
 			if (this.pawn.IsHashIntervalTick(400))

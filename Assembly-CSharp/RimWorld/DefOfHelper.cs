@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000915 RID: 2325
+	// Token: 0x02000911 RID: 2321
 	public static class DefOfHelper
 	{
-		// Token: 0x0600361D RID: 13853 RVA: 0x001D0480 File Offset: 0x001CE880
+		// Token: 0x06003616 RID: 13846 RVA: 0x001D0668 File Offset: 0x001CEA68
 		public static void RebindAllDefOfs(bool earlyTryMode)
 		{
 			DefOfHelper.earlyTry = earlyTryMode;
@@ -26,7 +26,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600361E RID: 13854 RVA: 0x001D0504 File Offset: 0x001CE904
+		// Token: 0x06003617 RID: 13847 RVA: 0x001D06EC File Offset: 0x001CEAEC
 		private static void BindDefsFor(Type type)
 		{
 			foreach (FieldInfo fieldInfo in type.GetFields(BindingFlags.Static | BindingFlags.Public))
@@ -53,7 +53,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600361F RID: 13855 RVA: 0x001D05E4 File Offset: 0x001CE9E4
+		// Token: 0x06003618 RID: 13848 RVA: 0x001D07CC File Offset: 0x001CEBCC
 		public static void EnsureInitializedInCtor(Type defOf)
 		{
 			if (!DefOfHelper.bindingNow)
@@ -75,10 +75,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04001D41 RID: 7489
+		// Token: 0x04001D3F RID: 7487
 		private static bool bindingNow;
 
-		// Token: 0x04001D42 RID: 7490
+		// Token: 0x04001D40 RID: 7488
 		private static bool earlyTry = true;
 	}
 }

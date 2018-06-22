@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000528 RID: 1320
+	// Token: 0x02000524 RID: 1316
 	public class Pawn_GuiltTracker : IExposable
 	{
 		// Token: 0x1700035C RID: 860
-		// (get) Token: 0x06001822 RID: 6178 RVA: 0x000D2810 File Offset: 0x000D0C10
+		// (get) Token: 0x06001819 RID: 6169 RVA: 0x000D2808 File Offset: 0x000D0C08
 		public bool IsGuilty
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700035D RID: 861
-		// (get) Token: 0x06001823 RID: 6179 RVA: 0x000D2830 File Offset: 0x000D0C30
+		// (get) Token: 0x0600181A RID: 6170 RVA: 0x000D2828 File Offset: 0x000D0C28
 		public int TicksUntilInnocent
 		{
 			get
@@ -27,22 +27,22 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001824 RID: 6180 RVA: 0x000D2862 File Offset: 0x000D0C62
+		// Token: 0x0600181B RID: 6171 RVA: 0x000D285A File Offset: 0x000D0C5A
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.lastGuiltyTick, "lastGuiltyTick", -99999, false);
 		}
 
-		// Token: 0x06001825 RID: 6181 RVA: 0x000D287B File Offset: 0x000D0C7B
+		// Token: 0x0600181C RID: 6172 RVA: 0x000D2873 File Offset: 0x000D0C73
 		public void Notify_Guilty()
 		{
 			this.lastGuiltyTick = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x04000E57 RID: 3671
+		// Token: 0x04000E54 RID: 3668
 		public int lastGuiltyTick = -99999;
 
-		// Token: 0x04000E58 RID: 3672
+		// Token: 0x04000E55 RID: 3669
 		private const int GuiltyDuration = 60000;
 	}
 }

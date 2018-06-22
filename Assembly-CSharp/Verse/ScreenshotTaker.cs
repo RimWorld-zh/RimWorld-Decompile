@@ -7,7 +7,7 @@ namespace Verse
 	// Token: 0x02000FAF RID: 4015
 	public static class ScreenshotTaker
 	{
-		// Token: 0x06006109 RID: 24841 RVA: 0x0030F987 File Offset: 0x0030DD87
+		// Token: 0x06006132 RID: 24882 RVA: 0x00311A2B File Offset: 0x0030FE2B
 		public static void Update()
 		{
 			if (!LongEventHandler.ShouldWaitForEvent)
@@ -20,19 +20,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600610A RID: 24842 RVA: 0x0030F9BF File Offset: 0x0030DDBF
+		// Token: 0x06006133 RID: 24883 RVA: 0x00311A63 File Offset: 0x0030FE63
 		public static void QueueSilentScreenshot()
 		{
 			ScreenshotTaker.takeScreenshot = true;
 		}
 
-		// Token: 0x0600610B RID: 24843 RVA: 0x0030F9C8 File Offset: 0x0030DDC8
+		// Token: 0x06006134 RID: 24884 RVA: 0x00311A6C File Offset: 0x0030FE6C
 		private static void TakeShot()
 		{
 			SteamScreenshots.TriggerScreenshot();
 		}
 
-		// Token: 0x04003F78 RID: 16248
+		// Token: 0x04003F8A RID: 16266
 		private static bool takeScreenshot;
 	}
 }

@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006BE RID: 1726
+	// Token: 0x020006BA RID: 1722
 	public abstract class SignalAction : Thing
 	{
-		// Token: 0x06002523 RID: 9507 RVA: 0x0013E540 File Offset: 0x0013C940
+		// Token: 0x0600251B RID: 9499 RVA: 0x0013E688 File Offset: 0x0013CA88
 		public override void Notify_SignalReceived(Signal signal)
 		{
 			base.Notify_SignalReceived(signal);
@@ -20,17 +20,17 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002524 RID: 9508
+		// Token: 0x0600251C RID: 9500
 		protected abstract void DoAction(object[] args);
 
-		// Token: 0x06002525 RID: 9509 RVA: 0x0013E58D File Offset: 0x0013C98D
+		// Token: 0x0600251D RID: 9501 RVA: 0x0013E6D5 File Offset: 0x0013CAD5
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<string>(ref this.signalTag, "signalTag", null, false);
 		}
 
-		// Token: 0x04001485 RID: 5253
+		// Token: 0x04001483 RID: 5251
 		public string signalTag;
 	}
 }

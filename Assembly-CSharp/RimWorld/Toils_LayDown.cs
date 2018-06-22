@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200009C RID: 156
 	public static class Toils_LayDown
 	{
-		// Token: 0x060003F1 RID: 1009 RVA: 0x0002E4D0 File Offset: 0x0002C8D0
+		// Token: 0x060003F1 RID: 1009 RVA: 0x0002E4AC File Offset: 0x0002C8AC
 		public static Toil LayDown(TargetIndex bedOrRestSpotIndex, bool hasBed, bool lookForOtherJobs, bool canSleep = true, bool gainRestAndHealth = true)
 		{
 			Toil layDown = new Toil();
@@ -132,7 +132,7 @@ namespace RimWorld
 			return layDown;
 		}
 
-		// Token: 0x060003F2 RID: 1010 RVA: 0x0002E590 File Offset: 0x0002C990
+		// Token: 0x060003F2 RID: 1010 RVA: 0x0002E56C File Offset: 0x0002C96C
 		private static void ApplyBedThoughts(Pawn actor)
 		{
 			if (actor.needs.mood != null)

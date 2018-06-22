@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x02000054 RID: 84
 	public class JobDriver_GoForWalk : JobDriver
 	{
-		// Token: 0x06000290 RID: 656 RVA: 0x0001B7BC File Offset: 0x00019BBC
+		// Token: 0x06000290 RID: 656 RVA: 0x0001B7C4 File Offset: 0x00019BC4
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x06000291 RID: 657 RVA: 0x0001B7D4 File Offset: 0x00019BD4
+		// Token: 0x06000291 RID: 657 RVA: 0x0001B7DC File Offset: 0x00019BDC
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOn(() => !JoyUtility.EnjoyableOutsideNow(this.pawn, null));

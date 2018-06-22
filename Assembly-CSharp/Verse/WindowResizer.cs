@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000ECC RID: 3788
+	// Token: 0x02000ECB RID: 3787
 	public class WindowResizer
 	{
-		// Token: 0x0600597A RID: 22906 RVA: 0x002DC2E8 File Offset: 0x002DA6E8
+		// Token: 0x0600599B RID: 22939 RVA: 0x002DDF34 File Offset: 0x002DC334
 		public Rect DoResizeControl(Rect winRect)
 		{
 			Vector2 mousePosition = Event.current.mousePosition;
@@ -39,16 +39,16 @@ namespace Verse
 			return new Rect(winRect.x, winRect.y, (float)((int)winRect.width), (float)((int)winRect.height));
 		}
 
-		// Token: 0x04003BDF RID: 15327
+		// Token: 0x04003BEF RID: 15343
 		public Vector2 minWindowSize = new Vector2(150f, 150f);
 
-		// Token: 0x04003BE0 RID: 15328
+		// Token: 0x04003BF0 RID: 15344
 		private bool isResizing = false;
 
-		// Token: 0x04003BE1 RID: 15329
+		// Token: 0x04003BF1 RID: 15345
 		private Rect resizeStart = default(Rect);
 
-		// Token: 0x04003BE2 RID: 15330
+		// Token: 0x04003BF2 RID: 15346
 		private const float ResizeButtonSize = 24f;
 	}
 }

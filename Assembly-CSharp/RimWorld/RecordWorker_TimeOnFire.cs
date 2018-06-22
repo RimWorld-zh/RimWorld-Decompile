@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004AE RID: 1198
+	// Token: 0x020004AA RID: 1194
 	public class RecordWorker_TimeOnFire : RecordWorker
 	{
-		// Token: 0x0600155F RID: 5471 RVA: 0x000BD788 File Offset: 0x000BBB88
+		// Token: 0x06001556 RID: 5462 RVA: 0x000BD784 File Offset: 0x000BBB84
 		public override bool ShouldMeasureTimeNow(Pawn pawn)
 		{
 			return pawn.IsBurning();

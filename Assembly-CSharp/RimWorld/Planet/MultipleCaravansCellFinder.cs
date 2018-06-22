@@ -5,10 +5,10 @@ using Verse.AI;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005F7 RID: 1527
+	// Token: 0x020005F3 RID: 1523
 	public static class MultipleCaravansCellFinder
 	{
-		// Token: 0x06001E63 RID: 7779 RVA: 0x00106A5C File Offset: 0x00104E5C
+		// Token: 0x06001E5A RID: 7770 RVA: 0x00106AB0 File Offset: 0x00104EB0
 		public static void FindStartingCellsFor2Groups(Map map, out IntVec3 first, out IntVec3 second)
 		{
 			for (int i = 0; i < 10; i++)
@@ -47,7 +47,7 @@ namespace RimWorld.Planet
 			second = CellFinder.RandomClosewalkCellNear(second, map, 7, null);
 		}
 
-		// Token: 0x06001E64 RID: 7780 RVA: 0x00106C10 File Offset: 0x00105010
+		// Token: 0x06001E5B RID: 7771 RVA: 0x00106C64 File Offset: 0x00105064
 		private static bool TryFindOppositeSpots(Map map, float maxDistPctToOppositeSpots, out IntVec3 first, out IntVec3 second)
 		{
 			IntVec3 intVec = MultipleCaravansCellFinder.RandomSpotNearEdge(map);
@@ -71,7 +71,7 @@ namespace RimWorld.Planet
 			return false;
 		}
 
-		// Token: 0x06001E65 RID: 7781 RVA: 0x00106D68 File Offset: 0x00105168
+		// Token: 0x06001E5C RID: 7772 RVA: 0x00106DBC File Offset: 0x001051BC
 		private static IntVec3 RandomSpotNearEdge(Map map)
 		{
 			CellRect cellRect = CellRect.WholeMap(map);
@@ -82,31 +82,31 @@ namespace RimWorld.Planet
 			return cellRect.EdgeCells.RandomElement<IntVec3>();
 		}
 
-		// Token: 0x06001E66 RID: 7782 RVA: 0x00106E34 File Offset: 0x00105234
+		// Token: 0x06001E5D RID: 7773 RVA: 0x00106E88 File Offset: 0x00105288
 		private static IntVec3 OppositeSpot(IntVec3 spot, Map map)
 		{
 			return new IntVec3(map.Size.x - spot.x, spot.y, map.Size.z - spot.z);
 		}
 
-		// Token: 0x04001206 RID: 4614
+		// Token: 0x04001203 RID: 4611
 		private const int TriesToFindPerfectOppositeSpots = 10;
 
-		// Token: 0x04001207 RID: 4615
+		// Token: 0x04001204 RID: 4612
 		private const int TriesToFindGoodEnoughOppositeSpots = 10;
 
-		// Token: 0x04001208 RID: 4616
+		// Token: 0x04001205 RID: 4613
 		private const int TriesToFindMatchingPair = 20;
 
-		// Token: 0x04001209 RID: 4617
+		// Token: 0x04001206 RID: 4614
 		private const float PerfectIfDistPctToOppositeSpotsAtMost = 0.05f;
 
-		// Token: 0x0400120A RID: 4618
+		// Token: 0x04001207 RID: 4615
 		private const float GoodEnoughIfDistPctToOppositeSpotsAtMost = 0.15f;
 
-		// Token: 0x0400120B RID: 4619
+		// Token: 0x04001208 RID: 4616
 		private const float SpotDistPctToEdge = 0.2f;
 
-		// Token: 0x0400120C RID: 4620
+		// Token: 0x04001209 RID: 4617
 		private const float TryMinDistPctBetweenFallbackEdgeCells = 0.6f;
 	}
 }

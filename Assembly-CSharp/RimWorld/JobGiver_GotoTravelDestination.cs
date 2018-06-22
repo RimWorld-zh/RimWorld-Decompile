@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000D2 RID: 210
 	public class JobGiver_GotoTravelDestination : ThinkNode_JobGiver
 	{
-		// Token: 0x060004B7 RID: 1207 RVA: 0x0003524C File Offset: 0x0003364C
+		// Token: 0x060004B7 RID: 1207 RVA: 0x00035238 File Offset: 0x00033638
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_GotoTravelDestination jobGiver_GotoTravelDestination = (JobGiver_GotoTravelDestination)base.DeepCopy(resolve);
@@ -18,7 +18,7 @@ namespace RimWorld
 			return jobGiver_GotoTravelDestination;
 		}
 
-		// Token: 0x060004B8 RID: 1208 RVA: 0x000352A0 File Offset: 0x000336A0
+		// Token: 0x060004B8 RID: 1208 RVA: 0x0003528C File Offset: 0x0003368C
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			pawn.mindState.nextMoveOrderIsWait = !pawn.mindState.nextMoveOrderIsWait;

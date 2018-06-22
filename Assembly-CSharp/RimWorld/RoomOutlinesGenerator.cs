@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020003E6 RID: 998
 	public static class RoomOutlinesGenerator
 	{
-		// Token: 0x06001116 RID: 4374 RVA: 0x00092374 File Offset: 0x00090774
+		// Token: 0x06001116 RID: 4374 RVA: 0x00092560 File Offset: 0x00090960
 		public static List<RoomOutline> GenerateRoomOutlines(CellRect initialRect, Map map, int divisionsCount, int finalRoomsCount, int maxRoomCells, int minTotalRoomsNonWallCellsCount)
 		{
 			int num = 0;
@@ -37,7 +37,7 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x06001117 RID: 4375 RVA: 0x000923E8 File Offset: 0x000907E8
+		// Token: 0x06001117 RID: 4375 RVA: 0x000925D4 File Offset: 0x000909D4
 		public static List<RoomOutline> GenerateRoomOutlines(CellRect initialRect, Map map, int divisionsCount, int finalRoomsCount, int maxRoomCells)
 		{
 			List<RoomOutline> list = new List<RoomOutline>();
@@ -75,7 +75,7 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x06001118 RID: 4376 RVA: 0x00092560 File Offset: 0x00090960
+		// Token: 0x06001118 RID: 4376 RVA: 0x0009274C File Offset: 0x00090B4C
 		private static void Split(RoomOutline room, List<RoomOutline> allRooms, bool horizontalWall)
 		{
 			allRooms.Remove(room);
@@ -93,10 +93,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000A58 RID: 2648
+		// Token: 0x04000A5A RID: 2650
 		private const int MinFreeRoomCellsToDivide = 32;
 
-		// Token: 0x04000A59 RID: 2649
+		// Token: 0x04000A5B RID: 2651
 		private const int MinAllowedRoomWidthAndHeight = 2;
 	}
 }

@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009A8 RID: 2472
+	// Token: 0x020009A4 RID: 2468
 	public static class PawnOrCorpseStatUtility
 	{
-		// Token: 0x06003766 RID: 14182 RVA: 0x001D916C File Offset: 0x001D756C
+		// Token: 0x0600375F RID: 14175 RVA: 0x001D9368 File Offset: 0x001D7768
 		public static bool TryGetPawnOrCorpseStat(StatRequest req, Func<Pawn, float> pawnStatGetter, Func<ThingDef, float> pawnDefStatGetter, out float stat)
 		{
 			if (req.HasThing)

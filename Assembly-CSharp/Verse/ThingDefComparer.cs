@@ -3,22 +3,22 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C2D RID: 3117
+	// Token: 0x02000C2A RID: 3114
 	public class ThingDefComparer : IEqualityComparer<ThingDef>
 	{
-		// Token: 0x06004479 RID: 17529 RVA: 0x0023F544 File Offset: 0x0023D944
+		// Token: 0x06004482 RID: 17538 RVA: 0x0024090C File Offset: 0x0023ED0C
 		public bool Equals(ThingDef x, ThingDef y)
 		{
 			return (x == null && y == null) || (x != null && y != null && x.shortHash == y.shortHash);
 		}
 
-		// Token: 0x0600447A RID: 17530 RVA: 0x0023F590 File Offset: 0x0023D990
+		// Token: 0x06004483 RID: 17539 RVA: 0x00240958 File Offset: 0x0023ED58
 		public int GetHashCode(ThingDef obj)
 		{
 			return obj.GetHashCode();
 		}
 
-		// Token: 0x04002E73 RID: 11891
+		// Token: 0x04002E7D RID: 11901
 		public static readonly ThingDefComparer Instance = new ThingDefComparer();
 	}
 }

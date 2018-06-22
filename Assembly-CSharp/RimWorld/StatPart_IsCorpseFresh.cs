@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009AF RID: 2479
+	// Token: 0x020009AB RID: 2475
 	public class StatPart_IsCorpseFresh : StatPart
 	{
-		// Token: 0x06003787 RID: 14215 RVA: 0x001D99D8 File Offset: 0x001D7DD8
+		// Token: 0x06003780 RID: 14208 RVA: 0x001D9B9C File Offset: 0x001D7F9C
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			float num;
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003788 RID: 14216 RVA: 0x001D99FC File Offset: 0x001D7DFC
+		// Token: 0x06003781 RID: 14209 RVA: 0x001D9BC0 File Offset: 0x001D7FC0
 		public override string ExplanationPart(StatRequest req)
 		{
 			float num;
@@ -32,7 +32,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003789 RID: 14217 RVA: 0x001D9A4C File Offset: 0x001D7E4C
+		// Token: 0x06003782 RID: 14210 RVA: 0x001D9C10 File Offset: 0x001D8010
 		private bool TryGetIsFreshFactor(StatRequest req, out float factor)
 		{
 			bool result;

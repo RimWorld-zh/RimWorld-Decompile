@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000470 RID: 1136
+	// Token: 0x0200046C RID: 1132
 	public static class PawnAttackGizmoUtility
 	{
-		// Token: 0x060013EC RID: 5100 RVA: 0x000AD91C File Offset: 0x000ABD1C
+		// Token: 0x060013E3 RID: 5091 RVA: 0x000AD92C File Offset: 0x000ABD2C
 		public static IEnumerable<Gizmo> GetAttackGizmos(Pawn pawn)
 		{
 			if (PawnAttackGizmoUtility.ShouldUseMeleeAttackGizmo(pawn))
@@ -22,19 +22,19 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060013ED RID: 5101 RVA: 0x000AD948 File Offset: 0x000ABD48
+		// Token: 0x060013E4 RID: 5092 RVA: 0x000AD958 File Offset: 0x000ABD58
 		public static bool CanShowEquipmentGizmos()
 		{
 			return !PawnAttackGizmoUtility.AtLeastTwoSelectedColonistsHaveDifferentWeapons();
 		}
 
-		// Token: 0x060013EE RID: 5102 RVA: 0x000AD968 File Offset: 0x000ABD68
+		// Token: 0x060013E5 RID: 5093 RVA: 0x000AD978 File Offset: 0x000ABD78
 		private static bool ShouldUseSquadAttackGizmo()
 		{
 			return PawnAttackGizmoUtility.AtLeastOneSelectedColonistHasRangedWeapon() && PawnAttackGizmoUtility.AtLeastTwoSelectedColonistsHaveDifferentWeapons();
 		}
 
-		// Token: 0x060013EF RID: 5103 RVA: 0x000AD990 File Offset: 0x000ABD90
+		// Token: 0x060013E6 RID: 5094 RVA: 0x000AD9A0 File Offset: 0x000ABDA0
 		private static Gizmo GetSquadAttackGizmo(Pawn pawn)
 		{
 			Command_Target command_Target = new Command_Target();
@@ -68,13 +68,13 @@ namespace RimWorld
 			return command_Target;
 		}
 
-		// Token: 0x060013F0 RID: 5104 RVA: 0x000ADA38 File Offset: 0x000ABE38
+		// Token: 0x060013E7 RID: 5095 RVA: 0x000ADA48 File Offset: 0x000ABE48
 		private static bool ShouldUseMeleeAttackGizmo(Pawn pawn)
 		{
 			return pawn.Drafted && (PawnAttackGizmoUtility.AtLeastOneSelectedColonistHasRangedWeapon() || PawnAttackGizmoUtility.AtLeastOneSelectedColonistHasNoWeapon() || PawnAttackGizmoUtility.AtLeastTwoSelectedColonistsHaveDifferentWeapons());
 		}
 
-		// Token: 0x060013F1 RID: 5105 RVA: 0x000ADA7C File Offset: 0x000ABE7C
+		// Token: 0x060013E8 RID: 5096 RVA: 0x000ADA8C File Offset: 0x000ABE8C
 		private static Gizmo GetMeleeAttackGizmo(Pawn pawn)
 		{
 			Command_Target command_Target = new Command_Target();
@@ -108,7 +108,7 @@ namespace RimWorld
 			return command_Target;
 		}
 
-		// Token: 0x060013F2 RID: 5106 RVA: 0x000ADB24 File Offset: 0x000ABF24
+		// Token: 0x060013E9 RID: 5097 RVA: 0x000ADB34 File Offset: 0x000ABF34
 		private static bool AtLeastOneSelectedColonistHasRangedWeapon()
 		{
 			List<object> selectedObjectsListForReading = Find.Selector.SelectedObjectsListForReading;
@@ -126,7 +126,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060013F3 RID: 5107 RVA: 0x000ADBC0 File Offset: 0x000ABFC0
+		// Token: 0x060013EA RID: 5098 RVA: 0x000ADBD0 File Offset: 0x000ABFD0
 		private static bool AtLeastOneSelectedColonistHasNoWeapon()
 		{
 			List<object> selectedObjectsListForReading = Find.Selector.SelectedObjectsListForReading;
@@ -144,7 +144,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060013F4 RID: 5108 RVA: 0x000ADC40 File Offset: 0x000AC040
+		// Token: 0x060013EB RID: 5099 RVA: 0x000ADC50 File Offset: 0x000AC050
 		private static bool AtLeastTwoSelectedColonistsHaveDifferentWeapons()
 		{
 			bool result;

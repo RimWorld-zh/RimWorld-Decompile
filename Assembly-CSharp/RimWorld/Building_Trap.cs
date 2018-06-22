@@ -7,11 +7,11 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000686 RID: 1670
+	// Token: 0x02000682 RID: 1666
 	public abstract class Building_Trap : Building
 	{
 		// Token: 0x1700052A RID: 1322
-		// (get) Token: 0x06002324 RID: 8996 RVA: 0x0012E318 File Offset: 0x0012C718
+		// (get) Token: 0x0600231C RID: 8988 RVA: 0x0012E460 File Offset: 0x0012C860
 		public virtual bool Armed
 		{
 			get
@@ -20,14 +20,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002325 RID: 8997 RVA: 0x0012E32E File Offset: 0x0012C72E
+		// Token: 0x0600231D RID: 8989 RVA: 0x0012E476 File Offset: 0x0012C876
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Collections.Look<Pawn>(ref this.touchingPawns, "testees", LookMode.Reference, new object[0]);
 		}
 
-		// Token: 0x06002326 RID: 8998 RVA: 0x0012E350 File Offset: 0x0012C750
+		// Token: 0x0600231E RID: 8990 RVA: 0x0012E498 File Offset: 0x0012C898
 		public override void Tick()
 		{
 			if (this.Armed)
@@ -54,7 +54,7 @@ namespace RimWorld
 			base.Tick();
 		}
 
-		// Token: 0x06002327 RID: 8999 RVA: 0x0012E434 File Offset: 0x0012C834
+		// Token: 0x0600231F RID: 8991 RVA: 0x0012E57C File Offset: 0x0012C97C
 		protected virtual float SpringChance(Pawn p)
 		{
 			float num;
@@ -74,7 +74,7 @@ namespace RimWorld
 			return Mathf.Clamp01(num);
 		}
 
-		// Token: 0x06002328 RID: 9000 RVA: 0x0012E4B0 File Offset: 0x0012C8B0
+		// Token: 0x06002320 RID: 8992 RVA: 0x0012E5F8 File Offset: 0x0012C9F8
 		private void CheckSpring(Pawn p)
 		{
 			if (Rand.Value < this.SpringChance(p))
@@ -93,13 +93,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002329 RID: 9001 RVA: 0x0012E554 File Offset: 0x0012C954
+		// Token: 0x06002321 RID: 8993 RVA: 0x0012E69C File Offset: 0x0012CA9C
 		public bool KnowsOfTrap(Pawn p)
 		{
 			return (p.Faction != null && !p.Faction.HostileTo(base.Faction)) || (p.Faction == null && p.RaceProps.Animal && !p.InAggroMentalState) || (p.guest != null && p.guest.Released) || (p.RaceProps.Humanlike && p.IsFormingCaravan());
 		}
 
-		// Token: 0x0600232A RID: 9002 RVA: 0x0012E604 File Offset: 0x0012CA04
+		// Token: 0x06002322 RID: 8994 RVA: 0x0012E74C File Offset: 0x0012CB4C
 		public override ushort PathFindCostFor(Pawn p)
 		{
 			ushort result;
@@ -118,7 +118,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600232B RID: 9003 RVA: 0x0012E644 File Offset: 0x0012CA44
+		// Token: 0x06002323 RID: 8995 RVA: 0x0012E78C File Offset: 0x0012CB8C
 		public override ushort PathWalkCostFor(Pawn p)
 		{
 			ushort result;
@@ -137,13 +137,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600232C RID: 9004 RVA: 0x0012E680 File Offset: 0x0012CA80
+		// Token: 0x06002324 RID: 8996 RVA: 0x0012E7C8 File Offset: 0x0012CBC8
 		public override bool IsDangerousFor(Pawn p)
 		{
 			return this.Armed && this.KnowsOfTrap(p);
 		}
 
-		// Token: 0x0600232D RID: 9005 RVA: 0x0012E6AC File Offset: 0x0012CAAC
+		// Token: 0x06002325 RID: 8997 RVA: 0x0012E7F4 File Offset: 0x0012CBF4
 		public override string GetInspectString()
 		{
 			string text = base.GetInspectString();
@@ -162,7 +162,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x0600232E RID: 9006 RVA: 0x0012E714 File Offset: 0x0012CB14
+		// Token: 0x06002326 RID: 8998 RVA: 0x0012E85C File Offset: 0x0012CC5C
 		public void Spring(Pawn p)
 		{
 			SoundDefOf.DeadfallSpring.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
@@ -173,22 +173,22 @@ namespace RimWorld
 			this.SpringSub(p);
 		}
 
-		// Token: 0x0600232F RID: 9007
+		// Token: 0x06002327 RID: 8999
 		protected abstract void SpringSub(Pawn p);
 
-		// Token: 0x040013C0 RID: 5056
+		// Token: 0x040013BE RID: 5054
 		private List<Pawn> touchingPawns = new List<Pawn>();
 
-		// Token: 0x040013C1 RID: 5057
+		// Token: 0x040013BF RID: 5055
 		private const float KnowerSpringChance = 0.004f;
 
-		// Token: 0x040013C2 RID: 5058
+		// Token: 0x040013C0 RID: 5056
 		private const ushort KnowerPathFindCost = 800;
 
-		// Token: 0x040013C3 RID: 5059
+		// Token: 0x040013C1 RID: 5057
 		private const ushort KnowerPathWalkCost = 30;
 
-		// Token: 0x040013C4 RID: 5060
+		// Token: 0x040013C2 RID: 5058
 		private const float AnimalSpringChanceFactor = 0.1f;
 	}
 }

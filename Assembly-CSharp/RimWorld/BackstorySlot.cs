@@ -2,12 +2,12 @@
 
 namespace RimWorld
 {
-	// Token: 0x020004DC RID: 1244
+	// Token: 0x020004D8 RID: 1240
 	public enum BackstorySlot : byte
 	{
-		// Token: 0x04000CCC RID: 3276
+		// Token: 0x04000CC9 RID: 3273
 		Childhood,
-		// Token: 0x04000CCD RID: 3277
+		// Token: 0x04000CCA RID: 3274
 		Adulthood
 	}
 }

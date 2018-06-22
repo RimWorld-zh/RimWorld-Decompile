@@ -6,11 +6,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000887 RID: 2183
+	// Token: 0x02000883 RID: 2179
 	[StaticConstructorOnStartup]
 	public class PawnColumnWorker_Bond : PawnColumnWorker_Icon
 	{
-		// Token: 0x060031C6 RID: 12742 RVA: 0x001AE9C8 File Offset: 0x001ACDC8
+		// Token: 0x060031BF RID: 12735 RVA: 0x001AEBB0 File Offset: 0x001ACFB0
 		protected override Texture2D GetIconFor(Pawn pawn)
 		{
 			IEnumerable<Pawn> allColonistBondsFor = TrainableUtility.GetAllColonistBondsFor(pawn);
@@ -30,19 +30,19 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060031C7 RID: 12743 RVA: 0x001AEA30 File Offset: 0x001ACE30
+		// Token: 0x060031C0 RID: 12736 RVA: 0x001AEC18 File Offset: 0x001AD018
 		protected override string GetIconTip(Pawn pawn)
 		{
 			return TrainableUtility.GetIconTooltipText(pawn);
 		}
 
-		// Token: 0x060031C8 RID: 12744 RVA: 0x001AEA4C File Offset: 0x001ACE4C
+		// Token: 0x060031C1 RID: 12737 RVA: 0x001AEC34 File Offset: 0x001AD034
 		public override int Compare(Pawn a, Pawn b)
 		{
 			return this.GetCompareValueFor(a).CompareTo(this.GetCompareValueFor(b));
 		}
 
-		// Token: 0x060031C9 RID: 12745 RVA: 0x001AEA78 File Offset: 0x001ACE78
+		// Token: 0x060031C2 RID: 12738 RVA: 0x001AEC60 File Offset: 0x001AD060
 		public int GetCompareValueFor(Pawn a)
 		{
 			Texture2D iconFor = this.GetIconFor(a);
@@ -67,7 +67,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060031CA RID: 12746 RVA: 0x001AEAE8 File Offset: 0x001ACEE8
+		// Token: 0x060031C3 RID: 12739 RVA: 0x001AECD0 File Offset: 0x001AD0D0
 		protected override void PaintedIcon(Pawn pawn)
 		{
 			if (!(this.GetIconFor(pawn) != PawnColumnWorker_Bond.BondBrokenIcon))
@@ -81,10 +81,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04001AD0 RID: 6864
+		// Token: 0x04001ACE RID: 6862
 		private static readonly Texture2D BondIcon = ContentFinder<Texture2D>.Get("UI/Icons/Animal/Bond", true);
 
-		// Token: 0x04001AD1 RID: 6865
+		// Token: 0x04001ACF RID: 6863
 		private static readonly Texture2D BondBrokenIcon = ContentFinder<Texture2D>.Get("UI/Icons/Animal/BondBroken", true);
 	}
 }

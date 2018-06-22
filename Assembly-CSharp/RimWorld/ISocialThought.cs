@@ -3,13 +3,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200052F RID: 1327
+	// Token: 0x0200052B RID: 1323
 	public interface ISocialThought
 	{
-		// Token: 0x06001876 RID: 6262
+		// Token: 0x0600186D RID: 6253
 		float OpinionOffset();
 
-		// Token: 0x06001877 RID: 6263
+		// Token: 0x0600186E RID: 6254
 		Pawn OtherPawn();
 	}
 }

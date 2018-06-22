@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000FB2 RID: 4018
 	public static class ShootLeanUtility
 	{
-		// Token: 0x06006115 RID: 24853 RVA: 0x0030FD7C File Offset: 0x0030E17C
+		// Token: 0x0600613E RID: 24894 RVA: 0x00311E20 File Offset: 0x00310220
 		private static bool[] GetWorkingBlockedArray()
 		{
 			bool[] result;
@@ -21,7 +21,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06006116 RID: 24854 RVA: 0x0030FDB7 File Offset: 0x0030E1B7
+		// Token: 0x0600613F RID: 24895 RVA: 0x00311E5B File Offset: 0x0031025B
 		private static void ReturnWorkingBlockedArray(bool[] ar)
 		{
 			ShootLeanUtility.blockedArrays.Enqueue(ar);
@@ -31,7 +31,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06006117 RID: 24855 RVA: 0x0030FDEC File Offset: 0x0030E1EC
+		// Token: 0x06006140 RID: 24896 RVA: 0x00311E90 File Offset: 0x00310290
 		public static void LeanShootingSourcesFromTo(IntVec3 shooterLoc, IntVec3 targetPos, Map map, List<IntVec3> listToFill)
 		{
 			listToFill.Clear();
@@ -103,7 +103,7 @@ namespace Verse
 			ShootLeanUtility.ReturnWorkingBlockedArray(workingBlockedArray);
 		}
 
-		// Token: 0x06006118 RID: 24856 RVA: 0x00310090 File Offset: 0x0030E490
+		// Token: 0x06006141 RID: 24897 RVA: 0x00312134 File Offset: 0x00310534
 		public static void CalcShootableCellsOf(List<IntVec3> outCells, Thing t)
 		{
 			outCells.Clear();
@@ -137,7 +137,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003F7C RID: 16252
+		// Token: 0x04003F8E RID: 16270
 		private static Queue<bool[]> blockedArrays = new Queue<bool[]>();
 	}
 }

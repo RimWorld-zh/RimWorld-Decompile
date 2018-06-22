@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C92 RID: 3218
+	// Token: 0x02000C8F RID: 3215
 	public class RegionMaker
 	{
-		// Token: 0x06004691 RID: 18065 RVA: 0x00252E60 File Offset: 0x00251260
+		// Token: 0x0600469A RID: 18074 RVA: 0x00254230 File Offset: 0x00252630
 		public RegionMaker(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x06004692 RID: 18066 RVA: 0x00252EB4 File Offset: 0x002512B4
+		// Token: 0x0600469B RID: 18075 RVA: 0x00254284 File Offset: 0x00252684
 		public Region TryGenerateRegionFrom(IntVec3 root)
 		{
 			RegionType expectedRegionType = root.GetExpectedRegionType(this.map);
@@ -51,7 +51,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004693 RID: 18067 RVA: 0x00252F94 File Offset: 0x00251394
+		// Token: 0x0600469C RID: 18076 RVA: 0x00254364 File Offset: 0x00252764
 		private void FloodFillAndAddCells(IntVec3 root)
 		{
 			this.newRegCells.Clear();
@@ -68,7 +68,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004694 RID: 18068 RVA: 0x00253004 File Offset: 0x00251404
+		// Token: 0x0600469D RID: 18077 RVA: 0x002543D4 File Offset: 0x002527D4
 		private void AddCell(IntVec3 c)
 		{
 			this.regionGrid.SetRegionAt(c, this.newReg);
@@ -95,7 +95,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004695 RID: 18069 RVA: 0x00253164 File Offset: 0x00251564
+		// Token: 0x0600469E RID: 18078 RVA: 0x00254534 File Offset: 0x00252934
 		private void CreateLinks()
 		{
 			for (int i = 0; i < this.linksProcessedAt.Length; i++)
@@ -112,7 +112,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004696 RID: 18070 RVA: 0x002531F8 File Offset: 0x002515F8
+		// Token: 0x0600469F RID: 18079 RVA: 0x002545C8 File Offset: 0x002529C8
 		private void SweepInTwoDirectionsAndTryToCreateLink(Rot4 potentialOtherRegionDir, IntVec3 c)
 		{
 			if (potentialOtherRegionDir.IsValid)
@@ -195,7 +195,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004697 RID: 18071 RVA: 0x002534DC File Offset: 0x002518DC
+		// Token: 0x060046A0 RID: 18080 RVA: 0x002548AC File Offset: 0x00252CAC
 		private void RegisterThingsInRegionListers()
 		{
 			CellRect cellRect = this.newReg.extentsClose;
@@ -228,19 +228,19 @@ namespace Verse
 			RegionMaker.tmpProcessedThings.Clear();
 		}
 
-		// Token: 0x04003007 RID: 12295
+		// Token: 0x04003011 RID: 12305
 		private Map map;
 
-		// Token: 0x04003008 RID: 12296
+		// Token: 0x04003012 RID: 12306
 		private Region newReg;
 
-		// Token: 0x04003009 RID: 12297
+		// Token: 0x04003013 RID: 12307
 		private List<IntVec3> newRegCells = new List<IntVec3>();
 
-		// Token: 0x0400300A RID: 12298
+		// Token: 0x04003014 RID: 12308
 		private bool working;
 
-		// Token: 0x0400300B RID: 12299
+		// Token: 0x04003015 RID: 12309
 		private HashSet<IntVec3>[] linksProcessedAt = new HashSet<IntVec3>[]
 		{
 			new HashSet<IntVec3>(),
@@ -249,10 +249,10 @@ namespace Verse
 			new HashSet<IntVec3>()
 		};
 
-		// Token: 0x0400300C RID: 12300
+		// Token: 0x04003016 RID: 12310
 		private RegionGrid regionGrid;
 
-		// Token: 0x0400300D RID: 12301
+		// Token: 0x04003017 RID: 12311
 		private static HashSet<Thing> tmpProcessedThings = new HashSet<Thing>();
 	}
 }

@@ -8,7 +8,7 @@ namespace RimWorld
 	internal class WorkGiver_FightFires : WorkGiver_Scanner
 	{
 		// Token: 0x17000100 RID: 256
-		// (get) Token: 0x060006A6 RID: 1702 RVA: 0x00044CC8 File Offset: 0x000430C8
+		// (get) Token: 0x060006A6 RID: 1702 RVA: 0x00044CB4 File Offset: 0x000430B4
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000101 RID: 257
-		// (get) Token: 0x060006A7 RID: 1703 RVA: 0x00044CE8 File Offset: 0x000430E8
+		// (get) Token: 0x060006A7 RID: 1703 RVA: 0x00044CD4 File Offset: 0x000430D4
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -27,13 +27,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060006A8 RID: 1704 RVA: 0x00044D00 File Offset: 0x00043100
+		// Token: 0x060006A8 RID: 1704 RVA: 0x00044CEC File Offset: 0x000430EC
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Deadly;
 		}
 
-		// Token: 0x060006A9 RID: 1705 RVA: 0x00044D18 File Offset: 0x00043118
+		// Token: 0x060006A9 RID: 1705 RVA: 0x00044D04 File Offset: 0x00043104
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Fire fire = t as Fire;
@@ -88,13 +88,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060006AA RID: 1706 RVA: 0x00044EAC File Offset: 0x000432AC
+		// Token: 0x060006AA RID: 1706 RVA: 0x00044E98 File Offset: 0x00043298
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			return new Job(JobDefOf.BeatFire, t);
 		}
 
-		// Token: 0x060006AB RID: 1707 RVA: 0x00044ED4 File Offset: 0x000432D4
+		// Token: 0x060006AB RID: 1707 RVA: 0x00044EC0 File Offset: 0x000432C0
 		public static bool FireIsBeingHandled(Fire f, Pawn potentialHandler)
 		{
 			bool result;

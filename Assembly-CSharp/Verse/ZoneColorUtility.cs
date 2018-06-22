@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CBB RID: 3259
+	// Token: 0x02000CB8 RID: 3256
 	public static class ZoneColorUtility
 	{
-		// Token: 0x060047D3 RID: 18387 RVA: 0x0025BD30 File Offset: 0x0025A130
+		// Token: 0x060047DC RID: 18396 RVA: 0x0025D120 File Offset: 0x0025B520
 		static ZoneColorUtility()
 		{
 			foreach (Color color in ZoneColorUtility.GrowingZoneColors())
@@ -22,7 +22,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047D4 RID: 18388 RVA: 0x0025BE48 File Offset: 0x0025A248
+		// Token: 0x060047DD RID: 18397 RVA: 0x0025D238 File Offset: 0x0025B638
 		public static Color NextGrowingZoneColor()
 		{
 			Color result = ZoneColorUtility.growingZoneColors[ZoneColorUtility.nextGrowingZoneColorIndex];
@@ -34,7 +34,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060047D5 RID: 18389 RVA: 0x0025BE94 File Offset: 0x0025A294
+		// Token: 0x060047DE RID: 18398 RVA: 0x0025D284 File Offset: 0x0025B684
 		public static Color NextStorageZoneColor()
 		{
 			Color result = ZoneColorUtility.storageZoneColors[ZoneColorUtility.nextStorageZoneColorIndex];
@@ -46,7 +46,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060047D6 RID: 18390 RVA: 0x0025BEE0 File Offset: 0x0025A2E0
+		// Token: 0x060047DF RID: 18399 RVA: 0x0025D2D0 File Offset: 0x0025B6D0
 		private static IEnumerable<Color> GrowingZoneColors()
 		{
 			yield return Color.Lerp(new Color(0f, 1f, 0f), Color.gray, 0.5f);
@@ -57,7 +57,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060047D7 RID: 18391 RVA: 0x0025BF04 File Offset: 0x0025A304
+		// Token: 0x060047E0 RID: 18400 RVA: 0x0025D2F4 File Offset: 0x0025B6F4
 		private static IEnumerable<Color> StorageZoneColors()
 		{
 			yield return Color.Lerp(new Color(1f, 0f, 0f), Color.gray, 0.5f);
@@ -69,19 +69,19 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x040030B3 RID: 12467
+		// Token: 0x040030BE RID: 12478
 		private static List<Color> growingZoneColors = new List<Color>();
 
-		// Token: 0x040030B4 RID: 12468
+		// Token: 0x040030BF RID: 12479
 		private static List<Color> storageZoneColors = new List<Color>();
 
-		// Token: 0x040030B5 RID: 12469
+		// Token: 0x040030C0 RID: 12480
 		private static int nextGrowingZoneColorIndex = 0;
 
-		// Token: 0x040030B6 RID: 12470
+		// Token: 0x040030C1 RID: 12481
 		private static int nextStorageZoneColorIndex = 0;
 
-		// Token: 0x040030B7 RID: 12471
+		// Token: 0x040030C2 RID: 12482
 		private const float ZoneOpacity = 0.09f;
 	}
 }

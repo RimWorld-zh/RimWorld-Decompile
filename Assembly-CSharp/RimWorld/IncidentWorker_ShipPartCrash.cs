@@ -8,7 +8,7 @@ namespace RimWorld
 	internal abstract class IncidentWorker_ShipPartCrash : IncidentWorker
 	{
 		// Token: 0x1700020D RID: 525
-		// (get) Token: 0x06000E39 RID: 3641 RVA: 0x00077C24 File Offset: 0x00076024
+		// (get) Token: 0x06000E39 RID: 3641 RVA: 0x00077CD8 File Offset: 0x000760D8
 		protected virtual int CountToSpawn
 		{
 			get
@@ -17,14 +17,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000E3A RID: 3642 RVA: 0x00077C3C File Offset: 0x0007603C
+		// Token: 0x06000E3A RID: 3642 RVA: 0x00077CF0 File Offset: 0x000760F0
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			return map.listerThings.ThingsOfDef(this.def.shipPart).Count <= 0;
 		}
 
-		// Token: 0x06000E3B RID: 3643 RVA: 0x00077C88 File Offset: 0x00076088
+		// Token: 0x06000E3B RID: 3643 RVA: 0x00077D3C File Offset: 0x0007613C
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -55,10 +55,10 @@ namespace RimWorld
 			return num > 0;
 		}
 
-		// Token: 0x040008E7 RID: 2279
+		// Token: 0x040008E9 RID: 2281
 		private const float ShipPointsFactor = 0.9f;
 
-		// Token: 0x040008E8 RID: 2280
+		// Token: 0x040008EA RID: 2282
 		private const int IncidentMinimumPoints = 300;
 	}
 }

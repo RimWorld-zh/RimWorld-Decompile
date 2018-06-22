@@ -2,31 +2,31 @@
 
 namespace Verse
 {
-	// Token: 0x02000E85 RID: 3717
+	// Token: 0x02000E84 RID: 3716
 	public static class TreeOpenMasks
 	{
-		// Token: 0x040039EC RID: 14828
+		// Token: 0x040039FC RID: 14844
 		public const int All = -1;
 
-		// Token: 0x040039ED RID: 14829
+		// Token: 0x040039FD RID: 14845
 		public const int Default = 1;
 
-		// Token: 0x040039EE RID: 14830
+		// Token: 0x040039FE RID: 14846
 		public const int ThingFilter = 2;
 
-		// Token: 0x040039EF RID: 14831
+		// Token: 0x040039FF RID: 14847
 		public const int BillConfig = 4;
 
-		// Token: 0x040039F0 RID: 14832
+		// Token: 0x04003A00 RID: 14848
 		public const int Storage = 8;
 
-		// Token: 0x040039F1 RID: 14833
+		// Token: 0x04003A01 RID: 14849
 		public const int Outfits = 16;
 
-		// Token: 0x040039F2 RID: 14834
+		// Token: 0x04003A02 RID: 14850
 		public const int ResourceReadout = 32;
 
-		// Token: 0x040039F3 RID: 14835
+		// Token: 0x04003A03 RID: 14851
 		public const int TreeDefs = 64;
 	}
 }

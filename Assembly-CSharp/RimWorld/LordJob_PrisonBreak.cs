@@ -8,12 +8,12 @@ namespace RimWorld
 	// Token: 0x02000173 RID: 371
 	public class LordJob_PrisonBreak : LordJob
 	{
-		// Token: 0x0600079F RID: 1951 RVA: 0x0004B1D4 File Offset: 0x000495D4
+		// Token: 0x0600079F RID: 1951 RVA: 0x0004B1C0 File Offset: 0x000495C0
 		public LordJob_PrisonBreak()
 		{
 		}
 
-		// Token: 0x060007A0 RID: 1952 RVA: 0x0004B1E4 File Offset: 0x000495E4
+		// Token: 0x060007A0 RID: 1952 RVA: 0x0004B1D0 File Offset: 0x000495D0
 		public LordJob_PrisonBreak(IntVec3 groupUpLoc, IntVec3 exitPoint, int sapperThingID)
 		{
 			this.groupUpLoc = groupUpLoc;
@@ -22,7 +22,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000130 RID: 304
-		// (get) Token: 0x060007A1 RID: 1953 RVA: 0x0004B20C File Offset: 0x0004960C
+		// (get) Token: 0x060007A1 RID: 1953 RVA: 0x0004B1F8 File Offset: 0x000495F8
 		public override bool NeverInRestraints
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060007A2 RID: 1954 RVA: 0x0004B224 File Offset: 0x00049624
+		// Token: 0x060007A2 RID: 1954 RVA: 0x0004B210 File Offset: 0x00049610
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -75,7 +75,7 @@ namespace RimWorld
 			return stateGraph;
 		}
 
-		// Token: 0x060007A3 RID: 1955 RVA: 0x0004B3B0 File Offset: 0x000497B0
+		// Token: 0x060007A3 RID: 1955 RVA: 0x0004B39C File Offset: 0x0004979C
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -84,25 +84,25 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.sapperThingID, "sapperThingID", -1, false);
 		}
 
-		// Token: 0x060007A4 RID: 1956 RVA: 0x0004B40A File Offset: 0x0004980A
+		// Token: 0x060007A4 RID: 1956 RVA: 0x0004B3F6 File Offset: 0x000497F6
 		public override void Notify_PawnAdded(Pawn p)
 		{
 			ReachabilityUtility.ClearCache();
 		}
 
-		// Token: 0x060007A5 RID: 1957 RVA: 0x0004B412 File Offset: 0x00049812
+		// Token: 0x060007A5 RID: 1957 RVA: 0x0004B3FE File Offset: 0x000497FE
 		public override void Notify_PawnLost(Pawn p, PawnLostCondition condition)
 		{
 			ReachabilityUtility.ClearCache();
 		}
 
-		// Token: 0x060007A6 RID: 1958 RVA: 0x0004B41C File Offset: 0x0004981C
+		// Token: 0x060007A6 RID: 1958 RVA: 0x0004B408 File Offset: 0x00049808
 		public override bool CanOpenAnyDoor(Pawn p)
 		{
 			return true;
 		}
 
-		// Token: 0x060007A7 RID: 1959 RVA: 0x0004B434 File Offset: 0x00049834
+		// Token: 0x060007A7 RID: 1959 RVA: 0x0004B420 File Offset: 0x00049820
 		public override bool ValidateAttackTarget(Pawn searcher, Thing target)
 		{
 			Pawn pawn = target as Pawn;

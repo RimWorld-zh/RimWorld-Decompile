@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E63 RID: 3683
+	// Token: 0x02000E62 RID: 3682
 	internal static class GUIEventFilterForOSX
 	{
-		// Token: 0x060056A6 RID: 22182 RVA: 0x002C9EA8 File Offset: 0x002C82A8
+		// Token: 0x060056C6 RID: 22214 RVA: 0x002CBAB8 File Offset: 0x002C9EB8
 		public static void CheckRejectGUIEvent()
 		{
 			if (UnityData.platform == RuntimePlatform.OSXPlayer)
@@ -31,13 +31,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056A7 RID: 22183 RVA: 0x002C9F5C File Offset: 0x002C835C
+		// Token: 0x060056C7 RID: 22215 RVA: 0x002CBB6C File Offset: 0x002C9F6C
 		private static bool EventsAreEquivalent(Event A, Event B)
 		{
 			return A.button == B.button && A.keyCode == B.keyCode && A.type == B.type;
 		}
 
-		// Token: 0x060056A8 RID: 22184 RVA: 0x002C9FA4 File Offset: 0x002C83A4
+		// Token: 0x060056C8 RID: 22216 RVA: 0x002CBBB4 File Offset: 0x002C9FB4
 		private static void RejectEvent()
 		{
 			if (DebugViewSettings.logInput)
@@ -53,10 +53,10 @@ namespace Verse
 			Event.current.Use();
 		}
 
-		// Token: 0x0400396A RID: 14698
+		// Token: 0x04003979 RID: 14713
 		private static List<Event> eventsThisFrame = new List<Event>();
 
-		// Token: 0x0400396B RID: 14699
+		// Token: 0x0400397A RID: 14714
 		private static int lastRecordedFrame = -1;
 	}
 }

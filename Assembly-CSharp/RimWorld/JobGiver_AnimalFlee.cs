@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020000AA RID: 170
 	public class JobGiver_AnimalFlee : ThinkNode_JobGiver
 	{
-		// Token: 0x06000421 RID: 1057 RVA: 0x00031654 File Offset: 0x0002FA54
+		// Token: 0x06000421 RID: 1057 RVA: 0x00031630 File Offset: 0x0002FA30
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -70,7 +70,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000422 RID: 1058 RVA: 0x000317F8 File Offset: 0x0002FBF8
+		// Token: 0x06000422 RID: 1058 RVA: 0x000317D4 File Offset: 0x0002FBD4
 		private Job FleeJob(Pawn pawn, Thing danger)
 		{
 			IntVec3 intVec;
@@ -97,7 +97,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000423 RID: 1059 RVA: 0x000318A4 File Offset: 0x0002FCA4
+		// Token: 0x06000423 RID: 1059 RVA: 0x00031880 File Offset: 0x0002FC80
 		private Job FleeLargeFireJob(Pawn pawn)
 		{
 			List<Thing> list = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.Fire);

@@ -7,12 +7,12 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020006E1 RID: 1761
+	// Token: 0x020006DD RID: 1757
 	[StaticConstructorOnStartup]
 	public class ShieldBelt : Apparel
 	{
 		// Token: 0x170005CE RID: 1486
-		// (get) Token: 0x0600263E RID: 9790 RVA: 0x00147C80 File Offset: 0x00146080
+		// (get) Token: 0x06002636 RID: 9782 RVA: 0x00147E24 File Offset: 0x00146224
 		private float EnergyMax
 		{
 			get
@@ -22,7 +22,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005CF RID: 1487
-		// (get) Token: 0x0600263F RID: 9791 RVA: 0x00147CA4 File Offset: 0x001460A4
+		// (get) Token: 0x06002637 RID: 9783 RVA: 0x00147E48 File Offset: 0x00146248
 		private float EnergyGainPerTick
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005D0 RID: 1488
-		// (get) Token: 0x06002640 RID: 9792 RVA: 0x00147CCC File Offset: 0x001460CC
+		// (get) Token: 0x06002638 RID: 9784 RVA: 0x00147E70 File Offset: 0x00146270
 		public float Energy
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005D1 RID: 1489
-		// (get) Token: 0x06002641 RID: 9793 RVA: 0x00147CE8 File Offset: 0x001460E8
+		// (get) Token: 0x06002639 RID: 9785 RVA: 0x00147E8C File Offset: 0x0014628C
 		public ShieldState ShieldState
 		{
 			get
@@ -61,7 +61,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005D2 RID: 1490
-		// (get) Token: 0x06002642 RID: 9794 RVA: 0x00147D14 File Offset: 0x00146114
+		// (get) Token: 0x0600263A RID: 9786 RVA: 0x00147EB8 File Offset: 0x001462B8
 		private bool ShouldDisplay
 		{
 			get
@@ -71,7 +71,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002643 RID: 9795 RVA: 0x00147DC8 File Offset: 0x001461C8
+		// Token: 0x0600263B RID: 9787 RVA: 0x00147F6C File Offset: 0x0014636C
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -80,7 +80,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.lastKeepDisplayTick, "lastKeepDisplayTick", 0, false);
 		}
 
-		// Token: 0x06002644 RID: 9796 RVA: 0x00147E18 File Offset: 0x00146218
+		// Token: 0x0600263C RID: 9788 RVA: 0x00147FBC File Offset: 0x001463BC
 		public override IEnumerable<Gizmo> GetWornGizmos()
 		{
 			if (Find.Selector.SingleSelectedThing == base.Wearer)
@@ -93,13 +93,13 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002645 RID: 9797 RVA: 0x00147E44 File Offset: 0x00146244
+		// Token: 0x0600263D RID: 9789 RVA: 0x00147FE8 File Offset: 0x001463E8
 		public override float GetSpecialApparelScoreOffset()
 		{
 			return this.EnergyMax * this.ApparelScorePerEnergyMax;
 		}
 
-		// Token: 0x06002646 RID: 9798 RVA: 0x00147E68 File Offset: 0x00146268
+		// Token: 0x0600263E RID: 9790 RVA: 0x0014800C File Offset: 0x0014640C
 		public override void Tick()
 		{
 			base.Tick();
@@ -125,7 +125,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002647 RID: 9799 RVA: 0x00147F08 File Offset: 0x00146308
+		// Token: 0x0600263F RID: 9791 RVA: 0x001480AC File Offset: 0x001464AC
 		public override bool CheckPreAbsorbDamage(DamageInfo dinfo)
 		{
 			if (this.ShieldState == ShieldState.Active)
@@ -159,13 +159,13 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06002648 RID: 9800 RVA: 0x00148003 File Offset: 0x00146403
+		// Token: 0x06002640 RID: 9792 RVA: 0x001481A7 File Offset: 0x001465A7
 		public void KeepDisplaying()
 		{
 			this.lastKeepDisplayTick = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06002649 RID: 9801 RVA: 0x00148018 File Offset: 0x00146418
+		// Token: 0x06002641 RID: 9793 RVA: 0x001481BC File Offset: 0x001465BC
 		private void AbsorbedDamage(DamageInfo dinfo)
 		{
 			SoundDefOf.EnergyShield_AbsorbDamage.PlayOneShot(new TargetInfo(base.Wearer.Position, base.Wearer.Map, false));
@@ -182,7 +182,7 @@ namespace RimWorld
 			this.KeepDisplaying();
 		}
 
-		// Token: 0x0600264A RID: 9802 RVA: 0x00148114 File Offset: 0x00146514
+		// Token: 0x06002642 RID: 9794 RVA: 0x001482B8 File Offset: 0x001466B8
 		private void Break()
 		{
 			SoundDefOf.EnergyShield_Broken.PlayOneShot(new TargetInfo(base.Wearer.Position, base.Wearer.Map, false));
@@ -196,7 +196,7 @@ namespace RimWorld
 			this.ticksToReset = this.StartingTicksToReset;
 		}
 
-		// Token: 0x0600264B RID: 9803 RVA: 0x001481F4 File Offset: 0x001465F4
+		// Token: 0x06002643 RID: 9795 RVA: 0x00148398 File Offset: 0x00146798
 		private void Reset()
 		{
 			if (base.Wearer.Spawned)
@@ -208,7 +208,7 @@ namespace RimWorld
 			this.energy = this.EnergyOnReset;
 		}
 
-		// Token: 0x0600264C RID: 9804 RVA: 0x00148274 File Offset: 0x00146674
+		// Token: 0x06002644 RID: 9796 RVA: 0x00148418 File Offset: 0x00146818
 		public override void DrawWornExtras()
 		{
 			if (this.ShieldState == ShieldState.Active && this.ShouldDisplay)
@@ -231,55 +231,55 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600264D RID: 9805 RVA: 0x00148360 File Offset: 0x00146760
+		// Token: 0x06002645 RID: 9797 RVA: 0x00148504 File Offset: 0x00146904
 		public override bool AllowVerbCast(IntVec3 root, Map map, LocalTargetInfo targ, Verb verb)
 		{
 			return !(verb is Verb_LaunchProjectile) || ReachabilityImmediate.CanReachImmediate(root, targ, map, PathEndMode.Touch, null);
 		}
 
-		// Token: 0x0400154B RID: 5451
+		// Token: 0x04001549 RID: 5449
 		private float energy = 0f;
 
-		// Token: 0x0400154C RID: 5452
+		// Token: 0x0400154A RID: 5450
 		private int ticksToReset = -1;
 
-		// Token: 0x0400154D RID: 5453
+		// Token: 0x0400154B RID: 5451
 		private int lastKeepDisplayTick = -9999;
 
-		// Token: 0x0400154E RID: 5454
+		// Token: 0x0400154C RID: 5452
 		private Vector3 impactAngleVect;
 
-		// Token: 0x0400154F RID: 5455
+		// Token: 0x0400154D RID: 5453
 		private int lastAbsorbDamageTick = -9999;
 
-		// Token: 0x04001550 RID: 5456
+		// Token: 0x0400154E RID: 5454
 		private const float MinDrawSize = 1.2f;
 
-		// Token: 0x04001551 RID: 5457
+		// Token: 0x0400154F RID: 5455
 		private const float MaxDrawSize = 1.55f;
 
-		// Token: 0x04001552 RID: 5458
+		// Token: 0x04001550 RID: 5456
 		private const float MaxDamagedJitterDist = 0.05f;
 
-		// Token: 0x04001553 RID: 5459
+		// Token: 0x04001551 RID: 5457
 		private const int JitterDurationTicks = 8;
 
-		// Token: 0x04001554 RID: 5460
+		// Token: 0x04001552 RID: 5458
 		private int StartingTicksToReset = 3200;
 
-		// Token: 0x04001555 RID: 5461
+		// Token: 0x04001553 RID: 5459
 		private float EnergyOnReset = 0.2f;
 
-		// Token: 0x04001556 RID: 5462
+		// Token: 0x04001554 RID: 5460
 		private float EnergyLossPerDamage = 0.033f;
 
-		// Token: 0x04001557 RID: 5463
+		// Token: 0x04001555 RID: 5461
 		private int KeepDisplayingTicks = 1000;
 
-		// Token: 0x04001558 RID: 5464
+		// Token: 0x04001556 RID: 5462
 		private float ApparelScorePerEnergyMax = 0.25f;
 
-		// Token: 0x04001559 RID: 5465
+		// Token: 0x04001557 RID: 5463
 		private static readonly Material BubbleMat = MaterialPool.MatFrom("Other/ShieldBubble", ShaderDatabase.Transparent);
 	}
 }

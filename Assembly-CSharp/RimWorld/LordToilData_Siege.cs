@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200019B RID: 411
 	public class LordToilData_Siege : LordToilData
 	{
-		// Token: 0x0600088C RID: 2188 RVA: 0x000516E4 File Offset: 0x0004FAE4
+		// Token: 0x0600088C RID: 2188 RVA: 0x000516D0 File Offset: 0x0004FAD0
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<IntVec3>(ref this.siegeCenter, "siegeCenter", default(IntVec3), false);

@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000F1C RID: 3868
 	public class Effecter
 	{
-		// Token: 0x06005CA2 RID: 23714 RVA: 0x002EF270 File Offset: 0x002ED670
+		// Token: 0x06005CCA RID: 23754 RVA: 0x002F129C File Offset: 0x002EF69C
 		public Effecter(EffecterDef def)
 		{
 			this.def = def;
@@ -16,7 +16,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005CA3 RID: 23715 RVA: 0x002EF2D4 File Offset: 0x002ED6D4
+		// Token: 0x06005CCB RID: 23755 RVA: 0x002F1300 File Offset: 0x002EF700
 		public void EffectTick(TargetInfo A, TargetInfo B)
 		{
 			for (int i = 0; i < this.children.Count; i++)
@@ -25,7 +25,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005CA4 RID: 23716 RVA: 0x002EF314 File Offset: 0x002ED714
+		// Token: 0x06005CCC RID: 23756 RVA: 0x002F1340 File Offset: 0x002EF740
 		public void Trigger(TargetInfo A, TargetInfo B)
 		{
 			for (int i = 0; i < this.children.Count; i++)
@@ -34,7 +34,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005CA5 RID: 23717 RVA: 0x002EF354 File Offset: 0x002ED754
+		// Token: 0x06005CCD RID: 23757 RVA: 0x002F1380 File Offset: 0x002EF780
 		public void Cleanup()
 		{
 			for (int i = 0; i < this.children.Count; i++)
@@ -43,10 +43,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003D82 RID: 15746
+		// Token: 0x04003D94 RID: 15764
 		public EffecterDef def;
 
-		// Token: 0x04003D83 RID: 15747
+		// Token: 0x04003D95 RID: 15765
 		public List<SubEffecter> children = new List<SubEffecter>();
 	}
 }

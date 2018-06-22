@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000102 RID: 258
 	public class JoyGiver_TakeDrug : JoyGiver_Ingest
 	{
-		// Token: 0x0600056C RID: 1388 RVA: 0x0003AF74 File Offset: 0x00039374
+		// Token: 0x0600056C RID: 1388 RVA: 0x0003AF60 File Offset: 0x00039360
 		protected override Thing BestIngestItem(Pawn pawn, Predicate<Thing> extraValidator)
 		{
 			Thing result;
@@ -60,7 +60,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600056D RID: 1389 RVA: 0x0003B138 File Offset: 0x00039538
+		// Token: 0x0600056D RID: 1389 RVA: 0x0003B124 File Offset: 0x00039524
 		public override float GetChance(Pawn pawn)
 		{
 			int num = 0;
@@ -89,7 +89,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600056E RID: 1390 RVA: 0x0003B1B0 File Offset: 0x000395B0
+		// Token: 0x0600056E RID: 1390 RVA: 0x0003B19C File Offset: 0x0003959C
 		protected override Job CreateIngestJob(Thing ingestible, Pawn pawn)
 		{
 			return DrugAIUtility.IngestAndTakeToInventoryJob(ingestible, pawn, 9999);

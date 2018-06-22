@@ -9,7 +9,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003AB RID: 939
 	public class SymbolResolver_EdgeThing : SymbolResolver
 	{
-		// Token: 0x0600104B RID: 4171 RVA: 0x00089280 File Offset: 0x00087680
+		// Token: 0x0600104B RID: 4171 RVA: 0x0008946C File Offset: 0x0008786C
 		public override bool CanResolve(ResolveParams rp)
 		{
 			bool result;
@@ -62,7 +62,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x0600104C RID: 4172 RVA: 0x000893B8 File Offset: 0x000877B8
+		// Token: 0x0600104C RID: 4172 RVA: 0x000895A4 File Offset: 0x000879A4
 		public override void Resolve(ResolveParams rp)
 		{
 			ThingDef thingDef = rp.singleThingDef ?? (from x in DefDatabase<ThingDef>.AllDefsListForReading
@@ -113,7 +113,7 @@ namespace RimWorld.BaseGen
 			BaseGen.symbolStack.Push("thing", rp2);
 		}
 
-		// Token: 0x0600104D RID: 4173 RVA: 0x00089594 File Offset: 0x00087994
+		// Token: 0x0600104D RID: 4173 RVA: 0x00089780 File Offset: 0x00087B80
 		private bool TryFindSpawnCell(CellRect rect, ThingDef thingDef, Rot4 rot, bool avoidOtherEdgeThings, out IntVec3 spawnCell)
 		{
 			bool result;
@@ -147,7 +147,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x0600104E RID: 4174 RVA: 0x00089640 File Offset: 0x00087A40
+		// Token: 0x0600104E RID: 4174 RVA: 0x0008982C File Offset: 0x00087C2C
 		private bool TryFindSpawnCell(CellRect rect, ThingDef thingDef, Rot4 rot, out IntVec3 spawnCell)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -200,7 +200,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x0600104F RID: 4175 RVA: 0x0008979C File Offset: 0x00087B9C
+		// Token: 0x0600104F RID: 4175 RVA: 0x00089988 File Offset: 0x00087D88
 		private int GetDistanceSquaredToExistingEdgeThing(IntVec3 cell, CellRect rect, ThingDef thingDef)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -225,7 +225,7 @@ namespace RimWorld.BaseGen
 			return num;
 		}
 
-		// Token: 0x04000A15 RID: 2581
+		// Token: 0x04000A17 RID: 2583
 		private List<int> randomRotations = new List<int>
 		{
 			0,
@@ -234,7 +234,7 @@ namespace RimWorld.BaseGen
 			3
 		};
 
-		// Token: 0x04000A16 RID: 2582
+		// Token: 0x04000A18 RID: 2584
 		private int MaxTriesToAvoidOtherEdgeThings = 4;
 	}
 }

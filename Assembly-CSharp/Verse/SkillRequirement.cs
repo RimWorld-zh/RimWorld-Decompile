@@ -4,11 +4,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000B62 RID: 2914
+	// Token: 0x02000B5E RID: 2910
 	public class SkillRequirement
 	{
-		// Token: 0x170009A4 RID: 2468
-		// (get) Token: 0x06003F92 RID: 16274 RVA: 0x00217DEC File Offset: 0x002161EC
+		// Token: 0x170009A6 RID: 2470
+		// (get) Token: 0x06003F93 RID: 16275 RVA: 0x00218454 File Offset: 0x00216854
 		public string Summary
 		{
 			get
@@ -26,20 +26,20 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F93 RID: 16275 RVA: 0x00217E38 File Offset: 0x00216238
+		// Token: 0x06003F94 RID: 16276 RVA: 0x002184A0 File Offset: 0x002168A0
 		public bool PawnSatisfies(Pawn pawn)
 		{
 			return pawn.skills != null && pawn.skills.GetSkill(this.skill).Level >= this.minLevel;
 		}
 
-		// Token: 0x06003F94 RID: 16276 RVA: 0x00217E80 File Offset: 0x00216280
+		// Token: 0x06003F95 RID: 16277 RVA: 0x002184E8 File Offset: 0x002168E8
 		public void LoadDataFromXmlCustom(XmlNode xmlRoot)
 		{
 			DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "skill", xmlRoot.Name);
 			this.minLevel = (int)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(int));
 		}
 
-		// Token: 0x06003F95 RID: 16277 RVA: 0x00217EBC File Offset: 0x002162BC
+		// Token: 0x06003F96 RID: 16278 RVA: 0x00218524 File Offset: 0x00216924
 		public override string ToString()
 		{
 			string result;
@@ -54,10 +54,10 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04002A77 RID: 10871
+		// Token: 0x04002A78 RID: 10872
 		public SkillDef skill;
 
-		// Token: 0x04002A78 RID: 10872
+		// Token: 0x04002A79 RID: 10873
 		public int minLevel;
 	}
 }

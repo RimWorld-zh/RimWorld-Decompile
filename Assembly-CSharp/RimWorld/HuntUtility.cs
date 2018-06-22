@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007D2 RID: 2002
+	// Token: 0x020007CE RID: 1998
 	public static class HuntUtility
 	{
-		// Token: 0x06002C5C RID: 11356 RVA: 0x001761C0 File Offset: 0x001745C0
+		// Token: 0x06002C55 RID: 11349 RVA: 0x00176398 File Offset: 0x00174798
 		public static void ShowDesignationWarnings(Pawn pawn)
 		{
 			float baseManhunterOnDamageChance = PawnUtility.GetBaseManhunterOnDamageChance(pawn.kindDef);

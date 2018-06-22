@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000647 RID: 1607
+	// Token: 0x02000643 RID: 1603
 	public static class PlayerPawnsArriveMethodExtension
 	{
-		// Token: 0x0600214C RID: 8524 RVA: 0x0011A88C File Offset: 0x00118C8C
+		// Token: 0x06002144 RID: 8516 RVA: 0x0011A98C File Offset: 0x00118D8C
 		public static string ToStringHuman(this PlayerPawnsArriveMethod method)
 		{
 			string result;

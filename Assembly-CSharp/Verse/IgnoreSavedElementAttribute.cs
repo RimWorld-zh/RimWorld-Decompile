@@ -2,17 +2,17 @@
 
 namespace Verse
 {
-	// Token: 0x02000E4A RID: 3658
+	// Token: 0x02000E49 RID: 3657
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
 	public class IgnoreSavedElementAttribute : Attribute
 	{
-		// Token: 0x06005628 RID: 22056 RVA: 0x002C5E75 File Offset: 0x002C4275
+		// Token: 0x06005648 RID: 22088 RVA: 0x002C7A65 File Offset: 0x002C5E65
 		public IgnoreSavedElementAttribute(string elementToIgnore)
 		{
 			this.elementToIgnore = elementToIgnore;
 		}
 
-		// Token: 0x040038E7 RID: 14567
+		// Token: 0x040038F6 RID: 14582
 		public string elementToIgnore;
 	}
 }

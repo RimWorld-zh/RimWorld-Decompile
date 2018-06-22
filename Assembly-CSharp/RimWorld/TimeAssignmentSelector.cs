@@ -5,10 +5,10 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020008A7 RID: 2215
+	// Token: 0x020008A3 RID: 2211
 	public static class TimeAssignmentSelector
 	{
-		// Token: 0x060032A1 RID: 12961 RVA: 0x001B40F8 File Offset: 0x001B24F8
+		// Token: 0x0600329A RID: 12954 RVA: 0x001B42E0 File Offset: 0x001B26E0
 		public static void DrawTimeAssignmentSelectorGrid(Rect rect)
 		{
 			rect.yMax -= 2f;
@@ -25,7 +25,7 @@ namespace RimWorld
 			TimeAssignmentSelector.DrawTimeAssignmentSelectorFor(rect2, TimeAssignmentDefOf.Sleep);
 		}
 
-		// Token: 0x060032A2 RID: 12962 RVA: 0x001B41C8 File Offset: 0x001B25C8
+		// Token: 0x0600329B RID: 12955 RVA: 0x001B43B0 File Offset: 0x001B27B0
 		private static void DrawTimeAssignmentSelectorFor(Rect rect, TimeAssignmentDef ta)
 		{
 			rect = rect.ContractedBy(2f);
@@ -51,7 +51,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04001B31 RID: 6961
+		// Token: 0x04001B2F RID: 6959
 		public static TimeAssignmentDef selectedAssignment = TimeAssignmentDefOf.Work;
 	}
 }

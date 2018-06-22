@@ -5,10 +5,10 @@ using System.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000EE8 RID: 3816
+	// Token: 0x02000EE7 RID: 3815
 	public class DefMap<D, V> : IExposable, IEnumerable<KeyValuePair<D, V>>, IEnumerable where D : Def, new() where V : new()
 	{
-		// Token: 0x06005A7B RID: 23163 RVA: 0x002E5814 File Offset: 0x002E3C14
+		// Token: 0x06005A9C RID: 23196 RVA: 0x002E7628 File Offset: 0x002E5A28
 		public DefMap()
 		{
 			int defCount = DefDatabase<D>.DefCount;
@@ -30,8 +30,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E4F RID: 3663
-		// (get) Token: 0x06005A7C RID: 23164 RVA: 0x002E58B0 File Offset: 0x002E3CB0
+		// Token: 0x17000E52 RID: 3666
+		// (get) Token: 0x06005A9D RID: 23197 RVA: 0x002E76C4 File Offset: 0x002E5AC4
 		public int Count
 		{
 			get
@@ -40,7 +40,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E50 RID: 3664
+		// Token: 0x17000E53 RID: 3667
 		public V this[D def]
 		{
 			get
@@ -53,7 +53,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E51 RID: 3665
+		// Token: 0x17000E54 RID: 3668
 		public V this[int index]
 		{
 			get
@@ -66,7 +66,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005A81 RID: 23169 RVA: 0x002E594C File Offset: 0x002E3D4C
+		// Token: 0x06005AA2 RID: 23202 RVA: 0x002E7760 File Offset: 0x002E5B60
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<V>(ref this.values, "vals", LookMode.Undefined, new object[0]);
@@ -84,7 +84,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005A82 RID: 23170 RVA: 0x002E59D8 File Offset: 0x002E3DD8
+		// Token: 0x06005AA3 RID: 23203 RVA: 0x002E77EC File Offset: 0x002E5BEC
 		public void SetAll(V val)
 		{
 			for (int i = 0; i < this.values.Count; i++)
@@ -93,20 +93,20 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005A83 RID: 23171 RVA: 0x002E5A14 File Offset: 0x002E3E14
+		// Token: 0x06005AA4 RID: 23204 RVA: 0x002E7828 File Offset: 0x002E5C28
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return this.GetEnumerator();
 		}
 
-		// Token: 0x06005A84 RID: 23172 RVA: 0x002E5A30 File Offset: 0x002E3E30
+		// Token: 0x06005AA5 RID: 23205 RVA: 0x002E7844 File Offset: 0x002E5C44
 		public IEnumerator<KeyValuePair<D, V>> GetEnumerator()
 		{
 			return (from d in DefDatabase<D>.AllDefsListForReading
 			select new KeyValuePair<D, V>(d, this[d])).GetEnumerator();
 		}
 
-		// Token: 0x04003C87 RID: 15495
+		// Token: 0x04003C97 RID: 15511
 		private List<V> values = null;
 	}
 }

@@ -2,16 +2,16 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000506 RID: 1286
+	// Token: 0x02000502 RID: 1282
 	public enum RoomSizeCategory : byte
 	{
-		// Token: 0x04000DAD RID: 3501
+		// Token: 0x04000DAA RID: 3498
 		VeryCramped,
-		// Token: 0x04000DAE RID: 3502
+		// Token: 0x04000DAB RID: 3499
 		Cramped,
-		// Token: 0x04000DAF RID: 3503
+		// Token: 0x04000DAC RID: 3500
 		Normal,
-		// Token: 0x04000DB0 RID: 3504
+		// Token: 0x04000DAD RID: 3501
 		Spacious
 	}
 }

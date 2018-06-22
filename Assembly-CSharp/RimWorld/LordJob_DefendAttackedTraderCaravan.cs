@@ -8,18 +8,18 @@ namespace RimWorld
 	// Token: 0x0200016C RID: 364
 	public class LordJob_DefendAttackedTraderCaravan : LordJob
 	{
-		// Token: 0x06000776 RID: 1910 RVA: 0x0004A3D5 File Offset: 0x000487D5
+		// Token: 0x06000776 RID: 1910 RVA: 0x0004A3C1 File Offset: 0x000487C1
 		public LordJob_DefendAttackedTraderCaravan()
 		{
 		}
 
-		// Token: 0x06000777 RID: 1911 RVA: 0x0004A3DE File Offset: 0x000487DE
+		// Token: 0x06000777 RID: 1911 RVA: 0x0004A3CA File Offset: 0x000487CA
 		public LordJob_DefendAttackedTraderCaravan(IntVec3 defendSpot)
 		{
 			this.defendSpot = defendSpot;
 		}
 
-		// Token: 0x06000778 RID: 1912 RVA: 0x0004A3F0 File Offset: 0x000487F0
+		// Token: 0x06000778 RID: 1912 RVA: 0x0004A3DC File Offset: 0x000487DC
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -34,7 +34,7 @@ namespace RimWorld
 			return stateGraph;
 		}
 
-		// Token: 0x06000779 RID: 1913 RVA: 0x0004A45C File Offset: 0x0004885C
+		// Token: 0x06000779 RID: 1913 RVA: 0x0004A448 File Offset: 0x00048848
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<IntVec3>(ref this.defendSpot, "defendSpot", default(IntVec3), false);

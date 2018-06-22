@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000EBA RID: 3770
+	// Token: 0x02000EB9 RID: 3769
 	public struct LabelValue
 	{
-		// Token: 0x06005916 RID: 22806 RVA: 0x002DA939 File Offset: 0x002D8D39
+		// Token: 0x06005937 RID: 22839 RVA: 0x002DC585 File Offset: 0x002DA985
 		public LabelValue(string label, string value)
 		{
 			this = default(LabelValue);
@@ -13,8 +13,8 @@ namespace Verse
 			this.value = value;
 		}
 
-		// Token: 0x17000E01 RID: 3585
-		// (get) Token: 0x06005917 RID: 22807 RVA: 0x002DA954 File Offset: 0x002D8D54
+		// Token: 0x17000E04 RID: 3588
+		// (get) Token: 0x06005938 RID: 22840 RVA: 0x002DC5A0 File Offset: 0x002DA9A0
 		public string Label
 		{
 			get
@@ -23,8 +23,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E02 RID: 3586
-		// (get) Token: 0x06005918 RID: 22808 RVA: 0x002DA970 File Offset: 0x002D8D70
+		// Token: 0x17000E05 RID: 3589
+		// (get) Token: 0x06005939 RID: 22841 RVA: 0x002DC5BC File Offset: 0x002DA9BC
 		public string Value
 		{
 			get
@@ -33,16 +33,16 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005919 RID: 22809 RVA: 0x002DA98C File Offset: 0x002D8D8C
+		// Token: 0x0600593A RID: 22842 RVA: 0x002DC5D8 File Offset: 0x002DA9D8
 		public override string ToString()
 		{
 			return this.label;
 		}
 
-		// Token: 0x04003B67 RID: 15207
+		// Token: 0x04003B77 RID: 15223
 		private string label;
 
-		// Token: 0x04003B68 RID: 15208
+		// Token: 0x04003B78 RID: 15224
 		private string value;
 	}
 }

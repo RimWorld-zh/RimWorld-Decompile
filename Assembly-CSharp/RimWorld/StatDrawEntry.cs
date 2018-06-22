@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000821 RID: 2081
+	// Token: 0x0200081D RID: 2077
 	public class StatDrawEntry
 	{
-		// Token: 0x06002E80 RID: 11904 RVA: 0x0018CFF4 File Offset: 0x0018B3F4
+		// Token: 0x06002E79 RID: 11897 RVA: 0x0018D1D4 File Offset: 0x0018B5D4
 		public StatDrawEntry(StatCategoryDef category, StatDef stat, float value, StatRequest optionalReq, ToStringNumberSense numberSense = ToStringNumberSense.Undefined)
 		{
 			this.category = category;
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E81 RID: 11905 RVA: 0x0018D070 File Offset: 0x0018B470
+		// Token: 0x06002E7A RID: 11898 RVA: 0x0018D250 File Offset: 0x0018B650
 		public StatDrawEntry(StatCategoryDef category, string label, string valueString, int displayPriorityWithinCategory = 0, string overrideReportText = "")
 		{
 			this.category = category;
@@ -42,7 +42,7 @@ namespace RimWorld
 			this.overrideReportText = overrideReportText;
 		}
 
-		// Token: 0x06002E82 RID: 11906 RVA: 0x0018D0D0 File Offset: 0x0018B4D0
+		// Token: 0x06002E7B RID: 11899 RVA: 0x0018D2B0 File Offset: 0x0018B6B0
 		public StatDrawEntry(StatCategoryDef category, StatDef stat)
 		{
 			this.category = category;
@@ -54,8 +54,8 @@ namespace RimWorld
 			this.numberSense = ToStringNumberSense.Undefined;
 		}
 
-		// Token: 0x17000759 RID: 1881
-		// (get) Token: 0x06002E83 RID: 11907 RVA: 0x0018D12C File Offset: 0x0018B52C
+		// Token: 0x1700075A RID: 1882
+		// (get) Token: 0x06002E7C RID: 11900 RVA: 0x0018D30C File Offset: 0x0018B70C
 		public bool ShouldDisplay
 		{
 			get
@@ -64,8 +64,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700075A RID: 1882
-		// (get) Token: 0x06002E84 RID: 11908 RVA: 0x0018D16C File Offset: 0x0018B56C
+		// Token: 0x1700075B RID: 1883
+		// (get) Token: 0x06002E7D RID: 11901 RVA: 0x0018D34C File Offset: 0x0018B74C
 		public string LabelCap
 		{
 			get
@@ -83,8 +83,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700075B RID: 1883
-		// (get) Token: 0x06002E85 RID: 11909 RVA: 0x0018D1A8 File Offset: 0x0018B5A8
+		// Token: 0x1700075C RID: 1884
+		// (get) Token: 0x06002E7E RID: 11902 RVA: 0x0018D388 File Offset: 0x0018B788
 		public string ValueString
 		{
 			get
@@ -106,8 +106,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700075C RID: 1884
-		// (get) Token: 0x06002E86 RID: 11910 RVA: 0x0018D21C File Offset: 0x0018B61C
+		// Token: 0x1700075D RID: 1885
+		// (get) Token: 0x06002E7F RID: 11903 RVA: 0x0018D3FC File Offset: 0x0018B7FC
 		public int DisplayPriorityWithinCategory
 		{
 			get
@@ -125,7 +125,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E87 RID: 11911 RVA: 0x0018D254 File Offset: 0x0018B654
+		// Token: 0x06002E80 RID: 11904 RVA: 0x0018D434 File Offset: 0x0018B834
 		public string GetExplanationText(StatRequest optionalReq)
 		{
 			string result;
@@ -153,7 +153,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002E88 RID: 11912 RVA: 0x0018D310 File Offset: 0x0018B710
+		// Token: 0x06002E81 RID: 11905 RVA: 0x0018D4F0 File Offset: 0x0018B8F0
 		public float Draw(float x, float y, float width, bool selected, Action clickedCallback, Action mousedOverCallback, Vector2 scrollPosition, Rect scrollOutRect)
 		{
 			float num = width * 0.45f;
@@ -192,7 +192,7 @@ namespace RimWorld
 			return rect.height;
 		}
 
-		// Token: 0x06002E89 RID: 11913 RVA: 0x0018D458 File Offset: 0x0018B858
+		// Token: 0x06002E82 RID: 11906 RVA: 0x0018D638 File Offset: 0x0018BA38
 		public override string ToString()
 		{
 			return string.Concat(new string[]
@@ -205,34 +205,34 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x040018E5 RID: 6373
+		// Token: 0x040018E3 RID: 6371
 		public StatCategoryDef category;
 
-		// Token: 0x040018E6 RID: 6374
+		// Token: 0x040018E4 RID: 6372
 		private int displayOrderWithinCategory = 0;
 
-		// Token: 0x040018E7 RID: 6375
+		// Token: 0x040018E5 RID: 6373
 		public StatDef stat;
 
-		// Token: 0x040018E8 RID: 6376
+		// Token: 0x040018E6 RID: 6374
 		private float value;
 
-		// Token: 0x040018E9 RID: 6377
+		// Token: 0x040018E7 RID: 6375
 		public StatRequest optionalReq;
 
-		// Token: 0x040018EA RID: 6378
+		// Token: 0x040018E8 RID: 6376
 		public bool hasOptionalReq;
 
-		// Token: 0x040018EB RID: 6379
+		// Token: 0x040018E9 RID: 6377
 		private string labelInt;
 
-		// Token: 0x040018EC RID: 6380
+		// Token: 0x040018EA RID: 6378
 		private string valueStringInt;
 
-		// Token: 0x040018ED RID: 6381
+		// Token: 0x040018EB RID: 6379
 		public string overrideReportText = null;
 
-		// Token: 0x040018EE RID: 6382
+		// Token: 0x040018EC RID: 6380
 		private ToStringNumberSense numberSense;
 	}
 }

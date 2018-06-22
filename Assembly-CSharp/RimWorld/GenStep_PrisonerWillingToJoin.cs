@@ -9,7 +9,7 @@ namespace RimWorld
 	public class GenStep_PrisonerWillingToJoin : GenStep_Scatterer
 	{
 		// Token: 0x17000263 RID: 611
-		// (get) Token: 0x060011DE RID: 4574 RVA: 0x0009B038 File Offset: 0x00099438
+		// (get) Token: 0x060011DE RID: 4574 RVA: 0x0009B21C File Offset: 0x0009961C
 		public override int SeedPart
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011DF RID: 4575 RVA: 0x0009B054 File Offset: 0x00099454
+		// Token: 0x060011DF RID: 4575 RVA: 0x0009B238 File Offset: 0x00099638
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			bool result;
@@ -50,7 +50,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060011E0 RID: 4576 RVA: 0x0009B10C File Offset: 0x0009950C
+		// Token: 0x060011E0 RID: 4576 RVA: 0x0009B2F0 File Offset: 0x000996F0
 		protected override void ScatterAt(IntVec3 loc, Map map, int count = 1)
 		{
 			Faction faction;
@@ -94,7 +94,7 @@ namespace RimWorld
 			MapGenerator.SetVar<CellRect>("RectOfInterest", cellRect);
 		}
 
-		// Token: 0x04000ADF RID: 2783
+		// Token: 0x04000AE0 RID: 2784
 		private const int Size = 8;
 	}
 }

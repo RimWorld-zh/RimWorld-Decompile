@@ -2,12 +2,12 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000703 RID: 1795
+	// Token: 0x020006FF RID: 1791
 	public enum ArtGenerationContext : byte
 	{
-		// Token: 0x040015B8 RID: 5560
+		// Token: 0x040015B6 RID: 5558
 		Outsider,
-		// Token: 0x040015B9 RID: 5561
+		// Token: 0x040015B7 RID: 5559
 		Colony
 	}
 }

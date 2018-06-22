@@ -5,18 +5,18 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200069E RID: 1694
+	// Token: 0x0200069A RID: 1690
 	[StaticConstructorOnStartup]
 	public class Building_Battery : Building
 	{
-		// Token: 0x060023DC RID: 9180 RVA: 0x00133FE2 File Offset: 0x001323E2
+		// Token: 0x060023D4 RID: 9172 RVA: 0x0013412A File Offset: 0x0013252A
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.ticksToExplode, "ticksToExplode", 0, false);
 		}
 
-		// Token: 0x060023DD RID: 9181 RVA: 0x00134000 File Offset: 0x00132400
+		// Token: 0x060023D5 RID: 9173 RVA: 0x00134148 File Offset: 0x00132548
 		public override void Draw()
 		{
 			base.Draw();
@@ -38,7 +38,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023DE RID: 9182 RVA: 0x001340D4 File Offset: 0x001324D4
+		// Token: 0x060023D6 RID: 9174 RVA: 0x0013421C File Offset: 0x0013261C
 		public override void Tick()
 		{
 			base.Tick();
@@ -63,7 +63,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023DF RID: 9183 RVA: 0x00134194 File Offset: 0x00132594
+		// Token: 0x060023D7 RID: 9175 RVA: 0x001342DC File Offset: 0x001326DC
 		public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
 		{
 			base.PostApplyDamage(dinfo, totalDamageDealt);
@@ -74,35 +74,35 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023E0 RID: 9184 RVA: 0x00134210 File Offset: 0x00132610
+		// Token: 0x060023D8 RID: 9176 RVA: 0x00134358 File Offset: 0x00132758
 		private void StartWickSustainer()
 		{
 			SoundInfo info = SoundInfo.InMap(this, MaintenanceType.PerTick);
 			this.wickSustainer = SoundDefOf.HissSmall.TrySpawnSustainer(info);
 		}
 
-		// Token: 0x04001403 RID: 5123
+		// Token: 0x04001401 RID: 5121
 		private int ticksToExplode = 0;
 
-		// Token: 0x04001404 RID: 5124
+		// Token: 0x04001402 RID: 5122
 		private Sustainer wickSustainer = null;
 
-		// Token: 0x04001405 RID: 5125
+		// Token: 0x04001403 RID: 5123
 		private static readonly Vector2 BarSize = new Vector2(1.3f, 0.4f);
 
-		// Token: 0x04001406 RID: 5126
+		// Token: 0x04001404 RID: 5124
 		private const float MinEnergyToExplode = 500f;
 
-		// Token: 0x04001407 RID: 5127
+		// Token: 0x04001405 RID: 5125
 		private const float EnergyToLoseWhenExplode = 400f;
 
-		// Token: 0x04001408 RID: 5128
+		// Token: 0x04001406 RID: 5126
 		private const float ExplodeChancePerDamage = 0.05f;
 
-		// Token: 0x04001409 RID: 5129
+		// Token: 0x04001407 RID: 5127
 		private static readonly Material BatteryBarFilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.9f, 0.85f, 0.2f), false);
 
-		// Token: 0x0400140A RID: 5130
+		// Token: 0x04001408 RID: 5128
 		private static readonly Material BatteryBarUnfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.3f, 0.3f, 0.3f), false);
 	}
 }

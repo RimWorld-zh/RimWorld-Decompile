@@ -4,16 +4,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000460 RID: 1120
+	// Token: 0x0200045C RID: 1116
 	public class PawnFootprintMaker
 	{
-		// Token: 0x060013A0 RID: 5024 RVA: 0x000A936B File Offset: 0x000A776B
+		// Token: 0x06001397 RID: 5015 RVA: 0x000A937B File Offset: 0x000A777B
 		public PawnFootprintMaker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x060013A1 RID: 5025 RVA: 0x000A9384 File Offset: 0x000A7784
+		// Token: 0x06001398 RID: 5016 RVA: 0x000A9394 File Offset: 0x000A7794
 		public void FootprintMakerTick()
 		{
 			if (!this.pawn.RaceProps.makesFootprints)
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060013A2 RID: 5026 RVA: 0x000A940C File Offset: 0x000A780C
+		// Token: 0x06001399 RID: 5017 RVA: 0x000A941C File Offset: 0x000A781C
 		private void TryPlaceFootprint()
 		{
 			Vector3 drawPos = this.pawn.Drawer.DrawPos;
@@ -59,25 +59,25 @@ namespace RimWorld
 			this.lastFootprintRight = !this.lastFootprintRight;
 		}
 
-		// Token: 0x04000BE5 RID: 3045
+		// Token: 0x04000BE2 RID: 3042
 		private Pawn pawn;
 
-		// Token: 0x04000BE6 RID: 3046
+		// Token: 0x04000BE3 RID: 3043
 		private Vector3 lastFootprintPlacePos;
 
-		// Token: 0x04000BE7 RID: 3047
+		// Token: 0x04000BE4 RID: 3044
 		private bool lastFootprintRight = false;
 
-		// Token: 0x04000BE8 RID: 3048
+		// Token: 0x04000BE5 RID: 3045
 		private const float FootprintIntervalDist = 0.632f;
 
-		// Token: 0x04000BE9 RID: 3049
+		// Token: 0x04000BE6 RID: 3046
 		private static readonly Vector3 FootprintOffset = new Vector3(0f, 0f, -0.3f);
 
-		// Token: 0x04000BEA RID: 3050
+		// Token: 0x04000BE7 RID: 3047
 		private const float LeftRightOffsetDist = 0.17f;
 
-		// Token: 0x04000BEB RID: 3051
+		// Token: 0x04000BE8 RID: 3048
 		private const float FootprintSplashSize = 2f;
 	}
 }

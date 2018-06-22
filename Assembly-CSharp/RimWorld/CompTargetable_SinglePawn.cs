@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000760 RID: 1888
+	// Token: 0x0200075C RID: 1884
 	public class CompTargetable_SinglePawn : CompTargetable
 	{
-		// Token: 0x1700066F RID: 1647
-		// (get) Token: 0x060029B1 RID: 10673 RVA: 0x00161E2C File Offset: 0x0016022C
+		// Token: 0x17000670 RID: 1648
+		// (get) Token: 0x060029AA RID: 10666 RVA: 0x00162004 File Offset: 0x00160404
 		protected override bool PlayerChoosesTarget
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060029B2 RID: 10674 RVA: 0x00161E44 File Offset: 0x00160244
+		// Token: 0x060029AB RID: 10667 RVA: 0x0016201C File Offset: 0x0016041C
 		protected override TargetingParameters GetTargetingParameters()
 		{
 			return new TargetingParameters
@@ -28,7 +28,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060029B3 RID: 10675 RVA: 0x00161E80 File Offset: 0x00160280
+		// Token: 0x060029AC RID: 10668 RVA: 0x00162058 File Offset: 0x00160458
 		public override IEnumerable<Thing> GetTargets(Thing targetChosenByPlayer = null)
 		{
 			yield return targetChosenByPlayer;

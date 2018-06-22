@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000842 RID: 2114
+	// Token: 0x0200083E RID: 2110
 	public class GlobalControls
 	{
-		// Token: 0x06002FCF RID: 12239 RVA: 0x0019E3E8 File Offset: 0x0019C7E8
+		// Token: 0x06002FC8 RID: 12232 RVA: 0x0019E5C8 File Offset: 0x0019C9C8
 		public void GlobalControlsOnGUI()
 		{
 			if (Event.current.type != EventType.Layout)
@@ -73,7 +73,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FD0 RID: 12240 RVA: 0x0019E678 File Offset: 0x0019CA78
+		// Token: 0x06002FC9 RID: 12233 RVA: 0x0019E858 File Offset: 0x0019CC58
 		private static string TemperatureString()
 		{
 			IntVec3 intVec = UI.MouseCell();
@@ -137,7 +137,7 @@ namespace RimWorld
 			return str + " " + celsiusTemp.ToStringTemperature("F0");
 		}
 
-		// Token: 0x06002FD1 RID: 12241 RVA: 0x0019E8CC File Offset: 0x0019CCCC
+		// Token: 0x06002FCA RID: 12234 RVA: 0x0019EAAC File Offset: 0x0019CEAC
 		private static void DoCountdownTimer(Rect rect, TimedForcedExit timedForcedExit)
 		{
 			string forceExitAndRemoveMapCountdownTimeLeftString = timedForcedExit.ForceExitAndRemoveMapCountdownTimeLeftString;
@@ -158,10 +158,10 @@ namespace RimWorld
 			Widgets.Label(rect2, text);
 		}
 
-		// Token: 0x040019D5 RID: 6613
+		// Token: 0x040019D3 RID: 6611
 		public const float Width = 200f;
 
-		// Token: 0x040019D6 RID: 6614
+		// Token: 0x040019D4 RID: 6612
 		private WidgetRow rowVisibility = new WidgetRow();
 	}
 }

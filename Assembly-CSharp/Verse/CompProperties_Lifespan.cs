@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000B13 RID: 2835
+	// Token: 0x02000B0F RID: 2831
 	public class CompProperties_Lifespan : CompProperties
 	{
-		// Token: 0x06003EA3 RID: 16035 RVA: 0x0020F5DA File Offset: 0x0020D9DA
+		// Token: 0x06003E9F RID: 16031 RVA: 0x0020F916 File Offset: 0x0020DD16
 		public CompProperties_Lifespan()
 		{
 			this.compClass = typeof(CompLifespan);
 		}
 
-		// Token: 0x040027F3 RID: 10227
+		// Token: 0x040027EF RID: 10223
 		public int lifespanTicks = 100;
 	}
 }

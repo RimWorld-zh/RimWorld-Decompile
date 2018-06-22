@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000764 RID: 1892
+	// Token: 0x02000760 RID: 1888
 	public class CompUseEffect_FinishRandomResearchProject : CompUseEffect
 	{
-		// Token: 0x060029C1 RID: 10689 RVA: 0x00162050 File Offset: 0x00160450
+		// Token: 0x060029BA RID: 10682 RVA: 0x00162228 File Offset: 0x00160628
 		public override void DoEffect(Pawn usedBy)
 		{
 			base.DoEffect(usedBy);
@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060029C2 RID: 10690 RVA: 0x001620BC File Offset: 0x001604BC
+		// Token: 0x060029BB RID: 10683 RVA: 0x00162294 File Offset: 0x00160694
 		private IEnumerable<ResearchProjectDef> GetAvailableResearchProjects()
 		{
 			List<ResearchProjectDef> researchProjects = DefDatabase<ResearchProjectDef>.AllDefsListForReading;
@@ -40,7 +40,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060029C3 RID: 10691 RVA: 0x001620DF File Offset: 0x001604DF
+		// Token: 0x060029BC RID: 10684 RVA: 0x001622B7 File Offset: 0x001606B7
 		private void FinishInstantly(ResearchProjectDef proj)
 		{
 			Find.ResearchManager.InstantFinish(proj, false);

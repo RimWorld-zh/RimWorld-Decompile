@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008E0 RID: 2272
+	// Token: 0x020008DC RID: 2268
 	public static class CaravanItemsTabUtility
 	{
-		// Token: 0x0600340D RID: 13325 RVA: 0x001BCE7C File Offset: 0x001BB27C
+		// Token: 0x06003406 RID: 13318 RVA: 0x001BD064 File Offset: 0x001BB464
 		public static void DoRows(Vector2 size, List<TransferableImmutable> things, Caravan caravan, ref Vector2 scrollPosition, ref float scrollViewHeight)
 		{
 			Text.Font = GameFont.Small;
@@ -35,7 +35,7 @@ namespace RimWorld.Planet
 			Widgets.EndScrollView();
 		}
 
-		// Token: 0x0600340E RID: 13326 RVA: 0x001BCF74 File Offset: 0x001BB374
+		// Token: 0x06003407 RID: 13319 RVA: 0x001BD15C File Offset: 0x001BB55C
 		public static Vector2 GetSize(List<TransferableImmutable> things, float paneTopY, bool doNeeds = true)
 		{
 			float num = 300f;
@@ -47,7 +47,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x0600340F RID: 13327 RVA: 0x001BCFCC File Offset: 0x001BB3CC
+		// Token: 0x06003408 RID: 13320 RVA: 0x001BD1B4 File Offset: 0x001BB5B4
 		private static void DoRow(ref float curY, Rect viewRect, Rect scrollOutRect, Vector2 scrollPosition, TransferableImmutable thing, Caravan caravan)
 		{
 			float num = scrollPosition.y - 30f;
@@ -59,7 +59,7 @@ namespace RimWorld.Planet
 			curY += 30f;
 		}
 
-		// Token: 0x06003410 RID: 13328 RVA: 0x001BD034 File Offset: 0x001BB434
+		// Token: 0x06003409 RID: 13321 RVA: 0x001BD21C File Offset: 0x001BB61C
 		private static void DoRow(Rect rect, TransferableImmutable thing, Caravan caravan)
 		{
 			GUI.BeginGroup(rect);
@@ -89,10 +89,10 @@ namespace RimWorld.Planet
 			GUI.EndGroup();
 		}
 
-		// Token: 0x04001C12 RID: 7186
+		// Token: 0x04001C10 RID: 7184
 		private const float RowHeight = 30f;
 
-		// Token: 0x04001C13 RID: 7187
+		// Token: 0x04001C11 RID: 7185
 		private const float LabelColumnWidth = 300f;
 	}
 }

@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000355 RID: 853
 	public class IncidentWorker_QuestPrisonerRescue : IncidentWorker
 	{
-		// Token: 0x06000EC1 RID: 3777 RVA: 0x0007C950 File Offset: 0x0007AD50
+		// Token: 0x06000EC1 RID: 3777 RVA: 0x0007CB38 File Offset: 0x0007AF38
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			int num;
@@ -16,7 +16,7 @@ namespace RimWorld
 			return base.CanFireNowSub(parms) && Find.AnyPlayerHomeMap != null && this.TryFindTile(out num) && SiteMakerHelper.TryFindSiteParams_SingleSitePart(SiteCoreDefOf.PrisonerWillingToJoin, IncidentWorker_QuestPrisonerRescue.PrisonerRescueQuestThreatTag, out sitePartDef, out faction, null, true, null);
 		}
 
-		// Token: 0x06000EC2 RID: 3778 RVA: 0x0007C9C4 File Offset: 0x0007ADC4
+		// Token: 0x06000EC2 RID: 3778 RVA: 0x0007CBAC File Offset: 0x0007AFAC
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			int tile;
@@ -50,16 +50,16 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000EC3 RID: 3779 RVA: 0x0007CAA0 File Offset: 0x0007AEA0
+		// Token: 0x06000EC3 RID: 3779 RVA: 0x0007CC88 File Offset: 0x0007B088
 		private bool TryFindTile(out int tile)
 		{
 			return TileFinder.TryFindNewSiteTile(out tile, 2, 18, false, false, -1);
 		}
 
-		// Token: 0x06000EC4 RID: 3780 RVA: 0x0007CAC4 File Offset: 0x0007AEC4
+		// Token: 0x06000EC4 RID: 3780 RVA: 0x0007CCAC File Offset: 0x0007B0AC
 		private void GetLetterText(Pawn prisoner, Faction siteFaction, int days, out string letter, out string label)
 		{
-			letter = string.Format(this.def.letterText.AdjustedFor(prisoner), siteFaction.Name, prisoner.ageTracker.AgeBiologicalYears, prisoner.story.Title).CapitalizeFirst();
+			letter = string.Format(this.def.letterText.AdjustedFor(prisoner, "PAWN"), siteFaction.Name, prisoner.ageTracker.AgeBiologicalYears, prisoner.story.Title).CapitalizeFirst();
 			if (PawnUtility.EverBeenColonistOrTameAnimal(prisoner))
 			{
 				letter = letter + "\n\n" + "PawnWasFormerlyColonist".Translate(new object[]
@@ -93,16 +93,16 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x0400090C RID: 2316
+		// Token: 0x0400090E RID: 2318
 		private const int MinDistance = 2;
 
-		// Token: 0x0400090D RID: 2317
+		// Token: 0x0400090F RID: 2319
 		private const int MaxDistance = 18;
 
-		// Token: 0x0400090E RID: 2318
+		// Token: 0x04000910 RID: 2320
 		private static readonly string PrisonerRescueQuestThreatTag = "PrisonerRescueQuestThreat";
 
-		// Token: 0x0400090F RID: 2319
+		// Token: 0x04000911 RID: 2321
 		private static readonly IntRange TimeoutDaysRange = new IntRange(15, 45);
 	}
 }

@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x02000155 RID: 341
 	public class WorkGiver_PlantsCut : WorkGiver_Scanner
 	{
-		// Token: 0x06000703 RID: 1795 RVA: 0x00047780 File Offset: 0x00045B80
+		// Token: 0x06000703 RID: 1795 RVA: 0x0004776C File Offset: 0x00045B6C
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Deadly;
 		}
 
-		// Token: 0x06000704 RID: 1796 RVA: 0x00047798 File Offset: 0x00045B98
+		// Token: 0x06000704 RID: 1796 RVA: 0x00047784 File Offset: 0x00045B84
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			List<Designation> desList = pawn.Map.designationManager.allDesignations;
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700010E RID: 270
-		// (get) Token: 0x06000705 RID: 1797 RVA: 0x000477C4 File Offset: 0x00045BC4
+		// (get) Token: 0x06000705 RID: 1797 RVA: 0x000477B0 File Offset: 0x00045BB0
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000706 RID: 1798 RVA: 0x000477DC File Offset: 0x00045BDC
+		// Token: 0x06000706 RID: 1798 RVA: 0x000477C8 File Offset: 0x00045BC8
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Job result;

@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000722 RID: 1826
+	// Token: 0x0200071E RID: 1822
 	public static class MannableUtility
 	{
-		// Token: 0x06002839 RID: 10297 RVA: 0x00157878 File Offset: 0x00155C78
+		// Token: 0x06002831 RID: 10289 RVA: 0x00157A34 File Offset: 0x00155E34
 		public static Thing MannedThing(this Pawn pawn)
 		{
 			Thing result;

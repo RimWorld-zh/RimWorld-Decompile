@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006FF RID: 1791
+	// Token: 0x020006FB RID: 1787
 	public static class ThingSetMakerByTotalStatUtility
 	{
-		// Token: 0x06002700 RID: 9984 RVA: 0x0014EC6C File Offset: 0x0014D06C
+		// Token: 0x060026F8 RID: 9976 RVA: 0x0014EE10 File Offset: 0x0014D210
 		public static List<ThingStuffPairWithQuality> GenerateDefsWithPossibleTotalValue(IntRange countRange, float totalValue, IEnumerable<ThingDef> allowed, TechLevel techLevel, QualityGenerator qualityGenerator, Func<ThingStuffPairWithQuality, float> getMinValue, Func<ThingStuffPairWithQuality, float> getMaxValue, Func<ThingDef, float> weightSelector = null, int tries = 100, float maxMass = 3.40282347E+38f)
 		{
 			List<ThingStuffPairWithQuality> chosen = new List<ThingStuffPairWithQuality>();
@@ -164,7 +164,7 @@ namespace RimWorld
 			return chosen2;
 		}
 
-		// Token: 0x06002701 RID: 9985 RVA: 0x0014F098 File Offset: 0x0014D498
+		// Token: 0x060026F9 RID: 9977 RVA: 0x0014F23C File Offset: 0x0014D63C
 		public static void IncreaseStackCountsToTotalValue(List<Thing> things, float totalValue, Func<Thing, float> getValue, float maxMass = 3.40282347E+38f)
 		{
 			float num = 0f;
@@ -192,7 +192,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002702 RID: 9986 RVA: 0x0014F1DC File Offset: 0x0014D5DC
+		// Token: 0x060026FA RID: 9978 RVA: 0x0014F380 File Offset: 0x0014D780
 		private static void DistributeEvenly(List<Thing> things, float totalValue, ref float currentTotalValue, ref float currentTotalMass, Func<Thing, float> getValue, float maxMass, bool useValueMassRatio = false)
 		{
 			float num = (totalValue - currentTotalValue) / (float)things.Count;
@@ -236,7 +236,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002703 RID: 9987 RVA: 0x0014F3B4 File Offset: 0x0014D7B4
+		// Token: 0x060026FB RID: 9979 RVA: 0x0014F558 File Offset: 0x0014D958
 		private static void GiveRemainingValueToAnything(List<Thing> things, float totalValue, ref float currentTotalValue, ref float currentTotalMass, Func<Thing, float> getValue, float maxMass)
 		{
 			for (int i = 0; i < things.Count; i++)
@@ -260,7 +260,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002704 RID: 9988 RVA: 0x0014F4B0 File Offset: 0x0014D8B0
+		// Token: 0x060026FC RID: 9980 RVA: 0x0014F654 File Offset: 0x0014DA54
 		private static void CalculateAllowedThingStuffPairs(IEnumerable<ThingDef> allowed, TechLevel techLevel, QualityGenerator qualityGenerator)
 		{
 			ThingSetMakerByTotalStatUtility.allowedThingStuffPairs.Clear();
@@ -278,7 +278,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002705 RID: 9989 RVA: 0x0014F568 File Offset: 0x0014D968
+		// Token: 0x060026FD RID: 9981 RVA: 0x0014F70C File Offset: 0x0014DB0C
 		private static float GetTrashThreshold(IntRange countRange, float totalValue, Func<ThingStuffPairWithQuality, float> getMaxValue)
 		{
 			float num = GenMath.Median<ThingStuffPairWithQuality>(ThingSetMakerByTotalStatUtility.allowedThingStuffPairs, getMaxValue, 0f, 0.5f);
@@ -286,14 +286,14 @@ namespace RimWorld
 			return totalValue / (float)num2 * 0.2f;
 		}
 
-		// Token: 0x06002706 RID: 9990 RVA: 0x0014F5BC File Offset: 0x0014D9BC
+		// Token: 0x060026FE RID: 9982 RVA: 0x0014F760 File Offset: 0x0014DB60
 		private static float GetNonTrashMass(ThingStuffPairWithQuality t, float trashThreshold, Func<ThingStuffPairWithQuality, float> getMinValue)
 		{
 			int num = Mathf.Clamp(Mathf.CeilToInt(trashThreshold / getMinValue(t)), 1, t.thing.stackLimit);
 			return t.GetStatValue(StatDefOf.Mass) * (float)num;
 		}
 
-		// Token: 0x06002707 RID: 9991 RVA: 0x0014F604 File Offset: 0x0014DA04
+		// Token: 0x060026FF RID: 9983 RVA: 0x0014F7A8 File Offset: 0x0014DBA8
 		private static float GetMaxValueWithMaxMass(ThingStuffPairWithQuality t, float massSoFar, float maxMass, Func<ThingStuffPairWithQuality, float> getMinValue, Func<ThingStuffPairWithQuality, float> getMaxValue)
 		{
 			float result;
@@ -309,7 +309,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x040015AF RID: 5551
+		// Token: 0x040015AD RID: 5549
 		private static List<ThingStuffPairWithQuality> allowedThingStuffPairs = new List<ThingStuffPairWithQuality>();
 	}
 }

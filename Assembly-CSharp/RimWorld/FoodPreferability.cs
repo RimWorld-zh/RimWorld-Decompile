@@ -5,25 +5,25 @@ namespace RimWorld
 	// Token: 0x02000265 RID: 613
 	public enum FoodPreferability : byte
 	{
-		// Token: 0x040004D4 RID: 1236
+		// Token: 0x040004D2 RID: 1234
 		Undefined,
-		// Token: 0x040004D5 RID: 1237
+		// Token: 0x040004D3 RID: 1235
 		NeverForNutrition,
-		// Token: 0x040004D6 RID: 1238
+		// Token: 0x040004D4 RID: 1236
 		DesperateOnly,
-		// Token: 0x040004D7 RID: 1239
+		// Token: 0x040004D5 RID: 1237
 		DesperateOnlyForHumanlikes,
-		// Token: 0x040004D8 RID: 1240
+		// Token: 0x040004D6 RID: 1238
 		RawBad,
-		// Token: 0x040004D9 RID: 1241
+		// Token: 0x040004D7 RID: 1239
 		RawTasty,
-		// Token: 0x040004DA RID: 1242
+		// Token: 0x040004D8 RID: 1240
 		MealAwful,
-		// Token: 0x040004DB RID: 1243
+		// Token: 0x040004D9 RID: 1241
 		MealSimple,
-		// Token: 0x040004DC RID: 1244
+		// Token: 0x040004DA RID: 1242
 		MealFine,
-		// Token: 0x040004DD RID: 1245
+		// Token: 0x040004DB RID: 1243
 		MealLavish
 	}
 }

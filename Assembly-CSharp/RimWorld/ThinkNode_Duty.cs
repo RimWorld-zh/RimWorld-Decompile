@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020001B5 RID: 437
 	public class ThinkNode_Duty : ThinkNode
 	{
-		// Token: 0x0600091B RID: 2331 RVA: 0x000555F0 File Offset: 0x000539F0
+		// Token: 0x06000919 RID: 2329 RVA: 0x00055604 File Offset: 0x00053A04
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			ThinkResult result;
@@ -29,7 +29,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600091C RID: 2332 RVA: 0x00055684 File Offset: 0x00053A84
+		// Token: 0x0600091A RID: 2330 RVA: 0x00055698 File Offset: 0x00053A98
 		protected override void ResolveSubnodes()
 		{
 			foreach (DutyDef dutyDef in DefDatabase<DutyDef>.AllDefs)

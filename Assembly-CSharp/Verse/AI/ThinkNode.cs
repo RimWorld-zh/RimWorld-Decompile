@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000ACF RID: 2767
+	// Token: 0x02000ACB RID: 2763
 	public abstract class ThinkNode
 	{
-		// Token: 0x17000941 RID: 2369
-		// (get) Token: 0x06003D6D RID: 15725 RVA: 0x0002F8A8 File Offset: 0x0002DCA8
+		// Token: 0x17000942 RID: 2370
+		// (get) Token: 0x06003D68 RID: 15720 RVA: 0x0002F884 File Offset: 0x0002DC84
 		public int UniqueSaveKey
 		{
 			get
@@ -16,8 +16,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000942 RID: 2370
-		// (get) Token: 0x06003D6E RID: 15726 RVA: 0x0002F8C4 File Offset: 0x0002DCC4
+		// Token: 0x17000943 RID: 2371
+		// (get) Token: 0x06003D69 RID: 15721 RVA: 0x0002F8A0 File Offset: 0x0002DCA0
 		public IEnumerable<ThinkNode> ThisAndChildrenRecursive
 		{
 			get
@@ -31,8 +31,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000943 RID: 2371
-		// (get) Token: 0x06003D6F RID: 15727 RVA: 0x0002F8F0 File Offset: 0x0002DCF0
+		// Token: 0x17000944 RID: 2372
+		// (get) Token: 0x06003D6A RID: 15722 RVA: 0x0002F8CC File Offset: 0x0002DCCC
 		public IEnumerable<ThinkNode> ChildrenRecursive
 		{
 			get
@@ -48,7 +48,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003D70 RID: 15728 RVA: 0x0002F91C File Offset: 0x0002DD1C
+		// Token: 0x06003D6B RID: 15723 RVA: 0x0002F8F8 File Offset: 0x0002DCF8
 		public virtual float GetPriority(Pawn pawn)
 		{
 			float result;
@@ -64,15 +64,15 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003D71 RID: 15729
+		// Token: 0x06003D6C RID: 15724
 		public abstract ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams);
 
-		// Token: 0x06003D72 RID: 15730 RVA: 0x0002F96A File Offset: 0x0002DD6A
+		// Token: 0x06003D6D RID: 15725 RVA: 0x0002F946 File Offset: 0x0002DD46
 		protected virtual void ResolveSubnodes()
 		{
 		}
 
-		// Token: 0x06003D73 RID: 15731 RVA: 0x0002F970 File Offset: 0x0002DD70
+		// Token: 0x06003D6E RID: 15726 RVA: 0x0002F94C File Offset: 0x0002DD4C
 		public void ResolveSubnodesAndRecur()
 		{
 			if (this.uniqueSaveKeyInt == -2)
@@ -85,12 +85,12 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003D74 RID: 15732 RVA: 0x0002F9C6 File Offset: 0x0002DDC6
+		// Token: 0x06003D6F RID: 15727 RVA: 0x0002F9A2 File Offset: 0x0002DDA2
 		public virtual void ResolveReferences()
 		{
 		}
 
-		// Token: 0x06003D75 RID: 15733 RVA: 0x0002F9CC File Offset: 0x0002DDCC
+		// Token: 0x06003D70 RID: 15728 RVA: 0x0002F9A8 File Offset: 0x0002DDA8
 		public virtual ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode thinkNode = (ThinkNode)Activator.CreateInstance(base.GetType());
@@ -109,39 +109,39 @@ namespace Verse.AI
 			return thinkNode;
 		}
 
-		// Token: 0x06003D76 RID: 15734 RVA: 0x0002FA67 File Offset: 0x0002DE67
+		// Token: 0x06003D71 RID: 15729 RVA: 0x0002FA43 File Offset: 0x0002DE43
 		internal void SetUniqueSaveKey(int key)
 		{
 			this.uniqueSaveKeyInt = key;
 		}
 
-		// Token: 0x06003D77 RID: 15735 RVA: 0x0002FA74 File Offset: 0x0002DE74
+		// Token: 0x06003D72 RID: 15730 RVA: 0x0002FA50 File Offset: 0x0002DE50
 		public override int GetHashCode()
 		{
 			return Gen.HashCombineInt(this.uniqueSaveKeyInt, 1157295731);
 		}
 
-		// Token: 0x040026B6 RID: 9910
+		// Token: 0x040026B1 RID: 9905
 		public List<ThinkNode> subNodes = new List<ThinkNode>();
 
-		// Token: 0x040026B7 RID: 9911
+		// Token: 0x040026B2 RID: 9906
 		public bool leaveJoinableLordIfIssuesJob;
 
-		// Token: 0x040026B8 RID: 9912
+		// Token: 0x040026B3 RID: 9907
 		protected float priority = -1f;
 
-		// Token: 0x040026B9 RID: 9913
+		// Token: 0x040026B4 RID: 9908
 		[Unsaved]
 		private int uniqueSaveKeyInt = -2;
 
-		// Token: 0x040026BA RID: 9914
+		// Token: 0x040026B5 RID: 9909
 		[Unsaved]
 		public ThinkNode parent;
 
-		// Token: 0x040026BB RID: 9915
+		// Token: 0x040026B6 RID: 9910
 		public const int InvalidSaveKey = -1;
 
-		// Token: 0x040026BC RID: 9916
+		// Token: 0x040026B7 RID: 9911
 		protected const int UnresolvedSaveKey = -2;
 	}
 }

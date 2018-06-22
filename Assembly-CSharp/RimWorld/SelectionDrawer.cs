@@ -5,12 +5,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000865 RID: 2149
+	// Token: 0x02000861 RID: 2145
 	[StaticConstructorOnStartup]
 	public static class SelectionDrawer
 	{
-		// Token: 0x170007C9 RID: 1993
-		// (get) Token: 0x060030B5 RID: 12469 RVA: 0x001A6B04 File Offset: 0x001A4F04
+		// Token: 0x170007CA RID: 1994
+		// (get) Token: 0x060030AE RID: 12462 RVA: 0x001A6CEC File Offset: 0x001A50EC
 		public static Dictionary<object, float> SelectTimes
 		{
 			get
@@ -19,19 +19,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030B6 RID: 12470 RVA: 0x001A6B1E File Offset: 0x001A4F1E
+		// Token: 0x060030AF RID: 12463 RVA: 0x001A6D06 File Offset: 0x001A5106
 		public static void Notify_Selected(object t)
 		{
 			SelectionDrawer.selectTimes[t] = Time.realtimeSinceStartup;
 		}
 
-		// Token: 0x060030B7 RID: 12471 RVA: 0x001A6B31 File Offset: 0x001A4F31
+		// Token: 0x060030B0 RID: 12464 RVA: 0x001A6D19 File Offset: 0x001A5119
 		public static void Clear()
 		{
 			SelectionDrawer.selectTimes.Clear();
 		}
 
-		// Token: 0x060030B8 RID: 12472 RVA: 0x001A6B40 File Offset: 0x001A4F40
+		// Token: 0x060030B1 RID: 12465 RVA: 0x001A6D28 File Offset: 0x001A5128
 		public static void DrawSelectionOverlays()
 		{
 			foreach (object obj in Find.Selector.SelectedObjects)
@@ -45,7 +45,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030B9 RID: 12473 RVA: 0x001A6BB8 File Offset: 0x001A4FB8
+		// Token: 0x060030B2 RID: 12466 RVA: 0x001A6DA0 File Offset: 0x001A51A0
 		private static void DrawSelectionBracketFor(object obj)
 		{
 			Zone zone = obj as Zone;
@@ -67,13 +67,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04001A5A RID: 6746
+		// Token: 0x04001A58 RID: 6744
 		private static Dictionary<object, float> selectTimes = new Dictionary<object, float>();
 
-		// Token: 0x04001A5B RID: 6747
+		// Token: 0x04001A59 RID: 6745
 		private static readonly Material SelectionBracketMat = MaterialPool.MatFrom("UI/Overlays/SelectionBracket", ShaderDatabase.MetaOverlay);
 
-		// Token: 0x04001A5C RID: 6748
+		// Token: 0x04001A5A RID: 6746
 		private static Vector3[] bracketLocs = new Vector3[4];
 	}
 }

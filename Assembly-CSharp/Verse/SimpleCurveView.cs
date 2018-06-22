@@ -8,8 +8,8 @@ namespace Verse
 	// Token: 0x02000EF7 RID: 3831
 	public class SimpleCurveView
 	{
-		// Token: 0x17000E9E RID: 3742
-		// (get) Token: 0x06005B7B RID: 23419 RVA: 0x002E9058 File Offset: 0x002E7458
+		// Token: 0x17000EA2 RID: 3746
+		// (get) Token: 0x06005BA3 RID: 23459 RVA: 0x002EB08C File Offset: 0x002E948C
 		public IEnumerable<float> DebugInputValues
 		{
 			get
@@ -26,13 +26,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B7C RID: 23420 RVA: 0x002E9082 File Offset: 0x002E7482
+		// Token: 0x06005BA4 RID: 23460 RVA: 0x002EB0B6 File Offset: 0x002E94B6
 		public void SetDebugInput(object key, float value)
 		{
 			this.debugInputValues[key] = value;
 		}
 
-		// Token: 0x06005B7D RID: 23421 RVA: 0x002E9092 File Offset: 0x002E7492
+		// Token: 0x06005BA5 RID: 23461 RVA: 0x002EB0C6 File Offset: 0x002E94C6
 		public void ClearDebugInputFrom(object key)
 		{
 			if (this.debugInputValues.ContainsKey(key))
@@ -41,7 +41,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B7E RID: 23422 RVA: 0x002E90B4 File Offset: 0x002E74B4
+		// Token: 0x06005BA6 RID: 23462 RVA: 0x002EB0E8 File Offset: 0x002E94E8
 		public void SetViewRectAround(SimpleCurve curve)
 		{
 			if (curve.PointsCount == 0)
@@ -83,16 +83,16 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003C9D RID: 15517
+		// Token: 0x04003CB0 RID: 15536
 		public Rect rect;
 
-		// Token: 0x04003C9E RID: 15518
+		// Token: 0x04003CB1 RID: 15537
 		private Dictionary<object, float> debugInputValues = new Dictionary<object, float>();
 
-		// Token: 0x04003C9F RID: 15519
+		// Token: 0x04003CB2 RID: 15538
 		private const float ResetZoomBuffer = 0.1f;
 
-		// Token: 0x04003CA0 RID: 15520
+		// Token: 0x04003CB3 RID: 15539
 		private static Rect identityRect = new Rect(0f, 0f, 1f, 1f);
 	}
 }

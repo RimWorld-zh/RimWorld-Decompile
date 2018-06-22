@@ -5,16 +5,16 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000E8A RID: 3722
+	// Token: 0x02000E89 RID: 3721
 	public class MouseoverReadout
 	{
-		// Token: 0x060057C6 RID: 22470 RVA: 0x002CFC3B File Offset: 0x002CE03B
+		// Token: 0x060057E6 RID: 22502 RVA: 0x002D184B File Offset: 0x002CFC4B
 		public MouseoverReadout()
 		{
 			this.MakePermaCache();
 		}
 
-		// Token: 0x060057C7 RID: 22471 RVA: 0x002CFC4C File Offset: 0x002CE04C
+		// Token: 0x060057E7 RID: 22503 RVA: 0x002D185C File Offset: 0x002CFC5C
 		private void MakePermaCache()
 		{
 			this.glowStrings = new string[101];
@@ -24,7 +24,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057C8 RID: 22472 RVA: 0x002CFCB4 File Offset: 0x002CE0B4
+		// Token: 0x060057E8 RID: 22504 RVA: 0x002D18C4 File Offset: 0x002CFCC4
 		public void MouseoverReadoutOnGUI()
 		{
 			if (Event.current.type == EventType.Repaint)
@@ -122,26 +122,26 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057C9 RID: 22473 RVA: 0x002D01A8 File Offset: 0x002CE5A8
+		// Token: 0x060057E9 RID: 22505 RVA: 0x002D1DB8 File Offset: 0x002D01B8
 		private string SpeedPercentString(float extraPathTicks)
 		{
 			float f = 13f / (extraPathTicks + 13f);
 			return f.ToStringPercent();
 		}
 
-		// Token: 0x04003A0A RID: 14858
+		// Token: 0x04003A1A RID: 14874
 		private TerrainDef cachedTerrain;
 
-		// Token: 0x04003A0B RID: 14859
+		// Token: 0x04003A1B RID: 14875
 		private string cachedTerrainString;
 
-		// Token: 0x04003A0C RID: 14860
+		// Token: 0x04003A1C RID: 14876
 		private string[] glowStrings;
 
-		// Token: 0x04003A0D RID: 14861
+		// Token: 0x04003A1D RID: 14877
 		private const float YInterval = 19f;
 
-		// Token: 0x04003A0E RID: 14862
+		// Token: 0x04003A1E RID: 14878
 		private static readonly Vector2 BotLeft = new Vector2(15f, 65f);
 	}
 }

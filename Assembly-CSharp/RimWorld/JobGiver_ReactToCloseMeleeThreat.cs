@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000EC RID: 236
 	public class JobGiver_ReactToCloseMeleeThreat : ThinkNode_JobGiver
 	{
-		// Token: 0x0600050A RID: 1290 RVA: 0x00037FB4 File Offset: 0x000363B4
+		// Token: 0x0600050A RID: 1290 RVA: 0x00037FA0 File Offset: 0x000363A0
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Pawn meleeThreat = pawn.mindState.meleeThreat;
@@ -48,7 +48,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600050B RID: 1291 RVA: 0x000380A8 File Offset: 0x000364A8
+		// Token: 0x0600050B RID: 1291 RVA: 0x00038094 File Offset: 0x00036494
 		private bool IsHunting(Pawn pawn, Pawn prey)
 		{
 			bool result;

@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000870 RID: 2160
+	// Token: 0x0200086C RID: 2156
 	public class MainTabWindow_Assign : MainTabWindow_PawnTable
 	{
-		// Token: 0x170007DA RID: 2010
-		// (get) Token: 0x06003117 RID: 12567 RVA: 0x001AA440 File Offset: 0x001A8840
+		// Token: 0x170007DB RID: 2011
+		// (get) Token: 0x06003110 RID: 12560 RVA: 0x001AA628 File Offset: 0x001A8A28
 		protected override PawnTableDef PawnTableDef
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003118 RID: 12568 RVA: 0x001AA45A File Offset: 0x001A885A
+		// Token: 0x06003111 RID: 12561 RVA: 0x001AA642 File Offset: 0x001A8A42
 		public override void PostOpen()
 		{
 			base.PostOpen();

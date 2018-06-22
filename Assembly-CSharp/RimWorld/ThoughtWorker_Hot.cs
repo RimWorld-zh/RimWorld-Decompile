@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x0200020F RID: 527
 	public class ThoughtWorker_Hot : ThoughtWorker
 	{
-		// Token: 0x060009EC RID: 2540 RVA: 0x00058AB0 File Offset: 0x00056EB0
+		// Token: 0x060009EA RID: 2538 RVA: 0x00058AF4 File Offset: 0x00056EF4
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			float statValue = p.GetStatValue(StatDefOf.ComfyTemperatureMax, true);

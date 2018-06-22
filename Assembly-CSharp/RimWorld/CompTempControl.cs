@@ -7,11 +7,11 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200073F RID: 1855
+	// Token: 0x0200073B RID: 1851
 	public class CompTempControl : ThingComp
 	{
-		// Token: 0x17000654 RID: 1620
-		// (get) Token: 0x060028F3 RID: 10483 RVA: 0x0015CF24 File Offset: 0x0015B324
+		// Token: 0x17000655 RID: 1621
+		// (get) Token: 0x060028EC RID: 10476 RVA: 0x0015D0FC File Offset: 0x0015B4FC
 		public CompProperties_TempControl Props
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028F4 RID: 10484 RVA: 0x0015CF44 File Offset: 0x0015B344
+		// Token: 0x060028ED RID: 10477 RVA: 0x0015D11C File Offset: 0x0015B51C
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
@@ -30,14 +30,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028F5 RID: 10485 RVA: 0x0015CF6F File Offset: 0x0015B36F
+		// Token: 0x060028EE RID: 10478 RVA: 0x0015D147 File Offset: 0x0015B547
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_Values.Look<float>(ref this.targetTemperature, "targetTemperature", 0f, false);
 		}
 
-		// Token: 0x060028F6 RID: 10486 RVA: 0x0015CF90 File Offset: 0x0015B390
+		// Token: 0x060028EF RID: 10479 RVA: 0x0015D168 File Offset: 0x0015B568
 		private float RoundedToCurrentTempModeOffset(float celsiusTemp)
 		{
 			float num = GenTemperature.CelsiusToOffset(celsiusTemp, Prefs.TemperatureMode);
@@ -45,7 +45,7 @@ namespace RimWorld
 			return GenTemperature.ConvertTemperatureOffset(num, Prefs.TemperatureMode, TemperatureDisplayMode.Celsius);
 		}
 
-		// Token: 0x060028F7 RID: 10487 RVA: 0x0015CFC8 File Offset: 0x0015B3C8
+		// Token: 0x060028F0 RID: 10480 RVA: 0x0015D1A0 File Offset: 0x0015B5A0
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			foreach (Gizmo c in this.<CompGetGizmosExtra>__BaseCallProxy0())
@@ -116,7 +116,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060028F8 RID: 10488 RVA: 0x0015CFF4 File Offset: 0x0015B3F4
+		// Token: 0x060028F1 RID: 10481 RVA: 0x0015D1CC File Offset: 0x0015B5CC
 		private void InterfaceChangeTargetTemperature(float offset)
 		{
 			if (offset > 0f)
@@ -132,13 +132,13 @@ namespace RimWorld
 			this.ThrowCurrentTemperatureText();
 		}
 
-		// Token: 0x060028F9 RID: 10489 RVA: 0x0015D058 File Offset: 0x0015B458
+		// Token: 0x060028F2 RID: 10482 RVA: 0x0015D230 File Offset: 0x0015B630
 		private void ThrowCurrentTemperatureText()
 		{
 			MoteMaker.ThrowText(this.parent.TrueCenter() + new Vector3(0.5f, 0f, 0.5f), this.parent.Map, this.targetTemperature.ToStringTemperature("F0"), Color.white, -1f);
 		}
 
-		// Token: 0x060028FA RID: 10490 RVA: 0x0015D0B4 File Offset: 0x0015B4B4
+		// Token: 0x060028F3 RID: 10483 RVA: 0x0015D28C File Offset: 0x0015B68C
 		public override string CompInspectStringExtra()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -156,14 +156,14 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x04001667 RID: 5735
+		// Token: 0x04001665 RID: 5733
 		[Unsaved]
 		public bool operatingAtHighPower = false;
 
-		// Token: 0x04001668 RID: 5736
+		// Token: 0x04001666 RID: 5734
 		public float targetTemperature = -99999f;
 
-		// Token: 0x04001669 RID: 5737
+		// Token: 0x04001667 RID: 5735
 		private const float DefaultTargetTemperature = 21f;
 	}
 }

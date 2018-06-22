@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009D9 RID: 2521
+	// Token: 0x020009D5 RID: 2517
 	public class Verb_MeleeAttackDamage : Verb_MeleeAttack
 	{
-		// Token: 0x0600387B RID: 14459 RVA: 0x001E24B4 File Offset: 0x001E08B4
+		// Token: 0x06003875 RID: 14453 RVA: 0x001E268C File Offset: 0x001E0A8C
 		private IEnumerable<DamageInfo> DamageInfosToApply(LocalTargetInfo target)
 		{
 			float damAmount = this.verbProps.AdjustedMeleeDamageAmount(this, base.CasterPawn, this.ownerEquipment);
@@ -80,7 +80,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600387C RID: 14460 RVA: 0x001E24E8 File Offset: 0x001E08E8
+		// Token: 0x06003876 RID: 14454 RVA: 0x001E26C0 File Offset: 0x001E0AC0
 		protected override DamageWorker.DamageResult ApplyMeleeDamageToTarget(LocalTargetInfo target)
 		{
 			DamageWorker.DamageResult result = new DamageWorker.DamageResult();

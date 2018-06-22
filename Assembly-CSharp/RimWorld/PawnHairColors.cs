@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000495 RID: 1173
+	// Token: 0x02000491 RID: 1169
 	public static class PawnHairColors
 	{
-		// Token: 0x060014C9 RID: 5321 RVA: 0x000B7050 File Offset: 0x000B5450
+		// Token: 0x060014C0 RID: 5312 RVA: 0x000B704C File Offset: 0x000B544C
 		public static Color RandomHairColor(Color skinColor, int ageYears)
 		{
 			Color result;

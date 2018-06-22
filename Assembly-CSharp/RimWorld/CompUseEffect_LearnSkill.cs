@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000766 RID: 1894
+	// Token: 0x02000762 RID: 1890
 	public class CompUseEffect_LearnSkill : CompUseEffect
 	{
-		// Token: 0x17000674 RID: 1652
-		// (get) Token: 0x060029D4 RID: 10708 RVA: 0x00162DAC File Offset: 0x001611AC
+		// Token: 0x17000675 RID: 1653
+		// (get) Token: 0x060029CD RID: 10701 RVA: 0x00162F84 File Offset: 0x00161384
 		private SkillDef Skill
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060029D5 RID: 10709 RVA: 0x00162DD4 File Offset: 0x001611D4
+		// Token: 0x060029CE RID: 10702 RVA: 0x00162FAC File Offset: 0x001613AC
 		public override void DoEffect(Pawn user)
 		{
 			base.DoEffect(user);
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060029D6 RID: 10710 RVA: 0x00162E78 File Offset: 0x00161278
+		// Token: 0x060029CF RID: 10703 RVA: 0x00163050 File Offset: 0x00161450
 		public override bool CanBeUsedBy(Pawn p, out string failReason)
 		{
 			bool result;
@@ -57,7 +57,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0400169E RID: 5790
+		// Token: 0x0400169C RID: 5788
 		private const float XPGainAmount = 50000f;
 	}
 }

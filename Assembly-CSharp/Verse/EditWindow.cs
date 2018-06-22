@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EC8 RID: 3784
+	// Token: 0x02000EC7 RID: 3783
 	public abstract class EditWindow : Window
 	{
-		// Token: 0x0600595D RID: 22877 RVA: 0x0029ADFC File Offset: 0x002991FC
+		// Token: 0x0600597E RID: 22910 RVA: 0x0029C3DC File Offset: 0x0029A7DC
 		public EditWindow()
 		{
 			this.resizeable = true;
@@ -18,8 +18,8 @@ namespace Verse
 			this.windowRect.y = 5f;
 		}
 
-		// Token: 0x17000E11 RID: 3601
-		// (get) Token: 0x0600595E RID: 22878 RVA: 0x0029AE4C File Offset: 0x0029924C
+		// Token: 0x17000E14 RID: 3604
+		// (get) Token: 0x0600597F RID: 22911 RVA: 0x0029C42C File Offset: 0x0029A82C
 		public override Vector2 InitialSize
 		{
 			get
@@ -28,8 +28,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E12 RID: 3602
-		// (get) Token: 0x0600595F RID: 22879 RVA: 0x0029AE70 File Offset: 0x00299270
+		// Token: 0x17000E15 RID: 3605
+		// (get) Token: 0x06005980 RID: 22912 RVA: 0x0029C450 File Offset: 0x0029A850
 		protected override float Margin
 		{
 			get
@@ -38,7 +38,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005960 RID: 22880 RVA: 0x0029AE8C File Offset: 0x0029928C
+		// Token: 0x06005981 RID: 22913 RVA: 0x0029C46C File Offset: 0x0029A86C
 		public override void PostOpen()
 		{
 			while (this.windowRect.x <= (float)UI.screenWidth - 200f && this.windowRect.y <= (float)UI.screenHeight - 200f)
@@ -66,13 +66,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003BB6 RID: 15286
+		// Token: 0x04003BC6 RID: 15302
 		private const float SuperimposeAvoidThreshold = 8f;
 
-		// Token: 0x04003BB7 RID: 15287
+		// Token: 0x04003BC7 RID: 15303
 		private const float SuperimposeAvoidOffset = 16f;
 
-		// Token: 0x04003BB8 RID: 15288
+		// Token: 0x04003BC8 RID: 15304
 		private const float SuperimposeAvoidOffsetMinEdge = 200f;
 	}
 }

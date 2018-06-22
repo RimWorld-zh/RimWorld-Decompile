@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008FC RID: 2300
+	// Token: 0x020008F8 RID: 2296
 	public static class BuildFacilityCommandUtility
 	{
-		// Token: 0x06003538 RID: 13624 RVA: 0x001C73BC File Offset: 0x001C57BC
+		// Token: 0x06003531 RID: 13617 RVA: 0x001C75A4 File Offset: 0x001C59A4
 		public static IEnumerable<Command> BuildFacilityCommands(BuildableDef building)
 		{
 			ThingDef thingDef = building as ThingDef;

@@ -7,12 +7,12 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000789 RID: 1929
+	// Token: 0x02000785 RID: 1925
 	[StaticConstructorOnStartup]
 	public abstract class Alert
 	{
-		// Token: 0x170006A4 RID: 1700
-		// (get) Token: 0x06002AB9 RID: 10937 RVA: 0x00169698 File Offset: 0x00167A98
+		// Token: 0x170006A5 RID: 1701
+		// (get) Token: 0x06002AB2 RID: 10930 RVA: 0x00169870 File Offset: 0x00167C70
 		public virtual AlertPriority Priority
 		{
 			get
@@ -21,8 +21,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006A5 RID: 1701
-		// (get) Token: 0x06002ABA RID: 10938 RVA: 0x001696B4 File Offset: 0x00167AB4
+		// Token: 0x170006A6 RID: 1702
+		// (get) Token: 0x06002AB3 RID: 10931 RVA: 0x0016988C File Offset: 0x00167C8C
 		protected virtual Color BGColor
 		{
 			get
@@ -31,8 +31,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006A6 RID: 1702
-		// (get) Token: 0x06002ABB RID: 10939 RVA: 0x001696D0 File Offset: 0x00167AD0
+		// Token: 0x170006A7 RID: 1703
+		// (get) Token: 0x06002AB4 RID: 10932 RVA: 0x001698A8 File Offset: 0x00167CA8
 		public virtual bool Active
 		{
 			get
@@ -41,22 +41,22 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002ABC RID: 10940
+		// Token: 0x06002AB5 RID: 10933
 		public abstract AlertReport GetReport();
 
-		// Token: 0x06002ABD RID: 10941 RVA: 0x001696F4 File Offset: 0x00167AF4
+		// Token: 0x06002AB6 RID: 10934 RVA: 0x001698CC File Offset: 0x00167CCC
 		public virtual string GetExplanation()
 		{
 			return this.defaultExplanation;
 		}
 
-		// Token: 0x06002ABE RID: 10942 RVA: 0x00169710 File Offset: 0x00167B10
+		// Token: 0x06002AB7 RID: 10935 RVA: 0x001698E8 File Offset: 0x00167CE8
 		public virtual string GetLabel()
 		{
 			return this.defaultLabel;
 		}
 
-		// Token: 0x06002ABF RID: 10943 RVA: 0x0016972C File Offset: 0x00167B2C
+		// Token: 0x06002AB8 RID: 10936 RVA: 0x00169904 File Offset: 0x00167D04
 		public void Notify_Started()
 		{
 			if (this.Priority >= AlertPriority.High)
@@ -74,12 +74,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002AC0 RID: 10944 RVA: 0x001697A6 File Offset: 0x00167BA6
+		// Token: 0x06002AB9 RID: 10937 RVA: 0x0016997E File Offset: 0x00167D7E
 		public virtual void AlertActiveUpdate()
 		{
 		}
 
-		// Token: 0x06002AC1 RID: 10945 RVA: 0x001697AC File Offset: 0x00167BAC
+		// Token: 0x06002ABA RID: 10938 RVA: 0x00169984 File Offset: 0x00167D84
 		public virtual Rect DrawAt(float topY, bool minimized)
 		{
 			Text.Font = GameFont.Small;
@@ -134,7 +134,7 @@ namespace RimWorld
 			return rect;
 		}
 
-		// Token: 0x06002AC2 RID: 10946 RVA: 0x0016998C File Offset: 0x00167D8C
+		// Token: 0x06002ABB RID: 10939 RVA: 0x00169B64 File Offset: 0x00167F64
 		public void DrawInfoPane()
 		{
 			Alert.<DrawInfoPane>c__AnonStorey0 <DrawInfoPane>c__AnonStorey = new Alert.<DrawInfoPane>c__AnonStorey0();
@@ -172,46 +172,46 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04001704 RID: 5892
+		// Token: 0x04001702 RID: 5890
 		protected AlertPriority defaultPriority = AlertPriority.Medium;
 
-		// Token: 0x04001705 RID: 5893
+		// Token: 0x04001703 RID: 5891
 		protected string defaultLabel;
 
-		// Token: 0x04001706 RID: 5894
+		// Token: 0x04001704 RID: 5892
 		protected string defaultExplanation;
 
-		// Token: 0x04001707 RID: 5895
+		// Token: 0x04001705 RID: 5893
 		protected float lastBellTime = -1000f;
 
-		// Token: 0x04001708 RID: 5896
+		// Token: 0x04001706 RID: 5894
 		private int jumpToTargetCycleIndex;
 
-		// Token: 0x04001709 RID: 5897
+		// Token: 0x04001707 RID: 5895
 		private AlertBounce alertBounce = null;
 
-		// Token: 0x0400170A RID: 5898
+		// Token: 0x04001708 RID: 5896
 		public const float Width = 154f;
 
-		// Token: 0x0400170B RID: 5899
+		// Token: 0x04001709 RID: 5897
 		private const float TextWidth = 148f;
 
-		// Token: 0x0400170C RID: 5900
+		// Token: 0x0400170A RID: 5898
 		public const float Height = 28f;
 
-		// Token: 0x0400170D RID: 5901
+		// Token: 0x0400170B RID: 5899
 		private const float ItemPeekWidth = 30f;
 
-		// Token: 0x0400170E RID: 5902
+		// Token: 0x0400170C RID: 5900
 		public const float InfoRectWidth = 330f;
 
-		// Token: 0x0400170F RID: 5903
+		// Token: 0x0400170D RID: 5901
 		private static readonly Texture2D AlertBGTex = SolidColorMaterials.NewSolidColorTexture(Color.white);
 
-		// Token: 0x04001710 RID: 5904
+		// Token: 0x0400170E RID: 5902
 		private static readonly Texture2D AlertBGTexHighlight = TexUI.HighlightTex;
 
-		// Token: 0x04001711 RID: 5905
+		// Token: 0x0400170F RID: 5903
 		private static List<GlobalTargetInfo> tmpTargets = new List<GlobalTargetInfo>();
 	}
 }

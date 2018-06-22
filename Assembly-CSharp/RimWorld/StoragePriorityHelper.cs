@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000696 RID: 1686
+	// Token: 0x02000692 RID: 1682
 	public static class StoragePriorityHelper
 	{
-		// Token: 0x060023B7 RID: 9143 RVA: 0x0013223C File Offset: 0x0013063C
+		// Token: 0x060023AF RID: 9135 RVA: 0x00132384 File Offset: 0x00130784
 		public static string Label(this StoragePriority p)
 		{
 			string result;

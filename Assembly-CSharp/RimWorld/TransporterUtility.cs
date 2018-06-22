@@ -5,10 +5,10 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000747 RID: 1863
+	// Token: 0x02000743 RID: 1859
 	public static class TransporterUtility
 	{
-		// Token: 0x0600293B RID: 10555 RVA: 0x0015EDDC File Offset: 0x0015D1DC
+		// Token: 0x06002934 RID: 10548 RVA: 0x0015EFB4 File Offset: 0x0015D3B4
 		public static void GetTransportersInGroup(int transportersGroup, Map map, List<CompTransporter> outTransporters)
 		{
 			outTransporters.Clear();
@@ -26,7 +26,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600293C RID: 10556 RVA: 0x0015EE44 File Offset: 0x0015D244
+		// Token: 0x06002935 RID: 10549 RVA: 0x0015F01C File Offset: 0x0015D41C
 		public static Lord FindLord(int transportersGroup, Map map)
 		{
 			List<Lord> lords = map.lordManager.lords;
@@ -41,7 +41,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x0600293D RID: 10557 RVA: 0x0015EEB0 File Offset: 0x0015D2B0
+		// Token: 0x06002936 RID: 10550 RVA: 0x0015F088 File Offset: 0x0015D488
 		public static bool WasLoadingCanceled(Thing transporter)
 		{
 			CompTransporter compTransporter = transporter.TryGetComp<CompTransporter>();

@@ -2,12 +2,12 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000646 RID: 1606
+	// Token: 0x02000642 RID: 1602
 	public enum PlayerPawnsArriveMethod
 	{
-		// Token: 0x040012F5 RID: 4853
+		// Token: 0x040012F2 RID: 4850
 		Standing,
-		// Token: 0x040012F6 RID: 4854
+		// Token: 0x040012F3 RID: 4851
 		DropPods
 	}
 }

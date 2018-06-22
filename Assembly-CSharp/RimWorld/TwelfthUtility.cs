@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000913 RID: 2323
+	// Token: 0x0200090F RID: 2319
 	public static class TwelfthUtility
 	{
-		// Token: 0x06003612 RID: 13842 RVA: 0x001D01F0 File Offset: 0x001CE5F0
+		// Token: 0x0600360B RID: 13835 RVA: 0x001D03D8 File Offset: 0x001CE7D8
 		public static Quadrum GetQuadrum(this Twelfth twelfth)
 		{
 			Quadrum result;
@@ -56,7 +56,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003613 RID: 13843 RVA: 0x001D0298 File Offset: 0x001CE698
+		// Token: 0x0600360C RID: 13836 RVA: 0x001D0480 File Offset: 0x001CE880
 		public static Twelfth PreviousTwelfth(this Twelfth twelfth)
 		{
 			Twelfth result;
@@ -76,7 +76,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003614 RID: 13844 RVA: 0x001D02D0 File Offset: 0x001CE6D0
+		// Token: 0x0600360D RID: 13837 RVA: 0x001D04B8 File Offset: 0x001CE8B8
 		public static Twelfth NextTwelfth(this Twelfth twelfth)
 		{
 			Twelfth result;
@@ -91,19 +91,19 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003615 RID: 13845 RVA: 0x001D02FC File Offset: 0x001CE6FC
+		// Token: 0x0600360E RID: 13838 RVA: 0x001D04E4 File Offset: 0x001CE8E4
 		public static float GetMiddleYearPct(this Twelfth twelfth)
 		{
 			return ((float)twelfth + 0.5f) / 12f;
 		}
 
-		// Token: 0x06003616 RID: 13846 RVA: 0x001D0320 File Offset: 0x001CE720
+		// Token: 0x0600360F RID: 13839 RVA: 0x001D0508 File Offset: 0x001CE908
 		public static float GetBeginningYearPct(this Twelfth twelfth)
 		{
 			return (float)twelfth / 12f;
 		}
 
-		// Token: 0x06003617 RID: 13847 RVA: 0x001D0340 File Offset: 0x001CE740
+		// Token: 0x06003610 RID: 13840 RVA: 0x001D0528 File Offset: 0x001CE928
 		public static Twelfth FindStartingWarmTwelfth(int tile)
 		{
 			Twelfth twelfth = GenTemperature.EarliestTwelfthInAverageTemperatureRange(tile, 16f, 9999f);
@@ -114,7 +114,7 @@ namespace RimWorld
 			return twelfth;
 		}
 
-		// Token: 0x06003618 RID: 13848 RVA: 0x001D038C File Offset: 0x001CE78C
+		// Token: 0x06003611 RID: 13841 RVA: 0x001D0574 File Offset: 0x001CE974
 		public static Twelfth GetLeftMostTwelfth(List<Twelfth> twelfths, Twelfth rootTwelfth)
 		{
 			Twelfth result;
@@ -136,7 +136,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003619 RID: 13849 RVA: 0x001D03D8 File Offset: 0x001CE7D8
+		// Token: 0x06003612 RID: 13842 RVA: 0x001D05C0 File Offset: 0x001CE9C0
 		public static Twelfth GetRightMostTwelfth(List<Twelfth> twelfths, Twelfth rootTwelfth)
 		{
 			Twelfth result;
@@ -158,7 +158,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600361A RID: 13850 RVA: 0x001D0428 File Offset: 0x001CE828
+		// Token: 0x06003613 RID: 13843 RVA: 0x001D0610 File Offset: 0x001CEA10
 		public static Twelfth TwelfthBefore(Twelfth m)
 		{
 			Twelfth result;
@@ -173,7 +173,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600361B RID: 13851 RVA: 0x001D0450 File Offset: 0x001CE850
+		// Token: 0x06003614 RID: 13844 RVA: 0x001D0638 File Offset: 0x001CEA38
 		public static Twelfth TwelfthAfter(Twelfth m)
 		{
 			Twelfth result;

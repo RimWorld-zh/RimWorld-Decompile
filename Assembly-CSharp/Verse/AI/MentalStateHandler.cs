@@ -4,22 +4,22 @@ using RimWorld.Planet;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A61 RID: 2657
+	// Token: 0x02000A5D RID: 2653
 	public class MentalStateHandler : IExposable
 	{
-		// Token: 0x06003B22 RID: 15138 RVA: 0x001F5CE5 File Offset: 0x001F40E5
+		// Token: 0x06003B1D RID: 15133 RVA: 0x001F5FE1 File Offset: 0x001F43E1
 		public MentalStateHandler()
 		{
 		}
 
-		// Token: 0x06003B23 RID: 15139 RVA: 0x001F5CEE File Offset: 0x001F40EE
+		// Token: 0x06003B1E RID: 15134 RVA: 0x001F5FEA File Offset: 0x001F43EA
 		public MentalStateHandler(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x1700090C RID: 2316
-		// (get) Token: 0x06003B24 RID: 15140 RVA: 0x001F5D00 File Offset: 0x001F4100
+		// Token: 0x1700090D RID: 2317
+		// (get) Token: 0x06003B1F RID: 15135 RVA: 0x001F5FFC File Offset: 0x001F43FC
 		public bool InMentalState
 		{
 			get
@@ -28,8 +28,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x1700090D RID: 2317
-		// (get) Token: 0x06003B25 RID: 15141 RVA: 0x001F5D24 File Offset: 0x001F4124
+		// Token: 0x1700090E RID: 2318
+		// (get) Token: 0x06003B20 RID: 15136 RVA: 0x001F6020 File Offset: 0x001F4420
 		public MentalStateDef CurStateDef
 		{
 			get
@@ -47,8 +47,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x1700090E RID: 2318
-		// (get) Token: 0x06003B26 RID: 15142 RVA: 0x001F5D58 File Offset: 0x001F4158
+		// Token: 0x1700090F RID: 2319
+		// (get) Token: 0x06003B21 RID: 15137 RVA: 0x001F6054 File Offset: 0x001F4454
 		public MentalState CurState
 		{
 			get
@@ -57,7 +57,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B27 RID: 15143 RVA: 0x001F5D74 File Offset: 0x001F4174
+		// Token: 0x06003B22 RID: 15138 RVA: 0x001F6070 File Offset: 0x001F4470
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<MentalState>(ref this.curStateInt, "curState", new object[0]);
@@ -75,13 +75,13 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B28 RID: 15144 RVA: 0x001F5E08 File Offset: 0x001F4208
+		// Token: 0x06003B23 RID: 15139 RVA: 0x001F6104 File Offset: 0x001F4504
 		public void Reset()
 		{
 			this.ClearMentalStateDirect();
 		}
 
-		// Token: 0x06003B29 RID: 15145 RVA: 0x001F5E14 File Offset: 0x001F4214
+		// Token: 0x06003B24 RID: 15140 RVA: 0x001F6110 File Offset: 0x001F4510
 		public void MentalStateHandlerTick()
 		{
 			if (this.curStateInt != null)
@@ -98,7 +98,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B2A RID: 15146 RVA: 0x001F5E74 File Offset: 0x001F4274
+		// Token: 0x06003B25 RID: 15141 RVA: 0x001F6170 File Offset: 0x001F4570
 		public bool TryStartMentalState(MentalStateDef stateDef, string reason = null, bool forceWake = false, bool causedByMood = false, Pawn otherPawn = null, bool transitionSilently = false)
 		{
 			bool result;
@@ -189,7 +189,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003B2B RID: 15147 RVA: 0x001F61E4 File Offset: 0x001F45E4
+		// Token: 0x06003B26 RID: 15142 RVA: 0x001F64E0 File Offset: 0x001F48E0
 		public void Notify_DamageTaken(DamageInfo dinfo)
 		{
 			if (!this.neverFleeIndividual && this.pawn.Spawned && this.pawn.MentalStateDef == null && !this.pawn.Downed && dinfo.Def.externalViolence && this.pawn.RaceProps.Humanlike && this.pawn.mindState.canFleeIndividual)
@@ -203,7 +203,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B2C RID: 15148 RVA: 0x001F62EC File Offset: 0x001F46EC
+		// Token: 0x06003B27 RID: 15143 RVA: 0x001F65E8 File Offset: 0x001F49E8
 		internal void ClearMentalStateDirect()
 		{
 			if (this.curStateInt != null)
@@ -216,13 +216,13 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x04002558 RID: 9560
+		// Token: 0x04002553 RID: 9555
 		private Pawn pawn;
 
-		// Token: 0x04002559 RID: 9561
+		// Token: 0x04002554 RID: 9556
 		private MentalState curStateInt;
 
-		// Token: 0x0400255A RID: 9562
+		// Token: 0x04002555 RID: 9557
 		public bool neverFleeIndividual;
 	}
 }

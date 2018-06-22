@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200080F RID: 2063
+	// Token: 0x0200080B RID: 2059
 	public static class ResolutionUtility
 	{
-		// Token: 0x06002E0D RID: 11789 RVA: 0x00184244 File Offset: 0x00182644
+		// Token: 0x06002E06 RID: 11782 RVA: 0x0018441C File Offset: 0x0018281C
 		public static void SafeSetResolution(Resolution res)
 		{
 			if (Screen.width != res.width || Screen.height != res.height)
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E0E RID: 11790 RVA: 0x001842B4 File Offset: 0x001826B4
+		// Token: 0x06002E07 RID: 11783 RVA: 0x0018448C File Offset: 0x0018288C
 		public static void SafeSetFullscreen(bool fullScreen)
 		{
 			if (Screen.fullScreen != fullScreen)
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E0F RID: 11791 RVA: 0x001842F0 File Offset: 0x001826F0
+		// Token: 0x06002E08 RID: 11784 RVA: 0x001844C8 File Offset: 0x001828C8
 		public static void SafeSetUIScale(float newScale)
 		{
 			if (Prefs.UIScale != newScale)
@@ -40,16 +40,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E10 RID: 11792 RVA: 0x0018432C File Offset: 0x0018272C
+		// Token: 0x06002E09 RID: 11785 RVA: 0x00184504 File Offset: 0x00182904
 		public static bool UIScaleSafeWithResolution(float scale, int w, int h)
 		{
 			return (float)w / scale >= 1024f && (float)h / scale >= 768f;
 		}
 
-		// Token: 0x04001872 RID: 6258
+		// Token: 0x04001870 RID: 6256
 		public const int MinResolutionWidth = 1024;
 
-		// Token: 0x04001873 RID: 6259
+		// Token: 0x04001871 RID: 6257
 		public const int MinResolutionHeight = 768;
 	}
 }

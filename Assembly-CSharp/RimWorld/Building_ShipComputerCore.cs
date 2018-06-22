@@ -6,11 +6,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200068D RID: 1677
+	// Token: 0x02000689 RID: 1673
 	internal class Building_ShipComputerCore : Building
 	{
 		// Token: 0x17000542 RID: 1346
-		// (get) Token: 0x06002378 RID: 9080 RVA: 0x001308EC File Offset: 0x0012ECEC
+		// (get) Token: 0x06002370 RID: 9072 RVA: 0x00130A34 File Offset: 0x0012EE34
 		private bool CanLaunchNow
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002379 RID: 9081 RVA: 0x00130910 File Offset: 0x0012ED10
+		// Token: 0x06002371 RID: 9073 RVA: 0x00130A58 File Offset: 0x0012EE58
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
@@ -48,7 +48,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600237A RID: 9082 RVA: 0x0013093A File Offset: 0x0012ED3A
+		// Token: 0x06002372 RID: 9074 RVA: 0x00130A82 File Offset: 0x0012EE82
 		private void TryLaunch()
 		{
 			if (this.CanLaunchNow)

@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000628 RID: 1576
+	// Token: 0x02000624 RID: 1572
 	public class TimeoutComp : WorldObjectComp
 	{
 		// Token: 0x170004C9 RID: 1225
-		// (get) Token: 0x0600200E RID: 8206 RVA: 0x00113528 File Offset: 0x00111928
+		// (get) Token: 0x06002003 RID: 8195 RVA: 0x001134A8 File Offset: 0x001118A8
 		public bool Active
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004CA RID: 1226
-		// (get) Token: 0x0600200F RID: 8207 RVA: 0x0011354C File Offset: 0x0011194C
+		// (get) Token: 0x06002004 RID: 8196 RVA: 0x001134CC File Offset: 0x001118CC
 		public bool Passed
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004CB RID: 1227
-		// (get) Token: 0x06002010 RID: 8208 RVA: 0x00113584 File Offset: 0x00111984
+		// (get) Token: 0x06002005 RID: 8197 RVA: 0x00113504 File Offset: 0x00111904
 		private bool ShouldRemoveWorldObjectNow
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004CC RID: 1228
-		// (get) Token: 0x06002011 RID: 8209 RVA: 0x001135B0 File Offset: 0x001119B0
+		// (get) Token: 0x06002006 RID: 8198 RVA: 0x00113530 File Offset: 0x00111930
 		public int TicksLeft
 		{
 			get
@@ -46,13 +46,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002012 RID: 8210 RVA: 0x001135E7 File Offset: 0x001119E7
+		// Token: 0x06002007 RID: 8199 RVA: 0x00113567 File Offset: 0x00111967
 		public void StartTimeout(int ticks)
 		{
 			this.timeoutEndTick = Find.TickManager.TicksGame + ticks;
 		}
 
-		// Token: 0x06002013 RID: 8211 RVA: 0x001135FC File Offset: 0x001119FC
+		// Token: 0x06002008 RID: 8200 RVA: 0x0011357C File Offset: 0x0011197C
 		public override void CompTick()
 		{
 			base.CompTick();
@@ -62,14 +62,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002014 RID: 8212 RVA: 0x00113620 File Offset: 0x00111A20
+		// Token: 0x06002009 RID: 8201 RVA: 0x001135A0 File Offset: 0x001119A0
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_Values.Look<int>(ref this.timeoutEndTick, "timeoutEndTick", 0, false);
 		}
 
-		// Token: 0x06002015 RID: 8213 RVA: 0x0011363C File Offset: 0x00111A3C
+		// Token: 0x0600200A RID: 8202 RVA: 0x001135BC File Offset: 0x001119BC
 		public override string CompInspectStringExtra()
 		{
 			string result;
@@ -87,7 +87,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x0400127A RID: 4730
+		// Token: 0x04001274 RID: 4724
 		private int timeoutEndTick = -1;
 	}
 }

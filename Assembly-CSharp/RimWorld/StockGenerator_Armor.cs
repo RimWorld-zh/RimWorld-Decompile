@@ -3,25 +3,25 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000779 RID: 1913
+	// Token: 0x02000775 RID: 1909
 	public class StockGenerator_Armor : StockGenerator_MiscItems
 	{
-		// Token: 0x06002A34 RID: 10804 RVA: 0x00165D84 File Offset: 0x00164184
+		// Token: 0x06002A2D RID: 10797 RVA: 0x00165F5C File Offset: 0x0016435C
 		public override bool HandlesThingDef(ThingDef td)
 		{
 			return td == ThingDefOf.Apparel_ShieldBelt || td == ThingDefOf.Apparel_SmokepopBelt || (base.HandlesThingDef(td) && td.IsApparel && (td.GetStatValueAbstract(StatDefOf.ArmorRating_Blunt, null) > 0.15f || td.GetStatValueAbstract(StatDefOf.ArmorRating_Sharp, null) > 0.15f));
 		}
 
-		// Token: 0x06002A35 RID: 10805 RVA: 0x00165E04 File Offset: 0x00164204
+		// Token: 0x06002A2E RID: 10798 RVA: 0x00165FDC File Offset: 0x001643DC
 		protected override float SelectionWeight(ThingDef thingDef)
 		{
 			return StockGenerator_Armor.SelectionWeightMarketValueCurve.Evaluate(thingDef.BaseMarketValue);
 		}
 
-		// Token: 0x040016C3 RID: 5827
+		// Token: 0x040016C1 RID: 5825
 		public const float MinArmor = 0.15f;
 
-		// Token: 0x040016C4 RID: 5828
+		// Token: 0x040016C2 RID: 5826
 		private static readonly SimpleCurve SelectionWeightMarketValueCurve = new SimpleCurve
 		{
 			{

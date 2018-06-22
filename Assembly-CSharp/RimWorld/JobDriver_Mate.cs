@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_Mate : JobDriver
 	{
 		// Token: 0x17000059 RID: 89
-		// (get) Token: 0x060001B1 RID: 433 RVA: 0x000122AC File Offset: 0x000106AC
+		// (get) Token: 0x060001B1 RID: 433 RVA: 0x000122B4 File Offset: 0x000106B4
 		private Pawn Female
 		{
 			get
@@ -18,13 +18,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060001B2 RID: 434 RVA: 0x000122DC File Offset: 0x000106DC
+		// Token: 0x060001B2 RID: 434 RVA: 0x000122E4 File Offset: 0x000106E4
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x060001B3 RID: 435 RVA: 0x000122F4 File Offset: 0x000106F4
+		// Token: 0x060001B3 RID: 435 RVA: 0x000122FC File Offset: 0x000106FC
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);

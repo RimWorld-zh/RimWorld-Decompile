@@ -10,9 +10,9 @@ namespace Verse
 	// Token: 0x02000FA4 RID: 4004
 	public static class Prefs
 	{
-		// Token: 0x17000F8D RID: 3981
-		// (get) Token: 0x06006098 RID: 24728 RVA: 0x0030DBEC File Offset: 0x0030BFEC
-		// (set) Token: 0x06006099 RID: 24729 RVA: 0x0030DC0B File Offset: 0x0030C00B
+		// Token: 0x17000F91 RID: 3985
+		// (get) Token: 0x060060C1 RID: 24769 RVA: 0x0030FC90 File Offset: 0x0030E090
+		// (set) Token: 0x060060C2 RID: 24770 RVA: 0x0030FCAF File Offset: 0x0030E0AF
 		public static float VolumeGame
 		{
 			get
@@ -26,9 +26,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F8E RID: 3982
-		// (get) Token: 0x0600609A RID: 24730 RVA: 0x0030DC20 File Offset: 0x0030C020
-		// (set) Token: 0x0600609B RID: 24731 RVA: 0x0030DC3F File Offset: 0x0030C03F
+		// Token: 0x17000F92 RID: 3986
+		// (get) Token: 0x060060C3 RID: 24771 RVA: 0x0030FCC4 File Offset: 0x0030E0C4
+		// (set) Token: 0x060060C4 RID: 24772 RVA: 0x0030FCE3 File Offset: 0x0030E0E3
 		public static float VolumeMusic
 		{
 			get
@@ -42,9 +42,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F8F RID: 3983
-		// (get) Token: 0x0600609C RID: 24732 RVA: 0x0030DC54 File Offset: 0x0030C054
-		// (set) Token: 0x0600609D RID: 24733 RVA: 0x0030DC73 File Offset: 0x0030C073
+		// Token: 0x17000F93 RID: 3987
+		// (get) Token: 0x060060C5 RID: 24773 RVA: 0x0030FCF8 File Offset: 0x0030E0F8
+		// (set) Token: 0x060060C6 RID: 24774 RVA: 0x0030FD17 File Offset: 0x0030E117
 		public static float VolumeAmbient
 		{
 			get
@@ -58,9 +58,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F90 RID: 3984
-		// (get) Token: 0x0600609E RID: 24734 RVA: 0x0030DC88 File Offset: 0x0030C088
-		// (set) Token: 0x0600609F RID: 24735 RVA: 0x0030DCA7 File Offset: 0x0030C0A7
+		// Token: 0x17000F94 RID: 3988
+		// (get) Token: 0x060060C7 RID: 24775 RVA: 0x0030FD2C File Offset: 0x0030E12C
+		// (set) Token: 0x060060C8 RID: 24776 RVA: 0x0030FD4B File Offset: 0x0030E14B
 		public static bool AdaptiveTrainingEnabled
 		{
 			get
@@ -74,9 +74,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F91 RID: 3985
-		// (get) Token: 0x060060A0 RID: 24736 RVA: 0x0030DCBC File Offset: 0x0030C0BC
-		// (set) Token: 0x060060A1 RID: 24737 RVA: 0x0030DCDB File Offset: 0x0030C0DB
+		// Token: 0x17000F95 RID: 3989
+		// (get) Token: 0x060060C9 RID: 24777 RVA: 0x0030FD60 File Offset: 0x0030E160
+		// (set) Token: 0x060060CA RID: 24778 RVA: 0x0030FD7F File Offset: 0x0030E17F
 		public static bool EdgeScreenScroll
 		{
 			get
@@ -90,9 +90,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F92 RID: 3986
-		// (get) Token: 0x060060A2 RID: 24738 RVA: 0x0030DCF0 File Offset: 0x0030C0F0
-		// (set) Token: 0x060060A3 RID: 24739 RVA: 0x0030DD0F File Offset: 0x0030C10F
+		// Token: 0x17000F96 RID: 3990
+		// (get) Token: 0x060060CB RID: 24779 RVA: 0x0030FD94 File Offset: 0x0030E194
+		// (set) Token: 0x060060CC RID: 24780 RVA: 0x0030FDB3 File Offset: 0x0030E1B3
 		public static bool RunInBackground
 		{
 			get
@@ -106,9 +106,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F93 RID: 3987
-		// (get) Token: 0x060060A4 RID: 24740 RVA: 0x0030DD24 File Offset: 0x0030C124
-		// (set) Token: 0x060060A5 RID: 24741 RVA: 0x0030DD43 File Offset: 0x0030C143
+		// Token: 0x17000F97 RID: 3991
+		// (get) Token: 0x060060CD RID: 24781 RVA: 0x0030FDC8 File Offset: 0x0030E1C8
+		// (set) Token: 0x060060CE RID: 24782 RVA: 0x0030FDE7 File Offset: 0x0030E1E7
 		public static TemperatureDisplayMode TemperatureMode
 		{
 			get
@@ -122,9 +122,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F94 RID: 3988
-		// (get) Token: 0x060060A6 RID: 24742 RVA: 0x0030DD58 File Offset: 0x0030C158
-		// (set) Token: 0x060060A7 RID: 24743 RVA: 0x0030DD77 File Offset: 0x0030C177
+		// Token: 0x17000F98 RID: 3992
+		// (get) Token: 0x060060CF RID: 24783 RVA: 0x0030FDFC File Offset: 0x0030E1FC
+		// (set) Token: 0x060060D0 RID: 24784 RVA: 0x0030FE1B File Offset: 0x0030E21B
 		public static float AutosaveIntervalDays
 		{
 			get
@@ -138,9 +138,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F95 RID: 3989
-		// (get) Token: 0x060060A8 RID: 24744 RVA: 0x0030DD8C File Offset: 0x0030C18C
-		// (set) Token: 0x060060A9 RID: 24745 RVA: 0x0030DDAB File Offset: 0x0030C1AB
+		// Token: 0x17000F99 RID: 3993
+		// (get) Token: 0x060060D1 RID: 24785 RVA: 0x0030FE30 File Offset: 0x0030E230
+		// (set) Token: 0x060060D2 RID: 24786 RVA: 0x0030FE4F File Offset: 0x0030E24F
 		public static bool CustomCursorEnabled
 		{
 			get
@@ -154,9 +154,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F96 RID: 3990
-		// (get) Token: 0x060060AA RID: 24746 RVA: 0x0030DDC0 File Offset: 0x0030C1C0
-		// (set) Token: 0x060060AB RID: 24747 RVA: 0x0030DDDF File Offset: 0x0030C1DF
+		// Token: 0x17000F9A RID: 3994
+		// (get) Token: 0x060060D3 RID: 24787 RVA: 0x0030FE64 File Offset: 0x0030E264
+		// (set) Token: 0x060060D4 RID: 24788 RVA: 0x0030FE83 File Offset: 0x0030E283
 		public static AnimalNameDisplayMode AnimalNameMode
 		{
 			get
@@ -170,9 +170,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F97 RID: 3991
-		// (get) Token: 0x060060AC RID: 24748 RVA: 0x0030DDF4 File Offset: 0x0030C1F4
-		// (set) Token: 0x060060AD RID: 24749 RVA: 0x0030DE24 File Offset: 0x0030C224
+		// Token: 0x17000F9B RID: 3995
+		// (get) Token: 0x060060D5 RID: 24789 RVA: 0x0030FE98 File Offset: 0x0030E298
+		// (set) Token: 0x060060D6 RID: 24790 RVA: 0x0030FEC8 File Offset: 0x0030E2C8
 		public static bool DevMode
 		{
 			get
@@ -192,9 +192,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F98 RID: 3992
-		// (get) Token: 0x060060AE RID: 24750 RVA: 0x0030DE64 File Offset: 0x0030C264
-		// (set) Token: 0x060060AF RID: 24751 RVA: 0x0030DE93 File Offset: 0x0030C293
+		// Token: 0x17000F9C RID: 3996
+		// (get) Token: 0x060060D7 RID: 24791 RVA: 0x0030FF08 File Offset: 0x0030E308
+		// (set) Token: 0x060060D8 RID: 24792 RVA: 0x0030FF37 File Offset: 0x0030E337
 		public static bool ResetModsConfigOnCrash
 		{
 			get
@@ -208,9 +208,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F99 RID: 3993
-		// (get) Token: 0x060060B0 RID: 24752 RVA: 0x0030DEA8 File Offset: 0x0030C2A8
-		// (set) Token: 0x060060B1 RID: 24753 RVA: 0x0030DEC7 File Offset: 0x0030C2C7
+		// Token: 0x17000F9D RID: 3997
+		// (get) Token: 0x060060D9 RID: 24793 RVA: 0x0030FF4C File Offset: 0x0030E34C
+		// (set) Token: 0x060060DA RID: 24794 RVA: 0x0030FF6B File Offset: 0x0030E36B
 		public static List<string> PreferredNames
 		{
 			get
@@ -224,9 +224,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F9A RID: 3994
-		// (get) Token: 0x060060B2 RID: 24754 RVA: 0x0030DEDC File Offset: 0x0030C2DC
-		// (set) Token: 0x060060B3 RID: 24755 RVA: 0x0030DEFB File Offset: 0x0030C2FB
+		// Token: 0x17000F9E RID: 3998
+		// (get) Token: 0x060060DB RID: 24795 RVA: 0x0030FF80 File Offset: 0x0030E380
+		// (set) Token: 0x060060DC RID: 24796 RVA: 0x0030FF9F File Offset: 0x0030E39F
 		public static string LangFolderName
 		{
 			get
@@ -240,9 +240,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F9B RID: 3995
-		// (get) Token: 0x060060B4 RID: 24756 RVA: 0x0030DF10 File Offset: 0x0030C310
-		// (set) Token: 0x060060B5 RID: 24757 RVA: 0x0030DF2F File Offset: 0x0030C32F
+		// Token: 0x17000F9F RID: 3999
+		// (get) Token: 0x060060DD RID: 24797 RVA: 0x0030FFB4 File Offset: 0x0030E3B4
+		// (set) Token: 0x060060DE RID: 24798 RVA: 0x0030FFD3 File Offset: 0x0030E3D3
 		public static bool LogVerbose
 		{
 			get
@@ -256,9 +256,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F9C RID: 3996
-		// (get) Token: 0x060060B6 RID: 24758 RVA: 0x0030DF44 File Offset: 0x0030C344
-		// (set) Token: 0x060060B7 RID: 24759 RVA: 0x0030DF73 File Offset: 0x0030C373
+		// Token: 0x17000FA0 RID: 4000
+		// (get) Token: 0x060060DF RID: 24799 RVA: 0x0030FFE8 File Offset: 0x0030E3E8
+		// (set) Token: 0x060060E0 RID: 24800 RVA: 0x00310017 File Offset: 0x0030E417
 		public static bool PauseOnError
 		{
 			get
@@ -271,9 +271,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F9D RID: 3997
-		// (get) Token: 0x060060B8 RID: 24760 RVA: 0x0030DF84 File Offset: 0x0030C384
-		// (set) Token: 0x060060B9 RID: 24761 RVA: 0x0030DFA3 File Offset: 0x0030C3A3
+		// Token: 0x17000FA1 RID: 4001
+		// (get) Token: 0x060060E1 RID: 24801 RVA: 0x00310028 File Offset: 0x0030E428
+		// (set) Token: 0x060060E2 RID: 24802 RVA: 0x00310047 File Offset: 0x0030E447
 		public static bool PauseOnLoad
 		{
 			get
@@ -286,9 +286,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F9E RID: 3998
-		// (get) Token: 0x060060BA RID: 24762 RVA: 0x0030DFB4 File Offset: 0x0030C3B4
-		// (set) Token: 0x060060BB RID: 24763 RVA: 0x0030DFD3 File Offset: 0x0030C3D3
+		// Token: 0x17000FA2 RID: 4002
+		// (get) Token: 0x060060E3 RID: 24803 RVA: 0x00310058 File Offset: 0x0030E458
+		// (set) Token: 0x060060E4 RID: 24804 RVA: 0x00310077 File Offset: 0x0030E477
 		public static bool PauseOnUrgentLetter
 		{
 			get
@@ -301,9 +301,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F9F RID: 3999
-		// (get) Token: 0x060060BC RID: 24764 RVA: 0x0030DFE4 File Offset: 0x0030C3E4
-		// (set) Token: 0x060060BD RID: 24765 RVA: 0x0030E003 File Offset: 0x0030C403
+		// Token: 0x17000FA3 RID: 4003
+		// (get) Token: 0x060060E5 RID: 24805 RVA: 0x00310088 File Offset: 0x0030E488
+		// (set) Token: 0x060060E6 RID: 24806 RVA: 0x003100A7 File Offset: 0x0030E4A7
 		public static bool ShowRealtimeClock
 		{
 			get
@@ -316,9 +316,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FA0 RID: 4000
-		// (get) Token: 0x060060BE RID: 24766 RVA: 0x0030E014 File Offset: 0x0030C414
-		// (set) Token: 0x060060BF RID: 24767 RVA: 0x0030E033 File Offset: 0x0030C433
+		// Token: 0x17000FA4 RID: 4004
+		// (get) Token: 0x060060E7 RID: 24807 RVA: 0x003100B8 File Offset: 0x0030E4B8
+		// (set) Token: 0x060060E8 RID: 24808 RVA: 0x003100D7 File Offset: 0x0030E4D7
 		public static bool TestMapSizes
 		{
 			get
@@ -331,9 +331,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FA1 RID: 4001
-		// (get) Token: 0x060060C0 RID: 24768 RVA: 0x0030E044 File Offset: 0x0030C444
-		// (set) Token: 0x060060C1 RID: 24769 RVA: 0x0030E063 File Offset: 0x0030C463
+		// Token: 0x17000FA5 RID: 4005
+		// (get) Token: 0x060060E9 RID: 24809 RVA: 0x003100E8 File Offset: 0x0030E4E8
+		// (set) Token: 0x060060EA RID: 24810 RVA: 0x00310107 File Offset: 0x0030E507
 		public static int MaxNumberOfPlayerHomes
 		{
 			get
@@ -346,9 +346,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FA2 RID: 4002
-		// (get) Token: 0x060060C2 RID: 24770 RVA: 0x0030E074 File Offset: 0x0030C474
-		// (set) Token: 0x060060C3 RID: 24771 RVA: 0x0030E093 File Offset: 0x0030C493
+		// Token: 0x17000FA6 RID: 4006
+		// (get) Token: 0x060060EB RID: 24811 RVA: 0x00310118 File Offset: 0x0030E518
+		// (set) Token: 0x060060EC RID: 24812 RVA: 0x00310137 File Offset: 0x0030E537
 		public static bool PlantWindSway
 		{
 			get
@@ -361,9 +361,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FA3 RID: 4003
-		// (get) Token: 0x060060C4 RID: 24772 RVA: 0x0030E0A4 File Offset: 0x0030C4A4
-		// (set) Token: 0x060060C5 RID: 24773 RVA: 0x0030E0C3 File Offset: 0x0030C4C3
+		// Token: 0x17000FA7 RID: 4007
+		// (get) Token: 0x060060ED RID: 24813 RVA: 0x00310148 File Offset: 0x0030E548
+		// (set) Token: 0x060060EE RID: 24814 RVA: 0x00310167 File Offset: 0x0030E567
 		public static bool ResourceReadoutCategorized
 		{
 			get
@@ -380,9 +380,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FA4 RID: 4004
-		// (get) Token: 0x060060C6 RID: 24774 RVA: 0x0030E0EC File Offset: 0x0030C4EC
-		// (set) Token: 0x060060C7 RID: 24775 RVA: 0x0030E10B File Offset: 0x0030C50B
+		// Token: 0x17000FA8 RID: 4008
+		// (get) Token: 0x060060EF RID: 24815 RVA: 0x00310190 File Offset: 0x0030E590
+		// (set) Token: 0x060060F0 RID: 24816 RVA: 0x003101AF File Offset: 0x0030E5AF
 		public static float UIScale
 		{
 			get
@@ -395,9 +395,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FA5 RID: 4005
-		// (get) Token: 0x060060C8 RID: 24776 RVA: 0x0030E11C File Offset: 0x0030C51C
-		// (set) Token: 0x060060C9 RID: 24777 RVA: 0x0030E13B File Offset: 0x0030C53B
+		// Token: 0x17000FA9 RID: 4009
+		// (get) Token: 0x060060F1 RID: 24817 RVA: 0x003101C0 File Offset: 0x0030E5C0
+		// (set) Token: 0x060060F2 RID: 24818 RVA: 0x003101DF File Offset: 0x0030E5DF
 		public static bool HatsOnlyOnMap
 		{
 			get
@@ -411,7 +411,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060060CA RID: 24778 RVA: 0x0030E150 File Offset: 0x0030C550
+		// Token: 0x060060F3 RID: 24819 RVA: 0x003101F4 File Offset: 0x0030E5F4
 		public static void Init()
 		{
 			bool flag = !new FileInfo(GenFilePaths.PrefsFilePath).Exists;
@@ -431,7 +431,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060060CB RID: 24779 RVA: 0x0030E1CC File Offset: 0x0030C5CC
+		// Token: 0x060060F4 RID: 24820 RVA: 0x00310270 File Offset: 0x0030E670
 		public static void Save()
 		{
 			try
@@ -452,13 +452,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060060CC RID: 24780 RVA: 0x0030E260 File Offset: 0x0030C660
+		// Token: 0x060060F5 RID: 24821 RVA: 0x00310304 File Offset: 0x0030E704
 		public static void Apply()
 		{
 			Prefs.data.Apply();
 		}
 
-		// Token: 0x060060CD RID: 24781 RVA: 0x0030E270 File Offset: 0x0030C670
+		// Token: 0x060060F6 RID: 24822 RVA: 0x00310314 File Offset: 0x0030E714
 		public static NameTriple RandomPreferredName()
 		{
 			string rawName;
@@ -476,7 +476,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003F44 RID: 16196
+		// Token: 0x04003F56 RID: 16214
 		private static PrefsData data;
 	}
 }

@@ -12,10 +12,10 @@ using Verse.Steam;
 
 namespace Verse
 {
-	// Token: 0x02000BDE RID: 3038
+	// Token: 0x02000BDA RID: 3034
 	public abstract class Root : MonoBehaviour
 	{
-		// Token: 0x06004245 RID: 16965 RVA: 0x0022D9A0 File Offset: 0x0022BDA0
+		// Token: 0x06004247 RID: 16967 RVA: 0x0022E0BC File Offset: 0x0022C4BC
 		public virtual void Start()
 		{
 			try
@@ -60,7 +60,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004246 RID: 16966 RVA: 0x0022DA44 File Offset: 0x0022BE44
+		// Token: 0x06004248 RID: 16968 RVA: 0x0022E160 File Offset: 0x0022C560
 		private static void CheckGlobalInit()
 		{
 			if (!Root.globalInitDone)
@@ -88,7 +88,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004247 RID: 16967 RVA: 0x0022DAE8 File Offset: 0x0022BEE8
+		// Token: 0x06004249 RID: 16969 RVA: 0x0022E204 File Offset: 0x0022C604
 		public virtual void Update()
 		{
 			try
@@ -141,7 +141,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004248 RID: 16968 RVA: 0x0022DC18 File Offset: 0x0022C018
+		// Token: 0x0600424A RID: 16970 RVA: 0x0022E334 File Offset: 0x0022C734
 		public void OnGUI()
 		{
 			try
@@ -168,7 +168,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004249 RID: 16969 RVA: 0x0022DCC0 File Offset: 0x0022C0C0
+		// Token: 0x0600424B RID: 16971 RVA: 0x0022E3DC File Offset: 0x0022C7DC
 		public static void Shutdown()
 		{
 			SteamManager.ShutdownSteam();
@@ -184,25 +184,25 @@ namespace Verse
 			Application.Quit();
 		}
 
-		// Token: 0x04002D4A RID: 11594
+		// Token: 0x04002D4F RID: 11599
 		private static bool globalInitDone;
 
-		// Token: 0x04002D4B RID: 11595
+		// Token: 0x04002D50 RID: 11600
 		private static bool prefsApplied;
 
-		// Token: 0x04002D4C RID: 11596
+		// Token: 0x04002D51 RID: 11601
 		protected static bool checkedAutostartSaveFile;
 
-		// Token: 0x04002D4D RID: 11597
+		// Token: 0x04002D52 RID: 11602
 		protected bool destroyed;
 
-		// Token: 0x04002D4E RID: 11598
+		// Token: 0x04002D53 RID: 11603
 		public SoundRoot soundRoot;
 
-		// Token: 0x04002D4F RID: 11599
+		// Token: 0x04002D54 RID: 11604
 		public UIRoot uiRoot;
 
-		// Token: 0x04002D51 RID: 11601
+		// Token: 0x04002D56 RID: 11606
 		[CompilerGenerated]
 		private static Action <>f__mg$cache0;
 	}

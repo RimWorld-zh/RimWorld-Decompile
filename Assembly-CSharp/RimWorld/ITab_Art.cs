@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200084A RID: 2122
+	// Token: 0x02000846 RID: 2118
 	public class ITab_Art : ITab
 	{
-		// Token: 0x06003004 RID: 12292 RVA: 0x001A14FE File Offset: 0x0019F8FE
+		// Token: 0x06002FFD RID: 12285 RVA: 0x001A16DE File Offset: 0x0019FADE
 		public ITab_Art()
 		{
 			this.size = ITab_Art.WinSize;
@@ -15,8 +15,8 @@ namespace RimWorld
 			this.tutorTag = "Art";
 		}
 
-		// Token: 0x170007A5 RID: 1957
-		// (get) Token: 0x06003005 RID: 12293 RVA: 0x001A1528 File Offset: 0x0019F928
+		// Token: 0x170007A6 RID: 1958
+		// (get) Token: 0x06002FFE RID: 12286 RVA: 0x001A1708 File Offset: 0x0019FB08
 		private CompArt SelectedCompArt
 		{
 			get
@@ -40,8 +40,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170007A6 RID: 1958
-		// (get) Token: 0x06003006 RID: 12294 RVA: 0x001A1570 File Offset: 0x0019F970
+		// Token: 0x170007A7 RID: 1959
+		// (get) Token: 0x06002FFF RID: 12287 RVA: 0x001A1750 File Offset: 0x0019FB50
 		public override bool IsVisible
 		{
 			get
@@ -50,7 +50,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003007 RID: 12295 RVA: 0x001A15A0 File Offset: 0x0019F9A0
+		// Token: 0x06003000 RID: 12288 RVA: 0x001A1780 File Offset: 0x0019FB80
 		protected override void FillTab()
 		{
 			Rect rect = new Rect(0f, 0f, ITab_Art.WinSize.x, ITab_Art.WinSize.y).ContractedBy(10f);
@@ -69,16 +69,16 @@ namespace RimWorld
 			Widgets.Label(rect3, ITab_Art.cachedImageDescription);
 		}
 
-		// Token: 0x040019F3 RID: 6643
+		// Token: 0x040019F1 RID: 6641
 		private static string cachedImageDescription;
 
-		// Token: 0x040019F4 RID: 6644
+		// Token: 0x040019F2 RID: 6642
 		private static CompArt cachedImageSource;
 
-		// Token: 0x040019F5 RID: 6645
+		// Token: 0x040019F3 RID: 6643
 		private static TaleReference cachedTaleRef;
 
-		// Token: 0x040019F6 RID: 6646
+		// Token: 0x040019F4 RID: 6644
 		private static readonly Vector2 WinSize = new Vector2(400f, 300f);
 	}
 }

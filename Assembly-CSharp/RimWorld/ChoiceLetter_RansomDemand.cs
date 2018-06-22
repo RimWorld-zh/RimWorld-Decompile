@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000846 RID: 2118
+	// Token: 0x02000842 RID: 2114
 	public class ChoiceLetter_RansomDemand : ChoiceLetter
 	{
-		// Token: 0x17000795 RID: 1941
-		// (get) Token: 0x06002FEA RID: 12266 RVA: 0x001A07AC File Offset: 0x0019EBAC
+		// Token: 0x17000796 RID: 1942
+		// (get) Token: 0x06002FE3 RID: 12259 RVA: 0x001A098C File Offset: 0x0019ED8C
 		public override IEnumerable<DiaOption> Choices
 		{
 			get
@@ -57,8 +57,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000796 RID: 1942
-		// (get) Token: 0x06002FEB RID: 12267 RVA: 0x001A07D8 File Offset: 0x0019EBD8
+		// Token: 0x17000797 RID: 1943
+		// (get) Token: 0x06002FE4 RID: 12260 RVA: 0x001A09B8 File Offset: 0x0019EDB8
 		public override bool CanShowInLetterStack
 		{
 			get
@@ -67,7 +67,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FEC RID: 12268 RVA: 0x001A0838 File Offset: 0x0019EC38
+		// Token: 0x06002FE5 RID: 12261 RVA: 0x001A0A18 File Offset: 0x0019EE18
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -77,16 +77,16 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.fee, "fee", 0, false);
 		}
 
-		// Token: 0x040019EA RID: 6634
+		// Token: 0x040019E8 RID: 6632
 		public Map map;
 
-		// Token: 0x040019EB RID: 6635
+		// Token: 0x040019E9 RID: 6633
 		public Faction faction;
 
-		// Token: 0x040019EC RID: 6636
+		// Token: 0x040019EA RID: 6634
 		public Pawn kidnapped;
 
-		// Token: 0x040019ED RID: 6637
+		// Token: 0x040019EB RID: 6635
 		public int fee;
 	}
 }

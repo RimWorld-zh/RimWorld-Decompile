@@ -8,7 +8,7 @@ namespace RimWorld
 	public class WorkGiver_Researcher : WorkGiver_Scanner
 	{
 		// Token: 0x1700011A RID: 282
-		// (get) Token: 0x0600072D RID: 1837 RVA: 0x000488D4 File Offset: 0x00046CD4
+		// (get) Token: 0x0600072D RID: 1837 RVA: 0x000488C0 File Offset: 0x00046CC0
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700011B RID: 283
-		// (get) Token: 0x0600072E RID: 1838 RVA: 0x0004890C File Offset: 0x00046D0C
+		// (get) Token: 0x0600072E RID: 1838 RVA: 0x000488F8 File Offset: 0x00046CF8
 		public override bool Prioritized
 		{
 			get
@@ -36,13 +36,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600072F RID: 1839 RVA: 0x00048924 File Offset: 0x00046D24
+		// Token: 0x0600072F RID: 1839 RVA: 0x00048910 File Offset: 0x00046D10
 		public override bool ShouldSkip(Pawn pawn, bool forced = false)
 		{
 			return Find.ResearchManager.currentProj == null;
 		}
 
-		// Token: 0x06000730 RID: 1840 RVA: 0x00048950 File Offset: 0x00046D50
+		// Token: 0x06000730 RID: 1840 RVA: 0x0004893C File Offset: 0x00046D3C
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			ResearchProjectDef currentProj = Find.ResearchManager.currentProj;
@@ -71,13 +71,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000731 RID: 1841 RVA: 0x000489CC File Offset: 0x00046DCC
+		// Token: 0x06000731 RID: 1841 RVA: 0x000489B8 File Offset: 0x00046DB8
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			return new Job(JobDefOf.Research, t);
 		}
 
-		// Token: 0x06000732 RID: 1842 RVA: 0x000489F4 File Offset: 0x00046DF4
+		// Token: 0x06000732 RID: 1842 RVA: 0x000489E0 File Offset: 0x00046DE0
 		public override float GetPriority(Pawn pawn, TargetInfo t)
 		{
 			return t.Thing.GetStatValue(StatDefOf.ResearchSpeedFactor, true);

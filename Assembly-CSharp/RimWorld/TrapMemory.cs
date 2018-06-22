@@ -3,15 +3,15 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000562 RID: 1378
+	// Token: 0x0200055E RID: 1374
 	public class TrapMemory : IExposable
 	{
-		// Token: 0x060019FC RID: 6652 RVA: 0x000E17AE File Offset: 0x000DFBAE
+		// Token: 0x060019F3 RID: 6643 RVA: 0x000E1802 File Offset: 0x000DFC02
 		public TrapMemory()
 		{
 		}
 
-		// Token: 0x060019FD RID: 6653 RVA: 0x000E17B7 File Offset: 0x000DFBB7
+		// Token: 0x060019F4 RID: 6644 RVA: 0x000E180B File Offset: 0x000DFC0B
 		public TrapMemory(IntVec3 cell, Map map, int tick)
 		{
 			this.loc = cell;
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170003A9 RID: 937
-		// (get) Token: 0x060019FE RID: 6654 RVA: 0x000E17D8 File Offset: 0x000DFBD8
+		// (get) Token: 0x060019F5 RID: 6645 RVA: 0x000E182C File Offset: 0x000DFC2C
 		public IntVec3 Cell
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170003AA RID: 938
-		// (get) Token: 0x060019FF RID: 6655 RVA: 0x000E17F4 File Offset: 0x000DFBF4
+		// (get) Token: 0x060019F6 RID: 6646 RVA: 0x000E1848 File Offset: 0x000DFC48
 		public int Tick
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170003AB RID: 939
-		// (get) Token: 0x06001A00 RID: 6656 RVA: 0x000E1810 File Offset: 0x000DFC10
+		// (get) Token: 0x060019F7 RID: 6647 RVA: 0x000E1864 File Offset: 0x000DFC64
 		public int Age
 		{
 			get
@@ -50,7 +50,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170003AC RID: 940
-		// (get) Token: 0x06001A01 RID: 6657 RVA: 0x000E1838 File Offset: 0x000DFC38
+		// (get) Token: 0x060019F8 RID: 6648 RVA: 0x000E188C File Offset: 0x000DFC8C
 		public bool Expired
 		{
 			get
@@ -60,7 +60,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170003AD RID: 941
-		// (get) Token: 0x06001A02 RID: 6658 RVA: 0x000E185C File Offset: 0x000DFC5C
+		// (get) Token: 0x060019F9 RID: 6649 RVA: 0x000E18B0 File Offset: 0x000DFCB0
 		public float PowerPercent
 		{
 			get
@@ -69,7 +69,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001A03 RID: 6659 RVA: 0x000E1884 File Offset: 0x000DFC84
+		// Token: 0x060019FA RID: 6650 RVA: 0x000E18D8 File Offset: 0x000DFCD8
 		public void ExposeData()
 		{
 			Scribe_Values.Look<IntVec3>(ref this.loc, "loc", default(IntVec3), false);
@@ -77,16 +77,16 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.tick, "tick", 0, false);
 		}
 
-		// Token: 0x04000F3C RID: 3900
+		// Token: 0x04000F39 RID: 3897
 		public IntVec3 loc;
 
-		// Token: 0x04000F3D RID: 3901
+		// Token: 0x04000F3A RID: 3898
 		public Map map;
 
-		// Token: 0x04000F3E RID: 3902
+		// Token: 0x04000F3B RID: 3899
 		public int tick;
 
-		// Token: 0x04000F3F RID: 3903
+		// Token: 0x04000F3C RID: 3900
 		private const int TrapRecordTicksBeforeExpiry = 1680000;
 	}
 }

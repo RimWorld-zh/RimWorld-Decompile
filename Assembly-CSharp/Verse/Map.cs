@@ -10,17 +10,17 @@ using Verse.Profile;
 
 namespace Verse
 {
-	// Token: 0x02000C36 RID: 3126
+	// Token: 0x02000C33 RID: 3123
 	public sealed class Map : IIncidentTarget, IThingHolder, IExposable, ILoadReferenceable
 	{
-		// Token: 0x060044BC RID: 17596 RVA: 0x002418C9 File Offset: 0x0023FCC9
+		// Token: 0x060044C5 RID: 17605 RVA: 0x00242C91 File Offset: 0x00241091
 		public Map()
 		{
 			MapLeakTracker.AddReference(this);
 		}
 
-		// Token: 0x17000AD2 RID: 2770
-		// (get) Token: 0x060044BD RID: 17597 RVA: 0x002418F8 File Offset: 0x0023FCF8
+		// Token: 0x17000AD4 RID: 2772
+		// (get) Token: 0x060044C6 RID: 17606 RVA: 0x00242CC0 File Offset: 0x002410C0
 		public int Index
 		{
 			get
@@ -29,8 +29,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AD3 RID: 2771
-		// (get) Token: 0x060044BE RID: 17598 RVA: 0x00241918 File Offset: 0x0023FD18
+		// Token: 0x17000AD5 RID: 2773
+		// (get) Token: 0x060044C7 RID: 17607 RVA: 0x00242CE0 File Offset: 0x002410E0
 		public IntVec3 Size
 		{
 			get
@@ -39,8 +39,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AD4 RID: 2772
-		// (get) Token: 0x060044BF RID: 17599 RVA: 0x00241938 File Offset: 0x0023FD38
+		// Token: 0x17000AD6 RID: 2774
+		// (get) Token: 0x060044C8 RID: 17608 RVA: 0x00242D00 File Offset: 0x00241100
 		public IntVec3 Center
 		{
 			get
@@ -49,8 +49,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AD5 RID: 2773
-		// (get) Token: 0x060044C0 RID: 17600 RVA: 0x00241974 File Offset: 0x0023FD74
+		// Token: 0x17000AD7 RID: 2775
+		// (get) Token: 0x060044C9 RID: 17609 RVA: 0x00242D3C File Offset: 0x0024113C
 		public Faction ParentFaction
 		{
 			get
@@ -59,8 +59,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AD6 RID: 2774
-		// (get) Token: 0x060044C1 RID: 17601 RVA: 0x0024199C File Offset: 0x0023FD9C
+		// Token: 0x17000AD8 RID: 2776
+		// (get) Token: 0x060044CA RID: 17610 RVA: 0x00242D64 File Offset: 0x00241164
 		public int Area
 		{
 			get
@@ -69,8 +69,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AD7 RID: 2775
-		// (get) Token: 0x060044C2 RID: 17602 RVA: 0x002419D0 File Offset: 0x0023FDD0
+		// Token: 0x17000AD9 RID: 2777
+		// (get) Token: 0x060044CB RID: 17611 RVA: 0x00242D98 File Offset: 0x00241198
 		public IThingHolder ParentHolder
 		{
 			get
@@ -79,8 +79,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AD8 RID: 2776
-		// (get) Token: 0x060044C3 RID: 17603 RVA: 0x002419F0 File Offset: 0x0023FDF0
+		// Token: 0x17000ADA RID: 2778
+		// (get) Token: 0x060044CC RID: 17612 RVA: 0x00242DB8 File Offset: 0x002411B8
 		public IEnumerable<IntVec3> AllCells
 		{
 			get
@@ -99,8 +99,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AD9 RID: 2777
-		// (get) Token: 0x060044C4 RID: 17604 RVA: 0x00241A1C File Offset: 0x0023FE1C
+		// Token: 0x17000ADB RID: 2779
+		// (get) Token: 0x060044CD RID: 17613 RVA: 0x00242DE4 File Offset: 0x002411E4
 		public bool IsPlayerHome
 		{
 			get
@@ -109,8 +109,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000ADA RID: 2778
-		// (get) Token: 0x060044C5 RID: 17605 RVA: 0x00241A6C File Offset: 0x0023FE6C
+		// Token: 0x17000ADC RID: 2780
+		// (get) Token: 0x060044CE RID: 17614 RVA: 0x00242E34 File Offset: 0x00241234
 		public bool IsTempIncidentMap
 		{
 			get
@@ -119,7 +119,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044C6 RID: 17606 RVA: 0x00241A98 File Offset: 0x0023FE98
+		// Token: 0x060044CF RID: 17615 RVA: 0x00242E60 File Offset: 0x00241260
 		public IEnumerator<IntVec3> GetEnumerator()
 		{
 			foreach (IntVec3 c in this.AllCells)
@@ -129,8 +129,8 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x17000ADB RID: 2779
-		// (get) Token: 0x060044C7 RID: 17607 RVA: 0x00241ABC File Offset: 0x0023FEBC
+		// Token: 0x17000ADD RID: 2781
+		// (get) Token: 0x060044D0 RID: 17616 RVA: 0x00242E84 File Offset: 0x00241284
 		public int Tile
 		{
 			get
@@ -139,8 +139,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000ADC RID: 2780
-		// (get) Token: 0x060044C8 RID: 17608 RVA: 0x00241ADC File Offset: 0x0023FEDC
+		// Token: 0x17000ADE RID: 2782
+		// (get) Token: 0x060044D1 RID: 17617 RVA: 0x00242EA4 File Offset: 0x002412A4
 		public Tile TileInfo
 		{
 			get
@@ -149,8 +149,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000ADD RID: 2781
-		// (get) Token: 0x060044C9 RID: 17609 RVA: 0x00241B04 File Offset: 0x0023FF04
+		// Token: 0x17000ADF RID: 2783
+		// (get) Token: 0x060044D2 RID: 17618 RVA: 0x00242ECC File Offset: 0x002412CC
 		public BiomeDef Biome
 		{
 			get
@@ -159,8 +159,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000ADE RID: 2782
-		// (get) Token: 0x060044CA RID: 17610 RVA: 0x00241B24 File Offset: 0x0023FF24
+		// Token: 0x17000AE0 RID: 2784
+		// (get) Token: 0x060044D3 RID: 17619 RVA: 0x00242EEC File Offset: 0x002412EC
 		public StoryState StoryState
 		{
 			get
@@ -169,8 +169,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000ADF RID: 2783
-		// (get) Token: 0x060044CB RID: 17611 RVA: 0x00241B40 File Offset: 0x0023FF40
+		// Token: 0x17000AE1 RID: 2785
+		// (get) Token: 0x060044D4 RID: 17620 RVA: 0x00242F08 File Offset: 0x00241308
 		public GameConditionManager GameConditionManager
 		{
 			get
@@ -179,8 +179,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AE0 RID: 2784
-		// (get) Token: 0x060044CC RID: 17612 RVA: 0x00241B5C File Offset: 0x0023FF5C
+		// Token: 0x17000AE2 RID: 2786
+		// (get) Token: 0x060044D5 RID: 17621 RVA: 0x00242F24 File Offset: 0x00241324
 		public float PlayerWealthForStoryteller
 		{
 			get
@@ -210,8 +210,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AE1 RID: 2785
-		// (get) Token: 0x060044CD RID: 17613 RVA: 0x00241C34 File Offset: 0x00240034
+		// Token: 0x17000AE3 RID: 2787
+		// (get) Token: 0x060044D6 RID: 17622 RVA: 0x00242FFC File Offset: 0x002413FC
 		public IEnumerable<Pawn> PlayerPawnsForStoryteller
 		{
 			get
@@ -220,8 +220,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AE2 RID: 2786
-		// (get) Token: 0x060044CE RID: 17614 RVA: 0x00241C5C File Offset: 0x0024005C
+		// Token: 0x17000AE4 RID: 2788
+		// (get) Token: 0x060044D7 RID: 17623 RVA: 0x00243024 File Offset: 0x00241424
 		public FloatRange IncidentPointsRandomFactorRange
 		{
 			get
@@ -230,8 +230,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AE3 RID: 2787
-		// (get) Token: 0x060044CF RID: 17615 RVA: 0x00241C78 File Offset: 0x00240078
+		// Token: 0x17000AE5 RID: 2789
+		// (get) Token: 0x060044D8 RID: 17624 RVA: 0x00243040 File Offset: 0x00241440
 		public MapParent Parent
 		{
 			get
@@ -240,13 +240,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044D0 RID: 17616 RVA: 0x00241C98 File Offset: 0x00240098
+		// Token: 0x060044D9 RID: 17625 RVA: 0x00243060 File Offset: 0x00241460
 		public IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
 		{
 			return this.info.parent.AcceptedTypes();
 		}
 
-		// Token: 0x060044D1 RID: 17617 RVA: 0x00241CC0 File Offset: 0x002400C0
+		// Token: 0x060044DA RID: 17626 RVA: 0x00243088 File Offset: 0x00241488
 		public void ConstructComponents()
 		{
 			this.spawnedThings = new ThingOwner<Thing>(this);
@@ -332,7 +332,7 @@ namespace Verse
 			this.FillComponents();
 		}
 
-		// Token: 0x060044D2 RID: 17618 RVA: 0x00242088 File Offset: 0x00240488
+		// Token: 0x060044DB RID: 17627 RVA: 0x00243450 File Offset: 0x00241850
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.uniqueID, "uniqueID", -1, false);
@@ -407,7 +407,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044D3 RID: 17619 RVA: 0x002422B4 File Offset: 0x002406B4
+		// Token: 0x060044DC RID: 17628 RVA: 0x0024367C File Offset: 0x00241A7C
 		private void FillComponents()
 		{
 			this.components.RemoveAll((MapComponent component) => component == null);
@@ -426,7 +426,7 @@ namespace Verse
 			this.waterInfo = this.GetComponent<WaterInfo>();
 		}
 
-		// Token: 0x060044D4 RID: 17620 RVA: 0x00242384 File Offset: 0x00240784
+		// Token: 0x060044DD RID: 17629 RVA: 0x0024374C File Offset: 0x00241B4C
 		public void FinalizeLoading()
 		{
 			List<Thing> list = this.compressor.ThingsToSpawnAfterLoad().ToList<Thing>();
@@ -453,7 +453,7 @@ namespace Verse
 						Log.Error(string.Concat(new object[]
 						{
 							"Exception spawning loaded thing ",
-							thing,
+							thing.ToStringSafe<Thing>(),
 							": ",
 							ex
 						}), false);
@@ -473,7 +473,7 @@ namespace Verse
 					Log.Error(string.Concat(new object[]
 					{
 						"Exception spawning loaded thing ",
-						building,
+						building.ToStringSafe<Building>(),
 						": ",
 						ex2
 					}), false);
@@ -483,7 +483,7 @@ namespace Verse
 			this.FinalizeInit();
 		}
 
-		// Token: 0x060044D5 RID: 17621 RVA: 0x002425BC File Offset: 0x002409BC
+		// Token: 0x060044DE RID: 17630 RVA: 0x0024398C File Offset: 0x00241D8C
 		public void FinalizeInit()
 		{
 			this.pathGrid.RecalculateAllPerceivedPathCosts();
@@ -518,7 +518,7 @@ namespace Verse
 			MapComponentUtility.FinalizeInit(this);
 		}
 
-		// Token: 0x060044D6 RID: 17622 RVA: 0x002426E0 File Offset: 0x00240AE0
+		// Token: 0x060044DF RID: 17631 RVA: 0x00243AB0 File Offset: 0x00241EB0
 		private void ExposeComponents()
 		{
 			Scribe_Deep.Look<WeatherManager>(ref this.weatherManager, "weatherManager", new object[]
@@ -620,7 +620,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044D7 RID: 17623 RVA: 0x0024299C File Offset: 0x00240D9C
+		// Token: 0x060044E0 RID: 17632 RVA: 0x00243D6C File Offset: 0x0024216C
 		public void MapPreTick()
 		{
 			Profiler.BeginSample("ItemAvailabilityUtility.Tick()");
@@ -657,7 +657,7 @@ namespace Verse
 			Profiler.EndSample();
 		}
 
-		// Token: 0x060044D8 RID: 17624 RVA: 0x00242A98 File Offset: 0x00240E98
+		// Token: 0x060044E1 RID: 17633 RVA: 0x00243E68 File Offset: 0x00242268
 		public void MapPostTick()
 		{
 			Profiler.BeginSample("WildAnimalSpawnerTick()");
@@ -805,7 +805,7 @@ namespace Verse
 			Profiler.EndSample();
 		}
 
-		// Token: 0x060044D9 RID: 17625 RVA: 0x00242E64 File Offset: 0x00241264
+		// Token: 0x060044E2 RID: 17634 RVA: 0x00244234 File Offset: 0x00242634
 		public void MapUpdate()
 		{
 			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
@@ -888,7 +888,7 @@ namespace Verse
 			Profiler.EndSample();
 		}
 
-		// Token: 0x060044DA RID: 17626 RVA: 0x002430DC File Offset: 0x002414DC
+		// Token: 0x060044E3 RID: 17635 RVA: 0x002444AC File Offset: 0x002428AC
 		public T GetComponent<T>() where T : MapComponent
 		{
 			for (int i = 0; i < this.components.Count; i++)
@@ -902,7 +902,7 @@ namespace Verse
 			return (T)((object)null);
 		}
 
-		// Token: 0x060044DB RID: 17627 RVA: 0x00243140 File Offset: 0x00241540
+		// Token: 0x060044E4 RID: 17636 RVA: 0x00244510 File Offset: 0x00242910
 		public MapComponent GetComponent(Type type)
 		{
 			for (int i = 0; i < this.components.Count; i++)
@@ -915,13 +915,13 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x060044DC RID: 17628 RVA: 0x002431A4 File Offset: 0x002415A4
+		// Token: 0x060044E5 RID: 17637 RVA: 0x00244574 File Offset: 0x00242974
 		public string GetUniqueLoadID()
 		{
 			return "Map_" + this.uniqueID;
 		}
 
-		// Token: 0x060044DD RID: 17629 RVA: 0x002431D0 File Offset: 0x002415D0
+		// Token: 0x060044E6 RID: 17638 RVA: 0x002445A0 File Offset: 0x002429A0
 		public override string ToString()
 		{
 			string str = "(Map-" + this.uniqueID;
@@ -932,13 +932,13 @@ namespace Verse
 			return str + ")";
 		}
 
-		// Token: 0x060044DE RID: 17630 RVA: 0x00243220 File Offset: 0x00241620
+		// Token: 0x060044E7 RID: 17639 RVA: 0x002445F0 File Offset: 0x002429F0
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.spawnedThings;
 		}
 
-		// Token: 0x060044DF RID: 17631 RVA: 0x0024323C File Offset: 0x0024163C
+		// Token: 0x060044E8 RID: 17640 RVA: 0x0024460C File Offset: 0x00242A0C
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.listerThings.ThingsInGroup(ThingRequestGroup.ThingHolder));
@@ -961,268 +961,268 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002EB5 RID: 11957
+		// Token: 0x04002EBF RID: 11967
 		public MapFileCompressor compressor;
 
-		// Token: 0x04002EB6 RID: 11958
+		// Token: 0x04002EC0 RID: 11968
 		private List<Thing> loadedFullThings;
 
-		// Token: 0x04002EB7 RID: 11959
+		// Token: 0x04002EC1 RID: 11969
 		public int uniqueID = -1;
 
-		// Token: 0x04002EB8 RID: 11960
+		// Token: 0x04002EC2 RID: 11970
 		public MapInfo info = new MapInfo();
 
-		// Token: 0x04002EB9 RID: 11961
+		// Token: 0x04002EC3 RID: 11971
 		public List<MapComponent> components = new List<MapComponent>();
 
-		// Token: 0x04002EBA RID: 11962
+		// Token: 0x04002EC4 RID: 11972
 		public ThingOwner spawnedThings;
 
-		// Token: 0x04002EBB RID: 11963
+		// Token: 0x04002EC5 RID: 11973
 		public CellIndices cellIndices;
 
-		// Token: 0x04002EBC RID: 11964
+		// Token: 0x04002EC6 RID: 11974
 		public ListerThings listerThings;
 
-		// Token: 0x04002EBD RID: 11965
+		// Token: 0x04002EC7 RID: 11975
 		public ListerBuildings listerBuildings;
 
-		// Token: 0x04002EBE RID: 11966
+		// Token: 0x04002EC8 RID: 11976
 		public MapPawns mapPawns;
 
-		// Token: 0x04002EBF RID: 11967
+		// Token: 0x04002EC9 RID: 11977
 		public DynamicDrawManager dynamicDrawManager;
 
-		// Token: 0x04002EC0 RID: 11968
+		// Token: 0x04002ECA RID: 11978
 		public MapDrawer mapDrawer;
 
-		// Token: 0x04002EC1 RID: 11969
+		// Token: 0x04002ECB RID: 11979
 		public PawnDestinationReservationManager pawnDestinationReservationManager;
 
-		// Token: 0x04002EC2 RID: 11970
+		// Token: 0x04002ECC RID: 11980
 		public TooltipGiverList tooltipGiverList;
 
-		// Token: 0x04002EC3 RID: 11971
+		// Token: 0x04002ECD RID: 11981
 		public ReservationManager reservationManager;
 
-		// Token: 0x04002EC4 RID: 11972
+		// Token: 0x04002ECE RID: 11982
 		public PhysicalInteractionReservationManager physicalInteractionReservationManager;
 
-		// Token: 0x04002EC5 RID: 11973
+		// Token: 0x04002ECF RID: 11983
 		public DesignationManager designationManager;
 
-		// Token: 0x04002EC6 RID: 11974
+		// Token: 0x04002ED0 RID: 11984
 		public LordManager lordManager;
 
-		// Token: 0x04002EC7 RID: 11975
+		// Token: 0x04002ED1 RID: 11985
 		public PassingShipManager passingShipManager;
 
-		// Token: 0x04002EC8 RID: 11976
+		// Token: 0x04002ED2 RID: 11986
 		public HaulDestinationManager haulDestinationManager;
 
-		// Token: 0x04002EC9 RID: 11977
+		// Token: 0x04002ED3 RID: 11987
 		public DebugCellDrawer debugDrawer;
 
-		// Token: 0x04002ECA RID: 11978
+		// Token: 0x04002ED4 RID: 11988
 		public GameConditionManager gameConditionManager;
 
-		// Token: 0x04002ECB RID: 11979
+		// Token: 0x04002ED5 RID: 11989
 		public WeatherManager weatherManager;
 
-		// Token: 0x04002ECC RID: 11980
+		// Token: 0x04002ED6 RID: 11990
 		public ZoneManager zoneManager;
 
-		// Token: 0x04002ECD RID: 11981
+		// Token: 0x04002ED7 RID: 11991
 		public ResourceCounter resourceCounter;
 
-		// Token: 0x04002ECE RID: 11982
+		// Token: 0x04002ED8 RID: 11992
 		public MapTemperature mapTemperature;
 
-		// Token: 0x04002ECF RID: 11983
+		// Token: 0x04002ED9 RID: 11993
 		public TemperatureCache temperatureCache;
 
-		// Token: 0x04002ED0 RID: 11984
+		// Token: 0x04002EDA RID: 11994
 		public AreaManager areaManager;
 
-		// Token: 0x04002ED1 RID: 11985
+		// Token: 0x04002EDB RID: 11995
 		public AttackTargetsCache attackTargetsCache;
 
-		// Token: 0x04002ED2 RID: 11986
+		// Token: 0x04002EDC RID: 11996
 		public AttackTargetReservationManager attackTargetReservationManager;
 
-		// Token: 0x04002ED3 RID: 11987
+		// Token: 0x04002EDD RID: 11997
 		public VoluntarilyJoinableLordsStarter lordsStarter;
 
-		// Token: 0x04002ED4 RID: 11988
+		// Token: 0x04002EDE RID: 11998
 		public ThingGrid thingGrid;
 
-		// Token: 0x04002ED5 RID: 11989
+		// Token: 0x04002EDF RID: 11999
 		public CoverGrid coverGrid;
 
-		// Token: 0x04002ED6 RID: 11990
+		// Token: 0x04002EE0 RID: 12000
 		public EdificeGrid edificeGrid;
 
-		// Token: 0x04002ED7 RID: 11991
+		// Token: 0x04002EE1 RID: 12001
 		public BlueprintGrid blueprintGrid;
 
-		// Token: 0x04002ED8 RID: 11992
+		// Token: 0x04002EE2 RID: 12002
 		public FogGrid fogGrid;
 
-		// Token: 0x04002ED9 RID: 11993
+		// Token: 0x04002EE3 RID: 12003
 		public RegionGrid regionGrid;
 
-		// Token: 0x04002EDA RID: 11994
+		// Token: 0x04002EE4 RID: 12004
 		public GlowGrid glowGrid;
 
-		// Token: 0x04002EDB RID: 11995
+		// Token: 0x04002EE5 RID: 12005
 		public TerrainGrid terrainGrid;
 
-		// Token: 0x04002EDC RID: 11996
+		// Token: 0x04002EE6 RID: 12006
 		public PathGrid pathGrid;
 
-		// Token: 0x04002EDD RID: 11997
+		// Token: 0x04002EE7 RID: 12007
 		public RoofGrid roofGrid;
 
-		// Token: 0x04002EDE RID: 11998
+		// Token: 0x04002EE8 RID: 12008
 		public FertilityGrid fertilityGrid;
 
-		// Token: 0x04002EDF RID: 11999
+		// Token: 0x04002EE9 RID: 12009
 		public SnowGrid snowGrid;
 
-		// Token: 0x04002EE0 RID: 12000
+		// Token: 0x04002EEA RID: 12010
 		public DeepResourceGrid deepResourceGrid;
 
-		// Token: 0x04002EE1 RID: 12001
+		// Token: 0x04002EEB RID: 12011
 		public ExitMapGrid exitMapGrid;
 
-		// Token: 0x04002EE2 RID: 12002
+		// Token: 0x04002EEC RID: 12012
 		public LinkGrid linkGrid;
 
-		// Token: 0x04002EE3 RID: 12003
+		// Token: 0x04002EED RID: 12013
 		public GlowFlooder glowFlooder;
 
-		// Token: 0x04002EE4 RID: 12004
+		// Token: 0x04002EEE RID: 12014
 		public PowerNetManager powerNetManager;
 
-		// Token: 0x04002EE5 RID: 12005
+		// Token: 0x04002EEF RID: 12015
 		public PowerNetGrid powerNetGrid;
 
-		// Token: 0x04002EE6 RID: 12006
+		// Token: 0x04002EF0 RID: 12016
 		public RegionMaker regionMaker;
 
-		// Token: 0x04002EE7 RID: 12007
+		// Token: 0x04002EF1 RID: 12017
 		public PathFinder pathFinder;
 
-		// Token: 0x04002EE8 RID: 12008
+		// Token: 0x04002EF2 RID: 12018
 		public PawnPathPool pawnPathPool;
 
-		// Token: 0x04002EE9 RID: 12009
+		// Token: 0x04002EF3 RID: 12019
 		public RegionAndRoomUpdater regionAndRoomUpdater;
 
-		// Token: 0x04002EEA RID: 12010
+		// Token: 0x04002EF4 RID: 12020
 		public RegionLinkDatabase regionLinkDatabase;
 
-		// Token: 0x04002EEB RID: 12011
+		// Token: 0x04002EF5 RID: 12021
 		public MoteCounter moteCounter;
 
-		// Token: 0x04002EEC RID: 12012
+		// Token: 0x04002EF6 RID: 12022
 		public GatherSpotLister gatherSpotLister;
 
-		// Token: 0x04002EED RID: 12013
+		// Token: 0x04002EF7 RID: 12023
 		public WindManager windManager;
 
-		// Token: 0x04002EEE RID: 12014
+		// Token: 0x04002EF8 RID: 12024
 		public ListerBuildingsRepairable listerBuildingsRepairable;
 
-		// Token: 0x04002EEF RID: 12015
+		// Token: 0x04002EF9 RID: 12025
 		public ListerHaulables listerHaulables;
 
-		// Token: 0x04002EF0 RID: 12016
+		// Token: 0x04002EFA RID: 12026
 		public ListerMergeables listerMergeables;
 
-		// Token: 0x04002EF1 RID: 12017
+		// Token: 0x04002EFB RID: 12027
 		public ListerFilthInHomeArea listerFilthInHomeArea;
 
-		// Token: 0x04002EF2 RID: 12018
+		// Token: 0x04002EFC RID: 12028
 		public Reachability reachability;
 
-		// Token: 0x04002EF3 RID: 12019
+		// Token: 0x04002EFD RID: 12029
 		public ItemAvailability itemAvailability;
 
-		// Token: 0x04002EF4 RID: 12020
+		// Token: 0x04002EFE RID: 12030
 		public AutoBuildRoofAreaSetter autoBuildRoofAreaSetter;
 
-		// Token: 0x04002EF5 RID: 12021
+		// Token: 0x04002EFF RID: 12031
 		public RoofCollapseBufferResolver roofCollapseBufferResolver;
 
-		// Token: 0x04002EF6 RID: 12022
+		// Token: 0x04002F00 RID: 12032
 		public RoofCollapseBuffer roofCollapseBuffer;
 
-		// Token: 0x04002EF7 RID: 12023
+		// Token: 0x04002F01 RID: 12033
 		public WildAnimalSpawner wildAnimalSpawner;
 
-		// Token: 0x04002EF8 RID: 12024
+		// Token: 0x04002F02 RID: 12034
 		public WildPlantSpawner wildPlantSpawner;
 
-		// Token: 0x04002EF9 RID: 12025
+		// Token: 0x04002F03 RID: 12035
 		public SteadyEnvironmentEffects steadyEnvironmentEffects;
 
-		// Token: 0x04002EFA RID: 12026
+		// Token: 0x04002F04 RID: 12036
 		public SkyManager skyManager;
 
-		// Token: 0x04002EFB RID: 12027
+		// Token: 0x04002F05 RID: 12037
 		public OverlayDrawer overlayDrawer;
 
-		// Token: 0x04002EFC RID: 12028
+		// Token: 0x04002F06 RID: 12038
 		public FloodFiller floodFiller;
 
-		// Token: 0x04002EFD RID: 12029
+		// Token: 0x04002F07 RID: 12039
 		public WeatherDecider weatherDecider;
 
-		// Token: 0x04002EFE RID: 12030
+		// Token: 0x04002F08 RID: 12040
 		public FireWatcher fireWatcher;
 
-		// Token: 0x04002EFF RID: 12031
+		// Token: 0x04002F09 RID: 12041
 		public DangerWatcher dangerWatcher;
 
-		// Token: 0x04002F00 RID: 12032
+		// Token: 0x04002F0A RID: 12042
 		public DamageWatcher damageWatcher;
 
-		// Token: 0x04002F01 RID: 12033
+		// Token: 0x04002F0B RID: 12043
 		public StrengthWatcher strengthWatcher;
 
-		// Token: 0x04002F02 RID: 12034
+		// Token: 0x04002F0C RID: 12044
 		public WealthWatcher wealthWatcher;
 
-		// Token: 0x04002F03 RID: 12035
+		// Token: 0x04002F0D RID: 12045
 		public RegionDirtyer regionDirtyer;
 
-		// Token: 0x04002F04 RID: 12036
+		// Token: 0x04002F0E RID: 12046
 		public MapCellsInRandomOrder cellsInRandomOrder;
 
-		// Token: 0x04002F05 RID: 12037
+		// Token: 0x04002F0F RID: 12047
 		public RememberedCameraPos rememberedCameraPos;
 
-		// Token: 0x04002F06 RID: 12038
+		// Token: 0x04002F10 RID: 12048
 		public MineStrikeManager mineStrikeManager;
 
-		// Token: 0x04002F07 RID: 12039
+		// Token: 0x04002F11 RID: 12049
 		public StoryState storyState;
 
-		// Token: 0x04002F08 RID: 12040
+		// Token: 0x04002F12 RID: 12050
 		public RoadInfo roadInfo;
 
-		// Token: 0x04002F09 RID: 12041
+		// Token: 0x04002F13 RID: 12051
 		public WaterInfo waterInfo;
 
-		// Token: 0x04002F0A RID: 12042
+		// Token: 0x04002F14 RID: 12052
 		public RetainedCaravanData retainedCaravanData;
 
-		// Token: 0x04002F0B RID: 12043
+		// Token: 0x04002F15 RID: 12053
 		public const string ThingSaveKey = "thing";
 
-		// Token: 0x04002F0C RID: 12044
+		// Token: 0x04002F16 RID: 12054
 		[TweakValue("Graphics_Shadow", 0f, 100f)]
 		private static bool AlwaysRedrawShadows = false;
 	}

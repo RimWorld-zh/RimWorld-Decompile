@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020001F4 RID: 500
 	public class ThoughtWorker_OpinionOfMyLover : ThoughtWorker
 	{
-		// Token: 0x060009B3 RID: 2483 RVA: 0x000574C4 File Offset: 0x000558C4
+		// Token: 0x060009B1 RID: 2481 RVA: 0x00057508 File Offset: 0x00055908
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			DirectPawnRelation directPawnRelation = LovePartnerRelationUtility.ExistingMostLikedLovePartnerRel(p, false);

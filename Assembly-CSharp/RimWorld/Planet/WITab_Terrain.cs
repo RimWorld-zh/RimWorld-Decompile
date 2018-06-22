@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008EA RID: 2282
+	// Token: 0x020008E6 RID: 2278
 	public class WITab_Terrain : WITab
 	{
-		// Token: 0x06003472 RID: 13426 RVA: 0x001C0792 File Offset: 0x001BEB92
+		// Token: 0x0600346B RID: 13419 RVA: 0x001C097A File Offset: 0x001BED7A
 		public WITab_Terrain()
 		{
 			this.size = WITab_Terrain.WinSize;
@@ -17,8 +17,8 @@ namespace RimWorld.Planet
 			this.tutorTag = "Terrain";
 		}
 
-		// Token: 0x17000867 RID: 2151
-		// (get) Token: 0x06003473 RID: 13427 RVA: 0x001C07BC File Offset: 0x001BEBBC
+		// Token: 0x17000868 RID: 2152
+		// (get) Token: 0x0600346C RID: 13420 RVA: 0x001C09A4 File Offset: 0x001BEDA4
 		public override bool IsVisible
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06003474 RID: 13428 RVA: 0x001C07E0 File Offset: 0x001BEBE0
+		// Token: 0x0600346D RID: 13421 RVA: 0x001C09C8 File Offset: 0x001BEDC8
 		protected override void FillTab()
 		{
 			Rect outRect = new Rect(0f, 0f, WITab_Terrain.WinSize.x, WITab_Terrain.WinSize.y).ContractedBy(10f);
@@ -128,13 +128,13 @@ namespace RimWorld.Planet
 			Widgets.EndScrollView();
 		}
 
-		// Token: 0x04001C60 RID: 7264
+		// Token: 0x04001C5E RID: 7262
 		private Vector2 scrollPosition;
 
-		// Token: 0x04001C61 RID: 7265
+		// Token: 0x04001C5F RID: 7263
 		private float lastDrawnHeight;
 
-		// Token: 0x04001C62 RID: 7266
+		// Token: 0x04001C60 RID: 7264
 		private static readonly Vector2 WinSize = new Vector2(440f, 540f);
 	}
 }

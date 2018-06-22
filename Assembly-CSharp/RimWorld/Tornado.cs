@@ -8,12 +8,12 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020006C1 RID: 1729
+	// Token: 0x020006BD RID: 1725
 	[StaticConstructorOnStartup]
 	public class Tornado : ThingWithComps
 	{
 		// Token: 0x1700059C RID: 1436
-		// (get) Token: 0x0600252F RID: 9519 RVA: 0x0013EAF0 File Offset: 0x0013CEF0
+		// (get) Token: 0x06002527 RID: 9511 RVA: 0x0013EC3C File Offset: 0x0013D03C
 		private float FadeInOutFactor
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002530 RID: 9520 RVA: 0x0013EB58 File Offset: 0x0013CF58
+		// Token: 0x06002528 RID: 9512 RVA: 0x0013ECA4 File Offset: 0x0013D0A4
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -35,7 +35,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.ticksLeftToDisappear, "ticksLeftToDisappear", 0, false);
 		}
 
-		// Token: 0x06002531 RID: 9521 RVA: 0x0013EBD4 File Offset: 0x0013CFD4
+		// Token: 0x06002529 RID: 9513 RVA: 0x0013ED20 File Offset: 0x0013D120
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -51,7 +51,7 @@ namespace RimWorld
 			this.CreateSustainer();
 		}
 
-		// Token: 0x06002532 RID: 9522 RVA: 0x0013EC60 File Offset: 0x0013D060
+		// Token: 0x0600252A RID: 9514 RVA: 0x0013EDAC File Offset: 0x0013D1AC
 		public override void Tick()
 		{
 			if (base.Spawned)
@@ -119,7 +119,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002533 RID: 9523 RVA: 0x0013EF2C File Offset: 0x0013D32C
+		// Token: 0x0600252B RID: 9515 RVA: 0x0013F078 File Offset: 0x0013D478
 		public override void Draw()
 		{
 			Rand.PushState();
@@ -131,7 +131,7 @@ namespace RimWorld
 			Rand.PopState();
 		}
 
-		// Token: 0x06002534 RID: 9524 RVA: 0x0013EFA8 File Offset: 0x0013D3A8
+		// Token: 0x0600252C RID: 9516 RVA: 0x0013F0F4 File Offset: 0x0013D4F4
 		private void DrawTornadoPart(float distanceFromCenter, float initialAngle, float speedMultiplier, float colorMultiplier)
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -163,7 +163,7 @@ namespace RimWorld
 			Graphics.DrawMesh(MeshPool.plane10, matrix, Tornado.TornadoMaterial, 0, null, 0, Tornado.matPropertyBlock);
 		}
 
-		// Token: 0x06002535 RID: 9525 RVA: 0x0013F1A8 File Offset: 0x0013D5A8
+		// Token: 0x0600252D RID: 9517 RVA: 0x0013F2F4 File Offset: 0x0013D6F4
 		private float AdjustedDistanceFromCenter(float distanceFromCenter)
 		{
 			float num = Mathf.Min(distanceFromCenter / 8f, 1f);
@@ -171,13 +171,13 @@ namespace RimWorld
 			return distanceFromCenter * num;
 		}
 
-		// Token: 0x06002536 RID: 9526 RVA: 0x0013F1D6 File Offset: 0x0013D5D6
+		// Token: 0x0600252E RID: 9518 RVA: 0x0013F322 File Offset: 0x0013D722
 		private void UpdateSustainerVolume()
 		{
 			this.sustainer.info.volumeFactor = this.FadeInOutFactor;
 		}
 
-		// Token: 0x06002537 RID: 9527 RVA: 0x0013F1EF File Offset: 0x0013D5EF
+		// Token: 0x0600252F RID: 9519 RVA: 0x0013F33B File Offset: 0x0013D73B
 		private void CreateSustainer()
 		{
 			LongEventHandler.ExecuteWhenFinished(delegate
@@ -188,7 +188,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002538 RID: 9528 RVA: 0x0013F204 File Offset: 0x0013D604
+		// Token: 0x06002530 RID: 9520 RVA: 0x0013F350 File Offset: 0x0013D750
 		private void DamageCloseThings()
 		{
 			int num = GenRadial.NumCellsInRadius(4.2f);
@@ -207,7 +207,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002539 RID: 9529 RVA: 0x0013F2CC File Offset: 0x0013D6CC
+		// Token: 0x06002531 RID: 9521 RVA: 0x0013F418 File Offset: 0x0013D818
 		private void DamageFarThings()
 		{
 			IntVec3 c = (from x in GenRadial.RadialCellsAround(base.Position, 10f, true)
@@ -219,7 +219,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600253A RID: 9530 RVA: 0x0013F320 File Offset: 0x0013D720
+		// Token: 0x06002532 RID: 9522 RVA: 0x0013F46C File Offset: 0x0013D86C
 		private bool CellImmuneToDamage(IntVec3 c)
 		{
 			bool result;
@@ -235,7 +235,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600253B RID: 9531 RVA: 0x0013F3C0 File Offset: 0x0013D7C0
+		// Token: 0x06002533 RID: 9523 RVA: 0x0013F50C File Offset: 0x0013D90C
 		private void DoDamage(IntVec3 c, float damageFactor)
 		{
 			Tornado.tmpThings.Clear();
@@ -283,103 +283,103 @@ namespace RimWorld
 			Tornado.tmpThings.Clear();
 		}
 
-		// Token: 0x0400148E RID: 5262
+		// Token: 0x0400148C RID: 5260
 		private Vector2 realPosition;
 
-		// Token: 0x0400148F RID: 5263
+		// Token: 0x0400148D RID: 5261
 		private float direction;
 
-		// Token: 0x04001490 RID: 5264
+		// Token: 0x0400148E RID: 5262
 		private int spawnTick;
 
-		// Token: 0x04001491 RID: 5265
+		// Token: 0x0400148F RID: 5263
 		private int leftFadeOutTicks = -1;
 
-		// Token: 0x04001492 RID: 5266
+		// Token: 0x04001490 RID: 5264
 		private int ticksLeftToDisappear = -1;
 
-		// Token: 0x04001493 RID: 5267
+		// Token: 0x04001491 RID: 5265
 		private Sustainer sustainer;
 
-		// Token: 0x04001494 RID: 5268
+		// Token: 0x04001492 RID: 5266
 		private static MaterialPropertyBlock matPropertyBlock = new MaterialPropertyBlock();
 
-		// Token: 0x04001495 RID: 5269
+		// Token: 0x04001493 RID: 5267
 		private static ModuleBase directionNoise;
 
-		// Token: 0x04001496 RID: 5270
+		// Token: 0x04001494 RID: 5268
 		private const float Wind = 5f;
 
-		// Token: 0x04001497 RID: 5271
+		// Token: 0x04001495 RID: 5269
 		private const int CloseDamageIntervalTicks = 15;
 
-		// Token: 0x04001498 RID: 5272
+		// Token: 0x04001496 RID: 5270
 		private const float FarDamageMTBTicks = 15f;
 
-		// Token: 0x04001499 RID: 5273
+		// Token: 0x04001497 RID: 5271
 		private const float CloseDamageRadius = 4.2f;
 
-		// Token: 0x0400149A RID: 5274
+		// Token: 0x04001498 RID: 5272
 		private const float FarDamageRadius = 10f;
 
-		// Token: 0x0400149B RID: 5275
+		// Token: 0x04001499 RID: 5273
 		private const float BaseDamage = 30f;
 
-		// Token: 0x0400149C RID: 5276
+		// Token: 0x0400149A RID: 5274
 		private const int SpawnMoteEveryTicks = 4;
 
-		// Token: 0x0400149D RID: 5277
+		// Token: 0x0400149B RID: 5275
 		private static readonly IntRange DurationTicks = new IntRange(2700, 10080);
 
-		// Token: 0x0400149E RID: 5278
+		// Token: 0x0400149C RID: 5276
 		private const float DownedPawnDamageFactor = 0.2f;
 
-		// Token: 0x0400149F RID: 5279
+		// Token: 0x0400149D RID: 5277
 		private const float AnimalPawnDamageFactor = 0.75f;
 
-		// Token: 0x040014A0 RID: 5280
+		// Token: 0x0400149E RID: 5278
 		private const float BuildingDamageFactor = 0.8f;
 
-		// Token: 0x040014A1 RID: 5281
+		// Token: 0x0400149F RID: 5279
 		private const float PlantDamageFactor = 1.7f;
 
-		// Token: 0x040014A2 RID: 5282
+		// Token: 0x040014A0 RID: 5280
 		private const float ItemDamageFactor = 0.68f;
 
-		// Token: 0x040014A3 RID: 5283
+		// Token: 0x040014A1 RID: 5281
 		private const float CellsPerSecond = 1.7f;
 
-		// Token: 0x040014A4 RID: 5284
+		// Token: 0x040014A2 RID: 5282
 		private const float DirectionChangeSpeed = 0.78f;
 
-		// Token: 0x040014A5 RID: 5285
+		// Token: 0x040014A3 RID: 5283
 		private const float DirectionNoiseFrequency = 0.002f;
 
-		// Token: 0x040014A6 RID: 5286
+		// Token: 0x040014A4 RID: 5284
 		private const float TornadoAnimationSpeed = 25f;
 
-		// Token: 0x040014A7 RID: 5287
+		// Token: 0x040014A5 RID: 5285
 		private const float ThreeDimensionalEffectStrength = 4f;
 
-		// Token: 0x040014A8 RID: 5288
+		// Token: 0x040014A6 RID: 5286
 		private const int FadeInTicks = 120;
 
-		// Token: 0x040014A9 RID: 5289
+		// Token: 0x040014A7 RID: 5287
 		private const int FadeOutTicks = 120;
 
-		// Token: 0x040014AA RID: 5290
+		// Token: 0x040014A8 RID: 5288
 		private const float MaxMidOffset = 2f;
 
-		// Token: 0x040014AB RID: 5291
+		// Token: 0x040014A9 RID: 5289
 		private static readonly Material TornadoMaterial = MaterialPool.MatFrom("Things/Ethereal/Tornado", ShaderDatabase.Transparent, MapMaterialRenderQueues.Tornado);
 
-		// Token: 0x040014AC RID: 5292
+		// Token: 0x040014AA RID: 5290
 		private static readonly FloatRange PartsDistanceFromCenter = new FloatRange(1f, 10f);
 
-		// Token: 0x040014AD RID: 5293
+		// Token: 0x040014AB RID: 5291
 		private static readonly float ZOffsetBias = -4f * Tornado.PartsDistanceFromCenter.min;
 
-		// Token: 0x040014AE RID: 5294
+		// Token: 0x040014AC RID: 5292
 		private static List<Thing> tmpThings = new List<Thing>();
 	}
 }

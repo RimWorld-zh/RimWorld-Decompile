@@ -8,29 +8,29 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DFA RID: 3578
+	// Token: 0x02000DF7 RID: 3575
 	public abstract class ThingOwner : IExposable, IList<Thing>, ICollection<Thing>, IEnumerable<Thing>, IEnumerable
 	{
-		// Token: 0x06005088 RID: 20616 RVA: 0x00296C47 File Offset: 0x00295047
+		// Token: 0x0600509C RID: 20636 RVA: 0x00298223 File Offset: 0x00296623
 		public ThingOwner()
 		{
 		}
 
-		// Token: 0x06005089 RID: 20617 RVA: 0x00296C62 File Offset: 0x00295062
+		// Token: 0x0600509D RID: 20637 RVA: 0x0029823E File Offset: 0x0029663E
 		public ThingOwner(IThingHolder owner)
 		{
 			this.owner = owner;
 		}
 
-		// Token: 0x0600508A RID: 20618 RVA: 0x00296C84 File Offset: 0x00295084
+		// Token: 0x0600509E RID: 20638 RVA: 0x00298260 File Offset: 0x00296660
 		public ThingOwner(IThingHolder owner, bool oneStackOnly, LookMode contentsLookMode = LookMode.Deep) : this(owner)
 		{
 			this.maxStacks = ((!oneStackOnly) ? 999999 : 1);
 			this.contentsLookMode = contentsLookMode;
 		}
 
-		// Token: 0x17000D35 RID: 3381
-		// (get) Token: 0x0600508B RID: 20619 RVA: 0x00296CAC File Offset: 0x002950AC
+		// Token: 0x17000D37 RID: 3383
+		// (get) Token: 0x0600509F RID: 20639 RVA: 0x00298288 File Offset: 0x00296688
 		public IThingHolder Owner
 		{
 			get
@@ -39,11 +39,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D36 RID: 3382
-		// (get) Token: 0x0600508C RID: 20620
+		// Token: 0x17000D38 RID: 3384
+		// (get) Token: 0x060050A0 RID: 20640
 		public abstract int Count { get; }
 
-		// Token: 0x17000D37 RID: 3383
+		// Token: 0x17000D39 RID: 3385
 		public Thing this[int index]
 		{
 			get
@@ -52,8 +52,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D38 RID: 3384
-		// (get) Token: 0x0600508E RID: 20622 RVA: 0x00296CE4 File Offset: 0x002950E4
+		// Token: 0x17000D3A RID: 3386
+		// (get) Token: 0x060050A2 RID: 20642 RVA: 0x002982C0 File Offset: 0x002966C0
 		public bool Any
 		{
 			get
@@ -62,8 +62,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D39 RID: 3385
-		// (get) Token: 0x0600508F RID: 20623 RVA: 0x00296D04 File Offset: 0x00295104
+		// Token: 0x17000D3B RID: 3387
+		// (get) Token: 0x060050A3 RID: 20643 RVA: 0x002982E0 File Offset: 0x002966E0
 		public int TotalStackCount
 		{
 			get
@@ -78,8 +78,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D3A RID: 3386
-		// (get) Token: 0x06005090 RID: 20624 RVA: 0x00296D48 File Offset: 0x00295148
+		// Token: 0x17000D3C RID: 3388
+		// (get) Token: 0x060050A4 RID: 20644 RVA: 0x00298324 File Offset: 0x00296724
 		public string ContentsString
 		{
 			get
@@ -107,7 +107,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D33 RID: 3379
+		// Token: 0x17000D35 RID: 3381
 		Thing IList<Thing>.this[int index]
 		{
 			get
@@ -120,8 +120,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D34 RID: 3380
-		// (get) Token: 0x06005093 RID: 20627 RVA: 0x00296DEC File Offset: 0x002951EC
+		// Token: 0x17000D36 RID: 3382
+		// (get) Token: 0x060050A7 RID: 20647 RVA: 0x002983C8 File Offset: 0x002967C8
 		bool ICollection<Thing>.IsReadOnly
 		{
 			get
@@ -130,14 +130,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005094 RID: 20628 RVA: 0x00296E02 File Offset: 0x00295202
+		// Token: 0x060050A8 RID: 20648 RVA: 0x002983DE File Offset: 0x002967DE
 		public virtual void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.maxStacks, "maxStacks", 999999, false);
 			Scribe_Values.Look<LookMode>(ref this.contentsLookMode, "contentsLookMode", LookMode.Deep, false);
 		}
 
-		// Token: 0x06005095 RID: 20629 RVA: 0x00296E30 File Offset: 0x00295230
+		// Token: 0x060050A9 RID: 20649 RVA: 0x0029840C File Offset: 0x0029680C
 		public void ThingOwnerTick(bool removeIfDestroyed = true)
 		{
 			for (int i = this.Count - 1; i >= 0; i--)
@@ -154,7 +154,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005096 RID: 20630 RVA: 0x00296E94 File Offset: 0x00295294
+		// Token: 0x060050AA RID: 20650 RVA: 0x00298470 File Offset: 0x00296870
 		public void ThingOwnerTickRare(bool removeIfDestroyed = true)
 		{
 			for (int i = this.Count - 1; i >= 0; i--)
@@ -171,7 +171,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005097 RID: 20631 RVA: 0x00296EF8 File Offset: 0x002952F8
+		// Token: 0x060050AB RID: 20651 RVA: 0x002984D4 File Offset: 0x002968D4
 		public void ThingOwnerTickLong(bool removeIfDestroyed = true)
 		{
 			for (int i = this.Count - 1; i >= 0; i--)
@@ -188,7 +188,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005098 RID: 20632 RVA: 0x00296F5C File Offset: 0x0029535C
+		// Token: 0x060050AC RID: 20652 RVA: 0x00298538 File Offset: 0x00296938
 		public void Clear()
 		{
 			for (int i = this.Count - 1; i >= 0; i--)
@@ -197,7 +197,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005099 RID: 20633 RVA: 0x00296F94 File Offset: 0x00295394
+		// Token: 0x060050AD RID: 20653 RVA: 0x00298570 File Offset: 0x00296970
 		public void ClearAndDestroyContents(DestroyMode mode = DestroyMode.Vanish)
 		{
 			while (this.Any)
@@ -211,7 +211,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600509A RID: 20634 RVA: 0x00296FE8 File Offset: 0x002953E8
+		// Token: 0x060050AE RID: 20654 RVA: 0x002985C4 File Offset: 0x002969C4
 		public void ClearAndDestroyContentsOrPassToWorld(DestroyMode mode = DestroyMode.Vanish)
 		{
 			while (this.Any)
@@ -225,13 +225,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600509B RID: 20635 RVA: 0x0029703C File Offset: 0x0029543C
+		// Token: 0x060050AF RID: 20655 RVA: 0x00298618 File Offset: 0x00296A18
 		public bool CanAcceptAnyOf(Thing item, bool canMergeWithExistingStacks = true)
 		{
 			return this.GetCountCanAccept(item, canMergeWithExistingStacks) > 0;
 		}
 
-		// Token: 0x0600509C RID: 20636 RVA: 0x0029705C File Offset: 0x0029545C
+		// Token: 0x060050B0 RID: 20656 RVA: 0x00298638 File Offset: 0x00296A38
 		public virtual int GetCountCanAccept(Thing item, bool canMergeWithExistingStacks = true)
 		{
 			int result;
@@ -280,28 +280,28 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600509D RID: 20637
+		// Token: 0x060050B1 RID: 20657
 		public abstract int TryAdd(Thing item, int count, bool canMergeWithExistingStacks = true);
 
-		// Token: 0x0600509E RID: 20638
+		// Token: 0x060050B2 RID: 20658
 		public abstract bool TryAdd(Thing item, bool canMergeWithExistingStacks = true);
 
-		// Token: 0x0600509F RID: 20639
+		// Token: 0x060050B3 RID: 20659
 		public abstract int IndexOf(Thing item);
 
-		// Token: 0x060050A0 RID: 20640
+		// Token: 0x060050B4 RID: 20660
 		public abstract bool Remove(Thing item);
 
-		// Token: 0x060050A1 RID: 20641
+		// Token: 0x060050B5 RID: 20661
 		protected abstract Thing GetAt(int index);
 
-		// Token: 0x060050A2 RID: 20642 RVA: 0x00297188 File Offset: 0x00295588
+		// Token: 0x060050B6 RID: 20662 RVA: 0x00298764 File Offset: 0x00296B64
 		public bool Contains(Thing item)
 		{
 			return item != null && item.holdingOwner == this;
 		}
 
-		// Token: 0x060050A3 RID: 20643 RVA: 0x002971B3 File Offset: 0x002955B3
+		// Token: 0x060050B7 RID: 20663 RVA: 0x0029878F File Offset: 0x00296B8F
 		public void RemoveAt(int index)
 		{
 			if (index < 0 || index >= this.Count)
@@ -311,7 +311,7 @@ namespace Verse
 			this.Remove(this.GetAt(index));
 		}
 
-		// Token: 0x060050A4 RID: 20644 RVA: 0x002971E4 File Offset: 0x002955E4
+		// Token: 0x060050B8 RID: 20664 RVA: 0x002987C0 File Offset: 0x00296BC0
 		public int TryAddOrTransfer(Thing item, int count, bool canMergeWithExistingStacks = true)
 		{
 			int result;
@@ -331,7 +331,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060050A5 RID: 20645 RVA: 0x0029723C File Offset: 0x0029563C
+		// Token: 0x060050B9 RID: 20665 RVA: 0x00298818 File Offset: 0x00296C18
 		public bool TryAddOrTransfer(Thing item, bool canMergeWithExistingStacks = true)
 		{
 			bool result;
@@ -351,7 +351,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060050A6 RID: 20646 RVA: 0x00297294 File Offset: 0x00295694
+		// Token: 0x060050BA RID: 20666 RVA: 0x00298870 File Offset: 0x00296C70
 		public void TryAddRangeOrTransfer(IEnumerable<Thing> things, bool canMergeWithExistingStacks = true, bool destroyLeftover = false)
 		{
 			if (things != this)
@@ -392,7 +392,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060050A7 RID: 20647 RVA: 0x00297390 File Offset: 0x00295790
+		// Token: 0x060050BB RID: 20667 RVA: 0x0029896C File Offset: 0x00296D6C
 		public int RemoveAll(Predicate<Thing> predicate)
 		{
 			int num = 0;
@@ -407,20 +407,20 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x060050A8 RID: 20648 RVA: 0x002973EC File Offset: 0x002957EC
+		// Token: 0x060050BC RID: 20668 RVA: 0x002989C8 File Offset: 0x00296DC8
 		public bool TryTransferToContainer(Thing item, ThingOwner otherContainer, bool canMergeWithExistingStacks = true)
 		{
 			return this.TryTransferToContainer(item, otherContainer, item.stackCount, canMergeWithExistingStacks) == item.stackCount;
 		}
 
-		// Token: 0x060050A9 RID: 20649 RVA: 0x00297418 File Offset: 0x00295818
+		// Token: 0x060050BD RID: 20669 RVA: 0x002989F4 File Offset: 0x00296DF4
 		public int TryTransferToContainer(Thing item, ThingOwner otherContainer, int count, bool canMergeWithExistingStacks = true)
 		{
 			Thing thing;
 			return this.TryTransferToContainer(item, otherContainer, count, out thing, canMergeWithExistingStacks);
 		}
 
-		// Token: 0x060050AA RID: 20650 RVA: 0x0029743C File Offset: 0x0029583C
+		// Token: 0x060050BE RID: 20670 RVA: 0x00298A18 File Offset: 0x00296E18
 		public int TryTransferToContainer(Thing item, ThingOwner otherContainer, int count, out Thing resultingTransferredItem, bool canMergeWithExistingStacks = true)
 		{
 			int result;
@@ -496,7 +496,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060050AB RID: 20651 RVA: 0x002975C8 File Offset: 0x002959C8
+		// Token: 0x060050BF RID: 20671 RVA: 0x00298BA4 File Offset: 0x00296FA4
 		public void TryTransferAllToContainer(ThingOwner other, bool canMergeWithExistingStacks = true)
 		{
 			for (int i = this.Count - 1; i >= 0; i--)
@@ -505,7 +505,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060050AC RID: 20652 RVA: 0x00297604 File Offset: 0x00295A04
+		// Token: 0x060050C0 RID: 20672 RVA: 0x00298BE0 File Offset: 0x00296FE0
 		public Thing Take(Thing thing, int count)
 		{
 			Thing result;
@@ -544,13 +544,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060050AD RID: 20653 RVA: 0x002976D4 File Offset: 0x00295AD4
+		// Token: 0x060050C1 RID: 20673 RVA: 0x00298CB0 File Offset: 0x002970B0
 		public Thing Take(Thing thing)
 		{
 			return this.Take(thing, thing.stackCount);
 		}
 
-		// Token: 0x060050AE RID: 20654 RVA: 0x002976F8 File Offset: 0x00295AF8
+		// Token: 0x060050C2 RID: 20674 RVA: 0x00298CD4 File Offset: 0x002970D4
 		public bool TryDrop(Thing thing, ThingPlaceMode mode, int count, out Thing lastResultingThing, Action<Thing, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null)
 		{
 			Map rootMap = ThingOwnerUtility.GetRootMap(this.owner);
@@ -569,7 +569,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060050AF RID: 20655 RVA: 0x0029776C File Offset: 0x00295B6C
+		// Token: 0x060050C3 RID: 20675 RVA: 0x00298D48 File Offset: 0x00297148
 		public bool TryDrop(Thing thing, IntVec3 dropLoc, Map map, ThingPlaceMode mode, int count, out Thing resultingThing, Action<Thing, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null)
 		{
 			bool result;
@@ -623,7 +623,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060050B0 RID: 20656 RVA: 0x0029787C File Offset: 0x00295C7C
+		// Token: 0x060050C4 RID: 20676 RVA: 0x00298E58 File Offset: 0x00297258
 		public bool TryDrop(Thing thing, ThingPlaceMode mode, out Thing lastResultingThing, Action<Thing, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null)
 		{
 			Map rootMap = ThingOwnerUtility.GetRootMap(this.owner);
@@ -642,7 +642,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060050B1 RID: 20657 RVA: 0x002978EC File Offset: 0x00295CEC
+		// Token: 0x060050C5 RID: 20677 RVA: 0x00298EC8 File Offset: 0x002972C8
 		public bool TryDrop(Thing thing, IntVec3 dropLoc, Map map, ThingPlaceMode mode, out Thing lastResultingThing, Action<Thing, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null)
 		{
 			bool result;
@@ -664,7 +664,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060050B2 RID: 20658 RVA: 0x00297968 File Offset: 0x00295D68
+		// Token: 0x060050C6 RID: 20678 RVA: 0x00298F44 File Offset: 0x00297344
 		public bool TryDropAll(IntVec3 dropLoc, Map map, ThingPlaceMode mode, Action<Thing, int> placeAction = null, Predicate<IntVec3> nearPlaceValidator = null)
 		{
 			bool result = true;
@@ -679,13 +679,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060050B3 RID: 20659 RVA: 0x002979B8 File Offset: 0x00295DB8
+		// Token: 0x060050C7 RID: 20679 RVA: 0x00298F94 File Offset: 0x00297394
 		public bool Contains(ThingDef def)
 		{
 			return this.Contains(def, 1);
 		}
 
-		// Token: 0x060050B4 RID: 20660 RVA: 0x002979D8 File Offset: 0x00295DD8
+		// Token: 0x060050C8 RID: 20680 RVA: 0x00298FB4 File Offset: 0x002973B4
 		public bool Contains(ThingDef def, int minCount)
 		{
 			bool result;
@@ -713,7 +713,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060050B5 RID: 20661 RVA: 0x00297A48 File Offset: 0x00295E48
+		// Token: 0x060050C9 RID: 20681 RVA: 0x00299024 File Offset: 0x00297424
 		public int TotalStackCountOfDef(ThingDef def)
 		{
 			int num = 0;
@@ -728,7 +728,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x060050B6 RID: 20662 RVA: 0x00297A9C File Offset: 0x00295E9C
+		// Token: 0x060050CA RID: 20682 RVA: 0x00299078 File Offset: 0x00297478
 		public void Notify_ContainedItemDestroyed(Thing t)
 		{
 			if (ThingOwnerUtility.ShouldAutoRemoveDestroyedThings(this.owner))
@@ -737,7 +737,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060050B7 RID: 20663 RVA: 0x00297AB8 File Offset: 0x00295EB8
+		// Token: 0x060050CB RID: 20683 RVA: 0x00299094 File Offset: 0x00297494
 		protected void NotifyAdded(Thing item)
 		{
 			if (ThingOwnerUtility.ShouldAutoExtinguishInnerThings(this.owner) && item.HasAttachment(ThingDefOf.Fire))
@@ -775,7 +775,7 @@ namespace Verse
 			this.NotifyColonistBarIfColonistCorpse(item);
 		}
 
-		// Token: 0x060050B8 RID: 20664 RVA: 0x00297BBC File Offset: 0x00295FBC
+		// Token: 0x060050CC RID: 20684 RVA: 0x00299198 File Offset: 0x00297598
 		protected void NotifyAddedAndMergedWith(Thing item, int mergedCount)
 		{
 			CompTransporter compTransporter = this.owner as CompTransporter;
@@ -785,7 +785,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060050B9 RID: 20665 RVA: 0x00297BE4 File Offset: 0x00295FE4
+		// Token: 0x060050CD RID: 20685 RVA: 0x002991C0 File Offset: 0x002975C0
 		protected void NotifyRemoved(Thing item)
 		{
 			Pawn_InventoryTracker pawn_InventoryTracker = this.owner as Pawn_InventoryTracker;
@@ -811,7 +811,7 @@ namespace Verse
 			this.NotifyColonistBarIfColonistCorpse(item);
 		}
 
-		// Token: 0x060050BA RID: 20666 RVA: 0x00297C6C File Offset: 0x0029606C
+		// Token: 0x060050CE RID: 20686 RVA: 0x00299248 File Offset: 0x00297648
 		private void NotifyColonistBarIfColonistCorpse(Thing thing)
 		{
 			Corpse corpse = thing as Corpse;
@@ -821,19 +821,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060050BB RID: 20667 RVA: 0x00297CCE File Offset: 0x002960CE
+		// Token: 0x060050CF RID: 20687 RVA: 0x002992AA File Offset: 0x002976AA
 		void IList<Thing>.Insert(int index, Thing item)
 		{
 			throw new InvalidOperationException("ThingOwner doesn't allow inserting individual elements at any position.");
 		}
 
-		// Token: 0x060050BC RID: 20668 RVA: 0x00297CDB File Offset: 0x002960DB
+		// Token: 0x060050D0 RID: 20688 RVA: 0x002992B7 File Offset: 0x002976B7
 		void ICollection<Thing>.Add(Thing item)
 		{
 			this.TryAdd(item, true);
 		}
 
-		// Token: 0x060050BD RID: 20669 RVA: 0x00297CE8 File Offset: 0x002960E8
+		// Token: 0x060050D1 RID: 20689 RVA: 0x002992C4 File Offset: 0x002976C4
 		void ICollection<Thing>.CopyTo(Thing[] array, int arrayIndex)
 		{
 			for (int i = 0; i < this.Count; i++)
@@ -842,7 +842,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060050BE RID: 20670 RVA: 0x00297D1C File Offset: 0x0029611C
+		// Token: 0x060050D2 RID: 20690 RVA: 0x002992F8 File Offset: 0x002976F8
 		IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
 		{
 			for (int i = 0; i < this.Count; i++)
@@ -852,7 +852,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060050BF RID: 20671 RVA: 0x00297D40 File Offset: 0x00296140
+		// Token: 0x060050D3 RID: 20691 RVA: 0x0029931C File Offset: 0x0029771C
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			for (int i = 0; i < this.Count; i++)
@@ -862,16 +862,16 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0400352D RID: 13613
+		// Token: 0x04003534 RID: 13620
 		protected IThingHolder owner;
 
-		// Token: 0x0400352E RID: 13614
+		// Token: 0x04003535 RID: 13621
 		protected int maxStacks = 999999;
 
-		// Token: 0x0400352F RID: 13615
+		// Token: 0x04003536 RID: 13622
 		protected LookMode contentsLookMode = LookMode.Deep;
 
-		// Token: 0x04003530 RID: 13616
+		// Token: 0x04003537 RID: 13623
 		private const int InfMaxStacks = 999999;
 	}
 }

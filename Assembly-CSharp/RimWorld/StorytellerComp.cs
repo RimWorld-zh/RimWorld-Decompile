@@ -12,25 +12,25 @@ namespace RimWorld
 		// Token: 0x06000F02 RID: 3842
 		public abstract IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target);
 
-		// Token: 0x06000F03 RID: 3843 RVA: 0x0007ECC8 File Offset: 0x0007D0C8
+		// Token: 0x06000F03 RID: 3843 RVA: 0x0007EEB4 File Offset: 0x0007D2B4
 		public virtual IncidentParms GenerateParms(IncidentCategoryDef incCat, IIncidentTarget target)
 		{
 			return StorytellerUtility.DefaultParmsNow(incCat, target);
 		}
 
-		// Token: 0x06000F04 RID: 3844 RVA: 0x0007ECE4 File Offset: 0x0007D0E4
+		// Token: 0x06000F04 RID: 3844 RVA: 0x0007EED0 File Offset: 0x0007D2D0
 		protected IEnumerable<IncidentDef> UsableIncidentsInCategory(IncidentCategoryDef cat, IIncidentTarget target)
 		{
 			return this.UsableIncidentsInCategory(cat, (IncidentDef x) => this.GenerateParms(cat, target));
 		}
 
-		// Token: 0x06000F05 RID: 3845 RVA: 0x0007ED2C File Offset: 0x0007D12C
+		// Token: 0x06000F05 RID: 3845 RVA: 0x0007EF18 File Offset: 0x0007D318
 		protected IEnumerable<IncidentDef> UsableIncidentsInCategory(IncidentCategoryDef cat, IncidentParms parms)
 		{
 			return this.UsableIncidentsInCategory(cat, (IncidentDef x) => parms);
 		}
 
-		// Token: 0x06000F06 RID: 3846 RVA: 0x0007ED64 File Offset: 0x0007D164
+		// Token: 0x06000F06 RID: 3846 RVA: 0x0007EF50 File Offset: 0x0007D350
 		protected virtual IEnumerable<IncidentDef> UsableIncidentsInCategory(IncidentCategoryDef cat, Func<IncidentDef, IncidentParms> parmsGetter)
 		{
 			return from x in DefDatabase<IncidentDef>.AllDefsListForReading
@@ -38,7 +38,7 @@ namespace RimWorld
 			select x;
 		}
 
-		// Token: 0x06000F07 RID: 3847 RVA: 0x0007EDA4 File Offset: 0x0007D1A4
+		// Token: 0x06000F07 RID: 3847 RVA: 0x0007EF90 File Offset: 0x0007D390
 		protected float IncidentChanceFactor_CurrentPopulation(IncidentDef def)
 		{
 			float result;
@@ -54,7 +54,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000F08 RID: 3848 RVA: 0x0007EDE8 File Offset: 0x0007D1E8
+		// Token: 0x06000F08 RID: 3848 RVA: 0x0007EFD4 File Offset: 0x0007D3D4
 		protected float IncidentChanceFactor_PopulationIntent(IncidentDef def)
 		{
 			IncidentPopulationEffect populationEffect = def.populationEffect;
@@ -74,7 +74,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000F09 RID: 3849 RVA: 0x0007EE48 File Offset: 0x0007D248
+		// Token: 0x06000F09 RID: 3849 RVA: 0x0007F034 File Offset: 0x0007D434
 		protected float IncidentChanceFinal(IncidentDef def)
 		{
 			float num = def.Worker.AdjustedChance;
@@ -83,7 +83,7 @@ namespace RimWorld
 			return Mathf.Max(0f, num);
 		}
 
-		// Token: 0x06000F0A RID: 3850 RVA: 0x0007EE88 File Offset: 0x0007D288
+		// Token: 0x06000F0A RID: 3850 RVA: 0x0007F074 File Offset: 0x0007D474
 		public override string ToString()
 		{
 			string text = base.GetType().Name;
@@ -100,7 +100,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x06000F0B RID: 3851 RVA: 0x0007EF38 File Offset: 0x0007D338
+		// Token: 0x06000F0B RID: 3851 RVA: 0x0007F124 File Offset: 0x0007D524
 		public virtual void DebugTablesIncidentChances(IncidentCategoryDef cat)
 		{
 			IEnumerable<IncidentDef> dataSources = from d in DefDatabase<IncidentDef>.AllDefs
@@ -121,7 +121,7 @@ namespace RimWorld
 			DebugTables.MakeTablesDialog<IncidentDef>(dataSources, array);
 		}
 
-		// Token: 0x0400093D RID: 2365
+		// Token: 0x0400093F RID: 2367
 		public StorytellerCompProperties props;
 	}
 }

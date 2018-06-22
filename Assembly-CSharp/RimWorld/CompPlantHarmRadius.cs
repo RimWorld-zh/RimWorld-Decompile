@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000728 RID: 1832
+	// Token: 0x02000724 RID: 1828
 	public class CompPlantHarmRadius : ThingComp
 	{
 		// Token: 0x17000630 RID: 1584
-		// (get) Token: 0x0600285A RID: 10330 RVA: 0x001586A4 File Offset: 0x00156AA4
+		// (get) Token: 0x06002852 RID: 10322 RVA: 0x00158860 File Offset: 0x00156C60
 		protected CompProperties_PlantHarmRadius PropsPlantHarmRadius
 		{
 			get
@@ -16,14 +16,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600285B RID: 10331 RVA: 0x001586C4 File Offset: 0x00156AC4
+		// Token: 0x06002853 RID: 10323 RVA: 0x00158880 File Offset: 0x00156C80
 		public override void PostExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.plantHarmAge, "plantHarmAge", 0, false);
 			Scribe_Values.Look<int>(ref this.ticksToPlantHarm, "ticksToPlantHarm", 0, false);
 		}
 
-		// Token: 0x0600285C RID: 10332 RVA: 0x001586EC File Offset: 0x00156AEC
+		// Token: 0x06002854 RID: 10324 RVA: 0x001588A8 File Offset: 0x00156CA8
 		public override void CompTick()
 		{
 			if (this.parent.Spawned)
@@ -56,7 +56,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600285D RID: 10333 RVA: 0x001587D8 File Offset: 0x00156BD8
+		// Token: 0x06002855 RID: 10325 RVA: 0x00158994 File Offset: 0x00156D94
 		private void HarmRandomPlantInRadius(float radius)
 		{
 			IntVec3 c = this.parent.Position + (Rand.InsideUnitCircleVec3 * radius).ToIntVec3();
@@ -80,10 +80,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0400160C RID: 5644
+		// Token: 0x0400160A RID: 5642
 		private int plantHarmAge;
 
-		// Token: 0x0400160D RID: 5645
+		// Token: 0x0400160B RID: 5643
 		private int ticksToPlantHarm;
 	}
 }

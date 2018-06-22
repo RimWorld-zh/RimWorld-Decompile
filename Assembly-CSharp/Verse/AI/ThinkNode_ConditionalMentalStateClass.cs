@@ -2,10 +2,10 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000AB4 RID: 2740
+	// Token: 0x02000AB0 RID: 2736
 	public class ThinkNode_ConditionalMentalStateClass : ThinkNode_Conditional
 	{
-		// Token: 0x06003D1E RID: 15646 RVA: 0x00204930 File Offset: 0x00202D30
+		// Token: 0x06003D19 RID: 15641 RVA: 0x00204C54 File Offset: 0x00203054
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode_ConditionalMentalStateClass thinkNode_ConditionalMentalStateClass = (ThinkNode_ConditionalMentalStateClass)base.DeepCopy(resolve);
@@ -13,14 +13,14 @@ namespace Verse.AI
 			return thinkNode_ConditionalMentalStateClass;
 		}
 
-		// Token: 0x06003D1F RID: 15647 RVA: 0x00204960 File Offset: 0x00202D60
+		// Token: 0x06003D1A RID: 15642 RVA: 0x00204C84 File Offset: 0x00203084
 		protected override bool Satisfied(Pawn pawn)
 		{
 			MentalState mentalState = pawn.MentalState;
 			return mentalState != null && this.stateClass.IsAssignableFrom(mentalState.GetType());
 		}
 
-		// Token: 0x04002691 RID: 9873
+		// Token: 0x0400268C RID: 9868
 		public Type stateClass;
 	}
 }

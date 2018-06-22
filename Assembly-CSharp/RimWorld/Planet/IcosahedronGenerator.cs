@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005B7 RID: 1463
+	// Token: 0x020005B3 RID: 1459
 	public static class IcosahedronGenerator
 	{
-		// Token: 0x06001C11 RID: 7185 RVA: 0x000F1050 File Offset: 0x000EF450
+		// Token: 0x06001C08 RID: 7176 RVA: 0x000F10A4 File Offset: 0x000EF4A4
 		public static void GenerateIcosahedron(List<Vector3> outVerts, List<TriangleIndices> outTris, float radius, Vector3 viewCenter, float viewAngle)
 		{
 			float num = (1f + Mathf.Sqrt(5f)) / 2f;
@@ -51,14 +51,14 @@ namespace RimWorld.Planet
 			MeshUtility.RemoveUnusedVertices(outVerts, outTris);
 		}
 
-		// Token: 0x06001C12 RID: 7186 RVA: 0x000F12AC File Offset: 0x000EF6AC
+		// Token: 0x06001C09 RID: 7177 RVA: 0x000F1300 File Offset: 0x000EF700
 		private static bool IcosahedronFaceNeeded(int v1, int v2, int v3, List<Vector3> verts, float radius, Vector3 viewCenter, float viewAngle)
 		{
 			viewAngle += 18f;
 			return MeshUtility.Visible(verts[v1], radius, viewCenter, viewAngle) || MeshUtility.Visible(verts[v2], radius, viewCenter, viewAngle) || MeshUtility.Visible(verts[v3], radius, viewCenter, viewAngle);
 		}
 
-		// Token: 0x040010C3 RID: 4291
+		// Token: 0x040010C0 RID: 4288
 		private static readonly TriangleIndices[] IcosahedronTris = new TriangleIndices[]
 		{
 			new TriangleIndices(0, 11, 5),

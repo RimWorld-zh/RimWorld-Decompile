@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DE9 RID: 3561
+	// Token: 0x02000DE6 RID: 3558
 	public abstract class Mote : Thing
 	{
-		// Token: 0x17000CEB RID: 3307
-		// (set) Token: 0x06004FA9 RID: 20393 RVA: 0x00142DE2 File Offset: 0x001411E2
+		// Token: 0x17000CED RID: 3309
+		// (set) Token: 0x06004FBE RID: 20414 RVA: 0x00142F2E File Offset: 0x0014132E
 		public float Scale
 		{
 			set
@@ -16,8 +16,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CEC RID: 3308
-		// (get) Token: 0x06004FAA RID: 20394 RVA: 0x00142DF8 File Offset: 0x001411F8
+		// Token: 0x17000CEE RID: 3310
+		// (get) Token: 0x06004FBF RID: 20415 RVA: 0x00142F44 File Offset: 0x00141344
 		public float AgeSecs
 		{
 			get
@@ -35,8 +35,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CED RID: 3309
-		// (get) Token: 0x06004FAB RID: 20395 RVA: 0x00142E4C File Offset: 0x0014124C
+		// Token: 0x17000CEF RID: 3311
+		// (get) Token: 0x06004FC0 RID: 20416 RVA: 0x00142F98 File Offset: 0x00141398
 		public override Vector3 DrawPos
 		{
 			get
@@ -45,8 +45,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CEE RID: 3310
-		// (get) Token: 0x06004FAC RID: 20396 RVA: 0x00142E68 File Offset: 0x00141268
+		// Token: 0x17000CF0 RID: 3312
+		// (get) Token: 0x06004FC1 RID: 20417 RVA: 0x00142FB4 File Offset: 0x001413B4
 		protected virtual bool EndOfLife
 		{
 			get
@@ -55,8 +55,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CEF RID: 3311
-		// (get) Token: 0x06004FAD RID: 20397 RVA: 0x00142E98 File Offset: 0x00141298
+		// Token: 0x17000CF1 RID: 3313
+		// (get) Token: 0x06004FC2 RID: 20418 RVA: 0x00142FE4 File Offset: 0x001413E4
 		public virtual float Alpha
 		{
 			get
@@ -90,7 +90,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FAE RID: 20398 RVA: 0x00142FC0 File Offset: 0x001413C0
+		// Token: 0x06004FC3 RID: 20419 RVA: 0x0014310C File Offset: 0x0014150C
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -101,7 +101,7 @@ namespace Verse
 			this.exactPosition.y = this.def.altitudeLayer.AltitudeFor();
 		}
 
-		// Token: 0x06004FAF RID: 20399 RVA: 0x00143028 File Offset: 0x00141428
+		// Token: 0x06004FC4 RID: 20420 RVA: 0x00143174 File Offset: 0x00141574
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			Map map = base.Map;
@@ -110,7 +110,7 @@ namespace Verse
 			map.moteCounter.Notify_MoteDespawned();
 		}
 
-		// Token: 0x06004FB0 RID: 20400 RVA: 0x0014305A File Offset: 0x0014145A
+		// Token: 0x06004FC5 RID: 20421 RVA: 0x001431A6 File Offset: 0x001415A6
 		public override void Tick()
 		{
 			if (!this.def.mote.realTime)
@@ -119,7 +119,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FB1 RID: 20401 RVA: 0x0014307D File Offset: 0x0014147D
+		// Token: 0x06004FC6 RID: 20422 RVA: 0x001431C9 File Offset: 0x001415C9
 		public void RealtimeUpdate()
 		{
 			if (this.def.mote.realTime)
@@ -128,7 +128,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FB2 RID: 20402 RVA: 0x001430A0 File Offset: 0x001414A0
+		// Token: 0x06004FC7 RID: 20423 RVA: 0x001431EC File Offset: 0x001415EC
 		protected virtual void TimeInterval(float deltaTime)
 		{
 			if (this.EndOfLife && !base.Destroyed)
@@ -147,69 +147,69 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FB3 RID: 20403 RVA: 0x001431B8 File Offset: 0x001415B8
+		// Token: 0x06004FC8 RID: 20424 RVA: 0x00143304 File Offset: 0x00141704
 		public override void Draw()
 		{
 			this.Draw(this.def.altitudeLayer.AltitudeFor());
 		}
 
-		// Token: 0x06004FB4 RID: 20404 RVA: 0x001431D1 File Offset: 0x001415D1
+		// Token: 0x06004FC9 RID: 20425 RVA: 0x0014331D File Offset: 0x0014171D
 		public void Draw(float altitude)
 		{
 			this.exactPosition.y = altitude;
 			base.Draw();
 		}
 
-		// Token: 0x06004FB5 RID: 20405 RVA: 0x001431E6 File Offset: 0x001415E6
+		// Token: 0x06004FCA RID: 20426 RVA: 0x00143332 File Offset: 0x00141732
 		public void Maintain()
 		{
 			this.lastMaintainTick = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06004FB6 RID: 20406 RVA: 0x001431F9 File Offset: 0x001415F9
+		// Token: 0x06004FCB RID: 20427 RVA: 0x00143345 File Offset: 0x00141745
 		public void Attach(TargetInfo a)
 		{
 			this.link1 = new MoteAttachLink(a);
 		}
 
-		// Token: 0x06004FB7 RID: 20407 RVA: 0x00143208 File Offset: 0x00141608
+		// Token: 0x06004FCC RID: 20428 RVA: 0x00143354 File Offset: 0x00141754
 		public override void Notify_MyMapRemoved()
 		{
 			base.Notify_MyMapRemoved();
 			RealTime.moteList.MoteDespawned(this);
 		}
 
-		// Token: 0x040034CC RID: 13516
+		// Token: 0x040034D7 RID: 13527
 		public Vector3 exactPosition;
 
-		// Token: 0x040034CD RID: 13517
+		// Token: 0x040034D8 RID: 13528
 		public float exactRotation = 0f;
 
-		// Token: 0x040034CE RID: 13518
+		// Token: 0x040034D9 RID: 13529
 		public Vector3 exactScale = new Vector3(1f, 1f, 1f);
 
-		// Token: 0x040034CF RID: 13519
+		// Token: 0x040034DA RID: 13530
 		public float rotationRate = 0f;
 
-		// Token: 0x040034D0 RID: 13520
+		// Token: 0x040034DB RID: 13531
 		public Color instanceColor = Color.white;
 
-		// Token: 0x040034D1 RID: 13521
+		// Token: 0x040034DC RID: 13532
 		private int lastMaintainTick;
 
-		// Token: 0x040034D2 RID: 13522
+		// Token: 0x040034DD RID: 13533
 		public int spawnTick;
 
-		// Token: 0x040034D3 RID: 13523
+		// Token: 0x040034DE RID: 13534
 		public float spawnRealTime;
 
-		// Token: 0x040034D4 RID: 13524
+		// Token: 0x040034DF RID: 13535
 		public MoteAttachLink link1 = MoteAttachLink.Invalid;
 
-		// Token: 0x040034D5 RID: 13525
+		// Token: 0x040034E0 RID: 13536
 		protected float skidSpeedMultiplierPerTick = Rand.Range(0.3f, 0.95f);
 
-		// Token: 0x040034D6 RID: 13526
+		// Token: 0x040034E1 RID: 13537
 		protected const float MinSpeed = 0.02f;
 	}
 }

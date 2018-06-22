@@ -2,12 +2,12 @@
 
 namespace Verse
 {
-	// Token: 0x02000D01 RID: 3329
+	// Token: 0x02000CFE RID: 3326
 	public enum BodyPartRemovalIntent
 	{
-		// Token: 0x040031C0 RID: 12736
+		// Token: 0x040031CB RID: 12747
 		Harvest,
-		// Token: 0x040031C1 RID: 12737
+		// Token: 0x040031CC RID: 12748
 		Amputate
 	}
 }

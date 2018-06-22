@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004B0 RID: 1200
+	// Token: 0x020004AC RID: 1196
 	public static class RecordsUtility
 	{
-		// Token: 0x06001562 RID: 5474 RVA: 0x000BD7E4 File Offset: 0x000BBBE4
+		// Token: 0x06001559 RID: 5465 RVA: 0x000BD7E0 File Offset: 0x000BBBE0
 		public static void Notify_PawnKilled(Pawn killed, Pawn killer)
 		{
 			killer.records.Increment(RecordDefOf.Kills);
@@ -26,7 +26,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001563 RID: 5475 RVA: 0x000BD85C File Offset: 0x000BBC5C
+		// Token: 0x0600155A RID: 5466 RVA: 0x000BD858 File Offset: 0x000BBC58
 		public static void Notify_PawnDowned(Pawn downed, Pawn instigator)
 		{
 			instigator.records.Increment(RecordDefOf.PawnsDowned);
@@ -45,7 +45,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001564 RID: 5476 RVA: 0x000BD8D4 File Offset: 0x000BBCD4
+		// Token: 0x0600155B RID: 5467 RVA: 0x000BD8D0 File Offset: 0x000BBCD0
 		public static void Notify_BillDone(Pawn billDoer, List<Thing> products)
 		{
 			for (int i = 0; i < products.Count; i++)
@@ -61,7 +61,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001565 RID: 5477 RVA: 0x000BD964 File Offset: 0x000BBD64
+		// Token: 0x0600155C RID: 5468 RVA: 0x000BD960 File Offset: 0x000BBD60
 		private static bool ShouldIncrementThingsCrafted(Thing crafted)
 		{
 			return crafted.def.IsApparel || crafted.def.IsWeapon || crafted.def.HasComp(typeof(CompArt)) || crafted.def.HasComp(typeof(CompQuality));

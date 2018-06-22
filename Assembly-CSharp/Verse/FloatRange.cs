@@ -6,15 +6,15 @@ namespace Verse
 	// Token: 0x02000EE9 RID: 3817
 	public struct FloatRange : IEquatable<FloatRange>
 	{
-		// Token: 0x06005A86 RID: 23174 RVA: 0x002E5A81 File Offset: 0x002E3E81
+		// Token: 0x06005AAE RID: 23214 RVA: 0x002E7AB5 File Offset: 0x002E5EB5
 		public FloatRange(float min, float max)
 		{
 			this.min = min;
 			this.max = max;
 		}
 
-		// Token: 0x17000E52 RID: 3666
-		// (get) Token: 0x06005A87 RID: 23175 RVA: 0x002E5A94 File Offset: 0x002E3E94
+		// Token: 0x17000E56 RID: 3670
+		// (get) Token: 0x06005AAF RID: 23215 RVA: 0x002E7AC8 File Offset: 0x002E5EC8
 		public static FloatRange Zero
 		{
 			get
@@ -23,8 +23,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E53 RID: 3667
-		// (get) Token: 0x06005A88 RID: 23176 RVA: 0x002E5AB8 File Offset: 0x002E3EB8
+		// Token: 0x17000E57 RID: 3671
+		// (get) Token: 0x06005AB0 RID: 23216 RVA: 0x002E7AEC File Offset: 0x002E5EEC
 		public static FloatRange One
 		{
 			get
@@ -33,8 +33,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E54 RID: 3668
-		// (get) Token: 0x06005A89 RID: 23177 RVA: 0x002E5ADC File Offset: 0x002E3EDC
+		// Token: 0x17000E58 RID: 3672
+		// (get) Token: 0x06005AB1 RID: 23217 RVA: 0x002E7B10 File Offset: 0x002E5F10
 		public static FloatRange ZeroToOne
 		{
 			get
@@ -43,8 +43,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E55 RID: 3669
-		// (get) Token: 0x06005A8A RID: 23178 RVA: 0x002E5B00 File Offset: 0x002E3F00
+		// Token: 0x17000E59 RID: 3673
+		// (get) Token: 0x06005AB2 RID: 23218 RVA: 0x002E7B34 File Offset: 0x002E5F34
 		public float Average
 		{
 			get
@@ -53,8 +53,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E56 RID: 3670
-		// (get) Token: 0x06005A8B RID: 23179 RVA: 0x002E5B28 File Offset: 0x002E3F28
+		// Token: 0x17000E5A RID: 3674
+		// (get) Token: 0x06005AB3 RID: 23219 RVA: 0x002E7B5C File Offset: 0x002E5F5C
 		public float RandomInRange
 		{
 			get
@@ -63,8 +63,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E57 RID: 3671
-		// (get) Token: 0x06005A8C RID: 23180 RVA: 0x002E5B50 File Offset: 0x002E3F50
+		// Token: 0x17000E5B RID: 3675
+		// (get) Token: 0x06005AB4 RID: 23220 RVA: 0x002E7B84 File Offset: 0x002E5F84
 		public float TrueMin
 		{
 			get
@@ -73,8 +73,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E58 RID: 3672
-		// (get) Token: 0x06005A8D RID: 23181 RVA: 0x002E5B78 File Offset: 0x002E3F78
+		// Token: 0x17000E5C RID: 3676
+		// (get) Token: 0x06005AB5 RID: 23221 RVA: 0x002E7BAC File Offset: 0x002E5FAC
 		public float TrueMax
 		{
 			get
@@ -83,8 +83,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E59 RID: 3673
-		// (get) Token: 0x06005A8E RID: 23182 RVA: 0x002E5BA0 File Offset: 0x002E3FA0
+		// Token: 0x17000E5D RID: 3677
+		// (get) Token: 0x06005AB6 RID: 23222 RVA: 0x002E7BD4 File Offset: 0x002E5FD4
 		public float Span
 		{
 			get
@@ -93,55 +93,55 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005A8F RID: 23183 RVA: 0x002E5BC4 File Offset: 0x002E3FC4
+		// Token: 0x06005AB7 RID: 23223 RVA: 0x002E7BF8 File Offset: 0x002E5FF8
 		public float LerpThroughRange(float lerpPct)
 		{
 			return Mathf.Lerp(this.min, this.max, lerpPct);
 		}
 
-		// Token: 0x06005A90 RID: 23184 RVA: 0x002E5BEC File Offset: 0x002E3FEC
+		// Token: 0x06005AB8 RID: 23224 RVA: 0x002E7C20 File Offset: 0x002E6020
 		public float InverseLerpThroughRange(float f)
 		{
 			return Mathf.InverseLerp(this.min, this.max, f);
 		}
 
-		// Token: 0x06005A91 RID: 23185 RVA: 0x002E5C14 File Offset: 0x002E4014
+		// Token: 0x06005AB9 RID: 23225 RVA: 0x002E7C48 File Offset: 0x002E6048
 		public bool Includes(float f)
 		{
 			return f >= this.min && f <= this.max;
 		}
 
-		// Token: 0x06005A92 RID: 23186 RVA: 0x002E5C44 File Offset: 0x002E4044
+		// Token: 0x06005ABA RID: 23226 RVA: 0x002E7C78 File Offset: 0x002E6078
 		public bool IncludesEpsilon(float f)
 		{
 			return f >= this.min - 1E-05f && f <= this.max + 1E-05f;
 		}
 
-		// Token: 0x06005A93 RID: 23187 RVA: 0x002E5C80 File Offset: 0x002E4080
+		// Token: 0x06005ABB RID: 23227 RVA: 0x002E7CB4 File Offset: 0x002E60B4
 		public FloatRange ExpandedBy(float f)
 		{
 			return new FloatRange(this.min - f, this.max + f);
 		}
 
-		// Token: 0x06005A94 RID: 23188 RVA: 0x002E5CAC File Offset: 0x002E40AC
+		// Token: 0x06005ABC RID: 23228 RVA: 0x002E7CE0 File Offset: 0x002E60E0
 		public static bool operator ==(FloatRange a, FloatRange b)
 		{
 			return a.min == b.min && a.max == b.max;
 		}
 
-		// Token: 0x06005A95 RID: 23189 RVA: 0x002E5CE8 File Offset: 0x002E40E8
+		// Token: 0x06005ABD RID: 23229 RVA: 0x002E7D1C File Offset: 0x002E611C
 		public static bool operator !=(FloatRange a, FloatRange b)
 		{
 			return a.min != b.min || a.max != b.max;
 		}
 
-		// Token: 0x06005A96 RID: 23190 RVA: 0x002E5D28 File Offset: 0x002E4128
+		// Token: 0x06005ABE RID: 23230 RVA: 0x002E7D5C File Offset: 0x002E615C
 		public static FloatRange operator *(FloatRange r, float val)
 		{
 			return new FloatRange(r.min * val, r.max * val);
 		}
 
-		// Token: 0x06005A97 RID: 23191 RVA: 0x002E5D54 File Offset: 0x002E4154
+		// Token: 0x06005ABF RID: 23231 RVA: 0x002E7D88 File Offset: 0x002E6188
 		public static FloatRange FromString(string s)
 		{
 			string[] array = s.Split(new char[]
@@ -161,34 +161,34 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005A98 RID: 23192 RVA: 0x002E5DB4 File Offset: 0x002E41B4
+		// Token: 0x06005AC0 RID: 23232 RVA: 0x002E7DE8 File Offset: 0x002E61E8
 		public override string ToString()
 		{
 			return this.min + "~" + this.max;
 		}
 
-		// Token: 0x06005A99 RID: 23193 RVA: 0x002E5DEC File Offset: 0x002E41EC
+		// Token: 0x06005AC1 RID: 23233 RVA: 0x002E7E20 File Offset: 0x002E6220
 		public override int GetHashCode()
 		{
 			return Gen.HashCombineStruct<float>(this.min.GetHashCode(), this.max);
 		}
 
-		// Token: 0x06005A9A RID: 23194 RVA: 0x002E5E20 File Offset: 0x002E4220
+		// Token: 0x06005AC2 RID: 23234 RVA: 0x002E7E54 File Offset: 0x002E6254
 		public override bool Equals(object obj)
 		{
 			return obj is FloatRange && this.Equals((FloatRange)obj);
 		}
 
-		// Token: 0x06005A9B RID: 23195 RVA: 0x002E5E54 File Offset: 0x002E4254
+		// Token: 0x06005AC3 RID: 23235 RVA: 0x002E7E88 File Offset: 0x002E6288
 		public bool Equals(FloatRange other)
 		{
 			return other.min == this.min && other.max == this.max;
 		}
 
-		// Token: 0x04003C88 RID: 15496
+		// Token: 0x04003C9B RID: 15515
 		public float min;
 
-		// Token: 0x04003C89 RID: 15497
+		// Token: 0x04003C9C RID: 15516
 		public float max;
 	}
 }

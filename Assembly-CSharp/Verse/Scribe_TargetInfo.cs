@@ -3,28 +3,28 @@ using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x02000DAB RID: 3499
+	// Token: 0x02000DA8 RID: 3496
 	public static class Scribe_TargetInfo
 	{
-		// Token: 0x06004E0B RID: 19979 RVA: 0x0028CF62 File Offset: 0x0028B362
+		// Token: 0x06004E20 RID: 20000 RVA: 0x0028E512 File Offset: 0x0028C912
 		public static void Look(ref LocalTargetInfo value, string label)
 		{
 			Scribe_TargetInfo.Look(ref value, false, label, LocalTargetInfo.Invalid);
 		}
 
-		// Token: 0x06004E0C RID: 19980 RVA: 0x0028CF72 File Offset: 0x0028B372
+		// Token: 0x06004E21 RID: 20001 RVA: 0x0028E522 File Offset: 0x0028C922
 		public static void Look(ref LocalTargetInfo value, bool saveDestroyedThings, string label)
 		{
 			Scribe_TargetInfo.Look(ref value, saveDestroyedThings, label, LocalTargetInfo.Invalid);
 		}
 
-		// Token: 0x06004E0D RID: 19981 RVA: 0x0028CF82 File Offset: 0x0028B382
+		// Token: 0x06004E22 RID: 20002 RVA: 0x0028E532 File Offset: 0x0028C932
 		public static void Look(ref LocalTargetInfo value, string label, LocalTargetInfo defaultValue)
 		{
 			Scribe_TargetInfo.Look(ref value, false, label, defaultValue);
 		}
 
-		// Token: 0x06004E0E RID: 19982 RVA: 0x0028CF90 File Offset: 0x0028B390
+		// Token: 0x06004E23 RID: 20003 RVA: 0x0028E540 File Offset: 0x0028C940
 		public static void Look(ref LocalTargetInfo value, bool saveDestroyedThings, string label, LocalTargetInfo defaultValue)
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
@@ -51,25 +51,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004E0F RID: 19983 RVA: 0x0028D047 File Offset: 0x0028B447
+		// Token: 0x06004E24 RID: 20004 RVA: 0x0028E5F7 File Offset: 0x0028C9F7
 		public static void Look(ref TargetInfo value, string label)
 		{
 			Scribe_TargetInfo.Look(ref value, false, label, TargetInfo.Invalid);
 		}
 
-		// Token: 0x06004E10 RID: 19984 RVA: 0x0028D057 File Offset: 0x0028B457
+		// Token: 0x06004E25 RID: 20005 RVA: 0x0028E607 File Offset: 0x0028CA07
 		public static void Look(ref TargetInfo value, bool saveDestroyedThings, string label)
 		{
 			Scribe_TargetInfo.Look(ref value, saveDestroyedThings, label, TargetInfo.Invalid);
 		}
 
-		// Token: 0x06004E11 RID: 19985 RVA: 0x0028D067 File Offset: 0x0028B467
+		// Token: 0x06004E26 RID: 20006 RVA: 0x0028E617 File Offset: 0x0028CA17
 		public static void Look(ref TargetInfo value, string label, TargetInfo defaultValue)
 		{
 			Scribe_TargetInfo.Look(ref value, false, label, defaultValue);
 		}
 
-		// Token: 0x06004E12 RID: 19986 RVA: 0x0028D074 File Offset: 0x0028B474
+		// Token: 0x06004E27 RID: 20007 RVA: 0x0028E624 File Offset: 0x0028CA24
 		public static void Look(ref TargetInfo value, bool saveDestroyedThings, string label, TargetInfo defaultValue)
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
@@ -103,25 +103,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004E13 RID: 19987 RVA: 0x0028D17F File Offset: 0x0028B57F
+		// Token: 0x06004E28 RID: 20008 RVA: 0x0028E72F File Offset: 0x0028CB2F
 		public static void Look(ref GlobalTargetInfo value, string label)
 		{
 			Scribe_TargetInfo.Look(ref value, false, label, GlobalTargetInfo.Invalid);
 		}
 
-		// Token: 0x06004E14 RID: 19988 RVA: 0x0028D18F File Offset: 0x0028B58F
+		// Token: 0x06004E29 RID: 20009 RVA: 0x0028E73F File Offset: 0x0028CB3F
 		public static void Look(ref GlobalTargetInfo value, bool saveDestroyedThings, string label)
 		{
 			Scribe_TargetInfo.Look(ref value, saveDestroyedThings, label, GlobalTargetInfo.Invalid);
 		}
 
-		// Token: 0x06004E15 RID: 19989 RVA: 0x0028D19F File Offset: 0x0028B59F
+		// Token: 0x06004E2A RID: 20010 RVA: 0x0028E74F File Offset: 0x0028CB4F
 		public static void Look(ref GlobalTargetInfo value, string label, GlobalTargetInfo defaultValue)
 		{
 			Scribe_TargetInfo.Look(ref value, false, label, defaultValue);
 		}
 
-		// Token: 0x06004E16 RID: 19990 RVA: 0x0028D1AC File Offset: 0x0028B5AC
+		// Token: 0x06004E2B RID: 20011 RVA: 0x0028E75C File Offset: 0x0028CB5C
 		public static void Look(ref GlobalTargetInfo value, bool saveDestroyedThings, string label, GlobalTargetInfo defaultValue)
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)

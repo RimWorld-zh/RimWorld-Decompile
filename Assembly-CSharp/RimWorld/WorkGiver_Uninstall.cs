@@ -7,7 +7,7 @@ namespace RimWorld
 	public class WorkGiver_Uninstall : WorkGiver_RemoveBuilding
 	{
 		// Token: 0x170000ED RID: 237
-		// (get) Token: 0x0600064A RID: 1610 RVA: 0x00041FF0 File Offset: 0x000403F0
+		// (get) Token: 0x0600064A RID: 1610 RVA: 0x00041FDC File Offset: 0x000403DC
 		protected override DesignationDef Designation
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000EE RID: 238
-		// (get) Token: 0x0600064B RID: 1611 RVA: 0x0004200C File Offset: 0x0004040C
+		// (get) Token: 0x0600064B RID: 1611 RVA: 0x00041FF8 File Offset: 0x000403F8
 		protected override JobDef RemoveBuildingJob
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600064C RID: 1612 RVA: 0x00042028 File Offset: 0x00040428
+		// Token: 0x0600064C RID: 1612 RVA: 0x00042014 File Offset: 0x00040414
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			if (t.def.Claimable)

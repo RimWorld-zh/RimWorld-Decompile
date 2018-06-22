@@ -9,7 +9,7 @@ namespace RimWorld
 	public abstract class WorkGiver_Warden : WorkGiver_Scanner
 	{
 		// Token: 0x170000EF RID: 239
-		// (get) Token: 0x0600064E RID: 1614 RVA: 0x00042098 File Offset: 0x00040498
+		// (get) Token: 0x0600064E RID: 1614 RVA: 0x00042084 File Offset: 0x00040484
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000F0 RID: 240
-		// (get) Token: 0x0600064F RID: 1615 RVA: 0x000420B4 File Offset: 0x000404B4
+		// (get) Token: 0x0600064F RID: 1615 RVA: 0x000420A0 File Offset: 0x000404A0
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000650 RID: 1616 RVA: 0x000420CC File Offset: 0x000404CC
+		// Token: 0x06000650 RID: 1616 RVA: 0x000420B8 File Offset: 0x000404B8
 		protected bool ShouldTakeCareOfPrisoner(Pawn warden, Thing prisoner)
 		{
 			Pawn pawn = prisoner as Pawn;

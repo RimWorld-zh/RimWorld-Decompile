@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E8F RID: 3727
+	// Token: 0x02000E8E RID: 3726
 	[StaticConstructorOnStartup]
 	public class ActiveTip
 	{
-		// Token: 0x060057E1 RID: 22497 RVA: 0x002D0A18 File Offset: 0x002CEE18
+		// Token: 0x06005801 RID: 22529 RVA: 0x002D2628 File Offset: 0x002D0A28
 		public ActiveTip(TipSignal signal)
 		{
 			this.signal = signal;
 		}
 
-		// Token: 0x060057E2 RID: 22498 RVA: 0x002D0A37 File Offset: 0x002CEE37
+		// Token: 0x06005802 RID: 22530 RVA: 0x002D2647 File Offset: 0x002D0A47
 		public ActiveTip(ActiveTip cloneSource)
 		{
 			this.signal = cloneSource.signal;
@@ -21,8 +21,8 @@ namespace Verse
 			this.lastTriggerFrame = cloneSource.lastTriggerFrame;
 		}
 
-		// Token: 0x17000DEF RID: 3567
-		// (get) Token: 0x060057E3 RID: 22499 RVA: 0x002D0A74 File Offset: 0x002CEE74
+		// Token: 0x17000DF2 RID: 3570
+		// (get) Token: 0x06005803 RID: 22531 RVA: 0x002D2684 File Offset: 0x002D0A84
 		private string FinalText
 		{
 			get
@@ -48,8 +48,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DF0 RID: 3568
-		// (get) Token: 0x060057E4 RID: 22500 RVA: 0x002D0AFC File Offset: 0x002CEEFC
+		// Token: 0x17000DF3 RID: 3571
+		// (get) Token: 0x06005804 RID: 22532 RVA: 0x002D270C File Offset: 0x002D0B0C
 		public Rect TipRect
 		{
 			get
@@ -67,7 +67,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057E5 RID: 22501 RVA: 0x002D0B80 File Offset: 0x002CEF80
+		// Token: 0x06005805 RID: 22533 RVA: 0x002D2790 File Offset: 0x002D0B90
 		public float DrawTooltip(Vector2 pos)
 		{
 			Text.Font = GameFont.Small;
@@ -84,22 +84,22 @@ namespace Verse
 			return bgRect.height;
 		}
 
-		// Token: 0x04003A1F RID: 14879
+		// Token: 0x04003A2F RID: 14895
 		public TipSignal signal;
 
-		// Token: 0x04003A20 RID: 14880
+		// Token: 0x04003A30 RID: 14896
 		public double firstTriggerTime = 0.0;
 
-		// Token: 0x04003A21 RID: 14881
+		// Token: 0x04003A31 RID: 14897
 		public int lastTriggerFrame;
 
-		// Token: 0x04003A22 RID: 14882
+		// Token: 0x04003A32 RID: 14898
 		private const int TipMargin = 4;
 
-		// Token: 0x04003A23 RID: 14883
+		// Token: 0x04003A33 RID: 14899
 		private const float MaxWidth = 260f;
 
-		// Token: 0x04003A24 RID: 14884
+		// Token: 0x04003A34 RID: 14900
 		public static readonly Texture2D TooltipBGAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/TooltipBG", true);
 	}
 }

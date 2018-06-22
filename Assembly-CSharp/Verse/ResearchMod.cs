@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000B68 RID: 2920
+	// Token: 0x02000B64 RID: 2916
 	public abstract class ResearchMod
 	{
-		// Token: 0x06003FBE RID: 16318
+		// Token: 0x06003FBF RID: 16319
 		public abstract void Apply();
 	}
 }

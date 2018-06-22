@@ -4,22 +4,22 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200053E RID: 1342
+	// Token: 0x0200053A RID: 1338
 	public class TraitSet : IExposable
 	{
-		// Token: 0x060018F9 RID: 6393 RVA: 0x000D9348 File Offset: 0x000D7748
+		// Token: 0x060018F0 RID: 6384 RVA: 0x000D9358 File Offset: 0x000D7758
 		public TraitSet(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x060018FA RID: 6394 RVA: 0x000D9363 File Offset: 0x000D7763
+		// Token: 0x060018F1 RID: 6385 RVA: 0x000D9373 File Offset: 0x000D7773
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Trait>(ref this.allTraits, "allTraits", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x060018FB RID: 6395 RVA: 0x000D9380 File Offset: 0x000D7780
+		// Token: 0x060018F2 RID: 6386 RVA: 0x000D9390 File Offset: 0x000D7790
 		public void GainTrait(Trait trait)
 		{
 			if (this.HasTrait(trait.def))
@@ -45,7 +45,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018FC RID: 6396 RVA: 0x000D9464 File Offset: 0x000D7864
+		// Token: 0x060018F3 RID: 6387 RVA: 0x000D9474 File Offset: 0x000D7874
 		public bool HasTrait(TraitDef tDef)
 		{
 			for (int i = 0; i < this.allTraits.Count; i++)
@@ -59,7 +59,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000386 RID: 902
-		// (get) Token: 0x060018FD RID: 6397 RVA: 0x000D94B8 File Offset: 0x000D78B8
+		// (get) Token: 0x060018F4 RID: 6388 RVA: 0x000D94C8 File Offset: 0x000D78C8
 		public IEnumerable<MentalBreakDef> TheOnlyAllowedMentalBreaks
 		{
 			get
@@ -79,7 +79,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018FE RID: 6398 RVA: 0x000D94E4 File Offset: 0x000D78E4
+		// Token: 0x060018F5 RID: 6389 RVA: 0x000D94F4 File Offset: 0x000D78F4
 		public Trait GetTrait(TraitDef tDef)
 		{
 			for (int i = 0; i < this.allTraits.Count; i++)
@@ -92,7 +92,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x060018FF RID: 6399 RVA: 0x000D9544 File Offset: 0x000D7944
+		// Token: 0x060018F6 RID: 6390 RVA: 0x000D9554 File Offset: 0x000D7954
 		public int DegreeOfTrait(TraitDef tDef)
 		{
 			for (int i = 0; i < this.allTraits.Count; i++)
@@ -105,10 +105,10 @@ namespace RimWorld
 			return 0;
 		}
 
-		// Token: 0x04000EAE RID: 3758
+		// Token: 0x04000EAB RID: 3755
 		protected Pawn pawn;
 
-		// Token: 0x04000EAF RID: 3759
+		// Token: 0x04000EAC RID: 3756
 		public List<Trait> allTraits = new List<Trait>();
 	}
 }

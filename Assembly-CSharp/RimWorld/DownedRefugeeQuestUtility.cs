@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000350 RID: 848
 	public static class DownedRefugeeQuestUtility
 	{
-		// Token: 0x06000EA5 RID: 3749 RVA: 0x0007BF1C File Offset: 0x0007A31C
+		// Token: 0x06000EA5 RID: 3749 RVA: 0x0007C078 File Offset: 0x0007A478
 		public static Pawn GenerateRefugee(int tile)
 		{
 			PawnKindDef spaceRefugee = PawnKindDefOf.SpaceRefugee;
@@ -18,7 +18,7 @@ namespace RimWorld
 			return pawn;
 		}
 
-		// Token: 0x06000EA6 RID: 3750 RVA: 0x0007BFAC File Offset: 0x0007A3AC
+		// Token: 0x06000EA6 RID: 3750 RVA: 0x0007C108 File Offset: 0x0007A508
 		public static Faction GetRandomFactionForRefugee()
 		{
 			if (Rand.Chance(0.6f))
@@ -32,10 +32,10 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x04000900 RID: 2304
+		// Token: 0x04000902 RID: 2306
 		private const float RelationWithColonistWeight = 20f;
 
-		// Token: 0x04000901 RID: 2305
+		// Token: 0x04000903 RID: 2307
 		private const float ChanceToRedressWorldPawn = 0.2f;
 	}
 }

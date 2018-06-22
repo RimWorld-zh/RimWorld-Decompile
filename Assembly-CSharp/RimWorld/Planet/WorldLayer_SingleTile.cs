@@ -6,19 +6,19 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000598 RID: 1432
+	// Token: 0x02000594 RID: 1428
 	public abstract class WorldLayer_SingleTile : WorldLayer
 	{
 		// Token: 0x170003FF RID: 1023
-		// (get) Token: 0x06001B4A RID: 6986
+		// (get) Token: 0x06001B41 RID: 6977
 		protected abstract int Tile { get; }
 
 		// Token: 0x17000400 RID: 1024
-		// (get) Token: 0x06001B4B RID: 6987
+		// (get) Token: 0x06001B42 RID: 6978
 		protected abstract Material Material { get; }
 
 		// Token: 0x17000401 RID: 1025
-		// (get) Token: 0x06001B4C RID: 6988 RVA: 0x000E8C98 File Offset: 0x000E7098
+		// (get) Token: 0x06001B43 RID: 6979 RVA: 0x000E8CEC File Offset: 0x000E70EC
 		public override bool ShouldRegenerate
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B4D RID: 6989 RVA: 0x000E8CCC File Offset: 0x000E70CC
+		// Token: 0x06001B44 RID: 6980 RVA: 0x000E8D20 File Offset: 0x000E7120
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();
@@ -73,10 +73,10 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x04001019 RID: 4121
+		// Token: 0x04001016 RID: 4118
 		private int lastDrawnTile = -1;
 
-		// Token: 0x0400101A RID: 4122
+		// Token: 0x04001017 RID: 4119
 		private List<Vector3> verts = new List<Vector3>();
 	}
 }

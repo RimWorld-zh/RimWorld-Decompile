@@ -4,11 +4,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000E83 RID: 3715
+	// Token: 0x02000E82 RID: 3714
 	public static class ThingCategoryNodeDatabase
 	{
-		// Token: 0x17000DD1 RID: 3537
-		// (get) Token: 0x06005793 RID: 22419 RVA: 0x002CEB3C File Offset: 0x002CCF3C
+		// Token: 0x17000DD4 RID: 3540
+		// (get) Token: 0x060057B3 RID: 22451 RVA: 0x002D074C File Offset: 0x002CEB4C
 		public static IEnumerable<TreeNode_ThingCategory> AllThingCategoryNodes
 		{
 			get
@@ -17,8 +17,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DD2 RID: 3538
-		// (get) Token: 0x06005794 RID: 22420 RVA: 0x002CEB5C File Offset: 0x002CCF5C
+		// Token: 0x17000DD5 RID: 3541
+		// (get) Token: 0x060057B4 RID: 22452 RVA: 0x002D076C File Offset: 0x002CEB6C
 		public static TreeNode_ThingCategory RootNode
 		{
 			get
@@ -27,14 +27,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005795 RID: 22421 RVA: 0x002CEB76 File Offset: 0x002CCF76
+		// Token: 0x060057B5 RID: 22453 RVA: 0x002D0786 File Offset: 0x002CEB86
 		public static void Clear()
 		{
 			ThingCategoryNodeDatabase.rootNode = null;
 			ThingCategoryNodeDatabase.initialized = false;
 		}
 
-		// Token: 0x06005796 RID: 22422 RVA: 0x002CEB88 File Offset: 0x002CCF88
+		// Token: 0x060057B6 RID: 22454 RVA: 0x002D0798 File Offset: 0x002CEB98
 		public static void FinalizeInit()
 		{
 			ThingCategoryNodeDatabase.rootNode = ThingCategoryDefOf.Root.treeNode;
@@ -67,7 +67,7 @@ namespace Verse
 			ThingCategoryNodeDatabase.initialized = true;
 		}
 
-		// Token: 0x06005797 RID: 22423 RVA: 0x002CED58 File Offset: 0x002CD158
+		// Token: 0x060057B7 RID: 22455 RVA: 0x002D0968 File Offset: 0x002CED68
 		private static void SetNestLevelRecursive(TreeNode_ThingCategory node, int nestDepth)
 		{
 			foreach (ThingCategoryDef thingCategoryDef in node.catDef.childCategories)
@@ -77,10 +77,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x040039E9 RID: 14825
+		// Token: 0x040039F9 RID: 14841
 		public static bool initialized = false;
 
-		// Token: 0x040039EA RID: 14826
+		// Token: 0x040039FA RID: 14842
 		private static TreeNode_ThingCategory rootNode;
 	}
 }

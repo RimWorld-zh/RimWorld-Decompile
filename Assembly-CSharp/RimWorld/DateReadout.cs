@@ -7,17 +7,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000841 RID: 2113
+	// Token: 0x0200083D RID: 2109
 	public static class DateReadout
 	{
-		// Token: 0x06002FC9 RID: 12233 RVA: 0x0019DF17 File Offset: 0x0019C317
+		// Token: 0x06002FC2 RID: 12226 RVA: 0x0019E0F7 File Offset: 0x0019C4F7
 		static DateReadout()
 		{
 			DateReadout.Reset();
 		}
 
-		// Token: 0x17000791 RID: 1937
-		// (get) Token: 0x06002FCA RID: 12234 RVA: 0x0019DF44 File Offset: 0x0019C344
+		// Token: 0x17000792 RID: 1938
+		// (get) Token: 0x06002FC3 RID: 12227 RVA: 0x0019E124 File Offset: 0x0019C524
 		public static float Height
 		{
 			get
@@ -26,8 +26,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000792 RID: 1938
-		// (get) Token: 0x06002FCB RID: 12235 RVA: 0x0019DF70 File Offset: 0x0019C370
+		// Token: 0x17000793 RID: 1939
+		// (get) Token: 0x06002FC4 RID: 12228 RVA: 0x0019E150 File Offset: 0x0019C550
 		private static bool SeasonLabelVisible
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FCC RID: 12236 RVA: 0x0019DFA0 File Offset: 0x0019C3A0
+		// Token: 0x06002FC5 RID: 12229 RVA: 0x0019E180 File Offset: 0x0019C580
 		public static void Reset()
 		{
 			DateReadout.dateString = null;
@@ -51,7 +51,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FCD RID: 12237 RVA: 0x0019E00C File Offset: 0x0019C40C
+		// Token: 0x06002FC6 RID: 12230 RVA: 0x0019E1EC File Offset: 0x0019C5EC
 		public static void DateOnGUI(Rect dateRect)
 		{
 			Vector2 location;
@@ -127,25 +127,25 @@ namespace RimWorld
 			}, 86423));
 		}
 
-		// Token: 0x040019CE RID: 6606
+		// Token: 0x040019CC RID: 6604
 		private static string dateString;
 
-		// Token: 0x040019CF RID: 6607
+		// Token: 0x040019CD RID: 6605
 		private static int dateStringDay = -1;
 
-		// Token: 0x040019D0 RID: 6608
+		// Token: 0x040019CE RID: 6606
 		private static Season dateStringSeason = Season.Undefined;
 
-		// Token: 0x040019D1 RID: 6609
+		// Token: 0x040019CF RID: 6607
 		private static Quadrum dateStringQuadrum = Quadrum.Undefined;
 
-		// Token: 0x040019D2 RID: 6610
+		// Token: 0x040019D0 RID: 6608
 		private static int dateStringYear = -1;
 
-		// Token: 0x040019D3 RID: 6611
+		// Token: 0x040019D1 RID: 6609
 		private static readonly List<string> fastHourStrings = new List<string>();
 
-		// Token: 0x040019D4 RID: 6612
+		// Token: 0x040019D2 RID: 6610
 		private const float DateRightPadding = 7f;
 	}
 }

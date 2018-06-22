@@ -5,18 +5,18 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007F9 RID: 2041
+	// Token: 0x020007F5 RID: 2037
 	public class Dialog_AssignCaravanDrugPolicies : Window
 	{
-		// Token: 0x06002D39 RID: 11577 RVA: 0x0017BE44 File Offset: 0x0017A244
+		// Token: 0x06002D32 RID: 11570 RVA: 0x0017C01C File Offset: 0x0017A41C
 		public Dialog_AssignCaravanDrugPolicies(Caravan caravan)
 		{
 			this.caravan = caravan;
 			this.doCloseButton = true;
 		}
 
-		// Token: 0x17000728 RID: 1832
-		// (get) Token: 0x06002D3A RID: 11578 RVA: 0x0017BE5C File Offset: 0x0017A25C
+		// Token: 0x17000729 RID: 1833
+		// (get) Token: 0x06002D33 RID: 11571 RVA: 0x0017C034 File Offset: 0x0017A434
 		public override Vector2 InitialSize
 		{
 			get
@@ -25,7 +25,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D3B RID: 11579 RVA: 0x0017BE80 File Offset: 0x0017A280
+		// Token: 0x06002D34 RID: 11572 RVA: 0x0017C058 File Offset: 0x0017A458
 		public override void DoWindowContents(Rect rect)
 		{
 			rect.height -= this.CloseButSize.y;
@@ -55,7 +55,7 @@ namespace RimWorld
 			Widgets.EndScrollView();
 		}
 
-		// Token: 0x06002D3C RID: 11580 RVA: 0x0017C020 File Offset: 0x0017A420
+		// Token: 0x06002D35 RID: 11573 RVA: 0x0017C1F8 File Offset: 0x0017A5F8
 		private void DoRow(Rect rect, Pawn pawn)
 		{
 			Rect rect2 = new Rect(rect.x, rect.y, rect.width - 354f, 30f);
@@ -69,22 +69,22 @@ namespace RimWorld
 			DrugPolicyUIUtility.DoAssignDrugPolicyButtons(rect3, pawn);
 		}
 
-		// Token: 0x040017C6 RID: 6086
+		// Token: 0x040017C4 RID: 6084
 		private Caravan caravan;
 
-		// Token: 0x040017C7 RID: 6087
+		// Token: 0x040017C5 RID: 6085
 		private Vector2 scrollPos;
 
-		// Token: 0x040017C8 RID: 6088
+		// Token: 0x040017C6 RID: 6086
 		private float lastHeight;
 
-		// Token: 0x040017C9 RID: 6089
+		// Token: 0x040017C7 RID: 6087
 		private const float RowHeight = 30f;
 
-		// Token: 0x040017CA RID: 6090
+		// Token: 0x040017C8 RID: 6088
 		private const float AssignDrugPolicyButtonsTotalWidth = 354f;
 
-		// Token: 0x040017CB RID: 6091
+		// Token: 0x040017C9 RID: 6089
 		private const int ManageDrugPoliciesButtonHeight = 32;
 	}
 }

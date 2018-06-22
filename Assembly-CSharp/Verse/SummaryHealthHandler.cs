@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D48 RID: 3400
+	// Token: 0x02000D45 RID: 3397
 	public class SummaryHealthHandler
 	{
-		// Token: 0x06004AD5 RID: 19157 RVA: 0x0027045A File Offset: 0x0026E85A
+		// Token: 0x06004AE9 RID: 19177 RVA: 0x002719B6 File Offset: 0x0026FDB6
 		public SummaryHealthHandler(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x17000BF1 RID: 3057
-		// (get) Token: 0x06004AD6 RID: 19158 RVA: 0x0027047C File Offset: 0x0026E87C
+		// Token: 0x17000BF3 RID: 3059
+		// (get) Token: 0x06004AEA RID: 19178 RVA: 0x002719D8 File Offset: 0x0026FDD8
 		public float SummaryHealthPercent
 		{
 			get
@@ -53,19 +53,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004AD7 RID: 19159 RVA: 0x002705A6 File Offset: 0x0026E9A6
+		// Token: 0x06004AEB RID: 19179 RVA: 0x00271B02 File Offset: 0x0026FF02
 		public void Notify_HealthChanged()
 		{
 			this.dirty = true;
 		}
 
-		// Token: 0x04003270 RID: 12912
+		// Token: 0x0400327B RID: 12923
 		private Pawn pawn;
 
-		// Token: 0x04003271 RID: 12913
+		// Token: 0x0400327C RID: 12924
 		private float cachedSummaryHealthPercent = 1f;
 
-		// Token: 0x04003272 RID: 12914
+		// Token: 0x0400327D RID: 12925
 		private bool dirty = true;
 	}
 }

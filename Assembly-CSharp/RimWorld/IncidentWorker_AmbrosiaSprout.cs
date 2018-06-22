@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000322 RID: 802
 	public class IncidentWorker_AmbrosiaSprout : IncidentWorker
 	{
-		// Token: 0x06000DB3 RID: 3507 RVA: 0x00075334 File Offset: 0x00073734
+		// Token: 0x06000DB3 RID: 3507 RVA: 0x000753E8 File Offset: 0x000737E8
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -24,7 +24,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DB4 RID: 3508 RVA: 0x00075390 File Offset: 0x00073790
+		// Token: 0x06000DB4 RID: 3508 RVA: 0x00075444 File Offset: 0x00073844
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -69,13 +69,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DB5 RID: 3509 RVA: 0x0007548C File Offset: 0x0007388C
+		// Token: 0x06000DB5 RID: 3509 RVA: 0x00075540 File Offset: 0x00073940
 		private bool TryFindRootCell(Map map, out IntVec3 cell)
 		{
 			return CellFinderLoose.TryFindRandomNotEdgeCellWith(10, (IntVec3 x) => this.CanSpawnAt(x, map) && x.GetRoom(map, RegionType.Set_Passable).CellCount >= 64, map, out cell);
 		}
 
-		// Token: 0x06000DB6 RID: 3510 RVA: 0x000754D0 File Offset: 0x000738D0
+		// Token: 0x06000DB6 RID: 3510 RVA: 0x00075584 File Offset: 0x00073984
 		private bool CanSpawnAt(IntVec3 c, Map map)
 		{
 			bool result;
@@ -106,13 +106,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x040008BD RID: 2237
+		// Token: 0x040008BF RID: 2239
 		private static readonly IntRange CountRange = new IntRange(10, 20);
 
-		// Token: 0x040008BE RID: 2238
+		// Token: 0x040008C0 RID: 2240
 		private const int MinRoomCells = 64;
 
-		// Token: 0x040008BF RID: 2239
+		// Token: 0x040008C1 RID: 2241
 		private const int SpawnRadius = 6;
 	}
 }

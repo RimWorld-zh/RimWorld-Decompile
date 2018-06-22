@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x0200002D RID: 45
 	public class JobDriver_LayEgg : JobDriver
 	{
-		// Token: 0x060001AE RID: 430 RVA: 0x000120B8 File Offset: 0x000104B8
+		// Token: 0x060001AE RID: 430 RVA: 0x000120C0 File Offset: 0x000104C0
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x060001AF RID: 431 RVA: 0x000120D0 File Offset: 0x000104D0
+		// Token: 0x060001AF RID: 431 RVA: 0x000120D8 File Offset: 0x000104D8
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);

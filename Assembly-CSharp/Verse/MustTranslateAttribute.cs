@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000E3D RID: 3645
+	// Token: 0x02000E3A RID: 3642
 	[AttributeUsage(AttributeTargets.Field)]
 	public class MustTranslateAttribute : Attribute
 	{

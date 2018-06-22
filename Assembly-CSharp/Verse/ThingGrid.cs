@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C28 RID: 3112
+	// Token: 0x02000C25 RID: 3109
 	public sealed class ThingGrid
 	{
-		// Token: 0x0600444A RID: 17482 RVA: 0x0023E034 File Offset: 0x0023C434
+		// Token: 0x06004453 RID: 17491 RVA: 0x0023F3FC File Offset: 0x0023D7FC
 		public ThingGrid(Map map)
 		{
 			this.map = map;
@@ -18,7 +18,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600444B RID: 17483 RVA: 0x0023E090 File Offset: 0x0023C490
+		// Token: 0x06004454 RID: 17492 RVA: 0x0023F458 File Offset: 0x0023D858
 		public void Register(Thing t)
 		{
 			if (t.def.size.x == 1 && t.def.size.z == 1)
@@ -38,7 +38,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600444C RID: 17484 RVA: 0x0023E138 File Offset: 0x0023C538
+		// Token: 0x06004455 RID: 17493 RVA: 0x0023F500 File Offset: 0x0023D900
 		private void RegisterInCell(Thing t, IntVec3 c)
 		{
 			if (!c.InBounds(this.map))
@@ -58,7 +58,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600444D RID: 17485 RVA: 0x0023E1B0 File Offset: 0x0023C5B0
+		// Token: 0x06004456 RID: 17494 RVA: 0x0023F578 File Offset: 0x0023D978
 		public void Deregister(Thing t, bool doEvenIfDespawned = false)
 		{
 			if (t.Spawned || doEvenIfDespawned)
@@ -81,7 +81,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600444E RID: 17486 RVA: 0x0023E26C File Offset: 0x0023C66C
+		// Token: 0x06004457 RID: 17495 RVA: 0x0023F634 File Offset: 0x0023DA34
 		private void DeregisterInCell(Thing t, IntVec3 c)
 		{
 			if (!c.InBounds(this.map))
@@ -98,7 +98,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600444F RID: 17487 RVA: 0x0023E2DC File Offset: 0x0023C6DC
+		// Token: 0x06004458 RID: 17496 RVA: 0x0023F6A4 File Offset: 0x0023DAA4
 		public IEnumerable<Thing> ThingsAt(IntVec3 c)
 		{
 			if (!c.InBounds(this.map))
@@ -113,7 +113,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004450 RID: 17488 RVA: 0x0023E310 File Offset: 0x0023C710
+		// Token: 0x06004459 RID: 17497 RVA: 0x0023F6D8 File Offset: 0x0023DAD8
 		public List<Thing> ThingsListAt(IntVec3 c)
 		{
 			List<Thing> result;
@@ -129,25 +129,25 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004451 RID: 17489 RVA: 0x0023E378 File Offset: 0x0023C778
+		// Token: 0x0600445A RID: 17498 RVA: 0x0023F740 File Offset: 0x0023DB40
 		public List<Thing> ThingsListAtFast(IntVec3 c)
 		{
 			return this.thingGrid[this.map.cellIndices.CellToIndex(c)];
 		}
 
-		// Token: 0x06004452 RID: 17490 RVA: 0x0023E3A8 File Offset: 0x0023C7A8
+		// Token: 0x0600445B RID: 17499 RVA: 0x0023F770 File Offset: 0x0023DB70
 		public List<Thing> ThingsListAtFast(int index)
 		{
 			return this.thingGrid[index];
 		}
 
-		// Token: 0x06004453 RID: 17491 RVA: 0x0023E3C8 File Offset: 0x0023C7C8
+		// Token: 0x0600445C RID: 17500 RVA: 0x0023F790 File Offset: 0x0023DB90
 		public bool CellContains(IntVec3 c, ThingCategory cat)
 		{
 			return this.ThingAt(c, cat) != null;
 		}
 
-		// Token: 0x06004454 RID: 17492 RVA: 0x0023E3EC File Offset: 0x0023C7EC
+		// Token: 0x0600445D RID: 17501 RVA: 0x0023F7B4 File Offset: 0x0023DBB4
 		public Thing ThingAt(IntVec3 c, ThingCategory cat)
 		{
 			Thing result;
@@ -170,13 +170,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004455 RID: 17493 RVA: 0x0023E470 File Offset: 0x0023C870
+		// Token: 0x0600445E RID: 17502 RVA: 0x0023F838 File Offset: 0x0023DC38
 		public bool CellContains(IntVec3 c, ThingDef def)
 		{
 			return this.ThingAt(c, def) != null;
 		}
 
-		// Token: 0x06004456 RID: 17494 RVA: 0x0023E494 File Offset: 0x0023C894
+		// Token: 0x0600445F RID: 17503 RVA: 0x0023F85C File Offset: 0x0023DC5C
 		public Thing ThingAt(IntVec3 c, ThingDef def)
 		{
 			Thing result;
@@ -199,7 +199,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004457 RID: 17495 RVA: 0x0023E514 File Offset: 0x0023C914
+		// Token: 0x06004460 RID: 17504 RVA: 0x0023F8DC File Offset: 0x0023DCDC
 		public T ThingAt<T>(IntVec3 c) where T : Thing
 		{
 			T result;
@@ -223,13 +223,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04002E64 RID: 11876
+		// Token: 0x04002E6E RID: 11886
 		private Map map;
 
-		// Token: 0x04002E65 RID: 11877
+		// Token: 0x04002E6F RID: 11887
 		private List<Thing>[] thingGrid;
 
-		// Token: 0x04002E66 RID: 11878
+		// Token: 0x04002E70 RID: 11888
 		private static readonly List<Thing> EmptyThingList = new List<Thing>();
 	}
 }

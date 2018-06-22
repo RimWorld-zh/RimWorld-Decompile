@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200061C RID: 1564
+	// Token: 0x02000618 RID: 1560
 	public class AbandonComp : WorldObjectComp
 	{
-		// Token: 0x06001FBC RID: 8124 RVA: 0x00111970 File Offset: 0x0010FD70
+		// Token: 0x06001FB3 RID: 8115 RVA: 0x001119C4 File Offset: 0x0010FDC4
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			MapParent mapParent = this.parent as MapParent;

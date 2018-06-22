@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007EB RID: 2027
+	// Token: 0x020007E7 RID: 2023
 	public class Designator_ZoneAddStockpile_Resources : Designator_ZoneAddStockpile
 	{
-		// Token: 0x06002D09 RID: 11529 RVA: 0x0017A96C File Offset: 0x00178D6C
+		// Token: 0x06002D02 RID: 11522 RVA: 0x0017AB44 File Offset: 0x00178F44
 		public Designator_ZoneAddStockpile_Resources()
 		{
 			this.preset = StorageSettingsPreset.DefaultStockpile;
@@ -18,7 +18,7 @@ namespace RimWorld
 			this.tutorTag = "ZoneAddStockpile_Resources";
 		}
 
-		// Token: 0x06002D0A RID: 11530 RVA: 0x0017A9CF File Offset: 0x00178DCF
+		// Token: 0x06002D03 RID: 11523 RVA: 0x0017ABA7 File Offset: 0x00178FA7
 		protected override void FinalizeDesignationSucceeded()
 		{
 			base.FinalizeDesignationSucceeded();

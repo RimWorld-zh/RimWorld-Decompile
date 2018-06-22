@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace RimWorld
 {
-	// Token: 0x020008AC RID: 2220
+	// Token: 0x020008A8 RID: 2216
 	public static class PriceTypeUtlity
 	{
-		// Token: 0x060032D1 RID: 13009 RVA: 0x001B5C64 File Offset: 0x001B4064
+		// Token: 0x060032CA RID: 13002 RVA: 0x001B5E4C File Offset: 0x001B424C
 		public static float PriceMultiplier(this PriceType pType)
 		{
 			float result;
@@ -35,7 +35,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060032D2 RID: 13010 RVA: 0x001B5CD8 File Offset: 0x001B40D8
+		// Token: 0x060032CB RID: 13003 RVA: 0x001B5EC0 File Offset: 0x001B42C0
 		public static PriceType ClosestPriceType(float priceFactor)
 		{
 			float num = 99999f;

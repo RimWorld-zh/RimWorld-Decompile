@@ -7,12 +7,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200065A RID: 1626
+	// Token: 0x02000656 RID: 1622
 	[HasDebugOutput]
 	public class MusicManagerPlay
 	{
 		// Token: 0x170004FA RID: 1274
-		// (get) Token: 0x060021E7 RID: 8679 RVA: 0x0011F5C8 File Offset: 0x0011D9C8
+		// (get) Token: 0x060021DF RID: 8671 RVA: 0x0011F6C8 File Offset: 0x0011DAC8
 		private float CurTime
 		{
 			get
@@ -22,7 +22,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170004FB RID: 1275
-		// (get) Token: 0x060021E8 RID: 8680 RVA: 0x0011F5E4 File Offset: 0x0011D9E4
+		// (get) Token: 0x060021E0 RID: 8672 RVA: 0x0011F6E4 File Offset: 0x0011DAE4
 		private bool DangerMusicMode
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170004FC RID: 1276
-		// (get) Token: 0x060021E9 RID: 8681 RVA: 0x0011F638 File Offset: 0x0011DA38
+		// (get) Token: 0x060021E1 RID: 8673 RVA: 0x0011F738 File Offset: 0x0011DB38
 		private float CurVolume
 		{
 			get
@@ -60,7 +60,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170004FD RID: 1277
-		// (get) Token: 0x060021EA RID: 8682 RVA: 0x0011F690 File Offset: 0x0011DA90
+		// (get) Token: 0x060021E2 RID: 8674 RVA: 0x0011F790 File Offset: 0x0011DB90
 		public float CurSanitizedVolume
 		{
 			get
@@ -70,7 +70,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170004FE RID: 1278
-		// (get) Token: 0x060021EB RID: 8683 RVA: 0x0011F6B8 File Offset: 0x0011DAB8
+		// (get) Token: 0x060021E3 RID: 8675 RVA: 0x0011F7B8 File Offset: 0x0011DBB8
 		public bool IsPlaying
 		{
 			get
@@ -79,13 +79,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021EC RID: 8684 RVA: 0x0011F6D8 File Offset: 0x0011DAD8
+		// Token: 0x060021E4 RID: 8676 RVA: 0x0011F7D8 File Offset: 0x0011DBD8
 		public void ForceSilenceFor(float time)
 		{
 			this.nextSongStartTime = this.CurTime + time;
 		}
 
-		// Token: 0x060021ED RID: 8685 RVA: 0x0011F6EC File Offset: 0x0011DAEC
+		// Token: 0x060021E5 RID: 8677 RVA: 0x0011F7EC File Offset: 0x0011DBEC
 		public void MusicUpdate()
 		{
 			if (!this.gameObjectCreated)
@@ -160,7 +160,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021EE RID: 8686 RVA: 0x0011F948 File Offset: 0x0011DD48
+		// Token: 0x060021E6 RID: 8678 RVA: 0x0011FA48 File Offset: 0x0011DE48
 		private void UpdateSubtleAmbienceSoundVolumeMultiplier()
 		{
 			if (this.IsPlaying && this.CurSanitizedVolume > 0.001f)
@@ -174,7 +174,7 @@ namespace RimWorld
 			this.subtleAmbienceSoundVolumeMultiplier = Mathf.Clamp01(this.subtleAmbienceSoundVolumeMultiplier);
 		}
 
-		// Token: 0x060021EF RID: 8687 RVA: 0x0011F9B8 File Offset: 0x0011DDB8
+		// Token: 0x060021E7 RID: 8679 RVA: 0x0011FAB8 File Offset: 0x0011DEB8
 		private void StartNewSong()
 		{
 			this.lastStartedSong = this.ChooseNextSong();
@@ -185,7 +185,7 @@ namespace RimWorld
 			this.recentSongs.Enqueue(this.lastStartedSong);
 		}
 
-		// Token: 0x060021F0 RID: 8688 RVA: 0x0011FA25 File Offset: 0x0011DE25
+		// Token: 0x060021E8 RID: 8680 RVA: 0x0011FB25 File Offset: 0x0011DF25
 		public void ForceStartSong(SongDef song, bool ignorePrefsVolume)
 		{
 			this.forcedNextSong = song;
@@ -193,7 +193,7 @@ namespace RimWorld
 			this.StartNewSong();
 		}
 
-		// Token: 0x060021F1 RID: 8689 RVA: 0x0011FA3C File Offset: 0x0011DE3C
+		// Token: 0x060021E9 RID: 8681 RVA: 0x0011FB3C File Offset: 0x0011DF3C
 		private SongDef ChooseNextSong()
 		{
 			this.songWasForced = false;
@@ -232,7 +232,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060021F2 RID: 8690 RVA: 0x0011FB38 File Offset: 0x0011DF38
+		// Token: 0x060021EA RID: 8682 RVA: 0x0011FC38 File Offset: 0x0011E038
 		private bool AppropriateNow(SongDef song)
 		{
 			bool result;
@@ -292,7 +292,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060021F3 RID: 8691 RVA: 0x0011FC70 File Offset: 0x0011E070
+		// Token: 0x060021EB RID: 8683 RVA: 0x0011FD70 File Offset: 0x0011E170
 		public string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -308,7 +308,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060021F4 RID: 8692 RVA: 0x0011FD80 File Offset: 0x0011E180
+		// Token: 0x060021EC RID: 8684 RVA: 0x0011FE80 File Offset: 0x0011E280
 		[DebugOutput]
 		public void SongSelectionData()
 		{
@@ -331,57 +331,57 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x04001334 RID: 4916
+		// Token: 0x04001331 RID: 4913
 		private AudioSource audioSource;
 
-		// Token: 0x04001335 RID: 4917
+		// Token: 0x04001332 RID: 4914
 		private MusicManagerPlay.MusicManagerState state = MusicManagerPlay.MusicManagerState.Normal;
 
-		// Token: 0x04001336 RID: 4918
+		// Token: 0x04001333 RID: 4915
 		private float fadeoutFactor = 1f;
 
-		// Token: 0x04001337 RID: 4919
+		// Token: 0x04001334 RID: 4916
 		private float nextSongStartTime = 12f;
 
-		// Token: 0x04001338 RID: 4920
+		// Token: 0x04001335 RID: 4917
 		private SongDef lastStartedSong;
 
-		// Token: 0x04001339 RID: 4921
+		// Token: 0x04001336 RID: 4918
 		private Queue<SongDef> recentSongs = new Queue<SongDef>();
 
-		// Token: 0x0400133A RID: 4922
+		// Token: 0x04001337 RID: 4919
 		public bool disabled = false;
 
-		// Token: 0x0400133B RID: 4923
+		// Token: 0x04001338 RID: 4920
 		private SongDef forcedNextSong = null;
 
-		// Token: 0x0400133C RID: 4924
+		// Token: 0x04001339 RID: 4921
 		private bool songWasForced = false;
 
-		// Token: 0x0400133D RID: 4925
+		// Token: 0x0400133A RID: 4922
 		private bool ignorePrefsVolumeThisSong = false;
 
-		// Token: 0x0400133E RID: 4926
+		// Token: 0x0400133B RID: 4923
 		public float subtleAmbienceSoundVolumeMultiplier = 1f;
 
-		// Token: 0x0400133F RID: 4927
+		// Token: 0x0400133C RID: 4924
 		private bool gameObjectCreated;
 
-		// Token: 0x04001340 RID: 4928
+		// Token: 0x0400133D RID: 4925
 		private static readonly FloatRange SongIntervalRelax = new FloatRange(85f, 105f);
 
-		// Token: 0x04001341 RID: 4929
+		// Token: 0x0400133E RID: 4926
 		private static readonly FloatRange SongIntervalTension = new FloatRange(2f, 5f);
 
-		// Token: 0x04001342 RID: 4930
+		// Token: 0x0400133F RID: 4927
 		private const float FadeoutDuration = 10f;
 
-		// Token: 0x0200065B RID: 1627
+		// Token: 0x02000657 RID: 1623
 		private enum MusicManagerState
 		{
-			// Token: 0x04001346 RID: 4934
+			// Token: 0x04001343 RID: 4931
 			Normal,
-			// Token: 0x04001347 RID: 4935
+			// Token: 0x04001344 RID: 4932
 			Fadeout
 		}
 	}

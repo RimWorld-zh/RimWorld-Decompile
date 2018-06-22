@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000459 RID: 1113
+	// Token: 0x02000455 RID: 1109
 	public static class PlantToGrowSettableUtility
 	{
-		// Token: 0x0600137B RID: 4987 RVA: 0x000A875C File Offset: 0x000A6B5C
+		// Token: 0x06001372 RID: 4978 RVA: 0x000A876C File Offset: 0x000A6B6C
 		public static Command_SetPlantToGrow SetPlantToGrowCommand(IPlantToGrowSettable settable)
 		{
 			return new Command_SetPlantToGrow

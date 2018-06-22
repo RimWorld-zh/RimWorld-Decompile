@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000C74 RID: 3188
+	// Token: 0x02000C71 RID: 3185
 	public class PlaceWorker_Cooler : PlaceWorker
 	{
-		// Token: 0x060045DE RID: 17886 RVA: 0x0024CA90 File Offset: 0x0024AE90
+		// Token: 0x060045E7 RID: 17895 RVA: 0x0024DE60 File Offset: 0x0024C260
 		public override void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot, Color ghostCol)
 		{
 			Map currentMap = Find.CurrentMap;
@@ -45,7 +45,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060045DF RID: 17887 RVA: 0x0024CBA8 File Offset: 0x0024AFA8
+		// Token: 0x060045E8 RID: 17896 RVA: 0x0024DF78 File Offset: 0x0024C378
 		public override AcceptanceReport AllowsPlacing(BuildableDef def, IntVec3 center, Rot4 rot, Map map, Thing thingToIgnore = null)
 		{
 			IntVec3 c = center + IntVec3.South.RotatedBy(rot);

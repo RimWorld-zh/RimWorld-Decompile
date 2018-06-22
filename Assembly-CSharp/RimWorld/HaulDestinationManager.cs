@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000690 RID: 1680
+	// Token: 0x0200068C RID: 1676
 	public sealed class HaulDestinationManager
 	{
-		// Token: 0x06002390 RID: 9104 RVA: 0x001316DC File Offset: 0x0012FADC
+		// Token: 0x06002388 RID: 9096 RVA: 0x00131824 File Offset: 0x0012FC24
 		public HaulDestinationManager(Map map)
 		{
 			this.map = map;
@@ -16,7 +16,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000545 RID: 1349
-		// (get) Token: 0x06002391 RID: 9105 RVA: 0x00131744 File Offset: 0x0012FB44
+		// (get) Token: 0x06002389 RID: 9097 RVA: 0x0013188C File Offset: 0x0012FC8C
 		public IEnumerable<IHaulDestination> AllHaulDestinations
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000546 RID: 1350
-		// (get) Token: 0x06002392 RID: 9106 RVA: 0x00131760 File Offset: 0x0012FB60
+		// (get) Token: 0x0600238A RID: 9098 RVA: 0x001318A8 File Offset: 0x0012FCA8
 		public List<IHaulDestination> AllHaulDestinationsListForReading
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000547 RID: 1351
-		// (get) Token: 0x06002393 RID: 9107 RVA: 0x0013177C File Offset: 0x0012FB7C
+		// (get) Token: 0x0600238B RID: 9099 RVA: 0x001318C4 File Offset: 0x0012FCC4
 		public List<IHaulDestination> AllHaulDestinationsListInPriorityOrder
 		{
 			get
@@ -46,7 +46,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000548 RID: 1352
-		// (get) Token: 0x06002394 RID: 9108 RVA: 0x00131798 File Offset: 0x0012FB98
+		// (get) Token: 0x0600238C RID: 9100 RVA: 0x001318E0 File Offset: 0x0012FCE0
 		public IEnumerable<SlotGroup> AllGroups
 		{
 			get
@@ -56,7 +56,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000549 RID: 1353
-		// (get) Token: 0x06002395 RID: 9109 RVA: 0x001317B4 File Offset: 0x0012FBB4
+		// (get) Token: 0x0600238D RID: 9101 RVA: 0x001318FC File Offset: 0x0012FCFC
 		public List<SlotGroup> AllGroupsListForReading
 		{
 			get
@@ -66,7 +66,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700054A RID: 1354
-		// (get) Token: 0x06002396 RID: 9110 RVA: 0x001317D0 File Offset: 0x0012FBD0
+		// (get) Token: 0x0600238E RID: 9102 RVA: 0x00131918 File Offset: 0x0012FD18
 		public List<SlotGroup> AllGroupsListInPriorityOrder
 		{
 			get
@@ -76,7 +76,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700054B RID: 1355
-		// (get) Token: 0x06002397 RID: 9111 RVA: 0x001317EC File Offset: 0x0012FBEC
+		// (get) Token: 0x0600238F RID: 9103 RVA: 0x00131934 File Offset: 0x0012FD34
 		public IEnumerable<IntVec3> AllSlots
 		{
 			get
@@ -95,7 +95,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002398 RID: 9112 RVA: 0x00131818 File Offset: 0x0012FC18
+		// Token: 0x06002390 RID: 9104 RVA: 0x00131960 File Offset: 0x0012FD60
 		public void AddHaulDestination(IHaulDestination haulDestination)
 		{
 			if (this.allHaulDestinationsInOrder.Contains(haulDestination))
@@ -140,7 +140,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002399 RID: 9113 RVA: 0x00131944 File Offset: 0x0012FD44
+		// Token: 0x06002391 RID: 9105 RVA: 0x00131A8C File Offset: 0x0012FE8C
 		public void RemoveHaulDestination(IHaulDestination haulDestination)
 		{
 			if (!this.allHaulDestinationsInOrder.Contains(haulDestination))
@@ -174,7 +174,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600239A RID: 9114 RVA: 0x00131A40 File Offset: 0x0012FE40
+		// Token: 0x06002392 RID: 9106 RVA: 0x00131B88 File Offset: 0x0012FF88
 		public void Notify_HaulDestinationChangedPriority()
 		{
 			IList<IHaulDestination> list = this.allHaulDestinationsInOrder;
@@ -191,32 +191,32 @@ namespace RimWorld
 			list2.InsertionSort(HaulDestinationManager.<>f__mg$cache3);
 		}
 
-		// Token: 0x0600239B RID: 9115 RVA: 0x00131AA0 File Offset: 0x0012FEA0
+		// Token: 0x06002393 RID: 9107 RVA: 0x00131BE8 File Offset: 0x0012FFE8
 		private static int CompareHaulDestinationPrioritiesDescending(IHaulDestination a, IHaulDestination b)
 		{
 			return ((int)b.GetStoreSettings().Priority).CompareTo((int)a.GetStoreSettings().Priority);
 		}
 
-		// Token: 0x0600239C RID: 9116 RVA: 0x00131AD4 File Offset: 0x0012FED4
+		// Token: 0x06002394 RID: 9108 RVA: 0x00131C1C File Offset: 0x0013001C
 		private static int CompareSlotGroupPrioritiesDescending(SlotGroup a, SlotGroup b)
 		{
 			return ((int)b.Settings.Priority).CompareTo((int)a.Settings.Priority);
 		}
 
-		// Token: 0x0600239D RID: 9117 RVA: 0x00131B08 File Offset: 0x0012FF08
+		// Token: 0x06002395 RID: 9109 RVA: 0x00131C50 File Offset: 0x00130050
 		public SlotGroup SlotGroupAt(IntVec3 loc)
 		{
 			return this.groupGrid[loc.x, loc.y, loc.z];
 		}
 
-		// Token: 0x0600239E RID: 9118 RVA: 0x00131B40 File Offset: 0x0012FF40
+		// Token: 0x06002396 RID: 9110 RVA: 0x00131C88 File Offset: 0x00130088
 		public ISlotGroupParent SlotGroupParentAt(IntVec3 loc)
 		{
 			SlotGroup slotGroup = this.SlotGroupAt(loc);
 			return (slotGroup == null) ? null : slotGroup.parent;
 		}
 
-		// Token: 0x0600239F RID: 9119 RVA: 0x00131B70 File Offset: 0x0012FF70
+		// Token: 0x06002397 RID: 9111 RVA: 0x00131CB8 File Offset: 0x001300B8
 		public void SetCellFor(IntVec3 c, SlotGroup group)
 		{
 			if (this.SlotGroupAt(c) != null)
@@ -233,7 +233,7 @@ namespace RimWorld
 			this.groupGrid[c.x, c.y, c.z] = group;
 		}
 
-		// Token: 0x060023A0 RID: 9120 RVA: 0x00131BE4 File Offset: 0x0012FFE4
+		// Token: 0x06002398 RID: 9112 RVA: 0x00131D2C File Offset: 0x0013012C
 		public void ClearCellFor(IntVec3 c, SlotGroup group)
 		{
 			if (this.SlotGroupAt(c) != group)
@@ -250,31 +250,31 @@ namespace RimWorld
 			this.groupGrid[c.x, c.y, c.z] = null;
 		}
 
-		// Token: 0x040013E5 RID: 5093
+		// Token: 0x040013E3 RID: 5091
 		private Map map;
 
-		// Token: 0x040013E6 RID: 5094
+		// Token: 0x040013E4 RID: 5092
 		private List<IHaulDestination> allHaulDestinationsInOrder = new List<IHaulDestination>();
 
-		// Token: 0x040013E7 RID: 5095
+		// Token: 0x040013E5 RID: 5093
 		private List<SlotGroup> allGroupsInOrder = new List<SlotGroup>();
 
-		// Token: 0x040013E8 RID: 5096
+		// Token: 0x040013E6 RID: 5094
 		private SlotGroup[,,] groupGrid;
 
-		// Token: 0x040013E9 RID: 5097
+		// Token: 0x040013E7 RID: 5095
 		[CompilerGenerated]
 		private static Comparison<IHaulDestination> <>f__mg$cache0;
 
-		// Token: 0x040013EA RID: 5098
+		// Token: 0x040013E8 RID: 5096
 		[CompilerGenerated]
 		private static Comparison<SlotGroup> <>f__mg$cache1;
 
-		// Token: 0x040013EB RID: 5099
+		// Token: 0x040013E9 RID: 5097
 		[CompilerGenerated]
 		private static Comparison<IHaulDestination> <>f__mg$cache2;
 
-		// Token: 0x040013EC RID: 5100
+		// Token: 0x040013EA RID: 5098
 		[CompilerGenerated]
 		private static Comparison<SlotGroup> <>f__mg$cache3;
 	}

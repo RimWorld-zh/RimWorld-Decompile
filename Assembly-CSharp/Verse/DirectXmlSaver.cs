@@ -7,16 +7,16 @@ using System.Xml.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000D86 RID: 3462
+	// Token: 0x02000D83 RID: 3459
 	public static class DirectXmlSaver
 	{
-		// Token: 0x06004D5C RID: 19804 RVA: 0x00284A64 File Offset: 0x00282E64
+		// Token: 0x06004D71 RID: 19825 RVA: 0x00286014 File Offset: 0x00284414
 		public static bool IsSimpleTextType(Type type)
 		{
 			return type == typeof(float) || type == typeof(double) || type == typeof(long) || type == typeof(ulong) || type == typeof(char) || type == typeof(byte) || type == typeof(sbyte) || type == typeof(int) || type == typeof(uint) || type == typeof(bool) || type == typeof(short) || type == typeof(ushort) || type == typeof(string) || type.IsEnum;
 		}
 
-		// Token: 0x06004D5D RID: 19805 RVA: 0x00284B54 File Offset: 0x00282F54
+		// Token: 0x06004D72 RID: 19826 RVA: 0x00286104 File Offset: 0x00284504
 		public static void SaveDataObject(object obj, string filePath)
 		{
 			try
@@ -43,13 +43,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D5E RID: 19806 RVA: 0x00284BF0 File Offset: 0x00282FF0
+		// Token: 0x06004D73 RID: 19827 RVA: 0x002861A0 File Offset: 0x002845A0
 		public static XElement XElementFromObject(object obj, Type expectedClass)
 		{
 			return DirectXmlSaver.XElementFromObject(obj, expectedClass, expectedClass.Name, null, false);
 		}
 
-		// Token: 0x06004D5F RID: 19807 RVA: 0x00284C14 File Offset: 0x00283014
+		// Token: 0x06004D74 RID: 19828 RVA: 0x002861C4 File Offset: 0x002845C4
 		public static XElement XElementFromObject(object obj, Type expectedType, string nodeName, FieldInfo owningField = null, bool saveDefsAsRefs = false)
 		{
 			if (owningField != null)
@@ -155,7 +155,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004D60 RID: 19808 RVA: 0x00284F80 File Offset: 0x00283380
+		// Token: 0x06004D75 RID: 19829 RVA: 0x00286530 File Offset: 0x00284930
 		private static XElement XElementFromField(FieldInfo fi, object owningObj)
 		{
 			XElement result;

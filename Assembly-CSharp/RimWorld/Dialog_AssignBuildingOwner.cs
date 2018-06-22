@@ -6,10 +6,10 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020007F8 RID: 2040
+	// Token: 0x020007F4 RID: 2036
 	public class Dialog_AssignBuildingOwner : Window
 	{
-		// Token: 0x06002D36 RID: 11574 RVA: 0x0017BADF File Offset: 0x00179EDF
+		// Token: 0x06002D2F RID: 11567 RVA: 0x0017BCB7 File Offset: 0x0017A0B7
 		public Dialog_AssignBuildingOwner(IAssignableBuilding assignable)
 		{
 			this.assignable = assignable;
@@ -19,8 +19,8 @@ namespace RimWorld
 			this.absorbInputAroundWindow = true;
 		}
 
-		// Token: 0x17000727 RID: 1831
-		// (get) Token: 0x06002D37 RID: 11575 RVA: 0x0017BB0C File Offset: 0x00179F0C
+		// Token: 0x17000728 RID: 1832
+		// (get) Token: 0x06002D30 RID: 11568 RVA: 0x0017BCE4 File Offset: 0x0017A0E4
 		public override Vector2 InitialSize
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D38 RID: 11576 RVA: 0x0017BB30 File Offset: 0x00179F30
+		// Token: 0x06002D31 RID: 11569 RVA: 0x0017BD08 File Offset: 0x0017A108
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Font = GameFont.Small;
@@ -94,13 +94,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040017C3 RID: 6083
+		// Token: 0x040017C1 RID: 6081
 		private IAssignableBuilding assignable;
 
-		// Token: 0x040017C4 RID: 6084
+		// Token: 0x040017C2 RID: 6082
 		private Vector2 scrollPosition;
 
-		// Token: 0x040017C5 RID: 6085
+		// Token: 0x040017C3 RID: 6083
 		private const float EntryHeight = 35f;
 	}
 }

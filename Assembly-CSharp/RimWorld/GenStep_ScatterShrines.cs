@@ -9,7 +9,7 @@ namespace RimWorld
 	public class GenStep_ScatterShrines : GenStep_ScatterRuinsSimple
 	{
 		// Token: 0x1700025A RID: 602
-		// (get) Token: 0x0600119C RID: 4508 RVA: 0x00098890 File Offset: 0x00096C90
+		// (get) Token: 0x0600119C RID: 4508 RVA: 0x00098A74 File Offset: 0x00096E74
 		public override int SeedPart
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600119D RID: 4509 RVA: 0x000988AC File Offset: 0x00096CAC
+		// Token: 0x0600119D RID: 4509 RVA: 0x00098A90 File Offset: 0x00096E90
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			bool result;
@@ -34,7 +34,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600119E RID: 4510 RVA: 0x00098900 File Offset: 0x00096D00
+		// Token: 0x0600119E RID: 4510 RVA: 0x00098AE4 File Offset: 0x00096EE4
 		protected override void ScatterAt(IntVec3 loc, Map map, int stackCount = 1)
 		{
 			int randomInRange = GenStep_ScatterShrines.ShrinesCountX.RandomInRange;
@@ -86,16 +86,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000AAF RID: 2735
+		// Token: 0x04000AB0 RID: 2736
 		private static readonly IntRange ShrinesCountX = new IntRange(1, 4);
 
-		// Token: 0x04000AB0 RID: 2736
+		// Token: 0x04000AB1 RID: 2737
 		private static readonly IntRange ShrinesCountZ = new IntRange(1, 4);
 
-		// Token: 0x04000AB1 RID: 2737
+		// Token: 0x04000AB2 RID: 2738
 		private static readonly IntRange ExtraHeightRange = new IntRange(0, 8);
 
-		// Token: 0x04000AB2 RID: 2738
+		// Token: 0x04000AB3 RID: 2739
 		private const int MarginCells = 1;
 	}
 }

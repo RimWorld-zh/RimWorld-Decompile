@@ -6,11 +6,11 @@ using Verse.Grammar;
 
 namespace RimWorld
 {
-	// Token: 0x02000669 RID: 1641
+	// Token: 0x02000665 RID: 1637
 	public class Tale : IExposable, ILoadReferenceable
 	{
 		// Token: 0x17000503 RID: 1283
-		// (get) Token: 0x0600224A RID: 8778 RVA: 0x00122EBC File Offset: 0x001212BC
+		// (get) Token: 0x06002242 RID: 8770 RVA: 0x00122FF4 File Offset: 0x001213F4
 		public int AgeTicks
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000504 RID: 1284
-		// (get) Token: 0x0600224B RID: 8779 RVA: 0x00122EE4 File Offset: 0x001212E4
+		// (get) Token: 0x06002243 RID: 8771 RVA: 0x0012301C File Offset: 0x0012141C
 		public int Uses
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000505 RID: 1285
-		// (get) Token: 0x0600224C RID: 8780 RVA: 0x00122F00 File Offset: 0x00121300
+		// (get) Token: 0x06002244 RID: 8772 RVA: 0x00123038 File Offset: 0x00121438
 		public bool Unused
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000506 RID: 1286
-		// (get) Token: 0x0600224D RID: 8781 RVA: 0x00122F20 File Offset: 0x00121320
+		// (get) Token: 0x06002245 RID: 8773 RVA: 0x00123058 File Offset: 0x00121458
 		public virtual Pawn DominantPawn
 		{
 			get
@@ -50,7 +50,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000507 RID: 1287
-		// (get) Token: 0x0600224E RID: 8782 RVA: 0x00122F38 File Offset: 0x00121338
+		// (get) Token: 0x06002246 RID: 8774 RVA: 0x00123070 File Offset: 0x00121470
 		public float InterestLevel
 		{
 			get
@@ -88,7 +88,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000508 RID: 1288
-		// (get) Token: 0x0600224F RID: 8783 RVA: 0x00122FEC File Offset: 0x001213EC
+		// (get) Token: 0x06002247 RID: 8775 RVA: 0x00123124 File Offset: 0x00121524
 		public bool Expired
 		{
 			get
@@ -98,7 +98,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000509 RID: 1289
-		// (get) Token: 0x06002250 RID: 8784 RVA: 0x00123048 File Offset: 0x00121448
+		// (get) Token: 0x06002248 RID: 8776 RVA: 0x00123180 File Offset: 0x00121580
 		public virtual string ShortSummary
 		{
 			get
@@ -107,7 +107,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002251 RID: 8785 RVA: 0x00123068 File Offset: 0x00121468
+		// Token: 0x06002249 RID: 8777 RVA: 0x001231A0 File Offset: 0x001215A0
 		public virtual void GenerateTestData()
 		{
 			if (Find.CurrentMap == null)
@@ -118,13 +118,13 @@ namespace RimWorld
 			this.surroundings = TaleData_Surroundings.GenerateRandom(Find.CurrentMap);
 		}
 
-		// Token: 0x06002252 RID: 8786 RVA: 0x001230A8 File Offset: 0x001214A8
+		// Token: 0x0600224A RID: 8778 RVA: 0x001231E0 File Offset: 0x001215E0
 		public virtual bool Concerns(Thing th)
 		{
 			return false;
 		}
 
-		// Token: 0x06002253 RID: 8787 RVA: 0x001230C0 File Offset: 0x001214C0
+		// Token: 0x0600224B RID: 8779 RVA: 0x001231F8 File Offset: 0x001215F8
 		public virtual void ExposeData()
 		{
 			Scribe_Defs.Look<TaleDef>(ref this.def, "def");
@@ -134,13 +134,13 @@ namespace RimWorld
 			Scribe_Deep.Look<TaleData_Surroundings>(ref this.surroundings, "surroundings", new object[0]);
 		}
 
-		// Token: 0x06002254 RID: 8788 RVA: 0x0012312A File Offset: 0x0012152A
+		// Token: 0x0600224C RID: 8780 RVA: 0x00123262 File Offset: 0x00121662
 		public void Notify_NewlyUsed()
 		{
 			this.uses++;
 		}
 
-		// Token: 0x06002255 RID: 8789 RVA: 0x0012313B File Offset: 0x0012153B
+		// Token: 0x0600224D RID: 8781 RVA: 0x00123273 File Offset: 0x00121673
 		public void Notify_ReferenceDestroyed()
 		{
 			if (this.uses == 0)
@@ -153,7 +153,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002256 RID: 8790 RVA: 0x00123174 File Offset: 0x00121574
+		// Token: 0x0600224E RID: 8782 RVA: 0x001232AC File Offset: 0x001216AC
 		public IEnumerable<RulePack> GetTextGenerationIncludes()
 		{
 			if (this.def.rulePack != null)
@@ -163,7 +163,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002257 RID: 8791 RVA: 0x001231A0 File Offset: 0x001215A0
+		// Token: 0x0600224F RID: 8783 RVA: 0x001232D8 File Offset: 0x001216D8
 		public IEnumerable<Rule> GetTextGenerationRules()
 		{
 			Vector2 location = Vector2.zero;
@@ -186,25 +186,25 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002258 RID: 8792 RVA: 0x001231CC File Offset: 0x001215CC
+		// Token: 0x06002250 RID: 8784 RVA: 0x00123304 File Offset: 0x00121704
 		protected virtual IEnumerable<Rule> SpecialTextGenerationRules()
 		{
 			yield break;
 		}
 
-		// Token: 0x06002259 RID: 8793 RVA: 0x001231F0 File Offset: 0x001215F0
+		// Token: 0x06002251 RID: 8785 RVA: 0x00123328 File Offset: 0x00121728
 		public string GetUniqueLoadID()
 		{
 			return "Tale_" + this.id;
 		}
 
-		// Token: 0x0600225A RID: 8794 RVA: 0x0012321C File Offset: 0x0012161C
+		// Token: 0x06002252 RID: 8786 RVA: 0x00123354 File Offset: 0x00121754
 		public override int GetHashCode()
 		{
 			return this.id;
 		}
 
-		// Token: 0x0600225B RID: 8795 RVA: 0x00123238 File Offset: 0x00121638
+		// Token: 0x06002253 RID: 8787 RVA: 0x00123370 File Offset: 0x00121770
 		public override string ToString()
 		{
 			string str = string.Concat(new object[]
@@ -225,19 +225,19 @@ namespace RimWorld
 			return str + ")";
 		}
 
-		// Token: 0x0400137E RID: 4990
+		// Token: 0x0400137C RID: 4988
 		public TaleDef def;
 
-		// Token: 0x0400137F RID: 4991
+		// Token: 0x0400137D RID: 4989
 		public int id;
 
-		// Token: 0x04001380 RID: 4992
+		// Token: 0x0400137E RID: 4990
 		private int uses = 0;
 
-		// Token: 0x04001381 RID: 4993
+		// Token: 0x0400137F RID: 4991
 		public int date = -1;
 
-		// Token: 0x04001382 RID: 4994
+		// Token: 0x04001380 RID: 4992
 		public TaleData_Surroundings surroundings;
 	}
 }

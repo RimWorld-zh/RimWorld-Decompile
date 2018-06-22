@@ -15,20 +15,20 @@ namespace RimWorld
 		// Token: 0x060001C1 RID: 449
 		protected abstract CompHasGatherableBodyResource GetComp(Pawn animal);
 
-		// Token: 0x060001C2 RID: 450 RVA: 0x00012FE9 File Offset: 0x000113E9
+		// Token: 0x060001C2 RID: 450 RVA: 0x00012FF1 File Offset: 0x000113F1
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.gatherProgress, "gatherProgress", 0f, false);
 		}
 
-		// Token: 0x060001C3 RID: 451 RVA: 0x00013008 File Offset: 0x00011408
+		// Token: 0x060001C3 RID: 451 RVA: 0x00013010 File Offset: 0x00011410
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, 1, -1, null);
 		}
 
-		// Token: 0x060001C4 RID: 452 RVA: 0x00013040 File Offset: 0x00011440
+		// Token: 0x060001C4 RID: 452 RVA: 0x00013048 File Offset: 0x00011448
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);

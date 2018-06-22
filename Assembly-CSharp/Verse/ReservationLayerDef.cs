@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000B6B RID: 2923
+	// Token: 0x02000B67 RID: 2919
 	public class ReservationLayerDef : Def
 	{
 	}

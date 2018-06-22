@@ -6,15 +6,15 @@ using Verse.Grammar;
 
 namespace Verse
 {
-	// Token: 0x02000BC0 RID: 3008
+	// Token: 0x02000BBC RID: 3004
 	public class BattleLogEntry_ExplosionImpact : LogEntry_DamageResult
 	{
-		// Token: 0x06004134 RID: 16692 RVA: 0x002266E0 File Offset: 0x00224AE0
+		// Token: 0x06004136 RID: 16694 RVA: 0x00226DB4 File Offset: 0x002251B4
 		public BattleLogEntry_ExplosionImpact() : base(null)
 		{
 		}
 
-		// Token: 0x06004135 RID: 16693 RVA: 0x002266EC File Offset: 0x00224AEC
+		// Token: 0x06004137 RID: 16695 RVA: 0x00226DC0 File Offset: 0x002251C0
 		public BattleLogEntry_ExplosionImpact(Thing initiator, Thing recipient, ThingDef weaponDef, ThingDef projectileDef, DamageDef damageDef) : base(null)
 		{
 			if (initiator is Pawn)
@@ -38,8 +38,8 @@ namespace Verse
 			this.damageDef = damageDef;
 		}
 
-		// Token: 0x17000A2E RID: 2606
-		// (get) Token: 0x06004136 RID: 16694 RVA: 0x00226774 File Offset: 0x00224B74
+		// Token: 0x17000A30 RID: 2608
+		// (get) Token: 0x06004138 RID: 16696 RVA: 0x00226E48 File Offset: 0x00225248
 		private string InitiatorName
 		{
 			get
@@ -61,8 +61,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A2F RID: 2607
-		// (get) Token: 0x06004137 RID: 16695 RVA: 0x002267C8 File Offset: 0x00224BC8
+		// Token: 0x17000A31 RID: 2609
+		// (get) Token: 0x06004139 RID: 16697 RVA: 0x00226E9C File Offset: 0x0022529C
 		private string RecipientName
 		{
 			get
@@ -84,13 +84,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004138 RID: 16696 RVA: 0x0022681C File Offset: 0x00224C1C
+		// Token: 0x0600413A RID: 16698 RVA: 0x00226EF0 File Offset: 0x002252F0
 		public override bool Concerns(Thing t)
 		{
 			return t == this.initiatorPawn || t == this.recipientPawn;
 		}
 
-		// Token: 0x06004139 RID: 16697 RVA: 0x0022684C File Offset: 0x00224C4C
+		// Token: 0x0600413B RID: 16699 RVA: 0x00226F20 File Offset: 0x00225320
 		public override IEnumerable<Thing> GetConcerns()
 		{
 			if (this.initiatorPawn != null)
@@ -104,7 +104,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0600413A RID: 16698 RVA: 0x00226878 File Offset: 0x00224C78
+		// Token: 0x0600413C RID: 16700 RVA: 0x00226F4C File Offset: 0x0022534C
 		public override void ClickedFromPOV(Thing pov)
 		{
 			if (this.recipientPawn != null)
@@ -124,7 +124,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600413B RID: 16699 RVA: 0x002268E0 File Offset: 0x00224CE0
+		// Token: 0x0600413D RID: 16701 RVA: 0x00226FB4 File Offset: 0x002253B4
 		public override Texture2D IconFromPOV(Thing pov)
 		{
 			Texture2D result;
@@ -147,13 +147,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600413C RID: 16700 RVA: 0x00226944 File Offset: 0x00224D44
+		// Token: 0x0600413E RID: 16702 RVA: 0x00227018 File Offset: 0x00225418
 		protected override BodyDef DamagedBody()
 		{
 			return (this.recipientPawn == null) ? null : this.recipientPawn.RaceProps.body;
 		}
 
-		// Token: 0x0600413D RID: 16701 RVA: 0x0022697C File Offset: 0x00224D7C
+		// Token: 0x0600413F RID: 16703 RVA: 0x00227050 File Offset: 0x00225450
 		protected override GrammarRequest GenerateGrammarRequest()
 		{
 			GrammarRequest result = base.GenerateGrammarRequest();
@@ -194,7 +194,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600413E RID: 16702 RVA: 0x00226B10 File Offset: 0x00224F10
+		// Token: 0x06004140 RID: 16704 RVA: 0x002271E4 File Offset: 0x002255E4
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -207,31 +207,31 @@ namespace Verse
 			Scribe_Defs.Look<DamageDef>(ref this.damageDef, "damageDef");
 		}
 
-		// Token: 0x0600413F RID: 16703 RVA: 0x00226B98 File Offset: 0x00224F98
+		// Token: 0x06004141 RID: 16705 RVA: 0x0022726C File Offset: 0x0022566C
 		public override string ToString()
 		{
 			return "BattleLogEntry_ExplosionImpact: " + this.InitiatorName + "->" + this.RecipientName;
 		}
 
-		// Token: 0x04002C87 RID: 11399
+		// Token: 0x04002C8C RID: 11404
 		private Pawn initiatorPawn;
 
-		// Token: 0x04002C88 RID: 11400
+		// Token: 0x04002C8D RID: 11405
 		private ThingDef initiatorThing;
 
-		// Token: 0x04002C89 RID: 11401
+		// Token: 0x04002C8E RID: 11406
 		private Pawn recipientPawn;
 
-		// Token: 0x04002C8A RID: 11402
+		// Token: 0x04002C8F RID: 11407
 		private ThingDef recipientThing;
 
-		// Token: 0x04002C8B RID: 11403
+		// Token: 0x04002C90 RID: 11408
 		private ThingDef weaponDef;
 
-		// Token: 0x04002C8C RID: 11404
+		// Token: 0x04002C91 RID: 11409
 		private ThingDef projectileDef;
 
-		// Token: 0x04002C8D RID: 11405
+		// Token: 0x04002C92 RID: 11410
 		private DamageDef damageDef;
 	}
 }

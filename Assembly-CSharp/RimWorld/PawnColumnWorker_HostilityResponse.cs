@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000894 RID: 2196
+	// Token: 0x02000890 RID: 2192
 	public class PawnColumnWorker_HostilityResponse : PawnColumnWorker
 	{
-		// Token: 0x06003216 RID: 12822 RVA: 0x001AF941 File Offset: 0x001ADD41
+		// Token: 0x0600320F RID: 12815 RVA: 0x001AFB29 File Offset: 0x001ADF29
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 			if (pawn.RaceProps.Humanlike)
@@ -16,31 +16,31 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003217 RID: 12823 RVA: 0x001AF964 File Offset: 0x001ADD64
+		// Token: 0x06003210 RID: 12816 RVA: 0x001AFB4C File Offset: 0x001ADF4C
 		public override int GetMinCellHeight(Pawn pawn)
 		{
 			return Mathf.Max(base.GetMinCellHeight(pawn), Mathf.CeilToInt(24f) + 3);
 		}
 
-		// Token: 0x06003218 RID: 12824 RVA: 0x001AF994 File Offset: 0x001ADD94
+		// Token: 0x06003211 RID: 12817 RVA: 0x001AFB7C File Offset: 0x001ADF7C
 		public override int GetMinWidth(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinWidth(table), 24);
 		}
 
-		// Token: 0x06003219 RID: 12825 RVA: 0x001AF9B8 File Offset: 0x001ADDB8
+		// Token: 0x06003212 RID: 12818 RVA: 0x001AFBA0 File Offset: 0x001ADFA0
 		public override int GetMaxWidth(PawnTable table)
 		{
 			return Mathf.Min(base.GetMaxWidth(table), this.GetMinWidth(table));
 		}
 
-		// Token: 0x0600321A RID: 12826 RVA: 0x001AF9E0 File Offset: 0x001ADDE0
+		// Token: 0x06003213 RID: 12819 RVA: 0x001AFBC8 File Offset: 0x001ADFC8
 		public override int Compare(Pawn a, Pawn b)
 		{
 			return this.GetValueToCompare(a).CompareTo(this.GetValueToCompare(b));
 		}
 
-		// Token: 0x0600321B RID: 12827 RVA: 0x001AFA0C File Offset: 0x001ADE0C
+		// Token: 0x06003214 RID: 12820 RVA: 0x001AFBF4 File Offset: 0x001ADFF4
 		private int GetValueToCompare(Pawn pawn)
 		{
 			int result;
@@ -55,10 +55,10 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04001ADC RID: 6876
+		// Token: 0x04001ADA RID: 6874
 		private const int TopPadding = 3;
 
-		// Token: 0x04001ADD RID: 6877
+		// Token: 0x04001ADB RID: 6875
 		private const int Width = 24;
 	}
 }

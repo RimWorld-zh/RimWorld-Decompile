@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009D1 RID: 2513
+	// Token: 0x020009CD RID: 2509
 	public static class LastPlayedVersion
 	{
-		// Token: 0x170008A1 RID: 2209
-		// (get) Token: 0x0600384C RID: 14412 RVA: 0x001DFEAC File Offset: 0x001DE2AC
+		// Token: 0x170008A2 RID: 2210
+		// (get) Token: 0x06003846 RID: 14406 RVA: 0x001E0084 File Offset: 0x001DE484
 		public static Version Version
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600384D RID: 14413 RVA: 0x001DFECC File Offset: 0x001DE2CC
+		// Token: 0x06003847 RID: 14407 RVA: 0x001E00A4 File Offset: 0x001DE4A4
 		public static void InitializeIfNeeded()
 		{
 			if (!LastPlayedVersion.initialized)
@@ -60,10 +60,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04002405 RID: 9221
+		// Token: 0x04002400 RID: 9216
 		private static bool initialized = false;
 
-		// Token: 0x04002406 RID: 9222
+		// Token: 0x04002401 RID: 9217
 		private static Version lastPlayedVersionInt = null;
 	}
 }

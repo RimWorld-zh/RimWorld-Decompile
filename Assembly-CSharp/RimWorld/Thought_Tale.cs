@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200020D RID: 525
 	public class Thought_Tale : Thought_SituationalSocial
 	{
-		// Token: 0x060009E8 RID: 2536 RVA: 0x00058974 File Offset: 0x00056D74
+		// Token: 0x060009E6 RID: 2534 RVA: 0x000589B8 File Offset: 0x00056DB8
 		public override float OpinionOffset()
 		{
 			Tale latestTale = Find.TaleManager.GetLatestTale(this.def.taleDef, this.otherPawn);

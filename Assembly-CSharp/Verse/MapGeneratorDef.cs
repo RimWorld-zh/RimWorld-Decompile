@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000B52 RID: 2898
+	// Token: 0x02000B4E RID: 2894
 	public class MapGeneratorDef : Def
 	{
-		// Token: 0x040029F1 RID: 10737
+		// Token: 0x040029EF RID: 10735
 		public List<GenStepDef> genSteps;
 	}
 }

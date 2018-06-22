@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004DB RID: 1243
+	// Token: 0x020004D7 RID: 1239
 	public static class SpouseRelationUtility
 	{
-		// Token: 0x06001616 RID: 5654 RVA: 0x000C3BC0 File Offset: 0x000C1FC0
+		// Token: 0x0600160D RID: 5645 RVA: 0x000C3BB0 File Offset: 0x000C1FB0
 		public static Pawn GetSpouse(this Pawn pawn)
 		{
 			Pawn result;
@@ -21,7 +21,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001617 RID: 5655 RVA: 0x000C3C00 File Offset: 0x000C2000
+		// Token: 0x0600160E RID: 5646 RVA: 0x000C3BF0 File Offset: 0x000C1FF0
 		public static Pawn GetSpouseOppositeGender(this Pawn pawn)
 		{
 			Pawn spouse = pawn.GetSpouse();
@@ -41,7 +41,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04000CCA RID: 3274
+		// Token: 0x04000CC7 RID: 3271
 		public const float ChanceForSpousesToHaveTheSameName = 0.8f;
 	}
 }

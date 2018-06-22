@@ -3,10 +3,10 @@ using UnityEngine.SceneManagement;
 
 namespace Verse
 {
-	// Token: 0x02000BDB RID: 3035
+	// Token: 0x02000BD7 RID: 3031
 	internal static class QuickStarter
 	{
-		// Token: 0x06004233 RID: 16947 RVA: 0x0022D730 File Offset: 0x0022BB30
+		// Token: 0x06004235 RID: 16949 RVA: 0x0022DE4C File Offset: 0x0022C24C
 		public static bool CheckQuickStart()
 		{
 			bool result;
@@ -23,7 +23,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04002D3B RID: 11579
+		// Token: 0x04002D40 RID: 11584
 		private static bool quickStarted = false;
 	}
 }

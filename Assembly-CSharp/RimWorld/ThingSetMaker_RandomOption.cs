@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006EE RID: 1774
+	// Token: 0x020006EA RID: 1770
 	public class ThingSetMaker_RandomOption : ThingSetMaker
 	{
-		// Token: 0x0600269B RID: 9883 RVA: 0x0014A460 File Offset: 0x00148860
+		// Token: 0x06002693 RID: 9875 RVA: 0x0014A604 File Offset: 0x00148A04
 		protected override bool CanGenerateSub(ThingSetMakerParams parms)
 		{
 			for (int i = 0; i < this.options.Count; i++)
@@ -22,7 +22,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600269C RID: 9884 RVA: 0x0014A4D4 File Offset: 0x001488D4
+		// Token: 0x06002694 RID: 9876 RVA: 0x0014A678 File Offset: 0x00148A78
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			ThingSetMaker_RandomOption.Option option;
@@ -34,7 +34,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600269D RID: 9885 RVA: 0x0014A53C File Offset: 0x0014893C
+		// Token: 0x06002695 RID: 9877 RVA: 0x0014A6E0 File Offset: 0x00148AE0
 		private float GetSelectionWeight(ThingSetMaker_RandomOption.Option option)
 		{
 			float? weightIfPlayerHasNoSuchItem = option.weightIfPlayerHasNoSuchItem;
@@ -50,7 +50,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600269E RID: 9886 RVA: 0x0014A598 File Offset: 0x00148998
+		// Token: 0x06002696 RID: 9878 RVA: 0x0014A73C File Offset: 0x00148B3C
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -60,7 +60,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600269F RID: 9887 RVA: 0x0014A5E0 File Offset: 0x001489E0
+		// Token: 0x06002697 RID: 9879 RVA: 0x0014A784 File Offset: 0x00148B84
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			for (int i = 0; i < this.options.Count; i++)
@@ -82,19 +82,19 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0400157D RID: 5501
+		// Token: 0x0400157B RID: 5499
 		public List<ThingSetMaker_RandomOption.Option> options;
 
-		// Token: 0x020006EF RID: 1775
+		// Token: 0x020006EB RID: 1771
 		public class Option
 		{
-			// Token: 0x0400157E RID: 5502
+			// Token: 0x0400157C RID: 5500
 			public ThingSetMaker thingSetMaker;
 
-			// Token: 0x0400157F RID: 5503
+			// Token: 0x0400157D RID: 5501
 			public float weight;
 
-			// Token: 0x04001580 RID: 5504
+			// Token: 0x0400157E RID: 5502
 			public float? weightIfPlayerHasNoSuchItem;
 		}
 	}

@@ -6,7 +6,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003D7 RID: 983
 	public class SymbolResolver_Interior_BatteryRoom : SymbolResolver
 	{
-		// Token: 0x060010EA RID: 4330 RVA: 0x000902BC File Offset: 0x0008E6BC
+		// Token: 0x060010EA RID: 4330 RVA: 0x000904A8 File Offset: 0x0008E8A8
 		public override void Resolve(ResolveParams rp)
 		{
 			BaseGen.symbolStack.Push("indoorLighting", rp);

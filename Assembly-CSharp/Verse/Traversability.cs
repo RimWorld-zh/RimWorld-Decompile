@@ -2,14 +2,14 @@
 
 namespace Verse
 {
-	// Token: 0x02000B04 RID: 2820
+	// Token: 0x02000B00 RID: 2816
 	public enum Traversability : byte
 	{
-		// Token: 0x0400278A RID: 10122
+		// Token: 0x04002786 RID: 10118
 		Standable,
-		// Token: 0x0400278B RID: 10123
+		// Token: 0x04002787 RID: 10119
 		PassThroughOnly,
-		// Token: 0x0400278C RID: 10124
+		// Token: 0x04002788 RID: 10120
 		Impassable
 	}
 }

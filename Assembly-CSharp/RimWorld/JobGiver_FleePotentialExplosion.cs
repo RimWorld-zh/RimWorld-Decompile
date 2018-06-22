@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000AB RID: 171
 	public class JobGiver_FleePotentialExplosion : ThinkNode_JobGiver
 	{
-		// Token: 0x06000426 RID: 1062 RVA: 0x00031AA4 File Offset: 0x0002FEA4
+		// Token: 0x06000426 RID: 1062 RVA: 0x00031A80 File Offset: 0x0002FE80
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;

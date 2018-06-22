@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200033D RID: 829
 	public class IncidentWorker_ResourcePodCrash : IncidentWorker
 	{
-		// Token: 0x06000E2A RID: 3626 RVA: 0x00078958 File Offset: 0x00076D58
+		// Token: 0x06000E2A RID: 3626 RVA: 0x00078A58 File Offset: 0x00076E58
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;

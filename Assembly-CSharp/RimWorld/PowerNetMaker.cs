@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000427 RID: 1063
 	public static class PowerNetMaker
 	{
-		// Token: 0x0600128F RID: 4751 RVA: 0x000A1134 File Offset: 0x0009F534
+		// Token: 0x0600128F RID: 4751 RVA: 0x000A1318 File Offset: 0x0009F718
 		private static IEnumerable<CompPower> ContiguousPowerBuildings(Building root)
 		{
 			PowerNetMaker.closedSet.Clear();
@@ -60,24 +60,24 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001290 RID: 4752 RVA: 0x000A13B8 File Offset: 0x0009F7B8
+		// Token: 0x06001290 RID: 4752 RVA: 0x000A159C File Offset: 0x0009F99C
 		public static PowerNet NewPowerNetStartingFrom(Building root)
 		{
 			return new PowerNet(PowerNetMaker.ContiguousPowerBuildings(root));
 		}
 
-		// Token: 0x06001291 RID: 4753 RVA: 0x000A13D8 File Offset: 0x0009F7D8
+		// Token: 0x06001291 RID: 4753 RVA: 0x000A15BC File Offset: 0x0009F9BC
 		public static void UpdateVisualLinkagesFor(PowerNet net)
 		{
 		}
 
-		// Token: 0x04000B54 RID: 2900
+		// Token: 0x04000B55 RID: 2901
 		private static HashSet<Building> closedSet = new HashSet<Building>();
 
-		// Token: 0x04000B55 RID: 2901
+		// Token: 0x04000B56 RID: 2902
 		private static HashSet<Building> openSet = new HashSet<Building>();
 
-		// Token: 0x04000B56 RID: 2902
+		// Token: 0x04000B57 RID: 2903
 		private static HashSet<Building> currentSet = new HashSet<Building>();
 	}
 }

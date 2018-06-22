@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000E86 RID: 3718
+	// Token: 0x02000E85 RID: 3717
 	public class TreeNode
 	{
-		// Token: 0x060057A0 RID: 22432 RVA: 0x002CCB04 File Offset: 0x002CAF04
+		// Token: 0x060057C0 RID: 22464 RVA: 0x002CE714 File Offset: 0x002CCB14
 		public bool IsOpen(int mask)
 		{
 			return (this.openBits & mask) != 0;
 		}
 
-		// Token: 0x060057A1 RID: 22433 RVA: 0x002CCB27 File Offset: 0x002CAF27
+		// Token: 0x060057C1 RID: 22465 RVA: 0x002CE737 File Offset: 0x002CCB37
 		public void SetOpen(int mask, bool val)
 		{
 			if (val)
@@ -25,8 +25,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DD7 RID: 3543
-		// (get) Token: 0x060057A2 RID: 22434 RVA: 0x002CCB54 File Offset: 0x002CAF54
+		// Token: 0x17000DDA RID: 3546
+		// (get) Token: 0x060057C2 RID: 22466 RVA: 0x002CE764 File Offset: 0x002CCB64
 		public virtual bool Openable
 		{
 			get
@@ -35,16 +35,16 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x040039F4 RID: 14836
+		// Token: 0x04003A04 RID: 14852
 		public TreeNode parentNode;
 
-		// Token: 0x040039F5 RID: 14837
+		// Token: 0x04003A05 RID: 14853
 		public List<TreeNode> children;
 
-		// Token: 0x040039F6 RID: 14838
+		// Token: 0x04003A06 RID: 14854
 		public int nestDepth;
 
-		// Token: 0x040039F7 RID: 14839
+		// Token: 0x04003A07 RID: 14855
 		private int openBits;
 	}
 }

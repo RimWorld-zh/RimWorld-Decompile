@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DDB RID: 3547
+	// Token: 0x02000DD8 RID: 3544
 	public class Graphic_LinkedCornerFiller : Graphic_Linked
 	{
-		// Token: 0x06004F50 RID: 20304 RVA: 0x002945C5 File Offset: 0x002929C5
+		// Token: 0x06004F65 RID: 20325 RVA: 0x00295BA1 File Offset: 0x00293FA1
 		public Graphic_LinkedCornerFiller(Graphic subGraphic) : base(subGraphic)
 		{
 		}
 
-		// Token: 0x17000CD6 RID: 3286
-		// (get) Token: 0x06004F51 RID: 20305 RVA: 0x002945D0 File Offset: 0x002929D0
+		// Token: 0x17000CD8 RID: 3288
+		// (get) Token: 0x06004F66 RID: 20326 RVA: 0x00295BAC File Offset: 0x00293FAC
 		public override LinkDrawerType LinkerType
 		{
 			get
@@ -21,7 +21,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F52 RID: 20306 RVA: 0x002945E8 File Offset: 0x002929E8
+		// Token: 0x06004F67 RID: 20327 RVA: 0x00295BC4 File Offset: 0x00293FC4
 		public override Graphic GetColoredVersion(Shader newShader, Color newColor, Color newColorTwo)
 		{
 			return new Graphic_LinkedCornerFiller(this.subGraphic.GetColoredVersion(newShader, newColor, newColorTwo))
@@ -30,7 +30,7 @@ namespace Verse
 			};
 		}
 
-		// Token: 0x06004F53 RID: 20307 RVA: 0x00294620 File Offset: 0x00292A20
+		// Token: 0x06004F68 RID: 20328 RVA: 0x00295BFC File Offset: 0x00293FFC
 		public override void Print(SectionLayer layer, Thing thing)
 		{
 			base.Print(layer, thing);
@@ -108,7 +108,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F54 RID: 20308 RVA: 0x00294920 File Offset: 0x00292D20
+		// Token: 0x06004F69 RID: 20329 RVA: 0x00295EFC File Offset: 0x002942FC
 		// Note: this type is marked as 'beforefieldinit'.
 		static Graphic_LinkedCornerFiller()
 		{
@@ -126,22 +126,22 @@ namespace Verse
 			};
 		}
 
-		// Token: 0x040034B1 RID: 13489
+		// Token: 0x040034BC RID: 13500
 		private const float ShiftUp = 0.09f;
 
-		// Token: 0x040034B2 RID: 13490
+		// Token: 0x040034BD RID: 13501
 		private const float CoverSize = 0.5f;
 
-		// Token: 0x040034B3 RID: 13491
+		// Token: 0x040034BE RID: 13502
 		private static readonly float CoverSizeCornerCorner;
 
-		// Token: 0x040034B4 RID: 13492
+		// Token: 0x040034BF RID: 13503
 		private static readonly float DistCenterCorner;
 
-		// Token: 0x040034B5 RID: 13493
+		// Token: 0x040034C0 RID: 13504
 		private static readonly float CoverOffsetDist;
 
-		// Token: 0x040034B6 RID: 13494
+		// Token: 0x040034C1 RID: 13505
 		private static readonly Vector2[] CornerFillUVs;
 	}
 }

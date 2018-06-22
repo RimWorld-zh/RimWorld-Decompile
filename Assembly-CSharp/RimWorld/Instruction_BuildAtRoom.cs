@@ -3,15 +3,15 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008BA RID: 2234
+	// Token: 0x020008B6 RID: 2230
 	public abstract class Instruction_BuildAtRoom : Lesson_Instruction
 	{
-		// Token: 0x1700081C RID: 2076
-		// (get) Token: 0x0600330D RID: 13069
+		// Token: 0x1700081D RID: 2077
+		// (get) Token: 0x06003306 RID: 13062
 		protected abstract CellRect BuildableRect { get; }
 
-		// Token: 0x1700081D RID: 2077
-		// (get) Token: 0x0600330E RID: 13070 RVA: 0x001B7AB8 File Offset: 0x001B5EB8
+		// Token: 0x1700081E RID: 2078
+		// (get) Token: 0x06003307 RID: 13063 RVA: 0x001B7CA0 File Offset: 0x001B60A0
 		protected override float ProgressPercent
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600330F RID: 13071 RVA: 0x001B7B00 File Offset: 0x001B5F00
+		// Token: 0x06003308 RID: 13064 RVA: 0x001B7CE8 File Offset: 0x001B60E8
 		protected int NumPlaced()
 		{
 			int num = 0;
@@ -43,20 +43,20 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06003310 RID: 13072 RVA: 0x001B7B88 File Offset: 0x001B5F88
+		// Token: 0x06003309 RID: 13065 RVA: 0x001B7D70 File Offset: 0x001B6170
 		public override void LessonOnGUI()
 		{
 			TutorUtility.DrawCellRectOnGUI(this.BuildableRect.ContractedBy(1), this.def.onMapInstruction);
 			base.LessonOnGUI();
 		}
 
-		// Token: 0x06003311 RID: 13073 RVA: 0x001B7BBC File Offset: 0x001B5FBC
+		// Token: 0x0600330A RID: 13066 RVA: 0x001B7DA4 File Offset: 0x001B61A4
 		public override void LessonUpdate()
 		{
 			GenDraw.DrawArrowPointingAt(this.BuildableRect.CenterVector3, true);
 		}
 
-		// Token: 0x06003312 RID: 13074 RVA: 0x001B7BE0 File Offset: 0x001B5FE0
+		// Token: 0x0600330B RID: 13067 RVA: 0x001B7DC8 File Offset: 0x001B61C8
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
 			AcceptanceReport result;
@@ -71,13 +71,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003313 RID: 13075 RVA: 0x001B7C40 File Offset: 0x001B6040
+		// Token: 0x0600330C RID: 13068 RVA: 0x001B7E28 File Offset: 0x001B6228
 		protected virtual bool AllowBuildAt(IntVec3 c)
 		{
 			return this.BuildableRect.Contains(c);
 		}
 
-		// Token: 0x06003314 RID: 13076 RVA: 0x001B7C64 File Offset: 0x001B6064
+		// Token: 0x0600330D RID: 13069 RVA: 0x001B7E4C File Offset: 0x001B624C
 		public override void Notify_Event(EventPack ep)
 		{
 			if (this.NumPlaced() >= this.def.targetCount)

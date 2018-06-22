@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A65 RID: 2661
+	// Token: 0x02000A61 RID: 2657
 	public class MentalStateWorker_WanderOwnRoom : MentalStateWorker
 	{
-		// Token: 0x06003B34 RID: 15156 RVA: 0x001F6530 File Offset: 0x001F4930
+		// Token: 0x06003B2F RID: 15151 RVA: 0x001F682C File Offset: 0x001F4C2C
 		public override bool StateCanOccur(Pawn pawn)
 		{
 			bool result;

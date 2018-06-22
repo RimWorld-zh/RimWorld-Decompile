@@ -5,12 +5,12 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000726 RID: 1830
+	// Token: 0x02000722 RID: 1826
 	[StaticConstructorOnStartup]
 	public class CompOrbitalBeam : ThingComp
 	{
 		// Token: 0x1700062C RID: 1580
-		// (get) Token: 0x0600284C RID: 10316 RVA: 0x00158234 File Offset: 0x00156634
+		// (get) Token: 0x06002844 RID: 10308 RVA: 0x001583F0 File Offset: 0x001567F0
 		public CompProperties_OrbitalBeam Props
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700062D RID: 1581
-		// (get) Token: 0x0600284D RID: 10317 RVA: 0x00158254 File Offset: 0x00156654
+		// (get) Token: 0x06002845 RID: 10309 RVA: 0x00158410 File Offset: 0x00156810
 		private int TicksPassed
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700062E RID: 1582
-		// (get) Token: 0x0600284E RID: 10318 RVA: 0x0015827C File Offset: 0x0015667C
+		// (get) Token: 0x06002846 RID: 10310 RVA: 0x00158438 File Offset: 0x00156838
 		private int TicksLeft
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700062F RID: 1583
-		// (get) Token: 0x0600284F RID: 10319 RVA: 0x001582A0 File Offset: 0x001566A0
+		// (get) Token: 0x06002847 RID: 10311 RVA: 0x0015845C File Offset: 0x0015685C
 		private float BeamEndHeight
 		{
 			get
@@ -49,7 +49,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002850 RID: 10320 RVA: 0x001582C8 File Offset: 0x001566C8
+		// Token: 0x06002848 RID: 10312 RVA: 0x00158484 File Offset: 0x00156884
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -59,7 +59,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.angle, "angle", 0f, false);
 		}
 
-		// Token: 0x06002851 RID: 10321 RVA: 0x00158328 File Offset: 0x00156728
+		// Token: 0x06002849 RID: 10313 RVA: 0x001584E4 File Offset: 0x001568E4
 		public void StartAnimation(int totalDuration, int fadeOutDuration, float angle)
 		{
 			this.startTick = Find.TickManager.TicksGame;
@@ -69,14 +69,14 @@ namespace RimWorld
 			this.CheckSpawnSustainer();
 		}
 
-		// Token: 0x06002852 RID: 10322 RVA: 0x00158356 File Offset: 0x00156756
+		// Token: 0x0600284A RID: 10314 RVA: 0x00158512 File Offset: 0x00156912
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
 			this.CheckSpawnSustainer();
 		}
 
-		// Token: 0x06002853 RID: 10323 RVA: 0x00158368 File Offset: 0x00156768
+		// Token: 0x0600284B RID: 10315 RVA: 0x00158524 File Offset: 0x00156924
 		public override void CompTick()
 		{
 			base.CompTick();
@@ -91,7 +91,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002854 RID: 10324 RVA: 0x001583BC File Offset: 0x001567BC
+		// Token: 0x0600284C RID: 10316 RVA: 0x00158578 File Offset: 0x00156978
 		public override void PostDraw()
 		{
 			base.PostDraw();
@@ -123,7 +123,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002855 RID: 10325 RVA: 0x001585D9 File Offset: 0x001569D9
+		// Token: 0x0600284D RID: 10317 RVA: 0x00158795 File Offset: 0x00156B95
 		private void CheckSpawnSustainer()
 		{
 			if (this.TicksLeft >= this.fadeOutDuration && this.Props.sound != null)
@@ -135,37 +135,37 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040015FF RID: 5631
+		// Token: 0x040015FD RID: 5629
 		private int startTick;
 
-		// Token: 0x04001600 RID: 5632
+		// Token: 0x040015FE RID: 5630
 		private int totalDuration;
 
-		// Token: 0x04001601 RID: 5633
+		// Token: 0x040015FF RID: 5631
 		private int fadeOutDuration;
 
-		// Token: 0x04001602 RID: 5634
+		// Token: 0x04001600 RID: 5632
 		private float angle;
 
-		// Token: 0x04001603 RID: 5635
+		// Token: 0x04001601 RID: 5633
 		private Sustainer sustainer;
 
-		// Token: 0x04001604 RID: 5636
+		// Token: 0x04001602 RID: 5634
 		private const float AlphaAnimationSpeed = 0.3f;
 
-		// Token: 0x04001605 RID: 5637
+		// Token: 0x04001603 RID: 5635
 		private const float AlphaAnimationStrength = 0.025f;
 
-		// Token: 0x04001606 RID: 5638
+		// Token: 0x04001604 RID: 5636
 		private const float BeamEndHeightRatio = 0.5f;
 
-		// Token: 0x04001607 RID: 5639
+		// Token: 0x04001605 RID: 5637
 		private static readonly Material BeamMat = MaterialPool.MatFrom("Other/OrbitalBeam", ShaderDatabase.MoteGlow, MapMaterialRenderQueues.OrbitalBeam);
 
-		// Token: 0x04001608 RID: 5640
+		// Token: 0x04001606 RID: 5638
 		private static readonly Material BeamEndMat = MaterialPool.MatFrom("Other/OrbitalBeamEnd", ShaderDatabase.MoteGlow, MapMaterialRenderQueues.OrbitalBeam);
 
-		// Token: 0x04001609 RID: 5641
+		// Token: 0x04001607 RID: 5639
 		private static readonly MaterialPropertyBlock MatPropertyBlock = new MaterialPropertyBlock();
 	}
 }

@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000990 RID: 2448
+	// Token: 0x0200098C RID: 2444
 	public static class MeshUtility
 	{
-		// Token: 0x06003704 RID: 14084 RVA: 0x001D60B8 File Offset: 0x001D44B8
+		// Token: 0x060036FD RID: 14077 RVA: 0x001D62B4 File Offset: 0x001D46B4
 		public static void RemoveVertices(List<Vector3> verts, List<TriangleIndices> tris, Predicate<Vector3> predicate)
 		{
 			int i = 0;
@@ -27,7 +27,7 @@ namespace RimWorld
 			MeshUtility.RemoveUnusedVertices(verts, tris);
 		}
 
-		// Token: 0x06003705 RID: 14085 RVA: 0x001D616C File Offset: 0x001D456C
+		// Token: 0x060036FE RID: 14078 RVA: 0x001D6368 File Offset: 0x001D4768
 		public static void RemoveUnusedVertices(List<Vector3> verts, List<TriangleIndices> tris)
 		{
 			MeshUtility.vertIsUsed.Clear();
@@ -72,13 +72,13 @@ namespace RimWorld
 			verts.RemoveAll((Vector3 elem, int index) => !MeshUtility.vertIsUsed[index]);
 		}
 
-		// Token: 0x06003706 RID: 14086 RVA: 0x001D62FC File Offset: 0x001D46FC
+		// Token: 0x060036FF RID: 14079 RVA: 0x001D64F8 File Offset: 0x001D48F8
 		public static bool Visible(Vector3 point, float radius, Vector3 viewCenter, float viewAngle)
 		{
 			return viewAngle >= 180f || Vector3.Angle(viewCenter * radius, point) <= viewAngle;
 		}
 
-		// Token: 0x06003707 RID: 14087 RVA: 0x001D6338 File Offset: 0x001D4738
+		// Token: 0x06003700 RID: 14080 RVA: 0x001D6534 File Offset: 0x001D4934
 		public static bool VisibleForWorldgen(Vector3 point, float radius, Vector3 viewCenter, float viewAngle)
 		{
 			bool result;
@@ -98,17 +98,17 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003708 RID: 14088 RVA: 0x001D63A4 File Offset: 0x001D47A4
+		// Token: 0x06003701 RID: 14081 RVA: 0x001D65A0 File Offset: 0x001D49A0
 		public static Color32 MutateAlpha(this Color32 input, byte newAlpha)
 		{
 			input.a = newAlpha;
 			return input;
 		}
 
-		// Token: 0x0400237E RID: 9086
+		// Token: 0x0400237C RID: 9084
 		private static List<int> offsets = new List<int>();
 
-		// Token: 0x0400237F RID: 9087
+		// Token: 0x0400237D RID: 9085
 		private static List<bool> vertIsUsed = new List<bool>();
 	}
 }

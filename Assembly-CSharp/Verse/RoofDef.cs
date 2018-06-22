@@ -2,11 +2,11 @@
 
 namespace Verse
 {
-	// Token: 0x02000B6C RID: 2924
+	// Token: 0x02000B68 RID: 2920
 	public class RoofDef : Def
 	{
-		// Token: 0x170009B9 RID: 2489
-		// (get) Token: 0x06003FDB RID: 16347 RVA: 0x0021A6D0 File Offset: 0x00218AD0
+		// Token: 0x170009BB RID: 2491
+		// (get) Token: 0x06003FDC RID: 16348 RVA: 0x0021AD38 File Offset: 0x00219138
 		public bool VanishOnCollapse
 		{
 			get
@@ -15,19 +15,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002ABC RID: 10940
+		// Token: 0x04002ABD RID: 10941
 		public bool isNatural = false;
 
-		// Token: 0x04002ABD RID: 10941
+		// Token: 0x04002ABE RID: 10942
 		public bool isThickRoof = false;
 
-		// Token: 0x04002ABE RID: 10942
+		// Token: 0x04002ABF RID: 10943
 		public ThingDef collapseLeavingThingDef = null;
 
-		// Token: 0x04002ABF RID: 10943
+		// Token: 0x04002AC0 RID: 10944
 		public ThingDef filthLeaving = null;
 
-		// Token: 0x04002AC0 RID: 10944
+		// Token: 0x04002AC1 RID: 10945
 		public SoundDef soundPunchThrough;
 	}
 }

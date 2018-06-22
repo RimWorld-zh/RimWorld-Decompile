@@ -6,14 +6,14 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003B3 RID: 947
 	public class SymbolResolver_OutdoorsCampfire : SymbolResolver
 	{
-		// Token: 0x06001071 RID: 4209 RVA: 0x0008B0CC File Offset: 0x000894CC
+		// Token: 0x06001071 RID: 4209 RVA: 0x0008B2B8 File Offset: 0x000896B8
 		public override bool CanResolve(ResolveParams rp)
 		{
 			IntVec3 intVec;
 			return base.CanResolve(rp) && this.TryFindSpawnCell(rp.rect, out intVec);
 		}
 
-		// Token: 0x06001072 RID: 4210 RVA: 0x0008B110 File Offset: 0x00089510
+		// Token: 0x06001072 RID: 4210 RVA: 0x0008B2FC File Offset: 0x000896FC
 		public override void Resolve(ResolveParams rp)
 		{
 			IntVec3 loc;
@@ -25,7 +25,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06001073 RID: 4211 RVA: 0x0008B164 File Offset: 0x00089564
+		// Token: 0x06001073 RID: 4211 RVA: 0x0008B350 File Offset: 0x00089750
 		private bool TryFindSpawnCell(CellRect rect, out IntVec3 result)
 		{
 			Map map = BaseGen.globalSettings.map;

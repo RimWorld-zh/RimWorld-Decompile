@@ -6,10 +6,10 @@ using Verse.Noise;
 
 namespace RimWorld
 {
-	// Token: 0x02000449 RID: 1097
+	// Token: 0x02000445 RID: 1093
 	public static class LightningBoltMeshMaker
 	{
-		// Token: 0x06001302 RID: 4866 RVA: 0x000A3C74 File Offset: 0x000A2074
+		// Token: 0x060012F9 RID: 4857 RVA: 0x000A3C84 File Offset: 0x000A2084
 		public static Mesh NewBoltMesh()
 		{
 			LightningBoltMeshMaker.lightningTop = new Vector2(Rand.Range(-50f, 50f), 200f);
@@ -19,7 +19,7 @@ namespace RimWorld
 			return LightningBoltMeshMaker.MeshFromVerts();
 		}
 
-		// Token: 0x06001303 RID: 4867 RVA: 0x000A3CBC File Offset: 0x000A20BC
+		// Token: 0x060012FA RID: 4858 RVA: 0x000A3CCC File Offset: 0x000A20CC
 		private static void MakeVerticesBase()
 		{
 			int num = (int)Math.Ceiling((double)((Vector2.zero - LightningBoltMeshMaker.lightningTop).magnitude / 0.25f));
@@ -33,7 +33,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001304 RID: 4868 RVA: 0x000A3D38 File Offset: 0x000A2138
+		// Token: 0x060012FB RID: 4859 RVA: 0x000A3D48 File Offset: 0x000A2148
 		private static void PeturbVerticesRandomly()
 		{
 			Perlin perlin = new Perlin(0.0070000002160668373, 2.0, 0.5, 6, Rand.Range(0, int.MaxValue), QualityMode.High);
@@ -47,7 +47,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001305 RID: 4869 RVA: 0x000A3DEC File Offset: 0x000A21EC
+		// Token: 0x060012FC RID: 4860 RVA: 0x000A3DFC File Offset: 0x000A21FC
 		private static void DoubleVertices()
 		{
 			List<Vector2> list = LightningBoltMeshMaker.verts2D.ListFullCopy<Vector2>();
@@ -69,7 +69,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001306 RID: 4870 RVA: 0x000A3EE0 File Offset: 0x000A22E0
+		// Token: 0x060012FD RID: 4861 RVA: 0x000A3EF0 File Offset: 0x000A22F0
 		private static Mesh MeshFromVerts()
 		{
 			Vector3[] array = new Vector3[LightningBoltMeshMaker.verts2D.Count];
@@ -105,31 +105,31 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x04000B88 RID: 2952
+		// Token: 0x04000B85 RID: 2949
 		private static List<Vector2> verts2D;
 
-		// Token: 0x04000B89 RID: 2953
+		// Token: 0x04000B86 RID: 2950
 		private static Vector2 lightningTop;
 
-		// Token: 0x04000B8A RID: 2954
+		// Token: 0x04000B87 RID: 2951
 		private const float LightningHeight = 200f;
 
-		// Token: 0x04000B8B RID: 2955
+		// Token: 0x04000B88 RID: 2952
 		private const float LightningRootXVar = 50f;
 
-		// Token: 0x04000B8C RID: 2956
+		// Token: 0x04000B89 RID: 2953
 		private const float VertexInterval = 0.25f;
 
-		// Token: 0x04000B8D RID: 2957
+		// Token: 0x04000B8A RID: 2954
 		private const float MeshWidth = 2f;
 
-		// Token: 0x04000B8E RID: 2958
+		// Token: 0x04000B8B RID: 2955
 		private const float UVIntervalY = 0.04f;
 
-		// Token: 0x04000B8F RID: 2959
+		// Token: 0x04000B8C RID: 2956
 		private const float PerturbAmp = 12f;
 
-		// Token: 0x04000B90 RID: 2960
+		// Token: 0x04000B8D RID: 2957
 		private const float PerturbFreq = 0.007f;
 	}
 }

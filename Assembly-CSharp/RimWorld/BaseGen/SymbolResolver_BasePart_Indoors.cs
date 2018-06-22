@@ -6,7 +6,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x02000398 RID: 920
 	public class SymbolResolver_BasePart_Indoors : SymbolResolver
 	{
-		// Token: 0x0600100A RID: 4106 RVA: 0x00086E10 File Offset: 0x00085210
+		// Token: 0x0600100A RID: 4106 RVA: 0x00086FFC File Offset: 0x000853FC
 		public override void Resolve(ResolveParams rp)
 		{
 			bool flag = rp.rect.Width > 13 || rp.rect.Height > 13 || ((rp.rect.Width >= 9 || rp.rect.Height >= 9) && Rand.Chance(0.3f));

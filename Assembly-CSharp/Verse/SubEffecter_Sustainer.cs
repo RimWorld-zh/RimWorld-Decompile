@@ -6,12 +6,12 @@ namespace Verse
 	// Token: 0x02000F25 RID: 3877
 	public class SubEffecter_Sustainer : SubEffecter
 	{
-		// Token: 0x06005CB9 RID: 23737 RVA: 0x002EF945 File Offset: 0x002EDD45
+		// Token: 0x06005CE1 RID: 23777 RVA: 0x002F1971 File Offset: 0x002EFD71
 		public SubEffecter_Sustainer(SubEffecterDef def, Effecter parent) : base(def, parent)
 		{
 		}
 
-		// Token: 0x06005CBA RID: 23738 RVA: 0x002EF960 File Offset: 0x002EDD60
+		// Token: 0x06005CE2 RID: 23778 RVA: 0x002F198C File Offset: 0x002EFD8C
 		public override void SubEffectTick(TargetInfo A, TargetInfo B)
 		{
 			this.age++;
@@ -29,10 +29,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003D89 RID: 15753
+		// Token: 0x04003D9B RID: 15771
 		private int age = 0;
 
-		// Token: 0x04003D8A RID: 15754
+		// Token: 0x04003D9C RID: 15772
 		private Sustainer sustainer = null;
 	}
 }

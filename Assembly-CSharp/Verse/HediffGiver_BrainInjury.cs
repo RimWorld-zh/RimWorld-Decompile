@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D34 RID: 3380
+	// Token: 0x02000D31 RID: 3377
 	public class HediffGiver_BrainInjury : HediffGiver
 	{
-		// Token: 0x06004A6E RID: 19054 RVA: 0x0026C6AC File Offset: 0x0026AAAC
+		// Token: 0x06004A82 RID: 19074 RVA: 0x0026DC38 File Offset: 0x0026C038
 		public override bool OnHediffAdded(Pawn pawn, Hediff hediff)
 		{
 			bool result;
@@ -28,7 +28,7 @@ namespace Verse
 					{
 						if ((pawn.Faction == Faction.OfPlayer || pawn.IsPrisonerOfColony) && !this.letter.NullOrEmpty())
 						{
-							Find.LetterStack.ReceiveLetter(this.letterLabel, this.letter.AdjustedFor(pawn), LetterDefOf.NegativeEvent, pawn, null, null);
+							Find.LetterStack.ReceiveLetter(this.letterLabel, this.letter.AdjustedFor(pawn, "PAWN"), LetterDefOf.NegativeEvent, pawn, null, null);
 						}
 						return true;
 					}
@@ -38,13 +38,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003243 RID: 12867
+		// Token: 0x0400324E RID: 12878
 		public float chancePerDamagePct;
 
-		// Token: 0x04003244 RID: 12868
+		// Token: 0x0400324F RID: 12879
 		public string letterLabel;
 
-		// Token: 0x04003245 RID: 12869
+		// Token: 0x04003250 RID: 12880
 		public string letter;
 	}
 }

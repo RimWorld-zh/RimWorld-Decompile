@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A75 RID: 2677
+	// Token: 0x02000A71 RID: 2673
 	public class MentalState_Jailbreaker : MentalState
 	{
-		// Token: 0x06003B7C RID: 15228 RVA: 0x001F73E4 File Offset: 0x001F57E4
+		// Token: 0x06003B77 RID: 15223 RVA: 0x001F76F0 File Offset: 0x001F5AF0
 		public override void MentalStateTick()
 		{
 			base.MentalStateTick();
@@ -16,7 +16,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B7D RID: 15229 RVA: 0x001F741C File Offset: 0x001F581C
+		// Token: 0x06003B78 RID: 15224 RVA: 0x001F7728 File Offset: 0x001F5B28
 		public void Notify_InducedPrisonerToEscape()
 		{
 			if (MentalStateDefOf.Wander_OwnRoom.Worker.StateCanOccur(this.pawn))
@@ -33,7 +33,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x04002571 RID: 9585
+		// Token: 0x0400256C RID: 9580
 		private const int NoPrisonerToFreeCheckInterval = 500;
 	}
 }

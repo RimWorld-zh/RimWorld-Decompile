@@ -4,11 +4,11 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A72 RID: 2674
+	// Token: 0x02000A6E RID: 2670
 	public class MentalState_TargetedInsultingSpree : MentalState_InsultingSpree
 	{
-		// Token: 0x1700090F RID: 2319
-		// (get) Token: 0x06003B5E RID: 15198 RVA: 0x001F7098 File Offset: 0x001F5498
+		// Token: 0x17000910 RID: 2320
+		// (get) Token: 0x06003B59 RID: 15193 RVA: 0x001F739C File Offset: 0x001F579C
 		public override string InspectLine
 		{
 			get
@@ -17,8 +17,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000910 RID: 2320
-		// (get) Token: 0x06003B5F RID: 15199 RVA: 0x001F70C8 File Offset: 0x001F54C8
+		// Token: 0x17000911 RID: 2321
+		// (get) Token: 0x06003B5A RID: 15194 RVA: 0x001F73CC File Offset: 0x001F57CC
 		protected override bool CanEndBeforeMaxDurationNow
 		{
 			get
@@ -27,7 +27,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B60 RID: 15200 RVA: 0x001F70E4 File Offset: 0x001F54E4
+		// Token: 0x06003B5B RID: 15195 RVA: 0x001F73E8 File Offset: 0x001F57E8
 		public override void MentalStateTick()
 		{
 			if (this.target != null && (!this.target.Spawned || !this.pawn.CanReach(this.target, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn)))
@@ -44,7 +44,7 @@ namespace Verse.AI
 						this.pawn.LabelShort,
 						target.Label,
 						this.target.Label
-					}).AdjustedFor(this.pawn), this.pawn, MessageTypeDefOf.NegativeEvent, true);
+					}).AdjustedFor(this.pawn, "PAWN"), this.pawn, MessageTypeDefOf.NegativeEvent, true);
 					base.MentalStateTick();
 				}
 			}
@@ -58,14 +58,14 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B61 RID: 15201 RVA: 0x001F71E2 File Offset: 0x001F55E2
+		// Token: 0x06003B5C RID: 15196 RVA: 0x001F74EB File Offset: 0x001F58EB
 		public override void PostStart(string reason)
 		{
 			base.PostStart(reason);
 			this.TryFindNewTarget();
 		}
 
-		// Token: 0x06003B62 RID: 15202 RVA: 0x001F71F4 File Offset: 0x001F55F4
+		// Token: 0x06003B5D RID: 15197 RVA: 0x001F74FC File Offset: 0x001F58FC
 		private bool TryFindNewTarget()
 		{
 			InsultingSpreeMentalStateUtility.GetInsultCandidatesFor(this.pawn, MentalState_TargetedInsultingSpree.candidates, false);
@@ -74,7 +74,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003B63 RID: 15203 RVA: 0x001F7238 File Offset: 0x001F5638
+		// Token: 0x06003B5E RID: 15198 RVA: 0x001F7540 File Offset: 0x001F5940
 		public override void PostEnd()
 		{
 			base.PostEnd();
@@ -88,7 +88,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B64 RID: 15204 RVA: 0x001F72AC File Offset: 0x001F56AC
+		// Token: 0x06003B5F RID: 15199 RVA: 0x001F75B4 File Offset: 0x001F59B4
 		public override string GetBeginLetterText()
 		{
 			string result;
@@ -99,12 +99,12 @@ namespace Verse.AI
 			}
 			else
 			{
-				result = string.Format(this.def.beginLetter, this.pawn.LabelShort, this.target.LabelShort).AdjustedFor(this.pawn).CapitalizeFirst();
+				result = string.Format(this.def.beginLetter, this.pawn.LabelShort, this.target.LabelShort).AdjustedFor(this.pawn, "PAWN").CapitalizeFirst();
 			}
 			return result;
 		}
 
-		// Token: 0x04002569 RID: 9577
+		// Token: 0x04002564 RID: 9572
 		private static List<Pawn> candidates = new List<Pawn>();
 	}
 }

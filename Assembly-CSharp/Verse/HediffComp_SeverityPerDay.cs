@@ -3,11 +3,11 @@ using System.Text;
 
 namespace Verse
 {
-	// Token: 0x02000D23 RID: 3363
+	// Token: 0x02000D20 RID: 3360
 	public class HediffComp_SeverityPerDay : HediffComp
 	{
-		// Token: 0x17000BC3 RID: 3011
-		// (get) Token: 0x06004A00 RID: 18944 RVA: 0x002689A4 File Offset: 0x00266DA4
+		// Token: 0x17000BC5 RID: 3013
+		// (get) Token: 0x06004A11 RID: 18961 RVA: 0x00269DD8 File Offset: 0x002681D8
 		private HediffCompProperties_SeverityPerDay Props
 		{
 			get
@@ -16,7 +16,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A01 RID: 18945 RVA: 0x002689C4 File Offset: 0x00266DC4
+		// Token: 0x06004A12 RID: 18962 RVA: 0x00269DF8 File Offset: 0x002681F8
 		public override void CompPostTick(ref float severityAdjustment)
 		{
 			base.CompPostTick(ref severityAdjustment);
@@ -28,13 +28,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A02 RID: 18946 RVA: 0x00268A08 File Offset: 0x00266E08
+		// Token: 0x06004A13 RID: 18963 RVA: 0x00269E3C File Offset: 0x0026823C
 		protected virtual float SeverityChangePerDay()
 		{
 			return this.Props.severityPerDay;
 		}
 
-		// Token: 0x06004A03 RID: 18947 RVA: 0x00268A28 File Offset: 0x00266E28
+		// Token: 0x06004A14 RID: 18964 RVA: 0x00269E5C File Offset: 0x0026825C
 		public override string CompDebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -46,7 +46,7 @@ namespace Verse
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x0400322A RID: 12842
+		// Token: 0x04003235 RID: 12853
 		protected const int SeverityUpdateInterval = 200;
 	}
 }

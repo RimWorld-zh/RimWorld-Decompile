@@ -3,17 +3,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006B1 RID: 1713
+	// Token: 0x020006AD RID: 1709
 	public class Building_Sarcophagus : Building_Grave
 	{
-		// Token: 0x060024BC RID: 9404 RVA: 0x0013A41E File Offset: 0x0013881E
+		// Token: 0x060024B4 RID: 9396 RVA: 0x0013A566 File Offset: 0x00138966
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.everNonEmpty, "everNonEmpty", false, false);
 		}
 
-		// Token: 0x060024BD RID: 9405 RVA: 0x0013A43C File Offset: 0x0013883C
+		// Token: 0x060024B5 RID: 9397 RVA: 0x0013A584 File Offset: 0x00138984
 		public override bool TryAcceptThing(Thing thing, bool allowSpecialEffects = true)
 		{
 			bool result;
@@ -30,7 +30,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060024BE RID: 9406 RVA: 0x0013A480 File Offset: 0x00138880
+		// Token: 0x060024B6 RID: 9398 RVA: 0x0013A5C8 File Offset: 0x001389C8
 		public override void Notify_CorpseBuried(Pawn worker)
 		{
 			base.Notify_CorpseBuried(worker);
@@ -47,10 +47,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04001441 RID: 5185
+		// Token: 0x0400143F RID: 5183
 		private bool everNonEmpty = false;
 
-		// Token: 0x04001442 RID: 5186
+		// Token: 0x04001440 RID: 5184
 		private bool thisIsFirstBodyEver = false;
 	}
 }

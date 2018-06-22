@@ -6,18 +6,18 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000629 RID: 1577
+	// Token: 0x02000625 RID: 1573
 	[StaticConstructorOnStartup]
 	public class TradeRequestComp : WorldObjectComp, IThingHolder
 	{
-		// Token: 0x06002016 RID: 8214 RVA: 0x0011368C File Offset: 0x00111A8C
+		// Token: 0x0600200B RID: 8203 RVA: 0x0011360C File Offset: 0x00111A0C
 		public TradeRequestComp()
 		{
 			this.rewards = new ThingOwner<Thing>(this);
 		}
 
 		// Token: 0x170004CD RID: 1229
-		// (get) Token: 0x06002017 RID: 8215 RVA: 0x001136A8 File Offset: 0x00111AA8
+		// (get) Token: 0x0600200C RID: 8204 RVA: 0x00113628 File Offset: 0x00111A28
 		public bool ActiveRequest
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002018 RID: 8216 RVA: 0x001136D0 File Offset: 0x00111AD0
+		// Token: 0x0600200D RID: 8205 RVA: 0x00113650 File Offset: 0x00111A50
 		public override string CompInspectStringExtra()
 		{
 			string result;
@@ -35,7 +35,7 @@ namespace RimWorld.Planet
 				result = "CaravanRequestInfo".Translate(new object[]
 				{
 					GenLabel.ThingLabel(this.requestThingDef, null, this.requestCount).CapitalizeFirst(),
-					GenThing.ThingsToCommaList(this.rewards, true, true).CapitalizeFirst(),
+					GenThing.ThingsToCommaList(this.rewards, true, true, -1).CapitalizeFirst(),
 					(this.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F1")
 				});
 			}
@@ -46,7 +46,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06002019 RID: 8217 RVA: 0x00113758 File Offset: 0x00111B58
+		// Token: 0x0600200E RID: 8206 RVA: 0x001136D8 File Offset: 0x00111AD8
 		public override IEnumerable<Gizmo> GetCaravanGizmos(Caravan caravan)
 		{
 			if (this.ActiveRequest && CaravanVisitUtility.SettlementVisitedNow(caravan) == this.parent)
@@ -56,25 +56,25 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x0600201A RID: 8218 RVA: 0x00113789 File Offset: 0x00111B89
+		// Token: 0x0600200F RID: 8207 RVA: 0x00113709 File Offset: 0x00111B09
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
-		// Token: 0x0600201B RID: 8219 RVA: 0x00113798 File Offset: 0x00111B98
+		// Token: 0x06002010 RID: 8208 RVA: 0x00113718 File Offset: 0x00111B18
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.rewards;
 		}
 
-		// Token: 0x0600201C RID: 8220 RVA: 0x001137B3 File Offset: 0x00111BB3
+		// Token: 0x06002011 RID: 8209 RVA: 0x00113733 File Offset: 0x00111B33
 		public void Disable()
 		{
 			this.expiration = -1;
 		}
 
-		// Token: 0x0600201D RID: 8221 RVA: 0x001137C0 File Offset: 0x00111BC0
+		// Token: 0x06002012 RID: 8210 RVA: 0x00113740 File Offset: 0x00111B40
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -91,14 +91,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x0600201E RID: 8222 RVA: 0x00113833 File Offset: 0x00111C33
+		// Token: 0x06002013 RID: 8211 RVA: 0x001137B3 File Offset: 0x00111BB3
 		public override void PostPostRemove()
 		{
 			base.PostPostRemove();
 			this.rewards.ClearAndDestroyContents(DestroyMode.Vanish);
 		}
 
-		// Token: 0x0600201F RID: 8223 RVA: 0x00113848 File Offset: 0x00111C48
+		// Token: 0x06002014 RID: 8212 RVA: 0x001137C8 File Offset: 0x00111BC8
 		private Command FulfillRequestCommand(Caravan caravan)
 		{
 			Command_Action command_Action = new Command_Action();
@@ -123,7 +123,7 @@ namespace RimWorld.Planet
 					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("CommandFulfillTradeOfferConfirm".Translate(new object[]
 					{
 						GenLabel.ThingLabel(this.requestThingDef, null, this.requestCount),
-						GenThing.ThingsToCommaList(this.rewards, true, true)
+						GenThing.ThingsToCommaList(this.rewards, true, true, -1)
 					}), delegate
 					{
 						this.Fulfill(caravan);
@@ -140,7 +140,7 @@ namespace RimWorld.Planet
 			return command_Action;
 		}
 
-		// Token: 0x06002020 RID: 8224 RVA: 0x00113908 File Offset: 0x00111D08
+		// Token: 0x06002015 RID: 8213 RVA: 0x00113888 File Offset: 0x00111C88
 		private void Fulfill(Caravan caravan)
 		{
 			int remaining = this.requestCount;
@@ -185,7 +185,7 @@ namespace RimWorld.Planet
 			this.Disable();
 		}
 
-		// Token: 0x06002021 RID: 8225 RVA: 0x001139FC File Offset: 0x00111DFC
+		// Token: 0x06002016 RID: 8214 RVA: 0x0011397C File Offset: 0x00111D7C
 		private bool PlayerCanGive(Thing thing)
 		{
 			bool result;
@@ -201,19 +201,19 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x0400127B RID: 4731
+		// Token: 0x04001275 RID: 4725
 		public ThingDef requestThingDef;
 
-		// Token: 0x0400127C RID: 4732
+		// Token: 0x04001276 RID: 4726
 		public int requestCount;
 
-		// Token: 0x0400127D RID: 4733
+		// Token: 0x04001277 RID: 4727
 		public ThingOwner rewards;
 
-		// Token: 0x0400127E RID: 4734
+		// Token: 0x04001278 RID: 4728
 		public int expiration = -1;
 
-		// Token: 0x0400127F RID: 4735
+		// Token: 0x04001279 RID: 4729
 		private static readonly Texture2D TradeCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/FulfillTradeRequest", true);
 	}
 }

@@ -2,51 +2,51 @@
 
 namespace Verse
 {
-	// Token: 0x02000C37 RID: 3127
+	// Token: 0x02000C34 RID: 3124
 	public abstract class MapComponent : IExposable
 	{
-		// Token: 0x060044E4 RID: 17636 RVA: 0x001521AD File Offset: 0x001505AD
+		// Token: 0x060044ED RID: 17645 RVA: 0x00152351 File Offset: 0x00150751
 		public MapComponent(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x060044E5 RID: 17637 RVA: 0x001521BD File Offset: 0x001505BD
+		// Token: 0x060044EE RID: 17646 RVA: 0x00152361 File Offset: 0x00150761
 		public virtual void MapComponentUpdate()
 		{
 		}
 
-		// Token: 0x060044E6 RID: 17638 RVA: 0x001521C0 File Offset: 0x001505C0
+		// Token: 0x060044EF RID: 17647 RVA: 0x00152364 File Offset: 0x00150764
 		public virtual void MapComponentTick()
 		{
 		}
 
-		// Token: 0x060044E7 RID: 17639 RVA: 0x001521C3 File Offset: 0x001505C3
+		// Token: 0x060044F0 RID: 17648 RVA: 0x00152367 File Offset: 0x00150767
 		public virtual void MapComponentOnGUI()
 		{
 		}
 
-		// Token: 0x060044E8 RID: 17640 RVA: 0x001521C6 File Offset: 0x001505C6
+		// Token: 0x060044F1 RID: 17649 RVA: 0x0015236A File Offset: 0x0015076A
 		public virtual void ExposeData()
 		{
 		}
 
-		// Token: 0x060044E9 RID: 17641 RVA: 0x001521C9 File Offset: 0x001505C9
+		// Token: 0x060044F2 RID: 17650 RVA: 0x0015236D File Offset: 0x0015076D
 		public virtual void FinalizeInit()
 		{
 		}
 
-		// Token: 0x060044EA RID: 17642 RVA: 0x001521CC File Offset: 0x001505CC
+		// Token: 0x060044F3 RID: 17651 RVA: 0x00152370 File Offset: 0x00150770
 		public virtual void MapGenerated()
 		{
 		}
 
-		// Token: 0x060044EB RID: 17643 RVA: 0x001521CF File Offset: 0x001505CF
+		// Token: 0x060044F4 RID: 17652 RVA: 0x00152373 File Offset: 0x00150773
 		public virtual void MapRemoved()
 		{
 		}
 
-		// Token: 0x04002F0F RID: 12047
+		// Token: 0x04002F19 RID: 12057
 		public Map map;
 	}
 }

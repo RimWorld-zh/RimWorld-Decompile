@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007F0 RID: 2032
+	// Token: 0x020007EC RID: 2028
 	public class Designator_ZoneDelete : Designator_Zone
 	{
-		// Token: 0x06002D13 RID: 11539 RVA: 0x0017ABAC File Offset: 0x00178FAC
+		// Token: 0x06002D0C RID: 11532 RVA: 0x0017AD84 File Offset: 0x00179184
 		public Designator_ZoneDelete()
 		{
 			this.defaultLabel = "DesignatorZoneDelete".Translate();
@@ -21,7 +21,7 @@ namespace RimWorld
 			this.hotKey = KeyBindingDefOf.Misc4;
 		}
 
-		// Token: 0x06002D14 RID: 11540 RVA: 0x0017AC2C File Offset: 0x0017902C
+		// Token: 0x06002D0D RID: 11533 RVA: 0x0017AE04 File Offset: 0x00179204
 		public override AcceptanceReport CanDesignateCell(IntVec3 sq)
 		{
 			AcceptanceReport result;
@@ -44,7 +44,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D15 RID: 11541 RVA: 0x0017ACA4 File Offset: 0x001790A4
+		// Token: 0x06002D0E RID: 11534 RVA: 0x0017AE7C File Offset: 0x0017927C
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			Zone zone = base.Map.zoneManager.ZoneAt(c);
@@ -55,7 +55,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D16 RID: 11542 RVA: 0x0017ACE8 File Offset: 0x001790E8
+		// Token: 0x06002D0F RID: 11535 RVA: 0x0017AEC0 File Offset: 0x001792C0
 		protected override void FinalizeDesignationSucceeded()
 		{
 			base.FinalizeDesignationSucceeded();
@@ -66,7 +66,7 @@ namespace RimWorld
 			this.justDesignated.Clear();
 		}
 
-		// Token: 0x040017B8 RID: 6072
+		// Token: 0x040017B6 RID: 6070
 		private List<Zone> justDesignated = new List<Zone>();
 	}
 }

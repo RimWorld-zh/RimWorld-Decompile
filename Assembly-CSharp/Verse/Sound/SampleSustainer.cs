@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DB4 RID: 3508
+	// Token: 0x02000DB1 RID: 3505
 	public class SampleSustainer : Sample
 	{
-		// Token: 0x06004E50 RID: 20048 RVA: 0x0028E803 File Offset: 0x0028CC03
+		// Token: 0x06004E65 RID: 20069 RVA: 0x0028FDB3 File Offset: 0x0028E1B3
 		private SampleSustainer(SubSoundDef def) : base(def)
 		{
 		}
 
-		// Token: 0x17000CA4 RID: 3236
-		// (get) Token: 0x06004E51 RID: 20049 RVA: 0x0028E814 File Offset: 0x0028CC14
+		// Token: 0x17000CA6 RID: 3238
+		// (get) Token: 0x06004E66 RID: 20070 RVA: 0x0028FDC4 File Offset: 0x0028E1C4
 		public override float ParentStartRealTime
 		{
 			get
@@ -22,8 +22,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000CA5 RID: 3237
-		// (get) Token: 0x06004E52 RID: 20050 RVA: 0x0028E834 File Offset: 0x0028CC34
+		// Token: 0x17000CA7 RID: 3239
+		// (get) Token: 0x06004E67 RID: 20071 RVA: 0x0028FDE4 File Offset: 0x0028E1E4
 		public override float ParentStartTick
 		{
 			get
@@ -32,8 +32,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000CA6 RID: 3238
-		// (get) Token: 0x06004E53 RID: 20051 RVA: 0x0028E858 File Offset: 0x0028CC58
+		// Token: 0x17000CA8 RID: 3240
+		// (get) Token: 0x06004E68 RID: 20072 RVA: 0x0028FE08 File Offset: 0x0028E208
 		public override float ParentHashCode
 		{
 			get
@@ -42,8 +42,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000CA7 RID: 3239
-		// (get) Token: 0x06004E54 RID: 20052 RVA: 0x0028E87C File Offset: 0x0028CC7C
+		// Token: 0x17000CA9 RID: 3241
+		// (get) Token: 0x06004E69 RID: 20073 RVA: 0x0028FE2C File Offset: 0x0028E22C
 		public override SoundParams ExternalParams
 		{
 			get
@@ -52,8 +52,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000CA8 RID: 3240
-		// (get) Token: 0x06004E55 RID: 20053 RVA: 0x0028E89C File Offset: 0x0028CC9C
+		// Token: 0x17000CAA RID: 3242
+		// (get) Token: 0x06004E6A RID: 20074 RVA: 0x0028FE4C File Offset: 0x0028E24C
 		public override SoundInfo Info
 		{
 			get
@@ -62,8 +62,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000CA9 RID: 3241
-		// (get) Token: 0x06004E56 RID: 20054 RVA: 0x0028E8BC File Offset: 0x0028CCBC
+		// Token: 0x17000CAB RID: 3243
+		// (get) Token: 0x06004E6B RID: 20075 RVA: 0x0028FE6C File Offset: 0x0028E26C
 		protected override float Volume
 		{
 			get
@@ -106,7 +106,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E57 RID: 20055 RVA: 0x0028EA34 File Offset: 0x0028CE34
+		// Token: 0x06004E6C RID: 20076 RVA: 0x0028FFE4 File Offset: 0x0028E3E4
 		public static SampleSustainer TryMakeAndPlay(SubSustainer subSus, AudioClip clip, float scheduledEndTime)
 		{
 			SampleSustainer sampleSustainer = new SampleSustainer(subSus.subDef);
@@ -157,7 +157,7 @@ namespace Verse.Sound
 			return result;
 		}
 
-		// Token: 0x06004E58 RID: 20056 RVA: 0x0028EC10 File Offset: 0x0028D010
+		// Token: 0x06004E6D RID: 20077 RVA: 0x002901C0 File Offset: 0x0028E5C0
 		public override void SampleCleanup()
 		{
 			base.SampleCleanup();
@@ -167,13 +167,13 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x04003429 RID: 13353
+		// Token: 0x04003434 RID: 13364
 		public SubSustainer subSustainer;
 
-		// Token: 0x0400342A RID: 13354
+		// Token: 0x04003435 RID: 13365
 		public float scheduledEndTime;
 
-		// Token: 0x0400342B RID: 13355
+		// Token: 0x04003436 RID: 13366
 		public bool resolvedSkipAttack = false;
 	}
 }

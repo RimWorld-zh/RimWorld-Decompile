@@ -3,17 +3,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000445 RID: 1093
+	// Token: 0x02000441 RID: 1089
 	public class StrengthWatcher
 	{
-		// Token: 0x060012ED RID: 4845 RVA: 0x000A33A0 File Offset: 0x000A17A0
+		// Token: 0x060012E4 RID: 4836 RVA: 0x000A33B0 File Offset: 0x000A17B0
 		public StrengthWatcher(Map map)
 		{
 			this.map = map;
 		}
 
 		// Token: 0x17000288 RID: 648
-		// (get) Token: 0x060012EE RID: 4846 RVA: 0x000A33B0 File Offset: 0x000A17B0
+		// (get) Token: 0x060012E5 RID: 4837 RVA: 0x000A33C0 File Offset: 0x000A17C0
 		public float StrengthRating
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000B77 RID: 2935
+		// Token: 0x04000B74 RID: 2932
 		private Map map;
 	}
 }

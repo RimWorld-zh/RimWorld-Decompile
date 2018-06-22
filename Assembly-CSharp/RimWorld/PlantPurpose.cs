@@ -5,13 +5,13 @@ namespace RimWorld
 	// Token: 0x02000270 RID: 624
 	public enum PlantPurpose
 	{
-		// Token: 0x04000527 RID: 1319
+		// Token: 0x04000525 RID: 1317
 		Food,
-		// Token: 0x04000528 RID: 1320
+		// Token: 0x04000526 RID: 1318
 		Health,
-		// Token: 0x04000529 RID: 1321
+		// Token: 0x04000527 RID: 1319
 		Beauty,
-		// Token: 0x0400052A RID: 1322
+		// Token: 0x04000528 RID: 1320
 		Misc
 	}
 }

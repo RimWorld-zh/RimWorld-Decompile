@@ -9,7 +9,7 @@ namespace RimWorld
 	internal class WorkGiver_CleanFilth : WorkGiver_Scanner
 	{
 		// Token: 0x170000F2 RID: 242
-		// (get) Token: 0x06000665 RID: 1637 RVA: 0x00042AB4 File Offset: 0x00040EB4
+		// (get) Token: 0x06000665 RID: 1637 RVA: 0x00042AA0 File Offset: 0x00040EA0
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000F3 RID: 243
-		// (get) Token: 0x06000666 RID: 1638 RVA: 0x00042ACC File Offset: 0x00040ECC
+		// (get) Token: 0x06000666 RID: 1638 RVA: 0x00042AB8 File Offset: 0x00040EB8
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000F4 RID: 244
-		// (get) Token: 0x06000667 RID: 1639 RVA: 0x00042AE8 File Offset: 0x00040EE8
+		// (get) Token: 0x06000667 RID: 1639 RVA: 0x00042AD4 File Offset: 0x00040ED4
 		public override int LocalRegionsToScanFirst
 		{
 			get
@@ -38,13 +38,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000668 RID: 1640 RVA: 0x00042B00 File Offset: 0x00040F00
+		// Token: 0x06000668 RID: 1640 RVA: 0x00042AEC File Offset: 0x00040EEC
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			return pawn.Map.listerFilthInHomeArea.FilthInHomeArea;
 		}
 
-		// Token: 0x06000669 RID: 1641 RVA: 0x00042B28 File Offset: 0x00040F28
+		// Token: 0x06000669 RID: 1641 RVA: 0x00042B14 File Offset: 0x00040F14
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			bool result;
@@ -72,7 +72,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600066A RID: 1642 RVA: 0x00042BCC File Offset: 0x00040FCC
+		// Token: 0x0600066A RID: 1642 RVA: 0x00042BB8 File Offset: 0x00040FB8
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Job job = new Job(JobDefOf.Clean);

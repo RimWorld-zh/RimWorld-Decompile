@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CB3 RID: 3251
+	// Token: 0x02000CB0 RID: 3248
 	public abstract class SkyOverlay
 	{
-		// Token: 0x0600479A RID: 18330 RVA: 0x000A51D7 File Offset: 0x000A35D7
+		// Token: 0x060047A3 RID: 18339 RVA: 0x000A51E7 File Offset: 0x000A35E7
 		public SkyOverlay()
 		{
 			LongEventHandler.ExecuteWhenFinished(delegate
@@ -15,8 +15,8 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x17000B4B RID: 2891
-		// (set) Token: 0x0600479B RID: 18331 RVA: 0x000A51FF File Offset: 0x000A35FF
+		// Token: 0x17000B4D RID: 2893
+		// (set) Token: 0x060047A4 RID: 18340 RVA: 0x000A520F File Offset: 0x000A360F
 		public Color OverlayColor
 		{
 			set
@@ -32,7 +32,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600479C RID: 18332 RVA: 0x000A523C File Offset: 0x000A363C
+		// Token: 0x060047A5 RID: 18341 RVA: 0x000A524C File Offset: 0x000A364C
 		public virtual void TickOverlay(Map map)
 		{
 			if (this.worldOverlayMat != null)
@@ -45,7 +45,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600479D RID: 18333 RVA: 0x000A5324 File Offset: 0x000A3724
+		// Token: 0x060047A6 RID: 18342 RVA: 0x000A5334 File Offset: 0x000A3734
 		public void DrawOverlay(Map map)
 		{
 			if (this.worldOverlayMat != null)
@@ -65,7 +65,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600479E RID: 18334 RVA: 0x000A53FC File Offset: 0x000A37FC
+		// Token: 0x060047A7 RID: 18343 RVA: 0x000A540C File Offset: 0x000A380C
 		public override string ToString()
 		{
 			string result;
@@ -84,22 +84,22 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003094 RID: 12436
+		// Token: 0x0400309F RID: 12447
 		public Material worldOverlayMat = null;
 
-		// Token: 0x04003095 RID: 12437
+		// Token: 0x040030A0 RID: 12448
 		public Material screenOverlayMat = null;
 
-		// Token: 0x04003096 RID: 12438
+		// Token: 0x040030A1 RID: 12449
 		protected float worldOverlayPanSpeed1;
 
-		// Token: 0x04003097 RID: 12439
+		// Token: 0x040030A2 RID: 12450
 		protected float worldOverlayPanSpeed2;
 
-		// Token: 0x04003098 RID: 12440
+		// Token: 0x040030A3 RID: 12451
 		protected Vector2 worldPanDir1;
 
-		// Token: 0x04003099 RID: 12441
+		// Token: 0x040030A4 RID: 12452
 		protected Vector2 worldPanDir2;
 	}
 }

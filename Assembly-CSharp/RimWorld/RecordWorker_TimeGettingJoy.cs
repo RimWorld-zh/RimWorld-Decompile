@@ -4,10 +4,10 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020004A9 RID: 1193
+	// Token: 0x020004A5 RID: 1189
 	public class RecordWorker_TimeGettingJoy : RecordWorker
 	{
-		// Token: 0x06001555 RID: 5461 RVA: 0x000BD650 File Offset: 0x000BBA50
+		// Token: 0x0600154C RID: 5452 RVA: 0x000BD64C File Offset: 0x000BBA4C
 		public override bool ShouldMeasureTimeNow(Pawn pawn)
 		{
 			Job curJob = pawn.CurJob;

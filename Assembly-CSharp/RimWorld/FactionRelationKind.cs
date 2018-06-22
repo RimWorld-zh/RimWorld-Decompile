@@ -2,14 +2,14 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200055E RID: 1374
+	// Token: 0x0200055A RID: 1370
 	public enum FactionRelationKind
 	{
-		// Token: 0x04000F33 RID: 3891
+		// Token: 0x04000F30 RID: 3888
 		Hostile,
-		// Token: 0x04000F34 RID: 3892
+		// Token: 0x04000F31 RID: 3889
 		Neutral,
-		// Token: 0x04000F35 RID: 3893
+		// Token: 0x04000F32 RID: 3890
 		Ally
 	}
 }

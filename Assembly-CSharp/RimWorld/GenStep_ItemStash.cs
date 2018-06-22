@@ -9,7 +9,7 @@ namespace RimWorld
 	public class GenStep_ItemStash : GenStep_Scatterer
 	{
 		// Token: 0x1700025F RID: 607
-		// (get) Token: 0x060011C8 RID: 4552 RVA: 0x0009A7E8 File Offset: 0x00098BE8
+		// (get) Token: 0x060011C8 RID: 4552 RVA: 0x0009A9CC File Offset: 0x00098DCC
 		public override int SeedPart
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011C9 RID: 4553 RVA: 0x0009A804 File Offset: 0x00098C04
+		// Token: 0x060011C9 RID: 4553 RVA: 0x0009A9E8 File Offset: 0x00098DE8
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			bool result;
@@ -50,7 +50,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060011CA RID: 4554 RVA: 0x0009A8BC File Offset: 0x00098CBC
+		// Token: 0x060011CA RID: 4554 RVA: 0x0009AAA0 File Offset: 0x00098EA0
 		protected override void ScatterAt(IntVec3 loc, Map map, int count = 1)
 		{
 			CellRect cellRect = CellRect.CenteredOn(loc, 7, 7).ClipInsideMap(map);
@@ -72,10 +72,10 @@ namespace RimWorld
 			MapGenerator.SetVar<CellRect>("RectOfInterest", cellRect);
 		}
 
-		// Token: 0x04000AD2 RID: 2770
+		// Token: 0x04000AD3 RID: 2771
 		public ThingSetMakerDef thingSetMakerDef;
 
-		// Token: 0x04000AD3 RID: 2771
+		// Token: 0x04000AD4 RID: 2772
 		private const int Size = 7;
 	}
 }

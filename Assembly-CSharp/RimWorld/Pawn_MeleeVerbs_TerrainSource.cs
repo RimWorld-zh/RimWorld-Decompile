@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000517 RID: 1303
+	// Token: 0x02000513 RID: 1299
 	public class Pawn_MeleeVerbs_TerrainSource : IExposable, IVerbOwner
 	{
 		// Token: 0x1700033D RID: 829
-		// (get) Token: 0x06001791 RID: 6033 RVA: 0x000CE5A0 File Offset: 0x000CC9A0
+		// (get) Token: 0x06001788 RID: 6024 RVA: 0x000CE598 File Offset: 0x000CC998
 		public VerbTracker VerbTracker
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700033E RID: 830
-		// (get) Token: 0x06001792 RID: 6034 RVA: 0x000CE5BC File Offset: 0x000CC9BC
+		// (get) Token: 0x06001789 RID: 6025 RVA: 0x000CE5B4 File Offset: 0x000CC9B4
 		public List<VerbProperties> VerbProperties
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700033F RID: 831
-		// (get) Token: 0x06001793 RID: 6035 RVA: 0x000CE5D4 File Offset: 0x000CC9D4
+		// (get) Token: 0x0600178A RID: 6026 RVA: 0x000CE5CC File Offset: 0x000CC9CC
 		public List<Tool> Tools
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001794 RID: 6036 RVA: 0x000CE5F4 File Offset: 0x000CC9F4
+		// Token: 0x0600178B RID: 6027 RVA: 0x000CE5EC File Offset: 0x000CC9EC
 		public static Pawn_MeleeVerbs_TerrainSource Create(Pawn_MeleeVerbs parent, TerrainDef terrainDef)
 		{
 			Pawn_MeleeVerbs_TerrainSource pawn_MeleeVerbs_TerrainSource = new Pawn_MeleeVerbs_TerrainSource();
@@ -47,7 +47,7 @@ namespace RimWorld
 			return pawn_MeleeVerbs_TerrainSource;
 		}
 
-		// Token: 0x06001795 RID: 6037 RVA: 0x000CE62A File Offset: 0x000CCA2A
+		// Token: 0x0600178C RID: 6028 RVA: 0x000CE622 File Offset: 0x000CCA22
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<TerrainDef>(ref this.def, "def");
@@ -57,19 +57,19 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06001796 RID: 6038 RVA: 0x000CE658 File Offset: 0x000CCA58
+		// Token: 0x0600178D RID: 6029 RVA: 0x000CE650 File Offset: 0x000CCA50
 		public string UniqueVerbOwnerID()
 		{
 			return "TerrainVerbs_" + this.parent.Pawn.ThingID;
 		}
 
-		// Token: 0x04000DEA RID: 3562
+		// Token: 0x04000DE7 RID: 3559
 		public Pawn_MeleeVerbs parent;
 
-		// Token: 0x04000DEB RID: 3563
+		// Token: 0x04000DE8 RID: 3560
 		public TerrainDef def;
 
-		// Token: 0x04000DEC RID: 3564
+		// Token: 0x04000DE9 RID: 3561
 		public VerbTracker tracker;
 	}
 }

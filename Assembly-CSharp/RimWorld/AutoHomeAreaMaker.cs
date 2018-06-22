@@ -3,16 +3,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008F5 RID: 2293
+	// Token: 0x020008F1 RID: 2289
 	public static class AutoHomeAreaMaker
 	{
-		// Token: 0x060034FB RID: 13563 RVA: 0x001C4A0C File Offset: 0x001C2E0C
+		// Token: 0x060034F4 RID: 13556 RVA: 0x001C4BF4 File Offset: 0x001C2FF4
 		private static bool ShouldAdd()
 		{
 			return Find.PlaySettings.autoHomeArea && Current.ProgramState == ProgramState.Playing;
 		}
 
-		// Token: 0x060034FC RID: 13564 RVA: 0x001C4A3B File Offset: 0x001C2E3B
+		// Token: 0x060034F5 RID: 13557 RVA: 0x001C4C23 File Offset: 0x001C3023
 		public static void Notify_BuildingSpawned(Thing b)
 		{
 			if (AutoHomeAreaMaker.ShouldAdd() && b.def.building.expandHomeArea && b.Faction == Faction.OfPlayer)
@@ -21,7 +21,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060034FD RID: 13565 RVA: 0x001C4A78 File Offset: 0x001C2E78
+		// Token: 0x060034F6 RID: 13558 RVA: 0x001C4C60 File Offset: 0x001C3060
 		public static void Notify_BuildingClaimed(Thing b)
 		{
 			if (AutoHomeAreaMaker.ShouldAdd() && b.def.building.expandHomeArea && b.Faction == Faction.OfPlayer)
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060034FE RID: 13566 RVA: 0x001C4AB8 File Offset: 0x001C2EB8
+		// Token: 0x060034F7 RID: 13559 RVA: 0x001C4CA0 File Offset: 0x001C30A0
 		public static void MarkHomeAroundThing(Thing t)
 		{
 			if (AutoHomeAreaMaker.ShouldAdd())
@@ -44,7 +44,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060034FF RID: 13567 RVA: 0x001C4BB4 File Offset: 0x001C2FB4
+		// Token: 0x060034F8 RID: 13560 RVA: 0x001C4D9C File Offset: 0x001C319C
 		public static void Notify_ZoneCellAdded(IntVec3 c, Zone zone)
 		{
 			if (AutoHomeAreaMaker.ShouldAdd())
@@ -58,7 +58,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04001C9D RID: 7325
+		// Token: 0x04001C9B RID: 7323
 		private const int BorderWidth = 4;
 	}
 }

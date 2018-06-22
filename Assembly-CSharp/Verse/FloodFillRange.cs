@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000C7E RID: 3198
+	// Token: 0x02000C7B RID: 3195
 	public struct FloodFillRange
 	{
-		// Token: 0x060045F9 RID: 17913 RVA: 0x0024D3DB File Offset: 0x0024B7DB
+		// Token: 0x06004602 RID: 17922 RVA: 0x0024E7AB File Offset: 0x0024CBAB
 		public FloodFillRange(int minX, int maxX, int y)
 		{
 			this.minX = minX;
@@ -13,13 +13,13 @@ namespace Verse
 			this.z = y;
 		}
 
-		// Token: 0x04002FAC RID: 12204
+		// Token: 0x04002FB6 RID: 12214
 		public int minX;
 
-		// Token: 0x04002FAD RID: 12205
+		// Token: 0x04002FB7 RID: 12215
 		public int maxX;
 
-		// Token: 0x04002FAE RID: 12206
+		// Token: 0x04002FB8 RID: 12216
 		public int z;
 	}
 }

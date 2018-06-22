@@ -4,17 +4,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006A1 RID: 1697
+	// Token: 0x0200069D RID: 1693
 	public class Building_Casket : Building, IThingHolder, IOpenable
 	{
-		// Token: 0x0600240D RID: 9229 RVA: 0x00132C8B File Offset: 0x0013108B
+		// Token: 0x06002405 RID: 9221 RVA: 0x00132DD3 File Offset: 0x001311D3
 		public Building_Casket()
 		{
 			this.innerContainer = new ThingOwner<Thing>(this, false, LookMode.Deep);
 		}
 
 		// Token: 0x17000565 RID: 1381
-		// (get) Token: 0x0600240E RID: 9230 RVA: 0x00132CB0 File Offset: 0x001310B0
+		// (get) Token: 0x06002406 RID: 9222 RVA: 0x00132DF8 File Offset: 0x001311F8
 		public bool HasAnyContents
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000566 RID: 1382
-		// (get) Token: 0x0600240F RID: 9231 RVA: 0x00132CD4 File Offset: 0x001310D4
+		// (get) Token: 0x06002407 RID: 9223 RVA: 0x00132E1C File Offset: 0x0013121C
 		public Thing ContainedThing
 		{
 			get
@@ -34,7 +34,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000567 RID: 1383
-		// (get) Token: 0x06002410 RID: 9232 RVA: 0x00132D0C File Offset: 0x0013110C
+		// (get) Token: 0x06002408 RID: 9224 RVA: 0x00132E54 File Offset: 0x00131254
 		public bool CanOpen
 		{
 			get
@@ -43,33 +43,33 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002411 RID: 9233 RVA: 0x00132D28 File Offset: 0x00131128
+		// Token: 0x06002409 RID: 9225 RVA: 0x00132E70 File Offset: 0x00131270
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.innerContainer;
 		}
 
-		// Token: 0x06002412 RID: 9234 RVA: 0x00132D43 File Offset: 0x00131143
+		// Token: 0x0600240A RID: 9226 RVA: 0x00132E8B File Offset: 0x0013128B
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
-		// Token: 0x06002413 RID: 9235 RVA: 0x00132D52 File Offset: 0x00131152
+		// Token: 0x0600240B RID: 9227 RVA: 0x00132E9A File Offset: 0x0013129A
 		public override void TickRare()
 		{
 			base.TickRare();
 			this.innerContainer.ThingOwnerTickRare(true);
 		}
 
-		// Token: 0x06002414 RID: 9236 RVA: 0x00132D67 File Offset: 0x00131167
+		// Token: 0x0600240C RID: 9228 RVA: 0x00132EAF File Offset: 0x001312AF
 		public override void Tick()
 		{
 			base.Tick();
 			this.innerContainer.ThingOwnerTick(true);
 		}
 
-		// Token: 0x06002415 RID: 9237 RVA: 0x00132D7C File Offset: 0x0013117C
+		// Token: 0x0600240D RID: 9229 RVA: 0x00132EC4 File Offset: 0x001312C4
 		public virtual void Open()
 		{
 			if (this.HasAnyContents)
@@ -78,7 +78,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002416 RID: 9238 RVA: 0x00132D95 File Offset: 0x00131195
+		// Token: 0x0600240E RID: 9230 RVA: 0x00132EDD File Offset: 0x001312DD
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -89,7 +89,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.contentsKnown, "contentsKnown", false, false);
 		}
 
-		// Token: 0x06002417 RID: 9239 RVA: 0x00132DCA File Offset: 0x001311CA
+		// Token: 0x0600240F RID: 9231 RVA: 0x00132F12 File Offset: 0x00131312
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -99,7 +99,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002418 RID: 9240 RVA: 0x00132DF8 File Offset: 0x001311F8
+		// Token: 0x06002410 RID: 9232 RVA: 0x00132F40 File Offset: 0x00131340
 		public override bool ClaimableBy(Faction fac)
 		{
 			bool result;
@@ -121,13 +121,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002419 RID: 9241 RVA: 0x00132E68 File Offset: 0x00131268
+		// Token: 0x06002411 RID: 9233 RVA: 0x00132FB0 File Offset: 0x001313B0
 		public virtual bool Accepts(Thing thing)
 		{
 			return this.innerContainer.CanAcceptAnyOf(thing, true);
 		}
 
-		// Token: 0x0600241A RID: 9242 RVA: 0x00132E8C File Offset: 0x0013128C
+		// Token: 0x06002412 RID: 9234 RVA: 0x00132FD4 File Offset: 0x001313D4
 		public virtual bool TryAcceptThing(Thing thing, bool allowSpecialEffects = true)
 		{
 			bool result;
@@ -163,7 +163,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600241B RID: 9243 RVA: 0x00132F24 File Offset: 0x00131324
+		// Token: 0x06002413 RID: 9235 RVA: 0x0013306C File Offset: 0x0013146C
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
 			if (this.innerContainer.Count > 0)
@@ -193,14 +193,14 @@ namespace RimWorld
 			base.Destroy(mode);
 		}
 
-		// Token: 0x0600241C RID: 9244 RVA: 0x00133024 File Offset: 0x00131424
+		// Token: 0x06002414 RID: 9236 RVA: 0x0013316C File Offset: 0x0013156C
 		public virtual void EjectContents()
 		{
 			this.innerContainer.TryDropAll(this.InteractionCell, base.Map, ThingPlaceMode.Near, null, null);
 			this.contentsKnown = true;
 		}
 
-		// Token: 0x0600241D RID: 9245 RVA: 0x0013304C File Offset: 0x0013144C
+		// Token: 0x06002415 RID: 9237 RVA: 0x00133194 File Offset: 0x00131594
 		public override string GetInspectString()
 		{
 			string text = base.GetInspectString();
@@ -220,10 +220,10 @@ namespace RimWorld
 			return text + "CasketContains".Translate() + ": " + str.CapitalizeFirst();
 		}
 
-		// Token: 0x04001416 RID: 5142
+		// Token: 0x04001414 RID: 5140
 		protected ThingOwner innerContainer = null;
 
-		// Token: 0x04001417 RID: 5143
+		// Token: 0x04001415 RID: 5141
 		protected bool contentsKnown = false;
 	}
 }

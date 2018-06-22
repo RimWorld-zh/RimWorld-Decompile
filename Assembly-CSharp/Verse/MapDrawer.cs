@@ -5,17 +5,17 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000C40 RID: 3136
+	// Token: 0x02000C3D RID: 3133
 	public sealed class MapDrawer
 	{
-		// Token: 0x06004508 RID: 17672 RVA: 0x00244910 File Offset: 0x00242D10
+		// Token: 0x06004511 RID: 17681 RVA: 0x00245CE0 File Offset: 0x002440E0
 		public MapDrawer(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x17000AE4 RID: 2788
-		// (get) Token: 0x06004509 RID: 17673 RVA: 0x00244920 File Offset: 0x00242D20
+		// Token: 0x17000AE6 RID: 2790
+		// (get) Token: 0x06004512 RID: 17682 RVA: 0x00245CF0 File Offset: 0x002440F0
 		private IntVec2 SectionCount
 		{
 			get
@@ -28,8 +28,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AE5 RID: 2789
-		// (get) Token: 0x0600450A RID: 17674 RVA: 0x0024498C File Offset: 0x00242D8C
+		// Token: 0x17000AE7 RID: 2791
+		// (get) Token: 0x06004513 RID: 17683 RVA: 0x00245D5C File Offset: 0x0024415C
 		private CellRect VisibleSections
 		{
 			get
@@ -52,7 +52,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600450B RID: 17675 RVA: 0x00244A34 File Offset: 0x00242E34
+		// Token: 0x06004514 RID: 17684 RVA: 0x00245E04 File Offset: 0x00244204
 		public void MapMeshDirty(IntVec3 loc, MapMeshFlag dirtyFlags)
 		{
 			bool regenAdjacentCells = (dirtyFlags & (MapMeshFlag.FogOfWar | MapMeshFlag.Buildings)) != MapMeshFlag.None;
@@ -60,7 +60,7 @@ namespace Verse
 			this.MapMeshDirty(loc, dirtyFlags, regenAdjacentCells, regenAdjacentSections);
 		}
 
-		// Token: 0x0600450C RID: 17676 RVA: 0x00244A60 File Offset: 0x00242E60
+		// Token: 0x06004515 RID: 17685 RVA: 0x00245E30 File Offset: 0x00244230
 		public void MapMeshDirty(IntVec3 loc, MapMeshFlag dirtyFlags, bool regenAdjacentCells, bool regenAdjacentSections)
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -96,7 +96,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600450D RID: 17677 RVA: 0x00244BC4 File Offset: 0x00242FC4
+		// Token: 0x06004516 RID: 17686 RVA: 0x00245F94 File Offset: 0x00244394
 		public void MapMeshDrawerUpdate_First()
 		{
 			CellRect visibleSections = this.VisibleSections;
@@ -127,7 +127,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600450E RID: 17678 RVA: 0x00244CA4 File Offset: 0x002430A4
+		// Token: 0x06004517 RID: 17687 RVA: 0x00246074 File Offset: 0x00244474
 		private bool TryUpdateSection(Section sect)
 		{
 			bool result;
@@ -151,7 +151,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600450F RID: 17679 RVA: 0x00244D10 File Offset: 0x00243110
+		// Token: 0x06004518 RID: 17688 RVA: 0x002460E0 File Offset: 0x002444E0
 		public void DrawMapMesh()
 		{
 			CellRect currentViewRect = Find.CameraDriver.CurrentViewRect;
@@ -170,20 +170,20 @@ namespace Verse
 			Profiler.EndSample();
 		}
 
-		// Token: 0x06004510 RID: 17680 RVA: 0x00244DBC File Offset: 0x002431BC
+		// Token: 0x06004519 RID: 17689 RVA: 0x0024618C File Offset: 0x0024458C
 		private IntVec2 SectionCoordsAt(IntVec3 loc)
 		{
 			return new IntVec2(Mathf.FloorToInt((float)(loc.x / 17)), Mathf.FloorToInt((float)(loc.z / 17)));
 		}
 
-		// Token: 0x06004511 RID: 17681 RVA: 0x00244DF8 File Offset: 0x002431F8
+		// Token: 0x0600451A RID: 17690 RVA: 0x002461C8 File Offset: 0x002445C8
 		public Section SectionAt(IntVec3 loc)
 		{
 			IntVec2 intVec = this.SectionCoordsAt(loc);
 			return this.sections[intVec.x, intVec.z];
 		}
 
-		// Token: 0x06004512 RID: 17682 RVA: 0x00244E30 File Offset: 0x00243230
+		// Token: 0x0600451B RID: 17691 RVA: 0x00246200 File Offset: 0x00244600
 		public void RegenerateEverythingNow()
 		{
 			if (this.sections == null)
@@ -203,7 +203,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004513 RID: 17683 RVA: 0x00244EF8 File Offset: 0x002432F8
+		// Token: 0x0600451C RID: 17692 RVA: 0x002462C8 File Offset: 0x002446C8
 		public void WholeMapChanged(MapMeshFlag change)
 		{
 			for (int i = 0; i < this.SectionCount.x; i++)
@@ -215,7 +215,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004514 RID: 17684 RVA: 0x00244F64 File Offset: 0x00243364
+		// Token: 0x0600451D RID: 17693 RVA: 0x00246334 File Offset: 0x00244734
 		private CellRect GetSunShadowsViewRect(CellRect rect)
 		{
 			GenCelestial.LightInfo lightSourceInfo = GenCelestial.GetLightSourceInfo(this.map, GenCelestial.LightType.Shadow);
@@ -238,10 +238,10 @@ namespace Verse
 			return rect;
 		}
 
-		// Token: 0x04002F36 RID: 12086
+		// Token: 0x04002F40 RID: 12096
 		private Map map;
 
-		// Token: 0x04002F37 RID: 12087
+		// Token: 0x04002F41 RID: 12097
 		private Section[,] sections;
 	}
 }

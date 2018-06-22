@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007EE RID: 2030
+	// Token: 0x020007EA RID: 2026
 	public class Designator_ZoneAdd_Growing : Designator_ZoneAdd
 	{
-		// Token: 0x06002D0E RID: 11534 RVA: 0x0017AA6C File Offset: 0x00178E6C
+		// Token: 0x06002D07 RID: 11527 RVA: 0x0017AC44 File Offset: 0x00179044
 		public Designator_ZoneAdd_Growing()
 		{
 			this.zoneTypeToPlace = typeof(Zone_Growing);
@@ -18,8 +18,8 @@ namespace RimWorld
 			this.tutorTag = "ZoneAdd_Growing";
 		}
 
-		// Token: 0x17000722 RID: 1826
-		// (get) Token: 0x06002D0F RID: 11535 RVA: 0x0017AAD8 File Offset: 0x00178ED8
+		// Token: 0x17000723 RID: 1827
+		// (get) Token: 0x06002D08 RID: 11528 RVA: 0x0017ACB0 File Offset: 0x001790B0
 		protected override string NewZoneLabel
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D10 RID: 11536 RVA: 0x0017AAF8 File Offset: 0x00178EF8
+		// Token: 0x06002D09 RID: 11529 RVA: 0x0017ACD0 File Offset: 0x001790D0
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -47,7 +47,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D11 RID: 11537 RVA: 0x0017AB64 File Offset: 0x00178F64
+		// Token: 0x06002D0A RID: 11530 RVA: 0x0017AD3C File Offset: 0x0017913C
 		protected override Zone MakeNewZone()
 		{
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.GrowingFood, KnowledgeAmount.Total);

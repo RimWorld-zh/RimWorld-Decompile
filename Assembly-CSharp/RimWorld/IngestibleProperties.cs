@@ -8,7 +8,7 @@ namespace RimWorld
 	public class IngestibleProperties
 	{
 		// Token: 0x17000187 RID: 391
-		// (get) Token: 0x06000AAC RID: 2732 RVA: 0x000606B0 File Offset: 0x0005EAB0
+		// (get) Token: 0x06000AAA RID: 2730 RVA: 0x0006070C File Offset: 0x0005EB0C
 		public JoyKindDef JoyKind
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000188 RID: 392
-		// (get) Token: 0x06000AAD RID: 2733 RVA: 0x000606E0 File Offset: 0x0005EAE0
+		// (get) Token: 0x06000AAB RID: 2731 RVA: 0x0006073C File Offset: 0x0005EB3C
 		public bool HumanEdible
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000189 RID: 393
-		// (get) Token: 0x06000AAE RID: 2734 RVA: 0x00060708 File Offset: 0x0005EB08
+		// (get) Token: 0x06000AAC RID: 2732 RVA: 0x00060764 File Offset: 0x0005EB64
 		public bool IsMeal
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700018A RID: 394
-		// (get) Token: 0x06000AAF RID: 2735 RVA: 0x0006073C File Offset: 0x0005EB3C
+		// (get) Token: 0x06000AAD RID: 2733 RVA: 0x00060798 File Offset: 0x0005EB98
 		public float CachedNutrition
 		{
 			get
@@ -51,7 +51,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000AB0 RID: 2736 RVA: 0x00060780 File Offset: 0x0005EB80
+		// Token: 0x06000AAE RID: 2734 RVA: 0x000607DC File Offset: 0x0005EBDC
 		public IEnumerable<string> ConfigErrors()
 		{
 			if (this.preferability == FoodPreferability.Undefined)
@@ -83,7 +83,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000AB1 RID: 2737 RVA: 0x000607AC File Offset: 0x0005EBAC
+		// Token: 0x06000AAF RID: 2735 RVA: 0x00060808 File Offset: 0x0005EC08
 		internal IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			if (this.joy > 0f)
@@ -103,89 +103,89 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x04000502 RID: 1282
+		// Token: 0x04000500 RID: 1280
 		[Unsaved]
 		public ThingDef parent;
 
-		// Token: 0x04000503 RID: 1283
+		// Token: 0x04000501 RID: 1281
 		public int maxNumToIngestAtOnce = 20;
 
-		// Token: 0x04000504 RID: 1284
+		// Token: 0x04000502 RID: 1282
 		public List<IngestionOutcomeDoer> outcomeDoers = null;
 
-		// Token: 0x04000505 RID: 1285
+		// Token: 0x04000503 RID: 1283
 		public int baseIngestTicks = 500;
 
-		// Token: 0x04000506 RID: 1286
+		// Token: 0x04000504 RID: 1284
 		public float chairSearchRadius = 32f;
 
-		// Token: 0x04000507 RID: 1287
+		// Token: 0x04000505 RID: 1285
 		public bool useEatingSpeedStat = true;
 
-		// Token: 0x04000508 RID: 1288
+		// Token: 0x04000506 RID: 1286
 		public ThoughtDef tasteThought = null;
 
-		// Token: 0x04000509 RID: 1289
+		// Token: 0x04000507 RID: 1287
 		public ThoughtDef specialThoughtDirect = null;
 
-		// Token: 0x0400050A RID: 1290
+		// Token: 0x04000508 RID: 1288
 		public ThoughtDef specialThoughtAsIngredient = null;
 
-		// Token: 0x0400050B RID: 1291
+		// Token: 0x04000509 RID: 1289
 		public EffecterDef ingestEffect = null;
 
-		// Token: 0x0400050C RID: 1292
+		// Token: 0x0400050A RID: 1290
 		public EffecterDef ingestEffectEat = null;
 
-		// Token: 0x0400050D RID: 1293
+		// Token: 0x0400050B RID: 1291
 		public SoundDef ingestSound = null;
 
-		// Token: 0x0400050E RID: 1294
+		// Token: 0x0400050C RID: 1292
 		[MustTranslate]
 		public string ingestCommandString = null;
 
-		// Token: 0x0400050F RID: 1295
+		// Token: 0x0400050D RID: 1293
 		[MustTranslate]
 		public string ingestReportString = null;
 
-		// Token: 0x04000510 RID: 1296
+		// Token: 0x0400050E RID: 1294
 		[MustTranslate]
 		public string ingestReportStringEat = null;
 
-		// Token: 0x04000511 RID: 1297
+		// Token: 0x0400050F RID: 1295
 		public HoldOffsetSet ingestHoldOffsetStanding = null;
 
-		// Token: 0x04000512 RID: 1298
+		// Token: 0x04000510 RID: 1296
 		public bool ingestHoldUsesTable = true;
 
-		// Token: 0x04000513 RID: 1299
+		// Token: 0x04000511 RID: 1297
 		public FoodTypeFlags foodType = FoodTypeFlags.None;
 
-		// Token: 0x04000514 RID: 1300
+		// Token: 0x04000512 RID: 1298
 		public float joy = 0f;
 
-		// Token: 0x04000515 RID: 1301
+		// Token: 0x04000513 RID: 1299
 		public JoyKindDef joyKind = null;
 
-		// Token: 0x04000516 RID: 1302
+		// Token: 0x04000514 RID: 1300
 		public ThingDef sourceDef;
 
-		// Token: 0x04000517 RID: 1303
+		// Token: 0x04000515 RID: 1301
 		public FoodPreferability preferability = FoodPreferability.Undefined;
 
-		// Token: 0x04000518 RID: 1304
+		// Token: 0x04000516 RID: 1302
 		public bool nurseable = false;
 
-		// Token: 0x04000519 RID: 1305
+		// Token: 0x04000517 RID: 1303
 		public float optimalityOffsetHumanlikes = 0f;
 
-		// Token: 0x0400051A RID: 1306
+		// Token: 0x04000518 RID: 1304
 		public float optimalityOffsetFeedingAnimals = 0f;
 
-		// Token: 0x0400051B RID: 1307
+		// Token: 0x04000519 RID: 1305
 		public DrugCategory drugCategory = DrugCategory.None;
 
-		// Token: 0x0400051C RID: 1308
+		// Token: 0x0400051A RID: 1306
 		[Unsaved]
 		private float cachedNutrition = -1f;
 	}

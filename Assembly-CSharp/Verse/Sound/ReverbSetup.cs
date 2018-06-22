@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B81 RID: 2945
+	// Token: 0x02000B7D RID: 2941
 	public class ReverbSetup
 	{
-		// Token: 0x06004018 RID: 16408 RVA: 0x0021BFB8 File Offset: 0x0021A3B8
+		// Token: 0x0600401A RID: 16410 RVA: 0x0021C654 File Offset: 0x0021AA54
 		public void DoEditWidgets(WidgetRow widgetRow)
 		{
 			if (widgetRow.ButtonText("Setup from preset...", "Set up the reverb filter from a preset.", true, false))
@@ -43,7 +43,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004019 RID: 16409 RVA: 0x0021C0A4 File Offset: 0x0021A4A4
+		// Token: 0x0600401B RID: 16411 RVA: 0x0021C740 File Offset: 0x0021AB40
 		public void ApplyTo(AudioReverbFilter filter)
 		{
 			filter.dryLevel = this.dryLevel;
@@ -62,7 +62,7 @@ namespace Verse.Sound
 			filter.density = this.density;
 		}
 
-		// Token: 0x0600401A RID: 16410 RVA: 0x0021C15C File Offset: 0x0021A55C
+		// Token: 0x0600401C RID: 16412 RVA: 0x0021C7F8 File Offset: 0x0021ABF8
 		public static ReverbSetup Lerp(ReverbSetup A, ReverbSetup B, float t)
 		{
 			return new ReverbSetup
@@ -84,46 +84,46 @@ namespace Verse.Sound
 			};
 		}
 
-		// Token: 0x04002AF8 RID: 11000
+		// Token: 0x04002AFD RID: 11005
 		public float dryLevel = 0f;
 
-		// Token: 0x04002AF9 RID: 11001
+		// Token: 0x04002AFE RID: 11006
 		public float room = 0f;
 
-		// Token: 0x04002AFA RID: 11002
+		// Token: 0x04002AFF RID: 11007
 		public float roomHF = 0f;
 
-		// Token: 0x04002AFB RID: 11003
+		// Token: 0x04002B00 RID: 11008
 		public float roomLF = 0f;
 
-		// Token: 0x04002AFC RID: 11004
+		// Token: 0x04002B01 RID: 11009
 		public float decayTime = 1f;
 
-		// Token: 0x04002AFD RID: 11005
+		// Token: 0x04002B02 RID: 11010
 		public float decayHFRatio = 0.5f;
 
-		// Token: 0x04002AFE RID: 11006
+		// Token: 0x04002B03 RID: 11011
 		public float reflectionsLevel = -10000f;
 
-		// Token: 0x04002AFF RID: 11007
+		// Token: 0x04002B04 RID: 11012
 		public float reflectionsDelay = 0f;
 
-		// Token: 0x04002B00 RID: 11008
+		// Token: 0x04002B05 RID: 11013
 		public float reverbLevel = 0f;
 
-		// Token: 0x04002B01 RID: 11009
+		// Token: 0x04002B06 RID: 11014
 		public float reverbDelay = 0.04f;
 
-		// Token: 0x04002B02 RID: 11010
+		// Token: 0x04002B07 RID: 11015
 		public float hfReference = 5000f;
 
-		// Token: 0x04002B03 RID: 11011
+		// Token: 0x04002B08 RID: 11016
 		public float lfReference = 250f;
 
-		// Token: 0x04002B04 RID: 11012
+		// Token: 0x04002B09 RID: 11017
 		public float diffusion = 100f;
 
-		// Token: 0x04002B05 RID: 11013
+		// Token: 0x04002B0A RID: 11018
 		public float density = 100f;
 	}
 }

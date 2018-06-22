@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008BC RID: 2236
+	// Token: 0x020008B8 RID: 2232
 	public class Instruction_BuildNearRoom : Instruction_BuildAtRoom
 	{
-		// Token: 0x1700081F RID: 2079
-		// (get) Token: 0x06003318 RID: 13080 RVA: 0x001B7CC0 File Offset: 0x001B60C0
+		// Token: 0x17000820 RID: 2080
+		// (get) Token: 0x06003311 RID: 13073 RVA: 0x001B7EA8 File Offset: 0x001B62A8
 		protected override CellRect BuildableRect
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003319 RID: 13081 RVA: 0x001B7CE8 File Offset: 0x001B60E8
+		// Token: 0x06003312 RID: 13074 RVA: 0x001B7ED0 File Offset: 0x001B62D0
 		protected override bool AllowBuildAt(IntVec3 c)
 		{
 			return base.AllowBuildAt(c) && !Find.TutorialState.roomRect.Contains(c);

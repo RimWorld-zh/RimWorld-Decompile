@@ -5,11 +5,11 @@ using UnityEngine.Profiling;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DC5 RID: 3525
+	// Token: 0x02000DC2 RID: 3522
 	public class SustainerManager
 	{
-		// Token: 0x17000CB5 RID: 3253
-		// (get) Token: 0x06004E99 RID: 20121 RVA: 0x002906A0 File Offset: 0x0028EAA0
+		// Token: 0x17000CB7 RID: 3255
+		// (get) Token: 0x06004EAE RID: 20142 RVA: 0x00291C50 File Offset: 0x00290050
 		public List<Sustainer> AllSustainers
 		{
 			get
@@ -18,19 +18,19 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E9A RID: 20122 RVA: 0x002906BB File Offset: 0x0028EABB
+		// Token: 0x06004EAF RID: 20143 RVA: 0x00291C6B File Offset: 0x0029006B
 		public void RegisterSustainer(Sustainer newSustainer)
 		{
 			this.allSustainers.Add(newSustainer);
 		}
 
-		// Token: 0x06004E9B RID: 20123 RVA: 0x002906CA File Offset: 0x0028EACA
+		// Token: 0x06004EB0 RID: 20144 RVA: 0x00291C7A File Offset: 0x0029007A
 		public void DeregisterSustainer(Sustainer oldSustainer)
 		{
 			this.allSustainers.Remove(oldSustainer);
 		}
 
-		// Token: 0x06004E9C RID: 20124 RVA: 0x002906DC File Offset: 0x0028EADC
+		// Token: 0x06004EB1 RID: 20145 RVA: 0x00291C8C File Offset: 0x0029008C
 		public bool SustainerExists(SoundDef def)
 		{
 			for (int i = 0; i < this.allSustainers.Count; i++)
@@ -43,7 +43,7 @@ namespace Verse.Sound
 			return false;
 		}
 
-		// Token: 0x06004E9D RID: 20125 RVA: 0x00290730 File Offset: 0x0028EB30
+		// Token: 0x06004EB2 RID: 20146 RVA: 0x00291CE0 File Offset: 0x002900E0
 		public void SustainerManagerUpdate()
 		{
 			Profiler.BeginSample("Updating sustainers");
@@ -55,7 +55,7 @@ namespace Verse.Sound
 			this.UpdateAllSustainerScopes();
 		}
 
-		// Token: 0x06004E9E RID: 20126 RVA: 0x00290784 File Offset: 0x0028EB84
+		// Token: 0x06004EB3 RID: 20147 RVA: 0x00291D34 File Offset: 0x00290134
 		public void UpdateAllSustainerScopes()
 		{
 			for (int i = 0; i < this.allSustainers.Count; i++)
@@ -119,7 +119,7 @@ namespace Verse.Sound
 			SustainerManager.playingPerDef.Clear();
 		}
 
-		// Token: 0x06004E9F RID: 20127 RVA: 0x00290A5C File Offset: 0x0028EE5C
+		// Token: 0x06004EB4 RID: 20148 RVA: 0x0029200C File Offset: 0x0029040C
 		public void EndAllInMap(Map map)
 		{
 			for (int i = this.allSustainers.Count - 1; i >= 0; i--)
@@ -131,10 +131,10 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x04003459 RID: 13401
+		// Token: 0x04003464 RID: 13412
 		private List<Sustainer> allSustainers = new List<Sustainer>();
 
-		// Token: 0x0400345A RID: 13402
+		// Token: 0x04003465 RID: 13413
 		private static Dictionary<SoundDef, List<Sustainer>> playingPerDef = new Dictionary<SoundDef, List<Sustainer>>();
 	}
 }

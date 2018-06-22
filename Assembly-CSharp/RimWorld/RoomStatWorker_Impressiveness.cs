@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200043F RID: 1087
+	// Token: 0x0200043E RID: 1086
 	public class RoomStatWorker_Impressiveness : RoomStatWorker
 	{
-		// Token: 0x060012E0 RID: 4832 RVA: 0x000A2F30 File Offset: 0x000A1330
+		// Token: 0x060012DE RID: 4830 RVA: 0x000A30C0 File Offset: 0x000A14C0
 		public override float GetScore(Room room)
 		{
 			float factor = this.GetFactor(room.GetStat(RoomStatDefOf.Wealth) / 1500f);
@@ -25,7 +25,7 @@ namespace RimWorld
 			return num * 100f;
 		}
 
-		// Token: 0x060012E1 RID: 4833 RVA: 0x000A3018 File Offset: 0x000A1418
+		// Token: 0x060012DF RID: 4831 RVA: 0x000A31A8 File Offset: 0x000A15A8
 		private float GetFactor(float baseFactor)
 		{
 			float result;

@@ -10,14 +10,14 @@ namespace RimWorld
 	// Token: 0x02000357 RID: 855
 	public class IncidentWorker_QuestTradeRequest : IncidentWorker
 	{
-		// Token: 0x06000EC8 RID: 3784 RVA: 0x0007CCB0 File Offset: 0x0007B0B0
+		// Token: 0x06000EC8 RID: 3784 RVA: 0x0007CE9C File Offset: 0x0007B29C
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map;
 			return base.CanFireNowSub(parms) && this.TryGetRandomAvailableTargetMap(out map) && IncidentWorker_QuestTradeRequest.RandomNearbyTradeableSettlement(map.Tile) != null;
 		}
 
-		// Token: 0x06000EC9 RID: 3785 RVA: 0x0007CD08 File Offset: 0x0007B108
+		// Token: 0x06000EC9 RID: 3785 RVA: 0x0007CEF4 File Offset: 0x0007B2F4
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map;
@@ -47,7 +47,7 @@ namespace RimWorld
 							settlement.Label,
 							GenLabel.ThingLabel(component.requestThingDef, null, component.requestCount).CapitalizeFirst(),
 							(component.requestThingDef.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)component.requestCount).ToStringMoney(),
-							GenThing.ThingsToCommaList(component.rewards, true, true).CapitalizeFirst(),
+							GenThing.ThingsToCommaList(component.rewards, true, true, -1).CapitalizeFirst(),
 							GenThing.GetMarketValue(component.rewards).ToStringMoney(),
 							(component.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F0"),
 							CaravanArrivalTimeEstimator.EstimatedTicksToArrive(map.Tile, settlement.Tile, null).ToStringTicksToDays("0.#")
@@ -59,7 +59,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000ECA RID: 3786 RVA: 0x0007CE48 File Offset: 0x0007B248
+		// Token: 0x06000ECA RID: 3786 RVA: 0x0007D034 File Offset: 0x0007B434
 		public bool TryGenerateTradeRequest(TradeRequestComp target, Map map)
 		{
 			int num = this.RandomOfferDurationTicks(map.Tile, target.parent.Tile);
@@ -82,7 +82,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000ECB RID: 3787 RVA: 0x0007CEEC File Offset: 0x0007B2EC
+		// Token: 0x06000ECB RID: 3787 RVA: 0x0007D0D8 File Offset: 0x0007B4D8
 		public static Settlement RandomNearbyTradeableSettlement(int originTile)
 		{
 			return (from settlement in Find.WorldObjects.Settlements
@@ -90,7 +90,7 @@ namespace RimWorld
 			select settlement).RandomElementWithFallback(null);
 		}
 
-		// Token: 0x06000ECC RID: 3788 RVA: 0x0007CF30 File Offset: 0x0007B330
+		// Token: 0x06000ECC RID: 3788 RVA: 0x0007D11C File Offset: 0x0007B51C
 		private static bool TryFindRandomRequestedThingDef(Map map, out ThingDef thingDef, out int count)
 		{
 			IncidentWorker_QuestTradeRequest.requestCountDict.Clear();
@@ -149,7 +149,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000ECD RID: 3789 RVA: 0x0007CFAC File Offset: 0x0007B3AC
+		// Token: 0x06000ECD RID: 3789 RVA: 0x0007D198 File Offset: 0x0007B598
 		private bool TryGetRandomAvailableTargetMap(out Map map)
 		{
 			IncidentWorker_QuestTradeRequest.tmpAvailableMaps.Clear();
@@ -166,7 +166,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000ECE RID: 3790 RVA: 0x0007D050 File Offset: 0x0007B450
+		// Token: 0x06000ECE RID: 3790 RVA: 0x0007D23C File Offset: 0x0007B63C
 		private static int RandomRequestCount(ThingDef thingDef, Map map)
 		{
 			float num = (float)IncidentWorker_QuestTradeRequest.BaseValueWantedRange.RandomInRange;
@@ -174,7 +174,7 @@ namespace RimWorld
 			return ThingUtility.RoundedResourceStackCount(Mathf.Max(1, Mathf.RoundToInt(num / thingDef.BaseMarketValue)));
 		}
 
-		// Token: 0x06000ECF RID: 3791 RVA: 0x0007D0A4 File Offset: 0x0007B4A4
+		// Token: 0x06000ECF RID: 3791 RVA: 0x0007D290 File Offset: 0x0007B690
 		private static List<Thing> GenerateRewardsFor(ThingDef thingDef, int quantity, Faction faction, Map map)
 		{
 			ThingSetMakerParams parms = default(ThingSetMakerParams);
@@ -204,7 +204,7 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x06000ED0 RID: 3792 RVA: 0x0007D1E4 File Offset: 0x0007B5E4
+		// Token: 0x06000ED0 RID: 3792 RVA: 0x0007D3D0 File Offset: 0x0007B7D0
 		private int RandomOfferDurationTicks(int tileIdFrom, int tileIdTo)
 		{
 			int randomInRange = IncidentWorker_QuestTradeRequest.RandomDurationRangeDays.RandomInRange;
@@ -224,7 +224,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000ED1 RID: 3793 RVA: 0x0007D258 File Offset: 0x0007B658
+		// Token: 0x06000ED1 RID: 3793 RVA: 0x0007D444 File Offset: 0x0007B844
 		private bool AtLeast2HealthyColonists(Map map)
 		{
 			List<Pawn> list = map.mapPawns.SpawnedPawnsInFaction(Faction.OfPlayer);
@@ -246,25 +246,25 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x04000911 RID: 2321
+		// Token: 0x04000913 RID: 2323
 		private static readonly IntRange RandomDurationRangeDays = new IntRange(18, 38);
 
-		// Token: 0x04000912 RID: 2322
+		// Token: 0x04000914 RID: 2324
 		private const int MaxDurationDays = 40;
 
-		// Token: 0x04000913 RID: 2323
+		// Token: 0x04000915 RID: 2325
 		private const float MinTravelTimeFraction = 0.35f;
 
-		// Token: 0x04000914 RID: 2324
+		// Token: 0x04000916 RID: 2326
 		private const float MinTravelTimeAbsolute = 6f;
 
-		// Token: 0x04000915 RID: 2325
+		// Token: 0x04000917 RID: 2327
 		private const int MaxTileDistance = 36;
 
-		// Token: 0x04000916 RID: 2326
+		// Token: 0x04000918 RID: 2328
 		private static readonly IntRange BaseValueWantedRange = new IntRange(500, 2500);
 
-		// Token: 0x04000917 RID: 2327
+		// Token: 0x04000919 RID: 2329
 		private static readonly SimpleCurve ValueWantedFactorFromWealthCurve = new SimpleCurve
 		{
 			{
@@ -281,10 +281,10 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x04000918 RID: 2328
+		// Token: 0x0400091A RID: 2330
 		private static readonly FloatRange RewardValueFactorRange = new FloatRange(2f, 3f);
 
-		// Token: 0x04000919 RID: 2329
+		// Token: 0x0400091B RID: 2331
 		private static readonly SimpleCurve RewardValueFactorFromWealthCurve = new SimpleCurve
 		{
 			{
@@ -301,10 +301,10 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x0400091A RID: 2330
+		// Token: 0x0400091C RID: 2332
 		private static Dictionary<ThingDef, int> requestCountDict = new Dictionary<ThingDef, int>();
 
-		// Token: 0x0400091B RID: 2331
+		// Token: 0x0400091D RID: 2333
 		private static List<Map> tmpAvailableMaps = new List<Map>();
 	}
 }

@@ -6,19 +6,19 @@ namespace Verse
 	// Token: 0x02000F41 RID: 3905
 	public static class GenList
 	{
-		// Token: 0x06005E33 RID: 24115 RVA: 0x002FD9DC File Offset: 0x002FBDDC
+		// Token: 0x06005E5B RID: 24155 RVA: 0x002FFA18 File Offset: 0x002FDE18
 		public static int CountAllowNull<T>(this IList<T> list)
 		{
 			return (list == null) ? 0 : list.Count;
 		}
 
-		// Token: 0x06005E34 RID: 24116 RVA: 0x002FDA04 File Offset: 0x002FBE04
+		// Token: 0x06005E5C RID: 24156 RVA: 0x002FFA40 File Offset: 0x002FDE40
 		public static bool NullOrEmpty<T>(this IList<T> list)
 		{
 			return list == null || list.Count == 0;
 		}
 
-		// Token: 0x06005E35 RID: 24117 RVA: 0x002FDA2C File Offset: 0x002FBE2C
+		// Token: 0x06005E5D RID: 24157 RVA: 0x002FFA68 File Offset: 0x002FDE68
 		public static List<T> ListFullCopy<T>(this List<T> source)
 		{
 			List<T> list = new List<T>(source.Count);
@@ -29,7 +29,7 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x06005E36 RID: 24118 RVA: 0x002FDA74 File Offset: 0x002FBE74
+		// Token: 0x06005E5E RID: 24158 RVA: 0x002FFAB0 File Offset: 0x002FDEB0
 		public static List<T> ListFullCopyOrNull<T>(this List<T> source)
 		{
 			List<T> result;
@@ -44,7 +44,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E37 RID: 24119 RVA: 0x002FDA9C File Offset: 0x002FBE9C
+		// Token: 0x06005E5F RID: 24159 RVA: 0x002FFAD8 File Offset: 0x002FDED8
 		public static void RemoveDuplicates<T>(this List<T> list) where T : class
 		{
 			if (list.Count > 1)
@@ -63,7 +63,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005E38 RID: 24120 RVA: 0x002FDB14 File Offset: 0x002FBF14
+		// Token: 0x06005E60 RID: 24160 RVA: 0x002FFB50 File Offset: 0x002FDF50
 		public static void Shuffle<T>(this IList<T> list)
 		{
 			int i = list.Count;
@@ -77,7 +77,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005E39 RID: 24121 RVA: 0x002FDB64 File Offset: 0x002FBF64
+		// Token: 0x06005E61 RID: 24161 RVA: 0x002FFBA0 File Offset: 0x002FDFA0
 		public static void InsertionSort<T>(this IList<T> list, Comparison<T> comparison)
 		{
 			int count = list.Count;

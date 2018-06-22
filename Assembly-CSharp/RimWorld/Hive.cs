@@ -7,11 +7,11 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020006C9 RID: 1737
+	// Token: 0x020006C5 RID: 1733
 	public class Hive : ThingWithComps
 	{
 		// Token: 0x170005A7 RID: 1447
-		// (get) Token: 0x0600258C RID: 9612 RVA: 0x001418B0 File Offset: 0x0013FCB0
+		// (get) Token: 0x06002584 RID: 9604 RVA: 0x001419FC File Offset: 0x0013FDFC
 		private Lord Lord
 		{
 			get
@@ -56,7 +56,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005A8 RID: 1448
-		// (get) Token: 0x0600258D RID: 9613 RVA: 0x0014197C File Offset: 0x0013FD7C
+		// (get) Token: 0x06002585 RID: 9605 RVA: 0x00141AC8 File Offset: 0x0013FEC8
 		private float SpawnedPawnsPoints
 		{
 			get
@@ -71,7 +71,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600258E RID: 9614 RVA: 0x001419D5 File Offset: 0x0013FDD5
+		// Token: 0x06002586 RID: 9606 RVA: 0x00141B21 File Offset: 0x0013FF21
 		public static void ResetStaticData()
 		{
 			Hive.spawnablePawnKinds.Clear();
@@ -80,7 +80,7 @@ namespace RimWorld
 			Hive.spawnablePawnKinds.Add(PawnKindDefOf.Megaspider);
 		}
 
-		// Token: 0x0600258F RID: 9615 RVA: 0x00141A0F File Offset: 0x0013FE0F
+		// Token: 0x06002587 RID: 9607 RVA: 0x00141B5B File Offset: 0x0013FF5B
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -94,7 +94,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002590 RID: 9616 RVA: 0x00141A3E File Offset: 0x0013FE3E
+		// Token: 0x06002588 RID: 9608 RVA: 0x00141B8A File Offset: 0x0013FF8A
 		private void SpawnInitialPawnsNow()
 		{
 			this.ticksToSpawnInitialPawns = -1;
@@ -102,7 +102,7 @@ namespace RimWorld
 			this.CalculateNextPawnSpawnTick();
 		}
 
-		// Token: 0x06002591 RID: 9617 RVA: 0x00141A5C File Offset: 0x0013FE5C
+		// Token: 0x06002589 RID: 9609 RVA: 0x00141BA8 File Offset: 0x0013FFA8
 		public void SpawnPawnsUntilPoints(float points)
 		{
 			int num = 0;
@@ -123,7 +123,7 @@ namespace RimWorld
 			this.CalculateNextPawnSpawnTick();
 		}
 
-		// Token: 0x06002592 RID: 9618 RVA: 0x00141AB8 File Offset: 0x0013FEB8
+		// Token: 0x0600258A RID: 9610 RVA: 0x00141C04 File Offset: 0x00140004
 		public override void Tick()
 		{
 			base.Tick();
@@ -161,7 +161,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002593 RID: 9619 RVA: 0x00141B9C File Offset: 0x0013FF9C
+		// Token: 0x0600258B RID: 9611 RVA: 0x00141CE8 File Offset: 0x001400E8
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			Map map = base.Map;
@@ -173,7 +173,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002594 RID: 9620 RVA: 0x00141BF0 File Offset: 0x0013FFF0
+		// Token: 0x0600258C RID: 9612 RVA: 0x00141D3C File Offset: 0x0014013C
 		public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
 		{
 			if (dinfo.Def.externalViolence && dinfo.Instigator != null && dinfo.Instigator.Faction != null)
@@ -199,7 +199,7 @@ namespace RimWorld
 			base.PostApplyDamage(dinfo, totalDamageDealt);
 		}
 
-		// Token: 0x06002595 RID: 9621 RVA: 0x00141CA4 File Offset: 0x001400A4
+		// Token: 0x0600258D RID: 9613 RVA: 0x00141DF0 File Offset: 0x001401F0
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -215,7 +215,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002596 RID: 9622 RVA: 0x00141D60 File Offset: 0x00140160
+		// Token: 0x0600258E RID: 9614 RVA: 0x00141EAC File Offset: 0x001402AC
 		private void Activate()
 		{
 			this.active = true;
@@ -227,14 +227,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002597 RID: 9623 RVA: 0x00141D90 File Offset: 0x00140190
+		// Token: 0x0600258F RID: 9615 RVA: 0x00141EDC File Offset: 0x001402DC
 		private void CalculateNextPawnSpawnTick()
 		{
 			float num = GenMath.LerpDouble(0f, 5f, 1f, 0.5f, (float)this.spawnedPawns.Count);
 			this.nextPawnSpawnTick = Find.TickManager.TicksGame + (int)(Hive.PawnSpawnIntervalDays.RandomInRange * 60000f / (num * Find.Storyteller.difficulty.enemyReproductionRateFactor));
 		}
 
-		// Token: 0x06002598 RID: 9624 RVA: 0x00141DFC File Offset: 0x001401FC
+		// Token: 0x06002590 RID: 9616 RVA: 0x00141F48 File Offset: 0x00140348
 		private void FilterOutUnspawnedPawns()
 		{
 			for (int i = this.spawnedPawns.Count - 1; i >= 0; i--)
@@ -246,7 +246,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002599 RID: 9625 RVA: 0x00141E4C File Offset: 0x0014024C
+		// Token: 0x06002591 RID: 9617 RVA: 0x00141F98 File Offset: 0x00140398
 		private bool TrySpawnPawn(out Pawn pawn)
 		{
 			bool result;
@@ -285,7 +285,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600259A RID: 9626 RVA: 0x00141F28 File Offset: 0x00140328
+		// Token: 0x06002592 RID: 9618 RVA: 0x00142074 File Offset: 0x00140474
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
@@ -308,7 +308,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600259B RID: 9627 RVA: 0x00141F54 File Offset: 0x00140354
+		// Token: 0x06002593 RID: 9619 RVA: 0x001420A0 File Offset: 0x001404A0
 		public override bool PreventPlayerSellingThingsNearby(out string reason)
 		{
 			if (this.spawnedPawns.Count > 0)
@@ -323,55 +323,55 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600259C RID: 9628 RVA: 0x00141FC0 File Offset: 0x001403C0
+		// Token: 0x06002594 RID: 9620 RVA: 0x0014210C File Offset: 0x0014050C
 		private Lord CreateNewLord()
 		{
 			return LordMaker.MakeNewLord(base.Faction, new LordJob_DefendAndExpandHive(!this.caveColony), base.Map, null);
 		}
 
-		// Token: 0x040014E4 RID: 5348
+		// Token: 0x040014E2 RID: 5346
 		public bool active = true;
 
-		// Token: 0x040014E5 RID: 5349
+		// Token: 0x040014E3 RID: 5347
 		public int nextPawnSpawnTick = -1;
 
-		// Token: 0x040014E6 RID: 5350
+		// Token: 0x040014E4 RID: 5348
 		private List<Pawn> spawnedPawns = new List<Pawn>();
 
-		// Token: 0x040014E7 RID: 5351
+		// Token: 0x040014E5 RID: 5349
 		private int ticksToSpawnInitialPawns = -1;
 
-		// Token: 0x040014E8 RID: 5352
+		// Token: 0x040014E6 RID: 5350
 		public bool caveColony = false;
 
-		// Token: 0x040014E9 RID: 5353
+		// Token: 0x040014E7 RID: 5351
 		public bool canSpawnPawns = true;
 
-		// Token: 0x040014EA RID: 5354
+		// Token: 0x040014E8 RID: 5352
 		private const int InitialPawnSpawnDelay = 0;
 
-		// Token: 0x040014EB RID: 5355
+		// Token: 0x040014E9 RID: 5353
 		public const int PawnSpawnRadius = 2;
 
-		// Token: 0x040014EC RID: 5356
+		// Token: 0x040014EA RID: 5354
 		public const float MaxSpawnedPawnsPoints = 500f;
 
-		// Token: 0x040014ED RID: 5357
+		// Token: 0x040014EB RID: 5355
 		public const float InitialPawnsPoints = 200f;
 
-		// Token: 0x040014EE RID: 5358
+		// Token: 0x040014EC RID: 5356
 		private static readonly FloatRange PawnSpawnIntervalDays = new FloatRange(0.85f, 1.1f);
 
-		// Token: 0x040014EF RID: 5359
+		// Token: 0x040014ED RID: 5357
 		public static List<PawnKindDef> spawnablePawnKinds = new List<PawnKindDef>();
 
-		// Token: 0x040014F0 RID: 5360
+		// Token: 0x040014EE RID: 5358
 		public static readonly string MemoAttackedByEnemy = "HiveAttacked";
 
-		// Token: 0x040014F1 RID: 5361
+		// Token: 0x040014EF RID: 5359
 		public static readonly string MemoDestroyed = "HiveDestroyed";
 
-		// Token: 0x040014F2 RID: 5362
+		// Token: 0x040014F0 RID: 5360
 		public static readonly string MemoBurnedBadly = "HiveBurnedBadly";
 	}
 }

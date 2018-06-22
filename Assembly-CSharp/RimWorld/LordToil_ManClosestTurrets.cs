@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000197 RID: 407
 	public class LordToil_ManClosestTurrets : LordToil
 	{
-		// Token: 0x06000867 RID: 2151 RVA: 0x0004FFB4 File Offset: 0x0004E3B4
+		// Token: 0x06000867 RID: 2151 RVA: 0x0004FFA0 File Offset: 0x0004E3A0
 		public override void UpdateAllDuties()
 		{
 			for (int i = 0; i < this.lord.ownedPawns.Count; i++)

@@ -4,22 +4,22 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005D5 RID: 1493
+	// Token: 0x020005D1 RID: 1489
 	public static class BestCaravanPawnUtility
 	{
-		// Token: 0x06001D13 RID: 7443 RVA: 0x000F84BC File Offset: 0x000F68BC
+		// Token: 0x06001D0A RID: 7434 RVA: 0x000F8510 File Offset: 0x000F6910
 		public static Pawn FindBestDiplomat(Caravan caravan)
 		{
 			return BestCaravanPawnUtility.FindPawnWithBestStat(caravan, StatDefOf.DiplomacyPower);
 		}
 
-		// Token: 0x06001D14 RID: 7444 RVA: 0x000F84DC File Offset: 0x000F68DC
+		// Token: 0x06001D0B RID: 7435 RVA: 0x000F8530 File Offset: 0x000F6930
 		public static Pawn FindBestNegotiator(Caravan caravan)
 		{
 			return BestCaravanPawnUtility.FindPawnWithBestStat(caravan, StatDefOf.TradePriceImprovement);
 		}
 
-		// Token: 0x06001D15 RID: 7445 RVA: 0x000F84FC File Offset: 0x000F68FC
+		// Token: 0x06001D0C RID: 7436 RVA: 0x000F8550 File Offset: 0x000F6950
 		public static Pawn FindBestEntertainingPawnFor(Caravan caravan, Pawn forPawn)
 		{
 			Pawn pawn = null;
@@ -46,7 +46,7 @@ namespace RimWorld.Planet
 			return pawn;
 		}
 
-		// Token: 0x06001D16 RID: 7446 RVA: 0x000F85D8 File Offset: 0x000F69D8
+		// Token: 0x06001D0D RID: 7437 RVA: 0x000F862C File Offset: 0x000F6A2C
 		public static Pawn FindPawnWithBestStat(Caravan caravan, StatDef stat)
 		{
 			Pawn pawn = null;
@@ -71,7 +71,7 @@ namespace RimWorld.Planet
 			return pawn;
 		}
 
-		// Token: 0x06001D17 RID: 7447 RVA: 0x000F866C File Offset: 0x000F6A6C
+		// Token: 0x06001D0E RID: 7438 RVA: 0x000F86C0 File Offset: 0x000F6AC0
 		private static bool IsConsciousOwner(Pawn pawn, Caravan caravan)
 		{
 			return !pawn.Dead && !pawn.Downed && !pawn.InMentalState && caravan.IsOwner(pawn);

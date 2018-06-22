@@ -5,20 +5,20 @@ namespace Verse.Noise
 	// Token: 0x02000F78 RID: 3960
 	public class Cylinders : ModuleBase
 	{
-		// Token: 0x06005F72 RID: 24434 RVA: 0x003092D6 File Offset: 0x003076D6
+		// Token: 0x06005F9B RID: 24475 RVA: 0x0030B37A File Offset: 0x0030977A
 		public Cylinders() : base(0)
 		{
 		}
 
-		// Token: 0x06005F73 RID: 24435 RVA: 0x003092EF File Offset: 0x003076EF
+		// Token: 0x06005F9C RID: 24476 RVA: 0x0030B393 File Offset: 0x00309793
 		public Cylinders(double frequency) : base(0)
 		{
 			this.Frequency = frequency;
 		}
 
-		// Token: 0x17000F4E RID: 3918
-		// (get) Token: 0x06005F74 RID: 24436 RVA: 0x00309310 File Offset: 0x00307710
-		// (set) Token: 0x06005F75 RID: 24437 RVA: 0x0030932B File Offset: 0x0030772B
+		// Token: 0x17000F52 RID: 3922
+		// (get) Token: 0x06005F9D RID: 24477 RVA: 0x0030B3B4 File Offset: 0x003097B4
+		// (set) Token: 0x06005F9E RID: 24478 RVA: 0x0030B3CF File Offset: 0x003097CF
 		public double Frequency
 		{
 			get
@@ -31,7 +31,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06005F76 RID: 24438 RVA: 0x00309338 File Offset: 0x00307738
+		// Token: 0x06005F9F RID: 24479 RVA: 0x0030B3DC File Offset: 0x003097DC
 		public override double GetValue(double x, double y, double z)
 		{
 			x *= this.m_frequency;
@@ -43,7 +43,7 @@ namespace Verse.Noise
 			return 1.0 - num3 * 4.0;
 		}
 
-		// Token: 0x04003EC6 RID: 16070
+		// Token: 0x04003ED8 RID: 16088
 		private double m_frequency = 1.0;
 	}
 }

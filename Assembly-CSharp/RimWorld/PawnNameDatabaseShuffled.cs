@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000488 RID: 1160
+	// Token: 0x02000484 RID: 1156
 	[StaticConstructorOnStartup]
 	public static class PawnNameDatabaseShuffled
 	{
-		// Token: 0x06001476 RID: 5238 RVA: 0x000B3014 File Offset: 0x000B1414
+		// Token: 0x0600146D RID: 5229 RVA: 0x000B302C File Offset: 0x000B142C
 		static PawnNameDatabaseShuffled()
 		{
 			IEnumerator enumerator = Enum.GetValues(typeof(PawnNameCategory)).GetEnumerator();
@@ -46,13 +46,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001477 RID: 5239 RVA: 0x000B3150 File Offset: 0x000B1550
+		// Token: 0x0600146E RID: 5230 RVA: 0x000B3168 File Offset: 0x000B1568
 		public static NameBank BankOf(PawnNameCategory category)
 		{
 			return PawnNameDatabaseShuffled.banks[category];
 		}
 
-		// Token: 0x04000C44 RID: 3140
+		// Token: 0x04000C41 RID: 3137
 		private static Dictionary<PawnNameCategory, NameBank> banks = new Dictionary<PawnNameCategory, NameBank>();
 	}
 }

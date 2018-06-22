@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004BB RID: 1211
+	// Token: 0x020004B7 RID: 1207
 	public class InteractionWorker_RecruitAttempt : InteractionWorker
 	{
-		// Token: 0x0600158F RID: 5519 RVA: 0x000BF380 File Offset: 0x000BD780
+		// Token: 0x06001586 RID: 5510 RVA: 0x000BF380 File Offset: 0x000BD780
 		public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks, out string letterText, out string letterLabel, out LetterDef letterDef)
 		{
 			letterText = null;
@@ -87,7 +87,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001590 RID: 5520 RVA: 0x000BF5E8 File Offset: 0x000BD9E8
+		// Token: 0x06001587 RID: 5511 RVA: 0x000BF5E8 File Offset: 0x000BD9E8
 		public static void DoRecruit(Pawn recruiter, Pawn recruitee, float recruitChance, bool useAudiovisualEffects = true)
 		{
 			string text = recruitee.LabelIndefinite();
@@ -131,7 +131,7 @@ namespace RimWorld
 							text,
 							recruitChance.ToStringPercent(),
 							recruitee.Name.ToStringFull
-						}).AdjustedFor(recruitee), recruitee, MessageTypeDefOf.PositiveEvent, true);
+						}).AdjustedFor(recruitee, "PAWN"), recruitee, MessageTypeDefOf.PositiveEvent, true);
 					}
 					else
 					{
@@ -176,13 +176,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000CB8 RID: 3256
+		// Token: 0x04000CB5 RID: 3253
 		private const float MinRecruitChance = 0.005f;
 
-		// Token: 0x04000CB9 RID: 3257
+		// Token: 0x04000CB6 RID: 3254
 		private const float BondRelationChanceFactor = 4f;
 
-		// Token: 0x04000CBA RID: 3258
+		// Token: 0x04000CB7 RID: 3255
 		private static readonly SimpleCurve RecruitChanceFactorCurve_Wildness = new SimpleCurve
 		{
 			{
@@ -199,7 +199,7 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x04000CBB RID: 3259
+		// Token: 0x04000CB8 RID: 3256
 		private static readonly SimpleCurve RecruitChanceFactorCurve_Opinion = new SimpleCurve
 		{
 			{
@@ -216,7 +216,7 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x04000CBC RID: 3260
+		// Token: 0x04000CB9 RID: 3257
 		private static readonly SimpleCurve RecruitChanceFactorCurve_Mood = new SimpleCurve
 		{
 			{
@@ -241,10 +241,10 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x04000CBD RID: 3261
+		// Token: 0x04000CBA RID: 3258
 		private const int MenagerieThreshold = 10;
 
-		// Token: 0x04000CBE RID: 3262
+		// Token: 0x04000CBB RID: 3259
 		private const float WildManTameChanceFactor = 2f;
 	}
 }

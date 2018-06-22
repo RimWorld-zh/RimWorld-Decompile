@@ -5,16 +5,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009C6 RID: 2502
+	// Token: 0x020009C2 RID: 2498
 	public class StatWorker_MeleeDPS : StatWorker
 	{
-		// Token: 0x0600380F RID: 14351 RVA: 0x001DDF58 File Offset: 0x001DC358
+		// Token: 0x06003809 RID: 14345 RVA: 0x001DE130 File Offset: 0x001DC530
 		public override bool IsDisabledFor(Thing thing)
 		{
 			return base.IsDisabledFor(thing) || StatDefOf.MeleeHitChance.Worker.IsDisabledFor(thing);
 		}
 
-		// Token: 0x06003810 RID: 14352 RVA: 0x001DDF8C File Offset: 0x001DC38C
+		// Token: 0x0600380A RID: 14346 RVA: 0x001DE164 File Offset: 0x001DC564
 		public override float GetValueUnfinalized(StatRequest req, bool applyPostProcess = true)
 		{
 			if (req.Thing == null)
@@ -24,7 +24,7 @@ namespace RimWorld
 			return this.GetMeleeDamage(req, applyPostProcess) * this.GetMeleeHitChance(req, applyPostProcess) / this.GetMeleeCooldown(req, applyPostProcess);
 		}
 
-		// Token: 0x06003811 RID: 14353 RVA: 0x001DDFE4 File Offset: 0x001DC3E4
+		// Token: 0x0600380B RID: 14347 RVA: 0x001DE1BC File Offset: 0x001DC5BC
 		public override string GetExplanationUnfinalized(StatRequest req, ToStringNumberSense numberSense)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -47,7 +47,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06003812 RID: 14354 RVA: 0x001DE160 File Offset: 0x001DC560
+		// Token: 0x0600380C RID: 14348 RVA: 0x001DE338 File Offset: 0x001DC738
 		public override string GetStatDrawEntryLabel(StatDef stat, float value, ToStringNumberSense numberSense, StatRequest optionalReq)
 		{
 			return string.Format("{0} ( {1} x {2} / {3} )", new object[]
@@ -59,7 +59,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06003813 RID: 14355 RVA: 0x001DE1E0 File Offset: 0x001DC5E0
+		// Token: 0x0600380D RID: 14349 RVA: 0x001DE3B8 File Offset: 0x001DC7B8
 		private float GetMeleeDamage(StatRequest req, bool applyPostProcess = true)
 		{
 			Pawn pawn = req.Thing as Pawn;
@@ -100,7 +100,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003814 RID: 14356 RVA: 0x001DE324 File Offset: 0x001DC724
+		// Token: 0x0600380E RID: 14350 RVA: 0x001DE4FC File Offset: 0x001DC8FC
 		private float GetMeleeHitChance(StatRequest req, bool applyPostProcess = true)
 		{
 			float result;
@@ -115,7 +115,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003815 RID: 14357 RVA: 0x001DE370 File Offset: 0x001DC770
+		// Token: 0x0600380F RID: 14351 RVA: 0x001DE548 File Offset: 0x001DC948
 		private float GetMeleeCooldown(StatRequest req, bool applyPostProcess = true)
 		{
 			Pawn pawn = req.Thing as Pawn;

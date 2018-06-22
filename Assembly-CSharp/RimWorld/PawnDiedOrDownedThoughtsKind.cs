@@ -2,16 +2,16 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200047E RID: 1150
+	// Token: 0x0200047A RID: 1146
 	public enum PawnDiedOrDownedThoughtsKind
 	{
-		// Token: 0x04000C03 RID: 3075
+		// Token: 0x04000C00 RID: 3072
 		Died,
-		// Token: 0x04000C04 RID: 3076
+		// Token: 0x04000C01 RID: 3073
 		Banished,
-		// Token: 0x04000C05 RID: 3077
+		// Token: 0x04000C02 RID: 3074
 		BanishedToDie,
-		// Token: 0x04000C06 RID: 3078
+		// Token: 0x04000C03 RID: 3075
 		Downed
 	}
 }

@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000566 RID: 1382
+	// Token: 0x02000562 RID: 1378
 	public static class KidnapUtility
 	{
-		// Token: 0x06001A19 RID: 6681 RVA: 0x000E2450 File Offset: 0x000E0850
+		// Token: 0x06001A10 RID: 6672 RVA: 0x000E24A4 File Offset: 0x000E08A4
 		public static bool IsKidnapped(this Pawn pawn)
 		{
 			List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;

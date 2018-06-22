@@ -6,10 +6,10 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000DCA RID: 3530
+	// Token: 0x02000DC7 RID: 3527
 	public class Explosion : Thing
 	{
-		// Token: 0x06004EE2 RID: 20194 RVA: 0x00291D84 File Offset: 0x00290184
+		// Token: 0x06004EF7 RID: 20215 RVA: 0x00293360 File Offset: 0x00291760
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -24,7 +24,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EE3 RID: 20195 RVA: 0x00291DE4 File Offset: 0x002901E4
+		// Token: 0x06004EF8 RID: 20216 RVA: 0x002933C0 File Offset: 0x002917C0
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			base.DeSpawn(mode);
@@ -39,7 +39,7 @@ namespace Verse
 			this.addedCellsAffectedOnlyByDamage = null;
 		}
 
-		// Token: 0x06004EE4 RID: 20196 RVA: 0x00291E50 File Offset: 0x00290250
+		// Token: 0x06004EF9 RID: 20217 RVA: 0x0029342C File Offset: 0x0029182C
 		public virtual void StartExplosion(SoundDef explosionSound)
 		{
 			if (!base.Spawned)
@@ -73,7 +73,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EE5 RID: 20197 RVA: 0x00291F7C File Offset: 0x0029037C
+		// Token: 0x06004EFA RID: 20218 RVA: 0x00293558 File Offset: 0x00291958
 		public override void Tick()
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -106,7 +106,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EE6 RID: 20198 RVA: 0x00292068 File Offset: 0x00290468
+		// Token: 0x06004EFB RID: 20219 RVA: 0x00293644 File Offset: 0x00291A44
 		public int GetDamageAmountAt(IntVec3 c)
 		{
 			int result;
@@ -123,7 +123,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004EE7 RID: 20199 RVA: 0x002920D0 File Offset: 0x002904D0
+		// Token: 0x06004EFC RID: 20220 RVA: 0x002936AC File Offset: 0x00291AAC
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -153,13 +153,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EE8 RID: 20200 RVA: 0x00292290 File Offset: 0x00290690
+		// Token: 0x06004EFD RID: 20221 RVA: 0x0029386C File Offset: 0x00291C6C
 		private int GetCellAffectTick(IntVec3 cell)
 		{
 			return this.startTick + (int)((cell - base.Position).LengthHorizontal * 1.5f);
 		}
 
-		// Token: 0x06004EE9 RID: 20201 RVA: 0x002922C8 File Offset: 0x002906C8
+		// Token: 0x06004EFE RID: 20222 RVA: 0x002938A4 File Offset: 0x00291CA4
 		private void AffectCell(IntVec3 c)
 		{
 			if (c.InBounds(base.Map))
@@ -192,7 +192,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EEA RID: 20202 RVA: 0x002923E8 File Offset: 0x002907E8
+		// Token: 0x06004EFF RID: 20223 RVA: 0x002939C4 File Offset: 0x00291DC4
 		private void TrySpawnExplosionThing(ThingDef thingDef, IntVec3 c, int count)
 		{
 			if (thingDef != null)
@@ -210,7 +210,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EEB RID: 20203 RVA: 0x00292440 File Offset: 0x00290840
+		// Token: 0x06004F00 RID: 20224 RVA: 0x00293A1C File Offset: 0x00291E1C
 		private void PlayExplosionSound(SoundDef explosionSound)
 		{
 			bool flag;
@@ -232,7 +232,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EEC RID: 20204 RVA: 0x002924C0 File Offset: 0x002908C0
+		// Token: 0x06004F01 RID: 20225 RVA: 0x00293A9C File Offset: 0x00291E9C
 		private void AddCellsNeighbors(List<IntVec3> cells)
 		{
 			Explosion.tmpCells.Clear();
@@ -267,76 +267,76 @@ namespace Verse
 			Explosion.tmpCells.Clear();
 		}
 
-		// Token: 0x06004EED RID: 20205 RVA: 0x00292614 File Offset: 0x00290A14
+		// Token: 0x06004F02 RID: 20226 RVA: 0x00293BF0 File Offset: 0x00291FF0
 		private bool ShouldCellBeAffectedOnlyByDamage(IntVec3 c)
 		{
 			return this.applyDamageToExplosionCellsNeighbors && this.addedCellsAffectedOnlyByDamage.Contains(c);
 		}
 
-		// Token: 0x04003469 RID: 13417
+		// Token: 0x04003474 RID: 13428
 		public float radius;
 
-		// Token: 0x0400346A RID: 13418
+		// Token: 0x04003475 RID: 13429
 		public DamageDef damType;
 
-		// Token: 0x0400346B RID: 13419
+		// Token: 0x04003476 RID: 13430
 		public int damAmount;
 
-		// Token: 0x0400346C RID: 13420
+		// Token: 0x04003477 RID: 13431
 		public Thing instigator;
 
-		// Token: 0x0400346D RID: 13421
+		// Token: 0x04003478 RID: 13432
 		public ThingDef weapon;
 
-		// Token: 0x0400346E RID: 13422
+		// Token: 0x04003479 RID: 13433
 		public ThingDef projectile;
 
-		// Token: 0x0400346F RID: 13423
+		// Token: 0x0400347A RID: 13434
 		public Thing intendedTarget;
 
-		// Token: 0x04003470 RID: 13424
+		// Token: 0x0400347B RID: 13435
 		public bool applyDamageToExplosionCellsNeighbors;
 
-		// Token: 0x04003471 RID: 13425
+		// Token: 0x0400347C RID: 13436
 		public ThingDef preExplosionSpawnThingDef = null;
 
-		// Token: 0x04003472 RID: 13426
+		// Token: 0x0400347D RID: 13437
 		public float preExplosionSpawnChance = 0f;
 
-		// Token: 0x04003473 RID: 13427
+		// Token: 0x0400347E RID: 13438
 		public int preExplosionSpawnThingCount = 1;
 
-		// Token: 0x04003474 RID: 13428
+		// Token: 0x0400347F RID: 13439
 		public ThingDef postExplosionSpawnThingDef = null;
 
-		// Token: 0x04003475 RID: 13429
+		// Token: 0x04003480 RID: 13440
 		public float postExplosionSpawnChance = 0f;
 
-		// Token: 0x04003476 RID: 13430
+		// Token: 0x04003481 RID: 13441
 		public int postExplosionSpawnThingCount = 1;
 
-		// Token: 0x04003477 RID: 13431
+		// Token: 0x04003482 RID: 13442
 		public float chanceToStartFire;
 
-		// Token: 0x04003478 RID: 13432
+		// Token: 0x04003483 RID: 13443
 		public bool damageFalloff;
 
-		// Token: 0x04003479 RID: 13433
+		// Token: 0x04003484 RID: 13444
 		private int startTick;
 
-		// Token: 0x0400347A RID: 13434
+		// Token: 0x04003485 RID: 13445
 		private List<IntVec3> cellsToAffect;
 
-		// Token: 0x0400347B RID: 13435
+		// Token: 0x04003486 RID: 13446
 		private List<Thing> damagedThings;
 
-		// Token: 0x0400347C RID: 13436
+		// Token: 0x04003487 RID: 13447
 		private HashSet<IntVec3> addedCellsAffectedOnlyByDamage;
 
-		// Token: 0x0400347D RID: 13437
+		// Token: 0x04003488 RID: 13448
 		private const float DamageFactorAtEdge = 0.2f;
 
-		// Token: 0x0400347E RID: 13438
+		// Token: 0x04003489 RID: 13449
 		private static HashSet<IntVec3> tmpCells = new HashSet<IntVec3>();
 	}
 }

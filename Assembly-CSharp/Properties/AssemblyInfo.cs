@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Security;
 using System.Security.Permissions;
 
-[assembly: AssemblyVersion("1.0.6743.27126")]
+[assembly: AssemblyVersion("1.0.6747.33888")]
 [assembly: AssemblyCompany("Ludeon Studios")]
 [assembly: AssemblyCopyright("Copyright Ludeon Studios.")]
 [assembly: AssemblyTrademark("RimWorld is a registered trademark of Ludeon Studios.")]

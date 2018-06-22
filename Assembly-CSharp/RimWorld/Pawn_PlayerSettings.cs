@@ -7,10 +7,10 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000523 RID: 1315
+	// Token: 0x0200051F RID: 1311
 	public class Pawn_PlayerSettings : IExposable
 	{
-		// Token: 0x060017F3 RID: 6131 RVA: 0x000D1340 File Offset: 0x000CF740
+		// Token: 0x060017EA RID: 6122 RVA: 0x000D1338 File Offset: 0x000CF738
 		public Pawn_PlayerSettings(Pawn pawn)
 		{
 			this.pawn = pawn;
@@ -26,8 +26,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700034D RID: 845
-		// (get) Token: 0x060017F4 RID: 6132 RVA: 0x000D13C8 File Offset: 0x000CF7C8
-		// (set) Token: 0x060017F5 RID: 6133 RVA: 0x000D13E4 File Offset: 0x000CF7E4
+		// (get) Token: 0x060017EB RID: 6123 RVA: 0x000D13C0 File Offset: 0x000CF7C0
+		// (set) Token: 0x060017EC RID: 6124 RVA: 0x000D13DC File Offset: 0x000CF7DC
 		public Pawn Master
 		{
 			get
@@ -56,7 +56,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700034E RID: 846
-		// (get) Token: 0x060017F6 RID: 6134 RVA: 0x000D1484 File Offset: 0x000CF884
+		// (get) Token: 0x060017ED RID: 6125 RVA: 0x000D147C File Offset: 0x000CF87C
 		public Area EffectiveAreaRestrictionInPawnCurrentMap
 		{
 			get
@@ -75,7 +75,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700034F RID: 847
-		// (get) Token: 0x060017F7 RID: 6135 RVA: 0x000D14CC File Offset: 0x000CF8CC
+		// (get) Token: 0x060017EE RID: 6126 RVA: 0x000D14C4 File Offset: 0x000CF8C4
 		public Area EffectiveAreaRestriction
 		{
 			get
@@ -94,8 +94,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000350 RID: 848
-		// (get) Token: 0x060017F8 RID: 6136 RVA: 0x000D14FC File Offset: 0x000CF8FC
-		// (set) Token: 0x060017F9 RID: 6137 RVA: 0x000D1517 File Offset: 0x000CF917
+		// (get) Token: 0x060017EF RID: 6127 RVA: 0x000D14F4 File Offset: 0x000CF8F4
+		// (set) Token: 0x060017F0 RID: 6128 RVA: 0x000D150F File Offset: 0x000CF90F
 		public Area AreaRestriction
 		{
 			get
@@ -109,7 +109,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000351 RID: 849
-		// (get) Token: 0x060017FA RID: 6138 RVA: 0x000D1524 File Offset: 0x000CF924
+		// (get) Token: 0x060017F1 RID: 6129 RVA: 0x000D151C File Offset: 0x000CF91C
 		public bool RespectsAllowedArea
 		{
 			get
@@ -119,7 +119,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000352 RID: 850
-		// (get) Token: 0x060017FB RID: 6139 RVA: 0x000D1578 File Offset: 0x000CF978
+		// (get) Token: 0x060017F2 RID: 6130 RVA: 0x000D1570 File Offset: 0x000CF970
 		public bool RespectsMaster
 		{
 			get
@@ -129,7 +129,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000353 RID: 851
-		// (get) Token: 0x060017FC RID: 6140 RVA: 0x000D15D0 File Offset: 0x000CF9D0
+		// (get) Token: 0x060017F3 RID: 6131 RVA: 0x000D15C8 File Offset: 0x000CF9C8
 		public Pawn RespectedMaster
 		{
 			get
@@ -139,7 +139,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000354 RID: 852
-		// (get) Token: 0x060017FD RID: 6141 RVA: 0x000D15FC File Offset: 0x000CF9FC
+		// (get) Token: 0x060017F4 RID: 6132 RVA: 0x000D15F4 File Offset: 0x000CF9F4
 		public bool UsesConfigurableHostilityResponse
 		{
 			get
@@ -148,7 +148,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017FE RID: 6142 RVA: 0x000D1634 File Offset: 0x000CFA34
+		// Token: 0x060017F5 RID: 6133 RVA: 0x000D162C File Offset: 0x000CFA2C
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.joinTick, "joinTick", 0, false);
@@ -163,7 +163,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.displayOrder, "displayOrder", 0, false);
 		}
 
-		// Token: 0x060017FF RID: 6143 RVA: 0x000D16F4 File Offset: 0x000CFAF4
+		// Token: 0x060017F6 RID: 6134 RVA: 0x000D16EC File Offset: 0x000CFAEC
 		public IEnumerable<Gizmo> GetGizmos()
 		{
 			if (this.pawn.Drafted)
@@ -198,19 +198,19 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06001800 RID: 6144 RVA: 0x000D171E File Offset: 0x000CFB1E
+		// Token: 0x060017F7 RID: 6135 RVA: 0x000D1716 File Offset: 0x000CFB16
 		public void Notify_FactionChanged()
 		{
 			this.ResetMedicalCare();
 		}
 
-		// Token: 0x06001801 RID: 6145 RVA: 0x000D1727 File Offset: 0x000CFB27
+		// Token: 0x060017F8 RID: 6136 RVA: 0x000D171F File Offset: 0x000CFB1F
 		public void Notify_MadePrisoner()
 		{
 			this.ResetMedicalCare();
 		}
 
-		// Token: 0x06001802 RID: 6146 RVA: 0x000D1730 File Offset: 0x000CFB30
+		// Token: 0x060017F9 RID: 6137 RVA: 0x000D1728 File Offset: 0x000CFB28
 		public void ResetMedicalCare()
 		{
 			if (Scribe.mode != LoadSaveMode.LoadingVars)
@@ -248,7 +248,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001803 RID: 6147 RVA: 0x000D1857 File Offset: 0x000CFC57
+		// Token: 0x060017FA RID: 6138 RVA: 0x000D184F File Offset: 0x000CFC4F
 		public void Notify_AreaRemoved(Area area)
 		{
 			if (this.areaAllowedInt == area)
@@ -257,37 +257,37 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000E23 RID: 3619
+		// Token: 0x04000E20 RID: 3616
 		private Pawn pawn;
 
-		// Token: 0x04000E24 RID: 3620
+		// Token: 0x04000E21 RID: 3617
 		private Area areaAllowedInt = null;
 
-		// Token: 0x04000E25 RID: 3621
+		// Token: 0x04000E22 RID: 3618
 		public int joinTick = -1;
 
-		// Token: 0x04000E26 RID: 3622
+		// Token: 0x04000E23 RID: 3619
 		private Pawn master = null;
 
-		// Token: 0x04000E27 RID: 3623
+		// Token: 0x04000E24 RID: 3620
 		public bool followDrafted = true;
 
-		// Token: 0x04000E28 RID: 3624
+		// Token: 0x04000E25 RID: 3621
 		public bool followFieldwork = true;
 
-		// Token: 0x04000E29 RID: 3625
+		// Token: 0x04000E26 RID: 3622
 		public bool animalsReleased = false;
 
-		// Token: 0x04000E2A RID: 3626
+		// Token: 0x04000E27 RID: 3623
 		public MedicalCareCategory medCare = MedicalCareCategory.NoMeds;
 
-		// Token: 0x04000E2B RID: 3627
+		// Token: 0x04000E28 RID: 3624
 		public HostilityResponseMode hostilityResponse = HostilityResponseMode.Flee;
 
-		// Token: 0x04000E2C RID: 3628
+		// Token: 0x04000E29 RID: 3625
 		public bool selfTend = false;
 
-		// Token: 0x04000E2D RID: 3629
+		// Token: 0x04000E2A RID: 3626
 		public int displayOrder;
 	}
 }

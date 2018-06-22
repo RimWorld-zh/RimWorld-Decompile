@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000F1B RID: 3867
 	public static class DijkstraUtility
 	{
-		// Token: 0x06005CA0 RID: 23712 RVA: 0x002EF1F8 File Offset: 0x002ED5F8
+		// Token: 0x06005CC8 RID: 23752 RVA: 0x002F1224 File Offset: 0x002EF624
 		public static IEnumerable<IntVec3> AdjacentCellsNeighborsGetter(IntVec3 cell, Map map)
 		{
 			DijkstraUtility.adjacentCells.Clear();
@@ -22,7 +22,7 @@ namespace Verse
 			return DijkstraUtility.adjacentCells;
 		}
 
-		// Token: 0x04003D81 RID: 15745
+		// Token: 0x04003D93 RID: 15763
 		private static List<IntVec3> adjacentCells = new List<IntVec3>();
 	}
 }

@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000596 RID: 1430
+	// Token: 0x02000592 RID: 1426
 	public class WorldLayer_SelectedTile : WorldLayer_SingleTile
 	{
 		// Token: 0x170003FA RID: 1018
-		// (get) Token: 0x06001B43 RID: 6979 RVA: 0x000EAC80 File Offset: 0x000E9080
+		// (get) Token: 0x06001B3A RID: 6970 RVA: 0x000EACD4 File Offset: 0x000E90D4
 		protected override int Tile
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003FB RID: 1019
-		// (get) Token: 0x06001B44 RID: 6980 RVA: 0x000EACA0 File Offset: 0x000E90A0
+		// (get) Token: 0x06001B3B RID: 6971 RVA: 0x000EACF4 File Offset: 0x000E90F4
 		protected override Material Material
 		{
 			get

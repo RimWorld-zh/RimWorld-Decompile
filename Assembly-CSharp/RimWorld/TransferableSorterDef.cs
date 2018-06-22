@@ -7,7 +7,7 @@ namespace RimWorld
 	public class TransferableSorterDef : Def
 	{
 		// Token: 0x170001D7 RID: 471
-		// (get) Token: 0x06000C54 RID: 3156 RVA: 0x0006D83C File Offset: 0x0006BC3C
+		// (get) Token: 0x06000C54 RID: 3156 RVA: 0x0006D8F0 File Offset: 0x0006BCF0
 		public TransferableComparer Comparer
 		{
 			get
@@ -20,10 +20,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040007F4 RID: 2036
+		// Token: 0x040007F6 RID: 2038
 		public Type comparerClass;
 
-		// Token: 0x040007F5 RID: 2037
+		// Token: 0x040007F7 RID: 2039
 		[Unsaved]
 		private TransferableComparer comparerInt;
 	}

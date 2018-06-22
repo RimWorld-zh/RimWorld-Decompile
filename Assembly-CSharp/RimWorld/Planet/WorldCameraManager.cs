@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000587 RID: 1415
+	// Token: 0x02000583 RID: 1411
 	public static class WorldCameraManager
 	{
-		// Token: 0x06001AF8 RID: 6904 RVA: 0x000E7C70 File Offset: 0x000E6070
+		// Token: 0x06001AEF RID: 6895 RVA: 0x000E7CC4 File Offset: 0x000E60C4
 		static WorldCameraManager()
 		{
 			WorldCameraManager.worldCameraInt = WorldCameraManager.CreateWorldCamera();
@@ -15,7 +15,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003EA RID: 1002
-		// (get) Token: 0x06001AF9 RID: 6905 RVA: 0x000E7D24 File Offset: 0x000E6124
+		// (get) Token: 0x06001AF0 RID: 6896 RVA: 0x000E7D78 File Offset: 0x000E6178
 		public static Camera WorldCamera
 		{
 			get
@@ -25,7 +25,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003EB RID: 1003
-		// (get) Token: 0x06001AFA RID: 6906 RVA: 0x000E7D40 File Offset: 0x000E6140
+		// (get) Token: 0x06001AF1 RID: 6897 RVA: 0x000E7D94 File Offset: 0x000E6194
 		public static Camera WorldSkyboxCamera
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003EC RID: 1004
-		// (get) Token: 0x06001AFB RID: 6907 RVA: 0x000E7D5C File Offset: 0x000E615C
+		// (get) Token: 0x06001AF2 RID: 6898 RVA: 0x000E7DB0 File Offset: 0x000E61B0
 		public static WorldCameraDriver WorldCameraDriver
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001AFC RID: 6908 RVA: 0x000E7D78 File Offset: 0x000E6178
+		// Token: 0x06001AF3 RID: 6899 RVA: 0x000E7DCC File Offset: 0x000E61CC
 		private static Camera CreateWorldCamera()
 		{
 			GameObject gameObject = new GameObject("WorldCamera", new Type[]
@@ -67,7 +67,7 @@ namespace RimWorld.Planet
 			return component;
 		}
 
-		// Token: 0x06001AFD RID: 6909 RVA: 0x000E7E1C File Offset: 0x000E621C
+		// Token: 0x06001AF4 RID: 6900 RVA: 0x000E7E70 File Offset: 0x000E6270
 		private static Camera CreateWorldSkyboxCamera(Camera parent)
 		{
 			GameObject gameObject = new GameObject("WorldSkyboxCamera", new Type[]
@@ -91,40 +91,40 @@ namespace RimWorld.Planet
 			return component;
 		}
 
-		// Token: 0x04000FD9 RID: 4057
+		// Token: 0x04000FD6 RID: 4054
 		private static Camera worldCameraInt;
 
-		// Token: 0x04000FDA RID: 4058
+		// Token: 0x04000FD7 RID: 4055
 		private static Camera worldSkyboxCameraInt;
 
-		// Token: 0x04000FDB RID: 4059
+		// Token: 0x04000FD8 RID: 4056
 		private static WorldCameraDriver worldCameraDriverInt;
 
-		// Token: 0x04000FDC RID: 4060
+		// Token: 0x04000FD9 RID: 4057
 		public static readonly string WorldLayerName = "World";
 
-		// Token: 0x04000FDD RID: 4061
+		// Token: 0x04000FDA RID: 4058
 		public static int WorldLayerMask = LayerMask.GetMask(new string[]
 		{
 			WorldCameraManager.WorldLayerName
 		});
 
-		// Token: 0x04000FDE RID: 4062
+		// Token: 0x04000FDB RID: 4059
 		public static int WorldLayer = LayerMask.NameToLayer(WorldCameraManager.WorldLayerName);
 
-		// Token: 0x04000FDF RID: 4063
+		// Token: 0x04000FDC RID: 4060
 		public static readonly string WorldSkyboxLayerName = "WorldSkybox";
 
-		// Token: 0x04000FE0 RID: 4064
+		// Token: 0x04000FDD RID: 4061
 		public static int WorldSkyboxLayerMask = LayerMask.GetMask(new string[]
 		{
 			WorldCameraManager.WorldSkyboxLayerName
 		});
 
-		// Token: 0x04000FE1 RID: 4065
+		// Token: 0x04000FDE RID: 4062
 		public static int WorldSkyboxLayer = LayerMask.NameToLayer(WorldCameraManager.WorldSkyboxLayerName);
 
-		// Token: 0x04000FE2 RID: 4066
+		// Token: 0x04000FDF RID: 4063
 		private static readonly Color SkyColor = new Color(0.0627451f, 0.09019608f, 0.117647059f);
 	}
 }

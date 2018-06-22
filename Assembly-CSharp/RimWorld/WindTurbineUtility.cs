@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200041E RID: 1054
 	public static class WindTurbineUtility
 	{
-		// Token: 0x06001253 RID: 4691 RVA: 0x0009F234 File Offset: 0x0009D634
+		// Token: 0x06001253 RID: 4691 RVA: 0x0009F418 File Offset: 0x0009D818
 		public static IEnumerable<IntVec3> CalculateWindCells(IntVec3 center, Rot4 rot, IntVec2 size)
 		{
 			CellRect rectA = default(CellRect);

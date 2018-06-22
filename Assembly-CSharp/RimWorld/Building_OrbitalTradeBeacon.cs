@@ -6,11 +6,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006AE RID: 1710
+	// Token: 0x020006AA RID: 1706
 	public class Building_OrbitalTradeBeacon : Building
 	{
 		// Token: 0x17000588 RID: 1416
-		// (get) Token: 0x060024A4 RID: 9380 RVA: 0x00139664 File Offset: 0x00137A64
+		// (get) Token: 0x0600249C RID: 9372 RVA: 0x001397AC File Offset: 0x00137BAC
 		public IEnumerable<IntVec3> TradeableCells
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024A5 RID: 9381 RVA: 0x0013968C File Offset: 0x00137A8C
+		// Token: 0x0600249D RID: 9373 RVA: 0x001397D4 File Offset: 0x00137BD4
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
@@ -40,7 +40,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060024A6 RID: 9382 RVA: 0x001396B8 File Offset: 0x00137AB8
+		// Token: 0x0600249E RID: 9374 RVA: 0x00139800 File Offset: 0x00137C00
 		private void MakeMatchingStockpile()
 		{
 			Designator des = DesignatorUtility.FindAllowedDesignator<Designator_ZoneAddStockpile_Resources>();
@@ -49,7 +49,7 @@ namespace RimWorld
 			select c);
 		}
 
-		// Token: 0x060024A7 RID: 9383 RVA: 0x001396FC File Offset: 0x00137AFC
+		// Token: 0x0600249F RID: 9375 RVA: 0x00139844 File Offset: 0x00137C44
 		public static List<IntVec3> TradeableCellsAround(IntVec3 pos, Map map)
 		{
 			Building_OrbitalTradeBeacon.tradeableCells.Clear();
@@ -84,7 +84,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060024A8 RID: 9384 RVA: 0x0013979C File Offset: 0x00137B9C
+		// Token: 0x060024A0 RID: 9376 RVA: 0x001398E4 File Offset: 0x00137CE4
 		public static IEnumerable<Building_OrbitalTradeBeacon> AllPowered(Map map)
 		{
 			foreach (Building_OrbitalTradeBeacon b in map.listerBuildings.AllBuildingsColonistOfClass<Building_OrbitalTradeBeacon>())
@@ -98,10 +98,10 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0400143C RID: 5180
+		// Token: 0x0400143A RID: 5178
 		private const float TradeRadius = 7.9f;
 
-		// Token: 0x0400143D RID: 5181
+		// Token: 0x0400143B RID: 5179
 		private static List<IntVec3> tradeableCells = new List<IntVec3>();
 	}
 }

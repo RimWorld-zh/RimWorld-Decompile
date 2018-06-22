@@ -5,17 +5,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200051E RID: 1310
+	// Token: 0x0200051A RID: 1306
 	public class Pawn_TrainingTracker : IExposable
 	{
-		// Token: 0x060017D0 RID: 6096 RVA: 0x000CFF90 File Offset: 0x000CE390
+		// Token: 0x060017C7 RID: 6087 RVA: 0x000CFF88 File Offset: 0x000CE388
 		public Pawn_TrainingTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
 			this.countDecayFrom = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x060017D1 RID: 6097 RVA: 0x000CFFE4 File Offset: 0x000CE3E4
+		// Token: 0x060017C8 RID: 6088 RVA: 0x000CFFDC File Offset: 0x000CE3DC
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<DefMap<TrainableDef, bool>>(ref this.wantedTrainables, "wantedTrainables", new object[0]);
@@ -28,25 +28,25 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017D2 RID: 6098 RVA: 0x000D006C File Offset: 0x000CE46C
+		// Token: 0x060017C9 RID: 6089 RVA: 0x000D0064 File Offset: 0x000CE464
 		public bool GetWanted(TrainableDef td)
 		{
 			return this.wantedTrainables[td];
 		}
 
-		// Token: 0x060017D3 RID: 6099 RVA: 0x000D008D File Offset: 0x000CE48D
+		// Token: 0x060017CA RID: 6090 RVA: 0x000D0085 File Offset: 0x000CE485
 		private void SetWanted(TrainableDef td, bool wanted)
 		{
 			this.wantedTrainables[td] = wanted;
 		}
 
-		// Token: 0x060017D4 RID: 6100 RVA: 0x000D00A0 File Offset: 0x000CE4A0
+		// Token: 0x060017CB RID: 6091 RVA: 0x000D0098 File Offset: 0x000CE498
 		internal int GetSteps(TrainableDef td)
 		{
 			return this.steps[td];
 		}
 
-		// Token: 0x060017D5 RID: 6101 RVA: 0x000D00C4 File Offset: 0x000CE4C4
+		// Token: 0x060017CC RID: 6092 RVA: 0x000D00BC File Offset: 0x000CE4BC
 		public bool CanBeTrained(TrainableDef td)
 		{
 			bool result;
@@ -72,20 +72,20 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060017D6 RID: 6102 RVA: 0x000D0150 File Offset: 0x000CE550
+		// Token: 0x060017CD RID: 6093 RVA: 0x000D0148 File Offset: 0x000CE548
 		public bool HasLearned(TrainableDef td)
 		{
 			return this.learned[td];
 		}
 
-		// Token: 0x060017D7 RID: 6103 RVA: 0x000D0174 File Offset: 0x000CE574
+		// Token: 0x060017CE RID: 6094 RVA: 0x000D016C File Offset: 0x000CE56C
 		public AcceptanceReport CanAssignToTrain(TrainableDef td)
 		{
 			bool flag;
 			return this.CanAssignToTrain(td, out flag);
 		}
 
-		// Token: 0x060017D8 RID: 6104 RVA: 0x000D0194 File Offset: 0x000CE594
+		// Token: 0x060017CF RID: 6095 RVA: 0x000D018C File Offset: 0x000CE58C
 		public AcceptanceReport CanAssignToTrain(TrainableDef td, out bool visible)
 		{
 			if (this.pawn.RaceProps.untrainableTags != null)
@@ -153,7 +153,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060017D9 RID: 6105 RVA: 0x000D0380 File Offset: 0x000CE780
+		// Token: 0x060017D0 RID: 6096 RVA: 0x000D0378 File Offset: 0x000CE778
 		public TrainableDef NextTrainableToTrain()
 		{
 			List<TrainableDef> trainableDefsInListOrder = TrainableUtility.TrainableDefsInListOrder;
@@ -167,7 +167,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x060017DA RID: 6106 RVA: 0x000D03E8 File Offset: 0x000CE7E8
+		// Token: 0x060017D1 RID: 6097 RVA: 0x000D03E0 File Offset: 0x000CE7E0
 		public void Train(TrainableDef td, Pawn trainer, bool complete = false)
 		{
 			if (complete)
@@ -185,7 +185,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017DB RID: 6107 RVA: 0x000D0450 File Offset: 0x000CE850
+		// Token: 0x060017D2 RID: 6098 RVA: 0x000D0448 File Offset: 0x000CE848
 		public void SetWantedRecursive(TrainableDef td, bool checkOn)
 		{
 			this.SetWanted(td, checkOn);
@@ -211,7 +211,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017DC RID: 6108 RVA: 0x000D053C File Offset: 0x000CE93C
+		// Token: 0x060017D3 RID: 6099 RVA: 0x000D0534 File Offset: 0x000CE934
 		public void TrainingTrackerTickRare()
 		{
 			if (this.pawn.Suspended)
@@ -270,25 +270,25 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017DD RID: 6109 RVA: 0x000D07CA File Offset: 0x000CEBCA
+		// Token: 0x060017D4 RID: 6100 RVA: 0x000D07C2 File Offset: 0x000CEBC2
 		public void Debug_MakeDegradeHappenSoon()
 		{
 			this.countDecayFrom = Find.TickManager.TicksGame - TrainableUtility.DegradationPeriodTicks(this.pawn.def) - 500;
 		}
 
-		// Token: 0x04000E03 RID: 3587
+		// Token: 0x04000E00 RID: 3584
 		private Pawn pawn;
 
-		// Token: 0x04000E04 RID: 3588
+		// Token: 0x04000E01 RID: 3585
 		private DefMap<TrainableDef, bool> wantedTrainables = new DefMap<TrainableDef, bool>();
 
-		// Token: 0x04000E05 RID: 3589
+		// Token: 0x04000E02 RID: 3586
 		private DefMap<TrainableDef, int> steps = new DefMap<TrainableDef, int>();
 
-		// Token: 0x04000E06 RID: 3590
+		// Token: 0x04000E03 RID: 3587
 		private DefMap<TrainableDef, bool> learned = new DefMap<TrainableDef, bool>();
 
-		// Token: 0x04000E07 RID: 3591
+		// Token: 0x04000E04 RID: 3588
 		private int countDecayFrom = 0;
 	}
 }

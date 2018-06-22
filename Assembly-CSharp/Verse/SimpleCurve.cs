@@ -8,8 +8,8 @@ namespace Verse
 	// Token: 0x02000EF8 RID: 3832
 	public class SimpleCurve : IEnumerable<CurvePoint>, IEnumerable
 	{
-		// Token: 0x17000E9F RID: 3743
-		// (get) Token: 0x06005B85 RID: 23429 RVA: 0x002E95B0 File Offset: 0x002E79B0
+		// Token: 0x17000EA3 RID: 3747
+		// (get) Token: 0x06005BAD RID: 23469 RVA: 0x002EB5E4 File Offset: 0x002E99E4
 		public int PointsCount
 		{
 			get
@@ -18,8 +18,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000EA0 RID: 3744
-		// (get) Token: 0x06005B86 RID: 23430 RVA: 0x002E95D0 File Offset: 0x002E79D0
+		// Token: 0x17000EA4 RID: 3748
+		// (get) Token: 0x06005BAE RID: 23470 RVA: 0x002EB604 File Offset: 0x002E9A04
 		public List<CurvePoint> Points
 		{
 			get
@@ -28,8 +28,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000EA1 RID: 3745
-		// (get) Token: 0x06005B87 RID: 23431 RVA: 0x002E95EC File Offset: 0x002E79EC
+		// Token: 0x17000EA5 RID: 3749
+		// (get) Token: 0x06005BAF RID: 23471 RVA: 0x002EB620 File Offset: 0x002E9A20
 		public bool HasView
 		{
 			get
@@ -38,8 +38,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000EA2 RID: 3746
-		// (get) Token: 0x06005B88 RID: 23432 RVA: 0x002E9610 File Offset: 0x002E7A10
+		// Token: 0x17000EA6 RID: 3750
+		// (get) Token: 0x06005BB0 RID: 23472 RVA: 0x002EB644 File Offset: 0x002E9A44
 		public SimpleCurveView View
 		{
 			get
@@ -53,13 +53,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B89 RID: 23433 RVA: 0x002E9650 File Offset: 0x002E7A50
+		// Token: 0x06005BB1 RID: 23473 RVA: 0x002EB684 File Offset: 0x002E9A84
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return this.GetEnumerator();
 		}
 
-		// Token: 0x06005B8A RID: 23434 RVA: 0x002E966C File Offset: 0x002E7A6C
+		// Token: 0x06005BB2 RID: 23474 RVA: 0x002EB6A0 File Offset: 0x002E9AA0
 		public IEnumerator<CurvePoint> GetEnumerator()
 		{
 			foreach (CurvePoint point in this.points)
@@ -69,7 +69,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x17000EA3 RID: 3747
+		// Token: 0x17000EA7 RID: 3751
 		public CurvePoint this[int i]
 		{
 			get
@@ -82,7 +82,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B8D RID: 23437 RVA: 0x002E96C4 File Offset: 0x002E7AC4
+		// Token: 0x06005BB5 RID: 23477 RVA: 0x002EB6F8 File Offset: 0x002E9AF8
 		public void SetPoints(IEnumerable<CurvePoint> newPoints)
 		{
 			this.points.Clear();
@@ -93,14 +93,14 @@ namespace Verse
 			this.SortPoints();
 		}
 
-		// Token: 0x06005B8E RID: 23438 RVA: 0x002E9734 File Offset: 0x002E7B34
+		// Token: 0x06005BB6 RID: 23478 RVA: 0x002EB768 File Offset: 0x002E9B68
 		public void Add(float x, float y, bool sort = true)
 		{
 			CurvePoint newPoint = new CurvePoint(x, y);
 			this.Add(newPoint, sort);
 		}
 
-		// Token: 0x06005B8F RID: 23439 RVA: 0x002E9753 File Offset: 0x002E7B53
+		// Token: 0x06005BB7 RID: 23479 RVA: 0x002EB787 File Offset: 0x002E9B87
 		public void Add(CurvePoint newPoint, bool sort = true)
 		{
 			this.points.Add(newPoint);
@@ -110,13 +110,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B90 RID: 23440 RVA: 0x002E976E File Offset: 0x002E7B6E
+		// Token: 0x06005BB8 RID: 23480 RVA: 0x002EB7A2 File Offset: 0x002E9BA2
 		public void SortPoints()
 		{
 			this.points.Sort(SimpleCurve.CurvePointsComparer);
 		}
 
-		// Token: 0x06005B91 RID: 23441 RVA: 0x002E9784 File Offset: 0x002E7B84
+		// Token: 0x06005BB9 RID: 23481 RVA: 0x002EB7B8 File Offset: 0x002E9BB8
 		public void RemovePointNear(CurvePoint point)
 		{
 			for (int i = 0; i < this.points.Count; i++)
@@ -129,7 +129,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B92 RID: 23442 RVA: 0x002E97F4 File Offset: 0x002E7BF4
+		// Token: 0x06005BBA RID: 23482 RVA: 0x002EB828 File Offset: 0x002E9C28
 		public float Evaluate(float x)
 		{
 			float result;
@@ -168,7 +168,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005B93 RID: 23443 RVA: 0x002E9978 File Offset: 0x002E7D78
+		// Token: 0x06005BBB RID: 23483 RVA: 0x002EB9AC File Offset: 0x002E9DAC
 		public float PeriodProbabilityFromCumulative(float startX, float span)
 		{
 			float result;
@@ -197,7 +197,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005B94 RID: 23444 RVA: 0x002E9A20 File Offset: 0x002E7E20
+		// Token: 0x06005BBC RID: 23484 RVA: 0x002EBA54 File Offset: 0x002E9E54
 		public IEnumerable<string> ConfigErrors(string prefix)
 		{
 			for (int i = 0; i < this.points.Count - 1; i++)
@@ -211,14 +211,14 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x04003CA5 RID: 15525
+		// Token: 0x04003CB8 RID: 15544
 		private List<CurvePoint> points = new List<CurvePoint>();
 
-		// Token: 0x04003CA6 RID: 15526
+		// Token: 0x04003CB9 RID: 15545
 		[Unsaved]
 		private SimpleCurveView view = null;
 
-		// Token: 0x04003CA7 RID: 15527
+		// Token: 0x04003CBA RID: 15546
 		private static Comparison<CurvePoint> CurvePointsComparer = delegate(CurvePoint a, CurvePoint b)
 		{
 			int result;

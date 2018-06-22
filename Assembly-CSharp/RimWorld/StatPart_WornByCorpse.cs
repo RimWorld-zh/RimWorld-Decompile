@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009BD RID: 2493
+	// Token: 0x020009B9 RID: 2489
 	public class StatPart_WornByCorpse : StatPart
 	{
-		// Token: 0x060037C5 RID: 14277 RVA: 0x001DAB70 File Offset: 0x001D8F70
+		// Token: 0x060037BF RID: 14271 RVA: 0x001DAD48 File Offset: 0x001D9148
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing)
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037C6 RID: 14278 RVA: 0x001DABB4 File Offset: 0x001D8FB4
+		// Token: 0x060037C0 RID: 14272 RVA: 0x001DAD8C File Offset: 0x001D918C
 		public override string ExplanationPart(StatRequest req)
 		{
 			if (req.HasThing)
@@ -33,7 +33,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x040023C4 RID: 9156
+		// Token: 0x040023BF RID: 9151
 		private const float Factor = 0.1f;
 	}
 }

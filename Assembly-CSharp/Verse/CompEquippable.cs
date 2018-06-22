@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E04 RID: 3588
+	// Token: 0x02000E01 RID: 3585
 	public class CompEquippable : ThingComp, IVerbOwner
 	{
-		// Token: 0x0600512F RID: 20783 RVA: 0x0029A6B6 File Offset: 0x00298AB6
+		// Token: 0x06005143 RID: 20803 RVA: 0x0029BC92 File Offset: 0x0029A092
 		public CompEquippable()
 		{
 			this.verbTracker = new VerbTracker(this);
 		}
 
-		// Token: 0x17000D4E RID: 3406
-		// (get) Token: 0x06005130 RID: 20784 RVA: 0x0029A6D4 File Offset: 0x00298AD4
+		// Token: 0x17000D50 RID: 3408
+		// (get) Token: 0x06005144 RID: 20804 RVA: 0x0029BCB0 File Offset: 0x0029A0B0
 		private Pawn Holder
 		{
 			get
@@ -23,8 +23,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D4F RID: 3407
-		// (get) Token: 0x06005131 RID: 20785 RVA: 0x0029A6F4 File Offset: 0x00298AF4
+		// Token: 0x17000D51 RID: 3409
+		// (get) Token: 0x06005145 RID: 20805 RVA: 0x0029BCD0 File Offset: 0x0029A0D0
 		public List<Verb> AllVerbs
 		{
 			get
@@ -33,8 +33,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D50 RID: 3408
-		// (get) Token: 0x06005132 RID: 20786 RVA: 0x0029A714 File Offset: 0x00298B14
+		// Token: 0x17000D52 RID: 3410
+		// (get) Token: 0x06005146 RID: 20806 RVA: 0x0029BCF0 File Offset: 0x0029A0F0
 		public Verb PrimaryVerb
 		{
 			get
@@ -43,8 +43,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D51 RID: 3409
-		// (get) Token: 0x06005133 RID: 20787 RVA: 0x0029A734 File Offset: 0x00298B34
+		// Token: 0x17000D53 RID: 3411
+		// (get) Token: 0x06005147 RID: 20807 RVA: 0x0029BD10 File Offset: 0x0029A110
 		public VerbTracker VerbTracker
 		{
 			get
@@ -53,8 +53,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D52 RID: 3410
-		// (get) Token: 0x06005134 RID: 20788 RVA: 0x0029A750 File Offset: 0x00298B50
+		// Token: 0x17000D54 RID: 3412
+		// (get) Token: 0x06005148 RID: 20808 RVA: 0x0029BD2C File Offset: 0x0029A12C
 		public List<VerbProperties> VerbProperties
 		{
 			get
@@ -63,8 +63,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D53 RID: 3411
-		// (get) Token: 0x06005135 RID: 20789 RVA: 0x0029A778 File Offset: 0x00298B78
+		// Token: 0x17000D55 RID: 3413
+		// (get) Token: 0x06005149 RID: 20809 RVA: 0x0029BD54 File Offset: 0x0029A154
 		public List<Tool> Tools
 		{
 			get
@@ -73,13 +73,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005136 RID: 20790 RVA: 0x0029A7A0 File Offset: 0x00298BA0
+		// Token: 0x0600514A RID: 20810 RVA: 0x0029BD7C File Offset: 0x0029A17C
 		public IEnumerable<Command> GetVerbsCommands()
 		{
 			return this.verbTracker.GetVerbsCommands(KeyCode.None);
 		}
 
-		// Token: 0x06005137 RID: 20791 RVA: 0x0029A7C4 File Offset: 0x00298BC4
+		// Token: 0x0600514B RID: 20811 RVA: 0x0029BDA0 File Offset: 0x0029A1A0
 		public override void PostDestroy(DestroyMode mode, Map previousMap)
 		{
 			base.PostDestroy(mode, previousMap);
@@ -89,7 +89,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005138 RID: 20792 RVA: 0x0029A820 File Offset: 0x00298C20
+		// Token: 0x0600514C RID: 20812 RVA: 0x0029BDFC File Offset: 0x0029A1FC
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -99,14 +99,14 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06005139 RID: 20793 RVA: 0x0029A843 File Offset: 0x00298C43
+		// Token: 0x0600514D RID: 20813 RVA: 0x0029BE1F File Offset: 0x0029A21F
 		public override void CompTick()
 		{
 			base.CompTick();
 			this.verbTracker.VerbsTick();
 		}
 
-		// Token: 0x0600513A RID: 20794 RVA: 0x0029A858 File Offset: 0x00298C58
+		// Token: 0x0600514E RID: 20814 RVA: 0x0029BE34 File Offset: 0x0029A234
 		public void Notify_EquipmentLost()
 		{
 			List<Verb> allVerbs = this.AllVerbs;
@@ -116,13 +116,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600513B RID: 20795 RVA: 0x0029A894 File Offset: 0x00298C94
+		// Token: 0x0600514F RID: 20815 RVA: 0x0029BE70 File Offset: 0x0029A270
 		public string UniqueVerbOwnerID()
 		{
 			return this.parent.ThingID;
 		}
 
-		// Token: 0x04003547 RID: 13639
+		// Token: 0x0400354E RID: 13646
 		public VerbTracker verbTracker = null;
 	}
 }

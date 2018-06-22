@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000757 RID: 1879
+	// Token: 0x02000753 RID: 1875
 	public class CompTargetEffect_GoodwillImpact : CompTargetEffect
 	{
-		// Token: 0x1700066A RID: 1642
-		// (get) Token: 0x06002990 RID: 10640 RVA: 0x00161348 File Offset: 0x0015F748
+		// Token: 0x1700066B RID: 1643
+		// (get) Token: 0x06002989 RID: 10633 RVA: 0x00161520 File Offset: 0x0015F920
 		protected CompProperties_TargetEffect_GoodwillImpact PropsGoodwillImpact
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002991 RID: 10641 RVA: 0x00161368 File Offset: 0x0015F768
+		// Token: 0x0600298A RID: 10634 RVA: 0x00161540 File Offset: 0x0015F940
 		public override void DoEffectOn(Pawn user, Thing target)
 		{
 			if (user.Faction != null && target.Faction != null)

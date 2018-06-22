@@ -2,11 +2,11 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x020009E8 RID: 2536
+	// Token: 0x020009E4 RID: 2532
 	public abstract class LordJob : IExposable
 	{
-		// Token: 0x170008C4 RID: 2244
-		// (get) Token: 0x060038F4 RID: 14580 RVA: 0x000498AC File Offset: 0x00047CAC
+		// Token: 0x170008C5 RID: 2245
+		// (get) Token: 0x060038EE RID: 14574 RVA: 0x00049898 File Offset: 0x00047C98
 		public virtual bool LostImportantReferenceDuringLoading
 		{
 			get
@@ -15,8 +15,8 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x170008C5 RID: 2245
-		// (get) Token: 0x060038F5 RID: 14581 RVA: 0x000498C4 File Offset: 0x00047CC4
+		// Token: 0x170008C6 RID: 2246
+		// (get) Token: 0x060038EF RID: 14575 RVA: 0x000498B0 File Offset: 0x00047CB0
 		public virtual bool AllowStartNewGatherings
 		{
 			get
@@ -25,8 +25,8 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x170008C6 RID: 2246
-		// (get) Token: 0x060038F6 RID: 14582 RVA: 0x000498DC File Offset: 0x00047CDC
+		// Token: 0x170008C7 RID: 2247
+		// (get) Token: 0x060038F0 RID: 14576 RVA: 0x000498C8 File Offset: 0x00047CC8
 		public virtual bool NeverInRestraints
 		{
 			get
@@ -35,8 +35,8 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x170008C7 RID: 2247
-		// (get) Token: 0x060038F7 RID: 14583 RVA: 0x000498F4 File Offset: 0x00047CF4
+		// Token: 0x170008C8 RID: 2248
+		// (get) Token: 0x060038F1 RID: 14577 RVA: 0x000498E0 File Offset: 0x00047CE0
 		public virtual bool GuiltyOnDowned
 		{
 			get
@@ -45,8 +45,8 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x170008C8 RID: 2248
-		// (get) Token: 0x060038F8 RID: 14584 RVA: 0x0004990C File Offset: 0x00047D0C
+		// Token: 0x170008C9 RID: 2249
+		// (get) Token: 0x060038F2 RID: 14578 RVA: 0x000498F8 File Offset: 0x00047CF8
 		protected Map Map
 		{
 			get
@@ -55,48 +55,48 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x060038F9 RID: 14585
+		// Token: 0x060038F3 RID: 14579
 		public abstract StateGraph CreateGraph();
 
-		// Token: 0x060038FA RID: 14586 RVA: 0x00049931 File Offset: 0x00047D31
+		// Token: 0x060038F4 RID: 14580 RVA: 0x0004991D File Offset: 0x00047D1D
 		public virtual void ExposeData()
 		{
 		}
 
-		// Token: 0x060038FB RID: 14587 RVA: 0x00049934 File Offset: 0x00047D34
+		// Token: 0x060038F5 RID: 14581 RVA: 0x00049920 File Offset: 0x00047D20
 		public virtual void Cleanup()
 		{
 		}
 
-		// Token: 0x060038FC RID: 14588 RVA: 0x00049937 File Offset: 0x00047D37
+		// Token: 0x060038F6 RID: 14582 RVA: 0x00049923 File Offset: 0x00047D23
 		public virtual void Notify_PawnAdded(Pawn p)
 		{
 		}
 
-		// Token: 0x060038FD RID: 14589 RVA: 0x0004993A File Offset: 0x00047D3A
+		// Token: 0x060038F7 RID: 14583 RVA: 0x00049926 File Offset: 0x00047D26
 		public virtual void Notify_PawnLost(Pawn p, PawnLostCondition condition)
 		{
 		}
 
-		// Token: 0x060038FE RID: 14590 RVA: 0x00049940 File Offset: 0x00047D40
+		// Token: 0x060038F8 RID: 14584 RVA: 0x0004992C File Offset: 0x00047D2C
 		public virtual string GetReport()
 		{
 			return null;
 		}
 
-		// Token: 0x060038FF RID: 14591 RVA: 0x00049958 File Offset: 0x00047D58
+		// Token: 0x060038F9 RID: 14585 RVA: 0x00049944 File Offset: 0x00047D44
 		public virtual bool CanOpenAnyDoor(Pawn p)
 		{
 			return false;
 		}
 
-		// Token: 0x06003900 RID: 14592 RVA: 0x00049970 File Offset: 0x00047D70
+		// Token: 0x060038FA RID: 14586 RVA: 0x0004995C File Offset: 0x00047D5C
 		public virtual bool ValidateAttackTarget(Pawn searcher, Thing target)
 		{
 			return true;
 		}
 
-		// Token: 0x04002461 RID: 9313
+		// Token: 0x0400245C RID: 9308
 		public Lord lord;
 	}
 }

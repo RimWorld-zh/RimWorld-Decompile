@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000B7 RID: 183
 	public class JobGiver_AIDefendPoint : JobGiver_AIFightEnemy
 	{
-		// Token: 0x06000458 RID: 1112 RVA: 0x00032BE8 File Offset: 0x00030FE8
+		// Token: 0x06000458 RID: 1112 RVA: 0x00032BC4 File Offset: 0x00030FC4
 		protected override bool TryFindShootingPosition(Pawn pawn, out IntVec3 dest)
 		{
 			Thing enemyTarget = pawn.mindState.enemyTarget;

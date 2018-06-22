@@ -2,10 +2,10 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000ADC RID: 2780
+	// Token: 0x02000AD8 RID: 2776
 	public class JobGiver_RunRandom : JobGiver_Wander
 	{
-		// Token: 0x06003D98 RID: 15768 RVA: 0x0020622C File Offset: 0x0020462C
+		// Token: 0x06003D93 RID: 15763 RVA: 0x00206550 File Offset: 0x00204950
 		public JobGiver_RunRandom()
 		{
 			this.wanderRadius = 7f;
@@ -13,7 +13,7 @@ namespace Verse.AI
 			this.locomotionUrgency = LocomotionUrgency.Sprint;
 		}
 
-		// Token: 0x06003D99 RID: 15769 RVA: 0x00206258 File Offset: 0x00204658
+		// Token: 0x06003D94 RID: 15764 RVA: 0x0020657C File Offset: 0x0020497C
 		protected override IntVec3 GetWanderRoot(Pawn pawn)
 		{
 			return pawn.Position;

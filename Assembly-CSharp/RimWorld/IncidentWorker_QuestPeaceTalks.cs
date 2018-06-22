@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000354 RID: 852
 	public class IncidentWorker_QuestPeaceTalks : IncidentWorker
 	{
-		// Token: 0x06000EB9 RID: 3769 RVA: 0x0007C6B8 File Offset: 0x0007AAB8
+		// Token: 0x06000EB9 RID: 3769 RVA: 0x0007C89C File Offset: 0x0007AC9C
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Faction faction;
@@ -17,7 +17,7 @@ namespace RimWorld
 			return base.CanFireNowSub(parms) && this.TryFindFaction(out faction) && this.TryFindTile(out num);
 		}
 
-		// Token: 0x06000EBA RID: 3770 RVA: 0x0007C6F8 File Offset: 0x0007AAF8
+		// Token: 0x06000EBA RID: 3770 RVA: 0x0007C8DC File Offset: 0x0007ACDC
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Faction faction;
@@ -39,14 +39,14 @@ namespace RimWorld
 				int randomInRange = IncidentWorker_QuestPeaceTalks.TimeoutDaysRange.RandomInRange;
 				peaceTalks.GetComponent<TimeoutComp>().StartTimeout(randomInRange * 60000);
 				Find.WorldObjects.Add(peaceTalks);
-				string text = string.Format(this.def.letterText.AdjustedFor(faction.leader), faction.def.leaderTitle, faction.Name, randomInRange).CapitalizeFirst();
+				string text = string.Format(this.def.letterText.AdjustedFor(faction.leader, "PAWN"), faction.def.leaderTitle, faction.Name, randomInRange).CapitalizeFirst();
 				Find.LetterStack.ReceiveLetter(this.def.letterLabel, text, this.def.letterDef, peaceTalks, faction, null);
 				result = true;
 			}
 			return result;
 		}
 
-		// Token: 0x06000EBB RID: 3771 RVA: 0x0007C7E8 File Offset: 0x0007ABE8
+		// Token: 0x06000EBB RID: 3771 RVA: 0x0007C9D0 File Offset: 0x0007ADD0
 		private bool TryFindFaction(out Faction faction)
 		{
 			return (from x in Find.FactionManager.AllFactions
@@ -54,13 +54,13 @@ namespace RimWorld
 			select x).TryRandomElement(out faction);
 		}
 
-		// Token: 0x06000EBC RID: 3772 RVA: 0x0007C820 File Offset: 0x0007AC20
+		// Token: 0x06000EBC RID: 3772 RVA: 0x0007CA08 File Offset: 0x0007AE08
 		private bool TryFindTile(out int tile)
 		{
 			return TileFinder.TryFindNewSiteTile(out tile, 5, 13, false, false, -1);
 		}
 
-		// Token: 0x06000EBD RID: 3773 RVA: 0x0007C844 File Offset: 0x0007AC44
+		// Token: 0x06000EBD RID: 3773 RVA: 0x0007CA2C File Offset: 0x0007AE2C
 		private bool PeaceTalksExist(Faction faction)
 		{
 			List<PeaceTalks> peaceTalks = Find.WorldObjects.PeaceTalks;
@@ -74,13 +74,13 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x04000909 RID: 2313
+		// Token: 0x0400090B RID: 2315
 		private const int MinDistance = 5;
 
-		// Token: 0x0400090A RID: 2314
+		// Token: 0x0400090C RID: 2316
 		private const int MaxDistance = 13;
 
-		// Token: 0x0400090B RID: 2315
+		// Token: 0x0400090D RID: 2317
 		private static readonly IntRange TimeoutDaysRange = new IntRange(21, 23);
 	}
 }

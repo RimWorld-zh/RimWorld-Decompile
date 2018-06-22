@@ -3,17 +3,17 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000EB6 RID: 3766
+	// Token: 0x02000EB5 RID: 3765
 	public class Dialog_RenameZone : Dialog_Rename
 	{
-		// Token: 0x06005903 RID: 22787 RVA: 0x002DA22C File Offset: 0x002D862C
+		// Token: 0x06005924 RID: 22820 RVA: 0x002DBE78 File Offset: 0x002DA278
 		public Dialog_RenameZone(Zone zone)
 		{
 			this.zone = zone;
 			this.curName = zone.label;
 		}
 
-		// Token: 0x06005904 RID: 22788 RVA: 0x002DA248 File Offset: 0x002D8648
+		// Token: 0x06005925 RID: 22821 RVA: 0x002DBE94 File Offset: 0x002DA294
 		protected override AcceptanceReport NameIsValid(string name)
 		{
 			AcceptanceReport acceptanceReport = base.NameIsValid(name);
@@ -33,7 +33,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005905 RID: 22789 RVA: 0x002DA2D7 File Offset: 0x002D86D7
+		// Token: 0x06005926 RID: 22822 RVA: 0x002DBF23 File Offset: 0x002DA323
 		protected override void SetName(string name)
 		{
 			this.zone.label = this.curName;
@@ -43,7 +43,7 @@ namespace Verse
 			}), MessageTypeDefOf.TaskCompletion, false);
 		}
 
-		// Token: 0x04003B59 RID: 15193
+		// Token: 0x04003B69 RID: 15209
 		private Zone zone;
 	}
 }

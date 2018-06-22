@@ -2,14 +2,14 @@
 
 namespace Verse
 {
-	// Token: 0x02000BA9 RID: 2985
+	// Token: 0x02000BA5 RID: 2981
 	public enum FillCategory : byte
 	{
-		// Token: 0x04002B8D RID: 11149
+		// Token: 0x04002B92 RID: 11154
 		None,
-		// Token: 0x04002B8E RID: 11150
+		// Token: 0x04002B93 RID: 11155
 		Partial,
-		// Token: 0x04002B8F RID: 11151
+		// Token: 0x04002B94 RID: 11156
 		Full
 	}
 }

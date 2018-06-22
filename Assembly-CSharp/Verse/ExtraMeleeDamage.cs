@@ -2,13 +2,13 @@
 
 namespace Verse
 {
-	// Token: 0x02000B33 RID: 2867
+	// Token: 0x02000B2F RID: 2863
 	public class ExtraMeleeDamage
 	{
-		// Token: 0x040028F9 RID: 10489
+		// Token: 0x040028F5 RID: 10485
 		public DamageDef def;
 
-		// Token: 0x040028FA RID: 10490
+		// Token: 0x040028F6 RID: 10486
 		public int amount;
 	}
 }

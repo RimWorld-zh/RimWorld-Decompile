@@ -2,28 +2,28 @@
 
 namespace Verse
 {
-	// Token: 0x02000D07 RID: 3335
+	// Token: 0x02000D04 RID: 3332
 	public class HediffCompProperties_Discoverable : HediffCompProperties
 	{
-		// Token: 0x0600498F RID: 18831 RVA: 0x00267FD2 File Offset: 0x002663D2
+		// Token: 0x060049A0 RID: 18848 RVA: 0x002693EA File Offset: 0x002677EA
 		public HediffCompProperties_Discoverable()
 		{
 			this.compClass = typeof(HediffComp_Discoverable);
 		}
 
-		// Token: 0x040031E0 RID: 12768
+		// Token: 0x040031EB RID: 12779
 		public bool sendLetterWhenDiscovered = false;
 
-		// Token: 0x040031E1 RID: 12769
+		// Token: 0x040031EC RID: 12780
 		public string discoverLetterLabel = null;
 
-		// Token: 0x040031E2 RID: 12770
+		// Token: 0x040031ED RID: 12781
 		public string discoverLetterText = null;
 
-		// Token: 0x040031E3 RID: 12771
+		// Token: 0x040031EE RID: 12782
 		public MessageTypeDef messageType = null;
 
-		// Token: 0x040031E4 RID: 12772
+		// Token: 0x040031EF RID: 12783
 		public LetterDef letterType = null;
 	}
 }

@@ -8,10 +8,10 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000822 RID: 2082
+	// Token: 0x0200081E RID: 2078
 	public static class StatsReportUtility
 	{
-		// Token: 0x06002E8A RID: 11914 RVA: 0x0018D4E0 File Offset: 0x0018B8E0
+		// Token: 0x06002E83 RID: 11907 RVA: 0x0018D6C0 File Offset: 0x0018BAC0
 		public static void Reset()
 		{
 			StatsReportUtility.scrollPosition = default(Vector2);
@@ -20,7 +20,7 @@ namespace RimWorld
 			StatsReportUtility.cachedDrawEntries.Clear();
 		}
 
-		// Token: 0x06002E8B RID: 11915 RVA: 0x0018D514 File Offset: 0x0018B914
+		// Token: 0x06002E84 RID: 11908 RVA: 0x0018D6F4 File Offset: 0x0018BAF4
 		public static void DrawStatsReport(Rect rect, Def def, ThingDef stuff)
 		{
 			if (StatsReportUtility.cachedDrawEntries.NullOrEmpty<StatDrawEntry>())
@@ -34,7 +34,7 @@ namespace RimWorld
 			StatsReportUtility.DrawStatsWorker(rect, null, null);
 		}
 
-		// Token: 0x06002E8C RID: 11916 RVA: 0x0018D588 File Offset: 0x0018B988
+		// Token: 0x06002E85 RID: 11909 RVA: 0x0018D768 File Offset: 0x0018BB68
 		public static void DrawStatsReport(Rect rect, Thing thing)
 		{
 			if (StatsReportUtility.cachedDrawEntries.NullOrEmpty<StatDrawEntry>())
@@ -49,7 +49,7 @@ namespace RimWorld
 			StatsReportUtility.DrawStatsWorker(rect, thing, null);
 		}
 
-		// Token: 0x06002E8D RID: 11917 RVA: 0x0018D628 File Offset: 0x0018BA28
+		// Token: 0x06002E86 RID: 11910 RVA: 0x0018D808 File Offset: 0x0018BC08
 		public static void DrawStatsReport(Rect rect, WorldObject worldObject)
 		{
 			if (StatsReportUtility.cachedDrawEntries.NullOrEmpty<StatDrawEntry>())
@@ -64,7 +64,7 @@ namespace RimWorld
 			StatsReportUtility.DrawStatsWorker(rect, null, worldObject);
 		}
 
-		// Token: 0x06002E8E RID: 11918 RVA: 0x0018D6C8 File Offset: 0x0018BAC8
+		// Token: 0x06002E87 RID: 11911 RVA: 0x0018D8A8 File Offset: 0x0018BCA8
 		private static IEnumerable<StatDrawEntry> StatsToDraw(Def def, ThingDef stuff)
 		{
 			yield return StatsReportUtility.DescriptionEntry(def);
@@ -82,7 +82,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002E8F RID: 11919 RVA: 0x0018D6FC File Offset: 0x0018BAFC
+		// Token: 0x06002E88 RID: 11912 RVA: 0x0018D8DC File Offset: 0x0018BCDC
 		private static IEnumerable<StatDrawEntry> StatsToDraw(Thing thing)
 		{
 			yield return StatsReportUtility.DescriptionEntry(thing);
@@ -151,7 +151,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002E90 RID: 11920 RVA: 0x0018D728 File Offset: 0x0018BB28
+		// Token: 0x06002E89 RID: 11913 RVA: 0x0018D908 File Offset: 0x0018BD08
 		private static IEnumerable<StatDrawEntry> StatsToDraw(WorldObject worldObject)
 		{
 			yield return StatsReportUtility.DescriptionEntry(worldObject);
@@ -162,7 +162,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002E91 RID: 11921 RVA: 0x0018D754 File Offset: 0x0018BB54
+		// Token: 0x06002E8A RID: 11914 RVA: 0x0018D934 File Offset: 0x0018BD34
 		private static void FinalizeCachedDrawEntries(IEnumerable<StatDrawEntry> original)
 		{
 			StatsReportUtility.cachedDrawEntries = (from sd in original
@@ -170,7 +170,7 @@ namespace RimWorld
 			select sd).ToList<StatDrawEntry>();
 		}
 
-		// Token: 0x06002E92 RID: 11922 RVA: 0x0018D7D4 File Offset: 0x0018BBD4
+		// Token: 0x06002E8B RID: 11915 RVA: 0x0018D9B4 File Offset: 0x0018BDB4
 		private static StatDrawEntry DescriptionEntry(Def def)
 		{
 			return new StatDrawEntry(StatCategoryDefOf.Basics, "Description".Translate(), "", 99999, "")
@@ -179,7 +179,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06002E93 RID: 11923 RVA: 0x0018D81C File Offset: 0x0018BC1C
+		// Token: 0x06002E8C RID: 11916 RVA: 0x0018D9FC File Offset: 0x0018BDFC
 		private static StatDrawEntry DescriptionEntry(Thing thing)
 		{
 			return new StatDrawEntry(StatCategoryDefOf.Basics, "Description".Translate(), "", 99999, "")
@@ -188,7 +188,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06002E94 RID: 11924 RVA: 0x0018D864 File Offset: 0x0018BC64
+		// Token: 0x06002E8D RID: 11917 RVA: 0x0018DA44 File Offset: 0x0018BE44
 		private static StatDrawEntry DescriptionEntry(WorldObject worldObject)
 		{
 			return new StatDrawEntry(StatCategoryDefOf.Basics, "Description".Translate(), "", 99999, "")
@@ -197,7 +197,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06002E95 RID: 11925 RVA: 0x0018D8AC File Offset: 0x0018BCAC
+		// Token: 0x06002E8E RID: 11918 RVA: 0x0018DA8C File Offset: 0x0018BE8C
 		private static StatDrawEntry QualityEntry(Thing t)
 		{
 			QualityCategory cat;
@@ -216,7 +216,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002E96 RID: 11926 RVA: 0x0018D910 File Offset: 0x0018BD10
+		// Token: 0x06002E8F RID: 11919 RVA: 0x0018DAF0 File Offset: 0x0018BEF0
 		private static void SelectEntry(StatDrawEntry rec, bool playSound = true)
 		{
 			StatsReportUtility.selectedEntry = rec;
@@ -226,7 +226,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E97 RID: 11927 RVA: 0x0018D92C File Offset: 0x0018BD2C
+		// Token: 0x06002E90 RID: 11920 RVA: 0x0018DB0C File Offset: 0x0018BF0C
 		private static void DrawStatsWorker(Rect rect, Thing optionalThing, WorldObject optionalWorldObject)
 		{
 			Rect rect2 = new Rect(rect);
@@ -288,19 +288,19 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x040018EF RID: 6383
+		// Token: 0x040018ED RID: 6381
 		private static StatDrawEntry selectedEntry;
 
-		// Token: 0x040018F0 RID: 6384
+		// Token: 0x040018EE RID: 6382
 		private static StatDrawEntry mousedOverEntry;
 
-		// Token: 0x040018F1 RID: 6385
+		// Token: 0x040018EF RID: 6383
 		private static Vector2 scrollPosition;
 
-		// Token: 0x040018F2 RID: 6386
+		// Token: 0x040018F0 RID: 6384
 		private static float listHeight;
 
-		// Token: 0x040018F3 RID: 6387
+		// Token: 0x040018F1 RID: 6385
 		private static List<StatDrawEntry> cachedDrawEntries = new List<StatDrawEntry>();
 	}
 }

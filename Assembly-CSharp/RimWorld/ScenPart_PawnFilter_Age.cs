@@ -4,24 +4,24 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000644 RID: 1604
+	// Token: 0x02000640 RID: 1600
 	public class ScenPart_PawnFilter_Age : ScenPart
 	{
-		// Token: 0x0600213B RID: 8507 RVA: 0x0011A24C File Offset: 0x0011864C
+		// Token: 0x06002133 RID: 8499 RVA: 0x0011A34C File Offset: 0x0011874C
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, 31f);
 			Widgets.IntRange(scenPartRect, (int)listing.CurHeight, ref this.allowedAgeRange, 15, 120, null, 4);
 		}
 
-		// Token: 0x0600213C RID: 8508 RVA: 0x0011A280 File Offset: 0x00118680
+		// Token: 0x06002134 RID: 8500 RVA: 0x0011A380 File Offset: 0x00118780
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<IntRange>(ref this.allowedAgeRange, "allowedAgeRange", default(IntRange), false);
 		}
 
-		// Token: 0x0600213D RID: 8509 RVA: 0x0011A2B0 File Offset: 0x001186B0
+		// Token: 0x06002135 RID: 8501 RVA: 0x0011A3B0 File Offset: 0x001187B0
 		public override string Summary(Scenario scen)
 		{
 			string result;
@@ -57,13 +57,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600213E RID: 8510 RVA: 0x0011A390 File Offset: 0x00118790
+		// Token: 0x06002136 RID: 8502 RVA: 0x0011A490 File Offset: 0x00118890
 		public override bool AllowPlayerStartingPawn(Pawn pawn, bool tryingToRedress, PawnGenerationRequest req)
 		{
 			return this.allowedAgeRange.Includes(pawn.ageTracker.AgeBiologicalYears);
 		}
 
-		// Token: 0x0600213F RID: 8511 RVA: 0x0011A3BC File Offset: 0x001187BC
+		// Token: 0x06002137 RID: 8503 RVA: 0x0011A4BC File Offset: 0x001188BC
 		public override void Randomize()
 		{
 			this.allowedAgeRange = new IntRange(15, 120);
@@ -90,7 +90,7 @@ namespace RimWorld
 			this.MakeAllowedAgeRangeValid();
 		}
 
-		// Token: 0x06002140 RID: 8512 RVA: 0x0011A460 File Offset: 0x00118860
+		// Token: 0x06002138 RID: 8504 RVA: 0x0011A560 File Offset: 0x00118960
 		private void MakeAllowedAgeRangeValid()
 		{
 			if (this.allowedAgeRange.max < 19)
@@ -103,19 +103,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040012EC RID: 4844
+		// Token: 0x040012E9 RID: 4841
 		public IntRange allowedAgeRange = new IntRange(0, 999999);
 
-		// Token: 0x040012ED RID: 4845
+		// Token: 0x040012EA RID: 4842
 		private const int RangeMin = 15;
 
-		// Token: 0x040012EE RID: 4846
+		// Token: 0x040012EB RID: 4843
 		private const int RangeMax = 120;
 
-		// Token: 0x040012EF RID: 4847
+		// Token: 0x040012EC RID: 4844
 		private const int RangeMinMax = 19;
 
-		// Token: 0x040012F0 RID: 4848
+		// Token: 0x040012ED RID: 4845
 		private const int RangeMinWidth = 4;
 	}
 }

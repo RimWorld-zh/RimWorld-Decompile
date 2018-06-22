@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000911 RID: 2321
+	// Token: 0x0200090D RID: 2317
 	public static class SeasonUtility
 	{
-		// Token: 0x17000899 RID: 2201
-		// (get) Token: 0x06003604 RID: 13828 RVA: 0x001CF9E4 File Offset: 0x001CDDE4
+		// Token: 0x1700089A RID: 2202
+		// (get) Token: 0x060035FD RID: 13821 RVA: 0x001CFBCC File Offset: 0x001CDFCC
 		public static Season FirstSeason
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003605 RID: 13829 RVA: 0x001CF9FC File Offset: 0x001CDDFC
+		// Token: 0x060035FE RID: 13822 RVA: 0x001CFBE4 File Offset: 0x001CDFE4
 		public static Season GetReportedSeason(float yearPct, float latitude)
 		{
 			float by;
@@ -44,7 +44,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003606 RID: 13830 RVA: 0x001CFA5C File Offset: 0x001CDE5C
+		// Token: 0x060035FF RID: 13823 RVA: 0x001CFC44 File Offset: 0x001CE044
 		public static Season GetDominantSeason(float yearPct, float latitude)
 		{
 			float by;
@@ -57,7 +57,7 @@ namespace RimWorld
 			return GenMath.MaxBy<Season>(Season.Spring, by, Season.Summer, by2, Season.Fall, by3, Season.Winter, by4, Season.PermanentSummer, by5, Season.PermanentWinter, by6);
 		}
 
-		// Token: 0x06003607 RID: 13831 RVA: 0x001CFA9C File Offset: 0x001CDE9C
+		// Token: 0x06003600 RID: 13824 RVA: 0x001CFC84 File Offset: 0x001CE084
 		public static void GetSeason(float yearPct, float latitude, out float spring, out float summer, out float fall, out float winter, out float permanentSummer, out float permanentWinter)
 		{
 			yearPct = Mathf.Clamp01(yearPct);
@@ -88,7 +88,7 @@ namespace RimWorld
 			permanentWinter = num3;
 		}
 
-		// Token: 0x06003608 RID: 13832 RVA: 0x001CFB5C File Offset: 0x001CDF5C
+		// Token: 0x06003601 RID: 13825 RVA: 0x001CFD44 File Offset: 0x001CE144
 		private static void GetSeasonalAreaSeason(float yearPct, out float spring, out float summer, out float fall, out float winter, bool northernHemisphere)
 		{
 			yearPct = Mathf.Clamp01(yearPct);
@@ -131,7 +131,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003609 RID: 13833 RVA: 0x001CFC9C File Offset: 0x001CE09C
+		// Token: 0x06003602 RID: 13826 RVA: 0x001CFE84 File Offset: 0x001CE284
 		public static Twelfth GetFirstTwelfth(this Season season, float latitude)
 		{
 			if (latitude >= 0f)
@@ -173,7 +173,7 @@ namespace RimWorld
 			return Twelfth.Undefined;
 		}
 
-		// Token: 0x0600360A RID: 13834 RVA: 0x001CFD68 File Offset: 0x001CE168
+		// Token: 0x06003603 RID: 13827 RVA: 0x001CFF50 File Offset: 0x001CE350
 		public static Twelfth GetMiddleTwelfth(this Season season, float latitude)
 		{
 			if (latitude >= 0f)
@@ -215,7 +215,7 @@ namespace RimWorld
 			return Twelfth.Undefined;
 		}
 
-		// Token: 0x0600360B RID: 13835 RVA: 0x001CFE34 File Offset: 0x001CE234
+		// Token: 0x06003604 RID: 13828 RVA: 0x001D001C File Offset: 0x001CE41C
 		public static Season GetPreviousSeason(this Season season)
 		{
 			Season result;
@@ -249,7 +249,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600360C RID: 13836 RVA: 0x001CFEA4 File Offset: 0x001CE2A4
+		// Token: 0x06003605 RID: 13829 RVA: 0x001D008C File Offset: 0x001CE48C
 		public static float GetMiddleYearPct(this Season season, float latitude)
 		{
 			float result;
@@ -264,7 +264,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600360D RID: 13837 RVA: 0x001CFED8 File Offset: 0x001CE2D8
+		// Token: 0x06003606 RID: 13830 RVA: 0x001D00C0 File Offset: 0x001CE4C0
 		public static string Label(this Season season)
 		{
 			string result;
@@ -295,13 +295,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600360E RID: 13838 RVA: 0x001CFF78 File Offset: 0x001CE378
+		// Token: 0x06003607 RID: 13831 RVA: 0x001D0160 File Offset: 0x001CE560
 		public static string LabelCap(this Season season)
 		{
 			return season.Label().CapitalizeFirst();
 		}
 
-		// Token: 0x0600360F RID: 13839 RVA: 0x001CFF98 File Offset: 0x001CE398
+		// Token: 0x06003608 RID: 13832 RVA: 0x001D0180 File Offset: 0x001CE580
 		public static string SeasonsRangeLabel(List<Twelfth> twelfths, Vector2 longLat)
 		{
 			string result;
@@ -333,7 +333,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003610 RID: 13840 RVA: 0x001D0034 File Offset: 0x001CE434
+		// Token: 0x06003609 RID: 13833 RVA: 0x001D021C File Offset: 0x001CE61C
 		private static string SeasonsContinuousRangeLabel(List<Twelfth> twelfths, Twelfth rootTwelfth, Vector2 longLat)
 		{
 			Twelfth leftMostTwelfth = TwelfthUtility.GetLeftMostTwelfth(twelfths, rootTwelfth);
@@ -360,13 +360,13 @@ namespace RimWorld
 			return GenDate.SeasonDateStringAt(leftMostTwelfth, longLat) + " - " + GenDate.SeasonDateStringAt(rightMostTwelfth, longLat);
 		}
 
-		// Token: 0x04001D30 RID: 7472
+		// Token: 0x04001D2E RID: 7470
 		private const float HemisphereLerpDistance = 5f;
 
-		// Token: 0x04001D31 RID: 7473
+		// Token: 0x04001D2F RID: 7471
 		private const float SeasonYearPctLerpDistance = 0.085f;
 
-		// Token: 0x04001D32 RID: 7474
+		// Token: 0x04001D30 RID: 7472
 		private static readonly SimpleCurve SeasonalAreaSeasons = new SimpleCurve
 		{
 			{

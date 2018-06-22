@@ -2,10 +2,10 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000AAE RID: 2734
+	// Token: 0x02000AAA RID: 2730
 	public class ThinkNode_ChancePerHour_Constant : ThinkNode_ChancePerHour
 	{
-		// Token: 0x06003D0E RID: 15630 RVA: 0x002047DC File Offset: 0x00202BDC
+		// Token: 0x06003D09 RID: 15625 RVA: 0x00204B00 File Offset: 0x00202F00
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode_ChancePerHour_Constant thinkNode_ChancePerHour_Constant = (ThinkNode_ChancePerHour_Constant)base.DeepCopy(resolve);
@@ -13,13 +13,13 @@ namespace Verse.AI
 			return thinkNode_ChancePerHour_Constant;
 		}
 
-		// Token: 0x06003D0F RID: 15631 RVA: 0x0020480C File Offset: 0x00202C0C
+		// Token: 0x06003D0A RID: 15626 RVA: 0x00204B30 File Offset: 0x00202F30
 		protected override float MtbHours(Pawn Pawn)
 		{
 			return this.mtbHours;
 		}
 
-		// Token: 0x0400268E RID: 9870
+		// Token: 0x04002689 RID: 9865
 		private float mtbHours = 1f;
 	}
 }

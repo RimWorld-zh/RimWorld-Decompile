@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000589 RID: 1417
+	// Token: 0x02000585 RID: 1413
 	internal class DebugTile
 	{
 		// Token: 0x170003ED RID: 1005
-		// (get) Token: 0x06001B07 RID: 6919 RVA: 0x000E81A0 File Offset: 0x000E65A0
+		// (get) Token: 0x06001AFE RID: 6910 RVA: 0x000E81F4 File Offset: 0x000E65F4
 		private Vector2 ScreenPos
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003EE RID: 1006
-		// (get) Token: 0x06001B08 RID: 6920 RVA: 0x000E81D0 File Offset: 0x000E65D0
+		// (get) Token: 0x06001AFF RID: 6911 RVA: 0x000E8224 File Offset: 0x000E6624
 		private bool VisibleForCamera
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003EF RID: 1007
-		// (get) Token: 0x06001B09 RID: 6921 RVA: 0x000E8210 File Offset: 0x000E6610
+		// (get) Token: 0x06001B00 RID: 6912 RVA: 0x000E8264 File Offset: 0x000E6664
 		public float DistanceToCamera
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B0A RID: 6922 RVA: 0x000E824C File Offset: 0x000E664C
+		// Token: 0x06001B01 RID: 6913 RVA: 0x000E82A0 File Offset: 0x000E66A0
 		public void Draw()
 		{
 			if (this.VisibleForCamera)
@@ -81,7 +81,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B0B RID: 6923 RVA: 0x000E83C4 File Offset: 0x000E67C4
+		// Token: 0x06001B02 RID: 6914 RVA: 0x000E8418 File Offset: 0x000E6818
 		public void OnGUI()
 		{
 			if (this.VisibleForCamera)
@@ -95,28 +95,28 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x04000FE7 RID: 4071
+		// Token: 0x04000FE4 RID: 4068
 		public int tile;
 
-		// Token: 0x04000FE8 RID: 4072
+		// Token: 0x04000FE5 RID: 4069
 		public string displayString;
 
-		// Token: 0x04000FE9 RID: 4073
+		// Token: 0x04000FE6 RID: 4070
 		public float colorPct;
 
-		// Token: 0x04000FEA RID: 4074
+		// Token: 0x04000FE7 RID: 4071
 		public int ticksLeft;
 
-		// Token: 0x04000FEB RID: 4075
+		// Token: 0x04000FE8 RID: 4072
 		public Material customMat;
 
-		// Token: 0x04000FEC RID: 4076
+		// Token: 0x04000FE9 RID: 4073
 		private Mesh mesh;
 
-		// Token: 0x04000FED RID: 4077
+		// Token: 0x04000FEA RID: 4074
 		private static List<Vector3> tmpVerts = new List<Vector3>();
 
-		// Token: 0x04000FEE RID: 4078
+		// Token: 0x04000FEB RID: 4075
 		private static List<int> tmpIndices = new List<int>();
 	}
 }

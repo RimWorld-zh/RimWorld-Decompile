@@ -6,13 +6,13 @@ namespace Verse.Noise
 	// Token: 0x02000F7C RID: 3964
 	public class RidgedMultifractal : ModuleBase
 	{
-		// Token: 0x06005F8D RID: 24461 RVA: 0x00309754 File Offset: 0x00307B54
+		// Token: 0x06005FB6 RID: 24502 RVA: 0x0030B7F8 File Offset: 0x00309BF8
 		public RidgedMultifractal() : base(0)
 		{
 			this.UpdateWeights();
 		}
 
-		// Token: 0x06005F8E RID: 24462 RVA: 0x003097B0 File Offset: 0x00307BB0
+		// Token: 0x06005FB7 RID: 24503 RVA: 0x0030B854 File Offset: 0x00309C54
 		public RidgedMultifractal(double frequency, double lacunarity, int octaves, int seed, QualityMode quality) : base(0)
 		{
 			this.Frequency = frequency;
@@ -22,9 +22,9 @@ namespace Verse.Noise
 			this.Quality = quality;
 		}
 
-		// Token: 0x17000F55 RID: 3925
-		// (get) Token: 0x06005F8F RID: 24463 RVA: 0x0030982C File Offset: 0x00307C2C
-		// (set) Token: 0x06005F90 RID: 24464 RVA: 0x00309847 File Offset: 0x00307C47
+		// Token: 0x17000F59 RID: 3929
+		// (get) Token: 0x06005FB8 RID: 24504 RVA: 0x0030B8D0 File Offset: 0x00309CD0
+		// (set) Token: 0x06005FB9 RID: 24505 RVA: 0x0030B8EB File Offset: 0x00309CEB
 		public double Frequency
 		{
 			get
@@ -37,9 +37,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F56 RID: 3926
-		// (get) Token: 0x06005F91 RID: 24465 RVA: 0x00309854 File Offset: 0x00307C54
-		// (set) Token: 0x06005F92 RID: 24466 RVA: 0x0030986F File Offset: 0x00307C6F
+		// Token: 0x17000F5A RID: 3930
+		// (get) Token: 0x06005FBA RID: 24506 RVA: 0x0030B8F8 File Offset: 0x00309CF8
+		// (set) Token: 0x06005FBB RID: 24507 RVA: 0x0030B913 File Offset: 0x00309D13
 		public double Lacunarity
 		{
 			get
@@ -53,9 +53,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F57 RID: 3927
-		// (get) Token: 0x06005F93 RID: 24467 RVA: 0x00309880 File Offset: 0x00307C80
-		// (set) Token: 0x06005F94 RID: 24468 RVA: 0x0030989B File Offset: 0x00307C9B
+		// Token: 0x17000F5B RID: 3931
+		// (get) Token: 0x06005FBC RID: 24508 RVA: 0x0030B924 File Offset: 0x00309D24
+		// (set) Token: 0x06005FBD RID: 24509 RVA: 0x0030B93F File Offset: 0x00309D3F
 		public QualityMode Quality
 		{
 			get
@@ -68,9 +68,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F58 RID: 3928
-		// (get) Token: 0x06005F95 RID: 24469 RVA: 0x003098A8 File Offset: 0x00307CA8
-		// (set) Token: 0x06005F96 RID: 24470 RVA: 0x003098C3 File Offset: 0x00307CC3
+		// Token: 0x17000F5C RID: 3932
+		// (get) Token: 0x06005FBE RID: 24510 RVA: 0x0030B94C File Offset: 0x00309D4C
+		// (set) Token: 0x06005FBF RID: 24511 RVA: 0x0030B967 File Offset: 0x00309D67
 		public int OctaveCount
 		{
 			get
@@ -83,9 +83,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F59 RID: 3929
-		// (get) Token: 0x06005F97 RID: 24471 RVA: 0x003098D8 File Offset: 0x00307CD8
-		// (set) Token: 0x06005F98 RID: 24472 RVA: 0x003098F3 File Offset: 0x00307CF3
+		// Token: 0x17000F5D RID: 3933
+		// (get) Token: 0x06005FC0 RID: 24512 RVA: 0x0030B97C File Offset: 0x00309D7C
+		// (set) Token: 0x06005FC1 RID: 24513 RVA: 0x0030B997 File Offset: 0x00309D97
 		public int Seed
 		{
 			get
@@ -98,7 +98,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06005F99 RID: 24473 RVA: 0x00309900 File Offset: 0x00307D00
+		// Token: 0x06005FC2 RID: 24514 RVA: 0x0030B9A4 File Offset: 0x00309DA4
 		private void UpdateWeights()
 		{
 			double num = 1.0;
@@ -109,7 +109,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06005F9A RID: 24474 RVA: 0x00309950 File Offset: 0x00307D50
+		// Token: 0x06005FC3 RID: 24515 RVA: 0x0030B9F4 File Offset: 0x00309DF4
 		public override double GetValue(double x, double y, double z)
 		{
 			x *= this.m_frequency;
@@ -147,22 +147,22 @@ namespace Verse.Noise
 			return num * 1.25 - 1.0;
 		}
 
-		// Token: 0x04003ED1 RID: 16081
+		// Token: 0x04003EE3 RID: 16099
 		private double m_frequency = 1.0;
 
-		// Token: 0x04003ED2 RID: 16082
+		// Token: 0x04003EE4 RID: 16100
 		private double m_lacunarity = 2.0;
 
-		// Token: 0x04003ED3 RID: 16083
+		// Token: 0x04003EE5 RID: 16101
 		private QualityMode m_quality = QualityMode.Medium;
 
-		// Token: 0x04003ED4 RID: 16084
+		// Token: 0x04003EE6 RID: 16102
 		private int m_octaveCount = 6;
 
-		// Token: 0x04003ED5 RID: 16085
+		// Token: 0x04003EE7 RID: 16103
 		private int m_seed = 0;
 
-		// Token: 0x04003ED6 RID: 16086
+		// Token: 0x04003EE8 RID: 16104
 		private double[] m_weights = new double[30];
 	}
 }

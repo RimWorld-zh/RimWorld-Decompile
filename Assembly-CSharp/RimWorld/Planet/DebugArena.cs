@@ -5,16 +5,16 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200061D RID: 1565
+	// Token: 0x02000619 RID: 1561
 	public class DebugArena : WorldObjectComp
 	{
-		// Token: 0x06001FBD RID: 8125 RVA: 0x00111AE0 File Offset: 0x0010FEE0
+		// Token: 0x06001FB4 RID: 8116 RVA: 0x00111B34 File Offset: 0x0010FF34
 		public DebugArena()
 		{
 			this.tickCreated = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06001FBE RID: 8126 RVA: 0x00111B08 File Offset: 0x0010FF08
+		// Token: 0x06001FB5 RID: 8117 RVA: 0x00111B5C File Offset: 0x0010FF5C
 		public override void CompTick()
 		{
 			if (this.lhs == null || this.rhs == null)
@@ -77,19 +77,19 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x04001260 RID: 4704
+		// Token: 0x0400125D RID: 4701
 		public List<Pawn> lhs;
 
-		// Token: 0x04001261 RID: 4705
+		// Token: 0x0400125E RID: 4702
 		public List<Pawn> rhs;
 
-		// Token: 0x04001262 RID: 4706
+		// Token: 0x0400125F RID: 4703
 		public Action<ArenaUtility.ArenaResult> callback;
 
-		// Token: 0x04001263 RID: 4707
+		// Token: 0x04001260 RID: 4704
 		private int tickCreated = 0;
 
-		// Token: 0x04001264 RID: 4708
+		// Token: 0x04001261 RID: 4705
 		private int tickFightStarted = 0;
 	}
 }

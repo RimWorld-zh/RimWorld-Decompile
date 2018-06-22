@@ -2,14 +2,14 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000526 RID: 1318
+	// Token: 0x02000522 RID: 1314
 	public enum Passion : byte
 	{
-		// Token: 0x04000E43 RID: 3651
+		// Token: 0x04000E40 RID: 3648
 		None,
-		// Token: 0x04000E44 RID: 3652
+		// Token: 0x04000E41 RID: 3649
 		Minor,
-		// Token: 0x04000E45 RID: 3653
+		// Token: 0x04000E42 RID: 3650
 		Major
 	}
 }

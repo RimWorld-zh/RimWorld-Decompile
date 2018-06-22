@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000903 RID: 2307
+	// Token: 0x020008FF RID: 2303
 	public static class CollectionsMassCalculator
 	{
-		// Token: 0x0600357B RID: 13691 RVA: 0x001CCEB8 File Offset: 0x001CB2B8
+		// Token: 0x06003574 RID: 13684 RVA: 0x001CD0A0 File Offset: 0x001CB4A0
 		public static float Capacity(List<ThingCount> thingCounts, StringBuilder explanation = null)
 		{
 			float num = 0f;
@@ -27,7 +27,7 @@ namespace RimWorld
 			return Mathf.Max(num, 0f);
 		}
 
-		// Token: 0x0600357C RID: 13692 RVA: 0x001CCF4C File Offset: 0x001CB34C
+		// Token: 0x06003575 RID: 13685 RVA: 0x001CD134 File Offset: 0x001CB534
 		public static float MassUsage(List<ThingCount> thingCounts, IgnorePawnsInventoryMode ignoreInventory, bool includePawnsMass = false, bool ignoreSpawnedCorpsesGearAndInventory = false)
 		{
 			float num = 0f;
@@ -70,7 +70,7 @@ namespace RimWorld
 			return Mathf.Max(num, 0f);
 		}
 
-		// Token: 0x0600357D RID: 13693 RVA: 0x001CD064 File Offset: 0x001CB464
+		// Token: 0x06003576 RID: 13686 RVA: 0x001CD24C File Offset: 0x001CB64C
 		public static float CapacityTransferables(List<TransferableOneWay> transferables, StringBuilder explanation = null)
 		{
 			CollectionsMassCalculator.tmpThingCounts.Clear();
@@ -92,7 +92,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600357E RID: 13694 RVA: 0x001CD120 File Offset: 0x001CB520
+		// Token: 0x06003577 RID: 13687 RVA: 0x001CD308 File Offset: 0x001CB708
 		public static float CapacityLeftAfterTransfer(List<TransferableOneWay> transferables, StringBuilder explanation = null)
 		{
 			CollectionsMassCalculator.tmpThingCounts.Clear();
@@ -118,7 +118,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600357F RID: 13695 RVA: 0x001CD218 File Offset: 0x001CB618
+		// Token: 0x06003578 RID: 13688 RVA: 0x001CD400 File Offset: 0x001CB800
 		public static float CapacityLeftAfterTradeableTransfer(List<Thing> allCurrentThings, List<Tradeable> tradeables, StringBuilder explanation = null)
 		{
 			CollectionsMassCalculator.tmpThingCounts.Clear();
@@ -128,7 +128,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003580 RID: 13696 RVA: 0x001CD25C File Offset: 0x001CB65C
+		// Token: 0x06003579 RID: 13689 RVA: 0x001CD444 File Offset: 0x001CB844
 		public static float Capacity<T>(List<T> things, StringBuilder explanation = null) where T : Thing
 		{
 			CollectionsMassCalculator.tmpThingCounts.Clear();
@@ -141,7 +141,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003581 RID: 13697 RVA: 0x001CD2D8 File Offset: 0x001CB6D8
+		// Token: 0x0600357A RID: 13690 RVA: 0x001CD4C0 File Offset: 0x001CB8C0
 		public static float MassUsageTransferables(List<TransferableOneWay> transferables, IgnorePawnsInventoryMode ignoreInventory, bool includePawnsMass = false, bool ignoreSpawnedCorpsesGearAndInventory = false)
 		{
 			CollectionsMassCalculator.tmpThingCounts.Clear();
@@ -157,7 +157,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003582 RID: 13698 RVA: 0x001CD368 File Offset: 0x001CB768
+		// Token: 0x0600357B RID: 13691 RVA: 0x001CD550 File Offset: 0x001CB950
 		public static float MassUsageLeftAfterTransfer(List<TransferableOneWay> transferables, IgnorePawnsInventoryMode ignoreInventory, bool includePawnsMass = false, bool ignoreSpawnedCorpsesGearAndInventory = false)
 		{
 			CollectionsMassCalculator.tmpThingCounts.Clear();
@@ -176,7 +176,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003583 RID: 13699 RVA: 0x001CD428 File Offset: 0x001CB828
+		// Token: 0x0600357C RID: 13692 RVA: 0x001CD610 File Offset: 0x001CBA10
 		public static float MassUsage<T>(List<T> things, IgnorePawnsInventoryMode ignoreInventory, bool includePawnsMass = false, bool ignoreSpawnedCorpsesGearAndInventory = false) where T : Thing
 		{
 			CollectionsMassCalculator.tmpThingCounts.Clear();
@@ -189,7 +189,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003584 RID: 13700 RVA: 0x001CD4A8 File Offset: 0x001CB8A8
+		// Token: 0x0600357D RID: 13693 RVA: 0x001CD690 File Offset: 0x001CBA90
 		public static float MassUsageLeftAfterTradeableTransfer(List<Thing> allCurrentThings, List<Tradeable> tradeables, IgnorePawnsInventoryMode ignoreInventory, bool includePawnsMass = false, bool ignoreSpawnedCorpsesGearAndInventory = false)
 		{
 			CollectionsMassCalculator.tmpThingCounts.Clear();
@@ -199,10 +199,10 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04001CF9 RID: 7417
+		// Token: 0x04001CF7 RID: 7415
 		private static List<ThingCount> tmpThingCounts = new List<ThingCount>();
 
-		// Token: 0x04001CFA RID: 7418
+		// Token: 0x04001CF8 RID: 7416
 		private static List<Thing> thingsInReverse = new List<Thing>();
 	}
 }

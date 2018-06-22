@@ -8,11 +8,11 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000869 RID: 2153
+	// Token: 0x02000865 RID: 2149
 	public class Targeter
 	{
-		// Token: 0x170007D2 RID: 2002
-		// (get) Token: 0x060030EA RID: 12522 RVA: 0x001A90CC File Offset: 0x001A74CC
+		// Token: 0x170007D3 RID: 2003
+		// (get) Token: 0x060030E3 RID: 12515 RVA: 0x001A92B4 File Offset: 0x001A76B4
 		public bool IsTargeting
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030EB RID: 12523 RVA: 0x001A90FC File Offset: 0x001A74FC
+		// Token: 0x060030E4 RID: 12516 RVA: 0x001A92E4 File Offset: 0x001A76E4
 		public void BeginTargeting(Verb verb)
 		{
 			if (verb.verbProps.targetable)
@@ -42,7 +42,7 @@ namespace RimWorld
 			this.mouseAttachment = null;
 		}
 
-		// Token: 0x060030EC RID: 12524 RVA: 0x001A918A File Offset: 0x001A758A
+		// Token: 0x060030E5 RID: 12517 RVA: 0x001A9372 File Offset: 0x001A7772
 		public void BeginTargeting(TargetingParameters targetParams, Action<LocalTargetInfo> action, Pawn caster = null, Action actionWhenFinished = null, Texture2D mouseAttachment = null)
 		{
 			this.targetingVerb = null;
@@ -54,7 +54,7 @@ namespace RimWorld
 			this.mouseAttachment = mouseAttachment;
 		}
 
-		// Token: 0x060030ED RID: 12525 RVA: 0x001A91C0 File Offset: 0x001A75C0
+		// Token: 0x060030E6 RID: 12518 RVA: 0x001A93A8 File Offset: 0x001A77A8
 		public void StopTargeting()
 		{
 			if (this.actionWhenFinished != null)
@@ -67,7 +67,7 @@ namespace RimWorld
 			this.action = null;
 		}
 
-		// Token: 0x060030EE RID: 12526 RVA: 0x001A9200 File Offset: 0x001A7600
+		// Token: 0x060030E7 RID: 12519 RVA: 0x001A93E8 File Offset: 0x001A77E8
 		public void ProcessInputEvents()
 		{
 			this.ConfirmStillValid();
@@ -100,7 +100,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030EF RID: 12527 RVA: 0x001A92E8 File Offset: 0x001A76E8
+		// Token: 0x060030E8 RID: 12520 RVA: 0x001A94D0 File Offset: 0x001A78D0
 		public void TargeterOnGUI()
 		{
 			if (this.targetingVerb != null)
@@ -130,7 +130,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030F0 RID: 12528 RVA: 0x001A9384 File Offset: 0x001A7784
+		// Token: 0x060030E9 RID: 12521 RVA: 0x001A956C File Offset: 0x001A796C
 		public void TargeterUpdate()
 		{
 			if (this.targetingVerb != null)
@@ -171,7 +171,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030F1 RID: 12529 RVA: 0x001A9498 File Offset: 0x001A7898
+		// Token: 0x060030EA RID: 12522 RVA: 0x001A9680 File Offset: 0x001A7A80
 		public bool IsPawnTargeting(Pawn p)
 		{
 			bool result;
@@ -203,7 +203,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060030F2 RID: 12530 RVA: 0x001A9530 File Offset: 0x001A7930
+		// Token: 0x060030EB RID: 12523 RVA: 0x001A9718 File Offset: 0x001A7B18
 		private void ConfirmStillValid()
 		{
 			if (this.caster != null)
@@ -234,7 +234,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030F3 RID: 12531 RVA: 0x001A9648 File Offset: 0x001A7A48
+		// Token: 0x060030EC RID: 12524 RVA: 0x001A9830 File Offset: 0x001A7C30
 		private void OrderVerbForceTarget()
 		{
 			if (this.targetingVerb.CasterIsPawn)
@@ -265,7 +265,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030F4 RID: 12532 RVA: 0x001A9724 File Offset: 0x001A7B24
+		// Token: 0x060030ED RID: 12525 RVA: 0x001A990C File Offset: 0x001A7D0C
 		private void OrderPawnForceTarget(Verb verb)
 		{
 			LocalTargetInfo targetA = this.CurrentTargetUnderMouse(true);
@@ -293,7 +293,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030F5 RID: 12533 RVA: 0x001A97F8 File Offset: 0x001A7BF8
+		// Token: 0x060030EE RID: 12526 RVA: 0x001A99E0 File Offset: 0x001A7DE0
 		private LocalTargetInfo CurrentTargetUnderMouse(bool mustBeHittableNowIfNotMelee)
 		{
 			LocalTargetInfo result;
@@ -342,31 +342,31 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060030F6 RID: 12534 RVA: 0x001A998C File Offset: 0x001A7D8C
+		// Token: 0x060030EF RID: 12527 RVA: 0x001A9B74 File Offset: 0x001A7F74
 		private Verb GetTargetingVerb(Pawn pawn)
 		{
 			return pawn.equipment.AllEquipmentVerbs.FirstOrDefault((Verb x) => x.verbProps == this.targetingVerb.verbProps);
 		}
 
-		// Token: 0x04001A72 RID: 6770
+		// Token: 0x04001A70 RID: 6768
 		public Verb targetingVerb;
 
-		// Token: 0x04001A73 RID: 6771
+		// Token: 0x04001A71 RID: 6769
 		public List<Pawn> targetingVerbAdditionalPawns;
 
-		// Token: 0x04001A74 RID: 6772
+		// Token: 0x04001A72 RID: 6770
 		private Action<LocalTargetInfo> action;
 
-		// Token: 0x04001A75 RID: 6773
+		// Token: 0x04001A73 RID: 6771
 		private Pawn caster;
 
-		// Token: 0x04001A76 RID: 6774
+		// Token: 0x04001A74 RID: 6772
 		private TargetingParameters targetParams;
 
-		// Token: 0x04001A77 RID: 6775
+		// Token: 0x04001A75 RID: 6773
 		private Action actionWhenFinished;
 
-		// Token: 0x04001A78 RID: 6776
+		// Token: 0x04001A76 RID: 6774
 		private Texture2D mouseAttachment;
 	}
 }

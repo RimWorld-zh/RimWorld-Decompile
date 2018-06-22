@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008DF RID: 2271
+	// Token: 0x020008DB RID: 2267
 	public static class GenWorldUI
 	{
-		// Token: 0x17000854 RID: 2132
-		// (get) Token: 0x06003407 RID: 13319 RVA: 0x001BCA28 File Offset: 0x001BAE28
+		// Token: 0x17000855 RID: 2133
+		// (get) Token: 0x06003400 RID: 13312 RVA: 0x001BCC10 File Offset: 0x001BB010
 		public static float CaravanDirectClickRadius
 		{
 			get
@@ -18,8 +18,8 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000855 RID: 2133
-		// (get) Token: 0x06003408 RID: 13320 RVA: 0x001BCA50 File Offset: 0x001BAE50
+		// Token: 0x17000856 RID: 2134
+		// (get) Token: 0x06003401 RID: 13313 RVA: 0x001BCC38 File Offset: 0x001BB038
 		private static float CaravanWideClickRadius
 		{
 			get
@@ -28,8 +28,8 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x17000856 RID: 2134
-		// (get) Token: 0x06003409 RID: 13321 RVA: 0x001BCA78 File Offset: 0x001BAE78
+		// Token: 0x17000857 RID: 2135
+		// (get) Token: 0x06003402 RID: 13314 RVA: 0x001BCC60 File Offset: 0x001BB060
 		private static float DynamicallyDrawnObjectDirectClickRadius
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x0600340A RID: 13322 RVA: 0x001BCAA0 File Offset: 0x001BAEA0
+		// Token: 0x06003403 RID: 13315 RVA: 0x001BCC88 File Offset: 0x001BB088
 		public static List<WorldObject> WorldObjectsUnderMouse(Vector2 mousePos)
 		{
 			List<WorldObject> list = new List<WorldObject>();
@@ -113,17 +113,17 @@ namespace RimWorld.Planet
 			return list;
 		}
 
-		// Token: 0x0600340B RID: 13323 RVA: 0x001BCDB8 File Offset: 0x001BB1B8
+		// Token: 0x06003404 RID: 13316 RVA: 0x001BCFA0 File Offset: 0x001BB3A0
 		public static Vector2 WorldToUIPosition(Vector3 worldLoc)
 		{
 			Vector3 vector = Find.WorldCamera.WorldToScreenPoint(worldLoc) / Prefs.UIScale;
 			return new Vector2(vector.x, (float)UI.screenHeight - vector.y);
 		}
 
-		// Token: 0x04001C10 RID: 7184
+		// Token: 0x04001C0E RID: 7182
 		private static List<Caravan> clickedCaravans = new List<Caravan>();
 
-		// Token: 0x04001C11 RID: 7185
+		// Token: 0x04001C0F RID: 7183
 		private static List<WorldObject> clickedDynamicallyDrawnObjects = new List<WorldObject>();
 	}
 }

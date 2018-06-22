@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B4E RID: 2894
+	// Token: 0x02000B4A RID: 2890
 	public class KeyBindingDef : Def
 	{
-		// Token: 0x17000997 RID: 2455
-		// (get) Token: 0x06003F57 RID: 16215 RVA: 0x00215E70 File Offset: 0x00214270
+		// Token: 0x17000999 RID: 2457
+		// (get) Token: 0x06003F57 RID: 16215 RVA: 0x0021649C File Offset: 0x0021489C
 		public KeyCode MainKey
 		{
 			get
@@ -29,8 +29,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000998 RID: 2456
-		// (get) Token: 0x06003F58 RID: 16216 RVA: 0x00215ED0 File Offset: 0x002142D0
+		// Token: 0x1700099A RID: 2458
+		// (get) Token: 0x06003F58 RID: 16216 RVA: 0x002164FC File Offset: 0x002148FC
 		public string MainKeyLabel
 		{
 			get
@@ -39,8 +39,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000999 RID: 2457
-		// (get) Token: 0x06003F59 RID: 16217 RVA: 0x00215EF0 File Offset: 0x002142F0
+		// Token: 0x1700099B RID: 2459
+		// (get) Token: 0x06003F59 RID: 16217 RVA: 0x0021651C File Offset: 0x0021491C
 		public bool KeyDownEvent
 		{
 			get
@@ -57,8 +57,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700099A RID: 2458
-		// (get) Token: 0x06003F5A RID: 16218 RVA: 0x00215FC8 File Offset: 0x002143C8
+		// Token: 0x1700099C RID: 2460
+		// (get) Token: 0x06003F5A RID: 16218 RVA: 0x002165F4 File Offset: 0x002149F4
 		public bool IsDownEvent
 		{
 			get
@@ -68,8 +68,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700099B RID: 2459
-		// (get) Token: 0x06003F5B RID: 16219 RVA: 0x00216180 File Offset: 0x00214580
+		// Token: 0x1700099D RID: 2461
+		// (get) Token: 0x06003F5B RID: 16219 RVA: 0x002167AC File Offset: 0x00214BAC
 		public bool JustPressed
 		{
 			get
@@ -79,8 +79,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700099C RID: 2460
-		// (get) Token: 0x06003F5C RID: 16220 RVA: 0x002161D4 File Offset: 0x002145D4
+		// Token: 0x1700099E RID: 2462
+		// (get) Token: 0x06003F5C RID: 16220 RVA: 0x00216800 File Offset: 0x00214C00
 		public bool IsDown
 		{
 			get
@@ -90,7 +90,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F5D RID: 16221 RVA: 0x00216228 File Offset: 0x00214628
+		// Token: 0x06003F5D RID: 16221 RVA: 0x00216854 File Offset: 0x00214C54
 		public KeyCode GetDefaultKeyCode(KeyPrefs.BindingSlot slot)
 		{
 			KeyCode result;
@@ -109,25 +109,25 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003F5E RID: 16222 RVA: 0x00216264 File Offset: 0x00214664
+		// Token: 0x06003F5E RID: 16222 RVA: 0x00216890 File Offset: 0x00214C90
 		public static KeyBindingDef Named(string name)
 		{
 			return DefDatabase<KeyBindingDef>.GetNamedSilentFail(name);
 		}
 
-		// Token: 0x040029D6 RID: 10710
+		// Token: 0x040029D4 RID: 10708
 		public KeyBindingCategoryDef category;
 
-		// Token: 0x040029D7 RID: 10711
+		// Token: 0x040029D5 RID: 10709
 		public KeyCode defaultKeyCodeA;
 
-		// Token: 0x040029D8 RID: 10712
+		// Token: 0x040029D6 RID: 10710
 		public KeyCode defaultKeyCodeB;
 
-		// Token: 0x040029D9 RID: 10713
+		// Token: 0x040029D7 RID: 10711
 		public bool devModeOnly = false;
 
-		// Token: 0x040029DA RID: 10714
+		// Token: 0x040029D8 RID: 10712
 		[NoTranslate]
 		public List<string> extraConflictTags;
 	}

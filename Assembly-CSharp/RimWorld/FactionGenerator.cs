@@ -7,10 +7,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200055B RID: 1371
+	// Token: 0x02000557 RID: 1367
 	public static class FactionGenerator
 	{
-		// Token: 0x060019C1 RID: 6593 RVA: 0x000DFDB4 File Offset: 0x000DE1B4
+		// Token: 0x060019B8 RID: 6584 RVA: 0x000DFE10 File Offset: 0x000DE210
 		public static void GenerateFactionsIntoWorld()
 		{
 			int i = 0;
@@ -50,7 +50,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060019C2 RID: 6594 RVA: 0x000DFF90 File Offset: 0x000DE390
+		// Token: 0x060019B9 RID: 6585 RVA: 0x000DFFEC File Offset: 0x000DE3EC
 		public static void EnsureRequiredEnemies(Faction player)
 		{
 			using (IEnumerator<FactionDef> enumerator = DefDatabase<FactionDef>.AllDefs.GetEnumerator())
@@ -73,13 +73,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060019C3 RID: 6595 RVA: 0x000E00F0 File Offset: 0x000DE4F0
+		// Token: 0x060019BA RID: 6586 RVA: 0x000E014C File Offset: 0x000DE54C
 		public static Faction NewGeneratedFaction()
 		{
 			return FactionGenerator.NewGeneratedFaction(DefDatabase<FactionDef>.GetRandom());
 		}
 
-		// Token: 0x060019C4 RID: 6596 RVA: 0x000E0110 File Offset: 0x000DE510
+		// Token: 0x060019BB RID: 6587 RVA: 0x000E016C File Offset: 0x000DE56C
 		public static Faction NewGeneratedFaction(FactionDef facDef)
 		{
 			Faction faction = new Faction();
@@ -115,8 +115,8 @@ namespace RimWorld
 			return faction;
 		}
 
-		// Token: 0x060019C5 RID: 6597 RVA: 0x000E0278 File Offset: 0x000DE678
-		private static float NewRandomColorFromSpectrum(Faction faction)
+		// Token: 0x060019BC RID: 6588 RVA: 0x000E02D4 File Offset: 0x000DE6D4
+		public static float NewRandomColorFromSpectrum(Faction faction)
 		{
 			float num = -1f;
 			float result = 0f;
@@ -128,7 +128,7 @@ namespace RimWorld
 				for (int j = 0; j < allFactionsListForReading.Count; j++)
 				{
 					Faction faction2 = allFactionsListForReading[j];
-					if (faction2 != faction && faction2.def == faction.def)
+					if (faction2.def == faction.def)
 					{
 						float num3 = Mathf.Abs(value - faction2.colorFromSpectrum);
 						if (num3 < num2)
@@ -146,10 +146,10 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04000F22 RID: 3874
+		// Token: 0x04000F1F RID: 3871
 		private const int MinStartVisibleFactions = 5;
 
-		// Token: 0x04000F23 RID: 3875
+		// Token: 0x04000F20 RID: 3872
 		private static readonly FloatRange FactionBasesPer100kTiles = new FloatRange(75f, 85f);
 	}
 }

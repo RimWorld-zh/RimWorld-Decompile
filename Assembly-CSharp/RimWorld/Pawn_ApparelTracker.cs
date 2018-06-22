@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000511 RID: 1297
+	// Token: 0x0200050D RID: 1293
 	public class Pawn_ApparelTracker : IThingHolder, IExposable
 	{
-		// Token: 0x0600174F RID: 5967 RVA: 0x000CC66B File Offset: 0x000CAA6B
+		// Token: 0x06001746 RID: 5958 RVA: 0x000CC663 File Offset: 0x000CAA63
 		public Pawn_ApparelTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
@@ -16,7 +16,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000336 RID: 822
-		// (get) Token: 0x06001750 RID: 5968 RVA: 0x000CC690 File Offset: 0x000CAA90
+		// (get) Token: 0x06001747 RID: 5959 RVA: 0x000CC688 File Offset: 0x000CAA88
 		public IThingHolder ParentHolder
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000337 RID: 823
-		// (get) Token: 0x06001751 RID: 5969 RVA: 0x000CC6AC File Offset: 0x000CAAAC
+		// (get) Token: 0x06001748 RID: 5960 RVA: 0x000CC6A4 File Offset: 0x000CAAA4
 		public List<Apparel> WornApparel
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000338 RID: 824
-		// (get) Token: 0x06001752 RID: 5970 RVA: 0x000CC6CC File Offset: 0x000CAACC
+		// (get) Token: 0x06001749 RID: 5961 RVA: 0x000CC6C4 File Offset: 0x000CAAC4
 		public int WornApparelCount
 		{
 			get
@@ -46,7 +46,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000339 RID: 825
-		// (get) Token: 0x06001753 RID: 5971 RVA: 0x000CC6EC File Offset: 0x000CAAEC
+		// (get) Token: 0x0600174A RID: 5962 RVA: 0x000CC6E4 File Offset: 0x000CAAE4
 		public bool PsychologicallyNude
 		{
 			get
@@ -90,7 +90,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001754 RID: 5972 RVA: 0x000CC7F0 File Offset: 0x000CABF0
+		// Token: 0x0600174B RID: 5963 RVA: 0x000CC7E8 File Offset: 0x000CABE8
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<ThingOwner<Apparel>>(ref this.wornApparel, "wornApparel", new object[]
@@ -104,7 +104,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001755 RID: 5973 RVA: 0x000CC830 File Offset: 0x000CAC30
+		// Token: 0x0600174C RID: 5964 RVA: 0x000CC828 File Offset: 0x000CAC28
 		public void ApparelTrackerTickRare()
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -122,7 +122,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001756 RID: 5974 RVA: 0x000CC8A8 File Offset: 0x000CACA8
+		// Token: 0x0600174D RID: 5965 RVA: 0x000CC8A0 File Offset: 0x000CACA0
 		public void ApparelTrackerTick()
 		{
 			this.wornApparel.ThingOwnerTick(true);
@@ -135,7 +135,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001757 RID: 5975 RVA: 0x000CC930 File Offset: 0x000CAD30
+		// Token: 0x0600174E RID: 5966 RVA: 0x000CC928 File Offset: 0x000CAD28
 		private void TakeWearoutDamageForDay(Thing ap)
 		{
 			int num = GenMath.RoundRandom(ap.def.apparel.wearPerDay);
@@ -155,7 +155,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001758 RID: 5976 RVA: 0x000CC9F4 File Offset: 0x000CADF4
+		// Token: 0x0600174F RID: 5967 RVA: 0x000CC9EC File Offset: 0x000CADEC
 		public bool CanWearWithoutDroppingAnything(ThingDef apDef)
 		{
 			for (int i = 0; i < this.wornApparel.Count; i++)
@@ -168,7 +168,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06001759 RID: 5977 RVA: 0x000CCA5C File Offset: 0x000CAE5C
+		// Token: 0x06001750 RID: 5968 RVA: 0x000CCA54 File Offset: 0x000CAE54
 		public void Wear(Apparel newApparel, bool dropReplacedApparel = true)
 		{
 			if (newApparel.Spawned)
@@ -224,26 +224,26 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600175A RID: 5978 RVA: 0x000CCBE7 File Offset: 0x000CAFE7
+		// Token: 0x06001751 RID: 5969 RVA: 0x000CCBDF File Offset: 0x000CAFDF
 		public void Remove(Apparel ap)
 		{
 			this.wornApparel.Remove(ap);
 		}
 
-		// Token: 0x0600175B RID: 5979 RVA: 0x000CCBF8 File Offset: 0x000CAFF8
+		// Token: 0x06001752 RID: 5970 RVA: 0x000CCBF0 File Offset: 0x000CAFF0
 		public bool TryDrop(Apparel ap)
 		{
 			Apparel apparel;
 			return this.TryDrop(ap, out apparel);
 		}
 
-		// Token: 0x0600175C RID: 5980 RVA: 0x000CCC18 File Offset: 0x000CB018
+		// Token: 0x06001753 RID: 5971 RVA: 0x000CCC10 File Offset: 0x000CB010
 		public bool TryDrop(Apparel ap, out Apparel resultingAp)
 		{
 			return this.TryDrop(ap, out resultingAp, this.pawn.PositionHeld, true);
 		}
 
-		// Token: 0x0600175D RID: 5981 RVA: 0x000CCC44 File Offset: 0x000CB044
+		// Token: 0x06001754 RID: 5972 RVA: 0x000CCC3C File Offset: 0x000CB03C
 		public bool TryDrop(Apparel ap, out Apparel resultingAp, IntVec3 pos, bool forbid = true)
 		{
 			bool result;
@@ -262,7 +262,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600175E RID: 5982 RVA: 0x000CCC94 File Offset: 0x000CB094
+		// Token: 0x06001755 RID: 5973 RVA: 0x000CCC8C File Offset: 0x000CB08C
 		public void DropAll(IntVec3 pos, bool forbid = true)
 		{
 			Pawn_ApparelTracker.tmpApparelList.Clear();
@@ -277,19 +277,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600175F RID: 5983 RVA: 0x000CCD13 File Offset: 0x000CB113
+		// Token: 0x06001756 RID: 5974 RVA: 0x000CCD0B File Offset: 0x000CB10B
 		public void DestroyAll(DestroyMode mode = DestroyMode.Vanish)
 		{
 			this.wornApparel.ClearAndDestroyContents(mode);
 		}
 
-		// Token: 0x06001760 RID: 5984 RVA: 0x000CCD24 File Offset: 0x000CB124
+		// Token: 0x06001757 RID: 5975 RVA: 0x000CCD1C File Offset: 0x000CB11C
 		public bool Contains(Thing apparel)
 		{
 			return this.wornApparel.Contains(apparel);
 		}
 
-		// Token: 0x06001761 RID: 5985 RVA: 0x000CCD48 File Offset: 0x000CB148
+		// Token: 0x06001758 RID: 5976 RVA: 0x000CCD40 File Offset: 0x000CB140
 		public void Notify_PawnKilled(DamageInfo? dinfo)
 		{
 			if (dinfo != null && dinfo.Value.Def.externalViolence)
@@ -309,7 +309,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001762 RID: 5986 RVA: 0x000CCE48 File Offset: 0x000CB248
+		// Token: 0x06001759 RID: 5977 RVA: 0x000CCE40 File Offset: 0x000CB240
 		public void Notify_LostBodyPart()
 		{
 			Pawn_ApparelTracker.tmpApparel.Clear();
@@ -327,13 +327,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001763 RID: 5987 RVA: 0x000CCEDA File Offset: 0x000CB2DA
+		// Token: 0x0600175A RID: 5978 RVA: 0x000CCED2 File Offset: 0x000CB2D2
 		private void SortWornApparelIntoDrawOrder()
 		{
 			this.wornApparel.InnerListForReading.Sort((Apparel a, Apparel b) => a.def.apparel.LastLayer.drawOrder.CompareTo(b.def.apparel.LastLayer.drawOrder));
 		}
 
-		// Token: 0x06001764 RID: 5988 RVA: 0x000CCF0C File Offset: 0x000CB30C
+		// Token: 0x0600175B RID: 5979 RVA: 0x000CCF04 File Offset: 0x000CB304
 		public void HasBasicApparel(out bool hasPants, out bool hasShirt)
 		{
 			hasShirt = false;
@@ -359,7 +359,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001765 RID: 5989 RVA: 0x000CCFCC File Offset: 0x000CB3CC
+		// Token: 0x0600175C RID: 5980 RVA: 0x000CCFC4 File Offset: 0x000CB3C4
 		public Apparel FirstApparelOnBodyPartGroup(BodyPartGroupDef g)
 		{
 			for (int i = 0; i < this.wornApparel.Count; i++)
@@ -376,7 +376,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06001766 RID: 5990 RVA: 0x000CD05C File Offset: 0x000CB45C
+		// Token: 0x0600175D RID: 5981 RVA: 0x000CD054 File Offset: 0x000CB454
 		public bool BodyPartGroupIsCovered(BodyPartGroupDef bp)
 		{
 			for (int i = 0; i < this.wornApparel.Count; i++)
@@ -393,7 +393,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06001767 RID: 5991 RVA: 0x000CD0E8 File Offset: 0x000CB4E8
+		// Token: 0x0600175E RID: 5982 RVA: 0x000CD0E0 File Offset: 0x000CB4E0
 		public IEnumerable<Gizmo> GetGizmos()
 		{
 			for (int i = 0; i < this.wornApparel.Count; i++)
@@ -406,7 +406,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06001768 RID: 5992 RVA: 0x000CD112 File Offset: 0x000CB512
+		// Token: 0x0600175F RID: 5983 RVA: 0x000CD10A File Offset: 0x000CB50A
 		private void ApparelChanged()
 		{
 			LongEventHandler.ExecuteWhenFinished(delegate
@@ -416,14 +416,14 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06001769 RID: 5993 RVA: 0x000CD126 File Offset: 0x000CB526
+		// Token: 0x06001760 RID: 5984 RVA: 0x000CD11E File Offset: 0x000CB51E
 		public void Notify_ApparelAdded(Apparel apparel)
 		{
 			this.SortWornApparelIntoDrawOrder();
 			this.ApparelChanged();
 		}
 
-		// Token: 0x0600176A RID: 5994 RVA: 0x000CD138 File Offset: 0x000CB538
+		// Token: 0x06001761 RID: 5985 RVA: 0x000CD130 File Offset: 0x000CB530
 		public void Notify_ApparelRemoved(Apparel apparel)
 		{
 			this.ApparelChanged();
@@ -433,34 +433,34 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600176B RID: 5995 RVA: 0x000CD188 File Offset: 0x000CB588
+		// Token: 0x06001762 RID: 5986 RVA: 0x000CD180 File Offset: 0x000CB580
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.wornApparel;
 		}
 
-		// Token: 0x0600176C RID: 5996 RVA: 0x000CD1A3 File Offset: 0x000CB5A3
+		// Token: 0x06001763 RID: 5987 RVA: 0x000CD19B File Offset: 0x000CB59B
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
-		// Token: 0x04000DD3 RID: 3539
+		// Token: 0x04000DD0 RID: 3536
 		public Pawn pawn;
 
-		// Token: 0x04000DD4 RID: 3540
+		// Token: 0x04000DD1 RID: 3537
 		private ThingOwner<Apparel> wornApparel;
 
-		// Token: 0x04000DD5 RID: 3541
+		// Token: 0x04000DD2 RID: 3538
 		private int lastApparelWearoutTick = -1;
 
-		// Token: 0x04000DD6 RID: 3542
+		// Token: 0x04000DD3 RID: 3539
 		private const int RecordWalkedNakedTaleIntervalTicks = 60000;
 
-		// Token: 0x04000DD7 RID: 3543
+		// Token: 0x04000DD4 RID: 3540
 		private static List<Apparel> tmpApparelList = new List<Apparel>();
 
-		// Token: 0x04000DD8 RID: 3544
+		// Token: 0x04000DD5 RID: 3541
 		private static List<Apparel> tmpApparel = new List<Apparel>();
 	}
 }

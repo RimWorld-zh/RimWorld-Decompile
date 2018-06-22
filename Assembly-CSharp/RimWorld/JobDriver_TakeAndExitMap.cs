@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_TakeAndExitMap : JobDriver
 	{
 		// Token: 0x170000B1 RID: 177
-		// (get) Token: 0x06000360 RID: 864 RVA: 0x00021694 File Offset: 0x0001FA94
+		// (get) Token: 0x06000360 RID: 864 RVA: 0x000216A4 File Offset: 0x0001FAA4
 		protected Thing Item
 		{
 			get
@@ -18,13 +18,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000361 RID: 865 RVA: 0x000216C0 File Offset: 0x0001FAC0
+		// Token: 0x06000361 RID: 865 RVA: 0x000216D0 File Offset: 0x0001FAD0
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Item, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000362 RID: 866 RVA: 0x000216F4 File Offset: 0x0001FAF4
+		// Token: 0x06000362 RID: 866 RVA: 0x00021704 File Offset: 0x0001FB04
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);

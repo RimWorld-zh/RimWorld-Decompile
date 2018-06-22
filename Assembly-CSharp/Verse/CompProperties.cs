@@ -5,26 +5,26 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B10 RID: 2832
+	// Token: 0x02000B0C RID: 2828
 	public class CompProperties
 	{
-		// Token: 0x06003E9B RID: 16027 RVA: 0x0005E444 File Offset: 0x0005C844
+		// Token: 0x06003E97 RID: 16023 RVA: 0x0005E4A0 File Offset: 0x0005C8A0
 		public CompProperties()
 		{
 		}
 
-		// Token: 0x06003E9C RID: 16028 RVA: 0x0005E45D File Offset: 0x0005C85D
+		// Token: 0x06003E98 RID: 16024 RVA: 0x0005E4B9 File Offset: 0x0005C8B9
 		public CompProperties(Type compClass)
 		{
 			this.compClass = compClass;
 		}
 
-		// Token: 0x06003E9D RID: 16029 RVA: 0x0005E47D File Offset: 0x0005C87D
+		// Token: 0x06003E99 RID: 16025 RVA: 0x0005E4D9 File Offset: 0x0005C8D9
 		public virtual void DrawGhost(IntVec3 center, Rot4 rot, ThingDef thingDef, Color ghostCol, AltitudeLayer drawAltitude)
 		{
 		}
 
-		// Token: 0x06003E9E RID: 16030 RVA: 0x0005E480 File Offset: 0x0005C880
+		// Token: 0x06003E9A RID: 16026 RVA: 0x0005E4DC File Offset: 0x0005C8DC
 		public virtual IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
 			if (this.compClass == null)
@@ -34,18 +34,19 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003E9F RID: 16031 RVA: 0x0005E4B1 File Offset: 0x0005C8B1
+		// Token: 0x06003E9B RID: 16027 RVA: 0x0005E50D File Offset: 0x0005C90D
 		public virtual void ResolveReferences(ThingDef parentDef)
 		{
 		}
 
-		// Token: 0x06003EA0 RID: 16032 RVA: 0x0005E4B4 File Offset: 0x0005C8B4
+		// Token: 0x06003E9C RID: 16028 RVA: 0x0005E510 File Offset: 0x0005C910
 		public virtual IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			yield break;
 		}
 
-		// Token: 0x040027EA RID: 10218
+		// Token: 0x040027E6 RID: 10214
+		[TranslationHandle]
 		public Type compClass = typeof(ThingComp);
 	}
 }

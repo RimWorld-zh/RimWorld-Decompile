@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005E9 RID: 1513
+	// Token: 0x020005E5 RID: 1509
 	public static class CaravanVisibilityCalculator
 	{
-		// Token: 0x06001DE7 RID: 7655 RVA: 0x001015D0 File Offset: 0x000FF9D0
+		// Token: 0x06001DDE RID: 7646 RVA: 0x00101624 File Offset: 0x000FFA24
 		public static float Visibility(float bodySizeSum, bool caravanMovingNow, StringBuilder explanation = null)
 		{
 			float num = CaravanVisibilityCalculator.BodySizeSumToVisibility.Evaluate(bodySizeSum);
@@ -32,13 +32,13 @@ namespace RimWorld.Planet
 			return num;
 		}
 
-		// Token: 0x06001DE8 RID: 7656 RVA: 0x00101678 File Offset: 0x000FFA78
+		// Token: 0x06001DDF RID: 7647 RVA: 0x001016CC File Offset: 0x000FFACC
 		public static float Visibility(Caravan caravan, StringBuilder explanation = null)
 		{
 			return CaravanVisibilityCalculator.Visibility(caravan.PawnsListForReading, caravan.pather.MovingNow, explanation);
 		}
 
-		// Token: 0x06001DE9 RID: 7657 RVA: 0x001016A4 File Offset: 0x000FFAA4
+		// Token: 0x06001DE0 RID: 7648 RVA: 0x001016F8 File Offset: 0x000FFAF8
 		public static float Visibility(List<Pawn> pawns, bool caravanMovingNow, StringBuilder explanation = null)
 		{
 			float num = 0f;
@@ -49,7 +49,7 @@ namespace RimWorld.Planet
 			return CaravanVisibilityCalculator.Visibility(num, caravanMovingNow, explanation);
 		}
 
-		// Token: 0x06001DEA RID: 7658 RVA: 0x001016F0 File Offset: 0x000FFAF0
+		// Token: 0x06001DE1 RID: 7649 RVA: 0x00101744 File Offset: 0x000FFB44
 		public static float Visibility(IEnumerable<Pawn> pawns, bool caravanMovingNow, StringBuilder explanation = null)
 		{
 			CaravanVisibilityCalculator.tmpPawns.Clear();
@@ -59,7 +59,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DEB RID: 7659 RVA: 0x00101734 File Offset: 0x000FFB34
+		// Token: 0x06001DE2 RID: 7650 RVA: 0x00101788 File Offset: 0x000FFB88
 		public static float Visibility(List<TransferableOneWay> transferables, StringBuilder explanation = null)
 		{
 			CaravanVisibilityCalculator.tmpPawns.Clear();
@@ -79,7 +79,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DEC RID: 7660 RVA: 0x001017E4 File Offset: 0x000FFBE4
+		// Token: 0x06001DE3 RID: 7651 RVA: 0x00101838 File Offset: 0x000FFC38
 		public static float VisibilityLeftAfterTransfer(List<TransferableOneWay> transferables, StringBuilder explanation = null)
 		{
 			CaravanVisibilityCalculator.tmpPawns.Clear();
@@ -99,7 +99,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DED RID: 7661 RVA: 0x001018A0 File Offset: 0x000FFCA0
+		// Token: 0x06001DE4 RID: 7652 RVA: 0x001018F4 File Offset: 0x000FFCF4
 		public static float VisibilityLeftAfterTradeableTransfer(List<Thing> allCurrentThings, List<Tradeable> tradeables, StringBuilder explanation = null)
 		{
 			CaravanVisibilityCalculator.tmpThingCounts.Clear();
@@ -109,7 +109,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DEE RID: 7662 RVA: 0x001018E4 File Offset: 0x000FFCE4
+		// Token: 0x06001DE5 RID: 7653 RVA: 0x00101938 File Offset: 0x000FFD38
 		public static float Visibility(List<ThingCount> thingCounts, StringBuilder explanation = null)
 		{
 			CaravanVisibilityCalculator.tmpPawns.Clear();
@@ -129,13 +129,13 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x040011AF RID: 4527
+		// Token: 0x040011AC RID: 4524
 		private static List<ThingCount> tmpThingCounts = new List<ThingCount>();
 
-		// Token: 0x040011B0 RID: 4528
+		// Token: 0x040011AD RID: 4525
 		private static List<Pawn> tmpPawns = new List<Pawn>();
 
-		// Token: 0x040011B1 RID: 4529
+		// Token: 0x040011AE RID: 4526
 		private static readonly SimpleCurve BodySizeSumToVisibility = new SimpleCurve
 		{
 			{
@@ -156,7 +156,7 @@ namespace RimWorld.Planet
 			}
 		};
 
-		// Token: 0x040011B2 RID: 4530
+		// Token: 0x040011AF RID: 4527
 		public const float NotMovingFactor = 0.3f;
 	}
 }

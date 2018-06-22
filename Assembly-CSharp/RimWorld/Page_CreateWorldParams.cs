@@ -8,11 +8,11 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000833 RID: 2099
+	// Token: 0x0200082F RID: 2095
 	public class Page_CreateWorldParams : Page
 	{
-		// Token: 0x17000782 RID: 1922
-		// (get) Token: 0x06002F56 RID: 12118 RVA: 0x00194988 File Offset: 0x00192D88
+		// Token: 0x17000783 RID: 1923
+		// (get) Token: 0x06002F4F RID: 12111 RVA: 0x00194B68 File Offset: 0x00192F68
 		public override string PageTitle
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F57 RID: 12119 RVA: 0x001949A7 File Offset: 0x00192DA7
+		// Token: 0x06002F50 RID: 12112 RVA: 0x00194B87 File Offset: 0x00192F87
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -32,14 +32,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F58 RID: 12120 RVA: 0x001949CA File Offset: 0x00192DCA
+		// Token: 0x06002F51 RID: 12113 RVA: 0x00194BAA File Offset: 0x00192FAA
 		public override void PostOpen()
 		{
 			base.PostOpen();
 			TutorSystem.Notify_Event("PageStart-CreateWorldParams");
 		}
 
-		// Token: 0x06002F59 RID: 12121 RVA: 0x001949E4 File Offset: 0x00192DE4
+		// Token: 0x06002F52 RID: 12114 RVA: 0x00194BC4 File Offset: 0x00192FC4
 		public void Reset()
 		{
 			this.seedString = GenText.RandomSeedString();
@@ -48,7 +48,7 @@ namespace RimWorld
 			this.temperature = OverallTemperature.Normal;
 		}
 
-		// Token: 0x06002F5A RID: 12122 RVA: 0x00194A34 File Offset: 0x00192E34
+		// Token: 0x06002F53 RID: 12115 RVA: 0x00194C14 File Offset: 0x00193014
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DrawPageTitle(rect);
@@ -108,7 +108,7 @@ namespace RimWorld
 			base.DoBottomButtons(rect, "WorldGenerate".Translate(), "Reset".Translate(), new Action(this.Reset), true);
 		}
 
-		// Token: 0x06002F5B RID: 12123 RVA: 0x00194DA0 File Offset: 0x001931A0
+		// Token: 0x06002F54 RID: 12116 RVA: 0x00194F80 File Offset: 0x00193380
 		protected override bool CanDoNext()
 		{
 			bool result;
@@ -138,22 +138,22 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0400198E RID: 6542
+		// Token: 0x0400198C RID: 6540
 		private bool initialized = false;
 
-		// Token: 0x0400198F RID: 6543
+		// Token: 0x0400198D RID: 6541
 		private string seedString;
 
-		// Token: 0x04001990 RID: 6544
+		// Token: 0x0400198E RID: 6542
 		private float planetCoverage;
 
-		// Token: 0x04001991 RID: 6545
+		// Token: 0x0400198F RID: 6543
 		private OverallRainfall rainfall;
 
-		// Token: 0x04001992 RID: 6546
+		// Token: 0x04001990 RID: 6544
 		private OverallTemperature temperature;
 
-		// Token: 0x04001993 RID: 6547
+		// Token: 0x04001991 RID: 6545
 		private static readonly float[] PlanetCoverages = new float[]
 		{
 			0.3f,
@@ -161,7 +161,7 @@ namespace RimWorld
 			1f
 		};
 
-		// Token: 0x04001994 RID: 6548
+		// Token: 0x04001992 RID: 6546
 		private static readonly float[] PlanetCoveragesDev = new float[]
 		{
 			0.3f,

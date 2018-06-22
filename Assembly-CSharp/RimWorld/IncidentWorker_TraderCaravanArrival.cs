@@ -9,7 +9,7 @@ namespace RimWorld
 	public class IncidentWorker_TraderCaravanArrival : IncidentWorker_NeutralGroup
 	{
 		// Token: 0x1700020F RID: 527
-		// (get) Token: 0x06000E86 RID: 3718 RVA: 0x0007AEAC File Offset: 0x000792AC
+		// (get) Token: 0x06000E86 RID: 3718 RVA: 0x0007AFF4 File Offset: 0x000793F4
 		protected override PawnGroupKindDef PawnGroupKindDef
 		{
 			get
@@ -18,13 +18,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000E87 RID: 3719 RVA: 0x0007AEC8 File Offset: 0x000792C8
+		// Token: 0x06000E87 RID: 3719 RVA: 0x0007B010 File Offset: 0x00079410
 		protected override bool FactionCanBeGroupSource(Faction f, Map map, bool desperate = false)
 		{
 			return base.FactionCanBeGroupSource(f, map, desperate) && f.def.caravanTraderKinds.Any<TraderKindDef>();
 		}
 
-		// Token: 0x06000E88 RID: 3720 RVA: 0x0007AF00 File Offset: 0x00079300
+		// Token: 0x06000E88 RID: 3720 RVA: 0x0007B048 File Offset: 0x00079448
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -88,7 +88,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E89 RID: 3721 RVA: 0x0007B0FC File Offset: 0x000794FC
+		// Token: 0x06000E89 RID: 3721 RVA: 0x0007B244 File Offset: 0x00079644
 		protected override void ResolveParmsPoints(IncidentParms parms)
 		{
 			parms.points = TraderCaravanUtility.GenerateGuardPoints();

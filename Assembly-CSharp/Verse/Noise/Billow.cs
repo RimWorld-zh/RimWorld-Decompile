@@ -6,12 +6,12 @@ namespace Verse.Noise
 	// Token: 0x02000F73 RID: 3955
 	public class Billow : ModuleBase
 	{
-		// Token: 0x06005F56 RID: 24406 RVA: 0x00308DB0 File Offset: 0x003071B0
+		// Token: 0x06005F7F RID: 24447 RVA: 0x0030AE54 File Offset: 0x00309254
 		public Billow() : base(0)
 		{
 		}
 
-		// Token: 0x06005F57 RID: 24407 RVA: 0x00308E08 File Offset: 0x00307208
+		// Token: 0x06005F80 RID: 24448 RVA: 0x0030AEAC File Offset: 0x003092AC
 		public Billow(double frequency, double lacunarity, double persistence, int octaves, int seed, QualityMode quality) : base(0)
 		{
 			this.Frequency = frequency;
@@ -22,9 +22,9 @@ namespace Verse.Noise
 			this.Quality = quality;
 		}
 
-		// Token: 0x17000F47 RID: 3911
-		// (get) Token: 0x06005F58 RID: 24408 RVA: 0x00308E8C File Offset: 0x0030728C
-		// (set) Token: 0x06005F59 RID: 24409 RVA: 0x00308EA7 File Offset: 0x003072A7
+		// Token: 0x17000F4B RID: 3915
+		// (get) Token: 0x06005F81 RID: 24449 RVA: 0x0030AF30 File Offset: 0x00309330
+		// (set) Token: 0x06005F82 RID: 24450 RVA: 0x0030AF4B File Offset: 0x0030934B
 		public double Frequency
 		{
 			get
@@ -37,9 +37,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F48 RID: 3912
-		// (get) Token: 0x06005F5A RID: 24410 RVA: 0x00308EB4 File Offset: 0x003072B4
-		// (set) Token: 0x06005F5B RID: 24411 RVA: 0x00308ECF File Offset: 0x003072CF
+		// Token: 0x17000F4C RID: 3916
+		// (get) Token: 0x06005F83 RID: 24451 RVA: 0x0030AF58 File Offset: 0x00309358
+		// (set) Token: 0x06005F84 RID: 24452 RVA: 0x0030AF73 File Offset: 0x00309373
 		public double Lacunarity
 		{
 			get
@@ -52,9 +52,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F49 RID: 3913
-		// (get) Token: 0x06005F5C RID: 24412 RVA: 0x00308EDC File Offset: 0x003072DC
-		// (set) Token: 0x06005F5D RID: 24413 RVA: 0x00308EF7 File Offset: 0x003072F7
+		// Token: 0x17000F4D RID: 3917
+		// (get) Token: 0x06005F85 RID: 24453 RVA: 0x0030AF80 File Offset: 0x00309380
+		// (set) Token: 0x06005F86 RID: 24454 RVA: 0x0030AF9B File Offset: 0x0030939B
 		public QualityMode Quality
 		{
 			get
@@ -67,9 +67,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F4A RID: 3914
-		// (get) Token: 0x06005F5E RID: 24414 RVA: 0x00308F04 File Offset: 0x00307304
-		// (set) Token: 0x06005F5F RID: 24415 RVA: 0x00308F1F File Offset: 0x0030731F
+		// Token: 0x17000F4E RID: 3918
+		// (get) Token: 0x06005F87 RID: 24455 RVA: 0x0030AFA8 File Offset: 0x003093A8
+		// (set) Token: 0x06005F88 RID: 24456 RVA: 0x0030AFC3 File Offset: 0x003093C3
 		public int OctaveCount
 		{
 			get
@@ -82,9 +82,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F4B RID: 3915
-		// (get) Token: 0x06005F60 RID: 24416 RVA: 0x00308F34 File Offset: 0x00307334
-		// (set) Token: 0x06005F61 RID: 24417 RVA: 0x00308F4F File Offset: 0x0030734F
+		// Token: 0x17000F4F RID: 3919
+		// (get) Token: 0x06005F89 RID: 24457 RVA: 0x0030AFD8 File Offset: 0x003093D8
+		// (set) Token: 0x06005F8A RID: 24458 RVA: 0x0030AFF3 File Offset: 0x003093F3
 		public double Persistence
 		{
 			get
@@ -97,9 +97,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F4C RID: 3916
-		// (get) Token: 0x06005F62 RID: 24418 RVA: 0x00308F5C File Offset: 0x0030735C
-		// (set) Token: 0x06005F63 RID: 24419 RVA: 0x00308F77 File Offset: 0x00307377
+		// Token: 0x17000F50 RID: 3920
+		// (get) Token: 0x06005F8B RID: 24459 RVA: 0x0030B000 File Offset: 0x00309400
+		// (set) Token: 0x06005F8C RID: 24460 RVA: 0x0030B01B File Offset: 0x0030941B
 		public int Seed
 		{
 			get
@@ -112,7 +112,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06005F64 RID: 24420 RVA: 0x00308F84 File Offset: 0x00307384
+		// Token: 0x06005F8D RID: 24461 RVA: 0x0030B028 File Offset: 0x00309428
 		public override double GetValue(double x, double y, double z)
 		{
 			double num = 0.0;
@@ -137,22 +137,22 @@ namespace Verse.Noise
 			return num + 0.5;
 		}
 
-		// Token: 0x04003EBB RID: 16059
+		// Token: 0x04003ECD RID: 16077
 		private double m_frequency = 1.0;
 
-		// Token: 0x04003EBC RID: 16060
+		// Token: 0x04003ECE RID: 16078
 		private double m_lacunarity = 2.0;
 
-		// Token: 0x04003EBD RID: 16061
+		// Token: 0x04003ECF RID: 16079
 		private QualityMode m_quality = QualityMode.Medium;
 
-		// Token: 0x04003EBE RID: 16062
+		// Token: 0x04003ED0 RID: 16080
 		private int m_octaveCount = 6;
 
-		// Token: 0x04003EBF RID: 16063
+		// Token: 0x04003ED1 RID: 16081
 		private double m_persistence = 0.5;
 
-		// Token: 0x04003EC0 RID: 16064
+		// Token: 0x04003ED2 RID: 16082
 		private int m_seed = 0;
 	}
 }

@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A1D RID: 2589
+	// Token: 0x02000A19 RID: 2585
 	public class Trigger_NoFightingSappers : Trigger
 	{
-		// Token: 0x060039B6 RID: 14774 RVA: 0x001E827C File Offset: 0x001E667C
+		// Token: 0x060039B0 RID: 14768 RVA: 0x001E84BC File Offset: 0x001E68BC
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			bool result;
@@ -29,7 +29,7 @@ namespace Verse.AI.Group
 			return result;
 		}
 
-		// Token: 0x060039B7 RID: 14775 RVA: 0x001E82E8 File Offset: 0x001E66E8
+		// Token: 0x060039B1 RID: 14769 RVA: 0x001E8528 File Offset: 0x001E6928
 		private bool IsFightingSapper(Pawn p)
 		{
 			return !p.Downed && !p.InMentalState && (SappersUtility.IsGoodSapper(p) || SappersUtility.IsGoodBackupSapper(p));

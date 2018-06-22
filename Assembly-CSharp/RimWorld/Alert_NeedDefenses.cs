@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000795 RID: 1941
+	// Token: 0x02000791 RID: 1937
 	public class Alert_NeedDefenses : Alert
 	{
-		// Token: 0x06002B01 RID: 11009 RVA: 0x0016B189 File Offset: 0x00169589
+		// Token: 0x06002AFA RID: 11002 RVA: 0x0016B361 File Offset: 0x00169761
 		public Alert_NeedDefenses()
 		{
 			this.defaultLabel = "NeedDefenses".Translate();
@@ -15,7 +15,7 @@ namespace RimWorld
 			this.defaultPriority = AlertPriority.High;
 		}
 
-		// Token: 0x06002B02 RID: 11010 RVA: 0x0016B1BC File Offset: 0x001695BC
+		// Token: 0x06002AFB RID: 11003 RVA: 0x0016B394 File Offset: 0x00169794
 		public override AlertReport GetReport()
 		{
 			AlertReport result;
@@ -38,7 +38,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B03 RID: 11011 RVA: 0x0016B238 File Offset: 0x00169638
+		// Token: 0x06002AFC RID: 11004 RVA: 0x0016B410 File Offset: 0x00169810
 		private bool NeedDefenses(Map map)
 		{
 			bool result;

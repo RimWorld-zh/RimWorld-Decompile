@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000464 RID: 1124
+	// Token: 0x02000460 RID: 1120
 	public class Hediff_Addiction : HediffWithComps
 	{
 		// Token: 0x170002B7 RID: 695
-		// (get) Token: 0x060013B8 RID: 5048 RVA: 0x000AB4C0 File Offset: 0x000A98C0
+		// (get) Token: 0x060013AF RID: 5039 RVA: 0x000AB4D0 File Offset: 0x000A98D0
 		public Need_Chemical Need
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002B8 RID: 696
-		// (get) Token: 0x060013B9 RID: 5049 RVA: 0x000AB548 File Offset: 0x000A9948
+		// (get) Token: 0x060013B0 RID: 5040 RVA: 0x000AB558 File Offset: 0x000A9958
 		public ChemicalDef Chemical
 		{
 			get
@@ -53,7 +53,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002B9 RID: 697
-		// (get) Token: 0x060013BA RID: 5050 RVA: 0x000AB5A4 File Offset: 0x000A99A4
+		// (get) Token: 0x060013B1 RID: 5041 RVA: 0x000AB5B4 File Offset: 0x000A99B4
 		public override string LabelInBrackets
 		{
 			get
@@ -72,7 +72,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002BA RID: 698
-		// (get) Token: 0x060013BB RID: 5051 RVA: 0x000AB604 File Offset: 0x000A9A04
+		// (get) Token: 0x060013B2 RID: 5042 RVA: 0x000AB614 File Offset: 0x000A9A14
 		public override int CurStageIndex
 		{
 			get
@@ -91,16 +91,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060013BC RID: 5052 RVA: 0x000AB639 File Offset: 0x000A9A39
+		// Token: 0x060013B3 RID: 5043 RVA: 0x000AB649 File Offset: 0x000A9A49
 		public void Notify_NeedCategoryChanged()
 		{
 			this.pawn.health.Notify_HediffChanged(this);
 		}
 
-		// Token: 0x04000BF6 RID: 3062
+		// Token: 0x04000BF3 RID: 3059
 		private const int DefaultStageIndex = 0;
 
-		// Token: 0x04000BF7 RID: 3063
+		// Token: 0x04000BF4 RID: 3060
 		private const int WithdrawalStageIndex = 1;
 	}
 }

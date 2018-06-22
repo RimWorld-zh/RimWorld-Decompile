@@ -2,10 +2,10 @@
 
 namespace RimWorld
 {
-	// Token: 0x020008B0 RID: 2224
+	// Token: 0x020008AC RID: 2220
 	public class TransferableComparer_MarketValue : TransferableComparer
 	{
-		// Token: 0x060032DE RID: 13022 RVA: 0x001B64F4 File Offset: 0x001B48F4
+		// Token: 0x060032D7 RID: 13015 RVA: 0x001B66DC File Offset: 0x001B4ADC
 		public override int Compare(Transferable lhs, Transferable rhs)
 		{
 			return lhs.AnyThing.MarketValue.CompareTo(rhs.AnyThing.MarketValue);

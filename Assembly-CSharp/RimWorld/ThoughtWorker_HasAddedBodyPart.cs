@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000225 RID: 549
 	public class ThoughtWorker_HasAddedBodyPart : ThoughtWorker
 	{
-		// Token: 0x06000A18 RID: 2584 RVA: 0x000596D4 File Offset: 0x00057AD4
+		// Token: 0x06000A16 RID: 2582 RVA: 0x00059718 File Offset: 0x00057B18
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			int num = 0;

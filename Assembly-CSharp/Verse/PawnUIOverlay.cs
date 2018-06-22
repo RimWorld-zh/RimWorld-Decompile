@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CE9 RID: 3305
+	// Token: 0x02000CE6 RID: 3302
 	public class PawnUIOverlay
 	{
-		// Token: 0x060048B8 RID: 18616 RVA: 0x00262218 File Offset: 0x00260618
+		// Token: 0x060048C9 RID: 18633 RVA: 0x00263630 File Offset: 0x00261A30
 		public PawnUIOverlay(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x060048B9 RID: 18617 RVA: 0x00262228 File Offset: 0x00260628
+		// Token: 0x060048CA RID: 18634 RVA: 0x00263640 File Offset: 0x00261A40
 		public void DrawPawnGUIOverlay()
 		{
 			if (this.pawn.Spawned && !this.pawn.Map.fogGrid.IsFogged(this.pawn.Position))
@@ -49,19 +49,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003138 RID: 12600
+		// Token: 0x04003143 RID: 12611
 		private Pawn pawn;
 
-		// Token: 0x04003139 RID: 12601
+		// Token: 0x04003144 RID: 12612
 		private const float PawnLabelOffsetY = -0.6f;
 
-		// Token: 0x0400313A RID: 12602
+		// Token: 0x04003145 RID: 12613
 		private const int PawnStatBarWidth = 32;
 
-		// Token: 0x0400313B RID: 12603
+		// Token: 0x04003146 RID: 12614
 		private const float ActivityIconSize = 13f;
 
-		// Token: 0x0400313C RID: 12604
+		// Token: 0x04003147 RID: 12615
 		private const float ActivityIconOffsetY = 12f;
 	}
 }

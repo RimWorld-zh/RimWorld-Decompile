@@ -4,10 +4,10 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A3D RID: 2621
+	// Token: 0x02000A39 RID: 2617
 	public class JobDriver_AttackStatic : JobDriver
 	{
-		// Token: 0x06003A1F RID: 14879 RVA: 0x001EB9B9 File Offset: 0x001E9DB9
+		// Token: 0x06003A19 RID: 14873 RVA: 0x001EBBF9 File Offset: 0x001E9FF9
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -15,13 +15,13 @@ namespace Verse.AI
 			Scribe_Values.Look<int>(ref this.numAttacksMade, "numAttacksMade", 0, false);
 		}
 
-		// Token: 0x06003A20 RID: 14880 RVA: 0x001EB9E8 File Offset: 0x001E9DE8
+		// Token: 0x06003A1A RID: 14874 RVA: 0x001EBC28 File Offset: 0x001EA028
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x06003A21 RID: 14881 RVA: 0x001EBA00 File Offset: 0x001E9E00
+		// Token: 0x06003A1B RID: 14875 RVA: 0x001EBC40 File Offset: 0x001EA040
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return Toils_Misc.ThrowColonistAttackingMote(TargetIndex.A);
@@ -76,10 +76,10 @@ namespace Verse.AI
 			yield break;
 		}
 
-		// Token: 0x04002504 RID: 9476
+		// Token: 0x040024FF RID: 9471
 		private bool startedIncapacitated;
 
-		// Token: 0x04002505 RID: 9477
+		// Token: 0x04002500 RID: 9472
 		private int numAttacksMade;
 	}
 }

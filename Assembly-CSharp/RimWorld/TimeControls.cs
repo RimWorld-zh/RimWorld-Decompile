@@ -5,10 +5,10 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000844 RID: 2116
+	// Token: 0x02000840 RID: 2112
 	public static class TimeControls
 	{
-		// Token: 0x06002FD6 RID: 12246 RVA: 0x0019EAAC File Offset: 0x0019CEAC
+		// Token: 0x06002FCF RID: 12239 RVA: 0x0019EC8C File Offset: 0x0019D08C
 		private static void PlaySoundOf(TimeSpeed speed)
 		{
 			SoundDef soundDef = null;
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FD7 RID: 12247 RVA: 0x0019EB20 File Offset: 0x0019CF20
+		// Token: 0x06002FD0 RID: 12240 RVA: 0x0019ED00 File Offset: 0x0019D100
 		public static void DoTimeControlsGUI(Rect timerRect)
 		{
 			TickManager tickManager = Find.TickManager;
@@ -122,10 +122,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040019D8 RID: 6616
+		// Token: 0x040019D6 RID: 6614
 		public static readonly Vector2 TimeButSize = new Vector2(32f, 24f);
 
-		// Token: 0x040019D9 RID: 6617
+		// Token: 0x040019D7 RID: 6615
 		private static readonly TimeSpeed[] CachedTimeSpeedValues = (TimeSpeed[])Enum.GetValues(typeof(TimeSpeed));
 	}
 }

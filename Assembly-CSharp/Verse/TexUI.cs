@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EA9 RID: 3753
+	// Token: 0x02000EA8 RID: 3752
 	[StaticConstructorOnStartup]
 	public static class TexUI
 	{
-		// Token: 0x06005863 RID: 22627 RVA: 0x002D4A38 File Offset: 0x002D2E38
+		// Token: 0x06005883 RID: 22659 RVA: 0x002D6648 File Offset: 0x002D4A48
 		// Note: this type is marked as 'beforefieldinit'.
 		static TexUI()
 		{
@@ -47,82 +47,82 @@ namespace Verse
 			TexUI.GrayscaleGUI = MatLoader.LoadMat("Misc/GrayscaleGUI", -1);
 		}
 
-		// Token: 0x04003AD2 RID: 15058
+		// Token: 0x04003AE2 RID: 15074
 		public static readonly Texture2D TitleBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 1f, 1f, 0.05f));
 
-		// Token: 0x04003AD3 RID: 15059
+		// Token: 0x04003AE3 RID: 15075
 		public static readonly Texture2D HighlightTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 1f, 1f, 0.1f));
 
-		// Token: 0x04003AD4 RID: 15060
+		// Token: 0x04003AE4 RID: 15076
 		public static readonly Texture2D HighlightSelectedTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 0.94f, 0.5f, 0.18f));
 
-		// Token: 0x04003AD5 RID: 15061
+		// Token: 0x04003AE5 RID: 15077
 		public static readonly Texture2D ArrowTexRight = ContentFinder<Texture2D>.Get("UI/Widgets/ArrowRight", true);
 
-		// Token: 0x04003AD6 RID: 15062
+		// Token: 0x04003AE6 RID: 15078
 		public static readonly Texture2D ArrowTexLeft = ContentFinder<Texture2D>.Get("UI/Widgets/ArrowLeft", true);
 
-		// Token: 0x04003AD7 RID: 15063
+		// Token: 0x04003AE7 RID: 15079
 		public static readonly Texture2D WinExpandWidget = ContentFinder<Texture2D>.Get("UI/Widgets/WinExpandWidget", true);
 
-		// Token: 0x04003AD8 RID: 15064
+		// Token: 0x04003AE8 RID: 15080
 		public static readonly Texture2D ArrowTex = ContentFinder<Texture2D>.Get("UI/Misc/AlertFlashArrow", true);
 
-		// Token: 0x04003AD9 RID: 15065
+		// Token: 0x04003AE9 RID: 15081
 		public static readonly Texture2D RotLeftTex = ContentFinder<Texture2D>.Get("UI/Widgets/RotLeft", true);
 
-		// Token: 0x04003ADA RID: 15066
+		// Token: 0x04003AEA RID: 15082
 		public static readonly Texture2D RotRightTex = ContentFinder<Texture2D>.Get("UI/Widgets/RotRight", true);
 
-		// Token: 0x04003ADB RID: 15067
+		// Token: 0x04003AEB RID: 15083
 		public static readonly Texture2D GrayBg;
 
-		// Token: 0x04003ADC RID: 15068
+		// Token: 0x04003AEC RID: 15084
 		public static readonly Color AvailResearchColor;
 
-		// Token: 0x04003ADD RID: 15069
+		// Token: 0x04003AED RID: 15085
 		public static readonly Color ActiveResearchColor;
 
-		// Token: 0x04003ADE RID: 15070
+		// Token: 0x04003AEE RID: 15086
 		public static readonly Color FinishedResearchColor;
 
-		// Token: 0x04003ADF RID: 15071
+		// Token: 0x04003AEF RID: 15087
 		public static readonly Color LockedResearchColor;
 
-		// Token: 0x04003AE0 RID: 15072
+		// Token: 0x04003AF0 RID: 15088
 		public static readonly Color RelatedResearchColor;
 
-		// Token: 0x04003AE1 RID: 15073
+		// Token: 0x04003AF1 RID: 15089
 		public static readonly Color HighlightBgResearchColor;
 
-		// Token: 0x04003AE2 RID: 15074
+		// Token: 0x04003AF2 RID: 15090
 		public static readonly Color HighlightBorderResearchColor;
 
-		// Token: 0x04003AE3 RID: 15075
+		// Token: 0x04003AF3 RID: 15091
 		public static readonly Color DefaultBorderResearchColor;
 
-		// Token: 0x04003AE4 RID: 15076
+		// Token: 0x04003AF4 RID: 15092
 		public static readonly Color DefaultLineResearchColor;
 
-		// Token: 0x04003AE5 RID: 15077
+		// Token: 0x04003AF5 RID: 15093
 		public static readonly Color HighlightLineResearchColor;
 
-		// Token: 0x04003AE6 RID: 15078
+		// Token: 0x04003AF6 RID: 15094
 		public static readonly Texture2D FastFillTex;
 
-		// Token: 0x04003AE7 RID: 15079
+		// Token: 0x04003AF7 RID: 15095
 		public static readonly GUIStyle FastFillStyle;
 
-		// Token: 0x04003AE8 RID: 15080
+		// Token: 0x04003AF8 RID: 15096
 		public static readonly Texture2D TextBGBlack;
 
-		// Token: 0x04003AE9 RID: 15081
+		// Token: 0x04003AF9 RID: 15097
 		public static readonly Texture2D GrayTextBG;
 
-		// Token: 0x04003AEA RID: 15082
+		// Token: 0x04003AFA RID: 15098
 		public static readonly Texture2D FloatMenuOptionBG;
 
-		// Token: 0x04003AEB RID: 15083
+		// Token: 0x04003AFB RID: 15099
 		public static readonly Material GrayscaleGUI;
 	}
 }

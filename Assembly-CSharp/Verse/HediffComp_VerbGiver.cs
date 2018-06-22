@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000D1F RID: 3359
+	// Token: 0x02000D1C RID: 3356
 	public class HediffComp_VerbGiver : HediffComp, IVerbOwner
 	{
-		// Token: 0x060049E9 RID: 18921 RVA: 0x0026A219 File Offset: 0x00268619
+		// Token: 0x060049FA RID: 18938 RVA: 0x0026B64D File Offset: 0x00269A4D
 		public HediffComp_VerbGiver()
 		{
 			this.verbTracker = new VerbTracker(this);
 		}
 
-		// Token: 0x17000BB9 RID: 3001
-		// (get) Token: 0x060049EA RID: 18922 RVA: 0x0026A238 File Offset: 0x00268638
+		// Token: 0x17000BBB RID: 3003
+		// (get) Token: 0x060049FB RID: 18939 RVA: 0x0026B66C File Offset: 0x00269A6C
 		public HediffCompProperties_VerbGiver Props
 		{
 			get
@@ -22,8 +22,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BBA RID: 3002
-		// (get) Token: 0x060049EB RID: 18923 RVA: 0x0026A258 File Offset: 0x00268658
+		// Token: 0x17000BBC RID: 3004
+		// (get) Token: 0x060049FC RID: 18940 RVA: 0x0026B68C File Offset: 0x00269A8C
 		public VerbTracker VerbTracker
 		{
 			get
@@ -32,8 +32,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BBB RID: 3003
-		// (get) Token: 0x060049EC RID: 18924 RVA: 0x0026A274 File Offset: 0x00268674
+		// Token: 0x17000BBD RID: 3005
+		// (get) Token: 0x060049FD RID: 18941 RVA: 0x0026B6A8 File Offset: 0x00269AA8
 		public List<VerbProperties> VerbProperties
 		{
 			get
@@ -42,8 +42,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BBC RID: 3004
-		// (get) Token: 0x060049ED RID: 18925 RVA: 0x0026A294 File Offset: 0x00268694
+		// Token: 0x17000BBE RID: 3006
+		// (get) Token: 0x060049FE RID: 18942 RVA: 0x0026B6C8 File Offset: 0x00269AC8
 		public List<Tool> Tools
 		{
 			get
@@ -52,7 +52,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049EE RID: 18926 RVA: 0x0026A2B4 File Offset: 0x002686B4
+		// Token: 0x060049FF RID: 18943 RVA: 0x0026B6E8 File Offset: 0x00269AE8
 		public override void CompExposeData()
 		{
 			base.CompExposeData();
@@ -69,20 +69,20 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049EF RID: 18927 RVA: 0x0026A306 File Offset: 0x00268706
+		// Token: 0x06004A00 RID: 18944 RVA: 0x0026B73A File Offset: 0x00269B3A
 		public override void CompPostTick(ref float severityAdjustment)
 		{
 			base.CompPostTick(ref severityAdjustment);
 			this.verbTracker.VerbsTick();
 		}
 
-		// Token: 0x060049F0 RID: 18928 RVA: 0x0026A31C File Offset: 0x0026871C
+		// Token: 0x06004A01 RID: 18945 RVA: 0x0026B750 File Offset: 0x00269B50
 		public string UniqueVerbOwnerID()
 		{
 			return this.parent.GetUniqueLoadID();
 		}
 
-		// Token: 0x04003221 RID: 12833
+		// Token: 0x0400322C RID: 12844
 		public VerbTracker verbTracker = null;
 	}
 }

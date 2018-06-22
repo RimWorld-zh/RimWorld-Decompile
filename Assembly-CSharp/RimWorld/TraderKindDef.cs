@@ -8,7 +8,7 @@ namespace RimWorld
 	public class TraderKindDef : Def
 	{
 		// Token: 0x170001D5 RID: 469
-		// (get) Token: 0x06000C40 RID: 3136 RVA: 0x0006C9B8 File Offset: 0x0006ADB8
+		// (get) Token: 0x06000C3F RID: 3135 RVA: 0x0006CA54 File Offset: 0x0006AE54
 		public float CalculatedCommonality
 		{
 			get
@@ -22,7 +22,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C41 RID: 3137 RVA: 0x0006CA00 File Offset: 0x0006AE00
+		// Token: 0x06000C40 RID: 3136 RVA: 0x0006CA9C File Offset: 0x0006AE9C
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -32,7 +32,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C42 RID: 3138 RVA: 0x0006CA68 File Offset: 0x0006AE68
+		// Token: 0x06000C41 RID: 3137 RVA: 0x0006CB04 File Offset: 0x0006AF04
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -49,7 +49,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000C43 RID: 3139 RVA: 0x0006CA94 File Offset: 0x0006AE94
+		// Token: 0x06000C42 RID: 3138 RVA: 0x0006CB30 File Offset: 0x0006AF30
 		public bool WillTrade(ThingDef td)
 		{
 			for (int i = 0; i < this.stockGenerators.Count; i++)
@@ -62,7 +62,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000C44 RID: 3140 RVA: 0x0006CAE8 File Offset: 0x0006AEE8
+		// Token: 0x06000C43 RID: 3139 RVA: 0x0006CB84 File Offset: 0x0006AF84
 		public PriceType PriceTypeFor(ThingDef thingDef, TradeAction action)
 		{
 			PriceType result;
@@ -88,19 +88,19 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x040007CC RID: 1996
+		// Token: 0x040007CD RID: 1997
 		public List<StockGenerator> stockGenerators = new List<StockGenerator>();
 
-		// Token: 0x040007CD RID: 1997
+		// Token: 0x040007CE RID: 1998
 		public float commonality = 1f;
 
-		// Token: 0x040007CE RID: 1998
+		// Token: 0x040007CF RID: 1999
 		public bool orbital;
 
-		// Token: 0x040007CF RID: 1999
+		// Token: 0x040007D0 RID: 2000
 		public bool requestable = true;
 
-		// Token: 0x040007D0 RID: 2000
+		// Token: 0x040007D1 RID: 2001
 		public SimpleCurve commonalityMultFromPopulationIntent;
 	}
 }

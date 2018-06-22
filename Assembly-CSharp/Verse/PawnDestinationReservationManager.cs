@@ -6,11 +6,11 @@ using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000D4D RID: 3405
+	// Token: 0x02000D4A RID: 3402
 	[StaticConstructorOnStartup]
 	public sealed class PawnDestinationReservationManager : IExposable
 	{
-		// Token: 0x06004B80 RID: 19328 RVA: 0x002765E4 File Offset: 0x002749E4
+		// Token: 0x06004B94 RID: 19348 RVA: 0x00277B7C File Offset: 0x00275F7C
 		public PawnDestinationReservationManager()
 		{
 			foreach (Faction faction in Find.FactionManager.AllFactions)
@@ -19,13 +19,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B81 RID: 19329 RVA: 0x00276658 File Offset: 0x00274A58
+		// Token: 0x06004B95 RID: 19349 RVA: 0x00277BF0 File Offset: 0x00275FF0
 		public void RegisterFaction(Faction faction)
 		{
 			this.reservedDestinations.Add(faction, new PawnDestinationReservationManager.PawnDestinationSet());
 		}
 
-		// Token: 0x06004B82 RID: 19330 RVA: 0x0027666C File Offset: 0x00274A6C
+		// Token: 0x06004B96 RID: 19350 RVA: 0x00277C04 File Offset: 0x00276004
 		public void Reserve(Pawn p, Job job, IntVec3 loc)
 		{
 			if (p.Faction != null)
@@ -40,7 +40,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B83 RID: 19331 RVA: 0x002766C8 File Offset: 0x00274AC8
+		// Token: 0x06004B97 RID: 19351 RVA: 0x00277C60 File Offset: 0x00276060
 		public IntVec3 MostRecentReservationFor(Pawn p)
 		{
 			IntVec3 invalid;
@@ -63,7 +63,7 @@ namespace Verse
 			return invalid;
 		}
 
-		// Token: 0x06004B84 RID: 19332 RVA: 0x00276760 File Offset: 0x00274B60
+		// Token: 0x06004B98 RID: 19352 RVA: 0x00277CF8 File Offset: 0x002760F8
 		public IntVec3 FirstObsoleteReservationFor(Pawn p)
 		{
 			IntVec3 invalid;
@@ -86,7 +86,7 @@ namespace Verse
 			return invalid;
 		}
 
-		// Token: 0x06004B85 RID: 19333 RVA: 0x002767F8 File Offset: 0x00274BF8
+		// Token: 0x06004B99 RID: 19353 RVA: 0x00277D90 File Offset: 0x00276190
 		public Job FirstObsoleteReservationJobFor(Pawn p)
 		{
 			Job result;
@@ -109,7 +109,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004B86 RID: 19334 RVA: 0x00276888 File Offset: 0x00274C88
+		// Token: 0x06004B9A RID: 19354 RVA: 0x00277E20 File Offset: 0x00276220
 		public bool IsReserved(IntVec3 loc)
 		{
 			foreach (KeyValuePair<Faction, PawnDestinationReservationManager.PawnDestinationSet> keyValuePair in this.reservedDestinations)
@@ -126,7 +126,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004B87 RID: 19335 RVA: 0x00276930 File Offset: 0x00274D30
+		// Token: 0x06004B9B RID: 19355 RVA: 0x00277EC8 File Offset: 0x002762C8
 		public bool CanReserve(IntVec3 c, Pawn searcher, bool draftedOnly = false)
 		{
 			bool result;
@@ -149,7 +149,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004B88 RID: 19336 RVA: 0x002769D8 File Offset: 0x00274DD8
+		// Token: 0x06004B9C RID: 19356 RVA: 0x00277F70 File Offset: 0x00276370
 		public Pawn FirstReserverOf(IntVec3 c, Faction faction)
 		{
 			Pawn result;
@@ -172,7 +172,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004B89 RID: 19337 RVA: 0x00276A50 File Offset: 0x00274E50
+		// Token: 0x06004B9D RID: 19357 RVA: 0x00277FE8 File Offset: 0x002763E8
 		public void ReleaseAllObsoleteClaimedBy(Pawn p)
 		{
 			if (p.Faction != null)
@@ -194,7 +194,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B8A RID: 19338 RVA: 0x00276AE4 File Offset: 0x00274EE4
+		// Token: 0x06004B9E RID: 19358 RVA: 0x0027807C File Offset: 0x0027647C
 		public void ReleaseAllClaimedBy(Pawn p)
 		{
 			if (p.Faction != null)
@@ -216,7 +216,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B8B RID: 19339 RVA: 0x00276B68 File Offset: 0x00274F68
+		// Token: 0x06004B9F RID: 19359 RVA: 0x00278100 File Offset: 0x00276500
 		public void ReleaseClaimedBy(Pawn p, Job job)
 		{
 			if (p.Faction != null)
@@ -238,7 +238,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B8C RID: 19340 RVA: 0x00276C24 File Offset: 0x00275024
+		// Token: 0x06004BA0 RID: 19360 RVA: 0x002781BC File Offset: 0x002765BC
 		public void ObsoleteAllClaimedBy(Pawn p)
 		{
 			if (p.Faction != null)
@@ -260,7 +260,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B8D RID: 19341 RVA: 0x00276CCC File Offset: 0x002750CC
+		// Token: 0x06004BA1 RID: 19361 RVA: 0x00278264 File Offset: 0x00276664
 		public void DebugDrawDestinations()
 		{
 			foreach (PawnDestinationReservationManager.PawnDestinationReservation pawnDestinationReservation in this.reservedDestinations[Faction.OfPlayer].list)
@@ -280,31 +280,31 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B8E RID: 19342 RVA: 0x00276DCC File Offset: 0x002751CC
+		// Token: 0x06004BA2 RID: 19362 RVA: 0x00278364 File Offset: 0x00276764
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Faction, PawnDestinationReservationManager.PawnDestinationSet>(ref this.reservedDestinations, "reservedDestinations", LookMode.Reference, LookMode.Deep, ref this.reservedDestinationsKeysWorkingList, ref this.reservedDestinationsValuesWorkingList);
 		}
 
-		// Token: 0x040032B1 RID: 12977
+		// Token: 0x040032BC RID: 12988
 		private Dictionary<Faction, PawnDestinationReservationManager.PawnDestinationSet> reservedDestinations = new Dictionary<Faction, PawnDestinationReservationManager.PawnDestinationSet>();
 
-		// Token: 0x040032B2 RID: 12978
+		// Token: 0x040032BD RID: 12989
 		private static readonly Material DestinationMat = MaterialPool.MatFrom("UI/Overlays/ReservedDestination");
 
-		// Token: 0x040032B3 RID: 12979
+		// Token: 0x040032BE RID: 12990
 		private static readonly Material DestinationSelectionMat = MaterialPool.MatFrom("UI/Overlays/ReservedDestinationSelection");
 
-		// Token: 0x040032B4 RID: 12980
+		// Token: 0x040032BF RID: 12991
 		private List<Faction> reservedDestinationsKeysWorkingList;
 
-		// Token: 0x040032B5 RID: 12981
+		// Token: 0x040032C0 RID: 12992
 		private List<PawnDestinationReservationManager.PawnDestinationSet> reservedDestinationsValuesWorkingList;
 
-		// Token: 0x02000D4E RID: 3406
+		// Token: 0x02000D4B RID: 3403
 		public class PawnDestinationReservation : IExposable
 		{
-			// Token: 0x06004B91 RID: 19345 RVA: 0x00276E18 File Offset: 0x00275218
+			// Token: 0x06004BA5 RID: 19365 RVA: 0x002783B0 File Offset: 0x002767B0
 			public void ExposeData()
 			{
 				Scribe_Values.Look<IntVec3>(ref this.target, "target", default(IntVec3), false);
@@ -313,23 +313,23 @@ namespace Verse
 				Scribe_Values.Look<bool>(ref this.obsolete, "obsolete", false, false);
 			}
 
-			// Token: 0x040032B6 RID: 12982
+			// Token: 0x040032C1 RID: 12993
 			public IntVec3 target;
 
-			// Token: 0x040032B7 RID: 12983
+			// Token: 0x040032C2 RID: 12994
 			public Pawn claimant;
 
-			// Token: 0x040032B8 RID: 12984
+			// Token: 0x040032C3 RID: 12995
 			public Job job;
 
-			// Token: 0x040032B9 RID: 12985
+			// Token: 0x040032C4 RID: 12996
 			public bool obsolete;
 		}
 
-		// Token: 0x02000D4F RID: 3407
+		// Token: 0x02000D4C RID: 3404
 		public class PawnDestinationSet : IExposable
 		{
-			// Token: 0x06004B93 RID: 19347 RVA: 0x00276E88 File Offset: 0x00275288
+			// Token: 0x06004BA7 RID: 19367 RVA: 0x00278420 File Offset: 0x00276820
 			public void ExposeData()
 			{
 				Scribe_Collections.Look<PawnDestinationReservationManager.PawnDestinationReservation>(ref this.list, "list", LookMode.Deep, new object[0]);
@@ -342,7 +342,7 @@ namespace Verse
 				}
 			}
 
-			// Token: 0x040032BA RID: 12986
+			// Token: 0x040032C5 RID: 12997
 			public List<PawnDestinationReservationManager.PawnDestinationReservation> list = new List<PawnDestinationReservationManager.PawnDestinationReservation>();
 		}
 	}

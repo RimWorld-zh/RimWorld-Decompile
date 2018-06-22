@@ -7,7 +7,7 @@ namespace Verse
 	// Token: 0x02000F10 RID: 3856
 	public static class DeepProfiler
 	{
-		// Token: 0x06005C6A RID: 23658 RVA: 0x002EE1A0 File Offset: 0x002EC5A0
+		// Token: 0x06005C92 RID: 23698 RVA: 0x002F01CC File Offset: 0x002EE5CC
 		public static ThreadLocalDeepProfiler Get()
 		{
 			object deepProfilersLock = DeepProfiler.DeepProfilersLock;
@@ -30,7 +30,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005C6B RID: 23659 RVA: 0x002EE214 File Offset: 0x002EC614
+		// Token: 0x06005C93 RID: 23699 RVA: 0x002F0240 File Offset: 0x002EE640
 		public static void Start(string label = null)
 		{
 			if (Prefs.LogVerbose)
@@ -39,7 +39,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005C6C RID: 23660 RVA: 0x002EE231 File Offset: 0x002EC631
+		// Token: 0x06005C94 RID: 23700 RVA: 0x002F025D File Offset: 0x002EE65D
 		public static void End()
 		{
 			if (Prefs.LogVerbose)
@@ -48,10 +48,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003D61 RID: 15713
+		// Token: 0x04003D73 RID: 15731
 		private static Dictionary<int, ThreadLocalDeepProfiler> deepProfilers = new Dictionary<int, ThreadLocalDeepProfiler>();
 
-		// Token: 0x04003D62 RID: 15714
+		// Token: 0x04003D74 RID: 15732
 		private static readonly object DeepProfilersLock = new object();
 	}
 }

@@ -8,7 +8,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x02000391 RID: 913
 	public struct ResolveParams
 	{
-		// Token: 0x06000FF3 RID: 4083 RVA: 0x00085B5C File Offset: 0x00083F5C
+		// Token: 0x06000FF3 RID: 4083 RVA: 0x00085D48 File Offset: 0x00084148
 		public void SetCustom<T>(string name, T obj, bool inherit = false)
 		{
 			if (this.custom == null)
@@ -29,7 +29,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06000FF4 RID: 4084 RVA: 0x00085BD6 File Offset: 0x00083FD6
+		// Token: 0x06000FF4 RID: 4084 RVA: 0x00085DC2 File Offset: 0x000841C2
 		public void RemoveCustom(string name)
 		{
 			if (this.custom != null)
@@ -39,7 +39,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06000FF5 RID: 4085 RVA: 0x00085C08 File Offset: 0x00084008
+		// Token: 0x06000FF5 RID: 4085 RVA: 0x00085DF4 File Offset: 0x000841F4
 		public bool TryGetCustom<T>(string name, out T obj)
 		{
 			object obj2;
@@ -57,7 +57,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06000FF6 RID: 4086 RVA: 0x00085C60 File Offset: 0x00084060
+		// Token: 0x06000FF6 RID: 4086 RVA: 0x00085E4C File Offset: 0x0008424C
 		public T GetCustom<T>(string name)
 		{
 			object obj;
@@ -73,7 +73,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06000FF7 RID: 4087 RVA: 0x00085CA8 File Offset: 0x000840A8
+		// Token: 0x06000FF7 RID: 4087 RVA: 0x00085E94 File Offset: 0x00084294
 		public override string ToString()
 		{
 			object[] array = new object[110];
@@ -254,172 +254,172 @@ namespace RimWorld.BaseGen
 			return string.Concat(array);
 		}
 
-		// Token: 0x040009B9 RID: 2489
+		// Token: 0x040009BB RID: 2491
 		public CellRect rect;
 
-		// Token: 0x040009BA RID: 2490
+		// Token: 0x040009BC RID: 2492
 		public Faction faction;
 
-		// Token: 0x040009BB RID: 2491
+		// Token: 0x040009BD RID: 2493
 		private Dictionary<string, object> custom;
 
-		// Token: 0x040009BC RID: 2492
+		// Token: 0x040009BE RID: 2494
 		public int? ancientTempleEntranceHeight;
 
-		// Token: 0x040009BD RID: 2493
+		// Token: 0x040009BF RID: 2495
 		public PawnGroupMakerParms pawnGroupMakerParams;
 
-		// Token: 0x040009BE RID: 2494
+		// Token: 0x040009C0 RID: 2496
 		public PawnGroupKindDef pawnGroupKindDef;
 
-		// Token: 0x040009BF RID: 2495
+		// Token: 0x040009C1 RID: 2497
 		public RoofDef roofDef;
 
-		// Token: 0x040009C0 RID: 2496
+		// Token: 0x040009C2 RID: 2498
 		public bool? noRoof;
 
-		// Token: 0x040009C1 RID: 2497
+		// Token: 0x040009C3 RID: 2499
 		public bool? addRoomCenterToRootsToUnfog;
 
-		// Token: 0x040009C2 RID: 2498
+		// Token: 0x040009C4 RID: 2500
 		public Thing singleThingToSpawn;
 
-		// Token: 0x040009C3 RID: 2499
+		// Token: 0x040009C5 RID: 2501
 		public ThingDef singleThingDef;
 
-		// Token: 0x040009C4 RID: 2500
+		// Token: 0x040009C6 RID: 2502
 		public ThingDef singleThingStuff;
 
-		// Token: 0x040009C5 RID: 2501
+		// Token: 0x040009C7 RID: 2503
 		public int? singleThingStackCount;
 
-		// Token: 0x040009C6 RID: 2502
+		// Token: 0x040009C8 RID: 2504
 		public bool? skipSingleThingIfHasToWipeBuildingOrDoesntFit;
 
-		// Token: 0x040009C7 RID: 2503
+		// Token: 0x040009C9 RID: 2505
 		public Pawn singlePawnToSpawn;
 
-		// Token: 0x040009C8 RID: 2504
+		// Token: 0x040009CA RID: 2506
 		public PawnKindDef singlePawnKindDef;
 
-		// Token: 0x040009C9 RID: 2505
+		// Token: 0x040009CB RID: 2507
 		public bool? disableSinglePawn;
 
-		// Token: 0x040009CA RID: 2506
+		// Token: 0x040009CC RID: 2508
 		public Lord singlePawnLord;
 
-		// Token: 0x040009CB RID: 2507
+		// Token: 0x040009CD RID: 2509
 		public Predicate<IntVec3> singlePawnSpawnCellExtraPredicate;
 
-		// Token: 0x040009CC RID: 2508
+		// Token: 0x040009CE RID: 2510
 		public PawnGenerationRequest? singlePawnGenerationRequest;
 
-		// Token: 0x040009CD RID: 2509
+		// Token: 0x040009CF RID: 2511
 		public Action<Thing> postThingSpawn;
 
-		// Token: 0x040009CE RID: 2510
+		// Token: 0x040009D0 RID: 2512
 		public Action<Thing> postThingGenerate;
 
-		// Token: 0x040009CF RID: 2511
+		// Token: 0x040009D1 RID: 2513
 		public int? mechanoidsCount;
 
-		// Token: 0x040009D0 RID: 2512
+		// Token: 0x040009D2 RID: 2514
 		public int? hivesCount;
 
-		// Token: 0x040009D1 RID: 2513
+		// Token: 0x040009D3 RID: 2515
 		public bool? disableHives;
 
-		// Token: 0x040009D2 RID: 2514
+		// Token: 0x040009D4 RID: 2516
 		public Rot4? thingRot;
 
-		// Token: 0x040009D3 RID: 2515
+		// Token: 0x040009D5 RID: 2517
 		public ThingDef wallStuff;
 
-		// Token: 0x040009D4 RID: 2516
+		// Token: 0x040009D6 RID: 2518
 		public float? chanceToSkipWallBlock;
 
-		// Token: 0x040009D5 RID: 2517
+		// Token: 0x040009D7 RID: 2519
 		public TerrainDef floorDef;
 
-		// Token: 0x040009D6 RID: 2518
+		// Token: 0x040009D8 RID: 2520
 		public float? chanceToSkipFloor;
 
-		// Token: 0x040009D7 RID: 2519
+		// Token: 0x040009D9 RID: 2521
 		public ThingDef filthDef;
 
-		// Token: 0x040009D8 RID: 2520
+		// Token: 0x040009DA RID: 2522
 		public FloatRange? filthDensity;
 
-		// Token: 0x040009D9 RID: 2521
+		// Token: 0x040009DB RID: 2523
 		public bool? clearEdificeOnly;
 
-		// Token: 0x040009DA RID: 2522
+		// Token: 0x040009DC RID: 2524
 		public bool? clearFillageOnly;
 
-		// Token: 0x040009DB RID: 2523
+		// Token: 0x040009DD RID: 2525
 		public bool? clearRoof;
 
-		// Token: 0x040009DC RID: 2524
+		// Token: 0x040009DE RID: 2526
 		public int? ancientCryptosleepCasketGroupID;
 
-		// Token: 0x040009DD RID: 2525
+		// Token: 0x040009DF RID: 2527
 		public PodContentsType? podContentsType;
 
-		// Token: 0x040009DE RID: 2526
+		// Token: 0x040009E0 RID: 2528
 		public ThingSetMakerDef thingSetMakerDef;
 
-		// Token: 0x040009DF RID: 2527
+		// Token: 0x040009E1 RID: 2529
 		public ThingSetMakerParams? thingSetMakerParams;
 
-		// Token: 0x040009E0 RID: 2528
+		// Token: 0x040009E2 RID: 2530
 		public IList<Thing> stockpileConcreteContents;
 
-		// Token: 0x040009E1 RID: 2529
+		// Token: 0x040009E3 RID: 2531
 		public float? stockpileMarketValue;
 
-		// Token: 0x040009E2 RID: 2530
+		// Token: 0x040009E4 RID: 2532
 		public int? innerStockpileSize;
 
-		// Token: 0x040009E3 RID: 2531
+		// Token: 0x040009E5 RID: 2533
 		public int? edgeDefenseWidth;
 
-		// Token: 0x040009E4 RID: 2532
+		// Token: 0x040009E6 RID: 2534
 		public int? edgeDefenseTurretsCount;
 
-		// Token: 0x040009E5 RID: 2533
+		// Token: 0x040009E7 RID: 2535
 		public int? edgeDefenseMortarsCount;
 
-		// Token: 0x040009E6 RID: 2534
+		// Token: 0x040009E8 RID: 2536
 		public int? edgeDefenseGuardsCount;
 
-		// Token: 0x040009E7 RID: 2535
+		// Token: 0x040009E9 RID: 2537
 		public ThingDef mortarDef;
 
-		// Token: 0x040009E8 RID: 2536
+		// Token: 0x040009EA RID: 2538
 		public TerrainDef pathwayFloorDef;
 
-		// Token: 0x040009E9 RID: 2537
+		// Token: 0x040009EB RID: 2539
 		public ThingDef cultivatedPlantDef;
 
-		// Token: 0x040009EA RID: 2538
+		// Token: 0x040009EC RID: 2540
 		public int? fillWithThingsPadding;
 
-		// Token: 0x040009EB RID: 2539
+		// Token: 0x040009ED RID: 2541
 		public float? factionBasePawnGroupPointsFactor;
 
-		// Token: 0x040009EC RID: 2540
+		// Token: 0x040009EE RID: 2542
 		public bool? streetHorizontal;
 
-		// Token: 0x040009ED RID: 2541
+		// Token: 0x040009EF RID: 2543
 		public bool? edgeThingAvoidOtherEdgeThings;
 
-		// Token: 0x040009EE RID: 2542
+		// Token: 0x040009F0 RID: 2544
 		public bool? allowPlacementOffEdge;
 
-		// Token: 0x040009EF RID: 2543
+		// Token: 0x040009F1 RID: 2545
 		public Rot4? thrustAxis;
 
-		// Token: 0x040009F0 RID: 2544
+		// Token: 0x040009F2 RID: 2546
 		public FloatRange? hpPercentRange;
 	}
 }

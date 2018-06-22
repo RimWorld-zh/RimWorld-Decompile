@@ -5,11 +5,11 @@ namespace Verse
 	// Token: 0x02000FA5 RID: 4005
 	public enum TemperatureDisplayMode : byte
 	{
-		// Token: 0x04003F47 RID: 16199
+		// Token: 0x04003F59 RID: 16217
 		Celsius,
-		// Token: 0x04003F48 RID: 16200
+		// Token: 0x04003F5A RID: 16218
 		Fahrenheit,
-		// Token: 0x04003F49 RID: 16201
+		// Token: 0x04003F5B RID: 16219
 		Kelvin
 	}
 }

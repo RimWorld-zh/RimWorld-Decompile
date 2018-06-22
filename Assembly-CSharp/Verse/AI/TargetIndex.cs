@@ -2,16 +2,16 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000A31 RID: 2609
+	// Token: 0x02000A2D RID: 2605
 	public enum TargetIndex : byte
 	{
-		// Token: 0x040024C3 RID: 9411
+		// Token: 0x040024BE RID: 9406
 		None,
-		// Token: 0x040024C4 RID: 9412
+		// Token: 0x040024BF RID: 9407
 		A,
-		// Token: 0x040024C5 RID: 9413
+		// Token: 0x040024C0 RID: 9408
 		B,
-		// Token: 0x040024C6 RID: 9414
+		// Token: 0x040024C1 RID: 9409
 		C
 	}
 }

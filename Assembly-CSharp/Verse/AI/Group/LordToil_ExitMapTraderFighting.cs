@@ -3,11 +3,11 @@ using RimWorld;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x020009F9 RID: 2553
+	// Token: 0x020009F5 RID: 2549
 	public class LordToil_ExitMapTraderFighting : LordToil
 	{
-		// Token: 0x170008D8 RID: 2264
-		// (get) Token: 0x0600394A RID: 14666 RVA: 0x001E6B94 File Offset: 0x001E4F94
+		// Token: 0x170008D9 RID: 2265
+		// (get) Token: 0x06003944 RID: 14660 RVA: 0x001E6DD4 File Offset: 0x001E51D4
 		public override bool AllowSatisfyLongNeeds
 		{
 			get
@@ -16,8 +16,8 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x170008D9 RID: 2265
-		// (get) Token: 0x0600394B RID: 14667 RVA: 0x001E6BAC File Offset: 0x001E4FAC
+		// Token: 0x170008DA RID: 2266
+		// (get) Token: 0x06003945 RID: 14661 RVA: 0x001E6DEC File Offset: 0x001E51EC
 		public override bool AllowSelfTend
 		{
 			get
@@ -26,7 +26,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x0600394C RID: 14668 RVA: 0x001E6BC4 File Offset: 0x001E4FC4
+		// Token: 0x06003946 RID: 14662 RVA: 0x001E6E04 File Offset: 0x001E5204
 		public override void UpdateAllDuties()
 		{
 			for (int i = 0; i < this.lord.ownedPawns.Count; i++)

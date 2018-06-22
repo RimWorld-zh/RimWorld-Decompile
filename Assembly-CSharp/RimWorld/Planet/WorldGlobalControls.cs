@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008EC RID: 2284
+	// Token: 0x020008E8 RID: 2280
 	public class WorldGlobalControls
 	{
-		// Token: 0x06003486 RID: 13446 RVA: 0x001C1124 File Offset: 0x001BF524
+		// Token: 0x0600347F RID: 13439 RVA: 0x001C130C File Offset: 0x001BF70C
 		public void WorldGlobalControlsOnGUI()
 		{
 			if (Event.current.type != EventType.Layout)
@@ -68,13 +68,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x04001C69 RID: 7273
+		// Token: 0x04001C67 RID: 7271
 		public const float Width = 200f;
 
-		// Token: 0x04001C6A RID: 7274
+		// Token: 0x04001C68 RID: 7272
 		private const int VisibilityControlsPerRow = 5;
 
-		// Token: 0x04001C6B RID: 7275
+		// Token: 0x04001C69 RID: 7273
 		private WidgetRow rowVisibility = new WidgetRow();
 	}
 }

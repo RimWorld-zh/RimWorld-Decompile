@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000F15 RID: 3861
 	public class LogMessage
 	{
-		// Token: 0x06005C84 RID: 23684 RVA: 0x002EE7D1 File Offset: 0x002ECBD1
+		// Token: 0x06005CAC RID: 23724 RVA: 0x002F07FD File Offset: 0x002EEBFD
 		public LogMessage(string text)
 		{
 			this.text = text;
@@ -14,7 +14,7 @@ namespace Verse
 			this.stackTrace = null;
 		}
 
-		// Token: 0x06005C85 RID: 23685 RVA: 0x002EE804 File Offset: 0x002ECC04
+		// Token: 0x06005CAD RID: 23725 RVA: 0x002F0830 File Offset: 0x002EEC30
 		public LogMessage(LogMessageType type, string text, string stackTrace)
 		{
 			this.text = text;
@@ -22,8 +22,8 @@ namespace Verse
 			this.stackTrace = stackTrace;
 		}
 
-		// Token: 0x17000EDE RID: 3806
-		// (get) Token: 0x06005C86 RID: 23686 RVA: 0x002EE838 File Offset: 0x002ECC38
+		// Token: 0x17000EE2 RID: 3810
+		// (get) Token: 0x06005CAE RID: 23726 RVA: 0x002F0864 File Offset: 0x002EEC64
 		public Color Color
 		{
 			get
@@ -56,8 +56,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000EDF RID: 3807
-		// (get) Token: 0x06005C87 RID: 23687 RVA: 0x002EE894 File Offset: 0x002ECC94
+		// Token: 0x17000EE3 RID: 3811
+		// (get) Token: 0x06005CAF RID: 23727 RVA: 0x002F08C0 File Offset: 0x002EECC0
 		public string StackTrace
 		{
 			get
@@ -75,7 +75,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005C88 RID: 23688 RVA: 0x002EE8C8 File Offset: 0x002ECCC8
+		// Token: 0x06005CB0 RID: 23728 RVA: 0x002F08F4 File Offset: 0x002EECF4
 		public override string ToString()
 		{
 			string result;
@@ -90,22 +90,22 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005C89 RID: 23689 RVA: 0x002EE91C File Offset: 0x002ECD1C
+		// Token: 0x06005CB1 RID: 23729 RVA: 0x002F0948 File Offset: 0x002EED48
 		public bool CanCombineWith(LogMessage other)
 		{
 			return this.text == other.text && this.type == other.type;
 		}
 
-		// Token: 0x04003D73 RID: 15731
+		// Token: 0x04003D85 RID: 15749
 		public string text;
 
-		// Token: 0x04003D74 RID: 15732
+		// Token: 0x04003D86 RID: 15750
 		public LogMessageType type = LogMessageType.Message;
 
-		// Token: 0x04003D75 RID: 15733
+		// Token: 0x04003D87 RID: 15751
 		public int repeats = 1;
 
-		// Token: 0x04003D76 RID: 15734
+		// Token: 0x04003D88 RID: 15752
 		private string stackTrace = null;
 	}
 }

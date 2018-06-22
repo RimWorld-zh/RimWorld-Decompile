@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A96 RID: 2710
+	// Token: 0x02000A92 RID: 2706
 	public class PawnPath : IDisposable
 	{
-		// Token: 0x1700091C RID: 2332
-		// (get) Token: 0x06003C2B RID: 15403 RVA: 0x001FC944 File Offset: 0x001FAD44
+		// Token: 0x1700091D RID: 2333
+		// (get) Token: 0x06003C26 RID: 15398 RVA: 0x001FCC68 File Offset: 0x001FB068
 		public bool Found
 		{
 			get
@@ -17,8 +17,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x1700091D RID: 2333
-		// (get) Token: 0x06003C2C RID: 15404 RVA: 0x001FC96C File Offset: 0x001FAD6C
+		// Token: 0x1700091E RID: 2334
+		// (get) Token: 0x06003C27 RID: 15399 RVA: 0x001FCC90 File Offset: 0x001FB090
 		public float TotalCost
 		{
 			get
@@ -27,8 +27,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x1700091E RID: 2334
-		// (get) Token: 0x06003C2D RID: 15405 RVA: 0x001FC988 File Offset: 0x001FAD88
+		// Token: 0x1700091F RID: 2335
+		// (get) Token: 0x06003C28 RID: 15400 RVA: 0x001FCCAC File Offset: 0x001FB0AC
 		public int NodesLeftCount
 		{
 			get
@@ -37,8 +37,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x1700091F RID: 2335
-		// (get) Token: 0x06003C2E RID: 15406 RVA: 0x001FC9A8 File Offset: 0x001FADA8
+		// Token: 0x17000920 RID: 2336
+		// (get) Token: 0x06003C29 RID: 15401 RVA: 0x001FCCCC File Offset: 0x001FB0CC
 		public List<IntVec3> NodesReversed
 		{
 			get
@@ -47,8 +47,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000920 RID: 2336
-		// (get) Token: 0x06003C2F RID: 15407 RVA: 0x001FC9C4 File Offset: 0x001FADC4
+		// Token: 0x17000921 RID: 2337
+		// (get) Token: 0x06003C2A RID: 15402 RVA: 0x001FCCE8 File Offset: 0x001FB0E8
 		public IntVec3 FirstNode
 		{
 			get
@@ -57,8 +57,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000921 RID: 2337
-		// (get) Token: 0x06003C30 RID: 15408 RVA: 0x001FC9F4 File Offset: 0x001FADF4
+		// Token: 0x17000922 RID: 2338
+		// (get) Token: 0x06003C2B RID: 15403 RVA: 0x001FCD18 File Offset: 0x001FB118
 		public IntVec3 LastNode
 		{
 			get
@@ -67,8 +67,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000922 RID: 2338
-		// (get) Token: 0x06003C31 RID: 15409 RVA: 0x001FCA18 File Offset: 0x001FAE18
+		// Token: 0x17000923 RID: 2339
+		// (get) Token: 0x06003C2C RID: 15404 RVA: 0x001FCD3C File Offset: 0x001FB13C
 		public static PawnPath NotFound
 		{
 			get
@@ -77,13 +77,13 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C32 RID: 15410 RVA: 0x001FCA32 File Offset: 0x001FAE32
+		// Token: 0x06003C2D RID: 15405 RVA: 0x001FCD56 File Offset: 0x001FB156
 		public void AddNode(IntVec3 nodePosition)
 		{
 			this.nodes.Add(nodePosition);
 		}
 
-		// Token: 0x06003C33 RID: 15411 RVA: 0x001FCA44 File Offset: 0x001FAE44
+		// Token: 0x06003C2E RID: 15406 RVA: 0x001FCD68 File Offset: 0x001FB168
 		public void SetupFound(float totalCost)
 		{
 			if (this == PawnPath.NotFound)
@@ -97,13 +97,13 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C34 RID: 15412 RVA: 0x001FCA98 File Offset: 0x001FAE98
+		// Token: 0x06003C2F RID: 15407 RVA: 0x001FCDBC File Offset: 0x001FB1BC
 		public void Dispose()
 		{
 			this.ReleaseToPool();
 		}
 
-		// Token: 0x06003C35 RID: 15413 RVA: 0x001FCAA1 File Offset: 0x001FAEA1
+		// Token: 0x06003C30 RID: 15408 RVA: 0x001FCDC5 File Offset: 0x001FB1C5
 		public void ReleaseToPool()
 		{
 			if (this != PawnPath.NotFound)
@@ -114,7 +114,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C36 RID: 15414 RVA: 0x001FCAD0 File Offset: 0x001FAED0
+		// Token: 0x06003C31 RID: 15409 RVA: 0x001FCDF4 File Offset: 0x001FB1F4
 		public static PawnPath NewNotFound()
 		{
 			return new PawnPath
@@ -123,7 +123,7 @@ namespace Verse.AI
 			};
 		}
 
-		// Token: 0x06003C37 RID: 15415 RVA: 0x001FCAF8 File Offset: 0x001FAEF8
+		// Token: 0x06003C32 RID: 15410 RVA: 0x001FCE1C File Offset: 0x001FB21C
 		public IntVec3 ConsumeNextNode()
 		{
 			IntVec3 result = this.Peek(1);
@@ -131,13 +131,13 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C38 RID: 15416 RVA: 0x001FCB24 File Offset: 0x001FAF24
+		// Token: 0x06003C33 RID: 15411 RVA: 0x001FCE48 File Offset: 0x001FB248
 		public IntVec3 Peek(int nodesAhead)
 		{
 			return this.nodes[this.curNodeIndex - nodesAhead];
 		}
 
-		// Token: 0x06003C39 RID: 15417 RVA: 0x001FCB4C File Offset: 0x001FAF4C
+		// Token: 0x06003C34 RID: 15412 RVA: 0x001FCE70 File Offset: 0x001FB270
 		public override string ToString()
 		{
 			string result;
@@ -170,7 +170,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C3A RID: 15418 RVA: 0x001FCC28 File Offset: 0x001FB028
+		// Token: 0x06003C35 RID: 15413 RVA: 0x001FCF4C File Offset: 0x001FB34C
 		public void DrawPath(Pawn pathingPawn)
 		{
 			if (this.Found)
@@ -201,16 +201,16 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x040025F9 RID: 9721
+		// Token: 0x040025F4 RID: 9716
 		private List<IntVec3> nodes = new List<IntVec3>(128);
 
-		// Token: 0x040025FA RID: 9722
+		// Token: 0x040025F5 RID: 9717
 		private float totalCostInt = 0f;
 
-		// Token: 0x040025FB RID: 9723
+		// Token: 0x040025F6 RID: 9718
 		private int curNodeIndex;
 
-		// Token: 0x040025FC RID: 9724
+		// Token: 0x040025F7 RID: 9719
 		public bool inUse = false;
 	}
 }

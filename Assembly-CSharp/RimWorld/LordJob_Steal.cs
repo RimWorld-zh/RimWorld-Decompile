@@ -7,7 +7,7 @@ namespace RimWorld
 	public class LordJob_Steal : LordJob
 	{
 		// Token: 0x17000134 RID: 308
-		// (get) Token: 0x060007BB RID: 1979 RVA: 0x0004BAC0 File Offset: 0x00049EC0
+		// (get) Token: 0x060007BB RID: 1979 RVA: 0x0004BAAC File Offset: 0x00049EAC
 		public override bool GuiltyOnDowned
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060007BC RID: 1980 RVA: 0x0004BAD8 File Offset: 0x00049ED8
+		// Token: 0x060007BC RID: 1980 RVA: 0x0004BAC4 File Offset: 0x00049EC4
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();

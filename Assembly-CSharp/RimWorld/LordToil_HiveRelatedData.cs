@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000192 RID: 402
 	public class LordToil_HiveRelatedData : LordToilData
 	{
-		// Token: 0x06000855 RID: 2133 RVA: 0x0004FC4C File Offset: 0x0004E04C
+		// Token: 0x06000855 RID: 2133 RVA: 0x0004FC38 File Offset: 0x0004E038
 		public override void ExposeData()
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)

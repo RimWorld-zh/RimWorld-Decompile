@@ -2,14 +2,14 @@
 
 namespace Verse
 {
-	// Token: 0x02000B75 RID: 2933
+	// Token: 0x02000B71 RID: 2929
 	public enum TimeOfDay : byte
 	{
-		// Token: 0x04002AD9 RID: 10969
+		// Token: 0x04002ADE RID: 10974
 		Night,
-		// Token: 0x04002ADA RID: 10970
+		// Token: 0x04002ADF RID: 10975
 		Day,
-		// Token: 0x04002ADB RID: 10971
+		// Token: 0x04002AE0 RID: 10976
 		Any
 	}
 }

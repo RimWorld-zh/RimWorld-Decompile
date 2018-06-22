@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A35 RID: 2613
+	// Token: 0x02000A31 RID: 2609
 	public class JobDriver_Follow : JobDriver
 	{
-		// Token: 0x060039F8 RID: 14840 RVA: 0x001E9E68 File Offset: 0x001E8268
+		// Token: 0x060039F2 RID: 14834 RVA: 0x001EA0A8 File Offset: 0x001E84A8
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x060039F9 RID: 14841 RVA: 0x001E9E80 File Offset: 0x001E8280
+		// Token: 0x060039F3 RID: 14835 RVA: 0x001EA0C0 File Offset: 0x001E84C0
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);
@@ -38,16 +38,16 @@ namespace Verse.AI
 			yield break;
 		}
 
-		// Token: 0x060039FA RID: 14842 RVA: 0x001E9EAC File Offset: 0x001E82AC
+		// Token: 0x060039F4 RID: 14836 RVA: 0x001EA0EC File Offset: 0x001E84EC
 		public override bool IsContinuation(Job j)
 		{
 			return this.job.GetTarget(TargetIndex.A) == j.GetTarget(TargetIndex.A);
 		}
 
-		// Token: 0x040024FE RID: 9470
+		// Token: 0x040024F9 RID: 9465
 		private const TargetIndex FolloweeInd = TargetIndex.A;
 
-		// Token: 0x040024FF RID: 9471
+		// Token: 0x040024FA RID: 9466
 		private const int Distance = 4;
 	}
 }

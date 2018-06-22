@@ -4,17 +4,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200078C RID: 1932
+	// Token: 0x02000788 RID: 1928
 	public abstract class Alert_Critical : Alert
 	{
-		// Token: 0x06002ADB RID: 10971 RVA: 0x0016A0AE File Offset: 0x001684AE
+		// Token: 0x06002AD4 RID: 10964 RVA: 0x0016A286 File Offset: 0x00168686
 		public Alert_Critical()
 		{
 			this.defaultPriority = AlertPriority.Critical;
 		}
 
-		// Token: 0x170006AA RID: 1706
-		// (get) Token: 0x06002ADC RID: 10972 RVA: 0x0016A0C8 File Offset: 0x001684C8
+		// Token: 0x170006AB RID: 1707
+		// (get) Token: 0x06002AD5 RID: 10965 RVA: 0x0016A2A0 File Offset: 0x001686A0
 		protected override Color BGColor
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002ADD RID: 10973 RVA: 0x0016A10C File Offset: 0x0016850C
+		// Token: 0x06002AD6 RID: 10966 RVA: 0x0016A2E4 File Offset: 0x001686E4
 		public override void AlertActiveUpdate()
 		{
 			if (this.lastActiveFrame < Time.frameCount - 1)
@@ -37,16 +37,16 @@ namespace RimWorld
 			this.lastActiveFrame = Time.frameCount;
 		}
 
-		// Token: 0x04001723 RID: 5923
+		// Token: 0x04001721 RID: 5921
 		private int lastActiveFrame = -1;
 
-		// Token: 0x04001724 RID: 5924
+		// Token: 0x04001722 RID: 5922
 		private const float PulseFreq = 0.5f;
 
-		// Token: 0x04001725 RID: 5925
+		// Token: 0x04001723 RID: 5923
 		private const float PulseAmpCritical = 0.6f;
 
-		// Token: 0x04001726 RID: 5926
+		// Token: 0x04001724 RID: 5924
 		private const float PulseAmpTutorial = 0.2f;
 	}
 }

@@ -5,40 +5,40 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000574 RID: 1396
+	// Token: 0x02000570 RID: 1392
 	public class WorldFeature : IExposable, ILoadReferenceable
 	{
-		// Token: 0x06001A6C RID: 6764 RVA: 0x000E47EF File Offset: 0x000E2BEF
+		// Token: 0x06001A63 RID: 6755 RVA: 0x000E4843 File Offset: 0x000E2C43
 		protected static void FeatureSizePoint10_Changed()
 		{
 			WorldFeature.TweakChanged();
 		}
 
-		// Token: 0x06001A6D RID: 6765 RVA: 0x000E47F7 File Offset: 0x000E2BF7
+		// Token: 0x06001A64 RID: 6756 RVA: 0x000E484B File Offset: 0x000E2C4B
 		protected static void FeatureSizePoint25_Changed()
 		{
 			WorldFeature.TweakChanged();
 		}
 
-		// Token: 0x06001A6E RID: 6766 RVA: 0x000E47FF File Offset: 0x000E2BFF
+		// Token: 0x06001A65 RID: 6757 RVA: 0x000E4853 File Offset: 0x000E2C53
 		protected static void FeatureSizePoint50_Changed()
 		{
 			WorldFeature.TweakChanged();
 		}
 
-		// Token: 0x06001A6F RID: 6767 RVA: 0x000E4807 File Offset: 0x000E2C07
+		// Token: 0x06001A66 RID: 6758 RVA: 0x000E485B File Offset: 0x000E2C5B
 		protected static void FeatureSizePoint100_Changed()
 		{
 			WorldFeature.TweakChanged();
 		}
 
-		// Token: 0x06001A70 RID: 6768 RVA: 0x000E480F File Offset: 0x000E2C0F
+		// Token: 0x06001A67 RID: 6759 RVA: 0x000E4863 File Offset: 0x000E2C63
 		protected static void FeatureSizePoint200_Changed()
 		{
 			WorldFeature.TweakChanged();
 		}
 
-		// Token: 0x06001A71 RID: 6769 RVA: 0x000E4818 File Offset: 0x000E2C18
+		// Token: 0x06001A68 RID: 6760 RVA: 0x000E486C File Offset: 0x000E2C6C
 		private static void TweakChanged()
 		{
 			Find.WorldFeatures.textsCreated = false;
@@ -50,7 +50,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003BE RID: 958
-		// (get) Token: 0x06001A72 RID: 6770 RVA: 0x000E48FC File Offset: 0x000E2CFC
+		// (get) Token: 0x06001A69 RID: 6761 RVA: 0x000E4950 File Offset: 0x000E2D50
 		public float EffectiveDrawSize
 		{
 			get
@@ -59,7 +59,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001A73 RID: 6771 RVA: 0x000E4924 File Offset: 0x000E2D24
+		// Token: 0x06001A6A RID: 6762 RVA: 0x000E4978 File Offset: 0x000E2D78
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.uniqueID, "uniqueID", 0, false);
@@ -74,14 +74,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001A74 RID: 6772 RVA: 0x000E49C0 File Offset: 0x000E2DC0
+		// Token: 0x06001A6B RID: 6763 RVA: 0x000E4A14 File Offset: 0x000E2E14
 		public string GetUniqueLoadID()
 		{
 			return "WorldFeature_" + this.uniqueID;
 		}
 
 		// Token: 0x170003BF RID: 959
-		// (get) Token: 0x06001A75 RID: 6773 RVA: 0x000E49EC File Offset: 0x000E2DEC
+		// (get) Token: 0x06001A6C RID: 6764 RVA: 0x000E4A40 File Offset: 0x000E2E40
 		public IEnumerable<int> Tiles
 		{
 			get
@@ -100,28 +100,28 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x04000F69 RID: 3945
+		// Token: 0x04000F66 RID: 3942
 		public int uniqueID;
 
-		// Token: 0x04000F6A RID: 3946
+		// Token: 0x04000F67 RID: 3943
 		public FeatureDef def;
 
-		// Token: 0x04000F6B RID: 3947
+		// Token: 0x04000F68 RID: 3944
 		public string name;
 
-		// Token: 0x04000F6C RID: 3948
+		// Token: 0x04000F69 RID: 3945
 		public Vector3 drawCenter;
 
-		// Token: 0x04000F6D RID: 3949
+		// Token: 0x04000F6A RID: 3946
 		public float drawAngle;
 
-		// Token: 0x04000F6E RID: 3950
+		// Token: 0x04000F6B RID: 3947
 		public float maxDrawSizeInTiles;
 
-		// Token: 0x04000F6F RID: 3951
+		// Token: 0x04000F6C RID: 3948
 		public float alpha;
 
-		// Token: 0x04000F70 RID: 3952
+		// Token: 0x04000F6D RID: 3949
 		protected static SimpleCurve EffectiveDrawSizeCurve = new SimpleCurve
 		{
 			{
@@ -146,23 +146,23 @@ namespace RimWorld.Planet
 			}
 		};
 
-		// Token: 0x04000F71 RID: 3953
+		// Token: 0x04000F6E RID: 3950
 		[TweakValue("Interface.World", 0f, 40f)]
 		protected static float FeatureSizePoint10 = 15f;
 
-		// Token: 0x04000F72 RID: 3954
+		// Token: 0x04000F6F RID: 3951
 		[TweakValue("Interface.World", 0f, 100f)]
 		protected static float FeatureSizePoint25 = 40f;
 
-		// Token: 0x04000F73 RID: 3955
+		// Token: 0x04000F70 RID: 3952
 		[TweakValue("Interface.World", 0f, 200f)]
 		protected static float FeatureSizePoint50 = 100f;
 
-		// Token: 0x04000F74 RID: 3956
+		// Token: 0x04000F71 RID: 3953
 		[TweakValue("Interface.World", 0f, 400f)]
 		protected static float FeatureSizePoint100 = 200f;
 
-		// Token: 0x04000F75 RID: 3957
+		// Token: 0x04000F72 RID: 3954
 		[TweakValue("Interface.World", 0f, 800f)]
 		protected static float FeatureSizePoint200 = 400f;
 	}

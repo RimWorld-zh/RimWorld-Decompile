@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C4A RID: 3146
+	// Token: 0x02000C47 RID: 3143
 	public class SectionLayer_LightingOverlay : SectionLayer
 	{
-		// Token: 0x06004544 RID: 17732 RVA: 0x002482A2 File Offset: 0x002466A2
+		// Token: 0x0600454D RID: 17741 RVA: 0x00249672 File Offset: 0x00247A72
 		public SectionLayer_LightingOverlay(Section section) : base(section)
 		{
 			this.relevantChangeTypes = MapMeshFlag.GroundGlow;
 		}
 
-		// Token: 0x17000AEC RID: 2796
-		// (get) Token: 0x06004545 RID: 17733 RVA: 0x002482B4 File Offset: 0x002466B4
+		// Token: 0x17000AEE RID: 2798
+		// (get) Token: 0x0600454E RID: 17742 RVA: 0x00249684 File Offset: 0x00247A84
 		public override bool Visible
 		{
 			get
@@ -23,7 +23,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004546 RID: 17734 RVA: 0x002482D0 File Offset: 0x002466D0
+		// Token: 0x0600454F RID: 17743 RVA: 0x002496A0 File Offset: 0x00247AA0
 		public string GlowReportAt(IntVec3 c)
 		{
 			Color32[] colors = base.GetSubMesh(MatBases.LightOverlay).mesh.colors32;
@@ -42,7 +42,7 @@ namespace Verse
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06004547 RID: 17735 RVA: 0x002483DC File Offset: 0x002467DC
+		// Token: 0x06004550 RID: 17744 RVA: 0x002497AC File Offset: 0x00247BAC
 		public override void Regenerate()
 		{
 			LayerSubMesh subMesh = base.GetSubMesh(MatBases.LightOverlay);
@@ -165,7 +165,7 @@ namespace Verse
 			subMesh.mesh.colors32 = array;
 		}
 
-		// Token: 0x06004548 RID: 17736 RVA: 0x002488D4 File Offset: 0x00246CD4
+		// Token: 0x06004551 RID: 17745 RVA: 0x00249CA4 File Offset: 0x002480A4
 		private void MakeBaseGeometry(LayerSubMesh sm)
 		{
 			this.glowGrid = base.Map.glowGrid.glowGrid;
@@ -217,7 +217,7 @@ namespace Verse
 			sm.FinalizeMesh(MeshParts.Verts | MeshParts.Tris);
 		}
 
-		// Token: 0x06004549 RID: 17737 RVA: 0x00248B98 File Offset: 0x00246F98
+		// Token: 0x06004552 RID: 17746 RVA: 0x00249F68 File Offset: 0x00248368
 		private void CalculateVertexIndices(int worldX, int worldZ, out int botLeft, out int topLeft, out int topRight, out int botRight, out int center)
 		{
 			int num = worldX - this.sectRect.minX;
@@ -229,16 +229,16 @@ namespace Verse
 			center = this.firstCenterInd + (num2 * this.sectRect.Width + num);
 		}
 
-		// Token: 0x04002F57 RID: 12119
+		// Token: 0x04002F61 RID: 12129
 		private Color32[] glowGrid;
 
-		// Token: 0x04002F58 RID: 12120
+		// Token: 0x04002F62 RID: 12130
 		private int firstCenterInd;
 
-		// Token: 0x04002F59 RID: 12121
+		// Token: 0x04002F63 RID: 12131
 		private CellRect sectRect;
 
-		// Token: 0x04002F5A RID: 12122
+		// Token: 0x04002F64 RID: 12132
 		private const byte RoofedAreaMinSkyCover = 100;
 	}
 }

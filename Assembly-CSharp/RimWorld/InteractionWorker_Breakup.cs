@@ -7,10 +7,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004B3 RID: 1203
+	// Token: 0x020004AF RID: 1199
 	public class InteractionWorker_Breakup : InteractionWorker
 	{
-		// Token: 0x06001577 RID: 5495 RVA: 0x000BE744 File Offset: 0x000BCB44
+		// Token: 0x0600156E RID: 5486 RVA: 0x000BE740 File Offset: 0x000BCB40
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
 			float result;
@@ -31,7 +31,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001578 RID: 5496 RVA: 0x000BE7B8 File Offset: 0x000BCBB8
+		// Token: 0x0600156F RID: 5487 RVA: 0x000BE7B4 File Offset: 0x000BCBB4
 		public Thought RandomBreakupReason(Pawn initiator, Pawn recipient)
 		{
 			List<Thought_Memory> list = (from m in initiator.needs.mood.thoughts.memories.Memories
@@ -54,7 +54,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001579 RID: 5497 RVA: 0x000BE880 File Offset: 0x000BCC80
+		// Token: 0x06001570 RID: 5488 RVA: 0x000BE87C File Offset: 0x000BCC7C
 		public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks, out string letterText, out string letterLabel, out LetterDef letterDef)
 		{
 			Thought thought = this.RandomBreakupReason(initiator, recipient);
@@ -102,7 +102,7 @@ namespace RimWorld
 					}));
 				}
 				letterLabel = "LetterLabelBreakup".Translate();
-				letterText = stringBuilder.ToString();
+				letterText = stringBuilder.ToString().TrimEndNewlines();
 				letterDef = LetterDefOf.NegativeEvent;
 			}
 			else
@@ -113,10 +113,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000CAB RID: 3243
+		// Token: 0x04000CA8 RID: 3240
 		private const float BaseChance = 0.02f;
 
-		// Token: 0x04000CAC RID: 3244
+		// Token: 0x04000CA9 RID: 3241
 		private const float SpouseRelationChanceFactor = 0.4f;
 	}
 }

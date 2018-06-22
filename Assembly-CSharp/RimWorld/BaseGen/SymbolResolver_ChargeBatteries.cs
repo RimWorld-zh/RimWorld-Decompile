@@ -8,7 +8,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003C0 RID: 960
 	public class SymbolResolver_ChargeBatteries : SymbolResolver
 	{
-		// Token: 0x0600109D RID: 4253 RVA: 0x0008CBE8 File Offset: 0x0008AFE8
+		// Token: 0x0600109D RID: 4253 RVA: 0x0008CDD4 File Offset: 0x0008B1D4
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -35,7 +35,7 @@ namespace RimWorld.BaseGen
 			SymbolResolver_ChargeBatteries.batteries.Clear();
 		}
 
-		// Token: 0x04000A2B RID: 2603
+		// Token: 0x04000A2D RID: 2605
 		private static List<CompPowerBattery> batteries = new List<CompPowerBattery>();
 	}
 }

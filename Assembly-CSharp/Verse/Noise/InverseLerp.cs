@@ -5,12 +5,12 @@ namespace Verse.Noise
 	// Token: 0x02000F8E RID: 3982
 	public class InverseLerp : ModuleBase
 	{
-		// Token: 0x06006013 RID: 24595 RVA: 0x0030BC10 File Offset: 0x0030A010
+		// Token: 0x0600603C RID: 24636 RVA: 0x0030DCB4 File Offset: 0x0030C0B4
 		public InverseLerp() : base(1)
 		{
 		}
 
-		// Token: 0x06006014 RID: 24596 RVA: 0x0030BC1A File Offset: 0x0030A01A
+		// Token: 0x0600603D RID: 24637 RVA: 0x0030DCBE File Offset: 0x0030C0BE
 		public InverseLerp(ModuleBase module, float from, float to) : base(1)
 		{
 			this.modules[0] = module;
@@ -18,7 +18,7 @@ namespace Verse.Noise
 			this.to = to;
 		}
 
-		// Token: 0x06006015 RID: 24597 RVA: 0x0030BC3C File Offset: 0x0030A03C
+		// Token: 0x0600603E RID: 24638 RVA: 0x0030DCE0 File Offset: 0x0030C0E0
 		public override double GetValue(double x, double y, double z)
 		{
 			double value = this.modules[0].GetValue(x, y, z);
@@ -39,10 +39,10 @@ namespace Verse.Noise
 			return result;
 		}
 
-		// Token: 0x04003F09 RID: 16137
+		// Token: 0x04003F1B RID: 16155
 		private float from;
 
-		// Token: 0x04003F0A RID: 16138
+		// Token: 0x04003F1C RID: 16156
 		private float to;
 	}
 }

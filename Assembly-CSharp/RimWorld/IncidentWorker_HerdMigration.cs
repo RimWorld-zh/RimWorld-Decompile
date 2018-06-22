@@ -11,7 +11,7 @@ namespace RimWorld
 	// Token: 0x0200032F RID: 815
 	public class IncidentWorker_HerdMigration : IncidentWorker
 	{
-		// Token: 0x06000DEC RID: 3564 RVA: 0x00076C04 File Offset: 0x00075004
+		// Token: 0x06000DEC RID: 3564 RVA: 0x00076CB8 File Offset: 0x000750B8
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -21,7 +21,7 @@ namespace RimWorld
 			return this.TryFindAnimalKind(map.Tile, out pawnKindDef) && this.TryFindStartAndEndCells(map, out intVec, out intVec2);
 		}
 
-		// Token: 0x06000DED RID: 3565 RVA: 0x00076C48 File Offset: 0x00075048
+		// Token: 0x06000DED RID: 3565 RVA: 0x00076CFC File Offset: 0x000750FC
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -56,7 +56,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DEE RID: 3566 RVA: 0x00076D88 File Offset: 0x00075188
+		// Token: 0x06000DEE RID: 3566 RVA: 0x00076E3C File Offset: 0x0007523C
 		private bool TryFindAnimalKind(int tile, out PawnKindDef animalKind)
 		{
 			return (from k in DefDatabase<PawnKindDef>.AllDefs
@@ -64,7 +64,7 @@ namespace RimWorld
 			select k).TryRandomElementByWeight((PawnKindDef x) => Mathf.Lerp(0.2f, 1f, x.RaceProps.wildness), out animalKind);
 		}
 
-		// Token: 0x06000DEF RID: 3567 RVA: 0x00076DE4 File Offset: 0x000751E4
+		// Token: 0x06000DEF RID: 3567 RVA: 0x00076E98 File Offset: 0x00075298
 		private bool TryFindStartAndEndCells(Map map, out IntVec3 start, out IntVec3 end)
 		{
 			bool result;
@@ -94,7 +94,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DF0 RID: 3568 RVA: 0x00076ED0 File Offset: 0x000752D0
+		// Token: 0x06000DF0 RID: 3568 RVA: 0x00076F84 File Offset: 0x00075384
 		private List<Pawn> GenerateAnimals(PawnKindDef animalKind, int tile)
 		{
 			int num = IncidentWorker_HerdMigration.AnimalsCount.RandomInRange;
@@ -109,10 +109,10 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x040008D0 RID: 2256
+		// Token: 0x040008D2 RID: 2258
 		private static readonly IntRange AnimalsCount = new IntRange(3, 5);
 
-		// Token: 0x040008D1 RID: 2257
+		// Token: 0x040008D3 RID: 2259
 		private const float MinTotalBodySize = 4f;
 	}
 }

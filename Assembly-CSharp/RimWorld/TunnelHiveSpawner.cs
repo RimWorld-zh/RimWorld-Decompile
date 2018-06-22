@@ -8,11 +8,11 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020006C2 RID: 1730
+	// Token: 0x020006BE RID: 1726
 	[StaticConstructorOnStartup]
 	public class TunnelHiveSpawner : ThingWithComps
 	{
-		// Token: 0x06002540 RID: 9536 RVA: 0x0013F660 File Offset: 0x0013DA60
+		// Token: 0x06002538 RID: 9528 RVA: 0x0013F7AC File Offset: 0x0013DBAC
 		public static void ResetStaticData()
 		{
 			TunnelHiveSpawner.filthTypes.Clear();
@@ -22,7 +22,7 @@ namespace RimWorld
 			TunnelHiveSpawner.filthTypes.Add(ThingDefOf.Filth_RubbleRock);
 		}
 
-		// Token: 0x06002541 RID: 9537 RVA: 0x0013F6B4 File Offset: 0x0013DAB4
+		// Token: 0x06002539 RID: 9529 RVA: 0x0013F800 File Offset: 0x0013DC00
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -31,7 +31,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.insectsPoints, "insectsPoints", 0f, false);
 		}
 
-		// Token: 0x06002542 RID: 9538 RVA: 0x0013F704 File Offset: 0x0013DB04
+		// Token: 0x0600253A RID: 9530 RVA: 0x0013F850 File Offset: 0x0013DC50
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -42,7 +42,7 @@ namespace RimWorld
 			this.CreateSustainer();
 		}
 
-		// Token: 0x06002543 RID: 9539 RVA: 0x0013F74C File Offset: 0x0013DB4C
+		// Token: 0x0600253B RID: 9531 RVA: 0x0013F898 File Offset: 0x0013DC98
 		public override void Tick()
 		{
 			if (base.Spawned)
@@ -119,7 +119,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002544 RID: 9540 RVA: 0x0013FA78 File Offset: 0x0013DE78
+		// Token: 0x0600253C RID: 9532 RVA: 0x0013FBC4 File Offset: 0x0013DFC4
 		public override void Draw()
 		{
 			Rand.PushState();
@@ -131,7 +131,7 @@ namespace RimWorld
 			Rand.PopState();
 		}
 
-		// Token: 0x06002545 RID: 9541 RVA: 0x0013FAF0 File Offset: 0x0013DEF0
+		// Token: 0x0600253D RID: 9533 RVA: 0x0013FC3C File Offset: 0x0013E03C
 		private void DrawDustPart(float initialAngle, float speedMultiplier, float scale)
 		{
 			float num = (Find.TickManager.TicksGame - this.secondarySpawnTick).TicksToSeconds();
@@ -143,7 +143,7 @@ namespace RimWorld
 			Graphics.DrawMesh(MeshPool.plane10, matrix, TunnelHiveSpawner.TunnelMaterial, 0, null, 0, TunnelHiveSpawner.matPropertyBlock);
 		}
 
-		// Token: 0x06002546 RID: 9542 RVA: 0x0013FBB3 File Offset: 0x0013DFB3
+		// Token: 0x0600253E RID: 9534 RVA: 0x0013FCFF File Offset: 0x0013E0FF
 		private void CreateSustainer()
 		{
 			LongEventHandler.ExecuteWhenFinished(delegate
@@ -153,40 +153,40 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x040014AF RID: 5295
+		// Token: 0x040014AD RID: 5293
 		private int secondarySpawnTick;
 
-		// Token: 0x040014B0 RID: 5296
+		// Token: 0x040014AE RID: 5294
 		public bool spawnHive = true;
 
-		// Token: 0x040014B1 RID: 5297
+		// Token: 0x040014AF RID: 5295
 		public float insectsPoints;
 
-		// Token: 0x040014B2 RID: 5298
+		// Token: 0x040014B0 RID: 5296
 		private Sustainer sustainer;
 
-		// Token: 0x040014B3 RID: 5299
+		// Token: 0x040014B1 RID: 5297
 		private static MaterialPropertyBlock matPropertyBlock = new MaterialPropertyBlock();
 
-		// Token: 0x040014B4 RID: 5300
+		// Token: 0x040014B2 RID: 5298
 		private readonly FloatRange ResultSpawnDelay = new FloatRange(12f, 16f);
 
-		// Token: 0x040014B5 RID: 5301
+		// Token: 0x040014B3 RID: 5299
 		[TweakValue("Gameplay", 0f, 1f)]
 		private static float DustMoteSpawnMTB = 0.2f;
 
-		// Token: 0x040014B6 RID: 5302
+		// Token: 0x040014B4 RID: 5300
 		[TweakValue("Gameplay", 0f, 1f)]
 		private static float FilthSpawnMTB = 0.3f;
 
-		// Token: 0x040014B7 RID: 5303
+		// Token: 0x040014B5 RID: 5301
 		[TweakValue("Gameplay", 0f, 10f)]
 		private static float FilthSpawnRadius = 3f;
 
-		// Token: 0x040014B8 RID: 5304
+		// Token: 0x040014B6 RID: 5302
 		private static readonly Material TunnelMaterial = MaterialPool.MatFrom("Things/Filth/Grainy/GrainyA", ShaderDatabase.Transparent);
 
-		// Token: 0x040014B9 RID: 5305
+		// Token: 0x040014B7 RID: 5303
 		private static List<ThingDef> filthTypes = new List<ThingDef>();
 	}
 }

@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x02000078 RID: 120
 	public class JobDriver_RearmTrap : JobDriver
 	{
-		// Token: 0x0600033A RID: 826 RVA: 0x00023A90 File Offset: 0x00021E90
+		// Token: 0x0600033A RID: 826 RVA: 0x00023AA0 File Offset: 0x00021EA0
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
 		}
 
-		// Token: 0x0600033B RID: 827 RVA: 0x00023AC4 File Offset: 0x00021EC4
+		// Token: 0x0600033B RID: 827 RVA: 0x00023AD4 File Offset: 0x00021ED4
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);

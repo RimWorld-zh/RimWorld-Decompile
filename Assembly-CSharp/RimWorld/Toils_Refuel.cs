@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x0200008A RID: 138
 	public class Toils_Refuel
 	{
-		// Token: 0x0600038E RID: 910 RVA: 0x00028048 File Offset: 0x00026448
+		// Token: 0x0600038E RID: 910 RVA: 0x00028024 File Offset: 0x00026424
 		public static Toil FinalizeRefueling(TargetIndex refuelableInd, TargetIndex fuelInd)
 		{
 			Toil toil = new Toil();

@@ -4,28 +4,28 @@ using System.Threading;
 
 namespace Verse
 {
-	// Token: 0x02000D90 RID: 3472
+	// Token: 0x02000D8D RID: 3469
 	public static class SafeSaver
 	{
-		// Token: 0x06004D90 RID: 19856 RVA: 0x00287C88 File Offset: 0x00286088
+		// Token: 0x06004DA5 RID: 19877 RVA: 0x00289238 File Offset: 0x00287638
 		private static string GetFileFullPath(string path)
 		{
 			return Path.GetFullPath(path);
 		}
 
-		// Token: 0x06004D91 RID: 19857 RVA: 0x00287CA4 File Offset: 0x002860A4
+		// Token: 0x06004DA6 RID: 19878 RVA: 0x00289254 File Offset: 0x00287654
 		private static string GetNewFileFullPath(string path)
 		{
 			return Path.GetFullPath(path + SafeSaver.NewFileSuffix);
 		}
 
-		// Token: 0x06004D92 RID: 19858 RVA: 0x00287CCC File Offset: 0x002860CC
+		// Token: 0x06004DA7 RID: 19879 RVA: 0x0028927C File Offset: 0x0028767C
 		private static string GetOldFileFullPath(string path)
 		{
 			return Path.GetFullPath(path + SafeSaver.OldFileSuffix);
 		}
 
-		// Token: 0x06004D93 RID: 19859 RVA: 0x00287CF4 File Offset: 0x002860F4
+		// Token: 0x06004DA8 RID: 19880 RVA: 0x002892A4 File Offset: 0x002876A4
 		public static void Save(string path, string documentElementName, Action saveAction)
 		{
 			try
@@ -104,14 +104,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D94 RID: 19860 RVA: 0x00287F08 File Offset: 0x00286308
+		// Token: 0x06004DA9 RID: 19881 RVA: 0x002894B8 File Offset: 0x002878B8
 		private static void CleanSafeSaverFiles(string path)
 		{
 			SafeSaver.RemoveFileIfExists(SafeSaver.GetOldFileFullPath(path), true);
 			SafeSaver.RemoveFileIfExists(SafeSaver.GetNewFileFullPath(path), true);
 		}
 
-		// Token: 0x06004D95 RID: 19861 RVA: 0x00287F24 File Offset: 0x00286324
+		// Token: 0x06004DAA RID: 19882 RVA: 0x002894D4 File Offset: 0x002878D4
 		private static void DoSave(string fullPath, string documentElementName, Action saveAction)
 		{
 			try
@@ -135,7 +135,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D96 RID: 19862 RVA: 0x00287FA4 File Offset: 0x002863A4
+		// Token: 0x06004DAB RID: 19883 RVA: 0x00289554 File Offset: 0x00287954
 		private static void RemoveFileIfExists(string path, bool rethrow)
 		{
 			try
@@ -161,7 +161,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D97 RID: 19863 RVA: 0x00288014 File Offset: 0x00286414
+		// Token: 0x06004DAC RID: 19884 RVA: 0x002895C4 File Offset: 0x002879C4
 		private static void SafeMove(string from, string to)
 		{
 			Exception ex = null;
@@ -184,10 +184,10 @@ namespace Verse
 			throw ex;
 		}
 
-		// Token: 0x040033C7 RID: 13255
+		// Token: 0x040033D2 RID: 13266
 		private static readonly string NewFileSuffix = ".new";
 
-		// Token: 0x040033C8 RID: 13256
+		// Token: 0x040033D3 RID: 13267
 		private static readonly string OldFileSuffix = ".old";
 	}
 }

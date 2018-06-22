@@ -4,16 +4,16 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000B7F RID: 2943
+	// Token: 0x02000B7B RID: 2939
 	public static class SoundDefHelper
 	{
-		// Token: 0x06004014 RID: 16404 RVA: 0x0021BD84 File Offset: 0x0021A184
+		// Token: 0x06004016 RID: 16406 RVA: 0x0021C420 File Offset: 0x0021A820
 		public static bool NullOrUndefined(this SoundDef def)
 		{
 			return def == null || def.isUndefined;
 		}
 
-		// Token: 0x06004015 RID: 16405 RVA: 0x0021BDA8 File Offset: 0x0021A1A8
+		// Token: 0x06004017 RID: 16407 RVA: 0x0021C444 File Offset: 0x0021A844
 		public static bool CorrectContextNow(SoundDef def, Map sourceMap)
 		{
 			bool result;

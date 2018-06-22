@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B1C RID: 2844
+	// Token: 0x02000B18 RID: 2840
 	public class GraphicData
 	{
-		// Token: 0x17000973 RID: 2419
-		// (get) Token: 0x06003EB9 RID: 16057 RVA: 0x0021042C File Offset: 0x0020E82C
+		// Token: 0x17000974 RID: 2420
+		// (get) Token: 0x06003EB5 RID: 16053 RVA: 0x00210768 File Offset: 0x0020EB68
 		public bool Linked
 		{
 			get
@@ -18,8 +18,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000974 RID: 2420
-		// (get) Token: 0x06003EBA RID: 16058 RVA: 0x00210450 File Offset: 0x0020E850
+		// Token: 0x17000975 RID: 2421
+		// (get) Token: 0x06003EB6 RID: 16054 RVA: 0x0021078C File Offset: 0x0020EB8C
 		public Graphic Graphic
 		{
 			get
@@ -32,7 +32,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EBB RID: 16059 RVA: 0x0021047C File Offset: 0x0020E87C
+		// Token: 0x06003EB7 RID: 16055 RVA: 0x002107B8 File Offset: 0x0020EBB8
 		public void CopyFrom(GraphicData other)
 		{
 			this.texPath = other.texPath;
@@ -51,7 +51,7 @@ namespace Verse
 			this.linkFlags = other.linkFlags;
 		}
 
-		// Token: 0x06003EBC RID: 16060 RVA: 0x00210534 File Offset: 0x0020E934
+		// Token: 0x06003EB8 RID: 16056 RVA: 0x00210870 File Offset: 0x0020EC70
 		private void Init()
 		{
 			if (this.graphicClass == null)
@@ -78,7 +78,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EBD RID: 16061 RVA: 0x002105EE File Offset: 0x0020E9EE
+		// Token: 0x06003EB9 RID: 16057 RVA: 0x0021092A File Offset: 0x0020ED2A
 		public void ResolveReferencesSpecial()
 		{
 			if (this.damageData != null)
@@ -87,7 +87,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EBE RID: 16062 RVA: 0x00210608 File Offset: 0x0020EA08
+		// Token: 0x06003EBA RID: 16058 RVA: 0x00210944 File Offset: 0x0020ED44
 		public Graphic GraphicColoredFor(Thing t)
 		{
 			Graphic result;
@@ -102,7 +102,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003EBF RID: 16063 RVA: 0x00210684 File Offset: 0x0020EA84
+		// Token: 0x06003EBB RID: 16059 RVA: 0x002109C0 File Offset: 0x0020EDC0
 		internal IEnumerable<string> ConfigErrors(ThingDef thingDef)
 		{
 			if (this.graphicClass == null)
@@ -127,53 +127,53 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x04002838 RID: 10296
+		// Token: 0x04002834 RID: 10292
 		[NoTranslate]
 		public string texPath = null;
 
-		// Token: 0x04002839 RID: 10297
+		// Token: 0x04002835 RID: 10293
 		public Type graphicClass = null;
 
-		// Token: 0x0400283A RID: 10298
+		// Token: 0x04002836 RID: 10294
 		public ShaderTypeDef shaderType = null;
 
-		// Token: 0x0400283B RID: 10299
+		// Token: 0x04002837 RID: 10295
 		public List<ShaderParameter> shaderParameters = null;
 
-		// Token: 0x0400283C RID: 10300
+		// Token: 0x04002838 RID: 10296
 		public Color color = Color.white;
 
-		// Token: 0x0400283D RID: 10301
+		// Token: 0x04002839 RID: 10297
 		public Color colorTwo = Color.white;
 
-		// Token: 0x0400283E RID: 10302
+		// Token: 0x0400283A RID: 10298
 		public Vector2 drawSize = Vector2.one;
 
-		// Token: 0x0400283F RID: 10303
+		// Token: 0x0400283B RID: 10299
 		public float onGroundRandomRotateAngle = 0f;
 
-		// Token: 0x04002840 RID: 10304
+		// Token: 0x0400283C RID: 10300
 		public bool drawRotated = true;
 
-		// Token: 0x04002841 RID: 10305
+		// Token: 0x0400283D RID: 10301
 		public bool allowFlip = true;
 
-		// Token: 0x04002842 RID: 10306
+		// Token: 0x0400283E RID: 10302
 		public float flipExtraRotation = 0f;
 
-		// Token: 0x04002843 RID: 10307
+		// Token: 0x0400283F RID: 10303
 		public ShadowData shadowData = null;
 
-		// Token: 0x04002844 RID: 10308
+		// Token: 0x04002840 RID: 10304
 		public DamageGraphicData damageData = null;
 
-		// Token: 0x04002845 RID: 10309
+		// Token: 0x04002841 RID: 10305
 		public LinkDrawerType linkType = LinkDrawerType.None;
 
-		// Token: 0x04002846 RID: 10310
+		// Token: 0x04002842 RID: 10306
 		public LinkFlags linkFlags = LinkFlags.None;
 
-		// Token: 0x04002847 RID: 10311
+		// Token: 0x04002843 RID: 10307
 		[Unsaved]
 		private Graphic cachedGraphic = null;
 	}

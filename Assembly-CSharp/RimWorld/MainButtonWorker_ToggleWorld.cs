@@ -5,10 +5,10 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200086C RID: 2156
+	// Token: 0x02000868 RID: 2152
 	public class MainButtonWorker_ToggleWorld : MainButtonWorker
 	{
-		// Token: 0x060030FE RID: 12542 RVA: 0x001A9A74 File Offset: 0x001A7E74
+		// Token: 0x060030F7 RID: 12535 RVA: 0x001A9C5C File Offset: 0x001A805C
 		public override void Activate()
 		{
 			if (Find.World.renderer.wantedMode == WorldRenderMode.None)
@@ -35,7 +35,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04001A7A RID: 6778
+		// Token: 0x04001A78 RID: 6776
 		public bool resetViewNextTime = true;
 	}
 }

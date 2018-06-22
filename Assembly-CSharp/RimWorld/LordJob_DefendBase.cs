@@ -7,19 +7,19 @@ namespace RimWorld
 	// Token: 0x0200016D RID: 365
 	public class LordJob_DefendBase : LordJob
 	{
-		// Token: 0x0600077A RID: 1914 RVA: 0x0004A484 File Offset: 0x00048884
+		// Token: 0x0600077A RID: 1914 RVA: 0x0004A470 File Offset: 0x00048870
 		public LordJob_DefendBase()
 		{
 		}
 
-		// Token: 0x0600077B RID: 1915 RVA: 0x0004A48D File Offset: 0x0004888D
+		// Token: 0x0600077B RID: 1915 RVA: 0x0004A479 File Offset: 0x00048879
 		public LordJob_DefendBase(Faction faction, IntVec3 baseCenter)
 		{
 			this.faction = faction;
 			this.baseCenter = baseCenter;
 		}
 
-		// Token: 0x0600077C RID: 1916 RVA: 0x0004A4A4 File Offset: 0x000488A4
+		// Token: 0x0600077C RID: 1916 RVA: 0x0004A490 File Offset: 0x00048890
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -56,7 +56,7 @@ namespace RimWorld
 			return stateGraph;
 		}
 
-		// Token: 0x0600077D RID: 1917 RVA: 0x0004A634 File Offset: 0x00048A34
+		// Token: 0x0600077D RID: 1917 RVA: 0x0004A620 File Offset: 0x00048A20
 		public override void ExposeData()
 		{
 			base.ExposeData();

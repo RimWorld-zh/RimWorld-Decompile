@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000156 RID: 342
 	public class WorkGiver_RearmTraps : WorkGiver_Scanner
 	{
-		// Token: 0x06000708 RID: 1800 RVA: 0x00047AB8 File Offset: 0x00045EB8
+		// Token: 0x06000708 RID: 1800 RVA: 0x00047AA4 File Offset: 0x00045EA4
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			foreach (Designation des in pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.RearmTrap))
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700010F RID: 271
-		// (get) Token: 0x06000709 RID: 1801 RVA: 0x00047AE4 File Offset: 0x00045EE4
+		// (get) Token: 0x06000709 RID: 1801 RVA: 0x00047AD0 File Offset: 0x00045ED0
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -28,13 +28,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600070A RID: 1802 RVA: 0x00047AFC File Offset: 0x00045EFC
+		// Token: 0x0600070A RID: 1802 RVA: 0x00047AE8 File Offset: 0x00045EE8
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Deadly;
 		}
 
-		// Token: 0x0600070B RID: 1803 RVA: 0x00047B14 File Offset: 0x00045F14
+		// Token: 0x0600070B RID: 1803 RVA: 0x00047B00 File Offset: 0x00045F00
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			bool result;
@@ -69,7 +69,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600070C RID: 1804 RVA: 0x00047C10 File Offset: 0x00046010
+		// Token: 0x0600070C RID: 1804 RVA: 0x00047BFC File Offset: 0x00045FFC
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			List<Thing> thingList = t.Position.GetThingList(t.Map);

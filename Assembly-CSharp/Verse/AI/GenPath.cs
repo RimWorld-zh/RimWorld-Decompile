@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A90 RID: 2704
+	// Token: 0x02000A8C RID: 2700
 	public static class GenPath
 	{
-		// Token: 0x06003BFE RID: 15358 RVA: 0x001FA8B8 File Offset: 0x001F8CB8
+		// Token: 0x06003BF9 RID: 15353 RVA: 0x001FABDC File Offset: 0x001F8FDC
 		public static TargetInfo ResolvePathMode(Pawn pawn, TargetInfo dest, ref PathEndMode peMode)
 		{
 			TargetInfo result;
@@ -35,7 +35,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003BFF RID: 15359 RVA: 0x001FA96C File Offset: 0x001F8D6C
+		// Token: 0x06003BFA RID: 15354 RVA: 0x001FAC90 File Offset: 0x001F9090
 		public static PathEndMode ResolveClosestTouchPathMode(Pawn pawn, Map map, IntVec3 target)
 		{
 			PathEndMode result;
@@ -50,7 +50,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C00 RID: 15360 RVA: 0x001FA998 File Offset: 0x001F8D98
+		// Token: 0x06003BFB RID: 15355 RVA: 0x001FACBC File Offset: 0x001F90BC
 		private static bool ShouldNotEnterCell(Pawn pawn, Map map, IntVec3 dest)
 		{
 			bool result;

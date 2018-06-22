@@ -5,34 +5,34 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005B2 RID: 1458
+	// Token: 0x020005AE RID: 1454
 	public static class VirtualPlantsUtility
 	{
-		// Token: 0x06001BE0 RID: 7136 RVA: 0x000EFF10 File Offset: 0x000EE310
+		// Token: 0x06001BD7 RID: 7127 RVA: 0x000EFF64 File Offset: 0x000EE364
 		public static bool CanEverEatVirtualPlants(Pawn p)
 		{
 			return p.RaceProps.Eats(FoodTypeFlags.Plant);
 		}
 
-		// Token: 0x06001BE1 RID: 7137 RVA: 0x000EFF34 File Offset: 0x000EE334
+		// Token: 0x06001BD8 RID: 7128 RVA: 0x000EFF88 File Offset: 0x000EE388
 		public static bool CanEatVirtualPlantsNow(Pawn p)
 		{
 			return VirtualPlantsUtility.CanEatVirtualPlants(p, GenTicks.TicksAbs);
 		}
 
-		// Token: 0x06001BE2 RID: 7138 RVA: 0x000EFF54 File Offset: 0x000EE354
+		// Token: 0x06001BD9 RID: 7129 RVA: 0x000EFFA8 File Offset: 0x000EE3A8
 		public static bool CanEatVirtualPlants(Pawn p, int ticksAbs)
 		{
 			return p.Tile >= 0 && !p.Dead && p.IsWorldPawn() && VirtualPlantsUtility.CanEverEatVirtualPlants(p) && VirtualPlantsUtility.EnvironmentAllowsEatingVirtualPlantsAt(p.Tile, ticksAbs);
 		}
 
-		// Token: 0x06001BE3 RID: 7139 RVA: 0x000EFFA8 File Offset: 0x000EE3A8
+		// Token: 0x06001BDA RID: 7130 RVA: 0x000EFFFC File Offset: 0x000EE3FC
 		public static bool EnvironmentAllowsEatingVirtualPlantsNowAt(int tile)
 		{
 			return VirtualPlantsUtility.EnvironmentAllowsEatingVirtualPlantsAt(tile, GenTicks.TicksAbs);
 		}
 
-		// Token: 0x06001BE4 RID: 7140 RVA: 0x000EFFC8 File Offset: 0x000EE3C8
+		// Token: 0x06001BDB RID: 7131 RVA: 0x000F001C File Offset: 0x000EE41C
 		public static bool EnvironmentAllowsEatingVirtualPlantsAt(int tile, int ticksAbs)
 		{
 			BiomeDef biome = Find.WorldGrid[tile].biome;
@@ -49,14 +49,14 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001BE5 RID: 7141 RVA: 0x000F001C File Offset: 0x000EE41C
+		// Token: 0x06001BDC RID: 7132 RVA: 0x000F0070 File Offset: 0x000EE470
 		public static void EatVirtualPlants(Pawn p)
 		{
 			float num = ThingDefOf.Plant_Grass.GetStatValueAbstract(StatDefOf.Nutrition, null) * VirtualPlantsUtility.VirtualPlantNutritionRandomFactor.RandomInRange;
 			p.needs.food.CurLevel += num;
 		}
 
-		// Token: 0x06001BE6 RID: 7142 RVA: 0x000F0064 File Offset: 0x000EE464
+		// Token: 0x06001BDD RID: 7133 RVA: 0x000F00B8 File Offset: 0x000EE4B8
 		public static string GetVirtualPlantsStatusExplanationAt(int tile, int ticksAbs)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -111,7 +111,7 @@ namespace RimWorld.Planet
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06001BE7 RID: 7143 RVA: 0x000F0234 File Offset: 0x000EE634
+		// Token: 0x06001BDE RID: 7134 RVA: 0x000F0288 File Offset: 0x000EE688
 		public static float? GetApproxDaysUntilPossibleToGraze(int tile, int ticksAbs, bool untilNoLongerPossibleToGraze = false)
 		{
 			float? result;
@@ -136,7 +136,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x0400109A RID: 4250
+		// Token: 0x04001097 RID: 4247
 		private static readonly FloatRange VirtualPlantNutritionRandomFactor = new FloatRange(0.7f, 1f);
 	}
 }

@@ -2,10 +2,10 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200050A RID: 1290
+	// Token: 0x02000506 RID: 1286
 	public interface IThoughtGiver
 	{
-		// Token: 0x06001727 RID: 5927
+		// Token: 0x0600171E RID: 5918
 		Thought_Memory GiveObservedThought();
 	}
 }

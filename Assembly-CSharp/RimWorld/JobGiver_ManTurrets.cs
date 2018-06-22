@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000D6 RID: 214
 	public abstract class JobGiver_ManTurrets : ThinkNode_JobGiver
 	{
-		// Token: 0x060004C1 RID: 1217 RVA: 0x0003571C File Offset: 0x00033B1C
+		// Token: 0x060004C1 RID: 1217 RVA: 0x00035708 File Offset: 0x00033B08
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_ManTurrets jobGiver_ManTurrets = (JobGiver_ManTurrets)base.DeepCopy(resolve);
@@ -15,7 +15,7 @@ namespace RimWorld
 			return jobGiver_ManTurrets;
 		}
 
-		// Token: 0x060004C2 RID: 1218 RVA: 0x0003574C File Offset: 0x00033B4C
+		// Token: 0x060004C2 RID: 1218 RVA: 0x00035738 File Offset: 0x00033B38
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Predicate<Thing> validator = (Thing t) => t.def.hasInteractionCell && t.def.HasComp(typeof(CompMannable)) && pawn.CanReserve(t, 1, -1, null, false) && JobDriver_ManTurret.FindAmmoForTurret(pawn, (Building_TurretGun)t) != null;

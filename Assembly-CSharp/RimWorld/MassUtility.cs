@@ -6,52 +6,52 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200098F RID: 2447
+	// Token: 0x0200098B RID: 2443
 	public static class MassUtility
 	{
-		// Token: 0x060036F9 RID: 14073 RVA: 0x001D5DB8 File Offset: 0x001D41B8
+		// Token: 0x060036F2 RID: 14066 RVA: 0x001D5FB4 File Offset: 0x001D43B4
 		public static float EncumbrancePercent(Pawn pawn)
 		{
 			return Mathf.Clamp01(MassUtility.UnboundedEncumbrancePercent(pawn));
 		}
 
-		// Token: 0x060036FA RID: 14074 RVA: 0x001D5DD8 File Offset: 0x001D41D8
+		// Token: 0x060036F3 RID: 14067 RVA: 0x001D5FD4 File Offset: 0x001D43D4
 		public static float UnboundedEncumbrancePercent(Pawn pawn)
 		{
 			return MassUtility.GearAndInventoryMass(pawn) / MassUtility.Capacity(pawn, null);
 		}
 
-		// Token: 0x060036FB RID: 14075 RVA: 0x001D5DFC File Offset: 0x001D41FC
+		// Token: 0x060036F4 RID: 14068 RVA: 0x001D5FF8 File Offset: 0x001D43F8
 		public static bool IsOverEncumbered(Pawn pawn)
 		{
 			return MassUtility.UnboundedEncumbrancePercent(pawn) > 1f;
 		}
 
-		// Token: 0x060036FC RID: 14076 RVA: 0x001D5E20 File Offset: 0x001D4220
+		// Token: 0x060036F5 RID: 14069 RVA: 0x001D601C File Offset: 0x001D441C
 		public static bool WillBeOverEncumberedAfterPickingUp(Pawn pawn, Thing thing, int count)
 		{
 			return MassUtility.FreeSpace(pawn) < (float)count * thing.GetStatValue(StatDefOf.Mass, true);
 		}
 
-		// Token: 0x060036FD RID: 14077 RVA: 0x001D5E4C File Offset: 0x001D424C
+		// Token: 0x060036F6 RID: 14070 RVA: 0x001D6048 File Offset: 0x001D4448
 		public static int CountToPickUpUntilOverEncumbered(Pawn pawn, Thing thing)
 		{
 			return Mathf.FloorToInt(MassUtility.FreeSpace(pawn) / thing.GetStatValue(StatDefOf.Mass, true));
 		}
 
-		// Token: 0x060036FE RID: 14078 RVA: 0x001D5E7C File Offset: 0x001D427C
+		// Token: 0x060036F7 RID: 14071 RVA: 0x001D6078 File Offset: 0x001D4478
 		public static float FreeSpace(Pawn pawn)
 		{
 			return Mathf.Max(MassUtility.Capacity(pawn, null) - MassUtility.GearAndInventoryMass(pawn), 0f);
 		}
 
-		// Token: 0x060036FF RID: 14079 RVA: 0x001D5EAC File Offset: 0x001D42AC
+		// Token: 0x060036F8 RID: 14072 RVA: 0x001D60A8 File Offset: 0x001D44A8
 		public static float GearAndInventoryMass(Pawn pawn)
 		{
 			return MassUtility.GearMass(pawn) + MassUtility.InventoryMass(pawn);
 		}
 
-		// Token: 0x06003700 RID: 14080 RVA: 0x001D5ED0 File Offset: 0x001D42D0
+		// Token: 0x060036F9 RID: 14073 RVA: 0x001D60CC File Offset: 0x001D44CC
 		public static float GearMass(Pawn p)
 		{
 			float num = 0f;
@@ -73,7 +73,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06003701 RID: 14081 RVA: 0x001D5FA4 File Offset: 0x001D43A4
+		// Token: 0x060036FA RID: 14074 RVA: 0x001D61A0 File Offset: 0x001D45A0
 		public static float InventoryMass(Pawn p)
 		{
 			float num = 0f;
@@ -85,7 +85,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06003702 RID: 14082 RVA: 0x001D600C File Offset: 0x001D440C
+		// Token: 0x060036FB RID: 14075 RVA: 0x001D6208 File Offset: 0x001D4608
 		public static float Capacity(Pawn p, StringBuilder explanation = null)
 		{
 			float result;
@@ -109,13 +109,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003703 RID: 14083 RVA: 0x001D6084 File Offset: 0x001D4484
+		// Token: 0x060036FC RID: 14076 RVA: 0x001D6280 File Offset: 0x001D4680
 		public static bool CanEverCarryAnything(Pawn p)
 		{
 			return p.RaceProps.ToolUser || p.RaceProps.packAnimal;
 		}
 
-		// Token: 0x0400237D RID: 9085
+		// Token: 0x0400237B RID: 9083
 		public const float MassCapacityPerBodySize = 35f;
 	}
 }

@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000235 RID: 565
 	internal static class RecipeDefGenerator
 	{
-		// Token: 0x06000A3A RID: 2618 RVA: 0x0005A838 File Offset: 0x00058C38
+		// Token: 0x06000A38 RID: 2616 RVA: 0x0005A87C File Offset: 0x00058C7C
 		public static IEnumerable<RecipeDef> ImpliedRecipeDefs()
 		{
 			foreach (RecipeDef r in RecipeDefGenerator.DefsFromRecipeMakers().Concat(RecipeDefGenerator.DrugAdministerDefs()))
@@ -18,7 +18,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000A3B RID: 2619 RVA: 0x0005A85C File Offset: 0x00058C5C
+		// Token: 0x06000A39 RID: 2617 RVA: 0x0005A8A0 File Offset: 0x00058CA0
 		private static IEnumerable<RecipeDef> DefsFromRecipeMakers()
 		{
 			foreach (ThingDef def in from d in DefDatabase<ThingDef>.AllDefs
@@ -76,7 +76,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000A3C RID: 2620 RVA: 0x0005A880 File Offset: 0x00058C80
+		// Token: 0x06000A3A RID: 2618 RVA: 0x0005A8C4 File Offset: 0x00058CC4
 		private static IEnumerable<RecipeDef> DrugAdministerDefs()
 		{
 			foreach (ThingDef def in from d in DefDatabase<ThingDef>.AllDefs

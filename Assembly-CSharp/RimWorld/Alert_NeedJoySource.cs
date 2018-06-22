@@ -4,17 +4,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007A4 RID: 1956
+	// Token: 0x020007A0 RID: 1952
 	public class Alert_NeedJoySource : Alert
 	{
-		// Token: 0x06002B45 RID: 11077 RVA: 0x0016D998 File Offset: 0x0016BD98
+		// Token: 0x06002B3E RID: 11070 RVA: 0x0016DB70 File Offset: 0x0016BF70
 		public Alert_NeedJoySource()
 		{
 			this.defaultLabel = "NeedJoySource".Translate();
 			this.defaultExplanation = "NeedJoySourceDesc".Translate();
 		}
 
-		// Token: 0x06002B46 RID: 11078 RVA: 0x0016D9C4 File Offset: 0x0016BDC4
+		// Token: 0x06002B3F RID: 11071 RVA: 0x0016DB9C File Offset: 0x0016BF9C
 		public override AlertReport GetReport()
 		{
 			AlertReport result;
@@ -37,7 +37,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B47 RID: 11079 RVA: 0x0016DA38 File Offset: 0x0016BE38
+		// Token: 0x06002B40 RID: 11072 RVA: 0x0016DC10 File Offset: 0x0016C010
 		private bool NeedJoySource(Map map)
 		{
 			bool result;

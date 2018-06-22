@@ -9,12 +9,12 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200069F RID: 1695
+	// Token: 0x0200069B RID: 1691
 	public class Building_Bed : Building, IAssignableBuilding
 	{
 		// Token: 0x17000559 RID: 1369
-		// (get) Token: 0x060023E3 RID: 9187 RVA: 0x001342C4 File Offset: 0x001326C4
-		// (set) Token: 0x060023E4 RID: 9188 RVA: 0x001342E0 File Offset: 0x001326E0
+		// (get) Token: 0x060023DB RID: 9179 RVA: 0x0013440C File Offset: 0x0013280C
+		// (set) Token: 0x060023DC RID: 9180 RVA: 0x00134428 File Offset: 0x00132828
 		public bool ForPrisoners
 		{
 			get
@@ -41,8 +41,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700055A RID: 1370
-		// (get) Token: 0x060023E5 RID: 9189 RVA: 0x00134364 File Offset: 0x00132764
-		// (set) Token: 0x060023E6 RID: 9190 RVA: 0x00134380 File Offset: 0x00132780
+		// (get) Token: 0x060023DD RID: 9181 RVA: 0x001344AC File Offset: 0x001328AC
+		// (set) Token: 0x060023DE RID: 9182 RVA: 0x001344C8 File Offset: 0x001328C8
 		public bool Medical
 		{
 			get
@@ -67,7 +67,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700055B RID: 1371
-		// (get) Token: 0x060023E7 RID: 9191 RVA: 0x001343F8 File Offset: 0x001327F8
+		// (get) Token: 0x060023DF RID: 9183 RVA: 0x00134540 File Offset: 0x00132940
 		public bool AnyUnownedSleepingSlot
 		{
 			get
@@ -87,7 +87,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700055C RID: 1372
-		// (get) Token: 0x060023E8 RID: 9192 RVA: 0x00134444 File Offset: 0x00132844
+		// (get) Token: 0x060023E0 RID: 9184 RVA: 0x0013458C File Offset: 0x0013298C
 		public bool AnyUnoccupiedSleepingSlot
 		{
 			get
@@ -104,7 +104,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700055D RID: 1373
-		// (get) Token: 0x060023E9 RID: 9193 RVA: 0x00134488 File Offset: 0x00132888
+		// (get) Token: 0x060023E1 RID: 9185 RVA: 0x001345D0 File Offset: 0x001329D0
 		public IEnumerable<Pawn> CurOccupants
 		{
 			get
@@ -122,7 +122,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700055E RID: 1374
-		// (get) Token: 0x060023EA RID: 9194 RVA: 0x001344B4 File Offset: 0x001328B4
+		// (get) Token: 0x060023E2 RID: 9186 RVA: 0x001345FC File Offset: 0x001329FC
 		public override Color DrawColor
 		{
 			get
@@ -141,7 +141,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700055F RID: 1375
-		// (get) Token: 0x060023EB RID: 9195 RVA: 0x001344EC File Offset: 0x001328EC
+		// (get) Token: 0x060023E3 RID: 9187 RVA: 0x00134634 File Offset: 0x00132A34
 		public override Color DrawColorTwo
 		{
 			get
@@ -181,7 +181,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000560 RID: 1376
-		// (get) Token: 0x060023EC RID: 9196 RVA: 0x0013458C File Offset: 0x0013298C
+		// (get) Token: 0x060023E4 RID: 9188 RVA: 0x001346D4 File Offset: 0x00132AD4
 		public int SleepingSlotsCount
 		{
 			get
@@ -191,7 +191,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000561 RID: 1377
-		// (get) Token: 0x060023ED RID: 9197 RVA: 0x001345B4 File Offset: 0x001329B4
+		// (get) Token: 0x060023E5 RID: 9189 RVA: 0x001346FC File Offset: 0x00132AFC
 		public IEnumerable<Pawn> AssigningCandidates
 		{
 			get
@@ -210,7 +210,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000562 RID: 1378
-		// (get) Token: 0x060023EE RID: 9198 RVA: 0x001345F0 File Offset: 0x001329F0
+		// (get) Token: 0x060023E6 RID: 9190 RVA: 0x00134738 File Offset: 0x00132B38
 		public IEnumerable<Pawn> AssignedPawns
 		{
 			get
@@ -220,7 +220,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000563 RID: 1379
-		// (get) Token: 0x060023EF RID: 9199 RVA: 0x0013460C File Offset: 0x00132A0C
+		// (get) Token: 0x060023E7 RID: 9191 RVA: 0x00134754 File Offset: 0x00132B54
 		public int MaxAssignedPawnsCount
 		{
 			get
@@ -230,7 +230,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000564 RID: 1380
-		// (get) Token: 0x060023F0 RID: 9200 RVA: 0x00134628 File Offset: 0x00132A28
+		// (get) Token: 0x060023E8 RID: 9192 RVA: 0x00134770 File Offset: 0x00132B70
 		private bool PlayerCanSeeOwners
 		{
 			get
@@ -255,13 +255,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023F1 RID: 9201 RVA: 0x001346B0 File Offset: 0x00132AB0
+		// Token: 0x060023E9 RID: 9193 RVA: 0x001347F8 File Offset: 0x00132BF8
 		public void TryAssignPawn(Pawn owner)
 		{
 			owner.ownership.ClaimBedIfNonMedical(this);
 		}
 
-		// Token: 0x060023F2 RID: 9202 RVA: 0x001346BF File Offset: 0x00132ABF
+		// Token: 0x060023EA RID: 9194 RVA: 0x00134807 File Offset: 0x00132C07
 		public void TryUnassignPawn(Pawn pawn)
 		{
 			if (this.owners.Contains(pawn))
@@ -270,13 +270,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023F3 RID: 9203 RVA: 0x001346E0 File Offset: 0x00132AE0
+		// Token: 0x060023EB RID: 9195 RVA: 0x00134828 File Offset: 0x00132C28
 		public bool AssignedAnything(Pawn pawn)
 		{
 			return pawn.ownership.OwnedBed != null;
 		}
 
-		// Token: 0x060023F4 RID: 9204 RVA: 0x00134708 File Offset: 0x00132B08
+		// Token: 0x060023EC RID: 9196 RVA: 0x00134850 File Offset: 0x00132C50
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -295,7 +295,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023F5 RID: 9205 RVA: 0x00134780 File Offset: 0x00132B80
+		// Token: 0x060023ED RID: 9197 RVA: 0x001348C8 File Offset: 0x00132CC8
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			this.RemoveAllOwners();
@@ -310,7 +310,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023F6 RID: 9206 RVA: 0x001347C4 File Offset: 0x00132BC4
+		// Token: 0x060023EE RID: 9198 RVA: 0x0013490C File Offset: 0x00132D0C
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -319,7 +319,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.alreadySetDefaultMed, "alreadySetDefaultMed", false, false);
 		}
 
-		// Token: 0x060023F7 RID: 9207 RVA: 0x00134804 File Offset: 0x00132C04
+		// Token: 0x060023EF RID: 9199 RVA: 0x0013494C File Offset: 0x00132D4C
 		public override void DrawExtraSelectionOverlays()
 		{
 			base.DrawExtraSelectionOverlays();
@@ -330,13 +330,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023F8 RID: 9208 RVA: 0x00134838 File Offset: 0x00132C38
+		// Token: 0x060023F0 RID: 9200 RVA: 0x00134980 File Offset: 0x00132D80
 		public static bool RoomCanBePrisonCell(Room r)
 		{
 			return !r.TouchesMapEdge && !r.IsHuge && r.RegionType == RegionType.Normal;
 		}
 
-		// Token: 0x060023F9 RID: 9209 RVA: 0x00134870 File Offset: 0x00132C70
+		// Token: 0x060023F1 RID: 9201 RVA: 0x001349B8 File Offset: 0x00132DB8
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
@@ -392,7 +392,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060023FA RID: 9210 RVA: 0x0013489C File Offset: 0x00132C9C
+		// Token: 0x060023F2 RID: 9202 RVA: 0x001349E4 File Offset: 0x00132DE4
 		private void ToggleForPrisonersByInterface()
 		{
 			if (Building_Bed.lastPrisonerSetChangeFrame != Time.frameCount)
@@ -488,7 +488,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023FB RID: 9211 RVA: 0x00134BA4 File Offset: 0x00132FA4
+		// Token: 0x060023F3 RID: 9203 RVA: 0x00134CEC File Offset: 0x001330EC
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -542,7 +542,7 @@ namespace RimWorld
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
-		// Token: 0x060023FC RID: 9212 RVA: 0x00134D8C File Offset: 0x0013318C
+		// Token: 0x060023F4 RID: 9204 RVA: 0x00134ED4 File Offset: 0x001332D4
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn myPawn)
 		{
 			if (myPawn.RaceProps.Humanlike && !this.ForPrisoners && this.Medical && !myPawn.Drafted && base.Faction == Faction.OfPlayer && RestUtility.CanUseBedEver(myPawn, this.def))
@@ -576,7 +576,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060023FD RID: 9213 RVA: 0x00134DC0 File Offset: 0x001331C0
+		// Token: 0x060023F5 RID: 9205 RVA: 0x00134F08 File Offset: 0x00133308
 		public override void DrawGUIOverlay()
 		{
 			if (!this.Medical)
@@ -610,7 +610,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023FE RID: 9214 RVA: 0x00134F24 File Offset: 0x00133324
+		// Token: 0x060023F6 RID: 9206 RVA: 0x0013506C File Offset: 0x0013346C
 		public Pawn GetCurOccupant(int slotIndex)
 		{
 			Pawn result;
@@ -646,7 +646,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060023FF RID: 9215 RVA: 0x00134FBC File Offset: 0x001333BC
+		// Token: 0x060023F7 RID: 9207 RVA: 0x00135104 File Offset: 0x00133504
 		public int GetCurOccupantSlotIndex(Pawn curOccupant)
 		{
 			for (int i = 0; i < this.SleepingSlotsCount; i++)
@@ -660,7 +660,7 @@ namespace RimWorld
 			return 0;
 		}
 
-		// Token: 0x06002400 RID: 9216 RVA: 0x00135018 File Offset: 0x00133418
+		// Token: 0x060023F8 RID: 9208 RVA: 0x00135160 File Offset: 0x00133560
 		public Pawn GetCurOccupantAt(IntVec3 pos)
 		{
 			for (int i = 0; i < this.SleepingSlotsCount; i++)
@@ -673,19 +673,19 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06002401 RID: 9217 RVA: 0x00135068 File Offset: 0x00133468
+		// Token: 0x060023F9 RID: 9209 RVA: 0x001351B0 File Offset: 0x001335B0
 		public IntVec3 GetSleepingSlotPos(int index)
 		{
 			return BedUtility.GetSleepingSlotPos(index, base.Position, base.Rotation, this.def.size);
 		}
 
-		// Token: 0x06002402 RID: 9218 RVA: 0x0013509A File Offset: 0x0013349A
+		// Token: 0x060023FA RID: 9210 RVA: 0x001351E2 File Offset: 0x001335E2
 		public void SortOwners()
 		{
 			this.owners.SortBy((Pawn x) => x.thingIDNumber);
 		}
 
-		// Token: 0x06002403 RID: 9219 RVA: 0x001350C8 File Offset: 0x001334C8
+		// Token: 0x060023FB RID: 9211 RVA: 0x00135210 File Offset: 0x00133610
 		private void RemoveAllOwners()
 		{
 			for (int i = this.owners.Count - 1; i >= 0; i--)
@@ -694,7 +694,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002404 RID: 9220 RVA: 0x0013510C File Offset: 0x0013350C
+		// Token: 0x060023FC RID: 9212 RVA: 0x00135254 File Offset: 0x00133654
 		private void NotifyRoomBedTypeChanged()
 		{
 			Room room = this.GetRoom(RegionType.Set_Passable);
@@ -704,7 +704,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002405 RID: 9221 RVA: 0x00135130 File Offset: 0x00133530
+		// Token: 0x060023FD RID: 9213 RVA: 0x00135278 File Offset: 0x00133678
 		private void FacilityChanged()
 		{
 			CompFacility compFacility = this.TryGetComp<CompFacility>();
@@ -719,7 +719,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002406 RID: 9222 RVA: 0x00135164 File Offset: 0x00133564
+		// Token: 0x060023FE RID: 9214 RVA: 0x001352AC File Offset: 0x001336AC
 		private Vector3 GetMultiOwnersLabelScreenPosFor(int slotIndex)
 		{
 			IntVec3 sleepingSlotPos = this.GetSleepingSlotPos(slotIndex);
@@ -741,7 +741,7 @@ namespace RimWorld
 			return v;
 		}
 
-		// Token: 0x06002407 RID: 9223 RVA: 0x00135224 File Offset: 0x00133624
+		// Token: 0x060023FF RID: 9215 RVA: 0x0013536C File Offset: 0x0013376C
 		private Vector3 AdjustOwnerLabelPosToAvoidOverlapping(Vector3 screenPos, int slotIndex)
 		{
 			Text.Font = GameFont.Tiny;
@@ -772,34 +772,34 @@ namespace RimWorld
 			return screenPos;
 		}
 
-		// Token: 0x0400140B RID: 5131
+		// Token: 0x04001409 RID: 5129
 		private bool forPrisonersInt = false;
 
-		// Token: 0x0400140C RID: 5132
+		// Token: 0x0400140A RID: 5130
 		private bool medicalInt = false;
 
-		// Token: 0x0400140D RID: 5133
+		// Token: 0x0400140B RID: 5131
 		private bool alreadySetDefaultMed = false;
 
-		// Token: 0x0400140E RID: 5134
+		// Token: 0x0400140C RID: 5132
 		public List<Pawn> owners = new List<Pawn>();
 
-		// Token: 0x0400140F RID: 5135
+		// Token: 0x0400140D RID: 5133
 		private static int lastPrisonerSetChangeFrame = -1;
 
-		// Token: 0x04001410 RID: 5136
+		// Token: 0x0400140E RID: 5134
 		private static readonly Color SheetColorNormal = new Color(0.6313726f, 0.8352941f, 0.7058824f);
 
-		// Token: 0x04001411 RID: 5137
+		// Token: 0x0400140F RID: 5135
 		private static readonly Color SheetColorRoyal = new Color(0.670588255f, 0.9137255f, 0.745098054f);
 
-		// Token: 0x04001412 RID: 5138
+		// Token: 0x04001410 RID: 5136
 		public static readonly Color SheetColorForPrisoner = new Color(1f, 0.7176471f, 0.129411772f);
 
-		// Token: 0x04001413 RID: 5139
+		// Token: 0x04001411 RID: 5137
 		private static readonly Color SheetColorMedical = new Color(0.3882353f, 0.623529434f, 0.8862745f);
 
-		// Token: 0x04001414 RID: 5140
+		// Token: 0x04001412 RID: 5138
 		private static readonly Color SheetColorMedicalForPrisoner = new Color(0.654902f, 0.3764706f, 0.152941182f);
 	}
 }

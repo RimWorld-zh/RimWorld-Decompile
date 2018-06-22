@@ -2,18 +2,18 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000786 RID: 1926
+	// Token: 0x02000782 RID: 1922
 	public enum TraderCaravanRole
 	{
-		// Token: 0x040016FB RID: 5883
+		// Token: 0x040016F9 RID: 5881
 		None,
-		// Token: 0x040016FC RID: 5884
+		// Token: 0x040016FA RID: 5882
 		Trader,
-		// Token: 0x040016FD RID: 5885
+		// Token: 0x040016FB RID: 5883
 		Carrier,
-		// Token: 0x040016FE RID: 5886
+		// Token: 0x040016FC RID: 5884
 		Guard,
-		// Token: 0x040016FF RID: 5887
+		// Token: 0x040016FD RID: 5885
 		Chattel
 	}
 }

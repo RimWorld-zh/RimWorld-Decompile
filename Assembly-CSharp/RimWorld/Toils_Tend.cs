@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000051 RID: 81
 	public class Toils_Tend
 	{
-		// Token: 0x06000280 RID: 640 RVA: 0x0001AA00 File Offset: 0x00018E00
+		// Token: 0x06000280 RID: 640 RVA: 0x0001AA08 File Offset: 0x00018E08
 		public static Toil ReserveMedicine(TargetIndex ind, Pawn injured)
 		{
 			Toil toil = new Toil();
@@ -28,7 +28,7 @@ namespace RimWorld
 			return toil;
 		}
 
-		// Token: 0x06000281 RID: 641 RVA: 0x0001AA6C File Offset: 0x00018E6C
+		// Token: 0x06000281 RID: 641 RVA: 0x0001AA74 File Offset: 0x00018E74
 		public static Toil PickupMedicine(TargetIndex ind, Pawn injured)
 		{
 			Toil toil = new Toil();
@@ -58,7 +58,7 @@ namespace RimWorld
 			return toil;
 		}
 
-		// Token: 0x06000282 RID: 642 RVA: 0x0001AACC File Offset: 0x00018ECC
+		// Token: 0x06000282 RID: 642 RVA: 0x0001AAD4 File Offset: 0x00018ED4
 		public static Toil FinalizeTend(Pawn patient)
 		{
 			Toil toil = new Toil();

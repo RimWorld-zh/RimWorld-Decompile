@@ -6,17 +6,17 @@ using Verse.Noise;
 
 namespace Verse
 {
-	// Token: 0x02000CB2 RID: 3250
+	// Token: 0x02000CAF RID: 3247
 	public class WindManager
 	{
-		// Token: 0x06004792 RID: 18322 RVA: 0x0025B40C File Offset: 0x0025980C
+		// Token: 0x0600479B RID: 18331 RVA: 0x0025C7FC File Offset: 0x0025ABFC
 		public WindManager(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x17000B4A RID: 2890
-		// (get) Token: 0x06004793 RID: 18323 RVA: 0x0025B430 File Offset: 0x00259830
+		// Token: 0x17000B4C RID: 2892
+		// (get) Token: 0x0600479C RID: 18332 RVA: 0x0025C820 File Offset: 0x0025AC20
 		public float WindSpeed
 		{
 			get
@@ -25,7 +25,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004794 RID: 18324 RVA: 0x0025B44C File Offset: 0x0025984C
+		// Token: 0x0600479D RID: 18333 RVA: 0x0025C83C File Offset: 0x0025AC3C
 		public void WindManagerTick()
 		{
 			this.cachedWindSpeed = this.BaseWindSpeedAt(Find.TickManager.TicksAbs) * this.map.weatherManager.CurWindSpeedFactor;
@@ -52,13 +52,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004795 RID: 18325 RVA: 0x0025B554 File Offset: 0x00259954
+		// Token: 0x0600479E RID: 18334 RVA: 0x0025C944 File Offset: 0x0025AD44
 		public static void Notify_PlantMaterialCreated(Material newMat)
 		{
 			WindManager.plantMaterials.Add(newMat);
 		}
 
-		// Token: 0x06004796 RID: 18326 RVA: 0x0025B564 File Offset: 0x00259964
+		// Token: 0x0600479F RID: 18335 RVA: 0x0025C954 File Offset: 0x0025AD54
 		private float BaseWindSpeedAt(int ticksAbs)
 		{
 			if (this.windNoise == null)
@@ -71,7 +71,7 @@ namespace Verse
 			return (float)this.windNoise.GetValue((double)ticksAbs, 0.0, 0.0);
 		}
 
-		// Token: 0x06004797 RID: 18327 RVA: 0x0025B63C File Offset: 0x00259A3C
+		// Token: 0x060047A0 RID: 18336 RVA: 0x0025CA2C File Offset: 0x0025AE2C
 		public string DebugString()
 		{
 			return string.Concat(new object[]
@@ -83,7 +83,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06004798 RID: 18328 RVA: 0x0025B688 File Offset: 0x00259A88
+		// Token: 0x060047A1 RID: 18337 RVA: 0x0025CA78 File Offset: 0x0025AE78
 		public void LogWindSpeeds()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -101,19 +101,19 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x0400308F RID: 12431
+		// Token: 0x0400309A RID: 12442
 		private Map map;
 
-		// Token: 0x04003090 RID: 12432
+		// Token: 0x0400309B RID: 12443
 		private static List<Material> plantMaterials = new List<Material>();
 
-		// Token: 0x04003091 RID: 12433
+		// Token: 0x0400309C RID: 12444
 		private float cachedWindSpeed;
 
-		// Token: 0x04003092 RID: 12434
+		// Token: 0x0400309D RID: 12445
 		private ModuleBase windNoise = null;
 
-		// Token: 0x04003093 RID: 12435
+		// Token: 0x0400309E RID: 12446
 		private float plantSwayHead = 0f;
 	}
 }

@@ -4,29 +4,29 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200097E RID: 2430
+	// Token: 0x0200097A RID: 2426
 	public static class FuelingPortUtility
 	{
-		// Token: 0x0600369A RID: 13978 RVA: 0x001D1730 File Offset: 0x001CFB30
+		// Token: 0x06003693 RID: 13971 RVA: 0x001D1918 File Offset: 0x001CFD18
 		public static IntVec3 GetFuelingPortCell(Building podLauncher)
 		{
 			return FuelingPortUtility.GetFuelingPortCell(podLauncher.Position, podLauncher.Rotation);
 		}
 
-		// Token: 0x0600369B RID: 13979 RVA: 0x001D1758 File Offset: 0x001CFB58
+		// Token: 0x06003694 RID: 13972 RVA: 0x001D1940 File Offset: 0x001CFD40
 		public static IntVec3 GetFuelingPortCell(IntVec3 center, Rot4 rot)
 		{
 			rot.Rotate(RotationDirection.Clockwise);
 			return center + rot.FacingCell;
 		}
 
-		// Token: 0x0600369C RID: 13980 RVA: 0x001D1784 File Offset: 0x001CFB84
+		// Token: 0x06003695 RID: 13973 RVA: 0x001D196C File Offset: 0x001CFD6C
 		public static bool AnyFuelingPortGiverAt(IntVec3 c, Map map)
 		{
 			return FuelingPortUtility.FuelingPortGiverAt(c, map) != null;
 		}
 
-		// Token: 0x0600369D RID: 13981 RVA: 0x001D17A8 File Offset: 0x001CFBA8
+		// Token: 0x06003696 RID: 13974 RVA: 0x001D1990 File Offset: 0x001CFD90
 		public static Building FuelingPortGiverAt(IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);
@@ -41,7 +41,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x0600369E RID: 13982 RVA: 0x001D1810 File Offset: 0x001CFC10
+		// Token: 0x06003697 RID: 13975 RVA: 0x001D19F8 File Offset: 0x001CFDF8
 		public static Building FuelingPortGiverAtFuelingPortCell(IntVec3 c, Map map)
 		{
 			for (int i = 0; i < 4; i++)
@@ -63,7 +63,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x0600369F RID: 13983 RVA: 0x001D18CC File Offset: 0x001CFCCC
+		// Token: 0x06003698 RID: 13976 RVA: 0x001D1AB4 File Offset: 0x001CFEB4
 		public static CompLaunchable LaunchableAt(IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);

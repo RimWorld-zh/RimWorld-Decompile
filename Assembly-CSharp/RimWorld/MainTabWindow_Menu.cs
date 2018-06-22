@@ -6,17 +6,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000875 RID: 2165
+	// Token: 0x02000871 RID: 2161
 	public class MainTabWindow_Menu : MainTabWindow
 	{
-		// Token: 0x06003141 RID: 12609 RVA: 0x001AB822 File Offset: 0x001A9C22
+		// Token: 0x0600313A RID: 12602 RVA: 0x001ABA0A File Offset: 0x001A9E0A
 		public MainTabWindow_Menu()
 		{
 			this.forcePause = true;
 		}
 
-		// Token: 0x170007E9 RID: 2025
-		// (get) Token: 0x06003142 RID: 12610 RVA: 0x001AB834 File Offset: 0x001A9C34
+		// Token: 0x170007EA RID: 2026
+		// (get) Token: 0x0600313B RID: 12603 RVA: 0x001ABA1C File Offset: 0x001A9E1C
 		public override Vector2 RequestedTabSize
 		{
 			get
@@ -25,8 +25,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170007EA RID: 2026
-		// (get) Token: 0x06003143 RID: 12611 RVA: 0x001AB858 File Offset: 0x001A9C58
+		// Token: 0x170007EB RID: 2027
+		// (get) Token: 0x0600313C RID: 12604 RVA: 0x001ABA40 File Offset: 0x001A9E40
 		public override MainTabWindowAnchor Anchor
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003144 RID: 12612 RVA: 0x001AB86E File Offset: 0x001A9C6E
+		// Token: 0x0600313D RID: 12605 RVA: 0x001ABA56 File Offset: 0x001A9E56
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -44,21 +44,21 @@ namespace RimWorld
 			this.anyGameFiles = GenFilePaths.AllSavedGameFiles.Any<FileInfo>();
 		}
 
-		// Token: 0x06003145 RID: 12613 RVA: 0x001AB891 File Offset: 0x001A9C91
+		// Token: 0x0600313E RID: 12606 RVA: 0x001ABA79 File Offset: 0x001A9E79
 		public override void ExtraOnGUI()
 		{
 			base.ExtraOnGUI();
 			VersionControl.DrawInfoInCorner();
 		}
 
-		// Token: 0x06003146 RID: 12614 RVA: 0x001AB89F File Offset: 0x001A9C9F
+		// Token: 0x0600313F RID: 12607 RVA: 0x001ABA87 File Offset: 0x001A9E87
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);
 			MainMenuDrawer.DoMainMenuControls(rect, this.anyGameFiles);
 		}
 
-		// Token: 0x04001AA1 RID: 6817
+		// Token: 0x04001A9F RID: 6815
 		private bool anyGameFiles;
 	}
 }

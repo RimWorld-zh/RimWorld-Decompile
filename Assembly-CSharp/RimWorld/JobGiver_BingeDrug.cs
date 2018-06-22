@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000AD RID: 173
 	public class JobGiver_BingeDrug : JobGiver_Binge
 	{
-		// Token: 0x0600042E RID: 1070 RVA: 0x00031C84 File Offset: 0x00030084
+		// Token: 0x0600042E RID: 1070 RVA: 0x00031C60 File Offset: 0x00030060
 		protected override int IngestInterval(Pawn pawn)
 		{
 			ChemicalDef chemical = this.GetChemical(pawn);
@@ -31,7 +31,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x0600042F RID: 1071 RVA: 0x00031D24 File Offset: 0x00030124
+		// Token: 0x0600042F RID: 1071 RVA: 0x00031D00 File Offset: 0x00030100
 		protected override Thing BestIngestTarget(Pawn pawn)
 		{
 			ChemicalDef chemical = this.GetChemical(pawn);
@@ -74,13 +74,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000430 RID: 1072 RVA: 0x00031E18 File Offset: 0x00030218
+		// Token: 0x06000430 RID: 1072 RVA: 0x00031DF4 File Offset: 0x000301F4
 		private ChemicalDef GetChemical(Pawn pawn)
 		{
 			return ((MentalState_BingingDrug)pawn.MentalState).chemical;
 		}
 
-		// Token: 0x06000431 RID: 1073 RVA: 0x00031E40 File Offset: 0x00030240
+		// Token: 0x06000431 RID: 1073 RVA: 0x00031E1C File Offset: 0x0003021C
 		private DrugCategory GetDrugCategory(Pawn pawn)
 		{
 			return ((MentalState_BingingDrug)pawn.MentalState).drugCategory;

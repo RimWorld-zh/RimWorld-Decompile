@@ -11,7 +11,7 @@ namespace RimWorld
 	public class GenStep_SleepingMechanoids : GenStep
 	{
 		// Token: 0x17000264 RID: 612
-		// (get) Token: 0x060011E3 RID: 4579 RVA: 0x0009B28C File Offset: 0x0009968C
+		// (get) Token: 0x060011E3 RID: 4579 RVA: 0x0009B470 File Offset: 0x00099870
 		public override int SeedPart
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011E4 RID: 4580 RVA: 0x0009B2A8 File Offset: 0x000996A8
+		// Token: 0x060011E4 RID: 4580 RVA: 0x0009B48C File Offset: 0x0009988C
 		public override void Generate(Map map)
 		{
 			CellRect around;
@@ -50,7 +50,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011E5 RID: 4581 RVA: 0x0009B3B0 File Offset: 0x000997B0
+		// Token: 0x060011E5 RID: 4581 RVA: 0x0009B594 File Offset: 0x00099994
 		private IEnumerable<Pawn> GeneratePawns(Map map)
 		{
 			return PawnGroupMakerUtility.GeneratePawns(new PawnGroupMakerParms
@@ -62,7 +62,7 @@ namespace RimWorld
 			}, true);
 		}
 
-		// Token: 0x04000AE1 RID: 2785
+		// Token: 0x04000AE2 RID: 2786
 		public FloatRange pointsRange;
 	}
 }

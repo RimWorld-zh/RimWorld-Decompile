@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007BD RID: 1981
+	// Token: 0x020007B9 RID: 1977
 	public abstract class Designator_AreaAllowed : Designator_Area
 	{
-		// Token: 0x06002BDF RID: 11231 RVA: 0x00173D15 File Offset: 0x00172115
+		// Token: 0x06002BD8 RID: 11224 RVA: 0x00173EED File Offset: 0x001722ED
 		public Designator_AreaAllowed(DesignateMode mode)
 		{
 			this.soundDragSustain = SoundDefOf.Designate_DragStandard;
@@ -15,8 +15,8 @@ namespace RimWorld
 			this.useMouseIcon = true;
 		}
 
-		// Token: 0x170006D8 RID: 1752
-		// (get) Token: 0x06002BE0 RID: 11232 RVA: 0x00173D3C File Offset: 0x0017213C
+		// Token: 0x170006D9 RID: 1753
+		// (get) Token: 0x06002BD9 RID: 11225 RVA: 0x00173F14 File Offset: 0x00172314
 		public override int DraggableDimensions
 		{
 			get
@@ -25,8 +25,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006D9 RID: 1753
-		// (get) Token: 0x06002BE1 RID: 11233 RVA: 0x00173D54 File Offset: 0x00172154
+		// Token: 0x170006DA RID: 1754
+		// (get) Token: 0x06002BDA RID: 11226 RVA: 0x00173F2C File Offset: 0x0017232C
 		public override bool DragDrawMeasurements
 		{
 			get
@@ -35,8 +35,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006DA RID: 1754
-		// (get) Token: 0x06002BE2 RID: 11234 RVA: 0x00173D6C File Offset: 0x0017216C
+		// Token: 0x170006DB RID: 1755
+		// (get) Token: 0x06002BDB RID: 11227 RVA: 0x00173F44 File Offset: 0x00172344
 		public static Area SelectedArea
 		{
 			get
@@ -45,13 +45,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BE3 RID: 11235 RVA: 0x00173D86 File Offset: 0x00172186
+		// Token: 0x06002BDC RID: 11228 RVA: 0x00173F5E File Offset: 0x0017235E
 		public static void ClearSelectedArea()
 		{
 			Designator_AreaAllowed.selectedArea = null;
 		}
 
-		// Token: 0x06002BE4 RID: 11236 RVA: 0x00173D8F File Offset: 0x0017218F
+		// Token: 0x06002BDD RID: 11229 RVA: 0x00173F67 File Offset: 0x00172367
 		public override void SelectedUpdate()
 		{
 			GenUI.RenderMouseoverBracket();
@@ -61,7 +61,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BE5 RID: 11237 RVA: 0x00173DBC File Offset: 0x001721BC
+		// Token: 0x06002BDE RID: 11230 RVA: 0x00173F94 File Offset: 0x00172394
 		public override void ProcessInput(Event ev)
 		{
 			if (base.CheckCanInteract())
@@ -78,14 +78,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BE6 RID: 11238 RVA: 0x00173E1D File Offset: 0x0017221D
+		// Token: 0x06002BDF RID: 11231 RVA: 0x00173FF5 File Offset: 0x001723F5
 		protected override void FinalizeDesignationSucceeded()
 		{
 			base.FinalizeDesignationSucceeded();
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.AllowedAreas, KnowledgeAmount.SpecificInteraction);
 		}
 
-		// Token: 0x04001795 RID: 6037
+		// Token: 0x04001793 RID: 6035
 		private static Area selectedArea;
 	}
 }

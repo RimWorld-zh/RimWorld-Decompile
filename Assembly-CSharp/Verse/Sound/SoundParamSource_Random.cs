@@ -2,11 +2,11 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B91 RID: 2961
+	// Token: 0x02000B8D RID: 2957
 	public class SoundParamSource_Random : SoundParamSource
 	{
-		// Token: 0x170009CA RID: 2506
-		// (get) Token: 0x06004040 RID: 16448 RVA: 0x0021C870 File Offset: 0x0021AC70
+		// Token: 0x170009CC RID: 2508
+		// (get) Token: 0x06004042 RID: 16450 RVA: 0x0021CF0C File Offset: 0x0021B30C
 		public override string Label
 		{
 			get
@@ -15,7 +15,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004041 RID: 16449 RVA: 0x0021C88C File Offset: 0x0021AC8C
+		// Token: 0x06004043 RID: 16451 RVA: 0x0021CF28 File Offset: 0x0021B328
 		public override float ValueFor(Sample samp)
 		{
 			return Rand.Value;

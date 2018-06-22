@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000093 RID: 147
 	public static class ExecutionUtility
 	{
-		// Token: 0x060003AE RID: 942 RVA: 0x00029B68 File Offset: 0x00027F68
+		// Token: 0x060003AE RID: 942 RVA: 0x00029B44 File Offset: 0x00027F44
 		public static void DoExecutionByCut(Pawn executioner, Pawn victim)
 		{
 			Map map = victim.Map;
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060003AF RID: 943 RVA: 0x00029C2C File Offset: 0x0002802C
+		// Token: 0x060003AF RID: 943 RVA: 0x00029C08 File Offset: 0x00028008
 		private static BodyPartRecord ExecuteCutPart(Pawn pawn)
 		{
 			BodyPartRecord bodyPartRecord = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null).FirstOrDefault((BodyPartRecord x) => x.def == BodyPartDefOf.Neck);

@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020002CD RID: 717
 	public class ScenarioDef : Def
 	{
-		// Token: 0x06000BDB RID: 3035 RVA: 0x000698E4 File Offset: 0x00067CE4
+		// Token: 0x06000BD9 RID: 3033 RVA: 0x0006994C File Offset: 0x00067D4C
 		public override void PostLoad()
 		{
 			base.PostLoad();
@@ -22,7 +22,7 @@ namespace RimWorld
 			this.scenario.Category = ScenarioCategory.FromDef;
 		}
 
-		// Token: 0x06000BDC RID: 3036 RVA: 0x00069950 File Offset: 0x00067D50
+		// Token: 0x06000BDA RID: 3034 RVA: 0x000699B8 File Offset: 0x00067DB8
 		public override IEnumerable<string> ConfigErrors()
 		{
 			if (this.scenario == null)
@@ -36,7 +36,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0400071F RID: 1823
+		// Token: 0x0400071E RID: 1822
 		public Scenario scenario;
 	}
 }

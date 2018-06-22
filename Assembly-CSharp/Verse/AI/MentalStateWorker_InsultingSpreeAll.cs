@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A66 RID: 2662
+	// Token: 0x02000A62 RID: 2658
 	public class MentalStateWorker_InsultingSpreeAll : MentalStateWorker
 	{
-		// Token: 0x06003B36 RID: 15158 RVA: 0x001F6598 File Offset: 0x001F4998
+		// Token: 0x06003B31 RID: 15153 RVA: 0x001F6894 File Offset: 0x001F4C94
 		public override bool StateCanOccur(Pawn pawn)
 		{
 			bool result;
@@ -24,7 +24,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x0400255C RID: 9564
+		// Token: 0x04002557 RID: 9559
 		private static List<Pawn> candidates = new List<Pawn>();
 	}
 }

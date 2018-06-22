@@ -10,7 +10,7 @@ namespace RimWorld
 	// Token: 0x020000C2 RID: 194
 	public class JobGiver_PackAnimalFollowColonists : ThinkNode_JobGiver
 	{
-		// Token: 0x06000488 RID: 1160 RVA: 0x00033B1C File Offset: 0x00031F1C
+		// Token: 0x06000488 RID: 1160 RVA: 0x00033AF8 File Offset: 0x00031EF8
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Pawn pawnToFollow = JobGiver_PackAnimalFollowColonists.GetPawnToFollow(pawn);
@@ -35,7 +35,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000489 RID: 1161 RVA: 0x00033BBC File Offset: 0x00031FBC
+		// Token: 0x06000489 RID: 1161 RVA: 0x00033B98 File Offset: 0x00031F98
 		public static Pawn GetPawnToFollow(Pawn forPawn)
 		{
 			Pawn result;

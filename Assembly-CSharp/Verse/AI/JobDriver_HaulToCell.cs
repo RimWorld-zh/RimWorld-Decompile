@@ -4,17 +4,17 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A42 RID: 2626
+	// Token: 0x02000A3E RID: 2622
 	public class JobDriver_HaulToCell : JobDriver
 	{
-		// Token: 0x06003A3B RID: 14907 RVA: 0x001EDC2F File Offset: 0x001EC02F
+		// Token: 0x06003A35 RID: 14901 RVA: 0x001EDE6F File Offset: 0x001EC26F
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.forbiddenInitially, "forbiddenInitially", false, false);
 		}
 
-		// Token: 0x06003A3C RID: 14908 RVA: 0x001EDC4C File Offset: 0x001EC04C
+		// Token: 0x06003A36 RID: 14902 RVA: 0x001EDE8C File Offset: 0x001EC28C
 		public override string GetReport()
 		{
 			IntVec3 cell = this.job.targetB.Cell;
@@ -59,13 +59,13 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003A3D RID: 14909 RVA: 0x001EDD54 File Offset: 0x001EC154
+		// Token: 0x06003A37 RID: 14903 RVA: 0x001EDF94 File Offset: 0x001EC394
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.GetTarget(TargetIndex.B), this.job, 1, -1, null) && this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, 1, -1, null);
 		}
 
-		// Token: 0x06003A3E RID: 14910 RVA: 0x001EDDB1 File Offset: 0x001EC1B1
+		// Token: 0x06003A38 RID: 14904 RVA: 0x001EDFF1 File Offset: 0x001EC3F1
 		public override void Notify_Starting()
 		{
 			base.Notify_Starting();
@@ -79,7 +79,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A3F RID: 14911 RVA: 0x001EDDE8 File Offset: 0x001EC1E8
+		// Token: 0x06003A39 RID: 14905 RVA: 0x001EE028 File Offset: 0x001EC428
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);
@@ -118,13 +118,13 @@ namespace Verse.AI
 			yield break;
 		}
 
-		// Token: 0x04002513 RID: 9491
+		// Token: 0x0400250E RID: 9486
 		private bool forbiddenInitially;
 
-		// Token: 0x04002514 RID: 9492
+		// Token: 0x0400250F RID: 9487
 		private const TargetIndex HaulableInd = TargetIndex.A;
 
-		// Token: 0x04002515 RID: 9493
+		// Token: 0x04002510 RID: 9488
 		private const TargetIndex StoreCellInd = TargetIndex.B;
 	}
 }

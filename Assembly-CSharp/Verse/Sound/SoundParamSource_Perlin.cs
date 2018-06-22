@@ -4,11 +4,11 @@ using Verse.Noise;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B90 RID: 2960
+	// Token: 0x02000B8C RID: 2956
 	public class SoundParamSource_Perlin : SoundParamSource
 	{
-		// Token: 0x170009C9 RID: 2505
-		// (get) Token: 0x0600403C RID: 16444 RVA: 0x0021C708 File Offset: 0x0021AB08
+		// Token: 0x170009CB RID: 2507
+		// (get) Token: 0x0600403E RID: 16446 RVA: 0x0021CDA4 File Offset: 0x0021B1A4
 		public override string Label
 		{
 			get
@@ -17,7 +17,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x0600403D RID: 16445 RVA: 0x0021C724 File Offset: 0x0021AB24
+		// Token: 0x0600403F RID: 16447 RVA: 0x0021CDC0 File Offset: 0x0021B1C0
 		public override float ValueFor(Sample samp)
 		{
 			float num;
@@ -63,19 +63,19 @@ namespace Verse.Sound
 			return num4 / 2f;
 		}
 
-		// Token: 0x04002B17 RID: 11031
+		// Token: 0x04002B1C RID: 11036
 		[Description("The type of time on which this perlin randomizer will work. If you use Ticks, it will freeze when paused and speed up in fast forward.")]
 		public TimeType timeType = TimeType.Ticks;
 
-		// Token: 0x04002B18 RID: 11032
+		// Token: 0x04002B1D RID: 11037
 		[Description("The frequency of the perlin output. The input time is multiplied by this amount.")]
 		public float perlinFrequency = 1f;
 
-		// Token: 0x04002B19 RID: 11033
+		// Token: 0x04002B1E RID: 11038
 		[Description("Whether to synchronize the Perlin output across different samples. If set to desync, each playing sample will get a separate Perlin output.")]
 		public PerlinMappingSyncType syncType = PerlinMappingSyncType.Sync;
 
-		// Token: 0x04002B1A RID: 11034
+		// Token: 0x04002B1F RID: 11039
 		private static Perlin perlin = new Perlin(0.0099999997764825821, 2.0, 0.5, 4, Rand.Range(0, int.MaxValue), QualityMode.Medium);
 	}
 }

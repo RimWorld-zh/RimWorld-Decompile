@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000996 RID: 2454
+	// Token: 0x02000992 RID: 2450
 	public static class ShortCircuitUtility
 	{
-		// Token: 0x0600371B RID: 14107 RVA: 0x001D770C File Offset: 0x001D5B0C
+		// Token: 0x06003714 RID: 14100 RVA: 0x001D7908 File Offset: 0x001D5D08
 		public static IEnumerable<Building> GetShortCircuitablePowerConduits(Map map)
 		{
 			ShortCircuitUtility.tmpPowerNetHasActivePowerSource.Clear();
@@ -42,7 +42,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600371C RID: 14108 RVA: 0x001D7738 File Offset: 0x001D5B38
+		// Token: 0x06003715 RID: 14101 RVA: 0x001D7934 File Offset: 0x001D5D34
 		public static void DoShortCircuit(Building culprit)
 		{
 			PowerNet powerNet = culprit.PowerComp.PowerNet;
@@ -106,7 +106,7 @@ namespace RimWorld
 			Find.LetterStack.ReceiveLetter("LetterLabelShortCircuit".Translate(), stringBuilder.ToString(), LetterDefOf.NegativeEvent, new TargetInfo(culprit.Position, map, false), null, null);
 		}
 
-		// Token: 0x0600371D RID: 14109 RVA: 0x001D7904 File Offset: 0x001D5D04
+		// Token: 0x06003716 RID: 14102 RVA: 0x001D7B00 File Offset: 0x001D5F00
 		public static bool TryShortCircuitInRain(Thing thing)
 		{
 			CompPowerTrader compPowerTrader = thing.TryGetComp<CompPowerTrader>();
@@ -136,7 +136,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600371E RID: 14110 RVA: 0x001D7A24 File Offset: 0x001D5E24
+		// Token: 0x06003717 RID: 14103 RVA: 0x001D7C20 File Offset: 0x001D6020
 		private static void DrainBatteriesAndCauseExplosion(PowerNet net, Building culprit, out float totalEnergy, out float explosionRadius)
 		{
 			totalEnergy = 0f;
@@ -155,7 +155,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600371F RID: 14111 RVA: 0x001D7B18 File Offset: 0x001D5F18
+		// Token: 0x06003718 RID: 14104 RVA: 0x001D7D14 File Offset: 0x001D6114
 		private static bool TryStartFireNear(Building b)
 		{
 			ShortCircuitUtility.tmpCells.Clear();
@@ -172,10 +172,10 @@ namespace RimWorld
 			return ShortCircuitUtility.tmpCells.Any<IntVec3>() && FireUtility.TryStartFireIn(ShortCircuitUtility.tmpCells.RandomElement<IntVec3>(), b.Map, Rand.Range(0.1f, 1.75f));
 		}
 
-		// Token: 0x04002390 RID: 9104
+		// Token: 0x0400238E RID: 9102
 		private static Dictionary<PowerNet, bool> tmpPowerNetHasActivePowerSource = new Dictionary<PowerNet, bool>();
 
-		// Token: 0x04002391 RID: 9105
+		// Token: 0x0400238F RID: 9103
 		private static List<IntVec3> tmpCells = new List<IntVec3>();
 	}
 }

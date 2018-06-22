@@ -4,17 +4,17 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000C2A RID: 3114
+	// Token: 0x02000C27 RID: 3111
 	public class AttackTargetsCache
 	{
-		// Token: 0x0600445C RID: 17500 RVA: 0x0023E748 File Offset: 0x0023CB48
+		// Token: 0x06004465 RID: 17509 RVA: 0x0023FB10 File Offset: 0x0023DF10
 		public AttackTargetsCache(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x17000AB5 RID: 2741
-		// (get) Token: 0x0600445D RID: 17501 RVA: 0x0023E77C File Offset: 0x0023CB7C
+		// Token: 0x17000AB7 RID: 2743
+		// (get) Token: 0x06004466 RID: 17510 RVA: 0x0023FB44 File Offset: 0x0023DF44
 		public HashSet<IAttackTarget> TargetsHostileToColony
 		{
 			get
@@ -23,13 +23,13 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x0600445E RID: 17502 RVA: 0x0023E79C File Offset: 0x0023CB9C
+		// Token: 0x06004467 RID: 17511 RVA: 0x0023FB64 File Offset: 0x0023DF64
 		public static void AttackTargetsCacheStaticUpdate()
 		{
 			AttackTargetsCache.targets.Clear();
 		}
 
-		// Token: 0x0600445F RID: 17503 RVA: 0x0023E7AC File Offset: 0x0023CBAC
+		// Token: 0x06004468 RID: 17512 RVA: 0x0023FB74 File Offset: 0x0023DF74
 		public void UpdateTarget(IAttackTarget t)
 		{
 			if (this.allTargets.Contains(t))
@@ -43,7 +43,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06004460 RID: 17504 RVA: 0x0023E804 File Offset: 0x0023CC04
+		// Token: 0x06004469 RID: 17513 RVA: 0x0023FBCC File Offset: 0x0023DFCC
 		public List<IAttackTarget> GetPotentialTargetsFor(IAttackTargetSearcher th)
 		{
 			Thing thing = th.Thing;
@@ -86,7 +86,7 @@ namespace Verse.AI
 			return AttackTargetsCache.targets;
 		}
 
-		// Token: 0x06004461 RID: 17505 RVA: 0x0023E9A8 File Offset: 0x0023CDA8
+		// Token: 0x0600446A RID: 17514 RVA: 0x0023FD70 File Offset: 0x0023E170
 		public HashSet<IAttackTarget> TargetsHostileToFaction(Faction f)
 		{
 			HashSet<IAttackTarget> result;
@@ -106,7 +106,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06004462 RID: 17506 RVA: 0x0023EA04 File Offset: 0x0023CE04
+		// Token: 0x0600446B RID: 17515 RVA: 0x0023FDCC File Offset: 0x0023E1CC
 		public void Notify_ThingSpawned(Thing th)
 		{
 			IAttackTarget attackTarget = th as IAttackTarget;
@@ -116,7 +116,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06004463 RID: 17507 RVA: 0x0023EA28 File Offset: 0x0023CE28
+		// Token: 0x0600446C RID: 17516 RVA: 0x0023FDF0 File Offset: 0x0023E1F0
 		public void Notify_ThingDespawned(Thing th)
 		{
 			IAttackTarget attackTarget = th as IAttackTarget;
@@ -126,7 +126,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06004464 RID: 17508 RVA: 0x0023EA4C File Offset: 0x0023CE4C
+		// Token: 0x0600446D RID: 17517 RVA: 0x0023FE14 File Offset: 0x0023E214
 		public void Notify_FactionHostilityChanged(Faction f1, Faction f2)
 		{
 			AttackTargetsCache.tmpTargets.Clear();
@@ -145,7 +145,7 @@ namespace Verse.AI
 			AttackTargetsCache.tmpTargets.Clear();
 		}
 
-		// Token: 0x06004465 RID: 17509 RVA: 0x0023EB14 File Offset: 0x0023CF14
+		// Token: 0x0600446E RID: 17518 RVA: 0x0023FEDC File Offset: 0x0023E2DC
 		private void RegisterTarget(IAttackTarget target)
 		{
 			if (this.allTargets.Contains(target))
@@ -199,7 +199,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06004466 RID: 17510 RVA: 0x0023EC9C File Offset: 0x0023D09C
+		// Token: 0x0600446F RID: 17519 RVA: 0x00240064 File Offset: 0x0023E464
 		private void DeregisterTarget(IAttackTarget target)
 		{
 			if (!this.allTargets.Contains(target))
@@ -228,7 +228,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06004467 RID: 17511 RVA: 0x0023ED74 File Offset: 0x0023D174
+		// Token: 0x06004470 RID: 17520 RVA: 0x0024013C File Offset: 0x0023E53C
 		private void Debug_AssertHostile(Faction f, HashSet<IAttackTarget> targets)
 		{
 			AttackTargetsCache.tmpToUpdate.Clear();
@@ -256,40 +256,40 @@ namespace Verse.AI
 			AttackTargetsCache.tmpToUpdate.Clear();
 		}
 
-		// Token: 0x06004468 RID: 17512 RVA: 0x0023EE7C File Offset: 0x0023D27C
+		// Token: 0x06004471 RID: 17521 RVA: 0x00240244 File Offset: 0x0023E644
 		public bool Debug_CheckIfInAllTargets(IAttackTarget t)
 		{
 			return t != null && this.allTargets.Contains(t);
 		}
 
-		// Token: 0x06004469 RID: 17513 RVA: 0x0023EEA8 File Offset: 0x0023D2A8
+		// Token: 0x06004472 RID: 17522 RVA: 0x00240270 File Offset: 0x0023E670
 		public bool Debug_CheckIfHostileToFaction(Faction f, IAttackTarget t)
 		{
 			return f != null && t != null && this.targetsHostileToFaction[f].Contains(t);
 		}
 
-		// Token: 0x04002E67 RID: 11879
+		// Token: 0x04002E71 RID: 11889
 		private Map map;
 
-		// Token: 0x04002E68 RID: 11880
+		// Token: 0x04002E72 RID: 11890
 		private HashSet<IAttackTarget> allTargets = new HashSet<IAttackTarget>();
 
-		// Token: 0x04002E69 RID: 11881
+		// Token: 0x04002E73 RID: 11891
 		private Dictionary<Faction, HashSet<IAttackTarget>> targetsHostileToFaction = new Dictionary<Faction, HashSet<IAttackTarget>>();
 
-		// Token: 0x04002E6A RID: 11882
+		// Token: 0x04002E74 RID: 11892
 		private HashSet<Pawn> pawnsInAggroMentalState = new HashSet<Pawn>();
 
-		// Token: 0x04002E6B RID: 11883
+		// Token: 0x04002E75 RID: 11893
 		private static List<IAttackTarget> targets = new List<IAttackTarget>();
 
-		// Token: 0x04002E6C RID: 11884
+		// Token: 0x04002E76 RID: 11894
 		private static HashSet<IAttackTarget> emptySet = new HashSet<IAttackTarget>();
 
-		// Token: 0x04002E6D RID: 11885
+		// Token: 0x04002E77 RID: 11895
 		private static List<IAttackTarget> tmpTargets = new List<IAttackTarget>();
 
-		// Token: 0x04002E6E RID: 11886
+		// Token: 0x04002E78 RID: 11896
 		private static List<IAttackTarget> tmpToUpdate = new List<IAttackTarget>();
 	}
 }

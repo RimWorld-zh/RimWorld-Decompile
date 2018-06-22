@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009A6 RID: 2470
+	// Token: 0x020009A2 RID: 2466
 	public class StatPart_BedStat : StatPart
 	{
-		// Token: 0x0600375D RID: 14173 RVA: 0x001D8F64 File Offset: 0x001D7364
+		// Token: 0x06003756 RID: 14166 RVA: 0x001D9160 File Offset: 0x001D7560
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing)
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600375E RID: 14174 RVA: 0x001D8FA4 File Offset: 0x001D73A4
+		// Token: 0x06003757 RID: 14167 RVA: 0x001D91A0 File Offset: 0x001D75A0
 		public override string ExplanationPart(StatRequest req)
 		{
 			if (req.HasThing)
@@ -33,7 +33,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x0600375F RID: 14175 RVA: 0x001D9010 File Offset: 0x001D7410
+		// Token: 0x06003758 RID: 14168 RVA: 0x001D920C File Offset: 0x001D760C
 		private float BedMultiplier(Pawn pawn)
 		{
 			float result;
@@ -48,7 +48,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0400239A RID: 9114
+		// Token: 0x04002398 RID: 9112
 		private StatDef stat = null;
 	}
 }

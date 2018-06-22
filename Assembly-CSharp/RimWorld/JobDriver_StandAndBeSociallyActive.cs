@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x0200004F RID: 79
 	public class JobDriver_StandAndBeSociallyActive : JobDriver
 	{
-		// Token: 0x06000273 RID: 627 RVA: 0x00019F14 File Offset: 0x00018314
+		// Token: 0x06000273 RID: 627 RVA: 0x00019F1C File Offset: 0x0001831C
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x06000274 RID: 628 RVA: 0x00019F2C File Offset: 0x0001832C
+		// Token: 0x06000274 RID: 628 RVA: 0x00019F34 File Offset: 0x00018334
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return new Toil
@@ -35,7 +35,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000275 RID: 629 RVA: 0x00019F58 File Offset: 0x00018358
+		// Token: 0x06000275 RID: 629 RVA: 0x00019F60 File Offset: 0x00018360
 		private Pawn FindClosePawn()
 		{
 			IntVec3 position = this.pawn.Position;

@@ -6,12 +6,12 @@ using Verse.Sound;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005E2 RID: 1506
+	// Token: 0x020005DE RID: 1502
 	[StaticConstructorOnStartup]
 	public static class CaravanMergeUtility
 	{
 		// Token: 0x17000463 RID: 1123
-		// (get) Token: 0x06001DB4 RID: 7604 RVA: 0x000FFF30 File Offset: 0x000FE330
+		// (get) Token: 0x06001DAB RID: 7595 RVA: 0x000FFF84 File Offset: 0x000FE384
 		public static bool ShouldShowMergeCommand
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000464 RID: 1124
-		// (get) Token: 0x06001DB5 RID: 7605 RVA: 0x000FFF58 File Offset: 0x000FE358
+		// (get) Token: 0x06001DAC RID: 7596 RVA: 0x000FFFAC File Offset: 0x000FE3AC
 		public static bool CanMergeAnySelectedCaravans
 		{
 			get
@@ -47,7 +47,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000465 RID: 1125
-		// (get) Token: 0x06001DB6 RID: 7606 RVA: 0x00100008 File Offset: 0x000FE408
+		// (get) Token: 0x06001DAD RID: 7597 RVA: 0x0010005C File Offset: 0x000FE45C
 		public static bool AnySelectedCaravanCloseToAnyOtherMergeableCaravan
 		{
 			get
@@ -76,7 +76,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DB7 RID: 7607 RVA: 0x001000C4 File Offset: 0x000FE4C4
+		// Token: 0x06001DAE RID: 7598 RVA: 0x00100118 File Offset: 0x000FE518
 		public static Command MergeCommand(Caravan caravan)
 		{
 			Command_Action command_Action = new Command_Action();
@@ -95,7 +95,7 @@ namespace RimWorld.Planet
 			return command_Action;
 		}
 
-		// Token: 0x06001DB8 RID: 7608 RVA: 0x00100148 File Offset: 0x000FE548
+		// Token: 0x06001DAF RID: 7599 RVA: 0x0010019C File Offset: 0x000FE59C
 		public static void TryMergeSelectedCaravans()
 		{
 			CaravanMergeUtility.tmpSelectedPlayerCaravans.Clear();
@@ -129,7 +129,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DB9 RID: 7609 RVA: 0x00100268 File Offset: 0x000FE668
+		// Token: 0x06001DB0 RID: 7600 RVA: 0x001002BC File Offset: 0x000FE6BC
 		private static bool CloseToEachOther(Caravan c1, Caravan c2)
 		{
 			bool result;
@@ -147,7 +147,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DBA RID: 7610 RVA: 0x001002D4 File Offset: 0x000FE6D4
+		// Token: 0x06001DB1 RID: 7601 RVA: 0x00100328 File Offset: 0x000FE728
 		private static void MergeCaravans(List<Caravan> caravans)
 		{
 			Caravan caravan = caravans.MaxBy((Caravan x) => x.PawnsListForReading.Count);
@@ -163,13 +163,13 @@ namespace RimWorld.Planet
 			caravan.Notify_Merged(caravans);
 		}
 
-		// Token: 0x0400119B RID: 4507
+		// Token: 0x04001198 RID: 4504
 		private static readonly Texture2D MergeCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/MergeCaravans", true);
 
-		// Token: 0x0400119C RID: 4508
+		// Token: 0x04001199 RID: 4505
 		private static List<Caravan> tmpSelectedPlayerCaravans = new List<Caravan>();
 
-		// Token: 0x0400119D RID: 4509
+		// Token: 0x0400119A RID: 4506
 		private static List<Caravan> tmpCaravansOnSameTile = new List<Caravan>();
 	}
 }

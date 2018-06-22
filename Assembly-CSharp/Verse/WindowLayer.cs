@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000ECA RID: 3786
+	// Token: 0x02000EC9 RID: 3785
 	public enum WindowLayer
 	{
-		// Token: 0x04003BBC RID: 15292
+		// Token: 0x04003BCC RID: 15308
 		GameUI,
-		// Token: 0x04003BBD RID: 15293
+		// Token: 0x04003BCD RID: 15309
 		Dialog,
-		// Token: 0x04003BBE RID: 15294
+		// Token: 0x04003BCE RID: 15310
 		SubSuper,
-		// Token: 0x04003BBF RID: 15295
+		// Token: 0x04003BCF RID: 15311
 		Super
 	}
 }

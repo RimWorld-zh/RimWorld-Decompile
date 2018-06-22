@@ -2,17 +2,17 @@
 
 namespace Verse
 {
-	// Token: 0x02000E33 RID: 3635
+	// Token: 0x02000E30 RID: 3632
 	[AttributeUsage(AttributeTargets.Method)]
 	public class CategoryAttribute : Attribute
 	{
-		// Token: 0x060055F3 RID: 22003 RVA: 0x002C4318 File Offset: 0x002C2718
+		// Token: 0x0600560F RID: 22031 RVA: 0x002C5ED4 File Offset: 0x002C42D4
 		public CategoryAttribute(string name)
 		{
 			this.name = name;
 		}
 
-		// Token: 0x040038C9 RID: 14537
+		// Token: 0x040038D7 RID: 14551
 		public string name;
 	}
 }

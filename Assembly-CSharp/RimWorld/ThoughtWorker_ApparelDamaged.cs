@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000214 RID: 532
 	public class ThoughtWorker_ApparelDamaged : ThoughtWorker
 	{
-		// Token: 0x060009F6 RID: 2550 RVA: 0x00058DFC File Offset: 0x000571FC
+		// Token: 0x060009F4 RID: 2548 RVA: 0x00058E40 File Offset: 0x00057240
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			float num = 999f;
@@ -34,10 +34,10 @@ namespace RimWorld
 			return ThoughtState.Inactive;
 		}
 
-		// Token: 0x040003EA RID: 1002
+		// Token: 0x040003E8 RID: 1000
 		public const float MinForFrayed = 0.5f;
 
-		// Token: 0x040003EB RID: 1003
+		// Token: 0x040003E9 RID: 1001
 		public const float MinForTattered = 0.2f;
 	}
 }

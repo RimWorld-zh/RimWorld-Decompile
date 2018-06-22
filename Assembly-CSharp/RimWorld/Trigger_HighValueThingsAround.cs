@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020001AD RID: 429
 	public class Trigger_HighValueThingsAround : Trigger
 	{
-		// Token: 0x060008DC RID: 2268 RVA: 0x000537F0 File Offset: 0x00051BF0
+		// Token: 0x060008DA RID: 2266 RVA: 0x00053804 File Offset: 0x00051C04
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			if (signal.type == TriggerSignalType.Tick && Find.TickManager.TicksGame % 120 == 0)
@@ -26,10 +26,10 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x040003BD RID: 957
+		// Token: 0x040003BB RID: 955
 		private const int CheckInterval = 120;
 
-		// Token: 0x040003BE RID: 958
+		// Token: 0x040003BC RID: 956
 		private const int MinTicksSinceDamage = 300;
 	}
 }

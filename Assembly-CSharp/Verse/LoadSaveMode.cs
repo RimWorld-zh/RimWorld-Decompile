@@ -2,18 +2,18 @@
 
 namespace Verse
 {
-	// Token: 0x02000D96 RID: 3478
+	// Token: 0x02000D93 RID: 3475
 	public enum LoadSaveMode : byte
 	{
-		// Token: 0x040033D3 RID: 13267
+		// Token: 0x040033DE RID: 13278
 		Inactive,
-		// Token: 0x040033D4 RID: 13268
+		// Token: 0x040033DF RID: 13279
 		Saving,
-		// Token: 0x040033D5 RID: 13269
+		// Token: 0x040033E0 RID: 13280
 		LoadingVars,
-		// Token: 0x040033D6 RID: 13270
+		// Token: 0x040033E1 RID: 13281
 		ResolvingCrossRefs,
-		// Token: 0x040033D7 RID: 13271
+		// Token: 0x040033E2 RID: 13282
 		PostLoadInit
 	}
 }

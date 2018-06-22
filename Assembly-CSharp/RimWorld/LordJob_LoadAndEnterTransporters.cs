@@ -8,19 +8,19 @@ namespace RimWorld
 	// Token: 0x02000170 RID: 368
 	public class LordJob_LoadAndEnterTransporters : LordJob
 	{
-		// Token: 0x06000793 RID: 1939 RVA: 0x0004AE2D File Offset: 0x0004922D
+		// Token: 0x06000793 RID: 1939 RVA: 0x0004AE19 File Offset: 0x00049219
 		public LordJob_LoadAndEnterTransporters()
 		{
 		}
 
-		// Token: 0x06000794 RID: 1940 RVA: 0x0004AE3D File Offset: 0x0004923D
+		// Token: 0x06000794 RID: 1940 RVA: 0x0004AE29 File Offset: 0x00049229
 		public LordJob_LoadAndEnterTransporters(int transportersGroup)
 		{
 			this.transportersGroup = transportersGroup;
 		}
 
 		// Token: 0x1700012F RID: 303
-		// (get) Token: 0x06000795 RID: 1941 RVA: 0x0004AE54 File Offset: 0x00049254
+		// (get) Token: 0x06000795 RID: 1941 RVA: 0x0004AE40 File Offset: 0x00049240
 		public override bool AllowStartNewGatherings
 		{
 			get
@@ -29,13 +29,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000796 RID: 1942 RVA: 0x0004AE6A File Offset: 0x0004926A
+		// Token: 0x06000796 RID: 1942 RVA: 0x0004AE56 File Offset: 0x00049256
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.transportersGroup, "transportersGroup", 0, false);
 		}
 
-		// Token: 0x06000797 RID: 1943 RVA: 0x0004AE80 File Offset: 0x00049280
+		// Token: 0x06000797 RID: 1943 RVA: 0x0004AE6C File Offset: 0x0004926C
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -51,7 +51,7 @@ namespace RimWorld
 			return stateGraph;
 		}
 
-		// Token: 0x06000798 RID: 1944 RVA: 0x0004AF14 File Offset: 0x00049314
+		// Token: 0x06000798 RID: 1944 RVA: 0x0004AF00 File Offset: 0x00049300
 		private void CancelLoadingProcess()
 		{
 			List<Thing> list = this.lord.Map.listerThings.ThingsInGroup(ThingRequestGroup.Transporter);

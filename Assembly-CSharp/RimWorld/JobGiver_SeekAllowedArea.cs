@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000EE RID: 238
 	public class JobGiver_SeekAllowedArea : ThinkNode_JobGiver
 	{
-		// Token: 0x06000510 RID: 1296 RVA: 0x000382E8 File Offset: 0x000366E8
+		// Token: 0x06000510 RID: 1296 RVA: 0x000382D4 File Offset: 0x000366D4
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -71,14 +71,14 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000511 RID: 1297 RVA: 0x000383E8 File Offset: 0x000367E8
+		// Token: 0x06000511 RID: 1297 RVA: 0x000383D4 File Offset: 0x000367D4
 		private bool HasJobWithSpawnedAllowedTarget(Pawn pawn)
 		{
 			Job curJob = pawn.CurJob;
 			return curJob != null && (this.IsSpawnedAllowedTarget(curJob.targetA, pawn) || this.IsSpawnedAllowedTarget(curJob.targetB, pawn) || this.IsSpawnedAllowedTarget(curJob.targetC, pawn));
 		}
 
-		// Token: 0x06000512 RID: 1298 RVA: 0x00038448 File Offset: 0x00036848
+		// Token: 0x06000512 RID: 1298 RVA: 0x00038434 File Offset: 0x00036834
 		private bool IsSpawnedAllowedTarget(LocalTargetInfo target, Pawn pawn)
 		{
 			bool result;

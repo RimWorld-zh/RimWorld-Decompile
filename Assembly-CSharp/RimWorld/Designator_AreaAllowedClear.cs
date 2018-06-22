@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007BF RID: 1983
+	// Token: 0x020007BB RID: 1979
 	public class Designator_AreaAllowedClear : Designator_AreaAllowed
 	{
-		// Token: 0x06002BEB RID: 11243 RVA: 0x00173F30 File Offset: 0x00172330
+		// Token: 0x06002BE4 RID: 11236 RVA: 0x00174108 File Offset: 0x00172508
 		public Designator_AreaAllowedClear() : base(DesignateMode.Remove)
 		{
 			this.defaultLabel = "DesignatorClearAreaAllowed".Translate();
@@ -20,13 +20,13 @@ namespace RimWorld
 			this.tutorTag = "AreaAllowedClear";
 		}
 
-		// Token: 0x06002BEC RID: 11244 RVA: 0x00173FAC File Offset: 0x001723AC
+		// Token: 0x06002BE5 RID: 11237 RVA: 0x00174184 File Offset: 0x00172584
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			return c.InBounds(base.Map) && Designator_AreaAllowed.SelectedArea != null && Designator_AreaAllowed.SelectedArea[c];
 		}
 
-		// Token: 0x06002BED RID: 11245 RVA: 0x00173FEF File Offset: 0x001723EF
+		// Token: 0x06002BE6 RID: 11238 RVA: 0x001741C7 File Offset: 0x001725C7
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			Designator_AreaAllowed.SelectedArea[c] = false;

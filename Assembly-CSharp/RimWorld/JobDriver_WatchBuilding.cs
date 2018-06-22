@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000061 RID: 97
 	public class JobDriver_WatchBuilding : JobDriver
 	{
-		// Token: 0x060002C6 RID: 710 RVA: 0x0001BF50 File Offset: 0x0001A350
+		// Token: 0x060002C6 RID: 710 RVA: 0x0001BF58 File Offset: 0x0001A358
 		public override bool TryMakePreToilReservations()
 		{
 			bool result;
@@ -41,13 +41,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060002C7 RID: 711 RVA: 0x0001C070 File Offset: 0x0001A470
+		// Token: 0x060002C7 RID: 711 RVA: 0x0001C078 File Offset: 0x0001A478
 		public override bool CanBeginNowWhileLyingDown()
 		{
 			return base.TargetC.HasThing && base.TargetC.Thing is Building_Bed && JobInBedUtility.InBedOrRestSpotNow(this.pawn, base.TargetC);
 		}
 
-		// Token: 0x060002C8 RID: 712 RVA: 0x0001C0C4 File Offset: 0x0001A4C4
+		// Token: 0x060002C8 RID: 712 RVA: 0x0001C0CC File Offset: 0x0001A4CC
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.EndOnDespawnedOrNull(TargetIndex.A, JobCondition.Incompletable);
@@ -81,7 +81,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060002C9 RID: 713 RVA: 0x0001C0F0 File Offset: 0x0001A4F0
+		// Token: 0x060002C9 RID: 713 RVA: 0x0001C0F8 File Offset: 0x0001A4F8
 		protected virtual void WatchTickAction()
 		{
 			this.pawn.rotationTracker.FaceCell(base.TargetA.Cell);
@@ -91,7 +91,7 @@ namespace RimWorld
 			JoyUtility.JoyTickCheckEnd(pawn, JoyTickFullJoyAction.EndJob, 1f, joySource);
 		}
 
-		// Token: 0x060002CA RID: 714 RVA: 0x0001C148 File Offset: 0x0001A548
+		// Token: 0x060002CA RID: 714 RVA: 0x0001C150 File Offset: 0x0001A550
 		public override object[] TaleParameters()
 		{
 			return new object[]

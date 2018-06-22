@@ -8,7 +8,7 @@ namespace RimWorld
 	public class IncidentWorker_ShipChunkDrop : IncidentWorker
 	{
 		// Token: 0x1700020C RID: 524
-		// (get) Token: 0x06000E31 RID: 3633 RVA: 0x00078C18 File Offset: 0x00077018
+		// (get) Token: 0x06000E31 RID: 3633 RVA: 0x00078D18 File Offset: 0x00077118
 		private int RandomCountToDrop
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000E32 RID: 3634 RVA: 0x00078C94 File Offset: 0x00077094
+		// Token: 0x06000E32 RID: 3634 RVA: 0x00078D94 File Offset: 0x00077194
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -48,7 +48,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E33 RID: 3635 RVA: 0x00078CDC File Offset: 0x000770DC
+		// Token: 0x06000E33 RID: 3635 RVA: 0x00078DDC File Offset: 0x000771DC
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -67,7 +67,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E34 RID: 3636 RVA: 0x00078D50 File Offset: 0x00077150
+		// Token: 0x06000E34 RID: 3636 RVA: 0x00078E50 File Offset: 0x00077250
 		private void SpawnShipChunks(IntVec3 firstChunkPos, Map map, int count)
 		{
 			this.SpawnChunk(firstChunkPos, map);
@@ -81,13 +81,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000E35 RID: 3637 RVA: 0x00078D94 File Offset: 0x00077194
+		// Token: 0x06000E35 RID: 3637 RVA: 0x00078E94 File Offset: 0x00077294
 		private void SpawnChunk(IntVec3 pos, Map map)
 		{
 			SkyfallerMaker.SpawnSkyfaller(ThingDefOf.ShipChunkIncoming, ThingDefOf.ShipChunk, pos, map);
 		}
 
-		// Token: 0x06000E36 RID: 3638 RVA: 0x00078DAC File Offset: 0x000771AC
+		// Token: 0x06000E36 RID: 3638 RVA: 0x00078EAC File Offset: 0x000772AC
 		private bool TryFindShipChunkDropCell(IntVec3 nearLoc, Map map, int maxDist, out IntVec3 pos)
 		{
 			ThingDef shipChunkIncoming = ThingDefOf.ShipChunkIncoming;
@@ -95,7 +95,7 @@ namespace RimWorld
 			return CellFinderLoose.TryFindSkyfallerCell(shipChunkIncoming, map, out cell, 10, nearLoc, maxDist, true, false, false, false, true, false, null);
 		}
 
-		// Token: 0x040008E6 RID: 2278
+		// Token: 0x040008E8 RID: 2280
 		private static readonly Pair<int, float>[] CountChance = new Pair<int, float>[]
 		{
 			new Pair<int, float>(1, 1f),

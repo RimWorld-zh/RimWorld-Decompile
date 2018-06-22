@@ -7,11 +7,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006FD RID: 1789
+	// Token: 0x020006F9 RID: 1785
 	[HasDebugOutput]
 	public class ThingSetMaker_ResourcePod : ThingSetMaker
 	{
-		// Token: 0x060026F2 RID: 9970 RVA: 0x0014E2E4 File Offset: 0x0014C6E4
+		// Token: 0x060026EA RID: 9962 RVA: 0x0014E488 File Offset: 0x0014C888
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			ThingDef thingDef = ThingSetMaker_ResourcePod.RandomPodContentsDef();
@@ -39,7 +39,7 @@ namespace RimWorld
 			while (outThings.Count < 7 && num > thingDef.BaseMarketValue);
 		}
 
-		// Token: 0x060026F3 RID: 9971 RVA: 0x0014E3A8 File Offset: 0x0014C7A8
+		// Token: 0x060026EB RID: 9963 RVA: 0x0014E54C File Offset: 0x0014C94C
 		private static IEnumerable<ThingDef> PossiblePodContentsDefs()
 		{
 			return from d in DefDatabase<ThingDef>.AllDefs
@@ -47,7 +47,7 @@ namespace RimWorld
 			select d;
 		}
 
-		// Token: 0x060026F4 RID: 9972 RVA: 0x0014E3E4 File Offset: 0x0014C7E4
+		// Token: 0x060026EC RID: 9964 RVA: 0x0014E588 File Offset: 0x0014C988
 		private static ThingDef RandomPodContentsDef()
 		{
 			int numMeats = (from x in ThingSetMaker_ResourcePod.PossiblePodContentsDefs()
@@ -59,7 +59,7 @@ namespace RimWorld
 			return ThingSetMaker_ResourcePod.PossiblePodContentsDefs().RandomElementByWeight((ThingDef d) => ThingSetMakerUtility.AdjustedBigCategoriesSelectionWeight(d, numMeats, numLeathers));
 		}
 
-		// Token: 0x060026F5 RID: 9973 RVA: 0x0014E47C File Offset: 0x0014C87C
+		// Token: 0x060026ED RID: 9965 RVA: 0x0014E620 File Offset: 0x0014CA20
 		[DebugOutput]
 		[Category("Incidents")]
 		private static void PodContentsPossibleDefs()
@@ -73,7 +73,7 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x060026F6 RID: 9974 RVA: 0x0014E4FC File Offset: 0x0014C8FC
+		// Token: 0x060026EE RID: 9966 RVA: 0x0014E6A0 File Offset: 0x0014CAA0
 		[DebugOutput]
 		[Category("Incidents")]
 		private static void PodContentsTest()
@@ -86,22 +86,22 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x060026F7 RID: 9975 RVA: 0x0014E544 File Offset: 0x0014C944
+		// Token: 0x060026EF RID: 9967 RVA: 0x0014E6E8 File Offset: 0x0014CAE8
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			return ThingSetMaker_ResourcePod.PossiblePodContentsDefs();
 		}
 
-		// Token: 0x040015A8 RID: 5544
+		// Token: 0x040015A6 RID: 5542
 		private const int MaxStacks = 7;
 
-		// Token: 0x040015A9 RID: 5545
+		// Token: 0x040015A7 RID: 5543
 		private const float MaxMarketValue = 40f;
 
-		// Token: 0x040015AA RID: 5546
+		// Token: 0x040015A8 RID: 5544
 		private const float MinMoney = 150f;
 
-		// Token: 0x040015AB RID: 5547
+		// Token: 0x040015A9 RID: 5545
 		private const float MaxMoney = 600f;
 	}
 }

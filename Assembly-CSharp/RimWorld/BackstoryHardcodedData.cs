@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004E0 RID: 1248
+	// Token: 0x020004DC RID: 1244
 	internal static class BackstoryHardcodedData
 	{
-		// Token: 0x06001639 RID: 5689 RVA: 0x000C515C File Offset: 0x000C355C
+		// Token: 0x06001630 RID: 5680 RVA: 0x000C5150 File Offset: 0x000C3550
 		public static void InjectHardcodedData(Backstory bs)
 		{
 			string a = bs.title.CapitalizeFirst();
@@ -73,7 +73,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600163A RID: 5690 RVA: 0x000C5328 File Offset: 0x000C3728
+		// Token: 0x06001631 RID: 5681 RVA: 0x000C531C File Offset: 0x000C371C
 		public static void InjectHardcodedData(PawnBio bio)
 		{
 			if (bio.name.First == "Xia" && bio.name.Last == "Xue")

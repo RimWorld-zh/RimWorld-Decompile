@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020001A9 RID: 425
 	public class RaidStrategyWorker_Siege : RaidStrategyWorker
 	{
-		// Token: 0x060008CA RID: 2250 RVA: 0x000527F8 File Offset: 0x00050BF8
+		// Token: 0x060008C8 RID: 2248 RVA: 0x00052808 File Offset: 0x00050C08
 		protected override LordJob MakeLordJob(IncidentParms parms, Map map, List<Pawn> pawns, int raidSeed)
 		{
 			IntVec3 entrySpot = (!parms.spawnCenter.IsValid) ? pawns[0].PositionHeld : parms.spawnCenter;
@@ -22,19 +22,19 @@ namespace RimWorld
 			return new LordJob_Siege(parms.faction, siegeSpot, num);
 		}
 
-		// Token: 0x060008CB RID: 2251 RVA: 0x00052874 File Offset: 0x00050C74
-		public override float MinimumPoints(Faction fac)
+		// Token: 0x060008C9 RID: 2249 RVA: 0x00052884 File Offset: 0x00050C84
+		public override float MinimumPoints(Faction fac, PawnGroupKindDef groupKind)
 		{
-			return Mathf.Max(base.MinimumPoints(fac), 350f);
+			return Mathf.Max(base.MinimumPoints(fac, groupKind), 350f);
 		}
 
-		// Token: 0x060008CC RID: 2252 RVA: 0x0005289C File Offset: 0x00050C9C
-		public override bool CanUseWith(IncidentParms parms)
+		// Token: 0x060008CA RID: 2250 RVA: 0x000528AC File Offset: 0x00050CAC
+		public override bool CanUseWith(IncidentParms parms, PawnGroupKindDef groupKind)
 		{
-			return base.CanUseWith(parms) && parms.faction.def.canSiege;
+			return base.CanUseWith(parms, groupKind) && parms.faction.def.canSiege;
 		}
 
-		// Token: 0x040003B1 RID: 945
+		// Token: 0x040003AF RID: 943
 		private const float MinPointsForSiege = 350f;
 	}
 }

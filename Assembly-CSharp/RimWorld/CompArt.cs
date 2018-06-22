@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000704 RID: 1796
+	// Token: 0x02000700 RID: 1792
 	public class CompArt : ThingComp
 	{
 		// Token: 0x170005DF RID: 1503
-		// (get) Token: 0x0600273C RID: 10044 RVA: 0x00151A94 File Offset: 0x0014FE94
+		// (get) Token: 0x06002734 RID: 10036 RVA: 0x00151C38 File Offset: 0x00150038
 		public string AuthorName
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005E0 RID: 1504
-		// (get) Token: 0x0600273D RID: 10045 RVA: 0x00151AD4 File Offset: 0x0014FED4
+		// (get) Token: 0x06002735 RID: 10037 RVA: 0x00151C78 File Offset: 0x00150078
 		public string Title
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005E1 RID: 1505
-		// (get) Token: 0x0600273E RID: 10046 RVA: 0x00151B18 File Offset: 0x0014FF18
+		// (get) Token: 0x06002736 RID: 10038 RVA: 0x00151CBC File Offset: 0x001500BC
 		public TaleReference TaleRef
 		{
 			get
@@ -51,7 +51,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005E2 RID: 1506
-		// (get) Token: 0x0600273F RID: 10047 RVA: 0x00151B34 File Offset: 0x0014FF34
+		// (get) Token: 0x06002737 RID: 10039 RVA: 0x00151CD8 File Offset: 0x001500D8
 		public bool CanShowArt
 		{
 			get
@@ -70,7 +70,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005E3 RID: 1507
-		// (get) Token: 0x06002740 RID: 10048 RVA: 0x00151BAC File Offset: 0x0014FFAC
+		// (get) Token: 0x06002738 RID: 10040 RVA: 0x00151D50 File Offset: 0x00150150
 		public bool Active
 		{
 			get
@@ -80,7 +80,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005E4 RID: 1508
-		// (get) Token: 0x06002741 RID: 10049 RVA: 0x00151BD0 File Offset: 0x0014FFD0
+		// (get) Token: 0x06002739 RID: 10041 RVA: 0x00151D74 File Offset: 0x00150174
 		public CompProperties_Art Props
 		{
 			get
@@ -89,19 +89,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002742 RID: 10050 RVA: 0x00151BF0 File Offset: 0x0014FFF0
+		// Token: 0x0600273A RID: 10042 RVA: 0x00151D94 File Offset: 0x00150194
 		public void InitializeArt(ArtGenerationContext source)
 		{
 			this.InitializeArt(null, source);
 		}
 
-		// Token: 0x06002743 RID: 10051 RVA: 0x00151BFB File Offset: 0x0014FFFB
+		// Token: 0x0600273B RID: 10043 RVA: 0x00151D9F File Offset: 0x0015019F
 		public void InitializeArt(Thing relatedThing)
 		{
 			this.InitializeArt(relatedThing, ArtGenerationContext.Colony);
 		}
 
-		// Token: 0x06002744 RID: 10052 RVA: 0x00151C08 File Offset: 0x00150008
+		// Token: 0x0600273C RID: 10044 RVA: 0x00151DAC File Offset: 0x001501AC
 		private void InitializeArt(Thing relatedThing, ArtGenerationContext source)
 		{
 			if (this.taleRef != null)
@@ -135,7 +135,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002745 RID: 10053 RVA: 0x00151CAD File Offset: 0x001500AD
+		// Token: 0x0600273D RID: 10045 RVA: 0x00151E51 File Offset: 0x00150251
 		public void JustCreatedBy(Pawn pawn)
 		{
 			if (this.CanShowArt)
@@ -144,7 +144,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002746 RID: 10054 RVA: 0x00151CCC File Offset: 0x001500CC
+		// Token: 0x0600273E RID: 10046 RVA: 0x00151E70 File Offset: 0x00150270
 		public void Clear()
 		{
 			this.authorNameInt = null;
@@ -156,7 +156,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002747 RID: 10055 RVA: 0x00151CFC File Offset: 0x001500FC
+		// Token: 0x0600273F RID: 10047 RVA: 0x00151EA0 File Offset: 0x001502A0
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -165,7 +165,7 @@ namespace RimWorld
 			Scribe_Deep.Look<TaleReference>(ref this.taleRef, "taleRef", new object[0]);
 		}
 
-		// Token: 0x06002748 RID: 10056 RVA: 0x00151D4C File Offset: 0x0015014C
+		// Token: 0x06002740 RID: 10048 RVA: 0x00151EF0 File Offset: 0x001502F0
 		public override string CompInspectStringExtra()
 		{
 			string result;
@@ -190,7 +190,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002749 RID: 10057 RVA: 0x00151DC7 File Offset: 0x001501C7
+		// Token: 0x06002741 RID: 10049 RVA: 0x00151F6B File Offset: 0x0015036B
 		public override void PostDestroy(DestroyMode mode, Map previousMap)
 		{
 			base.PostDestroy(mode, previousMap);
@@ -201,7 +201,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600274A RID: 10058 RVA: 0x00151DF4 File Offset: 0x001501F4
+		// Token: 0x06002742 RID: 10050 RVA: 0x00151F98 File Offset: 0x00150398
 		public override string GetDescriptionPart()
 		{
 			string result;
@@ -222,13 +222,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600274B RID: 10059 RVA: 0x00151E70 File Offset: 0x00150270
+		// Token: 0x06002743 RID: 10051 RVA: 0x00152014 File Offset: 0x00150414
 		public override bool AllowStackWith(Thing other)
 		{
 			return !this.Active;
 		}
 
-		// Token: 0x0600274C RID: 10060 RVA: 0x00151E98 File Offset: 0x00150298
+		// Token: 0x06002744 RID: 10052 RVA: 0x0015203C File Offset: 0x0015043C
 		public string GenerateImageDescription()
 		{
 			if (this.taleRef == null)
@@ -239,7 +239,7 @@ namespace RimWorld
 			return this.taleRef.GenerateText(TextGenerationPurpose.ArtDescription, this.Props.descriptionMaker);
 		}
 
-		// Token: 0x0600274D RID: 10061 RVA: 0x00151EF0 File Offset: 0x001502F0
+		// Token: 0x06002745 RID: 10053 RVA: 0x00152094 File Offset: 0x00150494
 		private string GenerateTitle()
 		{
 			if (this.taleRef == null)
@@ -250,13 +250,13 @@ namespace RimWorld
 			return GenText.CapitalizeAsTitle(this.taleRef.GenerateText(TextGenerationPurpose.ArtName, this.Props.nameMaker));
 		}
 
-		// Token: 0x040015BA RID: 5562
+		// Token: 0x040015B8 RID: 5560
 		private string authorNameInt = null;
 
-		// Token: 0x040015BB RID: 5563
+		// Token: 0x040015B9 RID: 5561
 		private string titleInt = null;
 
-		// Token: 0x040015BC RID: 5564
+		// Token: 0x040015BA RID: 5562
 		private TaleReference taleRef = null;
 	}
 }

@@ -17,7 +17,7 @@ namespace RimWorld
 		protected abstract DesignationDef DesDef { get; }
 
 		// Token: 0x1700006A RID: 106
-		// (get) Token: 0x0600020C RID: 524 RVA: 0x00015D9C File Offset: 0x0001419C
+		// (get) Token: 0x0600020C RID: 524 RVA: 0x00015DA4 File Offset: 0x000141A4
 		protected virtual StatDef SpeedStat
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600020D RID: 525 RVA: 0x00015DB4 File Offset: 0x000141B4
+		// Token: 0x0600020D RID: 525 RVA: 0x00015DBC File Offset: 0x000141BC
 		public override bool TryMakePreToilReservations()
 		{
 			Pawn pawn = this.pawn;
@@ -36,7 +36,7 @@ namespace RimWorld
 			return pawn.Reserve(targetA, job, 1, -1, floor);
 		}
 
-		// Token: 0x0600020E RID: 526 RVA: 0x00015DF8 File Offset: 0x000141F8
+		// Token: 0x0600020E RID: 526 RVA: 0x00015E00 File Offset: 0x00014200
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOn(() => !this.job.ignoreDesignations && this.Map.designationManager.DesignationAt(this.TargetLocA, this.DesDef) == null);
@@ -80,7 +80,7 @@ namespace RimWorld
 		// Token: 0x0600020F RID: 527
 		protected abstract void DoEffect(IntVec3 c);
 
-		// Token: 0x06000210 RID: 528 RVA: 0x00015E22 File Offset: 0x00014222
+		// Token: 0x06000210 RID: 528 RVA: 0x00015E2A File Offset: 0x0001422A
 		public override void ExposeData()
 		{
 			base.ExposeData();

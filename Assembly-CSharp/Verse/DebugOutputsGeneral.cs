@@ -8,11 +8,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E1A RID: 3610
+	// Token: 0x02000E17 RID: 3607
 	[HasDebugOutput]
 	internal static class DebugOutputsGeneral
 	{
-		// Token: 0x06005273 RID: 21107 RVA: 0x002A2D6C File Offset: 0x002A116C
+		// Token: 0x0600528C RID: 21132 RVA: 0x002A42F4 File Offset: 0x002A26F4
 		[DebugOutput]
 		public static void WeaponsRanged()
 		{
@@ -66,7 +66,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005274 RID: 21108 RVA: 0x002A3260 File Offset: 0x002A1660
+		// Token: 0x0600528D RID: 21133 RVA: 0x002A47E8 File Offset: 0x002A2BE8
 		[DebugOutput]
 		public static void MeleeByStuff()
 		{
@@ -97,7 +97,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06005275 RID: 21109 RVA: 0x002A33D8 File Offset: 0x002A17D8
+		// Token: 0x0600528E RID: 21134 RVA: 0x002A4960 File Offset: 0x002A2D60
 		private static void DoTablesInternalMelee(ThingDef stuff, bool doRaces = false)
 		{
 			Func<Def, float> meleeDamageGetter = delegate(Def d)
@@ -255,7 +255,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<Def>(dataSources, array);
 		}
 
-		// Token: 0x06005276 RID: 21110 RVA: 0x002A36B0 File Offset: 0x002A1AB0
+		// Token: 0x0600528F RID: 21135 RVA: 0x002A4C38 File Offset: 0x002A3038
 		[DebugOutput]
 		public static void ApparelByStuff()
 		{
@@ -277,7 +277,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06005277 RID: 21111 RVA: 0x002A37B0 File Offset: 0x002A1BB0
+		// Token: 0x06005290 RID: 21136 RVA: 0x002A4D38 File Offset: 0x002A3138
 		[DebugOutput]
 		public static void ApparelArmor()
 		{
@@ -339,7 +339,7 @@ namespace Verse
 			select x, list.ToArray());
 		}
 
-		// Token: 0x06005278 RID: 21112 RVA: 0x002A3954 File Offset: 0x002A1D54
+		// Token: 0x06005291 RID: 21137 RVA: 0x002A4EDC File Offset: 0x002A32DC
 		[DebugOutput]
 		public static void ApparelInsulation()
 		{
@@ -387,7 +387,7 @@ namespace Verse
 			select x, list.ToArray());
 		}
 
-		// Token: 0x06005279 RID: 21113 RVA: 0x002A3AF8 File Offset: 0x002A1EF8
+		// Token: 0x06005292 RID: 21138 RVA: 0x002A5080 File Offset: 0x002A3480
 		private static void DoTableInternalApparel(ThingDef stuff)
 		{
 			IEnumerable<ThingDef> dataSources = from d in DefDatabase<ThingDef>.AllDefs
@@ -414,7 +414,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x0600527A RID: 21114 RVA: 0x002A3CDC File Offset: 0x002A20DC
+		// Token: 0x06005293 RID: 21139 RVA: 0x002A5264 File Offset: 0x002A3664
 		[DebugOutput]
 		public static void ThingsExistingList()
 		{
@@ -455,7 +455,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x0600527B RID: 21115 RVA: 0x002A3DA4 File Offset: 0x002A21A4
+		// Token: 0x06005294 RID: 21140 RVA: 0x002A532C File Offset: 0x002A372C
 		[DebugOutput]
 		public static void ThingFillageAndPassability()
 		{
@@ -486,7 +486,7 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x0600527C RID: 21116 RVA: 0x002A3ECC File Offset: 0x002A22CC
+		// Token: 0x06005295 RID: 21141 RVA: 0x002A5454 File Offset: 0x002A3854
 		[DebugOutput]
 		public static void ThingDamageData()
 		{
@@ -505,7 +505,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x0600527D RID: 21117 RVA: 0x002A4078 File Offset: 0x002A2478
+		// Token: 0x06005296 RID: 21142 RVA: 0x002A5600 File Offset: 0x002A3A00
 		[DebugOutput]
 		public static void ThingMasses()
 		{
@@ -557,7 +557,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x0600527E RID: 21118 RVA: 0x002A4250 File Offset: 0x002A2650
+		// Token: 0x06005297 RID: 21143 RVA: 0x002A57D8 File Offset: 0x002A3BD8
 		[DebugOutput]
 		public static void ThingFillPercents()
 		{
@@ -572,7 +572,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x0600527F RID: 21119 RVA: 0x002A4330 File Offset: 0x002A2730
+		// Token: 0x06005298 RID: 21144 RVA: 0x002A58B8 File Offset: 0x002A3CB8
 		[DebugOutput]
 		public static void ThingNutritions()
 		{
@@ -587,7 +587,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005280 RID: 21120 RVA: 0x002A4418 File Offset: 0x002A2818
+		// Token: 0x06005299 RID: 21145 RVA: 0x002A59A0 File Offset: 0x002A3DA0
 		public static void MakeTablePairsByThing(List<ThingStuffPair> pairList)
 		{
 			DefMap<ThingDef, float> totalCommMult = new DefMap<ThingDef, float>();
@@ -616,7 +616,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005281 RID: 21121 RVA: 0x002A45D0 File Offset: 0x002A29D0
+		// Token: 0x0600529A RID: 21146 RVA: 0x002A5B58 File Offset: 0x002A3F58
 		public static string ToStringEmptyZero(this float f, string format)
 		{
 			string result;
@@ -631,7 +631,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005282 RID: 21122 RVA: 0x002A4604 File Offset: 0x002A2A04
+		// Token: 0x0600529B RID: 21147 RVA: 0x002A5B8C File Offset: 0x002A3F8C
 		public static string ToStringPercentEmptyZero(this float f, string format = "F0")
 		{
 			string result;
@@ -646,7 +646,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005283 RID: 21123 RVA: 0x002A4638 File Offset: 0x002A2A38
+		// Token: 0x0600529C RID: 21148 RVA: 0x002A5BC0 File Offset: 0x002A3FC0
 		public static string ToStringCheckBlank(this bool b)
 		{
 			return (!b) ? "" : "✓";

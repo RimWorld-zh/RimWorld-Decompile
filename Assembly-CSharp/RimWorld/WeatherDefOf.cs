@@ -3,17 +3,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200094D RID: 2381
+	// Token: 0x02000949 RID: 2377
 	[DefOf]
 	public static class WeatherDefOf
 	{
-		// Token: 0x06003658 RID: 13912 RVA: 0x001D0A87 File Offset: 0x001CEE87
+		// Token: 0x06003651 RID: 13905 RVA: 0x001D0C6F File Offset: 0x001CF06F
 		static WeatherDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(WeatherDefOf));
 		}
 
-		// Token: 0x04002264 RID: 8804
+		// Token: 0x04002262 RID: 8802
 		public static WeatherDef Clear;
 	}
 }

@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x02000245 RID: 581
 	public class CompProperties_Facility : CompProperties
 	{
-		// Token: 0x06000A79 RID: 2681 RVA: 0x0005F10C File Offset: 0x0005D50C
+		// Token: 0x06000A77 RID: 2679 RVA: 0x0005F168 File Offset: 0x0005D568
 		public CompProperties_Facility()
 		{
 			this.compClass = typeof(CompFacility);
 		}
 
-		// Token: 0x06000A7A RID: 2682 RVA: 0x0005F168 File Offset: 0x0005D568
+		// Token: 0x06000A78 RID: 2680 RVA: 0x0005F1C4 File Offset: 0x0005D5C4
 		public override void ResolveReferences(ThingDef parentDef)
 		{
 			this.linkableBuildings = new List<ThingDef>();
@@ -35,26 +35,26 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000488 RID: 1160
+		// Token: 0x04000486 RID: 1158
 		[Unsaved]
 		public List<ThingDef> linkableBuildings = null;
 
-		// Token: 0x04000489 RID: 1161
+		// Token: 0x04000487 RID: 1159
 		public List<StatModifier> statOffsets = null;
 
-		// Token: 0x0400048A RID: 1162
+		// Token: 0x04000488 RID: 1160
 		public int maxSimultaneous = 1;
 
-		// Token: 0x0400048B RID: 1163
+		// Token: 0x04000489 RID: 1161
 		public bool mustBePlacedAdjacent = false;
 
-		// Token: 0x0400048C RID: 1164
+		// Token: 0x0400048A RID: 1162
 		public bool mustBePlacedAdjacentCardinalToBedHead = false;
 
-		// Token: 0x0400048D RID: 1165
+		// Token: 0x0400048B RID: 1163
 		public bool canLinkToMedBedsOnly = false;
 
-		// Token: 0x0400048E RID: 1166
+		// Token: 0x0400048C RID: 1164
 		public float maxDistance = 8f;
 	}
 }

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000CAB RID: 3243
+	// Token: 0x02000CA8 RID: 3240
 	public sealed class TemperatureCache : IExposable
 	{
-		// Token: 0x0600476F RID: 18287 RVA: 0x0025A0AC File Offset: 0x002584AC
+		// Token: 0x06004778 RID: 18296 RVA: 0x0025B49C File Offset: 0x0025989C
 		public TemperatureCache(Map map)
 		{
 			this.map = map;
@@ -14,7 +14,7 @@ namespace Verse
 			this.temperatureSaveLoad = new TemperatureSaveLoad(map);
 		}
 
-		// Token: 0x06004770 RID: 18288 RVA: 0x0025A100 File Offset: 0x00258500
+		// Token: 0x06004779 RID: 18297 RVA: 0x0025B4F0 File Offset: 0x002598F0
 		public void ResetTemperatureCache()
 		{
 			int numGridCells = this.map.cellIndices.NumGridCells;
@@ -24,25 +24,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004771 RID: 18289 RVA: 0x0025A144 File Offset: 0x00258544
+		// Token: 0x0600477A RID: 18298 RVA: 0x0025B534 File Offset: 0x00259934
 		public void ExposeData()
 		{
 			this.temperatureSaveLoad.DoExposeWork();
 		}
 
-		// Token: 0x06004772 RID: 18290 RVA: 0x0025A152 File Offset: 0x00258552
+		// Token: 0x0600477B RID: 18299 RVA: 0x0025B542 File Offset: 0x00259942
 		public void ResetCachedCellInfo(IntVec3 c)
 		{
 			this.tempCache[this.map.cellIndices.CellToIndex(c)].Reset();
 		}
 
-		// Token: 0x06004773 RID: 18291 RVA: 0x0025A176 File Offset: 0x00258576
+		// Token: 0x0600477C RID: 18300 RVA: 0x0025B566 File Offset: 0x00259966
 		private void SetCachedCellInfo(IntVec3 c, CachedTempInfo info)
 		{
 			this.tempCache[this.map.cellIndices.CellToIndex(c)] = info;
 		}
 
-		// Token: 0x06004774 RID: 18292 RVA: 0x0025A19C File Offset: 0x0025859C
+		// Token: 0x0600477D RID: 18301 RVA: 0x0025B58C File Offset: 0x0025998C
 		public void TryCacheRegionTempInfo(IntVec3 c, Region reg)
 		{
 			Room room = reg.Room;
@@ -53,7 +53,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004775 RID: 18293 RVA: 0x0025A1E0 File Offset: 0x002585E0
+		// Token: 0x0600477E RID: 18302 RVA: 0x0025B5D0 File Offset: 0x002599D0
 		public bool TryGetAverageCachedRoomGroupTemp(RoomGroup r, out float result)
 		{
 			CellIndices cellIndices = this.map.cellIndices;
@@ -80,19 +80,19 @@ namespace Verse
 			return result2;
 		}
 
-		// Token: 0x0400306C RID: 12396
+		// Token: 0x04003077 RID: 12407
 		private Map map;
 
-		// Token: 0x0400306D RID: 12397
+		// Token: 0x04003078 RID: 12408
 		internal TemperatureSaveLoad temperatureSaveLoad;
 
-		// Token: 0x0400306E RID: 12398
+		// Token: 0x04003079 RID: 12409
 		public CachedTempInfo[] tempCache;
 
-		// Token: 0x0400306F RID: 12399
+		// Token: 0x0400307A RID: 12410
 		private HashSet<int> processedRoomGroupIDs = new HashSet<int>();
 
-		// Token: 0x04003070 RID: 12400
+		// Token: 0x0400307B RID: 12411
 		private List<CachedTempInfo> relevantTempInfoList = new List<CachedTempInfo>();
 	}
 }

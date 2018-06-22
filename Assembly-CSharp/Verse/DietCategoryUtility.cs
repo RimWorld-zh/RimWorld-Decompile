@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000B22 RID: 2850
+	// Token: 0x02000B1E RID: 2846
 	public static class DietCategoryUtility
 	{
-		// Token: 0x06003EC7 RID: 16071 RVA: 0x00210E44 File Offset: 0x0020F244
+		// Token: 0x06003EC3 RID: 16067 RVA: 0x00211180 File Offset: 0x0020F580
 		public static string ToStringHuman(this DietCategory diet)
 		{
 			string result;
@@ -36,7 +36,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003EC8 RID: 16072 RVA: 0x00210EE4 File Offset: 0x0020F2E4
+		// Token: 0x06003EC4 RID: 16068 RVA: 0x00211220 File Offset: 0x0020F620
 		public static string ToStringHumanShort(this DietCategory diet)
 		{
 			string result;

@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200083D RID: 2109
+	// Token: 0x02000839 RID: 2105
 	public class CreditsAssembler
 	{
-		// Token: 0x06002FB8 RID: 12216 RVA: 0x001984B4 File Offset: 0x001968B4
+		// Token: 0x06002FB1 RID: 12209 RVA: 0x00198694 File Offset: 0x00196A94
 		public static IEnumerable<CreditsEntry> AllCredits()
 		{
 			yield return new CreditRecord_Space(200f);

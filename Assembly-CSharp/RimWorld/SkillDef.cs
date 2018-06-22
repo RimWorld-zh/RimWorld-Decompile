@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020002D4 RID: 724
 	public class SkillDef : Def
 	{
-		// Token: 0x06000BFC RID: 3068 RVA: 0x0006A570 File Offset: 0x00068970
+		// Token: 0x06000BFA RID: 3066 RVA: 0x0006A5D8 File Offset: 0x000689D8
 		public override void PostLoad()
 		{
 			if (this.label == null)
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000BFD RID: 3069 RVA: 0x0006A58C File Offset: 0x0006898C
+		// Token: 0x06000BFB RID: 3067 RVA: 0x0006A5F4 File Offset: 0x000689F4
 		public bool IsDisabled(WorkTags combinedDisabledWorkTags, IEnumerable<WorkTypeDef> disabledWorkTypes)
 		{
 			bool result;
@@ -49,17 +49,17 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04000735 RID: 1845
+		// Token: 0x04000734 RID: 1844
 		[MustTranslate]
 		public string skillLabel;
 
-		// Token: 0x04000736 RID: 1846
+		// Token: 0x04000735 RID: 1845
 		public bool usuallyDefinedInBackstories = true;
 
-		// Token: 0x04000737 RID: 1847
+		// Token: 0x04000736 RID: 1846
 		public bool pawnCreatorSummaryVisible = false;
 
-		// Token: 0x04000738 RID: 1848
+		// Token: 0x04000737 RID: 1847
 		public WorkTags disablingWorkTags = WorkTags.None;
 	}
 }

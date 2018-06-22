@@ -9,7 +9,7 @@ namespace RimWorld
 	public class ApparelProperties
 	{
 		// Token: 0x1700017D RID: 381
-		// (get) Token: 0x06000A4A RID: 2634 RVA: 0x0005D564 File Offset: 0x0005B964
+		// (get) Token: 0x06000A48 RID: 2632 RVA: 0x0005D5C0 File Offset: 0x0005B9C0
 		public ApparelLayerDef LastLayer
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700017E RID: 382
-		// (get) Token: 0x06000A4B RID: 2635 RVA: 0x0005D5C0 File Offset: 0x0005B9C0
+		// (get) Token: 0x06000A49 RID: 2633 RVA: 0x0005D61C File Offset: 0x0005BA1C
 		public float HumanBodyCoverage
 		{
 			get
@@ -50,7 +50,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000A4C RID: 2636 RVA: 0x0005D648 File Offset: 0x0005BA48
+		// Token: 0x06000A4A RID: 2634 RVA: 0x0005D6A4 File Offset: 0x0005BAA4
 		public static void ResetStaticData()
 		{
 			ApparelProperties.apparelRelevantGroups = (from td in DefDatabase<ThingDef>.AllDefs
@@ -58,7 +58,7 @@ namespace RimWorld
 			select td).SelectMany((ThingDef td) => td.apparel.bodyPartGroups).Distinct<BodyPartGroupDef>().ToArray<BodyPartGroupDef>();
 		}
 
-		// Token: 0x06000A4D RID: 2637 RVA: 0x0005D6B0 File Offset: 0x0005BAB0
+		// Token: 0x06000A4B RID: 2635 RVA: 0x0005D70C File Offset: 0x0005BB0C
 		public IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
 			if (this.layers.NullOrEmpty<ApparelLayerDef>())
@@ -68,7 +68,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000A4E RID: 2638 RVA: 0x0005D6E4 File Offset: 0x0005BAE4
+		// Token: 0x06000A4C RID: 2636 RVA: 0x0005D740 File Offset: 0x0005BB40
 		public bool CoversBodyPart(BodyPartRecord partRec)
 		{
 			for (int i = 0; i < partRec.groups.Count; i++)
@@ -81,7 +81,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000A4F RID: 2639 RVA: 0x0005D73C File Offset: 0x0005BB3C
+		// Token: 0x06000A4D RID: 2637 RVA: 0x0005D798 File Offset: 0x0005BB98
 		public string GetCoveredOuterPartsString(BodyDef body)
 		{
 			IEnumerable<BodyPartRecord> source = from x in body.AllParts
@@ -91,14 +91,14 @@ namespace RimWorld
 			select part.Label).ToCommaList(true).CapitalizeFirst();
 		}
 
-		// Token: 0x06000A50 RID: 2640 RVA: 0x0005D79C File Offset: 0x0005BB9C
+		// Token: 0x06000A4E RID: 2638 RVA: 0x0005D7F8 File Offset: 0x0005BBF8
 		public string GetLayersString()
 		{
 			return (from layer in this.layers
 			select layer.label).ToCommaList(true).CapitalizeFirst();
 		}
 
-		// Token: 0x06000A51 RID: 2641 RVA: 0x0005D7E4 File Offset: 0x0005BBE4
+		// Token: 0x06000A4F RID: 2639 RVA: 0x0005D840 File Offset: 0x0005BC40
 		public BodyPartGroupDef[] GetInterferingBodyPartGroups(BodyDef body)
 		{
 			if (this.interferingBodyPartGroups == null || this.interferingBodyPartGroups.Length != DefDatabase<BodyDef>.DefCount)
@@ -118,45 +118,45 @@ namespace RimWorld
 			return this.interferingBodyPartGroups[(int)body.index];
 		}
 
-		// Token: 0x040003F6 RID: 1014
+		// Token: 0x040003F4 RID: 1012
 		public List<BodyPartGroupDef> bodyPartGroups = new List<BodyPartGroupDef>();
 
-		// Token: 0x040003F7 RID: 1015
+		// Token: 0x040003F5 RID: 1013
 		public List<ApparelLayerDef> layers = new List<ApparelLayerDef>();
 
-		// Token: 0x040003F8 RID: 1016
+		// Token: 0x040003F6 RID: 1014
 		[NoTranslate]
 		public string wornGraphicPath = "";
 
-		// Token: 0x040003F9 RID: 1017
+		// Token: 0x040003F7 RID: 1015
 		[NoTranslate]
 		public List<string> tags = new List<string>();
 
-		// Token: 0x040003FA RID: 1018
+		// Token: 0x040003F8 RID: 1016
 		[NoTranslate]
 		public List<string> defaultOutfitTags = null;
 
-		// Token: 0x040003FB RID: 1019
+		// Token: 0x040003F9 RID: 1017
 		public float wearPerDay = 0.4f;
 
-		// Token: 0x040003FC RID: 1020
+		// Token: 0x040003FA RID: 1018
 		public bool careIfWornByCorpse = true;
 
-		// Token: 0x040003FD RID: 1021
+		// Token: 0x040003FB RID: 1019
 		public bool hatRenderedFrontOfFace = false;
 
-		// Token: 0x040003FE RID: 1022
+		// Token: 0x040003FC RID: 1020
 		public bool useDeflectMetalEffect;
 
-		// Token: 0x040003FF RID: 1023
+		// Token: 0x040003FD RID: 1021
 		[Unsaved]
 		private float cachedHumanBodyCoverage = -1f;
 
-		// Token: 0x04000400 RID: 1024
+		// Token: 0x040003FE RID: 1022
 		[Unsaved]
 		private BodyPartGroupDef[][] interferingBodyPartGroups = null;
 
-		// Token: 0x04000401 RID: 1025
+		// Token: 0x040003FF RID: 1023
 		private static BodyPartGroupDef[] apparelRelevantGroups;
 	}
 }

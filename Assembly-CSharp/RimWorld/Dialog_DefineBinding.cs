@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007FF RID: 2047
+	// Token: 0x020007FB RID: 2043
 	public class Dialog_DefineBinding : Window
 	{
-		// Token: 0x06002D8B RID: 11659 RVA: 0x0017F42C File Offset: 0x0017D82C
+		// Token: 0x06002D84 RID: 11652 RVA: 0x0017F604 File Offset: 0x0017DA04
 		public Dialog_DefineBinding(KeyPrefsData keyPrefsData, KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
 			this.keyDef = keyDef;
@@ -20,8 +20,8 @@ namespace RimWorld
 			this.absorbInputAroundWindow = true;
 		}
 
-		// Token: 0x1700073F RID: 1855
-		// (get) Token: 0x06002D8C RID: 11660 RVA: 0x0017F490 File Offset: 0x0017D890
+		// Token: 0x17000740 RID: 1856
+		// (get) Token: 0x06002D85 RID: 11653 RVA: 0x0017F668 File Offset: 0x0017DA68
 		public override Vector2 InitialSize
 		{
 			get
@@ -30,8 +30,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000740 RID: 1856
-		// (get) Token: 0x06002D8D RID: 11661 RVA: 0x0017F4AC File Offset: 0x0017D8AC
+		// Token: 0x17000741 RID: 1857
+		// (get) Token: 0x06002D86 RID: 11654 RVA: 0x0017F684 File Offset: 0x0017DA84
 		protected override float Margin
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D8E RID: 11662 RVA: 0x0017F4C8 File Offset: 0x0017D8C8
+		// Token: 0x06002D87 RID: 11655 RVA: 0x0017F6A0 File Offset: 0x0017DAA0
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Anchor = TextAnchor.MiddleCenter;
@@ -64,16 +64,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04001813 RID: 6163
+		// Token: 0x04001811 RID: 6161
 		protected Vector2 windowSize = new Vector2(400f, 200f);
 
-		// Token: 0x04001814 RID: 6164
+		// Token: 0x04001812 RID: 6162
 		protected KeyPrefsData keyPrefsData;
 
-		// Token: 0x04001815 RID: 6165
+		// Token: 0x04001813 RID: 6163
 		protected KeyBindingDef keyDef;
 
-		// Token: 0x04001816 RID: 6166
+		// Token: 0x04001814 RID: 6164
 		protected KeyPrefs.BindingSlot slot;
 	}
 }

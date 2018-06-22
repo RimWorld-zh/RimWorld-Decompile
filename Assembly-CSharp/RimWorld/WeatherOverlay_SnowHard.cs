@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000451 RID: 1105
+	// Token: 0x0200044D RID: 1101
 	[StaticConstructorOnStartup]
 	public class WeatherOverlay_SnowHard : SkyOverlay
 	{
-		// Token: 0x0600133C RID: 4924 RVA: 0x000A5564 File Offset: 0x000A3964
+		// Token: 0x06001333 RID: 4915 RVA: 0x000A5574 File Offset: 0x000A3974
 		public WeatherOverlay_SnowHard()
 		{
 			this.worldOverlayMat = WeatherOverlay_SnowHard.SnowOverlayWorld;
@@ -20,7 +20,7 @@ namespace RimWorld
 			this.worldPanDir2.Normalize();
 		}
 
-		// Token: 0x04000BB0 RID: 2992
+		// Token: 0x04000BAD RID: 2989
 		private static readonly Material SnowOverlayWorld = MatLoader.LoadMat("Weather/SnowOverlayWorld", -1);
 	}
 }

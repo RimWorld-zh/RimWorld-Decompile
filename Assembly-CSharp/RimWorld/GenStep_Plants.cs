@@ -7,7 +7,7 @@ namespace RimWorld
 	public class GenStep_Plants : GenStep
 	{
 		// Token: 0x17000255 RID: 597
-		// (get) Token: 0x06001180 RID: 4480 RVA: 0x000977E8 File Offset: 0x00095BE8
+		// (get) Token: 0x06001180 RID: 4480 RVA: 0x000979CC File Offset: 0x00095DCC
 		public override int SeedPart
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001181 RID: 4481 RVA: 0x00097804 File Offset: 0x00095C04
+		// Token: 0x06001181 RID: 4481 RVA: 0x000979E8 File Offset: 0x00095DE8
 		public override void Generate(Map map)
 		{
 			map.regionAndRoomUpdater.Enabled = false;
@@ -32,7 +32,7 @@ namespace RimWorld
 			map.regionAndRoomUpdater.Enabled = true;
 		}
 
-		// Token: 0x04000AA0 RID: 2720
+		// Token: 0x04000AA1 RID: 2721
 		private const float ChanceToSkip = 0.001f;
 	}
 }

@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008CA RID: 2250
+	// Token: 0x020008C6 RID: 2246
 	public class Instruction_PlaceStockpile : Lesson_Instruction
 	{
-		// Token: 0x0600336B RID: 13163 RVA: 0x001B91D8 File Offset: 0x001B75D8
+		// Token: 0x06003364 RID: 13156 RVA: 0x001B93C0 File Offset: 0x001B77C0
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -19,13 +19,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600336C RID: 13164 RVA: 0x001B9217 File Offset: 0x001B7617
+		// Token: 0x06003365 RID: 13157 RVA: 0x001B93FF File Offset: 0x001B77FF
 		private void RecacheCells()
 		{
 			this.cachedCells = this.stockpileRect.Cells.ToList<IntVec3>();
 		}
 
-		// Token: 0x0600336D RID: 13165 RVA: 0x001B9230 File Offset: 0x001B7630
+		// Token: 0x06003366 RID: 13158 RVA: 0x001B9418 File Offset: 0x001B7818
 		public override void OnActivated()
 		{
 			base.OnActivated();
@@ -33,21 +33,21 @@ namespace RimWorld
 			this.RecacheCells();
 		}
 
-		// Token: 0x0600336E RID: 13166 RVA: 0x001B9258 File Offset: 0x001B7658
+		// Token: 0x06003367 RID: 13159 RVA: 0x001B9440 File Offset: 0x001B7840
 		public override void LessonOnGUI()
 		{
 			TutorUtility.DrawCellRectOnGUI(this.stockpileRect, this.def.onMapInstruction);
 			base.LessonOnGUI();
 		}
 
-		// Token: 0x0600336F RID: 13167 RVA: 0x001B9277 File Offset: 0x001B7677
+		// Token: 0x06003368 RID: 13160 RVA: 0x001B945F File Offset: 0x001B785F
 		public override void LessonUpdate()
 		{
 			GenDraw.DrawFieldEdges(this.cachedCells);
 			GenDraw.DrawArrowPointingAt(this.stockpileRect.CenterVector3, false);
 		}
 
-		// Token: 0x06003370 RID: 13168 RVA: 0x001B9298 File Offset: 0x001B7698
+		// Token: 0x06003369 RID: 13161 RVA: 0x001B9480 File Offset: 0x001B7880
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
 			AcceptanceReport result;
@@ -62,10 +62,10 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04001B9E RID: 7070
+		// Token: 0x04001B9C RID: 7068
 		private CellRect stockpileRect;
 
-		// Token: 0x04001B9F RID: 7071
+		// Token: 0x04001B9D RID: 7069
 		private List<IntVec3> cachedCells;
 	}
 }

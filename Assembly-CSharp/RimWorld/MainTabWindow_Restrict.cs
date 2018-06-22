@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000878 RID: 2168
+	// Token: 0x02000874 RID: 2164
 	public class MainTabWindow_Restrict : MainTabWindow_PawnTable
 	{
-		// Token: 0x170007F3 RID: 2035
-		// (get) Token: 0x0600316F RID: 12655 RVA: 0x001AD1A0 File Offset: 0x001AB5A0
+		// Token: 0x170007F4 RID: 2036
+		// (get) Token: 0x06003168 RID: 12648 RVA: 0x001AD388 File Offset: 0x001AB788
 		protected override PawnTableDef PawnTableDef
 		{
 			get
@@ -18,14 +18,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003170 RID: 12656 RVA: 0x001AD1BA File Offset: 0x001AB5BA
+		// Token: 0x06003169 RID: 12649 RVA: 0x001AD3A2 File Offset: 0x001AB7A2
 		public override void PostOpen()
 		{
 			base.PostOpen();
 			Find.World.renderer.wantedMode = WorldRenderMode.None;
 		}
 
-		// Token: 0x06003171 RID: 12657 RVA: 0x001AD1D4 File Offset: 0x001AB5D4
+		// Token: 0x0600316A RID: 12650 RVA: 0x001AD3BC File Offset: 0x001AB7BC
 		public override void DoWindowContents(Rect fillRect)
 		{
 			base.DoWindowContents(fillRect);
@@ -33,10 +33,10 @@ namespace RimWorld
 			TimeAssignmentSelector.DrawTimeAssignmentSelectorGrid(rect);
 		}
 
-		// Token: 0x04001AC0 RID: 6848
+		// Token: 0x04001ABE RID: 6846
 		private const int TimeAssignmentSelectorWidth = 191;
 
-		// Token: 0x04001AC1 RID: 6849
+		// Token: 0x04001ABF RID: 6847
 		private const int TimeAssignmentSelectorHeight = 65;
 	}
 }

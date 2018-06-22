@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200073C RID: 1852
+	// Token: 0x02000738 RID: 1848
 	public class CompSpawnerHives : ThingComp
 	{
-		// Token: 0x17000652 RID: 1618
-		// (get) Token: 0x060028DB RID: 10459 RVA: 0x0015C264 File Offset: 0x0015A664
+		// Token: 0x17000653 RID: 1619
+		// (get) Token: 0x060028D4 RID: 10452 RVA: 0x0015C43C File Offset: 0x0015A83C
 		private CompProperties_SpawnerHives Props
 		{
 			get
@@ -18,8 +18,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000653 RID: 1619
-		// (get) Token: 0x060028DC RID: 10460 RVA: 0x0015C284 File Offset: 0x0015A684
+		// Token: 0x17000654 RID: 1620
+		// (get) Token: 0x060028D5 RID: 10453 RVA: 0x0015C45C File Offset: 0x0015A85C
 		private bool CanSpawnChildHive
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028DD RID: 10461 RVA: 0x0015C2BB File Offset: 0x0015A6BB
+		// Token: 0x060028D6 RID: 10454 RVA: 0x0015C493 File Offset: 0x0015A893
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			if (!respawningAfterLoad)
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028DE RID: 10462 RVA: 0x0015C2CC File Offset: 0x0015A6CC
+		// Token: 0x060028D7 RID: 10455 RVA: 0x0015C4A4 File Offset: 0x0015A8A4
 		public override void CompTick()
 		{
 			base.CompTick();
@@ -59,7 +59,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028DF RID: 10463 RVA: 0x0015C34C File Offset: 0x0015A74C
+		// Token: 0x060028D8 RID: 10456 RVA: 0x0015C524 File Offset: 0x0015A924
 		public override string CompInspectStringExtra()
 		{
 			string result;
@@ -78,7 +78,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060028E0 RID: 10464 RVA: 0x0015C3BC File Offset: 0x0015A7BC
+		// Token: 0x060028D9 RID: 10457 RVA: 0x0015C594 File Offset: 0x0015A994
 		public void CalculateNextHiveSpawnTick()
 		{
 			Room room = this.parent.GetRoom(RegionType.Set_Passable);
@@ -102,7 +102,7 @@ namespace RimWorld
 			this.nextHiveSpawnTick = Find.TickManager.TicksGame + (int)(this.Props.HiveSpawnIntervalDays.RandomInRange * 60000f / (num3 * Find.Storyteller.difficulty.enemyReproductionRateFactor));
 		}
 
-		// Token: 0x060028E1 RID: 10465 RVA: 0x0015C4EC File Offset: 0x0015A8EC
+		// Token: 0x060028DA RID: 10458 RVA: 0x0015C6C4 File Offset: 0x0015AAC4
 		public bool TrySpawnChildHive(bool ignoreRoofedRequirement, out Hive newHive)
 		{
 			bool result;
@@ -138,7 +138,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060028E2 RID: 10466 RVA: 0x0015C5D0 File Offset: 0x0015A9D0
+		// Token: 0x060028DB RID: 10459 RVA: 0x0015C7A8 File Offset: 0x0015ABA8
 		public static IntVec3 FindChildHiveLocation(IntVec3 pos, Map map, ThingDef parentDef, CompProperties_SpawnerHives props, bool ignoreRoofedRequirement)
 		{
 			IntVec3 intVec = IntVec3.Invalid;
@@ -158,7 +158,7 @@ namespace RimWorld
 			return intVec;
 		}
 
-		// Token: 0x060028E3 RID: 10467 RVA: 0x0015C6B4 File Offset: 0x0015AAB4
+		// Token: 0x060028DC RID: 10460 RVA: 0x0015C88C File Offset: 0x0015AC8C
 		private static bool CanSpawnHiveAt(IntVec3 c, Map map, IntVec3 parentPos, ThingDef parentDef, float minDist, bool ignoreRoofedRequirement)
 		{
 			bool result;
@@ -198,7 +198,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060028E4 RID: 10468 RVA: 0x0015C838 File Offset: 0x0015AC38
+		// Token: 0x060028DD RID: 10461 RVA: 0x0015CA10 File Offset: 0x0015AE10
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			if (Prefs.DevMode)
@@ -217,20 +217,20 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060028E5 RID: 10469 RVA: 0x0015C862 File Offset: 0x0015AC62
+		// Token: 0x060028DE RID: 10462 RVA: 0x0015CA3A File Offset: 0x0015AE3A
 		public override void PostExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.nextHiveSpawnTick, "nextHiveSpawnTick", 0, false);
 			Scribe_Values.Look<bool>(ref this.canSpawnHives, "canSpawnHives", true, false);
 		}
 
-		// Token: 0x0400165C RID: 5724
+		// Token: 0x0400165A RID: 5722
 		private int nextHiveSpawnTick = -1;
 
-		// Token: 0x0400165D RID: 5725
+		// Token: 0x0400165B RID: 5723
 		public bool canSpawnHives = true;
 
-		// Token: 0x0400165E RID: 5726
+		// Token: 0x0400165C RID: 5724
 		public const int MaxHivesPerMap = 30;
 	}
 }

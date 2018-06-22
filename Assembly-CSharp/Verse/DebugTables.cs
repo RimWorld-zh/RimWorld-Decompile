@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000E53 RID: 3667
+	// Token: 0x02000E52 RID: 3666
 	public static class DebugTables
 	{
-		// Token: 0x06005650 RID: 22096 RVA: 0x002C7870 File Offset: 0x002C5C70
+		// Token: 0x06005670 RID: 22128 RVA: 0x002C9480 File Offset: 0x002C7880
 		public static void MakeTablesDialog<T>(IEnumerable<T> dataSources, params TableDataGetter<T>[] getters)
 		{
 			List<TableDataGetter<T>> list = getters.ToList<TableDataGetter<T>>();
@@ -32,7 +32,7 @@ namespace Verse
 			Find.WindowStack.Add(new Window_DebugTable(array));
 		}
 
-		// Token: 0x06005651 RID: 22097 RVA: 0x002C7978 File Offset: 0x002C5D78
+		// Token: 0x06005671 RID: 22129 RVA: 0x002C9588 File Offset: 0x002C7988
 		public static void MakeTablesDialog<TColumn, TRow>(IEnumerable<TColumn> colValues, Func<TColumn, string> colLabelFormatter, IEnumerable<TRow> rowValues, Func<TRow, string> rowLabelFormatter, Func<TColumn, TRow, string> func, string tlLabel = "")
 		{
 			int num = colValues.Count<TColumn>() + 1;

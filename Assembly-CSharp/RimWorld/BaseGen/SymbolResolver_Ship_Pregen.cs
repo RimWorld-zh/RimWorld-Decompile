@@ -7,7 +7,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003DE RID: 990
 	public class SymbolResolver_Ship_Pregen : SymbolResolver
 	{
-		// Token: 0x060010FA RID: 4346 RVA: 0x000909D4 File Offset: 0x0008EDD4
+		// Token: 0x060010FA RID: 4346 RVA: 0x00090BC0 File Offset: 0x0008EFC0
 		public override void Resolve(ResolveParams rp)
 		{
 			SymbolResolver_Ship_Pregen.SpawnDescriptor[] array = new SymbolResolver_Ship_Pregen.SpawnDescriptor[]
@@ -216,13 +216,13 @@ namespace RimWorld.BaseGen
 		// Token: 0x020003DF RID: 991
 		private struct SpawnDescriptor
 		{
-			// Token: 0x04000A4D RID: 2637
+			// Token: 0x04000A4F RID: 2639
 			public IntVec3 offset;
 
-			// Token: 0x04000A4E RID: 2638
+			// Token: 0x04000A50 RID: 2640
 			public ThingDef def;
 
-			// Token: 0x04000A4F RID: 2639
+			// Token: 0x04000A51 RID: 2641
 			public Rot4 rot;
 		}
 	}

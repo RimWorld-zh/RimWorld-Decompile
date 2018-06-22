@@ -7,7 +7,7 @@ namespace RimWorld
 	public class JobDriver_PlantHarvest_Designated : JobDriver_PlantHarvest
 	{
 		// Token: 0x170000BB RID: 187
-		// (get) Token: 0x060003A3 RID: 931 RVA: 0x000291A4 File Offset: 0x000275A4
+		// (get) Token: 0x060003A3 RID: 931 RVA: 0x00029180 File Offset: 0x00027580
 		protected override DesignationDef RequiredDesignation
 		{
 			get

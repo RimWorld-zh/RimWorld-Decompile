@@ -6,11 +6,11 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000688 RID: 1672
+	// Token: 0x02000684 RID: 1668
 	public class Building_TrapRearmable : Building_Trap
 	{
 		// Token: 0x1700052B RID: 1323
-		// (get) Token: 0x06002333 RID: 9011 RVA: 0x0012E7A4 File Offset: 0x0012CBA4
+		// (get) Token: 0x0600232B RID: 9003 RVA: 0x0012E8EC File Offset: 0x0012CCEC
 		public override bool Armed
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700052C RID: 1324
-		// (get) Token: 0x06002334 RID: 9012 RVA: 0x0012E7C0 File Offset: 0x0012CBC0
+		// (get) Token: 0x0600232C RID: 9004 RVA: 0x0012E908 File Offset: 0x0012CD08
 		public override Graphic Graphic
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002335 RID: 9013 RVA: 0x0012E81A File Offset: 0x0012CC1A
+		// Token: 0x0600232D RID: 9005 RVA: 0x0012E962 File Offset: 0x0012CD62
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -50,7 +50,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.autoRearm, "autoRearm", false, false);
 		}
 
-		// Token: 0x06002336 RID: 9014 RVA: 0x0012E848 File Offset: 0x0012CC48
+		// Token: 0x0600232E RID: 9006 RVA: 0x0012E990 File Offset: 0x0012CD90
 		protected override void SpringSub(Pawn p)
 		{
 			this.armedInt = false;
@@ -64,14 +64,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002337 RID: 9015 RVA: 0x0012E895 File Offset: 0x0012CC95
+		// Token: 0x0600232F RID: 9007 RVA: 0x0012E9DD File Offset: 0x0012CDDD
 		public void Rearm()
 		{
 			this.armedInt = true;
 			SoundDefOf.TrapArm.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 		}
 
-		// Token: 0x06002338 RID: 9016 RVA: 0x0012E8C0 File Offset: 0x0012CCC0
+		// Token: 0x06002330 RID: 9008 RVA: 0x0012EA08 File Offset: 0x0012CE08
 		private void DamagePawn(Pawn p)
 		{
 			BodyPartHeight height = (Rand.Value >= 0.666f) ? BodyPartHeight.Middle : BodyPartHeight.Top;
@@ -91,7 +91,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002339 RID: 9017 RVA: 0x0012E980 File Offset: 0x0012CD80
+		// Token: 0x06002331 RID: 9009 RVA: 0x0012EAC8 File Offset: 0x0012CEC8
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
@@ -113,19 +113,19 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x040013C5 RID: 5061
+		// Token: 0x040013C3 RID: 5059
 		private bool autoRearm = false;
 
-		// Token: 0x040013C6 RID: 5062
+		// Token: 0x040013C4 RID: 5060
 		private bool armedInt = true;
 
-		// Token: 0x040013C7 RID: 5063
+		// Token: 0x040013C5 RID: 5061
 		private Graphic graphicUnarmedInt;
 
-		// Token: 0x040013C8 RID: 5064
+		// Token: 0x040013C6 RID: 5062
 		private static readonly FloatRange TrapDamageFactor = new FloatRange(0.7f, 1.3f);
 
-		// Token: 0x040013C9 RID: 5065
+		// Token: 0x040013C7 RID: 5063
 		private static readonly IntRange DamageCount = new IntRange(1, 2);
 	}
 }

@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200075D RID: 1885
+	// Token: 0x02000759 RID: 1881
 	public class CompTargetable_AllAnimalsOnTheMap : CompTargetable_AllPawnsOnTheMap
 	{
-		// Token: 0x060029A4 RID: 10660 RVA: 0x00161BD0 File Offset: 0x0015FFD0
+		// Token: 0x0600299D RID: 10653 RVA: 0x00161DA8 File Offset: 0x001601A8
 		protected override TargetingParameters GetTargetingParameters()
 		{
 			TargetingParameters targetingParameters = base.GetTargetingParameters();

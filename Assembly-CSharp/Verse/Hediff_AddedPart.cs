@@ -4,11 +4,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D28 RID: 3368
+	// Token: 0x02000D25 RID: 3365
 	public class Hediff_AddedPart : HediffWithComps
 	{
-		// Token: 0x17000BCD RID: 3021
-		// (get) Token: 0x06004A24 RID: 18980 RVA: 0x0026A9C0 File Offset: 0x00268DC0
+		// Token: 0x17000BCF RID: 3023
+		// (get) Token: 0x06004A35 RID: 18997 RVA: 0x0026BDF4 File Offset: 0x0026A1F4
 		public override bool ShouldRemove
 		{
 			get
@@ -17,8 +17,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BCE RID: 3022
-		// (get) Token: 0x06004A25 RID: 18981 RVA: 0x0026A9D8 File Offset: 0x00268DD8
+		// Token: 0x17000BD0 RID: 3024
+		// (get) Token: 0x06004A36 RID: 18998 RVA: 0x0026BE0C File Offset: 0x0026A20C
 		public override string TipStringExtra
 		{
 			get
@@ -30,7 +30,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A26 RID: 18982 RVA: 0x0026AA38 File Offset: 0x00268E38
+		// Token: 0x06004A37 RID: 18999 RVA: 0x0026BE6C File Offset: 0x0026A26C
 		public override void PostAdd(DamageInfo? dinfo)
 		{
 			if (base.Part == null)
@@ -48,6 +48,17 @@ namespace Verse
 					hediff_MissingPart.Part = base.Part.parts[i];
 					this.pawn.health.hediffSet.AddDirect(hediff_MissingPart, null, null);
 				}
+			}
+		}
+
+		// Token: 0x06004A38 RID: 19000 RVA: 0x0026BF44 File Offset: 0x0026A344
+		public override void ExposeData()
+		{
+			base.ExposeData();
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && base.Part == null)
+			{
+				Log.Error("Hediff_AddedPart has null part after loading.", false);
+				this.pawn.health.hediffSet.hediffs.Remove(this);
 			}
 		}
 	}

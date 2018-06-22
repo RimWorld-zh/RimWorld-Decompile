@@ -4,10 +4,10 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000787 RID: 1927
+	// Token: 0x02000783 RID: 1923
 	public static class TraderCaravanUtility
 	{
-		// Token: 0x06002AB5 RID: 10933 RVA: 0x00169564 File Offset: 0x00167964
+		// Token: 0x06002AAE RID: 10926 RVA: 0x0016973C File Offset: 0x00167B3C
 		public static TraderCaravanRole GetTraderCaravanRole(this Pawn p)
 		{
 			TraderCaravanRole result;
@@ -34,7 +34,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002AB6 RID: 10934 RVA: 0x001695F0 File Offset: 0x001679F0
+		// Token: 0x06002AAF RID: 10927 RVA: 0x001697C8 File Offset: 0x00167BC8
 		public static Pawn FindTrader(Lord lord)
 		{
 			for (int i = 0; i < lord.ownedPawns.Count; i++)
@@ -47,7 +47,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06002AB7 RID: 10935 RVA: 0x00169650 File Offset: 0x00167A50
+		// Token: 0x06002AB0 RID: 10928 RVA: 0x00169828 File Offset: 0x00167C28
 		public static float GenerateGuardPoints()
 		{
 			return (float)Rand.Range(550, 1000);

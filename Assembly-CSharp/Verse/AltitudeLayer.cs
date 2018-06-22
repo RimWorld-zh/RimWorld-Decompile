@@ -2,72 +2,72 @@
 
 namespace Verse
 {
-	// Token: 0x02000BFC RID: 3068
+	// Token: 0x02000BF9 RID: 3065
 	public enum AltitudeLayer : byte
 	{
-		// Token: 0x04002DB2 RID: 11698
-		Terrain,
-		// Token: 0x04002DB3 RID: 11699
-		TerrainScatter,
-		// Token: 0x04002DB4 RID: 11700
-		Floor,
-		// Token: 0x04002DB5 RID: 11701
-		FloorEmplacement,
-		// Token: 0x04002DB6 RID: 11702
-		Filth,
-		// Token: 0x04002DB7 RID: 11703
-		Zone,
-		// Token: 0x04002DB8 RID: 11704
-		SmallWire,
-		// Token: 0x04002DB9 RID: 11705
-		LowPlant,
-		// Token: 0x04002DBA RID: 11706
-		MoteLow,
-		// Token: 0x04002DBB RID: 11707
-		Shadows,
 		// Token: 0x04002DBC RID: 11708
-		DoorMoveable,
+		Terrain,
 		// Token: 0x04002DBD RID: 11709
-		Building,
+		TerrainScatter,
 		// Token: 0x04002DBE RID: 11710
-		BuildingOnTop,
+		Floor,
 		// Token: 0x04002DBF RID: 11711
-		Item,
+		FloorEmplacement,
 		// Token: 0x04002DC0 RID: 11712
-		ItemImportant,
+		Filth,
 		// Token: 0x04002DC1 RID: 11713
-		LayingPawn,
+		Zone,
 		// Token: 0x04002DC2 RID: 11714
-		Projectile,
+		SmallWire,
 		// Token: 0x04002DC3 RID: 11715
-		Pawn,
+		LowPlant,
 		// Token: 0x04002DC4 RID: 11716
-		PawnUnused,
+		MoteLow,
 		// Token: 0x04002DC5 RID: 11717
-		PawnState,
+		Shadows,
 		// Token: 0x04002DC6 RID: 11718
-		Blueprint,
+		DoorMoveable,
 		// Token: 0x04002DC7 RID: 11719
-		MoteOverhead,
+		Building,
 		// Token: 0x04002DC8 RID: 11720
-		Gas,
+		BuildingOnTop,
 		// Token: 0x04002DC9 RID: 11721
-		Skyfaller,
+		Item,
 		// Token: 0x04002DCA RID: 11722
-		Weather,
+		ItemImportant,
 		// Token: 0x04002DCB RID: 11723
-		LightingOverlay,
+		LayingPawn,
 		// Token: 0x04002DCC RID: 11724
-		VisEffects,
+		Projectile,
 		// Token: 0x04002DCD RID: 11725
-		FogOfWar,
+		Pawn,
 		// Token: 0x04002DCE RID: 11726
-		WorldClipper,
+		PawnUnused,
 		// Token: 0x04002DCF RID: 11727
-		MapDataOverlay,
+		PawnState,
 		// Token: 0x04002DD0 RID: 11728
-		MetaOverlays,
+		Blueprint,
 		// Token: 0x04002DD1 RID: 11729
+		MoteOverhead,
+		// Token: 0x04002DD2 RID: 11730
+		Gas,
+		// Token: 0x04002DD3 RID: 11731
+		Skyfaller,
+		// Token: 0x04002DD4 RID: 11732
+		Weather,
+		// Token: 0x04002DD5 RID: 11733
+		LightingOverlay,
+		// Token: 0x04002DD6 RID: 11734
+		VisEffects,
+		// Token: 0x04002DD7 RID: 11735
+		FogOfWar,
+		// Token: 0x04002DD8 RID: 11736
+		WorldClipper,
+		// Token: 0x04002DD9 RID: 11737
+		MapDataOverlay,
+		// Token: 0x04002DDA RID: 11738
+		MetaOverlays,
+		// Token: 0x04002DDB RID: 11739
 		_Count
 	}
 }

@@ -2,10 +2,10 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000ADB RID: 2779
+	// Token: 0x02000AD7 RID: 2775
 	public class JobGiver_WanderNearMaster : JobGiver_Wander
 	{
-		// Token: 0x06003D94 RID: 15764 RVA: 0x0020614C File Offset: 0x0020454C
+		// Token: 0x06003D8F RID: 15759 RVA: 0x00206470 File Offset: 0x00204870
 		public JobGiver_WanderNearMaster()
 		{
 			this.wanderRadius = 3f;
@@ -24,13 +24,13 @@ namespace Verse.AI
 			};
 		}
 
-		// Token: 0x06003D95 RID: 15765 RVA: 0x00206184 File Offset: 0x00204584
+		// Token: 0x06003D90 RID: 15760 RVA: 0x002064A8 File Offset: 0x002048A8
 		protected override IntVec3 GetWanderRoot(Pawn pawn)
 		{
 			return WanderUtility.BestCloseWanderRoot(pawn.playerSettings.Master.PositionHeld, pawn);
 		}
 
-		// Token: 0x06003D96 RID: 15766 RVA: 0x002061B0 File Offset: 0x002045B0
+		// Token: 0x06003D91 RID: 15761 RVA: 0x002064D4 File Offset: 0x002048D4
 		private bool MustUseRootRoom(Pawn pawn)
 		{
 			Pawn master = pawn.playerSettings.Master;

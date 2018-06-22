@@ -4,17 +4,17 @@ using RimWorld.Planet;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A37 RID: 2615
+	// Token: 0x02000A33 RID: 2611
 	public class JobDriver_Goto : JobDriver
 	{
-		// Token: 0x06003A06 RID: 14854 RVA: 0x001EA81C File Offset: 0x001E8C1C
+		// Token: 0x06003A00 RID: 14848 RVA: 0x001EAA5C File Offset: 0x001E8E5C
 		public override bool TryMakePreToilReservations()
 		{
 			this.pawn.Map.pawnDestinationReservationManager.Reserve(this.pawn, this.job, this.job.targetA.Cell);
 			return true;
 		}
 
-		// Token: 0x06003A07 RID: 14855 RVA: 0x001EA864 File Offset: 0x001E8C64
+		// Token: 0x06003A01 RID: 14849 RVA: 0x001EAAA4 File Offset: 0x001E8EA4
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			Toil gotoCell = Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
@@ -45,7 +45,7 @@ namespace Verse.AI
 			yield break;
 		}
 
-		// Token: 0x06003A08 RID: 14856 RVA: 0x001EA890 File Offset: 0x001E8C90
+		// Token: 0x06003A02 RID: 14850 RVA: 0x001EAAD0 File Offset: 0x001E8ED0
 		private void TryExitMap()
 		{
 			if (!this.job.failIfCantJoinOrCreateCaravan || CaravanExitMapUtility.CanExitMapAndJoinOrCreateCaravanNow(this.pawn))

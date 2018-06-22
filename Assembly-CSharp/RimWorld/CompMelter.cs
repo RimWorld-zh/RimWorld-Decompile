@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000723 RID: 1827
+	// Token: 0x0200071F RID: 1823
 	public class CompMelter : ThingComp
 	{
-		// Token: 0x0600283B RID: 10299 RVA: 0x001578D4 File Offset: 0x00155CD4
+		// Token: 0x06002833 RID: 10291 RVA: 0x00157A90 File Offset: 0x00155E90
 		public override void CompTickRare()
 		{
 			float ambientTemperature = this.parent.AmbientTemperature;
@@ -21,7 +21,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040015FD RID: 5629
+		// Token: 0x040015FB RID: 5627
 		private const float MeltPerIntervalPer10Degrees = 0.15f;
 	}
 }

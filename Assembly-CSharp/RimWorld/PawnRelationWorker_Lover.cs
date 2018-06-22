@@ -3,16 +3,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004D1 RID: 1233
+	// Token: 0x020004CD RID: 1229
 	public class PawnRelationWorker_Lover : PawnRelationWorker
 	{
-		// Token: 0x060015F5 RID: 5621 RVA: 0x000C2B80 File Offset: 0x000C0F80
+		// Token: 0x060015EC RID: 5612 RVA: 0x000C2B70 File Offset: 0x000C0F70
 		public override float GenerationChance(Pawn generated, Pawn other, PawnGenerationRequest request)
 		{
 			return LovePartnerRelationUtility.LovePartnerRelationGenerationChance(generated, other, request, false) * base.BaseGenerationChanceFactor(generated, other, request);
 		}
 
-		// Token: 0x060015F6 RID: 5622 RVA: 0x000C2BA8 File Offset: 0x000C0FA8
+		// Token: 0x060015ED RID: 5613 RVA: 0x000C2B98 File Offset: 0x000C0F98
 		public override void CreateRelation(Pawn generated, Pawn other, ref PawnGenerationRequest request)
 		{
 			generated.relations.AddDirectRelation(PawnRelationDefOf.Lover, other);
@@ -20,7 +20,7 @@ namespace RimWorld
 			PawnRelationWorker_Lover.ResolveMySkinColor(ref request, generated, other);
 		}
 
-		// Token: 0x060015F7 RID: 5623 RVA: 0x000C2BD8 File Offset: 0x000C0FD8
+		// Token: 0x060015EE RID: 5614 RVA: 0x000C2BC8 File Offset: 0x000C0FC8
 		private static void ResolveMySkinColor(ref PawnGenerationRequest request, Pawn generated, Pawn other)
 		{
 			if (request.FixedMelanin == null)

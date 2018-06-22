@@ -4,10 +4,10 @@ using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000AA8 RID: 2728
+	// Token: 0x02000AA4 RID: 2724
 	public class PhysicalInteractionReservationManager : IExposable
 	{
-		// Token: 0x06003CD3 RID: 15571 RVA: 0x00202BC4 File Offset: 0x00200FC4
+		// Token: 0x06003CCE RID: 15566 RVA: 0x00202EE8 File Offset: 0x002012E8
 		public void Reserve(Pawn claimant, Job job, LocalTargetInfo target)
 		{
 			if (!this.IsReservedBy(claimant, target))
@@ -20,7 +20,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003CD4 RID: 15572 RVA: 0x00202C0C File Offset: 0x0020100C
+		// Token: 0x06003CCF RID: 15567 RVA: 0x00202F30 File Offset: 0x00201330
 		public void Release(Pawn claimant, Job job, LocalTargetInfo target)
 		{
 			for (int i = 0; i < this.reservations.Count; i++)
@@ -41,7 +41,7 @@ namespace Verse
 			}), false);
 		}
 
-		// Token: 0x06003CD5 RID: 15573 RVA: 0x00202CB0 File Offset: 0x002010B0
+		// Token: 0x06003CD0 RID: 15568 RVA: 0x00202FD4 File Offset: 0x002013D4
 		public bool IsReservedBy(Pawn claimant, LocalTargetInfo target)
 		{
 			for (int i = 0; i < this.reservations.Count; i++)
@@ -55,13 +55,13 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06003CD6 RID: 15574 RVA: 0x00202D18 File Offset: 0x00201118
+		// Token: 0x06003CD1 RID: 15569 RVA: 0x0020303C File Offset: 0x0020143C
 		public bool IsReserved(LocalTargetInfo target)
 		{
 			return this.FirstReserverOf(target) != null;
 		}
 
-		// Token: 0x06003CD7 RID: 15575 RVA: 0x00202D3C File Offset: 0x0020113C
+		// Token: 0x06003CD2 RID: 15570 RVA: 0x00203060 File Offset: 0x00201460
 		public Pawn FirstReserverOf(LocalTargetInfo target)
 		{
 			for (int i = 0; i < this.reservations.Count; i++)
@@ -75,7 +75,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06003CD8 RID: 15576 RVA: 0x00202D9C File Offset: 0x0020119C
+		// Token: 0x06003CD3 RID: 15571 RVA: 0x002030C0 File Offset: 0x002014C0
 		public LocalTargetInfo FirstReservationFor(Pawn claimant)
 		{
 			for (int i = this.reservations.Count - 1; i >= 0; i--)
@@ -88,13 +88,13 @@ namespace Verse
 			return LocalTargetInfo.Invalid;
 		}
 
-		// Token: 0x06003CD9 RID: 15577 RVA: 0x00202E04 File Offset: 0x00201204
+		// Token: 0x06003CD4 RID: 15572 RVA: 0x00203128 File Offset: 0x00201528
 		public void ReleaseAllForTarget(LocalTargetInfo target)
 		{
 			this.reservations.RemoveAll((PhysicalInteractionReservationManager.PhysicalInteractionReservation x) => x.target == target);
 		}
 
-		// Token: 0x06003CDA RID: 15578 RVA: 0x00202E38 File Offset: 0x00201238
+		// Token: 0x06003CD5 RID: 15573 RVA: 0x0020315C File Offset: 0x0020155C
 		public void ReleaseClaimedBy(Pawn claimant, Job job)
 		{
 			for (int i = this.reservations.Count - 1; i >= 0; i--)
@@ -106,7 +106,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003CDB RID: 15579 RVA: 0x00202EA0 File Offset: 0x002012A0
+		// Token: 0x06003CD6 RID: 15574 RVA: 0x002031C4 File Offset: 0x002015C4
 		public void ReleaseAllClaimedBy(Pawn claimant)
 		{
 			for (int i = this.reservations.Count - 1; i >= 0; i--)
@@ -118,7 +118,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003CDC RID: 15580 RVA: 0x00202EF4 File Offset: 0x002012F4
+		// Token: 0x06003CD7 RID: 15575 RVA: 0x00203218 File Offset: 0x00201618
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<PhysicalInteractionReservationManager.PhysicalInteractionReservation>(ref this.reservations, "reservations", LookMode.Deep, new object[0]);
@@ -131,13 +131,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0400267E RID: 9854
+		// Token: 0x04002679 RID: 9849
 		private List<PhysicalInteractionReservationManager.PhysicalInteractionReservation> reservations = new List<PhysicalInteractionReservationManager.PhysicalInteractionReservation>();
 
-		// Token: 0x02000AA9 RID: 2729
+		// Token: 0x02000AA5 RID: 2725
 		public class PhysicalInteractionReservation : IExposable
 		{
-			// Token: 0x06003CDF RID: 15583 RVA: 0x00202F87 File Offset: 0x00201387
+			// Token: 0x06003CDA RID: 15578 RVA: 0x002032AB File Offset: 0x002016AB
 			public void ExposeData()
 			{
 				Scribe_TargetInfo.Look(ref this.target, "target");
@@ -145,13 +145,13 @@ namespace Verse
 				Scribe_References.Look<Job>(ref this.job, "job", false);
 			}
 
-			// Token: 0x04002680 RID: 9856
+			// Token: 0x0400267B RID: 9851
 			public LocalTargetInfo target;
 
-			// Token: 0x04002681 RID: 9857
+			// Token: 0x0400267C RID: 9852
 			public Pawn claimant;
 
-			// Token: 0x04002682 RID: 9858
+			// Token: 0x0400267D RID: 9853
 			public Job job;
 		}
 	}

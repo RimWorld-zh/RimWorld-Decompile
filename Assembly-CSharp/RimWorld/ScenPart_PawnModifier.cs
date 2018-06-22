@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200063A RID: 1594
+	// Token: 0x02000636 RID: 1590
 	public class ScenPart_PawnModifier : ScenPart
 	{
-		// Token: 0x060020DB RID: 8411 RVA: 0x00117968 File Offset: 0x00115D68
+		// Token: 0x060020D3 RID: 8403 RVA: 0x00117A14 File Offset: 0x00115E14
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -18,7 +18,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.hideOffMap, "hideOffMap", false, false);
 		}
 
-		// Token: 0x060020DC RID: 8412 RVA: 0x001179B8 File Offset: 0x00115DB8
+		// Token: 0x060020D4 RID: 8404 RVA: 0x00117A64 File Offset: 0x00115E64
 		protected void DoPawnModifierEditInterface(Rect rect)
 		{
 			Rect rect2 = rect.TopHalf();
@@ -63,7 +63,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060020DD RID: 8413 RVA: 0x00117B54 File Offset: 0x00115F54
+		// Token: 0x060020D5 RID: 8405 RVA: 0x00117C00 File Offset: 0x00116000
 		public override void Randomize()
 		{
 			this.chance = GenMath.RoundedHundredth(Rand.Range(0.05f, 1f));
@@ -71,7 +71,7 @@ namespace RimWorld
 			this.hideOffMap = false;
 		}
 
-		// Token: 0x060020DE RID: 8414 RVA: 0x00117B84 File Offset: 0x00115F84
+		// Token: 0x060020D6 RID: 8406 RVA: 0x00117C30 File Offset: 0x00116030
 		public override void Notify_NewPawnGenerating(Pawn pawn, PawnGenerationContext context)
 		{
 			if (this.context.Includes(context))
@@ -86,7 +86,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060020DF RID: 8415 RVA: 0x00117BE8 File Offset: 0x00115FE8
+		// Token: 0x060020D7 RID: 8407 RVA: 0x00117C94 File Offset: 0x00116094
 		public override void Notify_PawnGenerated(Pawn pawn, PawnGenerationContext context, bool redressed)
 		{
 			if (this.context.Includes(context))
@@ -101,7 +101,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060020E0 RID: 8416 RVA: 0x00117C4C File Offset: 0x0011604C
+		// Token: 0x060020D8 RID: 8408 RVA: 0x00117CF8 File Offset: 0x001160F8
 		public override void PostMapGenerate(Map map)
 		{
 			if (Find.GameInitData != null)
@@ -119,31 +119,31 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060020E1 RID: 8417 RVA: 0x00117D00 File Offset: 0x00116100
+		// Token: 0x060020D9 RID: 8409 RVA: 0x00117DAC File Offset: 0x001161AC
 		protected virtual void ModifyNewPawn(Pawn p)
 		{
 		}
 
-		// Token: 0x060020E2 RID: 8418 RVA: 0x00117D03 File Offset: 0x00116103
+		// Token: 0x060020DA RID: 8410 RVA: 0x00117DAF File Offset: 0x001161AF
 		protected virtual void ModifyPawnPostGenerate(Pawn p, bool redressed)
 		{
 		}
 
-		// Token: 0x060020E3 RID: 8419 RVA: 0x00117D06 File Offset: 0x00116106
+		// Token: 0x060020DB RID: 8411 RVA: 0x00117DB2 File Offset: 0x001161B2
 		protected virtual void ModifyHideOffMapStartingPawnPostMapGenerate(Pawn p)
 		{
 		}
 
-		// Token: 0x040012CF RID: 4815
+		// Token: 0x040012CC RID: 4812
 		protected float chance = 1f;
 
-		// Token: 0x040012D0 RID: 4816
+		// Token: 0x040012CD RID: 4813
 		protected PawnGenerationContext context = PawnGenerationContext.All;
 
-		// Token: 0x040012D1 RID: 4817
+		// Token: 0x040012CE RID: 4814
 		protected bool hideOffMap;
 
-		// Token: 0x040012D2 RID: 4818
+		// Token: 0x040012CF RID: 4815
 		private string chanceBuf;
 	}
 }

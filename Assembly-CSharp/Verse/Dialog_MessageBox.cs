@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EBD RID: 3773
+	// Token: 0x02000EBC RID: 3772
 	public class Dialog_MessageBox : Window
 	{
-		// Token: 0x0600592B RID: 22827 RVA: 0x002DAE58 File Offset: 0x002D9258
+		// Token: 0x0600594C RID: 22860 RVA: 0x002DCAA4 File Offset: 0x002DAEA4
 		public Dialog_MessageBox(string text, string buttonAText = null, Action buttonAAction = null, string buttonBText = null, Action buttonBAction = null, string title = null, bool buttonADestructive = false, Action acceptAction = null, Action cancelAction = null)
 		{
 			this.text = text;
@@ -32,8 +32,8 @@ namespace Verse
 			this.closeOnCancel = flag;
 		}
 
-		// Token: 0x17000E07 RID: 3591
-		// (get) Token: 0x0600592C RID: 22828 RVA: 0x002DAF54 File Offset: 0x002D9354
+		// Token: 0x17000E0A RID: 3594
+		// (get) Token: 0x0600594D RID: 22861 RVA: 0x002DCBA0 File Offset: 0x002DAFA0
 		public override Vector2 InitialSize
 		{
 			get
@@ -42,8 +42,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E08 RID: 3592
-		// (get) Token: 0x0600592D RID: 22829 RVA: 0x002DAF78 File Offset: 0x002D9378
+		// Token: 0x17000E0B RID: 3595
+		// (get) Token: 0x0600594E RID: 22862 RVA: 0x002DCBC4 File Offset: 0x002DAFC4
 		private float TimeUntilInteractive
 		{
 			get
@@ -52,8 +52,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E09 RID: 3593
-		// (get) Token: 0x0600592E RID: 22830 RVA: 0x002DAFA0 File Offset: 0x002D93A0
+		// Token: 0x17000E0C RID: 3596
+		// (get) Token: 0x0600594F RID: 22863 RVA: 0x002DCBEC File Offset: 0x002DAFEC
 		private bool InteractionDelayExpired
 		{
 			get
@@ -62,7 +62,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600592F RID: 22831 RVA: 0x002DAFC8 File Offset: 0x002D93C8
+		// Token: 0x06005950 RID: 22864 RVA: 0x002DCC14 File Offset: 0x002DB014
 		public static Dialog_MessageBox CreateConfirmation(string text, Action confirmedAct, bool destructive = false, string title = null)
 		{
 			string text2 = "Confirm".Translate();
@@ -72,7 +72,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06005930 RID: 22832 RVA: 0x002DB028 File Offset: 0x002D9428
+		// Token: 0x06005951 RID: 22865 RVA: 0x002DCC74 File Offset: 0x002DB074
 		public override void DoWindowContents(Rect inRect)
 		{
 			float num = inRect.y;
@@ -136,7 +136,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005931 RID: 22833 RVA: 0x002DB2E8 File Offset: 0x002D96E8
+		// Token: 0x06005952 RID: 22866 RVA: 0x002DCF34 File Offset: 0x002DB334
 		public override void OnCancelKeyPressed()
 		{
 			if (this.cancelAction != null)
@@ -150,7 +150,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005932 RID: 22834 RVA: 0x002DB315 File Offset: 0x002D9715
+		// Token: 0x06005953 RID: 22867 RVA: 0x002DCF61 File Offset: 0x002DB361
 		public override void OnAcceptKeyPressed()
 		{
 			if (this.acceptAction != null)
@@ -164,55 +164,55 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003B73 RID: 15219
+		// Token: 0x04003B83 RID: 15235
 		public string text;
 
-		// Token: 0x04003B74 RID: 15220
+		// Token: 0x04003B84 RID: 15236
 		public string title;
 
-		// Token: 0x04003B75 RID: 15221
+		// Token: 0x04003B85 RID: 15237
 		public string buttonAText;
 
-		// Token: 0x04003B76 RID: 15222
+		// Token: 0x04003B86 RID: 15238
 		public Action buttonAAction;
 
-		// Token: 0x04003B77 RID: 15223
+		// Token: 0x04003B87 RID: 15239
 		public bool buttonADestructive;
 
-		// Token: 0x04003B78 RID: 15224
+		// Token: 0x04003B88 RID: 15240
 		public string buttonBText;
 
-		// Token: 0x04003B79 RID: 15225
+		// Token: 0x04003B89 RID: 15241
 		public Action buttonBAction;
 
-		// Token: 0x04003B7A RID: 15226
+		// Token: 0x04003B8A RID: 15242
 		public string buttonCText;
 
-		// Token: 0x04003B7B RID: 15227
+		// Token: 0x04003B8B RID: 15243
 		public Action buttonCAction;
 
-		// Token: 0x04003B7C RID: 15228
+		// Token: 0x04003B8C RID: 15244
 		public bool buttonCClose = true;
 
-		// Token: 0x04003B7D RID: 15229
+		// Token: 0x04003B8D RID: 15245
 		public float interactionDelay = 0f;
 
-		// Token: 0x04003B7E RID: 15230
+		// Token: 0x04003B8E RID: 15246
 		public Action acceptAction;
 
-		// Token: 0x04003B7F RID: 15231
+		// Token: 0x04003B8F RID: 15247
 		public Action cancelAction;
 
-		// Token: 0x04003B80 RID: 15232
+		// Token: 0x04003B90 RID: 15248
 		private Vector2 scrollPosition = Vector2.zero;
 
-		// Token: 0x04003B81 RID: 15233
+		// Token: 0x04003B91 RID: 15249
 		private float creationRealTime = -1f;
 
-		// Token: 0x04003B82 RID: 15234
+		// Token: 0x04003B92 RID: 15250
 		private const float TitleHeight = 42f;
 
-		// Token: 0x04003B83 RID: 15235
+		// Token: 0x04003B93 RID: 15251
 		private const float ButtonHeight = 35f;
 	}
 }

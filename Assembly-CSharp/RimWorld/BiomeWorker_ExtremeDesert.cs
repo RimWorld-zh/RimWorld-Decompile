@@ -3,10 +3,10 @@ using RimWorld.Planet;
 
 namespace RimWorld
 {
-	// Token: 0x0200054D RID: 1357
+	// Token: 0x02000549 RID: 1353
 	public class BiomeWorker_ExtremeDesert : BiomeWorker
 	{
-		// Token: 0x06001951 RID: 6481 RVA: 0x000DBB8C File Offset: 0x000D9F8C
+		// Token: 0x06001948 RID: 6472 RVA: 0x000DBB9C File Offset: 0x000D9F9C
 		public override float GetScore(Tile tile, int tileID)
 		{
 			float result;

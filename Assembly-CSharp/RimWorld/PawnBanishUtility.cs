@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000471 RID: 1137
+	// Token: 0x0200046D RID: 1133
 	public static class PawnBanishUtility
 	{
-		// Token: 0x060013F9 RID: 5113 RVA: 0x000AE020 File Offset: 0x000AC420
+		// Token: 0x060013F0 RID: 5104 RVA: 0x000AE030 File Offset: 0x000AC430
 		public static void Banish(Pawn pawn, int tile = -1)
 		{
 			if (pawn.Faction != Faction.OfPlayer && pawn.HostFaction != Faction.OfPlayer)
@@ -63,7 +63,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060013FA RID: 5114 RVA: 0x000AE18C File Offset: 0x000AC58C
+		// Token: 0x060013F1 RID: 5105 RVA: 0x000AE19C File Offset: 0x000AC59C
 		public static bool WouldBeLeftToDie(Pawn p, int tile)
 		{
 			bool result;
@@ -99,7 +99,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060013FB RID: 5115 RVA: 0x000AE260 File Offset: 0x000AC660
+		// Token: 0x060013F2 RID: 5106 RVA: 0x000AE270 File Offset: 0x000AC670
 		public static string GetBanishPawnDialogText(Pawn banishedPawn)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -127,7 +127,7 @@ namespace RimWorld
 				stringBuilder.Append("ConfirmBanishPawnDialog_Items".Translate(new object[]
 				{
 					banishedPawn.LabelShort
-				}).CapitalizeFirst().AdjustedFor(banishedPawn));
+				}).CapitalizeFirst().AdjustedFor(banishedPawn, "PAWN"));
 				stringBuilder.AppendLine();
 				if (list != null)
 				{
@@ -161,7 +161,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060013FC RID: 5116 RVA: 0x000AE4E8 File Offset: 0x000AC8E8
+		// Token: 0x060013F3 RID: 5107 RVA: 0x000AE500 File Offset: 0x000AC900
 		public static void ShowBanishPawnConfirmationDialog(Pawn pawn)
 		{
 			Dialog_MessageBox window = Dialog_MessageBox.CreateConfirmation(PawnBanishUtility.GetBanishPawnDialogText(pawn), delegate
@@ -171,7 +171,7 @@ namespace RimWorld
 			Find.WindowStack.Add(window);
 		}
 
-		// Token: 0x060013FD RID: 5117 RVA: 0x000AE530 File Offset: 0x000AC930
+		// Token: 0x060013F4 RID: 5108 RVA: 0x000AE548 File Offset: 0x000AC948
 		public static string GetBanishButtonTip(Pawn pawn)
 		{
 			string result;
@@ -189,7 +189,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060013FE RID: 5118 RVA: 0x000AE598 File Offset: 0x000AC998
+		// Token: 0x060013F5 RID: 5109 RVA: 0x000AE5B0 File Offset: 0x000AC9B0
 		private static void HealIfPossible(Pawn p)
 		{
 			PawnBanishUtility.tmpHediffs.Clear();
@@ -212,16 +212,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060013FF RID: 5119 RVA: 0x000AE650 File Offset: 0x000ACA50
+		// Token: 0x060013F6 RID: 5110 RVA: 0x000AE668 File Offset: 0x000ACA68
 		private static bool WillTakeInventoryIfBanished(Pawn pawn)
 		{
 			return !pawn.IsCaravanMember();
 		}
 
-		// Token: 0x04000C00 RID: 3072
+		// Token: 0x04000BFD RID: 3069
 		private const float DeathChanceForCaravanPawnBanishedToDie = 0.8f;
 
-		// Token: 0x04000C01 RID: 3073
+		// Token: 0x04000BFE RID: 3070
 		private static List<Hediff> tmpHediffs = new List<Hediff>();
 	}
 }

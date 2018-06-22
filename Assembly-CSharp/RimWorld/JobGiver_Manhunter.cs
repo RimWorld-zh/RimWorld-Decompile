@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000110 RID: 272
 	public class JobGiver_Manhunter : ThinkNode_JobGiver
 	{
-		// Token: 0x06000598 RID: 1432 RVA: 0x0003C624 File Offset: 0x0003AA24
+		// Token: 0x06000598 RID: 1432 RVA: 0x0003C610 File Offset: 0x0003AA10
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -60,7 +60,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000599 RID: 1433 RVA: 0x0003C790 File Offset: 0x0003AB90
+		// Token: 0x06000599 RID: 1433 RVA: 0x0003C77C File Offset: 0x0003AB7C
 		private Job MeleeAttackJob(Pawn pawn, Thing target)
 		{
 			return new Job(JobDefOf.AttackMelee, target)
@@ -71,13 +71,13 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x0600059A RID: 1434 RVA: 0x0003C7DC File Offset: 0x0003ABDC
+		// Token: 0x0600059A RID: 1434 RVA: 0x0003C7C8 File Offset: 0x0003ABC8
 		private Pawn FindPawnTarget(Pawn pawn)
 		{
 			return (Pawn)AttackTargetFinder.BestAttackTarget(pawn, TargetScanFlags.NeedThreat, (Thing x) => x is Pawn && x.def.race.intelligence >= Intelligence.ToolUser, 0f, 9999f, default(IntVec3), float.MaxValue, true);
 		}
 
-		// Token: 0x0600059B RID: 1435 RVA: 0x0003C834 File Offset: 0x0003AC34
+		// Token: 0x0600059B RID: 1435 RVA: 0x0003C820 File Offset: 0x0003AC20
 		private Building FindTurretTarget(Pawn pawn)
 		{
 			return (Building)AttackTargetFinder.BestAttackTarget(pawn, TargetScanFlags.NeedLOSToPawns | TargetScanFlags.NeedLOSToNonPawns | TargetScanFlags.NeedReachable | TargetScanFlags.NeedThreat, (Thing t) => t is Building, 0f, 70f, default(IntVec3), float.MaxValue, false);

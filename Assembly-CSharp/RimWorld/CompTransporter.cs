@@ -7,18 +7,18 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000746 RID: 1862
+	// Token: 0x02000742 RID: 1858
 	[StaticConstructorOnStartup]
 	public class CompTransporter : ThingComp, IThingHolder
 	{
-		// Token: 0x0600291D RID: 10525 RVA: 0x0015E095 File Offset: 0x0015C495
+		// Token: 0x06002916 RID: 10518 RVA: 0x0015E26D File Offset: 0x0015C66D
 		public CompTransporter()
 		{
 			this.innerContainer = new ThingOwner<Thing>(this);
 		}
 
-		// Token: 0x1700065C RID: 1628
-		// (get) Token: 0x0600291E RID: 10526 RVA: 0x0015E0B4 File Offset: 0x0015C4B4
+		// Token: 0x1700065D RID: 1629
+		// (get) Token: 0x06002917 RID: 10519 RVA: 0x0015E28C File Offset: 0x0015C68C
 		public CompProperties_Transporter Props
 		{
 			get
@@ -27,8 +27,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700065D RID: 1629
-		// (get) Token: 0x0600291F RID: 10527 RVA: 0x0015E0D4 File Offset: 0x0015C4D4
+		// Token: 0x1700065E RID: 1630
+		// (get) Token: 0x06002918 RID: 10520 RVA: 0x0015E2AC File Offset: 0x0015C6AC
 		public Map Map
 		{
 			get
@@ -37,8 +37,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700065E RID: 1630
-		// (get) Token: 0x06002920 RID: 10528 RVA: 0x0015E0F4 File Offset: 0x0015C4F4
+		// Token: 0x1700065F RID: 1631
+		// (get) Token: 0x06002919 RID: 10521 RVA: 0x0015E2CC File Offset: 0x0015C6CC
 		public bool AnythingLeftToLoad
 		{
 			get
@@ -47,8 +47,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700065F RID: 1631
-		// (get) Token: 0x06002921 RID: 10529 RVA: 0x0015E118 File Offset: 0x0015C518
+		// Token: 0x17000660 RID: 1632
+		// (get) Token: 0x0600291A RID: 10522 RVA: 0x0015E2F0 File Offset: 0x0015C6F0
 		public bool LoadingInProgressOrReadyToLaunch
 		{
 			get
@@ -57,8 +57,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000660 RID: 1632
-		// (get) Token: 0x06002922 RID: 10530 RVA: 0x0015E13C File Offset: 0x0015C53C
+		// Token: 0x17000661 RID: 1633
+		// (get) Token: 0x0600291B RID: 10523 RVA: 0x0015E314 File Offset: 0x0015C714
 		public bool AnyInGroupHasAnythingLeftToLoad
 		{
 			get
@@ -67,8 +67,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000661 RID: 1633
-		// (get) Token: 0x06002923 RID: 10531 RVA: 0x0015E160 File Offset: 0x0015C560
+		// Token: 0x17000662 RID: 1634
+		// (get) Token: 0x0600291C RID: 10524 RVA: 0x0015E338 File Offset: 0x0015C738
 		public CompLaunchable Launchable
 		{
 			get
@@ -81,8 +81,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000662 RID: 1634
-		// (get) Token: 0x06002924 RID: 10532 RVA: 0x0015E198 File Offset: 0x0015C598
+		// Token: 0x17000663 RID: 1635
+		// (get) Token: 0x0600291D RID: 10525 RVA: 0x0015E370 File Offset: 0x0015C770
 		public Thing FirstThingLeftToLoad
 		{
 			get
@@ -108,8 +108,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000663 RID: 1635
-		// (get) Token: 0x06002925 RID: 10533 RVA: 0x0015E1FC File Offset: 0x0015C5FC
+		// Token: 0x17000664 RID: 1636
+		// (get) Token: 0x0600291E RID: 10526 RVA: 0x0015E3D4 File Offset: 0x0015C7D4
 		public Thing FirstThingLeftToLoadInGroup
 		{
 			get
@@ -127,7 +127,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002926 RID: 10534 RVA: 0x0015E258 File Offset: 0x0015C658
+		// Token: 0x0600291F RID: 10527 RVA: 0x0015E430 File Offset: 0x0015C830
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -139,19 +139,19 @@ namespace RimWorld
 			Scribe_Collections.Look<TransferableOneWay>(ref this.leftToLoad, "leftToLoad", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x06002927 RID: 10535 RVA: 0x0015E2B0 File Offset: 0x0015C6B0
+		// Token: 0x06002920 RID: 10528 RVA: 0x0015E488 File Offset: 0x0015C888
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.innerContainer;
 		}
 
-		// Token: 0x06002928 RID: 10536 RVA: 0x0015E2CB File Offset: 0x0015C6CB
+		// Token: 0x06002921 RID: 10529 RVA: 0x0015E4A3 File Offset: 0x0015C8A3
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
-		// Token: 0x06002929 RID: 10537 RVA: 0x0015E2DC File Offset: 0x0015C6DC
+		// Token: 0x06002922 RID: 10530 RVA: 0x0015E4B4 File Offset: 0x0015C8B4
 		public override void CompTick()
 		{
 			base.CompTick();
@@ -169,7 +169,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600292A RID: 10538 RVA: 0x0015E380 File Offset: 0x0015C780
+		// Token: 0x06002923 RID: 10531 RVA: 0x0015E558 File Offset: 0x0015C958
 		public List<CompTransporter> TransportersInGroup(Map map)
 		{
 			List<CompTransporter> result;
@@ -185,7 +185,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600292B RID: 10539 RVA: 0x0015E3C0 File Offset: 0x0015C7C0
+		// Token: 0x06002924 RID: 10532 RVA: 0x0015E598 File Offset: 0x0015C998
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			foreach (Gizmo g in this.<CompGetGizmosExtra>__BaseCallProxy0())
@@ -276,7 +276,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600292C RID: 10540 RVA: 0x0015E3EC File Offset: 0x0015C7EC
+		// Token: 0x06002925 RID: 10533 RVA: 0x0015E5C4 File Offset: 0x0015C9C4
 		public override void PostDeSpawn(Map map)
 		{
 			base.PostDeSpawn(map);
@@ -287,7 +287,7 @@ namespace RimWorld
 			this.innerContainer.TryDropAll(this.parent.Position, map, ThingPlaceMode.Near, null, null);
 		}
 
-		// Token: 0x0600292D RID: 10541 RVA: 0x0015E440 File Offset: 0x0015C840
+		// Token: 0x06002926 RID: 10534 RVA: 0x0015E618 File Offset: 0x0015CA18
 		public void AddToTheToLoadList(TransferableOneWay t, int count)
 		{
 			if (t.HasAnyThing && t.CountToTransfer > 0)
@@ -310,25 +310,25 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600292E RID: 10542 RVA: 0x0015E4D2 File Offset: 0x0015C8D2
+		// Token: 0x06002927 RID: 10535 RVA: 0x0015E6AA File Offset: 0x0015CAAA
 		public void Notify_ThingAdded(Thing t)
 		{
 			this.SubtractFromToLoadList(t, t.stackCount);
 		}
 
-		// Token: 0x0600292F RID: 10543 RVA: 0x0015E4E2 File Offset: 0x0015C8E2
+		// Token: 0x06002928 RID: 10536 RVA: 0x0015E6BA File Offset: 0x0015CABA
 		public void Notify_ThingAddedAndMergedWith(Thing t, int mergedCount)
 		{
 			this.SubtractFromToLoadList(t, mergedCount);
 		}
 
-		// Token: 0x06002930 RID: 10544 RVA: 0x0015E4F0 File Offset: 0x0015C8F0
+		// Token: 0x06002929 RID: 10537 RVA: 0x0015E6C8 File Offset: 0x0015CAC8
 		public bool CancelLoad()
 		{
 			return this.CancelLoad(this.Map);
 		}
 
-		// Token: 0x06002931 RID: 10545 RVA: 0x0015E514 File Offset: 0x0015C914
+		// Token: 0x0600292A RID: 10538 RVA: 0x0015E6EC File Offset: 0x0015CAEC
 		public bool CancelLoad(Map map)
 		{
 			bool result;
@@ -350,7 +350,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002932 RID: 10546 RVA: 0x0015E578 File Offset: 0x0015C978
+		// Token: 0x0600292B RID: 10539 RVA: 0x0015E750 File Offset: 0x0015CB50
 		public void TryRemoveLord(Map map)
 		{
 			if (this.LoadingInProgressOrReadyToLaunch)
@@ -363,7 +363,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002933 RID: 10547 RVA: 0x0015E5B5 File Offset: 0x0015C9B5
+		// Token: 0x0600292C RID: 10540 RVA: 0x0015E78D File Offset: 0x0015CB8D
 		public void CleanUpLoadingVars(Map map)
 		{
 			this.groupID = -1;
@@ -374,7 +374,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002934 RID: 10548 RVA: 0x0015E5F0 File Offset: 0x0015C9F0
+		// Token: 0x0600292D RID: 10541 RVA: 0x0015E7C8 File Offset: 0x0015CBC8
 		private void SubtractFromToLoadList(Thing t, int count)
 		{
 			if (this.leftToLoad != null)
@@ -395,7 +395,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002935 RID: 10549 RVA: 0x0015E674 File Offset: 0x0015CA74
+		// Token: 0x0600292E RID: 10542 RVA: 0x0015E84C File Offset: 0x0015CC4C
 		private void SelectPreviousInGroup()
 		{
 			List<CompTransporter> list = this.TransportersInGroup(this.Map);
@@ -403,7 +403,7 @@ namespace RimWorld
 			CameraJumper.TryJumpAndSelect(list[GenMath.PositiveMod(num - 1, list.Count)].parent);
 		}
 
-		// Token: 0x06002936 RID: 10550 RVA: 0x0015E6BC File Offset: 0x0015CABC
+		// Token: 0x0600292F RID: 10543 RVA: 0x0015E894 File Offset: 0x0015CC94
 		private void SelectAllInGroup()
 		{
 			List<CompTransporter> list = this.TransportersInGroup(this.Map);
@@ -415,7 +415,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002937 RID: 10551 RVA: 0x0015E710 File Offset: 0x0015CB10
+		// Token: 0x06002930 RID: 10544 RVA: 0x0015E8E8 File Offset: 0x0015CCE8
 		private void SelectNextInGroup()
 		{
 			List<CompTransporter> list = this.TransportersInGroup(this.Map);
@@ -423,34 +423,34 @@ namespace RimWorld
 			CameraJumper.TryJumpAndSelect(list[(num + 1) % list.Count].parent);
 		}
 
-		// Token: 0x04001673 RID: 5747
+		// Token: 0x04001671 RID: 5745
 		public int groupID = -1;
 
-		// Token: 0x04001674 RID: 5748
+		// Token: 0x04001672 RID: 5746
 		public ThingOwner innerContainer;
 
-		// Token: 0x04001675 RID: 5749
+		// Token: 0x04001673 RID: 5747
 		public List<TransferableOneWay> leftToLoad;
 
-		// Token: 0x04001676 RID: 5750
+		// Token: 0x04001674 RID: 5748
 		private CompLaunchable cachedCompLaunchable;
 
-		// Token: 0x04001677 RID: 5751
+		// Token: 0x04001675 RID: 5749
 		private static readonly Texture2D CancelLoadCommandTex = ContentFinder<Texture2D>.Get("UI/Designators/Cancel", true);
 
-		// Token: 0x04001678 RID: 5752
+		// Token: 0x04001676 RID: 5750
 		private static readonly Texture2D LoadCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/LoadTransporter", true);
 
-		// Token: 0x04001679 RID: 5753
+		// Token: 0x04001677 RID: 5751
 		private static readonly Texture2D SelectPreviousInGroupCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/SelectPreviousTransporter", true);
 
-		// Token: 0x0400167A RID: 5754
+		// Token: 0x04001678 RID: 5752
 		private static readonly Texture2D SelectAllInGroupCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/SelectAllTransporters", true);
 
-		// Token: 0x0400167B RID: 5755
+		// Token: 0x04001679 RID: 5753
 		private static readonly Texture2D SelectNextInGroupCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/SelectNextTransporter", true);
 
-		// Token: 0x0400167C RID: 5756
+		// Token: 0x0400167A RID: 5754
 		private static List<CompTransporter> tmpTransportersInGroup = new List<CompTransporter>();
 	}
 }

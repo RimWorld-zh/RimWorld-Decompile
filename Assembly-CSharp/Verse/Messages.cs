@@ -5,11 +5,11 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000E88 RID: 3720
+	// Token: 0x02000E87 RID: 3719
 	[StaticConstructorOnStartup]
 	public static class Messages
 	{
-		// Token: 0x060057B6 RID: 22454 RVA: 0x002CF7EC File Offset: 0x002CDBEC
+		// Token: 0x060057D6 RID: 22486 RVA: 0x002D13FC File Offset: 0x002CF7FC
 		public static void Update()
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -23,7 +23,7 @@ namespace Verse
 			Messages.liveMessages.RemoveAll((Message m) => m.Expired);
 		}
 
-		// Token: 0x060057B7 RID: 22455 RVA: 0x002CF870 File Offset: 0x002CDC70
+		// Token: 0x060057D7 RID: 22487 RVA: 0x002D1480 File Offset: 0x002CF880
 		public static void Message(string text, LookTargets lookTargets, MessageTypeDef def, bool historical = true)
 		{
 			if (Messages.AcceptsMessage(text, lookTargets))
@@ -33,7 +33,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057B8 RID: 22456 RVA: 0x002CF8A0 File Offset: 0x002CDCA0
+		// Token: 0x060057D8 RID: 22488 RVA: 0x002D14B0 File Offset: 0x002CF8B0
 		public static void Message(string text, MessageTypeDef def, bool historical = true)
 		{
 			if (Messages.AcceptsMessage(text, TargetInfo.Invalid))
@@ -43,7 +43,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057B9 RID: 22457 RVA: 0x002CF8D8 File Offset: 0x002CDCD8
+		// Token: 0x060057D9 RID: 22489 RVA: 0x002D14E8 File Offset: 0x002CF8E8
 		public static void Message(Message msg, bool historical = true)
 		{
 			if (Messages.AcceptsMessage(msg.text, msg.lookTargets))
@@ -64,13 +64,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057BA RID: 22458 RVA: 0x002CF96C File Offset: 0x002CDD6C
+		// Token: 0x060057DA RID: 22490 RVA: 0x002D157C File Offset: 0x002CF97C
 		public static bool IsLive(Message msg)
 		{
 			return Messages.liveMessages.Contains(msg);
 		}
 
-		// Token: 0x060057BB RID: 22459 RVA: 0x002CF98C File Offset: 0x002CDD8C
+		// Token: 0x060057DB RID: 22491 RVA: 0x002D159C File Offset: 0x002CF99C
 		public static void MessagesDoGUI()
 		{
 			Text.Font = GameFont.Small;
@@ -87,7 +87,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057BC RID: 22460 RVA: 0x002CFA28 File Offset: 0x002CDE28
+		// Token: 0x060057DC RID: 22492 RVA: 0x002D1638 File Offset: 0x002CFA38
 		public static bool CollidesWithAnyMessage(Rect rect, out float messageAlpha)
 		{
 			bool result = false;
@@ -105,13 +105,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060057BD RID: 22461 RVA: 0x002CFA97 File Offset: 0x002CDE97
+		// Token: 0x060057DD RID: 22493 RVA: 0x002D16A7 File Offset: 0x002CFAA7
 		public static void Clear()
 		{
 			Messages.liveMessages.Clear();
 		}
 
-		// Token: 0x060057BE RID: 22462 RVA: 0x002CFAA4 File Offset: 0x002CDEA4
+		// Token: 0x060057DE RID: 22494 RVA: 0x002D16B4 File Offset: 0x002CFAB4
 		public static void Notify_LoadedLevelChanged()
 		{
 			for (int i = 0; i < Messages.liveMessages.Count; i++)
@@ -120,7 +120,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057BF RID: 22463 RVA: 0x002CFAE0 File Offset: 0x002CDEE0
+		// Token: 0x060057DF RID: 22495 RVA: 0x002D16F0 File Offset: 0x002CFAF0
 		private static bool AcceptsMessage(string text, LookTargets lookTargets)
 		{
 			bool result;
@@ -142,25 +142,25 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060057C0 RID: 22464 RVA: 0x002CFB7D File Offset: 0x002CDF7D
+		// Token: 0x060057E0 RID: 22496 RVA: 0x002D178D File Offset: 0x002CFB8D
 		public static void Notify_Mouseover(Message msg)
 		{
 			Messages.mouseoverMessageIndex = Messages.liveMessages.IndexOf(msg);
 		}
 
-		// Token: 0x04003A03 RID: 14851
+		// Token: 0x04003A13 RID: 14867
 		private static List<Message> liveMessages = new List<Message>();
 
-		// Token: 0x04003A04 RID: 14852
+		// Token: 0x04003A14 RID: 14868
 		private static int mouseoverMessageIndex = -1;
 
-		// Token: 0x04003A05 RID: 14853
+		// Token: 0x04003A15 RID: 14869
 		public static readonly Vector2 MessagesTopLeftStandard = new Vector2(140f, 16f);
 
-		// Token: 0x04003A06 RID: 14854
+		// Token: 0x04003A16 RID: 14870
 		private const int MessageYInterval = 26;
 
-		// Token: 0x04003A07 RID: 14855
+		// Token: 0x04003A17 RID: 14871
 		private const int MaxLiveMessages = 12;
 	}
 }

@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_Open : JobDriver
 	{
 		// Token: 0x170000A4 RID: 164
-		// (get) Token: 0x06000333 RID: 819 RVA: 0x000234A0 File Offset: 0x000218A0
+		// (get) Token: 0x06000333 RID: 819 RVA: 0x000234B0 File Offset: 0x000218B0
 		private IOpenable Openable
 		{
 			get
@@ -18,13 +18,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000334 RID: 820 RVA: 0x000234CC File Offset: 0x000218CC
+		// Token: 0x06000334 RID: 820 RVA: 0x000234DC File Offset: 0x000218DC
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000335 RID: 821 RVA: 0x00023500 File Offset: 0x00021900
+		// Token: 0x06000335 RID: 821 RVA: 0x00023510 File Offset: 0x00021910
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return new Toil

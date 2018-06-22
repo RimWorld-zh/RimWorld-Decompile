@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200004A RID: 74
 	public static class Toils_Construct
 	{
-		// Token: 0x0600025D RID: 605 RVA: 0x00018CB4 File Offset: 0x000170B4
+		// Token: 0x0600025D RID: 605 RVA: 0x00018CBC File Offset: 0x000170BC
 		public static Toil MakeSolidThingFromBlueprintIfNecessary(TargetIndex blueTarget, TargetIndex targetToUpdate = TargetIndex.None)
 		{
 			Toil toil = new Toil();
@@ -41,7 +41,7 @@ namespace RimWorld
 			return toil;
 		}
 
-		// Token: 0x0600025E RID: 606 RVA: 0x00018D08 File Offset: 0x00017108
+		// Token: 0x0600025E RID: 606 RVA: 0x00018D10 File Offset: 0x00017110
 		public static Toil UninstallIfMinifiable(TargetIndex thingInd)
 		{
 			Toil uninstallIfMinifiable = new Toil().FailOnDestroyedNullOrForbidden(thingInd);

@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000099 RID: 153
 	public static class JobInBedUtility
 	{
-		// Token: 0x060003E1 RID: 993 RVA: 0x0002C9B8 File Offset: 0x0002ADB8
+		// Token: 0x060003E1 RID: 993 RVA: 0x0002C994 File Offset: 0x0002AD94
 		public static void KeepLyingDown(this JobDriver driver, TargetIndex bedIndex)
 		{
 			driver.AddFinishAction(delegate
@@ -20,7 +20,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060003E2 RID: 994 RVA: 0x0002C9F4 File Offset: 0x0002ADF4
+		// Token: 0x060003E2 RID: 994 RVA: 0x0002C9D0 File Offset: 0x0002ADD0
 		public static bool InBedOrRestSpotNow(Pawn pawn, LocalTargetInfo bedOrRestSpot)
 		{
 			bool result;

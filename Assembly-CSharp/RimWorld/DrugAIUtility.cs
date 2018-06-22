@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020000B1 RID: 177
 	public static class DrugAIUtility
 	{
-		// Token: 0x06000444 RID: 1092 RVA: 0x00032780 File Offset: 0x00030B80
+		// Token: 0x06000444 RID: 1092 RVA: 0x0003275C File Offset: 0x00030B5C
 		public static Job IngestAndTakeToInventoryJob(Thing drug, Pawn pawn, int maxNumToCarry = 9999)
 		{
 			Job job = new Job(JobDefOf.Ingest, drug);

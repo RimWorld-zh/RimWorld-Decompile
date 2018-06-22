@@ -3,11 +3,11 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A83 RID: 2691
+	// Token: 0x02000A7F RID: 2687
 	public class MentalState_SocialFighting : MentalState
 	{
-		// Token: 0x17000917 RID: 2327
-		// (get) Token: 0x06003BB1 RID: 15281 RVA: 0x001F7DC8 File Offset: 0x001F61C8
+		// Token: 0x17000918 RID: 2328
+		// (get) Token: 0x06003BAC RID: 15276 RVA: 0x001F80DC File Offset: 0x001F64DC
 		private bool ShouldStop
 		{
 			get
@@ -16,8 +16,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000918 RID: 2328
-		// (get) Token: 0x06003BB2 RID: 15282 RVA: 0x001F7E28 File Offset: 0x001F6228
+		// Token: 0x17000919 RID: 2329
+		// (get) Token: 0x06003BAD RID: 15277 RVA: 0x001F813C File Offset: 0x001F653C
 		private bool IsOtherPawnSocialFightingWithMe
 		{
 			get
@@ -36,7 +36,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BB3 RID: 15283 RVA: 0x001F7E8B File Offset: 0x001F628B
+		// Token: 0x06003BAE RID: 15278 RVA: 0x001F819F File Offset: 0x001F659F
 		public override void MentalStateTick()
 		{
 			if (this.ShouldStop)
@@ -49,7 +49,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BB4 RID: 15284 RVA: 0x001F7EAC File Offset: 0x001F62AC
+		// Token: 0x06003BAF RID: 15279 RVA: 0x001F81C0 File Offset: 0x001F65C0
 		public override void PostEnd()
 		{
 			base.PostEnd();
@@ -82,20 +82,20 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BB5 RID: 15285 RVA: 0x001F7FF9 File Offset: 0x001F63F9
+		// Token: 0x06003BB0 RID: 15280 RVA: 0x001F830D File Offset: 0x001F670D
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_References.Look<Pawn>(ref this.otherPawn, "otherPawn", false);
 		}
 
-		// Token: 0x06003BB6 RID: 15286 RVA: 0x001F8014 File Offset: 0x001F6414
+		// Token: 0x06003BB1 RID: 15281 RVA: 0x001F8328 File Offset: 0x001F6728
 		public override RandomSocialMode SocialModeMax()
 		{
 			return RandomSocialMode.Off;
 		}
 
-		// Token: 0x0400257D RID: 9597
+		// Token: 0x04002578 RID: 9592
 		public Pawn otherPawn;
 	}
 }

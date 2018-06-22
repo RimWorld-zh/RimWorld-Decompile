@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200033B RID: 827
 	public class IncidentWorker_RefugeeChased : IncidentWorker
 	{
-		// Token: 0x06000E20 RID: 3616 RVA: 0x0007833C File Offset: 0x0007673C
+		// Token: 0x06000E20 RID: 3616 RVA: 0x000783F4 File Offset: 0x000767F4
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -26,7 +26,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E21 RID: 3617 RVA: 0x0007838C File Offset: 0x0007678C
+		// Token: 0x06000E21 RID: 3617 RVA: 0x00078444 File Offset: 0x00076844
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -54,7 +54,7 @@ namespace RimWorld
 					enemyFac.Name,
 					refugee.ageTracker.AgeBiologicalYears
 				});
-				text = text.AdjustedFor(refugee);
+				text = text.AdjustedFor(refugee, "PAWN");
 				PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, refugee);
 				DiaNode diaNode = new DiaNode(text);
 				DiaOption diaOption = new DiaOption("RefugeeChasedInitial_Accept".Translate());
@@ -101,13 +101,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E22 RID: 3618 RVA: 0x0007861C File Offset: 0x00076A1C
+		// Token: 0x06000E22 RID: 3618 RVA: 0x000786D8 File Offset: 0x00076AD8
 		private bool TryFindSpawnSpot(Map map, out IntVec3 spawnSpot)
 		{
 			return CellFinder.TryFindRandomEdgeCellWith((IntVec3 c) => map.reachability.CanReachColony(c), map, CellFinder.EdgeRoadChance_Neutral, out spawnSpot);
 		}
 
-		// Token: 0x06000E23 RID: 3619 RVA: 0x0007865C File Offset: 0x00076A5C
+		// Token: 0x06000E23 RID: 3619 RVA: 0x00078718 File Offset: 0x00076B18
 		private bool TryFindEnemyFaction(out Faction enemyFac)
 		{
 			return (from f in Find.FactionManager.AllFactions
@@ -115,13 +115,13 @@ namespace RimWorld
 			select f).TryRandomElement(out enemyFac);
 		}
 
-		// Token: 0x040008E1 RID: 2273
+		// Token: 0x040008E3 RID: 2275
 		private static readonly IntRange RaidDelay = new IntRange(1000, 2500);
 
-		// Token: 0x040008E2 RID: 2274
+		// Token: 0x040008E4 RID: 2276
 		private const float RaidPointsFactor = 1.35f;
 
-		// Token: 0x040008E3 RID: 2275
+		// Token: 0x040008E5 RID: 2277
 		private const float RelationWithColonistWeight = 20f;
 	}
 }

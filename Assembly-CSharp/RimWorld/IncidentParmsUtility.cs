@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000318 RID: 792
 	public static class IncidentParmsUtility
 	{
-		// Token: 0x06000D6D RID: 3437 RVA: 0x0007362C File Offset: 0x00071A2C
+		// Token: 0x06000D6D RID: 3437 RVA: 0x000736E0 File Offset: 0x00071AE0
 		public static PawnGroupMakerParms GetDefaultPawnGroupMakerParms(PawnGroupKindDef groupKind, IncidentParms parms, bool ensureCanGenerateAtLeastOnePawn = false)
 		{
 			PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
@@ -28,7 +28,7 @@ namespace RimWorld
 			return pawnGroupMakerParms;
 		}
 
-		// Token: 0x06000D6E RID: 3438 RVA: 0x000736DC File Offset: 0x00071ADC
+		// Token: 0x06000D6E RID: 3438 RVA: 0x00073790 File Offset: 0x00071B90
 		public static List<List<Pawn>> SplitIntoGroups(List<Pawn> pawns, Dictionary<Pawn, int> groups)
 		{
 			List<List<Pawn>> list = new List<List<Pawn>>();
@@ -52,7 +52,7 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x06000D6F RID: 3439 RVA: 0x00073788 File Offset: 0x00071B88
+		// Token: 0x06000D6F RID: 3439 RVA: 0x0007383C File Offset: 0x00071C3C
 		private static int GetGroup(Pawn pawn, Dictionary<Pawn, int> groups)
 		{
 			int num;

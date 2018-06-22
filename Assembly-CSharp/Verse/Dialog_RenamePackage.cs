@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E39 RID: 3641
+	// Token: 0x02000E36 RID: 3638
 	public class Dialog_RenamePackage : Window
 	{
-		// Token: 0x06005609 RID: 22025 RVA: 0x002C4CB6 File Offset: 0x002C30B6
+		// Token: 0x06005625 RID: 22053 RVA: 0x002C6872 File Offset: 0x002C4C72
 		public Dialog_RenamePackage(DefPackage renamingPackage)
 		{
 			this.renamingPackage = renamingPackage;
@@ -17,8 +17,8 @@ namespace Verse
 			this.forcePause = true;
 		}
 
-		// Token: 0x17000D77 RID: 3447
-		// (get) Token: 0x0600560A RID: 22026 RVA: 0x002C4CE0 File Offset: 0x002C30E0
+		// Token: 0x17000D79 RID: 3449
+		// (get) Token: 0x06005626 RID: 22054 RVA: 0x002C689C File Offset: 0x002C4C9C
 		public override Vector2 InitialSize
 		{
 			get
@@ -27,8 +27,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D78 RID: 3448
-		// (get) Token: 0x0600560B RID: 22027 RVA: 0x002C4D04 File Offset: 0x002C3104
+		// Token: 0x17000D7A RID: 3450
+		// (get) Token: 0x06005627 RID: 22055 RVA: 0x002C68C0 File Offset: 0x002C4CC0
 		public override bool IsDebug
 		{
 			get
@@ -37,7 +37,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600560C RID: 22028 RVA: 0x002C4D1C File Offset: 0x002C311C
+		// Token: 0x06005628 RID: 22056 RVA: 0x002C68D8 File Offset: 0x002C4CD8
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Font = GameFont.Small;
@@ -51,7 +51,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600560D RID: 22029 RVA: 0x002C4D9C File Offset: 0x002C319C
+		// Token: 0x06005629 RID: 22057 RVA: 0x002C6958 File Offset: 0x002C4D58
 		private bool TrySave()
 		{
 			bool result;
@@ -73,10 +73,10 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x040038D9 RID: 14553
+		// Token: 0x040038E7 RID: 14567
 		private DefPackage renamingPackage;
 
-		// Token: 0x040038DA RID: 14554
+		// Token: 0x040038E8 RID: 14568
 		private string proposedName;
 	}
 }

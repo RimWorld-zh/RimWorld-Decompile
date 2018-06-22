@@ -2,14 +2,14 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x020009F0 RID: 2544
+	// Token: 0x020009EC RID: 2540
 	public enum AvoidGridMode
 	{
-		// Token: 0x04002470 RID: 9328
+		// Token: 0x0400246B RID: 9323
 		Ignore,
-		// Token: 0x04002471 RID: 9329
+		// Token: 0x0400246C RID: 9324
 		Basic,
-		// Token: 0x04002472 RID: 9330
+		// Token: 0x0400246D RID: 9325
 		Smart
 	}
 }

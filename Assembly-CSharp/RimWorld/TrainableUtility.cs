@@ -8,11 +8,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200053F RID: 1343
+	// Token: 0x0200053B RID: 1339
 	public static class TrainableUtility
 	{
 		// Token: 0x17000387 RID: 903
-		// (get) Token: 0x06001900 RID: 6400 RVA: 0x000D9764 File Offset: 0x000D7B64
+		// (get) Token: 0x060018F7 RID: 6391 RVA: 0x000D9774 File Offset: 0x000D7B74
 		public static List<TrainableDef> TrainableDefsInListOrder
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001901 RID: 6401 RVA: 0x000D9780 File Offset: 0x000D7B80
+		// Token: 0x060018F8 RID: 6392 RVA: 0x000D9790 File Offset: 0x000D7B90
 		public static void Reset()
 		{
 			TrainableUtility.defsInListOrder.Clear();
@@ -56,19 +56,19 @@ namespace RimWorld
 			while (flag);
 		}
 
-		// Token: 0x06001902 RID: 6402 RVA: 0x000D9870 File Offset: 0x000D7C70
+		// Token: 0x060018F9 RID: 6393 RVA: 0x000D9880 File Offset: 0x000D7C80
 		public static string MasterString(Pawn pawn)
 		{
 			return (pawn.playerSettings.Master == null) ? ("(" + "NoneLower".Translate() + ")") : RelationsUtility.LabelWithBondInfo(pawn.playerSettings.Master, pawn);
 		}
 
-		// Token: 0x06001903 RID: 6403 RVA: 0x000D98C4 File Offset: 0x000D7CC4
+		// Token: 0x060018FA RID: 6394 RVA: 0x000D98D4 File Offset: 0x000D7CD4
 		public static int MinimumHandlingSkill(Pawn p)
 		{
 			return Mathf.RoundToInt(p.GetStatValue(StatDefOf.MinimumHandlingSkill, true));
 		}
 
-		// Token: 0x06001904 RID: 6404 RVA: 0x000D98EC File Offset: 0x000D7CEC
+		// Token: 0x060018FB RID: 6395 RVA: 0x000D98FC File Offset: 0x000D7CFC
 		public static void MasterSelectButton(Rect rect, Pawn pawn, bool paintable)
 		{
 			Rect rect2 = rect;
@@ -87,13 +87,13 @@ namespace RimWorld
 			Widgets.Dropdown<Pawn, Pawn>(rect2, pawn, getPayload, menuGenerator, buttonLabel, null, dragLabel, null, null, paintable);
 		}
 
-		// Token: 0x06001905 RID: 6405 RVA: 0x000D9968 File Offset: 0x000D7D68
+		// Token: 0x060018FC RID: 6396 RVA: 0x000D9978 File Offset: 0x000D7D78
 		private static Pawn MasterSelectButton_GetMaster(Pawn pet)
 		{
 			return pet.playerSettings.Master;
 		}
 
-		// Token: 0x06001906 RID: 6406 RVA: 0x000D9988 File Offset: 0x000D7D88
+		// Token: 0x060018FD RID: 6397 RVA: 0x000D9998 File Offset: 0x000D7D98
 		private static IEnumerable<Widgets.DropdownMenuElement<Pawn>> MasterSelectButton_GenerateMenu(Pawn p)
 		{
 			yield return new Widgets.DropdownMenuElement<Pawn>
@@ -140,7 +140,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06001907 RID: 6407 RVA: 0x000D99B4 File Offset: 0x000D7DB4
+		// Token: 0x060018FE RID: 6398 RVA: 0x000D99C4 File Offset: 0x000D7DC4
 		public static bool CanBeMaster(Pawn master, Pawn animal, bool checkSpawned = true)
 		{
 			bool result;
@@ -157,7 +157,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001908 RID: 6408 RVA: 0x000D9A10 File Offset: 0x000D7E10
+		// Token: 0x060018FF RID: 6399 RVA: 0x000D9A20 File Offset: 0x000D7E20
 		public static string GetIconTooltipText(Pawn pawn)
 		{
 			string text = "";
@@ -174,7 +174,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x06001909 RID: 6409 RVA: 0x000D9AC0 File Offset: 0x000D7EC0
+		// Token: 0x06001900 RID: 6400 RVA: 0x000D9AD0 File Offset: 0x000D7ED0
 		public static IEnumerable<Pawn> GetAllColonistBondsFor(Pawn pet)
 		{
 			return from bond in pet.relations.DirectRelations
@@ -182,19 +182,19 @@ namespace RimWorld
 			select bond.otherPawn;
 		}
 
-		// Token: 0x0600190A RID: 6410 RVA: 0x000D9B24 File Offset: 0x000D7F24
+		// Token: 0x06001901 RID: 6401 RVA: 0x000D9B34 File Offset: 0x000D7F34
 		public static int DegradationPeriodTicks(ThingDef def)
 		{
 			return Mathf.RoundToInt(TrainableUtility.DecayIntervalDaysFromWildnessCurve.Evaluate(def.race.wildness) * 60000f);
 		}
 
-		// Token: 0x0600190B RID: 6411 RVA: 0x000D9B5C File Offset: 0x000D7F5C
+		// Token: 0x06001902 RID: 6402 RVA: 0x000D9B6C File Offset: 0x000D7F6C
 		public static bool TamenessCanDecay(ThingDef def)
 		{
 			return def.race.wildness > 0.101f;
 		}
 
-		// Token: 0x0600190C RID: 6412 RVA: 0x000D9B84 File Offset: 0x000D7F84
+		// Token: 0x06001903 RID: 6403 RVA: 0x000D9B94 File Offset: 0x000D7F94
 		public static string GetWildnessExplanation(ThingDef def)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -208,10 +208,10 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x04000EB0 RID: 3760
+		// Token: 0x04000EAD RID: 3757
 		private static List<TrainableDef> defsInListOrder = new List<TrainableDef>();
 
-		// Token: 0x04000EB1 RID: 3761
+		// Token: 0x04000EAE RID: 3758
 		private static readonly SimpleCurve DecayIntervalDaysFromWildnessCurve = new SimpleCurve
 		{
 			{
@@ -224,11 +224,11 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x04000EB3 RID: 3763
+		// Token: 0x04000EB0 RID: 3760
 		[CompilerGenerated]
 		private static Func<Pawn, Pawn> <>f__mg$cache0;
 
-		// Token: 0x04000EB4 RID: 3764
+		// Token: 0x04000EB1 RID: 3761
 		[CompilerGenerated]
 		private static Func<Pawn, IEnumerable<Widgets.DropdownMenuElement<Pawn>>> <>f__mg$cache1;
 	}

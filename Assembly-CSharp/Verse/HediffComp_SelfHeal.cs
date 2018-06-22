@@ -2,11 +2,11 @@
 
 namespace Verse
 {
-	// Token: 0x02000D1B RID: 3355
+	// Token: 0x02000D18 RID: 3352
 	public class HediffComp_SelfHeal : HediffComp
 	{
-		// Token: 0x17000BB0 RID: 2992
-		// (get) Token: 0x060049D4 RID: 18900 RVA: 0x00269530 File Offset: 0x00267930
+		// Token: 0x17000BB2 RID: 2994
+		// (get) Token: 0x060049E5 RID: 18917 RVA: 0x0026A964 File Offset: 0x00268D64
 		public HediffCompProperties_SelfHeal Props
 		{
 			get
@@ -15,13 +15,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049D5 RID: 18901 RVA: 0x00269550 File Offset: 0x00267950
+		// Token: 0x060049E6 RID: 18918 RVA: 0x0026A984 File Offset: 0x00268D84
 		public override void CompExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.ticksSinceHeal, "ticksSinceHeal", 0, false);
 		}
 
-		// Token: 0x060049D6 RID: 18902 RVA: 0x00269565 File Offset: 0x00267965
+		// Token: 0x060049E7 RID: 18919 RVA: 0x0026A999 File Offset: 0x00268D99
 		public override void CompPostTick(ref float severityAdjustment)
 		{
 			this.ticksSinceHeal++;
@@ -32,7 +32,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0400320D RID: 12813
+		// Token: 0x04003218 RID: 12824
 		public int ticksSinceHeal = 0;
 	}
 }

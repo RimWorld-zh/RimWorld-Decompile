@@ -8,7 +8,7 @@ namespace RimWorld
 	public class WorkGiver_Warden_DoExecution : WorkGiver_Warden
 	{
 		// Token: 0x170000F1 RID: 241
-		// (get) Token: 0x06000658 RID: 1624 RVA: 0x0004264C File Offset: 0x00040A4C
+		// (get) Token: 0x06000658 RID: 1624 RVA: 0x00042638 File Offset: 0x00040A38
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -17,13 +17,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000659 RID: 1625 RVA: 0x00042662 File Offset: 0x00040A62
+		// Token: 0x06000659 RID: 1625 RVA: 0x0004264E File Offset: 0x00040A4E
 		public static void ResetStaticData()
 		{
 			WorkGiver_Warden_DoExecution.IncapableOfViolenceLowerTrans = "IncapableOfViolenceLower".Translate();
 		}
 
-		// Token: 0x0600065A RID: 1626 RVA: 0x00042674 File Offset: 0x00040A74
+		// Token: 0x0600065A RID: 1626 RVA: 0x00042660 File Offset: 0x00040A60
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Job result;

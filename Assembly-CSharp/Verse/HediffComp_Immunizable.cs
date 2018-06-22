@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D21 RID: 3361
+	// Token: 0x02000D1E RID: 3358
 	[StaticConstructorOnStartup]
 	public class HediffComp_Immunizable : HediffComp_SeverityPerDay
 	{
-		// Token: 0x17000BBD RID: 3005
-		// (get) Token: 0x060049F3 RID: 18931 RVA: 0x0026A3B4 File Offset: 0x002687B4
+		// Token: 0x17000BBF RID: 3007
+		// (get) Token: 0x06004A04 RID: 18948 RVA: 0x0026B7E8 File Offset: 0x00269BE8
 		public HediffCompProperties_Immunizable Props
 		{
 			get
@@ -19,8 +19,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BBE RID: 3006
-		// (get) Token: 0x060049F4 RID: 18932 RVA: 0x0026A3D4 File Offset: 0x002687D4
+		// Token: 0x17000BC0 RID: 3008
+		// (get) Token: 0x06004A05 RID: 18949 RVA: 0x0026B808 File Offset: 0x00269C08
 		public override string CompLabelInBracketsExtra
 		{
 			get
@@ -38,8 +38,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BBF RID: 3007
-		// (get) Token: 0x060049F5 RID: 18933 RVA: 0x0026A408 File Offset: 0x00268808
+		// Token: 0x17000BC1 RID: 3009
+		// (get) Token: 0x06004A06 RID: 18950 RVA: 0x0026B83C File Offset: 0x00269C3C
 		public override string CompTipStringExtra
 		{
 			get
@@ -57,8 +57,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BC0 RID: 3008
-		// (get) Token: 0x060049F6 RID: 18934 RVA: 0x0026A470 File Offset: 0x00268870
+		// Token: 0x17000BC2 RID: 3010
+		// (get) Token: 0x06004A07 RID: 18951 RVA: 0x0026B8A4 File Offset: 0x00269CA4
 		public float Immunity
 		{
 			get
@@ -67,8 +67,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BC1 RID: 3009
-		// (get) Token: 0x060049F7 RID: 18935 RVA: 0x0026A4A0 File Offset: 0x002688A0
+		// Token: 0x17000BC3 RID: 3011
+		// (get) Token: 0x06004A08 RID: 18952 RVA: 0x0026B8D4 File Offset: 0x00269CD4
 		public bool FullyImmune
 		{
 			get
@@ -77,8 +77,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BC2 RID: 3010
-		// (get) Token: 0x060049F8 RID: 18936 RVA: 0x0026A4C8 File Offset: 0x002688C8
+		// Token: 0x17000BC4 RID: 3012
+		// (get) Token: 0x06004A09 RID: 18953 RVA: 0x0026B8FC File Offset: 0x00269CFC
 		public override TextureAndColor CompStateIcon
 		{
 			get
@@ -96,27 +96,27 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049F9 RID: 18937 RVA: 0x0026A4FD File Offset: 0x002688FD
+		// Token: 0x06004A0A RID: 18954 RVA: 0x0026B931 File Offset: 0x00269D31
 		public override void CompPostPostAdd(DamageInfo? dinfo)
 		{
 			base.CompPostPostAdd(dinfo);
 			this.severityPerDayNotImmuneRandomFactor = this.Props.severityPerDayNotImmuneRandomFactor.RandomInRange;
 		}
 
-		// Token: 0x060049FA RID: 18938 RVA: 0x0026A51D File Offset: 0x0026891D
+		// Token: 0x06004A0B RID: 18955 RVA: 0x0026B951 File Offset: 0x00269D51
 		public override void CompExposeData()
 		{
 			base.CompExposeData();
 			Scribe_Values.Look<float>(ref this.severityPerDayNotImmuneRandomFactor, "severityPerDayNotImmuneRandomFactor", 1f, false);
 		}
 
-		// Token: 0x060049FB RID: 18939 RVA: 0x0026A53C File Offset: 0x0026893C
+		// Token: 0x06004A0C RID: 18956 RVA: 0x0026B970 File Offset: 0x00269D70
 		protected override float SeverityChangePerDay()
 		{
 			return (!this.FullyImmune) ? (this.Props.severityPerDayNotImmune * this.severityPerDayNotImmuneRandomFactor) : this.Props.severityPerDayImmune;
 		}
 
-		// Token: 0x060049FC RID: 18940 RVA: 0x0026A580 File Offset: 0x00268980
+		// Token: 0x06004A0D RID: 18957 RVA: 0x0026B9B4 File Offset: 0x00269DB4
 		public override string CompDebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -137,10 +137,10 @@ namespace Verse
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x04003227 RID: 12839
+		// Token: 0x04003232 RID: 12850
 		private float severityPerDayNotImmuneRandomFactor = 1f;
 
-		// Token: 0x04003228 RID: 12840
+		// Token: 0x04003233 RID: 12851
 		private static readonly Texture2D IconImmune = ContentFinder<Texture2D>.Get("UI/Icons/Medical/IconImmune", true);
 	}
 }

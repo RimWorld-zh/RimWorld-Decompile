@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DCC RID: 3532
+	// Token: 0x02000DC9 RID: 3529
 	public class Graphic
 	{
-		// Token: 0x17000CC6 RID: 3270
-		// (get) Token: 0x06004EFB RID: 20219 RVA: 0x0012CD0C File Offset: 0x0012B10C
+		// Token: 0x17000CC8 RID: 3272
+		// (get) Token: 0x06004F10 RID: 20240 RVA: 0x0012CE54 File Offset: 0x0012B254
 		public Shader Shader
 		{
 			get
@@ -27,8 +27,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CC7 RID: 3271
-		// (get) Token: 0x06004EFC RID: 20220 RVA: 0x0012CD48 File Offset: 0x0012B148
+		// Token: 0x17000CC9 RID: 3273
+		// (get) Token: 0x06004F11 RID: 20241 RVA: 0x0012CE90 File Offset: 0x0012B290
 		public Graphic_Shadow ShadowGraphic
 		{
 			get
@@ -41,8 +41,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CC8 RID: 3272
-		// (get) Token: 0x06004EFD RID: 20221 RVA: 0x0012CDA0 File Offset: 0x0012B1A0
+		// Token: 0x17000CCA RID: 3274
+		// (get) Token: 0x06004F12 RID: 20242 RVA: 0x0012CEE8 File Offset: 0x0012B2E8
 		public Color Color
 		{
 			get
@@ -51,8 +51,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CC9 RID: 3273
-		// (get) Token: 0x06004EFE RID: 20222 RVA: 0x0012CDBC File Offset: 0x0012B1BC
+		// Token: 0x17000CCB RID: 3275
+		// (get) Token: 0x06004F13 RID: 20243 RVA: 0x0012CF04 File Offset: 0x0012B304
 		public Color ColorTwo
 		{
 			get
@@ -61,8 +61,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CCA RID: 3274
-		// (get) Token: 0x06004EFF RID: 20223 RVA: 0x0012CDD8 File Offset: 0x0012B1D8
+		// Token: 0x17000CCC RID: 3276
+		// (get) Token: 0x06004F14 RID: 20244 RVA: 0x0012CF20 File Offset: 0x0012B320
 		public virtual Material MatSingle
 		{
 			get
@@ -71,8 +71,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CCB RID: 3275
-		// (get) Token: 0x06004F00 RID: 20224 RVA: 0x0012CDF4 File Offset: 0x0012B1F4
+		// Token: 0x17000CCD RID: 3277
+		// (get) Token: 0x06004F15 RID: 20245 RVA: 0x0012CF3C File Offset: 0x0012B33C
 		public virtual Material MatWest
 		{
 			get
@@ -81,8 +81,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CCC RID: 3276
-		// (get) Token: 0x06004F01 RID: 20225 RVA: 0x0012CE10 File Offset: 0x0012B210
+		// Token: 0x17000CCE RID: 3278
+		// (get) Token: 0x06004F16 RID: 20246 RVA: 0x0012CF58 File Offset: 0x0012B358
 		public virtual Material MatSouth
 		{
 			get
@@ -91,8 +91,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CCD RID: 3277
-		// (get) Token: 0x06004F02 RID: 20226 RVA: 0x0012CE2C File Offset: 0x0012B22C
+		// Token: 0x17000CCF RID: 3279
+		// (get) Token: 0x06004F17 RID: 20247 RVA: 0x0012CF74 File Offset: 0x0012B374
 		public virtual Material MatEast
 		{
 			get
@@ -101,8 +101,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CCE RID: 3278
-		// (get) Token: 0x06004F03 RID: 20227 RVA: 0x0012CE48 File Offset: 0x0012B248
+		// Token: 0x17000CD0 RID: 3280
+		// (get) Token: 0x06004F18 RID: 20248 RVA: 0x0012CF90 File Offset: 0x0012B390
 		public virtual Material MatNorth
 		{
 			get
@@ -111,8 +111,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CCF RID: 3279
-		// (get) Token: 0x06004F04 RID: 20228 RVA: 0x0012CE64 File Offset: 0x0012B264
+		// Token: 0x17000CD1 RID: 3281
+		// (get) Token: 0x06004F19 RID: 20249 RVA: 0x0012CFAC File Offset: 0x0012B3AC
 		public virtual bool WestFlipped
 		{
 			get
@@ -121,8 +121,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CD0 RID: 3280
-		// (get) Token: 0x06004F05 RID: 20229 RVA: 0x0012CE98 File Offset: 0x0012B298
+		// Token: 0x17000CD2 RID: 3282
+		// (get) Token: 0x06004F1A RID: 20250 RVA: 0x0012CFE0 File Offset: 0x0012B3E0
 		public virtual bool ShouldDrawRotated
 		{
 			get
@@ -131,13 +131,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F06 RID: 20230 RVA: 0x0012CEAE File Offset: 0x0012B2AE
+		// Token: 0x06004F1B RID: 20251 RVA: 0x0012CFF6 File Offset: 0x0012B3F6
 		public virtual void Init(GraphicRequest req)
 		{
 			Log.ErrorOnce("Cannot init Graphic of class " + base.GetType().ToString(), 658928, false);
 		}
 
-		// Token: 0x06004F07 RID: 20231 RVA: 0x0012CED4 File Offset: 0x0012B2D4
+		// Token: 0x06004F1C RID: 20252 RVA: 0x0012D01C File Offset: 0x0012B41C
 		public virtual Material MatAt(Rot4 rot, Thing thing = null)
 		{
 			Material result;
@@ -162,7 +162,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004F08 RID: 20232 RVA: 0x0012CF44 File Offset: 0x0012B344
+		// Token: 0x06004F1D RID: 20253 RVA: 0x0012D08C File Offset: 0x0012B48C
 		public virtual Mesh MeshAt(Rot4 rot)
 		{
 			Mesh result;
@@ -189,25 +189,25 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004F09 RID: 20233 RVA: 0x0012CFC0 File Offset: 0x0012B3C0
+		// Token: 0x06004F1E RID: 20254 RVA: 0x0012D108 File Offset: 0x0012B508
 		public virtual Material MatSingleFor(Thing thing)
 		{
 			return this.MatSingle;
 		}
 
-		// Token: 0x06004F0A RID: 20234 RVA: 0x0012CFDB File Offset: 0x0012B3DB
+		// Token: 0x06004F1F RID: 20255 RVA: 0x0012D123 File Offset: 0x0012B523
 		public void Draw(Vector3 loc, Rot4 rot, Thing thing, float extraRotation = 0f)
 		{
 			this.DrawWorker(loc, rot, thing.def, thing, extraRotation);
 		}
 
-		// Token: 0x06004F0B RID: 20235 RVA: 0x0012CFEF File Offset: 0x0012B3EF
+		// Token: 0x06004F20 RID: 20256 RVA: 0x0012D137 File Offset: 0x0012B537
 		public void DrawFromDef(Vector3 loc, Rot4 rot, ThingDef thingDef, float extraRotation = 0f)
 		{
 			this.DrawWorker(loc, rot, thingDef, null, extraRotation);
 		}
 
-		// Token: 0x06004F0C RID: 20236 RVA: 0x0012D000 File Offset: 0x0012B400
+		// Token: 0x06004F21 RID: 20257 RVA: 0x0012D148 File Offset: 0x0012B548
 		public virtual void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
 			Mesh mesh = this.MeshAt(rot);
@@ -224,7 +224,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F0D RID: 20237 RVA: 0x0012D074 File Offset: 0x0012B474
+		// Token: 0x06004F22 RID: 20258 RVA: 0x0012D1BC File Offset: 0x0012B5BC
 		public virtual void Print(SectionLayer layer, Thing thing)
 		{
 			Vector2 size;
@@ -262,20 +262,20 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F0E RID: 20238 RVA: 0x0012D170 File Offset: 0x0012B570
+		// Token: 0x06004F23 RID: 20259 RVA: 0x0012D2B8 File Offset: 0x0012B6B8
 		public virtual Graphic GetColoredVersion(Shader newShader, Color newColor, Color newColorTwo)
 		{
 			Log.ErrorOnce("CloneColored not implemented on this subclass of Graphic: " + base.GetType().ToString(), 66300, false);
 			return BaseContent.BadGraphic;
 		}
 
-		// Token: 0x06004F0F RID: 20239 RVA: 0x0012D1AC File Offset: 0x0012B5AC
+		// Token: 0x06004F24 RID: 20260 RVA: 0x0012D2F4 File Offset: 0x0012B6F4
 		public virtual Graphic GetCopy(Vector2 newDrawSize)
 		{
 			return GraphicDatabase.Get(base.GetType(), this.path, this.Shader, newDrawSize, this.color, this.colorTwo);
 		}
 
-		// Token: 0x06004F10 RID: 20240 RVA: 0x0012D1E8 File Offset: 0x0012B5E8
+		// Token: 0x06004F25 RID: 20261 RVA: 0x0012D330 File Offset: 0x0012B730
 		public virtual Graphic GetShadowlessGraphic()
 		{
 			Graphic result;
@@ -297,7 +297,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004F11 RID: 20241 RVA: 0x0012D258 File Offset: 0x0012B658
+		// Token: 0x06004F26 RID: 20262 RVA: 0x0012D3A0 File Offset: 0x0012B7A0
 		protected Quaternion QuatFromRot(Rot4 rot)
 		{
 			Quaternion result;
@@ -316,25 +316,25 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003485 RID: 13445
+		// Token: 0x04003490 RID: 13456
 		public GraphicData data;
 
-		// Token: 0x04003486 RID: 13446
+		// Token: 0x04003491 RID: 13457
 		public string path;
 
-		// Token: 0x04003487 RID: 13447
+		// Token: 0x04003492 RID: 13458
 		public Color color = Color.white;
 
-		// Token: 0x04003488 RID: 13448
+		// Token: 0x04003493 RID: 13459
 		public Color colorTwo = Color.white;
 
-		// Token: 0x04003489 RID: 13449
+		// Token: 0x04003494 RID: 13460
 		public Vector2 drawSize = Vector2.one;
 
-		// Token: 0x0400348A RID: 13450
+		// Token: 0x04003495 RID: 13461
 		private Graphic_Shadow cachedShadowGraphicInt = null;
 
-		// Token: 0x0400348B RID: 13451
+		// Token: 0x04003496 RID: 13462
 		private Graphic cachedShadowlessGraphicInt;
 	}
 }

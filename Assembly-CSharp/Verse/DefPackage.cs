@@ -6,29 +6,29 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000AFB RID: 2811
+	// Token: 0x02000AF7 RID: 2807
 	public class DefPackage
 	{
-		// Token: 0x06003E3E RID: 15934 RVA: 0x0020C8F2 File Offset: 0x0020ACF2
+		// Token: 0x06003E39 RID: 15929 RVA: 0x0020CC16 File Offset: 0x0020B016
 		public DefPackage(string name, string relFolder)
 		{
 			this.fileName = name;
 			this.relFolder = relFolder;
 		}
 
-		// Token: 0x06003E3F RID: 15935 RVA: 0x0020C92C File Offset: 0x0020AD2C
+		// Token: 0x06003E3A RID: 15930 RVA: 0x0020CC50 File Offset: 0x0020B050
 		public List<Def>.Enumerator GetEnumerator()
 		{
 			return this.defs.GetEnumerator();
 		}
 
-		// Token: 0x06003E40 RID: 15936 RVA: 0x0020C94C File Offset: 0x0020AD4C
+		// Token: 0x06003E3B RID: 15931 RVA: 0x0020CC70 File Offset: 0x0020B070
 		public void AddDef(Def def)
 		{
 			this.defs.Add(def);
 		}
 
-		// Token: 0x06003E41 RID: 15937 RVA: 0x0020C95C File Offset: 0x0020AD5C
+		// Token: 0x06003E3C RID: 15932 RVA: 0x0020CC80 File Offset: 0x0020B080
 		public void RemoveDef(Def def)
 		{
 			if (def == null)
@@ -49,7 +49,7 @@ namespace Verse
 			this.defs.Remove(def);
 		}
 
-		// Token: 0x06003E42 RID: 15938 RVA: 0x0020C9CC File Offset: 0x0020ADCC
+		// Token: 0x06003E3D RID: 15933 RVA: 0x0020CCF0 File Offset: 0x0020B0F0
 		public void SaveIn(ModContentPack mod)
 		{
 			string fullFolderPath = this.GetFullFolderPath(mod);
@@ -76,19 +76,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E43 RID: 15939 RVA: 0x0020CAD0 File Offset: 0x0020AED0
+		// Token: 0x06003E3E RID: 15934 RVA: 0x0020CDF4 File Offset: 0x0020B1F4
 		public override string ToString()
 		{
 			return this.relFolder + "/" + this.fileName;
 		}
 
-		// Token: 0x06003E44 RID: 15940 RVA: 0x0020CAFC File Offset: 0x0020AEFC
+		// Token: 0x06003E3F RID: 15935 RVA: 0x0020CE20 File Offset: 0x0020B220
 		public string GetFullFolderPath(ModContentPack mod)
 		{
 			return Path.GetFullPath(Path.Combine(Path.Combine(mod.RootDir, "Defs/"), this.relFolder));
 		}
 
-		// Token: 0x06003E45 RID: 15941 RVA: 0x0020CB34 File Offset: 0x0020AF34
+		// Token: 0x06003E40 RID: 15936 RVA: 0x0020CE58 File Offset: 0x0020B258
 		public static string UnusedPackageName(string relFolder, ModContentPack mod)
 		{
 			string fullPath = Path.GetFullPath(Path.Combine(Path.Combine(mod.RootDir, "Defs/"), relFolder));
@@ -103,13 +103,13 @@ namespace Verse
 			return text;
 		}
 
-		// Token: 0x0400275B RID: 10075
+		// Token: 0x04002756 RID: 10070
 		public string fileName = "NamelessPackage";
 
-		// Token: 0x0400275C RID: 10076
+		// Token: 0x04002757 RID: 10071
 		public string relFolder = "";
 
-		// Token: 0x0400275D RID: 10077
+		// Token: 0x04002758 RID: 10072
 		public List<Def> defs = new List<Def>();
 	}
 }

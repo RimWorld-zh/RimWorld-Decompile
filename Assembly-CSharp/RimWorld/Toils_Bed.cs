@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200009A RID: 154
 	public static class Toils_Bed
 	{
-		// Token: 0x060003E3 RID: 995 RVA: 0x0002CAEC File Offset: 0x0002AEEC
+		// Token: 0x060003E3 RID: 995 RVA: 0x0002CAC8 File Offset: 0x0002AEC8
 		public static Toil GotoBed(TargetIndex bedIndex)
 		{
 			Toil gotoBed = new Toil();
@@ -40,7 +40,7 @@ namespace RimWorld
 			return gotoBed;
 		}
 
-		// Token: 0x060003E4 RID: 996 RVA: 0x0002CB6C File Offset: 0x0002AF6C
+		// Token: 0x060003E4 RID: 996 RVA: 0x0002CB48 File Offset: 0x0002AF48
 		public static Toil ClaimBedIfNonMedical(TargetIndex ind, TargetIndex claimantIndex = TargetIndex.None)
 		{
 			Toil claim = new Toil();
@@ -57,7 +57,7 @@ namespace RimWorld
 			return claim;
 		}
 
-		// Token: 0x060003E5 RID: 997 RVA: 0x0002CBD0 File Offset: 0x0002AFD0
+		// Token: 0x060003E5 RID: 997 RVA: 0x0002CBAC File Offset: 0x0002AFAC
 		public static T FailOnNonMedicalBedNotOwned<T>(this T f, TargetIndex bedIndex, TargetIndex claimantIndex = TargetIndex.None) where T : IJobEndable
 		{
 			f.AddEndCondition(delegate
@@ -95,7 +95,7 @@ namespace RimWorld
 			return f;
 		}
 
-		// Token: 0x060003E6 RID: 998 RVA: 0x0002CC24 File Offset: 0x0002B024
+		// Token: 0x060003E6 RID: 998 RVA: 0x0002CC00 File Offset: 0x0002B000
 		public static void FailOnBedNoLongerUsable(this Toil toil, TargetIndex bedIndex)
 		{
 			toil.FailOnDespawnedOrNull(bedIndex);

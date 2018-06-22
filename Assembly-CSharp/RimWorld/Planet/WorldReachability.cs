@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000547 RID: 1351
+	// Token: 0x02000543 RID: 1347
 	public class WorldReachability
 	{
-		// Token: 0x06001940 RID: 6464 RVA: 0x000DB6FE File Offset: 0x000D9AFE
+		// Token: 0x06001937 RID: 6455 RVA: 0x000DB70E File Offset: 0x000D9B0E
 		public WorldReachability()
 		{
 			this.fields = new int[Find.WorldGrid.TilesCount];
@@ -14,19 +14,19 @@ namespace RimWorld.Planet
 			this.InvalidateAllFields();
 		}
 
-		// Token: 0x06001941 RID: 6465 RVA: 0x000DB729 File Offset: 0x000D9B29
+		// Token: 0x06001938 RID: 6456 RVA: 0x000DB739 File Offset: 0x000D9B39
 		public void ClearCache()
 		{
 			this.InvalidateAllFields();
 		}
 
-		// Token: 0x06001942 RID: 6466 RVA: 0x000DB734 File Offset: 0x000D9B34
+		// Token: 0x06001939 RID: 6457 RVA: 0x000DB744 File Offset: 0x000D9B44
 		public bool CanReach(Caravan c, int tile)
 		{
 			return this.CanReach(c.Tile, tile);
 		}
 
-		// Token: 0x06001943 RID: 6467 RVA: 0x000DB758 File Offset: 0x000D9B58
+		// Token: 0x0600193A RID: 6458 RVA: 0x000DB768 File Offset: 0x000D9B68
 		public bool CanReach(int startTile, int destTile)
 		{
 			bool result;
@@ -50,7 +50,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001944 RID: 6468 RVA: 0x000DB83C File Offset: 0x000D9C3C
+		// Token: 0x0600193B RID: 6459 RVA: 0x000DB84C File Offset: 0x000D9C4C
 		private void InvalidateAllFields()
 		{
 			if (this.nextFieldID == 2147483646)
@@ -62,13 +62,13 @@ namespace RimWorld.Planet
 			this.nextFieldID++;
 		}
 
-		// Token: 0x06001945 RID: 6469 RVA: 0x000DB87C File Offset: 0x000D9C7C
+		// Token: 0x0600193C RID: 6460 RVA: 0x000DB88C File Offset: 0x000D9C8C
 		private bool IsValidField(int fieldID)
 		{
 			return fieldID >= this.minValidFieldID;
 		}
 
-		// Token: 0x06001946 RID: 6470 RVA: 0x000DB8A0 File Offset: 0x000D9CA0
+		// Token: 0x0600193D RID: 6461 RVA: 0x000DB8B0 File Offset: 0x000D9CB0
 		private void FloodFillAt(int tile)
 		{
 			World world = Find.World;
@@ -86,16 +86,16 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x04000ED1 RID: 3793
+		// Token: 0x04000ECE RID: 3790
 		private int[] fields;
 
-		// Token: 0x04000ED2 RID: 3794
+		// Token: 0x04000ECF RID: 3791
 		private int nextFieldID;
 
-		// Token: 0x04000ED3 RID: 3795
+		// Token: 0x04000ED0 RID: 3792
 		private int impassableFieldID;
 
-		// Token: 0x04000ED4 RID: 3796
+		// Token: 0x04000ED1 RID: 3793
 		private int minValidFieldID;
 	}
 }

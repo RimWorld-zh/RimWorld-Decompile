@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C0C RID: 3084
+	// Token: 0x02000C09 RID: 3081
 	public static class CellRenderer
 	{
-		// Token: 0x06004354 RID: 17236 RVA: 0x0023862A File Offset: 0x00236A2A
+		// Token: 0x0600435D RID: 17245 RVA: 0x002399F2 File Offset: 0x00237DF2
 		private static void InitFrame()
 		{
 			if (Time.frameCount != CellRenderer.lastCameraUpdateFrame)
@@ -16,7 +16,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004355 RID: 17237 RVA: 0x00238658 File Offset: 0x00236A58
+		// Token: 0x0600435E RID: 17246 RVA: 0x00239A20 File Offset: 0x00237E20
 		private static Material MatFromColorPct(float colorPct, bool transparent)
 		{
 			int num = Mathf.RoundToInt(colorPct * 100f);
@@ -24,13 +24,13 @@ namespace Verse
 			return DebugMatsSpectrum.Mat(num, transparent);
 		}
 
-		// Token: 0x06004356 RID: 17238 RVA: 0x0023868A File Offset: 0x00236A8A
+		// Token: 0x0600435F RID: 17247 RVA: 0x00239A52 File Offset: 0x00237E52
 		public static void RenderCell(IntVec3 c, float colorPct = 0.5f)
 		{
 			CellRenderer.RenderCell(c, CellRenderer.MatFromColorPct(colorPct, true));
 		}
 
-		// Token: 0x06004357 RID: 17239 RVA: 0x0023869C File Offset: 0x00236A9C
+		// Token: 0x06004360 RID: 17248 RVA: 0x00239A64 File Offset: 0x00237E64
 		public static void RenderCell(IntVec3 c, Material mat)
 		{
 			CellRenderer.InitFrame();
@@ -41,13 +41,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004358 RID: 17240 RVA: 0x002386E0 File Offset: 0x00236AE0
+		// Token: 0x06004361 RID: 17249 RVA: 0x00239AA8 File Offset: 0x00237EA8
 		public static void RenderSpot(Vector3 loc, float colorPct = 0.5f)
 		{
 			CellRenderer.RenderSpot(loc, CellRenderer.MatFromColorPct(colorPct, false), 0.15f);
 		}
 
-		// Token: 0x06004359 RID: 17241 RVA: 0x002386F8 File Offset: 0x00236AF8
+		// Token: 0x06004362 RID: 17250 RVA: 0x00239AC0 File Offset: 0x00237EC0
 		public static void RenderSpot(Vector3 loc, Material mat, float scale = 0.15f)
 		{
 			CellRenderer.InitFrame();
@@ -61,10 +61,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002E0B RID: 11787
+		// Token: 0x04002E15 RID: 11797
 		private static int lastCameraUpdateFrame = -1;
 
-		// Token: 0x04002E0C RID: 11788
+		// Token: 0x04002E16 RID: 11798
 		private static CellRect viewRect;
 	}
 }

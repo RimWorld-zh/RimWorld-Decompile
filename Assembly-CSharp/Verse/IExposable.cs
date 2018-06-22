@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000D94 RID: 3476
+	// Token: 0x02000D91 RID: 3473
 	public interface IExposable
 	{
-		// Token: 0x06004DA6 RID: 19878
+		// Token: 0x06004DBB RID: 19899
 		void ExposeData();
 	}
 }

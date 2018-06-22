@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000BAA RID: 2986
+	// Token: 0x02000BA6 RID: 2982
 	public enum DrawerType : byte
 	{
-		// Token: 0x04002B91 RID: 11153
+		// Token: 0x04002B96 RID: 11158
 		None,
-		// Token: 0x04002B92 RID: 11154
+		// Token: 0x04002B97 RID: 11159
 		RealtimeOnly,
-		// Token: 0x04002B93 RID: 11155
+		// Token: 0x04002B98 RID: 11160
 		MapMeshOnly,
-		// Token: 0x04002B94 RID: 11156
+		// Token: 0x04002B99 RID: 11161
 		MapMeshAndRealTime
 	}
 }

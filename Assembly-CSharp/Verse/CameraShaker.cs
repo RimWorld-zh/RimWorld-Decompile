@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000AF1 RID: 2801
+	// Token: 0x02000AED RID: 2797
 	public class CameraShaker
 	{
-		// Token: 0x17000951 RID: 2385
-		// (get) Token: 0x06003DFC RID: 15868 RVA: 0x0020AFE8 File Offset: 0x002093E8
-		// (set) Token: 0x06003DFD RID: 15869 RVA: 0x0020B003 File Offset: 0x00209403
+		// Token: 0x17000952 RID: 2386
+		// (get) Token: 0x06003DF7 RID: 15863 RVA: 0x0020B30C File Offset: 0x0020970C
+		// (set) Token: 0x06003DF8 RID: 15864 RVA: 0x0020B327 File Offset: 0x00209727
 		public float CurShakeMag
 		{
 			get
@@ -21,8 +21,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000952 RID: 2386
-		// (get) Token: 0x06003DFE RID: 15870 RVA: 0x0020B01C File Offset: 0x0020941C
+		// Token: 0x17000953 RID: 2387
+		// (get) Token: 0x06003DF9 RID: 15865 RVA: 0x0020B340 File Offset: 0x00209740
 		public Vector3 ShakeOffset
 		{
 			get
@@ -34,7 +34,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DFF RID: 15871 RVA: 0x0020B08D File Offset: 0x0020948D
+		// Token: 0x06003DFA RID: 15866 RVA: 0x0020B3B1 File Offset: 0x002097B1
 		public void DoShake(float mag)
 		{
 			if (mag > 0f)
@@ -43,13 +43,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E00 RID: 15872 RVA: 0x0020B0AE File Offset: 0x002094AE
+		// Token: 0x06003DFB RID: 15867 RVA: 0x0020B3D2 File Offset: 0x002097D2
 		public void SetMinShake(float mag)
 		{
 			this.CurShakeMag = Mathf.Max(this.CurShakeMag, mag);
 		}
 
-		// Token: 0x06003E01 RID: 15873 RVA: 0x0020B0C3 File Offset: 0x002094C3
+		// Token: 0x06003DFC RID: 15868 RVA: 0x0020B3E7 File Offset: 0x002097E7
 		public void Update()
 		{
 			this.curShakeMag -= 0.5f * RealTime.realDeltaTime;
@@ -59,16 +59,16 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002737 RID: 10039
+		// Token: 0x04002732 RID: 10034
 		private float curShakeMag = 0f;
 
-		// Token: 0x04002738 RID: 10040
+		// Token: 0x04002733 RID: 10035
 		private const float ShakeDecayRate = 0.5f;
 
-		// Token: 0x04002739 RID: 10041
+		// Token: 0x04002734 RID: 10036
 		private const float ShakeFrequency = 24f;
 
-		// Token: 0x0400273A RID: 10042
+		// Token: 0x04002735 RID: 10037
 		private const float MaxShakeMag = 0.2f;
 	}
 }

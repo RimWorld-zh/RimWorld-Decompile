@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000512 RID: 1298
+	// Token: 0x0200050E RID: 1294
 	public static class ApparelUtility
 	{
-		// Token: 0x06001770 RID: 6000 RVA: 0x000CD454 File Offset: 0x000CB854
+		// Token: 0x06001767 RID: 5991 RVA: 0x000CD44C File Offset: 0x000CB84C
 		public static bool CanWearTogether(ThingDef A, ThingDef B, BodyDef body)
 		{
 			bool flag = false;
@@ -60,7 +60,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001771 RID: 6001 RVA: 0x000CD5A8 File Offset: 0x000CB9A8
+		// Token: 0x06001768 RID: 5992 RVA: 0x000CD5A0 File Offset: 0x000CB9A0
 		public static void GenerateLayerGroupPairs(BodyDef body, ThingDef td, Action<ApparelUtility.LayerGroupPair> callback)
 		{
 			for (int i = 0; i < td.apparel.layers.Count; i++)
@@ -74,7 +74,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001772 RID: 6002 RVA: 0x000CD620 File Offset: 0x000CBA20
+		// Token: 0x06001769 RID: 5993 RVA: 0x000CD618 File Offset: 0x000CBA18
 		public static bool HasPartsToWear(Pawn p, ThingDef apparel)
 		{
 			List<Hediff> hediffs = p.health.hediffSet.hediffs;
@@ -109,17 +109,17 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x02000513 RID: 1299
+		// Token: 0x0200050F RID: 1295
 		public struct LayerGroupPair
 		{
-			// Token: 0x06001773 RID: 6003 RVA: 0x000CD71D File Offset: 0x000CBB1D
+			// Token: 0x0600176A RID: 5994 RVA: 0x000CD715 File Offset: 0x000CBB15
 			public LayerGroupPair(ApparelLayerDef layer, BodyPartGroupDef group)
 			{
 				this.layer = layer;
 				this.group = group;
 			}
 
-			// Token: 0x06001774 RID: 6004 RVA: 0x000CD730 File Offset: 0x000CBB30
+			// Token: 0x0600176B RID: 5995 RVA: 0x000CD728 File Offset: 0x000CBB28
 			public override bool Equals(object rhs)
 			{
 				bool result;
@@ -135,7 +135,7 @@ namespace RimWorld
 				return result;
 			}
 
-			// Token: 0x06001775 RID: 6005 RVA: 0x000CD784 File Offset: 0x000CBB84
+			// Token: 0x0600176C RID: 5996 RVA: 0x000CD77C File Offset: 0x000CBB7C
 			public override int GetHashCode()
 			{
 				int num = 17;
@@ -143,10 +143,10 @@ namespace RimWorld
 				return num * 23 + this.group.GetHashCode();
 			}
 
-			// Token: 0x04000DDA RID: 3546
+			// Token: 0x04000DD7 RID: 3543
 			private readonly ApparelLayerDef layer;
 
-			// Token: 0x04000DDB RID: 3547
+			// Token: 0x04000DD8 RID: 3544
 			private readonly BodyPartGroupDef group;
 		}
 	}

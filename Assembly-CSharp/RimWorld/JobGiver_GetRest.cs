@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020000E2 RID: 226
 	public class JobGiver_GetRest : ThinkNode_JobGiver
 	{
-		// Token: 0x060004E9 RID: 1257 RVA: 0x00036A5C File Offset: 0x00034E5C
+		// Token: 0x060004E9 RID: 1257 RVA: 0x00036A48 File Offset: 0x00034E48
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_GetRest jobGiver_GetRest = (JobGiver_GetRest)base.DeepCopy(resolve);
@@ -16,7 +16,7 @@ namespace RimWorld
 			return jobGiver_GetRest;
 		}
 
-		// Token: 0x060004EA RID: 1258 RVA: 0x00036A8C File Offset: 0x00034E8C
+		// Token: 0x060004EA RID: 1258 RVA: 0x00036A78 File Offset: 0x00034E78
 		public override float GetPriority(Pawn pawn)
 		{
 			Need_Rest rest = pawn.needs.rest;
@@ -106,7 +106,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004EB RID: 1259 RVA: 0x00036C38 File Offset: 0x00035038
+		// Token: 0x060004EB RID: 1259 RVA: 0x00036C24 File Offset: 0x00035024
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Need_Rest rest = pawn.needs.rest;
@@ -144,7 +144,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004EC RID: 1260 RVA: 0x00036D04 File Offset: 0x00035104
+		// Token: 0x060004EC RID: 1260 RVA: 0x00036CF0 File Offset: 0x000350F0
 		private IntVec3 FindGroundSleepSpotFor(Pawn pawn)
 		{
 			Map map = pawn.Map;

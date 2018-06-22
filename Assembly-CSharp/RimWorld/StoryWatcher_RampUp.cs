@@ -8,7 +8,7 @@ namespace RimWorld
 	public class StoryWatcher_RampUp : IExposable
 	{
 		// Token: 0x17000216 RID: 534
-		// (get) Token: 0x06000EEC RID: 3820 RVA: 0x0007DBFC File Offset: 0x0007BFFC
+		// (get) Token: 0x06000EEC RID: 3820 RVA: 0x0007DDE8 File Offset: 0x0007C1E8
 		public float TotalThreatPointsFactor
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000217 RID: 535
-		// (get) Token: 0x06000EED RID: 3821 RVA: 0x0007DC20 File Offset: 0x0007C020
+		// (get) Token: 0x06000EED RID: 3821 RVA: 0x0007DE0C File Offset: 0x0007C20C
 		public float ShortTermFactor
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000218 RID: 536
-		// (get) Token: 0x06000EEE RID: 3822 RVA: 0x0007DC3C File Offset: 0x0007C03C
+		// (get) Token: 0x06000EEE RID: 3822 RVA: 0x0007DE28 File Offset: 0x0007C228
 		public float LongTermFactor
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000EEF RID: 3823 RVA: 0x0007DC58 File Offset: 0x0007C058
+		// Token: 0x06000EEF RID: 3823 RVA: 0x0007DE44 File Offset: 0x0007C244
 		public void Notify_ColonistViolentlyDownedOrKilled(Pawn p)
 		{
 			if (p.RaceProps.Humanlike)
@@ -121,7 +121,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000EF0 RID: 3824 RVA: 0x0007DE98 File Offset: 0x0007C298
+		// Token: 0x06000EF0 RID: 3824 RVA: 0x0007E084 File Offset: 0x0007C484
 		public void RampUpWatcherTick()
 		{
 			if (Find.TickManager.TicksGame % 5000 == 0)
@@ -137,32 +137,32 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000EF1 RID: 3825 RVA: 0x0007DF01 File Offset: 0x0007C301
+		// Token: 0x06000EF1 RID: 3825 RVA: 0x0007E0ED File Offset: 0x0007C4ED
 		public void ExposeData()
 		{
 			Scribe_Values.Look<float>(ref this.shortTermFactor, "shortTermFactor", 0f, false);
 			Scribe_Values.Look<float>(ref this.longTermFactor, "longTermFactor", 0f, false);
 		}
 
-		// Token: 0x04000929 RID: 2345
+		// Token: 0x0400092B RID: 2347
 		private float shortTermFactor = 1f;
 
-		// Token: 0x0400092A RID: 2346
+		// Token: 0x0400092C RID: 2348
 		private float longTermFactor = 1f;
 
-		// Token: 0x0400092B RID: 2347
+		// Token: 0x0400092D RID: 2349
 		private const int UpdateInterval = 5000;
 
-		// Token: 0x0400092C RID: 2348
+		// Token: 0x0400092E RID: 2350
 		private const float ShortFactor_GameStartGraceDays = 21f;
 
-		// Token: 0x0400092D RID: 2349
+		// Token: 0x0400092F RID: 2351
 		private const float ShortFactor_DaysToDouble = 234f;
 
-		// Token: 0x0400092E RID: 2350
+		// Token: 0x04000930 RID: 2352
 		private const float LongFactor_GameStartGraceDays = 42f;
 
-		// Token: 0x0400092F RID: 2351
+		// Token: 0x04000931 RID: 2353
 		private const float LongFactor_DaysToDouble = 360f;
 	}
 }

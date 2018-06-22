@@ -7,12 +7,12 @@ namespace RimWorld
 	// Token: 0x02000172 RID: 370
 	public class LordJob_MechanoidsDefendShip : LordJob
 	{
-		// Token: 0x0600079B RID: 1947 RVA: 0x0004AFAF File Offset: 0x000493AF
+		// Token: 0x0600079B RID: 1947 RVA: 0x0004AF9B File Offset: 0x0004939B
 		public LordJob_MechanoidsDefendShip()
 		{
 		}
 
-		// Token: 0x0600079C RID: 1948 RVA: 0x0004AFB8 File Offset: 0x000493B8
+		// Token: 0x0600079C RID: 1948 RVA: 0x0004AFA4 File Offset: 0x000493A4
 		public LordJob_MechanoidsDefendShip(Thing shipPart, Faction faction, float defendRadius, IntVec3 defSpot)
 		{
 			this.shipPart = shipPart;
@@ -21,7 +21,7 @@ namespace RimWorld
 			this.defSpot = defSpot;
 		}
 
-		// Token: 0x0600079D RID: 1949 RVA: 0x0004AFE0 File Offset: 0x000493E0
+		// Token: 0x0600079D RID: 1949 RVA: 0x0004AFCC File Offset: 0x000493CC
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -67,7 +67,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600079E RID: 1950 RVA: 0x0004B174 File Offset: 0x00049574
+		// Token: 0x0600079E RID: 1950 RVA: 0x0004B160 File Offset: 0x00049560
 		public override void ExposeData()
 		{
 			Scribe_References.Look<Thing>(ref this.shipPart, "shipPart", false);

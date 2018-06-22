@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E70 RID: 3696
+	// Token: 0x02000E6F RID: 3695
 	public class GridLayout
 	{
-		// Token: 0x060056E7 RID: 22247 RVA: 0x002CB4B8 File Offset: 0x002C98B8
+		// Token: 0x06005707 RID: 22279 RVA: 0x002CD0C8 File Offset: 0x002CB4C8
 		public GridLayout(Rect container, int cols = 1, int rows = 1, float outerPadding = 4f, float innerPadding = 4f)
 		{
 			this.container = new Rect(container);
@@ -21,7 +21,7 @@ namespace Verse
 			this.rowStride = this.rowHeight + innerPadding;
 		}
 
-		// Token: 0x060056E8 RID: 22248 RVA: 0x002CB554 File Offset: 0x002C9954
+		// Token: 0x06005708 RID: 22280 RVA: 0x002CD164 File Offset: 0x002CB564
 		public GridLayout(float colWidth, float rowHeight, int cols, int rows, float outerPadding = 4f, float innerPadding = 4f)
 		{
 			this.colWidth = colWidth;
@@ -34,7 +34,7 @@ namespace Verse
 			this.container = new Rect(0f, 0f, outerPadding * 2f + colWidth * (float)cols + innerPadding * (float)cols - 1f, outerPadding * 2f + rowHeight * (float)rows + innerPadding * (float)rows - 1f);
 		}
 
-		// Token: 0x060056E9 RID: 22249 RVA: 0x002CB5EC File Offset: 0x002C99EC
+		// Token: 0x06005709 RID: 22281 RVA: 0x002CD1FC File Offset: 0x002CB5FC
 		public Rect GetCellRectByIndex(int index, int colspan = 1, int rowspan = 1)
 		{
 			int col = index % this.cols;
@@ -42,34 +42,34 @@ namespace Verse
 			return this.GetCellRect(col, row, colspan, rowspan);
 		}
 
-		// Token: 0x060056EA RID: 22250 RVA: 0x002CB620 File Offset: 0x002C9A20
+		// Token: 0x0600570A RID: 22282 RVA: 0x002CD230 File Offset: 0x002CB630
 		public Rect GetCellRect(int col, int row, int colspan = 1, int rowspan = 1)
 		{
 			return new Rect(Mathf.Floor(this.container.x + this.outerPadding + (float)col * this.colStride), Mathf.Floor(this.container.y + this.outerPadding + (float)row * this.rowStride), Mathf.Ceil(this.colWidth) * (float)colspan + this.innerPadding * (float)(colspan - 1), Mathf.Ceil(this.rowHeight) * (float)rowspan + this.innerPadding * (float)(rowspan - 1));
 		}
 
-		// Token: 0x040039A3 RID: 14755
+		// Token: 0x040039B3 RID: 14771
 		public Rect container;
 
-		// Token: 0x040039A4 RID: 14756
+		// Token: 0x040039B4 RID: 14772
 		private int cols;
 
-		// Token: 0x040039A5 RID: 14757
+		// Token: 0x040039B5 RID: 14773
 		private float outerPadding;
 
-		// Token: 0x040039A6 RID: 14758
+		// Token: 0x040039B6 RID: 14774
 		private float innerPadding;
 
-		// Token: 0x040039A7 RID: 14759
+		// Token: 0x040039B7 RID: 14775
 		private float colStride;
 
-		// Token: 0x040039A8 RID: 14760
+		// Token: 0x040039B8 RID: 14776
 		private float rowStride;
 
-		// Token: 0x040039A9 RID: 14761
+		// Token: 0x040039B9 RID: 14777
 		private float colWidth;
 
-		// Token: 0x040039AA RID: 14762
+		// Token: 0x040039BA RID: 14778
 		private float rowHeight;
 	}
 }

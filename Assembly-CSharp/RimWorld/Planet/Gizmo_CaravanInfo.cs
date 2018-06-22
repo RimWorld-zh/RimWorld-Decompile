@@ -5,23 +5,23 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005F6 RID: 1526
+	// Token: 0x020005F2 RID: 1522
 	public class Gizmo_CaravanInfo : Gizmo
 	{
-		// Token: 0x06001E60 RID: 7776 RVA: 0x001068C9 File Offset: 0x00104CC9
+		// Token: 0x06001E57 RID: 7767 RVA: 0x0010691D File Offset: 0x00104D1D
 		public Gizmo_CaravanInfo(Caravan caravan)
 		{
 			this.caravan = caravan;
 			this.order = -100f;
 		}
 
-		// Token: 0x06001E61 RID: 7777 RVA: 0x001068E4 File Offset: 0x00104CE4
+		// Token: 0x06001E58 RID: 7768 RVA: 0x00106938 File Offset: 0x00104D38
 		public override float GetWidth(float maxWidth)
 		{
 			return Mathf.Min(520f, maxWidth);
 		}
 
-		// Token: 0x06001E62 RID: 7778 RVA: 0x00106904 File Offset: 0x00104D04
+		// Token: 0x06001E59 RID: 7769 RVA: 0x00106958 File Offset: 0x00104D58
 		public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth)
 		{
 			GizmoResult result;
@@ -46,7 +46,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x04001205 RID: 4613
+		// Token: 0x04001202 RID: 4610
 		private Caravan caravan;
 	}
 }

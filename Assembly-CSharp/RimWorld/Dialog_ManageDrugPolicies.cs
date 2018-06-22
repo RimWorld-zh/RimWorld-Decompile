@@ -6,11 +6,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000803 RID: 2051
+	// Token: 0x020007FF RID: 2047
 	[StaticConstructorOnStartup]
 	public class Dialog_ManageDrugPolicies : Window
 	{
-		// Token: 0x06002DBC RID: 11708 RVA: 0x00180AA3 File Offset: 0x0017EEA3
+		// Token: 0x06002DB5 RID: 11701 RVA: 0x00180C7B File Offset: 0x0017F07B
 		public Dialog_ManageDrugPolicies(DrugPolicy selectedAssignedDrugs)
 		{
 			this.forcePause = true;
@@ -21,9 +21,9 @@ namespace RimWorld
 			this.SelectedPolicy = selectedAssignedDrugs;
 		}
 
-		// Token: 0x1700074D RID: 1869
-		// (get) Token: 0x06002DBD RID: 11709 RVA: 0x00180AD8 File Offset: 0x0017EED8
-		// (set) Token: 0x06002DBE RID: 11710 RVA: 0x00180AF3 File Offset: 0x0017EEF3
+		// Token: 0x1700074E RID: 1870
+		// (get) Token: 0x06002DB6 RID: 11702 RVA: 0x00180CB0 File Offset: 0x0017F0B0
+		// (set) Token: 0x06002DB7 RID: 11703 RVA: 0x00180CCB File Offset: 0x0017F0CB
 		private DrugPolicy SelectedPolicy
 		{
 			get
@@ -37,8 +37,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700074E RID: 1870
-		// (get) Token: 0x06002DBF RID: 11711 RVA: 0x00180B04 File Offset: 0x0017EF04
+		// Token: 0x1700074F RID: 1871
+		// (get) Token: 0x06002DB8 RID: 11704 RVA: 0x00180CDC File Offset: 0x0017F0DC
 		public override Vector2 InitialSize
 		{
 			get
@@ -47,7 +47,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DC0 RID: 11712 RVA: 0x00180B28 File Offset: 0x0017EF28
+		// Token: 0x06002DB9 RID: 11705 RVA: 0x00180D00 File Offset: 0x0017F100
 		private void CheckSelectedPolicyHasName()
 		{
 			if (this.SelectedPolicy != null && this.SelectedPolicy.label.NullOrEmpty())
@@ -56,7 +56,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DC1 RID: 11713 RVA: 0x00180B5C File Offset: 0x0017EF5C
+		// Token: 0x06002DBA RID: 11706 RVA: 0x00180D34 File Offset: 0x0017F134
 		public override void DoWindowContents(Rect inRect)
 		{
 			float num = 0f;
@@ -126,27 +126,27 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DC2 RID: 11714 RVA: 0x00180E94 File Offset: 0x0017F294
+		// Token: 0x06002DBB RID: 11707 RVA: 0x0018106C File Offset: 0x0017F46C
 		public override void PostOpen()
 		{
 			base.PostOpen();
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.DrugPolicies, KnowledgeAmount.Total);
 		}
 
-		// Token: 0x06002DC3 RID: 11715 RVA: 0x00180EA8 File Offset: 0x0017F2A8
+		// Token: 0x06002DBC RID: 11708 RVA: 0x00181080 File Offset: 0x0017F480
 		public override void PreClose()
 		{
 			base.PreClose();
 			this.CheckSelectedPolicyHasName();
 		}
 
-		// Token: 0x06002DC4 RID: 11716 RVA: 0x00180EB7 File Offset: 0x0017F2B7
+		// Token: 0x06002DBD RID: 11709 RVA: 0x0018108F File Offset: 0x0017F48F
 		public static void DoNameInputRect(Rect rect, ref string name)
 		{
 			name = Widgets.TextField(rect, name, 30, Dialog_ManageDrugPolicies.ValidNameRegex);
 		}
 
-		// Token: 0x06002DC5 RID: 11717 RVA: 0x00180ECC File Offset: 0x0017F2CC
+		// Token: 0x06002DBE RID: 11710 RVA: 0x001810A4 File Offset: 0x0017F4A4
 		private void DoPolicyConfigArea(Rect rect)
 		{
 			Rect rect2 = rect;
@@ -181,7 +181,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DC6 RID: 11718 RVA: 0x00181018 File Offset: 0x0017F418
+		// Token: 0x06002DBF RID: 11711 RVA: 0x001811F0 File Offset: 0x0017F5F0
 		private void CalculateColumnsWidths(Rect rect, out float addictionWidth, out float allowJoyWidth, out float scheduledWidth, out float drugNameWidth, out float frequencyWidth, out float moodThresholdWidth, out float joyThresholdWidth, out float takeToInventoryWidth)
 		{
 			float num = rect.width - 108f;
@@ -195,7 +195,7 @@ namespace RimWorld
 			takeToInventoryWidth = num * 0.15f;
 		}
 
-		// Token: 0x06002DC7 RID: 11719 RVA: 0x0018107C File Offset: 0x0017F47C
+		// Token: 0x06002DC0 RID: 11712 RVA: 0x00181254 File Offset: 0x0017F654
 		private void DoColumnLabels(Rect rect)
 		{
 			rect.width -= 16f;
@@ -250,7 +250,7 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x06002DC8 RID: 11720 RVA: 0x0018135C File Offset: 0x0017F75C
+		// Token: 0x06002DC1 RID: 11713 RVA: 0x00181534 File Offset: 0x0017F934
 		private void DoEntryRow(Rect rect, DrugPolicyEntry entry)
 		{
 			float num;
@@ -311,49 +311,49 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x04001839 RID: 6201
+		// Token: 0x04001837 RID: 6199
 		private Vector2 scrollPosition;
 
-		// Token: 0x0400183A RID: 6202
+		// Token: 0x04001838 RID: 6200
 		private DrugPolicy selPolicy;
 
-		// Token: 0x0400183B RID: 6203
+		// Token: 0x04001839 RID: 6201
 		private const float TopAreaHeight = 40f;
 
-		// Token: 0x0400183C RID: 6204
+		// Token: 0x0400183A RID: 6202
 		private const float TopButtonHeight = 35f;
 
-		// Token: 0x0400183D RID: 6205
+		// Token: 0x0400183B RID: 6203
 		private const float TopButtonWidth = 150f;
 
-		// Token: 0x0400183E RID: 6206
+		// Token: 0x0400183C RID: 6204
 		private const float DrugEntryRowHeight = 35f;
 
-		// Token: 0x0400183F RID: 6207
+		// Token: 0x0400183D RID: 6205
 		private const float BottomButtonsAreaHeight = 50f;
 
-		// Token: 0x04001840 RID: 6208
+		// Token: 0x0400183E RID: 6206
 		private const float AddEntryButtonHeight = 35f;
 
-		// Token: 0x04001841 RID: 6209
+		// Token: 0x0400183F RID: 6207
 		private const float AddEntryButtonWidth = 150f;
 
-		// Token: 0x04001842 RID: 6210
+		// Token: 0x04001840 RID: 6208
 		private const float CellsPadding = 4f;
 
-		// Token: 0x04001843 RID: 6211
+		// Token: 0x04001841 RID: 6209
 		private static readonly Texture2D IconForAddiction = ContentFinder<Texture2D>.Get("UI/Icons/DrugPolicy/ForAddiction", true);
 
-		// Token: 0x04001844 RID: 6212
+		// Token: 0x04001842 RID: 6210
 		private static readonly Texture2D IconForJoy = ContentFinder<Texture2D>.Get("UI/Icons/DrugPolicy/ForJoy", true);
 
-		// Token: 0x04001845 RID: 6213
+		// Token: 0x04001843 RID: 6211
 		private static readonly Texture2D IconScheduled = ContentFinder<Texture2D>.Get("UI/Icons/DrugPolicy/Scheduled", true);
 
-		// Token: 0x04001846 RID: 6214
+		// Token: 0x04001844 RID: 6212
 		private static readonly Regex ValidNameRegex = Outfit.ValidNameRegex;
 
-		// Token: 0x04001847 RID: 6215
+		// Token: 0x04001845 RID: 6213
 		private const float UsageSpacing = 12f;
 	}
 }

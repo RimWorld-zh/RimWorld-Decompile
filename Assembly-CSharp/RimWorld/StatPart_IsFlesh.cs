@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009B0 RID: 2480
+	// Token: 0x020009AC RID: 2476
 	public class StatPart_IsFlesh : StatPart
 	{
-		// Token: 0x0600378B RID: 14219 RVA: 0x001D9AC4 File Offset: 0x001D7EC4
+		// Token: 0x06003784 RID: 14212 RVA: 0x001D9C88 File Offset: 0x001D8088
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			float num;
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600378C RID: 14220 RVA: 0x001D9AE8 File Offset: 0x001D7EE8
+		// Token: 0x06003785 RID: 14213 RVA: 0x001D9CAC File Offset: 0x001D80AC
 		public override string ExplanationPart(StatRequest req)
 		{
 			float num;
@@ -32,7 +32,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600378D RID: 14221 RVA: 0x001D9B38 File Offset: 0x001D7F38
+		// Token: 0x06003786 RID: 14214 RVA: 0x001D9CFC File Offset: 0x001D80FC
 		private bool TryGetIsFleshFactor(StatRequest req, out float bodySize)
 		{
 			return PawnOrCorpseStatUtility.TryGetPawnOrCorpseStat(req, (Pawn x) => (!x.RaceProps.IsFlesh) ? 0f : 1f, (ThingDef x) => (!x.race.IsFlesh) ? 0f : 1f, out bodySize);

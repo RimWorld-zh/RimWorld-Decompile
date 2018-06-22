@@ -7,22 +7,22 @@ namespace Verse
 	// Token: 0x02000EF0 RID: 3824
 	public struct LocalTargetInfo : IEquatable<LocalTargetInfo>
 	{
-		// Token: 0x06005B0F RID: 23311 RVA: 0x002E794C File Offset: 0x002E5D4C
+		// Token: 0x06005B37 RID: 23351 RVA: 0x002E9980 File Offset: 0x002E7D80
 		public LocalTargetInfo(Thing thing)
 		{
 			this.thingInt = thing;
 			this.cellInt = IntVec3.Invalid;
 		}
 
-		// Token: 0x06005B10 RID: 23312 RVA: 0x002E7961 File Offset: 0x002E5D61
+		// Token: 0x06005B38 RID: 23352 RVA: 0x002E9995 File Offset: 0x002E7D95
 		public LocalTargetInfo(IntVec3 cell)
 		{
 			this.thingInt = null;
 			this.cellInt = cell;
 		}
 
-		// Token: 0x17000E7E RID: 3710
-		// (get) Token: 0x06005B11 RID: 23313 RVA: 0x002E7974 File Offset: 0x002E5D74
+		// Token: 0x17000E82 RID: 3714
+		// (get) Token: 0x06005B39 RID: 23353 RVA: 0x002E99A8 File Offset: 0x002E7DA8
 		public bool IsValid
 		{
 			get
@@ -31,8 +31,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E7F RID: 3711
-		// (get) Token: 0x06005B12 RID: 23314 RVA: 0x002E79A4 File Offset: 0x002E5DA4
+		// Token: 0x17000E83 RID: 3715
+		// (get) Token: 0x06005B3A RID: 23354 RVA: 0x002E99D8 File Offset: 0x002E7DD8
 		public bool HasThing
 		{
 			get
@@ -41,8 +41,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E80 RID: 3712
-		// (get) Token: 0x06005B13 RID: 23315 RVA: 0x002E79C8 File Offset: 0x002E5DC8
+		// Token: 0x17000E84 RID: 3716
+		// (get) Token: 0x06005B3B RID: 23355 RVA: 0x002E99FC File Offset: 0x002E7DFC
 		public Thing Thing
 		{
 			get
@@ -51,8 +51,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E81 RID: 3713
-		// (get) Token: 0x06005B14 RID: 23316 RVA: 0x002E79E4 File Offset: 0x002E5DE4
+		// Token: 0x17000E85 RID: 3717
+		// (get) Token: 0x06005B3C RID: 23356 RVA: 0x002E9A18 File Offset: 0x002E7E18
 		public bool ThingDestroyed
 		{
 			get
@@ -61,8 +61,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E82 RID: 3714
-		// (get) Token: 0x06005B15 RID: 23317 RVA: 0x002E7A14 File Offset: 0x002E5E14
+		// Token: 0x17000E86 RID: 3718
+		// (get) Token: 0x06005B3D RID: 23357 RVA: 0x002E9A48 File Offset: 0x002E7E48
 		public static LocalTargetInfo Invalid
 		{
 			get
@@ -71,8 +71,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E83 RID: 3715
-		// (get) Token: 0x06005B16 RID: 23318 RVA: 0x002E7A34 File Offset: 0x002E5E34
+		// Token: 0x17000E87 RID: 3719
+		// (get) Token: 0x06005B3E RID: 23358 RVA: 0x002E9A68 File Offset: 0x002E7E68
 		public IntVec3 Cell
 		{
 			get
@@ -90,8 +90,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E84 RID: 3716
-		// (get) Token: 0x06005B17 RID: 23319 RVA: 0x002E7A6C File Offset: 0x002E5E6C
+		// Token: 0x17000E88 RID: 3720
+		// (get) Token: 0x06005B3F RID: 23359 RVA: 0x002E9AA0 File Offset: 0x002E7EA0
 		public Vector3 CenterVector3
 		{
 			get
@@ -124,19 +124,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B18 RID: 23320 RVA: 0x002E7B1C File Offset: 0x002E5F1C
+		// Token: 0x06005B40 RID: 23360 RVA: 0x002E9B50 File Offset: 0x002E7F50
 		public static implicit operator LocalTargetInfo(Thing t)
 		{
 			return new LocalTargetInfo(t);
 		}
 
-		// Token: 0x06005B19 RID: 23321 RVA: 0x002E7B38 File Offset: 0x002E5F38
+		// Token: 0x06005B41 RID: 23361 RVA: 0x002E9B6C File Offset: 0x002E7F6C
 		public static implicit operator LocalTargetInfo(IntVec3 c)
 		{
 			return new LocalTargetInfo(c);
 		}
 
-		// Token: 0x06005B1A RID: 23322 RVA: 0x002E7B54 File Offset: 0x002E5F54
+		// Token: 0x06005B42 RID: 23362 RVA: 0x002E9B88 File Offset: 0x002E7F88
 		public static explicit operator IntVec3(LocalTargetInfo targ)
 		{
 			if (targ.thingInt != null)
@@ -146,7 +146,7 @@ namespace Verse
 			return targ.Cell;
 		}
 
-		// Token: 0x06005B1B RID: 23323 RVA: 0x002E7B98 File Offset: 0x002E5F98
+		// Token: 0x06005B43 RID: 23363 RVA: 0x002E9BCC File Offset: 0x002E7FCC
 		public static explicit operator Thing(LocalTargetInfo targ)
 		{
 			if (targ.cellInt.IsValid)
@@ -156,7 +156,7 @@ namespace Verse
 			return targ.thingInt;
 		}
 
-		// Token: 0x06005B1C RID: 23324 RVA: 0x002E7BE8 File Offset: 0x002E5FE8
+		// Token: 0x06005B44 RID: 23364 RVA: 0x002E9C1C File Offset: 0x002E801C
 		public TargetInfo ToTargetInfo(Map map)
 		{
 			TargetInfo result;
@@ -175,7 +175,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005B1D RID: 23325 RVA: 0x002E7C3C File Offset: 0x002E603C
+		// Token: 0x06005B45 RID: 23365 RVA: 0x002E9C70 File Offset: 0x002E8070
 		public GlobalTargetInfo ToGlobalTargetInfo(Map map)
 		{
 			GlobalTargetInfo result;
@@ -194,7 +194,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005B1E RID: 23326 RVA: 0x002E7C90 File Offset: 0x002E6090
+		// Token: 0x06005B46 RID: 23366 RVA: 0x002E9CC4 File Offset: 0x002E80C4
 		public static bool operator ==(LocalTargetInfo a, LocalTargetInfo b)
 		{
 			bool result;
@@ -209,25 +209,25 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005B1F RID: 23327 RVA: 0x002E7D10 File Offset: 0x002E6110
+		// Token: 0x06005B47 RID: 23367 RVA: 0x002E9D44 File Offset: 0x002E8144
 		public static bool operator !=(LocalTargetInfo a, LocalTargetInfo b)
 		{
 			return !(a == b);
 		}
 
-		// Token: 0x06005B20 RID: 23328 RVA: 0x002E7D30 File Offset: 0x002E6130
+		// Token: 0x06005B48 RID: 23368 RVA: 0x002E9D64 File Offset: 0x002E8164
 		public override bool Equals(object obj)
 		{
 			return obj is LocalTargetInfo && this.Equals((LocalTargetInfo)obj);
 		}
 
-		// Token: 0x06005B21 RID: 23329 RVA: 0x002E7D64 File Offset: 0x002E6164
+		// Token: 0x06005B49 RID: 23369 RVA: 0x002E9D98 File Offset: 0x002E8198
 		public bool Equals(LocalTargetInfo other)
 		{
 			return this == other;
 		}
 
-		// Token: 0x06005B22 RID: 23330 RVA: 0x002E7D88 File Offset: 0x002E6188
+		// Token: 0x06005B4A RID: 23370 RVA: 0x002E9DBC File Offset: 0x002E81BC
 		public override int GetHashCode()
 		{
 			int hashCode;
@@ -242,7 +242,7 @@ namespace Verse
 			return hashCode;
 		}
 
-		// Token: 0x06005B23 RID: 23331 RVA: 0x002E7DCC File Offset: 0x002E61CC
+		// Token: 0x06005B4B RID: 23371 RVA: 0x002E9E00 File Offset: 0x002E8200
 		public override string ToString()
 		{
 			string result;
@@ -261,10 +261,10 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003C91 RID: 15505
+		// Token: 0x04003CA4 RID: 15524
 		private Thing thingInt;
 
-		// Token: 0x04003C92 RID: 15506
+		// Token: 0x04003CA5 RID: 15525
 		private IntVec3 cellInt;
 	}
 }

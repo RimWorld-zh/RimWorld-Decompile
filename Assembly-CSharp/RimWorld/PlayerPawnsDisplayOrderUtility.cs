@@ -5,25 +5,25 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007B7 RID: 1975
+	// Token: 0x020007B3 RID: 1971
 	public static class PlayerPawnsDisplayOrderUtility
 	{
-		// Token: 0x06002BBA RID: 11194 RVA: 0x001727BD File Offset: 0x00170BBD
+		// Token: 0x06002BB3 RID: 11187 RVA: 0x00172995 File Offset: 0x00170D95
 		public static void Sort(List<Pawn> pawns)
 		{
 			pawns.SortBy(PlayerPawnsDisplayOrderUtility.displayOrderGetter, PlayerPawnsDisplayOrderUtility.thingIDNumberGetter);
 		}
 
-		// Token: 0x06002BBB RID: 11195 RVA: 0x001727D0 File Offset: 0x00170BD0
+		// Token: 0x06002BB4 RID: 11188 RVA: 0x001729A8 File Offset: 0x00170DA8
 		public static IEnumerable<Pawn> InOrder(IEnumerable<Pawn> pawns)
 		{
 			return pawns.OrderBy(PlayerPawnsDisplayOrderUtility.displayOrderGetter).ThenBy(PlayerPawnsDisplayOrderUtility.thingIDNumberGetter);
 		}
 
-		// Token: 0x04001784 RID: 6020
+		// Token: 0x04001782 RID: 6018
 		private static Func<Pawn, int> displayOrderGetter = (Pawn x) => (x.playerSettings == null) ? 999999 : x.playerSettings.displayOrder;
 
-		// Token: 0x04001785 RID: 6021
+		// Token: 0x04001783 RID: 6019
 		private static Func<Pawn, int> thingIDNumberGetter = (Pawn x) => x.thingIDNumber;
 	}
 }

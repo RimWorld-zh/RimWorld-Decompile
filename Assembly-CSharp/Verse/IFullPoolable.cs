@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000FB6 RID: 4022
+	// Token: 0x02000FB7 RID: 4023
 	public interface IFullPoolable
 	{
-		// Token: 0x0600612E RID: 24878
+		// Token: 0x06006157 RID: 24919
 		void Reset();
 	}
 }

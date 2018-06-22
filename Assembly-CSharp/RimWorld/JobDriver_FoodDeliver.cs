@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_FoodDeliver : JobDriver
 	{
 		// Token: 0x170000BF RID: 191
-		// (get) Token: 0x060003BF RID: 959 RVA: 0x0002A938 File Offset: 0x00028D38
+		// (get) Token: 0x060003BF RID: 959 RVA: 0x0002A914 File Offset: 0x00028D14
 		private Pawn Deliveree
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060003C0 RID: 960 RVA: 0x0002A962 File Offset: 0x00028D62
+		// Token: 0x060003C0 RID: 960 RVA: 0x0002A93E File Offset: 0x00028D3E
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -26,7 +26,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.eatingFromInventory, "eatingFromInventory", false, false);
 		}
 
-		// Token: 0x060003C1 RID: 961 RVA: 0x0002A990 File Offset: 0x00028D90
+		// Token: 0x060003C1 RID: 961 RVA: 0x0002A96C File Offset: 0x00028D6C
 		public override string GetReport()
 		{
 			string result;
@@ -41,7 +41,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060003C2 RID: 962 RVA: 0x0002AA14 File Offset: 0x00028E14
+		// Token: 0x060003C2 RID: 962 RVA: 0x0002A9F0 File Offset: 0x00028DF0
 		public override void Notify_Starting()
 		{
 			base.Notify_Starting();
@@ -49,13 +49,13 @@ namespace RimWorld
 			this.eatingFromInventory = (this.pawn.inventory != null && this.pawn.inventory.Contains(base.TargetThingA));
 		}
 
-		// Token: 0x060003C3 RID: 963 RVA: 0x0002AA6C File Offset: 0x00028E6C
+		// Token: 0x060003C3 RID: 963 RVA: 0x0002AA48 File Offset: 0x00028E48
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Deliveree, this.job, 1, -1, null);
 		}
 
-		// Token: 0x060003C4 RID: 964 RVA: 0x0002AAA0 File Offset: 0x00028EA0
+		// Token: 0x060003C4 RID: 964 RVA: 0x0002AA7C File Offset: 0x00028E7C
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.B);

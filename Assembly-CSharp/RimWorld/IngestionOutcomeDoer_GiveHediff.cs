@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200026E RID: 622
 	public class IngestionOutcomeDoer_GiveHediff : IngestionOutcomeDoer
 	{
-		// Token: 0x06000AB7 RID: 2743 RVA: 0x00060E2C File Offset: 0x0005F22C
+		// Token: 0x06000AB5 RID: 2741 RVA: 0x00060E88 File Offset: 0x0005F288
 		protected override void DoIngestionOutcomeSpecial(Pawn pawn, Thing ingested)
 		{
 			Hediff hediff = HediffMaker.MakeHediff(this.hediffDef, pawn, null);
@@ -29,7 +29,7 @@ namespace RimWorld
 			pawn.health.AddHediff(hediff, null, null, null);
 		}
 
-		// Token: 0x06000AB8 RID: 2744 RVA: 0x00060EB0 File Offset: 0x0005F2B0
+		// Token: 0x06000AB6 RID: 2742 RVA: 0x00060F0C File Offset: 0x0005F30C
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
 			if (parentDef.IsDrug && this.chance >= 1f)
@@ -42,16 +42,16 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0400051F RID: 1311
+		// Token: 0x0400051D RID: 1309
 		public HediffDef hediffDef;
 
-		// Token: 0x04000520 RID: 1312
+		// Token: 0x0400051E RID: 1310
 		public float severity = -1f;
 
-		// Token: 0x04000521 RID: 1313
+		// Token: 0x0400051F RID: 1311
 		public ChemicalDef toleranceChemical = null;
 
-		// Token: 0x04000522 RID: 1314
+		// Token: 0x04000520 RID: 1312
 		private bool divideByBodySize = false;
 	}
 }

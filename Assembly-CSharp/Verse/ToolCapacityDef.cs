@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000BB1 RID: 2993
+	// Token: 0x02000BAD RID: 2989
 	public class ToolCapacityDef : Def
 	{
 	}

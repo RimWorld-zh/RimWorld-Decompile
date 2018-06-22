@@ -5,17 +5,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000461 RID: 1121
+	// Token: 0x0200045D RID: 1117
 	[StaticConstructorOnStartup]
 	public class PawnWoundDrawer
 	{
-		// Token: 0x060013A4 RID: 5028 RVA: 0x000A95A2 File Offset: 0x000A79A2
+		// Token: 0x0600139B RID: 5019 RVA: 0x000A95B2 File Offset: 0x000A79B2
 		public PawnWoundDrawer(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x060013A5 RID: 5029 RVA: 0x000A95C4 File Offset: 0x000A79C4
+		// Token: 0x0600139C RID: 5020 RVA: 0x000A95D4 File Offset: 0x000A79D4
 		public void RenderOverBody(Vector3 drawLoc, Mesh bodyMesh, Quaternion quat, bool forPortrait)
 		{
 			int num = 0;
@@ -52,19 +52,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000BEC RID: 3052
+		// Token: 0x04000BE9 RID: 3049
 		protected Pawn pawn;
 
-		// Token: 0x04000BED RID: 3053
+		// Token: 0x04000BEA RID: 3050
 		private List<PawnWoundDrawer.Wound> wounds = new List<PawnWoundDrawer.Wound>();
 
-		// Token: 0x04000BEE RID: 3054
+		// Token: 0x04000BEB RID: 3051
 		private int MaxDisplayWounds = 3;
 
-		// Token: 0x02000462 RID: 1122
+		// Token: 0x0200045E RID: 1118
 		private class Wound
 		{
-			// Token: 0x060013A6 RID: 5030 RVA: 0x000A971C File Offset: 0x000A7B1C
+			// Token: 0x0600139D RID: 5021 RVA: 0x000A972C File Offset: 0x000A7B2C
 			public Wound(Pawn pawn)
 			{
 				this.mat = pawn.RaceProps.FleshType.ChooseWoundOverlay();
@@ -80,7 +80,7 @@ namespace RimWorld
 				}
 			}
 
-			// Token: 0x060013A7 RID: 5031 RVA: 0x000A97E0 File Offset: 0x000A7BE0
+			// Token: 0x0600139E RID: 5022 RVA: 0x000A97F0 File Offset: 0x000A7BF0
 			public void DrawWound(Vector3 drawLoc, Quaternion bodyQuat, Rot4 bodyRot, bool forPortrait)
 			{
 				Vector2 vector = this.locsPerSide[bodyRot.AsInt];
@@ -89,16 +89,16 @@ namespace RimWorld
 				GenDraw.DrawMeshNowOrLater(MeshPool.plane025, drawLoc, this.quat, this.mat, forPortrait);
 			}
 
-			// Token: 0x04000BEF RID: 3055
+			// Token: 0x04000BEC RID: 3052
 			private List<Vector2> locsPerSide = new List<Vector2>();
 
-			// Token: 0x04000BF0 RID: 3056
+			// Token: 0x04000BED RID: 3053
 			private Material mat;
 
-			// Token: 0x04000BF1 RID: 3057
+			// Token: 0x04000BEE RID: 3054
 			private Quaternion quat;
 
-			// Token: 0x04000BF2 RID: 3058
+			// Token: 0x04000BEF RID: 3055
 			private static readonly Vector2 WoundSpan = new Vector2(0.18f, 0.3f);
 		}
 	}

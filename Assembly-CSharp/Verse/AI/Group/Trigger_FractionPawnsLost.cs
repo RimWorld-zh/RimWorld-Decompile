@@ -2,22 +2,22 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A19 RID: 2585
+	// Token: 0x02000A15 RID: 2581
 	public class Trigger_FractionPawnsLost : Trigger
 	{
-		// Token: 0x060039AD RID: 14765 RVA: 0x001E8107 File Offset: 0x001E6507
+		// Token: 0x060039A7 RID: 14759 RVA: 0x001E8347 File Offset: 0x001E6747
 		public Trigger_FractionPawnsLost(float fraction)
 		{
 			this.fraction = fraction;
 		}
 
-		// Token: 0x060039AE RID: 14766 RVA: 0x001E8124 File Offset: 0x001E6524
+		// Token: 0x060039A8 RID: 14760 RVA: 0x001E8364 File Offset: 0x001E6764
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			return signal.type == TriggerSignalType.PawnLost && (float)lord.numPawnsLostViolently >= (float)lord.numPawnsEverGained * this.fraction;
 		}
 
-		// Token: 0x040024AE RID: 9390
+		// Token: 0x040024A9 RID: 9385
 		private float fraction = 0.5f;
 	}
 }

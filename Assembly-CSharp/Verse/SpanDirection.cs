@@ -2,12 +2,12 @@
 
 namespace Verse
 {
-	// Token: 0x02000C8D RID: 3213
+	// Token: 0x02000C8A RID: 3210
 	public enum SpanDirection : byte
 	{
-		// Token: 0x04002FFC RID: 12284
+		// Token: 0x04003006 RID: 12294
 		North,
-		// Token: 0x04002FFD RID: 12285
+		// Token: 0x04003007 RID: 12295
 		East
 	}
 }

@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_ChatWithPrisoner : JobDriver
 	{
 		// Token: 0x170000BD RID: 189
-		// (get) Token: 0x060003A7 RID: 935 RVA: 0x000291EC File Offset: 0x000275EC
+		// (get) Token: 0x060003A7 RID: 935 RVA: 0x000291C8 File Offset: 0x000275C8
 		protected Pawn Talkee
 		{
 			get
@@ -18,13 +18,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060003A8 RID: 936 RVA: 0x00029218 File Offset: 0x00027618
+		// Token: 0x060003A8 RID: 936 RVA: 0x000291F4 File Offset: 0x000275F4
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
 		}
 
-		// Token: 0x060003A9 RID: 937 RVA: 0x0002924C File Offset: 0x0002764C
+		// Token: 0x060003A9 RID: 937 RVA: 0x00029228 File Offset: 0x00027628
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);

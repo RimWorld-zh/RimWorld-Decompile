@@ -6,10 +6,10 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000902 RID: 2306
+	// Token: 0x020008FE RID: 2302
 	public static class SpectatorCellFinder
 	{
-		// Token: 0x06003574 RID: 13684 RVA: 0x001CC314 File Offset: 0x001CA714
+		// Token: 0x0600356D RID: 13677 RVA: 0x001CC4FC File Offset: 0x001CA8FC
 		public static bool TryFindSpectatorCellFor(Pawn p, CellRect spectateRect, Map map, out IntVec3 cell, SpectateRectSide allowedSides = SpectateRectSide.All, int margin = 1, List<IntVec3> extraDisallowedCells = null)
 		{
 			spectateRect.ClipInsideMap(map);
@@ -163,13 +163,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003575 RID: 13685 RVA: 0x001CC50C File Offset: 0x001CA90C
+		// Token: 0x0600356E RID: 13678 RVA: 0x001CC6F4 File Offset: 0x001CAAF4
 		private static bool CorrectlyRotatedChairAt(IntVec3 x, Map map, CellRect spectateRect)
 		{
 			return SpectatorCellFinder.GetCorrectlyRotatedChairAt(x, map, spectateRect) != null;
 		}
 
-		// Token: 0x06003576 RID: 13686 RVA: 0x001CC530 File Offset: 0x001CA930
+		// Token: 0x0600356F RID: 13679 RVA: 0x001CC718 File Offset: 0x001CAB18
 		private static Building GetCorrectlyRotatedChairAt(IntVec3 x, Map map, CellRect spectateRect)
 		{
 			Building result;
@@ -200,7 +200,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003577 RID: 13687 RVA: 0x001CC5D8 File Offset: 0x001CA9D8
+		// Token: 0x06003570 RID: 13680 RVA: 0x001CC7C0 File Offset: 0x001CABC0
 		private static int DistanceToClosestChair(IntVec3 from, IntVec3 step, Map map, int maxDist, CellRect spectateRect)
 		{
 			int num = 0;
@@ -235,7 +235,7 @@ namespace RimWorld
 			return -1;
 		}
 
-		// Token: 0x06003578 RID: 13688 RVA: 0x001CC648 File Offset: 0x001CAA48
+		// Token: 0x06003571 RID: 13681 RVA: 0x001CC830 File Offset: 0x001CAC30
 		public static void DebugFlashPotentialSpectatorCells(CellRect spectateRect, Map map, SpectateRectSide allowedSides = SpectateRectSide.All, int margin = 1)
 		{
 			List<IntVec3> list = new List<IntVec3>();
@@ -272,7 +272,7 @@ namespace RimWorld
 			map.debugDrawer.FlashLine(spectateRect.CenterCell, centerCell, 50, SimpleColor.White);
 		}
 
-		// Token: 0x06003579 RID: 13689 RVA: 0x001CC7C4 File Offset: 0x001CABC4
+		// Token: 0x06003572 RID: 13682 RVA: 0x001CC9AC File Offset: 0x001CADAC
 		public static SpectateRectSide FindSingleBestSide(CellRect spectateRect, Map map, SpectateRectSide allowedSides = SpectateRectSide.All, int margin = 1)
 		{
 			for (int i = 0; i < SpectatorCellFinder.scorePerSide.Length; i++)
@@ -362,13 +362,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04001CF6 RID: 7414
+		// Token: 0x04001CF4 RID: 7412
 		private const float MaxDistanceToSpectateRect = 14.5f;
 
-		// Token: 0x04001CF7 RID: 7415
+		// Token: 0x04001CF5 RID: 7413
 		private static float[] scorePerSide = new float[4];
 
-		// Token: 0x04001CF8 RID: 7416
+		// Token: 0x04001CF6 RID: 7414
 		private static List<IntVec3> usedCells = new List<IntVec3>();
 	}
 }

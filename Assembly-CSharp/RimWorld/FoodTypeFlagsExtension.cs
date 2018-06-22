@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000269 RID: 617
 	public static class FoodTypeFlagsExtension
 	{
-		// Token: 0x06000AA7 RID: 2727 RVA: 0x000602A8 File Offset: 0x0005E6A8
+		// Token: 0x06000AA5 RID: 2725 RVA: 0x00060304 File Offset: 0x0005E704
 		public static string ToHumanString(this FoodTypeFlags ft)
 		{
 			string text = "";

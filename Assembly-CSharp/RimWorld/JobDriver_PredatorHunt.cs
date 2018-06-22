@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_PredatorHunt : JobDriver
 	{
 		// Token: 0x1700005A RID: 90
-		// (get) Token: 0x060001B8 RID: 440 RVA: 0x000127D0 File Offset: 0x00010BD0
+		// (get) Token: 0x060001B8 RID: 440 RVA: 0x000127D8 File Offset: 0x00010BD8
 		public Pawn Prey
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700005B RID: 91
-		// (get) Token: 0x060001B9 RID: 441 RVA: 0x00012818 File Offset: 0x00010C18
+		// (get) Token: 0x060001B9 RID: 441 RVA: 0x00012820 File Offset: 0x00010C20
 		private Corpse Corpse
 		{
 			get
@@ -38,14 +38,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060001BA RID: 442 RVA: 0x00012846 File Offset: 0x00010C46
+		// Token: 0x060001BA RID: 442 RVA: 0x0001284E File Offset: 0x00010C4E
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.firstHit, "firstHit", false, false);
 		}
 
-		// Token: 0x060001BB RID: 443 RVA: 0x00012864 File Offset: 0x00010C64
+		// Token: 0x060001BB RID: 443 RVA: 0x0001286C File Offset: 0x00010C6C
 		public override string GetReport()
 		{
 			string result;
@@ -60,13 +60,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060001BC RID: 444 RVA: 0x000128A0 File Offset: 0x00010CA0
+		// Token: 0x060001BC RID: 444 RVA: 0x000128A8 File Offset: 0x00010CA8
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x060001BD RID: 445 RVA: 0x000128B8 File Offset: 0x00010CB8
+		// Token: 0x060001BD RID: 445 RVA: 0x000128C0 File Offset: 0x00010CC0
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			base.AddFinishAction(delegate
@@ -137,7 +137,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060001BE RID: 446 RVA: 0x000128E4 File Offset: 0x00010CE4
+		// Token: 0x060001BE RID: 446 RVA: 0x000128EC File Offset: 0x00010CEC
 		public override void Notify_DamageTaken(DamageInfo dinfo)
 		{
 			base.Notify_DamageTaken(dinfo);

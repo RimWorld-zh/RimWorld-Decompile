@@ -4,21 +4,21 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006B4 RID: 1716
+	// Token: 0x020006B0 RID: 1712
 	public class Bill_ProductionWithUft : Bill_Production
 	{
-		// Token: 0x060024D4 RID: 9428 RVA: 0x0013B596 File Offset: 0x00139996
+		// Token: 0x060024CC RID: 9420 RVA: 0x0013B6DE File Offset: 0x00139ADE
 		public Bill_ProductionWithUft()
 		{
 		}
 
-		// Token: 0x060024D5 RID: 9429 RVA: 0x0013B59F File Offset: 0x0013999F
+		// Token: 0x060024CD RID: 9421 RVA: 0x0013B6E7 File Offset: 0x00139AE7
 		public Bill_ProductionWithUft(RecipeDef recipe) : base(recipe)
 		{
 		}
 
 		// Token: 0x1700058F RID: 1423
-		// (get) Token: 0x060024D6 RID: 9430 RVA: 0x0013B5AC File Offset: 0x001399AC
+		// (get) Token: 0x060024CE RID: 9422 RVA: 0x0013B6F4 File Offset: 0x00139AF4
 		protected override string StatusString
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000590 RID: 1424
-		// (get) Token: 0x060024D7 RID: 9431 RVA: 0x0013B618 File Offset: 0x00139A18
+		// (get) Token: 0x060024CF RID: 9423 RVA: 0x0013B760 File Offset: 0x00139B60
 		public Pawn BoundWorker
 		{
 			get
@@ -87,7 +87,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000591 RID: 1425
-		// (get) Token: 0x060024D8 RID: 9432 RVA: 0x0013B73C File Offset: 0x00139B3C
+		// (get) Token: 0x060024D0 RID: 9424 RVA: 0x0013B884 File Offset: 0x00139C84
 		public UnfinishedThing BoundUft
 		{
 			get
@@ -96,7 +96,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024D9 RID: 9433 RVA: 0x0013B758 File Offset: 0x00139B58
+		// Token: 0x060024D1 RID: 9425 RVA: 0x0013B8A0 File Offset: 0x00139CA0
 		public void SetBoundUft(UnfinishedThing value, bool setOtherLink = true)
 		{
 			if (value != this.boundUftInt)
@@ -117,33 +117,33 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024DA RID: 9434 RVA: 0x0013B7C4 File Offset: 0x00139BC4
+		// Token: 0x060024D2 RID: 9426 RVA: 0x0013B90C File Offset: 0x00139D0C
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_References.Look<UnfinishedThing>(ref this.boundUftInt, "boundUft", false);
 		}
 
-		// Token: 0x060024DB RID: 9435 RVA: 0x0013B7DE File Offset: 0x00139BDE
+		// Token: 0x060024D3 RID: 9427 RVA: 0x0013B926 File Offset: 0x00139D26
 		public override void Notify_IterationCompleted(Pawn billDoer, List<Thing> ingredients)
 		{
 			this.ClearBoundUft();
 			base.Notify_IterationCompleted(billDoer, ingredients);
 		}
 
-		// Token: 0x060024DC RID: 9436 RVA: 0x0013B7EF File Offset: 0x00139BEF
+		// Token: 0x060024D4 RID: 9428 RVA: 0x0013B937 File Offset: 0x00139D37
 		public void ClearBoundUft()
 		{
 			this.boundUftInt = null;
 		}
 
-		// Token: 0x060024DD RID: 9437 RVA: 0x0013B7FC File Offset: 0x00139BFC
+		// Token: 0x060024D5 RID: 9429 RVA: 0x0013B944 File Offset: 0x00139D44
 		public override Bill Clone()
 		{
 			return (Bill_Production)base.Clone();
 		}
 
-		// Token: 0x04001451 RID: 5201
+		// Token: 0x0400144F RID: 5199
 		private UnfinishedThing boundUftInt;
 	}
 }

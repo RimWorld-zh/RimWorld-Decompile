@@ -10,14 +10,14 @@ namespace Verse
 	// Token: 0x02000F18 RID: 3864
 	public static class ProfilerPairValidation
 	{
-		// Token: 0x06005C95 RID: 23701 RVA: 0x002EEC17 File Offset: 0x002ED017
+		// Token: 0x06005CBD RID: 23741 RVA: 0x002F0C43 File Offset: 0x002EF043
 		public static void BeginSample(string token)
 		{
 			Profiler.BeginSample(token);
 			ProfilerPairValidation.profilerSignatures.Push(new StackTrace(1, true));
 		}
 
-		// Token: 0x06005C96 RID: 23702 RVA: 0x002EEC34 File Offset: 0x002ED034
+		// Token: 0x06005CBE RID: 23742 RVA: 0x002F0C60 File Offset: 0x002EF060
 		public static void EndSample()
 		{
 			StackTrace stackTrace = ProfilerPairValidation.profilerSignatures.Pop();
@@ -46,7 +46,7 @@ namespace Verse
 			Profiler.EndSample();
 		}
 
-		// Token: 0x04003D7C RID: 15740
+		// Token: 0x04003D8E RID: 15758
 		public static Stack<StackTrace> profilerSignatures = new Stack<StackTrace>();
 	}
 }

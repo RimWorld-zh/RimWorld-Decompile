@@ -7,10 +7,10 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000836 RID: 2102
+	// Token: 0x02000832 RID: 2098
 	public class Page_SelectLandingSite : Page
 	{
-		// Token: 0x06002F7F RID: 12159 RVA: 0x0019674C File Offset: 0x00194B4C
+		// Token: 0x06002F78 RID: 12152 RVA: 0x0019692C File Offset: 0x00194D2C
 		public Page_SelectLandingSite()
 		{
 			this.absorbInputAroundWindow = false;
@@ -18,8 +18,8 @@ namespace RimWorld
 			this.preventCameraMotion = false;
 		}
 
-		// Token: 0x17000785 RID: 1925
-		// (get) Token: 0x06002F80 RID: 12160 RVA: 0x00196770 File Offset: 0x00194B70
+		// Token: 0x17000786 RID: 1926
+		// (get) Token: 0x06002F79 RID: 12153 RVA: 0x00196950 File Offset: 0x00194D50
 		public override string PageTitle
 		{
 			get
@@ -28,8 +28,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000786 RID: 1926
-		// (get) Token: 0x06002F81 RID: 12161 RVA: 0x00196790 File Offset: 0x00194B90
+		// Token: 0x17000787 RID: 1927
+		// (get) Token: 0x06002F7A RID: 12154 RVA: 0x00196970 File Offset: 0x00194D70
 		public override Vector2 InitialSize
 		{
 			get
@@ -38,8 +38,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000787 RID: 1927
-		// (get) Token: 0x06002F82 RID: 12162 RVA: 0x001967AC File Offset: 0x00194BAC
+		// Token: 0x17000788 RID: 1928
+		// (get) Token: 0x06002F7B RID: 12155 RVA: 0x0019698C File Offset: 0x00194D8C
 		protected override float Margin
 		{
 			get
@@ -48,7 +48,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F83 RID: 12163 RVA: 0x001967C6 File Offset: 0x00194BC6
+		// Token: 0x06002F7C RID: 12156 RVA: 0x001969A6 File Offset: 0x00194DA6
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -57,7 +57,7 @@ namespace RimWorld
 			((MainButtonWorker_ToggleWorld)MainButtonDefOf.World.Worker).resetViewNextTime = true;
 		}
 
-		// Token: 0x06002F84 RID: 12164 RVA: 0x001967FE File Offset: 0x00194BFE
+		// Token: 0x06002F7D RID: 12157 RVA: 0x001969DE File Offset: 0x00194DDE
 		public override void PostOpen()
 		{
 			base.PostOpen();
@@ -66,14 +66,14 @@ namespace RimWorld
 			TutorSystem.Notify_Event("PageStart-SelectLandingSite");
 		}
 
-		// Token: 0x06002F85 RID: 12165 RVA: 0x0019682B File Offset: 0x00194C2B
+		// Token: 0x06002F7E RID: 12158 RVA: 0x00196A0B File Offset: 0x00194E0B
 		public override void PostClose()
 		{
 			base.PostClose();
 			Find.World.renderer.wantedMode = WorldRenderMode.None;
 		}
 
-		// Token: 0x06002F86 RID: 12166 RVA: 0x00196844 File Offset: 0x00194C44
+		// Token: 0x06002F7F RID: 12159 RVA: 0x00196A24 File Offset: 0x00194E24
 		public override void DoWindowContents(Rect rect)
 		{
 			if (Find.WorldInterface.SelectedTile >= 0)
@@ -86,7 +86,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F87 RID: 12167 RVA: 0x001968A3 File Offset: 0x00194CA3
+		// Token: 0x06002F80 RID: 12160 RVA: 0x00196A83 File Offset: 0x00194E83
 		public override void ExtraOnGUI()
 		{
 			base.ExtraOnGUI();
@@ -96,7 +96,7 @@ namespace RimWorld
 			this.DoCustomBottomButtons();
 		}
 
-		// Token: 0x06002F88 RID: 12168 RVA: 0x001968E0 File Offset: 0x00194CE0
+		// Token: 0x06002F81 RID: 12161 RVA: 0x00196AC0 File Offset: 0x00194EC0
 		protected override bool CanDoNext()
 		{
 			bool result;
@@ -130,7 +130,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002F89 RID: 12169 RVA: 0x001969B0 File Offset: 0x00194DB0
+		// Token: 0x06002F82 RID: 12162 RVA: 0x00196B90 File Offset: 0x00194F90
 		protected override void DoNext()
 		{
 			int selTile = Find.WorldInterface.SelectedTile;
@@ -141,7 +141,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002F8A RID: 12170 RVA: 0x001969F4 File Offset: 0x00194DF4
+		// Token: 0x06002F83 RID: 12163 RVA: 0x00196BD4 File Offset: 0x00194FD4
 		private void DoCustomBottomButtons()
 		{
 			int num = (!TutorSystem.TutorialMode) ? 5 : 4;
@@ -211,10 +211,10 @@ namespace RimWorld
 			GenUI.AbsorbClicksInRect(rect);
 		}
 
-		// Token: 0x040019AC RID: 6572
+		// Token: 0x040019AA RID: 6570
 		private const float GapBetweenBottomButtons = 10f;
 
-		// Token: 0x040019AD RID: 6573
+		// Token: 0x040019AB RID: 6571
 		private const float UseTwoRowsIfScreenWidthBelow = 1340f;
 	}
 }

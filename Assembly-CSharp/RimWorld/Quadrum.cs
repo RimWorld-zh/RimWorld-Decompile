@@ -2,18 +2,18 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200090E RID: 2318
+	// Token: 0x0200090A RID: 2314
 	public enum Quadrum : byte
 	{
-		// Token: 0x04001D23 RID: 7459
+		// Token: 0x04001D21 RID: 7457
 		Aprimay,
-		// Token: 0x04001D24 RID: 7460
+		// Token: 0x04001D22 RID: 7458
 		Jugust,
-		// Token: 0x04001D25 RID: 7461
+		// Token: 0x04001D23 RID: 7459
 		Septober,
-		// Token: 0x04001D26 RID: 7462
+		// Token: 0x04001D24 RID: 7460
 		Decembary,
-		// Token: 0x04001D27 RID: 7463
+		// Token: 0x04001D25 RID: 7461
 		Undefined
 	}
 }

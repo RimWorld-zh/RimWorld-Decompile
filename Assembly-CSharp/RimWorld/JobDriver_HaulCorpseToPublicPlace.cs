@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_HaulCorpseToPublicPlace : JobDriver
 	{
 		// Token: 0x17000099 RID: 153
-		// (get) Token: 0x060002F3 RID: 755 RVA: 0x0001FF78 File Offset: 0x0001E378
+		// (get) Token: 0x060002F3 RID: 755 RVA: 0x0001FF7C File Offset: 0x0001E37C
 		private Corpse Corpse
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700009A RID: 154
-		// (get) Token: 0x060002F4 RID: 756 RVA: 0x0001FFA8 File Offset: 0x0001E3A8
+		// (get) Token: 0x060002F4 RID: 756 RVA: 0x0001FFAC File Offset: 0x0001E3AC
 		private Building_Grave Grave
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700009B RID: 155
-		// (get) Token: 0x060002F5 RID: 757 RVA: 0x0001FFD8 File Offset: 0x0001E3D8
+		// (get) Token: 0x060002F5 RID: 757 RVA: 0x0001FFDC File Offset: 0x0001E3DC
 		private bool InGrave
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700009C RID: 156
-		// (get) Token: 0x060002F6 RID: 758 RVA: 0x0001FFFC File Offset: 0x0001E3FC
+		// (get) Token: 0x060002F6 RID: 758 RVA: 0x00020000 File Offset: 0x0001E400
 		private Thing Target
 		{
 			get
@@ -48,13 +48,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060002F7 RID: 759 RVA: 0x00020024 File Offset: 0x0001E424
+		// Token: 0x060002F7 RID: 759 RVA: 0x00020028 File Offset: 0x0001E428
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Target, this.job, 1, -1, null);
 		}
 
-		// Token: 0x060002F8 RID: 760 RVA: 0x00020058 File Offset: 0x0001E458
+		// Token: 0x060002F8 RID: 760 RVA: 0x0002005C File Offset: 0x0001E45C
 		public override string GetReport()
 		{
 			string result;
@@ -69,7 +69,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060002F9 RID: 761 RVA: 0x000200A4 File Offset: 0x0001E4A4
+		// Token: 0x060002F9 RID: 761 RVA: 0x000200A8 File Offset: 0x0001E4A8
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);
@@ -89,7 +89,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060002FA RID: 762 RVA: 0x000200D0 File Offset: 0x0001E4D0
+		// Token: 0x060002FA RID: 762 RVA: 0x000200D4 File Offset: 0x0001E4D4
 		private Toil FindCellToDropCorpseToil()
 		{
 			return new Toil
@@ -116,7 +116,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060002FB RID: 763 RVA: 0x00020108 File Offset: 0x0001E508
+		// Token: 0x060002FB RID: 763 RVA: 0x0002010C File Offset: 0x0001E50C
 		private Toil ForbidAndNotifyMentalStateToil()
 		{
 			return new Toil
@@ -138,7 +138,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060002FC RID: 764 RVA: 0x00020140 File Offset: 0x0001E540
+		// Token: 0x060002FC RID: 764 RVA: 0x00020144 File Offset: 0x0001E544
 		private bool TryFindTableCell(out IntVec3 cell)
 		{
 			JobDriver_HaulCorpseToPublicPlace.tmpCells.Clear();

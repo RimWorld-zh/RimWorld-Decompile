@@ -6,13 +6,13 @@ namespace Verse
 	// Token: 0x02000EF2 RID: 3826
 	public static class LookTargetsUtility
 	{
-		// Token: 0x06005B4B RID: 23371 RVA: 0x002E86B0 File Offset: 0x002E6AB0
+		// Token: 0x06005B73 RID: 23411 RVA: 0x002EA6E4 File Offset: 0x002E8AE4
 		public static bool IsValid(this LookTargets lookTargets)
 		{
 			return lookTargets != null && lookTargets.IsValid;
 		}
 
-		// Token: 0x06005B4C RID: 23372 RVA: 0x002E86D4 File Offset: 0x002E6AD4
+		// Token: 0x06005B74 RID: 23412 RVA: 0x002EA708 File Offset: 0x002E8B08
 		public static GlobalTargetInfo TryGetPrimaryTarget(this LookTargets lookTargets)
 		{
 			GlobalTargetInfo result;
@@ -27,7 +27,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005B4D RID: 23373 RVA: 0x002E8700 File Offset: 0x002E6B00
+		// Token: 0x06005B75 RID: 23413 RVA: 0x002EA734 File Offset: 0x002E8B34
 		public static void TryHighlight(this LookTargets lookTargets, bool arrow = true, bool colonistBar = true, bool circleOverlay = false)
 		{
 			if (lookTargets != null)

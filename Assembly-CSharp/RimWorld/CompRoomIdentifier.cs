@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000732 RID: 1842
+	// Token: 0x0200072E RID: 1838
 	public class CompRoomIdentifier : ThingComp
 	{
-		// Token: 0x17000640 RID: 1600
-		// (get) Token: 0x06002898 RID: 10392 RVA: 0x0015A9D8 File Offset: 0x00158DD8
+		// Token: 0x17000641 RID: 1601
+		// (get) Token: 0x06002891 RID: 10385 RVA: 0x0015ABB0 File Offset: 0x00158FB0
 		private CompProperties_RoomIdentifier Props
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002899 RID: 10393 RVA: 0x0015A9F8 File Offset: 0x00158DF8
+		// Token: 0x06002892 RID: 10386 RVA: 0x0015ABD0 File Offset: 0x00158FD0
 		public override string CompInspectStringExtra()
 		{
 			Room room = this.parent.GetRoom(RegionType.Set_All);

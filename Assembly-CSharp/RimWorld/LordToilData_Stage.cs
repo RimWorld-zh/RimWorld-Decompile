@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200019E RID: 414
 	public class LordToilData_Stage : LordToilData
 	{
-		// Token: 0x06000896 RID: 2198 RVA: 0x0005192C File Offset: 0x0004FD2C
+		// Token: 0x06000896 RID: 2198 RVA: 0x00051918 File Offset: 0x0004FD18
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<IntVec3>(ref this.stagingPoint, "stagingPoint", default(IntVec3), false);

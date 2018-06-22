@@ -4,10 +4,10 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020004F0 RID: 1264
+	// Token: 0x020004EC RID: 1260
 	public static class RestraintsUtility
 	{
-		// Token: 0x060016A9 RID: 5801 RVA: 0x000C8DAC File Offset: 0x000C71AC
+		// Token: 0x060016A0 RID: 5792 RVA: 0x000C8DA4 File Offset: 0x000C71A4
 		public static bool InRestraints(Pawn pawn)
 		{
 			bool result;
@@ -27,7 +27,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060016AA RID: 5802 RVA: 0x000C8E38 File Offset: 0x000C7238
+		// Token: 0x060016A1 RID: 5793 RVA: 0x000C8E30 File Offset: 0x000C7230
 		public static bool ShouldShowRestraintsInfo(Pawn pawn)
 		{
 			return pawn.IsPrisonerOfColony && RestraintsUtility.InRestraints(pawn);

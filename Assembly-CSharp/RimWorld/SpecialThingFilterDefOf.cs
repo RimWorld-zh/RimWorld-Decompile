@@ -3,20 +3,20 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200093E RID: 2366
+	// Token: 0x0200093A RID: 2362
 	[DefOf]
 	public static class SpecialThingFilterDefOf
 	{
-		// Token: 0x06003649 RID: 13897 RVA: 0x001D0979 File Offset: 0x001CED79
+		// Token: 0x06003642 RID: 13890 RVA: 0x001D0B61 File Offset: 0x001CEF61
 		static SpecialThingFilterDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(SpecialThingFilterDefOf));
 		}
 
-		// Token: 0x0400209E RID: 8350
+		// Token: 0x0400209C RID: 8348
 		public static SpecialThingFilterDef AllowDeadmansApparel;
 
-		// Token: 0x0400209F RID: 8351
+		// Token: 0x0400209D RID: 8349
 		public static SpecialThingFilterDef AllowNonDeadmansApparel;
 	}
 }

@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000866 RID: 2150
+	// Token: 0x02000862 RID: 2146
 	[StaticConstructorOnStartup]
 	public static class SelectionDrawerUtility
 	{
-		// Token: 0x060030BB RID: 12475 RVA: 0x001A6C98 File Offset: 0x001A5098
+		// Token: 0x060030B4 RID: 12468 RVA: 0x001A6E80 File Offset: 0x001A5280
 		public static void CalculateSelectionBracketPositionsUI<T>(Vector2[] bracketLocs, T obj, Rect rect, Dictionary<T, float> selectTimes, Vector2 textureSize, float jumpDistanceFactor = 1f)
 		{
 			float num;
@@ -31,7 +31,7 @@ namespace RimWorld
 			bracketLocs[3] = new Vector2(rect.center.x - num4, rect.center.y + num5);
 		}
 
-		// Token: 0x060030BC RID: 12476 RVA: 0x001A6DF4 File Offset: 0x001A51F4
+		// Token: 0x060030B5 RID: 12469 RVA: 0x001A6FDC File Offset: 0x001A53DC
 		public static void CalculateSelectionBracketPositionsWorld<T>(Vector3[] bracketLocs, T obj, Vector3 worldPos, Vector2 worldSize, Dictionary<T, float> selectTimes, Vector2 textureSize, float jumpDistanceFactor = 1f)
 		{
 			float num;
@@ -54,13 +54,13 @@ namespace RimWorld
 			bracketLocs[3] = new Vector3(worldPos.x - num4, y, worldPos.z + num5);
 		}
 
-		// Token: 0x04001A5D RID: 6749
+		// Token: 0x04001A5B RID: 6747
 		private const float SelJumpDuration = 0.07f;
 
-		// Token: 0x04001A5E RID: 6750
+		// Token: 0x04001A5C RID: 6748
 		private const float SelJumpDistance = 0.2f;
 
-		// Token: 0x04001A5F RID: 6751
+		// Token: 0x04001A5D RID: 6749
 		public static readonly Texture2D SelectedTexGUI = ContentFinder<Texture2D>.Get("UI/Overlays/SelectionBracketGUI", true);
 	}
 }

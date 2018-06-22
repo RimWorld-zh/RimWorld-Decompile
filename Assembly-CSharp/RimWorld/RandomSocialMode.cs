@@ -2,16 +2,16 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000529 RID: 1321
+	// Token: 0x02000525 RID: 1317
 	public enum RandomSocialMode
 	{
-		// Token: 0x04000E5A RID: 3674
+		// Token: 0x04000E57 RID: 3671
 		Off,
-		// Token: 0x04000E5B RID: 3675
+		// Token: 0x04000E58 RID: 3672
 		Quiet,
-		// Token: 0x04000E5C RID: 3676
+		// Token: 0x04000E59 RID: 3673
 		Normal,
-		// Token: 0x04000E5D RID: 3677
+		// Token: 0x04000E5A RID: 3674
 		SuperActive
 	}
 }

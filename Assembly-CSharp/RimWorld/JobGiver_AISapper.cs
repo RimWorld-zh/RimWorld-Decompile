@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020000BD RID: 189
 	public class JobGiver_AISapper : ThinkNode_JobGiver
 	{
-		// Token: 0x06000476 RID: 1142 RVA: 0x00032FBC File Offset: 0x000313BC
+		// Token: 0x06000476 RID: 1142 RVA: 0x00032F98 File Offset: 0x00031398
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_AISapper jobGiver_AISapper = (JobGiver_AISapper)base.DeepCopy(resolve);
@@ -18,7 +18,7 @@ namespace RimWorld
 			return jobGiver_AISapper;
 		}
 
-		// Token: 0x06000477 RID: 1143 RVA: 0x00032FF8 File Offset: 0x000313F8
+		// Token: 0x06000477 RID: 1143 RVA: 0x00032FD4 File Offset: 0x000313D4
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			IntVec3 intVec = (IntVec3)pawn.mindState.duty.focus;

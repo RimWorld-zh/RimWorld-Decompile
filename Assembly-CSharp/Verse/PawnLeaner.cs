@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CE3 RID: 3299
+	// Token: 0x02000CE0 RID: 3296
 	public class PawnLeaner
 	{
-		// Token: 0x0600489C RID: 18588 RVA: 0x002612AE File Offset: 0x0025F6AE
+		// Token: 0x060048AD RID: 18605 RVA: 0x002626C6 File Offset: 0x00260AC6
 		public PawnLeaner(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x17000B79 RID: 2937
-		// (get) Token: 0x0600489D RID: 18589 RVA: 0x002612D8 File Offset: 0x0025F6D8
+		// Token: 0x17000B7B RID: 2939
+		// (get) Token: 0x060048AE RID: 18606 RVA: 0x002626F0 File Offset: 0x00260AF0
 		public Vector3 LeanOffset
 		{
 			get
@@ -22,7 +22,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600489E RID: 18590 RVA: 0x00261310 File Offset: 0x0025F710
+		// Token: 0x060048AF RID: 18607 RVA: 0x00262728 File Offset: 0x00260B28
 		public void LeanerTick()
 		{
 			if (this.ShouldLean())
@@ -43,32 +43,32 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600489F RID: 18591 RVA: 0x0026138C File Offset: 0x0025F78C
+		// Token: 0x060048B0 RID: 18608 RVA: 0x002627A4 File Offset: 0x00260BA4
 		public bool ShouldLean()
 		{
 			Stance_Busy stance_Busy = this.pawn.stances.curStance as Stance_Busy;
 			return stance_Busy != null && !(this.shootSourceOffset == new IntVec3(0, 0, 0));
 		}
 
-		// Token: 0x060048A0 RID: 18592 RVA: 0x002613E5 File Offset: 0x0025F7E5
+		// Token: 0x060048B1 RID: 18609 RVA: 0x002627FD File Offset: 0x00260BFD
 		public void Notify_WarmingCastAlongLine(ShootLine newShootLine, IntVec3 ShootPosition)
 		{
 			this.shootSourceOffset = newShootLine.Source - this.pawn.Position;
 		}
 
-		// Token: 0x0400311E RID: 12574
+		// Token: 0x04003129 RID: 12585
 		private Pawn pawn;
 
-		// Token: 0x0400311F RID: 12575
+		// Token: 0x0400312A RID: 12586
 		private IntVec3 shootSourceOffset = new IntVec3(0, 0, 0);
 
-		// Token: 0x04003120 RID: 12576
+		// Token: 0x0400312B RID: 12587
 		private float leanOffsetCurPct = 0f;
 
-		// Token: 0x04003121 RID: 12577
+		// Token: 0x0400312C RID: 12588
 		private const float LeanOffsetPctChangeRate = 0.075f;
 
-		// Token: 0x04003122 RID: 12578
+		// Token: 0x0400312D RID: 12589
 		private const float LeanOffsetDistanceMultiplier = 0.5f;
 	}
 }

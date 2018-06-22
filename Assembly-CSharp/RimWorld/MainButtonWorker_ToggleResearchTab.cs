@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200086A RID: 2154
+	// Token: 0x02000866 RID: 2150
 	public class MainButtonWorker_ToggleResearchTab : MainButtonWorker_ToggleTab
 	{
-		// Token: 0x170007D3 RID: 2003
-		// (get) Token: 0x060030FA RID: 12538 RVA: 0x001A9A2C File Offset: 0x001A7E2C
+		// Token: 0x170007D4 RID: 2004
+		// (get) Token: 0x060030F3 RID: 12531 RVA: 0x001A9C14 File Offset: 0x001A8014
 		public override float ButtonBarPercent
 		{
 			get

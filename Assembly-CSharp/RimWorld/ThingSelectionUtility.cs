@@ -8,10 +8,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000867 RID: 2151
+	// Token: 0x02000863 RID: 2147
 	public static class ThingSelectionUtility
 	{
-		// Token: 0x060030BE RID: 12478 RVA: 0x001A6F2C File Offset: 0x001A532C
+		// Token: 0x060030B7 RID: 12471 RVA: 0x001A7114 File Offset: 0x001A5514
 		public static bool SelectableByMapClick(Thing t)
 		{
 			bool result;
@@ -43,13 +43,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060030BF RID: 12479 RVA: 0x001A6FFC File Offset: 0x001A53FC
+		// Token: 0x060030B8 RID: 12472 RVA: 0x001A71E4 File Offset: 0x001A55E4
 		public static bool SelectableByHotkey(Thing t)
 		{
 			return t.def.selectable && t.Spawned;
 		}
 
-		// Token: 0x060030C0 RID: 12480 RVA: 0x001A702C File Offset: 0x001A542C
+		// Token: 0x060030B9 RID: 12473 RVA: 0x001A7214 File Offset: 0x001A5614
 		public static IEnumerable<Thing> MultiSelectableThingsInScreenRectDistinct(Rect rect)
 		{
 			CellRect mapRect = ThingSelectionUtility.GetMapRect(rect);
@@ -76,7 +76,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060030C1 RID: 12481 RVA: 0x001A7058 File Offset: 0x001A5458
+		// Token: 0x060030BA RID: 12474 RVA: 0x001A7240 File Offset: 0x001A5640
 		public static IEnumerable<Zone> MultiSelectableZonesInScreenRectDistinct(Rect rect)
 		{
 			CellRect mapRect = ThingSelectionUtility.GetMapRect(rect);
@@ -102,7 +102,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060030C2 RID: 12482 RVA: 0x001A7084 File Offset: 0x001A5484
+		// Token: 0x060030BB RID: 12475 RVA: 0x001A726C File Offset: 0x001A566C
 		private static CellRect GetMapRect(Rect rect)
 		{
 			Vector2 screenLoc = new Vector2(rect.x, (float)UI.screenHeight - rect.y);
@@ -118,7 +118,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060030C3 RID: 12483 RVA: 0x001A7148 File Offset: 0x001A5548
+		// Token: 0x060030BC RID: 12476 RVA: 0x001A7330 File Offset: 0x001A5730
 		public static void SelectNextColonist()
 		{
 			ThingSelectionUtility.tmpColonists.Clear();
@@ -153,7 +153,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030C4 RID: 12484 RVA: 0x001A7284 File Offset: 0x001A5684
+		// Token: 0x060030BD RID: 12477 RVA: 0x001A746C File Offset: 0x001A586C
 		public static void SelectPreviousColonist()
 		{
 			ThingSelectionUtility.tmpColonists.Clear();
@@ -188,20 +188,20 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04001A60 RID: 6752
+		// Token: 0x04001A5E RID: 6750
 		private static HashSet<Thing> yieldedThings = new HashSet<Thing>();
 
-		// Token: 0x04001A61 RID: 6753
+		// Token: 0x04001A5F RID: 6751
 		private static HashSet<Zone> yieldedZones = new HashSet<Zone>();
 
-		// Token: 0x04001A62 RID: 6754
+		// Token: 0x04001A60 RID: 6752
 		private static List<Pawn> tmpColonists = new List<Pawn>();
 
-		// Token: 0x04001A63 RID: 6755
+		// Token: 0x04001A61 RID: 6753
 		[CompilerGenerated]
 		private static Func<Pawn, bool> <>f__mg$cache0;
 
-		// Token: 0x04001A64 RID: 6756
+		// Token: 0x04001A62 RID: 6754
 		[CompilerGenerated]
 		private static Func<Pawn, bool> <>f__mg$cache1;
 	}

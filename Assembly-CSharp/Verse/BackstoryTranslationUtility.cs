@@ -7,10 +7,10 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000BEF RID: 3055
+	// Token: 0x02000BEB RID: 3051
 	public static class BackstoryTranslationUtility
 	{
-		// Token: 0x06004297 RID: 17047 RVA: 0x00230A78 File Offset: 0x0022EE78
+		// Token: 0x06004299 RID: 17049 RVA: 0x0023132C File Offset: 0x0022F72C
 		private static IEnumerable<XElement> BackstoryTranslationElements(IEnumerable<string> folderPaths, List<string> loadErrors)
 		{
 			foreach (string folderPath in folderPaths)
@@ -48,7 +48,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004298 RID: 17048 RVA: 0x00230AAC File Offset: 0x0022EEAC
+		// Token: 0x0600429A RID: 17050 RVA: 0x00231360 File Offset: 0x0022F760
 		public static void LoadAndInjectBackstoryData(IEnumerable<string> folderPaths, List<string> loadErrors)
 		{
 			foreach (XElement xelement in BackstoryTranslationUtility.BackstoryTranslationElements(folderPaths, loadErrors))
@@ -107,7 +107,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004299 RID: 17049 RVA: 0x00230D28 File Offset: 0x0022F128
+		// Token: 0x0600429B RID: 17051 RVA: 0x002315DC File Offset: 0x0022F9DC
 		public static List<string> MissingBackstoryTranslations(LoadedLanguage lang)
 		{
 			List<KeyValuePair<string, Backstory>> list = BackstoryDatabase.allBackstories.ToList<KeyValuePair<string, Backstory>>();
@@ -172,7 +172,7 @@ namespace Verse
 			return list2;
 		}
 
-		// Token: 0x0600429A RID: 17050 RVA: 0x00231080 File Offset: 0x0022F480
+		// Token: 0x0600429C RID: 17052 RVA: 0x00231934 File Offset: 0x0022FD34
 		public static List<string> BackstoryTranslationsMatchingEnglish(LoadedLanguage lang)
 		{
 			List<string> list = new List<string>();
@@ -189,23 +189,23 @@ namespace Verse
 						string value2 = xelement.Element("titleShort").Value;
 						string text3 = (xelement.Element("titleShortFemale") == null) ? null : xelement.Element("titleShortFemale").Value;
 						string value3 = xelement.Element("desc").Value;
-						if (!value.NullOrEmpty() && value == backstory.rawEnglishTitle)
+						if (!value.NullOrEmpty() && value == backstory.untranslatedTitle)
 						{
 							list.Add(text + ".title '" + value.Replace("\n", "\\n") + "'");
 						}
-						if (!text2.NullOrEmpty() && text2 == backstory.rawEnglishTitleFemale)
+						if (!text2.NullOrEmpty() && text2 == backstory.untranslatedTitleFemale)
 						{
 							list.Add(text + ".titleFemale '" + text2.Replace("\n", "\\n") + "'");
 						}
-						if (!value2.NullOrEmpty() && value2 == backstory.rawEnglishTitleShort)
+						if (!value2.NullOrEmpty() && value2 == backstory.untranslatedTitleShort)
 						{
 							list.Add(text + ".titleShort '" + value2.Replace("\n", "\\n") + "'");
 						}
-						if (!text3.NullOrEmpty() && text3 == backstory.rawEnglishTitleShortFemale)
+						if (!text3.NullOrEmpty() && text3 == backstory.untranslatedTitleShortFemale)
 						{
 							list.Add(text + ".titleShortFemale '" + text3.Replace("\n", "\\n") + "'");
 						}
-						if (!value3.NullOrEmpty() && value3 == backstory.rawEnglishDesc)
+						if (!value3.NullOrEmpty() && value3 == backstory.untranslatedDesc)
 						{
 							list.Add(text + ".desc '" + value3.Replace("\n", "\\n") + "'");
 						}

@@ -3,16 +3,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004C2 RID: 1218
+	// Token: 0x020004BE RID: 1214
 	public class PawnRelationWorker_Child : PawnRelationWorker
 	{
-		// Token: 0x060015CC RID: 5580 RVA: 0x000C2028 File Offset: 0x000C0428
+		// Token: 0x060015C3 RID: 5571 RVA: 0x000C2018 File Offset: 0x000C0418
 		public override bool InRelation(Pawn me, Pawn other)
 		{
 			return me != other && (other.GetMother() == me || other.GetFather() == me);
 		}
 
-		// Token: 0x060015CD RID: 5581 RVA: 0x000C2064 File Offset: 0x000C0464
+		// Token: 0x060015C4 RID: 5572 RVA: 0x000C2054 File Offset: 0x000C0454
 		public override float GenerationChance(Pawn generated, Pawn other, PawnGenerationRequest request)
 		{
 			float num = 0f;
@@ -27,7 +27,7 @@ namespace RimWorld
 			return num * base.BaseGenerationChanceFactor(generated, other, request);
 		}
 
-		// Token: 0x060015CE RID: 5582 RVA: 0x000C20F4 File Offset: 0x000C04F4
+		// Token: 0x060015C5 RID: 5573 RVA: 0x000C20E4 File Offset: 0x000C04E4
 		public override void CreateRelation(Pawn generated, Pawn other, ref PawnGenerationRequest request)
 		{
 			if (generated.gender == Gender.Male)
@@ -82,7 +82,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060015CF RID: 5583 RVA: 0x000C22F4 File Offset: 0x000C06F4
+		// Token: 0x060015C6 RID: 5574 RVA: 0x000C22E4 File Offset: 0x000C06E4
 		private static void ResolveMyName(ref PawnGenerationRequest request, Pawn child, Pawn otherParent)
 		{
 			if (request.FixedLastName == null)
@@ -113,7 +113,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060015D0 RID: 5584 RVA: 0x000C239C File Offset: 0x000C079C
+		// Token: 0x060015C7 RID: 5575 RVA: 0x000C238C File Offset: 0x000C078C
 		private static void ResolveMySkinColor(ref PawnGenerationRequest request, Pawn child, Pawn otherParent)
 		{
 			if (request.FixedMelanin == null)

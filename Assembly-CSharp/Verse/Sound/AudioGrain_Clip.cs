@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B78 RID: 2936
+	// Token: 0x02000B74 RID: 2932
 	public class AudioGrain_Clip : AudioGrain
 	{
-		// Token: 0x06003FFB RID: 16379 RVA: 0x0021AEDC File Offset: 0x002192DC
+		// Token: 0x06003FFD RID: 16381 RVA: 0x0021B578 File Offset: 0x00219978
 		public override IEnumerable<ResolvedGrain> GetResolvedGrains()
 		{
 			AudioClip clip = ContentFinder<AudioClip>.Get(this.clipPath, true);
@@ -22,7 +22,7 @@ namespace Verse.Sound
 			yield break;
 		}
 
-		// Token: 0x04002AE4 RID: 10980
+		// Token: 0x04002AE9 RID: 10985
 		public string clipPath = "";
 	}
 }

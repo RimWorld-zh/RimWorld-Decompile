@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x0200018B RID: 395
 	public class LordToil_DefendAndExpandHive : LordToil_HiveRelated
 	{
-		// Token: 0x06000832 RID: 2098 RVA: 0x0004EEE4 File Offset: 0x0004D2E4
+		// Token: 0x06000832 RID: 2098 RVA: 0x0004EED0 File Offset: 0x0004D2D0
 		public override void UpdateAllDuties()
 		{
 			base.FilterOutUnspawnedHives();

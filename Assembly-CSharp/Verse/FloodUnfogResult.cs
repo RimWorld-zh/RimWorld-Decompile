@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000C10 RID: 3088
+	// Token: 0x02000C0D RID: 3085
 	public struct FloodUnfogResult
 	{
-		// Token: 0x04002E16 RID: 11798
+		// Token: 0x04002E20 RID: 11808
 		public bool mechanoidFound;
 
-		// Token: 0x04002E17 RID: 11799
+		// Token: 0x04002E21 RID: 11809
 		public bool allOnScreen;
 
-		// Token: 0x04002E18 RID: 11800
+		// Token: 0x04002E22 RID: 11810
 		public int cellsUnfogged;
 	}
 }

@@ -2,14 +2,14 @@
 
 namespace Verse
 {
-	// Token: 0x02000B21 RID: 2849
+	// Token: 0x02000B1D RID: 2845
 	public enum Intelligence : byte
 	{
-		// Token: 0x04002875 RID: 10357
+		// Token: 0x04002871 RID: 10353
 		Animal,
-		// Token: 0x04002876 RID: 10358
+		// Token: 0x04002872 RID: 10354
 		ToolUser,
-		// Token: 0x04002877 RID: 10359
+		// Token: 0x04002873 RID: 10355
 		Humanlike
 	}
 }

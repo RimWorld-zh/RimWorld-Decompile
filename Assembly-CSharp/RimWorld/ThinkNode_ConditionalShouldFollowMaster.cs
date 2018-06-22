@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x020001CB RID: 459
 	public class ThinkNode_ConditionalShouldFollowMaster : ThinkNode_Conditional
 	{
-		// Token: 0x0600094E RID: 2382 RVA: 0x0005621C File Offset: 0x0005461C
+		// Token: 0x0600094C RID: 2380 RVA: 0x00056230 File Offset: 0x00054630
 		protected override bool Satisfied(Pawn pawn)
 		{
 			return ThinkNode_ConditionalShouldFollowMaster.ShouldFollowMaster(pawn);
 		}
 
-		// Token: 0x0600094F RID: 2383 RVA: 0x00056238 File Offset: 0x00054638
+		// Token: 0x0600094D RID: 2381 RVA: 0x0005624C File Offset: 0x0005464C
 		public static bool ShouldFollowMaster(Pawn pawn)
 		{
 			bool result;

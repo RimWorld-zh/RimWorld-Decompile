@@ -5,10 +5,10 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000BB8 RID: 3000
+	// Token: 0x02000BB4 RID: 2996
 	public class WorkTypeDef : Def
 	{
-		// Token: 0x060040F4 RID: 16628 RVA: 0x00224948 File Offset: 0x00222D48
+		// Token: 0x060040F6 RID: 16630 RVA: 0x0022501C File Offset: 0x0022341C
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -22,7 +22,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060040F5 RID: 16629 RVA: 0x00224974 File Offset: 0x00222D74
+		// Token: 0x060040F7 RID: 16631 RVA: 0x00225048 File Offset: 0x00223448
 		public override void ResolveReferences()
 		{
 			foreach (WorkGiverDef item in from d in DefDatabase<WorkGiverDef>.AllDefs
@@ -34,47 +34,47 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060040F6 RID: 16630 RVA: 0x00224A08 File Offset: 0x00222E08
+		// Token: 0x060040F8 RID: 16632 RVA: 0x002250DC File Offset: 0x002234DC
 		public override int GetHashCode()
 		{
 			return Gen.HashCombine<string>(this.defName.GetHashCode(), this.gerundLabel);
 		}
 
-		// Token: 0x04002C60 RID: 11360
+		// Token: 0x04002C65 RID: 11365
 		public WorkTags workTags;
 
-		// Token: 0x04002C61 RID: 11361
+		// Token: 0x04002C66 RID: 11366
 		[MustTranslate]
 		public string labelShort;
 
-		// Token: 0x04002C62 RID: 11362
+		// Token: 0x04002C67 RID: 11367
 		[MustTranslate]
 		public string pawnLabel;
 
-		// Token: 0x04002C63 RID: 11363
+		// Token: 0x04002C68 RID: 11368
 		[MustTranslate]
 		public string gerundLabel;
 
-		// Token: 0x04002C64 RID: 11364
+		// Token: 0x04002C69 RID: 11369
 		[MustTranslate]
 		public string verb;
 
-		// Token: 0x04002C65 RID: 11365
+		// Token: 0x04002C6A RID: 11370
 		public bool visible = true;
 
-		// Token: 0x04002C66 RID: 11366
+		// Token: 0x04002C6B RID: 11371
 		public int naturalPriority = 0;
 
-		// Token: 0x04002C67 RID: 11367
+		// Token: 0x04002C6C RID: 11372
 		public bool alwaysStartActive = false;
 
-		// Token: 0x04002C68 RID: 11368
+		// Token: 0x04002C6D RID: 11373
 		public bool requireCapableColonist = false;
 
-		// Token: 0x04002C69 RID: 11369
+		// Token: 0x04002C6E RID: 11374
 		public List<SkillDef> relevantSkills = new List<SkillDef>();
 
-		// Token: 0x04002C6A RID: 11370
+		// Token: 0x04002C6F RID: 11375
 		[Unsaved]
 		public List<WorkGiverDef> workGiversByPriority = new List<WorkGiverDef>();
 	}

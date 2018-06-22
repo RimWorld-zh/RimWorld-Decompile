@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Verse.Grammar
 {
-	// Token: 0x02000BE4 RID: 3044
+	// Token: 0x02000BE0 RID: 3040
 	public struct GrammarRequest
 	{
-		// Token: 0x17000A6F RID: 2671
-		// (get) Token: 0x06004262 RID: 16994 RVA: 0x0022E8B4 File Offset: 0x0022CCB4
+		// Token: 0x17000A71 RID: 2673
+		// (get) Token: 0x06004264 RID: 16996 RVA: 0x0022EFA8 File Offset: 0x0022D3A8
 		public List<Rule> Rules
 		{
 			get
@@ -20,8 +20,8 @@ namespace Verse.Grammar
 			}
 		}
 
-		// Token: 0x17000A70 RID: 2672
-		// (get) Token: 0x06004263 RID: 16995 RVA: 0x0022E8E8 File Offset: 0x0022CCE8
+		// Token: 0x17000A72 RID: 2674
+		// (get) Token: 0x06004265 RID: 16997 RVA: 0x0022EFDC File Offset: 0x0022D3DC
 		public List<RulePack> IncludesBare
 		{
 			get
@@ -34,8 +34,8 @@ namespace Verse.Grammar
 			}
 		}
 
-		// Token: 0x17000A71 RID: 2673
-		// (get) Token: 0x06004264 RID: 16996 RVA: 0x0022E91C File Offset: 0x0022CD1C
+		// Token: 0x17000A73 RID: 2675
+		// (get) Token: 0x06004266 RID: 16998 RVA: 0x0022F010 File Offset: 0x0022D410
 		public List<RulePackDef> Includes
 		{
 			get
@@ -48,8 +48,8 @@ namespace Verse.Grammar
 			}
 		}
 
-		// Token: 0x17000A72 RID: 2674
-		// (get) Token: 0x06004265 RID: 16997 RVA: 0x0022E950 File Offset: 0x0022CD50
+		// Token: 0x17000A74 RID: 2676
+		// (get) Token: 0x06004267 RID: 16999 RVA: 0x0022F044 File Offset: 0x0022D444
 		public Dictionary<string, string> Constants
 		{
 			get
@@ -62,7 +62,7 @@ namespace Verse.Grammar
 			}
 		}
 
-		// Token: 0x06004266 RID: 16998 RVA: 0x0022E984 File Offset: 0x0022CD84
+		// Token: 0x06004268 RID: 17000 RVA: 0x0022F078 File Offset: 0x0022D478
 		public void Clear()
 		{
 			if (this.rules != null)
@@ -79,40 +79,40 @@ namespace Verse.Grammar
 			}
 		}
 
-		// Token: 0x06004267 RID: 16999 RVA: 0x0022E9D4 File Offset: 0x0022CDD4
+		// Token: 0x06004269 RID: 17001 RVA: 0x0022F0C8 File Offset: 0x0022D4C8
 		public List<Rule> GetRules()
 		{
 			return this.rules;
 		}
 
-		// Token: 0x06004268 RID: 17000 RVA: 0x0022E9F0 File Offset: 0x0022CDF0
+		// Token: 0x0600426A RID: 17002 RVA: 0x0022F0E4 File Offset: 0x0022D4E4
 		public List<RulePack> GetIncludesBare()
 		{
 			return this.includesBare;
 		}
 
-		// Token: 0x06004269 RID: 17001 RVA: 0x0022EA0C File Offset: 0x0022CE0C
+		// Token: 0x0600426B RID: 17003 RVA: 0x0022F100 File Offset: 0x0022D500
 		public List<RulePackDef> GetIncludes()
 		{
 			return this.includes;
 		}
 
-		// Token: 0x0600426A RID: 17002 RVA: 0x0022EA28 File Offset: 0x0022CE28
+		// Token: 0x0600426C RID: 17004 RVA: 0x0022F11C File Offset: 0x0022D51C
 		public Dictionary<string, string> GetConstants()
 		{
 			return this.constants;
 		}
 
-		// Token: 0x04002D63 RID: 11619
+		// Token: 0x04002D68 RID: 11624
 		private List<Rule> rules;
 
-		// Token: 0x04002D64 RID: 11620
+		// Token: 0x04002D69 RID: 11625
 		private List<RulePack> includesBare;
 
-		// Token: 0x04002D65 RID: 11621
+		// Token: 0x04002D6A RID: 11626
 		private List<RulePackDef> includes;
 
-		// Token: 0x04002D66 RID: 11622
+		// Token: 0x04002D6B RID: 11627
 		private Dictionary<string, string> constants;
 	}
 }

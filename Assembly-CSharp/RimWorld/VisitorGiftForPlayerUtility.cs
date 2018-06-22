@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000569 RID: 1385
+	// Token: 0x02000565 RID: 1381
 	[HasDebugOutput]
 	public class VisitorGiftForPlayerUtility
 	{
-		// Token: 0x06001A26 RID: 6694 RVA: 0x000E27B0 File Offset: 0x000E0BB0
+		// Token: 0x06001A1D RID: 6685 RVA: 0x000E2804 File Offset: 0x000E0C04
 		public static float ChanceToLeaveGift(Faction faction, Map map)
 		{
 			float result;
@@ -24,19 +24,19 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001A27 RID: 6695 RVA: 0x000E27F0 File Offset: 0x000E0BF0
+		// Token: 0x06001A1E RID: 6686 RVA: 0x000E2844 File Offset: 0x000E0C44
 		public static List<Thing> GenerateGifts(Faction faction, Map map)
 		{
 			return ThingSetMakerDefOf.VisitorGift.root.Generate();
 		}
 
-		// Token: 0x06001A28 RID: 6696 RVA: 0x000E2814 File Offset: 0x000E0C14
+		// Token: 0x06001A1F RID: 6687 RVA: 0x000E2868 File Offset: 0x000E0C68
 		private static float PlayerWealthChanceFactor(Map map)
 		{
 			return VisitorGiftForPlayerUtility.PlayerWealthChanceFactorCurve.Evaluate(map.wealthWatcher.WealthTotal);
 		}
 
-		// Token: 0x06001A29 RID: 6697 RVA: 0x000E2840 File Offset: 0x000E0C40
+		// Token: 0x06001A20 RID: 6688 RVA: 0x000E2894 File Offset: 0x000E0C94
 		private static float FactionRelationsChanceFactor(Faction faction)
 		{
 			float result;
@@ -51,7 +51,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001A2A RID: 6698 RVA: 0x000E2884 File Offset: 0x000E0C84
+		// Token: 0x06001A21 RID: 6689 RVA: 0x000E28D8 File Offset: 0x000E0CD8
 		[DebugOutput]
 		private static void VisitorGiftChance()
 		{
@@ -105,7 +105,7 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06001A2B RID: 6699 RVA: 0x000E2B28 File Offset: 0x000E0F28
+		// Token: 0x06001A22 RID: 6690 RVA: 0x000E2B7C File Offset: 0x000E0F7C
 		public static void CheckGiveGift(List<Pawn> pawns, Faction faction)
 		{
 			if (pawns.Any<Pawn>())
@@ -154,10 +154,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000F4C RID: 3916
+		// Token: 0x04000F49 RID: 3913
 		private const float ExtraChanceFactor = 0.75f;
 
-		// Token: 0x04000F4D RID: 3917
+		// Token: 0x04000F4A RID: 3914
 		private static readonly SimpleCurve PlayerWealthChanceFactorCurve = new SimpleCurve
 		{
 			{
@@ -170,7 +170,7 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x04000F4E RID: 3918
+		// Token: 0x04000F4B RID: 3915
 		private static readonly SimpleCurve GoodwillChanceFactorCurve = new SimpleCurve
 		{
 			{

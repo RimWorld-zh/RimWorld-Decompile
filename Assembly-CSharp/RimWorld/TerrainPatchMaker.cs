@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000403 RID: 1027
 	public class TerrainPatchMaker
 	{
-		// Token: 0x060011AC RID: 4524 RVA: 0x00099B10 File Offset: 0x00097F10
+		// Token: 0x060011AC RID: 4524 RVA: 0x00099CF4 File Offset: 0x000980F4
 		private void Init(Map map)
 		{
 			this.noise = new Perlin((double)this.perlinFrequency, (double)this.perlinLacunarity, (double)this.perlinPersistence, this.perlinOctaves, Rand.Range(0, int.MaxValue), QualityMode.Medium);
@@ -17,14 +17,14 @@ namespace RimWorld
 			this.currentlyInitializedForMap = map;
 		}
 
-		// Token: 0x060011AD RID: 4525 RVA: 0x00099BA8 File Offset: 0x00097FA8
+		// Token: 0x060011AD RID: 4525 RVA: 0x00099D8C File Offset: 0x0009818C
 		public void Cleanup()
 		{
 			this.noise = null;
 			this.currentlyInitializedForMap = null;
 		}
 
-		// Token: 0x060011AE RID: 4526 RVA: 0x00099BBC File Offset: 0x00097FBC
+		// Token: 0x060011AE RID: 4526 RVA: 0x00099DA0 File Offset: 0x000981A0
 		public TerrainDef TerrainAt(IntVec3 c, Map map, float fertility)
 		{
 			TerrainDef result;
@@ -60,34 +60,34 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04000AB9 RID: 2745
+		// Token: 0x04000ABA RID: 2746
 		private Map currentlyInitializedForMap;
 
-		// Token: 0x04000ABA RID: 2746
+		// Token: 0x04000ABB RID: 2747
 		public List<TerrainThreshold> thresholds = new List<TerrainThreshold>();
 
-		// Token: 0x04000ABB RID: 2747
+		// Token: 0x04000ABC RID: 2748
 		public float perlinFrequency = 0.01f;
 
-		// Token: 0x04000ABC RID: 2748
+		// Token: 0x04000ABD RID: 2749
 		public float perlinLacunarity = 2f;
 
-		// Token: 0x04000ABD RID: 2749
+		// Token: 0x04000ABE RID: 2750
 		public float perlinPersistence = 0.5f;
 
-		// Token: 0x04000ABE RID: 2750
+		// Token: 0x04000ABF RID: 2751
 		public int perlinOctaves = 6;
 
-		// Token: 0x04000ABF RID: 2751
+		// Token: 0x04000AC0 RID: 2752
 		public float minFertility = -999f;
 
-		// Token: 0x04000AC0 RID: 2752
+		// Token: 0x04000AC1 RID: 2753
 		public float maxFertility = 999f;
 
-		// Token: 0x04000AC1 RID: 2753
+		// Token: 0x04000AC2 RID: 2754
 		public int minSize;
 
-		// Token: 0x04000AC2 RID: 2754
+		// Token: 0x04000AC3 RID: 2755
 		[Unsaved]
 		private ModuleBase noise;
 	}

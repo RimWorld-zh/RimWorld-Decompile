@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008CB RID: 2251
+	// Token: 0x020008C7 RID: 2247
 	public class Instruction_SetGrowingZonePlant : Lesson_Instruction
 	{
-		// Token: 0x1700082E RID: 2094
-		// (get) Token: 0x06003372 RID: 13170 RVA: 0x001B92EC File Offset: 0x001B76EC
+		// Token: 0x1700082F RID: 2095
+		// (get) Token: 0x0600336B RID: 13163 RVA: 0x001B94D4 File Offset: 0x001B78D4
 		private Zone_Growing GrowZone
 		{
 			get
@@ -17,14 +17,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003373 RID: 13171 RVA: 0x001B9338 File Offset: 0x001B7738
+		// Token: 0x0600336C RID: 13164 RVA: 0x001B9520 File Offset: 0x001B7920
 		public override void LessonOnGUI()
 		{
 			TutorUtility.DrawLabelOnGUI(Gen.AveragePosition(this.GrowZone.cells), this.def.onMapInstruction);
 			base.LessonOnGUI();
 		}
 
-		// Token: 0x06003374 RID: 13172 RVA: 0x001B9361 File Offset: 0x001B7761
+		// Token: 0x0600336D RID: 13165 RVA: 0x001B9549 File Offset: 0x001B7949
 		public override void LessonUpdate()
 		{
 			GenDraw.DrawArrowPointingAt(Gen.AveragePosition(this.GrowZone.cells), false);

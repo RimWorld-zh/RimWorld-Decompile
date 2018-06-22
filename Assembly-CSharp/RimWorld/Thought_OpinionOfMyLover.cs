@@ -8,7 +8,7 @@ namespace RimWorld
 	public class Thought_OpinionOfMyLover : Thought_Situational
 	{
 		// Token: 0x17000178 RID: 376
-		// (get) Token: 0x060009B5 RID: 2485 RVA: 0x00057914 File Offset: 0x00055D14
+		// (get) Token: 0x060009B3 RID: 2483 RVA: 0x00057958 File Offset: 0x00055D58
 		public override string LabelCap
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000179 RID: 377
-		// (get) Token: 0x060009B6 RID: 2486 RVA: 0x00057968 File Offset: 0x00055D68
+		// (get) Token: 0x060009B4 RID: 2484 RVA: 0x000579AC File Offset: 0x00055DAC
 		protected override float BaseMoodOffset
 		{
 			get

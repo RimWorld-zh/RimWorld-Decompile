@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000E67 RID: 3687
+	// Token: 0x02000E66 RID: 3686
 	public class Command_Settle : Command_Action
 	{
 	}

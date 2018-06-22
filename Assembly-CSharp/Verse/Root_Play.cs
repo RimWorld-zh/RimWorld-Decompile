@@ -8,10 +8,10 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000BE0 RID: 3040
+	// Token: 0x02000BDC RID: 3036
 	public class Root_Play : Root
 	{
-		// Token: 0x06004250 RID: 16976 RVA: 0x0022DEE0 File Offset: 0x0022C2E0
+		// Token: 0x06004252 RID: 16978 RVA: 0x0022E5FC File Offset: 0x0022C9FC
 		public override void Start()
 		{
 			Log.ResetMessageCount();
@@ -79,7 +79,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004251 RID: 16977 RVA: 0x0022E084 File Offset: 0x0022C484
+		// Token: 0x06004253 RID: 16979 RVA: 0x0022E7A0 File Offset: 0x0022CBA0
 		public override void Update()
 		{
 			base.Update();
@@ -107,7 +107,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004252 RID: 16978 RVA: 0x0022E140 File Offset: 0x0022C540
+		// Token: 0x06004254 RID: 16980 RVA: 0x0022E85C File Offset: 0x0022CC5C
 		private static void SetupForQuickTestPlay()
 		{
 			Current.ProgramState = ProgramState.Entry;
@@ -123,18 +123,18 @@ namespace Verse
 			Find.Scenario.PreMapGenerate();
 		}
 
-		// Token: 0x04002D53 RID: 11603
+		// Token: 0x04002D58 RID: 11608
 		public MusicManagerPlay musicManagerPlay;
 
-		// Token: 0x04002D54 RID: 11604
+		// Token: 0x04002D59 RID: 11609
 		[CompilerGenerated]
 		private static Action<Exception> <>f__mg$cache0;
 
-		// Token: 0x04002D55 RID: 11605
+		// Token: 0x04002D5A RID: 11610
 		[CompilerGenerated]
 		private static Action<Exception> <>f__mg$cache1;
 
-		// Token: 0x04002D56 RID: 11606
+		// Token: 0x04002D5B RID: 11611
 		[CompilerGenerated]
 		private static Action<Exception> <>f__mg$cache2;
 	}

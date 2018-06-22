@@ -4,27 +4,27 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D30 RID: 3376
+	// Token: 0x02000D2D RID: 3373
 	public abstract class HediffGiver
 	{
-		// Token: 0x06004A5E RID: 19038 RVA: 0x0026BFFD File Offset: 0x0026A3FD
+		// Token: 0x06004A72 RID: 19058 RVA: 0x0026D589 File Offset: 0x0026B989
 		public virtual void OnIntervalPassed(Pawn pawn, Hediff cause)
 		{
 		}
 
-		// Token: 0x06004A5F RID: 19039 RVA: 0x0026C000 File Offset: 0x0026A400
+		// Token: 0x06004A73 RID: 19059 RVA: 0x0026D58C File Offset: 0x0026B98C
 		public virtual bool OnHediffAdded(Pawn pawn, Hediff hediff)
 		{
 			return false;
 		}
 
-		// Token: 0x06004A60 RID: 19040 RVA: 0x0026C018 File Offset: 0x0026A418
+		// Token: 0x06004A74 RID: 19060 RVA: 0x0026D5A4 File Offset: 0x0026B9A4
 		public bool TryApply(Pawn pawn, List<Hediff> outAddedHediffs = null)
 		{
 			return HediffGiveUtility.TryApply(pawn, this.hediff, this.partsToAffect, this.canAffectAnyLivePart, this.countToAffect, outAddedHediffs);
 		}
 
-		// Token: 0x06004A61 RID: 19041 RVA: 0x0026C04C File Offset: 0x0026A44C
+		// Token: 0x06004A75 RID: 19061 RVA: 0x0026D5D8 File Offset: 0x0026B9D8
 		protected void SendLetter(Pawn pawn, Hediff cause)
 		{
 			if (PawnUtility.ShouldSendNotificationAbout(pawn))
@@ -57,16 +57,17 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0400323A RID: 12858
+		// Token: 0x04003245 RID: 12869
+		[TranslationHandle]
 		public HediffDef hediff;
 
-		// Token: 0x0400323B RID: 12859
+		// Token: 0x04003246 RID: 12870
 		public List<BodyPartDef> partsToAffect = null;
 
-		// Token: 0x0400323C RID: 12860
+		// Token: 0x04003247 RID: 12871
 		public bool canAffectAnyLivePart = false;
 
-		// Token: 0x0400323D RID: 12861
+		// Token: 0x04003248 RID: 12872
 		public int countToAffect = 1;
 	}
 }

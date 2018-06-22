@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000CD0 RID: 3280
+	// Token: 0x02000CCD RID: 3277
 	public abstract class PatchOperationPathed : PatchOperation
 	{
-		// Token: 0x0600486D RID: 18541 RVA: 0x002600F8 File Offset: 0x0025E4F8
+		// Token: 0x0600487E RID: 18558 RVA: 0x00261510 File Offset: 0x0025F910
 		public override string ToString()
 		{
 			return string.Format("{0}({1})", base.ToString(), this.xpath);
 		}
 
-		// Token: 0x040030FA RID: 12538
+		// Token: 0x04003105 RID: 12549
 		protected string xpath;
 	}
 }

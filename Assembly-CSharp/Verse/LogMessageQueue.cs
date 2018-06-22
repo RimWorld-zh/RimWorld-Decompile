@@ -6,8 +6,8 @@ namespace Verse
 	// Token: 0x02000F16 RID: 3862
 	public class LogMessageQueue
 	{
-		// Token: 0x17000EE0 RID: 3808
-		// (get) Token: 0x06005C8B RID: 23691 RVA: 0x002EE980 File Offset: 0x002ECD80
+		// Token: 0x17000EE4 RID: 3812
+		// (get) Token: 0x06005CB3 RID: 23731 RVA: 0x002F09AC File Offset: 0x002EEDAC
 		public IEnumerable<LogMessage> Messages
 		{
 			get
@@ -16,7 +16,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005C8C RID: 23692 RVA: 0x002EE99C File Offset: 0x002ECD9C
+		// Token: 0x06005CB4 RID: 23732 RVA: 0x002F09C8 File Offset: 0x002EEDC8
 		public void Enqueue(LogMessage msg)
 		{
 			if (this.lastMessage != null && msg.CanCombineWith(this.lastMessage))
@@ -35,20 +35,20 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005C8D RID: 23693 RVA: 0x002EEA1C File Offset: 0x002ECE1C
+		// Token: 0x06005CB5 RID: 23733 RVA: 0x002F0A48 File Offset: 0x002EEE48
 		internal void Clear()
 		{
 			this.messages.Clear();
 			this.lastMessage = null;
 		}
 
-		// Token: 0x04003D77 RID: 15735
+		// Token: 0x04003D89 RID: 15753
 		public int maxMessages = 200;
 
-		// Token: 0x04003D78 RID: 15736
+		// Token: 0x04003D8A RID: 15754
 		private Queue<LogMessage> messages = new Queue<LogMessage>();
 
-		// Token: 0x04003D79 RID: 15737
+		// Token: 0x04003D8B RID: 15755
 		private LogMessage lastMessage = null;
 	}
 }

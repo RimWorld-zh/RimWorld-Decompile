@@ -3,13 +3,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000743 RID: 1859
+	// Token: 0x0200073F RID: 1855
 	public abstract class CompProperties_TerrainPump : CompProperties
 	{
-		// Token: 0x04001671 RID: 5745
+		// Token: 0x0400166F RID: 5743
 		public float radius = 5.9f;
 
-		// Token: 0x04001672 RID: 5746
+		// Token: 0x04001670 RID: 5744
 		public float daysToRadius = 5f;
 	}
 }

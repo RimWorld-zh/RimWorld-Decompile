@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C23 RID: 3107
+	// Token: 0x02000C20 RID: 3104
 	public sealed class ExitMapGrid : ICellBoolGiver
 	{
-		// Token: 0x060043F0 RID: 17392 RVA: 0x0023C540 File Offset: 0x0023A940
+		// Token: 0x060043F9 RID: 17401 RVA: 0x0023D908 File Offset: 0x0023BD08
 		public ExitMapGrid(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x17000AA9 RID: 2729
-		// (get) Token: 0x060043F1 RID: 17393 RVA: 0x0023C558 File Offset: 0x0023A958
+		// Token: 0x17000AAB RID: 2731
+		// (get) Token: 0x060043FA RID: 17402 RVA: 0x0023D920 File Offset: 0x0023BD20
 		public bool MapUsesExitGrid
 		{
 			get
@@ -41,8 +41,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AAA RID: 2730
-		// (get) Token: 0x060043F2 RID: 17394 RVA: 0x0023C5E8 File Offset: 0x0023A9E8
+		// Token: 0x17000AAC RID: 2732
+		// (get) Token: 0x060043FB RID: 17403 RVA: 0x0023D9B0 File Offset: 0x0023BDB0
 		public CellBoolDrawer Drawer
 		{
 			get
@@ -68,8 +68,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AAB RID: 2731
-		// (get) Token: 0x060043F3 RID: 17395 RVA: 0x0023C668 File Offset: 0x0023AA68
+		// Token: 0x17000AAD RID: 2733
+		// (get) Token: 0x060043FC RID: 17404 RVA: 0x0023DA30 File Offset: 0x0023BE30
 		public BoolGrid Grid
 		{
 			get
@@ -91,8 +91,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AAC RID: 2732
-		// (get) Token: 0x060043F4 RID: 17396 RVA: 0x0023C6A8 File Offset: 0x0023AAA8
+		// Token: 0x17000AAE RID: 2734
+		// (get) Token: 0x060043FD RID: 17405 RVA: 0x0023DA70 File Offset: 0x0023BE70
 		public Color Color
 		{
 			get
@@ -101,25 +101,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043F5 RID: 17397 RVA: 0x0023C6D8 File Offset: 0x0023AAD8
+		// Token: 0x060043FE RID: 17406 RVA: 0x0023DAA0 File Offset: 0x0023BEA0
 		public bool GetCellBool(int index)
 		{
 			return this.Grid[index] && !this.map.fogGrid.IsFogged(index);
 		}
 
-		// Token: 0x060043F6 RID: 17398 RVA: 0x0023C718 File Offset: 0x0023AB18
+		// Token: 0x060043FF RID: 17407 RVA: 0x0023DAE0 File Offset: 0x0023BEE0
 		public Color GetCellExtraColor(int index)
 		{
 			return Color.white;
 		}
 
-		// Token: 0x060043F7 RID: 17399 RVA: 0x0023C734 File Offset: 0x0023AB34
+		// Token: 0x06004400 RID: 17408 RVA: 0x0023DAFC File Offset: 0x0023BEFC
 		public bool IsExitCell(IntVec3 c)
 		{
 			return this.MapUsesExitGrid && this.Grid[c];
 		}
 
-		// Token: 0x060043F8 RID: 17400 RVA: 0x0023C767 File Offset: 0x0023AB67
+		// Token: 0x06004401 RID: 17409 RVA: 0x0023DB2F File Offset: 0x0023BF2F
 		public void ExitMapGridUpdate()
 		{
 			if (this.MapUsesExitGrid)
@@ -129,19 +129,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043F9 RID: 17401 RVA: 0x0023C790 File Offset: 0x0023AB90
+		// Token: 0x06004402 RID: 17410 RVA: 0x0023DB58 File Offset: 0x0023BF58
 		public void Notify_LOSBlockerSpawned()
 		{
 			this.dirty = true;
 		}
 
-		// Token: 0x060043FA RID: 17402 RVA: 0x0023C79A File Offset: 0x0023AB9A
+		// Token: 0x06004403 RID: 17411 RVA: 0x0023DB62 File Offset: 0x0023BF62
 		public void Notify_LOSBlockerDespawned()
 		{
 			this.dirty = true;
 		}
 
-		// Token: 0x060043FB RID: 17403 RVA: 0x0023C7A4 File Offset: 0x0023ABA4
+		// Token: 0x06004404 RID: 17412 RVA: 0x0023DB6C File Offset: 0x0023BF6C
 		private void Rebuild()
 		{
 			this.dirty = false;
@@ -175,7 +175,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043FC RID: 17404 RVA: 0x0023C8A8 File Offset: 0x0023ACA8
+		// Token: 0x06004405 RID: 17413 RVA: 0x0023DC70 File Offset: 0x0023C070
 		private bool IsGoodExitCell(IntVec3 cell)
 		{
 			bool result;
@@ -199,19 +199,19 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04002E55 RID: 11861
+		// Token: 0x04002E5F RID: 11871
 		private Map map;
 
-		// Token: 0x04002E56 RID: 11862
+		// Token: 0x04002E60 RID: 11872
 		private bool dirty = true;
 
-		// Token: 0x04002E57 RID: 11863
+		// Token: 0x04002E61 RID: 11873
 		private BoolGrid exitMapGrid;
 
-		// Token: 0x04002E58 RID: 11864
+		// Token: 0x04002E62 RID: 11874
 		private CellBoolDrawer drawerInt;
 
-		// Token: 0x04002E59 RID: 11865
+		// Token: 0x04002E63 RID: 11875
 		private const int MaxDistToEdge = 2;
 	}
 }

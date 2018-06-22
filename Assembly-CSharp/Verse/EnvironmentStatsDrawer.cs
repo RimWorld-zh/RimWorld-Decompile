@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E5E RID: 3678
+	// Token: 0x02000E5D RID: 3677
 	internal static class EnvironmentStatsDrawer
 	{
-		// Token: 0x17000D9A RID: 3482
-		// (get) Token: 0x06005690 RID: 22160 RVA: 0x002C93D0 File Offset: 0x002C77D0
+		// Token: 0x17000D9D RID: 3485
+		// (get) Token: 0x060056B0 RID: 22192 RVA: 0x002CAFE0 File Offset: 0x002C93E0
 		private static int DisplayedRoomStatsCount
 		{
 			get
@@ -27,13 +27,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005691 RID: 22161 RVA: 0x002C9428 File Offset: 0x002C7828
+		// Token: 0x060056B1 RID: 22193 RVA: 0x002CB038 File Offset: 0x002C9438
 		private static bool ShouldShowWindowNow()
 		{
 			return (EnvironmentStatsDrawer.ShouldShowRoomStats() || EnvironmentStatsDrawer.ShouldShowBeauty()) && !Mouse.IsInputBlockedNow;
 		}
 
-		// Token: 0x06005692 RID: 22162 RVA: 0x002C946C File Offset: 0x002C786C
+		// Token: 0x060056B2 RID: 22194 RVA: 0x002CB07C File Offset: 0x002C947C
 		private static bool ShouldShowRoomStats()
 		{
 			bool result;
@@ -53,13 +53,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005693 RID: 22163 RVA: 0x002C94F0 File Offset: 0x002C78F0
+		// Token: 0x060056B3 RID: 22195 RVA: 0x002CB100 File Offset: 0x002C9500
 		private static bool ShouldShowBeauty()
 		{
 			return Find.PlaySettings.showBeauty && UI.MouseCell().InBounds(Find.CurrentMap) && !UI.MouseCell().Fogged(Find.CurrentMap) && UI.MouseCell().GetRoom(Find.CurrentMap, RegionType.Set_Passable) != null;
 		}
 
-		// Token: 0x06005694 RID: 22164 RVA: 0x002C9560 File Offset: 0x002C7960
+		// Token: 0x060056B4 RID: 22196 RVA: 0x002CB170 File Offset: 0x002C9570
 		public static void EnvironmentStatsOnGUI()
 		{
 			if (Event.current.type == EventType.Repaint && EnvironmentStatsDrawer.ShouldShowWindowNow())
@@ -68,7 +68,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005695 RID: 22165 RVA: 0x002C9588 File Offset: 0x002C7988
+		// Token: 0x060056B5 RID: 22197 RVA: 0x002CB198 File Offset: 0x002C9598
 		private static void DrawInfoWindow()
 		{
 			EnvironmentStatsDrawer.<DrawInfoWindow>c__AnonStorey0 <DrawInfoWindow>c__AnonStorey = new EnvironmentStatsDrawer.<DrawInfoWindow>c__AnonStorey0();
@@ -112,7 +112,7 @@ namespace Verse
 			}, true, false, 1f);
 		}
 
-		// Token: 0x06005696 RID: 22166 RVA: 0x002C9728 File Offset: 0x002C7B28
+		// Token: 0x060056B6 RID: 22198 RVA: 0x002CB338 File Offset: 0x002C9738
 		private static void FillWindow(Rect windowRect)
 		{
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.InspectRoomStats, KnowledgeAmount.FrameDisplayed);
@@ -173,7 +173,7 @@ namespace Verse
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x06005697 RID: 22167 RVA: 0x002C99C0 File Offset: 0x002C7DC0
+		// Token: 0x060056B7 RID: 22199 RVA: 0x002CB5D0 File Offset: 0x002C99D0
 		public static void DrawRoomOverlays()
 		{
 			if (Find.PlaySettings.showBeauty && UI.MouseCell().InBounds(Find.CurrentMap))
@@ -190,7 +190,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005698 RID: 22168 RVA: 0x002C9A3C File Offset: 0x002C7E3C
+		// Token: 0x060056B8 RID: 22200 RVA: 0x002CB64C File Offset: 0x002C9A4C
 		private static string GetRoomRoleLabel(Room room)
 		{
 			Pawn pawn = null;
@@ -231,31 +231,31 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003958 RID: 14680
+		// Token: 0x04003967 RID: 14695
 		private const float StatLabelColumnWidth = 100f;
 
-		// Token: 0x04003959 RID: 14681
+		// Token: 0x04003968 RID: 14696
 		private const float ScoreColumnWidth = 50f;
 
-		// Token: 0x0400395A RID: 14682
+		// Token: 0x04003969 RID: 14697
 		private const float ScoreStageLabelColumnWidth = 160f;
 
-		// Token: 0x0400395B RID: 14683
+		// Token: 0x0400396A RID: 14698
 		private static readonly Color RelatedStatColor = new Color(0.85f, 0.85f, 0.85f);
 
-		// Token: 0x0400395C RID: 14684
+		// Token: 0x0400396B RID: 14699
 		private const float DistFromMouse = 26f;
 
-		// Token: 0x0400395D RID: 14685
+		// Token: 0x0400396C RID: 14700
 		private const float WindowPadding = 18f;
 
-		// Token: 0x0400395E RID: 14686
+		// Token: 0x0400396D RID: 14701
 		private const float LineHeight = 23f;
 
-		// Token: 0x0400395F RID: 14687
+		// Token: 0x0400396E RID: 14702
 		private const float SpaceBetweenLines = 2f;
 
-		// Token: 0x04003960 RID: 14688
+		// Token: 0x0400396F RID: 14703
 		private const float SpaceBetweenColumns = 35f;
 	}
 }

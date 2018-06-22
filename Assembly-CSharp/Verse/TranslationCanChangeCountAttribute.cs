@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000E3E RID: 3646
+	// Token: 0x02000E3C RID: 3644
 	[AttributeUsage(AttributeTargets.Field)]
 	public class TranslationCanChangeCountAttribute : Attribute
 	{

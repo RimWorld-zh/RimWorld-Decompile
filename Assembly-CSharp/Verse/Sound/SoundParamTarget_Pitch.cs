@@ -2,11 +2,11 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B96 RID: 2966
+	// Token: 0x02000B92 RID: 2962
 	public class SoundParamTarget_Pitch : SoundParamTarget
 	{
-		// Token: 0x170009CF RID: 2511
-		// (get) Token: 0x0600404D RID: 16461 RVA: 0x0021C998 File Offset: 0x0021AD98
+		// Token: 0x170009D1 RID: 2513
+		// (get) Token: 0x0600404F RID: 16463 RVA: 0x0021D034 File Offset: 0x0021B434
 		public override string Label
 		{
 			get
@@ -15,7 +15,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x0600404E RID: 16462 RVA: 0x0021C9B4 File Offset: 0x0021ADB4
+		// Token: 0x06004050 RID: 16464 RVA: 0x0021D050 File Offset: 0x0021B450
 		public override void SetOn(Sample sample, float value)
 		{
 			float num;
@@ -30,7 +30,7 @@ namespace Verse.Sound
 			sample.source.pitch = AudioSourceUtility.GetSanitizedPitch(sample.SanitizedPitch * num, "SoundParamTarget_Pitch");
 		}
 
-		// Token: 0x04002B1F RID: 11039
+		// Token: 0x04002B24 RID: 11044
 		[Description("The scale used for this pitch input.\n\nMultiply means a multiplier for the natural frequency of the sound. 1.0 gives normal sound, 0.5 gives twice as long and one octave down, and 2.0 gives half as long and an octave up.\n\nSemitones sets a number of semitones to offset the sound.")]
 		private PitchParamType pitchType = PitchParamType.Multiply;
 	}

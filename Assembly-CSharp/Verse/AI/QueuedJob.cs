@@ -2,32 +2,32 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000A56 RID: 2646
+	// Token: 0x02000A52 RID: 2642
 	public class QueuedJob : IExposable
 	{
-		// Token: 0x06003AE1 RID: 15073 RVA: 0x001F3EC0 File Offset: 0x001F22C0
+		// Token: 0x06003ADC RID: 15068 RVA: 0x001F41B8 File Offset: 0x001F25B8
 		public QueuedJob()
 		{
 		}
 
-		// Token: 0x06003AE2 RID: 15074 RVA: 0x001F3EC9 File Offset: 0x001F22C9
+		// Token: 0x06003ADD RID: 15069 RVA: 0x001F41C1 File Offset: 0x001F25C1
 		public QueuedJob(Job job, JobTag? tag)
 		{
 			this.job = job;
 			this.tag = tag;
 		}
 
-		// Token: 0x06003AE3 RID: 15075 RVA: 0x001F3EE0 File Offset: 0x001F22E0
+		// Token: 0x06003ADE RID: 15070 RVA: 0x001F41D8 File Offset: 0x001F25D8
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<Job>(ref this.job, "job", new object[0]);
 			Scribe_Values.Look<JobTag?>(ref this.tag, "tag", null, false);
 		}
 
-		// Token: 0x04002542 RID: 9538
+		// Token: 0x0400253D RID: 9533
 		public Job job;
 
-		// Token: 0x04002543 RID: 9539
+		// Token: 0x0400253E RID: 9534
 		public JobTag? tag;
 	}
 }

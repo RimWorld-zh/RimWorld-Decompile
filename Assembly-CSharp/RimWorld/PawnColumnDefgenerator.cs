@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000234 RID: 564
 	public class PawnColumnDefgenerator
 	{
-		// Token: 0x06000A39 RID: 2617 RVA: 0x0005A2C8 File Offset: 0x000586C8
+		// Token: 0x06000A37 RID: 2615 RVA: 0x0005A30C File Offset: 0x0005870C
 		public static IEnumerable<PawnColumnDef> ImpliedPawnColumnDefs()
 		{
 			PawnTableDef animalsTable = PawnTableDefOf.Animals;

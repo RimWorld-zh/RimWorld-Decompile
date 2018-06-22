@@ -2,17 +2,17 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000AA4 RID: 2724
+	// Token: 0x02000AA0 RID: 2720
 	public class Pawn_Thinker
 	{
-		// Token: 0x06003CB1 RID: 15537 RVA: 0x00202083 File Offset: 0x00200483
+		// Token: 0x06003CAC RID: 15532 RVA: 0x002023A7 File Offset: 0x002007A7
 		public Pawn_Thinker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x1700092D RID: 2349
-		// (get) Token: 0x06003CB2 RID: 15538 RVA: 0x00202094 File Offset: 0x00200494
+		// Token: 0x1700092E RID: 2350
+		// (get) Token: 0x06003CAD RID: 15533 RVA: 0x002023B8 File Offset: 0x002007B8
 		public ThinkTreeDef MainThinkTree
 		{
 			get
@@ -21,8 +21,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x1700092E RID: 2350
-		// (get) Token: 0x06003CB3 RID: 15539 RVA: 0x002020BC File Offset: 0x002004BC
+		// Token: 0x1700092F RID: 2351
+		// (get) Token: 0x06003CAE RID: 15534 RVA: 0x002023E0 File Offset: 0x002007E0
 		public ThinkNode MainThinkNodeRoot
 		{
 			get
@@ -31,8 +31,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x1700092F RID: 2351
-		// (get) Token: 0x06003CB4 RID: 15540 RVA: 0x002020E8 File Offset: 0x002004E8
+		// Token: 0x17000930 RID: 2352
+		// (get) Token: 0x06003CAF RID: 15535 RVA: 0x0020240C File Offset: 0x0020080C
 		public ThinkTreeDef ConstantThinkTree
 		{
 			get
@@ -41,8 +41,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000930 RID: 2352
-		// (get) Token: 0x06003CB5 RID: 15541 RVA: 0x00202110 File Offset: 0x00200510
+		// Token: 0x17000931 RID: 2353
+		// (get) Token: 0x06003CB0 RID: 15536 RVA: 0x00202434 File Offset: 0x00200834
 		public ThinkNode ConstantThinkNodeRoot
 		{
 			get
@@ -51,7 +51,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003CB6 RID: 15542 RVA: 0x0020213C File Offset: 0x0020053C
+		// Token: 0x06003CB1 RID: 15537 RVA: 0x00202460 File Offset: 0x00200860
 		public T TryGetMainTreeThinkNode<T>() where T : ThinkNode
 		{
 			foreach (ThinkNode thinkNode in this.MainThinkNodeRoot.ChildrenRecursive)
@@ -65,7 +65,7 @@ namespace Verse.AI
 			return (T)((object)null);
 		}
 
-		// Token: 0x06003CB7 RID: 15543 RVA: 0x002021C4 File Offset: 0x002005C4
+		// Token: 0x06003CB2 RID: 15538 RVA: 0x002024E8 File Offset: 0x002008E8
 		public T GetMainTreeThinkNode<T>() where T : ThinkNode
 		{
 			T t = this.TryGetMainTreeThinkNode<T>();
@@ -82,7 +82,7 @@ namespace Verse.AI
 			return t;
 		}
 
-		// Token: 0x04002671 RID: 9841
+		// Token: 0x0400266C RID: 9836
 		public Pawn pawn;
 	}
 }

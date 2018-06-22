@@ -9,7 +9,7 @@ namespace RimWorld
 	public class GameCondition : IExposable
 	{
 		// Token: 0x170001F0 RID: 496
-		// (get) Token: 0x06000CE5 RID: 3301 RVA: 0x00070F44 File Offset: 0x0006F344
+		// (get) Token: 0x06000CE5 RID: 3301 RVA: 0x00070FF8 File Offset: 0x0006F3F8
 		protected Map SingleMap
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001F1 RID: 497
-		// (get) Token: 0x06000CE6 RID: 3302 RVA: 0x00070F64 File Offset: 0x0006F364
+		// (get) Token: 0x06000CE6 RID: 3302 RVA: 0x00071018 File Offset: 0x0006F418
 		public virtual string Label
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001F2 RID: 498
-		// (get) Token: 0x06000CE7 RID: 3303 RVA: 0x00070F84 File Offset: 0x0006F384
+		// (get) Token: 0x06000CE7 RID: 3303 RVA: 0x00071038 File Offset: 0x0006F438
 		public virtual string LabelCap
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001F3 RID: 499
-		// (get) Token: 0x06000CE8 RID: 3304 RVA: 0x00070FA4 File Offset: 0x0006F3A4
+		// (get) Token: 0x06000CE8 RID: 3304 RVA: 0x00071058 File Offset: 0x0006F458
 		public virtual bool Expired
 		{
 			get
@@ -49,7 +49,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001F4 RID: 500
-		// (get) Token: 0x06000CE9 RID: 3305 RVA: 0x00070FE0 File Offset: 0x0006F3E0
+		// (get) Token: 0x06000CE9 RID: 3305 RVA: 0x00071094 File Offset: 0x0006F494
 		public int TicksPassed
 		{
 			get
@@ -59,8 +59,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001F5 RID: 501
-		// (get) Token: 0x06000CEA RID: 3306 RVA: 0x00071008 File Offset: 0x0006F408
-		// (set) Token: 0x06000CEB RID: 3307 RVA: 0x00071051 File Offset: 0x0006F451
+		// (get) Token: 0x06000CEA RID: 3306 RVA: 0x000710BC File Offset: 0x0006F4BC
+		// (set) Token: 0x06000CEB RID: 3307 RVA: 0x00071105 File Offset: 0x0006F505
 		public int TicksLeft
 		{
 			get
@@ -84,8 +84,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001F6 RID: 502
-		// (get) Token: 0x06000CEC RID: 3308 RVA: 0x00071064 File Offset: 0x0006F464
-		// (set) Token: 0x06000CED RID: 3309 RVA: 0x0007107F File Offset: 0x0006F47F
+		// (get) Token: 0x06000CEC RID: 3308 RVA: 0x00071118 File Offset: 0x0006F518
+		// (set) Token: 0x06000CED RID: 3309 RVA: 0x00071133 File Offset: 0x0006F533
 		public bool Permanent
 		{
 			get
@@ -103,8 +103,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001F7 RID: 503
-		// (get) Token: 0x06000CEE RID: 3310 RVA: 0x00071098 File Offset: 0x0006F498
-		// (set) Token: 0x06000CEF RID: 3311 RVA: 0x000710DA File Offset: 0x0006F4DA
+		// (get) Token: 0x06000CEE RID: 3310 RVA: 0x0007114C File Offset: 0x0006F54C
+		// (set) Token: 0x06000CEF RID: 3311 RVA: 0x0007118E File Offset: 0x0006F58E
 		public int Duration
 		{
 			get
@@ -129,7 +129,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001F8 RID: 504
-		// (get) Token: 0x06000CF0 RID: 3312 RVA: 0x000710EC File Offset: 0x0006F4EC
+		// (get) Token: 0x06000CF0 RID: 3312 RVA: 0x000711A0 File Offset: 0x0006F5A0
 		public virtual string TooltipString
 		{
 			get
@@ -183,7 +183,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001F9 RID: 505
-		// (get) Token: 0x06000CF1 RID: 3313 RVA: 0x00071258 File Offset: 0x0006F658
+		// (get) Token: 0x06000CF1 RID: 3313 RVA: 0x0007130C File Offset: 0x0006F70C
 		public List<Map> AffectedMaps
 		{
 			get
@@ -212,7 +212,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CF2 RID: 3314 RVA: 0x00071348 File Offset: 0x0006F748
+		// Token: 0x06000CF2 RID: 3314 RVA: 0x000713FC File Offset: 0x0006F7FC
 		public virtual void ExposeData()
 		{
 			Scribe_Defs.Look<GameConditionDef>(ref this.def, "def");
@@ -225,22 +225,22 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CF3 RID: 3315 RVA: 0x000713AD File Offset: 0x0006F7AD
+		// Token: 0x06000CF3 RID: 3315 RVA: 0x00071461 File Offset: 0x0006F861
 		public virtual void GameConditionTick()
 		{
 		}
 
-		// Token: 0x06000CF4 RID: 3316 RVA: 0x000713B0 File Offset: 0x0006F7B0
+		// Token: 0x06000CF4 RID: 3316 RVA: 0x00071464 File Offset: 0x0006F864
 		public virtual void GameConditionDraw(Map map)
 		{
 		}
 
-		// Token: 0x06000CF5 RID: 3317 RVA: 0x000713B3 File Offset: 0x0006F7B3
+		// Token: 0x06000CF5 RID: 3317 RVA: 0x00071467 File Offset: 0x0006F867
 		public virtual void Init()
 		{
 		}
 
-		// Token: 0x06000CF6 RID: 3318 RVA: 0x000713B6 File Offset: 0x0006F7B6
+		// Token: 0x06000CF6 RID: 3318 RVA: 0x0007146A File Offset: 0x0006F86A
 		public virtual void End()
 		{
 			if (this.def.endMessage != null)
@@ -250,87 +250,87 @@ namespace RimWorld
 			this.gameConditionManager.ActiveConditions.Remove(this);
 		}
 
-		// Token: 0x06000CF7 RID: 3319 RVA: 0x000713F4 File Offset: 0x0006F7F4
+		// Token: 0x06000CF7 RID: 3319 RVA: 0x000714A8 File Offset: 0x0006F8A8
 		public virtual float SkyGazeChanceFactor(Map map)
 		{
 			return 1f;
 		}
 
-		// Token: 0x06000CF8 RID: 3320 RVA: 0x00071410 File Offset: 0x0006F810
+		// Token: 0x06000CF8 RID: 3320 RVA: 0x000714C4 File Offset: 0x0006F8C4
 		public virtual float SkyGazeJoyGainFactor(Map map)
 		{
 			return 1f;
 		}
 
-		// Token: 0x06000CF9 RID: 3321 RVA: 0x0007142C File Offset: 0x0006F82C
+		// Token: 0x06000CF9 RID: 3321 RVA: 0x000714E0 File Offset: 0x0006F8E0
 		public virtual float TemperatureOffset()
 		{
 			return 0f;
 		}
 
-		// Token: 0x06000CFA RID: 3322 RVA: 0x00071448 File Offset: 0x0006F848
+		// Token: 0x06000CFA RID: 3322 RVA: 0x000714FC File Offset: 0x0006F8FC
 		public virtual float SkyTargetLerpFactor(Map map)
 		{
 			return 0f;
 		}
 
-		// Token: 0x06000CFB RID: 3323 RVA: 0x00071464 File Offset: 0x0006F864
+		// Token: 0x06000CFB RID: 3323 RVA: 0x00071518 File Offset: 0x0006F918
 		public virtual SkyTarget? SkyTarget(Map map)
 		{
 			return null;
 		}
 
-		// Token: 0x06000CFC RID: 3324 RVA: 0x00071484 File Offset: 0x0006F884
+		// Token: 0x06000CFC RID: 3324 RVA: 0x00071538 File Offset: 0x0006F938
 		public virtual float AnimalDensityFactor(Map map)
 		{
 			return 1f;
 		}
 
-		// Token: 0x06000CFD RID: 3325 RVA: 0x000714A0 File Offset: 0x0006F8A0
+		// Token: 0x06000CFD RID: 3325 RVA: 0x00071554 File Offset: 0x0006F954
 		public virtual float PlantDensityFactor(Map map)
 		{
 			return 1f;
 		}
 
-		// Token: 0x06000CFE RID: 3326 RVA: 0x000714BC File Offset: 0x0006F8BC
+		// Token: 0x06000CFE RID: 3326 RVA: 0x00071570 File Offset: 0x0006F970
 		public virtual bool AllowEnjoyableOutsideNow(Map map)
 		{
 			return true;
 		}
 
-		// Token: 0x06000CFF RID: 3327 RVA: 0x000714D4 File Offset: 0x0006F8D4
+		// Token: 0x06000CFF RID: 3327 RVA: 0x00071588 File Offset: 0x0006F988
 		public virtual List<SkyOverlay> SkyOverlays(Map map)
 		{
 			return null;
 		}
 
-		// Token: 0x06000D00 RID: 3328 RVA: 0x000714EA File Offset: 0x0006F8EA
+		// Token: 0x06000D00 RID: 3328 RVA: 0x0007159E File Offset: 0x0006F99E
 		public virtual void DoCellSteadyEffects(IntVec3 c, Map map)
 		{
 		}
 
-		// Token: 0x0400085B RID: 2139
+		// Token: 0x0400085D RID: 2141
 		public GameConditionManager gameConditionManager;
 
-		// Token: 0x0400085C RID: 2140
+		// Token: 0x0400085E RID: 2142
 		public GameConditionDef def;
 
-		// Token: 0x0400085D RID: 2141
+		// Token: 0x0400085F RID: 2143
 		public int startTick;
 
-		// Token: 0x0400085E RID: 2142
+		// Token: 0x04000860 RID: 2144
 		private int duration = -1;
 
-		// Token: 0x0400085F RID: 2143
+		// Token: 0x04000861 RID: 2145
 		private bool permanent;
 
-		// Token: 0x04000860 RID: 2144
+		// Token: 0x04000862 RID: 2146
 		private List<Map> cachedAffectedMaps = new List<Map>();
 
-		// Token: 0x04000861 RID: 2145
+		// Token: 0x04000863 RID: 2147
 		private List<Map> cachedAffectedMapsForMaps = new List<Map>();
 
-		// Token: 0x04000862 RID: 2146
+		// Token: 0x04000864 RID: 2148
 		private static List<GameConditionManager> tmpGameConditionManagers = new List<GameConditionManager>();
 	}
 }

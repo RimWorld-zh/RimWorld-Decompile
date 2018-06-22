@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000ED0 RID: 3792
+	// Token: 0x02000ECF RID: 3791
 	internal class BlackScreenFixer : MonoBehaviour
 	{
-		// Token: 0x060059CC RID: 22988 RVA: 0x002E13C1 File Offset: 0x002DF7C1
+		// Token: 0x060059ED RID: 23021 RVA: 0x002E31D5 File Offset: 0x002E15D5
 		private void Start()
 		{
 			Screen.SetResolution(Screen.width, Screen.height, Screen.fullScreen);

@@ -8,7 +8,7 @@ namespace RimWorld
 	public class WorkGiver_ConstructFinishFrames : WorkGiver_Scanner
 	{
 		// Token: 0x170000E3 RID: 227
-		// (get) Token: 0x0600062E RID: 1582 RVA: 0x00041658 File Offset: 0x0003FA58
+		// (get) Token: 0x0600062E RID: 1582 RVA: 0x00041644 File Offset: 0x0003FA44
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -17,14 +17,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600062F RID: 1583 RVA: 0x00041670 File Offset: 0x0003FA70
+		// Token: 0x0600062F RID: 1583 RVA: 0x0004165C File Offset: 0x0003FA5C
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Deadly;
 		}
 
 		// Token: 0x170000E4 RID: 228
-		// (get) Token: 0x06000630 RID: 1584 RVA: 0x00041688 File Offset: 0x0003FA88
+		// (get) Token: 0x06000630 RID: 1584 RVA: 0x00041674 File Offset: 0x0003FA74
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000631 RID: 1585 RVA: 0x000416A4 File Offset: 0x0003FAA4
+		// Token: 0x06000631 RID: 1585 RVA: 0x00041690 File Offset: 0x0003FA90
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Job result;

@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000236 RID: 566
 	internal static class TerrainDefGenerator_Stone
 	{
-		// Token: 0x06000A3D RID: 2621 RVA: 0x0005B3BC File Offset: 0x000597BC
+		// Token: 0x06000A3B RID: 2619 RVA: 0x0005B400 File Offset: 0x00059800
 		public static IEnumerable<TerrainDef> ImpliedTerrainDefs()
 		{
 			int i = 0;
@@ -75,6 +75,7 @@ namespace RimWorld
 				smooth.edgeType = TerrainDef.TerrainEdgeType.FadeRough;
 				smooth.pathCost = 0;
 				StatUtility.SetStatValueInList(ref smooth.statBases, StatDefOf.Beauty, 2f);
+				StatUtility.SetStatValueInList(ref smooth.statBases, StatDefOf.MarketValue, 8f);
 				smooth.scatterType = "Rocky";
 				smooth.affordances = new List<TerrainAffordanceDef>();
 				smooth.affordances.Add(TerrainAffordanceDefOf.Light);

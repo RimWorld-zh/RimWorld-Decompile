@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200059C RID: 1436
+	// Token: 0x02000598 RID: 1432
 	public class WorldLayer_UngeneratedPlanetParts : WorldLayer
 	{
-		// Token: 0x06001B63 RID: 7011 RVA: 0x000EC24C File Offset: 0x000EA64C
+		// Token: 0x06001B5A RID: 7002 RVA: 0x000EC2A0 File Offset: 0x000EA6A0
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();
@@ -44,10 +44,10 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x04001025 RID: 4133
+		// Token: 0x04001022 RID: 4130
 		private const int SubdivisionsCount = 4;
 
-		// Token: 0x04001026 RID: 4134
+		// Token: 0x04001023 RID: 4131
 		private const float ViewAngleOffset = 10f;
 	}
 }

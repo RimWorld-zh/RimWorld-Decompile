@@ -7,10 +7,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CA8 RID: 3240
+	// Token: 0x02000CA5 RID: 3237
 	public static class GenTemperature
 	{
-		// Token: 0x06004744 RID: 18244 RVA: 0x00258A78 File Offset: 0x00256E78
+		// Token: 0x0600474D RID: 18253 RVA: 0x00259E68 File Offset: 0x00258268
 		public static float AverageTemperatureAtTileForTwelfth(int tile, Twelfth twelfth)
 		{
 			int num = 30000;
@@ -24,7 +24,7 @@ namespace Verse
 			return num3 / 120f;
 		}
 
-		// Token: 0x06004745 RID: 18245 RVA: 0x00258AE4 File Offset: 0x00256EE4
+		// Token: 0x0600474E RID: 18254 RVA: 0x00259ED4 File Offset: 0x002582D4
 		public static float MinTemperatureAtTile(int tile)
 		{
 			float num = float.MaxValue;
@@ -35,7 +35,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06004746 RID: 18246 RVA: 0x00258B2C File Offset: 0x00256F2C
+		// Token: 0x0600474F RID: 18255 RVA: 0x00259F1C File Offset: 0x0025831C
 		public static float MaxTemperatureAtTile(int tile)
 		{
 			float num = float.MinValue;
@@ -46,13 +46,13 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06004747 RID: 18247 RVA: 0x00258B74 File Offset: 0x00256F74
+		// Token: 0x06004750 RID: 18256 RVA: 0x00259F64 File Offset: 0x00258364
 		public static FloatRange ComfortableTemperatureRange(this Pawn p)
 		{
 			return new FloatRange(p.GetStatValue(StatDefOf.ComfyTemperatureMin, true), p.GetStatValue(StatDefOf.ComfyTemperatureMax, true));
 		}
 
-		// Token: 0x06004748 RID: 18248 RVA: 0x00258BA8 File Offset: 0x00256FA8
+		// Token: 0x06004751 RID: 18257 RVA: 0x00259F98 File Offset: 0x00258398
 		public static FloatRange ComfortableTemperatureRange(ThingDef raceDef, List<ThingStuffPair> apparel = null)
 		{
 			FloatRange result = new FloatRange(raceDef.GetStatValueAbstract(StatDefOf.ComfyTemperatureMin, null), raceDef.GetStatValueAbstract(StatDefOf.ComfyTemperatureMax, null));
@@ -64,7 +64,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004749 RID: 18249 RVA: 0x00258C48 File Offset: 0x00257048
+		// Token: 0x06004752 RID: 18258 RVA: 0x0025A038 File Offset: 0x00258438
 		public static FloatRange SafeTemperatureRange(this Pawn p)
 		{
 			FloatRange result = p.ComfortableTemperatureRange();
@@ -73,7 +73,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600474A RID: 18250 RVA: 0x00258C8C File Offset: 0x0025708C
+		// Token: 0x06004753 RID: 18259 RVA: 0x0025A07C File Offset: 0x0025847C
 		public static FloatRange SafeTemperatureRange(ThingDef raceDef, List<ThingStuffPair> apparel = null)
 		{
 			FloatRange result = GenTemperature.ComfortableTemperatureRange(raceDef, apparel);
@@ -82,7 +82,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600474B RID: 18251 RVA: 0x00258CD0 File Offset: 0x002570D0
+		// Token: 0x06004754 RID: 18260 RVA: 0x0025A0C0 File Offset: 0x002584C0
 		public static float GetTemperatureForCell(IntVec3 c, Map map)
 		{
 			float result;
@@ -90,7 +90,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600474C RID: 18252 RVA: 0x00258CF0 File Offset: 0x002570F0
+		// Token: 0x06004755 RID: 18261 RVA: 0x0025A0E0 File Offset: 0x002584E0
 		public static bool TryGetTemperatureForCell(IntVec3 c, Map map, out float tempResult)
 		{
 			bool result;
@@ -124,7 +124,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600474D RID: 18253 RVA: 0x00258DA8 File Offset: 0x002571A8
+		// Token: 0x06004756 RID: 18262 RVA: 0x0025A198 File Offset: 0x00258598
 		public static bool TryGetDirectAirTemperatureForCell(IntVec3 c, Map map, out float temperature)
 		{
 			bool result;
@@ -150,7 +150,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600474E RID: 18254 RVA: 0x00258E00 File Offset: 0x00257200
+		// Token: 0x06004757 RID: 18263 RVA: 0x0025A1F0 File Offset: 0x002585F0
 		public static bool TryGetAirTemperatureAroundThing(Thing t, out float temperature)
 		{
 			float num = 0f;
@@ -179,7 +179,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600474F RID: 18255 RVA: 0x00258EA0 File Offset: 0x002572A0
+		// Token: 0x06004758 RID: 18264 RVA: 0x0025A290 File Offset: 0x00258690
 		public static float OffsetFromSunCycle(int absTick, int tile)
 		{
 			float num = GenDate.DayPercent((long)absTick, Find.WorldGrid.LongLatOf(tile).x);
@@ -187,7 +187,7 @@ namespace Verse
 			return Mathf.Cos(f) * 7f;
 		}
 
-		// Token: 0x06004750 RID: 18256 RVA: 0x00258EEC File Offset: 0x002572EC
+		// Token: 0x06004759 RID: 18265 RVA: 0x0025A2DC File Offset: 0x002586DC
 		public static float OffsetFromSeasonCycle(int absTick, int tile)
 		{
 			float num = (float)(absTick / 60000 % 60) / 60f;
@@ -195,7 +195,7 @@ namespace Verse
 			return Mathf.Cos(f) * -GenTemperature.SeasonalShiftAmplitudeAt(tile);
 		}
 
-		// Token: 0x06004751 RID: 18257 RVA: 0x00258F3C File Offset: 0x0025733C
+		// Token: 0x0600475A RID: 18266 RVA: 0x0025A32C File Offset: 0x0025872C
 		public static float GetTemperatureFromSeasonAtTile(int absTick, int tile)
 		{
 			if (absTick == 0)
@@ -206,7 +206,7 @@ namespace Verse
 			return tile2.temperature + GenTemperature.OffsetFromSeasonCycle(absTick, tile);
 		}
 
-		// Token: 0x06004752 RID: 18258 RVA: 0x00258F74 File Offset: 0x00257374
+		// Token: 0x0600475B RID: 18267 RVA: 0x0025A364 File Offset: 0x00258764
 		public static float GetTemperatureAtTile(int tile)
 		{
 			Map map = Current.Game.FindMap(tile);
@@ -222,7 +222,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004753 RID: 18259 RVA: 0x00258FB8 File Offset: 0x002573B8
+		// Token: 0x0600475C RID: 18268 RVA: 0x0025A3A8 File Offset: 0x002587A8
 		public static float SeasonalShiftAmplitudeAt(int tile)
 		{
 			float result;
@@ -237,7 +237,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004754 RID: 18260 RVA: 0x00259020 File Offset: 0x00257420
+		// Token: 0x0600475D RID: 18269 RVA: 0x0025A410 File Offset: 0x00258810
 		public static List<Twelfth> TwelfthsInAverageTemperatureRange(int tile, float minTemp, float maxTemp)
 		{
 			List<Twelfth> twelfths = new List<Twelfth>();
@@ -282,7 +282,7 @@ namespace Verse
 			return twelfths2;
 		}
 
-		// Token: 0x06004755 RID: 18261 RVA: 0x00259170 File Offset: 0x00257570
+		// Token: 0x0600475E RID: 18270 RVA: 0x0025A560 File Offset: 0x00258960
 		public static Twelfth EarliestTwelfthInAverageTemperatureRange(int tile, float minTemp, float maxTemp)
 		{
 			for (int i = 0; i < 12; i++)
@@ -315,7 +315,7 @@ namespace Verse
 			return Twelfth.Undefined;
 		}
 
-		// Token: 0x06004756 RID: 18262 RVA: 0x00259214 File Offset: 0x00257614
+		// Token: 0x0600475F RID: 18271 RVA: 0x0025A604 File Offset: 0x00258A04
 		public static bool PushHeat(IntVec3 c, Map map, float energy)
 		{
 			bool result;
@@ -359,7 +359,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004757 RID: 18263 RVA: 0x0025931C File Offset: 0x0025771C
+		// Token: 0x06004760 RID: 18272 RVA: 0x0025A70C File Offset: 0x00258B0C
 		public static void PushHeat(Thing t, float energy)
 		{
 			IntVec3 c;
@@ -373,7 +373,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004758 RID: 18264 RVA: 0x0025936C File Offset: 0x0025776C
+		// Token: 0x06004761 RID: 18273 RVA: 0x0025A75C File Offset: 0x00258B5C
 		public static float ControlTemperatureTempChange(IntVec3 cell, Map map, float energyLimit, float targetTemperature)
 		{
 			RoomGroup roomGroup = cell.GetRoomGroup(map);
@@ -402,7 +402,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004759 RID: 18265 RVA: 0x00259404 File Offset: 0x00257804
+		// Token: 0x06004762 RID: 18274 RVA: 0x0025A7F4 File Offset: 0x00258BF4
 		public static void EqualizeTemperaturesThroughBuilding(Building b, float rate, bool twoWay)
 		{
 			int num = 0;
@@ -495,7 +495,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600475A RID: 18266 RVA: 0x002596EC File Offset: 0x00257AEC
+		// Token: 0x06004763 RID: 18275 RVA: 0x0025AADC File Offset: 0x00258EDC
 		public static float RotRateAtTemperature(float temperature)
 		{
 			float result;
@@ -514,7 +514,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600475B RID: 18267 RVA: 0x00259734 File Offset: 0x00257B34
+		// Token: 0x06004764 RID: 18276 RVA: 0x0025AB24 File Offset: 0x00258F24
 		public static bool FactionOwnsPassableRoomInTemperatureRange(Faction faction, FloatRange tempRange, Map map)
 		{
 			bool result;
@@ -538,13 +538,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600475C RID: 18268 RVA: 0x002597C0 File Offset: 0x00257BC0
+		// Token: 0x06004765 RID: 18277 RVA: 0x0025ABB0 File Offset: 0x00258FB0
 		public static string GetAverageTemperatureLabel(int tile)
 		{
 			return Find.WorldGrid[tile].temperature.ToStringTemperature("F1") + " " + string.Format("({0} {1} {2})", GenTemperature.MinTemperatureAtTile(tile).ToStringTemperature("F0"), "RangeTo".Translate(), GenTemperature.MaxTemperatureAtTile(tile).ToStringTemperature("F0"));
 		}
 
-		// Token: 0x0600475D RID: 18269 RVA: 0x00259830 File Offset: 0x00257C30
+		// Token: 0x06004766 RID: 18278 RVA: 0x0025AC20 File Offset: 0x00259020
 		public static float CelsiusTo(float temp, TemperatureDisplayMode oldMode)
 		{
 			float result;
@@ -570,7 +570,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600475E RID: 18270 RVA: 0x00259888 File Offset: 0x00257C88
+		// Token: 0x06004767 RID: 18279 RVA: 0x0025AC78 File Offset: 0x00259078
 		public static float CelsiusToOffset(float temp, TemperatureDisplayMode oldMode)
 		{
 			float result;
@@ -596,7 +596,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600475F RID: 18271 RVA: 0x002598D4 File Offset: 0x00257CD4
+		// Token: 0x06004768 RID: 18280 RVA: 0x0025ACC4 File Offset: 0x002590C4
 		public static float ConvertTemperatureOffset(float temp, TemperatureDisplayMode oldMode, TemperatureDisplayMode newMode)
 		{
 			if (oldMode != TemperatureDisplayMode.Celsius)
@@ -628,22 +628,22 @@ namespace Verse
 			return temp;
 		}
 
-		// Token: 0x0400305F RID: 12383
+		// Token: 0x0400306A RID: 12394
 		public static readonly Color ColorSpotHot = new Color(1f, 0f, 0f, 0.6f);
 
-		// Token: 0x04003060 RID: 12384
+		// Token: 0x0400306B RID: 12395
 		public static readonly Color ColorSpotCold = new Color(0f, 0f, 1f, 0.6f);
 
-		// Token: 0x04003061 RID: 12385
+		// Token: 0x0400306C RID: 12396
 		public static readonly Color ColorRoomHot = new Color(1f, 0f, 0f, 0.3f);
 
-		// Token: 0x04003062 RID: 12386
+		// Token: 0x0400306D RID: 12397
 		public static readonly Color ColorRoomCold = new Color(0f, 0f, 1f, 0.3f);
 
-		// Token: 0x04003063 RID: 12387
+		// Token: 0x0400306E RID: 12398
 		private static List<RoomGroup> neighRoomGroups = new List<RoomGroup>();
 
-		// Token: 0x04003064 RID: 12388
+		// Token: 0x0400306F RID: 12399
 		private static RoomGroup[] beqRoomGroups = new RoomGroup[4];
 	}
 }

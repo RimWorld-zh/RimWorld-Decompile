@@ -7,18 +7,18 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000853 RID: 2131
+	// Token: 0x0200084F RID: 2127
 	public class ITab_Pawn_Log : ITab
 	{
-		// Token: 0x06003044 RID: 12356 RVA: 0x001A4084 File Offset: 0x001A2484
+		// Token: 0x0600303D RID: 12349 RVA: 0x001A4264 File Offset: 0x001A2664
 		public ITab_Pawn_Log()
 		{
 			this.size = new Vector2(630f, 510f);
 			this.labelKey = "TabLog";
 		}
 
-		// Token: 0x170007B2 RID: 1970
-		// (get) Token: 0x06003045 RID: 12357 RVA: 0x001A40FC File Offset: 0x001A24FC
+		// Token: 0x170007B3 RID: 1971
+		// (get) Token: 0x0600303E RID: 12350 RVA: 0x001A42DC File Offset: 0x001A26DC
 		private Pawn SelPawnForCombatInfo
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003046 RID: 12358 RVA: 0x001A4158 File Offset: 0x001A2558
+		// Token: 0x0600303F RID: 12351 RVA: 0x001A4338 File Offset: 0x001A2738
 		protected override void FillTab()
 		{
 			Pawn selPawnForCombatInfo = this.SelPawnForCombatInfo;
@@ -121,79 +121,79 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003047 RID: 12359 RVA: 0x001A45B8 File Offset: 0x001A29B8
+		// Token: 0x06003040 RID: 12352 RVA: 0x001A4798 File Offset: 0x001A2B98
 		public void SeekTo(LogEntry entry)
 		{
 			this.logSeek = entry;
 		}
 
-		// Token: 0x06003048 RID: 12360 RVA: 0x001A45C2 File Offset: 0x001A29C2
+		// Token: 0x06003041 RID: 12353 RVA: 0x001A47A2 File Offset: 0x001A2BA2
 		public void Highlight(LogEntry entry)
 		{
 			this.data.highlightEntry = entry;
 			this.data.highlightIntensity = 1f;
 		}
 
-		// Token: 0x04001A1D RID: 6685
+		// Token: 0x04001A1B RID: 6683
 		public const float Width = 630f;
 
-		// Token: 0x04001A1E RID: 6686
+		// Token: 0x04001A1C RID: 6684
 		[TweakValue("Interface", 0f, 1000f)]
 		private static float ShowAllX = 60f;
 
-		// Token: 0x04001A1F RID: 6687
+		// Token: 0x04001A1D RID: 6685
 		[TweakValue("Interface", 0f, 1000f)]
 		private static float ShowAllWidth = 100f;
 
-		// Token: 0x04001A20 RID: 6688
+		// Token: 0x04001A1E RID: 6686
 		[TweakValue("Interface", 0f, 1000f)]
 		private static float ShowCombatX = 445f;
 
-		// Token: 0x04001A21 RID: 6689
+		// Token: 0x04001A1F RID: 6687
 		[TweakValue("Interface", 0f, 1000f)]
 		private static float ShowCombatWidth = 115f;
 
-		// Token: 0x04001A22 RID: 6690
+		// Token: 0x04001A20 RID: 6688
 		[TweakValue("Interface", 0f, 1000f)]
 		private static float ShowSocialX = 330f;
 
-		// Token: 0x04001A23 RID: 6691
+		// Token: 0x04001A21 RID: 6689
 		[TweakValue("Interface", 0f, 1000f)]
 		private static float ShowSocialWidth = 105f;
 
-		// Token: 0x04001A24 RID: 6692
+		// Token: 0x04001A22 RID: 6690
 		[TweakValue("Interface", 0f, 20f)]
 		private static float ToolbarHeight = 2f;
 
-		// Token: 0x04001A25 RID: 6693
+		// Token: 0x04001A23 RID: 6691
 		[TweakValue("Interface", 0f, 100f)]
 		private static float ButtonOffset = 60f;
 
-		// Token: 0x04001A26 RID: 6694
+		// Token: 0x04001A24 RID: 6692
 		public bool showAll = false;
 
-		// Token: 0x04001A27 RID: 6695
+		// Token: 0x04001A25 RID: 6693
 		public bool showCombat = true;
 
-		// Token: 0x04001A28 RID: 6696
+		// Token: 0x04001A26 RID: 6694
 		public bool showSocial = true;
 
-		// Token: 0x04001A29 RID: 6697
+		// Token: 0x04001A27 RID: 6695
 		public LogEntry logSeek = null;
 
-		// Token: 0x04001A2A RID: 6698
+		// Token: 0x04001A28 RID: 6696
 		public ITab_Pawn_Log_Utility.LogDrawData data = new ITab_Pawn_Log_Utility.LogDrawData();
 
-		// Token: 0x04001A2B RID: 6699
+		// Token: 0x04001A29 RID: 6697
 		public List<ITab_Pawn_Log_Utility.LogLineDisplayable> cachedLogDisplay;
 
-		// Token: 0x04001A2C RID: 6700
+		// Token: 0x04001A2A RID: 6698
 		public int cachedLogDisplayLastTick = -1;
 
-		// Token: 0x04001A2D RID: 6701
+		// Token: 0x04001A2B RID: 6699
 		public int cachedLogPlayLastTick = -1;
 
-		// Token: 0x04001A2E RID: 6702
+		// Token: 0x04001A2C RID: 6700
 		private Vector2 scrollPosition = default(Vector2);
 	}
 }

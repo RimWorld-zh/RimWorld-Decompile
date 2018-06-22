@@ -4,17 +4,17 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200060B RID: 1547
+	// Token: 0x02000607 RID: 1543
 	public static class SiteMaker
 	{
-		// Token: 0x06001F22 RID: 7970 RVA: 0x0010E4B8 File Offset: 0x0010C8B8
+		// Token: 0x06001F19 RID: 7961 RVA: 0x0010E50C File Offset: 0x0010C90C
 		public static Site MakeSite(SiteCoreDef core, SitePartDef sitePart, Faction faction, bool ifHostileThenMustRemainHostile = true)
 		{
 			IEnumerable<SitePartDef> siteParts = (sitePart == null) ? null : Gen.YieldSingle<SitePartDef>(sitePart);
 			return SiteMaker.MakeSite(core, siteParts, faction, ifHostileThenMustRemainHostile);
 		}
 
-		// Token: 0x06001F23 RID: 7971 RVA: 0x0010E4EC File Offset: 0x0010C8EC
+		// Token: 0x06001F1A RID: 7962 RVA: 0x0010E540 File Offset: 0x0010C940
 		public static Site MakeSite(SiteCoreDef core, IEnumerable<SitePartDef> siteParts, Faction faction, bool ifHostileThenMustRemainHostile = true)
 		{
 			Site site = (Site)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Site);
@@ -31,7 +31,7 @@ namespace RimWorld.Planet
 			return site;
 		}
 
-		// Token: 0x06001F24 RID: 7972 RVA: 0x0010E558 File Offset: 0x0010C958
+		// Token: 0x06001F1B RID: 7963 RVA: 0x0010E5AC File Offset: 0x0010C9AC
 		public static Site TryMakeSite_SingleSitePart(SiteCoreDef core, IEnumerable<SitePartDef> singleSitePartCandidates, Faction faction = null, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null, bool ifHostileThenMustRemainHostile = true)
 		{
 			SitePartDef sitePart;
@@ -47,7 +47,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001F25 RID: 7973 RVA: 0x0010E594 File Offset: 0x0010C994
+		// Token: 0x06001F1C RID: 7964 RVA: 0x0010E5E8 File Offset: 0x0010C9E8
 		public static Site TryMakeSite_SingleSitePart(SiteCoreDef core, string singleSitePartTag, Faction faction = null, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null, bool ifHostileThenMustRemainHostile = true)
 		{
 			SitePartDef sitePart;
@@ -63,7 +63,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001F26 RID: 7974 RVA: 0x0010E5D0 File Offset: 0x0010C9D0
+		// Token: 0x06001F1D RID: 7965 RVA: 0x0010E624 File Offset: 0x0010CA24
 		public static Site TryMakeSite(SiteCoreDef core, IEnumerable<SitePartDef> siteParts, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null, bool ifHostileThenMustRemainHostile = true)
 		{
 			Faction faction;

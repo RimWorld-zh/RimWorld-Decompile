@@ -3,11 +3,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D0A RID: 3338
+	// Token: 0x02000D07 RID: 3335
 	public class HediffComp_DrugEffectFactor : HediffComp
 	{
-		// Token: 0x17000BA4 RID: 2980
-		// (get) Token: 0x0600499B RID: 18843 RVA: 0x00268454 File Offset: 0x00266854
+		// Token: 0x17000BA6 RID: 2982
+		// (get) Token: 0x060049AC RID: 18860 RVA: 0x00269888 File Offset: 0x00267C88
 		public HediffCompProperties_DrugEffectFactor Props
 		{
 			get
@@ -16,8 +16,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BA5 RID: 2981
-		// (get) Token: 0x0600499C RID: 18844 RVA: 0x00268474 File Offset: 0x00266874
+		// Token: 0x17000BA7 RID: 2983
+		// (get) Token: 0x060049AD RID: 18861 RVA: 0x002698A8 File Offset: 0x00267CA8
 		private float CurrentFactor
 		{
 			get
@@ -26,8 +26,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BA6 RID: 2982
-		// (get) Token: 0x0600499D RID: 18845 RVA: 0x002684A0 File Offset: 0x002668A0
+		// Token: 0x17000BA8 RID: 2984
+		// (get) Token: 0x060049AE RID: 18862 RVA: 0x002698D4 File Offset: 0x00267CD4
 		public override string CompTipStringExtra
 		{
 			get
@@ -40,7 +40,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600499E RID: 18846 RVA: 0x002684EB File Offset: 0x002668EB
+		// Token: 0x060049AF RID: 18863 RVA: 0x0026991F File Offset: 0x00267D1F
 		public override void CompModifyChemicalEffect(ChemicalDef chem, ref float effect)
 		{
 			if (this.Props.chemical == chem)
@@ -49,7 +49,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x040031E7 RID: 12775
+		// Token: 0x040031F2 RID: 12786
 		private static readonly SimpleCurve EffectFactorSeverityCurve = new SimpleCurve
 		{
 			{

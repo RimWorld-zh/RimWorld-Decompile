@@ -6,12 +6,12 @@ namespace Verse.Noise
 	// Token: 0x02000F76 RID: 3958
 	public class ConvertToIsland : ModuleBase
 	{
-		// Token: 0x06005F6C RID: 24428 RVA: 0x0030916B File Offset: 0x0030756B
+		// Token: 0x06005F95 RID: 24469 RVA: 0x0030B20F File Offset: 0x0030960F
 		public ConvertToIsland() : base(1)
 		{
 		}
 
-		// Token: 0x06005F6D RID: 24429 RVA: 0x00309175 File Offset: 0x00307575
+		// Token: 0x06005F96 RID: 24470 RVA: 0x0030B219 File Offset: 0x00309619
 		public ConvertToIsland(Vector3 viewCenter, float viewAngle, ModuleBase input) : base(1)
 		{
 			this.viewCenter = viewCenter;
@@ -19,7 +19,7 @@ namespace Verse.Noise
 			this.modules[0] = input;
 		}
 
-		// Token: 0x06005F6E RID: 24430 RVA: 0x00309198 File Offset: 0x00307598
+		// Token: 0x06005F97 RID: 24471 RVA: 0x0030B23C File Offset: 0x0030963C
 		public override double GetValue(double x, double y, double z)
 		{
 			float num = Vector3.Angle(this.viewCenter, new Vector3((float)x, (float)y, (float)z));
@@ -46,13 +46,13 @@ namespace Verse.Noise
 			return result;
 		}
 
-		// Token: 0x04003EC2 RID: 16066
+		// Token: 0x04003ED4 RID: 16084
 		public Vector3 viewCenter;
 
-		// Token: 0x04003EC3 RID: 16067
+		// Token: 0x04003ED5 RID: 16085
 		public float viewAngle;
 
-		// Token: 0x04003EC4 RID: 16068
+		// Token: 0x04003ED6 RID: 16086
 		private const float WaterLevel = -0.12f;
 	}
 }

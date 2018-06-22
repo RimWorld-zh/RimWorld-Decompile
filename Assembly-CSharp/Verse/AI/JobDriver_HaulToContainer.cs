@@ -4,11 +4,11 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A43 RID: 2627
+	// Token: 0x02000A3F RID: 2623
 	public class JobDriver_HaulToContainer : JobDriver
 	{
-		// Token: 0x170008EA RID: 2282
-		// (get) Token: 0x06003A41 RID: 14913 RVA: 0x001EE13C File Offset: 0x001EC53C
+		// Token: 0x170008EB RID: 2283
+		// (get) Token: 0x06003A3B RID: 14907 RVA: 0x001EE37C File Offset: 0x001EC77C
 		private Thing ThingToCarry
 		{
 			get
@@ -17,8 +17,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x170008EB RID: 2283
-		// (get) Token: 0x06003A42 RID: 14914 RVA: 0x001EE164 File Offset: 0x001EC564
+		// Token: 0x170008EC RID: 2284
+		// (get) Token: 0x06003A3C RID: 14908 RVA: 0x001EE3A4 File Offset: 0x001EC7A4
 		private Thing Container
 		{
 			get
@@ -27,8 +27,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x170008EC RID: 2284
-		// (get) Token: 0x06003A43 RID: 14915 RVA: 0x001EE18C File Offset: 0x001EC58C
+		// Token: 0x170008ED RID: 2285
+		// (get) Token: 0x06003A3D RID: 14909 RVA: 0x001EE3CC File Offset: 0x001EC7CC
 		private int Duration
 		{
 			get
@@ -37,7 +37,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A44 RID: 14916 RVA: 0x001EE1D8 File Offset: 0x001EC5D8
+		// Token: 0x06003A3E RID: 14910 RVA: 0x001EE418 File Offset: 0x001EC818
 		public override string GetReport()
 		{
 			Thing thing;
@@ -65,7 +65,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003A45 RID: 14917 RVA: 0x001EE294 File Offset: 0x001EC694
+		// Token: 0x06003A3F RID: 14911 RVA: 0x001EE4D4 File Offset: 0x001EC8D4
 		public override bool TryMakePreToilReservations()
 		{
 			this.pawn.ReserveAsManyAsPossible(this.job.GetTargetQueue(TargetIndex.A), this.job, 1, -1, null);
@@ -73,7 +73,7 @@ namespace Verse.AI
 			return this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, 1, -1, null) && this.pawn.Reserve(this.job.GetTarget(TargetIndex.B), this.job, 1, -1, null);
 		}
 
-		// Token: 0x06003A46 RID: 14918 RVA: 0x001EE334 File Offset: 0x001EC734
+		// Token: 0x06003A40 RID: 14912 RVA: 0x001EE574 File Offset: 0x001EC974
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);
@@ -111,13 +111,13 @@ namespace Verse.AI
 			yield break;
 		}
 
-		// Token: 0x04002516 RID: 9494
+		// Token: 0x04002511 RID: 9489
 		private const TargetIndex CarryThingIndex = TargetIndex.A;
 
-		// Token: 0x04002517 RID: 9495
+		// Token: 0x04002512 RID: 9490
 		private const TargetIndex DestIndex = TargetIndex.B;
 
-		// Token: 0x04002518 RID: 9496
+		// Token: 0x04002513 RID: 9491
 		private const TargetIndex PrimaryDestIndex = TargetIndex.C;
 	}
 }

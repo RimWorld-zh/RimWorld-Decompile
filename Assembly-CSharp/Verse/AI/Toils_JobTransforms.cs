@@ -5,10 +5,10 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A50 RID: 2640
+	// Token: 0x02000A4C RID: 2636
 	public static class Toils_JobTransforms
 	{
-		// Token: 0x06003AC2 RID: 15042 RVA: 0x001F2764 File Offset: 0x001F0B64
+		// Token: 0x06003ABD RID: 15037 RVA: 0x001F2A5C File Offset: 0x001F0E5C
 		public static Toil ExtractNextTargetFromQueue(TargetIndex ind, bool failIfCountFromQueueTooBig = true)
 		{
 			Toil toil = new Toil();
@@ -38,7 +38,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AC3 RID: 15043 RVA: 0x001F27B8 File Offset: 0x001F0BB8
+		// Token: 0x06003ABE RID: 15038 RVA: 0x001F2AB0 File Offset: 0x001F0EB0
 		public static Toil ClearQueue(TargetIndex ind)
 		{
 			Toil toil = new Toil();
@@ -55,7 +55,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AC4 RID: 15044 RVA: 0x001F2804 File Offset: 0x001F0C04
+		// Token: 0x06003ABF RID: 15039 RVA: 0x001F2AFC File Offset: 0x001F0EFC
 		public static Toil ClearDespawnedNullOrForbiddenQueuedTargets(TargetIndex ind, Func<Thing, bool> validator = null)
 		{
 			Toil toil = new Toil();
@@ -69,7 +69,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AC5 RID: 15045 RVA: 0x001F2858 File Offset: 0x001F0C58
+		// Token: 0x06003AC0 RID: 15040 RVA: 0x001F2B50 File Offset: 0x001F0F50
 		private static IEnumerable<IntVec3> IngredientPlaceCellsInOrder(Thing destination)
 		{
 			Toils_JobTransforms.yieldedIngPlaceCells.Clear();
@@ -101,7 +101,7 @@ namespace Verse.AI
 			yield break;
 		}
 
-		// Token: 0x06003AC6 RID: 15046 RVA: 0x001F2884 File Offset: 0x001F0C84
+		// Token: 0x06003AC1 RID: 15041 RVA: 0x001F2B7C File Offset: 0x001F0F7C
 		public static Toil SetTargetToIngredientPlaceCell(TargetIndex facilityInd, TargetIndex carryItemInd, TargetIndex cellTargetInd)
 		{
 			Toil toil = new Toil();
@@ -138,7 +138,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AC7 RID: 15047 RVA: 0x001F28DC File Offset: 0x001F0CDC
+		// Token: 0x06003AC2 RID: 15042 RVA: 0x001F2BD4 File Offset: 0x001F0FD4
 		public static Toil MoveCurrentTargetIntoQueue(TargetIndex ind)
 		{
 			Toil toil = new Toil();
@@ -163,7 +163,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AC8 RID: 15048 RVA: 0x001F2928 File Offset: 0x001F0D28
+		// Token: 0x06003AC3 RID: 15043 RVA: 0x001F2C20 File Offset: 0x001F1020
 		public static Toil SucceedOnNoTargetInQueue(TargetIndex ind)
 		{
 			Toil toil = new Toil();
@@ -171,7 +171,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x0400253F RID: 9535
+		// Token: 0x0400253A RID: 9530
 		private static List<IntVec3> yieldedIngPlaceCells = new List<IntVec3>();
 	}
 }

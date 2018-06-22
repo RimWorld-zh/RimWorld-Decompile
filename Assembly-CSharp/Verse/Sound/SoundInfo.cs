@@ -3,26 +3,26 @@ using System.Collections.Generic;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DB6 RID: 3510
+	// Token: 0x02000DB3 RID: 3507
 	public struct SoundInfo
 	{
-		// Token: 0x17000CAA RID: 3242
-		// (get) Token: 0x06004E5B RID: 20059 RVA: 0x0028ECB8 File Offset: 0x0028D0B8
-		// (set) Token: 0x06004E5C RID: 20060 RVA: 0x0028ECD2 File Offset: 0x0028D0D2
+		// Token: 0x17000CAC RID: 3244
+		// (get) Token: 0x06004E70 RID: 20080 RVA: 0x00290268 File Offset: 0x0028E668
+		// (set) Token: 0x06004E71 RID: 20081 RVA: 0x00290282 File Offset: 0x0028E682
 		public bool IsOnCamera { get; private set; }
 
-		// Token: 0x17000CAB RID: 3243
-		// (get) Token: 0x06004E5D RID: 20061 RVA: 0x0028ECDC File Offset: 0x0028D0DC
-		// (set) Token: 0x06004E5E RID: 20062 RVA: 0x0028ECF6 File Offset: 0x0028D0F6
+		// Token: 0x17000CAD RID: 3245
+		// (get) Token: 0x06004E72 RID: 20082 RVA: 0x0029028C File Offset: 0x0028E68C
+		// (set) Token: 0x06004E73 RID: 20083 RVA: 0x002902A6 File Offset: 0x0028E6A6
 		public TargetInfo Maker { get; private set; }
 
-		// Token: 0x17000CAC RID: 3244
-		// (get) Token: 0x06004E5F RID: 20063 RVA: 0x0028ED00 File Offset: 0x0028D100
-		// (set) Token: 0x06004E60 RID: 20064 RVA: 0x0028ED1A File Offset: 0x0028D11A
+		// Token: 0x17000CAE RID: 3246
+		// (get) Token: 0x06004E74 RID: 20084 RVA: 0x002902B0 File Offset: 0x0028E6B0
+		// (set) Token: 0x06004E75 RID: 20085 RVA: 0x002902CA File Offset: 0x0028E6CA
 		public MaintenanceType Maintenance { get; private set; }
 
-		// Token: 0x17000CAD RID: 3245
-		// (get) Token: 0x06004E61 RID: 20065 RVA: 0x0028ED24 File Offset: 0x0028D124
+		// Token: 0x17000CAF RID: 3247
+		// (get) Token: 0x06004E76 RID: 20086 RVA: 0x002902D4 File Offset: 0x0028E6D4
 		public IEnumerable<KeyValuePair<string, float>> DefinedParameters
 		{
 			get
@@ -39,7 +39,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E62 RID: 20066 RVA: 0x0028ED54 File Offset: 0x0028D154
+		// Token: 0x06004E77 RID: 20087 RVA: 0x00290304 File Offset: 0x0028E704
 		public static SoundInfo OnCamera(MaintenanceType maint = MaintenanceType.None)
 		{
 			SoundInfo result = default(SoundInfo);
@@ -51,7 +51,7 @@ namespace Verse.Sound
 			return result;
 		}
 
-		// Token: 0x06004E63 RID: 20067 RVA: 0x0028EDAC File Offset: 0x0028D1AC
+		// Token: 0x06004E78 RID: 20088 RVA: 0x0029035C File Offset: 0x0028E75C
 		public static SoundInfo InMap(TargetInfo maker, MaintenanceType maint = MaintenanceType.None)
 		{
 			SoundInfo result = default(SoundInfo);
@@ -63,7 +63,7 @@ namespace Verse.Sound
 			return result;
 		}
 
-		// Token: 0x06004E64 RID: 20068 RVA: 0x0028EE00 File Offset: 0x0028D200
+		// Token: 0x06004E79 RID: 20089 RVA: 0x002903B0 File Offset: 0x0028E7B0
 		public void SetParameter(string key, float value)
 		{
 			if (this.parameters == null)
@@ -73,19 +73,19 @@ namespace Verse.Sound
 			this.parameters[key] = value;
 		}
 
-		// Token: 0x06004E65 RID: 20069 RVA: 0x0028EE28 File Offset: 0x0028D228
+		// Token: 0x06004E7A RID: 20090 RVA: 0x002903D8 File Offset: 0x0028E7D8
 		public static implicit operator SoundInfo(TargetInfo source)
 		{
 			return SoundInfo.InMap(source, MaintenanceType.None);
 		}
 
-		// Token: 0x06004E66 RID: 20070 RVA: 0x0028EE44 File Offset: 0x0028D244
+		// Token: 0x06004E7B RID: 20091 RVA: 0x002903F4 File Offset: 0x0028E7F4
 		public static implicit operator SoundInfo(Thing sourceThing)
 		{
 			return SoundInfo.InMap(sourceThing, MaintenanceType.None);
 		}
 
-		// Token: 0x06004E67 RID: 20071 RVA: 0x0028EE68 File Offset: 0x0028D268
+		// Token: 0x06004E7C RID: 20092 RVA: 0x00290418 File Offset: 0x0028E818
 		public override string ToString()
 		{
 			string text = null;
@@ -126,16 +126,16 @@ namespace Verse.Sound
 			});
 		}
 
-		// Token: 0x0400342F RID: 13359
+		// Token: 0x0400343A RID: 13370
 		private Dictionary<string, float> parameters;
 
-		// Token: 0x04003430 RID: 13360
+		// Token: 0x0400343B RID: 13371
 		public float volumeFactor;
 
-		// Token: 0x04003431 RID: 13361
+		// Token: 0x0400343C RID: 13372
 		public float pitchFactor;
 
-		// Token: 0x04003432 RID: 13362
+		// Token: 0x0400343D RID: 13373
 		public bool testPlay;
 	}
 }

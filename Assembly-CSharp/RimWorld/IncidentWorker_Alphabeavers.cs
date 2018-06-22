@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000321 RID: 801
 	internal class IncidentWorker_Alphabeavers : IncidentWorker
 	{
-		// Token: 0x06000DAF RID: 3503 RVA: 0x000751F0 File Offset: 0x000735F0
+		// Token: 0x06000DAF RID: 3503 RVA: 0x000752A4 File Offset: 0x000736A4
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -24,7 +24,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DB0 RID: 3504 RVA: 0x00075234 File Offset: 0x00073634
+		// Token: 0x06000DB0 RID: 3504 RVA: 0x000752E8 File Offset: 0x000736E8
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -52,13 +52,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x040008BA RID: 2234
+		// Token: 0x040008BC RID: 2236
 		private static readonly FloatRange CountPerColonistRange = new FloatRange(1.7f, 3f);
 
-		// Token: 0x040008BB RID: 2235
+		// Token: 0x040008BD RID: 2237
 		private const int MinCount = 6;
 
-		// Token: 0x040008BC RID: 2236
+		// Token: 0x040008BE RID: 2238
 		private const int MaxCount = 25;
 	}
 }

@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007DA RID: 2010
+	// Token: 0x020007D6 RID: 2006
 	public class Designator_RemoveFloor : Designator
 	{
-		// Token: 0x06002C85 RID: 11397 RVA: 0x00176F08 File Offset: 0x00175308
+		// Token: 0x06002C7E RID: 11390 RVA: 0x001770E0 File Offset: 0x001754E0
 		public Designator_RemoveFloor()
 		{
 			this.defaultLabel = "DesignatorRemoveFloor".Translate();
@@ -21,8 +21,8 @@ namespace RimWorld
 			this.hotKey = KeyBindingDefOf.Misc1;
 		}
 
-		// Token: 0x170006FE RID: 1790
-		// (get) Token: 0x06002C86 RID: 11398 RVA: 0x00176F80 File Offset: 0x00175380
+		// Token: 0x170006FF RID: 1791
+		// (get) Token: 0x06002C7F RID: 11391 RVA: 0x00177158 File Offset: 0x00175558
 		public override int DraggableDimensions
 		{
 			get
@@ -31,8 +31,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006FF RID: 1791
-		// (get) Token: 0x06002C87 RID: 11399 RVA: 0x00176F98 File Offset: 0x00175398
+		// Token: 0x17000700 RID: 1792
+		// (get) Token: 0x06002C80 RID: 11392 RVA: 0x00177170 File Offset: 0x00175570
 		public override bool DragDrawMeasurements
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C88 RID: 11400 RVA: 0x00176FB0 File Offset: 0x001753B0
+		// Token: 0x06002C81 RID: 11393 RVA: 0x00177188 File Offset: 0x00175588
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -76,7 +76,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C89 RID: 11401 RVA: 0x001770A8 File Offset: 0x001754A8
+		// Token: 0x06002C82 RID: 11394 RVA: 0x00177280 File Offset: 0x00175680
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			if (DebugSettings.godMode)
@@ -89,13 +89,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C8A RID: 11402 RVA: 0x001770F8 File Offset: 0x001754F8
+		// Token: 0x06002C83 RID: 11395 RVA: 0x001772D0 File Offset: 0x001756D0
 		public override void SelectedUpdate()
 		{
 			GenUI.RenderMouseoverBracket();
 		}
 
-		// Token: 0x06002C8B RID: 11403 RVA: 0x00177100 File Offset: 0x00175500
+		// Token: 0x06002C84 RID: 11396 RVA: 0x001772D8 File Offset: 0x001756D8
 		public override void RenderHighlight(List<IntVec3> dragCells)
 		{
 			DesignatorUtility.RenderHighlightOverSelectableCells(this, dragCells);

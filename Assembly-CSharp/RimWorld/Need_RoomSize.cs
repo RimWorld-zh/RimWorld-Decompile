@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000507 RID: 1287
+	// Token: 0x02000503 RID: 1283
 	public class Need_RoomSize : Need_Seeker
 	{
-		// Token: 0x0600171C RID: 5916 RVA: 0x000CB81D File Offset: 0x000C9C1D
+		// Token: 0x06001713 RID: 5907 RVA: 0x000CB815 File Offset: 0x000C9C15
 		public Need_RoomSize(Pawn pawn) : base(pawn)
 		{
 			this.threshPercents = new List<float>();
@@ -16,7 +16,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700032D RID: 813
-		// (get) Token: 0x0600171D RID: 5917 RVA: 0x000CB854 File Offset: 0x000C9C54
+		// (get) Token: 0x06001714 RID: 5908 RVA: 0x000CB84C File Offset: 0x000C9C4C
 		public override float CurInstantLevel
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700032E RID: 814
-		// (get) Token: 0x0600171E RID: 5918 RVA: 0x000CB870 File Offset: 0x000C9C70
+		// (get) Token: 0x06001715 RID: 5909 RVA: 0x000CB868 File Offset: 0x000C9C68
 		public RoomSizeCategory CurCategory
 		{
 			get
@@ -52,7 +52,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600171F RID: 5919 RVA: 0x000CB8CC File Offset: 0x000C9CCC
+		// Token: 0x06001716 RID: 5910 RVA: 0x000CB8C4 File Offset: 0x000C9CC4
 		public float SpacePerceptibleNow()
 		{
 			float result;
@@ -103,22 +103,22 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04000DB1 RID: 3505
+		// Token: 0x04000DAE RID: 3502
 		private static List<Room> tempScanRooms = new List<Room>();
 
-		// Token: 0x04000DB2 RID: 3506
+		// Token: 0x04000DAF RID: 3503
 		private const float MinCramped = 0.01f;
 
-		// Token: 0x04000DB3 RID: 3507
+		// Token: 0x04000DB0 RID: 3504
 		private const float MinNormal = 0.3f;
 
-		// Token: 0x04000DB4 RID: 3508
+		// Token: 0x04000DB1 RID: 3505
 		private const float MinSpacious = 0.7f;
 
-		// Token: 0x04000DB5 RID: 3509
+		// Token: 0x04000DB2 RID: 3506
 		public static readonly int SampleNumCells = GenRadial.NumCellsInRadius(7.9f);
 
-		// Token: 0x04000DB6 RID: 3510
+		// Token: 0x04000DB3 RID: 3507
 		private static readonly SimpleCurve RoomCellCountSpaceCurve = new SimpleCurve
 		{
 			{

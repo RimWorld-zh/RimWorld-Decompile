@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009C0 RID: 2496
+	// Token: 0x020009BC RID: 2492
 	public class StatPart_WorkTableUnpowered : StatPart
 	{
-		// Token: 0x060037D2 RID: 14290 RVA: 0x001DAE66 File Offset: 0x001D9266
+		// Token: 0x060037CC RID: 14284 RVA: 0x001DB03E File Offset: 0x001D943E
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing && StatPart_WorkTableUnpowered.Applies(req.Thing))
@@ -15,7 +15,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037D3 RID: 14291 RVA: 0x001DAEA4 File Offset: 0x001D92A4
+		// Token: 0x060037CD RID: 14285 RVA: 0x001DB07C File Offset: 0x001D947C
 		public override string ExplanationPart(StatRequest req)
 		{
 			string result;
@@ -31,7 +31,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037D4 RID: 14292 RVA: 0x001DAF10 File Offset: 0x001D9310
+		// Token: 0x060037CE RID: 14286 RVA: 0x001DB0E8 File Offset: 0x001D94E8
 		public static bool Applies(Thing th)
 		{
 			bool result;

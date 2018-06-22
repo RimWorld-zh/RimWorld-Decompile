@@ -8,7 +8,7 @@ namespace RimWorld
 	public class Thought_SharedBed : Thought_Situational
 	{
 		// Token: 0x1700017C RID: 380
-		// (get) Token: 0x06000A08 RID: 2568 RVA: 0x00059200 File Offset: 0x00057600
+		// (get) Token: 0x06000A06 RID: 2566 RVA: 0x00059244 File Offset: 0x00057644
 		protected override float BaseMoodOffset
 		{
 			get

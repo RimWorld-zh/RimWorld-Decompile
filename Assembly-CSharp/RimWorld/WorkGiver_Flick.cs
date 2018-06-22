@@ -9,7 +9,7 @@ namespace RimWorld
 	public class WorkGiver_Flick : WorkGiver_Scanner
 	{
 		// Token: 0x17000124 RID: 292
-		// (get) Token: 0x06000756 RID: 1878 RVA: 0x000493AC File Offset: 0x000477AC
+		// (get) Token: 0x06000756 RID: 1878 RVA: 0x00049398 File Offset: 0x00047798
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -18,13 +18,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000757 RID: 1879 RVA: 0x000493C4 File Offset: 0x000477C4
+		// Token: 0x06000757 RID: 1879 RVA: 0x000493B0 File Offset: 0x000477B0
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Deadly;
 		}
 
-		// Token: 0x06000758 RID: 1880 RVA: 0x000493DC File Offset: 0x000477DC
+		// Token: 0x06000758 RID: 1880 RVA: 0x000493C8 File Offset: 0x000477C8
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			List<Designation> desList = pawn.Map.designationManager.allDesignations;
@@ -38,7 +38,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000759 RID: 1881 RVA: 0x00049408 File Offset: 0x00047808
+		// Token: 0x06000759 RID: 1881 RVA: 0x000493F4 File Offset: 0x000477F4
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			bool result;
@@ -54,7 +54,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600075A RID: 1882 RVA: 0x00049464 File Offset: 0x00047864
+		// Token: 0x0600075A RID: 1882 RVA: 0x00049450 File Offset: 0x00047850
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			return new Job(JobDefOf.Flick, t);

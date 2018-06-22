@@ -7,14 +7,14 @@ namespace RimWorld
 	// Token: 0x020001B0 RID: 432
 	public class Trigger_WoundedGuestPresent : Trigger
 	{
-		// Token: 0x060008E2 RID: 2274 RVA: 0x000539D9 File Offset: 0x00051DD9
+		// Token: 0x060008E0 RID: 2272 RVA: 0x000539ED File Offset: 0x00051DED
 		public Trigger_WoundedGuestPresent()
 		{
 			this.data = new TriggerData_PawnCycleInd();
 		}
 
 		// Token: 0x1700016E RID: 366
-		// (get) Token: 0x060008E3 RID: 2275 RVA: 0x000539F0 File Offset: 0x00051DF0
+		// (get) Token: 0x060008E1 RID: 2273 RVA: 0x00053A04 File Offset: 0x00051E04
 		private TriggerData_PawnCycleInd Data
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060008E4 RID: 2276 RVA: 0x00053A10 File Offset: 0x00051E10
+		// Token: 0x060008E2 RID: 2274 RVA: 0x00053A24 File Offset: 0x00051E24
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			if (signal.type == TriggerSignalType.Tick && Find.TickManager.TicksGame % 800 == 0)
@@ -49,7 +49,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x040003C2 RID: 962
+		// Token: 0x040003C0 RID: 960
 		private const int CheckInterval = 800;
 	}
 }

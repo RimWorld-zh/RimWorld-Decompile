@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C95 RID: 3221
+	// Token: 0x02000C92 RID: 3218
 	public static class RegionTraverser
 	{
-		// Token: 0x060046A3 RID: 18083 RVA: 0x0025362C File Offset: 0x00251A2C
+		// Token: 0x060046AC RID: 18092 RVA: 0x002549FC File Offset: 0x00252DFC
 		static RegionTraverser()
 		{
 			for (int i = 0; i < RegionTraverser.NumWorkers; i++)
@@ -15,7 +15,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060046A4 RID: 18084 RVA: 0x00253684 File Offset: 0x00251A84
+		// Token: 0x060046AD RID: 18093 RVA: 0x00254A54 File Offset: 0x00252E54
 		public static Room FloodAndSetRooms(Region root, Map map, Room existingRoom)
 		{
 			Room floodingRoom;
@@ -47,7 +47,7 @@ namespace Verse
 			return floodingRoom2;
 		}
 
-		// Token: 0x060046A5 RID: 18085 RVA: 0x0025372C File Offset: 0x00251B2C
+		// Token: 0x060046AE RID: 18094 RVA: 0x00254AFC File Offset: 0x00252EFC
 		public static void FloodAndSetNewRegionIndex(Region root, int newRegionGroupIndex)
 		{
 			root.newRegionGroupIndex = newRegionGroupIndex;
@@ -63,7 +63,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060046A6 RID: 18086 RVA: 0x002537A8 File Offset: 0x00251BA8
+		// Token: 0x060046AF RID: 18095 RVA: 0x00254B78 File Offset: 0x00252F78
 		public static bool WithinRegions(this IntVec3 A, IntVec3 B, Map map, int regionLookCount, TraverseParms traverseParams, RegionType traversableRegionTypes = RegionType.Set_Passable)
 		{
 			Region region = A.GetRegion(map, traversableRegionTypes);
@@ -108,7 +108,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060046A7 RID: 18087 RVA: 0x0025384C File Offset: 0x00251C4C
+		// Token: 0x060046B0 RID: 18096 RVA: 0x00254C1C File Offset: 0x0025301C
 		public static void MarkRegionsBFS(Region root, RegionEntryPredicate entryCondition, int maxRegions, int inRadiusMark, RegionType traversableRegionTypes = RegionType.Set_Passable)
 		{
 			RegionTraverser.BreadthFirstTraverse(root, entryCondition, delegate(Region r)
@@ -118,7 +118,7 @@ namespace Verse
 			}, maxRegions, traversableRegionTypes);
 		}
 
-		// Token: 0x060046A8 RID: 18088 RVA: 0x00253880 File Offset: 0x00251C80
+		// Token: 0x060046B1 RID: 18097 RVA: 0x00254C50 File Offset: 0x00253050
 		public static void BreadthFirstTraverse(IntVec3 start, Map map, RegionEntryPredicate entryCondition, RegionProcessor regionProcessor, int maxRegions = 999999, RegionType traversableRegionTypes = RegionType.Set_Passable)
 		{
 			Region region = start.GetRegion(map, traversableRegionTypes);
@@ -128,7 +128,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060046A9 RID: 18089 RVA: 0x002538B0 File Offset: 0x00251CB0
+		// Token: 0x060046B2 RID: 18098 RVA: 0x00254C80 File Offset: 0x00253080
 		public static void BreadthFirstTraverse(Region root, RegionEntryPredicate entryCondition, RegionProcessor regionProcessor, int maxRegions = 999999, RegionType traversableRegionTypes = RegionType.Set_Passable)
 		{
 			if (RegionTraverser.freeWorkers.Count == 0)
@@ -158,47 +158,54 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0400300E RID: 12302
+		// Token: 0x04003018 RID: 12312
 		private static Queue<RegionTraverser.BFSWorker> freeWorkers = new Queue<RegionTraverser.BFSWorker>();
 
-		// Token: 0x0400300F RID: 12303
+		// Token: 0x04003019 RID: 12313
 		public static int NumWorkers = 8;
 
-		// Token: 0x04003010 RID: 12304
+		// Token: 0x0400301A RID: 12314
 		public static readonly RegionEntryPredicate PassAll = (Region from, Region to) => true;
 
-		// Token: 0x02000C96 RID: 3222
+		// Token: 0x02000C93 RID: 3219
 		private class BFSWorker
 		{
-			// Token: 0x060046AB RID: 18091 RVA: 0x0025398D File Offset: 0x00251D8D
+			// Token: 0x060046B4 RID: 18100 RVA: 0x00254D5D File Offset: 0x0025315D
 			public BFSWorker(int closedArrayPos)
 			{
 				this.closedArrayPos = closedArrayPos;
 			}
 
-			// Token: 0x060046AC RID: 18092 RVA: 0x002539AF File Offset: 0x00251DAF
+			// Token: 0x060046B5 RID: 18101 RVA: 0x00254D7F File Offset: 0x0025317F
 			public void Clear()
 			{
 				this.open.Clear();
 			}
 
-			// Token: 0x060046AD RID: 18093 RVA: 0x002539C0 File Offset: 0x00251DC0
+			// Token: 0x060046B6 RID: 18102 RVA: 0x00254D90 File Offset: 0x00253190
 			private void QueueNewOpenRegion(Region region)
 			{
 				if (region.closedIndex[this.closedArrayPos] == this.closedIndex)
 				{
 					throw new InvalidOperationException("Region is already closed; you can't open it. Region: " + region.ToString());
 				}
-				this.open.Enqueue(region);
+				if (region.extentsClose.Area <= 4)
+				{
+					this.open.PushFront(region);
+				}
+				else
+				{
+					this.open.PushBack(region);
+				}
 				region.closedIndex[this.closedArrayPos] = this.closedIndex;
 			}
 
-			// Token: 0x060046AE RID: 18094 RVA: 0x00253A1B File Offset: 0x00251E1B
+			// Token: 0x060046B7 RID: 18103 RVA: 0x00254E0D File Offset: 0x0025320D
 			private void FinalizeSearch()
 			{
 			}
 
-			// Token: 0x060046AF RID: 18095 RVA: 0x00253A20 File Offset: 0x00251E20
+			// Token: 0x060046B8 RID: 18104 RVA: 0x00254E10 File Offset: 0x00253210
 			public void BreadthFirstTraverseWork(Region root, RegionEntryPredicate entryCondition, RegionProcessor regionProcessor, int maxRegions, RegionType traversableRegionTypes)
 			{
 				if ((root.type & traversableRegionTypes) != RegionType.None)
@@ -207,9 +214,9 @@ namespace Verse
 					this.open.Clear();
 					this.numRegionsProcessed = 0;
 					this.QueueNewOpenRegion(root);
-					while (this.open.Count > 0)
+					while (!this.open.Empty)
 					{
-						Region region = this.open.Dequeue();
+						Region region = this.open.PopFront();
 						if (DebugViewSettings.drawRegionTraversal)
 						{
 							region.Debug_Notify_Traversed();
@@ -245,17 +252,20 @@ namespace Verse
 				}
 			}
 
-			// Token: 0x04003011 RID: 12305
-			private Queue<Region> open = new Queue<Region>();
+			// Token: 0x0400301B RID: 12315
+			private Deque<Region> open = new Deque<Region>();
 
-			// Token: 0x04003012 RID: 12306
+			// Token: 0x0400301C RID: 12316
 			private int numRegionsProcessed;
 
-			// Token: 0x04003013 RID: 12307
+			// Token: 0x0400301D RID: 12317
 			private uint closedIndex = 1u;
 
-			// Token: 0x04003014 RID: 12308
+			// Token: 0x0400301E RID: 12318
 			private int closedArrayPos;
+
+			// Token: 0x0400301F RID: 12319
+			private const int skippableRegionSize = 4;
 		}
 	}
 }

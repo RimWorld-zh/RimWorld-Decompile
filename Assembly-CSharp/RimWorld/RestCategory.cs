@@ -2,16 +2,16 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000503 RID: 1283
+	// Token: 0x020004FF RID: 1279
 	public enum RestCategory : byte
 	{
-		// Token: 0x04000D9C RID: 3484
+		// Token: 0x04000D99 RID: 3481
 		Rested,
-		// Token: 0x04000D9D RID: 3485
+		// Token: 0x04000D9A RID: 3482
 		Tired,
-		// Token: 0x04000D9E RID: 3486
+		// Token: 0x04000D9B RID: 3483
 		VeryTired,
-		// Token: 0x04000D9F RID: 3487
+		// Token: 0x04000D9C RID: 3484
 		Exhausted
 	}
 }

@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x0200021F RID: 543
 	public class ThoughtWorker_Pain : ThoughtWorker
 	{
-		// Token: 0x06000A0C RID: 2572 RVA: 0x00059338 File Offset: 0x00057738
+		// Token: 0x06000A0A RID: 2570 RVA: 0x0005937C File Offset: 0x0005777C
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			float painTotal = p.health.hediffSet.PainTotal;

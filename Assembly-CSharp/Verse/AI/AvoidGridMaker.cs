@@ -7,10 +7,10 @@ using Verse.AI.Group;
 
 namespace Verse.AI
 {
-	// Token: 0x020009E3 RID: 2531
+	// Token: 0x020009DF RID: 2527
 	public static class AvoidGridMaker
 	{
-		// Token: 0x060038C0 RID: 14528 RVA: 0x001E453C File Offset: 0x001E293C
+		// Token: 0x060038BA RID: 14522 RVA: 0x001E477C File Offset: 0x001E2B7C
 		public static void RegenerateAllAvoidGridsFor(Faction faction)
 		{
 			if (faction.def.canUseAvoidGrid)
@@ -25,7 +25,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x060038C1 RID: 14529 RVA: 0x001E45A0 File Offset: 0x001E29A0
+		// Token: 0x060038BB RID: 14523 RVA: 0x001E47E0 File Offset: 0x001E2BE0
 		public static void RegenerateAvoidGridsFor(Faction faction, Map map)
 		{
 			if (faction.def.canUseAvoidGrid)
@@ -57,7 +57,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x060038C2 RID: 14530 RVA: 0x001E4654 File Offset: 0x001E2A54
+		// Token: 0x060038BC RID: 14524 RVA: 0x001E4894 File Offset: 0x001E2C94
 		internal static void Notify_CombatDangerousBuildingDespawned(Building building, Map map)
 		{
 			foreach (Faction faction in Find.FactionManager.AllFactions)
@@ -69,7 +69,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x060038C3 RID: 14531 RVA: 0x001E46DC File Offset: 0x001E2ADC
+		// Token: 0x060038BD RID: 14525 RVA: 0x001E491C File Offset: 0x001E2D1C
 		private static void GenerateAvoidGridInternal(ByteGrid grid, Faction faction, Map map, AvoidGridMode mode)
 		{
 			List<TrapMemory> list = faction.TacticalMemory.TrapMemories();
@@ -98,7 +98,7 @@ namespace Verse.AI
 			AvoidGridMaker.ExpandAvoidGridIntoEdifices(grid, map);
 		}
 
-		// Token: 0x060038C4 RID: 14532 RVA: 0x001E47A4 File Offset: 0x001E2BA4
+		// Token: 0x060038BE RID: 14526 RVA: 0x001E49E4 File Offset: 0x001E2DE4
 		private static void PrintAvoidGridAroundTrapLoc(TrapMemory mem, ByteGrid avoidGrid)
 		{
 			Room room = mem.Cell.GetRoom(mem.map, RegionType.Set_Passable);
@@ -114,7 +114,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x060038C5 RID: 14533 RVA: 0x001E486C File Offset: 0x001E2C6C
+		// Token: 0x060038BF RID: 14527 RVA: 0x001E4AAC File Offset: 0x001E2EAC
 		private static void PrintAvoidGridAroundTurret(Building_TurretGun tur, ByteGrid avoidGrid)
 		{
 			int num = GenRadial.NumCellsInRadius(tur.GunCompEq.PrimaryVerb.verbProps.range + 4f);
@@ -128,7 +128,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x060038C6 RID: 14534 RVA: 0x001E4914 File Offset: 0x001E2D14
+		// Token: 0x060038C0 RID: 14528 RVA: 0x001E4B54 File Offset: 0x001E2F54
 		private static void IncrementAvoidGrid(ByteGrid avoidGrid, IntVec3 c, int num)
 		{
 			byte b = avoidGrid[c];
@@ -136,7 +136,7 @@ namespace Verse.AI
 			avoidGrid[c] = b;
 		}
 
-		// Token: 0x060038C7 RID: 14535 RVA: 0x001E4944 File Offset: 0x001E2D44
+		// Token: 0x060038C1 RID: 14529 RVA: 0x001E4B84 File Offset: 0x001E2F84
 		private static void ExpandAvoidGridIntoEdifices(ByteGrid avoidGrid, Map map)
 		{
 			int numGridCells = map.cellIndices.NumGridCells;
@@ -162,7 +162,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x04002437 RID: 9271
+		// Token: 0x04002432 RID: 9266
 		private static readonly int TrapRadialCells = GenRadial.NumCellsInRadius(2.9f);
 	}
 }

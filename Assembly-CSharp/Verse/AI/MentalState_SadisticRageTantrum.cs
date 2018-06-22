@@ -3,29 +3,29 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A85 RID: 2693
+	// Token: 0x02000A81 RID: 2689
 	public class MentalState_SadisticRageTantrum : MentalState_TantrumRandom
 	{
-		// Token: 0x06003BBA RID: 15290 RVA: 0x001F841A File Offset: 0x001F681A
+		// Token: 0x06003BB5 RID: 15285 RVA: 0x001F872E File Offset: 0x001F6B2E
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.hits, "hits", 0, false);
 		}
 
-		// Token: 0x06003BBB RID: 15291 RVA: 0x001F8435 File Offset: 0x001F6835
+		// Token: 0x06003BB6 RID: 15286 RVA: 0x001F8749 File Offset: 0x001F6B49
 		protected override void GetPotentialTargets(List<Thing> outThings)
 		{
 			TantrumMentalStateUtility.GetSmashableThingsNear(this.pawn, this.pawn.Position, outThings, this.GetCustomValidator(), 0, 40);
 		}
 
-		// Token: 0x06003BBC RID: 15292 RVA: 0x001F8458 File Offset: 0x001F6858
+		// Token: 0x06003BB7 RID: 15287 RVA: 0x001F876C File Offset: 0x001F6B6C
 		protected override Predicate<Thing> GetCustomValidator()
 		{
 			return (Thing x) => TantrumMentalStateUtility.CanAttackPrisoner(this.pawn, x);
 		}
 
-		// Token: 0x06003BBD RID: 15293 RVA: 0x001F847C File Offset: 0x001F687C
+		// Token: 0x06003BB8 RID: 15288 RVA: 0x001F8790 File Offset: 0x001F6B90
 		public override void Notify_AttackedTarget(LocalTargetInfo hitTarget)
 		{
 			base.Notify_AttackedTarget(hitTarget);
@@ -39,10 +39,10 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x0400257E RID: 9598
+		// Token: 0x04002579 RID: 9593
 		private int hits;
 
-		// Token: 0x0400257F RID: 9599
+		// Token: 0x0400257A RID: 9594
 		public const int MaxHits = 7;
 	}
 }

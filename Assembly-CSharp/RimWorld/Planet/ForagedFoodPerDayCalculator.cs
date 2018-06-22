@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005F5 RID: 1525
+	// Token: 0x020005F1 RID: 1521
 	public static class ForagedFoodPerDayCalculator
 	{
-		// Token: 0x06001E54 RID: 7764 RVA: 0x00106020 File Offset: 0x00104420
+		// Token: 0x06001E4B RID: 7755 RVA: 0x00106074 File Offset: 0x00104474
 		public static Pair<ThingDef, float> ForagedFoodPerDay(List<Pawn> pawns, BiomeDef biome, Faction faction, bool caravanMovingNow, bool caravanResting, StringBuilder explanation = null)
 		{
 			float foragedFoodCountPerInterval = ForagedFoodPerDayCalculator.GetForagedFoodCountPerInterval(pawns, biome, faction, explanation);
@@ -56,7 +56,7 @@ namespace RimWorld.Planet
 			return new Pair<ThingDef, float>(biome.foragedFood, num);
 		}
 
-		// Token: 0x06001E55 RID: 7765 RVA: 0x00106170 File Offset: 0x00104570
+		// Token: 0x06001E4C RID: 7756 RVA: 0x001061C4 File Offset: 0x001045C4
 		public static float GetProgressPerTick(bool caravanMovingNow, bool caravanResting, StringBuilder explanation = null)
 		{
 			float num = 0.0001f;
@@ -72,7 +72,7 @@ namespace RimWorld.Planet
 			return num;
 		}
 
-		// Token: 0x06001E56 RID: 7766 RVA: 0x001061D8 File Offset: 0x001045D8
+		// Token: 0x06001E4D RID: 7757 RVA: 0x0010622C File Offset: 0x0010462C
 		public static float GetForagedFoodCountPerInterval(List<Pawn> pawns, BiomeDef biome, Faction faction, StringBuilder explanation = null)
 		{
 			float num = (biome.foragedFood == null) ? 0f : biome.forageability;
@@ -145,7 +145,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E57 RID: 7767 RVA: 0x001063F4 File Offset: 0x001047F4
+		// Token: 0x06001E4E RID: 7758 RVA: 0x00106448 File Offset: 0x00104848
 		public static float GetBaseForagedNutritionPerDay(Pawn p, out bool skip)
 		{
 			float result;
@@ -162,25 +162,25 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E58 RID: 7768 RVA: 0x00106468 File Offset: 0x00104868
+		// Token: 0x06001E4F RID: 7759 RVA: 0x001064BC File Offset: 0x001048BC
 		public static Pair<ThingDef, float> ForagedFoodPerDay(Caravan caravan, StringBuilder explanation = null)
 		{
 			return ForagedFoodPerDayCalculator.ForagedFoodPerDay(caravan.PawnsListForReading, caravan.Biome, caravan.Faction, caravan.pather.MovingNow, caravan.Resting, explanation);
 		}
 
-		// Token: 0x06001E59 RID: 7769 RVA: 0x001064A8 File Offset: 0x001048A8
+		// Token: 0x06001E50 RID: 7760 RVA: 0x001064FC File Offset: 0x001048FC
 		public static float GetProgressPerTick(Caravan caravan, StringBuilder explanation = null)
 		{
 			return ForagedFoodPerDayCalculator.GetProgressPerTick(caravan.pather.MovingNow, caravan.Resting, explanation);
 		}
 
-		// Token: 0x06001E5A RID: 7770 RVA: 0x001064D4 File Offset: 0x001048D4
+		// Token: 0x06001E51 RID: 7761 RVA: 0x00106528 File Offset: 0x00104928
 		public static float GetForagedFoodCountPerInterval(Caravan caravan, StringBuilder explanation = null)
 		{
 			return ForagedFoodPerDayCalculator.GetForagedFoodCountPerInterval(caravan.PawnsListForReading, caravan.Biome, caravan.Faction, explanation);
 		}
 
-		// Token: 0x06001E5B RID: 7771 RVA: 0x00106504 File Offset: 0x00104904
+		// Token: 0x06001E52 RID: 7762 RVA: 0x00106558 File Offset: 0x00104958
 		public static Pair<ThingDef, float> ForagedFoodPerDay(List<TransferableOneWay> transferables, BiomeDef biome, Faction faction, StringBuilder explanation = null)
 		{
 			ForagedFoodPerDayCalculator.tmpPawns.Clear();
@@ -200,7 +200,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E5C RID: 7772 RVA: 0x001065B8 File Offset: 0x001049B8
+		// Token: 0x06001E53 RID: 7763 RVA: 0x0010660C File Offset: 0x00104A0C
 		public static Pair<ThingDef, float> ForagedFoodPerDayLeftAfterTransfer(List<TransferableOneWay> transferables, BiomeDef biome, Faction faction, StringBuilder explanation = null)
 		{
 			ForagedFoodPerDayCalculator.tmpPawns.Clear();
@@ -220,7 +220,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E5D RID: 7773 RVA: 0x00106678 File Offset: 0x00104A78
+		// Token: 0x06001E54 RID: 7764 RVA: 0x001066CC File Offset: 0x00104ACC
 		public static Pair<ThingDef, float> ForagedFoodPerDayLeftAfterTradeableTransfer(List<Thing> allCurrentThings, List<Tradeable> tradeables, BiomeDef biome, Faction faction, StringBuilder explanation = null)
 		{
 			ForagedFoodPerDayCalculator.tmpThingCounts.Clear();
@@ -230,7 +230,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E5E RID: 7774 RVA: 0x001066C0 File Offset: 0x00104AC0
+		// Token: 0x06001E55 RID: 7765 RVA: 0x00106714 File Offset: 0x00104B14
 		public static Pair<ThingDef, float> ForagedFoodPerDay(List<ThingCount> thingCounts, BiomeDef biome, Faction faction, StringBuilder explanation = null)
 		{
 			ForagedFoodPerDayCalculator.tmpPawns.Clear();
@@ -250,16 +250,16 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x04001201 RID: 4609
+		// Token: 0x040011FE RID: 4606
 		private static List<Pawn> tmpPawns = new List<Pawn>();
 
-		// Token: 0x04001202 RID: 4610
+		// Token: 0x040011FF RID: 4607
 		private static List<ThingCount> tmpThingCounts = new List<ThingCount>();
 
-		// Token: 0x04001203 RID: 4611
+		// Token: 0x04001200 RID: 4608
 		private const float BaseProgressPerTick = 0.0001f;
 
-		// Token: 0x04001204 RID: 4612
+		// Token: 0x04001201 RID: 4609
 		public const float NotMovingProgressFactor = 2f;
 	}
 }

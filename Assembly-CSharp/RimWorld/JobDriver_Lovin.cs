@@ -10,7 +10,7 @@ namespace RimWorld
 	public class JobDriver_Lovin : JobDriver
 	{
 		// Token: 0x170000A1 RID: 161
-		// (get) Token: 0x0600031C RID: 796 RVA: 0x00021D64 File Offset: 0x00020164
+		// (get) Token: 0x0600031C RID: 796 RVA: 0x00021D74 File Offset: 0x00020174
 		private Pawn Partner
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000A2 RID: 162
-		// (get) Token: 0x0600031D RID: 797 RVA: 0x00021D94 File Offset: 0x00020194
+		// (get) Token: 0x0600031D RID: 797 RVA: 0x00021DA4 File Offset: 0x000201A4
 		private Building_Bed Bed
 		{
 			get
@@ -29,26 +29,26 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600031E RID: 798 RVA: 0x00021DC4 File Offset: 0x000201C4
+		// Token: 0x0600031E RID: 798 RVA: 0x00021DD4 File Offset: 0x000201D4
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.ticksLeft, "ticksLeft", 0, false);
 		}
 
-		// Token: 0x0600031F RID: 799 RVA: 0x00021DE0 File Offset: 0x000201E0
+		// Token: 0x0600031F RID: 799 RVA: 0x00021DF0 File Offset: 0x000201F0
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Partner, this.job, 1, -1, null) && this.pawn.Reserve(this.Bed, this.job, this.Bed.SleepingSlotsCount, 0, null);
 		}
 
-		// Token: 0x06000320 RID: 800 RVA: 0x00021E48 File Offset: 0x00020248
+		// Token: 0x06000320 RID: 800 RVA: 0x00021E58 File Offset: 0x00020258
 		public override bool CanBeginNowWhileLyingDown()
 		{
 			return JobInBedUtility.InBedOrRestSpotNow(this.pawn, this.job.GetTarget(this.BedInd));
 		}
 
-		// Token: 0x06000321 RID: 801 RVA: 0x00021E7C File Offset: 0x0002027C
+		// Token: 0x06000321 RID: 801 RVA: 0x00021E8C File Offset: 0x0002028C
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(this.BedInd);
@@ -99,7 +99,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000322 RID: 802 RVA: 0x00021EA8 File Offset: 0x000202A8
+		// Token: 0x06000322 RID: 802 RVA: 0x00021EB8 File Offset: 0x000202B8
 		private int GenerateRandomMinTicksToNextLovin(Pawn pawn)
 		{
 			int result;

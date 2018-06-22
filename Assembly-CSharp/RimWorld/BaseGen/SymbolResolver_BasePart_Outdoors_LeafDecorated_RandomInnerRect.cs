@@ -6,13 +6,13 @@ namespace RimWorld.BaseGen
 	// Token: 0x0200039D RID: 925
 	public class SymbolResolver_BasePart_Outdoors_LeafDecorated_RandomInnerRect : SymbolResolver
 	{
-		// Token: 0x06001021 RID: 4129 RVA: 0x00087E10 File Offset: 0x00086210
+		// Token: 0x06001021 RID: 4129 RVA: 0x00087FFC File Offset: 0x000863FC
 		public override bool CanResolve(ResolveParams rp)
 		{
 			return base.CanResolve(rp) && rp.rect.Width <= 15 && rp.rect.Height <= 15 && rp.rect.Width > 5 && rp.rect.Height > 5;
 		}
 
-		// Token: 0x06001022 RID: 4130 RVA: 0x00087E7C File Offset: 0x0008627C
+		// Token: 0x06001022 RID: 4130 RVA: 0x00088068 File Offset: 0x00086468
 		public override void Resolve(ResolveParams rp)
 		{
 			int num = Rand.RangeInclusive(5, rp.rect.Width - 1);
@@ -24,10 +24,10 @@ namespace RimWorld.BaseGen
 			BaseGen.symbolStack.Push("basePart_outdoors_leaf", resolveParams);
 		}
 
-		// Token: 0x04000A09 RID: 2569
+		// Token: 0x04000A0B RID: 2571
 		private const int MinLength = 5;
 
-		// Token: 0x04000A0A RID: 2570
+		// Token: 0x04000A0C RID: 2572
 		private const int MaxRectSize = 15;
 	}
 }

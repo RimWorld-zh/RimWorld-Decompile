@@ -2,10 +2,10 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000AB8 RID: 2744
+	// Token: 0x02000AB4 RID: 2740
 	public class ThinkNode_ConditionalIntelligence : ThinkNode_Conditional
 	{
-		// Token: 0x06003D28 RID: 15656 RVA: 0x00204A78 File Offset: 0x00202E78
+		// Token: 0x06003D23 RID: 15651 RVA: 0x00204D9C File Offset: 0x0020319C
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode_ConditionalIntelligence thinkNode_ConditionalIntelligence = (ThinkNode_ConditionalIntelligence)base.DeepCopy(resolve);
@@ -13,13 +13,13 @@ namespace Verse.AI
 			return thinkNode_ConditionalIntelligence;
 		}
 
-		// Token: 0x06003D29 RID: 15657 RVA: 0x00204AA8 File Offset: 0x00202EA8
+		// Token: 0x06003D24 RID: 15652 RVA: 0x00204DCC File Offset: 0x002031CC
 		protected override bool Satisfied(Pawn pawn)
 		{
 			return pawn.RaceProps.intelligence >= this.minIntelligence;
 		}
 
-		// Token: 0x04002693 RID: 9875
+		// Token: 0x0400268E RID: 9870
 		public Intelligence minIntelligence = Intelligence.ToolUser;
 	}
 }

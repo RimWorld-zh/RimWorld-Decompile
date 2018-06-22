@@ -9,7 +9,7 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class SimpleCurveDrawer
 	{
-		// Token: 0x06005B97 RID: 23447 RVA: 0x002E9DCC File Offset: 0x002E81CC
+		// Token: 0x06005BBF RID: 23487 RVA: 0x002EBE00 File Offset: 0x002EA200
 		public static void DrawCurve(Rect rect, SimpleCurve curve, SimpleCurveDrawerStyle style = null, List<CurveMark> marks = null, Rect legendScreenRect = default(Rect))
 		{
 			SimpleCurveDrawer.DrawCurve(rect, new SimpleCurveDrawInfo
@@ -18,7 +18,7 @@ namespace Verse
 			}, style, marks, legendScreenRect);
 		}
 
-		// Token: 0x06005B98 RID: 23448 RVA: 0x002E9DF4 File Offset: 0x002E81F4
+		// Token: 0x06005BC0 RID: 23488 RVA: 0x002EBE28 File Offset: 0x002EA228
 		public static void DrawCurve(Rect rect, SimpleCurveDrawInfo curve, SimpleCurveDrawerStyle style = null, List<CurveMark> marks = null, Rect legendScreenRect = default(Rect))
 		{
 			if (curve.curve != null)
@@ -30,7 +30,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B99 RID: 23449 RVA: 0x002E9E2C File Offset: 0x002E822C
+		// Token: 0x06005BC1 RID: 23489 RVA: 0x002EBE60 File Offset: 0x002EA260
 		public static void DrawCurves(Rect rect, List<SimpleCurveDrawInfo> curves, SimpleCurveDrawerStyle style = null, List<CurveMark> marks = null, Rect legendRect = default(Rect))
 		{
 			if (Event.current.type == EventType.Repaint)
@@ -128,7 +128,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B9A RID: 23450 RVA: 0x002EA1BC File Offset: 0x002E85BC
+		// Token: 0x06005BC2 RID: 23490 RVA: 0x002EC1F0 File Offset: 0x002EA5F0
 		public static void DrawCurveLines(Rect rect, SimpleCurveDrawInfo curve, bool drawPoints, Rect viewRect, bool useAALines, bool pointsRemoveOptimization)
 		{
 			if (curve.curve != null)
@@ -213,7 +213,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B9B RID: 23451 RVA: 0x002EA5DC File Offset: 0x002E89DC
+		// Token: 0x06005BC3 RID: 23491 RVA: 0x002EC610 File Offset: 0x002EAA10
 		public static void DrawCurveMeasures(Rect rect, Rect viewRect, Rect graphRect, int xLabelsCount, int yLabelsCount, bool xIntegersOnly, bool yIntegersOnly)
 		{
 			Text.Font = GameFont.Small;
@@ -274,7 +274,7 @@ namespace Verse
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x06005B9C RID: 23452 RVA: 0x002EA840 File Offset: 0x002E8C40
+		// Token: 0x06005BC4 RID: 23492 RVA: 0x002EC874 File Offset: 0x002EAC74
 		private static void CalculateMeasureStartAndInc(out float start, out float inc, out int count, float min, float max, int wantedCount, bool integersOnly)
 		{
 			if (integersOnly && GenMath.AnyIntegerInRange(min, max))
@@ -293,7 +293,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B9D RID: 23453 RVA: 0x002EA8AC File Offset: 0x002E8CAC
+		// Token: 0x06005BC5 RID: 23493 RVA: 0x002EC8E0 File Offset: 0x002EACE0
 		public static void DrawCurvesLegend(Rect rect, List<SimpleCurveDrawInfo> curves)
 		{
 			Text.Anchor = TextAnchor.UpperLeft;
@@ -331,7 +331,7 @@ namespace Verse
 			Text.WordWrap = true;
 		}
 
-		// Token: 0x06005B9E RID: 23454 RVA: 0x002EA9E4 File Offset: 0x002E8DE4
+		// Token: 0x06005BC6 RID: 23494 RVA: 0x002ECA18 File Offset: 0x002EAE18
 		public static void DrawCurveMousePoint(List<SimpleCurveDrawInfo> curves, Rect screenRect, Rect viewRect, string labelX)
 		{
 			if (curves.Count != 0)
@@ -399,7 +399,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B9F RID: 23455 RVA: 0x002EAC18 File Offset: 0x002E9018
+		// Token: 0x06005BC7 RID: 23495 RVA: 0x002ECC4C File Offset: 0x002EB04C
 		public static void DrawCurveMarks(Rect rect, Rect viewRect, List<CurveMark> marks)
 		{
 			float x = viewRect.x;
@@ -421,26 +421,26 @@ namespace Verse
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x06005BA0 RID: 23456 RVA: 0x002EAD30 File Offset: 0x002E9130
+		// Token: 0x06005BC8 RID: 23496 RVA: 0x002ECD64 File Offset: 0x002EB164
 		private static void DrawPoint(Vector2 screenPoint)
 		{
 			Rect position = new Rect(screenPoint.x - 5f, screenPoint.y - 5f, 10f, 10f);
 			GUI.DrawTexture(position, SimpleCurveDrawer.CurvePoint);
 		}
 
-		// Token: 0x06005BA1 RID: 23457 RVA: 0x002EAD74 File Offset: 0x002E9174
+		// Token: 0x06005BC9 RID: 23497 RVA: 0x002ECDA8 File Offset: 0x002EB1A8
 		private static void DrawInfiniteVerticalLine(Rect rect, Rect viewRect, float curveX)
 		{
 			Widgets.DrawLineVertical(SimpleCurveDrawer.CurveToScreenCoordsInsideScreenRect(rect, viewRect, new Vector2(curveX, 0f)).x, -999f, 9999f);
 		}
 
-		// Token: 0x06005BA2 RID: 23458 RVA: 0x002EADAC File Offset: 0x002E91AC
+		// Token: 0x06005BCA RID: 23498 RVA: 0x002ECDE0 File Offset: 0x002EB1E0
 		private static void DrawInfiniteHorizontalLine(Rect rect, Rect viewRect, float curveY)
 		{
 			Widgets.DrawLineHorizontal(-999f, SimpleCurveDrawer.CurveToScreenCoordsInsideScreenRect(rect, viewRect, new Vector2(0f, curveY)).y, 9999f);
 		}
 
-		// Token: 0x06005BA3 RID: 23459 RVA: 0x002EADE4 File Offset: 0x002E91E4
+		// Token: 0x06005BCB RID: 23499 RVA: 0x002ECE18 File Offset: 0x002EB218
 		public static Vector2 CurveToScreenCoordsInsideScreenRect(Rect rect, Rect viewRect, Vector2 curvePoint)
 		{
 			Vector2 result = curvePoint;
@@ -452,7 +452,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005BA4 RID: 23460 RVA: 0x002EAE78 File Offset: 0x002E9278
+		// Token: 0x06005BCC RID: 23500 RVA: 0x002ECEAC File Offset: 0x002EB2AC
 		public static Vector2 ScreenToCurveCoords(Rect rect, Rect viewRect, Vector2 screenPoint)
 		{
 			Vector2 loc = screenPoint;
@@ -464,7 +464,7 @@ namespace Verse
 			return new CurvePoint(loc);
 		}
 
-		// Token: 0x06005BA5 RID: 23461 RVA: 0x002EAF14 File Offset: 0x002E9314
+		// Token: 0x06005BCD RID: 23501 RVA: 0x002ECF48 File Offset: 0x002EB348
 		public static void DrawGraphBackgroundLines(Rect rect, Rect viewRect)
 		{
 			GUI.BeginGroup(rect);
@@ -509,7 +509,7 @@ namespace Verse
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06005BA6 RID: 23462 RVA: 0x002EB084 File Offset: 0x002E9484
+		// Token: 0x06005BCE RID: 23502 RVA: 0x002ED0B8 File Offset: 0x002EB4B8
 		private static int RemovePointsOptimizationFreq(int count)
 		{
 			int result = count + 1;
@@ -532,34 +532,34 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003CA8 RID: 15528
+		// Token: 0x04003CBB RID: 15547
 		private const float PointSize = 10f;
 
-		// Token: 0x04003CA9 RID: 15529
+		// Token: 0x04003CBC RID: 15548
 		private static readonly Color AxisLineColor = new Color(0.2f, 0.5f, 1f, 1f);
 
-		// Token: 0x04003CAA RID: 15530
+		// Token: 0x04003CBD RID: 15549
 		private static readonly Color MajorLineColor = new Color(0.2f, 0.4f, 1f, 0.6f);
 
-		// Token: 0x04003CAB RID: 15531
+		// Token: 0x04003CBE RID: 15550
 		private static readonly Color MinorLineColor = new Color(0.2f, 0.3f, 1f, 0.19f);
 
-		// Token: 0x04003CAC RID: 15532
+		// Token: 0x04003CBF RID: 15551
 		private const float MeasureWidth = 60f;
 
-		// Token: 0x04003CAD RID: 15533
+		// Token: 0x04003CC0 RID: 15552
 		private const float MeasureHeight = 30f;
 
-		// Token: 0x04003CAE RID: 15534
+		// Token: 0x04003CC1 RID: 15553
 		private const float MeasureLinePeekOut = 5f;
 
-		// Token: 0x04003CAF RID: 15535
+		// Token: 0x04003CC2 RID: 15554
 		private const float LegendCellWidth = 140f;
 
-		// Token: 0x04003CB0 RID: 15536
+		// Token: 0x04003CC3 RID: 15555
 		private const float LegendCellHeight = 20f;
 
-		// Token: 0x04003CB1 RID: 15537
+		// Token: 0x04003CC4 RID: 15556
 		private static readonly Texture2D CurvePoint = ContentFinder<Texture2D>.Get("UI/Widgets/Dev/CurvePoint", true);
 	}
 }

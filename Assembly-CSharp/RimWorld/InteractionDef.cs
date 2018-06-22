@@ -9,7 +9,7 @@ namespace RimWorld
 	public class InteractionDef : Def
 	{
 		// Token: 0x170001A9 RID: 425
-		// (get) Token: 0x06000B62 RID: 2914 RVA: 0x00066C88 File Offset: 0x00065088
+		// (get) Token: 0x06000B60 RID: 2912 RVA: 0x00066CF0 File Offset: 0x000650F0
 		public InteractionWorker Worker
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001AA RID: 426
-		// (get) Token: 0x06000B63 RID: 2915 RVA: 0x00066CC4 File Offset: 0x000650C4
+		// (get) Token: 0x06000B61 RID: 2913 RVA: 0x00066D2C File Offset: 0x0006512C
 		public Texture2D Symbol
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B64 RID: 2916 RVA: 0x00066D02 File Offset: 0x00065102
+		// Token: 0x06000B62 RID: 2914 RVA: 0x00066D6A File Offset: 0x0006516A
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -46,48 +46,48 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0400064C RID: 1612
+		// Token: 0x0400064B RID: 1611
 		private Type workerClass = typeof(InteractionWorker);
 
-		// Token: 0x0400064D RID: 1613
+		// Token: 0x0400064C RID: 1612
 		public ThingDef interactionMote;
 
-		// Token: 0x0400064E RID: 1614
+		// Token: 0x0400064D RID: 1613
 		public float socialFightBaseChance = 0f;
 
-		// Token: 0x0400064F RID: 1615
+		// Token: 0x0400064E RID: 1614
 		public ThoughtDef initiatorThought;
 
-		// Token: 0x04000650 RID: 1616
+		// Token: 0x0400064F RID: 1615
 		public SkillDef initiatorXpGainSkill;
 
-		// Token: 0x04000651 RID: 1617
+		// Token: 0x04000650 RID: 1616
 		public int initiatorXpGainAmount;
 
-		// Token: 0x04000652 RID: 1618
+		// Token: 0x04000651 RID: 1617
 		public ThoughtDef recipientThought;
 
-		// Token: 0x04000653 RID: 1619
+		// Token: 0x04000652 RID: 1618
 		public SkillDef recipientXpGainSkill;
 
-		// Token: 0x04000654 RID: 1620
+		// Token: 0x04000653 RID: 1619
 		public int recipientXpGainAmount;
 
-		// Token: 0x04000655 RID: 1621
+		// Token: 0x04000654 RID: 1620
 		[NoTranslate]
 		private string symbol;
 
-		// Token: 0x04000656 RID: 1622
+		// Token: 0x04000655 RID: 1621
 		public RulePack logRulesInitiator;
 
-		// Token: 0x04000657 RID: 1623
+		// Token: 0x04000656 RID: 1622
 		public RulePack logRulesRecipient;
 
-		// Token: 0x04000658 RID: 1624
+		// Token: 0x04000657 RID: 1623
 		[Unsaved]
 		private InteractionWorker workerInt;
 
-		// Token: 0x04000659 RID: 1625
+		// Token: 0x04000658 RID: 1624
 		[Unsaved]
 		private Texture2D symbolTex;
 	}

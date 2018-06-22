@@ -2,21 +2,21 @@
 
 namespace Verse
 {
-	// Token: 0x02000C3C RID: 3132
+	// Token: 0x02000C39 RID: 3129
 	[Flags]
 	public enum MeshParts : byte
 	{
-		// Token: 0x04002F1B RID: 12059
+		// Token: 0x04002F25 RID: 12069
 		None = 0,
-		// Token: 0x04002F1C RID: 12060
+		// Token: 0x04002F26 RID: 12070
 		Verts = 1,
-		// Token: 0x04002F1D RID: 12061
+		// Token: 0x04002F27 RID: 12071
 		Tris = 2,
-		// Token: 0x04002F1E RID: 12062
+		// Token: 0x04002F28 RID: 12072
 		Colors = 4,
-		// Token: 0x04002F1F RID: 12063
+		// Token: 0x04002F29 RID: 12073
 		UVs = 8,
-		// Token: 0x04002F20 RID: 12064
+		// Token: 0x04002F2A RID: 12074
 		All = 127
 	}
 }

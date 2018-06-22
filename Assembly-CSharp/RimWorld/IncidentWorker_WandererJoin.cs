@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000343 RID: 835
 	public class IncidentWorker_WandererJoin : IncidentWorker
 	{
-		// Token: 0x06000E44 RID: 3652 RVA: 0x00079120 File Offset: 0x00077520
+		// Token: 0x06000E44 RID: 3652 RVA: 0x00079220 File Offset: 0x00077620
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -23,7 +23,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E45 RID: 3653 RVA: 0x00079160 File Offset: 0x00077560
+		// Token: 0x06000E45 RID: 3653 RVA: 0x00079260 File Offset: 0x00077660
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -44,7 +44,7 @@ namespace RimWorld
 					villager.label,
 					pawn.story.Title
 				});
-				text = text.AdjustedFor(pawn);
+				text = text.AdjustedFor(pawn, "PAWN");
 				string label = "LetterLabelWandererJoin".Translate();
 				PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref label, pawn);
 				Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.PositiveEvent, pawn, null, null);
@@ -53,13 +53,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E46 RID: 3654 RVA: 0x00079270 File Offset: 0x00077670
+		// Token: 0x06000E46 RID: 3654 RVA: 0x00079378 File Offset: 0x00077778
 		private bool TryFindEntryCell(Map map, out IntVec3 cell)
 		{
 			return CellFinder.TryFindRandomEdgeCellWith((IntVec3 c) => map.reachability.CanReachColony(c), map, CellFinder.EdgeRoadChance_Neutral, out cell);
 		}
 
-		// Token: 0x040008E9 RID: 2281
+		// Token: 0x040008EB RID: 2283
 		private const float RelationWithColonistWeight = 20f;
 	}
 }

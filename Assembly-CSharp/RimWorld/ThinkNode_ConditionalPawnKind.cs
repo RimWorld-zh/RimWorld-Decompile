@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020001E8 RID: 488
 	public class ThinkNode_ConditionalPawnKind : ThinkNode_Conditional
 	{
-		// Token: 0x0600098D RID: 2445 RVA: 0x00056BE4 File Offset: 0x00054FE4
+		// Token: 0x0600098B RID: 2443 RVA: 0x00056BF8 File Offset: 0x00054FF8
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode_ConditionalPawnKind thinkNode_ConditionalPawnKind = (ThinkNode_ConditionalPawnKind)base.DeepCopy(resolve);
@@ -15,13 +15,13 @@ namespace RimWorld
 			return thinkNode_ConditionalPawnKind;
 		}
 
-		// Token: 0x0600098E RID: 2446 RVA: 0x00056C14 File Offset: 0x00055014
+		// Token: 0x0600098C RID: 2444 RVA: 0x00056C28 File Offset: 0x00055028
 		protected override bool Satisfied(Pawn pawn)
 		{
 			return pawn.kindDef == this.pawnKind;
 		}
 
-		// Token: 0x040003E5 RID: 997
+		// Token: 0x040003E3 RID: 995
 		public PawnKindDef pawnKind;
 	}
 }

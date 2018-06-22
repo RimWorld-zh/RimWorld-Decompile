@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000320 RID: 800
 	public class IncidentWorker_MakeGameCondition : IncidentWorker
 	{
-		// Token: 0x06000DAC RID: 3500 RVA: 0x000750D8 File Offset: 0x000734D8
+		// Token: 0x06000DAC RID: 3500 RVA: 0x0007518C File Offset: 0x0007358C
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			GameConditionManager gameConditionManager = parms.target.GameConditionManager;
@@ -37,7 +37,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DAD RID: 3501 RVA: 0x00075188 File Offset: 0x00073588
+		// Token: 0x06000DAD RID: 3501 RVA: 0x0007523C File Offset: 0x0007363C
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			GameConditionManager gameConditionManager = parms.target.GameConditionManager;

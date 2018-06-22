@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020002AE RID: 686
 	public abstract class MainTabWindow : Window
 	{
-		// Token: 0x06000B7E RID: 2942 RVA: 0x00067D88 File Offset: 0x00066188
+		// Token: 0x06000B7C RID: 2940 RVA: 0x00067DF0 File Offset: 0x000661F0
 		public MainTabWindow()
 		{
 			this.layer = WindowLayer.GameUI;
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001B3 RID: 435
-		// (get) Token: 0x06000B7F RID: 2943 RVA: 0x00067DBC File Offset: 0x000661BC
+		// (get) Token: 0x06000B7D RID: 2941 RVA: 0x00067E24 File Offset: 0x00066224
 		public virtual Vector2 RequestedTabSize
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001B4 RID: 436
-		// (get) Token: 0x06000B80 RID: 2944 RVA: 0x00067DE0 File Offset: 0x000661E0
+		// (get) Token: 0x06000B7E RID: 2942 RVA: 0x00067E48 File Offset: 0x00066248
 		public virtual MainTabWindowAnchor Anchor
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001B5 RID: 437
-		// (get) Token: 0x06000B81 RID: 2945 RVA: 0x00067DF8 File Offset: 0x000661F8
+		// (get) Token: 0x06000B7F RID: 2943 RVA: 0x00067E60 File Offset: 0x00066260
 		public override Vector2 InitialSize
 		{
 			get
@@ -57,13 +57,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B82 RID: 2946 RVA: 0x00067E59 File Offset: 0x00066259
+		// Token: 0x06000B80 RID: 2944 RVA: 0x00067EC1 File Offset: 0x000662C1
 		public override void DoWindowContents(Rect inRect)
 		{
 			this.SetInitialSizeAndPosition();
 		}
 
-		// Token: 0x06000B83 RID: 2947 RVA: 0x00067E64 File Offset: 0x00066264
+		// Token: 0x06000B81 RID: 2945 RVA: 0x00067ECC File Offset: 0x000662CC
 		protected override void SetInitialSizeAndPosition()
 		{
 			base.SetInitialSizeAndPosition();
@@ -78,7 +78,7 @@ namespace RimWorld
 			this.windowRect.y = (float)(UI.screenHeight - 35) - this.windowRect.height;
 		}
 
-		// Token: 0x04000687 RID: 1671
+		// Token: 0x04000686 RID: 1670
 		public MainButtonDef def;
 	}
 }

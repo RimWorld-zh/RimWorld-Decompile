@@ -4,10 +4,10 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000BD3 RID: 3027
+	// Token: 0x02000BCF RID: 3023
 	public class TickList
 	{
-		// Token: 0x060041E9 RID: 16873 RVA: 0x0022B984 File Offset: 0x00229D84
+		// Token: 0x060041EB RID: 16875 RVA: 0x0022C058 File Offset: 0x0022A458
 		public TickList(TickerType tickType)
 		{
 			this.tickType = tickType;
@@ -17,8 +17,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A4A RID: 2634
-		// (get) Token: 0x060041EA RID: 16874 RVA: 0x0022B9EC File Offset: 0x00229DEC
+		// Token: 0x17000A4C RID: 2636
+		// (get) Token: 0x060041EC RID: 16876 RVA: 0x0022C0C0 File Offset: 0x0022A4C0
 		private int TickInterval
 		{
 			get
@@ -51,7 +51,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041EB RID: 16875 RVA: 0x0022BA40 File Offset: 0x00229E40
+		// Token: 0x060041ED RID: 16877 RVA: 0x0022C114 File Offset: 0x0022A514
 		public void Reset()
 		{
 			for (int i = 0; i < this.thingLists.Count; i++)
@@ -62,7 +62,7 @@ namespace Verse
 			this.thingsToDeregister.Clear();
 		}
 
-		// Token: 0x060041EC RID: 16876 RVA: 0x0022BA94 File Offset: 0x00229E94
+		// Token: 0x060041EE RID: 16878 RVA: 0x0022C168 File Offset: 0x0022A568
 		public void RemoveWhere(Predicate<Thing> predicate)
 		{
 			for (int i = 0; i < this.thingLists.Count; i++)
@@ -73,19 +73,19 @@ namespace Verse
 			this.thingsToDeregister.RemoveAll(predicate);
 		}
 
-		// Token: 0x060041ED RID: 16877 RVA: 0x0022BAED File Offset: 0x00229EED
+		// Token: 0x060041EF RID: 16879 RVA: 0x0022C1C1 File Offset: 0x0022A5C1
 		public void RegisterThing(Thing t)
 		{
 			this.thingsToRegister.Add(t);
 		}
 
-		// Token: 0x060041EE RID: 16878 RVA: 0x0022BAFC File Offset: 0x00229EFC
+		// Token: 0x060041F0 RID: 16880 RVA: 0x0022C1D0 File Offset: 0x0022A5D0
 		public void DeregisterThing(Thing t)
 		{
 			this.thingsToDeregister.Add(t);
 		}
 
-		// Token: 0x060041EF RID: 16879 RVA: 0x0022BB0C File Offset: 0x00229F0C
+		// Token: 0x060041F1 RID: 16881 RVA: 0x0022C1E0 File Offset: 0x0022A5E0
 		public void Tick()
 		{
 			for (int i = 0; i < this.thingsToRegister.Count; i++)
@@ -144,12 +144,14 @@ namespace Verse
 					}
 					catch (Exception ex)
 					{
+						string text = (!list2[m].Spawned) ? "" : (" (at " + list2[m].Position + ")");
 						if (Prefs.DevMode)
 						{
 							Log.Error(string.Concat(new object[]
 							{
 								"Exception ticking ",
-								list2[m].ToString(),
+								list2[m].ToStringSafe<Thing>(),
+								text,
 								": ",
 								ex
 							}), false);
@@ -159,7 +161,8 @@ namespace Verse
 							Log.ErrorOnce(string.Concat(new object[]
 							{
 								"Exception ticking ",
-								list2[m].ToString(),
+								list2[m].ToStringSafe<Thing>(),
+								text,
 								". Suppressing further errors. Exception: ",
 								ex
 							}), list2[m].thingIDNumber ^ 576876901, false);
@@ -169,7 +172,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041F0 RID: 16880 RVA: 0x0022BDC0 File Offset: 0x0022A1C0
+		// Token: 0x060041F2 RID: 16882 RVA: 0x0022C4DC File Offset: 0x0022A8DC
 		private List<Thing> BucketOf(Thing t)
 		{
 			int num = t.GetHashCode();
@@ -181,16 +184,16 @@ namespace Verse
 			return this.thingLists[index];
 		}
 
-		// Token: 0x04002D09 RID: 11529
+		// Token: 0x04002D0E RID: 11534
 		private TickerType tickType;
 
-		// Token: 0x04002D0A RID: 11530
+		// Token: 0x04002D0F RID: 11535
 		private List<List<Thing>> thingLists = new List<List<Thing>>();
 
-		// Token: 0x04002D0B RID: 11531
+		// Token: 0x04002D10 RID: 11536
 		private List<Thing> thingsToRegister = new List<Thing>();
 
-		// Token: 0x04002D0C RID: 11532
+		// Token: 0x04002D11 RID: 11537
 		private List<Thing> thingsToDeregister = new List<Thing>();
 	}
 }

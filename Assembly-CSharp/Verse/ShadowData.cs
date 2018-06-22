@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C52 RID: 3154
+	// Token: 0x02000C4F RID: 3151
 	public class ShadowData
 	{
-		// Token: 0x17000AF2 RID: 2802
-		// (get) Token: 0x06004565 RID: 17765 RVA: 0x0024A6BC File Offset: 0x00248ABC
+		// Token: 0x17000AF4 RID: 2804
+		// (get) Token: 0x0600456E RID: 17774 RVA: 0x0024BA8C File Offset: 0x00249E8C
 		public float BaseX
 		{
 			get
@@ -16,8 +16,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AF3 RID: 2803
-		// (get) Token: 0x06004566 RID: 17766 RVA: 0x0024A6DC File Offset: 0x00248ADC
+		// Token: 0x17000AF5 RID: 2805
+		// (get) Token: 0x0600456F RID: 17775 RVA: 0x0024BAAC File Offset: 0x00249EAC
 		public float BaseY
 		{
 			get
@@ -26,8 +26,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AF4 RID: 2804
-		// (get) Token: 0x06004567 RID: 17767 RVA: 0x0024A6FC File Offset: 0x00248AFC
+		// Token: 0x17000AF6 RID: 2806
+		// (get) Token: 0x06004570 RID: 17776 RVA: 0x0024BACC File Offset: 0x00249ECC
 		public float BaseZ
 		{
 			get
@@ -36,10 +36,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002F6B RID: 12139
+		// Token: 0x04002F75 RID: 12149
 		public Vector3 volume = Vector3.one;
 
-		// Token: 0x04002F6C RID: 12140
+		// Token: 0x04002F76 RID: 12150
 		public Vector3 offset = Vector3.zero;
 	}
 }

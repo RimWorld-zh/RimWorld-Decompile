@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000758 RID: 1880
+	// Token: 0x02000754 RID: 1876
 	public class CompTargetEffect_Manhunter : CompTargetEffect
 	{
-		// Token: 0x06002993 RID: 10643 RVA: 0x001613F0 File Offset: 0x0015F7F0
+		// Token: 0x0600298C RID: 10636 RVA: 0x001615C8 File Offset: 0x0015F9C8
 		public override void DoEffectOn(Pawn user, Thing target)
 		{
 			Pawn pawn = (Pawn)target;

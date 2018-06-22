@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000273 RID: 627
 	public class SkillNeed_BaseBonus : SkillNeed
 	{
-		// Token: 0x06000ACD RID: 2765 RVA: 0x00061DBC File Offset: 0x000601BC
+		// Token: 0x06000ACB RID: 2763 RVA: 0x00061E18 File Offset: 0x00060218
 		public override float ValueFor(Pawn pawn)
 		{
 			float result;
@@ -23,13 +23,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000ACE RID: 2766 RVA: 0x00061E08 File Offset: 0x00060208
+		// Token: 0x06000ACC RID: 2764 RVA: 0x00061E64 File Offset: 0x00060264
 		private float ValueAtLevel(int level)
 		{
 			return this.baseValue + this.bonusPerLevel * (float)level;
 		}
 
-		// Token: 0x06000ACF RID: 2767 RVA: 0x00061E30 File Offset: 0x00060230
+		// Token: 0x06000ACD RID: 2765 RVA: 0x00061E8C File Offset: 0x0006028C
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string error in this.<ConfigErrors>__BaseCallProxy0())
@@ -47,10 +47,10 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x04000555 RID: 1365
+		// Token: 0x04000553 RID: 1363
 		private float baseValue = 0.5f;
 
-		// Token: 0x04000556 RID: 1366
+		// Token: 0x04000554 RID: 1364
 		private float bonusPerLevel = 0.05f;
 	}
 }

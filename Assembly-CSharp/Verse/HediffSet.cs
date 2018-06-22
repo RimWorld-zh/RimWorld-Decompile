@@ -6,17 +6,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D3B RID: 3387
+	// Token: 0x02000D38 RID: 3384
 	public class HediffSet : IExposable
 	{
-		// Token: 0x06004A7D RID: 19069 RVA: 0x0026CE08 File Offset: 0x0026B208
+		// Token: 0x06004A91 RID: 19089 RVA: 0x0026E398 File Offset: 0x0026C798
 		public HediffSet(Pawn newPawn)
 		{
 			this.pawn = newPawn;
 		}
 
-		// Token: 0x17000BE7 RID: 3047
-		// (get) Token: 0x06004A7E RID: 19070 RVA: 0x0026CE6C File Offset: 0x0026B26C
+		// Token: 0x17000BE9 RID: 3049
+		// (get) Token: 0x06004A92 RID: 19090 RVA: 0x0026E3FC File Offset: 0x0026C7FC
 		public float PainTotal
 		{
 			get
@@ -29,8 +29,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BE8 RID: 3048
-		// (get) Token: 0x06004A7F RID: 19071 RVA: 0x0026CEA4 File Offset: 0x0026B2A4
+		// Token: 0x17000BEA RID: 3050
+		// (get) Token: 0x06004A93 RID: 19091 RVA: 0x0026E434 File Offset: 0x0026C834
 		public float BleedRateTotal
 		{
 			get
@@ -43,8 +43,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BE9 RID: 3049
-		// (get) Token: 0x06004A80 RID: 19072 RVA: 0x0026CEDC File Offset: 0x0026B2DC
+		// Token: 0x17000BEB RID: 3051
+		// (get) Token: 0x06004A94 RID: 19092 RVA: 0x0026E46C File Offset: 0x0026C86C
 		public bool HasHead
 		{
 			get
@@ -58,8 +58,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BEA RID: 3050
-		// (get) Token: 0x06004A81 RID: 19073 RVA: 0x0026CF48 File Offset: 0x0026B348
+		// Token: 0x17000BEC RID: 3052
+		// (get) Token: 0x06004A95 RID: 19093 RVA: 0x0026E4D8 File Offset: 0x0026C8D8
 		public float HungerRateFactor
 		{
 			get
@@ -85,8 +85,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BEB RID: 3051
-		// (get) Token: 0x06004A82 RID: 19074 RVA: 0x0026CFF4 File Offset: 0x0026B3F4
+		// Token: 0x17000BED RID: 3053
+		// (get) Token: 0x06004A96 RID: 19094 RVA: 0x0026E584 File Offset: 0x0026C984
 		public float RestFallFactor
 		{
 			get
@@ -112,7 +112,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A83 RID: 19075 RVA: 0x0026D0A0 File Offset: 0x0026B4A0
+		// Token: 0x06004A97 RID: 19095 RVA: 0x0026E630 File Offset: 0x0026CA30
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Hediff>(ref this.hediffs, "hediffs", LookMode.Deep, new object[0]);
@@ -122,15 +122,11 @@ namespace Verse
 				{
 					this.hediffs[i].pawn = this.pawn;
 				}
-				for (int j = this.hediffs.Count - 1; j >= 0; j--)
-				{
-					BackCompatibility.HediffSetResolvingCrossRefs(this.hediffs[j], this.hediffs);
-				}
 				this.DirtyCache();
 			}
 		}
 
-		// Token: 0x06004A84 RID: 19076 RVA: 0x0026D144 File Offset: 0x0026B544
+		// Token: 0x06004A98 RID: 19096 RVA: 0x0026E6A0 File Offset: 0x0026CAA0
 		public void AddDirect(Hediff hediff, DamageInfo? dinfo = null, DamageWorker.DamageResult damageResult = null)
 		{
 			if (hediff.def == null)
@@ -202,7 +198,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A85 RID: 19077 RVA: 0x0026D3E4 File Offset: 0x0026B7E4
+		// Token: 0x06004A99 RID: 19097 RVA: 0x0026E940 File Offset: 0x0026CD40
 		public void DirtyCache()
 		{
 			this.CacheMissingPartsCommonAncestors();
@@ -213,7 +209,7 @@ namespace Verse
 			this.pawn.health.summaryHealth.Notify_HealthChanged();
 		}
 
-		// Token: 0x06004A86 RID: 19078 RVA: 0x0026D448 File Offset: 0x0026B848
+		// Token: 0x06004A9A RID: 19098 RVA: 0x0026E9A4 File Offset: 0x0026CDA4
 		public IEnumerable<T> GetHediffs<T>() where T : Hediff
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -227,7 +223,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004A87 RID: 19079 RVA: 0x0026D474 File Offset: 0x0026B874
+		// Token: 0x06004A9B RID: 19099 RVA: 0x0026E9D0 File Offset: 0x0026CDD0
 		public Hediff GetFirstHediffOfDef(HediffDef def, bool mustBeVisible = false)
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -240,7 +236,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004A88 RID: 19080 RVA: 0x0026D4F0 File Offset: 0x0026B8F0
+		// Token: 0x06004A9C RID: 19100 RVA: 0x0026EA4C File Offset: 0x0026CE4C
 		public bool PartIsMissing(BodyPartRecord part)
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -253,7 +249,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004A89 RID: 19081 RVA: 0x0026D558 File Offset: 0x0026B958
+		// Token: 0x06004A9D RID: 19101 RVA: 0x0026EAB4 File Offset: 0x0026CEB4
 		public float GetPartHealth(BodyPartRecord part)
 		{
 			float result;
@@ -288,7 +284,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004A8A RID: 19082 RVA: 0x0026D638 File Offset: 0x0026BA38
+		// Token: 0x06004A9E RID: 19102 RVA: 0x0026EB94 File Offset: 0x0026CF94
 		public BodyPartRecord GetBrain()
 		{
 			foreach (BodyPartRecord bodyPartRecord in this.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null))
@@ -301,7 +297,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004A8B RID: 19083 RVA: 0x0026D6BC File Offset: 0x0026BABC
+		// Token: 0x06004A9F RID: 19103 RVA: 0x0026EC18 File Offset: 0x0026D018
 		public bool HasHediff(HediffDef def, bool mustBeVisible = false)
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -314,7 +310,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004A8C RID: 19084 RVA: 0x0026D72C File Offset: 0x0026BB2C
+		// Token: 0x06004AA0 RID: 19104 RVA: 0x0026EC88 File Offset: 0x0026D088
 		public bool HasHediff(HediffDef def, BodyPartRecord bodyPart, bool mustBeVisible = false)
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -327,7 +323,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004A8D RID: 19085 RVA: 0x0026D7B4 File Offset: 0x0026BBB4
+		// Token: 0x06004AA1 RID: 19105 RVA: 0x0026ED10 File Offset: 0x0026D110
 		public IEnumerable<Verb> GetHediffsVerbs()
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -345,7 +341,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004A8E RID: 19086 RVA: 0x0026D7E0 File Offset: 0x0026BBE0
+		// Token: 0x06004AA2 RID: 19106 RVA: 0x0026ED3C File Offset: 0x0026D13C
 		public IEnumerable<Hediff> GetHediffsTendable()
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -358,7 +354,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004A8F RID: 19087 RVA: 0x0026D80C File Offset: 0x0026BC0C
+		// Token: 0x06004AA3 RID: 19107 RVA: 0x0026ED68 File Offset: 0x0026D168
 		public bool HasTendableHediff(bool forAlert = false)
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -374,7 +370,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004A90 RID: 19088 RVA: 0x0026D888 File Offset: 0x0026BC88
+		// Token: 0x06004AA4 RID: 19108 RVA: 0x0026EDE4 File Offset: 0x0026D1E4
 		public IEnumerable<Hediff_Injury> GetInjuriesTendable()
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -388,7 +384,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004A91 RID: 19089 RVA: 0x0026D8B4 File Offset: 0x0026BCB4
+		// Token: 0x06004AA5 RID: 19109 RVA: 0x0026EE10 File Offset: 0x0026D210
 		public bool HasTendableInjury()
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -402,7 +398,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004A92 RID: 19090 RVA: 0x0026D914 File Offset: 0x0026BD14
+		// Token: 0x06004AA6 RID: 19110 RVA: 0x0026EE70 File Offset: 0x0026D270
 		public bool HasNaturallyHealingInjury()
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -416,7 +412,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004A93 RID: 19091 RVA: 0x0026D974 File Offset: 0x0026BD74
+		// Token: 0x06004AA7 RID: 19111 RVA: 0x0026EED0 File Offset: 0x0026D2D0
 		public bool HasTendedAndHealingInjury()
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -430,7 +426,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004A94 RID: 19092 RVA: 0x0026D9E4 File Offset: 0x0026BDE4
+		// Token: 0x06004AA8 RID: 19112 RVA: 0x0026EF40 File Offset: 0x0026D340
 		public bool HasTemperatureInjury(TemperatureInjuryStage minStage)
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -446,7 +442,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004A95 RID: 19093 RVA: 0x0026DA70 File Offset: 0x0026BE70
+		// Token: 0x06004AA9 RID: 19113 RVA: 0x0026EFCC File Offset: 0x0026D3CC
 		public IEnumerable<BodyPartRecord> GetInjuredParts()
 		{
 			return (from x in this.hediffs
@@ -454,7 +450,7 @@ namespace Verse
 			select x.Part).Distinct<BodyPartRecord>();
 		}
 
-		// Token: 0x06004A96 RID: 19094 RVA: 0x0026DAD4 File Offset: 0x0026BED4
+		// Token: 0x06004AAA RID: 19114 RVA: 0x0026F030 File Offset: 0x0026D430
 		public IEnumerable<BodyPartRecord> GetNaturallyHealingInjuredParts()
 		{
 			foreach (BodyPartRecord part in this.GetInjuredParts())
@@ -472,7 +468,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004A97 RID: 19095 RVA: 0x0026DB00 File Offset: 0x0026BF00
+		// Token: 0x06004AAB RID: 19115 RVA: 0x0026F05C File Offset: 0x0026D45C
 		public List<Hediff_MissingPart> GetMissingPartsCommonAncestors()
 		{
 			if (this.cachedMissingPartsCommonAncestors == null)
@@ -482,7 +478,7 @@ namespace Verse
 			return this.cachedMissingPartsCommonAncestors;
 		}
 
-		// Token: 0x06004A98 RID: 19096 RVA: 0x0026DB2C File Offset: 0x0026BF2C
+		// Token: 0x06004AAC RID: 19116 RVA: 0x0026F088 File Offset: 0x0026D488
 		public IEnumerable<BodyPartRecord> GetNotMissingParts(BodyPartHeight height = BodyPartHeight.Undefined, BodyPartDepth depth = BodyPartDepth.Undefined, BodyPartTagDef tag = null)
 		{
 			List<BodyPartRecord> allPartsList = this.pawn.def.race.body.AllParts;
@@ -506,7 +502,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004A99 RID: 19097 RVA: 0x0026DB6C File Offset: 0x0026BF6C
+		// Token: 0x06004AAD RID: 19117 RVA: 0x0026F0C8 File Offset: 0x0026D4C8
 		public BodyPartRecord GetRandomNotMissingPart(DamageDef damDef, BodyPartHeight height = BodyPartHeight.Undefined, BodyPartDepth depth = BodyPartDepth.Undefined)
 		{
 			IEnumerable<BodyPartRecord> notMissingParts;
@@ -539,7 +535,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004A9A RID: 19098 RVA: 0x0026DC30 File Offset: 0x0026C030
+		// Token: 0x06004AAE RID: 19118 RVA: 0x0026F18C File Offset: 0x0026D58C
 		public float GetCoverageOfNotMissingNaturalParts(BodyPartRecord part)
 		{
 			float result;
@@ -588,7 +584,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004A9B RID: 19099 RVA: 0x0026DDC8 File Offset: 0x0026C1C8
+		// Token: 0x06004AAF RID: 19119 RVA: 0x0026F324 File Offset: 0x0026D724
 		private void CacheMissingPartsCommonAncestors()
 		{
 			if (this.cachedMissingPartsCommonAncestors == null)
@@ -624,7 +620,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A9C RID: 19100 RVA: 0x0026DEE8 File Offset: 0x0026C2E8
+		// Token: 0x06004AB0 RID: 19120 RVA: 0x0026F444 File Offset: 0x0026D844
 		public bool HasDirectlyAddedPartFor(BodyPartRecord part)
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -637,19 +633,19 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004A9D RID: 19101 RVA: 0x0026DF50 File Offset: 0x0026C350
+		// Token: 0x06004AB1 RID: 19121 RVA: 0x0026F4AC File Offset: 0x0026D8AC
 		public bool PartOrAnyAncestorHasDirectlyAddedParts(BodyPartRecord part)
 		{
 			return this.HasDirectlyAddedPartFor(part) || (part.parent != null && this.PartOrAnyAncestorHasDirectlyAddedParts(part.parent));
 		}
 
-		// Token: 0x06004A9E RID: 19102 RVA: 0x0026DF9C File Offset: 0x0026C39C
+		// Token: 0x06004AB2 RID: 19122 RVA: 0x0026F4F8 File Offset: 0x0026D8F8
 		public bool AncestorHasDirectlyAddedParts(BodyPartRecord part)
 		{
 			return part.parent != null && this.PartOrAnyAncestorHasDirectlyAddedParts(part.parent);
 		}
 
-		// Token: 0x06004A9F RID: 19103 RVA: 0x0026DFD8 File Offset: 0x0026C3D8
+		// Token: 0x06004AB3 RID: 19123 RVA: 0x0026F534 File Offset: 0x0026D934
 		public IEnumerable<Hediff> GetTendableNonInjuryNonMissingPartHediffs()
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -668,7 +664,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004AA0 RID: 19104 RVA: 0x0026E004 File Offset: 0x0026C404
+		// Token: 0x06004AB4 RID: 19124 RVA: 0x0026F560 File Offset: 0x0026D960
 		public bool HasTendableNonInjuryNonMissingPartHediff(bool forAlert = false)
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -690,7 +686,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004AA1 RID: 19105 RVA: 0x0026E0B8 File Offset: 0x0026C4B8
+		// Token: 0x06004AB5 RID: 19125 RVA: 0x0026F614 File Offset: 0x0026DA14
 		public bool HasTendedImmunizableNotImmuneHediff()
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
@@ -703,8 +699,8 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x17000BEC RID: 3052
-		// (get) Token: 0x06004AA2 RID: 19106 RVA: 0x0026E184 File Offset: 0x0026C584
+		// Token: 0x17000BEE RID: 3054
+		// (get) Token: 0x06004AB6 RID: 19126 RVA: 0x0026F6E0 File Offset: 0x0026DAE0
 		public bool AnyHediffMakesSickThought
 		{
 			get
@@ -723,7 +719,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004AA3 RID: 19107 RVA: 0x0026E1FC File Offset: 0x0026C5FC
+		// Token: 0x06004AB7 RID: 19127 RVA: 0x0026F758 File Offset: 0x0026DB58
 		private float CalculateBleedRate()
 		{
 			float result;
@@ -744,7 +740,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004AA4 RID: 19108 RVA: 0x0026E290 File Offset: 0x0026C690
+		// Token: 0x06004AB8 RID: 19128 RVA: 0x0026F7EC File Offset: 0x0026DBEC
 		private float CalculatePain()
 		{
 			float result;
@@ -769,38 +765,38 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004AA5 RID: 19109 RVA: 0x0026E362 File Offset: 0x0026C762
+		// Token: 0x06004AB9 RID: 19129 RVA: 0x0026F8BE File Offset: 0x0026DCBE
 		public void Clear()
 		{
 			this.hediffs.Clear();
 			this.DirtyCache();
 		}
 
-		// Token: 0x04003250 RID: 12880
+		// Token: 0x0400325B RID: 12891
 		public Pawn pawn;
 
-		// Token: 0x04003251 RID: 12881
+		// Token: 0x0400325C RID: 12892
 		public List<Hediff> hediffs = new List<Hediff>();
 
-		// Token: 0x04003252 RID: 12882
+		// Token: 0x0400325D RID: 12893
 		private List<Hediff_MissingPart> cachedMissingPartsCommonAncestors = null;
 
-		// Token: 0x04003253 RID: 12883
+		// Token: 0x0400325E RID: 12894
 		private float cachedPain = -1f;
 
-		// Token: 0x04003254 RID: 12884
+		// Token: 0x0400325F RID: 12895
 		private float cachedBleedRate = -1f;
 
-		// Token: 0x04003255 RID: 12885
+		// Token: 0x04003260 RID: 12896
 		private bool? cachedHasHead;
 
-		// Token: 0x04003256 RID: 12886
+		// Token: 0x04003261 RID: 12897
 		private Stack<BodyPartRecord> coveragePartsStack = new Stack<BodyPartRecord>();
 
-		// Token: 0x04003257 RID: 12887
+		// Token: 0x04003262 RID: 12898
 		private HashSet<BodyPartRecord> coverageRejectedPartsSet = new HashSet<BodyPartRecord>();
 
-		// Token: 0x04003258 RID: 12888
+		// Token: 0x04003263 RID: 12899
 		private Queue<BodyPartRecord> missingPartsCommonAncestorsQueue = new Queue<BodyPartRecord>();
 	}
 }

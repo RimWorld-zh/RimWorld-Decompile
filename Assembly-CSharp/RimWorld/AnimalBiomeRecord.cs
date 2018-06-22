@@ -7,17 +7,17 @@ namespace RimWorld
 	// Token: 0x0200028B RID: 651
 	public class AnimalBiomeRecord
 	{
-		// Token: 0x06000B01 RID: 2817 RVA: 0x00063BBC File Offset: 0x00061FBC
+		// Token: 0x06000AFF RID: 2815 RVA: 0x00063C18 File Offset: 0x00062018
 		public void LoadDataFromXmlCustom(XmlNode xmlRoot)
 		{
 			DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "biome", xmlRoot.Name);
 			this.commonality = (float)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(float));
 		}
 
-		// Token: 0x0400056A RID: 1386
+		// Token: 0x04000568 RID: 1384
 		public BiomeDef biome;
 
-		// Token: 0x0400056B RID: 1387
+		// Token: 0x04000569 RID: 1385
 		public float commonality = 0f;
 	}
 }

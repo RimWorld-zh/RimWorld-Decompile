@@ -8,7 +8,7 @@ namespace RimWorld
 	[HasDebugOutput]
 	public class IncidentWorker_ManhunterPack : IncidentWorker
 	{
-		// Token: 0x06000DF8 RID: 3576 RVA: 0x000771DC File Offset: 0x000755DC
+		// Token: 0x06000DF8 RID: 3576 RVA: 0x00077290 File Offset: 0x00075690
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -26,7 +26,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DF9 RID: 3577 RVA: 0x0007723C File Offset: 0x0007563C
+		// Token: 0x06000DF9 RID: 3577 RVA: 0x000772F0 File Offset: 0x000756F0
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -65,13 +65,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x040008D4 RID: 2260
+		// Token: 0x040008D6 RID: 2262
 		private const float PointsFactor = 1.4f;
 
-		// Token: 0x040008D5 RID: 2261
+		// Token: 0x040008D7 RID: 2263
 		private const int AnimalsStayDurationMin = 60000;
 
-		// Token: 0x040008D6 RID: 2262
+		// Token: 0x040008D8 RID: 2264
 		private const int AnimalsStayDurationMax = 135000;
 	}
 }

@@ -6,13 +6,13 @@ namespace Verse.Noise
 	// Token: 0x02000F6F RID: 3951
 	public static class NoiseRenderer
 	{
-		// Token: 0x06005F4B RID: 24395 RVA: 0x00308924 File Offset: 0x00306D24
+		// Token: 0x06005F74 RID: 24436 RVA: 0x0030A9C8 File Offset: 0x00308DC8
 		public static Texture2D NoiseRendered(ModuleBase noise)
 		{
 			return NoiseRenderer.NoiseRendered(new CellRect(0, 0, NoiseRenderer.renderSize.x, NoiseRenderer.renderSize.z), noise);
 		}
 
-		// Token: 0x06005F4C RID: 24396 RVA: 0x0030895C File Offset: 0x00306D5C
+		// Token: 0x06005F75 RID: 24437 RVA: 0x0030AA00 File Offset: 0x00308E00
 		public static Texture2D NoiseRendered(CellRect rect, ModuleBase noise)
 		{
 			Texture2D texture2D = new Texture2D(rect.Width, rect.Height);
@@ -25,17 +25,17 @@ namespace Verse.Noise
 			return texture2D;
 		}
 
-		// Token: 0x06005F4D RID: 24397 RVA: 0x00308A00 File Offset: 0x00306E00
+		// Token: 0x06005F76 RID: 24438 RVA: 0x0030AAA4 File Offset: 0x00308EA4
 		private static Color ColorForValue(float val)
 		{
 			val = val * 0.5f + 0.5f;
 			return ColorsFromSpectrum.Get(NoiseRenderer.spectrum, val);
 		}
 
-		// Token: 0x04003EB7 RID: 16055
+		// Token: 0x04003EC9 RID: 16073
 		public static IntVec2 renderSize = new IntVec2(200, 200);
 
-		// Token: 0x04003EB8 RID: 16056
+		// Token: 0x04003ECA RID: 16074
 		private static Color[] spectrum = new Color[]
 		{
 			Color.black,

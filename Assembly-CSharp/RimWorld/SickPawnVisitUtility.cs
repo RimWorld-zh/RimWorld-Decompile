@@ -10,7 +10,7 @@ namespace RimWorld
 	// Token: 0x02000106 RID: 262
 	public static class SickPawnVisitUtility
 	{
-		// Token: 0x06000578 RID: 1400 RVA: 0x0003B6DC File Offset: 0x00039ADC
+		// Token: 0x06000578 RID: 1400 RVA: 0x0003B6C8 File Offset: 0x00039AC8
 		public static Pawn FindRandomSickPawn(Pawn pawn, JoyCategory maxPatientJoy)
 		{
 			IEnumerable<Pawn> source = from x in pawn.Map.mapPawns.FreeColonistsSpawned
@@ -29,13 +29,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000579 RID: 1401 RVA: 0x0003B750 File Offset: 0x00039B50
+		// Token: 0x06000579 RID: 1401 RVA: 0x0003B73C File Offset: 0x00039B3C
 		public static bool CanVisit(Pawn pawn, Pawn sick, JoyCategory maxPatientJoy)
 		{
 			return sick.IsColonist && !sick.Dead && pawn != sick && sick.InBed() && sick.Awake() && !sick.IsForbidden(pawn) && sick.needs.joy != null && sick.needs.joy.CurCategory <= maxPatientJoy && InteractionUtility.CanReceiveInteraction(sick) && !sick.needs.food.Starving && sick.needs.rest.CurLevel > 0.33f && pawn.CanReserveAndReach(sick, PathEndMode.InteractionCell, Danger.None, 1, -1, null, false) && !SickPawnVisitUtility.AboutToRecover(sick);
 		}
 
-		// Token: 0x0600057A RID: 1402 RVA: 0x0003B828 File Offset: 0x00039C28
+		// Token: 0x0600057A RID: 1402 RVA: 0x0003B814 File Offset: 0x00039C14
 		public static Thing FindChair(Pawn forPawn, Pawn nearPawn)
 		{
 			Predicate<Thing> validator = delegate(Thing x)
@@ -74,7 +74,7 @@ namespace RimWorld
 			return GenClosest.ClosestThingReachable(nearPawn.Position, nearPawn.Map, ThingRequest.ForGroup(ThingRequestGroup.BuildingArtificial), PathEndMode.OnCell, TraverseParms.For(forPawn, Danger.Deadly, TraverseMode.ByPawn, false), 2.2f, validator, null, 0, 5, false, RegionType.Set_Passable, false);
 		}
 
-		// Token: 0x0600057B RID: 1403 RVA: 0x0003B89C File Offset: 0x00039C9C
+		// Token: 0x0600057B RID: 1403 RVA: 0x0003B888 File Offset: 0x00039C88
 		private static bool AboutToRecover(Pawn pawn)
 		{
 			bool result;
@@ -107,7 +107,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600057C RID: 1404 RVA: 0x0003B984 File Offset: 0x00039D84
+		// Token: 0x0600057C RID: 1404 RVA: 0x0003B970 File Offset: 0x00039D70
 		private static float VisitChanceScore(Pawn pawn, Pawn sick)
 		{
 			float num = GenMath.LerpDouble(-100f, 100f, 0.05f, 2f, (float)pawn.relations.OpinionOf(sick));

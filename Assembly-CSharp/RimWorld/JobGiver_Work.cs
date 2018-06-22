@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000117 RID: 279
 	public class JobGiver_Work : ThinkNode
 	{
-		// Token: 0x060005AD RID: 1453 RVA: 0x0003CF24 File Offset: 0x0003B324
+		// Token: 0x060005AD RID: 1453 RVA: 0x0003CF10 File Offset: 0x0003B310
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_Work jobGiver_Work = (JobGiver_Work)base.DeepCopy(resolve);
@@ -17,7 +17,7 @@ namespace RimWorld
 			return jobGiver_Work;
 		}
 
-		// Token: 0x060005AE RID: 1454 RVA: 0x0003CF54 File Offset: 0x0003B354
+		// Token: 0x060005AE RID: 1454 RVA: 0x0003CF40 File Offset: 0x0003B340
 		public override float GetPriority(Pawn pawn)
 		{
 			float result;
@@ -52,7 +52,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060005AF RID: 1455 RVA: 0x0003D008 File Offset: 0x0003B408
+		// Token: 0x060005AF RID: 1455 RVA: 0x0003CFF4 File Offset: 0x0003B3F4
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			Profiler.BeginSample("JobGiver_Work");
@@ -251,13 +251,13 @@ namespace RimWorld
 			return ThinkResult.NoJob;
 		}
 
-		// Token: 0x060005B0 RID: 1456 RVA: 0x0003D850 File Offset: 0x0003BC50
+		// Token: 0x060005B0 RID: 1456 RVA: 0x0003D83C File Offset: 0x0003BC3C
 		private bool PawnCanUseWorkGiver(Pawn pawn, WorkGiver giver)
 		{
 			return (giver.def.canBeDoneByNonColonists || pawn.IsColonist) && (pawn.story == null || !pawn.story.WorkTagIsDisabled(giver.def.workTags)) && !giver.ShouldSkip(pawn, false) && giver.MissingRequiredCapacity(pawn) == null;
 		}
 
-		// Token: 0x060005B1 RID: 1457 RVA: 0x0003D8DC File Offset: 0x0003BCDC
+		// Token: 0x060005B1 RID: 1457 RVA: 0x0003D8C8 File Offset: 0x0003BCC8
 		private Job GiverTryGiveJobPrioritized(Pawn pawn, WorkGiver giver, IntVec3 cell)
 		{
 			Job result;

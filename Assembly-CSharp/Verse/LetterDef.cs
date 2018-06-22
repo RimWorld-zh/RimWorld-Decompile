@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B4F RID: 2895
+	// Token: 0x02000B4B RID: 2891
 	public class LetterDef : Def
 	{
-		// Token: 0x1700099D RID: 2461
-		// (get) Token: 0x06003F60 RID: 16224 RVA: 0x002162D0 File Offset: 0x002146D0
+		// Token: 0x1700099F RID: 2463
+		// (get) Token: 0x06003F60 RID: 16224 RVA: 0x002168FC File Offset: 0x00214CFC
 		public Texture2D Icon
 		{
 			get
@@ -21,7 +21,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F61 RID: 16225 RVA: 0x0021631E File Offset: 0x0021471E
+		// Token: 0x06003F61 RID: 16225 RVA: 0x0021694A File Offset: 0x00214D4A
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -31,32 +31,32 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x040029DB RID: 10715
+		// Token: 0x040029D9 RID: 10713
 		public Type letterClass = typeof(StandardLetter);
 
-		// Token: 0x040029DC RID: 10716
+		// Token: 0x040029DA RID: 10714
 		public Color color = Color.white;
 
-		// Token: 0x040029DD RID: 10717
+		// Token: 0x040029DB RID: 10715
 		public Color flashColor = Color.white;
 
-		// Token: 0x040029DE RID: 10718
+		// Token: 0x040029DC RID: 10716
 		public float flashInterval = 90f;
 
-		// Token: 0x040029DF RID: 10719
+		// Token: 0x040029DD RID: 10717
 		public bool bounce;
 
-		// Token: 0x040029E0 RID: 10720
+		// Token: 0x040029DE RID: 10718
 		public SoundDef arriveSound;
 
-		// Token: 0x040029E1 RID: 10721
+		// Token: 0x040029DF RID: 10719
 		[NoTranslate]
 		public string icon = "UI/Letters/LetterUnopened";
 
-		// Token: 0x040029E2 RID: 10722
+		// Token: 0x040029E0 RID: 10720
 		public bool pauseIfPauseOnUrgentLetter;
 
-		// Token: 0x040029E3 RID: 10723
+		// Token: 0x040029E1 RID: 10721
 		[Unsaved]
 		private Texture2D iconTex;
 	}

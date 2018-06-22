@@ -3,16 +3,16 @@ using RimWorld;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A2B RID: 2603
+	// Token: 0x02000A27 RID: 2599
 	public class Trigger_NoPawnsVeryTiredAndSleeping : Trigger
 	{
-		// Token: 0x060039D3 RID: 14803 RVA: 0x001E89CB File Offset: 0x001E6DCB
+		// Token: 0x060039CD RID: 14797 RVA: 0x001E8C0B File Offset: 0x001E700B
 		public Trigger_NoPawnsVeryTiredAndSleeping(float extraRestThreshOffset = 0f)
 		{
 			this.extraRestThreshOffset = extraRestThreshOffset;
 		}
 
-		// Token: 0x060039D4 RID: 14804 RVA: 0x001E89DC File Offset: 0x001E6DDC
+		// Token: 0x060039CE RID: 14798 RVA: 0x001E8C1C File Offset: 0x001E701C
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			bool result;
@@ -38,7 +38,7 @@ namespace Verse.AI.Group
 			return result;
 		}
 
-		// Token: 0x040024B9 RID: 9401
+		// Token: 0x040024B4 RID: 9396
 		private float extraRestThreshOffset;
 	}
 }

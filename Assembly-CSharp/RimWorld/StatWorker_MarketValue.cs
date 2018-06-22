@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009C4 RID: 2500
+	// Token: 0x020009C0 RID: 2496
 	public class StatWorker_MarketValue : StatWorker
 	{
-		// Token: 0x06003805 RID: 14341 RVA: 0x001DD6B8 File Offset: 0x001DBAB8
+		// Token: 0x060037FF RID: 14335 RVA: 0x001DD890 File Offset: 0x001DBC90
 		public override float GetValueUnfinalized(StatRequest req, bool applyPostProcess = true)
 		{
 			float result;
@@ -28,7 +28,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003806 RID: 14342 RVA: 0x001DD75C File Offset: 0x001DBB5C
+		// Token: 0x06003800 RID: 14336 RVA: 0x001DD934 File Offset: 0x001DBD34
 		public static RecipeDef CalculableRecipe(BuildableDef def)
 		{
 			if (def.costList.NullOrEmpty<ThingDefCountClass>() && def.costStuffCount <= 0)
@@ -53,7 +53,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06003807 RID: 14343 RVA: 0x001DD834 File Offset: 0x001DBC34
+		// Token: 0x06003801 RID: 14337 RVA: 0x001DDA0C File Offset: 0x001DBE0C
 		public static float CalculatedMarketValue(BuildableDef def, ThingDef stuffDef)
 		{
 			float num = 0f;
@@ -105,7 +105,7 @@ namespace RimWorld
 			return num / (float)num3;
 		}
 
-		// Token: 0x06003808 RID: 14344 RVA: 0x001DD9BC File Offset: 0x001DBDBC
+		// Token: 0x06003802 RID: 14338 RVA: 0x001DDB94 File Offset: 0x001DBF94
 		public override string GetExplanationUnfinalized(StatRequest req, ToStringNumberSense numberSense)
 		{
 			string result;
@@ -132,17 +132,17 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003809 RID: 14345 RVA: 0x001DDA9C File Offset: 0x001DBE9C
+		// Token: 0x06003803 RID: 14339 RVA: 0x001DDC74 File Offset: 0x001DC074
 		public override bool ShouldShowFor(StatRequest req)
 		{
 			ThingDef thingDef = req.Def as ThingDef;
 			return thingDef != null && (thingDef.category == ThingCategory.Building || TradeUtility.EverPlayerSellable(thingDef) || (thingDef.tradeability.TraderCanSell() && (thingDef.category == ThingCategory.Item || thingDef.category == ThingCategory.Pawn)));
 		}
 
-		// Token: 0x040023D0 RID: 9168
+		// Token: 0x040023CB RID: 9163
 		public const float ValuePerWork = 0.0036f;
 
-		// Token: 0x040023D1 RID: 9169
+		// Token: 0x040023CC RID: 9164
 		private const float DefaultGuessStuffCost = 2f;
 	}
 }

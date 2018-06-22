@@ -4,17 +4,17 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A3C RID: 2620
+	// Token: 0x02000A38 RID: 2616
 	public class JobDriver_AttackMelee : JobDriver
 	{
-		// Token: 0x06003A19 RID: 14873 RVA: 0x001EB51C File Offset: 0x001E991C
+		// Token: 0x06003A13 RID: 14867 RVA: 0x001EB75C File Offset: 0x001E9B5C
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.numMeleeAttacksMade, "numMeleeAttacksMade", 0, false);
 		}
 
-		// Token: 0x06003A1A RID: 14874 RVA: 0x001EB538 File Offset: 0x001E9938
+		// Token: 0x06003A14 RID: 14868 RVA: 0x001EB778 File Offset: 0x001E9B78
 		public override bool TryMakePreToilReservations()
 		{
 			IAttackTarget attackTarget = this.job.targetA.Thing as IAttackTarget;
@@ -25,7 +25,7 @@ namespace Verse.AI
 			return true;
 		}
 
-		// Token: 0x06003A1B RID: 14875 RVA: 0x001EB58C File Offset: 0x001E998C
+		// Token: 0x06003A15 RID: 14869 RVA: 0x001EB7CC File Offset: 0x001E9BCC
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return Toils_General.DoAtomic(delegate
@@ -55,7 +55,7 @@ namespace Verse.AI
 			yield break;
 		}
 
-		// Token: 0x06003A1C RID: 14876 RVA: 0x001EB5B8 File Offset: 0x001E99B8
+		// Token: 0x06003A16 RID: 14870 RVA: 0x001EB7F8 File Offset: 0x001E9BF8
 		public override void Notify_PatherFailed()
 		{
 			if (this.job.attackDoorIfTargetLost)
@@ -81,13 +81,13 @@ namespace Verse.AI
 			base.Notify_PatherFailed();
 		}
 
-		// Token: 0x06003A1D RID: 14877 RVA: 0x001EB6A8 File Offset: 0x001E9AA8
+		// Token: 0x06003A17 RID: 14871 RVA: 0x001EB8E8 File Offset: 0x001E9CE8
 		public override bool IsContinuation(Job j)
 		{
 			return this.job.GetTarget(TargetIndex.A) == j.GetTarget(TargetIndex.A);
 		}
 
-		// Token: 0x04002503 RID: 9475
+		// Token: 0x040024FE RID: 9470
 		private int numMeleeAttacksMade = 0;
 	}
 }

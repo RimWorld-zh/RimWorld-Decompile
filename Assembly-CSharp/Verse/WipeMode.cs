@@ -5,9 +5,9 @@ namespace Verse
 	// Token: 0x02000F50 RID: 3920
 	public enum WipeMode
 	{
-		// Token: 0x04003E32 RID: 15922
+		// Token: 0x04003E44 RID: 15940
 		Vanish,
-		// Token: 0x04003E33 RID: 15923
+		// Token: 0x04003E45 RID: 15941
 		FullRefund
 	}
 }

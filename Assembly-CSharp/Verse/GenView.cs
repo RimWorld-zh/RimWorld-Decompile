@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DE7 RID: 3559
+	// Token: 0x02000DE4 RID: 3556
 	public static class GenView
 	{
-		// Token: 0x06004FA0 RID: 20384 RVA: 0x00295B90 File Offset: 0x00293F90
+		// Token: 0x06004FB5 RID: 20405 RVA: 0x0029716C File Offset: 0x0029556C
 		public static bool ShouldSpawnMotesAt(this Vector3 loc, Map map)
 		{
 			return loc.ToIntVec3().ShouldSpawnMotesAt(map);
 		}
 
-		// Token: 0x06004FA1 RID: 20385 RVA: 0x00295BB4 File Offset: 0x00293FB4
+		// Token: 0x06004FB6 RID: 20406 RVA: 0x00297190 File Offset: 0x00295590
 		public static bool ShouldSpawnMotesAt(this IntVec3 loc, Map map)
 		{
 			bool result;
@@ -33,7 +33,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004FA2 RID: 20386 RVA: 0x00295C18 File Offset: 0x00294018
+		// Token: 0x06004FB7 RID: 20407 RVA: 0x002971F4 File Offset: 0x002955F4
 		public static Vector3 RandomPositionOnOrNearScreen()
 		{
 			GenView.viewRect = Find.CameraDriver.CurrentViewRect;
@@ -42,10 +42,10 @@ namespace Verse
 			return GenView.viewRect.RandomVector3;
 		}
 
-		// Token: 0x040034C9 RID: 13513
+		// Token: 0x040034D4 RID: 13524
 		private static CellRect viewRect;
 
-		// Token: 0x040034CA RID: 13514
+		// Token: 0x040034D5 RID: 13525
 		private const int ViewRectMargin = 5;
 	}
 }

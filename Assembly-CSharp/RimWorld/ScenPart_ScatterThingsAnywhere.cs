@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200064F RID: 1615
+	// Token: 0x0200064B RID: 1611
 	public class ScenPart_ScatterThingsAnywhere : ScenPart_ScatterThings
 	{
 		// Token: 0x170004ED RID: 1261
-		// (get) Token: 0x06002184 RID: 8580 RVA: 0x0011C4CC File Offset: 0x0011A8CC
+		// (get) Token: 0x0600217C RID: 8572 RVA: 0x0011C5CC File Offset: 0x0011A9CC
 		protected override bool NearPlayerStart
 		{
 			get
@@ -17,13 +17,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002185 RID: 8581 RVA: 0x0011C4E4 File Offset: 0x0011A8E4
+		// Token: 0x0600217D RID: 8573 RVA: 0x0011C5E4 File Offset: 0x0011A9E4
 		public override string Summary(Scenario scen)
 		{
 			return ScenSummaryList.SummaryWithList(scen, "MapScatteredWith", "ScenPart_MapScatteredWith".Translate());
 		}
 
-		// Token: 0x06002186 RID: 8582 RVA: 0x0011C510 File Offset: 0x0011A910
+		// Token: 0x0600217E RID: 8574 RVA: 0x0011C610 File Offset: 0x0011AA10
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
 			if (tag == "MapScatteredWith")
@@ -33,7 +33,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0400130E RID: 4878
+		// Token: 0x0400130B RID: 4875
 		public const string MapScatteredWithTag = "MapScatteredWith";
 	}
 }

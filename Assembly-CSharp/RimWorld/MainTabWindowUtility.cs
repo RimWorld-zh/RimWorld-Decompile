@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020002B0 RID: 688
 	public static class MainTabWindowUtility
 	{
-		// Token: 0x06000B84 RID: 2948 RVA: 0x00067ED8 File Offset: 0x000662D8
+		// Token: 0x06000B82 RID: 2946 RVA: 0x00067F40 File Offset: 0x00066340
 		public static void NotifyAllPawnTables_PawnsChanged()
 		{
 			if (Find.WindowStack != null)

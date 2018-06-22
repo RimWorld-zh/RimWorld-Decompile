@@ -3,17 +3,17 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D3F RID: 3391
+	// Token: 0x02000D3C RID: 3388
 	public class PawnCapacitiesHandler
 	{
-		// Token: 0x06004ABA RID: 19130 RVA: 0x0026F809 File Offset: 0x0026DC09
+		// Token: 0x06004ACE RID: 19150 RVA: 0x00270D65 File Offset: 0x0026F165
 		public PawnCapacitiesHandler(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x17000BED RID: 3053
-		// (get) Token: 0x06004ABB RID: 19131 RVA: 0x0026F820 File Offset: 0x0026DC20
+		// Token: 0x17000BEF RID: 3055
+		// (get) Token: 0x06004ACF RID: 19151 RVA: 0x00270D7C File Offset: 0x0026F17C
 		public bool CanBeAwake
 		{
 			get
@@ -22,13 +22,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004ABC RID: 19132 RVA: 0x0026F84A File Offset: 0x0026DC4A
+		// Token: 0x06004AD0 RID: 19152 RVA: 0x00270DA6 File Offset: 0x0026F1A6
 		public void Clear()
 		{
 			this.cachedCapacityLevels = null;
 		}
 
-		// Token: 0x06004ABD RID: 19133 RVA: 0x0026F854 File Offset: 0x0026DC54
+		// Token: 0x06004AD1 RID: 19153 RVA: 0x00270DB0 File Offset: 0x0026F1B0
 		public float GetLevel(PawnCapacityDef capacity)
 		{
 			float result;
@@ -68,13 +68,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004ABE RID: 19134 RVA: 0x0026F928 File Offset: 0x0026DD28
+		// Token: 0x06004AD2 RID: 19154 RVA: 0x00270E84 File Offset: 0x0026F284
 		public bool CapableOf(PawnCapacityDef capacity)
 		{
 			return this.GetLevel(capacity) > capacity.minForCapable;
 		}
 
-		// Token: 0x06004ABF RID: 19135 RVA: 0x0026F94C File Offset: 0x0026DD4C
+		// Token: 0x06004AD3 RID: 19155 RVA: 0x00270EA8 File Offset: 0x0026F2A8
 		public void Notify_CapacityLevelsDirty()
 		{
 			if (this.cachedCapacityLevels == null)
@@ -87,30 +87,30 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003265 RID: 12901
+		// Token: 0x04003270 RID: 12912
 		private Pawn pawn;
 
-		// Token: 0x04003266 RID: 12902
+		// Token: 0x04003271 RID: 12913
 		private DefMap<PawnCapacityDef, PawnCapacitiesHandler.CacheElement> cachedCapacityLevels = null;
 
-		// Token: 0x02000D40 RID: 3392
+		// Token: 0x02000D3D RID: 3389
 		private enum CacheStatus
 		{
-			// Token: 0x04003268 RID: 12904
+			// Token: 0x04003273 RID: 12915
 			Uncached,
-			// Token: 0x04003269 RID: 12905
+			// Token: 0x04003274 RID: 12916
 			Caching,
-			// Token: 0x0400326A RID: 12906
+			// Token: 0x04003275 RID: 12917
 			Cached
 		}
 
-		// Token: 0x02000D41 RID: 3393
+		// Token: 0x02000D3E RID: 3390
 		private class CacheElement
 		{
-			// Token: 0x0400326B RID: 12907
+			// Token: 0x04003276 RID: 12918
 			public PawnCapacitiesHandler.CacheStatus status;
 
-			// Token: 0x0400326C RID: 12908
+			// Token: 0x04003277 RID: 12919
 			public float value;
 		}
 	}

@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_Execute : JobDriver
 	{
 		// Token: 0x170000BE RID: 190
-		// (get) Token: 0x060003AB RID: 939 RVA: 0x00029848 File Offset: 0x00027C48
+		// (get) Token: 0x060003AB RID: 939 RVA: 0x00029824 File Offset: 0x00027C24
 		protected Pawn Victim
 		{
 			get
@@ -18,13 +18,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060003AC RID: 940 RVA: 0x00029874 File Offset: 0x00027C74
+		// Token: 0x060003AC RID: 940 RVA: 0x00029850 File Offset: 0x00027C50
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Victim, this.job, 1, -1, null);
 		}
 
-		// Token: 0x060003AD RID: 941 RVA: 0x000298A8 File Offset: 0x00027CA8
+		// Token: 0x060003AD RID: 941 RVA: 0x00029884 File Offset: 0x00027C84
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnAggroMentalState(TargetIndex.A);

@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000AC7 RID: 2759
+	// Token: 0x02000AC3 RID: 2755
 	public class JobGiver_ForcedGoto : ThinkNode_JobGiver
 	{
-		// Token: 0x06003D52 RID: 15698 RVA: 0x002055B8 File Offset: 0x002039B8
+		// Token: 0x06003D4D RID: 15693 RVA: 0x002058DC File Offset: 0x00203CDC
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			IntVec3 forcedGotoPosition = pawn.mindState.forcedGotoPosition;

@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200073A RID: 1850
+	// Token: 0x02000736 RID: 1846
 	public class CompSpawnerFilth : ThingComp
 	{
-		// Token: 0x17000650 RID: 1616
-		// (get) Token: 0x060028D1 RID: 10449 RVA: 0x0015BF4C File Offset: 0x0015A34C
+		// Token: 0x17000651 RID: 1617
+		// (get) Token: 0x060028CA RID: 10442 RVA: 0x0015C124 File Offset: 0x0015A524
 		private CompProperties_SpawnerFilth Props
 		{
 			get
@@ -16,8 +16,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000651 RID: 1617
-		// (get) Token: 0x060028D2 RID: 10450 RVA: 0x0015BF6C File Offset: 0x0015A36C
+		// Token: 0x17000652 RID: 1618
+		// (get) Token: 0x060028CB RID: 10443 RVA: 0x0015C144 File Offset: 0x0015A544
 		private bool CanSpawnFilth
 		{
 			get
@@ -37,14 +37,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028D3 RID: 10451 RVA: 0x0015BFF7 File Offset: 0x0015A3F7
+		// Token: 0x060028CC RID: 10444 RVA: 0x0015C1CF File Offset: 0x0015A5CF
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_Values.Look<int>(ref this.nextSpawnTimestamp, "nextSpawnTimestamp", -1, false);
 		}
 
-		// Token: 0x060028D4 RID: 10452 RVA: 0x0015C014 File Offset: 0x0015A414
+		// Token: 0x060028CD RID: 10445 RVA: 0x0015C1EC File Offset: 0x0015A5EC
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			if (!respawningAfterLoad)
@@ -56,7 +56,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028D5 RID: 10453 RVA: 0x0015C050 File Offset: 0x0015A450
+		// Token: 0x060028CE RID: 10446 RVA: 0x0015C228 File Offset: 0x0015A628
 		public override void CompTick()
 		{
 			base.CompTick();
@@ -77,7 +77,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028D6 RID: 10454 RVA: 0x0015C10C File Offset: 0x0015A50C
+		// Token: 0x060028CF RID: 10447 RVA: 0x0015C2E4 File Offset: 0x0015A6E4
 		public void TrySpawnFilth()
 		{
 			if (this.parent.Map != null)
@@ -90,7 +90,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04001654 RID: 5716
+		// Token: 0x04001652 RID: 5714
 		private int nextSpawnTimestamp = -1;
 	}
 }

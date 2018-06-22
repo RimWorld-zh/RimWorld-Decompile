@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000212 RID: 530
 	public class ThoughtWorker_DeadMansApparel : ThoughtWorker
 	{
-		// Token: 0x060009F2 RID: 2546 RVA: 0x00058C9C File Offset: 0x0005709C
+		// Token: 0x060009F0 RID: 2544 RVA: 0x00058CE0 File Offset: 0x000570E0
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			string text = null;

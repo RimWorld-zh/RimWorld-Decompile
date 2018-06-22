@@ -4,10 +4,10 @@ using Verse.Noise;
 
 namespace Verse
 {
-	// Token: 0x02000C63 RID: 3171
+	// Token: 0x02000C60 RID: 3168
 	public static class RockNoises
 	{
-		// Token: 0x060045B3 RID: 17843 RVA: 0x0024C08C File Offset: 0x0024A48C
+		// Token: 0x060045BC RID: 17852 RVA: 0x0024D45C File Offset: 0x0024B85C
 		public static void Init(Map map)
 		{
 			RockNoises.rockNoises = new List<RockNoises.RockNoise>();
@@ -21,25 +21,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060045B4 RID: 17844 RVA: 0x0024C16C File Offset: 0x0024A56C
+		// Token: 0x060045BD RID: 17853 RVA: 0x0024D53C File Offset: 0x0024B93C
 		public static void Reset()
 		{
 			RockNoises.rockNoises = null;
 		}
 
-		// Token: 0x04002FA5 RID: 12197
+		// Token: 0x04002FAF RID: 12207
 		public static List<RockNoises.RockNoise> rockNoises = null;
 
-		// Token: 0x04002FA6 RID: 12198
+		// Token: 0x04002FB0 RID: 12208
 		private const float RockNoiseFreq = 0.005f;
 
-		// Token: 0x02000C64 RID: 3172
+		// Token: 0x02000C61 RID: 3169
 		public class RockNoise
 		{
-			// Token: 0x04002FA7 RID: 12199
+			// Token: 0x04002FB1 RID: 12209
 			public ThingDef rockDef;
 
-			// Token: 0x04002FA8 RID: 12200
+			// Token: 0x04002FB2 RID: 12210
 			public ModuleBase noise;
 		}
 	}

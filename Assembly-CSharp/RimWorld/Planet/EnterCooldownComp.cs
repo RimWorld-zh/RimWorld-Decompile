@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000620 RID: 1568
+	// Token: 0x0200061C RID: 1564
 	public class EnterCooldownComp : WorldObjectComp
 	{
 		// Token: 0x170004BC RID: 1212
-		// (get) Token: 0x06001FD3 RID: 8147 RVA: 0x001123D0 File Offset: 0x001107D0
+		// (get) Token: 0x06001FCA RID: 8138 RVA: 0x00112424 File Offset: 0x00110824
 		public WorldObjectCompProperties_EnterCooldown Props
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004BD RID: 1213
-		// (get) Token: 0x06001FD4 RID: 8148 RVA: 0x001123F0 File Offset: 0x001107F0
+		// (get) Token: 0x06001FCB RID: 8139 RVA: 0x00112444 File Offset: 0x00110844
 		public bool Active
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004BE RID: 1214
-		// (get) Token: 0x06001FD5 RID: 8149 RVA: 0x00112410 File Offset: 0x00110810
+		// (get) Token: 0x06001FCC RID: 8140 RVA: 0x00112464 File Offset: 0x00110864
 		public bool BlocksEntering
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004BF RID: 1215
-		// (get) Token: 0x06001FD6 RID: 8150 RVA: 0x0011243C File Offset: 0x0011083C
+		// (get) Token: 0x06001FCD RID: 8141 RVA: 0x00112490 File Offset: 0x00110890
 		public int TicksLeft
 		{
 			get
@@ -48,7 +48,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004C0 RID: 1216
-		// (get) Token: 0x06001FD7 RID: 8151 RVA: 0x00112468 File Offset: 0x00110868
+		// (get) Token: 0x06001FCE RID: 8142 RVA: 0x001124BC File Offset: 0x001108BC
 		public float DaysLeft
 		{
 			get
@@ -57,20 +57,20 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001FD8 RID: 8152 RVA: 0x0011248C File Offset: 0x0011088C
+		// Token: 0x06001FCF RID: 8143 RVA: 0x001124E0 File Offset: 0x001108E0
 		public void Start(float? durationDays = null)
 		{
 			float num = (durationDays == null) ? this.Props.durationDays : durationDays.Value;
 			this.ticksLeft = Mathf.RoundToInt(num * 60000f);
 		}
 
-		// Token: 0x06001FD9 RID: 8153 RVA: 0x001124D0 File Offset: 0x001108D0
+		// Token: 0x06001FD0 RID: 8144 RVA: 0x00112524 File Offset: 0x00110924
 		public void Stop()
 		{
 			this.ticksLeft = 0;
 		}
 
-		// Token: 0x06001FDA RID: 8154 RVA: 0x001124DA File Offset: 0x001108DA
+		// Token: 0x06001FD1 RID: 8145 RVA: 0x0011252E File Offset: 0x0011092E
 		public override void CompTick()
 		{
 			base.CompTick();
@@ -80,7 +80,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001FDB RID: 8155 RVA: 0x001124FC File Offset: 0x001108FC
+		// Token: 0x06001FD2 RID: 8146 RVA: 0x00112550 File Offset: 0x00110950
 		public override void PostMapGenerate()
 		{
 			base.PostMapGenerate();
@@ -90,7 +90,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001FDC RID: 8156 RVA: 0x00112518 File Offset: 0x00110918
+		// Token: 0x06001FD3 RID: 8147 RVA: 0x0011256C File Offset: 0x0011096C
 		public override void PostMyMapRemoved()
 		{
 			base.PostMyMapRemoved();
@@ -100,14 +100,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001FDD RID: 8157 RVA: 0x0011254B File Offset: 0x0011094B
+		// Token: 0x06001FD4 RID: 8148 RVA: 0x0011259F File Offset: 0x0011099F
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_Values.Look<int>(ref this.ticksLeft, "ticksLeft", 0, false);
 		}
 
-		// Token: 0x0400126C RID: 4716
+		// Token: 0x04001269 RID: 4713
 		private int ticksLeft;
 	}
 }

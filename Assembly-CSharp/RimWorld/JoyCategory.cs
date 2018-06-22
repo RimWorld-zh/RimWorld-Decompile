@@ -2,20 +2,20 @@
 
 namespace RimWorld
 {
-	// Token: 0x020004FE RID: 1278
+	// Token: 0x020004FA RID: 1274
 	public enum JoyCategory : byte
 	{
-		// Token: 0x04000D80 RID: 3456
+		// Token: 0x04000D7D RID: 3453
 		Empty,
-		// Token: 0x04000D81 RID: 3457
+		// Token: 0x04000D7E RID: 3454
 		VeryLow,
-		// Token: 0x04000D82 RID: 3458
+		// Token: 0x04000D7F RID: 3455
 		Low,
-		// Token: 0x04000D83 RID: 3459
+		// Token: 0x04000D80 RID: 3456
 		Satisfied,
-		// Token: 0x04000D84 RID: 3460
+		// Token: 0x04000D81 RID: 3457
 		High,
-		// Token: 0x04000D85 RID: 3461
+		// Token: 0x04000D82 RID: 3458
 		Extreme
 	}
 }

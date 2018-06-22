@@ -6,18 +6,18 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000673 RID: 1651
+	// Token: 0x0200066F RID: 1647
 	public class MinifiedThing : ThingWithComps, IThingHolder
 	{
-		// Token: 0x06002291 RID: 8849 RVA: 0x0012A12E File Offset: 0x0012852E
+		// Token: 0x06002289 RID: 8841 RVA: 0x0012A276 File Offset: 0x00128676
 		public MinifiedThing()
 		{
 			this.innerContainer = new ThingOwner<Thing>(this, true, LookMode.Deep);
 		}
 
 		// Token: 0x1700050E RID: 1294
-		// (get) Token: 0x06002292 RID: 8850 RVA: 0x0012A148 File Offset: 0x00128548
-		// (set) Token: 0x06002293 RID: 8851 RVA: 0x0012A180 File Offset: 0x00128580
+		// (get) Token: 0x0600228A RID: 8842 RVA: 0x0012A290 File Offset: 0x00128690
+		// (set) Token: 0x0600228B RID: 8843 RVA: 0x0012A2C8 File Offset: 0x001286C8
 		public Thing InnerThing
 		{
 			get
@@ -64,7 +64,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700050F RID: 1295
-		// (get) Token: 0x06002294 RID: 8852 RVA: 0x0012A23C File Offset: 0x0012863C
+		// (get) Token: 0x0600228C RID: 8844 RVA: 0x0012A384 File Offset: 0x00128784
 		public override Graphic Graphic
 		{
 			get
@@ -84,7 +84,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000510 RID: 1296
-		// (get) Token: 0x06002295 RID: 8853 RVA: 0x0012A35C File Offset: 0x0012875C
+		// (get) Token: 0x0600228D RID: 8845 RVA: 0x0012A4A4 File Offset: 0x001288A4
 		public override string LabelNoCount
 		{
 			get
@@ -94,7 +94,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000511 RID: 1297
-		// (get) Token: 0x06002296 RID: 8854 RVA: 0x0012A37C File Offset: 0x0012877C
+		// (get) Token: 0x0600228E RID: 8846 RVA: 0x0012A4C4 File Offset: 0x001288C4
 		public override string DescriptionDetailed
 		{
 			get
@@ -104,7 +104,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000512 RID: 1298
-		// (get) Token: 0x06002297 RID: 8855 RVA: 0x0012A39C File Offset: 0x0012879C
+		// (get) Token: 0x0600228F RID: 8847 RVA: 0x0012A4E4 File Offset: 0x001288E4
 		public override string DescriptionFlavor
 		{
 			get
@@ -113,7 +113,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002298 RID: 8856 RVA: 0x0012A3BC File Offset: 0x001287BC
+		// Token: 0x06002290 RID: 8848 RVA: 0x0012A504 File Offset: 0x00128904
 		public override void Tick()
 		{
 			if (this.InnerThing == null)
@@ -131,19 +131,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002299 RID: 8857 RVA: 0x0012A410 File Offset: 0x00128810
+		// Token: 0x06002291 RID: 8849 RVA: 0x0012A558 File Offset: 0x00128958
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.innerContainer;
 		}
 
-		// Token: 0x0600229A RID: 8858 RVA: 0x0012A42B File Offset: 0x0012882B
+		// Token: 0x06002292 RID: 8850 RVA: 0x0012A573 File Offset: 0x00128973
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
-		// Token: 0x0600229B RID: 8859 RVA: 0x0012A43C File Offset: 0x0012883C
+		// Token: 0x06002293 RID: 8851 RVA: 0x0012A584 File Offset: 0x00128984
 		public override Thing SplitOff(int count)
 		{
 			MinifiedThing minifiedThing = (MinifiedThing)base.SplitOff(count);
@@ -162,14 +162,14 @@ namespace RimWorld
 			return minifiedThing;
 		}
 
-		// Token: 0x0600229C RID: 8860 RVA: 0x0012A4D4 File Offset: 0x001288D4
+		// Token: 0x06002294 RID: 8852 RVA: 0x0012A61C File Offset: 0x00128A1C
 		public override bool CanStackWith(Thing other)
 		{
 			MinifiedThing minifiedThing = other as MinifiedThing;
 			return minifiedThing != null && base.CanStackWith(other) && this.InnerThing.CanStackWith(minifiedThing.InnerThing);
 		}
 
-		// Token: 0x0600229D RID: 8861 RVA: 0x0012A51D File Offset: 0x0012891D
+		// Token: 0x06002295 RID: 8853 RVA: 0x0012A665 File Offset: 0x00128A65
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -179,7 +179,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x0600229E RID: 8862 RVA: 0x0012A540 File Offset: 0x00128940
+		// Token: 0x06002296 RID: 8854 RVA: 0x0012A688 File Offset: 0x00128A88
 		public override void DrawExtraSelectionOverlays()
 		{
 			base.DrawExtraSelectionOverlays();
@@ -190,7 +190,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600229F RID: 8863 RVA: 0x0012A574 File Offset: 0x00128974
+		// Token: 0x06002297 RID: 8855 RVA: 0x0012A6BC File Offset: 0x00128ABC
 		public override void DrawAt(Vector3 drawLoc, bool flip = false)
 		{
 			if (this.crateFrontGraphic == null)
@@ -208,7 +208,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060022A0 RID: 8864 RVA: 0x0012A640 File Offset: 0x00128A40
+		// Token: 0x06002298 RID: 8856 RVA: 0x0012A788 File Offset: 0x00128B88
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
 			bool spawned = base.Spawned;
@@ -225,14 +225,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060022A1 RID: 8865 RVA: 0x0012A6B5 File Offset: 0x00128AB5
+		// Token: 0x06002299 RID: 8857 RVA: 0x0012A7FD File Offset: 0x00128BFD
 		public override void PreTraded(TradeAction action, Pawn playerNegotiator, ITrader trader)
 		{
 			base.PreTraded(action, playerNegotiator, trader);
 			InstallBlueprintUtility.CancelBlueprintsFor(this);
 		}
 
-		// Token: 0x060022A2 RID: 8866 RVA: 0x0012A6C8 File Offset: 0x00128AC8
+		// Token: 0x0600229A RID: 8858 RVA: 0x0012A810 File Offset: 0x00128C10
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
@@ -243,7 +243,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060022A3 RID: 8867 RVA: 0x0012A6F4 File Offset: 0x00128AF4
+		// Token: 0x0600229B RID: 8859 RVA: 0x0012A83C File Offset: 0x00128C3C
 		public override string GetInspectString()
 		{
 			string text = "NotInstalled".Translate();
@@ -256,7 +256,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x060022A4 RID: 8868 RVA: 0x0012A744 File Offset: 0x00128B44
+		// Token: 0x0600229C RID: 8860 RVA: 0x0012A88C File Offset: 0x00128C8C
 		private Vector2 GetMinifiedDrawSize(Vector2 drawSize, float maxSideLength)
 		{
 			float num = maxSideLength / Mathf.Max(drawSize.x, drawSize.y);
@@ -272,19 +272,19 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0400138B RID: 5003
+		// Token: 0x04001389 RID: 5001
 		private const float MaxMinifiedGraphicSize = 1.1f;
 
-		// Token: 0x0400138C RID: 5004
+		// Token: 0x0400138A RID: 5002
 		private const float CrateToGraphicScale = 1.16f;
 
-		// Token: 0x0400138D RID: 5005
+		// Token: 0x0400138B RID: 5003
 		private ThingOwner innerContainer;
 
-		// Token: 0x0400138E RID: 5006
+		// Token: 0x0400138C RID: 5004
 		private Graphic cachedGraphic;
 
-		// Token: 0x0400138F RID: 5007
+		// Token: 0x0400138D RID: 5005
 		private Graphic crateFrontGraphic;
 	}
 }

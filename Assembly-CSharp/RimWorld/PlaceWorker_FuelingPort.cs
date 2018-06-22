@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000C7A RID: 3194
+	// Token: 0x02000C77 RID: 3191
 	[StaticConstructorOnStartup]
 	public class PlaceWorker_FuelingPort : PlaceWorker
 	{
-		// Token: 0x060045ED RID: 17901 RVA: 0x0024CF44 File Offset: 0x0024B344
+		// Token: 0x060045F6 RID: 17910 RVA: 0x0024E314 File Offset: 0x0024C714
 		public override void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot, Color ghostCol)
 		{
 			Map currentMap = Find.CurrentMap;
@@ -21,14 +21,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060045EE RID: 17902 RVA: 0x0024CF98 File Offset: 0x0024B398
+		// Token: 0x060045F7 RID: 17911 RVA: 0x0024E368 File Offset: 0x0024C768
 		public static void DrawFuelingPortCell(IntVec3 center, Rot4 rot)
 		{
 			Vector3 position = FuelingPortUtility.GetFuelingPortCell(center, rot).ToVector3ShiftedWithAltitude(AltitudeLayer.MetaOverlays);
 			Graphics.DrawMesh(MeshPool.plane10, position, Quaternion.identity, PlaceWorker_FuelingPort.FuelingPortCellMaterial, 0);
 		}
 
-		// Token: 0x04002FAB RID: 12203
+		// Token: 0x04002FB5 RID: 12213
 		private static readonly Material FuelingPortCellMaterial = MaterialPool.MatFrom("UI/Overlays/FuelingPort", ShaderDatabase.Transparent);
 	}
 }

@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008AD RID: 2221
+	// Token: 0x020008A9 RID: 2217
 	[StaticConstructorOnStartup]
 	public static class TradeUI
 	{
-		// Token: 0x060032D3 RID: 13011 RVA: 0x001B5D80 File Offset: 0x001B4180
+		// Token: 0x060032CC RID: 13004 RVA: 0x001B5F68 File Offset: 0x001B4368
 		public static void DrawTradeableRow(Rect rect, Tradeable trad, int index)
 		{
 			if (index % 2 == 1)
@@ -73,7 +73,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x060032D4 RID: 13012 RVA: 0x001B6014 File Offset: 0x001B4414
+		// Token: 0x060032CD RID: 13005 RVA: 0x001B61FC File Offset: 0x001B45FC
 		private static void DrawPrice(Rect rect, Tradeable trad, TradeAction action)
 		{
 			if (!trad.IsCurrency && trad.TraderWillTrade)
@@ -144,7 +144,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060032D5 RID: 13013 RVA: 0x001B62BC File Offset: 0x001B46BC
+		// Token: 0x060032CE RID: 13006 RVA: 0x001B64A4 File Offset: 0x001B48A4
 		private static void DrawWillNotTradeIndication(Rect rect, Tradeable trad)
 		{
 			rect = rect.Rounded();
@@ -157,19 +157,19 @@ namespace RimWorld
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x04001B7A RID: 7034
+		// Token: 0x04001B78 RID: 7032
 		public const float CountColumnWidth = 75f;
 
-		// Token: 0x04001B7B RID: 7035
+		// Token: 0x04001B79 RID: 7033
 		public const float PriceColumnWidth = 100f;
 
-		// Token: 0x04001B7C RID: 7036
+		// Token: 0x04001B7A RID: 7034
 		public const float AdjustColumnWidth = 240f;
 
-		// Token: 0x04001B7D RID: 7037
+		// Token: 0x04001B7B RID: 7035
 		public const float TotalNumbersColumnsWidths = 590f;
 
-		// Token: 0x04001B7E RID: 7038
+		// Token: 0x04001B7C RID: 7036
 		public static readonly Color NoTradeColor = new Color(0.5f, 0.5f, 0.5f);
 	}
 }

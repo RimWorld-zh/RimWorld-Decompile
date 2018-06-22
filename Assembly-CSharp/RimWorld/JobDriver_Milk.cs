@@ -7,7 +7,7 @@ namespace RimWorld
 	public class JobDriver_Milk : JobDriver_GatherAnimalBodyResources
 	{
 		// Token: 0x1700005E RID: 94
-		// (get) Token: 0x060001D0 RID: 464 RVA: 0x00014110 File Offset: 0x00012510
+		// (get) Token: 0x060001D0 RID: 464 RVA: 0x00014118 File Offset: 0x00012518
 		protected override float WorkTotal
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060001D1 RID: 465 RVA: 0x0001412C File Offset: 0x0001252C
+		// Token: 0x060001D1 RID: 465 RVA: 0x00014134 File Offset: 0x00012534
 		protected override CompHasGatherableBodyResource GetComp(Pawn animal)
 		{
 			return animal.TryGetComp<CompMilkable>();

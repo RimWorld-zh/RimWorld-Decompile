@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200047F RID: 1151
+	// Token: 0x0200047B RID: 1147
 	public struct IndividualThoughtToAdd
 	{
-		// Token: 0x06001429 RID: 5161 RVA: 0x000AF370 File Offset: 0x000AD770
+		// Token: 0x06001420 RID: 5152 RVA: 0x000AF388 File Offset: 0x000AD788
 		public IndividualThoughtToAdd(ThoughtDef thoughtDef, Pawn addTo, Pawn otherPawn = null, float moodPowerFactor = 1f, float opinionOffsetFactor = 1f)
 		{
 			this.addTo = addTo;
@@ -23,7 +23,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002BB RID: 699
-		// (get) Token: 0x0600142A RID: 5162 RVA: 0x000AF3D8 File Offset: 0x000AD7D8
+		// (get) Token: 0x06001421 RID: 5153 RVA: 0x000AF3F0 File Offset: 0x000AD7F0
 		public string LabelCap
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600142B RID: 5163 RVA: 0x000AF428 File Offset: 0x000AD828
+		// Token: 0x06001422 RID: 5154 RVA: 0x000AF440 File Offset: 0x000AD840
 		public void Add()
 		{
 			if (this.addTo.needs != null && this.addTo.needs.mood != null)
@@ -47,13 +47,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000C07 RID: 3079
+		// Token: 0x04000C04 RID: 3076
 		public Thought_Memory thought;
 
-		// Token: 0x04000C08 RID: 3080
+		// Token: 0x04000C05 RID: 3077
 		public Pawn addTo;
 
-		// Token: 0x04000C09 RID: 3081
+		// Token: 0x04000C06 RID: 3078
 		private Pawn otherPawn;
 	}
 }

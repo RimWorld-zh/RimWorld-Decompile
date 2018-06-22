@@ -7,17 +7,17 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x0200051D RID: 1309
+	// Token: 0x02000519 RID: 1305
 	public class Pawn_TraderTracker : IExposable
 	{
-		// Token: 0x060017C1 RID: 6081 RVA: 0x000CF281 File Offset: 0x000CD681
+		// Token: 0x060017B8 RID: 6072 RVA: 0x000CF279 File Offset: 0x000CD679
 		public Pawn_TraderTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
 		// Token: 0x17000349 RID: 841
-		// (get) Token: 0x060017C2 RID: 6082 RVA: 0x000CF29C File Offset: 0x000CD69C
+		// (get) Token: 0x060017B9 RID: 6073 RVA: 0x000CF294 File Offset: 0x000CD694
 		public IEnumerable<Thing> Goods
 		{
 			get
@@ -61,7 +61,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700034A RID: 842
-		// (get) Token: 0x060017C3 RID: 6083 RVA: 0x000CF2C8 File Offset: 0x000CD6C8
+		// (get) Token: 0x060017BA RID: 6074 RVA: 0x000CF2C0 File Offset: 0x000CD6C0
 		public int RandomPriceFactorSeed
 		{
 			get
@@ -71,7 +71,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700034B RID: 843
-		// (get) Token: 0x060017C4 RID: 6084 RVA: 0x000CF2F4 File Offset: 0x000CD6F4
+		// (get) Token: 0x060017BB RID: 6075 RVA: 0x000CF2EC File Offset: 0x000CD6EC
 		public string TraderName
 		{
 			get
@@ -81,7 +81,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700034C RID: 844
-		// (get) Token: 0x060017C5 RID: 6085 RVA: 0x000CF314 File Offset: 0x000CD714
+		// (get) Token: 0x060017BC RID: 6076 RVA: 0x000CF30C File Offset: 0x000CD70C
 		public bool CanTradeNow
 		{
 			get
@@ -90,7 +90,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017C6 RID: 6086 RVA: 0x000CF3E8 File Offset: 0x000CD7E8
+		// Token: 0x060017BD RID: 6077 RVA: 0x000CF3E0 File Offset: 0x000CD7E0
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<TraderKindDef>(ref this.traderKind, "traderKind");
@@ -101,7 +101,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017C7 RID: 6087 RVA: 0x000CF454 File Offset: 0x000CD854
+		// Token: 0x060017BE RID: 6078 RVA: 0x000CF44C File Offset: 0x000CD84C
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
 			IEnumerable<Thing> items = from x in this.pawn.Map.listerThings.AllThings
@@ -124,7 +124,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060017C8 RID: 6088 RVA: 0x000CF480 File Offset: 0x000CD880
+		// Token: 0x060017BF RID: 6079 RVA: 0x000CF478 File Offset: 0x000CD878
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			if (this.Goods.Contains(toGive))
@@ -159,7 +159,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017C9 RID: 6089 RVA: 0x000CF534 File Offset: 0x000CD934
+		// Token: 0x060017C0 RID: 6080 RVA: 0x000CF52C File Offset: 0x000CD92C
 		public void GiveSoldThingToPlayer(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			Pawn pawn = toGive as Pawn;
@@ -204,7 +204,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017CA RID: 6090 RVA: 0x000CF634 File Offset: 0x000CDA34
+		// Token: 0x060017C1 RID: 6081 RVA: 0x000CF62C File Offset: 0x000CDA2C
 		private void AddPawnToStock(Pawn newPawn)
 		{
 			if (!newPawn.Spawned)
@@ -244,7 +244,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017CB RID: 6091 RVA: 0x000CF73C File Offset: 0x000CDB3C
+		// Token: 0x060017C2 RID: 6082 RVA: 0x000CF734 File Offset: 0x000CDB34
 		private void AddThingToRandomInventory(Thing thing)
 		{
 			Lord lord = this.pawn.GetLord();
@@ -268,19 +268,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017CC RID: 6092 RVA: 0x000CF7E8 File Offset: 0x000CDBE8
+		// Token: 0x060017C3 RID: 6083 RVA: 0x000CF7E0 File Offset: 0x000CDBE0
 		private bool ReachableForTrade(Thing thing)
 		{
 			return this.pawn.Map == thing.Map && this.pawn.Map.reachability.CanReach(this.pawn.Position, thing, PathEndMode.Touch, TraverseMode.PassDoors, Danger.Some);
 		}
 
-		// Token: 0x04000DFE RID: 3582
+		// Token: 0x04000DFB RID: 3579
 		private Pawn pawn;
 
-		// Token: 0x04000DFF RID: 3583
+		// Token: 0x04000DFC RID: 3580
 		public TraderKindDef traderKind;
 
-		// Token: 0x04000E00 RID: 3584
+		// Token: 0x04000DFD RID: 3581
 		private List<Pawn> soldPrisoners = new List<Pawn>();
 	}
 }

@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200034C RID: 844
 	public class IncidentWorker_VisitorGroup : IncidentWorker_NeutralGroup
 	{
-		// Token: 0x06000E8F RID: 3727 RVA: 0x0007B358 File Offset: 0x00079758
+		// Token: 0x06000E8F RID: 3727 RVA: 0x0007B4A4 File Offset: 0x000798A4
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -51,7 +51,7 @@ namespace RimWorld
 							text,
 							text2
 						});
-						text3 = text3.AdjustedFor(list[0]);
+						text3 = text3.AdjustedFor(list[0], "PAWN");
 					}
 					else
 					{
@@ -79,7 +79,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E90 RID: 3728 RVA: 0x0007B5D1 File Offset: 0x000799D1
+		// Token: 0x06000E90 RID: 3728 RVA: 0x0007B722 File Offset: 0x00079B22
 		protected override void ResolveParmsPoints(IncidentParms parms)
 		{
 			if (parms.points < 0f)
@@ -88,7 +88,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000E91 RID: 3729 RVA: 0x0007B5FC File Offset: 0x000799FC
+		// Token: 0x06000E91 RID: 3729 RVA: 0x0007B74C File Offset: 0x00079B4C
 		private bool TryConvertOnePawnToSmallTrader(List<Pawn> pawns, Faction faction, Map map)
 		{
 			bool result;
@@ -133,10 +133,10 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x040008F7 RID: 2295
+		// Token: 0x040008F9 RID: 2297
 		private const float TraderChance = 0.75f;
 
-		// Token: 0x040008F8 RID: 2296
+		// Token: 0x040008FA RID: 2298
 		private static readonly SimpleCurve PointsCurve = new SimpleCurve
 		{
 			{

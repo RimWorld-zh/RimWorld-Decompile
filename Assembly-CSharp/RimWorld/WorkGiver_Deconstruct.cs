@@ -7,7 +7,7 @@ namespace RimWorld
 	public class WorkGiver_Deconstruct : WorkGiver_RemoveBuilding
 	{
 		// Token: 0x170000E6 RID: 230
-		// (get) Token: 0x06000638 RID: 1592 RVA: 0x00041D8C File Offset: 0x0004018C
+		// (get) Token: 0x06000638 RID: 1592 RVA: 0x00041D78 File Offset: 0x00040178
 		protected override DesignationDef Designation
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000E7 RID: 231
-		// (get) Token: 0x06000639 RID: 1593 RVA: 0x00041DA8 File Offset: 0x000401A8
+		// (get) Token: 0x06000639 RID: 1593 RVA: 0x00041D94 File Offset: 0x00040194
 		protected override JobDef RemoveBuildingJob
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600063A RID: 1594 RVA: 0x00041DC4 File Offset: 0x000401C4
+		// Token: 0x0600063A RID: 1594 RVA: 0x00041DB0 File Offset: 0x000401B0
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Building building = t.GetInnerIfMinified() as Building;

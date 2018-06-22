@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009B6 RID: 2486
+	// Token: 0x020009B2 RID: 2482
 	public class StatPart_Quality : StatPart
 	{
-		// Token: 0x060037AA RID: 14250 RVA: 0x001DA367 File Offset: 0x001D8767
+		// Token: 0x060037A3 RID: 14243 RVA: 0x001DA52B File Offset: 0x001D892B
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (val > 0f || this.alsoAppliesToNegativeValues)
@@ -15,7 +15,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037AB RID: 14251 RVA: 0x001DA398 File Offset: 0x001D8798
+		// Token: 0x060037A4 RID: 14244 RVA: 0x001DA55C File Offset: 0x001D895C
 		public override string ExplanationPart(StatRequest req)
 		{
 			string result;
@@ -38,7 +38,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037AC RID: 14252 RVA: 0x001DA434 File Offset: 0x001D8834
+		// Token: 0x060037A5 RID: 14245 RVA: 0x001DA5F8 File Offset: 0x001D89F8
 		private float QualityMultiplier(QualityCategory qc)
 		{
 			float result;
@@ -71,28 +71,28 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x040023B2 RID: 9138
+		// Token: 0x040023AC RID: 9132
 		private float factorAwful = 1f;
 
-		// Token: 0x040023B3 RID: 9139
+		// Token: 0x040023AD RID: 9133
 		private float factorPoor = 1f;
 
-		// Token: 0x040023B4 RID: 9140
+		// Token: 0x040023AE RID: 9134
 		private float factorNormal = 1f;
 
-		// Token: 0x040023B5 RID: 9141
+		// Token: 0x040023AF RID: 9135
 		private float factorGood = 1f;
 
-		// Token: 0x040023B6 RID: 9142
+		// Token: 0x040023B0 RID: 9136
 		private float factorExcellent = 1f;
 
-		// Token: 0x040023B7 RID: 9143
+		// Token: 0x040023B1 RID: 9137
 		private float factorMasterwork = 1f;
 
-		// Token: 0x040023B8 RID: 9144
+		// Token: 0x040023B2 RID: 9138
 		private float factorLegendary = 1f;
 
-		// Token: 0x040023B9 RID: 9145
+		// Token: 0x040023B3 RID: 9139
 		private bool alsoAppliesToNegativeValues = false;
 	}
 }

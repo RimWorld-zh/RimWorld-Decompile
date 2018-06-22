@@ -9,7 +9,7 @@ namespace RimWorld
 	public abstract class JobDriver_RemoveBuilding : JobDriver
 	{
 		// Token: 0x17000079 RID: 121
-		// (get) Token: 0x0600023E RID: 574 RVA: 0x00017190 File Offset: 0x00015590
+		// (get) Token: 0x0600023E RID: 574 RVA: 0x00017198 File Offset: 0x00015598
 		protected Thing Target
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700007A RID: 122
-		// (get) Token: 0x0600023F RID: 575 RVA: 0x000171B8 File Offset: 0x000155B8
+		// (get) Token: 0x0600023F RID: 575 RVA: 0x000171C0 File Offset: 0x000155C0
 		protected Building Building
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 		// (get) Token: 0x06000241 RID: 577
 		protected abstract int TotalNeededWork { get; }
 
-		// Token: 0x06000242 RID: 578 RVA: 0x000171DD File Offset: 0x000155DD
+		// Token: 0x06000242 RID: 578 RVA: 0x000171E5 File Offset: 0x000155E5
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -44,13 +44,13 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.totalNeededWork, "totalNeededWork", 0f, false);
 		}
 
-		// Token: 0x06000243 RID: 579 RVA: 0x00017214 File Offset: 0x00015614
+		// Token: 0x06000243 RID: 579 RVA: 0x0001721C File Offset: 0x0001561C
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Target, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000244 RID: 580 RVA: 0x00017248 File Offset: 0x00015648
+		// Token: 0x06000244 RID: 580 RVA: 0x00017250 File Offset: 0x00015650
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnThingMissingDesignation(TargetIndex.A, this.Designation);
@@ -87,12 +87,12 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000245 RID: 581 RVA: 0x00017272 File Offset: 0x00015672
+		// Token: 0x06000245 RID: 581 RVA: 0x0001727A File Offset: 0x0001567A
 		protected virtual void FinishedRemoving()
 		{
 		}
 
-		// Token: 0x06000246 RID: 582 RVA: 0x00017275 File Offset: 0x00015675
+		// Token: 0x06000246 RID: 582 RVA: 0x0001727D File Offset: 0x0001567D
 		protected virtual void TickAction()
 		{
 		}

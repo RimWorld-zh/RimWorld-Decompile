@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000790 RID: 1936
+	// Token: 0x0200078C RID: 1932
 	public class Alert_LifeThreateningHediff : Alert_Critical
 	{
-		// Token: 0x170006AD RID: 1709
-		// (get) Token: 0x06002AED RID: 10989 RVA: 0x0016A870 File Offset: 0x00168C70
+		// Token: 0x170006AE RID: 1710
+		// (get) Token: 0x06002AE6 RID: 10982 RVA: 0x0016AA48 File Offset: 0x00168E48
 		private IEnumerable<Pawn> SickPawns
 		{
 			get
@@ -30,13 +30,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002AEE RID: 10990 RVA: 0x0016A894 File Offset: 0x00168C94
+		// Token: 0x06002AE7 RID: 10983 RVA: 0x0016AA6C File Offset: 0x00168E6C
 		public override string GetLabel()
 		{
 			return "PawnsWithLifeThreateningDisease".Translate();
 		}
 
-		// Token: 0x06002AEF RID: 10991 RVA: 0x0016A8B4 File Offset: 0x00168CB4
+		// Token: 0x06002AE8 RID: 10984 RVA: 0x0016AA8C File Offset: 0x00168E8C
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -65,7 +65,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002AF0 RID: 10992 RVA: 0x0016AA0C File Offset: 0x00168E0C
+		// Token: 0x06002AE9 RID: 10985 RVA: 0x0016ABE4 File Offset: 0x00168FE4
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.SickPawns);

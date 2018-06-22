@@ -6,27 +6,27 @@ namespace Verse
 	// Token: 0x02000F5E RID: 3934
 	public class MapCellsInRandomOrder
 	{
-		// Token: 0x06005F1D RID: 24349 RVA: 0x003075B2 File Offset: 0x003059B2
+		// Token: 0x06005F46 RID: 24390 RVA: 0x00309656 File Offset: 0x00307A56
 		public MapCellsInRandomOrder(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x06005F1E RID: 24350 RVA: 0x003075C4 File Offset: 0x003059C4
+		// Token: 0x06005F47 RID: 24391 RVA: 0x00309668 File Offset: 0x00307A68
 		public List<IntVec3> GetAll()
 		{
 			this.CreateListIfShould();
 			return this.randomizedCells;
 		}
 
-		// Token: 0x06005F1F RID: 24351 RVA: 0x003075E8 File Offset: 0x003059E8
+		// Token: 0x06005F48 RID: 24392 RVA: 0x0030968C File Offset: 0x00307A8C
 		public IntVec3 Get(int index)
 		{
 			this.CreateListIfShould();
 			return this.randomizedCells[index];
 		}
 
-		// Token: 0x06005F20 RID: 24352 RVA: 0x00307610 File Offset: 0x00305A10
+		// Token: 0x06005F49 RID: 24393 RVA: 0x003096B4 File Offset: 0x00307AB4
 		private void CreateListIfShould()
 		{
 			if (this.randomizedCells == null)
@@ -43,10 +43,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003E5C RID: 15964
+		// Token: 0x04003E6E RID: 15982
 		private Map map;
 
-		// Token: 0x04003E5D RID: 15965
+		// Token: 0x04003E6F RID: 15983
 		private List<IntVec3> randomizedCells;
 	}
 }

@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DC3 RID: 3523
+	// Token: 0x02000DC0 RID: 3520
 	public class Sustainer
 	{
-		// Token: 0x06004E8B RID: 20107 RVA: 0x0028FE80 File Offset: 0x0028E280
+		// Token: 0x06004EA0 RID: 20128 RVA: 0x00291430 File Offset: 0x0028F830
 		public Sustainer(SoundDef def, SoundInfo info)
 		{
 			this.def = def;
@@ -48,8 +48,8 @@ namespace Verse.Sound
 			});
 		}
 
-		// Token: 0x17000CB2 RID: 3250
-		// (get) Token: 0x06004E8C RID: 20108 RVA: 0x00290030 File Offset: 0x0028E430
+		// Token: 0x17000CB4 RID: 3252
+		// (get) Token: 0x06004EA1 RID: 20129 RVA: 0x002915E0 File Offset: 0x0028F9E0
 		public bool Ended
 		{
 			get
@@ -58,8 +58,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000CB3 RID: 3251
-		// (get) Token: 0x06004E8D RID: 20109 RVA: 0x00290058 File Offset: 0x0028E458
+		// Token: 0x17000CB5 RID: 3253
+		// (get) Token: 0x06004EA2 RID: 20130 RVA: 0x00291608 File Offset: 0x0028FA08
 		public float TimeSinceEnd
 		{
 			get
@@ -68,8 +68,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000CB4 RID: 3252
-		// (get) Token: 0x06004E8E RID: 20110 RVA: 0x0029007C File Offset: 0x0028E47C
+		// Token: 0x17000CB6 RID: 3254
+		// (get) Token: 0x06004EA3 RID: 20131 RVA: 0x0029162C File Offset: 0x0028FA2C
 		public float CameraDistanceSquared
 		{
 			get
@@ -102,7 +102,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E8F RID: 20111 RVA: 0x00290144 File Offset: 0x0028E544
+		// Token: 0x06004EA4 RID: 20132 RVA: 0x002916F4 File Offset: 0x0028FAF4
 		public void SustainerUpdate()
 		{
 			if (!this.Ended)
@@ -142,7 +142,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E90 RID: 20112 RVA: 0x00290270 File Offset: 0x0028E670
+		// Token: 0x06004EA5 RID: 20133 RVA: 0x00291820 File Offset: 0x0028FC20
 		private void UpdateRootObjectPosition()
 		{
 			if (this.worldRootObject != null)
@@ -151,7 +151,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E91 RID: 20113 RVA: 0x002902C0 File Offset: 0x0028E6C0
+		// Token: 0x06004EA6 RID: 20134 RVA: 0x00291870 File Offset: 0x0028FC70
 		public void Maintain()
 		{
 			if (this.Ended)
@@ -168,7 +168,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E92 RID: 20114 RVA: 0x00290337 File Offset: 0x0028E737
+		// Token: 0x06004EA7 RID: 20135 RVA: 0x002918E7 File Offset: 0x0028FCE7
 		public void End()
 		{
 			this.endRealTime = Time.realtimeSinceStartup;
@@ -178,7 +178,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E93 RID: 20115 RVA: 0x00290360 File Offset: 0x0028E760
+		// Token: 0x06004EA8 RID: 20136 RVA: 0x00291910 File Offset: 0x0028FD10
 		private void Cleanup()
 		{
 			if (this.def.subSounds.Count > 0)
@@ -212,7 +212,7 @@ namespace Verse.Sound
 			DebugSoundEventsLog.Notify_SustainerEnded(this, this.info);
 		}
 
-		// Token: 0x06004E94 RID: 20116 RVA: 0x00290480 File Offset: 0x0028E880
+		// Token: 0x06004EA9 RID: 20137 RVA: 0x00291A30 File Offset: 0x0028FE30
 		public string DebugString()
 		{
 			string text = this.def.defName;
@@ -225,31 +225,31 @@ namespace Verse.Sound
 			return text;
 		}
 
-		// Token: 0x0400344F RID: 13391
+		// Token: 0x0400345A RID: 13402
 		public SoundDef def;
 
-		// Token: 0x04003450 RID: 13392
+		// Token: 0x0400345B RID: 13403
 		public SoundInfo info;
 
-		// Token: 0x04003451 RID: 13393
+		// Token: 0x0400345C RID: 13404
 		internal GameObject worldRootObject;
 
-		// Token: 0x04003452 RID: 13394
+		// Token: 0x0400345D RID: 13405
 		private int lastMaintainTick;
 
-		// Token: 0x04003453 RID: 13395
+		// Token: 0x0400345E RID: 13406
 		private int lastMaintainFrame;
 
-		// Token: 0x04003454 RID: 13396
+		// Token: 0x0400345F RID: 13407
 		private float endRealTime = -1f;
 
-		// Token: 0x04003455 RID: 13397
+		// Token: 0x04003460 RID: 13408
 		private List<SubSustainer> subSustainers = new List<SubSustainer>();
 
-		// Token: 0x04003456 RID: 13398
+		// Token: 0x04003461 RID: 13409
 		public SoundParams externalParams = new SoundParams();
 
-		// Token: 0x04003457 RID: 13399
+		// Token: 0x04003462 RID: 13410
 		public SustainerScopeFader scopeFader = new SustainerScopeFader();
 	}
 }

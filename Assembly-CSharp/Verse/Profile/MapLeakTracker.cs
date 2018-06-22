@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace Verse.Profile
 {
-	// Token: 0x02000D64 RID: 3428
+	// Token: 0x02000D61 RID: 3425
 	[HasDebugOutput]
 	internal static class MapLeakTracker
 	{
-		// Token: 0x06004CBC RID: 19644 RVA: 0x0027F027 File Offset: 0x0027D427
+		// Token: 0x06004CD1 RID: 19665 RVA: 0x002805D7 File Offset: 0x0027E9D7
 		public static void AddReference(Map element)
 		{
 			MapLeakTracker.references.Add(new WeakReference<Map>(element));
 		}
 
-		// Token: 0x06004CBD RID: 19645 RVA: 0x0027F03C File Offset: 0x0027D43C
+		// Token: 0x06004CD2 RID: 19666 RVA: 0x002805EC File Offset: 0x0027E9EC
 		public static void Update()
 		{
 			if (Current.Game != null && Find.TickManager.TicksGame < MapLeakTracker.lastUpdateTick)
@@ -64,7 +64,7 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CBE RID: 19646 RVA: 0x0027F288 File Offset: 0x0027D688
+		// Token: 0x06004CD3 RID: 19667 RVA: 0x00280838 File Offset: 0x0027EC38
 		[DebugOutput]
 		[Category("System")]
 		public static void ForceLeakCheck()
@@ -80,28 +80,28 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x0400332D RID: 13101
+		// Token: 0x04003338 RID: 13112
 		private static List<WeakReference<Map>> references = new List<WeakReference<Map>>();
 
-		// Token: 0x0400332E RID: 13102
+		// Token: 0x04003339 RID: 13113
 		private static List<WeakReference<Map>> referencesFlagged = new List<WeakReference<Map>>();
 
-		// Token: 0x0400332F RID: 13103
+		// Token: 0x0400333A RID: 13114
 		private static float lastUpdateSecond = 0f;
 
-		// Token: 0x04003330 RID: 13104
+		// Token: 0x0400333B RID: 13115
 		private static int lastUpdateTick = 0;
 
-		// Token: 0x04003331 RID: 13105
+		// Token: 0x0400333C RID: 13116
 		private static bool gcSinceLastUpdate = false;
 
-		// Token: 0x04003332 RID: 13106
+		// Token: 0x0400333D RID: 13117
 		private static long gcUsedLastFrame = 0L;
 
-		// Token: 0x04003333 RID: 13107
+		// Token: 0x0400333E RID: 13118
 		private const float TimeBetweenUpdateRealtimeSeconds = 60f;
 
-		// Token: 0x04003334 RID: 13108
+		// Token: 0x0400333F RID: 13119
 		private const float TimeBetweenUpdateGameDays = 1f;
 	}
 }

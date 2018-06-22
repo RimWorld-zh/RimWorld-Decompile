@@ -2,12 +2,12 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200045A RID: 1114
+	// Token: 0x02000456 RID: 1110
 	public enum StorageSettingsPreset : byte
 	{
-		// Token: 0x04000BD8 RID: 3032
+		// Token: 0x04000BD5 RID: 3029
 		DefaultStockpile,
-		// Token: 0x04000BD9 RID: 3033
+		// Token: 0x04000BD6 RID: 3030
 		DumpingStockpile
 	}
 }

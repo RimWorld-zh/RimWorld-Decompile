@@ -6,7 +6,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003AA RID: 938
 	public class SymbolResolver_EdgeSandbags : SymbolResolver
 	{
-		// Token: 0x06001047 RID: 4167 RVA: 0x00088FF8 File Offset: 0x000873F8
+		// Token: 0x06001047 RID: 4167 RVA: 0x000891E4 File Offset: 0x000875E4
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -63,10 +63,10 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x04000A12 RID: 2578
+		// Token: 0x04000A14 RID: 2580
 		private static readonly IntRange LineLengthRange = new IntRange(2, 5);
 
-		// Token: 0x04000A13 RID: 2579
+		// Token: 0x04000A15 RID: 2581
 		private static readonly IntRange GapLengthRange = new IntRange(1, 5);
 	}
 }

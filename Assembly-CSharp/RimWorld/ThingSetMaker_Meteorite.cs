@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006F9 RID: 1785
+	// Token: 0x020006F5 RID: 1781
 	public class ThingSetMaker_Meteorite : ThingSetMaker
 	{
-		// Token: 0x060026D7 RID: 9943 RVA: 0x0014D1FD File Offset: 0x0014B5FD
+		// Token: 0x060026CF RID: 9935 RVA: 0x0014D3A1 File Offset: 0x0014B7A1
 		public static void Reset()
 		{
 			ThingSetMaker_Meteorite.nonSmoothedMineables.Clear();
@@ -17,7 +17,7 @@ namespace RimWorld
 			select x);
 		}
 
-		// Token: 0x060026D8 RID: 9944 RVA: 0x0014D23C File Offset: 0x0014B63C
+		// Token: 0x060026D0 RID: 9936 RVA: 0x0014D3E0 File Offset: 0x0014B7E0
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			IntRange? countRange = parms.countRange;
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026D9 RID: 9945 RVA: 0x0014D2B8 File Offset: 0x0014B6B8
+		// Token: 0x060026D1 RID: 9937 RVA: 0x0014D45C File Offset: 0x0014B85C
 		private ThingDef FindRandomMineableDef()
 		{
 			float value = Rand.Value;
@@ -57,19 +57,19 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060026DA RID: 9946 RVA: 0x0014D37C File Offset: 0x0014B77C
+		// Token: 0x060026D2 RID: 9938 RVA: 0x0014D520 File Offset: 0x0014B920
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			return ThingSetMaker_Meteorite.nonSmoothedMineables;
 		}
 
-		// Token: 0x04001595 RID: 5525
+		// Token: 0x04001593 RID: 5523
 		public static List<ThingDef> nonSmoothedMineables = new List<ThingDef>();
 
-		// Token: 0x04001596 RID: 5526
+		// Token: 0x04001594 RID: 5524
 		public static readonly IntRange MineablesCountRange = new IntRange(8, 20);
 
-		// Token: 0x04001597 RID: 5527
+		// Token: 0x04001595 RID: 5525
 		private const float PreciousMineableMarketValue = 5f;
 	}
 }

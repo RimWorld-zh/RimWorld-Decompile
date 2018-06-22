@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000AEC RID: 2796
+	// Token: 0x02000AE8 RID: 2792
 	public class CameraMapConfig_ContinuousPanAndZoom : CameraMapConfig_ContinuousPan
 	{
-		// Token: 0x06003DF2 RID: 15858 RVA: 0x0020AB24 File Offset: 0x00208F24
+		// Token: 0x06003DED RID: 15853 RVA: 0x0020AE48 File Offset: 0x00209248
 		public CameraMapConfig_ContinuousPanAndZoom()
 		{
 			this.zoomSpeed = 0.043f;

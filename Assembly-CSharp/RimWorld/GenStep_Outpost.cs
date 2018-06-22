@@ -9,7 +9,7 @@ namespace RimWorld
 	public class GenStep_Outpost : GenStep
 	{
 		// Token: 0x17000261 RID: 609
-		// (get) Token: 0x060011CF RID: 4559 RVA: 0x0009AB4C File Offset: 0x00098F4C
+		// (get) Token: 0x060011CF RID: 4559 RVA: 0x0009AD30 File Offset: 0x00099130
 		public override int SeedPart
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011D0 RID: 4560 RVA: 0x0009AB68 File Offset: 0x00098F68
+		// Token: 0x060011D0 RID: 4560 RVA: 0x0009AD4C File Offset: 0x0009914C
 		public override void Generate(Map map)
 		{
 			CellRect rectToDefend;
@@ -49,7 +49,7 @@ namespace RimWorld
 			BaseGen.Generate();
 		}
 
-		// Token: 0x060011D1 RID: 4561 RVA: 0x0009AC5C File Offset: 0x0009905C
+		// Token: 0x060011D1 RID: 4561 RVA: 0x0009AE40 File Offset: 0x00099240
 		private CellRect GetOutpostRect(CellRect rectToDefend, Map map)
 		{
 			GenStep_Outpost.possibleRects.Add(new CellRect(rectToDefend.minX - 1 - 16, rectToDefend.CenterCell.z - 8, 16, 16));
@@ -70,10 +70,10 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04000AD6 RID: 2774
+		// Token: 0x04000AD7 RID: 2775
 		private const int Size = 16;
 
-		// Token: 0x04000AD7 RID: 2775
+		// Token: 0x04000AD8 RID: 2776
 		private static List<CellRect> possibleRects = new List<CellRect>();
 	}
 }

@@ -4,16 +4,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200076D RID: 1901
+	// Token: 0x02000769 RID: 1897
 	public class StockGenerator_BuyArt : StockGenerator
 	{
-		// Token: 0x06002A04 RID: 10756 RVA: 0x00163900 File Offset: 0x00161D00
+		// Token: 0x060029FD RID: 10749 RVA: 0x00163AD8 File Offset: 0x00161ED8
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
 			yield break;
 		}
 
-		// Token: 0x06002A05 RID: 10757 RVA: 0x00163924 File Offset: 0x00161D24
+		// Token: 0x060029FE RID: 10750 RVA: 0x00163AFC File Offset: 0x00161EFC
 		public override bool HandlesThingDef(ThingDef thingDef)
 		{
 			return thingDef.thingClass == typeof(Building_Art);

@@ -4,10 +4,10 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020006CB RID: 1739
+	// Token: 0x020006C7 RID: 1735
 	public class Jetter : Thing
 	{
-		// Token: 0x060025A5 RID: 9637 RVA: 0x00142480 File Offset: 0x00140880
+		// Token: 0x0600259D RID: 9629 RVA: 0x001425CC File Offset: 0x001409CC
 		public override void Tick()
 		{
 			if (this.JState == Jetter.JetterState.WickBurning)
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025A6 RID: 9638 RVA: 0x00142509 File Offset: 0x00140909
+		// Token: 0x0600259E RID: 9630 RVA: 0x00142655 File Offset: 0x00140A55
 		public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
 		{
 			base.PostApplyDamage(dinfo, totalDamageDealt);
@@ -40,7 +40,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025A7 RID: 9639 RVA: 0x00142543 File Offset: 0x00140943
+		// Token: 0x0600259F RID: 9631 RVA: 0x0014268F File Offset: 0x00140A8F
 		protected void StartWick()
 		{
 			this.JState = Jetter.JetterState.WickBurning;
@@ -49,7 +49,7 @@ namespace RimWorld
 			this.wickSoundSustainer = SoundDefOf.HissSmall.TrySpawnSustainer(this);
 		}
 
-		// Token: 0x060025A8 RID: 9640 RVA: 0x0014257B File Offset: 0x0014097B
+		// Token: 0x060025A0 RID: 9632 RVA: 0x001426C7 File Offset: 0x00140AC7
 		protected void StartJetting()
 		{
 			this.JState = Jetter.JetterState.Jetting;
@@ -59,7 +59,7 @@ namespace RimWorld
 			this.wickSoundSustainer = SoundDefOf.HissJet.TrySpawnSustainer(this);
 		}
 
-		// Token: 0x060025A9 RID: 9641 RVA: 0x001425B4 File Offset: 0x001409B4
+		// Token: 0x060025A1 RID: 9633 RVA: 0x00142700 File Offset: 0x00140B00
 		protected void MoveJetter()
 		{
 			IntVec3 intVec = base.Position + base.Rotation.FacingCell;
@@ -74,7 +74,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025AA RID: 9642 RVA: 0x00142664 File Offset: 0x00140A64
+		// Token: 0x060025A2 RID: 9634 RVA: 0x001427B0 File Offset: 0x00140BB0
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
 			base.Destroy(mode);
@@ -90,35 +90,35 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040014F7 RID: 5367
+		// Token: 0x040014F5 RID: 5365
 		private Jetter.JetterState JState = Jetter.JetterState.Resting;
 
-		// Token: 0x040014F8 RID: 5368
+		// Token: 0x040014F6 RID: 5366
 		private int WickTicksLeft = 0;
 
-		// Token: 0x040014F9 RID: 5369
+		// Token: 0x040014F7 RID: 5367
 		private int TicksUntilMove = 0;
 
-		// Token: 0x040014FA RID: 5370
+		// Token: 0x040014F8 RID: 5368
 		protected Sustainer wickSoundSustainer = null;
 
-		// Token: 0x040014FB RID: 5371
+		// Token: 0x040014F9 RID: 5369
 		protected Sustainer jetSoundSustainer = null;
 
-		// Token: 0x040014FC RID: 5372
+		// Token: 0x040014FA RID: 5370
 		private const int TicksBeforeBeginAccelerate = 25;
 
-		// Token: 0x040014FD RID: 5373
+		// Token: 0x040014FB RID: 5371
 		private const int TicksBetweenMoves = 3;
 
-		// Token: 0x020006CC RID: 1740
+		// Token: 0x020006C8 RID: 1736
 		private enum JetterState
 		{
-			// Token: 0x040014FF RID: 5375
+			// Token: 0x040014FD RID: 5373
 			Resting,
-			// Token: 0x04001500 RID: 5376
+			// Token: 0x040014FE RID: 5374
 			WickBurning,
-			// Token: 0x04001501 RID: 5377
+			// Token: 0x040014FF RID: 5375
 			Jetting
 		}
 	}

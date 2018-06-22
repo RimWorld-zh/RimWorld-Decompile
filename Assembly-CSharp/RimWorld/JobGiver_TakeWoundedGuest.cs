@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000DD RID: 221
 	public class JobGiver_TakeWoundedGuest : ThinkNode_JobGiver
 	{
-		// Token: 0x060004DC RID: 1244 RVA: 0x000363AC File Offset: 0x000347AC
+		// Token: 0x060004DC RID: 1244 RVA: 0x00036398 File Offset: 0x00034798
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			IntVec3 c;

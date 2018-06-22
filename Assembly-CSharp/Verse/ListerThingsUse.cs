@@ -2,14 +2,14 @@
 
 namespace Verse
 {
-	// Token: 0x02000C2E RID: 3118
+	// Token: 0x02000C2B RID: 3115
 	public enum ListerThingsUse : byte
 	{
-		// Token: 0x04002E75 RID: 11893
+		// Token: 0x04002E7F RID: 11903
 		Undefined,
-		// Token: 0x04002E76 RID: 11894
+		// Token: 0x04002E80 RID: 11904
 		Global,
-		// Token: 0x04002E77 RID: 11895
+		// Token: 0x04002E81 RID: 11905
 		Region
 	}
 }

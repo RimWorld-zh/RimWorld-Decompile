@@ -10,7 +10,7 @@ namespace RimWorld
 	public class IncidentQueue : IExposable
 	{
 		// Token: 0x17000209 RID: 521
-		// (get) Token: 0x06000D77 RID: 3447 RVA: 0x00073894 File Offset: 0x00071C94
+		// (get) Token: 0x06000D77 RID: 3447 RVA: 0x00073948 File Offset: 0x00071D48
 		public int Count
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700020A RID: 522
-		// (get) Token: 0x06000D78 RID: 3448 RVA: 0x000738B4 File Offset: 0x00071CB4
+		// (get) Token: 0x06000D78 RID: 3448 RVA: 0x00073968 File Offset: 0x00071D68
 		public string DebugQueueReadout
 		{
 			get
@@ -34,7 +34,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D79 RID: 3449 RVA: 0x00073960 File Offset: 0x00071D60
+		// Token: 0x06000D79 RID: 3449 RVA: 0x00073A14 File Offset: 0x00071E14
 		public IEnumerator GetEnumerator()
 		{
 			foreach (QueuedIncident inc in this.queuedIncidents)
@@ -44,19 +44,19 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000D7A RID: 3450 RVA: 0x00073982 File Offset: 0x00071D82
+		// Token: 0x06000D7A RID: 3450 RVA: 0x00073A36 File Offset: 0x00071E36
 		public void Clear()
 		{
 			this.queuedIncidents.Clear();
 		}
 
-		// Token: 0x06000D7B RID: 3451 RVA: 0x00073990 File Offset: 0x00071D90
+		// Token: 0x06000D7B RID: 3451 RVA: 0x00073A44 File Offset: 0x00071E44
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<QueuedIncident>(ref this.queuedIncidents, "queuedIncidents", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x06000D7C RID: 3452 RVA: 0x000739AC File Offset: 0x00071DAC
+		// Token: 0x06000D7C RID: 3452 RVA: 0x00073A60 File Offset: 0x00071E60
 		public bool Add(QueuedIncident qi)
 		{
 			this.queuedIncidents.Add(qi);
@@ -64,7 +64,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06000D7D RID: 3453 RVA: 0x000739F8 File Offset: 0x00071DF8
+		// Token: 0x06000D7D RID: 3453 RVA: 0x00073AAC File Offset: 0x00071EAC
 		public bool Add(IncidentDef def, int fireTick, IncidentParms parms = null)
 		{
 			FiringIncident firingInc = new FiringIncident(def, null, parms);
@@ -73,7 +73,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06000D7E RID: 3454 RVA: 0x00073A28 File Offset: 0x00071E28
+		// Token: 0x06000D7E RID: 3454 RVA: 0x00073ADC File Offset: 0x00071EDC
 		public void IncidentQueueTick()
 		{
 			for (int i = this.queuedIncidents.Count - 1; i >= 0; i--)
@@ -87,7 +87,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040008AA RID: 2218
+		// Token: 0x040008AC RID: 2220
 		private List<QueuedIncident> queuedIncidents = new List<QueuedIncident>();
 	}
 }

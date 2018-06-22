@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000CC RID: 204
 	public class JobGiver_SpectateDutySpectateRect : ThinkNode_JobGiver
 	{
-		// Token: 0x060004A6 RID: 1190 RVA: 0x00034D84 File Offset: 0x00033184
+		// Token: 0x060004A6 RID: 1190 RVA: 0x00034D70 File Offset: 0x00033170
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			PawnDuty duty = pawn.mindState.duty;

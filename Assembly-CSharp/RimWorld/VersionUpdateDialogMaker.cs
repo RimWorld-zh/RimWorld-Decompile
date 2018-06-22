@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009D3 RID: 2515
+	// Token: 0x020009CF RID: 2511
 	public static class VersionUpdateDialogMaker
 	{
-		// Token: 0x06003860 RID: 14432 RVA: 0x001E05DC File Offset: 0x001DE9DC
+		// Token: 0x0600385A RID: 14426 RVA: 0x001E07B4 File Offset: 0x001DEBB4
 		public static void CreateVersionUpdateDialogIfNecessary()
 		{
 			if (!VersionUpdateDialogMaker.dialogDone && LastPlayedVersion.Version != null && (VersionControl.CurrentMajor != LastPlayedVersion.Version.Major || VersionControl.CurrentMinor != LastPlayedVersion.Version.Minor))
@@ -15,7 +15,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003861 RID: 14433 RVA: 0x001E0634 File Offset: 0x001DEA34
+		// Token: 0x0600385B RID: 14427 RVA: 0x001E080C File Offset: 0x001DEC0C
 		private static void CreateNewVersionDialog()
 		{
 			string text = LastPlayedVersion.Version.Major + "." + LastPlayedVersion.Version.Minor;
@@ -40,7 +40,7 @@ namespace RimWorld
 			VersionUpdateDialogMaker.dialogDone = true;
 		}
 
-		// Token: 0x0400240B RID: 9227
+		// Token: 0x04002406 RID: 9222
 		private static bool dialogDone = false;
 	}
 }

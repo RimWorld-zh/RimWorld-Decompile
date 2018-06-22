@@ -7,18 +7,18 @@ namespace RimWorld
 	// Token: 0x0200016B RID: 363
 	public class LordJob_DefendAndExpandHive : LordJob
 	{
-		// Token: 0x06000772 RID: 1906 RVA: 0x0004A181 File Offset: 0x00048581
+		// Token: 0x06000772 RID: 1906 RVA: 0x0004A16D File Offset: 0x0004856D
 		public LordJob_DefendAndExpandHive()
 		{
 		}
 
-		// Token: 0x06000773 RID: 1907 RVA: 0x0004A18A File Offset: 0x0004858A
+		// Token: 0x06000773 RID: 1907 RVA: 0x0004A176 File Offset: 0x00048576
 		public LordJob_DefendAndExpandHive(bool aggressive)
 		{
 			this.aggressive = aggressive;
 		}
 
-		// Token: 0x06000774 RID: 1908 RVA: 0x0004A19C File Offset: 0x0004859C
+		// Token: 0x06000774 RID: 1908 RVA: 0x0004A188 File Offset: 0x00048588
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -72,7 +72,7 @@ namespace RimWorld
 			return stateGraph;
 		}
 
-		// Token: 0x06000775 RID: 1909 RVA: 0x0004A3C0 File Offset: 0x000487C0
+		// Token: 0x06000775 RID: 1909 RVA: 0x0004A3AC File Offset: 0x000487AC
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.aggressive, "aggressive", false, false);

@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020000FE RID: 254
 	public static class WalkPathFinder
 	{
-		// Token: 0x06000553 RID: 1363 RVA: 0x00039FDC File Offset: 0x000383DC
+		// Token: 0x06000553 RID: 1363 RVA: 0x00039FC8 File Offset: 0x000383C8
 		public static bool TryFindWalkPath(Pawn pawn, IntVec3 root, out List<IntVec3> result)
 		{
 			List<IntVec3> list = new List<IntVec3>();
@@ -80,7 +80,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06000554 RID: 1364 RVA: 0x0003A26C File Offset: 0x0003866C
+		// Token: 0x06000554 RID: 1364 RVA: 0x0003A258 File Offset: 0x00038658
 		public static void DebugFlashWalkPath(IntVec3 root, int numEntries = 8)
 		{
 			Map currentMap = Find.CurrentMap;

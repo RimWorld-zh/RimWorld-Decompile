@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DBF RID: 3519
+	// Token: 0x02000DBC RID: 3516
 	public class AudioSourcePoolWorld
 	{
-		// Token: 0x06004E7A RID: 20090 RVA: 0x0028F8C4 File Offset: 0x0028DCC4
+		// Token: 0x06004E8F RID: 20111 RVA: 0x00290E74 File Offset: 0x0028F274
 		public AudioSourcePoolWorld()
 		{
 			GameObject gameObject = new GameObject("OneShotSourcesWorldContainer");
@@ -21,7 +21,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E7B RID: 20091 RVA: 0x0028F964 File Offset: 0x0028DD64
+		// Token: 0x06004E90 RID: 20112 RVA: 0x00290F14 File Offset: 0x0028F314
 		public AudioSource GetSourceWorld()
 		{
 			foreach (AudioSource audioSource in this.sourcesWorld)
@@ -35,10 +35,10 @@ namespace Verse.Sound
 			return null;
 		}
 
-		// Token: 0x0400343F RID: 13375
+		// Token: 0x0400344A RID: 13386
 		private List<AudioSource> sourcesWorld = new List<AudioSource>();
 
-		// Token: 0x04003440 RID: 13376
+		// Token: 0x0400344B RID: 13387
 		private const int NumSourcesWorld = 32;
 	}
 }

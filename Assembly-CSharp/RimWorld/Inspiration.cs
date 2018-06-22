@@ -87,20 +87,20 @@ namespace RimWorld
 			{
 				if (PawnUtility.ShouldSendNotificationAbout(this.pawn))
 				{
-					string text = string.Format(this.def.beginLetter.AdjustedFor(this.pawn), this.pawn.LabelCap);
+					string text = string.Format(this.def.beginLetter.AdjustedFor(this.pawn, "PAWN"), this.pawn.LabelCap);
 					Find.LetterStack.ReceiveLetter(this.def.beginLetterLabel, text, this.def.beginLetterDef, this.pawn, null, null);
 				}
 			}
 		}
 
-		// Token: 0x0600019D RID: 413 RVA: 0x00010A8C File Offset: 0x0000EE8C
+		// Token: 0x0600019D RID: 413 RVA: 0x00010A90 File Offset: 0x0000EE90
 		protected virtual void AddEndMessage()
 		{
 			if (!this.def.endMessage.NullOrEmpty())
 			{
 				if (PawnUtility.ShouldSendNotificationAbout(this.pawn))
 				{
-					string text = string.Format(this.def.endMessage.AdjustedFor(this.pawn), this.pawn.LabelCap);
+					string text = string.Format(this.def.endMessage.AdjustedFor(this.pawn, "PAWN"), this.pawn.LabelCap);
 					Messages.Message(text, this.pawn, MessageTypeDefOf.NeutralEvent, true);
 				}
 			}

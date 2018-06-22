@@ -5,33 +5,33 @@ namespace Verse
 	// Token: 0x02000F53 RID: 3923
 	public enum ToStringStyle : byte
 	{
-		// Token: 0x04003E3A RID: 15930
+		// Token: 0x04003E4C RID: 15948
 		Integer,
-		// Token: 0x04003E3B RID: 15931
+		// Token: 0x04003E4D RID: 15949
 		FloatOne,
-		// Token: 0x04003E3C RID: 15932
+		// Token: 0x04003E4E RID: 15950
 		FloatTwo,
-		// Token: 0x04003E3D RID: 15933
+		// Token: 0x04003E4F RID: 15951
 		FloatThree,
-		// Token: 0x04003E3E RID: 15934
+		// Token: 0x04003E50 RID: 15952
 		FloatMaxOne,
-		// Token: 0x04003E3F RID: 15935
+		// Token: 0x04003E51 RID: 15953
 		FloatMaxTwo,
-		// Token: 0x04003E40 RID: 15936
+		// Token: 0x04003E52 RID: 15954
 		FloatMaxThree,
-		// Token: 0x04003E41 RID: 15937
+		// Token: 0x04003E53 RID: 15955
 		FloatTwoOrThree,
-		// Token: 0x04003E42 RID: 15938
+		// Token: 0x04003E54 RID: 15956
 		PercentZero,
-		// Token: 0x04003E43 RID: 15939
+		// Token: 0x04003E55 RID: 15957
 		PercentOne,
-		// Token: 0x04003E44 RID: 15940
+		// Token: 0x04003E56 RID: 15958
 		PercentTwo,
-		// Token: 0x04003E45 RID: 15941
+		// Token: 0x04003E57 RID: 15959
 		Temperature,
-		// Token: 0x04003E46 RID: 15942
+		// Token: 0x04003E58 RID: 15960
 		TemperatureOffset,
-		// Token: 0x04003E47 RID: 15943
+		// Token: 0x04003E59 RID: 15961
 		WorkAmount
 	}
 }

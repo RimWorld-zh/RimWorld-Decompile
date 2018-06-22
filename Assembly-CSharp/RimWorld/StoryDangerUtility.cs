@@ -5,7 +5,7 @@ namespace RimWorld
 	// Token: 0x02000382 RID: 898
 	public static class StoryDangerUtility
 	{
-		// Token: 0x06000F90 RID: 3984 RVA: 0x000836BC File Offset: 0x00081ABC
+		// Token: 0x06000F90 RID: 3984 RVA: 0x000838A8 File Offset: 0x00081CA8
 		public static float Scale(this StoryDanger d)
 		{
 			float result;

@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EBB RID: 3771
+	// Token: 0x02000EBA RID: 3770
 	public class Dialog_InfoCard : Window
 	{
-		// Token: 0x0600591A RID: 22810 RVA: 0x002DA9A7 File Offset: 0x002D8DA7
+		// Token: 0x0600593B RID: 22843 RVA: 0x002DC5F3 File Offset: 0x002DA9F3
 		public Dialog_InfoCard(Thing thing)
 		{
 			this.thing = thing;
@@ -17,14 +17,14 @@ namespace Verse
 			this.Setup();
 		}
 
-		// Token: 0x0600591B RID: 22811 RVA: 0x002DA9C4 File Offset: 0x002D8DC4
+		// Token: 0x0600593C RID: 22844 RVA: 0x002DC610 File Offset: 0x002DAA10
 		public Dialog_InfoCard(Def onlyDef)
 		{
 			this.def = onlyDef;
 			this.Setup();
 		}
 
-		// Token: 0x0600591C RID: 22812 RVA: 0x002DA9DA File Offset: 0x002D8DDA
+		// Token: 0x0600593D RID: 22845 RVA: 0x002DC626 File Offset: 0x002DAA26
 		public Dialog_InfoCard(ThingDef thingDef, ThingDef stuff)
 		{
 			this.def = thingDef;
@@ -32,15 +32,15 @@ namespace Verse
 			this.Setup();
 		}
 
-		// Token: 0x0600591D RID: 22813 RVA: 0x002DA9F7 File Offset: 0x002D8DF7
+		// Token: 0x0600593E RID: 22846 RVA: 0x002DC643 File Offset: 0x002DAA43
 		public Dialog_InfoCard(WorldObject worldObject)
 		{
 			this.worldObject = worldObject;
 			this.Setup();
 		}
 
-		// Token: 0x17000E03 RID: 3587
-		// (get) Token: 0x0600591E RID: 22814 RVA: 0x002DAA10 File Offset: 0x002D8E10
+		// Token: 0x17000E06 RID: 3590
+		// (get) Token: 0x0600593F RID: 22847 RVA: 0x002DC65C File Offset: 0x002DAA5C
 		private Def Def
 		{
 			get
@@ -62,8 +62,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E04 RID: 3588
-		// (get) Token: 0x0600591F RID: 22815 RVA: 0x002DAA64 File Offset: 0x002D8E64
+		// Token: 0x17000E07 RID: 3591
+		// (get) Token: 0x06005940 RID: 22848 RVA: 0x002DC6B0 File Offset: 0x002DAAB0
 		private Pawn ThingPawn
 		{
 			get
@@ -72,8 +72,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E05 RID: 3589
-		// (get) Token: 0x06005920 RID: 22816 RVA: 0x002DAA84 File Offset: 0x002D8E84
+		// Token: 0x17000E08 RID: 3592
+		// (get) Token: 0x06005941 RID: 22849 RVA: 0x002DC6D0 File Offset: 0x002DAAD0
 		public override Vector2 InitialSize
 		{
 			get
@@ -82,8 +82,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E06 RID: 3590
-		// (get) Token: 0x06005921 RID: 22817 RVA: 0x002DAAA8 File Offset: 0x002D8EA8
+		// Token: 0x17000E09 RID: 3593
+		// (get) Token: 0x06005942 RID: 22850 RVA: 0x002DC6F4 File Offset: 0x002DAAF4
 		protected override float Margin
 		{
 			get
@@ -92,7 +92,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005922 RID: 22818 RVA: 0x002DAAC4 File Offset: 0x002D8EC4
+		// Token: 0x06005943 RID: 22851 RVA: 0x002DC710 File Offset: 0x002DAB10
 		private void Setup()
 		{
 			this.forcePause = true;
@@ -105,13 +105,13 @@ namespace Verse
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.InfoCard, KnowledgeAmount.Total);
 		}
 
-		// Token: 0x06005923 RID: 22819 RVA: 0x002DAB14 File Offset: 0x002D8F14
+		// Token: 0x06005944 RID: 22852 RVA: 0x002DC760 File Offset: 0x002DAB60
 		public override void WindowUpdate()
 		{
 			base.WindowUpdate();
 		}
 
-		// Token: 0x06005924 RID: 22820 RVA: 0x002DAB20 File Offset: 0x002D8F20
+		// Token: 0x06005945 RID: 22853 RVA: 0x002DC76C File Offset: 0x002DAB6C
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = new Rect(inRect);
@@ -155,7 +155,7 @@ namespace Verse
 			this.FillCard(rect3.ContractedBy(18f));
 		}
 
-		// Token: 0x06005925 RID: 22821 RVA: 0x002DACA0 File Offset: 0x002D90A0
+		// Token: 0x06005946 RID: 22854 RVA: 0x002DC8EC File Offset: 0x002DACEC
 		protected void FillCard(Rect cardRect)
 		{
 			if (this.tab == Dialog_InfoCard.InfoCardTab.Stats)
@@ -194,7 +194,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005926 RID: 22822 RVA: 0x002DADB0 File Offset: 0x002D91B0
+		// Token: 0x06005947 RID: 22855 RVA: 0x002DC9FC File Offset: 0x002DADFC
 		private string GetTitle()
 		{
 			string result;
@@ -221,31 +221,31 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003B69 RID: 15209
+		// Token: 0x04003B79 RID: 15225
 		private Thing thing;
 
-		// Token: 0x04003B6A RID: 15210
+		// Token: 0x04003B7A RID: 15226
 		private ThingDef stuff;
 
-		// Token: 0x04003B6B RID: 15211
+		// Token: 0x04003B7B RID: 15227
 		private Def def;
 
-		// Token: 0x04003B6C RID: 15212
+		// Token: 0x04003B7C RID: 15228
 		private WorldObject worldObject;
 
-		// Token: 0x04003B6D RID: 15213
+		// Token: 0x04003B7D RID: 15229
 		private Dialog_InfoCard.InfoCardTab tab;
 
-		// Token: 0x02000EBC RID: 3772
+		// Token: 0x02000EBB RID: 3771
 		private enum InfoCardTab : byte
 		{
-			// Token: 0x04003B6F RID: 15215
+			// Token: 0x04003B7F RID: 15231
 			Stats,
-			// Token: 0x04003B70 RID: 15216
+			// Token: 0x04003B80 RID: 15232
 			Character,
-			// Token: 0x04003B71 RID: 15217
+			// Token: 0x04003B81 RID: 15233
 			Health,
-			// Token: 0x04003B72 RID: 15218
+			// Token: 0x04003B82 RID: 15234
 			Records
 		}
 	}

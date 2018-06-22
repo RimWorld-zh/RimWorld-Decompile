@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007E6 RID: 2022
+	// Token: 0x020007E2 RID: 2018
 	public class Designator_Install : Designator_Place
 	{
-		// Token: 0x06002CDE RID: 11486 RVA: 0x00179DC5 File Offset: 0x001781C5
+		// Token: 0x06002CD7 RID: 11479 RVA: 0x00179F9D File Offset: 0x0017839D
 		public Designator_Install()
 		{
 			this.icon = TexCommand.Install;
@@ -15,8 +15,8 @@ namespace RimWorld
 			this.order = -10f;
 		}
 
-		// Token: 0x17000714 RID: 1812
-		// (get) Token: 0x06002CDF RID: 11487 RVA: 0x00179DFC File Offset: 0x001781FC
+		// Token: 0x17000715 RID: 1813
+		// (get) Token: 0x06002CD8 RID: 11480 RVA: 0x00179FD4 File Offset: 0x001783D4
 		private Thing MiniToInstallOrBuildingToReinstall
 		{
 			get
@@ -43,8 +43,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000715 RID: 1813
-		// (get) Token: 0x06002CE0 RID: 11488 RVA: 0x00179E54 File Offset: 0x00178254
+		// Token: 0x17000716 RID: 1814
+		// (get) Token: 0x06002CD9 RID: 11481 RVA: 0x0017A02C File Offset: 0x0017842C
 		private Thing ThingToInstall
 		{
 			get
@@ -53,8 +53,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000716 RID: 1814
-		// (get) Token: 0x06002CE1 RID: 11489 RVA: 0x00179E74 File Offset: 0x00178274
+		// Token: 0x17000717 RID: 1815
+		// (get) Token: 0x06002CDA RID: 11482 RVA: 0x0017A04C File Offset: 0x0017844C
 		protected override bool DoTooltip
 		{
 			get
@@ -63,8 +63,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000717 RID: 1815
-		// (get) Token: 0x06002CE2 RID: 11490 RVA: 0x00179E8C File Offset: 0x0017828C
+		// Token: 0x17000718 RID: 1816
+		// (get) Token: 0x06002CDB RID: 11483 RVA: 0x0017A064 File Offset: 0x00178464
 		public override BuildableDef PlacingDef
 		{
 			get
@@ -73,8 +73,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000718 RID: 1816
-		// (get) Token: 0x06002CE3 RID: 11491 RVA: 0x00179EAC File Offset: 0x001782AC
+		// Token: 0x17000719 RID: 1817
+		// (get) Token: 0x06002CDC RID: 11484 RVA: 0x0017A084 File Offset: 0x00178484
 		public override string Label
 		{
 			get
@@ -92,8 +92,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000719 RID: 1817
-		// (get) Token: 0x06002CE4 RID: 11492 RVA: 0x00179EEC File Offset: 0x001782EC
+		// Token: 0x1700071A RID: 1818
+		// (get) Token: 0x06002CDD RID: 11485 RVA: 0x0017A0C4 File Offset: 0x001784C4
 		public override string Desc
 		{
 			get
@@ -111,8 +111,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700071A RID: 1818
-		// (get) Token: 0x06002CE5 RID: 11493 RVA: 0x00179F2C File Offset: 0x0017832C
+		// Token: 0x1700071B RID: 1819
+		// (get) Token: 0x06002CDE RID: 11486 RVA: 0x0017A104 File Offset: 0x00178504
 		public override Color IconDrawColor
 		{
 			get
@@ -121,8 +121,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700071B RID: 1819
-		// (get) Token: 0x06002CE6 RID: 11494 RVA: 0x00179F48 File Offset: 0x00178348
+		// Token: 0x1700071C RID: 1820
+		// (get) Token: 0x06002CDF RID: 11487 RVA: 0x0017A120 File Offset: 0x00178520
 		public override bool Visible
 		{
 			get
@@ -131,13 +131,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CE7 RID: 11495 RVA: 0x00179F7C File Offset: 0x0017837C
+		// Token: 0x06002CE0 RID: 11488 RVA: 0x0017A154 File Offset: 0x00178554
 		public override bool CanRemainSelected()
 		{
 			return this.MiniToInstallOrBuildingToReinstall != null;
 		}
 
-		// Token: 0x06002CE8 RID: 11496 RVA: 0x00179FA0 File Offset: 0x001783A0
+		// Token: 0x06002CE1 RID: 11489 RVA: 0x0017A178 File Offset: 0x00178578
 		public override void ProcessInput(Event ev)
 		{
 			Thing miniToInstallOrBuildingToReinstall = this.MiniToInstallOrBuildingToReinstall;
@@ -152,7 +152,7 @@ namespace RimWorld
 			base.ProcessInput(ev);
 		}
 
-		// Token: 0x06002CE9 RID: 11497 RVA: 0x00179FEC File Offset: 0x001783EC
+		// Token: 0x06002CE2 RID: 11490 RVA: 0x0017A1C4 File Offset: 0x001785C4
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -176,7 +176,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002CEA RID: 11498 RVA: 0x0017A0B8 File Offset: 0x001784B8
+		// Token: 0x06002CE3 RID: 11491 RVA: 0x0017A290 File Offset: 0x00178690
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			GenSpawn.WipeExistingThings(c, this.placingRot, this.PlacingDef.installBlueprintDef, base.Map, DestroyMode.Deconstruct);
@@ -193,14 +193,14 @@ namespace RimWorld
 			Find.DesignatorManager.Deselect();
 		}
 
-		// Token: 0x06002CEB RID: 11499 RVA: 0x0017A164 File Offset: 0x00178564
+		// Token: 0x06002CE4 RID: 11492 RVA: 0x0017A33C File Offset: 0x0017873C
 		protected override void DrawGhost(Color ghostCol)
 		{
 			Graphic baseGraphic = this.ThingToInstall.Graphic.ExtractInnerGraphicFor(this.ThingToInstall);
 			GhostDrawer.DrawGhostThing(UI.MouseCell(), this.placingRot, (ThingDef)this.PlacingDef, baseGraphic, ghostCol, AltitudeLayer.Blueprint);
 		}
 
-		// Token: 0x06002CEC RID: 11500 RVA: 0x0017A1A8 File Offset: 0x001785A8
+		// Token: 0x06002CE5 RID: 11493 RVA: 0x0017A380 File Offset: 0x00178780
 		public override void SelectedUpdate()
 		{
 			base.SelectedUpdate();

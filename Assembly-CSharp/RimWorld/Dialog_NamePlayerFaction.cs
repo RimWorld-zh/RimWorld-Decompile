@@ -2,10 +2,10 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000807 RID: 2055
+	// Token: 0x02000803 RID: 2051
 	public class Dialog_NamePlayerFaction : Dialog_GiveName
 	{
-		// Token: 0x06002DDE RID: 11742 RVA: 0x00182288 File Offset: 0x00180688
+		// Token: 0x06002DD7 RID: 11735 RVA: 0x00182460 File Offset: 0x00180860
 		public Dialog_NamePlayerFaction()
 		{
 			this.nameGenerator = (() => NameGenerator.GenerateName(Faction.OfPlayer.def.factionNameMaker, null, false, null, null));
@@ -15,13 +15,13 @@ namespace RimWorld
 			this.invalidNameMessageKey = "PlayerFactionNameIsInvalid";
 		}
 
-		// Token: 0x06002DDF RID: 11743 RVA: 0x001822F4 File Offset: 0x001806F4
+		// Token: 0x06002DD8 RID: 11736 RVA: 0x001824CC File Offset: 0x001808CC
 		protected override bool IsValidName(string s)
 		{
 			return NamePlayerFactionDialogUtility.IsValidName(s);
 		}
 
-		// Token: 0x06002DE0 RID: 11744 RVA: 0x0018230F File Offset: 0x0018070F
+		// Token: 0x06002DD9 RID: 11737 RVA: 0x001824E7 File Offset: 0x001808E7
 		protected override void Named(string s)
 		{
 			NamePlayerFactionDialogUtility.Named(s);

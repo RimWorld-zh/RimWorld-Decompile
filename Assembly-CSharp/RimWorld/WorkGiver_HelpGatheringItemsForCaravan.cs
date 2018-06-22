@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x0200014B RID: 331
 	public class WorkGiver_HelpGatheringItemsForCaravan : WorkGiver
 	{
-		// Token: 0x060006D6 RID: 1750 RVA: 0x000461F8 File Offset: 0x000445F8
+		// Token: 0x060006D6 RID: 1750 RVA: 0x000461E4 File Offset: 0x000445E4
 		public override Job NonScanJob(Pawn pawn)
 		{
 			List<Lord> lords = pawn.Map.lordManager.lords;
@@ -34,7 +34,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x060006D7 RID: 1751 RVA: 0x000462B8 File Offset: 0x000446B8
+		// Token: 0x060006D7 RID: 1751 RVA: 0x000462A4 File Offset: 0x000446A4
 		private bool AnyReachableCarrierOrColonist(Pawn forPawn, Lord lord)
 		{
 			for (int i = 0; i < lord.ownedPawns.Count; i++)

@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200010C RID: 268
 	internal class JobGiver_FireStartingSpree : ThinkNode_JobGiver
 	{
-		// Token: 0x0600058D RID: 1421 RVA: 0x0003C204 File Offset: 0x0003A604
+		// Token: 0x0600058D RID: 1421 RVA: 0x0003C1F0 File Offset: 0x0003A5F0
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_FireStartingSpree jobGiver_FireStartingSpree = (JobGiver_FireStartingSpree)base.DeepCopy(resolve);
@@ -16,7 +16,7 @@ namespace RimWorld
 			return jobGiver_FireStartingSpree;
 		}
 
-		// Token: 0x0600058E RID: 1422 RVA: 0x0003C234 File Offset: 0x0003A634
+		// Token: 0x0600058E RID: 1422 RVA: 0x0003C220 File Offset: 0x0003A620
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -52,7 +52,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600058F RID: 1423 RVA: 0x0003C310 File Offset: 0x0003A710
+		// Token: 0x0600058F RID: 1423 RVA: 0x0003C2FC File Offset: 0x0003A6FC
 		private Thing TryFindRandomIgniteTarget(Pawn pawn)
 		{
 			Region region;

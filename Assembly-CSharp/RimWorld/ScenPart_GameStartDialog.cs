@@ -4,17 +4,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000642 RID: 1602
+	// Token: 0x0200063E RID: 1598
 	public class ScenPart_GameStartDialog : ScenPart
 	{
-		// Token: 0x06002128 RID: 8488 RVA: 0x0011A07C File Offset: 0x0011847C
+		// Token: 0x06002120 RID: 8480 RVA: 0x0011A17C File Offset: 0x0011857C
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 5f);
 			this.text = Widgets.TextArea(scenPartRect, this.text, false);
 		}
 
-		// Token: 0x06002129 RID: 8489 RVA: 0x0011A0B0 File Offset: 0x001184B0
+		// Token: 0x06002121 RID: 8481 RVA: 0x0011A1B0 File Offset: 0x001185B0
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -23,7 +23,7 @@ namespace RimWorld
 			Scribe_Defs.Look<SoundDef>(ref this.closeSound, "closeSound");
 		}
 
-		// Token: 0x0600212A RID: 8490 RVA: 0x0011A0F0 File Offset: 0x001184F0
+		// Token: 0x06002122 RID: 8482 RVA: 0x0011A1F0 File Offset: 0x001185F0
 		public override void PostGameStart()
 		{
 			if (Find.GameInitData.startedFromEntry)
@@ -50,13 +50,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040012E6 RID: 4838
+		// Token: 0x040012E3 RID: 4835
 		private string text;
 
-		// Token: 0x040012E7 RID: 4839
+		// Token: 0x040012E4 RID: 4836
 		private string textKey;
 
-		// Token: 0x040012E8 RID: 4840
+		// Token: 0x040012E5 RID: 4837
 		private SoundDef closeSound;
 	}
 }

@@ -7,7 +7,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003C4 RID: 964
 	public class SymbolResolver_FactionBase : SymbolResolver
 	{
-		// Token: 0x060010A8 RID: 4264 RVA: 0x0008D7DC File Offset: 0x0008BBDC
+		// Token: 0x060010A8 RID: 4264 RVA: 0x0008D9C8 File Offset: 0x0008BDC8
 		public override void Resolve(ResolveParams rp)
 		{
 			SymbolResolver_FactionBase.<Resolve>c__AnonStorey0 <Resolve>c__AnonStorey = new SymbolResolver_FactionBase.<Resolve>c__AnonStorey0();
@@ -76,10 +76,10 @@ namespace RimWorld.BaseGen
 			BaseGen.symbolStack.Push("basePart_outdoors", resolveParams5);
 		}
 
-		// Token: 0x04000A2E RID: 2606
+		// Token: 0x04000A30 RID: 2608
 		private static readonly FloatRange NeolithicPawnsPoints = new FloatRange(880f, 1250f);
 
-		// Token: 0x04000A2F RID: 2607
+		// Token: 0x04000A31 RID: 2609
 		private static readonly FloatRange MedievalPawnsPoints = new FloatRange(1150f, 1600f);
 	}
 }

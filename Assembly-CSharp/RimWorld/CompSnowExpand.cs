@@ -6,11 +6,11 @@ using Verse.Noise;
 
 namespace RimWorld
 {
-	// Token: 0x02000737 RID: 1847
+	// Token: 0x02000733 RID: 1843
 	public class CompSnowExpand : ThingComp
 	{
-		// Token: 0x1700064D RID: 1613
-		// (get) Token: 0x060028BB RID: 10427 RVA: 0x0015B38C File Offset: 0x0015978C
+		// Token: 0x1700064E RID: 1614
+		// (get) Token: 0x060028B4 RID: 10420 RVA: 0x0015B564 File Offset: 0x00159964
 		public CompProperties_SnowExpand Props
 		{
 			get
@@ -19,13 +19,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028BC RID: 10428 RVA: 0x0015B3AC File Offset: 0x001597AC
+		// Token: 0x060028B5 RID: 10421 RVA: 0x0015B584 File Offset: 0x00159984
 		public override void PostExposeData()
 		{
 			Scribe_Values.Look<float>(ref this.snowRadius, "snowRadius", 0f, false);
 		}
 
-		// Token: 0x060028BD RID: 10429 RVA: 0x0015B3C5 File Offset: 0x001597C5
+		// Token: 0x060028B6 RID: 10422 RVA: 0x0015B59D File Offset: 0x0015999D
 		public override void CompTick()
 		{
 			if (this.parent.Spawned)
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028BE RID: 10430 RVA: 0x0015B400 File Offset: 0x00159800
+		// Token: 0x060028B7 RID: 10423 RVA: 0x0015B5D8 File Offset: 0x001599D8
 		private void TryExpandSnow()
 		{
 			if (this.parent.Map.mapTemperature.OutdoorTemp > 10f)
@@ -100,16 +100,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04001645 RID: 5701
+		// Token: 0x04001643 RID: 5699
 		private float snowRadius;
 
-		// Token: 0x04001646 RID: 5702
+		// Token: 0x04001644 RID: 5700
 		private ModuleBase snowNoise;
 
-		// Token: 0x04001647 RID: 5703
+		// Token: 0x04001645 RID: 5701
 		private const float MaxOutdoorTemp = 10f;
 
-		// Token: 0x04001648 RID: 5704
+		// Token: 0x04001646 RID: 5702
 		private static HashSet<IntVec3> reachableCells = new HashSet<IntVec3>();
 	}
 }

@@ -3,11 +3,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000E06 RID: 3590
+	// Token: 0x02000E03 RID: 3587
 	public class CompHeatPusherPowered : CompHeatPusher
 	{
-		// Token: 0x17000D56 RID: 3414
-		// (get) Token: 0x06005142 RID: 20802 RVA: 0x0029A9E0 File Offset: 0x00298DE0
+		// Token: 0x17000D58 RID: 3416
+		// (get) Token: 0x06005156 RID: 20822 RVA: 0x0029BFBC File Offset: 0x0029A3BC
 		protected override bool ShouldPushHeatNow
 		{
 			get
@@ -16,7 +16,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005143 RID: 20803 RVA: 0x0029AA6A File Offset: 0x00298E6A
+		// Token: 0x06005157 RID: 20823 RVA: 0x0029C046 File Offset: 0x0029A446
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
@@ -25,13 +25,13 @@ namespace Verse
 			this.breakdownableComp = this.parent.GetComp<CompBreakdownable>();
 		}
 
-		// Token: 0x04003549 RID: 13641
+		// Token: 0x04003550 RID: 13648
 		protected CompPowerTrader powerComp;
 
-		// Token: 0x0400354A RID: 13642
+		// Token: 0x04003551 RID: 13649
 		protected CompRefuelable refuelableComp;
 
-		// Token: 0x0400354B RID: 13643
+		// Token: 0x04003552 RID: 13650
 		protected CompBreakdownable breakdownableComp;
 	}
 }

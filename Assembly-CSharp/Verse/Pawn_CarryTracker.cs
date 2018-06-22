@@ -7,18 +7,18 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000D57 RID: 3415
+	// Token: 0x02000D54 RID: 3412
 	public class Pawn_CarryTracker : IThingHolder, IExposable
 	{
-		// Token: 0x06004C25 RID: 19493 RVA: 0x0027AC4A File Offset: 0x0027904A
+		// Token: 0x06004C39 RID: 19513 RVA: 0x0027C1E6 File Offset: 0x0027A5E6
 		public Pawn_CarryTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
 			this.innerContainer = new ThingOwner<Thing>(this, true, LookMode.Deep);
 		}
 
-		// Token: 0x17000C69 RID: 3177
-		// (get) Token: 0x06004C26 RID: 19494 RVA: 0x0027AC68 File Offset: 0x00279068
+		// Token: 0x17000C6B RID: 3179
+		// (get) Token: 0x06004C3A RID: 19514 RVA: 0x0027C204 File Offset: 0x0027A604
 		public Thing CarriedThing
 		{
 			get
@@ -36,8 +36,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C6A RID: 3178
-		// (get) Token: 0x06004C27 RID: 19495 RVA: 0x0027ACA0 File Offset: 0x002790A0
+		// Token: 0x17000C6C RID: 3180
+		// (get) Token: 0x06004C3B RID: 19515 RVA: 0x0027C23C File Offset: 0x0027A63C
 		public bool Full
 		{
 			get
@@ -46,8 +46,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C6B RID: 3179
-		// (get) Token: 0x06004C28 RID: 19496 RVA: 0x0027ACCC File Offset: 0x002790CC
+		// Token: 0x17000C6D RID: 3181
+		// (get) Token: 0x06004C3C RID: 19516 RVA: 0x0027C268 File Offset: 0x0027A668
 		public IThingHolder ParentHolder
 		{
 			get
@@ -56,7 +56,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C29 RID: 19497 RVA: 0x0027ACE7 File Offset: 0x002790E7
+		// Token: 0x06004C3D RID: 19517 RVA: 0x0027C283 File Offset: 0x0027A683
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<ThingOwner<Thing>>(ref this.innerContainer, "innerContainer", new object[]
@@ -65,19 +65,19 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06004C2A RID: 19498 RVA: 0x0027AD04 File Offset: 0x00279104
+		// Token: 0x06004C3E RID: 19518 RVA: 0x0027C2A0 File Offset: 0x0027A6A0
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.innerContainer;
 		}
 
-		// Token: 0x06004C2B RID: 19499 RVA: 0x0027AD1F File Offset: 0x0027911F
+		// Token: 0x06004C3F RID: 19519 RVA: 0x0027C2BB File Offset: 0x0027A6BB
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
-		// Token: 0x06004C2C RID: 19500 RVA: 0x0027AD30 File Offset: 0x00279130
+		// Token: 0x06004C40 RID: 19520 RVA: 0x0027C2CC File Offset: 0x0027A6CC
 		public int AvailableStackSpace(ThingDef td)
 		{
 			int num = this.MaxStackSpaceEver(td);
@@ -88,7 +88,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06004C2D RID: 19501 RVA: 0x0027AD68 File Offset: 0x00279168
+		// Token: 0x06004C41 RID: 19521 RVA: 0x0027C304 File Offset: 0x0027A704
 		public int MaxStackSpaceEver(ThingDef td)
 		{
 			float f = this.pawn.GetStatValue(StatDefOf.CarryingCapacity, true) / td.VolumePerUnit;
@@ -96,7 +96,7 @@ namespace Verse
 			return Mathf.Min(td.stackLimit, b);
 		}
 
-		// Token: 0x06004C2E RID: 19502 RVA: 0x0027ADAC File Offset: 0x002791AC
+		// Token: 0x06004C42 RID: 19522 RVA: 0x0027C348 File Offset: 0x0027A748
 		public bool TryStartCarry(Thing item)
 		{
 			bool result;
@@ -117,7 +117,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004C2F RID: 19503 RVA: 0x0027AE4C File Offset: 0x0027924C
+		// Token: 0x06004C43 RID: 19523 RVA: 0x0027C3E8 File Offset: 0x0027A7E8
 		public int TryStartCarry(Thing item, int count, bool reserve = true)
 		{
 			int result;
@@ -150,7 +150,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004C30 RID: 19504 RVA: 0x0027AF54 File Offset: 0x00279354
+		// Token: 0x06004C44 RID: 19524 RVA: 0x0027C4F0 File Offset: 0x0027A8F0
 		public bool TryDropCarriedThing(IntVec3 dropLoc, ThingPlaceMode mode, out Thing resultingThing, Action<Thing, int> placedAction = null)
 		{
 			bool result;
@@ -169,7 +169,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004C31 RID: 19505 RVA: 0x0027AFC4 File Offset: 0x002793C4
+		// Token: 0x06004C45 RID: 19525 RVA: 0x0027C560 File Offset: 0x0027A960
 		public bool TryDropCarriedThing(IntVec3 dropLoc, int count, ThingPlaceMode mode, out Thing resultingThing, Action<Thing, int> placedAction = null)
 		{
 			bool result;
@@ -188,22 +188,22 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004C32 RID: 19506 RVA: 0x0027B037 File Offset: 0x00279437
+		// Token: 0x06004C46 RID: 19526 RVA: 0x0027C5D3 File Offset: 0x0027A9D3
 		public void DestroyCarriedThing()
 		{
 			this.innerContainer.ClearAndDestroyContents(DestroyMode.Vanish);
 		}
 
-		// Token: 0x06004C33 RID: 19507 RVA: 0x0027B046 File Offset: 0x00279446
+		// Token: 0x06004C47 RID: 19527 RVA: 0x0027C5E2 File Offset: 0x0027A9E2
 		public void CarryHandsTick()
 		{
 			this.innerContainer.ThingOwnerTick(true);
 		}
 
-		// Token: 0x040032F8 RID: 13048
+		// Token: 0x04003303 RID: 13059
 		public Pawn pawn;
 
-		// Token: 0x040032F9 RID: 13049
+		// Token: 0x04003304 RID: 13060
 		public ThingOwner<Thing> innerContainer;
 	}
 }

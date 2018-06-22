@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200063B RID: 1595
+	// Token: 0x02000637 RID: 1591
 	public class ScenPart_SetNeedLevel : ScenPart_PawnModifier
 	{
-		// Token: 0x060020E5 RID: 8421 RVA: 0x00118D20 File Offset: 0x00117120
+		// Token: 0x060020DD RID: 8413 RVA: 0x00118DCC File Offset: 0x001171CC
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 3f + 31f);
@@ -24,7 +24,7 @@ namespace RimWorld
 			base.DoPawnModifierEditInterface(scenPartRect.BottomPartPixels(ScenPart.RowHeight * 2f));
 		}
 
-		// Token: 0x060020E6 RID: 8422 RVA: 0x00118E0C File Offset: 0x0011720C
+		// Token: 0x060020DE RID: 8414 RVA: 0x00118EB8 File Offset: 0x001172B8
 		private IEnumerable<NeedDef> PossibleNeeds()
 		{
 			return from x in DefDatabase<NeedDef>.AllDefsListForReading
@@ -32,7 +32,7 @@ namespace RimWorld
 			select x;
 		}
 
-		// Token: 0x060020E7 RID: 8423 RVA: 0x00118E48 File Offset: 0x00117248
+		// Token: 0x060020DF RID: 8415 RVA: 0x00118EF4 File Offset: 0x001172F4
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -40,7 +40,7 @@ namespace RimWorld
 			Scribe_Values.Look<FloatRange>(ref this.levelRange, "levelRange", default(FloatRange), false);
 		}
 
-		// Token: 0x060020E8 RID: 8424 RVA: 0x00118E88 File Offset: 0x00117288
+		// Token: 0x060020E0 RID: 8416 RVA: 0x00118F34 File Offset: 0x00117334
 		public override string Summary(Scenario scen)
 		{
 			return "ScenPart_SetNeed".Translate(new object[]
@@ -53,7 +53,7 @@ namespace RimWorld
 			}).CapitalizeFirst();
 		}
 
-		// Token: 0x060020E9 RID: 8425 RVA: 0x00118F04 File Offset: 0x00117304
+		// Token: 0x060020E1 RID: 8417 RVA: 0x00118FB0 File Offset: 0x001173B0
 		public override void Randomize()
 		{
 			base.Randomize();
@@ -62,7 +62,7 @@ namespace RimWorld
 			this.levelRange.min = this.levelRange.max * Rand.Range(0f, 0.95f);
 		}
 
-		// Token: 0x060020EA RID: 8426 RVA: 0x00118F6C File Offset: 0x0011736C
+		// Token: 0x060020E2 RID: 8418 RVA: 0x00119018 File Offset: 0x00117418
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_SetNeedLevel scenPart_SetNeedLevel = other as ScenPart_SetNeedLevel;
@@ -79,7 +79,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060020EB RID: 8427 RVA: 0x00118FC0 File Offset: 0x001173C0
+		// Token: 0x060020E3 RID: 8419 RVA: 0x0011906C File Offset: 0x0011746C
 		protected override void ModifyPawnPostGenerate(Pawn p, bool redressed)
 		{
 			if (p.needs != null)
@@ -92,10 +92,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040012D3 RID: 4819
+		// Token: 0x040012D0 RID: 4816
 		private NeedDef need;
 
-		// Token: 0x040012D4 RID: 4820
+		// Token: 0x040012D1 RID: 4817
 		private FloatRange levelRange;
 	}
 }

@@ -7,7 +7,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003B9 RID: 953
 	public class SymbolResolver_Symbol : SymbolResolver
 	{
-		// Token: 0x0600108C RID: 4236 RVA: 0x0008C344 File Offset: 0x0008A744
+		// Token: 0x0600108C RID: 4236 RVA: 0x0008C530 File Offset: 0x0008A930
 		public override bool CanResolve(ResolveParams rp)
 		{
 			bool result;
@@ -37,13 +37,13 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x0600108D RID: 4237 RVA: 0x0008C3F0 File Offset: 0x0008A7F0
+		// Token: 0x0600108D RID: 4237 RVA: 0x0008C5DC File Offset: 0x0008A9DC
 		public override void Resolve(ResolveParams rp)
 		{
 			BaseGen.symbolStack.Push(this.symbol, rp);
 		}
 
-		// Token: 0x04000A25 RID: 2597
+		// Token: 0x04000A27 RID: 2599
 		public string symbol;
 	}
 }

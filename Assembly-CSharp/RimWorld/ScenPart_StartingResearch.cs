@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200064A RID: 1610
+	// Token: 0x02000646 RID: 1606
 	public class ScenPart_StartingResearch : ScenPart
 	{
-		// Token: 0x06002165 RID: 8549 RVA: 0x0011B65C File Offset: 0x00119A5C
+		// Token: 0x0600215D RID: 8541 RVA: 0x0011B75C File Offset: 0x00119B5C
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight);
@@ -22,13 +22,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002166 RID: 8550 RVA: 0x0011B6C6 File Offset: 0x00119AC6
+		// Token: 0x0600215E RID: 8542 RVA: 0x0011B7C6 File Offset: 0x00119BC6
 		public override void Randomize()
 		{
 			this.project = this.NonRedundantResearchProjects().RandomElement<ResearchProjectDef>();
 		}
 
-		// Token: 0x06002167 RID: 8551 RVA: 0x0011B6DC File Offset: 0x00119ADC
+		// Token: 0x0600215F RID: 8543 RVA: 0x0011B7DC File Offset: 0x00119BDC
 		private IEnumerable<ResearchProjectDef> NonRedundantResearchProjects()
 		{
 			return DefDatabase<ResearchProjectDef>.AllDefs.Where(delegate(ResearchProjectDef d)
@@ -46,14 +46,14 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002168 RID: 8552 RVA: 0x0011B718 File Offset: 0x00119B18
+		// Token: 0x06002160 RID: 8544 RVA: 0x0011B818 File Offset: 0x00119C18
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Defs.Look<ResearchProjectDef>(ref this.project, "project");
 		}
 
-		// Token: 0x06002169 RID: 8553 RVA: 0x0011B734 File Offset: 0x00119B34
+		// Token: 0x06002161 RID: 8545 RVA: 0x0011B834 File Offset: 0x00119C34
 		public override string Summary(Scenario scen)
 		{
 			return "ScenPart_StartingResearchFinished".Translate(new object[]
@@ -62,13 +62,13 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x0600216A RID: 8554 RVA: 0x0011B767 File Offset: 0x00119B67
+		// Token: 0x06002162 RID: 8546 RVA: 0x0011B867 File Offset: 0x00119C67
 		public override void PostGameStart()
 		{
 			Find.ResearchManager.InstantFinish(this.project, false);
 		}
 
-		// Token: 0x04001300 RID: 4864
+		// Token: 0x040012FD RID: 4861
 		private ResearchProjectDef project;
 	}
 }

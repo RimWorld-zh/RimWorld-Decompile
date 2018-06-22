@@ -9,13 +9,13 @@ namespace RimWorld
 	// Token: 0x02000055 RID: 85
 	public class JobDriver_PlayBilliards : JobDriver
 	{
-		// Token: 0x06000293 RID: 659 RVA: 0x0001BB0C File Offset: 0x00019F0C
+		// Token: 0x06000293 RID: 659 RVA: 0x0001BB14 File Offset: 0x00019F14
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.targetA, this.job, this.job.def.joyMaxParticipants, 0, null);
 		}
 
-		// Token: 0x06000294 RID: 660 RVA: 0x0001BB50 File Offset: 0x00019F50
+		// Token: 0x06000294 RID: 660 RVA: 0x0001BB58 File Offset: 0x00019F58
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.EndOnDespawnedOrNull(TargetIndex.A, JobCondition.Incompletable);
@@ -60,7 +60,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000295 RID: 661 RVA: 0x0001BB7C File Offset: 0x00019F7C
+		// Token: 0x06000295 RID: 661 RVA: 0x0001BB84 File Offset: 0x00019F84
 		public override object[] TaleParameters()
 		{
 			return new object[]

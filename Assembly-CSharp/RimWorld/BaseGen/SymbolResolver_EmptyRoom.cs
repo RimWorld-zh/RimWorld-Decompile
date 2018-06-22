@@ -6,7 +6,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003AD RID: 941
 	public class SymbolResolver_EmptyRoom : SymbolResolver
 	{
-		// Token: 0x06001054 RID: 4180 RVA: 0x00089C38 File Offset: 0x00088038
+		// Token: 0x06001054 RID: 4180 RVA: 0x00089E24 File Offset: 0x00088224
 		public override void Resolve(ResolveParams rp)
 		{
 			ThingDef thingDef = rp.wallStuff ?? BaseGenUtility.RandomCheapWallStuff(rp.faction, false);

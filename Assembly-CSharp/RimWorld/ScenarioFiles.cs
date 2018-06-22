@@ -6,11 +6,11 @@ using Verse.Steam;
 
 namespace RimWorld
 {
-	// Token: 0x02000655 RID: 1621
+	// Token: 0x02000651 RID: 1617
 	public static class ScenarioFiles
 	{
 		// Token: 0x170004F3 RID: 1267
-		// (get) Token: 0x060021C8 RID: 8648 RVA: 0x0011DFA8 File Offset: 0x0011C3A8
+		// (get) Token: 0x060021C0 RID: 8640 RVA: 0x0011E0A8 File Offset: 0x0011C4A8
 		public static IEnumerable<Scenario> AllScenariosLocal
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170004F4 RID: 1268
-		// (get) Token: 0x060021C9 RID: 8649 RVA: 0x0011DFC4 File Offset: 0x0011C3C4
+		// (get) Token: 0x060021C1 RID: 8641 RVA: 0x0011E0C4 File Offset: 0x0011C4C4
 		public static IEnumerable<Scenario> AllScenariosWorkshop
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021CA RID: 8650 RVA: 0x0011DFE0 File Offset: 0x0011C3E0
+		// Token: 0x060021C2 RID: 8642 RVA: 0x0011E0E0 File Offset: 0x0011C4E0
 		public static void RecacheData()
 		{
 			ScenarioFiles.scenariosLocal.Clear();
@@ -52,10 +52,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0400132B RID: 4907
+		// Token: 0x04001328 RID: 4904
 		private static List<Scenario> scenariosLocal = new List<Scenario>();
 
-		// Token: 0x0400132C RID: 4908
+		// Token: 0x04001329 RID: 4905
 		private static List<Scenario> scenariosWorkshop = new List<Scenario>();
 	}
 }

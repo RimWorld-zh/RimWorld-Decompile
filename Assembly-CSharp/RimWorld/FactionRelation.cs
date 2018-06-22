@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000560 RID: 1376
+	// Token: 0x0200055C RID: 1372
 	public class FactionRelation : IExposable
 	{
-		// Token: 0x060019F3 RID: 6643 RVA: 0x000E14E8 File Offset: 0x000DF8E8
+		// Token: 0x060019EA RID: 6634 RVA: 0x000E153C File Offset: 0x000DF93C
 		public void CheckKindThresholds(Faction faction, bool canSendLetter, string reason, GlobalTargetInfo lookTarget, out bool sentLetter)
 		{
 			FactionRelationKind previousKind = this.kind;
@@ -34,7 +34,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060019F4 RID: 6644 RVA: 0x000E15D4 File Offset: 0x000DF9D4
+		// Token: 0x060019EB RID: 6635 RVA: 0x000E1628 File Offset: 0x000DFA28
 		public void ExposeData()
 		{
 			Scribe_References.Look<Faction>(ref this.other, "other", false);
@@ -46,7 +46,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060019F5 RID: 6645 RVA: 0x000E1628 File Offset: 0x000DFA28
+		// Token: 0x060019EC RID: 6636 RVA: 0x000E167C File Offset: 0x000DFA7C
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -61,13 +61,13 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x04000F36 RID: 3894
+		// Token: 0x04000F33 RID: 3891
 		public Faction other = null;
 
-		// Token: 0x04000F37 RID: 3895
+		// Token: 0x04000F34 RID: 3892
 		public int goodwill = 100;
 
-		// Token: 0x04000F38 RID: 3896
+		// Token: 0x04000F35 RID: 3893
 		public FactionRelationKind kind = FactionRelationKind.Neutral;
 	}
 }

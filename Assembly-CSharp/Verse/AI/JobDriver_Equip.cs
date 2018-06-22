@@ -4,16 +4,16 @@ using Verse.Sound;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A34 RID: 2612
+	// Token: 0x02000A30 RID: 2608
 	public class JobDriver_Equip : JobDriver
 	{
-		// Token: 0x060039F5 RID: 14837 RVA: 0x001E9BB8 File Offset: 0x001E7FB8
+		// Token: 0x060039EF RID: 14831 RVA: 0x001E9DF8 File Offset: 0x001E81F8
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
 		}
 
-		// Token: 0x060039F6 RID: 14838 RVA: 0x001E9BEC File Offset: 0x001E7FEC
+		// Token: 0x060039F0 RID: 14832 RVA: 0x001E9E2C File Offset: 0x001E822C
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);

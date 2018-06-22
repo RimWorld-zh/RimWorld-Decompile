@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace RimWorld
 {
-	// Token: 0x0200053A RID: 1338
+	// Token: 0x02000536 RID: 1334
 	public class Thought_MemorySocialCumulative : Thought_MemorySocial
 	{
 		// Token: 0x1700037C RID: 892
-		// (get) Token: 0x060018DA RID: 6362 RVA: 0x000D875C File Offset: 0x000D6B5C
+		// (get) Token: 0x060018D1 RID: 6353 RVA: 0x000D8768 File Offset: 0x000D6B68
 		public override bool ShouldDiscard
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018DB RID: 6363 RVA: 0x000D8780 File Offset: 0x000D6B80
+		// Token: 0x060018D2 RID: 6354 RVA: 0x000D878C File Offset: 0x000D6B8C
 		public override float OpinionOffset()
 		{
 			float result;
@@ -32,7 +32,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060018DC RID: 6364 RVA: 0x000D87C4 File Offset: 0x000D6BC4
+		// Token: 0x060018D3 RID: 6355 RVA: 0x000D87D0 File Offset: 0x000D6BD0
 		public override void ThoughtInterval()
 		{
 			base.ThoughtInterval();
@@ -58,7 +58,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018DD RID: 6365 RVA: 0x000D8874 File Offset: 0x000D6C74
+		// Token: 0x060018D4 RID: 6356 RVA: 0x000D8880 File Offset: 0x000D6C80
 		public override bool TryMergeWithExistingMemory(out bool showBubble)
 		{
 			showBubble = false;
@@ -78,7 +78,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x04000EA7 RID: 3751
+		// Token: 0x04000EA4 RID: 3748
 		private const float OpinionOffsetChangePerDay = 1f;
 	}
 }

@@ -10,10 +10,10 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000817 RID: 2071
+	// Token: 0x02000813 RID: 2067
 	public static class CharacterCardUtility
 	{
-		// Token: 0x06002E2C RID: 11820 RVA: 0x00184E9C File Offset: 0x0018329C
+		// Token: 0x06002E25 RID: 11813 RVA: 0x00185074 File Offset: 0x00183474
 		public static void DrawCharacterCard(Rect rect, Pawn pawn, Action randomizeCallback = null, Rect creationRect = default(Rect))
 		{
 			bool flag = randomizeCallback != null;
@@ -84,7 +84,7 @@ namespace RimWorld
 							Messages.Message("MessageCantBanishDownedPawn".Translate(new object[]
 							{
 								pawn.LabelShort
-							}).AdjustedFor(pawn), pawn, MessageTypeDefOf.RejectInput, false);
+							}).AdjustedFor(pawn, "PAWN"), pawn, MessageTypeDefOf.RejectInput, false);
 						}
 						else
 						{
@@ -235,7 +235,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002E2D RID: 11821 RVA: 0x00185900 File Offset: 0x00183D00
+		// Token: 0x06002E26 RID: 11814 RVA: 0x00185ADC File Offset: 0x00183EDC
 		public static void DoNameInputRect(Rect rect, ref string name, int maxLength)
 		{
 			string text = Widgets.TextField(rect, name);
@@ -245,7 +245,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E2E RID: 11822 RVA: 0x00185938 File Offset: 0x00183D38
+		// Token: 0x06002E27 RID: 11815 RVA: 0x00185B14 File Offset: 0x00183F14
 		private static IEnumerable<WorkTags> WorkTagsFrom(WorkTags tags)
 		{
 			foreach (WorkTags workTag in tags.GetAllSelectedItems<WorkTags>())
@@ -258,28 +258,28 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x04001888 RID: 6280
+		// Token: 0x04001886 RID: 6278
 		public const int MainRectsY = 100;
 
-		// Token: 0x04001889 RID: 6281
+		// Token: 0x04001887 RID: 6279
 		private const float MainRectsHeight = 450f;
 
-		// Token: 0x0400188A RID: 6282
+		// Token: 0x04001888 RID: 6280
 		private const int ConfigRectTitlesHeight = 40;
 
-		// Token: 0x0400188B RID: 6283
+		// Token: 0x04001889 RID: 6281
 		public static Vector2 PawnCardSize = new Vector2(570f, 470f);
 
-		// Token: 0x0400188C RID: 6284
+		// Token: 0x0400188A RID: 6282
 		private const int MaxNameLength = 12;
 
-		// Token: 0x0400188D RID: 6285
+		// Token: 0x0400188B RID: 6283
 		public const int MaxNickLength = 16;
 
-		// Token: 0x0400188E RID: 6286
+		// Token: 0x0400188C RID: 6284
 		public const int MaxTitleLength = 25;
 
-		// Token: 0x0400188F RID: 6287
+		// Token: 0x0400188D RID: 6285
 		private static Regex validNameRegex = new Regex("^[a-zA-Z0-9 '\\-]*$");
 	}
 }

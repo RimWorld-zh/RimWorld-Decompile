@@ -6,19 +6,19 @@ namespace Verse.Noise
 	// Token: 0x02000F90 RID: 3984
 	public class Max : ModuleBase
 	{
-		// Token: 0x06006019 RID: 24601 RVA: 0x0030BD11 File Offset: 0x0030A111
+		// Token: 0x06006042 RID: 24642 RVA: 0x0030DDB5 File Offset: 0x0030C1B5
 		public Max() : base(2)
 		{
 		}
 
-		// Token: 0x0600601A RID: 24602 RVA: 0x0030BD1B File Offset: 0x0030A11B
+		// Token: 0x06006043 RID: 24643 RVA: 0x0030DDBF File Offset: 0x0030C1BF
 		public Max(ModuleBase lhs, ModuleBase rhs) : base(2)
 		{
 			this.modules[0] = lhs;
 			this.modules[1] = rhs;
 		}
 
-		// Token: 0x0600601B RID: 24603 RVA: 0x0030BD38 File Offset: 0x0030A138
+		// Token: 0x06006044 RID: 24644 RVA: 0x0030DDDC File Offset: 0x0030C1DC
 		public override double GetValue(double x, double y, double z)
 		{
 			Debug.Assert(this.modules[0] != null);

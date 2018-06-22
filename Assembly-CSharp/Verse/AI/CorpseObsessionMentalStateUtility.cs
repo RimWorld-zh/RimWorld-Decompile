@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A59 RID: 2649
+	// Token: 0x02000A55 RID: 2645
 	public static class CorpseObsessionMentalStateUtility
 	{
-		// Token: 0x06003AF4 RID: 15092 RVA: 0x001F43FC File Offset: 0x001F27FC
+		// Token: 0x06003AEF RID: 15087 RVA: 0x001F46F4 File Offset: 0x001F2AF4
 		public static Corpse GetClosestCorpseToDigUp(Pawn pawn)
 		{
 			Corpse result;
@@ -26,7 +26,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003AF5 RID: 15093 RVA: 0x001F4498 File Offset: 0x001F2898
+		// Token: 0x06003AF0 RID: 15088 RVA: 0x001F4790 File Offset: 0x001F2B90
 		public static bool IsCorpseValid(Corpse corpse, Pawn pawn, bool ignoreReachability = false)
 		{
 			bool result;

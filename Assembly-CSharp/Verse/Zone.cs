@@ -6,15 +6,15 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000CBA RID: 3258
+	// Token: 0x02000CB7 RID: 3255
 	public abstract class Zone : IExposable, ISelectable, ILoadReferenceable
 	{
-		// Token: 0x060047B7 RID: 18359 RVA: 0x000A6EF8 File Offset: 0x000A52F8
+		// Token: 0x060047C0 RID: 18368 RVA: 0x000A6F08 File Offset: 0x000A5308
 		public Zone()
 		{
 		}
 
-		// Token: 0x060047B8 RID: 18360 RVA: 0x000A6F4C File Offset: 0x000A534C
+		// Token: 0x060047C1 RID: 18369 RVA: 0x000A6F5C File Offset: 0x000A535C
 		public Zone(string baseName, ZoneManager zoneManager)
 		{
 			this.label = zoneManager.NewZoneName(baseName);
@@ -22,8 +22,8 @@ namespace Verse
 			this.color = this.NextZoneColor;
 		}
 
-		// Token: 0x17000B52 RID: 2898
-		// (get) Token: 0x060047B9 RID: 18361 RVA: 0x000A6FC0 File Offset: 0x000A53C0
+		// Token: 0x17000B54 RID: 2900
+		// (get) Token: 0x060047C2 RID: 18370 RVA: 0x000A6FD0 File Offset: 0x000A53D0
 		public Map Map
 		{
 			get
@@ -32,8 +32,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B53 RID: 2899
-		// (get) Token: 0x060047BA RID: 18362 RVA: 0x000A6FE0 File Offset: 0x000A53E0
+		// Token: 0x17000B55 RID: 2901
+		// (get) Token: 0x060047C3 RID: 18371 RVA: 0x000A6FF0 File Offset: 0x000A53F0
 		public IntVec3 Position
 		{
 			get
@@ -42,8 +42,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B54 RID: 2900
-		// (get) Token: 0x060047BB RID: 18363 RVA: 0x000A701C File Offset: 0x000A541C
+		// Token: 0x17000B56 RID: 2902
+		// (get) Token: 0x060047C4 RID: 18372 RVA: 0x000A702C File Offset: 0x000A542C
 		public Material Material
 		{
 			get
@@ -57,7 +57,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047BC RID: 18364 RVA: 0x000A706C File Offset: 0x000A546C
+		// Token: 0x060047C5 RID: 18373 RVA: 0x000A707C File Offset: 0x000A547C
 		public IEnumerator<IntVec3> GetEnumerator()
 		{
 			for (int i = 0; i < this.cells.Count; i++)
@@ -67,8 +67,8 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x17000B55 RID: 2901
-		// (get) Token: 0x060047BD RID: 18365 RVA: 0x000A7090 File Offset: 0x000A5490
+		// Token: 0x17000B57 RID: 2903
+		// (get) Token: 0x060047C6 RID: 18374 RVA: 0x000A70A0 File Offset: 0x000A54A0
 		public List<IntVec3> Cells
 		{
 			get
@@ -82,8 +82,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B56 RID: 2902
-		// (get) Token: 0x060047BE RID: 18366 RVA: 0x000A70CC File Offset: 0x000A54CC
+		// Token: 0x17000B58 RID: 2904
+		// (get) Token: 0x060047C7 RID: 18375 RVA: 0x000A70DC File Offset: 0x000A54DC
 		public IEnumerable<Thing> AllContainedThings
 		{
 			get
@@ -101,8 +101,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B57 RID: 2903
-		// (get) Token: 0x060047BF RID: 18367 RVA: 0x000A70F8 File Offset: 0x000A54F8
+		// Token: 0x17000B59 RID: 2905
+		// (get) Token: 0x060047C8 RID: 18376 RVA: 0x000A7108 File Offset: 0x000A5508
 		public bool ContainsStaticFire
 		{
 			get
@@ -123,8 +123,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B58 RID: 2904
-		// (get) Token: 0x060047C0 RID: 18368 RVA: 0x000A7180 File Offset: 0x000A5580
+		// Token: 0x17000B5A RID: 2906
+		// (get) Token: 0x060047C9 RID: 18377 RVA: 0x000A7190 File Offset: 0x000A5590
 		public virtual bool IsMultiselectable
 		{
 			get
@@ -133,11 +133,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B59 RID: 2905
-		// (get) Token: 0x060047C1 RID: 18369
+		// Token: 0x17000B5B RID: 2907
+		// (get) Token: 0x060047CA RID: 18378
 		protected abstract Color NextZoneColor { get; }
 
-		// Token: 0x060047C2 RID: 18370 RVA: 0x000A7198 File Offset: 0x000A5598
+		// Token: 0x060047CB RID: 18379 RVA: 0x000A71A8 File Offset: 0x000A55A8
 		public virtual void ExposeData()
 		{
 			Scribe_Values.Look<string>(ref this.label, "label", null, false);
@@ -150,7 +150,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047C3 RID: 18371 RVA: 0x000A720C File Offset: 0x000A560C
+		// Token: 0x060047CC RID: 18380 RVA: 0x000A721C File Offset: 0x000A561C
 		public virtual void AddCell(IntVec3 c)
 		{
 			if (this.cells.Contains(c))
@@ -183,7 +183,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047C4 RID: 18372 RVA: 0x000A72F8 File Offset: 0x000A56F8
+		// Token: 0x060047CD RID: 18381 RVA: 0x000A7308 File Offset: 0x000A5708
 		public virtual void RemoveCell(IntVec3 c)
 		{
 			if (!this.cells.Contains(c))
@@ -209,7 +209,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047C5 RID: 18373 RVA: 0x000A7398 File Offset: 0x000A5798
+		// Token: 0x060047CE RID: 18382 RVA: 0x000A73A8 File Offset: 0x000A57A8
 		public virtual void Delete()
 		{
 			SoundDefOf.Designate_ZoneDelete.PlayOneShotOnCamera(this.Map);
@@ -227,19 +227,19 @@ namespace Verse
 			Find.Selector.Deselect(this);
 		}
 
-		// Token: 0x060047C6 RID: 18374 RVA: 0x000A7416 File Offset: 0x000A5816
+		// Token: 0x060047CF RID: 18383 RVA: 0x000A7426 File Offset: 0x000A5826
 		public void Deregister()
 		{
 			this.zoneManager.DeregisterZone(this);
 		}
 
-		// Token: 0x060047C7 RID: 18375 RVA: 0x000A7425 File Offset: 0x000A5825
+		// Token: 0x060047D0 RID: 18384 RVA: 0x000A7435 File Offset: 0x000A5835
 		public virtual void PostRegister()
 		{
 			this.CheckAddHaulDestination();
 		}
 
-		// Token: 0x060047C8 RID: 18376 RVA: 0x000A7430 File Offset: 0x000A5830
+		// Token: 0x060047D1 RID: 18385 RVA: 0x000A7440 File Offset: 0x000A5840
 		public virtual void PostDeregister()
 		{
 			IHaulDestination haulDestination = this as IHaulDestination;
@@ -249,7 +249,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047C9 RID: 18377 RVA: 0x000A745C File Offset: 0x000A585C
+		// Token: 0x060047D2 RID: 18386 RVA: 0x000A746C File Offset: 0x000A586C
 		public bool ContainsCell(IntVec3 c)
 		{
 			for (int i = 0; i < this.cells.Count; i++)
@@ -262,19 +262,19 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x060047CA RID: 18378 RVA: 0x000A74B0 File Offset: 0x000A58B0
+		// Token: 0x060047D3 RID: 18387 RVA: 0x000A74C0 File Offset: 0x000A58C0
 		public virtual string GetInspectString()
 		{
 			return "";
 		}
 
-		// Token: 0x060047CB RID: 18379 RVA: 0x000A74CC File Offset: 0x000A58CC
+		// Token: 0x060047D4 RID: 18388 RVA: 0x000A74DC File Offset: 0x000A58DC
 		public virtual IEnumerable<InspectTabBase> GetInspectTabs()
 		{
 			yield break;
 		}
 
-		// Token: 0x060047CC RID: 18380 RVA: 0x000A74F0 File Offset: 0x000A58F0
+		// Token: 0x060047D5 RID: 18389 RVA: 0x000A7500 File Offset: 0x000A5900
 		public virtual IEnumerable<Gizmo> GetGizmos()
 		{
 			yield return new Command_Action
@@ -324,13 +324,13 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060047CD RID: 18381 RVA: 0x000A751C File Offset: 0x000A591C
+		// Token: 0x060047D6 RID: 18390 RVA: 0x000A752C File Offset: 0x000A592C
 		public virtual IEnumerable<Gizmo> GetZoneAddGizmos()
 		{
 			yield break;
 		}
 
-		// Token: 0x060047CE RID: 18382 RVA: 0x000A7540 File Offset: 0x000A5940
+		// Token: 0x060047D7 RID: 18391 RVA: 0x000A7550 File Offset: 0x000A5950
 		public void CheckContiguous()
 		{
 			if (this.cells.Count != 0)
@@ -376,7 +376,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047CF RID: 18383 RVA: 0x000A76EC File Offset: 0x000A5AEC
+		// Token: 0x060047D8 RID: 18392 RVA: 0x000A76FC File Offset: 0x000A5AFC
 		private void CheckAddHaulDestination()
 		{
 			IHaulDestination haulDestination = this as IHaulDestination;
@@ -386,52 +386,52 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047D0 RID: 18384 RVA: 0x000A7718 File Offset: 0x000A5B18
+		// Token: 0x060047D9 RID: 18393 RVA: 0x000A7728 File Offset: 0x000A5B28
 		public override string ToString()
 		{
 			return this.label;
 		}
 
-		// Token: 0x060047D1 RID: 18385 RVA: 0x000A7734 File Offset: 0x000A5B34
+		// Token: 0x060047DA RID: 18394 RVA: 0x000A7744 File Offset: 0x000A5B44
 		public string GetUniqueLoadID()
 		{
 			return "Zone_" + this.zoneManager.AllZones.IndexOf(this);
 		}
 
-		// Token: 0x040030A6 RID: 12454
+		// Token: 0x040030B1 RID: 12465
 		public ZoneManager zoneManager;
 
-		// Token: 0x040030A7 RID: 12455
+		// Token: 0x040030B2 RID: 12466
 		public string label;
 
-		// Token: 0x040030A8 RID: 12456
+		// Token: 0x040030B3 RID: 12467
 		public List<IntVec3> cells = new List<IntVec3>();
 
-		// Token: 0x040030A9 RID: 12457
+		// Token: 0x040030B4 RID: 12468
 		private bool cellsShuffled = false;
 
-		// Token: 0x040030AA RID: 12458
+		// Token: 0x040030B5 RID: 12469
 		public Color color = Color.white;
 
-		// Token: 0x040030AB RID: 12459
+		// Token: 0x040030B6 RID: 12470
 		private Material materialInt = null;
 
-		// Token: 0x040030AC RID: 12460
+		// Token: 0x040030B7 RID: 12471
 		public bool hidden = false;
 
-		// Token: 0x040030AD RID: 12461
+		// Token: 0x040030B8 RID: 12472
 		private int lastStaticFireCheckTick = -9999;
 
-		// Token: 0x040030AE RID: 12462
+		// Token: 0x040030B9 RID: 12473
 		private bool lastStaticFireCheckResult = false;
 
-		// Token: 0x040030AF RID: 12463
+		// Token: 0x040030BA RID: 12474
 		private const int StaticFireCheckInterval = 1000;
 
-		// Token: 0x040030B0 RID: 12464
+		// Token: 0x040030BB RID: 12475
 		private static BoolGrid extantGrid;
 
-		// Token: 0x040030B1 RID: 12465
+		// Token: 0x040030BC RID: 12476
 		private static BoolGrid foundGrid;
 	}
 }

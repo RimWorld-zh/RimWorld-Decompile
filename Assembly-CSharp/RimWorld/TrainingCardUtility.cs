@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000823 RID: 2083
+	// Token: 0x0200081F RID: 2079
 	[StaticConstructorOnStartup]
 	public static class TrainingCardUtility
 	{
-		// Token: 0x06002EA1 RID: 11937 RVA: 0x0018E9B4 File Offset: 0x0018CDB4
+		// Token: 0x06002E9A RID: 11930 RVA: 0x0018EB94 File Offset: 0x0018CF94
 		public static void DrawTrainingCard(Rect rect, Pawn pawn)
 		{
 			Text.Font = GameFont.Small;
@@ -52,7 +52,7 @@ namespace RimWorld
 			listing_Standard.End();
 		}
 
-		// Token: 0x06002EA2 RID: 11938 RVA: 0x0018EB90 File Offset: 0x0018CF90
+		// Token: 0x06002E9B RID: 11931 RVA: 0x0018ED70 File Offset: 0x0018D170
 		private static bool TryDrawTrainableRow(Rect rect, Pawn pawn, TrainableDef td)
 		{
 			bool flag = pawn.training.HasLearned(td);
@@ -96,7 +96,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002EA3 RID: 11939 RVA: 0x0018ED0C File Offset: 0x0018D10C
+		// Token: 0x06002E9C RID: 11932 RVA: 0x0018EEEC File Offset: 0x0018D2EC
 		public static void DoTrainableCheckbox(Rect rect, Pawn pawn, TrainableDef td, AcceptanceReport canTrain, bool drawLabel, bool doTooltip)
 		{
 			bool flag = pawn.training.HasLearned(td);
@@ -123,7 +123,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EA4 RID: 11940 RVA: 0x0018EDD8 File Offset: 0x0018D1D8
+		// Token: 0x06002E9D RID: 11933 RVA: 0x0018EFB8 File Offset: 0x0018D3B8
 		private static void DoTrainableTooltip(Rect rect, Pawn pawn, TrainableDef td, AcceptanceReport canTrain)
 		{
 			TooltipHandler.TipRegion(rect, delegate()
@@ -151,24 +151,24 @@ namespace RimWorld
 			}, (int)(rect.y * 612f + rect.x));
 		}
 
-		// Token: 0x040018FC RID: 6396
+		// Token: 0x040018FA RID: 6394
 		public const float RowHeight = 28f;
 
-		// Token: 0x040018FD RID: 6397
+		// Token: 0x040018FB RID: 6395
 		private const float InfoHeaderHeight = 50f;
 
-		// Token: 0x040018FE RID: 6398
+		// Token: 0x040018FC RID: 6396
 		[TweakValue("Interface", -100f, 300f)]
 		private static float TrainabilityLeft = 220f;
 
-		// Token: 0x040018FF RID: 6399
+		// Token: 0x040018FD RID: 6397
 		[TweakValue("Interface", -100f, 300f)]
 		private static float TrainabilityTop = 0f;
 
-		// Token: 0x04001900 RID: 6400
+		// Token: 0x040018FE RID: 6398
 		private static readonly Texture2D LearnedTrainingTex = ContentFinder<Texture2D>.Get("UI/Icons/FixedCheck", true);
 
-		// Token: 0x04001901 RID: 6401
+		// Token: 0x040018FF RID: 6399
 		private static readonly Texture2D LearnedNotTrainingTex = ContentFinder<Texture2D>.Get("UI/Icons/FixedCheckOff", true);
 	}
 }

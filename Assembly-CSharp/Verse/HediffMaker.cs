@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000D24 RID: 3364
+	// Token: 0x02000D21 RID: 3361
 	public static class HediffMaker
 	{
-		// Token: 0x06004A04 RID: 18948 RVA: 0x0026A6B0 File Offset: 0x00268AB0
+		// Token: 0x06004A15 RID: 18965 RVA: 0x0026BAE4 File Offset: 0x00269EE4
 		public static Hediff MakeHediff(HediffDef def, Pawn pawn, BodyPartRecord partRecord = null)
 		{
 			Hediff result;
@@ -27,7 +27,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004A05 RID: 18949 RVA: 0x0026A728 File Offset: 0x00268B28
+		// Token: 0x06004A16 RID: 18966 RVA: 0x0026BB5C File Offset: 0x00269F5C
 		public static Hediff MakeConcreteExampleHediff(HediffDef def)
 		{
 			Hediff hediff = (Hediff)Activator.CreateInstance(def.hediffClass);

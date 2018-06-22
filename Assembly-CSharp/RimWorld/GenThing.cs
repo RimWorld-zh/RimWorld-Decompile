@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000984 RID: 2436
+	// Token: 0x02000980 RID: 2432
 	public static class GenThing
 	{
-		// Token: 0x060036D8 RID: 14040 RVA: 0x001D470C File Offset: 0x001D2B0C
+		// Token: 0x060036D1 RID: 14033 RVA: 0x001D48F4 File Offset: 0x001D2CF4
 		public static Vector3 TrueCenter(this Thing t)
 		{
 			Pawn pawn = t as Pawn;
@@ -24,7 +24,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036D9 RID: 14041 RVA: 0x001D4768 File Offset: 0x001D2B68
+		// Token: 0x060036D2 RID: 14034 RVA: 0x001D4950 File Offset: 0x001D2D50
 		public static Vector3 TrueCenter(IntVec3 loc, Rot4 rotation, IntVec2 thingSize, float altitude)
 		{
 			Vector3 result = loc.ToVector3ShiftedWithAltitude(altitude);
@@ -83,7 +83,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036DA RID: 14042 RVA: 0x001D4910 File Offset: 0x001D2D10
+		// Token: 0x060036D3 RID: 14035 RVA: 0x001D4AF8 File Offset: 0x001D2EF8
 		public static bool TryDropAndSetForbidden(Thing th, IntVec3 pos, Map map, ThingPlaceMode mode, out Thing resultingThing, bool forbidden)
 		{
 			bool result;
@@ -103,8 +103,8 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036DB RID: 14043 RVA: 0x001D4958 File Offset: 0x001D2D58
-		public static string ThingsToCommaList(IList<Thing> things, bool useAnd = false, bool aggregate = true)
+		// Token: 0x060036D4 RID: 14036 RVA: 0x001D4B40 File Offset: 0x001D2F40
+		public static string ThingsToCommaList(IList<Thing> things, bool useAnd = false, bool aggregate = true, int maxCount = -1)
 		{
 			GenThing.tmpThings.Clear();
 			GenThing.tmpThingLabels.Clear();
@@ -136,7 +136,12 @@ namespace RimWorld
 				}
 			}
 			GenThing.tmpThings.Clear();
-			for (int k = 0; k < GenThing.tmpThingCounts.Count; k++)
+			int num = GenThing.tmpThingCounts.Count;
+			if (maxCount >= 0)
+			{
+				num = Mathf.Min(num, maxCount);
+			}
+			for (int k = 0; k < num; k++)
 			{
 				string text = GenThing.tmpThingCounts[k].First;
 				if (GenThing.tmpThingCounts[k].Second != 1)
@@ -148,7 +153,7 @@ namespace RimWorld
 			return GenThing.tmpThingLabels.ToCommaList(useAnd);
 		}
 
-		// Token: 0x060036DC RID: 14044 RVA: 0x001D4B74 File Offset: 0x001D2F74
+		// Token: 0x060036D5 RID: 14037 RVA: 0x001D4D70 File Offset: 0x001D3170
 		public static float GetMarketValue(IList<Thing> things)
 		{
 			float num = 0f;
@@ -159,13 +164,13 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x04002360 RID: 9056
+		// Token: 0x0400235E RID: 9054
 		private static List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x04002361 RID: 9057
+		// Token: 0x0400235F RID: 9055
 		private static List<string> tmpThingLabels = new List<string>();
 
-		// Token: 0x04002362 RID: 9058
+		// Token: 0x04002360 RID: 9056
 		private static List<Pair<string, int>> tmpThingCounts = new List<Pair<string, int>>();
 	}
 }

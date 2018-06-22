@@ -4,15 +4,15 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004EA RID: 1258
+	// Token: 0x020004E6 RID: 1254
 	public class DrugPolicy : IExposable, ILoadReferenceable
 	{
-		// Token: 0x0600166D RID: 5741 RVA: 0x000C6EF4 File Offset: 0x000C52F4
+		// Token: 0x06001664 RID: 5732 RVA: 0x000C6EE8 File Offset: 0x000C52E8
 		public DrugPolicy()
 		{
 		}
 
-		// Token: 0x0600166E RID: 5742 RVA: 0x000C6EFD File Offset: 0x000C52FD
+		// Token: 0x06001665 RID: 5733 RVA: 0x000C6EF1 File Offset: 0x000C52F1
 		public DrugPolicy(int uniqueId, string label)
 		{
 			this.uniqueId = uniqueId;
@@ -21,7 +21,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002EC RID: 748
-		// (get) Token: 0x0600166F RID: 5743 RVA: 0x000C6F1C File Offset: 0x000C531C
+		// (get) Token: 0x06001666 RID: 5734 RVA: 0x000C6F10 File Offset: 0x000C5310
 		public int Count
 		{
 			get
@@ -59,7 +59,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001673 RID: 5747 RVA: 0x000C6FCC File Offset: 0x000C53CC
+		// Token: 0x0600166A RID: 5738 RVA: 0x000C6FC0 File Offset: 0x000C53C0
 		public void InitializeIfNeeded()
 		{
 			if (this.entriesInt == null)
@@ -80,7 +80,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001674 RID: 5748 RVA: 0x000C708A File Offset: 0x000C548A
+		// Token: 0x0600166B RID: 5739 RVA: 0x000C707E File Offset: 0x000C547E
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.uniqueId, "uniqueId", 0, false);
@@ -88,19 +88,19 @@ namespace RimWorld
 			Scribe_Collections.Look<DrugPolicyEntry>(ref this.entriesInt, "drugs", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x06001675 RID: 5749 RVA: 0x000C70C8 File Offset: 0x000C54C8
+		// Token: 0x0600166C RID: 5740 RVA: 0x000C70BC File Offset: 0x000C54BC
 		public string GetUniqueLoadID()
 		{
 			return "DrugPolicy_" + this.label + this.uniqueId.ToString();
 		}
 
-		// Token: 0x04000D19 RID: 3353
+		// Token: 0x04000D16 RID: 3350
 		public int uniqueId;
 
-		// Token: 0x04000D1A RID: 3354
+		// Token: 0x04000D17 RID: 3351
 		public string label;
 
-		// Token: 0x04000D1B RID: 3355
+		// Token: 0x04000D18 RID: 3352
 		private List<DrugPolicyEntry> entriesInt;
 	}
 }

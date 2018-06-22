@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006BA RID: 1722
+	// Token: 0x020006B6 RID: 1718
 	public static class BlightUtility
 	{
-		// Token: 0x06002509 RID: 9481 RVA: 0x0013DEBC File Offset: 0x0013C2BC
+		// Token: 0x06002501 RID: 9473 RVA: 0x0013E004 File Offset: 0x0013C404
 		public static Plant GetFirstBlightableNowPlant(IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);
@@ -22,7 +22,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x0600250A RID: 9482 RVA: 0x0013DF18 File Offset: 0x0013C318
+		// Token: 0x06002502 RID: 9474 RVA: 0x0013E060 File Offset: 0x0013C460
 		public static Plant GetFirstBlightableEverPlant(IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);

@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020001F6 RID: 502
 	public class ThoughtWorker_BondedAnimalMaster : ThoughtWorker
 	{
-		// Token: 0x060009B8 RID: 2488 RVA: 0x000579D8 File Offset: 0x00055DD8
+		// Token: 0x060009B6 RID: 2486 RVA: 0x00057A1C File Offset: 0x00055E1C
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			List<DirectPawnRelation> directRelations = p.relations.DirectRelations;
@@ -23,7 +23,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060009B9 RID: 2489 RVA: 0x00057AB4 File Offset: 0x00055EB4
+		// Token: 0x060009B7 RID: 2487 RVA: 0x00057AF8 File Offset: 0x00055EF8
 		protected virtual bool AnimalMasterCheck(Pawn p, Pawn animal)
 		{
 			return animal.playerSettings.RespectedMaster == p;

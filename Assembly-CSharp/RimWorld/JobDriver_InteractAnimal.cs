@@ -10,7 +10,7 @@ namespace RimWorld
 	public abstract class JobDriver_InteractAnimal : JobDriver
 	{
 		// Token: 0x1700005D RID: 93
-		// (get) Token: 0x060001C6 RID: 454 RVA: 0x00013530 File Offset: 0x00011930
+		// (get) Token: 0x060001C6 RID: 454 RVA: 0x00013538 File Offset: 0x00011938
 		protected Pawn Animal
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060001C7 RID: 455 RVA: 0x0001355A File Offset: 0x0001195A
+		// Token: 0x060001C7 RID: 455 RVA: 0x00013562 File Offset: 0x00011962
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -29,13 +29,13 @@ namespace RimWorld
 		// Token: 0x060001C8 RID: 456
 		protected abstract Toil FinalInteractToil();
 
-		// Token: 0x060001C9 RID: 457 RVA: 0x0001357C File Offset: 0x0001197C
+		// Token: 0x060001C9 RID: 457 RVA: 0x00013584 File Offset: 0x00011984
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Animal, this.job, 1, -1, null);
 		}
 
-		// Token: 0x060001CA RID: 458 RVA: 0x000135B0 File Offset: 0x000119B0
+		// Token: 0x060001CA RID: 458 RVA: 0x000135B8 File Offset: 0x000119B8
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
@@ -69,13 +69,13 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060001CB RID: 459 RVA: 0x000135DC File Offset: 0x000119DC
+		// Token: 0x060001CB RID: 459 RVA: 0x000135E4 File Offset: 0x000119E4
 		public static float RequiredNutritionPerFeed(Pawn animal)
 		{
 			return Mathf.Min(animal.needs.food.MaxLevel * 0.15f, 0.3f);
 		}
 
-		// Token: 0x060001CC RID: 460 RVA: 0x00013614 File Offset: 0x00011A14
+		// Token: 0x060001CC RID: 460 RVA: 0x0001361C File Offset: 0x00011A1C
 		private IEnumerable<Toil> FeedToils()
 		{
 			yield return new Toil
@@ -96,7 +96,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060001CD RID: 461 RVA: 0x00013640 File Offset: 0x00011A40
+		// Token: 0x060001CD RID: 461 RVA: 0x00013648 File Offset: 0x00011A48
 		private static Toil TalkToAnimal(TargetIndex tameeInd)
 		{
 			Toil toil = new Toil();
@@ -111,7 +111,7 @@ namespace RimWorld
 			return toil;
 		}
 
-		// Token: 0x060001CE RID: 462 RVA: 0x000136A8 File Offset: 0x00011AA8
+		// Token: 0x060001CE RID: 462 RVA: 0x000136B0 File Offset: 0x00011AB0
 		private Toil StartFeedAnimal(TargetIndex tameeInd)
 		{
 			Toil toil = new Toil();

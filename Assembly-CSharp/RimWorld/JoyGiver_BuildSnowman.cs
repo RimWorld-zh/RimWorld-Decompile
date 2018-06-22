@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020000FC RID: 252
 	public class JoyGiver_BuildSnowman : JoyGiver
 	{
-		// Token: 0x0600054D RID: 1357 RVA: 0x00039A8C File Offset: 0x00037E8C
+		// Token: 0x0600054D RID: 1357 RVA: 0x00039A78 File Offset: 0x00037E78
 		public override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -39,7 +39,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600054E RID: 1358 RVA: 0x00039B24 File Offset: 0x00037F24
+		// Token: 0x0600054E RID: 1358 RVA: 0x00039B10 File Offset: 0x00037F10
 		private static IntVec3 TryFindSnowmanBuildCell(Pawn pawn)
 		{
 			Region rootReg;
@@ -69,7 +69,7 @@ namespace RimWorld
 			return result2;
 		}
 
-		// Token: 0x0600054F RID: 1359 RVA: 0x00039BD4 File Offset: 0x00037FD4
+		// Token: 0x0600054F RID: 1359 RVA: 0x00039BC0 File Offset: 0x00037FC0
 		private static bool IsGoodSnowmanCell(IntVec3 c, Pawn pawn)
 		{
 			bool result;

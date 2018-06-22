@@ -7,7 +7,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003B2 RID: 946
 	public class SymbolResolver_FloorFill : SymbolResolver
 	{
-		// Token: 0x0600106F RID: 4207 RVA: 0x0008AFD4 File Offset: 0x000893D4
+		// Token: 0x0600106F RID: 4207 RVA: 0x0008B1C0 File Offset: 0x000895C0
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;

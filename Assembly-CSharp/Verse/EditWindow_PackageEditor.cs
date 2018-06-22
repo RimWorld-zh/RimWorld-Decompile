@@ -7,10 +7,10 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000E4D RID: 3661
+	// Token: 0x02000E4C RID: 3660
 	public class EditWindow_PackageEditor<TNewDef> : EditWindow where TNewDef : Def, new()
 	{
-		// Token: 0x0600563D RID: 22077 RVA: 0x002C67FC File Offset: 0x002C4BFC
+		// Token: 0x0600565D RID: 22109 RVA: 0x002C83EC File Offset: 0x002C67EC
 		public EditWindow_PackageEditor(string relFolder)
 		{
 			this.relFolder = relFolder;
@@ -18,8 +18,8 @@ namespace Verse
 			this.optionalTitle = "Package Editor: " + relFolder;
 		}
 
-		// Token: 0x17000D81 RID: 3457
-		// (get) Token: 0x0600563E RID: 22078 RVA: 0x002C6858 File Offset: 0x002C4C58
+		// Token: 0x17000D84 RID: 3460
+		// (get) Token: 0x0600565E RID: 22110 RVA: 0x002C8448 File Offset: 0x002C6848
 		public override Vector2 InitialSize
 		{
 			get
@@ -28,8 +28,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D82 RID: 3458
-		// (get) Token: 0x0600563F RID: 22079 RVA: 0x002C687C File Offset: 0x002C4C7C
+		// Token: 0x17000D85 RID: 3461
+		// (get) Token: 0x0600565F RID: 22111 RVA: 0x002C846C File Offset: 0x002C686C
 		public override bool IsDebug
 		{
 			get
@@ -38,7 +38,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005640 RID: 22080 RVA: 0x002C6894 File Offset: 0x002C4C94
+		// Token: 0x06005660 RID: 22112 RVA: 0x002C8484 File Offset: 0x002C6884
 		public override void DoWindowContents(Rect selectorInner)
 		{
 			Profiler.BeginSample("PackageEditorOnGUI");
@@ -161,22 +161,22 @@ namespace Verse
 			Profiler.EndSample();
 		}
 
-		// Token: 0x04003902 RID: 14594
+		// Token: 0x04003911 RID: 14609
 		public ModContentPack curMod = LoadedModManager.RunningMods.First<ModContentPack>();
 
-		// Token: 0x04003903 RID: 14595
+		// Token: 0x04003912 RID: 14610
 		private DefPackage curPackage = null;
 
-		// Token: 0x04003904 RID: 14596
+		// Token: 0x04003913 RID: 14611
 		private Vector2 scrollPosition = default(Vector2);
 
-		// Token: 0x04003905 RID: 14597
+		// Token: 0x04003914 RID: 14612
 		private float viewHeight;
 
-		// Token: 0x04003906 RID: 14598
+		// Token: 0x04003915 RID: 14613
 		private string relFolder;
 
-		// Token: 0x04003907 RID: 14599
+		// Token: 0x04003916 RID: 14614
 		private const float EditButSize = 24f;
 	}
 }

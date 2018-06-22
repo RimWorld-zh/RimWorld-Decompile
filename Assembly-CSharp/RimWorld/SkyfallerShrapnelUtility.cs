@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006EB RID: 1771
+	// Token: 0x020006E7 RID: 1767
 	public static class SkyfallerShrapnelUtility
 	{
-		// Token: 0x06002690 RID: 9872 RVA: 0x00149F38 File Offset: 0x00148338
+		// Token: 0x06002688 RID: 9864 RVA: 0x0014A0DC File Offset: 0x001484DC
 		public static void MakeShrapnel(IntVec3 center, Map map, float angle, float distanceFactor, int metalShrapnelCount, int rubbleShrapnelCount, bool spawnMotes)
 		{
 			angle -= 90f;
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002691 RID: 9873 RVA: 0x00149F88 File Offset: 0x00148388
+		// Token: 0x06002689 RID: 9865 RVA: 0x0014A12C File Offset: 0x0014852C
 		private static void SpawnShrapnel(ThingDef def, int quantity, IntVec3 center, Map map, float angle, float distanceFactor)
 		{
 			for (int i = 0; i < quantity; i++)
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002692 RID: 9874 RVA: 0x0014A000 File Offset: 0x00148400
+		// Token: 0x0600268A RID: 9866 RVA: 0x0014A1A4 File Offset: 0x001485A4
 		private static void ThrowShrapnelMotes(int count, IntVec3 center, Map map, float angle, float distanceFactor)
 		{
 			for (int i = 0; i < count; i++)
@@ -50,7 +50,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002693 RID: 9875 RVA: 0x0014A060 File Offset: 0x00148460
+		// Token: 0x0600268B RID: 9867 RVA: 0x0014A204 File Offset: 0x00148604
 		private static bool IsGoodShrapnelCell(IntVec3 c, Map map)
 		{
 			bool result;
@@ -70,7 +70,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002694 RID: 9876 RVA: 0x0014A0C4 File Offset: 0x001484C4
+		// Token: 0x0600268C RID: 9868 RVA: 0x0014A268 File Offset: 0x00148668
 		private static IntVec3 GenerateShrapnelLocation(IntVec3 center, float angleOffset, float distanceFactor)
 		{
 			float num = SkyfallerShrapnelUtility.ShrapnelAngleDistribution.Evaluate(Rand.Value);
@@ -78,19 +78,19 @@ namespace RimWorld
 			return (Vector3Utility.HorizontalVectorFromAngle(num + angleOffset) * d).ToIntVec3() + center;
 		}
 
-		// Token: 0x04001576 RID: 5494
+		// Token: 0x04001574 RID: 5492
 		private const float ShrapnelDistanceFront = 6f;
 
-		// Token: 0x04001577 RID: 5495
+		// Token: 0x04001575 RID: 5493
 		private const float ShrapnelDistanceSide = 4f;
 
-		// Token: 0x04001578 RID: 5496
+		// Token: 0x04001576 RID: 5494
 		private const float ShrapnelDistanceBack = 30f;
 
-		// Token: 0x04001579 RID: 5497
+		// Token: 0x04001577 RID: 5495
 		private const int MotesPerShrapnel = 2;
 
-		// Token: 0x0400157A RID: 5498
+		// Token: 0x04001578 RID: 5496
 		private static readonly SimpleCurve ShrapnelDistanceFromAngle = new SimpleCurve
 		{
 			{
@@ -123,7 +123,7 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x0400157B RID: 5499
+		// Token: 0x04001579 RID: 5497
 		private static readonly SimpleCurve ShrapnelAngleDistribution = new SimpleCurve
 		{
 			{

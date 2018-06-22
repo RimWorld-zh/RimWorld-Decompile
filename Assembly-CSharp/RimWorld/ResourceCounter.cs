@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200042B RID: 1067
 	public sealed class ResourceCounter
 	{
-		// Token: 0x060012A5 RID: 4773 RVA: 0x000A1C43 File Offset: 0x000A0043
+		// Token: 0x060012A5 RID: 4773 RVA: 0x000A1E27 File Offset: 0x000A0227
 		public ResourceCounter(Map map)
 		{
 			this.map = map;
@@ -16,7 +16,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000284 RID: 644
-		// (get) Token: 0x060012A6 RID: 4774 RVA: 0x000A1C64 File Offset: 0x000A0064
+		// (get) Token: 0x060012A6 RID: 4774 RVA: 0x000A1E48 File Offset: 0x000A0248
 		public int Silver
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000285 RID: 645
-		// (get) Token: 0x060012A7 RID: 4775 RVA: 0x000A1C84 File Offset: 0x000A0084
+		// (get) Token: 0x060012A7 RID: 4775 RVA: 0x000A1E68 File Offset: 0x000A0268
 		public float TotalHumanEdibleNutrition
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000286 RID: 646
-		// (get) Token: 0x060012A8 RID: 4776 RVA: 0x000A1D30 File Offset: 0x000A0130
+		// (get) Token: 0x060012A8 RID: 4776 RVA: 0x000A1F14 File Offset: 0x000A0314
 		public Dictionary<ThingDef, int> AllCountedAmounts
 		{
 			get
@@ -53,7 +53,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060012A9 RID: 4777 RVA: 0x000A1D4C File Offset: 0x000A014C
+		// Token: 0x060012A9 RID: 4777 RVA: 0x000A1F30 File Offset: 0x000A0330
 		public static void ResetDefs()
 		{
 			ResourceCounter.resources.Clear();
@@ -63,7 +63,7 @@ namespace RimWorld
 			select def);
 		}
 
-		// Token: 0x060012AA RID: 4778 RVA: 0x000A1DB8 File Offset: 0x000A01B8
+		// Token: 0x060012AA RID: 4778 RVA: 0x000A1F9C File Offset: 0x000A039C
 		public void ResetResourceCounts()
 		{
 			this.countedAmounts.Clear();
@@ -73,7 +73,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060012AB RID: 4779 RVA: 0x000A1E08 File Offset: 0x000A0208
+		// Token: 0x060012AB RID: 4779 RVA: 0x000A1FEC File Offset: 0x000A03EC
 		public int GetCount(ThingDef rDef)
 		{
 			int result;
@@ -95,7 +95,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060012AC RID: 4780 RVA: 0x000A1E70 File Offset: 0x000A0270
+		// Token: 0x060012AC RID: 4780 RVA: 0x000A2054 File Offset: 0x000A0454
 		public int GetCountIn(ThingRequestGroup group)
 		{
 			int num = 0;
@@ -109,7 +109,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x060012AD RID: 4781 RVA: 0x000A1EF0 File Offset: 0x000A02F0
+		// Token: 0x060012AD RID: 4781 RVA: 0x000A20D4 File Offset: 0x000A04D4
 		public int GetCountIn(ThingCategoryDef cat)
 		{
 			int num = 0;
@@ -127,7 +127,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x060012AE RID: 4782 RVA: 0x000A1F84 File Offset: 0x000A0384
+		// Token: 0x060012AE RID: 4782 RVA: 0x000A2168 File Offset: 0x000A0568
 		public void ResourceCounterTick()
 		{
 			if (Find.TickManager.TicksGame % 204 == 0)
@@ -136,7 +136,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060012AF RID: 4783 RVA: 0x000A1FA4 File Offset: 0x000A03A4
+		// Token: 0x060012AF RID: 4783 RVA: 0x000A2188 File Offset: 0x000A0588
 		public void UpdateResourceCounts()
 		{
 			this.ResetResourceCounts();
@@ -157,19 +157,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060012B0 RID: 4784 RVA: 0x000A2088 File Offset: 0x000A0488
+		// Token: 0x060012B0 RID: 4784 RVA: 0x000A226C File Offset: 0x000A066C
 		private bool ShouldCount(Thing t)
 		{
 			return !t.IsNotFresh();
 		}
 
-		// Token: 0x04000B64 RID: 2916
+		// Token: 0x04000B65 RID: 2917
 		private Map map;
 
-		// Token: 0x04000B65 RID: 2917
+		// Token: 0x04000B66 RID: 2918
 		private Dictionary<ThingDef, int> countedAmounts = new Dictionary<ThingDef, int>();
 
-		// Token: 0x04000B66 RID: 2918
+		// Token: 0x04000B67 RID: 2919
 		private static List<ThingDef> resources = new List<ThingDef>();
 	}
 }

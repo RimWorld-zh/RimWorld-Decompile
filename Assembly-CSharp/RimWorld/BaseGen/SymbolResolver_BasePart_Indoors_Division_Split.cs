@@ -6,13 +6,13 @@ namespace RimWorld.BaseGen
 	// Token: 0x02000392 RID: 914
 	public class SymbolResolver_BasePart_Indoors_Division_Split : SymbolResolver
 	{
-		// Token: 0x06000FF9 RID: 4089 RVA: 0x000868C8 File Offset: 0x00084CC8
+		// Token: 0x06000FF9 RID: 4089 RVA: 0x00086AB4 File Offset: 0x00084EB4
 		public override bool CanResolve(ResolveParams rp)
 		{
 			return base.CanResolve(rp) && (rp.rect.Width >= 9 || rp.rect.Height >= 9);
 		}
 
-		// Token: 0x06000FFA RID: 4090 RVA: 0x00086918 File Offset: 0x00084D18
+		// Token: 0x06000FFA RID: 4090 RVA: 0x00086B04 File Offset: 0x00084F04
 		public override void Resolve(ResolveParams rp)
 		{
 			if (rp.rect.Width < 9 && rp.rect.Height < 9)
@@ -45,10 +45,10 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x040009F1 RID: 2545
+		// Token: 0x040009F3 RID: 2547
 		private const int MinLengthAfterSplit = 5;
 
-		// Token: 0x040009F2 RID: 2546
+		// Token: 0x040009F4 RID: 2548
 		private const int MinWidthOrHeight = 9;
 	}
 }

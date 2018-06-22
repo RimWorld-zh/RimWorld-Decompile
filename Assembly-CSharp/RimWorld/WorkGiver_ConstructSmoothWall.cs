@@ -9,7 +9,7 @@ namespace RimWorld
 	public class WorkGiver_ConstructSmoothWall : WorkGiver_Scanner
 	{
 		// Token: 0x170000E5 RID: 229
-		// (get) Token: 0x06000633 RID: 1587 RVA: 0x0004174C File Offset: 0x0003FB4C
+		// (get) Token: 0x06000633 RID: 1587 RVA: 0x00041738 File Offset: 0x0003FB38
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000634 RID: 1588 RVA: 0x00041764 File Offset: 0x0003FB64
+		// Token: 0x06000634 RID: 1588 RVA: 0x00041750 File Offset: 0x0003FB50
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
 		{
 			if (pawn.Faction != Faction.OfPlayer)
@@ -32,7 +32,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000635 RID: 1589 RVA: 0x00041790 File Offset: 0x0003FB90
+		// Token: 0x06000635 RID: 1589 RVA: 0x0004177C File Offset: 0x0003FB7C
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c, bool forced = false)
 		{
 			bool result;
@@ -66,7 +66,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000636 RID: 1590 RVA: 0x00041868 File Offset: 0x0003FC68
+		// Token: 0x06000636 RID: 1590 RVA: 0x00041854 File Offset: 0x0003FC54
 		public override Job JobOnCell(Pawn pawn, IntVec3 c, bool forced = false)
 		{
 			return new Job(JobDefOf.SmoothWall, c.GetEdifice(pawn.Map));

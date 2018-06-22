@@ -6,10 +6,10 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000BF2 RID: 3058
+	// Token: 0x02000BEE RID: 3054
 	public static class LanguageDataWriter
 	{
-		// Token: 0x060042AB RID: 17067 RVA: 0x00233B20 File Offset: 0x00231F20
+		// Token: 0x060042AD RID: 17069 RVA: 0x002345FC File Offset: 0x002329FC
 		public static void WriteBackstoryFile()
 		{
 			DirectoryInfo directoryInfo = new DirectoryInfo(GenFilePaths.DevOutputFolderPath);

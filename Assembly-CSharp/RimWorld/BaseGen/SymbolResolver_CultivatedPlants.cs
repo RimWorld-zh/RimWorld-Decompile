@@ -9,13 +9,13 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003A7 RID: 935
 	public class SymbolResolver_CultivatedPlants : SymbolResolver
 	{
-		// Token: 0x0600103D RID: 4157 RVA: 0x000889DC File Offset: 0x00086DDC
+		// Token: 0x0600103D RID: 4157 RVA: 0x00088BC8 File Offset: 0x00086FC8
 		public override bool CanResolve(ResolveParams rp)
 		{
 			return base.CanResolve(rp) && (rp.cultivatedPlantDef != null || SymbolResolver_CultivatedPlants.DeterminePlantDef(rp.rect) != null);
 		}
 
-		// Token: 0x0600103E RID: 4158 RVA: 0x00088A24 File Offset: 0x00086E24
+		// Token: 0x0600103E RID: 4158 RVA: 0x00088C10 File Offset: 0x00087010
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -45,7 +45,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x0600103F RID: 4159 RVA: 0x00088B50 File Offset: 0x00086F50
+		// Token: 0x0600103F RID: 4159 RVA: 0x00088D3C File Offset: 0x0008713C
 		public static ThingDef DeterminePlantDef(CellRect rect)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -88,7 +88,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06001040 RID: 4160 RVA: 0x00088C4C File Offset: 0x0008704C
+		// Token: 0x06001040 RID: 4160 RVA: 0x00088E38 File Offset: 0x00087238
 		private bool TryDestroyBlockingThingsAt(IntVec3 c)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -116,10 +116,10 @@ namespace RimWorld.BaseGen
 			return true;
 		}
 
-		// Token: 0x04000A0F RID: 2575
+		// Token: 0x04000A11 RID: 2577
 		private const float MinPlantGrowth = 0.2f;
 
-		// Token: 0x04000A10 RID: 2576
+		// Token: 0x04000A12 RID: 2578
 		private static List<Thing> tmpThings = new List<Thing>();
 	}
 }

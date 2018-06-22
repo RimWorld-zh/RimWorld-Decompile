@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DB5 RID: 3509
+	// Token: 0x02000DB2 RID: 3506
 	public static class SoundFilterUtility
 	{
-		// Token: 0x06004E59 RID: 20057 RVA: 0x0028EC5D File Offset: 0x0028D05D
+		// Token: 0x06004E6E RID: 20078 RVA: 0x0029020D File Offset: 0x0028E60D
 		public static void DisableAllFiltersOn(AudioSource source)
 		{
 			SoundFilterUtility.DisableFilterOn<AudioLowPassFilter>(source);
@@ -17,7 +17,7 @@ namespace Verse.Sound
 			SoundFilterUtility.DisableFilterOn<AudioChorusFilter>(source);
 		}
 
-		// Token: 0x06004E5A RID: 20058 RVA: 0x0028EC84 File Offset: 0x0028D084
+		// Token: 0x06004E6F RID: 20079 RVA: 0x00290234 File Offset: 0x0028E634
 		private static void DisableFilterOn<T>(AudioSource source) where T : Behaviour
 		{
 			T component = source.GetComponent<T>();

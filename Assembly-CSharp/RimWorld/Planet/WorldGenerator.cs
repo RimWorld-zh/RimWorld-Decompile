@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005C8 RID: 1480
+	// Token: 0x020005C4 RID: 1476
 	public static class WorldGenerator
 	{
 		// Token: 0x17000425 RID: 1061
-		// (get) Token: 0x06001C7E RID: 7294 RVA: 0x000F4C7C File Offset: 0x000F307C
+		// (get) Token: 0x06001C75 RID: 7285 RVA: 0x000F4CD0 File Offset: 0x000F30D0
 		public static IEnumerable<WorldGenStepDef> GenStepsInOrder
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C7F RID: 7295 RVA: 0x000F4CDC File Offset: 0x000F30DC
+		// Token: 0x06001C76 RID: 7286 RVA: 0x000F4D30 File Offset: 0x000F3130
 		public static World GenerateWorld(float planetCoverage, string seedString, OverallRainfall overallRainfall, OverallTemperature overallTemperature)
 		{
 			DeepProfiler.Start("GenerateWorld");
@@ -70,7 +70,7 @@ namespace RimWorld.Planet
 			return creatingWorld;
 		}
 
-		// Token: 0x06001C80 RID: 7296 RVA: 0x000F4EA8 File Offset: 0x000F32A8
+		// Token: 0x06001C77 RID: 7287 RVA: 0x000F4EFC File Offset: 0x000F32FC
 		public static void GenerateWithoutWorldData(string seedString)
 		{
 			int seedFromSeedString = WorldGenerator.GetSeedFromSeedString(seedString);
@@ -92,7 +92,7 @@ namespace RimWorld.Planet
 			Rand.PopState();
 		}
 
-		// Token: 0x06001C81 RID: 7297 RVA: 0x000F4F5C File Offset: 0x000F335C
+		// Token: 0x06001C78 RID: 7288 RVA: 0x000F4FB0 File Offset: 0x000F33B0
 		public static void GenerateFromScribe(string seedString)
 		{
 			int seedFromSeedString = WorldGenerator.GetSeedFromSeedString(seedString);
@@ -114,7 +114,7 @@ namespace RimWorld.Planet
 			Rand.PopState();
 		}
 
-		// Token: 0x06001C82 RID: 7298 RVA: 0x000F5010 File Offset: 0x000F3410
+		// Token: 0x06001C79 RID: 7289 RVA: 0x000F5064 File Offset: 0x000F3464
 		private static int GetSeedPart(List<WorldGenStepDef> genSteps, int index)
 		{
 			int seedPart = genSteps[index].worldGenStep.SeedPart;
@@ -129,22 +129,22 @@ namespace RimWorld.Planet
 			return seedPart + num;
 		}
 
-		// Token: 0x06001C83 RID: 7299 RVA: 0x000F5070 File Offset: 0x000F3470
+		// Token: 0x06001C7A RID: 7290 RVA: 0x000F50C4 File Offset: 0x000F34C4
 		private static int GetSeedFromSeedString(string seedString)
 		{
 			return GenText.StableStringHash(seedString);
 		}
 
-		// Token: 0x04001128 RID: 4392
+		// Token: 0x04001125 RID: 4389
 		private static List<WorldGenStepDef> tmpGenSteps = new List<WorldGenStepDef>();
 
-		// Token: 0x04001129 RID: 4393
+		// Token: 0x04001126 RID: 4390
 		public const float DefaultPlanetCoverage = 0.3f;
 
-		// Token: 0x0400112A RID: 4394
+		// Token: 0x04001127 RID: 4391
 		public const OverallRainfall DefaultOverallRainfall = OverallRainfall.Normal;
 
-		// Token: 0x0400112B RID: 4395
+		// Token: 0x04001128 RID: 4392
 		public const OverallTemperature DefaultOverallTemperature = OverallTemperature.Normal;
 	}
 }

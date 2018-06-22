@@ -2,11 +2,11 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B88 RID: 2952
+	// Token: 0x02000B84 RID: 2948
 	public class SoundParamSource_External : SoundParamSource
 	{
-		// Token: 0x170009C3 RID: 2499
-		// (get) Token: 0x0600402A RID: 16426 RVA: 0x0021C4A4 File Offset: 0x0021A8A4
+		// Token: 0x170009C5 RID: 2501
+		// (get) Token: 0x0600402C RID: 16428 RVA: 0x0021CB40 File Offset: 0x0021AF40
 		public override string Label
 		{
 			get
@@ -24,7 +24,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x0600402B RID: 16427 RVA: 0x0021C4E0 File Offset: 0x0021A8E0
+		// Token: 0x0600402D RID: 16429 RVA: 0x0021CB7C File Offset: 0x0021AF7C
 		public override float ValueFor(Sample samp)
 		{
 			float num;
@@ -40,11 +40,11 @@ namespace Verse.Sound
 			return result;
 		}
 
-		// Token: 0x04002B0F RID: 11023
+		// Token: 0x04002B14 RID: 11028
 		[Description("The name of the independent parameter that the game will change to drive this relationship.\n\nThis must exactly match a string that the code will use to modify this sound. If the code doesn't reference this, it will have no effect.\n\nOn the graph, this is the X axis.")]
 		public string inParamName = "";
 
-		// Token: 0x04002B10 RID: 11024
+		// Token: 0x04002B15 RID: 11029
 		[Description("If the code has never set this parameter on a sustainer, it will use this value.")]
 		private float defaultValue = 1f;
 	}

@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008A8 RID: 2216
+	// Token: 0x020008A4 RID: 2212
 	public class Dialog_SellableItems : Window
 	{
-		// Token: 0x060032A4 RID: 12964 RVA: 0x001B4270 File Offset: 0x001B2670
+		// Token: 0x0600329D RID: 12957 RVA: 0x001B4458 File Offset: 0x001B2858
 		public Dialog_SellableItems(TraderKindDef trader)
 		{
 			this.forcePause = true;
@@ -18,8 +18,8 @@ namespace RimWorld
 			this.CalculateTabs();
 		}
 
-		// Token: 0x1700080C RID: 2060
-		// (get) Token: 0x060032A5 RID: 12965 RVA: 0x001B42D8 File Offset: 0x001B26D8
+		// Token: 0x1700080D RID: 2061
+		// (get) Token: 0x0600329E RID: 12958 RVA: 0x001B44C0 File Offset: 0x001B28C0
 		public override Vector2 InitialSize
 		{
 			get
@@ -28,8 +28,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700080D RID: 2061
-		// (get) Token: 0x060032A6 RID: 12966 RVA: 0x001B4308 File Offset: 0x001B2708
+		// Token: 0x1700080E RID: 2062
+		// (get) Token: 0x0600329F RID: 12959 RVA: 0x001B44F0 File Offset: 0x001B28F0
 		protected override float Margin
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060032A7 RID: 12967 RVA: 0x001B4324 File Offset: 0x001B2724
+		// Token: 0x060032A0 RID: 12960 RVA: 0x001B450C File Offset: 0x001B290C
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = new Rect(0f, 0f, inRect.width, 60f);
@@ -85,7 +85,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x060032A8 RID: 12968 RVA: 0x001B4504 File Offset: 0x001B2904
+		// Token: 0x060032A1 RID: 12961 RVA: 0x001B46EC File Offset: 0x001B2AEC
 		private void DoRow(Rect rect, ThingDef thingDef, int index)
 		{
 			Widgets.DrawHighlightIfMouseover(rect);
@@ -102,7 +102,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x060032A9 RID: 12969 RVA: 0x001B45B0 File Offset: 0x001B29B0
+		// Token: 0x060032A2 RID: 12962 RVA: 0x001B4798 File Offset: 0x001B2B98
 		private void DoBottomButtons(Rect rect)
 		{
 			Rect rect2 = new Rect(rect.width / 2f - this.BottomButtonSize.x / 2f, rect.height - 55f, this.BottomButtonSize.x, this.BottomButtonSize.y);
@@ -112,7 +112,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060032AA RID: 12970 RVA: 0x001B4630 File Offset: 0x001B2A30
+		// Token: 0x060032A3 RID: 12963 RVA: 0x001B4818 File Offset: 0x001B2C18
 		private void CalculateSellableItems(TraderKindDef trader)
 		{
 			this.sellableItems.Clear();
@@ -129,7 +129,7 @@ namespace RimWorld
 			this.sellableItems.SortBy((ThingDef x) => x.label);
 		}
 
-		// Token: 0x060032AB RID: 12971 RVA: 0x001B4710 File Offset: 0x001B2B10
+		// Token: 0x060032A4 RID: 12964 RVA: 0x001B48F8 File Offset: 0x001B2CF8
 		private void CalculateTabs()
 		{
 			this.tabs.Clear();
@@ -157,7 +157,7 @@ namespace RimWorld
 			}, () => this.pawnsTabOpen));
 		}
 
-		// Token: 0x060032AC RID: 12972 RVA: 0x001B480C File Offset: 0x001B2C0C
+		// Token: 0x060032A5 RID: 12965 RVA: 0x001B49F4 File Offset: 0x001B2DF4
 		private List<ThingDef> GetSellableItemsInCategory(ThingCategoryDef category, bool pawns)
 		{
 			List<ThingDef> result;
@@ -197,7 +197,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060032AD RID: 12973 RVA: 0x001B4910 File Offset: 0x001B2D10
+		// Token: 0x060032A6 RID: 12966 RVA: 0x001B4AF8 File Offset: 0x001B2EF8
 		private bool AnyTraderWillEverTrade(ThingCategoryDef thingCategory)
 		{
 			List<ThingDef> allDefsListForReading = DefDatabase<ThingDef>.AllDefsListForReading;
@@ -218,43 +218,43 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x04001B32 RID: 6962
+		// Token: 0x04001B30 RID: 6960
 		private ThingCategoryDef currentCategory;
 
-		// Token: 0x04001B33 RID: 6963
+		// Token: 0x04001B31 RID: 6961
 		private bool pawnsTabOpen;
 
-		// Token: 0x04001B34 RID: 6964
+		// Token: 0x04001B32 RID: 6962
 		private List<ThingDef> sellableItems = new List<ThingDef>();
 
-		// Token: 0x04001B35 RID: 6965
+		// Token: 0x04001B33 RID: 6963
 		private List<TabRecord> tabs = new List<TabRecord>();
 
-		// Token: 0x04001B36 RID: 6966
+		// Token: 0x04001B34 RID: 6964
 		private Vector2 scrollPosition;
 
-		// Token: 0x04001B37 RID: 6967
+		// Token: 0x04001B35 RID: 6965
 		private List<ThingDef> cachedSellablePawns;
 
-		// Token: 0x04001B38 RID: 6968
+		// Token: 0x04001B36 RID: 6966
 		private Dictionary<ThingCategoryDef, List<ThingDef>> cachedSellableItemsByCategory = new Dictionary<ThingCategoryDef, List<ThingDef>>();
 
-		// Token: 0x04001B39 RID: 6969
+		// Token: 0x04001B37 RID: 6967
 		private const float RowHeight = 24f;
 
-		// Token: 0x04001B3A RID: 6970
+		// Token: 0x04001B38 RID: 6968
 		private const float IconMargin = 4f;
 
-		// Token: 0x04001B3B RID: 6971
+		// Token: 0x04001B39 RID: 6969
 		private const float IconSize = 20f;
 
-		// Token: 0x04001B3C RID: 6972
+		// Token: 0x04001B3A RID: 6970
 		private const float TitleRectHeight = 60f;
 
-		// Token: 0x04001B3D RID: 6973
+		// Token: 0x04001B3B RID: 6971
 		private const float BottomAreaHeight = 55f;
 
-		// Token: 0x04001B3E RID: 6974
+		// Token: 0x04001B3C RID: 6972
 		private readonly Vector2 BottomButtonSize = new Vector2(160f, 40f);
 	}
 }

@@ -2,18 +2,18 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000A99 RID: 2713
+	// Token: 0x02000A95 RID: 2709
 	public enum PathEndMode : byte
 	{
-		// Token: 0x04002601 RID: 9729
+		// Token: 0x040025FC RID: 9724
 		None,
-		// Token: 0x04002602 RID: 9730
+		// Token: 0x040025FD RID: 9725
 		OnCell,
-		// Token: 0x04002603 RID: 9731
+		// Token: 0x040025FE RID: 9726
 		Touch,
-		// Token: 0x04002604 RID: 9732
+		// Token: 0x040025FF RID: 9727
 		ClosestTouch,
-		// Token: 0x04002605 RID: 9733
+		// Token: 0x04002600 RID: 9728
 		InteractionCell
 	}
 }

@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x0200027A RID: 634
 	public class WorldObjectCompProperties_DefeatAllEnemiesQuest : WorldObjectCompProperties
 	{
-		// Token: 0x06000AE2 RID: 2786 RVA: 0x00062719 File Offset: 0x00060B19
+		// Token: 0x06000AE0 RID: 2784 RVA: 0x00062775 File Offset: 0x00060B75
 		public WorldObjectCompProperties_DefeatAllEnemiesQuest()
 		{
 			this.compClass = typeof(DefeatAllEnemiesQuestComp);
 		}
 
-		// Token: 0x06000AE3 RID: 2787 RVA: 0x00062734 File Offset: 0x00060B34
+		// Token: 0x06000AE1 RID: 2785 RVA: 0x00062790 File Offset: 0x00060B90
 		public override IEnumerable<string> ConfigErrors(WorldObjectDef parentDef)
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))

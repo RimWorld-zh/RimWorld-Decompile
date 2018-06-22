@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000F2C RID: 3884
 	public static class GenDrop
 	{
-		// Token: 0x06005D34 RID: 23860 RVA: 0x002F3870 File Offset: 0x002F1C70
+		// Token: 0x06005D5C RID: 23900 RVA: 0x002F589C File Offset: 0x002F3C9C
 		public static bool TryDropSpawn(Thing thing, IntVec3 dropCell, Map map, ThingPlaceMode mode, out Thing resultingThing, Action<Thing, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null)
 		{
 			bool result;

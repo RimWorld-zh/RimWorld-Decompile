@@ -7,16 +7,16 @@ using Verse.AI.Group;
 
 namespace Verse
 {
-	// Token: 0x02000C03 RID: 3075
+	// Token: 0x02000C00 RID: 3072
 	public class CompressibilityDecider
 	{
-		// Token: 0x06004335 RID: 17205 RVA: 0x0023781C File Offset: 0x00235C1C
+		// Token: 0x0600433E RID: 17214 RVA: 0x00238BAC File Offset: 0x00236FAC
 		public CompressibilityDecider(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x06004336 RID: 17206 RVA: 0x00237838 File Offset: 0x00235C38
+		// Token: 0x0600433F RID: 17215 RVA: 0x00238BC8 File Offset: 0x00236FC8
 		public void DetermineReferences()
 		{
 			this.referencedThings.Clear();
@@ -84,16 +84,16 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004337 RID: 17207 RVA: 0x00237B78 File Offset: 0x00235F78
+		// Token: 0x06004340 RID: 17216 RVA: 0x00238F08 File Offset: 0x00237308
 		public bool IsReferenced(Thing th)
 		{
 			return this.referencedThings.Contains(th);
 		}
 
-		// Token: 0x04002DF0 RID: 11760
+		// Token: 0x04002DFA RID: 11770
 		private Map map;
 
-		// Token: 0x04002DF1 RID: 11761
+		// Token: 0x04002DFB RID: 11771
 		private HashSet<Thing> referencedThings = new HashSet<Thing>();
 	}
 }

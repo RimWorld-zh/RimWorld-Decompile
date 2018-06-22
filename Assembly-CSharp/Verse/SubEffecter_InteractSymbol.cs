@@ -6,12 +6,12 @@ namespace Verse
 	// Token: 0x02000F1E RID: 3870
 	public class SubEffecter_InteractSymbol : SubEffecter
 	{
-		// Token: 0x06005CAA RID: 23722 RVA: 0x002EF391 File Offset: 0x002ED791
+		// Token: 0x06005CD2 RID: 23762 RVA: 0x002F13BD File Offset: 0x002EF7BD
 		public SubEffecter_InteractSymbol(SubEffecterDef def, Effecter parent) : base(def, parent)
 		{
 		}
 
-		// Token: 0x06005CAB RID: 23723 RVA: 0x002EF3A3 File Offset: 0x002ED7A3
+		// Token: 0x06005CD3 RID: 23763 RVA: 0x002F13CF File Offset: 0x002EF7CF
 		public override void SubEffectTick(TargetInfo A, TargetInfo B)
 		{
 			if (this.interactMote == null)
@@ -20,7 +20,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005CAC RID: 23724 RVA: 0x002EF3C9 File Offset: 0x002ED7C9
+		// Token: 0x06005CD4 RID: 23764 RVA: 0x002F13F5 File Offset: 0x002EF7F5
 		public override void SubCleanup()
 		{
 			if (this.interactMote != null && !this.interactMote.Destroyed)
@@ -29,7 +29,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003D86 RID: 15750
+		// Token: 0x04003D98 RID: 15768
 		private Mote interactMote = null;
 	}
 }

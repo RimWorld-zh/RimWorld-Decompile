@@ -7,7 +7,7 @@ namespace Verse
 	// Token: 0x02000F65 RID: 3941
 	public static class ColorsFromSpectrum
 	{
-		// Token: 0x06005F2F RID: 24367 RVA: 0x00307A0C File Offset: 0x00305E0C
+		// Token: 0x06005F58 RID: 24408 RVA: 0x00309AB0 File Offset: 0x00307EB0
 		public static Color Get(IList<Color> spectrum, float val)
 		{
 			Color result;

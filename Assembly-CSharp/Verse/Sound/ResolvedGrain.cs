@@ -2,10 +2,10 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B7B RID: 2939
+	// Token: 0x02000B77 RID: 2935
 	public class ResolvedGrain
 	{
-		// Token: 0x04002AE7 RID: 10983
+		// Token: 0x04002AEC RID: 10988
 		public float duration;
 	}
 }

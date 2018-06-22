@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200006A RID: 106
 	public class JobDriver_FleeAndCower : JobDriver_Flee
 	{
-		// Token: 0x060002EC RID: 748 RVA: 0x0001F8E4 File Offset: 0x0001DCE4
+		// Token: 0x060002EC RID: 748 RVA: 0x0001F8E8 File Offset: 0x0001DCE8
 		public override string GetReport()
 		{
 			string result;
@@ -23,7 +23,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060002ED RID: 749 RVA: 0x0001F950 File Offset: 0x0001DD50
+		// Token: 0x060002ED RID: 749 RVA: 0x0001F954 File Offset: 0x0001DD54
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			foreach (Toil toil in this.<MakeNewToils>__BaseCallProxy0())

@@ -6,16 +6,16 @@ using System.Text;
 
 namespace Verse
 {
-	// Token: 0x02000CC2 RID: 3266
+	// Token: 0x02000CBF RID: 3263
 	public class ModAssemblyHandler
 	{
-		// Token: 0x060047FB RID: 18427 RVA: 0x0025D861 File Offset: 0x0025BC61
+		// Token: 0x0600480C RID: 18444 RVA: 0x0025EC79 File Offset: 0x0025D079
 		public ModAssemblyHandler(ModContentPack mod)
 		{
 			this.mod = mod;
 		}
 
-		// Token: 0x060047FC RID: 18428 RVA: 0x0025D87C File Offset: 0x0025BC7C
+		// Token: 0x0600480D RID: 18445 RVA: 0x0025EC94 File Offset: 0x0025D094
 		public void ReloadAll()
 		{
 			if (!ModAssemblyHandler.globalResolverIsSet)
@@ -67,7 +67,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047FD RID: 18429 RVA: 0x0025DA4C File Offset: 0x0025BE4C
+		// Token: 0x0600480E RID: 18446 RVA: 0x0025EE64 File Offset: 0x0025D264
 		private bool AssemblyIsUsable(Assembly asm)
 		{
 			try
@@ -110,13 +110,13 @@ namespace Verse
 			return true;
 		}
 
-		// Token: 0x040030C0 RID: 12480
+		// Token: 0x040030CB RID: 12491
 		private ModContentPack mod;
 
-		// Token: 0x040030C1 RID: 12481
+		// Token: 0x040030CC RID: 12492
 		public List<Assembly> loadedAssemblies = new List<Assembly>();
 
-		// Token: 0x040030C2 RID: 12482
+		// Token: 0x040030CD RID: 12493
 		private static bool globalResolverIsSet = false;
 	}
 }

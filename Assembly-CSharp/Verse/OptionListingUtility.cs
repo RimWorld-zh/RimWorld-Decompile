@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E9F RID: 3743
+	// Token: 0x02000E9E RID: 3742
 	public static class OptionListingUtility
 	{
-		// Token: 0x06005849 RID: 22601 RVA: 0x002D34C0 File Offset: 0x002D18C0
+		// Token: 0x06005869 RID: 22633 RVA: 0x002D50D0 File Offset: 0x002D34D0
 		public static float DrawOptionListing(Rect rect, List<ListableOption> optList)
 		{
 			float num = 0f;
@@ -21,7 +21,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x04003A68 RID: 14952
+		// Token: 0x04003A78 RID: 14968
 		private const float OptionSpacing = 7f;
 	}
 }

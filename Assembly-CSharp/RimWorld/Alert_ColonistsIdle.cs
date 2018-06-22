@@ -6,11 +6,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007A2 RID: 1954
+	// Token: 0x0200079E RID: 1950
 	public class Alert_ColonistsIdle : Alert
 	{
-		// Token: 0x170006B7 RID: 1719
-		// (get) Token: 0x06002B3D RID: 11069 RVA: 0x0016D500 File Offset: 0x0016B900
+		// Token: 0x170006B8 RID: 1720
+		// (get) Token: 0x06002B36 RID: 11062 RVA: 0x0016D6D8 File Offset: 0x0016BAD8
 		private IEnumerable<Pawn> IdleColonists
 		{
 			get
@@ -33,13 +33,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B3E RID: 11070 RVA: 0x0016D524 File Offset: 0x0016B924
+		// Token: 0x06002B37 RID: 11063 RVA: 0x0016D6FC File Offset: 0x0016BAFC
 		public override string GetLabel()
 		{
 			return string.Format("ColonistsIdle".Translate(), this.IdleColonists.Count<Pawn>().ToStringCached());
 		}
 
-		// Token: 0x06002B3F RID: 11071 RVA: 0x0016D558 File Offset: 0x0016B958
+		// Token: 0x06002B38 RID: 11064 RVA: 0x0016D730 File Offset: 0x0016BB30
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -50,7 +50,7 @@ namespace RimWorld
 			return string.Format("ColonistsIdleDesc".Translate(), stringBuilder.ToString());
 		}
 
-		// Token: 0x06002B40 RID: 11072 RVA: 0x0016D5EC File Offset: 0x0016B9EC
+		// Token: 0x06002B39 RID: 11065 RVA: 0x0016D7C4 File Offset: 0x0016BBC4
 		public override AlertReport GetReport()
 		{
 			AlertReport result;
@@ -65,7 +65,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04001737 RID: 5943
+		// Token: 0x04001735 RID: 5941
 		public const int MinDaysPassed = 1;
 	}
 }

@@ -4,12 +4,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000714 RID: 1812
+	// Token: 0x02000710 RID: 1808
 	public class CompForbiddable : ThingComp
 	{
 		// Token: 0x170005FD RID: 1533
-		// (get) Token: 0x060027C3 RID: 10179 RVA: 0x001542EC File Offset: 0x001526EC
-		// (set) Token: 0x060027C4 RID: 10180 RVA: 0x00154308 File Offset: 0x00152708
+		// (get) Token: 0x060027BB RID: 10171 RVA: 0x001544A4 File Offset: 0x001528A4
+		// (set) Token: 0x060027BC RID: 10172 RVA: 0x001544C0 File Offset: 0x001528C0
 		public bool Forbidden
 		{
 			get
@@ -42,13 +42,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027C5 RID: 10181 RVA: 0x001543E5 File Offset: 0x001527E5
+		// Token: 0x060027BD RID: 10173 RVA: 0x0015459D File Offset: 0x0015299D
 		public override void PostExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.forbiddenInt, "forbidden", false, false);
 		}
 
-		// Token: 0x060027C6 RID: 10182 RVA: 0x001543FC File Offset: 0x001527FC
+		// Token: 0x060027BE RID: 10174 RVA: 0x001545B4 File Offset: 0x001529B4
 		public override void PostDraw()
 		{
 			if (this.forbiddenInt)
@@ -75,13 +75,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027C7 RID: 10183 RVA: 0x00154506 File Offset: 0x00152906
+		// Token: 0x060027BF RID: 10175 RVA: 0x001546BE File Offset: 0x00152ABE
 		public override void PostSplitOff(Thing piece)
 		{
 			piece.SetForbidden(this.forbiddenInt, true);
 		}
 
-		// Token: 0x060027C8 RID: 10184 RVA: 0x00154518 File Offset: 0x00152918
+		// Token: 0x060027C0 RID: 10176 RVA: 0x001546D0 File Offset: 0x00152AD0
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			if (this.parent is Building && this.parent.Faction != Faction.OfPlayer)
@@ -123,7 +123,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x040015DE RID: 5598
+		// Token: 0x040015DC RID: 5596
 		private bool forbiddenInt = false;
 	}
 }

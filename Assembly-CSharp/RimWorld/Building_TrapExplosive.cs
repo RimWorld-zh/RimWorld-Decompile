@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000687 RID: 1671
+	// Token: 0x02000683 RID: 1667
 	public class Building_TrapExplosive : Building_Trap
 	{
-		// Token: 0x06002331 RID: 9009 RVA: 0x0012E77F File Offset: 0x0012CB7F
+		// Token: 0x06002329 RID: 9001 RVA: 0x0012E8C7 File Offset: 0x0012CCC7
 		protected override void SpringSub(Pawn p)
 		{
 			base.GetComp<CompExplosive>().StartWick(null);

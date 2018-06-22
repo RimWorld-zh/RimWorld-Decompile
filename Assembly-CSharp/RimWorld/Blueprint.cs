@@ -6,11 +6,11 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000676 RID: 1654
+	// Token: 0x02000672 RID: 1650
 	public abstract class Blueprint : ThingWithComps, IConstructible
 	{
 		// Token: 0x17000513 RID: 1299
-		// (get) Token: 0x060022AE RID: 8878 RVA: 0x0012AC24 File Offset: 0x00129024
+		// (get) Token: 0x060022A6 RID: 8870 RVA: 0x0012AD6C File Offset: 0x0012916C
 		public override string Label
 		{
 			get
@@ -20,10 +20,10 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000514 RID: 1300
-		// (get) Token: 0x060022AF RID: 8879
+		// (get) Token: 0x060022A7 RID: 8871
 		protected abstract float WorkTotal { get; }
 
-		// Token: 0x060022B0 RID: 8880 RVA: 0x0012AC58 File Offset: 0x00129058
+		// Token: 0x060022A8 RID: 8872 RVA: 0x0012ADA0 File Offset: 0x001291A0
 		public override void Tick()
 		{
 			base.Tick();
@@ -33,7 +33,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060022B1 RID: 8881 RVA: 0x0012AC90 File Offset: 0x00129090
+		// Token: 0x060022A9 RID: 8873 RVA: 0x0012ADD8 File Offset: 0x001291D8
 		public override void Draw()
 		{
 			if (this.def.drawerType == DrawerType.RealtimeOnly)
@@ -46,7 +46,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060022B2 RID: 8882 RVA: 0x0012ACB8 File Offset: 0x001290B8
+		// Token: 0x060022AA RID: 8874 RVA: 0x0012AE00 File Offset: 0x00129200
 		public virtual bool TryReplaceWithSolidThing(Pawn workerPawn, out Thing createdThing, out bool jobEnded)
 		{
 			jobEnded = false;
@@ -99,14 +99,14 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060022B3 RID: 8883 RVA: 0x0012AE42 File Offset: 0x00129242
+		// Token: 0x060022AB RID: 8875 RVA: 0x0012AF8A File Offset: 0x0012938A
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			map.blueprintGrid.Register(this);
 			base.SpawnSetup(map, respawningAfterLoad);
 		}
 
-		// Token: 0x060022B4 RID: 8884 RVA: 0x0012AE5C File Offset: 0x0012925C
+		// Token: 0x060022AC RID: 8876 RVA: 0x0012AFA4 File Offset: 0x001293A4
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			Map map = base.Map;
@@ -114,16 +114,16 @@ namespace RimWorld
 			map.blueprintGrid.DeRegister(this);
 		}
 
-		// Token: 0x060022B5 RID: 8885
+		// Token: 0x060022AD RID: 8877
 		protected abstract Thing MakeSolidThing();
 
-		// Token: 0x060022B6 RID: 8886
+		// Token: 0x060022AE RID: 8878
 		public abstract List<ThingDefCountClass> MaterialsNeeded();
 
-		// Token: 0x060022B7 RID: 8887
+		// Token: 0x060022AF RID: 8879
 		public abstract ThingDef UIStuff();
 
-		// Token: 0x060022B8 RID: 8888 RVA: 0x0012AE84 File Offset: 0x00129284
+		// Token: 0x060022B0 RID: 8880 RVA: 0x0012AFCC File Offset: 0x001293CC
 		public Thing BlockingHaulableOnTop()
 		{
 			Thing result;
@@ -152,7 +152,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060022B9 RID: 8889 RVA: 0x0012AF34 File Offset: 0x00129334
+		// Token: 0x060022B1 RID: 8881 RVA: 0x0012B07C File Offset: 0x0012947C
 		public override ushort PathFindCostFor(Pawn p)
 		{
 			ushort result;
@@ -178,7 +178,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060022BA RID: 8890 RVA: 0x0012AFF8 File Offset: 0x001293F8
+		// Token: 0x060022B2 RID: 8882 RVA: 0x0012B140 File Offset: 0x00129540
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -187,7 +187,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x04001391 RID: 5009
+		// Token: 0x0400138F RID: 5007
 		private static List<CompSpawnerMechanoidsOnDamaged> tmpCrashedShipParts = new List<CompSpawnerMechanoidsOnDamaged>();
 	}
 }

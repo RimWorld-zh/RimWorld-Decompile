@@ -5,11 +5,11 @@ using Verse.Profile;
 
 namespace Verse
 {
-	// Token: 0x02000D8D RID: 3469
+	// Token: 0x02000D8A RID: 3466
 	public static class GameDataSaveLoader
 	{
-		// Token: 0x17000C86 RID: 3206
-		// (get) Token: 0x06004D7F RID: 19839 RVA: 0x00286D30 File Offset: 0x00285130
+		// Token: 0x17000C88 RID: 3208
+		// (get) Token: 0x06004D94 RID: 19860 RVA: 0x002882E0 File Offset: 0x002866E0
 		public static bool CurrentGameStateIsValuable
 		{
 			get
@@ -18,7 +18,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D80 RID: 19840 RVA: 0x00286D5C File Offset: 0x0028515C
+		// Token: 0x06004D95 RID: 19861 RVA: 0x0028830C File Offset: 0x0028670C
 		public static void SaveScenario(Scenario scen, string absFilePath)
 		{
 			try
@@ -36,7 +36,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D81 RID: 19841 RVA: 0x00286DD4 File Offset: 0x002851D4
+		// Token: 0x06004D96 RID: 19862 RVA: 0x00288384 File Offset: 0x00286784
 		public static bool TryLoadScenario(string absPath, ScenarioCategory category, out Scenario scen)
 		{
 			scen = null;
@@ -66,7 +66,7 @@ namespace Verse
 			return scen != null;
 		}
 
-		// Token: 0x06004D82 RID: 19842 RVA: 0x00286E9C File Offset: 0x0028529C
+		// Token: 0x06004D97 RID: 19863 RVA: 0x0028844C File Offset: 0x0028684C
 		public static void SaveGame(string fileName)
 		{
 			try
@@ -86,7 +86,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D83 RID: 19843 RVA: 0x00286F18 File Offset: 0x00285318
+		// Token: 0x06004D98 RID: 19864 RVA: 0x002884C8 File Offset: 0x002868C8
 		public static void CheckVersionAndLoadGame(string saveFileName)
 		{
 			PreLoadUtility.CheckVersionAndLoad(GenFilePaths.FilePathForSavedGame(saveFileName), ScribeMetaHeaderUtility.ScribeHeaderMode.Map, delegate
@@ -95,7 +95,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06004D84 RID: 19844 RVA: 0x00286F50 File Offset: 0x00285350
+		// Token: 0x06004D99 RID: 19865 RVA: 0x00288500 File Offset: 0x00286900
 		public static void LoadGame(string saveFileName)
 		{
 			Action preLoadLevelAction = delegate()
@@ -108,37 +108,37 @@ namespace Verse
 			LongEventHandler.QueueLongEvent(preLoadLevelAction, "Play", "LoadingLongEvent", true, null);
 		}
 
-		// Token: 0x06004D85 RID: 19845 RVA: 0x00286F8A File Offset: 0x0028538A
+		// Token: 0x06004D9A RID: 19866 RVA: 0x0028853A File Offset: 0x0028693A
 		public static void LoadGame(FileInfo saveFile)
 		{
 			GameDataSaveLoader.LoadGame(Path.GetFileNameWithoutExtension(saveFile.Name));
 		}
 
-		// Token: 0x040033BD RID: 13245
+		// Token: 0x040033C8 RID: 13256
 		private static int lastSaveTick = -9999;
 
-		// Token: 0x040033BE RID: 13246
+		// Token: 0x040033C9 RID: 13257
 		public const string SavedScenarioParentNodeName = "savedscenario";
 
-		// Token: 0x040033BF RID: 13247
+		// Token: 0x040033CA RID: 13258
 		public const string SavedWorldParentNodeName = "savedworld";
 
-		// Token: 0x040033C0 RID: 13248
+		// Token: 0x040033CB RID: 13259
 		public const string SavedGameParentNodeName = "savegame";
 
-		// Token: 0x040033C1 RID: 13249
+		// Token: 0x040033CC RID: 13260
 		public const string GameNodeName = "game";
 
-		// Token: 0x040033C2 RID: 13250
+		// Token: 0x040033CD RID: 13261
 		public const string WorldNodeName = "world";
 
-		// Token: 0x040033C3 RID: 13251
+		// Token: 0x040033CE RID: 13262
 		public const string ScenarioNodeName = "scenario";
 
-		// Token: 0x040033C4 RID: 13252
+		// Token: 0x040033CF RID: 13263
 		public const string AutosavePrefix = "Autosave";
 
-		// Token: 0x040033C5 RID: 13253
+		// Token: 0x040033D0 RID: 13264
 		public const string AutostartSaveName = "autostart";
 	}
 }

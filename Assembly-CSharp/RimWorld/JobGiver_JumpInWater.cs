@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000E4 RID: 228
 	public class JobGiver_JumpInWater : ThinkNode_JobGiver
 	{
-		// Token: 0x060004F0 RID: 1264 RVA: 0x00036F4C File Offset: 0x0003534C
+		// Token: 0x060004F0 RID: 1264 RVA: 0x00036F38 File Offset: 0x00035338
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			if (Rand.Value < 1f)

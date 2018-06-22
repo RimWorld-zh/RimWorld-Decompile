@@ -13,17 +13,17 @@ using Verse.Steam;
 
 namespace Verse
 {
-	// Token: 0x02000E0D RID: 3597
+	// Token: 0x02000E0A RID: 3594
 	public class EditWindow_DebugInspector : EditWindow
 	{
-		// Token: 0x06005175 RID: 20853 RVA: 0x0029B00D File Offset: 0x0029940D
+		// Token: 0x06005189 RID: 20873 RVA: 0x0029C5ED File Offset: 0x0029A9ED
 		public EditWindow_DebugInspector()
 		{
 			this.optionalTitle = "Debug inspector";
 		}
 
-		// Token: 0x17000D5B RID: 3419
-		// (get) Token: 0x06005176 RID: 20854 RVA: 0x0029B040 File Offset: 0x00299440
+		// Token: 0x17000D5D RID: 3421
+		// (get) Token: 0x0600518A RID: 20874 RVA: 0x0029C620 File Offset: 0x0029AA20
 		public override Vector2 InitialSize
 		{
 			get
@@ -32,8 +32,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D5C RID: 3420
-		// (get) Token: 0x06005177 RID: 20855 RVA: 0x0029B064 File Offset: 0x00299464
+		// Token: 0x17000D5E RID: 3422
+		// (get) Token: 0x0600518B RID: 20875 RVA: 0x0029C644 File Offset: 0x0029AA44
 		public override bool IsDebug
 		{
 			get
@@ -42,7 +42,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005178 RID: 20856 RVA: 0x0029B07A File Offset: 0x0029947A
+		// Token: 0x0600518C RID: 20876 RVA: 0x0029C65A File Offset: 0x0029AA5A
 		public override void WindowUpdate()
 		{
 			base.WindowUpdate();
@@ -52,7 +52,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005179 RID: 20857 RVA: 0x0029B094 File Offset: 0x00299494
+		// Token: 0x0600518D RID: 20877 RVA: 0x0029C674 File Offset: 0x0029AA74
 		public override void DoWindowContents(Rect inRect)
 		{
 			if (KeyBindingDefOf.Dev_ToggleDebugInspector.KeyDownEvent)
@@ -99,13 +99,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600517A RID: 20858 RVA: 0x0029B293 File Offset: 0x00299693
+		// Token: 0x0600518E RID: 20878 RVA: 0x0029C873 File Offset: 0x0029AC73
 		public void AppendDebugString(string str)
 		{
 			this.debugStringBuilder.AppendLine(str);
 		}
 
-		// Token: 0x0600517B RID: 20859 RVA: 0x0029B2A4 File Offset: 0x002996A4
+		// Token: 0x0600518F RID: 20879 RVA: 0x0029C884 File Offset: 0x0029AC84
 		private string CurrentDebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -506,13 +506,13 @@ namespace Verse
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x0400355D RID: 13661
+		// Token: 0x04003564 RID: 13668
 		private StringBuilder debugStringBuilder = new StringBuilder();
 
-		// Token: 0x0400355E RID: 13662
+		// Token: 0x04003565 RID: 13669
 		public bool fullMode = false;
 
-		// Token: 0x0400355F RID: 13663
+		// Token: 0x04003566 RID: 13670
 		private float columnWidth = 360f;
 	}
 }

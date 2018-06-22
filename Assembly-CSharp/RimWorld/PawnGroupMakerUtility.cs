@@ -7,11 +7,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000494 RID: 1172
+	// Token: 0x02000490 RID: 1168
 	[HasDebugOutput]
 	public class PawnGroupMakerUtility
 	{
-		// Token: 0x060014BF RID: 5311 RVA: 0x000B6248 File Offset: 0x000B4648
+		// Token: 0x060014B6 RID: 5302 RVA: 0x000B6244 File Offset: 0x000B4644
 		public static IEnumerable<Pawn> GeneratePawns(PawnGroupMakerParms parms, bool warnOnZeroResults = true)
 		{
 			if (parms.groupKind == null)
@@ -55,7 +55,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060014C0 RID: 5312 RVA: 0x000B627C File Offset: 0x000B467C
+		// Token: 0x060014B7 RID: 5303 RVA: 0x000B6278 File Offset: 0x000B4678
 		public static IEnumerable<PawnGenOption> ChoosePawnGenOptionsByPoints(float pointsTotal, List<PawnGenOption> options, PawnGroupMakerParms groupParms)
 		{
 			float num = PawnGroupMakerUtility.MaxPawnCost(groupParms.faction, pointsTotal, groupParms.raidStrategy, groupParms.groupKind);
@@ -126,7 +126,7 @@ namespace RimWorld
 			return list2;
 		}
 
-		// Token: 0x060014C1 RID: 5313 RVA: 0x000B64A4 File Offset: 0x000B48A4
+		// Token: 0x060014B8 RID: 5304 RVA: 0x000B64A0 File Offset: 0x000B48A0
 		public static float MaxPawnCost(Faction faction, float totalPoints, RaidStrategyDef raidStrategy, PawnGroupKindDef groupKind)
 		{
 			float num = faction.def.maxPawnCostPerTotalPointsCurve.Evaluate(totalPoints);
@@ -137,12 +137,12 @@ namespace RimWorld
 			num = Mathf.Max(num, faction.def.MinPointsToGeneratePawnGroup(groupKind) * 1.2f);
 			if (raidStrategy != null)
 			{
-				num = Mathf.Max(num, raidStrategy.Worker.MinMaxAllowedPawnGenOptionCost(faction) * 1.2f);
+				num = Mathf.Max(num, raidStrategy.Worker.MinMaxAllowedPawnGenOptionCost(faction, groupKind) * 1.2f);
 			}
 			return num;
 		}
 
-		// Token: 0x060014C2 RID: 5314 RVA: 0x000B651C File Offset: 0x000B491C
+		// Token: 0x060014B9 RID: 5305 RVA: 0x000B6518 File Offset: 0x000B4918
 		public static bool CanGenerateAnyNormalGroup(Faction faction, float points)
 		{
 			bool result;
@@ -171,7 +171,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014C3 RID: 5315 RVA: 0x000B65BC File Offset: 0x000B49BC
+		// Token: 0x060014BA RID: 5306 RVA: 0x000B65B8 File Offset: 0x000B49B8
 		[DebugOutput]
 		public static void PawnGroupsMade()
 		{
@@ -253,7 +253,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060014C4 RID: 5316 RVA: 0x000B6638 File Offset: 0x000B4A38
+		// Token: 0x060014BB RID: 5307 RVA: 0x000B6634 File Offset: 0x000B4A34
 		public static bool TryGetRandomFactionForCombatPawnGroup(float points, out Faction faction, Predicate<Faction> validator = null, bool allowNonHostileToPlayer = false, bool allowHidden = false, bool allowDefeated = false, bool allowNonHumanlike = true)
 		{
 			List<Faction> source = Find.FactionManager.AllFactions.Where(delegate(Faction f)
@@ -270,7 +270,7 @@ namespace RimWorld
 			return source.TryRandomElementByWeight((Faction f) => f.def.RaidCommonalityFromPoints(points), out faction);
 		}
 
-		// Token: 0x04000C7F RID: 3199
+		// Token: 0x04000C7C RID: 3196
 		private static readonly SimpleCurve PawnWeightFactorByMostExpensivePawnCostFractionCurve = new SimpleCurve
 		{
 			{

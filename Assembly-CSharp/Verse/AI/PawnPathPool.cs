@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A97 RID: 2711
+	// Token: 0x02000A93 RID: 2707
 	public class PawnPathPool
 	{
-		// Token: 0x06003C3B RID: 15419 RVA: 0x001FCD0C File Offset: 0x001FB10C
+		// Token: 0x06003C36 RID: 15414 RVA: 0x001FD030 File Offset: 0x001FB430
 		public PawnPathPool(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x17000923 RID: 2339
-		// (get) Token: 0x06003C3D RID: 15421 RVA: 0x001FCD38 File Offset: 0x001FB138
+		// Token: 0x17000924 RID: 2340
+		// (get) Token: 0x06003C38 RID: 15416 RVA: 0x001FD05C File Offset: 0x001FB45C
 		public static PawnPath NotFoundPath
 		{
 			get
@@ -22,7 +22,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C3E RID: 15422 RVA: 0x001FCD54 File Offset: 0x001FB154
+		// Token: 0x06003C39 RID: 15417 RVA: 0x001FD078 File Offset: 0x001FB478
 		public PawnPath GetEmptyPawnPath()
 		{
 			for (int i = 0; i < this.paths.Count; i++)
@@ -44,13 +44,13 @@ namespace Verse.AI
 			return pawnPath;
 		}
 
-		// Token: 0x040025FD RID: 9725
+		// Token: 0x040025F8 RID: 9720
 		private Map map;
 
-		// Token: 0x040025FE RID: 9726
+		// Token: 0x040025F9 RID: 9721
 		private List<PawnPath> paths = new List<PawnPath>(64);
 
-		// Token: 0x040025FF RID: 9727
+		// Token: 0x040025FA RID: 9722
 		private static readonly PawnPath NotFoundPathInt = PawnPath.NewNotFound();
 	}
 }

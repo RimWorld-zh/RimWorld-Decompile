@@ -5,15 +5,15 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200089D RID: 2205
+	// Token: 0x02000899 RID: 2201
 	public class PawnTable_Animals : PawnTable
 	{
-		// Token: 0x0600327D RID: 12925 RVA: 0x001B266A File Offset: 0x001B0A6A
+		// Token: 0x06003276 RID: 12918 RVA: 0x001B2852 File Offset: 0x001B0C52
 		public PawnTable_Animals(PawnTableDef def, Func<IEnumerable<Pawn>> pawnsGetter, int uiWidth, int uiHeight) : base(def, pawnsGetter, uiWidth, uiHeight)
 		{
 		}
 
-		// Token: 0x0600327E RID: 12926 RVA: 0x001B2678 File Offset: 0x001B0A78
+		// Token: 0x06003277 RID: 12919 RVA: 0x001B2860 File Offset: 0x001B0C60
 		protected override IEnumerable<Pawn> LabelSortFunction(IEnumerable<Pawn> input)
 		{
 			return from p in input
@@ -21,7 +21,7 @@ namespace RimWorld
 			select p;
 		}
 
-		// Token: 0x0600327F RID: 12927 RVA: 0x001B26F4 File Offset: 0x001B0AF4
+		// Token: 0x06003278 RID: 12920 RVA: 0x001B28DC File Offset: 0x001B0CDC
 		protected override IEnumerable<Pawn> PrimarySortFunction(IEnumerable<Pawn> input)
 		{
 			return from p in input

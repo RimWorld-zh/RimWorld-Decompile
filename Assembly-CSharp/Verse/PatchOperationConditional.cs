@@ -3,10 +3,10 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000CDF RID: 3295
+	// Token: 0x02000CDC RID: 3292
 	public class PatchOperationConditional : PatchOperationPathed
 	{
-		// Token: 0x06004889 RID: 18569 RVA: 0x00260AD8 File Offset: 0x0025EED8
+		// Token: 0x0600489A RID: 18586 RVA: 0x00261EF0 File Offset: 0x002602F0
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
 			if (xml.SelectSingleNode(this.xpath) != null)
@@ -23,10 +23,10 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x0400310D RID: 12557
+		// Token: 0x04003118 RID: 12568
 		private PatchOperation match;
 
-		// Token: 0x0400310E RID: 12558
+		// Token: 0x04003119 RID: 12569
 		private PatchOperation nomatch;
 	}
 }

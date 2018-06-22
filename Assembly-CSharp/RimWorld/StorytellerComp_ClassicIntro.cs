@@ -9,7 +9,7 @@ namespace RimWorld
 	public class StorytellerComp_ClassicIntro : StorytellerComp
 	{
 		// Token: 0x1700021D RID: 541
-		// (get) Token: 0x06000F21 RID: 3873 RVA: 0x0007FD54 File Offset: 0x0007E154
+		// (get) Token: 0x06000F21 RID: 3873 RVA: 0x0007FF40 File Offset: 0x0007E340
 		protected int IntervalsPassed
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F22 RID: 3874 RVA: 0x0007FD7C File Offset: 0x0007E17C
+		// Token: 0x06000F22 RID: 3874 RVA: 0x0007FF68 File Offset: 0x0007E368
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			if (target != Find.Maps.Find((Map x) => x.IsPlayerHome))

@@ -3,18 +3,18 @@ using UnityEngine;
 
 namespace RimWorld
 {
-	// Token: 0x0200085A RID: 2138
+	// Token: 0x02000856 RID: 2134
 	public class ITab_Pawn_Needs : ITab
 	{
-		// Token: 0x06003062 RID: 12386 RVA: 0x001A5058 File Offset: 0x001A3458
+		// Token: 0x0600305B RID: 12379 RVA: 0x001A5238 File Offset: 0x001A3638
 		public ITab_Pawn_Needs()
 		{
 			this.labelKey = "TabNeeds";
 			this.tutorTag = "Needs";
 		}
 
-		// Token: 0x170007B3 RID: 1971
-		// (get) Token: 0x06003063 RID: 12387 RVA: 0x001A5078 File Offset: 0x001A3478
+		// Token: 0x170007B4 RID: 1972
+		// (get) Token: 0x0600305C RID: 12380 RVA: 0x001A5258 File Offset: 0x001A3658
 		public override bool IsVisible
 		{
 			get
@@ -23,25 +23,25 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003064 RID: 12388 RVA: 0x001A50B8 File Offset: 0x001A34B8
+		// Token: 0x0600305D RID: 12381 RVA: 0x001A5298 File Offset: 0x001A3698
 		public override void OnOpen()
 		{
 			this.thoughtScrollPosition = default(Vector2);
 		}
 
-		// Token: 0x06003065 RID: 12389 RVA: 0x001A50D5 File Offset: 0x001A34D5
+		// Token: 0x0600305E RID: 12382 RVA: 0x001A52B5 File Offset: 0x001A36B5
 		protected override void FillTab()
 		{
 			NeedsCardUtility.DoNeedsMoodAndThoughts(new Rect(0f, 0f, this.size.x, this.size.y), base.SelPawn, ref this.thoughtScrollPosition);
 		}
 
-		// Token: 0x06003066 RID: 12390 RVA: 0x001A510E File Offset: 0x001A350E
+		// Token: 0x0600305F RID: 12383 RVA: 0x001A52EE File Offset: 0x001A36EE
 		protected override void UpdateSize()
 		{
 			this.size = NeedsCardUtility.GetSize(base.SelPawn);
 		}
 
-		// Token: 0x04001A3B RID: 6715
+		// Token: 0x04001A39 RID: 6713
 		private Vector2 thoughtScrollPosition;
 	}
 }

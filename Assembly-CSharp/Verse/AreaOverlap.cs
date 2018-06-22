@@ -2,14 +2,14 @@
 
 namespace Verse
 {
-	// Token: 0x02000C87 RID: 3207
+	// Token: 0x02000C84 RID: 3204
 	public enum AreaOverlap
 	{
-		// Token: 0x04002FC7 RID: 12231
+		// Token: 0x04002FD1 RID: 12241
 		None,
-		// Token: 0x04002FC8 RID: 12232
+		// Token: 0x04002FD2 RID: 12242
 		Entire,
-		// Token: 0x04002FC9 RID: 12233
+		// Token: 0x04002FD3 RID: 12243
 		Partial
 	}
 }

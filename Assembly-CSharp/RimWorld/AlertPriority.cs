@@ -2,14 +2,14 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000788 RID: 1928
+	// Token: 0x02000784 RID: 1924
 	public enum AlertPriority : byte
 	{
-		// Token: 0x04001701 RID: 5889
+		// Token: 0x040016FF RID: 5887
 		Medium,
-		// Token: 0x04001702 RID: 5890
+		// Token: 0x04001700 RID: 5888
 		High,
-		// Token: 0x04001703 RID: 5891
+		// Token: 0x04001701 RID: 5889
 		Critical
 	}
 }

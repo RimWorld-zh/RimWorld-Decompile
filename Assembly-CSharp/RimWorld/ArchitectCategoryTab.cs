@@ -5,17 +5,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000847 RID: 2119
+	// Token: 0x02000843 RID: 2115
 	public class ArchitectCategoryTab
 	{
-		// Token: 0x06002FED RID: 12269 RVA: 0x001A0C79 File Offset: 0x0019F079
+		// Token: 0x06002FE6 RID: 12262 RVA: 0x001A0E59 File Offset: 0x0019F259
 		public ArchitectCategoryTab(DesignationCategoryDef def)
 		{
 			this.def = def;
 		}
 
-		// Token: 0x17000797 RID: 1943
-		// (get) Token: 0x06002FEE RID: 12270 RVA: 0x001A0C8C File Offset: 0x0019F08C
+		// Token: 0x17000798 RID: 1944
+		// (get) Token: 0x06002FE7 RID: 12263 RVA: 0x001A0E6C File Offset: 0x0019F26C
 		public static Rect InfoRect
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FEF RID: 12271 RVA: 0x001A0CDC File Offset: 0x0019F0DC
+		// Token: 0x06002FE8 RID: 12264 RVA: 0x001A0EBC File Offset: 0x0019F2BC
 		public void DesignationTabOnGUI()
 		{
 			if (Find.DesignatorManager.SelectedDesignator != null)
@@ -41,7 +41,7 @@ namespace RimWorld
 			this.DoInfoBox(ArchitectCategoryTab.InfoRect, (Designator)selectedDesignator);
 		}
 
-		// Token: 0x06002FF0 RID: 12272 RVA: 0x001A0D80 File Offset: 0x0019F180
+		// Token: 0x06002FE9 RID: 12265 RVA: 0x001A0F60 File Offset: 0x0019F360
 		protected void DoInfoBox(Rect infoRect, Designator designator)
 		{
 			Find.WindowStack.ImmediateWindow(32520, infoRect, WindowLayer.GameUI, delegate
@@ -64,10 +64,10 @@ namespace RimWorld
 			}, true, false, 1f);
 		}
 
-		// Token: 0x040019EE RID: 6638
+		// Token: 0x040019EC RID: 6636
 		public DesignationCategoryDef def;
 
-		// Token: 0x040019EF RID: 6639
+		// Token: 0x040019ED RID: 6637
 		public const float InfoRectHeight = 270f;
 	}
 }

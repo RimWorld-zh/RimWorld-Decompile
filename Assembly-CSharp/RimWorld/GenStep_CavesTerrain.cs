@@ -8,7 +8,7 @@ namespace RimWorld
 	public class GenStep_CavesTerrain : GenStep
 	{
 		// Token: 0x1700024B RID: 587
-		// (get) Token: 0x06001135 RID: 4405 RVA: 0x00093B40 File Offset: 0x00091F40
+		// (get) Token: 0x06001135 RID: 4405 RVA: 0x00093D2C File Offset: 0x0009212C
 		public override int SeedPart
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001136 RID: 4406 RVA: 0x00093B5C File Offset: 0x00091F5C
+		// Token: 0x06001136 RID: 4406 RVA: 0x00093D48 File Offset: 0x00092148
 		public override void Generate(Map map)
 		{
 			if (Find.World.HasCaves(map.Tile))
@@ -48,16 +48,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000A78 RID: 2680
+		// Token: 0x04000A7A RID: 2682
 		private const float WaterFrequency = 0.08f;
 
-		// Token: 0x04000A79 RID: 2681
+		// Token: 0x04000A7B RID: 2683
 		private const float GravelFrequency = 0.16f;
 
-		// Token: 0x04000A7A RID: 2682
+		// Token: 0x04000A7C RID: 2684
 		private const float WaterThreshold = 0.93f;
 
-		// Token: 0x04000A7B RID: 2683
+		// Token: 0x04000A7D RID: 2685
 		private const float GravelThreshold = 0.55f;
 	}
 }

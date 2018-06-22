@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000540 RID: 1344
+	// Token: 0x0200053C RID: 1340
 	public class WorldPath : IDisposable
 	{
 		// Token: 0x17000388 RID: 904
-		// (get) Token: 0x06001913 RID: 6419 RVA: 0x000DA12C File Offset: 0x000D852C
+		// (get) Token: 0x0600190A RID: 6410 RVA: 0x000DA13C File Offset: 0x000D853C
 		public bool Found
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000389 RID: 905
-		// (get) Token: 0x06001914 RID: 6420 RVA: 0x000DA154 File Offset: 0x000D8554
+		// (get) Token: 0x0600190B RID: 6411 RVA: 0x000DA164 File Offset: 0x000D8564
 		public float TotalCost
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700038A RID: 906
-		// (get) Token: 0x06001915 RID: 6421 RVA: 0x000DA170 File Offset: 0x000D8570
+		// (get) Token: 0x0600190C RID: 6412 RVA: 0x000DA180 File Offset: 0x000D8580
 		public int NodesLeftCount
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700038B RID: 907
-		// (get) Token: 0x06001916 RID: 6422 RVA: 0x000DA190 File Offset: 0x000D8590
+		// (get) Token: 0x0600190D RID: 6413 RVA: 0x000DA1A0 File Offset: 0x000D85A0
 		public List<int> NodesReversed
 		{
 			get
@@ -49,7 +49,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700038C RID: 908
-		// (get) Token: 0x06001917 RID: 6423 RVA: 0x000DA1AC File Offset: 0x000D85AC
+		// (get) Token: 0x0600190E RID: 6414 RVA: 0x000DA1BC File Offset: 0x000D85BC
 		public int FirstNode
 		{
 			get
@@ -59,7 +59,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700038D RID: 909
-		// (get) Token: 0x06001918 RID: 6424 RVA: 0x000DA1DC File Offset: 0x000D85DC
+		// (get) Token: 0x0600190F RID: 6415 RVA: 0x000DA1EC File Offset: 0x000D85EC
 		public int LastNode
 		{
 			get
@@ -69,7 +69,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700038E RID: 910
-		// (get) Token: 0x06001919 RID: 6425 RVA: 0x000DA200 File Offset: 0x000D8600
+		// (get) Token: 0x06001910 RID: 6416 RVA: 0x000DA210 File Offset: 0x000D8610
 		public static WorldPath NotFound
 		{
 			get
@@ -78,13 +78,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x0600191A RID: 6426 RVA: 0x000DA21A File Offset: 0x000D861A
+		// Token: 0x06001911 RID: 6417 RVA: 0x000DA22A File Offset: 0x000D862A
 		public void AddNodeAtStart(int tile)
 		{
 			this.nodes.Add(tile);
 		}
 
-		// Token: 0x0600191B RID: 6427 RVA: 0x000DA22C File Offset: 0x000D862C
+		// Token: 0x06001912 RID: 6418 RVA: 0x000DA23C File Offset: 0x000D863C
 		public void SetupFound(float totalCost)
 		{
 			if (this == WorldPath.NotFound)
@@ -98,13 +98,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x0600191C RID: 6428 RVA: 0x000DA280 File Offset: 0x000D8680
+		// Token: 0x06001913 RID: 6419 RVA: 0x000DA290 File Offset: 0x000D8690
 		public void Dispose()
 		{
 			this.ReleaseToPool();
 		}
 
-		// Token: 0x0600191D RID: 6429 RVA: 0x000DA289 File Offset: 0x000D8689
+		// Token: 0x06001914 RID: 6420 RVA: 0x000DA299 File Offset: 0x000D8699
 		public void ReleaseToPool()
 		{
 			if (this != WorldPath.NotFound)
@@ -115,7 +115,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x0600191E RID: 6430 RVA: 0x000DA2B8 File Offset: 0x000D86B8
+		// Token: 0x06001915 RID: 6421 RVA: 0x000DA2C8 File Offset: 0x000D86C8
 		public static WorldPath NewNotFound()
 		{
 			return new WorldPath
@@ -124,7 +124,7 @@ namespace RimWorld.Planet
 			};
 		}
 
-		// Token: 0x0600191F RID: 6431 RVA: 0x000DA2E0 File Offset: 0x000D86E0
+		// Token: 0x06001916 RID: 6422 RVA: 0x000DA2F0 File Offset: 0x000D86F0
 		public int ConsumeNextNode()
 		{
 			int result = this.Peek(1);
@@ -132,13 +132,13 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001920 RID: 6432 RVA: 0x000DA30C File Offset: 0x000D870C
+		// Token: 0x06001917 RID: 6423 RVA: 0x000DA31C File Offset: 0x000D871C
 		public int Peek(int nodesAhead)
 		{
 			return this.nodes[this.curNodeIndex - nodesAhead];
 		}
 
-		// Token: 0x06001921 RID: 6433 RVA: 0x000DA334 File Offset: 0x000D8734
+		// Token: 0x06001918 RID: 6424 RVA: 0x000DA344 File Offset: 0x000D8744
 		public override string ToString()
 		{
 			string result;
@@ -171,7 +171,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001922 RID: 6434 RVA: 0x000DA410 File Offset: 0x000D8810
+		// Token: 0x06001919 RID: 6425 RVA: 0x000DA420 File Offset: 0x000D8820
 		public void DrawPath(Caravan pathingCaravan)
 		{
 			if (this.Found)
@@ -203,16 +203,16 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x04000EB8 RID: 3768
+		// Token: 0x04000EB5 RID: 3765
 		private List<int> nodes = new List<int>(128);
 
-		// Token: 0x04000EB9 RID: 3769
+		// Token: 0x04000EB6 RID: 3766
 		private float totalCostInt = 0f;
 
-		// Token: 0x04000EBA RID: 3770
+		// Token: 0x04000EB7 RID: 3767
 		private int curNodeIndex;
 
-		// Token: 0x04000EBB RID: 3771
+		// Token: 0x04000EB8 RID: 3768
 		public bool inUse = false;
 	}
 }

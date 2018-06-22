@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_DropEquipment : JobDriver
 	{
 		// Token: 0x170000C5 RID: 197
-		// (get) Token: 0x060003F4 RID: 1012 RVA: 0x0002EC8C File Offset: 0x0002D08C
+		// (get) Token: 0x060003F4 RID: 1012 RVA: 0x0002EC68 File Offset: 0x0002D068
 		private ThingWithComps TargetEquipment
 		{
 			get
@@ -18,13 +18,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060003F5 RID: 1013 RVA: 0x0002ECB4 File Offset: 0x0002D0B4
+		// Token: 0x060003F5 RID: 1013 RVA: 0x0002EC90 File Offset: 0x0002D090
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x060003F6 RID: 1014 RVA: 0x0002ECCC File Offset: 0x0002D0CC
+		// Token: 0x060003F6 RID: 1014 RVA: 0x0002ECA8 File Offset: 0x0002D0A8
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);

@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EA6 RID: 3750
+	// Token: 0x02000EA5 RID: 3749
 	[StaticConstructorOnStartup]
 	public class TabRecord
 	{
-		// Token: 0x06005858 RID: 22616 RVA: 0x002D3F42 File Offset: 0x002D2342
+		// Token: 0x06005878 RID: 22648 RVA: 0x002D5B52 File Offset: 0x002D3F52
 		public TabRecord(string label, Action clickedAction, bool selected)
 		{
 			this.label = label;
@@ -15,7 +15,7 @@ namespace Verse
 			this.selected = selected;
 		}
 
-		// Token: 0x06005859 RID: 22617 RVA: 0x002D3F79 File Offset: 0x002D2379
+		// Token: 0x06005879 RID: 22649 RVA: 0x002D5B89 File Offset: 0x002D3F89
 		public TabRecord(string label, Action clickedAction, Func<bool> selected)
 		{
 			this.label = label;
@@ -23,8 +23,8 @@ namespace Verse
 			this.selectedGetter = selected;
 		}
 
-		// Token: 0x17000DF3 RID: 3571
-		// (get) Token: 0x0600585A RID: 22618 RVA: 0x002D3FB0 File Offset: 0x002D23B0
+		// Token: 0x17000DF6 RID: 3574
+		// (get) Token: 0x0600587A RID: 22650 RVA: 0x002D5BC0 File Offset: 0x002D3FC0
 		public bool Selected
 		{
 			get
@@ -33,7 +33,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600585B RID: 22619 RVA: 0x002D3FE8 File Offset: 0x002D23E8
+		// Token: 0x0600587B RID: 22651 RVA: 0x002D5BF8 File Offset: 0x002D3FF8
 		public void Draw(Rect rect)
 		{
 			Rect drawRect = new Rect(rect);
@@ -72,25 +72,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003A83 RID: 14979
+		// Token: 0x04003A93 RID: 14995
 		public string label = "Tab";
 
-		// Token: 0x04003A84 RID: 14980
+		// Token: 0x04003A94 RID: 14996
 		public Action clickedAction = null;
 
-		// Token: 0x04003A85 RID: 14981
+		// Token: 0x04003A95 RID: 14997
 		public bool selected = false;
 
-		// Token: 0x04003A86 RID: 14982
+		// Token: 0x04003A96 RID: 14998
 		public Func<bool> selectedGetter;
 
-		// Token: 0x04003A87 RID: 14983
+		// Token: 0x04003A97 RID: 14999
 		private const float TabEndWidth = 30f;
 
-		// Token: 0x04003A88 RID: 14984
+		// Token: 0x04003A98 RID: 15000
 		private const float TabMiddleGraphicWidth = 4f;
 
-		// Token: 0x04003A89 RID: 14985
+		// Token: 0x04003A99 RID: 15001
 		private static readonly Texture2D TabAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/TabAtlas", true);
 	}
 }

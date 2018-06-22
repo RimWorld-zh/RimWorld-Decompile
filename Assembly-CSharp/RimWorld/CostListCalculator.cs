@@ -5,22 +5,22 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000904 RID: 2308
+	// Token: 0x02000900 RID: 2304
 	public static class CostListCalculator
 	{
-		// Token: 0x0600358A RID: 13706 RVA: 0x001CD54F File Offset: 0x001CB94F
+		// Token: 0x06003583 RID: 13699 RVA: 0x001CD737 File Offset: 0x001CBB37
 		public static void Reset()
 		{
 			CostListCalculator.cachedCosts.Clear();
 		}
 
-		// Token: 0x0600358B RID: 13707 RVA: 0x001CD55C File Offset: 0x001CB95C
+		// Token: 0x06003584 RID: 13700 RVA: 0x001CD744 File Offset: 0x001CBB44
 		public static List<ThingDefCountClass> CostListAdjusted(this Thing thing)
 		{
 			return thing.def.CostListAdjusted(thing.Stuff, true);
 		}
 
-		// Token: 0x0600358C RID: 13708 RVA: 0x001CD584 File Offset: 0x001CB984
+		// Token: 0x06003585 RID: 13701 RVA: 0x001CD76C File Offset: 0x001CBB6C
 		public static List<ThingDefCountClass> CostListAdjusted(this BuildableDef entDef, ThingDef stuff, bool errorOnNullStuff = true)
 		{
 			CostListCalculator.CostListPair key = new CostListCalculator.CostListPair(entDef, stuff);
@@ -87,20 +87,20 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x04001CFF RID: 7423
+		// Token: 0x04001CFD RID: 7421
 		private static Dictionary<CostListCalculator.CostListPair, List<ThingDefCountClass>> cachedCosts = new Dictionary<CostListCalculator.CostListPair, List<ThingDefCountClass>>(CostListCalculator.FastCostListPairComparer.Instance);
 
-		// Token: 0x02000905 RID: 2309
+		// Token: 0x02000901 RID: 2305
 		private struct CostListPair : IEquatable<CostListCalculator.CostListPair>
 		{
-			// Token: 0x0600358E RID: 13710 RVA: 0x001CD73A File Offset: 0x001CBB3A
+			// Token: 0x06003587 RID: 13703 RVA: 0x001CD922 File Offset: 0x001CBD22
 			public CostListPair(BuildableDef buildable, ThingDef stuff)
 			{
 				this.buildable = buildable;
 				this.stuff = stuff;
 			}
 
-			// Token: 0x0600358F RID: 13711 RVA: 0x001CD74C File Offset: 0x001CBB4C
+			// Token: 0x06003588 RID: 13704 RVA: 0x001CD934 File Offset: 0x001CBD34
 			public override int GetHashCode()
 			{
 				int seed = 0;
@@ -108,53 +108,53 @@ namespace RimWorld
 				return Gen.HashCombine<ThingDef>(seed, this.stuff);
 			}
 
-			// Token: 0x06003590 RID: 13712 RVA: 0x001CD780 File Offset: 0x001CBB80
+			// Token: 0x06003589 RID: 13705 RVA: 0x001CD968 File Offset: 0x001CBD68
 			public override bool Equals(object obj)
 			{
 				return obj is CostListCalculator.CostListPair && this.Equals((CostListCalculator.CostListPair)obj);
 			}
 
-			// Token: 0x06003591 RID: 13713 RVA: 0x001CD7B4 File Offset: 0x001CBBB4
+			// Token: 0x0600358A RID: 13706 RVA: 0x001CD99C File Offset: 0x001CBD9C
 			public bool Equals(CostListCalculator.CostListPair other)
 			{
 				return this == other;
 			}
 
-			// Token: 0x06003592 RID: 13714 RVA: 0x001CD7D8 File Offset: 0x001CBBD8
+			// Token: 0x0600358B RID: 13707 RVA: 0x001CD9C0 File Offset: 0x001CBDC0
 			public static bool operator ==(CostListCalculator.CostListPair lhs, CostListCalculator.CostListPair rhs)
 			{
 				return lhs.buildable == rhs.buildable && lhs.stuff == rhs.stuff;
 			}
 
-			// Token: 0x06003593 RID: 13715 RVA: 0x001CD814 File Offset: 0x001CBC14
+			// Token: 0x0600358C RID: 13708 RVA: 0x001CD9FC File Offset: 0x001CBDFC
 			public static bool operator !=(CostListCalculator.CostListPair lhs, CostListCalculator.CostListPair rhs)
 			{
 				return !(lhs == rhs);
 			}
 
-			// Token: 0x04001D00 RID: 7424
+			// Token: 0x04001CFE RID: 7422
 			public BuildableDef buildable;
 
-			// Token: 0x04001D01 RID: 7425
+			// Token: 0x04001CFF RID: 7423
 			public ThingDef stuff;
 		}
 
-		// Token: 0x02000906 RID: 2310
+		// Token: 0x02000902 RID: 2306
 		private class FastCostListPairComparer : IEqualityComparer<CostListCalculator.CostListPair>
 		{
-			// Token: 0x06003595 RID: 13717 RVA: 0x001CD83C File Offset: 0x001CBC3C
+			// Token: 0x0600358E RID: 13710 RVA: 0x001CDA24 File Offset: 0x001CBE24
 			public bool Equals(CostListCalculator.CostListPair x, CostListCalculator.CostListPair y)
 			{
 				return x == y;
 			}
 
-			// Token: 0x06003596 RID: 13718 RVA: 0x001CD858 File Offset: 0x001CBC58
+			// Token: 0x0600358F RID: 13711 RVA: 0x001CDA40 File Offset: 0x001CBE40
 			public int GetHashCode(CostListCalculator.CostListPair obj)
 			{
 				return obj.GetHashCode();
 			}
 
-			// Token: 0x04001D02 RID: 7426
+			// Token: 0x04001D00 RID: 7424
 			public static readonly CostListCalculator.FastCostListPairComparer Instance = new CostListCalculator.FastCostListPairComparer();
 		}
 	}

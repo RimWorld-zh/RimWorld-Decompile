@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DEE RID: 3566
+	// Token: 0x02000DEB RID: 3563
 	public class MoteText : MoteThrown
 	{
-		// Token: 0x17000CF9 RID: 3321
-		// (get) Token: 0x06004FD2 RID: 20434 RVA: 0x002966CC File Offset: 0x00294ACC
+		// Token: 0x17000CFB RID: 3323
+		// (get) Token: 0x06004FE7 RID: 20455 RVA: 0x00297CA8 File Offset: 0x002960A8
 		protected float TimeBeforeStartFadeout
 		{
 			get
@@ -16,8 +16,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CFA RID: 3322
-		// (get) Token: 0x06004FD3 RID: 20435 RVA: 0x0029670C File Offset: 0x00294B0C
+		// Token: 0x17000CFC RID: 3324
+		// (get) Token: 0x06004FE8 RID: 20456 RVA: 0x00297CE8 File Offset: 0x002960E8
 		protected override bool EndOfLife
 		{
 			get
@@ -26,12 +26,12 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FD4 RID: 20436 RVA: 0x00296743 File Offset: 0x00294B43
+		// Token: 0x06004FE9 RID: 20457 RVA: 0x00297D1F File Offset: 0x0029611F
 		public override void Draw()
 		{
 		}
 
-		// Token: 0x06004FD5 RID: 20437 RVA: 0x00296748 File Offset: 0x00294B48
+		// Token: 0x06004FEA RID: 20458 RVA: 0x00297D24 File Offset: 0x00296124
 		public override void DrawGUIOverlay()
 		{
 			float a = 1f - (base.AgeSecs - this.TimeBeforeStartFadeout) / this.def.mote.fadeOutTime;
@@ -39,13 +39,13 @@ namespace Verse
 			GenMapUI.DrawText(new Vector2(this.exactPosition.x, this.exactPosition.z), this.text, color);
 		}
 
-		// Token: 0x040034E8 RID: 13544
+		// Token: 0x040034F3 RID: 13555
 		public string text;
 
-		// Token: 0x040034E9 RID: 13545
+		// Token: 0x040034F4 RID: 13556
 		public Color textColor = Color.white;
 
-		// Token: 0x040034EA RID: 13546
+		// Token: 0x040034F5 RID: 13557
 		public float overrideTimeBeforeStartFadeout = -1f;
 	}
 }

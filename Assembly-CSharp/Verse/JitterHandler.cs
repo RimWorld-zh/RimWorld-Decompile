@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DE6 RID: 3558
+	// Token: 0x02000DE3 RID: 3555
 	public class JitterHandler
 	{
-		// Token: 0x17000CEA RID: 3306
-		// (get) Token: 0x06004F9B RID: 20379 RVA: 0x00295A38 File Offset: 0x00293E38
+		// Token: 0x17000CEC RID: 3308
+		// (get) Token: 0x06004FB0 RID: 20400 RVA: 0x00297014 File Offset: 0x00295414
 		public Vector3 CurrentOffset
 		{
 			get
@@ -16,7 +16,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F9C RID: 20380 RVA: 0x00295A54 File Offset: 0x00293E54
+		// Token: 0x06004FB1 RID: 20401 RVA: 0x00297030 File Offset: 0x00295430
 		public void JitterHandlerTick()
 		{
 			if (this.curOffset.sqrMagnitude < this.JitterDropPerTick * this.JitterDropPerTick)
@@ -29,7 +29,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F9D RID: 20381 RVA: 0x00295AC5 File Offset: 0x00293EC5
+		// Token: 0x06004FB2 RID: 20402 RVA: 0x002970A1 File Offset: 0x002954A1
 		public void Notify_DamageApplied(DamageInfo dinfo)
 		{
 			if (dinfo.Def.hasForcefulImpact)
@@ -38,7 +38,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F9E RID: 20382 RVA: 0x00295AEC File Offset: 0x00293EEC
+		// Token: 0x06004FB3 RID: 20403 RVA: 0x002970C8 File Offset: 0x002954C8
 		public void Notify_DamageDeflected(DamageInfo dinfo)
 		{
 			if (dinfo.Def.hasForcefulImpact)
@@ -47,7 +47,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F9F RID: 20383 RVA: 0x00295B14 File Offset: 0x00293F14
+		// Token: 0x06004FB4 RID: 20404 RVA: 0x002970F0 File Offset: 0x002954F0
 		public void AddOffset(float dist, float dir)
 		{
 			this.curOffset += Quaternion.AngleAxis(dir, Vector3.up) * Vector3.forward * dist;
@@ -57,19 +57,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x040034C4 RID: 13508
+		// Token: 0x040034CF RID: 13519
 		private Vector3 curOffset = new Vector3(0f, 0f, 0f);
 
-		// Token: 0x040034C5 RID: 13509
+		// Token: 0x040034D0 RID: 13520
 		private float DamageJitterDistance = 0.17f;
 
-		// Token: 0x040034C6 RID: 13510
+		// Token: 0x040034D1 RID: 13521
 		private float DeflectJitterDistance = 0.1f;
 
-		// Token: 0x040034C7 RID: 13511
+		// Token: 0x040034D2 RID: 13522
 		private float JitterDropPerTick = 0.018f;
 
-		// Token: 0x040034C8 RID: 13512
+		// Token: 0x040034D3 RID: 13523
 		private float JitterMax = 0.35f;
 	}
 }

@@ -8,11 +8,11 @@ using Verse.Profile;
 
 namespace RimWorld
 {
-	// Token: 0x0200082F RID: 2095
+	// Token: 0x0200082B RID: 2091
 	[StaticConstructorOnStartup]
 	public static class MainMenuDrawer
 	{
-		// Token: 0x06002F18 RID: 12056 RVA: 0x00192AE4 File Offset: 0x00190EE4
+		// Token: 0x06002F11 RID: 12049 RVA: 0x00192CC4 File Offset: 0x001910C4
 		public static void Init()
 		{
 			PlayerKnowledgeDatabase.Save();
@@ -20,7 +20,7 @@ namespace RimWorld
 			MainMenuDrawer.anyMapFiles = GenFilePaths.AllSavedGameFiles.Any<FileInfo>();
 		}
 
-		// Token: 0x06002F19 RID: 12057 RVA: 0x00192B00 File Offset: 0x00190F00
+		// Token: 0x06002F12 RID: 12050 RVA: 0x00192CE0 File Offset: 0x001910E0
 		public static void MainMenuOnGUI()
 		{
 			VersionControl.DrawInfoInCorner();
@@ -59,7 +59,7 @@ namespace RimWorld
 			MainMenuDrawer.DoMainMenuControls(rect, MainMenuDrawer.anyMapFiles);
 		}
 
-		// Token: 0x06002F1A RID: 12058 RVA: 0x00192D90 File Offset: 0x00191190
+		// Token: 0x06002F13 RID: 12051 RVA: 0x00192F70 File Offset: 0x00191370
 		public static void DoMainMenuControls(Rect rect, bool anyMapFiles)
 		{
 			GUI.BeginGroup(rect);
@@ -257,7 +257,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002F1B RID: 12059 RVA: 0x001933F4 File Offset: 0x001917F4
+		// Token: 0x06002F14 RID: 12052 RVA: 0x001935D4 File Offset: 0x001919D4
 		private static void InitLearnToPlay()
 		{
 			Current.Game = new Game();
@@ -271,7 +271,7 @@ namespace RimWorld
 			Find.WindowStack.Add(next);
 		}
 
-		// Token: 0x06002F1C RID: 12060 RVA: 0x0019347B File Offset: 0x0019187B
+		// Token: 0x06002F15 RID: 12053 RVA: 0x0019365B File Offset: 0x00191A5B
 		private static void CloseMainTab()
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -280,34 +280,34 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0400195D RID: 6493
+		// Token: 0x0400195B RID: 6491
 		private static bool anyMapFiles;
 
-		// Token: 0x0400195E RID: 6494
+		// Token: 0x0400195C RID: 6492
 		private const float PlayRectWidth = 170f;
 
-		// Token: 0x0400195F RID: 6495
+		// Token: 0x0400195D RID: 6493
 		private const float WebRectWidth = 145f;
 
-		// Token: 0x04001960 RID: 6496
+		// Token: 0x0400195E RID: 6494
 		private const float RightEdgeMargin = 50f;
 
-		// Token: 0x04001961 RID: 6497
+		// Token: 0x0400195F RID: 6495
 		private static readonly Vector2 PaneSize = new Vector2(450f, 450f);
 
-		// Token: 0x04001962 RID: 6498
+		// Token: 0x04001960 RID: 6496
 		private static readonly Vector2 TitleSize = new Vector2(1032f, 146f);
 
-		// Token: 0x04001963 RID: 6499
+		// Token: 0x04001961 RID: 6497
 		private static readonly Texture2D TexTitle = ContentFinder<Texture2D>.Get("UI/HeroArt/GameTitle", true);
 
-		// Token: 0x04001964 RID: 6500
+		// Token: 0x04001962 RID: 6498
 		private const float TitleShift = 50f;
 
-		// Token: 0x04001965 RID: 6501
+		// Token: 0x04001963 RID: 6499
 		private static readonly Vector2 LudeonLogoSize = new Vector2(200f, 58f);
 
-		// Token: 0x04001966 RID: 6502
+		// Token: 0x04001964 RID: 6500
 		private static readonly Texture2D TexLudeonLogo = ContentFinder<Texture2D>.Get("UI/HeroArt/LudeonLogoSmall", true);
 	}
 }

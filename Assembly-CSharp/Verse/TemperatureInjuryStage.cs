@@ -2,20 +2,20 @@
 
 namespace Verse
 {
-	// Token: 0x02000D00 RID: 3328
+	// Token: 0x02000CFD RID: 3325
 	public enum TemperatureInjuryStage : byte
 	{
-		// Token: 0x040031B9 RID: 12729
+		// Token: 0x040031C4 RID: 12740
 		Hidden,
-		// Token: 0x040031BA RID: 12730
+		// Token: 0x040031C5 RID: 12741
 		Initial,
-		// Token: 0x040031BB RID: 12731
+		// Token: 0x040031C6 RID: 12742
 		Minor,
-		// Token: 0x040031BC RID: 12732
+		// Token: 0x040031C7 RID: 12743
 		Serious,
-		// Token: 0x040031BD RID: 12733
+		// Token: 0x040031C8 RID: 12744
 		Extreme,
-		// Token: 0x040031BE RID: 12734
+		// Token: 0x040031C9 RID: 12745
 		Deadly
 	}
 }

@@ -3,10 +3,10 @@ using Steamworks;
 
 namespace Verse.Steam
 {
-	// Token: 0x02000FC7 RID: 4039
+	// Token: 0x02000FC8 RID: 4040
 	internal static class WorkshopUtility
 	{
-		// Token: 0x0600618B RID: 24971 RVA: 0x00312610 File Offset: 0x00310A10
+		// Token: 0x060061B4 RID: 25012 RVA: 0x003146E4 File Offset: 0x00312AE4
 		public static string GetLabel(this WorkshopInteractStage stage)
 		{
 			string result;
@@ -21,13 +21,13 @@ namespace Verse.Steam
 			return result;
 		}
 
-		// Token: 0x0600618C RID: 24972 RVA: 0x00312658 File Offset: 0x00310A58
+		// Token: 0x060061B5 RID: 25013 RVA: 0x0031472C File Offset: 0x00312B2C
 		public static string GetLabel(this EItemUpdateStatus status)
 		{
 			return ("EItemUpdateStatus_" + status.ToString()).Translate();
 		}
 
-		// Token: 0x0600618D RID: 24973 RVA: 0x0031268C File Offset: 0x00310A8C
+		// Token: 0x060061B6 RID: 25014 RVA: 0x00314760 File Offset: 0x00312B60
 		public static string GetLabel(this EResult result)
 		{
 			return result.ToString().Substring(9);

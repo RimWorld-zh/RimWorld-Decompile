@@ -2,20 +2,20 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000929 RID: 2345
+	// Token: 0x02000925 RID: 2341
 	[DefOf]
 	public static class TransferableSorterDefOf
 	{
-		// Token: 0x06003634 RID: 13876 RVA: 0x001D07FF File Offset: 0x001CEBFF
+		// Token: 0x0600362D RID: 13869 RVA: 0x001D09E7 File Offset: 0x001CEDE7
 		static TransferableSorterDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(TransferableSorterDefOf));
 		}
 
-		// Token: 0x04001FEA RID: 8170
+		// Token: 0x04001FE8 RID: 8168
 		public static TransferableSorterDef Category;
 
-		// Token: 0x04001FEB RID: 8171
+		// Token: 0x04001FE9 RID: 8169
 		public static TransferableSorterDef MarketValue;
 	}
 }

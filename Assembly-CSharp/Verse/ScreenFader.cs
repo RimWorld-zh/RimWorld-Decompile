@@ -7,7 +7,7 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class ScreenFader
 	{
-		// Token: 0x06006103 RID: 24835 RVA: 0x0030F774 File Offset: 0x0030DB74
+		// Token: 0x0600612C RID: 24876 RVA: 0x00311818 File Offset: 0x0030FC18
 		static ScreenFader()
 		{
 			ScreenFader.fadeTexture = new Texture2D(1, 1);
@@ -16,8 +16,8 @@ namespace Verse
 			ScreenFader.fadeTextureDirty = true;
 		}
 
-		// Token: 0x17000FB0 RID: 4016
-		// (get) Token: 0x06006104 RID: 24836 RVA: 0x0030F818 File Offset: 0x0030DC18
+		// Token: 0x17000FB4 RID: 4020
+		// (get) Token: 0x0600612D RID: 24877 RVA: 0x003118BC File Offset: 0x0030FCBC
 		private static float CurTime
 		{
 			get
@@ -26,7 +26,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06006105 RID: 24837 RVA: 0x0030F834 File Offset: 0x0030DC34
+		// Token: 0x0600612E RID: 24878 RVA: 0x003118D8 File Offset: 0x0030FCD8
 		public static void OverlayOnGUI(Vector2 windowSize)
 		{
 			Color color = ScreenFader.CurrentInstantColor();
@@ -41,7 +41,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06006106 RID: 24838 RVA: 0x0030F8B8 File Offset: 0x0030DCB8
+		// Token: 0x0600612F RID: 24879 RVA: 0x0031195C File Offset: 0x0030FD5C
 		private static Color CurrentInstantColor()
 		{
 			Color result;
@@ -56,7 +56,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06006107 RID: 24839 RVA: 0x0030F91E File Offset: 0x0030DD1E
+		// Token: 0x06006130 RID: 24880 RVA: 0x003119C2 File Offset: 0x0030FDC2
 		public static void SetColor(Color newColor)
 		{
 			ScreenFader.sourceColor = newColor;
@@ -66,7 +66,7 @@ namespace Verse
 			ScreenFader.fadeTextureDirty = true;
 		}
 
-		// Token: 0x06006108 RID: 24840 RVA: 0x0030F947 File Offset: 0x0030DD47
+		// Token: 0x06006131 RID: 24881 RVA: 0x003119EB File Offset: 0x0030FDEB
 		public static void StartFade(Color finalColor, float duration)
 		{
 			if (duration <= 0f)
@@ -82,25 +82,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003F71 RID: 16241
+		// Token: 0x04003F83 RID: 16259
 		private static GUIStyle backgroundStyle = new GUIStyle();
 
-		// Token: 0x04003F72 RID: 16242
+		// Token: 0x04003F84 RID: 16260
 		private static Texture2D fadeTexture;
 
-		// Token: 0x04003F73 RID: 16243
+		// Token: 0x04003F85 RID: 16261
 		private static Color sourceColor = new Color(0f, 0f, 0f, 0f);
 
-		// Token: 0x04003F74 RID: 16244
+		// Token: 0x04003F86 RID: 16262
 		private static Color targetColor = new Color(0f, 0f, 0f, 0f);
 
-		// Token: 0x04003F75 RID: 16245
+		// Token: 0x04003F87 RID: 16263
 		private static float sourceTime = 0f;
 
-		// Token: 0x04003F76 RID: 16246
+		// Token: 0x04003F88 RID: 16264
 		private static float targetTime = 0f;
 
-		// Token: 0x04003F77 RID: 16247
+		// Token: 0x04003F89 RID: 16265
 		private static bool fadeTextureDirty = true;
 	}
 }

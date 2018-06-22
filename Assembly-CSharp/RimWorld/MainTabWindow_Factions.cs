@@ -3,20 +3,20 @@ using UnityEngine;
 
 namespace RimWorld
 {
-	// Token: 0x02000871 RID: 2161
+	// Token: 0x0200086D RID: 2157
 	public class MainTabWindow_Factions : MainTabWindow
 	{
-		// Token: 0x0600311A RID: 12570 RVA: 0x001AA486 File Offset: 0x001A8886
+		// Token: 0x06003113 RID: 12563 RVA: 0x001AA66E File Offset: 0x001A8A6E
 		public override void DoWindowContents(Rect fillRect)
 		{
 			base.DoWindowContents(fillRect);
 			FactionUIUtility.DoWindowContents(fillRect, ref this.scrollPosition, ref this.scrollViewHeight);
 		}
 
-		// Token: 0x04001A85 RID: 6789
+		// Token: 0x04001A83 RID: 6787
 		private Vector2 scrollPosition = Vector2.zero;
 
-		// Token: 0x04001A86 RID: 6790
+		// Token: 0x04001A84 RID: 6788
 		private float scrollViewHeight;
 	}
 }

@@ -3,17 +3,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000970 RID: 2416
+	// Token: 0x0200096C RID: 2412
 	[DefOf]
 	public static class ToolCapacityDefOf
 	{
-		// Token: 0x0600367B RID: 13947 RVA: 0x001D0CFD File Offset: 0x001CF0FD
+		// Token: 0x06003674 RID: 13940 RVA: 0x001D0EE5 File Offset: 0x001CF2E5
 		static ToolCapacityDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ToolCapacityDef));
 		}
 
-		// Token: 0x04002316 RID: 8982
+		// Token: 0x04002314 RID: 8980
 		public static ToolCapacityDef KickMaterialInEyes;
 	}
 }

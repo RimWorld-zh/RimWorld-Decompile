@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004C9 RID: 1225
+	// Token: 0x020004C5 RID: 1221
 	public class PawnRelationWorker_Grandchild : PawnRelationWorker
 	{
-		// Token: 0x060015E5 RID: 5605 RVA: 0x000C2834 File Offset: 0x000C0C34
+		// Token: 0x060015DC RID: 5596 RVA: 0x000C2824 File Offset: 0x000C0C24
 		public override bool InRelation(Pawn me, Pawn other)
 		{
 			bool result;

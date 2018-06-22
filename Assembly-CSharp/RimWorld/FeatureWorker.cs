@@ -10,10 +10,10 @@ namespace RimWorld
 	// Token: 0x02000295 RID: 661
 	public abstract class FeatureWorker
 	{
-		// Token: 0x06000B2C RID: 2860
+		// Token: 0x06000B2A RID: 2858
 		public abstract void GenerateWhereAppropriate();
 
-		// Token: 0x06000B2D RID: 2861 RVA: 0x00065728 File Offset: 0x00063B28
+		// Token: 0x06000B2B RID: 2859 RVA: 0x00065790 File Offset: 0x00063B90
 		protected void AddFeature(List<int> members, List<int> tilesForTextDrawPosCalculation)
 		{
 			WorldFeature worldFeature = new WorldFeature();
@@ -30,7 +30,7 @@ namespace RimWorld
 			Find.WorldFeatures.features.Add(worldFeature);
 		}
 
-		// Token: 0x06000B2E RID: 2862 RVA: 0x000657EC File Offset: 0x00063BEC
+		// Token: 0x06000B2C RID: 2860 RVA: 0x00065854 File Offset: 0x00063C54
 		private void AssignBestDrawPos(WorldFeature newFeature, List<int> tilesForTextDrawPosCalculation)
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
@@ -98,25 +98,25 @@ namespace RimWorld
 			newFeature.maxDrawSizeInTiles = maxDrawSizeInTiles;
 		}
 
-		// Token: 0x06000B2F RID: 2863 RVA: 0x00065A39 File Offset: 0x00063E39
+		// Token: 0x06000B2D RID: 2861 RVA: 0x00065AA1 File Offset: 0x00063EA1
 		protected static void ClearVisited()
 		{
 			FeatureWorker.ClearOrCreate<bool>(ref FeatureWorker.visited);
 		}
 
-		// Token: 0x06000B30 RID: 2864 RVA: 0x00065A46 File Offset: 0x00063E46
+		// Token: 0x06000B2E RID: 2862 RVA: 0x00065AAE File Offset: 0x00063EAE
 		protected static void ClearGroupSizes()
 		{
 			FeatureWorker.ClearOrCreate<int>(ref FeatureWorker.groupSize);
 		}
 
-		// Token: 0x06000B31 RID: 2865 RVA: 0x00065A53 File Offset: 0x00063E53
+		// Token: 0x06000B2F RID: 2863 RVA: 0x00065ABB File Offset: 0x00063EBB
 		protected static void ClearGroupIDs()
 		{
 			FeatureWorker.ClearOrCreate<int>(ref FeatureWorker.groupID);
 		}
 
-		// Token: 0x06000B32 RID: 2866 RVA: 0x00065A60 File Offset: 0x00063E60
+		// Token: 0x06000B30 RID: 2864 RVA: 0x00065AC8 File Offset: 0x00063EC8
 		private static void ClearOrCreate<T>(ref T[] array)
 		{
 			int tilesCount = Find.WorldGrid.TilesCount;
@@ -130,28 +130,28 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040005EC RID: 1516
+		// Token: 0x040005EB RID: 1515
 		public FeatureDef def;
 
-		// Token: 0x040005ED RID: 1517
+		// Token: 0x040005EC RID: 1516
 		protected static bool[] visited;
 
-		// Token: 0x040005EE RID: 1518
+		// Token: 0x040005ED RID: 1517
 		protected static int[] groupSize;
 
-		// Token: 0x040005EF RID: 1519
+		// Token: 0x040005EE RID: 1518
 		protected static int[] groupID;
 
-		// Token: 0x040005F0 RID: 1520
+		// Token: 0x040005EF RID: 1519
 		private static List<int> tmpNeighbors = new List<int>();
 
-		// Token: 0x040005F1 RID: 1521
+		// Token: 0x040005F0 RID: 1520
 		private static HashSet<int> tmpTilesForTextDrawPosCalculationSet = new HashSet<int>();
 
-		// Token: 0x040005F2 RID: 1522
+		// Token: 0x040005F1 RID: 1521
 		private static List<int> tmpEdgeTiles = new List<int>();
 
-		// Token: 0x040005F3 RID: 1523
+		// Token: 0x040005F2 RID: 1522
 		private static List<Pair<int, int>> tmpTraversedTiles = new List<Pair<int, int>>();
 	}
 }

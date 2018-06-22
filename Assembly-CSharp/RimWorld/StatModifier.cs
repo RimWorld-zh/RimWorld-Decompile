@@ -8,7 +8,7 @@ namespace RimWorld
 	public class StatModifier
 	{
 		// Token: 0x17000195 RID: 405
-		// (get) Token: 0x06000AD7 RID: 2775 RVA: 0x000621F0 File Offset: 0x000605F0
+		// (get) Token: 0x06000AD5 RID: 2773 RVA: 0x0006224C File Offset: 0x0006064C
 		public string ValueToStringAsOffset
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000196 RID: 406
-		// (get) Token: 0x06000AD8 RID: 2776 RVA: 0x00062220 File Offset: 0x00060620
+		// (get) Token: 0x06000AD6 RID: 2774 RVA: 0x0006227C File Offset: 0x0006067C
 		public string ToStringAsFactor
 		{
 			get
@@ -27,14 +27,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000AD9 RID: 2777 RVA: 0x0006224D File Offset: 0x0006064D
+		// Token: 0x06000AD7 RID: 2775 RVA: 0x000622A9 File Offset: 0x000606A9
 		public void LoadDataFromXmlCustom(XmlNode xmlRoot)
 		{
 			DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "stat", xmlRoot.Name);
 			this.value = (float)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(float));
 		}
 
-		// Token: 0x06000ADA RID: 2778 RVA: 0x00062288 File Offset: 0x00060688
+		// Token: 0x06000AD8 RID: 2776 RVA: 0x000622E4 File Offset: 0x000606E4
 		public override string ToString()
 		{
 			string result;
@@ -49,10 +49,10 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04000558 RID: 1368
+		// Token: 0x04000556 RID: 1366
 		public StatDef stat;
 
-		// Token: 0x04000559 RID: 1369
+		// Token: 0x04000557 RID: 1367
 		public float value;
 	}
 }

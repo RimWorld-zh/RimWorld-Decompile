@@ -4,15 +4,15 @@ using Verse.Grammar;
 
 namespace Verse
 {
-	// Token: 0x02000BBF RID: 3007
+	// Token: 0x02000BBB RID: 3003
 	public class BattleLogEntry_Event : LogEntry
 	{
-		// Token: 0x0600412B RID: 16683 RVA: 0x002262A4 File Offset: 0x002246A4
+		// Token: 0x0600412D RID: 16685 RVA: 0x00226978 File Offset: 0x00224D78
 		public BattleLogEntry_Event() : base(null)
 		{
 		}
 
-		// Token: 0x0600412C RID: 16684 RVA: 0x002262B0 File Offset: 0x002246B0
+		// Token: 0x0600412E RID: 16686 RVA: 0x00226984 File Offset: 0x00224D84
 		public BattleLogEntry_Event(Thing subject, RulePackDef eventDef, Thing initiator) : base(null)
 		{
 			if (subject is Pawn)
@@ -34,8 +34,8 @@ namespace Verse
 			this.eventDef = eventDef;
 		}
 
-		// Token: 0x17000A2D RID: 2605
-		// (get) Token: 0x0600412D RID: 16685 RVA: 0x00226328 File Offset: 0x00224728
+		// Token: 0x17000A2F RID: 2607
+		// (get) Token: 0x0600412F RID: 16687 RVA: 0x002269FC File Offset: 0x00224DFC
 		private string SubjectName
 		{
 			get
@@ -44,13 +44,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600412E RID: 16686 RVA: 0x00226360 File Offset: 0x00224760
+		// Token: 0x06004130 RID: 16688 RVA: 0x00226A34 File Offset: 0x00224E34
 		public override bool Concerns(Thing t)
 		{
 			return t == this.subjectPawn || t == this.initiatorPawn;
 		}
 
-		// Token: 0x0600412F RID: 16687 RVA: 0x00226390 File Offset: 0x00224790
+		// Token: 0x06004131 RID: 16689 RVA: 0x00226A64 File Offset: 0x00224E64
 		public override IEnumerable<Thing> GetConcerns()
 		{
 			if (this.subjectPawn != null)
@@ -64,7 +64,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004130 RID: 16688 RVA: 0x002263BC File Offset: 0x002247BC
+		// Token: 0x06004132 RID: 16690 RVA: 0x00226A90 File Offset: 0x00224E90
 		public override void ClickedFromPOV(Thing pov)
 		{
 			if (pov == this.subjectPawn)
@@ -81,7 +81,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004131 RID: 16689 RVA: 0x00226414 File Offset: 0x00224814
+		// Token: 0x06004133 RID: 16691 RVA: 0x00226AE8 File Offset: 0x00224EE8
 		protected override GrammarRequest GenerateGrammarRequest()
 		{
 			GrammarRequest result = base.GenerateGrammarRequest();
@@ -105,7 +105,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004132 RID: 16690 RVA: 0x002264F8 File Offset: 0x002248F8
+		// Token: 0x06004134 RID: 16692 RVA: 0x00226BCC File Offset: 0x00224FCC
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -116,25 +116,25 @@ namespace Verse
 			Scribe_Defs.Look<ThingDef>(ref this.initiatorThing, "initiatorThing");
 		}
 
-		// Token: 0x06004133 RID: 16691 RVA: 0x00226560 File Offset: 0x00224960
+		// Token: 0x06004135 RID: 16693 RVA: 0x00226C34 File Offset: 0x00225034
 		public override string ToString()
 		{
 			return this.eventDef.defName + ": " + this.subjectPawn;
 		}
 
-		// Token: 0x04002C82 RID: 11394
+		// Token: 0x04002C87 RID: 11399
 		private RulePackDef eventDef;
 
-		// Token: 0x04002C83 RID: 11395
+		// Token: 0x04002C88 RID: 11400
 		private Pawn subjectPawn;
 
-		// Token: 0x04002C84 RID: 11396
+		// Token: 0x04002C89 RID: 11401
 		private ThingDef subjectThing;
 
-		// Token: 0x04002C85 RID: 11397
+		// Token: 0x04002C8A RID: 11402
 		private Pawn initiatorPawn;
 
-		// Token: 0x04002C86 RID: 11398
+		// Token: 0x04002C8B RID: 11403
 		private ThingDef initiatorThing;
 	}
 }

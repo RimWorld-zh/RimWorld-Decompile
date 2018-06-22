@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C38 RID: 3128
+	// Token: 0x02000C35 RID: 3125
 	public static class MapComponentUtility
 	{
-		// Token: 0x060044EC RID: 17644 RVA: 0x00243680 File Offset: 0x00241A80
+		// Token: 0x060044F5 RID: 17653 RVA: 0x00244A50 File Offset: 0x00242E50
 		public static void MapComponentUpdate(Map map)
 		{
 			List<MapComponent> components = map.components;
@@ -23,7 +23,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044ED RID: 17645 RVA: 0x002436E8 File Offset: 0x00241AE8
+		// Token: 0x060044F6 RID: 17654 RVA: 0x00244AB8 File Offset: 0x00242EB8
 		public static void MapComponentTick(Map map)
 		{
 			List<MapComponent> components = map.components;
@@ -40,7 +40,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044EE RID: 17646 RVA: 0x00243750 File Offset: 0x00241B50
+		// Token: 0x060044F7 RID: 17655 RVA: 0x00244B20 File Offset: 0x00242F20
 		public static void MapComponentOnGUI(Map map)
 		{
 			List<MapComponent> components = map.components;
@@ -57,7 +57,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044EF RID: 17647 RVA: 0x002437B8 File Offset: 0x00241BB8
+		// Token: 0x060044F8 RID: 17656 RVA: 0x00244B88 File Offset: 0x00242F88
 		public static void FinalizeInit(Map map)
 		{
 			List<MapComponent> components = map.components;
@@ -74,7 +74,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044F0 RID: 17648 RVA: 0x00243820 File Offset: 0x00241C20
+		// Token: 0x060044F9 RID: 17657 RVA: 0x00244BF0 File Offset: 0x00242FF0
 		public static void MapGenerated(Map map)
 		{
 			List<MapComponent> components = map.components;
@@ -91,7 +91,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044F1 RID: 17649 RVA: 0x00243888 File Offset: 0x00241C88
+		// Token: 0x060044FA RID: 17658 RVA: 0x00244C58 File Offset: 0x00243058
 		public static void MapRemoved(Map map)
 		{
 			List<MapComponent> components = map.components;

@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020001A6 RID: 422
 	public class RaidStrategyWorker_ImmediateAttack : RaidStrategyWorker
 	{
-		// Token: 0x060008C2 RID: 2242 RVA: 0x00052664 File Offset: 0x00050A64
+		// Token: 0x060008C0 RID: 2240 RVA: 0x00052670 File Offset: 0x00050A70
 		protected override LordJob MakeLordJob(IncidentParms parms, Map map, List<Pawn> pawns, int raidSeed)
 		{
 			IntVec3 originCell = (!parms.spawnCenter.IsValid) ? pawns[0].PositionHeld : parms.spawnCenter;

@@ -8,7 +8,7 @@ namespace RimWorld
 	public class ExternalHistory : IExposable
 	{
 		// Token: 0x170001EC RID: 492
-		// (get) Token: 0x06000CA4 RID: 3236 RVA: 0x0006F65C File Offset: 0x0006DA5C
+		// (get) Token: 0x06000CA4 RID: 3236 RVA: 0x0006F710 File Offset: 0x0006DB10
 		public string AllInformation
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CA5 RID: 3237 RVA: 0x0006F6C8 File Offset: 0x0006DAC8
+		// Token: 0x06000CA5 RID: 3237 RVA: 0x0006F77C File Offset: 0x0006DB7C
 		public void ExposeData()
 		{
 			Scribe_Values.Look<string>(ref this.gameVersion, "gameVersion", null, false);
@@ -38,34 +38,34 @@ namespace RimWorld
 			Scribe_Deep.Look<History>(ref this.history, "history", new object[0]);
 		}
 
-		// Token: 0x0400083A RID: 2106
+		// Token: 0x0400083C RID: 2108
 		public string gameVersion = "?";
 
-		// Token: 0x0400083B RID: 2107
+		// Token: 0x0400083D RID: 2109
 		public string gameplayID = "?";
 
-		// Token: 0x0400083C RID: 2108
+		// Token: 0x0400083E RID: 2110
 		public string userName = "?";
 
-		// Token: 0x0400083D RID: 2109
+		// Token: 0x0400083F RID: 2111
 		public string storytellerName = "?";
 
-		// Token: 0x0400083E RID: 2110
+		// Token: 0x04000840 RID: 2112
 		public string realWorldDate = "?";
 
-		// Token: 0x0400083F RID: 2111
+		// Token: 0x04000841 RID: 2113
 		public string firstUploadDate = "?";
 
-		// Token: 0x04000840 RID: 2112
+		// Token: 0x04000842 RID: 2114
 		public int firstUploadTime = 0;
 
-		// Token: 0x04000841 RID: 2113
+		// Token: 0x04000843 RID: 2115
 		public bool devMode = false;
 
-		// Token: 0x04000842 RID: 2114
+		// Token: 0x04000844 RID: 2116
 		public History history = new History();
 
-		// Token: 0x04000843 RID: 2115
+		// Token: 0x04000845 RID: 2117
 		public static string defaultUserName = "Anonymous";
 	}
 }

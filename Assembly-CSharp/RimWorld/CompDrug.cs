@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200070E RID: 1806
+	// Token: 0x0200070A RID: 1802
 	public class CompDrug : ThingComp
 	{
 		// Token: 0x170005F0 RID: 1520
-		// (get) Token: 0x06002789 RID: 10121 RVA: 0x00152CC8 File Offset: 0x001510C8
+		// (get) Token: 0x06002781 RID: 10113 RVA: 0x00152E6C File Offset: 0x0015126C
 		public CompProperties_Drug Props
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600278A RID: 10122 RVA: 0x00152CE8 File Offset: 0x001510E8
+		// Token: 0x06002782 RID: 10114 RVA: 0x00152E8C File Offset: 0x0015128C
 		public override void PostIngested(Pawn ingester)
 		{
 			if (this.Props.Addictive && ingester.RaceProps.IsFlesh)
@@ -43,7 +43,7 @@ namespace RimWorld
 							{
 								ingester.LabelShort,
 								this.Props.chemical.label
-							}).AdjustedFor(ingester).CapitalizeFirst(), LetterDefOf.NegativeEvent, ingester, null, null);
+							}).AdjustedFor(ingester, "PAWN").CapitalizeFirst(), LetterDefOf.NegativeEvent, ingester, null, null);
 						}
 						AddictionUtility.CheckDrugAddictionTeachOpportunity(ingester);
 					}

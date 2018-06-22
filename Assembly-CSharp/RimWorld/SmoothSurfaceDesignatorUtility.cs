@@ -3,16 +3,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007DE RID: 2014
+	// Token: 0x020007DA RID: 2010
 	public static class SmoothSurfaceDesignatorUtility
 	{
-		// Token: 0x06002C9E RID: 11422 RVA: 0x00177958 File Offset: 0x00175D58
+		// Token: 0x06002C97 RID: 11415 RVA: 0x00177B30 File Offset: 0x00175F30
 		public static bool CanSmoothFloorUnder(Building b)
 		{
 			return b.def.Fillage != FillCategory.Full || b.def.passability != Traversability.Impassable;
 		}
 
-		// Token: 0x06002C9F RID: 11423 RVA: 0x00177994 File Offset: 0x00175D94
+		// Token: 0x06002C98 RID: 11416 RVA: 0x00177B6C File Offset: 0x00175F6C
 		public static void Notify_BuildingSpawned(Building b)
 		{
 			if (!SmoothSurfaceDesignatorUtility.CanSmoothFloorUnder(b))
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CA0 RID: 11424 RVA: 0x00177A0C File Offset: 0x00175E0C
+		// Token: 0x06002C99 RID: 11417 RVA: 0x00177BE4 File Offset: 0x00175FE4
 		public static void Notify_BuildingDespawned(Building b, Map map)
 		{
 			CellRect.CellRectIterator iterator = b.OccupiedRect().GetIterator();

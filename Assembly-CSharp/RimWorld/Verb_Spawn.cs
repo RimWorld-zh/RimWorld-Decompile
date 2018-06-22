@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009DC RID: 2524
+	// Token: 0x020009D8 RID: 2520
 	public class Verb_Spawn : Verb
 	{
-		// Token: 0x06003885 RID: 14469 RVA: 0x001E3420 File Offset: 0x001E1820
+		// Token: 0x0600387F RID: 14463 RVA: 0x001E3660 File Offset: 0x001E1A60
 		protected override bool TryCastShot()
 		{
 			bool result;

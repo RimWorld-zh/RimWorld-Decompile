@@ -4,11 +4,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000C35 RID: 3125
+	// Token: 0x02000C32 RID: 3122
 	public static class NameUseChecker
 	{
-		// Token: 0x17000AD1 RID: 2769
-		// (get) Token: 0x060044B9 RID: 17593 RVA: 0x00241584 File Offset: 0x0023F984
+		// Token: 0x17000AD3 RID: 2771
+		// (get) Token: 0x060044C2 RID: 17602 RVA: 0x0024294C File Offset: 0x00240D4C
 		public static IEnumerable<Name> AllPawnsNamesEverUsed
 		{
 			get
@@ -24,7 +24,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044BA RID: 17594 RVA: 0x002415A8 File Offset: 0x0023F9A8
+		// Token: 0x060044C3 RID: 17603 RVA: 0x00242970 File Offset: 0x00240D70
 		public static bool NameWordIsUsed(string singleName)
 		{
 			foreach (Name name in NameUseChecker.AllPawnsNamesEverUsed)
@@ -43,7 +43,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x060044BB RID: 17595 RVA: 0x00241674 File Offset: 0x0023FA74
+		// Token: 0x060044C4 RID: 17604 RVA: 0x00242A3C File Offset: 0x00240E3C
 		public static bool NameSingleIsUsed(string candidate)
 		{
 			foreach (Pawn pawn in PawnsFinder.AllMapsWorldAndTemporary_AliveOrDead)

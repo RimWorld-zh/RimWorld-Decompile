@@ -5,12 +5,12 @@ namespace Verse.Noise
 	// Token: 0x02000F8D RID: 3981
 	public class Filter : ModuleBase
 	{
-		// Token: 0x06006010 RID: 24592 RVA: 0x0030BB8A File Offset: 0x00309F8A
+		// Token: 0x06006039 RID: 24633 RVA: 0x0030DC2E File Offset: 0x0030C02E
 		public Filter() : base(1)
 		{
 		}
 
-		// Token: 0x06006011 RID: 24593 RVA: 0x0030BB94 File Offset: 0x00309F94
+		// Token: 0x0600603A RID: 24634 RVA: 0x0030DC38 File Offset: 0x0030C038
 		public Filter(ModuleBase module, float from, float to) : base(1)
 		{
 			this.modules[0] = module;
@@ -18,7 +18,7 @@ namespace Verse.Noise
 			this.to = to;
 		}
 
-		// Token: 0x06006012 RID: 24594 RVA: 0x0030BBB8 File Offset: 0x00309FB8
+		// Token: 0x0600603B RID: 24635 RVA: 0x0030DC5C File Offset: 0x0030C05C
 		public override double GetValue(double x, double y, double z)
 		{
 			double value = this.modules[0].GetValue(x, y, z);
@@ -34,10 +34,10 @@ namespace Verse.Noise
 			return result;
 		}
 
-		// Token: 0x04003F07 RID: 16135
+		// Token: 0x04003F19 RID: 16153
 		private float from;
 
-		// Token: 0x04003F08 RID: 16136
+		// Token: 0x04003F1A RID: 16154
 		private float to;
 	}
 }

@@ -4,11 +4,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000E0C RID: 3596
+	// Token: 0x02000E09 RID: 3593
 	public class Tool
 	{
-		// Token: 0x17000D5A RID: 3418
-		// (get) Token: 0x06005170 RID: 20848 RVA: 0x0029AD00 File Offset: 0x00299100
+		// Token: 0x17000D5C RID: 3420
+		// (get) Token: 0x06005184 RID: 20868 RVA: 0x0029C2E0 File Offset: 0x0029A6E0
 		public string Id
 		{
 			get
@@ -20,13 +20,13 @@ namespace Verse
 				}
 				else
 				{
-					result = this.englishLabel;
+					result = this.untranslatedLabel;
 				}
 				return result;
 			}
 		}
 
-		// Token: 0x06005171 RID: 20849 RVA: 0x0029AD38 File Offset: 0x00299138
+		// Token: 0x06005185 RID: 20869 RVA: 0x0029C318 File Offset: 0x0029A718
 		public float AdjustedMeleeDamageAmount(Thing ownerEquipment, DamageDef damageDef)
 		{
 			float num = this.power;
@@ -41,64 +41,65 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06005172 RID: 20850 RVA: 0x0029AD98 File Offset: 0x00299198
+		// Token: 0x06005186 RID: 20870 RVA: 0x0029C378 File Offset: 0x0029A778
 		public float AdjustedCooldown(Thing ownerEquipment)
 		{
 			return this.cooldownTime * ((ownerEquipment != null) ? ownerEquipment.GetStatValue(StatDefOf.MeleeWeapon_CooldownMultiplier, true) : 1f);
 		}
 
-		// Token: 0x06005173 RID: 20851 RVA: 0x0029ADD0 File Offset: 0x002991D0
+		// Token: 0x06005187 RID: 20871 RVA: 0x0029C3B0 File Offset: 0x0029A7B0
 		public override string ToString()
 		{
 			return this.label;
 		}
 
-		// Token: 0x06005174 RID: 20852 RVA: 0x0029ADEB File Offset: 0x002991EB
+		// Token: 0x06005188 RID: 20872 RVA: 0x0029C3CB File Offset: 0x0029A7CB
 		public void PostLoad()
 		{
-			this.englishLabel = this.label;
+			this.untranslatedLabel = this.label;
 		}
 
-		// Token: 0x04003550 RID: 13648
+		// Token: 0x04003557 RID: 13655
 		[NoTranslate]
 		public string id;
 
-		// Token: 0x04003551 RID: 13649
+		// Token: 0x04003558 RID: 13656
 		[MustTranslate]
 		public string label;
 
-		// Token: 0x04003552 RID: 13650
-		public bool labelUsedInLogging = true;
-
-		// Token: 0x04003553 RID: 13651
-		public List<ToolCapacityDef> capacities;
-
-		// Token: 0x04003554 RID: 13652
-		public float power;
-
-		// Token: 0x04003555 RID: 13653
-		public float cooldownTime;
-
-		// Token: 0x04003556 RID: 13654
-		public SurpriseAttackProps surpriseAttack;
-
-		// Token: 0x04003557 RID: 13655
-		public HediffDef hediff;
-
-		// Token: 0x04003558 RID: 13656
-		public float commonality = 1f;
-
 		// Token: 0x04003559 RID: 13657
-		public bool alwaysTreatAsWeapon = false;
+		[Unsaved]
+		[TranslationHandle]
+		public string untranslatedLabel = null;
 
 		// Token: 0x0400355A RID: 13658
-		public BodyPartGroupDef linkedBodyPartsGroup;
+		public bool labelUsedInLogging = true;
 
 		// Token: 0x0400355B RID: 13659
-		public bool ensureLinkedBodyPartsGroupAlwaysUsable;
+		public List<ToolCapacityDef> capacities;
 
 		// Token: 0x0400355C RID: 13660
-		[Unsaved]
-		private string englishLabel;
+		public float power;
+
+		// Token: 0x0400355D RID: 13661
+		public float cooldownTime;
+
+		// Token: 0x0400355E RID: 13662
+		public SurpriseAttackProps surpriseAttack;
+
+		// Token: 0x0400355F RID: 13663
+		public HediffDef hediff;
+
+		// Token: 0x04003560 RID: 13664
+		public float commonality = 1f;
+
+		// Token: 0x04003561 RID: 13665
+		public bool alwaysTreatAsWeapon = false;
+
+		// Token: 0x04003562 RID: 13666
+		public BodyPartGroupDef linkedBodyPartsGroup;
+
+		// Token: 0x04003563 RID: 13667
+		public bool ensureLinkedBodyPartsGroupAlwaysUsable;
 	}
 }

@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000839 RID: 2105
+	// Token: 0x02000835 RID: 2101
 	public class Page_SelectStoryteller : Page
 	{
-		// Token: 0x17000789 RID: 1929
-		// (get) Token: 0x06002F9E RID: 12190 RVA: 0x001978AC File Offset: 0x00195CAC
+		// Token: 0x1700078A RID: 1930
+		// (get) Token: 0x06002F97 RID: 12183 RVA: 0x00197A8C File Offset: 0x00195E8C
 		public override string PageTitle
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F9F RID: 12191 RVA: 0x001978CC File Offset: 0x00195CCC
+		// Token: 0x06002F98 RID: 12184 RVA: 0x00197AAC File Offset: 0x00195EAC
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -28,7 +28,7 @@ namespace RimWorld
 			select d).First<StorytellerDef>();
 		}
 
-		// Token: 0x06002FA0 RID: 12192 RVA: 0x00197934 File Offset: 0x00195D34
+		// Token: 0x06002F99 RID: 12185 RVA: 0x00197B14 File Offset: 0x00195F14
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DrawPageTitle(rect);
@@ -37,7 +37,7 @@ namespace RimWorld
 			base.DoBottomButtons(rect, null, null, null, true);
 		}
 
-		// Token: 0x06002FA1 RID: 12193 RVA: 0x0019797C File Offset: 0x00195D7C
+		// Token: 0x06002F9A RID: 12186 RVA: 0x00197B5C File Offset: 0x00195F5C
 		protected override bool CanDoNext()
 		{
 			bool result;
@@ -63,13 +63,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x040019B5 RID: 6581
+		// Token: 0x040019B3 RID: 6579
 		private StorytellerDef storyteller;
 
-		// Token: 0x040019B6 RID: 6582
+		// Token: 0x040019B4 RID: 6580
 		private DifficultyDef difficulty;
 
-		// Token: 0x040019B7 RID: 6583
+		// Token: 0x040019B5 RID: 6581
 		private Listing_Standard selectedStorytellerInfoListing = new Listing_Standard();
 	}
 }

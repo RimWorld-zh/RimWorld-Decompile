@@ -8,27 +8,27 @@ namespace RimWorld
 	// Token: 0x02000087 RID: 135
 	public class JobDriver_UseItem : JobDriver
 	{
-		// Token: 0x0600037F RID: 895 RVA: 0x000274B9 File Offset: 0x000258B9
+		// Token: 0x0600037F RID: 895 RVA: 0x00027495 File Offset: 0x00025895
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.useDuration, "useDuration", 0, false);
 		}
 
-		// Token: 0x06000380 RID: 896 RVA: 0x000274D4 File Offset: 0x000258D4
+		// Token: 0x06000380 RID: 896 RVA: 0x000274B0 File Offset: 0x000258B0
 		public override void Notify_Starting()
 		{
 			base.Notify_Starting();
 			this.useDuration = this.job.GetTarget(TargetIndex.A).Thing.TryGetComp<CompUsable>().Props.useDuration;
 		}
 
-		// Token: 0x06000381 RID: 897 RVA: 0x00027514 File Offset: 0x00025914
+		// Token: 0x06000381 RID: 897 RVA: 0x000274F0 File Offset: 0x000258F0
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000382 RID: 898 RVA: 0x00027548 File Offset: 0x00025948
+		// Token: 0x06000382 RID: 898 RVA: 0x00027524 File Offset: 0x00025924
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnIncapable(PawnCapacityDefOf.Manipulation);

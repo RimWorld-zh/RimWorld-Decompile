@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000765 RID: 1893
+	// Token: 0x02000761 RID: 1889
 	public class CompUseEffect_FixWorstHealthCondition : CompUseEffect
 	{
-		// Token: 0x17000673 RID: 1651
-		// (get) Token: 0x060029C5 RID: 10693 RVA: 0x001622C8 File Offset: 0x001606C8
+		// Token: 0x17000674 RID: 1652
+		// (get) Token: 0x060029BE RID: 10686 RVA: 0x001624A0 File Offset: 0x001608A0
 		private float HandCoverageAbsWithChildren
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060029C6 RID: 10694 RVA: 0x00162300 File Offset: 0x00160700
+		// Token: 0x060029BF RID: 10687 RVA: 0x001624D8 File Offset: 0x001608D8
 		public override void DoEffect(Pawn usedBy)
 		{
 			base.DoEffect(usedBy);
@@ -130,7 +130,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060029C7 RID: 10695 RVA: 0x00162540 File Offset: 0x00160940
+		// Token: 0x060029C0 RID: 10688 RVA: 0x00162718 File Offset: 0x00160B18
 		private Hediff FindLifeThreateningHediff(Pawn pawn)
 		{
 			Hediff hediff = null;
@@ -160,7 +160,7 @@ namespace RimWorld
 			return hediff;
 		}
 
-		// Token: 0x060029C8 RID: 10696 RVA: 0x00162694 File Offset: 0x00160A94
+		// Token: 0x060029C1 RID: 10689 RVA: 0x0016286C File Offset: 0x00160C6C
 		private Hediff FindMostBleedingHediff(Pawn pawn)
 		{
 			float num = 0f;
@@ -181,7 +181,7 @@ namespace RimWorld
 			return hediff;
 		}
 
-		// Token: 0x060029C9 RID: 10697 RVA: 0x00162740 File Offset: 0x00160B40
+		// Token: 0x060029C2 RID: 10690 RVA: 0x00162918 File Offset: 0x00160D18
 		private Hediff FindImmunizableHediffWhichCanKill(Pawn pawn)
 		{
 			Hediff hediff = null;
@@ -211,7 +211,7 @@ namespace RimWorld
 			return hediff;
 		}
 
-		// Token: 0x060029CA RID: 10698 RVA: 0x00162820 File Offset: 0x00160C20
+		// Token: 0x060029C3 RID: 10691 RVA: 0x001629F8 File Offset: 0x00160DF8
 		private Hediff FindNonInjuryMiscBadHediff(Pawn pawn, bool onlyIfCanKill)
 		{
 			Hediff hediff = null;
@@ -238,7 +238,7 @@ namespace RimWorld
 			return hediff;
 		}
 
-		// Token: 0x060029CB RID: 10699 RVA: 0x0016295C File Offset: 0x00160D5C
+		// Token: 0x060029C4 RID: 10692 RVA: 0x00162B34 File Offset: 0x00160F34
 		private BodyPartRecord FindBiggestMissingBodyPart(Pawn pawn, float minCoverage = 0f)
 		{
 			BodyPartRecord bodyPartRecord = null;
@@ -258,7 +258,7 @@ namespace RimWorld
 			return bodyPartRecord;
 		}
 
-		// Token: 0x060029CC RID: 10700 RVA: 0x00162A24 File Offset: 0x00160E24
+		// Token: 0x060029C5 RID: 10693 RVA: 0x00162BFC File Offset: 0x00160FFC
 		private Hediff_Addiction FindAddiction(Pawn pawn)
 		{
 			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
@@ -273,7 +273,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x060029CD RID: 10701 RVA: 0x00162AA0 File Offset: 0x00160EA0
+		// Token: 0x060029C6 RID: 10694 RVA: 0x00162C78 File Offset: 0x00161078
 		private Hediff_Injury FindPermanentInjury(Pawn pawn, IEnumerable<BodyPartRecord> allowedBodyParts = null)
 		{
 			Hediff_Injury hediff_Injury = null;
@@ -295,7 +295,7 @@ namespace RimWorld
 			return hediff_Injury;
 		}
 
-		// Token: 0x060029CE RID: 10702 RVA: 0x00162B58 File Offset: 0x00160F58
+		// Token: 0x060029C7 RID: 10695 RVA: 0x00162D30 File Offset: 0x00161130
 		private Hediff_Injury FindInjury(Pawn pawn, IEnumerable<BodyPartRecord> allowedBodyParts = null)
 		{
 			Hediff_Injury hediff_Injury = null;
@@ -317,7 +317,7 @@ namespace RimWorld
 			return hediff_Injury;
 		}
 
-		// Token: 0x060029CF RID: 10703 RVA: 0x00162C04 File Offset: 0x00161004
+		// Token: 0x060029C8 RID: 10696 RVA: 0x00162DDC File Offset: 0x001611DC
 		private void Cure(Hediff hediff)
 		{
 			Pawn pawn = hediff.pawn;
@@ -348,7 +348,7 @@ namespace RimWorld
 			}), pawn, MessageTypeDefOf.PositiveEvent, true);
 		}
 
-		// Token: 0x060029D0 RID: 10704 RVA: 0x00162CBF File Offset: 0x001610BF
+		// Token: 0x060029C9 RID: 10697 RVA: 0x00162E97 File Offset: 0x00161297
 		private void Cure(BodyPartRecord part, Pawn pawn)
 		{
 			pawn.health.RestorePart(part, null, true);
@@ -358,7 +358,7 @@ namespace RimWorld
 			}), pawn, MessageTypeDefOf.PositiveEvent, true);
 		}
 
-		// Token: 0x060029D1 RID: 10705 RVA: 0x00162CFC File Offset: 0x001610FC
+		// Token: 0x060029CA RID: 10698 RVA: 0x00162ED4 File Offset: 0x001612D4
 		private bool CanEverKill(Hediff hediff)
 		{
 			if (hediff.def.stages != null)

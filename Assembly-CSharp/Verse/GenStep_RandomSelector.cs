@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C5A RID: 3162
+	// Token: 0x02000C57 RID: 3159
 	public class GenStep_RandomSelector : GenStep
 	{
-		// Token: 0x17000AF9 RID: 2809
-		// (get) Token: 0x06004580 RID: 17792 RVA: 0x0024AFC8 File Offset: 0x002493C8
+		// Token: 0x17000AFB RID: 2811
+		// (get) Token: 0x06004589 RID: 17801 RVA: 0x0024C398 File Offset: 0x0024A798
 		public override int SeedPart
 		{
 			get
@@ -16,7 +16,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004581 RID: 17793 RVA: 0x0024AFE4 File Offset: 0x002493E4
+		// Token: 0x0600458A RID: 17802 RVA: 0x0024C3B4 File Offset: 0x0024A7B4
 		public override void Generate(Map map)
 		{
 			RandomGenStepSelectorOption randomGenStepSelectorOption = this.options.RandomElementByWeight((RandomGenStepSelectorOption opt) => opt.weight);
@@ -30,7 +30,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002F77 RID: 12151
+		// Token: 0x04002F81 RID: 12161
 		public List<RandomGenStepSelectorOption> options;
 	}
 }

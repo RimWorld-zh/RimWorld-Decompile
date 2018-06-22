@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000E77 RID: 3703
+	// Token: 0x02000E76 RID: 3702
 	public class StandardLetter : ChoiceLetter
 	{
-		// Token: 0x17000DC0 RID: 3520
-		// (get) Token: 0x0600572B RID: 22315 RVA: 0x002CBF9C File Offset: 0x002CA39C
+		// Token: 0x17000DC3 RID: 3523
+		// (get) Token: 0x0600574B RID: 22347 RVA: 0x002CDBAC File Offset: 0x002CBFAC
 		public override IEnumerable<DiaOption> Choices
 		{
 			get

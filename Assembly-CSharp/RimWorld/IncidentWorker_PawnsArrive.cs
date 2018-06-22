@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000347 RID: 839
 	public abstract class IncidentWorker_PawnsArrive : IncidentWorker
 	{
-		// Token: 0x06000E67 RID: 3687 RVA: 0x000794DC File Offset: 0x000778DC
+		// Token: 0x06000E67 RID: 3687 RVA: 0x000795EC File Offset: 0x000779EC
 		protected IEnumerable<Faction> CandidateFactions(Map map, bool desperate = false)
 		{
 			return from f in Find.FactionManager.AllFactions
@@ -17,7 +17,7 @@ namespace RimWorld
 			select f;
 		}
 
-		// Token: 0x06000E68 RID: 3688 RVA: 0x00079528 File Offset: 0x00077928
+		// Token: 0x06000E68 RID: 3688 RVA: 0x00079638 File Offset: 0x00077A38
 		protected virtual bool FactionCanBeGroupSource(Faction f, Map map, bool desperate = false)
 		{
 			bool result;
@@ -43,14 +43,14 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E69 RID: 3689 RVA: 0x000795B4 File Offset: 0x000779B4
+		// Token: 0x06000E69 RID: 3689 RVA: 0x000796C4 File Offset: 0x00077AC4
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			return this.CandidateFactions(map, false).Any<Faction>();
 		}
 
-		// Token: 0x06000E6A RID: 3690 RVA: 0x000795E4 File Offset: 0x000779E4
+		// Token: 0x06000E6A RID: 3690 RVA: 0x000796F4 File Offset: 0x00077AF4
 		public string DebugListingOfGroupSources()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

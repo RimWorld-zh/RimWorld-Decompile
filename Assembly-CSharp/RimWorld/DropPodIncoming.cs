@@ -4,13 +4,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006E4 RID: 1764
+	// Token: 0x020006E0 RID: 1760
 	[StaticConstructorOnStartup]
 	public class DropPodIncoming : Skyfaller, IActiveDropPod, IThingHolder
 	{
 		// Token: 0x170005D5 RID: 1493
-		// (get) Token: 0x0600265B RID: 9819 RVA: 0x001493E8 File Offset: 0x001477E8
-		// (set) Token: 0x0600265C RID: 9820 RVA: 0x00149413 File Offset: 0x00147813
+		// (get) Token: 0x06002653 RID: 9811 RVA: 0x0014958C File Offset: 0x0014798C
+		// (set) Token: 0x06002654 RID: 9812 RVA: 0x001495B7 File Offset: 0x001479B7
 		public ActiveDropPodInfo Contents
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600265D RID: 9821 RVA: 0x00149430 File Offset: 0x00147830
+		// Token: 0x06002655 RID: 9813 RVA: 0x001495D4 File Offset: 0x001479D4
 		protected override void Impact()
 		{
 			for (int i = 0; i < 6; i++)

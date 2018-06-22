@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005A8 RID: 1448
+	// Token: 0x020005A4 RID: 1444
 	public class Tile
 	{
 		// Token: 0x17000410 RID: 1040
-		// (get) Token: 0x06001B9B RID: 7067 RVA: 0x000EE17C File Offset: 0x000EC57C
+		// (get) Token: 0x06001B92 RID: 7058 RVA: 0x000EE1D0 File Offset: 0x000EC5D0
 		public bool WaterCovered
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000411 RID: 1041
-		// (get) Token: 0x06001B9C RID: 7068 RVA: 0x000EE1A4 File Offset: 0x000EC5A4
+		// (get) Token: 0x06001B93 RID: 7059 RVA: 0x000EE1F8 File Offset: 0x000EC5F8
 		public List<Tile.RoadLink> Roads
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000412 RID: 1042
-		// (get) Token: 0x06001B9D RID: 7069 RVA: 0x000EE1D8 File Offset: 0x000EC5D8
+		// (get) Token: 0x06001B94 RID: 7060 RVA: 0x000EE22C File Offset: 0x000EC62C
 		public List<Tile.RiverLink> Rivers
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B9E RID: 7070 RVA: 0x000EE20C File Offset: 0x000EC60C
+		// Token: 0x06001B95 RID: 7061 RVA: 0x000EE260 File Offset: 0x000EC660
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -66,53 +66,53 @@ namespace RimWorld.Planet
 			});
 		}
 
-		// Token: 0x04001063 RID: 4195
+		// Token: 0x04001060 RID: 4192
 		public const int Invalid = -1;
 
-		// Token: 0x04001064 RID: 4196
+		// Token: 0x04001061 RID: 4193
 		public BiomeDef biome;
 
-		// Token: 0x04001065 RID: 4197
+		// Token: 0x04001062 RID: 4194
 		public float elevation = 100f;
 
-		// Token: 0x04001066 RID: 4198
+		// Token: 0x04001063 RID: 4195
 		public Hilliness hilliness = Hilliness.Undefined;
 
-		// Token: 0x04001067 RID: 4199
+		// Token: 0x04001064 RID: 4196
 		public float temperature = 20f;
 
-		// Token: 0x04001068 RID: 4200
+		// Token: 0x04001065 RID: 4197
 		public float rainfall = 0f;
 
-		// Token: 0x04001069 RID: 4201
+		// Token: 0x04001066 RID: 4198
 		public float swampiness;
 
-		// Token: 0x0400106A RID: 4202
+		// Token: 0x04001067 RID: 4199
 		public WorldFeature feature;
 
-		// Token: 0x0400106B RID: 4203
+		// Token: 0x04001068 RID: 4200
 		public List<Tile.RoadLink> potentialRoads;
 
-		// Token: 0x0400106C RID: 4204
+		// Token: 0x04001069 RID: 4201
 		public List<Tile.RiverLink> potentialRivers;
 
-		// Token: 0x020005A9 RID: 1449
+		// Token: 0x020005A5 RID: 1445
 		public struct RoadLink
 		{
-			// Token: 0x0400106D RID: 4205
+			// Token: 0x0400106A RID: 4202
 			public int neighbor;
 
-			// Token: 0x0400106E RID: 4206
+			// Token: 0x0400106B RID: 4203
 			public RoadDef road;
 		}
 
-		// Token: 0x020005AA RID: 1450
+		// Token: 0x020005A6 RID: 1446
 		public struct RiverLink
 		{
-			// Token: 0x0400106F RID: 4207
+			// Token: 0x0400106C RID: 4204
 			public int neighbor;
 
-			// Token: 0x04001070 RID: 4208
+			// Token: 0x0400106D RID: 4205
 			public RiverDef river;
 		}
 	}

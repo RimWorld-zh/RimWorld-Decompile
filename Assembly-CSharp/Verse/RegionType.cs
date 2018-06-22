@@ -2,23 +2,23 @@
 
 namespace Verse
 {
-	// Token: 0x02000C97 RID: 3223
+	// Token: 0x02000C94 RID: 3220
 	[Flags]
 	public enum RegionType
 	{
-		// Token: 0x04003016 RID: 12310
+		// Token: 0x04003021 RID: 12321
 		None = 0,
-		// Token: 0x04003017 RID: 12311
+		// Token: 0x04003022 RID: 12322
 		ImpassableFreeAirExchange = 1,
-		// Token: 0x04003018 RID: 12312
+		// Token: 0x04003023 RID: 12323
 		Normal = 2,
-		// Token: 0x04003019 RID: 12313
+		// Token: 0x04003024 RID: 12324
 		Portal = 4,
-		// Token: 0x0400301A RID: 12314
+		// Token: 0x04003025 RID: 12325
 		Set_Passable = 6,
-		// Token: 0x0400301B RID: 12315
+		// Token: 0x04003026 RID: 12326
 		Set_Impassable = 1,
-		// Token: 0x0400301C RID: 12316
+		// Token: 0x04003027 RID: 12327
 		Set_All = 7
 	}
 }

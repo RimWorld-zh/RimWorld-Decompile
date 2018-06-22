@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000895 RID: 2197
+	// Token: 0x02000891 RID: 2193
 	public class PawnColumnWorker_Label : PawnColumnWorker
 	{
-		// Token: 0x0600321D RID: 12829 RVA: 0x001AFA4C File Offset: 0x001ADE4C
+		// Token: 0x06003216 RID: 12822 RVA: 0x001AFC34 File Offset: 0x001AE034
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 			Rect rect2 = new Rect(rect.x, rect.y, rect.width, Mathf.Min(rect.height, 30f));
@@ -62,25 +62,25 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600321E RID: 12830 RVA: 0x001AFC5C File Offset: 0x001AE05C
+		// Token: 0x06003217 RID: 12823 RVA: 0x001AFE44 File Offset: 0x001AE244
 		public override int GetMinWidth(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinWidth(table), 80);
 		}
 
-		// Token: 0x0600321F RID: 12831 RVA: 0x001AFC80 File Offset: 0x001AE080
+		// Token: 0x06003218 RID: 12824 RVA: 0x001AFE68 File Offset: 0x001AE268
 		public override int GetOptimalWidth(PawnTable table)
 		{
 			return Mathf.Clamp(165, this.GetMinWidth(table), this.GetMaxWidth(table));
 		}
 
-		// Token: 0x04001ADE RID: 6878
+		// Token: 0x04001ADC RID: 6876
 		private const int LeftMargin = 3;
 
-		// Token: 0x04001ADF RID: 6879
+		// Token: 0x04001ADD RID: 6877
 		private static Dictionary<string, string> labelCache = new Dictionary<string, string>();
 
-		// Token: 0x04001AE0 RID: 6880
+		// Token: 0x04001ADE RID: 6878
 		private static float labelCacheForWidth = -1f;
 	}
 }

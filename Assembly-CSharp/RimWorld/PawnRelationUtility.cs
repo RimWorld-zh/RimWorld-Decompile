@@ -7,10 +7,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004C1 RID: 1217
+	// Token: 0x020004BD RID: 1213
 	public static class PawnRelationUtility
 	{
-		// Token: 0x060015BF RID: 5567 RVA: 0x000C16C0 File Offset: 0x000BFAC0
+		// Token: 0x060015B6 RID: 5558 RVA: 0x000C16AC File Offset: 0x000BFAAC
 		public static IEnumerable<PawnRelationDef> GetRelations(this Pawn me, Pawn other)
 		{
 			if (me == other)
@@ -58,7 +58,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060015C0 RID: 5568 RVA: 0x000C16F4 File Offset: 0x000BFAF4
+		// Token: 0x060015B7 RID: 5559 RVA: 0x000C16E0 File Offset: 0x000BFAE0
 		public static PawnRelationDef GetMostImportantRelation(this Pawn me, Pawn other)
 		{
 			PawnRelationDef pawnRelationDef = null;
@@ -72,7 +72,7 @@ namespace RimWorld
 			return pawnRelationDef;
 		}
 
-		// Token: 0x060015C1 RID: 5569 RVA: 0x000C1770 File Offset: 0x000BFB70
+		// Token: 0x060015B8 RID: 5560 RVA: 0x000C175C File Offset: 0x000BFB5C
 		public static void Notify_PawnsSeenByPlayer(IEnumerable<Pawn> seenPawns, out string pawnRelationsInfo, bool informEvenIfSeenBefore = false, bool writeSeenPawnsNames = true)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -129,7 +129,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060015C2 RID: 5570 RVA: 0x000C1960 File Offset: 0x000BFD60
+		// Token: 0x060015B9 RID: 5561 RVA: 0x000C194C File Offset: 0x000BFD4C
 		public static void Notify_PawnsSeenByPlayer_Letter(IEnumerable<Pawn> seenPawns, ref string letterLabel, ref string letterText, string relationsInfoHeader, bool informEvenIfSeenBefore = false, bool writeSeenPawnsNames = true)
 		{
 			string text;
@@ -152,7 +152,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060015C3 RID: 5571 RVA: 0x000C19E8 File Offset: 0x000BFDE8
+		// Token: 0x060015BA RID: 5562 RVA: 0x000C19D4 File Offset: 0x000BFDD4
 		public static void Notify_PawnsSeenByPlayer_Letter_Send(IEnumerable<Pawn> seenPawns, string relationsInfoHeader, LetterDef letterDef, bool informEvenIfSeenBefore = false, bool writeSeenPawnsNames = true)
 		{
 			string label = "";
@@ -177,14 +177,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060015C4 RID: 5572 RVA: 0x000C1A9C File Offset: 0x000BFE9C
+		// Token: 0x060015BB RID: 5563 RVA: 0x000C1A88 File Offset: 0x000BFE88
 		public static bool TryAppendRelationsWithColonistsInfo(ref string text, Pawn pawn)
 		{
 			string text2 = null;
 			return PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref text2, pawn);
 		}
 
-		// Token: 0x060015C5 RID: 5573 RVA: 0x000C1ABC File Offset: 0x000BFEBC
+		// Token: 0x060015BC RID: 5564 RVA: 0x000C1AA8 File Offset: 0x000BFEA8
 		public static bool TryAppendRelationsWithColonistsInfo(ref string text, ref string title, Pawn pawn)
 		{
 			Pawn mostImportantColonyRelative = PawnRelationUtility.GetMostImportantColonyRelative(pawn);
@@ -217,13 +217,13 @@ namespace RimWorld
 						genderSpecificLabel
 					});
 				}
-				text += text2.AdjustedFor(pawn);
+				text += text2.AdjustedFor(pawn, "PAWN");
 				result = true;
 			}
 			return result;
 		}
 
-		// Token: 0x060015C6 RID: 5574 RVA: 0x000C1B84 File Offset: 0x000BFF84
+		// Token: 0x060015BD RID: 5565 RVA: 0x000C1B74 File Offset: 0x000BFF74
 		public static Pawn GetMostImportantColonyRelative(Pawn pawn)
 		{
 			Pawn result;
@@ -255,7 +255,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015C7 RID: 5575 RVA: 0x000C1C6C File Offset: 0x000C006C
+		// Token: 0x060015BE RID: 5566 RVA: 0x000C1C5C File Offset: 0x000C005C
 		public static float MaxPossibleBioAgeAt(float myBiologicalAge, float myChronologicalAge, float atChronologicalAge)
 		{
 			float num = Mathf.Min(myBiologicalAge, myChronologicalAge - atChronologicalAge);
@@ -271,7 +271,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015C8 RID: 5576 RVA: 0x000C1CA4 File Offset: 0x000C00A4
+		// Token: 0x060015BF RID: 5567 RVA: 0x000C1C94 File Offset: 0x000C0094
 		public static float MinPossibleBioAgeAt(float myBiologicalAge, float atChronologicalAge)
 		{
 			return Mathf.Max(myBiologicalAge - atChronologicalAge, 0f);

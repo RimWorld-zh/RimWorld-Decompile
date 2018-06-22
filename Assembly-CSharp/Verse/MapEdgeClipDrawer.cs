@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CB9 RID: 3257
+	// Token: 0x02000CB6 RID: 3254
 	[StaticConstructorOnStartup]
 	public static class MapEdgeClipDrawer
 	{
-		// Token: 0x060047B5 RID: 18357 RVA: 0x0025BBA4 File Offset: 0x00259FA4
+		// Token: 0x060047BE RID: 18366 RVA: 0x0025CF94 File Offset: 0x0025B394
 		public static void DrawClippers(Map map)
 		{
 			IntVec3 size = map.Size;
@@ -27,13 +27,13 @@ namespace Verse
 			Graphics.DrawMesh(MeshPool.plane10, matrix, MapEdgeClipDrawer.ClipMat, 0);
 		}
 
-		// Token: 0x040030A3 RID: 12451
+		// Token: 0x040030AE RID: 12462
 		public static readonly Material ClipMat = SolidColorMaterials.NewSolidColorMaterial(new Color(0.1f, 0.1f, 0.1f), ShaderDatabase.MetaOverlay);
 
-		// Token: 0x040030A4 RID: 12452
+		// Token: 0x040030AF RID: 12463
 		private static readonly float ClipAltitude = AltitudeLayer.WorldClipper.AltitudeFor();
 
-		// Token: 0x040030A5 RID: 12453
+		// Token: 0x040030B0 RID: 12464
 		private const float ClipWidth = 500f;
 	}
 }

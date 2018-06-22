@@ -2,10 +2,10 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000AD4 RID: 2772
+	// Token: 0x02000AD0 RID: 2768
 	public class JobGiver_WanderCurrentRoom : JobGiver_Wander
 	{
-		// Token: 0x06003D85 RID: 15749 RVA: 0x00205CD0 File Offset: 0x002040D0
+		// Token: 0x06003D80 RID: 15744 RVA: 0x00205FF4 File Offset: 0x002043F4
 		public JobGiver_WanderCurrentRoom()
 		{
 			this.wanderRadius = 7f;
@@ -14,7 +14,7 @@ namespace Verse.AI
 			this.wanderDestValidator = ((Pawn pawn, IntVec3 loc, IntVec3 root) => WanderRoomUtility.IsValidWanderDest(pawn, loc, root));
 		}
 
-		// Token: 0x06003D86 RID: 15750 RVA: 0x00205D2C File Offset: 0x0020412C
+		// Token: 0x06003D81 RID: 15745 RVA: 0x00206050 File Offset: 0x00204450
 		protected override IntVec3 GetWanderRoot(Pawn pawn)
 		{
 			return pawn.Position;

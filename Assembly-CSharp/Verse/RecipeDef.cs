@@ -6,11 +6,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000B64 RID: 2916
+	// Token: 0x02000B60 RID: 2912
 	public class RecipeDef : Def
 	{
-		// Token: 0x170009A5 RID: 2469
-		// (get) Token: 0x06003F9A RID: 16282 RVA: 0x0021812C File Offset: 0x0021652C
+		// Token: 0x170009A7 RID: 2471
+		// (get) Token: 0x06003F9B RID: 16283 RVA: 0x00218794 File Offset: 0x00216B94
 		public RecipeWorker Worker
 		{
 			get
@@ -24,8 +24,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009A6 RID: 2470
-		// (get) Token: 0x06003F9B RID: 16283 RVA: 0x00218178 File Offset: 0x00216578
+		// Token: 0x170009A8 RID: 2472
+		// (get) Token: 0x06003F9C RID: 16284 RVA: 0x002187E0 File Offset: 0x00216BE0
 		public RecipeWorkerCounter WorkerCounter
 		{
 			get
@@ -39,8 +39,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009A7 RID: 2471
-		// (get) Token: 0x06003F9C RID: 16284 RVA: 0x002181C4 File Offset: 0x002165C4
+		// Token: 0x170009A9 RID: 2473
+		// (get) Token: 0x06003F9D RID: 16285 RVA: 0x0021882C File Offset: 0x00216C2C
 		public IngredientValueGetter IngredientValueGetter
 		{
 			get
@@ -53,8 +53,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009A8 RID: 2472
-		// (get) Token: 0x06003F9D RID: 16285 RVA: 0x00218200 File Offset: 0x00216600
+		// Token: 0x170009AA RID: 2474
+		// (get) Token: 0x06003F9E RID: 16286 RVA: 0x00218868 File Offset: 0x00216C68
 		public bool AvailableNow
 		{
 			get
@@ -79,8 +79,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009A9 RID: 2473
-		// (get) Token: 0x06003F9E RID: 16286 RVA: 0x00218278 File Offset: 0x00216678
+		// Token: 0x170009AB RID: 2475
+		// (get) Token: 0x06003F9F RID: 16287 RVA: 0x002188E0 File Offset: 0x00216CE0
 		public string MinSkillString
 		{
 			get
@@ -110,8 +110,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009AA RID: 2474
-		// (get) Token: 0x06003F9F RID: 16287 RVA: 0x00218340 File Offset: 0x00216740
+		// Token: 0x170009AC RID: 2476
+		// (get) Token: 0x06003FA0 RID: 16288 RVA: 0x002189A8 File Offset: 0x00216DA8
 		public IEnumerable<ThingDef> AllRecipeUsers
 		{
 			get
@@ -138,8 +138,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009AB RID: 2475
-		// (get) Token: 0x06003FA0 RID: 16288 RVA: 0x0021836C File Offset: 0x0021676C
+		// Token: 0x170009AD RID: 2477
+		// (get) Token: 0x06003FA1 RID: 16289 RVA: 0x002189D4 File Offset: 0x00216DD4
 		public bool UsesUnfinishedThing
 		{
 			get
@@ -148,8 +148,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009AC RID: 2476
-		// (get) Token: 0x06003FA1 RID: 16289 RVA: 0x00218390 File Offset: 0x00216790
+		// Token: 0x170009AE RID: 2478
+		// (get) Token: 0x06003FA2 RID: 16290 RVA: 0x002189F8 File Offset: 0x00216DF8
 		public bool IsSurgery
 		{
 			get
@@ -165,8 +165,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009AD RID: 2477
-		// (get) Token: 0x06003FA2 RID: 16290 RVA: 0x00218404 File Offset: 0x00216804
+		// Token: 0x170009AF RID: 2479
+		// (get) Token: 0x06003FA3 RID: 16291 RVA: 0x00218A6C File Offset: 0x00216E6C
 		public ThingDef ProducedThingDef
 		{
 			get
@@ -188,7 +188,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FA3 RID: 16291 RVA: 0x00218460 File Offset: 0x00216860
+		// Token: 0x06003FA4 RID: 16292 RVA: 0x00218AC8 File Offset: 0x00216EC8
 		public float WorkAmountTotal(ThingDef stuffDef)
 		{
 			float statValueAbstract;
@@ -203,7 +203,7 @@ namespace Verse
 			return statValueAbstract;
 		}
 
-		// Token: 0x06003FA4 RID: 16292 RVA: 0x002184B0 File Offset: 0x002168B0
+		// Token: 0x06003FA5 RID: 16293 RVA: 0x00218B18 File Offset: 0x00216F18
 		public IEnumerable<ThingDef> PotentiallyMissingIngredients(Pawn billDoer, Map map)
 		{
 			for (int i = 0; i < this.ingredients.Count; i++)
@@ -241,7 +241,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003FA5 RID: 16293 RVA: 0x002184E8 File Offset: 0x002168E8
+		// Token: 0x06003FA6 RID: 16294 RVA: 0x00218B50 File Offset: 0x00216F50
 		public bool IsIngredient(ThingDef th)
 		{
 			for (int i = 0; i < this.ingredients.Count; i++)
@@ -254,7 +254,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06003FA6 RID: 16294 RVA: 0x00218568 File Offset: 0x00216968
+		// Token: 0x06003FA7 RID: 16295 RVA: 0x00218BD0 File Offset: 0x00216FD0
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -272,7 +272,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003FA7 RID: 16295 RVA: 0x00218594 File Offset: 0x00216994
+		// Token: 0x06003FA8 RID: 16296 RVA: 0x00218BFC File Offset: 0x00216FFC
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -303,13 +303,13 @@ namespace Verse
 			this.defaultIngredientFilter.ResolveReferences();
 		}
 
-		// Token: 0x06003FA8 RID: 16296 RVA: 0x00218658 File Offset: 0x00216A58
+		// Token: 0x06003FA9 RID: 16297 RVA: 0x00218CC0 File Offset: 0x002170C0
 		public bool PawnSatisfiesSkillRequirements(Pawn pawn)
 		{
 			return this.FirstSkillRequirementPawnDoesntSatisfy(pawn) == null;
 		}
 
-		// Token: 0x06003FA9 RID: 16297 RVA: 0x00218678 File Offset: 0x00216A78
+		// Token: 0x06003FAA RID: 16298 RVA: 0x00218CE0 File Offset: 0x002170E0
 		public SkillRequirement FirstSkillRequirementPawnDoesntSatisfy(Pawn pawn)
 		{
 			SkillRequirement result;
@@ -331,7 +331,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FAA RID: 16298 RVA: 0x002186E8 File Offset: 0x00216AE8
+		// Token: 0x06003FAB RID: 16299 RVA: 0x00218D50 File Offset: 0x00217150
 		public List<ThingDef> GetPremultipliedSmallIngredients()
 		{
 			List<ThingDef> result;
@@ -365,7 +365,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FAB RID: 16299 RVA: 0x00218844 File Offset: 0x00216C44
+		// Token: 0x06003FAC RID: 16300 RVA: 0x00218EAC File Offset: 0x002172AC
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			if (this.workSkill != null)
@@ -410,148 +410,148 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x04002A7B RID: 10875
+		// Token: 0x04002A7C RID: 10876
 		public Type workerClass = typeof(RecipeWorker);
 
-		// Token: 0x04002A7C RID: 10876
+		// Token: 0x04002A7D RID: 10877
 		public Type workerCounterClass = typeof(RecipeWorkerCounter);
 
-		// Token: 0x04002A7D RID: 10877
+		// Token: 0x04002A7E RID: 10878
 		[MustTranslate]
 		public string jobString = "Doing an unknown recipe.";
 
-		// Token: 0x04002A7E RID: 10878
+		// Token: 0x04002A7F RID: 10879
 		public WorkTypeDef requiredGiverWorkType = null;
 
-		// Token: 0x04002A7F RID: 10879
+		// Token: 0x04002A80 RID: 10880
 		public float workAmount = -1f;
 
-		// Token: 0x04002A80 RID: 10880
+		// Token: 0x04002A81 RID: 10881
 		public StatDef workSpeedStat = null;
 
-		// Token: 0x04002A81 RID: 10881
+		// Token: 0x04002A82 RID: 10882
 		public StatDef efficiencyStat = null;
 
-		// Token: 0x04002A82 RID: 10882
+		// Token: 0x04002A83 RID: 10883
 		public StatDef workTableEfficiencyStat = null;
 
-		// Token: 0x04002A83 RID: 10883
+		// Token: 0x04002A84 RID: 10884
 		public StatDef workTableSpeedStat = null;
 
-		// Token: 0x04002A84 RID: 10884
+		// Token: 0x04002A85 RID: 10885
 		public List<IngredientCount> ingredients = new List<IngredientCount>();
 
-		// Token: 0x04002A85 RID: 10885
+		// Token: 0x04002A86 RID: 10886
 		public ThingFilter fixedIngredientFilter = new ThingFilter();
 
-		// Token: 0x04002A86 RID: 10886
+		// Token: 0x04002A87 RID: 10887
 		public ThingFilter defaultIngredientFilter = null;
 
-		// Token: 0x04002A87 RID: 10887
+		// Token: 0x04002A88 RID: 10888
 		public bool allowMixingIngredients = false;
 
-		// Token: 0x04002A88 RID: 10888
+		// Token: 0x04002A89 RID: 10889
 		private Type ingredientValueGetterClass = typeof(IngredientValueGetter_Volume);
 
-		// Token: 0x04002A89 RID: 10889
+		// Token: 0x04002A8A RID: 10890
 		public List<SpecialThingFilterDef> forceHiddenSpecialFilters = null;
 
-		// Token: 0x04002A8A RID: 10890
+		// Token: 0x04002A8B RID: 10891
 		public bool autoStripCorpses = true;
 
-		// Token: 0x04002A8B RID: 10891
+		// Token: 0x04002A8C RID: 10892
 		public List<ThingDefCountClass> products = new List<ThingDefCountClass>();
 
-		// Token: 0x04002A8C RID: 10892
+		// Token: 0x04002A8D RID: 10893
 		public List<SpecialProductType> specialProducts = null;
 
-		// Token: 0x04002A8D RID: 10893
+		// Token: 0x04002A8E RID: 10894
 		public bool productHasIngredientStuff = false;
 
-		// Token: 0x04002A8E RID: 10894
+		// Token: 0x04002A8F RID: 10895
 		public int targetCountAdjustment = 1;
 
-		// Token: 0x04002A8F RID: 10895
+		// Token: 0x04002A90 RID: 10896
 		public ThingDef unfinishedThingDef = null;
 
-		// Token: 0x04002A90 RID: 10896
+		// Token: 0x04002A91 RID: 10897
 		public List<SkillRequirement> skillRequirements = null;
 
-		// Token: 0x04002A91 RID: 10897
+		// Token: 0x04002A92 RID: 10898
 		public SkillDef workSkill = null;
 
-		// Token: 0x04002A92 RID: 10898
+		// Token: 0x04002A93 RID: 10899
 		public float workSkillLearnFactor = 1f;
 
-		// Token: 0x04002A93 RID: 10899
+		// Token: 0x04002A94 RID: 10900
 		public EffecterDef effectWorking = null;
 
-		// Token: 0x04002A94 RID: 10900
+		// Token: 0x04002A95 RID: 10901
 		public SoundDef soundWorking = null;
 
-		// Token: 0x04002A95 RID: 10901
+		// Token: 0x04002A96 RID: 10902
 		public List<ThingDef> recipeUsers = null;
 
-		// Token: 0x04002A96 RID: 10902
+		// Token: 0x04002A97 RID: 10903
 		public List<BodyPartDef> appliedOnFixedBodyParts = new List<BodyPartDef>();
 
-		// Token: 0x04002A97 RID: 10903
+		// Token: 0x04002A98 RID: 10904
 		public HediffDef addsHediff = null;
 
-		// Token: 0x04002A98 RID: 10904
+		// Token: 0x04002A99 RID: 10905
 		public HediffDef removesHediff = null;
 
-		// Token: 0x04002A99 RID: 10905
+		// Token: 0x04002A9A RID: 10906
 		public bool hideBodyPartNames = false;
 
-		// Token: 0x04002A9A RID: 10906
+		// Token: 0x04002A9B RID: 10907
 		public bool isViolation = false;
 
-		// Token: 0x04002A9B RID: 10907
+		// Token: 0x04002A9C RID: 10908
 		[MustTranslate]
 		public string successfullyRemovedHediffMessage = null;
 
-		// Token: 0x04002A9C RID: 10908
+		// Token: 0x04002A9D RID: 10909
 		public float surgerySuccessChanceFactor = 1f;
 
-		// Token: 0x04002A9D RID: 10909
+		// Token: 0x04002A9E RID: 10910
 		public float deathOnFailedSurgeryChance = 0f;
 
-		// Token: 0x04002A9E RID: 10910
+		// Token: 0x04002A9F RID: 10911
 		public bool targetsBodyPart = true;
 
-		// Token: 0x04002A9F RID: 10911
+		// Token: 0x04002AA0 RID: 10912
 		public bool anesthetize = true;
 
-		// Token: 0x04002AA0 RID: 10912
+		// Token: 0x04002AA1 RID: 10913
 		public bool requireBed = true;
 
-		// Token: 0x04002AA1 RID: 10913
+		// Token: 0x04002AA2 RID: 10914
 		public ResearchProjectDef researchPrerequisite = null;
 
-		// Token: 0x04002AA2 RID: 10914
+		// Token: 0x04002AA3 RID: 10915
 		[NoTranslate]
 		public List<string> factionPrerequisiteTags = null;
 
-		// Token: 0x04002AA3 RID: 10915
+		// Token: 0x04002AA4 RID: 10916
 		public ConceptDef conceptLearned = null;
 
-		// Token: 0x04002AA4 RID: 10916
-		public bool dontShowIfAnyIngredientMissing;
-
 		// Token: 0x04002AA5 RID: 10917
-		[Unsaved]
-		private RecipeWorker workerInt = null;
+		public bool dontShowIfAnyIngredientMissing;
 
 		// Token: 0x04002AA6 RID: 10918
 		[Unsaved]
-		private RecipeWorkerCounter workerCounterInt = null;
+		private RecipeWorker workerInt = null;
 
 		// Token: 0x04002AA7 RID: 10919
 		[Unsaved]
-		private IngredientValueGetter ingredientValueGetterInt = null;
+		private RecipeWorkerCounter workerCounterInt = null;
 
 		// Token: 0x04002AA8 RID: 10920
+		[Unsaved]
+		private IngredientValueGetter ingredientValueGetterInt = null;
+
+		// Token: 0x04002AA9 RID: 10921
 		[Unsaved]
 		private List<ThingDef> premultipliedSmallIngredients = null;
 	}

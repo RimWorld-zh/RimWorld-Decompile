@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020000C0 RID: 192
 	public class JobGiver_AITrashBuildingsDistant : ThinkNode_JobGiver
 	{
-		// Token: 0x0600047F RID: 1151 RVA: 0x00033690 File Offset: 0x00031A90
+		// Token: 0x0600047F RID: 1151 RVA: 0x0003366C File Offset: 0x00031A6C
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_AITrashBuildingsDistant jobGiver_AITrashBuildingsDistant = (JobGiver_AITrashBuildingsDistant)base.DeepCopy(resolve);
@@ -16,7 +16,7 @@ namespace RimWorld
 			return jobGiver_AITrashBuildingsDistant;
 		}
 
-		// Token: 0x06000480 RID: 1152 RVA: 0x000336C0 File Offset: 0x00031AC0
+		// Token: 0x06000480 RID: 1152 RVA: 0x0003369C File Offset: 0x00031A9C
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			List<Building> allBuildingsColonist = pawn.Map.listerBuildings.allBuildingsColonist;

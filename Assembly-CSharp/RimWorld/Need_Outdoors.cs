@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000502 RID: 1282
+	// Token: 0x020004FE RID: 1278
 	public class Need_Outdoors : Need
 	{
-		// Token: 0x06001709 RID: 5897 RVA: 0x000CAFF4 File Offset: 0x000C93F4
+		// Token: 0x06001700 RID: 5888 RVA: 0x000CAFEC File Offset: 0x000C93EC
 		public Need_Outdoors(Pawn pawn) : base(pawn)
 		{
 			this.threshPercents = new List<float>();
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000323 RID: 803
-		// (get) Token: 0x0600170A RID: 5898 RVA: 0x000CB070 File Offset: 0x000C9470
+		// (get) Token: 0x06001701 RID: 5889 RVA: 0x000CB068 File Offset: 0x000C9468
 		public override int GUIChangeArrow
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000324 RID: 804
-		// (get) Token: 0x0600170B RID: 5899 RVA: 0x000CB090 File Offset: 0x000C9490
+		// (get) Token: 0x06001702 RID: 5890 RVA: 0x000CB088 File Offset: 0x000C9488
 		public OutdoorsCategory CurCategory
 		{
 			get
@@ -65,7 +65,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000325 RID: 805
-		// (get) Token: 0x0600170C RID: 5900 RVA: 0x000CB11C File Offset: 0x000C951C
+		// (get) Token: 0x06001703 RID: 5891 RVA: 0x000CB114 File Offset: 0x000C9514
 		public override bool ShowOnNeedList
 		{
 			get
@@ -75,7 +75,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000326 RID: 806
-		// (get) Token: 0x0600170D RID: 5901 RVA: 0x000CB13C File Offset: 0x000C953C
+		// (get) Token: 0x06001704 RID: 5892 RVA: 0x000CB134 File Offset: 0x000C9534
 		private bool Disabled
 		{
 			get
@@ -84,13 +84,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600170E RID: 5902 RVA: 0x000CB16B File Offset: 0x000C956B
+		// Token: 0x06001705 RID: 5893 RVA: 0x000CB163 File Offset: 0x000C9563
 		public override void SetInitialLevel()
 		{
 			this.CurLevel = 1f;
 		}
 
-		// Token: 0x0600170F RID: 5903 RVA: 0x000CB17C File Offset: 0x000C957C
+		// Token: 0x06001706 RID: 5894 RVA: 0x000CB174 File Offset: 0x000C9574
 		public override void NeedInterval()
 		{
 			if (this.Disabled)
@@ -149,31 +149,31 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000D92 RID: 3474
+		// Token: 0x04000D8F RID: 3471
 		private const float Delta_IndoorsThickRoof = -0.4f;
 
-		// Token: 0x04000D93 RID: 3475
+		// Token: 0x04000D90 RID: 3472
 		private const float Delta_OutdoorsThickRoof = -0.4f;
 
-		// Token: 0x04000D94 RID: 3476
+		// Token: 0x04000D91 RID: 3473
 		private const float Delta_IndoorsThinRoof = -0.3f;
 
-		// Token: 0x04000D95 RID: 3477
+		// Token: 0x04000D92 RID: 3474
 		private const float Minimum_IndoorsThinRoof = 0.2f;
 
-		// Token: 0x04000D96 RID: 3478
+		// Token: 0x04000D93 RID: 3475
 		private const float Delta_OutdoorsThinRoof = 0.7f;
 
-		// Token: 0x04000D97 RID: 3479
+		// Token: 0x04000D94 RID: 3476
 		private const float Delta_IndoorsNoRoof = 2.5f;
 
-		// Token: 0x04000D98 RID: 3480
+		// Token: 0x04000D95 RID: 3477
 		private const float Delta_OutdoorsNoRoof = 5f;
 
-		// Token: 0x04000D99 RID: 3481
+		// Token: 0x04000D96 RID: 3478
 		private const float DeltaFactor_InBed = 0.25f;
 
-		// Token: 0x04000D9A RID: 3482
+		// Token: 0x04000D97 RID: 3479
 		private float lastEffectiveDelta = 0f;
 	}
 }

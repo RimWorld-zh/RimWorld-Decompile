@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006F1 RID: 1777
+	// Token: 0x020006ED RID: 1773
 	public class ThingSetMaker_Sum : ThingSetMaker
 	{
-		// Token: 0x060026A6 RID: 9894 RVA: 0x0014A994 File Offset: 0x00148D94
+		// Token: 0x0600269E RID: 9886 RVA: 0x0014AB38 File Offset: 0x00148F38
 		protected override bool CanGenerateSub(ThingSetMakerParams parms)
 		{
 			for (int i = 0; i < this.options.Count; i++)
@@ -20,7 +20,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060026A7 RID: 9895 RVA: 0x0014AA08 File Offset: 0x00148E08
+		// Token: 0x0600269F RID: 9887 RVA: 0x0014ABAC File Offset: 0x00148FAC
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			int num = 0;
@@ -75,7 +75,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026A8 RID: 9896 RVA: 0x0014ACDC File Offset: 0x001490DC
+		// Token: 0x060026A0 RID: 9888 RVA: 0x0014AE80 File Offset: 0x00149280
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -85,7 +85,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026A9 RID: 9897 RVA: 0x0014AD24 File Offset: 0x00149124
+		// Token: 0x060026A1 RID: 9889 RVA: 0x0014AEC8 File Offset: 0x001492C8
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			for (int i = 0; i < this.options.Count; i++)
@@ -101,19 +101,19 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x04001582 RID: 5506
+		// Token: 0x04001580 RID: 5504
 		public List<ThingSetMaker_Sum.Option> options;
 
-		// Token: 0x04001583 RID: 5507
+		// Token: 0x04001581 RID: 5505
 		private List<ThingSetMaker_Sum.Option> optionsInRandomOrder = new List<ThingSetMaker_Sum.Option>();
 
-		// Token: 0x020006F2 RID: 1778
+		// Token: 0x020006EE RID: 1774
 		public class Option
 		{
-			// Token: 0x04001584 RID: 5508
+			// Token: 0x04001582 RID: 5506
 			public ThingSetMaker thingSetMaker;
 
-			// Token: 0x04001585 RID: 5509
+			// Token: 0x04001583 RID: 5507
 			public float chance = 1f;
 		}
 	}

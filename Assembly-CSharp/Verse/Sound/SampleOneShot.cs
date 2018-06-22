@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DB2 RID: 3506
+	// Token: 0x02000DAF RID: 3503
 	public class SampleOneShot : Sample
 	{
-		// Token: 0x06004E3F RID: 20031 RVA: 0x0028E07A File Offset: 0x0028C47A
+		// Token: 0x06004E54 RID: 20052 RVA: 0x0028F62A File Offset: 0x0028DA2A
 		private SampleOneShot(SubSoundDef def) : base(def)
 		{
 		}
 
-		// Token: 0x17000C9E RID: 3230
-		// (get) Token: 0x06004E40 RID: 20032 RVA: 0x0028E090 File Offset: 0x0028C490
+		// Token: 0x17000CA0 RID: 3232
+		// (get) Token: 0x06004E55 RID: 20053 RVA: 0x0028F640 File Offset: 0x0028DA40
 		public override float ParentStartRealTime
 		{
 			get
@@ -22,8 +22,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000C9F RID: 3231
-		// (get) Token: 0x06004E41 RID: 20033 RVA: 0x0028E0AC File Offset: 0x0028C4AC
+		// Token: 0x17000CA1 RID: 3233
+		// (get) Token: 0x06004E56 RID: 20054 RVA: 0x0028F65C File Offset: 0x0028DA5C
 		public override float ParentStartTick
 		{
 			get
@@ -32,8 +32,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000CA0 RID: 3232
-		// (get) Token: 0x06004E42 RID: 20034 RVA: 0x0028E0C8 File Offset: 0x0028C4C8
+		// Token: 0x17000CA2 RID: 3234
+		// (get) Token: 0x06004E57 RID: 20055 RVA: 0x0028F678 File Offset: 0x0028DA78
 		public override float ParentHashCode
 		{
 			get
@@ -42,8 +42,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000CA1 RID: 3233
-		// (get) Token: 0x06004E43 RID: 20035 RVA: 0x0028E0E4 File Offset: 0x0028C4E4
+		// Token: 0x17000CA3 RID: 3235
+		// (get) Token: 0x06004E58 RID: 20056 RVA: 0x0028F694 File Offset: 0x0028DA94
 		public override SoundParams ExternalParams
 		{
 			get
@@ -52,8 +52,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000CA2 RID: 3234
-		// (get) Token: 0x06004E44 RID: 20036 RVA: 0x0028E100 File Offset: 0x0028C500
+		// Token: 0x17000CA4 RID: 3236
+		// (get) Token: 0x06004E59 RID: 20057 RVA: 0x0028F6B0 File Offset: 0x0028DAB0
 		public override SoundInfo Info
 		{
 			get
@@ -62,7 +62,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E45 RID: 20037 RVA: 0x0028E11C File Offset: 0x0028C51C
+		// Token: 0x06004E5A RID: 20058 RVA: 0x0028F6CC File Offset: 0x0028DACC
 		public static SampleOneShot TryMakeAndPlay(SubSoundDef def, AudioClip clip, SoundInfo info)
 		{
 			SampleOneShot result;
@@ -123,10 +123,10 @@ namespace Verse.Sound
 			return result;
 		}
 
-		// Token: 0x04003425 RID: 13349
+		// Token: 0x04003430 RID: 13360
 		public SoundInfo info;
 
-		// Token: 0x04003426 RID: 13350
+		// Token: 0x04003431 RID: 13361
 		private SoundParams externalParams = new SoundParams();
 	}
 }

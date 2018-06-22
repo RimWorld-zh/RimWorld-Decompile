@@ -6,13 +6,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006A9 RID: 1705
+	// Token: 0x020006A5 RID: 1701
 	[StaticConstructorOnStartup]
 	public class Building_FermentingBarrel : Building
 	{
 		// Token: 0x17000575 RID: 1397
-		// (get) Token: 0x0600245E RID: 9310 RVA: 0x00137724 File Offset: 0x00135B24
-		// (set) Token: 0x0600245F RID: 9311 RVA: 0x0013773F File Offset: 0x00135B3F
+		// (get) Token: 0x06002456 RID: 9302 RVA: 0x0013786C File Offset: 0x00135C6C
+		// (set) Token: 0x06002457 RID: 9303 RVA: 0x00137887 File Offset: 0x00135C87
 		public float Progress
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000576 RID: 1398
-		// (get) Token: 0x06002460 RID: 9312 RVA: 0x00137764 File Offset: 0x00135B64
+		// (get) Token: 0x06002458 RID: 9304 RVA: 0x001378AC File Offset: 0x00135CAC
 		private Material BarFilledMat
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000577 RID: 1399
-		// (get) Token: 0x06002461 RID: 9313 RVA: 0x001377B4 File Offset: 0x00135BB4
+		// (get) Token: 0x06002459 RID: 9305 RVA: 0x001378FC File Offset: 0x00135CFC
 		public int SpaceLeftForWort
 		{
 			get
@@ -63,7 +63,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000578 RID: 1400
-		// (get) Token: 0x06002462 RID: 9314 RVA: 0x001377E4 File Offset: 0x00135BE4
+		// (get) Token: 0x0600245A RID: 9306 RVA: 0x0013792C File Offset: 0x00135D2C
 		private bool Empty
 		{
 			get
@@ -73,7 +73,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000579 RID: 1401
-		// (get) Token: 0x06002463 RID: 9315 RVA: 0x00137808 File Offset: 0x00135C08
+		// (get) Token: 0x0600245B RID: 9307 RVA: 0x00137950 File Offset: 0x00135D50
 		public bool Fermented
 		{
 			get
@@ -83,7 +83,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700057A RID: 1402
-		// (get) Token: 0x06002464 RID: 9316 RVA: 0x0013783C File Offset: 0x00135C3C
+		// (get) Token: 0x0600245C RID: 9308 RVA: 0x00137984 File Offset: 0x00135D84
 		private float CurrentTempProgressSpeedFactor
 		{
 			get
@@ -108,7 +108,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700057B RID: 1403
-		// (get) Token: 0x06002465 RID: 9317 RVA: 0x001378AC File Offset: 0x00135CAC
+		// (get) Token: 0x0600245D RID: 9309 RVA: 0x001379F4 File Offset: 0x00135DF4
 		private float ProgressPerTickAtCurrentTemp
 		{
 			get
@@ -118,7 +118,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700057C RID: 1404
-		// (get) Token: 0x06002466 RID: 9318 RVA: 0x001378D0 File Offset: 0x00135CD0
+		// (get) Token: 0x0600245E RID: 9310 RVA: 0x00137A18 File Offset: 0x00135E18
 		private int EstimatedTicksLeft
 		{
 			get
@@ -127,7 +127,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002467 RID: 9319 RVA: 0x00137903 File Offset: 0x00135D03
+		// Token: 0x0600245F RID: 9311 RVA: 0x00137A4B File Offset: 0x00135E4B
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -135,7 +135,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.progressInt, "progress", 0f, false);
 		}
 
-		// Token: 0x06002468 RID: 9320 RVA: 0x00137934 File Offset: 0x00135D34
+		// Token: 0x06002460 RID: 9312 RVA: 0x00137A7C File Offset: 0x00135E7C
 		public override void TickRare()
 		{
 			base.TickRare();
@@ -145,7 +145,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002469 RID: 9321 RVA: 0x0013796C File Offset: 0x00135D6C
+		// Token: 0x06002461 RID: 9313 RVA: 0x00137AB4 File Offset: 0x00135EB4
 		public void AddWort(int count)
 		{
 			base.GetComp<CompTemperatureRuinable>().Reset();
@@ -164,7 +164,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600246A RID: 9322 RVA: 0x001379EA File Offset: 0x00135DEA
+		// Token: 0x06002462 RID: 9314 RVA: 0x00137B32 File Offset: 0x00135F32
 		protected override void ReceiveCompSignal(string signal)
 		{
 			if (signal == "RuinedByTemperature")
@@ -173,14 +173,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600246B RID: 9323 RVA: 0x00137A03 File Offset: 0x00135E03
+		// Token: 0x06002463 RID: 9315 RVA: 0x00137B4B File Offset: 0x00135F4B
 		private void Reset()
 		{
 			this.wortCount = 0;
 			this.Progress = 0f;
 		}
 
-		// Token: 0x0600246C RID: 9324 RVA: 0x00137A18 File Offset: 0x00135E18
+		// Token: 0x06002464 RID: 9316 RVA: 0x00137B60 File Offset: 0x00135F60
 		public void AddWort(Thing wort)
 		{
 			int num = Mathf.Min(wort.stackCount, 25 - this.wortCount);
@@ -191,7 +191,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600246D RID: 9325 RVA: 0x00137A58 File Offset: 0x00135E58
+		// Token: 0x06002465 RID: 9317 RVA: 0x00137BA0 File Offset: 0x00135FA0
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -254,7 +254,7 @@ namespace RimWorld
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
-		// Token: 0x0600246E RID: 9326 RVA: 0x00137C48 File Offset: 0x00136048
+		// Token: 0x06002466 RID: 9318 RVA: 0x00137D90 File Offset: 0x00136190
 		public Thing TakeOutBeer()
 		{
 			Thing result;
@@ -273,7 +273,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600246F RID: 9327 RVA: 0x00137C9C File Offset: 0x0013609C
+		// Token: 0x06002467 RID: 9319 RVA: 0x00137DE4 File Offset: 0x001361E4
 		public override void Draw()
 		{
 			base.Draw();
@@ -295,7 +295,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002470 RID: 9328 RVA: 0x00137D54 File Offset: 0x00136154
+		// Token: 0x06002468 RID: 9320 RVA: 0x00137E9C File Offset: 0x0013629C
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
@@ -316,34 +316,34 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x04001428 RID: 5160
+		// Token: 0x04001426 RID: 5158
 		private int wortCount;
 
-		// Token: 0x04001429 RID: 5161
+		// Token: 0x04001427 RID: 5159
 		private float progressInt;
 
-		// Token: 0x0400142A RID: 5162
+		// Token: 0x04001428 RID: 5160
 		private Material barFilledCachedMat;
 
-		// Token: 0x0400142B RID: 5163
+		// Token: 0x04001429 RID: 5161
 		public const int MaxCapacity = 25;
 
-		// Token: 0x0400142C RID: 5164
+		// Token: 0x0400142A RID: 5162
 		private const int BaseFermentationDuration = 360000;
 
-		// Token: 0x0400142D RID: 5165
+		// Token: 0x0400142B RID: 5163
 		public const float MinIdealTemperature = 7f;
 
-		// Token: 0x0400142E RID: 5166
+		// Token: 0x0400142C RID: 5164
 		private static readonly Vector2 BarSize = new Vector2(0.55f, 0.1f);
 
-		// Token: 0x0400142F RID: 5167
+		// Token: 0x0400142D RID: 5165
 		private static readonly Color BarZeroProgressColor = new Color(0.4f, 0.27f, 0.22f);
 
-		// Token: 0x04001430 RID: 5168
+		// Token: 0x0400142E RID: 5166
 		private static readonly Color BarFermentedColor = new Color(0.9f, 0.85f, 0.2f);
 
-		// Token: 0x04001431 RID: 5169
+		// Token: 0x0400142F RID: 5167
 		private static readonly Material BarUnfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.3f, 0.3f, 0.3f), false);
 	}
 }

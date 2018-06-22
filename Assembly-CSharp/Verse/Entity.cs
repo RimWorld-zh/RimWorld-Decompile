@@ -2,19 +2,19 @@
 
 namespace Verse
 {
-	// Token: 0x02000BD7 RID: 3031
+	// Token: 0x02000BD3 RID: 3027
 	public abstract class Entity
 	{
-		// Token: 0x17000A54 RID: 2644
-		// (get) Token: 0x0600420A RID: 16906
+		// Token: 0x17000A56 RID: 2646
+		// (get) Token: 0x0600420C RID: 16908
 		public abstract string LabelCap { get; }
 
-		// Token: 0x17000A55 RID: 2645
-		// (get) Token: 0x0600420B RID: 16907
+		// Token: 0x17000A57 RID: 2647
+		// (get) Token: 0x0600420D RID: 16909
 		public abstract string Label { get; }
 
-		// Token: 0x17000A56 RID: 2646
-		// (get) Token: 0x0600420C RID: 16908 RVA: 0x001254EC File Offset: 0x001238EC
+		// Token: 0x17000A58 RID: 2648
+		// (get) Token: 0x0600420E RID: 16910 RVA: 0x00125624 File Offset: 0x00123A24
 		public virtual string LabelShort
 		{
 			get
@@ -23,8 +23,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A57 RID: 2647
-		// (get) Token: 0x0600420D RID: 16909 RVA: 0x00125508 File Offset: 0x00123908
+		// Token: 0x17000A59 RID: 2649
+		// (get) Token: 0x0600420F RID: 16911 RVA: 0x00125640 File Offset: 0x00123A40
 		public virtual string LabelMouseover
 		{
 			get
@@ -33,8 +33,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A58 RID: 2648
-		// (get) Token: 0x0600420E RID: 16910 RVA: 0x00125524 File Offset: 0x00123924
+		// Token: 0x17000A5A RID: 2650
+		// (get) Token: 0x06004210 RID: 16912 RVA: 0x0012565C File Offset: 0x00123A5C
 		public virtual string LabelShortCap
 		{
 			get
@@ -43,31 +43,31 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600420F RID: 16911
+		// Token: 0x06004211 RID: 16913
 		public abstract void SpawnSetup(Map map, bool respawningAfterLoad);
 
-		// Token: 0x06004210 RID: 16912
+		// Token: 0x06004212 RID: 16914
 		public abstract void DeSpawn(DestroyMode mode = DestroyMode.Vanish);
 
-		// Token: 0x06004211 RID: 16913 RVA: 0x00125544 File Offset: 0x00123944
+		// Token: 0x06004213 RID: 16915 RVA: 0x0012567C File Offset: 0x00123A7C
 		public virtual void Tick()
 		{
 			throw new NotImplementedException();
 		}
 
-		// Token: 0x06004212 RID: 16914 RVA: 0x0012554C File Offset: 0x0012394C
+		// Token: 0x06004214 RID: 16916 RVA: 0x00125684 File Offset: 0x00123A84
 		public virtual void TickRare()
 		{
 			throw new NotImplementedException();
 		}
 
-		// Token: 0x06004213 RID: 16915 RVA: 0x00125554 File Offset: 0x00123954
+		// Token: 0x06004215 RID: 16917 RVA: 0x0012568C File Offset: 0x00123A8C
 		public virtual void TickLong()
 		{
 			throw new NotImplementedException();
 		}
 
-		// Token: 0x06004214 RID: 16916 RVA: 0x0012555C File Offset: 0x0012395C
+		// Token: 0x06004216 RID: 16918 RVA: 0x00125694 File Offset: 0x00123A94
 		public override string ToString()
 		{
 			return this.LabelCap;

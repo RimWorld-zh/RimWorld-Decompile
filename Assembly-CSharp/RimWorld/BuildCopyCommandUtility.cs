@@ -5,10 +5,10 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020008FB RID: 2299
+	// Token: 0x020008F7 RID: 2295
 	public static class BuildCopyCommandUtility
 	{
-		// Token: 0x06003535 RID: 13621 RVA: 0x001C711C File Offset: 0x001C551C
+		// Token: 0x0600352E RID: 13614 RVA: 0x001C7304 File Offset: 0x001C5704
 		public static Command BuildCopyCommand(BuildableDef buildable, ThingDef stuff)
 		{
 			Designator_Build des = BuildCopyCommandUtility.FindAllowedDesignator(buildable, true);
@@ -49,7 +49,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003536 RID: 13622 RVA: 0x001C7244 File Offset: 0x001C5644
+		// Token: 0x0600352F RID: 13615 RVA: 0x001C742C File Offset: 0x001C582C
 		public static Designator_Build FindAllowedDesignator(BuildableDef buildable, bool mustBeVisible = true)
 		{
 			List<DesignationCategoryDef> allDefsListForReading = DefDatabase<DesignationCategoryDef>.AllDefsListForReading;
@@ -68,7 +68,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06003537 RID: 13623 RVA: 0x001C72C4 File Offset: 0x001C56C4
+		// Token: 0x06003530 RID: 13616 RVA: 0x001C74AC File Offset: 0x001C58AC
 		private static Designator_Build FindAllowedDesignatorRecursive(Designator designator, BuildableDef buildable, bool mustBeVisible)
 		{
 			Designator_Build result;

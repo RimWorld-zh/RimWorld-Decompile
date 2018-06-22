@@ -5,18 +5,18 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E3A RID: 3642
+	// Token: 0x02000E37 RID: 3639
 	public class EditWindow_CurveEditor : EditWindow
 	{
-		// Token: 0x0600560E RID: 22030 RVA: 0x002C4E3A File Offset: 0x002C323A
+		// Token: 0x0600562A RID: 22058 RVA: 0x002C69F6 File Offset: 0x002C4DF6
 		public EditWindow_CurveEditor(SimpleCurve curve, string title)
 		{
 			this.curve = curve;
 			this.optionalTitle = title;
 		}
 
-		// Token: 0x17000D79 RID: 3449
-		// (get) Token: 0x0600560F RID: 22031 RVA: 0x002C4E68 File Offset: 0x002C3268
+		// Token: 0x17000D7B RID: 3451
+		// (get) Token: 0x0600562B RID: 22059 RVA: 0x002C6A24 File Offset: 0x002C4E24
 		private bool DraggingView
 		{
 			get
@@ -25,8 +25,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D7A RID: 3450
-		// (get) Token: 0x06005610 RID: 22032 RVA: 0x002C4E8C File Offset: 0x002C328C
+		// Token: 0x17000D7C RID: 3452
+		// (get) Token: 0x0600562C RID: 22060 RVA: 0x002C6A48 File Offset: 0x002C4E48
 		public override Vector2 InitialSize
 		{
 			get
@@ -35,8 +35,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D7B RID: 3451
-		// (get) Token: 0x06005611 RID: 22033 RVA: 0x002C4EB0 File Offset: 0x002C32B0
+		// Token: 0x17000D7D RID: 3453
+		// (get) Token: 0x0600562D RID: 22061 RVA: 0x002C6A6C File Offset: 0x002C4E6C
 		public override bool IsDebug
 		{
 			get
@@ -45,7 +45,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005612 RID: 22034 RVA: 0x002C4EC8 File Offset: 0x002C32C8
+		// Token: 0x0600562E RID: 22062 RVA: 0x002C6A84 File Offset: 0x002C4E84
 		public override void DoWindowContents(Rect inRect)
 		{
 			WidgetRow widgetRow = new WidgetRow(0f, 0f, UIDirection.RightThenUp, 99999f, 4f);
@@ -97,7 +97,7 @@ namespace Verse
 			this.DoCurveEditor(screenRect);
 		}
 
-		// Token: 0x06005613 RID: 22035 RVA: 0x002C51D0 File Offset: 0x002C35D0
+		// Token: 0x0600562F RID: 22063 RVA: 0x002C6D8C File Offset: 0x002C518C
 		private void DoCurveEditor(Rect screenRect)
 		{
 			Widgets.DrawMenuSection(screenRect);
@@ -223,7 +223,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005614 RID: 22036 RVA: 0x002C5940 File Offset: 0x002C3D40
+		// Token: 0x06005630 RID: 22064 RVA: 0x002C74FC File Offset: 0x002C58FC
 		private IEnumerable<int> PointsNearMouse(Rect screenRect)
 		{
 			GUI.BeginGroup(screenRect);
@@ -245,25 +245,25 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x040038DB RID: 14555
+		// Token: 0x040038E9 RID: 14569
 		private SimpleCurve curve;
 
-		// Token: 0x040038DC RID: 14556
+		// Token: 0x040038EA RID: 14570
 		public List<float> debugInputValues = null;
 
-		// Token: 0x040038DD RID: 14557
+		// Token: 0x040038EB RID: 14571
 		private int draggingPointIndex = -1;
 
-		// Token: 0x040038DE RID: 14558
+		// Token: 0x040038EC RID: 14572
 		private int draggingButton = -1;
 
-		// Token: 0x040038DF RID: 14559
+		// Token: 0x040038ED RID: 14573
 		private const float ViewDragPanSpeed = 0.002f;
 
-		// Token: 0x040038E0 RID: 14560
+		// Token: 0x040038EE RID: 14574
 		private const float ScrollZoomSpeed = 0.025f;
 
-		// Token: 0x040038E1 RID: 14561
+		// Token: 0x040038EF RID: 14575
 		private const float PointClickDistanceLimit = 7f;
 	}
 }

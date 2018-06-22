@@ -7,7 +7,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003AC RID: 940
 	public class SymbolResolver_EdgeWalls : SymbolResolver
 	{
-		// Token: 0x06001051 RID: 4177 RVA: 0x00089AB4 File Offset: 0x00087EB4
+		// Token: 0x06001051 RID: 4177 RVA: 0x00089CA0 File Offset: 0x000880A0
 		public override void Resolve(ResolveParams rp)
 		{
 			ThingDef wallStuff = rp.wallStuff ?? BaseGenUtility.RandomCheapWallStuff(rp.faction, false);
@@ -17,7 +17,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06001052 RID: 4178 RVA: 0x00089B38 File Offset: 0x00087F38
+		// Token: 0x06001052 RID: 4178 RVA: 0x00089D24 File Offset: 0x00088124
 		private Thing TrySpawnWall(IntVec3 c, ResolveParams rp, ThingDef wallStuff)
 		{
 			Map map = BaseGen.globalSettings.map;

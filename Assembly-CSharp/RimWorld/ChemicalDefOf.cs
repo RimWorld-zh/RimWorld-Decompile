@@ -2,17 +2,17 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000949 RID: 2377
+	// Token: 0x02000945 RID: 2373
 	[DefOf]
 	public static class ChemicalDefOf
 	{
-		// Token: 0x06003654 RID: 13908 RVA: 0x001D0A3F File Offset: 0x001CEE3F
+		// Token: 0x0600364D RID: 13901 RVA: 0x001D0C27 File Offset: 0x001CF027
 		static ChemicalDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ChemicalDefOf));
 		}
 
-		// Token: 0x04002203 RID: 8707
+		// Token: 0x04002201 RID: 8705
 		public static ChemicalDef Alcohol;
 	}
 }

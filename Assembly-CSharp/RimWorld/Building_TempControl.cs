@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200069B RID: 1691
+	// Token: 0x02000697 RID: 1687
 	public class Building_TempControl : Building
 	{
-		// Token: 0x060023CE RID: 9166 RVA: 0x001328C8 File Offset: 0x00130CC8
+		// Token: 0x060023C6 RID: 9158 RVA: 0x00132A10 File Offset: 0x00130E10
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -14,10 +14,10 @@ namespace RimWorld
 			this.compPowerTrader = base.GetComp<CompPowerTrader>();
 		}
 
-		// Token: 0x040013FD RID: 5117
+		// Token: 0x040013FB RID: 5115
 		public CompTempControl compTempControl;
 
-		// Token: 0x040013FE RID: 5118
+		// Token: 0x040013FC RID: 5116
 		public CompPowerTrader compPowerTrader;
 	}
 }

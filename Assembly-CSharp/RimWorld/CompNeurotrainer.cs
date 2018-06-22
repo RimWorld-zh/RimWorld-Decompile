@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000725 RID: 1829
+	// Token: 0x02000721 RID: 1825
 	public class CompNeurotrainer : CompUsable
 	{
 		// Token: 0x1700062B RID: 1579
-		// (get) Token: 0x06002845 RID: 10309 RVA: 0x00158120 File Offset: 0x00156520
+		// (get) Token: 0x0600283D RID: 10301 RVA: 0x001582DC File Offset: 0x001566DC
 		protected override string FloatMenuOptionLabel
 		{
 			get
@@ -16,27 +16,27 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002846 RID: 10310 RVA: 0x00158150 File Offset: 0x00156550
+		// Token: 0x0600283E RID: 10302 RVA: 0x0015830C File Offset: 0x0015670C
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_Defs.Look<SkillDef>(ref this.skill, "skill");
 		}
 
-		// Token: 0x06002847 RID: 10311 RVA: 0x00158169 File Offset: 0x00156569
+		// Token: 0x0600283F RID: 10303 RVA: 0x00158325 File Offset: 0x00156725
 		public override void Initialize(CompProperties props)
 		{
 			base.Initialize(props);
 			this.skill = DefDatabase<SkillDef>.GetRandom();
 		}
 
-		// Token: 0x06002848 RID: 10312 RVA: 0x00158180 File Offset: 0x00156580
+		// Token: 0x06002840 RID: 10304 RVA: 0x0015833C File Offset: 0x0015673C
 		public override string TransformLabel(string label)
 		{
 			return this.skill.LabelCap + " " + label;
 		}
 
-		// Token: 0x06002849 RID: 10313 RVA: 0x001581AC File Offset: 0x001565AC
+		// Token: 0x06002841 RID: 10305 RVA: 0x00158368 File Offset: 0x00156768
 		public override bool AllowStackWith(Thing other)
 		{
 			bool result;
@@ -52,7 +52,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600284A RID: 10314 RVA: 0x001581FC File Offset: 0x001565FC
+		// Token: 0x06002842 RID: 10306 RVA: 0x001583B8 File Offset: 0x001567B8
 		public override void PostSplitOff(Thing piece)
 		{
 			base.PostSplitOff(piece);
@@ -63,7 +63,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040015FE RID: 5630
+		// Token: 0x040015FC RID: 5628
 		public SkillDef skill;
 	}
 }

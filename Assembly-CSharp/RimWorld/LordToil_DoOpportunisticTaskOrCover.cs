@@ -10,7 +10,7 @@ namespace RimWorld
 	public abstract class LordToil_DoOpportunisticTaskOrCover : LordToil
 	{
 		// Token: 0x1700014D RID: 333
-		// (get) Token: 0x0600083E RID: 2110 RVA: 0x0004F3B4 File Offset: 0x0004D7B4
+		// (get) Token: 0x0600083E RID: 2110 RVA: 0x0004F3A0 File Offset: 0x0004D7A0
 		public override bool AllowSatisfyLongNeeds
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 		// Token: 0x06000840 RID: 2112
 		protected abstract bool TryFindGoodOpportunisticTaskTarget(Pawn pawn, out Thing target, List<Thing> alreadyTakenTargets);
 
-		// Token: 0x06000841 RID: 2113 RVA: 0x0004F3CC File Offset: 0x0004D7CC
+		// Token: 0x06000841 RID: 2113 RVA: 0x0004F3B8 File Offset: 0x0004D7B8
 		public override void UpdateAllDuties()
 		{
 			List<Thing> list = null;
@@ -54,7 +54,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000842 RID: 2114 RVA: 0x0004F4B8 File Offset: 0x0004D8B8
+		// Token: 0x06000842 RID: 2114 RVA: 0x0004F4A4 File Offset: 0x0004D8A4
 		public override void LordToilTick()
 		{
 			if (this.cover && Find.TickManager.TicksGame % 181 == 0)

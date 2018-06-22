@@ -5,22 +5,22 @@ using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000AA5 RID: 2725
+	// Token: 0x02000AA1 RID: 2721
 	public class PriorityWork : IExposable
 	{
-		// Token: 0x06003CB8 RID: 15544 RVA: 0x00202223 File Offset: 0x00200623
+		// Token: 0x06003CB3 RID: 15539 RVA: 0x00202547 File Offset: 0x00200947
 		public PriorityWork()
 		{
 		}
 
-		// Token: 0x06003CB9 RID: 15545 RVA: 0x0020224E File Offset: 0x0020064E
+		// Token: 0x06003CB4 RID: 15540 RVA: 0x00202572 File Offset: 0x00200972
 		public PriorityWork(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x17000931 RID: 2353
-		// (get) Token: 0x06003CBA RID: 15546 RVA: 0x00202280 File Offset: 0x00200680
+		// Token: 0x17000932 RID: 2354
+		// (get) Token: 0x06003CB5 RID: 15541 RVA: 0x002025A4 File Offset: 0x002009A4
 		public bool IsPrioritized
 		{
 			get
@@ -37,8 +37,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000932 RID: 2354
-		// (get) Token: 0x06003CBB RID: 15547 RVA: 0x002022D0 File Offset: 0x002006D0
+		// Token: 0x17000933 RID: 2355
+		// (get) Token: 0x06003CB6 RID: 15542 RVA: 0x002025F4 File Offset: 0x002009F4
 		public IntVec3 Cell
 		{
 			get
@@ -47,8 +47,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000933 RID: 2355
-		// (get) Token: 0x06003CBC RID: 15548 RVA: 0x002022EC File Offset: 0x002006EC
+		// Token: 0x17000934 RID: 2356
+		// (get) Token: 0x06003CB7 RID: 15543 RVA: 0x00202610 File Offset: 0x00200A10
 		public WorkTypeDef WorkType
 		{
 			get
@@ -57,7 +57,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003CBD RID: 15549 RVA: 0x00202308 File Offset: 0x00200708
+		// Token: 0x06003CB8 RID: 15544 RVA: 0x0020262C File Offset: 0x00200A2C
 		public void ExposeData()
 		{
 			Scribe_Values.Look<IntVec3>(ref this.prioritizedCell, "prioritizedCell", default(IntVec3), false);
@@ -65,7 +65,7 @@ namespace Verse
 			Scribe_Values.Look<int>(ref this.prioritizeTick, "prioritizeTick", 0, false);
 		}
 
-		// Token: 0x06003CBE RID: 15550 RVA: 0x00202352 File Offset: 0x00200752
+		// Token: 0x06003CB9 RID: 15545 RVA: 0x00202676 File Offset: 0x00200A76
 		public void Set(IntVec3 prioritizedCell, WorkTypeDef prioritizedWorkType)
 		{
 			this.prioritizedCell = prioritizedCell;
@@ -73,7 +73,7 @@ namespace Verse
 			this.prioritizeTick = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06003CBF RID: 15551 RVA: 0x00202373 File Offset: 0x00200773
+		// Token: 0x06003CBA RID: 15546 RVA: 0x00202697 File Offset: 0x00200A97
 		public void Clear()
 		{
 			this.prioritizedCell = IntVec3.Invalid;
@@ -81,14 +81,14 @@ namespace Verse
 			this.prioritizeTick = 0;
 		}
 
-		// Token: 0x06003CC0 RID: 15552 RVA: 0x0020238F File Offset: 0x0020078F
+		// Token: 0x06003CBB RID: 15547 RVA: 0x002026B3 File Offset: 0x00200AB3
 		public void ClearPrioritizedWorkAndJobQueue()
 		{
 			this.Clear();
 			this.pawn.jobs.ClearQueuedJobs();
 		}
 
-		// Token: 0x06003CC1 RID: 15553 RVA: 0x002023A8 File Offset: 0x002007A8
+		// Token: 0x06003CBC RID: 15548 RVA: 0x002026CC File Offset: 0x00200ACC
 		public IEnumerable<Gizmo> GetGizmos()
 		{
 			if ((this.IsPrioritized || (this.pawn.CurJob != null && this.pawn.CurJob.playerForced) || this.pawn.jobs.jobQueue.AnyPlayerForced) && !this.pawn.Drafted)
@@ -114,19 +114,19 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x04002672 RID: 9842
+		// Token: 0x0400266D RID: 9837
 		private Pawn pawn;
 
-		// Token: 0x04002673 RID: 9843
+		// Token: 0x0400266E RID: 9838
 		private IntVec3 prioritizedCell = IntVec3.Invalid;
 
-		// Token: 0x04002674 RID: 9844
+		// Token: 0x0400266F RID: 9839
 		private WorkTypeDef prioritizedWorkType = null;
 
-		// Token: 0x04002675 RID: 9845
+		// Token: 0x04002670 RID: 9840
 		private int prioritizeTick = Find.TickManager.TicksGame;
 
-		// Token: 0x04002676 RID: 9846
+		// Token: 0x04002671 RID: 9841
 		private const int Timeout = 30000;
 	}
 }

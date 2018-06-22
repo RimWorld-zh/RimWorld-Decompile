@@ -9,10 +9,10 @@ using Verse.AI.Group;
 
 namespace Verse
 {
-	// Token: 0x02000D5A RID: 3418
+	// Token: 0x02000D57 RID: 3415
 	public class Pawn_HealthTracker : IExposable
 	{
-		// Token: 0x06004C4D RID: 19533 RVA: 0x0027BB24 File Offset: 0x00279F24
+		// Token: 0x06004C61 RID: 19553 RVA: 0x0027D0C0 File Offset: 0x0027B4C0
 		public Pawn_HealthTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
@@ -23,8 +23,8 @@ namespace Verse
 			this.immunity = new ImmunityHandler(pawn);
 		}
 
-		// Token: 0x17000C71 RID: 3185
-		// (get) Token: 0x06004C4E RID: 19534 RVA: 0x0027BBB4 File Offset: 0x00279FB4
+		// Token: 0x17000C73 RID: 3187
+		// (get) Token: 0x06004C62 RID: 19554 RVA: 0x0027D150 File Offset: 0x0027B550
 		public PawnHealthState State
 		{
 			get
@@ -33,8 +33,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C72 RID: 3186
-		// (get) Token: 0x06004C4F RID: 19535 RVA: 0x0027BBD0 File Offset: 0x00279FD0
+		// Token: 0x17000C74 RID: 3188
+		// (get) Token: 0x06004C63 RID: 19555 RVA: 0x0027D16C File Offset: 0x0027B56C
 		public bool Downed
 		{
 			get
@@ -43,8 +43,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C73 RID: 3187
-		// (get) Token: 0x06004C50 RID: 19536 RVA: 0x0027BBF0 File Offset: 0x00279FF0
+		// Token: 0x17000C75 RID: 3189
+		// (get) Token: 0x06004C64 RID: 19556 RVA: 0x0027D18C File Offset: 0x0027B58C
 		public bool Dead
 		{
 			get
@@ -53,8 +53,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C74 RID: 3188
-		// (get) Token: 0x06004C51 RID: 19537 RVA: 0x0027BC10 File Offset: 0x0027A010
+		// Token: 0x17000C76 RID: 3190
+		// (get) Token: 0x06004C65 RID: 19557 RVA: 0x0027D1AC File Offset: 0x0027B5AC
 		public float LethalDamageThreshold
 		{
 			get
@@ -63,8 +63,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C75 RID: 3189
-		// (get) Token: 0x06004C52 RID: 19538 RVA: 0x0027BC38 File Offset: 0x0027A038
+		// Token: 0x17000C77 RID: 3191
+		// (get) Token: 0x06004C66 RID: 19558 RVA: 0x0027D1D4 File Offset: 0x0027B5D4
 		public bool InPainShock
 		{
 			get
@@ -73,7 +73,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C53 RID: 19539 RVA: 0x0027BC70 File Offset: 0x0027A070
+		// Token: 0x06004C67 RID: 19559 RVA: 0x0027D20C File Offset: 0x0027B60C
 		public void Reset()
 		{
 			this.healthState = PawnHealthState.Mobile;
@@ -84,7 +84,7 @@ namespace Verse
 			this.immunity = new ImmunityHandler(this.pawn);
 		}
 
-		// Token: 0x06004C54 RID: 19540 RVA: 0x0027BCC4 File Offset: 0x0027A0C4
+		// Token: 0x06004C68 RID: 19560 RVA: 0x0027D260 File Offset: 0x0027B660
 		public void ExposeData()
 		{
 			Scribe_Values.Look<PawnHealthState>(ref this.healthState, "healthState", PawnHealthState.Mobile, false);
@@ -103,7 +103,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06004C55 RID: 19541 RVA: 0x0027BD54 File Offset: 0x0027A154
+		// Token: 0x06004C69 RID: 19561 RVA: 0x0027D2F0 File Offset: 0x0027B6F0
 		public Hediff AddHediff(HediffDef def, BodyPartRecord part = null, DamageInfo? dinfo = null, DamageWorker.DamageResult result = null)
 		{
 			Hediff hediff = HediffMaker.MakeHediff(def, this.pawn, null);
@@ -111,7 +111,7 @@ namespace Verse
 			return hediff;
 		}
 
-		// Token: 0x06004C56 RID: 19542 RVA: 0x0027BD84 File Offset: 0x0027A184
+		// Token: 0x06004C6A RID: 19562 RVA: 0x0027D320 File Offset: 0x0027B720
 		public void AddHediff(Hediff hediff, BodyPartRecord part = null, DamageInfo? dinfo = null, DamageWorker.DamageResult result = null)
 		{
 			if (part != null)
@@ -133,7 +133,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C57 RID: 19543 RVA: 0x0027BE43 File Offset: 0x0027A243
+		// Token: 0x06004C6B RID: 19563 RVA: 0x0027D3DF File Offset: 0x0027B7DF
 		public void RemoveHediff(Hediff hediff)
 		{
 			this.hediffSet.hediffs.Remove(hediff);
@@ -141,14 +141,14 @@ namespace Verse
 			this.Notify_HediffChanged(null);
 		}
 
-		// Token: 0x06004C58 RID: 19544 RVA: 0x0027BE68 File Offset: 0x0027A268
+		// Token: 0x06004C6C RID: 19564 RVA: 0x0027D404 File Offset: 0x0027B804
 		public void Notify_HediffChanged(Hediff hediff)
 		{
 			this.hediffSet.DirtyCache();
 			this.CheckForStateChange(null, hediff);
 		}
 
-		// Token: 0x06004C59 RID: 19545 RVA: 0x0027BE94 File Offset: 0x0027A294
+		// Token: 0x06004C6D RID: 19565 RVA: 0x0027D430 File Offset: 0x0027B830
 		public void PreApplyDamage(DamageInfo dinfo, out bool absorbed)
 		{
 			if (dinfo.Instigator != null && this.pawn.Faction != null && this.pawn.Faction.IsPlayer && !this.pawn.InAggroMentalState)
@@ -225,7 +225,7 @@ namespace Verse
 			absorbed = false;
 		}
 
-		// Token: 0x06004C5A RID: 19546 RVA: 0x0027C1FC File Offset: 0x0027A5FC
+		// Token: 0x06004C6E RID: 19566 RVA: 0x0027D798 File Offset: 0x0027BB98
 		public void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
 		{
 			if (this.ShouldBeDead())
@@ -263,7 +263,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C5B RID: 19547 RVA: 0x0027C300 File Offset: 0x0027A700
+		// Token: 0x06004C6F RID: 19567 RVA: 0x0027D89C File Offset: 0x0027BC9C
 		public void RestorePart(BodyPartRecord part, Hediff diffException = null, bool checkStateChange = true)
 		{
 			if (part == null)
@@ -281,7 +281,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C5C RID: 19548 RVA: 0x0027C350 File Offset: 0x0027A750
+		// Token: 0x06004C70 RID: 19568 RVA: 0x0027D8EC File Offset: 0x0027BCEC
 		private void RestorePartRecursiveInt(BodyPartRecord part, Hediff diffException = null)
 		{
 			List<Hediff> hediffs = this.hediffSet.hediffs;
@@ -301,7 +301,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C5D RID: 19549 RVA: 0x0027C3F0 File Offset: 0x0027A7F0
+		// Token: 0x06004C71 RID: 19569 RVA: 0x0027D98C File Offset: 0x0027BD8C
 		public void CheckForStateChange(DamageInfo? dinfo, Hediff hediff)
 		{
 			if (!this.Dead)
@@ -378,13 +378,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C5E RID: 19550 RVA: 0x0027C6C4 File Offset: 0x0027AAC4
+		// Token: 0x06004C72 RID: 19570 RVA: 0x0027DC60 File Offset: 0x0027C060
 		private bool ShouldBeDowned()
 		{
 			return this.InPainShock || !this.capacities.CanBeAwake || !this.capacities.CapableOf(PawnCapacityDefOf.Moving);
 		}
 
-		// Token: 0x06004C5F RID: 19551 RVA: 0x0027C70C File Offset: 0x0027AB0C
+		// Token: 0x06004C73 RID: 19571 RVA: 0x0027DCA8 File Offset: 0x0027C0A8
 		private bool ShouldBeDead()
 		{
 			bool result;
@@ -414,7 +414,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004C60 RID: 19552 RVA: 0x0027C7D4 File Offset: 0x0027ABD4
+		// Token: 0x06004C74 RID: 19572 RVA: 0x0027DD70 File Offset: 0x0027C170
 		public PawnCapacityDef ShouldBeDeadFromRequiredCapacity()
 		{
 			List<PawnCapacityDef> allDefsListForReading = DefDatabase<PawnCapacityDef>.AllDefsListForReading;
@@ -430,7 +430,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004C61 RID: 19553 RVA: 0x0027C85C File Offset: 0x0027AC5C
+		// Token: 0x06004C75 RID: 19573 RVA: 0x0027DDF8 File Offset: 0x0027C1F8
 		public bool ShouldBeDeadFromLethalDamageThreshold()
 		{
 			float num = 0f;
@@ -444,7 +444,7 @@ namespace Verse
 			return num >= this.LethalDamageThreshold;
 		}
 
-		// Token: 0x06004C62 RID: 19554 RVA: 0x0027C8DC File Offset: 0x0027ACDC
+		// Token: 0x06004C76 RID: 19574 RVA: 0x0027DE78 File Offset: 0x0027C278
 		public bool WouldDieAfterAddingHediff(Hediff hediff)
 		{
 			bool result;
@@ -464,7 +464,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004C63 RID: 19555 RVA: 0x0027C944 File Offset: 0x0027AD44
+		// Token: 0x06004C77 RID: 19575 RVA: 0x0027DEE0 File Offset: 0x0027C2E0
 		public bool WouldDieAfterAddingHediff(HediffDef def, BodyPartRecord part, float severity)
 		{
 			Hediff hediff = HediffMaker.MakeHediff(def, this.pawn, part);
@@ -472,7 +472,7 @@ namespace Verse
 			return this.WouldDieAfterAddingHediff(hediff);
 		}
 
-		// Token: 0x06004C64 RID: 19556 RVA: 0x0027C978 File Offset: 0x0027AD78
+		// Token: 0x06004C78 RID: 19576 RVA: 0x0027DF14 File Offset: 0x0027C314
 		public bool WouldBeDownedAfterAddingHediff(Hediff hediff)
 		{
 			bool result;
@@ -492,7 +492,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004C65 RID: 19557 RVA: 0x0027C9E0 File Offset: 0x0027ADE0
+		// Token: 0x06004C79 RID: 19577 RVA: 0x0027DF7C File Offset: 0x0027C37C
 		public bool WouldBeDownedAfterAddingHediff(HediffDef def, BodyPartRecord part, float severity)
 		{
 			Hediff hediff = HediffMaker.MakeHediff(def, this.pawn, part);
@@ -500,7 +500,7 @@ namespace Verse
 			return this.WouldBeDownedAfterAddingHediff(hediff);
 		}
 
-		// Token: 0x06004C66 RID: 19558 RVA: 0x0027CA11 File Offset: 0x0027AE11
+		// Token: 0x06004C7A RID: 19578 RVA: 0x0027DFAD File Offset: 0x0027C3AD
 		public void SetDead()
 		{
 			if (this.Dead)
@@ -510,7 +510,7 @@ namespace Verse
 			this.healthState = PawnHealthState.Dead;
 		}
 
-		// Token: 0x06004C67 RID: 19559 RVA: 0x0027CA3C File Offset: 0x0027AE3C
+		// Token: 0x06004C7B RID: 19579 RVA: 0x0027DFD8 File Offset: 0x0027C3D8
 		private void MakeDowned(DamageInfo? dinfo, Hediff hediff)
 		{
 			if (this.Downed)
@@ -588,7 +588,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C68 RID: 19560 RVA: 0x0027CDB8 File Offset: 0x0027B1B8
+		// Token: 0x06004C7C RID: 19580 RVA: 0x0027E354 File Offset: 0x0027C754
 		private void MakeUndowned()
 		{
 			if (!this.Downed)
@@ -617,7 +617,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C69 RID: 19561 RVA: 0x0027CE98 File Offset: 0x0027B298
+		// Token: 0x06004C7D RID: 19581 RVA: 0x0027E434 File Offset: 0x0027C834
 		public void NotifyPlayerOfKilled(DamageInfo? dinfo, Hediff hediff, Caravan caravan)
 		{
 			string text = "";
@@ -640,7 +640,7 @@ namespace Verse
 					this.pawn.LabelShort.CapitalizeFirst()
 				});
 			}
-			text = text.AdjustedFor(this.pawn);
+			text = text.AdjustedFor(this.pawn, "PAWN");
 			if (this.pawn.Faction == Faction.OfPlayer)
 			{
 				string label = "Death".Translate();
@@ -653,7 +653,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C6A RID: 19562 RVA: 0x0027CFC8 File Offset: 0x0027B3C8
+		// Token: 0x06004C7E RID: 19582 RVA: 0x0027E568 File Offset: 0x0027C968
 		public void Notify_Resurrected()
 		{
 			this.healthState = PawnHealthState.Mobile;
@@ -706,7 +706,7 @@ namespace Verse
 			this.Notify_HediffChanged(null);
 		}
 
-		// Token: 0x06004C6B RID: 19563 RVA: 0x0027D0F4 File Offset: 0x0027B4F4
+		// Token: 0x06004C7F RID: 19583 RVA: 0x0027E694 File Offset: 0x0027CA94
 		public void HealthTick()
 		{
 			if (!this.Dead)
@@ -863,13 +863,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C6C RID: 19564 RVA: 0x0027D724 File Offset: 0x0027BB24
+		// Token: 0x06004C80 RID: 19584 RVA: 0x0027ECC4 File Offset: 0x0027D0C4
 		public bool HasHediffsNeedingTend(bool forAlert = false)
 		{
 			return this.hediffSet.HasTendableHediff(forAlert);
 		}
 
-		// Token: 0x06004C6D RID: 19565 RVA: 0x0027D748 File Offset: 0x0027BB48
+		// Token: 0x06004C81 RID: 19585 RVA: 0x0027ECE8 File Offset: 0x0027D0E8
 		public bool HasHediffsNeedingTendByPlayer(bool forAlert = false)
 		{
 			if (this.HasHediffsNeedingTend(forAlert))
@@ -894,7 +894,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004C6E RID: 19566 RVA: 0x0027D80C File Offset: 0x0027BC0C
+		// Token: 0x06004C82 RID: 19586 RVA: 0x0027EDAC File Offset: 0x0027D1AC
 		public void DropBloodFilth()
 		{
 			if ((this.pawn.Spawned || this.pawn.ParentHolder is Pawn_CarryTracker) && this.pawn.SpawnedOrAnyParentSpawned && this.pawn.RaceProps.BloodDef != null)
@@ -903,32 +903,32 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003300 RID: 13056
+		// Token: 0x0400330B RID: 13067
 		private Pawn pawn;
 
-		// Token: 0x04003301 RID: 13057
+		// Token: 0x0400330C RID: 13068
 		private PawnHealthState healthState = PawnHealthState.Mobile;
 
-		// Token: 0x04003302 RID: 13058
+		// Token: 0x0400330D RID: 13069
 		[Unsaved]
 		public Effecter deflectionEffecter = null;
 
-		// Token: 0x04003303 RID: 13059
+		// Token: 0x0400330E RID: 13070
 		public bool forceIncap = false;
 
-		// Token: 0x04003304 RID: 13060
+		// Token: 0x0400330F RID: 13071
 		public HediffSet hediffSet = null;
 
-		// Token: 0x04003305 RID: 13061
+		// Token: 0x04003310 RID: 13072
 		public PawnCapacitiesHandler capacities = null;
 
-		// Token: 0x04003306 RID: 13062
+		// Token: 0x04003311 RID: 13073
 		public BillStack surgeryBills = null;
 
-		// Token: 0x04003307 RID: 13063
+		// Token: 0x04003312 RID: 13074
 		public SummaryHealthHandler summaryHealth = null;
 
-		// Token: 0x04003308 RID: 13064
+		// Token: 0x04003313 RID: 13075
 		public ImmunityHandler immunity = null;
 	}
 }

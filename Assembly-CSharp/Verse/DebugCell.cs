@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C07 RID: 3079
+	// Token: 0x02000C04 RID: 3076
 	internal sealed class DebugCell
 	{
-		// Token: 0x06004348 RID: 17224 RVA: 0x00238233 File Offset: 0x00236633
+		// Token: 0x06004351 RID: 17233 RVA: 0x002395FB File Offset: 0x002379FB
 		public void Draw()
 		{
 			if (this.customMat != null)
@@ -19,7 +19,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004349 RID: 17225 RVA: 0x00238270 File Offset: 0x00236670
+		// Token: 0x06004352 RID: 17234 RVA: 0x00239638 File Offset: 0x00237A38
 		public void OnGUI()
 		{
 			if (this.displayString != null)
@@ -34,19 +34,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002DFA RID: 11770
+		// Token: 0x04002E04 RID: 11780
 		public IntVec3 c;
 
-		// Token: 0x04002DFB RID: 11771
+		// Token: 0x04002E05 RID: 11781
 		public string displayString;
 
-		// Token: 0x04002DFC RID: 11772
+		// Token: 0x04002E06 RID: 11782
 		public float colorPct;
 
-		// Token: 0x04002DFD RID: 11773
+		// Token: 0x04002E07 RID: 11783
 		public int ticksLeft;
 
-		// Token: 0x04002DFE RID: 11774
+		// Token: 0x04002E08 RID: 11784
 		public Material customMat;
 	}
 }

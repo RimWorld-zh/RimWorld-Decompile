@@ -3,22 +3,22 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C1C RID: 3100
+	// Token: 0x02000C19 RID: 3097
 	public class BoolGrid : IExposable
 	{
-		// Token: 0x060043AA RID: 17322 RVA: 0x0023B3A4 File Offset: 0x002397A4
+		// Token: 0x060043B3 RID: 17331 RVA: 0x0023C76C File Offset: 0x0023AB6C
 		public BoolGrid()
 		{
 		}
 
-		// Token: 0x060043AB RID: 17323 RVA: 0x0023B3B4 File Offset: 0x002397B4
+		// Token: 0x060043B4 RID: 17332 RVA: 0x0023C77C File Offset: 0x0023AB7C
 		public BoolGrid(Map map)
 		{
 			this.ClearAndResizeTo(map);
 		}
 
-		// Token: 0x17000A96 RID: 2710
-		// (get) Token: 0x060043AC RID: 17324 RVA: 0x0023B3CC File Offset: 0x002397CC
+		// Token: 0x17000A98 RID: 2712
+		// (get) Token: 0x060043B5 RID: 17333 RVA: 0x0023C794 File Offset: 0x0023AB94
 		public int TrueCount
 		{
 			get
@@ -27,8 +27,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A97 RID: 2711
-		// (get) Token: 0x060043AD RID: 17325 RVA: 0x0023B3E8 File Offset: 0x002397E8
+		// Token: 0x17000A99 RID: 2713
+		// (get) Token: 0x060043B6 RID: 17334 RVA: 0x0023C7B0 File Offset: 0x0023ABB0
 		public IEnumerable<IntVec3> ActiveCells
 		{
 			get
@@ -54,7 +54,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A98 RID: 2712
+		// Token: 0x17000A9A RID: 2714
 		public bool this[int index]
 		{
 			get
@@ -67,7 +67,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A99 RID: 2713
+		// Token: 0x17000A9B RID: 2715
 		public bool this[IntVec3 c]
 		{
 			get
@@ -80,7 +80,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A9A RID: 2714
+		// Token: 0x17000A9C RID: 2716
 		public bool this[int x, int z]
 		{
 			get
@@ -93,13 +93,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043B4 RID: 17332 RVA: 0x0023B4B0 File Offset: 0x002398B0
+		// Token: 0x060043BD RID: 17341 RVA: 0x0023C878 File Offset: 0x0023AC78
 		public bool MapSizeMatches(Map map)
 		{
 			return this.mapSizeX == map.Size.x && this.mapSizeZ == map.Size.z;
 		}
 
-		// Token: 0x060043B5 RID: 17333 RVA: 0x0023B4F8 File Offset: 0x002398F8
+		// Token: 0x060043BE RID: 17342 RVA: 0x0023C8C0 File Offset: 0x0023ACC0
 		public void ClearAndResizeTo(Map map)
 		{
 			if (this.MapSizeMatches(map) && this.arr != null)
@@ -114,7 +114,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043B6 RID: 17334 RVA: 0x0023B56C File Offset: 0x0023996C
+		// Token: 0x060043BF RID: 17343 RVA: 0x0023C934 File Offset: 0x0023AD34
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.trueCountInt, "trueCount", 0, false);
@@ -123,20 +123,20 @@ namespace Verse
 			DataExposeUtility.BoolArray(ref this.arr, this.mapSizeX * this.mapSizeZ, "arr");
 		}
 
-		// Token: 0x060043B7 RID: 17335 RVA: 0x0023B5CD File Offset: 0x002399CD
+		// Token: 0x060043C0 RID: 17344 RVA: 0x0023C995 File Offset: 0x0023AD95
 		public void Clear()
 		{
 			Array.Clear(this.arr, 0, this.arr.Length);
 			this.trueCountInt = 0;
 		}
 
-		// Token: 0x060043B8 RID: 17336 RVA: 0x0023B5EB File Offset: 0x002399EB
+		// Token: 0x060043C1 RID: 17345 RVA: 0x0023C9B3 File Offset: 0x0023ADB3
 		public virtual void Set(IntVec3 c, bool value)
 		{
 			this.Set(CellIndicesUtility.CellToIndex(c, this.mapSizeX), value);
 		}
 
-		// Token: 0x060043B9 RID: 17337 RVA: 0x0023B604 File Offset: 0x00239A04
+		// Token: 0x060043C2 RID: 17346 RVA: 0x0023C9CC File Offset: 0x0023ADCC
 		public virtual void Set(int index, bool value)
 		{
 			if (this.arr[index] != value)
@@ -153,7 +153,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043BA RID: 17338 RVA: 0x0023B658 File Offset: 0x00239A58
+		// Token: 0x060043C3 RID: 17347 RVA: 0x0023CA20 File Offset: 0x0023AE20
 		public void Invert()
 		{
 			for (int i = 0; i < this.arr.Length; i++)
@@ -163,16 +163,16 @@ namespace Verse
 			this.trueCountInt = this.arr.Length - this.trueCountInt;
 		}
 
-		// Token: 0x04002E43 RID: 11843
+		// Token: 0x04002E4D RID: 11853
 		private bool[] arr;
 
-		// Token: 0x04002E44 RID: 11844
+		// Token: 0x04002E4E RID: 11854
 		private int trueCountInt = 0;
 
-		// Token: 0x04002E45 RID: 11845
+		// Token: 0x04002E4F RID: 11855
 		private int mapSizeX;
 
-		// Token: 0x04002E46 RID: 11846
+		// Token: 0x04002E50 RID: 11856
 		private int mapSizeZ;
 	}
 }

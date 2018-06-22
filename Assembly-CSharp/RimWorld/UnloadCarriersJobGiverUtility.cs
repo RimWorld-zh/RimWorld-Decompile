@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000C7 RID: 199
 	public static class UnloadCarriersJobGiverUtility
 	{
-		// Token: 0x06000495 RID: 1173 RVA: 0x000342D8 File Offset: 0x000326D8
+		// Token: 0x06000495 RID: 1173 RVA: 0x000342B4 File Offset: 0x000326B4
 		public static bool HasJobOnThing(Pawn pawn, Thing t, bool forced)
 		{
 			Pawn pawn2 = t as Pawn;

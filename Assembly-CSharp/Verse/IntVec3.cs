@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000EEC RID: 3820
 	public struct IntVec3 : IEquatable<IntVec3>
 	{
-		// Token: 0x06005ACC RID: 23244 RVA: 0x002E671E File Offset: 0x002E4B1E
+		// Token: 0x06005AF4 RID: 23284 RVA: 0x002E8752 File Offset: 0x002E6B52
 		public IntVec3(int newX, int newY, int newZ)
 		{
 			this.x = newX;
@@ -14,7 +14,7 @@ namespace Verse
 			this.z = newZ;
 		}
 
-		// Token: 0x06005ACD RID: 23245 RVA: 0x002E6736 File Offset: 0x002E4B36
+		// Token: 0x06005AF5 RID: 23285 RVA: 0x002E876A File Offset: 0x002E6B6A
 		public IntVec3(Vector3 v)
 		{
 			this.x = (int)v.x;
@@ -22,7 +22,7 @@ namespace Verse
 			this.z = (int)v.z;
 		}
 
-		// Token: 0x06005ACE RID: 23246 RVA: 0x002E675C File Offset: 0x002E4B5C
+		// Token: 0x06005AF6 RID: 23286 RVA: 0x002E8790 File Offset: 0x002E6B90
 		public IntVec3(Vector2 v)
 		{
 			this.x = (int)v.x;
@@ -30,8 +30,8 @@ namespace Verse
 			this.z = (int)v.y;
 		}
 
-		// Token: 0x17000E6E RID: 3694
-		// (get) Token: 0x06005ACF RID: 23247 RVA: 0x002E6784 File Offset: 0x002E4B84
+		// Token: 0x17000E72 RID: 3698
+		// (get) Token: 0x06005AF7 RID: 23287 RVA: 0x002E87B8 File Offset: 0x002E6BB8
 		public IntVec2 ToIntVec2
 		{
 			get
@@ -40,8 +40,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E6F RID: 3695
-		// (get) Token: 0x06005AD0 RID: 23248 RVA: 0x002E67AC File Offset: 0x002E4BAC
+		// Token: 0x17000E73 RID: 3699
+		// (get) Token: 0x06005AF8 RID: 23288 RVA: 0x002E87E0 File Offset: 0x002E6BE0
 		public bool IsValid
 		{
 			get
@@ -50,8 +50,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E70 RID: 3696
-		// (get) Token: 0x06005AD1 RID: 23249 RVA: 0x002E67D0 File Offset: 0x002E4BD0
+		// Token: 0x17000E74 RID: 3700
+		// (get) Token: 0x06005AF9 RID: 23289 RVA: 0x002E8804 File Offset: 0x002E6C04
 		public int LengthHorizontalSquared
 		{
 			get
@@ -60,8 +60,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E71 RID: 3697
-		// (get) Token: 0x06005AD2 RID: 23250 RVA: 0x002E6800 File Offset: 0x002E4C00
+		// Token: 0x17000E75 RID: 3701
+		// (get) Token: 0x06005AFA RID: 23290 RVA: 0x002E8834 File Offset: 0x002E6C34
 		public float LengthHorizontal
 		{
 			get
@@ -70,8 +70,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E72 RID: 3698
-		// (get) Token: 0x06005AD3 RID: 23251 RVA: 0x002E6838 File Offset: 0x002E4C38
+		// Token: 0x17000E76 RID: 3702
+		// (get) Token: 0x06005AFB RID: 23291 RVA: 0x002E886C File Offset: 0x002E6C6C
 		public int LengthManhattan
 		{
 			get
@@ -80,8 +80,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E73 RID: 3699
-		// (get) Token: 0x06005AD4 RID: 23252 RVA: 0x002E688C File Offset: 0x002E4C8C
+		// Token: 0x17000E77 RID: 3703
+		// (get) Token: 0x06005AFC RID: 23292 RVA: 0x002E88C0 File Offset: 0x002E6CC0
 		public float AngleFlat
 		{
 			get
@@ -99,8 +99,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E74 RID: 3700
-		// (get) Token: 0x06005AD5 RID: 23253 RVA: 0x002E68E0 File Offset: 0x002E4CE0
+		// Token: 0x17000E78 RID: 3704
+		// (get) Token: 0x06005AFD RID: 23293 RVA: 0x002E8914 File Offset: 0x002E6D14
 		public static IntVec3 Zero
 		{
 			get
@@ -109,8 +109,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E75 RID: 3701
-		// (get) Token: 0x06005AD6 RID: 23254 RVA: 0x002E6900 File Offset: 0x002E4D00
+		// Token: 0x17000E79 RID: 3705
+		// (get) Token: 0x06005AFE RID: 23294 RVA: 0x002E8934 File Offset: 0x002E6D34
 		public static IntVec3 North
 		{
 			get
@@ -119,8 +119,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E76 RID: 3702
-		// (get) Token: 0x06005AD7 RID: 23255 RVA: 0x002E6920 File Offset: 0x002E4D20
+		// Token: 0x17000E7A RID: 3706
+		// (get) Token: 0x06005AFF RID: 23295 RVA: 0x002E8954 File Offset: 0x002E6D54
 		public static IntVec3 East
 		{
 			get
@@ -129,8 +129,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E77 RID: 3703
-		// (get) Token: 0x06005AD8 RID: 23256 RVA: 0x002E6940 File Offset: 0x002E4D40
+		// Token: 0x17000E7B RID: 3707
+		// (get) Token: 0x06005B00 RID: 23296 RVA: 0x002E8974 File Offset: 0x002E6D74
 		public static IntVec3 South
 		{
 			get
@@ -139,8 +139,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E78 RID: 3704
-		// (get) Token: 0x06005AD9 RID: 23257 RVA: 0x002E6960 File Offset: 0x002E4D60
+		// Token: 0x17000E7C RID: 3708
+		// (get) Token: 0x06005B01 RID: 23297 RVA: 0x002E8994 File Offset: 0x002E6D94
 		public static IntVec3 West
 		{
 			get
@@ -149,8 +149,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E79 RID: 3705
-		// (get) Token: 0x06005ADA RID: 23258 RVA: 0x002E6980 File Offset: 0x002E4D80
+		// Token: 0x17000E7D RID: 3709
+		// (get) Token: 0x06005B02 RID: 23298 RVA: 0x002E89B4 File Offset: 0x002E6DB4
 		public static IntVec3 NorthWest
 		{
 			get
@@ -159,8 +159,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E7A RID: 3706
-		// (get) Token: 0x06005ADB RID: 23259 RVA: 0x002E69A0 File Offset: 0x002E4DA0
+		// Token: 0x17000E7E RID: 3710
+		// (get) Token: 0x06005B03 RID: 23299 RVA: 0x002E89D4 File Offset: 0x002E6DD4
 		public static IntVec3 NorthEast
 		{
 			get
@@ -169,8 +169,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E7B RID: 3707
-		// (get) Token: 0x06005ADC RID: 23260 RVA: 0x002E69C0 File Offset: 0x002E4DC0
+		// Token: 0x17000E7F RID: 3711
+		// (get) Token: 0x06005B04 RID: 23300 RVA: 0x002E89F4 File Offset: 0x002E6DF4
 		public static IntVec3 SouthWest
 		{
 			get
@@ -179,8 +179,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E7C RID: 3708
-		// (get) Token: 0x06005ADD RID: 23261 RVA: 0x002E69E0 File Offset: 0x002E4DE0
+		// Token: 0x17000E80 RID: 3712
+		// (get) Token: 0x06005B05 RID: 23301 RVA: 0x002E8A14 File Offset: 0x002E6E14
 		public static IntVec3 SouthEast
 		{
 			get
@@ -189,8 +189,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E7D RID: 3709
-		// (get) Token: 0x06005ADE RID: 23262 RVA: 0x002E6A00 File Offset: 0x002E4E00
+		// Token: 0x17000E81 RID: 3713
+		// (get) Token: 0x06005B06 RID: 23302 RVA: 0x002E8A34 File Offset: 0x002E6E34
 		public static IntVec3 Invalid
 		{
 			get
@@ -199,7 +199,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005ADF RID: 23263 RVA: 0x002E6A2C File Offset: 0x002E4E2C
+		// Token: 0x06005B07 RID: 23303 RVA: 0x002E8A60 File Offset: 0x002E6E60
 		public static IntVec3 FromString(string str)
 		{
 			str = str.TrimStart(new char[]
@@ -230,31 +230,31 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005AE0 RID: 23264 RVA: 0x002E6AD4 File Offset: 0x002E4ED4
+		// Token: 0x06005B08 RID: 23304 RVA: 0x002E8B08 File Offset: 0x002E6F08
 		public Vector3 ToVector3()
 		{
 			return new Vector3((float)this.x, (float)this.y, (float)this.z);
 		}
 
-		// Token: 0x06005AE1 RID: 23265 RVA: 0x002E6B04 File Offset: 0x002E4F04
+		// Token: 0x06005B09 RID: 23305 RVA: 0x002E8B38 File Offset: 0x002E6F38
 		public Vector3 ToVector3Shifted()
 		{
 			return new Vector3((float)this.x + 0.5f, (float)this.y, (float)this.z + 0.5f);
 		}
 
-		// Token: 0x06005AE2 RID: 23266 RVA: 0x002E6B40 File Offset: 0x002E4F40
+		// Token: 0x06005B0A RID: 23306 RVA: 0x002E8B74 File Offset: 0x002E6F74
 		public Vector3 ToVector3ShiftedWithAltitude(AltitudeLayer AltLayer)
 		{
 			return this.ToVector3ShiftedWithAltitude(AltLayer.AltitudeFor());
 		}
 
-		// Token: 0x06005AE3 RID: 23267 RVA: 0x002E6B64 File Offset: 0x002E4F64
+		// Token: 0x06005B0B RID: 23307 RVA: 0x002E8B98 File Offset: 0x002E6F98
 		public Vector3 ToVector3ShiftedWithAltitude(float AddedAltitude)
 		{
 			return new Vector3((float)this.x + 0.5f, (float)this.y + AddedAltitude, (float)this.z + 0.5f);
 		}
 
-		// Token: 0x06005AE4 RID: 23268 RVA: 0x002E6BA4 File Offset: 0x002E4FA4
+		// Token: 0x06005B0C RID: 23308 RVA: 0x002E8BD8 File Offset: 0x002E6FD8
 		public bool InHorDistOf(IntVec3 otherLoc, float maxDist)
 		{
 			float num = (float)(this.x - otherLoc.x);
@@ -262,37 +262,37 @@ namespace Verse
 			return num * num + num2 * num2 <= maxDist * maxDist;
 		}
 
-		// Token: 0x06005AE5 RID: 23269 RVA: 0x002E6BE8 File Offset: 0x002E4FE8
+		// Token: 0x06005B0D RID: 23309 RVA: 0x002E8C1C File Offset: 0x002E701C
 		public static IntVec3 FromVector3(Vector3 v)
 		{
 			return IntVec3.FromVector3(v, 0);
 		}
 
-		// Token: 0x06005AE6 RID: 23270 RVA: 0x002E6C04 File Offset: 0x002E5004
+		// Token: 0x06005B0E RID: 23310 RVA: 0x002E8C38 File Offset: 0x002E7038
 		public static IntVec3 FromVector3(Vector3 v, int newY)
 		{
 			return new IntVec3((int)v.x, newY, (int)v.z);
 		}
 
-		// Token: 0x06005AE7 RID: 23271 RVA: 0x002E6C30 File Offset: 0x002E5030
+		// Token: 0x06005B0F RID: 23311 RVA: 0x002E8C64 File Offset: 0x002E7064
 		public Vector2 ToUIPosition()
 		{
 			return this.ToVector3Shifted().MapToUIPosition();
 		}
 
-		// Token: 0x06005AE8 RID: 23272 RVA: 0x002E6C50 File Offset: 0x002E5050
+		// Token: 0x06005B10 RID: 23312 RVA: 0x002E8C84 File Offset: 0x002E7084
 		public bool AdjacentToCardinal(IntVec3 other)
 		{
 			return this.IsValid && ((other.z == this.z && (other.x == this.x + 1 || other.x == this.x - 1)) || (other.x == this.x && (other.z == this.z + 1 || other.z == this.z - 1)));
 		}
 
-		// Token: 0x06005AE9 RID: 23273 RVA: 0x002E6CFC File Offset: 0x002E50FC
+		// Token: 0x06005B11 RID: 23313 RVA: 0x002E8D30 File Offset: 0x002E7130
 		public bool AdjacentToDiagonal(IntVec3 other)
 		{
 			return this.IsValid && Mathf.Abs(this.x - other.x) == 1 && Mathf.Abs(this.z - other.z) == 1;
 		}
 
-		// Token: 0x06005AEA RID: 23274 RVA: 0x002E6D58 File Offset: 0x002E5158
+		// Token: 0x06005B12 RID: 23314 RVA: 0x002E8D8C File Offset: 0x002E718C
 		public bool AdjacentToCardinal(Room room)
 		{
 			bool result;
@@ -324,13 +324,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005AEB RID: 23275 RVA: 0x002E6E0C File Offset: 0x002E520C
+		// Token: 0x06005B13 RID: 23315 RVA: 0x002E8E40 File Offset: 0x002E7240
 		public IntVec3 ClampInsideMap(Map map)
 		{
 			return this.ClampInsideRect(CellRect.WholeMap(map));
 		}
 
-		// Token: 0x06005AEC RID: 23276 RVA: 0x002E6E30 File Offset: 0x002E5230
+		// Token: 0x06005B14 RID: 23316 RVA: 0x002E8E64 File Offset: 0x002E7264
 		public IntVec3 ClampInsideRect(CellRect rect)
 		{
 			this.x = Mathf.Clamp(this.x, rect.minX, rect.maxX);
@@ -339,49 +339,49 @@ namespace Verse
 			return this;
 		}
 
-		// Token: 0x06005AED RID: 23277 RVA: 0x002E6E90 File Offset: 0x002E5290
+		// Token: 0x06005B15 RID: 23317 RVA: 0x002E8EC4 File Offset: 0x002E72C4
 		public static IntVec3 operator +(IntVec3 a, IntVec3 b)
 		{
 			return new IntVec3(a.x + b.x, a.y + b.y, a.z + b.z);
 		}
 
-		// Token: 0x06005AEE RID: 23278 RVA: 0x002E6ED8 File Offset: 0x002E52D8
+		// Token: 0x06005B16 RID: 23318 RVA: 0x002E8F0C File Offset: 0x002E730C
 		public static IntVec3 operator -(IntVec3 a, IntVec3 b)
 		{
 			return new IntVec3(a.x - b.x, a.y - b.y, a.z - b.z);
 		}
 
-		// Token: 0x06005AEF RID: 23279 RVA: 0x002E6F20 File Offset: 0x002E5320
+		// Token: 0x06005B17 RID: 23319 RVA: 0x002E8F54 File Offset: 0x002E7354
 		public static IntVec3 operator *(IntVec3 a, int i)
 		{
 			return new IntVec3(a.x * i, a.y * i, a.z * i);
 		}
 
-		// Token: 0x06005AF0 RID: 23280 RVA: 0x002E6F58 File Offset: 0x002E5358
+		// Token: 0x06005B18 RID: 23320 RVA: 0x002E8F8C File Offset: 0x002E738C
 		public static bool operator ==(IntVec3 a, IntVec3 b)
 		{
 			return a.x == b.x && a.z == b.z && a.y == b.y;
 		}
 
-		// Token: 0x06005AF1 RID: 23281 RVA: 0x002E6FB0 File Offset: 0x002E53B0
+		// Token: 0x06005B19 RID: 23321 RVA: 0x002E8FE4 File Offset: 0x002E73E4
 		public static bool operator !=(IntVec3 a, IntVec3 b)
 		{
 			return a.x != b.x || a.z != b.z || a.y != b.y;
 		}
 
-		// Token: 0x06005AF2 RID: 23282 RVA: 0x002E7008 File Offset: 0x002E5408
+		// Token: 0x06005B1A RID: 23322 RVA: 0x002E903C File Offset: 0x002E743C
 		public override bool Equals(object obj)
 		{
 			return obj is IntVec3 && this.Equals((IntVec3)obj);
 		}
 
-		// Token: 0x06005AF3 RID: 23283 RVA: 0x002E7038 File Offset: 0x002E5438
+		// Token: 0x06005B1B RID: 23323 RVA: 0x002E906C File Offset: 0x002E746C
 		public bool Equals(IntVec3 other)
 		{
 			return this.x == other.x && this.z == other.z && this.y == other.y;
 		}
 
-		// Token: 0x06005AF4 RID: 23284 RVA: 0x002E7084 File Offset: 0x002E5484
+		// Token: 0x06005B1C RID: 23324 RVA: 0x002E90B8 File Offset: 0x002E74B8
 		public override int GetHashCode()
 		{
 			int seed = 0;
@@ -390,7 +390,7 @@ namespace Verse
 			return Gen.HashCombineInt(seed, this.z);
 		}
 
-		// Token: 0x06005AF5 RID: 23285 RVA: 0x002E70C4 File Offset: 0x002E54C4
+		// Token: 0x06005B1D RID: 23325 RVA: 0x002E90F8 File Offset: 0x002E74F8
 		public ulong UniqueHashCode()
 		{
 			ulong num = 0UL;
@@ -399,7 +399,7 @@ namespace Verse
 			return num + (ulong)(16777216L * (long)this.y);
 		}
 
-		// Token: 0x06005AF6 RID: 23286 RVA: 0x002E710C File Offset: 0x002E550C
+		// Token: 0x06005B1E RID: 23326 RVA: 0x002E9140 File Offset: 0x002E7540
 		public override string ToString()
 		{
 			return string.Concat(new string[]
@@ -414,13 +414,13 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x04003C8E RID: 15502
+		// Token: 0x04003CA1 RID: 15521
 		public int x;
 
-		// Token: 0x04003C8F RID: 15503
+		// Token: 0x04003CA2 RID: 15522
 		public int y;
 
-		// Token: 0x04003C90 RID: 15504
+		// Token: 0x04003CA3 RID: 15523
 		public int z;
 	}
 }

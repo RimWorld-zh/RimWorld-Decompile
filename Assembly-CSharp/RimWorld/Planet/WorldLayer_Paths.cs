@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000592 RID: 1426
+	// Token: 0x0200058E RID: 1422
 	public abstract class WorldLayer_Paths : WorldLayer
 	{
-		// Token: 0x06001B35 RID: 6965 RVA: 0x000E98C4 File Offset: 0x000E7CC4
+		// Token: 0x06001B2C RID: 6956 RVA: 0x000E9918 File Offset: 0x000E7D18
 		public void GeneratePaths(LayerSubMesh subMesh, int tileID, List<WorldLayer_Paths.OutputDirection> nodes, Color32 color, bool allowSmoothTransition)
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
@@ -102,7 +102,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B36 RID: 6966 RVA: 0x000E9E3C File Offset: 0x000E823C
+		// Token: 0x06001B2D RID: 6957 RVA: 0x000E9E90 File Offset: 0x000E8290
 		private void AddPathEndpoint(LayerSubMesh subMesh, List<Vector3> verts, int index, Color32 color, int tileID, WorldLayer_Paths.OutputDirection data)
 		{
 			int index2 = (index + 1) % verts.Count;
@@ -120,40 +120,40 @@ namespace RimWorld.Planet
 			subMesh.colors.Add(color.MutateAlpha(0));
 		}
 
-		// Token: 0x06001B37 RID: 6967
+		// Token: 0x06001B2E RID: 6958
 		public abstract Vector3 FinalizePoint(Vector3 inp, float distortionFrequency, float distortionIntensity);
 
-		// Token: 0x04001005 RID: 4101
+		// Token: 0x04001002 RID: 4098
 		protected bool pointyEnds = false;
 
-		// Token: 0x04001006 RID: 4102
+		// Token: 0x04001003 RID: 4099
 		private List<Vector3> tmpVerts = new List<Vector3>();
 
-		// Token: 0x04001007 RID: 4103
+		// Token: 0x04001004 RID: 4100
 		private List<Vector3> tmpHexVerts = new List<Vector3>();
 
-		// Token: 0x04001008 RID: 4104
+		// Token: 0x04001005 RID: 4101
 		private List<int> tmpNeighbors = new List<int>();
 
-		// Token: 0x04001009 RID: 4105
+		// Token: 0x04001006 RID: 4102
 		private static List<int> lhsID = new List<int>();
 
-		// Token: 0x0400100A RID: 4106
+		// Token: 0x04001007 RID: 4103
 		private static List<int> rhsID = new List<int>();
 
-		// Token: 0x02000593 RID: 1427
+		// Token: 0x0200058F RID: 1423
 		public struct OutputDirection
 		{
-			// Token: 0x0400100C RID: 4108
+			// Token: 0x04001009 RID: 4105
 			public int neighbor;
 
-			// Token: 0x0400100D RID: 4109
+			// Token: 0x0400100A RID: 4106
 			public float width;
 
-			// Token: 0x0400100E RID: 4110
+			// Token: 0x0400100B RID: 4107
 			public float distortionFrequency;
 
-			// Token: 0x0400100F RID: 4111
+			// Token: 0x0400100C RID: 4108
 			public float distortionIntensity;
 		}
 	}

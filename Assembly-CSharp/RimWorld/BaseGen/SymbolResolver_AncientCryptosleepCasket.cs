@@ -8,7 +8,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003A4 RID: 932
 	public class SymbolResolver_AncientCryptosleepCasket : SymbolResolver
 	{
-		// Token: 0x06001036 RID: 4150 RVA: 0x000885E8 File Offset: 0x000869E8
+		// Token: 0x06001036 RID: 4150 RVA: 0x000887D4 File Offset: 0x00086BD4
 		public override void Resolve(ResolveParams rp)
 		{
 			int? ancientCryptosleepCasketGroupID = rp.ancientCryptosleepCasketGroupID;

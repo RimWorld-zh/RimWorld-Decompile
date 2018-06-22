@@ -4,11 +4,11 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200072B RID: 1835
+	// Token: 0x02000727 RID: 1831
 	public class CompPsychicDrone : ThingComp
 	{
 		// Token: 0x17000632 RID: 1586
-		// (get) Token: 0x06002863 RID: 10339 RVA: 0x00158938 File Offset: 0x00156D38
+		// (get) Token: 0x0600285B RID: 10331 RVA: 0x00158AF4 File Offset: 0x00156EF4
 		public CompProperties_PsychicDrone Props
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000633 RID: 1587
-		// (get) Token: 0x06002864 RID: 10340 RVA: 0x00158958 File Offset: 0x00156D58
+		// (get) Token: 0x0600285C RID: 10332 RVA: 0x00158B14 File Offset: 0x00156F14
 		public PsychicDroneLevel DroneLevel
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002865 RID: 10341 RVA: 0x00158973 File Offset: 0x00156D73
+		// Token: 0x0600285D RID: 10333 RVA: 0x00158B2F File Offset: 0x00156F2F
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
@@ -38,7 +38,7 @@ namespace RimWorld
 			SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(this.parent.Map);
 		}
 
-		// Token: 0x06002866 RID: 10342 RVA: 0x001589A9 File Offset: 0x00156DA9
+		// Token: 0x0600285E RID: 10334 RVA: 0x00158B65 File Offset: 0x00156F65
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -46,7 +46,7 @@ namespace RimWorld
 			Scribe_Values.Look<PsychicDroneLevel>(ref this.droneLevel, "droneLevel", PsychicDroneLevel.None, false);
 		}
 
-		// Token: 0x06002867 RID: 10343 RVA: 0x001589D8 File Offset: 0x00156DD8
+		// Token: 0x0600285F RID: 10335 RVA: 0x00158B94 File Offset: 0x00156F94
 		public override void CompTick()
 		{
 			if (this.parent.Spawned)
@@ -60,7 +60,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002868 RID: 10344 RVA: 0x00158A30 File Offset: 0x00156E30
+		// Token: 0x06002860 RID: 10336 RVA: 0x00158BEC File Offset: 0x00156FEC
 		private void IncreaseDroneLevel()
 		{
 			if (this.droneLevel != PsychicDroneLevel.BadExtreme)
@@ -72,7 +72,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002869 RID: 10345 RVA: 0x00158A9C File Offset: 0x00156E9C
+		// Token: 0x06002861 RID: 10337 RVA: 0x00158C58 File Offset: 0x00157058
 		public override string CompInspectStringExtra()
 		{
 			string text = "Error";
@@ -97,10 +97,10 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x04001615 RID: 5653
+		// Token: 0x04001613 RID: 5651
 		private int ticksToIncreaseDroneLevel;
 
-		// Token: 0x04001616 RID: 5654
+		// Token: 0x04001614 RID: 5652
 		private PsychicDroneLevel droneLevel = PsychicDroneLevel.BadLow;
 	}
 }

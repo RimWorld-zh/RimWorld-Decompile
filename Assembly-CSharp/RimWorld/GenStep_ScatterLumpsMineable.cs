@@ -8,7 +8,7 @@ namespace RimWorld
 	public class GenStep_ScatterLumpsMineable : GenStep_Scatterer
 	{
 		// Token: 0x17000258 RID: 600
-		// (get) Token: 0x0600118D RID: 4493 RVA: 0x000980D0 File Offset: 0x000964D0
+		// (get) Token: 0x0600118D RID: 4493 RVA: 0x000982B4 File Offset: 0x000966B4
 		public override int SeedPart
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600118E RID: 4494 RVA: 0x000980EC File Offset: 0x000964EC
+		// Token: 0x0600118E RID: 4494 RVA: 0x000982D0 File Offset: 0x000966D0
 		public override void Generate(Map map)
 		{
 			this.minSpacing = 5f;
@@ -36,7 +36,7 @@ namespace RimWorld
 			this.usedSpots.Clear();
 		}
 
-		// Token: 0x0600118F RID: 4495 RVA: 0x0009815C File Offset: 0x0009655C
+		// Token: 0x0600118F RID: 4495 RVA: 0x00098340 File Offset: 0x00096740
 		protected ThingDef ChooseThingDef()
 		{
 			ThingDef result;
@@ -67,7 +67,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001190 RID: 4496 RVA: 0x000981A0 File Offset: 0x000965A0
+		// Token: 0x06001190 RID: 4496 RVA: 0x00098384 File Offset: 0x00096784
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			bool result;
@@ -83,7 +83,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001191 RID: 4497 RVA: 0x000981FC File Offset: 0x000965FC
+		// Token: 0x06001191 RID: 4497 RVA: 0x000983E0 File Offset: 0x000967E0
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)
 		{
 			ThingDef thingDef = this.ChooseThingDef();
@@ -99,16 +99,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000AA9 RID: 2729
+		// Token: 0x04000AAA RID: 2730
 		public ThingDef forcedDefToScatter;
 
-		// Token: 0x04000AAA RID: 2730
+		// Token: 0x04000AAB RID: 2731
 		public int forcedLumpSize;
 
-		// Token: 0x04000AAB RID: 2731
+		// Token: 0x04000AAC RID: 2732
 		public float maxValue = float.MaxValue;
 
-		// Token: 0x04000AAC RID: 2732
+		// Token: 0x04000AAD RID: 2733
 		[Unsaved]
 		protected List<IntVec3> recentLumpCells = new List<IntVec3>();
 	}

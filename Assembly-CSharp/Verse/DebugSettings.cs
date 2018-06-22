@@ -5,70 +5,70 @@ namespace Verse
 	// Token: 0x02000F0E RID: 3854
 	public static class DebugSettings
 	{
-		// Token: 0x04003CF1 RID: 15601
+		// Token: 0x04003D04 RID: 15620
 		public const bool DebugBuild = true;
 
-		// Token: 0x04003CF2 RID: 15602
+		// Token: 0x04003D05 RID: 15621
 		public static bool enableDamage = true;
 
-		// Token: 0x04003CF3 RID: 15603
+		// Token: 0x04003D06 RID: 15622
 		public static bool enablePlayerDamage = true;
 
-		// Token: 0x04003CF4 RID: 15604
+		// Token: 0x04003D07 RID: 15623
 		public static bool enableRandomMentalStates = true;
 
-		// Token: 0x04003CF5 RID: 15605
+		// Token: 0x04003D08 RID: 15624
 		public static bool enableStoryteller = true;
 
-		// Token: 0x04003CF6 RID: 15606
+		// Token: 0x04003D09 RID: 15625
 		public static bool enableRandomDiseases = true;
 
-		// Token: 0x04003CF7 RID: 15607
+		// Token: 0x04003D0A RID: 15626
 		public static bool godMode = false;
 
-		// Token: 0x04003CF8 RID: 15608
+		// Token: 0x04003D0B RID: 15627
 		public static bool noAnimals = false;
 
-		// Token: 0x04003CF9 RID: 15609
+		// Token: 0x04003D0C RID: 15628
 		public static bool unlimitedPower = false;
 
-		// Token: 0x04003CFA RID: 15610
+		// Token: 0x04003D0D RID: 15629
 		public static bool pathThroughWalls = false;
 
-		// Token: 0x04003CFB RID: 15611
+		// Token: 0x04003D0E RID: 15630
 		public static bool instantRecruit = false;
 
-		// Token: 0x04003CFC RID: 15612
+		// Token: 0x04003D0F RID: 15631
 		public static bool alwaysSocialFight = false;
 
-		// Token: 0x04003CFD RID: 15613
+		// Token: 0x04003D10 RID: 15632
 		public static bool alwaysDoLovin = false;
 
-		// Token: 0x04003CFE RID: 15614
+		// Token: 0x04003D11 RID: 15633
 		public static bool detectRegionListersBugs = false;
 
-		// Token: 0x04003CFF RID: 15615
+		// Token: 0x04003D12 RID: 15634
 		public static bool instantVisitorsGift = false;
 
-		// Token: 0x04003D00 RID: 15616
+		// Token: 0x04003D13 RID: 15635
 		public static bool lowFPS = false;
 
-		// Token: 0x04003D01 RID: 15617
+		// Token: 0x04003D14 RID: 15636
 		public static bool fastResearch = false;
 
-		// Token: 0x04003D02 RID: 15618
+		// Token: 0x04003D15 RID: 15637
 		public static bool fastLearning = false;
 
-		// Token: 0x04003D03 RID: 15619
+		// Token: 0x04003D16 RID: 15638
 		public static bool fastEcology = false;
 
-		// Token: 0x04003D04 RID: 15620
+		// Token: 0x04003D17 RID: 15639
 		public static bool fastEcologyRegrowRateOnly = false;
 
-		// Token: 0x04003D05 RID: 15621
+		// Token: 0x04003D18 RID: 15640
 		public static bool fastCrafting = false;
 
-		// Token: 0x04003D06 RID: 15622
+		// Token: 0x04003D19 RID: 15641
 		public static bool fastCaravans = false;
 	}
 }

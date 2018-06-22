@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B0C RID: 2828
+	// Token: 0x02000B08 RID: 2824
 	public class ColorGenerator_Single : ColorGenerator
 	{
-		// Token: 0x06003E8E RID: 16014 RVA: 0x0020F158 File Offset: 0x0020D558
+		// Token: 0x06003E8A RID: 16010 RVA: 0x0020F494 File Offset: 0x0020D894
 		public override Color NewRandomizedColor()
 		{
 			return this.color;
 		}
 
-		// Token: 0x040027E2 RID: 10210
+		// Token: 0x040027DE RID: 10206
 		public Color color;
 	}
 }

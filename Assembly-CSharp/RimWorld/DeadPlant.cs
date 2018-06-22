@@ -2,11 +2,11 @@
 
 namespace RimWorld
 {
-	// Token: 0x020006D5 RID: 1749
+	// Token: 0x020006D1 RID: 1745
 	public class DeadPlant : Plant
 	{
 		// Token: 0x170005AF RID: 1455
-		// (get) Token: 0x060025F1 RID: 9713 RVA: 0x0014674C File Offset: 0x00144B4C
+		// (get) Token: 0x060025E9 RID: 9705 RVA: 0x00146898 File Offset: 0x00144C98
 		protected override bool Resting
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005B0 RID: 1456
-		// (get) Token: 0x060025F2 RID: 9714 RVA: 0x00146764 File Offset: 0x00144B64
+		// (get) Token: 0x060025EA RID: 9706 RVA: 0x001468B0 File Offset: 0x00144CB0
 		public override float GrowthRate
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005B1 RID: 1457
-		// (get) Token: 0x060025F3 RID: 9715 RVA: 0x00146780 File Offset: 0x00144B80
+		// (get) Token: 0x060025EB RID: 9707 RVA: 0x001468CC File Offset: 0x00144CCC
 		public override float CurrentDyingDamagePerTick
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005B2 RID: 1458
-		// (get) Token: 0x060025F4 RID: 9716 RVA: 0x0014679C File Offset: 0x00144B9C
+		// (get) Token: 0x060025EC RID: 9708 RVA: 0x001468E8 File Offset: 0x00144CE8
 		public override string LabelMouseover
 		{
 			get
@@ -46,7 +46,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005B3 RID: 1459
-		// (get) Token: 0x060025F5 RID: 9717 RVA: 0x001467B8 File Offset: 0x00144BB8
+		// (get) Token: 0x060025ED RID: 9709 RVA: 0x00146904 File Offset: 0x00144D04
 		public override PlantLifeStage LifeStage
 		{
 			get
@@ -55,19 +55,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025F6 RID: 9718 RVA: 0x001467D0 File Offset: 0x00144BD0
+		// Token: 0x060025EE RID: 9710 RVA: 0x0014691C File Offset: 0x00144D1C
 		public override string GetInspectStringLowPriority()
 		{
 			return null;
 		}
 
-		// Token: 0x060025F7 RID: 9719 RVA: 0x001467E8 File Offset: 0x00144BE8
+		// Token: 0x060025EF RID: 9711 RVA: 0x00146934 File Offset: 0x00144D34
 		public override string GetInspectString()
 		{
 			return "";
 		}
 
-		// Token: 0x060025F8 RID: 9720 RVA: 0x00146802 File Offset: 0x00144C02
+		// Token: 0x060025F0 RID: 9712 RVA: 0x0014694E File Offset: 0x00144D4E
 		public override void CropBlighted()
 		{
 		}

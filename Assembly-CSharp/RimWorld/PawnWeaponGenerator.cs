@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200048F RID: 1167
+	// Token: 0x0200048B RID: 1163
 	public static class PawnWeaponGenerator
 	{
-		// Token: 0x06001492 RID: 5266 RVA: 0x000B4A4C File Offset: 0x000B2E4C
+		// Token: 0x06001489 RID: 5257 RVA: 0x000B4A48 File Offset: 0x000B2E48
 		public static void Reset()
 		{
 			Predicate<ThingDef> isWeapon = (ThingDef td) => td.equipmentType == EquipmentType.Primary && !td.weaponTags.NullOrEmpty<string>();
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001493 RID: 5267 RVA: 0x000B4BBC File Offset: 0x000B2FBC
+		// Token: 0x0600148A RID: 5258 RVA: 0x000B4BB8 File Offset: 0x000B2FB8
 		public static void TryGenerateWeaponFor(Pawn pawn)
 		{
 			PawnWeaponGenerator.workingWeapons.Clear();
@@ -89,7 +89,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001494 RID: 5268 RVA: 0x000B4DD8 File Offset: 0x000B31D8
+		// Token: 0x0600148B RID: 5259 RVA: 0x000B4DD4 File Offset: 0x000B31D4
 		public static bool IsDerpWeapon(ThingDef thing, ThingDef stuff)
 		{
 			bool result;
@@ -121,7 +121,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001495 RID: 5269 RVA: 0x000B4E6C File Offset: 0x000B326C
+		// Token: 0x0600148C RID: 5260 RVA: 0x000B4E68 File Offset: 0x000B3268
 		public static float CheapestNonDerpPriceFor(ThingDef weaponDef)
 		{
 			float num = 9999999f;
@@ -139,7 +139,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06001496 RID: 5270 RVA: 0x000B4EF0 File Offset: 0x000B32F0
+		// Token: 0x0600148D RID: 5261 RVA: 0x000B4EEC File Offset: 0x000B32EC
 		[DebugOutput]
 		internal static void WeaponPairs()
 		{
@@ -157,17 +157,17 @@ namespace RimWorld
 			DebugTables.MakeTablesDialog<ThingStuffPair>(dataSources, array);
 		}
 
-		// Token: 0x06001497 RID: 5271 RVA: 0x000B5056 File Offset: 0x000B3456
+		// Token: 0x0600148E RID: 5262 RVA: 0x000B5052 File Offset: 0x000B3452
 		[DebugOutput]
 		internal static void WeaponPairsByThing()
 		{
 			DebugOutputsGeneral.MakeTablePairsByThing(PawnWeaponGenerator.allWeaponPairs);
 		}
 
-		// Token: 0x04000C58 RID: 3160
+		// Token: 0x04000C55 RID: 3157
 		private static List<ThingStuffPair> allWeaponPairs;
 
-		// Token: 0x04000C59 RID: 3161
+		// Token: 0x04000C56 RID: 3158
 		private static List<ThingStuffPair> workingWeapons = new List<ThingStuffPair>();
 	}
 }

@@ -10,7 +10,7 @@ namespace RimWorld
 	// Token: 0x0200009B RID: 155
 	public class Toils_Ingest
 	{
-		// Token: 0x060003E8 RID: 1000 RVA: 0x0002D138 File Offset: 0x0002B538
+		// Token: 0x060003E8 RID: 1000 RVA: 0x0002D114 File Offset: 0x0002B514
 		public static Toil TakeMealFromDispenser(TargetIndex ind, Pawn eater)
 		{
 			Toil toil = new Toil();
@@ -36,7 +36,7 @@ namespace RimWorld
 			return toil;
 		}
 
-		// Token: 0x060003E9 RID: 1001 RVA: 0x0002D1B4 File Offset: 0x0002B5B4
+		// Token: 0x060003E9 RID: 1001 RVA: 0x0002D190 File Offset: 0x0002B590
 		public static Toil PickupIngestible(TargetIndex ind, Pawn eater)
 		{
 			Toil toil = new Toil();
@@ -65,7 +65,7 @@ namespace RimWorld
 			return toil;
 		}
 
-		// Token: 0x060003EA RID: 1002 RVA: 0x0002D20C File Offset: 0x0002B60C
+		// Token: 0x060003EA RID: 1002 RVA: 0x0002D1E8 File Offset: 0x0002B5E8
 		public static Toil CarryIngestibleToChewSpot(Pawn pawn, TargetIndex ingestibleInd)
 		{
 			Toil toil = new Toil();
@@ -144,7 +144,7 @@ namespace RimWorld
 			return toil;
 		}
 
-		// Token: 0x060003EB RID: 1003 RVA: 0x0002D26C File Offset: 0x0002B66C
+		// Token: 0x060003EB RID: 1003 RVA: 0x0002D248 File Offset: 0x0002B648
 		public static bool TryFindAdjacentIngestionPlaceSpot(IntVec3 root, ThingDef ingestibleDef, Pawn pawn, out IntVec3 placeSpot)
 		{
 			placeSpot = IntVec3.Invalid;
@@ -197,7 +197,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060003EC RID: 1004 RVA: 0x0002D45C File Offset: 0x0002B85C
+		// Token: 0x060003EC RID: 1004 RVA: 0x0002D438 File Offset: 0x0002B838
 		public static Toil FindAdjacentEatSurface(TargetIndex eatSurfaceInd, TargetIndex foodInd)
 		{
 			Toil toil = new Toil();
@@ -227,7 +227,7 @@ namespace RimWorld
 			return toil;
 		}
 
-		// Token: 0x060003ED RID: 1005 RVA: 0x0002D4BC File Offset: 0x0002B8BC
+		// Token: 0x060003ED RID: 1005 RVA: 0x0002D498 File Offset: 0x0002B898
 		public static Toil ChewIngestible(Pawn chewer, float durationMultiplier, TargetIndex ingestibleInd, TargetIndex eatSurfaceInd = TargetIndex.None)
 		{
 			Toil toil = new Toil();
@@ -307,7 +307,7 @@ namespace RimWorld
 			return toil;
 		}
 
-		// Token: 0x060003EE RID: 1006 RVA: 0x0002D5B8 File Offset: 0x0002B9B8
+		// Token: 0x060003EE RID: 1006 RVA: 0x0002D594 File Offset: 0x0002B994
 		public static Toil AddIngestionEffects(Toil toil, Pawn chewer, TargetIndex ingestibleInd, TargetIndex eatSurfaceInd)
 		{
 			toil.WithEffect(delegate()
@@ -377,7 +377,7 @@ namespace RimWorld
 			return toil;
 		}
 
-		// Token: 0x060003EF RID: 1007 RVA: 0x0002D634 File Offset: 0x0002BA34
+		// Token: 0x060003EF RID: 1007 RVA: 0x0002D610 File Offset: 0x0002BA10
 		public static Toil FinalizeIngest(Pawn ingester, TargetIndex ingestibleInd)
 		{
 			Toil toil = new Toil();

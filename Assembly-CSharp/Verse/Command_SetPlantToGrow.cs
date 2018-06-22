@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E66 RID: 3686
+	// Token: 0x02000E65 RID: 3685
 	[StaticConstructorOnStartup]
 	public class Command_SetPlantToGrow : Command
 	{
-		// Token: 0x060056BB RID: 22203 RVA: 0x002CA030 File Offset: 0x002C8430
+		// Token: 0x060056DB RID: 22235 RVA: 0x002CBC40 File Offset: 0x002CA040
 		public Command_SetPlantToGrow()
 		{
 			this.tutorTag = "GrowingZoneSetPlant";
@@ -45,7 +45,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056BC RID: 22204 RVA: 0x002CA144 File Offset: 0x002C8544
+		// Token: 0x060056DC RID: 22236 RVA: 0x002CBD54 File Offset: 0x002CA154
 		public override void ProcessInput(Event ev)
 		{
 			base.ProcessInput(ev);
@@ -118,7 +118,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x060056BD RID: 22205 RVA: 0x002CA344 File Offset: 0x002C8744
+		// Token: 0x060056DD RID: 22237 RVA: 0x002CBF54 File Offset: 0x002CA354
 		public override bool InheritInteractionsFrom(Gizmo other)
 		{
 			if (this.settables == null)
@@ -129,7 +129,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x060056BE RID: 22206 RVA: 0x002CA388 File Offset: 0x002C8788
+		// Token: 0x060056DE RID: 22238 RVA: 0x002CBF98 File Offset: 0x002CA398
 		private void WarnAsAppropriate(ThingDef plantDef)
 		{
 			if (plantDef.plant.sowMinSkill > 0)
@@ -175,7 +175,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056BF RID: 22207 RVA: 0x002CA5CC File Offset: 0x002C89CC
+		// Token: 0x060056DF RID: 22239 RVA: 0x002CC1DC File Offset: 0x002CA5DC
 		private bool IsPlantAvailable(ThingDef plantDef, Map map)
 		{
 			List<ResearchProjectDef> sowResearchPrerequisites = plantDef.plant.sowResearchPrerequisites;
@@ -198,7 +198,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060056C0 RID: 22208 RVA: 0x002CA65C File Offset: 0x002C8A5C
+		// Token: 0x060056E0 RID: 22240 RVA: 0x002CC26C File Offset: 0x002CA66C
 		private float GetPlantListPriority(ThingDef plantDef)
 		{
 			float result;
@@ -230,16 +230,16 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0400397B RID: 14715
+		// Token: 0x0400398A RID: 14730
 		public IPlantToGrowSettable settable;
 
-		// Token: 0x0400397C RID: 14716
+		// Token: 0x0400398B RID: 14731
 		private List<IPlantToGrowSettable> settables;
 
-		// Token: 0x0400397D RID: 14717
+		// Token: 0x0400398C RID: 14732
 		private static List<ThingDef> tmpAvailablePlants = new List<ThingDef>();
 
-		// Token: 0x0400397E RID: 14718
+		// Token: 0x0400398D RID: 14733
 		private static readonly Texture2D SetPlantToGrowTex = ContentFinder<Texture2D>.Get("UI/Commands/SetPlantToGrow", true);
 	}
 }

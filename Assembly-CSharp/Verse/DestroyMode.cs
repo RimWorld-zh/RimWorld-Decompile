@@ -2,22 +2,22 @@
 
 namespace Verse
 {
-	// Token: 0x02000DF4 RID: 3572
+	// Token: 0x02000DF1 RID: 3569
 	public enum DestroyMode : byte
 	{
-		// Token: 0x04003507 RID: 13575
+		// Token: 0x0400350E RID: 13582
 		Vanish,
-		// Token: 0x04003508 RID: 13576
+		// Token: 0x0400350F RID: 13583
 		WillReplace,
-		// Token: 0x04003509 RID: 13577
+		// Token: 0x04003510 RID: 13584
 		KillFinalize,
-		// Token: 0x0400350A RID: 13578
+		// Token: 0x04003511 RID: 13585
 		Deconstruct,
-		// Token: 0x0400350B RID: 13579
+		// Token: 0x04003512 RID: 13586
 		FailConstruction,
-		// Token: 0x0400350C RID: 13580
+		// Token: 0x04003513 RID: 13587
 		Cancel,
-		// Token: 0x0400350D RID: 13581
+		// Token: 0x04003514 RID: 13588
 		Refund
 	}
 }

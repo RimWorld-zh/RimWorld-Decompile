@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C5C RID: 3164
+	// Token: 0x02000C59 RID: 3161
 	public class GenStep_ScatterThings : GenStep_Scatterer
 	{
-		// Token: 0x17000AFB RID: 2811
-		// (get) Token: 0x06004587 RID: 17799 RVA: 0x0024B18C File Offset: 0x0024958C
+		// Token: 0x17000AFD RID: 2813
+		// (get) Token: 0x06004590 RID: 17808 RVA: 0x0024C55C File Offset: 0x0024A95C
 		public override int SeedPart
 		{
 			get
@@ -18,8 +18,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AFC RID: 2812
-		// (get) Token: 0x06004588 RID: 17800 RVA: 0x0024B1A8 File Offset: 0x002495A8
+		// Token: 0x17000AFE RID: 2814
+		// (get) Token: 0x06004591 RID: 17809 RVA: 0x0024C578 File Offset: 0x0024A978
 		private List<Rot4> PossibleRotations
 		{
 			get
@@ -43,7 +43,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004589 RID: 17801 RVA: 0x0024B244 File Offset: 0x00249644
+		// Token: 0x06004592 RID: 17810 RVA: 0x0024C614 File Offset: 0x0024AA14
 		public override void Generate(Map map)
 		{
 			if (this.allowInWaterBiome || !map.TileInfo.WaterCovered)
@@ -79,7 +79,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600458A RID: 17802 RVA: 0x0024B388 File Offset: 0x00249788
+		// Token: 0x06004593 RID: 17811 RVA: 0x0024C758 File Offset: 0x0024AB58
 		protected override bool TryFindScatterCell(Map map, out IntVec3 result)
 		{
 			bool result2;
@@ -108,7 +108,7 @@ namespace Verse
 			return result2;
 		}
 
-		// Token: 0x0600458B RID: 17803 RVA: 0x0024B454 File Offset: 0x00249854
+		// Token: 0x06004594 RID: 17812 RVA: 0x0024C824 File Offset: 0x0024AC24
 		protected override void ScatterAt(IntVec3 loc, Map map, int stackCount = 1)
 		{
 			Rot4 rot;
@@ -152,7 +152,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600458C RID: 17804 RVA: 0x0024B5B0 File Offset: 0x002499B0
+		// Token: 0x06004595 RID: 17813 RVA: 0x0024C980 File Offset: 0x0024AD80
 		protected override bool CanScatterAt(IntVec3 loc, Map map)
 		{
 			bool result;
@@ -189,7 +189,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600458D RID: 17805 RVA: 0x0024B6AC File Offset: 0x00249AAC
+		// Token: 0x06004596 RID: 17814 RVA: 0x0024CA7C File Offset: 0x0024AE7C
 		private bool TryGetRandomValidRotation(IntVec3 loc, Map map, out Rot4 rot)
 		{
 			List<Rot4> possibleRotations = this.PossibleRotations;
@@ -214,13 +214,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600458E RID: 17806 RVA: 0x0024B738 File Offset: 0x00249B38
+		// Token: 0x06004597 RID: 17815 RVA: 0x0024CB08 File Offset: 0x0024AF08
 		private bool IsRotationValid(IntVec3 loc, Rot4 rot, Map map)
 		{
 			return GenAdj.OccupiedRect(loc, rot, this.thingDef.size).InBounds(map) && !GenSpawn.WouldWipeAnythingWith(loc, rot, this.thingDef, map, (Thing x) => x.def == this.thingDef || (x.def.category != ThingCategory.Plant && x.def.category != ThingCategory.Filth));
 		}
 
-		// Token: 0x0600458F RID: 17807 RVA: 0x0024B79C File Offset: 0x00249B9C
+		// Token: 0x06004598 RID: 17816 RVA: 0x0024CB6C File Offset: 0x0024AF6C
 		public static List<int> CountDividedIntoStacks(int count, IntRange stackSizeRange)
 		{
 			List<int> list = new List<int>();
@@ -253,40 +253,40 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x04002F7C RID: 12156
+		// Token: 0x04002F86 RID: 12166
 		public ThingDef thingDef;
 
-		// Token: 0x04002F7D RID: 12157
+		// Token: 0x04002F87 RID: 12167
 		public ThingDef stuff;
 
-		// Token: 0x04002F7E RID: 12158
+		// Token: 0x04002F88 RID: 12168
 		public int clearSpaceSize;
 
-		// Token: 0x04002F7F RID: 12159
+		// Token: 0x04002F89 RID: 12169
 		public int clusterSize = 1;
 
-		// Token: 0x04002F80 RID: 12160
+		// Token: 0x04002F8A RID: 12170
 		public float terrainValidationRadius = 0f;
 
-		// Token: 0x04002F81 RID: 12161
+		// Token: 0x04002F8B RID: 12171
 		[NoTranslate]
 		private List<string> terrainValidationDisallowed;
 
-		// Token: 0x04002F82 RID: 12162
+		// Token: 0x04002F8C RID: 12172
 		[Unsaved]
 		private IntVec3 clusterCenter;
 
-		// Token: 0x04002F83 RID: 12163
+		// Token: 0x04002F8D RID: 12173
 		[Unsaved]
 		private int leftInCluster = 0;
 
-		// Token: 0x04002F84 RID: 12164
+		// Token: 0x04002F8E RID: 12174
 		private const int ClusterRadius = 4;
 
-		// Token: 0x04002F85 RID: 12165
+		// Token: 0x04002F8F RID: 12175
 		private List<Rot4> possibleRotationsInt;
 
-		// Token: 0x04002F86 RID: 12166
+		// Token: 0x04002F90 RID: 12176
 		private static List<Rot4> tmpRotations = new List<Rot4>();
 	}
 }

@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x0200002F RID: 47
 	public class JobDriver_Nuzzle : JobDriver
 	{
-		// Token: 0x060001B5 RID: 437 RVA: 0x00012580 File Offset: 0x00010980
+		// Token: 0x060001B5 RID: 437 RVA: 0x00012588 File Offset: 0x00010988
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x060001B6 RID: 438 RVA: 0x00012598 File Offset: 0x00010998
+		// Token: 0x060001B6 RID: 438 RVA: 0x000125A0 File Offset: 0x000109A0
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);

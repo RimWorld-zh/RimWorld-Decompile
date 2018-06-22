@@ -2,31 +2,31 @@
 
 namespace Verse
 {
-	// Token: 0x02000E52 RID: 3666
+	// Token: 0x02000E51 RID: 3665
 	public class TableDataGetter<T>
 	{
-		// Token: 0x0600564B RID: 22091 RVA: 0x002C7683 File Offset: 0x002C5A83
+		// Token: 0x0600566B RID: 22123 RVA: 0x002C9293 File Offset: 0x002C7693
 		public TableDataGetter(string label, Func<T, string> getter)
 		{
 			this.label = label;
 			this.getter = getter;
 		}
 
-		// Token: 0x0600564C RID: 22092 RVA: 0x002C769C File Offset: 0x002C5A9C
+		// Token: 0x0600566C RID: 22124 RVA: 0x002C92AC File Offset: 0x002C76AC
 		public TableDataGetter(string label, Func<T, float> getter)
 		{
 			this.label = label;
 			this.getter = ((T t) => getter(t).ToString("F0"));
 		}
 
-		// Token: 0x0600564D RID: 22093 RVA: 0x002C76D8 File Offset: 0x002C5AD8
+		// Token: 0x0600566D RID: 22125 RVA: 0x002C92E8 File Offset: 0x002C76E8
 		public TableDataGetter(string label, Func<T, int> getter)
 		{
 			this.label = label;
 			this.getter = ((T t) => getter(t).ToString("F0"));
 		}
 
-		// Token: 0x0600564E RID: 22094 RVA: 0x002C7714 File Offset: 0x002C5B14
+		// Token: 0x0600566E RID: 22126 RVA: 0x002C9324 File Offset: 0x002C7724
 		public TableDataGetter(string label, Func<T, ThingDef> getter)
 		{
 			this.label = label;
@@ -46,17 +46,17 @@ namespace Verse
 			};
 		}
 
-		// Token: 0x0600564F RID: 22095 RVA: 0x002C7750 File Offset: 0x002C5B50
+		// Token: 0x0600566F RID: 22127 RVA: 0x002C9360 File Offset: 0x002C7760
 		public TableDataGetter(string label, Func<T, object> getter)
 		{
 			this.label = label;
 			this.getter = ((T t) => getter(t).ToString());
 		}
 
-		// Token: 0x04003917 RID: 14615
+		// Token: 0x04003926 RID: 14630
 		public string label;
 
-		// Token: 0x04003918 RID: 14616
+		// Token: 0x04003927 RID: 14631
 		public Func<T, string> getter;
 	}
 }

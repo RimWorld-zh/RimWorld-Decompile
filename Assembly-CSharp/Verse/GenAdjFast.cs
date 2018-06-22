@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000F2F RID: 3887
 	public static class GenAdjFast
 	{
-		// Token: 0x06005D76 RID: 23926 RVA: 0x002F6A6C File Offset: 0x002F4E6C
+		// Token: 0x06005D9E RID: 23966 RVA: 0x002F8A98 File Offset: 0x002F6E98
 		public static List<IntVec3> AdjacentCells8Way(LocalTargetInfo pack)
 		{
 			List<IntVec3> result;
@@ -21,7 +21,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D77 RID: 23927 RVA: 0x002F6AAC File Offset: 0x002F4EAC
+		// Token: 0x06005D9F RID: 23967 RVA: 0x002F8AD8 File Offset: 0x002F6ED8
 		public static List<IntVec3> AdjacentCells8Way(IntVec3 root)
 		{
 			if (GenAdjFast.working)
@@ -38,13 +38,13 @@ namespace Verse
 			return GenAdjFast.resultList;
 		}
 
-		// Token: 0x06005D78 RID: 23928 RVA: 0x002F6B28 File Offset: 0x002F4F28
+		// Token: 0x06005DA0 RID: 23968 RVA: 0x002F8B54 File Offset: 0x002F6F54
 		private static List<IntVec3> AdjacentCells8Way(Thing t)
 		{
 			return GenAdjFast.AdjacentCells8Way(t.Position, t.Rotation, t.def.size);
 		}
 
-		// Token: 0x06005D79 RID: 23929 RVA: 0x002F6B5C File Offset: 0x002F4F5C
+		// Token: 0x06005DA1 RID: 23969 RVA: 0x002F8B88 File Offset: 0x002F6F88
 		public static List<IntVec3> AdjacentCells8Way(IntVec3 thingCenter, Rot4 thingRot, IntVec2 thingSize)
 		{
 			List<IntVec3> result;
@@ -96,7 +96,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D7A RID: 23930 RVA: 0x002F6CD0 File Offset: 0x002F50D0
+		// Token: 0x06005DA2 RID: 23970 RVA: 0x002F8CFC File Offset: 0x002F70FC
 		public static List<IntVec3> AdjacentCellsCardinal(LocalTargetInfo pack)
 		{
 			List<IntVec3> result;
@@ -111,7 +111,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D7B RID: 23931 RVA: 0x002F6D10 File Offset: 0x002F5110
+		// Token: 0x06005DA3 RID: 23971 RVA: 0x002F8D3C File Offset: 0x002F713C
 		public static List<IntVec3> AdjacentCellsCardinal(IntVec3 root)
 		{
 			if (GenAdjFast.working)
@@ -128,13 +128,13 @@ namespace Verse
 			return GenAdjFast.resultList;
 		}
 
-		// Token: 0x06005D7C RID: 23932 RVA: 0x002F6D8C File Offset: 0x002F518C
+		// Token: 0x06005DA4 RID: 23972 RVA: 0x002F8DB8 File Offset: 0x002F71B8
 		private static List<IntVec3> AdjacentCellsCardinal(Thing t)
 		{
 			return GenAdjFast.AdjacentCellsCardinal(t.Position, t.Rotation, t.def.size);
 		}
 
-		// Token: 0x06005D7D RID: 23933 RVA: 0x002F6DC0 File Offset: 0x002F51C0
+		// Token: 0x06005DA5 RID: 23973 RVA: 0x002F8DEC File Offset: 0x002F71EC
 		public static List<IntVec3> AdjacentCellsCardinal(IntVec3 thingCenter, Rot4 thingRot, IntVec2 thingSize)
 		{
 			List<IntVec3> result;
@@ -189,7 +189,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D7E RID: 23934 RVA: 0x002F6F64 File Offset: 0x002F5364
+		// Token: 0x06005DA6 RID: 23974 RVA: 0x002F8F90 File Offset: 0x002F7390
 		public static void AdjacentThings8Way(Thing thing, List<Thing> outThings)
 		{
 			outThings.Clear();
@@ -211,10 +211,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003DB8 RID: 15800
+		// Token: 0x04003DCA RID: 15818
 		private static List<IntVec3> resultList = new List<IntVec3>();
 
-		// Token: 0x04003DB9 RID: 15801
+		// Token: 0x04003DCB RID: 15819
 		private static bool working = false;
 	}
 }

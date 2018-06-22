@@ -2,17 +2,17 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000937 RID: 2359
+	// Token: 0x02000933 RID: 2355
 	[DefOf]
 	public static class ScenarioDefOf
 	{
-		// Token: 0x06003642 RID: 13890 RVA: 0x001D08FB File Offset: 0x001CECFB
+		// Token: 0x0600363B RID: 13883 RVA: 0x001D0AE3 File Offset: 0x001CEEE3
 		static ScenarioDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ScenarioDefOf));
 		}
 
-		// Token: 0x0400204F RID: 8271
+		// Token: 0x0400204D RID: 8269
 		public static ScenarioDef Crashlanded;
 	}
 }

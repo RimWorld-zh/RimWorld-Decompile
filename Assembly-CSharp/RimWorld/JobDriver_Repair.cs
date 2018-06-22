@@ -9,13 +9,13 @@ namespace RimWorld
 	// Token: 0x02000047 RID: 71
 	public class JobDriver_Repair : JobDriver
 	{
-		// Token: 0x0600024F RID: 591 RVA: 0x00018288 File Offset: 0x00016688
+		// Token: 0x0600024F RID: 591 RVA: 0x00018290 File Offset: 0x00016690
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000250 RID: 592 RVA: 0x000182BC File Offset: 0x000166BC
+		// Token: 0x06000250 RID: 592 RVA: 0x000182C4 File Offset: 0x000166C4
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);

@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x0200027E RID: 638
 	public class WorldObjectCompProperties_FormCaravan : WorldObjectCompProperties
 	{
-		// Token: 0x06000AEA RID: 2794 RVA: 0x00062CB4 File Offset: 0x000610B4
+		// Token: 0x06000AE8 RID: 2792 RVA: 0x00062D10 File Offset: 0x00061110
 		public WorldObjectCompProperties_FormCaravan()
 		{
 			this.compClass = typeof(FormCaravanComp);
 		}
 
-		// Token: 0x06000AEB RID: 2795 RVA: 0x00062CD0 File Offset: 0x000610D0
+		// Token: 0x06000AE9 RID: 2793 RVA: 0x00062D2C File Offset: 0x0006112C
 		public override IEnumerable<string> ConfigErrors(WorldObjectDef parentDef)
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))

@@ -10,7 +10,7 @@ namespace RimWorld
 	public class IncidentWorker
 	{
 		// Token: 0x170001A7 RID: 423
-		// (get) Token: 0x06000B54 RID: 2900 RVA: 0x0006646C File Offset: 0x0006486C
+		// (get) Token: 0x06000B52 RID: 2898 RVA: 0x000664D4 File Offset: 0x000648D4
 		public virtual float AdjustedChance
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B55 RID: 2901 RVA: 0x0006648C File Offset: 0x0006488C
+		// Token: 0x06000B53 RID: 2899 RVA: 0x000664F4 File Offset: 0x000648F4
 		public bool CanFireNow(IncidentParms parms)
 		{
 			bool result;
@@ -92,13 +92,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000B56 RID: 2902 RVA: 0x000666B8 File Offset: 0x00064AB8
+		// Token: 0x06000B54 RID: 2900 RVA: 0x00066720 File Offset: 0x00064B20
 		protected virtual bool CanFireNowSub(IncidentParms parms)
 		{
 			return true;
 		}
 
-		// Token: 0x06000B57 RID: 2903 RVA: 0x000666D0 File Offset: 0x00064AD0
+		// Token: 0x06000B55 RID: 2901 RVA: 0x00066738 File Offset: 0x00064B38
 		public bool TryExecute(IncidentParms parms)
 		{
 			bool flag = this.TryExecuteWorker(parms);
@@ -128,14 +128,14 @@ namespace RimWorld
 			return flag;
 		}
 
-		// Token: 0x06000B58 RID: 2904 RVA: 0x0006679C File Offset: 0x00064B9C
+		// Token: 0x06000B56 RID: 2902 RVA: 0x00066804 File Offset: 0x00064C04
 		protected virtual bool TryExecuteWorker(IncidentParms parms)
 		{
 			Log.Error("Unimplemented incident " + this, false);
 			return false;
 		}
 
-		// Token: 0x06000B59 RID: 2905 RVA: 0x000667C4 File Offset: 0x00064BC4
+		// Token: 0x06000B57 RID: 2903 RVA: 0x0006682C File Offset: 0x00064C2C
 		protected void SendStandardLetter()
 		{
 			if (this.def.letterLabel.NullOrEmpty() || this.def.letterText.NullOrEmpty())
@@ -145,7 +145,7 @@ namespace RimWorld
 			Find.LetterStack.ReceiveLetter(this.def.letterLabel, this.def.letterText, this.def.letterDef, null);
 		}
 
-		// Token: 0x06000B5A RID: 2906 RVA: 0x00066834 File Offset: 0x00064C34
+		// Token: 0x06000B58 RID: 2904 RVA: 0x0006689C File Offset: 0x00064C9C
 		protected void SendStandardLetter(GlobalTargetInfo target, Faction relatedFaction = null, params string[] textArgs)
 		{
 			if (this.def.letterLabel.NullOrEmpty() || this.def.letterText.NullOrEmpty())
@@ -156,7 +156,7 @@ namespace RimWorld
 			Find.LetterStack.ReceiveLetter(this.def.letterLabel, text, this.def.letterDef, target, relatedFaction, null);
 		}
 
-		// Token: 0x04000636 RID: 1590
+		// Token: 0x04000635 RID: 1589
 		public IncidentDef def;
 	}
 }

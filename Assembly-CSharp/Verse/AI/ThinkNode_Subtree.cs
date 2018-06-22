@@ -2,10 +2,10 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000AC0 RID: 2752
+	// Token: 0x02000ABC RID: 2748
 	public class ThinkNode_Subtree : ThinkNode
 	{
-		// Token: 0x06003D3E RID: 15678 RVA: 0x00205074 File Offset: 0x00203474
+		// Token: 0x06003D39 RID: 15673 RVA: 0x00205398 File Offset: 0x00203798
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode_Subtree thinkNode_Subtree = (ThinkNode_Subtree)base.DeepCopy(false);
@@ -18,23 +18,23 @@ namespace Verse.AI
 			return thinkNode_Subtree;
 		}
 
-		// Token: 0x06003D3F RID: 15679 RVA: 0x002050D3 File Offset: 0x002034D3
+		// Token: 0x06003D3A RID: 15674 RVA: 0x002053F7 File Offset: 0x002037F7
 		protected override void ResolveSubnodes()
 		{
 			this.subtreeNode = this.treeDef.thinkRoot.DeepCopy(true);
 			this.subNodes.Add(this.subtreeNode);
 		}
 
-		// Token: 0x06003D40 RID: 15680 RVA: 0x00205100 File Offset: 0x00203500
+		// Token: 0x06003D3B RID: 15675 RVA: 0x00205424 File Offset: 0x00203824
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			return this.subtreeNode.TryIssueJobPackage(pawn, jobParams);
 		}
 
-		// Token: 0x040026A3 RID: 9891
+		// Token: 0x0400269E RID: 9886
 		private ThinkTreeDef treeDef;
 
-		// Token: 0x040026A4 RID: 9892
+		// Token: 0x0400269F RID: 9887
 		[Unsaved]
 		public ThinkNode subtreeNode;
 	}

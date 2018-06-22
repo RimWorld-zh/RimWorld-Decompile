@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000E01 RID: 3585
+	// Token: 0x02000DFE RID: 3582
 	public static class AttachmentUtility
 	{
-		// Token: 0x06005125 RID: 20773 RVA: 0x0029A450 File Offset: 0x00298850
+		// Token: 0x06005139 RID: 20793 RVA: 0x0029BA2C File Offset: 0x00299E2C
 		public static Thing GetAttachment(this Thing t, ThingDef def)
 		{
 			CompAttachBase compAttachBase = t.TryGetComp<CompAttachBase>();
@@ -21,7 +21,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005126 RID: 20774 RVA: 0x0029A480 File Offset: 0x00298880
+		// Token: 0x0600513A RID: 20794 RVA: 0x0029BA5C File Offset: 0x00299E5C
 		public static bool HasAttachment(this Thing t, ThingDef def)
 		{
 			return t.GetAttachment(def) != null;

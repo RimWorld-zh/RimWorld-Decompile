@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E9D RID: 3741
+	// Token: 0x02000E9C RID: 3740
 	public class ListableOption
 	{
-		// Token: 0x06005842 RID: 22594 RVA: 0x002D326D File Offset: 0x002D166D
+		// Token: 0x06005862 RID: 22626 RVA: 0x002D4E7D File Offset: 0x002D327D
 		public ListableOption(string label, Action action, string uiHighlightTag = null)
 		{
 			this.label = label;
@@ -14,7 +14,7 @@ namespace Verse
 			this.uiHighlightTag = uiHighlightTag;
 		}
 
-		// Token: 0x06005843 RID: 22595 RVA: 0x002D3298 File Offset: 0x002D1698
+		// Token: 0x06005863 RID: 22627 RVA: 0x002D4EA8 File Offset: 0x002D32A8
 		public virtual float DrawOption(Vector2 pos, float width)
 		{
 			float b = Text.CalcHeight(this.label, width);
@@ -31,16 +31,16 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x04003A61 RID: 14945
+		// Token: 0x04003A71 RID: 14961
 		public string label;
 
-		// Token: 0x04003A62 RID: 14946
+		// Token: 0x04003A72 RID: 14962
 		public Action action;
 
-		// Token: 0x04003A63 RID: 14947
+		// Token: 0x04003A73 RID: 14963
 		private string uiHighlightTag;
 
-		// Token: 0x04003A64 RID: 14948
+		// Token: 0x04003A74 RID: 14964
 		public float minHeight = 45f;
 	}
 }

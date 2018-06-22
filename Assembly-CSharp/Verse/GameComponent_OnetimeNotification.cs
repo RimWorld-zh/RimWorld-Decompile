@@ -4,15 +4,15 @@ using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x02000BC9 RID: 3017
+	// Token: 0x02000BC5 RID: 3013
 	public class GameComponent_OnetimeNotification : GameComponent
 	{
-		// Token: 0x060041A5 RID: 16805 RVA: 0x00229C8F File Offset: 0x0022808F
+		// Token: 0x060041A7 RID: 16807 RVA: 0x0022A363 File Offset: 0x00228763
 		public GameComponent_OnetimeNotification(Game game)
 		{
 		}
 
-		// Token: 0x060041A6 RID: 16806 RVA: 0x00229CA0 File Offset: 0x002280A0
+		// Token: 0x060041A8 RID: 16808 RVA: 0x0022A374 File Offset: 0x00228774
 		public override void GameComponentTick()
 		{
 			if (Find.TickManager.TicksGame % 2000 == 0 && Rand.Chance(0.05f))
@@ -39,14 +39,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041A7 RID: 16807 RVA: 0x00229D9A File Offset: 0x0022819A
+		// Token: 0x060041A9 RID: 16809 RVA: 0x0022A46E File Offset: 0x0022886E
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.sendAICoreRequestReminder, "sendAICoreRequestReminder", false, false);
 		}
 
-		// Token: 0x04002CD0 RID: 11472
+		// Token: 0x04002CD5 RID: 11477
 		public bool sendAICoreRequestReminder = true;
 	}
 }

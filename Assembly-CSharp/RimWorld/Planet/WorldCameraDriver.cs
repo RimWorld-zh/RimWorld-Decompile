@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000586 RID: 1414
+	// Token: 0x02000582 RID: 1410
 	public class WorldCameraDriver : MonoBehaviour
 	{
 		// Token: 0x170003E3 RID: 995
-		// (get) Token: 0x06001AE7 RID: 6887 RVA: 0x000E7080 File Offset: 0x000E5480
+		// (get) Token: 0x06001ADE RID: 6878 RVA: 0x000E70D4 File Offset: 0x000E54D4
 		private Camera MyCamera
 		{
 			get
@@ -22,7 +22,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003E4 RID: 996
-		// (get) Token: 0x06001AE8 RID: 6888 RVA: 0x000E70B8 File Offset: 0x000E54B8
+		// (get) Token: 0x06001ADF RID: 6879 RVA: 0x000E710C File Offset: 0x000E550C
 		public WorldCameraZoomRange CurrentZoom
 		{
 			get
@@ -50,7 +50,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003E5 RID: 997
-		// (get) Token: 0x06001AE9 RID: 6889 RVA: 0x000E710C File Offset: 0x000E550C
+		// (get) Token: 0x06001AE0 RID: 6880 RVA: 0x000E7160 File Offset: 0x000E5560
 		private float ScreenDollyEdgeWidthBottom
 		{
 			get
@@ -69,7 +69,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003E6 RID: 998
-		// (get) Token: 0x06001AEA RID: 6890 RVA: 0x000E713C File Offset: 0x000E553C
+		// (get) Token: 0x06001AE1 RID: 6881 RVA: 0x000E7190 File Offset: 0x000E5590
 		private Vector3 CurrentRealPosition
 		{
 			get
@@ -79,7 +79,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003E7 RID: 999
-		// (get) Token: 0x06001AEB RID: 6891 RVA: 0x000E7164 File Offset: 0x000E5564
+		// (get) Token: 0x06001AE2 RID: 6882 RVA: 0x000E71B8 File Offset: 0x000E55B8
 		public float AltitudePercent
 		{
 			get
@@ -89,7 +89,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003E8 RID: 1000
-		// (get) Token: 0x06001AEC RID: 6892 RVA: 0x000E7190 File Offset: 0x000E5590
+		// (get) Token: 0x06001AE3 RID: 6883 RVA: 0x000E71E4 File Offset: 0x000E55E4
 		public Vector3 CurrentlyLookingAtPointOnSphere
 		{
 			get
@@ -99,7 +99,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003E9 RID: 1001
-		// (get) Token: 0x06001AED RID: 6893 RVA: 0x000E71C0 File Offset: 0x000E55C0
+		// (get) Token: 0x06001AE4 RID: 6884 RVA: 0x000E7214 File Offset: 0x000E5614
 		private bool AnythingPreventsCameraMotion
 		{
 			get
@@ -108,14 +108,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001AEE RID: 6894 RVA: 0x000E71EF File Offset: 0x000E55EF
+		// Token: 0x06001AE5 RID: 6885 RVA: 0x000E7243 File Offset: 0x000E5643
 		public void Awake()
 		{
 			this.ResetAltitude();
 			this.ApplyPositionToGameObject();
 		}
 
-		// Token: 0x06001AEF RID: 6895 RVA: 0x000E7200 File Offset: 0x000E5600
+		// Token: 0x06001AE6 RID: 6886 RVA: 0x000E7254 File Offset: 0x000E5654
 		public void OnGUI()
 		{
 			GUI.depth = 100;
@@ -186,7 +186,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001AF0 RID: 6896 RVA: 0x000E74C4 File Offset: 0x000E58C4
+		// Token: 0x06001AE7 RID: 6887 RVA: 0x000E7518 File Offset: 0x000E5918
 		public void Update()
 		{
 			if (!LongEventHandler.ShouldWaitForEvent)
@@ -253,7 +253,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001AF1 RID: 6897 RVA: 0x000E7794 File Offset: 0x000E5B94
+		// Token: 0x06001AE8 RID: 6888 RVA: 0x000E77E8 File Offset: 0x000E5BE8
 		private void ApplyPositionToGameObject()
 		{
 			Quaternion rotation;
@@ -274,7 +274,7 @@ namespace RimWorld.Planet
 			this.MyCamera.transform.position = -a * this.altitude;
 		}
 
-		// Token: 0x06001AF2 RID: 6898 RVA: 0x000E7840 File Offset: 0x000E5C40
+		// Token: 0x06001AE9 RID: 6889 RVA: 0x000E7894 File Offset: 0x000E5C94
 		private Vector2 CalculateCurInputDollyVect()
 		{
 			Vector2 vector = this.desiredRotation;
@@ -332,7 +332,7 @@ namespace RimWorld.Planet
 			return vector;
 		}
 
-		// Token: 0x06001AF3 RID: 6899 RVA: 0x000E7AE6 File Offset: 0x000E5EE6
+		// Token: 0x06001AEA RID: 6890 RVA: 0x000E7B3A File Offset: 0x000E5F3A
 		public void ResetAltitude()
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -346,7 +346,7 @@ namespace RimWorld.Planet
 			this.desiredAltitude = this.altitude;
 		}
 
-		// Token: 0x06001AF4 RID: 6900 RVA: 0x000E7B1B File Offset: 0x000E5F1B
+		// Token: 0x06001AEB RID: 6891 RVA: 0x000E7B6F File Offset: 0x000E5F6F
 		public void JumpTo(Vector3 newLookAt)
 		{
 			if (!Find.WorldInterface.everReset)
@@ -356,13 +356,13 @@ namespace RimWorld.Planet
 			this.sphereRotation = Quaternion.Inverse(Quaternion.LookRotation(-newLookAt.normalized));
 		}
 
-		// Token: 0x06001AF5 RID: 6901 RVA: 0x000E7B53 File Offset: 0x000E5F53
+		// Token: 0x06001AEC RID: 6892 RVA: 0x000E7BA7 File Offset: 0x000E5FA7
 		public void JumpTo(int tile)
 		{
 			this.JumpTo(Find.WorldGrid.GetTileCenter(tile));
 		}
 
-		// Token: 0x06001AF6 RID: 6902 RVA: 0x000E7B68 File Offset: 0x000E5F68
+		// Token: 0x06001AED RID: 6893 RVA: 0x000E7BBC File Offset: 0x000E5FBC
 		public void RotateSoNorthIsUp(bool interpolate = true)
 		{
 			if (interpolate)
@@ -376,7 +376,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001AF7 RID: 6903 RVA: 0x000E7BC0 File Offset: 0x000E5FC0
+		// Token: 0x06001AEE RID: 6894 RVA: 0x000E7C14 File Offset: 0x000E6014
 		private void ClampXRotation(ref Quaternion invRot)
 		{
 			Vector3 eulerAngles = Quaternion.Inverse(invRot).eulerAngles;
@@ -402,85 +402,85 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x04000FBE RID: 4030
+		// Token: 0x04000FBB RID: 4027
 		public WorldCameraConfig config = new WorldCameraConfig_Normal();
 
-		// Token: 0x04000FBF RID: 4031
+		// Token: 0x04000FBC RID: 4028
 		public Quaternion sphereRotation = Quaternion.identity;
 
-		// Token: 0x04000FC0 RID: 4032
+		// Token: 0x04000FBD RID: 4029
 		private Vector2 rotationVelocity;
 
-		// Token: 0x04000FC1 RID: 4033
+		// Token: 0x04000FBE RID: 4030
 		private Vector2 desiredRotation;
 
-		// Token: 0x04000FC2 RID: 4034
+		// Token: 0x04000FBF RID: 4031
 		private float desiredAltitude;
 
-		// Token: 0x04000FC3 RID: 4035
+		// Token: 0x04000FC0 RID: 4032
 		public float altitude;
 
-		// Token: 0x04000FC4 RID: 4036
+		// Token: 0x04000FC1 RID: 4033
 		private Camera cachedCamera;
 
-		// Token: 0x04000FC5 RID: 4037
+		// Token: 0x04000FC2 RID: 4034
 		private Vector2 mouseDragVect;
 
-		// Token: 0x04000FC6 RID: 4038
+		// Token: 0x04000FC3 RID: 4035
 		private bool mouseCoveredByUI;
 
-		// Token: 0x04000FC7 RID: 4039
+		// Token: 0x04000FC4 RID: 4036
 		private float mouseTouchingScreenBottomEdgeStartTime = -1f;
 
-		// Token: 0x04000FC8 RID: 4040
+		// Token: 0x04000FC5 RID: 4037
 		private float fixedTimeStepBuffer;
 
-		// Token: 0x04000FC9 RID: 4041
+		// Token: 0x04000FC6 RID: 4038
 		private Quaternion rotationAnimation_prevSphereRotation = Quaternion.identity;
 
-		// Token: 0x04000FCA RID: 4042
+		// Token: 0x04000FC7 RID: 4039
 		private float rotationAnimation_lerpFactor = 1f;
 
-		// Token: 0x04000FCB RID: 4043
+		// Token: 0x04000FC8 RID: 4040
 		private const float SphereRadius = 100f;
 
-		// Token: 0x04000FCC RID: 4044
+		// Token: 0x04000FC9 RID: 4041
 		private const float ScreenDollyEdgeWidth = 20f;
 
-		// Token: 0x04000FCD RID: 4045
+		// Token: 0x04000FCA RID: 4042
 		private const float ScreenDollyEdgeWidth_BottomFullscreen = 6f;
 
-		// Token: 0x04000FCE RID: 4046
+		// Token: 0x04000FCB RID: 4043
 		private const float MinDurationForMouseToTouchScreenBottomEdgeToDolly = 0.28f;
 
-		// Token: 0x04000FCF RID: 4047
+		// Token: 0x04000FCC RID: 4044
 		private const float MaxXRotationAtMinAltitude = 88.6f;
 
-		// Token: 0x04000FD0 RID: 4048
+		// Token: 0x04000FCD RID: 4045
 		private const float MaxXRotationAtMaxAltitude = 78f;
 
-		// Token: 0x04000FD1 RID: 4049
+		// Token: 0x04000FCE RID: 4046
 		private const float StartingAltitude_Playing = 160f;
 
-		// Token: 0x04000FD2 RID: 4050
+		// Token: 0x04000FCF RID: 4047
 		private const float StartingAltitude_Entry = 550f;
 
-		// Token: 0x04000FD3 RID: 4051
+		// Token: 0x04000FD0 RID: 4048
 		public const float MinAltitude = 125f;
 
-		// Token: 0x04000FD4 RID: 4052
+		// Token: 0x04000FD1 RID: 4049
 		private const float MaxAltitude = 1100f;
 
-		// Token: 0x04000FD5 RID: 4053
+		// Token: 0x04000FD2 RID: 4050
 		private const float ZoomTightness = 0.4f;
 
-		// Token: 0x04000FD6 RID: 4054
+		// Token: 0x04000FD3 RID: 4051
 		private const float ZoomScaleFromAltDenominator = 12f;
 
-		// Token: 0x04000FD7 RID: 4055
+		// Token: 0x04000FD4 RID: 4052
 		private const float PageKeyZoomRate = 2f;
 
-		// Token: 0x04000FD8 RID: 4056
+		// Token: 0x04000FD5 RID: 4053
 		private const float ScrollWheelZoomRate = 0.1f;
 	}
 }

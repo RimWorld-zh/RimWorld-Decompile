@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005E1 RID: 1505
+	// Token: 0x020005DD RID: 1501
 	public static class CaravanMaker
 	{
-		// Token: 0x06001DB2 RID: 7602 RVA: 0x000FFE2C File Offset: 0x000FE22C
+		// Token: 0x06001DA9 RID: 7593 RVA: 0x000FFE80 File Offset: 0x000FE280
 		public static Caravan MakeCaravan(IEnumerable<Pawn> pawns, Faction faction, int startingTile, bool addToWorldPawnsIfNotAlready)
 		{
 			if (startingTile < 0 && addToWorldPawnsIfNotAlready)
@@ -46,7 +46,7 @@ namespace RimWorld.Planet
 			return caravan;
 		}
 
-		// Token: 0x0400119A RID: 4506
+		// Token: 0x04001197 RID: 4503
 		private static List<Pawn> tmpPawns = new List<Pawn>();
 	}
 }

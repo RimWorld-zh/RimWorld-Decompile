@@ -5,7 +5,7 @@ namespace RimWorld
 	// Token: 0x02000204 RID: 516
 	public class Thought_ChemicalInterestVsTeetotaler : Thought_SituationalSocial
 	{
-		// Token: 0x060009D6 RID: 2518 RVA: 0x000583A8 File Offset: 0x000567A8
+		// Token: 0x060009D4 RID: 2516 RVA: 0x000583EC File Offset: 0x000567EC
 		public override float OpinionOffset()
 		{
 			int num = this.pawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire);

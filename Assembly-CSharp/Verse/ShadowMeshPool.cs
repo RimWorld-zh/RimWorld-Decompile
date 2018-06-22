@@ -4,22 +4,22 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D77 RID: 3447
+	// Token: 0x02000D74 RID: 3444
 	public static class ShadowMeshPool
 	{
-		// Token: 0x06004D2C RID: 19756 RVA: 0x00282B88 File Offset: 0x00280F88
+		// Token: 0x06004D41 RID: 19777 RVA: 0x00284138 File Offset: 0x00282538
 		public static Mesh GetShadowMesh(ShadowData sha)
 		{
 			return ShadowMeshPool.GetShadowMesh(sha.BaseX, sha.BaseZ, sha.BaseY);
 		}
 
-		// Token: 0x06004D2D RID: 19757 RVA: 0x00282BB4 File Offset: 0x00280FB4
+		// Token: 0x06004D42 RID: 19778 RVA: 0x00284164 File Offset: 0x00282564
 		public static Mesh GetShadowMesh(float baseEdgeLength, float tallness)
 		{
 			return ShadowMeshPool.GetShadowMesh(baseEdgeLength, baseEdgeLength, tallness);
 		}
 
-		// Token: 0x06004D2E RID: 19758 RVA: 0x00282BD4 File Offset: 0x00280FD4
+		// Token: 0x06004D43 RID: 19779 RVA: 0x00284184 File Offset: 0x00282584
 		public static Mesh GetShadowMesh(float baseWidth, float baseHeight, float tallness)
 		{
 			int key = ShadowMeshPool.HashOf(baseWidth, baseHeight, tallness);
@@ -32,7 +32,7 @@ namespace Verse
 			return mesh;
 		}
 
-		// Token: 0x06004D2F RID: 19759 RVA: 0x00282C1C File Offset: 0x0028101C
+		// Token: 0x06004D44 RID: 19780 RVA: 0x002841CC File Offset: 0x002825CC
 		private static int HashOf(float baseWidth, float baseheight, float tallness)
 		{
 			int num = (int)(baseWidth * 1000f);
@@ -43,7 +43,7 @@ namespace Verse
 			return num4 ^ num3 * 456123;
 		}
 
-		// Token: 0x04003375 RID: 13173
+		// Token: 0x04003380 RID: 13184
 		private static Dictionary<int, Mesh> shadowMeshDict = new Dictionary<int, Mesh>();
 	}
 }

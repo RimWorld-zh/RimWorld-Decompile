@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EA0 RID: 3744
+	// Token: 0x02000E9F RID: 3743
 	public static class Pulser
 	{
-		// Token: 0x0600584A RID: 22602 RVA: 0x002D3558 File Offset: 0x002D1958
+		// Token: 0x0600586A RID: 22634 RVA: 0x002D5168 File Offset: 0x002D3568
 		public static float PulseBrightness(float frequency, float amplitude)
 		{
 			return Pulser.PulseBrightness(frequency, amplitude, Time.realtimeSinceStartup);
 		}
 
-		// Token: 0x0600584B RID: 22603 RVA: 0x002D357C File Offset: 0x002D197C
+		// Token: 0x0600586B RID: 22635 RVA: 0x002D518C File Offset: 0x002D358C
 		public static float PulseBrightness(float frequency, float amplitude, float time)
 		{
 			float num = time * 6.28318548f;

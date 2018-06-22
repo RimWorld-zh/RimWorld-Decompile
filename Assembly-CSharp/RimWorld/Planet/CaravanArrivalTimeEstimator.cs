@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005D8 RID: 1496
+	// Token: 0x020005D4 RID: 1492
 	public static class CaravanArrivalTimeEstimator
 	{
-		// Token: 0x06001D67 RID: 7527 RVA: 0x000FC7A0 File Offset: 0x000FABA0
+		// Token: 0x06001D5E RID: 7518 RVA: 0x000FC7F4 File Offset: 0x000FABF4
 		public static int EstimatedTicksToArrive(Caravan caravan, bool allowCaching)
 		{
 			int result;
@@ -42,7 +42,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001D68 RID: 7528 RVA: 0x000FC8A0 File Offset: 0x000FACA0
+		// Token: 0x06001D5F RID: 7519 RVA: 0x000FC8F4 File Offset: 0x000FACF4
 		public static int EstimatedTicksToArrive(int from, int to, Caravan caravan)
 		{
 			int result;
@@ -60,7 +60,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001D69 RID: 7529 RVA: 0x000FC924 File Offset: 0x000FAD24
+		// Token: 0x06001D60 RID: 7520 RVA: 0x000FC978 File Offset: 0x000FAD78
 		public static int EstimatedTicksToArrive(int from, int to, WorldPath path, float nextTileCostLeft, int caravanTicksPerMove, int curTicksAbs)
 		{
 			CaravanArrivalTimeEstimator.tmpTicksToArrive.Clear();
@@ -68,7 +68,7 @@ namespace RimWorld.Planet
 			return CaravanArrivalTimeEstimator.EstimatedTicksToArrive(to, CaravanArrivalTimeEstimator.tmpTicksToArrive);
 		}
 
-		// Token: 0x06001D6A RID: 7530 RVA: 0x000FC960 File Offset: 0x000FAD60
+		// Token: 0x06001D61 RID: 7521 RVA: 0x000FC9B4 File Offset: 0x000FADB4
 		public static void EstimatedTicksToArriveToEvery(int from, int to, WorldPath path, float nextTileCostLeft, int caravanTicksPerMove, int curTicksAbs, List<Pair<int, int>> outTicksToArrive)
 		{
 			outTicksToArrive.Clear();
@@ -158,7 +158,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D6B RID: 7531 RVA: 0x000FCB94 File Offset: 0x000FAF94
+		// Token: 0x06001D62 RID: 7522 RVA: 0x000FCBE8 File Offset: 0x000FAFE8
 		private static float GetCostToMove(float initialNextTileCostLeft, bool firstInPath, int initialTicksAbs, int curResult, int caravanTicksPerMove, int curTile, int nextTile)
 		{
 			float result;
@@ -174,7 +174,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001D6C RID: 7532 RVA: 0x000FCBD4 File Offset: 0x000FAFD4
+		// Token: 0x06001D63 RID: 7523 RVA: 0x000FCC28 File Offset: 0x000FB028
 		public static int EstimatedTicksToArrive(int destinationTile, List<Pair<int, int>> estimatedTicksToArriveToEvery)
 		{
 			int result;
@@ -196,7 +196,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001D6D RID: 7533 RVA: 0x000FCC3C File Offset: 0x000FB03C
+		// Token: 0x06001D64 RID: 7524 RVA: 0x000FCC90 File Offset: 0x000FB090
 		public static int TileIllBeInAt(int ticksAbs, List<Pair<int, int>> estimatedTicksToArriveToEvery, int ticksAbsUsedToCalculateEstimatedTicksToArriveToEvery)
 		{
 			int result;
@@ -219,25 +219,25 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x04001174 RID: 4468
+		// Token: 0x04001171 RID: 4465
 		private static int cacheTicks = -1;
 
-		// Token: 0x04001175 RID: 4469
+		// Token: 0x04001172 RID: 4466
 		private static Caravan cachedForCaravan;
 
-		// Token: 0x04001176 RID: 4470
+		// Token: 0x04001173 RID: 4467
 		private static int cachedForDest = -1;
 
-		// Token: 0x04001177 RID: 4471
+		// Token: 0x04001174 RID: 4468
 		private static int cachedResult = -1;
 
-		// Token: 0x04001178 RID: 4472
+		// Token: 0x04001175 RID: 4469
 		private const int CacheDuration = 100;
 
-		// Token: 0x04001179 RID: 4473
+		// Token: 0x04001176 RID: 4470
 		private const int MaxIterations = 10000;
 
-		// Token: 0x0400117A RID: 4474
+		// Token: 0x04001177 RID: 4471
 		private static List<Pair<int, int>> tmpTicksToArrive = new List<Pair<int, int>>();
 	}
 }

@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_RefuelAtomic : JobDriver
 	{
 		// Token: 0x170000A8 RID: 168
-		// (get) Token: 0x06000343 RID: 835 RVA: 0x000241CC File Offset: 0x000225CC
+		// (get) Token: 0x06000343 RID: 835 RVA: 0x000241C4 File Offset: 0x000225C4
 		protected Thing Refuelable
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000A9 RID: 169
-		// (get) Token: 0x06000344 RID: 836 RVA: 0x000241F8 File Offset: 0x000225F8
+		// (get) Token: 0x06000344 RID: 836 RVA: 0x000241F0 File Offset: 0x000225F0
 		protected CompRefuelable RefuelableComp
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000AA RID: 170
-		// (get) Token: 0x06000345 RID: 837 RVA: 0x00024218 File Offset: 0x00022618
+		// (get) Token: 0x06000345 RID: 837 RVA: 0x00024210 File Offset: 0x00022610
 		protected Thing Fuel
 		{
 			get
@@ -38,31 +38,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000346 RID: 838 RVA: 0x00024244 File Offset: 0x00022644
+		// Token: 0x06000346 RID: 838 RVA: 0x0002423C File Offset: 0x0002263C
 		public override bool TryMakePreToilReservations()
 		{
 			this.pawn.ReserveAsManyAsPossible(this.job.GetTargetQueue(TargetIndex.B), this.job, 1, -1, null);
 			return this.pawn.Reserve(this.Refuelable, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000347 RID: 839 RVA: 0x00024298 File Offset: 0x00022698
+		// Token: 0x06000347 RID: 839 RVA: 0x00024290 File Offset: 0x00022690
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
-			this.FailOn(delegate()
-			{
-				ThingWithComps thingWithComps = this.job.GetTarget(TargetIndex.A).Thing as ThingWithComps;
-				if (thingWithComps != null)
-				{
-					CompFlickable comp = thingWithComps.GetComp<CompFlickable>();
-					if (comp != null && !comp.SwitchIsOn)
-					{
-						return true;
-					}
-				}
-				return false;
-			});
 			base.AddEndCondition(() => (!this.RefuelableComp.IsFull) ? JobCondition.Ongoing : JobCondition.Succeeded);
+			base.AddFailCondition(() => !this.job.playerForced && !this.RefuelableComp.ShouldAutoRefuelNowIgnoringFuelPct);
 			yield return Toils_General.DoAtomic(delegate
 			{
 				this.job.count = this.RefuelableComp.GetFuelCountToFullyRefuel();

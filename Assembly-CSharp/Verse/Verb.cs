@@ -8,11 +8,11 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000FD0 RID: 4048
+	// Token: 0x02000FD1 RID: 4049
 	public abstract class Verb : IExposable, ILoadReferenceable
 	{
-		// Token: 0x17000FDB RID: 4059
-		// (get) Token: 0x060061C8 RID: 25032 RVA: 0x001E0784 File Offset: 0x001DEB84
+		// Token: 0x17000FDF RID: 4063
+		// (get) Token: 0x060061F1 RID: 25073 RVA: 0x001E095C File Offset: 0x001DED5C
 		public Pawn CasterPawn
 		{
 			get
@@ -21,8 +21,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FDC RID: 4060
-		// (get) Token: 0x060061C9 RID: 25033 RVA: 0x001E07A4 File Offset: 0x001DEBA4
+		// Token: 0x17000FE0 RID: 4064
+		// (get) Token: 0x060061F2 RID: 25074 RVA: 0x001E097C File Offset: 0x001DED7C
 		public bool CasterIsPawn
 		{
 			get
@@ -31,8 +31,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FDD RID: 4061
-		// (get) Token: 0x060061CA RID: 25034 RVA: 0x001E07C8 File Offset: 0x001DEBC8
+		// Token: 0x17000FE1 RID: 4065
+		// (get) Token: 0x060061F3 RID: 25075 RVA: 0x001E09A0 File Offset: 0x001DEDA0
 		protected virtual int ShotsPerBurst
 		{
 			get
@@ -41,8 +41,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FDE RID: 4062
-		// (get) Token: 0x060061CB RID: 25035 RVA: 0x001E07E0 File Offset: 0x001DEBE0
+		// Token: 0x17000FE2 RID: 4066
+		// (get) Token: 0x060061F4 RID: 25076 RVA: 0x001E09B8 File Offset: 0x001DEDB8
 		public virtual Texture2D UIIcon
 		{
 			get
@@ -60,8 +60,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FDF RID: 4063
-		// (get) Token: 0x060061CC RID: 25036 RVA: 0x001E081C File Offset: 0x001DEC1C
+		// Token: 0x17000FE3 RID: 4067
+		// (get) Token: 0x060061F5 RID: 25077 RVA: 0x001E09F4 File Offset: 0x001DEDF4
 		public bool Bursting
 		{
 			get
@@ -70,8 +70,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FE0 RID: 4064
-		// (get) Token: 0x060061CD RID: 25037 RVA: 0x001E083C File Offset: 0x001DEC3C
+		// Token: 0x17000FE4 RID: 4068
+		// (get) Token: 0x060061F6 RID: 25078 RVA: 0x001E0A14 File Offset: 0x001DEE14
 		public BodyPartGroupDef LinkedBodyPartsGroup
 		{
 			get
@@ -93,8 +93,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FE1 RID: 4065
-		// (get) Token: 0x060061CE RID: 25038 RVA: 0x001E088C File Offset: 0x001DEC8C
+		// Token: 0x17000FE5 RID: 4069
+		// (get) Token: 0x060061F7 RID: 25079 RVA: 0x001E0A64 File Offset: 0x001DEE64
 		public bool EnsureLinkedBodyPartsGroupAlwaysUsable
 		{
 			get
@@ -112,8 +112,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FE2 RID: 4066
-		// (get) Token: 0x060061CF RID: 25039 RVA: 0x001E08DC File Offset: 0x001DECDC
+		// Token: 0x17000FE6 RID: 4070
+		// (get) Token: 0x060061F8 RID: 25080 RVA: 0x001E0AB4 File Offset: 0x001DEEB4
 		public bool IsMeleeAttack
 		{
 			get
@@ -122,8 +122,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FE3 RID: 4067
-		// (get) Token: 0x060061D0 RID: 25040 RVA: 0x001E08FC File Offset: 0x001DECFC
+		// Token: 0x17000FE7 RID: 4071
+		// (get) Token: 0x060061F9 RID: 25081 RVA: 0x001E0AD4 File Offset: 0x001DEED4
 		public bool CanBeUsedInMelee
 		{
 			get
@@ -132,7 +132,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060061D1 RID: 25041 RVA: 0x001E091C File Offset: 0x001DED1C
+		// Token: 0x060061FA RID: 25082 RVA: 0x001E0AF4 File Offset: 0x001DEEF4
 		public float GetDamageFactorFor(Pawn pawn)
 		{
 			float num = 1f;
@@ -159,7 +159,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x060061D2 RID: 25042 RVA: 0x001E09E0 File Offset: 0x001DEDE0
+		// Token: 0x060061FB RID: 25083 RVA: 0x001E0BB8 File Offset: 0x001DEFB8
 		public bool IsStillUsableBy(Pawn pawn)
 		{
 			Profiler.BeginSample("IsStillUsableBy()");
@@ -212,13 +212,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060061D3 RID: 25043 RVA: 0x001E0B14 File Offset: 0x001DEF14
+		// Token: 0x060061FC RID: 25084 RVA: 0x001E0CEC File Offset: 0x001DF0EC
 		public virtual bool IsUsableOn(Thing target)
 		{
 			return true;
 		}
 
-		// Token: 0x060061D4 RID: 25044 RVA: 0x001E0B2C File Offset: 0x001DEF2C
+		// Token: 0x060061FD RID: 25085 RVA: 0x001E0D04 File Offset: 0x001DF104
 		public virtual void ExposeData()
 		{
 			Scribe_Values.Look<string>(ref this.loadID, "loadID", null, false);
@@ -230,25 +230,25 @@ namespace Verse
 			Scribe_Values.Look<bool>(ref this.canHitNonTargetPawnsNow, "canHitNonTargetPawnsNow", false, false);
 		}
 
-		// Token: 0x060061D5 RID: 25045 RVA: 0x001E0BB8 File Offset: 0x001DEFB8
+		// Token: 0x060061FE RID: 25086 RVA: 0x001E0D90 File Offset: 0x001DF190
 		public string GetUniqueLoadID()
 		{
 			return "Verb_" + this.loadID;
 		}
 
-		// Token: 0x060061D6 RID: 25046 RVA: 0x001E0BE0 File Offset: 0x001DEFE0
+		// Token: 0x060061FF RID: 25087 RVA: 0x001E0DB8 File Offset: 0x001DF1B8
 		public static string CalculateUniqueLoadID(IVerbOwner owner, Tool tool, ManeuverDef maneuver)
 		{
 			return string.Format("{0}_{1}_{2}", owner.UniqueVerbOwnerID(), (tool == null) ? "NT" : tool.Id, (maneuver == null) ? "NM" : maneuver.defName);
 		}
 
-		// Token: 0x060061D7 RID: 25047 RVA: 0x001E0C34 File Offset: 0x001DF034
+		// Token: 0x06006200 RID: 25088 RVA: 0x001E0E0C File Offset: 0x001DF20C
 		public static string CalculateUniqueLoadID(IVerbOwner owner, int index)
 		{
 			return string.Format("{0}_{1}", owner.UniqueVerbOwnerID(), index);
 		}
 
-		// Token: 0x060061D8 RID: 25048 RVA: 0x001E0C60 File Offset: 0x001DF060
+		// Token: 0x06006201 RID: 25089 RVA: 0x001E0E38 File Offset: 0x001DF238
 		public bool TryStartCastOn(LocalTargetInfo castTarg, bool surpriseAttack = false, bool canHitNonTargetPawns = true)
 		{
 			bool result;
@@ -295,7 +295,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060061D9 RID: 25049 RVA: 0x001E0E40 File Offset: 0x001DF240
+		// Token: 0x06006202 RID: 25090 RVA: 0x001E1018 File Offset: 0x001DF418
 		public virtual void WarmupComplete()
 		{
 			this.burstShotsLeft = this.ShotsPerBurst;
@@ -311,7 +311,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060061DA RID: 25050 RVA: 0x001E0EBC File Offset: 0x001DF2BC
+		// Token: 0x06006203 RID: 25091 RVA: 0x001E1094 File Offset: 0x001DF494
 		public void VerbTick()
 		{
 			if (this.state == VerbState.Bursting)
@@ -331,7 +331,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060061DB RID: 25051 RVA: 0x001E0F18 File Offset: 0x001DF318
+		// Token: 0x06006204 RID: 25092 RVA: 0x001E10F0 File Offset: 0x001DF4F0
 		public virtual bool Available()
 		{
 			if (this.verbProps.consumeFuelPerShot > 0f)
@@ -345,7 +345,7 @@ namespace Verse
 			return true;
 		}
 
-		// Token: 0x060061DC RID: 25052 RVA: 0x001E0F74 File Offset: 0x001DF374
+		// Token: 0x06006205 RID: 25093 RVA: 0x001E114C File Offset: 0x001DF54C
 		protected void TryCastNextBurstShot()
 		{
 			LocalTargetInfo localTargetInfo = this.currentTarget;
@@ -418,16 +418,16 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060061DD RID: 25053
+		// Token: 0x06006206 RID: 25094
 		protected abstract bool TryCastShot();
 
-		// Token: 0x060061DE RID: 25054 RVA: 0x001E11DF File Offset: 0x001DF5DF
+		// Token: 0x06006207 RID: 25095 RVA: 0x001E13B7 File Offset: 0x001DF7B7
 		public void Notify_PickedUp()
 		{
 			this.Reset();
 		}
 
-		// Token: 0x060061DF RID: 25055 RVA: 0x001E11E8 File Offset: 0x001DF5E8
+		// Token: 0x06006208 RID: 25096 RVA: 0x001E13C0 File Offset: 0x001DF7C0
 		public virtual void Reset()
 		{
 			this.state = VerbState.Idle;
@@ -438,7 +438,7 @@ namespace Verse
 			this.surpriseAttack = false;
 		}
 
-		// Token: 0x060061E0 RID: 25056 RVA: 0x001E121C File Offset: 0x001DF61C
+		// Token: 0x06006209 RID: 25097 RVA: 0x001E13F4 File Offset: 0x001DF7F4
 		public virtual void Notify_EquipmentLost()
 		{
 			if (this.CasterIsPawn)
@@ -459,20 +459,20 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060061E1 RID: 25057 RVA: 0x001E12A8 File Offset: 0x001DF6A8
+		// Token: 0x0600620A RID: 25098 RVA: 0x001E1480 File Offset: 0x001DF880
 		public virtual float HighlightFieldRadiusAroundTarget(out bool needLOSToCenter)
 		{
 			needLOSToCenter = false;
 			return 0f;
 		}
 
-		// Token: 0x060061E2 RID: 25058 RVA: 0x001E12C8 File Offset: 0x001DF6C8
+		// Token: 0x0600620B RID: 25099 RVA: 0x001E14A0 File Offset: 0x001DF8A0
 		public bool CanHitTarget(LocalTargetInfo targ)
 		{
 			return this.caster != null && this.caster.Spawned && this.CanHitTargetFrom(this.caster.Position, targ);
 		}
 
-		// Token: 0x060061E3 RID: 25059 RVA: 0x001E1314 File Offset: 0x001DF714
+		// Token: 0x0600620C RID: 25100 RVA: 0x001E14EC File Offset: 0x001DF8EC
 		public virtual bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
 		{
 			bool result;
@@ -499,7 +499,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060061E4 RID: 25060 RVA: 0x001E13D4 File Offset: 0x001DF7D4
+		// Token: 0x0600620D RID: 25101 RVA: 0x001E15AC File Offset: 0x001DF9AC
 		public bool TryFindShootLineFromTo(IntVec3 root, LocalTargetInfo targ, out ShootLine resultingLine)
 		{
 			bool result;
@@ -570,7 +570,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060061E5 RID: 25061 RVA: 0x001E1624 File Offset: 0x001DFA24
+		// Token: 0x0600620E RID: 25102 RVA: 0x001E17FC File Offset: 0x001DFBFC
 		private bool CanHitFromCellIgnoringRange(IntVec3 sourceCell, LocalTargetInfo targ, out IntVec3 goodDest)
 		{
 			if (targ.Thing != null)
@@ -599,7 +599,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x060061E6 RID: 25062 RVA: 0x001E1724 File Offset: 0x001DFB24
+		// Token: 0x0600620F RID: 25103 RVA: 0x001E18FC File Offset: 0x001DFCFC
 		private bool CanHitCellFromCellIgnoringRange(IntVec3 sourceSq, IntVec3 targetLoc, bool includeCorners = false)
 		{
 			if (this.verbProps.mustCastOnOpenGround)
@@ -626,7 +626,7 @@ namespace Verse
 			return true;
 		}
 
-		// Token: 0x060061E7 RID: 25063 RVA: 0x001E17E8 File Offset: 0x001DFBE8
+		// Token: 0x06006210 RID: 25104 RVA: 0x001E19C0 File Offset: 0x001DFDC0
 		public override string ToString()
 		{
 			string text;
@@ -661,61 +661,61 @@ namespace Verse
 			return base.GetType().ToString() + "(" + text + ")";
 		}
 
-		// Token: 0x04003FEB RID: 16363
+		// Token: 0x04004008 RID: 16392
 		public VerbProperties verbProps;
 
-		// Token: 0x04003FEC RID: 16364
+		// Token: 0x04004009 RID: 16393
 		public Thing caster = null;
 
-		// Token: 0x04003FED RID: 16365
+		// Token: 0x0400400A RID: 16394
 		public ThingWithComps ownerEquipment = null;
 
-		// Token: 0x04003FEE RID: 16366
+		// Token: 0x0400400B RID: 16395
 		public HediffComp_VerbGiver ownerHediffComp = null;
 
-		// Token: 0x04003FEF RID: 16367
+		// Token: 0x0400400C RID: 16396
 		public ImplementOwnerTypeDef implementOwnerType = null;
 
-		// Token: 0x04003FF0 RID: 16368
+		// Token: 0x0400400D RID: 16397
 		public Tool tool = null;
 
-		// Token: 0x04003FF1 RID: 16369
+		// Token: 0x0400400E RID: 16398
 		public ManeuverDef maneuver = null;
 
-		// Token: 0x04003FF2 RID: 16370
+		// Token: 0x0400400F RID: 16399
 		public TerrainDef terrainDef = null;
 
-		// Token: 0x04003FF3 RID: 16371
+		// Token: 0x04004010 RID: 16400
 		public string loadID;
 
-		// Token: 0x04003FF4 RID: 16372
+		// Token: 0x04004011 RID: 16401
 		public VerbState state = VerbState.Idle;
 
-		// Token: 0x04003FF5 RID: 16373
+		// Token: 0x04004012 RID: 16402
 		protected LocalTargetInfo currentTarget;
 
-		// Token: 0x04003FF6 RID: 16374
+		// Token: 0x04004013 RID: 16403
 		protected int burstShotsLeft;
 
-		// Token: 0x04003FF7 RID: 16375
+		// Token: 0x04004014 RID: 16404
 		protected int ticksToNextBurstShot;
 
-		// Token: 0x04003FF8 RID: 16376
+		// Token: 0x04004015 RID: 16405
 		protected bool surpriseAttack;
 
-		// Token: 0x04003FF9 RID: 16377
+		// Token: 0x04004016 RID: 16406
 		protected bool canHitNonTargetPawnsNow = true;
 
-		// Token: 0x04003FFA RID: 16378
+		// Token: 0x04004017 RID: 16407
 		public Action castCompleteCallback;
 
-		// Token: 0x04003FFB RID: 16379
+		// Token: 0x04004018 RID: 16408
 		private const float MinLinkedBodyPartGroupEfficiencyIfMustBeAlwaysUsable = 0.4f;
 
-		// Token: 0x04003FFC RID: 16380
+		// Token: 0x04004019 RID: 16409
 		private static List<IntVec3> tempLeanShootSources = new List<IntVec3>();
 
-		// Token: 0x04003FFD RID: 16381
+		// Token: 0x0400401A RID: 16410
 		private static List<IntVec3> tempDestList = new List<IntVec3>();
 	}
 }

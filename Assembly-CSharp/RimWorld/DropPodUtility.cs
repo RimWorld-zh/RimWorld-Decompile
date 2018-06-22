@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006E7 RID: 1767
+	// Token: 0x020006E3 RID: 1763
 	public static class DropPodUtility
 	{
-		// Token: 0x0600266C RID: 9836 RVA: 0x001499CC File Offset: 0x00147DCC
+		// Token: 0x06002664 RID: 9828 RVA: 0x00149B70 File Offset: 0x00147F70
 		public static void MakeDropPodAt(IntVec3 c, Map map, ActiveDropPodInfo info, bool explode = false)
 		{
 			ActiveDropPod activeDropPod = (ActiveDropPod)ThingMaker.MakeThing(ThingDefOf.ActiveDropPod, null);
@@ -17,7 +17,7 @@ namespace RimWorld
 			SkyfallerMaker.SpawnSkyfaller(skyfaller, activeDropPod, c, map);
 		}
 
-		// Token: 0x0600266D RID: 9837 RVA: 0x00149A14 File Offset: 0x00147E14
+		// Token: 0x06002665 RID: 9829 RVA: 0x00149BB8 File Offset: 0x00147FB8
 		public static void DropThingsNear(IntVec3 dropCenter, Map map, IEnumerable<Thing> things, int openDelay = 110, bool canInstaDropDuringInit = false, bool leaveSlag = false, bool canRoofPunch = true, bool explode = false)
 		{
 			DropPodUtility.tempList.Clear();
@@ -31,7 +31,7 @@ namespace RimWorld
 			DropPodUtility.tempList.Clear();
 		}
 
-		// Token: 0x0600266E RID: 9838 RVA: 0x00149AA8 File Offset: 0x00147EA8
+		// Token: 0x06002666 RID: 9830 RVA: 0x00149C4C File Offset: 0x0014804C
 		public static void DropThingGroupsNear(IntVec3 dropCenter, Map map, List<List<Thing>> thingsGroups, int openDelay = 110, bool instaDrop = false, bool leaveSlag = false, bool canRoofPunch = true, bool explode = false)
 		{
 			foreach (List<Thing> list in thingsGroups)
@@ -74,7 +74,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0400156A RID: 5482
+		// Token: 0x04001568 RID: 5480
 		private static List<List<Thing>> tempList = new List<List<Thing>>();
 	}
 }

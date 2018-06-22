@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020002FB RID: 763
 	public class HistoryAutoRecorderWorker_ColonistMood : HistoryAutoRecorderWorker
 	{
-		// Token: 0x06000CBC RID: 3260 RVA: 0x00070218 File Offset: 0x0006E618
+		// Token: 0x06000CBC RID: 3260 RVA: 0x000702CC File Offset: 0x0006E6CC
 		public override float PullRecord()
 		{
 			IEnumerable<Pawn> allMaps_FreeColonists = PawnsFinder.AllMaps_FreeColonists;

@@ -7,8 +7,8 @@ namespace Verse
 	// Token: 0x02000F6B RID: 3947
 	public static class SolidColorMaterials
 	{
-		// Token: 0x17000F44 RID: 3908
-		// (get) Token: 0x06005F38 RID: 24376 RVA: 0x00308094 File Offset: 0x00306494
+		// Token: 0x17000F48 RID: 3912
+		// (get) Token: 0x06005F61 RID: 24417 RVA: 0x0030A138 File Offset: 0x00308538
 		public static int SimpleColorMatCount
 		{
 			get
@@ -17,7 +17,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005F39 RID: 24377 RVA: 0x003080C0 File Offset: 0x003064C0
+		// Token: 0x06005F62 RID: 24418 RVA: 0x0030A164 File Offset: 0x00308564
 		public static Material SimpleSolidColorMaterial(Color col, bool careAboutVertexColors = false)
 		{
 			Material material;
@@ -37,7 +37,7 @@ namespace Verse
 			return material;
 		}
 
-		// Token: 0x06005F3A RID: 24378 RVA: 0x00308140 File Offset: 0x00306540
+		// Token: 0x06005F63 RID: 24419 RVA: 0x0030A1E4 File Offset: 0x003085E4
 		public static Material NewSolidColorMaterial(Color col, Shader shader)
 		{
 			Material result;
@@ -62,13 +62,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005F3B RID: 24379 RVA: 0x003081B4 File Offset: 0x003065B4
+		// Token: 0x06005F64 RID: 24420 RVA: 0x0030A258 File Offset: 0x00308658
 		public static Texture2D NewSolidColorTexture(float r, float g, float b, float a)
 		{
 			return SolidColorMaterials.NewSolidColorTexture(new Color(r, g, b, a));
 		}
 
-		// Token: 0x06005F3C RID: 24380 RVA: 0x003081D8 File Offset: 0x003065D8
+		// Token: 0x06005F65 RID: 24421 RVA: 0x0030A27C File Offset: 0x0030867C
 		public static Texture2D NewSolidColorTexture(Color color)
 		{
 			Texture2D result;
@@ -88,10 +88,10 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003EA9 RID: 16041
+		// Token: 0x04003EBB RID: 16059
 		private static Dictionary<Color, Material> simpleColorMats = new Dictionary<Color, Material>();
 
-		// Token: 0x04003EAA RID: 16042
+		// Token: 0x04003EBC RID: 16060
 		private static Dictionary<Color, Material> simpleColorAndVertexColorMats = new Dictionary<Color, Material>();
 	}
 }

@@ -5,12 +5,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008EF RID: 2287
+	// Token: 0x020008EB RID: 2283
 	public class WorldInterface
 	{
-		// Token: 0x1700087E RID: 2174
-		// (get) Token: 0x060034A9 RID: 13481 RVA: 0x001C1B00 File Offset: 0x001BFF00
-		// (set) Token: 0x060034AA RID: 13482 RVA: 0x001C1B20 File Offset: 0x001BFF20
+		// Token: 0x1700087F RID: 2175
+		// (get) Token: 0x060034A2 RID: 13474 RVA: 0x001C1CE8 File Offset: 0x001C00E8
+		// (set) Token: 0x060034A3 RID: 13475 RVA: 0x001C1D08 File Offset: 0x001C0108
 		public int SelectedTile
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060034AB RID: 13483 RVA: 0x001C1B30 File Offset: 0x001BFF30
+		// Token: 0x060034A4 RID: 13476 RVA: 0x001C1D18 File Offset: 0x001C0118
 		public void Reset()
 		{
 			this.everReset = true;
@@ -64,7 +64,7 @@ namespace RimWorld
 			Find.WorldCameraDriver.ResetAltitude();
 		}
 
-		// Token: 0x060034AC RID: 13484 RVA: 0x001C1C50 File Offset: 0x001C0050
+		// Token: 0x060034A5 RID: 13477 RVA: 0x001C1E38 File Offset: 0x001C0238
 		public void WorldInterfaceUpdate()
 		{
 			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
@@ -89,7 +89,7 @@ namespace RimWorld
 			Profiler.EndSample();
 		}
 
-		// Token: 0x060034AD RID: 13485 RVA: 0x001C1CE0 File Offset: 0x001C00E0
+		// Token: 0x060034A6 RID: 13478 RVA: 0x001C1EC8 File Offset: 0x001C02C8
 		public void WorldInterfaceOnGUI()
 		{
 			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
@@ -132,7 +132,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060034AE RID: 13486 RVA: 0x001C1E08 File Offset: 0x001C0208
+		// Token: 0x060034A7 RID: 13479 RVA: 0x001C1FF0 File Offset: 0x001C03F0
 		public void HandleLowPriorityInput()
 		{
 			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
@@ -147,7 +147,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060034AF RID: 13487 RVA: 0x001C1E58 File Offset: 0x001C0258
+		// Token: 0x060034A8 RID: 13480 RVA: 0x001C2040 File Offset: 0x001C0440
 		private void CheckOpenOrCloseInspectPane()
 		{
 			if (this.selector.AnyObjectOrTileSelected && WorldRendererUtility.WorldRenderedNow && (Current.ProgramState != ProgramState.Playing || Find.MainTabsRoot.OpenTab == null))
@@ -163,22 +163,22 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04001C73 RID: 7283
+		// Token: 0x04001C71 RID: 7281
 		public WorldSelector selector = new WorldSelector();
 
-		// Token: 0x04001C74 RID: 7284
+		// Token: 0x04001C72 RID: 7282
 		public WorldTargeter targeter = new WorldTargeter();
 
-		// Token: 0x04001C75 RID: 7285
+		// Token: 0x04001C73 RID: 7283
 		public WorldInspectPane inspectPane = new WorldInspectPane();
 
-		// Token: 0x04001C76 RID: 7286
+		// Token: 0x04001C74 RID: 7284
 		public WorldGlobalControls globalControls = new WorldGlobalControls();
 
-		// Token: 0x04001C77 RID: 7287
+		// Token: 0x04001C75 RID: 7285
 		public WorldRoutePlanner routePlanner = new WorldRoutePlanner();
 
-		// Token: 0x04001C78 RID: 7288
+		// Token: 0x04001C76 RID: 7286
 		public bool everReset;
 	}
 }

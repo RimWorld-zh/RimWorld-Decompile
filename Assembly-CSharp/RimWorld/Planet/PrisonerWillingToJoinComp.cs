@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000626 RID: 1574
+	// Token: 0x02000622 RID: 1570
 	public class PrisonerWillingToJoinComp : ImportantPawnComp, IThingHolder
 	{
 		// Token: 0x170004C6 RID: 1222
-		// (get) Token: 0x06001FFC RID: 8188 RVA: 0x001130F8 File Offset: 0x001114F8
+		// (get) Token: 0x06001FF1 RID: 8177 RVA: 0x00113078 File Offset: 0x00111478
 		protected override string PawnSaveKey
 		{
 			get
@@ -16,13 +16,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001FFD RID: 8189 RVA: 0x00113112 File Offset: 0x00111512
+		// Token: 0x06001FF2 RID: 8178 RVA: 0x00113092 File Offset: 0x00111492
 		protected override void RemovePawnOnWorldObjectRemoved()
 		{
 			this.pawn.ClearAndDestroyContentsOrPassToWorld(DestroyMode.Vanish);
 		}
 
-		// Token: 0x06001FFE RID: 8190 RVA: 0x00113124 File Offset: 0x00111524
+		// Token: 0x06001FF3 RID: 8179 RVA: 0x001130A4 File Offset: 0x001114A4
 		public override string CompInspectStringExtra()
 		{
 			string result;

@@ -7,7 +7,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003CB RID: 971
 	public class SymbolResolver_InnerStockpile : SymbolResolver
 	{
-		// Token: 0x060010BE RID: 4286 RVA: 0x0008E594 File Offset: 0x0008C994
+		// Token: 0x060010BE RID: 4286 RVA: 0x0008E780 File Offset: 0x0008CB80
 		public override void Resolve(ResolveParams rp)
 		{
 			int? innerStockpileSize = rp.innerStockpileSize;
@@ -37,7 +37,7 @@ namespace RimWorld.BaseGen
 			BaseGen.symbolStack.Push("stockpile", resolveParams);
 		}
 
-		// Token: 0x060010BF RID: 4287 RVA: 0x0008E668 File Offset: 0x0008CA68
+		// Token: 0x060010BF RID: 4287 RVA: 0x0008E854 File Offset: 0x0008CC54
 		private bool TryFindPerfectPlaceThenBest(CellRect outerRect, int size, out CellRect rect)
 		{
 			int num;
@@ -56,7 +56,7 @@ namespace RimWorld.BaseGen
 			return true;
 		}
 
-		// Token: 0x060010C0 RID: 4288 RVA: 0x0008E6BC File Offset: 0x0008CABC
+		// Token: 0x060010C0 RID: 4288 RVA: 0x0008E8A8 File Offset: 0x0008CCA8
 		private bool TryFindRandomInnerRect(CellRect outerRect, int size, out CellRect rect, int minValidCells, out int maxValidCellsFound)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -81,7 +81,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x04000A35 RID: 2613
+		// Token: 0x04000A37 RID: 2615
 		private const int DefaultSize = 3;
 	}
 }

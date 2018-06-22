@@ -5,17 +5,17 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200097F RID: 2431
+	// Token: 0x0200097B RID: 2427
 	public static class GenConstruct
 	{
-		// Token: 0x060036A0 RID: 13984 RVA: 0x001D191D File Offset: 0x001CFD1D
+		// Token: 0x06003699 RID: 13977 RVA: 0x001D1B05 File Offset: 0x001CFF05
 		public static void Reset()
 		{
 			GenConstruct.ConstructionSkillTooLowTrans = "ConstructionSkillTooLow".Translate();
 			GenConstruct.IncapableOfDeconstruction = "IncapableOfDeconstruction".Translate();
 		}
 
-		// Token: 0x060036A1 RID: 13985 RVA: 0x001D1940 File Offset: 0x001CFD40
+		// Token: 0x0600369A RID: 13978 RVA: 0x001D1B28 File Offset: 0x001CFF28
 		public static Blueprint_Build PlaceBlueprintForBuild(BuildableDef sourceDef, IntVec3 center, Map map, Rot4 rotation, Faction faction, ThingDef stuff)
 		{
 			Blueprint_Build blueprint_Build = (Blueprint_Build)ThingMaker.MakeThing(sourceDef.blueprintDef, null);
@@ -25,7 +25,7 @@ namespace RimWorld
 			return blueprint_Build;
 		}
 
-		// Token: 0x060036A2 RID: 13986 RVA: 0x001D1984 File Offset: 0x001CFD84
+		// Token: 0x0600369B RID: 13979 RVA: 0x001D1B6C File Offset: 0x001CFF6C
 		public static Blueprint_Install PlaceBlueprintForInstall(MinifiedThing itemToInstall, IntVec3 center, Map map, Rot4 rotation, Faction faction)
 		{
 			Blueprint_Install blueprint_Install = (Blueprint_Install)ThingMaker.MakeThing(itemToInstall.InnerThing.def.installBlueprintDef, null);
@@ -35,7 +35,7 @@ namespace RimWorld
 			return blueprint_Install;
 		}
 
-		// Token: 0x060036A3 RID: 13987 RVA: 0x001D19D4 File Offset: 0x001CFDD4
+		// Token: 0x0600369C RID: 13980 RVA: 0x001D1BBC File Offset: 0x001CFFBC
 		public static Blueprint_Install PlaceBlueprintForReinstall(Building buildingToReinstall, IntVec3 center, Map map, Rot4 rotation, Faction faction)
 		{
 			Blueprint_Install blueprint_Install = (Blueprint_Install)ThingMaker.MakeThing(buildingToReinstall.def.installBlueprintDef, null);
@@ -45,7 +45,7 @@ namespace RimWorld
 			return blueprint_Install;
 		}
 
-		// Token: 0x060036A4 RID: 13988 RVA: 0x001D1A1C File Offset: 0x001CFE1C
+		// Token: 0x0600369D RID: 13981 RVA: 0x001D1C04 File Offset: 0x001D0004
 		public static bool CanBuildOnTerrain(BuildableDef entDef, IntVec3 c, Map map, Rot4 rot, Thing thingToIgnore = null)
 		{
 			TerrainDef terrainDef = entDef as TerrainDef;
@@ -83,7 +83,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x060036A5 RID: 13989 RVA: 0x001D1B50 File Offset: 0x001CFF50
+		// Token: 0x0600369E RID: 13982 RVA: 0x001D1D38 File Offset: 0x001D0138
 		public static Thing MiniToInstallOrBuildingToReinstall(Blueprint b)
 		{
 			Blueprint_Install blueprint_Install = b as Blueprint_Install;
@@ -99,7 +99,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036A6 RID: 13990 RVA: 0x001D1B80 File Offset: 0x001CFF80
+		// Token: 0x0600369F RID: 13983 RVA: 0x001D1D68 File Offset: 0x001D0168
 		public static bool CanConstruct(Thing t, Pawn p, bool checkConstructionSkill = true, bool forced = false)
 		{
 			bool result;
@@ -133,7 +133,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036A7 RID: 13991 RVA: 0x001D1C38 File Offset: 0x001D0038
+		// Token: 0x060036A0 RID: 13984 RVA: 0x001D1E20 File Offset: 0x001D0220
 		public static int AmountNeededByOf(IConstructible c, ThingDef resDef)
 		{
 			foreach (ThingDefCountClass thingDefCountClass in c.MaterialsNeeded())
@@ -146,7 +146,7 @@ namespace RimWorld
 			return 0;
 		}
 
-		// Token: 0x060036A8 RID: 13992 RVA: 0x001D1CB4 File Offset: 0x001D00B4
+		// Token: 0x060036A1 RID: 13985 RVA: 0x001D1E9C File Offset: 0x001D029C
 		public static AcceptanceReport CanPlaceBlueprintAt(BuildableDef entDef, IntVec3 center, Rot4 rot, Map map, bool godMode = false, Thing thingToIgnore = null)
 		{
 			CellRect cellRect = GenAdj.OccupiedRect(center, rot, entDef.Size);
@@ -322,13 +322,13 @@ namespace RimWorld
 			return AcceptanceReport.WasAccepted;
 		}
 
-		// Token: 0x060036A9 RID: 13993 RVA: 0x001D2274 File Offset: 0x001D0674
+		// Token: 0x060036A2 RID: 13986 RVA: 0x001D245C File Offset: 0x001D085C
 		public static BuildableDef BuiltDefOf(ThingDef def)
 		{
 			return (def.entityDefToBuild == null) ? def : def.entityDefToBuild;
 		}
 
-		// Token: 0x060036AA RID: 13994 RVA: 0x001D22A0 File Offset: 0x001D06A0
+		// Token: 0x060036A3 RID: 13987 RVA: 0x001D2488 File Offset: 0x001D0888
 		public static bool CanPlaceBlueprintOver(BuildableDef newDef, ThingDef oldDef)
 		{
 			bool result;
@@ -392,7 +392,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036AB RID: 13995 RVA: 0x001D2528 File Offset: 0x001D0928
+		// Token: 0x060036A4 RID: 13988 RVA: 0x001D2710 File Offset: 0x001D0B10
 		public static Thing FirstBlockingThing(Thing constructible, Pawn pawnToIgnore)
 		{
 			Blueprint blueprint = constructible as Blueprint;
@@ -422,7 +422,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x060036AC RID: 13996 RVA: 0x001D25E8 File Offset: 0x001D09E8
+		// Token: 0x060036A5 RID: 13989 RVA: 0x001D27D0 File Offset: 0x001D0BD0
 		public static Job HandleBlockingThingJob(Thing constructible, Pawn worker, bool forced = false)
 		{
 			Thing thing = GenConstruct.FirstBlockingThing(constructible, worker);
@@ -482,7 +482,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036AD RID: 13997 RVA: 0x001D2780 File Offset: 0x001D0B80
+		// Token: 0x060036A6 RID: 13990 RVA: 0x001D2968 File Offset: 0x001D0D68
 		public static bool BlocksConstruction(Thing constructible, Thing t)
 		{
 			bool result;
@@ -544,7 +544,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036AE RID: 13998 RVA: 0x001D297C File Offset: 0x001D0D7C
+		// Token: 0x060036A7 RID: 13991 RVA: 0x001D2B64 File Offset: 0x001D0F64
 		public static bool TerrainCanSupport(CellRect rect, Map map, ThingDef thing)
 		{
 			CellRect.CellRectIterator iterator = rect.GetIterator();
@@ -559,10 +559,10 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x04002341 RID: 9025
+		// Token: 0x0400233F RID: 9023
 		private static string ConstructionSkillTooLowTrans;
 
-		// Token: 0x04002342 RID: 9026
+		// Token: 0x04002340 RID: 9024
 		private static string IncapableOfDeconstruction;
 	}
 }

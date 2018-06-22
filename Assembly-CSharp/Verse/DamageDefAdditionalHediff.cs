@@ -3,16 +3,16 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000B09 RID: 2825
+	// Token: 0x02000B05 RID: 2821
 	public class DamageDefAdditionalHediff
 	{
-		// Token: 0x040027DF RID: 10207
+		// Token: 0x040027DB RID: 10203
 		public HediffDef hediff = null;
 
-		// Token: 0x040027E0 RID: 10208
+		// Token: 0x040027DC RID: 10204
 		public float severityPerDamageDealt = 0.1f;
 
-		// Token: 0x040027E1 RID: 10209
+		// Token: 0x040027DD RID: 10205
 		public StatDef victimSeverityScaling = null;
 	}
 }

@@ -4,16 +4,16 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000446 RID: 1094
+	// Token: 0x02000442 RID: 1090
 	public class VoluntarilyJoinableLordsStarter : IExposable
 	{
-		// Token: 0x060012EF RID: 4847 RVA: 0x000A34D4 File Offset: 0x000A18D4
+		// Token: 0x060012E6 RID: 4838 RVA: 0x000A34E4 File Offset: 0x000A18E4
 		public VoluntarilyJoinableLordsStarter(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x060012F0 RID: 4848 RVA: 0x000A34F8 File Offset: 0x000A18F8
+		// Token: 0x060012E7 RID: 4839 RVA: 0x000A3508 File Offset: 0x000A1908
 		public bool TryStartMarriageCeremony(Pawn firstFiance, Pawn secondFiance)
 		{
 			IntVec3 intVec;
@@ -36,7 +36,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060012F1 RID: 4849 RVA: 0x000A3590 File Offset: 0x000A1990
+		// Token: 0x060012E8 RID: 4840 RVA: 0x000A35A0 File Offset: 0x000A19A0
 		public bool TryStartParty()
 		{
 			Pawn pawn = PartyUtility.FindRandomPartyOrganizer(Faction.OfPlayer, this.map);
@@ -64,20 +64,20 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060012F2 RID: 4850 RVA: 0x000A364F File Offset: 0x000A1A4F
+		// Token: 0x060012E9 RID: 4841 RVA: 0x000A365F File Offset: 0x000A1A5F
 		public void VoluntarilyJoinableLordsStarterTick()
 		{
 			this.Tick_TryStartParty();
 		}
 
-		// Token: 0x060012F3 RID: 4851 RVA: 0x000A3658 File Offset: 0x000A1A58
+		// Token: 0x060012EA RID: 4842 RVA: 0x000A3668 File Offset: 0x000A1A68
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.lastLordStartTick, "lastLordStartTick", 0, false);
 			Scribe_Values.Look<bool>(ref this.startPartyASAP, "startPartyASAP", false, false);
 		}
 
-		// Token: 0x060012F4 RID: 4852 RVA: 0x000A3680 File Offset: 0x000A1A80
+		// Token: 0x060012EB RID: 4843 RVA: 0x000A3690 File Offset: 0x000A1A90
 		private void Tick_TryStartParty()
 		{
 			if (this.map.IsPlayerHome)
@@ -96,19 +96,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000B78 RID: 2936
+		// Token: 0x04000B75 RID: 2933
 		private Map map;
 
-		// Token: 0x04000B79 RID: 2937
+		// Token: 0x04000B76 RID: 2934
 		private int lastLordStartTick = -999999;
 
-		// Token: 0x04000B7A RID: 2938
+		// Token: 0x04000B77 RID: 2935
 		private bool startPartyASAP = false;
 
-		// Token: 0x04000B7B RID: 2939
+		// Token: 0x04000B78 RID: 2936
 		private const int CheckStartPartyIntervalTicks = 5000;
 
-		// Token: 0x04000B7C RID: 2940
+		// Token: 0x04000B79 RID: 2937
 		private const float StartPartyMTBDays = 40f;
 	}
 }

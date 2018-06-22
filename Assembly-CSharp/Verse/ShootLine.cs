@@ -6,15 +6,15 @@ namespace Verse
 	// Token: 0x02000FB3 RID: 4019
 	public struct ShootLine
 	{
-		// Token: 0x0600611A RID: 24858 RVA: 0x0031019F File Offset: 0x0030E59F
+		// Token: 0x06006143 RID: 24899 RVA: 0x00312243 File Offset: 0x00310643
 		public ShootLine(IntVec3 source, IntVec3 dest)
 		{
 			this.source = source;
 			this.dest = dest;
 		}
 
-		// Token: 0x17000FB4 RID: 4020
-		// (get) Token: 0x0600611B RID: 24859 RVA: 0x003101B0 File Offset: 0x0030E5B0
+		// Token: 0x17000FB8 RID: 4024
+		// (get) Token: 0x06006144 RID: 24900 RVA: 0x00312254 File Offset: 0x00310654
 		public IntVec3 Source
 		{
 			get
@@ -23,8 +23,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FB5 RID: 4021
-		// (get) Token: 0x0600611C RID: 24860 RVA: 0x003101CC File Offset: 0x0030E5CC
+		// Token: 0x17000FB9 RID: 4025
+		// (get) Token: 0x06006145 RID: 24901 RVA: 0x00312270 File Offset: 0x00310670
 		public IntVec3 Dest
 		{
 			get
@@ -33,7 +33,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600611D RID: 24861 RVA: 0x003101E8 File Offset: 0x0030E5E8
+		// Token: 0x06006146 RID: 24902 RVA: 0x0031228C File Offset: 0x0031068C
 		public void ChangeDestToMissWild()
 		{
 			if ((double)(this.dest - this.source).LengthHorizontal < 2.5)
@@ -44,13 +44,13 @@ namespace Verse
 			this.dest = this.dest.RandomAdjacentCell8Way();
 		}
 
-		// Token: 0x0600611E RID: 24862 RVA: 0x00310274 File Offset: 0x0030E674
+		// Token: 0x06006147 RID: 24903 RVA: 0x00312318 File Offset: 0x00310718
 		public IEnumerable<IntVec3> Points()
 		{
 			return GenSight.PointsOnLineOfSight(this.source, this.dest);
 		}
 
-		// Token: 0x0600611F RID: 24863 RVA: 0x0031029C File Offset: 0x0030E69C
+		// Token: 0x06006148 RID: 24904 RVA: 0x00312340 File Offset: 0x00310740
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -63,10 +63,10 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x04003F7D RID: 16253
+		// Token: 0x04003F8F RID: 16271
 		private IntVec3 source;
 
-		// Token: 0x04003F7E RID: 16254
+		// Token: 0x04003F90 RID: 16272
 		private IntVec3 dest;
 	}
 }

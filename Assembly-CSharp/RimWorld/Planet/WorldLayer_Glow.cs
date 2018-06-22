@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200058F RID: 1423
+	// Token: 0x0200058B RID: 1419
 	public class WorldLayer_Glow : WorldLayer
 	{
-		// Token: 0x06001B2B RID: 6955 RVA: 0x000E90D0 File Offset: 0x000E74D0
+		// Token: 0x06001B22 RID: 6946 RVA: 0x000E9124 File Offset: 0x000E7524
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();
@@ -39,10 +39,10 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x04000FFD RID: 4093
+		// Token: 0x04000FFA RID: 4090
 		private const int SubdivisionsCount = 4;
 
-		// Token: 0x04000FFE RID: 4094
+		// Token: 0x04000FFB RID: 4091
 		public const float GlowRadius = 8f;
 	}
 }

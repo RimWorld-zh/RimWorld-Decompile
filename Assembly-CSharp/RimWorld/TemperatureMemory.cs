@@ -3,17 +3,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200044A RID: 1098
+	// Token: 0x02000446 RID: 1094
 	public class TemperatureMemory : IExposable
 	{
-		// Token: 0x06001307 RID: 4871 RVA: 0x000A407B File Offset: 0x000A247B
+		// Token: 0x060012FE RID: 4862 RVA: 0x000A408B File Offset: 0x000A248B
 		public TemperatureMemory(Map map)
 		{
 			this.map = map;
 		}
 
 		// Token: 0x1700028F RID: 655
-		// (get) Token: 0x06001308 RID: 4872 RVA: 0x000A409C File Offset: 0x000A249C
+		// (get) Token: 0x060012FF RID: 4863 RVA: 0x000A40AC File Offset: 0x000A24AC
 		public bool GrowthSeasonOutdoorsNow
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000290 RID: 656
-		// (get) Token: 0x06001309 RID: 4873 RVA: 0x000A40C4 File Offset: 0x000A24C4
+		// (get) Token: 0x06001300 RID: 4864 RVA: 0x000A40D4 File Offset: 0x000A24D4
 		public bool GrowthSeasonOutdoorsNowForSowing
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600130A RID: 4874 RVA: 0x000A4108 File Offset: 0x000A2508
+		// Token: 0x06001301 RID: 4865 RVA: 0x000A4118 File Offset: 0x000A2518
 		public void GrowthSeasonMemoryTick()
 		{
 			if (this.map.mapTemperature.OutdoorTemp > 0f && this.map.mapTemperature.OutdoorTemp < 58f)
@@ -46,23 +46,23 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600130B RID: 4875 RVA: 0x000A41A0 File Offset: 0x000A25A0
+		// Token: 0x06001302 RID: 4866 RVA: 0x000A41B0 File Offset: 0x000A25B0
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.growthSeasonUntilTick, "growthSeasonUntilTick", 0, true);
 			Scribe_Values.Look<int>(ref this.noSowUntilTick, "noSowUntilTick", 0, true);
 		}
 
-		// Token: 0x04000B91 RID: 2961
+		// Token: 0x04000B8E RID: 2958
 		private Map map;
 
-		// Token: 0x04000B92 RID: 2962
+		// Token: 0x04000B8F RID: 2959
 		private int growthSeasonUntilTick = -1;
 
-		// Token: 0x04000B93 RID: 2963
+		// Token: 0x04000B90 RID: 2960
 		private int noSowUntilTick = -1;
 
-		// Token: 0x04000B94 RID: 2964
+		// Token: 0x04000B91 RID: 2961
 		private const int TicksBuffer = 30000;
 	}
 }

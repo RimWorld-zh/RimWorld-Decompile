@@ -2,10 +2,10 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000A6F RID: 2671
+	// Token: 0x02000A6B RID: 2667
 	public class MentalStateWorker_MurderousRage : MentalStateWorker
 	{
-		// Token: 0x06003B4E RID: 15182 RVA: 0x001F698C File Offset: 0x001F4D8C
+		// Token: 0x06003B49 RID: 15177 RVA: 0x001F6C88 File Offset: 0x001F5088
 		public override bool StateCanOccur(Pawn pawn)
 		{
 			return base.StateCanOccur(pawn) && MurderousRageMentalStateUtility.FindPawnToKill(pawn) != null;

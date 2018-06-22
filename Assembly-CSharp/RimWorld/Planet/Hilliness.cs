@@ -2,20 +2,20 @@
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005A6 RID: 1446
+	// Token: 0x020005A2 RID: 1442
 	public enum Hilliness : byte
 	{
-		// Token: 0x0400105D RID: 4189
+		// Token: 0x0400105A RID: 4186
 		Undefined,
-		// Token: 0x0400105E RID: 4190
+		// Token: 0x0400105B RID: 4187
 		Flat,
-		// Token: 0x0400105F RID: 4191
+		// Token: 0x0400105C RID: 4188
 		SmallHills,
-		// Token: 0x04001060 RID: 4192
+		// Token: 0x0400105D RID: 4189
 		LargeHills,
-		// Token: 0x04001061 RID: 4193
+		// Token: 0x0400105E RID: 4190
 		Mountainous,
-		// Token: 0x04001062 RID: 4194
+		// Token: 0x0400105F RID: 4191
 		Impassable
 	}
 }

@@ -5,18 +5,18 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000796 RID: 1942
+	// Token: 0x02000792 RID: 1938
 	public class Alert_NeedDoctor : Alert
 	{
-		// Token: 0x06002B05 RID: 11013 RVA: 0x0016B326 File Offset: 0x00169726
+		// Token: 0x06002AFE RID: 11006 RVA: 0x0016B4FE File Offset: 0x001698FE
 		public Alert_NeedDoctor()
 		{
 			this.defaultLabel = "NeedDoctor".Translate();
 			this.defaultPriority = AlertPriority.High;
 		}
 
-		// Token: 0x170006B1 RID: 1713
-		// (get) Token: 0x06002B06 RID: 11014 RVA: 0x0016B348 File Offset: 0x00169748
+		// Token: 0x170006B2 RID: 1714
+		// (get) Token: 0x06002AFF RID: 11007 RVA: 0x0016B520 File Offset: 0x00169920
 		private IEnumerable<Pawn> Patients
 		{
 			get
@@ -51,7 +51,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B07 RID: 11015 RVA: 0x0016B36C File Offset: 0x0016976C
+		// Token: 0x06002B00 RID: 11008 RVA: 0x0016B544 File Offset: 0x00169944
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -62,7 +62,7 @@ namespace RimWorld
 			return string.Format("NeedDoctorDesc".Translate(), stringBuilder.ToString());
 		}
 
-		// Token: 0x06002B08 RID: 11016 RVA: 0x0016B3FC File Offset: 0x001697FC
+		// Token: 0x06002B01 RID: 11009 RVA: 0x0016B5D4 File Offset: 0x001699D4
 		public override AlertReport GetReport()
 		{
 			AlertReport result;

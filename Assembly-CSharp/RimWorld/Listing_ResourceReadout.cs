@@ -4,18 +4,18 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008A0 RID: 2208
+	// Token: 0x0200089C RID: 2204
 	[StaticConstructorOnStartup]
 	public class Listing_ResourceReadout : Listing_Tree
 	{
-		// Token: 0x0600328B RID: 12939 RVA: 0x001B2E85 File Offset: 0x001B1285
+		// Token: 0x06003284 RID: 12932 RVA: 0x001B306D File Offset: 0x001B146D
 		public Listing_ResourceReadout(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x1700080B RID: 2059
-		// (get) Token: 0x0600328C RID: 12940 RVA: 0x001B2E98 File Offset: 0x001B1298
+		// Token: 0x1700080C RID: 2060
+		// (get) Token: 0x06003285 RID: 12933 RVA: 0x001B3080 File Offset: 0x001B1480
 		protected override float LabelWidth
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600328D RID: 12941 RVA: 0x001B2EB4 File Offset: 0x001B12B4
+		// Token: 0x06003286 RID: 12934 RVA: 0x001B309C File Offset: 0x001B149C
 		public void DoCategory(TreeNode_ThingCategory node, int nestLevel, int openMask)
 		{
 			int countIn = this.map.resourceCounter.GetCountIn(node.catDef);
@@ -63,7 +63,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600328E RID: 12942 RVA: 0x001B3038 File Offset: 0x001B1438
+		// Token: 0x06003287 RID: 12935 RVA: 0x001B3220 File Offset: 0x001B1620
 		public void DoCategoryChildren(TreeNode_ThingCategory node, int indentLevel, int openMask)
 		{
 			foreach (TreeNode_ThingCategory treeNode_ThingCategory in node.ChildCategoryNodes)
@@ -82,7 +82,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600328F RID: 12943 RVA: 0x001B3108 File Offset: 0x001B1508
+		// Token: 0x06003288 RID: 12936 RVA: 0x001B32F0 File Offset: 0x001B16F0
 		private void DoThingDef(ThingDef thingDef, int nestLevel)
 		{
 			int count = this.map.resourceCounter.GetCount(thingDef);
@@ -111,10 +111,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04001B03 RID: 6915
+		// Token: 0x04001B01 RID: 6913
 		private Map map;
 
-		// Token: 0x04001B04 RID: 6916
+		// Token: 0x04001B02 RID: 6914
 		private static Texture2D SolidCategoryBG = SolidColorMaterials.NewSolidColorTexture(new Color(0.1f, 0.1f, 0.1f, 0.6f));
 	}
 }

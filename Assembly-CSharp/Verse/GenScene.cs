@@ -4,11 +4,11 @@ using Verse.Profile;
 
 namespace Verse
 {
-	// Token: 0x02000BD8 RID: 3032
+	// Token: 0x02000BD4 RID: 3028
 	public static class GenScene
 	{
-		// Token: 0x17000A59 RID: 2649
-		// (get) Token: 0x06004215 RID: 16917 RVA: 0x0022CA84 File Offset: 0x0022AE84
+		// Token: 0x17000A5B RID: 2651
+		// (get) Token: 0x06004217 RID: 16919 RVA: 0x0022D1A0 File Offset: 0x0022B5A0
 		public static bool InEntryScene
 		{
 			get
@@ -17,8 +17,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A5A RID: 2650
-		// (get) Token: 0x06004216 RID: 16918 RVA: 0x0022CAB0 File Offset: 0x0022AEB0
+		// Token: 0x17000A5C RID: 2652
+		// (get) Token: 0x06004218 RID: 16920 RVA: 0x0022D1CC File Offset: 0x0022B5CC
 		public static bool InPlayScene
 		{
 			get
@@ -27,7 +27,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004217 RID: 16919 RVA: 0x0022CADC File Offset: 0x0022AEDC
+		// Token: 0x06004219 RID: 16921 RVA: 0x0022D1F8 File Offset: 0x0022B5F8
 		public static void GoToMainMenu()
 		{
 			LongEventHandler.ClearQueuedEvents();
@@ -38,10 +38,10 @@ namespace Verse
 			}, "Entry", "LoadingLongEvent", true, null);
 		}
 
-		// Token: 0x04002D25 RID: 11557
+		// Token: 0x04002D2A RID: 11562
 		public const string EntrySceneName = "Entry";
 
-		// Token: 0x04002D26 RID: 11558
+		// Token: 0x04002D2B RID: 11563
 		public const string PlaySceneName = "Play";
 	}
 }

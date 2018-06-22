@@ -2,20 +2,20 @@
 
 namespace Verse
 {
-	// Token: 0x02000BBA RID: 3002
+	// Token: 0x02000BB6 RID: 2998
 	public class WorldGenStepDef : Def
 	{
-		// Token: 0x060040FF RID: 16639 RVA: 0x00224F5E File Offset: 0x0022335E
+		// Token: 0x06004101 RID: 16641 RVA: 0x00225632 File Offset: 0x00223A32
 		public override void PostLoad()
 		{
 			base.PostLoad();
 			this.worldGenStep.def = this;
 		}
 
-		// Token: 0x04002C6D RID: 11373
+		// Token: 0x04002C72 RID: 11378
 		public float order;
 
-		// Token: 0x04002C6E RID: 11374
+		// Token: 0x04002C73 RID: 11379
 		public WorldGenStep worldGenStep;
 	}
 }

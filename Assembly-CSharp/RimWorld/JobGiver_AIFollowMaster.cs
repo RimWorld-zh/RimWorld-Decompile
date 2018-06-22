@@ -7,7 +7,7 @@ namespace RimWorld
 	public class JobGiver_AIFollowMaster : JobGiver_AIFollowPawn
 	{
 		// Token: 0x170000CA RID: 202
-		// (get) Token: 0x06000470 RID: 1136 RVA: 0x00032E10 File Offset: 0x00031210
+		// (get) Token: 0x06000470 RID: 1136 RVA: 0x00032DEC File Offset: 0x000311EC
 		protected override int FollowJobExpireInterval
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000471 RID: 1137 RVA: 0x00032E2C File Offset: 0x0003122C
+		// Token: 0x06000471 RID: 1137 RVA: 0x00032E08 File Offset: 0x00031208
 		protected override Pawn GetFollowee(Pawn pawn)
 		{
 			Pawn result;
@@ -31,7 +31,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000472 RID: 1138 RVA: 0x00032E60 File Offset: 0x00031260
+		// Token: 0x06000472 RID: 1138 RVA: 0x00032E3C File Offset: 0x0003123C
 		protected override float GetRadius(Pawn pawn)
 		{
 			float result;

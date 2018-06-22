@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_Wear : JobDriver
 	{
 		// Token: 0x170000C7 RID: 199
-		// (get) Token: 0x060003FE RID: 1022 RVA: 0x0002F38C File Offset: 0x0002D78C
+		// (get) Token: 0x060003FE RID: 1022 RVA: 0x0002F368 File Offset: 0x0002D768
 		private Apparel Apparel
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060003FF RID: 1023 RVA: 0x0002F3BA File Offset: 0x0002D7BA
+		// Token: 0x060003FF RID: 1023 RVA: 0x0002F396 File Offset: 0x0002D796
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -26,13 +26,13 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.unequipBuffer, "unequipBuffer", 0, false);
 		}
 
-		// Token: 0x06000400 RID: 1024 RVA: 0x0002F3E8 File Offset: 0x0002D7E8
+		// Token: 0x06000400 RID: 1024 RVA: 0x0002F3C4 File Offset: 0x0002D7C4
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Apparel, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000401 RID: 1025 RVA: 0x0002F41C File Offset: 0x0002D81C
+		// Token: 0x06000401 RID: 1025 RVA: 0x0002F3F8 File Offset: 0x0002D7F8
 		public override void Notify_Starting()
 		{
 			base.Notify_Starting();
@@ -48,7 +48,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000402 RID: 1026 RVA: 0x0002F4D4 File Offset: 0x0002D8D4
+		// Token: 0x06000402 RID: 1026 RVA: 0x0002F4B0 File Offset: 0x0002D8B0
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnDespawnedNullOrForbidden(TargetIndex.A);
@@ -75,7 +75,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000403 RID: 1027 RVA: 0x0002F500 File Offset: 0x0002D900
+		// Token: 0x06000403 RID: 1027 RVA: 0x0002F4DC File Offset: 0x0002D8DC
 		private void TryUnequipSomething()
 		{
 			Apparel apparel = this.Apparel;

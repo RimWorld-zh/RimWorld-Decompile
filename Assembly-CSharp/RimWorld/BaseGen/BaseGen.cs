@@ -7,7 +7,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x0200038E RID: 910
 	public static class BaseGen
 	{
-		// Token: 0x06000FE0 RID: 4064 RVA: 0x0008523C File Offset: 0x0008363C
+		// Token: 0x06000FE0 RID: 4064 RVA: 0x00085428 File Offset: 0x00083828
 		public static void Reset()
 		{
 			BaseGen.rulesBySymbol.Clear();
@@ -24,7 +24,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06000FE1 RID: 4065 RVA: 0x000852BC File Offset: 0x000836BC
+		// Token: 0x06000FE1 RID: 4065 RVA: 0x000854A8 File Offset: 0x000838A8
 		public static void Generate()
 		{
 			if (BaseGen.working)
@@ -94,7 +94,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06000FE2 RID: 4066 RVA: 0x00085494 File Offset: 0x00083894
+		// Token: 0x06000FE2 RID: 4066 RVA: 0x00085680 File Offset: 0x00083A80
 		private static void Resolve(Pair<string, ResolveParams> toResolve)
 		{
 			string first = toResolve.First;
@@ -133,22 +133,22 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x040009A5 RID: 2469
+		// Token: 0x040009A7 RID: 2471
 		public static GlobalSettings globalSettings = new GlobalSettings();
 
-		// Token: 0x040009A6 RID: 2470
+		// Token: 0x040009A8 RID: 2472
 		public static SymbolStack symbolStack = new SymbolStack();
 
-		// Token: 0x040009A7 RID: 2471
+		// Token: 0x040009A9 RID: 2473
 		private static Dictionary<string, List<RuleDef>> rulesBySymbol = new Dictionary<string, List<RuleDef>>();
 
-		// Token: 0x040009A8 RID: 2472
+		// Token: 0x040009AA RID: 2474
 		private static bool working;
 
-		// Token: 0x040009A9 RID: 2473
+		// Token: 0x040009AB RID: 2475
 		private const int MaxResolvedSymbols = 100000;
 
-		// Token: 0x040009AA RID: 2474
+		// Token: 0x040009AC RID: 2476
 		private static List<SymbolResolver> tmpResolvers = new List<SymbolResolver>();
 	}
 }

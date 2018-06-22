@@ -3,10 +3,10 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000CCE RID: 3278
+	// Token: 0x02000CCB RID: 3275
 	public class PatchOperation
 	{
-		// Token: 0x06004869 RID: 18537 RVA: 0x00260014 File Offset: 0x0025E414
+		// Token: 0x0600487A RID: 18554 RVA: 0x0026142C File Offset: 0x0025F82C
 		public bool Apply(XmlDocument xml)
 		{
 			bool flag = this.ApplyWorker(xml);
@@ -29,14 +29,14 @@ namespace Verse
 			return flag;
 		}
 
-		// Token: 0x0600486A RID: 18538 RVA: 0x00260078 File Offset: 0x0025E478
+		// Token: 0x0600487B RID: 18555 RVA: 0x00261490 File Offset: 0x0025F890
 		protected virtual bool ApplyWorker(XmlDocument xml)
 		{
 			Log.Error("Attempted to use PatchOperation directly; patch will always fail", false);
 			return false;
 		}
 
-		// Token: 0x0600486B RID: 18539 RVA: 0x0026009C File Offset: 0x0025E49C
+		// Token: 0x0600487C RID: 18556 RVA: 0x002614B4 File Offset: 0x0025F8B4
 		public virtual void Complete(string modIdentifier)
 		{
 			if (this.neverSucceeded)
@@ -50,25 +50,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x040030F2 RID: 12530
+		// Token: 0x040030FD RID: 12541
 		public string sourceFile;
 
-		// Token: 0x040030F3 RID: 12531
+		// Token: 0x040030FE RID: 12542
 		private bool neverSucceeded = true;
 
-		// Token: 0x040030F4 RID: 12532
+		// Token: 0x040030FF RID: 12543
 		private PatchOperation.Success success = PatchOperation.Success.Normal;
 
-		// Token: 0x02000CCF RID: 3279
+		// Token: 0x02000CCC RID: 3276
 		private enum Success
 		{
-			// Token: 0x040030F6 RID: 12534
+			// Token: 0x04003101 RID: 12545
 			Normal,
-			// Token: 0x040030F7 RID: 12535
+			// Token: 0x04003102 RID: 12546
 			Invert,
-			// Token: 0x040030F8 RID: 12536
+			// Token: 0x04003103 RID: 12547
 			Always,
-			// Token: 0x040030F9 RID: 12537
+			// Token: 0x04003104 RID: 12548
 			Never
 		}
 	}

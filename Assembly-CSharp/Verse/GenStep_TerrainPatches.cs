@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C5B RID: 3163
+	// Token: 0x02000C58 RID: 3160
 	public class GenStep_TerrainPatches : GenStep
 	{
-		// Token: 0x17000AFA RID: 2810
-		// (get) Token: 0x06004584 RID: 17796 RVA: 0x0024B074 File Offset: 0x00249474
+		// Token: 0x17000AFC RID: 2812
+		// (get) Token: 0x0600458D RID: 17805 RVA: 0x0024C444 File Offset: 0x0024A844
 		public override int SeedPart
 		{
 			get
@@ -16,7 +16,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004585 RID: 17797 RVA: 0x0024B090 File Offset: 0x00249490
+		// Token: 0x0600458E RID: 17806 RVA: 0x0024C460 File Offset: 0x0024A860
 		public override void Generate(Map map)
 		{
 			int num = Mathf.RoundToInt((float)map.Area / 10000f * this.patchesPer10kCellsRange.RandomInRange);
@@ -35,13 +35,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002F79 RID: 12153
+		// Token: 0x04002F83 RID: 12163
 		public TerrainDef terrainDef;
 
-		// Token: 0x04002F7A RID: 12154
+		// Token: 0x04002F84 RID: 12164
 		public FloatRange patchesPer10kCellsRange;
 
-		// Token: 0x04002F7B RID: 12155
+		// Token: 0x04002F85 RID: 12165
 		public FloatRange patchSizeRange;
 	}
 }

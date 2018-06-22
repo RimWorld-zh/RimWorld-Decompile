@@ -4,12 +4,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000713 RID: 1811
+	// Token: 0x0200070F RID: 1807
 	public class CompFoodPoisonable : ThingComp
 	{
 		// Token: 0x170005FC RID: 1532
-		// (get) Token: 0x060027BC RID: 10172 RVA: 0x00154208 File Offset: 0x00152608
-		// (set) Token: 0x060027BD RID: 10173 RVA: 0x00154223 File Offset: 0x00152623
+		// (get) Token: 0x060027B4 RID: 10164 RVA: 0x001543B0 File Offset: 0x001527B0
+		// (set) Token: 0x060027B5 RID: 10165 RVA: 0x001543CB File Offset: 0x001527CB
 		public float PoisonPercent
 		{
 			get
@@ -22,14 +22,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027BE RID: 10174 RVA: 0x00154232 File Offset: 0x00152632
+		// Token: 0x060027B6 RID: 10166 RVA: 0x001543DA File Offset: 0x001527DA
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_Values.Look<float>(ref this.poisonPct, "poisonPct", 0f, false);
 		}
 
-		// Token: 0x060027BF RID: 10175 RVA: 0x00154254 File Offset: 0x00152654
+		// Token: 0x060027B7 RID: 10167 RVA: 0x001543FC File Offset: 0x001527FC
 		public override void PostSplitOff(Thing piece)
 		{
 			base.PostSplitOff(piece);
@@ -37,7 +37,7 @@ namespace RimWorld
 			compFoodPoisonable.poisonPct = this.poisonPct;
 		}
 
-		// Token: 0x060027C0 RID: 10176 RVA: 0x0015427C File Offset: 0x0015267C
+		// Token: 0x060027B8 RID: 10168 RVA: 0x00154424 File Offset: 0x00152824
 		public override void PreAbsorbStack(Thing otherStack, int count)
 		{
 			base.PreAbsorbStack(otherStack, count);
@@ -45,16 +45,16 @@ namespace RimWorld
 			this.poisonPct = GenMath.WeightedAverage(this.poisonPct, (float)this.parent.stackCount, compFoodPoisonable.poisonPct, (float)count);
 		}
 
-		// Token: 0x060027C1 RID: 10177 RVA: 0x001542BE File Offset: 0x001526BE
+		// Token: 0x060027B9 RID: 10169 RVA: 0x00154466 File Offset: 0x00152866
 		public override void PostIngested(Pawn ingester)
 		{
-			if (Rand.Value < this.poisonPct)
+			if (Rand.Chance(this.poisonPct * Find.Storyteller.difficulty.foodPoisonChanceFactor))
 			{
 				FoodUtility.AddFoodPoisoningHediff(ingester, this.parent);
 			}
 		}
 
-		// Token: 0x040015DD RID: 5597
+		// Token: 0x040015DB RID: 5595
 		private float poisonPct;
 	}
 }

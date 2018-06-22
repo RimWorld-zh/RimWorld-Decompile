@@ -9,7 +9,7 @@ namespace Verse
 	// Token: 0x02000F59 RID: 3929
 	public static class KeyBindingDefGenerator
 	{
-		// Token: 0x06005F09 RID: 24329 RVA: 0x0030639C File Offset: 0x0030479C
+		// Token: 0x06005F32 RID: 24370 RVA: 0x00308440 File Offset: 0x00306840
 		public static IEnumerable<KeyBindingCategoryDef> ImpliedKeyBindingCategoryDefs()
 		{
 			List<KeyBindingCategoryDef> gameUniversalCats = (from d in DefDatabase<KeyBindingCategoryDef>.AllDefs
@@ -33,7 +33,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005F0A RID: 24330 RVA: 0x003063C0 File Offset: 0x003047C0
+		// Token: 0x06005F33 RID: 24371 RVA: 0x00308464 File Offset: 0x00306864
 		public static IEnumerable<KeyBindingDef> ImpliedKeyBindingDefs()
 		{
 			foreach (MainButtonDef mainTab in from td in DefDatabase<MainButtonDef>.AllDefs

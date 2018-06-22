@@ -6,18 +6,18 @@ namespace RimWorld
 	// Token: 0x020002D1 RID: 721
 	public class SiteWorkerBase
 	{
-		// Token: 0x06000BF1 RID: 3057 RVA: 0x00069E11 File Offset: 0x00068211
+		// Token: 0x06000BEF RID: 3055 RVA: 0x00069E79 File Offset: 0x00068279
 		public virtual void PostMapGenerate(Map map)
 		{
 		}
 
-		// Token: 0x06000BF2 RID: 3058 RVA: 0x00069E14 File Offset: 0x00068214
+		// Token: 0x06000BF0 RID: 3056 RVA: 0x00069E7C File Offset: 0x0006827C
 		public virtual bool FactionCanOwn(Faction faction)
 		{
 			return true;
 		}
 
-		// Token: 0x06000BF3 RID: 3059 RVA: 0x00069E2C File Offset: 0x0006822C
+		// Token: 0x06000BF1 RID: 3057 RVA: 0x00069E94 File Offset: 0x00068294
 		public virtual string GetArrivedLetterPart(Map map, out string preferredLabel, out LetterDef preferredLetterDef, out LookTargets lookTargets)
 		{
 			preferredLabel = this.def.arrivedLetterLabel;
@@ -26,7 +26,7 @@ namespace RimWorld
 			return this.def.arrivedLetter;
 		}
 
-		// Token: 0x04000733 RID: 1843
+		// Token: 0x04000732 RID: 1842
 		public SiteDefBase def;
 	}
 }

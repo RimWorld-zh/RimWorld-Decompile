@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020000FD RID: 253
 	public class JoyGiver_GoForWalk : JoyGiver
 	{
-		// Token: 0x06000552 RID: 1362 RVA: 0x00039DC0 File Offset: 0x000381C0
+		// Token: 0x06000552 RID: 1362 RVA: 0x00039DAC File Offset: 0x000381AC
 		public override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;

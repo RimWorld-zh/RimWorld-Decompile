@@ -3,22 +3,22 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009A1 RID: 2465
+	// Token: 0x0200099D RID: 2461
 	public static class StatExtension
 	{
-		// Token: 0x06003743 RID: 14147 RVA: 0x001D87AC File Offset: 0x001D6BAC
+		// Token: 0x0600373C RID: 14140 RVA: 0x001D89A8 File Offset: 0x001D6DA8
 		public static float GetStatValue(this Thing thing, StatDef stat, bool applyPostProcess = true)
 		{
 			return stat.Worker.GetValue(thing, applyPostProcess);
 		}
 
-		// Token: 0x06003744 RID: 14148 RVA: 0x001D87D0 File Offset: 0x001D6BD0
+		// Token: 0x0600373D RID: 14141 RVA: 0x001D89CC File Offset: 0x001D6DCC
 		public static float GetStatValueAbstract(this BuildableDef def, StatDef stat, ThingDef stuff = null)
 		{
 			return stat.Worker.GetValueAbstract(def, stuff);
 		}
 
-		// Token: 0x06003745 RID: 14149 RVA: 0x001D87F4 File Offset: 0x001D6BF4
+		// Token: 0x0600373E RID: 14142 RVA: 0x001D89F0 File Offset: 0x001D6DF0
 		public static bool StatBaseDefined(this BuildableDef def, StatDef stat)
 		{
 			bool result;
@@ -40,7 +40,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003746 RID: 14150 RVA: 0x001D8858 File Offset: 0x001D6C58
+		// Token: 0x0600373F RID: 14143 RVA: 0x001D8A54 File Offset: 0x001D6E54
 		public static void SetStatBaseValue(this BuildableDef def, StatDef stat, float newBaseValue)
 		{
 			StatUtility.SetStatValueInList(ref def.statBases, stat, newBaseValue);

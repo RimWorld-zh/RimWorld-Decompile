@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000814 RID: 2068
+	// Token: 0x02000810 RID: 2064
 	public abstract class Dialog_ScenarioList : Dialog_FileList
 	{
-		// Token: 0x06002E26 RID: 11814 RVA: 0x00184C78 File Offset: 0x00183078
+		// Token: 0x06002E1F RID: 11807 RVA: 0x00184E50 File Offset: 0x00183250
 		protected override void ReloadFiles()
 		{
 			this.files.Clear();

@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200079C RID: 1948
+	// Token: 0x02000798 RID: 1944
 	public class Alert_NeedColonistBeds : Alert
 	{
-		// Token: 0x06002B26 RID: 11046 RVA: 0x0016C538 File Offset: 0x0016A938
+		// Token: 0x06002B1F RID: 11039 RVA: 0x0016C710 File Offset: 0x0016AB10
 		public Alert_NeedColonistBeds()
 		{
 			this.defaultLabel = "NeedColonistBeds".Translate();
@@ -15,7 +15,7 @@ namespace RimWorld
 			this.defaultPriority = AlertPriority.High;
 		}
 
-		// Token: 0x06002B27 RID: 11047 RVA: 0x0016C568 File Offset: 0x0016A968
+		// Token: 0x06002B20 RID: 11040 RVA: 0x0016C740 File Offset: 0x0016AB40
 		public override AlertReport GetReport()
 		{
 			AlertReport result;
@@ -38,7 +38,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B28 RID: 11048 RVA: 0x0016C5D8 File Offset: 0x0016A9D8
+		// Token: 0x06002B21 RID: 11041 RVA: 0x0016C7B0 File Offset: 0x0016ABB0
 		private bool NeedColonistBeds(Map map)
 		{
 			bool result;

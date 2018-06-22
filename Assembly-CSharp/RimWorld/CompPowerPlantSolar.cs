@@ -9,7 +9,7 @@ namespace RimWorld
 	public class CompPowerPlantSolar : CompPowerPlant
 	{
 		// Token: 0x17000276 RID: 630
-		// (get) Token: 0x06001237 RID: 4663 RVA: 0x0009E118 File Offset: 0x0009C518
+		// (get) Token: 0x06001237 RID: 4663 RVA: 0x0009E2FC File Offset: 0x0009C6FC
 		protected override float DesiredPowerOutput
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000277 RID: 631
-		// (get) Token: 0x06001238 RID: 4664 RVA: 0x0009E158 File Offset: 0x0009C558
+		// (get) Token: 0x06001238 RID: 4664 RVA: 0x0009E33C File Offset: 0x0009C73C
 		private float RoofedPowerOutputFactor
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001239 RID: 4665 RVA: 0x0009E1F0 File Offset: 0x0009C5F0
+		// Token: 0x06001239 RID: 4665 RVA: 0x0009E3D4 File Offset: 0x0009C7D4
 		public override void PostDraw()
 		{
 			base.PostDraw();
@@ -55,19 +55,19 @@ namespace RimWorld
 			GenDraw.DrawFillableBar(r);
 		}
 
-		// Token: 0x04000B08 RID: 2824
+		// Token: 0x04000B09 RID: 2825
 		private const float FullSunPower = 1700f;
 
-		// Token: 0x04000B09 RID: 2825
+		// Token: 0x04000B0A RID: 2826
 		private const float NightPower = 0f;
 
-		// Token: 0x04000B0A RID: 2826
+		// Token: 0x04000B0B RID: 2827
 		private static readonly Vector2 BarSize = new Vector2(2.3f, 0.14f);
 
-		// Token: 0x04000B0B RID: 2827
+		// Token: 0x04000B0C RID: 2828
 		private static readonly Material PowerPlantSolarBarFilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.5f, 0.475f, 0.1f), false);
 
-		// Token: 0x04000B0C RID: 2828
+		// Token: 0x04000B0D RID: 2829
 		private static readonly Material PowerPlantSolarBarUnfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.15f, 0.15f, 0.15f), false);
 	}
 }

@@ -6,11 +6,11 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000E6A RID: 3690
+	// Token: 0x02000E69 RID: 3689
 	internal class Command_VerbTarget : Command
 	{
-		// Token: 0x17000DA4 RID: 3492
-		// (get) Token: 0x060056CF RID: 22223 RVA: 0x002CAAD0 File Offset: 0x002C8ED0
+		// Token: 0x17000DA7 RID: 3495
+		// (get) Token: 0x060056EF RID: 22255 RVA: 0x002CC6E0 File Offset: 0x002CAAE0
 		public override Color IconDrawColor
 		{
 			get
@@ -28,7 +28,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056D0 RID: 22224 RVA: 0x002CAB14 File Offset: 0x002C8F14
+		// Token: 0x060056F0 RID: 22256 RVA: 0x002CC724 File Offset: 0x002CAB24
 		public override void GizmoUpdateOnMouseover()
 		{
 			this.verb.verbProps.DrawRadiusRing(this.verb.caster.Position);
@@ -41,7 +41,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056D1 RID: 22225 RVA: 0x002CABB8 File Offset: 0x002C8FB8
+		// Token: 0x060056F1 RID: 22257 RVA: 0x002CC7C8 File Offset: 0x002CABC8
 		public override void MergeWith(Gizmo other)
 		{
 			base.MergeWith(other);
@@ -64,7 +64,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056D2 RID: 22226 RVA: 0x002CAC34 File Offset: 0x002C9034
+		// Token: 0x060056F2 RID: 22258 RVA: 0x002CC844 File Offset: 0x002CAC44
 		public override void ProcessInput(Event ev)
 		{
 			base.ProcessInput(ev);
@@ -84,10 +84,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003986 RID: 14726
+		// Token: 0x04003995 RID: 14741
 		public Verb verb;
 
-		// Token: 0x04003987 RID: 14727
+		// Token: 0x04003996 RID: 14742
 		private List<Verb> groupedVerbs;
 	}
 }

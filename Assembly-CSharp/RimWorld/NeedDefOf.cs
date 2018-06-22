@@ -2,23 +2,23 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200091A RID: 2330
+	// Token: 0x02000916 RID: 2326
 	[DefOf]
 	public static class NeedDefOf
 	{
-		// Token: 0x06003625 RID: 13861 RVA: 0x001D06F1 File Offset: 0x001CEAF1
+		// Token: 0x0600361E RID: 13854 RVA: 0x001D08D9 File Offset: 0x001CECD9
 		static NeedDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(NeedDefOf));
 		}
 
-		// Token: 0x04001E97 RID: 7831
+		// Token: 0x04001E95 RID: 7829
 		public static NeedDef Food;
 
-		// Token: 0x04001E98 RID: 7832
+		// Token: 0x04001E96 RID: 7830
 		public static NeedDef Rest;
 
-		// Token: 0x04001E99 RID: 7833
+		// Token: 0x04001E97 RID: 7831
 		public static NeedDef Joy;
 	}
 }

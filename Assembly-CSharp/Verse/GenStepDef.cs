@@ -3,23 +3,23 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000B40 RID: 2880
+	// Token: 0x02000B3C RID: 2876
 	public class GenStepDef : Def
 	{
-		// Token: 0x06003F34 RID: 16180 RVA: 0x00214190 File Offset: 0x00212590
+		// Token: 0x06003F33 RID: 16179 RVA: 0x002147A8 File Offset: 0x00212BA8
 		public override void PostLoad()
 		{
 			base.PostLoad();
 			this.genStep.def = this;
 		}
 
-		// Token: 0x0400296D RID: 10605
+		// Token: 0x0400296A RID: 10602
 		public SiteDefBase linkWithSite;
 
-		// Token: 0x0400296E RID: 10606
+		// Token: 0x0400296B RID: 10603
 		public float order;
 
-		// Token: 0x0400296F RID: 10607
+		// Token: 0x0400296C RID: 10604
 		public GenStep genStep;
 	}
 }

@@ -10,7 +10,7 @@ namespace RimWorld
 	// Token: 0x02000378 RID: 888
 	public static class StorytellerUtility
 	{
-		// Token: 0x06000F55 RID: 3925 RVA: 0x00081CB8 File Offset: 0x000800B8
+		// Token: 0x06000F55 RID: 3925 RVA: 0x00081EA4 File Offset: 0x000802A4
 		public static IncidentParms DefaultParmsNow(IncidentCategoryDef incCat, IIncidentTarget target)
 		{
 			if (incCat == null)
@@ -52,7 +52,7 @@ namespace RimWorld
 			return incidentParms;
 		}
 
-		// Token: 0x06000F56 RID: 3926 RVA: 0x00081DE0 File Offset: 0x000801E0
+		// Token: 0x06000F56 RID: 3926 RVA: 0x00081FCC File Offset: 0x000803CC
 		public static float DefaultThreatPointsNow(IIncidentTarget target)
 		{
 			float num = target.PlayerWealthForStoryteller;
@@ -87,7 +87,7 @@ namespace RimWorld
 			return StorytellerUtility.PostProcessCurve.Evaluate(num5);
 		}
 
-		// Token: 0x06000F57 RID: 3927 RVA: 0x00081F94 File Offset: 0x00080394
+		// Token: 0x06000F57 RID: 3927 RVA: 0x00082180 File Offset: 0x00080580
 		public static float AllyIncidentMTBMultiplier(bool enoughIfNonHostile)
 		{
 			List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;
@@ -120,7 +120,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000F58 RID: 3928 RVA: 0x00082078 File Offset: 0x00080478
+		// Token: 0x06000F58 RID: 3928 RVA: 0x00082264 File Offset: 0x00080664
 		public static void ShowFutureIncidentsDebugLogFloatMenu(bool currentMapOnly)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
@@ -140,7 +140,7 @@ namespace RimWorld
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06000F59 RID: 3929 RVA: 0x00082140 File Offset: 0x00080540
+		// Token: 0x06000F59 RID: 3929 RVA: 0x0008232C File Offset: 0x0008072C
 		public static void DebugLogTestFutureIncidents(bool currentMapOnly, StorytellerComp onlyThisComp = null)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -219,7 +219,7 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06000F5A RID: 3930 RVA: 0x0008252C File Offset: 0x0008092C
+		// Token: 0x06000F5A RID: 3930 RVA: 0x00082718 File Offset: 0x00080B18
 		public static void DebugGetFutureIncidents(int numTestDays, bool currentMapOnly, out Dictionary<IIncidentTarget, int> incCountsForTarget, out int[] incCountsForComp, out List<Pair<IncidentDef, IncidentParms>> allIncidents, out int threatBigCount, StringBuilder incDebugInfo = null, StorytellerComp onlyThisComp = null)
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -289,7 +289,7 @@ namespace RimWorld
 			StorytellerUtility.tmpOldStoryStates.Clear();
 		}
 
-		// Token: 0x06000F5B RID: 3931 RVA: 0x00082880 File Offset: 0x00080C80
+		// Token: 0x06000F5B RID: 3931 RVA: 0x00082A6C File Offset: 0x00080E6C
 		public static void DebugLogTestIncidentTargets()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -306,25 +306,25 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x04000962 RID: 2402
+		// Token: 0x04000964 RID: 2404
 		private const float PointsPer1000Wealth = 7.8f;
 
-		// Token: 0x04000963 RID: 2403
+		// Token: 0x04000965 RID: 2405
 		public const float BuildingWealthFactor = 0.5f;
 
-		// Token: 0x04000964 RID: 2404
+		// Token: 0x04000966 RID: 2406
 		private const float PointsPerColonist = 34f;
 
-		// Token: 0x04000965 RID: 2405
+		// Token: 0x04000967 RID: 2407
 		private const float PointsPerTameAnimalCombatPower = 0.09f;
 
-		// Token: 0x04000966 RID: 2406
+		// Token: 0x04000968 RID: 2408
 		private const float PointsPerPlayerPawnFactorInContainer = 0.3f;
 
-		// Token: 0x04000967 RID: 2407
+		// Token: 0x04000969 RID: 2409
 		private const float PointsPerPlayerPawnHealthSummaryLerpAmount = 0.5f;
 
-		// Token: 0x04000968 RID: 2408
+		// Token: 0x0400096A RID: 2410
 		private static readonly SimpleCurve PostProcessCurve = new SimpleCurve
 		{
 			{
@@ -357,13 +357,13 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x04000969 RID: 2409
+		// Token: 0x0400096B RID: 2411
 		public const float CaravanWealthPointsFactor = 0.5f;
 
-		// Token: 0x0400096A RID: 2410
+		// Token: 0x0400096C RID: 2412
 		public static readonly FloatRange CaravanPointsRandomFactorRange = new FloatRange(0.6f, 1f);
 
-		// Token: 0x0400096B RID: 2411
+		// Token: 0x0400096D RID: 2413
 		private static Dictionary<IIncidentTarget, StoryState> tmpOldStoryStates = new Dictionary<IIncidentTarget, StoryState>();
 	}
 }

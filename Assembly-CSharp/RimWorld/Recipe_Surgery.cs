@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200046F RID: 1135
+	// Token: 0x0200046B RID: 1131
 	public class Recipe_Surgery : RecipeWorker
 	{
-		// Token: 0x060013E8 RID: 5096 RVA: 0x000ABE24 File Offset: 0x000AA224
+		// Token: 0x060013DF RID: 5087 RVA: 0x000ABE34 File Offset: 0x000AA234
 		protected bool CheckSurgeryFail(Pawn surgeon, Pawn patient, List<Thing> ingredients, BodyPartRecord part, Bill bill)
 		{
 			float num = 1f;
@@ -89,7 +89,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060013E9 RID: 5097 RVA: 0x000AC07D File Offset: 0x000AA47D
+		// Token: 0x060013E0 RID: 5088 RVA: 0x000AC08D File Offset: 0x000AA48D
 		private void TryGainBotchedSurgeryThought(Pawn patient, Pawn surgeon)
 		{
 			if (patient.RaceProps.Humanlike)
@@ -98,7 +98,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060013EA RID: 5098 RVA: 0x000AC0B8 File Offset: 0x000AA4B8
+		// Token: 0x060013E1 RID: 5089 RVA: 0x000AC0C8 File Offset: 0x000AA4C8
 		private float GetAverageMedicalPotency(List<Thing> ingredients, Bill bill)
 		{
 			Bill_Medical bill_Medical = bill as Bill_Medical;
@@ -139,16 +139,16 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04000BF8 RID: 3064
+		// Token: 0x04000BF5 RID: 3061
 		private const float CatastrophicFailChance = 0.5f;
 
-		// Token: 0x04000BF9 RID: 3065
+		// Token: 0x04000BF6 RID: 3062
 		private const float RidiculousFailChanceFromCatastrophic = 0.1f;
 
-		// Token: 0x04000BFA RID: 3066
+		// Token: 0x04000BF7 RID: 3063
 		private const float InspiredSurgeryFailChanceFactor = 0.1f;
 
-		// Token: 0x04000BFB RID: 3067
+		// Token: 0x04000BF8 RID: 3064
 		private static readonly SimpleCurve MedicineMedicalPotencyToSurgeryChanceFactor = new SimpleCurve
 		{
 			{

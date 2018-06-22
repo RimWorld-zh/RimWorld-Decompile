@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CED RID: 3309
+	// Token: 0x02000CEA RID: 3306
 	public class DamageFlasher
 	{
-		// Token: 0x060048C6 RID: 18630 RVA: 0x00262725 File Offset: 0x00260B25
+		// Token: 0x060048D7 RID: 18647 RVA: 0x00263B3D File Offset: 0x00261F3D
 		public DamageFlasher(Pawn pawn)
 		{
 		}
 
-		// Token: 0x17000B7E RID: 2942
-		// (get) Token: 0x060048C7 RID: 18631 RVA: 0x0026273C File Offset: 0x00260B3C
+		// Token: 0x17000B80 RID: 2944
+		// (get) Token: 0x060048D8 RID: 18648 RVA: 0x00263B54 File Offset: 0x00261F54
 		private int DamageFlashTicksLeft
 		{
 			get
@@ -21,8 +21,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B7F RID: 2943
-		// (get) Token: 0x060048C8 RID: 18632 RVA: 0x00262768 File Offset: 0x00260B68
+		// Token: 0x17000B81 RID: 2945
+		// (get) Token: 0x060048D9 RID: 18649 RVA: 0x00263B80 File Offset: 0x00261F80
 		public bool FlashingNowOrRecently
 		{
 			get
@@ -31,13 +31,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048C9 RID: 18633 RVA: 0x0026278C File Offset: 0x00260B8C
+		// Token: 0x060048DA RID: 18650 RVA: 0x00263BA4 File Offset: 0x00261FA4
 		public Material GetDamagedMat(Material baseMat)
 		{
 			return DamagedMatPool.GetDamageFlashMat(baseMat, (float)this.DamageFlashTicksLeft / 16f);
 		}
 
-		// Token: 0x060048CA RID: 18634 RVA: 0x002627B4 File Offset: 0x00260BB4
+		// Token: 0x060048DB RID: 18651 RVA: 0x00263BCC File Offset: 0x00261FCC
 		public void Notify_DamageApplied(DamageInfo dinfo)
 		{
 			if (dinfo.Def.harmsHealth)
@@ -46,10 +46,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003148 RID: 12616
+		// Token: 0x04003153 RID: 12627
 		private int lastDamageTick = -9999;
 
-		// Token: 0x04003149 RID: 12617
+		// Token: 0x04003154 RID: 12628
 		private const int DamagedMatTicksTotal = 16;
 	}
 }

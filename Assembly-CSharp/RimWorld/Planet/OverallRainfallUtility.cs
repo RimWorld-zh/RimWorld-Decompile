@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200057B RID: 1403
+	// Token: 0x02000577 RID: 1399
 	public static class OverallRainfallUtility
 	{
 		// Token: 0x170003E1 RID: 993
-		// (get) Token: 0x06001AD6 RID: 6870 RVA: 0x000E658C File Offset: 0x000E498C
+		// (get) Token: 0x06001ACD RID: 6861 RVA: 0x000E65E0 File Offset: 0x000E49E0
 		public static int EnumValuesCount
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001AD7 RID: 6871 RVA: 0x000E65C8 File Offset: 0x000E49C8
+		// Token: 0x06001ACE RID: 6862 RVA: 0x000E661C File Offset: 0x000E4A1C
 		public static SimpleCurve GetRainfallCurve(this OverallRainfall overallRainfall)
 		{
 			switch (overallRainfall)
@@ -41,10 +41,10 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		// Token: 0x04000F96 RID: 3990
+		// Token: 0x04000F93 RID: 3987
 		private static int cachedEnumValuesCount = -1;
 
-		// Token: 0x04000F97 RID: 3991
+		// Token: 0x04000F94 RID: 3988
 		private static readonly SimpleCurve Curve_AlmostNone = new SimpleCurve
 		{
 			{
@@ -69,7 +69,7 @@ namespace RimWorld.Planet
 			}
 		};
 
-		// Token: 0x04000F98 RID: 3992
+		// Token: 0x04000F95 RID: 3989
 		private static readonly SimpleCurve Curve_Little = new SimpleCurve
 		{
 			{
@@ -90,7 +90,7 @@ namespace RimWorld.Planet
 			}
 		};
 
-		// Token: 0x04000F99 RID: 3993
+		// Token: 0x04000F96 RID: 3990
 		private static readonly SimpleCurve Curve_LittleBitLess = new SimpleCurve
 		{
 			{
@@ -115,7 +115,7 @@ namespace RimWorld.Planet
 			}
 		};
 
-		// Token: 0x04000F9A RID: 3994
+		// Token: 0x04000F97 RID: 3991
 		private static readonly SimpleCurve Curve_LittleBitMore = new SimpleCurve
 		{
 			{
@@ -136,7 +136,7 @@ namespace RimWorld.Planet
 			}
 		};
 
-		// Token: 0x04000F9B RID: 3995
+		// Token: 0x04000F98 RID: 3992
 		private static readonly SimpleCurve Curve_High = new SimpleCurve
 		{
 			{
@@ -169,7 +169,7 @@ namespace RimWorld.Planet
 			}
 		};
 
-		// Token: 0x04000F9C RID: 3996
+		// Token: 0x04000F99 RID: 3993
 		private static readonly SimpleCurve Curve_VeryHigh = new SimpleCurve
 		{
 			{

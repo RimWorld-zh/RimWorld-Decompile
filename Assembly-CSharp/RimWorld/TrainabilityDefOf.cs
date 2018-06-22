@@ -3,26 +3,26 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200095E RID: 2398
+	// Token: 0x0200095A RID: 2394
 	[DefOf]
 	public static class TrainabilityDefOf
 	{
-		// Token: 0x06003669 RID: 13929 RVA: 0x001D0BB9 File Offset: 0x001CEFB9
+		// Token: 0x06003662 RID: 13922 RVA: 0x001D0DA1 File Offset: 0x001CF1A1
 		static TrainabilityDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(TrainabilityDefOf));
 		}
 
-		// Token: 0x040022AA RID: 8874
+		// Token: 0x040022A8 RID: 8872
 		public static TrainabilityDef None;
 
-		// Token: 0x040022AB RID: 8875
+		// Token: 0x040022A9 RID: 8873
 		public static TrainabilityDef Simple;
 
-		// Token: 0x040022AC RID: 8876
+		// Token: 0x040022AA RID: 8874
 		public static TrainabilityDef Intermediate;
 
-		// Token: 0x040022AD RID: 8877
+		// Token: 0x040022AB RID: 8875
 		public static TrainabilityDef Advanced;
 	}
 }

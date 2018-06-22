@@ -6,20 +6,20 @@ namespace Verse
 	// Token: 0x02000EF4 RID: 3828
 	public struct Rot4 : IEquatable<Rot4>
 	{
-		// Token: 0x06005B4E RID: 23374 RVA: 0x002E8717 File Offset: 0x002E6B17
+		// Token: 0x06005B76 RID: 23414 RVA: 0x002EA74B File Offset: 0x002E8B4B
 		public Rot4(byte newRot)
 		{
 			this.rotInt = newRot;
 		}
 
-		// Token: 0x06005B4F RID: 23375 RVA: 0x002E8721 File Offset: 0x002E6B21
+		// Token: 0x06005B77 RID: 23415 RVA: 0x002EA755 File Offset: 0x002E8B55
 		public Rot4(int newRot)
 		{
 			this.rotInt = (byte)(newRot % 4);
 		}
 
-		// Token: 0x17000E89 RID: 3721
-		// (get) Token: 0x06005B50 RID: 23376 RVA: 0x002E8730 File Offset: 0x002E6B30
+		// Token: 0x17000E8D RID: 3725
+		// (get) Token: 0x06005B78 RID: 23416 RVA: 0x002EA764 File Offset: 0x002E8B64
 		public bool IsValid
 		{
 			get
@@ -28,9 +28,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E8A RID: 3722
-		// (get) Token: 0x06005B51 RID: 23377 RVA: 0x002E8750 File Offset: 0x002E6B50
-		// (set) Token: 0x06005B52 RID: 23378 RVA: 0x002E876B File Offset: 0x002E6B6B
+		// Token: 0x17000E8E RID: 3726
+		// (get) Token: 0x06005B79 RID: 23417 RVA: 0x002EA784 File Offset: 0x002E8B84
+		// (set) Token: 0x06005B7A RID: 23418 RVA: 0x002EA79F File Offset: 0x002E8B9F
 		public byte AsByte
 		{
 			get
@@ -43,9 +43,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E8B RID: 3723
-		// (get) Token: 0x06005B53 RID: 23379 RVA: 0x002E8778 File Offset: 0x002E6B78
-		// (set) Token: 0x06005B54 RID: 23380 RVA: 0x002E8793 File Offset: 0x002E6B93
+		// Token: 0x17000E8F RID: 3727
+		// (get) Token: 0x06005B7B RID: 23419 RVA: 0x002EA7AC File Offset: 0x002E8BAC
+		// (set) Token: 0x06005B7C RID: 23420 RVA: 0x002EA7C7 File Offset: 0x002E8BC7
 		public int AsInt
 		{
 			get
@@ -62,8 +62,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E8C RID: 3724
-		// (get) Token: 0x06005B55 RID: 23381 RVA: 0x002E87B0 File Offset: 0x002E6BB0
+		// Token: 0x17000E90 RID: 3728
+		// (get) Token: 0x06005B7D RID: 23421 RVA: 0x002EA7E4 File Offset: 0x002E8BE4
 		public float AsAngle
 		{
 			get
@@ -91,8 +91,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E8D RID: 3725
-		// (get) Token: 0x06005B56 RID: 23382 RVA: 0x002E8818 File Offset: 0x002E6C18
+		// Token: 0x17000E91 RID: 3729
+		// (get) Token: 0x06005B7E RID: 23422 RVA: 0x002EA84C File Offset: 0x002E8C4C
 		public Quaternion AsQuat
 		{
 			get
@@ -121,8 +121,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E8E RID: 3726
-		// (get) Token: 0x06005B57 RID: 23383 RVA: 0x002E88AC File Offset: 0x002E6CAC
+		// Token: 0x17000E92 RID: 3730
+		// (get) Token: 0x06005B7F RID: 23423 RVA: 0x002EA8E0 File Offset: 0x002E8CE0
 		public bool IsHorizontal
 		{
 			get
@@ -131,8 +131,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E8F RID: 3727
-		// (get) Token: 0x06005B58 RID: 23384 RVA: 0x002E88DC File Offset: 0x002E6CDC
+		// Token: 0x17000E93 RID: 3731
+		// (get) Token: 0x06005B80 RID: 23424 RVA: 0x002EA910 File Offset: 0x002E8D10
 		public static Rot4 North
 		{
 			get
@@ -141,8 +141,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E90 RID: 3728
-		// (get) Token: 0x06005B59 RID: 23385 RVA: 0x002E88F8 File Offset: 0x002E6CF8
+		// Token: 0x17000E94 RID: 3732
+		// (get) Token: 0x06005B81 RID: 23425 RVA: 0x002EA92C File Offset: 0x002E8D2C
 		public static Rot4 East
 		{
 			get
@@ -151,8 +151,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E91 RID: 3729
-		// (get) Token: 0x06005B5A RID: 23386 RVA: 0x002E8914 File Offset: 0x002E6D14
+		// Token: 0x17000E95 RID: 3733
+		// (get) Token: 0x06005B82 RID: 23426 RVA: 0x002EA948 File Offset: 0x002E8D48
 		public static Rot4 South
 		{
 			get
@@ -161,8 +161,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E92 RID: 3730
-		// (get) Token: 0x06005B5B RID: 23387 RVA: 0x002E8930 File Offset: 0x002E6D30
+		// Token: 0x17000E96 RID: 3734
+		// (get) Token: 0x06005B83 RID: 23427 RVA: 0x002EA964 File Offset: 0x002E8D64
 		public static Rot4 West
 		{
 			get
@@ -171,8 +171,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E93 RID: 3731
-		// (get) Token: 0x06005B5C RID: 23388 RVA: 0x002E894C File Offset: 0x002E6D4C
+		// Token: 0x17000E97 RID: 3735
+		// (get) Token: 0x06005B84 RID: 23428 RVA: 0x002EA980 File Offset: 0x002E8D80
 		public static Rot4 Random
 		{
 			get
@@ -181,8 +181,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E94 RID: 3732
-		// (get) Token: 0x06005B5D RID: 23389 RVA: 0x002E8970 File Offset: 0x002E6D70
+		// Token: 0x17000E98 RID: 3736
+		// (get) Token: 0x06005B85 RID: 23429 RVA: 0x002EA9A4 File Offset: 0x002E8DA4
 		public static Rot4 Invalid
 		{
 			get
@@ -194,8 +194,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E95 RID: 3733
-		// (get) Token: 0x06005B5E RID: 23390 RVA: 0x002E899C File Offset: 0x002E6D9C
+		// Token: 0x17000E99 RID: 3737
+		// (get) Token: 0x06005B86 RID: 23430 RVA: 0x002EA9D0 File Offset: 0x002E8DD0
 		public IntVec3 FacingCell
 		{
 			get
@@ -223,8 +223,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E96 RID: 3734
-		// (get) Token: 0x06005B5F RID: 23391 RVA: 0x002E8A14 File Offset: 0x002E6E14
+		// Token: 0x17000E9A RID: 3738
+		// (get) Token: 0x06005B87 RID: 23431 RVA: 0x002EAA48 File Offset: 0x002E8E48
 		public IntVec3 RighthandCell
 		{
 			get
@@ -252,8 +252,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E97 RID: 3735
-		// (get) Token: 0x06005B60 RID: 23392 RVA: 0x002E8A8C File Offset: 0x002E6E8C
+		// Token: 0x17000E9B RID: 3739
+		// (get) Token: 0x06005B88 RID: 23432 RVA: 0x002EAAC0 File Offset: 0x002E8EC0
 		public Rot4 Opposite
 		{
 			get
@@ -281,7 +281,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B61 RID: 23393 RVA: 0x002E8AFC File Offset: 0x002E6EFC
+		// Token: 0x06005B89 RID: 23433 RVA: 0x002EAB30 File Offset: 0x002E8F30
 		public void Rotate(RotationDirection RotDir)
 		{
 			if (RotDir == RotationDirection.Clockwise)
@@ -294,7 +294,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B62 RID: 23394 RVA: 0x002E8B2C File Offset: 0x002E6F2C
+		// Token: 0x06005B8A RID: 23434 RVA: 0x002EAB60 File Offset: 0x002E8F60
 		public Rot4 Rotated(RotationDirection RotDir)
 		{
 			Rot4 result = this;
@@ -302,7 +302,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005B63 RID: 23395 RVA: 0x002E8B54 File Offset: 0x002E6F54
+		// Token: 0x06005B8B RID: 23435 RVA: 0x002EAB88 File Offset: 0x002E8F88
 		public static Rot4 FromAngleFlat(float angle)
 		{
 			angle = GenMath.PositiveMod(angle, 360f);
@@ -330,7 +330,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005B64 RID: 23396 RVA: 0x002E8BD4 File Offset: 0x002E6FD4
+		// Token: 0x06005B8C RID: 23436 RVA: 0x002EAC08 File Offset: 0x002E9008
 		public static Rot4 FromIntVec3(IntVec3 offset)
 		{
 			Rot4 result;
@@ -358,25 +358,25 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005B65 RID: 23397 RVA: 0x002E8C64 File Offset: 0x002E7064
+		// Token: 0x06005B8D RID: 23437 RVA: 0x002EAC98 File Offset: 0x002E9098
 		public static Rot4 FromIntVec2(IntVec2 offset)
 		{
 			return Rot4.FromIntVec3(offset.ToIntVec3);
 		}
 
-		// Token: 0x06005B66 RID: 23398 RVA: 0x002E8C88 File Offset: 0x002E7088
+		// Token: 0x06005B8E RID: 23438 RVA: 0x002EACBC File Offset: 0x002E90BC
 		public static bool operator ==(Rot4 a, Rot4 b)
 		{
 			return a.AsInt == b.AsInt;
 		}
 
-		// Token: 0x06005B67 RID: 23399 RVA: 0x002E8CB0 File Offset: 0x002E70B0
+		// Token: 0x06005B8F RID: 23439 RVA: 0x002EACE4 File Offset: 0x002E90E4
 		public static bool operator !=(Rot4 a, Rot4 b)
 		{
 			return a.AsInt != b.AsInt;
 		}
 
-		// Token: 0x06005B68 RID: 23400 RVA: 0x002E8CD8 File Offset: 0x002E70D8
+		// Token: 0x06005B90 RID: 23440 RVA: 0x002EAD0C File Offset: 0x002E910C
 		public override int GetHashCode()
 		{
 			int result;
@@ -401,13 +401,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005B69 RID: 23401 RVA: 0x002E8D44 File Offset: 0x002E7144
+		// Token: 0x06005B91 RID: 23441 RVA: 0x002EAD78 File Offset: 0x002E9178
 		public override string ToString()
 		{
 			return this.rotInt.ToString();
 		}
 
-		// Token: 0x06005B6A RID: 23402 RVA: 0x002E8D6C File Offset: 0x002E716C
+		// Token: 0x06005B92 RID: 23442 RVA: 0x002EADA0 File Offset: 0x002E91A0
 		public string ToStringHuman()
 		{
 			string result;
@@ -432,7 +432,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005B6B RID: 23403 RVA: 0x002E8DE8 File Offset: 0x002E71E8
+		// Token: 0x06005B93 RID: 23443 RVA: 0x002EAE1C File Offset: 0x002E921C
 		public static Rot4 FromString(string str)
 		{
 			int num;
@@ -473,19 +473,19 @@ namespace Verse
 			return new Rot4(newRot);
 		}
 
-		// Token: 0x06005B6C RID: 23404 RVA: 0x002E8E9C File Offset: 0x002E729C
+		// Token: 0x06005B94 RID: 23444 RVA: 0x002EAED0 File Offset: 0x002E92D0
 		public override bool Equals(object obj)
 		{
 			return obj is Rot4 && this.Equals((Rot4)obj);
 		}
 
-		// Token: 0x06005B6D RID: 23405 RVA: 0x002E8ED0 File Offset: 0x002E72D0
+		// Token: 0x06005B95 RID: 23445 RVA: 0x002EAF04 File Offset: 0x002E9304
 		public bool Equals(Rot4 other)
 		{
 			return this.rotInt == other.rotInt;
 		}
 
-		// Token: 0x04003C98 RID: 15512
+		// Token: 0x04003CAB RID: 15531
 		private byte rotInt;
 	}
 }

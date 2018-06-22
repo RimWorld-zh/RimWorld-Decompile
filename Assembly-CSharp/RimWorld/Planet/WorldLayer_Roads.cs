@@ -8,10 +8,10 @@ using Verse.Noise;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000595 RID: 1429
+	// Token: 0x02000591 RID: 1425
 	public class WorldLayer_Roads : WorldLayer_Paths
 	{
-		// Token: 0x06001B3F RID: 6975 RVA: 0x000EA650 File Offset: 0x000E8A50
+		// Token: 0x06001B36 RID: 6966 RVA: 0x000EA6A4 File Offset: 0x000E8AA4
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();
@@ -92,7 +92,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001B40 RID: 6976 RVA: 0x000EA67C File Offset: 0x000E8A7C
+		// Token: 0x06001B37 RID: 6967 RVA: 0x000EA6D0 File Offset: 0x000E8AD0
 		public override Vector3 FinalizePoint(Vector3 inp, float distortionFrequency, float distortionIntensity)
 		{
 			Vector3 coordinate = inp * distortionFrequency;
@@ -107,13 +107,13 @@ namespace RimWorld.Planet
 			return inp + inp.normalized * 0.012f;
 		}
 
-		// Token: 0x04001016 RID: 4118
+		// Token: 0x04001013 RID: 4115
 		private ModuleBase roadDisplacementX = new Perlin(1.0, 2.0, 0.5, 3, 74173887, QualityMode.Medium);
 
-		// Token: 0x04001017 RID: 4119
+		// Token: 0x04001014 RID: 4116
 		private ModuleBase roadDisplacementY = new Perlin(1.0, 2.0, 0.5, 3, 67515931, QualityMode.Medium);
 
-		// Token: 0x04001018 RID: 4120
+		// Token: 0x04001015 RID: 4117
 		private ModuleBase roadDisplacementZ = new Perlin(1.0, 2.0, 0.5, 3, 87116801, QualityMode.Medium);
 	}
 }

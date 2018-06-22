@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000650 RID: 1616
+	// Token: 0x0200064C RID: 1612
 	public class ScenPart_ScatterThingsNearPlayerStart : ScenPart_ScatterThings
 	{
 		// Token: 0x170004EE RID: 1262
-		// (get) Token: 0x06002188 RID: 8584 RVA: 0x0011C694 File Offset: 0x0011AA94
+		// (get) Token: 0x06002180 RID: 8576 RVA: 0x0011C794 File Offset: 0x0011AB94
 		protected override bool NearPlayerStart
 		{
 			get
@@ -17,13 +17,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002189 RID: 8585 RVA: 0x0011C6AC File Offset: 0x0011AAAC
+		// Token: 0x06002181 RID: 8577 RVA: 0x0011C7AC File Offset: 0x0011ABAC
 		public override string Summary(Scenario scen)
 		{
 			return ScenSummaryList.SummaryWithList(scen, "PlayerStartsWith", ScenPart_StartingThing_Defined.PlayerStartWithIntro);
 		}
 
-		// Token: 0x0600218A RID: 8586 RVA: 0x0011C6D4 File Offset: 0x0011AAD4
+		// Token: 0x06002182 RID: 8578 RVA: 0x0011C7D4 File Offset: 0x0011ABD4
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
 			if (tag == "PlayerStartsWith")

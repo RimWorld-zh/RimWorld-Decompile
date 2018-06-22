@@ -4,15 +4,15 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E87 RID: 3719
+	// Token: 0x02000E86 RID: 3718
 	public class Message : IArchivable, IExposable
 	{
-		// Token: 0x060057A3 RID: 22435 RVA: 0x002CF258 File Offset: 0x002CD658
+		// Token: 0x060057C3 RID: 22467 RVA: 0x002D0E68 File Offset: 0x002CF268
 		public Message()
 		{
 		}
 
-		// Token: 0x060057A4 RID: 22436 RVA: 0x002CF278 File Offset: 0x002CD678
+		// Token: 0x060057C4 RID: 22468 RVA: 0x002D0E88 File Offset: 0x002CF288
 		public Message(string text, MessageTypeDef def)
 		{
 			this.text = text;
@@ -23,14 +23,14 @@ namespace Verse
 			this.ID = Rand.Int;
 		}
 
-		// Token: 0x060057A5 RID: 22437 RVA: 0x002CF2DB File Offset: 0x002CD6DB
+		// Token: 0x060057C5 RID: 22469 RVA: 0x002D0EEB File Offset: 0x002CF2EB
 		public Message(string text, MessageTypeDef def, LookTargets lookTargets) : this(text, def)
 		{
 			this.lookTargets = lookTargets;
 		}
 
-		// Token: 0x17000DDF RID: 3551
-		// (get) Token: 0x060057A6 RID: 22438 RVA: 0x002CF2F0 File Offset: 0x002CD6F0
+		// Token: 0x17000DE2 RID: 3554
+		// (get) Token: 0x060057C6 RID: 22470 RVA: 0x002D0F00 File Offset: 0x002CF300
 		protected float Age
 		{
 			get
@@ -39,8 +39,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DE0 RID: 3552
-		// (get) Token: 0x060057A7 RID: 22439 RVA: 0x002CF314 File Offset: 0x002CD714
+		// Token: 0x17000DE3 RID: 3555
+		// (get) Token: 0x060057C7 RID: 22471 RVA: 0x002D0F24 File Offset: 0x002CF324
 		protected float TimeLeft
 		{
 			get
@@ -49,8 +49,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DE1 RID: 3553
-		// (get) Token: 0x060057A8 RID: 22440 RVA: 0x002CF338 File Offset: 0x002CD738
+		// Token: 0x17000DE4 RID: 3556
+		// (get) Token: 0x060057C8 RID: 22472 RVA: 0x002D0F48 File Offset: 0x002CF348
 		public bool Expired
 		{
 			get
@@ -59,8 +59,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DE2 RID: 3554
-		// (get) Token: 0x060057A9 RID: 22441 RVA: 0x002CF360 File Offset: 0x002CD760
+		// Token: 0x17000DE5 RID: 3557
+		// (get) Token: 0x060057C9 RID: 22473 RVA: 0x002D0F70 File Offset: 0x002CF370
 		public float Alpha
 		{
 			get
@@ -78,8 +78,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DE3 RID: 3555
-		// (get) Token: 0x060057AA RID: 22442 RVA: 0x002CF39C File Offset: 0x002CD79C
+		// Token: 0x17000DE6 RID: 3558
+		// (get) Token: 0x060057CA RID: 22474 RVA: 0x002D0FAC File Offset: 0x002CF3AC
 		private static bool ShouldDrawBackground
 		{
 			get
@@ -105,8 +105,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DD8 RID: 3544
-		// (get) Token: 0x060057AB RID: 22443 RVA: 0x002CF400 File Offset: 0x002CD800
+		// Token: 0x17000DDB RID: 3547
+		// (get) Token: 0x060057CB RID: 22475 RVA: 0x002D1010 File Offset: 0x002CF410
 		Texture IArchivable.ArchivedIcon
 		{
 			get
@@ -115,8 +115,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DD9 RID: 3545
-		// (get) Token: 0x060057AC RID: 22444 RVA: 0x002CF418 File Offset: 0x002CD818
+		// Token: 0x17000DDC RID: 3548
+		// (get) Token: 0x060057CC RID: 22476 RVA: 0x002D1028 File Offset: 0x002CF428
 		Color IArchivable.ArchivedIconColor
 		{
 			get
@@ -125,8 +125,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DDA RID: 3546
-		// (get) Token: 0x060057AD RID: 22445 RVA: 0x002CF434 File Offset: 0x002CD834
+		// Token: 0x17000DDD RID: 3549
+		// (get) Token: 0x060057CD RID: 22477 RVA: 0x002D1044 File Offset: 0x002CF444
 		string IArchivable.ArchivedLabel
 		{
 			get
@@ -135,8 +135,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DDB RID: 3547
-		// (get) Token: 0x060057AE RID: 22446 RVA: 0x002CF454 File Offset: 0x002CD854
+		// Token: 0x17000DDE RID: 3550
+		// (get) Token: 0x060057CE RID: 22478 RVA: 0x002D1064 File Offset: 0x002CF464
 		string IArchivable.ArchivedTooltip
 		{
 			get
@@ -145,8 +145,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DDC RID: 3548
-		// (get) Token: 0x060057AF RID: 22447 RVA: 0x002CF470 File Offset: 0x002CD870
+		// Token: 0x17000DDF RID: 3551
+		// (get) Token: 0x060057CF RID: 22479 RVA: 0x002D1080 File Offset: 0x002CF480
 		int IArchivable.CreatedTicksGame
 		{
 			get
@@ -155,8 +155,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DDD RID: 3549
-		// (get) Token: 0x060057B0 RID: 22448 RVA: 0x002CF48C File Offset: 0x002CD88C
+		// Token: 0x17000DE0 RID: 3552
+		// (get) Token: 0x060057D0 RID: 22480 RVA: 0x002D109C File Offset: 0x002CF49C
 		bool IArchivable.CanCullArchivedNow
 		{
 			get
@@ -165,8 +165,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DDE RID: 3550
-		// (get) Token: 0x060057B1 RID: 22449 RVA: 0x002CF4AC File Offset: 0x002CD8AC
+		// Token: 0x17000DE1 RID: 3553
+		// (get) Token: 0x060057D1 RID: 22481 RVA: 0x002D10BC File Offset: 0x002CF4BC
 		LookTargets IArchivable.LookTargets
 		{
 			get
@@ -175,7 +175,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057B2 RID: 22450 RVA: 0x002CF4C8 File Offset: 0x002CD8C8
+		// Token: 0x060057D2 RID: 22482 RVA: 0x002D10D8 File Offset: 0x002CF4D8
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<MessageTypeDef>(ref this.def, "def");
@@ -187,7 +187,7 @@ namespace Verse
 			Scribe_Deep.Look<LookTargets>(ref this.lookTargets, "lookTargets", new object[0]);
 		}
 
-		// Token: 0x060057B3 RID: 22451 RVA: 0x002CF55C File Offset: 0x002CD95C
+		// Token: 0x060057D3 RID: 22483 RVA: 0x002D116C File Offset: 0x002CF56C
 		public Rect CalculateRect(float x, float y)
 		{
 			Text.Font = GameFont.Small;
@@ -200,7 +200,7 @@ namespace Verse
 			return this.lastDrawRect;
 		}
 
-		// Token: 0x060057B4 RID: 22452 RVA: 0x002CF5DC File Offset: 0x002CD9DC
+		// Token: 0x060057D4 RID: 22484 RVA: 0x002D11EC File Offset: 0x002CF5EC
 		public void Draw(int xOffset, int yOffset)
 		{
 			Rect rect = this.CalculateRect((float)xOffset, (float)yOffset);
@@ -241,43 +241,43 @@ namespace Verse
 			}, false, false, 0f);
 		}
 
-		// Token: 0x060057B5 RID: 22453 RVA: 0x002CF63C File Offset: 0x002CDA3C
+		// Token: 0x060057D5 RID: 22485 RVA: 0x002D124C File Offset: 0x002CF64C
 		void IArchivable.OpenArchived()
 		{
 			Find.WindowStack.Add(new Dialog_MessageBox(this.text, null, null, null, null, null, false, null, null));
 		}
 
-		// Token: 0x040039F8 RID: 14840
+		// Token: 0x04003A08 RID: 14856
 		public MessageTypeDef def;
 
-		// Token: 0x040039F9 RID: 14841
+		// Token: 0x04003A09 RID: 14857
 		private int ID;
 
-		// Token: 0x040039FA RID: 14842
+		// Token: 0x04003A0A RID: 14858
 		public string text;
 
-		// Token: 0x040039FB RID: 14843
+		// Token: 0x04003A0B RID: 14859
 		private float startingTime;
 
-		// Token: 0x040039FC RID: 14844
+		// Token: 0x04003A0C RID: 14860
 		public int startingFrame;
 
-		// Token: 0x040039FD RID: 14845
+		// Token: 0x04003A0D RID: 14861
 		public int startingTick;
 
-		// Token: 0x040039FE RID: 14846
+		// Token: 0x04003A0E RID: 14862
 		public LookTargets lookTargets;
 
-		// Token: 0x040039FF RID: 14847
+		// Token: 0x04003A0F RID: 14863
 		private Vector2 cachedSize = new Vector2(-1f, -1f);
 
-		// Token: 0x04003A00 RID: 14848
+		// Token: 0x04003A10 RID: 14864
 		public Rect lastDrawRect;
 
-		// Token: 0x04003A01 RID: 14849
+		// Token: 0x04003A11 RID: 14865
 		private const float DefaultMessageLifespan = 13f;
 
-		// Token: 0x04003A02 RID: 14850
+		// Token: 0x04003A12 RID: 14866
 		private const float FadeoutDuration = 0.6f;
 	}
 }

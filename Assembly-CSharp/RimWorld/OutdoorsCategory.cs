@@ -2,20 +2,20 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000501 RID: 1281
+	// Token: 0x020004FD RID: 1277
 	public enum OutdoorsCategory : byte
 	{
-		// Token: 0x04000D8C RID: 3468
+		// Token: 0x04000D89 RID: 3465
 		Entombed,
-		// Token: 0x04000D8D RID: 3469
+		// Token: 0x04000D8A RID: 3466
 		Trapped,
-		// Token: 0x04000D8E RID: 3470
+		// Token: 0x04000D8B RID: 3467
 		CabinFeverSevere,
-		// Token: 0x04000D8F RID: 3471
+		// Token: 0x04000D8C RID: 3468
 		CabinFeverLight,
-		// Token: 0x04000D90 RID: 3472
+		// Token: 0x04000D8D RID: 3469
 		NeedFreshAir,
-		// Token: 0x04000D91 RID: 3473
+		// Token: 0x04000D8E RID: 3470
 		Free
 	}
 }

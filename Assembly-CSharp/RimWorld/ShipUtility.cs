@@ -7,10 +7,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000751 RID: 1873
+	// Token: 0x0200074D RID: 1869
 	public static class ShipUtility
 	{
-		// Token: 0x0600297F RID: 10623 RVA: 0x001606D0 File Offset: 0x0015EAD0
+		// Token: 0x06002978 RID: 10616 RVA: 0x001608A8 File Offset: 0x0015ECA8
 		public static Dictionary<ThingDef, int> RequiredParts()
 		{
 			if (ShipUtility.requiredParts == null)
@@ -26,7 +26,7 @@ namespace RimWorld
 			return ShipUtility.requiredParts;
 		}
 
-		// Token: 0x06002980 RID: 10624 RVA: 0x00160760 File Offset: 0x0015EB60
+		// Token: 0x06002979 RID: 10617 RVA: 0x00160938 File Offset: 0x0015ED38
 		public static IEnumerable<string> LaunchFailReasons(Building rootBuilding)
 		{
 			List<Building> shipParts = ShipUtility.ShipBuildingsAttachedTo(rootBuilding).ToList<Building>();
@@ -81,7 +81,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002981 RID: 10625 RVA: 0x0016078C File Offset: 0x0015EB8C
+		// Token: 0x0600297A RID: 10618 RVA: 0x00160964 File Offset: 0x0015ED64
 		public static bool HasHibernatingParts(Building rootBuilding)
 		{
 			List<Building> list = ShipUtility.ShipBuildingsAttachedTo(rootBuilding).ToList<Building>();
@@ -96,7 +96,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06002982 RID: 10626 RVA: 0x0016081C File Offset: 0x0015EC1C
+		// Token: 0x0600297B RID: 10619 RVA: 0x001609F4 File Offset: 0x0015EDF4
 		public static void StartupHibernatingParts(Building rootBuilding)
 		{
 			List<Building> list = ShipUtility.ShipBuildingsAttachedTo(rootBuilding).ToList<Building>();
@@ -110,7 +110,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002983 RID: 10627 RVA: 0x001608A0 File Offset: 0x0015ECA0
+		// Token: 0x0600297C RID: 10620 RVA: 0x00160A78 File Offset: 0x0015EE78
 		public static List<Building> ShipBuildingsAttachedTo(Building root)
 		{
 			ShipUtility.closedSet.Clear();
@@ -142,7 +142,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002984 RID: 10628 RVA: 0x001609E0 File Offset: 0x0015EDE0
+		// Token: 0x0600297D RID: 10621 RVA: 0x00160BB8 File Offset: 0x0015EFB8
 		public static IEnumerable<Gizmo> ShipStartupGizmos(Building building)
 		{
 			if (ShipUtility.HasHibernatingParts(building))
@@ -182,13 +182,13 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x04001696 RID: 5782
+		// Token: 0x04001694 RID: 5780
 		private static Dictionary<ThingDef, int> requiredParts;
 
-		// Token: 0x04001697 RID: 5783
+		// Token: 0x04001695 RID: 5781
 		private static List<Building> closedSet = new List<Building>();
 
-		// Token: 0x04001698 RID: 5784
+		// Token: 0x04001696 RID: 5782
 		private static List<Building> openSet = new List<Building>();
 	}
 }

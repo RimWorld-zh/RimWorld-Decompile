@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020000B0 RID: 176
 	public class JobGiver_TakeDrugsForDrugPolicy : ThinkNode_JobGiver
 	{
-		// Token: 0x06000440 RID: 1088 RVA: 0x000324FC File Offset: 0x000308FC
+		// Token: 0x06000440 RID: 1088 RVA: 0x000324D8 File Offset: 0x000308D8
 		public override float GetPriority(Pawn pawn)
 		{
 			DrugPolicy currentPolicy = pawn.drugs.CurrentPolicy;
@@ -22,7 +22,7 @@ namespace RimWorld
 			return 0f;
 		}
 
-		// Token: 0x06000441 RID: 1089 RVA: 0x00032564 File Offset: 0x00030964
+		// Token: 0x06000441 RID: 1089 RVA: 0x00032540 File Offset: 0x00030940
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Profiler.BeginSample("DrugPolicy");
@@ -43,7 +43,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06000442 RID: 1090 RVA: 0x00032600 File Offset: 0x00030A00
+		// Token: 0x06000442 RID: 1090 RVA: 0x000325DC File Offset: 0x000309DC
 		private Thing FindDrugFor(Pawn pawn, ThingDef drugDef)
 		{
 			ThingOwner<Thing> innerContainer = pawn.inventory.innerContainer;
@@ -57,7 +57,7 @@ namespace RimWorld
 			return GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForDef(drugDef), PathEndMode.ClosestTouch, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, (Thing x) => this.DrugValidator(pawn, x), null, 0, -1, false, RegionType.Set_Passable, false);
 		}
 
-		// Token: 0x06000443 RID: 1091 RVA: 0x000326D4 File Offset: 0x00030AD4
+		// Token: 0x06000443 RID: 1091 RVA: 0x000326B0 File Offset: 0x00030AB0
 		private bool DrugValidator(Pawn pawn, Thing drug)
 		{
 			bool result;

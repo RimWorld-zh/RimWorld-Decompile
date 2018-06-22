@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200079D RID: 1949
+	// Token: 0x02000799 RID: 1945
 	public class Alert_HunterLacksRangedWeapon : Alert
 	{
-		// Token: 0x06002B29 RID: 11049 RVA: 0x0016C7CC File Offset: 0x0016ABCC
+		// Token: 0x06002B22 RID: 11042 RVA: 0x0016C9A4 File Offset: 0x0016ADA4
 		public Alert_HunterLacksRangedWeapon()
 		{
 			this.defaultLabel = "HunterLacksWeapon".Translate();
@@ -15,8 +15,8 @@ namespace RimWorld
 			this.defaultPriority = AlertPriority.High;
 		}
 
-		// Token: 0x170006B2 RID: 1714
-		// (get) Token: 0x06002B2A RID: 11050 RVA: 0x0016C7FC File Offset: 0x0016ABFC
+		// Token: 0x170006B3 RID: 1715
+		// (get) Token: 0x06002B23 RID: 11043 RVA: 0x0016C9D4 File Offset: 0x0016ADD4
 		private IEnumerable<Pawn> HuntersWithoutRangedWeapon
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B2B RID: 11051 RVA: 0x0016C820 File Offset: 0x0016AC20
+		// Token: 0x06002B24 RID: 11044 RVA: 0x0016C9F8 File Offset: 0x0016ADF8
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.HuntersWithoutRangedWeapon);

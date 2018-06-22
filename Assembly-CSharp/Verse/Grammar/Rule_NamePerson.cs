@@ -3,11 +3,11 @@ using RimWorld;
 
 namespace Verse.Grammar
 {
-	// Token: 0x02000BED RID: 3053
+	// Token: 0x02000BE9 RID: 3049
 	public class Rule_NamePerson : Rule
 	{
-		// Token: 0x17000A78 RID: 2680
-		// (get) Token: 0x06004290 RID: 17040 RVA: 0x00230948 File Offset: 0x0022ED48
+		// Token: 0x17000A7A RID: 2682
+		// (get) Token: 0x06004292 RID: 17042 RVA: 0x002311FC File Offset: 0x0022F5FC
 		public override float BaseSelectionWeight
 		{
 			get
@@ -16,7 +16,7 @@ namespace Verse.Grammar
 			}
 		}
 
-		// Token: 0x06004291 RID: 17041 RVA: 0x00230964 File Offset: 0x0022ED64
+		// Token: 0x06004293 RID: 17043 RVA: 0x00231218 File Offset: 0x0022F618
 		public override string Generate()
 		{
 			NameBank nameBank = PawnNameDatabaseShuffled.BankOf(PawnNameCategory.HumanStandard);
@@ -28,13 +28,13 @@ namespace Verse.Grammar
 			return nameBank.GetName(PawnNameSlot.First, gender, false);
 		}
 
-		// Token: 0x06004292 RID: 17042 RVA: 0x002309B0 File Offset: 0x0022EDB0
+		// Token: 0x06004294 RID: 17044 RVA: 0x00231264 File Offset: 0x0022F664
 		public override string ToString()
 		{
 			return this.keyword + "->(personname)";
 		}
 
-		// Token: 0x04002D82 RID: 11650
+		// Token: 0x04002D88 RID: 11656
 		public Gender gender;
 	}
 }

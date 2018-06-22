@@ -9,7 +9,7 @@ namespace RimWorld
 	public abstract class WorkGiver_InteractAnimal : WorkGiver_Scanner
 	{
 		// Token: 0x170000D7 RID: 215
-		// (get) Token: 0x060005ED RID: 1517 RVA: 0x0003F6C8 File Offset: 0x0003DAC8
+		// (get) Token: 0x060005ED RID: 1517 RVA: 0x0003F6B4 File Offset: 0x0003DAB4
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060005EE RID: 1518 RVA: 0x0003F6E0 File Offset: 0x0003DAE0
+		// Token: 0x060005EE RID: 1518 RVA: 0x0003F6CC File Offset: 0x0003DACC
 		public static void ResetStaticData()
 		{
 			WorkGiver_InteractAnimal.NoUsableFoodTrans = "NoUsableFood".Translate();
@@ -28,7 +28,7 @@ namespace RimWorld
 			WorkGiver_InteractAnimal.CantInteractAnimalBusyTrans = "CantInteractAnimalBusy".Translate();
 		}
 
-		// Token: 0x060005EF RID: 1519 RVA: 0x0003F73C File Offset: 0x0003DB3C
+		// Token: 0x060005EF RID: 1519 RVA: 0x0003F728 File Offset: 0x0003DB28
 		protected virtual bool CanInteractWithAnimal(Pawn pawn, Pawn animal, bool forced)
 		{
 			LocalTargetInfo target = animal;
@@ -71,7 +71,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060005F0 RID: 1520 RVA: 0x0003F81C File Offset: 0x0003DC1C
+		// Token: 0x060005F0 RID: 1520 RVA: 0x0003F808 File Offset: 0x0003DC08
 		protected bool HasFoodToInteractAnimal(Pawn pawn, Pawn tamee)
 		{
 			ThingOwner<Thing> innerContainer = pawn.inventory.innerContainer;
@@ -101,7 +101,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060005F1 RID: 1521 RVA: 0x0003F904 File Offset: 0x0003DD04
+		// Token: 0x060005F1 RID: 1521 RVA: 0x0003F8F0 File Offset: 0x0003DCF0
 		protected Job TakeFoodForAnimalInteractJob(Pawn pawn, Pawn tamee)
 		{
 			float num = JobDriver_InteractAnimal.RequiredNutritionPerFeed(tamee) * 2f * 4f;

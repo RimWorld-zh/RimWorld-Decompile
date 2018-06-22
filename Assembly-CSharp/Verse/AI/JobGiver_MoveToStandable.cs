@@ -4,10 +4,10 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000ACB RID: 2763
+	// Token: 0x02000AC7 RID: 2759
 	public class JobGiver_MoveToStandable : ThinkNode_JobGiver
 	{
-		// Token: 0x06003D5B RID: 15707 RVA: 0x0020571C File Offset: 0x00203B1C
+		// Token: 0x06003D56 RID: 15702 RVA: 0x00205A40 File Offset: 0x00203E40
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -35,7 +35,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003D5C RID: 15708 RVA: 0x002057E0 File Offset: 0x00203BE0
+		// Token: 0x06003D57 RID: 15703 RVA: 0x00205B04 File Offset: 0x00203F04
 		private Job FindBetterPosition(Pawn pawn)
 		{
 			IntVec3 intVec = RCellFinder.BestOrderedGotoDestNear(pawn.Position, pawn);

@@ -8,7 +8,7 @@ namespace Verse
 	// Token: 0x02000F35 RID: 3893
 	public static class GenCommandLine
 	{
-		// Token: 0x06005DBB RID: 23995 RVA: 0x002F9F5C File Offset: 0x002F835C
+		// Token: 0x06005DE3 RID: 24035 RVA: 0x002FBF98 File Offset: 0x002FA398
 		public static bool CommandLineArgPassed(string key)
 		{
 			string[] commandLineArgs = Environment.GetCommandLineArgs();
@@ -22,7 +22,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06005DBC RID: 23996 RVA: 0x002F9FC0 File Offset: 0x002F83C0
+		// Token: 0x06005DE4 RID: 24036 RVA: 0x002FBFFC File Offset: 0x002FA3FC
 		public static bool TryGetCommandLineArg(string key, out string value)
 		{
 			string[] commandLineArgs = Environment.GetCommandLineArgs();
@@ -53,7 +53,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06005DBD RID: 23997 RVA: 0x002FA060 File Offset: 0x002F8460
+		// Token: 0x06005DE5 RID: 24037 RVA: 0x002FC09C File Offset: 0x002FA49C
 		public static void Restart()
 		{
 			try

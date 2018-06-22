@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008D6 RID: 2262
+	// Token: 0x020008D2 RID: 2258
 	public static class TutorSystem
 	{
-		// Token: 0x17000841 RID: 2113
-		// (get) Token: 0x060033BE RID: 13246 RVA: 0x001BA044 File Offset: 0x001B8444
+		// Token: 0x17000842 RID: 2114
+		// (get) Token: 0x060033B7 RID: 13239 RVA: 0x001BA22C File Offset: 0x001B862C
 		public static bool TutorialMode
 		{
 			get
@@ -17,8 +17,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000842 RID: 2114
-		// (get) Token: 0x060033BF RID: 13247 RVA: 0x001BA084 File Offset: 0x001B8484
+		// Token: 0x17000843 RID: 2115
+		// (get) Token: 0x060033B8 RID: 13240 RVA: 0x001BA26C File Offset: 0x001B866C
 		public static bool AdaptiveTrainingEnabled
 		{
 			get
@@ -27,13 +27,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060033C0 RID: 13248 RVA: 0x001BA0DF File Offset: 0x001B84DF
+		// Token: 0x060033B9 RID: 13241 RVA: 0x001BA2C7 File Offset: 0x001B86C7
 		public static void Notify_Event(string eventTag, IntVec3 cell)
 		{
 			TutorSystem.Notify_Event(new EventPack(eventTag, cell));
 		}
 
-		// Token: 0x060033C1 RID: 13249 RVA: 0x001BA0F0 File Offset: 0x001B84F0
+		// Token: 0x060033BA RID: 13242 RVA: 0x001BA2D8 File Offset: 0x001B86D8
 		public static void Notify_Event(EventPack ep)
 		{
 			if (TutorSystem.TutorialMode)
@@ -61,7 +61,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060033C2 RID: 13250 RVA: 0x001BA20C File Offset: 0x001B860C
+		// Token: 0x060033BB RID: 13243 RVA: 0x001BA3F4 File Offset: 0x001B87F4
 		public static bool AllowAction(EventPack ep)
 		{
 			bool result;

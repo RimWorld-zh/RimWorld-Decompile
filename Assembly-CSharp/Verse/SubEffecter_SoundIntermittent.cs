@@ -6,13 +6,13 @@ namespace Verse
 	// Token: 0x02000F1F RID: 3871
 	public class SubEffecter_SoundIntermittent : SubEffecter
 	{
-		// Token: 0x06005CAD RID: 23725 RVA: 0x002EF3F3 File Offset: 0x002ED7F3
+		// Token: 0x06005CD5 RID: 23765 RVA: 0x002F141F File Offset: 0x002EF81F
 		public SubEffecter_SoundIntermittent(SubEffecterDef def, Effecter parent) : base(def, parent)
 		{
 			this.ticksUntilSound = def.intermittentSoundInterval.RandomInRange;
 		}
 
-		// Token: 0x06005CAE RID: 23726 RVA: 0x002EF410 File Offset: 0x002ED810
+		// Token: 0x06005CD6 RID: 23766 RVA: 0x002F143C File Offset: 0x002EF83C
 		public override void SubEffectTick(TargetInfo A, TargetInfo B)
 		{
 			this.ticksUntilSound--;
@@ -23,7 +23,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003D87 RID: 15751
+		// Token: 0x04003D99 RID: 15769
 		protected int ticksUntilSound;
 	}
 }

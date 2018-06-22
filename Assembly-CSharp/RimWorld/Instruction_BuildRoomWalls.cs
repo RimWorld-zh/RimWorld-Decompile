@@ -5,12 +5,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008BE RID: 2238
+	// Token: 0x020008BA RID: 2234
 	public class Instruction_BuildRoomWalls : Lesson_Instruction
 	{
-		// Token: 0x17000821 RID: 2081
-		// (get) Token: 0x06003323 RID: 13091 RVA: 0x001B7F40 File Offset: 0x001B6340
-		// (set) Token: 0x06003324 RID: 13092 RVA: 0x001B7F5F File Offset: 0x001B635F
+		// Token: 0x17000822 RID: 2082
+		// (get) Token: 0x0600331C RID: 13084 RVA: 0x001B8128 File Offset: 0x001B6528
+		// (set) Token: 0x0600331D RID: 13085 RVA: 0x001B8147 File Offset: 0x001B6547
 		private CellRect RoomRect
 		{
 			get
@@ -23,8 +23,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000822 RID: 2082
-		// (get) Token: 0x06003325 RID: 13093 RVA: 0x001B7F70 File Offset: 0x001B6370
+		// Token: 0x17000823 RID: 2083
+		// (get) Token: 0x0600331E RID: 13086 RVA: 0x001B8158 File Offset: 0x001B6558
 		protected override float ProgressPercent
 		{
 			get
@@ -43,21 +43,21 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003326 RID: 13094 RVA: 0x001B8000 File Offset: 0x001B6400
+		// Token: 0x0600331F RID: 13087 RVA: 0x001B81E8 File Offset: 0x001B65E8
 		public override void OnActivated()
 		{
 			base.OnActivated();
 			this.RoomRect = TutorUtility.FindUsableRect(12, 8, base.Map, 0f, false);
 		}
 
-		// Token: 0x06003327 RID: 13095 RVA: 0x001B8023 File Offset: 0x001B6423
+		// Token: 0x06003320 RID: 13088 RVA: 0x001B820B File Offset: 0x001B660B
 		public override void LessonOnGUI()
 		{
 			TutorUtility.DrawCellRectOnGUI(this.RoomRect, this.def.onMapInstruction);
 			base.LessonOnGUI();
 		}
 
-		// Token: 0x06003328 RID: 13096 RVA: 0x001B8044 File Offset: 0x001B6444
+		// Token: 0x06003321 RID: 13089 RVA: 0x001B822C File Offset: 0x001B662C
 		public override void LessonUpdate()
 		{
 			this.cachedEdgeCells.Clear();
@@ -74,7 +74,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003329 RID: 13097 RVA: 0x001B80DC File Offset: 0x001B64DC
+		// Token: 0x06003322 RID: 13090 RVA: 0x001B82C4 File Offset: 0x001B66C4
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
 			AcceptanceReport result;
@@ -89,7 +89,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04001B90 RID: 7056
+		// Token: 0x04001B8E RID: 7054
 		private List<IntVec3> cachedEdgeCells = new List<IntVec3>();
 	}
 }

@@ -8,7 +8,7 @@ namespace RimWorld
 	public class SoundParamSource_TimeOfDay : SoundParamSource
 	{
 		// Token: 0x17000194 RID: 404
-		// (get) Token: 0x06000AD4 RID: 2772 RVA: 0x00062198 File Offset: 0x00060598
+		// (get) Token: 0x06000AD2 RID: 2770 RVA: 0x000621F4 File Offset: 0x000605F4
 		public override string Label
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000AD5 RID: 2773 RVA: 0x000621B4 File Offset: 0x000605B4
+		// Token: 0x06000AD3 RID: 2771 RVA: 0x00062210 File Offset: 0x00060610
 		public override float ValueFor(Sample samp)
 		{
 			float result;

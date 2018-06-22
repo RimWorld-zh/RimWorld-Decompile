@@ -6,7 +6,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003E0 RID: 992
 	public class SymbolResolver_Ship_Spine : SymbolResolver
 	{
-		// Token: 0x060010FC RID: 4348 RVA: 0x00091258 File Offset: 0x0008F658
+		// Token: 0x060010FC RID: 4348 RVA: 0x00091444 File Offset: 0x0008F844
 		public override void Resolve(ResolveParams rp)
 		{
 			ThingDef ship_Beam = ThingDefOf.Ship_Beam;

@@ -4,12 +4,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000716 RID: 1814
+	// Token: 0x02000712 RID: 1810
 	public class CompGatherSpot : ThingComp
 	{
 		// Token: 0x170005FE RID: 1534
-		// (get) Token: 0x060027D3 RID: 10195 RVA: 0x00154C38 File Offset: 0x00153038
-		// (set) Token: 0x060027D4 RID: 10196 RVA: 0x00154C54 File Offset: 0x00153054
+		// (get) Token: 0x060027CB RID: 10187 RVA: 0x00154DF0 File Offset: 0x001531F0
+		// (set) Token: 0x060027CC RID: 10188 RVA: 0x00154E0C File Offset: 0x0015320C
 		public bool Active
 		{
 			get
@@ -36,13 +36,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027D5 RID: 10197 RVA: 0x00154CC8 File Offset: 0x001530C8
+		// Token: 0x060027CD RID: 10189 RVA: 0x00154E80 File Offset: 0x00153280
 		public override void PostExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.active, "active", false, false);
 		}
 
-		// Token: 0x060027D6 RID: 10198 RVA: 0x00154CDD File Offset: 0x001530DD
+		// Token: 0x060027CE RID: 10190 RVA: 0x00154E95 File Offset: 0x00153295
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
@@ -52,7 +52,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027D7 RID: 10199 RVA: 0x00154D08 File Offset: 0x00153108
+		// Token: 0x060027CF RID: 10191 RVA: 0x00154EC0 File Offset: 0x001532C0
 		public override void PostDeSpawn(Map map)
 		{
 			base.PostDeSpawn(map);
@@ -62,7 +62,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027D8 RID: 10200 RVA: 0x00154D2C File Offset: 0x0015312C
+		// Token: 0x060027D0 RID: 10192 RVA: 0x00154EE4 File Offset: 0x001532E4
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			Command_Toggle com = new Command_Toggle();
@@ -86,7 +86,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x040015DF RID: 5599
+		// Token: 0x040015DD RID: 5597
 		private bool active = true;
 	}
 }

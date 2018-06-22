@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020001EC RID: 492
 	public class ThinkNode_ConditionalNPCCanSelfTendNow : ThinkNode_Conditional
 	{
-		// Token: 0x06000996 RID: 2454 RVA: 0x00056D14 File Offset: 0x00055114
+		// Token: 0x06000994 RID: 2452 RVA: 0x00056D28 File Offset: 0x00055128
 		protected override bool Satisfied(Pawn pawn)
 		{
 			bool result;
@@ -22,6 +22,10 @@ namespace RimWorld
 				result = false;
 			}
 			else if (pawn.Faction == Faction.OfPlayer)
+			{
+				result = false;
+			}
+			else if (pawn.Faction != null && pawn.Faction.HostileTo(Faction.OfPlayer))
 			{
 				result = false;
 			}

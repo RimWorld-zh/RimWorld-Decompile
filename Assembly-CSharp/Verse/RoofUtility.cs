@@ -5,10 +5,10 @@ using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000CA3 RID: 3235
+	// Token: 0x02000CA0 RID: 3232
 	public static class RoofUtility
 	{
-		// Token: 0x0600473A RID: 18234 RVA: 0x00258624 File Offset: 0x00256A24
+		// Token: 0x06004743 RID: 18243 RVA: 0x00259A14 File Offset: 0x00257E14
 		public static Thing FirstBlockingThing(IntVec3 pos, Map map)
 		{
 			List<Thing> list = map.thingGrid.ThingsListAt(pos);
@@ -22,7 +22,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x0600473B RID: 18235 RVA: 0x002586A0 File Offset: 0x00256AA0
+		// Token: 0x06004744 RID: 18244 RVA: 0x00259A90 File Offset: 0x00257E90
 		public static bool CanHandleBlockingThing(Thing blocker, Pawn worker, bool forced = false)
 		{
 			bool result;
@@ -47,7 +47,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600473C RID: 18236 RVA: 0x00258708 File Offset: 0x00256B08
+		// Token: 0x06004745 RID: 18245 RVA: 0x00259AF8 File Offset: 0x00257EF8
 		public static Job HandleBlockingThingJob(Thing blocker, Pawn worker, bool forced = false)
 		{
 			Job result;

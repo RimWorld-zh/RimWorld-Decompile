@@ -8,11 +8,11 @@ using Verse.Sound;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000607 RID: 1543
+	// Token: 0x02000603 RID: 1539
 	[StaticConstructorOnStartup]
 	public static class SettlementAbandonUtility
 	{
-		// Token: 0x06001EE8 RID: 7912 RVA: 0x0010C9C4 File Offset: 0x0010ADC4
+		// Token: 0x06001EDF RID: 7903 RVA: 0x0010CA0C File Offset: 0x0010AE0C
 		public static Command AbandonCommand(MapParent settlement)
 		{
 			Command_Action command_Action = new Command_Action();
@@ -23,6 +23,7 @@ namespace RimWorld.Planet
 			{
 				SettlementAbandonUtility.TryAbandonViaInterface(settlement);
 			};
+			command_Action.order = 30f;
 			if (SettlementAbandonUtility.AllColonistsThere(settlement))
 			{
 				command_Action.Disable("CommandAbandonHomeFailAllColonistsThere".Translate());
@@ -30,13 +31,13 @@ namespace RimWorld.Planet
 			return command_Action;
 		}
 
-		// Token: 0x06001EE9 RID: 7913 RVA: 0x0010CA4C File Offset: 0x0010AE4C
+		// Token: 0x06001EE0 RID: 7904 RVA: 0x0010CAA0 File Offset: 0x0010AEA0
 		public static bool AllColonistsThere(MapParent settlement)
 		{
 			return !CaravanUtility.PlayerHasAnyCaravan() && !Find.Maps.Any((Map x) => x.info.parent != settlement && x.mapPawns.FreeColonistsSpawned.Any<Pawn>());
 		}
 
-		// Token: 0x06001EEA RID: 7914 RVA: 0x0010CA94 File Offset: 0x0010AE94
+		// Token: 0x06001EE1 RID: 7905 RVA: 0x0010CAE8 File Offset: 0x0010AEE8
 		public static void TryAbandonViaInterface(MapParent settlement)
 		{
 			Map map = settlement.Map;
@@ -83,7 +84,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EEB RID: 7915 RVA: 0x0010CC38 File Offset: 0x0010B038
+		// Token: 0x06001EE2 RID: 7906 RVA: 0x0010CC8C File Offset: 0x0010B08C
 		private static void Abandon(MapParent settlement)
 		{
 			Find.WorldObjects.Remove(settlement);
@@ -95,7 +96,7 @@ namespace RimWorld.Planet
 			Find.GameEnder.CheckOrUpdateGameOver();
 		}
 
-		// Token: 0x06001EEC RID: 7916 RVA: 0x0010CC70 File Offset: 0x0010B070
+		// Token: 0x06001EE3 RID: 7907 RVA: 0x0010CCC4 File Offset: 0x0010B0C4
 		private static void AddAbandonedBase(FactionBase factionBase)
 		{
 			WorldObject worldObject = WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.AbandonedBase);
@@ -104,7 +105,7 @@ namespace RimWorld.Planet
 			Find.WorldObjects.Add(worldObject);
 		}
 
-		// Token: 0x0400122C RID: 4652
+		// Token: 0x04001229 RID: 4649
 		private static readonly Texture2D AbandonCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/AbandonHome", true);
 	}
 }

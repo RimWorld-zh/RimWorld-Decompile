@@ -9,13 +9,13 @@ namespace RimWorld
 	// Token: 0x020000E6 RID: 230
 	public class JobGiver_OptimizeApparel : ThinkNode_JobGiver
 	{
-		// Token: 0x060004F4 RID: 1268 RVA: 0x00037072 File Offset: 0x00035472
+		// Token: 0x060004F4 RID: 1268 RVA: 0x0003705E File Offset: 0x0003545E
 		private void SetNextOptimizeTick(Pawn pawn)
 		{
 			pawn.mindState.nextApparelOptimizeTick = Find.TickManager.TicksGame + Rand.Range(6000, 9000);
 		}
 
-		// Token: 0x060004F5 RID: 1269 RVA: 0x0003709C File Offset: 0x0003549C
+		// Token: 0x060004F5 RID: 1269 RVA: 0x00037088 File Offset: 0x00035488
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -121,7 +121,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004F6 RID: 1270 RVA: 0x000373C8 File Offset: 0x000357C8
+		// Token: 0x060004F6 RID: 1270 RVA: 0x000373B4 File Offset: 0x000357B4
 		public static float ApparelScoreGain(Pawn pawn, Apparel ap)
 		{
 			float result;
@@ -155,7 +155,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004F7 RID: 1271 RVA: 0x000374C4 File Offset: 0x000358C4
+		// Token: 0x060004F7 RID: 1271 RVA: 0x000374B0 File Offset: 0x000358B0
 		public static float ApparelScoreRaw(Pawn pawn, Apparel ap)
 		{
 			float num = 0.1f;

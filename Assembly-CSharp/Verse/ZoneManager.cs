@@ -3,18 +3,18 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000CBD RID: 3261
+	// Token: 0x02000CBA RID: 3258
 	public sealed class ZoneManager : IExposable
 	{
-		// Token: 0x060047D9 RID: 18393 RVA: 0x0025C3F0 File Offset: 0x0025A7F0
+		// Token: 0x060047E2 RID: 18402 RVA: 0x0025D7E0 File Offset: 0x0025BBE0
 		public ZoneManager(Map map)
 		{
 			this.map = map;
 			this.zoneGrid = new Zone[map.cellIndices.NumGridCells];
 		}
 
-		// Token: 0x17000B5A RID: 2906
-		// (get) Token: 0x060047DA RID: 18394 RVA: 0x0025C424 File Offset: 0x0025A824
+		// Token: 0x17000B5C RID: 2908
+		// (get) Token: 0x060047E3 RID: 18403 RVA: 0x0025D814 File Offset: 0x0025BC14
 		public List<Zone> AllZones
 		{
 			get
@@ -23,7 +23,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047DB RID: 18395 RVA: 0x0025C43F File Offset: 0x0025A83F
+		// Token: 0x060047E4 RID: 18404 RVA: 0x0025D82F File Offset: 0x0025BC2F
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Zone>(ref this.allZones, "allZones", LookMode.Deep, new object[0]);
@@ -34,7 +34,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047DC RID: 18396 RVA: 0x0025C474 File Offset: 0x0025A874
+		// Token: 0x060047E5 RID: 18405 RVA: 0x0025D864 File Offset: 0x0025BC64
 		private void UpdateZoneManagerLinks()
 		{
 			for (int i = 0; i < this.allZones.Count; i++)
@@ -43,7 +43,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047DD RID: 18397 RVA: 0x0025C4B4 File Offset: 0x0025A8B4
+		// Token: 0x060047E6 RID: 18406 RVA: 0x0025D8A4 File Offset: 0x0025BCA4
 		private void RebuildZoneGrid()
 		{
 			CellIndices cellIndices = this.map.cellIndices;
@@ -57,39 +57,39 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047DE RID: 18398 RVA: 0x0025C580 File Offset: 0x0025A980
+		// Token: 0x060047E7 RID: 18407 RVA: 0x0025D970 File Offset: 0x0025BD70
 		public void RegisterZone(Zone newZone)
 		{
 			this.allZones.Add(newZone);
 			newZone.PostRegister();
 		}
 
-		// Token: 0x060047DF RID: 18399 RVA: 0x0025C595 File Offset: 0x0025A995
+		// Token: 0x060047E8 RID: 18408 RVA: 0x0025D985 File Offset: 0x0025BD85
 		public void DeregisterZone(Zone oldZone)
 		{
 			this.allZones.Remove(oldZone);
 			oldZone.PostDeregister();
 		}
 
-		// Token: 0x060047E0 RID: 18400 RVA: 0x0025C5AB File Offset: 0x0025A9AB
+		// Token: 0x060047E9 RID: 18409 RVA: 0x0025D99B File Offset: 0x0025BD9B
 		internal void AddZoneGridCell(Zone zone, IntVec3 c)
 		{
 			this.zoneGrid[this.map.cellIndices.CellToIndex(c)] = zone;
 		}
 
-		// Token: 0x060047E1 RID: 18401 RVA: 0x0025C5C7 File Offset: 0x0025A9C7
+		// Token: 0x060047EA RID: 18410 RVA: 0x0025D9B7 File Offset: 0x0025BDB7
 		internal void ClearZoneGridCell(IntVec3 c)
 		{
 			this.zoneGrid[this.map.cellIndices.CellToIndex(c)] = null;
 		}
 
-		// Token: 0x060047E2 RID: 18402 RVA: 0x0025C5E4 File Offset: 0x0025A9E4
+		// Token: 0x060047EB RID: 18411 RVA: 0x0025D9D4 File Offset: 0x0025BDD4
 		public Zone ZoneAt(IntVec3 c)
 		{
 			return this.zoneGrid[this.map.cellIndices.CellToIndex(c)];
 		}
 
-		// Token: 0x060047E3 RID: 18403 RVA: 0x0025C614 File Offset: 0x0025AA14
+		// Token: 0x060047EC RID: 18412 RVA: 0x0025DA04 File Offset: 0x0025BE04
 		public string NewZoneName(string nameBase)
 		{
 			for (int i = 1; i <= 1000; i++)
@@ -104,7 +104,7 @@ namespace Verse
 			return "Zone X";
 		}
 
-		// Token: 0x060047E4 RID: 18404 RVA: 0x0025C698 File Offset: 0x0025AA98
+		// Token: 0x060047ED RID: 18413 RVA: 0x0025DA88 File Offset: 0x0025BE88
 		internal void Notify_NoZoneOverlapThingSpawned(Thing thing)
 		{
 			CellRect cellRect = thing.OccupiedRect();
@@ -123,13 +123,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x040030B8 RID: 12472
+		// Token: 0x040030C3 RID: 12483
 		public Map map;
 
-		// Token: 0x040030B9 RID: 12473
+		// Token: 0x040030C4 RID: 12484
 		private List<Zone> allZones = new List<Zone>();
 
-		// Token: 0x040030BA RID: 12474
+		// Token: 0x040030C5 RID: 12485
 		private Zone[] zoneGrid;
 	}
 }

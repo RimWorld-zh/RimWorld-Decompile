@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000E44 RID: 3652
+	// Token: 0x02000E43 RID: 3651
 	[AttributeUsage(AttributeTargets.Field)]
 	public class EditorHiddenAttribute : Attribute
 	{

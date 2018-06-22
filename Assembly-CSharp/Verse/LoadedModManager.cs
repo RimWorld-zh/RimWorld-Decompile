@@ -7,11 +7,11 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000CBF RID: 3263
+	// Token: 0x02000CBC RID: 3260
 	public static class LoadedModManager
 	{
-		// Token: 0x17000B5B RID: 2907
-		// (get) Token: 0x060047E7 RID: 18407 RVA: 0x0025CC6C File Offset: 0x0025B06C
+		// Token: 0x17000B5D RID: 2909
+		// (get) Token: 0x060047F0 RID: 18416 RVA: 0x0025E05C File Offset: 0x0025C45C
 		public static List<ModContentPack> RunningModsListForReading
 		{
 			get
@@ -20,8 +20,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B5C RID: 2908
-		// (get) Token: 0x060047E8 RID: 18408 RVA: 0x0025CC88 File Offset: 0x0025B088
+		// Token: 0x17000B5E RID: 2910
+		// (get) Token: 0x060047F1 RID: 18417 RVA: 0x0025E078 File Offset: 0x0025C478
 		public static IEnumerable<ModContentPack> RunningMods
 		{
 			get
@@ -30,8 +30,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B5D RID: 2909
-		// (get) Token: 0x060047E9 RID: 18409 RVA: 0x0025CCA4 File Offset: 0x0025B0A4
+		// Token: 0x17000B5F RID: 2911
+		// (get) Token: 0x060047F2 RID: 18418 RVA: 0x0025E094 File Offset: 0x0025C494
 		public static IEnumerable<Mod> ModHandles
 		{
 			get
@@ -40,10 +40,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047EA RID: 18410 RVA: 0x0025CCC4 File Offset: 0x0025B0C4
+		// Token: 0x060047F3 RID: 18419 RVA: 0x0025E0B4 File Offset: 0x0025C4B4
 		public static void LoadAllActiveMods()
 		{
 			XmlInheritance.Clear();
+			LoadedModManager.InitializeMods();
+			LoadedModManager.LoadModContent();
+			LoadedModManager.CreateModClasses();
+			List<LoadableXmlAsset> xmls = LoadedModManager.LoadModXML();
+			Dictionary<XmlNode, LoadableXmlAsset> assetlookup = new Dictionary<XmlNode, LoadableXmlAsset>();
+			XmlDocument xmlDoc = LoadedModManager.CombineIntoUnifiedXML(xmls, assetlookup);
+			LoadedModManager.ApplyPatches(xmlDoc, assetlookup);
+			LoadedModManager.ParseAndProcessXML(xmlDoc, assetlookup);
+			LoadedModManager.ClearCachedPatches();
+			XmlInheritance.Clear();
+		}
+
+		// Token: 0x060047F4 RID: 18420 RVA: 0x0025E104 File Offset: 0x0025C504
+		public static void InitializeMods()
+		{
 			int num = 0;
 			foreach (ModMetaData modMetaData in ModsConfig.ActiveModsInLoadOrder.ToList<ModMetaData>())
 			{
@@ -70,6 +85,11 @@ namespace Verse
 					DeepProfiler.End();
 				}
 			}
+		}
+
+		// Token: 0x060047F5 RID: 18421 RVA: 0x0025E208 File Offset: 0x0025C608
+		public static void LoadModContent()
+		{
 			for (int i = 0; i < LoadedModManager.runningMods.Count; i++)
 			{
 				ModContentPack modContentPack = LoadedModManager.runningMods[i];
@@ -77,35 +97,59 @@ namespace Verse
 				modContentPack.ReloadContent();
 				DeepProfiler.End();
 			}
-			using (IEnumerator<Type> enumerator2 = typeof(Mod).InstantiableDescendantsAndSelf().GetEnumerator())
+		}
+
+		// Token: 0x060047F6 RID: 18422 RVA: 0x0025E260 File Offset: 0x0025C660
+		public static void CreateModClasses()
+		{
+			using (IEnumerator<Type> enumerator = typeof(Mod).InstantiableDescendantsAndSelf().GetEnumerator())
 			{
-				while (enumerator2.MoveNext())
+				while (enumerator.MoveNext())
 				{
-					Type type = enumerator2.Current;
+					Type type = enumerator.Current;
 					if (!LoadedModManager.runningModClasses.ContainsKey(type))
 					{
-						ModContentPack modContentPack2 = (from modpack in LoadedModManager.runningMods
+						ModContentPack modContentPack = (from modpack in LoadedModManager.runningMods
 						where modpack.assemblies.loadedAssemblies.Contains(type.Assembly)
 						select modpack).FirstOrDefault<ModContentPack>();
 						LoadedModManager.runningModClasses[type] = (Mod)Activator.CreateInstance(type, new object[]
 						{
-							modContentPack2
+							modContentPack
 						});
 					}
 				}
 			}
+		}
+
+		// Token: 0x060047F7 RID: 18423 RVA: 0x0025E32C File Offset: 0x0025C72C
+		public static List<LoadableXmlAsset> LoadModXML()
+		{
 			List<LoadableXmlAsset> list = new List<LoadableXmlAsset>();
-			for (int j = 0; j < LoadedModManager.runningMods.Count; j++)
+			for (int i = 0; i < LoadedModManager.runningMods.Count; i++)
 			{
-				ModContentPack modContentPack3 = LoadedModManager.runningMods[j];
-				DeepProfiler.Start("Loading " + modContentPack3);
-				list.AddRange(modContentPack3.LoadDefs());
+				ModContentPack modContentPack = LoadedModManager.runningMods[i];
+				DeepProfiler.Start("Loading " + modContentPack);
+				list.AddRange(modContentPack.LoadDefs());
 				DeepProfiler.End();
 			}
+			return list;
+		}
+
+		// Token: 0x060047F8 RID: 18424 RVA: 0x0025E394 File Offset: 0x0025C794
+		public static void ApplyPatches(XmlDocument xmlDoc, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
+		{
+			foreach (PatchOperation patchOperation in LoadedModManager.runningMods.SelectMany((ModContentPack rm) => rm.Patches))
+			{
+				patchOperation.Apply(xmlDoc);
+			}
+		}
+
+		// Token: 0x060047F9 RID: 18425 RVA: 0x0025E414 File Offset: 0x0025C814
+		public static XmlDocument CombineIntoUnifiedXML(List<LoadableXmlAsset> xmls, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
+		{
 			XmlDocument xmlDocument = new XmlDocument();
 			xmlDocument.AppendChild(xmlDocument.CreateElement("Defs"));
-			Dictionary<XmlNode, LoadableXmlAsset> dictionary = new Dictionary<XmlNode, LoadableXmlAsset>();
-			foreach (LoadableXmlAsset loadableXmlAsset in list)
+			foreach (LoadableXmlAsset loadableXmlAsset in xmls)
 			{
 				if (loadableXmlAsset.xmlDoc == null || loadableXmlAsset.xmlDoc.DocumentElement == null)
 				{
@@ -117,82 +161,88 @@ namespace Verse
 					{
 						Log.Error(string.Format("{0}: root element named {1}; should be named Defs", loadableXmlAsset.fullFolderPath + "/" + loadableXmlAsset.name, loadableXmlAsset.xmlDoc.DocumentElement.Name), false);
 					}
-					IEnumerator enumerator4 = loadableXmlAsset.xmlDoc.DocumentElement.ChildNodes.GetEnumerator();
+					IEnumerator enumerator2 = loadableXmlAsset.xmlDoc.DocumentElement.ChildNodes.GetEnumerator();
 					try
 					{
-						while (enumerator4.MoveNext())
+						while (enumerator2.MoveNext())
 						{
-							object obj = enumerator4.Current;
+							object obj = enumerator2.Current;
 							XmlNode node = (XmlNode)obj;
 							XmlNode xmlNode = xmlDocument.ImportNode(node, true);
-							dictionary[xmlNode] = loadableXmlAsset;
+							assetlookup[xmlNode] = loadableXmlAsset;
 							xmlDocument.DocumentElement.AppendChild(xmlNode);
 						}
 					}
 					finally
 					{
 						IDisposable disposable;
-						if ((disposable = (enumerator4 as IDisposable)) != null)
+						if ((disposable = (enumerator2 as IDisposable)) != null)
 						{
 							disposable.Dispose();
 						}
 					}
 				}
 			}
-			foreach (PatchOperation patchOperation in LoadedModManager.runningMods.SelectMany((ModContentPack rm) => rm.Patches))
+			return xmlDocument;
+		}
+
+		// Token: 0x060047FA RID: 18426 RVA: 0x0025E5C0 File Offset: 0x0025C9C0
+		public static void ParseAndProcessXML(XmlDocument xmlDoc, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
+		{
+			XmlNodeList childNodes = xmlDoc.DocumentElement.ChildNodes;
+			for (int i = 0; i < childNodes.Count; i++)
 			{
-				patchOperation.Apply(xmlDocument);
-			}
-			XmlNodeList childNodes = xmlDocument.DocumentElement.ChildNodes;
-			for (int k = 0; k < childNodes.Count; k++)
-			{
-				if (childNodes[k].NodeType == XmlNodeType.Element)
+				if (childNodes[i].NodeType == XmlNodeType.Element)
 				{
-					LoadableXmlAsset loadableXmlAsset2 = dictionary.TryGetValue(childNodes[k], null);
-					XmlInheritance.TryRegister(childNodes[k], (loadableXmlAsset2 == null) ? null : loadableXmlAsset2.mod);
+					LoadableXmlAsset loadableXmlAsset = assetlookup.TryGetValue(childNodes[i], null);
+					XmlInheritance.TryRegister(childNodes[i], (loadableXmlAsset == null) ? null : loadableXmlAsset.mod);
 				}
 			}
 			XmlInheritance.Resolve();
 			DefPackage defPackage = new DefPackage("(unknown)", "(unknown)");
-			ModContentPack modContentPack4 = LoadedModManager.runningMods.FirstOrDefault<ModContentPack>();
-			modContentPack4.AddDefPackage(defPackage);
-			IEnumerator enumerator6 = xmlDocument.DocumentElement.ChildNodes.GetEnumerator();
+			ModContentPack modContentPack = LoadedModManager.runningMods.FirstOrDefault<ModContentPack>();
+			modContentPack.AddDefPackage(defPackage);
+			IEnumerator enumerator = xmlDoc.DocumentElement.ChildNodes.GetEnumerator();
 			try
 			{
-				while (enumerator6.MoveNext())
+				while (enumerator.MoveNext())
 				{
-					object obj2 = enumerator6.Current;
-					XmlNode xmlNode2 = (XmlNode)obj2;
-					LoadableXmlAsset loadableXmlAsset3 = dictionary.TryGetValue(xmlNode2, null);
-					DefPackage defPackage2 = (loadableXmlAsset3 == null) ? defPackage : loadableXmlAsset3.defPackage;
-					Def def = DirectXmlLoader.DefFromNode(xmlNode2, loadableXmlAsset3);
+					object obj = enumerator.Current;
+					XmlNode xmlNode = (XmlNode)obj;
+					LoadableXmlAsset loadableXmlAsset2 = assetlookup.TryGetValue(xmlNode, null);
+					DefPackage defPackage2 = (loadableXmlAsset2 == null) ? defPackage : loadableXmlAsset2.defPackage;
+					Def def = DirectXmlLoader.DefFromNode(xmlNode, loadableXmlAsset2);
 					if (def != null)
 					{
-						def.modContentPack = ((loadableXmlAsset3 == null) ? modContentPack4 : loadableXmlAsset3.mod);
+						def.modContentPack = ((loadableXmlAsset2 == null) ? modContentPack : loadableXmlAsset2.mod);
 						defPackage2.AddDef(def);
 					}
 				}
 			}
 			finally
 			{
-				IDisposable disposable2;
-				if ((disposable2 = (enumerator6 as IDisposable)) != null)
+				IDisposable disposable;
+				if ((disposable = (enumerator as IDisposable)) != null)
 				{
-					disposable2.Dispose();
+					disposable.Dispose();
 				}
 			}
-			foreach (ModContentPack modContentPack5 in LoadedModManager.runningMods)
-			{
-				foreach (PatchOperation patchOperation2 in modContentPack5.Patches)
-				{
-					patchOperation2.Complete(modContentPack5.Name);
-				}
-				modContentPack5.ClearPatchesCache();
-			}
-			XmlInheritance.Clear();
 		}
 
-		// Token: 0x060047EB RID: 18411 RVA: 0x0025D3B0 File Offset: 0x0025B7B0
+		// Token: 0x060047FB RID: 18427 RVA: 0x0025E718 File Offset: 0x0025CB18
+		public static void ClearCachedPatches()
+		{
+			foreach (ModContentPack modContentPack in LoadedModManager.runningMods)
+			{
+				foreach (PatchOperation patchOperation in modContentPack.Patches)
+				{
+					patchOperation.Complete(modContentPack.Name);
+				}
+				modContentPack.ClearPatchesCache();
+			}
+		}
+
+		// Token: 0x060047FC RID: 18428 RVA: 0x0025E7C8 File Offset: 0x0025CBC8
 		public static void ClearDestroy()
 		{
 			foreach (ModContentPack modContentPack in LoadedModManager.runningMods)
@@ -202,13 +252,13 @@ namespace Verse
 			LoadedModManager.runningMods.Clear();
 		}
 
-		// Token: 0x060047EC RID: 18412 RVA: 0x0025D418 File Offset: 0x0025B818
+		// Token: 0x060047FD RID: 18429 RVA: 0x0025E830 File Offset: 0x0025CC30
 		public static T GetMod<T>() where T : Mod
 		{
 			return LoadedModManager.GetMod(typeof(T)) as T;
 		}
 
-		// Token: 0x060047ED RID: 18413 RVA: 0x0025D448 File Offset: 0x0025B848
+		// Token: 0x060047FE RID: 18430 RVA: 0x0025E860 File Offset: 0x0025CC60
 		public static Mod GetMod(Type type)
 		{
 			Mod result;
@@ -225,13 +275,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060047EE RID: 18414 RVA: 0x0025D4B8 File Offset: 0x0025B8B8
+		// Token: 0x060047FF RID: 18431 RVA: 0x0025E8D0 File Offset: 0x0025CCD0
 		private static string GetSettingsFilename(string modIdentifier, string modHandleName)
 		{
 			return Path.Combine(GenFilePaths.ConfigFolderPath, GenText.SanitizeFilename(string.Format("Mod_{0}_{1}.xml", modIdentifier, modHandleName)));
 		}
 
-		// Token: 0x060047EF RID: 18415 RVA: 0x0025D4E8 File Offset: 0x0025B8E8
+		// Token: 0x06004800 RID: 18432 RVA: 0x0025E900 File Offset: 0x0025CD00
 		public static T ReadModSettings<T>(string modIdentifier, string modHandleName) where T : ModSettings, new()
 		{
 			string settingsFilename = LoadedModManager.GetSettingsFilename(modIdentifier, modHandleName);
@@ -257,7 +307,7 @@ namespace Verse
 			return t;
 		}
 
-		// Token: 0x060047F0 RID: 18416 RVA: 0x0025D590 File Offset: 0x0025B990
+		// Token: 0x06004801 RID: 18433 RVA: 0x0025E9A8 File Offset: 0x0025CDA8
 		public static void WriteModSettings(string modIdentifier, string modHandleName, ModSettings settings)
 		{
 			Scribe.saver.InitSaving(LoadedModManager.GetSettingsFilename(modIdentifier, modHandleName), "SettingsBlock");
@@ -265,10 +315,10 @@ namespace Verse
 			Scribe.saver.FinalizeSaving();
 		}
 
-		// Token: 0x040030BB RID: 12475
+		// Token: 0x040030C6 RID: 12486
 		private static List<ModContentPack> runningMods = new List<ModContentPack>();
 
-		// Token: 0x040030BC RID: 12476
+		// Token: 0x040030C7 RID: 12487
 		private static Dictionary<Type, Mod> runningModClasses = new Dictionary<Type, Mod>();
 	}
 }

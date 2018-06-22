@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020001D4 RID: 468
 	public class ThinkNode_ConditionalOutdoorTemperature : ThinkNode_Conditional
 	{
-		// Token: 0x06000961 RID: 2401 RVA: 0x000564F4 File Offset: 0x000548F4
+		// Token: 0x0600095F RID: 2399 RVA: 0x00056508 File Offset: 0x00054908
 		protected override bool Satisfied(Pawn pawn)
 		{
 			return pawn.Position.UsesOutdoorTemperature(pawn.Map);

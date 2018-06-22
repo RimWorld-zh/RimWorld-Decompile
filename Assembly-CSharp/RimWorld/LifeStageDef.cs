@@ -9,7 +9,7 @@ namespace RimWorld
 	public class LifeStageDef : Def
 	{
 		// Token: 0x170001AC RID: 428
-		// (get) Token: 0x06000B6E RID: 2926 RVA: 0x00067164 File Offset: 0x00065564
+		// (get) Token: 0x06000B6C RID: 2924 RVA: 0x000671CC File Offset: 0x000655CC
 		public string Adjective
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B6F RID: 2927 RVA: 0x0006718C File Offset: 0x0006558C
+		// Token: 0x06000B6D RID: 2925 RVA: 0x000671F4 File Offset: 0x000655F4
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -31,55 +31,55 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000665 RID: 1637
+		// Token: 0x04000664 RID: 1636
 		[MustTranslate]
 		private string adjective = null;
 
-		// Token: 0x04000666 RID: 1638
+		// Token: 0x04000665 RID: 1637
 		public bool visible = true;
 
-		// Token: 0x04000667 RID: 1639
+		// Token: 0x04000666 RID: 1638
 		public bool reproductive = false;
 
-		// Token: 0x04000668 RID: 1640
+		// Token: 0x04000667 RID: 1639
 		public bool milkable = false;
 
-		// Token: 0x04000669 RID: 1641
+		// Token: 0x04000668 RID: 1640
 		public bool shearable = false;
 
-		// Token: 0x0400066A RID: 1642
+		// Token: 0x04000669 RID: 1641
 		public float voxPitch = 1f;
 
-		// Token: 0x0400066B RID: 1643
+		// Token: 0x0400066A RID: 1642
 		public float voxVolume = 1f;
 
-		// Token: 0x0400066C RID: 1644
+		// Token: 0x0400066B RID: 1643
 		[NoTranslate]
 		public string icon;
 
-		// Token: 0x0400066D RID: 1645
+		// Token: 0x0400066C RID: 1644
 		[Unsaved]
 		public Texture2D iconTex;
 
-		// Token: 0x0400066E RID: 1646
+		// Token: 0x0400066D RID: 1645
 		public List<StatModifier> statFactors = new List<StatModifier>();
 
-		// Token: 0x0400066F RID: 1647
+		// Token: 0x0400066E RID: 1646
 		public float bodySizeFactor = 1f;
 
-		// Token: 0x04000670 RID: 1648
+		// Token: 0x0400066F RID: 1647
 		public float healthScaleFactor = 1f;
 
-		// Token: 0x04000671 RID: 1649
+		// Token: 0x04000670 RID: 1648
 		public float hungerRateFactor = 1f;
 
-		// Token: 0x04000672 RID: 1650
+		// Token: 0x04000671 RID: 1649
 		public float marketValueFactor = 1f;
 
-		// Token: 0x04000673 RID: 1651
+		// Token: 0x04000672 RID: 1650
 		public float foodMaxFactor = 1f;
 
-		// Token: 0x04000674 RID: 1652
+		// Token: 0x04000673 RID: 1651
 		public float meleeDamageFactor = 1f;
 	}
 }

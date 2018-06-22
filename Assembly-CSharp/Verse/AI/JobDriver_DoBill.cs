@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A40 RID: 2624
+	// Token: 0x02000A3C RID: 2620
 	public class JobDriver_DoBill : JobDriver
 	{
-		// Token: 0x06003A2A RID: 14890 RVA: 0x001EC204 File Offset: 0x001EA604
+		// Token: 0x06003A24 RID: 14884 RVA: 0x001EC444 File Offset: 0x001EA844
 		public override string GetReport()
 		{
 			string result;
@@ -23,8 +23,8 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x170008E9 RID: 2281
-		// (get) Token: 0x06003A2B RID: 14891 RVA: 0x001EC24C File Offset: 0x001EA64C
+		// Token: 0x170008EA RID: 2282
+		// (get) Token: 0x06003A25 RID: 14885 RVA: 0x001EC48C File Offset: 0x001EA88C
 		public IBillGiver BillGiver
 		{
 			get
@@ -38,7 +38,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A2C RID: 14892 RVA: 0x001EC290 File Offset: 0x001EA690
+		// Token: 0x06003A26 RID: 14886 RVA: 0x001EC4D0 File Offset: 0x001EA8D0
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -47,14 +47,14 @@ namespace Verse.AI
 			Scribe_Values.Look<int>(ref this.ticksSpentDoingRecipeWork, "ticksSpentDoingRecipeWork", 0, false);
 		}
 
-		// Token: 0x06003A2D RID: 14893 RVA: 0x001EC2E0 File Offset: 0x001EA6E0
+		// Token: 0x06003A27 RID: 14887 RVA: 0x001EC520 File Offset: 0x001EA920
 		public override bool TryMakePreToilReservations()
 		{
 			this.pawn.ReserveAsManyAsPossible(this.job.GetTargetQueue(TargetIndex.B), this.job, 1, -1, null);
 			return this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, 1, -1, null);
 		}
 
-		// Token: 0x06003A2E RID: 14894 RVA: 0x001EC338 File Offset: 0x001EA738
+		// Token: 0x06003A28 RID: 14888 RVA: 0x001EC578 File Offset: 0x001EA978
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			base.AddEndCondition(delegate
@@ -139,7 +139,7 @@ namespace Verse.AI
 			yield break;
 		}
 
-		// Token: 0x06003A2F RID: 14895 RVA: 0x001EC364 File Offset: 0x001EA764
+		// Token: 0x06003A29 RID: 14889 RVA: 0x001EC5A4 File Offset: 0x001EA9A4
 		private static Toil JumpToCollectNextIntoHandsForBill(Toil gotoGetTargetToil, TargetIndex ind)
 		{
 			Toil toil = new Toil();
@@ -193,25 +193,25 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x04002507 RID: 9479
+		// Token: 0x04002502 RID: 9474
 		public float workLeft;
 
-		// Token: 0x04002508 RID: 9480
+		// Token: 0x04002503 RID: 9475
 		public int billStartTick;
 
-		// Token: 0x04002509 RID: 9481
+		// Token: 0x04002504 RID: 9476
 		public int ticksSpentDoingRecipeWork;
 
-		// Token: 0x0400250A RID: 9482
+		// Token: 0x04002505 RID: 9477
 		public const PathEndMode GotoIngredientPathEndMode = PathEndMode.ClosestTouch;
 
-		// Token: 0x0400250B RID: 9483
+		// Token: 0x04002506 RID: 9478
 		public const TargetIndex BillGiverInd = TargetIndex.A;
 
-		// Token: 0x0400250C RID: 9484
+		// Token: 0x04002507 RID: 9479
 		public const TargetIndex IngredientInd = TargetIndex.B;
 
-		// Token: 0x0400250D RID: 9485
+		// Token: 0x04002508 RID: 9480
 		public const TargetIndex IngredientPlaceCellInd = TargetIndex.C;
 	}
 }

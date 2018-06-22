@@ -7,7 +7,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003D3 RID: 979
 	public class SymbolResolver_Street : SymbolResolver
 	{
-		// Token: 0x060010DC RID: 4316 RVA: 0x0008FB58 File Offset: 0x0008DF58
+		// Token: 0x060010DC RID: 4316 RVA: 0x0008FD44 File Offset: 0x0008E144
 		public override void Resolve(ResolveParams rp)
 		{
 			bool? streetHorizontal = rp.streetHorizontal;
@@ -20,7 +20,7 @@ namespace RimWorld.BaseGen
 			this.SpawnFloor(rp.rect, flag, floorDef);
 		}
 
-		// Token: 0x060010DD RID: 4317 RVA: 0x0008FC14 File Offset: 0x0008E014
+		// Token: 0x060010DD RID: 4317 RVA: 0x0008FE00 File Offset: 0x0008E200
 		private void CalculateStreet(CellRect rect, bool horizontal, TerrainDef floorDef)
 		{
 			SymbolResolver_Street.street.Clear();
@@ -38,7 +38,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010DE RID: 4318 RVA: 0x0008FD0C File Offset: 0x0008E10C
+		// Token: 0x060010DE RID: 4318 RVA: 0x0008FEF8 File Offset: 0x0008E2F8
 		private void FillStreetGaps(bool horizontal, int width)
 		{
 			int num = -1;
@@ -66,7 +66,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010DF RID: 4319 RVA: 0x0008FDBC File Offset: 0x0008E1BC
+		// Token: 0x060010DF RID: 4319 RVA: 0x0008FFA8 File Offset: 0x0008E3A8
 		private void RemoveShortStreetParts(bool horizontal, int width)
 		{
 			for (int i = 0; i < SymbolResolver_Street.street.Count; i++)
@@ -100,7 +100,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010E0 RID: 4320 RVA: 0x0008FE90 File Offset: 0x0008E290
+		// Token: 0x060010E0 RID: 4320 RVA: 0x0009007C File Offset: 0x0008E47C
 		private void SpawnFloor(CellRect rect, bool horizontal, TerrainDef floorDef)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -117,7 +117,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010E1 RID: 4321 RVA: 0x0008FF2C File Offset: 0x0008E32C
+		// Token: 0x060010E1 RID: 4321 RVA: 0x00090118 File Offset: 0x0008E518
 		private bool CausesStreet(IntVec3 c, TerrainDef floorDef)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -134,7 +134,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x04000A41 RID: 2625
+		// Token: 0x04000A43 RID: 2627
 		private static List<bool> street = new List<bool>();
 	}
 }

@@ -2,10 +2,10 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x020009F2 RID: 2546
+	// Token: 0x020009EE RID: 2542
 	public abstract class LordToilData : IExposable
 	{
-		// Token: 0x06003933 RID: 14643
+		// Token: 0x0600392D RID: 14637
 		public abstract void ExposeData();
 	}
 }

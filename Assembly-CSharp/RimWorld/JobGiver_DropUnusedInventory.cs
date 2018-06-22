@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000DF RID: 223
 	public class JobGiver_DropUnusedInventory : ThinkNode_JobGiver
 	{
-		// Token: 0x060004E0 RID: 1248 RVA: 0x00036528 File Offset: 0x00034928
+		// Token: 0x060004E0 RID: 1248 RVA: 0x00036514 File Offset: 0x00034914
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -49,7 +49,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004E1 RID: 1249 RVA: 0x000366C4 File Offset: 0x00034AC4
+		// Token: 0x060004E1 RID: 1249 RVA: 0x000366B0 File Offset: 0x00034AB0
 		private void Drop(Pawn pawn, Thing thing)
 		{
 			Thing thing2;

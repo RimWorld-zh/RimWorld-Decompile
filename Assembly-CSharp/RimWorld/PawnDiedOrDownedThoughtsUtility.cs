@@ -9,10 +9,10 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000480 RID: 1152
+	// Token: 0x0200047C RID: 1148
 	public static class PawnDiedOrDownedThoughtsUtility
 	{
-		// Token: 0x0600142C RID: 5164 RVA: 0x000AF488 File Offset: 0x000AD888
+		// Token: 0x06001423 RID: 5155 RVA: 0x000AF4A0 File Offset: 0x000AD8A0
 		public static void TryGiveThoughts(Pawn victim, DamageInfo? dinfo, PawnDiedOrDownedThoughtsKind thoughtsKind)
 		{
 			try
@@ -51,7 +51,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600142D RID: 5165 RVA: 0x000AF604 File Offset: 0x000ADA04
+		// Token: 0x06001424 RID: 5156 RVA: 0x000AF61C File Offset: 0x000ADA1C
 		public static void TryGiveThoughts(IEnumerable<Pawn> victims, PawnDiedOrDownedThoughtsKind thoughtsKind)
 		{
 			foreach (Pawn victim in victims)
@@ -60,7 +60,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600142E RID: 5166 RVA: 0x000AF668 File Offset: 0x000ADA68
+		// Token: 0x06001425 RID: 5157 RVA: 0x000AF680 File Offset: 0x000ADA80
 		public static void GetThoughts(Pawn victim, DamageInfo? dinfo, PawnDiedOrDownedThoughtsKind thoughtsKind, List<IndividualThoughtToAdd> outIndividualThoughts, List<ThoughtDef> outAllColonistsThoughts)
 		{
 			outIndividualThoughts.Clear();
@@ -75,7 +75,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600142F RID: 5167 RVA: 0x000AF6C4 File Offset: 0x000ADAC4
+		// Token: 0x06001426 RID: 5158 RVA: 0x000AF6DC File Offset: 0x000ADADC
 		public static void BuildMoodThoughtsListString(Pawn victim, DamageInfo? dinfo, PawnDiedOrDownedThoughtsKind thoughtsKind, StringBuilder sb, string individualThoughtsHeader, string allColonistsThoughtsHeader)
 		{
 			PawnDiedOrDownedThoughtsUtility.GetThoughts(victim, dinfo, thoughtsKind, PawnDiedOrDownedThoughtsUtility.tmpIndividualThoughtsToAdd, PawnDiedOrDownedThoughtsUtility.tmpAllColonistsThoughts);
@@ -123,7 +123,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001430 RID: 5168 RVA: 0x000AF920 File Offset: 0x000ADD20
+		// Token: 0x06001427 RID: 5159 RVA: 0x000AF938 File Offset: 0x000ADD38
 		public static void BuildMoodThoughtsListString(IEnumerable<Pawn> victims, PawnDiedOrDownedThoughtsKind thoughtsKind, StringBuilder sb, string individualThoughtsHeader, string allColonistsThoughtsHeader, string victimLabelKey)
 		{
 			foreach (Pawn pawn in victims)
@@ -153,7 +153,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001431 RID: 5169 RVA: 0x000AFA38 File Offset: 0x000ADE38
+		// Token: 0x06001428 RID: 5160 RVA: 0x000AFA50 File Offset: 0x000ADE50
 		private static void AppendThoughts_ForHumanlike(Pawn victim, DamageInfo? dinfo, PawnDiedOrDownedThoughtsKind thoughtsKind, List<IndividualThoughtToAdd> outIndividualThoughts, List<ThoughtDef> outAllColonistsThoughts)
 		{
 			bool flag = dinfo != null && dinfo.Value.Def.execution;
@@ -230,7 +230,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001432 RID: 5170 RVA: 0x000AFE44 File Offset: 0x000AE244
+		// Token: 0x06001429 RID: 5161 RVA: 0x000AFE5C File Offset: 0x000AE25C
 		private static void AppendThoughts_Relations(Pawn victim, DamageInfo? dinfo, PawnDiedOrDownedThoughtsKind thoughtsKind, List<IndividualThoughtToAdd> outIndividualThoughts, List<ThoughtDef> outAllColonistsThoughts)
 		{
 			if (thoughtsKind == PawnDiedOrDownedThoughtsKind.Banished && victim.RaceProps.Animal)
@@ -336,7 +336,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001433 RID: 5171 RVA: 0x000B02B4 File Offset: 0x000AE6B4
+		// Token: 0x0600142A RID: 5162 RVA: 0x000B02CC File Offset: 0x000AE6CC
 		private static bool Witnessed(Pawn p, Pawn victim)
 		{
 			bool result;
@@ -355,7 +355,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001434 RID: 5172 RVA: 0x000B0380 File Offset: 0x000AE780
+		// Token: 0x0600142B RID: 5163 RVA: 0x000B0398 File Offset: 0x000AE798
 		public static void RemoveDiedThoughts(Pawn pawn)
 		{
 			foreach (Pawn pawn2 in PawnsFinder.AllMapsWorldAndTemporary_Alive)
@@ -380,10 +380,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000C0A RID: 3082
+		// Token: 0x04000C07 RID: 3079
 		private static List<IndividualThoughtToAdd> tmpIndividualThoughtsToAdd = new List<IndividualThoughtToAdd>();
 
-		// Token: 0x04000C0B RID: 3083
+		// Token: 0x04000C08 RID: 3080
 		private static List<ThoughtDef> tmpAllColonistsThoughts = new List<ThoughtDef>();
 	}
 }

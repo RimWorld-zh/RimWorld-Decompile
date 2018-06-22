@@ -7,7 +7,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003AF RID: 943
 	public class SymbolResolver_EnsureCanReachMapEdge : SymbolResolver
 	{
-		// Token: 0x0600105F RID: 4191 RVA: 0x0008A234 File Offset: 0x00088634
+		// Token: 0x0600105F RID: 4191 RVA: 0x0008A420 File Offset: 0x00088820
 		public override void Resolve(ResolveParams rp)
 		{
 			SymbolResolver_EnsureCanReachMapEdge.cellsInRandomOrder.Clear();
@@ -22,7 +22,7 @@ namespace RimWorld.BaseGen
 			this.TryMakeAllCellsReachable(true, rp);
 		}
 
-		// Token: 0x06001060 RID: 4192 RVA: 0x0008A2A0 File Offset: 0x000886A0
+		// Token: 0x06001060 RID: 4192 RVA: 0x0008A48C File Offset: 0x0008888C
 		private void TryMakeAllCellsReachable(bool canPathThroughNonStandable, ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -63,7 +63,7 @@ namespace RimWorld.BaseGen
 			SymbolResolver_EnsureCanReachMapEdge.visited.Clear();
 		}
 
-		// Token: 0x06001061 RID: 4193 RVA: 0x0008A3F8 File Offset: 0x000887F8
+		// Token: 0x06001061 RID: 4193 RVA: 0x0008A5E4 File Offset: 0x000889E4
 		private void ReconstructPathAndDestroyWalls(IntVec3 foundDest, Room room, ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -117,7 +117,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06001062 RID: 4194 RVA: 0x0008A5E4 File Offset: 0x000889E4
+		// Token: 0x06001062 RID: 4194 RVA: 0x0008A7D0 File Offset: 0x00088BD0
 		private bool CanTraverse(IntVec3 c, bool canPathThroughNonStandable)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -125,19 +125,19 @@ namespace RimWorld.BaseGen
 			return this.IsWallOrRock(edifice) || ((canPathThroughNonStandable || c.Standable(map)) && !c.Impassable(map));
 		}
 
-		// Token: 0x06001063 RID: 4195 RVA: 0x0008A64C File Offset: 0x00088A4C
+		// Token: 0x06001063 RID: 4195 RVA: 0x0008A838 File Offset: 0x00088C38
 		private bool IsWallOrRock(Building b)
 		{
 			return b != null && (b.def == ThingDefOf.Wall || b.def.building.isNaturalRock);
 		}
 
-		// Token: 0x04000A1C RID: 2588
+		// Token: 0x04000A1E RID: 2590
 		private static HashSet<Room> visited = new HashSet<Room>();
 
-		// Token: 0x04000A1D RID: 2589
+		// Token: 0x04000A1F RID: 2591
 		private static List<IntVec3> path = new List<IntVec3>();
 
-		// Token: 0x04000A1E RID: 2590
+		// Token: 0x04000A20 RID: 2592
 		private static List<IntVec3> cellsInRandomOrder = new List<IntVec3>();
 	}
 }

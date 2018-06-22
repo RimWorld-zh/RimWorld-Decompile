@@ -6,21 +6,21 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000463 RID: 1123
+	// Token: 0x0200045F RID: 1119
 	public class Bill_Medical : Bill
 	{
-		// Token: 0x060013A9 RID: 5033 RVA: 0x000A988B File Offset: 0x000A7C8B
+		// Token: 0x060013A0 RID: 5024 RVA: 0x000A989B File Offset: 0x000A7C9B
 		public Bill_Medical()
 		{
 		}
 
-		// Token: 0x060013AA RID: 5034 RVA: 0x000A9894 File Offset: 0x000A7C94
+		// Token: 0x060013A1 RID: 5025 RVA: 0x000A98A4 File Offset: 0x000A7CA4
 		public Bill_Medical(RecipeDef recipe) : base(recipe)
 		{
 		}
 
 		// Token: 0x170002B1 RID: 689
-		// (get) Token: 0x060013AB RID: 5035 RVA: 0x000A98A0 File Offset: 0x000A7CA0
+		// (get) Token: 0x060013A2 RID: 5026 RVA: 0x000A98B0 File Offset: 0x000A7CB0
 		public override bool CheckIngredientsIfSociallyProper
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002B2 RID: 690
-		// (get) Token: 0x060013AC RID: 5036 RVA: 0x000A98B8 File Offset: 0x000A7CB8
+		// (get) Token: 0x060013A3 RID: 5027 RVA: 0x000A98C8 File Offset: 0x000A7CC8
 		protected override bool CanCopy
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002B3 RID: 691
-		// (get) Token: 0x060013AD RID: 5037 RVA: 0x000A98D0 File Offset: 0x000A7CD0
+		// (get) Token: 0x060013A4 RID: 5028 RVA: 0x000A98E0 File Offset: 0x000A7CE0
 		public override bool CompletableEver
 		{
 			get
@@ -50,8 +50,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002B4 RID: 692
-		// (get) Token: 0x060013AE RID: 5038 RVA: 0x000A992C File Offset: 0x000A7D2C
-		// (set) Token: 0x060013AF RID: 5039 RVA: 0x000A9948 File Offset: 0x000A7D48
+		// (get) Token: 0x060013A5 RID: 5029 RVA: 0x000A993C File Offset: 0x000A7D3C
+		// (set) Token: 0x060013A6 RID: 5030 RVA: 0x000A9958 File Offset: 0x000A7D58
 		public BodyPartRecord Part
 		{
 			get
@@ -76,7 +76,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002B5 RID: 693
-		// (get) Token: 0x060013B0 RID: 5040 RVA: 0x000A99E0 File Offset: 0x000A7DE0
+		// (get) Token: 0x060013A7 RID: 5031 RVA: 0x000A99F0 File Offset: 0x000A7DF0
 		public Pawn GiverPawn
 		{
 			get
@@ -96,7 +96,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002B6 RID: 694
-		// (get) Token: 0x060013B1 RID: 5041 RVA: 0x000A9A38 File Offset: 0x000A7E38
+		// (get) Token: 0x060013A8 RID: 5032 RVA: 0x000A9A48 File Offset: 0x000A7E48
 		public override string Label
 		{
 			get
@@ -111,13 +111,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060013B2 RID: 5042 RVA: 0x000A9AB8 File Offset: 0x000A7EB8
+		// Token: 0x060013A9 RID: 5033 RVA: 0x000A9AC8 File Offset: 0x000A7EC8
 		public override bool ShouldDoNow()
 		{
 			return !this.suspended;
 		}
 
-		// Token: 0x060013B3 RID: 5043 RVA: 0x000A9AE0 File Offset: 0x000A7EE0
+		// Token: 0x060013AA RID: 5034 RVA: 0x000A9AF0 File Offset: 0x000A7EF0
 		public override void Notify_IterationCompleted(Pawn billDoer, List<Thing> ingredients)
 		{
 			base.Notify_IterationCompleted(billDoer, ingredients);
@@ -134,7 +134,7 @@ namespace RimWorld
 			this.billStack.Delete(this);
 		}
 
-		// Token: 0x060013B4 RID: 5044 RVA: 0x000A9B64 File Offset: 0x000A7F64
+		// Token: 0x060013AB RID: 5035 RVA: 0x000A9B74 File Offset: 0x000A7F74
 		public override void Notify_DoBillStarted(Pawn billDoer)
 		{
 			base.Notify_DoBillStarted(billDoer);
@@ -162,7 +162,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060013B5 RID: 5045 RVA: 0x000A9C80 File Offset: 0x000A8080
+		// Token: 0x060013AC RID: 5036 RVA: 0x000A9C90 File Offset: 0x000A8090
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -178,7 +178,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060013B6 RID: 5046 RVA: 0x000A9CD8 File Offset: 0x000A80D8
+		// Token: 0x060013AD RID: 5037 RVA: 0x000A9CE8 File Offset: 0x000A80E8
 		public override Bill Clone()
 		{
 			Bill_Medical bill_Medical = (Bill_Medical)base.Clone();
@@ -187,13 +187,13 @@ namespace RimWorld
 			return bill_Medical;
 		}
 
-		// Token: 0x04000BF3 RID: 3059
+		// Token: 0x04000BF0 RID: 3056
 		private BodyPartRecord part;
 
-		// Token: 0x04000BF4 RID: 3060
+		// Token: 0x04000BF1 RID: 3057
 		public ThingDef consumedInitialMedicineDef;
 
-		// Token: 0x04000BF5 RID: 3061
+		// Token: 0x04000BF2 RID: 3058
 		public int temp_partIndexToSetLater;
 	}
 }

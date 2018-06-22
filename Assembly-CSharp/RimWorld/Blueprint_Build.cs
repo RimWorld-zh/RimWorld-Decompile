@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000677 RID: 1655
+	// Token: 0x02000673 RID: 1651
 	public class Blueprint_Build : Blueprint
 	{
 		// Token: 0x17000515 RID: 1301
-		// (get) Token: 0x060022BD RID: 8893 RVA: 0x0012B068 File Offset: 0x00129468
+		// (get) Token: 0x060022B5 RID: 8885 RVA: 0x0012B1B0 File Offset: 0x001295B0
 		public override string Label
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000516 RID: 1302
-		// (get) Token: 0x060022BE RID: 8894 RVA: 0x0012B0B8 File Offset: 0x001294B8
+		// (get) Token: 0x060022B6 RID: 8886 RVA: 0x0012B200 File Offset: 0x00129600
 		protected override float WorkTotal
 		{
 			get
@@ -42,32 +42,32 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060022BF RID: 8895 RVA: 0x0012B0E8 File Offset: 0x001294E8
+		// Token: 0x060022B7 RID: 8887 RVA: 0x0012B230 File Offset: 0x00129630
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Defs.Look<ThingDef>(ref this.stuffToUse, "stuffToUse");
 		}
 
-		// Token: 0x060022C0 RID: 8896 RVA: 0x0012B104 File Offset: 0x00129504
+		// Token: 0x060022B8 RID: 8888 RVA: 0x0012B24C File Offset: 0x0012964C
 		public override ThingDef UIStuff()
 		{
 			return this.stuffToUse;
 		}
 
-		// Token: 0x060022C1 RID: 8897 RVA: 0x0012B120 File Offset: 0x00129520
+		// Token: 0x060022B9 RID: 8889 RVA: 0x0012B268 File Offset: 0x00129668
 		public override List<ThingDefCountClass> MaterialsNeeded()
 		{
 			return this.def.entityDefToBuild.CostListAdjusted(this.stuffToUse, true);
 		}
 
-		// Token: 0x060022C2 RID: 8898 RVA: 0x0012B14C File Offset: 0x0012954C
+		// Token: 0x060022BA RID: 8890 RVA: 0x0012B294 File Offset: 0x00129694
 		protected override Thing MakeSolidThing()
 		{
 			return ThingMaker.MakeThing(this.def.entityDefToBuild.frameDef, this.stuffToUse);
 		}
 
-		// Token: 0x060022C3 RID: 8899 RVA: 0x0012B17C File Offset: 0x0012957C
+		// Token: 0x060022BB RID: 8891 RVA: 0x0012B2C4 File Offset: 0x001296C4
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
@@ -89,7 +89,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060022C4 RID: 8900 RVA: 0x0012B1A8 File Offset: 0x001295A8
+		// Token: 0x060022BC RID: 8892 RVA: 0x0012B2F0 File Offset: 0x001296F0
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -112,7 +112,7 @@ namespace RimWorld
 			return stringBuilder.ToString().Trim();
 		}
 
-		// Token: 0x04001392 RID: 5010
+		// Token: 0x04001390 RID: 5008
 		public ThingDef stuffToUse = null;
 	}
 }

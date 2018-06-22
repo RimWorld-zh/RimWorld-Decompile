@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_MarryAdjacentPawn : JobDriver
 	{
 		// Token: 0x17000085 RID: 133
-		// (get) Token: 0x0600026A RID: 618 RVA: 0x000198DC File Offset: 0x00017CDC
+		// (get) Token: 0x0600026A RID: 618 RVA: 0x000198E4 File Offset: 0x00017CE4
 		private Pawn OtherFiance
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000086 RID: 134
-		// (get) Token: 0x0600026B RID: 619 RVA: 0x0001990C File Offset: 0x00017D0C
+		// (get) Token: 0x0600026B RID: 619 RVA: 0x00019914 File Offset: 0x00017D14
 		public int TicksLeftToMarry
 		{
 			get
@@ -28,13 +28,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600026C RID: 620 RVA: 0x00019928 File Offset: 0x00017D28
+		// Token: 0x0600026C RID: 620 RVA: 0x00019930 File Offset: 0x00017D30
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x0600026D RID: 621 RVA: 0x00019940 File Offset: 0x00017D40
+		// Token: 0x0600026D RID: 621 RVA: 0x00019948 File Offset: 0x00017D48
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);
@@ -70,7 +70,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600026E RID: 622 RVA: 0x0001996A File Offset: 0x00017D6A
+		// Token: 0x0600026E RID: 622 RVA: 0x00019972 File Offset: 0x00017D72
 		public override void ExposeData()
 		{
 			base.ExposeData();

@@ -3,18 +3,18 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D5D RID: 3421
+	// Token: 0x02000D5A RID: 3418
 	public class Pawn_StanceTracker : IExposable
 	{
-		// Token: 0x06004C93 RID: 19603 RVA: 0x0027E6A5 File Offset: 0x0027CAA5
+		// Token: 0x06004CA8 RID: 19624 RVA: 0x0027FC55 File Offset: 0x0027E055
 		public Pawn_StanceTracker(Pawn newPawn)
 		{
 			this.pawn = newPawn;
 			this.stunner = new StunHandler(this.pawn);
 		}
 
-		// Token: 0x17000C7A RID: 3194
-		// (get) Token: 0x06004C94 RID: 19604 RVA: 0x0027E6E0 File Offset: 0x0027CAE0
+		// Token: 0x17000C7C RID: 3196
+		// (get) Token: 0x06004CA9 RID: 19625 RVA: 0x0027FC90 File Offset: 0x0027E090
 		public bool FullBodyBusy
 		{
 			get
@@ -23,8 +23,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C7B RID: 3195
-		// (get) Token: 0x06004C95 RID: 19605 RVA: 0x0027E714 File Offset: 0x0027CB14
+		// Token: 0x17000C7D RID: 3197
+		// (get) Token: 0x06004CAA RID: 19626 RVA: 0x0027FCC4 File Offset: 0x0027E0C4
 		public bool Staggered
 		{
 			get
@@ -33,7 +33,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C96 RID: 19606 RVA: 0x0027E73B File Offset: 0x0027CB3B
+		// Token: 0x06004CAB RID: 19627 RVA: 0x0027FCEB File Offset: 0x0027E0EB
 		public void StanceTrackerTick()
 		{
 			this.stunner.StunHandlerTick();
@@ -43,13 +43,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C97 RID: 19607 RVA: 0x0027E764 File Offset: 0x0027CB64
+		// Token: 0x06004CAC RID: 19628 RVA: 0x0027FD14 File Offset: 0x0027E114
 		public void StanceTrackerDraw()
 		{
 			this.curStance.StanceDraw();
 		}
 
-		// Token: 0x06004C98 RID: 19608 RVA: 0x0027E774 File Offset: 0x0027CB74
+		// Token: 0x06004CAD RID: 19629 RVA: 0x0027FD24 File Offset: 0x0027E124
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.staggerUntilTick, "staggerUntilTick", 0, false);
@@ -64,13 +64,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C99 RID: 19609 RVA: 0x0027E7EB File Offset: 0x0027CBEB
+		// Token: 0x06004CAE RID: 19630 RVA: 0x0027FD9B File Offset: 0x0027E19B
 		public void StaggerFor(int ticks)
 		{
 			this.staggerUntilTick = Find.TickManager.TicksGame + ticks;
 		}
 
-		// Token: 0x06004C9A RID: 19610 RVA: 0x0027E800 File Offset: 0x0027CC00
+		// Token: 0x06004CAF RID: 19631 RVA: 0x0027FDB0 File Offset: 0x0027E1B0
 		public void CancelBusyStanceSoft()
 		{
 			if (this.curStance is Stance_Warmup)
@@ -79,13 +79,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C9B RID: 19611 RVA: 0x0027E81E File Offset: 0x0027CC1E
+		// Token: 0x06004CB0 RID: 19632 RVA: 0x0027FDCE File Offset: 0x0027E1CE
 		public void CancelBusyStanceHard()
 		{
 			this.SetStance(new Stance_Mobile());
 		}
 
-		// Token: 0x06004C9C RID: 19612 RVA: 0x0027E82C File Offset: 0x0027CC2C
+		// Token: 0x06004CB1 RID: 19633 RVA: 0x0027FDDC File Offset: 0x0027E1DC
 		public void SetStance(Stance newStance)
 		{
 			if (this.debugLog)
@@ -109,33 +109,33 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C9D RID: 19613 RVA: 0x0027E8CE File Offset: 0x0027CCCE
+		// Token: 0x06004CB2 RID: 19634 RVA: 0x0027FE7E File Offset: 0x0027E27E
 		public void Notify_DamageTaken(DamageInfo dinfo)
 		{
 		}
 
-		// Token: 0x04003317 RID: 13079
+		// Token: 0x04003322 RID: 13090
 		public Pawn pawn;
 
-		// Token: 0x04003318 RID: 13080
+		// Token: 0x04003323 RID: 13091
 		public Stance curStance = new Stance_Mobile();
 
-		// Token: 0x04003319 RID: 13081
+		// Token: 0x04003324 RID: 13092
 		private int staggerUntilTick = -1;
 
-		// Token: 0x0400331A RID: 13082
+		// Token: 0x04003325 RID: 13093
 		public StunHandler stunner;
 
-		// Token: 0x0400331B RID: 13083
+		// Token: 0x04003326 RID: 13094
 		public const int StaggerMeleeAttackTicks = 95;
 
-		// Token: 0x0400331C RID: 13084
+		// Token: 0x04003327 RID: 13095
 		public const int StaggerBulletImpactTicks = 95;
 
-		// Token: 0x0400331D RID: 13085
+		// Token: 0x04003328 RID: 13096
 		public const int StaggerExplosionImpactTicks = 95;
 
-		// Token: 0x0400331E RID: 13086
+		// Token: 0x04003329 RID: 13097
 		public bool debugLog = false;
 	}
 }

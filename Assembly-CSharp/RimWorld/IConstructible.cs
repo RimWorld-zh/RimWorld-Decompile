@@ -4,13 +4,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200067B RID: 1659
+	// Token: 0x02000677 RID: 1655
 	public interface IConstructible
 	{
-		// Token: 0x060022D9 RID: 8921
+		// Token: 0x060022D1 RID: 8913
 		List<ThingDefCountClass> MaterialsNeeded();
 
-		// Token: 0x060022DA RID: 8922
+		// Token: 0x060022D2 RID: 8914
 		ThingDef UIStuff();
 	}
 }

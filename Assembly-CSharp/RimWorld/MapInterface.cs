@@ -7,10 +7,10 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200087C RID: 2172
+	// Token: 0x02000878 RID: 2168
 	public class MapInterface
 	{
-		// Token: 0x06003184 RID: 12676 RVA: 0x001AD804 File Offset: 0x001ABC04
+		// Token: 0x0600317D RID: 12669 RVA: 0x001AD9EC File Offset: 0x001ABDEC
 		public void MapInterfaceOnGUI_BeforeMainTabs()
 		{
 			if (Find.CurrentMap != null)
@@ -74,7 +74,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003185 RID: 12677 RVA: 0x001AD9AC File Offset: 0x001ABDAC
+		// Token: 0x0600317E RID: 12670 RVA: 0x001ADB94 File Offset: 0x001ABF94
 		public void MapInterfaceOnGUI_AfterMainTabs()
 		{
 			if (Find.CurrentMap != null)
@@ -98,7 +98,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003186 RID: 12678 RVA: 0x001ADA3C File Offset: 0x001ABE3C
+		// Token: 0x0600317F RID: 12671 RVA: 0x001ADC24 File Offset: 0x001AC024
 		public void HandleMapClicks()
 		{
 			if (Find.CurrentMap != null)
@@ -115,7 +115,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003187 RID: 12679 RVA: 0x001ADA9C File Offset: 0x001ABE9C
+		// Token: 0x06003180 RID: 12672 RVA: 0x001ADC84 File Offset: 0x001AC084
 		public void HandleLowPriorityInput()
 		{
 			if (Find.CurrentMap != null)
@@ -132,7 +132,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003188 RID: 12680 RVA: 0x001ADB00 File Offset: 0x001ABF00
+		// Token: 0x06003181 RID: 12673 RVA: 0x001ADCE8 File Offset: 0x001AC0E8
 		public void MapInterfaceUpdate()
 		{
 			if (Find.CurrentMap != null)
@@ -192,7 +192,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003189 RID: 12681 RVA: 0x001ADC90 File Offset: 0x001AC090
+		// Token: 0x06003182 RID: 12674 RVA: 0x001ADE78 File Offset: 0x001AC278
 		public void Notify_SwitchedMap()
 		{
 			this.designatorManager.Deselect();
@@ -217,31 +217,31 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04001AC4 RID: 6852
+		// Token: 0x04001AC2 RID: 6850
 		public ThingOverlays thingOverlays = new ThingOverlays();
 
-		// Token: 0x04001AC5 RID: 6853
+		// Token: 0x04001AC3 RID: 6851
 		public Selector selector = new Selector();
 
-		// Token: 0x04001AC6 RID: 6854
+		// Token: 0x04001AC4 RID: 6852
 		public Targeter targeter = new Targeter();
 
-		// Token: 0x04001AC7 RID: 6855
+		// Token: 0x04001AC5 RID: 6853
 		public DesignatorManager designatorManager = new DesignatorManager();
 
-		// Token: 0x04001AC8 RID: 6856
+		// Token: 0x04001AC6 RID: 6854
 		public ReverseDesignatorDatabase reverseDesignatorDatabase = new ReverseDesignatorDatabase();
 
-		// Token: 0x04001AC9 RID: 6857
+		// Token: 0x04001AC7 RID: 6855
 		private MouseoverReadout mouseoverReadout = new MouseoverReadout();
 
-		// Token: 0x04001ACA RID: 6858
+		// Token: 0x04001AC8 RID: 6856
 		public GlobalControls globalControls = new GlobalControls();
 
-		// Token: 0x04001ACB RID: 6859
+		// Token: 0x04001AC9 RID: 6857
 		protected ResourceReadout resourceReadout = new ResourceReadout();
 
-		// Token: 0x04001ACC RID: 6860
+		// Token: 0x04001ACA RID: 6858
 		public ColonistBar colonistBar = new ColonistBar();
 	}
 }

@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008CF RID: 2255
+	// Token: 0x020008CB RID: 2251
 	public struct EventPack
 	{
-		// Token: 0x06003392 RID: 13202 RVA: 0x001B9701 File Offset: 0x001B7B01
+		// Token: 0x0600338B RID: 13195 RVA: 0x001B98E9 File Offset: 0x001B7CE9
 		public EventPack(string tag)
 		{
 			this.tagInt = tag;
@@ -15,7 +15,7 @@ namespace RimWorld
 			this.cellsInt = null;
 		}
 
-		// Token: 0x06003393 RID: 13203 RVA: 0x001B971D File Offset: 0x001B7B1D
+		// Token: 0x0600338C RID: 13196 RVA: 0x001B9905 File Offset: 0x001B7D05
 		public EventPack(string tag, IntVec3 cell)
 		{
 			this.tagInt = tag;
@@ -23,7 +23,7 @@ namespace RimWorld
 			this.cellsInt = null;
 		}
 
-		// Token: 0x06003394 RID: 13204 RVA: 0x001B9735 File Offset: 0x001B7B35
+		// Token: 0x0600338D RID: 13197 RVA: 0x001B991D File Offset: 0x001B7D1D
 		public EventPack(string tag, IEnumerable<IntVec3> cells)
 		{
 			this.tagInt = tag;
@@ -31,8 +31,8 @@ namespace RimWorld
 			this.cellsInt = cells;
 		}
 
-		// Token: 0x17000836 RID: 2102
-		// (get) Token: 0x06003395 RID: 13205 RVA: 0x001B9754 File Offset: 0x001B7B54
+		// Token: 0x17000837 RID: 2103
+		// (get) Token: 0x0600338E RID: 13198 RVA: 0x001B993C File Offset: 0x001B7D3C
 		public string Tag
 		{
 			get
@@ -41,8 +41,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000837 RID: 2103
-		// (get) Token: 0x06003396 RID: 13206 RVA: 0x001B9770 File Offset: 0x001B7B70
+		// Token: 0x17000838 RID: 2104
+		// (get) Token: 0x0600338F RID: 13199 RVA: 0x001B9958 File Offset: 0x001B7D58
 		public IntVec3 Cell
 		{
 			get
@@ -51,8 +51,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000838 RID: 2104
-		// (get) Token: 0x06003397 RID: 13207 RVA: 0x001B978C File Offset: 0x001B7B8C
+		// Token: 0x17000839 RID: 2105
+		// (get) Token: 0x06003390 RID: 13200 RVA: 0x001B9974 File Offset: 0x001B7D74
 		public IEnumerable<IntVec3> Cells
 		{
 			get
@@ -61,13 +61,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003398 RID: 13208 RVA: 0x001B97A8 File Offset: 0x001B7BA8
+		// Token: 0x06003391 RID: 13201 RVA: 0x001B9990 File Offset: 0x001B7D90
 		public static implicit operator EventPack(string s)
 		{
 			return new EventPack(s);
 		}
 
-		// Token: 0x06003399 RID: 13209 RVA: 0x001B97C4 File Offset: 0x001B7BC4
+		// Token: 0x06003392 RID: 13202 RVA: 0x001B99AC File Offset: 0x001B7DAC
 		public override string ToString()
 		{
 			string result;
@@ -82,13 +82,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04001BA7 RID: 7079
+		// Token: 0x04001BA5 RID: 7077
 		private string tagInt;
 
-		// Token: 0x04001BA8 RID: 7080
+		// Token: 0x04001BA6 RID: 7078
 		private IntVec3 cellInt;
 
-		// Token: 0x04001BA9 RID: 7081
+		// Token: 0x04001BA7 RID: 7079
 		private IEnumerable<IntVec3> cellsInt;
 	}
 }

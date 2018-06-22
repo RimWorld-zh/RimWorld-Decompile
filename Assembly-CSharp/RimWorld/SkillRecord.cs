@@ -4,21 +4,21 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000527 RID: 1319
+	// Token: 0x02000523 RID: 1315
 	public class SkillRecord : IExposable
 	{
-		// Token: 0x0600180C RID: 6156 RVA: 0x000D1EA9 File Offset: 0x000D02A9
+		// Token: 0x06001803 RID: 6147 RVA: 0x000D1EA1 File Offset: 0x000D02A1
 		public SkillRecord()
 		{
 		}
 
-		// Token: 0x0600180D RID: 6157 RVA: 0x000D1EC7 File Offset: 0x000D02C7
+		// Token: 0x06001804 RID: 6148 RVA: 0x000D1EBF File Offset: 0x000D02BF
 		public SkillRecord(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x0600180E RID: 6158 RVA: 0x000D1EEC File Offset: 0x000D02EC
+		// Token: 0x06001805 RID: 6149 RVA: 0x000D1EE4 File Offset: 0x000D02E4
 		public SkillRecord(Pawn pawn, SkillDef def)
 		{
 			this.pawn = pawn;
@@ -26,8 +26,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000355 RID: 853
-		// (get) Token: 0x0600180F RID: 6159 RVA: 0x000D1F18 File Offset: 0x000D0318
-		// (set) Token: 0x06001810 RID: 6160 RVA: 0x000D1F45 File Offset: 0x000D0345
+		// (get) Token: 0x06001806 RID: 6150 RVA: 0x000D1F10 File Offset: 0x000D0310
+		// (set) Token: 0x06001807 RID: 6151 RVA: 0x000D1F3D File Offset: 0x000D033D
 		public int Level
 		{
 			get
@@ -50,7 +50,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000356 RID: 854
-		// (get) Token: 0x06001811 RID: 6161 RVA: 0x000D1F58 File Offset: 0x000D0358
+		// (get) Token: 0x06001808 RID: 6152 RVA: 0x000D1F50 File Offset: 0x000D0350
 		public float XpRequiredForLevelUp
 		{
 			get
@@ -60,7 +60,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000357 RID: 855
-		// (get) Token: 0x06001812 RID: 6162 RVA: 0x000D1F78 File Offset: 0x000D0378
+		// (get) Token: 0x06001809 RID: 6153 RVA: 0x000D1F70 File Offset: 0x000D0370
 		public float XpProgressPercent
 		{
 			get
@@ -70,7 +70,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000358 RID: 856
-		// (get) Token: 0x06001813 RID: 6163 RVA: 0x000D1F9C File Offset: 0x000D039C
+		// (get) Token: 0x0600180A RID: 6154 RVA: 0x000D1F94 File Offset: 0x000D0394
 		public float XpTotalEarned
 		{
 			get
@@ -85,7 +85,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000359 RID: 857
-		// (get) Token: 0x06001814 RID: 6164 RVA: 0x000D1FDC File Offset: 0x000D03DC
+		// (get) Token: 0x0600180B RID: 6155 RVA: 0x000D1FD4 File Offset: 0x000D03D4
 		public bool TotallyDisabled
 		{
 			get
@@ -99,7 +99,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700035A RID: 858
-		// (get) Token: 0x06001815 RID: 6165 RVA: 0x000D2020 File Offset: 0x000D0420
+		// (get) Token: 0x0600180C RID: 6156 RVA: 0x000D2018 File Offset: 0x000D0418
 		public string LevelDescriptor
 		{
 			get
@@ -179,7 +179,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700035B RID: 859
-		// (get) Token: 0x06001816 RID: 6166 RVA: 0x000D21F0 File Offset: 0x000D05F0
+		// (get) Token: 0x0600180D RID: 6157 RVA: 0x000D21E8 File Offset: 0x000D05E8
 		public bool LearningSaturatedToday
 		{
 			get
@@ -188,7 +188,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001817 RID: 6167 RVA: 0x000D2214 File Offset: 0x000D0614
+		// Token: 0x0600180E RID: 6158 RVA: 0x000D220C File Offset: 0x000D060C
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<SkillDef>(ref this.def, "def");
@@ -198,7 +198,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.xpSinceMidnight, "xpSinceMidnight", 0f, false);
 		}
 
-		// Token: 0x06001818 RID: 6168 RVA: 0x000D2284 File Offset: 0x000D0684
+		// Token: 0x0600180F RID: 6159 RVA: 0x000D227C File Offset: 0x000D067C
 		public void Interval()
 		{
 			float num = (!this.pawn.story.traits.HasTrait(TraitDefOf.GreatMemory)) ? 1f : 0.5f;
@@ -240,13 +240,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001819 RID: 6169 RVA: 0x000D23D4 File Offset: 0x000D07D4
+		// Token: 0x06001810 RID: 6160 RVA: 0x000D23CC File Offset: 0x000D07CC
 		public static float XpRequiredToLevelUpFrom(int startingLevel)
 		{
 			return SkillRecord.XpForLevelUpCurve.Evaluate((float)startingLevel);
 		}
 
-		// Token: 0x0600181A RID: 6170 RVA: 0x000D23F8 File Offset: 0x000D07F8
+		// Token: 0x06001811 RID: 6161 RVA: 0x000D23F0 File Offset: 0x000D07F0
 		public void Learn(float xp, bool direct = false)
 		{
 			if (!this.TotallyDisabled)
@@ -311,7 +311,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600181B RID: 6171 RVA: 0x000D25D4 File Offset: 0x000D09D4
+		// Token: 0x06001812 RID: 6162 RVA: 0x000D25CC File Offset: 0x000D09CC
 		public float LearnRateFactor(bool direct = false)
 		{
 			float result;
@@ -349,7 +349,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600181C RID: 6172 RVA: 0x000D2688 File Offset: 0x000D0A88
+		// Token: 0x06001813 RID: 6163 RVA: 0x000D2680 File Offset: 0x000D0A80
 		public void EnsureMinLevelWithMargin(int minLevel)
 		{
 			if (!this.TotallyDisabled)
@@ -362,19 +362,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600181D RID: 6173 RVA: 0x000D26F0 File Offset: 0x000D0AF0
+		// Token: 0x06001814 RID: 6164 RVA: 0x000D26E8 File Offset: 0x000D0AE8
 		public void Notify_SkillDisablesChanged()
 		{
 			this.cachedTotallyDisabled = BoolUnknown.Unknown;
 		}
 
-		// Token: 0x0600181E RID: 6174 RVA: 0x000D26FC File Offset: 0x000D0AFC
+		// Token: 0x06001815 RID: 6165 RVA: 0x000D26F4 File Offset: 0x000D0AF4
 		private bool CalculateTotallyDisabled()
 		{
 			return this.def.IsDisabled(this.pawn.story.CombinedDisabledWorkTags, this.pawn.story.DisabledWorkTypes);
 		}
 
-		// Token: 0x0600181F RID: 6175 RVA: 0x000D273C File Offset: 0x000D0B3C
+		// Token: 0x06001816 RID: 6166 RVA: 0x000D2734 File Offset: 0x000D0B34
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -388,55 +388,55 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x04000E46 RID: 3654
+		// Token: 0x04000E43 RID: 3651
 		private Pawn pawn;
 
-		// Token: 0x04000E47 RID: 3655
+		// Token: 0x04000E44 RID: 3652
 		public SkillDef def;
 
-		// Token: 0x04000E48 RID: 3656
+		// Token: 0x04000E45 RID: 3653
 		public int levelInt = 0;
 
-		// Token: 0x04000E49 RID: 3657
+		// Token: 0x04000E46 RID: 3654
 		public Passion passion = Passion.None;
 
-		// Token: 0x04000E4A RID: 3658
+		// Token: 0x04000E47 RID: 3655
 		public float xpSinceLastLevel;
 
-		// Token: 0x04000E4B RID: 3659
+		// Token: 0x04000E48 RID: 3656
 		public float xpSinceMidnight;
 
-		// Token: 0x04000E4C RID: 3660
+		// Token: 0x04000E49 RID: 3657
 		private BoolUnknown cachedTotallyDisabled = BoolUnknown.Unknown;
 
-		// Token: 0x04000E4D RID: 3661
+		// Token: 0x04000E4A RID: 3658
 		public const int IntervalTicks = 200;
 
-		// Token: 0x04000E4E RID: 3662
+		// Token: 0x04000E4B RID: 3659
 		public const int MinLevel = 0;
 
-		// Token: 0x04000E4F RID: 3663
+		// Token: 0x04000E4C RID: 3660
 		public const int MaxLevel = 20;
 
-		// Token: 0x04000E50 RID: 3664
+		// Token: 0x04000E4D RID: 3661
 		public const int MaxFullRateXpPerDay = 4000;
 
-		// Token: 0x04000E51 RID: 3665
+		// Token: 0x04000E4E RID: 3662
 		public const int MasterSkillThreshold = 14;
 
-		// Token: 0x04000E52 RID: 3666
+		// Token: 0x04000E4F RID: 3663
 		public const float SaturatedLearningFactor = 0.2f;
 
-		// Token: 0x04000E53 RID: 3667
+		// Token: 0x04000E50 RID: 3664
 		public const float LearnFactorPassionNone = 0.35f;
 
-		// Token: 0x04000E54 RID: 3668
+		// Token: 0x04000E51 RID: 3665
 		public const float LearnFactorPassionMinor = 1f;
 
-		// Token: 0x04000E55 RID: 3669
+		// Token: 0x04000E52 RID: 3666
 		public const float LearnFactorPassionMajor = 1.5f;
 
-		// Token: 0x04000E56 RID: 3670
+		// Token: 0x04000E53 RID: 3667
 		private static readonly SimpleCurve XpForLevelUpCurve = new SimpleCurve
 		{
 			{

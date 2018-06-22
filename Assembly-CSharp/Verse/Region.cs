@@ -7,16 +7,16 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C88 RID: 3208
+	// Token: 0x02000C85 RID: 3205
 	public sealed class Region
 	{
-		// Token: 0x0600462D RID: 17965 RVA: 0x0024F028 File Offset: 0x0024D428
+		// Token: 0x06004636 RID: 17974 RVA: 0x002503F8 File Offset: 0x0024E7F8
 		private Region()
 		{
 		}
 
-		// Token: 0x17000B09 RID: 2825
-		// (get) Token: 0x0600462E RID: 17966 RVA: 0x0024F0D0 File Offset: 0x0024D4D0
+		// Token: 0x17000B0B RID: 2827
+		// (get) Token: 0x06004637 RID: 17975 RVA: 0x002504A0 File Offset: 0x0024E8A0
 		public Map Map
 		{
 			get
@@ -25,8 +25,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B0A RID: 2826
-		// (get) Token: 0x0600462F RID: 17967 RVA: 0x0024F10C File Offset: 0x0024D50C
+		// Token: 0x17000B0C RID: 2828
+		// (get) Token: 0x06004638 RID: 17976 RVA: 0x002504DC File Offset: 0x0024E8DC
 		public IEnumerable<IntVec3> Cells
 		{
 			get
@@ -47,8 +47,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B0B RID: 2827
-		// (get) Token: 0x06004630 RID: 17968 RVA: 0x0024F138 File Offset: 0x0024D538
+		// Token: 0x17000B0D RID: 2829
+		// (get) Token: 0x06004639 RID: 17977 RVA: 0x00250508 File Offset: 0x0024E908
 		public int CellCount
 		{
 			get
@@ -61,8 +61,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B0C RID: 2828
-		// (get) Token: 0x06004631 RID: 17969 RVA: 0x0024F174 File Offset: 0x0024D574
+		// Token: 0x17000B0E RID: 2830
+		// (get) Token: 0x0600463A RID: 17978 RVA: 0x00250544 File Offset: 0x0024E944
 		public IEnumerable<Region> Neighbors
 		{
 			get
@@ -82,8 +82,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B0D RID: 2829
-		// (get) Token: 0x06004632 RID: 17970 RVA: 0x0024F1A0 File Offset: 0x0024D5A0
+		// Token: 0x17000B0F RID: 2831
+		// (get) Token: 0x0600463B RID: 17979 RVA: 0x00250570 File Offset: 0x0024E970
 		public IEnumerable<Region> NeighborsOfSameType
 		{
 			get
@@ -103,9 +103,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B0E RID: 2830
-		// (get) Token: 0x06004633 RID: 17971 RVA: 0x0024F1CC File Offset: 0x0024D5CC
-		// (set) Token: 0x06004634 RID: 17972 RVA: 0x0024F1E8 File Offset: 0x0024D5E8
+		// Token: 0x17000B10 RID: 2832
+		// (get) Token: 0x0600463C RID: 17980 RVA: 0x0025059C File Offset: 0x0024E99C
+		// (set) Token: 0x0600463D RID: 17981 RVA: 0x002505B8 File Offset: 0x0024E9B8
 		public Room Room
 		{
 			get
@@ -129,8 +129,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B0F RID: 2831
-		// (get) Token: 0x06004635 RID: 17973 RVA: 0x0024F23C File Offset: 0x0024D63C
+		// Token: 0x17000B11 RID: 2833
+		// (get) Token: 0x0600463E RID: 17982 RVA: 0x0025060C File Offset: 0x0024EA0C
 		public IntVec3 RandomCell
 		{
 			get
@@ -150,8 +150,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B10 RID: 2832
-		// (get) Token: 0x06004636 RID: 17974 RVA: 0x0024F2B4 File Offset: 0x0024D6B4
+		// Token: 0x17000B12 RID: 2834
+		// (get) Token: 0x0600463F RID: 17983 RVA: 0x00250684 File Offset: 0x0024EA84
 		public IntVec3 AnyCell
 		{
 			get
@@ -174,8 +174,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B11 RID: 2833
-		// (get) Token: 0x06004637 RID: 17975 RVA: 0x0024F350 File Offset: 0x0024D750
+		// Token: 0x17000B13 RID: 2835
+		// (get) Token: 0x06004640 RID: 17984 RVA: 0x00250720 File Offset: 0x0024EB20
 		public string DebugString
 		{
 			get
@@ -205,8 +205,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B12 RID: 2834
-		// (get) Token: 0x06004638 RID: 17976 RVA: 0x0024F544 File Offset: 0x0024D944
+		// Token: 0x17000B14 RID: 2836
+		// (get) Token: 0x06004641 RID: 17985 RVA: 0x00250914 File Offset: 0x0024ED14
 		public bool DebugIsNew
 		{
 			get
@@ -215,8 +215,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B13 RID: 2835
-		// (get) Token: 0x06004639 RID: 17977 RVA: 0x0024F570 File Offset: 0x0024D970
+		// Token: 0x17000B15 RID: 2837
+		// (get) Token: 0x06004642 RID: 17986 RVA: 0x00250940 File Offset: 0x0024ED40
 		public ListerThings ListerThings
 		{
 			get
@@ -225,7 +225,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600463A RID: 17978 RVA: 0x0024F58C File Offset: 0x0024D98C
+		// Token: 0x06004643 RID: 17987 RVA: 0x0025095C File Offset: 0x0024ED5C
 		public static Region MakeNewUnfilled(IntVec3 root, Map map)
 		{
 			Region region = new Region();
@@ -246,7 +246,7 @@ namespace Verse
 			return region;
 		}
 
-		// Token: 0x0600463B RID: 17979 RVA: 0x0024F6CC File Offset: 0x0024DACC
+		// Token: 0x06004644 RID: 17988 RVA: 0x00250A9C File Offset: 0x0024EE9C
 		public bool Allows(TraverseParms tp, bool isDestination)
 		{
 			bool result;
@@ -314,7 +314,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600463C RID: 17980 RVA: 0x0024F8C4 File Offset: 0x0024DCC4
+		// Token: 0x06004645 RID: 17989 RVA: 0x00250C94 File Offset: 0x0024F094
 		public Danger DangerFor(Pawn p)
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -358,7 +358,7 @@ namespace Verse
 			return danger;
 		}
 
-		// Token: 0x0600463D RID: 17981 RVA: 0x0024F9E0 File Offset: 0x0024DDE0
+		// Token: 0x06004646 RID: 17990 RVA: 0x00250DB0 File Offset: 0x0024F1B0
 		public float GetBaseDesiredPlantsCount(bool allowCache = true)
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -381,7 +381,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600463E RID: 17982 RVA: 0x0024FAAC File Offset: 0x0024DEAC
+		// Token: 0x06004647 RID: 17991 RVA: 0x00250E7C File Offset: 0x0024F27C
 		public AreaOverlap OverlapWith(Area a)
 		{
 			AreaOverlap result;
@@ -431,7 +431,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600463F RID: 17983 RVA: 0x0024FBA8 File Offset: 0x0024DFA8
+		// Token: 0x06004648 RID: 17992 RVA: 0x00250F78 File Offset: 0x0024F378
 		public void Notify_AreaChanged(Area a)
 		{
 			if (this.cachedAreaOverlaps != null)
@@ -443,7 +443,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004640 RID: 17984 RVA: 0x0024FBDC File Offset: 0x0024DFDC
+		// Token: 0x06004649 RID: 17993 RVA: 0x00250FAC File Offset: 0x0024F3AC
 		public void DecrementMapIndex()
 		{
 			if ((int)this.mapIndex <= 0)
@@ -462,14 +462,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004641 RID: 17985 RVA: 0x0024FC4A File Offset: 0x0024E04A
+		// Token: 0x0600464A RID: 17994 RVA: 0x0025101A File Offset: 0x0024F41A
 		public void Notify_MyMapRemoved()
 		{
 			this.listerThings.Clear();
 			this.mapIndex = -1;
 		}
 
-		// Token: 0x06004642 RID: 17986 RVA: 0x0024FC60 File Offset: 0x0024E060
+		// Token: 0x0600464B RID: 17995 RVA: 0x00251030 File Offset: 0x0024F430
 		public override string ToString()
 		{
 			string str;
@@ -498,7 +498,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06004643 RID: 17987 RVA: 0x0024FD48 File Offset: 0x0024E148
+		// Token: 0x0600464C RID: 17996 RVA: 0x00251118 File Offset: 0x0024F518
 		public void DebugDraw()
 		{
 			if (DebugViewSettings.drawRegionTraversal)
@@ -511,7 +511,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004644 RID: 17988 RVA: 0x0024FDC0 File Offset: 0x0024E1C0
+		// Token: 0x0600464D RID: 17997 RVA: 0x00251190 File Offset: 0x0024F590
 		public void DebugDrawMouseover()
 		{
 			int num = Mathf.RoundToInt(Time.realtimeSinceStartup * 2f) % 2;
@@ -558,19 +558,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004645 RID: 17989 RVA: 0x0024FFC8 File Offset: 0x0024E3C8
+		// Token: 0x0600464E RID: 17998 RVA: 0x00251398 File Offset: 0x0024F798
 		public void Debug_Notify_Traversed()
 		{
 			this.debug_lastTraverseTick = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06004646 RID: 17990 RVA: 0x0024FFDC File Offset: 0x0024E3DC
+		// Token: 0x0600464F RID: 17999 RVA: 0x002513AC File Offset: 0x0024F7AC
 		public override int GetHashCode()
 		{
 			return this.precalculatedHashCode;
 		}
 
-		// Token: 0x06004647 RID: 17991 RVA: 0x0024FFF8 File Offset: 0x0024E3F8
+		// Token: 0x06004650 RID: 18000 RVA: 0x002513C8 File Offset: 0x0024F7C8
 		public override bool Equals(object obj)
 		{
 			bool result;
@@ -586,82 +586,82 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04002FCA RID: 12234
+		// Token: 0x04002FD4 RID: 12244
 		public RegionType type = RegionType.Normal;
 
-		// Token: 0x04002FCB RID: 12235
+		// Token: 0x04002FD5 RID: 12245
 		public int id = -1;
 
-		// Token: 0x04002FCC RID: 12236
+		// Token: 0x04002FD6 RID: 12246
 		public sbyte mapIndex = -1;
 
-		// Token: 0x04002FCD RID: 12237
+		// Token: 0x04002FD7 RID: 12247
 		private Room roomInt;
 
-		// Token: 0x04002FCE RID: 12238
+		// Token: 0x04002FD8 RID: 12248
 		public List<RegionLink> links = new List<RegionLink>();
 
-		// Token: 0x04002FCF RID: 12239
+		// Token: 0x04002FD9 RID: 12249
 		public CellRect extentsClose;
 
-		// Token: 0x04002FD0 RID: 12240
+		// Token: 0x04002FDA RID: 12250
 		public CellRect extentsLimit;
 
-		// Token: 0x04002FD1 RID: 12241
+		// Token: 0x04002FDB RID: 12251
 		public Building_Door portal;
 
-		// Token: 0x04002FD2 RID: 12242
+		// Token: 0x04002FDC RID: 12252
 		private int precalculatedHashCode;
 
-		// Token: 0x04002FD3 RID: 12243
+		// Token: 0x04002FDD RID: 12253
 		public bool touchesMapEdge = false;
 
-		// Token: 0x04002FD4 RID: 12244
+		// Token: 0x04002FDE RID: 12254
 		private int cachedCellCount = -1;
 
-		// Token: 0x04002FD5 RID: 12245
+		// Token: 0x04002FDF RID: 12255
 		public bool valid = true;
 
-		// Token: 0x04002FD6 RID: 12246
+		// Token: 0x04002FE0 RID: 12256
 		private ListerThings listerThings = new ListerThings(ListerThingsUse.Region);
 
-		// Token: 0x04002FD7 RID: 12247
+		// Token: 0x04002FE1 RID: 12257
 		public uint[] closedIndex = new uint[RegionTraverser.NumWorkers];
 
-		// Token: 0x04002FD8 RID: 12248
+		// Token: 0x04002FE2 RID: 12258
 		public uint reachedIndex = 0u;
 
-		// Token: 0x04002FD9 RID: 12249
+		// Token: 0x04002FE3 RID: 12259
 		public int newRegionGroupIndex = -1;
 
-		// Token: 0x04002FDA RID: 12250
+		// Token: 0x04002FE4 RID: 12260
 		private Dictionary<Area, AreaOverlap> cachedAreaOverlaps = null;
 
-		// Token: 0x04002FDB RID: 12251
+		// Token: 0x04002FE5 RID: 12261
 		public int mark;
 
-		// Token: 0x04002FDC RID: 12252
+		// Token: 0x04002FE6 RID: 12262
 		private List<KeyValuePair<Pawn, Danger>> cachedDangers = new List<KeyValuePair<Pawn, Danger>>();
 
-		// Token: 0x04002FDD RID: 12253
+		// Token: 0x04002FE7 RID: 12263
 		private int cachedDangersForFrame;
 
-		// Token: 0x04002FDE RID: 12254
+		// Token: 0x04002FE8 RID: 12264
 		private float cachedBaseDesiredPlantsCount;
 
-		// Token: 0x04002FDF RID: 12255
+		// Token: 0x04002FE9 RID: 12265
 		private int cachedBaseDesiredPlantsCountForTick = -999999;
 
-		// Token: 0x04002FE0 RID: 12256
+		// Token: 0x04002FEA RID: 12266
 		private int debug_makeTick = -1000;
 
-		// Token: 0x04002FE1 RID: 12257
+		// Token: 0x04002FEB RID: 12267
 		private int debug_lastTraverseTick = -1000;
 
-		// Token: 0x04002FE2 RID: 12258
+		// Token: 0x04002FEC RID: 12268
 		private static int nextId = 1;
 
-		// Token: 0x04002FE3 RID: 12259
+		// Token: 0x04002FED RID: 12269
 		public const int GridSize = 12;
 	}
 }

@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B38 RID: 2872
+	// Token: 0x02000B34 RID: 2868
 	public class DesignationDef : Def
 	{
-		// Token: 0x06003F26 RID: 16166 RVA: 0x00213CDA File Offset: 0x002120DA
+		// Token: 0x06003F25 RID: 16165 RVA: 0x002142F2 File Offset: 0x002126F2
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -16,20 +16,20 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x0400293E RID: 10558
+		// Token: 0x0400293B RID: 10555
 		[NoTranslate]
 		public string texturePath;
 
-		// Token: 0x0400293F RID: 10559
+		// Token: 0x0400293C RID: 10556
 		public TargetType targetType;
 
-		// Token: 0x04002940 RID: 10560
+		// Token: 0x0400293D RID: 10557
 		public bool removeIfBuildingDespawned = false;
 
-		// Token: 0x04002941 RID: 10561
+		// Token: 0x0400293E RID: 10558
 		public bool designateCancelable = true;
 
-		// Token: 0x04002942 RID: 10562
+		// Token: 0x0400293F RID: 10559
 		[Unsaved]
 		public Material iconMat;
 	}

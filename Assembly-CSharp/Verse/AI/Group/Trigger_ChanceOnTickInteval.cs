@@ -2,26 +2,26 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A1C RID: 2588
+	// Token: 0x02000A18 RID: 2584
 	public class Trigger_ChanceOnTickInteval : Trigger
 	{
-		// Token: 0x060039B3 RID: 14771 RVA: 0x001E820F File Offset: 0x001E660F
+		// Token: 0x060039AD RID: 14765 RVA: 0x001E844F File Offset: 0x001E684F
 		public Trigger_ChanceOnTickInteval(int interval, float chancePerInterval)
 		{
 			this.chancePerInterval = chancePerInterval;
 			this.interval = interval;
 		}
 
-		// Token: 0x060039B4 RID: 14772 RVA: 0x001E8228 File Offset: 0x001E6628
+		// Token: 0x060039AE RID: 14766 RVA: 0x001E8468 File Offset: 0x001E6868
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			return signal.type == TriggerSignalType.Tick && Find.TickManager.TicksGame % this.interval == 0 && Rand.Value < this.chancePerInterval;
 		}
 
-		// Token: 0x040024B2 RID: 9394
+		// Token: 0x040024AD RID: 9389
 		private float chancePerInterval;
 
-		// Token: 0x040024B3 RID: 9395
+		// Token: 0x040024AE RID: 9390
 		private int interval;
 	}
 }

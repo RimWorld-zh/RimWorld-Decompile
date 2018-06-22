@@ -10,10 +10,10 @@ using Verse.AI.Group;
 
 namespace Verse
 {
-	// Token: 0x02000ECE RID: 3790
+	// Token: 0x02000ECD RID: 3789
 	public static class BackCompatibility
 	{
-		// Token: 0x060059A4 RID: 22948 RVA: 0x002DD4D8 File Offset: 0x002DB8D8
+		// Token: 0x060059C5 RID: 22981 RVA: 0x002DF124 File Offset: 0x002DD524
 		public static bool IsSaveCompatibleWith(string version)
 		{
 			bool result;
@@ -41,7 +41,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060059A5 RID: 22949 RVA: 0x002DD57C File Offset: 0x002DB97C
+		// Token: 0x060059C6 RID: 22982 RVA: 0x002DF1C8 File Offset: 0x002DD5C8
 		public static string BackCompatibleDefName(Type defType, string defName, bool forDefInjections = false)
 		{
 			string result;
@@ -557,6 +557,30 @@ namespace Verse
 					{
 						return "MineableComponentsIndustrial";
 					}
+					if (defName == "Mechanoid_Scyther")
+					{
+						return "Mech_Scyther";
+					}
+					if (defName == "Mechanoid_Centipede")
+					{
+						return "Mech_Centipede";
+					}
+					if (defName == "Mechanoid_Scyther_Corpse")
+					{
+						return "Corpse_Mech_Scyther";
+					}
+					if (defName == "Mechanoid_Centipede_Corpse")
+					{
+						return "Corpse_Mech_Centipede";
+					}
+					if (defName == "ArcticBear")
+					{
+						return "Bear_Arctic";
+					}
+					if (defName == "ArcticBear_Corpse")
+					{
+						return "Corpse_Bear_Arctic";
+					}
 					if (defName.EndsWith("_Meat"))
 					{
 						return BackCompatibility.MeatSuffixExtract.Replace(defName, "Meat_$1");
@@ -948,6 +972,14 @@ namespace Verse
 					if (defName == "GiftImpact")
 					{
 						return "DiplomacyPower";
+					}
+					if (defName == "DrugProductionSpeed")
+					{
+						return "DrugSynthesisSpeed";
+					}
+					if (defName == "BrewingSpeed")
+					{
+						return "DrugCookingSpeed";
 					}
 				}
 				else if (defType == typeof(LetterDef))
@@ -1346,6 +1378,10 @@ namespace Verse
 					{
 						return "Bear_Polar";
 					}
+					if (defName == "ArcticBear")
+					{
+						return "Bear_Arctic";
+					}
 					if (defName == "WolfTimber")
 					{
 						return "Wolf_Timber";
@@ -1369,6 +1405,14 @@ namespace Verse
 					if (defName == "SpaceSoldier")
 					{
 						return "AncientSoldier";
+					}
+					if (defName == "Scyther")
+					{
+						return "Mech_Scyther";
+					}
+					if (defName == "Centipede")
+					{
+						return "Mech_Centipede";
 					}
 				}
 				else if (defType == typeof(IncidentDef))
@@ -1404,6 +1448,10 @@ namespace Verse
 					if (defName == "CaravanRequest")
 					{
 						return "Quest_TradeRequest";
+					}
+					if (defName == "RaidEnemyEscapeShip")
+					{
+						return "RaidEnemyBeacon";
 					}
 				}
 				else if (defType == typeof(DesignationDef))
@@ -1988,7 +2036,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060059A6 RID: 22950 RVA: 0x002E08FC File Offset: 0x002DECFC
+		// Token: 0x060059C7 RID: 22983 RVA: 0x002E268C File Offset: 0x002E0A8C
 		public static object BackCompatibleEnum(Type enumType, string enumName)
 		{
 			if (enumType == typeof(QualityCategory))
@@ -2005,7 +2053,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x060059A7 RID: 22951 RVA: 0x002E095C File Offset: 0x002DED5C
+		// Token: 0x060059C8 RID: 22984 RVA: 0x002E26EC File Offset: 0x002E0AEC
 		public static Type GetBackCompatibleType(Type baseType, string providedClassName, XmlNode node)
 		{
 			if (baseType == typeof(WorldObject))
@@ -2029,20 +2077,24 @@ namespace Verse
 			return GenTypes.GetTypeInAnyAssembly(providedClassName);
 		}
 
-		// Token: 0x060059A8 RID: 22952 RVA: 0x002E0A90 File Offset: 0x002DEE90
-		public static string BackCompatibleModifiedTranslationPath(Type defType, string path)
+		// Token: 0x060059C9 RID: 22985 RVA: 0x002E2820 File Offset: 0x002E0C20
+		public static string BackCompatibleModifiedTranslationPath(Type defType, string path, List<string> syntaxSuggestions = null)
 		{
 			if (defType == typeof(ConceptDef))
 			{
 				if (path.Contains("helpTexts.0"))
 				{
+					if (syntaxSuggestions != null)
+					{
+						syntaxSuggestions.Add("Use helpText instead of helpTexts.0 at " + path + " (it's deprecated)");
+					}
 					return path.Replace("helpTexts.0", "helpText");
 				}
 			}
 			return path;
 		}
 
-		// Token: 0x060059A9 RID: 22953 RVA: 0x002E0AE0 File Offset: 0x002DEEE0
+		// Token: 0x060059CA RID: 22986 RVA: 0x002E288C File Offset: 0x002E0C8C
 		public static void MapPostLoadInit(Map map)
 		{
 			if (map.pawnDestinationReservationManager == null)
@@ -2063,7 +2115,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059AA RID: 22954 RVA: 0x002E0B49 File Offset: 0x002DEF49
+		// Token: 0x060059CB RID: 22987 RVA: 0x002E28F5 File Offset: 0x002E0CF5
 		public static void CaravanPostLoadInit(Caravan caravan)
 		{
 			if (caravan.forage == null)
@@ -2072,7 +2124,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059AB RID: 22955 RVA: 0x002E0B64 File Offset: 0x002DEF64
+		// Token: 0x060059CC RID: 22988 RVA: 0x002E2910 File Offset: 0x002E0D10
 		public static void RecordsTrackerPostLoadInit(Pawn_RecordsTracker recordTracker)
 		{
 			if (VersionControl.MajorFromVersionString(ScribeMetaHeaderUtility.loadedGameVersion) == 0 && VersionControl.MajorFromVersionString(ScribeMetaHeaderUtility.loadedGameVersion) <= 17)
@@ -2084,7 +2136,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059AC RID: 22956 RVA: 0x002E0BB4 File Offset: 0x002DEFB4
+		// Token: 0x060059CD RID: 22989 RVA: 0x002E2960 File Offset: 0x002E0D60
 		public static void TurretPostLoadInit(Building_TurretGun turret)
 		{
 			if (turret.gun == null)
@@ -2093,7 +2145,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059AD RID: 22957 RVA: 0x002E0BC8 File Offset: 0x002DEFC8
+		// Token: 0x060059CE RID: 22990 RVA: 0x002E2974 File Offset: 0x002E0D74
 		public static void ImportantPawnCompPostLoadInit(ImportantPawnComp c)
 		{
 			if (c.pawn == null)
@@ -2102,7 +2154,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059AE RID: 22958 RVA: 0x002E0BE4 File Offset: 0x002DEFE4
+		// Token: 0x060059CF RID: 22991 RVA: 0x002E2990 File Offset: 0x002E0D90
 		public static void PawnPostLoadInit(Pawn p)
 		{
 			if (p.Spawned && p.rotationTracker == null)
@@ -2111,7 +2163,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059AF RID: 22959 RVA: 0x002E0C0C File Offset: 0x002DF00C
+		// Token: 0x060059D0 RID: 22992 RVA: 0x002E29B8 File Offset: 0x002E0DB8
 		public static void PawnTrainingTrackerPostLoadInit(Pawn_TrainingTracker tracker, ref DefMap<TrainableDef, bool> wantedTrainables, ref DefMap<TrainableDef, int> steps, ref DefMap<TrainableDef, bool> learned)
 		{
 			if (wantedTrainables == null)
@@ -2139,7 +2191,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059B0 RID: 22960 RVA: 0x002E0D04 File Offset: 0x002DF104
+		// Token: 0x060059D1 RID: 22993 RVA: 0x002E2AB0 File Offset: 0x002E0EB0
 		public static void WorldPawnPostLoadInit(WorldPawns wp, ref HashSet<Pawn> pawnsMothballed)
 		{
 			if (wp.gc == null)
@@ -2152,7 +2204,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059B1 RID: 22961 RVA: 0x002E0D2B File Offset: 0x002DF12B
+		// Token: 0x060059D2 RID: 22994 RVA: 0x002E2AD7 File Offset: 0x002E0ED7
 		public static void MindStatePostLoadInit(Pawn_MindState mindState)
 		{
 			if (mindState.inspirationHandler == null)
@@ -2161,7 +2213,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059B2 RID: 22962 RVA: 0x002E0D4A File Offset: 0x002DF14A
+		// Token: 0x060059D3 RID: 22995 RVA: 0x002E2AF6 File Offset: 0x002E0EF6
 		public static void GameConditionPostLoadInit(GameCondition gameCondition)
 		{
 			if (!gameCondition.Permanent && gameCondition.Duration > 1000000000)
@@ -2170,7 +2222,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059B3 RID: 22963 RVA: 0x002E0D6F File Offset: 0x002DF16F
+		// Token: 0x060059D4 RID: 22996 RVA: 0x002E2B1B File Offset: 0x002E0F1B
 		public static void GameLoadingVars(Game game)
 		{
 			if (game.battleLog == null)
@@ -2179,7 +2231,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059B4 RID: 22964 RVA: 0x002E0D88 File Offset: 0x002DF188
+		// Token: 0x060059D5 RID: 22997 RVA: 0x002E2B34 File Offset: 0x002E0F34
 		public static void HistoryLoadingVars(History history)
 		{
 			if (history.archive == null)
@@ -2188,7 +2240,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059B5 RID: 22965 RVA: 0x002E0DA4 File Offset: 0x002DF1A4
+		// Token: 0x060059D6 RID: 22998 RVA: 0x002E2B50 File Offset: 0x002E0F50
 		public static void WorldLoadingVars()
 		{
 			UniqueIDsManager uniqueIDsManager = null;
@@ -2199,7 +2251,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059B6 RID: 22966 RVA: 0x002E0DD8 File Offset: 0x002DF1D8
+		// Token: 0x060059D7 RID: 22999 RVA: 0x002E2B84 File Offset: 0x002E0F84
 		public static void PlaySettingsLoadingVars(PlaySettings playSettings)
 		{
 			if (VersionControl.MajorFromVersionString(ScribeMetaHeaderUtility.loadedGameVersion) == 0 && VersionControl.MinorFromVersionString(ScribeMetaHeaderUtility.loadedGameVersion) <= 18)
@@ -2213,7 +2265,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059B7 RID: 22967 RVA: 0x002E0E34 File Offset: 0x002DF234
+		// Token: 0x060059D8 RID: 23000 RVA: 0x002E2BE0 File Offset: 0x002E0FE0
 		public static void BattleLogEntry_MeleeCombat_LoadingVars(BattleLogEntry_MeleeCombat log)
 		{
 			if (log.RuleDef == null)
@@ -2243,71 +2295,72 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059B8 RID: 22968 RVA: 0x002E0F54 File Offset: 0x002DF354
+		// Token: 0x060059D9 RID: 23001 RVA: 0x002E2D00 File Offset: 0x002E1100
 		public static void TriggerDataFractionColonyDamageTakenNull(Trigger_FractionColonyDamageTaken trigger, Map map)
 		{
 			trigger.data = new TriggerData_FractionColonyDamageTaken();
 			((TriggerData_FractionColonyDamageTaken)trigger.data).startColonyDamage = map.damageWatcher.DamageTakenEver;
 		}
 
-		// Token: 0x060059B9 RID: 22969 RVA: 0x002E0F7D File Offset: 0x002DF37D
+		// Token: 0x060059DA RID: 23002 RVA: 0x002E2D29 File Offset: 0x002E1129
 		public static void TriggerDataPawnCycleIndNull(Trigger_KidnapVictimPresent trigger)
 		{
 			trigger.data = new TriggerData_PawnCycleInd();
 		}
 
-		// Token: 0x060059BA RID: 22970 RVA: 0x002E0F8B File Offset: 0x002DF38B
+		// Token: 0x060059DB RID: 23003 RVA: 0x002E2D37 File Offset: 0x002E1137
 		public static void TriggerDataTicksPassedNull(Trigger_TicksPassed trigger)
 		{
 			trigger.data = new TriggerData_TicksPassed();
 		}
 
-		// Token: 0x060059BB RID: 22971 RVA: 0x002E0F9C File Offset: 0x002DF39C
-		public static void HediffSetResolvingCrossRefs(Hediff hediff, List<Hediff> hediffs)
-		{
-			try
-			{
-				BodyPartRecord part = hediff.Part;
-			}
-			catch (Exception)
-			{
-				hediffs.Remove(hediff);
-			}
-		}
-
-		// Token: 0x060059BC RID: 22972 RVA: 0x002E0FD8 File Offset: 0x002DF3D8
+		// Token: 0x060059DC RID: 23004 RVA: 0x002E2D45 File Offset: 0x002E1145
 		public static void HediffLoadingVars(Hediff hediff)
 		{
 			Scribe_Values.Look<int>(ref hediff.temp_partIndexToSetLater, "partIndex", -1, false);
 		}
 
-		// Token: 0x060059BD RID: 22973 RVA: 0x002E0FED File Offset: 0x002DF3ED
+		// Token: 0x060059DD RID: 23005 RVA: 0x002E2D5C File Offset: 0x002E115C
 		public static void HediffResolvingCrossRefs(Hediff hediff)
 		{
-			if (hediff.temp_partIndexToSetLater >= 0)
+			if (hediff.temp_partIndexToSetLater >= 0 && hediff.pawn != null)
 			{
-				hediff.Part = hediff.pawn.RaceProps.body.GetPartAtIndex(hediff.temp_partIndexToSetLater);
+				if (hediff.temp_partIndexToSetLater == 0)
+				{
+					hediff.Part = hediff.pawn.RaceProps.body.GetPartAtIndex(hediff.temp_partIndexToSetLater);
+				}
+				else
+				{
+					hediff.pawn.health.hediffSet.hediffs.Remove(hediff);
+				}
 				hediff.temp_partIndexToSetLater = -1;
 			}
 		}
 
-		// Token: 0x060059BE RID: 22974 RVA: 0x002E1026 File Offset: 0x002DF426
+		// Token: 0x060059DE RID: 23006 RVA: 0x002E2DD7 File Offset: 0x002E11D7
 		public static void BillMedicalLoadingVars(Bill_Medical bill)
 		{
 			Scribe_Values.Look<int>(ref bill.temp_partIndexToSetLater, "partIndex", -1, false);
 		}
 
-		// Token: 0x060059BF RID: 22975 RVA: 0x002E103C File Offset: 0x002DF43C
+		// Token: 0x060059DF RID: 23007 RVA: 0x002E2DEC File Offset: 0x002E11EC
 		public static void BillMedicalResolvingCrossRefs(Bill_Medical bill)
 		{
 			if (bill.temp_partIndexToSetLater >= 0 && bill.GiverPawn != null)
 			{
-				bill.Part = bill.GiverPawn.RaceProps.body.GetPartAtIndex(bill.temp_partIndexToSetLater);
+				if (bill.temp_partIndexToSetLater == 0)
+				{
+					bill.Part = bill.GiverPawn.RaceProps.body.GetPartAtIndex(bill.temp_partIndexToSetLater);
+				}
+				else
+				{
+					bill.GiverPawn.BillStack.Bills.Remove(bill);
+				}
 				bill.temp_partIndexToSetLater = -1;
 			}
 		}
 
-		// Token: 0x060059C0 RID: 22976 RVA: 0x002E108B File Offset: 0x002DF48B
+		// Token: 0x060059E0 RID: 23008 RVA: 0x002E2E62 File Offset: 0x002E1262
 		public static void TradeRequestCompPostLoadInit(TradeRequestComp comp)
 		{
 			if (!comp.rewards.Any)
@@ -2316,7 +2369,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059C1 RID: 22977 RVA: 0x002E10AC File Offset: 0x002DF4AC
+		// Token: 0x060059E1 RID: 23009 RVA: 0x002E2E84 File Offset: 0x002E1284
 		public static void FactionRelationLoadingVars(FactionRelation factionRelation)
 		{
 			bool flag = false;
@@ -2331,7 +2384,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059C2 RID: 22978 RVA: 0x002E1100 File Offset: 0x002DF500
+		// Token: 0x060059E2 RID: 23010 RVA: 0x002E2ED8 File Offset: 0x002E12D8
 		public static TerrainDef BackCompatibleTerrainWithShortHash(ushort hash)
 		{
 			TerrainDef result;
@@ -2346,7 +2399,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060059C3 RID: 22979 RVA: 0x002E112C File Offset: 0x002DF52C
+		// Token: 0x060059E3 RID: 23011 RVA: 0x002E2F04 File Offset: 0x002E1304
 		public static ThingDef BackCompatibleThingDefWithShortHash(ushort hash)
 		{
 			ThingDef result;
@@ -2361,7 +2414,20 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060059C4 RID: 22980 RVA: 0x002E1158 File Offset: 0x002DF558
+		// Token: 0x060059E4 RID: 23012 RVA: 0x002E2F30 File Offset: 0x002E1330
+		public static ThingDef BackCompatibleThingDefWithShortHash_Force(ushort hash, int major, int minor)
+		{
+			if (major == 0 && minor <= 18)
+			{
+				if (hash == 27292)
+				{
+					return ThingDefOf.MineableSteel;
+				}
+			}
+			return null;
+		}
+
+		// Token: 0x060059E5 RID: 23013 RVA: 0x002E2F6C File Offset: 0x002E136C
 		public static void WorldInfoPostLoadInit(WorldInfo info)
 		{
 			if (info.randomValue == 0)
@@ -2370,7 +2436,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059C5 RID: 22981 RVA: 0x002E1174 File Offset: 0x002DF574
+		// Token: 0x060059E6 RID: 23014 RVA: 0x002E2F88 File Offset: 0x002E1388
 		public static void HediffComp_GetsPermanentLoadingVars(HediffComp_GetsPermanent hediffComp)
 		{
 			bool flag = false;
@@ -2381,7 +2447,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059C6 RID: 22982 RVA: 0x002E11A0 File Offset: 0x002DF5A0
+		// Token: 0x060059E7 RID: 23015 RVA: 0x002E2FB4 File Offset: 0x002E13B4
 		public static void WorldFeatureLoadingVars(WorldFeature feature)
 		{
 			if (feature.maxDrawSizeInTiles == 0f)
@@ -2392,25 +2458,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003BF0 RID: 15344
+		// Token: 0x04003C00 RID: 15360
 		public static readonly Pair<int, int>[] SaveCompatibleMinorVersions = new Pair<int, int>[]
 		{
 			new Pair<int, int>(17, 18)
 		};
 
-		// Token: 0x04003BF1 RID: 15345
+		// Token: 0x04003C01 RID: 15361
 		private static readonly Regex MeatSuffixExtract = new Regex("^(.+)_Meat$");
 
-		// Token: 0x04003BF2 RID: 15346
+		// Token: 0x04003C02 RID: 15362
 		private static readonly Regex CorpseSuffixExtract = new Regex("^(.+)_Corpse$");
 
-		// Token: 0x04003BF3 RID: 15347
+		// Token: 0x04003C03 RID: 15363
 		private static readonly Regex BlueprintSuffixExtract = new Regex("^(.+)_Blueprint$");
 
-		// Token: 0x04003BF4 RID: 15348
+		// Token: 0x04003C04 RID: 15364
 		private static readonly Regex BlueprintInstallSuffixExtract = new Regex("^(.+)_Blueprint_Install$");
 
-		// Token: 0x04003BF5 RID: 15349
+		// Token: 0x04003C05 RID: 15365
 		private static readonly Regex FrameSuffixExtract = new Regex("^(.+)_Frame$");
 	}
 }

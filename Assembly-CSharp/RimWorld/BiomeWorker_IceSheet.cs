@@ -3,10 +3,10 @@ using RimWorld.Planet;
 
 namespace RimWorld
 {
-	// Token: 0x0200054E RID: 1358
+	// Token: 0x0200054A RID: 1354
 	public class BiomeWorker_IceSheet : BiomeWorker
 	{
-		// Token: 0x06001953 RID: 6483 RVA: 0x000DBBFC File Offset: 0x000D9FFC
+		// Token: 0x0600194A RID: 6474 RVA: 0x000DBC0C File Offset: 0x000DA00C
 		public override float GetScore(Tile tile, int tileID)
 		{
 			float result;
@@ -21,7 +21,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001954 RID: 6484 RVA: 0x000DBC30 File Offset: 0x000DA030
+		// Token: 0x0600194B RID: 6475 RVA: 0x000DBC40 File Offset: 0x000DA040
 		public static float PermaIceScore(Tile tile)
 		{
 			return -20f + -tile.temperature * 2f;

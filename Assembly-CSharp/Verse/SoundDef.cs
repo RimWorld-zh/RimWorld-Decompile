@@ -5,11 +5,11 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000B7E RID: 2942
+	// Token: 0x02000B7A RID: 2938
 	public class SoundDef : Def
 	{
-		// Token: 0x170009BF RID: 2495
-		// (get) Token: 0x0600400B RID: 16395 RVA: 0x0021B5EC File Offset: 0x002199EC
+		// Token: 0x170009C1 RID: 2497
+		// (get) Token: 0x0600400D RID: 16397 RVA: 0x0021BC88 File Offset: 0x0021A088
 		private bool HasSubSoundsOnCamera
 		{
 			get
@@ -25,8 +25,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009C0 RID: 2496
-		// (get) Token: 0x0600400C RID: 16396 RVA: 0x0021B640 File Offset: 0x00219A40
+		// Token: 0x170009C2 RID: 2498
+		// (get) Token: 0x0600400E RID: 16398 RVA: 0x0021BCDC File Offset: 0x0021A0DC
 		public bool HasSubSoundsInWorld
 		{
 			get
@@ -42,8 +42,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009C1 RID: 2497
-		// (get) Token: 0x0600400D RID: 16397 RVA: 0x0021B694 File Offset: 0x00219A94
+		// Token: 0x170009C3 RID: 2499
+		// (get) Token: 0x0600400F RID: 16399 RVA: 0x0021BD30 File Offset: 0x0021A130
 		public int MaxSimultaneousSamples
 		{
 			get
@@ -52,7 +52,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600400E RID: 16398 RVA: 0x0021B6BC File Offset: 0x00219ABC
+		// Token: 0x06004010 RID: 16400 RVA: 0x0021BD58 File Offset: 0x0021A158
 		public override void ResolveReferences()
 		{
 			for (int i = 0; i < this.subSounds.Count; i++)
@@ -62,7 +62,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600400F RID: 16399 RVA: 0x0021B70C File Offset: 0x00219B0C
+		// Token: 0x06004011 RID: 16401 RVA: 0x0021BDA8 File Offset: 0x0021A1A8
 		public override IEnumerable<string> ConfigErrors()
 		{
 			if (this.slot != "" && !this.HasSubSoundsOnCamera)
@@ -112,7 +112,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004010 RID: 16400 RVA: 0x0021B738 File Offset: 0x00219B38
+		// Token: 0x06004012 RID: 16402 RVA: 0x0021BDD4 File Offset: 0x0021A1D4
 		public void DoEditWidgets(WidgetRow widgetRow)
 		{
 			if (this.testSustainer == null)
@@ -156,7 +156,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004011 RID: 16401 RVA: 0x0021B83C File Offset: 0x00219C3C
+		// Token: 0x06004013 RID: 16403 RVA: 0x0021BED8 File Offset: 0x0021A2D8
 		public static SoundDef Named(string defName)
 		{
 			SoundDef namedSilentFail = DefDatabase<SoundDef>.GetNamedSilentFail(defName);
@@ -197,7 +197,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004012 RID: 16402 RVA: 0x0021B940 File Offset: 0x00219D40
+		// Token: 0x06004014 RID: 16404 RVA: 0x0021BFDC File Offset: 0x0021A3DC
 		private static SoundDef UndefinedDefNamed(string defName)
 		{
 			SoundDef soundDef;
@@ -211,70 +211,70 @@ namespace Verse
 			return soundDef;
 		}
 
-		// Token: 0x04002AEA RID: 10986
+		// Token: 0x04002AEF RID: 10991
 		[Description("If checked, this sound is a sustainer.\n\nSustainers are used for sounds with a defined beginning and end (as opposed to OneShots, which just fire at a given instant).\n\nThis value must match what the game expects from the SubSoundDef with this name.")]
 		[DefaultValue(false)]
 		public bool sustain = false;
 
-		// Token: 0x04002AEB RID: 10987
+		// Token: 0x04002AF0 RID: 10992
 		[Description("When the sound is allowed to play: only when the map view is active, only when the world view is active, or always (map + world + main menu).")]
 		[DefaultValue(SoundContext.Any)]
 		public SoundContext context = SoundContext.Any;
 
-		// Token: 0x04002AEC RID: 10988
+		// Token: 0x04002AF1 RID: 10993
 		[Description("Event names for this sound. \n\nThe code will look up sounds to play them according to their name. If the code finds the event name it wants in this list, it will trigger this sound.\n\nThe Def name is also used as an event name.")]
 		public List<string> eventNames = new List<string>();
 
-		// Token: 0x04002AED RID: 10989
+		// Token: 0x04002AF2 RID: 10994
 		[Description("For one-shots, this is the number of individual sounds from this Def than can be playing at a time.\n\n For sustainers, this is the number of sustainers that can be running with this sound (each of which can have sub-sounds). Sustainers can fade in and out as you move the camera or objects move, to keep the nearest ones audible.\n\nThis setting may not work for on-camera sounds.")]
 		[DefaultValue(4)]
 		public int maxVoices = 4;
 
-		// Token: 0x04002AEE RID: 10990
+		// Token: 0x04002AF3 RID: 10995
 		[Description("The number of instances of this sound that can play at almost exactly the same moment. Handles cases like six gunners all firing their identical guns at the same time because a target came into view of all of them at the same time. Ordinarily this would make a painfully loud sound, but you can reduce it with this.")]
 		[DefaultValue(3)]
 		public int maxSimultaneous = 3;
 
-		// Token: 0x04002AEF RID: 10991
+		// Token: 0x04002AF4 RID: 10996
 		[Description("If the system has to not play some instances of this sound because of maxVoices, this determines which ones are ignored.\n\nYou should use PrioritizeNewest for things like gunshots, so older still-playing samples are overridden by newer, more important ones.\n\nSustained sounds should usually prioritize nearest, so if a new fire starts burning nearby it can override a more distant one.")]
 		[DefaultValue(VoicePriorityMode.PrioritizeNewest)]
 		public VoicePriorityMode priorityMode = VoicePriorityMode.PrioritizeNewest;
 
-		// Token: 0x04002AF0 RID: 10992
+		// Token: 0x04002AF5 RID: 10997
 		[Description("The special sound slot this sound takes. If a sound with this slot is playing, new sounds in this slot will not play.\n\nOnly works for on-camera sounds.")]
 		[DefaultValue("")]
 		public string slot = "";
 
-		// Token: 0x04002AF1 RID: 10993
+		// Token: 0x04002AF6 RID: 10998
 		[LoadAlias("sustainerStartSound")]
 		[Description("The name of the SoundDef that will be played when this sustainer starts.")]
 		[DefaultValue("")]
 		public SoundDef sustainStartSound = null;
 
-		// Token: 0x04002AF2 RID: 10994
+		// Token: 0x04002AF7 RID: 10999
 		[LoadAlias("sustainerStopSound")]
 		[Description("The name of the SoundDef that will be played when this sustainer ends.")]
 		[DefaultValue("")]
 		public SoundDef sustainStopSound = null;
 
-		// Token: 0x04002AF3 RID: 10995
+		// Token: 0x04002AF8 RID: 11000
 		[Description("After a sustainer is ended, the sound will fade out over this many real-time seconds.")]
 		[DefaultValue(0f)]
 		public float sustainFadeoutTime = 0f;
 
-		// Token: 0x04002AF4 RID: 10996
+		// Token: 0x04002AF9 RID: 11001
 		[Description("All the sounds that will play when this set is triggered.")]
 		public List<SubSoundDef> subSounds = new List<SubSoundDef>();
 
-		// Token: 0x04002AF5 RID: 10997
+		// Token: 0x04002AFA RID: 11002
 		[Unsaved]
 		public bool isUndefined = false;
 
-		// Token: 0x04002AF6 RID: 10998
+		// Token: 0x04002AFB RID: 11003
 		[Unsaved]
 		public Sustainer testSustainer = null;
 
-		// Token: 0x04002AF7 RID: 10999
+		// Token: 0x04002AFC RID: 11004
 		private static Dictionary<string, SoundDef> undefinedSoundDefs = new Dictionary<string, SoundDef>();
 	}
 }

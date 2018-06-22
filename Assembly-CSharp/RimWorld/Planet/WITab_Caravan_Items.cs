@@ -6,16 +6,16 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008E6 RID: 2278
+	// Token: 0x020008E2 RID: 2274
 	public class WITab_Caravan_Items : WITab
 	{
-		// Token: 0x06003453 RID: 13395 RVA: 0x001BF982 File Offset: 0x001BDD82
+		// Token: 0x0600344C RID: 13388 RVA: 0x001BFB6A File Offset: 0x001BDF6A
 		public WITab_Caravan_Items()
 		{
 			this.labelKey = "TabCaravanItems";
 		}
 
-		// Token: 0x06003454 RID: 13396 RVA: 0x001BF9A4 File Offset: 0x001BDDA4
+		// Token: 0x0600344D RID: 13389 RVA: 0x001BFB8C File Offset: 0x001BDF8C
 		protected override void FillTab()
 		{
 			this.CheckCreateSorters();
@@ -43,7 +43,7 @@ namespace RimWorld.Planet
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06003455 RID: 13397 RVA: 0x001BFAD1 File Offset: 0x001BDED1
+		// Token: 0x0600344E RID: 13390 RVA: 0x001BFCB9 File Offset: 0x001BE0B9
 		protected override void UpdateSize()
 		{
 			base.UpdateSize();
@@ -51,7 +51,7 @@ namespace RimWorld.Planet
 			this.size = CaravanItemsTabUtility.GetSize(this.cachedItems, this.PaneTopY, true);
 		}
 
-		// Token: 0x06003456 RID: 13398 RVA: 0x001BFAF8 File Offset: 0x001BDEF8
+		// Token: 0x0600344F RID: 13391 RVA: 0x001BFCE0 File Offset: 0x001BE0E0
 		private void CheckCacheItems()
 		{
 			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(base.SelCaravan);
@@ -73,7 +73,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06003457 RID: 13399 RVA: 0x001BFB70 File Offset: 0x001BDF70
+		// Token: 0x06003450 RID: 13392 RVA: 0x001BFD58 File Offset: 0x001BE158
 		private void CacheItems()
 		{
 			this.CheckCreateSorters();
@@ -96,7 +96,7 @@ namespace RimWorld.Planet
 			this.cachedItemsHash = seed;
 		}
 
-		// Token: 0x06003458 RID: 13400 RVA: 0x001BFCA9 File Offset: 0x001BE0A9
+		// Token: 0x06003451 RID: 13393 RVA: 0x001BFE91 File Offset: 0x001BE291
 		private void CheckCreateSorters()
 		{
 			if (this.sorter1 == null)
@@ -109,31 +109,31 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x04001C47 RID: 7239
+		// Token: 0x04001C45 RID: 7237
 		private Vector2 scrollPosition;
 
-		// Token: 0x04001C48 RID: 7240
+		// Token: 0x04001C46 RID: 7238
 		private float scrollViewHeight;
 
-		// Token: 0x04001C49 RID: 7241
+		// Token: 0x04001C47 RID: 7239
 		private TransferableSorterDef sorter1;
 
-		// Token: 0x04001C4A RID: 7242
+		// Token: 0x04001C48 RID: 7240
 		private TransferableSorterDef sorter2;
 
-		// Token: 0x04001C4B RID: 7243
+		// Token: 0x04001C49 RID: 7241
 		private List<TransferableImmutable> cachedItems = new List<TransferableImmutable>();
 
-		// Token: 0x04001C4C RID: 7244
+		// Token: 0x04001C4A RID: 7242
 		private int cachedItemsHash;
 
-		// Token: 0x04001C4D RID: 7245
+		// Token: 0x04001C4B RID: 7243
 		private int cachedItemsCount;
 
-		// Token: 0x04001C4E RID: 7246
+		// Token: 0x04001C4C RID: 7244
 		private const float SortersSpace = 25f;
 
-		// Token: 0x04001C4F RID: 7247
+		// Token: 0x04001C4D RID: 7245
 		private const float AssignDrugPoliciesButtonHeight = 27f;
 	}
 }

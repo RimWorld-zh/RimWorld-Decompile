@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004B5 RID: 1205
+	// Token: 0x020004B1 RID: 1201
 	public class InteractionWorker_KindWords : InteractionWorker
 	{
-		// Token: 0x0600157F RID: 5503 RVA: 0x000BEBD8 File Offset: 0x000BCFD8
+		// Token: 0x06001576 RID: 5494 RVA: 0x000BEBD8 File Offset: 0x000BCFD8
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
 			float result;

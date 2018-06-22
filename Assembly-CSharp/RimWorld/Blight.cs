@@ -6,12 +6,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006B9 RID: 1721
+	// Token: 0x020006B5 RID: 1717
 	public class Blight : Thing
 	{
 		// Token: 0x17000597 RID: 1431
-		// (get) Token: 0x060024F9 RID: 9465 RVA: 0x0013D98C File Offset: 0x0013BD8C
-		// (set) Token: 0x060024FA RID: 9466 RVA: 0x0013D9A7 File Offset: 0x0013BDA7
+		// (get) Token: 0x060024F1 RID: 9457 RVA: 0x0013DAD4 File Offset: 0x0013BED4
+		// (set) Token: 0x060024F2 RID: 9458 RVA: 0x0013DAEF File Offset: 0x0013BEEF
 		public float Severity
 		{
 			get
@@ -25,7 +25,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000598 RID: 1432
-		// (get) Token: 0x060024FB RID: 9467 RVA: 0x0013D9B8 File Offset: 0x0013BDB8
+		// (get) Token: 0x060024F3 RID: 9459 RVA: 0x0013DB00 File Offset: 0x0013BF00
 		public Plant Plant
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000599 RID: 1433
-		// (get) Token: 0x060024FC RID: 9468 RVA: 0x0013D9F0 File Offset: 0x0013BDF0
+		// (get) Token: 0x060024F4 RID: 9460 RVA: 0x0013DB38 File Offset: 0x0013BF38
 		protected float ReproduceMTBHours
 		{
 			get
@@ -62,7 +62,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024FD RID: 9469 RVA: 0x0013DA3F File Offset: 0x0013BE3F
+		// Token: 0x060024F5 RID: 9461 RVA: 0x0013DB87 File Offset: 0x0013BF87
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -70,7 +70,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.lastPlantHarmTick, "lastPlantHarmTick", 0, false);
 		}
 
-		// Token: 0x060024FE RID: 9470 RVA: 0x0013DA70 File Offset: 0x0013BE70
+		// Token: 0x060024F6 RID: 9462 RVA: 0x0013DBB8 File Offset: 0x0013BFB8
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -81,7 +81,7 @@ namespace RimWorld
 			this.lastMapMeshUpdateSeverity = this.Severity;
 		}
 
-		// Token: 0x060024FF RID: 9471 RVA: 0x0013DAA0 File Offset: 0x0013BEA0
+		// Token: 0x060024F7 RID: 9463 RVA: 0x0013DBE8 File Offset: 0x0013BFE8
 		public override void TickLong()
 		{
 			this.CheckHarmPlant();
@@ -101,13 +101,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002500 RID: 9472 RVA: 0x0013DB46 File Offset: 0x0013BF46
+		// Token: 0x060024F8 RID: 9464 RVA: 0x0013DC8E File Offset: 0x0013C08E
 		public void Notify_PlantDeSpawned()
 		{
 			this.DestroyIfNoPlantHere();
 		}
 
-		// Token: 0x06002501 RID: 9473 RVA: 0x0013DB50 File Offset: 0x0013BF50
+		// Token: 0x060024F9 RID: 9465 RVA: 0x0013DC98 File Offset: 0x0013C098
 		private bool DestroyIfNoPlantHere()
 		{
 			bool result;
@@ -127,7 +127,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002502 RID: 9474 RVA: 0x0013DB94 File Offset: 0x0013BF94
+		// Token: 0x060024FA RID: 9466 RVA: 0x0013DCDC File Offset: 0x0013C0DC
 		private void CheckHarmPlant()
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -146,7 +146,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002503 RID: 9475 RVA: 0x0013DC10 File Offset: 0x0013C010
+		// Token: 0x060024FB RID: 9467 RVA: 0x0013DD58 File Offset: 0x0013C158
 		private void HarmPlant(Plant plant)
 		{
 			bool isCrop = plant.IsCrop;
@@ -162,7 +162,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002504 RID: 9476 RVA: 0x0013DCC0 File Offset: 0x0013C0C0
+		// Token: 0x060024FC RID: 9468 RVA: 0x0013DE08 File Offset: 0x0013C208
 		public void TryReproduceNow()
 		{
 			GenRadial.ProcessEquidistantCells(base.Position, 4f, delegate(List<IntVec3> cells)
@@ -184,7 +184,7 @@ namespace RimWorld
 			}, base.Map);
 		}
 
-		// Token: 0x06002505 RID: 9477 RVA: 0x0013DCE8 File Offset: 0x0013C0E8
+		// Token: 0x060024FD RID: 9469 RVA: 0x0013DE30 File Offset: 0x0013C230
 		public override void Print(SectionLayer layer)
 		{
 			Plant plant = this.Plant;
@@ -210,40 +210,40 @@ namespace RimWorld
 			Printer_Plane.PrintPlane(layer, center, size, mat, 0f, false, null, colors, 0.1f, 0f);
 		}
 
-		// Token: 0x04001464 RID: 5220
+		// Token: 0x04001462 RID: 5218
 		private float severity = 0.2f;
 
-		// Token: 0x04001465 RID: 5221
+		// Token: 0x04001463 RID: 5219
 		private int lastPlantHarmTick;
 
-		// Token: 0x04001466 RID: 5222
+		// Token: 0x04001464 RID: 5220
 		private float lastMapMeshUpdateSeverity;
 
-		// Token: 0x04001467 RID: 5223
+		// Token: 0x04001465 RID: 5221
 		private const float InitialSeverity = 0.2f;
 
-		// Token: 0x04001468 RID: 5224
+		// Token: 0x04001466 RID: 5222
 		private const float SeverityPerDay = 1f;
 
-		// Token: 0x04001469 RID: 5225
+		// Token: 0x04001467 RID: 5223
 		private const int DamagePerDay = 5;
 
-		// Token: 0x0400146A RID: 5226
+		// Token: 0x04001468 RID: 5224
 		private const float MinSeverityToReproduce = 0.28f;
 
-		// Token: 0x0400146B RID: 5227
+		// Token: 0x04001469 RID: 5225
 		private const float ReproduceMTBHoursAtMinSeverity = 16.8f;
 
-		// Token: 0x0400146C RID: 5228
+		// Token: 0x0400146A RID: 5226
 		private const float ReproduceMTBHoursAtMaxSeverity = 2.1f;
 
-		// Token: 0x0400146D RID: 5229
+		// Token: 0x0400146B RID: 5227
 		private const float ReproductionRadius = 4f;
 
-		// Token: 0x0400146E RID: 5230
+		// Token: 0x0400146C RID: 5228
 		private static FloatRange SizeRange = new FloatRange(0.6f, 1f);
 
-		// Token: 0x0400146F RID: 5231
+		// Token: 0x0400146D RID: 5229
 		private static Color32[] workingColors = new Color32[4];
 	}
 }

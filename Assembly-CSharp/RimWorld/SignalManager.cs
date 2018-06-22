@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000306 RID: 774
 	public class SignalManager
 	{
-		// Token: 0x06000CE1 RID: 3297 RVA: 0x00070DDC File Offset: 0x0006F1DC
+		// Token: 0x06000CE1 RID: 3297 RVA: 0x00070E90 File Offset: 0x0006F290
 		public void RegisterReceiver(ISignalReceiver receiver)
 		{
 			if (receiver == null)
@@ -24,13 +24,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CE2 RID: 3298 RVA: 0x00070E3A File Offset: 0x0006F23A
+		// Token: 0x06000CE2 RID: 3298 RVA: 0x00070EEE File Offset: 0x0006F2EE
 		public void DeregisterReceiver(ISignalReceiver receiver)
 		{
 			this.receivers.Remove(receiver);
 		}
 
-		// Token: 0x06000CE3 RID: 3299 RVA: 0x00070E4C File Offset: 0x0006F24C
+		// Token: 0x06000CE3 RID: 3299 RVA: 0x00070F00 File Offset: 0x0006F300
 		public void SendSignal(Signal signal)
 		{
 			if (DebugViewSettings.logSignals)
@@ -56,7 +56,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0400085A RID: 2138
+		// Token: 0x0400085C RID: 2140
 		public List<ISignalReceiver> receivers = new List<ISignalReceiver>();
 	}
 }

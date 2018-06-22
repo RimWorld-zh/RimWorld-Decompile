@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000599 RID: 1433
+	// Token: 0x02000595 RID: 1429
 	public class WorldLayer_Stars : WorldLayer
 	{
 		// Token: 0x17000402 RID: 1026
-		// (get) Token: 0x06001B50 RID: 6992 RVA: 0x000EAD7C File Offset: 0x000E917C
+		// (get) Token: 0x06001B47 RID: 6983 RVA: 0x000EADD0 File Offset: 0x000E91D0
 		protected override int Layer
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000403 RID: 1027
-		// (get) Token: 0x06001B51 RID: 6993 RVA: 0x000EAD98 File Offset: 0x000E9198
+		// (get) Token: 0x06001B48 RID: 6984 RVA: 0x000EADEC File Offset: 0x000E91EC
 		public override bool ShouldRegenerate
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000404 RID: 1028
-		// (get) Token: 0x06001B52 RID: 6994 RVA: 0x000EADEC File Offset: 0x000E91EC
+		// (get) Token: 0x06001B49 RID: 6985 RVA: 0x000EAE40 File Offset: 0x000E9240
 		private bool UseStaticRotation
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000405 RID: 1029
-		// (get) Token: 0x06001B53 RID: 6995 RVA: 0x000EAE0C File Offset: 0x000E920C
+		// (get) Token: 0x06001B4A RID: 6986 RVA: 0x000EAE60 File Offset: 0x000E9260
 		protected override Quaternion Rotation
 		{
 			get
@@ -57,7 +57,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B54 RID: 6996 RVA: 0x000EAE44 File Offset: 0x000E9244
+		// Token: 0x06001B4B RID: 6987 RVA: 0x000EAE98 File Offset: 0x000E9298
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();
@@ -100,22 +100,22 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x0400101B RID: 4123
+		// Token: 0x04001018 RID: 4120
 		private bool calculatedForStaticRotation = false;
 
-		// Token: 0x0400101C RID: 4124
+		// Token: 0x04001019 RID: 4121
 		private int calculatedForStartingTile = -1;
 
-		// Token: 0x0400101D RID: 4125
+		// Token: 0x0400101A RID: 4122
 		public const float DistanceToStars = 10f;
 
-		// Token: 0x0400101E RID: 4126
+		// Token: 0x0400101B RID: 4123
 		private static readonly FloatRange StarsDrawSize = new FloatRange(1f, 3.8f);
 
-		// Token: 0x0400101F RID: 4127
+		// Token: 0x0400101C RID: 4124
 		private const int StarsCount = 1500;
 
-		// Token: 0x04001020 RID: 4128
+		// Token: 0x0400101D RID: 4125
 		private const float DistToSunToReduceStarSize = 0.8f;
 	}
 }

@@ -2,12 +2,12 @@
 
 namespace Verse
 {
-	// Token: 0x02000E2D RID: 3629
+	// Token: 0x02000E2A RID: 3626
 	public enum DebugMenuOptionMode : byte
 	{
-		// Token: 0x040038C3 RID: 14531
+		// Token: 0x040038D1 RID: 14545
 		Action,
-		// Token: 0x040038C4 RID: 14532
+		// Token: 0x040038D2 RID: 14546
 		Tool
 	}
 }

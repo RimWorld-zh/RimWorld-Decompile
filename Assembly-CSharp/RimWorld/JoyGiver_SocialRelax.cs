@@ -10,19 +10,19 @@ namespace RimWorld
 	// Token: 0x02000101 RID: 257
 	public class JoyGiver_SocialRelax : JoyGiver
 	{
-		// Token: 0x06000562 RID: 1378 RVA: 0x0003A81C File Offset: 0x00038C1C
+		// Token: 0x06000562 RID: 1378 RVA: 0x0003A808 File Offset: 0x00038C08
 		public override Job TryGiveJob(Pawn pawn)
 		{
 			return this.TryGiveJobInt(pawn, null);
 		}
 
-		// Token: 0x06000563 RID: 1379 RVA: 0x0003A83C File Offset: 0x00038C3C
+		// Token: 0x06000563 RID: 1379 RVA: 0x0003A828 File Offset: 0x00038C28
 		public override Job TryGiveJobInPartyArea(Pawn pawn, IntVec3 partySpot)
 		{
 			return this.TryGiveJobInt(pawn, (CompGatherSpot x) => PartyUtility.InPartyArea(x.parent.Position, partySpot, pawn.Map));
 		}
 
-		// Token: 0x06000564 RID: 1380 RVA: 0x0003A880 File Offset: 0x00038C80
+		// Token: 0x06000564 RID: 1380 RVA: 0x0003A86C File Offset: 0x00038C6C
 		private Job TryGiveJobInt(Pawn pawn, Predicate<CompGatherSpot> gatherSpotValidator)
 		{
 			Job result;
@@ -96,7 +96,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000565 RID: 1381 RVA: 0x0003AB00 File Offset: 0x00038F00
+		// Token: 0x06000565 RID: 1381 RVA: 0x0003AAEC File Offset: 0x00038EEC
 		private static bool TryFindIngestibleToNurse(IntVec3 center, Pawn ingester, out Thing ingestible)
 		{
 			bool result;
@@ -141,7 +141,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000566 RID: 1382 RVA: 0x0003AC78 File Offset: 0x00039078
+		// Token: 0x06000566 RID: 1382 RVA: 0x0003AC64 File Offset: 0x00039064
 		private static bool TryFindChairBesideTable(Thing table, Pawn sitter, out Thing chair)
 		{
 			for (int i = 0; i < 30; i++)
@@ -158,7 +158,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000567 RID: 1383 RVA: 0x0003ACF8 File Offset: 0x000390F8
+		// Token: 0x06000567 RID: 1383 RVA: 0x0003ACE4 File Offset: 0x000390E4
 		private static bool TryFindChairNear(IntVec3 center, Pawn sitter, out Thing chair)
 		{
 			for (int i = 0; i < JoyGiver_SocialRelax.RadialPatternMiddleOutward.Count; i++)
@@ -175,7 +175,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000568 RID: 1384 RVA: 0x0003ADB0 File Offset: 0x000391B0
+		// Token: 0x06000568 RID: 1384 RVA: 0x0003AD9C File Offset: 0x0003919C
 		private static bool TryFindSitSpotOnGroundNear(IntVec3 center, Pawn sitter, out IntVec3 result)
 		{
 			for (int i = 0; i < 30; i++)

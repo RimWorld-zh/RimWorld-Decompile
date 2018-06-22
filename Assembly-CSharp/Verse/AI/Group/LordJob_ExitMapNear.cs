@@ -2,15 +2,15 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x020009EB RID: 2539
+	// Token: 0x020009E7 RID: 2535
 	public class LordJob_ExitMapNear : LordJob
 	{
-		// Token: 0x06003909 RID: 14601 RVA: 0x001E60B7 File Offset: 0x001E44B7
+		// Token: 0x06003903 RID: 14595 RVA: 0x001E62F7 File Offset: 0x001E46F7
 		public LordJob_ExitMapNear()
 		{
 		}
 
-		// Token: 0x0600390A RID: 14602 RVA: 0x001E60C7 File Offset: 0x001E44C7
+		// Token: 0x06003904 RID: 14596 RVA: 0x001E6307 File Offset: 0x001E4707
 		public LordJob_ExitMapNear(IntVec3 near, LocomotionUrgency locomotion, float radius = 12f, bool canDig = false, bool useAvoidGridSmart = false)
 		{
 			this.near = near;
@@ -20,7 +20,7 @@ namespace Verse.AI.Group
 			this.useAvoidGridSmart = useAvoidGridSmart;
 		}
 
-		// Token: 0x0600390B RID: 14603 RVA: 0x001E60FC File Offset: 0x001E44FC
+		// Token: 0x06003905 RID: 14597 RVA: 0x001E633C File Offset: 0x001E473C
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -33,7 +33,7 @@ namespace Verse.AI.Group
 			return stateGraph;
 		}
 
-		// Token: 0x0600390C RID: 14604 RVA: 0x001E6154 File Offset: 0x001E4554
+		// Token: 0x06003906 RID: 14598 RVA: 0x001E6394 File Offset: 0x001E4794
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<IntVec3>(ref this.near, "near", default(IntVec3), false);
@@ -43,22 +43,22 @@ namespace Verse.AI.Group
 			Scribe_Values.Look<bool>(ref this.useAvoidGridSmart, "useAvoidGridSmart", false, false);
 		}
 
-		// Token: 0x04002465 RID: 9317
+		// Token: 0x04002460 RID: 9312
 		private IntVec3 near;
 
-		// Token: 0x04002466 RID: 9318
+		// Token: 0x04002461 RID: 9313
 		private float radius;
 
-		// Token: 0x04002467 RID: 9319
+		// Token: 0x04002462 RID: 9314
 		private LocomotionUrgency locomotion = LocomotionUrgency.Jog;
 
-		// Token: 0x04002468 RID: 9320
+		// Token: 0x04002463 RID: 9315
 		private bool canDig;
 
-		// Token: 0x04002469 RID: 9321
+		// Token: 0x04002464 RID: 9316
 		private bool useAvoidGridSmart;
 
-		// Token: 0x0400246A RID: 9322
+		// Token: 0x04002465 RID: 9317
 		public const float DefaultRadius = 12f;
 	}
 }

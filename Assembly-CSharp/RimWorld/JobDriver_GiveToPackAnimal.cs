@@ -11,7 +11,7 @@ namespace RimWorld
 	public class JobDriver_GiveToPackAnimal : JobDriver
 	{
 		// Token: 0x17000061 RID: 97
-		// (get) Token: 0x060001E2 RID: 482 RVA: 0x00014958 File Offset: 0x00012D58
+		// (get) Token: 0x060001E2 RID: 482 RVA: 0x00014960 File Offset: 0x00012D60
 		private Thing Item
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000062 RID: 98
-		// (get) Token: 0x060001E3 RID: 483 RVA: 0x00014984 File Offset: 0x00012D84
+		// (get) Token: 0x060001E3 RID: 483 RVA: 0x0001498C File Offset: 0x00012D8C
 		private Pawn Animal
 		{
 			get
@@ -30,13 +30,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060001E4 RID: 484 RVA: 0x000149B4 File Offset: 0x00012DB4
+		// Token: 0x060001E4 RID: 484 RVA: 0x000149BC File Offset: 0x00012DBC
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Item, this.job, 1, -1, null);
 		}
 
-		// Token: 0x060001E5 RID: 485 RVA: 0x000149E8 File Offset: 0x00012DE8
+		// Token: 0x060001E5 RID: 485 RVA: 0x000149F0 File Offset: 0x00012DF0
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch);
@@ -49,7 +49,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060001E6 RID: 486 RVA: 0x00014A14 File Offset: 0x00012E14
+		// Token: 0x060001E6 RID: 486 RVA: 0x00014A1C File Offset: 0x00012E1C
 		private Toil FindCarrierToil()
 		{
 			return new Toil
@@ -69,7 +69,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060001E7 RID: 487 RVA: 0x00014A44 File Offset: 0x00012E44
+		// Token: 0x060001E7 RID: 487 RVA: 0x00014A4C File Offset: 0x00012E4C
 		private Pawn FindCarrier()
 		{
 			IEnumerable<Pawn> enumerable = GiveToPackAnimalUtility.CarrierCandidatesFor(this.pawn);
@@ -100,13 +100,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060001E8 RID: 488 RVA: 0x00014B48 File Offset: 0x00012F48
+		// Token: 0x060001E8 RID: 488 RVA: 0x00014B50 File Offset: 0x00012F50
 		private bool CanCarryAtLeastOne(Pawn carrier)
 		{
 			return !MassUtility.WillBeOverEncumberedAfterPickingUp(carrier, this.Item, 1);
 		}
 
-		// Token: 0x060001E9 RID: 489 RVA: 0x00014B70 File Offset: 0x00012F70
+		// Token: 0x060001E9 RID: 489 RVA: 0x00014B78 File Offset: 0x00012F78
 		private Toil GiveToCarrierAsMuchAsPossibleToil()
 		{
 			return new Toil

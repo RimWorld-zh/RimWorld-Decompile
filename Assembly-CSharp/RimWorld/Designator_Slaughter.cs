@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007DB RID: 2011
+	// Token: 0x020007D7 RID: 2007
 	public class Designator_Slaughter : Designator
 	{
-		// Token: 0x06002C8C RID: 11404 RVA: 0x001771AC File Offset: 0x001755AC
+		// Token: 0x06002C85 RID: 11397 RVA: 0x00177384 File Offset: 0x00175784
 		public Designator_Slaughter()
 		{
 			this.defaultLabel = "DesignatorSlaughter".Translate();
@@ -22,8 +22,8 @@ namespace RimWorld
 			this.hotKey = KeyBindingDefOf.Misc11;
 		}
 
-		// Token: 0x17000700 RID: 1792
-		// (get) Token: 0x06002C8D RID: 11405 RVA: 0x00177230 File Offset: 0x00175630
+		// Token: 0x17000701 RID: 1793
+		// (get) Token: 0x06002C86 RID: 11398 RVA: 0x00177408 File Offset: 0x00175808
 		public override int DraggableDimensions
 		{
 			get
@@ -32,8 +32,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000701 RID: 1793
-		// (get) Token: 0x06002C8E RID: 11406 RVA: 0x00177248 File Offset: 0x00175648
+		// Token: 0x17000702 RID: 1794
+		// (get) Token: 0x06002C87 RID: 11399 RVA: 0x00177420 File Offset: 0x00175820
 		protected override DesignationDef Designation
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C8F RID: 11407 RVA: 0x00177264 File Offset: 0x00175664
+		// Token: 0x06002C88 RID: 11400 RVA: 0x0017743C File Offset: 0x0017583C
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -61,7 +61,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C90 RID: 11408 RVA: 0x001772C4 File Offset: 0x001756C4
+		// Token: 0x06002C89 RID: 11401 RVA: 0x0017749C File Offset: 0x0017589C
 		public override void DesignateSingleCell(IntVec3 loc)
 		{
 			foreach (Pawn t in this.SlaughterablesInCell(loc))
@@ -70,7 +70,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C91 RID: 11409 RVA: 0x00177324 File Offset: 0x00175724
+		// Token: 0x06002C8A RID: 11402 RVA: 0x001774FC File Offset: 0x001758FC
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Pawn pawn = t as Pawn;
@@ -86,14 +86,14 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C92 RID: 11410 RVA: 0x001773A4 File Offset: 0x001757A4
+		// Token: 0x06002C8B RID: 11403 RVA: 0x0017757C File Offset: 0x0017597C
 		public override void DesignateThing(Thing t)
 		{
 			base.Map.designationManager.AddDesignation(new Designation(t, this.Designation));
 			this.justDesignated.Add((Pawn)t);
 		}
 
-		// Token: 0x06002C93 RID: 11411 RVA: 0x001773DC File Offset: 0x001757DC
+		// Token: 0x06002C8C RID: 11404 RVA: 0x001775B4 File Offset: 0x001759B4
 		protected override void FinalizeDesignationSucceeded()
 		{
 			base.FinalizeDesignationSucceeded();
@@ -104,7 +104,7 @@ namespace RimWorld
 			this.justDesignated.Clear();
 		}
 
-		// Token: 0x06002C94 RID: 11412 RVA: 0x0017742C File Offset: 0x0017582C
+		// Token: 0x06002C8D RID: 11405 RVA: 0x00177604 File Offset: 0x00175A04
 		private IEnumerable<Pawn> SlaughterablesInCell(IntVec3 c)
 		{
 			if (c.Fogged(base.Map))
@@ -122,7 +122,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x040017A5 RID: 6053
+		// Token: 0x040017A3 RID: 6051
 		private List<Pawn> justDesignated = new List<Pawn>();
 	}
 }

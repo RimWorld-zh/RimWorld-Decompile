@@ -6,20 +6,20 @@ namespace Verse
 	// Token: 0x02000EF6 RID: 3830
 	public struct CurvePoint
 	{
-		// Token: 0x06005B72 RID: 23410 RVA: 0x002E8F5F File Offset: 0x002E735F
+		// Token: 0x06005B9A RID: 23450 RVA: 0x002EAF93 File Offset: 0x002E9393
 		public CurvePoint(float x, float y)
 		{
 			this.loc = new Vector2(x, y);
 		}
 
-		// Token: 0x06005B73 RID: 23411 RVA: 0x002E8F6F File Offset: 0x002E736F
+		// Token: 0x06005B9B RID: 23451 RVA: 0x002EAFA3 File Offset: 0x002E93A3
 		public CurvePoint(Vector2 loc)
 		{
 			this.loc = loc;
 		}
 
-		// Token: 0x17000E9B RID: 3739
-		// (get) Token: 0x06005B74 RID: 23412 RVA: 0x002E8F7C File Offset: 0x002E737C
+		// Token: 0x17000E9F RID: 3743
+		// (get) Token: 0x06005B9C RID: 23452 RVA: 0x002EAFB0 File Offset: 0x002E93B0
 		public Vector2 Loc
 		{
 			get
@@ -28,8 +28,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E9C RID: 3740
-		// (get) Token: 0x06005B75 RID: 23413 RVA: 0x002E8F98 File Offset: 0x002E7398
+		// Token: 0x17000EA0 RID: 3744
+		// (get) Token: 0x06005B9D RID: 23453 RVA: 0x002EAFCC File Offset: 0x002E93CC
 		public float x
 		{
 			get
@@ -38,8 +38,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E9D RID: 3741
-		// (get) Token: 0x06005B76 RID: 23414 RVA: 0x002E8FB8 File Offset: 0x002E73B8
+		// Token: 0x17000EA1 RID: 3745
+		// (get) Token: 0x06005B9E RID: 23454 RVA: 0x002EAFEC File Offset: 0x002E93EC
 		public float y
 		{
 			get
@@ -48,25 +48,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B77 RID: 23415 RVA: 0x002E8FD8 File Offset: 0x002E73D8
+		// Token: 0x06005B9F RID: 23455 RVA: 0x002EB00C File Offset: 0x002E940C
 		public static CurvePoint FromString(string str)
 		{
 			return new CurvePoint((Vector2)ParseHelper.FromString(str, typeof(Vector2)));
 		}
 
-		// Token: 0x06005B78 RID: 23416 RVA: 0x002E9008 File Offset: 0x002E7408
+		// Token: 0x06005BA0 RID: 23456 RVA: 0x002EB03C File Offset: 0x002E943C
 		public override string ToString()
 		{
 			return this.loc.ToStringTwoDigits();
 		}
 
-		// Token: 0x06005B79 RID: 23417 RVA: 0x002E9028 File Offset: 0x002E7428
+		// Token: 0x06005BA1 RID: 23457 RVA: 0x002EB05C File Offset: 0x002E945C
 		public static implicit operator Vector2(CurvePoint pt)
 		{
 			return pt.loc;
 		}
 
-		// Token: 0x04003C9C RID: 15516
+		// Token: 0x04003CAF RID: 15535
 		private Vector2 loc;
 	}
 }

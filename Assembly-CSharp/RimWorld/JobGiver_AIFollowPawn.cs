@@ -14,7 +14,7 @@ namespace RimWorld
 		protected abstract float GetRadius(Pawn pawn);
 
 		// Token: 0x170000C8 RID: 200
-		// (get) Token: 0x06000469 RID: 1129 RVA: 0x00032CBC File Offset: 0x000310BC
+		// (get) Token: 0x06000469 RID: 1129 RVA: 0x00032C98 File Offset: 0x00031098
 		protected virtual int FollowJobExpireInterval
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600046A RID: 1130 RVA: 0x00032CD8 File Offset: 0x000310D8
+		// Token: 0x0600046A RID: 1130 RVA: 0x00032CB4 File Offset: 0x000310B4
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Pawn followee = this.GetFollowee(pawn);

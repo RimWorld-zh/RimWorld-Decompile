@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DEA RID: 3562
+	// Token: 0x02000DE7 RID: 3559
 	public struct MoteAttachLink
 	{
-		// Token: 0x06004FB8 RID: 20408 RVA: 0x00295CE7 File Offset: 0x002940E7
+		// Token: 0x06004FCD RID: 20429 RVA: 0x002972C3 File Offset: 0x002956C3
 		public MoteAttachLink(TargetInfo target)
 		{
 			this.targetInt = target;
@@ -17,8 +17,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CF0 RID: 3312
-		// (get) Token: 0x06004FB9 RID: 20409 RVA: 0x00295D10 File Offset: 0x00294110
+		// Token: 0x17000CF2 RID: 3314
+		// (get) Token: 0x06004FCE RID: 20430 RVA: 0x002972EC File Offset: 0x002956EC
 		public bool Linked
 		{
 			get
@@ -27,8 +27,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CF1 RID: 3313
-		// (get) Token: 0x06004FBA RID: 20410 RVA: 0x00295D30 File Offset: 0x00294130
+		// Token: 0x17000CF3 RID: 3315
+		// (get) Token: 0x06004FCF RID: 20431 RVA: 0x0029730C File Offset: 0x0029570C
 		public TargetInfo Target
 		{
 			get
@@ -37,8 +37,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CF2 RID: 3314
-		// (get) Token: 0x06004FBB RID: 20411 RVA: 0x00295D4C File Offset: 0x0029414C
+		// Token: 0x17000CF4 RID: 3316
+		// (get) Token: 0x06004FD0 RID: 20432 RVA: 0x00297328 File Offset: 0x00295728
 		public Vector3 LastDrawPos
 		{
 			get
@@ -47,8 +47,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CF3 RID: 3315
-		// (get) Token: 0x06004FBC RID: 20412 RVA: 0x00295D68 File Offset: 0x00294168
+		// Token: 0x17000CF5 RID: 3317
+		// (get) Token: 0x06004FD1 RID: 20433 RVA: 0x00297344 File Offset: 0x00295744
 		public static MoteAttachLink Invalid
 		{
 			get
@@ -57,7 +57,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FBD RID: 20413 RVA: 0x00295D88 File Offset: 0x00294188
+		// Token: 0x06004FD2 RID: 20434 RVA: 0x00297364 File Offset: 0x00295764
 		public void UpdateDrawPos()
 		{
 			if (this.targetInt.HasThing)
@@ -70,10 +70,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x040034D7 RID: 13527
+		// Token: 0x040034E2 RID: 13538
 		private TargetInfo targetInt;
 
-		// Token: 0x040034D8 RID: 13528
+		// Token: 0x040034E3 RID: 13539
 		private Vector3 lastDrawPosInt;
 	}
 }

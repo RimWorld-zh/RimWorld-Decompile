@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000797 RID: 1943
+	// Token: 0x02000793 RID: 1939
 	public class Alert_NeedMiner : Alert
 	{
-		// Token: 0x06002B09 RID: 11017 RVA: 0x0016B76D File Offset: 0x00169B6D
+		// Token: 0x06002B02 RID: 11010 RVA: 0x0016B945 File Offset: 0x00169D45
 		public Alert_NeedMiner()
 		{
 			this.defaultLabel = "NeedMiner".Translate();
@@ -16,7 +16,7 @@ namespace RimWorld
 			this.defaultPriority = AlertPriority.High;
 		}
 
-		// Token: 0x06002B0A RID: 11018 RVA: 0x0016B7A0 File Offset: 0x00169BA0
+		// Token: 0x06002B03 RID: 11011 RVA: 0x0016B978 File Offset: 0x00169D78
 		public override AlertReport GetReport()
 		{
 			List<Map> maps = Find.Maps;

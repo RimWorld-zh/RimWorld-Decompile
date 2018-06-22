@@ -2,16 +2,16 @@
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000585 RID: 1413
+	// Token: 0x02000581 RID: 1409
 	public enum WorldCameraZoomRange : byte
 	{
-		// Token: 0x04000FBA RID: 4026
+		// Token: 0x04000FB7 RID: 4023
 		VeryClose,
-		// Token: 0x04000FBB RID: 4027
+		// Token: 0x04000FB8 RID: 4024
 		Close,
-		// Token: 0x04000FBC RID: 4028
+		// Token: 0x04000FB9 RID: 4025
 		Far,
-		// Token: 0x04000FBD RID: 4029
+		// Token: 0x04000FBA RID: 4026
 		VeryFar
 	}
 }

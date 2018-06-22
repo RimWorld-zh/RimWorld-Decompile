@@ -6,16 +6,16 @@ namespace RimWorld
 	// Token: 0x02000249 RID: 585
 	public class CompProperties_LongRangeMineralScanner : CompProperties
 	{
-		// Token: 0x06000A7F RID: 2687 RVA: 0x0005F2DC File Offset: 0x0005D6DC
+		// Token: 0x06000A7D RID: 2685 RVA: 0x0005F338 File Offset: 0x0005D738
 		public CompProperties_LongRangeMineralScanner()
 		{
 			this.compClass = typeof(CompLongRangeMineralScanner);
 		}
 
-		// Token: 0x04000494 RID: 1172
+		// Token: 0x04000492 RID: 1170
 		public float radius = 30f;
 
-		// Token: 0x04000495 RID: 1173
+		// Token: 0x04000493 RID: 1171
 		public float mtbDays = 30f;
 	}
 }

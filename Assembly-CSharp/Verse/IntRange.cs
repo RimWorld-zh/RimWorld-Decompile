@@ -6,15 +6,15 @@ namespace Verse
 	// Token: 0x02000EEA RID: 3818
 	public struct IntRange : IEquatable<IntRange>
 	{
-		// Token: 0x06005A9C RID: 23196 RVA: 0x002E5E8D File Offset: 0x002E428D
+		// Token: 0x06005AC4 RID: 23236 RVA: 0x002E7EC1 File Offset: 0x002E62C1
 		public IntRange(int min, int max)
 		{
 			this.min = min;
 			this.max = max;
 		}
 
-		// Token: 0x17000E5A RID: 3674
-		// (get) Token: 0x06005A9D RID: 23197 RVA: 0x002E5EA0 File Offset: 0x002E42A0
+		// Token: 0x17000E5E RID: 3678
+		// (get) Token: 0x06005AC5 RID: 23237 RVA: 0x002E7ED4 File Offset: 0x002E62D4
 		public static IntRange zero
 		{
 			get
@@ -23,8 +23,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E5B RID: 3675
-		// (get) Token: 0x06005A9E RID: 23198 RVA: 0x002E5EBC File Offset: 0x002E42BC
+		// Token: 0x17000E5F RID: 3679
+		// (get) Token: 0x06005AC6 RID: 23238 RVA: 0x002E7EF0 File Offset: 0x002E62F0
 		public static IntRange one
 		{
 			get
@@ -33,8 +33,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E5C RID: 3676
-		// (get) Token: 0x06005A9F RID: 23199 RVA: 0x002E5ED8 File Offset: 0x002E42D8
+		// Token: 0x17000E60 RID: 3680
+		// (get) Token: 0x06005AC7 RID: 23239 RVA: 0x002E7F0C File Offset: 0x002E630C
 		public int TrueMin
 		{
 			get
@@ -43,8 +43,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E5D RID: 3677
-		// (get) Token: 0x06005AA0 RID: 23200 RVA: 0x002E5F00 File Offset: 0x002E4300
+		// Token: 0x17000E61 RID: 3681
+		// (get) Token: 0x06005AC8 RID: 23240 RVA: 0x002E7F34 File Offset: 0x002E6334
 		public int TrueMax
 		{
 			get
@@ -53,8 +53,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E5E RID: 3678
-		// (get) Token: 0x06005AA1 RID: 23201 RVA: 0x002E5F28 File Offset: 0x002E4328
+		// Token: 0x17000E62 RID: 3682
+		// (get) Token: 0x06005AC9 RID: 23241 RVA: 0x002E7F5C File Offset: 0x002E635C
 		public float Average
 		{
 			get
@@ -63,8 +63,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E5F RID: 3679
-		// (get) Token: 0x06005AA2 RID: 23202 RVA: 0x002E5F54 File Offset: 0x002E4354
+		// Token: 0x17000E63 RID: 3683
+		// (get) Token: 0x06005ACA RID: 23242 RVA: 0x002E7F88 File Offset: 0x002E6388
 		public int RandomInRange
 		{
 			get
@@ -73,13 +73,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005AA3 RID: 23203 RVA: 0x002E5F7C File Offset: 0x002E437C
+		// Token: 0x06005ACB RID: 23243 RVA: 0x002E7FB0 File Offset: 0x002E63B0
 		public int Lerped(float lerpFactor)
 		{
 			return this.min + Mathf.RoundToInt(lerpFactor * (float)(this.max - this.min));
 		}
 
-		// Token: 0x06005AA4 RID: 23204 RVA: 0x002E5FB0 File Offset: 0x002E43B0
+		// Token: 0x06005ACC RID: 23244 RVA: 0x002E7FE4 File Offset: 0x002E63E4
 		public static IntRange FromString(string s)
 		{
 			string[] array = s.Split(new char[]
@@ -99,52 +99,52 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005AA5 RID: 23205 RVA: 0x002E6010 File Offset: 0x002E4410
+		// Token: 0x06005ACD RID: 23245 RVA: 0x002E8044 File Offset: 0x002E6444
 		public override string ToString()
 		{
 			return this.min.ToString() + "~" + this.max.ToString();
 		}
 
-		// Token: 0x06005AA6 RID: 23206 RVA: 0x002E6054 File Offset: 0x002E4454
+		// Token: 0x06005ACE RID: 23246 RVA: 0x002E8088 File Offset: 0x002E6488
 		public override int GetHashCode()
 		{
 			return Gen.HashCombineInt(this.min, this.max);
 		}
 
-		// Token: 0x06005AA7 RID: 23207 RVA: 0x002E607C File Offset: 0x002E447C
+		// Token: 0x06005ACF RID: 23247 RVA: 0x002E80B0 File Offset: 0x002E64B0
 		public override bool Equals(object obj)
 		{
 			return obj is IntRange && this.Equals((IntRange)obj);
 		}
 
-		// Token: 0x06005AA8 RID: 23208 RVA: 0x002E60B0 File Offset: 0x002E44B0
+		// Token: 0x06005AD0 RID: 23248 RVA: 0x002E80E4 File Offset: 0x002E64E4
 		public bool Equals(IntRange other)
 		{
 			return this.min == other.min && this.max == other.max;
 		}
 
-		// Token: 0x06005AA9 RID: 23209 RVA: 0x002E60EC File Offset: 0x002E44EC
+		// Token: 0x06005AD1 RID: 23249 RVA: 0x002E8120 File Offset: 0x002E6520
 		public static bool operator ==(IntRange lhs, IntRange rhs)
 		{
 			return lhs.Equals(rhs);
 		}
 
-		// Token: 0x06005AAA RID: 23210 RVA: 0x002E610C File Offset: 0x002E450C
+		// Token: 0x06005AD2 RID: 23250 RVA: 0x002E8140 File Offset: 0x002E6540
 		public static bool operator !=(IntRange lhs, IntRange rhs)
 		{
 			return !(lhs == rhs);
 		}
 
-		// Token: 0x06005AAB RID: 23211 RVA: 0x002E612C File Offset: 0x002E452C
+		// Token: 0x06005AD3 RID: 23251 RVA: 0x002E8160 File Offset: 0x002E6560
 		internal bool Includes(int val)
 		{
 			return val >= this.min && val <= this.max;
 		}
 
-		// Token: 0x04003C8A RID: 15498
+		// Token: 0x04003C9D RID: 15517
 		public int min;
 
-		// Token: 0x04003C8B RID: 15499
+		// Token: 0x04003C9E RID: 15518
 		public int max;
 	}
 }

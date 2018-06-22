@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000ED8 RID: 3800
+	// Token: 0x02000ED7 RID: 3799
 	public abstract class CreditsEntry
 	{
-		// Token: 0x060059E3 RID: 23011
+		// Token: 0x06005A04 RID: 23044
 		public abstract float DrawHeight(float width);
 
-		// Token: 0x060059E4 RID: 23012
+		// Token: 0x06005A05 RID: 23045
 		public abstract void Draw(Rect rect);
 	}
 }

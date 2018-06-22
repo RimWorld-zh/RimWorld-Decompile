@@ -15,7 +15,7 @@ namespace RimWorld
 		protected abstract bool TryResolveRaidFaction(IncidentParms parms);
 
 		// Token: 0x06000E6D RID: 3693
-		protected abstract void ResolveRaidStrategy(IncidentParms parms);
+		protected abstract void ResolveRaidStrategy(IncidentParms parms, PawnGroupKindDef groupKind);
 
 		// Token: 0x06000E6E RID: 3694
 		protected abstract string GetLetterLabel(IncidentParms parms);
@@ -32,7 +32,7 @@ namespace RimWorld
 		// Token: 0x06000E72 RID: 3698
 		protected abstract void ResolveRaidPoints(IncidentParms parms);
 
-		// Token: 0x06000E73 RID: 3699 RVA: 0x000796E4 File Offset: 0x00077AE4
+		// Token: 0x06000E73 RID: 3699 RVA: 0x000797F4 File Offset: 0x00077BF4
 		protected virtual void ResolveRaidArriveMode(IncidentParms parms)
 		{
 			if (parms.raidArrivalMode == null)
@@ -57,7 +57,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000E74 RID: 3700 RVA: 0x000797FC File Offset: 0x00077BFC
+		// Token: 0x06000E74 RID: 3700 RVA: 0x0007990C File Offset: 0x00077D0C
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -69,7 +69,8 @@ namespace RimWorld
 			}
 			else
 			{
-				this.ResolveRaidStrategy(parms);
+				PawnGroupKindDef combat = PawnGroupKindDefOf.Combat;
+				this.ResolveRaidStrategy(parms, combat);
 				this.ResolveRaidArriveMode(parms);
 				if (!parms.raidArrivalMode.Worker.TryResolveRaidSpawnCenter(parms))
 				{
@@ -79,8 +80,8 @@ namespace RimWorld
 				{
 					parms.points *= parms.raidArrivalMode.pointsFactor;
 					parms.points *= parms.raidStrategy.pointsFactor;
-					parms.points = Mathf.Max(parms.points, parms.raidStrategy.Worker.MinimumPoints(parms.faction) * 1.05f);
-					PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(PawnGroupKindDefOf.Combat, parms, false);
+					parms.points = Mathf.Max(parms.points, parms.raidStrategy.Worker.MinimumPoints(parms.faction, combat) * 1.05f);
+					PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(combat, parms, false);
 					List<Pawn> list = PawnGroupMakerUtility.GeneratePawns(defaultPawnGroupMakerParms, true).ToList<Pawn>();
 					if (list.Count == 0)
 					{
@@ -151,7 +152,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E75 RID: 3701 RVA: 0x00079BD8 File Offset: 0x00077FD8
+		// Token: 0x06000E75 RID: 3701 RVA: 0x00079CF8 File Offset: 0x000780F8
 		public void DoTable_RaidFactionSampled()
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -188,7 +189,7 @@ namespace RimWorld
 			DebugTables.MakeTablesDialog<Faction>(Find.FactionManager.AllFactions, list.ToArray());
 		}
 
-		// Token: 0x06000E76 RID: 3702 RVA: 0x00079DB8 File Offset: 0x000781B8
+		// Token: 0x06000E76 RID: 3702 RVA: 0x00079ED8 File Offset: 0x000782D8
 		public void DoTable_RaidStrategySampled(Faction fac)
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -211,7 +212,7 @@ namespace RimWorld
 					incidentParms.faction = fac;
 					if (this.TryResolveRaidFaction(incidentParms))
 					{
-						this.ResolveRaidStrategy(incidentParms);
+						this.ResolveRaidStrategy(incidentParms, PawnGroupKindDefOf.Combat);
 						if (incidentParms.raidStrategy != null)
 						{
 							Dictionary<RaidStrategyDef, int> strats2;
@@ -230,7 +231,7 @@ namespace RimWorld
 			DebugTables.MakeTablesDialog<RaidStrategyDef>(DefDatabase<RaidStrategyDef>.AllDefs, list.ToArray());
 		}
 
-		// Token: 0x06000E77 RID: 3703 RVA: 0x00079FAC File Offset: 0x000783AC
+		// Token: 0x06000E77 RID: 3703 RVA: 0x0007A0D4 File Offset: 0x000784D4
 		public void DoTable_RaidArrivalModeSampled(Faction fac)
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -253,7 +254,7 @@ namespace RimWorld
 					incidentParms.faction = fac;
 					if (this.TryResolveRaidFaction(incidentParms))
 					{
-						this.ResolveRaidStrategy(incidentParms);
+						this.ResolveRaidStrategy(incidentParms, PawnGroupKindDefOf.Combat);
 						this.ResolveRaidArriveMode(incidentParms);
 						Dictionary<PawnsArrivalModeDef, int> modeCount2;
 						PawnsArrivalModeDef raidArrivalMode;

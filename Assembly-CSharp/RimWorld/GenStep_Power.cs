@@ -11,7 +11,7 @@ namespace RimWorld
 	public class GenStep_Power : GenStep
 	{
 		// Token: 0x1700024D RID: 589
-		// (get) Token: 0x0600113B RID: 4411 RVA: 0x00093DC4 File Offset: 0x000921C4
+		// (get) Token: 0x0600113B RID: 4411 RVA: 0x00093FB0 File Offset: 0x000923B0
 		public override int SeedPart
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600113C RID: 4412 RVA: 0x00093DE0 File Offset: 0x000921E0
+		// Token: 0x0600113C RID: 4412 RVA: 0x00093FCC File Offset: 0x000923CC
 		public override void Generate(Map map)
 		{
 			map.skyManager.ForceSetCurSkyGlow(1f);
@@ -32,7 +32,7 @@ namespace RimWorld
 			this.tmpThings.Clear();
 		}
 
-		// Token: 0x0600113D RID: 4413 RVA: 0x00093E30 File Offset: 0x00092230
+		// Token: 0x0600113D RID: 4413 RVA: 0x0009401C File Offset: 0x0009241C
 		private void UpdateDesiredPowerOutputForAllGenerators(Map map)
 		{
 			this.tmpThings.Clear();
@@ -50,7 +50,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600113E RID: 4414 RVA: 0x00093EBC File Offset: 0x000922BC
+		// Token: 0x0600113E RID: 4414 RVA: 0x000940A8 File Offset: 0x000924A8
 		private void EnsureBatteriesConnectedAndMakeSense(Map map)
 		{
 			this.tmpThings.Clear();
@@ -101,7 +101,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600113F RID: 4415 RVA: 0x000940A4 File Offset: 0x000924A4
+		// Token: 0x0600113F RID: 4415 RVA: 0x00094290 File Offset: 0x00092690
 		private void EnsurePowerUsersConnected(Map map)
 		{
 			this.tmpThings.Clear();
@@ -161,7 +161,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001140 RID: 4416 RVA: 0x00094368 File Offset: 0x00092768
+		// Token: 0x06001140 RID: 4416 RVA: 0x00094554 File Offset: 0x00092954
 		private void EnsureGeneratorsConnectedAndMakeSense(Map map)
 		{
 			this.tmpThings.Clear();
@@ -186,14 +186,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001141 RID: 4417 RVA: 0x0009446C File Offset: 0x0009286C
+		// Token: 0x06001141 RID: 4417 RVA: 0x00094658 File Offset: 0x00092A58
 		private bool IsPowerUser(Thing thing)
 		{
 			CompPowerTrader compPowerTrader = thing.TryGetComp<CompPowerTrader>();
 			return compPowerTrader != null && (compPowerTrader.PowerOutput < 0f || (!compPowerTrader.PowerOn && compPowerTrader.Props.basePowerConsumption > 0f));
 		}
 
-		// Token: 0x06001142 RID: 4418 RVA: 0x000944C4 File Offset: 0x000928C4
+		// Token: 0x06001142 RID: 4418 RVA: 0x000946B0 File Offset: 0x00092AB0
 		private bool IsPowerGenerator(Thing thing)
 		{
 			bool result;
@@ -209,7 +209,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001143 RID: 4419 RVA: 0x00094530 File Offset: 0x00092930
+		// Token: 0x06001143 RID: 4419 RVA: 0x0009471C File Offset: 0x00092B1C
 		private bool HasAnyPowerGenerator(PowerNet net)
 		{
 			List<CompPowerTrader> powerComps = net.powerComps;
@@ -223,7 +223,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06001144 RID: 4420 RVA: 0x00094584 File Offset: 0x00092984
+		// Token: 0x06001144 RID: 4420 RVA: 0x00094770 File Offset: 0x00092B70
 		private bool HasAnyPowerUser(PowerNet net)
 		{
 			List<CompPowerTrader> powerComps = net.powerComps;
@@ -237,7 +237,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06001145 RID: 4421 RVA: 0x000945D8 File Offset: 0x000929D8
+		// Token: 0x06001145 RID: 4421 RVA: 0x000947C4 File Offset: 0x00092BC4
 		private bool TryFindClosestReachableNet(IntVec3 root, Predicate<PowerNet> predicate, Map map, out PowerNet foundNet, out IntVec3 closestTransmitter)
 		{
 			this.tmpPowerNetPredicateResults.Clear();
@@ -290,7 +290,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001146 RID: 4422 RVA: 0x0009469C File Offset: 0x00092A9C
+		// Token: 0x06001146 RID: 4422 RVA: 0x00094888 File Offset: 0x00092C88
 		private void SpawnTransmitters(List<IntVec3> cells, Map map, Faction faction)
 		{
 			for (int i = 0; i < cells.Count; i++)
@@ -303,7 +303,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001147 RID: 4423 RVA: 0x000946F8 File Offset: 0x00092AF8
+		// Token: 0x06001147 RID: 4423 RVA: 0x000948E4 File Offset: 0x00092CE4
 		private void SpawnTransmitters(IntVec3 start, IntVec3 end, Map map, Faction faction)
 		{
 			bool foundPath = false;
@@ -328,7 +328,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001148 RID: 4424 RVA: 0x00094794 File Offset: 0x00092B94
+		// Token: 0x06001148 RID: 4424 RVA: 0x00094980 File Offset: 0x00092D80
 		private bool TrySpawnPowerTransmittingBuildingNear(IntVec3 position, Map map, Faction faction, ThingDef def, out Building newBuilding, Predicate<IntVec3> extraValidator = null)
 		{
 			TraverseParms traverseParams = TraverseParms.For(TraverseMode.PassAllDestroyableThings, Danger.Deadly, false);
@@ -374,7 +374,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001149 RID: 4425 RVA: 0x0009484C File Offset: 0x00092C4C
+		// Token: 0x06001149 RID: 4425 RVA: 0x00094A38 File Offset: 0x00092E38
 		private bool TrySpawnPowerGeneratorNear(IntVec3 position, Map map, Faction faction, out Building newPowerGenerator)
 		{
 			bool result;
@@ -391,7 +391,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600114A RID: 4426 RVA: 0x00094898 File Offset: 0x00092C98
+		// Token: 0x0600114A RID: 4426 RVA: 0x00094A84 File Offset: 0x00092E84
 		private bool TrySpawnBatteryNear(IntVec3 position, Map map, Faction faction, out Building newBattery)
 		{
 			Predicate<IntVec3> extraValidator = null;
@@ -440,7 +440,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600114B RID: 4427 RVA: 0x00094928 File Offset: 0x00092D28
+		// Token: 0x0600114B RID: 4427 RVA: 0x00094B14 File Offset: 0x00092F14
 		private bool TrySpawnPowerGeneratorAndBatteryIfCanAndConnect(Thing forThing, Map map)
 		{
 			bool result;
@@ -478,13 +478,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600114C RID: 4428 RVA: 0x000949FC File Offset: 0x00092DFC
+		// Token: 0x0600114C RID: 4428 RVA: 0x00094BE8 File Offset: 0x00092FE8
 		private bool EverPossibleToTransmitPowerAt(IntVec3 c, Map map)
 		{
 			return c.GetTransmitter(map) != null || GenConstruct.CanBuildOnTerrain(ThingDefOf.PowerConduit, c, map, Rot4.North, null);
 		}
 
-		// Token: 0x0600114D RID: 4429 RVA: 0x00094A34 File Offset: 0x00092E34
+		// Token: 0x0600114D RID: 4429 RVA: 0x00094C20 File Offset: 0x00093020
 		private void TryTurnOnImmediately(CompPowerTrader powerComp, Map map)
 		{
 			if (!powerComp.PowerOn)
@@ -497,7 +497,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600114E RID: 4430 RVA: 0x00094A84 File Offset: 0x00092E84
+		// Token: 0x0600114E RID: 4430 RVA: 0x00094C70 File Offset: 0x00093070
 		private void SpawnRoofOver(Thing thing)
 		{
 			CellRect cellRect = thing.OccupiedRect();
@@ -566,37 +566,37 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000A7C RID: 2684
+		// Token: 0x04000A7E RID: 2686
 		public bool canSpawnBatteries = true;
 
-		// Token: 0x04000A7D RID: 2685
+		// Token: 0x04000A7F RID: 2687
 		public bool canSpawnPowerGenerators = true;
 
-		// Token: 0x04000A7E RID: 2686
+		// Token: 0x04000A80 RID: 2688
 		public bool spawnRoofOverNewBatteries = true;
 
-		// Token: 0x04000A7F RID: 2687
+		// Token: 0x04000A81 RID: 2689
 		public FloatRange newBatteriesInitialStoredEnergyPctRange = new FloatRange(0.2f, 0.5f);
 
-		// Token: 0x04000A80 RID: 2688
+		// Token: 0x04000A82 RID: 2690
 		private List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x04000A81 RID: 2689
+		// Token: 0x04000A83 RID: 2691
 		private List<IntVec3> tmpCells = new List<IntVec3>();
 
-		// Token: 0x04000A82 RID: 2690
+		// Token: 0x04000A84 RID: 2692
 		private const int MaxDistToExistingNetForTurrets = 13;
 
-		// Token: 0x04000A83 RID: 2691
+		// Token: 0x04000A85 RID: 2693
 		private const int RoofPadding = 2;
 
-		// Token: 0x04000A84 RID: 2692
+		// Token: 0x04000A86 RID: 2694
 		private static readonly IntRange MaxDistanceBetweenBatteryAndTransmitter = new IntRange(20, 50);
 
-		// Token: 0x04000A85 RID: 2693
+		// Token: 0x04000A87 RID: 2695
 		private Dictionary<PowerNet, bool> tmpPowerNetPredicateResults = new Dictionary<PowerNet, bool>();
 
-		// Token: 0x04000A86 RID: 2694
+		// Token: 0x04000A88 RID: 2696
 		private static List<IntVec3> tmpTransmitterCells = new List<IntVec3>();
 	}
 }

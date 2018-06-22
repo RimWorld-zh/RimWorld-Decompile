@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007C3 RID: 1987
+	// Token: 0x020007BF RID: 1983
 	public class Designator_AreaHomeExpand : Designator_AreaHome
 	{
-		// Token: 0x06002BFC RID: 11260 RVA: 0x001743A4 File Offset: 0x001727A4
+		// Token: 0x06002BF5 RID: 11253 RVA: 0x0017457C File Offset: 0x0017297C
 		public Designator_AreaHomeExpand() : base(DesignateMode.Add)
 		{
 			this.defaultLabel = "DesignatorAreaHomeExpand".Translate();

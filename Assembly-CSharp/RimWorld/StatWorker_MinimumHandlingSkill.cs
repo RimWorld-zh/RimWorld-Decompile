@@ -4,16 +4,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009C9 RID: 2505
+	// Token: 0x020009C5 RID: 2501
 	public class StatWorker_MinimumHandlingSkill : StatWorker
 	{
-		// Token: 0x0600381E RID: 14366 RVA: 0x001DE648 File Offset: 0x001DCA48
+		// Token: 0x06003818 RID: 14360 RVA: 0x001DE820 File Offset: 0x001DCC20
 		public override float GetValueUnfinalized(StatRequest req, bool applyPostProcess = true)
 		{
 			return this.ValueFromReq(req);
 		}
 
-		// Token: 0x0600381F RID: 14367 RVA: 0x001DE664 File Offset: 0x001DCA64
+		// Token: 0x06003819 RID: 14361 RVA: 0x001DE83C File Offset: 0x001DCC3C
 		public override string GetExplanationUnfinalized(StatRequest req, ToStringNumberSense numberSense)
 		{
 			float wildness = ((ThingDef)req.Def).race.wildness;
@@ -27,7 +27,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06003820 RID: 14368 RVA: 0x001DE6D8 File Offset: 0x001DCAD8
+		// Token: 0x0600381A RID: 14362 RVA: 0x001DE8B0 File Offset: 0x001DCCB0
 		private float ValueFromReq(StatRequest req)
 		{
 			float wildness = ((ThingDef)req.Def).race.wildness;

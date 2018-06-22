@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000454 RID: 1108
+	// Token: 0x02000450 RID: 1104
 	public static class WeatherPartPool
 	{
-		// Token: 0x06001342 RID: 4930 RVA: 0x000A56FC File Offset: 0x000A3AFC
+		// Token: 0x06001339 RID: 4921 RVA: 0x000A570C File Offset: 0x000A3B0C
 		public static SkyOverlay GetInstanceOf<T>() where T : SkyOverlay
 		{
 			for (int i = 0; i < WeatherPartPool.instances.Count; i++)
@@ -23,7 +23,7 @@ namespace RimWorld
 			return skyOverlay;
 		}
 
-		// Token: 0x04000BB3 RID: 2995
+		// Token: 0x04000BB0 RID: 2992
 		private static List<SkyOverlay> instances = new List<SkyOverlay>();
 	}
 }

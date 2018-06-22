@@ -2,18 +2,18 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200085D RID: 2141
+	// Token: 0x02000859 RID: 2137
 	public class ITab_Shells : ITab_Storage
 	{
-		// Token: 0x0600306E RID: 12398 RVA: 0x001A5854 File Offset: 0x001A3C54
+		// Token: 0x06003067 RID: 12391 RVA: 0x001A5A34 File Offset: 0x001A3E34
 		public ITab_Shells()
 		{
 			this.labelKey = "TabShells";
 			this.tutorTag = "Shells";
 		}
 
-		// Token: 0x170007B7 RID: 1975
-		// (get) Token: 0x0600306F RID: 12399 RVA: 0x001A5874 File Offset: 0x001A3C74
+		// Token: 0x170007B8 RID: 1976
+		// (get) Token: 0x06003068 RID: 12392 RVA: 0x001A5A54 File Offset: 0x001A3E54
 		protected override IStoreSettingsParent SelStoreSettingsParent
 		{
 			get
@@ -40,8 +40,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170007B8 RID: 1976
-		// (get) Token: 0x06003070 RID: 12400 RVA: 0x001A58C4 File Offset: 0x001A3CC4
+		// Token: 0x170007B9 RID: 1977
+		// (get) Token: 0x06003069 RID: 12393 RVA: 0x001A5AA4 File Offset: 0x001A3EA4
 		protected override bool IsPrioritySettingVisible
 		{
 			get

@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005B8 RID: 1464
+	// Token: 0x020005B4 RID: 1460
 	public static class PackedListOfLists
 	{
-		// Token: 0x06001C14 RID: 7188 RVA: 0x000F14D3 File Offset: 0x000EF8D3
+		// Token: 0x06001C0B RID: 7179 RVA: 0x000F1527 File Offset: 0x000EF927
 		public static void AddList<T>(List<int> offsets, List<T> values, List<T> listToAdd)
 		{
 			offsets.Add(values.Count);
 			values.AddRange(listToAdd);
 		}
 
-		// Token: 0x06001C15 RID: 7189 RVA: 0x000F14EC File Offset: 0x000EF8EC
+		// Token: 0x06001C0C RID: 7180 RVA: 0x000F1540 File Offset: 0x000EF940
 		public static void GetList<T>(List<int> offsets, List<T> values, int listIndex, List<T> outList)
 		{
 			outList.Clear();
@@ -30,7 +30,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C16 RID: 7190 RVA: 0x000F1548 File Offset: 0x000EF948
+		// Token: 0x06001C0D RID: 7181 RVA: 0x000F159C File Offset: 0x000EF99C
 		public static void GetListValuesIndices<T>(List<int> offsets, List<T> values, int listIndex, List<int> outList)
 		{
 			outList.Clear();
@@ -46,7 +46,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C17 RID: 7191 RVA: 0x000F15A0 File Offset: 0x000EF9A0
+		// Token: 0x06001C0E RID: 7182 RVA: 0x000F15F4 File Offset: 0x000EF9F4
 		public static int GetListCount<T>(List<int> offsets, List<T> values, int listIndex)
 		{
 			int num = offsets[listIndex];
@@ -58,7 +58,7 @@ namespace RimWorld.Planet
 			return num2 - num;
 		}
 
-		// Token: 0x06001C18 RID: 7192 RVA: 0x000F15E0 File Offset: 0x000EF9E0
+		// Token: 0x06001C0F RID: 7183 RVA: 0x000F1634 File Offset: 0x000EFA34
 		public static void GenerateVertToTrisPackedList(List<Vector3> verts, List<TriangleIndices> tris, List<int> outOffsets, List<int> outValues)
 		{
 			outOffsets.Clear();
@@ -119,7 +119,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x040010C4 RID: 4292
+		// Token: 0x040010C1 RID: 4289
 		private static List<int> vertAdjacentTrisCount = new List<int>();
 	}
 }

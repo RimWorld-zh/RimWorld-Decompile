@@ -4,23 +4,23 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006DF RID: 1759
+	// Token: 0x020006DB RID: 1755
 	[StaticConstructorOnStartup]
 	internal class Gizmo_EnergyShieldStatus : Gizmo
 	{
-		// Token: 0x06002639 RID: 9785 RVA: 0x001479FC File Offset: 0x00145DFC
+		// Token: 0x06002631 RID: 9777 RVA: 0x00147BA0 File Offset: 0x00145FA0
 		public Gizmo_EnergyShieldStatus()
 		{
 			this.order = -100f;
 		}
 
-		// Token: 0x0600263A RID: 9786 RVA: 0x00147A10 File Offset: 0x00145E10
+		// Token: 0x06002632 RID: 9778 RVA: 0x00147BB4 File Offset: 0x00145FB4
 		public override float GetWidth(float maxWidth)
 		{
 			return 140f;
 		}
 
-		// Token: 0x0600263B RID: 9787 RVA: 0x00147A2C File Offset: 0x00145E2C
+		// Token: 0x06002633 RID: 9779 RVA: 0x00147BD0 File Offset: 0x00145FD0
 		public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth)
 		{
 			Rect overRect = new Rect(topLeft.x, topLeft.y, this.GetWidth(maxWidth), 75f);
@@ -43,13 +43,13 @@ namespace RimWorld
 			return new GizmoResult(GizmoState.Clear);
 		}
 
-		// Token: 0x04001545 RID: 5445
+		// Token: 0x04001543 RID: 5443
 		public ShieldBelt shield;
 
-		// Token: 0x04001546 RID: 5446
+		// Token: 0x04001544 RID: 5444
 		private static readonly Texture2D FullShieldBarTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.2f, 0.2f, 0.24f));
 
-		// Token: 0x04001547 RID: 5447
+		// Token: 0x04001545 RID: 5445
 		private static readonly Texture2D EmptyShieldBarTex = SolidColorMaterials.NewSolidColorTexture(Color.clear);
 	}
 }

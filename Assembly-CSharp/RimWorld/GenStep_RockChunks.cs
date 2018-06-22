@@ -9,7 +9,7 @@ namespace RimWorld
 	public class GenStep_RockChunks : GenStep
 	{
 		// Token: 0x17000256 RID: 598
-		// (get) Token: 0x06001183 RID: 4483 RVA: 0x000978C8 File Offset: 0x00095CC8
+		// (get) Token: 0x06001183 RID: 4483 RVA: 0x00097AAC File Offset: 0x00095EAC
 		public override int SeedPart
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001184 RID: 4484 RVA: 0x000978E4 File Offset: 0x00095CE4
+		// Token: 0x06001184 RID: 4484 RVA: 0x00097AC8 File Offset: 0x00095EC8
 		public override void Generate(Map map)
 		{
 			if (!map.TileInfo.WaterCovered)
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001185 RID: 4485 RVA: 0x000979FC File Offset: 0x00095DFC
+		// Token: 0x06001185 RID: 4485 RVA: 0x00097BE0 File Offset: 0x00095FE0
 		private void GrowLowRockFormationFrom(IntVec3 root, Map map)
 		{
 			ThingDef filth_RubbleRock = ThingDefOf.Filth_RubbleRock;
@@ -104,16 +104,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000AA1 RID: 2721
+		// Token: 0x04000AA2 RID: 2722
 		private ModuleBase freqFactorNoise = null;
 
-		// Token: 0x04000AA2 RID: 2722
+		// Token: 0x04000AA3 RID: 2723
 		private const float ThreshLooseRock = 0.55f;
 
-		// Token: 0x04000AA3 RID: 2723
+		// Token: 0x04000AA4 RID: 2724
 		private const float PlaceProbabilityPerCell = 0.006f;
 
-		// Token: 0x04000AA4 RID: 2724
+		// Token: 0x04000AA5 RID: 2725
 		private const float RubbleProbability = 0.5f;
 	}
 }

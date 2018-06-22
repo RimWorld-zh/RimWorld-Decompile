@@ -2,21 +2,21 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x020009EC RID: 2540
+	// Token: 0x020009E8 RID: 2536
 	public class LordJob_Travel : LordJob
 	{
-		// Token: 0x0600390D RID: 14605 RVA: 0x001E61C8 File Offset: 0x001E45C8
+		// Token: 0x06003907 RID: 14599 RVA: 0x001E6408 File Offset: 0x001E4808
 		public LordJob_Travel()
 		{
 		}
 
-		// Token: 0x0600390E RID: 14606 RVA: 0x001E61D1 File Offset: 0x001E45D1
+		// Token: 0x06003908 RID: 14600 RVA: 0x001E6411 File Offset: 0x001E4811
 		public LordJob_Travel(IntVec3 travelDest)
 		{
 			this.travelDest = travelDest;
 		}
 
-		// Token: 0x0600390F RID: 14607 RVA: 0x001E61E4 File Offset: 0x001E45E4
+		// Token: 0x06003909 RID: 14601 RVA: 0x001E6424 File Offset: 0x001E4824
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -36,13 +36,13 @@ namespace Verse.AI.Group
 			return stateGraph;
 		}
 
-		// Token: 0x06003910 RID: 14608 RVA: 0x001E6290 File Offset: 0x001E4690
+		// Token: 0x0600390A RID: 14602 RVA: 0x001E64D0 File Offset: 0x001E48D0
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<IntVec3>(ref this.travelDest, "travelDest", default(IntVec3), false);
 		}
 
-		// Token: 0x0400246B RID: 9323
+		// Token: 0x04002466 RID: 9318
 		private IntVec3 travelDest;
 	}
 }

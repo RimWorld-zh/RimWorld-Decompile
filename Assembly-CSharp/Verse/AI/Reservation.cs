@@ -3,15 +3,15 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000AAA RID: 2730
+	// Token: 0x02000AA6 RID: 2726
 	internal class Reservation : IExposable
 	{
-		// Token: 0x06003CE0 RID: 15584 RVA: 0x00202FE9 File Offset: 0x002013E9
+		// Token: 0x06003CDB RID: 15579 RVA: 0x0020330D File Offset: 0x0020170D
 		public Reservation()
 		{
 		}
 
-		// Token: 0x06003CE1 RID: 15585 RVA: 0x00202FF9 File Offset: 0x002013F9
+		// Token: 0x06003CDC RID: 15580 RVA: 0x0020331D File Offset: 0x0020171D
 		public Reservation(Pawn claimant, Job job, int maxPawns, int stackCount, LocalTargetInfo target, ReservationLayerDef layer)
 		{
 			this.claimant = claimant;
@@ -22,8 +22,8 @@ namespace Verse.AI
 			this.layer = layer;
 		}
 
-		// Token: 0x17000934 RID: 2356
-		// (get) Token: 0x06003CE2 RID: 15586 RVA: 0x00203038 File Offset: 0x00201438
+		// Token: 0x17000935 RID: 2357
+		// (get) Token: 0x06003CDD RID: 15581 RVA: 0x0020335C File Offset: 0x0020175C
 		public Pawn Claimant
 		{
 			get
@@ -32,8 +32,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000935 RID: 2357
-		// (get) Token: 0x06003CE3 RID: 15587 RVA: 0x00203054 File Offset: 0x00201454
+		// Token: 0x17000936 RID: 2358
+		// (get) Token: 0x06003CDE RID: 15582 RVA: 0x00203378 File Offset: 0x00201778
 		public Job Job
 		{
 			get
@@ -42,8 +42,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000936 RID: 2358
-		// (get) Token: 0x06003CE4 RID: 15588 RVA: 0x00203070 File Offset: 0x00201470
+		// Token: 0x17000937 RID: 2359
+		// (get) Token: 0x06003CDF RID: 15583 RVA: 0x00203394 File Offset: 0x00201794
 		public LocalTargetInfo Target
 		{
 			get
@@ -52,8 +52,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000937 RID: 2359
-		// (get) Token: 0x06003CE5 RID: 15589 RVA: 0x0020308C File Offset: 0x0020148C
+		// Token: 0x17000938 RID: 2360
+		// (get) Token: 0x06003CE0 RID: 15584 RVA: 0x002033B0 File Offset: 0x002017B0
 		public ReservationLayerDef Layer
 		{
 			get
@@ -62,8 +62,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000938 RID: 2360
-		// (get) Token: 0x06003CE6 RID: 15590 RVA: 0x002030A8 File Offset: 0x002014A8
+		// Token: 0x17000939 RID: 2361
+		// (get) Token: 0x06003CE1 RID: 15585 RVA: 0x002033CC File Offset: 0x002017CC
 		public int MaxPawns
 		{
 			get
@@ -72,8 +72,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000939 RID: 2361
-		// (get) Token: 0x06003CE7 RID: 15591 RVA: 0x002030C4 File Offset: 0x002014C4
+		// Token: 0x1700093A RID: 2362
+		// (get) Token: 0x06003CE2 RID: 15586 RVA: 0x002033E8 File Offset: 0x002017E8
 		public int StackCount
 		{
 			get
@@ -82,8 +82,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x1700093A RID: 2362
-		// (get) Token: 0x06003CE8 RID: 15592 RVA: 0x002030E0 File Offset: 0x002014E0
+		// Token: 0x1700093B RID: 2363
+		// (get) Token: 0x06003CE3 RID: 15587 RVA: 0x00203404 File Offset: 0x00201804
 		public Faction Faction
 		{
 			get
@@ -92,7 +92,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003CE9 RID: 15593 RVA: 0x00203100 File Offset: 0x00201500
+		// Token: 0x06003CE4 RID: 15588 RVA: 0x00203424 File Offset: 0x00201824
 		public void ExposeData()
 		{
 			Scribe_References.Look<Pawn>(ref this.claimant, "claimant", false);
@@ -103,7 +103,7 @@ namespace Verse.AI
 			Scribe_Defs.Look<ReservationLayerDef>(ref this.layer, "layer");
 		}
 
-		// Token: 0x06003CEA RID: 15594 RVA: 0x00203174 File Offset: 0x00201574
+		// Token: 0x06003CE5 RID: 15589 RVA: 0x00203498 File Offset: 0x00201898
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -122,22 +122,22 @@ namespace Verse.AI
 			});
 		}
 
-		// Token: 0x04002683 RID: 9859
+		// Token: 0x0400267E RID: 9854
 		private Pawn claimant;
 
-		// Token: 0x04002684 RID: 9860
+		// Token: 0x0400267F RID: 9855
 		private Job job;
 
-		// Token: 0x04002685 RID: 9861
+		// Token: 0x04002680 RID: 9856
 		private LocalTargetInfo target;
 
-		// Token: 0x04002686 RID: 9862
+		// Token: 0x04002681 RID: 9857
 		private ReservationLayerDef layer;
 
-		// Token: 0x04002687 RID: 9863
+		// Token: 0x04002682 RID: 9858
 		private int maxPawns;
 
-		// Token: 0x04002688 RID: 9864
+		// Token: 0x04002683 RID: 9859
 		private int stackCount = -1;
 	}
 }

@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Verse
 {
-	// Token: 0x02000E00 RID: 3584
+	// Token: 0x02000DFD RID: 3581
 	public class CompAttachBase : ThingComp
 	{
-		// Token: 0x0600511E RID: 20766 RVA: 0x0029A26C File Offset: 0x0029866C
+		// Token: 0x06005132 RID: 20786 RVA: 0x0029B848 File Offset: 0x00299C48
 		public override void CompTick()
 		{
 			if (this.attachments != null)
@@ -19,7 +19,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600511F RID: 20767 RVA: 0x0029A2C4 File Offset: 0x002986C4
+		// Token: 0x06005133 RID: 20787 RVA: 0x0029B8A0 File Offset: 0x00299CA0
 		public override void PostDestroy(DestroyMode mode, Map previousMap)
 		{
 			base.PostDestroy(mode, previousMap);
@@ -32,7 +32,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005120 RID: 20768 RVA: 0x0029A31C File Offset: 0x0029871C
+		// Token: 0x06005134 RID: 20788 RVA: 0x0029B8F8 File Offset: 0x00299CF8
 		public override string CompInspectStringExtra()
 		{
 			string result;
@@ -52,7 +52,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005121 RID: 20769 RVA: 0x0029A38C File Offset: 0x0029878C
+		// Token: 0x06005135 RID: 20789 RVA: 0x0029B968 File Offset: 0x00299D68
 		public Thing GetAttachment(ThingDef def)
 		{
 			if (this.attachments != null)
@@ -68,13 +68,13 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06005122 RID: 20770 RVA: 0x0029A3F8 File Offset: 0x002987F8
+		// Token: 0x06005136 RID: 20790 RVA: 0x0029B9D4 File Offset: 0x00299DD4
 		public bool HasAttachment(ThingDef def)
 		{
 			return this.GetAttachment(def) != null;
 		}
 
-		// Token: 0x06005123 RID: 20771 RVA: 0x0029A41A File Offset: 0x0029881A
+		// Token: 0x06005137 RID: 20791 RVA: 0x0029B9F6 File Offset: 0x00299DF6
 		public void AddAttachment(AttachableThing t)
 		{
 			if (this.attachments == null)
@@ -84,13 +84,13 @@ namespace Verse
 			this.attachments.Add(t);
 		}
 
-		// Token: 0x06005124 RID: 20772 RVA: 0x0029A43F File Offset: 0x0029883F
+		// Token: 0x06005138 RID: 20792 RVA: 0x0029BA1B File Offset: 0x00299E1B
 		public void RemoveAttachment(AttachableThing t)
 		{
 			this.attachments.Remove(t);
 		}
 
-		// Token: 0x04003544 RID: 13636
+		// Token: 0x0400354B RID: 13643
 		public List<AttachableThing> attachments = null;
 	}
 }

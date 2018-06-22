@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006F3 RID: 1779
+	// Token: 0x020006EF RID: 1775
 	public class ThingSetMaker_Count : ThingSetMaker
 	{
-		// Token: 0x060026AC RID: 9900 RVA: 0x0014AFD0 File Offset: 0x001493D0
+		// Token: 0x060026A4 RID: 9892 RVA: 0x0014B174 File Offset: 0x00149574
 		protected override bool CanGenerateSub(ThingSetMakerParams parms)
 		{
 			bool result;
@@ -45,7 +45,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060026AD RID: 9901 RVA: 0x0014B0EC File Offset: 0x001494EC
+		// Token: 0x060026A5 RID: 9893 RVA: 0x0014B290 File Offset: 0x00149690
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			IEnumerable<ThingDef> enumerable = this.AllowedThingDefs(parms);
@@ -77,13 +77,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026AE RID: 9902 RVA: 0x0014B234 File Offset: 0x00149634
+		// Token: 0x060026A6 RID: 9894 RVA: 0x0014B3D8 File Offset: 0x001497D8
 		protected virtual IEnumerable<ThingDef> AllowedThingDefs(ThingSetMakerParams parms)
 		{
 			return ThingSetMakerUtility.GetAllowedThingDefs(parms);
 		}
 
-		// Token: 0x060026AF RID: 9903 RVA: 0x0014B250 File Offset: 0x00149650
+		// Token: 0x060026A7 RID: 9895 RVA: 0x0014B3F4 File Offset: 0x001497F4
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			TechLevel? techLevel2 = parms.techLevel;

@@ -8,12 +8,12 @@ namespace RimWorld
 	// Token: 0x02000169 RID: 361
 	public class LordJob_AssaultColony : LordJob
 	{
-		// Token: 0x06000768 RID: 1896 RVA: 0x00049986 File Offset: 0x00047D86
+		// Token: 0x06000768 RID: 1896 RVA: 0x00049972 File Offset: 0x00047D72
 		public LordJob_AssaultColony()
 		{
 		}
 
-		// Token: 0x06000769 RID: 1897 RVA: 0x000499B4 File Offset: 0x00047DB4
+		// Token: 0x06000769 RID: 1897 RVA: 0x000499A0 File Offset: 0x00047DA0
 		public LordJob_AssaultColony(Faction assaulterFaction, bool canKidnap = true, bool canTimeoutOrFlee = true, bool sappers = false, bool useAvoidGridSmart = false, bool canSteal = true)
 		{
 			this.assaulterFaction = assaulterFaction;
@@ -25,7 +25,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000129 RID: 297
-		// (get) Token: 0x0600076A RID: 1898 RVA: 0x00049A18 File Offset: 0x00047E18
+		// (get) Token: 0x0600076A RID: 1898 RVA: 0x00049A04 File Offset: 0x00047E04
 		public override bool GuiltyOnDowned
 		{
 			get
@@ -34,7 +34,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600076B RID: 1899 RVA: 0x00049A30 File Offset: 0x00047E30
+		// Token: 0x0600076B RID: 1899 RVA: 0x00049A1C File Offset: 0x00047E1C
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -149,7 +149,7 @@ namespace RimWorld
 			return stateGraph;
 		}
 
-		// Token: 0x0600076C RID: 1900 RVA: 0x00049E44 File Offset: 0x00048244
+		// Token: 0x0600076C RID: 1900 RVA: 0x00049E30 File Offset: 0x00048230
 		public override void ExposeData()
 		{
 			Scribe_References.Look<Faction>(ref this.assaulterFaction, "assaulterFaction", false);

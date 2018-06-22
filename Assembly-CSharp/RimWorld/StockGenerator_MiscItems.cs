@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000777 RID: 1911
+	// Token: 0x02000773 RID: 1907
 	public abstract class StockGenerator_MiscItems : StockGenerator
 	{
-		// Token: 0x06002A2B RID: 10795 RVA: 0x00165A34 File Offset: 0x00163E34
+		// Token: 0x06002A24 RID: 10788 RVA: 0x00165C0C File Offset: 0x0016400C
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
 			int count = this.countRange.RandomInRange;
@@ -26,19 +26,19 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002A2C RID: 10796 RVA: 0x00165A60 File Offset: 0x00163E60
+		// Token: 0x06002A25 RID: 10789 RVA: 0x00165C38 File Offset: 0x00164038
 		protected virtual Thing MakeThing(ThingDef def)
 		{
 			return StockGeneratorUtility.TryMakeForStockSingle(def, 1);
 		}
 
-		// Token: 0x06002A2D RID: 10797 RVA: 0x00165A7C File Offset: 0x00163E7C
+		// Token: 0x06002A26 RID: 10790 RVA: 0x00165C54 File Offset: 0x00164054
 		public override bool HandlesThingDef(ThingDef thingDef)
 		{
 			return thingDef.tradeability != Tradeability.None && thingDef.techLevel <= this.maxTechLevelBuy;
 		}
 
-		// Token: 0x06002A2E RID: 10798 RVA: 0x00165AB0 File Offset: 0x00163EB0
+		// Token: 0x06002A27 RID: 10791 RVA: 0x00165C88 File Offset: 0x00164088
 		protected virtual float SelectionWeight(ThingDef thingDef)
 		{
 			return 1f;

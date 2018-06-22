@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007CB RID: 1995
+	// Token: 0x020007C7 RID: 1991
 	public class Designator_Claim : Designator
 	{
-		// Token: 0x06002C1F RID: 11295 RVA: 0x00174F74 File Offset: 0x00173374
+		// Token: 0x06002C18 RID: 11288 RVA: 0x0017514C File Offset: 0x0017354C
 		public Designator_Claim()
 		{
 			this.defaultLabel = "DesignatorClaim".Translate();
@@ -22,8 +22,8 @@ namespace RimWorld
 			this.hotKey = KeyBindingDefOf.Misc4;
 		}
 
-		// Token: 0x170006E6 RID: 1766
-		// (get) Token: 0x06002C20 RID: 11296 RVA: 0x00174FEC File Offset: 0x001733EC
+		// Token: 0x170006E7 RID: 1767
+		// (get) Token: 0x06002C19 RID: 11289 RVA: 0x001751C4 File Offset: 0x001735C4
 		public override int DraggableDimensions
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C21 RID: 11297 RVA: 0x00175004 File Offset: 0x00173404
+		// Token: 0x06002C1A RID: 11290 RVA: 0x001751DC File Offset: 0x001735DC
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -57,7 +57,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C22 RID: 11298 RVA: 0x00175098 File Offset: 0x00173498
+		// Token: 0x06002C1B RID: 11291 RVA: 0x00175270 File Offset: 0x00173670
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			List<Thing> thingList = c.GetThingList(base.Map);
@@ -70,14 +70,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C23 RID: 11299 RVA: 0x001750F4 File Offset: 0x001734F4
+		// Token: 0x06002C1C RID: 11292 RVA: 0x001752CC File Offset: 0x001736CC
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Building building = t as Building;
 			return building != null && building.Faction != Faction.OfPlayer && building.ClaimableBy(Faction.OfPlayer);
 		}
 
-		// Token: 0x06002C24 RID: 11300 RVA: 0x0017513C File Offset: 0x0017353C
+		// Token: 0x06002C1D RID: 11293 RVA: 0x00175314 File Offset: 0x00173714
 		public override void DesignateThing(Thing t)
 		{
 			t.SetFaction(Faction.OfPlayer, null);

@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x020002E9 RID: 745
 	public class TraitDef : Def
 	{
-		// Token: 0x06000C4D RID: 3149 RVA: 0x0006D2F0 File Offset: 0x0006B6F0
+		// Token: 0x06000C4D RID: 3149 RVA: 0x0006D3A4 File Offset: 0x0006B7A4
 		public static TraitDef Named(string defName)
 		{
 			return DefDatabase<TraitDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x06000C4E RID: 3150 RVA: 0x0006D30C File Offset: 0x0006B70C
+		// Token: 0x06000C4E RID: 3150 RVA: 0x0006D3C0 File Offset: 0x0006B7C0
 		public TraitDegreeData DataAtDegree(int degree)
 		{
 			for (int i = 0; i < this.degreeDatas.Count; i++)
@@ -34,7 +34,7 @@ namespace RimWorld
 			return this.degreeDatas[0];
 		}
 
-		// Token: 0x06000C4F RID: 3151 RVA: 0x0006D3A8 File Offset: 0x0006B7A8
+		// Token: 0x06000C4F RID: 3151 RVA: 0x0006D45C File Offset: 0x0006B85C
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -62,7 +62,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000C50 RID: 3152 RVA: 0x0006D3D4 File Offset: 0x0006B7D4
+		// Token: 0x06000C50 RID: 3152 RVA: 0x0006D488 File Offset: 0x0006B888
 		public bool ConflictsWith(Trait other)
 		{
 			if (other.def.conflictingTraits != null)
@@ -78,7 +78,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000C51 RID: 3153 RVA: 0x0006D440 File Offset: 0x0006B840
+		// Token: 0x06000C51 RID: 3153 RVA: 0x0006D4F4 File Offset: 0x0006B8F4
 		public float GetGenderSpecificCommonality(Gender gender)
 		{
 			float result;
@@ -93,31 +93,31 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x040007EB RID: 2027
+		// Token: 0x040007ED RID: 2029
 		public List<TraitDegreeData> degreeDatas = new List<TraitDegreeData>();
 
-		// Token: 0x040007EC RID: 2028
+		// Token: 0x040007EE RID: 2030
 		public List<TraitDef> conflictingTraits = new List<TraitDef>();
 
-		// Token: 0x040007ED RID: 2029
+		// Token: 0x040007EF RID: 2031
 		public List<WorkTypeDef> requiredWorkTypes = new List<WorkTypeDef>();
 
-		// Token: 0x040007EE RID: 2030
+		// Token: 0x040007F0 RID: 2032
 		public WorkTags requiredWorkTags;
 
-		// Token: 0x040007EF RID: 2031
+		// Token: 0x040007F1 RID: 2033
 		public List<WorkTypeDef> disabledWorkTypes = new List<WorkTypeDef>();
 
-		// Token: 0x040007F0 RID: 2032
+		// Token: 0x040007F2 RID: 2034
 		public WorkTags disabledWorkTags;
 
-		// Token: 0x040007F1 RID: 2033
+		// Token: 0x040007F3 RID: 2035
 		private float commonality = 1f;
 
-		// Token: 0x040007F2 RID: 2034
+		// Token: 0x040007F4 RID: 2036
 		private float commonalityFemale = -1f;
 
-		// Token: 0x040007F3 RID: 2035
+		// Token: 0x040007F5 RID: 2037
 		public bool allowOnHostileSpawn = true;
 	}
 }

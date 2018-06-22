@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200088C RID: 2188
+	// Token: 0x02000888 RID: 2184
 	[StaticConstructorOnStartup]
 	public class PawnColumnWorker_Predator : PawnColumnWorker_Icon
 	{
-		// Token: 0x060031E7 RID: 12775 RVA: 0x001AED30 File Offset: 0x001AD130
+		// Token: 0x060031E0 RID: 12768 RVA: 0x001AEF18 File Offset: 0x001AD318
 		protected override Texture2D GetIconFor(Pawn pawn)
 		{
 			Texture2D result;
@@ -23,13 +23,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060031E8 RID: 12776 RVA: 0x001AED64 File Offset: 0x001AD164
+		// Token: 0x060031E1 RID: 12769 RVA: 0x001AEF4C File Offset: 0x001AD34C
 		protected override string GetIconTip(Pawn pawn)
 		{
 			return "IsPredator".Translate();
 		}
 
-		// Token: 0x04001AD2 RID: 6866
+		// Token: 0x04001AD0 RID: 6864
 		private static readonly Texture2D Icon = ContentFinder<Texture2D>.Get("UI/Icons/Animal/Predator", true);
 	}
 }

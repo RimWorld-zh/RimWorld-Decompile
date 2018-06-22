@@ -8,19 +8,19 @@ namespace Verse
 	// Token: 0x02000F51 RID: 3921
 	public static class GenSpawn
 	{
-		// Token: 0x06005EA5 RID: 24229 RVA: 0x00302A20 File Offset: 0x00300E20
+		// Token: 0x06005ECD RID: 24269 RVA: 0x00304A5C File Offset: 0x00302E5C
 		public static Thing Spawn(ThingDef def, IntVec3 loc, Map map, WipeMode wipeMode = WipeMode.Vanish)
 		{
 			return GenSpawn.Spawn(ThingMaker.MakeThing(def, null), loc, map, wipeMode);
 		}
 
-		// Token: 0x06005EA6 RID: 24230 RVA: 0x00302A44 File Offset: 0x00300E44
+		// Token: 0x06005ECE RID: 24270 RVA: 0x00304A80 File Offset: 0x00302E80
 		public static Thing Spawn(Thing newThing, IntVec3 loc, Map map, WipeMode wipeMode = WipeMode.Vanish)
 		{
 			return GenSpawn.Spawn(newThing, loc, map, Rot4.North, wipeMode, false);
 		}
 
-		// Token: 0x06005EA7 RID: 24231 RVA: 0x00302A68 File Offset: 0x00300E68
+		// Token: 0x06005ECF RID: 24271 RVA: 0x00304AA4 File Offset: 0x00302EA4
 		public static Thing Spawn(Thing newThing, IntVec3 loc, Map map, Rot4 rot, WipeMode wipeMode = WipeMode.Vanish, bool respawningAfterLoad = false)
 		{
 			Thing result;
@@ -136,7 +136,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005EA8 RID: 24232 RVA: 0x00302E2C File Offset: 0x0030122C
+		// Token: 0x06005ED0 RID: 24272 RVA: 0x00304E68 File Offset: 0x00303268
 		public static void SpawnBuildingAsPossible(Building building, Map map, bool respawningAfterLoad = false)
 		{
 			bool flag = false;
@@ -178,7 +178,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005EA9 RID: 24233 RVA: 0x00302F8C File Offset: 0x0030138C
+		// Token: 0x06005ED1 RID: 24273 RVA: 0x00304FC8 File Offset: 0x003033C8
 		public static void Refund(Thing thing, Map map, CellRect avoidThisRect)
 		{
 			bool flag = false;
@@ -202,7 +202,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005EAA RID: 24234 RVA: 0x00303028 File Offset: 0x00301428
+		// Token: 0x06005ED2 RID: 24274 RVA: 0x00305064 File Offset: 0x00303464
 		public static void WipeExistingThings(IntVec3 thingPos, Rot4 thingRot, BuildableDef thingDef, Map map, DestroyMode mode)
 		{
 			foreach (IntVec3 c in GenAdj.CellsOccupiedBy(thingPos, thingRot, thingDef.Size))
@@ -217,7 +217,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005EAB RID: 24235 RVA: 0x003030F4 File Offset: 0x003014F4
+		// Token: 0x06005ED3 RID: 24275 RVA: 0x00305130 File Offset: 0x00303530
 		public static void WipeAndRefundExistingThings(IntVec3 thingPos, Rot4 thingRot, BuildableDef thingDef, Map map)
 		{
 			CellRect occupiedRect = GenAdj.OccupiedRect(thingPos, thingRot, thingDef.Size);
@@ -244,13 +244,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005EAC RID: 24236 RVA: 0x00303218 File Offset: 0x00301618
+		// Token: 0x06005ED4 RID: 24276 RVA: 0x00305254 File Offset: 0x00303654
 		public static bool WouldWipeAnythingWith(IntVec3 thingPos, Rot4 thingRot, BuildableDef thingDef, Map map, Predicate<Thing> predicate)
 		{
 			return GenSpawn.WouldWipeAnythingWith(GenAdj.OccupiedRect(thingPos, thingRot, thingDef.Size), thingDef, map, predicate);
 		}
 
-		// Token: 0x06005EAD RID: 24237 RVA: 0x00303244 File Offset: 0x00301644
+		// Token: 0x06005ED5 RID: 24277 RVA: 0x00305280 File Offset: 0x00303680
 		public static bool WouldWipeAnythingWith(CellRect cellRect, BuildableDef thingDef, Map map, Predicate<Thing> predicate)
 		{
 			foreach (IntVec3 c in cellRect)
@@ -266,7 +266,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06005EAE RID: 24238 RVA: 0x00303318 File Offset: 0x00301718
+		// Token: 0x06005ED6 RID: 24278 RVA: 0x00305354 File Offset: 0x00303754
 		public static bool SpawningWipes(BuildableDef newEntDef, BuildableDef oldEntDef)
 		{
 			ThingDef thingDef = newEntDef as ThingDef;

@@ -9,17 +9,17 @@ namespace RimWorld
 	public class JobDriver_SmoothWall : JobDriver
 	{
 		// Token: 0x1700007E RID: 126
-		// (get) Token: 0x06000252 RID: 594 RVA: 0x000186C0 File Offset: 0x00016AC0
+		// (get) Token: 0x06000252 RID: 594 RVA: 0x000186C8 File Offset: 0x00016AC8
 		protected int BaseWorkAmount
 		{
 			get
 			{
-				return 9000;
+				return 6500;
 			}
 		}
 
 		// Token: 0x1700007F RID: 127
-		// (get) Token: 0x06000253 RID: 595 RVA: 0x000186DC File Offset: 0x00016ADC
+		// (get) Token: 0x06000253 RID: 595 RVA: 0x000186E4 File Offset: 0x00016AE4
 		protected DesignationDef DesDef
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000080 RID: 128
-		// (get) Token: 0x06000254 RID: 596 RVA: 0x000186F8 File Offset: 0x00016AF8
+		// (get) Token: 0x06000254 RID: 596 RVA: 0x00018700 File Offset: 0x00016B00
 		protected StatDef SpeedStat
 		{
 			get
@@ -38,13 +38,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000255 RID: 597 RVA: 0x00018714 File Offset: 0x00016B14
+		// Token: 0x06000255 RID: 597 RVA: 0x0001871C File Offset: 0x00016B1C
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null) && this.pawn.Reserve(this.job.targetA.Cell, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000256 RID: 598 RVA: 0x0001877C File Offset: 0x00016B7C
+		// Token: 0x06000256 RID: 598 RVA: 0x00018784 File Offset: 0x00016B84
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOn(() => !this.job.ignoreDesignations && this.Map.designationManager.DesignationAt(this.TargetLocA, this.DesDef) == null);
@@ -82,13 +82,13 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000257 RID: 599 RVA: 0x000187A8 File Offset: 0x00016BA8
+		// Token: 0x06000257 RID: 599 RVA: 0x000187B0 File Offset: 0x00016BB0
 		protected void DoEffect()
 		{
 			SmoothableWallUtility.Notify_SmoothedByPawn(SmoothableWallUtility.SmoothWall(base.TargetA.Thing, this.pawn), this.pawn);
 		}
 
-		// Token: 0x06000258 RID: 600 RVA: 0x000187DA File Offset: 0x00016BDA
+		// Token: 0x06000258 RID: 600 RVA: 0x000187E2 File Offset: 0x00016BE2
 		public override void ExposeData()
 		{
 			base.ExposeData();

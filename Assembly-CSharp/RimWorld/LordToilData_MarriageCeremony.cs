@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020001A2 RID: 418
 	public class LordToilData_MarriageCeremony : LordToilData
 	{
-		// Token: 0x060008AD RID: 2221 RVA: 0x00051ED4 File Offset: 0x000502D4
+		// Token: 0x060008AD RID: 2221 RVA: 0x00051EC0 File Offset: 0x000502C0
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<CellRect>(ref this.spectateRect, "spectateRect", default(CellRect), false);

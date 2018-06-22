@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000AB1 RID: 2737
+	// Token: 0x02000AAD RID: 2733
 	public class ThinkNode_ChancePerHour_Lovin : ThinkNode_ChancePerHour
 	{
-		// Token: 0x06003D15 RID: 15637 RVA: 0x00204880 File Offset: 0x00202C80
+		// Token: 0x06003D10 RID: 15632 RVA: 0x00204BA4 File Offset: 0x00202FA4
 		protected override float MtbHours(Pawn pawn)
 		{
 			float result;

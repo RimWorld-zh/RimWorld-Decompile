@@ -4,12 +4,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000712 RID: 1810
+	// Token: 0x0200070E RID: 1806
 	[StaticConstructorOnStartup]
 	public class CompFireOverlay : ThingComp
 	{
 		// Token: 0x170005FB RID: 1531
-		// (get) Token: 0x060027B7 RID: 10167 RVA: 0x00154134 File Offset: 0x00152534
+		// (get) Token: 0x060027AF RID: 10159 RVA: 0x001542DC File Offset: 0x001526DC
 		public CompProperties_FireOverlay Props
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027B8 RID: 10168 RVA: 0x00154154 File Offset: 0x00152554
+		// Token: 0x060027B0 RID: 10160 RVA: 0x001542FC File Offset: 0x001526FC
 		public override void PostDraw()
 		{
 			base.PostDraw();
@@ -30,17 +30,17 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027B9 RID: 10169 RVA: 0x001541C2 File Offset: 0x001525C2
+		// Token: 0x060027B1 RID: 10161 RVA: 0x0015436A File Offset: 0x0015276A
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
 			this.refuelableComp = this.parent.GetComp<CompRefuelable>();
 		}
 
-		// Token: 0x040015DB RID: 5595
+		// Token: 0x040015D9 RID: 5593
 		protected CompRefuelable refuelableComp;
 
-		// Token: 0x040015DC RID: 5596
+		// Token: 0x040015DA RID: 5594
 		public static readonly Graphic FireGraphic = GraphicDatabase.Get<Graphic_Flicker>("Things/Special/Fire", ShaderDatabase.TransparentPostLight, Vector2.one, Color.white);
 	}
 }

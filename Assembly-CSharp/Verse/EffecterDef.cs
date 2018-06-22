@@ -3,22 +3,22 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000B3C RID: 2876
+	// Token: 0x02000B38 RID: 2872
 	public class EffecterDef : Def
 	{
-		// Token: 0x06003F2B RID: 16171 RVA: 0x00213D40 File Offset: 0x00212140
+		// Token: 0x06003F2A RID: 16170 RVA: 0x00214358 File Offset: 0x00212758
 		public Effecter Spawn()
 		{
 			return new Effecter(this);
 		}
 
-		// Token: 0x0400294D RID: 10573
+		// Token: 0x0400294A RID: 10570
 		public List<SubEffecterDef> children = null;
 
-		// Token: 0x0400294E RID: 10574
+		// Token: 0x0400294B RID: 10571
 		public float positionRadius;
 
-		// Token: 0x0400294F RID: 10575
+		// Token: 0x0400294C RID: 10572
 		public FloatRange offsetTowardsTarget;
 	}
 }

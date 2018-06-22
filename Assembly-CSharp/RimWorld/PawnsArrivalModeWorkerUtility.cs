@@ -6,17 +6,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200049B RID: 1179
+	// Token: 0x02000497 RID: 1175
 	public static class PawnsArrivalModeWorkerUtility
 	{
-		// Token: 0x06001512 RID: 5394 RVA: 0x000B9414 File Offset: 0x000B7814
+		// Token: 0x06001509 RID: 5385 RVA: 0x000B9410 File Offset: 0x000B7810
 		public static void DropInDropPodsNearSpawnCenter(IncidentParms parms, List<Pawn> pawns)
 		{
 			Map map = (Map)parms.target;
 			DropPodUtility.DropThingsNear(parms.spawnCenter, map, pawns.Cast<Thing>(), parms.podOpenDelay, false, true, true, false);
 		}
 
-		// Token: 0x06001513 RID: 5395 RVA: 0x000B944C File Offset: 0x000B784C
+		// Token: 0x0600150A RID: 5386 RVA: 0x000B9448 File Offset: 0x000B7848
 		public static List<Pair<List<Pawn>, IntVec3>> SplitIntoRandomGroupsNearMapEdge(List<Pawn> pawns, Map map, bool arriveInPods)
 		{
 			List<Pair<List<Pawn>, IntVec3>> list = new List<Pair<List<Pawn>, IntVec3>>();
@@ -49,7 +49,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001514 RID: 5396 RVA: 0x000B9520 File Offset: 0x000B7920
+		// Token: 0x0600150B RID: 5387 RVA: 0x000B951C File Offset: 0x000B791C
 		private static IntVec3 FindNewMapEdgeGroupCenter(Map map, List<Pair<List<Pawn>, IntVec3>> groups, bool arriveInPods)
 		{
 			IntVec3 result = IntVec3.Invalid;
@@ -88,7 +88,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001515 RID: 5397 RVA: 0x000B9600 File Offset: 0x000B7A00
+		// Token: 0x0600150C RID: 5388 RVA: 0x000B95FC File Offset: 0x000B79FC
 		private static int GetMaxGroupsCount(int pawnsCount)
 		{
 			int result;
@@ -103,7 +103,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001516 RID: 5398 RVA: 0x000B9630 File Offset: 0x000B7A30
+		// Token: 0x0600150D RID: 5389 RVA: 0x000B962C File Offset: 0x000B7A2C
 		public static void SetPawnGroupsInfo(IncidentParms parms, List<Pair<List<Pawn>, IntVec3>> groups)
 		{
 			parms.pawnGroups = new Dictionary<Pawn, int>();
@@ -116,7 +116,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000C9B RID: 3227
+		// Token: 0x04000C98 RID: 3224
 		private const int MaxGroupsCount = 3;
 	}
 }

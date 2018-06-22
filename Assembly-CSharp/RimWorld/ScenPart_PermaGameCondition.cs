@@ -6,11 +6,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000633 RID: 1587
+	// Token: 0x0200062F RID: 1583
 	public class ScenPart_PermaGameCondition : ScenPart
 	{
 		// Token: 0x170004E3 RID: 1251
-		// (get) Token: 0x060020A5 RID: 8357 RVA: 0x00117588 File Offset: 0x00115988
+		// (get) Token: 0x0600209D RID: 8349 RVA: 0x00117634 File Offset: 0x00115A34
 		public override string Label
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060020A6 RID: 8358 RVA: 0x001175C8 File Offset: 0x001159C8
+		// Token: 0x0600209E RID: 8350 RVA: 0x00117674 File Offset: 0x00115A74
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight);
@@ -32,20 +32,20 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060020A7 RID: 8359 RVA: 0x00117632 File Offset: 0x00115A32
+		// Token: 0x0600209F RID: 8351 RVA: 0x001176DE File Offset: 0x00115ADE
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Defs.Look<GameConditionDef>(ref this.gameCondition, "gameCondition");
 		}
 
-		// Token: 0x060020A8 RID: 8360 RVA: 0x0011764B File Offset: 0x00115A4B
+		// Token: 0x060020A0 RID: 8352 RVA: 0x001176F7 File Offset: 0x00115AF7
 		public override void Randomize()
 		{
 			this.gameCondition = this.AllowedGameConditions().RandomElement<GameConditionDef>();
 		}
 
-		// Token: 0x060020A9 RID: 8361 RVA: 0x00117660 File Offset: 0x00115A60
+		// Token: 0x060020A1 RID: 8353 RVA: 0x0011770C File Offset: 0x00115B0C
 		private IEnumerable<GameConditionDef> AllowedGameConditions()
 		{
 			return from d in DefDatabase<GameConditionDef>.AllDefs
@@ -53,13 +53,13 @@ namespace RimWorld
 			select d;
 		}
 
-		// Token: 0x060020AA RID: 8362 RVA: 0x0011769C File Offset: 0x00115A9C
+		// Token: 0x060020A2 RID: 8354 RVA: 0x00117748 File Offset: 0x00115B48
 		public override string Summary(Scenario scen)
 		{
 			return ScenSummaryList.SummaryWithList(scen, "PermaGameCondition", "ScenPart_PermaGameCondition".Translate());
 		}
 
-		// Token: 0x060020AB RID: 8363 RVA: 0x001176C8 File Offset: 0x00115AC8
+		// Token: 0x060020A3 RID: 8355 RVA: 0x00117774 File Offset: 0x00115B74
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
 			if (tag == "PermaGameCondition")
@@ -69,14 +69,14 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060020AC RID: 8364 RVA: 0x001176FC File Offset: 0x00115AFC
+		// Token: 0x060020A4 RID: 8356 RVA: 0x001177A8 File Offset: 0x00115BA8
 		public override void GenerateIntoMap(Map map)
 		{
 			GameCondition cond = GameConditionMaker.MakeConditionPermanent(this.gameCondition);
 			map.gameConditionManager.RegisterCondition(cond);
 		}
 
-		// Token: 0x060020AD RID: 8365 RVA: 0x00117724 File Offset: 0x00115B24
+		// Token: 0x060020A5 RID: 8357 RVA: 0x001177D0 File Offset: 0x00115BD0
 		public override bool CanCoexistWith(ScenPart other)
 		{
 			bool result;
@@ -99,10 +99,10 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x040012BC RID: 4796
+		// Token: 0x040012B9 RID: 4793
 		private GameConditionDef gameCondition;
 
-		// Token: 0x040012BD RID: 4797
+		// Token: 0x040012BA RID: 4794
 		public const string PermaGameConditionTag = "PermaGameCondition";
 	}
 }

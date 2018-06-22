@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000CEC RID: 3308
+	// Token: 0x02000CE9 RID: 3305
 	public static class ApparelGraphicRecordGetter
 	{
-		// Token: 0x060048C5 RID: 18629 RVA: 0x0026264C File Offset: 0x00260A4C
+		// Token: 0x060048D6 RID: 18646 RVA: 0x00263A64 File Offset: 0x00261E64
 		public static bool TryGetGraphicApparel(Apparel apparel, BodyTypeDef bodyType, out ApparelGraphicRecord rec)
 		{
 			if (bodyType == null)

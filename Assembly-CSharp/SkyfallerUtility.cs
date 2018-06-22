@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
-// Token: 0x020006EC RID: 1772
+// Token: 0x020006E8 RID: 1768
 public static class SkyfallerUtility
 {
-	// Token: 0x06002696 RID: 9878 RVA: 0x0014A274 File Offset: 0x00148674
+	// Token: 0x0600268E RID: 9870 RVA: 0x0014A418 File Offset: 0x00148818
 	public static bool CanPossiblyFallOnColonist(ThingDef skyfaller, IntVec3 c, Map map)
 	{
 		CellRect cellRect = GenAdj.OccupiedRect(c, Rot4.North, skyfaller.size);

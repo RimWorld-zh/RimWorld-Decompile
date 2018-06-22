@@ -9,7 +9,7 @@ namespace RimWorld
 	public abstract class JobDriver_AffectRoof : JobDriver
 	{
 		// Token: 0x17000071 RID: 113
-		// (get) Token: 0x0600021C RID: 540 RVA: 0x00016438 File Offset: 0x00014838
+		// (get) Token: 0x0600021C RID: 540 RVA: 0x00016440 File Offset: 0x00014840
 		protected IntVec3 Cell
 		{
 			get
@@ -28,14 +28,14 @@ namespace RimWorld
 		// Token: 0x0600021F RID: 543
 		protected abstract bool DoWorkFailOn();
 
-		// Token: 0x06000220 RID: 544 RVA: 0x00016461 File Offset: 0x00014861
+		// Token: 0x06000220 RID: 544 RVA: 0x00016469 File Offset: 0x00014869
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.workLeft, "workLeft", 0f, false);
 		}
 
-		// Token: 0x06000221 RID: 545 RVA: 0x00016480 File Offset: 0x00014880
+		// Token: 0x06000221 RID: 545 RVA: 0x00016488 File Offset: 0x00014888
 		public override bool TryMakePreToilReservations()
 		{
 			Pawn pawn = this.pawn;
@@ -45,7 +45,7 @@ namespace RimWorld
 			return pawn.Reserve(target, job, 1, -1, ceiling);
 		}
 
-		// Token: 0x06000222 RID: 546 RVA: 0x000164C4 File Offset: 0x000148C4
+		// Token: 0x06000222 RID: 546 RVA: 0x000164CC File Offset: 0x000148CC
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.B);

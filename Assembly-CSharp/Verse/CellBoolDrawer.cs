@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C02 RID: 3074
+	// Token: 0x02000BFF RID: 3071
 	public class CellBoolDrawer
 	{
-		// Token: 0x0600432C RID: 17196 RVA: 0x0023736C File Offset: 0x0023576C
+		// Token: 0x06004335 RID: 17205 RVA: 0x002386FC File Offset: 0x00236AFC
 		public CellBoolDrawer(ICellBoolGiver giver, int mapSizeX, int mapSizeZ, float opacity = 0.33f)
 		{
 			this.giver = giver;
@@ -16,13 +16,13 @@ namespace Verse
 			this.opacity = opacity;
 		}
 
-		// Token: 0x0600432D RID: 17197 RVA: 0x002373C1 File Offset: 0x002357C1
+		// Token: 0x06004336 RID: 17206 RVA: 0x00238751 File Offset: 0x00236B51
 		public void MarkForDraw()
 		{
 			this.wantDraw = true;
 		}
 
-		// Token: 0x0600432E RID: 17198 RVA: 0x002373CB File Offset: 0x002357CB
+		// Token: 0x06004337 RID: 17207 RVA: 0x0023875B File Offset: 0x00236B5B
 		public void CellBoolDrawerUpdate()
 		{
 			if (this.wantDraw)
@@ -32,7 +32,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600432F RID: 17199 RVA: 0x002373E8 File Offset: 0x002357E8
+		// Token: 0x06004338 RID: 17208 RVA: 0x00238778 File Offset: 0x00236B78
 		private void ActuallyDraw()
 		{
 			if (this.dirty)
@@ -45,13 +45,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004330 RID: 17200 RVA: 0x00237447 File Offset: 0x00235847
+		// Token: 0x06004339 RID: 17209 RVA: 0x002387D7 File Offset: 0x00236BD7
 		public void SetDirty()
 		{
 			this.dirty = true;
 		}
 
-		// Token: 0x06004331 RID: 17201 RVA: 0x00237454 File Offset: 0x00235854
+		// Token: 0x0600433A RID: 17210 RVA: 0x002387E4 File Offset: 0x00236BE4
 		public void RegenerateMesh()
 		{
 			for (int i = 0; i < this.meshes.Count; i++)
@@ -119,7 +119,7 @@ namespace Verse
 			this.dirty = false;
 		}
 
-		// Token: 0x06004332 RID: 17202 RVA: 0x002376F4 File Offset: 0x00235AF4
+		// Token: 0x0600433B RID: 17211 RVA: 0x00238A84 File Offset: 0x00236E84
 		private void FinalizeWorkingDataIntoMesh(Mesh mesh)
 		{
 			if (CellBoolDrawer.verts.Count > 0)
@@ -133,7 +133,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004333 RID: 17203 RVA: 0x00237754 File Offset: 0x00235B54
+		// Token: 0x0600433C RID: 17212 RVA: 0x00238AE4 File Offset: 0x00236EE4
 		private void CreateMaterialIfNeeded(bool careAboutVertexColors)
 		{
 			if (this.material == null || this.materialCaresAboutVertexColors != careAboutVertexColors)
@@ -144,46 +144,46 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002DE2 RID: 11746
+		// Token: 0x04002DEC RID: 11756
 		public ICellBoolGiver giver;
 
-		// Token: 0x04002DE3 RID: 11747
+		// Token: 0x04002DED RID: 11757
 		private bool wantDraw = false;
 
-		// Token: 0x04002DE4 RID: 11748
+		// Token: 0x04002DEE RID: 11758
 		private Material material;
 
-		// Token: 0x04002DE5 RID: 11749
+		// Token: 0x04002DEF RID: 11759
 		private bool materialCaresAboutVertexColors;
 
-		// Token: 0x04002DE6 RID: 11750
+		// Token: 0x04002DF0 RID: 11760
 		private bool dirty = true;
 
-		// Token: 0x04002DE7 RID: 11751
+		// Token: 0x04002DF1 RID: 11761
 		private List<Mesh> meshes = new List<Mesh>();
 
-		// Token: 0x04002DE8 RID: 11752
+		// Token: 0x04002DF2 RID: 11762
 		private int mapSizeX;
 
-		// Token: 0x04002DE9 RID: 11753
+		// Token: 0x04002DF3 RID: 11763
 		private int mapSizeZ;
 
-		// Token: 0x04002DEA RID: 11754
+		// Token: 0x04002DF4 RID: 11764
 		private float opacity = 0.33f;
 
-		// Token: 0x04002DEB RID: 11755
+		// Token: 0x04002DF5 RID: 11765
 		private static List<Vector3> verts = new List<Vector3>();
 
-		// Token: 0x04002DEC RID: 11756
+		// Token: 0x04002DF6 RID: 11766
 		private static List<int> tris = new List<int>();
 
-		// Token: 0x04002DED RID: 11757
+		// Token: 0x04002DF7 RID: 11767
 		private static List<Color> colors = new List<Color>();
 
-		// Token: 0x04002DEE RID: 11758
+		// Token: 0x04002DF8 RID: 11768
 		private const float DefaultOpacity = 0.33f;
 
-		// Token: 0x04002DEF RID: 11759
+		// Token: 0x04002DF9 RID: 11769
 		private const int MaxCellsPerMesh = 16383;
 	}
 }

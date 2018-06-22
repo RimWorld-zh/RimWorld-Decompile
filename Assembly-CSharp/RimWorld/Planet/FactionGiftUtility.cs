@@ -7,11 +7,11 @@ using Verse.AI.Group;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200055C RID: 1372
+	// Token: 0x02000558 RID: 1368
 	[StaticConstructorOnStartup]
 	public static class FactionGiftUtility
 	{
-		// Token: 0x060019CB RID: 6603 RVA: 0x000E04E4 File Offset: 0x000DE8E4
+		// Token: 0x060019C2 RID: 6594 RVA: 0x000E0538 File Offset: 0x000DE938
 		public static Command OfferGiftsCommand(Caravan caravan, Settlement settlement)
 		{
 			return new Command_Action
@@ -27,7 +27,7 @@ namespace RimWorld.Planet
 			};
 		}
 
-		// Token: 0x060019CC RID: 6604 RVA: 0x000E0554 File Offset: 0x000DE954
+		// Token: 0x060019C3 RID: 6595 RVA: 0x000E05A8 File Offset: 0x000DE9A8
 		public static void GiveGift(List<Tradeable> tradeables, Faction giveTo, GlobalTargetInfo lookTarget)
 		{
 			int goodwillChange = FactionGiftUtility.GetGoodwillChange(tradeables, giveTo);
@@ -48,7 +48,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060019CD RID: 6605 RVA: 0x000E05E0 File Offset: 0x000DE9E0
+		// Token: 0x060019C4 RID: 6596 RVA: 0x000E0634 File Offset: 0x000DEA34
 		public static void GiveGift(List<ActiveDropPodInfo> pods, Settlement giveTo)
 		{
 			int goodwillChange = FactionGiftUtility.GetGoodwillChange(pods.Cast<IThingHolder>(), giveTo);
@@ -75,7 +75,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060019CE RID: 6606 RVA: 0x000E06C0 File Offset: 0x000DEAC0
+		// Token: 0x060019C5 RID: 6597 RVA: 0x000E0714 File Offset: 0x000DEB14
 		private static void GiveGiftInternal(Thing thing, int count, Faction giveTo)
 		{
 			Thing thing2 = thing.SplitOff(count);
@@ -87,7 +87,7 @@ namespace RimWorld.Planet
 			thing2.DestroyOrPassToWorld(DestroyMode.Vanish);
 		}
 
-		// Token: 0x060019CF RID: 6607 RVA: 0x000E06F4 File Offset: 0x000DEAF4
+		// Token: 0x060019C6 RID: 6598 RVA: 0x000E0748 File Offset: 0x000DEB48
 		public static bool CheckCanCarryGift(List<Tradeable> tradeables, ITrader trader)
 		{
 			Pawn pawn = trader as Pawn;
@@ -156,7 +156,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x060019D0 RID: 6608 RVA: 0x000E08B8 File Offset: 0x000DECB8
+		// Token: 0x060019C7 RID: 6599 RVA: 0x000E090C File Offset: 0x000DED0C
 		public static int GetGoodwillChange(IEnumerable<IThingHolder> pods, Settlement giveTo)
 		{
 			float num = 0f;
@@ -174,7 +174,7 @@ namespace RimWorld.Planet
 			return (int)num;
 		}
 
-		// Token: 0x060019D1 RID: 6609 RVA: 0x000E09B8 File Offset: 0x000DEDB8
+		// Token: 0x060019C8 RID: 6600 RVA: 0x000E0A0C File Offset: 0x000DEE0C
 		public static int GetGoodwillChange(List<Tradeable> tradeables, Faction theirFaction)
 		{
 			float num = 0f;
@@ -189,7 +189,7 @@ namespace RimWorld.Planet
 			return (int)num;
 		}
 
-		// Token: 0x060019D2 RID: 6610 RVA: 0x000E0A48 File Offset: 0x000DEE48
+		// Token: 0x060019C9 RID: 6601 RVA: 0x000E0A9C File Offset: 0x000DEE9C
 		private static float GetGoodwillChange(Thing anyThing, int count, float singlePrice, Faction theirFaction)
 		{
 			float result;
@@ -210,7 +210,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x060019D3 RID: 6611 RVA: 0x000E0AA7 File Offset: 0x000DEEA7
+		// Token: 0x060019CA RID: 6602 RVA: 0x000E0AFB File Offset: 0x000DEEFB
 		private static void SendGiftNotAppreciatedMessage(Faction giveTo, GlobalTargetInfo lookTarget)
 		{
 			Messages.Message("MessageGiftGivenButNotAppreciated".Translate(new object[]
@@ -219,7 +219,7 @@ namespace RimWorld.Planet
 			}).CapitalizeFirst(), lookTarget, MessageTypeDefOf.NegativeEvent, true);
 		}
 
-		// Token: 0x04000F28 RID: 3880
+		// Token: 0x04000F25 RID: 3877
 		private static readonly Texture2D OfferGiftsCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/OfferGifts", true);
 	}
 }

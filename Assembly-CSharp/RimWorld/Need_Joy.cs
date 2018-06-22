@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004FF RID: 1279
+	// Token: 0x020004FB RID: 1275
 	public class Need_Joy : Need
 	{
-		// Token: 0x060016F8 RID: 5880 RVA: 0x000CA8F4 File Offset: 0x000C8CF4
+		// Token: 0x060016EF RID: 5871 RVA: 0x000CA8EC File Offset: 0x000C8CEC
 		public Need_Joy(Pawn pawn) : base(pawn)
 		{
 			this.threshPercents = new List<float>();
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700031D RID: 797
-		// (get) Token: 0x060016F9 RID: 5881 RVA: 0x000CA96C File Offset: 0x000C8D6C
+		// (get) Token: 0x060016F0 RID: 5872 RVA: 0x000CA964 File Offset: 0x000C8D64
 		public JoyCategory CurCategory
 		{
 			get
@@ -55,7 +55,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700031E RID: 798
-		// (get) Token: 0x060016FA RID: 5882 RVA: 0x000CA9F8 File Offset: 0x000C8DF8
+		// (get) Token: 0x060016F1 RID: 5873 RVA: 0x000CA9F0 File Offset: 0x000C8DF0
 		private float FallPerInterval
 		{
 			get
@@ -89,7 +89,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700031F RID: 799
-		// (get) Token: 0x060016FB RID: 5883 RVA: 0x000CAA7C File Offset: 0x000C8E7C
+		// (get) Token: 0x060016F2 RID: 5874 RVA: 0x000CAA74 File Offset: 0x000C8E74
 		public override int GUIChangeArrow
 		{
 			get
@@ -99,7 +99,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000320 RID: 800
-		// (get) Token: 0x060016FC RID: 5884 RVA: 0x000CAAA4 File Offset: 0x000C8EA4
+		// (get) Token: 0x060016F3 RID: 5875 RVA: 0x000CAA9C File Offset: 0x000C8E9C
 		private bool GainingJoy
 		{
 			get
@@ -108,20 +108,20 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060016FD RID: 5885 RVA: 0x000CAACE File Offset: 0x000C8ECE
+		// Token: 0x060016F4 RID: 5876 RVA: 0x000CAAC6 File Offset: 0x000C8EC6
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			this.tolerances.ExposeData();
 		}
 
-		// Token: 0x060016FE RID: 5886 RVA: 0x000CAAE2 File Offset: 0x000C8EE2
+		// Token: 0x060016F5 RID: 5877 RVA: 0x000CAADA File Offset: 0x000C8EDA
 		public override void SetInitialLevel()
 		{
 			this.CurLevel = Rand.Range(0.5f, 0.6f);
 		}
 
-		// Token: 0x060016FF RID: 5887 RVA: 0x000CAAFC File Offset: 0x000C8EFC
+		// Token: 0x060016F6 RID: 5878 RVA: 0x000CAAF4 File Offset: 0x000C8EF4
 		public void GainJoy(float amount, JoyKindDef joyKind)
 		{
 			if (amount > 0f)
@@ -137,7 +137,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001700 RID: 5888 RVA: 0x000CAB6F File Offset: 0x000C8F6F
+		// Token: 0x060016F7 RID: 5879 RVA: 0x000CAB67 File Offset: 0x000C8F67
 		public override void NeedInterval()
 		{
 			if (!base.IsFrozen)
@@ -150,7 +150,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001701 RID: 5889 RVA: 0x000CABA8 File Offset: 0x000C8FA8
+		// Token: 0x060016F8 RID: 5880 RVA: 0x000CABA0 File Offset: 0x000C8FA0
 		public override string GetTipString()
 		{
 			string text = base.GetTipString();
@@ -181,10 +181,10 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x04000D86 RID: 3462
+		// Token: 0x04000D83 RID: 3459
 		public JoyToleranceSet tolerances = new JoyToleranceSet();
 
-		// Token: 0x04000D87 RID: 3463
+		// Token: 0x04000D84 RID: 3460
 		private int lastGainTick = -999;
 	}
 }

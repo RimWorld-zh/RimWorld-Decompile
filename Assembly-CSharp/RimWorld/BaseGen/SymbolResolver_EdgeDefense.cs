@@ -8,7 +8,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003C1 RID: 961
 	public class SymbolResolver_EdgeDefense : SymbolResolver
 	{
-		// Token: 0x060010A0 RID: 4256 RVA: 0x0008CD0C File Offset: 0x0008B10C
+		// Token: 0x060010A0 RID: 4256 RVA: 0x0008CEF8 File Offset: 0x0008B2F8
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -147,10 +147,10 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x04000A2C RID: 2604
+		// Token: 0x04000A2E RID: 2606
 		private const int DefaultCellsPerTurret = 30;
 
-		// Token: 0x04000A2D RID: 2605
+		// Token: 0x04000A2F RID: 2607
 		private const int DefaultCellsPerMortar = 75;
 	}
 }

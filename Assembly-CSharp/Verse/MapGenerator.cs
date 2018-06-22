@@ -6,11 +6,11 @@ using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x02000C62 RID: 3170
+	// Token: 0x02000C5F RID: 3167
 	public static class MapGenerator
 	{
-		// Token: 0x17000AFE RID: 2814
-		// (get) Token: 0x060045A4 RID: 17828 RVA: 0x0024BB10 File Offset: 0x00249F10
+		// Token: 0x17000B00 RID: 2816
+		// (get) Token: 0x060045AD RID: 17837 RVA: 0x0024CEE0 File Offset: 0x0024B2E0
 		public static MapGenFloatGrid Elevation
 		{
 			get
@@ -19,8 +19,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AFF RID: 2815
-		// (get) Token: 0x060045A5 RID: 17829 RVA: 0x0024BB30 File Offset: 0x00249F30
+		// Token: 0x17000B01 RID: 2817
+		// (get) Token: 0x060045AE RID: 17838 RVA: 0x0024CF00 File Offset: 0x0024B300
 		public static MapGenFloatGrid Fertility
 		{
 			get
@@ -29,8 +29,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B00 RID: 2816
-		// (get) Token: 0x060045A6 RID: 17830 RVA: 0x0024BB50 File Offset: 0x00249F50
+		// Token: 0x17000B02 RID: 2818
+		// (get) Token: 0x060045AF RID: 17839 RVA: 0x0024CF20 File Offset: 0x0024B320
 		public static MapGenFloatGrid Caves
 		{
 			get
@@ -39,9 +39,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B01 RID: 2817
-		// (get) Token: 0x060045A7 RID: 17831 RVA: 0x0024BB70 File Offset: 0x00249F70
-		// (set) Token: 0x060045A8 RID: 17832 RVA: 0x0024BBB0 File Offset: 0x00249FB0
+		// Token: 0x17000B03 RID: 2819
+		// (get) Token: 0x060045B0 RID: 17840 RVA: 0x0024CF40 File Offset: 0x0024B340
+		// (set) Token: 0x060045B1 RID: 17841 RVA: 0x0024CF80 File Offset: 0x0024B380
 		public static IntVec3 PlayerStartSpot
 		{
 			get
@@ -64,7 +64,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060045A9 RID: 17833 RVA: 0x0024BBBC File Offset: 0x00249FBC
+		// Token: 0x060045B2 RID: 17842 RVA: 0x0024CF8C File Offset: 0x0024B38C
 		public static Map GenerateMap(IntVec3 mapSize, MapParent parent, MapGeneratorDef mapGenerator, IEnumerable<GenStepDef> extraGenStepDefs = null, Action<Map> extraInitBeforeContentGen = null)
 		{
 			ProgramState programState = Current.ProgramState;
@@ -136,7 +136,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060045AA RID: 17834 RVA: 0x0024BD98 File Offset: 0x0024A198
+		// Token: 0x060045B3 RID: 17843 RVA: 0x0024D168 File Offset: 0x0024B568
 		public static void GenerateContentsIntoMap(IEnumerable<GenStepDef> genStepDefs, Map map, int seed)
 		{
 			MapGenerator.data.Clear();
@@ -175,7 +175,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060045AB RID: 17835 RVA: 0x0024BEEC File Offset: 0x0024A2EC
+		// Token: 0x060045B4 RID: 17844 RVA: 0x0024D2BC File Offset: 0x0024B6BC
 		public static T GetVar<T>(string name)
 		{
 			object obj;
@@ -191,7 +191,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060045AC RID: 17836 RVA: 0x0024BF28 File Offset: 0x0024A328
+		// Token: 0x060045B5 RID: 17845 RVA: 0x0024D2F8 File Offset: 0x0024B6F8
 		public static bool TryGetVar<T>(string name, out T var)
 		{
 			object obj;
@@ -209,13 +209,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060045AD RID: 17837 RVA: 0x0024BF74 File Offset: 0x0024A374
+		// Token: 0x060045B6 RID: 17846 RVA: 0x0024D344 File Offset: 0x0024B744
 		public static void SetVar<T>(string name, T var)
 		{
 			MapGenerator.data[name] = var;
 		}
 
-		// Token: 0x060045AE RID: 17838 RVA: 0x0024BF88 File Offset: 0x0024A388
+		// Token: 0x060045B7 RID: 17847 RVA: 0x0024D358 File Offset: 0x0024B758
 		public static MapGenFloatGrid FloatGridNamed(string name)
 		{
 			MapGenFloatGrid var = MapGenerator.GetVar<MapGenFloatGrid>(name);
@@ -233,7 +233,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060045AF RID: 17839 RVA: 0x0024BFC8 File Offset: 0x0024A3C8
+		// Token: 0x060045B8 RID: 17848 RVA: 0x0024D398 File Offset: 0x0024B798
 		private static int GetSeedPart(List<GenStepDef> genSteps, int index)
 		{
 			int seedPart = genSteps[index].genStep.SeedPart;
@@ -248,31 +248,31 @@ namespace Verse
 			return seedPart + num;
 		}
 
-		// Token: 0x04002F9A RID: 12186
+		// Token: 0x04002FA4 RID: 12196
 		public static Map mapBeingGenerated;
 
-		// Token: 0x04002F9B RID: 12187
+		// Token: 0x04002FA5 RID: 12197
 		private static Dictionary<string, object> data = new Dictionary<string, object>();
 
-		// Token: 0x04002F9C RID: 12188
+		// Token: 0x04002FA6 RID: 12198
 		private static IntVec3 playerStartSpotInt = IntVec3.Invalid;
 
-		// Token: 0x04002F9D RID: 12189
+		// Token: 0x04002FA7 RID: 12199
 		public static List<IntVec3> rootsToUnfog = new List<IntVec3>();
 
-		// Token: 0x04002F9E RID: 12190
+		// Token: 0x04002FA8 RID: 12200
 		private static List<GenStepDef> tmpGenSteps = new List<GenStepDef>();
 
-		// Token: 0x04002F9F RID: 12191
+		// Token: 0x04002FA9 RID: 12201
 		public const string ElevationName = "Elevation";
 
-		// Token: 0x04002FA0 RID: 12192
+		// Token: 0x04002FAA RID: 12202
 		public const string FertilityName = "Fertility";
 
-		// Token: 0x04002FA1 RID: 12193
+		// Token: 0x04002FAB RID: 12203
 		public const string CavesName = "Caves";
 
-		// Token: 0x04002FA2 RID: 12194
+		// Token: 0x04002FAC RID: 12204
 		public const string RectOfInterestName = "RectOfInterest";
 	}
 }

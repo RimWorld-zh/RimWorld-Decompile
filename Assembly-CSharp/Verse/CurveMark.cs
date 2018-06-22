@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000EF5 RID: 3829
 	public struct CurveMark
 	{
-		// Token: 0x06005B6E RID: 23406 RVA: 0x002E8EF4 File Offset: 0x002E72F4
+		// Token: 0x06005B96 RID: 23446 RVA: 0x002EAF28 File Offset: 0x002E9328
 		public CurveMark(float x, string message, Color color)
 		{
 			this.x = x;
@@ -14,8 +14,8 @@ namespace Verse
 			this.color = color;
 		}
 
-		// Token: 0x17000E98 RID: 3736
-		// (get) Token: 0x06005B6F RID: 23407 RVA: 0x002E8F0C File Offset: 0x002E730C
+		// Token: 0x17000E9C RID: 3740
+		// (get) Token: 0x06005B97 RID: 23447 RVA: 0x002EAF40 File Offset: 0x002E9340
 		public float X
 		{
 			get
@@ -24,8 +24,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E99 RID: 3737
-		// (get) Token: 0x06005B70 RID: 23408 RVA: 0x002E8F28 File Offset: 0x002E7328
+		// Token: 0x17000E9D RID: 3741
+		// (get) Token: 0x06005B98 RID: 23448 RVA: 0x002EAF5C File Offset: 0x002E935C
 		public string Message
 		{
 			get
@@ -34,8 +34,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E9A RID: 3738
-		// (get) Token: 0x06005B71 RID: 23409 RVA: 0x002E8F44 File Offset: 0x002E7344
+		// Token: 0x17000E9E RID: 3742
+		// (get) Token: 0x06005B99 RID: 23449 RVA: 0x002EAF78 File Offset: 0x002E9378
 		public Color Color
 		{
 			get
@@ -44,13 +44,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003C99 RID: 15513
+		// Token: 0x04003CAC RID: 15532
 		private float x;
 
-		// Token: 0x04003C9A RID: 15514
+		// Token: 0x04003CAD RID: 15533
 		private string message;
 
-		// Token: 0x04003C9B RID: 15515
+		// Token: 0x04003CAE RID: 15534
 		private Color color;
 	}
 }

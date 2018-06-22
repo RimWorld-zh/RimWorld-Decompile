@@ -4,18 +4,18 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200068C RID: 1676
+	// Token: 0x02000688 RID: 1672
 	public class TurretTop
 	{
-		// Token: 0x06002372 RID: 9074 RVA: 0x00130654 File Offset: 0x0012EA54
+		// Token: 0x0600236A RID: 9066 RVA: 0x0013079C File Offset: 0x0012EB9C
 		public TurretTop(Building_Turret ParentTurret)
 		{
 			this.parentTurret = ParentTurret;
 		}
 
 		// Token: 0x17000541 RID: 1345
-		// (get) Token: 0x06002373 RID: 9075 RVA: 0x00130670 File Offset: 0x0012EA70
-		// (set) Token: 0x06002374 RID: 9076 RVA: 0x0013068C File Offset: 0x0012EA8C
+		// (get) Token: 0x0600236B RID: 9067 RVA: 0x001307B8 File Offset: 0x0012EBB8
+		// (set) Token: 0x0600236C RID: 9068 RVA: 0x001307D4 File Offset: 0x0012EBD4
 		private float CurRotation
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002375 RID: 9077 RVA: 0x001306E8 File Offset: 0x0012EAE8
+		// Token: 0x0600236D RID: 9069 RVA: 0x00130830 File Offset: 0x0012EC30
 		public void TurretTopTick()
 		{
 			LocalTargetInfo currentTarget = this.parentTurret.CurrentTarget;
@@ -80,7 +80,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002376 RID: 9078 RVA: 0x0013081C File Offset: 0x0012EC1C
+		// Token: 0x0600236E RID: 9070 RVA: 0x00130964 File Offset: 0x0012ED64
 		public void DrawTurret()
 		{
 			Vector3 b = new Vector3(this.parentTurret.def.building.turretTopOffset.x, 0f, this.parentTurret.def.building.turretTopOffset.y);
@@ -90,31 +90,31 @@ namespace RimWorld
 			Graphics.DrawMesh(MeshPool.plane10, matrix, this.parentTurret.def.building.turretTopMat, 0);
 		}
 
-		// Token: 0x040013D9 RID: 5081
+		// Token: 0x040013D7 RID: 5079
 		private Building_Turret parentTurret;
 
-		// Token: 0x040013DA RID: 5082
+		// Token: 0x040013D8 RID: 5080
 		private float curRotationInt = 0f;
 
-		// Token: 0x040013DB RID: 5083
+		// Token: 0x040013D9 RID: 5081
 		private int ticksUntilIdleTurn;
 
-		// Token: 0x040013DC RID: 5084
+		// Token: 0x040013DA RID: 5082
 		private int idleTurnTicksLeft;
 
-		// Token: 0x040013DD RID: 5085
+		// Token: 0x040013DB RID: 5083
 		private bool idleTurnClockwise;
 
-		// Token: 0x040013DE RID: 5086
+		// Token: 0x040013DC RID: 5084
 		private const float IdleTurnDegreesPerTick = 0.26f;
 
-		// Token: 0x040013DF RID: 5087
+		// Token: 0x040013DD RID: 5085
 		private const int IdleTurnDuration = 140;
 
-		// Token: 0x040013E0 RID: 5088
+		// Token: 0x040013DE RID: 5086
 		private const int IdleTurnIntervalMin = 150;
 
-		// Token: 0x040013E1 RID: 5089
+		// Token: 0x040013DF RID: 5087
 		private const int IdleTurnIntervalMax = 350;
 	}
 }

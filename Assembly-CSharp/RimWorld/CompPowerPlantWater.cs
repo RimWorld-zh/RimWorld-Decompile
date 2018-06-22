@@ -10,7 +10,7 @@ namespace RimWorld
 	public class CompPowerPlantWater : CompPowerPlant
 	{
 		// Token: 0x17000278 RID: 632
-		// (get) Token: 0x06001240 RID: 4672 RVA: 0x0009E3E0 File Offset: 0x0009C7E0
+		// (get) Token: 0x06001240 RID: 4672 RVA: 0x0009E5C4 File Offset: 0x0009C9C4
 		protected override float DesiredPowerOutput
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001241 RID: 4673 RVA: 0x0009E478 File Offset: 0x0009C878
+		// Token: 0x06001241 RID: 4673 RVA: 0x0009E65C File Offset: 0x0009CA5C
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
@@ -40,7 +40,7 @@ namespace RimWorld
 			this.spinDirection *= Rand.RangeSeeded(0.9f, 1.1f, this.parent.thingIDNumber * 60509 + 33151);
 		}
 
-		// Token: 0x06001242 RID: 4674 RVA: 0x0009E580 File Offset: 0x0009C980
+		// Token: 0x06001242 RID: 4674 RVA: 0x0009E764 File Offset: 0x0009CB64
 		public override void CompTick()
 		{
 			base.CompTick();
@@ -50,13 +50,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001243 RID: 4675 RVA: 0x0009E5C0 File Offset: 0x0009C9C0
+		// Token: 0x06001243 RID: 4675 RVA: 0x0009E7A4 File Offset: 0x0009CBA4
 		public IEnumerable<IntVec3> WaterPoints()
 		{
 			return CompPowerPlantWater.WaterPoints(this.parent.Position, this.parent.Rotation);
 		}
 
-		// Token: 0x06001244 RID: 4676 RVA: 0x0009E5F0 File Offset: 0x0009C9F0
+		// Token: 0x06001244 RID: 4676 RVA: 0x0009E7D4 File Offset: 0x0009CBD4
 		public static IEnumerable<IntVec3> WaterPoints(IntVec3 loc, Rot4 rot)
 		{
 			Rot4 alongAxis = rot;
@@ -66,13 +66,13 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06001245 RID: 4677 RVA: 0x0009E624 File Offset: 0x0009CA24
+		// Token: 0x06001245 RID: 4677 RVA: 0x0009E808 File Offset: 0x0009CC08
 		public IEnumerable<IntVec3> GroundPoints()
 		{
 			return CompPowerPlantWater.GroundPoints(this.parent.Position, this.parent.Rotation);
 		}
 
-		// Token: 0x06001246 RID: 4678 RVA: 0x0009E654 File Offset: 0x0009CA54
+		// Token: 0x06001246 RID: 4678 RVA: 0x0009E838 File Offset: 0x0009CC38
 		public static IEnumerable<IntVec3> GroundPoints(IntVec3 loc, Rot4 rot)
 		{
 			Rot4 alongAxis = rot;
@@ -84,7 +84,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06001247 RID: 4679 RVA: 0x0009E688 File Offset: 0x0009CA88
+		// Token: 0x06001247 RID: 4679 RVA: 0x0009E86C File Offset: 0x0009CC6C
 		public override void PostDraw()
 		{
 			base.PostDraw();
@@ -103,25 +103,25 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000B0F RID: 2831
+		// Token: 0x04000B10 RID: 2832
 		private float spinPosition = 0f;
 
-		// Token: 0x04000B10 RID: 2832
+		// Token: 0x04000B11 RID: 2833
 		private float spinDirection = 1f;
 
-		// Token: 0x04000B11 RID: 2833
+		// Token: 0x04000B12 RID: 2834
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float SpinRateFactor = 0.005f;
 
-		// Token: 0x04000B12 RID: 2834
+		// Token: 0x04000B13 RID: 2835
 		[TweakValue("Graphics", 0f, 3f)]
 		private static float BladeOffset = 1.9f;
 
-		// Token: 0x04000B13 RID: 2835
+		// Token: 0x04000B14 RID: 2836
 		[TweakValue("Graphics", 0f, 20f)]
 		private static int BladeCount = 9;
 
-		// Token: 0x04000B14 RID: 2836
+		// Token: 0x04000B15 RID: 2837
 		public static readonly Material BladesMat = MaterialPool.MatFrom("Things/Building/Power/WatermillGenerator/WatermillGeneratorBlades");
 	}
 }

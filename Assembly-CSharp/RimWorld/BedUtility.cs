@@ -3,16 +3,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006A0 RID: 1696
+	// Token: 0x0200069C RID: 1692
 	public static class BedUtility
 	{
-		// Token: 0x0600240B RID: 9227 RVA: 0x00135F78 File Offset: 0x00134378
+		// Token: 0x06002403 RID: 9219 RVA: 0x001360C0 File Offset: 0x001344C0
 		public static int GetSleepingSlotsCount(IntVec2 bedSize)
 		{
 			return bedSize.x;
 		}
 
-		// Token: 0x0600240C RID: 9228 RVA: 0x00135F94 File Offset: 0x00134394
+		// Token: 0x06002404 RID: 9220 RVA: 0x001360DC File Offset: 0x001344DC
 		public static IntVec3 GetSleepingSlotPos(int index, IntVec3 bedCenter, Rot4 bedRot, IntVec2 bedSize)
 		{
 			int sleepingSlotsCount = BedUtility.GetSleepingSlotsCount(bedSize);

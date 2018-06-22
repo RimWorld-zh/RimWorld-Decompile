@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x020008FA RID: 2298
+	// Token: 0x020008F6 RID: 2294
 	public static class Autotests_RegionListers
 	{
-		// Token: 0x0600352E RID: 13614 RVA: 0x001C6C8D File Offset: 0x001C508D
+		// Token: 0x06003527 RID: 13607 RVA: 0x001C6E75 File Offset: 0x001C5275
 		public static void CheckBugs(Map map)
 		{
 			Autotests_RegionListers.CalculateExpectedListers(map);
@@ -15,7 +15,7 @@ namespace Verse
 			Autotests_RegionListers.CheckThingRegisteredButShouldnt(map);
 		}
 
-		// Token: 0x0600352F RID: 13615 RVA: 0x001C6CA8 File Offset: 0x001C50A8
+		// Token: 0x06003528 RID: 13608 RVA: 0x001C6E90 File Offset: 0x001C5290
 		private static void CheckThingRegisteredTwice(Map map)
 		{
 			foreach (KeyValuePair<Region, List<Thing>> keyValuePair in Autotests_RegionListers.expectedListers)
@@ -28,7 +28,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003530 RID: 13616 RVA: 0x001C6D70 File Offset: 0x001C5170
+		// Token: 0x06003529 RID: 13609 RVA: 0x001C6F58 File Offset: 0x001C5358
 		private static void CheckDuplicates(List<Thing> lister, Region region, bool expected)
 		{
 			for (int i = 1; i < lister.Count; i++)
@@ -63,7 +63,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003531 RID: 13617 RVA: 0x001C6E34 File Offset: 0x001C5234
+		// Token: 0x0600352A RID: 13610 RVA: 0x001C701C File Offset: 0x001C541C
 		private static void CheckThingNotRegisteredButShould()
 		{
 			foreach (KeyValuePair<Region, List<Thing>> keyValuePair in Autotests_RegionListers.expectedListers)
@@ -89,7 +89,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003532 RID: 13618 RVA: 0x001C6F34 File Offset: 0x001C5334
+		// Token: 0x0600352B RID: 13611 RVA: 0x001C711C File Offset: 0x001C551C
 		private static void CheckThingRegisteredButShouldnt(Map map)
 		{
 			foreach (Region region in map.regionGrid.AllRegions)
@@ -119,7 +119,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003533 RID: 13619 RVA: 0x001C703C File Offset: 0x001C543C
+		// Token: 0x0600352C RID: 13612 RVA: 0x001C7224 File Offset: 0x001C5624
 		private static void CalculateExpectedListers(Map map)
 		{
 			Autotests_RegionListers.expectedListers.Clear();
@@ -145,10 +145,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04001CCC RID: 7372
+		// Token: 0x04001CCA RID: 7370
 		private static Dictionary<Region, List<Thing>> expectedListers = new Dictionary<Region, List<Thing>>();
 
-		// Token: 0x04001CCD RID: 7373
+		// Token: 0x04001CCB RID: 7371
 		private static List<Region> tmpTouchableRegions = new List<Region>();
 	}
 }

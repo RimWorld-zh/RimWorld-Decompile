@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000BA4 RID: 2980
+	// Token: 0x02000BA0 RID: 2976
 	public class SubcameraDef : Def
 	{
-		// Token: 0x170009D8 RID: 2520
-		// (get) Token: 0x0600406B RID: 16491 RVA: 0x0021D700 File Offset: 0x0021BB00
+		// Token: 0x170009DA RID: 2522
+		// (get) Token: 0x0600406D RID: 16493 RVA: 0x0021DD9C File Offset: 0x0021C19C
 		public int LayerId
 		{
 			get
@@ -20,8 +20,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009D9 RID: 2521
-		// (get) Token: 0x0600406C RID: 16492 RVA: 0x0021D738 File Offset: 0x0021BB38
+		// Token: 0x170009DB RID: 2523
+		// (get) Token: 0x0600406E RID: 16494 RVA: 0x0021DDD4 File Offset: 0x0021C1D4
 		public RenderTextureFormat BestFormat
 		{
 			get
@@ -55,17 +55,17 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002B5A RID: 11098
+		// Token: 0x04002B5F RID: 11103
 		[NoTranslate]
 		public string layer;
 
-		// Token: 0x04002B5B RID: 11099
+		// Token: 0x04002B60 RID: 11104
 		public int depth;
 
-		// Token: 0x04002B5C RID: 11100
+		// Token: 0x04002B61 RID: 11105
 		public RenderTextureFormat format;
 
-		// Token: 0x04002B5D RID: 11101
+		// Token: 0x04002B62 RID: 11106
 		[Unsaved]
 		private int layerCached = -1;
 	}

@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007C5 RID: 1989
+	// Token: 0x020007C1 RID: 1985
 	public class Designator_AreaIgnoreRoof : Designator_Area
 	{
-		// Token: 0x06002BFE RID: 11262 RVA: 0x00174478 File Offset: 0x00172878
+		// Token: 0x06002BF7 RID: 11255 RVA: 0x00174650 File Offset: 0x00172A50
 		public Designator_AreaIgnoreRoof()
 		{
 			this.defaultLabel = "DesignatorAreaIgnoreRoofExpand".Translate();
@@ -20,8 +20,8 @@ namespace RimWorld
 			this.useMouseIcon = true;
 		}
 
-		// Token: 0x170006DF RID: 1759
-		// (get) Token: 0x06002BFF RID: 11263 RVA: 0x001744EC File Offset: 0x001728EC
+		// Token: 0x170006E0 RID: 1760
+		// (get) Token: 0x06002BF8 RID: 11256 RVA: 0x001746C4 File Offset: 0x00172AC4
 		public override int DraggableDimensions
 		{
 			get
@@ -30,8 +30,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006E0 RID: 1760
-		// (get) Token: 0x06002C00 RID: 11264 RVA: 0x00174504 File Offset: 0x00172904
+		// Token: 0x170006E1 RID: 1761
+		// (get) Token: 0x06002BF9 RID: 11257 RVA: 0x001746DC File Offset: 0x00172ADC
 		public override bool DragDrawMeasurements
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C01 RID: 11265 RVA: 0x0017451C File Offset: 0x0017291C
+		// Token: 0x06002BFA RID: 11258 RVA: 0x001746F4 File Offset: 0x00172AF4
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -59,14 +59,14 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C02 RID: 11266 RVA: 0x001745A4 File Offset: 0x001729A4
+		// Token: 0x06002BFB RID: 11259 RVA: 0x0017477C File Offset: 0x00172B7C
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			base.Map.areaManager.BuildRoof[c] = false;
 			base.Map.areaManager.NoRoof[c] = false;
 		}
 
-		// Token: 0x06002C03 RID: 11267 RVA: 0x001745D5 File Offset: 0x001729D5
+		// Token: 0x06002BFC RID: 11260 RVA: 0x001747AD File Offset: 0x00172BAD
 		public override void SelectedUpdate()
 		{
 			GenUI.RenderMouseoverBracket();

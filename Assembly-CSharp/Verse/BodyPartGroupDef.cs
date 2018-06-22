@@ -2,11 +2,11 @@
 
 namespace Verse
 {
-	// Token: 0x02000B02 RID: 2818
+	// Token: 0x02000AFE RID: 2814
 	public class BodyPartGroupDef : Def
 	{
-		// Token: 0x17000965 RID: 2405
-		// (get) Token: 0x06003E6D RID: 15981 RVA: 0x0020E4D8 File Offset: 0x0020C8D8
+		// Token: 0x17000966 RID: 2406
+		// (get) Token: 0x06003E69 RID: 15977 RVA: 0x0020E814 File Offset: 0x0020CC14
 		public string LabelShort
 		{
 			get
@@ -15,8 +15,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000966 RID: 2406
-		// (get) Token: 0x06003E6E RID: 15982 RVA: 0x0020E510 File Offset: 0x0020C910
+		// Token: 0x17000967 RID: 2407
+		// (get) Token: 0x06003E6A RID: 15978 RVA: 0x0020E84C File Offset: 0x0020CC4C
 		public string LabelShortCap
 		{
 			get
@@ -25,11 +25,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002786 RID: 10118
+		// Token: 0x04002782 RID: 10114
 		[MustTranslate]
 		public string labelShort;
 
-		// Token: 0x04002787 RID: 10119
+		// Token: 0x04002783 RID: 10115
 		public int listOrder;
 	}
 }

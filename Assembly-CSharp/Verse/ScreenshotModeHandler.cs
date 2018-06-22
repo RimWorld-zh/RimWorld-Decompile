@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E8B RID: 3723
+	// Token: 0x02000E8A RID: 3722
 	public class ScreenshotModeHandler
 	{
-		// Token: 0x17000DE4 RID: 3556
-		// (get) Token: 0x060057CC RID: 22476 RVA: 0x002D01F8 File Offset: 0x002CE5F8
+		// Token: 0x17000DE7 RID: 3559
+		// (get) Token: 0x060057EC RID: 22508 RVA: 0x002D1E08 File Offset: 0x002D0208
 		public bool Active
 		{
 			get
@@ -17,8 +17,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DE5 RID: 3557
-		// (get) Token: 0x060057CD RID: 22477 RVA: 0x002D0214 File Offset: 0x002CE614
+		// Token: 0x17000DE8 RID: 3560
+		// (get) Token: 0x060057ED RID: 22509 RVA: 0x002D1E24 File Offset: 0x002D0224
 		public bool FiltersCurrentEvent
 		{
 			get
@@ -27,7 +27,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057CE RID: 22478 RVA: 0x002D0299 File Offset: 0x002CE699
+		// Token: 0x060057EE RID: 22510 RVA: 0x002D1EA9 File Offset: 0x002D02A9
 		public void ScreenshotModesOnGUI()
 		{
 			if (KeyBindingDefOf.ToggleScreenshotMode.KeyDownEvent)
@@ -37,7 +37,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003A0F RID: 14863
+		// Token: 0x04003A1F RID: 14879
 		private bool active = false;
 	}
 }

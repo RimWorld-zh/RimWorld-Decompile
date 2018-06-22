@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_Resurrect : JobDriver
 	{
 		// Token: 0x170000AE RID: 174
-		// (get) Token: 0x06000352 RID: 850 RVA: 0x00024F24 File Offset: 0x00023324
+		// (get) Token: 0x06000352 RID: 850 RVA: 0x00024F00 File Offset: 0x00023300
 		private Corpse Corpse
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000AF RID: 175
-		// (get) Token: 0x06000353 RID: 851 RVA: 0x00024F54 File Offset: 0x00023354
+		// (get) Token: 0x06000353 RID: 851 RVA: 0x00024F30 File Offset: 0x00023330
 		private Thing Item
 		{
 			get
@@ -28,13 +28,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000354 RID: 852 RVA: 0x00024F80 File Offset: 0x00023380
+		// Token: 0x06000354 RID: 852 RVA: 0x00024F5C File Offset: 0x0002335C
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Corpse, this.job, 1, -1, null) && this.pawn.Reserve(this.Item, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000355 RID: 853 RVA: 0x00024FDC File Offset: 0x000233DC
+		// Token: 0x06000355 RID: 853 RVA: 0x00024FB8 File Offset: 0x000233B8
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.Touch).FailOnDespawnedOrNull(TargetIndex.B).FailOnDespawnedOrNull(TargetIndex.A);
@@ -49,7 +49,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000356 RID: 854 RVA: 0x00025008 File Offset: 0x00023408
+		// Token: 0x06000356 RID: 854 RVA: 0x00024FE4 File Offset: 0x000233E4
 		private void Resurrect()
 		{
 			Pawn innerPawn = this.Corpse.InnerPawn;

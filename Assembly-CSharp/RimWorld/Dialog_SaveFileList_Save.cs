@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000813 RID: 2067
+	// Token: 0x0200080F RID: 2063
 	public class Dialog_SaveFileList_Save : Dialog_SaveFileList
 	{
-		// Token: 0x06002E22 RID: 11810 RVA: 0x00184B5C File Offset: 0x00182F5C
+		// Token: 0x06002E1B RID: 11803 RVA: 0x00184D34 File Offset: 0x00183134
 		public Dialog_SaveFileList_Save()
 		{
 			this.interactButLabel = "OverwriteButton".Translate();
@@ -21,8 +21,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000757 RID: 1879
-		// (get) Token: 0x06002E23 RID: 11811 RVA: 0x00184BCC File Offset: 0x00182FCC
+		// Token: 0x17000758 RID: 1880
+		// (get) Token: 0x06002E1C RID: 11804 RVA: 0x00184DA4 File Offset: 0x001831A4
 		protected override bool ShouldDoTypeInField
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E24 RID: 11812 RVA: 0x00184BE4 File Offset: 0x00182FE4
+		// Token: 0x06002E1D RID: 11805 RVA: 0x00184DBC File Offset: 0x001831BC
 		protected override void DoFileInteraction(string mapName)
 		{
 			mapName = GenFile.SanitizedFileName(mapName);

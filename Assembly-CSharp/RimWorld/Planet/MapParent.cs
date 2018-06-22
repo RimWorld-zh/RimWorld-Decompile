@@ -7,12 +7,12 @@ using Verse.Sound;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000603 RID: 1539
+	// Token: 0x020005FF RID: 1535
 	[StaticConstructorOnStartup]
 	public class MapParent : WorldObject, IThingHolder
 	{
 		// Token: 0x1700047E RID: 1150
-		// (get) Token: 0x06001E98 RID: 7832 RVA: 0x00107B48 File Offset: 0x00105F48
+		// (get) Token: 0x06001E8F RID: 7823 RVA: 0x00107B9C File Offset: 0x00105F9C
 		public bool HasMap
 		{
 			get
@@ -22,7 +22,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700047F RID: 1151
-		// (get) Token: 0x06001E99 RID: 7833 RVA: 0x00107B6C File Offset: 0x00105F6C
+		// (get) Token: 0x06001E90 RID: 7824 RVA: 0x00107BC0 File Offset: 0x00105FC0
 		protected virtual bool UseGenericEnterMapFloatMenuOption
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000480 RID: 1152
-		// (get) Token: 0x06001E9A RID: 7834 RVA: 0x00107B84 File Offset: 0x00105F84
+		// (get) Token: 0x06001E91 RID: 7825 RVA: 0x00107BD8 File Offset: 0x00105FD8
 		public Map Map
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000481 RID: 1153
-		// (get) Token: 0x06001E9B RID: 7835 RVA: 0x00107BA4 File Offset: 0x00105FA4
+		// (get) Token: 0x06001E92 RID: 7826 RVA: 0x00107BF8 File Offset: 0x00105FF8
 		public virtual MapGeneratorDef MapGeneratorDef
 		{
 			get
@@ -52,7 +52,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000482 RID: 1154
-		// (get) Token: 0x06001E9C RID: 7836 RVA: 0x00107BE0 File Offset: 0x00105FE0
+		// (get) Token: 0x06001E93 RID: 7827 RVA: 0x00107C34 File Offset: 0x00106034
 		public virtual IEnumerable<GenStepDef> ExtraGenStepDefs
 		{
 			get
@@ -62,7 +62,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000483 RID: 1155
-		// (get) Token: 0x06001E9D RID: 7837 RVA: 0x00107C04 File Offset: 0x00106004
+		// (get) Token: 0x06001E94 RID: 7828 RVA: 0x00107C58 File Offset: 0x00106058
 		public override bool ExpandMore
 		{
 			get
@@ -71,7 +71,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E9E RID: 7838 RVA: 0x00107C30 File Offset: 0x00106030
+		// Token: 0x06001E95 RID: 7829 RVA: 0x00107C84 File Offset: 0x00106084
 		public virtual void PostMapGenerate()
 		{
 			List<WorldObjectComp> allComps = base.AllComps;
@@ -81,7 +81,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E9F RID: 7839 RVA: 0x00107C6C File Offset: 0x0010606C
+		// Token: 0x06001E96 RID: 7830 RVA: 0x00107CC0 File Offset: 0x001060C0
 		public virtual void Notify_MyMapRemoved(Map map)
 		{
 			List<WorldObjectComp> allComps = base.AllComps;
@@ -91,7 +91,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EA0 RID: 7840 RVA: 0x00107CA8 File Offset: 0x001060A8
+		// Token: 0x06001E97 RID: 7831 RVA: 0x00107CFC File Offset: 0x001060FC
 		public virtual void Notify_CaravanFormed(Caravan caravan)
 		{
 			List<WorldObjectComp> allComps = base.AllComps;
@@ -101,26 +101,26 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EA1 RID: 7841 RVA: 0x00107CE3 File Offset: 0x001060E3
+		// Token: 0x06001E98 RID: 7832 RVA: 0x00107D37 File Offset: 0x00106137
 		public virtual void Notify_HibernatableChanged()
 		{
 			this.RecalculateHibernatableIncidentTargets();
 		}
 
-		// Token: 0x06001EA2 RID: 7842 RVA: 0x00107CEC File Offset: 0x001060EC
+		// Token: 0x06001E99 RID: 7833 RVA: 0x00107D40 File Offset: 0x00106140
 		public virtual void FinalizeLoading()
 		{
 			this.RecalculateHibernatableIncidentTargets();
 		}
 
-		// Token: 0x06001EA3 RID: 7843 RVA: 0x00107CF8 File Offset: 0x001060F8
+		// Token: 0x06001E9A RID: 7834 RVA: 0x00107D4C File Offset: 0x0010614C
 		public virtual bool ShouldRemoveMapNow(out bool alsoRemoveWorldObject)
 		{
 			alsoRemoveWorldObject = false;
 			return false;
 		}
 
-		// Token: 0x06001EA4 RID: 7844 RVA: 0x00107D11 File Offset: 0x00106111
+		// Token: 0x06001E9B RID: 7835 RVA: 0x00107D65 File Offset: 0x00106165
 		public override void PostRemove()
 		{
 			base.PostRemove();
@@ -130,14 +130,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EA5 RID: 7845 RVA: 0x00107D35 File Offset: 0x00106135
+		// Token: 0x06001E9C RID: 7836 RVA: 0x00107D89 File Offset: 0x00106189
 		public override void Tick()
 		{
 			base.Tick();
 			this.CheckRemoveMapNow();
 		}
 
-		// Token: 0x06001EA6 RID: 7846 RVA: 0x00107D44 File Offset: 0x00106144
+		// Token: 0x06001E9D RID: 7837 RVA: 0x00107D98 File Offset: 0x00106198
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
@@ -165,7 +165,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001EA7 RID: 7847 RVA: 0x00107D70 File Offset: 0x00106170
+		// Token: 0x06001E9E RID: 7838 RVA: 0x00107DC4 File Offset: 0x001061C4
 		public override IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
 		{
 			foreach (IncidentTargetTypeDef type in this.<AcceptedTypes>__BaseCallProxy1())
@@ -182,7 +182,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001EA8 RID: 7848 RVA: 0x00107D9C File Offset: 0x0010619C
+		// Token: 0x06001E9F RID: 7839 RVA: 0x00107DF0 File Offset: 0x001061F0
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
 			foreach (FloatMenuOption o in this.<GetFloatMenuOptions>__BaseCallProxy2(caravan))
@@ -199,7 +199,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001EA9 RID: 7849 RVA: 0x00107DD0 File Offset: 0x001061D0
+		// Token: 0x06001EA0 RID: 7840 RVA: 0x00107E24 File Offset: 0x00106224
 		public override IEnumerable<FloatMenuOption> GetTransportPodsFloatMenuOptions(IEnumerable<IThingHolder> pods, CompLaunchable representative)
 		{
 			foreach (FloatMenuOption o in this.<GetTransportPodsFloatMenuOptions>__BaseCallProxy3(pods, representative))
@@ -232,7 +232,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001EAA RID: 7850 RVA: 0x00107E08 File Offset: 0x00106208
+		// Token: 0x06001EA1 RID: 7841 RVA: 0x00107E5C File Offset: 0x0010625C
 		public void CheckRemoveMapNow()
 		{
 			bool flag;
@@ -247,7 +247,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EAB RID: 7851 RVA: 0x00107E54 File Offset: 0x00106254
+		// Token: 0x06001EA2 RID: 7842 RVA: 0x00107EA8 File Offset: 0x001062A8
 		public override string GetInspectString()
 		{
 			string text = base.GetInspectString();
@@ -265,13 +265,13 @@ namespace RimWorld.Planet
 			return text;
 		}
 
-		// Token: 0x06001EAC RID: 7852 RVA: 0x00107EC4 File Offset: 0x001062C4
+		// Token: 0x06001EA3 RID: 7843 RVA: 0x00107F18 File Offset: 0x00106318
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return null;
 		}
 
-		// Token: 0x06001EAD RID: 7853 RVA: 0x00107EDA File Offset: 0x001062DA
+		// Token: 0x06001EA4 RID: 7844 RVA: 0x00107F2E File Offset: 0x0010632E
 		public virtual void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
@@ -281,7 +281,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EAE RID: 7854 RVA: 0x00107F00 File Offset: 0x00106300
+		// Token: 0x06001EA5 RID: 7845 RVA: 0x00107F54 File Offset: 0x00106354
 		private void RecalculateHibernatableIncidentTargets()
 		{
 			this.hibernatableIncidentTargets = null;
@@ -299,10 +299,10 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x0400121B RID: 4635
+		// Token: 0x04001218 RID: 4632
 		private HashSet<IncidentTargetTypeDef> hibernatableIncidentTargets;
 
-		// Token: 0x0400121C RID: 4636
+		// Token: 0x04001219 RID: 4633
 		private static readonly Texture2D ShowMapCommand = ContentFinder<Texture2D>.Get("UI/Commands/ShowMap", true);
 	}
 }

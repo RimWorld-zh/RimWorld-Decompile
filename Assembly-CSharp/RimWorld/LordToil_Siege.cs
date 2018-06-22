@@ -11,7 +11,7 @@ namespace RimWorld
 	// Token: 0x0200019A RID: 410
 	public class LordToil_Siege : LordToil
 	{
-		// Token: 0x06000877 RID: 2167 RVA: 0x0005069F File Offset: 0x0004EA9F
+		// Token: 0x06000877 RID: 2167 RVA: 0x0005068B File Offset: 0x0004EA8B
 		public LordToil_Siege(IntVec3 siegeCenter, float blueprintPoints)
 		{
 			this.data = new LordToilData_Siege();
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700015E RID: 350
-		// (get) Token: 0x06000878 RID: 2168 RVA: 0x000506D8 File Offset: 0x0004EAD8
+		// (get) Token: 0x06000878 RID: 2168 RVA: 0x000506C4 File Offset: 0x0004EAC4
 		public override IntVec3 FlagLoc
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700015F RID: 351
-		// (get) Token: 0x06000879 RID: 2169 RVA: 0x000506F8 File Offset: 0x0004EAF8
+		// (get) Token: 0x06000879 RID: 2169 RVA: 0x000506E4 File Offset: 0x0004EAE4
 		private LordToilData_Siege Data
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000160 RID: 352
-		// (get) Token: 0x0600087A RID: 2170 RVA: 0x00050718 File Offset: 0x0004EB18
+		// (get) Token: 0x0600087A RID: 2170 RVA: 0x00050704 File Offset: 0x0004EB04
 		private IEnumerable<Frame> Frames
 		{
 			get
@@ -65,7 +65,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000161 RID: 353
-		// (get) Token: 0x0600087B RID: 2171 RVA: 0x00050744 File Offset: 0x0004EB44
+		// (get) Token: 0x0600087B RID: 2171 RVA: 0x00050730 File Offset: 0x0004EB30
 		public override bool ForceHighStoryDanger
 		{
 			get
@@ -74,7 +74,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600087C RID: 2172 RVA: 0x0005075C File Offset: 0x0004EB5C
+		// Token: 0x0600087C RID: 2172 RVA: 0x00050748 File Offset: 0x0004EB48
 		public override void Init()
 		{
 			base.Init();
@@ -156,7 +156,7 @@ namespace RimWorld
 			data.desiredBuilderFraction = LordToil_Siege.BuilderCountFraction.RandomInRange;
 		}
 
-		// Token: 0x0600087D RID: 2173 RVA: 0x00050B74 File Offset: 0x0004EF74
+		// Token: 0x0600087D RID: 2173 RVA: 0x00050B60 File Offset: 0x0004EF60
 		public override void UpdateAllDuties()
 		{
 			LordToilData_Siege data = this.Data;
@@ -222,14 +222,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600087E RID: 2174 RVA: 0x00050DC6 File Offset: 0x0004F1C6
+		// Token: 0x0600087E RID: 2174 RVA: 0x00050DB2 File Offset: 0x0004F1B2
 		public override void Notify_PawnLost(Pawn victim, PawnLostCondition cond)
 		{
 			this.UpdateAllDuties();
 			base.Notify_PawnLost(victim, cond);
 		}
 
-		// Token: 0x0600087F RID: 2175 RVA: 0x00050DD7 File Offset: 0x0004F1D7
+		// Token: 0x0600087F RID: 2175 RVA: 0x00050DC3 File Offset: 0x0004F1C3
 		public override void Notify_ConstructionFailed(Pawn pawn, Frame frame, Blueprint_Build newBlueprint)
 		{
 			base.Notify_ConstructionFailed(pawn, frame, newBlueprint);
@@ -239,13 +239,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000880 RID: 2176 RVA: 0x00050E10 File Offset: 0x0004F210
+		// Token: 0x06000880 RID: 2176 RVA: 0x00050DFC File Offset: 0x0004F1FC
 		private bool CanBeBuilder(Pawn p)
 		{
 			return !p.story.WorkTypeIsDisabled(WorkTypeDefOf.Construction) && !p.story.WorkTypeIsDisabled(WorkTypeDefOf.Firefighter);
 		}
 
-		// Token: 0x06000881 RID: 2177 RVA: 0x00050E58 File Offset: 0x0004F258
+		// Token: 0x06000881 RID: 2177 RVA: 0x00050E44 File Offset: 0x0004F244
 		private void SetAsBuilder(Pawn p)
 		{
 			LordToilData_Siege data = this.Data;
@@ -269,7 +269,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000882 RID: 2178 RVA: 0x00050F38 File Offset: 0x0004F338
+		// Token: 0x06000882 RID: 2178 RVA: 0x00050F24 File Offset: 0x0004F324
 		private void SetAsDefender(Pawn p)
 		{
 			LordToilData_Siege data = this.Data;
@@ -277,7 +277,7 @@ namespace RimWorld
 			p.mindState.duty.radius = data.baseRadius;
 		}
 
-		// Token: 0x06000883 RID: 2179 RVA: 0x00050F88 File Offset: 0x0004F388
+		// Token: 0x06000883 RID: 2179 RVA: 0x00050F74 File Offset: 0x0004F374
 		public override void LordToilTick()
 		{
 			base.LordToilTick();
@@ -350,7 +350,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000884 RID: 2180 RVA: 0x000511F4 File Offset: 0x0004F5F4
+		// Token: 0x06000884 RID: 2180 RVA: 0x000511E0 File Offset: 0x0004F5E0
 		private void DropSupplies(ThingDef thingDef, int count)
 		{
 			List<Thing> list = new List<Thing>();
@@ -360,7 +360,7 @@ namespace RimWorld
 			DropPodUtility.DropThingsNear(this.Data.siegeCenter, base.Map, list, 110, false, false, true, false);
 		}
 
-		// Token: 0x06000885 RID: 2181 RVA: 0x0005123C File Offset: 0x0004F63C
+		// Token: 0x06000885 RID: 2181 RVA: 0x00051228 File Offset: 0x0004F628
 		public override void Cleanup()
 		{
 			LordToilData_Siege data = this.Data;

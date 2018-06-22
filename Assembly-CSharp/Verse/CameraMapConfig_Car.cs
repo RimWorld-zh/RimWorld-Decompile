@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000AED RID: 2797
+	// Token: 0x02000AE9 RID: 2793
 	public class CameraMapConfig_Car : CameraMapConfig
 	{
-		// Token: 0x06003DF3 RID: 15859 RVA: 0x0020AB4A File Offset: 0x00208F4A
+		// Token: 0x06003DEE RID: 15854 RVA: 0x0020AE6E File Offset: 0x0020926E
 		public CameraMapConfig_Car()
 		{
 			this.dollyRateKeys = 0f;
@@ -17,7 +17,7 @@ namespace Verse
 			this.moveSpeedScale = 1f;
 		}
 
-		// Token: 0x06003DF4 RID: 15860 RVA: 0x0020AB8C File Offset: 0x00208F8C
+		// Token: 0x06003DEF RID: 15855 RVA: 0x0020AEB0 File Offset: 0x002092B0
 		public override void ConfigFixedUpdate_60(ref Vector3 velocity)
 		{
 			base.ConfigFixedUpdate_60(ref velocity);
@@ -47,19 +47,19 @@ namespace Verse
 			velocity.z = Mathf.Sin(this.angle) * this.speed;
 		}
 
-		// Token: 0x04002731 RID: 10033
+		// Token: 0x0400272C RID: 10028
 		private float targetAngle;
 
-		// Token: 0x04002732 RID: 10034
+		// Token: 0x0400272D RID: 10029
 		private float angle;
 
-		// Token: 0x04002733 RID: 10035
+		// Token: 0x0400272E RID: 10030
 		private float speed;
 
-		// Token: 0x04002734 RID: 10036
+		// Token: 0x0400272F RID: 10031
 		private const float SpeedChangeSpeed = 1.2f;
 
-		// Token: 0x04002735 RID: 10037
+		// Token: 0x04002730 RID: 10032
 		private const float AngleChangeSpeed = 0.72f;
 	}
 }

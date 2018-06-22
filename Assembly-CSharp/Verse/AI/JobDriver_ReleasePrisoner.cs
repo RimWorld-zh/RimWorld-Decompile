@@ -8,7 +8,7 @@ namespace Verse.AI
 	public class JobDriver_ReleasePrisoner : JobDriver
 	{
 		// Token: 0x170000AB RID: 171
-		// (get) Token: 0x06000349 RID: 841 RVA: 0x000246C8 File Offset: 0x00022AC8
+		// (get) Token: 0x06000349 RID: 841 RVA: 0x000246A4 File Offset: 0x00022AA4
 		private Pawn Prisoner
 		{
 			get
@@ -17,13 +17,13 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x0600034A RID: 842 RVA: 0x000246F8 File Offset: 0x00022AF8
+		// Token: 0x0600034A RID: 842 RVA: 0x000246D4 File Offset: 0x00022AD4
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Prisoner, this.job, 1, -1, null);
 		}
 
-		// Token: 0x0600034B RID: 843 RVA: 0x0002472C File Offset: 0x00022B2C
+		// Token: 0x0600034B RID: 843 RVA: 0x00024708 File Offset: 0x00022B08
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);

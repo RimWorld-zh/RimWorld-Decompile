@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000767 RID: 1895
+	// Token: 0x02000763 RID: 1891
 	public class CompUseEffect_StartWick : CompUseEffect
 	{
-		// Token: 0x060029D8 RID: 10712 RVA: 0x00162EE2 File Offset: 0x001612E2
+		// Token: 0x060029D1 RID: 10705 RVA: 0x001630BA File Offset: 0x001614BA
 		public override void DoEffect(Pawn usedBy)
 		{
 			base.DoEffect(usedBy);

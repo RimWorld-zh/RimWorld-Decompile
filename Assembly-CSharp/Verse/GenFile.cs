@@ -9,13 +9,13 @@ namespace Verse
 	// Token: 0x02000F3C RID: 3900
 	public static class GenFile
 	{
-		// Token: 0x06005DE8 RID: 24040 RVA: 0x002FB89C File Offset: 0x002F9C9C
+		// Token: 0x06005E10 RID: 24080 RVA: 0x002FD8D8 File Offset: 0x002FBCD8
 		public static string TextFromRawFile(string filePath)
 		{
 			return File.ReadAllText(filePath);
 		}
 
-		// Token: 0x06005DE9 RID: 24041 RVA: 0x002FB8B8 File Offset: 0x002F9CB8
+		// Token: 0x06005E11 RID: 24081 RVA: 0x002FD8F4 File Offset: 0x002FBCF4
 		public static string TextFromResourceFile(string filePath)
 		{
 			TextAsset textAsset = Resources.Load("Text/" + filePath) as TextAsset;
@@ -32,7 +32,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005DEA RID: 24042 RVA: 0x002FB910 File Offset: 0x002F9D10
+		// Token: 0x06005E12 RID: 24082 RVA: 0x002FD94C File Offset: 0x002FBD4C
 		public static string GetTextWithoutBOM(TextAsset textAsset)
 		{
 			string result = null;
@@ -46,7 +46,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005DEB RID: 24043 RVA: 0x002FB988 File Offset: 0x002F9D88
+		// Token: 0x06005E13 RID: 24083 RVA: 0x002FD9C4 File Offset: 0x002FBDC4
 		public static IEnumerable<string> LinesFromFile(string filePath)
 		{
 			string rawText = GenFile.TextFromResourceFile(filePath);
@@ -57,7 +57,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005DEC RID: 24044 RVA: 0x002FB9B4 File Offset: 0x002F9DB4
+		// Token: 0x06005E14 RID: 24084 RVA: 0x002FD9F0 File Offset: 0x002FBDF0
 		public static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs, bool useLinuxLineEndings = false)
 		{
 			DirectoryInfo directoryInfo = new DirectoryInfo(sourceDirName);
@@ -96,7 +96,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005DED RID: 24045 RVA: 0x002FBB08 File Offset: 0x002F9F08
+		// Token: 0x06005E15 RID: 24085 RVA: 0x002FDB44 File Offset: 0x002FBF44
 		public static string SanitizedFileName(string fileName)
 		{
 			char[] invalidFileNameChars = Path.GetInvalidFileNameChars();

@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000115 RID: 277
 	public class JobGiver_Tantrum : ThinkNode_JobGiver
 	{
-		// Token: 0x060005A7 RID: 1447 RVA: 0x0003CB10 File Offset: 0x0003AF10
+		// Token: 0x060005A7 RID: 1447 RVA: 0x0003CAFC File Offset: 0x0003AEFC
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			MentalState_Tantrum mentalState_Tantrum = pawn.MentalState as MentalState_Tantrum;

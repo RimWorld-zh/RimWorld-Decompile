@@ -5,11 +5,11 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A7A RID: 2682
+	// Token: 0x02000A76 RID: 2678
 	public class MentalState_BingingDrug : MentalState_Binging
 	{
-		// Token: 0x17000916 RID: 2326
-		// (get) Token: 0x06003B93 RID: 15251 RVA: 0x001F788C File Offset: 0x001F5C8C
+		// Token: 0x17000917 RID: 2327
+		// (get) Token: 0x06003B8E RID: 15246 RVA: 0x001F7BA0 File Offset: 0x001F5FA0
 		public override string InspectLine
 		{
 			get
@@ -18,7 +18,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B94 RID: 15252 RVA: 0x001F78B7 File Offset: 0x001F5CB7
+		// Token: 0x06003B8F RID: 15247 RVA: 0x001F7BCB File Offset: 0x001F5FCB
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -26,7 +26,7 @@ namespace Verse.AI
 			Scribe_Values.Look<DrugCategory>(ref this.drugCategory, "drugCategory", DrugCategory.None, false);
 		}
 
-		// Token: 0x06003B95 RID: 15253 RVA: 0x001F78E4 File Offset: 0x001F5CE4
+		// Token: 0x06003B90 RID: 15248 RVA: 0x001F7BF8 File Offset: 0x001F5FF8
 		public override void PostStart(string reason)
 		{
 			base.PostStart(reason);
@@ -53,7 +53,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B96 RID: 15254 RVA: 0x001F79C4 File Offset: 0x001F5DC4
+		// Token: 0x06003B91 RID: 15249 RVA: 0x001F7CD8 File Offset: 0x001F60D8
 		public override void PostEnd()
 		{
 			base.PostEnd();
@@ -67,7 +67,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B97 RID: 15255 RVA: 0x001F7A2C File Offset: 0x001F5E2C
+		// Token: 0x06003B92 RID: 15250 RVA: 0x001F7D40 File Offset: 0x001F6140
 		private void ChooseRandomChemical()
 		{
 			MentalState_BingingDrug.addictions.Clear();
@@ -113,13 +113,13 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x04002579 RID: 9593
+		// Token: 0x04002574 RID: 9588
 		public ChemicalDef chemical;
 
-		// Token: 0x0400257A RID: 9594
+		// Token: 0x04002575 RID: 9589
 		public DrugCategory drugCategory;
 
-		// Token: 0x0400257B RID: 9595
+		// Token: 0x04002576 RID: 9590
 		private static List<ChemicalDef> addictions = new List<ChemicalDef>();
 	}
 }

@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200046E RID: 1134
+	// Token: 0x0200046A RID: 1130
 	public class Recipe_RemoveHediff : Recipe_Surgery
 	{
-		// Token: 0x060013E5 RID: 5093 RVA: 0x000AD590 File Offset: 0x000AB990
+		// Token: 0x060013DC RID: 5084 RVA: 0x000AD5A0 File Offset: 0x000AB9A0
 		public override IEnumerable<BodyPartRecord> GetPartsToApplyOn(Pawn pawn, RecipeDef recipe)
 		{
 			List<Hediff> allHediffs = pawn.health.hediffSet.hediffs;
@@ -27,7 +27,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060013E6 RID: 5094 RVA: 0x000AD5C4 File Offset: 0x000AB9C4
+		// Token: 0x060013DD RID: 5085 RVA: 0x000AD5D4 File Offset: 0x000AB9D4
 		public override void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients, Bill bill)
 		{
 			if (billDoer != null)

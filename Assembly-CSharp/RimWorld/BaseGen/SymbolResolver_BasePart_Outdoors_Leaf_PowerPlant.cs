@@ -8,7 +8,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003A1 RID: 929
 	public class SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant : SymbolResolver
 	{
-		// Token: 0x0600102D RID: 4141 RVA: 0x000881B4 File Offset: 0x000865B4
+		// Token: 0x0600102D RID: 4141 RVA: 0x000883A0 File Offset: 0x000867A0
 		public override bool CanResolve(ResolveParams rp)
 		{
 			bool result;
@@ -44,7 +44,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x0600102E RID: 4142 RVA: 0x000882C4 File Offset: 0x000866C4
+		// Token: 0x0600102E RID: 4142 RVA: 0x000884B0 File Offset: 0x000868B0
 		public override void Resolve(ResolveParams rp)
 		{
 			this.CalculateAvailablePowerPlants(rp.rect);
@@ -61,7 +61,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x0600102F RID: 4143 RVA: 0x0008839C File Offset: 0x0008679C
+		// Token: 0x0600102F RID: 4143 RVA: 0x00088588 File Offset: 0x00086988
 		private void CalculateAvailablePowerPlants(CellRect rect)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -89,10 +89,10 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x04000A0C RID: 2572
+		// Token: 0x04000A0E RID: 2574
 		private static List<ThingDef> availablePowerPlants = new List<ThingDef>();
 
-		// Token: 0x04000A0D RID: 2573
+		// Token: 0x04000A0F RID: 2575
 		private const float MaxCoverage = 0.09f;
 	}
 }

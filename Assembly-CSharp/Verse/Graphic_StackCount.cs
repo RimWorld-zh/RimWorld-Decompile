@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DE3 RID: 3555
+	// Token: 0x02000DE0 RID: 3552
 	public class Graphic_StackCount : Graphic_Collection
 	{
-		// Token: 0x17000CE9 RID: 3305
-		// (get) Token: 0x06004F8C RID: 20364 RVA: 0x002955AC File Offset: 0x002939AC
+		// Token: 0x17000CEB RID: 3307
+		// (get) Token: 0x06004FA1 RID: 20385 RVA: 0x00296B88 File Offset: 0x00294F88
 		public override Material MatSingle
 		{
 			get
@@ -16,7 +16,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F8D RID: 20365 RVA: 0x002955D8 File Offset: 0x002939D8
+		// Token: 0x06004FA2 RID: 20386 RVA: 0x00296BB4 File Offset: 0x00294FB4
 		public override Graphic GetColoredVersion(Shader newShader, Color newColor, Color newColorTwo)
 		{
 			if (newColorTwo != Color.white)
@@ -26,7 +26,7 @@ namespace Verse
 			return GraphicDatabase.Get<Graphic_StackCount>(this.path, newShader, this.drawSize, newColor, newColorTwo, this.data);
 		}
 
-		// Token: 0x06004F8E RID: 20366 RVA: 0x00295628 File Offset: 0x00293A28
+		// Token: 0x06004FA3 RID: 20387 RVA: 0x00296C04 File Offset: 0x00295004
 		public override Material MatAt(Rot4 rot, Thing thing = null)
 		{
 			Material result;
@@ -41,7 +41,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004F8F RID: 20367 RVA: 0x00295658 File Offset: 0x00293A58
+		// Token: 0x06004FA4 RID: 20388 RVA: 0x00296C34 File Offset: 0x00295034
 		public override Material MatSingleFor(Thing thing)
 		{
 			Material matSingle;
@@ -56,13 +56,13 @@ namespace Verse
 			return matSingle;
 		}
 
-		// Token: 0x06004F90 RID: 20368 RVA: 0x0029568C File Offset: 0x00293A8C
+		// Token: 0x06004FA5 RID: 20389 RVA: 0x00296C68 File Offset: 0x00295068
 		public Graphic SubGraphicFor(Thing thing)
 		{
 			return this.SubGraphicForStackCount(thing.stackCount, thing.def);
 		}
 
-		// Token: 0x06004F91 RID: 20369 RVA: 0x002956B4 File Offset: 0x00293AB4
+		// Token: 0x06004FA6 RID: 20390 RVA: 0x00296C90 File Offset: 0x00295090
 		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
 			Graphic graphic;
@@ -77,7 +77,7 @@ namespace Verse
 			graphic.DrawWorker(loc, rot, thingDef, thing, extraRotation);
 		}
 
-		// Token: 0x06004F92 RID: 20370 RVA: 0x002956F0 File Offset: 0x00293AF0
+		// Token: 0x06004FA7 RID: 20391 RVA: 0x00296CCC File Offset: 0x002950CC
 		public Graphic SubGraphicForStackCount(int stackCount, ThingDef def)
 		{
 			Graphic result;
@@ -129,7 +129,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004F93 RID: 20371 RVA: 0x002957FC File Offset: 0x00293BFC
+		// Token: 0x06004FA8 RID: 20392 RVA: 0x00296DD8 File Offset: 0x002951D8
 		public override string ToString()
 		{
 			return string.Concat(new object[]

@@ -8,14 +8,14 @@ namespace RimWorld
 	// Token: 0x02000199 RID: 409
 	public class LordToil_PrisonerEscape : LordToil_Travel
 	{
-		// Token: 0x0600086E RID: 2158 RVA: 0x000503E4 File Offset: 0x0004E7E4
+		// Token: 0x0600086E RID: 2158 RVA: 0x000503D0 File Offset: 0x0004E7D0
 		public LordToil_PrisonerEscape(IntVec3 dest, int sapperThingID) : base(dest)
 		{
 			this.sapperThingID = sapperThingID;
 		}
 
 		// Token: 0x1700015A RID: 346
-		// (get) Token: 0x0600086F RID: 2159 RVA: 0x000503F8 File Offset: 0x0004E7F8
+		// (get) Token: 0x0600086F RID: 2159 RVA: 0x000503E4 File Offset: 0x0004E7E4
 		public override IntVec3 FlagLoc
 		{
 			get
@@ -25,7 +25,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700015B RID: 347
-		// (get) Token: 0x06000870 RID: 2160 RVA: 0x00050418 File Offset: 0x0004E818
+		// (get) Token: 0x06000870 RID: 2160 RVA: 0x00050404 File Offset: 0x0004E804
 		private LordToilData_Travel Data
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700015C RID: 348
-		// (get) Token: 0x06000871 RID: 2161 RVA: 0x00050438 File Offset: 0x0004E838
+		// (get) Token: 0x06000871 RID: 2161 RVA: 0x00050424 File Offset: 0x0004E824
 		public override bool AllowSatisfyLongNeeds
 		{
 			get
@@ -45,7 +45,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700015D RID: 349
-		// (get) Token: 0x06000872 RID: 2162 RVA: 0x00050450 File Offset: 0x0004E850
+		// (get) Token: 0x06000872 RID: 2162 RVA: 0x0005043C File Offset: 0x0004E83C
 		protected override float AllArrivedCheckRadius
 		{
 			get
@@ -54,7 +54,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000873 RID: 2163 RVA: 0x0005046C File Offset: 0x0004E86C
+		// Token: 0x06000873 RID: 2163 RVA: 0x00050458 File Offset: 0x0004E858
 		public override void UpdateAllDuties()
 		{
 			LordToilData_Travel data = this.Data;
@@ -77,7 +77,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000874 RID: 2164 RVA: 0x0005054C File Offset: 0x0004E94C
+		// Token: 0x06000874 RID: 2164 RVA: 0x00050538 File Offset: 0x0004E938
 		public override void LordToilTick()
 		{
 			base.LordToilTick();
@@ -88,7 +88,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000875 RID: 2165 RVA: 0x000505A0 File Offset: 0x0004E9A0
+		// Token: 0x06000875 RID: 2165 RVA: 0x0005058C File Offset: 0x0004E98C
 		private Pawn GetLeader()
 		{
 			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
@@ -108,7 +108,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06000876 RID: 2166 RVA: 0x0005067C File Offset: 0x0004EA7C
+		// Token: 0x06000876 RID: 2166 RVA: 0x00050668 File Offset: 0x0004EA68
 		private bool IsSapper(Pawn p)
 		{
 			return p.thingIDNumber == this.sapperThingID;

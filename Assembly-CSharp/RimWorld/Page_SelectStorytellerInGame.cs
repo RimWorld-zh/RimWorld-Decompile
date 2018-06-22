@@ -4,18 +4,18 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200083A RID: 2106
+	// Token: 0x02000836 RID: 2102
 	public class Page_SelectStorytellerInGame : Page
 	{
-		// Token: 0x06002FA4 RID: 12196 RVA: 0x00197A4E File Offset: 0x00195E4E
+		// Token: 0x06002F9D RID: 12189 RVA: 0x00197C2E File Offset: 0x0019602E
 		public Page_SelectStorytellerInGame()
 		{
 			this.doCloseButton = true;
 			this.doCloseX = true;
 		}
 
-		// Token: 0x1700078A RID: 1930
-		// (get) Token: 0x06002FA5 RID: 12197 RVA: 0x00197A70 File Offset: 0x00195E70
+		// Token: 0x1700078B RID: 1931
+		// (get) Token: 0x06002F9E RID: 12190 RVA: 0x00197C50 File Offset: 0x00196050
 		public override string PageTitle
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FA6 RID: 12198 RVA: 0x00197A90 File Offset: 0x00195E90
+		// Token: 0x06002F9F RID: 12191 RVA: 0x00197C70 File Offset: 0x00196070
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DrawPageTitle(rect);
@@ -38,7 +38,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040019BA RID: 6586
+		// Token: 0x040019B8 RID: 6584
 		private Listing_Standard selectedStorytellerInfoListing = new Listing_Standard();
 	}
 }

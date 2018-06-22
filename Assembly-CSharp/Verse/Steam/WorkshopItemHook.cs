@@ -5,10 +5,10 @@ using Steamworks;
 
 namespace Verse.Steam
 {
-	// Token: 0x02000FC4 RID: 4036
+	// Token: 0x02000FC5 RID: 4037
 	public class WorkshopItemHook
 	{
-		// Token: 0x06006175 RID: 24949 RVA: 0x0031220C File Offset: 0x0031060C
+		// Token: 0x0600619E RID: 24990 RVA: 0x003142E0 File Offset: 0x003126E0
 		public WorkshopItemHook(WorkshopUploadable owner)
 		{
 			this.owner = owner;
@@ -18,9 +18,9 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x17000FC5 RID: 4037
-		// (get) Token: 0x06006176 RID: 24950 RVA: 0x00312244 File Offset: 0x00310644
-		// (set) Token: 0x06006177 RID: 24951 RVA: 0x00312264 File Offset: 0x00310664
+		// Token: 0x17000FC9 RID: 4041
+		// (get) Token: 0x0600619F RID: 24991 RVA: 0x00314318 File Offset: 0x00312718
+		// (set) Token: 0x060061A0 RID: 24992 RVA: 0x00314338 File Offset: 0x00312738
 		public PublishedFileId_t PublishedFileId
 		{
 			get
@@ -33,8 +33,8 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x17000FC6 RID: 4038
-		// (get) Token: 0x06006178 RID: 24952 RVA: 0x00312274 File Offset: 0x00310674
+		// Token: 0x17000FCA RID: 4042
+		// (get) Token: 0x060061A1 RID: 24993 RVA: 0x00314348 File Offset: 0x00312748
 		public string Name
 		{
 			get
@@ -43,8 +43,8 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x17000FC7 RID: 4039
-		// (get) Token: 0x06006179 RID: 24953 RVA: 0x00312294 File Offset: 0x00310694
+		// Token: 0x17000FCB RID: 4043
+		// (get) Token: 0x060061A2 RID: 24994 RVA: 0x00314368 File Offset: 0x00312768
 		public string Description
 		{
 			get
@@ -53,8 +53,8 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x17000FC8 RID: 4040
-		// (get) Token: 0x0600617A RID: 24954 RVA: 0x003122B4 File Offset: 0x003106B4
+		// Token: 0x17000FCC RID: 4044
+		// (get) Token: 0x060061A3 RID: 24995 RVA: 0x00314388 File Offset: 0x00312788
 		public string PreviewImagePath
 		{
 			get
@@ -63,8 +63,8 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x17000FC9 RID: 4041
-		// (get) Token: 0x0600617B RID: 24955 RVA: 0x003122D4 File Offset: 0x003106D4
+		// Token: 0x17000FCD RID: 4045
+		// (get) Token: 0x060061A4 RID: 24996 RVA: 0x003143A8 File Offset: 0x003127A8
 		public IList<string> Tags
 		{
 			get
@@ -73,8 +73,8 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x17000FCA RID: 4042
-		// (get) Token: 0x0600617C RID: 24956 RVA: 0x003122F4 File Offset: 0x003106F4
+		// Token: 0x17000FCE RID: 4046
+		// (get) Token: 0x060061A5 RID: 24997 RVA: 0x003143C8 File Offset: 0x003127C8
 		public DirectoryInfo Directory
 		{
 			get
@@ -83,8 +83,8 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x17000FCB RID: 4043
-		// (get) Token: 0x0600617D RID: 24957 RVA: 0x00312314 File Offset: 0x00310714
+		// Token: 0x17000FCF RID: 4047
+		// (get) Token: 0x060061A6 RID: 24998 RVA: 0x003143E8 File Offset: 0x003127E8
 		public bool MayHaveAuthorNotCurrentUser
 		{
 			get
@@ -93,13 +93,13 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x0600617E RID: 24958 RVA: 0x00312371 File Offset: 0x00310771
+		// Token: 0x060061A7 RID: 24999 RVA: 0x00314445 File Offset: 0x00312845
 		public void PrepareForWorkshopUpload()
 		{
 			this.owner.PrepareForWorkshopUpload();
 		}
 
-		// Token: 0x0600617F RID: 24959 RVA: 0x00312380 File Offset: 0x00310780
+		// Token: 0x060061A8 RID: 25000 RVA: 0x00314454 File Offset: 0x00312854
 		private void SendSteamDetailsQuery()
 		{
 			SteamAPICall_t hAPICall = SteamUGC.RequestUGCDetails(this.PublishedFileId, 999999u);
@@ -107,19 +107,19 @@ namespace Verse.Steam
 			this.queryResult.Set(hAPICall, null);
 		}
 
-		// Token: 0x06006180 RID: 24960 RVA: 0x003123C3 File Offset: 0x003107C3
+		// Token: 0x060061A9 RID: 25001 RVA: 0x00314497 File Offset: 0x00312897
 		private void OnDetailsQueryReturned(SteamUGCRequestUGCDetailsResult_t result, bool IOFailure)
 		{
 			this.steamAuthor = (CSteamID)result.m_details.m_ulSteamIDOwner;
 		}
 
-		// Token: 0x04003FB3 RID: 16307
+		// Token: 0x04003FD0 RID: 16336
 		private WorkshopUploadable owner;
 
-		// Token: 0x04003FB4 RID: 16308
+		// Token: 0x04003FD1 RID: 16337
 		private CSteamID steamAuthor = CSteamID.Nil;
 
-		// Token: 0x04003FB5 RID: 16309
+		// Token: 0x04003FD2 RID: 16338
 		private CallResult<SteamUGCRequestUGCDetailsResult_t> queryResult;
 	}
 }

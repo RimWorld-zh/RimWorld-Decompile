@@ -5,7 +5,7 @@ namespace Verse.Noise
 	// Token: 0x02000FA0 RID: 4000
 	internal static class Utils
 	{
-		// Token: 0x0600607F RID: 24703 RVA: 0x0030D47C File Offset: 0x0030B87C
+		// Token: 0x060060A8 RID: 24744 RVA: 0x0030F520 File Offset: 0x0030D920
 		internal static double GradientCoherentNoise3D(double x, double y, double z, long seed, QualityMode quality)
 		{
 			int num = (x <= 0.0) ? ((int)x - 1) : ((int)x);
@@ -58,7 +58,7 @@ namespace Verse.Noise
 			return Utils.InterpolateLinear(a3, b3, position3);
 		}
 
-		// Token: 0x06006080 RID: 24704 RVA: 0x0030D66C File Offset: 0x0030BA6C
+		// Token: 0x060060A9 RID: 24745 RVA: 0x0030F710 File Offset: 0x0030DB10
 		internal static double GradientNoise3D(double fx, double fy, double fz, int ix, int iy, int iz, long seed)
 		{
 			long num = (long)(1619 * ix + 31337 * iy + 6971 * iz) + 1013L * seed & (long)((ulong)-1);
@@ -79,7 +79,7 @@ namespace Verse.Noise
 			return (num2 * num5 + num3 * num6 + num4 * num7) * 2.12;
 		}
 
-		// Token: 0x06006081 RID: 24705 RVA: 0x0030D710 File Offset: 0x0030BB10
+		// Token: 0x060060AA RID: 24746 RVA: 0x0030F7B4 File Offset: 0x0030DBB4
 		internal static double InterpolateCubic(double a, double b, double c, double d, double position)
 		{
 			double num = d - c - (a - b);
@@ -88,13 +88,13 @@ namespace Verse.Noise
 			return num * position * position * position + num2 * position * position + num3 * position + b;
 		}
 
-		// Token: 0x06006082 RID: 24706 RVA: 0x0030D754 File Offset: 0x0030BB54
+		// Token: 0x060060AB RID: 24747 RVA: 0x0030F7F8 File Offset: 0x0030DBF8
 		internal static double InterpolateLinear(double a, double b, double position)
 		{
 			return (1.0 - position) * a + position * b;
 		}
 
-		// Token: 0x06006083 RID: 24707 RVA: 0x0030D77C File Offset: 0x0030BB7C
+		// Token: 0x060060AC RID: 24748 RVA: 0x0030F820 File Offset: 0x0030DC20
 		internal static double MakeInt32Range(double value)
 		{
 			double result;
@@ -113,13 +113,13 @@ namespace Verse.Noise
 			return result;
 		}
 
-		// Token: 0x06006084 RID: 24708 RVA: 0x0030D808 File Offset: 0x0030BC08
+		// Token: 0x060060AD RID: 24749 RVA: 0x0030F8AC File Offset: 0x0030DCAC
 		internal static double MapCubicSCurve(double value)
 		{
 			return value * value * (3.0 - 2.0 * value);
 		}
 
-		// Token: 0x06006085 RID: 24709 RVA: 0x0030D838 File Offset: 0x0030BC38
+		// Token: 0x060060AE RID: 24750 RVA: 0x0030F8DC File Offset: 0x0030DCDC
 		internal static double MapQuinticSCurve(double value)
 		{
 			double num = value * value * value;
@@ -128,13 +128,13 @@ namespace Verse.Noise
 			return 6.0 * num3 - 15.0 * num2 + 10.0 * num;
 		}
 
-		// Token: 0x06006086 RID: 24710 RVA: 0x0030D880 File Offset: 0x0030BC80
+		// Token: 0x060060AF RID: 24751 RVA: 0x0030F924 File Offset: 0x0030DD24
 		internal static double ValueNoise3D(int x, int y, int z, int seed)
 		{
 			return 1.0 - (double)Utils.ValueNoise3DInt(x, y, z, seed) / 1073741824.0;
 		}
 
-		// Token: 0x06006087 RID: 24711 RVA: 0x0030D8B4 File Offset: 0x0030BCB4
+		// Token: 0x060060B0 RID: 24752 RVA: 0x0030F958 File Offset: 0x0030DD58
 		internal static long ValueNoise3DInt(int x, int y, int z, int seed)
 		{
 			long num = (long)(1619 * x + 31337 * y + 6971 * z + 1013 * seed & int.MaxValue);
@@ -142,31 +142,31 @@ namespace Verse.Noise
 			return num * (num * num * 60493L + 19990303L) + 1376312589L & 2147483647L;
 		}
 
-		// Token: 0x04003F35 RID: 16181
+		// Token: 0x04003F47 RID: 16199
 		internal const double DegToRad = 0.017453292519943295;
 
-		// Token: 0x04003F36 RID: 16182
+		// Token: 0x04003F48 RID: 16200
 		internal const double Sqrt3 = 1.7320508075688772;
 
-		// Token: 0x04003F37 RID: 16183
+		// Token: 0x04003F49 RID: 16201
 		internal const int OctavesMaximum = 30;
 
-		// Token: 0x04003F38 RID: 16184
+		// Token: 0x04003F4A RID: 16202
 		private const int GeneratorNoiseX = 1619;
 
-		// Token: 0x04003F39 RID: 16185
+		// Token: 0x04003F4B RID: 16203
 		private const int GeneratorNoiseY = 31337;
 
-		// Token: 0x04003F3A RID: 16186
+		// Token: 0x04003F4C RID: 16204
 		private const int GeneratorNoiseZ = 6971;
 
-		// Token: 0x04003F3B RID: 16187
+		// Token: 0x04003F4D RID: 16205
 		private const int GeneratorSeed = 1013;
 
-		// Token: 0x04003F3C RID: 16188
+		// Token: 0x04003F4E RID: 16206
 		private const int GeneratorShift = 8;
 
-		// Token: 0x04003F3D RID: 16189
+		// Token: 0x04003F4F RID: 16207
 		internal static double[] _randoms = new double[]
 		{
 			-0.763874,

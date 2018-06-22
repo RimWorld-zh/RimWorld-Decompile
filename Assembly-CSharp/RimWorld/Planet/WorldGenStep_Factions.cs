@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005C0 RID: 1472
+	// Token: 0x020005BC RID: 1468
 	public class WorldGenStep_Factions : WorldGenStep
 	{
 		// Token: 0x1700041E RID: 1054
-		// (get) Token: 0x06001C3E RID: 7230 RVA: 0x000F2B98 File Offset: 0x000F0F98
+		// (get) Token: 0x06001C35 RID: 7221 RVA: 0x000F2BEC File Offset: 0x000F0FEC
 		public override int SeedPart
 		{
 			get
@@ -16,13 +16,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C3F RID: 7231 RVA: 0x000F2BB2 File Offset: 0x000F0FB2
+		// Token: 0x06001C36 RID: 7222 RVA: 0x000F2C06 File Offset: 0x000F1006
 		public override void GenerateFresh(string seed)
 		{
 			FactionGenerator.GenerateFactionsIntoWorld();
 		}
 
-		// Token: 0x06001C40 RID: 7232 RVA: 0x000F2BBA File Offset: 0x000F0FBA
+		// Token: 0x06001C37 RID: 7223 RVA: 0x000F2C0E File Offset: 0x000F100E
 		public override void GenerateWithoutWorldData(string seed)
 		{
 		}

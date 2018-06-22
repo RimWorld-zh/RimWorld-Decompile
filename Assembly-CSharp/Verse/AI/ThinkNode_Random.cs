@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000ABE RID: 2750
+	// Token: 0x02000ABA RID: 2746
 	public class ThinkNode_Random : ThinkNode
 	{
-		// Token: 0x06003D37 RID: 15671 RVA: 0x00204EA0 File Offset: 0x002032A0
+		// Token: 0x06003D32 RID: 15666 RVA: 0x002051C4 File Offset: 0x002035C4
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			ThinkNode_Random.tempList.Clear();
@@ -26,7 +26,7 @@ namespace Verse.AI
 			return ThinkResult.NoJob;
 		}
 
-		// Token: 0x040026A1 RID: 9889
+		// Token: 0x0400269C RID: 9884
 		private static List<ThinkNode> tempList = new List<ThinkNode>();
 	}
 }

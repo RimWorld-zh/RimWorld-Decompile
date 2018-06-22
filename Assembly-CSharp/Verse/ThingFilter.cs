@@ -6,22 +6,22 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000FCA RID: 4042
+	// Token: 0x02000FCB RID: 4043
 	public class ThingFilter : IExposable
 	{
-		// Token: 0x06006197 RID: 24983 RVA: 0x003129A4 File Offset: 0x00310DA4
+		// Token: 0x060061C0 RID: 25024 RVA: 0x00314A78 File Offset: 0x00312E78
 		public ThingFilter()
 		{
 		}
 
-		// Token: 0x06006198 RID: 24984 RVA: 0x00312A7C File Offset: 0x00310E7C
+		// Token: 0x060061C1 RID: 25025 RVA: 0x00314B50 File Offset: 0x00312F50
 		public ThingFilter(Action settingsChangedCallback)
 		{
 			this.settingsChangedCallback = settingsChangedCallback;
 		}
 
-		// Token: 0x17000FCF RID: 4047
-		// (get) Token: 0x06006199 RID: 24985 RVA: 0x00312B5C File Offset: 0x00310F5C
+		// Token: 0x17000FD3 RID: 4051
+		// (get) Token: 0x060061C2 RID: 25026 RVA: 0x00314C30 File Offset: 0x00313030
 		public string Summary
 		{
 			get
@@ -51,8 +51,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FD0 RID: 4048
-		// (get) Token: 0x0600619A RID: 24986 RVA: 0x00312E04 File Offset: 0x00311204
+		// Token: 0x17000FD4 RID: 4052
+		// (get) Token: 0x060061C3 RID: 25027 RVA: 0x00314ED8 File Offset: 0x003132D8
 		public ThingRequest BestThingRequest
 		{
 			get
@@ -94,8 +94,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FD1 RID: 4049
-		// (get) Token: 0x0600619B RID: 24987 RVA: 0x00312ED8 File Offset: 0x003112D8
+		// Token: 0x17000FD5 RID: 4053
+		// (get) Token: 0x060061C4 RID: 25028 RVA: 0x00314FAC File Offset: 0x003133AC
 		public ThingDef AnyAllowedDef
 		{
 			get
@@ -104,8 +104,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FD2 RID: 4050
-		// (get) Token: 0x0600619C RID: 24988 RVA: 0x00312EF8 File Offset: 0x003112F8
+		// Token: 0x17000FD6 RID: 4054
+		// (get) Token: 0x060061C5 RID: 25029 RVA: 0x00314FCC File Offset: 0x003133CC
 		public IEnumerable<ThingDef> AllowedThingDefs
 		{
 			get
@@ -114,8 +114,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FD3 RID: 4051
-		// (get) Token: 0x0600619D RID: 24989 RVA: 0x00312F14 File Offset: 0x00311314
+		// Token: 0x17000FD7 RID: 4055
+		// (get) Token: 0x060061C6 RID: 25030 RVA: 0x00314FE8 File Offset: 0x003133E8
 		private static IEnumerable<ThingDef> AllStorableThingDefs
 		{
 			get
@@ -126,8 +126,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FD4 RID: 4052
-		// (get) Token: 0x0600619E RID: 24990 RVA: 0x00312F50 File Offset: 0x00311350
+		// Token: 0x17000FD8 RID: 4056
+		// (get) Token: 0x060061C7 RID: 25031 RVA: 0x00315024 File Offset: 0x00313424
 		public int AllowedDefCount
 		{
 			get
@@ -136,9 +136,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FD5 RID: 4053
-		// (get) Token: 0x0600619F RID: 24991 RVA: 0x00312F70 File Offset: 0x00311370
-		// (set) Token: 0x060061A0 RID: 24992 RVA: 0x00312F8B File Offset: 0x0031138B
+		// Token: 0x17000FD9 RID: 4057
+		// (get) Token: 0x060061C8 RID: 25032 RVA: 0x00315044 File Offset: 0x00313444
+		// (set) Token: 0x060061C9 RID: 25033 RVA: 0x0031505F File Offset: 0x0031345F
 		public FloatRange AllowedHitPointsPercents
 		{
 			get
@@ -151,9 +151,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FD6 RID: 4054
-		// (get) Token: 0x060061A1 RID: 24993 RVA: 0x00312F98 File Offset: 0x00311398
-		// (set) Token: 0x060061A2 RID: 24994 RVA: 0x00312FB3 File Offset: 0x003113B3
+		// Token: 0x17000FDA RID: 4058
+		// (get) Token: 0x060061CA RID: 25034 RVA: 0x0031506C File Offset: 0x0031346C
+		// (set) Token: 0x060061CB RID: 25035 RVA: 0x00315087 File Offset: 0x00313487
 		public QualityRange AllowedQualityLevels
 		{
 			get
@@ -166,9 +166,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FD7 RID: 4055
-		// (get) Token: 0x060061A3 RID: 24995 RVA: 0x00312FC0 File Offset: 0x003113C0
-		// (set) Token: 0x060061A4 RID: 24996 RVA: 0x00313002 File Offset: 0x00311402
+		// Token: 0x17000FDB RID: 4059
+		// (get) Token: 0x060061CC RID: 25036 RVA: 0x00315094 File Offset: 0x00313494
+		// (set) Token: 0x060061CD RID: 25037 RVA: 0x003150D6 File Offset: 0x003134D6
 		public TreeNode_ThingCategory DisplayRootCategory
 		{
 			get
@@ -198,7 +198,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060061A5 RID: 24997 RVA: 0x00313024 File Offset: 0x00311424
+		// Token: 0x060061CE RID: 25038 RVA: 0x003150F8 File Offset: 0x003134F8
 		public virtual void ExposeData()
 		{
 			Scribe_Collections.Look<SpecialThingFilterDef>(ref this.disallowedSpecialFilters, "disallowedSpecialFilters", LookMode.Def, new object[0]);
@@ -207,7 +207,7 @@ namespace Verse
 			Scribe_Values.Look<QualityRange>(ref this.allowedQualities, "allowedQualityLevels", default(QualityRange), false);
 		}
 
-		// Token: 0x060061A6 RID: 24998 RVA: 0x00313090 File Offset: 0x00311490
+		// Token: 0x060061CF RID: 25039 RVA: 0x00315164 File Offset: 0x00313564
 		public void ResolveReferences()
 		{
 			for (int i = 0; i < DefDatabase<SpecialThingFilterDef>.AllDefsListForReading.Count; i++)
@@ -422,7 +422,7 @@ namespace Verse
 			this.RecalculateDisplayRootCategory();
 		}
 
-		// Token: 0x060061A7 RID: 24999 RVA: 0x00313810 File Offset: 0x00311C10
+		// Token: 0x060061D0 RID: 25040 RVA: 0x003158E4 File Offset: 0x00313CE4
 		public void RecalculateDisplayRootCategory()
 		{
 			this.DisplayRootCategory = ThingCategoryNodeDatabase.RootNode;
@@ -448,7 +448,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060061A8 RID: 25000 RVA: 0x003138F0 File Offset: 0x00311CF0
+		// Token: 0x060061D1 RID: 25041 RVA: 0x003159C4 File Offset: 0x00313DC4
 		private void RecalculateSpecialFilterConfigurability()
 		{
 			if (this.DisplayRootCategory == null)
@@ -478,7 +478,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060061A9 RID: 25001 RVA: 0x003139C8 File Offset: 0x00311DC8
+		// Token: 0x060061D2 RID: 25042 RVA: 0x00315A9C File Offset: 0x00313E9C
 		public bool IsAlwaysDisallowedDueToSpecialFilters(ThingDef def)
 		{
 			for (int i = 0; i < this.disallowedSpecialFilters.Count; i++)
@@ -491,7 +491,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x060061AA RID: 25002 RVA: 0x00313A20 File Offset: 0x00311E20
+		// Token: 0x060061D3 RID: 25043 RVA: 0x00315AF4 File Offset: 0x00313EF4
 		public virtual void CopyAllowancesFrom(ThingFilter other)
 		{
 			this.allowedDefs.Clear();
@@ -527,7 +527,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060061AB RID: 25003 RVA: 0x00313BF0 File Offset: 0x00311FF0
+		// Token: 0x060061D4 RID: 25044 RVA: 0x00315CC4 File Offset: 0x003140C4
 		public void SetAllow(ThingDef thingDef, bool allow)
 		{
 			if (allow != this.Allows(thingDef))
@@ -547,7 +547,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060061AC RID: 25004 RVA: 0x00313C4C File Offset: 0x0031204C
+		// Token: 0x060061D5 RID: 25045 RVA: 0x00315D20 File Offset: 0x00314120
 		public void SetAllow(SpecialThingFilterDef sfDef, bool allow)
 		{
 			if (sfDef.configurable)
@@ -573,7 +573,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060061AD RID: 25005 RVA: 0x00313CDC File Offset: 0x003120DC
+		// Token: 0x060061D6 RID: 25046 RVA: 0x00315DB0 File Offset: 0x003141B0
 		public void SetAllow(ThingCategoryDef categoryDef, bool allow, IEnumerable<ThingDef> exceptedDefs = null, IEnumerable<SpecialThingFilterDef> exceptedFilters = null)
 		{
 			if (!ThingCategoryNodeDatabase.initialized)
@@ -600,7 +600,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060061AE RID: 25006 RVA: 0x00313DD8 File Offset: 0x003121D8
+		// Token: 0x060061D7 RID: 25047 RVA: 0x00315EAC File Offset: 0x003142AC
 		public void SetAllow(StuffCategoryDef cat, bool allow)
 		{
 			for (int i = 0; i < DefDatabase<ThingDef>.AllDefsListForReading.Count; i++)
@@ -617,7 +617,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060061AF RID: 25007 RVA: 0x00313E4C File Offset: 0x0031224C
+		// Token: 0x060061D8 RID: 25048 RVA: 0x00315F20 File Offset: 0x00314320
 		public void SetAllowAllWhoCanMake(ThingDef thing)
 		{
 			for (int i = 0; i < DefDatabase<ThingDef>.AllDefsListForReading.Count; i++)
@@ -634,7 +634,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060061B0 RID: 25008 RVA: 0x00313EC0 File Offset: 0x003122C0
+		// Token: 0x060061D9 RID: 25049 RVA: 0x00315F94 File Offset: 0x00314394
 		public void SetFromPreset(StorageSettingsPreset preset)
 		{
 			if (preset == StorageSettingsPreset.DefaultStockpile)
@@ -659,7 +659,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060061B1 RID: 25009 RVA: 0x00313F84 File Offset: 0x00312384
+		// Token: 0x060061DA RID: 25050 RVA: 0x00316058 File Offset: 0x00314458
 		public void SetDisallowAll(IEnumerable<ThingDef> exceptedDefs = null, IEnumerable<SpecialThingFilterDef> exceptedFilters = null)
 		{
 			this.allowedDefs.RemoveWhere((ThingDef d) => exceptedDefs == null || !exceptedDefs.Contains(d));
@@ -670,7 +670,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060061B2 RID: 25010 RVA: 0x00313FEC File Offset: 0x003123EC
+		// Token: 0x060061DB RID: 25051 RVA: 0x003160C0 File Offset: 0x003144C0
 		public void SetAllowAll(ThingFilter parentFilter)
 		{
 			this.allowedDefs.Clear();
@@ -695,7 +695,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060061B3 RID: 25011 RVA: 0x003140FC File Offset: 0x003124FC
+		// Token: 0x060061DC RID: 25052 RVA: 0x003161D0 File Offset: 0x003145D0
 		public virtual bool Allows(Thing t)
 		{
 			t = t.GetInnerIfMinified();
@@ -739,19 +739,19 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060061B4 RID: 25012 RVA: 0x0031420C File Offset: 0x0031260C
+		// Token: 0x060061DD RID: 25053 RVA: 0x003162E0 File Offset: 0x003146E0
 		public bool Allows(ThingDef def)
 		{
 			return this.allowedDefs.Contains(def);
 		}
 
-		// Token: 0x060061B5 RID: 25013 RVA: 0x00314230 File Offset: 0x00312630
+		// Token: 0x060061DE RID: 25054 RVA: 0x00316304 File Offset: 0x00314704
 		public bool Allows(SpecialThingFilterDef sf)
 		{
 			return !this.disallowedSpecialFilters.Contains(sf);
 		}
 
-		// Token: 0x060061B6 RID: 25014 RVA: 0x00314254 File Offset: 0x00312654
+		// Token: 0x060061DF RID: 25055 RVA: 0x00316328 File Offset: 0x00314728
 		public ThingRequest GetThingRequest()
 		{
 			ThingRequest result;
@@ -766,101 +766,101 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060061B7 RID: 25015 RVA: 0x003142A8 File Offset: 0x003126A8
+		// Token: 0x060061E0 RID: 25056 RVA: 0x0031637C File Offset: 0x0031477C
 		public override string ToString()
 		{
 			return this.Summary;
 		}
 
-		// Token: 0x04003FC1 RID: 16321
+		// Token: 0x04003FDE RID: 16350
 		[Unsaved]
 		private Action settingsChangedCallback;
 
-		// Token: 0x04003FC2 RID: 16322
+		// Token: 0x04003FDF RID: 16351
 		[Unsaved]
 		private TreeNode_ThingCategory displayRootCategoryInt = null;
 
-		// Token: 0x04003FC3 RID: 16323
+		// Token: 0x04003FE0 RID: 16352
 		[Unsaved]
 		private HashSet<ThingDef> allowedDefs = new HashSet<ThingDef>();
 
-		// Token: 0x04003FC4 RID: 16324
+		// Token: 0x04003FE1 RID: 16353
 		[Unsaved]
 		private List<SpecialThingFilterDef> disallowedSpecialFilters = new List<SpecialThingFilterDef>();
 
-		// Token: 0x04003FC5 RID: 16325
+		// Token: 0x04003FE2 RID: 16354
 		private FloatRange allowedHitPointsPercents = FloatRange.ZeroToOne;
 
-		// Token: 0x04003FC6 RID: 16326
+		// Token: 0x04003FE3 RID: 16355
 		public bool allowedHitPointsConfigurable = true;
 
-		// Token: 0x04003FC7 RID: 16327
+		// Token: 0x04003FE4 RID: 16356
 		private QualityRange allowedQualities = QualityRange.All;
 
-		// Token: 0x04003FC8 RID: 16328
+		// Token: 0x04003FE5 RID: 16357
 		public bool allowedQualitiesConfigurable = true;
 
-		// Token: 0x04003FC9 RID: 16329
+		// Token: 0x04003FE6 RID: 16358
 		[MustTranslate]
 		public string customSummary = null;
 
-		// Token: 0x04003FCA RID: 16330
+		// Token: 0x04003FE7 RID: 16359
 		private List<ThingDef> thingDefs = null;
 
-		// Token: 0x04003FCB RID: 16331
+		// Token: 0x04003FE8 RID: 16360
 		[NoTranslate]
 		private List<string> categories = null;
 
-		// Token: 0x04003FCC RID: 16332
+		// Token: 0x04003FE9 RID: 16361
 		[NoTranslate]
 		private List<string> tradeTagsToAllow = null;
 
-		// Token: 0x04003FCD RID: 16333
+		// Token: 0x04003FEA RID: 16362
 		[NoTranslate]
 		private List<string> tradeTagsToDisallow = null;
 
-		// Token: 0x04003FCE RID: 16334
+		// Token: 0x04003FEB RID: 16363
 		[NoTranslate]
 		private List<string> thingSetMakerTagsToAllow = null;
 
-		// Token: 0x04003FCF RID: 16335
+		// Token: 0x04003FEC RID: 16364
 		[NoTranslate]
 		private List<string> thingSetMakerTagsToDisallow = null;
 
-		// Token: 0x04003FD0 RID: 16336
+		// Token: 0x04003FED RID: 16365
 		[NoTranslate]
 		private List<string> disallowedCategories = null;
 
-		// Token: 0x04003FD1 RID: 16337
+		// Token: 0x04003FEE RID: 16366
 		[NoTranslate]
 		private List<string> specialFiltersToAllow = null;
 
-		// Token: 0x04003FD2 RID: 16338
+		// Token: 0x04003FEF RID: 16367
 		[NoTranslate]
 		private List<string> specialFiltersToDisallow = null;
 
-		// Token: 0x04003FD3 RID: 16339
+		// Token: 0x04003FF0 RID: 16368
 		private List<StuffCategoryDef> stuffCategoriesToAllow = null;
 
-		// Token: 0x04003FD4 RID: 16340
+		// Token: 0x04003FF1 RID: 16369
 		private List<ThingDef> allowAllWhoCanMake = null;
 
-		// Token: 0x04003FD5 RID: 16341
+		// Token: 0x04003FF2 RID: 16370
 		private FoodPreferability disallowWorsePreferability = FoodPreferability.Undefined;
 
-		// Token: 0x04003FD6 RID: 16342
+		// Token: 0x04003FF3 RID: 16371
 		private bool disallowInedibleByHuman = false;
 
-		// Token: 0x04003FD7 RID: 16343
+		// Token: 0x04003FF4 RID: 16372
 		private Type allowWithComp = null;
 
-		// Token: 0x04003FD8 RID: 16344
+		// Token: 0x04003FF5 RID: 16373
 		private Type disallowWithComp = null;
 
-		// Token: 0x04003FD9 RID: 16345
+		// Token: 0x04003FF6 RID: 16374
 		private float disallowCheaperThan = float.MinValue;
 
-		// Token: 0x04003FDA RID: 16346
+		// Token: 0x04003FF7 RID: 16375
 		private List<ThingDef> disallowedThingDefs = null;
 	}
 }

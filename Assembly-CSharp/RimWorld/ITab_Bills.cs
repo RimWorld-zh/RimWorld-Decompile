@@ -7,10 +7,10 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200084B RID: 2123
+	// Token: 0x02000847 RID: 2119
 	public class ITab_Bills : ITab
 	{
-		// Token: 0x06003009 RID: 12297 RVA: 0x001A168C File Offset: 0x0019FA8C
+		// Token: 0x06003002 RID: 12290 RVA: 0x001A186C File Offset: 0x0019FC6C
 		public ITab_Bills()
 		{
 			this.size = ITab_Bills.WinSize;
@@ -18,8 +18,8 @@ namespace RimWorld
 			this.tutorTag = "Bills";
 		}
 
-		// Token: 0x170007A7 RID: 1959
-		// (get) Token: 0x0600300A RID: 12298 RVA: 0x001A16DC File Offset: 0x0019FADC
+		// Token: 0x170007A8 RID: 1960
+		// (get) Token: 0x06003003 RID: 12291 RVA: 0x001A18BC File Offset: 0x0019FCBC
 		protected Building_WorkTable SelTable
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600300B RID: 12299 RVA: 0x001A16FC File Offset: 0x0019FAFC
+		// Token: 0x06003004 RID: 12292 RVA: 0x001A18DC File Offset: 0x0019FCDC
 		protected override void FillTab()
 		{
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.BillsTab, KnowledgeAmount.FrameDisplayed);
@@ -102,7 +102,7 @@ namespace RimWorld
 			this.mouseoverBill = this.SelTable.billStack.DoListing(rect2, recipeOptionsMaker, ref this.scrollPosition, ref this.viewHeight);
 		}
 
-		// Token: 0x0600300C RID: 12300 RVA: 0x001A1936 File Offset: 0x0019FD36
+		// Token: 0x06003005 RID: 12293 RVA: 0x001A1B16 File Offset: 0x0019FF16
 		public override void TabUpdate()
 		{
 			if (this.mouseoverBill != null)
@@ -112,27 +112,27 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040019F7 RID: 6647
+		// Token: 0x040019F5 RID: 6645
 		private float viewHeight = 1000f;
 
-		// Token: 0x040019F8 RID: 6648
+		// Token: 0x040019F6 RID: 6646
 		private Vector2 scrollPosition = default(Vector2);
 
-		// Token: 0x040019F9 RID: 6649
+		// Token: 0x040019F7 RID: 6647
 		private Bill mouseoverBill;
 
-		// Token: 0x040019FA RID: 6650
+		// Token: 0x040019F8 RID: 6648
 		private static readonly Vector2 WinSize = new Vector2(420f, 480f);
 
-		// Token: 0x040019FB RID: 6651
+		// Token: 0x040019F9 RID: 6649
 		[TweakValue("Interface", 0f, 128f)]
 		private static float PasteX = 48f;
 
-		// Token: 0x040019FC RID: 6652
+		// Token: 0x040019FA RID: 6650
 		[TweakValue("Interface", 0f, 128f)]
 		private static float PasteY = 3f;
 
-		// Token: 0x040019FD RID: 6653
+		// Token: 0x040019FB RID: 6651
 		[TweakValue("Interface", 0f, 32f)]
 		private static float PasteSize = 24f;
 	}

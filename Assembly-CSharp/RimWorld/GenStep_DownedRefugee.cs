@@ -8,7 +8,7 @@ namespace RimWorld
 	public class GenStep_DownedRefugee : GenStep_Scatterer
 	{
 		// Token: 0x1700025E RID: 606
-		// (get) Token: 0x060011C4 RID: 4548 RVA: 0x0009A71C File Offset: 0x00098B1C
+		// (get) Token: 0x060011C4 RID: 4548 RVA: 0x0009A900 File Offset: 0x00098D00
 		public override int SeedPart
 		{
 			get
@@ -17,13 +17,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011C5 RID: 4549 RVA: 0x0009A738 File Offset: 0x00098B38
+		// Token: 0x060011C5 RID: 4549 RVA: 0x0009A91C File Offset: 0x00098D1C
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			return base.CanScatterAt(c, map) && c.Standable(map);
 		}
 
-		// Token: 0x060011C6 RID: 4550 RVA: 0x0009A764 File Offset: 0x00098B64
+		// Token: 0x060011C6 RID: 4550 RVA: 0x0009A948 File Offset: 0x00098D48
 		protected override void ScatterAt(IntVec3 loc, Map map, int count = 1)
 		{
 			DownedRefugeeComp component = map.Parent.GetComponent<DownedRefugeeComp>();

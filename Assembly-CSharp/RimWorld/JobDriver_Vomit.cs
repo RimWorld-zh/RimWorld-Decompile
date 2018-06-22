@@ -8,25 +8,25 @@ namespace RimWorld
 	// Token: 0x02000088 RID: 136
 	public class JobDriver_Vomit : JobDriver
 	{
-		// Token: 0x06000384 RID: 900 RVA: 0x000277AF File Offset: 0x00025BAF
+		// Token: 0x06000384 RID: 900 RVA: 0x0002778B File Offset: 0x00025B8B
 		public override void SetInitialPosture()
 		{
 		}
 
-		// Token: 0x06000385 RID: 901 RVA: 0x000277B2 File Offset: 0x00025BB2
+		// Token: 0x06000385 RID: 901 RVA: 0x0002778E File Offset: 0x00025B8E
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.ticksLeft, "ticksLeft", 0, false);
 		}
 
-		// Token: 0x06000386 RID: 902 RVA: 0x000277D0 File Offset: 0x00025BD0
+		// Token: 0x06000386 RID: 902 RVA: 0x000277AC File Offset: 0x00025BAC
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x06000387 RID: 903 RVA: 0x000277E8 File Offset: 0x00025BE8
+		// Token: 0x06000387 RID: 903 RVA: 0x000277C4 File Offset: 0x00025BC4
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			Toil to = new Toil();

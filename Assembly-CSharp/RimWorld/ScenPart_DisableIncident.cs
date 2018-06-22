@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace RimWorld
 {
-	// Token: 0x02000641 RID: 1601
+	// Token: 0x0200063D RID: 1597
 	public class ScenPart_DisableIncident : ScenPart_IncidentBase
 	{
 		// Token: 0x170004E9 RID: 1257
-		// (get) Token: 0x06002125 RID: 8485 RVA: 0x00119E9C File Offset: 0x0011829C
+		// (get) Token: 0x0600211D RID: 8477 RVA: 0x00119F9C File Offset: 0x0011839C
 		protected override string IncidentTag
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002126 RID: 8486 RVA: 0x00119EB8 File Offset: 0x001182B8
+		// Token: 0x0600211E RID: 8478 RVA: 0x00119FB8 File Offset: 0x001183B8
 		protected override IEnumerable<IncidentDef> RandomizableIncidents()
 		{
 			yield return IncidentDefOf.TraderCaravanArrival;

@@ -9,19 +9,19 @@ namespace RimWorld
 	// Token: 0x020000FF RID: 255
 	public class JoyGiver_Ingest : JoyGiver
 	{
-		// Token: 0x06000557 RID: 1367 RVA: 0x0003A350 File Offset: 0x00038750
+		// Token: 0x06000557 RID: 1367 RVA: 0x0003A33C File Offset: 0x0003873C
 		public override Job TryGiveJob(Pawn pawn)
 		{
 			return this.TryGiveJobInternal(pawn, null);
 		}
 
-		// Token: 0x06000558 RID: 1368 RVA: 0x0003A370 File Offset: 0x00038770
+		// Token: 0x06000558 RID: 1368 RVA: 0x0003A35C File Offset: 0x0003875C
 		public override Job TryGiveJobInPartyArea(Pawn pawn, IntVec3 partySpot)
 		{
 			return this.TryGiveJobInternal(pawn, (Thing x) => !x.Spawned || PartyUtility.InPartyArea(x.Position, partySpot, pawn.Map));
 		}
 
-		// Token: 0x06000559 RID: 1369 RVA: 0x0003A3B4 File Offset: 0x000387B4
+		// Token: 0x06000559 RID: 1369 RVA: 0x0003A3A0 File Offset: 0x000387A0
 		private Job TryGiveJobInternal(Pawn pawn, Predicate<Thing> extraValidator)
 		{
 			Thing thing = this.BestIngestItem(pawn, extraValidator);
@@ -37,7 +37,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600055A RID: 1370 RVA: 0x0003A3E8 File Offset: 0x000387E8
+		// Token: 0x0600055A RID: 1370 RVA: 0x0003A3D4 File Offset: 0x000387D4
 		protected virtual Thing BestIngestItem(Pawn pawn, Predicate<Thing> extraValidator)
 		{
 			Predicate<Thing> predicate = (Thing t) => this.CanIngestForJoy(pawn, t) && (extraValidator == null || extraValidator(t));
@@ -63,7 +63,7 @@ namespace RimWorld
 			return GenClosest.ClosestThing_Global_Reachable(position, map, searchSet2, peMode, traverseParams, 9999f, validator, null);
 		}
 
-		// Token: 0x0600055B RID: 1371 RVA: 0x0003A4F0 File Offset: 0x000388F0
+		// Token: 0x0600055B RID: 1371 RVA: 0x0003A4DC File Offset: 0x000388DC
 		protected virtual bool CanIngestForJoy(Pawn pawn, Thing t)
 		{
 			bool result;
@@ -105,13 +105,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600055C RID: 1372 RVA: 0x0003A628 File Offset: 0x00038A28
+		// Token: 0x0600055C RID: 1372 RVA: 0x0003A614 File Offset: 0x00038A14
 		protected virtual bool SearchSetWouldInclude(Thing thing)
 		{
 			return this.def.thingDefs != null && this.def.thingDefs.Contains(thing.def);
 		}
 
-		// Token: 0x0600055D RID: 1373 RVA: 0x0003A66C File Offset: 0x00038A6C
+		// Token: 0x0600055D RID: 1373 RVA: 0x0003A658 File Offset: 0x00038A58
 		protected virtual Job CreateIngestJob(Thing ingestible, Pawn pawn)
 		{
 			return new Job(JobDefOf.Ingest, ingestible)

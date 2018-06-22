@@ -6,10 +6,10 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000D87 RID: 3463
+	// Token: 0x02000D84 RID: 3460
 	public static class DirectXmlToObject
 	{
-		// Token: 0x06004D62 RID: 19810 RVA: 0x00284FEC File Offset: 0x002833EC
+		// Token: 0x06004D77 RID: 19831 RVA: 0x0028659C File Offset: 0x0028499C
 		public static T ObjectFromXml<T>(XmlNode xmlRoot, bool doPostLoad) where T : new()
 		{
 			MethodInfo methodInfo = DirectXmlToObject.CustomDataLoadMethodOf(typeof(T));
@@ -287,7 +287,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004D63 RID: 19811 RVA: 0x002858E0 File Offset: 0x00283CE0
+		// Token: 0x06004D78 RID: 19832 RVA: 0x00286E90 File Offset: 0x00285290
 		private static Type ClassTypeOf<T>(XmlNode xmlRoot)
 		{
 			XmlAttribute xmlAttribute = xmlRoot.Attributes["Class"];
@@ -312,7 +312,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004D64 RID: 19812 RVA: 0x00285964 File Offset: 0x00283D64
+		// Token: 0x06004D79 RID: 19833 RVA: 0x00286F14 File Offset: 0x00285314
 		private static void TryDoPostLoad(object obj)
 		{
 			try
@@ -335,7 +335,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D65 RID: 19813 RVA: 0x002859E0 File Offset: 0x00283DE0
+		// Token: 0x06004D7A RID: 19834 RVA: 0x00286F90 File Offset: 0x00285390
 		private static List<T> ListFromXml<T>(XmlNode listRootNode) where T : new()
 		{
 			List<T> list = new List<T>();
@@ -384,7 +384,7 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x06004D66 RID: 19814 RVA: 0x00285B00 File Offset: 0x00283F00
+		// Token: 0x06004D7B RID: 19835 RVA: 0x002870B0 File Offset: 0x002854B0
 		private static Dictionary<K, V> DictionaryFromXml<K, V>(XmlNode dictRootNode) where K : new() where V : new()
 		{
 			Dictionary<K, V> dictionary = new Dictionary<K, V>();
@@ -456,13 +456,13 @@ namespace Verse
 			return dictionary;
 		}
 
-		// Token: 0x06004D67 RID: 19815 RVA: 0x00285CFC File Offset: 0x002840FC
+		// Token: 0x06004D7C RID: 19836 RVA: 0x002872AC File Offset: 0x002856AC
 		private static MethodInfo CustomDataLoadMethodOf(Type type)
 		{
 			return type.GetMethod("LoadDataFromXmlCustom", BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
 		}
 
-		// Token: 0x06004D68 RID: 19816 RVA: 0x00285D20 File Offset: 0x00284120
+		// Token: 0x06004D7D RID: 19837 RVA: 0x002872D0 File Offset: 0x002856D0
 		private static bool ValidateListNode(XmlNode listEntryNode, XmlNode listRootNode, Type listItemType)
 		{
 			bool result;
@@ -487,7 +487,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004D69 RID: 19817 RVA: 0x00285DB0 File Offset: 0x002841B0
+		// Token: 0x06004D7E RID: 19838 RVA: 0x00287360 File Offset: 0x00285760
 		private static FieldInfo GetFieldInfoForType(Type type, string token, XmlNode debugXmlNode)
 		{
 			Dictionary<string, FieldInfo> dictionary = DirectXmlToObject.fieldInfoLookup.TryGetValue(type, null);
@@ -518,7 +518,7 @@ namespace Verse
 			return fieldInfo;
 		}
 
-		// Token: 0x06004D6A RID: 19818 RVA: 0x00285E74 File Offset: 0x00284274
+		// Token: 0x06004D7F RID: 19839 RVA: 0x00287424 File Offset: 0x00285824
 		private static FieldInfo SearchTypeHierarchy(Type type, string token, BindingFlags extraFlags)
 		{
 			FieldInfo field;
@@ -534,31 +534,31 @@ namespace Verse
 			return field;
 		}
 
-		// Token: 0x0400339F RID: 13215
+		// Token: 0x040033AA RID: 13226
 		public static Stack<Type> currentlyInstantiatingObjectOfType = new Stack<Type>();
 
-		// Token: 0x040033A0 RID: 13216
+		// Token: 0x040033AB RID: 13227
 		public const string DictionaryKeyName = "key";
 
-		// Token: 0x040033A1 RID: 13217
+		// Token: 0x040033AC RID: 13228
 		public const string DictionaryValueName = "value";
 
-		// Token: 0x040033A2 RID: 13218
+		// Token: 0x040033AD RID: 13229
 		public const string LoadDataFromXmlCustomMethodName = "LoadDataFromXmlCustom";
 
-		// Token: 0x040033A3 RID: 13219
+		// Token: 0x040033AE RID: 13230
 		public const string PostLoadMethodName = "PostLoad";
 
-		// Token: 0x040033A4 RID: 13220
+		// Token: 0x040033AF RID: 13231
 		public const string ObjectFromXmlMethodName = "ObjectFromXml";
 
-		// Token: 0x040033A5 RID: 13221
+		// Token: 0x040033B0 RID: 13232
 		public const string ListFromXmlMethodName = "ListFromXml";
 
-		// Token: 0x040033A6 RID: 13222
+		// Token: 0x040033B1 RID: 13233
 		public const string DictionaryFromXmlMethodName = "DictionaryFromXml";
 
-		// Token: 0x040033A7 RID: 13223
+		// Token: 0x040033B2 RID: 13234
 		private static Dictionary<Type, Dictionary<string, FieldInfo>> fieldInfoLookup = new Dictionary<Type, Dictionary<string, FieldInfo>>();
 	}
 }

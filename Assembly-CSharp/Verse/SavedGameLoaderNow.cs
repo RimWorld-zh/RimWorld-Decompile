@@ -3,10 +3,10 @@ using System.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000C66 RID: 3174
+	// Token: 0x02000C63 RID: 3171
 	public class SavedGameLoaderNow
 	{
-		// Token: 0x060045BB RID: 17851 RVA: 0x0024C288 File Offset: 0x0024A688
+		// Token: 0x060045C4 RID: 17860 RVA: 0x0024D658 File Offset: 0x0024BA58
 		public static void LoadGameFromSaveFileNow(string fileName)
 		{
 			string str = (from mod in LoadedModManager.RunningMods

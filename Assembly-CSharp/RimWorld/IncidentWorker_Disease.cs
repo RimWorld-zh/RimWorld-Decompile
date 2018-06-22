@@ -11,7 +11,7 @@ namespace RimWorld
 		// Token: 0x06000DCC RID: 3532
 		protected abstract IEnumerable<Pawn> PotentialVictimCandidates(IIncidentTarget target);
 
-		// Token: 0x06000DCD RID: 3533 RVA: 0x00076084 File Offset: 0x00074484
+		// Token: 0x06000DCD RID: 3533 RVA: 0x00076138 File Offset: 0x00074538
 		protected IEnumerable<Pawn> PotentialVictims(IIncidentTarget target)
 		{
 			return this.PotentialVictimCandidates(target).Where(delegate(Pawn p)
@@ -48,7 +48,7 @@ namespace RimWorld
 		// Token: 0x06000DCE RID: 3534
 		protected abstract IEnumerable<Pawn> ActualVictims(IncidentParms parms);
 
-		// Token: 0x06000DCF RID: 3535 RVA: 0x000760B4 File Offset: 0x000744B4
+		// Token: 0x06000DCF RID: 3535 RVA: 0x00076168 File Offset: 0x00074568
 		private static bool CanAddHediffToAnyPartOfDef(Pawn pawn, HediffDef hediffDef, BodyPartDef partDef)
 		{
 			List<BodyPartRecord> allParts = pawn.def.race.body.AllParts;
@@ -63,20 +63,20 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000DD0 RID: 3536 RVA: 0x00076144 File Offset: 0x00074544
+		// Token: 0x06000DD0 RID: 3536 RVA: 0x000761F8 File Offset: 0x000745F8
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			return this.PotentialVictims(parms.target).Any<Pawn>();
 		}
 
-		// Token: 0x06000DD1 RID: 3537 RVA: 0x00076178 File Offset: 0x00074578
+		// Token: 0x06000DD1 RID: 3537 RVA: 0x0007622C File Offset: 0x0007462C
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			this.ApplyToPawns(this.ActualVictims(parms));
 			return true;
 		}
 
-		// Token: 0x06000DD2 RID: 3538 RVA: 0x0007619C File Offset: 0x0007459C
+		// Token: 0x06000DD2 RID: 3538 RVA: 0x00076250 File Offset: 0x00074650
 		public void ApplyToPawns(IEnumerable<Pawn> pawns)
 		{
 			Dictionary<HediffDef, List<Pawn>> dictionary = new Dictionary<HediffDef, List<Pawn>>();

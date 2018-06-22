@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000656 RID: 1622
+	// Token: 0x02000652 RID: 1618
 	public static class ScenarioLister
 	{
-		// Token: 0x060021CC RID: 8652 RVA: 0x0011E0E8 File Offset: 0x0011C4E8
+		// Token: 0x060021C4 RID: 8644 RVA: 0x0011E1E8 File Offset: 0x0011C5E8
 		public static IEnumerable<Scenario> AllScenarios()
 		{
 			ScenarioLister.RecacheIfDirty();
@@ -26,7 +26,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060021CD RID: 8653 RVA: 0x0011E10C File Offset: 0x0011C50C
+		// Token: 0x060021C5 RID: 8645 RVA: 0x0011E20C File Offset: 0x0011C60C
 		public static IEnumerable<Scenario> ScenariosInCategory(ScenarioCategory cat)
 		{
 			ScenarioLister.RecacheIfDirty();
@@ -54,7 +54,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060021CE RID: 8654 RVA: 0x0011E138 File Offset: 0x0011C538
+		// Token: 0x060021C6 RID: 8646 RVA: 0x0011E238 File Offset: 0x0011C638
 		public static bool ScenarioIsListedAnywhere(Scenario scen)
 		{
 			ScenarioLister.RecacheIfDirty();
@@ -75,13 +75,13 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060021CF RID: 8655 RVA: 0x0011E204 File Offset: 0x0011C604
+		// Token: 0x060021C7 RID: 8647 RVA: 0x0011E304 File Offset: 0x0011C704
 		public static void MarkDirty()
 		{
 			ScenarioLister.dirty = true;
 		}
 
-		// Token: 0x060021D0 RID: 8656 RVA: 0x0011E20D File Offset: 0x0011C60D
+		// Token: 0x060021C8 RID: 8648 RVA: 0x0011E30D File Offset: 0x0011C70D
 		private static void RecacheIfDirty()
 		{
 			if (ScenarioLister.dirty)
@@ -90,7 +90,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021D1 RID: 8657 RVA: 0x0011E220 File Offset: 0x0011C620
+		// Token: 0x060021C9 RID: 8649 RVA: 0x0011E320 File Offset: 0x0011C720
 		private static void RecacheData()
 		{
 			ScenarioLister.dirty = false;
@@ -106,7 +106,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021D2 RID: 8658 RVA: 0x0011E270 File Offset: 0x0011C670
+		// Token: 0x060021CA RID: 8650 RVA: 0x0011E370 File Offset: 0x0011C770
 		public static int ScenarioListHash()
 		{
 			int num = 9826121;
@@ -117,7 +117,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x0400132D RID: 4909
+		// Token: 0x0400132A RID: 4906
 		private static bool dirty = true;
 	}
 }

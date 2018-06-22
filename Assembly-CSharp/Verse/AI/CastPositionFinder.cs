@@ -6,10 +6,10 @@ using UnityEngine.Profiling;
 
 namespace Verse.AI
 {
-	// Token: 0x02000AE4 RID: 2788
+	// Token: 0x02000AE0 RID: 2784
 	public static class CastPositionFinder
 	{
-		// Token: 0x06003DBA RID: 15802 RVA: 0x00208134 File Offset: 0x00206534
+		// Token: 0x06003DB5 RID: 15797 RVA: 0x00208458 File Offset: 0x00206858
 		public static bool TryFindCastPosition(CastPositionRequest newReq, out IntVec3 dest)
 		{
 			CastPositionFinder.req = newReq;
@@ -140,7 +140,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003DBB RID: 15803 RVA: 0x002086DC File Offset: 0x00206ADC
+		// Token: 0x06003DB6 RID: 15798 RVA: 0x00208A00 File Offset: 0x00206E00
 		private static void EvaluateCell(IntVec3 c)
 		{
 			if (CastPositionFinder.maxRangeFromTargetSquared > 0.01f && CastPositionFinder.maxRangeFromTargetSquared < 250000f)
@@ -238,7 +238,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003DBC RID: 15804 RVA: 0x00208AF8 File Offset: 0x00206EF8
+		// Token: 0x06003DB7 RID: 15799 RVA: 0x00208E1C File Offset: 0x0020721C
 		private static float CastPositionPreference(IntVec3 c)
 		{
 			bool flag = true;
@@ -297,64 +297,64 @@ namespace Verse.AI
 			return num;
 		}
 
-		// Token: 0x040026F0 RID: 9968
+		// Token: 0x040026EB RID: 9963
 		private static CastPositionRequest req;
 
-		// Token: 0x040026F1 RID: 9969
+		// Token: 0x040026EC RID: 9964
 		private static IntVec3 casterLoc;
 
-		// Token: 0x040026F2 RID: 9970
+		// Token: 0x040026ED RID: 9965
 		private static IntVec3 targetLoc;
 
-		// Token: 0x040026F3 RID: 9971
+		// Token: 0x040026EE RID: 9966
 		private static Verb verb;
 
-		// Token: 0x040026F4 RID: 9972
+		// Token: 0x040026EF RID: 9967
 		private static float rangeFromTarget;
 
-		// Token: 0x040026F5 RID: 9973
+		// Token: 0x040026F0 RID: 9968
 		private static float rangeFromTargetSquared;
 
-		// Token: 0x040026F6 RID: 9974
+		// Token: 0x040026F1 RID: 9969
 		private static float optimalRangeSquared;
 
-		// Token: 0x040026F7 RID: 9975
+		// Token: 0x040026F2 RID: 9970
 		private static float rangeFromCasterToCellSquared;
 
-		// Token: 0x040026F8 RID: 9976
+		// Token: 0x040026F3 RID: 9971
 		private static float rangeFromTargetToCellSquared;
 
-		// Token: 0x040026F9 RID: 9977
+		// Token: 0x040026F4 RID: 9972
 		private static int inRadiusMark;
 
-		// Token: 0x040026FA RID: 9978
+		// Token: 0x040026F5 RID: 9973
 		private static ByteGrid avoidGrid;
 
-		// Token: 0x040026FB RID: 9979
+		// Token: 0x040026F6 RID: 9974
 		private static float maxRangeFromCasterSquared;
 
-		// Token: 0x040026FC RID: 9980
+		// Token: 0x040026F7 RID: 9975
 		private static float maxRangeFromTargetSquared;
 
-		// Token: 0x040026FD RID: 9981
+		// Token: 0x040026F8 RID: 9976
 		private static float maxRangeFromLocusSquared;
 
-		// Token: 0x040026FE RID: 9982
+		// Token: 0x040026F9 RID: 9977
 		private static IntVec3 bestSpot = IntVec3.Invalid;
 
-		// Token: 0x040026FF RID: 9983
+		// Token: 0x040026FA RID: 9978
 		private static float bestSpotPref = 0.001f;
 
-		// Token: 0x04002700 RID: 9984
+		// Token: 0x040026FB RID: 9979
 		private const float BaseAIPreference = 0.3f;
 
-		// Token: 0x04002701 RID: 9985
+		// Token: 0x040026FC RID: 9980
 		private const float MinimumPreferredRange = 5f;
 
-		// Token: 0x04002702 RID: 9986
+		// Token: 0x040026FD RID: 9981
 		private const float OptimalRangeFactor = 0.8f;
 
-		// Token: 0x04002703 RID: 9987
+		// Token: 0x040026FE RID: 9982
 		private const float OptimalRangeFactorImportance = 0.3f;
 	}
 }

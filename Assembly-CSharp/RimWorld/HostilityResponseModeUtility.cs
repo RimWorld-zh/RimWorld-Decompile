@@ -7,11 +7,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000520 RID: 1312
+	// Token: 0x0200051C RID: 1308
 	[StaticConstructorOnStartup]
 	public static class HostilityResponseModeUtility
 	{
-		// Token: 0x060017E2 RID: 6114 RVA: 0x000D08C4 File Offset: 0x000CECC4
+		// Token: 0x060017D9 RID: 6105 RVA: 0x000D08BC File Offset: 0x000CECBC
 		public static Texture2D GetIcon(this HostilityResponseMode response)
 		{
 			Texture2D result;
@@ -33,7 +33,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060017E3 RID: 6115 RVA: 0x000D0918 File Offset: 0x000CED18
+		// Token: 0x060017DA RID: 6106 RVA: 0x000D0910 File Offset: 0x000CED10
 		public static HostilityResponseMode GetNextResponse(Pawn pawn)
 		{
 			HostilityResponseMode result;
@@ -62,13 +62,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060017E4 RID: 6116 RVA: 0x000D098C File Offset: 0x000CED8C
+		// Token: 0x060017DB RID: 6107 RVA: 0x000D0984 File Offset: 0x000CED84
 		public static string GetLabel(this HostilityResponseMode response)
 		{
 			return ("HostilityResponseMode_" + response).Translate();
 		}
 
-		// Token: 0x060017E5 RID: 6117 RVA: 0x000D09B8 File Offset: 0x000CEDB8
+		// Token: 0x060017DC RID: 6108 RVA: 0x000D09B0 File Offset: 0x000CEDB0
 		public static void DrawResponseButton(Rect rect, Pawn pawn, bool paintable)
 		{
 			if (HostilityResponseModeUtility.<>f__mg$cache0 == null)
@@ -97,13 +97,13 @@ namespace RimWorld
 			}));
 		}
 
-		// Token: 0x060017E6 RID: 6118 RVA: 0x000D0AA4 File Offset: 0x000CEEA4
+		// Token: 0x060017DD RID: 6109 RVA: 0x000D0A9C File Offset: 0x000CEE9C
 		private static HostilityResponseMode DrawResponseButton_GetResponse(Pawn pawn)
 		{
 			return pawn.playerSettings.hostilityResponse;
 		}
 
-		// Token: 0x060017E7 RID: 6119 RVA: 0x000D0AC4 File Offset: 0x000CEEC4
+		// Token: 0x060017DE RID: 6110 RVA: 0x000D0ABC File Offset: 0x000CEEBC
 		private static IEnumerable<Widgets.DropdownMenuElement<HostilityResponseMode>> DrawResponseButton_GenerateMenu(Pawn p)
 		{
 			IEnumerator enumerator = Enum.GetValues(typeof(HostilityResponseMode)).GetEnumerator();
@@ -133,20 +133,20 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x04000E10 RID: 3600
+		// Token: 0x04000E0D RID: 3597
 		private static readonly Texture2D IgnoreIcon = ContentFinder<Texture2D>.Get("UI/Icons/HostilityResponse/Ignore", true);
 
-		// Token: 0x04000E11 RID: 3601
+		// Token: 0x04000E0E RID: 3598
 		private static readonly Texture2D AttackIcon = ContentFinder<Texture2D>.Get("UI/Icons/HostilityResponse/Attack", true);
 
-		// Token: 0x04000E12 RID: 3602
+		// Token: 0x04000E0F RID: 3599
 		private static readonly Texture2D FleeIcon = ContentFinder<Texture2D>.Get("UI/Icons/HostilityResponse/Flee", true);
 
-		// Token: 0x04000E13 RID: 3603
+		// Token: 0x04000E10 RID: 3600
 		[CompilerGenerated]
 		private static Func<Pawn, HostilityResponseMode> <>f__mg$cache0;
 
-		// Token: 0x04000E14 RID: 3604
+		// Token: 0x04000E11 RID: 3601
 		[CompilerGenerated]
 		private static Func<Pawn, IEnumerable<Widgets.DropdownMenuElement<HostilityResponseMode>>> <>f__mg$cache1;
 	}

@@ -5,11 +5,11 @@ using UnityStandardAssets.ImageEffects;
 
 namespace Verse
 {
-	// Token: 0x02000BDD RID: 3037
+	// Token: 0x02000BD9 RID: 3033
 	public static class Current
 	{
-		// Token: 0x17000A63 RID: 2659
-		// (get) Token: 0x06004235 RID: 16949 RVA: 0x0022D78C File Offset: 0x0022BB8C
+		// Token: 0x17000A65 RID: 2661
+		// (get) Token: 0x06004237 RID: 16951 RVA: 0x0022DEA8 File Offset: 0x0022C2A8
 		public static Root Root
 		{
 			get
@@ -18,8 +18,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A64 RID: 2660
-		// (get) Token: 0x06004236 RID: 16950 RVA: 0x0022D7A8 File Offset: 0x0022BBA8
+		// Token: 0x17000A66 RID: 2662
+		// (get) Token: 0x06004238 RID: 16952 RVA: 0x0022DEC4 File Offset: 0x0022C2C4
 		public static Root_Entry Root_Entry
 		{
 			get
@@ -28,8 +28,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A65 RID: 2661
-		// (get) Token: 0x06004237 RID: 16951 RVA: 0x0022D7C4 File Offset: 0x0022BBC4
+		// Token: 0x17000A67 RID: 2663
+		// (get) Token: 0x06004239 RID: 16953 RVA: 0x0022DEE0 File Offset: 0x0022C2E0
 		public static Root_Play Root_Play
 		{
 			get
@@ -38,8 +38,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A66 RID: 2662
-		// (get) Token: 0x06004238 RID: 16952 RVA: 0x0022D7E0 File Offset: 0x0022BBE0
+		// Token: 0x17000A68 RID: 2664
+		// (get) Token: 0x0600423A RID: 16954 RVA: 0x0022DEFC File Offset: 0x0022C2FC
 		public static Camera Camera
 		{
 			get
@@ -48,8 +48,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A67 RID: 2663
-		// (get) Token: 0x06004239 RID: 16953 RVA: 0x0022D7FC File Offset: 0x0022BBFC
+		// Token: 0x17000A69 RID: 2665
+		// (get) Token: 0x0600423B RID: 16955 RVA: 0x0022DF18 File Offset: 0x0022C318
 		public static CameraDriver CameraDriver
 		{
 			get
@@ -58,8 +58,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A68 RID: 2664
-		// (get) Token: 0x0600423A RID: 16954 RVA: 0x0022D818 File Offset: 0x0022BC18
+		// Token: 0x17000A6A RID: 2666
+		// (get) Token: 0x0600423C RID: 16956 RVA: 0x0022DF34 File Offset: 0x0022C334
 		public static ColorCorrectionCurves ColorCorrectionCurves
 		{
 			get
@@ -68,8 +68,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A69 RID: 2665
-		// (get) Token: 0x0600423B RID: 16955 RVA: 0x0022D834 File Offset: 0x0022BC34
+		// Token: 0x17000A6B RID: 2667
+		// (get) Token: 0x0600423D RID: 16957 RVA: 0x0022DF50 File Offset: 0x0022C350
 		public static SubcameraDriver SubcameraDriver
 		{
 			get
@@ -78,9 +78,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A6A RID: 2666
-		// (get) Token: 0x0600423C RID: 16956 RVA: 0x0022D850 File Offset: 0x0022BC50
-		// (set) Token: 0x0600423D RID: 16957 RVA: 0x0022D86A File Offset: 0x0022BC6A
+		// Token: 0x17000A6C RID: 2668
+		// (get) Token: 0x0600423E RID: 16958 RVA: 0x0022DF6C File Offset: 0x0022C36C
+		// (set) Token: 0x0600423F RID: 16959 RVA: 0x0022DF86 File Offset: 0x0022C386
 		public static Game Game
 		{
 			get
@@ -93,9 +93,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A6B RID: 2667
-		// (get) Token: 0x0600423E RID: 16958 RVA: 0x0022D874 File Offset: 0x0022BC74
-		// (set) Token: 0x0600423F RID: 16959 RVA: 0x0022D88E File Offset: 0x0022BC8E
+		// Token: 0x17000A6D RID: 2669
+		// (get) Token: 0x06004240 RID: 16960 RVA: 0x0022DF90 File Offset: 0x0022C390
+		// (set) Token: 0x06004241 RID: 16961 RVA: 0x0022DFAA File Offset: 0x0022C3AA
 		public static World CreatingWorld
 		{
 			get
@@ -108,9 +108,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A6C RID: 2668
-		// (get) Token: 0x06004240 RID: 16960 RVA: 0x0022D898 File Offset: 0x0022BC98
-		// (set) Token: 0x06004241 RID: 16961 RVA: 0x0022D8B2 File Offset: 0x0022BCB2
+		// Token: 0x17000A6E RID: 2670
+		// (get) Token: 0x06004242 RID: 16962 RVA: 0x0022DFB4 File Offset: 0x0022C3B4
+		// (set) Token: 0x06004243 RID: 16963 RVA: 0x0022DFCE File Offset: 0x0022C3CE
 		public static ProgramState ProgramState
 		{
 			get
@@ -123,7 +123,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004242 RID: 16962 RVA: 0x0022D8BC File Offset: 0x0022BCBC
+		// Token: 0x06004244 RID: 16964 RVA: 0x0022DFD8 File Offset: 0x0022C3D8
 		public static void Notify_LoadedSceneChanged()
 		{
 			Current.cameraInt = GameObject.Find("Camera").GetComponent<Camera>();
@@ -148,34 +148,34 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002D40 RID: 11584
+		// Token: 0x04002D45 RID: 11589
 		private static ProgramState programStateInt = ProgramState.Entry;
 
-		// Token: 0x04002D41 RID: 11585
+		// Token: 0x04002D46 RID: 11590
 		private static Root rootInt;
 
-		// Token: 0x04002D42 RID: 11586
+		// Token: 0x04002D47 RID: 11591
 		private static Root_Entry rootEntryInt;
 
-		// Token: 0x04002D43 RID: 11587
+		// Token: 0x04002D48 RID: 11592
 		private static Root_Play rootPlayInt;
 
-		// Token: 0x04002D44 RID: 11588
+		// Token: 0x04002D49 RID: 11593
 		private static Camera cameraInt;
 
-		// Token: 0x04002D45 RID: 11589
+		// Token: 0x04002D4A RID: 11594
 		private static CameraDriver cameraDriverInt;
 
-		// Token: 0x04002D46 RID: 11590
+		// Token: 0x04002D4B RID: 11595
 		private static ColorCorrectionCurves colorCorrectionCurvesInt;
 
-		// Token: 0x04002D47 RID: 11591
+		// Token: 0x04002D4C RID: 11596
 		private static SubcameraDriver subcameraDriverInt;
 
-		// Token: 0x04002D48 RID: 11592
+		// Token: 0x04002D4D RID: 11597
 		private static Game gameInt;
 
-		// Token: 0x04002D49 RID: 11593
+		// Token: 0x04002D4E RID: 11598
 		private static World creatingWorldInt;
 	}
 }

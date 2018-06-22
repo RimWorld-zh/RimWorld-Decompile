@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000806 RID: 2054
+	// Token: 0x02000802 RID: 2050
 	public class Dialog_ModSettings : Window
 	{
-		// Token: 0x06002DD6 RID: 11734 RVA: 0x00181F2E File Offset: 0x0018032E
+		// Token: 0x06002DCF RID: 11727 RVA: 0x00182106 File Offset: 0x00180506
 		public Dialog_ModSettings()
 		{
 			this.forcePause = true;
@@ -19,8 +19,8 @@ namespace RimWorld
 			this.absorbInputAroundWindow = true;
 		}
 
-		// Token: 0x17000752 RID: 1874
-		// (get) Token: 0x06002DD7 RID: 11735 RVA: 0x00181F64 File Offset: 0x00180364
+		// Token: 0x17000753 RID: 1875
+		// (get) Token: 0x06002DD0 RID: 11728 RVA: 0x0018213C File Offset: 0x0018053C
 		public override Vector2 InitialSize
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DD8 RID: 11736 RVA: 0x00181F88 File Offset: 0x00180388
+		// Token: 0x06002DD1 RID: 11729 RVA: 0x00182160 File Offset: 0x00180560
 		public override void PreClose()
 		{
 			base.PreClose();
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DD9 RID: 11737 RVA: 0x00181FA8 File Offset: 0x001803A8
+		// Token: 0x06002DD2 RID: 11730 RVA: 0x00182180 File Offset: 0x00180580
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = new Rect(0f, 0f, 150f, 35f);
@@ -82,22 +82,22 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DDA RID: 11738 RVA: 0x001821AC File Offset: 0x001805AC
+		// Token: 0x06002DD3 RID: 11731 RVA: 0x00182384 File Offset: 0x00180784
 		public static bool HasSettings()
 		{
 			return LoadedModManager.ModHandles.Any((Mod mod) => !mod.SettingsCategory().NullOrEmpty());
 		}
 
-		// Token: 0x04001851 RID: 6225
+		// Token: 0x0400184F RID: 6223
 		private Mod selMod = null;
 
-		// Token: 0x04001852 RID: 6226
+		// Token: 0x04001850 RID: 6224
 		private const float TopAreaHeight = 40f;
 
-		// Token: 0x04001853 RID: 6227
+		// Token: 0x04001851 RID: 6225
 		private const float TopButtonHeight = 35f;
 
-		// Token: 0x04001854 RID: 6228
+		// Token: 0x04001852 RID: 6226
 		private const float TopButtonWidth = 150f;
 	}
 }

@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_Mine : JobDriver
 	{
 		// Token: 0x170000A3 RID: 163
-		// (get) Token: 0x0600032D RID: 813 RVA: 0x00022DD4 File Offset: 0x000211D4
+		// (get) Token: 0x0600032D RID: 813 RVA: 0x00022DE4 File Offset: 0x000211E4
 		private Thing MineTarget
 		{
 			get
@@ -18,13 +18,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600032E RID: 814 RVA: 0x00022E00 File Offset: 0x00021200
+		// Token: 0x0600032E RID: 814 RVA: 0x00022E10 File Offset: 0x00021210
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.MineTarget, this.job, 1, -1, null);
 		}
 
-		// Token: 0x0600032F RID: 815 RVA: 0x00022E34 File Offset: 0x00021234
+		// Token: 0x0600032F RID: 815 RVA: 0x00022E44 File Offset: 0x00021244
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
@@ -112,7 +112,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000330 RID: 816 RVA: 0x00022E60 File Offset: 0x00021260
+		// Token: 0x06000330 RID: 816 RVA: 0x00022E70 File Offset: 0x00021270
 		private void ResetTicksToPickHit()
 		{
 			float num = this.pawn.GetStatValue(StatDefOf.MiningSpeed, true);
@@ -123,7 +123,7 @@ namespace RimWorld
 			this.ticksToPickHit = (int)Math.Round((double)(120f / num));
 		}
 
-		// Token: 0x06000331 RID: 817 RVA: 0x00022EBA File Offset: 0x000212BA
+		// Token: 0x06000331 RID: 817 RVA: 0x00022ECA File Offset: 0x000212CA
 		public override void ExposeData()
 		{
 			base.ExposeData();

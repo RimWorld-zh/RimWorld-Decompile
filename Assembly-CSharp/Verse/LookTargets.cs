@@ -8,41 +8,41 @@ namespace Verse
 	// Token: 0x02000EF1 RID: 3825
 	public class LookTargets : IExposable
 	{
-		// Token: 0x06005B24 RID: 23332 RVA: 0x002E7E2F File Offset: 0x002E622F
+		// Token: 0x06005B4C RID: 23372 RVA: 0x002E9E63 File Offset: 0x002E8263
 		public LookTargets()
 		{
 			this.targets = new List<GlobalTargetInfo>();
 		}
 
-		// Token: 0x06005B25 RID: 23333 RVA: 0x002E7E43 File Offset: 0x002E6243
+		// Token: 0x06005B4D RID: 23373 RVA: 0x002E9E77 File Offset: 0x002E8277
 		public LookTargets(Thing t)
 		{
 			this.targets = new List<GlobalTargetInfo>();
 			this.targets.Add(t);
 		}
 
-		// Token: 0x06005B26 RID: 23334 RVA: 0x002E7E68 File Offset: 0x002E6268
+		// Token: 0x06005B4E RID: 23374 RVA: 0x002E9E9C File Offset: 0x002E829C
 		public LookTargets(WorldObject o)
 		{
 			this.targets = new List<GlobalTargetInfo>();
 			this.targets.Add(o);
 		}
 
-		// Token: 0x06005B27 RID: 23335 RVA: 0x002E7E8D File Offset: 0x002E628D
+		// Token: 0x06005B4F RID: 23375 RVA: 0x002E9EC1 File Offset: 0x002E82C1
 		public LookTargets(IntVec3 c, Map map)
 		{
 			this.targets = new List<GlobalTargetInfo>();
 			this.targets.Add(new GlobalTargetInfo(c, map, false));
 		}
 
-		// Token: 0x06005B28 RID: 23336 RVA: 0x002E7EB4 File Offset: 0x002E62B4
+		// Token: 0x06005B50 RID: 23376 RVA: 0x002E9EE8 File Offset: 0x002E82E8
 		public LookTargets(int tile)
 		{
 			this.targets = new List<GlobalTargetInfo>();
 			this.targets.Add(new GlobalTargetInfo(tile));
 		}
 
-		// Token: 0x06005B29 RID: 23337 RVA: 0x002E7ED9 File Offset: 0x002E62D9
+		// Token: 0x06005B51 RID: 23377 RVA: 0x002E9F0D File Offset: 0x002E830D
 		public LookTargets(IEnumerable<GlobalTargetInfo> targets)
 		{
 			this.targets = new List<GlobalTargetInfo>();
@@ -52,7 +52,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B2A RID: 23338 RVA: 0x002E7F00 File Offset: 0x002E6300
+		// Token: 0x06005B52 RID: 23378 RVA: 0x002E9F34 File Offset: 0x002E8334
 		public LookTargets(params GlobalTargetInfo[] targets)
 		{
 			this.targets = new List<GlobalTargetInfo>();
@@ -65,7 +65,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B2B RID: 23339 RVA: 0x002E7F54 File Offset: 0x002E6354
+		// Token: 0x06005B53 RID: 23379 RVA: 0x002E9F88 File Offset: 0x002E8388
 		public LookTargets(IEnumerable<TargetInfo> targets)
 		{
 			this.targets = new List<GlobalTargetInfo>();
@@ -89,7 +89,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B2C RID: 23340 RVA: 0x002E8018 File Offset: 0x002E6418
+		// Token: 0x06005B54 RID: 23380 RVA: 0x002EA04C File Offset: 0x002E844C
 		public LookTargets(params TargetInfo[] targets)
 		{
 			this.targets = new List<GlobalTargetInfo>();
@@ -102,57 +102,57 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B2D RID: 23341 RVA: 0x002E8071 File Offset: 0x002E6471
+		// Token: 0x06005B55 RID: 23381 RVA: 0x002EA0A5 File Offset: 0x002E84A5
 		public LookTargets(IEnumerable<Thing> targets)
 		{
 			this.targets = new List<GlobalTargetInfo>();
 			this.AppendThingTargets<Thing>(targets);
 		}
 
-		// Token: 0x06005B2E RID: 23342 RVA: 0x002E808C File Offset: 0x002E648C
+		// Token: 0x06005B56 RID: 23382 RVA: 0x002EA0C0 File Offset: 0x002E84C0
 		public LookTargets(IEnumerable<ThingWithComps> targets)
 		{
 			this.targets = new List<GlobalTargetInfo>();
 			this.AppendThingTargets<ThingWithComps>(targets);
 		}
 
-		// Token: 0x06005B2F RID: 23343 RVA: 0x002E80A7 File Offset: 0x002E64A7
+		// Token: 0x06005B57 RID: 23383 RVA: 0x002EA0DB File Offset: 0x002E84DB
 		public LookTargets(IEnumerable<Pawn> targets)
 		{
 			this.targets = new List<GlobalTargetInfo>();
 			this.AppendThingTargets<Pawn>(targets);
 		}
 
-		// Token: 0x06005B30 RID: 23344 RVA: 0x002E80C2 File Offset: 0x002E64C2
+		// Token: 0x06005B58 RID: 23384 RVA: 0x002EA0F6 File Offset: 0x002E84F6
 		public LookTargets(IEnumerable<Building> targets)
 		{
 			this.targets = new List<GlobalTargetInfo>();
 			this.AppendThingTargets<Building>(targets);
 		}
 
-		// Token: 0x06005B31 RID: 23345 RVA: 0x002E80DD File Offset: 0x002E64DD
+		// Token: 0x06005B59 RID: 23385 RVA: 0x002EA111 File Offset: 0x002E8511
 		public LookTargets(IEnumerable<Plant> targets)
 		{
 			this.targets = new List<GlobalTargetInfo>();
 			this.AppendThingTargets<Plant>(targets);
 		}
 
-		// Token: 0x06005B32 RID: 23346 RVA: 0x002E80F8 File Offset: 0x002E64F8
+		// Token: 0x06005B5A RID: 23386 RVA: 0x002EA12C File Offset: 0x002E852C
 		public LookTargets(IEnumerable<WorldObject> targets)
 		{
 			this.targets = new List<GlobalTargetInfo>();
 			this.AppendWorldObjectTargets<WorldObject>(targets);
 		}
 
-		// Token: 0x06005B33 RID: 23347 RVA: 0x002E8113 File Offset: 0x002E6513
+		// Token: 0x06005B5B RID: 23387 RVA: 0x002EA147 File Offset: 0x002E8547
 		public LookTargets(IEnumerable<Caravan> targets)
 		{
 			this.targets = new List<GlobalTargetInfo>();
 			this.AppendWorldObjectTargets<Caravan>(targets);
 		}
 
-		// Token: 0x17000E85 RID: 3717
-		// (get) Token: 0x06005B34 RID: 23348 RVA: 0x002E8130 File Offset: 0x002E6530
+		// Token: 0x17000E89 RID: 3721
+		// (get) Token: 0x06005B5C RID: 23388 RVA: 0x002EA164 File Offset: 0x002E8564
 		public static LookTargets Invalid
 		{
 			get
@@ -161,8 +161,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E86 RID: 3718
-		// (get) Token: 0x06005B35 RID: 23349 RVA: 0x002E8148 File Offset: 0x002E6548
+		// Token: 0x17000E8A RID: 3722
+		// (get) Token: 0x06005B5D RID: 23389 RVA: 0x002EA17C File Offset: 0x002E857C
 		public bool IsValid
 		{
 			get
@@ -171,8 +171,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E87 RID: 3719
-		// (get) Token: 0x06005B36 RID: 23350 RVA: 0x002E816C File Offset: 0x002E656C
+		// Token: 0x17000E8B RID: 3723
+		// (get) Token: 0x06005B5E RID: 23390 RVA: 0x002EA1A0 File Offset: 0x002E85A0
 		public bool Any
 		{
 			get
@@ -181,8 +181,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E88 RID: 3720
-		// (get) Token: 0x06005B37 RID: 23351 RVA: 0x002E8194 File Offset: 0x002E6594
+		// Token: 0x17000E8C RID: 3724
+		// (get) Token: 0x06005B5F RID: 23391 RVA: 0x002EA1C8 File Offset: 0x002E85C8
 		public GlobalTargetInfo PrimaryTarget
 		{
 			get
@@ -202,25 +202,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B38 RID: 23352 RVA: 0x002E8219 File Offset: 0x002E6619
+		// Token: 0x06005B60 RID: 23392 RVA: 0x002EA24D File Offset: 0x002E864D
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<GlobalTargetInfo>(ref this.targets, "targets", LookMode.GlobalTargetInfo, new object[0]);
 		}
 
-		// Token: 0x06005B39 RID: 23353 RVA: 0x002E8234 File Offset: 0x002E6634
+		// Token: 0x06005B61 RID: 23393 RVA: 0x002EA268 File Offset: 0x002E8668
 		public static implicit operator LookTargets(Thing t)
 		{
 			return new LookTargets(t);
 		}
 
-		// Token: 0x06005B3A RID: 23354 RVA: 0x002E8250 File Offset: 0x002E6650
+		// Token: 0x06005B62 RID: 23394 RVA: 0x002EA284 File Offset: 0x002E8684
 		public static implicit operator LookTargets(WorldObject o)
 		{
 			return new LookTargets(o);
 		}
 
-		// Token: 0x06005B3B RID: 23355 RVA: 0x002E826C File Offset: 0x002E666C
+		// Token: 0x06005B63 RID: 23395 RVA: 0x002EA2A0 File Offset: 0x002E86A0
 		public static implicit operator LookTargets(TargetInfo target)
 		{
 			return new LookTargets
@@ -233,13 +233,13 @@ namespace Verse
 			};
 		}
 
-		// Token: 0x06005B3C RID: 23356 RVA: 0x002E82A4 File Offset: 0x002E66A4
+		// Token: 0x06005B64 RID: 23396 RVA: 0x002EA2D8 File Offset: 0x002E86D8
 		public static implicit operator LookTargets(List<TargetInfo> targets)
 		{
 			return new LookTargets(targets);
 		}
 
-		// Token: 0x06005B3D RID: 23357 RVA: 0x002E82C0 File Offset: 0x002E66C0
+		// Token: 0x06005B65 RID: 23397 RVA: 0x002EA2F4 File Offset: 0x002E86F4
 		public static implicit operator LookTargets(GlobalTargetInfo target)
 		{
 			return new LookTargets
@@ -252,55 +252,55 @@ namespace Verse
 			};
 		}
 
-		// Token: 0x06005B3E RID: 23358 RVA: 0x002E82F4 File Offset: 0x002E66F4
+		// Token: 0x06005B66 RID: 23398 RVA: 0x002EA328 File Offset: 0x002E8728
 		public static implicit operator LookTargets(List<GlobalTargetInfo> targets)
 		{
 			return new LookTargets(targets);
 		}
 
-		// Token: 0x06005B3F RID: 23359 RVA: 0x002E8310 File Offset: 0x002E6710
+		// Token: 0x06005B67 RID: 23399 RVA: 0x002EA344 File Offset: 0x002E8744
 		public static implicit operator LookTargets(List<Thing> targets)
 		{
 			return new LookTargets(targets);
 		}
 
-		// Token: 0x06005B40 RID: 23360 RVA: 0x002E832C File Offset: 0x002E672C
+		// Token: 0x06005B68 RID: 23400 RVA: 0x002EA360 File Offset: 0x002E8760
 		public static implicit operator LookTargets(List<ThingWithComps> targets)
 		{
 			return new LookTargets(targets);
 		}
 
-		// Token: 0x06005B41 RID: 23361 RVA: 0x002E8348 File Offset: 0x002E6748
+		// Token: 0x06005B69 RID: 23401 RVA: 0x002EA37C File Offset: 0x002E877C
 		public static implicit operator LookTargets(List<Pawn> targets)
 		{
 			return new LookTargets(targets);
 		}
 
-		// Token: 0x06005B42 RID: 23362 RVA: 0x002E8364 File Offset: 0x002E6764
+		// Token: 0x06005B6A RID: 23402 RVA: 0x002EA398 File Offset: 0x002E8798
 		public static implicit operator LookTargets(List<Building> targets)
 		{
 			return new LookTargets(targets);
 		}
 
-		// Token: 0x06005B43 RID: 23363 RVA: 0x002E8380 File Offset: 0x002E6780
+		// Token: 0x06005B6B RID: 23403 RVA: 0x002EA3B4 File Offset: 0x002E87B4
 		public static implicit operator LookTargets(List<Plant> targets)
 		{
 			return new LookTargets(targets);
 		}
 
-		// Token: 0x06005B44 RID: 23364 RVA: 0x002E839C File Offset: 0x002E679C
+		// Token: 0x06005B6C RID: 23404 RVA: 0x002EA3D0 File Offset: 0x002E87D0
 		public static implicit operator LookTargets(List<WorldObject> targets)
 		{
 			return new LookTargets(targets);
 		}
 
-		// Token: 0x06005B45 RID: 23365 RVA: 0x002E83B8 File Offset: 0x002E67B8
+		// Token: 0x06005B6D RID: 23405 RVA: 0x002EA3EC File Offset: 0x002E87EC
 		public static implicit operator LookTargets(List<Caravan> targets)
 		{
 			return new LookTargets(targets);
 		}
 
-		// Token: 0x06005B46 RID: 23366 RVA: 0x002E83D4 File Offset: 0x002E67D4
+		// Token: 0x06005B6E RID: 23406 RVA: 0x002EA408 File Offset: 0x002E8808
 		public static bool SameTargets(LookTargets a, LookTargets b)
 		{
 			bool result;
@@ -330,7 +330,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005B47 RID: 23367 RVA: 0x002E8490 File Offset: 0x002E6890
+		// Token: 0x06005B6F RID: 23407 RVA: 0x002EA4C4 File Offset: 0x002E88C4
 		public void Highlight(bool arrow = true, bool colonistBar = true, bool circleOverlay = false)
 		{
 			for (int i = 0; i < this.targets.Count; i++)
@@ -339,7 +339,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B48 RID: 23368 RVA: 0x002E84D0 File Offset: 0x002E68D0
+		// Token: 0x06005B70 RID: 23408 RVA: 0x002EA504 File Offset: 0x002E8904
 		private void AppendThingTargets<T>(IEnumerable<T> things) where T : Thing
 		{
 			if (things != null)
@@ -362,7 +362,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B49 RID: 23369 RVA: 0x002E8590 File Offset: 0x002E6990
+		// Token: 0x06005B71 RID: 23409 RVA: 0x002EA5C4 File Offset: 0x002E89C4
 		private void AppendWorldObjectTargets<T>(IEnumerable<T> worldObjects) where T : WorldObject
 		{
 			if (worldObjects != null)
@@ -385,13 +385,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B4A RID: 23370 RVA: 0x002E8650 File Offset: 0x002E6A50
+		// Token: 0x06005B72 RID: 23410 RVA: 0x002EA684 File Offset: 0x002E8A84
 		public void Notify_MapRemoved(Map map)
 		{
 			this.targets.RemoveAll((GlobalTargetInfo t) => t.Map == map);
 		}
 
-		// Token: 0x04003C93 RID: 15507
+		// Token: 0x04003CA6 RID: 15526
 		public List<GlobalTargetInfo> targets;
 	}
 }

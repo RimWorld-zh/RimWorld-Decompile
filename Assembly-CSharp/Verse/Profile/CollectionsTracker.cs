@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace Verse.Profile
 {
-	// Token: 0x02000D63 RID: 3427
+	// Token: 0x02000D60 RID: 3424
 	[HasDebugOutput]
 	public static class CollectionsTracker
 	{
-		// Token: 0x06004CB6 RID: 19638 RVA: 0x0027EE14 File Offset: 0x0027D214
+		// Token: 0x06004CCB RID: 19659 RVA: 0x002803C4 File Offset: 0x0027E7C4
 		[DebugOutput]
 		private static void GrownCollectionsStart()
 		{
@@ -32,7 +32,7 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CB7 RID: 19639 RVA: 0x0027EEDC File Offset: 0x0027D2DC
+		// Token: 0x06004CCC RID: 19660 RVA: 0x0028048C File Offset: 0x0027E88C
 		[DebugOutput]
 		private static void GrownCollectionsLog()
 		{
@@ -53,7 +53,7 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x04003329 RID: 13097
+		// Token: 0x04003334 RID: 13108
 		private static Dictionary<WeakReference, int> collections = new Dictionary<WeakReference, int>();
 	}
 }

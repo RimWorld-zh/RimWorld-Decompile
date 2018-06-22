@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000DA0 RID: 3488
+	// Token: 0x02000D9D RID: 3485
 	public class DebugLoadIDsSavingErrorsChecker
 	{
-		// Token: 0x06004DD7 RID: 19927 RVA: 0x0028A4D1 File Offset: 0x002888D1
+		// Token: 0x06004DEC RID: 19948 RVA: 0x0028BA81 File Offset: 0x00289E81
 		public void Clear()
 		{
 			if (Prefs.DevMode)
@@ -16,7 +16,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DD8 RID: 19928 RVA: 0x0028A4FC File Offset: 0x002888FC
+		// Token: 0x06004DED RID: 19949 RVA: 0x0028BAAC File Offset: 0x00289EAC
 		public void CheckForErrorsAndClear()
 		{
 			if (Prefs.DevMode)
@@ -42,7 +42,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DD9 RID: 19929 RVA: 0x0028A5D0 File Offset: 0x002889D0
+		// Token: 0x06004DEE RID: 19950 RVA: 0x0028BB80 File Offset: 0x00289F80
 		public void RegisterDeepSaved(object obj, string label)
 		{
 			if (Prefs.DevMode)
@@ -78,7 +78,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DDA RID: 19930 RVA: 0x0028A698 File Offset: 0x00288A98
+		// Token: 0x06004DEF RID: 19951 RVA: 0x0028BC48 File Offset: 0x0028A048
 		public void RegisterReferenced(ILoadReferenceable obj, string label)
 		{
 			if (Prefs.DevMode)
@@ -100,35 +100,35 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x040033F5 RID: 13301
+		// Token: 0x04003400 RID: 13312
 		private HashSet<string> deepSaved = new HashSet<string>();
 
-		// Token: 0x040033F6 RID: 13302
+		// Token: 0x04003401 RID: 13313
 		private HashSet<DebugLoadIDsSavingErrorsChecker.ReferencedObject> referenced = new HashSet<DebugLoadIDsSavingErrorsChecker.ReferencedObject>();
 
-		// Token: 0x02000DA1 RID: 3489
+		// Token: 0x02000D9E RID: 3486
 		private struct ReferencedObject : IEquatable<DebugLoadIDsSavingErrorsChecker.ReferencedObject>
 		{
-			// Token: 0x06004DDB RID: 19931 RVA: 0x0028A71B File Offset: 0x00288B1B
+			// Token: 0x06004DF0 RID: 19952 RVA: 0x0028BCCB File Offset: 0x0028A0CB
 			public ReferencedObject(string loadID, string label)
 			{
 				this.loadID = loadID;
 				this.label = label;
 			}
 
-			// Token: 0x06004DDC RID: 19932 RVA: 0x0028A72C File Offset: 0x00288B2C
+			// Token: 0x06004DF1 RID: 19953 RVA: 0x0028BCDC File Offset: 0x0028A0DC
 			public override bool Equals(object obj)
 			{
 				return obj is DebugLoadIDsSavingErrorsChecker.ReferencedObject && this.Equals((DebugLoadIDsSavingErrorsChecker.ReferencedObject)obj);
 			}
 
-			// Token: 0x06004DDD RID: 19933 RVA: 0x0028A760 File Offset: 0x00288B60
+			// Token: 0x06004DF2 RID: 19954 RVA: 0x0028BD10 File Offset: 0x0028A110
 			public bool Equals(DebugLoadIDsSavingErrorsChecker.ReferencedObject other)
 			{
 				return this.loadID == other.loadID && this.label == other.label;
 			}
 
-			// Token: 0x06004DDE RID: 19934 RVA: 0x0028A7A4 File Offset: 0x00288BA4
+			// Token: 0x06004DF3 RID: 19955 RVA: 0x0028BD54 File Offset: 0x0028A154
 			public override int GetHashCode()
 			{
 				int seed = 0;
@@ -136,22 +136,22 @@ namespace Verse
 				return Gen.HashCombine<string>(seed, this.label);
 			}
 
-			// Token: 0x06004DDF RID: 19935 RVA: 0x0028A7D8 File Offset: 0x00288BD8
+			// Token: 0x06004DF4 RID: 19956 RVA: 0x0028BD88 File Offset: 0x0028A188
 			public static bool operator ==(DebugLoadIDsSavingErrorsChecker.ReferencedObject lhs, DebugLoadIDsSavingErrorsChecker.ReferencedObject rhs)
 			{
 				return lhs.Equals(rhs);
 			}
 
-			// Token: 0x06004DE0 RID: 19936 RVA: 0x0028A7F8 File Offset: 0x00288BF8
+			// Token: 0x06004DF5 RID: 19957 RVA: 0x0028BDA8 File Offset: 0x0028A1A8
 			public static bool operator !=(DebugLoadIDsSavingErrorsChecker.ReferencedObject lhs, DebugLoadIDsSavingErrorsChecker.ReferencedObject rhs)
 			{
 				return !(lhs == rhs);
 			}
 
-			// Token: 0x040033F7 RID: 13303
+			// Token: 0x04003402 RID: 13314
 			public string loadID;
 
-			// Token: 0x040033F8 RID: 13304
+			// Token: 0x04003403 RID: 13315
 			public string label;
 		}
 	}

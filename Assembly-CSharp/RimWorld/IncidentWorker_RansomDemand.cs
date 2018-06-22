@@ -7,14 +7,14 @@ namespace RimWorld
 	// Token: 0x0200033A RID: 826
 	public class IncidentWorker_RansomDemand : IncidentWorker
 	{
-		// Token: 0x06000E19 RID: 3609 RVA: 0x00078020 File Offset: 0x00076420
+		// Token: 0x06000E19 RID: 3609 RVA: 0x000780D4 File Offset: 0x000764D4
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			return CommsConsoleUtility.PlayerHasPoweredCommsConsole(map) && this.RandomKidnappedColonist() != null && base.CanFireNowSub(parms);
 		}
 
-		// Token: 0x06000E1A RID: 3610 RVA: 0x0007806C File Offset: 0x0007646C
+		// Token: 0x06000E1A RID: 3610 RVA: 0x00078120 File Offset: 0x00076520
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -33,7 +33,7 @@ namespace RimWorld
 					pawn.LabelShort,
 					faction.Name,
 					num
-				}).AdjustedFor(pawn), this.def.letterDef);
+				}).AdjustedFor(pawn, "PAWN"), this.def.letterDef);
 				choiceLetter_RansomDemand.title = "RansomDemandTitle".Translate(new object[]
 				{
 					map.Parent.Label
@@ -51,7 +51,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E1B RID: 3611 RVA: 0x00078178 File Offset: 0x00076578
+		// Token: 0x06000E1B RID: 3611 RVA: 0x00078230 File Offset: 0x00076630
 		private Pawn RandomKidnappedColonist()
 		{
 			IncidentWorker_RansomDemand.candidates.Clear();
@@ -90,22 +90,22 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E1C RID: 3612 RVA: 0x00078288 File Offset: 0x00076688
+		// Token: 0x06000E1C RID: 3612 RVA: 0x00078340 File Offset: 0x00076740
 		private Faction FactionWhichKidnapped(Pawn pawn)
 		{
 			return Find.FactionManager.AllFactionsListForReading.Find((Faction x) => x.kidnapped.KidnappedPawnsListForReading.Contains(pawn));
 		}
 
-		// Token: 0x06000E1D RID: 3613 RVA: 0x000782C8 File Offset: 0x000766C8
+		// Token: 0x06000E1D RID: 3613 RVA: 0x00078380 File Offset: 0x00076780
 		private int RandomFee(Pawn pawn)
 		{
 			return (int)(pawn.MarketValue * DiplomacyTuning.RansomFeeMarketValueFactorRange.RandomInRange);
 		}
 
-		// Token: 0x040008DF RID: 2271
+		// Token: 0x040008E1 RID: 2273
 		private const int TimeoutTicks = 60000;
 
-		// Token: 0x040008E0 RID: 2272
+		// Token: 0x040008E2 RID: 2274
 		private static List<Pawn> candidates = new List<Pawn>();
 	}
 }

@@ -2,14 +2,14 @@
 
 namespace Verse
 {
-	// Token: 0x02000CF0 RID: 3312
+	// Token: 0x02000CED RID: 3309
 	public enum RotDrawMode : byte
 	{
-		// Token: 0x04003157 RID: 12631
+		// Token: 0x04003162 RID: 12642
 		Fresh,
-		// Token: 0x04003158 RID: 12632
+		// Token: 0x04003163 RID: 12643
 		Rotting,
-		// Token: 0x04003159 RID: 12633
+		// Token: 0x04003164 RID: 12644
 		Dessicated
 	}
 }

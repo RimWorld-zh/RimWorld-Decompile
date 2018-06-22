@@ -2,11 +2,11 @@
 
 namespace Verse
 {
-	// Token: 0x02000E0E RID: 3598
+	// Token: 0x02000E0B RID: 3595
 	[AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
 	public class TweakValue : Attribute
 	{
-		// Token: 0x0600517E RID: 20862 RVA: 0x0029C4FD File Offset: 0x0029A8FD
+		// Token: 0x06005192 RID: 20882 RVA: 0x0029DADD File Offset: 0x0029BEDD
 		public TweakValue(string category, float min = 0f, float max = 100f)
 		{
 			this.category = category;
@@ -14,13 +14,13 @@ namespace Verse
 			this.max = max;
 		}
 
-		// Token: 0x04003562 RID: 13666
+		// Token: 0x04003569 RID: 13673
 		public string category;
 
-		// Token: 0x04003563 RID: 13667
+		// Token: 0x0400356A RID: 13674
 		public float min;
 
-		// Token: 0x04003564 RID: 13668
+		// Token: 0x0400356B RID: 13675
 		public float max;
 	}
 }

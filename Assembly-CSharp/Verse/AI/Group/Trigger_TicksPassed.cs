@@ -3,18 +3,18 @@ using UnityEngine;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A12 RID: 2578
+	// Token: 0x02000A0E RID: 2574
 	public class Trigger_TicksPassed : Trigger
 	{
-		// Token: 0x0600399C RID: 14748 RVA: 0x001E7E54 File Offset: 0x001E6254
+		// Token: 0x06003996 RID: 14742 RVA: 0x001E8094 File Offset: 0x001E6494
 		public Trigger_TicksPassed(int tickLimit)
 		{
 			this.data = new TriggerData_TicksPassed();
 			this.duration = tickLimit;
 		}
 
-		// Token: 0x170008E4 RID: 2276
-		// (get) Token: 0x0600399D RID: 14749 RVA: 0x001E7E78 File Offset: 0x001E6278
+		// Token: 0x170008E5 RID: 2277
+		// (get) Token: 0x06003997 RID: 14743 RVA: 0x001E80B8 File Offset: 0x001E64B8
 		protected TriggerData_TicksPassed Data
 		{
 			get
@@ -23,8 +23,8 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x170008E5 RID: 2277
-		// (get) Token: 0x0600399E RID: 14750 RVA: 0x001E7E98 File Offset: 0x001E6298
+		// Token: 0x170008E6 RID: 2278
+		// (get) Token: 0x06003998 RID: 14744 RVA: 0x001E80D8 File Offset: 0x001E64D8
 		public int TicksLeft
 		{
 			get
@@ -33,7 +33,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x0600399F RID: 14751 RVA: 0x001E7EC8 File Offset: 0x001E62C8
+		// Token: 0x06003999 RID: 14745 RVA: 0x001E8108 File Offset: 0x001E6508
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			bool result;
@@ -54,7 +54,7 @@ namespace Verse.AI.Group
 			return result;
 		}
 
-		// Token: 0x060039A0 RID: 14752 RVA: 0x001E7F36 File Offset: 0x001E6336
+		// Token: 0x0600399A RID: 14746 RVA: 0x001E8176 File Offset: 0x001E6576
 		public override void SourceToilBecameActive(Transition transition, LordToil previousToil)
 		{
 			if (!transition.sources.Contains(previousToil))
@@ -63,7 +63,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x040024A7 RID: 9383
+		// Token: 0x040024A2 RID: 9378
 		private int duration = 100;
 	}
 }

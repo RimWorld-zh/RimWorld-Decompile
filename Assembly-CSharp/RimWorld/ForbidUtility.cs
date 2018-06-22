@@ -4,10 +4,10 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000715 RID: 1813
+	// Token: 0x02000711 RID: 1809
 	public static class ForbidUtility
 	{
-		// Token: 0x060027C9 RID: 10185 RVA: 0x001547F0 File Offset: 0x00152BF0
+		// Token: 0x060027C1 RID: 10177 RVA: 0x001549A8 File Offset: 0x00152DA8
 		public static void SetForbidden(this Thing t, bool value, bool warnOnFail = true)
 		{
 			if (t == null)
@@ -45,7 +45,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027CA RID: 10186 RVA: 0x00154878 File Offset: 0x00152C78
+		// Token: 0x060027C2 RID: 10178 RVA: 0x00154A30 File Offset: 0x00152E30
 		public static void SetForbiddenIfOutsideHomeArea(this Thing t)
 		{
 			if (!t.Spawned)
@@ -58,7 +58,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027CB RID: 10187 RVA: 0x001548E0 File Offset: 0x00152CE0
+		// Token: 0x060027C3 RID: 10179 RVA: 0x00154A98 File Offset: 0x00152E98
 		public static bool CaresAboutForbidden(Pawn pawn, bool cellTarget)
 		{
 			if (pawn.HostFaction != null)
@@ -71,7 +71,7 @@ namespace RimWorld
 			return !pawn.InMentalState && (!cellTarget || !ThinkNode_ConditionalShouldFollowMaster.ShouldFollowMaster(pawn));
 		}
 
-		// Token: 0x060027CC RID: 10188 RVA: 0x001549A0 File Offset: 0x00152DA0
+		// Token: 0x060027C4 RID: 10180 RVA: 0x00154B58 File Offset: 0x00152F58
 		public static bool InAllowedArea(this IntVec3 c, Pawn forPawn)
 		{
 			if (forPawn.playerSettings != null)
@@ -85,7 +85,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x060027CD RID: 10189 RVA: 0x001549F4 File Offset: 0x00152DF4
+		// Token: 0x060027C5 RID: 10181 RVA: 0x00154BAC File Offset: 0x00152FAC
 		public static bool IsForbidden(this Thing t, Pawn pawn)
 		{
 			bool result;
@@ -109,19 +109,19 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060027CE RID: 10190 RVA: 0x00154A90 File Offset: 0x00152E90
+		// Token: 0x060027C6 RID: 10182 RVA: 0x00154C48 File Offset: 0x00153048
 		public static bool IsForbiddenToPass(this Building_Door t, Pawn pawn)
 		{
 			return ForbidUtility.CaresAboutForbidden(pawn, false) && t.IsForbidden(pawn.Faction);
 		}
 
-		// Token: 0x060027CF RID: 10191 RVA: 0x00154AD4 File Offset: 0x00152ED4
+		// Token: 0x060027C7 RID: 10183 RVA: 0x00154C8C File Offset: 0x0015308C
 		public static bool IsForbidden(this IntVec3 c, Pawn pawn)
 		{
 			return ForbidUtility.CaresAboutForbidden(pawn, true) && (!c.InAllowedArea(pawn) || (pawn.mindState.maxDistToSquadFlag > 0f && !c.InHorDistOf(pawn.DutyLocation(), pawn.mindState.maxDistToSquadFlag)));
 		}
 
-		// Token: 0x060027D0 RID: 10192 RVA: 0x00154B4C File Offset: 0x00152F4C
+		// Token: 0x060027C8 RID: 10184 RVA: 0x00154D04 File Offset: 0x00153104
 		public static bool IsForbiddenEntirely(this Region r, Pawn pawn)
 		{
 			bool result;
@@ -144,7 +144,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060027D1 RID: 10193 RVA: 0x00154BC4 File Offset: 0x00152FC4
+		// Token: 0x060027C9 RID: 10185 RVA: 0x00154D7C File Offset: 0x0015317C
 		public static bool IsForbidden(this Thing t, Faction faction)
 		{
 			bool result;

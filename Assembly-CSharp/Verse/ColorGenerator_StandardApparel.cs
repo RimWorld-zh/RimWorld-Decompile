@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B0D RID: 2829
+	// Token: 0x02000B09 RID: 2825
 	public class ColorGenerator_StandardApparel : ColorGenerator
 	{
-		// Token: 0x17000970 RID: 2416
-		// (get) Token: 0x06003E90 RID: 16016 RVA: 0x0020F17C File Offset: 0x0020D57C
+		// Token: 0x17000971 RID: 2417
+		// (get) Token: 0x06003E8C RID: 16012 RVA: 0x0020F4B8 File Offset: 0x0020D8B8
 		public override Color ExemplaryColor
 		{
 			get
@@ -16,7 +16,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E91 RID: 16017 RVA: 0x0020F1A8 File Offset: 0x0020D5A8
+		// Token: 0x06003E8D RID: 16013 RVA: 0x0020F4E4 File Offset: 0x0020D8E4
 		public override Color NewRandomizedColor()
 		{
 			Color result;
@@ -46,7 +46,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x040027E3 RID: 10211
+		// Token: 0x040027DF RID: 10207
 		private const float DarkAmp = 0.4f;
 	}
 }

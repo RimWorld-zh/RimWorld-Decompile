@@ -5,15 +5,15 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200077F RID: 1919
+	// Token: 0x0200077B RID: 1915
 	public class TradeShip : PassingShip, ITrader, IThingHolder
 	{
-		// Token: 0x06002A4F RID: 10831 RVA: 0x00166832 File Offset: 0x00164C32
+		// Token: 0x06002A48 RID: 10824 RVA: 0x00166A0A File Offset: 0x00164E0A
 		public TradeShip()
 		{
 		}
 
-		// Token: 0x06002A50 RID: 10832 RVA: 0x00166850 File Offset: 0x00164C50
+		// Token: 0x06002A49 RID: 10825 RVA: 0x00166A28 File Offset: 0x00164E28
 		public TradeShip(TraderKindDef def)
 		{
 			this.def = def;
@@ -30,8 +30,8 @@ namespace RimWorld
 			this.loadID = Find.UniqueIDsManager.GetNextPassingShipID();
 		}
 
-		// Token: 0x17000683 RID: 1667
-		// (get) Token: 0x06002A51 RID: 10833 RVA: 0x00166928 File Offset: 0x00164D28
+		// Token: 0x17000684 RID: 1668
+		// (get) Token: 0x06002A4A RID: 10826 RVA: 0x00166B00 File Offset: 0x00164F00
 		public override string FullTitle
 		{
 			get
@@ -40,8 +40,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000684 RID: 1668
-		// (get) Token: 0x06002A52 RID: 10834 RVA: 0x00166960 File Offset: 0x00164D60
+		// Token: 0x17000685 RID: 1669
+		// (get) Token: 0x06002A4B RID: 10827 RVA: 0x00166B38 File Offset: 0x00164F38
 		public int Silver
 		{
 			get
@@ -50,8 +50,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000685 RID: 1669
-		// (get) Token: 0x06002A53 RID: 10835 RVA: 0x00166984 File Offset: 0x00164D84
+		// Token: 0x17000686 RID: 1670
+		// (get) Token: 0x06002A4C RID: 10828 RVA: 0x00166B5C File Offset: 0x00164F5C
 		public IThingHolder ParentHolder
 		{
 			get
@@ -60,8 +60,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000686 RID: 1670
-		// (get) Token: 0x06002A54 RID: 10836 RVA: 0x001669A0 File Offset: 0x00164DA0
+		// Token: 0x17000687 RID: 1671
+		// (get) Token: 0x06002A4D RID: 10829 RVA: 0x00166B78 File Offset: 0x00164F78
 		public TraderKindDef TraderKind
 		{
 			get
@@ -70,8 +70,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000687 RID: 1671
-		// (get) Token: 0x06002A55 RID: 10837 RVA: 0x001669BC File Offset: 0x00164DBC
+		// Token: 0x17000688 RID: 1672
+		// (get) Token: 0x06002A4E RID: 10830 RVA: 0x00166B94 File Offset: 0x00164F94
 		public int RandomPriceFactorSeed
 		{
 			get
@@ -80,8 +80,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000688 RID: 1672
-		// (get) Token: 0x06002A56 RID: 10838 RVA: 0x001669D8 File Offset: 0x00164DD8
+		// Token: 0x17000689 RID: 1673
+		// (get) Token: 0x06002A4F RID: 10831 RVA: 0x00166BB0 File Offset: 0x00164FB0
 		public string TraderName
 		{
 			get
@@ -90,8 +90,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000689 RID: 1673
-		// (get) Token: 0x06002A57 RID: 10839 RVA: 0x001669F4 File Offset: 0x00164DF4
+		// Token: 0x1700068A RID: 1674
+		// (get) Token: 0x06002A50 RID: 10832 RVA: 0x00166BCC File Offset: 0x00164FCC
 		public bool CanTradeNow
 		{
 			get
@@ -100,8 +100,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700068A RID: 1674
-		// (get) Token: 0x06002A58 RID: 10840 RVA: 0x00166A14 File Offset: 0x00164E14
+		// Token: 0x1700068B RID: 1675
+		// (get) Token: 0x06002A51 RID: 10833 RVA: 0x00166BEC File Offset: 0x00164FEC
 		public float TradePriceImprovementOffsetForPlayer
 		{
 			get
@@ -110,8 +110,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700068B RID: 1675
-		// (get) Token: 0x06002A59 RID: 10841 RVA: 0x00166A30 File Offset: 0x00164E30
+		// Token: 0x1700068C RID: 1676
+		// (get) Token: 0x06002A52 RID: 10834 RVA: 0x00166C08 File Offset: 0x00165008
 		public Faction Faction
 		{
 			get
@@ -120,8 +120,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700068C RID: 1676
-		// (get) Token: 0x06002A5A RID: 10842 RVA: 0x00166A48 File Offset: 0x00164E48
+		// Token: 0x1700068D RID: 1677
+		// (get) Token: 0x06002A53 RID: 10835 RVA: 0x00166C20 File Offset: 0x00165020
 		public IEnumerable<Thing> Goods
 		{
 			get
@@ -138,7 +138,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A5B RID: 10843 RVA: 0x00166A74 File Offset: 0x00164E74
+		// Token: 0x06002A54 RID: 10836 RVA: 0x00166C4C File Offset: 0x0016504C
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
 			foreach (Thing t in TradeUtility.AllLaunchableThingsForTrade(base.Map))
@@ -152,7 +152,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002A5C RID: 10844 RVA: 0x00166AA0 File Offset: 0x00164EA0
+		// Token: 0x06002A55 RID: 10837 RVA: 0x00166C78 File Offset: 0x00165078
 		public void GenerateThings()
 		{
 			ThingSetMakerParams parms = default(ThingSetMakerParams);
@@ -161,7 +161,7 @@ namespace RimWorld
 			this.things.TryAddRangeOrTransfer(ThingSetMakerDefOf.TraderStock.root.Generate(parms), true, false);
 		}
 
-		// Token: 0x06002A5D RID: 10845 RVA: 0x00166AF8 File Offset: 0x00164EF8
+		// Token: 0x06002A56 RID: 10838 RVA: 0x00166CD0 File Offset: 0x001650D0
 		public override void PassingShipTick()
 		{
 			base.PassingShipTick();
@@ -179,7 +179,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A5E RID: 10846 RVA: 0x00166B64 File Offset: 0x00164F64
+		// Token: 0x06002A57 RID: 10839 RVA: 0x00166D3C File Offset: 0x0016513C
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -196,7 +196,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A5F RID: 10847 RVA: 0x00166C00 File Offset: 0x00165000
+		// Token: 0x06002A58 RID: 10840 RVA: 0x00166DD8 File Offset: 0x001651D8
 		public override void TryOpenComms(Pawn negotiator)
 		{
 			if (this.CanTradeNow)
@@ -211,7 +211,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A60 RID: 10848 RVA: 0x00166C7E File Offset: 0x0016507E
+		// Token: 0x06002A59 RID: 10841 RVA: 0x00166E56 File Offset: 0x00165256
 		public override void Depart()
 		{
 			base.Depart();
@@ -219,13 +219,13 @@ namespace RimWorld
 			this.soldPrisoners.Clear();
 		}
 
-		// Token: 0x06002A61 RID: 10849 RVA: 0x00166CA0 File Offset: 0x001650A0
+		// Token: 0x06002A5A RID: 10842 RVA: 0x00166E78 File Offset: 0x00165278
 		public override string GetCallLabel()
 		{
 			return this.name + " (" + this.def.label + ")";
 		}
 
-		// Token: 0x06002A62 RID: 10850 RVA: 0x00166CD8 File Offset: 0x001650D8
+		// Token: 0x06002A5B RID: 10843 RVA: 0x00166EB0 File Offset: 0x001652B0
 		public int CountHeldOf(ThingDef thingDef, ThingDef stuffDef = null)
 		{
 			Thing thing = this.HeldThingMatching(thingDef, stuffDef);
@@ -241,7 +241,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002A63 RID: 10851 RVA: 0x00166D0C File Offset: 0x0016510C
+		// Token: 0x06002A5C RID: 10844 RVA: 0x00166EE4 File Offset: 0x001652E4
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			Thing thing = toGive.SplitOff(countToGive);
@@ -265,7 +265,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A64 RID: 10852 RVA: 0x00166D90 File Offset: 0x00165190
+		// Token: 0x06002A5D RID: 10845 RVA: 0x00166F68 File Offset: 0x00165368
 		public void GiveSoldThingToPlayer(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			Thing thing = toGive.SplitOff(countToGive);
@@ -278,7 +278,7 @@ namespace RimWorld
 			TradeUtility.SpawnDropPod(DropCellFinder.TradeDropSpot(base.Map), base.Map, thing);
 		}
 
-		// Token: 0x06002A65 RID: 10853 RVA: 0x00166DE0 File Offset: 0x001651E0
+		// Token: 0x06002A5E RID: 10846 RVA: 0x00166FB8 File Offset: 0x001653B8
 		private Thing HeldThingMatching(ThingDef thingDef, ThingDef stuffDef)
 		{
 			for (int i = 0; i < this.things.Count; i++)
@@ -291,7 +291,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06002A66 RID: 10854 RVA: 0x00166E54 File Offset: 0x00165254
+		// Token: 0x06002A5F RID: 10847 RVA: 0x0016702C File Offset: 0x0016542C
 		public void ChangeCountHeldOf(ThingDef thingDef, ThingDef stuffDef, int count)
 		{
 			Thing thing = this.HeldThingMatching(thingDef, stuffDef);
@@ -302,37 +302,37 @@ namespace RimWorld
 			thing.stackCount += count;
 		}
 
-		// Token: 0x06002A67 RID: 10855 RVA: 0x00166E94 File Offset: 0x00165294
+		// Token: 0x06002A60 RID: 10848 RVA: 0x0016706C File Offset: 0x0016546C
 		public override string ToString()
 		{
 			return this.FullTitle;
 		}
 
-		// Token: 0x06002A68 RID: 10856 RVA: 0x00166EB0 File Offset: 0x001652B0
+		// Token: 0x06002A61 RID: 10849 RVA: 0x00167088 File Offset: 0x00165488
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.things;
 		}
 
-		// Token: 0x06002A69 RID: 10857 RVA: 0x00166ECB File Offset: 0x001652CB
+		// Token: 0x06002A62 RID: 10850 RVA: 0x001670A3 File Offset: 0x001654A3
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
-		// Token: 0x040016D1 RID: 5841
+		// Token: 0x040016CF RID: 5839
 		public TraderKindDef def;
 
-		// Token: 0x040016D2 RID: 5842
+		// Token: 0x040016D0 RID: 5840
 		private ThingOwner things;
 
-		// Token: 0x040016D3 RID: 5843
+		// Token: 0x040016D1 RID: 5841
 		private List<Pawn> soldPrisoners = new List<Pawn>();
 
-		// Token: 0x040016D4 RID: 5844
+		// Token: 0x040016D2 RID: 5842
 		private int randomPriceFactorSeed = -1;
 
-		// Token: 0x040016D5 RID: 5845
+		// Token: 0x040016D3 RID: 5843
 		private static List<string> tmpExtantNames = new List<string>();
 	}
 }

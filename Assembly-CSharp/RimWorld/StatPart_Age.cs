@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009A4 RID: 2468
+	// Token: 0x020009A0 RID: 2464
 	public class StatPart_Age : StatPart
 	{
-		// Token: 0x06003753 RID: 14163 RVA: 0x001D8AC4 File Offset: 0x001D6EC4
+		// Token: 0x0600374C RID: 14156 RVA: 0x001D8CC0 File Offset: 0x001D70C0
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing)
@@ -20,7 +20,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003754 RID: 14164 RVA: 0x001D8B0C File Offset: 0x001D6F0C
+		// Token: 0x0600374D RID: 14157 RVA: 0x001D8D08 File Offset: 0x001D7108
 		public override string ExplanationPart(StatRequest req)
 		{
 			if (req.HasThing)
@@ -37,13 +37,13 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06003755 RID: 14165 RVA: 0x001D8B90 File Offset: 0x001D6F90
+		// Token: 0x0600374E RID: 14158 RVA: 0x001D8D8C File Offset: 0x001D718C
 		private float AgeMultiplier(Pawn pawn)
 		{
 			return this.curve.Evaluate((float)pawn.ageTracker.AgeBiologicalYears / pawn.RaceProps.lifeExpectancy);
 		}
 
-		// Token: 0x06003756 RID: 14166 RVA: 0x001D8BC8 File Offset: 0x001D6FC8
+		// Token: 0x0600374F RID: 14159 RVA: 0x001D8DC4 File Offset: 0x001D71C4
 		public override IEnumerable<string> ConfigErrors()
 		{
 			if (this.curve == null)
@@ -53,7 +53,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x04002397 RID: 9111
+		// Token: 0x04002395 RID: 9109
 		private SimpleCurve curve = null;
 	}
 }

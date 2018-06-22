@@ -2,23 +2,23 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200095B RID: 2395
+	// Token: 0x02000957 RID: 2391
 	[DefOf]
 	public static class BillStoreModeDefOf
 	{
-		// Token: 0x06003666 RID: 13926 RVA: 0x001D0B83 File Offset: 0x001CEF83
+		// Token: 0x0600365F RID: 13919 RVA: 0x001D0D6B File Offset: 0x001CF16B
 		static BillStoreModeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(BillStoreModeDefOf));
 		}
 
-		// Token: 0x040022A4 RID: 8868
+		// Token: 0x040022A2 RID: 8866
 		public static BillStoreModeDef DropOnFloor;
 
-		// Token: 0x040022A5 RID: 8869
+		// Token: 0x040022A3 RID: 8867
 		public static BillStoreModeDef BestStockpile;
 
-		// Token: 0x040022A6 RID: 8870
+		// Token: 0x040022A4 RID: 8868
 		public static BillStoreModeDef SpecificStockpile;
 	}
 }

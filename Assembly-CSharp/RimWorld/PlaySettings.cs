@@ -4,10 +4,10 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000BD2 RID: 3026
+	// Token: 0x02000BCE RID: 3022
 	public sealed class PlaySettings : IExposable
 	{
-		// Token: 0x060041E6 RID: 16870 RVA: 0x0022B560 File Offset: 0x00229960
+		// Token: 0x060041E8 RID: 16872 RVA: 0x0022BC34 File Offset: 0x0022A034
 		public void ExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.showLearningHelper, "showLearningHelper", false, false);
@@ -35,7 +35,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060041E7 RID: 16871 RVA: 0x0022B6D8 File Offset: 0x00229AD8
+		// Token: 0x060041E9 RID: 16873 RVA: 0x0022BDAC File Offset: 0x0022A1AC
 		public void DoPlaySettingsGlobalControls(WidgetRow row, bool worldView)
 		{
 			bool flag = this.showColonistBar;
@@ -81,7 +81,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060041E8 RID: 16872 RVA: 0x0022B94B File Offset: 0x00229D4B
+		// Token: 0x060041EA RID: 16874 RVA: 0x0022C01F File Offset: 0x0022A41F
 		private void CheckKeyBindingToggle(KeyBindingDef keyBinding, ref bool value)
 		{
 			if (keyBinding.KeyDownEvent)
@@ -98,61 +98,61 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04002CF6 RID: 11510
+		// Token: 0x04002CFB RID: 11515
 		public bool showLearningHelper = true;
 
-		// Token: 0x04002CF7 RID: 11511
+		// Token: 0x04002CFC RID: 11516
 		public bool showZones = true;
 
-		// Token: 0x04002CF8 RID: 11512
+		// Token: 0x04002CFD RID: 11517
 		public bool showBeauty = false;
 
-		// Token: 0x04002CF9 RID: 11513
+		// Token: 0x04002CFE RID: 11518
 		public bool showRoomStats = false;
 
-		// Token: 0x04002CFA RID: 11514
+		// Token: 0x04002CFF RID: 11519
 		public bool showColonistBar = true;
 
-		// Token: 0x04002CFB RID: 11515
+		// Token: 0x04002D00 RID: 11520
 		public bool showRoofOverlay = false;
 
-		// Token: 0x04002CFC RID: 11516
+		// Token: 0x04002D01 RID: 11521
 		public bool autoHomeArea = true;
 
-		// Token: 0x04002CFD RID: 11517
+		// Token: 0x04002D02 RID: 11522
 		public bool autoRebuild = false;
 
-		// Token: 0x04002CFE RID: 11518
+		// Token: 0x04002D03 RID: 11523
 		public bool lockNorthUp = true;
 
-		// Token: 0x04002CFF RID: 11519
+		// Token: 0x04002D04 RID: 11524
 		public bool usePlanetDayNightSystem = true;
 
-		// Token: 0x04002D00 RID: 11520
+		// Token: 0x04002D05 RID: 11525
 		public bool showExpandingIcons = true;
 
-		// Token: 0x04002D01 RID: 11521
+		// Token: 0x04002D06 RID: 11526
 		public bool showWorldFeatures = true;
 
-		// Token: 0x04002D02 RID: 11522
+		// Token: 0x04002D07 RID: 11527
 		public bool useWorkPriorities = false;
 
-		// Token: 0x04002D03 RID: 11523
+		// Token: 0x04002D08 RID: 11528
 		public MedicalCareCategory defaultCareForColonyHumanlike = MedicalCareCategory.Best;
 
-		// Token: 0x04002D04 RID: 11524
+		// Token: 0x04002D09 RID: 11529
 		public MedicalCareCategory defaultCareForColonyAnimal = MedicalCareCategory.HerbalOrWorse;
 
-		// Token: 0x04002D05 RID: 11525
+		// Token: 0x04002D0A RID: 11530
 		public MedicalCareCategory defaultCareForColonyPrisoner = MedicalCareCategory.HerbalOrWorse;
 
-		// Token: 0x04002D06 RID: 11526
+		// Token: 0x04002D0B RID: 11531
 		public MedicalCareCategory defaultCareForNeutralFaction = MedicalCareCategory.HerbalOrWorse;
 
-		// Token: 0x04002D07 RID: 11527
+		// Token: 0x04002D0C RID: 11532
 		public MedicalCareCategory defaultCareForNeutralAnimal = MedicalCareCategory.HerbalOrWorse;
 
-		// Token: 0x04002D08 RID: 11528
+		// Token: 0x04002D0D RID: 11533
 		public MedicalCareCategory defaultCareForHostileFaction = MedicalCareCategory.HerbalOrWorse;
 	}
 }

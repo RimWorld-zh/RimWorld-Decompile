@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005EC RID: 1516
+	// Token: 0x020005E8 RID: 1512
 	[StaticConstructorOnStartup]
 	public class Caravan_GotoMoteRenderer
 	{
-		// Token: 0x06001DFC RID: 7676 RVA: 0x00101F2C File Offset: 0x0010032C
+		// Token: 0x06001DF3 RID: 7667 RVA: 0x00101F80 File Offset: 0x00100380
 		public void RenderMote()
 		{
 			float num = (Time.time - this.lastOrderedToTileTime) / 0.5f;
@@ -31,32 +31,32 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DFD RID: 7677 RVA: 0x00102011 File Offset: 0x00100411
+		// Token: 0x06001DF4 RID: 7668 RVA: 0x00102065 File Offset: 0x00100465
 		public void OrderedToTile(int tile)
 		{
 			this.tile = tile;
 			this.lastOrderedToTileTime = Time.time;
 		}
 
-		// Token: 0x040011B7 RID: 4535
+		// Token: 0x040011B4 RID: 4532
 		private int tile;
 
-		// Token: 0x040011B8 RID: 4536
+		// Token: 0x040011B5 RID: 4533
 		private float lastOrderedToTileTime = -0.51f;
 
-		// Token: 0x040011B9 RID: 4537
+		// Token: 0x040011B6 RID: 4534
 		private static MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
 
-		// Token: 0x040011BA RID: 4538
+		// Token: 0x040011B7 RID: 4535
 		private static Material cachedMaterial;
 
-		// Token: 0x040011BB RID: 4539
+		// Token: 0x040011B8 RID: 4536
 		public static readonly Material FeedbackGoto = MaterialPool.MatFrom("Things/Mote/FeedbackGoto", ShaderDatabase.WorldOverlayTransparent, WorldMaterials.DynamicObjectRenderQueue);
 
-		// Token: 0x040011BC RID: 4540
+		// Token: 0x040011B9 RID: 4537
 		private const float Duration = 0.5f;
 
-		// Token: 0x040011BD RID: 4541
+		// Token: 0x040011BA RID: 4538
 		private const float BaseSize = 0.8f;
 	}
 }

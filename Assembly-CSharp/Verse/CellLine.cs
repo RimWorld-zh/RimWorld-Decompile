@@ -2,25 +2,25 @@
 
 namespace Verse
 {
-	// Token: 0x02000ED3 RID: 3795
+	// Token: 0x02000ED2 RID: 3794
 	public struct CellLine
 	{
-		// Token: 0x060059D5 RID: 22997 RVA: 0x002E150D File Offset: 0x002DF90D
+		// Token: 0x060059F6 RID: 23030 RVA: 0x002E3321 File Offset: 0x002E1721
 		public CellLine(float zIntercept, float slope)
 		{
 			this.zIntercept = zIntercept;
 			this.slope = slope;
 		}
 
-		// Token: 0x060059D6 RID: 22998 RVA: 0x002E151E File Offset: 0x002DF91E
+		// Token: 0x060059F7 RID: 23031 RVA: 0x002E3332 File Offset: 0x002E1732
 		public CellLine(IntVec3 cell, float slope)
 		{
 			this.slope = slope;
 			this.zIntercept = (float)cell.z - (float)cell.x * slope;
 		}
 
-		// Token: 0x17000E25 RID: 3621
-		// (get) Token: 0x060059D7 RID: 22999 RVA: 0x002E1544 File Offset: 0x002DF944
+		// Token: 0x17000E28 RID: 3624
+		// (get) Token: 0x060059F8 RID: 23032 RVA: 0x002E3358 File Offset: 0x002E1758
 		public float ZIntercept
 		{
 			get
@@ -29,8 +29,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E26 RID: 3622
-		// (get) Token: 0x060059D8 RID: 23000 RVA: 0x002E1560 File Offset: 0x002DF960
+		// Token: 0x17000E29 RID: 3625
+		// (get) Token: 0x060059F9 RID: 23033 RVA: 0x002E3374 File Offset: 0x002E1774
 		public float Slope
 		{
 			get
@@ -39,7 +39,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059D9 RID: 23001 RVA: 0x002E157C File Offset: 0x002DF97C
+		// Token: 0x060059FA RID: 23034 RVA: 0x002E3390 File Offset: 0x002E1790
 		public static CellLine Between(IntVec3 a, IntVec3 b)
 		{
 			float num;
@@ -55,16 +55,16 @@ namespace Verse
 			return new CellLine(num2, num);
 		}
 
-		// Token: 0x060059DA RID: 23002 RVA: 0x002E15EC File Offset: 0x002DF9EC
+		// Token: 0x060059FB RID: 23035 RVA: 0x002E3400 File Offset: 0x002E1800
 		public bool CellIsAbove(IntVec3 c)
 		{
 			return (float)c.z > this.slope * (float)c.x + this.zIntercept;
 		}
 
-		// Token: 0x04003C04 RID: 15364
+		// Token: 0x04003C14 RID: 15380
 		private float zIntercept;
 
-		// Token: 0x04003C05 RID: 15365
+		// Token: 0x04003C15 RID: 15381
 		private float slope;
 	}
 }

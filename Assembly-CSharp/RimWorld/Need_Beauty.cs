@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004F4 RID: 1268
+	// Token: 0x020004F0 RID: 1264
 	public class Need_Beauty : Need_Seeker
 	{
-		// Token: 0x060016CB RID: 5835 RVA: 0x000C99F8 File Offset: 0x000C7DF8
+		// Token: 0x060016C2 RID: 5826 RVA: 0x000C99F0 File Offset: 0x000C7DF0
 		public Need_Beauty(Pawn pawn) : base(pawn)
 		{
 			this.threshPercents = new List<float>();
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000307 RID: 775
-		// (get) Token: 0x060016CC RID: 5836 RVA: 0x000C9A58 File Offset: 0x000C7E58
+		// (get) Token: 0x060016C3 RID: 5827 RVA: 0x000C9A50 File Offset: 0x000C7E50
 		public override float CurInstantLevel
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000308 RID: 776
-		// (get) Token: 0x060016CD RID: 5837 RVA: 0x000C9AC0 File Offset: 0x000C7EC0
+		// (get) Token: 0x060016C4 RID: 5828 RVA: 0x000C9AB8 File Offset: 0x000C7EB8
 		public BeautyCategory CurCategory
 		{
 			get
@@ -80,13 +80,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060016CE RID: 5838 RVA: 0x000C9B60 File Offset: 0x000C7F60
+		// Token: 0x060016C5 RID: 5829 RVA: 0x000C9B58 File Offset: 0x000C7F58
 		private float LevelFromBeauty(float beauty)
 		{
 			return Mathf.Clamp01(this.def.baseLevel + beauty * 0.1f);
 		}
 
-		// Token: 0x060016CF RID: 5839 RVA: 0x000C9B90 File Offset: 0x000C7F90
+		// Token: 0x060016C6 RID: 5830 RVA: 0x000C9B88 File Offset: 0x000C7F88
 		public float CurrentInstantBeauty()
 		{
 			float result;
@@ -101,25 +101,25 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04000D4C RID: 3404
+		// Token: 0x04000D49 RID: 3401
 		private const float BeautyImpactFactor = 0.1f;
 
-		// Token: 0x04000D4D RID: 3405
+		// Token: 0x04000D4A RID: 3402
 		private const float ThreshVeryUgly = 0.01f;
 
-		// Token: 0x04000D4E RID: 3406
+		// Token: 0x04000D4B RID: 3403
 		private const float ThreshUgly = 0.15f;
 
-		// Token: 0x04000D4F RID: 3407
+		// Token: 0x04000D4C RID: 3404
 		private const float ThreshNeutral = 0.35f;
 
-		// Token: 0x04000D50 RID: 3408
+		// Token: 0x04000D4D RID: 3405
 		private const float ThreshPretty = 0.65f;
 
-		// Token: 0x04000D51 RID: 3409
+		// Token: 0x04000D4E RID: 3406
 		private const float ThreshVeryPretty = 0.85f;
 
-		// Token: 0x04000D52 RID: 3410
+		// Token: 0x04000D4F RID: 3407
 		private const float ThreshBeautiful = 0.99f;
 	}
 }

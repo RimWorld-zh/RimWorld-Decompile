@@ -6,10 +6,10 @@ using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000CAF RID: 3247
+	// Token: 0x02000CAC RID: 3244
 	public sealed class TooltipGiverList
 	{
-		// Token: 0x0600477F RID: 18303 RVA: 0x0025A799 File Offset: 0x00258B99
+		// Token: 0x06004788 RID: 18312 RVA: 0x0025BB89 File Offset: 0x00259F89
 		public void Notify_ThingSpawned(Thing t)
 		{
 			if (t.def.hasTooltip || this.ShouldShowShotReport(t))
@@ -18,7 +18,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004780 RID: 18304 RVA: 0x0025A7C4 File Offset: 0x00258BC4
+		// Token: 0x06004789 RID: 18313 RVA: 0x0025BBB4 File Offset: 0x00259FB4
 		public void Notify_ThingDespawned(Thing t)
 		{
 			if (t.def.hasTooltip || this.ShouldShowShotReport(t))
@@ -27,7 +27,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004781 RID: 18305 RVA: 0x0025A7F0 File Offset: 0x00258BF0
+		// Token: 0x0600478A RID: 18314 RVA: 0x0025BBE0 File Offset: 0x00259FE0
 		public void DispenseAllThingTooltips()
 		{
 			if (Event.current.type == EventType.Repaint)
@@ -67,13 +67,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004782 RID: 18306 RVA: 0x0025A9A0 File Offset: 0x00258DA0
+		// Token: 0x0600478B RID: 18315 RVA: 0x0025BD90 File Offset: 0x0025A190
 		private bool ShouldShowShotReport(Thing t)
 		{
 			return t.def.hasTooltip || t is Hive || t is IAttackTarget;
 		}
 
-		// Token: 0x04003084 RID: 12420
+		// Token: 0x0400308F RID: 12431
 		private List<Thing> givers = new List<Thing>();
 	}
 }

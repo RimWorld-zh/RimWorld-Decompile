@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000489 RID: 1161
+	// Token: 0x02000485 RID: 1157
 	public static class PawnAddictionHediffsGenerator
 	{
-		// Token: 0x06001478 RID: 5240 RVA: 0x000B3170 File Offset: 0x000B1570
+		// Token: 0x0600146F RID: 5231 RVA: 0x000B3188 File Offset: 0x000B1588
 		public static void GenerateAddictionsAndTolerancesFor(Pawn pawn)
 		{
 			if (pawn.RaceProps.IsFlesh && pawn.RaceProps.Humanlike)
@@ -58,13 +58,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001479 RID: 5241 RVA: 0x000B339C File Offset: 0x000B179C
+		// Token: 0x06001470 RID: 5232 RVA: 0x000B33B4 File Offset: 0x000B17B4
 		private static bool PossibleWithTechLevel(ChemicalDef chemical, Faction faction)
 		{
 			return faction == null || PawnAddictionHediffsGenerator.allDrugs.Any((ThingDef x) => x.GetCompProperties<CompProperties_Drug>().chemical == chemical && x.techLevel <= faction.def.techLevel);
 		}
 
-		// Token: 0x0600147A RID: 5242 RVA: 0x000B33F0 File Offset: 0x000B17F0
+		// Token: 0x06001471 RID: 5233 RVA: 0x000B3408 File Offset: 0x000B1808
 		private static void DoIngestionOutcomeDoers(Pawn pawn, ChemicalDef chemical)
 		{
 			for (int i = 0; i < PawnAddictionHediffsGenerator.allDrugs.Count; i++)
@@ -84,16 +84,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000C45 RID: 3141
+		// Token: 0x04000C42 RID: 3138
 		private static List<ThingDef> allDrugs = new List<ThingDef>();
 
-		// Token: 0x04000C46 RID: 3142
+		// Token: 0x04000C43 RID: 3139
 		private const int MaxAddictions = 3;
 
-		// Token: 0x04000C47 RID: 3143
+		// Token: 0x04000C44 RID: 3140
 		private static readonly FloatRange GeneratedAddictionSeverityRange = new FloatRange(0.6f, 1f);
 
-		// Token: 0x04000C48 RID: 3144
+		// Token: 0x04000C45 RID: 3141
 		private static readonly FloatRange GeneratedToleranceSeverityRange = new FloatRange(0.1f, 0.9f);
 	}
 }

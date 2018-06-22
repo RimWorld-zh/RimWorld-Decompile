@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DEC RID: 3564
+	// Token: 0x02000DE9 RID: 3561
 	public class MoteLeaf : Mote
 	{
-		// Token: 0x17000CF4 RID: 3316
-		// (get) Token: 0x06004FC3 RID: 20419 RVA: 0x00295DE4 File Offset: 0x002941E4
+		// Token: 0x17000CF6 RID: 3318
+		// (get) Token: 0x06004FD8 RID: 20440 RVA: 0x002973C0 File Offset: 0x002957C0
 		protected override bool EndOfLife
 		{
 			get
@@ -16,8 +16,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CF5 RID: 3317
-		// (get) Token: 0x06004FC4 RID: 20420 RVA: 0x00295E34 File Offset: 0x00294234
+		// Token: 0x17000CF7 RID: 3319
+		// (get) Token: 0x06004FD9 RID: 20441 RVA: 0x00297410 File Offset: 0x00295810
 		private float FallTime
 		{
 			get
@@ -26,8 +26,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CF6 RID: 3318
-		// (get) Token: 0x06004FC5 RID: 20421 RVA: 0x00295E5C File Offset: 0x0029425C
+		// Token: 0x17000CF8 RID: 3320
+		// (get) Token: 0x06004FDA RID: 20442 RVA: 0x00297438 File Offset: 0x00295838
 		public override float Alpha
 		{
 			get
@@ -74,7 +74,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FC6 RID: 20422 RVA: 0x00295F86 File Offset: 0x00294386
+		// Token: 0x06004FDB RID: 20443 RVA: 0x00297562 File Offset: 0x00295962
 		public void Initialize(Vector3 position, float spawnDelay, bool front, float treeHeight)
 		{
 			this.startSpatialPosition = position;
@@ -84,7 +84,7 @@ namespace Verse
 			this.TimeInterval(0f);
 		}
 
-		// Token: 0x06004FC7 RID: 20423 RVA: 0x00295FB4 File Offset: 0x002943B4
+		// Token: 0x06004FDC RID: 20444 RVA: 0x00297590 File Offset: 0x00295990
 		protected override void TimeInterval(float deltaTime)
 		{
 			base.TimeInterval(deltaTime);
@@ -103,28 +103,28 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FC8 RID: 20424 RVA: 0x00296074 File Offset: 0x00294474
+		// Token: 0x06004FDD RID: 20445 RVA: 0x00297650 File Offset: 0x00295A50
 		public override void Draw()
 		{
 			base.Draw((!this.front) ? this.def.altitudeLayer.AltitudeFor() : (this.def.altitudeLayer.AltitudeFor() + 0.1f * GenMath.InverseLerp(0f, this.treeHeight, this.currentSpatialPosition.y) * 2f));
 		}
 
-		// Token: 0x040034DA RID: 13530
+		// Token: 0x040034E5 RID: 13541
 		private Vector3 startSpatialPosition;
 
-		// Token: 0x040034DB RID: 13531
+		// Token: 0x040034E6 RID: 13542
 		private Vector3 currentSpatialPosition;
 
-		// Token: 0x040034DC RID: 13532
+		// Token: 0x040034E7 RID: 13543
 		private float spawnDelay;
 
-		// Token: 0x040034DD RID: 13533
+		// Token: 0x040034E8 RID: 13544
 		private bool front;
 
-		// Token: 0x040034DE RID: 13534
+		// Token: 0x040034E9 RID: 13545
 		private float treeHeight;
 
-		// Token: 0x040034DF RID: 13535
+		// Token: 0x040034EA RID: 13546
 		[TweakValue("Graphics", 0f, 5f)]
 		private static float FallSpeed = 0.5f;
 	}

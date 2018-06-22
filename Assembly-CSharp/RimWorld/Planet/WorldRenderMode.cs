@@ -2,12 +2,12 @@
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005A3 RID: 1443
+	// Token: 0x0200059F RID: 1439
 	public enum WorldRenderMode
 	{
-		// Token: 0x04001059 RID: 4185
+		// Token: 0x04001056 RID: 4182
 		None,
-		// Token: 0x0400105A RID: 4186
+		// Token: 0x04001057 RID: 4183
 		Planet
 	}
 }

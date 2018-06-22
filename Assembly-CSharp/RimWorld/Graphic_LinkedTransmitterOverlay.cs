@@ -4,26 +4,26 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000680 RID: 1664
+	// Token: 0x0200067C RID: 1660
 	public class Graphic_LinkedTransmitterOverlay : Graphic_Linked
 	{
-		// Token: 0x060022FD RID: 8957 RVA: 0x0012D5D7 File Offset: 0x0012B9D7
+		// Token: 0x060022F5 RID: 8949 RVA: 0x0012D71F File Offset: 0x0012BB1F
 		public Graphic_LinkedTransmitterOverlay()
 		{
 		}
 
-		// Token: 0x060022FE RID: 8958 RVA: 0x0012D5E0 File Offset: 0x0012B9E0
+		// Token: 0x060022F6 RID: 8950 RVA: 0x0012D728 File Offset: 0x0012BB28
 		public Graphic_LinkedTransmitterOverlay(Graphic subGraphic) : base(subGraphic)
 		{
 		}
 
-		// Token: 0x060022FF RID: 8959 RVA: 0x0012D5EC File Offset: 0x0012B9EC
+		// Token: 0x060022F7 RID: 8951 RVA: 0x0012D734 File Offset: 0x0012BB34
 		public override bool ShouldLinkWith(IntVec3 c, Thing parent)
 		{
 			return c.InBounds(parent.Map) && parent.Map.powerNetGrid.TransmittedPowerNetAt(c) != null;
 		}
 
-		// Token: 0x06002300 RID: 8960 RVA: 0x0012D638 File Offset: 0x0012BA38
+		// Token: 0x060022F8 RID: 8952 RVA: 0x0012D780 File Offset: 0x0012BB80
 		public override void Print(SectionLayer layer, Thing parent)
 		{
 			CellRect.CellRectIterator iterator = parent.OccupiedRect().GetIterator();

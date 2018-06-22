@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200022A RID: 554
 	public class ThoughtWorker_PsychicEmanatorSoothe : ThoughtWorker
 	{
-		// Token: 0x06000A24 RID: 2596 RVA: 0x00059998 File Offset: 0x00057D98
+		// Token: 0x06000A22 RID: 2594 RVA: 0x000599DC File Offset: 0x00057DDC
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			ThoughtState result;
@@ -34,7 +34,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x040003EC RID: 1004
+		// Token: 0x040003EA RID: 1002
 		private const float Radius = 15f;
 	}
 }

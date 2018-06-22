@@ -2,12 +2,12 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200077C RID: 1916
+	// Token: 0x02000778 RID: 1912
 	public enum Transactor : byte
 	{
-		// Token: 0x040016C8 RID: 5832
+		// Token: 0x040016C6 RID: 5830
 		Colony,
-		// Token: 0x040016C9 RID: 5833
+		// Token: 0x040016C7 RID: 5831
 		Trader
 	}
 }

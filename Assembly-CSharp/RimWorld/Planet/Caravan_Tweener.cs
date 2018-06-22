@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005EF RID: 1519
+	// Token: 0x020005EB RID: 1515
 	public class Caravan_Tweener
 	{
-		// Token: 0x06001E28 RID: 7720 RVA: 0x001037C4 File Offset: 0x00101BC4
+		// Token: 0x06001E1F RID: 7711 RVA: 0x00103818 File Offset: 0x00101C18
 		public Caravan_Tweener(Caravan caravan)
 		{
 			this.caravan = caravan;
 		}
 
 		// Token: 0x17000472 RID: 1138
-		// (get) Token: 0x06001E29 RID: 7721 RVA: 0x001037E0 File Offset: 0x00101BE0
+		// (get) Token: 0x06001E20 RID: 7712 RVA: 0x00103834 File Offset: 0x00101C34
 		public Vector3 TweenedPos
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000473 RID: 1139
-		// (get) Token: 0x06001E2A RID: 7722 RVA: 0x001037FC File Offset: 0x00101BFC
+		// (get) Token: 0x06001E21 RID: 7713 RVA: 0x00103850 File Offset: 0x00101C50
 		public Vector3 LastTickTweenedVelocity
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000474 RID: 1140
-		// (get) Token: 0x06001E2B RID: 7723 RVA: 0x00103824 File Offset: 0x00101C24
+		// (get) Token: 0x06001E22 RID: 7714 RVA: 0x00103878 File Offset: 0x00101C78
 		public Vector3 TweenedPosRoot
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E2C RID: 7724 RVA: 0x00103854 File Offset: 0x00101C54
+		// Token: 0x06001E23 RID: 7715 RVA: 0x001038A8 File Offset: 0x00101CA8
 		public void TweenerTick()
 		{
 			this.lastTickSpringPos = this.tweenedPos;
@@ -50,23 +50,23 @@ namespace RimWorld.Planet
 			this.tweenedPos += a * 0.09f;
 		}
 
-		// Token: 0x06001E2D RID: 7725 RVA: 0x0010389C File Offset: 0x00101C9C
+		// Token: 0x06001E24 RID: 7716 RVA: 0x001038F0 File Offset: 0x00101CF0
 		public void ResetTweenedPosToRoot()
 		{
 			this.tweenedPos = this.TweenedPosRoot;
 			this.lastTickSpringPos = this.tweenedPos;
 		}
 
-		// Token: 0x040011D2 RID: 4562
+		// Token: 0x040011CF RID: 4559
 		private Caravan caravan;
 
-		// Token: 0x040011D3 RID: 4563
+		// Token: 0x040011D0 RID: 4560
 		private Vector3 tweenedPos = Vector3.zero;
 
-		// Token: 0x040011D4 RID: 4564
+		// Token: 0x040011D1 RID: 4561
 		private Vector3 lastTickSpringPos;
 
-		// Token: 0x040011D5 RID: 4565
+		// Token: 0x040011D2 RID: 4562
 		private const float SpringTightness = 0.09f;
 	}
 }

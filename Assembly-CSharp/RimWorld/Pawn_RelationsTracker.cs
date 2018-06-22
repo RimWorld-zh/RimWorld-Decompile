@@ -7,17 +7,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200052D RID: 1325
+	// Token: 0x02000529 RID: 1321
 	public class Pawn_RelationsTracker : IExposable
 	{
-		// Token: 0x06001843 RID: 6211 RVA: 0x000D3904 File Offset: 0x000D1D04
+		// Token: 0x0600183A RID: 6202 RVA: 0x000D390C File Offset: 0x000D1D0C
 		public Pawn_RelationsTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
 		// Token: 0x1700035F RID: 863
-		// (get) Token: 0x06001844 RID: 6212 RVA: 0x000D393C File Offset: 0x000D1D3C
+		// (get) Token: 0x0600183B RID: 6203 RVA: 0x000D3944 File Offset: 0x000D1D44
 		public List<DirectPawnRelation> DirectRelations
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000360 RID: 864
-		// (get) Token: 0x06001845 RID: 6213 RVA: 0x000D3958 File Offset: 0x000D1D58
+		// (get) Token: 0x0600183C RID: 6204 RVA: 0x000D3960 File Offset: 0x000D1D60
 		public IEnumerable<Pawn> Children
 		{
 			get
@@ -49,7 +49,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000361 RID: 865
-		// (get) Token: 0x06001846 RID: 6214 RVA: 0x000D3984 File Offset: 0x000D1D84
+		// (get) Token: 0x0600183D RID: 6205 RVA: 0x000D398C File Offset: 0x000D1D8C
 		public int ChildrenCount
 		{
 			get
@@ -59,7 +59,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000362 RID: 866
-		// (get) Token: 0x06001847 RID: 6215 RVA: 0x000D39A4 File Offset: 0x000D1DA4
+		// (get) Token: 0x0600183E RID: 6206 RVA: 0x000D39AC File Offset: 0x000D1DAC
 		public bool RelatedToAnyoneOrAnyoneRelatedToMe
 		{
 			get
@@ -69,7 +69,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000363 RID: 867
-		// (get) Token: 0x06001848 RID: 6216 RVA: 0x000D39D8 File Offset: 0x000D1DD8
+		// (get) Token: 0x0600183F RID: 6207 RVA: 0x000D39E0 File Offset: 0x000D1DE0
 		public IEnumerable<Pawn> FamilyByBlood
 		{
 			get
@@ -94,7 +94,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000364 RID: 868
-		// (get) Token: 0x06001849 RID: 6217 RVA: 0x000D3A3C File Offset: 0x000D1E3C
+		// (get) Token: 0x06001840 RID: 6208 RVA: 0x000D3A44 File Offset: 0x000D1E44
 		private IEnumerable<Pawn> FamilyByBlood_Internal
 		{
 			get
@@ -169,7 +169,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000365 RID: 869
-		// (get) Token: 0x0600184A RID: 6218 RVA: 0x000D3A68 File Offset: 0x000D1E68
+		// (get) Token: 0x06001841 RID: 6209 RVA: 0x000D3A70 File Offset: 0x000D1E70
 		public IEnumerable<Pawn> PotentiallyRelatedPawns
 		{
 			get
@@ -225,7 +225,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000366 RID: 870
-		// (get) Token: 0x0600184B RID: 6219 RVA: 0x000D3A94 File Offset: 0x000D1E94
+		// (get) Token: 0x06001842 RID: 6210 RVA: 0x000D3A9C File Offset: 0x000D1E9C
 		public IEnumerable<Pawn> RelatedPawns
 		{
 			get
@@ -253,7 +253,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600184C RID: 6220 RVA: 0x000D3AC0 File Offset: 0x000D1EC0
+		// Token: 0x06001843 RID: 6211 RVA: 0x000D3AC8 File Offset: 0x000D1EC8
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<DirectPawnRelation>(ref this.directRelations, "directRelations", LookMode.Deep, new object[0]);
@@ -284,7 +284,7 @@ namespace RimWorld
 			Scribe_References.Look<Pawn>(ref this.relativeInvolvedInRescueQuest, "relativeInvolvedInRescueQuest", false);
 		}
 
-		// Token: 0x0600184D RID: 6221 RVA: 0x000D3C14 File Offset: 0x000D2014
+		// Token: 0x06001844 RID: 6212 RVA: 0x000D3C1C File Offset: 0x000D201C
 		public void RelationsTrackerTick()
 		{
 			if (!this.pawn.Dead)
@@ -294,7 +294,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600184E RID: 6222 RVA: 0x000D3C38 File Offset: 0x000D2038
+		// Token: 0x06001845 RID: 6213 RVA: 0x000D3C40 File Offset: 0x000D2040
 		public DirectPawnRelation GetDirectRelation(PawnRelationDef def, Pawn otherPawn)
 		{
 			DirectPawnRelation result;
@@ -310,7 +310,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600184F RID: 6223 RVA: 0x000D3CA8 File Offset: 0x000D20A8
+		// Token: 0x06001846 RID: 6214 RVA: 0x000D3CB0 File Offset: 0x000D20B0
 		public Pawn GetFirstDirectRelationPawn(PawnRelationDef def, Predicate<Pawn> predicate = null)
 		{
 			Pawn result;
@@ -334,7 +334,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001850 RID: 6224 RVA: 0x000D3D3C File Offset: 0x000D213C
+		// Token: 0x06001847 RID: 6215 RVA: 0x000D3D44 File Offset: 0x000D2144
 		public bool DirectRelationExists(PawnRelationDef def, Pawn otherPawn)
 		{
 			bool result;
@@ -358,7 +358,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001851 RID: 6225 RVA: 0x000D3DC0 File Offset: 0x000D21C0
+		// Token: 0x06001848 RID: 6216 RVA: 0x000D3DC8 File Offset: 0x000D21C8
 		public void AddDirectRelation(PawnRelationDef def, Pawn otherPawn)
 		{
 			if (def.implied)
@@ -410,13 +410,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001852 RID: 6226 RVA: 0x000D3F34 File Offset: 0x000D2334
+		// Token: 0x06001849 RID: 6217 RVA: 0x000D3F3C File Offset: 0x000D233C
 		public void RemoveDirectRelation(DirectPawnRelation relation)
 		{
 			this.RemoveDirectRelation(relation.def, relation.otherPawn);
 		}
 
-		// Token: 0x06001853 RID: 6227 RVA: 0x000D3F4C File Offset: 0x000D234C
+		// Token: 0x0600184A RID: 6218 RVA: 0x000D3F54 File Offset: 0x000D2354
 		public void RemoveDirectRelation(PawnRelationDef def, Pawn otherPawn)
 		{
 			if (!this.TryRemoveDirectRelation(def, otherPawn))
@@ -433,7 +433,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001854 RID: 6228 RVA: 0x000D3FA4 File Offset: 0x000D23A4
+		// Token: 0x0600184B RID: 6219 RVA: 0x000D3FAC File Offset: 0x000D23AC
 		public bool TryRemoveDirectRelation(PawnRelationDef def, Pawn otherPawn)
 		{
 			bool result;
@@ -481,7 +481,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001855 RID: 6229 RVA: 0x000D4154 File Offset: 0x000D2554
+		// Token: 0x0600184C RID: 6220 RVA: 0x000D415C File Offset: 0x000D255C
 		public int OpinionOf(Pawn other)
 		{
 			int result;
@@ -526,7 +526,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001856 RID: 6230 RVA: 0x000D42D0 File Offset: 0x000D26D0
+		// Token: 0x0600184D RID: 6221 RVA: 0x000D42D8 File Offset: 0x000D26D8
 		public string OpinionExplanation(Pawn other)
 		{
 			string result;
@@ -616,7 +616,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001857 RID: 6231 RVA: 0x000D460C File Offset: 0x000D2A0C
+		// Token: 0x0600184E RID: 6222 RVA: 0x000D4614 File Offset: 0x000D2A14
 		public float SecondaryLovinChanceFactor(Pawn otherPawn)
 		{
 			float result;
@@ -698,7 +698,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001858 RID: 6232 RVA: 0x000D4930 File Offset: 0x000D2D30
+		// Token: 0x0600184F RID: 6223 RVA: 0x000D4938 File Offset: 0x000D2D38
 		public float SecondaryRomanceChanceFactor(Pawn otherPawn)
 		{
 			float num = 1f;
@@ -709,7 +709,7 @@ namespace RimWorld
 			return this.SecondaryLovinChanceFactor(otherPawn) * num;
 		}
 
-		// Token: 0x06001859 RID: 6233 RVA: 0x000D49AC File Offset: 0x000D2DAC
+		// Token: 0x06001850 RID: 6224 RVA: 0x000D49B4 File Offset: 0x000D2DB4
 		public float CompatibilityWith(Pawn otherPawn)
 		{
 			float result;
@@ -728,7 +728,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600185A RID: 6234 RVA: 0x000D4A4C File Offset: 0x000D2E4C
+		// Token: 0x06001851 RID: 6225 RVA: 0x000D4A54 File Offset: 0x000D2E54
 		public float ConstantPerPawnsPairCompatibilityOffset(int otherPawnID)
 		{
 			Rand.PushState();
@@ -738,7 +738,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600185B RID: 6235 RVA: 0x000D4A98 File Offset: 0x000D2E98
+		// Token: 0x06001852 RID: 6226 RVA: 0x000D4AA0 File Offset: 0x000D2EA0
 		public void ClearAllRelations()
 		{
 			List<DirectPawnRelation> list = this.directRelations.ToList<DirectPawnRelation>();
@@ -760,7 +760,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600185C RID: 6236 RVA: 0x000D4B68 File Offset: 0x000D2F68
+		// Token: 0x06001853 RID: 6227 RVA: 0x000D4B70 File Offset: 0x000D2F70
 		internal void Notify_PawnKilled(DamageInfo? dinfo, Map mapBeforeDeath)
 		{
 			foreach (Pawn pawn in this.PotentiallyRelatedPawns)
@@ -781,7 +781,7 @@ namespace RimWorld
 			this.Notify_FailedRescueQuest();
 		}
 
-		// Token: 0x0600185D RID: 6237 RVA: 0x000D4C3C File Offset: 0x000D303C
+		// Token: 0x06001854 RID: 6228 RVA: 0x000D4C44 File Offset: 0x000D3044
 		public void Notify_PassedToWorld()
 		{
 			if (!this.pawn.Dead)
@@ -790,13 +790,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600185E RID: 6238 RVA: 0x000D4C56 File Offset: 0x000D3056
+		// Token: 0x06001855 RID: 6229 RVA: 0x000D4C5E File Offset: 0x000D305E
 		public void Notify_ExitedMap()
 		{
 			this.Rescued();
 		}
 
-		// Token: 0x0600185F RID: 6239 RVA: 0x000D4C5F File Offset: 0x000D305F
+		// Token: 0x06001856 RID: 6230 RVA: 0x000D4C67 File Offset: 0x000D3067
 		public void Notify_ChangedFaction()
 		{
 			if (this.pawn.Faction == Faction.OfPlayer)
@@ -805,7 +805,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001860 RID: 6240 RVA: 0x000D4C80 File Offset: 0x000D3080
+		// Token: 0x06001857 RID: 6231 RVA: 0x000D4C88 File Offset: 0x000D3088
 		public void Notify_PawnSold(Pawn playerNegotiator)
 		{
 			foreach (Pawn pawn in this.PotentiallyRelatedPawns)
@@ -822,13 +822,13 @@ namespace RimWorld
 			this.RemoveMySpouseMarriageRelatedThoughts();
 		}
 
-		// Token: 0x06001861 RID: 6241 RVA: 0x000D4D3C File Offset: 0x000D313C
+		// Token: 0x06001858 RID: 6232 RVA: 0x000D4D44 File Offset: 0x000D3144
 		public void Notify_PawnKidnapped()
 		{
 			this.RemoveMySpouseMarriageRelatedThoughts();
 		}
 
-		// Token: 0x06001862 RID: 6242 RVA: 0x000D4D48 File Offset: 0x000D3148
+		// Token: 0x06001859 RID: 6233 RVA: 0x000D4D50 File Offset: 0x000D3150
 		public void Notify_RescuedBy(Pawn rescuer)
 		{
 			if (rescuer.RaceProps.Humanlike && this.canGetRescuedThought)
@@ -838,7 +838,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001863 RID: 6243 RVA: 0x000D4DA0 File Offset: 0x000D31A0
+		// Token: 0x0600185A RID: 6234 RVA: 0x000D4DA8 File Offset: 0x000D31A8
 		public void Notify_FailedRescueQuest()
 		{
 			if (this.relativeInvolvedInRescueQuest != null && !this.relativeInvolvedInRescueQuest.Dead && this.relativeInvolvedInRescueQuest.needs.mood != null)
@@ -853,7 +853,7 @@ namespace RimWorld
 			this.relativeInvolvedInRescueQuest = null;
 		}
 
-		// Token: 0x06001864 RID: 6244 RVA: 0x000D4E54 File Offset: 0x000D3254
+		// Token: 0x0600185B RID: 6235 RVA: 0x000D4E5C File Offset: 0x000D325C
 		private void Rescued()
 		{
 			if (this.relativeInvolvedInRescueQuest != null && !this.relativeInvolvedInRescueQuest.Dead && this.relativeInvolvedInRescueQuest.needs.mood != null)
@@ -868,19 +868,19 @@ namespace RimWorld
 			this.relativeInvolvedInRescueQuest = null;
 		}
 
-		// Token: 0x06001865 RID: 6245 RVA: 0x000D4F08 File Offset: 0x000D3308
+		// Token: 0x0600185C RID: 6236 RVA: 0x000D4F10 File Offset: 0x000D3310
 		public float GetFriendDiedThoughtPowerFactor(int opinion)
 		{
 			return Mathf.Lerp(0.15f, 1f, Mathf.InverseLerp(20f, 100f, (float)opinion));
 		}
 
-		// Token: 0x06001866 RID: 6246 RVA: 0x000D4F40 File Offset: 0x000D3340
+		// Token: 0x0600185D RID: 6237 RVA: 0x000D4F48 File Offset: 0x000D3348
 		public float GetRivalDiedThoughtPowerFactor(int opinion)
 		{
 			return Mathf.Lerp(0.15f, 1f, Mathf.InverseLerp(-20f, -100f, (float)opinion));
 		}
 
-		// Token: 0x06001867 RID: 6247 RVA: 0x000D4F78 File Offset: 0x000D3378
+		// Token: 0x0600185E RID: 6238 RVA: 0x000D4F80 File Offset: 0x000D3380
 		private void RemoveMySpouseMarriageRelatedThoughts()
 		{
 			Pawn spouse = this.pawn.GetSpouse();
@@ -892,7 +892,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001868 RID: 6248 RVA: 0x000D4FE4 File Offset: 0x000D33E4
+		// Token: 0x0600185F RID: 6239 RVA: 0x000D4FEC File Offset: 0x000D33EC
 		public void CheckAppendBondedAnimalDiedInfo(ref string letter, ref string label)
 		{
 			if (this.pawn.RaceProps.Animal && this.everSeenByPlayer && !PawnGenerator.IsBeingGenerated(this.pawn))
@@ -943,7 +943,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001869 RID: 6249 RVA: 0x000D5204 File Offset: 0x000D3604
+		// Token: 0x06001860 RID: 6240 RVA: 0x000D520C File Offset: 0x000D360C
 		private void AffectBondedAnimalsOnMyDeath()
 		{
 			int num = 0;
@@ -1007,7 +1007,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600186A RID: 6250 RVA: 0x000D53E4 File Offset: 0x000D37E4
+		// Token: 0x06001861 RID: 6241 RVA: 0x000D53EC File Offset: 0x000D37EC
 		private void Tick_CheckStartMarriageCeremony()
 		{
 			if (this.pawn.Spawned && !this.pawn.RaceProps.Animal)
@@ -1027,7 +1027,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600186B RID: 6251 RVA: 0x000D5588 File Offset: 0x000D3988
+		// Token: 0x06001862 RID: 6242 RVA: 0x000D5590 File Offset: 0x000D3990
 		private void Tick_CheckDevelopBondRelation()
 		{
 			if (this.pawn.Spawned && this.pawn.RaceProps.Animal && this.pawn.Faction == Faction.OfPlayer && this.pawn.playerSettings.RespectedMaster != null)
@@ -1040,7 +1040,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600186C RID: 6252 RVA: 0x000D5674 File Offset: 0x000D3A74
+		// Token: 0x06001863 RID: 6243 RVA: 0x000D567C File Offset: 0x000D3A7C
 		private void GainedOrLostDirectRelation()
 		{
 			if (Current.ProgramState == ProgramState.Playing && !this.pawn.Dead && this.pawn.needs.mood != null)
@@ -1049,49 +1049,49 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000E70 RID: 3696
+		// Token: 0x04000E6D RID: 3693
 		private Pawn pawn;
 
-		// Token: 0x04000E71 RID: 3697
+		// Token: 0x04000E6E RID: 3694
 		private List<DirectPawnRelation> directRelations = new List<DirectPawnRelation>();
 
-		// Token: 0x04000E72 RID: 3698
+		// Token: 0x04000E6F RID: 3695
 		public bool everSeenByPlayer;
 
-		// Token: 0x04000E73 RID: 3699
+		// Token: 0x04000E70 RID: 3696
 		public bool canGetRescuedThought = true;
 
-		// Token: 0x04000E74 RID: 3700
+		// Token: 0x04000E71 RID: 3697
 		public Pawn relativeInvolvedInRescueQuest;
 
-		// Token: 0x04000E75 RID: 3701
+		// Token: 0x04000E72 RID: 3698
 		private HashSet<Pawn> pawnsWithDirectRelationsWithMe = new HashSet<Pawn>();
 
-		// Token: 0x04000E76 RID: 3702
+		// Token: 0x04000E73 RID: 3699
 		private List<Pawn> cachedFamilyByBlood = new List<Pawn>();
 
-		// Token: 0x04000E77 RID: 3703
+		// Token: 0x04000E74 RID: 3700
 		private bool familyByBloodIsCached;
 
-		// Token: 0x04000E78 RID: 3704
+		// Token: 0x04000E75 RID: 3701
 		private bool canCacheFamilyByBlood;
 
-		// Token: 0x04000E79 RID: 3705
+		// Token: 0x04000E76 RID: 3702
 		private const int CheckDevelopBondRelationIntervalTicks = 2500;
 
-		// Token: 0x04000E7A RID: 3706
+		// Token: 0x04000E77 RID: 3703
 		private const float MaxBondRelationCheckDist = 12f;
 
-		// Token: 0x04000E7B RID: 3707
+		// Token: 0x04000E78 RID: 3704
 		private const float BondRelationPerIntervalChance = 0.001f;
 
-		// Token: 0x04000E7C RID: 3708
+		// Token: 0x04000E79 RID: 3705
 		public const int FriendOpinionThreshold = 20;
 
-		// Token: 0x04000E7D RID: 3709
+		// Token: 0x04000E7A RID: 3706
 		public const int RivalOpinionThreshold = -20;
 
-		// Token: 0x04000E7E RID: 3710
+		// Token: 0x04000E7B RID: 3707
 		private static List<ISocialThought> tmpSocialThoughts = new List<ISocialThought>();
 	}
 }

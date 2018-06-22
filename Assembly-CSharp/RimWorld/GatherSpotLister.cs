@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace RimWorld
 {
-	// Token: 0x02000717 RID: 1815
+	// Token: 0x02000713 RID: 1811
 	public class GatherSpotLister
 	{
-		// Token: 0x060027DA RID: 10202 RVA: 0x00154F55 File Offset: 0x00153355
+		// Token: 0x060027D2 RID: 10194 RVA: 0x0015510D File Offset: 0x0015350D
 		public void RegisterActivated(CompGatherSpot spot)
 		{
 			if (!this.activeSpots.Contains(spot))
@@ -15,7 +15,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027DB RID: 10203 RVA: 0x00154F75 File Offset: 0x00153375
+		// Token: 0x060027D3 RID: 10195 RVA: 0x0015512D File Offset: 0x0015352D
 		public void RegisterDeactivated(CompGatherSpot spot)
 		{
 			if (this.activeSpots.Contains(spot))
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040015E0 RID: 5600
+		// Token: 0x040015DE RID: 5598
 		public List<CompGatherSpot> activeSpots = new List<CompGatherSpot>();
 	}
 }

@@ -3,11 +3,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D17 RID: 3351
+	// Token: 0x02000D14 RID: 3348
 	public class HediffComp_Infecter : HediffComp
 	{
-		// Token: 0x17000BAE RID: 2990
-		// (get) Token: 0x060049C6 RID: 18886 RVA: 0x00269078 File Offset: 0x00267478
+		// Token: 0x17000BB0 RID: 2992
+		// (get) Token: 0x060049D7 RID: 18903 RVA: 0x0026A4AC File Offset: 0x002688AC
 		public HediffCompProperties_Infecter Props
 		{
 			get
@@ -16,7 +16,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049C7 RID: 18887 RVA: 0x00269098 File Offset: 0x00267498
+		// Token: 0x060049D8 RID: 18904 RVA: 0x0026A4CC File Offset: 0x002688CC
 		public override void CompPostPostAdd(DamageInfo? dinfo)
 		{
 			if (this.parent.IsPermanent())
@@ -49,14 +49,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049C8 RID: 18888 RVA: 0x00269193 File Offset: 0x00267593
+		// Token: 0x060049D9 RID: 18905 RVA: 0x0026A5C7 File Offset: 0x002689C7
 		public override void CompExposeData()
 		{
 			Scribe_Values.Look<float>(ref this.infectionChanceFactorFromTendRoom, "infectionChanceFactor", 0f, false);
 			Scribe_Values.Look<int>(ref this.ticksUntilInfect, "ticksUntilInfect", -2, false);
 		}
 
-		// Token: 0x060049C9 RID: 18889 RVA: 0x002691BF File Offset: 0x002675BF
+		// Token: 0x060049DA RID: 18906 RVA: 0x0026A5F3 File Offset: 0x002689F3
 		public override void CompPostTick(ref float severityAdjustment)
 		{
 			if (this.ticksUntilInfect > 0)
@@ -69,7 +69,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049CA RID: 18890 RVA: 0x002691F0 File Offset: 0x002675F0
+		// Token: 0x060049DB RID: 18907 RVA: 0x0026A624 File Offset: 0x00268A24
 		public override void CompTended(float quality, int batchPosition = 0)
 		{
 			if (base.Pawn.Spawned)
@@ -82,7 +82,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049CB RID: 18891 RVA: 0x00269234 File Offset: 0x00267634
+		// Token: 0x060049DC RID: 18908 RVA: 0x0026A668 File Offset: 0x00268A68
 		private void CheckMakeInfection()
 		{
 			if (base.Pawn.health.immunity.DiseaseContractChanceFactor(HediffDefOf.WoundInfection, this.parent.Part) <= 0.001f)
@@ -114,7 +114,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049CC RID: 18892 RVA: 0x00269334 File Offset: 0x00267734
+		// Token: 0x060049DD RID: 18909 RVA: 0x0026A768 File Offset: 0x00268B68
 		public override string CompDebugString()
 		{
 			string result;
@@ -154,25 +154,25 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003203 RID: 12803
+		// Token: 0x0400320E RID: 12814
 		private int ticksUntilInfect = -1;
 
-		// Token: 0x04003204 RID: 12804
+		// Token: 0x0400320F RID: 12815
 		private float infectionChanceFactorFromTendRoom = 1f;
 
-		// Token: 0x04003205 RID: 12805
+		// Token: 0x04003210 RID: 12816
 		private const int UninitializedValue = -1;
 
-		// Token: 0x04003206 RID: 12806
+		// Token: 0x04003211 RID: 12817
 		private const int WillNotInfectValue = -2;
 
-		// Token: 0x04003207 RID: 12807
+		// Token: 0x04003212 RID: 12818
 		private const int FailedToMakeInfectionValue = -3;
 
-		// Token: 0x04003208 RID: 12808
+		// Token: 0x04003213 RID: 12819
 		private const int AlreadyMadeInfectionValue = -4;
 
-		// Token: 0x04003209 RID: 12809
+		// Token: 0x04003214 RID: 12820
 		private static readonly SimpleCurve InfectionChanceFactorFromTendQualityCurve = new SimpleCurve
 		{
 			{

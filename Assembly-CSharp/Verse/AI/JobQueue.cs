@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A57 RID: 2647
+	// Token: 0x02000A53 RID: 2643
 	public class JobQueue : IExposable, IEnumerable<QueuedJob>, IEnumerable
 	{
-		// Token: 0x170008FE RID: 2302
-		// (get) Token: 0x06003AE5 RID: 15077 RVA: 0x001F3F34 File Offset: 0x001F2334
+		// Token: 0x170008FF RID: 2303
+		// (get) Token: 0x06003AE0 RID: 15072 RVA: 0x001F422C File Offset: 0x001F262C
 		public int Count
 		{
 			get
@@ -17,7 +17,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x170008FF RID: 2303
+		// Token: 0x17000900 RID: 2304
 		public QueuedJob this[int index]
 		{
 			get
@@ -26,8 +26,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000900 RID: 2304
-		// (get) Token: 0x06003AE7 RID: 15079 RVA: 0x001F3F78 File Offset: 0x001F2378
+		// Token: 0x17000901 RID: 2305
+		// (get) Token: 0x06003AE2 RID: 15074 RVA: 0x001F4270 File Offset: 0x001F2670
 		public bool AnyPlayerForced
 		{
 			get
@@ -43,25 +43,25 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003AE8 RID: 15080 RVA: 0x001F3FCE File Offset: 0x001F23CE
+		// Token: 0x06003AE3 RID: 15075 RVA: 0x001F42C6 File Offset: 0x001F26C6
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<QueuedJob>(ref this.jobs, "jobs", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x06003AE9 RID: 15081 RVA: 0x001F3FE8 File Offset: 0x001F23E8
+		// Token: 0x06003AE4 RID: 15076 RVA: 0x001F42E0 File Offset: 0x001F26E0
 		public void EnqueueFirst(Job j, JobTag? tag = null)
 		{
 			this.jobs.Insert(0, new QueuedJob(j, tag));
 		}
 
-		// Token: 0x06003AEA RID: 15082 RVA: 0x001F3FFE File Offset: 0x001F23FE
+		// Token: 0x06003AE5 RID: 15077 RVA: 0x001F42F6 File Offset: 0x001F26F6
 		public void EnqueueLast(Job j, JobTag? tag = null)
 		{
 			this.jobs.Add(new QueuedJob(j, tag));
 		}
 
-		// Token: 0x06003AEB RID: 15083 RVA: 0x001F4014 File Offset: 0x001F2414
+		// Token: 0x06003AE6 RID: 15078 RVA: 0x001F430C File Offset: 0x001F270C
 		public QueuedJob Extract(Job j)
 		{
 			int num = this.jobs.FindIndex((QueuedJob qj) => qj.job == j);
@@ -79,7 +79,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003AEC RID: 15084 RVA: 0x001F4078 File Offset: 0x001F2478
+		// Token: 0x06003AE7 RID: 15079 RVA: 0x001F4370 File Offset: 0x001F2770
 		public QueuedJob Dequeue()
 		{
 			QueuedJob result;
@@ -96,13 +96,13 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003AED RID: 15085 RVA: 0x001F40C0 File Offset: 0x001F24C0
+		// Token: 0x06003AE8 RID: 15080 RVA: 0x001F43B8 File Offset: 0x001F27B8
 		public QueuedJob Peek()
 		{
 			return this.jobs[0];
 		}
 
-		// Token: 0x06003AEE RID: 15086 RVA: 0x001F40E4 File Offset: 0x001F24E4
+		// Token: 0x06003AE9 RID: 15081 RVA: 0x001F43DC File Offset: 0x001F27DC
 		public bool AnyCanBeginNow(Pawn pawn, bool whileLyingDown)
 		{
 			for (int i = 0; i < this.jobs.Count; i++)
@@ -115,19 +115,19 @@ namespace Verse.AI
 			return false;
 		}
 
-		// Token: 0x06003AEF RID: 15087 RVA: 0x001F413C File Offset: 0x001F253C
+		// Token: 0x06003AEA RID: 15082 RVA: 0x001F4434 File Offset: 0x001F2834
 		public IEnumerator<QueuedJob> GetEnumerator()
 		{
 			return this.jobs.GetEnumerator();
 		}
 
-		// Token: 0x06003AF0 RID: 15088 RVA: 0x001F4164 File Offset: 0x001F2564
+		// Token: 0x06003AEB RID: 15083 RVA: 0x001F445C File Offset: 0x001F285C
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return this.jobs.GetEnumerator();
 		}
 
-		// Token: 0x04002544 RID: 9540
+		// Token: 0x0400253F RID: 9535
 		private List<QueuedJob> jobs = new List<QueuedJob>();
 	}
 }

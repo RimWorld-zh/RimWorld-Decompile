@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008C6 RID: 2246
+	// Token: 0x020008C2 RID: 2242
 	public class Instruction_FinishConstruction : Lesson_Instruction
 	{
-		// Token: 0x1700082B RID: 2091
-		// (get) Token: 0x06003353 RID: 13139 RVA: 0x001B8C70 File Offset: 0x001B7070
+		// Token: 0x1700082C RID: 2092
+		// (get) Token: 0x0600334C RID: 13132 RVA: 0x001B8E58 File Offset: 0x001B7258
 		protected override float ProgressPercent
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003354 RID: 13140 RVA: 0x001B8CD4 File Offset: 0x001B70D4
+		// Token: 0x0600334D RID: 13133 RVA: 0x001B8EBC File Offset: 0x001B72BC
 		private IEnumerable<Thing> ConstructionNeeders()
 		{
 			return from b in base.Map.listerThings.ThingsInGroup(ThingRequestGroup.Blueprint).Concat(base.Map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingFrame))
@@ -39,7 +39,7 @@ namespace RimWorld
 			select b;
 		}
 
-		// Token: 0x06003355 RID: 13141 RVA: 0x001B8D34 File Offset: 0x001B7134
+		// Token: 0x0600334E RID: 13134 RVA: 0x001B8F1C File Offset: 0x001B731C
 		public override void LessonUpdate()
 		{
 			base.LessonUpdate();
@@ -56,7 +56,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04001B99 RID: 7065
+		// Token: 0x04001B97 RID: 7063
 		private int initialBlueprintsCount = -1;
 	}
 }

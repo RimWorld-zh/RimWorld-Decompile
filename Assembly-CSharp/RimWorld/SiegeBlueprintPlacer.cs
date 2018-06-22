@@ -10,7 +10,7 @@ namespace RimWorld
 	// Token: 0x020001AA RID: 426
 	public static class SiegeBlueprintPlacer
 	{
-		// Token: 0x060008CD RID: 2253 RVA: 0x000528D4 File Offset: 0x00050CD4
+		// Token: 0x060008CB RID: 2251 RVA: 0x000528E8 File Offset: 0x00050CE8
 		public static IEnumerable<Blueprint_Build> PlaceBlueprints(IntVec3 placeCenter, Map map, Faction placeFaction, float points)
 		{
 			SiegeBlueprintPlacer.center = placeCenter;
@@ -26,13 +26,13 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060008CE RID: 2254 RVA: 0x00052914 File Offset: 0x00050D14
+		// Token: 0x060008CC RID: 2252 RVA: 0x00052928 File Offset: 0x00050D28
 		private static bool CanPlaceBlueprintAt(IntVec3 root, Rot4 rot, ThingDef buildingDef, Map map)
 		{
 			return GenConstruct.CanPlaceBlueprintAt(buildingDef, root, rot, map, false, null).Accepted;
 		}
 
-		// Token: 0x060008CF RID: 2255 RVA: 0x0005293C File Offset: 0x00050D3C
+		// Token: 0x060008CD RID: 2253 RVA: 0x00052950 File Offset: 0x00050D50
 		private static IEnumerable<Blueprint_Build> PlaceSandbagBlueprints(Map map)
 		{
 			SiegeBlueprintPlacer.placedSandbagLocs.Clear();
@@ -75,7 +75,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060008D0 RID: 2256 RVA: 0x00052968 File Offset: 0x00050D68
+		// Token: 0x060008CE RID: 2254 RVA: 0x0005297C File Offset: 0x00050D7C
 		private static IEnumerable<Blueprint_Build> MakeSandbagLine(IntVec3 root, Map map, Rot4 growDir, int maxLength)
 		{
 			IntVec3 cur = root;
@@ -92,7 +92,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060008D1 RID: 2257 RVA: 0x000529A8 File Offset: 0x00050DA8
+		// Token: 0x060008CF RID: 2255 RVA: 0x000529BC File Offset: 0x00050DBC
 		private static IEnumerable<Blueprint_Build> PlaceArtilleryBlueprints(float points, Map map)
 		{
 			IEnumerable<ThingDef> artyDefs = from def in DefDatabase<ThingDef>.AllDefs
@@ -115,7 +115,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060008D2 RID: 2258 RVA: 0x000529E0 File Offset: 0x00050DE0
+		// Token: 0x060008D0 RID: 2256 RVA: 0x000529F4 File Offset: 0x00050DF4
 		private static IntVec3 FindSandbagRoot(Map map)
 		{
 			CellRect cellRect = CellRect.CenteredOn(SiegeBlueprintPlacer.center, 13);
@@ -160,7 +160,7 @@ namespace RimWorld
 			return randomCell;
 		}
 
-		// Token: 0x060008D3 RID: 2259 RVA: 0x00052B00 File Offset: 0x00050F00
+		// Token: 0x060008D1 RID: 2257 RVA: 0x00052B14 File Offset: 0x00050F14
 		private static IntVec3 FindArtySpot(ThingDef artyDef, Rot4 rot, Map map)
 		{
 			CellRect cellRect = CellRect.CenteredOn(SiegeBlueprintPlacer.center, 8);
@@ -191,28 +191,28 @@ namespace RimWorld
 			return randomCell;
 		}
 
-		// Token: 0x040003B2 RID: 946
+		// Token: 0x040003B0 RID: 944
 		private static IntVec3 center;
 
-		// Token: 0x040003B3 RID: 947
+		// Token: 0x040003B1 RID: 945
 		private static Faction faction;
 
-		// Token: 0x040003B4 RID: 948
+		// Token: 0x040003B2 RID: 946
 		private static List<IntVec3> placedSandbagLocs = new List<IntVec3>();
 
-		// Token: 0x040003B5 RID: 949
+		// Token: 0x040003B3 RID: 947
 		private const int MaxArtyCount = 2;
 
-		// Token: 0x040003B6 RID: 950
+		// Token: 0x040003B4 RID: 948
 		public const float ArtyCost = 60f;
 
-		// Token: 0x040003B7 RID: 951
+		// Token: 0x040003B5 RID: 949
 		private const int MinSandbagDistSquared = 36;
 
-		// Token: 0x040003B8 RID: 952
+		// Token: 0x040003B6 RID: 950
 		private static readonly IntRange NumSandbagRange = new IntRange(2, 4);
 
-		// Token: 0x040003B9 RID: 953
+		// Token: 0x040003B7 RID: 951
 		private static readonly IntRange SandbagLengthRange = new IntRange(2, 7);
 	}
 }

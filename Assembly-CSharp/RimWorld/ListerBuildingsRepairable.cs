@@ -8,19 +8,19 @@ namespace RimWorld
 	// Token: 0x02000387 RID: 903
 	public class ListerBuildingsRepairable
 	{
-		// Token: 0x06000FA3 RID: 4003 RVA: 0x00083C8C File Offset: 0x0008208C
+		// Token: 0x06000FA3 RID: 4003 RVA: 0x00083E78 File Offset: 0x00082278
 		public List<Thing> RepairableBuildings(Faction fac)
 		{
 			return this.ListFor(fac);
 		}
 
-		// Token: 0x06000FA4 RID: 4004 RVA: 0x00083CA8 File Offset: 0x000820A8
+		// Token: 0x06000FA4 RID: 4004 RVA: 0x00083E94 File Offset: 0x00082294
 		public bool Contains(Faction fac, Building b)
 		{
 			return this.HashSetFor(fac).Contains(b);
 		}
 
-		// Token: 0x06000FA5 RID: 4005 RVA: 0x00083CCA File Offset: 0x000820CA
+		// Token: 0x06000FA5 RID: 4005 RVA: 0x00083EB6 File Offset: 0x000822B6
 		public void Notify_BuildingSpawned(Building b)
 		{
 			if (b.Faction != null)
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000FA6 RID: 4006 RVA: 0x00083CE4 File Offset: 0x000820E4
+		// Token: 0x06000FA6 RID: 4006 RVA: 0x00083ED0 File Offset: 0x000822D0
 		public void Notify_BuildingDeSpawned(Building b)
 		{
 			if (b.Faction != null)
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000FA7 RID: 4007 RVA: 0x00083D1D File Offset: 0x0008211D
+		// Token: 0x06000FA7 RID: 4007 RVA: 0x00083F09 File Offset: 0x00082309
 		public void Notify_BuildingTookDamage(Building b)
 		{
 			if (b.Faction != null)
@@ -48,7 +48,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000FA8 RID: 4008 RVA: 0x00083D37 File Offset: 0x00082137
+		// Token: 0x06000FA8 RID: 4008 RVA: 0x00083F23 File Offset: 0x00082323
 		public void Notify_BuildingRepaired(Building b)
 		{
 			if (b.Faction != null)
@@ -57,7 +57,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000FA9 RID: 4009 RVA: 0x00083D54 File Offset: 0x00082154
+		// Token: 0x06000FA9 RID: 4009 RVA: 0x00083F40 File Offset: 0x00082340
 		private void UpdateBuilding(Building b)
 		{
 			if (b.Faction != null && b.def.building.repairable)
@@ -80,7 +80,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000FAA RID: 4010 RVA: 0x00083DE8 File Offset: 0x000821E8
+		// Token: 0x06000FAA RID: 4010 RVA: 0x00083FD4 File Offset: 0x000823D4
 		private List<Thing> ListFor(Faction fac)
 		{
 			List<Thing> list;
@@ -92,7 +92,7 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x06000FAB RID: 4011 RVA: 0x00083E28 File Offset: 0x00082228
+		// Token: 0x06000FAB RID: 4011 RVA: 0x00084014 File Offset: 0x00082414
 		private HashSet<Thing> HashSetFor(Faction fac)
 		{
 			HashSet<Thing> hashSet;
@@ -104,7 +104,7 @@ namespace RimWorld
 			return hashSet;
 		}
 
-		// Token: 0x06000FAC RID: 4012 RVA: 0x00083E68 File Offset: 0x00082268
+		// Token: 0x06000FAC RID: 4012 RVA: 0x00084054 File Offset: 0x00082454
 		internal string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -130,10 +130,10 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x04000994 RID: 2452
+		// Token: 0x04000996 RID: 2454
 		private Dictionary<Faction, List<Thing>> repairables = new Dictionary<Faction, List<Thing>>();
 
-		// Token: 0x04000995 RID: 2453
+		// Token: 0x04000997 RID: 2455
 		private Dictionary<Faction, HashSet<Thing>> repairablesSet = new Dictionary<Faction, HashSet<Thing>>();
 	}
 }

@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200062A RID: 1578
+	// Token: 0x02000626 RID: 1574
 	public abstract class WorldObjectComp
 	{
 		// Token: 0x170004CE RID: 1230
-		// (get) Token: 0x06002024 RID: 8228 RVA: 0x001114A4 File Offset: 0x0010F8A4
+		// (get) Token: 0x06002019 RID: 8217 RVA: 0x001114F8 File Offset: 0x0010F8F8
 		public IThingHolder ParentHolder
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004CF RID: 1231
-		// (get) Token: 0x06002025 RID: 8229 RVA: 0x001114C4 File Offset: 0x0010F8C4
+		// (get) Token: 0x0600201A RID: 8218 RVA: 0x00111518 File Offset: 0x0010F918
 		public bool ParentHasMap
 		{
 			get
@@ -28,85 +28,85 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002026 RID: 8230 RVA: 0x001114F4 File Offset: 0x0010F8F4
+		// Token: 0x0600201B RID: 8219 RVA: 0x00111548 File Offset: 0x0010F948
 		public virtual void Initialize(WorldObjectCompProperties props)
 		{
 			this.props = props;
 		}
 
-		// Token: 0x06002027 RID: 8231 RVA: 0x001114FE File Offset: 0x0010F8FE
+		// Token: 0x0600201C RID: 8220 RVA: 0x00111552 File Offset: 0x0010F952
 		public virtual void CompTick()
 		{
 		}
 
-		// Token: 0x06002028 RID: 8232 RVA: 0x00111504 File Offset: 0x0010F904
+		// Token: 0x0600201D RID: 8221 RVA: 0x00111558 File Offset: 0x0010F958
 		public virtual IEnumerable<Gizmo> GetGizmos()
 		{
 			yield break;
 		}
 
-		// Token: 0x06002029 RID: 8233 RVA: 0x00111528 File Offset: 0x0010F928
+		// Token: 0x0600201E RID: 8222 RVA: 0x0011157C File Offset: 0x0010F97C
 		public virtual IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
 			yield break;
 		}
 
-		// Token: 0x0600202A RID: 8234 RVA: 0x0011154C File Offset: 0x0010F94C
+		// Token: 0x0600201F RID: 8223 RVA: 0x001115A0 File Offset: 0x0010F9A0
 		public virtual IEnumerable<FloatMenuOption> GetTransportPodsFloatMenuOptions(IEnumerable<IThingHolder> pods, CompLaunchable representative)
 		{
 			yield break;
 		}
 
-		// Token: 0x0600202B RID: 8235 RVA: 0x00111570 File Offset: 0x0010F970
+		// Token: 0x06002020 RID: 8224 RVA: 0x001115C4 File Offset: 0x0010F9C4
 		public virtual IEnumerable<Gizmo> GetCaravanGizmos(Caravan caravan)
 		{
 			yield break;
 		}
 
-		// Token: 0x0600202C RID: 8236 RVA: 0x00111594 File Offset: 0x0010F994
+		// Token: 0x06002021 RID: 8225 RVA: 0x001115E8 File Offset: 0x0010F9E8
 		public virtual IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
 		{
 			yield break;
 		}
 
-		// Token: 0x0600202D RID: 8237 RVA: 0x001115B8 File Offset: 0x0010F9B8
+		// Token: 0x06002022 RID: 8226 RVA: 0x0011160C File Offset: 0x0010FA0C
 		public virtual string CompInspectStringExtra()
 		{
 			return null;
 		}
 
-		// Token: 0x0600202E RID: 8238 RVA: 0x001115D0 File Offset: 0x0010F9D0
+		// Token: 0x06002023 RID: 8227 RVA: 0x00111624 File Offset: 0x0010FA24
 		public virtual string GetDescriptionPart()
 		{
 			return null;
 		}
 
-		// Token: 0x0600202F RID: 8239 RVA: 0x001115E6 File Offset: 0x0010F9E6
+		// Token: 0x06002024 RID: 8228 RVA: 0x0011163A File Offset: 0x0010FA3A
 		public virtual void PostPostRemove()
 		{
 		}
 
-		// Token: 0x06002030 RID: 8240 RVA: 0x001115E9 File Offset: 0x0010F9E9
+		// Token: 0x06002025 RID: 8229 RVA: 0x0011163D File Offset: 0x0010FA3D
 		public virtual void PostMyMapRemoved()
 		{
 		}
 
-		// Token: 0x06002031 RID: 8241 RVA: 0x001115EC File Offset: 0x0010F9EC
+		// Token: 0x06002026 RID: 8230 RVA: 0x00111640 File Offset: 0x0010FA40
 		public virtual void PostMapGenerate()
 		{
 		}
 
-		// Token: 0x06002032 RID: 8242 RVA: 0x001115EF File Offset: 0x0010F9EF
+		// Token: 0x06002027 RID: 8231 RVA: 0x00111643 File Offset: 0x0010FA43
 		public virtual void PostCaravanFormed(Caravan caravan)
 		{
 		}
 
-		// Token: 0x06002033 RID: 8243 RVA: 0x001115F2 File Offset: 0x0010F9F2
+		// Token: 0x06002028 RID: 8232 RVA: 0x00111646 File Offset: 0x0010FA46
 		public virtual void PostExposeData()
 		{
 		}
 
-		// Token: 0x06002034 RID: 8244 RVA: 0x001115F8 File Offset: 0x0010F9F8
+		// Token: 0x06002029 RID: 8233 RVA: 0x0011164C File Offset: 0x0010FA4C
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -120,10 +120,10 @@ namespace RimWorld.Planet
 			});
 		}
 
-		// Token: 0x04001280 RID: 4736
+		// Token: 0x0400127A RID: 4730
 		public WorldObject parent;
 
-		// Token: 0x04001281 RID: 4737
+		// Token: 0x0400127B RID: 4731
 		public WorldObjectCompProperties props;
 	}
 }

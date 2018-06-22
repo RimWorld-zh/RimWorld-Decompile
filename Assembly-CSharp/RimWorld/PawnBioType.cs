@@ -2,14 +2,14 @@
 
 namespace RimWorld
 {
-	// Token: 0x020004E3 RID: 1251
+	// Token: 0x020004DF RID: 1247
 	public enum PawnBioType
 	{
-		// Token: 0x04000CFE RID: 3326
+		// Token: 0x04000CFB RID: 3323
 		Undefined,
-		// Token: 0x04000CFF RID: 3327
+		// Token: 0x04000CFC RID: 3324
 		BackstoryInGame,
-		// Token: 0x04000D00 RID: 3328
+		// Token: 0x04000CFD RID: 3325
 		PirateKing
 	}
 }

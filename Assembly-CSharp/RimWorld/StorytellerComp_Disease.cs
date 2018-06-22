@@ -8,7 +8,7 @@ namespace RimWorld
 	public class StorytellerComp_Disease : StorytellerComp
 	{
 		// Token: 0x17000220 RID: 544
-		// (get) Token: 0x06000F2B RID: 3883 RVA: 0x00080648 File Offset: 0x0007EA48
+		// (get) Token: 0x06000F2B RID: 3883 RVA: 0x00080834 File Offset: 0x0007EC34
 		protected StorytellerCompProperties_Disease Props
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F2C RID: 3884 RVA: 0x00080668 File Offset: 0x0007EA68
+		// Token: 0x06000F2C RID: 3884 RVA: 0x00080854 File Offset: 0x0007EC54
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			if (!DebugSettings.enableRandomDiseases)
@@ -42,7 +42,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000F2D RID: 3885 RVA: 0x0008069C File Offset: 0x0007EA9C
+		// Token: 0x06000F2D RID: 3885 RVA: 0x00080888 File Offset: 0x0007EC88
 		public override string ToString()
 		{
 			return base.ToString() + " " + this.Props.incidentCategory;

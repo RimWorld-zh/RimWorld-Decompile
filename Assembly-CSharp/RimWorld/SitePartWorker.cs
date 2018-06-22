@@ -7,7 +7,7 @@ namespace RimWorld
 	public class SitePartWorker : SiteWorkerBase
 	{
 		// Token: 0x170001C8 RID: 456
-		// (get) Token: 0x06000BF9 RID: 3065 RVA: 0x0006A530 File Offset: 0x00068930
+		// (get) Token: 0x06000BF7 RID: 3063 RVA: 0x0006A598 File Offset: 0x00068998
 		public SitePartDef Def
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000BFA RID: 3066 RVA: 0x0006A550 File Offset: 0x00068950
+		// Token: 0x06000BF8 RID: 3064 RVA: 0x0006A5B8 File Offset: 0x000689B8
 		public virtual void SitePartWorkerTick(Site site)
 		{
 		}

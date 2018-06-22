@@ -2,18 +2,18 @@
 
 namespace RuntimeAudioClipLoader
 {
-	// Token: 0x020009DD RID: 2525
+	// Token: 0x020009D9 RID: 2521
 	public enum AudioFormat
 	{
-		// Token: 0x04002414 RID: 9236
+		// Token: 0x0400240F RID: 9231
 		wav,
-		// Token: 0x04002415 RID: 9237
+		// Token: 0x04002410 RID: 9232
 		mp3,
-		// Token: 0x04002416 RID: 9238
+		// Token: 0x04002411 RID: 9233
 		aiff,
-		// Token: 0x04002417 RID: 9239
+		// Token: 0x04002412 RID: 9234
 		ogg,
-		// Token: 0x04002418 RID: 9240
+		// Token: 0x04002413 RID: 9235
 		unknown = -1
 	}
 }

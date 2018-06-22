@@ -4,11 +4,11 @@ using Verse.Grammar;
 
 namespace Verse
 {
-	// Token: 0x02000B72 RID: 2930
+	// Token: 0x02000B6E RID: 2926
 	public class RulePackDef : Def
 	{
-		// Token: 0x170009BC RID: 2492
-		// (get) Token: 0x06003FEA RID: 16362 RVA: 0x0021A94C File Offset: 0x00218D4C
+		// Token: 0x170009BE RID: 2494
+		// (get) Token: 0x06003FEC RID: 16364 RVA: 0x0021AFE8 File Offset: 0x002193E8
 		public List<Rule> RulesPlusIncludes
 		{
 			get
@@ -32,8 +32,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009BD RID: 2493
-		// (get) Token: 0x06003FEB RID: 16363 RVA: 0x0021A9E8 File Offset: 0x00218DE8
+		// Token: 0x170009BF RID: 2495
+		// (get) Token: 0x06003FED RID: 16365 RVA: 0x0021B084 File Offset: 0x00219484
 		public List<Rule> RulesImmediate
 		{
 			get
@@ -42,7 +42,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FEC RID: 16364 RVA: 0x0021AA1C File Offset: 0x00218E1C
+		// Token: 0x06003FEE RID: 16366 RVA: 0x0021B0B8 File Offset: 0x002194B8
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -62,19 +62,19 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003FED RID: 16365 RVA: 0x0021AA48 File Offset: 0x00218E48
+		// Token: 0x06003FEF RID: 16367 RVA: 0x0021B0E4 File Offset: 0x002194E4
 		public static RulePackDef Named(string defName)
 		{
 			return DefDatabase<RulePackDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x04002ACD RID: 10957
+		// Token: 0x04002AD2 RID: 10962
 		public List<RulePackDef> include = null;
 
-		// Token: 0x04002ACE RID: 10958
+		// Token: 0x04002AD3 RID: 10963
 		private RulePack rulePack = null;
 
-		// Token: 0x04002ACF RID: 10959
+		// Token: 0x04002AD4 RID: 10964
 		[Unsaved]
 		private List<Rule> cachedRules = null;
 	}

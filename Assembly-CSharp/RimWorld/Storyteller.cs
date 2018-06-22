@@ -11,12 +11,12 @@ namespace RimWorld
 	// Token: 0x0200035D RID: 861
 	public class Storyteller : IExposable
 	{
-		// Token: 0x06000EF2 RID: 3826 RVA: 0x0007DF30 File Offset: 0x0007C330
+		// Token: 0x06000EF2 RID: 3826 RVA: 0x0007E11C File Offset: 0x0007C51C
 		public Storyteller()
 		{
 		}
 
-		// Token: 0x06000EF3 RID: 3827 RVA: 0x0007DF4F File Offset: 0x0007C34F
+		// Token: 0x06000EF3 RID: 3827 RVA: 0x0007E13B File Offset: 0x0007C53B
 		public Storyteller(StorytellerDef def, DifficultyDef difficulty)
 		{
 			this.def = def;
@@ -26,7 +26,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000219 RID: 537
-		// (get) Token: 0x06000EF4 RID: 3828 RVA: 0x0007DF90 File Offset: 0x0007C390
+		// (get) Token: 0x06000EF4 RID: 3828 RVA: 0x0007E17C File Offset: 0x0007C57C
 		public List<IIncidentTarget> AllIncidentTargets
 		{
 			get
@@ -50,13 +50,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000EF5 RID: 3829 RVA: 0x0007E03B File Offset: 0x0007C43B
+		// Token: 0x06000EF5 RID: 3829 RVA: 0x0007E227 File Offset: 0x0007C627
 		public static void StorytellerStaticUpdate()
 		{
 			Storyteller.tmpAllIncidentTargets.Clear();
 		}
 
-		// Token: 0x06000EF6 RID: 3830 RVA: 0x0007E048 File Offset: 0x0007C448
+		// Token: 0x06000EF6 RID: 3830 RVA: 0x0007E234 File Offset: 0x0007C634
 		private void InitializeStorytellerComps()
 		{
 			this.storytellerComps = new List<StorytellerComp>();
@@ -68,7 +68,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000EF7 RID: 3831 RVA: 0x0007E0C8 File Offset: 0x0007C4C8
+		// Token: 0x06000EF7 RID: 3831 RVA: 0x0007E2B4 File Offset: 0x0007C6B4
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<StorytellerDef>(ref this.def, "def");
@@ -89,7 +89,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000EF8 RID: 3832 RVA: 0x0007E160 File Offset: 0x0007C560
+		// Token: 0x06000EF8 RID: 3832 RVA: 0x0007E34C File Offset: 0x0007C74C
 		public void StorytellerTick()
 		{
 			this.incidentQueue.IncidentQueueTick();
@@ -105,7 +105,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000EF9 RID: 3833 RVA: 0x0007E1F0 File Offset: 0x0007C5F0
+		// Token: 0x06000EF9 RID: 3833 RVA: 0x0007E3DC File Offset: 0x0007C7DC
 		public void TryFire(FiringIncident fi)
 		{
 			if (fi.parms.forced || fi.def.Worker.CanFireNow(fi.parms))
@@ -117,7 +117,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000EFA RID: 3834 RVA: 0x0007E25C File Offset: 0x0007C65C
+		// Token: 0x06000EFA RID: 3834 RVA: 0x0007E448 File Offset: 0x0007C848
 		public IEnumerable<FiringIncident> MakeIncidentsForInterval()
 		{
 			List<IIncidentTarget> targets = this.AllIncidentTargets;
@@ -131,7 +131,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000EFB RID: 3835 RVA: 0x0007E288 File Offset: 0x0007C688
+		// Token: 0x06000EFB RID: 3835 RVA: 0x0007E474 File Offset: 0x0007C874
 		public IEnumerable<FiringIncident> MakeIncidentsForInterval(StorytellerComp comp, List<IIncidentTarget> targets)
 		{
 			if (GenDate.DaysPassedFloat <= comp.props.minDaysPassed)
@@ -155,13 +155,13 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000EFC RID: 3836 RVA: 0x0007E2B9 File Offset: 0x0007C6B9
+		// Token: 0x06000EFC RID: 3836 RVA: 0x0007E4A5 File Offset: 0x0007C8A5
 		public void Notify_DefChanged()
 		{
 			this.InitializeStorytellerComps();
 		}
 
-		// Token: 0x06000EFD RID: 3837 RVA: 0x0007E2C4 File Offset: 0x0007C6C4
+		// Token: 0x06000EFD RID: 3837 RVA: 0x0007E4B0 File Offset: 0x0007C8B0
 		public string DebugString()
 		{
 			if (Time.frameCount % 60 == 0)
@@ -221,37 +221,37 @@ namespace RimWorld
 			return this.debugStringCached;
 		}
 
-		// Token: 0x04000930 RID: 2352
+		// Token: 0x04000932 RID: 2354
 		public StorytellerDef def;
 
-		// Token: 0x04000931 RID: 2353
+		// Token: 0x04000933 RID: 2355
 		public DifficultyDef difficulty;
 
-		// Token: 0x04000932 RID: 2354
+		// Token: 0x04000934 RID: 2356
 		public List<StorytellerComp> storytellerComps;
 
-		// Token: 0x04000933 RID: 2355
+		// Token: 0x04000935 RID: 2357
 		public IncidentQueue incidentQueue = new IncidentQueue();
 
-		// Token: 0x04000934 RID: 2356
+		// Token: 0x04000936 RID: 2358
 		public StoryIntender_Population intenderPopulation;
 
-		// Token: 0x04000935 RID: 2357
+		// Token: 0x04000937 RID: 2359
 		public static readonly Vector2 PortraitSizeTiny = new Vector2(116f, 124f);
 
-		// Token: 0x04000936 RID: 2358
+		// Token: 0x04000938 RID: 2360
 		public static readonly Vector2 PortraitSizeLarge = new Vector2(580f, 620f);
 
-		// Token: 0x04000937 RID: 2359
+		// Token: 0x04000939 RID: 2361
 		public const int IntervalsPerDay = 60;
 
-		// Token: 0x04000938 RID: 2360
+		// Token: 0x0400093A RID: 2362
 		public const int CheckInterval = 1000;
 
-		// Token: 0x04000939 RID: 2361
+		// Token: 0x0400093B RID: 2363
 		private static List<IIncidentTarget> tmpAllIncidentTargets = new List<IIncidentTarget>();
 
-		// Token: 0x0400093A RID: 2362
+		// Token: 0x0400093C RID: 2364
 		private string debugStringCached = "Generating data...";
 	}
 }

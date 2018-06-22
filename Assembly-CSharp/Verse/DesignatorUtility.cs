@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E15 RID: 3605
+	// Token: 0x02000E12 RID: 3602
 	[StaticConstructorOnStartup]
 	public static class DesignatorUtility
 	{
-		// Token: 0x060051BC RID: 20924 RVA: 0x0029D820 File Offset: 0x0029BC20
+		// Token: 0x060051D0 RID: 20944 RVA: 0x0029EE00 File Offset: 0x0029D200
 		public static Designator FindAllowedDesignator<T>() where T : Designator
 		{
 			List<DesignationCategoryDef> allDefsListForReading = DefDatabase<DesignationCategoryDef>.AllDefsListForReading;
@@ -38,7 +38,7 @@ namespace Verse
 			return designator;
 		}
 
-		// Token: 0x060051BD RID: 20925 RVA: 0x0029D920 File Offset: 0x0029BD20
+		// Token: 0x060051D1 RID: 20945 RVA: 0x0029EF00 File Offset: 0x0029D300
 		public static void RenderHighlightOverSelectableCells(Designator designator, List<IntVec3> dragCells)
 		{
 			for (int i = 0; i < dragCells.Count; i++)
@@ -49,7 +49,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060051BE RID: 20926 RVA: 0x0029D97C File Offset: 0x0029BD7C
+		// Token: 0x060051D2 RID: 20946 RVA: 0x0029EF5C File Offset: 0x0029D35C
 		public static void RenderHighlightOverSelectableThings(Designator designator, List<IntVec3> dragCells)
 		{
 			DesignatorUtility.selectedThings.Clear();
@@ -70,16 +70,16 @@ namespace Verse
 			DesignatorUtility.selectedThings.Clear();
 		}
 
-		// Token: 0x04003584 RID: 13700
+		// Token: 0x0400358B RID: 13707
 		public static readonly Material DragHighlightCellMat = MaterialPool.MatFrom("UI/Overlays/DragHighlightCell", ShaderDatabase.MetaOverlay);
 
-		// Token: 0x04003585 RID: 13701
+		// Token: 0x0400358C RID: 13708
 		public static readonly Material DragHighlightThingMat = MaterialPool.MatFrom("UI/Overlays/DragHighlightThing", ShaderDatabase.MetaOverlay);
 
-		// Token: 0x04003586 RID: 13702
+		// Token: 0x0400358D RID: 13709
 		private static Dictionary<Type, Designator> StandaloneDesignators = new Dictionary<Type, Designator>();
 
-		// Token: 0x04003587 RID: 13703
+		// Token: 0x0400358E RID: 13710
 		private static HashSet<Thing> selectedThings = new HashSet<Thing>();
 	}
 }

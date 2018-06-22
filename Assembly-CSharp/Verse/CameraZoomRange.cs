@@ -2,18 +2,18 @@
 
 namespace Verse
 {
-	// Token: 0x02000AE7 RID: 2791
+	// Token: 0x02000AE3 RID: 2787
 	public enum CameraZoomRange : byte
 	{
-		// Token: 0x04002706 RID: 9990
+		// Token: 0x04002701 RID: 9985
 		Closest,
-		// Token: 0x04002707 RID: 9991
+		// Token: 0x04002702 RID: 9986
 		Close,
-		// Token: 0x04002708 RID: 9992
+		// Token: 0x04002703 RID: 9987
 		Middle,
-		// Token: 0x04002709 RID: 9993
+		// Token: 0x04002704 RID: 9988
 		Far,
-		// Token: 0x0400270A RID: 9994
+		// Token: 0x04002705 RID: 9989
 		Furthest
 	}
 }

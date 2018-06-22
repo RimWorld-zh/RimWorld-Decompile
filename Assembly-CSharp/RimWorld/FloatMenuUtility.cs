@@ -5,10 +5,10 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000840 RID: 2112
+	// Token: 0x0200083C RID: 2108
 	public static class FloatMenuUtility
 	{
-		// Token: 0x06002FC4 RID: 12228 RVA: 0x0019D950 File Offset: 0x0019BD50
+		// Token: 0x06002FBD RID: 12221 RVA: 0x0019DB30 File Offset: 0x0019BF30
 		public static void MakeMenu<T>(IEnumerable<T> objects, Func<T, string> labelGetter, Func<T, Action> actionGetter)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
@@ -20,7 +20,7 @@ namespace RimWorld
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06002FC5 RID: 12229 RVA: 0x0019D9DC File Offset: 0x0019BDDC
+		// Token: 0x06002FBE RID: 12222 RVA: 0x0019DBBC File Offset: 0x0019BFBC
 		public static Action GetRangedAttackAction(Pawn pawn, LocalTargetInfo target, out string failStr)
 		{
 			failStr = "";
@@ -85,7 +85,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002FC6 RID: 12230 RVA: 0x0019DBAC File Offset: 0x0019BFAC
+		// Token: 0x06002FBF RID: 12223 RVA: 0x0019DD8C File Offset: 0x0019C18C
 		public static Action GetMeleeAttackAction(Pawn pawn, LocalTargetInfo target, out string failStr)
 		{
 			failStr = "";
@@ -135,7 +135,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06002FC7 RID: 12231 RVA: 0x0019DD1C File Offset: 0x0019C11C
+		// Token: 0x06002FC0 RID: 12224 RVA: 0x0019DEFC File Offset: 0x0019C2FC
 		public static Action GetAttackAction(Pawn pawn, LocalTargetInfo target, out string failStr)
 		{
 			Action result;
@@ -150,7 +150,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002FC8 RID: 12232 RVA: 0x0019DD78 File Offset: 0x0019C178
+		// Token: 0x06002FC1 RID: 12225 RVA: 0x0019DF58 File Offset: 0x0019C358
 		public static FloatMenuOption DecoratePrioritizedTask(FloatMenuOption option, Pawn pawn, LocalTargetInfo target, string reservedText = "ReservedBy")
 		{
 			FloatMenuOption result;

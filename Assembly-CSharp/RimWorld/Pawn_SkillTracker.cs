@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000525 RID: 1317
+	// Token: 0x02000521 RID: 1313
 	public class Pawn_SkillTracker : IExposable
 	{
-		// Token: 0x06001804 RID: 6148 RVA: 0x000D1B38 File Offset: 0x000CFF38
+		// Token: 0x060017FB RID: 6139 RVA: 0x000D1B30 File Offset: 0x000CFF30
 		public Pawn_SkillTracker(Pawn newPawn)
 		{
 			this.pawn = newPawn;
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001805 RID: 6149 RVA: 0x000D1BC4 File Offset: 0x000CFFC4
+		// Token: 0x060017FC RID: 6140 RVA: 0x000D1BBC File Offset: 0x000CFFBC
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<SkillRecord>(ref this.skills, "skills", LookMode.Deep, new object[]
@@ -27,7 +27,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.lastXpSinceMidnightResetTimestamp, "lastXpSinceMidnightResetTimestamp", 0, false);
 		}
 
-		// Token: 0x06001806 RID: 6150 RVA: 0x000D1BFC File Offset: 0x000CFFFC
+		// Token: 0x060017FD RID: 6141 RVA: 0x000D1BF4 File Offset: 0x000CFFF4
 		public SkillRecord GetSkill(SkillDef skillDef)
 		{
 			for (int i = 0; i < this.skills.Count; i++)
@@ -47,7 +47,7 @@ namespace RimWorld
 			return this.skills[0];
 		}
 
-		// Token: 0x06001807 RID: 6151 RVA: 0x000D1C98 File Offset: 0x000D0098
+		// Token: 0x060017FE RID: 6142 RVA: 0x000D1C90 File Offset: 0x000D0090
 		public void SkillsTick()
 		{
 			if (this.pawn.IsHashIntervalTick(200))
@@ -67,13 +67,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001808 RID: 6152 RVA: 0x000D1D69 File Offset: 0x000D0169
+		// Token: 0x060017FF RID: 6143 RVA: 0x000D1D61 File Offset: 0x000D0161
 		public void Learn(SkillDef sDef, float xp, bool direct = false)
 		{
 			this.GetSkill(sDef).Learn(xp, direct);
 		}
 
-		// Token: 0x06001809 RID: 6153 RVA: 0x000D1D7C File Offset: 0x000D017C
+		// Token: 0x06001800 RID: 6144 RVA: 0x000D1D74 File Offset: 0x000D0174
 		public float AverageOfRelevantSkillsFor(WorkTypeDef workDef)
 		{
 			float result;
@@ -94,7 +94,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600180A RID: 6154 RVA: 0x000D1DFC File Offset: 0x000D01FC
+		// Token: 0x06001801 RID: 6145 RVA: 0x000D1DF4 File Offset: 0x000D01F4
 		public Passion MaxPassionOfRelevantSkillsFor(WorkTypeDef workDef)
 		{
 			Passion result;
@@ -118,7 +118,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600180B RID: 6155 RVA: 0x000D1E6C File Offset: 0x000D026C
+		// Token: 0x06001802 RID: 6146 RVA: 0x000D1E64 File Offset: 0x000D0264
 		public void Notify_SkillDisablesChanged()
 		{
 			for (int i = 0; i < this.skills.Count; i++)
@@ -127,13 +127,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000E3F RID: 3647
+		// Token: 0x04000E3C RID: 3644
 		private Pawn pawn;
 
-		// Token: 0x04000E40 RID: 3648
+		// Token: 0x04000E3D RID: 3645
 		public List<SkillRecord> skills = new List<SkillRecord>();
 
-		// Token: 0x04000E41 RID: 3649
+		// Token: 0x04000E3E RID: 3646
 		private int lastXpSinceMidnightResetTimestamp = -1;
 	}
 }

@@ -5,16 +5,16 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000E7F RID: 3711
+	// Token: 0x02000E7E RID: 3710
 	public class Listing_ScenEdit : Listing_Standard
 	{
-		// Token: 0x0600575B RID: 22363 RVA: 0x002CE0B9 File Offset: 0x002CC4B9
+		// Token: 0x0600577B RID: 22395 RVA: 0x002CFCC9 File Offset: 0x002CE0C9
 		public Listing_ScenEdit(Scenario scen)
 		{
 			this.scen = scen;
 		}
 
-		// Token: 0x0600575C RID: 22364 RVA: 0x002CE0CC File Offset: 0x002CC4CC
+		// Token: 0x0600577C RID: 22396 RVA: 0x002CFCDC File Offset: 0x002CE0DC
 		public Rect GetScenPartRect(ScenPart part, float height)
 		{
 			string label = part.Label;
@@ -57,7 +57,7 @@ namespace Verse
 			return rect.RightPart(0.5f).Rounded();
 		}
 
-		// Token: 0x040039DB RID: 14811
+		// Token: 0x040039EB RID: 14827
 		private Scenario scen;
 	}
 }

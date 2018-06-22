@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B74 RID: 2932
+	// Token: 0x02000B70 RID: 2928
 	public class ShaderTypeDef : Def
 	{
-		// Token: 0x170009BE RID: 2494
-		// (get) Token: 0x06003FF3 RID: 16371 RVA: 0x0021ADC4 File Offset: 0x002191C4
+		// Token: 0x170009C0 RID: 2496
+		// (get) Token: 0x06003FF5 RID: 16373 RVA: 0x0021B460 File Offset: 0x00219860
 		public Shader Shader
 		{
 			get
@@ -20,11 +20,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002AD6 RID: 10966
+		// Token: 0x04002ADB RID: 10971
 		[NoTranslate]
 		public string shaderPath;
 
-		// Token: 0x04002AD7 RID: 10967
+		// Token: 0x04002ADC RID: 10972
 		[Unsaved]
 		private Shader shaderInt;
 	}

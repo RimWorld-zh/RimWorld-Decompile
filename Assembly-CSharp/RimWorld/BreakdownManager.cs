@@ -4,15 +4,15 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000706 RID: 1798
+	// Token: 0x02000702 RID: 1794
 	public class BreakdownManager : MapComponent
 	{
-		// Token: 0x06002759 RID: 10073 RVA: 0x001521D2 File Offset: 0x001505D2
+		// Token: 0x06002751 RID: 10065 RVA: 0x00152376 File Offset: 0x00150776
 		public BreakdownManager(Map map) : base(map)
 		{
 		}
 
-		// Token: 0x0600275A RID: 10074 RVA: 0x001521F2 File Offset: 0x001505F2
+		// Token: 0x06002752 RID: 10066 RVA: 0x00152396 File Offset: 0x00150796
 		public void Register(CompBreakdownable c)
 		{
 			this.comps.Add(c);
@@ -22,14 +22,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600275B RID: 10075 RVA: 0x0015221E File Offset: 0x0015061E
+		// Token: 0x06002753 RID: 10067 RVA: 0x001523C2 File Offset: 0x001507C2
 		public void Deregister(CompBreakdownable c)
 		{
 			this.comps.Remove(c);
 			this.brokenDownThings.Remove(c.parent);
 		}
 
-		// Token: 0x0600275C RID: 10076 RVA: 0x00152240 File Offset: 0x00150640
+		// Token: 0x06002754 RID: 10068 RVA: 0x001523E4 File Offset: 0x001507E4
 		public override void MapComponentTick()
 		{
 			if (Find.TickManager.TicksGame % 1041 == 0)
@@ -41,25 +41,25 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600275D RID: 10077 RVA: 0x00152294 File Offset: 0x00150694
+		// Token: 0x06002755 RID: 10069 RVA: 0x00152438 File Offset: 0x00150838
 		public void Notify_BrokenDown(Thing thing)
 		{
 			this.brokenDownThings.Add(thing);
 		}
 
-		// Token: 0x0600275E RID: 10078 RVA: 0x001522A4 File Offset: 0x001506A4
+		// Token: 0x06002756 RID: 10070 RVA: 0x00152448 File Offset: 0x00150848
 		public void Notify_Repaired(Thing thing)
 		{
 			this.brokenDownThings.Remove(thing);
 		}
 
-		// Token: 0x040015C1 RID: 5569
+		// Token: 0x040015BF RID: 5567
 		private List<CompBreakdownable> comps = new List<CompBreakdownable>();
 
-		// Token: 0x040015C2 RID: 5570
+		// Token: 0x040015C0 RID: 5568
 		public HashSet<Thing> brokenDownThings = new HashSet<Thing>();
 
-		// Token: 0x040015C3 RID: 5571
+		// Token: 0x040015C1 RID: 5569
 		public const int CheckIntervalTicks = 1041;
 	}
 }

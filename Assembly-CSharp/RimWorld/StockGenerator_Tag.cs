@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000774 RID: 1908
+	// Token: 0x02000770 RID: 1904
 	public class StockGenerator_Tag : StockGenerator
 	{
-		// Token: 0x06002A1D RID: 10781 RVA: 0x00164C24 File Offset: 0x00163024
+		// Token: 0x06002A16 RID: 10774 RVA: 0x00164DFC File Offset: 0x001631FC
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
 			List<ThingDef> generatedDefs = new List<ThingDef>();
@@ -31,20 +31,20 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002A1E RID: 10782 RVA: 0x00164C50 File Offset: 0x00163050
+		// Token: 0x06002A17 RID: 10775 RVA: 0x00164E28 File Offset: 0x00163228
 		public override bool HandlesThingDef(ThingDef thingDef)
 		{
 			return thingDef.tradeTags != null && thingDef.tradeability != Tradeability.None && thingDef.techLevel <= this.maxTechLevelBuy && thingDef.tradeTags.Contains(this.tradeTag);
 		}
 
-		// Token: 0x040016B7 RID: 5815
+		// Token: 0x040016B5 RID: 5813
 		[NoTranslate]
 		private string tradeTag = null;
 
-		// Token: 0x040016B8 RID: 5816
+		// Token: 0x040016B6 RID: 5814
 		private IntRange thingDefCountRange = IntRange.one;
 
-		// Token: 0x040016B9 RID: 5817
+		// Token: 0x040016B7 RID: 5815
 		private List<ThingDef> excludedThingDefs = null;
 	}
 }

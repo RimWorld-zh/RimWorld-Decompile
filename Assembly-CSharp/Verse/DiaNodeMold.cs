@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000EC1 RID: 3777
+	// Token: 0x02000EC0 RID: 3776
 	public class DiaNodeMold
 	{
-		// Token: 0x06005940 RID: 22848 RVA: 0x002DB4B8 File Offset: 0x002D98B8
+		// Token: 0x06005961 RID: 22881 RVA: 0x002DD104 File Offset: 0x002DB504
 		public void PostLoad()
 		{
 			int num = 0;
@@ -24,27 +24,27 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003B91 RID: 15249
+		// Token: 0x04003BA1 RID: 15265
 		public string name = "Unnamed";
 
-		// Token: 0x04003B92 RID: 15250
+		// Token: 0x04003BA2 RID: 15266
 		public bool unique = false;
 
-		// Token: 0x04003B93 RID: 15251
+		// Token: 0x04003BA3 RID: 15267
 		public List<string> texts = new List<string>();
 
-		// Token: 0x04003B94 RID: 15252
+		// Token: 0x04003BA4 RID: 15268
 		public List<DiaOptionMold> optionList = new List<DiaOptionMold>();
 
-		// Token: 0x04003B95 RID: 15253
+		// Token: 0x04003BA5 RID: 15269
 		[Unsaved]
 		public bool isRoot = true;
 
-		// Token: 0x04003B96 RID: 15254
+		// Token: 0x04003BA6 RID: 15270
 		[Unsaved]
 		public bool used = false;
 
-		// Token: 0x04003B97 RID: 15255
+		// Token: 0x04003BA7 RID: 15271
 		[Unsaved]
 		public DiaNodeType nodeType = DiaNodeType.Undefined;
 	}

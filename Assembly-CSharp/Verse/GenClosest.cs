@@ -9,7 +9,7 @@ namespace Verse
 	// Token: 0x02000F31 RID: 3889
 	public static class GenClosest
 	{
-		// Token: 0x06005D82 RID: 23938 RVA: 0x002F7174 File Offset: 0x002F5574
+		// Token: 0x06005DAA RID: 23978 RVA: 0x002F91A0 File Offset: 0x002F75A0
 		private static bool EarlyOutSearch(IntVec3 start, Map map, ThingRequest thingReq, IEnumerable<Thing> customGlobalSearchSet, Predicate<Thing> validator)
 		{
 			bool result;
@@ -36,7 +36,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D83 RID: 23939 RVA: 0x002F7234 File Offset: 0x002F5634
+		// Token: 0x06005DAB RID: 23979 RVA: 0x002F9260 File Offset: 0x002F7660
 		public static Thing ClosestThingReachable(IntVec3 root, Map map, ThingRequest thingReq, PathEndMode peMode, TraverseParms traverseParams, float maxDistance = 9999f, Predicate<Thing> validator = null, IEnumerable<Thing> customGlobalSearchSet = null, int searchRegionsMin = 0, int searchRegionsMax = -1, bool forceGlobalSearch = false, RegionType traversableRegionTypes = RegionType.Set_Passable, bool ignoreEntirelyForbiddenRegions = false)
 		{
 			bool flag = searchRegionsMax < 0 || forceGlobalSearch;
@@ -80,7 +80,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D84 RID: 23940 RVA: 0x002F73F4 File Offset: 0x002F57F4
+		// Token: 0x06005DAC RID: 23980 RVA: 0x002F9420 File Offset: 0x002F7820
 		public static Thing ClosestThing_Regionwise_ReachablePrioritized(IntVec3 root, Map map, ThingRequest thingReq, PathEndMode peMode, TraverseParms traverseParams, float maxDistance = 9999f, Predicate<Thing> validator = null, Func<Thing, float> priorityGetter = null, int minRegions = 24, int maxRegions = 30)
 		{
 			Thing result;
@@ -110,7 +110,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D85 RID: 23941 RVA: 0x002F74AC File Offset: 0x002F58AC
+		// Token: 0x06005DAD RID: 23981 RVA: 0x002F94D8 File Offset: 0x002F78D8
 		public static Thing RegionwiseBFSWorker(IntVec3 root, Map map, ThingRequest req, PathEndMode peMode, TraverseParms traverseParams, Predicate<Thing> validator, Func<Thing, float> priorityGetter, int minRegions, int maxRegions, float maxDistance, out int regionsSeen, RegionType traversableRegionTypes = RegionType.Set_Passable, bool ignoreEntirelyForbiddenRegions = false)
 		{
 			regionsSeen = 0;
@@ -192,7 +192,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D86 RID: 23942 RVA: 0x002F7638 File Offset: 0x002F5A38
+		// Token: 0x06005DAE RID: 23982 RVA: 0x002F9664 File Offset: 0x002F7A64
 		public static Thing ClosestThing_Global(IntVec3 center, IEnumerable searchSet, float maxDistance = 99999f, Predicate<Thing> validator = null, Func<Thing, float> priorityGetter = null)
 		{
 			Thing result;
@@ -261,7 +261,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D87 RID: 23943 RVA: 0x002F7774 File Offset: 0x002F5B74
+		// Token: 0x06005DAF RID: 23983 RVA: 0x002F97A0 File Offset: 0x002F7BA0
 		public static Thing ClosestThing_Global_Reachable(IntVec3 center, Map map, IEnumerable<Thing> searchSet, PathEndMode peMode, TraverseParms traverseParams, float maxDistance = 9999f, Predicate<Thing> validator = null, Func<Thing, float> priorityGetter = null)
 		{
 			Thing result;
@@ -323,7 +323,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003DBB RID: 15803
+		// Token: 0x04003DCD RID: 15821
 		private const int DefaultLocalTraverseRegionsBeforeGlobal = 30;
 	}
 }

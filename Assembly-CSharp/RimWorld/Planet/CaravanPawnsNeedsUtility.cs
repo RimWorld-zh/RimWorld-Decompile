@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005E3 RID: 1507
+	// Token: 0x020005DF RID: 1503
 	public static class CaravanPawnsNeedsUtility
 	{
-		// Token: 0x06001DBE RID: 7614 RVA: 0x001003B0 File Offset: 0x000FE7B0
+		// Token: 0x06001DB5 RID: 7605 RVA: 0x00100404 File Offset: 0x000FE804
 		public static void TrySatisfyPawnsNeeds(Caravan caravan)
 		{
 			List<Pawn> pawnsListForReading = caravan.PawnsListForReading;
@@ -18,7 +18,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DBF RID: 7615 RVA: 0x001003F0 File Offset: 0x000FE7F0
+		// Token: 0x06001DB6 RID: 7606 RVA: 0x00100444 File Offset: 0x000FE844
 		public static bool AnyPawnOutOfFood(Caravan c, out string malnutritionHediff)
 		{
 			CaravanPawnsNeedsUtility.tmpInvFood.Clear();
@@ -69,7 +69,7 @@ namespace RimWorld.Planet
 			return false;
 		}
 
-		// Token: 0x06001DC0 RID: 7616 RVA: 0x0010058C File Offset: 0x000FE98C
+		// Token: 0x06001DB7 RID: 7607 RVA: 0x001005E0 File Offset: 0x000FE9E0
 		private static void TrySatisfyPawnNeeds(Pawn pawn, Caravan caravan)
 		{
 			if (!pawn.Dead)
@@ -102,7 +102,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DC1 RID: 7617 RVA: 0x00100643 File Offset: 0x000FEA43
+		// Token: 0x06001DB8 RID: 7608 RVA: 0x00100697 File Offset: 0x000FEA97
 		private static void TrySatisfyRestNeed(Pawn pawn, Need_Rest rest, Caravan caravan)
 		{
 			if (caravan.Resting)
@@ -111,7 +111,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DC2 RID: 7618 RVA: 0x0010065C File Offset: 0x000FEA5C
+		// Token: 0x06001DB9 RID: 7609 RVA: 0x001006B0 File Offset: 0x000FEAB0
 		private static void TrySatisfyFoodNeed(Pawn pawn, Need_Food food, Caravan caravan)
 		{
 			if (food.CurCategory >= HungerCategory.Hungry)
@@ -147,7 +147,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DC3 RID: 7619 RVA: 0x0010074C File Offset: 0x000FEB4C
+		// Token: 0x06001DBA RID: 7610 RVA: 0x001007A0 File Offset: 0x000FEBA0
 		private static void TrySatisfyChemicalNeed(Pawn pawn, Need_Chemical chemical, Caravan caravan)
 		{
 			if (chemical.CurCategory < DrugDesireCategory.Satisfied)
@@ -161,7 +161,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DC4 RID: 7620 RVA: 0x00100788 File Offset: 0x000FEB88
+		// Token: 0x06001DBB RID: 7611 RVA: 0x001007DC File Offset: 0x000FEBDC
 		private static void TrySatisfyJoyNeed(Pawn pawn, Need_Joy joy, Caravan caravan)
 		{
 			float caravanNotMovingJoyGainPerTick = CaravanPawnsNeedsUtility.GetCaravanNotMovingJoyGainPerTick(pawn, caravan);
@@ -171,7 +171,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DC5 RID: 7621 RVA: 0x001007BC File Offset: 0x000FEBBC
+		// Token: 0x06001DBC RID: 7612 RVA: 0x00100810 File Offset: 0x000FEC10
 		public static float GetCaravanNotMovingJoyGainPerTick(Pawn pawn, Caravan caravan)
 		{
 			float result;
@@ -189,13 +189,13 @@ namespace RimWorld.Planet
 				else
 				{
 					float statValue = pawn2.GetStatValue(StatDefOf.SocialImpact, true);
-					result = statValue * 0.031f / 2500f;
+					result = statValue * 0.035f / 2500f;
 				}
 			}
 			return result;
 		}
 
-		// Token: 0x06001DC6 RID: 7622 RVA: 0x00100820 File Offset: 0x000FEC20
+		// Token: 0x06001DBD RID: 7613 RVA: 0x00100874 File Offset: 0x000FEC74
 		public static void IngestDrug(Pawn pawn, Thing drug, Pawn drugOwner, Caravan caravan)
 		{
 			float num = drug.Ingested(pawn, 0f);
@@ -212,25 +212,25 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DC7 RID: 7623 RVA: 0x0010088C File Offset: 0x000FEC8C
+		// Token: 0x06001DBE RID: 7614 RVA: 0x001008E0 File Offset: 0x000FECE0
 		public static bool CanEverEatForNutrition(ThingDef food, Pawn pawn)
 		{
 			return food.IsNutritionGivingIngestible && pawn.RaceProps.CanEverEat(food) && food.ingestible.preferability > FoodPreferability.NeverForNutrition && (!food.IsDrug || !pawn.IsTeetotaler());
 		}
 
-		// Token: 0x06001DC8 RID: 7624 RVA: 0x001008E8 File Offset: 0x000FECE8
+		// Token: 0x06001DBF RID: 7615 RVA: 0x0010093C File Offset: 0x000FED3C
 		public static bool CanNowEatForNutrition(ThingDef food, Pawn pawn)
 		{
 			return CaravanPawnsNeedsUtility.CanEverEatForNutrition(food, pawn) && (!pawn.RaceProps.Humanlike || pawn.needs.food.CurCategory >= HungerCategory.Starving || food.ingestible.preferability > FoodPreferability.DesperateOnlyForHumanlikes);
 		}
 
-		// Token: 0x06001DC9 RID: 7625 RVA: 0x00100950 File Offset: 0x000FED50
+		// Token: 0x06001DC0 RID: 7616 RVA: 0x001009A4 File Offset: 0x000FEDA4
 		public static bool CanNowEatForNutrition(Thing food, Pawn pawn)
 		{
 			return food.IngestibleNow && CaravanPawnsNeedsUtility.CanNowEatForNutrition(food.def, pawn);
 		}
 
-		// Token: 0x06001DCA RID: 7626 RVA: 0x00100990 File Offset: 0x000FED90
+		// Token: 0x06001DC1 RID: 7617 RVA: 0x001009E4 File Offset: 0x000FEDE4
 		public static float GetFoodScore(Thing food, Pawn pawn)
 		{
 			float num = CaravanPawnsNeedsUtility.GetFoodScore(food.def, pawn, food.GetStatValue(StatDefOf.Nutrition, true));
@@ -244,7 +244,7 @@ namespace RimWorld.Planet
 			return num;
 		}
 
-		// Token: 0x06001DCB RID: 7627 RVA: 0x00100A18 File Offset: 0x000FEE18
+		// Token: 0x06001DC2 RID: 7618 RVA: 0x00100A6C File Offset: 0x000FEE6C
 		public static float GetFoodScore(ThingDef food, Pawn pawn, float singleFoodNutrition)
 		{
 			float result;
@@ -280,7 +280,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DCC RID: 7628 RVA: 0x00100AF8 File Offset: 0x000FEEF8
+		// Token: 0x06001DC3 RID: 7619 RVA: 0x00100B4C File Offset: 0x000FEF4C
 		public static void Notify_CaravanMemberIngestedFood(Pawn p, float nutritionIngested)
 		{
 			if (!p.Dead && p.needs.joy != null)
@@ -295,16 +295,16 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x040011A0 RID: 4512
+		// Token: 0x0400119D RID: 4509
 		private const float AutoRefillMiscNeedsIfBelowLevel = 0.3f;
 
-		// Token: 0x040011A1 RID: 4513
+		// Token: 0x0400119E RID: 4510
 		private const float ExtraJoyFromEatingFoodPerNutritionPct = 0.2f;
 
-		// Token: 0x040011A2 RID: 4514
-		private const float BaseJoyGainPerHour = 0.031f;
+		// Token: 0x0400119F RID: 4511
+		private const float BaseJoyGainPerHour = 0.035f;
 
-		// Token: 0x040011A3 RID: 4515
+		// Token: 0x040011A0 RID: 4512
 		private static List<Thing> tmpInvFood = new List<Thing>();
 	}
 }

@@ -10,7 +10,7 @@ namespace RimWorld
 	// Token: 0x0200017D RID: 381
 	public static class PartyUtility
 	{
-		// Token: 0x060007EF RID: 2031 RVA: 0x0004D688 File Offset: 0x0004BA88
+		// Token: 0x060007EF RID: 2031 RVA: 0x0004D674 File Offset: 0x0004BA74
 		public static bool AcceptableGameConditionsToStartParty(Map map)
 		{
 			bool result;
@@ -57,13 +57,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060007F0 RID: 2032 RVA: 0x0004D7CC File Offset: 0x0004BBCC
+		// Token: 0x060007F0 RID: 2032 RVA: 0x0004D7B8 File Offset: 0x0004BBB8
 		public static bool AcceptableGameConditionsToContinueParty(Map map)
 		{
 			return map.dangerWatcher.DangerRating != StoryDanger.High;
 		}
 
-		// Token: 0x060007F1 RID: 2033 RVA: 0x0004D7FC File Offset: 0x0004BBFC
+		// Token: 0x060007F1 RID: 2033 RVA: 0x0004D7E8 File Offset: 0x0004BBE8
 		public static bool EnoughPotentialGuestsToStartParty(Map map, IntVec3? partySpot = null)
 		{
 			int num = Mathf.RoundToInt((float)map.mapPawns.FreeColonistsSpawnedCount * 0.65f);
@@ -85,7 +85,7 @@ namespace RimWorld
 			return num2 >= num;
 		}
 
-		// Token: 0x060007F2 RID: 2034 RVA: 0x0004D8F0 File Offset: 0x0004BCF0
+		// Token: 0x060007F2 RID: 2034 RVA: 0x0004D8DC File Offset: 0x0004BCDC
 		public static Pawn FindRandomPartyOrganizer(Faction faction, Map map)
 		{
 			Predicate<Pawn> validator = (Pawn x) => x.RaceProps.Humanlike && !x.InBed() && !x.InMentalState && x.GetLord() == null && PartyUtility.ShouldPawnKeepPartying(x);
@@ -104,13 +104,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060007F3 RID: 2035 RVA: 0x0004D960 File Offset: 0x0004BD60
+		// Token: 0x060007F3 RID: 2035 RVA: 0x0004D94C File Offset: 0x0004BD4C
 		public static bool ShouldPawnKeepPartying(Pawn p)
 		{
 			return (p.timetable == null || p.timetable.CurrentAssignment.allowJoy) && GatheringsUtility.ShouldGuestKeepAttendingGathering(p);
 		}
 
-		// Token: 0x060007F4 RID: 2036 RVA: 0x0004D9B0 File Offset: 0x0004BDB0
+		// Token: 0x060007F4 RID: 2036 RVA: 0x0004D99C File Offset: 0x0004BD9C
 		public static bool InPartyArea(IntVec3 cell, IntVec3 partySpot, Map map)
 		{
 			bool result;
@@ -138,7 +138,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060007F5 RID: 2037 RVA: 0x0004DA4C File Offset: 0x0004BE4C
+		// Token: 0x060007F5 RID: 2037 RVA: 0x0004DA38 File Offset: 0x0004BE38
 		public static bool TryFindRandomCellInPartyArea(Pawn pawn, out IntVec3 result)
 		{
 			IntVec3 cell = pawn.mindState.duty.focus.Cell;
@@ -158,7 +158,7 @@ namespace RimWorld
 			return result2;
 		}
 
-		// Token: 0x060007F6 RID: 2038 RVA: 0x0004DB18 File Offset: 0x0004BF18
+		// Token: 0x060007F6 RID: 2038 RVA: 0x0004DB04 File Offset: 0x0004BF04
 		public static bool UseWholeRoomAsPartyArea(IntVec3 partySpot, Map map)
 		{
 			Room room = partySpot.GetRoom(map, RegionType.Set_Passable);

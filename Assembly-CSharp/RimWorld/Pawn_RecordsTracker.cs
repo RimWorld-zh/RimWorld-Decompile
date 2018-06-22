@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200051A RID: 1306
+	// Token: 0x02000516 RID: 1302
 	public class Pawn_RecordsTracker : IExposable
 	{
-		// Token: 0x060017AD RID: 6061 RVA: 0x000CECD0 File Offset: 0x000CD0D0
+		// Token: 0x060017A4 RID: 6052 RVA: 0x000CECC8 File Offset: 0x000CD0C8
 		public Pawn_RecordsTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000345 RID: 837
-		// (get) Token: 0x060017AE RID: 6062 RVA: 0x000CED50 File Offset: 0x000CD150
+		// (get) Token: 0x060017A5 RID: 6053 RVA: 0x000CED48 File Offset: 0x000CD148
 		public float StoryRelevance
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000346 RID: 838
-		// (get) Token: 0x060017AF RID: 6063 RVA: 0x000CED74 File Offset: 0x000CD174
+		// (get) Token: 0x060017A6 RID: 6054 RVA: 0x000CED6C File Offset: 0x000CD16C
 		public Battle BattleActive
 		{
 			get
@@ -56,7 +56,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000347 RID: 839
-		// (get) Token: 0x060017B0 RID: 6064 RVA: 0x000CEDE8 File Offset: 0x000CD1E8
+		// (get) Token: 0x060017A7 RID: 6055 RVA: 0x000CEDE0 File Offset: 0x000CD1E0
 		public int LastBattleTick
 		{
 			get
@@ -65,7 +65,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017B1 RID: 6065 RVA: 0x000CEE03 File Offset: 0x000CD203
+		// Token: 0x060017A8 RID: 6056 RVA: 0x000CEDFB File Offset: 0x000CD1FB
 		public void RecordsTick()
 		{
 			if (!this.pawn.Dead)
@@ -78,13 +78,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017B2 RID: 6066 RVA: 0x000CEE43 File Offset: 0x000CD243
+		// Token: 0x060017A9 RID: 6057 RVA: 0x000CEE3B File Offset: 0x000CD23B
 		public void RecordsTickMothballed(int interval)
 		{
 			this.RecordsTickUpdate(interval);
 		}
 
-		// Token: 0x060017B3 RID: 6067 RVA: 0x000CEE50 File Offset: 0x000CD250
+		// Token: 0x060017AA RID: 6058 RVA: 0x000CEE48 File Offset: 0x000CD248
 		private void RecordsTickUpdate(int interval)
 		{
 			List<RecordDef> allDefsListForReading = DefDatabase<RecordDef>.AllDefsListForReading;
@@ -103,7 +103,7 @@ namespace RimWorld
 			this.storyRelevance *= Math.Pow(0.20000000298023224, (double)(0 * interval));
 		}
 
-		// Token: 0x060017B4 RID: 6068 RVA: 0x000CEEEC File Offset: 0x000CD2EC
+		// Token: 0x060017AB RID: 6059 RVA: 0x000CEEE4 File Offset: 0x000CD2E4
 		public void Increment(RecordDef def)
 		{
 			if (def.type != RecordType.Int)
@@ -123,7 +123,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017B5 RID: 6069 RVA: 0x000CEF70 File Offset: 0x000CD370
+		// Token: 0x060017AC RID: 6060 RVA: 0x000CEF68 File Offset: 0x000CD368
 		public void AddTo(RecordDef def, float value)
 		{
 			if (def.type == RecordType.Int)
@@ -148,7 +148,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017B6 RID: 6070 RVA: 0x000CF024 File Offset: 0x000CD424
+		// Token: 0x060017AD RID: 6061 RVA: 0x000CF01C File Offset: 0x000CD41C
 		public float GetValue(RecordDef def)
 		{
 			float num = this.records[def];
@@ -164,26 +164,26 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060017B7 RID: 6071 RVA: 0x000CF06C File Offset: 0x000CD46C
+		// Token: 0x060017AE RID: 6062 RVA: 0x000CF064 File Offset: 0x000CD464
 		public int GetAsInt(RecordDef def)
 		{
 			return Mathf.RoundToInt(this.records[def]);
 		}
 
-		// Token: 0x060017B8 RID: 6072 RVA: 0x000CF092 File Offset: 0x000CD492
+		// Token: 0x060017AF RID: 6063 RVA: 0x000CF08A File Offset: 0x000CD48A
 		public void AccumulateStoryEvent(StoryEventDef def)
 		{
 			this.storyRelevance += (double)def.importance;
 		}
 
-		// Token: 0x060017B9 RID: 6073 RVA: 0x000CF0A9 File Offset: 0x000CD4A9
+		// Token: 0x060017B0 RID: 6064 RVA: 0x000CF0A1 File Offset: 0x000CD4A1
 		public void EnterBattle(Battle battle)
 		{
 			this.battleActive = battle;
 			this.battleExitTick = Find.TickManager.TicksGame + 5000;
 		}
 
-		// Token: 0x060017BA RID: 6074 RVA: 0x000CF0CC File Offset: 0x000CD4CC
+		// Token: 0x060017B1 RID: 6065 RVA: 0x000CF0C4 File Offset: 0x000CD4C4
 		public void ExposeData()
 		{
 			this.battleActive = this.BattleActive;
@@ -197,31 +197,31 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000DF3 RID: 3571
+		// Token: 0x04000DF0 RID: 3568
 		public Pawn pawn;
 
-		// Token: 0x04000DF4 RID: 3572
+		// Token: 0x04000DF1 RID: 3569
 		private DefMap<RecordDef, float> records = new DefMap<RecordDef, float>();
 
-		// Token: 0x04000DF5 RID: 3573
+		// Token: 0x04000DF2 RID: 3570
 		private double storyRelevance = 0.0;
 
-		// Token: 0x04000DF6 RID: 3574
+		// Token: 0x04000DF3 RID: 3571
 		private Battle battleActive = null;
 
-		// Token: 0x04000DF7 RID: 3575
+		// Token: 0x04000DF4 RID: 3572
 		private int battleExitTick = 0;
 
-		// Token: 0x04000DF8 RID: 3576
+		// Token: 0x04000DF5 RID: 3573
 		private float storyRelevanceBonus = 0f;
 
-		// Token: 0x04000DF9 RID: 3577
+		// Token: 0x04000DF6 RID: 3574
 		private const int UpdateTimeRecordsIntervalTicks = 80;
 
-		// Token: 0x04000DFA RID: 3578
+		// Token: 0x04000DF7 RID: 3575
 		private const float StoryRelevanceBonusRange = 100f;
 
-		// Token: 0x04000DFB RID: 3579
+		// Token: 0x04000DF8 RID: 3576
 		private const float StoryRelevanceMultiplierPerYear = 0.2f;
 	}
 }

@@ -2,22 +2,22 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x020009EA RID: 2538
+	// Token: 0x020009E6 RID: 2534
 	public class LordJob_ExitMapBest : LordJob
 	{
-		// Token: 0x06003905 RID: 14597 RVA: 0x001E6018 File Offset: 0x001E4418
+		// Token: 0x060038FF RID: 14591 RVA: 0x001E6258 File Offset: 0x001E4658
 		public LordJob_ExitMapBest()
 		{
 		}
 
-		// Token: 0x06003906 RID: 14598 RVA: 0x001E602F File Offset: 0x001E442F
+		// Token: 0x06003900 RID: 14592 RVA: 0x001E626F File Offset: 0x001E466F
 		public LordJob_ExitMapBest(LocomotionUrgency locomotion, bool canDig = false)
 		{
 			this.locomotion = locomotion;
 			this.canDig = canDig;
 		}
 
-		// Token: 0x06003907 RID: 14599 RVA: 0x001E6054 File Offset: 0x001E4454
+		// Token: 0x06003901 RID: 14593 RVA: 0x001E6294 File Offset: 0x001E4694
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -28,17 +28,17 @@ namespace Verse.AI.Group
 			return stateGraph;
 		}
 
-		// Token: 0x06003908 RID: 14600 RVA: 0x001E6090 File Offset: 0x001E4490
+		// Token: 0x06003902 RID: 14594 RVA: 0x001E62D0 File Offset: 0x001E46D0
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<LocomotionUrgency>(ref this.locomotion, "locomotion", LocomotionUrgency.Jog, false);
 			Scribe_Values.Look<bool>(ref this.canDig, "canDig", false, false);
 		}
 
-		// Token: 0x04002463 RID: 9315
+		// Token: 0x0400245E RID: 9310
 		private LocomotionUrgency locomotion = LocomotionUrgency.Jog;
 
-		// Token: 0x04002464 RID: 9316
+		// Token: 0x0400245F RID: 9311
 		private bool canDig = false;
 	}
 }

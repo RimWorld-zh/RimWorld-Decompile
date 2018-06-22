@@ -4,18 +4,18 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200080C RID: 2060
+	// Token: 0x02000808 RID: 2056
 	public class Dialog_Negotiation : Dialog_NodeTree
 	{
-		// Token: 0x06002DF3 RID: 11763 RVA: 0x00182B7C File Offset: 0x00180F7C
+		// Token: 0x06002DEC RID: 11756 RVA: 0x00182D54 File Offset: 0x00181154
 		public Dialog_Negotiation(Pawn negotiator, ICommunicable commTarget, DiaNode startNode, bool radioMode) : base(startNode, radioMode, false, null)
 		{
 			this.negotiator = negotiator;
 			this.commTarget = commTarget;
 		}
 
-		// Token: 0x17000753 RID: 1875
-		// (get) Token: 0x06002DF4 RID: 11764 RVA: 0x00182B98 File Offset: 0x00180F98
+		// Token: 0x17000754 RID: 1876
+		// (get) Token: 0x06002DED RID: 11757 RVA: 0x00182D70 File Offset: 0x00181170
 		public override Vector2 InitialSize
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DF5 RID: 11765 RVA: 0x00182BBC File Offset: 0x00180FBC
+		// Token: 0x06002DEE RID: 11758 RVA: 0x00182D94 File Offset: 0x00181194
 		public override void DoWindowContents(Rect inRect)
 		{
 			GUI.BeginGroup(inRect);
@@ -61,16 +61,16 @@ namespace RimWorld
 			base.DrawNode(rect6);
 		}
 
-		// Token: 0x0400185E RID: 6238
+		// Token: 0x0400185C RID: 6236
 		protected Pawn negotiator;
 
-		// Token: 0x0400185F RID: 6239
+		// Token: 0x0400185D RID: 6237
 		protected ICommunicable commTarget;
 
-		// Token: 0x04001860 RID: 6240
+		// Token: 0x0400185E RID: 6238
 		private const float TitleHeight = 70f;
 
-		// Token: 0x04001861 RID: 6241
+		// Token: 0x0400185F RID: 6239
 		private const float InfoHeight = 60f;
 	}
 }

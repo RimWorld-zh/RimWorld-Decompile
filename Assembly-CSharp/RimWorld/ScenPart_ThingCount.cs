@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000652 RID: 1618
+	// Token: 0x0200064E RID: 1614
 	public abstract class ScenPart_ThingCount : ScenPart
 	{
-		// Token: 0x06002191 RID: 8593 RVA: 0x0011BEE3 File Offset: 0x0011A2E3
+		// Token: 0x06002189 RID: 8585 RVA: 0x0011BFE3 File Offset: 0x0011A3E3
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -18,7 +18,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.count, "count", 1, false);
 		}
 
-		// Token: 0x06002192 RID: 8594 RVA: 0x0011BF20 File Offset: 0x0011A320
+		// Token: 0x0600218A RID: 8586 RVA: 0x0011C020 File Offset: 0x0011A420
 		public override void Randomize()
 		{
 			this.thingDef = this.PossibleThingDefs().RandomElement<ThingDef>();
@@ -35,7 +35,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002193 RID: 8595 RVA: 0x0011BFB8 File Offset: 0x0011A3B8
+		// Token: 0x0600218B RID: 8587 RVA: 0x0011C0B8 File Offset: 0x0011A4B8
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 3f);
@@ -79,7 +79,7 @@ namespace RimWorld
 			Widgets.TextFieldNumeric<int>(rect3, ref this.count, ref this.countBuf, 1f, 1E+09f);
 		}
 
-		// Token: 0x06002194 RID: 8596 RVA: 0x0011C27C File Offset: 0x0011A67C
+		// Token: 0x0600218C RID: 8588 RVA: 0x0011C37C File Offset: 0x0011A77C
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_ThingCount scenPart_ThingCount = other as ScenPart_ThingCount;
@@ -96,7 +96,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002195 RID: 8597 RVA: 0x0011C308 File Offset: 0x0011A708
+		// Token: 0x0600218D RID: 8589 RVA: 0x0011C408 File Offset: 0x0011A808
 		protected virtual IEnumerable<ThingDef> PossibleThingDefs()
 		{
 			return from d in DefDatabase<ThingDef>.AllDefs
@@ -104,16 +104,16 @@ namespace RimWorld
 			select d;
 		}
 
-		// Token: 0x04001310 RID: 4880
+		// Token: 0x0400130D RID: 4877
 		protected ThingDef thingDef;
 
-		// Token: 0x04001311 RID: 4881
+		// Token: 0x0400130E RID: 4878
 		protected ThingDef stuff;
 
-		// Token: 0x04001312 RID: 4882
+		// Token: 0x0400130F RID: 4879
 		protected int count = 1;
 
-		// Token: 0x04001313 RID: 4883
+		// Token: 0x04001310 RID: 4880
 		private string countBuf;
 	}
 }

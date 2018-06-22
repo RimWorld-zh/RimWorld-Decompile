@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200013C RID: 316
 	public class WorkGiver_CookFillHopper : WorkGiver_Scanner
 	{
-		// Token: 0x06000671 RID: 1649 RVA: 0x00042E61 File Offset: 0x00041261
+		// Token: 0x06000671 RID: 1649 RVA: 0x00042E4D File Offset: 0x0004124D
 		public WorkGiver_CookFillHopper()
 		{
 			if (WorkGiver_CookFillHopper.TheOnlyAvailableFoodIsInStorageOfHigherPriorityTrans == null)
@@ -22,7 +22,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000F6 RID: 246
-		// (get) Token: 0x06000672 RID: 1650 RVA: 0x00042E9C File Offset: 0x0004129C
+		// (get) Token: 0x06000672 RID: 1650 RVA: 0x00042E88 File Offset: 0x00041288
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000F7 RID: 247
-		// (get) Token: 0x06000673 RID: 1651 RVA: 0x00042EBC File Offset: 0x000412BC
+		// (get) Token: 0x06000673 RID: 1651 RVA: 0x00042EA8 File Offset: 0x000412A8
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000674 RID: 1652 RVA: 0x00042ED4 File Offset: 0x000412D4
+		// Token: 0x06000674 RID: 1652 RVA: 0x00042EC0 File Offset: 0x000412C0
 		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
 			ISlotGroupParent slotGroupParent = thing as ISlotGroupParent;
@@ -79,7 +79,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000675 RID: 1653 RVA: 0x00042FA0 File Offset: 0x000413A0
+		// Token: 0x06000675 RID: 1653 RVA: 0x00042F8C File Offset: 0x0004138C
 		public static Job HopperFillFoodJob(Pawn pawn, ISlotGroupParent hopperSgp)
 		{
 			Building building = (Building)hopperSgp;

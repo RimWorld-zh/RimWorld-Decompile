@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200010A RID: 266
 	public class JobGiver_Berserk : ThinkNode_JobGiver
 	{
-		// Token: 0x06000587 RID: 1415 RVA: 0x0003C02C File Offset: 0x0003A42C
+		// Token: 0x06000587 RID: 1415 RVA: 0x0003C018 File Offset: 0x0003A418
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -42,7 +42,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000588 RID: 1416 RVA: 0x0003C0CC File Offset: 0x0003A4CC
+		// Token: 0x06000588 RID: 1416 RVA: 0x0003C0B8 File Offset: 0x0003A4B8
 		private Pawn FindPawnTarget(Pawn pawn)
 		{
 			return (Pawn)AttackTargetFinder.BestAttackTarget(pawn, TargetScanFlags.NeedReachable | TargetScanFlags.NeedThreat, (Thing x) => x is Pawn, 0f, 30f, default(IntVec3), float.MaxValue, true);

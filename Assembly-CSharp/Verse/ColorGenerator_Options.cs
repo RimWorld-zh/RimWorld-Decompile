@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B0E RID: 2830
+	// Token: 0x02000B0A RID: 2826
 	public class ColorGenerator_Options : ColorGenerator
 	{
-		// Token: 0x17000971 RID: 2417
-		// (get) Token: 0x06003E93 RID: 16019 RVA: 0x0020F2B4 File Offset: 0x0020D6B4
+		// Token: 0x17000972 RID: 2418
+		// (get) Token: 0x06003E8F RID: 16015 RVA: 0x0020F5F0 File Offset: 0x0020D9F0
 		public override Color ExemplaryColor
 		{
 			get
@@ -38,14 +38,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E94 RID: 16020 RVA: 0x0020F3C4 File Offset: 0x0020D7C4
+		// Token: 0x06003E90 RID: 16016 RVA: 0x0020F700 File Offset: 0x0020DB00
 		public override Color NewRandomizedColor()
 		{
 			ColorOption colorOption = this.options.RandomElementByWeight((ColorOption pi) => pi.weight);
 			return colorOption.RandomizedColor();
 		}
 
-		// Token: 0x040027E4 RID: 10212
+		// Token: 0x040027E0 RID: 10208
 		public List<ColorOption> options = new List<ColorOption>();
 	}
 }

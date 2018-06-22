@@ -3,23 +3,23 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B7C RID: 2940
+	// Token: 0x02000B78 RID: 2936
 	public class ResolvedGrain_Clip : ResolvedGrain
 	{
-		// Token: 0x06004002 RID: 16386 RVA: 0x0021B400 File Offset: 0x00219800
+		// Token: 0x06004004 RID: 16388 RVA: 0x0021BA9C File Offset: 0x00219E9C
 		public ResolvedGrain_Clip(AudioClip clip)
 		{
 			this.clip = clip;
 			this.duration = clip.length;
 		}
 
-		// Token: 0x06004003 RID: 16387 RVA: 0x0021B41C File Offset: 0x0021981C
+		// Token: 0x06004005 RID: 16389 RVA: 0x0021BAB8 File Offset: 0x00219EB8
 		public override string ToString()
 		{
 			return "Clip:" + this.clip.name;
 		}
 
-		// Token: 0x06004004 RID: 16388 RVA: 0x0021B448 File Offset: 0x00219848
+		// Token: 0x06004006 RID: 16390 RVA: 0x0021BAE4 File Offset: 0x00219EE4
 		public override bool Equals(object obj)
 		{
 			bool result;
@@ -35,7 +35,7 @@ namespace Verse.Sound
 			return result;
 		}
 
-		// Token: 0x06004005 RID: 16389 RVA: 0x0021B490 File Offset: 0x00219890
+		// Token: 0x06004007 RID: 16391 RVA: 0x0021BB2C File Offset: 0x00219F2C
 		public override int GetHashCode()
 		{
 			int result;
@@ -50,7 +50,7 @@ namespace Verse.Sound
 			return result;
 		}
 
-		// Token: 0x04002AE8 RID: 10984
+		// Token: 0x04002AED RID: 10989
 		public AudioClip clip;
 	}
 }

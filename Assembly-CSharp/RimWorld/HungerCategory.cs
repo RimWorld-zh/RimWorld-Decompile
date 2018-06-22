@@ -2,16 +2,16 @@
 
 namespace RimWorld
 {
-	// Token: 0x020004FA RID: 1274
+	// Token: 0x020004F6 RID: 1270
 	public enum HungerCategory : byte
 	{
-		// Token: 0x04000D6D RID: 3437
+		// Token: 0x04000D6A RID: 3434
 		Fed,
-		// Token: 0x04000D6E RID: 3438
+		// Token: 0x04000D6B RID: 3435
 		Hungry,
-		// Token: 0x04000D6F RID: 3439
+		// Token: 0x04000D6C RID: 3436
 		UrgentlyHungry,
-		// Token: 0x04000D70 RID: 3440
+		// Token: 0x04000D6D RID: 3437
 		Starving
 	}
 }

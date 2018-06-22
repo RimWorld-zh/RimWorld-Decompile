@@ -9,14 +9,14 @@ namespace RimWorld
 	// Token: 0x02000188 RID: 392
 	public class LordToil_AssaultColonySappers : LordToil
 	{
-		// Token: 0x06000823 RID: 2083 RVA: 0x0004E818 File Offset: 0x0004CC18
+		// Token: 0x06000823 RID: 2083 RVA: 0x0004E804 File Offset: 0x0004CC04
 		public LordToil_AssaultColonySappers()
 		{
 			this.data = new LordToilData_AssaultColonySappers();
 		}
 
 		// Token: 0x17000147 RID: 327
-		// (get) Token: 0x06000824 RID: 2084 RVA: 0x0004E82C File Offset: 0x0004CC2C
+		// (get) Token: 0x06000824 RID: 2084 RVA: 0x0004E818 File Offset: 0x0004CC18
 		private LordToilData_AssaultColonySappers Data
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000148 RID: 328
-		// (get) Token: 0x06000825 RID: 2085 RVA: 0x0004E84C File Offset: 0x0004CC4C
+		// (get) Token: 0x06000825 RID: 2085 RVA: 0x0004E838 File Offset: 0x0004CC38
 		public override bool AllowSatisfyLongNeeds
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000149 RID: 329
-		// (get) Token: 0x06000826 RID: 2086 RVA: 0x0004E864 File Offset: 0x0004CC64
+		// (get) Token: 0x06000826 RID: 2086 RVA: 0x0004E850 File Offset: 0x0004CC50
 		public override bool ForceHighStoryDanger
 		{
 			get
@@ -45,14 +45,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000827 RID: 2087 RVA: 0x0004E87A File Offset: 0x0004CC7A
+		// Token: 0x06000827 RID: 2087 RVA: 0x0004E866 File Offset: 0x0004CC66
 		public override void Init()
 		{
 			base.Init();
 			LessonAutoActivator.TeachOpportunity(ConceptDefOf.Drafting, OpportunityType.Critical);
 		}
 
-		// Token: 0x06000828 RID: 2088 RVA: 0x0004E890 File Offset: 0x0004CC90
+		// Token: 0x06000828 RID: 2088 RVA: 0x0004E87C File Offset: 0x0004CC7C
 		public override void UpdateAllDuties()
 		{
 			if (!this.Data.sapperDest.IsValid && this.lord.ownedPawns.Any<Pawn>())
@@ -120,7 +120,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000829 RID: 2089 RVA: 0x0004EB4E File Offset: 0x0004CF4E
+		// Token: 0x06000829 RID: 2089 RVA: 0x0004EB3A File Offset: 0x0004CF3A
 		public override void Notify_ReachedDutyLocation(Pawn pawn)
 		{
 			this.Data.sapperDest = IntVec3.Invalid;

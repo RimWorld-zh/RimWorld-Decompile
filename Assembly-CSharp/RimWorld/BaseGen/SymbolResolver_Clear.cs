@@ -7,7 +7,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003A6 RID: 934
 	public class SymbolResolver_Clear : SymbolResolver
 	{
-		// Token: 0x0600103A RID: 4154 RVA: 0x000887CC File Offset: 0x00086BCC
+		// Token: 0x0600103A RID: 4154 RVA: 0x000889B8 File Offset: 0x00086DB8
 		public override void Resolve(ResolveParams rp)
 		{
 			CellRect.CellRectIterator iterator = rp.rect.GetIterator();
@@ -53,7 +53,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x04000A0E RID: 2574
+		// Token: 0x04000A10 RID: 2576
 		private static List<Thing> tmpThingsToDestroy = new List<Thing>();
 	}
 }

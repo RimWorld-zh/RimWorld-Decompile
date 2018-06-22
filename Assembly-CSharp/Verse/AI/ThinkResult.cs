@@ -2,10 +2,10 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000ACE RID: 2766
+	// Token: 0x02000ACA RID: 2762
 	public struct ThinkResult : IEquatable<ThinkResult>
 	{
-		// Token: 0x06003D5F RID: 15711 RVA: 0x0020587C File Offset: 0x00203C7C
+		// Token: 0x06003D5A RID: 15706 RVA: 0x00205BA0 File Offset: 0x00203FA0
 		public ThinkResult(Job job, ThinkNode sourceNode, JobTag? tag = null, bool fromQueue = false)
 		{
 			this.jobInt = job;
@@ -14,8 +14,8 @@ namespace Verse.AI
 			this.fromQueue = fromQueue;
 		}
 
-		// Token: 0x1700093B RID: 2363
-		// (get) Token: 0x06003D60 RID: 15712 RVA: 0x0020589C File Offset: 0x00203C9C
+		// Token: 0x1700093C RID: 2364
+		// (get) Token: 0x06003D5B RID: 15707 RVA: 0x00205BC0 File Offset: 0x00203FC0
 		public Job Job
 		{
 			get
@@ -24,8 +24,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x1700093C RID: 2364
-		// (get) Token: 0x06003D61 RID: 15713 RVA: 0x002058B8 File Offset: 0x00203CB8
+		// Token: 0x1700093D RID: 2365
+		// (get) Token: 0x06003D5C RID: 15708 RVA: 0x00205BDC File Offset: 0x00203FDC
 		public ThinkNode SourceNode
 		{
 			get
@@ -34,8 +34,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x1700093D RID: 2365
-		// (get) Token: 0x06003D62 RID: 15714 RVA: 0x002058D4 File Offset: 0x00203CD4
+		// Token: 0x1700093E RID: 2366
+		// (get) Token: 0x06003D5D RID: 15709 RVA: 0x00205BF8 File Offset: 0x00203FF8
 		public JobTag? Tag
 		{
 			get
@@ -44,8 +44,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x1700093E RID: 2366
-		// (get) Token: 0x06003D63 RID: 15715 RVA: 0x002058F0 File Offset: 0x00203CF0
+		// Token: 0x1700093F RID: 2367
+		// (get) Token: 0x06003D5E RID: 15710 RVA: 0x00205C14 File Offset: 0x00204014
 		public bool FromQueue
 		{
 			get
@@ -54,8 +54,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x1700093F RID: 2367
-		// (get) Token: 0x06003D64 RID: 15716 RVA: 0x0020590C File Offset: 0x00203D0C
+		// Token: 0x17000940 RID: 2368
+		// (get) Token: 0x06003D5F RID: 15711 RVA: 0x00205C30 File Offset: 0x00204030
 		public bool IsValid
 		{
 			get
@@ -64,8 +64,8 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x17000940 RID: 2368
-		// (get) Token: 0x06003D65 RID: 15717 RVA: 0x00205930 File Offset: 0x00203D30
+		// Token: 0x17000941 RID: 2369
+		// (get) Token: 0x06003D60 RID: 15712 RVA: 0x00205C54 File Offset: 0x00204054
 		public static ThinkResult NoJob
 		{
 			get
@@ -74,7 +74,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003D66 RID: 15718 RVA: 0x00205958 File Offset: 0x00203D58
+		// Token: 0x06003D61 RID: 15713 RVA: 0x00205C7C File Offset: 0x0020407C
 		public override string ToString()
 		{
 			string text = (this.Job == null) ? "null" : this.Job.ToString();
@@ -89,7 +89,7 @@ namespace Verse.AI
 			});
 		}
 
-		// Token: 0x06003D67 RID: 15719 RVA: 0x002059DC File Offset: 0x00203DDC
+		// Token: 0x06003D62 RID: 15714 RVA: 0x00205D00 File Offset: 0x00204100
 		public override int GetHashCode()
 		{
 			int seed = 0;
@@ -99,13 +99,13 @@ namespace Verse.AI
 			return Gen.HashCombineStruct<bool>(seed, this.fromQueue);
 		}
 
-		// Token: 0x06003D68 RID: 15720 RVA: 0x00205A28 File Offset: 0x00203E28
+		// Token: 0x06003D63 RID: 15715 RVA: 0x00205D4C File Offset: 0x0020414C
 		public override bool Equals(object obj)
 		{
 			return obj is ThinkResult && this.Equals((ThinkResult)obj);
 		}
 
-		// Token: 0x06003D69 RID: 15721 RVA: 0x00205A5C File Offset: 0x00203E5C
+		// Token: 0x06003D64 RID: 15716 RVA: 0x00205D80 File Offset: 0x00204180
 		public bool Equals(ThinkResult other)
 		{
 			if (this.jobInt == other.jobInt && this.sourceNodeInt == other.sourceNodeInt)
@@ -121,28 +121,28 @@ namespace Verse.AI
 			return false;
 		}
 
-		// Token: 0x06003D6A RID: 15722 RVA: 0x00205AE0 File Offset: 0x00203EE0
+		// Token: 0x06003D65 RID: 15717 RVA: 0x00205E04 File Offset: 0x00204204
 		public static bool operator ==(ThinkResult lhs, ThinkResult rhs)
 		{
 			return lhs.Equals(rhs);
 		}
 
-		// Token: 0x06003D6B RID: 15723 RVA: 0x00205B00 File Offset: 0x00203F00
+		// Token: 0x06003D66 RID: 15718 RVA: 0x00205E24 File Offset: 0x00204224
 		public static bool operator !=(ThinkResult lhs, ThinkResult rhs)
 		{
 			return !(lhs == rhs);
 		}
 
-		// Token: 0x040026B2 RID: 9906
+		// Token: 0x040026AD RID: 9901
 		private Job jobInt;
 
-		// Token: 0x040026B3 RID: 9907
+		// Token: 0x040026AE RID: 9902
 		private ThinkNode sourceNodeInt;
 
-		// Token: 0x040026B4 RID: 9908
+		// Token: 0x040026AF RID: 9903
 		private JobTag? tag;
 
-		// Token: 0x040026B5 RID: 9909
+		// Token: 0x040026B0 RID: 9904
 		private bool fromQueue;
 	}
 }

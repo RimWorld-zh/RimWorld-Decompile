@@ -7,8 +7,8 @@ namespace Verse
 	// Token: 0x02000F4B RID: 3915
 	public static class GenTicks
 	{
-		// Token: 0x17000F3B RID: 3899
-		// (get) Token: 0x06005E89 RID: 24201 RVA: 0x00301554 File Offset: 0x002FF954
+		// Token: 0x17000F3F RID: 3903
+		// (get) Token: 0x06005EB1 RID: 24241 RVA: 0x00303590 File Offset: 0x00301990
 		public static int TicksAbs
 		{
 			get
@@ -30,8 +30,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F3C RID: 3900
-		// (get) Token: 0x06005E8A RID: 24202 RVA: 0x003015C4 File Offset: 0x002FF9C4
+		// Token: 0x17000F40 RID: 3904
+		// (get) Token: 0x06005EB2 RID: 24242 RVA: 0x00303600 File Offset: 0x00301A00
 		public static int TicksGame
 		{
 			get
@@ -49,8 +49,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F3D RID: 3901
-		// (get) Token: 0x06005E8B RID: 24203 RVA: 0x00301600 File Offset: 0x002FFA00
+		// Token: 0x17000F41 RID: 3905
+		// (get) Token: 0x06005EB3 RID: 24243 RVA: 0x0030363C File Offset: 0x00301A3C
 		public static int ConfiguredTicksAbsAtGameStart
 		{
 			get
@@ -96,37 +96,37 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005E8C RID: 24204 RVA: 0x003016EC File Offset: 0x002FFAEC
+		// Token: 0x06005EB4 RID: 24244 RVA: 0x00303728 File Offset: 0x00301B28
 		public static float TicksToSeconds(this int numTicks)
 		{
 			return (float)numTicks / 60f;
 		}
 
-		// Token: 0x06005E8D RID: 24205 RVA: 0x0030170C File Offset: 0x002FFB0C
+		// Token: 0x06005EB5 RID: 24245 RVA: 0x00303748 File Offset: 0x00301B48
 		public static int SecondsToTicks(this float numSeconds)
 		{
 			return Mathf.RoundToInt(60f * numSeconds);
 		}
 
-		// Token: 0x06005E8E RID: 24206 RVA: 0x00301730 File Offset: 0x002FFB30
+		// Token: 0x06005EB6 RID: 24246 RVA: 0x0030376C File Offset: 0x00301B6C
 		public static string TicksToSecondsString(this int numTicks)
 		{
 			return numTicks.TicksToSeconds().ToString("F1") + " " + "SecondsLower".Translate();
 		}
 
-		// Token: 0x06005E8F RID: 24207 RVA: 0x0030176C File Offset: 0x002FFB6C
+		// Token: 0x06005EB7 RID: 24247 RVA: 0x003037A8 File Offset: 0x00301BA8
 		public static string SecondsToTicksString(this float numSeconds)
 		{
 			return numSeconds.SecondsToTicks().ToString();
 		}
 
-		// Token: 0x04003E21 RID: 15905
+		// Token: 0x04003E33 RID: 15923
 		public const int TicksPerRealSecond = 60;
 
-		// Token: 0x04003E22 RID: 15906
+		// Token: 0x04003E34 RID: 15924
 		public const int TickRareInterval = 250;
 
-		// Token: 0x04003E23 RID: 15907
+		// Token: 0x04003E35 RID: 15925
 		public const int TickLongInterval = 2000;
 	}
 }

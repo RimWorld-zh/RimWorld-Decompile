@@ -5,10 +5,10 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000505 RID: 1285
+	// Token: 0x02000501 RID: 1281
 	public class Need_Rest : Need
 	{
-		// Token: 0x06001711 RID: 5905 RVA: 0x000CB390 File Offset: 0x000C9790
+		// Token: 0x06001708 RID: 5896 RVA: 0x000CB388 File Offset: 0x000C9788
 		public Need_Rest(Pawn pawn) : base(pawn)
 		{
 			this.threshPercents = new List<float>();
@@ -17,7 +17,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000327 RID: 807
-		// (get) Token: 0x06001712 RID: 5906 RVA: 0x000CB3F0 File Offset: 0x000C97F0
+		// (get) Token: 0x06001709 RID: 5897 RVA: 0x000CB3E8 File Offset: 0x000C97E8
 		public RestCategory CurCategory
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000328 RID: 808
-		// (get) Token: 0x06001713 RID: 5907 RVA: 0x000CB44C File Offset: 0x000C984C
+		// (get) Token: 0x0600170A RID: 5898 RVA: 0x000CB444 File Offset: 0x000C9844
 		public float RestFallPerTick
 		{
 			get
@@ -73,7 +73,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000329 RID: 809
-		// (get) Token: 0x06001714 RID: 5908 RVA: 0x000CB4E4 File Offset: 0x000C98E4
+		// (get) Token: 0x0600170B RID: 5899 RVA: 0x000CB4DC File Offset: 0x000C98DC
 		private float RestFallFactor
 		{
 			get
@@ -83,7 +83,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700032A RID: 810
-		// (get) Token: 0x06001715 RID: 5909 RVA: 0x000CB510 File Offset: 0x000C9910
+		// (get) Token: 0x0600170C RID: 5900 RVA: 0x000CB508 File Offset: 0x000C9908
 		public override int GUIChangeArrow
 		{
 			get
@@ -102,7 +102,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700032B RID: 811
-		// (get) Token: 0x06001716 RID: 5910 RVA: 0x000CB538 File Offset: 0x000C9938
+		// (get) Token: 0x0600170D RID: 5901 RVA: 0x000CB530 File Offset: 0x000C9930
 		public int TicksAtZero
 		{
 			get
@@ -112,7 +112,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700032C RID: 812
-		// (get) Token: 0x06001717 RID: 5911 RVA: 0x000CB554 File Offset: 0x000C9954
+		// (get) Token: 0x0600170E RID: 5902 RVA: 0x000CB54C File Offset: 0x000C994C
 		private bool Resting
 		{
 			get
@@ -121,20 +121,20 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001718 RID: 5912 RVA: 0x000CB57D File Offset: 0x000C997D
+		// Token: 0x0600170F RID: 5903 RVA: 0x000CB575 File Offset: 0x000C9975
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.ticksAtZero, "ticksAtZero", 0, false);
 		}
 
-		// Token: 0x06001719 RID: 5913 RVA: 0x000CB598 File Offset: 0x000C9998
+		// Token: 0x06001710 RID: 5904 RVA: 0x000CB590 File Offset: 0x000C9990
 		public override void SetInitialLevel()
 		{
 			this.CurLevel = Rand.Range(0.9f, 1f);
 		}
 
-		// Token: 0x0600171A RID: 5914 RVA: 0x000CB5B0 File Offset: 0x000C99B0
+		// Token: 0x06001711 RID: 5905 RVA: 0x000CB5A8 File Offset: 0x000C99A8
 		public override void NeedInterval()
 		{
 			if (!base.IsFrozen)
@@ -204,7 +204,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600171B RID: 5915 RVA: 0x000CB7F3 File Offset: 0x000C9BF3
+		// Token: 0x06001712 RID: 5906 RVA: 0x000CB7EB File Offset: 0x000C9BEB
 		public void TickResting(float restEffectiveness)
 		{
 			if (restEffectiveness > 0f)
@@ -214,40 +214,40 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000DA0 RID: 3488
+		// Token: 0x04000D9D RID: 3485
 		private int lastRestTick = -999;
 
-		// Token: 0x04000DA1 RID: 3489
+		// Token: 0x04000D9E RID: 3486
 		private float lastRestEffectiveness = 1f;
 
-		// Token: 0x04000DA2 RID: 3490
+		// Token: 0x04000D9F RID: 3487
 		private int ticksAtZero = 0;
 
-		// Token: 0x04000DA3 RID: 3491
+		// Token: 0x04000DA0 RID: 3488
 		private const float FullSleepHours = 10.5f;
 
-		// Token: 0x04000DA4 RID: 3492
+		// Token: 0x04000DA1 RID: 3489
 		public const float BaseRestGainPerTick = 3.8095237E-05f;
 
-		// Token: 0x04000DA5 RID: 3493
+		// Token: 0x04000DA2 RID: 3490
 		private const float BaseRestFallPerTick = 1.58333332E-05f;
 
-		// Token: 0x04000DA6 RID: 3494
+		// Token: 0x04000DA3 RID: 3491
 		public const float ThreshTired = 0.28f;
 
-		// Token: 0x04000DA7 RID: 3495
+		// Token: 0x04000DA4 RID: 3492
 		public const float ThreshVeryTired = 0.14f;
 
-		// Token: 0x04000DA8 RID: 3496
+		// Token: 0x04000DA5 RID: 3493
 		public const float DefaultFallAsleepMaxLevel = 0.75f;
 
-		// Token: 0x04000DA9 RID: 3497
+		// Token: 0x04000DA6 RID: 3494
 		public const float DefaultNaturalWakeThreshold = 1f;
 
-		// Token: 0x04000DAA RID: 3498
+		// Token: 0x04000DA7 RID: 3495
 		public const float CanWakeThreshold = 0.2f;
 
-		// Token: 0x04000DAB RID: 3499
+		// Token: 0x04000DA8 RID: 3496
 		private const float BaseInvoluntarySleepMTBDays = 0.25f;
 	}
 }

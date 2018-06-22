@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007E9 RID: 2025
+	// Token: 0x020007E5 RID: 2021
 	public abstract class Designator_ZoneAdd : Designator_Zone
 	{
-		// Token: 0x06002CFA RID: 11514 RVA: 0x0017A2A3 File Offset: 0x001786A3
+		// Token: 0x06002CF3 RID: 11507 RVA: 0x0017A47B File Offset: 0x0017887B
 		public Designator_ZoneAdd()
 		{
 			this.soundDragSustain = SoundDefOf.Designate_DragAreaAdd;
@@ -18,9 +18,9 @@ namespace RimWorld
 			this.useMouseIcon = true;
 		}
 
-		// Token: 0x1700071F RID: 1823
-		// (get) Token: 0x06002CFB RID: 11515 RVA: 0x0017A2D0 File Offset: 0x001786D0
-		// (set) Token: 0x06002CFC RID: 11516 RVA: 0x0017A2EF File Offset: 0x001786EF
+		// Token: 0x17000720 RID: 1824
+		// (get) Token: 0x06002CF4 RID: 11508 RVA: 0x0017A4A8 File Offset: 0x001788A8
+		// (set) Token: 0x06002CF5 RID: 11509 RVA: 0x0017A4C7 File Offset: 0x001788C7
 		private Zone SelectedZone
 		{
 			get
@@ -37,14 +37,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000720 RID: 1824
-		// (get) Token: 0x06002CFD RID: 11517
+		// Token: 0x17000721 RID: 1825
+		// (get) Token: 0x06002CF6 RID: 11510
 		protected abstract string NewZoneLabel { get; }
 
-		// Token: 0x06002CFE RID: 11518
+		// Token: 0x06002CF7 RID: 11511
 		protected abstract Zone MakeNewZone();
 
-		// Token: 0x06002CFF RID: 11519 RVA: 0x0017A310 File Offset: 0x00178710
+		// Token: 0x06002CF8 RID: 11512 RVA: 0x0017A4E8 File Offset: 0x001788E8
 		public override void SelectedUpdate()
 		{
 			base.SelectedUpdate();
@@ -54,7 +54,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D00 RID: 11520 RVA: 0x0017A364 File Offset: 0x00178764
+		// Token: 0x06002CF9 RID: 11513 RVA: 0x0017A53C File Offset: 0x0017893C
 		public override void DrawMouseAttachments()
 		{
 			if (this.useMouseIcon)
@@ -83,7 +83,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D01 RID: 11521 RVA: 0x0017A40C File Offset: 0x0017880C
+		// Token: 0x06002CFA RID: 11514 RVA: 0x0017A5E4 File Offset: 0x001789E4
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -121,7 +121,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D02 RID: 11522 RVA: 0x0017A52C File Offset: 0x0017892C
+		// Token: 0x06002CFB RID: 11515 RVA: 0x0017A704 File Offset: 0x00178B04
 		public override void DesignateMultiCell(IEnumerable<IntVec3> cells)
 		{
 			List<IntVec3> list = cells.ToList<IntVec3>();
@@ -215,7 +215,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040017B6 RID: 6070
+		// Token: 0x040017B4 RID: 6068
 		protected Type zoneTypeToPlace;
 	}
 }

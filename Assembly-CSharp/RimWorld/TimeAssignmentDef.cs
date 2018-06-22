@@ -8,7 +8,7 @@ namespace RimWorld
 	public class TimeAssignmentDef : Def
 	{
 		// Token: 0x170001D4 RID: 468
-		// (get) Token: 0x06000C3E RID: 3134 RVA: 0x0006C954 File Offset: 0x0006AD54
+		// (get) Token: 0x06000C3D RID: 3133 RVA: 0x0006C9F0 File Offset: 0x0006ADF0
 		public Texture2D ColorTexture
 		{
 			get
@@ -21,16 +21,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040007C8 RID: 1992
+		// Token: 0x040007C9 RID: 1993
 		public Color color;
 
-		// Token: 0x040007C9 RID: 1993
+		// Token: 0x040007CA RID: 1994
 		public bool allowRest = true;
 
-		// Token: 0x040007CA RID: 1994
+		// Token: 0x040007CB RID: 1995
 		public bool allowJoy = true;
 
-		// Token: 0x040007CB RID: 1995
+		// Token: 0x040007CC RID: 1996
 		private Texture2D colorTextureInt;
 	}
 }

@@ -4,16 +4,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000563 RID: 1379
+	// Token: 0x0200055F RID: 1375
 	public static class FactionUtility
 	{
-		// Token: 0x06001A04 RID: 6660 RVA: 0x000E18D0 File Offset: 0x000DFCD0
+		// Token: 0x060019FB RID: 6651 RVA: 0x000E1924 File Offset: 0x000DFD24
 		public static bool HostileTo(this Faction fac, Faction other)
 		{
 			return fac != null && other != null && other != fac && fac.RelationWith(other, false).kind == FactionRelationKind.Hostile;
 		}
 
-		// Token: 0x06001A05 RID: 6661 RVA: 0x000E1910 File Offset: 0x000DFD10
+		// Token: 0x060019FC RID: 6652 RVA: 0x000E1964 File Offset: 0x000DFD64
 		public static Faction DefaultFactionFrom(FactionDef ft)
 		{
 			Faction result;
@@ -39,7 +39,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001A06 RID: 6662 RVA: 0x000E1990 File Offset: 0x000DFD90
+		// Token: 0x060019FD RID: 6653 RVA: 0x000E19E4 File Offset: 0x000DFDE4
 		public static bool IsPoliticallyProper(this Thing thing, Pawn pawn)
 		{
 			return thing.Faction == null || pawn.Faction == null || thing.Faction == pawn.Faction || thing.Faction == pawn.HostFaction;

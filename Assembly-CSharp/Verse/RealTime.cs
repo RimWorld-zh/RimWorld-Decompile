@@ -7,8 +7,8 @@ namespace Verse
 	// Token: 0x02000F52 RID: 3922
 	public static class RealTime
 	{
-		// Token: 0x17000F40 RID: 3904
-		// (get) Token: 0x06005EAF RID: 24239 RVA: 0x00303700 File Offset: 0x00301B00
+		// Token: 0x17000F44 RID: 3908
+		// (get) Token: 0x06005ED7 RID: 24279 RVA: 0x0030573C File Offset: 0x00303B3C
 		public static float LastRealTime
 		{
 			get
@@ -17,7 +17,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005EB0 RID: 24240 RVA: 0x0030371C File Offset: 0x00301B1C
+		// Token: 0x06005ED8 RID: 24280 RVA: 0x00305758 File Offset: 0x00303B58
 		public static void Update()
 		{
 			RealTime.frameCount = Time.frameCount;
@@ -42,19 +42,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003E34 RID: 15924
+		// Token: 0x04003E46 RID: 15942
 		public static float deltaTime;
 
-		// Token: 0x04003E35 RID: 15925
+		// Token: 0x04003E47 RID: 15943
 		public static float realDeltaTime;
 
-		// Token: 0x04003E36 RID: 15926
+		// Token: 0x04003E48 RID: 15944
 		public static RealtimeMoteList moteList = new RealtimeMoteList();
 
-		// Token: 0x04003E37 RID: 15927
+		// Token: 0x04003E49 RID: 15945
 		public static int frameCount;
 
-		// Token: 0x04003E38 RID: 15928
+		// Token: 0x04003E4A RID: 15946
 		private static float lastRealTime = 0f;
 	}
 }

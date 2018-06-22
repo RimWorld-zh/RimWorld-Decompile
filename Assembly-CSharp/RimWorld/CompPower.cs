@@ -10,7 +10,7 @@ namespace RimWorld
 	public abstract class CompPower : ThingComp
 	{
 		// Token: 0x17000272 RID: 626
-		// (get) Token: 0x06001220 RID: 4640 RVA: 0x0009C1E4 File Offset: 0x0009A5E4
+		// (get) Token: 0x06001220 RID: 4640 RVA: 0x0009C3C8 File Offset: 0x0009A7C8
 		public bool TransmitsPowerNow
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000273 RID: 627
-		// (get) Token: 0x06001221 RID: 4641 RVA: 0x0009C20C File Offset: 0x0009A60C
+		// (get) Token: 0x06001221 RID: 4641 RVA: 0x0009C3F0 File Offset: 0x0009A7F0
 		public PowerNet PowerNet
 		{
 			get
@@ -43,7 +43,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000274 RID: 628
-		// (get) Token: 0x06001222 RID: 4642 RVA: 0x0009C258 File Offset: 0x0009A658
+		// (get) Token: 0x06001222 RID: 4642 RVA: 0x0009C43C File Offset: 0x0009A83C
 		public CompProperties_Power Props
 		{
 			get
@@ -52,7 +52,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001223 RID: 4643 RVA: 0x0009C278 File Offset: 0x0009A678
+		// Token: 0x06001223 RID: 4643 RVA: 0x0009C45C File Offset: 0x0009A85C
 		public virtual void ResetPowerVars()
 		{
 			this.transNet = null;
@@ -62,12 +62,12 @@ namespace RimWorld
 			CompPower.lastManualReconnector = null;
 		}
 
-		// Token: 0x06001224 RID: 4644 RVA: 0x0009C2A0 File Offset: 0x0009A6A0
+		// Token: 0x06001224 RID: 4644 RVA: 0x0009C484 File Offset: 0x0009A884
 		public virtual void SetUpPowerVars()
 		{
 		}
 
-		// Token: 0x06001225 RID: 4645 RVA: 0x0009C2A4 File Offset: 0x0009A6A4
+		// Token: 0x06001225 RID: 4645 RVA: 0x0009C488 File Offset: 0x0009A888
 		public override void PostExposeData()
 		{
 			Thing thing = null;
@@ -92,7 +92,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001226 RID: 4646 RVA: 0x0009C324 File Offset: 0x0009A724
+		// Token: 0x06001226 RID: 4646 RVA: 0x0009C508 File Offset: 0x0009A908
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
@@ -111,7 +111,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001227 RID: 4647 RVA: 0x0009C3E0 File Offset: 0x0009A7E0
+		// Token: 0x06001227 RID: 4647 RVA: 0x0009C5C4 File Offset: 0x0009A9C4
 		public override void PostDeSpawn(Map map)
 		{
 			base.PostDeSpawn(map);
@@ -136,7 +136,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001228 RID: 4648 RVA: 0x0009C4B4 File Offset: 0x0009A8B4
+		// Token: 0x06001228 RID: 4648 RVA: 0x0009C698 File Offset: 0x0009AA98
 		public virtual void LostConnectParent()
 		{
 			this.connectParent = null;
@@ -146,7 +146,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001229 RID: 4649 RVA: 0x0009C4E4 File Offset: 0x0009A8E4
+		// Token: 0x06001229 RID: 4649 RVA: 0x0009C6C8 File Offset: 0x0009AAC8
 		public override void PostPrintOnto(SectionLayer layer)
 		{
 			base.PostPrintOnto(layer);
@@ -156,7 +156,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600122A RID: 4650 RVA: 0x0009C514 File Offset: 0x0009A914
+		// Token: 0x0600122A RID: 4650 RVA: 0x0009C6F8 File Offset: 0x0009AAF8
 		public override void CompPrintForPowerGrid(SectionLayer layer)
 		{
 			if (this.TransmitsPowerNow)
@@ -173,7 +173,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600122B RID: 4651 RVA: 0x0009C584 File Offset: 0x0009A984
+		// Token: 0x0600122B RID: 4651 RVA: 0x0009C768 File Offset: 0x0009AB68
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			foreach (Gizmo c in this.<CompGetGizmosExtra>__BaseCallProxy0())
@@ -198,7 +198,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600122C RID: 4652 RVA: 0x0009C5B0 File Offset: 0x0009A9B0
+		// Token: 0x0600122C RID: 4652 RVA: 0x0009C794 File Offset: 0x0009AB94
 		private void TryManualReconnect()
 		{
 			if (CompPower.lastManualReconnector != this)
@@ -229,7 +229,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600122D RID: 4653 RVA: 0x0009C6DC File Offset: 0x0009AADC
+		// Token: 0x0600122D RID: 4653 RVA: 0x0009C8C0 File Offset: 0x0009ACC0
 		public void ConnectToTransmitter(CompPower transmitter, bool reconnectingAfterLoading = false)
 		{
 			if (this.connectParent != null && (!reconnectingAfterLoading || this.connectParent != transmitter))
@@ -261,7 +261,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600122E RID: 4654 RVA: 0x0009C798 File Offset: 0x0009AB98
+		// Token: 0x0600122E RID: 4654 RVA: 0x0009C97C File Offset: 0x0009AD7C
 		public override string CompInspectStringExtra()
 		{
 			string result;
@@ -283,22 +283,22 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04000B00 RID: 2816
+		// Token: 0x04000B01 RID: 2817
 		public PowerNet transNet = null;
 
-		// Token: 0x04000B01 RID: 2817
+		// Token: 0x04000B02 RID: 2818
 		public CompPower connectParent = null;
 
-		// Token: 0x04000B02 RID: 2818
+		// Token: 0x04000B03 RID: 2819
 		public List<CompPower> connectChildren = null;
 
-		// Token: 0x04000B03 RID: 2819
+		// Token: 0x04000B04 RID: 2820
 		private static List<PowerNet> recentlyConnectedNets = new List<PowerNet>();
 
-		// Token: 0x04000B04 RID: 2820
+		// Token: 0x04000B05 RID: 2821
 		private static CompPower lastManualReconnector = null;
 
-		// Token: 0x04000B05 RID: 2821
+		// Token: 0x04000B06 RID: 2822
 		public static readonly float WattsToWattDaysPerTick = 1.66666669E-05f;
 	}
 }

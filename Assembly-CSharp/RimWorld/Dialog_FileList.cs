@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000810 RID: 2064
+	// Token: 0x0200080C RID: 2060
 	public abstract class Dialog_FileList : Window
 	{
-		// Token: 0x06002E11 RID: 11793 RVA: 0x00184360 File Offset: 0x00182760
+		// Token: 0x06002E0A RID: 11786 RVA: 0x00184538 File Offset: 0x00182938
 		public Dialog_FileList()
 		{
 			this.doCloseButton = true;
@@ -20,8 +20,8 @@ namespace RimWorld
 			this.ReloadFiles();
 		}
 
-		// Token: 0x17000755 RID: 1877
-		// (get) Token: 0x06002E12 RID: 11794 RVA: 0x001843DC File Offset: 0x001827DC
+		// Token: 0x17000756 RID: 1878
+		// (get) Token: 0x06002E0B RID: 11787 RVA: 0x001845B4 File Offset: 0x001829B4
 		public override Vector2 InitialSize
 		{
 			get
@@ -30,8 +30,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000756 RID: 1878
-		// (get) Token: 0x06002E13 RID: 11795 RVA: 0x00184400 File Offset: 0x00182800
+		// Token: 0x17000757 RID: 1879
+		// (get) Token: 0x06002E0C RID: 11788 RVA: 0x001845D8 File Offset: 0x001829D8
 		protected virtual bool ShouldDoTypeInField
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E14 RID: 11796 RVA: 0x00184418 File Offset: 0x00182818
+		// Token: 0x06002E0D RID: 11789 RVA: 0x001845F0 File Offset: 0x001829F0
 		public override void DoWindowContents(Rect inRect)
 		{
 			Vector2 vector = new Vector2(inRect.width - 16f, 36f);
@@ -109,13 +109,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E15 RID: 11797
+		// Token: 0x06002E0E RID: 11790
 		protected abstract void DoFileInteraction(string fileName);
 
-		// Token: 0x06002E16 RID: 11798
+		// Token: 0x06002E0F RID: 11791
 		protected abstract void ReloadFiles();
 
-		// Token: 0x06002E17 RID: 11799 RVA: 0x001847AC File Offset: 0x00182BAC
+		// Token: 0x06002E10 RID: 11792 RVA: 0x00184984 File Offset: 0x00182D84
 		protected virtual void DoTypeInField(Rect rect)
 		{
 			GUI.BeginGroup(rect);
@@ -151,13 +151,13 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002E18 RID: 11800 RVA: 0x001848E8 File Offset: 0x00182CE8
+		// Token: 0x06002E11 RID: 11793 RVA: 0x00184AC0 File Offset: 0x00182EC0
 		protected virtual Color FileNameColor(SaveFileInfo sfi)
 		{
 			return Dialog_FileList.DefaultFileTextColor;
 		}
 
-		// Token: 0x06002E19 RID: 11801 RVA: 0x00184904 File Offset: 0x00182D04
+		// Token: 0x06002E12 RID: 11794 RVA: 0x00184ADC File Offset: 0x00182EDC
 		public static void DrawDateAndVersion(SaveFileInfo sfi, Rect rect)
 		{
 			GUI.BeginGroup(rect);
@@ -173,55 +173,55 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x04001874 RID: 6260
+		// Token: 0x04001872 RID: 6258
 		protected string interactButLabel = "Error";
 
-		// Token: 0x04001875 RID: 6261
+		// Token: 0x04001873 RID: 6259
 		protected float bottomAreaHeight = 0f;
 
-		// Token: 0x04001876 RID: 6262
+		// Token: 0x04001874 RID: 6260
 		protected List<SaveFileInfo> files = new List<SaveFileInfo>();
 
-		// Token: 0x04001877 RID: 6263
+		// Token: 0x04001875 RID: 6261
 		protected Vector2 scrollPosition = Vector2.zero;
 
-		// Token: 0x04001878 RID: 6264
+		// Token: 0x04001876 RID: 6262
 		protected string typingName = "";
 
-		// Token: 0x04001879 RID: 6265
+		// Token: 0x04001877 RID: 6263
 		private bool focusedNameArea = false;
 
-		// Token: 0x0400187A RID: 6266
+		// Token: 0x04001878 RID: 6264
 		protected const float BoxMargin = 20f;
 
-		// Token: 0x0400187B RID: 6267
+		// Token: 0x04001879 RID: 6265
 		protected const float EntrySpacing = 3f;
 
-		// Token: 0x0400187C RID: 6268
+		// Token: 0x0400187A RID: 6266
 		protected const float EntryMargin = 1f;
 
-		// Token: 0x0400187D RID: 6269
+		// Token: 0x0400187B RID: 6267
 		protected const float NameExtraLeftMargin = 15f;
 
-		// Token: 0x0400187E RID: 6270
+		// Token: 0x0400187C RID: 6268
 		protected const float InfoExtraLeftMargin = 270f;
 
-		// Token: 0x0400187F RID: 6271
+		// Token: 0x0400187D RID: 6269
 		protected const float DeleteButtonSpace = 5f;
 
-		// Token: 0x04001880 RID: 6272
+		// Token: 0x0400187E RID: 6270
 		protected const float EntryHeight = 36f;
 
-		// Token: 0x04001881 RID: 6273
+		// Token: 0x0400187F RID: 6271
 		private static readonly Color DefaultFileTextColor = new Color(1f, 1f, 0.6f);
 
-		// Token: 0x04001882 RID: 6274
+		// Token: 0x04001880 RID: 6272
 		protected const float NameTextFieldWidth = 400f;
 
-		// Token: 0x04001883 RID: 6275
+		// Token: 0x04001881 RID: 6273
 		protected const float NameTextFieldHeight = 35f;
 
-		// Token: 0x04001884 RID: 6276
+		// Token: 0x04001882 RID: 6274
 		protected const float NameTextFieldButtonSpace = 20f;
 	}
 }

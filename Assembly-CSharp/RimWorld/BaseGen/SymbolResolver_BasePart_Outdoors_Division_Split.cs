@@ -7,7 +7,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x0200039B RID: 923
 	public class SymbolResolver_BasePart_Outdoors_Division_Split : SymbolResolver
 	{
-		// Token: 0x0600101A RID: 4122 RVA: 0x000879F0 File Offset: 0x00085DF0
+		// Token: 0x0600101A RID: 4122 RVA: 0x00087BDC File Offset: 0x00085FDC
 		public override bool CanResolve(ResolveParams rp)
 		{
 			int num;
@@ -15,7 +15,7 @@ namespace RimWorld.BaseGen
 			return base.CanResolve(rp) && (this.TryFindSplitPoint(false, rp.rect, out num, out num2) || this.TryFindSplitPoint(true, rp.rect, out num, out num2));
 		}
 
-		// Token: 0x0600101B RID: 4123 RVA: 0x00087A50 File Offset: 0x00085E50
+		// Token: 0x0600101B RID: 4123 RVA: 0x00087C3C File Offset: 0x0008603C
 		public override void Resolve(ResolveParams rp)
 		{
 			bool @bool = Rand.Bool;
@@ -78,7 +78,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x0600101C RID: 4124 RVA: 0x00087D08 File Offset: 0x00086108
+		// Token: 0x0600101C RID: 4124 RVA: 0x00087EF4 File Offset: 0x000862F4
 		private bool TryFindSplitPoint(bool horizontal, CellRect rect, out int splitPoint, out int spaceBetween)
 		{
 			int num = (!horizontal) ? rect.Width : rect.Height;
@@ -98,10 +98,10 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x04000A07 RID: 2567
+		// Token: 0x04000A09 RID: 2569
 		private const int MinLengthAfterSplit = 5;
 
-		// Token: 0x04000A08 RID: 2568
+		// Token: 0x04000A0A RID: 2570
 		private static readonly IntRange SpaceBetweenRange = new IntRange(1, 2);
 	}
 }

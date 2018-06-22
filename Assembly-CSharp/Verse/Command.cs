@@ -5,12 +5,12 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000E64 RID: 3684
+	// Token: 0x02000E63 RID: 3683
 	[StaticConstructorOnStartup]
 	public abstract class Command : Gizmo
 	{
-		// Token: 0x17000D9B RID: 3483
-		// (get) Token: 0x060056AB RID: 22187 RVA: 0x00159FE0 File Offset: 0x001583E0
+		// Token: 0x17000D9E RID: 3486
+		// (get) Token: 0x060056CB RID: 22219 RVA: 0x0015A1B8 File Offset: 0x001585B8
 		public virtual string Label
 		{
 			get
@@ -19,8 +19,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D9C RID: 3484
-		// (get) Token: 0x060056AC RID: 22188 RVA: 0x00159FFC File Offset: 0x001583FC
+		// Token: 0x17000D9F RID: 3487
+		// (get) Token: 0x060056CC RID: 22220 RVA: 0x0015A1D4 File Offset: 0x001585D4
 		public virtual string LabelCap
 		{
 			get
@@ -29,8 +29,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D9D RID: 3485
-		// (get) Token: 0x060056AD RID: 22189 RVA: 0x0015A01C File Offset: 0x0015841C
+		// Token: 0x17000DA0 RID: 3488
+		// (get) Token: 0x060056CD RID: 22221 RVA: 0x0015A1F4 File Offset: 0x001585F4
 		public virtual string Desc
 		{
 			get
@@ -39,8 +39,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D9E RID: 3486
-		// (get) Token: 0x060056AE RID: 22190 RVA: 0x0015A038 File Offset: 0x00158438
+		// Token: 0x17000DA1 RID: 3489
+		// (get) Token: 0x060056CE RID: 22222 RVA: 0x0015A210 File Offset: 0x00158610
 		public virtual Color IconDrawColor
 		{
 			get
@@ -49,8 +49,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D9F RID: 3487
-		// (get) Token: 0x060056AF RID: 22191 RVA: 0x0015A054 File Offset: 0x00158454
+		// Token: 0x17000DA2 RID: 3490
+		// (get) Token: 0x060056CF RID: 22223 RVA: 0x0015A22C File Offset: 0x0015862C
 		public virtual SoundDef CurActivateSound
 		{
 			get
@@ -59,8 +59,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DA0 RID: 3488
-		// (get) Token: 0x060056B0 RID: 22192 RVA: 0x0015A070 File Offset: 0x00158470
+		// Token: 0x17000DA3 RID: 3491
+		// (get) Token: 0x060056D0 RID: 22224 RVA: 0x0015A248 File Offset: 0x00158648
 		protected virtual bool DoTooltip
 		{
 			get
@@ -69,8 +69,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DA1 RID: 3489
-		// (get) Token: 0x060056B1 RID: 22193 RVA: 0x0015A088 File Offset: 0x00158488
+		// Token: 0x17000DA4 RID: 3492
+		// (get) Token: 0x060056D1 RID: 22225 RVA: 0x0015A260 File Offset: 0x00158660
 		public virtual string HighlightTag
 		{
 			get
@@ -79,8 +79,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DA2 RID: 3490
-		// (get) Token: 0x060056B2 RID: 22194 RVA: 0x0015A0A4 File Offset: 0x001584A4
+		// Token: 0x17000DA5 RID: 3493
+		// (get) Token: 0x060056D2 RID: 22226 RVA: 0x0015A27C File Offset: 0x0015867C
 		public virtual string TutorTagSelect
 		{
 			get
@@ -89,13 +89,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056B3 RID: 22195 RVA: 0x0015A0C0 File Offset: 0x001584C0
+		// Token: 0x060056D3 RID: 22227 RVA: 0x0015A298 File Offset: 0x00158698
 		public override float GetWidth(float maxWidth)
 		{
 			return 75f;
 		}
 
-		// Token: 0x060056B4 RID: 22196 RVA: 0x0015A0DC File Offset: 0x001584DC
+		// Token: 0x060056D4 RID: 22228 RVA: 0x0015A2B4 File Offset: 0x001586B4
 		public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth)
 		{
 			Text.Font = GameFont.Tiny;
@@ -212,14 +212,14 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060056B5 RID: 22197 RVA: 0x0015A4E8 File Offset: 0x001588E8
+		// Token: 0x060056D5 RID: 22229 RVA: 0x0015A6C0 File Offset: 0x00158AC0
 		public override bool GroupsWith(Gizmo other)
 		{
 			Command command = other as Command;
 			return command != null && ((this.hotKey == command.hotKey && this.Label == command.Label && this.icon == command.icon) || (this.groupKey != 0 && command.groupKey != 0 && this.groupKey == command.groupKey));
 		}
 
-		// Token: 0x060056B6 RID: 22198 RVA: 0x0015A58C File Offset: 0x0015898C
+		// Token: 0x060056D6 RID: 22230 RVA: 0x0015A764 File Offset: 0x00158B64
 		public override void ProcessInput(Event ev)
 		{
 			if (this.CurActivateSound != null)
@@ -228,7 +228,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056B7 RID: 22199 RVA: 0x0015A5A8 File Offset: 0x001589A8
+		// Token: 0x060056D7 RID: 22231 RVA: 0x0015A780 File Offset: 0x00158B80
 		public override string ToString()
 		{
 			return string.Concat(new string[]
@@ -241,46 +241,46 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x0400396C RID: 14700
+		// Token: 0x0400397B RID: 14715
 		public string defaultLabel = null;
 
-		// Token: 0x0400396D RID: 14701
+		// Token: 0x0400397C RID: 14716
 		public string defaultDesc = "No description.";
 
-		// Token: 0x0400396E RID: 14702
+		// Token: 0x0400397D RID: 14717
 		public Texture2D icon = null;
 
-		// Token: 0x0400396F RID: 14703
+		// Token: 0x0400397E RID: 14718
 		public float iconAngle;
 
-		// Token: 0x04003970 RID: 14704
+		// Token: 0x0400397F RID: 14719
 		public Vector2 iconProportions = Vector2.one;
 
-		// Token: 0x04003971 RID: 14705
+		// Token: 0x04003980 RID: 14720
 		public Rect iconTexCoords = new Rect(0f, 0f, 1f, 1f);
 
-		// Token: 0x04003972 RID: 14706
+		// Token: 0x04003981 RID: 14721
 		public float iconDrawScale = 1f;
 
-		// Token: 0x04003973 RID: 14707
+		// Token: 0x04003982 RID: 14722
 		public Vector2 iconOffset;
 
-		// Token: 0x04003974 RID: 14708
+		// Token: 0x04003983 RID: 14723
 		public Color defaultIconColor = Color.white;
 
-		// Token: 0x04003975 RID: 14709
+		// Token: 0x04003984 RID: 14724
 		public KeyBindingDef hotKey;
 
-		// Token: 0x04003976 RID: 14710
+		// Token: 0x04003985 RID: 14725
 		public SoundDef activateSound = null;
 
-		// Token: 0x04003977 RID: 14711
+		// Token: 0x04003986 RID: 14726
 		public int groupKey = 0;
 
-		// Token: 0x04003978 RID: 14712
+		// Token: 0x04003987 RID: 14727
 		public string tutorTag = "TutorTagNotSet";
 
-		// Token: 0x04003979 RID: 14713
+		// Token: 0x04003988 RID: 14728
 		public static readonly Texture2D BGTex = ContentFinder<Texture2D>.Get("UI/Widgets/DesButBG", true);
 	}
 }

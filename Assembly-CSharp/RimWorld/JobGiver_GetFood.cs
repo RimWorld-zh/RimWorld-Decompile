@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000E1 RID: 225
 	public class JobGiver_GetFood : ThinkNode_JobGiver
 	{
-		// Token: 0x060004E5 RID: 1253 RVA: 0x00036764 File Offset: 0x00034B64
+		// Token: 0x060004E5 RID: 1253 RVA: 0x00036750 File Offset: 0x00034B50
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_GetFood jobGiver_GetFood = (JobGiver_GetFood)base.DeepCopy(resolve);
@@ -16,7 +16,7 @@ namespace RimWorld
 			return jobGiver_GetFood;
 		}
 
-		// Token: 0x060004E6 RID: 1254 RVA: 0x000367A0 File Offset: 0x00034BA0
+		// Token: 0x060004E6 RID: 1254 RVA: 0x0003678C File Offset: 0x00034B8C
 		public override float GetPriority(Pawn pawn)
 		{
 			Need_Food food = pawn.needs.food;
@@ -44,7 +44,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060004E7 RID: 1255 RVA: 0x00036840 File Offset: 0x00034C40
+		// Token: 0x060004E7 RID: 1255 RVA: 0x0003682C File Offset: 0x00034C2C
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Need_Food food = pawn.needs.food;

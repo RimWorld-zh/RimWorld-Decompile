@@ -6,11 +6,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200086E RID: 2158
+	// Token: 0x0200086A RID: 2154
 	public class MainTabWindow_Animals : MainTabWindow_PawnTable
 	{
-		// Token: 0x170007D5 RID: 2005
-		// (get) Token: 0x06003107 RID: 12551 RVA: 0x001AA068 File Offset: 0x001A8468
+		// Token: 0x170007D6 RID: 2006
+		// (get) Token: 0x06003100 RID: 12544 RVA: 0x001AA250 File Offset: 0x001A8650
 		protected override PawnTableDef PawnTableDef
 		{
 			get
@@ -19,8 +19,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170007D6 RID: 2006
-		// (get) Token: 0x06003108 RID: 12552 RVA: 0x001AA084 File Offset: 0x001A8484
+		// Token: 0x170007D7 RID: 2007
+		// (get) Token: 0x06003101 RID: 12545 RVA: 0x001AA26C File Offset: 0x001A866C
 		protected override IEnumerable<Pawn> Pawns
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003109 RID: 12553 RVA: 0x001AA0CF File Offset: 0x001A84CF
+		// Token: 0x06003102 RID: 12546 RVA: 0x001AA2B7 File Offset: 0x001A86B7
 		public override void PostOpen()
 		{
 			base.PostOpen();

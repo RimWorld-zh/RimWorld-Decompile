@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004BC RID: 1212
+	// Token: 0x020004B8 RID: 1208
 	public class InteractionWorker_RomanceAttempt : InteractionWorker
 	{
-		// Token: 0x06001593 RID: 5523 RVA: 0x000BFA54 File Offset: 0x000BDE54
+		// Token: 0x0600158A RID: 5514 RVA: 0x000BFA58 File Offset: 0x000BDE58
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
 			float result;
@@ -74,7 +74,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001594 RID: 5524 RVA: 0x000BFC3C File Offset: 0x000BE03C
+		// Token: 0x0600158B RID: 5515 RVA: 0x000BFC40 File Offset: 0x000BE040
 		public float SuccessChance(Pawn initiator, Pawn recipient)
 		{
 			float num = 0.6f;
@@ -106,7 +106,7 @@ namespace RimWorld
 			return Mathf.Clamp01(num);
 		}
 
-		// Token: 0x06001595 RID: 5525 RVA: 0x000BFDA4 File Offset: 0x000BE1A4
+		// Token: 0x0600158C RID: 5516 RVA: 0x000BFDA8 File Offset: 0x000BE1A8
 		public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks, out string letterText, out string letterLabel, out LetterDef letterDef)
 		{
 			if (Rand.Value < this.SuccessChance(initiator, recipient))
@@ -164,7 +164,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001596 RID: 5526 RVA: 0x000C0000 File Offset: 0x000BE400
+		// Token: 0x0600158D RID: 5517 RVA: 0x000C0004 File Offset: 0x000BE404
 		private void BreakLoverAndFianceRelations(Pawn pawn, out List<Pawn> oldLoversAndFiances)
 		{
 			oldLoversAndFiances = new List<Pawn>();
@@ -191,7 +191,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001597 RID: 5527 RVA: 0x000C00B1 File Offset: 0x000BE4B1
+		// Token: 0x0600158E RID: 5518 RVA: 0x000C00B5 File Offset: 0x000BE4B5
 		private void TryAddCheaterThought(Pawn pawn, Pawn cheater)
 		{
 			if (!pawn.Dead)
@@ -200,7 +200,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001598 RID: 5528 RVA: 0x000C00E4 File Offset: 0x000BE4E4
+		// Token: 0x0600158F RID: 5519 RVA: 0x000C00E8 File Offset: 0x000BE4E8
 		private void GetNewLoversLetter(Pawn initiator, Pawn recipient, List<Pawn> initiatorOldLoversAndFiances, List<Pawn> recipientOldLoversAndFiances, out string letterText, out string letterLabel, out LetterDef letterDef)
 		{
 			bool flag = false;
@@ -241,19 +241,14 @@ namespace RimWorld
 					}));
 				}
 			}
-			else
-			{
-				stringBuilder.AppendLine("LetterNewLovers".Translate(new object[]
-				{
-					initiator.LabelShort,
-					recipient.LabelShort
-				}));
-			}
 			for (int i = 0; i < initiatorOldLoversAndFiances.Count; i++)
 			{
 				if (!initiatorOldLoversAndFiances[i].Dead)
 				{
-					stringBuilder.AppendLine();
+					if (stringBuilder.Length > 0)
+					{
+						stringBuilder.AppendLine();
+					}
 					stringBuilder.AppendLine("LetterNoLongerLovers".Translate(new object[]
 					{
 						initiator.LabelShort,
@@ -265,7 +260,10 @@ namespace RimWorld
 			{
 				if (!recipientOldLoversAndFiances[j].Dead)
 				{
-					stringBuilder.AppendLine();
+					if (stringBuilder.Length > 0)
+					{
+						stringBuilder.AppendLine();
+					}
 					stringBuilder.AppendLine("LetterNoLongerLovers".Translate(new object[]
 					{
 						recipient.LabelShort,
@@ -276,16 +274,16 @@ namespace RimWorld
 			letterText = stringBuilder.ToString().TrimEndNewlines();
 		}
 
-		// Token: 0x04000CBF RID: 3263
+		// Token: 0x04000CBC RID: 3260
 		private const float MinAttractionForRomanceAttempt = 0.25f;
 
-		// Token: 0x04000CC0 RID: 3264
+		// Token: 0x04000CBD RID: 3261
 		private const int MinOpinionForRomanceAttempt = 5;
 
-		// Token: 0x04000CC1 RID: 3265
+		// Token: 0x04000CBE RID: 3262
 		private const float BaseSelectionWeight = 1.15f;
 
-		// Token: 0x04000CC2 RID: 3266
+		// Token: 0x04000CBF RID: 3263
 		private const float BaseSuccessChance = 0.6f;
 	}
 }

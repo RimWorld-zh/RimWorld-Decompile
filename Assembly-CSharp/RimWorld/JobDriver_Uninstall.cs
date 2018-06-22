@@ -7,7 +7,7 @@ namespace RimWorld
 	public class JobDriver_Uninstall : JobDriver_RemoveBuilding
 	{
 		// Token: 0x17000081 RID: 129
-		// (get) Token: 0x0600025A RID: 602 RVA: 0x00018C5C File Offset: 0x0001705C
+		// (get) Token: 0x0600025A RID: 602 RVA: 0x00018C64 File Offset: 0x00017064
 		protected override DesignationDef Designation
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000082 RID: 130
-		// (get) Token: 0x0600025B RID: 603 RVA: 0x00018C78 File Offset: 0x00017078
+		// (get) Token: 0x0600025B RID: 603 RVA: 0x00018C80 File Offset: 0x00017080
 		protected override int TotalNeededWork
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600025C RID: 604 RVA: 0x00018C8F File Offset: 0x0001708F
+		// Token: 0x0600025C RID: 604 RVA: 0x00018C97 File Offset: 0x00017097
 		protected override void FinishedRemoving()
 		{
 			base.Building.Uninstall();

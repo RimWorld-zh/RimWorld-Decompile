@@ -3,22 +3,22 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006A2 RID: 1698
+	// Token: 0x0200069E RID: 1694
 	public interface ICommunicable
 	{
-		// Token: 0x0600241E RID: 9246
+		// Token: 0x06002416 RID: 9238
 		string GetCallLabel();
 
-		// Token: 0x0600241F RID: 9247
+		// Token: 0x06002417 RID: 9239
 		string GetInfoText();
 
-		// Token: 0x06002420 RID: 9248
+		// Token: 0x06002418 RID: 9240
 		void TryOpenComms(Pawn negotiator);
 
-		// Token: 0x06002421 RID: 9249
+		// Token: 0x06002419 RID: 9241
 		Faction GetFaction();
 
-		// Token: 0x06002422 RID: 9250
+		// Token: 0x0600241A RID: 9242
 		FloatMenuOption CommFloatMenuOption(Building_CommsConsole console, Pawn negotiator);
 	}
 }

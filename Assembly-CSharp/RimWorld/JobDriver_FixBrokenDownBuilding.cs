@@ -10,7 +10,7 @@ namespace RimWorld
 	public class JobDriver_FixBrokenDownBuilding : JobDriver
 	{
 		// Token: 0x17000077 RID: 119
-		// (get) Token: 0x06000236 RID: 566 RVA: 0x000179C0 File Offset: 0x00015DC0
+		// (get) Token: 0x06000236 RID: 566 RVA: 0x000179C8 File Offset: 0x00015DC8
 		private Building Building
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000078 RID: 120
-		// (get) Token: 0x06000237 RID: 567 RVA: 0x000179F0 File Offset: 0x00015DF0
+		// (get) Token: 0x06000237 RID: 567 RVA: 0x000179F8 File Offset: 0x00015DF8
 		private Thing Components
 		{
 			get
@@ -29,13 +29,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000238 RID: 568 RVA: 0x00017A1C File Offset: 0x00015E1C
+		// Token: 0x06000238 RID: 568 RVA: 0x00017A24 File Offset: 0x00015E24
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Building, this.job, 1, -1, null) && this.pawn.Reserve(this.Components, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000239 RID: 569 RVA: 0x00017A78 File Offset: 0x00015E78
+		// Token: 0x06000239 RID: 569 RVA: 0x00017A80 File Offset: 0x00015E80
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);

@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200057D RID: 1405
+	// Token: 0x02000579 RID: 1401
 	public static class OverallTemperatureUtility
 	{
 		// Token: 0x170003E2 RID: 994
-		// (get) Token: 0x06001AD9 RID: 6873 RVA: 0x000E6964 File Offset: 0x000E4D64
+		// (get) Token: 0x06001AD0 RID: 6864 RVA: 0x000E69B8 File Offset: 0x000E4DB8
 		public static int EnumValuesCount
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001ADA RID: 6874 RVA: 0x000E69A0 File Offset: 0x000E4DA0
+		// Token: 0x06001AD1 RID: 6865 RVA: 0x000E69F4 File Offset: 0x000E4DF4
 		public static SimpleCurve GetTemperatureCurve(this OverallTemperature overallTemperature)
 		{
 			switch (overallTemperature)
@@ -41,10 +41,10 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		// Token: 0x04000FA5 RID: 4005
+		// Token: 0x04000FA2 RID: 4002
 		private static int cachedEnumValuesCount = -1;
 
-		// Token: 0x04000FA6 RID: 4006
+		// Token: 0x04000FA3 RID: 4003
 		private static readonly SimpleCurve Curve_VeryCold = new SimpleCurve
 		{
 			{
@@ -81,7 +81,7 @@ namespace RimWorld.Planet
 			}
 		};
 
-		// Token: 0x04000FA7 RID: 4007
+		// Token: 0x04000FA4 RID: 4004
 		private static readonly SimpleCurve Curve_Cold = new SimpleCurve
 		{
 			{
@@ -118,7 +118,7 @@ namespace RimWorld.Planet
 			}
 		};
 
-		// Token: 0x04000FA8 RID: 4008
+		// Token: 0x04000FA5 RID: 4005
 		private static readonly SimpleCurve Curve_LittleBitColder = new SimpleCurve
 		{
 			{
@@ -147,7 +147,7 @@ namespace RimWorld.Planet
 			}
 		};
 
-		// Token: 0x04000FA9 RID: 4009
+		// Token: 0x04000FA6 RID: 4006
 		private static readonly SimpleCurve Curve_LittleBitWarmer = new SimpleCurve
 		{
 			{
@@ -172,7 +172,7 @@ namespace RimWorld.Planet
 			}
 		};
 
-		// Token: 0x04000FAA RID: 4010
+		// Token: 0x04000FA7 RID: 4007
 		private static readonly SimpleCurve Curve_Hot = new SimpleCurve
 		{
 			{
@@ -205,7 +205,7 @@ namespace RimWorld.Planet
 			}
 		};
 
-		// Token: 0x04000FAB RID: 4011
+		// Token: 0x04000FA8 RID: 4008
 		private static readonly SimpleCurve Curve_VeryHot = new SimpleCurve
 		{
 			{

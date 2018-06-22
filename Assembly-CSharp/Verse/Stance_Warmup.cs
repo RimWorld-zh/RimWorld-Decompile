@@ -4,15 +4,15 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000D61 RID: 3425
+	// Token: 0x02000D5E RID: 3422
 	public class Stance_Warmup : Stance_Busy
 	{
-		// Token: 0x06004CAD RID: 19629 RVA: 0x0027EABD File Offset: 0x0027CEBD
+		// Token: 0x06004CC2 RID: 19650 RVA: 0x0028006D File Offset: 0x0027E46D
 		public Stance_Warmup()
 		{
 		}
 
-		// Token: 0x06004CAE RID: 19630 RVA: 0x0027EAC8 File Offset: 0x0027CEC8
+		// Token: 0x06004CC3 RID: 19651 RVA: 0x00280078 File Offset: 0x0027E478
 		public Stance_Warmup(int ticks, LocalTargetInfo focusTarg, Verb verb) : base(ticks, focusTarg, verb)
 		{
 			if (focusTarg.HasThing && focusTarg.Thing is Pawn)
@@ -43,14 +43,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004CAF RID: 19631 RVA: 0x0027EBD3 File Offset: 0x0027CFD3
+		// Token: 0x06004CC4 RID: 19652 RVA: 0x00280183 File Offset: 0x0027E583
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.targetStartedDowned, "targetStartDowned", false, false);
 		}
 
-		// Token: 0x06004CB0 RID: 19632 RVA: 0x0027EBF0 File Offset: 0x0027CFF0
+		// Token: 0x06004CC5 RID: 19653 RVA: 0x002801A0 File Offset: 0x0027E5A0
 		public override void StanceDraw()
 		{
 			if (Find.Selector.IsSelected(this.stanceTracker.pawn))
@@ -59,7 +59,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004CB1 RID: 19633 RVA: 0x0027EC44 File Offset: 0x0027D044
+		// Token: 0x06004CC6 RID: 19654 RVA: 0x002801F4 File Offset: 0x0027E5F4
 		public override void StanceTick()
 		{
 			if (this.sustainer != null && !this.sustainer.Ended)
@@ -89,17 +89,17 @@ namespace Verse
 			base.StanceTick();
 		}
 
-		// Token: 0x06004CB2 RID: 19634 RVA: 0x0027ED73 File Offset: 0x0027D173
+		// Token: 0x06004CC7 RID: 19655 RVA: 0x00280323 File Offset: 0x0027E723
 		protected override void Expire()
 		{
 			this.verb.WarmupComplete();
 			base.Expire();
 		}
 
-		// Token: 0x04003325 RID: 13093
+		// Token: 0x04003330 RID: 13104
 		private Sustainer sustainer;
 
-		// Token: 0x04003326 RID: 13094
+		// Token: 0x04003331 RID: 13105
 		private bool targetStartedDowned;
 	}
 }

@@ -4,28 +4,28 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200067D RID: 1661
+	// Token: 0x02000679 RID: 1657
 	public interface IAssignableBuilding
 	{
 		// Token: 0x17000524 RID: 1316
-		// (get) Token: 0x060022F2 RID: 8946
+		// (get) Token: 0x060022EA RID: 8938
 		IEnumerable<Pawn> AssigningCandidates { get; }
 
 		// Token: 0x17000525 RID: 1317
-		// (get) Token: 0x060022F3 RID: 8947
+		// (get) Token: 0x060022EB RID: 8939
 		IEnumerable<Pawn> AssignedPawns { get; }
 
 		// Token: 0x17000526 RID: 1318
-		// (get) Token: 0x060022F4 RID: 8948
+		// (get) Token: 0x060022EC RID: 8940
 		int MaxAssignedPawnsCount { get; }
 
-		// Token: 0x060022F5 RID: 8949
+		// Token: 0x060022ED RID: 8941
 		void TryAssignPawn(Pawn pawn);
 
-		// Token: 0x060022F6 RID: 8950
+		// Token: 0x060022EE RID: 8942
 		void TryUnassignPawn(Pawn pawn);
 
-		// Token: 0x060022F7 RID: 8951
+		// Token: 0x060022EF RID: 8943
 		bool AssignedAnything(Pawn pawn);
 	}
 }

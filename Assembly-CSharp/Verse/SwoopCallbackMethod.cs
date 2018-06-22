@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000AF2 RID: 2802
-	// (Invoke) Token: 0x06003E03 RID: 15875
+	// Token: 0x02000AEE RID: 2798
+	// (Invoke) Token: 0x06003DFE RID: 15870
 	public delegate void SwoopCallbackMethod();
 }

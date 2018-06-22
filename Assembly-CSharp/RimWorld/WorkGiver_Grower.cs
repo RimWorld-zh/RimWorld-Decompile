@@ -10,7 +10,7 @@ namespace RimWorld
 	public abstract class WorkGiver_Grower : WorkGiver_Scanner
 	{
 		// Token: 0x17000106 RID: 262
-		// (get) Token: 0x060006BE RID: 1726 RVA: 0x000454E0 File Offset: 0x000438E0
+		// (get) Token: 0x060006BE RID: 1726 RVA: 0x000454CC File Offset: 0x000438CC
 		public override bool AllowUnreachable
 		{
 			get
@@ -19,13 +19,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060006BF RID: 1727 RVA: 0x000454F8 File Offset: 0x000438F8
+		// Token: 0x060006BF RID: 1727 RVA: 0x000454E4 File Offset: 0x000438E4
 		protected virtual bool ExtraRequirements(IPlantToGrowSettable settable, Pawn pawn)
 		{
 			return true;
 		}
 
-		// Token: 0x060006C0 RID: 1728 RVA: 0x00045510 File Offset: 0x00043910
+		// Token: 0x060006C0 RID: 1728 RVA: 0x000454FC File Offset: 0x000438FC
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
 		{
 			Profiler.BeginSample("Grow find cell");
@@ -89,7 +89,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060006C1 RID: 1729 RVA: 0x00045544 File Offset: 0x00043944
+		// Token: 0x060006C1 RID: 1729 RVA: 0x00045530 File Offset: 0x00043930
 		public static ThingDef CalculateWantedPlantDef(IntVec3 c, Map map)
 		{
 			IPlantToGrowSettable plantToGrowSettable = c.GetPlantToGrowSettable(map);

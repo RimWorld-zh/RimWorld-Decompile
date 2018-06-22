@@ -9,19 +9,19 @@ namespace RimWorld
 	// Token: 0x02000324 RID: 804
 	public class IncidentWorker_AnimalInsanityMass : IncidentWorker
 	{
-		// Token: 0x06000DBD RID: 3517 RVA: 0x000757C4 File Offset: 0x00073BC4
+		// Token: 0x06000DBD RID: 3517 RVA: 0x00075878 File Offset: 0x00073C78
 		public static bool AnimalUsable(Pawn p)
 		{
 			return p.Spawned && !p.Position.Fogged(p.Map) && (!p.InMentalState || !p.MentalStateDef.IsAggro) && !p.Downed && p.Faction == null;
 		}
 
-		// Token: 0x06000DBE RID: 3518 RVA: 0x0007582C File Offset: 0x00073C2C
+		// Token: 0x06000DBE RID: 3518 RVA: 0x000758E0 File Offset: 0x00073CE0
 		public static void DriveInsane(Pawn p)
 		{
 			p.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, null, true, false, null, false);
 		}
 
-		// Token: 0x06000DBF RID: 3519 RVA: 0x0007584C File Offset: 0x00073C4C
+		// Token: 0x06000DBF RID: 3519 RVA: 0x00075900 File Offset: 0x00073D00
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;

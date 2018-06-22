@@ -3,17 +3,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200070D RID: 1805
+	// Token: 0x02000709 RID: 1801
 	public class CompDeepScanner : ThingComp
 	{
-		// Token: 0x06002786 RID: 10118 RVA: 0x00152C7B File Offset: 0x0015107B
+		// Token: 0x0600277E RID: 10110 RVA: 0x00152E1F File Offset: 0x0015121F
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
 			this.powerComp = this.parent.GetComp<CompPowerTrader>();
 		}
 
-		// Token: 0x06002787 RID: 10119 RVA: 0x00152C96 File Offset: 0x00151096
+		// Token: 0x0600277F RID: 10111 RVA: 0x00152E3A File Offset: 0x0015123A
 		public override void PostDrawExtraSelectionOverlays()
 		{
 			if (this.powerComp.PowerOn)
@@ -22,7 +22,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040015D0 RID: 5584
+		// Token: 0x040015CE RID: 5582
 		private CompPowerTrader powerComp;
 	}
 }

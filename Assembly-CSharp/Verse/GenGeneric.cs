@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000F3E RID: 3902
 	public static class GenGeneric
 	{
-		// Token: 0x06005E10 RID: 24080 RVA: 0x002FCC3C File Offset: 0x002FB03C
+		// Token: 0x06005E38 RID: 24120 RVA: 0x002FEC78 File Offset: 0x002FD078
 		private static MethodInfo MethodOnGenericType(Type genericBase, Type genericParam, string methodName)
 		{
 			Type type = genericBase.MakeGenericType(new Type[]
@@ -16,7 +16,7 @@ namespace Verse
 			return type.GetMethod(methodName, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
 		}
 
-		// Token: 0x06005E11 RID: 24081 RVA: 0x002FCC6B File Offset: 0x002FB06B
+		// Token: 0x06005E39 RID: 24121 RVA: 0x002FECA7 File Offset: 0x002FD0A7
 		public static void InvokeGenericMethod(object objectToInvoke, Type genericParam, string methodName, params object[] args)
 		{
 			objectToInvoke.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).MakeGenericMethod(new Type[]
@@ -25,19 +25,19 @@ namespace Verse
 			}).Invoke(objectToInvoke, args);
 		}
 
-		// Token: 0x06005E12 RID: 24082 RVA: 0x002FCC94 File Offset: 0x002FB094
+		// Token: 0x06005E3A RID: 24122 RVA: 0x002FECD0 File Offset: 0x002FD0D0
 		public static object InvokeStaticMethodOnGenericType(Type genericBase, Type genericParam, string methodName, params object[] args)
 		{
 			return GenGeneric.MethodOnGenericType(genericBase, genericParam, methodName).Invoke(null, args);
 		}
 
-		// Token: 0x06005E13 RID: 24083 RVA: 0x002FCCB8 File Offset: 0x002FB0B8
+		// Token: 0x06005E3B RID: 24123 RVA: 0x002FECF4 File Offset: 0x002FD0F4
 		public static object InvokeStaticMethodOnGenericType(Type genericBase, Type genericParam, string methodName)
 		{
 			return GenGeneric.MethodOnGenericType(genericBase, genericParam, methodName).Invoke(null, null);
 		}
 
-		// Token: 0x06005E14 RID: 24084 RVA: 0x002FCCDC File Offset: 0x002FB0DC
+		// Token: 0x06005E3C RID: 24124 RVA: 0x002FED18 File Offset: 0x002FD118
 		public static object InvokeStaticGenericMethod(Type baseClass, Type genericParam, string methodName)
 		{
 			return baseClass.GetMethod(methodName, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).MakeGenericMethod(new Type[]
@@ -46,7 +46,7 @@ namespace Verse
 			}).Invoke(null, null);
 		}
 
-		// Token: 0x06005E15 RID: 24085 RVA: 0x002FCD10 File Offset: 0x002FB110
+		// Token: 0x06005E3D RID: 24125 RVA: 0x002FED4C File Offset: 0x002FD14C
 		public static object InvokeStaticGenericMethod(Type baseClass, Type genericParam, string methodName, params object[] args)
 		{
 			MethodInfo method = baseClass.GetMethod(methodName, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
@@ -57,7 +57,7 @@ namespace Verse
 			return methodInfo.Invoke(null, args);
 		}
 
-		// Token: 0x06005E16 RID: 24086 RVA: 0x002FCD48 File Offset: 0x002FB148
+		// Token: 0x06005E3E RID: 24126 RVA: 0x002FED84 File Offset: 0x002FD184
 		private static PropertyInfo PropertyOnGenericType(Type genericBase, Type genericParam, string propertyName)
 		{
 			Type type = genericBase.MakeGenericType(new Type[]
@@ -67,19 +67,19 @@ namespace Verse
 			return type.GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
 		}
 
-		// Token: 0x06005E17 RID: 24087 RVA: 0x002FCD78 File Offset: 0x002FB178
+		// Token: 0x06005E3F RID: 24127 RVA: 0x002FEDB4 File Offset: 0x002FD1B4
 		public static object GetStaticPropertyOnGenericType(Type genericBase, Type genericParam, string propertyName)
 		{
 			return GenGeneric.PropertyOnGenericType(genericBase, genericParam, propertyName).GetGetMethod().Invoke(null, null);
 		}
 
-		// Token: 0x06005E18 RID: 24088 RVA: 0x002FCDA4 File Offset: 0x002FB1A4
+		// Token: 0x06005E40 RID: 24128 RVA: 0x002FEDE0 File Offset: 0x002FD1E0
 		public static bool HasGenericDefinition(this Type type, Type Def)
 		{
 			return type.GetTypeWithGenericDefinition(Def) != null;
 		}
 
-		// Token: 0x06005E19 RID: 24089 RVA: 0x002FCDC8 File Offset: 0x002FB1C8
+		// Token: 0x06005E41 RID: 24129 RVA: 0x002FEE04 File Offset: 0x002FD204
 		public static Type GetTypeWithGenericDefinition(this Type type, Type Def)
 		{
 			if (type == null)
@@ -114,7 +114,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x04003E01 RID: 15873
+		// Token: 0x04003E13 RID: 15891
 		public const BindingFlags BindingFlagsAll = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
 	}
 }

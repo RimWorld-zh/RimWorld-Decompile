@@ -5,21 +5,21 @@ namespace Verse
 	// Token: 0x02000F00 RID: 3840
 	public sealed class ThingCountClass : IExposable
 	{
-		// Token: 0x06005BFA RID: 23546 RVA: 0x002EBEB6 File Offset: 0x002EA2B6
+		// Token: 0x06005C22 RID: 23586 RVA: 0x002EDEEA File Offset: 0x002EC2EA
 		public ThingCountClass()
 		{
 		}
 
-		// Token: 0x06005BFB RID: 23547 RVA: 0x002EBEBF File Offset: 0x002EA2BF
+		// Token: 0x06005C23 RID: 23587 RVA: 0x002EDEF3 File Offset: 0x002EC2F3
 		public ThingCountClass(Thing thing, int count)
 		{
 			this.thing = thing;
 			this.Count = count;
 		}
 
-		// Token: 0x17000EC4 RID: 3780
-		// (get) Token: 0x06005BFC RID: 23548 RVA: 0x002EBED8 File Offset: 0x002EA2D8
-		// (set) Token: 0x06005BFD RID: 23549 RVA: 0x002EBEF4 File Offset: 0x002EA2F4
+		// Token: 0x17000EC8 RID: 3784
+		// (get) Token: 0x06005C24 RID: 23588 RVA: 0x002EDF0C File Offset: 0x002EC30C
+		// (set) Token: 0x06005C25 RID: 23589 RVA: 0x002EDF28 File Offset: 0x002EC328
 		public int Count
 		{
 			get
@@ -59,14 +59,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005BFE RID: 23550 RVA: 0x002EBFD1 File Offset: 0x002EA3D1
+		// Token: 0x06005C26 RID: 23590 RVA: 0x002EE005 File Offset: 0x002EC405
 		public void ExposeData()
 		{
 			Scribe_References.Look<Thing>(ref this.thing, "thing", false);
 			Scribe_Values.Look<int>(ref this.countInt, "count", 1, false);
 		}
 
-		// Token: 0x06005BFF RID: 23551 RVA: 0x002EBFF8 File Offset: 0x002EA3F8
+		// Token: 0x06005C27 RID: 23591 RVA: 0x002EE02C File Offset: 0x002EC42C
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -79,16 +79,16 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06005C00 RID: 23552 RVA: 0x002EC064 File Offset: 0x002EA464
+		// Token: 0x06005C28 RID: 23592 RVA: 0x002EE098 File Offset: 0x002EC498
 		public static implicit operator ThingCountClass(ThingCount t)
 		{
 			return new ThingCountClass(t.Thing, t.Count);
 		}
 
-		// Token: 0x04003CCF RID: 15567
+		// Token: 0x04003CE2 RID: 15586
 		public Thing thing;
 
-		// Token: 0x04003CD0 RID: 15568
+		// Token: 0x04003CE3 RID: 15587
 		private int countInt;
 	}
 }

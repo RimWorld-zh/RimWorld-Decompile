@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007CD RID: 1997
+	// Token: 0x020007C9 RID: 1993
 	public class Designator_Dropdown : Designator
 	{
-		// Token: 0x170006E9 RID: 1769
-		// (get) Token: 0x06002C31 RID: 11313 RVA: 0x00175524 File Offset: 0x00173924
+		// Token: 0x170006EA RID: 1770
+		// (get) Token: 0x06002C2A RID: 11306 RVA: 0x001756FC File Offset: 0x00173AFC
 		public override string Label
 		{
 			get
@@ -18,8 +18,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006EA RID: 1770
-		// (get) Token: 0x06002C32 RID: 11314 RVA: 0x00175564 File Offset: 0x00173964
+		// Token: 0x170006EB RID: 1771
+		// (get) Token: 0x06002C2B RID: 11307 RVA: 0x0017573C File Offset: 0x00173B3C
 		public override string Desc
 		{
 			get
@@ -28,8 +28,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006EB RID: 1771
-		// (get) Token: 0x06002C33 RID: 11315 RVA: 0x00175584 File Offset: 0x00173984
+		// Token: 0x170006EC RID: 1772
+		// (get) Token: 0x06002C2C RID: 11308 RVA: 0x0017575C File Offset: 0x00173B5C
 		public override Color IconDrawColor
 		{
 			get
@@ -38,8 +38,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006EC RID: 1772
-		// (get) Token: 0x06002C34 RID: 11316 RVA: 0x001755A4 File Offset: 0x001739A4
+		// Token: 0x170006ED RID: 1773
+		// (get) Token: 0x06002C2D RID: 11309 RVA: 0x0017577C File Offset: 0x00173B7C
 		public override bool Visible
 		{
 			get
@@ -55,8 +55,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006ED RID: 1773
-		// (get) Token: 0x06002C35 RID: 11317 RVA: 0x001755F8 File Offset: 0x001739F8
+		// Token: 0x170006EE RID: 1774
+		// (get) Token: 0x06002C2E RID: 11310 RVA: 0x001757D0 File Offset: 0x00173BD0
 		public List<Designator> Elements
 		{
 			get
@@ -65,8 +65,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006EE RID: 1774
-		// (get) Token: 0x06002C36 RID: 11318 RVA: 0x00175614 File Offset: 0x00173A14
+		// Token: 0x170006EF RID: 1775
+		// (get) Token: 0x06002C2F RID: 11311 RVA: 0x001757EC File Offset: 0x00173BEC
 		public override float PanelReadoutTitleExtraRightMargin
 		{
 			get
@@ -75,7 +75,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C37 RID: 11319 RVA: 0x00175634 File Offset: 0x00173A34
+		// Token: 0x06002C30 RID: 11312 RVA: 0x0017580C File Offset: 0x00173C0C
 		public void Add(Designator des)
 		{
 			this.elements.Add(des);
@@ -85,7 +85,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C38 RID: 11320 RVA: 0x00175658 File Offset: 0x00173A58
+		// Token: 0x06002C31 RID: 11313 RVA: 0x00175830 File Offset: 0x00173C30
 		public void SetActiveDesignator(Designator des, bool explicitySet = true)
 		{
 			this.activeDesignator = des;
@@ -101,13 +101,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C39 RID: 11321 RVA: 0x001756C2 File Offset: 0x00173AC2
+		// Token: 0x06002C32 RID: 11314 RVA: 0x0017589A File Offset: 0x00173C9A
 		public override void DrawMouseAttachments()
 		{
 			this.activeDesignator.DrawMouseAttachments();
 		}
 
-		// Token: 0x06002C3A RID: 11322 RVA: 0x001756D0 File Offset: 0x00173AD0
+		// Token: 0x06002C33 RID: 11315 RVA: 0x001758A8 File Offset: 0x00173CA8
 		public override void ProcessInput(Event ev)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
@@ -134,31 +134,31 @@ namespace RimWorld
 			Find.DesignatorManager.Select(this.activeDesignator);
 		}
 
-		// Token: 0x06002C3B RID: 11323 RVA: 0x001757B8 File Offset: 0x00173BB8
+		// Token: 0x06002C34 RID: 11316 RVA: 0x00175990 File Offset: 0x00173D90
 		public override AcceptanceReport CanDesignateCell(IntVec3 loc)
 		{
 			return this.activeDesignator.CanDesignateCell(loc);
 		}
 
-		// Token: 0x06002C3C RID: 11324 RVA: 0x001757D9 File Offset: 0x00173BD9
+		// Token: 0x06002C35 RID: 11317 RVA: 0x001759B1 File Offset: 0x00173DB1
 		public override void SelectedUpdate()
 		{
 			this.activeDesignator.SelectedUpdate();
 		}
 
-		// Token: 0x06002C3D RID: 11325 RVA: 0x001757E7 File Offset: 0x00173BE7
+		// Token: 0x06002C36 RID: 11318 RVA: 0x001759BF File Offset: 0x00173DBF
 		public override void DrawPanelReadout(ref float curY, float width)
 		{
 			this.activeDesignator.DrawPanelReadout(ref curY, width);
 		}
 
-		// Token: 0x0400179F RID: 6047
+		// Token: 0x0400179D RID: 6045
 		private List<Designator> elements = new List<Designator>();
 
-		// Token: 0x040017A0 RID: 6048
+		// Token: 0x0400179E RID: 6046
 		private Designator activeDesignator = null;
 
-		// Token: 0x040017A1 RID: 6049
+		// Token: 0x0400179F RID: 6047
 		private bool activeDesignatorSet = false;
 	}
 }

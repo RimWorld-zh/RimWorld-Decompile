@@ -8,7 +8,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003BB RID: 955
 	public class SymbolResolver_AddWortToFermentingBarrels : SymbolResolver
 	{
-		// Token: 0x06001091 RID: 4241 RVA: 0x0008C570 File Offset: 0x0008A970
+		// Token: 0x06001091 RID: 4241 RVA: 0x0008C75C File Offset: 0x0008AB5C
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -44,7 +44,7 @@ namespace RimWorld.BaseGen
 			SymbolResolver_AddWortToFermentingBarrels.barrels.Clear();
 		}
 
-		// Token: 0x04000A26 RID: 2598
+		// Token: 0x04000A28 RID: 2600
 		private static List<Building_FermentingBarrel> barrels = new List<Building_FermentingBarrel>();
 	}
 }

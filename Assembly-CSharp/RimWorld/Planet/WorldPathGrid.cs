@@ -5,17 +5,17 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000545 RID: 1349
+	// Token: 0x02000541 RID: 1345
 	public class WorldPathGrid
 	{
-		// Token: 0x0600192E RID: 6446 RVA: 0x000DB110 File Offset: 0x000D9510
+		// Token: 0x06001925 RID: 6437 RVA: 0x000DB120 File Offset: 0x000D9520
 		public WorldPathGrid()
 		{
 			this.ResetPathGrid();
 		}
 
 		// Token: 0x1700038F RID: 911
-		// (get) Token: 0x0600192F RID: 6447 RVA: 0x000DB128 File Offset: 0x000D9528
+		// (get) Token: 0x06001926 RID: 6438 RVA: 0x000DB138 File Offset: 0x000D9538
 		private static int DayOfYearAt0Long
 		{
 			get
@@ -24,13 +24,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001930 RID: 6448 RVA: 0x000DB14D File Offset: 0x000D954D
+		// Token: 0x06001927 RID: 6439 RVA: 0x000DB15D File Offset: 0x000D955D
 		public void ResetPathGrid()
 		{
 			this.movementDifficulty = new float[Find.WorldGrid.TilesCount];
 		}
 
-		// Token: 0x06001931 RID: 6449 RVA: 0x000DB165 File Offset: 0x000D9565
+		// Token: 0x06001928 RID: 6440 RVA: 0x000DB175 File Offset: 0x000D9575
 		public void WorldPathGridTick()
 		{
 			if (this.allPathCostsRecalculatedDayOfYear != WorldPathGrid.DayOfYearAt0Long)
@@ -39,25 +39,25 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001932 RID: 6450 RVA: 0x000DB180 File Offset: 0x000D9580
+		// Token: 0x06001929 RID: 6441 RVA: 0x000DB190 File Offset: 0x000D9590
 		public bool Passable(int tile)
 		{
 			return Find.WorldGrid.InBounds(tile) && this.movementDifficulty[tile] < 1000f;
 		}
 
-		// Token: 0x06001933 RID: 6451 RVA: 0x000DB1BC File Offset: 0x000D95BC
+		// Token: 0x0600192A RID: 6442 RVA: 0x000DB1CC File Offset: 0x000D95CC
 		public bool PassableFast(int tile)
 		{
 			return this.movementDifficulty[tile] < 1000f;
 		}
 
-		// Token: 0x06001934 RID: 6452 RVA: 0x000DB1E0 File Offset: 0x000D95E0
+		// Token: 0x0600192B RID: 6443 RVA: 0x000DB1F0 File Offset: 0x000D95F0
 		public float PerceivedMovementDifficultyAt(int tile)
 		{
 			return this.movementDifficulty[tile];
 		}
 
-		// Token: 0x06001935 RID: 6453 RVA: 0x000DB200 File Offset: 0x000D9600
+		// Token: 0x0600192C RID: 6444 RVA: 0x000DB210 File Offset: 0x000D9610
 		public void RecalculatePerceivedMovementDifficultyAt(int tile, int? ticksAbs = null)
 		{
 			if (Find.WorldGrid.InBounds(tile))
@@ -71,14 +71,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001936 RID: 6454 RVA: 0x000DB254 File Offset: 0x000D9654
+		// Token: 0x0600192D RID: 6445 RVA: 0x000DB264 File Offset: 0x000D9664
 		public void RecalculateAllPerceivedPathCosts()
 		{
 			this.RecalculateAllPerceivedPathCosts(null);
 			this.allPathCostsRecalculatedDayOfYear = WorldPathGrid.DayOfYearAt0Long;
 		}
 
-		// Token: 0x06001937 RID: 6455 RVA: 0x000DB27C File Offset: 0x000D967C
+		// Token: 0x0600192E RID: 6446 RVA: 0x000DB28C File Offset: 0x000D968C
 		public void RecalculateAllPerceivedPathCosts(int? ticksAbs)
 		{
 			this.allPathCostsRecalculatedDayOfYear = -1;
@@ -88,7 +88,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001938 RID: 6456 RVA: 0x000DB2B4 File Offset: 0x000D96B4
+		// Token: 0x0600192F RID: 6447 RVA: 0x000DB2C4 File Offset: 0x000D96C4
 		public static float CalculatedMovementDifficultyAt(int tile, bool perceivedStatic, int? ticksAbs = null, StringBuilder explanation = null)
 		{
 			Tile tile2 = Find.WorldGrid[tile];
@@ -126,7 +126,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001939 RID: 6457 RVA: 0x000DB3FC File Offset: 0x000D97FC
+		// Token: 0x06001930 RID: 6448 RVA: 0x000DB40C File Offset: 0x000D980C
 		public static float GetCurrentWinterMovementDifficultyOffset(int tile, int? ticksAbs = null, StringBuilder explanation = null)
 		{
 			if (ticksAbs == null)
@@ -168,7 +168,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x0600193A RID: 6458 RVA: 0x000DB524 File Offset: 0x000D9924
+		// Token: 0x06001931 RID: 6449 RVA: 0x000DB534 File Offset: 0x000D9934
 		public static bool WillWinterEverAffectMovementDifficulty(int tile)
 		{
 			int ticksAbs = GenTicks.TicksAbs;
@@ -184,7 +184,7 @@ namespace RimWorld.Planet
 			return false;
 		}
 
-		// Token: 0x0600193B RID: 6459 RVA: 0x000DB580 File Offset: 0x000D9980
+		// Token: 0x06001932 RID: 6450 RVA: 0x000DB590 File Offset: 0x000D9990
 		private static float HillinessMovementDifficultyOffset(Hilliness hilliness)
 		{
 			float result;
@@ -212,19 +212,19 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x04000ECA RID: 3786
+		// Token: 0x04000EC7 RID: 3783
 		public float[] movementDifficulty;
 
-		// Token: 0x04000ECB RID: 3787
+		// Token: 0x04000EC8 RID: 3784
 		private int allPathCostsRecalculatedDayOfYear = -1;
 
-		// Token: 0x04000ECC RID: 3788
+		// Token: 0x04000EC9 RID: 3785
 		private const float ImpassableMovemenetDificulty = 1000f;
 
-		// Token: 0x04000ECD RID: 3789
+		// Token: 0x04000ECA RID: 3786
 		public const float WinterMovementDifficultyOffset = 2f;
 
-		// Token: 0x04000ECE RID: 3790
+		// Token: 0x04000ECB RID: 3787
 		public const float MaxTempForWinterOffset = 5f;
 	}
 }

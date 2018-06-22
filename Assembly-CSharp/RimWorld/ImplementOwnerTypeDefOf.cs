@@ -3,26 +3,26 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000967 RID: 2407
+	// Token: 0x02000963 RID: 2403
 	[DefOf]
 	public static class ImplementOwnerTypeDefOf
 	{
-		// Token: 0x06003672 RID: 13938 RVA: 0x001D0C5B File Offset: 0x001CF05B
+		// Token: 0x0600366B RID: 13931 RVA: 0x001D0E43 File Offset: 0x001CF243
 		static ImplementOwnerTypeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ImplementOwnerTypeDefOf));
 		}
 
-		// Token: 0x040022D9 RID: 8921
+		// Token: 0x040022D7 RID: 8919
 		public static ImplementOwnerTypeDef Weapon;
 
-		// Token: 0x040022DA RID: 8922
+		// Token: 0x040022D8 RID: 8920
 		public static ImplementOwnerTypeDef Bodypart;
 
-		// Token: 0x040022DB RID: 8923
+		// Token: 0x040022D9 RID: 8921
 		public static ImplementOwnerTypeDef Hediff;
 
-		// Token: 0x040022DC RID: 8924
+		// Token: 0x040022DA RID: 8922
 		public static ImplementOwnerTypeDef Terrain;
 	}
 }

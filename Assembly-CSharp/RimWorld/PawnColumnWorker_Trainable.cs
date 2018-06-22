@@ -6,10 +6,10 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200089A RID: 2202
+	// Token: 0x02000896 RID: 2198
 	public class PawnColumnWorker_Trainable : PawnColumnWorker
 	{
-		// Token: 0x06003245 RID: 12869 RVA: 0x001B0984 File Offset: 0x001AED84
+		// Token: 0x0600323E RID: 12862 RVA: 0x001B0B6C File Offset: 0x001AEF6C
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 			if (pawn.training != null)
@@ -26,31 +26,31 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003246 RID: 12870 RVA: 0x001B0A2C File Offset: 0x001AEE2C
+		// Token: 0x0600323F RID: 12863 RVA: 0x001B0C14 File Offset: 0x001AF014
 		public override int GetMinWidth(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinWidth(table), 24);
 		}
 
-		// Token: 0x06003247 RID: 12871 RVA: 0x001B0A50 File Offset: 0x001AEE50
+		// Token: 0x06003240 RID: 12864 RVA: 0x001B0C38 File Offset: 0x001AF038
 		public override int GetMaxWidth(PawnTable table)
 		{
 			return Mathf.Min(base.GetMaxWidth(table), this.GetMinWidth(table));
 		}
 
-		// Token: 0x06003248 RID: 12872 RVA: 0x001B0A78 File Offset: 0x001AEE78
+		// Token: 0x06003241 RID: 12865 RVA: 0x001B0C60 File Offset: 0x001AF060
 		public override int GetMinCellHeight(Pawn pawn)
 		{
 			return Mathf.Max(base.GetMinCellHeight(pawn), 24);
 		}
 
-		// Token: 0x06003249 RID: 12873 RVA: 0x001B0A9C File Offset: 0x001AEE9C
+		// Token: 0x06003242 RID: 12866 RVA: 0x001B0C84 File Offset: 0x001AF084
 		public override int Compare(Pawn a, Pawn b)
 		{
 			return this.GetValueToCompare(a).CompareTo(this.GetValueToCompare(b));
 		}
 
-		// Token: 0x0600324A RID: 12874 RVA: 0x001B0AC8 File Offset: 0x001AEEC8
+		// Token: 0x06003243 RID: 12867 RVA: 0x001B0CB0 File Offset: 0x001AF0B0
 		private int GetValueToCompare(Pawn pawn)
 		{
 			int result;
@@ -86,7 +86,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600324B RID: 12875 RVA: 0x001B0B74 File Offset: 0x001AEF74
+		// Token: 0x06003244 RID: 12868 RVA: 0x001B0D5C File Offset: 0x001AF15C
 		protected override void HeaderClicked(Rect headerRect, PawnTable table)
 		{
 			base.HeaderClicked(headerRect, table);
@@ -130,7 +130,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600324C RID: 12876 RVA: 0x001B0CF0 File Offset: 0x001AF0F0
+		// Token: 0x06003245 RID: 12869 RVA: 0x001B0ED8 File Offset: 0x001AF2D8
 		protected override string GetHeaderTip(PawnTable table)
 		{
 			return base.GetHeaderTip(table) + "\n" + "CheckboxShiftClickTip".Translate();

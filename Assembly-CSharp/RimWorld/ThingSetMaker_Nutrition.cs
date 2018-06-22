@@ -5,16 +5,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006F5 RID: 1781
+	// Token: 0x020006F1 RID: 1777
 	public class ThingSetMaker_Nutrition : ThingSetMaker
 	{
-		// Token: 0x060026BA RID: 9914 RVA: 0x0014BCAC File Offset: 0x0014A0AC
+		// Token: 0x060026B2 RID: 9906 RVA: 0x0014BE50 File Offset: 0x0014A250
 		public ThingSetMaker_Nutrition()
 		{
 			this.nextSeed = Rand.Int;
 		}
 
-		// Token: 0x060026BB RID: 9915 RVA: 0x0014BCC0 File Offset: 0x0014A0C0
+		// Token: 0x060026B3 RID: 9907 RVA: 0x0014BE64 File Offset: 0x0014A264
 		protected override bool CanGenerateSub(ThingSetMakerParams parms)
 		{
 			bool result;
@@ -59,7 +59,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060026BC RID: 9916 RVA: 0x0014BE38 File Offset: 0x0014A238
+		// Token: 0x060026B4 RID: 9908 RVA: 0x0014BFDC File Offset: 0x0014A3DC
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			float? maxTotalMass = parms.maxTotalMass;
@@ -74,13 +74,13 @@ namespace RimWorld
 			this.nextSeed++;
 		}
 
-		// Token: 0x060026BD RID: 9917 RVA: 0x0014BEE4 File Offset: 0x0014A2E4
+		// Token: 0x060026B5 RID: 9909 RVA: 0x0014C088 File Offset: 0x0014A488
 		protected virtual IEnumerable<ThingDef> AllowedThingDefs(ThingSetMakerParams parms)
 		{
 			return ThingSetMakerUtility.GetAllowedThingDefs(parms);
 		}
 
-		// Token: 0x060026BE RID: 9918 RVA: 0x0014BF00 File Offset: 0x0014A300
+		// Token: 0x060026B6 RID: 9910 RVA: 0x0014C0A4 File Offset: 0x0014A4A4
 		private List<ThingStuffPairWithQuality> GeneratePossibleDefs(ThingSetMakerParams parms, out float totalNutrition, int seed)
 		{
 			Rand.PushState(seed);
@@ -89,7 +89,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060026BF RID: 9919 RVA: 0x0014BF2C File Offset: 0x0014A32C
+		// Token: 0x060026B7 RID: 9911 RVA: 0x0014C0D0 File Offset: 0x0014A4D0
 		private List<ThingStuffPairWithQuality> GeneratePossibleDefs(ThingSetMakerParams parms, out float totalNutrition)
 		{
 			IEnumerable<ThingDef> enumerable = this.AllowedThingDefs(parms);
@@ -129,7 +129,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060026C0 RID: 9920 RVA: 0x0014C10C File Offset: 0x0014A50C
+		// Token: 0x060026B8 RID: 9912 RVA: 0x0014C2B0 File Offset: 0x0014A6B0
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			TechLevel? techLevel2 = parms.techLevel;
@@ -154,7 +154,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x04001588 RID: 5512
+		// Token: 0x04001586 RID: 5510
 		private int nextSeed;
 	}
 }

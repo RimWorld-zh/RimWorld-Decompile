@@ -6,11 +6,11 @@ using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x02000BCB RID: 3019
+	// Token: 0x02000BC7 RID: 3015
 	public class GameInitData
 	{
-		// Token: 0x17000A41 RID: 2625
-		// (get) Token: 0x060041AE RID: 16814 RVA: 0x00229F2C File Offset: 0x0022832C
+		// Token: 0x17000A43 RID: 2627
+		// (get) Token: 0x060041B0 RID: 16816 RVA: 0x0022A600 File Offset: 0x00228A00
 		public bool QuickStarted
 		{
 			get
@@ -19,13 +19,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041AF RID: 16815 RVA: 0x00229F5D File Offset: 0x0022835D
+		// Token: 0x060041B1 RID: 16817 RVA: 0x0022A631 File Offset: 0x00228A31
 		public void ChooseRandomStartingTile()
 		{
 			this.startingTile = TileFinder.RandomStartingTile();
 		}
 
-		// Token: 0x060041B0 RID: 16816 RVA: 0x00229F6B File Offset: 0x0022836B
+		// Token: 0x060041B2 RID: 16818 RVA: 0x0022A63F File Offset: 0x00228A3F
 		public void ResetWorldRelatedMapInitData()
 		{
 			Current.Game.World = null;
@@ -34,7 +34,7 @@ namespace Verse
 			this.startingTile = -1;
 		}
 
-		// Token: 0x060041B1 RID: 16817 RVA: 0x00229F94 File Offset: 0x00228394
+		// Token: 0x060041B3 RID: 16819 RVA: 0x0022A668 File Offset: 0x00228A68
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -46,7 +46,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x060041B2 RID: 16818 RVA: 0x00229FE8 File Offset: 0x002283E8
+		// Token: 0x060041B4 RID: 16820 RVA: 0x0022A6BC File Offset: 0x00228ABC
 		public void PrepForMapGen()
 		{
 			while (this.startingAndOptionalPawns.Count > this.startingPawnCount)
@@ -106,34 +106,34 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002CD5 RID: 11477
+		// Token: 0x04002CDA RID: 11482
 		public int startingTile = -1;
 
-		// Token: 0x04002CD6 RID: 11478
+		// Token: 0x04002CDB RID: 11483
 		public int mapSize = 250;
 
-		// Token: 0x04002CD7 RID: 11479
+		// Token: 0x04002CDC RID: 11484
 		public List<Pawn> startingAndOptionalPawns = new List<Pawn>();
 
-		// Token: 0x04002CD8 RID: 11480
+		// Token: 0x04002CDD RID: 11485
 		public int startingPawnCount = -1;
 
-		// Token: 0x04002CD9 RID: 11481
+		// Token: 0x04002CDE RID: 11486
 		public Faction playerFaction = null;
 
-		// Token: 0x04002CDA RID: 11482
+		// Token: 0x04002CDF RID: 11487
 		public Season startingSeason = Season.Undefined;
 
-		// Token: 0x04002CDB RID: 11483
+		// Token: 0x04002CE0 RID: 11488
 		public bool permadeath;
 
-		// Token: 0x04002CDC RID: 11484
+		// Token: 0x04002CE1 RID: 11489
 		public bool startedFromEntry = false;
 
-		// Token: 0x04002CDD RID: 11485
+		// Token: 0x04002CE2 RID: 11490
 		public string gameToLoad;
 
-		// Token: 0x04002CDE RID: 11486
+		// Token: 0x04002CE3 RID: 11491
 		public const int DefaultMapSize = 250;
 	}
 }

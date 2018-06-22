@@ -12,7 +12,7 @@ namespace RimWorld
 	public class GenStep_Roads : GenStep
 	{
 		// Token: 0x1700024E RID: 590
-		// (get) Token: 0x06001154 RID: 4436 RVA: 0x00095258 File Offset: 0x00093658
+		// (get) Token: 0x06001154 RID: 4436 RVA: 0x00095444 File Offset: 0x00093844
 		public override int SeedPart
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001155 RID: 4437 RVA: 0x00095274 File Offset: 0x00093674
+		// Token: 0x06001155 RID: 4437 RVA: 0x00095460 File Offset: 0x00093860
 		public override void Generate(Map map)
 		{
 			List<GenStep_Roads.NeededRoad> neededRoads = this.CalculateNeededRoads(map);
@@ -77,7 +77,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001156 RID: 4438 RVA: 0x00095584 File Offset: 0x00093984
+		// Token: 0x06001156 RID: 4438 RVA: 0x00095770 File Offset: 0x00093B70
 		private List<GenStep_Roads.NeededRoad> CalculateNeededRoads(Map map)
 		{
 			List<int> list = new List<int>();
@@ -117,7 +117,7 @@ namespace RimWorld
 			return list2;
 		}
 
-		// Token: 0x06001157 RID: 4439 RVA: 0x00095768 File Offset: 0x00093B68
+		// Token: 0x06001157 RID: 4439 RVA: 0x00095954 File Offset: 0x00093D54
 		private IntVec3 FindRoadExitCell(Map map, float angle, IntVec3 crossroads, ref RoadPathingDef pathingDef)
 		{
 			Predicate<IntVec3> tileValidator = delegate(IntVec3 pos)
@@ -159,14 +159,14 @@ namespace RimWorld
 			return IntVec3.Invalid;
 		}
 
-		// Token: 0x06001158 RID: 4440 RVA: 0x00095910 File Offset: 0x00093D10
+		// Token: 0x06001158 RID: 4440 RVA: 0x00095AFC File Offset: 0x00093EFC
 		private Action PrepDrawRoad(Map map, TerrainDef rockDef, IntVec3 start, IntVec3 end, RoadDef roadDef, RoadPathingDef pathingDef)
 		{
 			IntVec3 intVec;
 			return this.PrepDrawRoad(map, rockDef, start, end, roadDef, pathingDef, out intVec);
 		}
 
-		// Token: 0x06001159 RID: 4441 RVA: 0x00095938 File Offset: 0x00093D38
+		// Token: 0x06001159 RID: 4441 RVA: 0x00095B24 File Offset: 0x00093F24
 		private Action PrepDrawRoad(Map map, TerrainDef rockDef, IntVec3 start, IntVec3 end, RoadDef roadDef, RoadPathingDef pathingDef, out IntVec3 centerpoint)
 		{
 			centerpoint = IntVec3.Invalid;
@@ -217,7 +217,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600115A RID: 4442 RVA: 0x00095B9C File Offset: 0x00093F9C
+		// Token: 0x0600115A RID: 4442 RVA: 0x00095D88 File Offset: 0x00094188
 		private void DrawCurveSegment(GenStep_Roads.DistanceElement[,] distance, List<IntVec3> path, int pathStartIndex, int pathEndIndex, RoadPathingDef pathing, Map map, int centerpointIndex, ref IntVec3 centerpoint)
 		{
 			if (pathStartIndex == pathEndIndex)
@@ -286,7 +286,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600115B RID: 4443 RVA: 0x00095E68 File Offset: 0x00094268
+		// Token: 0x0600115B RID: 4443 RVA: 0x00096054 File Offset: 0x00094454
 		private GenMath.BezierCubicControls GenerateBezierControls(List<IntVec3> path, int pathStartIndex, int pathEndIndex)
 		{
 			int index = Mathf.Max(0, pathStartIndex - (pathEndIndex - pathStartIndex));
@@ -300,7 +300,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x0600115C RID: 4444 RVA: 0x00095F6C File Offset: 0x0009436C
+		// Token: 0x0600115C RID: 4444 RVA: 0x00096158 File Offset: 0x00094558
 		private void ApplyDistanceField(GenStep_Roads.DistanceElement[,] distance, Map map, TerrainDef rockDef, RoadDef roadDef, RoadPathingDef pathingDef)
 		{
 			for (int i = 0; i < map.Size.x; i++)
@@ -333,7 +333,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600115D RID: 4445 RVA: 0x000960BC File Offset: 0x000944BC
+		// Token: 0x0600115D RID: 4445 RVA: 0x000962A8 File Offset: 0x000946A8
 		private void FillDistanceField(GenStep_Roads.DistanceElement[,] field, float cx, float cz, float alongPath, float radius, Map map)
 		{
 			int num = Mathf.Clamp(Mathf.FloorToInt(cx - radius), 0, field.GetLength(0) - 1);
@@ -360,7 +360,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600115E RID: 4446 RVA: 0x00096230 File Offset: 0x00094630
+		// Token: 0x0600115E RID: 4446 RVA: 0x0009641C File Offset: 0x0009481C
 		private List<IntVec3> RefinePath(List<IntVec3> input, Map map)
 		{
 			List<IntVec3> list = this.RefineEndcap(input, map);
@@ -368,7 +368,7 @@ namespace RimWorld
 			return this.RefineEndcap(list, map);
 		}
 
-		// Token: 0x0600115F RID: 4447 RVA: 0x0009625C File Offset: 0x0009465C
+		// Token: 0x0600115F RID: 4447 RVA: 0x00096448 File Offset: 0x00094848
 		private List<IntVec3> RefineEndcap(List<IntVec3> input, Map map)
 		{
 			float[] array = new float[this.endcapSamples.Length];
@@ -460,13 +460,13 @@ namespace RimWorld
 			return input;
 		}
 
-		// Token: 0x04000A88 RID: 2696
+		// Token: 0x04000A8A RID: 2698
 		private const float CurveControlPointDistance = 4f;
 
-		// Token: 0x04000A89 RID: 2697
+		// Token: 0x04000A8B RID: 2699
 		private const int CurveSampleMultiplier = 4;
 
-		// Token: 0x04000A8A RID: 2698
+		// Token: 0x04000A8C RID: 2700
 		private readonly float[] endcapSamples = new float[]
 		{
 			0.75f,
@@ -479,36 +479,36 @@ namespace RimWorld
 		// Token: 0x020003ED RID: 1005
 		private struct NeededRoad
 		{
-			// Token: 0x04000A8D RID: 2701
+			// Token: 0x04000A8F RID: 2703
 			public float angle;
 
-			// Token: 0x04000A8E RID: 2702
+			// Token: 0x04000A90 RID: 2704
 			public RoadDef road;
 		}
 
 		// Token: 0x020003EE RID: 1006
 		private struct DrawCommand
 		{
-			// Token: 0x04000A8F RID: 2703
+			// Token: 0x04000A91 RID: 2705
 			public RoadDef roadDef;
 
-			// Token: 0x04000A90 RID: 2704
+			// Token: 0x04000A92 RID: 2706
 			public Action action;
 		}
 
 		// Token: 0x020003EF RID: 1007
 		public struct DistanceElement
 		{
-			// Token: 0x04000A91 RID: 2705
+			// Token: 0x04000A93 RID: 2707
 			public float fromRoad;
 
-			// Token: 0x04000A92 RID: 2706
+			// Token: 0x04000A94 RID: 2708
 			public float alongPath;
 
-			// Token: 0x04000A93 RID: 2707
+			// Token: 0x04000A95 RID: 2709
 			public bool touched;
 
-			// Token: 0x04000A94 RID: 2708
+			// Token: 0x04000A96 RID: 2710
 			public IntVec3 origin;
 		}
 	}

@@ -4,18 +4,18 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000C1B RID: 3099
+	// Token: 0x02000C18 RID: 3096
 	public sealed class BlueprintGrid
 	{
-		// Token: 0x060043A6 RID: 17318 RVA: 0x0023B230 File Offset: 0x00239630
+		// Token: 0x060043AF RID: 17327 RVA: 0x0023C5F8 File Offset: 0x0023A9F8
 		public BlueprintGrid(Map map)
 		{
 			this.map = map;
 			this.innerArray = new List<Blueprint>[map.cellIndices.NumGridCells];
 		}
 
-		// Token: 0x17000A95 RID: 2709
-		// (get) Token: 0x060043A7 RID: 17319 RVA: 0x0023B258 File Offset: 0x00239658
+		// Token: 0x17000A97 RID: 2711
+		// (get) Token: 0x060043B0 RID: 17328 RVA: 0x0023C620 File Offset: 0x0023AA20
 		public List<Blueprint>[] InnerArray
 		{
 			get
@@ -24,7 +24,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043A8 RID: 17320 RVA: 0x0023B274 File Offset: 0x00239674
+		// Token: 0x060043B1 RID: 17329 RVA: 0x0023C63C File Offset: 0x0023AA3C
 		public void Register(Blueprint ed)
 		{
 			CellIndices cellIndices = this.map.cellIndices;
@@ -43,7 +43,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043A9 RID: 17321 RVA: 0x0023B30C File Offset: 0x0023970C
+		// Token: 0x060043B2 RID: 17330 RVA: 0x0023C6D4 File Offset: 0x0023AAD4
 		public void DeRegister(Blueprint ed)
 		{
 			CellIndices cellIndices = this.map.cellIndices;
@@ -62,10 +62,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002E41 RID: 11841
+		// Token: 0x04002E4B RID: 11851
 		private Map map;
 
-		// Token: 0x04002E42 RID: 11842
+		// Token: 0x04002E4C RID: 11852
 		private List<Blueprint>[] innerArray;
 	}
 }

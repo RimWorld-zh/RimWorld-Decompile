@@ -5,16 +5,16 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000B29 RID: 2857
+	// Token: 0x02000B25 RID: 2853
 	public class RecipeWorkerCounter
 	{
-		// Token: 0x06003EF0 RID: 16112 RVA: 0x00212464 File Offset: 0x00210864
+		// Token: 0x06003EEC RID: 16108 RVA: 0x002127A0 File Offset: 0x00210BA0
 		public virtual bool CanCountProducts(Bill_Production bill)
 		{
 			return this.recipe.specialProducts == null && this.recipe.products != null && this.recipe.products.Count == 1;
 		}
 
-		// Token: 0x06003EF1 RID: 16113 RVA: 0x002124B0 File Offset: 0x002108B0
+		// Token: 0x06003EED RID: 16109 RVA: 0x002127EC File Offset: 0x00210BEC
 		public virtual int CountProducts(Bill_Production bill)
 		{
 			ThingDefCountClass thingDefCountClass = this.recipe.products[0];
@@ -68,7 +68,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003EF2 RID: 16114 RVA: 0x00212814 File Offset: 0x00210C14
+		// Token: 0x06003EEE RID: 16110 RVA: 0x00212B50 File Offset: 0x00210F50
 		public int CountValidThings(List<Thing> things, Bill_Production bill, ThingDef def)
 		{
 			int num = 0;
@@ -82,7 +82,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06003EF3 RID: 16115 RVA: 0x00212860 File Offset: 0x00210C60
+		// Token: 0x06003EEF RID: 16111 RVA: 0x00212B9C File Offset: 0x00210F9C
 		public bool CountValidThing(Thing thing, Bill_Production bill, ThingDef def)
 		{
 			ThingDef def2 = thing.def;
@@ -107,19 +107,19 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003EF4 RID: 16116 RVA: 0x00212930 File Offset: 0x00210D30
+		// Token: 0x06003EF0 RID: 16112 RVA: 0x00212C6C File Offset: 0x0021106C
 		public virtual string ProductsDescription(Bill_Production bill)
 		{
 			return null;
 		}
 
-		// Token: 0x06003EF5 RID: 16117 RVA: 0x00212948 File Offset: 0x00210D48
+		// Token: 0x06003EF1 RID: 16113 RVA: 0x00212C84 File Offset: 0x00211084
 		public virtual bool CanPossiblyStoreInStockpile(Bill_Production bill, Zone_Stockpile stockpile)
 		{
 			return !this.CanCountProducts(bill) || stockpile.GetStoreSettings().AllowedToAccept(this.recipe.products[0].thingDef);
 		}
 
-		// Token: 0x040028C9 RID: 10441
+		// Token: 0x040028C5 RID: 10437
 		public RecipeDef recipe;
 	}
 }

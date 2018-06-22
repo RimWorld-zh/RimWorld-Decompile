@@ -8,10 +8,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D8E RID: 3470
+	// Token: 0x02000D8B RID: 3467
 	public static class ParseHelper
 	{
-		// Token: 0x06004D88 RID: 19848 RVA: 0x00287050 File Offset: 0x00285450
+		// Token: 0x06004D9D RID: 19869 RVA: 0x00288600 File Offset: 0x00286A00
 		public static object FromString(string str, Type itemType)
 		{
 			object result;
@@ -268,13 +268,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004D89 RID: 19849 RVA: 0x002877C4 File Offset: 0x00285BC4
+		// Token: 0x06004D9E RID: 19870 RVA: 0x00288D74 File Offset: 0x00287174
 		public static bool HandlesType(Type type)
 		{
 			return type.IsPrimitive || type.IsEnum || type == typeof(string) || type == typeof(IntVec3) || type == typeof(IntVec2) || type == typeof(Type) || type == typeof(Action) || type == typeof(Vector3) || type == typeof(Vector2) || type == typeof(Rect) || type == typeof(Color) || type == typeof(PublishedFileId_t) || type == typeof(Rot4) || type == typeof(CellRect) || type == typeof(CurvePoint) || type == typeof(NameTriple) || type == typeof(FloatRange) || type == typeof(IntRange) || type == typeof(QualityRange) || type == typeof(ColorInt);
 		}
 
-		// Token: 0x06004D8A RID: 19850 RVA: 0x00287910 File Offset: 0x00285D10
+		// Token: 0x06004D9F RID: 19871 RVA: 0x00288EC0 File Offset: 0x002872C0
 		private static int ParseIntPermissive(string str)
 		{
 			int result;
@@ -286,7 +286,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004D8B RID: 19851 RVA: 0x00287964 File Offset: 0x00285D64
+		// Token: 0x06004DA0 RID: 19872 RVA: 0x00288F14 File Offset: 0x00287314
 		private static Vector3 FromStringVector3(string Str)
 		{
 			Str = Str.TrimStart(new char[]
@@ -307,7 +307,7 @@ namespace Verse
 			return new Vector3(x, y, z);
 		}
 
-		// Token: 0x06004D8C RID: 19852 RVA: 0x002879D8 File Offset: 0x00285DD8
+		// Token: 0x06004DA1 RID: 19873 RVA: 0x00288F88 File Offset: 0x00287388
 		private static Vector2 FromStringVector2(string Str)
 		{
 			Str = Str.TrimStart(new char[]
@@ -340,7 +340,7 @@ namespace Verse
 			return new Vector2(x, y);
 		}
 
-		// Token: 0x06004D8D RID: 19853 RVA: 0x00287A70 File Offset: 0x00285E70
+		// Token: 0x06004DA2 RID: 19874 RVA: 0x00289020 File Offset: 0x00287420
 		public static Vector4 FromStringVector4Adaptive(string Str)
 		{
 			Str = Str.TrimStart(new char[]
@@ -382,7 +382,7 @@ namespace Verse
 			return new Vector4(x, y, z, w);
 		}
 
-		// Token: 0x06004D8E RID: 19854 RVA: 0x00287B4C File Offset: 0x00285F4C
+		// Token: 0x06004DA3 RID: 19875 RVA: 0x002890FC File Offset: 0x002874FC
 		public static Rect FromStringRect(string str)
 		{
 			str = str.TrimStart(new char[]

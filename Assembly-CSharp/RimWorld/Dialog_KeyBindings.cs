@@ -6,10 +6,10 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020007FE RID: 2046
+	// Token: 0x020007FA RID: 2042
 	public class Dialog_KeyBindings : Window
 	{
-		// Token: 0x06002D81 RID: 11649 RVA: 0x0017EB30 File Offset: 0x0017CF30
+		// Token: 0x06002D7A RID: 11642 RVA: 0x0017ED08 File Offset: 0x0017D108
 		public Dialog_KeyBindings()
 		{
 			this.forcePause = true;
@@ -30,8 +30,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700073D RID: 1853
-		// (get) Token: 0x06002D82 RID: 11650 RVA: 0x0017EC28 File Offset: 0x0017D028
+		// Token: 0x1700073E RID: 1854
+		// (get) Token: 0x06002D7B RID: 11643 RVA: 0x0017EE00 File Offset: 0x0017D200
 		public override Vector2 InitialSize
 		{
 			get
@@ -40,8 +40,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700073E RID: 1854
-		// (get) Token: 0x06002D83 RID: 11651 RVA: 0x0017EC44 File Offset: 0x0017D044
+		// Token: 0x1700073F RID: 1855
+		// (get) Token: 0x06002D7C RID: 11644 RVA: 0x0017EE1C File Offset: 0x0017D21C
 		protected override float Margin
 		{
 			get
@@ -50,7 +50,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D84 RID: 11652 RVA: 0x0017EC60 File Offset: 0x0017D060
+		// Token: 0x06002D7D RID: 11645 RVA: 0x0017EE38 File Offset: 0x0017D238
 		public override void DoWindowContents(Rect inRect)
 		{
 			Vector2 vector = new Vector2(120f, 40f);
@@ -119,7 +119,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002D85 RID: 11653 RVA: 0x0017F058 File Offset: 0x0017D458
+		// Token: 0x06002D7E RID: 11646 RVA: 0x0017F230 File Offset: 0x0017D630
 		private void DrawCategoryEntry(KeyBindingCategoryDef category, float width, ref float curY, bool skipDrawing)
 		{
 			if (!skipDrawing)
@@ -144,7 +144,7 @@ namespace RimWorld
 			curY += 4f;
 		}
 
-		// Token: 0x06002D86 RID: 11654 RVA: 0x0017F114 File Offset: 0x0017D514
+		// Token: 0x06002D7F RID: 11647 RVA: 0x0017F2EC File Offset: 0x0017D6EC
 		private void DrawKeyEntry(KeyBindingDef keyDef, Rect parentRect, ref float curY, bool skipDrawing)
 		{
 			if (!skipDrawing)
@@ -171,7 +171,7 @@ namespace RimWorld
 			curY += 34f;
 		}
 
-		// Token: 0x06002D87 RID: 11655 RVA: 0x0017F280 File Offset: 0x0017D680
+		// Token: 0x06002D80 RID: 11648 RVA: 0x0017F458 File Offset: 0x0017D858
 		private void SettingButtonClicked(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
 			if (Event.current.button == 0)
@@ -195,25 +195,25 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0400180A RID: 6154
+		// Token: 0x04001808 RID: 6152
 		protected Vector2 scrollPosition;
 
-		// Token: 0x0400180B RID: 6155
+		// Token: 0x04001809 RID: 6153
 		protected float contentHeight;
 
-		// Token: 0x0400180C RID: 6156
+		// Token: 0x0400180A RID: 6154
 		protected KeyPrefsData keyPrefsData = null;
 
-		// Token: 0x0400180D RID: 6157
+		// Token: 0x0400180B RID: 6155
 		protected Vector2 WindowSize = new Vector2(900f, 760f);
 
-		// Token: 0x0400180E RID: 6158
+		// Token: 0x0400180C RID: 6156
 		protected const float EntryHeight = 34f;
 
-		// Token: 0x0400180F RID: 6159
+		// Token: 0x0400180D RID: 6157
 		protected const float CategoryHeadingHeight = 40f;
 
-		// Token: 0x04001810 RID: 6160
+		// Token: 0x0400180E RID: 6158
 		private static List<KeyBindingDef> keyBindingsWorkingList = new List<KeyBindingDef>();
 	}
 }

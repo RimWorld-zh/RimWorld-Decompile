@@ -5,24 +5,24 @@ namespace RimWorld
 	// Token: 0x02000305 RID: 773
 	public struct Signal
 	{
-		// Token: 0x06000CDE RID: 3294 RVA: 0x00070DA4 File Offset: 0x0006F1A4
+		// Token: 0x06000CDE RID: 3294 RVA: 0x00070E58 File Offset: 0x0006F258
 		public Signal(string tag)
 		{
 			this.tag = tag;
 			this.args = null;
 		}
 
-		// Token: 0x06000CDF RID: 3295 RVA: 0x00070DB5 File Offset: 0x0006F1B5
+		// Token: 0x06000CDF RID: 3295 RVA: 0x00070E69 File Offset: 0x0006F269
 		public Signal(string tag, object[] args)
 		{
 			this.tag = tag;
 			this.args = args;
 		}
 
-		// Token: 0x04000858 RID: 2136
+		// Token: 0x0400085A RID: 2138
 		public string tag;
 
-		// Token: 0x04000859 RID: 2137
+		// Token: 0x0400085B RID: 2139
 		public object[] args;
 	}
 }

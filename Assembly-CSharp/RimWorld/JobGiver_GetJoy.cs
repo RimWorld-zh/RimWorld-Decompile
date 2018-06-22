@@ -11,7 +11,7 @@ namespace RimWorld
 	public class JobGiver_GetJoy : ThinkNode_JobGiver
 	{
 		// Token: 0x170000CE RID: 206
-		// (get) Token: 0x06000537 RID: 1335 RVA: 0x00034958 File Offset: 0x00032D58
+		// (get) Token: 0x06000537 RID: 1335 RVA: 0x00034934 File Offset: 0x00032D34
 		protected virtual bool CanDoDuringMedicalRest
 		{
 			get
@@ -20,25 +20,25 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000538 RID: 1336 RVA: 0x00034970 File Offset: 0x00032D70
+		// Token: 0x06000538 RID: 1336 RVA: 0x0003494C File Offset: 0x00032D4C
 		protected virtual bool JoyGiverAllowed(JoyGiverDef def)
 		{
 			return true;
 		}
 
-		// Token: 0x06000539 RID: 1337 RVA: 0x00034988 File Offset: 0x00032D88
+		// Token: 0x06000539 RID: 1337 RVA: 0x00034964 File Offset: 0x00032D64
 		protected virtual Job TryGiveJobFromJoyGiverDefDirect(JoyGiverDef def, Pawn pawn)
 		{
 			return def.Worker.TryGiveJob(pawn);
 		}
 
-		// Token: 0x0600053A RID: 1338 RVA: 0x000349A9 File Offset: 0x00032DA9
+		// Token: 0x0600053A RID: 1338 RVA: 0x00034985 File Offset: 0x00032D85
 		public override void ResolveReferences()
 		{
 			this.joyGiverChances = new DefMap<JoyGiverDef, float>();
 		}
 
-		// Token: 0x0600053B RID: 1339 RVA: 0x000349B8 File Offset: 0x00032DB8
+		// Token: 0x0600053B RID: 1339 RVA: 0x00034994 File Offset: 0x00032D94
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -65,16 +65,17 @@ namespace RimWorld
 								if (Rand.Value >= joyGiverDef.pctPawnsEverDo)
 								{
 									Rand.PopState();
-									goto IL_11C;
+									goto IL_12A;
 								}
 								Rand.PopState();
 							}
 							float num = tolerances[joyGiverDef.joyKind];
-							float num2 = Mathf.Pow(1f - num, 2.5f);
+							float num2 = Mathf.Pow(1f - num, 5f);
+							num2 = Mathf.Max(0.001f, num2);
 							this.joyGiverChances[joyGiverDef] = joyGiverDef.Worker.GetChance(pawn) * num2;
 						}
 					}
-					IL_11C:;
+					IL_12A:;
 				}
 				for (int j = 0; j < this.joyGiverChances.Count; j++)
 				{

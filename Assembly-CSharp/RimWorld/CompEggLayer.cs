@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200070F RID: 1807
+	// Token: 0x0200070B RID: 1803
 	public class CompEggLayer : ThingComp
 	{
 		// Token: 0x170005F1 RID: 1521
-		// (get) Token: 0x0600278C RID: 10124 RVA: 0x00153064 File Offset: 0x00151464
+		// (get) Token: 0x06002784 RID: 10116 RVA: 0x0015320C File Offset: 0x0015160C
 		private bool Active
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005F2 RID: 1522
-		// (get) Token: 0x0600278D RID: 10125 RVA: 0x001530D4 File Offset: 0x001514D4
+		// (get) Token: 0x06002785 RID: 10117 RVA: 0x0015327C File Offset: 0x0015167C
 		public bool CanLayNow
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005F3 RID: 1523
-		// (get) Token: 0x0600278E RID: 10126 RVA: 0x0015310C File Offset: 0x0015150C
+		// (get) Token: 0x06002786 RID: 10118 RVA: 0x001532B4 File Offset: 0x001516B4
 		public bool FullyFertilized
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005F4 RID: 1524
-		// (get) Token: 0x0600278F RID: 10127 RVA: 0x00153138 File Offset: 0x00151538
+		// (get) Token: 0x06002787 RID: 10119 RVA: 0x001532E0 File Offset: 0x001516E0
 		private bool ProgressStoppedBecauseUnfertilized
 		{
 			get
@@ -49,7 +49,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005F5 RID: 1525
-		// (get) Token: 0x06002790 RID: 10128 RVA: 0x00153174 File Offset: 0x00151574
+		// (get) Token: 0x06002788 RID: 10120 RVA: 0x0015331C File Offset: 0x0015171C
 		public CompProperties_EggLayer Props
 		{
 			get
@@ -58,7 +58,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002791 RID: 10129 RVA: 0x00153194 File Offset: 0x00151594
+		// Token: 0x06002789 RID: 10121 RVA: 0x0015333C File Offset: 0x0015173C
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -67,7 +67,7 @@ namespace RimWorld
 			Scribe_References.Look<Pawn>(ref this.fertilizedBy, "fertilizedBy", false);
 		}
 
-		// Token: 0x06002792 RID: 10130 RVA: 0x001531E4 File Offset: 0x001515E4
+		// Token: 0x0600278A RID: 10122 RVA: 0x0015338C File Offset: 0x0015178C
 		public override void CompTick()
 		{
 			if (this.Active)
@@ -90,14 +90,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002793 RID: 10131 RVA: 0x00153277 File Offset: 0x00151677
+		// Token: 0x0600278B RID: 10123 RVA: 0x0015341F File Offset: 0x0015181F
 		public void Fertilize(Pawn male)
 		{
 			this.fertilizationCount = this.Props.eggFertilizationCountMax;
 			this.fertilizedBy = male;
 		}
 
-		// Token: 0x06002794 RID: 10132 RVA: 0x00153294 File Offset: 0x00151694
+		// Token: 0x0600278C RID: 10124 RVA: 0x0015343C File Offset: 0x0015183C
 		public virtual Thing ProduceEgg()
 		{
 			if (!this.Active)
@@ -143,7 +143,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002795 RID: 10133 RVA: 0x0015339C File Offset: 0x0015179C
+		// Token: 0x0600278D RID: 10125 RVA: 0x00153544 File Offset: 0x00151944
 		public override string CompInspectStringExtra()
 		{
 			string result;
@@ -167,13 +167,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x040015D1 RID: 5585
+		// Token: 0x040015CF RID: 5583
 		private float eggProgress = 0f;
 
-		// Token: 0x040015D2 RID: 5586
+		// Token: 0x040015D0 RID: 5584
 		private int fertilizationCount = 0;
 
-		// Token: 0x040015D3 RID: 5587
+		// Token: 0x040015D1 RID: 5585
 		private Pawn fertilizedBy;
 	}
 }

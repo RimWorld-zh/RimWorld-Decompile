@@ -7,20 +7,20 @@ namespace RimWorld
 	// Token: 0x02000426 RID: 1062
 	public class PowerNetGrid
 	{
-		// Token: 0x0600128A RID: 4746 RVA: 0x000A0D7D File Offset: 0x0009F17D
+		// Token: 0x0600128A RID: 4746 RVA: 0x000A0F61 File Offset: 0x0009F361
 		public PowerNetGrid(Map map)
 		{
 			this.map = map;
 			this.netGrid = new PowerNet[map.cellIndices.NumGridCells];
 		}
 
-		// Token: 0x0600128B RID: 4747 RVA: 0x000A0DB0 File Offset: 0x0009F1B0
+		// Token: 0x0600128B RID: 4747 RVA: 0x000A0F94 File Offset: 0x0009F394
 		public PowerNet TransmittedPowerNetAt(IntVec3 c)
 		{
 			return this.netGrid[this.map.cellIndices.CellToIndex(c)];
 		}
 
-		// Token: 0x0600128C RID: 4748 RVA: 0x000A0DE0 File Offset: 0x0009F1E0
+		// Token: 0x0600128C RID: 4748 RVA: 0x000A0FC4 File Offset: 0x0009F3C4
 		public void Notify_PowerNetCreated(PowerNet newNet)
 		{
 			if (this.powerNetCells.ContainsKey(newNet))
@@ -60,7 +60,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600128D RID: 4749 RVA: 0x000A0F98 File Offset: 0x0009F398
+		// Token: 0x0600128D RID: 4749 RVA: 0x000A117C File Offset: 0x0009F57C
 		public void Notify_PowerNetDeleted(PowerNet deadNet)
 		{
 			List<IntVec3> list;
@@ -86,7 +86,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600128E RID: 4750 RVA: 0x000A1050 File Offset: 0x0009F450
+		// Token: 0x0600128E RID: 4750 RVA: 0x000A1234 File Offset: 0x0009F634
 		public void DrawDebugPowerNetGrid()
 		{
 			if (DebugViewSettings.drawPowerNetGrid)
@@ -111,13 +111,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000B51 RID: 2897
+		// Token: 0x04000B52 RID: 2898
 		private Map map;
 
-		// Token: 0x04000B52 RID: 2898
+		// Token: 0x04000B53 RID: 2899
 		private PowerNet[] netGrid;
 
-		// Token: 0x04000B53 RID: 2899
+		// Token: 0x04000B54 RID: 2900
 		private Dictionary<PowerNet, List<IntVec3>> powerNetCells = new Dictionary<PowerNet, List<IntVec3>>();
 	}
 }

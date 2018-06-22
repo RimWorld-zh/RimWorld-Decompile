@@ -8,12 +8,12 @@ namespace RimWorld
 	// Token: 0x0200017A RID: 378
 	public class LordJob_Joinable_MarriageCeremony : LordJob_VoluntarilyJoinable
 	{
-		// Token: 0x060007C6 RID: 1990 RVA: 0x0004C41A File Offset: 0x0004A81A
+		// Token: 0x060007C6 RID: 1990 RVA: 0x0004C406 File Offset: 0x0004A806
 		public LordJob_Joinable_MarriageCeremony()
 		{
 		}
 
-		// Token: 0x060007C7 RID: 1991 RVA: 0x0004C423 File Offset: 0x0004A823
+		// Token: 0x060007C7 RID: 1991 RVA: 0x0004C40F File Offset: 0x0004A80F
 		public LordJob_Joinable_MarriageCeremony(Pawn firstPawn, Pawn secondPawn, IntVec3 spot)
 		{
 			this.firstPawn = firstPawn;
@@ -22,7 +22,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000135 RID: 309
-		// (get) Token: 0x060007C8 RID: 1992 RVA: 0x0004C444 File Offset: 0x0004A844
+		// (get) Token: 0x060007C8 RID: 1992 RVA: 0x0004C430 File Offset: 0x0004A830
 		public override bool LostImportantReferenceDuringLoading
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000136 RID: 310
-		// (get) Token: 0x060007C9 RID: 1993 RVA: 0x0004C470 File Offset: 0x0004A870
+		// (get) Token: 0x060007C9 RID: 1993 RVA: 0x0004C45C File Offset: 0x0004A85C
 		public override bool AllowStartNewGatherings
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060007CA RID: 1994 RVA: 0x0004C488 File Offset: 0x0004A888
+		// Token: 0x060007CA RID: 1994 RVA: 0x0004C474 File Offset: 0x0004A874
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -113,25 +113,25 @@ namespace RimWorld
 			return stateGraph;
 		}
 
-		// Token: 0x060007CB RID: 1995 RVA: 0x0004C850 File Offset: 0x0004AC50
+		// Token: 0x060007CB RID: 1995 RVA: 0x0004C83C File Offset: 0x0004AC3C
 		private bool AreFiancesInPartyArea()
 		{
 			return this.lord.ownedPawns.Contains(this.firstPawn) && this.lord.ownedPawns.Contains(this.secondPawn) && this.firstPawn.Map == base.Map && PartyUtility.InPartyArea(this.firstPawn.Position, this.spot, base.Map) && this.secondPawn.Map == base.Map && PartyUtility.InPartyArea(this.secondPawn.Position, this.spot, base.Map);
 		}
 
-		// Token: 0x060007CC RID: 1996 RVA: 0x0004C920 File Offset: 0x0004AD20
+		// Token: 0x060007CC RID: 1996 RVA: 0x0004C90C File Offset: 0x0004AD0C
 		private bool ShouldCeremonyBeCalledOff()
 		{
 			return this.firstPawn.Destroyed || this.secondPawn.Destroyed || !this.firstPawn.relations.DirectRelationExists(PawnRelationDefOf.Fiance, this.secondPawn) || (this.spot.GetDangerFor(this.firstPawn, base.Map) != Danger.None || this.spot.GetDangerFor(this.secondPawn, base.Map) != Danger.None) || (!MarriageCeremonyUtility.AcceptableGameConditionsToContinueCeremony(base.Map) || !MarriageCeremonyUtility.FianceCanContinueCeremony(this.firstPawn) || !MarriageCeremonyUtility.FianceCanContinueCeremony(this.secondPawn));
 		}
 
-		// Token: 0x060007CD RID: 1997 RVA: 0x0004CA00 File Offset: 0x0004AE00
+		// Token: 0x060007CD RID: 1997 RVA: 0x0004C9EC File Offset: 0x0004ADEC
 		private bool ShouldAfterPartyBeCalledOff()
 		{
 			return this.firstPawn.Destroyed || this.secondPawn.Destroyed || (this.firstPawn.Downed || this.secondPawn.Downed) || (this.spot.GetDangerFor(this.firstPawn, base.Map) != Danger.None || this.spot.GetDangerFor(this.secondPawn, base.Map) != Danger.None) || !PartyUtility.AcceptableGameConditionsToContinueParty(base.Map);
 		}
 
-		// Token: 0x060007CE RID: 1998 RVA: 0x0004CABC File Offset: 0x0004AEBC
+		// Token: 0x060007CE RID: 1998 RVA: 0x0004CAA8 File Offset: 0x0004AEA8
 		public override float VoluntaryJoinPriorityFor(Pawn p)
 		{
 			float result;
@@ -177,7 +177,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060007CF RID: 1999 RVA: 0x0004CBB0 File Offset: 0x0004AFB0
+		// Token: 0x060007CF RID: 1999 RVA: 0x0004CB9C File Offset: 0x0004AF9C
 		public override void ExposeData()
 		{
 			Scribe_References.Look<Pawn>(ref this.firstPawn, "firstPawn", false);
@@ -185,31 +185,31 @@ namespace RimWorld
 			Scribe_Values.Look<IntVec3>(ref this.spot, "spot", default(IntVec3), false);
 		}
 
-		// Token: 0x060007D0 RID: 2000 RVA: 0x0004CBFC File Offset: 0x0004AFFC
+		// Token: 0x060007D0 RID: 2000 RVA: 0x0004CBE8 File Offset: 0x0004AFE8
 		public override string GetReport()
 		{
 			return "LordReportAttendingMarriageCeremony".Translate();
 		}
 
-		// Token: 0x060007D1 RID: 2001 RVA: 0x0004CC1C File Offset: 0x0004B01C
+		// Token: 0x060007D1 RID: 2001 RVA: 0x0004CC08 File Offset: 0x0004B008
 		private bool IsCeremonyAboutToEnd()
 		{
 			return this.afterPartyTimeoutTrigger.TicksLeft < 1200;
 		}
 
-		// Token: 0x060007D2 RID: 2002 RVA: 0x0004CC50 File Offset: 0x0004B050
+		// Token: 0x060007D2 RID: 2002 RVA: 0x0004CC3C File Offset: 0x0004B03C
 		private bool IsFiance(Pawn p)
 		{
 			return p == this.firstPawn || p == this.secondPawn;
 		}
 
-		// Token: 0x060007D3 RID: 2003 RVA: 0x0004CC80 File Offset: 0x0004B080
+		// Token: 0x060007D3 RID: 2003 RVA: 0x0004CC6C File Offset: 0x0004B06C
 		private bool IsGuest(Pawn p)
 		{
 			return p.RaceProps.Humanlike && p != this.firstPawn && p != this.secondPawn && (p.Faction == this.firstPawn.Faction || p.Faction == this.secondPawn.Faction);
 		}
 
-		// Token: 0x060007D4 RID: 2004 RVA: 0x0004CCF8 File Offset: 0x0004B0F8
+		// Token: 0x060007D4 RID: 2004 RVA: 0x0004CCE4 File Offset: 0x0004B0E4
 		private void AddAttendedWeddingThoughts()
 		{
 			List<Pawn> ownedPawns = this.lord.ownedPawns;

@@ -10,7 +10,7 @@ namespace RimWorld
 	public class JobDriver_ConstructFinishFrame : JobDriver
 	{
 		// Token: 0x17000074 RID: 116
-		// (get) Token: 0x0600022B RID: 555 RVA: 0x00016C78 File Offset: 0x00015078
+		// (get) Token: 0x0600022B RID: 555 RVA: 0x00016C80 File Offset: 0x00015080
 		private Frame Frame
 		{
 			get
@@ -19,13 +19,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600022C RID: 556 RVA: 0x00016CA8 File Offset: 0x000150A8
+		// Token: 0x0600022C RID: 556 RVA: 0x00016CB0 File Offset: 0x000150B0
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
 		}
 
-		// Token: 0x0600022D RID: 557 RVA: 0x00016CDC File Offset: 0x000150DC
+		// Token: 0x0600022D RID: 557 RVA: 0x00016CE4 File Offset: 0x000150E4
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).FailOnDespawnedNullOrForbidden(TargetIndex.A);

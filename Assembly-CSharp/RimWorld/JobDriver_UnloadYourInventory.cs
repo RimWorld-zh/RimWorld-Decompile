@@ -8,20 +8,20 @@ namespace RimWorld
 	// Token: 0x02000085 RID: 133
 	public class JobDriver_UnloadYourInventory : JobDriver
 	{
-		// Token: 0x06000378 RID: 888 RVA: 0x00026D17 File Offset: 0x00025117
+		// Token: 0x06000378 RID: 888 RVA: 0x00026CF3 File Offset: 0x000250F3
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.countToDrop, "countToDrop", -1, false);
 		}
 
-		// Token: 0x06000379 RID: 889 RVA: 0x00026D34 File Offset: 0x00025134
+		// Token: 0x06000379 RID: 889 RVA: 0x00026D10 File Offset: 0x00025110
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x0600037A RID: 890 RVA: 0x00026D4C File Offset: 0x0002514C
+		// Token: 0x0600037A RID: 890 RVA: 0x00026D28 File Offset: 0x00025128
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return Toils_General.Wait(10);

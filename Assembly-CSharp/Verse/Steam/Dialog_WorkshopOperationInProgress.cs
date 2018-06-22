@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse.Steam
 {
-	// Token: 0x02000FBB RID: 4027
+	// Token: 0x02000FBC RID: 4028
 	internal class Dialog_WorkshopOperationInProgress : Window
 	{
-		// Token: 0x06006139 RID: 24889 RVA: 0x00310EA2 File Offset: 0x0030F2A2
+		// Token: 0x06006162 RID: 24930 RVA: 0x00312F76 File Offset: 0x00311376
 		public Dialog_WorkshopOperationInProgress()
 		{
 			this.forcePause = true;
@@ -17,8 +17,8 @@ namespace Verse.Steam
 			this.preventDrawTutor = true;
 		}
 
-		// Token: 0x17000FBD RID: 4029
-		// (get) Token: 0x0600613A RID: 24890 RVA: 0x00310ED0 File Offset: 0x0030F2D0
+		// Token: 0x17000FC1 RID: 4033
+		// (get) Token: 0x06006163 RID: 24931 RVA: 0x00312FA4 File Offset: 0x003113A4
 		public override Vector2 InitialSize
 		{
 			get
@@ -27,7 +27,7 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x0600613B RID: 24891 RVA: 0x00310EF4 File Offset: 0x0030F2F4
+		// Token: 0x06006164 RID: 24932 RVA: 0x00312FC8 File Offset: 0x003113C8
 		public override void DoWindowContents(Rect inRect)
 		{
 			EItemUpdateStatus eitemUpdateStatus;
@@ -59,7 +59,7 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x0600613C RID: 24892 RVA: 0x00310FA0 File Offset: 0x0030F3A0
+		// Token: 0x06006165 RID: 24933 RVA: 0x00313074 File Offset: 0x00311474
 		public static void CloseAll()
 		{
 			Dialog_WorkshopOperationInProgress dialog_WorkshopOperationInProgress = Find.WindowStack.WindowOfType<Dialog_WorkshopOperationInProgress>();

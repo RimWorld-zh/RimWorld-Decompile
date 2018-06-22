@@ -5,23 +5,23 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200044B RID: 1099
+	// Token: 0x02000447 RID: 1095
 	public class WeatherDecider : IExposable
 	{
-		// Token: 0x0600130C RID: 4876 RVA: 0x000A41C7 File Offset: 0x000A25C7
+		// Token: 0x06001303 RID: 4867 RVA: 0x000A41D7 File Offset: 0x000A25D7
 		public WeatherDecider(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x0600130D RID: 4877 RVA: 0x000A41E9 File Offset: 0x000A25E9
+		// Token: 0x06001304 RID: 4868 RVA: 0x000A41F9 File Offset: 0x000A25F9
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.curWeatherDuration, "curWeatherDuration", 0, true);
 			Scribe_Values.Look<int>(ref this.ticksWhenRainAllowedAgain, "ticksWhenRainAllowedAgain", 0, false);
 		}
 
-		// Token: 0x0600130E RID: 4878 RVA: 0x000A4210 File Offset: 0x000A2610
+		// Token: 0x06001305 RID: 4869 RVA: 0x000A4220 File Offset: 0x000A2620
 		public void WeatherDeciderTick()
 		{
 			int num = this.curWeatherDuration;
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600130F RID: 4879 RVA: 0x000A4298 File Offset: 0x000A2698
+		// Token: 0x06001306 RID: 4870 RVA: 0x000A42A8 File Offset: 0x000A26A8
 		public void StartNextWeather()
 		{
 			WeatherDef weatherDef = this.ChooseNextWeather();
@@ -44,7 +44,7 @@ namespace RimWorld
 			this.curWeatherDuration = weatherDef.durationRange.RandomInRange;
 		}
 
-		// Token: 0x06001310 RID: 4880 RVA: 0x000A42D0 File Offset: 0x000A26D0
+		// Token: 0x06001307 RID: 4871 RVA: 0x000A42E0 File Offset: 0x000A26E0
 		public void StartInitialWeather()
 		{
 			if (Find.GameInitData != null)
@@ -65,7 +65,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001311 RID: 4881 RVA: 0x000A4390 File Offset: 0x000A2790
+		// Token: 0x06001308 RID: 4872 RVA: 0x000A43A0 File Offset: 0x000A27A0
 		private WeatherDef ChooseNextWeather()
 		{
 			WeatherDef result;
@@ -86,13 +86,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001312 RID: 4882 RVA: 0x000A4403 File Offset: 0x000A2803
+		// Token: 0x06001309 RID: 4873 RVA: 0x000A4413 File Offset: 0x000A2813
 		public void DisableRainFor(int ticks)
 		{
 			this.ticksWhenRainAllowedAgain = Find.TickManager.TicksGame + ticks;
 		}
 
-		// Token: 0x06001313 RID: 4883 RVA: 0x000A4418 File Offset: 0x000A2818
+		// Token: 0x0600130A RID: 4874 RVA: 0x000A4428 File Offset: 0x000A2828
 		private float CurrentWeatherCommonality(WeatherDef weather)
 		{
 			float result;
@@ -144,7 +144,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001314 RID: 4884 RVA: 0x000A460C File Offset: 0x000A2A0C
+		// Token: 0x0600130B RID: 4875 RVA: 0x000A461C File Offset: 0x000A2A1C
 		public void LogWeatherChances()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -157,19 +157,19 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x04000B95 RID: 2965
+		// Token: 0x04000B92 RID: 2962
 		private Map map;
 
-		// Token: 0x04000B96 RID: 2966
+		// Token: 0x04000B93 RID: 2963
 		private int curWeatherDuration = 10000;
 
-		// Token: 0x04000B97 RID: 2967
+		// Token: 0x04000B94 RID: 2964
 		private int ticksWhenRainAllowedAgain = 0;
 
-		// Token: 0x04000B98 RID: 2968
+		// Token: 0x04000B95 RID: 2965
 		private const int FirstWeatherDuration = 10000;
 
-		// Token: 0x04000B99 RID: 2969
+		// Token: 0x04000B96 RID: 2966
 		private const float ChanceFactorRainOnFire = 15f;
 	}
 }

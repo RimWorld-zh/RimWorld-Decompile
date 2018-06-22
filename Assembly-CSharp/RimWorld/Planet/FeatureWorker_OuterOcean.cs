@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200056D RID: 1389
+	// Token: 0x02000569 RID: 1385
 	public class FeatureWorker_OuterOcean : FeatureWorker
 	{
-		// Token: 0x06001A44 RID: 6724 RVA: 0x000E3600 File Offset: 0x000E1A00
+		// Token: 0x06001A3B RID: 6715 RVA: 0x000E3654 File Offset: 0x000E1A54
 		public override void GenerateWhereAppropriate()
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
@@ -41,24 +41,24 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001A45 RID: 6725 RVA: 0x000E372C File Offset: 0x000E1B2C
+		// Token: 0x06001A3C RID: 6716 RVA: 0x000E3780 File Offset: 0x000E1B80
 		private bool IsRoot(int tile)
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
 			return worldGrid.IsOnEdge(tile) && this.CanTraverse(tile) && worldGrid[tile].feature == null;
 		}
 
-		// Token: 0x06001A46 RID: 6726 RVA: 0x000E3774 File Offset: 0x000E1B74
+		// Token: 0x06001A3D RID: 6717 RVA: 0x000E37C8 File Offset: 0x000E1BC8
 		private bool CanTraverse(int tile)
 		{
 			BiomeDef biome = Find.WorldGrid[tile].biome;
 			return biome == BiomeDefOf.Ocean || biome == BiomeDefOf.Lake;
 		}
 
-		// Token: 0x04000F57 RID: 3927
+		// Token: 0x04000F54 RID: 3924
 		private List<int> group = new List<int>();
 
-		// Token: 0x04000F58 RID: 3928
+		// Token: 0x04000F55 RID: 3925
 		private List<int> edgeTiles = new List<int>();
 	}
 }

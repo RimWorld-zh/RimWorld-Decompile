@@ -7,7 +7,7 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003D0 RID: 976
 	public class SymbolResolver_RandomlyPlaceMealsOnTables : SymbolResolver
 	{
-		// Token: 0x060010D4 RID: 4308 RVA: 0x0008F524 File Offset: 0x0008D924
+		// Token: 0x060010D4 RID: 4308 RVA: 0x0008F710 File Offset: 0x0008DB10
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;

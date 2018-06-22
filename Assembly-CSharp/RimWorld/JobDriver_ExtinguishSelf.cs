@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_ExtinguishSelf : JobDriver
 	{
 		// Token: 0x17000084 RID: 132
-		// (get) Token: 0x06000265 RID: 613 RVA: 0x0001963C File Offset: 0x00017A3C
+		// (get) Token: 0x06000265 RID: 613 RVA: 0x00019644 File Offset: 0x00017A44
 		protected Fire TargetFire
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000266 RID: 614 RVA: 0x00019668 File Offset: 0x00017A68
+		// Token: 0x06000266 RID: 614 RVA: 0x00019670 File Offset: 0x00017A70
 		public override string GetReport()
 		{
 			string result;
@@ -36,13 +36,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000267 RID: 615 RVA: 0x000196CC File Offset: 0x00017ACC
+		// Token: 0x06000267 RID: 615 RVA: 0x000196D4 File Offset: 0x00017AD4
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x06000268 RID: 616 RVA: 0x000196E4 File Offset: 0x00017AE4
+		// Token: 0x06000268 RID: 616 RVA: 0x000196EC File Offset: 0x00017AEC
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return new Toil

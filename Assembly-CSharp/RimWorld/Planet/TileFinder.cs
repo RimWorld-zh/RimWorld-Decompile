@@ -6,16 +6,16 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005AB RID: 1451
+	// Token: 0x020005A7 RID: 1447
 	public static class TileFinder
 	{
-		// Token: 0x06001B9F RID: 7071 RVA: 0x000EE350 File Offset: 0x000EC750
+		// Token: 0x06001B96 RID: 7062 RVA: 0x000EE3A4 File Offset: 0x000EC7A4
 		public static int RandomStartingTile()
 		{
 			return TileFinder.RandomFactionBaseTileFor(Faction.OfPlayer, true, null);
 		}
 
-		// Token: 0x06001BA0 RID: 7072 RVA: 0x000EE374 File Offset: 0x000EC774
+		// Token: 0x06001B97 RID: 7063 RVA: 0x000EE3C8 File Offset: 0x000EC7C8
 		public static int RandomFactionBaseTileFor(Faction faction, bool mustBeAutoChoosable = false, Predicate<int> extraValidator = null)
 		{
 			for (int i = 0; i < 500; i++)
@@ -55,7 +55,7 @@ namespace RimWorld.Planet
 			return 0;
 		}
 
-		// Token: 0x06001BA1 RID: 7073 RVA: 0x000EE424 File Offset: 0x000EC824
+		// Token: 0x06001B98 RID: 7064 RVA: 0x000EE478 File Offset: 0x000EC878
 		public static bool IsValidTileForNewSettlement(int tile, StringBuilder reason = null)
 		{
 			Tile tile2 = Find.WorldGrid[tile];
@@ -136,7 +136,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001BA2 RID: 7074 RVA: 0x000EE60C File Offset: 0x000ECA0C
+		// Token: 0x06001B99 RID: 7065 RVA: 0x000EE660 File Offset: 0x000ECA60
 		public static bool TryFindPassableTileWithTraversalDistance(int rootTile, int minDist, int maxDist, out int result, Predicate<int> validator = null, bool ignoreFirstTilePassability = false, bool preferCloserTiles = false)
 		{
 			TileFinder.tmpTiles.Clear();
@@ -185,7 +185,7 @@ namespace RimWorld.Planet
 			return result2;
 		}
 
-		// Token: 0x06001BA3 RID: 7075 RVA: 0x000EE6F0 File Offset: 0x000ECAF0
+		// Token: 0x06001B9A RID: 7066 RVA: 0x000EE744 File Offset: 0x000ECB44
 		public static bool TryFindRandomPlayerTile(out int tile, bool allowCaravans, Predicate<int> validator = null)
 		{
 			TileFinder.tmpPlayerTiles.Clear();
@@ -248,7 +248,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001BA4 RID: 7076 RVA: 0x000EE8EC File Offset: 0x000ECCEC
+		// Token: 0x06001B9B RID: 7067 RVA: 0x000EE940 File Offset: 0x000ECD40
 		public static bool TryFindNewSiteTile(out int tile, int minDist = 7, int maxDist = 27, bool allowCaravans = false, bool preferCloserTiles = true, int nearThisTile = -1)
 		{
 			Func<int, int> findTile = delegate(int root)
@@ -284,10 +284,10 @@ namespace RimWorld.Planet
 			return tile != -1;
 		}
 
-		// Token: 0x04001071 RID: 4209
+		// Token: 0x0400106E RID: 4206
 		private static List<Pair<int, int>> tmpTiles = new List<Pair<int, int>>();
 
-		// Token: 0x04001072 RID: 4210
+		// Token: 0x0400106F RID: 4207
 		private static List<int> tmpPlayerTiles = new List<int>();
 	}
 }

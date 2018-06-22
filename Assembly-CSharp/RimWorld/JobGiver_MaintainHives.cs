@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000A1 RID: 161
 	public class JobGiver_MaintainHives : JobGiver_AIFightEnemies
 	{
-		// Token: 0x06000409 RID: 1033 RVA: 0x00030644 File Offset: 0x0002EA44
+		// Token: 0x06000409 RID: 1033 RVA: 0x00030620 File Offset: 0x0002EA20
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Room room = pawn.GetRoom(RegionType.Set_Passable);

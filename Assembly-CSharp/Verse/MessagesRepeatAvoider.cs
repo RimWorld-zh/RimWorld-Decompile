@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000E89 RID: 3721
+	// Token: 0x02000E88 RID: 3720
 	public static class MessagesRepeatAvoider
 	{
-		// Token: 0x060057C3 RID: 22467 RVA: 0x002CFBD2 File Offset: 0x002CDFD2
+		// Token: 0x060057E3 RID: 22499 RVA: 0x002D17E2 File Offset: 0x002CFBE2
 		public static void Reset()
 		{
 			MessagesRepeatAvoider.lastShowTimes.Clear();
 		}
 
-		// Token: 0x060057C4 RID: 22468 RVA: 0x002CFBE0 File Offset: 0x002CDFE0
+		// Token: 0x060057E4 RID: 22500 RVA: 0x002D17F0 File Offset: 0x002CFBF0
 		public static bool MessageShowAllowed(string tag, float minSecondsSinceLastShow)
 		{
 			float num;
@@ -28,7 +28,7 @@ namespace Verse
 			return flag;
 		}
 
-		// Token: 0x04003A09 RID: 14857
+		// Token: 0x04003A19 RID: 14873
 		private static Dictionary<string, float> lastShowTimes = new Dictionary<string, float>();
 	}
 }

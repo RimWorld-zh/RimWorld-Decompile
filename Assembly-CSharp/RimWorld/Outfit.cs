@@ -4,22 +4,22 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200050E RID: 1294
+	// Token: 0x0200050A RID: 1290
 	public class Outfit : IExposable, ILoadReferenceable
 	{
-		// Token: 0x0600173D RID: 5949 RVA: 0x000CC37F File Offset: 0x000CA77F
+		// Token: 0x06001734 RID: 5940 RVA: 0x000CC377 File Offset: 0x000CA777
 		public Outfit()
 		{
 		}
 
-		// Token: 0x0600173E RID: 5950 RVA: 0x000CC393 File Offset: 0x000CA793
+		// Token: 0x06001735 RID: 5941 RVA: 0x000CC38B File Offset: 0x000CA78B
 		public Outfit(int uniqueId, string label)
 		{
 			this.uniqueId = uniqueId;
 			this.label = label;
 		}
 
-		// Token: 0x0600173F RID: 5951 RVA: 0x000CC3B5 File Offset: 0x000CA7B5
+		// Token: 0x06001736 RID: 5942 RVA: 0x000CC3AD File Offset: 0x000CA7AD
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.uniqueId, "uniqueId", 0, false);
@@ -27,22 +27,22 @@ namespace RimWorld
 			Scribe_Deep.Look<ThingFilter>(ref this.filter, "filter", new object[0]);
 		}
 
-		// Token: 0x06001740 RID: 5952 RVA: 0x000CC3F4 File Offset: 0x000CA7F4
+		// Token: 0x06001737 RID: 5943 RVA: 0x000CC3EC File Offset: 0x000CA7EC
 		public string GetUniqueLoadID()
 		{
 			return "Outfit_" + this.label + this.uniqueId.ToString();
 		}
 
-		// Token: 0x04000DCB RID: 3531
+		// Token: 0x04000DC8 RID: 3528
 		public int uniqueId;
 
-		// Token: 0x04000DCC RID: 3532
+		// Token: 0x04000DC9 RID: 3529
 		public string label;
 
-		// Token: 0x04000DCD RID: 3533
+		// Token: 0x04000DCA RID: 3530
 		public ThingFilter filter = new ThingFilter();
 
-		// Token: 0x04000DCE RID: 3534
+		// Token: 0x04000DCB RID: 3531
 		public static readonly Regex ValidNameRegex = new Regex("^[a-zA-Z0-9 '\\-]*$");
 	}
 }

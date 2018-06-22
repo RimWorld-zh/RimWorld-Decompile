@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DDC RID: 3548
+	// Token: 0x02000DD9 RID: 3545
 	[StaticConstructorOnStartup]
 	public class Graphic_Mote : Graphic_Single
 	{
-		// Token: 0x17000CD7 RID: 3287
-		// (get) Token: 0x06004F56 RID: 20310 RVA: 0x002949FC File Offset: 0x00292DFC
+		// Token: 0x17000CD9 RID: 3289
+		// (get) Token: 0x06004F6B RID: 20331 RVA: 0x00295FD8 File Offset: 0x002943D8
 		protected virtual bool ForcePropertyBlock
 		{
 			get
@@ -17,13 +17,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F57 RID: 20311 RVA: 0x00294A12 File Offset: 0x00292E12
+		// Token: 0x06004F6C RID: 20332 RVA: 0x00295FEE File Offset: 0x002943EE
 		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
 			this.DrawMoteInternal(loc, rot, thingDef, thing, 0);
 		}
 
-		// Token: 0x06004F58 RID: 20312 RVA: 0x00294A24 File Offset: 0x00292E24
+		// Token: 0x06004F6D RID: 20333 RVA: 0x00296000 File Offset: 0x00294400
 		public void DrawMoteInternal(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, int layer)
 		{
 			Mote mote = (Mote)thing;
@@ -50,7 +50,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F59 RID: 20313 RVA: 0x00294B40 File Offset: 0x00292F40
+		// Token: 0x06004F6E RID: 20334 RVA: 0x0029611C File Offset: 0x0029451C
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -65,7 +65,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x040034B7 RID: 13495
+		// Token: 0x040034C2 RID: 13506
 		protected static MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
 	}
 }

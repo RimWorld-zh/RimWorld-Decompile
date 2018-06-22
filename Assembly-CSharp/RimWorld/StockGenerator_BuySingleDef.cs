@@ -4,22 +4,22 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000770 RID: 1904
+	// Token: 0x0200076C RID: 1900
 	public class StockGenerator_BuySingleDef : StockGenerator
 	{
-		// Token: 0x06002A0D RID: 10765 RVA: 0x00163C0C File Offset: 0x0016200C
+		// Token: 0x06002A06 RID: 10758 RVA: 0x00163DE4 File Offset: 0x001621E4
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
 			yield break;
 		}
 
-		// Token: 0x06002A0E RID: 10766 RVA: 0x00163C30 File Offset: 0x00162030
+		// Token: 0x06002A07 RID: 10759 RVA: 0x00163E08 File Offset: 0x00162208
 		public override bool HandlesThingDef(ThingDef thingDef)
 		{
 			return thingDef == this.thingDef;
 		}
 
-		// Token: 0x040016B0 RID: 5808
+		// Token: 0x040016AE RID: 5806
 		public ThingDef thingDef = null;
 	}
 }

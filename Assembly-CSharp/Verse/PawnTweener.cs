@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CE7 RID: 3303
+	// Token: 0x02000CE4 RID: 3300
 	public class PawnTweener
 	{
-		// Token: 0x060048AD RID: 18605 RVA: 0x002619F7 File Offset: 0x0025FDF7
+		// Token: 0x060048BE RID: 18622 RVA: 0x00262E0F File Offset: 0x0026120F
 		public PawnTweener(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x17000B7B RID: 2939
-		// (get) Token: 0x060048AE RID: 18606 RVA: 0x00261A28 File Offset: 0x0025FE28
+		// Token: 0x17000B7D RID: 2941
+		// (get) Token: 0x060048BF RID: 18623 RVA: 0x00262E40 File Offset: 0x00261240
 		public Vector3 TweenedPos
 		{
 			get
@@ -22,8 +22,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B7C RID: 2940
-		// (get) Token: 0x060048AF RID: 18607 RVA: 0x00261A44 File Offset: 0x0025FE44
+		// Token: 0x17000B7E RID: 2942
+		// (get) Token: 0x060048C0 RID: 18624 RVA: 0x00262E5C File Offset: 0x0026125C
 		public Vector3 LastTickTweenedVelocity
 		{
 			get
@@ -32,7 +32,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048B0 RID: 18608 RVA: 0x00261A6C File Offset: 0x0025FE6C
+		// Token: 0x060048C1 RID: 18625 RVA: 0x00262E84 File Offset: 0x00261284
 		public void PreDrawPosCalculation()
 		{
 			if (this.lastDrawFrame != RealTime.frameCount)
@@ -64,14 +64,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048B1 RID: 18609 RVA: 0x00261B4B File Offset: 0x0025FF4B
+		// Token: 0x060048C2 RID: 18626 RVA: 0x00262F63 File Offset: 0x00261363
 		public void ResetTweenedPosToRoot()
 		{
 			this.tweenedPos = this.TweenedPosRoot();
 			this.lastTickSpringPos = this.tweenedPos;
 		}
 
-		// Token: 0x060048B2 RID: 18610 RVA: 0x00261B68 File Offset: 0x0025FF68
+		// Token: 0x060048C3 RID: 18627 RVA: 0x00262F80 File Offset: 0x00261380
 		private Vector3 TweenedPosRoot()
 		{
 			Vector3 result;
@@ -87,7 +87,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060048B3 RID: 18611 RVA: 0x00261BFC File Offset: 0x0025FFFC
+		// Token: 0x060048C4 RID: 18628 RVA: 0x00263014 File Offset: 0x00261414
 		private float MovedPercent()
 		{
 			float result;
@@ -118,19 +118,19 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003132 RID: 12594
+		// Token: 0x0400313D RID: 12605
 		private Pawn pawn;
 
-		// Token: 0x04003133 RID: 12595
+		// Token: 0x0400313E RID: 12606
 		private Vector3 tweenedPos = new Vector3(0f, 0f, 0f);
 
-		// Token: 0x04003134 RID: 12596
+		// Token: 0x0400313F RID: 12607
 		private int lastDrawFrame = -1;
 
-		// Token: 0x04003135 RID: 12597
+		// Token: 0x04003140 RID: 12608
 		private Vector3 lastTickSpringPos;
 
-		// Token: 0x04003136 RID: 12598
+		// Token: 0x04003141 RID: 12609
 		private const float SpringTightness = 0.09f;
 	}
 }

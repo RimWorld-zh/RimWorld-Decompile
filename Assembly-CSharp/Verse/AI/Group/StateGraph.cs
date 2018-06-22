@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x020009FE RID: 2558
+	// Token: 0x020009FA RID: 2554
 	public class StateGraph
 	{
-		// Token: 0x170008E0 RID: 2272
-		// (get) Token: 0x0600395E RID: 14686 RVA: 0x001E6DE8 File Offset: 0x001E51E8
-		// (set) Token: 0x0600395F RID: 14687 RVA: 0x001E6E09 File Offset: 0x001E5209
+		// Token: 0x170008E1 RID: 2273
+		// (get) Token: 0x06003958 RID: 14680 RVA: 0x001E7028 File Offset: 0x001E5428
+		// (set) Token: 0x06003959 RID: 14681 RVA: 0x001E7049 File Offset: 0x001E5449
 		public LordToil StartingToil
 		{
 			get
@@ -26,19 +26,19 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x06003960 RID: 14688 RVA: 0x001E6E37 File Offset: 0x001E5237
+		// Token: 0x0600395A RID: 14682 RVA: 0x001E7077 File Offset: 0x001E5477
 		public void AddToil(LordToil toil)
 		{
 			this.lordToils.Add(toil);
 		}
 
-		// Token: 0x06003961 RID: 14689 RVA: 0x001E6E46 File Offset: 0x001E5246
+		// Token: 0x0600395B RID: 14683 RVA: 0x001E7086 File Offset: 0x001E5486
 		public void AddTransition(Transition transition)
 		{
 			this.transitions.Add(transition);
 		}
 
-		// Token: 0x06003962 RID: 14690 RVA: 0x001E6E58 File Offset: 0x001E5258
+		// Token: 0x0600395C RID: 14684 RVA: 0x001E7098 File Offset: 0x001E5498
 		public StateGraph AttachSubgraph(StateGraph subGraph)
 		{
 			for (int i = 0; i < subGraph.lordToils.Count; i++)
@@ -52,7 +52,7 @@ namespace Verse.AI.Group
 			return subGraph;
 		}
 
-		// Token: 0x06003963 RID: 14691 RVA: 0x001E6ED8 File Offset: 0x001E52D8
+		// Token: 0x0600395D RID: 14685 RVA: 0x001E7118 File Offset: 0x001E5518
 		public void ErrorCheck()
 		{
 			if (this.lordToils.Count == 0)
@@ -106,7 +106,7 @@ namespace Verse.AI.Group
 			StateGraph.checkedToils = null;
 		}
 
-		// Token: 0x06003964 RID: 14692 RVA: 0x001E708C File Offset: 0x001E548C
+		// Token: 0x0600395E RID: 14686 RVA: 0x001E72CC File Offset: 0x001E56CC
 		private void CheckForUnregisteredLinkedToilsRecursive(LordToil toil)
 		{
 			if (!this.lordToils.Contains(toil))
@@ -124,13 +124,13 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x04002482 RID: 9346
+		// Token: 0x0400247D RID: 9341
 		public List<LordToil> lordToils = new List<LordToil>();
 
-		// Token: 0x04002483 RID: 9347
+		// Token: 0x0400247E RID: 9342
 		public List<Transition> transitions = new List<Transition>();
 
-		// Token: 0x04002484 RID: 9348
+		// Token: 0x0400247F RID: 9343
 		private static HashSet<LordToil> checkedToils;
 	}
 }

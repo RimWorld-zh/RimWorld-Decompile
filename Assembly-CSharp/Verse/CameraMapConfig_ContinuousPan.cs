@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000AEB RID: 2795
+	// Token: 0x02000AE7 RID: 2791
 	public class CameraMapConfig_ContinuousPan : CameraMapConfig
 	{
-		// Token: 0x06003DF1 RID: 15857 RVA: 0x0020AAE4 File Offset: 0x00208EE4
+		// Token: 0x06003DEC RID: 15852 RVA: 0x0020AE08 File Offset: 0x00209208
 		public CameraMapConfig_ContinuousPan()
 		{
 			this.dollyRateKeys = 10f;

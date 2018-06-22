@@ -7,12 +7,12 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000845 RID: 2117
+	// Token: 0x02000841 RID: 2113
 	[StaticConstructorOnStartup]
 	public class LearningReadout : IExposable
 	{
-		// Token: 0x17000793 RID: 1939
-		// (get) Token: 0x06002FDA RID: 12250 RVA: 0x0019EE7C File Offset: 0x0019D27C
+		// Token: 0x17000794 RID: 1940
+		// (get) Token: 0x06002FD3 RID: 12243 RVA: 0x0019F05C File Offset: 0x0019D45C
 		public int ActiveConceptsCount
 		{
 			get
@@ -21,8 +21,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000794 RID: 1940
-		// (get) Token: 0x06002FDB RID: 12251 RVA: 0x0019EE9C File Offset: 0x0019D29C
+		// Token: 0x17000795 RID: 1941
+		// (get) Token: 0x06002FD4 RID: 12244 RVA: 0x0019F07C File Offset: 0x0019D47C
 		public bool ShowAllMode
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FDC RID: 12252 RVA: 0x0019EEB8 File Offset: 0x0019D2B8
+		// Token: 0x06002FD5 RID: 12245 RVA: 0x0019F098 File Offset: 0x0019D498
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<ConceptDef>(ref this.activeConcepts, "activeConcepts", LookMode.Undefined, new object[0]);
@@ -42,7 +42,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FDD RID: 12253 RVA: 0x0019EF24 File Offset: 0x0019D324
+		// Token: 0x06002FD6 RID: 12246 RVA: 0x0019F104 File Offset: 0x0019D504
 		public bool TryActivateConcept(ConceptDef conc)
 		{
 			bool result;
@@ -60,18 +60,18 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002FDE RID: 12254 RVA: 0x0019EF74 File Offset: 0x0019D374
+		// Token: 0x06002FD7 RID: 12247 RVA: 0x0019F154 File Offset: 0x0019D554
 		public bool IsActive(ConceptDef conc)
 		{
 			return this.activeConcepts.Contains(conc);
 		}
 
-		// Token: 0x06002FDF RID: 12255 RVA: 0x0019EF95 File Offset: 0x0019D395
+		// Token: 0x06002FD8 RID: 12248 RVA: 0x0019F175 File Offset: 0x0019D575
 		public void LearningReadoutUpdate()
 		{
 		}
 
-		// Token: 0x06002FE0 RID: 12256 RVA: 0x0019EF98 File Offset: 0x0019D398
+		// Token: 0x06002FD9 RID: 12249 RVA: 0x0019F178 File Offset: 0x0019D578
 		public void Notify_ConceptNewlyLearned(ConceptDef conc)
 		{
 			if (this.activeConcepts.Contains(conc) || this.selectedConcept == conc)
@@ -89,7 +89,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FE1 RID: 12257 RVA: 0x0019F00C File Offset: 0x0019D40C
+		// Token: 0x06002FDA RID: 12250 RVA: 0x0019F1EC File Offset: 0x0019D5EC
 		private string FilterSearchStringInput(string input)
 		{
 			string result;
@@ -108,7 +108,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002FE2 RID: 12258 RVA: 0x0019F054 File Offset: 0x0019D454
+		// Token: 0x06002FDB RID: 12251 RVA: 0x0019F234 File Offset: 0x0019D634
 		public void LearningReadoutOnGUI()
 		{
 			if (!TutorSystem.TutorialMode && TutorSystem.AdaptiveTrainingEnabled)
@@ -226,7 +226,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FE3 RID: 12259 RVA: 0x0019F1F0 File Offset: 0x0019D5F0
+		// Token: 0x06002FDC RID: 12252 RVA: 0x0019F3D0 File Offset: 0x0019D7D0
 		private int DisplayPriority(ConceptDef conc)
 		{
 			int num = 1;
@@ -237,13 +237,13 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06002FE4 RID: 12260 RVA: 0x0019F21C File Offset: 0x0019D61C
+		// Token: 0x06002FDD RID: 12253 RVA: 0x0019F3FC File Offset: 0x0019D7FC
 		private bool MatchesSearchString(ConceptDef conc)
 		{
 			return this.searchString != "" && conc.label.IndexOf(this.searchString, StringComparison.OrdinalIgnoreCase) >= 0;
 		}
 
-		// Token: 0x06002FE5 RID: 12261 RVA: 0x0019F264 File Offset: 0x0019D664
+		// Token: 0x06002FDE RID: 12254 RVA: 0x0019F444 File Offset: 0x0019D844
 		private Rect DrawConceptListRow(float x, float y, float width, ConceptDef conc)
 		{
 			float knowledge = PlayerKnowledgeDatabase.GetKnowledge(conc);
@@ -295,7 +295,7 @@ namespace RimWorld
 			return rect;
 		}
 
-		// Token: 0x06002FE6 RID: 12262 RVA: 0x0019F3C0 File Offset: 0x0019D7C0
+		// Token: 0x06002FDF RID: 12255 RVA: 0x0019F5A0 File Offset: 0x0019D9A0
 		private Rect DrawInfoPane(ConceptDef conc)
 		{
 			float knowledge = PlayerKnowledgeDatabase.GetKnowledge(conc);
@@ -369,49 +369,49 @@ namespace RimWorld
 			return outRect2;
 		}
 
-		// Token: 0x040019DA RID: 6618
+		// Token: 0x040019D8 RID: 6616
 		private List<ConceptDef> activeConcepts = new List<ConceptDef>();
 
-		// Token: 0x040019DB RID: 6619
+		// Token: 0x040019D9 RID: 6617
 		private ConceptDef selectedConcept = null;
 
-		// Token: 0x040019DC RID: 6620
+		// Token: 0x040019DA RID: 6618
 		private bool showAllMode = false;
 
-		// Token: 0x040019DD RID: 6621
+		// Token: 0x040019DB RID: 6619
 		private float contentHeight = 0f;
 
-		// Token: 0x040019DE RID: 6622
+		// Token: 0x040019DC RID: 6620
 		private Vector2 scrollPosition = Vector2.zero;
 
-		// Token: 0x040019DF RID: 6623
+		// Token: 0x040019DD RID: 6621
 		private string searchString = "";
 
-		// Token: 0x040019E0 RID: 6624
+		// Token: 0x040019DE RID: 6622
 		private float lastConceptActivateRealTime = -999f;
 
-		// Token: 0x040019E1 RID: 6625
+		// Token: 0x040019DF RID: 6623
 		private ConceptDef mouseoverConcept;
 
-		// Token: 0x040019E2 RID: 6626
+		// Token: 0x040019E0 RID: 6624
 		private const float OuterMargin = 8f;
 
-		// Token: 0x040019E3 RID: 6627
+		// Token: 0x040019E1 RID: 6625
 		private const float InnerMargin = 7f;
 
-		// Token: 0x040019E4 RID: 6628
+		// Token: 0x040019E2 RID: 6626
 		private const float ReadoutWidth = 200f;
 
-		// Token: 0x040019E5 RID: 6629
+		// Token: 0x040019E3 RID: 6627
 		private const float InfoPaneWidth = 310f;
 
-		// Token: 0x040019E6 RID: 6630
+		// Token: 0x040019E4 RID: 6628
 		private const float OpenButtonSize = 24f;
 
-		// Token: 0x040019E7 RID: 6631
+		// Token: 0x040019E5 RID: 6629
 		public static readonly Texture2D ProgressBarFillTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.745098054f, 0.6039216f, 0.2f));
 
-		// Token: 0x040019E8 RID: 6632
+		// Token: 0x040019E6 RID: 6630
 		public static readonly Texture2D ProgressBarBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.509803951f, 0.407843143f, 0.13333334f));
 	}
 }

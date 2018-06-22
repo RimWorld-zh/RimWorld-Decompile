@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C3D RID: 3133
+	// Token: 0x02000C3A RID: 3130
 	public class LayerSubMesh
 	{
-		// Token: 0x06004503 RID: 17667 RVA: 0x00244648 File Offset: 0x00242A48
+		// Token: 0x0600450C RID: 17676 RVA: 0x00245A18 File Offset: 0x00243E18
 		public LayerSubMesh(Mesh mesh, Material material)
 		{
 			this.mesh = mesh;
 			this.material = material;
 		}
 
-		// Token: 0x06004504 RID: 17668 RVA: 0x002446A4 File Offset: 0x00242AA4
+		// Token: 0x0600450D RID: 17677 RVA: 0x00245A74 File Offset: 0x00243E74
 		public void Clear(MeshParts parts)
 		{
 			if ((byte)(parts & MeshParts.Verts) != 0)
@@ -36,7 +36,7 @@ namespace Verse
 			this.finalized = false;
 		}
 
-		// Token: 0x06004505 RID: 17669 RVA: 0x0024470C File Offset: 0x00242B0C
+		// Token: 0x0600450E RID: 17678 RVA: 0x00245ADC File Offset: 0x00243EDC
 		public void FinalizeMesh(MeshParts parts)
 		{
 			if (this.finalized)
@@ -86,34 +86,34 @@ namespace Verse
 			this.finalized = true;
 		}
 
-		// Token: 0x06004506 RID: 17670 RVA: 0x00244854 File Offset: 0x00242C54
+		// Token: 0x0600450F RID: 17679 RVA: 0x00245C24 File Offset: 0x00244024
 		public override string ToString()
 		{
 			return "LayerSubMesh(" + this.material.ToString() + ")";
 		}
 
-		// Token: 0x04002F21 RID: 12065
+		// Token: 0x04002F2B RID: 12075
 		public bool finalized = false;
 
-		// Token: 0x04002F22 RID: 12066
+		// Token: 0x04002F2C RID: 12076
 		public bool disabled = false;
 
-		// Token: 0x04002F23 RID: 12067
+		// Token: 0x04002F2D RID: 12077
 		public Material material;
 
-		// Token: 0x04002F24 RID: 12068
+		// Token: 0x04002F2E RID: 12078
 		public Mesh mesh;
 
-		// Token: 0x04002F25 RID: 12069
+		// Token: 0x04002F2F RID: 12079
 		public List<Vector3> verts = new List<Vector3>();
 
-		// Token: 0x04002F26 RID: 12070
+		// Token: 0x04002F30 RID: 12080
 		public List<int> tris = new List<int>();
 
-		// Token: 0x04002F27 RID: 12071
+		// Token: 0x04002F31 RID: 12081
 		public List<Color32> colors = new List<Color32>();
 
-		// Token: 0x04002F28 RID: 12072
+		// Token: 0x04002F32 RID: 12082
 		public List<Vector3> uvs = new List<Vector3>();
 	}
 }

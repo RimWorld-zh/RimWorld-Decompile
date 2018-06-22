@@ -4,17 +4,17 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000AD6 RID: 2774
+	// Token: 0x02000AD2 RID: 2770
 	public class JobGiver_WanderHerd : JobGiver_Wander
 	{
-		// Token: 0x06003D89 RID: 15753 RVA: 0x00205DAD File Offset: 0x002041AD
+		// Token: 0x06003D84 RID: 15748 RVA: 0x002060D1 File Offset: 0x002044D1
 		public JobGiver_WanderHerd()
 		{
 			this.wanderRadius = 5f;
 			this.ticksBetweenWandersRange = new IntRange(125, 200);
 		}
 
-		// Token: 0x06003D8A RID: 15754 RVA: 0x00205DD4 File Offset: 0x002041D4
+		// Token: 0x06003D85 RID: 15749 RVA: 0x002060F8 File Offset: 0x002044F8
 		protected override IntVec3 GetWanderRoot(Pawn pawn)
 		{
 			Predicate<Thing> validator = delegate(Thing t)
@@ -68,7 +68,7 @@ namespace Verse.AI
 			return position;
 		}
 
-		// Token: 0x040026C5 RID: 9925
+		// Token: 0x040026C0 RID: 9920
 		private const int MinDistToHumanlike = 15;
 	}
 }

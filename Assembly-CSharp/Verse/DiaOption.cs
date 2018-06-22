@@ -5,22 +5,22 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000EC3 RID: 3779
+	// Token: 0x02000EC2 RID: 3778
 	public class DiaOption
 	{
-		// Token: 0x06005943 RID: 22851 RVA: 0x002DB6DC File Offset: 0x002D9ADC
+		// Token: 0x06005964 RID: 22884 RVA: 0x002DD328 File Offset: 0x002DB728
 		public DiaOption()
 		{
 			this.text = "OK".Translate();
 		}
 
-		// Token: 0x06005944 RID: 22852 RVA: 0x002DB73C File Offset: 0x002D9B3C
+		// Token: 0x06005965 RID: 22885 RVA: 0x002DD388 File Offset: 0x002DB788
 		public DiaOption(string text)
 		{
 			this.text = text;
 		}
 
-		// Token: 0x06005945 RID: 22853 RVA: 0x002DB794 File Offset: 0x002D9B94
+		// Token: 0x06005966 RID: 22886 RVA: 0x002DD3E0 File Offset: 0x002DB7E0
 		public DiaOption(DiaOptionMold def)
 		{
 			this.text = def.Text;
@@ -31,8 +31,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E0D RID: 3597
-		// (get) Token: 0x06005946 RID: 22854 RVA: 0x002DB808 File Offset: 0x002D9C08
+		// Token: 0x17000E10 RID: 3600
+		// (get) Token: 0x06005967 RID: 22887 RVA: 0x002DD454 File Offset: 0x002DB854
 		public static DiaOption DefaultOK
 		{
 			get
@@ -44,8 +44,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E0E RID: 3598
-		// (get) Token: 0x06005947 RID: 22855 RVA: 0x002DB838 File Offset: 0x002D9C38
+		// Token: 0x17000E11 RID: 3601
+		// (get) Token: 0x06005968 RID: 22888 RVA: 0x002DD484 File Offset: 0x002DB884
 		protected Dialog_NodeTree OwningDialog
 		{
 			get
@@ -54,14 +54,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005948 RID: 22856 RVA: 0x002DB858 File Offset: 0x002D9C58
+		// Token: 0x06005969 RID: 22889 RVA: 0x002DD4A4 File Offset: 0x002DB8A4
 		public void Disable(string newDisabledReason)
 		{
 			this.disabled = true;
 			this.disabledReason = newDisabledReason;
 		}
 
-		// Token: 0x06005949 RID: 22857 RVA: 0x002DB86C File Offset: 0x002D9C6C
+		// Token: 0x0600596A RID: 22890 RVA: 0x002DD4B8 File Offset: 0x002DB8B8
 		public float OptOnGUI(Rect rect, bool active = true)
 		{
 			Color textColor = Widgets.NormalOptionColor;
@@ -82,7 +82,7 @@ namespace Verse
 			return rect.height;
 		}
 
-		// Token: 0x0600594A RID: 22858 RVA: 0x002DB908 File Offset: 0x002D9D08
+		// Token: 0x0600596B RID: 22891 RVA: 0x002DD554 File Offset: 0x002DB954
 		protected void Activate()
 		{
 			if (this.clickSound != null && !this.resolveTree)
@@ -107,34 +107,34 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003B9B RID: 15259
+		// Token: 0x04003BAB RID: 15275
 		public Window dialog;
 
-		// Token: 0x04003B9C RID: 15260
+		// Token: 0x04003BAC RID: 15276
 		protected string text;
 
-		// Token: 0x04003B9D RID: 15261
+		// Token: 0x04003BAD RID: 15277
 		public DiaNode link;
 
-		// Token: 0x04003B9E RID: 15262
+		// Token: 0x04003BAE RID: 15278
 		public Func<DiaNode> linkLateBind;
 
-		// Token: 0x04003B9F RID: 15263
+		// Token: 0x04003BAF RID: 15279
 		public bool resolveTree = false;
 
-		// Token: 0x04003BA0 RID: 15264
+		// Token: 0x04003BB0 RID: 15280
 		public Action action;
 
-		// Token: 0x04003BA1 RID: 15265
+		// Token: 0x04003BB1 RID: 15281
 		public bool disabled = false;
 
-		// Token: 0x04003BA2 RID: 15266
+		// Token: 0x04003BB2 RID: 15282
 		public string disabledReason = null;
 
-		// Token: 0x04003BA3 RID: 15267
+		// Token: 0x04003BB3 RID: 15283
 		public SoundDef clickSound = SoundDefOf.PageChange;
 
-		// Token: 0x04003BA4 RID: 15268
+		// Token: 0x04003BB4 RID: 15284
 		protected readonly Color DisabledOptionColor = new Color(0.5f, 0.5f, 0.5f);
 	}
 }

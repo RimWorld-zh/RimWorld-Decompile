@@ -3,20 +3,20 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004B6 RID: 1206
+	// Token: 0x020004B2 RID: 1202
 	public class InteractionWorker_DeepTalk : InteractionWorker
 	{
-		// Token: 0x06001581 RID: 5505 RVA: 0x000BECA8 File Offset: 0x000BD0A8
+		// Token: 0x06001578 RID: 5496 RVA: 0x000BECA8 File Offset: 0x000BD0A8
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
 			float num = 0.075f;
 			return num * this.CompatibilityFactorCurve.Evaluate(initiator.relations.CompatibilityWith(recipient));
 		}
 
-		// Token: 0x04000CAF RID: 3247
+		// Token: 0x04000CAC RID: 3244
 		private const float BaseSelectionWeight = 0.075f;
 
-		// Token: 0x04000CB0 RID: 3248
+		// Token: 0x04000CAD RID: 3245
 		private SimpleCurve CompatibilityFactorCurve = new SimpleCurve
 		{
 			{

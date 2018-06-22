@@ -4,10 +4,10 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200047D RID: 1149
+	// Token: 0x02000479 RID: 1145
 	public class PawnComponentsUtility
 	{
-		// Token: 0x06001423 RID: 5155 RVA: 0x000AEE2C File Offset: 0x000AD22C
+		// Token: 0x0600141A RID: 5146 RVA: 0x000AEE44 File Offset: 0x000AD244
 		public static void CreateInitialComponents(Pawn pawn)
 		{
 			if (pawn.ageTracker == null)
@@ -94,7 +94,7 @@ namespace RimWorld
 			PawnComponentsUtility.AddAndRemoveDynamicComponents(pawn, false);
 		}
 
-		// Token: 0x06001424 RID: 5156 RVA: 0x000AF014 File Offset: 0x000AD414
+		// Token: 0x0600141B RID: 5147 RVA: 0x000AF02C File Offset: 0x000AD42C
 		public static void AddComponentsForSpawn(Pawn pawn)
 		{
 			if (pawn.rotationTracker == null)
@@ -142,7 +142,7 @@ namespace RimWorld
 			PawnComponentsUtility.AddAndRemoveDynamicComponents(pawn, true);
 		}
 
-		// Token: 0x06001425 RID: 5157 RVA: 0x000AF11D File Offset: 0x000AD51D
+		// Token: 0x0600141C RID: 5148 RVA: 0x000AF135 File Offset: 0x000AD535
 		public static void RemoveComponentsOnKilled(Pawn pawn)
 		{
 			pawn.carryTracker = null;
@@ -152,7 +152,7 @@ namespace RimWorld
 			pawn.trader = null;
 		}
 
-		// Token: 0x06001426 RID: 5158 RVA: 0x000AF144 File Offset: 0x000AD544
+		// Token: 0x0600141D RID: 5149 RVA: 0x000AF15C File Offset: 0x000AD55C
 		public static void RemoveComponentsOnDespawned(Pawn pawn)
 		{
 			pawn.rotationTracker = null;
@@ -167,7 +167,7 @@ namespace RimWorld
 			pawn.drafter = null;
 		}
 
-		// Token: 0x06001427 RID: 5159 RVA: 0x000AF198 File Offset: 0x000AD598
+		// Token: 0x0600141E RID: 5150 RVA: 0x000AF1B0 File Offset: 0x000AD5B0
 		public static void AddAndRemoveDynamicComponents(Pawn pawn, bool actAsIfSpawned = false)
 		{
 			bool flag = pawn.Faction != null && pawn.Faction.IsPlayer;
@@ -238,7 +238,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001428 RID: 5160 RVA: 0x000AF34C File Offset: 0x000AD74C
+		// Token: 0x0600141F RID: 5151 RVA: 0x000AF364 File Offset: 0x000AD764
 		public static bool HasSpawnedComponents(Pawn p)
 		{
 			return p.pather != null;

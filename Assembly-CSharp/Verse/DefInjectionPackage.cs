@@ -8,16 +8,16 @@ using System.Xml.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000BF1 RID: 3057
+	// Token: 0x02000BED RID: 3053
 	public class DefInjectionPackage
 	{
-		// Token: 0x0600429B RID: 17051 RVA: 0x00231760 File Offset: 0x0022FB60
+		// Token: 0x0600429D RID: 17053 RVA: 0x00232014 File Offset: 0x00230414
 		public DefInjectionPackage(Type defType)
 		{
 			this.defType = defType;
 		}
 
-		// Token: 0x0600429C RID: 17052 RVA: 0x002317C0 File Offset: 0x0022FBC0
+		// Token: 0x0600429E RID: 17054 RVA: 0x0023207C File Offset: 0x0023047C
 		private string ProcessedPath(string path)
 		{
 			string result;
@@ -32,13 +32,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600429D RID: 17053 RVA: 0x00231810 File Offset: 0x0022FC10
+		// Token: 0x0600429F RID: 17055 RVA: 0x002320CC File Offset: 0x002304CC
 		private string ProcessedTranslation(string rawTranslation)
 		{
 			return rawTranslation.Replace("\\n", "\n");
 		}
 
-		// Token: 0x0600429E RID: 17054 RVA: 0x00231838 File Offset: 0x0022FC38
+		// Token: 0x060042A0 RID: 17056 RVA: 0x002320F4 File Offset: 0x002304F4
 		public void AddDataFromFile(FileInfo file)
 		{
 			try
@@ -89,7 +89,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600429F RID: 17055 RVA: 0x00231A94 File Offset: 0x0022FE94
+		// Token: 0x060042A1 RID: 17057 RVA: 0x00232350 File Offset: 0x00230750
 		private void TryAddInjection(FileInfo file, string key, string translation)
 		{
 			string text = key;
@@ -105,7 +105,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042A0 RID: 17056 RVA: 0x00231B00 File Offset: 0x0022FF00
+		// Token: 0x060042A2 RID: 17058 RVA: 0x002323BC File Offset: 0x002307BC
 		private void TryAddFullListInjection(FileInfo file, string key, List<string> translation)
 		{
 			string text = key;
@@ -125,7 +125,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042A1 RID: 17057 RVA: 0x00231B78 File Offset: 0x0022FF78
+		// Token: 0x060042A3 RID: 17059 RVA: 0x00232434 File Offset: 0x00230834
 		private string BackCompatibleKey(string key)
 		{
 			string[] array = key.Split(new char[]
@@ -136,7 +136,7 @@ namespace Verse
 			return string.Join(".", array);
 		}
 
-		// Token: 0x060042A2 RID: 17058 RVA: 0x00231BBC File Offset: 0x0022FFBC
+		// Token: 0x060042A4 RID: 17060 RVA: 0x00232478 File Offset: 0x00230878
 		private bool CheckErrors(FileInfo file, string key, string nonBackCompatibleKey, bool replacingFullList)
 		{
 			bool result;
@@ -228,7 +228,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060042A3 RID: 17059 RVA: 0x00231EA4 File Offset: 0x002302A4
+		// Token: 0x060042A5 RID: 17061 RVA: 0x00232760 File Offset: 0x00230B60
 		public void InjectIntoDefs(bool errorOnDefNotFound)
 		{
 			foreach (KeyValuePair<string, string> keyValuePair in this.injections)
@@ -242,9 +242,10 @@ namespace Verse
 			GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), this.defType, "ClearCachedData");
 		}
 
-		// Token: 0x060042A4 RID: 17060 RVA: 0x00231FD0 File Offset: 0x002303D0
+		// Token: 0x060042A6 RID: 17062 RVA: 0x0023288C File Offset: 0x00230C8C
 		private void SetDefFieldAtPath(Type defType, string path, object value, Type ensureFieldType, bool errorOnDefNotFound, string fileSource)
 		{
+			int num = 0;
 			string text = path.Split(new char[]
 			{
 				'.'
@@ -270,8 +271,9 @@ namespace Verse
 			}
 			else
 			{
-				path = BackCompatibility.BackCompatibleModifiedTranslationPath(defType, path);
+				path = BackCompatibility.BackCompatibleModifiedTranslationPath(defType, path, this.loadSyntaxSuggestions);
 				bool flag = false;
+				string text2 = path;
 				try
 				{
 					List<string> list = path.Split(new char[]
@@ -287,68 +289,64 @@ namespace Verse
 						throw new InvalidOperationException("Def named " + list[0] + " not found.");
 					}
 					list.RemoveAt(0);
-					DefInjectionPathPartKind defInjectionPathPartKind;
-					string text2;
-					int num;
+					num++;
+					string text3;
 					int num2;
+					DefInjectionPathPartKind defInjectionPathPartKind;
 					FieldInfo field;
 					int num3;
+					int num4;
 					for (;;)
 					{
-						defInjectionPathPartKind = DefInjectionPathPartKind.Field;
-						text2 = list[0];
-						num = -1;
-						if (text2.Contains('['))
-						{
-							defInjectionPathPartKind = DefInjectionPathPartKind.FieldWithListIndex;
-							string[] array = text2.Split(new char[]
-							{
-								'['
-							});
-							string text3 = array[1];
-							text3 = text3.Substring(0, text3.Length - 1);
-							num = (int)ParseHelper.FromString(text3, typeof(int));
-							text2 = array[0];
-						}
-						else if (int.TryParse(text2, out num))
+						text3 = list[0];
+						num2 = -1;
+						if (int.TryParse(text3, out num2))
 						{
 							defInjectionPathPartKind = DefInjectionPathPartKind.ListIndex;
+						}
+						else if (this.GetFieldNamed(obj.GetType(), text3) != null)
+						{
+							defInjectionPathPartKind = DefInjectionPathPartKind.Field;
+						}
+						else if (obj.GetType().GetProperty("Count") != null)
+						{
+							if (text3.Contains('-'))
+							{
+								defInjectionPathPartKind = DefInjectionPathPartKind.ListHandleWithIndex;
+								string[] array = text3.Split(new char[]
+								{
+									'-'
+								});
+								text3 = array[0];
+								num2 = (int)ParseHelper.FromString(array[1], typeof(int));
+							}
+							else
+							{
+								defInjectionPathPartKind = DefInjectionPathPartKind.ListHandle;
+							}
+						}
+						else
+						{
+							defInjectionPathPartKind = DefInjectionPathPartKind.Field;
 						}
 						if (list.Count == 1)
 						{
 							break;
 						}
-						if (defInjectionPathPartKind == DefInjectionPathPartKind.ListIndex)
+						if (defInjectionPathPartKind == DefInjectionPathPartKind.Field)
 						{
-							PropertyInfo property = obj.GetType().GetProperty("Item");
-							if (property == null)
-							{
-								goto Block_28;
-							}
-							num2 = (int)obj.GetType().GetProperty("Count").GetValue(obj, null);
-							if (num < 0 || num >= num2)
-							{
-								goto IL_6EE;
-							}
-							obj = property.GetValue(obj, new object[]
-							{
-								num
-							});
-						}
-						else
-						{
-							field = obj.GetType().GetField(text2, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+							field = obj.GetType().GetField(text3, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
 							if (field == null)
-							{
-								goto Block_30;
-							}
-							if (field.HasAttribute<NoTranslateAttribute>())
 							{
 								goto Block_31;
 							}
-							if (field.HasAttribute<UnsavedAttribute>())
+							if (field.HasAttribute<NoTranslateAttribute>())
 							{
 								goto Block_32;
+							}
+							if (field.HasAttribute<UnsavedAttribute>())
+							{
+								goto Block_33;
 							}
 							if (field.HasAttribute<TranslationCanChangeCountAttribute>())
 							{
@@ -361,33 +359,90 @@ namespace Verse
 							else
 							{
 								object value2 = field.GetValue(obj);
-								PropertyInfo property2 = value2.GetType().GetProperty("Item");
-								if (property2 == null)
+								PropertyInfo property = value2.GetType().GetProperty("Item");
+								if (property == null)
 								{
-									goto Block_35;
+									goto Block_36;
 								}
 								num3 = (int)value2.GetType().GetProperty("Count").GetValue(value2, null);
-								if (num < 0 || num >= num3)
+								if (num2 < 0 || num2 >= num3)
 								{
-									goto IL_891;
+									goto IL_8C6;
 								}
-								obj = property2.GetValue(value2, new object[]
+								obj = property.GetValue(value2, new object[]
 								{
-									num
+									num2
 								});
 							}
 						}
+						else if (defInjectionPathPartKind == DefInjectionPathPartKind.ListIndex || defInjectionPathPartKind == DefInjectionPathPartKind.ListHandle || defInjectionPathPartKind == DefInjectionPathPartKind.ListHandleWithIndex)
+						{
+							object obj2 = obj;
+							PropertyInfo property2 = obj2.GetType().GetProperty("Item");
+							if (property2 == null)
+							{
+								goto Block_40;
+							}
+							bool flag2;
+							if (defInjectionPathPartKind == DefInjectionPathPartKind.ListHandle || defInjectionPathPartKind == DefInjectionPathPartKind.ListHandleWithIndex)
+							{
+								num2 = TranslationHandleUtility.GetElementIndexByHandle(obj2, text3, num2);
+								flag2 = true;
+							}
+							else
+							{
+								flag2 = false;
+							}
+							num4 = (int)obj2.GetType().GetProperty("Count").GetValue(obj2, null);
+							if (num2 < 0 || num2 >= num4)
+							{
+								goto IL_9A6;
+							}
+							obj = property2.GetValue(obj2, new object[]
+							{
+								num2
+							});
+							if (!flag2)
+							{
+								string bestHandleWithIndexForListElement = TranslationHandleUtility.GetBestHandleWithIndexForListElement(obj2, obj);
+								if (!bestHandleWithIndexForListElement.NullOrEmpty())
+								{
+									string[] array2 = text2.Split(new char[]
+									{
+										'.'
+									});
+									array2[num] = bestHandleWithIndexForListElement;
+									text2 = string.Join(".", array2);
+								}
+							}
+						}
+						else
+						{
+							this.loadErrors.Add(string.Concat(new object[]
+							{
+								"Can't enter node ",
+								text3,
+								" at path ",
+								path,
+								", element kind is ",
+								defInjectionPathPartKind,
+								". (",
+								fileSource,
+								")"
+							}));
+						}
 						list.RemoveAt(0);
+						num++;
 					}
 					if (defInjectionPathPartKind == DefInjectionPathPartKind.Field)
 					{
-						FieldInfo fieldNamed = this.GetFieldNamed(obj.GetType(), text2);
+						FieldInfo fieldNamed = this.GetFieldNamed(obj.GetType(), text3);
 						if (fieldNamed == null)
 						{
 							throw new InvalidOperationException(string.Concat(new object[]
 							{
 								"Field ",
-								text2,
+								text3,
 								" does not exist in type ",
 								obj.GetType(),
 								"."
@@ -462,38 +517,25 @@ namespace Verse
 							fieldNamed.SetValue(obj, value);
 						}
 					}
-					else
+					else if (defInjectionPathPartKind == DefInjectionPathPartKind.ListIndex || defInjectionPathPartKind == DefInjectionPathPartKind.ListHandle || defInjectionPathPartKind == DefInjectionPathPartKind.ListHandleWithIndex)
 					{
-						object obj2;
-						if (defInjectionPathPartKind == DefInjectionPathPartKind.FieldWithListIndex)
-						{
-							FieldInfo field2 = obj.GetType().GetField(text2, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-							if (field2 == null)
-							{
-								throw new InvalidOperationException("Field " + text2 + " does not exist.");
-							}
-							obj2 = field2.GetValue(obj);
-							if (field2.HasAttribute<TranslationCanChangeCountAttribute>())
-							{
-								flag = true;
-							}
-						}
-						else
-						{
-							obj2 = obj;
-						}
-						if (obj2 == null)
+						object obj3 = obj;
+						if (obj3 == null)
 						{
 							throw new InvalidOperationException("Tried to use index on null list at " + path);
 						}
-						Type type = obj2.GetType();
+						Type type = obj3.GetType();
 						PropertyInfo property3 = type.GetProperty("Count");
 						if (property3 == null)
 						{
 							throw new InvalidOperationException("Tried to use index on non-list (missing 'Count' property).");
 						}
-						int num4 = (int)property3.GetValue(obj2, null);
-						if (num >= num4)
+						if (defInjectionPathPartKind == DefInjectionPathPartKind.ListHandle || defInjectionPathPartKind == DefInjectionPathPartKind.ListHandleWithIndex)
+						{
+							num2 = TranslationHandleUtility.GetElementIndexByHandle(obj3, text3, num2);
+						}
+						int num5 = (int)property3.GetValue(obj3, null);
+						if (num2 >= num5)
 						{
 							throw new InvalidOperationException(string.Concat(new object[]
 							{
@@ -502,11 +544,11 @@ namespace Verse
 								".",
 								path,
 								" at index ",
-								num,
+								num2,
 								" but the list only has ",
-								num4,
+								num5,
 								" entries (so max index is ",
-								(num4 - 1).ToString(),
+								(num5 - 1).ToString(),
 								")."
 							}));
 						}
@@ -546,26 +588,50 @@ namespace Verse
 								")"
 							}));
 						}
-						else if (num < 0 || num >= (int)type.GetProperty("Count").GetValue(obj2, null))
+						else if (num2 < 0 || num2 >= (int)type.GetProperty("Count").GetValue(obj3, null))
 						{
-							this.loadErrors.Add("Index out of bounds (max index is " + ((int)type.GetProperty("Count").GetValue(obj2, null) - 1) + ")");
+							this.loadErrors.Add("Index out of bounds (max index is " + ((int)type.GetProperty("Count").GetValue(obj3, null) - 1) + ")");
 						}
 						else
 						{
-							property4.SetValue(obj2, value, new object[]
+							property4.SetValue(obj3, value, new object[]
 							{
-								num
+								num2
 							});
 						}
 					}
+					else
+					{
+						this.loadErrors.Add(string.Concat(new object[]
+						{
+							"Translated ",
+							text3,
+							" at path ",
+							path,
+							" but it's not a field, it's ",
+							defInjectionPathPartKind,
+							". (",
+							fileSource,
+							")"
+						}));
+					}
+					if (path != text2)
+					{
+						this.loadSyntaxSuggestions.Add(string.Concat(new string[]
+						{
+							"Consider using ",
+							text2,
+							" instead of ",
+							path,
+							" (",
+							fileSource,
+							")"
+						}));
+					}
 					return;
-					Block_28:
-					throw new InvalidOperationException("Tried to use index on non-list (missing 'Item' property).");
-					IL_6EE:
-					throw new InvalidOperationException("Index out of bounds (max index is " + (num2 - 1) + ")");
-					Block_30:
-					throw new InvalidOperationException("Field " + text2 + " does not exist.");
 					Block_31:
+					throw new InvalidOperationException("Field " + text3 + " does not exist.");
+					Block_32:
 					throw new InvalidOperationException(string.Concat(new object[]
 					{
 						"Translated untranslatable field ",
@@ -576,7 +642,7 @@ namespace Verse
 						path,
 						". Translating this field will break the game."
 					}));
-					Block_32:
+					Block_33:
 					throw new InvalidOperationException(string.Concat(new object[]
 					{
 						"Translated untranslatable field ([Unsaved] attribute) ",
@@ -587,10 +653,14 @@ namespace Verse
 						path,
 						". Translating this field will break the game."
 					}));
-					Block_35:
+					Block_36:
 					throw new InvalidOperationException("Tried to use index on non-list (missing 'Item' property).");
-					IL_891:
+					IL_8C6:
 					throw new InvalidOperationException("Index out of bounds (max index is " + (num3 - 1) + ")");
+					Block_40:
+					throw new InvalidOperationException("Tried to use index on non-list (missing 'Item' property).");
+					IL_9A6:
+					throw new InvalidOperationException("Index out of bounds (max index is " + (num4 - 1) + ")");
 				}
 				catch (Exception ex)
 				{
@@ -614,7 +684,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042A5 RID: 17061 RVA: 0x00232954 File Offset: 0x00230D54
+		// Token: 0x060042A7 RID: 17063 RVA: 0x002333D0 File Offset: 0x002317D0
 		private FieldInfo GetFieldNamed(Type type, string name)
 		{
 			FieldInfo field = type.GetField(name, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
@@ -639,7 +709,7 @@ namespace Verse
 			return field;
 		}
 
-		// Token: 0x060042A6 RID: 17062 RVA: 0x00232A04 File Offset: 0x00230E04
+		// Token: 0x060042A8 RID: 17064 RVA: 0x00233480 File Offset: 0x00231880
 		public IEnumerable<string> MissingInjections(List<string> outUnnecessaryDefInjections)
 		{
 			Type databaseType = typeof(DefDatabase<>).MakeGenericType(new Type[]
@@ -673,7 +743,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060042A7 RID: 17063 RVA: 0x00232A38 File Offset: 0x00230E38
+		// Token: 0x060042A9 RID: 17065 RVA: 0x002334B4 File Offset: 0x002318B4
 		private IEnumerable<string> MissingInjectionsFromDef(Def def, List<string> outUnnecessaryDefInjections)
 		{
 			HashSet<object> visited = new HashSet<object>();
@@ -684,7 +754,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060042A8 RID: 17064 RVA: 0x00232A70 File Offset: 0x00230E70
+		// Token: 0x060042AA RID: 17066 RVA: 0x002334EC File Offset: 0x002318EC
 		private IEnumerable<string> MissingInjectionsFromDefRecursive(object obj, string curPath, HashSet<object> visited, List<string> outUnnecessaryDefInjections, bool translationAllowed, bool defGenerated)
 		{
 			if (obj == null)
@@ -777,13 +847,18 @@ namespace Verse
 								object elem2 = enumerator2.Current;
 								if (elem2 != null && !(elem2 is Def) && GenTypes.IsCustomType(elem2.GetType()))
 								{
-									foreach (string missing in this.MissingInjectionsFromDefRecursive(elem2, string.Concat(new object[]
+									string handleOrIndex = TranslationHandleUtility.GetBestHandleWithIndexForListElement(collection2, elem2);
+									if (handleOrIndex.NullOrEmpty())
+									{
+										handleOrIndex = j.ToString();
+									}
+									foreach (string missing in this.MissingInjectionsFromDefRecursive(elem2, string.Concat(new string[]
 									{
 										curPath,
 										".",
 										fi.Name,
 										".",
-										j
+										handleOrIndex
 									}), visited, outUnnecessaryDefInjections, thisFieldTranslationAllowed, defGenerated))
 									{
 										yield return missing;
@@ -813,40 +888,43 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060042A9 RID: 17065 RVA: 0x00232AC8 File Offset: 0x00230EC8
+		// Token: 0x060042AB RID: 17067 RVA: 0x00233544 File Offset: 0x00231944
 		private static bool ShouldCheckMissingInjection(string str, FieldInfo fi)
 		{
-			return !str.NullOrEmpty() && (fi.HasAttribute<MustTranslateAttribute>() || str.Contains(' '));
+			return !str.NullOrEmpty() && !fi.HasAttribute<NoTranslateAttribute>() && !fi.HasAttribute<UnsavedAttribute>() && !fi.HasAttribute<MayTranslateAttribute>() && (fi.HasAttribute<MustTranslateAttribute>() || str.Contains(' '));
 		}
 
-		// Token: 0x04002D89 RID: 11657
+		// Token: 0x04002D90 RID: 11664
 		public Type defType;
 
-		// Token: 0x04002D8A RID: 11658
+		// Token: 0x04002D91 RID: 11665
 		private Dictionary<string, string> injections = new Dictionary<string, string>();
 
-		// Token: 0x04002D8B RID: 11659
+		// Token: 0x04002D92 RID: 11666
 		private Dictionary<string, List<string>> fullListInjections = new Dictionary<string, List<string>>();
 
-		// Token: 0x04002D8C RID: 11660
+		// Token: 0x04002D93 RID: 11667
 		private Dictionary<string, string> injectionsFileSource = new Dictionary<string, string>();
 
-		// Token: 0x04002D8D RID: 11661
+		// Token: 0x04002D94 RID: 11668
 		private Dictionary<string, string> fullListInjectionsFileSource = new Dictionary<string, string>();
 
-		// Token: 0x04002D8E RID: 11662
+		// Token: 0x04002D95 RID: 11669
 		public List<Pair<string, string>> autoFixedBackCompatKeys = new List<Pair<string, string>>();
 
-		// Token: 0x04002D8F RID: 11663
+		// Token: 0x04002D96 RID: 11670
 		public List<string> loadErrors = new List<string>();
 
-		// Token: 0x04002D90 RID: 11664
+		// Token: 0x04002D97 RID: 11671
+		public List<string> loadSyntaxSuggestions = new List<string>();
+
+		// Token: 0x04002D98 RID: 11672
 		public bool usedOldRepSyntax;
 
-		// Token: 0x04002D91 RID: 11665
-		private const BindingFlags FieldBindingFlags = BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
+		// Token: 0x04002D99 RID: 11673
+		public const BindingFlags FieldBindingFlags = BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
 
-		// Token: 0x04002D92 RID: 11666
+		// Token: 0x04002D9A RID: 11674
 		public const string RepNodeName = "rep";
 	}
 }

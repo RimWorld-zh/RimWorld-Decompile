@@ -5,10 +5,10 @@ using Verse.Grammar;
 
 namespace RimWorld
 {
-	// Token: 0x0200065D RID: 1629
+	// Token: 0x02000659 RID: 1625
 	public class TaleData_Def : TaleData
 	{
-		// Token: 0x060021FF RID: 8703 RVA: 0x00120168 File Offset: 0x0011E568
+		// Token: 0x060021F7 RID: 8695 RVA: 0x00120268 File Offset: 0x0011E668
 		public override void ExposeData()
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002200 RID: 8704 RVA: 0x0012021C File Offset: 0x0011E61C
+		// Token: 0x060021F8 RID: 8696 RVA: 0x0012031C File Offset: 0x0011E71C
 		public override IEnumerable<Rule> GetRules(string prefix)
 		{
 			if (this.def != null)
@@ -36,7 +36,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002201 RID: 8705 RVA: 0x00120250 File Offset: 0x0011E650
+		// Token: 0x060021F9 RID: 8697 RVA: 0x00120350 File Offset: 0x0011E750
 		public static TaleData_Def GenerateFrom(Def def)
 		{
 			return new TaleData_Def
@@ -45,13 +45,13 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x04001348 RID: 4936
+		// Token: 0x04001345 RID: 4933
 		public Def def;
 
-		// Token: 0x04001349 RID: 4937
+		// Token: 0x04001346 RID: 4934
 		private string tmpDefName;
 
-		// Token: 0x0400134A RID: 4938
+		// Token: 0x04001347 RID: 4935
 		private Type tmpDefType;
 	}
 }

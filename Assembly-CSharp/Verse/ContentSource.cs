@@ -2,14 +2,14 @@
 
 namespace Verse
 {
-	// Token: 0x02000ED6 RID: 3798
+	// Token: 0x02000ED5 RID: 3797
 	public enum ContentSource
 	{
-		// Token: 0x04003C55 RID: 15445
+		// Token: 0x04003C65 RID: 15461
 		Undefined,
-		// Token: 0x04003C56 RID: 15446
+		// Token: 0x04003C66 RID: 15462
 		LocalFolder,
-		// Token: 0x04003C57 RID: 15447
+		// Token: 0x04003C67 RID: 15463
 		SteamWorkshop
 	}
 }

@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005E0 RID: 1504
+	// Token: 0x020005DC RID: 1500
 	public static class CaravanInventoryUtility
 	{
-		// Token: 0x06001DA1 RID: 7585 RVA: 0x000FF3BC File Offset: 0x000FD7BC
+		// Token: 0x06001D98 RID: 7576 RVA: 0x000FF410 File Offset: 0x000FD810
 		public static List<Thing> AllInventoryItems(Caravan caravan)
 		{
 			CaravanInventoryUtility.inventoryItems.Clear();
@@ -25,13 +25,13 @@ namespace RimWorld.Planet
 			return CaravanInventoryUtility.inventoryItems;
 		}
 
-		// Token: 0x06001DA2 RID: 7586 RVA: 0x000FF44C File Offset: 0x000FD84C
+		// Token: 0x06001D99 RID: 7577 RVA: 0x000FF4A0 File Offset: 0x000FD8A0
 		public static void CaravanInventoryUtilityStaticUpdate()
 		{
 			CaravanInventoryUtility.inventoryItems.Clear();
 		}
 
-		// Token: 0x06001DA3 RID: 7587 RVA: 0x000FF45C File Offset: 0x000FD85C
+		// Token: 0x06001D9A RID: 7578 RVA: 0x000FF4B0 File Offset: 0x000FD8B0
 		public static Pawn GetOwnerOf(Caravan caravan, Thing item)
 		{
 			IThingHolder parentHolder = item.ParentHolder;
@@ -46,7 +46,7 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		// Token: 0x06001DA4 RID: 7588 RVA: 0x000FF4A8 File Offset: 0x000FD8A8
+		// Token: 0x06001D9B RID: 7579 RVA: 0x000FF4FC File Offset: 0x000FD8FC
 		public static bool TryGetBestFood(Caravan caravan, Pawn forPawn, out Thing food, out Pawn owner)
 		{
 			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(caravan);
@@ -81,7 +81,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DA5 RID: 7589 RVA: 0x000FF548 File Offset: 0x000FD948
+		// Token: 0x06001D9C RID: 7580 RVA: 0x000FF59C File Offset: 0x000FD99C
 		public static bool TryGetBestDrug(Caravan caravan, Pawn forPawn, Need_Chemical chemical, out Thing drug, out Pawn owner)
 		{
 			Hediff_Addiction addictionHediff = chemical.AddictionHediff;
@@ -131,7 +131,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DA6 RID: 7590 RVA: 0x000FF698 File Offset: 0x000FDA98
+		// Token: 0x06001D9D RID: 7581 RVA: 0x000FF6EC File Offset: 0x000FDAEC
 		public static bool TryGetBestMedicine(Caravan caravan, Pawn patient, out Medicine medicine, out Pawn owner)
 		{
 			bool result;
@@ -178,7 +178,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DA7 RID: 7591 RVA: 0x000FF790 File Offset: 0x000FDB90
+		// Token: 0x06001D9E RID: 7582 RVA: 0x000FF7E4 File Offset: 0x000FDBE4
 		public static bool TryGetThingOfDef(Caravan caravan, ThingDef thingDef, out Thing thing, out Pawn owner)
 		{
 			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(caravan);
@@ -197,7 +197,7 @@ namespace RimWorld.Planet
 			return false;
 		}
 
-		// Token: 0x06001DA8 RID: 7592 RVA: 0x000FF7F4 File Offset: 0x000FDBF4
+		// Token: 0x06001D9F RID: 7583 RVA: 0x000FF848 File Offset: 0x000FDC48
 		public static void MoveAllInventoryToSomeoneElse(Pawn from, List<Pawn> candidates, List<Pawn> ignoreCandidates = null)
 		{
 			CaravanInventoryUtility.inventoryToMove.Clear();
@@ -209,7 +209,7 @@ namespace RimWorld.Planet
 			CaravanInventoryUtility.inventoryToMove.Clear();
 		}
 
-		// Token: 0x06001DA9 RID: 7593 RVA: 0x000FF86C File Offset: 0x000FDC6C
+		// Token: 0x06001DA0 RID: 7584 RVA: 0x000FF8C0 File Offset: 0x000FDCC0
 		public static void MoveInventoryToSomeoneElse(Pawn itemOwner, Thing item, List<Pawn> candidates, List<Pawn> ignoreCandidates, int numToMove)
 		{
 			if (numToMove < 0 || numToMove > item.stackCount)
@@ -235,7 +235,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DAA RID: 7594 RVA: 0x000FF918 File Offset: 0x000FDD18
+		// Token: 0x06001DA1 RID: 7585 RVA: 0x000FF96C File Offset: 0x000FDD6C
 		public static Pawn FindPawnToMoveInventoryTo(Thing item, List<Pawn> candidates, List<Pawn> ignoreCandidates, Pawn currentItemOwner = null)
 		{
 			Pawn result;
@@ -270,7 +270,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DAB RID: 7595 RVA: 0x000FF9D4 File Offset: 0x000FDDD4
+		// Token: 0x06001DA2 RID: 7586 RVA: 0x000FFA28 File Offset: 0x000FDE28
 		public static void MoveAllApparelToSomeonesInventory(Pawn moveFrom, List<Pawn> candidates)
 		{
 			if (moveFrom.apparel != null)
@@ -290,7 +290,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DAC RID: 7596 RVA: 0x000FFA88 File Offset: 0x000FDE88
+		// Token: 0x06001DA3 RID: 7587 RVA: 0x000FFADC File Offset: 0x000FDEDC
 		public static void MoveAllEquipmentToSomeonesInventory(Pawn moveFrom, List<Pawn> candidates)
 		{
 			if (moveFrom.equipment != null)
@@ -310,13 +310,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DAD RID: 7597 RVA: 0x000FFB3C File Offset: 0x000FDF3C
+		// Token: 0x06001DA4 RID: 7588 RVA: 0x000FFB90 File Offset: 0x000FDF90
 		private static bool CanMoveInventoryTo(Pawn pawn)
 		{
 			return MassUtility.CanEverCarryAnything(pawn);
 		}
 
-		// Token: 0x06001DAE RID: 7598 RVA: 0x000FFB58 File Offset: 0x000FDF58
+		// Token: 0x06001DA5 RID: 7589 RVA: 0x000FFBAC File Offset: 0x000FDFAC
 		public static List<Thing> TakeThings(Caravan caravan, Func<Thing, int> takeQuantity)
 		{
 			List<Thing> list = new List<Thing>();
@@ -331,7 +331,7 @@ namespace RimWorld.Planet
 			return list;
 		}
 
-		// Token: 0x06001DAF RID: 7599 RVA: 0x000FFBE8 File Offset: 0x000FDFE8
+		// Token: 0x06001DA6 RID: 7590 RVA: 0x000FFC3C File Offset: 0x000FE03C
 		public static void GiveThing(Caravan caravan, Thing thing)
 		{
 			if (CaravanInventoryUtility.AllInventoryItems(caravan).Contains(thing))
@@ -361,7 +361,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DB0 RID: 7600 RVA: 0x000FFCA8 File Offset: 0x000FE0A8
+		// Token: 0x06001DA7 RID: 7591 RVA: 0x000FFCFC File Offset: 0x000FE0FC
 		public static bool HasThings(Caravan caravan, ThingDef thingDef, int count, Func<Thing, bool> validator = null)
 		{
 			int num = 0;
@@ -377,16 +377,16 @@ namespace RimWorld.Planet
 			return num >= count;
 		}
 
-		// Token: 0x04001196 RID: 4502
+		// Token: 0x04001193 RID: 4499
 		private static List<Thing> inventoryItems = new List<Thing>();
 
-		// Token: 0x04001197 RID: 4503
+		// Token: 0x04001194 RID: 4500
 		private static List<Thing> inventoryToMove = new List<Thing>();
 
-		// Token: 0x04001198 RID: 4504
+		// Token: 0x04001195 RID: 4501
 		private static List<Apparel> tmpApparel = new List<Apparel>();
 
-		// Token: 0x04001199 RID: 4505
+		// Token: 0x04001196 RID: 4502
 		private static List<ThingWithComps> tmpEquipment = new List<ThingWithComps>();
 	}
 }

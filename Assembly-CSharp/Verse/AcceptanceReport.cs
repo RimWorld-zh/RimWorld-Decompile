@@ -2,18 +2,18 @@
 
 namespace Verse
 {
-	// Token: 0x02000EE0 RID: 3808
+	// Token: 0x02000EDF RID: 3807
 	public struct AcceptanceReport
 	{
-		// Token: 0x06005A06 RID: 23046 RVA: 0x002E275B File Offset: 0x002E0B5B
+		// Token: 0x06005A27 RID: 23079 RVA: 0x002E456F File Offset: 0x002E296F
 		public AcceptanceReport(string reasonText)
 		{
 			this.acceptedInt = false;
 			this.reasonTextInt = reasonText;
 		}
 
-		// Token: 0x17000E27 RID: 3623
-		// (get) Token: 0x06005A07 RID: 23047 RVA: 0x002E276C File Offset: 0x002E0B6C
+		// Token: 0x17000E2A RID: 3626
+		// (get) Token: 0x06005A28 RID: 23080 RVA: 0x002E4580 File Offset: 0x002E2980
 		public string Reason
 		{
 			get
@@ -22,8 +22,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E28 RID: 3624
-		// (get) Token: 0x06005A08 RID: 23048 RVA: 0x002E2788 File Offset: 0x002E0B88
+		// Token: 0x17000E2B RID: 3627
+		// (get) Token: 0x06005A29 RID: 23081 RVA: 0x002E459C File Offset: 0x002E299C
 		public bool Accepted
 		{
 			get
@@ -32,8 +32,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E29 RID: 3625
-		// (get) Token: 0x06005A09 RID: 23049 RVA: 0x002E27A4 File Offset: 0x002E0BA4
+		// Token: 0x17000E2C RID: 3628
+		// (get) Token: 0x06005A2A RID: 23082 RVA: 0x002E45B8 File Offset: 0x002E29B8
 		public static AcceptanceReport WasAccepted
 		{
 			get
@@ -45,8 +45,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E2A RID: 3626
-		// (get) Token: 0x06005A0A RID: 23050 RVA: 0x002E27D0 File Offset: 0x002E0BD0
+		// Token: 0x17000E2D RID: 3629
+		// (get) Token: 0x06005A2B RID: 23083 RVA: 0x002E45E4 File Offset: 0x002E29E4
 		public static AcceptanceReport WasRejected
 		{
 			get
@@ -58,7 +58,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005A0B RID: 23051 RVA: 0x002E27FC File Offset: 0x002E0BFC
+		// Token: 0x06005A2C RID: 23084 RVA: 0x002E4610 File Offset: 0x002E2A10
 		public static implicit operator AcceptanceReport(bool value)
 		{
 			AcceptanceReport result;
@@ -73,16 +73,16 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005A0C RID: 23052 RVA: 0x002E2828 File Offset: 0x002E0C28
+		// Token: 0x06005A2D RID: 23085 RVA: 0x002E463C File Offset: 0x002E2A3C
 		public static implicit operator AcceptanceReport(string value)
 		{
 			return new AcceptanceReport(value);
 		}
 
-		// Token: 0x04003C64 RID: 15460
+		// Token: 0x04003C74 RID: 15476
 		private string reasonTextInt;
 
-		// Token: 0x04003C65 RID: 15461
+		// Token: 0x04003C75 RID: 15477
 		private bool acceptedInt;
 	}
 }

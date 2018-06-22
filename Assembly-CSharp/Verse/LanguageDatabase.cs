@@ -8,11 +8,11 @@ using Verse.Steam;
 
 namespace Verse
 {
-	// Token: 0x02000BF3 RID: 3059
+	// Token: 0x02000BEF RID: 3055
 	public static class LanguageDatabase
 	{
-		// Token: 0x17000A7A RID: 2682
-		// (get) Token: 0x060042AC RID: 17068 RVA: 0x00233CF0 File Offset: 0x002320F0
+		// Token: 0x17000A7C RID: 2684
+		// (get) Token: 0x060042AE RID: 17070 RVA: 0x002347CC File Offset: 0x00232BCC
 		public static IEnumerable<LoadedLanguage> AllLoadedLanguages
 		{
 			get
@@ -21,7 +21,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042AD RID: 17069 RVA: 0x00233D0A File Offset: 0x0023210A
+		// Token: 0x060042AF RID: 17071 RVA: 0x002347E6 File Offset: 0x00232BE6
 		public static void SelectLanguage(LoadedLanguage lang)
 		{
 			Prefs.LangFolderName = lang.folderName;
@@ -32,14 +32,14 @@ namespace Verse
 			}, "LoadingLongEvent", true, null);
 		}
 
-		// Token: 0x060042AE RID: 17070 RVA: 0x00233D41 File Offset: 0x00232141
+		// Token: 0x060042B0 RID: 17072 RVA: 0x0023481D File Offset: 0x00232C1D
 		public static void Clear()
 		{
 			LanguageDatabase.languages.Clear();
 			LanguageDatabase.activeLanguage = null;
 		}
 
-		// Token: 0x060042AF RID: 17071 RVA: 0x00233D54 File Offset: 0x00232154
+		// Token: 0x060042B1 RID: 17073 RVA: 0x00234830 File Offset: 0x00232C30
 		public static void LoadAllMetadata()
 		{
 			foreach (ModContentPack modContentPack in LoadedModManager.RunningMods)
@@ -69,7 +69,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042B0 RID: 17072 RVA: 0x00233EE4 File Offset: 0x002322E4
+		// Token: 0x060042B2 RID: 17074 RVA: 0x002349C0 File Offset: 0x00232DC0
 		private static LoadedLanguage LoadLanguageMetadataFrom(DirectoryInfo langDir)
 		{
 			LoadedLanguage loadedLanguage = LanguageDatabase.languages.FirstOrDefault((LoadedLanguage lib) => lib.folderName == langDir.Name);
@@ -85,7 +85,7 @@ namespace Verse
 			return loadedLanguage;
 		}
 
-		// Token: 0x060042B1 RID: 17073 RVA: 0x00233F5C File Offset: 0x0023235C
+		// Token: 0x060042B3 RID: 17075 RVA: 0x00234A38 File Offset: 0x00232E38
 		public static string SystemLanguageFolderName()
 		{
 			if (SteamManager.Initialized)
@@ -109,19 +109,19 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04002D94 RID: 11668
+		// Token: 0x04002D9C RID: 11676
 		private static List<LoadedLanguage> languages = new List<LoadedLanguage>();
 
-		// Token: 0x04002D95 RID: 11669
+		// Token: 0x04002D9D RID: 11677
 		public static LoadedLanguage activeLanguage;
 
-		// Token: 0x04002D96 RID: 11670
+		// Token: 0x04002D9E RID: 11678
 		public static LoadedLanguage defaultLanguage;
 
-		// Token: 0x04002D97 RID: 11671
+		// Token: 0x04002D9F RID: 11679
 		public static readonly string DefaultLangFolderName = "English";
 
-		// Token: 0x04002D98 RID: 11672
+		// Token: 0x04002DA0 RID: 11680
 		private static readonly List<string> SupportedAutoSelectLanguages = new List<string>
 		{
 			"Arabic",

@@ -6,10 +6,10 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200044E RID: 1102
+	// Token: 0x0200044A RID: 1098
 	public sealed class WeatherManager : IExposable
 	{
-		// Token: 0x06001327 RID: 4903 RVA: 0x000A4B04 File Offset: 0x000A2F04
+		// Token: 0x0600131E RID: 4894 RVA: 0x000A4B14 File Offset: 0x000A2F14
 		public WeatherManager(Map map)
 		{
 			this.map = map;
@@ -17,7 +17,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000296 RID: 662
-		// (get) Token: 0x06001328 RID: 4904 RVA: 0x000A4B60 File Offset: 0x000A2F60
+		// (get) Token: 0x0600131F RID: 4895 RVA: 0x000A4B70 File Offset: 0x000A2F70
 		public float TransitionLerpFactor
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000297 RID: 663
-		// (get) Token: 0x06001329 RID: 4905 RVA: 0x000A4B98 File Offset: 0x000A2F98
+		// (get) Token: 0x06001320 RID: 4896 RVA: 0x000A4BA8 File Offset: 0x000A2FA8
 		public float RainRate
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000298 RID: 664
-		// (get) Token: 0x0600132A RID: 4906 RVA: 0x000A4BD0 File Offset: 0x000A2FD0
+		// (get) Token: 0x06001321 RID: 4897 RVA: 0x000A4BE0 File Offset: 0x000A2FE0
 		public float SnowRate
 		{
 			get
@@ -52,7 +52,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000299 RID: 665
-		// (get) Token: 0x0600132B RID: 4907 RVA: 0x000A4C08 File Offset: 0x000A3008
+		// (get) Token: 0x06001322 RID: 4898 RVA: 0x000A4C18 File Offset: 0x000A3018
 		public float CurWindSpeedFactor
 		{
 			get
@@ -62,7 +62,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700029A RID: 666
-		// (get) Token: 0x0600132C RID: 4908 RVA: 0x000A4C40 File Offset: 0x000A3040
+		// (get) Token: 0x06001323 RID: 4899 RVA: 0x000A4C50 File Offset: 0x000A3050
 		public float CurMoveSpeedMultiplier
 		{
 			get
@@ -72,7 +72,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700029B RID: 667
-		// (get) Token: 0x0600132D RID: 4909 RVA: 0x000A4C78 File Offset: 0x000A3078
+		// (get) Token: 0x06001324 RID: 4900 RVA: 0x000A4C88 File Offset: 0x000A3088
 		public float CurWeatherAccuracyMultiplier
 		{
 			get
@@ -82,7 +82,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700029C RID: 668
-		// (get) Token: 0x0600132E RID: 4910 RVA: 0x000A4CB0 File Offset: 0x000A30B0
+		// (get) Token: 0x06001325 RID: 4901 RVA: 0x000A4CC0 File Offset: 0x000A30C0
 		public WeatherDef CurPerceivedWeather
 		{
 			get
@@ -124,7 +124,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600132F RID: 4911 RVA: 0x000A4D6C File Offset: 0x000A316C
+		// Token: 0x06001326 RID: 4902 RVA: 0x000A4D7C File Offset: 0x000A317C
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<WeatherDef>(ref this.curWeather, "curWeather");
@@ -140,7 +140,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001330 RID: 4912 RVA: 0x000A4DE1 File Offset: 0x000A31E1
+		// Token: 0x06001327 RID: 4903 RVA: 0x000A4DF1 File Offset: 0x000A31F1
 		public void TransitionTo(WeatherDef newWeather)
 		{
 			this.lastWeather = this.curWeather;
@@ -148,7 +148,7 @@ namespace RimWorld
 			this.curWeatherAge = 0;
 		}
 
-		// Token: 0x06001331 RID: 4913 RVA: 0x000A4E00 File Offset: 0x000A3200
+		// Token: 0x06001328 RID: 4904 RVA: 0x000A4E10 File Offset: 0x000A3210
 		public void DoWeatherGUI(Rect rect)
 		{
 			WeatherDef curPerceivedWeather = this.CurPerceivedWeather;
@@ -164,7 +164,7 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x06001332 RID: 4914 RVA: 0x000A4E70 File Offset: 0x000A3270
+		// Token: 0x06001329 RID: 4905 RVA: 0x000A4E80 File Offset: 0x000A3280
 		public void WeatherManagerTick()
 		{
 			this.eventHandler.WeatherEventHandlerTick();
@@ -195,13 +195,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001333 RID: 4915 RVA: 0x000A4FB1 File Offset: 0x000A33B1
+		// Token: 0x0600132A RID: 4906 RVA: 0x000A4FC1 File Offset: 0x000A33C1
 		public void WeatherManagerUpdate()
 		{
 			this.SetAmbienceSustainersVolume();
 		}
 
-		// Token: 0x06001334 RID: 4916 RVA: 0x000A4FBC File Offset: 0x000A33BC
+		// Token: 0x0600132B RID: 4907 RVA: 0x000A4FCC File Offset: 0x000A33CC
 		public void EndAllSustainers()
 		{
 			for (int i = 0; i < this.ambienceSustainers.Count; i++)
@@ -211,7 +211,7 @@ namespace RimWorld
 			this.ambienceSustainers.Clear();
 		}
 
-		// Token: 0x06001335 RID: 4917 RVA: 0x000A5004 File Offset: 0x000A3404
+		// Token: 0x0600132C RID: 4908 RVA: 0x000A5014 File Offset: 0x000A3414
 		private void SetAmbienceSustainersVolume()
 		{
 			for (int i = this.ambienceSustainers.Count - 1; i >= 0; i--)
@@ -229,7 +229,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001336 RID: 4918 RVA: 0x000A5098 File Offset: 0x000A3498
+		// Token: 0x0600132D RID: 4909 RVA: 0x000A50A8 File Offset: 0x000A34A8
 		private float VolumeOfAmbientSound(SoundDef soundDef)
 		{
 			float result;
@@ -266,7 +266,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001337 RID: 4919 RVA: 0x000A519D File Offset: 0x000A359D
+		// Token: 0x0600132E RID: 4910 RVA: 0x000A51AD File Offset: 0x000A35AD
 		public void DrawAllWeather()
 		{
 			this.eventHandler.WeatherEventsDraw();
@@ -274,28 +274,28 @@ namespace RimWorld
 			this.curWeather.Worker.DrawWeather(this.map);
 		}
 
-		// Token: 0x04000BA6 RID: 2982
+		// Token: 0x04000BA3 RID: 2979
 		public Map map;
 
-		// Token: 0x04000BA7 RID: 2983
+		// Token: 0x04000BA4 RID: 2980
 		public WeatherEventHandler eventHandler = new WeatherEventHandler();
 
-		// Token: 0x04000BA8 RID: 2984
+		// Token: 0x04000BA5 RID: 2981
 		public WeatherDef curWeather = WeatherDefOf.Clear;
 
-		// Token: 0x04000BA9 RID: 2985
+		// Token: 0x04000BA6 RID: 2982
 		public WeatherDef lastWeather = WeatherDefOf.Clear;
 
-		// Token: 0x04000BAA RID: 2986
+		// Token: 0x04000BA7 RID: 2983
 		public int curWeatherAge = 0;
 
-		// Token: 0x04000BAB RID: 2987
+		// Token: 0x04000BA8 RID: 2984
 		private List<Sustainer> ambienceSustainers = new List<Sustainer>();
 
-		// Token: 0x04000BAC RID: 2988
+		// Token: 0x04000BA9 RID: 2985
 		public TemperatureMemory growthSeasonMemory;
 
-		// Token: 0x04000BAD RID: 2989
+		// Token: 0x04000BAA RID: 2986
 		public const float TransitionTicks = 4000f;
 	}
 }

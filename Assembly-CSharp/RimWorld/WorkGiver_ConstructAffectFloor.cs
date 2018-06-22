@@ -13,7 +13,7 @@ namespace RimWorld
 		protected abstract DesignationDef DesDef { get; }
 
 		// Token: 0x170000DE RID: 222
-		// (get) Token: 0x0600060C RID: 1548 RVA: 0x00040568 File Offset: 0x0003E968
+		// (get) Token: 0x0600060C RID: 1548 RVA: 0x00040554 File Offset: 0x0003E954
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -22,7 +22,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600060D RID: 1549 RVA: 0x00040580 File Offset: 0x0003E980
+		// Token: 0x0600060D RID: 1549 RVA: 0x0004056C File Offset: 0x0003E96C
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
 		{
 			if (pawn.Faction != Faction.OfPlayer)
@@ -36,7 +36,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600060E RID: 1550 RVA: 0x000405B4 File Offset: 0x0003E9B4
+		// Token: 0x0600060E RID: 1550 RVA: 0x000405A0 File Offset: 0x0003E9A0
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c, bool forced = false)
 		{
 			if (!c.IsForbidden(pawn) && pawn.Map.designationManager.DesignationAt(c, this.DesDef) != null)

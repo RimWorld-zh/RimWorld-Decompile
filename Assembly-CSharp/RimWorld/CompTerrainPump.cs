@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000742 RID: 1858
+	// Token: 0x0200073E RID: 1854
 	public abstract class CompTerrainPump : ThingComp
 	{
-		// Token: 0x17000657 RID: 1623
-		// (get) Token: 0x0600290A RID: 10506 RVA: 0x0015DB34 File Offset: 0x0015BF34
+		// Token: 0x17000658 RID: 1624
+		// (get) Token: 0x06002903 RID: 10499 RVA: 0x0015DD0C File Offset: 0x0015C10C
 		private CompProperties_TerrainPump Props
 		{
 			get
@@ -18,8 +18,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000658 RID: 1624
-		// (get) Token: 0x0600290B RID: 10507 RVA: 0x0015DB54 File Offset: 0x0015BF54
+		// Token: 0x17000659 RID: 1625
+		// (get) Token: 0x06002904 RID: 10500 RVA: 0x0015DD2C File Offset: 0x0015C12C
 		private float ProgressDays
 		{
 			get
@@ -28,8 +28,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000659 RID: 1625
-		// (get) Token: 0x0600290C RID: 10508 RVA: 0x0015DB78 File Offset: 0x0015BF78
+		// Token: 0x1700065A RID: 1626
+		// (get) Token: 0x06002905 RID: 10501 RVA: 0x0015DD50 File Offset: 0x0015C150
 		private float CurrentRadius
 		{
 			get
@@ -38,8 +38,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700065A RID: 1626
-		// (get) Token: 0x0600290D RID: 10509 RVA: 0x0015DBBC File Offset: 0x0015BFBC
+		// Token: 0x1700065B RID: 1627
+		// (get) Token: 0x06002906 RID: 10502 RVA: 0x0015DD94 File Offset: 0x0015C194
 		private bool Working
 		{
 			get
@@ -48,8 +48,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700065B RID: 1627
-		// (get) Token: 0x0600290E RID: 10510 RVA: 0x0015DBEC File Offset: 0x0015BFEC
+		// Token: 0x1700065C RID: 1628
+		// (get) Token: 0x06002907 RID: 10503 RVA: 0x0015DDC4 File Offset: 0x0015C1C4
 		private int TicksUntilRadiusInteger
 		{
 			get
@@ -65,19 +65,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600290F RID: 10511 RVA: 0x0015DC49 File Offset: 0x0015C049
+		// Token: 0x06002908 RID: 10504 RVA: 0x0015DE21 File Offset: 0x0015C221
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			this.powerComp = this.parent.TryGetComp<CompPowerTrader>();
 		}
 
-		// Token: 0x06002910 RID: 10512 RVA: 0x0015DC5D File Offset: 0x0015C05D
+		// Token: 0x06002909 RID: 10505 RVA: 0x0015DE35 File Offset: 0x0015C235
 		public override void PostDeSpawn(Map map)
 		{
 			this.progressTicks = 0;
 		}
 
-		// Token: 0x06002911 RID: 10513 RVA: 0x0015DC68 File Offset: 0x0015C068
+		// Token: 0x0600290A RID: 10506 RVA: 0x0015DE40 File Offset: 0x0015C240
 		public override void CompTickRare()
 		{
 			if (this.Working)
@@ -91,16 +91,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002912 RID: 10514
+		// Token: 0x0600290B RID: 10507
 		protected abstract void AffectCell(IntVec3 c);
 
-		// Token: 0x06002913 RID: 10515 RVA: 0x0015DCDB File Offset: 0x0015C0DB
+		// Token: 0x0600290C RID: 10508 RVA: 0x0015DEB3 File Offset: 0x0015C2B3
 		public override void PostExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.progressTicks, "progressTicks", 0, false);
 		}
 
-		// Token: 0x06002914 RID: 10516 RVA: 0x0015DCF0 File Offset: 0x0015C0F0
+		// Token: 0x0600290D RID: 10509 RVA: 0x0015DEC8 File Offset: 0x0015C2C8
 		public override void PostDrawExtraSelectionOverlays()
 		{
 			if (this.CurrentRadius < this.Props.radius - 0.0001f)
@@ -109,7 +109,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002915 RID: 10517 RVA: 0x0015DD28 File Offset: 0x0015C128
+		// Token: 0x0600290E RID: 10510 RVA: 0x0015DF00 File Offset: 0x0015C300
 		public override string CompInspectStringExtra()
 		{
 			string text = string.Concat(new string[]
@@ -137,7 +137,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x06002916 RID: 10518 RVA: 0x0015DE10 File Offset: 0x0015C210
+		// Token: 0x0600290F RID: 10511 RVA: 0x0015DFE8 File Offset: 0x0015C3E8
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			if (Prefs.DevMode)
@@ -154,10 +154,10 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0400166F RID: 5743
+		// Token: 0x0400166D RID: 5741
 		private CompPowerTrader powerComp;
 
-		// Token: 0x04001670 RID: 5744
+		// Token: 0x0400166E RID: 5742
 		private int progressTicks;
 	}
 }

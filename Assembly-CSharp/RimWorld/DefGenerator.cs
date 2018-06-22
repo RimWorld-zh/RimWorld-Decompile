@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000233 RID: 563
 	public static class DefGenerator
 	{
-		// Token: 0x06000A35 RID: 2613 RVA: 0x0005A028 File Offset: 0x00058428
+		// Token: 0x06000A33 RID: 2611 RVA: 0x0005A06C File Offset: 0x0005846C
 		public static void GenerateImpliedDefs_PreResolve()
 		{
 			IEnumerable<ThingDef> enumerable = ThingDefGenerator_Buildings.ImpliedBlueprintAndFrameDefs().Concat(ThingDefGenerator_Meat.ImpliedMeatDefs()).Concat(ThingDefGenerator_Corpses.ImpliedCorpseDefs());
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000A36 RID: 2614 RVA: 0x0005A198 File Offset: 0x00058598
+		// Token: 0x06000A34 RID: 2612 RVA: 0x0005A1DC File Offset: 0x000585DC
 		public static void GenerateImpliedDefs_PostResolve()
 		{
 			foreach (KeyBindingCategoryDef def in KeyBindingDefGenerator.ImpliedKeyBindingCategoryDefs())
@@ -44,7 +44,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000A37 RID: 2615 RVA: 0x0005A240 File Offset: 0x00058640
+		// Token: 0x06000A35 RID: 2613 RVA: 0x0005A284 File Offset: 0x00058684
 		public static void AddImpliedDef<T>(T def) where T : Def, new()
 		{
 			def.generated = true;

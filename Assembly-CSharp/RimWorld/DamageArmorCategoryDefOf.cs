@@ -3,17 +3,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200095D RID: 2397
+	// Token: 0x02000959 RID: 2393
 	[DefOf]
 	public static class DamageArmorCategoryDefOf
 	{
-		// Token: 0x06003668 RID: 13928 RVA: 0x001D0BA7 File Offset: 0x001CEFA7
+		// Token: 0x06003661 RID: 13921 RVA: 0x001D0D8F File Offset: 0x001CF18F
 		static DamageArmorCategoryDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(DamageArmorCategoryDefOf));
 		}
 
-		// Token: 0x040022A9 RID: 8873
+		// Token: 0x040022A7 RID: 8871
 		public static DamageArmorCategoryDef Sharp;
 	}
 }

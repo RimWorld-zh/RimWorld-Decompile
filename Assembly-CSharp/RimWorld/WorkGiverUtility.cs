@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200011C RID: 284
 	public static class WorkGiverUtility
 	{
-		// Token: 0x060005E4 RID: 1508 RVA: 0x0003F3C0 File Offset: 0x0003D7C0
+		// Token: 0x060005E4 RID: 1508 RVA: 0x0003F3AC File Offset: 0x0003D7AC
 		public static Job HaulStuffOffBillGiverJob(Pawn pawn, IBillGiver giver, Thing thingToIgnore)
 		{
 			foreach (IntVec3 c in giver.IngredientStackCells)

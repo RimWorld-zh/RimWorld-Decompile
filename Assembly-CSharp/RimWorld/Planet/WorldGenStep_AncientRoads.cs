@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005BD RID: 1469
+	// Token: 0x020005B9 RID: 1465
 	public class WorldGenStep_AncientRoads : WorldGenStep
 	{
 		// Token: 0x1700041B RID: 1051
-		// (get) Token: 0x06001C2F RID: 7215 RVA: 0x000F2594 File Offset: 0x000F0994
+		// (get) Token: 0x06001C26 RID: 7206 RVA: 0x000F25E8 File Offset: 0x000F09E8
 		public override int SeedPart
 		{
 			get
@@ -18,13 +18,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C30 RID: 7216 RVA: 0x000F25AE File Offset: 0x000F09AE
+		// Token: 0x06001C27 RID: 7207 RVA: 0x000F2602 File Offset: 0x000F0A02
 		public override void GenerateFresh(string seed)
 		{
 			this.GenerateAncientRoads();
 		}
 
-		// Token: 0x06001C31 RID: 7217 RVA: 0x000F25B8 File Offset: 0x000F09B8
+		// Token: 0x06001C28 RID: 7208 RVA: 0x000F260C File Offset: 0x000F0A0C
 		private void GenerateAncientRoads()
 		{
 			Find.WorldPathGrid.RecalculateAllPerceivedPathCosts(new int?(0));
@@ -78,7 +78,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C32 RID: 7218 RVA: 0x000F2874 File Offset: 0x000F0C74
+		// Token: 0x06001C29 RID: 7209 RVA: 0x000F28C8 File Offset: 0x000F0CC8
 		private List<List<int>> GenerateProspectiveRoads()
 		{
 			List<int> ancientSites = Find.World.genData.ancientSites;
@@ -112,13 +112,13 @@ namespace RimWorld.Planet
 			return list;
 		}
 
-		// Token: 0x040010E4 RID: 4324
+		// Token: 0x040010E1 RID: 4321
 		public float maximumSiteCurve;
 
-		// Token: 0x040010E5 RID: 4325
+		// Token: 0x040010E2 RID: 4322
 		public float minimumChain;
 
-		// Token: 0x040010E6 RID: 4326
+		// Token: 0x040010E3 RID: 4323
 		public float maximumSegmentCurviness;
 	}
 }

@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200034B RID: 843
 	public class IncidentWorker_TravelerGroup : IncidentWorker_NeutralGroup
 	{
-		// Token: 0x06000E8B RID: 3723 RVA: 0x0007B114 File Offset: 0x00079514
+		// Token: 0x06000E8B RID: 3723 RVA: 0x0007B25C File Offset: 0x0007965C
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -41,7 +41,7 @@ namespace RimWorld
 							parms.faction.Name,
 							list[0].Name
 						});
-						text = text.AdjustedFor(list[0]);
+						text = text.AdjustedFor(list[0], "PAWN");
 					}
 					else
 					{
@@ -63,7 +63,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E8C RID: 3724 RVA: 0x0007B286 File Offset: 0x00079686
+		// Token: 0x06000E8C RID: 3724 RVA: 0x0007B3D3 File Offset: 0x000797D3
 		protected override void ResolveParmsPoints(IncidentParms parms)
 		{
 			if (parms.points < 0f)
@@ -72,7 +72,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040008F6 RID: 2294
+		// Token: 0x040008F8 RID: 2296
 		private static readonly SimpleCurve PointsCurve = new SimpleCurve
 		{
 			{

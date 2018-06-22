@@ -2,10 +2,10 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000499 RID: 1177
+	// Token: 0x02000495 RID: 1173
 	public static class PawnPostureUtility
 	{
-		// Token: 0x060014D4 RID: 5332 RVA: 0x000B777C File Offset: 0x000B5B7C
+		// Token: 0x060014CB RID: 5323 RVA: 0x000B7778 File Offset: 0x000B5B78
 		public static bool Laying(this PawnPosture posture)
 		{
 			return posture == PawnPosture.LayingOnGroundFaceUp || posture == PawnPosture.LayingOnGroundNormal || posture == PawnPosture.LayingInBed;

@@ -4,17 +4,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007A6 RID: 1958
+	// Token: 0x020007A2 RID: 1954
 	public class Alert_NeedResearchProject : Alert
 	{
-		// Token: 0x06002B4D RID: 11085 RVA: 0x0016DC39 File Offset: 0x0016C039
+		// Token: 0x06002B46 RID: 11078 RVA: 0x0016DE11 File Offset: 0x0016C211
 		public Alert_NeedResearchProject()
 		{
 			this.defaultLabel = "NeedResearchProject".Translate();
 			this.defaultExplanation = "NeedResearchProjectDesc".Translate();
 		}
 
-		// Token: 0x06002B4E RID: 11086 RVA: 0x0016DC64 File Offset: 0x0016C064
+		// Token: 0x06002B47 RID: 11079 RVA: 0x0016DE3C File Offset: 0x0016C23C
 		public override AlertReport GetReport()
 		{
 			AlertReport result;

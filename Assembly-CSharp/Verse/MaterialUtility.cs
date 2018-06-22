@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000F61 RID: 3937
 	public static class MaterialUtility
 	{
-		// Token: 0x06005F23 RID: 24355 RVA: 0x00307764 File Offset: 0x00305B64
+		// Token: 0x06005F4C RID: 24396 RVA: 0x00309808 File Offset: 0x00307C08
 		public static Texture2D GetMaskTexture(this Material mat)
 		{
 			Texture2D result;
@@ -21,7 +21,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005F24 RID: 24356 RVA: 0x003077A0 File Offset: 0x00305BA0
+		// Token: 0x06005F4D RID: 24397 RVA: 0x00309844 File Offset: 0x00307C44
 		public static Color GetColorTwo(this Material mat)
 		{
 			Color result;

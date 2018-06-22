@@ -4,10 +4,10 @@ using RimWorld;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A11 RID: 2577
+	// Token: 0x02000A0D RID: 2573
 	public struct TriggerSignal
 	{
-		// Token: 0x06003997 RID: 14743 RVA: 0x001E7CB8 File Offset: 0x001E60B8
+		// Token: 0x06003991 RID: 14737 RVA: 0x001E7EF8 File Offset: 0x001E62F8
 		public TriggerSignal(TriggerSignalType type)
 		{
 			this.type = type;
@@ -19,8 +19,8 @@ namespace Verse.AI.Group
 			this.previousRelationKind = null;
 		}
 
-		// Token: 0x170008E2 RID: 2274
-		// (get) Token: 0x06003998 RID: 14744 RVA: 0x001E7D08 File Offset: 0x001E6108
+		// Token: 0x170008E3 RID: 2275
+		// (get) Token: 0x06003992 RID: 14738 RVA: 0x001E7F48 File Offset: 0x001E6348
 		public Pawn Pawn
 		{
 			get
@@ -29,8 +29,8 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x170008E3 RID: 2275
-		// (get) Token: 0x06003999 RID: 14745 RVA: 0x001E7D28 File Offset: 0x001E6128
+		// Token: 0x170008E4 RID: 2276
+		// (get) Token: 0x06003993 RID: 14739 RVA: 0x001E7F68 File Offset: 0x001E6368
 		public static TriggerSignal ForTick
 		{
 			get
@@ -39,7 +39,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x0600399A RID: 14746 RVA: 0x001E7D44 File Offset: 0x001E6144
+		// Token: 0x06003994 RID: 14740 RVA: 0x001E7F84 File Offset: 0x001E6384
 		public static TriggerSignal ForMemo(string memo)
 		{
 			return new TriggerSignal(TriggerSignalType.Memo)
@@ -48,7 +48,7 @@ namespace Verse.AI.Group
 			};
 		}
 
-		// Token: 0x0600399B RID: 14747 RVA: 0x001E7D6C File Offset: 0x001E616C
+		// Token: 0x06003995 RID: 14741 RVA: 0x001E7FAC File Offset: 0x001E63AC
 		public override string ToString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -74,25 +74,25 @@ namespace Verse.AI.Group
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x040024A0 RID: 9376
+		// Token: 0x0400249B RID: 9371
 		public TriggerSignalType type;
 
-		// Token: 0x040024A1 RID: 9377
+		// Token: 0x0400249C RID: 9372
 		public string memo;
 
-		// Token: 0x040024A2 RID: 9378
+		// Token: 0x0400249D RID: 9373
 		public Thing thing;
 
-		// Token: 0x040024A3 RID: 9379
+		// Token: 0x0400249E RID: 9374
 		public DamageInfo dinfo;
 
-		// Token: 0x040024A4 RID: 9380
+		// Token: 0x0400249F RID: 9375
 		public PawnLostCondition condition;
 
-		// Token: 0x040024A5 RID: 9381
+		// Token: 0x040024A0 RID: 9376
 		public Faction faction;
 
-		// Token: 0x040024A6 RID: 9382
+		// Token: 0x040024A1 RID: 9377
 		public FactionRelationKind? previousRelationKind;
 	}
 }

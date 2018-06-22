@@ -6,10 +6,10 @@ using Verse.Sound;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005F9 RID: 1529
+	// Token: 0x020005F5 RID: 1525
 	public static class SettleInEmptyTileUtility
 	{
-		// Token: 0x06001E69 RID: 7785 RVA: 0x001070D4 File Offset: 0x001054D4
+		// Token: 0x06001E60 RID: 7776 RVA: 0x00107128 File Offset: 0x00105528
 		public static void Settle(Caravan caravan)
 		{
 			Faction faction = caravan.Faction;
@@ -48,7 +48,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E6A RID: 7786 RVA: 0x00107198 File Offset: 0x00105598
+		// Token: 0x06001E61 RID: 7777 RVA: 0x001071EC File Offset: 0x001055EC
 		public static Command SettleCommand(Caravan caravan)
 		{
 			Command_Settle command_Settle = new Command_Settle();
@@ -82,17 +82,17 @@ namespace RimWorld.Planet
 			return command_Settle;
 		}
 
-		// Token: 0x0400120D RID: 4621
+		// Token: 0x0400120A RID: 4618
 		private const int MinStartingLocCellsCount = 600;
 
-		// Token: 0x0400120E RID: 4622
+		// Token: 0x0400120B RID: 4619
 		private static StringBuilder tmpSettleFailReason = new StringBuilder();
 
-		// Token: 0x0400120F RID: 4623
+		// Token: 0x0400120C RID: 4620
 		[CompilerGenerated]
 		private static Action<Exception> <>f__mg$cache0;
 
-		// Token: 0x04001210 RID: 4624
+		// Token: 0x0400120D RID: 4621
 		[CompilerGenerated]
 		private static Action<Exception> <>f__mg$cache1;
 	}

@@ -8,7 +8,7 @@ namespace Verse
 	// Token: 0x02000F30 RID: 3888
 	public static class GenClamor
 	{
-		// Token: 0x06005D80 RID: 23936 RVA: 0x002F7010 File Offset: 0x002F5410
+		// Token: 0x06005DA8 RID: 23976 RVA: 0x002F903C File Offset: 0x002F743C
 		public static void DoClamor(Thing source, float radius, ClamorDef type)
 		{
 			IntVec3 root = source.Position;

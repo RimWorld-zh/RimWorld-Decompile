@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000330 RID: 816
 	public class IncidentWorker_Infestation : IncidentWorker
 	{
-		// Token: 0x06000DF4 RID: 3572 RVA: 0x00077074 File Offset: 0x00075474
+		// Token: 0x06000DF4 RID: 3572 RVA: 0x00077128 File Offset: 0x00075528
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -15,7 +15,7 @@ namespace RimWorld
 			return base.CanFireNowSub(parms) && HivesUtility.TotalSpawnedHivesCount(map) < 30 && InfestationCellFinder.TryFindCell(out intVec, map);
 		}
 
-		// Token: 0x06000DF5 RID: 3573 RVA: 0x000770BC File Offset: 0x000754BC
+		// Token: 0x06000DF5 RID: 3573 RVA: 0x00077170 File Offset: 0x00075570
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -31,7 +31,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06000DF6 RID: 3574 RVA: 0x00077140 File Offset: 0x00075540
+		// Token: 0x06000DF6 RID: 3574 RVA: 0x000771F4 File Offset: 0x000755F4
 		private Thing SpawnTunnel(int hiveCount, Map map)
 		{
 			IntVec3 loc;
@@ -56,7 +56,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x040008D3 RID: 2259
+		// Token: 0x040008D5 RID: 2261
 		private const float HivePoints = 250f;
 	}
 }

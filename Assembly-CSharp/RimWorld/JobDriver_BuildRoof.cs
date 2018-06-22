@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_BuildRoof : JobDriver_AffectRoof
 	{
 		// Token: 0x17000073 RID: 115
-		// (get) Token: 0x06000224 RID: 548 RVA: 0x00016830 File Offset: 0x00014C30
+		// (get) Token: 0x06000224 RID: 548 RVA: 0x00016838 File Offset: 0x00014C38
 		protected override PathEndMode PathEndMode
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000225 RID: 549 RVA: 0x00016848 File Offset: 0x00014C48
+		// Token: 0x06000225 RID: 549 RVA: 0x00016850 File Offset: 0x00014C50
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOn(() => !base.Map.areaManager.BuildRoof[base.Cell]);
@@ -31,7 +31,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000226 RID: 550 RVA: 0x00016874 File Offset: 0x00014C74
+		// Token: 0x06000226 RID: 550 RVA: 0x0001687C File Offset: 0x00014C7C
 		protected override void DoEffect()
 		{
 			JobDriver_BuildRoof.builtRoofs.Clear();
@@ -51,7 +51,7 @@ namespace RimWorld
 			JobDriver_BuildRoof.builtRoofs.Clear();
 		}
 
-		// Token: 0x06000227 RID: 551 RVA: 0x0001695C File Offset: 0x00014D5C
+		// Token: 0x06000227 RID: 551 RVA: 0x00016964 File Offset: 0x00014D64
 		protected override bool DoWorkFailOn()
 		{
 			return base.Cell.Roofed(base.Map);

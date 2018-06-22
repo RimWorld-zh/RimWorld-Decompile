@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200083E RID: 2110
+	// Token: 0x0200083A RID: 2106
 	[StaticConstructorOnStartup]
 	public class UI_BackgroundMain : UIMenuBackground
 	{
-		// Token: 0x06002FBA RID: 12218 RVA: 0x00199300 File Offset: 0x00197700
+		// Token: 0x06002FB3 RID: 12211 RVA: 0x001994E0 File Offset: 0x001978E0
 		public override void BackgroundOnGUI()
 		{
 			bool flag = true;
@@ -32,10 +32,10 @@ namespace RimWorld
 			GUI.DrawTexture(position, UI_BackgroundMain.BGPlanet, ScaleMode.ScaleToFit);
 		}
 
-		// Token: 0x040019CA RID: 6602
+		// Token: 0x040019C8 RID: 6600
 		private static readonly Vector2 BGPlanetSize = new Vector2(2048f, 1280f);
 
-		// Token: 0x040019CB RID: 6603
+		// Token: 0x040019C9 RID: 6601
 		private static readonly Texture2D BGPlanet = ContentFinder<Texture2D>.Get("UI/HeroArt/BGPlanet", true);
 	}
 }

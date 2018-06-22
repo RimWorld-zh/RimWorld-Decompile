@@ -7,14 +7,14 @@ namespace RimWorld
 	// Token: 0x02000353 RID: 851
 	public class IncidentWorker_QuestJourneyOffer : IncidentWorker
 	{
-		// Token: 0x06000EB2 RID: 3762 RVA: 0x0007C3D8 File Offset: 0x0007A7D8
+		// Token: 0x06000EB2 RID: 3762 RVA: 0x0007C5BC File Offset: 0x0007A9BC
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			int num;
 			return this.TryFindRootTile(out num);
 		}
 
-		// Token: 0x06000EB3 RID: 3763 RVA: 0x0007C3F8 File Offset: 0x0007A7F8
+		// Token: 0x06000EB3 RID: 3763 RVA: 0x0007C5DC File Offset: 0x0007A9DC
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			int rootTile;
@@ -51,14 +51,14 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000EB4 RID: 3764 RVA: 0x0007C50C File Offset: 0x0007A90C
+		// Token: 0x06000EB4 RID: 3764 RVA: 0x0007C6F0 File Offset: 0x0007AAF0
 		private bool TryFindRootTile(out int tile)
 		{
 			int unused;
 			return TileFinder.TryFindRandomPlayerTile(out tile, false, (int x) => this.TryFindDestinationTileActual(x, 180, out unused));
 		}
 
-		// Token: 0x06000EB5 RID: 3765 RVA: 0x0007C544 File Offset: 0x0007A944
+		// Token: 0x06000EB5 RID: 3765 RVA: 0x0007C728 File Offset: 0x0007AB28
 		private bool TryFindDestinationTile(int rootTile, out int tile)
 		{
 			int num = 800;
@@ -90,16 +90,16 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000EB6 RID: 3766 RVA: 0x0007C5C8 File Offset: 0x0007A9C8
+		// Token: 0x06000EB6 RID: 3766 RVA: 0x0007C7AC File Offset: 0x0007ABAC
 		private bool TryFindDestinationTileActual(int rootTile, int minDist, out int tile)
 		{
 			return TileFinder.TryFindPassableTileWithTraversalDistance(rootTile, minDist, 800, out tile, (int x) => !Find.WorldObjects.AnyWorldObjectAt(x) && Find.WorldGrid[x].biome.canBuildBase && Find.WorldGrid[x].biome.canAutoChoose, true, true);
 		}
 
-		// Token: 0x04000906 RID: 2310
+		// Token: 0x04000908 RID: 2312
 		private const int MinTraversalDistance = 180;
 
-		// Token: 0x04000907 RID: 2311
+		// Token: 0x04000909 RID: 2313
 		private const int MaxTraversalDistance = 800;
 	}
 }

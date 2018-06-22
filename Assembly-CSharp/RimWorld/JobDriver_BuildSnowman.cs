@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x02000053 RID: 83
 	public class JobDriver_BuildSnowman : JobDriver
 	{
-		// Token: 0x0600028C RID: 652 RVA: 0x0001B430 File Offset: 0x00019830
+		// Token: 0x0600028C RID: 652 RVA: 0x0001B438 File Offset: 0x00019838
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
 		}
 
-		// Token: 0x0600028D RID: 653 RVA: 0x0001B464 File Offset: 0x00019864
+		// Token: 0x0600028D RID: 653 RVA: 0x0001B46C File Offset: 0x0001986C
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.Touch);
@@ -45,7 +45,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600028E RID: 654 RVA: 0x0001B48E File Offset: 0x0001988E
+		// Token: 0x0600028E RID: 654 RVA: 0x0001B496 File Offset: 0x00019896
 		public override void ExposeData()
 		{
 			base.ExposeData();

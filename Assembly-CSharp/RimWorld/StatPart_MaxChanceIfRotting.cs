@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009B1 RID: 2481
+	// Token: 0x020009AD RID: 2477
 	public class StatPart_MaxChanceIfRotting : StatPart
 	{
-		// Token: 0x06003791 RID: 14225 RVA: 0x001D9BFF File Offset: 0x001D7FFF
+		// Token: 0x0600378A RID: 14218 RVA: 0x001D9DC3 File Offset: 0x001D81C3
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (this.IsRotting(req))
@@ -15,7 +15,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003792 RID: 14226 RVA: 0x001D9C18 File Offset: 0x001D8018
+		// Token: 0x0600378B RID: 14219 RVA: 0x001D9DDC File Offset: 0x001D81DC
 		public override string ExplanationPart(StatRequest req)
 		{
 			string result;
@@ -30,7 +30,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003793 RID: 14227 RVA: 0x001D9C60 File Offset: 0x001D8060
+		// Token: 0x0600378C RID: 14220 RVA: 0x001D9E24 File Offset: 0x001D8224
 		private bool IsRotting(StatRequest req)
 		{
 			return req.HasThing && req.Thing.GetRotStage() != RotStage.Fresh;

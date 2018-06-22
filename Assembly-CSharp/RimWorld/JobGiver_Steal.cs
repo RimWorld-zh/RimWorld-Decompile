@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020000D9 RID: 217
 	public class JobGiver_Steal : ThinkNode_JobGiver
 	{
-		// Token: 0x060004C9 RID: 1225 RVA: 0x000358E0 File Offset: 0x00033CE0
+		// Token: 0x060004C9 RID: 1225 RVA: 0x000358CC File Offset: 0x00033CCC
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			IntVec3 c;

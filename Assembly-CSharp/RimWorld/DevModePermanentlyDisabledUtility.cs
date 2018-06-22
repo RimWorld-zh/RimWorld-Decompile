@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000974 RID: 2420
+	// Token: 0x02000970 RID: 2416
 	public static class DevModePermanentlyDisabledUtility
 	{
-		// Token: 0x1700089A RID: 2202
-		// (get) Token: 0x0600367F RID: 13951 RVA: 0x001D0D48 File Offset: 0x001CF148
+		// Token: 0x1700089B RID: 2203
+		// (get) Token: 0x06003678 RID: 13944 RVA: 0x001D0F30 File Offset: 0x001CF330
 		public static bool Disabled
 		{
 			get
@@ -22,7 +22,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003680 RID: 13952 RVA: 0x001D0D84 File Offset: 0x001CF184
+		// Token: 0x06003679 RID: 13945 RVA: 0x001D0F6C File Offset: 0x001CF36C
 		public static void Disable()
 		{
 			try
@@ -38,10 +38,10 @@ namespace RimWorld
 			Prefs.DevMode = false;
 		}
 
-		// Token: 0x04002322 RID: 8994
+		// Token: 0x04002320 RID: 8992
 		private static bool initialized;
 
-		// Token: 0x04002323 RID: 8995
+		// Token: 0x04002321 RID: 8993
 		private static bool disabled;
 	}
 }

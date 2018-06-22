@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_EnterTransporter : JobDriver
 	{
 		// Token: 0x17000096 RID: 150
-		// (get) Token: 0x060002E0 RID: 736 RVA: 0x0001F038 File Offset: 0x0001D438
+		// (get) Token: 0x060002E0 RID: 736 RVA: 0x0001F03C File Offset: 0x0001D43C
 		private CompTransporter Transporter
 		{
 			get
@@ -28,13 +28,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060002E1 RID: 737 RVA: 0x0001F07C File Offset: 0x0001D47C
+		// Token: 0x060002E1 RID: 737 RVA: 0x0001F080 File Offset: 0x0001D480
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x060002E2 RID: 738 RVA: 0x0001F094 File Offset: 0x0001D494
+		// Token: 0x060002E2 RID: 738 RVA: 0x0001F098 File Offset: 0x0001D498
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(this.TransporterInd);

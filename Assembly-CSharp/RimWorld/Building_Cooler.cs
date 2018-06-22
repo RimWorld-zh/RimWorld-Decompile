@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000699 RID: 1689
+	// Token: 0x02000695 RID: 1685
 	public class Building_Cooler : Building_TempControl
 	{
-		// Token: 0x060023CA RID: 9162 RVA: 0x001328F4 File Offset: 0x00130CF4
+		// Token: 0x060023C2 RID: 9154 RVA: 0x00132A3C File Offset: 0x00130E3C
 		public override void TickRare()
 		{
 			if (this.compPowerTrader.PowerOn)
@@ -51,10 +51,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040013FA RID: 5114
+		// Token: 0x040013F8 RID: 5112
 		private const float HeatOutputMultiplier = 1.25f;
 
-		// Token: 0x040013FB RID: 5115
+		// Token: 0x040013F9 RID: 5113
 		private const float EfficiencyLossPerDegreeDifference = 0.0076923077f;
 	}
 }

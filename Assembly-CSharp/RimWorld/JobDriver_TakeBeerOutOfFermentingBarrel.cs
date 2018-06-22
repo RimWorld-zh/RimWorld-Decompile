@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_TakeBeerOutOfFermentingBarrel : JobDriver
 	{
 		// Token: 0x170000B2 RID: 178
-		// (get) Token: 0x06000364 RID: 868 RVA: 0x0002581C File Offset: 0x00023C1C
+		// (get) Token: 0x06000364 RID: 868 RVA: 0x000257F8 File Offset: 0x00023BF8
 		protected Building_FermentingBarrel Barrel
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000B3 RID: 179
-		// (get) Token: 0x06000365 RID: 869 RVA: 0x0002584C File Offset: 0x00023C4C
+		// (get) Token: 0x06000365 RID: 869 RVA: 0x00025828 File Offset: 0x00023C28
 		protected Thing Beer
 		{
 			get
@@ -28,13 +28,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000366 RID: 870 RVA: 0x00025878 File Offset: 0x00023C78
+		// Token: 0x06000366 RID: 870 RVA: 0x00025854 File Offset: 0x00023C54
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Barrel, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000367 RID: 871 RVA: 0x000258AC File Offset: 0x00023CAC
+		// Token: 0x06000367 RID: 871 RVA: 0x00025888 File Offset: 0x00023C88
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);

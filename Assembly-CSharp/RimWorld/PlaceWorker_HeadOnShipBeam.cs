@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000C6C RID: 3180
+	// Token: 0x02000C69 RID: 3177
 	public class PlaceWorker_HeadOnShipBeam : PlaceWorker
 	{
-		// Token: 0x060045CD RID: 17869 RVA: 0x0024C738 File Offset: 0x0024AB38
+		// Token: 0x060045D6 RID: 17878 RVA: 0x0024DB08 File Offset: 0x0024BF08
 		public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Map map, Thing thingToIgnore = null)
 		{
 			IntVec3 c = loc + rot.FacingCell * -1;

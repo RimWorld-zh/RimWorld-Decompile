@@ -15,7 +15,7 @@ namespace RimWorld
 		// Token: 0x060005E7 RID: 1511
 		protected abstract CompHasGatherableBodyResource GetComp(Pawn animal);
 
-		// Token: 0x060005E8 RID: 1512 RVA: 0x0003F45C File Offset: 0x0003D85C
+		// Token: 0x060005E8 RID: 1512 RVA: 0x0003F448 File Offset: 0x0003D848
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			List<Pawn> pawns = pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction);
@@ -27,7 +27,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000D6 RID: 214
-		// (get) Token: 0x060005E9 RID: 1513 RVA: 0x0003F488 File Offset: 0x0003D888
+		// (get) Token: 0x060005E9 RID: 1513 RVA: 0x0003F474 File Offset: 0x0003D874
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060005EA RID: 1514 RVA: 0x0003F4A0 File Offset: 0x0003D8A0
+		// Token: 0x060005EA RID: 1514 RVA: 0x0003F48C File Offset: 0x0003D88C
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
@@ -61,7 +61,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060005EB RID: 1515 RVA: 0x0003F534 File Offset: 0x0003D934
+		// Token: 0x060005EB RID: 1515 RVA: 0x0003F520 File Offset: 0x0003D920
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			return new Job(this.JobDef, t);

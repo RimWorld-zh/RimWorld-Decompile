@@ -6,12 +6,12 @@ namespace Verse
 	// Token: 0x02000F21 RID: 3873
 	public abstract class SubEffecter_Sprayer : SubEffecter
 	{
-		// Token: 0x06005CB1 RID: 23729 RVA: 0x002EF49D File Offset: 0x002ED89D
+		// Token: 0x06005CD9 RID: 23769 RVA: 0x002F14C9 File Offset: 0x002EF8C9
 		public SubEffecter_Sprayer(SubEffecterDef def, Effecter parent) : base(def, parent)
 		{
 		}
 
-		// Token: 0x06005CB2 RID: 23730 RVA: 0x002EF4A8 File Offset: 0x002ED8A8
+		// Token: 0x06005CDA RID: 23770 RVA: 0x002F14D4 File Offset: 0x002EF8D4
 		protected void MakeMote(TargetInfo A, TargetInfo B)
 		{
 			Vector3 vector = Vector3.zero;

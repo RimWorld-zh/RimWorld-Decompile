@@ -2,14 +2,14 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000BA2 RID: 2978
+	// Token: 0x02000B9E RID: 2974
 	public enum SoundContext
 	{
-		// Token: 0x04002B3F RID: 11071
+		// Token: 0x04002B44 RID: 11076
 		Any,
-		// Token: 0x04002B40 RID: 11072
+		// Token: 0x04002B45 RID: 11077
 		MapOnly,
-		// Token: 0x04002B41 RID: 11073
+		// Token: 0x04002B46 RID: 11078
 		WorldOnly
 	}
 }

@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000610 RID: 1552
+	// Token: 0x0200060C RID: 1548
 	public class SitePartWorker_Turrets : SitePartWorker
 	{
-		// Token: 0x06001F39 RID: 7993 RVA: 0x0010ED10 File Offset: 0x0010D110
+		// Token: 0x06001F30 RID: 7984 RVA: 0x0010ED64 File Offset: 0x0010D164
 		public override string GetArrivedLetterPart(Map map, out string preferredLabel, out LetterDef preferredLetterDef, out LookTargets lookTargets)
 		{
 			string arrivedLetterPart = base.GetArrivedLetterPart(map, out preferredLabel, out preferredLetterDef, out lookTargets);

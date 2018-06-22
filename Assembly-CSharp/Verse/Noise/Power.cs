@@ -6,19 +6,19 @@ namespace Verse.Noise
 	// Token: 0x02000F94 RID: 3988
 	public class Power : ModuleBase
 	{
-		// Token: 0x06006025 RID: 24613 RVA: 0x0030BEFB File Offset: 0x0030A2FB
+		// Token: 0x0600604E RID: 24654 RVA: 0x0030DF9F File Offset: 0x0030C39F
 		public Power() : base(2)
 		{
 		}
 
-		// Token: 0x06006026 RID: 24614 RVA: 0x0030BF05 File Offset: 0x0030A305
+		// Token: 0x0600604F RID: 24655 RVA: 0x0030DFA9 File Offset: 0x0030C3A9
 		public Power(ModuleBase lhs, ModuleBase rhs) : base(2)
 		{
 			this.modules[0] = lhs;
 			this.modules[1] = rhs;
 		}
 
-		// Token: 0x06006027 RID: 24615 RVA: 0x0030BF24 File Offset: 0x0030A324
+		// Token: 0x06006050 RID: 24656 RVA: 0x0030DFC8 File Offset: 0x0030C3C8
 		public override double GetValue(double x, double y, double z)
 		{
 			Debug.Assert(this.modules[0] != null);

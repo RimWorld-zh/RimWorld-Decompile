@@ -7,7 +7,7 @@ namespace RimWorld
 	public class WorkGiver_Milk : WorkGiver_GatherAnimalBodyResources
 	{
 		// Token: 0x170000D8 RID: 216
-		// (get) Token: 0x060005F3 RID: 1523 RVA: 0x0003F984 File Offset: 0x0003DD84
+		// (get) Token: 0x060005F3 RID: 1523 RVA: 0x0003F970 File Offset: 0x0003DD70
 		protected override JobDef JobDef
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060005F4 RID: 1524 RVA: 0x0003F9A0 File Offset: 0x0003DDA0
+		// Token: 0x060005F4 RID: 1524 RVA: 0x0003F98C File Offset: 0x0003DD8C
 		protected override CompHasGatherableBodyResource GetComp(Pawn animal)
 		{
 			return animal.TryGetComp<CompMilkable>();

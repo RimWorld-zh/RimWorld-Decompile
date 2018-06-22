@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000B3D RID: 2877
+	// Token: 0x02000B39 RID: 2873
 	public enum MoteSpawnLocType : byte
 	{
-		// Token: 0x04002951 RID: 10577
+		// Token: 0x0400294E RID: 10574
 		OnSource,
-		// Token: 0x04002952 RID: 10578
+		// Token: 0x0400294F RID: 10575
 		BetweenPositions,
-		// Token: 0x04002953 RID: 10579
+		// Token: 0x04002950 RID: 10576
 		BetweenTouchingCells,
-		// Token: 0x04002954 RID: 10580
+		// Token: 0x04002951 RID: 10577
 		RandomCellOnTarget
 	}
 }

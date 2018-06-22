@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200021E RID: 542
 	public class ThoughtWorker_ColonistLeftUnburied : ThoughtWorker
 	{
-		// Token: 0x06000A0A RID: 2570 RVA: 0x00059264 File Offset: 0x00057664
+		// Token: 0x06000A08 RID: 2568 RVA: 0x000592A8 File Offset: 0x000576A8
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			ThoughtState result;

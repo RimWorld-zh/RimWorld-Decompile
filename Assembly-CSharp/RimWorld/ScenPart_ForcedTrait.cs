@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000635 RID: 1589
+	// Token: 0x02000631 RID: 1585
 	public class ScenPart_ForcedTrait : ScenPart_PawnModifier
 	{
-		// Token: 0x060020C1 RID: 8385 RVA: 0x0011820C File Offset: 0x0011660C
+		// Token: 0x060020B9 RID: 8377 RVA: 0x001182B8 File Offset: 0x001166B8
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -17,7 +17,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.degree, "degree", 0, false);
 		}
 
-		// Token: 0x060020C2 RID: 8386 RVA: 0x00118238 File Offset: 0x00116638
+		// Token: 0x060020BA RID: 8378 RVA: 0x001182E4 File Offset: 0x001166E4
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 3f);
@@ -44,7 +44,7 @@ namespace RimWorld
 			base.DoPawnModifierEditInterface(scenPartRect.BottomPart(0.666f));
 		}
 
-		// Token: 0x060020C3 RID: 8387 RVA: 0x001183BC File Offset: 0x001167BC
+		// Token: 0x060020BB RID: 8379 RVA: 0x00118468 File Offset: 0x00116868
 		public override string Summary(Scenario scen)
 		{
 			return "ScenPart_PawnsHaveTrait".Translate(new object[]
@@ -55,7 +55,7 @@ namespace RimWorld
 			}).CapitalizeFirst();
 		}
 
-		// Token: 0x060020C4 RID: 8388 RVA: 0x00118420 File Offset: 0x00116820
+		// Token: 0x060020BC RID: 8380 RVA: 0x001184CC File Offset: 0x001168CC
 		public override void Randomize()
 		{
 			base.Randomize();
@@ -63,14 +63,14 @@ namespace RimWorld
 			this.degree = this.trait.degreeDatas.RandomElement<TraitDegreeData>().degree;
 		}
 
-		// Token: 0x060020C5 RID: 8389 RVA: 0x00118450 File Offset: 0x00116850
+		// Token: 0x060020BD RID: 8381 RVA: 0x001184FC File Offset: 0x001168FC
 		public override bool CanCoexistWith(ScenPart other)
 		{
 			ScenPart_ForcedTrait scenPart_ForcedTrait = other as ScenPart_ForcedTrait;
 			return scenPart_ForcedTrait == null || this.trait != scenPart_ForcedTrait.trait || !this.context.OverlapsWith(scenPart_ForcedTrait.context);
 		}
 
-		// Token: 0x060020C6 RID: 8390 RVA: 0x001184A4 File Offset: 0x001168A4
+		// Token: 0x060020BE RID: 8382 RVA: 0x00118550 File Offset: 0x00116950
 		protected override void ModifyPawnPostGenerate(Pawn pawn, bool redressed)
 		{
 			if (pawn.story != null && pawn.story.traits != null)
@@ -106,16 +106,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060020C7 RID: 8391 RVA: 0x00118648 File Offset: 0x00116A48
+		// Token: 0x060020BF RID: 8383 RVA: 0x001186F4 File Offset: 0x00116AF4
 		private static bool PawnHasTraitForcedByBackstory(Pawn pawn, TraitDef trait)
 		{
 			return (pawn.story.childhood != null && pawn.story.childhood.forcedTraits != null && pawn.story.childhood.forcedTraits.Any((TraitEntry te) => te.def == trait)) || (pawn.story.adulthood != null && pawn.story.adulthood.forcedTraits != null && pawn.story.adulthood.forcedTraits.Any((TraitEntry te) => te.def == trait));
 		}
 
-		// Token: 0x040012C4 RID: 4804
+		// Token: 0x040012C1 RID: 4801
 		private TraitDef trait;
 
-		// Token: 0x040012C5 RID: 4805
+		// Token: 0x040012C2 RID: 4802
 		private int degree = 0;
 	}
 }

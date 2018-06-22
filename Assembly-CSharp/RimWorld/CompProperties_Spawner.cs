@@ -3,40 +3,40 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000738 RID: 1848
+	// Token: 0x02000734 RID: 1844
 	public class CompProperties_Spawner : CompProperties
 	{
-		// Token: 0x060028C1 RID: 10433 RVA: 0x0015B754 File Offset: 0x00159B54
+		// Token: 0x060028BA RID: 10426 RVA: 0x0015B92C File Offset: 0x00159D2C
 		public CompProperties_Spawner()
 		{
 			this.compClass = typeof(CompSpawner);
 		}
 
-		// Token: 0x0400164A RID: 5706
+		// Token: 0x04001648 RID: 5704
 		public ThingDef thingToSpawn;
 
-		// Token: 0x0400164B RID: 5707
+		// Token: 0x04001649 RID: 5705
 		public int spawnCount = 1;
 
-		// Token: 0x0400164C RID: 5708
+		// Token: 0x0400164A RID: 5706
 		public IntRange spawnIntervalRange = new IntRange(100, 100);
 
-		// Token: 0x0400164D RID: 5709
+		// Token: 0x0400164B RID: 5707
 		public int spawnMaxAdjacent = -1;
 
-		// Token: 0x0400164E RID: 5710
+		// Token: 0x0400164C RID: 5708
 		public bool spawnForbidden;
 
-		// Token: 0x0400164F RID: 5711
+		// Token: 0x0400164D RID: 5709
 		public bool requiresPower;
 
-		// Token: 0x04001650 RID: 5712
+		// Token: 0x0400164E RID: 5710
 		public bool writeTimeLeftToSpawn;
 
-		// Token: 0x04001651 RID: 5713
+		// Token: 0x0400164F RID: 5711
 		public bool showMessageIfOwned;
 
-		// Token: 0x04001652 RID: 5714
+		// Token: 0x04001650 RID: 5712
 		public string saveKeysPrefix;
 	}
 }

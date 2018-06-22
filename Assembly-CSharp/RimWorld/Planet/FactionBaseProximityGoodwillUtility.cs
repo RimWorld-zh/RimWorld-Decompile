@@ -7,11 +7,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000559 RID: 1369
+	// Token: 0x02000555 RID: 1365
 	public static class FactionBaseProximityGoodwillUtility
 	{
 		// Token: 0x1700039E RID: 926
-		// (get) Token: 0x060019A6 RID: 6566 RVA: 0x000DE820 File Offset: 0x000DCC20
+		// (get) Token: 0x0600199D RID: 6557 RVA: 0x000DE83C File Offset: 0x000DCC3C
 		public static int MaxDist
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060019A7 RID: 6567 RVA: 0x000DE84C File Offset: 0x000DCC4C
+		// Token: 0x0600199E RID: 6558 RVA: 0x000DE868 File Offset: 0x000DCC68
 		public static void CheckFactionBaseProximityGoodwillChange()
 		{
 			if (Find.TickManager.TicksGame != 0 && Find.TickManager.TicksGame % 900000 == 0)
@@ -32,7 +32,7 @@ namespace RimWorld.Planet
 					FactionBase factionBase = factionBases[i];
 					if (factionBase.Faction == Faction.OfPlayer)
 					{
-						FactionBaseProximityGoodwillUtility.AppendProximityGoodwillOffsets(factionBase.Tile, FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets, true);
+						FactionBaseProximityGoodwillUtility.AppendProximityGoodwillOffsets(factionBase.Tile, FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets, true, false);
 					}
 				}
 				if (FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets.Any<Pair<FactionBase, int>>())
@@ -70,25 +70,31 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060019A8 RID: 6568 RVA: 0x000DEA28 File Offset: 0x000DCE28
-		public static void AppendProximityGoodwillOffsets(int tile, List<Pair<FactionBase, int>> outOffsets, bool ignoreIfAlreadyMinGoodwill)
+		// Token: 0x0600199F RID: 6559 RVA: 0x000DEA48 File Offset: 0x000DCE48
+		public static void AppendProximityGoodwillOffsets(int tile, List<Pair<FactionBase, int>> outOffsets, bool ignoreIfAlreadyMinGoodwill, bool ignorePermanentlyHostile)
 		{
 			int maxDist = FactionBaseProximityGoodwillUtility.MaxDist;
 			List<FactionBase> factionBases = Find.WorldObjects.FactionBases;
 			for (int i = 0; i < factionBases.Count; i++)
 			{
 				FactionBase factionBase = factionBases[i];
-				if (factionBase.Faction != Faction.OfPlayer)
+				if (factionBase.Faction != null)
 				{
-					if (!ignoreIfAlreadyMinGoodwill || factionBase.Faction.PlayerGoodwill != -100)
+					if (factionBase.Faction != Faction.OfPlayer)
 					{
-						int num = Find.WorldGrid.TraversalDistanceBetween(tile, factionBase.Tile, false, maxDist);
-						if (num != 2147483647)
+						if (!ignorePermanentlyHostile || !factionBase.Faction.def.permanentEnemy)
 						{
-							int num2 = Mathf.RoundToInt(DiplomacyTuning.Goodwill_PerQuadrumFromSettlementProximity.Evaluate((float)num));
-							if (num2 != 0)
+							if (!ignoreIfAlreadyMinGoodwill || factionBase.Faction.PlayerGoodwill != -100)
 							{
-								outOffsets.Add(new Pair<FactionBase, int>(factionBase, num2));
+								int num = Find.WorldGrid.TraversalDistanceBetween(tile, factionBase.Tile, false, maxDist);
+								if (num != 2147483647)
+								{
+									int num2 = Mathf.RoundToInt(DiplomacyTuning.Goodwill_PerQuadrumFromSettlementProximity.Evaluate((float)num));
+									if (num2 != 0)
+									{
+										outOffsets.Add(new Pair<FactionBase, int>(factionBase, num2));
+									}
+								}
 							}
 						}
 					}
@@ -96,13 +102,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060019A9 RID: 6569 RVA: 0x000DEAE8 File Offset: 0x000DCEE8
+		// Token: 0x060019A0 RID: 6560 RVA: 0x000DEB38 File Offset: 0x000DCF38
 		public static void SortProximityGoodwillOffsets(List<Pair<FactionBase, int>> offsets)
 		{
 			offsets.SortBy((Pair<FactionBase, int> x) => x.First.Faction.loadID, (Pair<FactionBase, int> x) => -Mathf.Abs(x.Second));
 		}
 
-		// Token: 0x060019AA RID: 6570 RVA: 0x000DEB38 File Offset: 0x000DCF38
+		// Token: 0x060019A1 RID: 6561 RVA: 0x000DEB88 File Offset: 0x000DCF88
 		public static string ProximityGoodwillOffsetsToString(List<Pair<FactionBase, int>> offsets)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -121,11 +127,11 @@ namespace RimWorld.Planet
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060019AB RID: 6571 RVA: 0x000DEBF8 File Offset: 0x000DCFF8
+		// Token: 0x060019A2 RID: 6562 RVA: 0x000DEC48 File Offset: 0x000DD048
 		public static void CheckConfirmSettle(int tile, Action settleAction)
 		{
 			FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets.Clear();
-			FactionBaseProximityGoodwillUtility.AppendProximityGoodwillOffsets(tile, FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets, false);
+			FactionBaseProximityGoodwillUtility.AppendProximityGoodwillOffsets(tile, FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets, false, true);
 			if (FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets.Any<Pair<FactionBase, int>>())
 			{
 				FactionBaseProximityGoodwillUtility.SortProximityGoodwillOffsets(FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets);
@@ -141,7 +147,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x04000F18 RID: 3864
+		// Token: 0x04000F15 RID: 3861
 		private static List<Pair<FactionBase, int>> tmpGoodwillOffsets = new List<Pair<FactionBase, int>>();
 	}
 }

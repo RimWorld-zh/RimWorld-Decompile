@@ -11,7 +11,7 @@ namespace RimWorld
 	// Token: 0x02000039 RID: 57
 	public static class GiveToPackAnimalUtility
 	{
-		// Token: 0x060001EC RID: 492 RVA: 0x00014EC8 File Offset: 0x000132C8
+		// Token: 0x060001EC RID: 492 RVA: 0x00014ED0 File Offset: 0x000132D0
 		public static IEnumerable<Pawn> CarrierCandidatesFor(Pawn pawn)
 		{
 			IEnumerable<Pawn> enumerable = (!pawn.IsFormingCaravan()) ? pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction) : pawn.GetLord().ownedPawns;
@@ -27,7 +27,7 @@ namespace RimWorld
 			return enumerable;
 		}
 
-		// Token: 0x060001ED RID: 493 RVA: 0x00014F68 File Offset: 0x00013368
+		// Token: 0x060001ED RID: 493 RVA: 0x00014F70 File Offset: 0x00013370
 		public static Pawn UsablePackAnimalWithTheMostFreeSpace(Pawn pawn)
 		{
 			IEnumerable<Pawn> enumerable = GiveToPackAnimalUtility.CarrierCandidatesFor(pawn);

@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CB1 RID: 3249
+	// Token: 0x02000CAE RID: 3246
 	public struct SkyTarget
 	{
-		// Token: 0x0600478E RID: 18318 RVA: 0x0025B216 File Offset: 0x00259616
+		// Token: 0x06004797 RID: 18327 RVA: 0x0025C606 File Offset: 0x0025AA06
 		public SkyTarget(float glow, SkyColorSet colorSet, float lightsourceShineSize, float lightsourceShineIntensity)
 		{
 			this.glow = glow;
@@ -15,7 +15,7 @@ namespace Verse
 			this.colors = colorSet;
 		}
 
-		// Token: 0x0600478F RID: 18319 RVA: 0x0025B238 File Offset: 0x00259638
+		// Token: 0x06004798 RID: 18328 RVA: 0x0025C628 File Offset: 0x0025AA28
 		public static SkyTarget Lerp(SkyTarget A, SkyTarget B, float t)
 		{
 			return new SkyTarget
@@ -27,7 +27,7 @@ namespace Verse
 			};
 		}
 
-		// Token: 0x06004790 RID: 18320 RVA: 0x0025B2C4 File Offset: 0x002596C4
+		// Token: 0x06004799 RID: 18329 RVA: 0x0025C6B4 File Offset: 0x0025AAB4
 		public static SkyTarget LerpDarken(SkyTarget A, SkyTarget B, float t)
 		{
 			return new SkyTarget
@@ -39,7 +39,7 @@ namespace Verse
 			};
 		}
 
-		// Token: 0x06004791 RID: 18321 RVA: 0x0025B374 File Offset: 0x00259774
+		// Token: 0x0600479A RID: 18330 RVA: 0x0025C764 File Offset: 0x0025AB64
 		public override string ToString()
 		{
 			return string.Concat(new string[]
@@ -56,16 +56,16 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x0400308B RID: 12427
+		// Token: 0x04003096 RID: 12438
 		public float glow;
 
-		// Token: 0x0400308C RID: 12428
+		// Token: 0x04003097 RID: 12439
 		public SkyColorSet colors;
 
-		// Token: 0x0400308D RID: 12429
+		// Token: 0x04003098 RID: 12440
 		public float lightsourceShineSize;
 
-		// Token: 0x0400308E RID: 12430
+		// Token: 0x04003099 RID: 12441
 		public float lightsourceShineIntensity;
 	}
 }

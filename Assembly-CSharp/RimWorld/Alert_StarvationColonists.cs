@@ -5,18 +5,18 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200079F RID: 1951
+	// Token: 0x0200079B RID: 1947
 	public class Alert_StarvationColonists : Alert
 	{
-		// Token: 0x06002B30 RID: 11056 RVA: 0x0016CD45 File Offset: 0x0016B145
+		// Token: 0x06002B29 RID: 11049 RVA: 0x0016CF1D File Offset: 0x0016B31D
 		public Alert_StarvationColonists()
 		{
 			this.defaultLabel = "Starvation".Translate();
 			this.defaultPriority = AlertPriority.High;
 		}
 
-		// Token: 0x170006B4 RID: 1716
-		// (get) Token: 0x06002B31 RID: 11057 RVA: 0x0016CD68 File Offset: 0x0016B168
+		// Token: 0x170006B5 RID: 1717
+		// (get) Token: 0x06002B2A RID: 11050 RVA: 0x0016CF40 File Offset: 0x0016B340
 		private IEnumerable<Pawn> StarvingColonists
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B32 RID: 11058 RVA: 0x0016CD8C File Offset: 0x0016B18C
+		// Token: 0x06002B2B RID: 11051 RVA: 0x0016CF64 File Offset: 0x0016B364
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -43,7 +43,7 @@ namespace RimWorld
 			return string.Format("StarvationDesc".Translate(), stringBuilder.ToString());
 		}
 
-		// Token: 0x06002B33 RID: 11059 RVA: 0x0016CE1C File Offset: 0x0016B21C
+		// Token: 0x06002B2C RID: 11052 RVA: 0x0016CFF4 File Offset: 0x0016B3F4
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.StarvingColonists);

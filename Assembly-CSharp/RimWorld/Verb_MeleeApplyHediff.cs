@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009D7 RID: 2519
+	// Token: 0x020009D3 RID: 2515
 	public class Verb_MeleeApplyHediff : Verb_MeleeAttack
 	{
-		// Token: 0x0600386B RID: 14443 RVA: 0x001E2380 File Offset: 0x001E0780
+		// Token: 0x06003865 RID: 14437 RVA: 0x001E2558 File Offset: 0x001E0958
 		protected override DamageWorker.DamageResult ApplyMeleeDamageToTarget(LocalTargetInfo target)
 		{
 			DamageWorker.DamageResult damageResult = new DamageWorker.DamageResult();
@@ -40,7 +40,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600386C RID: 14444 RVA: 0x001E248C File Offset: 0x001E088C
+		// Token: 0x06003866 RID: 14438 RVA: 0x001E2664 File Offset: 0x001E0A64
 		public override bool IsUsableOn(Thing target)
 		{
 			return target is Pawn;

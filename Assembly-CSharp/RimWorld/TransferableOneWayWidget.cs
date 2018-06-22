@@ -9,11 +9,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000828 RID: 2088
+	// Token: 0x02000824 RID: 2084
 	[StaticConstructorOnStartup]
 	public class TransferableOneWayWidget
 	{
-		// Token: 0x06002EE7 RID: 12007 RVA: 0x0018F5A4 File Offset: 0x0018D9A4
+		// Token: 0x06002EE0 RID: 12000 RVA: 0x0018F784 File Offset: 0x0018DB84
 		public TransferableOneWayWidget(IEnumerable<TransferableOneWay> transferables, string sourceLabel, string destinationLabel, string sourceCountDesc, bool drawMass = false, IgnorePawnsInventoryMode ignorePawnInventoryMass = IgnorePawnsInventoryMode.DontIgnore, bool includePawnsMassInMassUsage = false, Func<float> availableMassGetter = null, float extraHeaderSpace = 0f, bool ignoreSpawnedCorpseGearAndInventoryMass = false, int tile = -1, bool drawMarketValue = false, bool drawEquippedWeapon = false, bool drawNutritionEatenPerDay = false, bool drawItemNutrition = false, bool drawForagedFoodPerDay = false, bool drawDaysUntilRot = false, bool playerPawnsReadOnly = false)
 		{
 			if (transferables != null)
@@ -41,8 +41,8 @@ namespace RimWorld
 			this.sorter2 = TransferableSorterDefOf.MarketValue;
 		}
 
-		// Token: 0x1700077D RID: 1917
-		// (get) Token: 0x06002EE8 RID: 12008 RVA: 0x0018F6A0 File Offset: 0x0018DAA0
+		// Token: 0x1700077E RID: 1918
+		// (get) Token: 0x06002EE1 RID: 12001 RVA: 0x0018F880 File Offset: 0x0018DC80
 		public float TotalNumbersColumnsWidths
 		{
 			get
@@ -76,8 +76,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700077E RID: 1918
-		// (get) Token: 0x06002EE9 RID: 12009 RVA: 0x0018F730 File Offset: 0x0018DB30
+		// Token: 0x1700077F RID: 1919
+		// (get) Token: 0x06002EE2 RID: 12002 RVA: 0x0018F910 File Offset: 0x0018DD10
 		private bool AnyTransferable
 		{
 			get
@@ -97,7 +97,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EEA RID: 12010 RVA: 0x0018F79C File Offset: 0x0018DB9C
+		// Token: 0x06002EE3 RID: 12003 RVA: 0x0018F97C File Offset: 0x0018DD7C
 		public void AddSection(string title, IEnumerable<TransferableOneWay> transferables)
 		{
 			TransferableOneWayWidget.Section item = default(TransferableOneWayWidget.Section);
@@ -108,7 +108,7 @@ namespace RimWorld
 			this.transferablesCached = false;
 		}
 
-		// Token: 0x06002EEB RID: 12011 RVA: 0x0018F7E4 File Offset: 0x0018DBE4
+		// Token: 0x06002EE4 RID: 12004 RVA: 0x0018F9C4 File Offset: 0x0018DDC4
 		private void CacheTransferables()
 		{
 			this.transferablesCached = true;
@@ -120,14 +120,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EEC RID: 12012 RVA: 0x0018F8D0 File Offset: 0x0018DCD0
+		// Token: 0x06002EE5 RID: 12005 RVA: 0x0018FAB0 File Offset: 0x0018DEB0
 		public void OnGUI(Rect inRect)
 		{
 			bool flag;
 			this.OnGUI(inRect, out flag);
 		}
 
-		// Token: 0x06002EED RID: 12013 RVA: 0x0018F8E8 File Offset: 0x0018DCE8
+		// Token: 0x06002EE6 RID: 12006 RVA: 0x0018FAC8 File Offset: 0x0018DEC8
 		public void OnGUI(Rect inRect, out bool anythingChanged)
 		{
 			if (!this.transferablesCached)
@@ -171,7 +171,7 @@ namespace RimWorld
 			Profiler.EndSample();
 		}
 
-		// Token: 0x06002EEE RID: 12014 RVA: 0x0018FA98 File Offset: 0x0018DE98
+		// Token: 0x06002EE7 RID: 12007 RVA: 0x0018FC78 File Offset: 0x0018E078
 		private void FillMainRect(Rect mainRect, out bool anythingChanged)
 		{
 			anythingChanged = false;
@@ -233,7 +233,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EEF RID: 12015 RVA: 0x0018FD1C File Offset: 0x0018E11C
+		// Token: 0x06002EE8 RID: 12008 RVA: 0x0018FEFC File Offset: 0x0018E2FC
 		private void DoRow(Rect rect, TransferableOneWay trad, int index, float availableMass)
 		{
 			if (index % 2 == 1)
@@ -373,7 +373,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002EF0 RID: 12016 RVA: 0x001902EC File Offset: 0x0018E6EC
+		// Token: 0x06002EE9 RID: 12009 RVA: 0x001904CC File Offset: 0x0018E8CC
 		private bool ShouldShowCount(TransferableOneWay trad)
 		{
 			bool result;
@@ -389,7 +389,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002EF1 RID: 12017 RVA: 0x00190344 File Offset: 0x0018E744
+		// Token: 0x06002EEA RID: 12010 RVA: 0x00190524 File Offset: 0x0018E924
 		private void DrawDaysUntilRot(Rect rect, TransferableOneWay trad)
 		{
 			if (trad.HasAnyThing)
@@ -418,7 +418,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EF2 RID: 12018 RVA: 0x00190424 File Offset: 0x0018E824
+		// Token: 0x06002EEB RID: 12011 RVA: 0x00190604 File Offset: 0x0018EA04
 		private void DrawItemNutrition(Rect rect, TransferableOneWay trad)
 		{
 			if (trad.HasAnyThing)
@@ -437,7 +437,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EF3 RID: 12019 RVA: 0x001904D8 File Offset: 0x0018E8D8
+		// Token: 0x06002EEC RID: 12012 RVA: 0x001906B8 File Offset: 0x0018EAB8
 		private bool DrawGrazeability(Rect rect, TransferableOneWay trad)
 		{
 			bool result;
@@ -473,7 +473,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002EF4 RID: 12020 RVA: 0x001905AC File Offset: 0x0018E9AC
+		// Token: 0x06002EED RID: 12013 RVA: 0x0019078C File Offset: 0x0018EB8C
 		private void DrawForagedFoodPerDay(Rect rect, TransferableOneWay trad)
 		{
 			if (trad.HasAnyThing)
@@ -498,7 +498,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EF5 RID: 12021 RVA: 0x00190684 File Offset: 0x0018EA84
+		// Token: 0x06002EEE RID: 12014 RVA: 0x00190864 File Offset: 0x0018EC64
 		private void DrawNutritionEatenPerDay(Rect rect, TransferableOneWay trad)
 		{
 			if (trad.HasAnyThing)
@@ -540,7 +540,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EF6 RID: 12022 RVA: 0x001907AC File Offset: 0x0018EBAC
+		// Token: 0x06002EEF RID: 12015 RVA: 0x0019098C File Offset: 0x0018ED8C
 		private void DrawMarketValue(Rect rect, TransferableOneWay trad)
 		{
 			if (trad.HasAnyThing)
@@ -551,7 +551,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EF7 RID: 12023 RVA: 0x001907FC File Offset: 0x0018EBFC
+		// Token: 0x06002EF0 RID: 12016 RVA: 0x001909DC File Offset: 0x0018EDDC
 		private void DrawMass(Rect rect, TransferableOneWay trad, float availableMass)
 		{
 			if (trad.HasAnyThing)
@@ -615,7 +615,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EF8 RID: 12024 RVA: 0x00190A50 File Offset: 0x0018EE50
+		// Token: 0x06002EF1 RID: 12017 RVA: 0x00190C30 File Offset: 0x0018F030
 		private void DrawEquippedWeapon(Rect rect, Rect iconRect, TransferableOneWay trad)
 		{
 			if (trad.HasAnyThing)
@@ -631,7 +631,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EF9 RID: 12025 RVA: 0x00190AD0 File Offset: 0x0018EED0
+		// Token: 0x06002EF2 RID: 12018 RVA: 0x00190CB0 File Offset: 0x0018F0B0
 		private string GetPawnMassTip(TransferableOneWay trad, float capacity, float pawnMass, float gearMass, float invMass)
 		{
 			string result;
@@ -665,7 +665,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002EFA RID: 12026 RVA: 0x00190BC8 File Offset: 0x0018EFC8
+		// Token: 0x06002EF3 RID: 12019 RVA: 0x00190DA8 File Offset: 0x0018F1A8
 		private float GetMass(Thing thing)
 		{
 			float result;
@@ -697,159 +697,159 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0400190D RID: 6413
+		// Token: 0x0400190B RID: 6411
 		private List<TransferableOneWayWidget.Section> sections = new List<TransferableOneWayWidget.Section>();
 
-		// Token: 0x0400190E RID: 6414
+		// Token: 0x0400190C RID: 6412
 		private string sourceLabel;
 
-		// Token: 0x0400190F RID: 6415
+		// Token: 0x0400190D RID: 6413
 		private string destinationLabel;
 
-		// Token: 0x04001910 RID: 6416
+		// Token: 0x0400190E RID: 6414
 		private string sourceCountDesc;
 
-		// Token: 0x04001911 RID: 6417
+		// Token: 0x0400190F RID: 6415
 		private bool drawMass;
 
-		// Token: 0x04001912 RID: 6418
+		// Token: 0x04001910 RID: 6416
 		private IgnorePawnsInventoryMode ignorePawnInventoryMass = IgnorePawnsInventoryMode.DontIgnore;
 
-		// Token: 0x04001913 RID: 6419
+		// Token: 0x04001911 RID: 6417
 		private bool includePawnsMassInMassUsage;
 
-		// Token: 0x04001914 RID: 6420
+		// Token: 0x04001912 RID: 6418
 		private Func<float> availableMassGetter;
 
-		// Token: 0x04001915 RID: 6421
+		// Token: 0x04001913 RID: 6419
 		private float extraHeaderSpace;
 
-		// Token: 0x04001916 RID: 6422
+		// Token: 0x04001914 RID: 6420
 		private bool ignoreSpawnedCorpseGearAndInventoryMass;
 
-		// Token: 0x04001917 RID: 6423
+		// Token: 0x04001915 RID: 6421
 		private int tile;
 
-		// Token: 0x04001918 RID: 6424
+		// Token: 0x04001916 RID: 6422
 		private bool drawMarketValue;
 
-		// Token: 0x04001919 RID: 6425
+		// Token: 0x04001917 RID: 6423
 		private bool drawEquippedWeapon;
 
-		// Token: 0x0400191A RID: 6426
+		// Token: 0x04001918 RID: 6424
 		private bool drawNutritionEatenPerDay;
 
-		// Token: 0x0400191B RID: 6427
+		// Token: 0x04001919 RID: 6425
 		private bool drawItemNutrition;
 
-		// Token: 0x0400191C RID: 6428
+		// Token: 0x0400191A RID: 6426
 		private bool drawForagedFoodPerDay;
 
-		// Token: 0x0400191D RID: 6429
+		// Token: 0x0400191B RID: 6427
 		private bool drawDaysUntilRot;
 
-		// Token: 0x0400191E RID: 6430
+		// Token: 0x0400191C RID: 6428
 		private bool playerPawnsReadOnly;
 
-		// Token: 0x0400191F RID: 6431
+		// Token: 0x0400191D RID: 6429
 		private bool transferablesCached;
 
-		// Token: 0x04001920 RID: 6432
+		// Token: 0x0400191E RID: 6430
 		private Vector2 scrollPosition;
 
-		// Token: 0x04001921 RID: 6433
+		// Token: 0x0400191F RID: 6431
 		private TransferableSorterDef sorter1;
 
-		// Token: 0x04001922 RID: 6434
+		// Token: 0x04001920 RID: 6432
 		private TransferableSorterDef sorter2;
 
-		// Token: 0x04001923 RID: 6435
+		// Token: 0x04001921 RID: 6433
 		private static List<TransferableCountToTransferStoppingPoint> stoppingPoints = new List<TransferableCountToTransferStoppingPoint>();
 
-		// Token: 0x04001924 RID: 6436
+		// Token: 0x04001922 RID: 6434
 		private const float TopAreaHeight = 37f;
 
-		// Token: 0x04001925 RID: 6437
+		// Token: 0x04001923 RID: 6435
 		protected readonly Vector2 AcceptButtonSize = new Vector2(160f, 40f);
 
-		// Token: 0x04001926 RID: 6438
+		// Token: 0x04001924 RID: 6436
 		protected readonly Vector2 OtherBottomButtonSize = new Vector2(160f, 40f);
 
-		// Token: 0x04001927 RID: 6439
+		// Token: 0x04001925 RID: 6437
 		private const float ColumnWidth = 120f;
 
-		// Token: 0x04001928 RID: 6440
+		// Token: 0x04001926 RID: 6438
 		private const float FirstTransferableY = 6f;
 
-		// Token: 0x04001929 RID: 6441
+		// Token: 0x04001927 RID: 6439
 		private const float RowInterval = 30f;
 
-		// Token: 0x0400192A RID: 6442
+		// Token: 0x04001928 RID: 6440
 		public const float CountColumnWidth = 75f;
 
-		// Token: 0x0400192B RID: 6443
+		// Token: 0x04001929 RID: 6441
 		public const float AdjustColumnWidth = 240f;
 
-		// Token: 0x0400192C RID: 6444
+		// Token: 0x0400192A RID: 6442
 		public const float MassColumnWidth = 100f;
 
-		// Token: 0x0400192D RID: 6445
+		// Token: 0x0400192B RID: 6443
 		public static readonly Color ItemMassColor = new Color(0.7f, 0.7f, 0.7f);
 
-		// Token: 0x0400192E RID: 6446
+		// Token: 0x0400192C RID: 6444
 		private const float MarketValueColumnWidth = 100f;
 
-		// Token: 0x0400192F RID: 6447
+		// Token: 0x0400192D RID: 6445
 		private const float ExtraSpaceAfterSectionTitle = 5f;
 
-		// Token: 0x04001930 RID: 6448
+		// Token: 0x0400192E RID: 6446
 		private const float DaysUntilRotColumnWidth = 75f;
 
-		// Token: 0x04001931 RID: 6449
+		// Token: 0x0400192F RID: 6447
 		private const float NutritionEatenPerDayColumnWidth = 75f;
 
-		// Token: 0x04001932 RID: 6450
+		// Token: 0x04001930 RID: 6448
 		private const float ItemNutritionColumnWidth = 75f;
 
-		// Token: 0x04001933 RID: 6451
+		// Token: 0x04001931 RID: 6449
 		private const float ForagedFoodPerDayColumnWidth = 75f;
 
-		// Token: 0x04001934 RID: 6452
+		// Token: 0x04001932 RID: 6450
 		private const float GrazeabilityInnerColumnWidth = 40f;
 
-		// Token: 0x04001935 RID: 6453
+		// Token: 0x04001933 RID: 6451
 		private const float EquippedWeaponIconSize = 30f;
 
-		// Token: 0x04001936 RID: 6454
+		// Token: 0x04001934 RID: 6452
 		public const float TopAreaWidth = 515f;
 
-		// Token: 0x04001937 RID: 6455
+		// Token: 0x04001935 RID: 6453
 		private static readonly Texture2D CanGrazeIcon = ContentFinder<Texture2D>.Get("UI/Icons/CanGraze", true);
 
-		// Token: 0x04001938 RID: 6456
+		// Token: 0x04001936 RID: 6454
 		private static readonly Texture2D PregnantIcon = ContentFinder<Texture2D>.Get("UI/Icons/Animal/Pregnant", true);
 
-		// Token: 0x04001939 RID: 6457
+		// Token: 0x04001937 RID: 6455
 		private static readonly Texture2D BondIcon = ContentFinder<Texture2D>.Get("UI/Icons/Animal/Bond", true);
 
-		// Token: 0x0400193A RID: 6458
+		// Token: 0x04001938 RID: 6456
 		[TweakValue("Interface", 0f, 50f)]
 		private static float PregnancyIconWidth = 30f;
 
-		// Token: 0x0400193B RID: 6459
+		// Token: 0x04001939 RID: 6457
 		[TweakValue("Interface", 0f, 50f)]
 		private static float BondIconWidth = 30f;
 
-		// Token: 0x02000829 RID: 2089
+		// Token: 0x02000825 RID: 2085
 		private struct Section
 		{
-			// Token: 0x0400193F RID: 6463
+			// Token: 0x0400193D RID: 6461
 			public string title;
 
-			// Token: 0x04001940 RID: 6464
+			// Token: 0x0400193E RID: 6462
 			public IEnumerable<TransferableOneWay> transferables;
 
-			// Token: 0x04001941 RID: 6465
+			// Token: 0x0400193F RID: 6463
 			public List<TransferableOneWay> cachedTransferables;
 		}
 	}

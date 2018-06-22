@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000F38 RID: 3896
 	public static class SimpleColorExtension
 	{
-		// Token: 0x06005DC2 RID: 24002 RVA: 0x002FA334 File Offset: 0x002F8734
+		// Token: 0x06005DEA RID: 24042 RVA: 0x002FC370 File Offset: 0x002FA770
 		public static Color ToUnityColor(this SimpleColor color)
 		{
 			Color result;

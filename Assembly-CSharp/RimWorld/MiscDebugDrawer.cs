@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200098A RID: 2442
+	// Token: 0x02000986 RID: 2438
 	public static class MiscDebugDrawer
 	{
-		// Token: 0x060036F3 RID: 14067 RVA: 0x001D5C24 File Offset: 0x001D4024
+		// Token: 0x060036EC RID: 14060 RVA: 0x001D5E20 File Offset: 0x001D4220
 		public static void DebugDrawInteractionCells()
 		{
 			if (Find.CurrentMap != null)

@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000BCE RID: 3022
+	// Token: 0x02000BCA RID: 3018
 	public static class CombatLogTester
 	{
-		// Token: 0x060041CC RID: 16844 RVA: 0x0022A38C File Offset: 0x0022878C
+		// Token: 0x060041CE RID: 16846 RVA: 0x0022AA60 File Offset: 0x00228E60
 		public static Pawn GenerateRandom()
 		{
 			PawnKindDef pawnKindDef = DefDatabase<PawnKindDef>.AllDefsListForReading.RandomElementByWeight((PawnKindDef pawnkind) => (float)((!pawnkind.RaceProps.Humanlike) ? 1 : 5));

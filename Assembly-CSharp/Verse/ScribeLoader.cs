@@ -4,10 +4,10 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000D9E RID: 3486
+	// Token: 0x02000D9B RID: 3483
 	public class ScribeLoader
 	{
-		// Token: 0x06004DD0 RID: 19920 RVA: 0x0028A040 File Offset: 0x00288440
+		// Token: 0x06004DE5 RID: 19941 RVA: 0x0028B5F0 File Offset: 0x002899F0
 		public void InitLoading(string filePath)
 		{
 			if (Scribe.mode != LoadSaveMode.Inactive)
@@ -52,7 +52,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DD1 RID: 19921 RVA: 0x0028A170 File Offset: 0x00288570
+		// Token: 0x06004DE6 RID: 19942 RVA: 0x0028B720 File Offset: 0x00289B20
 		public void InitLoadingMetaHeaderOnly(string filePath)
 		{
 			if (Scribe.mode != LoadSaveMode.Inactive)
@@ -96,7 +96,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DD2 RID: 19922 RVA: 0x0028A2B8 File Offset: 0x002886B8
+		// Token: 0x06004DE7 RID: 19943 RVA: 0x0028B868 File Offset: 0x00289C68
 		public void FinalizeLoading()
 		{
 			if (Scribe.mode != LoadSaveMode.LoadingVars)
@@ -124,7 +124,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DD3 RID: 19923 RVA: 0x0028A35C File Offset: 0x0028875C
+		// Token: 0x06004DE8 RID: 19944 RVA: 0x0028B90C File Offset: 0x00289D0C
 		public bool EnterNode(string nodeName)
 		{
 			if (this.curXmlParent != null)
@@ -144,7 +144,7 @@ namespace Verse
 			return true;
 		}
 
-		// Token: 0x06004DD4 RID: 19924 RVA: 0x0028A3E8 File Offset: 0x002887E8
+		// Token: 0x06004DE9 RID: 19945 RVA: 0x0028B998 File Offset: 0x00289D98
 		public void ExitNode()
 		{
 			if (this.curXmlParent != null)
@@ -158,7 +158,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DD5 RID: 19925 RVA: 0x0028A450 File Offset: 0x00288850
+		// Token: 0x06004DEA RID: 19946 RVA: 0x0028BA00 File Offset: 0x00289E00
 		public void ForceStop()
 		{
 			this.curXmlParent = null;
@@ -172,19 +172,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x040033E6 RID: 13286
+		// Token: 0x040033F1 RID: 13297
 		public CrossRefHandler crossRefs = new CrossRefHandler();
 
-		// Token: 0x040033E7 RID: 13287
+		// Token: 0x040033F2 RID: 13298
 		public PostLoadIniter initer = new PostLoadIniter();
 
-		// Token: 0x040033E8 RID: 13288
+		// Token: 0x040033F3 RID: 13299
 		public IExposable curParent;
 
-		// Token: 0x040033E9 RID: 13289
+		// Token: 0x040033F4 RID: 13300
 		public XmlNode curXmlParent;
 
-		// Token: 0x040033EA RID: 13290
+		// Token: 0x040033F5 RID: 13301
 		public string curPathRelToParent;
 	}
 }

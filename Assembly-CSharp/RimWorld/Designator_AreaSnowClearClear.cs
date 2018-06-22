@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007C9 RID: 1993
+	// Token: 0x020007C5 RID: 1989
 	public class Designator_AreaSnowClearClear : Designator_AreaSnowClear
 	{
-		// Token: 0x06002C13 RID: 11283 RVA: 0x001749D0 File Offset: 0x00172DD0
+		// Token: 0x06002C0C RID: 11276 RVA: 0x00174BA8 File Offset: 0x00172FA8
 		public Designator_AreaSnowClearClear() : base(DesignateMode.Remove)
 		{
 			this.defaultLabel = "DesignatorAreaSnowClearClear".Translate();

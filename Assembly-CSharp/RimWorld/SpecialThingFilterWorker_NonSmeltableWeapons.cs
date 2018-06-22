@@ -3,16 +3,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200099E RID: 2462
+	// Token: 0x0200099A RID: 2458
 	public class SpecialThingFilterWorker_NonSmeltableWeapons : SpecialThingFilterWorker
 	{
-		// Token: 0x0600373A RID: 14138 RVA: 0x001D85DC File Offset: 0x001D69DC
+		// Token: 0x06003733 RID: 14131 RVA: 0x001D87D8 File Offset: 0x001D6BD8
 		public override bool Matches(Thing t)
 		{
 			return this.CanEverMatch(t.def) && !t.Smeltable;
 		}
 
-		// Token: 0x0600373B RID: 14139 RVA: 0x001D8614 File Offset: 0x001D6A14
+		// Token: 0x06003734 RID: 14132 RVA: 0x001D8810 File Offset: 0x001D6C10
 		public override bool CanEverMatch(ThingDef def)
 		{
 			bool result;
@@ -40,7 +40,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600373C RID: 14140 RVA: 0x001D86A0 File Offset: 0x001D6AA0
+		// Token: 0x06003735 RID: 14133 RVA: 0x001D889C File Offset: 0x001D6C9C
 		public override bool AlwaysMatches(ThingDef def)
 		{
 			return this.CanEverMatch(def) && !def.smeltable && !def.MadeFromStuff;

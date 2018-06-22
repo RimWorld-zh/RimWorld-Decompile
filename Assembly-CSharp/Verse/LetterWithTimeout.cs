@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E76 RID: 3702
+	// Token: 0x02000E75 RID: 3701
 	public abstract class LetterWithTimeout : Letter
 	{
-		// Token: 0x17000DBD RID: 3517
-		// (get) Token: 0x06005724 RID: 22308 RVA: 0x001A0414 File Offset: 0x0019E814
+		// Token: 0x17000DC0 RID: 3520
+		// (get) Token: 0x06005744 RID: 22340 RVA: 0x001A05F4 File Offset: 0x0019E9F4
 		public bool TimeoutActive
 		{
 			get
@@ -16,8 +16,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DBE RID: 3518
-		// (get) Token: 0x06005725 RID: 22309 RVA: 0x001A0438 File Offset: 0x0019E838
+		// Token: 0x17000DC1 RID: 3521
+		// (get) Token: 0x06005745 RID: 22341 RVA: 0x001A0618 File Offset: 0x0019EA18
 		public bool TimeoutPassed
 		{
 			get
@@ -26,8 +26,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DBF RID: 3519
-		// (get) Token: 0x06005726 RID: 22310 RVA: 0x001A0470 File Offset: 0x0019E870
+		// Token: 0x17000DC2 RID: 3522
+		// (get) Token: 0x06005746 RID: 22342 RVA: 0x001A0650 File Offset: 0x0019EA50
 		public override bool CanShowInLetterStack
 		{
 			get
@@ -36,20 +36,20 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005727 RID: 22311 RVA: 0x001A04AA File Offset: 0x0019E8AA
+		// Token: 0x06005747 RID: 22343 RVA: 0x001A068A File Offset: 0x0019EA8A
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.disappearAtTick, "disappearAtTick", 0, false);
 		}
 
-		// Token: 0x06005728 RID: 22312 RVA: 0x001A04C5 File Offset: 0x0019E8C5
+		// Token: 0x06005748 RID: 22344 RVA: 0x001A06A5 File Offset: 0x0019EAA5
 		public void StartTimeout(int duration)
 		{
 			this.disappearAtTick = Find.TickManager.TicksGame + duration;
 		}
 
-		// Token: 0x06005729 RID: 22313 RVA: 0x001A04DC File Offset: 0x0019E8DC
+		// Token: 0x06005749 RID: 22345 RVA: 0x001A06BC File Offset: 0x0019EABC
 		protected override string PostProcessedLabel()
 		{
 			string text = base.PostProcessedLabel();
@@ -69,7 +69,7 @@ namespace Verse
 			return text;
 		}
 
-		// Token: 0x040039C2 RID: 14786
+		// Token: 0x040039D2 RID: 14802
 		public int disappearAtTick = -1;
 	}
 }

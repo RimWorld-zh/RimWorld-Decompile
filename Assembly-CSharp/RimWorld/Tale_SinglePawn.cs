@@ -5,15 +5,15 @@ using Verse.Grammar;
 
 namespace RimWorld
 {
-	// Token: 0x0200066E RID: 1646
+	// Token: 0x0200066A RID: 1642
 	public class Tale_SinglePawn : Tale
 	{
-		// Token: 0x06002273 RID: 8819 RVA: 0x00124638 File Offset: 0x00122A38
+		// Token: 0x0600226B RID: 8811 RVA: 0x00124770 File Offset: 0x00122B70
 		public Tale_SinglePawn()
 		{
 		}
 
-		// Token: 0x06002274 RID: 8820 RVA: 0x00124641 File Offset: 0x00122A41
+		// Token: 0x0600226C RID: 8812 RVA: 0x00124779 File Offset: 0x00122B79
 		public Tale_SinglePawn(Pawn pawn)
 		{
 			this.pawnData = TaleData_Pawn.GenerateFrom(pawn);
@@ -24,7 +24,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700050C RID: 1292
-		// (get) Token: 0x06002275 RID: 8821 RVA: 0x00124678 File Offset: 0x00122A78
+		// (get) Token: 0x0600226D RID: 8813 RVA: 0x001247B0 File Offset: 0x00122BB0
 		public override Pawn DominantPawn
 		{
 			get
@@ -34,7 +34,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700050D RID: 1293
-		// (get) Token: 0x06002276 RID: 8822 RVA: 0x00124698 File Offset: 0x00122A98
+		// (get) Token: 0x0600226E RID: 8814 RVA: 0x001247D0 File Offset: 0x00122BD0
 		public override string ShortSummary
 		{
 			get
@@ -43,20 +43,20 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002277 RID: 8823 RVA: 0x001246D0 File Offset: 0x00122AD0
+		// Token: 0x0600226F RID: 8815 RVA: 0x00124808 File Offset: 0x00122C08
 		public override bool Concerns(Thing th)
 		{
 			return base.Concerns(th) || this.pawnData.pawn == th;
 		}
 
-		// Token: 0x06002278 RID: 8824 RVA: 0x00124702 File Offset: 0x00122B02
+		// Token: 0x06002270 RID: 8816 RVA: 0x0012483A File Offset: 0x00122C3A
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Deep.Look<TaleData_Pawn>(ref this.pawnData, "pawnData", new object[0]);
 		}
 
-		// Token: 0x06002279 RID: 8825 RVA: 0x00124724 File Offset: 0x00122B24
+		// Token: 0x06002271 RID: 8817 RVA: 0x0012485C File Offset: 0x00122C5C
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
 			foreach (Rule r in this.pawnData.GetRules("ANYPAWN"))
@@ -70,14 +70,14 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600227A RID: 8826 RVA: 0x0012474E File Offset: 0x00122B4E
+		// Token: 0x06002272 RID: 8818 RVA: 0x00124886 File Offset: 0x00122C86
 		public override void GenerateTestData()
 		{
 			base.GenerateTestData();
 			this.pawnData = TaleData_Pawn.GenerateRandom();
 		}
 
-		// Token: 0x04001387 RID: 4999
+		// Token: 0x04001385 RID: 4997
 		public TaleData_Pawn pawnData;
 	}
 }

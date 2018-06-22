@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000683 RID: 1667
+	// Token: 0x0200067F RID: 1663
 	[StaticConstructorOnStartup]
 	public class OverlayDrawer
 	{
-		// Token: 0x0600230A RID: 8970 RVA: 0x0012D9E8 File Offset: 0x0012BDE8
+		// Token: 0x06002302 RID: 8962 RVA: 0x0012DB30 File Offset: 0x0012BF30
 		public void DrawOverlay(Thing t, OverlayTypes overlayType)
 		{
 			if (this.overlaysToDraw.ContainsKey(t))
@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600230B RID: 8971 RVA: 0x0012DA34 File Offset: 0x0012BE34
+		// Token: 0x06002303 RID: 8963 RVA: 0x0012DB7C File Offset: 0x0012BF7C
 		public void DrawAllOverlays()
 		{
 			foreach (KeyValuePair<Thing, OverlayTypes> keyValuePair in this.overlaysToDraw)
@@ -91,31 +91,31 @@ namespace RimWorld
 			this.overlaysToDraw.Clear();
 		}
 
-		// Token: 0x0600230C RID: 8972 RVA: 0x0012DBD8 File Offset: 0x0012BFD8
+		// Token: 0x06002304 RID: 8964 RVA: 0x0012DD20 File Offset: 0x0012C120
 		private float StackOffsetFor(Thing t)
 		{
 			return (float)t.RotatedSize.x * 0.25f;
 		}
 
-		// Token: 0x0600230D RID: 8973 RVA: 0x0012DC02 File Offset: 0x0012C002
+		// Token: 0x06002305 RID: 8965 RVA: 0x0012DD4A File Offset: 0x0012C14A
 		private void RenderNeedsPowerOverlay(Thing t)
 		{
 			this.RenderPulsingOverlay(t, OverlayDrawer.NeedsPowerMat, 2, true);
 		}
 
-		// Token: 0x0600230E RID: 8974 RVA: 0x0012DC13 File Offset: 0x0012C013
+		// Token: 0x06002306 RID: 8966 RVA: 0x0012DD5B File Offset: 0x0012C15B
 		private void RenderPowerOffOverlay(Thing t)
 		{
 			this.RenderPulsingOverlay(t, OverlayDrawer.PowerOffMat, 3, true);
 		}
 
-		// Token: 0x0600230F RID: 8975 RVA: 0x0012DC24 File Offset: 0x0012C024
+		// Token: 0x06002307 RID: 8967 RVA: 0x0012DD6C File Offset: 0x0012C16C
 		private void RenderBrokenDownOverlay(Thing t)
 		{
 			this.RenderPulsingOverlay(t, OverlayDrawer.BrokenDownMat, 4, true);
 		}
 
-		// Token: 0x06002310 RID: 8976 RVA: 0x0012DC38 File Offset: 0x0012C038
+		// Token: 0x06002308 RID: 8968 RVA: 0x0012DD80 File Offset: 0x0012C180
 		private void RenderOutOfFuelOverlay(Thing t)
 		{
 			CompRefuelable compRefuelable = t.TryGetComp<CompRefuelable>();
@@ -124,14 +124,14 @@ namespace RimWorld
 			this.RenderPulsingOverlay(t, OverlayDrawer.OutOfFuelMat, 6, true);
 		}
 
-		// Token: 0x06002311 RID: 8977 RVA: 0x0012DC98 File Offset: 0x0012C098
+		// Token: 0x06002309 RID: 8969 RVA: 0x0012DDE0 File Offset: 0x0012C1E0
 		private void RenderPulsingOverlay(Thing thing, Material mat, int altInd, bool incrementOffset = true)
 		{
 			Mesh plane = MeshPool.plane08;
 			this.RenderPulsingOverlay(thing, mat, altInd, plane, incrementOffset);
 		}
 
-		// Token: 0x06002312 RID: 8978 RVA: 0x0012DCB8 File Offset: 0x0012C0B8
+		// Token: 0x0600230A RID: 8970 RVA: 0x0012DE00 File Offset: 0x0012C200
 		private void RenderPulsingOverlay(Thing thing, Material mat, int altInd, Mesh mesh, bool incrementOffset = true)
 		{
 			Vector3 vector = thing.TrueCenter();
@@ -144,7 +144,7 @@ namespace RimWorld
 			this.RenderPulsingOverlayInternal(thing, mat, vector, mesh);
 		}
 
-		// Token: 0x06002313 RID: 8979 RVA: 0x0012DD1C File Offset: 0x0012C11C
+		// Token: 0x0600230B RID: 8971 RVA: 0x0012DE64 File Offset: 0x0012C264
 		private void RenderPulsingOverlayInternal(Thing thing, Material mat, Vector3 drawPos, Mesh mesh)
 		{
 			float num = (Time.realtimeSinceStartup + 397f * (float)(thing.thingIDNumber % 571)) * 4f;
@@ -154,7 +154,7 @@ namespace RimWorld
 			Graphics.DrawMesh(mesh, drawPos, Quaternion.identity, material, 0);
 		}
 
-		// Token: 0x06002314 RID: 8980 RVA: 0x0012DD84 File Offset: 0x0012C184
+		// Token: 0x0600230C RID: 8972 RVA: 0x0012DECC File Offset: 0x0012C2CC
 		private void RenderForbiddenOverlay(Thing t)
 		{
 			Vector3 drawPos = t.DrawPos;
@@ -170,7 +170,7 @@ namespace RimWorld
 			Graphics.DrawMesh(MeshPool.plane05, drawPos, Quaternion.identity, OverlayDrawer.ForbiddenMat, 0);
 		}
 
-		// Token: 0x06002315 RID: 8981 RVA: 0x0012DE10 File Offset: 0x0012C210
+		// Token: 0x0600230D RID: 8973 RVA: 0x0012DF58 File Offset: 0x0012C358
 		private void RenderForbiddenBigOverlay(Thing t)
 		{
 			Vector3 drawPos = t.DrawPos;
@@ -178,7 +178,7 @@ namespace RimWorld
 			Graphics.DrawMesh(MeshPool.plane10, drawPos, Quaternion.identity, OverlayDrawer.ForbiddenMat, 0);
 		}
 
-		// Token: 0x06002316 RID: 8982 RVA: 0x0012DE50 File Offset: 0x0012C250
+		// Token: 0x0600230E RID: 8974 RVA: 0x0012DF98 File Offset: 0x0012C398
 		private void RenderBurningWick(Thing parent)
 		{
 			Material material;
@@ -195,7 +195,7 @@ namespace RimWorld
 			Graphics.DrawMesh(MeshPool.plane20, drawPos, Quaternion.identity, material, 0);
 		}
 
-		// Token: 0x06002317 RID: 8983 RVA: 0x0012DEB4 File Offset: 0x0012C2B4
+		// Token: 0x0600230F RID: 8975 RVA: 0x0012DFFC File Offset: 0x0012C3FC
 		private void RenderQuestionMarkOverlay(Thing t)
 		{
 			Vector3 drawPos = t.DrawPos;
@@ -208,58 +208,58 @@ namespace RimWorld
 			this.RenderPulsingOverlayInternal(t, OverlayDrawer.QuestionMarkMat, drawPos, MeshPool.plane05);
 		}
 
-		// Token: 0x040013AC RID: 5036
+		// Token: 0x040013AA RID: 5034
 		private Dictionary<Thing, OverlayTypes> overlaysToDraw = new Dictionary<Thing, OverlayTypes>();
 
-		// Token: 0x040013AD RID: 5037
+		// Token: 0x040013AB RID: 5035
 		private Vector3 curOffset;
 
-		// Token: 0x040013AE RID: 5038
+		// Token: 0x040013AC RID: 5036
 		private static readonly Material ForbiddenMat = MaterialPool.MatFrom("Things/Special/ForbiddenOverlay", ShaderDatabase.MetaOverlay);
 
-		// Token: 0x040013AF RID: 5039
+		// Token: 0x040013AD RID: 5037
 		private static readonly Material NeedsPowerMat = MaterialPool.MatFrom("UI/Overlays/NeedsPower", ShaderDatabase.MetaOverlay);
 
-		// Token: 0x040013B0 RID: 5040
+		// Token: 0x040013AE RID: 5038
 		private static readonly Material PowerOffMat = MaterialPool.MatFrom("UI/Overlays/PowerOff", ShaderDatabase.MetaOverlay);
 
-		// Token: 0x040013B1 RID: 5041
+		// Token: 0x040013AF RID: 5039
 		private static readonly Material QuestionMarkMat = MaterialPool.MatFrom("UI/Overlays/QuestionMark", ShaderDatabase.MetaOverlay);
 
-		// Token: 0x040013B2 RID: 5042
+		// Token: 0x040013B0 RID: 5040
 		private static readonly Material BrokenDownMat = MaterialPool.MatFrom("UI/Overlays/BrokenDown", ShaderDatabase.MetaOverlay);
 
-		// Token: 0x040013B3 RID: 5043
+		// Token: 0x040013B1 RID: 5041
 		private static readonly Material OutOfFuelMat = MaterialPool.MatFrom("UI/Overlays/OutOfFuel", ShaderDatabase.MetaOverlay);
 
-		// Token: 0x040013B4 RID: 5044
+		// Token: 0x040013B2 RID: 5042
 		private static readonly Material WickMaterialA = MaterialPool.MatFrom("Things/Special/BurningWickA", ShaderDatabase.MetaOverlay);
 
-		// Token: 0x040013B5 RID: 5045
+		// Token: 0x040013B3 RID: 5043
 		private static readonly Material WickMaterialB = MaterialPool.MatFrom("Things/Special/BurningWickB", ShaderDatabase.MetaOverlay);
 
-		// Token: 0x040013B6 RID: 5046
+		// Token: 0x040013B4 RID: 5044
 		private const int AltitudeIndex_Forbidden = 4;
 
-		// Token: 0x040013B7 RID: 5047
+		// Token: 0x040013B5 RID: 5045
 		private const int AltitudeIndex_BurningWick = 5;
 
-		// Token: 0x040013B8 RID: 5048
+		// Token: 0x040013B6 RID: 5046
 		private const int AltitudeIndex_QuestionMark = 6;
 
-		// Token: 0x040013B9 RID: 5049
+		// Token: 0x040013B7 RID: 5047
 		private static float SingleCellForbiddenOffset = 0.3f;
 
-		// Token: 0x040013BA RID: 5050
+		// Token: 0x040013B8 RID: 5048
 		private const float PulseFrequency = 4f;
 
-		// Token: 0x040013BB RID: 5051
+		// Token: 0x040013B9 RID: 5049
 		private const float PulseAmplitude = 0.7f;
 
-		// Token: 0x040013BC RID: 5052
+		// Token: 0x040013BA RID: 5050
 		private static readonly float BaseAlt = AltitudeLayer.MetaOverlays.AltitudeFor();
 
-		// Token: 0x040013BD RID: 5053
+		// Token: 0x040013BB RID: 5051
 		private const float StackOffsetMultipiler = 0.25f;
 	}
 }

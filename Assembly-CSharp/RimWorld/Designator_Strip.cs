@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007DF RID: 2015
+	// Token: 0x020007DB RID: 2011
 	public class Designator_Strip : Designator
 	{
-		// Token: 0x06002CA1 RID: 11425 RVA: 0x00177A70 File Offset: 0x00175E70
+		// Token: 0x06002C9A RID: 11418 RVA: 0x00177C48 File Offset: 0x00176048
 		public Designator_Strip()
 		{
 			this.defaultLabel = "DesignatorStrip".Translate();
@@ -22,8 +22,8 @@ namespace RimWorld
 			this.hotKey = KeyBindingDefOf.Misc11;
 		}
 
-		// Token: 0x17000704 RID: 1796
-		// (get) Token: 0x06002CA2 RID: 11426 RVA: 0x00177AE8 File Offset: 0x00175EE8
+		// Token: 0x17000705 RID: 1797
+		// (get) Token: 0x06002C9B RID: 11419 RVA: 0x00177CC0 File Offset: 0x001760C0
 		public override int DraggableDimensions
 		{
 			get
@@ -32,8 +32,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000705 RID: 1797
-		// (get) Token: 0x06002CA3 RID: 11427 RVA: 0x00177B00 File Offset: 0x00175F00
+		// Token: 0x17000706 RID: 1798
+		// (get) Token: 0x06002C9C RID: 11420 RVA: 0x00177CD8 File Offset: 0x001760D8
 		protected override DesignationDef Designation
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CA4 RID: 11428 RVA: 0x00177B1C File Offset: 0x00175F1C
+		// Token: 0x06002C9D RID: 11421 RVA: 0x00177CF4 File Offset: 0x001760F4
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -61,7 +61,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002CA5 RID: 11429 RVA: 0x00177B7C File Offset: 0x00175F7C
+		// Token: 0x06002C9E RID: 11422 RVA: 0x00177D54 File Offset: 0x00176154
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			foreach (Thing t in this.StrippablesInCell(c))
@@ -70,7 +70,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CA6 RID: 11430 RVA: 0x00177BDC File Offset: 0x00175FDC
+		// Token: 0x06002C9F RID: 11423 RVA: 0x00177DB4 File Offset: 0x001761B4
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			AcceptanceReport result;
@@ -85,13 +85,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002CA7 RID: 11431 RVA: 0x00177C24 File Offset: 0x00176024
+		// Token: 0x06002CA0 RID: 11424 RVA: 0x00177DFC File Offset: 0x001761FC
 		public override void DesignateThing(Thing t)
 		{
 			base.Map.designationManager.AddDesignation(new Designation(t, this.Designation));
 		}
 
-		// Token: 0x06002CA8 RID: 11432 RVA: 0x00177C48 File Offset: 0x00176048
+		// Token: 0x06002CA1 RID: 11425 RVA: 0x00177E20 File Offset: 0x00176220
 		private IEnumerable<Thing> StrippablesInCell(IntVec3 c)
 		{
 			if (c.Fogged(base.Map))

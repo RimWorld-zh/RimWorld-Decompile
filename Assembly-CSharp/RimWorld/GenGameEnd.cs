@@ -4,16 +4,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000980 RID: 2432
+	// Token: 0x0200097C RID: 2428
 	public static class GenGameEnd
 	{
-		// Token: 0x060036AF RID: 13999 RVA: 0x001D29D3 File Offset: 0x001D0DD3
+		// Token: 0x060036A8 RID: 13992 RVA: 0x001D2BBB File Offset: 0x001D0FBB
 		public static void EndGameDialogMessage(string msg, bool allowKeepPlaying = true)
 		{
 			GenGameEnd.EndGameDialogMessage(msg, allowKeepPlaying, Color.clear);
 		}
 
-		// Token: 0x060036B0 RID: 14000 RVA: 0x001D29E4 File Offset: 0x001D0DE4
+		// Token: 0x060036A9 RID: 13993 RVA: 0x001D2BCC File Offset: 0x001D0FCC
 		public static void EndGameDialogMessage(string msg, bool allowKeepPlaying, Color screenFillColor)
 		{
 			DiaNode diaNode = new DiaNode(msg);

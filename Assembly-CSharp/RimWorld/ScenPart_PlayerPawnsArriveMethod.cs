@@ -6,17 +6,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000648 RID: 1608
+	// Token: 0x02000644 RID: 1604
 	public class ScenPart_PlayerPawnsArriveMethod : ScenPart
 	{
-		// Token: 0x0600214E RID: 8526 RVA: 0x0011A8E2 File Offset: 0x00118CE2
+		// Token: 0x06002146 RID: 8518 RVA: 0x0011A9E2 File Offset: 0x00118DE2
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<PlayerPawnsArriveMethod>(ref this.method, "method", PlayerPawnsArriveMethod.Standing, false);
 		}
 
-		// Token: 0x0600214F RID: 8527 RVA: 0x0011A900 File Offset: 0x00118D00
+		// Token: 0x06002147 RID: 8519 RVA: 0x0011AA00 File Offset: 0x00118E00
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight);
@@ -49,7 +49,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002150 RID: 8528 RVA: 0x0011A9F0 File Offset: 0x00118DF0
+		// Token: 0x06002148 RID: 8520 RVA: 0x0011AAF0 File Offset: 0x00118EF0
 		public override string Summary(Scenario scen)
 		{
 			string result;
@@ -64,13 +64,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002151 RID: 8529 RVA: 0x0011AA22 File Offset: 0x00118E22
+		// Token: 0x06002149 RID: 8521 RVA: 0x0011AB22 File Offset: 0x00118F22
 		public override void Randomize()
 		{
 			this.method = ((Rand.Value >= 0.5f) ? PlayerPawnsArriveMethod.Standing : PlayerPawnsArriveMethod.DropPods);
 		}
 
-		// Token: 0x06002152 RID: 8530 RVA: 0x0011AA44 File Offset: 0x00118E44
+		// Token: 0x0600214A RID: 8522 RVA: 0x0011AB44 File Offset: 0x00118F44
 		public override void GenerateIntoMap(Map map)
 		{
 			if (Find.GameInitData != null)
@@ -109,7 +109,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002153 RID: 8531 RVA: 0x0011ABF8 File Offset: 0x00118FF8
+		// Token: 0x0600214B RID: 8523 RVA: 0x0011ACF8 File Offset: 0x001190F8
 		public override void PostMapGenerate(Map map)
 		{
 			if (Find.GameInitData != null)
@@ -121,7 +121,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040012F7 RID: 4855
+		// Token: 0x040012F4 RID: 4852
 		private PlayerPawnsArriveMethod method = PlayerPawnsArriveMethod.Standing;
 	}
 }

@@ -6,10 +6,10 @@ using Verse.Noise;
 
 namespace RimWorld
 {
-	// Token: 0x0200054F RID: 1359
+	// Token: 0x0200054B RID: 1355
 	public class BiomeWorker_SeaIce : BiomeWorker
 	{
-		// Token: 0x06001956 RID: 6486 RVA: 0x000DBC60 File Offset: 0x000DA060
+		// Token: 0x0600194D RID: 6477 RVA: 0x000DBC70 File Offset: 0x000DA070
 		public override float GetScore(Tile tile, int tileID)
 		{
 			float result;
@@ -28,7 +28,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001957 RID: 6487 RVA: 0x000DBCB0 File Offset: 0x000DA0B0
+		// Token: 0x0600194E RID: 6478 RVA: 0x000DBCC0 File Offset: 0x000DA0C0
 		private bool AllowedAt(int tile)
 		{
 			Vector3 tileCenter = Find.WorldGrid.GetTileCenter(tile);
@@ -56,10 +56,10 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04000ED5 RID: 3797
+		// Token: 0x04000ED2 RID: 3794
 		private ModuleBase cachedSeaIceAllowedNoise;
 
-		// Token: 0x04000ED6 RID: 3798
+		// Token: 0x04000ED3 RID: 3795
 		private int cachedSeaIceAllowedNoiseForSeed;
 	}
 }

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000CFA RID: 3322
+	// Token: 0x02000CF7 RID: 3319
 	public class DamageWorker_Stab : DamageWorker_AddInjury
 	{
-		// Token: 0x0600491B RID: 18715 RVA: 0x00266338 File Offset: 0x00264738
+		// Token: 0x0600492C RID: 18732 RVA: 0x00267750 File Offset: 0x00265B50
 		protected override BodyPartRecord ChooseHitPart(DamageInfo dinfo, Pawn pawn)
 		{
 			return pawn.health.hediffSet.GetRandomNotMissingPart(dinfo.Def, dinfo.Height, (Rand.Value >= this.def.stabChanceOfForcedInternal) ? dinfo.Depth : BodyPartDepth.Inside);
 		}
 
-		// Token: 0x0600491C RID: 18716 RVA: 0x00266390 File Offset: 0x00264790
+		// Token: 0x0600492D RID: 18733 RVA: 0x002677A8 File Offset: 0x00265BA8
 		protected override void ApplySpecialEffectsToPart(Pawn pawn, float totalDamage, DamageInfo dinfo, DamageWorker.DamageResult result)
 		{
 			totalDamage = base.ReduceDamageToPreserveOutsideParts(totalDamage, dinfo, pawn);

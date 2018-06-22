@@ -8,7 +8,7 @@ namespace Verse
 	// Token: 0x02000F36 RID: 3894
 	public static class GenDebug
 	{
-		// Token: 0x06005DBF RID: 23999 RVA: 0x002FA180 File Offset: 0x002F8580
+		// Token: 0x06005DE7 RID: 24039 RVA: 0x002FC1BC File Offset: 0x002FA5BC
 		public static void DebugPlaceSphere(Vector3 Loc, float Scale)
 		{
 			GameObject gameObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -16,7 +16,7 @@ namespace Verse
 			gameObject.transform.localScale = new Vector3(Scale, Scale, Scale);
 		}
 
-		// Token: 0x06005DC0 RID: 24000 RVA: 0x002FA1B4 File Offset: 0x002F85B4
+		// Token: 0x06005DE8 RID: 24040 RVA: 0x002FC1F0 File Offset: 0x002FA5F0
 		public static void LogList<T>(IEnumerable<T> list)
 		{
 			foreach (T t in list)
@@ -25,7 +25,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005DC1 RID: 24001 RVA: 0x002FA224 File Offset: 0x002F8624
+		// Token: 0x06005DE9 RID: 24041 RVA: 0x002FC260 File Offset: 0x002FA660
 		public static void ClearArea(CellRect r, Map map)
 		{
 			r.ClipInsideMap(map);

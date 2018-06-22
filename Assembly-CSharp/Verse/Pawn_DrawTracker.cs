@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CEA RID: 3306
+	// Token: 0x02000CE7 RID: 3303
 	public class Pawn_DrawTracker
 	{
-		// Token: 0x060048BA RID: 18618 RVA: 0x0026234C File Offset: 0x0026074C
+		// Token: 0x060048CB RID: 18635 RVA: 0x00263764 File Offset: 0x00261B64
 		public Pawn_DrawTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
@@ -20,8 +20,8 @@ namespace Verse
 			this.breathMoteMaker = new PawnBreathMoteMaker(pawn);
 		}
 
-		// Token: 0x17000B7D RID: 2941
-		// (get) Token: 0x060048BB RID: 18619 RVA: 0x002623BC File Offset: 0x002607BC
+		// Token: 0x17000B7F RID: 2943
+		// (get) Token: 0x060048CC RID: 18636 RVA: 0x002637D4 File Offset: 0x00261BD4
 		public Vector3 DrawPos
 		{
 			get
@@ -35,7 +35,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048BC RID: 18620 RVA: 0x00262424 File Offset: 0x00260824
+		// Token: 0x060048CD RID: 18637 RVA: 0x0026383C File Offset: 0x00261C3C
 		public void DrawTrackerTick()
 		{
 			if (this.pawn.Spawned)
@@ -51,25 +51,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048BD RID: 18621 RVA: 0x002624BA File Offset: 0x002608BA
+		// Token: 0x060048CE RID: 18638 RVA: 0x002638D2 File Offset: 0x00261CD2
 		public void DrawAt(Vector3 loc)
 		{
 			this.renderer.RenderPawnAt(loc);
 		}
 
-		// Token: 0x060048BE RID: 18622 RVA: 0x002624C9 File Offset: 0x002608C9
+		// Token: 0x060048CF RID: 18639 RVA: 0x002638E1 File Offset: 0x00261CE1
 		public void Notify_Spawned()
 		{
 			this.tweener.ResetTweenedPosToRoot();
 		}
 
-		// Token: 0x060048BF RID: 18623 RVA: 0x002624D7 File Offset: 0x002608D7
+		// Token: 0x060048D0 RID: 18640 RVA: 0x002638EF File Offset: 0x00261CEF
 		public void Notify_WarmingCastAlongLine(ShootLine newShootLine, IntVec3 ShootPosition)
 		{
 			this.leaner.Notify_WarmingCastAlongLine(newShootLine, ShootPosition);
 		}
 
-		// Token: 0x060048C0 RID: 18624 RVA: 0x002624E7 File Offset: 0x002608E7
+		// Token: 0x060048D1 RID: 18641 RVA: 0x002638FF File Offset: 0x00261CFF
 		public void Notify_DamageApplied(DamageInfo dinfo)
 		{
 			if (!this.pawn.Destroyed)
@@ -79,7 +79,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048C1 RID: 18625 RVA: 0x00262517 File Offset: 0x00260917
+		// Token: 0x060048D2 RID: 18642 RVA: 0x0026392F File Offset: 0x00261D2F
 		public void Notify_DamageDeflected(DamageInfo dinfo)
 		{
 			if (!this.pawn.Destroyed)
@@ -88,7 +88,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048C2 RID: 18626 RVA: 0x0026253C File Offset: 0x0026093C
+		// Token: 0x060048D3 RID: 18643 RVA: 0x00263954 File Offset: 0x00261D54
 		public void Notify_MeleeAttackOn(Thing Target)
 		{
 			if (Target.Position != this.pawn.Position)
@@ -101,7 +101,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048C3 RID: 18627 RVA: 0x002625E0 File Offset: 0x002609E0
+		// Token: 0x060048D4 RID: 18644 RVA: 0x002639F8 File Offset: 0x00261DF8
 		public void Notify_DebugAffected()
 		{
 			for (int i = 0; i < 10; i++)
@@ -111,31 +111,31 @@ namespace Verse
 			this.jitterer.AddOffset(0.05f, (float)Rand.Range(0, 360));
 		}
 
-		// Token: 0x0400313D RID: 12605
+		// Token: 0x04003148 RID: 12616
 		private Pawn pawn;
 
-		// Token: 0x0400313E RID: 12606
+		// Token: 0x04003149 RID: 12617
 		public PawnTweener tweener;
 
-		// Token: 0x0400313F RID: 12607
+		// Token: 0x0400314A RID: 12618
 		private JitterHandler jitterer;
 
-		// Token: 0x04003140 RID: 12608
+		// Token: 0x0400314B RID: 12619
 		public PawnLeaner leaner;
 
-		// Token: 0x04003141 RID: 12609
+		// Token: 0x0400314C RID: 12620
 		public PawnRenderer renderer;
 
-		// Token: 0x04003142 RID: 12610
+		// Token: 0x0400314D RID: 12621
 		public PawnUIOverlay ui;
 
-		// Token: 0x04003143 RID: 12611
+		// Token: 0x0400314E RID: 12622
 		private PawnFootprintMaker footprintMaker;
 
-		// Token: 0x04003144 RID: 12612
+		// Token: 0x0400314F RID: 12623
 		private PawnBreathMoteMaker breathMoteMaker;
 
-		// Token: 0x04003145 RID: 12613
+		// Token: 0x04003150 RID: 12624
 		private const float MeleeJitterDistance = 0.5f;
 	}
 }

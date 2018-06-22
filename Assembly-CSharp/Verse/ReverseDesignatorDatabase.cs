@@ -4,11 +4,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000E17 RID: 3607
+	// Token: 0x02000E14 RID: 3604
 	public class ReverseDesignatorDatabase
 	{
-		// Token: 0x17000D6F RID: 3439
-		// (get) Token: 0x060051CA RID: 20938 RVA: 0x0029DD44 File Offset: 0x0029C144
+		// Token: 0x17000D71 RID: 3441
+		// (get) Token: 0x060051DE RID: 20958 RVA: 0x0029F324 File Offset: 0x0029D724
 		public List<Designator> AllDesignators
 		{
 			get
@@ -21,13 +21,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060051CB RID: 20939 RVA: 0x0029DD70 File Offset: 0x0029C170
+		// Token: 0x060051DF RID: 20959 RVA: 0x0029F350 File Offset: 0x0029D750
 		public void Reinit()
 		{
 			this.desList = null;
 		}
 
-		// Token: 0x060051CC RID: 20940 RVA: 0x0029DD7C File Offset: 0x0029C17C
+		// Token: 0x060051E0 RID: 20960 RVA: 0x0029F35C File Offset: 0x0029D75C
 		public T Get<T>() where T : Designator
 		{
 			if (this.desList == null)
@@ -45,7 +45,7 @@ namespace Verse
 			return (T)((object)null);
 		}
 
-		// Token: 0x060051CD RID: 20941 RVA: 0x0029DDF0 File Offset: 0x0029C1F0
+		// Token: 0x060051E1 RID: 20961 RVA: 0x0029F3D0 File Offset: 0x0029D7D0
 		private void InitDesignators()
 		{
 			this.desList = new List<Designator>();
@@ -66,7 +66,7 @@ namespace Verse
 			this.desList.RemoveAll((Designator des) => !Current.Game.Rules.DesignatorAllowed(des));
 		}
 
-		// Token: 0x0400358A RID: 13706
+		// Token: 0x04003591 RID: 13713
 		private List<Designator> desList;
 	}
 }

@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007D4 RID: 2004
+	// Token: 0x020007D0 RID: 2000
 	public class Designator_Open : Designator
 	{
-		// Token: 0x06002C68 RID: 11368 RVA: 0x001764CC File Offset: 0x001748CC
+		// Token: 0x06002C61 RID: 11361 RVA: 0x001766A4 File Offset: 0x00174AA4
 		public Designator_Open()
 		{
 			this.defaultLabel = "DesignatorOpen".Translate();
@@ -21,8 +21,8 @@ namespace RimWorld
 			this.soundSucceeded = SoundDefOf.Designate_Claim;
 		}
 
-		// Token: 0x170006F7 RID: 1783
-		// (get) Token: 0x06002C69 RID: 11369 RVA: 0x0017653C File Offset: 0x0017493C
+		// Token: 0x170006F8 RID: 1784
+		// (get) Token: 0x06002C62 RID: 11362 RVA: 0x00176714 File Offset: 0x00174B14
 		public override int DraggableDimensions
 		{
 			get
@@ -31,8 +31,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006F8 RID: 1784
-		// (get) Token: 0x06002C6A RID: 11370 RVA: 0x00176554 File Offset: 0x00174954
+		// Token: 0x170006F9 RID: 1785
+		// (get) Token: 0x06002C63 RID: 11363 RVA: 0x0017672C File Offset: 0x00174B2C
 		protected override DesignationDef Designation
 		{
 			get
@@ -41,14 +41,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C6B RID: 11371 RVA: 0x0017656E File Offset: 0x0017496E
+		// Token: 0x06002C64 RID: 11364 RVA: 0x00176746 File Offset: 0x00174B46
 		protected override void FinalizeDesignationFailed()
 		{
 			base.FinalizeDesignationFailed();
 			Messages.Message("MessageMustDesignateOpenable".Translate(), MessageTypeDefOf.RejectInput, false);
 		}
 
-		// Token: 0x06002C6C RID: 11372 RVA: 0x0017658C File Offset: 0x0017498C
+		// Token: 0x06002C65 RID: 11365 RVA: 0x00176764 File Offset: 0x00174B64
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -67,7 +67,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C6D RID: 11373 RVA: 0x001765E4 File Offset: 0x001749E4
+		// Token: 0x06002C66 RID: 11366 RVA: 0x001767BC File Offset: 0x00174BBC
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			foreach (Thing t in this.OpenablesInCell(c))
@@ -76,7 +76,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C6E RID: 11374 RVA: 0x00176644 File Offset: 0x00174A44
+		// Token: 0x06002C67 RID: 11367 RVA: 0x0017681C File Offset: 0x00174C1C
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			IOpenable openable = t as IOpenable;
@@ -92,13 +92,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C6F RID: 11375 RVA: 0x0017669F File Offset: 0x00174A9F
+		// Token: 0x06002C68 RID: 11368 RVA: 0x00176877 File Offset: 0x00174C77
 		public override void DesignateThing(Thing t)
 		{
 			base.Map.designationManager.AddDesignation(new Designation(t, this.Designation));
 		}
 
-		// Token: 0x06002C70 RID: 11376 RVA: 0x001766C4 File Offset: 0x00174AC4
+		// Token: 0x06002C69 RID: 11369 RVA: 0x0017689C File Offset: 0x00174C9C
 		private IEnumerable<Thing> OpenablesInCell(IntVec3 c)
 		{
 			if (c.Fogged(base.Map))

@@ -2,12 +2,12 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000486 RID: 1158
+	// Token: 0x02000482 RID: 1154
 	public enum PawnNameCategory : byte
 	{
-		// Token: 0x04000C3D RID: 3133
+		// Token: 0x04000C3A RID: 3130
 		NoName,
-		// Token: 0x04000C3E RID: 3134
+		// Token: 0x04000C3B RID: 3131
 		HumanStandard
 	}
 }

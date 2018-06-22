@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_Hunt : JobDriver
 	{
 		// Token: 0x1700009D RID: 157
-		// (get) Token: 0x06000303 RID: 771 RVA: 0x000206F0 File Offset: 0x0001EAF0
+		// (get) Token: 0x06000303 RID: 771 RVA: 0x000206F4 File Offset: 0x0001EAF4
 		public Pawn Victim
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700009E RID: 158
-		// (get) Token: 0x06000304 RID: 772 RVA: 0x00020738 File Offset: 0x0001EB38
+		// (get) Token: 0x06000304 RID: 772 RVA: 0x0002073C File Offset: 0x0001EB3C
 		private Corpse Corpse
 		{
 			get
@@ -38,14 +38,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000305 RID: 773 RVA: 0x00020766 File Offset: 0x0001EB66
+		// Token: 0x06000305 RID: 773 RVA: 0x0002076A File Offset: 0x0001EB6A
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.jobStartTick, "jobStartTick", 0, false);
 		}
 
-		// Token: 0x06000306 RID: 774 RVA: 0x00020784 File Offset: 0x0001EB84
+		// Token: 0x06000306 RID: 774 RVA: 0x00020788 File Offset: 0x0001EB88
 		public override string GetReport()
 		{
 			string result;
@@ -60,13 +60,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000307 RID: 775 RVA: 0x000207D8 File Offset: 0x0001EBD8
+		// Token: 0x06000307 RID: 775 RVA: 0x000207DC File Offset: 0x0001EBDC
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.Victim, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06000308 RID: 776 RVA: 0x0002080C File Offset: 0x0001EC0C
+		// Token: 0x06000308 RID: 776 RVA: 0x00020810 File Offset: 0x0001EC10
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOn(delegate()
@@ -104,8 +104,8 @@ namespace RimWorld
 			yield return Toils_Jump.JumpIfTargetDespawnedOrNull(TargetIndex.A, startCollectCorpseLabel);
 			yield return Toils_Jump.Jump(slaughterIfPossible);
 			yield return slaughterLabel;
-			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-			yield return Toils_General.WaitWith(TargetIndex.A, 180, true, false);
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).FailOnMobile(TargetIndex.A);
+			yield return Toils_General.WaitWith(TargetIndex.A, 180, true, false).FailOnMobile(TargetIndex.A);
 			yield return Toils_General.Do(delegate
 			{
 				if (!this.Victim.Dead)
@@ -129,7 +129,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000309 RID: 777 RVA: 0x00020838 File Offset: 0x0001EC38
+		// Token: 0x06000309 RID: 777 RVA: 0x0002083C File Offset: 0x0001EC3C
 		private Toil StartCollectCorpseToil()
 		{
 			Toil toil = new Toil();

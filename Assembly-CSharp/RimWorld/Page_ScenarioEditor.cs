@@ -7,10 +7,10 @@ using Verse.Steam;
 
 namespace RimWorld
 {
-	// Token: 0x02000835 RID: 2101
+	// Token: 0x02000831 RID: 2097
 	public class Page_ScenarioEditor : Page
 	{
-		// Token: 0x06002F6D RID: 12141 RVA: 0x00195F90 File Offset: 0x00194390
+		// Token: 0x06002F66 RID: 12134 RVA: 0x00196170 File Offset: 0x00194570
 		public Page_ScenarioEditor(Scenario scen)
 		{
 			if (scen != null)
@@ -24,8 +24,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000783 RID: 1923
-		// (get) Token: 0x06002F6E RID: 12142 RVA: 0x00195FE8 File Offset: 0x001943E8
+		// Token: 0x17000784 RID: 1924
+		// (get) Token: 0x06002F67 RID: 12135 RVA: 0x001961C8 File Offset: 0x001945C8
 		public override string PageTitle
 		{
 			get
@@ -34,8 +34,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000784 RID: 1924
-		// (get) Token: 0x06002F6F RID: 12143 RVA: 0x00196008 File Offset: 0x00194408
+		// Token: 0x17000785 RID: 1925
+		// (get) Token: 0x06002F68 RID: 12136 RVA: 0x001961E8 File Offset: 0x001945E8
 		public Scenario EditingScenario
 		{
 			get
@@ -44,14 +44,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F70 RID: 12144 RVA: 0x00196023 File Offset: 0x00194423
+		// Token: 0x06002F69 RID: 12137 RVA: 0x00196203 File Offset: 0x00194603
 		public override void PreOpen()
 		{
 			base.PreOpen();
 			this.infoScrollPosition = Vector2.zero;
 		}
 
-		// Token: 0x06002F71 RID: 12145 RVA: 0x00196038 File Offset: 0x00194438
+		// Token: 0x06002F6A RID: 12138 RVA: 0x00196218 File Offset: 0x00194618
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DrawPageTitle(rect);
@@ -72,14 +72,14 @@ namespace RimWorld
 			base.DoBottomButtons(rect, null, null, null, true);
 		}
 
-		// Token: 0x06002F72 RID: 12146 RVA: 0x00196110 File Offset: 0x00194510
+		// Token: 0x06002F6B RID: 12139 RVA: 0x001962F0 File Offset: 0x001946F0
 		private void RandomizeSeedAndScenario()
 		{
 			this.seed = GenText.RandomSeedString();
 			this.curScen = ScenarioMaker.GenerateNewRandomScenario(this.seed);
 		}
 
-		// Token: 0x06002F73 RID: 12147 RVA: 0x00196130 File Offset: 0x00194530
+		// Token: 0x06002F6C RID: 12140 RVA: 0x00196310 File Offset: 0x00194710
 		private void DoConfigControls(Rect rect)
 		{
 			Listing_Standard listing_Standard = new Listing_Standard();
@@ -159,7 +159,7 @@ namespace RimWorld
 			listing_Standard.End();
 		}
 
-		// Token: 0x06002F74 RID: 12148 RVA: 0x00196390 File Offset: 0x00194790
+		// Token: 0x06002F6D RID: 12141 RVA: 0x00196570 File Offset: 0x00194970
 		private static bool CheckAllPartsCompatible(Scenario scen)
 		{
 			foreach (ScenPart scenPart in scen.AllParts)
@@ -196,7 +196,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06002F75 RID: 12149 RVA: 0x00196530 File Offset: 0x00194930
+		// Token: 0x06002F6E RID: 12142 RVA: 0x00196710 File Offset: 0x00194B10
 		private void OpenAddScenPartMenu()
 		{
 			FloatMenuUtility.MakeMenu<ScenPartDef>(from p in ScenarioMaker.AddableParts(this.curScen)
@@ -208,7 +208,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002F76 RID: 12150 RVA: 0x001965BC File Offset: 0x001949BC
+		// Token: 0x06002F6F RID: 12143 RVA: 0x0019679C File Offset: 0x00194B9C
 		private void AddScenPart(ScenPartDef def)
 		{
 			ScenPart scenPart = ScenarioMaker.MakeScenPart(def);
@@ -216,7 +216,7 @@ namespace RimWorld
 			this.curScen.parts.Add(scenPart);
 		}
 
-		// Token: 0x06002F77 RID: 12151 RVA: 0x001965E8 File Offset: 0x001949E8
+		// Token: 0x06002F70 RID: 12144 RVA: 0x001967C8 File Offset: 0x00194BC8
 		protected override bool CanDoNext()
 		{
 			bool result;
@@ -240,19 +240,19 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x040019A4 RID: 6564
+		// Token: 0x040019A2 RID: 6562
 		private Scenario curScen = null;
 
-		// Token: 0x040019A5 RID: 6565
+		// Token: 0x040019A3 RID: 6563
 		private Vector2 infoScrollPosition = Vector2.zero;
 
-		// Token: 0x040019A6 RID: 6566
+		// Token: 0x040019A4 RID: 6564
 		private string seed;
 
-		// Token: 0x040019A7 RID: 6567
+		// Token: 0x040019A5 RID: 6565
 		private bool seedIsValid = true;
 
-		// Token: 0x040019A8 RID: 6568
+		// Token: 0x040019A6 RID: 6566
 		private bool editMode = false;
 	}
 }

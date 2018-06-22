@@ -5,10 +5,10 @@ using Verse.Sound;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A49 RID: 2633
+	// Token: 0x02000A45 RID: 2629
 	public static class ToilEffects
 	{
-		// Token: 0x06003A8C RID: 14988 RVA: 0x001F00C0 File Offset: 0x001EE4C0
+		// Token: 0x06003A86 RID: 14982 RVA: 0x001F0300 File Offset: 0x001EE700
 		public static Toil PlaySoundAtStart(this Toil toil, SoundDef sound)
 		{
 			toil.AddPreInitAction(delegate
@@ -18,7 +18,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A8D RID: 14989 RVA: 0x001F0108 File Offset: 0x001EE508
+		// Token: 0x06003A87 RID: 14983 RVA: 0x001F0348 File Offset: 0x001EE748
 		public static Toil PlaySoundAtEnd(this Toil toil, SoundDef sound)
 		{
 			toil.AddFinishAction(delegate
@@ -28,13 +28,13 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A8E RID: 14990 RVA: 0x001F0150 File Offset: 0x001EE550
+		// Token: 0x06003A88 RID: 14984 RVA: 0x001F0390 File Offset: 0x001EE790
 		public static Toil PlaySustainerOrSound(this Toil toil, SoundDef soundDef)
 		{
 			return toil.PlaySustainerOrSound(() => soundDef);
 		}
 
-		// Token: 0x06003A8F RID: 14991 RVA: 0x001F0184 File Offset: 0x001EE584
+		// Token: 0x06003A89 RID: 14985 RVA: 0x001F03C4 File Offset: 0x001EE7C4
 		public static Toil PlaySustainerOrSound(this Toil toil, Func<SoundDef> soundDefGetter)
 		{
 			Sustainer sustainer = null;
@@ -65,25 +65,25 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A90 RID: 14992 RVA: 0x001F01E8 File Offset: 0x001EE5E8
+		// Token: 0x06003A8A RID: 14986 RVA: 0x001F0428 File Offset: 0x001EE828
 		public static Toil WithEffect(this Toil toil, EffecterDef effectDef, TargetIndex ind)
 		{
 			return toil.WithEffect(() => effectDef, ind);
 		}
 
-		// Token: 0x06003A91 RID: 14993 RVA: 0x001F0220 File Offset: 0x001EE620
+		// Token: 0x06003A8B RID: 14987 RVA: 0x001F0460 File Offset: 0x001EE860
 		public static Toil WithEffect(this Toil toil, Func<EffecterDef> effecterDefGetter, TargetIndex ind)
 		{
 			return toil.WithEffect(effecterDefGetter, () => toil.actor.CurJob.GetTarget(ind));
 		}
 
-		// Token: 0x06003A92 RID: 14994 RVA: 0x001F0264 File Offset: 0x001EE664
+		// Token: 0x06003A8C RID: 14988 RVA: 0x001F04A4 File Offset: 0x001EE8A4
 		public static Toil WithEffect(this Toil toil, Func<EffecterDef> effecterDefGetter, Thing thing)
 		{
 			return toil.WithEffect(effecterDefGetter, () => thing);
 		}
 
-		// Token: 0x06003A93 RID: 14995 RVA: 0x001F029C File Offset: 0x001EE69C
+		// Token: 0x06003A8D RID: 14989 RVA: 0x001F04DC File Offset: 0x001EE8DC
 		public static Toil WithEffect(this Toil toil, Func<EffecterDef> effecterDefGetter, Func<LocalTargetInfo> effectTargetGetter)
 		{
 			Effecter effecter = null;
@@ -113,7 +113,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A94 RID: 14996 RVA: 0x001F0308 File Offset: 0x001EE708
+		// Token: 0x06003A8E RID: 14990 RVA: 0x001F0548 File Offset: 0x001EE948
 		public static Toil WithProgressBar(this Toil toil, TargetIndex ind, Func<float> progressGetter, bool interpolateBetweenActorAndTarget = false, float offsetZ = -0.5f)
 		{
 			Effecter effecter = null;
@@ -161,13 +161,13 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A95 RID: 14997 RVA: 0x001F0384 File Offset: 0x001EE784
+		// Token: 0x06003A8F RID: 14991 RVA: 0x001F05C4 File Offset: 0x001EE9C4
 		public static Toil WithProgressBarToilDelay(this Toil toil, TargetIndex ind, bool interpolateBetweenActorAndTarget = false, float offsetZ = -0.5f)
 		{
 			return toil.WithProgressBar(ind, () => 1f - (float)toil.actor.jobs.curDriver.ticksLeftThisToil / (float)toil.defaultDuration, interpolateBetweenActorAndTarget, offsetZ);
 		}
 
-		// Token: 0x06003A96 RID: 14998 RVA: 0x001F03C0 File Offset: 0x001EE7C0
+		// Token: 0x06003A90 RID: 14992 RVA: 0x001F0600 File Offset: 0x001EEA00
 		public static Toil WithProgressBarToilDelay(this Toil toil, TargetIndex ind, int toilDuration, bool interpolateBetweenActorAndTarget = false, float offsetZ = -0.5f)
 		{
 			return toil.WithProgressBar(ind, () => 1f - (float)toil.actor.jobs.curDriver.ticksLeftThisToil / (float)toilDuration, interpolateBetweenActorAndTarget, offsetZ);

@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200072F RID: 1839
+	// Token: 0x0200072B RID: 1835
 	[StaticConstructorOnStartup]
 	public class Command_SetTargetFuelLevel : Command
 	{
-		// Token: 0x0600288F RID: 10383 RVA: 0x0015A60C File Offset: 0x00158A0C
+		// Token: 0x06002888 RID: 10376 RVA: 0x0015A7E4 File Offset: 0x00158BE4
 		public override void ProcessInput(Event ev)
 		{
 			base.ProcessInput(ev);
@@ -64,7 +64,7 @@ namespace RimWorld
 			Find.WindowStack.Add(window);
 		}
 
-		// Token: 0x06002890 RID: 10384 RVA: 0x0015A790 File Offset: 0x00158B90
+		// Token: 0x06002889 RID: 10377 RVA: 0x0015A968 File Offset: 0x00158D68
 		public override bool InheritInteractionsFrom(Gizmo other)
 		{
 			if (this.refuelables == null)
@@ -75,10 +75,10 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0400163B RID: 5691
+		// Token: 0x04001639 RID: 5689
 		public CompRefuelable refuelable;
 
-		// Token: 0x0400163C RID: 5692
+		// Token: 0x0400163A RID: 5690
 		private List<CompRefuelable> refuelables;
 	}
 }

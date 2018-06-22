@@ -4,17 +4,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000681 RID: 1665
+	// Token: 0x0200067D RID: 1661
 	public class Mineable : Building
 	{
-		// Token: 0x06002302 RID: 8962 RVA: 0x0012D6C4 File Offset: 0x0012BAC4
+		// Token: 0x060022FA RID: 8954 RVA: 0x0012D80C File Offset: 0x0012BC0C
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.yieldPct, "yieldPct", 0f, false);
 		}
 
-		// Token: 0x06002303 RID: 8963 RVA: 0x0012D6E4 File Offset: 0x0012BAE4
+		// Token: 0x060022FB RID: 8955 RVA: 0x0012D82C File Offset: 0x0012BC2C
 		public override void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
 		{
 			base.PreApplyDamage(ref dinfo, out absorbed);
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002304 RID: 8964 RVA: 0x0012D77C File Offset: 0x0012BB7C
+		// Token: 0x060022FC RID: 8956 RVA: 0x0012D8C4 File Offset: 0x0012BCC4
 		public void DestroyMined(Pawn pawn)
 		{
 			Map map = base.Map;
@@ -39,7 +39,7 @@ namespace RimWorld
 			this.TrySpawnYield(map, this.yieldPct, true, pawn);
 		}
 
-		// Token: 0x06002305 RID: 8965 RVA: 0x0012D7A8 File Offset: 0x0012BBA8
+		// Token: 0x060022FD RID: 8957 RVA: 0x0012D8F0 File Offset: 0x0012BCF0
 		public override void Destroy(DestroyMode mode)
 		{
 			Map map = base.Map;
@@ -50,7 +50,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002306 RID: 8966 RVA: 0x0012D7DC File Offset: 0x0012BBDC
+		// Token: 0x060022FE RID: 8958 RVA: 0x0012D924 File Offset: 0x0012BD24
 		private void TrySpawnYield(Map map, float yieldChance, bool moteOnWaste, Pawn pawn)
 		{
 			if (this.def.building.mineableThing != null)
@@ -76,7 +76,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002307 RID: 8967 RVA: 0x0012D8CC File Offset: 0x0012BCCC
+		// Token: 0x060022FF RID: 8959 RVA: 0x0012DA14 File Offset: 0x0012BE14
 		public void Notify_TookMiningDamage(int amount, Pawn miner)
 		{
 			int num = Mathf.Min(amount, this.HitPoints);
@@ -84,10 +84,10 @@ namespace RimWorld
 			this.yieldPct += num2 * miner.GetStatValue(StatDefOf.MiningYield, true);
 		}
 
-		// Token: 0x040013A1 RID: 5025
+		// Token: 0x0400139F RID: 5023
 		private float yieldPct = 0f;
 
-		// Token: 0x040013A2 RID: 5026
+		// Token: 0x040013A0 RID: 5024
 		private const float YieldChanceOnNonMiningKill = 0.2f;
 	}
 }

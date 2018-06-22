@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020000BC RID: 188
 	public class JobGiver_AIGotoNearestHostile : ThinkNode_JobGiver
 	{
-		// Token: 0x06000474 RID: 1140 RVA: 0x00032EBC File Offset: 0x000312BC
+		// Token: 0x06000474 RID: 1140 RVA: 0x00032E98 File Offset: 0x00031298
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			float num = float.MaxValue;

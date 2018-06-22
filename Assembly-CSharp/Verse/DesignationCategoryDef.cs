@@ -5,11 +5,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000B36 RID: 2870
+	// Token: 0x02000B32 RID: 2866
 	public class DesignationCategoryDef : Def
 	{
-		// Token: 0x1700098E RID: 2446
-		// (get) Token: 0x06003F1F RID: 16159 RVA: 0x002138CC File Offset: 0x00211CCC
+		// Token: 0x17000990 RID: 2448
+		// (get) Token: 0x06003F1E RID: 16158 RVA: 0x00213EE4 File Offset: 0x002122E4
 		public IEnumerable<Designator> ResolvedAllowedDesignators
 		{
 			get
@@ -27,8 +27,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x1700098F RID: 2447
-		// (get) Token: 0x06003F20 RID: 16160 RVA: 0x002138F8 File Offset: 0x00211CF8
+		// Token: 0x17000991 RID: 2449
+		// (get) Token: 0x06003F1F RID: 16159 RVA: 0x00213F10 File Offset: 0x00212310
 		public List<Designator> AllResolvedDesignators
 		{
 			get
@@ -37,7 +37,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F21 RID: 16161 RVA: 0x00213913 File Offset: 0x00211D13
+		// Token: 0x06003F20 RID: 16160 RVA: 0x00213F2B File Offset: 0x0021232B
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -48,7 +48,7 @@ namespace Verse
 			this.cachedHighlightClosedTag = "DesignationCategoryButton-" + this.defName + "-Closed";
 		}
 
-		// Token: 0x06003F22 RID: 16162 RVA: 0x00213948 File Offset: 0x00211D48
+		// Token: 0x06003F21 RID: 16161 RVA: 0x00213F60 File Offset: 0x00212360
 		private void ResolveDesignators()
 		{
 			this.resolvedDesignators.Clear();
@@ -98,24 +98,24 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002935 RID: 10549
+		// Token: 0x04002932 RID: 10546
 		public List<Type> specialDesignatorClasses = new List<Type>();
 
-		// Token: 0x04002936 RID: 10550
+		// Token: 0x04002933 RID: 10547
 		public int order = 0;
 
-		// Token: 0x04002937 RID: 10551
+		// Token: 0x04002934 RID: 10548
 		public bool showPowerGrid = false;
 
-		// Token: 0x04002938 RID: 10552
+		// Token: 0x04002935 RID: 10549
 		[Unsaved]
 		private List<Designator> resolvedDesignators = new List<Designator>();
 
-		// Token: 0x04002939 RID: 10553
+		// Token: 0x04002936 RID: 10550
 		[Unsaved]
 		public KeyBindingCategoryDef bindingCatDef;
 
-		// Token: 0x0400293A RID: 10554
+		// Token: 0x04002937 RID: 10551
 		[Unsaved]
 		public string cachedHighlightClosedTag;
 	}

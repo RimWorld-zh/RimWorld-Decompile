@@ -9,7 +9,7 @@ namespace RimWorld
 	public class TrainableDef : Def
 	{
 		// Token: 0x170001D6 RID: 470
-		// (get) Token: 0x06000C47 RID: 3143 RVA: 0x0006CF18 File Offset: 0x0006B318
+		// (get) Token: 0x06000C46 RID: 3142 RVA: 0x0006CFB4 File Offset: 0x0006B3B4
 		public Texture2D Icon
 		{
 			get
@@ -22,7 +22,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C48 RID: 3144 RVA: 0x0006CF58 File Offset: 0x0006B358
+		// Token: 0x06000C47 RID: 3143 RVA: 0x0006CFF4 File Offset: 0x0006B3F4
 		public bool MatchesTag(string tag)
 		{
 			bool result;
@@ -44,7 +44,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000C49 RID: 3145 RVA: 0x0006CFC4 File Offset: 0x0006B3C4
+		// Token: 0x06000C48 RID: 3144 RVA: 0x0006D060 File Offset: 0x0006B460
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -58,40 +58,40 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x040007D1 RID: 2001
+		// Token: 0x040007D2 RID: 2002
 		public float difficulty = -1f;
 
-		// Token: 0x040007D2 RID: 2002
+		// Token: 0x040007D3 RID: 2003
 		public float minBodySize = 0f;
 
-		// Token: 0x040007D3 RID: 2003
+		// Token: 0x040007D4 RID: 2004
 		public List<TrainableDef> prerequisites = null;
 
-		// Token: 0x040007D4 RID: 2004
+		// Token: 0x040007D5 RID: 2005
 		[NoTranslate]
 		public List<string> tags = new List<string>();
 
-		// Token: 0x040007D5 RID: 2005
+		// Token: 0x040007D6 RID: 2006
 		public bool defaultTrainable = false;
 
-		// Token: 0x040007D6 RID: 2006
+		// Token: 0x040007D7 RID: 2007
 		public TrainabilityDef requiredTrainability;
 
-		// Token: 0x040007D7 RID: 2007
+		// Token: 0x040007D8 RID: 2008
 		public int steps = 1;
 
-		// Token: 0x040007D8 RID: 2008
+		// Token: 0x040007D9 RID: 2009
 		public float listPriority = 0f;
 
-		// Token: 0x040007D9 RID: 2009
+		// Token: 0x040007DA RID: 2010
 		[NoTranslate]
 		public string icon;
 
-		// Token: 0x040007DA RID: 2010
+		// Token: 0x040007DB RID: 2011
 		[Unsaved]
 		public int indent = 0;
 
-		// Token: 0x040007DB RID: 2011
+		// Token: 0x040007DC RID: 2012
 		[Unsaved]
 		private Texture2D iconTex;
 	}

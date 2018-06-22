@@ -9,7 +9,7 @@ namespace RimWorld
 	public class JobDriver_FoodFeedPatient : JobDriver
 	{
 		// Token: 0x170000C0 RID: 192
-		// (get) Token: 0x060003C6 RID: 966 RVA: 0x0002AF20 File Offset: 0x00029320
+		// (get) Token: 0x060003C6 RID: 966 RVA: 0x0002AEFC File Offset: 0x000292FC
 		protected Thing Food
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000C1 RID: 193
-		// (get) Token: 0x060003C7 RID: 967 RVA: 0x0002AF48 File Offset: 0x00029348
+		// (get) Token: 0x060003C7 RID: 967 RVA: 0x0002AF24 File Offset: 0x00029324
 		protected Pawn Deliveree
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060003C8 RID: 968 RVA: 0x0002AF74 File Offset: 0x00029374
+		// Token: 0x060003C8 RID: 968 RVA: 0x0002AF50 File Offset: 0x00029350
 		public override string GetReport()
 		{
 			string result;
@@ -43,7 +43,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060003C9 RID: 969 RVA: 0x0002AFF8 File Offset: 0x000293F8
+		// Token: 0x060003C9 RID: 969 RVA: 0x0002AFD4 File Offset: 0x000293D4
 		public override bool TryMakePreToilReservations()
 		{
 			bool result;
@@ -65,7 +65,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060003CA RID: 970 RVA: 0x0002B0A4 File Offset: 0x000294A4
+		// Token: 0x060003CA RID: 970 RVA: 0x0002B080 File Offset: 0x00029480
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.B);

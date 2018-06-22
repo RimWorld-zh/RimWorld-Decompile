@@ -8,7 +8,7 @@ namespace RimWorld
 	public class WorkGiver_UnloadCarriers : WorkGiver_Scanner
 	{
 		// Token: 0x17000125 RID: 293
-		// (get) Token: 0x0600075C RID: 1884 RVA: 0x00049618 File Offset: 0x00047A18
+		// (get) Token: 0x0600075C RID: 1884 RVA: 0x00049604 File Offset: 0x00047A04
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000126 RID: 294
-		// (get) Token: 0x0600075D RID: 1885 RVA: 0x00049634 File Offset: 0x00047A34
+		// (get) Token: 0x0600075D RID: 1885 RVA: 0x00049620 File Offset: 0x00047A20
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -27,13 +27,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600075E RID: 1886 RVA: 0x0004964C File Offset: 0x00047A4C
+		// Token: 0x0600075E RID: 1886 RVA: 0x00049638 File Offset: 0x00047A38
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			return UnloadCarriersJobGiverUtility.HasJobOnThing(pawn, t, forced);
 		}
 
-		// Token: 0x0600075F RID: 1887 RVA: 0x0004966C File Offset: 0x00047A6C
+		// Token: 0x0600075F RID: 1887 RVA: 0x00049658 File Offset: 0x00047A58
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			return new Job(JobDefOf.UnloadInventory, t);

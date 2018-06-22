@@ -2,19 +2,19 @@
 
 namespace Verse
 {
-	// Token: 0x02000B19 RID: 2841
+	// Token: 0x02000B15 RID: 2837
 	[Flags]
 	public enum LinkDirections : byte
 	{
-		// Token: 0x0400281C RID: 10268
+		// Token: 0x04002818 RID: 10264
 		None = 0,
-		// Token: 0x0400281D RID: 10269
+		// Token: 0x04002819 RID: 10265
 		Up = 1,
-		// Token: 0x0400281E RID: 10270
+		// Token: 0x0400281A RID: 10266
 		Right = 2,
-		// Token: 0x0400281F RID: 10271
+		// Token: 0x0400281B RID: 10267
 		Down = 4,
-		// Token: 0x04002820 RID: 10272
+		// Token: 0x0400281C RID: 10268
 		Left = 8
 	}
 }

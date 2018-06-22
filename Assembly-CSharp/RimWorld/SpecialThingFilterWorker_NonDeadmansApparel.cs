@@ -3,17 +3,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200099F RID: 2463
+	// Token: 0x0200099B RID: 2459
 	public class SpecialThingFilterWorker_NonDeadmansApparel : SpecialThingFilterWorker
 	{
-		// Token: 0x0600373E RID: 14142 RVA: 0x001D86E0 File Offset: 0x001D6AE0
+		// Token: 0x06003737 RID: 14135 RVA: 0x001D88DC File Offset: 0x001D6CDC
 		public override bool Matches(Thing t)
 		{
 			Apparel apparel = t as Apparel;
 			return apparel != null && !apparel.WornByCorpse;
 		}
 
-		// Token: 0x0600373F RID: 14143 RVA: 0x001D8714 File Offset: 0x001D6B14
+		// Token: 0x06003738 RID: 14136 RVA: 0x001D8910 File Offset: 0x001D6D10
 		public override bool CanEverMatch(ThingDef def)
 		{
 			return def.IsApparel && def.apparel.careIfWornByCorpse;

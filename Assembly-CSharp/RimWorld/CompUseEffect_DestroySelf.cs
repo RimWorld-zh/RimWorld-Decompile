@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000763 RID: 1891
+	// Token: 0x0200075F RID: 1887
 	public class CompUseEffect_DestroySelf : CompUseEffect
 	{
-		// Token: 0x17000672 RID: 1650
-		// (get) Token: 0x060029BE RID: 10686 RVA: 0x00162010 File Offset: 0x00160410
+		// Token: 0x17000673 RID: 1651
+		// (get) Token: 0x060029B7 RID: 10679 RVA: 0x001621E8 File Offset: 0x001605E8
 		public override float OrderPriority
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060029BF RID: 10687 RVA: 0x0016202A File Offset: 0x0016042A
+		// Token: 0x060029B8 RID: 10680 RVA: 0x00162202 File Offset: 0x00160602
 		public override void DoEffect(Pawn usedBy)
 		{
 			base.DoEffect(usedBy);

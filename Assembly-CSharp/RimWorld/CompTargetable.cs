@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200075C RID: 1884
+	// Token: 0x02000758 RID: 1880
 	public abstract class CompTargetable : CompUseEffect
 	{
-		// Token: 0x1700066B RID: 1643
-		// (get) Token: 0x0600299B RID: 10651 RVA: 0x00161658 File Offset: 0x0015FA58
+		// Token: 0x1700066C RID: 1644
+		// (get) Token: 0x06002994 RID: 10644 RVA: 0x00161830 File Offset: 0x0015FC30
 		private CompProperties_Targetable Props
 		{
 			get
@@ -17,18 +17,18 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x1700066C RID: 1644
-		// (get) Token: 0x0600299C RID: 10652
+		// Token: 0x1700066D RID: 1645
+		// (get) Token: 0x06002995 RID: 10645
 		protected abstract bool PlayerChoosesTarget { get; }
 
-		// Token: 0x0600299D RID: 10653 RVA: 0x00161678 File Offset: 0x0015FA78
+		// Token: 0x06002996 RID: 10646 RVA: 0x00161850 File Offset: 0x0015FC50
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_References.Look<Thing>(ref this.target, "target", false);
 		}
 
-		// Token: 0x0600299E RID: 10654 RVA: 0x00161694 File Offset: 0x0015FA94
+		// Token: 0x06002997 RID: 10647 RVA: 0x0016186C File Offset: 0x0015FC6C
 		public override bool SelectedUseOption(Pawn p)
 		{
 			bool result;
@@ -49,7 +49,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600299F RID: 10655 RVA: 0x00161700 File Offset: 0x0015FB00
+		// Token: 0x06002998 RID: 10648 RVA: 0x001618D8 File Offset: 0x0015FCD8
 		public override void DoEffect(Pawn usedBy)
 		{
 			if (!this.PlayerChoosesTarget || this.target != null)
@@ -69,13 +69,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060029A0 RID: 10656
+		// Token: 0x06002999 RID: 10649
 		protected abstract TargetingParameters GetTargetingParameters();
 
-		// Token: 0x060029A1 RID: 10657
+		// Token: 0x0600299A RID: 10650
 		public abstract IEnumerable<Thing> GetTargets(Thing targetChosenByPlayer = null);
 
-		// Token: 0x060029A2 RID: 10658 RVA: 0x00161804 File Offset: 0x0015FC04
+		// Token: 0x0600299B RID: 10651 RVA: 0x001619DC File Offset: 0x0015FDDC
 		public bool BaseTargetValidator(Thing t)
 		{
 			if (this.Props.psychicSensitiveTargetsOnly)
@@ -105,7 +105,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x0400169B RID: 5787
+		// Token: 0x04001699 RID: 5785
 		private Thing target;
 	}
 }

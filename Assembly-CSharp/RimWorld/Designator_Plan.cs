@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007D5 RID: 2005
+	// Token: 0x020007D1 RID: 2001
 	public abstract class Designator_Plan : Designator
 	{
-		// Token: 0x06002C71 RID: 11377 RVA: 0x001768A8 File Offset: 0x00174CA8
+		// Token: 0x06002C6A RID: 11370 RVA: 0x00176A80 File Offset: 0x00174E80
 		public Designator_Plan(DesignateMode mode)
 		{
 			this.mode = mode;
@@ -17,8 +17,8 @@ namespace RimWorld
 			this.hotKey = KeyBindingDefOf.Misc9;
 		}
 
-		// Token: 0x170006F9 RID: 1785
-		// (get) Token: 0x06002C72 RID: 11378 RVA: 0x001768E0 File Offset: 0x00174CE0
+		// Token: 0x170006FA RID: 1786
+		// (get) Token: 0x06002C6B RID: 11371 RVA: 0x00176AB8 File Offset: 0x00174EB8
 		public override int DraggableDimensions
 		{
 			get
@@ -27,8 +27,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006FA RID: 1786
-		// (get) Token: 0x06002C73 RID: 11379 RVA: 0x001768F8 File Offset: 0x00174CF8
+		// Token: 0x170006FB RID: 1787
+		// (get) Token: 0x06002C6C RID: 11372 RVA: 0x00176AD0 File Offset: 0x00174ED0
 		public override bool DragDrawMeasurements
 		{
 			get
@@ -37,8 +37,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006FB RID: 1787
-		// (get) Token: 0x06002C74 RID: 11380 RVA: 0x00176910 File Offset: 0x00174D10
+		// Token: 0x170006FC RID: 1788
+		// (get) Token: 0x06002C6D RID: 11373 RVA: 0x00176AE8 File Offset: 0x00174EE8
 		protected override DesignationDef Designation
 		{
 			get
@@ -47,7 +47,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C75 RID: 11381 RVA: 0x0017692C File Offset: 0x00174D2C
+		// Token: 0x06002C6E RID: 11374 RVA: 0x00176B04 File Offset: 0x00174F04
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -80,7 +80,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C76 RID: 11382 RVA: 0x001769FC File Offset: 0x00174DFC
+		// Token: 0x06002C6F RID: 11375 RVA: 0x00176BD4 File Offset: 0x00174FD4
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			if (this.mode == DesignateMode.Add)
@@ -93,20 +93,20 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C77 RID: 11383 RVA: 0x00176A63 File Offset: 0x00174E63
+		// Token: 0x06002C70 RID: 11376 RVA: 0x00176C3B File Offset: 0x0017503B
 		public override void SelectedUpdate()
 		{
 			GenUI.RenderMouseoverBracket();
 			GenDraw.DrawNoBuildEdgeLines();
 		}
 
-		// Token: 0x06002C78 RID: 11384 RVA: 0x00176A70 File Offset: 0x00174E70
+		// Token: 0x06002C71 RID: 11377 RVA: 0x00176C48 File Offset: 0x00175048
 		public override void RenderHighlight(List<IntVec3> dragCells)
 		{
 			DesignatorUtility.RenderHighlightOverSelectableCells(this, dragCells);
 		}
 
-		// Token: 0x040017A4 RID: 6052
+		// Token: 0x040017A2 RID: 6050
 		private DesignateMode mode;
 	}
 }

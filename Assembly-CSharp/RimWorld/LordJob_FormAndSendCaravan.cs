@@ -10,12 +10,12 @@ namespace RimWorld
 	// Token: 0x0200016E RID: 366
 	public class LordJob_FormAndSendCaravan : LordJob
 	{
-		// Token: 0x0600077E RID: 1918 RVA: 0x0004A673 File Offset: 0x00048A73
+		// Token: 0x0600077E RID: 1918 RVA: 0x0004A65F File Offset: 0x00048A5F
 		public LordJob_FormAndSendCaravan()
 		{
 		}
 
-		// Token: 0x0600077F RID: 1919 RVA: 0x0004A67C File Offset: 0x00048A7C
+		// Token: 0x0600077F RID: 1919 RVA: 0x0004A668 File Offset: 0x00048A68
 		public LordJob_FormAndSendCaravan(List<TransferableOneWay> transferables, IntVec3 meetingPoint, IntVec3 exitSpot, int startingTile, int destinationTile)
 		{
 			this.transferables = transferables;
@@ -26,7 +26,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700012A RID: 298
-		// (get) Token: 0x06000780 RID: 1920 RVA: 0x0004A6AC File Offset: 0x00048AAC
+		// (get) Token: 0x06000780 RID: 1920 RVA: 0x0004A698 File Offset: 0x00048A98
 		public bool GatheringItemsNow
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700012B RID: 299
-		// (get) Token: 0x06000781 RID: 1921 RVA: 0x0004A6D4 File Offset: 0x00048AD4
+		// (get) Token: 0x06000781 RID: 1921 RVA: 0x0004A6C0 File Offset: 0x00048AC0
 		public override bool AllowStartNewGatherings
 		{
 			get
@@ -46,7 +46,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700012C RID: 300
-		// (get) Token: 0x06000782 RID: 1922 RVA: 0x0004A6EC File Offset: 0x00048AEC
+		// (get) Token: 0x06000782 RID: 1922 RVA: 0x0004A6D8 File Offset: 0x00048AD8
 		public override bool NeverInRestraints
 		{
 			get
@@ -56,7 +56,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700012D RID: 301
-		// (get) Token: 0x06000783 RID: 1923 RVA: 0x0004A704 File Offset: 0x00048B04
+		// (get) Token: 0x06000783 RID: 1923 RVA: 0x0004A6F0 File Offset: 0x00048AF0
 		public string Status
 		{
 			get
@@ -103,7 +103,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000784 RID: 1924 RVA: 0x0004A810 File Offset: 0x00048C10
+		// Token: 0x06000784 RID: 1924 RVA: 0x0004A7FC File Offset: 0x00048BFC
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -171,13 +171,13 @@ namespace RimWorld
 			return stateGraph;
 		}
 
-		// Token: 0x06000785 RID: 1925 RVA: 0x0004AB64 File Offset: 0x00048F64
+		// Token: 0x06000785 RID: 1925 RVA: 0x0004AB50 File Offset: 0x00048F50
 		public override string GetReport()
 		{
 			return "LordReportFormingCaravan".Translate();
 		}
 
-		// Token: 0x06000786 RID: 1926 RVA: 0x0004AB84 File Offset: 0x00048F84
+		// Token: 0x06000786 RID: 1926 RVA: 0x0004AB70 File Offset: 0x00048F70
 		private Transition PauseTransition(LordToil from, LordToil to)
 		{
 			Transition transition = new Transition(from, to, false, true);
@@ -187,7 +187,7 @@ namespace RimWorld
 			return transition;
 		}
 
-		// Token: 0x06000787 RID: 1927 RVA: 0x0004ABE8 File Offset: 0x00048FE8
+		// Token: 0x06000787 RID: 1927 RVA: 0x0004ABD4 File Offset: 0x00048FD4
 		private Transition UnpauseTransition(LordToil from, LordToil to)
 		{
 			Transition transition = new Transition(from, to, false, true);
@@ -197,7 +197,7 @@ namespace RimWorld
 			return transition;
 		}
 
-		// Token: 0x06000788 RID: 1928 RVA: 0x0004AC40 File Offset: 0x00049040
+		// Token: 0x06000788 RID: 1928 RVA: 0x0004AC2C File Offset: 0x0004902C
 		public override void ExposeData()
 		{
 			Scribe_Collections.Look<TransferableOneWay>(ref this.transferables, "transferables", LookMode.Deep, new object[0]);
@@ -207,20 +207,20 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.destinationTile, "destinationTile", 0, false);
 		}
 
-		// Token: 0x06000789 RID: 1929 RVA: 0x0004ACBD File Offset: 0x000490BD
+		// Token: 0x06000789 RID: 1929 RVA: 0x0004ACA9 File Offset: 0x000490A9
 		private void SendCaravan()
 		{
 			this.caravanSent = true;
 			CaravanFormingUtility.FormAndCreateCaravan(this.lord.ownedPawns, this.lord.faction, base.Map.Tile, this.startingTile, this.destinationTile);
 		}
 
-		// Token: 0x0600078A RID: 1930 RVA: 0x0004ACF9 File Offset: 0x000490F9
+		// Token: 0x0600078A RID: 1930 RVA: 0x0004ACE5 File Offset: 0x000490E5
 		public override void Notify_PawnAdded(Pawn p)
 		{
 			ReachabilityUtility.ClearCache();
 		}
 
-		// Token: 0x0600078B RID: 1931 RVA: 0x0004AD01 File Offset: 0x00049101
+		// Token: 0x0600078B RID: 1931 RVA: 0x0004ACED File Offset: 0x000490ED
 		public override void Notify_PawnLost(Pawn p, PawnLostCondition condition)
 		{
 			ReachabilityUtility.ClearCache();
@@ -230,7 +230,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600078C RID: 1932 RVA: 0x0004AD20 File Offset: 0x00049120
+		// Token: 0x0600078C RID: 1932 RVA: 0x0004AD0C File Offset: 0x0004910C
 		public override bool CanOpenAnyDoor(Pawn p)
 		{
 			return true;

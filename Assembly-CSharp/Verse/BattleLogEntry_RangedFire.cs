@@ -5,15 +5,15 @@ using Verse.Grammar;
 
 namespace Verse
 {
-	// Token: 0x02000BC2 RID: 3010
+	// Token: 0x02000BBE RID: 3006
 	public class BattleLogEntry_RangedFire : LogEntry
 	{
-		// Token: 0x06004150 RID: 16720 RVA: 0x00227438 File Offset: 0x00225838
+		// Token: 0x06004152 RID: 16722 RVA: 0x00227B0C File Offset: 0x00225F0C
 		public BattleLogEntry_RangedFire() : base(null)
 		{
 		}
 
-		// Token: 0x06004151 RID: 16721 RVA: 0x00227444 File Offset: 0x00225844
+		// Token: 0x06004153 RID: 16723 RVA: 0x00227B18 File Offset: 0x00225F18
 		public BattleLogEntry_RangedFire(Thing initiator, Thing target, ThingDef weaponDef, ThingDef projectileDef, bool burst) : base(null)
 		{
 			if (initiator is Pawn)
@@ -37,8 +37,8 @@ namespace Verse
 			this.burst = burst;
 		}
 
-		// Token: 0x17000A33 RID: 2611
-		// (get) Token: 0x06004152 RID: 16722 RVA: 0x002274CC File Offset: 0x002258CC
+		// Token: 0x17000A35 RID: 2613
+		// (get) Token: 0x06004154 RID: 16724 RVA: 0x00227BA0 File Offset: 0x00225FA0
 		private string InitiatorName
 		{
 			get
@@ -47,8 +47,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A34 RID: 2612
-		// (get) Token: 0x06004153 RID: 16723 RVA: 0x00227504 File Offset: 0x00225904
+		// Token: 0x17000A36 RID: 2614
+		// (get) Token: 0x06004155 RID: 16725 RVA: 0x00227BD8 File Offset: 0x00225FD8
 		private string RecipientName
 		{
 			get
@@ -57,13 +57,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004154 RID: 16724 RVA: 0x0022753C File Offset: 0x0022593C
+		// Token: 0x06004156 RID: 16726 RVA: 0x00227C10 File Offset: 0x00226010
 		public override bool Concerns(Thing t)
 		{
 			return t == this.initiatorPawn || t == this.recipientPawn;
 		}
 
-		// Token: 0x06004155 RID: 16725 RVA: 0x0022756C File Offset: 0x0022596C
+		// Token: 0x06004157 RID: 16727 RVA: 0x00227C40 File Offset: 0x00226040
 		public override IEnumerable<Thing> GetConcerns()
 		{
 			if (this.initiatorPawn != null)
@@ -77,7 +77,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004156 RID: 16726 RVA: 0x00227598 File Offset: 0x00225998
+		// Token: 0x06004158 RID: 16728 RVA: 0x00227C6C File Offset: 0x0022606C
 		public override void ClickedFromPOV(Thing pov)
 		{
 			if (this.recipientPawn != null)
@@ -97,7 +97,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004157 RID: 16727 RVA: 0x00227600 File Offset: 0x00225A00
+		// Token: 0x06004159 RID: 16729 RVA: 0x00227CD4 File Offset: 0x002260D4
 		protected override GrammarRequest GenerateGrammarRequest()
 		{
 			GrammarRequest result = base.GenerateGrammarRequest();
@@ -142,13 +142,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004158 RID: 16728 RVA: 0x002277D0 File Offset: 0x00225BD0
+		// Token: 0x0600415A RID: 16730 RVA: 0x00227EA4 File Offset: 0x002262A4
 		public override bool ShowInCompactView()
 		{
 			return Rand.ChanceSeeded(BattleLogEntry_RangedFire.DisplayChance, this.logID);
 		}
 
-		// Token: 0x06004159 RID: 16729 RVA: 0x002277F8 File Offset: 0x00225BF8
+		// Token: 0x0600415B RID: 16731 RVA: 0x00227ECC File Offset: 0x002262CC
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -161,34 +161,34 @@ namespace Verse
 			Scribe_Values.Look<bool>(ref this.burst, "burst", false, false);
 		}
 
-		// Token: 0x0600415A RID: 16730 RVA: 0x00227880 File Offset: 0x00225C80
+		// Token: 0x0600415C RID: 16732 RVA: 0x00227F54 File Offset: 0x00226354
 		public override string ToString()
 		{
 			return "BattleLogEntry_RangedFire: " + this.InitiatorName + "->" + this.RecipientName;
 		}
 
-		// Token: 0x04002C98 RID: 11416
+		// Token: 0x04002C9D RID: 11421
 		private Pawn initiatorPawn;
 
-		// Token: 0x04002C99 RID: 11417
+		// Token: 0x04002C9E RID: 11422
 		private ThingDef initiatorThing;
 
-		// Token: 0x04002C9A RID: 11418
+		// Token: 0x04002C9F RID: 11423
 		private Pawn recipientPawn;
 
-		// Token: 0x04002C9B RID: 11419
+		// Token: 0x04002CA0 RID: 11424
 		private ThingDef recipientThing;
 
-		// Token: 0x04002C9C RID: 11420
+		// Token: 0x04002CA1 RID: 11425
 		private ThingDef weaponDef;
 
-		// Token: 0x04002C9D RID: 11421
+		// Token: 0x04002CA2 RID: 11426
 		private ThingDef projectileDef;
 
-		// Token: 0x04002C9E RID: 11422
+		// Token: 0x04002CA3 RID: 11427
 		private bool burst;
 
-		// Token: 0x04002C9F RID: 11423
+		// Token: 0x04002CA4 RID: 11428
 		[TweakValue("LogFilter", 0f, 1f)]
 		private static float DisplayChance = 0.25f;
 	}

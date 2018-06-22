@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x0200006E RID: 110
 	public static class HuntJobUtility
 	{
-		// Token: 0x0600030A RID: 778 RVA: 0x000210C0 File Offset: 0x0001F4C0
+		// Token: 0x0600030A RID: 778 RVA: 0x000210D0 File Offset: 0x0001F4D0
 		public static bool WasKilledByHunter(Pawn pawn, DamageInfo? dinfo)
 		{
 			bool result;

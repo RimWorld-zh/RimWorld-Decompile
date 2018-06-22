@@ -5,27 +5,27 @@ using RimWorld;
 
 namespace Verse.Grammar
 {
-	// Token: 0x02000BE7 RID: 3047
+	// Token: 0x02000BE3 RID: 3043
 	public static class GrammarUtility
 	{
-		// Token: 0x06004276 RID: 17014 RVA: 0x0022F45C File Offset: 0x0022D85C
-		public static IEnumerable<Rule> RulesForPawn(string prefix, Pawn pawn, Dictionary<string, string> constants = null)
+		// Token: 0x06004278 RID: 17016 RVA: 0x0022FB58 File Offset: 0x0022DF58
+		public static IEnumerable<Rule> RulesForPawn(string pawnSymbol, Pawn pawn, Dictionary<string, string> constants = null)
 		{
 			IEnumerable<Rule> result;
 			if (pawn == null)
 			{
-				Log.ErrorOnce(string.Format("Tried to insert rule {0} for null pawn", prefix), 16015097, false);
+				Log.ErrorOnce(string.Format("Tried to insert rule {0} for null pawn", pawnSymbol), 16015097, false);
 				result = Enumerable.Empty<Rule>();
 			}
 			else
 			{
-				result = GrammarUtility.RulesForPawn(prefix, pawn.Name, pawn.kindDef, pawn.gender, pawn.Faction, constants);
+				result = GrammarUtility.RulesForPawn(pawnSymbol, pawn.Name, (pawn.story == null) ? null : pawn.story.Title, pawn.kindDef, pawn.gender, pawn.Faction, constants);
 			}
 			return result;
 		}
 
-		// Token: 0x06004277 RID: 17015 RVA: 0x0022F4B8 File Offset: 0x0022D8B8
-		public static IEnumerable<Rule> RulesForPawn(string prefix, Name name, PawnKindDef kind, Gender gender, Faction faction, Dictionary<string, string> constants = null)
+		// Token: 0x06004279 RID: 17017 RVA: 0x0022FBD0 File Offset: 0x0022DFD0
+		public static IEnumerable<Rule> RulesForPawn(string pawnSymbol, Name name, string title, PawnKindDef kind, Gender gender, Faction faction, Dictionary<string, string> constants = null)
 		{
 			string nameFull;
 			if (name != null)
@@ -36,7 +36,7 @@ namespace Verse.Grammar
 			{
 				nameFull = Find.ActiveLanguageWorker.WithIndefiniteArticle(kind.label);
 			}
-			yield return new Rule_String(prefix + "_nameFull", nameFull);
+			yield return new Rule_String(pawnSymbol + "_nameFull", nameFull);
 			string nameShort;
 			if (name != null)
 			{
@@ -46,7 +46,7 @@ namespace Verse.Grammar
 			{
 				nameShort = kind.label;
 			}
-			yield return new Rule_String(prefix + "_label", nameShort);
+			yield return new Rule_String(pawnSymbol + "_label", nameShort);
 			string nameShortDef;
 			if (name != null)
 			{
@@ -56,8 +56,8 @@ namespace Verse.Grammar
 			{
 				nameShortDef = Find.ActiveLanguageWorker.WithDefiniteArticle(kind.label);
 			}
-			yield return new Rule_String(prefix + "_definite", nameShortDef);
-			yield return new Rule_String(prefix + "_nameDef", nameShortDef);
+			yield return new Rule_String(pawnSymbol + "_definite", nameShortDef);
+			yield return new Rule_String(pawnSymbol + "_nameDef", nameShortDef);
 			string nameShortIndef;
 			if (name != null)
 			{
@@ -67,23 +67,27 @@ namespace Verse.Grammar
 			{
 				nameShortIndef = Find.ActiveLanguageWorker.WithIndefiniteArticle(kind.label);
 			}
-			yield return new Rule_String(prefix + "_indefinite", nameShortIndef);
-			yield return new Rule_String(prefix + "_nameIndef", nameShortIndef);
-			yield return new Rule_String(prefix + "_pronoun", gender.GetPronoun());
-			yield return new Rule_String(prefix + "_possessive", gender.GetPossessive());
-			yield return new Rule_String(prefix + "_objective", gender.GetObjective());
+			yield return new Rule_String(pawnSymbol + "_indefinite", nameShortIndef);
+			yield return new Rule_String(pawnSymbol + "_nameIndef", nameShortIndef);
+			yield return new Rule_String(pawnSymbol + "_pronoun", gender.GetPronoun());
+			yield return new Rule_String(pawnSymbol + "_possessive", gender.GetPossessive());
+			yield return new Rule_String(pawnSymbol + "_objective", gender.GetObjective());
 			if (faction != null)
 			{
-				yield return new Rule_String(prefix + "_factionName", faction.Name);
+				yield return new Rule_String(pawnSymbol + "_factionName", faction.Name);
+			}
+			if (title != null)
+			{
+				yield return new Rule_String(pawnSymbol + "_title", title);
 			}
 			if (constants != null && kind != null)
 			{
-				constants[prefix + "_flesh"] = kind.race.race.FleshType.defName;
+				constants[pawnSymbol + "_flesh"] = kind.race.race.FleshType.defName;
 			}
 			yield break;
 		}
 
-		// Token: 0x06004278 RID: 17016 RVA: 0x0022F508 File Offset: 0x0022D908
+		// Token: 0x0600427A RID: 17018 RVA: 0x0022FC28 File Offset: 0x0022E028
 		public static IEnumerable<Rule> RulesForDef(string prefix, Def def)
 		{
 			if (def == null)
@@ -98,7 +102,7 @@ namespace Verse.Grammar
 			yield break;
 		}
 
-		// Token: 0x06004279 RID: 17017 RVA: 0x0022F53C File Offset: 0x0022D93C
+		// Token: 0x0600427B RID: 17019 RVA: 0x0022FC5C File Offset: 0x0022E05C
 		public static IEnumerable<Rule> RulesForBodyPartRecord(string prefix, BodyPartRecord part)
 		{
 			if (part == null)
@@ -113,7 +117,7 @@ namespace Verse.Grammar
 			yield break;
 		}
 
-		// Token: 0x0600427A RID: 17018 RVA: 0x0022F570 File Offset: 0x0022D970
+		// Token: 0x0600427C RID: 17020 RVA: 0x0022FC90 File Offset: 0x0022E090
 		public static IEnumerable<Rule> RulesForHediffDef(string prefix, HediffDef def, BodyPartRecord part)
 		{
 			foreach (Rule rule in GrammarUtility.RulesForDef(prefix, def))
@@ -134,7 +138,7 @@ namespace Verse.Grammar
 			yield break;
 		}
 
-		// Token: 0x0600427B RID: 17019 RVA: 0x0022F5A8 File Offset: 0x0022D9A8
+		// Token: 0x0600427D RID: 17021 RVA: 0x0022FCC8 File Offset: 0x0022E0C8
 		public static IEnumerable<Rule> RulesForFaction(string prefix, Faction faction)
 		{
 			if (faction == null)

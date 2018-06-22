@@ -8,7 +8,7 @@ namespace Verse
 	// Token: 0x02000F47 RID: 3911
 	public static class GenRecipe
 	{
-		// Token: 0x06005E80 RID: 24192 RVA: 0x003003CC File Offset: 0x002FE7CC
+		// Token: 0x06005EA8 RID: 24232 RVA: 0x00302408 File Offset: 0x00300808
 		public static IEnumerable<Thing> MakeRecipeProducts(RecipeDef recipeDef, Pawn worker, List<Thing> ingredients, Thing dominantIngredient, IBillGiver billGiver)
 		{
 			float efficiency;
@@ -104,7 +104,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005E81 RID: 24193 RVA: 0x00300414 File Offset: 0x002FE814
+		// Token: 0x06005EA9 RID: 24233 RVA: 0x00302450 File Offset: 0x00300850
 		private static Thing PostProcessProduct(Thing product, RecipeDef recipeDef, Pawn worker)
 		{
 			CompQuality compQuality = product.TryGetComp<CompQuality>();

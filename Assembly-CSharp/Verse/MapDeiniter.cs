@@ -7,10 +7,10 @@ using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x02000C3B RID: 3131
+	// Token: 0x02000C38 RID: 3128
 	public static class MapDeiniter
 	{
-		// Token: 0x060044FB RID: 17659 RVA: 0x00243ED0 File Offset: 0x002422D0
+		// Token: 0x06004504 RID: 17668 RVA: 0x002452A0 File Offset: 0x002436A0
 		public static void Deinit(Map map)
 		{
 			try
@@ -88,7 +88,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044FC RID: 17660 RVA: 0x002440DC File Offset: 0x002424DC
+		// Token: 0x06004505 RID: 17669 RVA: 0x002454AC File Offset: 0x002438AC
 		private static void PassPawnsToWorld(Map map)
 		{
 			List<Pawn> list = new List<Pawn>();
@@ -176,7 +176,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044FD RID: 17661 RVA: 0x002443E0 File Offset: 0x002427E0
+		// Token: 0x06004506 RID: 17670 RVA: 0x002457B0 File Offset: 0x00243BB0
 		private static void CleanUpAndPassToWorld(Pawn p)
 		{
 			if (p.ownership != null)
@@ -191,7 +191,7 @@ namespace Verse
 			Find.WorldPawns.PassToWorld(p, PawnDiscardDecideMode.Decide);
 		}
 
-		// Token: 0x060044FE RID: 17662 RVA: 0x00244434 File Offset: 0x00242834
+		// Token: 0x06004507 RID: 17671 RVA: 0x00245804 File Offset: 0x00243C04
 		private static void NotifyFactions(Map map)
 		{
 			List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;
@@ -201,7 +201,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060044FF RID: 17663 RVA: 0x00244474 File Offset: 0x00242874
+		// Token: 0x06004508 RID: 17672 RVA: 0x00245844 File Offset: 0x00243C44
 		private static void NotifyEverythingWhichUsesMapReference(Map map)
 		{
 			List<Map> maps = Find.Maps;
@@ -248,7 +248,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002F17 RID: 12055
+		// Token: 0x04002F21 RID: 12065
 		private static List<Thing> tmpThings = new List<Thing>();
 	}
 }

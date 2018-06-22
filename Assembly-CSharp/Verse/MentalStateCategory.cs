@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000B55 RID: 2901
+	// Token: 0x02000B51 RID: 2897
 	public enum MentalStateCategory
 	{
-		// Token: 0x040029FF RID: 10751
+		// Token: 0x040029FD RID: 10749
 		Undefined,
-		// Token: 0x04002A00 RID: 10752
+		// Token: 0x040029FE RID: 10750
 		Aggro,
-		// Token: 0x04002A01 RID: 10753
+		// Token: 0x040029FF RID: 10751
 		Malicious,
-		// Token: 0x04002A02 RID: 10754
+		// Token: 0x04002A00 RID: 10752
 		Misc
 	}
 }

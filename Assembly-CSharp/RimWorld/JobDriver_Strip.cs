@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x0200007F RID: 127
 	public class JobDriver_Strip : JobDriver
 	{
-		// Token: 0x0600035C RID: 860 RVA: 0x00025494 File Offset: 0x00023894
+		// Token: 0x0600035C RID: 860 RVA: 0x00025470 File Offset: 0x00023870
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
 		}
 
-		// Token: 0x0600035D RID: 861 RVA: 0x000254C8 File Offset: 0x000238C8
+		// Token: 0x0600035D RID: 861 RVA: 0x000254A4 File Offset: 0x000238A4
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);
@@ -51,7 +51,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600035E RID: 862 RVA: 0x000254F4 File Offset: 0x000238F4
+		// Token: 0x0600035E RID: 862 RVA: 0x000254D0 File Offset: 0x000238D0
 		public override object[] TaleParameters()
 		{
 			Corpse corpse = base.TargetA.Thing as Corpse;

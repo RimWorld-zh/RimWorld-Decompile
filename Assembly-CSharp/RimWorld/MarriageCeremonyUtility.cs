@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200017B RID: 379
 	public static class MarriageCeremonyUtility
 	{
-		// Token: 0x060007DB RID: 2011 RVA: 0x0004CF08 File Offset: 0x0004B308
+		// Token: 0x060007DB RID: 2011 RVA: 0x0004CEF4 File Offset: 0x0004B2F4
 		public static bool AcceptableGameConditionsToStartCeremony(Map map)
 		{
 			bool result;
@@ -43,19 +43,19 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060007DC RID: 2012 RVA: 0x0004CFF8 File Offset: 0x0004B3F8
+		// Token: 0x060007DC RID: 2012 RVA: 0x0004CFE4 File Offset: 0x0004B3E4
 		public static bool AcceptableGameConditionsToContinueCeremony(Map map)
 		{
 			return map.dangerWatcher.DangerRating != StoryDanger.High;
 		}
 
-		// Token: 0x060007DD RID: 2013 RVA: 0x0004D028 File Offset: 0x0004B428
+		// Token: 0x060007DD RID: 2013 RVA: 0x0004D014 File Offset: 0x0004B414
 		public static bool FianceReadyToStartCeremony(Pawn pawn)
 		{
 			return MarriageCeremonyUtility.FianceCanContinueCeremony(pawn) && pawn.health.hediffSet.BleedRateTotal <= 0f && !HealthAIUtility.ShouldSeekMedicalRestUrgent(pawn) && !PawnUtility.WillSoonHaveBasicNeed(pawn) && !MarriageCeremonyUtility.IsCurrentlyMarryingSomeone(pawn) && pawn.GetLord() == null && (!pawn.Drafted && !pawn.InMentalState && pawn.Awake() && !pawn.IsBurning()) && !pawn.InBed();
 		}
 
-		// Token: 0x060007DE RID: 2014 RVA: 0x0004D0F0 File Offset: 0x0004B4F0
+		// Token: 0x060007DE RID: 2014 RVA: 0x0004D0DC File Offset: 0x0004B4DC
 		public static bool FianceCanContinueCeremony(Pawn pawn)
 		{
 			bool result;
@@ -75,13 +75,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060007DF RID: 2015 RVA: 0x0004D190 File Offset: 0x0004B590
+		// Token: 0x060007DF RID: 2015 RVA: 0x0004D17C File Offset: 0x0004B57C
 		public static bool ShouldGuestKeepAttendingCeremony(Pawn p)
 		{
 			return GatheringsUtility.ShouldGuestKeepAttendingGathering(p);
 		}
 
-		// Token: 0x060007E0 RID: 2016 RVA: 0x0004D1AC File Offset: 0x0004B5AC
+		// Token: 0x060007E0 RID: 2016 RVA: 0x0004D198 File Offset: 0x0004B598
 		public static void Married(Pawn firstPawn, Pawn secondPawn)
 		{
 			LovePartnerRelationUtility.ChangeSpouseRelationsToExSpouse(firstPawn);
@@ -101,14 +101,14 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060007E1 RID: 2017 RVA: 0x0004D268 File Offset: 0x0004B668
+		// Token: 0x060007E1 RID: 2017 RVA: 0x0004D254 File Offset: 0x0004B654
 		private static void AddNewlyMarriedThoughts(Pawn pawn, Pawn otherPawn)
 		{
 			pawn.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.GotMarried, otherPawn);
 			pawn.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.HoneymoonPhase, otherPawn);
 		}
 
-		// Token: 0x060007E2 RID: 2018 RVA: 0x0004D2B8 File Offset: 0x0004B6B8
+		// Token: 0x060007E2 RID: 2018 RVA: 0x0004D2A4 File Offset: 0x0004B6A4
 		private static bool IsCurrentlyMarryingSomeone(Pawn p)
 		{
 			bool result;

@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C08 RID: 3080
+	// Token: 0x02000C05 RID: 3077
 	internal struct DebugLine
 	{
-		// Token: 0x0600434A RID: 17226 RVA: 0x002382F8 File Offset: 0x002366F8
+		// Token: 0x06004353 RID: 17235 RVA: 0x002396C0 File Offset: 0x00237AC0
 		public DebugLine(Vector3 a, Vector3 b, int ticksLeft = 100, SimpleColor color = SimpleColor.White)
 		{
 			this.a = a;
@@ -15,8 +15,8 @@ namespace Verse
 			this.color = color;
 		}
 
-		// Token: 0x17000A90 RID: 2704
-		// (get) Token: 0x0600434B RID: 17227 RVA: 0x00238324 File Offset: 0x00236724
+		// Token: 0x17000A92 RID: 2706
+		// (get) Token: 0x06004354 RID: 17236 RVA: 0x002396EC File Offset: 0x00237AEC
 		public bool Done
 		{
 			get
@@ -25,22 +25,22 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600434C RID: 17228 RVA: 0x0023834E File Offset: 0x0023674E
+		// Token: 0x06004355 RID: 17237 RVA: 0x00239716 File Offset: 0x00237B16
 		public void Draw()
 		{
 			GenDraw.DrawLineBetween(this.a, this.b, this.color);
 		}
 
-		// Token: 0x04002DFF RID: 11775
+		// Token: 0x04002E09 RID: 11785
 		public Vector3 a;
 
-		// Token: 0x04002E00 RID: 11776
+		// Token: 0x04002E0A RID: 11786
 		public Vector3 b;
 
-		// Token: 0x04002E01 RID: 11777
+		// Token: 0x04002E0B RID: 11787
 		private int deathTick;
 
-		// Token: 0x04002E02 RID: 11778
+		// Token: 0x04002E0C RID: 11788
 		private SimpleColor color;
 	}
 }

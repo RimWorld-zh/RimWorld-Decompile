@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EB4 RID: 3764
+	// Token: 0x02000EB3 RID: 3763
 	public class Dialog_NamePawn : Window
 	{
-		// Token: 0x060058F9 RID: 22777 RVA: 0x002D9C24 File Offset: 0x002D8024
+		// Token: 0x0600591A RID: 22810 RVA: 0x002DB86C File Offset: 0x002D9C6C
 		public Dialog_NamePawn(Pawn pawn)
 		{
 			this.pawn = pawn;
@@ -29,8 +29,8 @@ namespace Verse
 			this.closeOnAccept = false;
 		}
 
-		// Token: 0x17000DFA RID: 3578
-		// (get) Token: 0x060058FA RID: 22778 RVA: 0x002D9CAC File Offset: 0x002D80AC
+		// Token: 0x17000DFD RID: 3581
+		// (get) Token: 0x0600591B RID: 22811 RVA: 0x002DB8F4 File Offset: 0x002D9CF4
 		private Name CurPawnName
 		{
 			get
@@ -54,8 +54,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DFB RID: 3579
-		// (get) Token: 0x060058FB RID: 22779 RVA: 0x002D9D24 File Offset: 0x002D8124
+		// Token: 0x17000DFE RID: 3582
+		// (get) Token: 0x0600591C RID: 22812 RVA: 0x002DB96C File Offset: 0x002D9D6C
 		public override Vector2 InitialSize
 		{
 			get
@@ -64,7 +64,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060058FC RID: 22780 RVA: 0x002D9D48 File Offset: 0x002D8148
+		// Token: 0x0600591D RID: 22813 RVA: 0x002DB990 File Offset: 0x002D9D90
 		public override void DoWindowContents(Rect inRect)
 		{
 			bool flag = false;
@@ -114,7 +114,7 @@ namespace Verse
 				{
 					this.curName,
 					this.pawn.story.Title
-				}).AdjustedFor(this.pawn) : "AnimalGainsName".Translate(new object[]
+				}).AdjustedFor(this.pawn, "PAWN") : "AnimalGainsName".Translate(new object[]
 				{
 					this.curName
 				});
@@ -122,13 +122,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003B54 RID: 15188
+		// Token: 0x04003B64 RID: 15204
 		private Pawn pawn;
 
-		// Token: 0x04003B55 RID: 15189
+		// Token: 0x04003B65 RID: 15205
 		private string curName;
 
-		// Token: 0x04003B56 RID: 15190
+		// Token: 0x04003B66 RID: 15206
 		private string curTitle;
 	}
 }

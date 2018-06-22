@@ -2,26 +2,26 @@
 
 namespace Verse
 {
-	// Token: 0x02000C44 RID: 3140
+	// Token: 0x02000C41 RID: 3137
 	public enum DamageOverlay
 	{
-		// Token: 0x04002F43 RID: 12099
+		// Token: 0x04002F4D RID: 12109
 		Scratch,
-		// Token: 0x04002F44 RID: 12100
+		// Token: 0x04002F4E RID: 12110
 		TopLeftCorner,
-		// Token: 0x04002F45 RID: 12101
+		// Token: 0x04002F4F RID: 12111
 		TopRightCorner,
-		// Token: 0x04002F46 RID: 12102
+		// Token: 0x04002F50 RID: 12112
 		BotLeftCorner,
-		// Token: 0x04002F47 RID: 12103
+		// Token: 0x04002F51 RID: 12113
 		BotRightCorner,
-		// Token: 0x04002F48 RID: 12104
+		// Token: 0x04002F52 RID: 12114
 		LeftEdge,
-		// Token: 0x04002F49 RID: 12105
+		// Token: 0x04002F53 RID: 12115
 		RightEdge,
-		// Token: 0x04002F4A RID: 12106
+		// Token: 0x04002F54 RID: 12116
 		TopEdge,
-		// Token: 0x04002F4B RID: 12107
+		// Token: 0x04002F55 RID: 12117
 		BotEdge
 	}
 }

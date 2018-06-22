@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200081B RID: 2075
+	// Token: 0x02000817 RID: 2071
 	public static class NeedsCardUtility
 	{
-		// Token: 0x06002E55 RID: 11861 RVA: 0x0018A19C File Offset: 0x0018859C
+		// Token: 0x06002E4E RID: 11854 RVA: 0x0018A37C File Offset: 0x0018877C
 		public static Vector2 GetSize(Pawn pawn)
 		{
 			NeedsCardUtility.UpdateDisplayNeeds(pawn);
@@ -25,7 +25,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002E56 RID: 11862 RVA: 0x0018A20C File Offset: 0x0018860C
+		// Token: 0x06002E4F RID: 11855 RVA: 0x0018A3EC File Offset: 0x001887EC
 		public static void DoNeedsMoodAndThoughts(Rect rect, Pawn pawn, ref Vector2 thoughtScrollPosition)
 		{
 			Rect rect2 = new Rect(rect.x, rect.y, 225f, rect.height);
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E57 RID: 11863 RVA: 0x0018A288 File Offset: 0x00188688
+		// Token: 0x06002E50 RID: 11856 RVA: 0x0018A468 File Offset: 0x00188868
 		public static void DoNeeds(Rect rect, Pawn pawn)
 		{
 			NeedsCardUtility.UpdateDisplayNeeds(pawn);
@@ -60,7 +60,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E58 RID: 11864 RVA: 0x0018A39C File Offset: 0x0018879C
+		// Token: 0x06002E51 RID: 11857 RVA: 0x0018A57C File Offset: 0x0018897C
 		private static void DoMoodAndThoughts(Rect rect, Pawn pawn, ref Vector2 thoughtScrollPosition)
 		{
 			GUI.BeginGroup(rect);
@@ -72,7 +72,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002E59 RID: 11865 RVA: 0x0018A438 File Offset: 0x00188838
+		// Token: 0x06002E52 RID: 11858 RVA: 0x0018A618 File Offset: 0x00188A18
 		private static void UpdateDisplayNeeds(Pawn pawn)
 		{
 			NeedsCardUtility.displayNeeds.Clear();
@@ -87,7 +87,7 @@ namespace RimWorld
 			PawnNeedsUIUtility.SortInDisplayOrder(NeedsCardUtility.displayNeeds);
 		}
 
-		// Token: 0x06002E5A RID: 11866 RVA: 0x0018A4A8 File Offset: 0x001888A8
+		// Token: 0x06002E53 RID: 11859 RVA: 0x0018A688 File Offset: 0x00188A88
 		private static void DrawThoughtListing(Rect listingRect, Pawn pawn, ref Vector2 thoughtScrollPosition)
 		{
 			if (Event.current.type != EventType.Layout)
@@ -111,7 +111,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E5B RID: 11867 RVA: 0x0018A594 File Offset: 0x00188994
+		// Token: 0x06002E54 RID: 11860 RVA: 0x0018A774 File Offset: 0x00188B74
 		private static bool DrawThoughtGroup(Rect rect, Thought group, Pawn pawn)
 		{
 			try
@@ -236,43 +236,43 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x040018BF RID: 6335
+		// Token: 0x040018BD RID: 6333
 		private static List<Need> displayNeeds = new List<Need>();
 
-		// Token: 0x040018C0 RID: 6336
+		// Token: 0x040018BE RID: 6334
 		private static readonly Color MoodColor = new Color(0.1f, 1f, 0.1f);
 
-		// Token: 0x040018C1 RID: 6337
+		// Token: 0x040018BF RID: 6335
 		private static readonly Color MoodColorNegative = new Color(0.8f, 0.4f, 0.4f);
 
-		// Token: 0x040018C2 RID: 6338
+		// Token: 0x040018C0 RID: 6336
 		private static readonly Color NoEffectColor = new Color(0.5f, 0.5f, 0.5f, 0.75f);
 
-		// Token: 0x040018C3 RID: 6339
+		// Token: 0x040018C1 RID: 6337
 		private const float ThoughtHeight = 20f;
 
-		// Token: 0x040018C4 RID: 6340
+		// Token: 0x040018C2 RID: 6338
 		private const float ThoughtSpacing = 4f;
 
-		// Token: 0x040018C5 RID: 6341
+		// Token: 0x040018C3 RID: 6339
 		private const float ThoughtIntervalY = 24f;
 
-		// Token: 0x040018C6 RID: 6342
+		// Token: 0x040018C4 RID: 6340
 		private const float MoodX = 235f;
 
-		// Token: 0x040018C7 RID: 6343
+		// Token: 0x040018C5 RID: 6341
 		private const float MoodNumberWidth = 32f;
 
-		// Token: 0x040018C8 RID: 6344
+		// Token: 0x040018C6 RID: 6342
 		private const float NeedsColumnWidth = 225f;
 
-		// Token: 0x040018C9 RID: 6345
+		// Token: 0x040018C7 RID: 6343
 		public static readonly Vector2 FullSize = new Vector2(580f, 520f);
 
-		// Token: 0x040018CA RID: 6346
+		// Token: 0x040018C8 RID: 6344
 		private static List<Thought> thoughtGroupsPresent = new List<Thought>();
 
-		// Token: 0x040018CB RID: 6347
+		// Token: 0x040018C9 RID: 6345
 		private static List<Thought> thoughtGroup = new List<Thought>();
 	}
 }

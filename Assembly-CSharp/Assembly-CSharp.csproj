@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F4C6938A-CCFD-46AB-B3E7-2AEB908376CE}</ProjectGuid>
+    <ProjectGuid>{D41C8CA7-49BA-41D0-B805-4D7AA83A4B8E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Assembly-CSharp</RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -1873,13 +1873,9 @@
     <Compile Include="RimWorld\RoomStatDefOf.cs" />
     <Compile Include="RimWorld\RoomStatWorker_Beauty.cs" />
     <Compile Include="RimWorld\RoomStatWorker_Cleanliness.cs" />
-    <Compile Include="RimWorld\RoomStatWorker_FoodPoisonChanceFactor.cs" />
-    <Compile Include="RimWorld\RoomStatWorker_GraveVisitingJoyGainFactor.cs" />
+    <Compile Include="RimWorld\RoomStatWorker_FromStatByCurve.cs" />
     <Compile Include="RimWorld\RoomStatWorker_Impressiveness.cs" />
-    <Compile Include="RimWorld\RoomStatWorker_InfectionChanceFactor.cs" />
-    <Compile Include="RimWorld\RoomStatWorker_ResearchSpeedFactor.cs" />
     <Compile Include="RimWorld\RoomStatWorker_Space.cs" />
-    <Compile Include="RimWorld\RoomStatWorker_SurgerySuccessChanceCleanlinessFactor.cs" />
     <Compile Include="RimWorld\RoomStatWorker_Wealth.cs" />
     <Compile Include="RimWorld\RotStage.cs" />
     <Compile Include="RimWorld\RottableUtility.cs" />
@@ -2544,6 +2540,7 @@
     <Compile Include="RuntimeAudioClipLoader\AudioFormat.cs" />
     <Compile Include="RuntimeAudioClipLoader\CustomAudioFileReader.cs" />
     <Compile Include="RuntimeAudioClipLoader\Manager.cs" />
+    <Compile Include="ShootTunings.cs" />
     <Compile Include="SkyfallerUtility.cs" />
     <Compile Include="Verse\AcceptanceReport.cs" />
     <Compile Include="Verse\ActiveTip.cs" />
@@ -3002,6 +2999,7 @@
     <Compile Include="Verse\DefModExtension.cs" />
     <Compile Include="Verse\DefPackage.cs" />
     <Compile Include="Verse\DelayedErrorWindowRequest.cs" />
+    <Compile Include="Verse\Deque.cs" />
     <Compile Include="Verse\DescriptionAttribute.cs" />
     <Compile Include="Verse\Designation.cs" />
     <Compile Include="Verse\DesignationCategoryDef.cs" />
@@ -3389,6 +3387,7 @@
     <Compile Include="Verse\MaterialUtility.cs" />
     <Compile Include="Verse\MatLoader.cs" />
     <Compile Include="Verse\MatsFromSpectrum.cs" />
+    <Compile Include="Verse\MayTranslateAttribute.cs" />
     <Compile Include="Verse\MentalBreakDef.cs" />
     <Compile Include="Verse\MentalBreakIntensity.cs" />
     <Compile Include="Verse\MentalStateCategory.cs" />
@@ -3902,6 +3901,8 @@
     <Compile Include="Verse\ToStringStyle.cs" />
     <Compile Include="Verse\TrainabilityDef.cs" />
     <Compile Include="Verse\TranslationCanChangeCountAttribute.cs" />
+    <Compile Include="Verse\TranslationHandleAttribute.cs" />
+    <Compile Include="Verse\TranslationHandleUtility.cs" />
     <Compile Include="Verse\Translator.cs" />
     <Compile Include="Verse\Traversability.cs" />
     <Compile Include="Verse\TraverseMode.cs" />
@@ -3966,7 +3967,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj">
-      <Project>{f4c6938a-ccfd-46ab-b3e7-2aeb908376cf}</Project>
+      <Project>{d41c8ca7-49ba-41d0-b805-4d7aa83a4b8f}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>

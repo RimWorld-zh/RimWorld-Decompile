@@ -2,14 +2,14 @@
 
 namespace Verse
 {
-	// Token: 0x02000B00 RID: 2816
+	// Token: 0x02000AFC RID: 2812
 	public enum BodyPartDepth : byte
 	{
-		// Token: 0x04002773 RID: 10099
+		// Token: 0x0400276F RID: 10095
 		Undefined,
-		// Token: 0x04002774 RID: 10100
+		// Token: 0x04002770 RID: 10096
 		Inside,
-		// Token: 0x04002775 RID: 10101
+		// Token: 0x04002771 RID: 10097
 		Outside
 	}
 }

@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B82 RID: 2946
+	// Token: 0x02000B7E RID: 2942
 	public abstract class SoundFilter
 	{
-		// Token: 0x0600401C RID: 16412
+		// Token: 0x0600401E RID: 16414
 		public abstract void SetupOn(AudioSource source);
 
-		// Token: 0x0600401D RID: 16413 RVA: 0x0021C2EC File Offset: 0x0021A6EC
+		// Token: 0x0600401F RID: 16415 RVA: 0x0021C988 File Offset: 0x0021AD88
 		protected static T GetOrMakeFilterOn<T>(AudioSource source) where T : Behaviour
 		{
 			T t = source.gameObject.GetComponent<T>();

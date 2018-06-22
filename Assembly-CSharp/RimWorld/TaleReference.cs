@@ -3,15 +3,15 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000665 RID: 1637
+	// Token: 0x02000661 RID: 1633
 	public class TaleReference : IExposable
 	{
-		// Token: 0x0600223F RID: 8767 RVA: 0x0012282E File Offset: 0x00120C2E
+		// Token: 0x06002237 RID: 8759 RVA: 0x00122966 File Offset: 0x00120D66
 		public TaleReference()
 		{
 		}
 
-		// Token: 0x06002240 RID: 8768 RVA: 0x00122837 File Offset: 0x00120C37
+		// Token: 0x06002238 RID: 8760 RVA: 0x0012296F File Offset: 0x00120D6F
 		public TaleReference(Tale tale)
 		{
 			this.tale = tale;
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000502 RID: 1282
-		// (get) Token: 0x06002241 RID: 8769 RVA: 0x00122858 File Offset: 0x00120C58
+		// (get) Token: 0x06002239 RID: 8761 RVA: 0x00122990 File Offset: 0x00120D90
 		public static TaleReference Taleless
 		{
 			get
@@ -28,14 +28,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002242 RID: 8770 RVA: 0x00122873 File Offset: 0x00120C73
+		// Token: 0x0600223A RID: 8762 RVA: 0x001229AB File Offset: 0x00120DAB
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.seed, "seed", 0, false);
 			Scribe_References.Look<Tale>(ref this.tale, "tale", false);
 		}
 
-		// Token: 0x06002243 RID: 8771 RVA: 0x00122899 File Offset: 0x00120C99
+		// Token: 0x0600223B RID: 8763 RVA: 0x001229D1 File Offset: 0x00120DD1
 		public void ReferenceDestroyed()
 		{
 			if (this.tale != null)
@@ -45,13 +45,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002244 RID: 8772 RVA: 0x001228BC File Offset: 0x00120CBC
+		// Token: 0x0600223C RID: 8764 RVA: 0x001229F4 File Offset: 0x00120DF4
 		public string GenerateText(TextGenerationPurpose purpose, RulePackDef extraInclude)
 		{
 			return TaleTextGenerator.GenerateTextFromTale(purpose, this.tale, this.seed, extraInclude);
 		}
 
-		// Token: 0x06002245 RID: 8773 RVA: 0x001228E4 File Offset: 0x00120CE4
+		// Token: 0x0600223D RID: 8765 RVA: 0x00122A1C File Offset: 0x00120E1C
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -64,10 +64,10 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x04001374 RID: 4980
+		// Token: 0x04001372 RID: 4978
 		private Tale tale;
 
-		// Token: 0x04001375 RID: 4981
+		// Token: 0x04001373 RID: 4979
 		private int seed;
 	}
 }

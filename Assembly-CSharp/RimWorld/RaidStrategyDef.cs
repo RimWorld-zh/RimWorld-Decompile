@@ -8,7 +8,7 @@ namespace RimWorld
 	public class RaidStrategyDef : Def
 	{
 		// Token: 0x170001BF RID: 447
-		// (get) Token: 0x06000BBC RID: 3004 RVA: 0x000692B4 File Offset: 0x000676B4
+		// (get) Token: 0x06000BBA RID: 3002 RVA: 0x0006931C File Offset: 0x0006771C
 		public RaidStrategyWorker Worker
 		{
 			get
@@ -22,41 +22,41 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040006D1 RID: 1745
+		// Token: 0x040006D0 RID: 1744
 		public Type workerClass;
 
-		// Token: 0x040006D2 RID: 1746
+		// Token: 0x040006D1 RID: 1745
 		public SimpleCurve selectionWeightPerPointsCurve;
 
-		// Token: 0x040006D3 RID: 1747
+		// Token: 0x040006D2 RID: 1746
 		public float minPawns = 1f;
 
-		// Token: 0x040006D4 RID: 1748
+		// Token: 0x040006D3 RID: 1747
 		[MustTranslate]
 		public string arrivalTextFriendly;
 
-		// Token: 0x040006D5 RID: 1749
+		// Token: 0x040006D4 RID: 1748
 		[MustTranslate]
 		public string arrivalTextEnemy;
 
-		// Token: 0x040006D6 RID: 1750
+		// Token: 0x040006D5 RID: 1749
 		[MustTranslate]
 		public string letterLabelEnemy;
 
-		// Token: 0x040006D7 RID: 1751
+		// Token: 0x040006D6 RID: 1750
 		[MustTranslate]
 		public string letterLabelFriendly;
 
-		// Token: 0x040006D8 RID: 1752
+		// Token: 0x040006D7 RID: 1751
 		public float pointsFactor = 1f;
 
-		// Token: 0x040006D9 RID: 1753
+		// Token: 0x040006D8 RID: 1752
 		public bool pawnsCanBringFood = false;
 
-		// Token: 0x040006DA RID: 1754
+		// Token: 0x040006D9 RID: 1753
 		public List<PawnsArrivalModeDef> arriveModes;
 
-		// Token: 0x040006DB RID: 1755
+		// Token: 0x040006DA RID: 1754
 		private RaidStrategyWorker workerInt;
 	}
 }

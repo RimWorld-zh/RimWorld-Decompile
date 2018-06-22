@@ -6,12 +6,12 @@ namespace Verse.Noise
 	// Token: 0x02000F99 RID: 3993
 	public class Select : ModuleBase
 	{
-		// Token: 0x06006048 RID: 24648 RVA: 0x0030C7B0 File Offset: 0x0030ABB0
+		// Token: 0x06006071 RID: 24689 RVA: 0x0030E854 File Offset: 0x0030CC54
 		public Select() : base(3)
 		{
 		}
 
-		// Token: 0x06006049 RID: 24649 RVA: 0x0030C804 File Offset: 0x0030AC04
+		// Token: 0x06006072 RID: 24690 RVA: 0x0030E8A8 File Offset: 0x0030CCA8
 		public Select(ModuleBase inputA, ModuleBase inputB, ModuleBase controller) : base(3)
 		{
 			this.modules[0] = inputA;
@@ -19,7 +19,7 @@ namespace Verse.Noise
 			this.modules[2] = controller;
 		}
 
-		// Token: 0x0600604A RID: 24650 RVA: 0x0030C870 File Offset: 0x0030AC70
+		// Token: 0x06006073 RID: 24691 RVA: 0x0030E914 File Offset: 0x0030CD14
 		public Select(double min, double max, double fallOff, ModuleBase inputA, ModuleBase inputB) : this(inputA, inputB, null)
 		{
 			this.m_min = min;
@@ -27,9 +27,9 @@ namespace Verse.Noise
 			this.FallOff = fallOff;
 		}
 
-		// Token: 0x17000F7F RID: 3967
-		// (get) Token: 0x0600604B RID: 24651 RVA: 0x0030C894 File Offset: 0x0030AC94
-		// (set) Token: 0x0600604C RID: 24652 RVA: 0x0030C8B1 File Offset: 0x0030ACB1
+		// Token: 0x17000F83 RID: 3971
+		// (get) Token: 0x06006074 RID: 24692 RVA: 0x0030E938 File Offset: 0x0030CD38
+		// (set) Token: 0x06006075 RID: 24693 RVA: 0x0030E955 File Offset: 0x0030CD55
 		public ModuleBase Controller
 		{
 			get
@@ -43,9 +43,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F80 RID: 3968
-		// (get) Token: 0x0600604D RID: 24653 RVA: 0x0030C8CC File Offset: 0x0030ACCC
-		// (set) Token: 0x0600604E RID: 24654 RVA: 0x0030C8E8 File Offset: 0x0030ACE8
+		// Token: 0x17000F84 RID: 3972
+		// (get) Token: 0x06006076 RID: 24694 RVA: 0x0030E970 File Offset: 0x0030CD70
+		// (set) Token: 0x06006077 RID: 24695 RVA: 0x0030E98C File Offset: 0x0030CD8C
 		public double FallOff
 		{
 			get
@@ -60,9 +60,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F81 RID: 3969
-		// (get) Token: 0x0600604F RID: 24655 RVA: 0x0030C934 File Offset: 0x0030AD34
-		// (set) Token: 0x06006050 RID: 24656 RVA: 0x0030C94F File Offset: 0x0030AD4F
+		// Token: 0x17000F85 RID: 3973
+		// (get) Token: 0x06006078 RID: 24696 RVA: 0x0030E9D8 File Offset: 0x0030CDD8
+		// (set) Token: 0x06006079 RID: 24697 RVA: 0x0030E9F3 File Offset: 0x0030CDF3
 		public double Maximum
 		{
 			get
@@ -76,9 +76,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F82 RID: 3970
-		// (get) Token: 0x06006051 RID: 24657 RVA: 0x0030C968 File Offset: 0x0030AD68
-		// (set) Token: 0x06006052 RID: 24658 RVA: 0x0030C983 File Offset: 0x0030AD83
+		// Token: 0x17000F86 RID: 3974
+		// (get) Token: 0x0600607A RID: 24698 RVA: 0x0030EA0C File Offset: 0x0030CE0C
+		// (set) Token: 0x0600607B RID: 24699 RVA: 0x0030EA27 File Offset: 0x0030CE27
 		public double Minimum
 		{
 			get
@@ -92,7 +92,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06006053 RID: 24659 RVA: 0x0030C999 File Offset: 0x0030AD99
+		// Token: 0x0600607C RID: 24700 RVA: 0x0030EA3D File Offset: 0x0030CE3D
 		public void SetBounds(double min, double max)
 		{
 			Debug.Assert(min < max);
@@ -101,7 +101,7 @@ namespace Verse.Noise
 			this.FallOff = this.m_fallOff;
 		}
 
-		// Token: 0x06006054 RID: 24660 RVA: 0x0030C9C0 File Offset: 0x0030ADC0
+		// Token: 0x0600607D RID: 24701 RVA: 0x0030EA64 File Offset: 0x0030CE64
 		public override double GetValue(double x, double y, double z)
 		{
 			Debug.Assert(this.modules[0] != null);
@@ -149,16 +149,16 @@ namespace Verse.Noise
 			return result;
 		}
 
-		// Token: 0x04003F1C RID: 16156
+		// Token: 0x04003F2E RID: 16174
 		private double m_fallOff = 0.0;
 
-		// Token: 0x04003F1D RID: 16157
+		// Token: 0x04003F2F RID: 16175
 		private double m_raw = 0.0;
 
-		// Token: 0x04003F1E RID: 16158
+		// Token: 0x04003F30 RID: 16176
 		private double m_min = -1.0;
 
-		// Token: 0x04003F1F RID: 16159
+		// Token: 0x04003F31 RID: 16177
 		private double m_max = 1.0;
 	}
 }

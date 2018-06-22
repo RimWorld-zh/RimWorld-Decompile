@@ -7,14 +7,14 @@ namespace RimWorld
 	// Token: 0x02000069 RID: 105
 	public class JobDriver_Flee : JobDriver
 	{
-		// Token: 0x060002E9 RID: 745 RVA: 0x0001F6D0 File Offset: 0x0001DAD0
+		// Token: 0x060002E9 RID: 745 RVA: 0x0001F6D4 File Offset: 0x0001DAD4
 		public override bool TryMakePreToilReservations()
 		{
 			this.pawn.Map.pawnDestinationReservationManager.Reserve(this.pawn, this.job, this.job.GetTarget(TargetIndex.A).Cell);
 			return true;
 		}
 
-		// Token: 0x060002EA RID: 746 RVA: 0x0001F71C File Offset: 0x0001DB1C
+		// Token: 0x060002EA RID: 746 RVA: 0x0001F720 File Offset: 0x0001DB20
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return new Toil

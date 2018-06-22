@@ -8,14 +8,14 @@ namespace RimWorld
 	// Token: 0x02000325 RID: 805
 	public class IncidentWorker_CropBlight : IncidentWorker
 	{
-		// Token: 0x06000DC1 RID: 3521 RVA: 0x00075BEC File Offset: 0x00073FEC
+		// Token: 0x06000DC1 RID: 3521 RVA: 0x00075CA0 File Offset: 0x000740A0
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Plant plant;
 			return this.TryFindRandomBlightablePlant((Map)parms.target, out plant);
 		}
 
-		// Token: 0x06000DC2 RID: 3522 RVA: 0x00075C14 File Offset: 0x00074014
+		// Token: 0x06000DC2 RID: 3522 RVA: 0x00075CC8 File Offset: 0x000740C8
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -53,7 +53,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DC3 RID: 3523 RVA: 0x00075D3C File Offset: 0x0007413C
+		// Token: 0x06000DC3 RID: 3523 RVA: 0x00075DF0 File Offset: 0x000741F0
 		private bool TryFindRandomBlightablePlant(Map map, out Plant plant)
 		{
 			Thing thing;
@@ -64,16 +64,16 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DC4 RID: 3524 RVA: 0x00075D94 File Offset: 0x00074194
+		// Token: 0x06000DC4 RID: 3524 RVA: 0x00075E48 File Offset: 0x00074248
 		private float BlightChanceFactor(IntVec3 c, IntVec3 root)
 		{
 			return Mathf.InverseLerp(16f, 8f, c.DistanceTo(root));
 		}
 
-		// Token: 0x040008C1 RID: 2241
+		// Token: 0x040008C3 RID: 2243
 		private const float Radius = 16f;
 
-		// Token: 0x040008C2 RID: 2242
+		// Token: 0x040008C4 RID: 2244
 		private const float BaseBlightChance = 0.1f;
 	}
 }

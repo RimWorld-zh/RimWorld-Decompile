@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000E11 RID: 3601
+	// Token: 0x02000E0E RID: 3598
 	public static class DelayedErrorWindowRequest
 	{
-		// Token: 0x06005189 RID: 20873 RVA: 0x0029D020 File Offset: 0x0029B420
+		// Token: 0x0600519D RID: 20893 RVA: 0x0029E600 File Offset: 0x0029CA00
 		public static void DelayedErrorWindowRequestOnGUI()
 		{
 			try
@@ -26,7 +26,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600518A RID: 20874 RVA: 0x0029D0C0 File Offset: 0x0029B4C0
+		// Token: 0x0600519E RID: 20894 RVA: 0x0029E6A0 File Offset: 0x0029CAA0
 		public static void Add(string text, string title = null)
 		{
 			DelayedErrorWindowRequest.Request item = default(DelayedErrorWindowRequest.Request);
@@ -35,16 +35,16 @@ namespace Verse
 			DelayedErrorWindowRequest.requests.Add(item);
 		}
 
-		// Token: 0x0400356E RID: 13678
+		// Token: 0x04003575 RID: 13685
 		private static List<DelayedErrorWindowRequest.Request> requests = new List<DelayedErrorWindowRequest.Request>();
 
-		// Token: 0x02000E12 RID: 3602
+		// Token: 0x02000E0F RID: 3599
 		private struct Request
 		{
-			// Token: 0x0400356F RID: 13679
+			// Token: 0x04003576 RID: 13686
 			public string text;
 
-			// Token: 0x04003570 RID: 13680
+			// Token: 0x04003577 RID: 13687
 			public string title;
 		}
 	}

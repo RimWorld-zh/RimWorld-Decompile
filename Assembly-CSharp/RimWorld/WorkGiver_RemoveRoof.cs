@@ -10,7 +10,7 @@ namespace RimWorld
 	public class WorkGiver_RemoveRoof : WorkGiver_Scanner
 	{
 		// Token: 0x170000EB RID: 235
-		// (get) Token: 0x06000643 RID: 1603 RVA: 0x00041E1C File Offset: 0x0004021C
+		// (get) Token: 0x06000643 RID: 1603 RVA: 0x00041E08 File Offset: 0x00040208
 		public override bool Prioritized
 		{
 			get
@@ -19,14 +19,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000644 RID: 1604 RVA: 0x00041E34 File Offset: 0x00040234
+		// Token: 0x06000644 RID: 1604 RVA: 0x00041E20 File Offset: 0x00040220
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
 		{
 			return pawn.Map.areaManager.NoRoof.ActiveCells;
 		}
 
 		// Token: 0x170000EC RID: 236
-		// (get) Token: 0x06000645 RID: 1605 RVA: 0x00041E60 File Offset: 0x00040260
+		// (get) Token: 0x06000645 RID: 1605 RVA: 0x00041E4C File Offset: 0x0004024C
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000646 RID: 1606 RVA: 0x00041E78 File Offset: 0x00040278
+		// Token: 0x06000646 RID: 1606 RVA: 0x00041E64 File Offset: 0x00040264
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c, bool forced = false)
 		{
 			bool result;
@@ -60,13 +60,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000647 RID: 1607 RVA: 0x00041F08 File Offset: 0x00040308
+		// Token: 0x06000647 RID: 1607 RVA: 0x00041EF4 File Offset: 0x000402F4
 		public override Job JobOnCell(Pawn pawn, IntVec3 c, bool forced = false)
 		{
 			return new Job(JobDefOf.RemoveRoof, c, c);
 		}
 
-		// Token: 0x06000648 RID: 1608 RVA: 0x00041F34 File Offset: 0x00040334
+		// Token: 0x06000648 RID: 1608 RVA: 0x00041F20 File Offset: 0x00040320
 		public override float GetPriority(Pawn pawn, TargetInfo t)
 		{
 			IntVec3 cell = t.Cell;

@@ -3,24 +3,24 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000D2B RID: 3371
+	// Token: 0x02000D28 RID: 3368
 	public class Hediff_HeartAttack : HediffWithComps
 	{
-		// Token: 0x06004A2D RID: 18989 RVA: 0x0026AC3A File Offset: 0x0026903A
+		// Token: 0x06004A3F RID: 19007 RVA: 0x0026C0C6 File Offset: 0x0026A4C6
 		public override void PostMake()
 		{
 			base.PostMake();
 			this.intervalFactor = Rand.Range(0.1f, 2f);
 		}
 
-		// Token: 0x06004A2E RID: 18990 RVA: 0x0026AC58 File Offset: 0x00269058
+		// Token: 0x06004A40 RID: 19008 RVA: 0x0026C0E4 File Offset: 0x0026A4E4
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.intervalFactor, "intervalFactor", 0f, false);
 		}
 
-		// Token: 0x06004A2F RID: 18991 RVA: 0x0026AC78 File Offset: 0x00269078
+		// Token: 0x06004A41 RID: 19009 RVA: 0x0026C104 File Offset: 0x0026A504
 		public override void Tick()
 		{
 			base.Tick();
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06004A30 RID: 18992 RVA: 0x0026ACC8 File Offset: 0x002690C8
+		// Token: 0x06004A42 RID: 19010 RVA: 0x0026C154 File Offset: 0x0026A554
 		public override void Tended(float quality, int batchPosition = 0)
 		{
 			base.Tended(quality, 0);
@@ -55,16 +55,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0400322F RID: 12847
+		// Token: 0x0400323A RID: 12858
 		private float intervalFactor;
 
-		// Token: 0x04003230 RID: 12848
+		// Token: 0x0400323B RID: 12859
 		private const int SeverityChangeInterval = 5000;
 
-		// Token: 0x04003231 RID: 12849
+		// Token: 0x0400323C RID: 12860
 		private const float TendSuccessChanceFactor = 0.65f;
 
-		// Token: 0x04003232 RID: 12850
+		// Token: 0x0400323D RID: 12861
 		private const float TendSeverityReduction = 0.3f;
 	}
 }

@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DE1 RID: 3553
+	// Token: 0x02000DDE RID: 3550
 	public class Graphic_Shadow : Graphic
 	{
-		// Token: 0x06004F7A RID: 20346 RVA: 0x00295418 File Offset: 0x00293818
+		// Token: 0x06004F8F RID: 20367 RVA: 0x002969F4 File Offset: 0x00294DF4
 		public Graphic_Shadow(ShadowData shadowInfo)
 		{
 			this.shadowInfo = shadowInfo;
@@ -18,7 +18,7 @@ namespace Verse
 			this.shadowMesh = ShadowMeshPool.GetShadowMesh(shadowInfo);
 		}
 
-		// Token: 0x06004F7B RID: 20347 RVA: 0x00295448 File Offset: 0x00293848
+		// Token: 0x06004F90 RID: 20368 RVA: 0x00296A24 File Offset: 0x00294E24
 		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
 			if (this.shadowMesh != null)
@@ -32,7 +32,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F7C RID: 20348 RVA: 0x002954F8 File Offset: 0x002938F8
+		// Token: 0x06004F91 RID: 20369 RVA: 0x00296AD4 File Offset: 0x00294ED4
 		public override void Print(SectionLayer layer, Thing thing)
 		{
 			Vector3 center = thing.TrueCenter() + (this.shadowInfo.offset + new Vector3(Graphic_Shadow.GlobalShadowPosOffsetX, 0f, Graphic_Shadow.GlobalShadowPosOffsetZ)).RotatedBy(thing.Rotation);
@@ -40,23 +40,23 @@ namespace Verse
 			Printer_Shadow.PrintShadow(layer, center, this.shadowInfo, thing.Rotation);
 		}
 
-		// Token: 0x06004F7D RID: 20349 RVA: 0x00295564 File Offset: 0x00293964
+		// Token: 0x06004F92 RID: 20370 RVA: 0x00296B40 File Offset: 0x00294F40
 		public override string ToString()
 		{
 			return "Graphic_Shadow(" + this.shadowInfo + ")";
 		}
 
-		// Token: 0x040034BC RID: 13500
+		// Token: 0x040034C7 RID: 13511
 		private Mesh shadowMesh;
 
-		// Token: 0x040034BD RID: 13501
+		// Token: 0x040034C8 RID: 13512
 		private ShadowData shadowInfo;
 
-		// Token: 0x040034BE RID: 13502
+		// Token: 0x040034C9 RID: 13513
 		[TweakValue("Graphics_Shadow", -5f, 5f)]
 		private static float GlobalShadowPosOffsetX = 0f;
 
-		// Token: 0x040034BF RID: 13503
+		// Token: 0x040034CA RID: 13514
 		[TweakValue("Graphics_Shadow", -5f, 5f)]
 		private static float GlobalShadowPosOffsetZ = 0f;
 	}

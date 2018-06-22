@@ -2,14 +2,14 @@
 
 namespace Verse
 {
-	// Token: 0x02000E7A RID: 3706
+	// Token: 0x02000E79 RID: 3705
 	public enum EditTreeNodeType : byte
 	{
-		// Token: 0x040039C6 RID: 14790
+		// Token: 0x040039D6 RID: 14806
 		ComplexObject,
-		// Token: 0x040039C7 RID: 14791
+		// Token: 0x040039D7 RID: 14807
 		ListRoot,
-		// Token: 0x040039C8 RID: 14792
+		// Token: 0x040039D8 RID: 14808
 		TerminalValue
 	}
 }

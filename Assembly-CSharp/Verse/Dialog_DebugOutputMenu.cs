@@ -5,10 +5,10 @@ using System.Reflection;
 
 namespace Verse
 {
-	// Token: 0x02000E34 RID: 3636
+	// Token: 0x02000E31 RID: 3633
 	public class Dialog_DebugOutputMenu : Dialog_DebugOptionLister
 	{
-		// Token: 0x060055F4 RID: 22004 RVA: 0x002C4328 File Offset: 0x002C2728
+		// Token: 0x06005610 RID: 22032 RVA: 0x002C5EE4 File Offset: 0x002C42E4
 		public Dialog_DebugOutputMenu()
 		{
 			this.forcePause = true;
@@ -50,8 +50,8 @@ namespace Verse
 			select r).ToList<Dialog_DebugOutputMenu.DebugOutputOption>();
 		}
 
-		// Token: 0x17000D71 RID: 3441
-		// (get) Token: 0x060055F5 RID: 22005 RVA: 0x002C44B0 File Offset: 0x002C28B0
+		// Token: 0x17000D73 RID: 3443
+		// (get) Token: 0x06005611 RID: 22033 RVA: 0x002C606C File Offset: 0x002C446C
 		public override bool IsDebug
 		{
 			get
@@ -60,7 +60,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060055F6 RID: 22006 RVA: 0x002C44C8 File Offset: 0x002C28C8
+		// Token: 0x06005612 RID: 22034 RVA: 0x002C6084 File Offset: 0x002C4484
 		protected override void DoListingItems()
 		{
 			string b = null;
@@ -83,22 +83,22 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x040038CA RID: 14538
+		// Token: 0x040038D8 RID: 14552
 		private List<Dialog_DebugOutputMenu.DebugOutputOption> debugOutputs = new List<Dialog_DebugOutputMenu.DebugOutputOption>();
 
-		// Token: 0x040038CB RID: 14539
+		// Token: 0x040038D9 RID: 14553
 		private const string DefaultCategory = "General";
 
-		// Token: 0x02000E35 RID: 3637
+		// Token: 0x02000E32 RID: 3634
 		private struct DebugOutputOption
 		{
-			// Token: 0x040038CE RID: 14542
+			// Token: 0x040038DC RID: 14556
 			public string label;
 
-			// Token: 0x040038CF RID: 14543
+			// Token: 0x040038DD RID: 14557
 			public string category;
 
-			// Token: 0x040038D0 RID: 14544
+			// Token: 0x040038DE RID: 14558
 			public Action action;
 		}
 	}

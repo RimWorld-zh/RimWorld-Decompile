@@ -2,14 +2,14 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000638 RID: 1592
+	// Token: 0x02000634 RID: 1588
 	public enum PawnGenerationContext
 	{
-		// Token: 0x040012CC RID: 4812
+		// Token: 0x040012C9 RID: 4809
 		All,
-		// Token: 0x040012CD RID: 4813
+		// Token: 0x040012CA RID: 4810
 		PlayerStarter,
-		// Token: 0x040012CE RID: 4814
+		// Token: 0x040012CB RID: 4811
 		NonPlayer
 	}
 }

@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200084C RID: 2124
+	// Token: 0x02000848 RID: 2120
 	public class ITab_Pawn_Character : ITab
 	{
-		// Token: 0x0600300F RID: 12303 RVA: 0x001A1BB4 File Offset: 0x0019FFB4
+		// Token: 0x06003008 RID: 12296 RVA: 0x001A1D94 File Offset: 0x001A0194
 		public ITab_Pawn_Character()
 		{
 			this.size = CharacterCardUtility.PawnCardSize + new Vector2(17f, 17f) * 2f;
@@ -15,8 +15,8 @@ namespace RimWorld
 			this.tutorTag = "Character";
 		}
 
-		// Token: 0x170007A8 RID: 1960
-		// (get) Token: 0x06003010 RID: 12304 RVA: 0x001A1C08 File Offset: 0x001A0008
+		// Token: 0x170007A9 RID: 1961
+		// (get) Token: 0x06003009 RID: 12297 RVA: 0x001A1DE8 File Offset: 0x001A01E8
 		private Pawn PawnToShowInfoAbout
 		{
 			get
@@ -48,8 +48,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170007A9 RID: 1961
-		// (get) Token: 0x06003011 RID: 12305 RVA: 0x001A1C6C File Offset: 0x001A006C
+		// Token: 0x170007AA RID: 1962
+		// (get) Token: 0x0600300A RID: 12298 RVA: 0x001A1E4C File Offset: 0x001A024C
 		public override bool IsVisible
 		{
 			get
@@ -58,7 +58,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003012 RID: 12306 RVA: 0x001A1C94 File Offset: 0x001A0094
+		// Token: 0x0600300B RID: 12299 RVA: 0x001A1E74 File Offset: 0x001A0274
 		protected override void FillTab()
 		{
 			Rect rect = new Rect(17f, 17f, CharacterCardUtility.PawnCardSize.x, CharacterCardUtility.PawnCardSize.y);

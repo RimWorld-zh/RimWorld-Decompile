@@ -4,12 +4,12 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004E4 RID: 1252
+	// Token: 0x020004E0 RID: 1248
 	[CaseInsensitiveXMLParsing]
 	public class PawnBio
 	{
 		// Token: 0x170002E9 RID: 745
-		// (get) Token: 0x0600164F RID: 5711 RVA: 0x000C5C90 File Offset: 0x000C4090
+		// (get) Token: 0x06001646 RID: 5702 RVA: 0x000C5C84 File Offset: 0x000C4084
 		public PawnBioType BioType
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001650 RID: 5712 RVA: 0x000C5CCA File Offset: 0x000C40CA
+		// Token: 0x06001647 RID: 5703 RVA: 0x000C5CBE File Offset: 0x000C40BE
 		public void PostLoad()
 		{
 			if (this.childhood != null)
@@ -44,7 +44,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001651 RID: 5713 RVA: 0x000C5CFC File Offset: 0x000C40FC
+		// Token: 0x06001648 RID: 5704 RVA: 0x000C5CF0 File Offset: 0x000C40F0
 		public void ResolveReferences()
 		{
 			if (this.adulthood.spawnCategories.Count == 1 && this.adulthood.spawnCategories[0] == "Trader")
@@ -61,7 +61,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001652 RID: 5714 RVA: 0x000C5D84 File Offset: 0x000C4184
+		// Token: 0x06001649 RID: 5705 RVA: 0x000C5D78 File Offset: 0x000C4178
 		public IEnumerable<string> ConfigErrors()
 		{
 			if (this.childhood != null)
@@ -95,25 +95,25 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06001653 RID: 5715 RVA: 0x000C5DB0 File Offset: 0x000C41B0
+		// Token: 0x0600164A RID: 5706 RVA: 0x000C5DA4 File Offset: 0x000C41A4
 		public override string ToString()
 		{
 			return "PawnBio(" + this.name + ")";
 		}
 
-		// Token: 0x04000D01 RID: 3329
+		// Token: 0x04000CFE RID: 3326
 		public GenderPossibility gender;
 
-		// Token: 0x04000D02 RID: 3330
+		// Token: 0x04000CFF RID: 3327
 		public NameTriple name;
 
-		// Token: 0x04000D03 RID: 3331
+		// Token: 0x04000D00 RID: 3328
 		public Backstory childhood;
 
-		// Token: 0x04000D04 RID: 3332
+		// Token: 0x04000D01 RID: 3329
 		public Backstory adulthood;
 
-		// Token: 0x04000D05 RID: 3333
+		// Token: 0x04000D02 RID: 3330
 		public bool pirateKing = false;
 	}
 }

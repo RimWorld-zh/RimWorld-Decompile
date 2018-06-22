@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B0F RID: 2831
+	// Token: 0x02000B0B RID: 2827
 	public class ColorOption
 	{
-		// Token: 0x06003E97 RID: 16023 RVA: 0x0020F4A0 File Offset: 0x0020D8A0
+		// Token: 0x06003E93 RID: 16019 RVA: 0x0020F7DC File Offset: 0x0020DBDC
 		public Color RandomizedColor()
 		{
 			Color result;
@@ -21,34 +21,34 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003E98 RID: 16024 RVA: 0x0020F548 File Offset: 0x0020D948
+		// Token: 0x06003E94 RID: 16020 RVA: 0x0020F884 File Offset: 0x0020DC84
 		public void SetSingle(Color color)
 		{
 			this.only = color;
 		}
 
-		// Token: 0x06003E99 RID: 16025 RVA: 0x0020F552 File Offset: 0x0020D952
+		// Token: 0x06003E95 RID: 16021 RVA: 0x0020F88E File Offset: 0x0020DC8E
 		public void SetMin(Color color)
 		{
 			this.min = color;
 		}
 
-		// Token: 0x06003E9A RID: 16026 RVA: 0x0020F55C File Offset: 0x0020D95C
+		// Token: 0x06003E96 RID: 16022 RVA: 0x0020F898 File Offset: 0x0020DC98
 		public void SetMax(Color color)
 		{
 			this.max = color;
 		}
 
-		// Token: 0x040027E6 RID: 10214
+		// Token: 0x040027E2 RID: 10210
 		public float weight = 10f;
 
-		// Token: 0x040027E7 RID: 10215
+		// Token: 0x040027E3 RID: 10211
 		public Color min = new Color(-1f, -1f, -1f, -1f);
 
-		// Token: 0x040027E8 RID: 10216
+		// Token: 0x040027E4 RID: 10212
 		public Color max = new Color(-1f, -1f, -1f, -1f);
 
-		// Token: 0x040027E9 RID: 10217
+		// Token: 0x040027E5 RID: 10213
 		public Color only = new Color(-1f, -1f, -1f, -1f);
 	}
 }

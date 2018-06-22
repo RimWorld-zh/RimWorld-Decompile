@@ -10,7 +10,7 @@ namespace RimWorld
 	public class JobDriver_Ingest : JobDriver
 	{
 		// Token: 0x170000C2 RID: 194
-		// (get) Token: 0x060003CC RID: 972 RVA: 0x0002B3D4 File Offset: 0x000297D4
+		// (get) Token: 0x060003CC RID: 972 RVA: 0x0002B3B0 File Offset: 0x000297B0
 		private Thing IngestibleSource
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170000C3 RID: 195
-		// (get) Token: 0x060003CD RID: 973 RVA: 0x0002B400 File Offset: 0x00029800
+		// (get) Token: 0x060003CD RID: 973 RVA: 0x0002B3DC File Offset: 0x000297DC
 		private float ChewDurationMultiplier
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060003CE RID: 974 RVA: 0x0002B463 File Offset: 0x00029863
+		// Token: 0x060003CE RID: 974 RVA: 0x0002B43F File Offset: 0x0002983F
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -47,7 +47,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.eatingFromInventory, "eatingFromInventory", false, false);
 		}
 
-		// Token: 0x060003CF RID: 975 RVA: 0x0002B490 File Offset: 0x00029890
+		// Token: 0x060003CF RID: 975 RVA: 0x0002B46C File Offset: 0x0002986C
 		public override string GetReport()
 		{
 			string result;
@@ -74,7 +74,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060003D0 RID: 976 RVA: 0x0002B5D0 File Offset: 0x000299D0
+		// Token: 0x060003D0 RID: 976 RVA: 0x0002B5AC File Offset: 0x000299AC
 		public override void Notify_Starting()
 		{
 			base.Notify_Starting();
@@ -82,7 +82,7 @@ namespace RimWorld
 			this.eatingFromInventory = (this.pawn.inventory != null && this.pawn.inventory.Contains(this.IngestibleSource));
 		}
 
-		// Token: 0x060003D1 RID: 977 RVA: 0x0002B628 File Offset: 0x00029A28
+		// Token: 0x060003D1 RID: 977 RVA: 0x0002B604 File Offset: 0x00029A04
 		public override bool TryMakePreToilReservations()
 		{
 			if (this.pawn.Faction != null && !(this.IngestibleSource is Building_NutrientPasteDispenser))
@@ -100,7 +100,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x060003D2 RID: 978 RVA: 0x0002B6C4 File Offset: 0x00029AC4
+		// Token: 0x060003D2 RID: 978 RVA: 0x0002B6A0 File Offset: 0x00029AA0
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			if (!this.usingNutrientPasteDispenser)
@@ -118,7 +118,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060003D3 RID: 979 RVA: 0x0002B6F0 File Offset: 0x00029AF0
+		// Token: 0x060003D3 RID: 979 RVA: 0x0002B6CC File Offset: 0x00029ACC
 		private IEnumerable<Toil> PrepareToIngestToils(Toil chewToil)
 		{
 			IEnumerable<Toil> result;
@@ -137,7 +137,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060003D4 RID: 980 RVA: 0x0002B748 File Offset: 0x00029B48
+		// Token: 0x060003D4 RID: 980 RVA: 0x0002B724 File Offset: 0x00029B24
 		private IEnumerable<Toil> PrepareToIngestToils_Dispenser()
 		{
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell).FailOnDespawnedNullOrForbidden(TargetIndex.A);
@@ -147,7 +147,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060003D5 RID: 981 RVA: 0x0002B774 File Offset: 0x00029B74
+		// Token: 0x060003D5 RID: 981 RVA: 0x0002B750 File Offset: 0x00029B50
 		private IEnumerable<Toil> PrepareToIngestToils_ToolUser(Toil chewToil)
 		{
 			if (this.eatingFromInventory)
@@ -189,7 +189,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060003D6 RID: 982 RVA: 0x0002B7A8 File Offset: 0x00029BA8
+		// Token: 0x060003D6 RID: 982 RVA: 0x0002B784 File Offset: 0x00029B84
 		private IEnumerable<Toil> PrepareToIngestToils_NonToolUser()
 		{
 			yield return this.ReserveFoodIfWillIngestWholeStack();
@@ -197,7 +197,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060003D7 RID: 983 RVA: 0x0002B7D4 File Offset: 0x00029BD4
+		// Token: 0x060003D7 RID: 983 RVA: 0x0002B7B0 File Offset: 0x00029BB0
 		private Toil ReserveFoodIfWillIngestWholeStack()
 		{
 			return new Toil
@@ -229,14 +229,14 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060003D8 RID: 984 RVA: 0x0002B810 File Offset: 0x00029C10
+		// Token: 0x060003D8 RID: 984 RVA: 0x0002B7EC File Offset: 0x00029BEC
 		public override bool ModifyCarriedThingDrawPos(ref Vector3 drawPos, ref bool behind, ref bool flip)
 		{
 			IntVec3 cell = this.job.GetTarget(TargetIndex.B).Cell;
 			return JobDriver_Ingest.ModifyCarriedThingDrawPosWorker(ref drawPos, ref behind, ref flip, cell, this.pawn);
 		}
 
-		// Token: 0x060003D9 RID: 985 RVA: 0x0002B84C File Offset: 0x00029C4C
+		// Token: 0x060003D9 RID: 985 RVA: 0x0002B828 File Offset: 0x00029C28
 		public static bool ModifyCarriedThingDrawPosWorker(ref Vector3 drawPos, ref bool behind, ref bool flip, IntVec3 placeCell, Pawn pawn)
 		{
 			bool result;

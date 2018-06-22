@@ -6,16 +6,16 @@ using Verse.Grammar;
 
 namespace RimWorld
 {
-	// Token: 0x02000991 RID: 2449
+	// Token: 0x0200098D RID: 2445
 	public static class NameGenerator
 	{
-		// Token: 0x0600370C RID: 14092 RVA: 0x001D641C File Offset: 0x001D481C
+		// Token: 0x06003705 RID: 14085 RVA: 0x001D6618 File Offset: 0x001D4A18
 		public static string GenerateName(RulePackDef rootPack, IEnumerable<string> extantNames, bool appendNumberIfNameUsed = false, string rootKeyword = null)
 		{
 			return NameGenerator.GenerateName(rootPack, (string x) => !extantNames.Contains(x), appendNumberIfNameUsed, rootKeyword, null);
 		}
 
-		// Token: 0x0600370D RID: 14093 RVA: 0x001D6454 File Offset: 0x001D4854
+		// Token: 0x06003706 RID: 14086 RVA: 0x001D6650 File Offset: 0x001D4A50
 		public static string GenerateName(RulePackDef rootPack, Predicate<string> validator = null, bool appendNumberIfNameUsed = false, string rootKeyword = null, string testPawnNameSymbol = null)
 		{
 			GrammarRequest request = default(GrammarRequest);

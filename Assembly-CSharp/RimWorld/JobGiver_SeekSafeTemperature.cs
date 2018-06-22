@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020000EF RID: 239
 	public class JobGiver_SeekSafeTemperature : ThinkNode_JobGiver
 	{
-		// Token: 0x06000514 RID: 1300 RVA: 0x00038554 File Offset: 0x00036954
+		// Token: 0x06000514 RID: 1300 RVA: 0x00038540 File Offset: 0x00036940
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -38,7 +38,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000515 RID: 1301 RVA: 0x000385F8 File Offset: 0x000369F8
+		// Token: 0x06000515 RID: 1301 RVA: 0x000385E4 File Offset: 0x000369E4
 		private static Region ClosestRegionWithinTemperatureRange(IntVec3 root, Map map, FloatRange tempRange, TraverseParms traverseParms, RegionType traversableRegionTypes = RegionType.Set_Passable)
 		{
 			Region region = root.GetRegion(map, traversableRegionTypes);

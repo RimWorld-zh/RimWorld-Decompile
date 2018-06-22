@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CBE RID: 3262
+	// Token: 0x02000CBB RID: 3259
 	public static class ContentFinder<T> where T : class
 	{
-		// Token: 0x060047E5 RID: 18405 RVA: 0x0025C748 File Offset: 0x0025AB48
+		// Token: 0x060047EE RID: 18414 RVA: 0x0025DB38 File Offset: 0x0025BF38
 		public static T Get(string itemPath, bool reportFailure = true)
 		{
 			T result;
@@ -59,7 +59,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060047E6 RID: 18406 RVA: 0x0025C890 File Offset: 0x0025AC90
+		// Token: 0x060047EF RID: 18415 RVA: 0x0025DC80 File Offset: 0x0025C080
 		public static IEnumerable<T> GetAllInFolder(string folderPath)
 		{
 			if (!UnityData.IsInMainThread)

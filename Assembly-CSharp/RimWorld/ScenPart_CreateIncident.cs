@@ -6,11 +6,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000640 RID: 1600
+	// Token: 0x0200063C RID: 1596
 	internal class ScenPart_CreateIncident : ScenPart_IncidentBase
 	{
 		// Token: 0x170004E7 RID: 1255
-		// (get) Token: 0x0600211B RID: 8475 RVA: 0x001199EC File Offset: 0x00117DEC
+		// (get) Token: 0x06002113 RID: 8467 RVA: 0x00119AEC File Offset: 0x00117EEC
 		protected override string IncidentTag
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170004E8 RID: 1256
-		// (get) Token: 0x0600211C RID: 8476 RVA: 0x00119A08 File Offset: 0x00117E08
+		// (get) Token: 0x06002114 RID: 8468 RVA: 0x00119B08 File Offset: 0x00117F08
 		private float IntervalTicks
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600211D RID: 8477 RVA: 0x00119A2C File Offset: 0x00117E2C
+		// Token: 0x06002115 RID: 8469 RVA: 0x00119B2C File Offset: 0x00117F2C
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -39,7 +39,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.isFinished, "isFinished", false, false);
 		}
 
-		// Token: 0x0600211E RID: 8478 RVA: 0x00119A90 File Offset: 0x00117E90
+		// Token: 0x06002116 RID: 8470 RVA: 0x00119B90 File Offset: 0x00117F90
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 3f);
@@ -51,7 +51,7 @@ namespace RimWorld
 			Widgets.CheckboxLabeled(rect3, "repeat".Translate(), ref this.repeat, false, null, null, false);
 		}
 
-		// Token: 0x0600211F RID: 8479 RVA: 0x00119B98 File Offset: 0x00117F98
+		// Token: 0x06002117 RID: 8471 RVA: 0x00119C98 File Offset: 0x00118098
 		public override void Randomize()
 		{
 			base.Randomize();
@@ -63,7 +63,7 @@ namespace RimWorld
 			this.repeat = (Rand.Range(0, 100) < 50);
 		}
 
-		// Token: 0x06002120 RID: 8480 RVA: 0x00119BFC File Offset: 0x00117FFC
+		// Token: 0x06002118 RID: 8472 RVA: 0x00119CFC File Offset: 0x001180FC
 		protected override IEnumerable<IncidentDef> RandomizableIncidents()
 		{
 			yield return IncidentDefOf.Eclipse;
@@ -72,14 +72,14 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002121 RID: 8481 RVA: 0x00119C1F File Offset: 0x0011801F
+		// Token: 0x06002119 RID: 8473 RVA: 0x00119D1F File Offset: 0x0011811F
 		public override void PostGameStart()
 		{
 			base.PostGameStart();
 			this.occurTick = (float)Find.TickManager.TicksGame + this.IntervalTicks;
 		}
 
-		// Token: 0x06002122 RID: 8482 RVA: 0x00119C40 File Offset: 0x00118040
+		// Token: 0x0600211A RID: 8474 RVA: 0x00119D40 File Offset: 0x00118140
 		public override void Tick()
 		{
 			base.Tick();
@@ -114,25 +114,25 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x040012DE RID: 4830
+		// Token: 0x040012DB RID: 4827
 		private const float IntervalMidpoint = 30f;
 
-		// Token: 0x040012DF RID: 4831
+		// Token: 0x040012DC RID: 4828
 		private const float IntervalDeviation = 15f;
 
-		// Token: 0x040012E0 RID: 4832
+		// Token: 0x040012DD RID: 4829
 		private float intervalDays = 0f;
 
-		// Token: 0x040012E1 RID: 4833
+		// Token: 0x040012DE RID: 4830
 		private bool repeat = false;
 
-		// Token: 0x040012E2 RID: 4834
+		// Token: 0x040012DF RID: 4831
 		private string intervalDaysBuffer;
 
-		// Token: 0x040012E3 RID: 4835
+		// Token: 0x040012E0 RID: 4832
 		private float occurTick = 0f;
 
-		// Token: 0x040012E4 RID: 4836
+		// Token: 0x040012E1 RID: 4833
 		private bool isFinished = false;
 	}
 }

@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000705 RID: 1797
+	// Token: 0x02000701 RID: 1793
 	public class CompBreakdownable : ThingComp
 	{
 		// Token: 0x170005E5 RID: 1509
-		// (get) Token: 0x0600274F RID: 10063 RVA: 0x00151F54 File Offset: 0x00150354
+		// (get) Token: 0x06002747 RID: 10055 RVA: 0x001520F8 File Offset: 0x001504F8
 		public bool BrokenDown
 		{
 			get
@@ -16,14 +16,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002750 RID: 10064 RVA: 0x00151F6F File Offset: 0x0015036F
+		// Token: 0x06002748 RID: 10056 RVA: 0x00152113 File Offset: 0x00150513
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_Values.Look<bool>(ref this.brokenDownInt, "brokenDown", false, false);
 		}
 
-		// Token: 0x06002751 RID: 10065 RVA: 0x00151F8A File Offset: 0x0015038A
+		// Token: 0x06002749 RID: 10057 RVA: 0x0015212E File Offset: 0x0015052E
 		public override void PostDraw()
 		{
 			if (this.brokenDownInt)
@@ -32,7 +32,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002752 RID: 10066 RVA: 0x00151FB5 File Offset: 0x001503B5
+		// Token: 0x0600274A RID: 10058 RVA: 0x00152159 File Offset: 0x00150559
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
@@ -40,14 +40,14 @@ namespace RimWorld
 			this.parent.Map.GetComponent<BreakdownManager>().Register(this);
 		}
 
-		// Token: 0x06002753 RID: 10067 RVA: 0x00151FE6 File Offset: 0x001503E6
+		// Token: 0x0600274B RID: 10059 RVA: 0x0015218A File Offset: 0x0015058A
 		public override void PostDeSpawn(Map map)
 		{
 			base.PostDeSpawn(map);
 			map.GetComponent<BreakdownManager>().Deregister(this);
 		}
 
-		// Token: 0x06002754 RID: 10068 RVA: 0x00151FFC File Offset: 0x001503FC
+		// Token: 0x0600274C RID: 10060 RVA: 0x001521A0 File Offset: 0x001505A0
 		public void CheckForBreakdown()
 		{
 			if (this.CanBreakdownNow() && Rand.MTBEventOccurs(13679999f, 1f, 1041f))
@@ -56,13 +56,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002755 RID: 10069 RVA: 0x0015202C File Offset: 0x0015042C
+		// Token: 0x0600274D RID: 10061 RVA: 0x001521D0 File Offset: 0x001505D0
 		protected bool CanBreakdownNow()
 		{
 			return !this.BrokenDown && (this.powerComp == null || this.powerComp.PowerOn);
 		}
 
-		// Token: 0x06002756 RID: 10070 RVA: 0x00152068 File Offset: 0x00150468
+		// Token: 0x0600274E RID: 10062 RVA: 0x0015220C File Offset: 0x0015060C
 		public void Notify_Repaired()
 		{
 			this.brokenDownInt = false;
@@ -73,7 +73,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002757 RID: 10071 RVA: 0x001520C8 File Offset: 0x001504C8
+		// Token: 0x0600274F RID: 10063 RVA: 0x0015226C File Offset: 0x0015066C
 		public void DoBreakdown()
 		{
 			this.brokenDownInt = true;
@@ -91,7 +91,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002758 RID: 10072 RVA: 0x0015217C File Offset: 0x0015057C
+		// Token: 0x06002750 RID: 10064 RVA: 0x00152320 File Offset: 0x00150720
 		public override string CompInspectStringExtra()
 		{
 			string result;
@@ -106,16 +106,16 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x040015BD RID: 5565
+		// Token: 0x040015BB RID: 5563
 		private bool brokenDownInt;
 
-		// Token: 0x040015BE RID: 5566
+		// Token: 0x040015BC RID: 5564
 		private CompPowerTrader powerComp;
 
-		// Token: 0x040015BF RID: 5567
+		// Token: 0x040015BD RID: 5565
 		private const int BreakdownMTBTicks = 13679999;
 
-		// Token: 0x040015C0 RID: 5568
+		// Token: 0x040015BE RID: 5566
 		public const string BreakdownSignal = "Breakdown";
 	}
 }

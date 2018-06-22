@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200048B RID: 1163
+	// Token: 0x02000487 RID: 1159
 	public static class PawnBioAndNameGenerator
 	{
-		// Token: 0x0600147D RID: 5245 RVA: 0x000B3588 File Offset: 0x000B1988
+		// Token: 0x06001474 RID: 5236 RVA: 0x000B35A0 File Offset: 0x000B19A0
 		public static void GiveAppropriateBioAndNameTo(Pawn pawn, string requiredLastName, FactionDef factionType)
 		{
 			if (Rand.Value < 0.25f || pawn.kindDef.factionLeader)
@@ -23,7 +23,7 @@ namespace RimWorld
 			PawnBioAndNameGenerator.GiveShuffledBioTo(pawn, factionType, requiredLastName);
 		}
 
-		// Token: 0x0600147E RID: 5246 RVA: 0x000B35D4 File Offset: 0x000B19D4
+		// Token: 0x06001475 RID: 5237 RVA: 0x000B35EC File Offset: 0x000B19EC
 		private static void GiveShuffledBioTo(Pawn pawn, FactionDef factionType, string requiredLastName)
 		{
 			pawn.Name = PawnBioAndNameGenerator.GeneratePawnName(pawn, NameStyle.Full, requiredLastName);
@@ -34,7 +34,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600147F RID: 5247 RVA: 0x000B362C File Offset: 0x000B1A2C
+		// Token: 0x06001476 RID: 5238 RVA: 0x000B3644 File Offset: 0x000B1A44
 		private static void FillBackstorySlotShuffled(Pawn pawn, BackstorySlot slot, ref Backstory backstory, FactionDef factionType)
 		{
 			IEnumerable<Backstory> source = from bs in BackstoryDatabase.ShuffleableBackstoryList(slot, factionType.backstoryCategory).TakeRandom(20)
@@ -62,7 +62,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001480 RID: 5248 RVA: 0x000B3720 File Offset: 0x000B1B20
+		// Token: 0x06001477 RID: 5239 RVA: 0x000B3738 File Offset: 0x000B1B38
 		private static bool TryGiveSolidBioTo(Pawn pawn, string requiredLastName, FactionDef factionType)
 		{
 			PawnBio pawnBio = PawnBioAndNameGenerator.TryGetRandomUnusedSolidBioFor(factionType.backstoryCategory, pawn.kindDef, pawn.gender, requiredLastName);
@@ -98,7 +98,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001481 RID: 5249 RVA: 0x000B380C File Offset: 0x000B1C0C
+		// Token: 0x06001478 RID: 5240 RVA: 0x000B3824 File Offset: 0x000B1C24
 		private static PawnBio TryGetRandomUnusedSolidBioFor(string backstoryCategory, PawnKindDef kind, Gender gender, string requiredLastName)
 		{
 			NameTriple prefName = null;
@@ -142,7 +142,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001482 RID: 5250 RVA: 0x000B3914 File Offset: 0x000B1D14
+		// Token: 0x06001479 RID: 5241 RVA: 0x000B392C File Offset: 0x000B1D2C
 		public static NameTriple TryGetRandomUnusedSolidName(Gender gender, string requiredLastName = null)
 		{
 			NameTriple nameTriple = null;
@@ -187,7 +187,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001483 RID: 5251 RVA: 0x000B3A50 File Offset: 0x000B1E50
+		// Token: 0x0600147A RID: 5242 RVA: 0x000B3A68 File Offset: 0x000B1E68
 		public static Name GeneratePawnName(Pawn pawn, NameStyle style = NameStyle.Full, string forcedLastName = null)
 		{
 			Name result;
@@ -254,7 +254,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001484 RID: 5252 RVA: 0x000B3C18 File Offset: 0x000B2018
+		// Token: 0x0600147B RID: 5243 RVA: 0x000B3C30 File Offset: 0x000B2030
 		private static NameTriple GeneratePawnName_Shuffled(Pawn pawn, string forcedLastName = null)
 		{
 			PawnNameCategory pawnNameCategory = pawn.RaceProps.nameCategory;
@@ -305,80 +305,76 @@ namespace RimWorld
 			return new NameTriple(name, nick, text);
 		}
 
-		// Token: 0x06001485 RID: 5253 RVA: 0x000B3D28 File Offset: 0x000B2128
+		// Token: 0x0600147C RID: 5244 RVA: 0x000B3D40 File Offset: 0x000B2140
 		private static float BackstorySelectionWeight(Backstory bs)
 		{
-			return PawnBioAndNameGenerator.SelectionWeightFactorFromWorkTags(bs.workDisables);
+			return PawnBioAndNameGenerator.SelectionWeightFactorFromWorkTagsDisabled(bs.workDisables);
 		}
 
-		// Token: 0x06001486 RID: 5254 RVA: 0x000B3D48 File Offset: 0x000B2148
+		// Token: 0x0600147D RID: 5245 RVA: 0x000B3D60 File Offset: 0x000B2160
 		private static float BioSelectionWeight(PawnBio bio)
 		{
-			return PawnBioAndNameGenerator.SelectionWeightFactorFromWorkTags(bio.adulthood.workDisables | bio.childhood.workDisables);
+			return PawnBioAndNameGenerator.SelectionWeightFactorFromWorkTagsDisabled(bio.adulthood.workDisables | bio.childhood.workDisables);
 		}
 
-		// Token: 0x06001487 RID: 5255 RVA: 0x000B3D7C File Offset: 0x000B217C
-		private static float SelectionWeightFactorFromWorkTags(WorkTags wt)
+		// Token: 0x0600147E RID: 5246 RVA: 0x000B3D94 File Offset: 0x000B2194
+		private static float SelectionWeightFactorFromWorkTagsDisabled(WorkTags wt)
 		{
-			float result;
+			float num = 1f;
 			if ((wt & WorkTags.ManualDumb) != WorkTags.None)
 			{
-				result = 0.45f;
+				num *= 0.4f;
 			}
-			else if ((wt & WorkTags.Cleaning) != WorkTags.None)
+			if ((wt & WorkTags.ManualSkilled) != WorkTags.None)
 			{
-				result = 0.75f;
+				num *= 1f;
 			}
-			else if ((wt & WorkTags.Social) != WorkTags.None)
+			if ((wt & WorkTags.Violent) != WorkTags.None)
 			{
-				result = 0.75f;
+				num *= 0.5f;
 			}
-			else if ((wt & WorkTags.Violent) != WorkTags.None)
+			if ((wt & WorkTags.Caring) != WorkTags.None)
 			{
-				result = 0.75f;
+				num *= 0.9f;
 			}
-			else if ((wt & WorkTags.Intellectual) != WorkTags.None)
+			if ((wt & WorkTags.Social) != WorkTags.None)
 			{
-				result = 0.9f;
+				num *= 0.5f;
 			}
-			else if ((wt & WorkTags.Mining) != WorkTags.None)
+			if ((wt & WorkTags.Intellectual) != WorkTags.None)
 			{
-				result = 3f;
+				num *= 0.35f;
 			}
-			else if ((wt & WorkTags.Animals) != WorkTags.None)
+			if ((wt & WorkTags.Firefighting) != WorkTags.None)
 			{
-				result = 3f;
+				num *= 0.7f;
 			}
-			else
-			{
-				result = 1f;
-			}
-			return result;
+			return num;
 		}
 
-		// Token: 0x04000C4D RID: 3149
+		// Token: 0x04000C4A RID: 3146
 		private const float MinAgeForAdulthood = 20f;
 
-		// Token: 0x04000C4E RID: 3150
+		// Token: 0x04000C4B RID: 3147
 		private const float SolidBioChance = 0.25f;
 
-		// Token: 0x04000C4F RID: 3151
+		// Token: 0x04000C4C RID: 3148
 		private const float SolidNameChance = 0.5f;
 
-		// Token: 0x04000C50 RID: 3152
+		// Token: 0x04000C4D RID: 3149
 		private const float TryPreferredNameChance_Bio = 0.5f;
 
-		// Token: 0x04000C51 RID: 3153
+		// Token: 0x04000C4E RID: 3150
 		private const float TryPreferredNameChance_Name = 0.5f;
 
-		// Token: 0x04000C52 RID: 3154
+		// Token: 0x04000C4F RID: 3151
 		private const float ShuffledNicknameChance = 0.15f;
 
-		// Token: 0x04000C53 RID: 3155
+		// Token: 0x04000C50 RID: 3152
 		[CompilerGenerated]
 		private static Func<Backstory, float> <>f__mg$cache0;
 
-		// Token: 0x04000C54 RID: 3156
+		// Token: 0x04000C51 RID: 3153
 		[CompilerGenerated]
 		private static Func<PawnBio, float> <>f__mg$cache1;
 	}

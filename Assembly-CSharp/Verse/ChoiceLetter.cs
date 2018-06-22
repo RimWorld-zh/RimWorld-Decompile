@@ -5,15 +5,15 @@ using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x02000E73 RID: 3699
+	// Token: 0x02000E72 RID: 3698
 	public abstract class ChoiceLetter : LetterWithTimeout
 	{
-		// Token: 0x17000DAC RID: 3500
-		// (get) Token: 0x060056FD RID: 22269
+		// Token: 0x17000DAF RID: 3503
+		// (get) Token: 0x0600571D RID: 22301
 		public abstract IEnumerable<DiaOption> Choices { get; }
 
-		// Token: 0x17000DAD RID: 3501
-		// (get) Token: 0x060056FE RID: 22270 RVA: 0x001A0564 File Offset: 0x0019E964
+		// Token: 0x17000DB0 RID: 3504
+		// (get) Token: 0x0600571E RID: 22302 RVA: 0x001A0744 File Offset: 0x0019EB44
 		protected DiaOption Reject
 		{
 			get
@@ -29,8 +29,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DAE RID: 3502
-		// (get) Token: 0x060056FF RID: 22271 RVA: 0x001A05A4 File Offset: 0x0019E9A4
+		// Token: 0x17000DB1 RID: 3505
+		// (get) Token: 0x0600571F RID: 22303 RVA: 0x001A0784 File Offset: 0x0019EB84
 		protected DiaOption Postpone
 		{
 			get
@@ -45,8 +45,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DAF RID: 3503
-		// (get) Token: 0x06005700 RID: 22272 RVA: 0x001A05FC File Offset: 0x0019E9FC
+		// Token: 0x17000DB2 RID: 3506
+		// (get) Token: 0x06005720 RID: 22304 RVA: 0x001A07DC File Offset: 0x0019EBDC
 		protected DiaOption OK
 		{
 			get
@@ -62,8 +62,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DB0 RID: 3504
-		// (get) Token: 0x06005701 RID: 22273 RVA: 0x001A063C File Offset: 0x0019EA3C
+		// Token: 0x17000DB3 RID: 3507
+		// (get) Token: 0x06005721 RID: 22305 RVA: 0x001A081C File Offset: 0x0019EC1C
 		protected DiaOption JumpToLocation
 		{
 			get
@@ -84,7 +84,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005702 RID: 22274 RVA: 0x001A06B0 File Offset: 0x0019EAB0
+		// Token: 0x06005722 RID: 22306 RVA: 0x001A0890 File Offset: 0x0019EC90
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -93,13 +93,13 @@ namespace Verse
 			Scribe_Values.Look<bool>(ref this.radioMode, "radioMode", false, false);
 		}
 
-		// Token: 0x06005703 RID: 22275 RVA: 0x001A06F0 File Offset: 0x0019EAF0
+		// Token: 0x06005723 RID: 22307 RVA: 0x001A08D0 File Offset: 0x0019ECD0
 		protected override string GetMouseoverText()
 		{
 			return this.text;
 		}
 
-		// Token: 0x06005704 RID: 22276 RVA: 0x001A070C File Offset: 0x0019EB0C
+		// Token: 0x06005724 RID: 22308 RVA: 0x001A08EC File Offset: 0x0019ECEC
 		public override void OpenLetter()
 		{
 			DiaNode diaNode = new DiaNode(this.text);
@@ -111,13 +111,13 @@ namespace Verse
 			Find.WindowStack.Add(window);
 		}
 
-		// Token: 0x040039B1 RID: 14769
+		// Token: 0x040039C1 RID: 14785
 		public string title;
 
-		// Token: 0x040039B2 RID: 14770
+		// Token: 0x040039C2 RID: 14786
 		public string text;
 
-		// Token: 0x040039B3 RID: 14771
+		// Token: 0x040039C3 RID: 14787
 		public bool radioMode;
 	}
 }

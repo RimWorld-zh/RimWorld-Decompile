@@ -5,17 +5,17 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005DF RID: 1503
+	// Token: 0x020005DB RID: 1499
 	public static class CaravanIncidentUtility
 	{
-		// Token: 0x06001D9D RID: 7581 RVA: 0x000FF160 File Offset: 0x000FD560
+		// Token: 0x06001D94 RID: 7572 RVA: 0x000FF1B4 File Offset: 0x000FD5B4
 		public static int CalculateIncidentMapSize(List<Pawn> caravanPawns, List<Pawn> enemies)
 		{
 			int num = Mathf.RoundToInt((float)((caravanPawns.Count + enemies.Count) * 900));
 			return Mathf.Clamp(Mathf.RoundToInt(Mathf.Sqrt((float)num)), 75, 110);
 		}
 
-		// Token: 0x06001D9E RID: 7582 RVA: 0x000FF1A4 File Offset: 0x000FD5A4
+		// Token: 0x06001D95 RID: 7573 RVA: 0x000FF1F8 File Offset: 0x000FD5F8
 		public static bool CanFireIncidentWhichWantsToGenerateMapAt(int tile)
 		{
 			bool result;
@@ -42,7 +42,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001D9F RID: 7583 RVA: 0x000FF248 File Offset: 0x000FD648
+		// Token: 0x06001D96 RID: 7574 RVA: 0x000FF29C File Offset: 0x000FD69C
 		public static Map SetupCaravanAttackMap(Caravan caravan, List<Pawn> enemies, bool sendLetterIfRelatedPawns)
 		{
 			int num = CaravanIncidentUtility.CalculateIncidentMapSize(caravan.PawnsListForReading, enemies);
@@ -66,7 +66,7 @@ namespace RimWorld.Planet
 			return map;
 		}
 
-		// Token: 0x06001DA0 RID: 7584 RVA: 0x000FF33C File Offset: 0x000FD73C
+		// Token: 0x06001D97 RID: 7575 RVA: 0x000FF390 File Offset: 0x000FD790
 		public static Map GetOrGenerateMapForIncident(Caravan caravan, IntVec3 size, WorldObjectDef suggestedMapParentDef)
 		{
 			int tile = caravan.Tile;
@@ -79,13 +79,13 @@ namespace RimWorld.Planet
 			return orGenerateMap;
 		}
 
-		// Token: 0x04001193 RID: 4499
+		// Token: 0x04001190 RID: 4496
 		private const int MapCellsPerPawn = 900;
 
-		// Token: 0x04001194 RID: 4500
+		// Token: 0x04001191 RID: 4497
 		private const int MinMapSize = 75;
 
-		// Token: 0x04001195 RID: 4501
+		// Token: 0x04001192 RID: 4498
 		private const int MaxMapSize = 110;
 	}
 }

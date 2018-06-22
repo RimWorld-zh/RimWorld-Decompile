@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E20 RID: 3616
+	// Token: 0x02000E1D RID: 3613
 	[HasDebugOutput]
 	internal static class DebugOutputsPawns
 	{
-		// Token: 0x06005413 RID: 21523 RVA: 0x002B2144 File Offset: 0x002B0544
+		// Token: 0x0600542C RID: 21548 RVA: 0x002B3958 File Offset: 0x002B1D58
 		[DebugOutput]
 		public static void PawnKindsBasics()
 		{
@@ -43,7 +44,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<PawnKindDef>(dataSources, array);
 		}
 
-		// Token: 0x06005414 RID: 21524 RVA: 0x002B24C8 File Offset: 0x002B08C8
+		// Token: 0x0600542D RID: 21549 RVA: 0x002B3CDC File Offset: 0x002B20DC
 		[DebugOutput]
 		public static void PawnKindsWeaponUsage()
 		{
@@ -87,7 +88,7 @@ namespace Verse
 			select x, list.ToArray());
 		}
 
-		// Token: 0x06005415 RID: 21525 RVA: 0x002B26E8 File Offset: 0x002B0AE8
+		// Token: 0x0600542E RID: 21550 RVA: 0x002B3EFC File Offset: 0x002B22FC
 		[DebugOutput]
 		public static void PawnKindsApparelUsage()
 		{
@@ -139,7 +140,7 @@ namespace Verse
 			select x, list.ToArray());
 		}
 
-		// Token: 0x06005416 RID: 21526 RVA: 0x002B28E8 File Offset: 0x002B0CE8
+		// Token: 0x0600542F RID: 21551 RVA: 0x002B40FC File Offset: 0x002B24FC
 		[DebugOutput]
 		public static void PawnKindsTechHediffUsage()
 		{
@@ -183,7 +184,7 @@ namespace Verse
 			select x, list.ToArray());
 		}
 
-		// Token: 0x06005417 RID: 21527 RVA: 0x002B2B14 File Offset: 0x002B0F14
+		// Token: 0x06005430 RID: 21552 RVA: 0x002B4328 File Offset: 0x002B2728
 		[DebugOutput]
 		public static void PawnKindGearSampled()
 		{
@@ -308,7 +309,107 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06005418 RID: 21528 RVA: 0x002B2C4C File Offset: 0x002B104C
+		// Token: 0x06005431 RID: 21553 RVA: 0x002B4460 File Offset: 0x002B2860
+		[DebugOutput]
+		public static void PawnWorkDisablesSampled()
+		{
+			IOrderedEnumerable<PawnKindDef> orderedEnumerable = from k in DefDatabase<PawnKindDef>.AllDefs
+			where k.RaceProps.Humanlike
+			orderby k.combatPower
+			select k;
+			List<FloatMenuOption> list = new List<FloatMenuOption>();
+			foreach (PawnKindDef pawnKindDef in orderedEnumerable)
+			{
+				Faction fac = FactionUtility.DefaultFactionFrom(pawnKindDef.defaultFactionType);
+				PawnKindDef kind = pawnKindDef;
+				FloatMenuOption item = new FloatMenuOption(string.Concat(new object[]
+				{
+					kind.defName,
+					" (",
+					kind.combatPower,
+					")"
+				}), delegate()
+				{
+					Dictionary<WorkTags, int> dictionary = new Dictionary<WorkTags, int>();
+					for (int i = 0; i < 1000; i++)
+					{
+						Pawn pawn = PawnGenerator.GeneratePawn(kind, fac);
+						WorkTags combinedDisabledWorkTags = pawn.story.CombinedDisabledWorkTags;
+						IEnumerator enumerator2 = Enum.GetValues(typeof(WorkTags)).GetEnumerator();
+						try
+						{
+							while (enumerator2.MoveNext())
+							{
+								object obj = enumerator2.Current;
+								WorkTags workTags = (WorkTags)obj;
+								if (!dictionary.ContainsKey(workTags))
+								{
+									dictionary.Add(workTags, 0);
+								}
+								if ((combinedDisabledWorkTags & workTags) != WorkTags.None)
+								{
+									Dictionary<WorkTags, int> dictionary2;
+									WorkTags key;
+									(dictionary2 = dictionary)[key = workTags] = dictionary2[key] + 1;
+								}
+							}
+						}
+						finally
+						{
+							IDisposable disposable;
+							if ((disposable = (enumerator2 as IDisposable)) != null)
+							{
+								disposable.Dispose();
+							}
+						}
+						pawn.Destroy(DestroyMode.Vanish);
+					}
+					StringBuilder stringBuilder = new StringBuilder();
+					stringBuilder.AppendLine(string.Concat(new object[]
+					{
+						"Sampled ",
+						1000,
+						"x ",
+						kind.defName,
+						":"
+					}));
+					stringBuilder.AppendLine("Worktags disabled");
+					IEnumerator enumerator3 = Enum.GetValues(typeof(WorkTags)).GetEnumerator();
+					try
+					{
+						while (enumerator3.MoveNext())
+						{
+							object obj2 = enumerator3.Current;
+							WorkTags key2 = (WorkTags)obj2;
+							int num = dictionary[key2];
+							stringBuilder.AppendLine(string.Concat(new object[]
+							{
+								"  ",
+								key2.ToString(),
+								"    ",
+								num,
+								" (",
+								((float)num / 1000f).ToStringPercent(),
+								")"
+							}));
+						}
+					}
+					finally
+					{
+						IDisposable disposable2;
+						if ((disposable2 = (enumerator3 as IDisposable)) != null)
+						{
+							disposable2.Dispose();
+						}
+					}
+					Log.Message(stringBuilder.ToString().TrimEndNewlines(), false);
+				}, MenuOptionPriority.Default, null, null, 0f, null, null);
+				list.Add(item);
+			}
+			Find.WindowStack.Add(new FloatMenu(list));
+		}
+
+		// Token: 0x06005432 RID: 21554 RVA: 0x002B4598 File Offset: 0x002B2998
 		[DebugOutput]
 		public static void RacesFoodConsumption()
 		{
@@ -375,7 +476,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005419 RID: 21529 RVA: 0x002B2E78 File Offset: 0x002B1278
+		// Token: 0x06005433 RID: 21555 RVA: 0x002B47C4 File Offset: 0x002B2BC4
 		[DebugOutput]
 		public static void RacesButchery()
 		{
@@ -395,7 +496,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x0600541A RID: 21530 RVA: 0x002B302C File Offset: 0x002B142C
+		// Token: 0x06005434 RID: 21556 RVA: 0x002B4978 File Offset: 0x002B2D78
 		[DebugOutput]
 		public static void AnimalsBasics()
 		{
@@ -471,13 +572,13 @@ namespace Verse
 			DebugTables.MakeTablesDialog<PawnKindDef>(dataSources, array);
 		}
 
-		// Token: 0x0600541B RID: 21531 RVA: 0x002B3304 File Offset: 0x002B1704
+		// Token: 0x06005435 RID: 21557 RVA: 0x002B4C50 File Offset: 0x002B3050
 		private static float RaceMeleeDpsEstimate(ThingDef race)
 		{
 			return race.GetStatValueAbstract(StatDefOf.MeleeDPS, null);
 		}
 
-		// Token: 0x0600541C RID: 21532 RVA: 0x002B3328 File Offset: 0x002B1728
+		// Token: 0x06005436 RID: 21558 RVA: 0x002B4C74 File Offset: 0x002B3074
 		[DebugOutput]
 		public static void AnimalCombatBalance()
 		{
@@ -525,7 +626,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<PawnKindDef>(dataSources, array);
 		}
 
-		// Token: 0x0600541D RID: 21533 RVA: 0x002B34DC File Offset: 0x002B18DC
+		// Token: 0x06005437 RID: 21559 RVA: 0x002B4E28 File Offset: 0x002B3228
 		[DebugOutput]
 		public static void AnimalTradeTags()
 		{
@@ -546,7 +647,7 @@ namespace Verse
 			select d, list.ToArray());
 		}
 
-		// Token: 0x0600541E RID: 21534 RVA: 0x002B3608 File Offset: 0x002B1A08
+		// Token: 0x06005438 RID: 21560 RVA: 0x002B4F54 File Offset: 0x002B3354
 		[DebugOutput]
 		public static void AnimalBehavior()
 		{
@@ -574,7 +675,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<PawnKindDef>(dataSources, array);
 		}
 
-		// Token: 0x0600541F RID: 21535 RVA: 0x002B391C File Offset: 0x002B1D1C
+		// Token: 0x06005439 RID: 21561 RVA: 0x002B5268 File Offset: 0x002B3668
 		[DebugOutput]
 		public static void AnimalsEcosystem()
 		{

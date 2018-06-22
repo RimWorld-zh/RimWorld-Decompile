@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008C2 RID: 2242
+	// Token: 0x020008BE RID: 2238
 	public class Instruction_EquipWeapons : Lesson_Instruction
 	{
-		// Token: 0x17000825 RID: 2085
-		// (get) Token: 0x06003341 RID: 13121 RVA: 0x001B8950 File Offset: 0x001B6D50
+		// Token: 0x17000826 RID: 2086
+		// (get) Token: 0x0600333A RID: 13114 RVA: 0x001B8B38 File Offset: 0x001B6F38
 		protected override float ProgressPercent
 		{
 			get
@@ -20,8 +20,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x17000826 RID: 2086
-		// (get) Token: 0x06003342 RID: 13122 RVA: 0x001B89B0 File Offset: 0x001B6DB0
+		// Token: 0x17000827 RID: 2087
+		// (get) Token: 0x0600333B RID: 13115 RVA: 0x001B8B98 File Offset: 0x001B6F98
 		private IEnumerable<Thing> Weapons
 		{
 			get
@@ -32,13 +32,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003343 RID: 13123 RVA: 0x001B89F4 File Offset: 0x001B6DF4
+		// Token: 0x0600333C RID: 13116 RVA: 0x001B8BDC File Offset: 0x001B6FDC
 		public static bool IsWeapon(Thing t)
 		{
 			return t.def.IsWeapon && t.def.BaseMarketValue > 30f;
 		}
 
-		// Token: 0x06003344 RID: 13124 RVA: 0x001B8A30 File Offset: 0x001B6E30
+		// Token: 0x0600333D RID: 13117 RVA: 0x001B8C18 File Offset: 0x001B7018
 		public override void LessonOnGUI()
 		{
 			foreach (Thing t in this.Weapons)
@@ -48,7 +48,7 @@ namespace RimWorld
 			base.LessonOnGUI();
 		}
 
-		// Token: 0x06003345 RID: 13125 RVA: 0x001B8AA0 File Offset: 0x001B6EA0
+		// Token: 0x0600333E RID: 13118 RVA: 0x001B8C88 File Offset: 0x001B7088
 		public override void LessonUpdate()
 		{
 			foreach (Thing thing in this.Weapons)

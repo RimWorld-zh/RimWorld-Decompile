@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007C0 RID: 1984
+	// Token: 0x020007BC RID: 1980
 	public class Designator_AreaBuildRoof : Designator_Area
 	{
-		// Token: 0x06002BEE RID: 11246 RVA: 0x00174000 File Offset: 0x00172400
+		// Token: 0x06002BE7 RID: 11239 RVA: 0x001741D8 File Offset: 0x001725D8
 		public Designator_AreaBuildRoof()
 		{
 			this.defaultLabel = "DesignatorAreaBuildRoofExpand".Translate();
@@ -21,8 +21,8 @@ namespace RimWorld
 			this.tutorTag = "AreaBuildRoofExpand";
 		}
 
-		// Token: 0x170006DB RID: 1755
-		// (get) Token: 0x06002BEF RID: 11247 RVA: 0x00174080 File Offset: 0x00172480
+		// Token: 0x170006DC RID: 1756
+		// (get) Token: 0x06002BE8 RID: 11240 RVA: 0x00174258 File Offset: 0x00172658
 		public override int DraggableDimensions
 		{
 			get
@@ -31,8 +31,8 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x170006DC RID: 1756
-		// (get) Token: 0x06002BF0 RID: 11248 RVA: 0x00174098 File Offset: 0x00172498
+		// Token: 0x170006DD RID: 1757
+		// (get) Token: 0x06002BE9 RID: 11241 RVA: 0x00174270 File Offset: 0x00172670
 		public override bool DragDrawMeasurements
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BF1 RID: 11249 RVA: 0x001740B0 File Offset: 0x001724B0
+		// Token: 0x06002BEA RID: 11242 RVA: 0x00174288 File Offset: 0x00172688
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -61,14 +61,14 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002BF2 RID: 11250 RVA: 0x0017411F File Offset: 0x0017251F
+		// Token: 0x06002BEB RID: 11243 RVA: 0x001742F7 File Offset: 0x001726F7
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			base.Map.areaManager.BuildRoof[c] = true;
 			base.Map.areaManager.NoRoof[c] = false;
 		}
 
-		// Token: 0x06002BF3 RID: 11251 RVA: 0x00174150 File Offset: 0x00172550
+		// Token: 0x06002BEC RID: 11244 RVA: 0x00174328 File Offset: 0x00172728
 		public override bool ShowWarningForCell(IntVec3 c)
 		{
 			foreach (Thing thing in base.Map.thingGrid.ThingsAt(c))
@@ -85,7 +85,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06002BF4 RID: 11252 RVA: 0x0017421C File Offset: 0x0017261C
+		// Token: 0x06002BED RID: 11245 RVA: 0x001743F4 File Offset: 0x001727F4
 		public override void SelectedUpdate()
 		{
 			GenUI.RenderMouseoverBracket();

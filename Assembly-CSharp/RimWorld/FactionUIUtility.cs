@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000818 RID: 2072
+	// Token: 0x02000814 RID: 2068
 	public static class FactionUIUtility
 	{
-		// Token: 0x06002E30 RID: 11824 RVA: 0x00185BD8 File Offset: 0x00183FD8
+		// Token: 0x06002E29 RID: 11817 RVA: 0x00185DB4 File Offset: 0x001841B4
 		public static void DoWindowContents(Rect fillRect, ref Vector2 scrollPosition, ref float scrollViewHeight)
 		{
 			Rect position = new Rect(0f, 0f, fillRect.width, fillRect.height);
@@ -45,7 +45,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002E31 RID: 11825 RVA: 0x00185DA0 File Offset: 0x001841A0
+		// Token: 0x06002E2A RID: 11818 RVA: 0x00185F7C File Offset: 0x0018437C
 		private static float DrawFactionRow(Faction faction, float rowY, Rect fillRect)
 		{
 			Rect rect = new Rect(35f, rowY, 250f, 80f);
@@ -170,31 +170,31 @@ namespace RimWorld
 			return num2;
 		}
 
-		// Token: 0x04001890 RID: 6288
+		// Token: 0x0400188E RID: 6286
 		private static bool showAll;
 
-		// Token: 0x04001891 RID: 6289
+		// Token: 0x0400188F RID: 6287
 		private const float FactionColorRectSize = 15f;
 
-		// Token: 0x04001892 RID: 6290
+		// Token: 0x04001890 RID: 6288
 		private const float FactionColorRectGap = 10f;
 
-		// Token: 0x04001893 RID: 6291
+		// Token: 0x04001891 RID: 6289
 		private const float RowMinHeight = 80f;
 
-		// Token: 0x04001894 RID: 6292
+		// Token: 0x04001892 RID: 6290
 		private const float LabelRowHeight = 50f;
 
-		// Token: 0x04001895 RID: 6293
+		// Token: 0x04001893 RID: 6291
 		private const float TypeColumnWidth = 100f;
 
-		// Token: 0x04001896 RID: 6294
+		// Token: 0x04001894 RID: 6292
 		private const float NameColumnWidth = 250f;
 
-		// Token: 0x04001897 RID: 6295
+		// Token: 0x04001895 RID: 6293
 		private const float RelationsColumnWidth = 90f;
 
-		// Token: 0x04001898 RID: 6296
+		// Token: 0x04001896 RID: 6294
 		private const float NameLeftMargin = 15f;
 	}
 }

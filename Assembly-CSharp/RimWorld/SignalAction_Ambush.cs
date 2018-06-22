@@ -8,10 +8,10 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020006BF RID: 1727
+	// Token: 0x020006BB RID: 1723
 	public class SignalAction_Ambush : SignalAction
 	{
-		// Token: 0x06002527 RID: 9511 RVA: 0x0013E5BC File Offset: 0x0013C9BC
+		// Token: 0x0600251F RID: 9503 RVA: 0x0013E704 File Offset: 0x0013CB04
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -23,7 +23,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.spawnPawnsOnEdge, "spawnPawnsOnEdge", false, false);
 		}
 
-		// Token: 0x06002528 RID: 9512 RVA: 0x0013E650 File Offset: 0x0013CA50
+		// Token: 0x06002520 RID: 9504 RVA: 0x0013E798 File Offset: 0x0013CB98
 		protected override void DoAction(object[] args)
 		{
 			if (this.points > 0f)
@@ -85,7 +85,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002529 RID: 9513 RVA: 0x0013E8CC File Offset: 0x0013CCCC
+		// Token: 0x06002521 RID: 9505 RVA: 0x0013EA14 File Offset: 0x0013CE14
 		private IEnumerable<Pawn> GenerateAmbushPawns()
 		{
 			IEnumerable<Pawn> result;
@@ -130,25 +130,25 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04001486 RID: 5254
+		// Token: 0x04001484 RID: 5252
 		public float points;
 
-		// Token: 0x04001487 RID: 5255
+		// Token: 0x04001485 RID: 5253
 		public bool manhunters;
 
-		// Token: 0x04001488 RID: 5256
+		// Token: 0x04001486 RID: 5254
 		public bool mechanoids;
 
-		// Token: 0x04001489 RID: 5257
+		// Token: 0x04001487 RID: 5255
 		public IntVec3 spawnNear = IntVec3.Invalid;
 
-		// Token: 0x0400148A RID: 5258
+		// Token: 0x04001488 RID: 5256
 		public CellRect spawnAround;
 
-		// Token: 0x0400148B RID: 5259
+		// Token: 0x04001489 RID: 5257
 		public bool spawnPawnsOnEdge;
 
-		// Token: 0x0400148C RID: 5260
+		// Token: 0x0400148A RID: 5258
 		private const int PawnsDelayAfterSpawnTicks = 120;
 	}
 }

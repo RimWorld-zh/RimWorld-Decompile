@@ -8,7 +8,7 @@ namespace RimWorld
 	public class PawnColumnDef : Def
 	{
 		// Token: 0x170001B6 RID: 438
-		// (get) Token: 0x06000B89 RID: 2953 RVA: 0x000682EC File Offset: 0x000666EC
+		// (get) Token: 0x06000B87 RID: 2951 RVA: 0x00068354 File Offset: 0x00066754
 		public PawnColumnWorker Worker
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001B7 RID: 439
-		// (get) Token: 0x06000B8A RID: 2954 RVA: 0x00068338 File Offset: 0x00066738
+		// (get) Token: 0x06000B88 RID: 2952 RVA: 0x000683A0 File Offset: 0x000667A0
 		public Texture2D HeaderIcon
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001B8 RID: 440
-		// (get) Token: 0x06000B8B RID: 2955 RVA: 0x00068388 File Offset: 0x00066788
+		// (get) Token: 0x06000B89 RID: 2953 RVA: 0x000683F0 File Offset: 0x000667F0
 		public Vector2 HeaderIconSize
 		{
 			get
@@ -64,7 +64,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001B9 RID: 441
-		// (get) Token: 0x06000B8C RID: 2956 RVA: 0x000683F4 File Offset: 0x000667F4
+		// (get) Token: 0x06000B8A RID: 2954 RVA: 0x0006845C File Offset: 0x0006685C
 		public bool HeaderInteractable
 		{
 			get
@@ -73,52 +73,52 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0400069C RID: 1692
+		// Token: 0x0400069B RID: 1691
 		public Type workerClass = typeof(PawnColumnWorker);
 
-		// Token: 0x0400069D RID: 1693
+		// Token: 0x0400069C RID: 1692
 		public bool sortable;
 
-		// Token: 0x0400069E RID: 1694
+		// Token: 0x0400069D RID: 1693
 		public bool ignoreWhenCalculatingOptimalTableSize;
 
-		// Token: 0x0400069F RID: 1695
+		// Token: 0x0400069E RID: 1694
 		[NoTranslate]
 		public string headerIcon;
 
-		// Token: 0x040006A0 RID: 1696
+		// Token: 0x0400069F RID: 1695
 		public Vector2 headerIconSize;
 
-		// Token: 0x040006A1 RID: 1697
+		// Token: 0x040006A0 RID: 1696
 		[MustTranslate]
 		public string headerTip;
 
-		// Token: 0x040006A2 RID: 1698
+		// Token: 0x040006A1 RID: 1697
 		public bool headerAlwaysInteractable;
 
-		// Token: 0x040006A3 RID: 1699
+		// Token: 0x040006A2 RID: 1698
 		public bool paintable;
 
-		// Token: 0x040006A4 RID: 1700
+		// Token: 0x040006A3 RID: 1699
 		public TrainableDef trainable;
 
-		// Token: 0x040006A5 RID: 1701
+		// Token: 0x040006A4 RID: 1700
 		public int gap;
 
-		// Token: 0x040006A6 RID: 1702
+		// Token: 0x040006A5 RID: 1701
 		public WorkTypeDef workType;
 
-		// Token: 0x040006A7 RID: 1703
+		// Token: 0x040006A6 RID: 1702
 		public bool moveWorkTypeLabelDown;
 
-		// Token: 0x040006A8 RID: 1704
+		// Token: 0x040006A7 RID: 1703
 		public int widthPriority;
 
-		// Token: 0x040006A9 RID: 1705
+		// Token: 0x040006A8 RID: 1704
 		[Unsaved]
 		private PawnColumnWorker workerInt;
 
-		// Token: 0x040006AA RID: 1706
+		// Token: 0x040006A9 RID: 1705
 		[Unsaved]
 		private Texture2D headerIconTex;
 	}

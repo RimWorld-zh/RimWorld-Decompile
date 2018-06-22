@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000089 RID: 137
 	public static class Toils_Misc
 	{
-		// Token: 0x06000388 RID: 904 RVA: 0x00027BB0 File Offset: 0x00025FB0
+		// Token: 0x06000388 RID: 904 RVA: 0x00027B8C File Offset: 0x00025F8C
 		public static Toil Learn(SkillDef skill, float xp)
 		{
 			Toil toil = new Toil();
@@ -19,7 +19,7 @@ namespace RimWorld
 			return toil;
 		}
 
-		// Token: 0x06000389 RID: 905 RVA: 0x00027C04 File Offset: 0x00026004
+		// Token: 0x06000389 RID: 905 RVA: 0x00027BE0 File Offset: 0x00025FE0
 		public static Toil SetForbidden(TargetIndex ind, bool forbidden)
 		{
 			Toil toil = new Toil();
@@ -30,7 +30,7 @@ namespace RimWorld
 			return toil;
 		}
 
-		// Token: 0x0600038A RID: 906 RVA: 0x00027C58 File Offset: 0x00026058
+		// Token: 0x0600038A RID: 906 RVA: 0x00027C34 File Offset: 0x00026034
 		public static Toil TakeItemFromInventoryToCarrier(Pawn pawn, TargetIndex itemInd)
 		{
 			return new Toil
@@ -46,7 +46,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x0600038B RID: 907 RVA: 0x00027C9C File Offset: 0x0002609C
+		// Token: 0x0600038B RID: 907 RVA: 0x00027C78 File Offset: 0x00026078
 		public static Toil ThrowColonistAttackingMote(TargetIndex target)
 		{
 			Toil toil = new Toil();
@@ -62,7 +62,7 @@ namespace RimWorld
 			return toil;
 		}
 
-		// Token: 0x0600038C RID: 908 RVA: 0x00027CE8 File Offset: 0x000260E8
+		// Token: 0x0600038C RID: 908 RVA: 0x00027CC4 File Offset: 0x000260C4
 		public static Toil FindRandomAdjacentReachableCell(TargetIndex adjacentToInd, TargetIndex cellInd)
 		{
 			Toil findCell = new Toil();

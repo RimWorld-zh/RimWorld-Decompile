@@ -13,7 +13,7 @@ namespace RimWorld
 	public class JobDriver_PrepareCaravan_GatherItems : JobDriver
 	{
 		// Token: 0x17000063 RID: 99
-		// (get) Token: 0x060001F1 RID: 497 RVA: 0x00015084 File Offset: 0x00013484
+		// (get) Token: 0x060001F1 RID: 497 RVA: 0x0001508C File Offset: 0x0001348C
 		public Thing ToHaul
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000064 RID: 100
-		// (get) Token: 0x060001F2 RID: 498 RVA: 0x000150B0 File Offset: 0x000134B0
+		// (get) Token: 0x060001F2 RID: 498 RVA: 0x000150B8 File Offset: 0x000134B8
 		public Pawn Carrier
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000065 RID: 101
-		// (get) Token: 0x060001F3 RID: 499 RVA: 0x000150E0 File Offset: 0x000134E0
+		// (get) Token: 0x060001F3 RID: 499 RVA: 0x000150E8 File Offset: 0x000134E8
 		private List<TransferableOneWay> Transferables
 		{
 			get
@@ -43,7 +43,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000066 RID: 102
-		// (get) Token: 0x060001F4 RID: 500 RVA: 0x00015110 File Offset: 0x00013510
+		// (get) Token: 0x060001F4 RID: 500 RVA: 0x00015118 File Offset: 0x00013518
 		private TransferableOneWay Transferable
 		{
 			get
@@ -57,13 +57,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060001F5 RID: 501 RVA: 0x0001514C File Offset: 0x0001354C
+		// Token: 0x060001F5 RID: 501 RVA: 0x00015154 File Offset: 0x00013554
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.ToHaul, this.job, 1, -1, null);
 		}
 
-		// Token: 0x060001F6 RID: 502 RVA: 0x00015180 File Offset: 0x00013580
+		// Token: 0x060001F6 RID: 502 RVA: 0x00015188 File Offset: 0x00013588
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOn(() => !base.Map.lordManager.lords.Contains(this.job.lord));
@@ -82,7 +82,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060001F7 RID: 503 RVA: 0x000151AC File Offset: 0x000135AC
+		// Token: 0x060001F7 RID: 503 RVA: 0x000151B4 File Offset: 0x000135B4
 		private Toil DetermineNumToHaul()
 		{
 			return new Toil
@@ -108,7 +108,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060001F8 RID: 504 RVA: 0x000151E8 File Offset: 0x000135E8
+		// Token: 0x060001F8 RID: 504 RVA: 0x000151F0 File Offset: 0x000135F0
 		private Toil AddCarriedThingToTransferables()
 		{
 			return new Toil
@@ -126,7 +126,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060001F9 RID: 505 RVA: 0x00015224 File Offset: 0x00013624
+		// Token: 0x060001F9 RID: 505 RVA: 0x0001522C File Offset: 0x0001362C
 		private Toil FindCarrier()
 		{
 			return new Toil
@@ -170,7 +170,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060001FA RID: 506 RVA: 0x00015254 File Offset: 0x00013654
+		// Token: 0x060001FA RID: 506 RVA: 0x0001525C File Offset: 0x0001365C
 		private Toil PlaceTargetInCarrierInventory()
 		{
 			return new Toil
@@ -185,13 +185,13 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060001FB RID: 507 RVA: 0x00015284 File Offset: 0x00013684
+		// Token: 0x060001FB RID: 507 RVA: 0x0001528C File Offset: 0x0001368C
 		public static bool IsUsableCarrier(Pawn p, Pawn forPawn, bool allowColonists)
 		{
 			return p.IsFormingCaravan() && (p == forPawn || (!p.DestroyedOrNull() && p.Spawned && !p.inventory.UnloadEverything && forPawn.CanReach(p, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn) && ((allowColonists && p.IsColonist) || ((p.RaceProps.packAnimal || p.HostFaction == Faction.OfPlayer) && !p.IsBurning() && !p.Downed && !MassUtility.IsOverEncumbered(p)))));
 		}
 
-		// Token: 0x060001FC RID: 508 RVA: 0x00015358 File Offset: 0x00013758
+		// Token: 0x060001FC RID: 508 RVA: 0x00015360 File Offset: 0x00013760
 		private float GetCarrierScore(Pawn p)
 		{
 			float lengthHorizontal = (p.Position - this.pawn.Position).LengthHorizontal;
@@ -200,7 +200,7 @@ namespace RimWorld
 			return num2 - lengthHorizontal / 10f * 0.2f;
 		}
 
-		// Token: 0x060001FD RID: 509 RVA: 0x000153AC File Offset: 0x000137AC
+		// Token: 0x060001FD RID: 509 RVA: 0x000153B4 File Offset: 0x000137B4
 		private Pawn FindBestCarrier(bool onlyAnimals)
 		{
 			Lord lord = this.job.lord;

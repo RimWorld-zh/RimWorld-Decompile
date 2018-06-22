@@ -2,10 +2,10 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A0D RID: 2573
+	// Token: 0x02000A09 RID: 2569
 	public abstract class TriggerFilter
 	{
-		// Token: 0x06003993 RID: 14739
+		// Token: 0x0600398D RID: 14733
 		public abstract bool AllowActivation(Lord lord, TriggerSignal signal);
 	}
 }

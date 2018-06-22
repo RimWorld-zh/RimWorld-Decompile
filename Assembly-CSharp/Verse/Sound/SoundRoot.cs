@@ -2,10 +2,10 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DB7 RID: 3511
+	// Token: 0x02000DB4 RID: 3508
 	public class SoundRoot
 	{
-		// Token: 0x06004E68 RID: 20072 RVA: 0x0028F1D8 File Offset: 0x0028D5D8
+		// Token: 0x06004E7D RID: 20093 RVA: 0x00290788 File Offset: 0x0028EB88
 		public SoundRoot()
 		{
 			this.sourcePool = new AudioSourcePool();
@@ -13,20 +13,20 @@ namespace Verse.Sound
 			this.oneShotManager = new SampleOneShotManager();
 		}
 
-		// Token: 0x06004E69 RID: 20073 RVA: 0x0028F202 File Offset: 0x0028D602
+		// Token: 0x06004E7E RID: 20094 RVA: 0x002907B2 File Offset: 0x0028EBB2
 		public void Update()
 		{
 			this.sustainerManager.SustainerManagerUpdate();
 			this.oneShotManager.SampleOneShotManagerUpdate();
 		}
 
-		// Token: 0x04003433 RID: 13363
+		// Token: 0x0400343E RID: 13374
 		public AudioSourcePool sourcePool;
 
-		// Token: 0x04003434 RID: 13364
+		// Token: 0x0400343F RID: 13375
 		public SampleOneShotManager oneShotManager;
 
-		// Token: 0x04003435 RID: 13365
+		// Token: 0x04003440 RID: 13376
 		public SustainerManager sustainerManager;
 	}
 }

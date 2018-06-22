@@ -8,14 +8,14 @@ namespace RimWorld
 	// Token: 0x020002FA RID: 762
 	public class HistoryAutoRecorderGroup : IExposable
 	{
-		// Token: 0x06000CB5 RID: 3253 RVA: 0x0006FE87 File Offset: 0x0006E287
+		// Token: 0x06000CB5 RID: 3253 RVA: 0x0006FF3B File Offset: 0x0006E33B
 		public HistoryAutoRecorderGroup()
 		{
 			this.recorders = new List<HistoryAutoRecorder>();
 			this.curves = new List<SimpleCurveDrawInfo>();
 		}
 
-		// Token: 0x06000CB6 RID: 3254 RVA: 0x0006FEB4 File Offset: 0x0006E2B4
+		// Token: 0x06000CB6 RID: 3254 RVA: 0x0006FF68 File Offset: 0x0006E368
 		public void CreateRecorders()
 		{
 			foreach (HistoryAutoRecorderDef historyAutoRecorderDef in this.def.historyAutoRecorderDefs)
@@ -26,7 +26,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CB7 RID: 3255 RVA: 0x0006FF2C File Offset: 0x0006E32C
+		// Token: 0x06000CB7 RID: 3255 RVA: 0x0006FFE0 File Offset: 0x0006E3E0
 		public float GetMaxDay()
 		{
 			float num = 0f;
@@ -45,7 +45,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06000CB8 RID: 3256 RVA: 0x0006FFD0 File Offset: 0x0006E3D0
+		// Token: 0x06000CB8 RID: 3256 RVA: 0x00070084 File Offset: 0x0006E484
 		public void Tick()
 		{
 			for (int i = 0; i < this.recorders.Count; i++)
@@ -54,7 +54,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CB9 RID: 3257 RVA: 0x00070010 File Offset: 0x0006E410
+		// Token: 0x06000CB9 RID: 3257 RVA: 0x000700C4 File Offset: 0x0006E4C4
 		public void DrawGraph(Rect graphRect, Rect legendRect, FloatRange section, List<CurveMark> marks)
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -95,23 +95,23 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x06000CBA RID: 3258 RVA: 0x000701E6 File Offset: 0x0006E5E6
+		// Token: 0x06000CBA RID: 3258 RVA: 0x0007029A File Offset: 0x0006E69A
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<HistoryAutoRecorderGroupDef>(ref this.def, "def");
 			Scribe_Collections.Look<HistoryAutoRecorder>(ref this.recorders, "recorders", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x0400084C RID: 2124
+		// Token: 0x0400084E RID: 2126
 		public HistoryAutoRecorderGroupDef def = null;
 
-		// Token: 0x0400084D RID: 2125
+		// Token: 0x0400084F RID: 2127
 		public List<HistoryAutoRecorder> recorders;
 
-		// Token: 0x0400084E RID: 2126
+		// Token: 0x04000850 RID: 2128
 		private List<SimpleCurveDrawInfo> curves;
 
-		// Token: 0x0400084F RID: 2127
+		// Token: 0x04000851 RID: 2129
 		private int cachedGraphTickCount = -1;
 	}
 }

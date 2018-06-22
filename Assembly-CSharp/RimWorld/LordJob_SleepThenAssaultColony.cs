@@ -8,12 +8,12 @@ namespace RimWorld
 	// Token: 0x02000175 RID: 373
 	public class LordJob_SleepThenAssaultColony : LordJob
 	{
-		// Token: 0x060007AD RID: 1965 RVA: 0x0004B683 File Offset: 0x00049A83
+		// Token: 0x060007AD RID: 1965 RVA: 0x0004B66F File Offset: 0x00049A6F
 		public LordJob_SleepThenAssaultColony()
 		{
 		}
 
-		// Token: 0x060007AE RID: 1966 RVA: 0x0004B68C File Offset: 0x00049A8C
+		// Token: 0x060007AE RID: 1966 RVA: 0x0004B678 File Offset: 0x00049A78
 		public LordJob_SleepThenAssaultColony(Faction faction, bool wakeUpIfColonistClose)
 		{
 			this.faction = faction;
@@ -21,7 +21,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000132 RID: 306
-		// (get) Token: 0x060007AF RID: 1967 RVA: 0x0004B6A4 File Offset: 0x00049AA4
+		// (get) Token: 0x060007AF RID: 1967 RVA: 0x0004B690 File Offset: 0x00049A90
 		public override bool GuiltyOnDowned
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060007B0 RID: 1968 RVA: 0x0004B6BC File Offset: 0x00049ABC
+		// Token: 0x060007B0 RID: 1968 RVA: 0x0004B6A8 File Offset: 0x00049AA8
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -52,14 +52,14 @@ namespace RimWorld
 			return stateGraph;
 		}
 
-		// Token: 0x060007B1 RID: 1969 RVA: 0x0004B798 File Offset: 0x00049B98
+		// Token: 0x060007B1 RID: 1969 RVA: 0x0004B784 File Offset: 0x00049B84
 		public override void ExposeData()
 		{
 			Scribe_References.Look<Faction>(ref this.faction, "faction", false);
 			Scribe_Values.Look<bool>(ref this.wakeUpIfColonistClose, "wakeUpIfColonistClose", false, false);
 		}
 
-		// Token: 0x060007B2 RID: 1970 RVA: 0x0004B7C0 File Offset: 0x00049BC0
+		// Token: 0x060007B2 RID: 1970 RVA: 0x0004B7AC File Offset: 0x00049BAC
 		private bool AnyColonistClose()
 		{
 			int num = GenRadial.NumCellsInRadius(6f);
@@ -79,7 +79,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060007B3 RID: 1971 RVA: 0x0004B890 File Offset: 0x00049C90
+		// Token: 0x060007B3 RID: 1971 RVA: 0x0004B87C File Offset: 0x00049C7C
 		private bool AnyColonistAt(IntVec3 c)
 		{
 			List<Thing> thingList = c.GetThingList(base.Map);

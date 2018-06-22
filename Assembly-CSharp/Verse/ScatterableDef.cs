@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B73 RID: 2931
+	// Token: 0x02000B6F RID: 2927
 	public class ScatterableDef : Def
 	{
-		// Token: 0x06003FF0 RID: 16368 RVA: 0x0021AD54 File Offset: 0x00219154
+		// Token: 0x06003FF2 RID: 16370 RVA: 0x0021B3F0 File Offset: 0x002197F0
 		public override void PostLoad()
 		{
 			base.PostLoad();
@@ -20,24 +20,24 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x04002AD0 RID: 10960
+		// Token: 0x04002AD5 RID: 10965
 		[NoTranslate]
 		public string texturePath;
 
-		// Token: 0x04002AD1 RID: 10961
+		// Token: 0x04002AD6 RID: 10966
 		public float minSize;
 
-		// Token: 0x04002AD2 RID: 10962
+		// Token: 0x04002AD7 RID: 10967
 		public float maxSize;
 
-		// Token: 0x04002AD3 RID: 10963
+		// Token: 0x04002AD8 RID: 10968
 		public float selectionWeight = 100f;
 
-		// Token: 0x04002AD4 RID: 10964
+		// Token: 0x04002AD9 RID: 10969
 		[NoTranslate]
 		public string scatterType = "";
 
-		// Token: 0x04002AD5 RID: 10965
+		// Token: 0x04002ADA RID: 10970
 		public Material mat;
 	}
 }

@@ -4,10 +4,10 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000CDD RID: 3293
+	// Token: 0x02000CDA RID: 3290
 	public class PatchOperationSequence : PatchOperation
 	{
-		// Token: 0x06004883 RID: 18563 RVA: 0x0026099C File Offset: 0x0025ED9C
+		// Token: 0x06004894 RID: 18580 RVA: 0x00261DB4 File Offset: 0x002601B4
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
 			foreach (PatchOperation patchOperation in this.operations)
@@ -21,14 +21,14 @@ namespace Verse
 			return true;
 		}
 
-		// Token: 0x06004884 RID: 18564 RVA: 0x00260A18 File Offset: 0x0025EE18
+		// Token: 0x06004895 RID: 18581 RVA: 0x00261E30 File Offset: 0x00260230
 		public override void Complete(string modIdentifier)
 		{
 			base.Complete(modIdentifier);
 			this.lastFailedOperation = null;
 		}
 
-		// Token: 0x06004885 RID: 18565 RVA: 0x00260A2C File Offset: 0x0025EE2C
+		// Token: 0x06004896 RID: 18582 RVA: 0x00261E44 File Offset: 0x00260244
 		public override string ToString()
 		{
 			int num = (this.operations == null) ? 0 : this.operations.Count;
@@ -40,10 +40,10 @@ namespace Verse
 			return text + ")";
 		}
 
-		// Token: 0x0400310B RID: 12555
+		// Token: 0x04003116 RID: 12566
 		private List<PatchOperation> operations;
 
-		// Token: 0x0400310C RID: 12556
+		// Token: 0x04003117 RID: 12567
 		private PatchOperation lastFailedOperation;
 	}
 }

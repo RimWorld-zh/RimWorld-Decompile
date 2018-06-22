@@ -4,16 +4,16 @@ using System.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000E2F RID: 3631
+	// Token: 0x02000E2C RID: 3628
 	public class Dialog_DebugOptionListLister : Dialog_DebugOptionLister
 	{
-		// Token: 0x060055ED RID: 21997 RVA: 0x002C417A File Offset: 0x002C257A
+		// Token: 0x06005609 RID: 22025 RVA: 0x002C5D36 File Offset: 0x002C4136
 		public Dialog_DebugOptionListLister(IEnumerable<DebugMenuOption> options)
 		{
 			this.options = options.ToList<DebugMenuOption>();
 		}
 
-		// Token: 0x060055EE RID: 21998 RVA: 0x002C4190 File Offset: 0x002C2590
+		// Token: 0x0600560A RID: 22026 RVA: 0x002C5D4C File Offset: 0x002C414C
 		protected override void DoListingItems()
 		{
 			foreach (DebugMenuOption debugMenuOption in this.options)
@@ -29,7 +29,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060055EF RID: 21999 RVA: 0x002C422C File Offset: 0x002C262C
+		// Token: 0x0600560B RID: 22027 RVA: 0x002C5DE8 File Offset: 0x002C41E8
 		public static void ShowSimpleDebugMenu<T>(IEnumerable<T> elements, Func<T, string> label, Action<T> chosen)
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
@@ -47,7 +47,7 @@ namespace Verse
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
 
-		// Token: 0x040038C8 RID: 14536
+		// Token: 0x040038D6 RID: 14550
 		protected List<DebugMenuOption> options;
 	}
 }

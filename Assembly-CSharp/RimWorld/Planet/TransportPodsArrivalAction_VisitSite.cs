@@ -4,22 +4,22 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000619 RID: 1561
+	// Token: 0x02000615 RID: 1557
 	public class TransportPodsArrivalAction_VisitSite : TransportPodsArrivalAction
 	{
-		// Token: 0x06001F6F RID: 8047 RVA: 0x001104BF File Offset: 0x0010E8BF
+		// Token: 0x06001F66 RID: 8038 RVA: 0x00110513 File Offset: 0x0010E913
 		public TransportPodsArrivalAction_VisitSite()
 		{
 		}
 
-		// Token: 0x06001F70 RID: 8048 RVA: 0x001104C8 File Offset: 0x0010E8C8
+		// Token: 0x06001F67 RID: 8039 RVA: 0x0011051C File Offset: 0x0010E91C
 		public TransportPodsArrivalAction_VisitSite(Site site, PawnsArrivalModeDef arrivalMode)
 		{
 			this.site = site;
 			this.arrivalMode = arrivalMode;
 		}
 
-		// Token: 0x06001F71 RID: 8049 RVA: 0x001104DF File Offset: 0x0010E8DF
+		// Token: 0x06001F68 RID: 8040 RVA: 0x00110533 File Offset: 0x0010E933
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -27,7 +27,7 @@ namespace RimWorld.Planet
 			Scribe_Defs.Look<PawnsArrivalModeDef>(ref this.arrivalMode, "arrivalMode");
 		}
 
-		// Token: 0x06001F72 RID: 8050 RVA: 0x0011050C File Offset: 0x0010E90C
+		// Token: 0x06001F69 RID: 8041 RVA: 0x00110560 File Offset: 0x0010E960
 		public override FloatMenuAcceptanceReport StillValid(IEnumerable<IThingHolder> pods, int destinationTile)
 		{
 			FloatMenuAcceptanceReport floatMenuAcceptanceReport = base.StillValid(pods, destinationTile);
@@ -47,13 +47,13 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001F73 RID: 8051 RVA: 0x00110570 File Offset: 0x0010E970
+		// Token: 0x06001F6A RID: 8042 RVA: 0x001105C4 File Offset: 0x0010E9C4
 		public override bool ShouldUseLongEvent(List<ActiveDropPodInfo> pods, int tile)
 		{
 			return !this.site.HasMap;
 		}
 
-		// Token: 0x06001F74 RID: 8052 RVA: 0x00110594 File Offset: 0x0010E994
+		// Token: 0x06001F6B RID: 8043 RVA: 0x001105E8 File Offset: 0x0010E9E8
 		public override void Arrived(List<ActiveDropPodInfo> pods, int tile)
 		{
 			Thing lookTarget = TransportPodsArrivalActionUtility.GetLookTarget(pods);
@@ -71,7 +71,7 @@ namespace RimWorld.Planet
 			this.arrivalMode.Worker.TravelingTransportPodsArrived(pods, orGenerateMap);
 		}
 
-		// Token: 0x06001F75 RID: 8053 RVA: 0x00110648 File Offset: 0x0010EA48
+		// Token: 0x06001F6C RID: 8044 RVA: 0x0011069C File Offset: 0x0010EA9C
 		public static FloatMenuAcceptanceReport CanVisit(IEnumerable<IThingHolder> pods, Site site)
 		{
 			FloatMenuAcceptanceReport result;
@@ -97,7 +97,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001F76 RID: 8054 RVA: 0x001106E4 File Offset: 0x0010EAE4
+		// Token: 0x06001F6D RID: 8045 RVA: 0x00110738 File Offset: 0x0010EB38
 		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(CompLaunchable representative, IEnumerable<IThingHolder> pods, Site site)
 		{
 			foreach (FloatMenuOption f in TransportPodsArrivalActionUtility.GetFloatMenuOptions<TransportPodsArrivalAction_VisitSite>(() => TransportPodsArrivalAction_VisitSite.CanVisit(pods, site), () => new TransportPodsArrivalAction_VisitSite(site, PawnsArrivalModeDefOf.EdgeDrop), "DropAtEdge".Translate(), representative, site.Tile))
@@ -111,10 +111,10 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x0400124F RID: 4687
+		// Token: 0x0400124C RID: 4684
 		private Site site;
 
-		// Token: 0x04001250 RID: 4688
+		// Token: 0x0400124D RID: 4685
 		private PawnsArrivalModeDef arrivalMode;
 	}
 }

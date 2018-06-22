@@ -2,10 +2,10 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B9F RID: 2975
+	// Token: 0x02000B9B RID: 2971
 	public class SoundParameterMapping
 	{
-		// Token: 0x0600405F RID: 16479 RVA: 0x0021CD10 File Offset: 0x0021B110
+		// Token: 0x06004061 RID: 16481 RVA: 0x0021D3AC File Offset: 0x0021B7AC
 		public SoundParameterMapping()
 		{
 			this.curve = new SimpleCurve();
@@ -13,7 +13,7 @@ namespace Verse.Sound
 			this.curve.Add(new CurvePoint(1f, 1f), true);
 		}
 
-		// Token: 0x06004060 RID: 16480 RVA: 0x0021CD7C File Offset: 0x0021B17C
+		// Token: 0x06004062 RID: 16482 RVA: 0x0021D418 File Offset: 0x0021B818
 		public void DoEditWidgets(WidgetRow widgetRow)
 		{
 			string title = ((this.inParam == null) ? "null" : this.inParam.Label) + " -> " + ((this.outParam == null) ? "null" : this.outParam.Label);
@@ -23,7 +23,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004061 RID: 16481 RVA: 0x0021CE04 File Offset: 0x0021B204
+		// Token: 0x06004063 RID: 16483 RVA: 0x0021D4A0 File Offset: 0x0021B8A0
 		public void Apply(Sample samp)
 		{
 			if (this.inParam != null && this.outParam != null)
@@ -38,19 +38,19 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x04002B33 RID: 11059
+		// Token: 0x04002B38 RID: 11064
 		[Description("The independent parameter that the game will change to drive this relationship.\n\nOn the graph, this is the X axis.")]
 		public SoundParamSource inParam = null;
 
-		// Token: 0x04002B34 RID: 11060
+		// Token: 0x04002B39 RID: 11065
 		[Description("The dependent parameter that will respond to changes to the in-parameter.\n\nThis must match something the game can change about this sound.\n\nOn the graph, this is the y-axis.")]
 		public SoundParamTarget outParam = null;
 
-		// Token: 0x04002B35 RID: 11061
+		// Token: 0x04002B3A RID: 11066
 		[Description("Determines when sound parameters should be applies to samples.\n\nConstant means the parameters are updated every frame and can change continuously.\n\nOncePerSample means that the parameters are applied exactly once to each sample that plays.")]
 		public SoundParamUpdateMode paramUpdateMode = SoundParamUpdateMode.Constant;
 
-		// Token: 0x04002B36 RID: 11062
+		// Token: 0x04002B3B RID: 11067
 		[EditorHidden]
 		public SimpleCurve curve;
 	}

@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000992 RID: 2450
+	// Token: 0x0200098E RID: 2446
 	public static class NativeVerbPropertiesDatabase
 	{
-		// Token: 0x0600370F RID: 14095 RVA: 0x001D6608 File Offset: 0x001D4A08
+		// Token: 0x06003708 RID: 14088 RVA: 0x001D6804 File Offset: 0x001D4C04
 		public static VerbProperties VerbWithCategory(VerbCategory id)
 		{
 			VerbProperties verbProperties = (from v in NativeVerbPropertiesDatabase.allVerbDefs
@@ -21,7 +21,7 @@ namespace RimWorld
 			return verbProperties;
 		}
 
-		// Token: 0x04002382 RID: 9090
+		// Token: 0x04002380 RID: 9088
 		public static List<VerbProperties> allVerbDefs = VerbDefsHardcodedNative.AllVerbDefs().ToList<VerbProperties>();
 	}
 }

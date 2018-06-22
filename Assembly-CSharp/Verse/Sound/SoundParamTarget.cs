@@ -2,16 +2,16 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B93 RID: 2963
+	// Token: 0x02000B8F RID: 2959
 	[EditorShowClassName]
 	public abstract class SoundParamTarget
 	{
-		// Token: 0x170009CC RID: 2508
-		// (get) Token: 0x06004046 RID: 16454
+		// Token: 0x170009CE RID: 2510
+		// (get) Token: 0x06004048 RID: 16456
 		public abstract string Label { get; }
 
-		// Token: 0x170009CD RID: 2509
-		// (get) Token: 0x06004047 RID: 16455 RVA: 0x0021C944 File Offset: 0x0021AD44
+		// Token: 0x170009CF RID: 2511
+		// (get) Token: 0x06004049 RID: 16457 RVA: 0x0021CFE0 File Offset: 0x0021B3E0
 		public virtual Type NeededFilterType
 		{
 			get
@@ -20,7 +20,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004048 RID: 16456
+		// Token: 0x0600404A RID: 16458
 		public abstract void SetOn(Sample sample, float value);
 	}
 }
