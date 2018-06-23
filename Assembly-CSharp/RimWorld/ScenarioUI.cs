@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000834 RID: 2100
 	public static class ScenarioUI
 	{
+		// Token: 0x040019B2 RID: 6578
+		private static float editViewHeight;
+
 		// Token: 0x06002F94 RID: 12180 RVA: 0x00197800 File Offset: 0x00195C00
 		public static void DrawScenarioInfo(Rect rect, Scenario scen, ref Vector2 infoScrollPosition)
 		{
@@ -58,8 +61,5 @@ namespace RimWorld
 				Widgets.EndScrollView();
 			}
 		}
-
-		// Token: 0x040019B2 RID: 6578
-		private static float editViewHeight;
 	}
 }

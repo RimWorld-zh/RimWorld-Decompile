@@ -8,6 +8,30 @@ namespace Verse.Sound
 	// Token: 0x02000DAE RID: 3502
 	public abstract class Sample
 	{
+		// Token: 0x04003427 RID: 13351
+		public SubSoundDef subDef;
+
+		// Token: 0x04003428 RID: 13352
+		public AudioSource source;
+
+		// Token: 0x04003429 RID: 13353
+		public float startRealTime;
+
+		// Token: 0x0400342A RID: 13354
+		public int startTick;
+
+		// Token: 0x0400342B RID: 13355
+		public float resolvedVolume;
+
+		// Token: 0x0400342C RID: 13356
+		public float resolvedPitch;
+
+		// Token: 0x0400342D RID: 13357
+		private bool mappingsApplied = false;
+
+		// Token: 0x0400342E RID: 13358
+		private Dictionary<SoundParamTarget, float> volumeInMappings = new Dictionary<SoundParamTarget, float>();
+
 		// Token: 0x06004E3D RID: 20029 RVA: 0x0028EFF0 File Offset: 0x0028D3F0
 		public Sample(SubSoundDef def)
 		{
@@ -270,29 +294,5 @@ namespace Verse.Sound
 		{
 			return Gen.HashCombine<SubSoundDef>(this.startRealTime.GetHashCode(), this.subDef);
 		}
-
-		// Token: 0x04003427 RID: 13351
-		public SubSoundDef subDef;
-
-		// Token: 0x04003428 RID: 13352
-		public AudioSource source;
-
-		// Token: 0x04003429 RID: 13353
-		public float startRealTime;
-
-		// Token: 0x0400342A RID: 13354
-		public int startTick;
-
-		// Token: 0x0400342B RID: 13355
-		public float resolvedVolume;
-
-		// Token: 0x0400342C RID: 13356
-		public float resolvedPitch;
-
-		// Token: 0x0400342D RID: 13357
-		private bool mappingsApplied = false;
-
-		// Token: 0x0400342E RID: 13358
-		private Dictionary<SoundParamTarget, float> volumeInMappings = new Dictionary<SoundParamTarget, float>();
 	}
 }

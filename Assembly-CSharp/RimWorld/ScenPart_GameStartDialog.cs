@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x0200063E RID: 1598
 	public class ScenPart_GameStartDialog : ScenPart
 	{
+		// Token: 0x040012E3 RID: 4835
+		private string text;
+
+		// Token: 0x040012E4 RID: 4836
+		private string textKey;
+
+		// Token: 0x040012E5 RID: 4837
+		private SoundDef closeSound;
+
 		// Token: 0x06002120 RID: 8480 RVA: 0x0011A17C File Offset: 0x0011857C
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
@@ -49,14 +58,5 @@ namespace RimWorld
 				Find.Archive.Add(new ArchivedDialog(diaNode.text, null, null));
 			}
 		}
-
-		// Token: 0x040012E3 RID: 4835
-		private string text;
-
-		// Token: 0x040012E4 RID: 4836
-		private string textKey;
-
-		// Token: 0x040012E5 RID: 4837
-		private SoundDef closeSound;
 	}
 }

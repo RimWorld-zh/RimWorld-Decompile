@@ -6,6 +6,12 @@ namespace Verse.Noise
 	// Token: 0x02000F88 RID: 3976
 	public class Clamp : ModuleBase
 	{
+		// Token: 0x04003F13 RID: 16147
+		private double m_min = -1.0;
+
+		// Token: 0x04003F14 RID: 16148
+		private double m_max = 1.0;
+
 		// Token: 0x06006017 RID: 24599 RVA: 0x0030D509 File Offset: 0x0030B909
 		public Clamp() : base(1)
 		{
@@ -89,11 +95,5 @@ namespace Verse.Noise
 			}
 			return result;
 		}
-
-		// Token: 0x04003F13 RID: 16147
-		private double m_min = -1.0;
-
-		// Token: 0x04003F14 RID: 16148
-		private double m_max = 1.0;
 	}
 }

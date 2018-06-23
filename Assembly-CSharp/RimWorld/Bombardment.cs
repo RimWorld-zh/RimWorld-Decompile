@@ -7,6 +7,27 @@ namespace RimWorld
 	// Token: 0x020006B7 RID: 1719
 	public class Bombardment : OrbitalStrike
 	{
+		// Token: 0x0400146E RID: 5230
+		private bool anyExplosion;
+
+		// Token: 0x0400146F RID: 5231
+		public const int EffectiveRadius = 23;
+
+		// Token: 0x04001470 RID: 5232
+		private const int SingleExplosionRadius = 8;
+
+		// Token: 0x04001471 RID: 5233
+		private const int ExplosionCenterRadius = 15;
+
+		// Token: 0x04001472 RID: 5234
+		public const int RandomFireRadius = 25;
+
+		// Token: 0x04001473 RID: 5235
+		private const float BombMTBRealSeconds = 0.375f;
+
+		// Token: 0x04001474 RID: 5236
+		private const int StartRandomFireEveryTicks = 20;
+
 		// Token: 0x06002504 RID: 9476 RVA: 0x0013E259 File Offset: 0x0013C659
 		public override void ExposeData()
 		{
@@ -67,26 +88,5 @@ namespace RimWorld
 			select x).RandomElement<IntVec3>();
 			FireUtility.TryStartFireIn(c, base.Map, Rand.Range(0.1f, 0.925f));
 		}
-
-		// Token: 0x0400146E RID: 5230
-		private bool anyExplosion;
-
-		// Token: 0x0400146F RID: 5231
-		public const int EffectiveRadius = 23;
-
-		// Token: 0x04001470 RID: 5232
-		private const int SingleExplosionRadius = 8;
-
-		// Token: 0x04001471 RID: 5233
-		private const int ExplosionCenterRadius = 15;
-
-		// Token: 0x04001472 RID: 5234
-		public const int RandomFireRadius = 25;
-
-		// Token: 0x04001473 RID: 5235
-		private const float BombMTBRealSeconds = 0.375f;
-
-		// Token: 0x04001474 RID: 5236
-		private const int StartRandomFireEveryTicks = 20;
 	}
 }

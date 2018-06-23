@@ -8,6 +8,15 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class MoteBubble : MoteDualAttached
 	{
+		// Token: 0x04001515 RID: 5397
+		public Material iconMat;
+
+		// Token: 0x04001516 RID: 5398
+		public Pawn arrowTarget;
+
+		// Token: 0x04001517 RID: 5399
+		private static readonly Material InteractionArrowTex = MaterialPool.MatFrom("Things/Mote/InteractionArrow");
+
 		// Token: 0x060025B5 RID: 9653 RVA: 0x00143501 File Offset: 0x00141901
 		public void SetupMoteBubble(Texture2D icon, Pawn target)
 		{
@@ -51,14 +60,5 @@ namespace RimWorld
 				Graphics.DrawMesh(MeshPool.plane05, vector, rotation, MoteBubble.InteractionArrowTex, 0);
 			}
 		}
-
-		// Token: 0x04001515 RID: 5397
-		public Material iconMat;
-
-		// Token: 0x04001516 RID: 5398
-		public Pawn arrowTarget;
-
-		// Token: 0x04001517 RID: 5399
-		private static readonly Material InteractionArrowTex = MaterialPool.MatFrom("Things/Mote/InteractionArrow");
 	}
 }

@@ -7,6 +7,12 @@ namespace RimWorld.Planet
 	// Token: 0x02000569 RID: 1385
 	public class FeatureWorker_OuterOcean : FeatureWorker
 	{
+		// Token: 0x04000F54 RID: 3924
+		private List<int> group = new List<int>();
+
+		// Token: 0x04000F55 RID: 3925
+		private List<int> edgeTiles = new List<int>();
+
 		// Token: 0x06001A3B RID: 6715 RVA: 0x000E3654 File Offset: 0x000E1A54
 		public override void GenerateWhereAppropriate()
 		{
@@ -54,11 +60,5 @@ namespace RimWorld.Planet
 			BiomeDef biome = Find.WorldGrid[tile].biome;
 			return biome == BiomeDefOf.Ocean || biome == BiomeDefOf.Lake;
 		}
-
-		// Token: 0x04000F54 RID: 3924
-		private List<int> group = new List<int>();
-
-		// Token: 0x04000F55 RID: 3925
-		private List<int> edgeTiles = new List<int>();
 	}
 }

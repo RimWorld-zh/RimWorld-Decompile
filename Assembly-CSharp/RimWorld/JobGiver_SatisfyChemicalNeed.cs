@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x020000AF RID: 175
 	public class JobGiver_SatisfyChemicalNeed : ThinkNode_JobGiver
 	{
+		// Token: 0x04000282 RID: 642
+		private static List<Need_Chemical> tmpChemicalNeeds = new List<Need_Chemical>();
+
 		// Token: 0x06000437 RID: 1079 RVA: 0x00032098 File Offset: 0x00030498
 		public override float GetPriority(Pawn pawn)
 		{
@@ -143,8 +146,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000282 RID: 642
-		private static List<Need_Chemical> tmpChemicalNeeds = new List<Need_Chemical>();
 	}
 }

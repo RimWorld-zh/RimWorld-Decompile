@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000274 RID: 628
 	public class SkillNeed_Direct : SkillNeed
 	{
+		// Token: 0x04000555 RID: 1365
+		public List<float> valuesPerLevel = new List<float>();
+
 		// Token: 0x06000AD0 RID: 2768 RVA: 0x00062148 File Offset: 0x00060548
 		public override float ValueFor(Pawn pawn)
 		{
@@ -33,8 +36,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000555 RID: 1365
-		public List<float> valuesPerLevel = new List<float>();
 	}
 }

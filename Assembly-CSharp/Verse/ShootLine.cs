@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000FB3 RID: 4019
 	public struct ShootLine
 	{
+		// Token: 0x04003F8F RID: 16271
+		private IntVec3 source;
+
+		// Token: 0x04003F90 RID: 16272
+		private IntVec3 dest;
+
 		// Token: 0x06006143 RID: 24899 RVA: 0x00312243 File Offset: 0x00310643
 		public ShootLine(IntVec3 source, IntVec3 dest)
 		{
@@ -62,11 +68,5 @@ namespace Verse
 				")"
 			});
 		}
-
-		// Token: 0x04003F8F RID: 16271
-		private IntVec3 source;
-
-		// Token: 0x04003F90 RID: 16272
-		private IntVec3 dest;
 	}
 }

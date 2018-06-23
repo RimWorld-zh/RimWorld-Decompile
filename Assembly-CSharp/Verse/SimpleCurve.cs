@@ -8,6 +8,32 @@ namespace Verse
 	// Token: 0x02000EF8 RID: 3832
 	public class SimpleCurve : IEnumerable<CurvePoint>, IEnumerable
 	{
+		// Token: 0x04003CB8 RID: 15544
+		private List<CurvePoint> points = new List<CurvePoint>();
+
+		// Token: 0x04003CB9 RID: 15545
+		[Unsaved]
+		private SimpleCurveView view = null;
+
+		// Token: 0x04003CBA RID: 15546
+		private static Comparison<CurvePoint> CurvePointsComparer = delegate(CurvePoint a, CurvePoint b)
+		{
+			int result;
+			if (a.x < b.x)
+			{
+				result = -1;
+			}
+			else if (b.x < a.x)
+			{
+				result = 1;
+			}
+			else
+			{
+				result = 0;
+			}
+			return result;
+		};
+
 		// Token: 0x17000EA3 RID: 3747
 		// (get) Token: 0x06005BAD RID: 23469 RVA: 0x002EB5E4 File Offset: 0x002E99E4
 		public int PointsCount
@@ -210,31 +236,5 @@ namespace Verse
 			}
 			yield break;
 		}
-
-		// Token: 0x04003CB8 RID: 15544
-		private List<CurvePoint> points = new List<CurvePoint>();
-
-		// Token: 0x04003CB9 RID: 15545
-		[Unsaved]
-		private SimpleCurveView view = null;
-
-		// Token: 0x04003CBA RID: 15546
-		private static Comparison<CurvePoint> CurvePointsComparer = delegate(CurvePoint a, CurvePoint b)
-		{
-			int result;
-			if (a.x < b.x)
-			{
-				result = -1;
-			}
-			else if (b.x < a.x)
-			{
-				result = 1;
-			}
-			else
-			{
-				result = 0;
-			}
-			return result;
-		};
 	}
 }

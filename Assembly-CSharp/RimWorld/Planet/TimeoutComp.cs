@@ -6,6 +6,9 @@ namespace RimWorld.Planet
 	// Token: 0x02000624 RID: 1572
 	public class TimeoutComp : WorldObjectComp
 	{
+		// Token: 0x04001274 RID: 4724
+		private int timeoutEndTick = -1;
+
 		// Token: 0x170004C9 RID: 1225
 		// (get) Token: 0x06002003 RID: 8195 RVA: 0x001134A8 File Offset: 0x001118A8
 		public bool Active
@@ -86,8 +89,5 @@ namespace RimWorld.Planet
 			}
 			return result;
 		}
-
-		// Token: 0x04001274 RID: 4724
-		private int timeoutEndTick = -1;
 	}
 }

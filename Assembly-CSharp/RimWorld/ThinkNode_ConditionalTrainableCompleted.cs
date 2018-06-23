@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020001C5 RID: 453
 	public class ThinkNode_ConditionalTrainableCompleted : ThinkNode_Conditional
 	{
+		// Token: 0x040003DD RID: 989
+		private TrainableDef trainable;
+
 		// Token: 0x0600093F RID: 2367 RVA: 0x00056094 File Offset: 0x00054494
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -20,8 +23,5 @@ namespace RimWorld
 		{
 			return pawn.training != null && pawn.training.HasLearned(this.trainable);
 		}
-
-		// Token: 0x040003DD RID: 989
-		private TrainableDef trainable;
 	}
 }

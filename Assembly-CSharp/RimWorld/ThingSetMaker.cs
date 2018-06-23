@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x020002E2 RID: 738
 	public abstract class ThingSetMaker
 	{
+		// Token: 0x040007A4 RID: 1956
+		public ThingSetMakerParams fixedParams;
+
+		// Token: 0x040007A5 RID: 1957
+		public static List<List<Thing>> thingsBeingGeneratedNow = new List<List<Thing>>();
+
 		// Token: 0x06000C1C RID: 3100 RVA: 0x0006B9BC File Offset: 0x00069DBC
 		static ThingSetMaker()
 		{
@@ -162,11 +168,5 @@ namespace RimWorld
 				this.fixedParams.filter.ResolveReferences();
 			}
 		}
-
-		// Token: 0x040007A4 RID: 1956
-		public ThingSetMakerParams fixedParams;
-
-		// Token: 0x040007A5 RID: 1957
-		public static List<List<Thing>> thingsBeingGeneratedNow = new List<List<Thing>>();
 	}
 }

@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000EF6 RID: 3830
 	public struct CurvePoint
 	{
+		// Token: 0x04003CAF RID: 15535
+		private Vector2 loc;
+
 		// Token: 0x06005B9A RID: 23450 RVA: 0x002EAF93 File Offset: 0x002E9393
 		public CurvePoint(float x, float y)
 		{
@@ -65,8 +68,5 @@ namespace Verse
 		{
 			return pt.loc;
 		}
-
-		// Token: 0x04003CAF RID: 15535
-		private Vector2 loc;
 	}
 }

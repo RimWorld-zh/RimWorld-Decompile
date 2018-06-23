@@ -6,6 +6,12 @@ namespace RimWorld
 	// Token: 0x02000319 RID: 793
 	public class QueuedIncident : IExposable
 	{
+		// Token: 0x040008AA RID: 2218
+		private FiringIncident firingInc;
+
+		// Token: 0x040008AB RID: 2219
+		private int fireTick = -1;
+
 		// Token: 0x06000D70 RID: 3440 RVA: 0x0007386D File Offset: 0x00071C6D
 		public QueuedIncident()
 		{
@@ -50,11 +56,5 @@ namespace RimWorld
 		{
 			return this.fireTick + "->" + this.firingInc.ToString();
 		}
-
-		// Token: 0x040008AA RID: 2218
-		private FiringIncident firingInc;
-
-		// Token: 0x040008AB RID: 2219
-		private int fireTick = -1;
 	}
 }

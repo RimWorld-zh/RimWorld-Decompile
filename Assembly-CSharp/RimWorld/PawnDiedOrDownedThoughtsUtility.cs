@@ -12,6 +12,12 @@ namespace RimWorld
 	// Token: 0x0200047C RID: 1148
 	public static class PawnDiedOrDownedThoughtsUtility
 	{
+		// Token: 0x04000C07 RID: 3079
+		private static List<IndividualThoughtToAdd> tmpIndividualThoughtsToAdd = new List<IndividualThoughtToAdd>();
+
+		// Token: 0x04000C08 RID: 3080
+		private static List<ThoughtDef> tmpAllColonistsThoughts = new List<ThoughtDef>();
+
 		// Token: 0x06001423 RID: 5155 RVA: 0x000AF4A0 File Offset: 0x000AD8A0
 		public static void TryGiveThoughts(Pawn victim, DamageInfo? dinfo, PawnDiedOrDownedThoughtsKind thoughtsKind)
 		{
@@ -379,11 +385,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000C07 RID: 3079
-		private static List<IndividualThoughtToAdd> tmpIndividualThoughtsToAdd = new List<IndividualThoughtToAdd>();
-
-		// Token: 0x04000C08 RID: 3080
-		private static List<ThoughtDef> tmpAllColonistsThoughts = new List<ThoughtDef>();
 	}
 }

@@ -7,6 +7,17 @@ namespace RimWorld
 	// Token: 0x02000492 RID: 1170
 	public static class PawnSkinColors
 	{
+		// Token: 0x04000C80 RID: 3200
+		private static readonly PawnSkinColors.SkinColorData[] SkinColors = new PawnSkinColors.SkinColorData[]
+		{
+			new PawnSkinColors.SkinColorData(0f, 0f, new Color(0.9490196f, 0.929411769f, 0.8784314f)),
+			new PawnSkinColors.SkinColorData(0.25f, 0.2f, new Color(1f, 0.9372549f, 0.8352941f)),
+			new PawnSkinColors.SkinColorData(0.5f, 0.7f, new Color(1f, 0.9372549f, 0.7411765f)),
+			new PawnSkinColors.SkinColorData(0.75f, 0.8f, new Color(0.894117653f, 0.619607866f, 0.3529412f)),
+			new PawnSkinColors.SkinColorData(0.9f, 0.9f, new Color(0.509803951f, 0.356862754f, 0.1882353f)),
+			new PawnSkinColors.SkinColorData(1f, 1f, new Color(0.3882353f, 0.274509817f, 0.141176477f))
+		};
+
 		// Token: 0x060014C1 RID: 5313 RVA: 0x000B720C File Offset: 0x000B560C
 		public static bool IsDarkSkin(Color color)
 		{
@@ -137,28 +148,9 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04000C80 RID: 3200
-		private static readonly PawnSkinColors.SkinColorData[] SkinColors = new PawnSkinColors.SkinColorData[]
-		{
-			new PawnSkinColors.SkinColorData(0f, 0f, new Color(0.9490196f, 0.929411769f, 0.8784314f)),
-			new PawnSkinColors.SkinColorData(0.25f, 0.2f, new Color(1f, 0.9372549f, 0.8352941f)),
-			new PawnSkinColors.SkinColorData(0.5f, 0.7f, new Color(1f, 0.9372549f, 0.7411765f)),
-			new PawnSkinColors.SkinColorData(0.75f, 0.8f, new Color(0.894117653f, 0.619607866f, 0.3529412f)),
-			new PawnSkinColors.SkinColorData(0.9f, 0.9f, new Color(0.509803951f, 0.356862754f, 0.1882353f)),
-			new PawnSkinColors.SkinColorData(1f, 1f, new Color(0.3882353f, 0.274509817f, 0.141176477f))
-		};
-
 		// Token: 0x02000493 RID: 1171
 		private struct SkinColorData
 		{
-			// Token: 0x060014CA RID: 5322 RVA: 0x000B775E File Offset: 0x000B5B5E
-			public SkinColorData(float melanin, float selector, Color color)
-			{
-				this.melanin = melanin;
-				this.selector = selector;
-				this.color = color;
-			}
-
 			// Token: 0x04000C81 RID: 3201
 			public float melanin;
 
@@ -167,6 +159,14 @@ namespace RimWorld
 
 			// Token: 0x04000C83 RID: 3203
 			public Color color;
+
+			// Token: 0x060014CA RID: 5322 RVA: 0x000B775E File Offset: 0x000B5B5E
+			public SkinColorData(float melanin, float selector, Color color)
+			{
+				this.melanin = melanin;
+				this.selector = selector;
+				this.color = color;
+			}
 		}
 	}
 }

@@ -9,6 +9,33 @@ namespace RimWorld
 	// Token: 0x020001B2 RID: 434
 	public class Pawn_WorkSettings : IExposable
 	{
+		// Token: 0x040003C4 RID: 964
+		private Pawn pawn;
+
+		// Token: 0x040003C5 RID: 965
+		private DefMap<WorkTypeDef, int> priorities = null;
+
+		// Token: 0x040003C6 RID: 966
+		private bool workGiversDirty = true;
+
+		// Token: 0x040003C7 RID: 967
+		private List<WorkGiver> workGiversInOrderEmerg = new List<WorkGiver>();
+
+		// Token: 0x040003C8 RID: 968
+		private List<WorkGiver> workGiversInOrderNormal = new List<WorkGiver>();
+
+		// Token: 0x040003C9 RID: 969
+		public const int LowestPriority = 4;
+
+		// Token: 0x040003CA RID: 970
+		public const int DefaultPriority = 3;
+
+		// Token: 0x040003CB RID: 971
+		private const int MaxInitialActiveWorks = 6;
+
+		// Token: 0x040003CC RID: 972
+		private static List<WorkTypeDef> wtsByPrio = new List<WorkTypeDef>();
+
 		// Token: 0x060008E4 RID: 2276 RVA: 0x00053B09 File Offset: 0x00051F09
 		public Pawn_WorkSettings()
 		{
@@ -315,32 +342,5 @@ namespace RimWorld
 				")"
 			});
 		}
-
-		// Token: 0x040003C4 RID: 964
-		private Pawn pawn;
-
-		// Token: 0x040003C5 RID: 965
-		private DefMap<WorkTypeDef, int> priorities = null;
-
-		// Token: 0x040003C6 RID: 966
-		private bool workGiversDirty = true;
-
-		// Token: 0x040003C7 RID: 967
-		private List<WorkGiver> workGiversInOrderEmerg = new List<WorkGiver>();
-
-		// Token: 0x040003C8 RID: 968
-		private List<WorkGiver> workGiversInOrderNormal = new List<WorkGiver>();
-
-		// Token: 0x040003C9 RID: 969
-		public const int LowestPriority = 4;
-
-		// Token: 0x040003CA RID: 970
-		public const int DefaultPriority = 3;
-
-		// Token: 0x040003CB RID: 971
-		private const int MaxInitialActiveWorks = 6;
-
-		// Token: 0x040003CC RID: 972
-		private static List<WorkTypeDef> wtsByPrio = new List<WorkTypeDef>();
 	}
 }

@@ -8,6 +8,78 @@ namespace Verse.AI
 	// Token: 0x02000A97 RID: 2711
 	public class Pawn_PathFollower : IExposable
 	{
+		// Token: 0x04002607 RID: 9735
+		protected Pawn pawn;
+
+		// Token: 0x04002608 RID: 9736
+		private bool moving = false;
+
+		// Token: 0x04002609 RID: 9737
+		public IntVec3 nextCell;
+
+		// Token: 0x0400260A RID: 9738
+		private IntVec3 lastCell;
+
+		// Token: 0x0400260B RID: 9739
+		public float nextCellCostLeft = 0f;
+
+		// Token: 0x0400260C RID: 9740
+		public float nextCellCostTotal = 1f;
+
+		// Token: 0x0400260D RID: 9741
+		private int cellsUntilClamor = 0;
+
+		// Token: 0x0400260E RID: 9742
+		private int lastMovedTick = -999999;
+
+		// Token: 0x0400260F RID: 9743
+		private LocalTargetInfo destination;
+
+		// Token: 0x04002610 RID: 9744
+		private PathEndMode peMode;
+
+		// Token: 0x04002611 RID: 9745
+		public PawnPath curPath;
+
+		// Token: 0x04002612 RID: 9746
+		public IntVec3 lastPathedTargetPosition;
+
+		// Token: 0x04002613 RID: 9747
+		private int foundPathWhichCollidesWithPawns = -999999;
+
+		// Token: 0x04002614 RID: 9748
+		private int foundPathWithDanger = -999999;
+
+		// Token: 0x04002615 RID: 9749
+		private int failedToFindCloseUnoccupiedCellTicks = -999999;
+
+		// Token: 0x04002616 RID: 9750
+		private const int MaxMoveTicks = 450;
+
+		// Token: 0x04002617 RID: 9751
+		private const int MaxCheckAheadNodes = 20;
+
+		// Token: 0x04002618 RID: 9752
+		private const float SnowReductionFromWalking = 0.001f;
+
+		// Token: 0x04002619 RID: 9753
+		private const int ClamorCellsInterval = 12;
+
+		// Token: 0x0400261A RID: 9754
+		private const int MinCostWalk = 50;
+
+		// Token: 0x0400261B RID: 9755
+		private const int MinCostAmble = 60;
+
+		// Token: 0x0400261C RID: 9756
+		private const float StaggerMoveSpeedFactor = 0.17f;
+
+		// Token: 0x0400261D RID: 9757
+		private const int CheckForMovingCollidingPawnsIfCloserToTargetThanX = 30;
+
+		// Token: 0x0400261E RID: 9758
+		private const int AttackBlockingHostilePawnAfterTicks = 180;
+
 		// Token: 0x06003C3F RID: 15423 RVA: 0x001FD564 File Offset: 0x001FB964
 		public Pawn_PathFollower(Pawn newPawn)
 		{
@@ -776,77 +848,5 @@ namespace Verse.AI
 		{
 			return this.failedToFindCloseUnoccupiedCellTicks + 100 > Find.TickManager.TicksGame;
 		}
-
-		// Token: 0x04002607 RID: 9735
-		protected Pawn pawn;
-
-		// Token: 0x04002608 RID: 9736
-		private bool moving = false;
-
-		// Token: 0x04002609 RID: 9737
-		public IntVec3 nextCell;
-
-		// Token: 0x0400260A RID: 9738
-		private IntVec3 lastCell;
-
-		// Token: 0x0400260B RID: 9739
-		public float nextCellCostLeft = 0f;
-
-		// Token: 0x0400260C RID: 9740
-		public float nextCellCostTotal = 1f;
-
-		// Token: 0x0400260D RID: 9741
-		private int cellsUntilClamor = 0;
-
-		// Token: 0x0400260E RID: 9742
-		private int lastMovedTick = -999999;
-
-		// Token: 0x0400260F RID: 9743
-		private LocalTargetInfo destination;
-
-		// Token: 0x04002610 RID: 9744
-		private PathEndMode peMode;
-
-		// Token: 0x04002611 RID: 9745
-		public PawnPath curPath;
-
-		// Token: 0x04002612 RID: 9746
-		public IntVec3 lastPathedTargetPosition;
-
-		// Token: 0x04002613 RID: 9747
-		private int foundPathWhichCollidesWithPawns = -999999;
-
-		// Token: 0x04002614 RID: 9748
-		private int foundPathWithDanger = -999999;
-
-		// Token: 0x04002615 RID: 9749
-		private int failedToFindCloseUnoccupiedCellTicks = -999999;
-
-		// Token: 0x04002616 RID: 9750
-		private const int MaxMoveTicks = 450;
-
-		// Token: 0x04002617 RID: 9751
-		private const int MaxCheckAheadNodes = 20;
-
-		// Token: 0x04002618 RID: 9752
-		private const float SnowReductionFromWalking = 0.001f;
-
-		// Token: 0x04002619 RID: 9753
-		private const int ClamorCellsInterval = 12;
-
-		// Token: 0x0400261A RID: 9754
-		private const int MinCostWalk = 50;
-
-		// Token: 0x0400261B RID: 9755
-		private const int MinCostAmble = 60;
-
-		// Token: 0x0400261C RID: 9756
-		private const float StaggerMoveSpeedFactor = 0.17f;
-
-		// Token: 0x0400261D RID: 9757
-		private const int CheckForMovingCollidingPawnsIfCloserToTargetThanX = 30;
-
-		// Token: 0x0400261E RID: 9758
-		private const int AttackBlockingHostilePawnAfterTicks = 180;
 	}
 }

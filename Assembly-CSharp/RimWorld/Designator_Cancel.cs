@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x020007C6 RID: 1990
 	public class Designator_Cancel : Designator
 	{
+		// Token: 0x0400179A RID: 6042
+		private static HashSet<Thing> seenThings = new HashSet<Thing>();
+
 		// Token: 0x06002C0D RID: 11277 RVA: 0x00174C0C File Offset: 0x0017300C
 		public Designator_Cancel()
 		{
@@ -165,8 +168,5 @@ namespace RimWorld
 			}
 			Designator_Cancel.seenThings.Clear();
 		}
-
-		// Token: 0x0400179A RID: 6042
-		private static HashSet<Thing> seenThings = new HashSet<Thing>();
 	}
 }

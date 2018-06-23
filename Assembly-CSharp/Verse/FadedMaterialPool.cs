@@ -8,6 +8,12 @@ namespace Verse
 	// Token: 0x02000D68 RID: 3432
 	public static class FadedMaterialPool
 	{
+		// Token: 0x04003361 RID: 13153
+		private static Dictionary<FadedMaterialPool.FadedMatRequest, Material> cachedMats = new Dictionary<FadedMaterialPool.FadedMatRequest, Material>(FadedMaterialPool.FadedMatRequestComparer.Instance);
+
+		// Token: 0x04003362 RID: 13154
+		private const int NumFadeSteps = 30;
+
 		// Token: 0x17000C83 RID: 3203
 		// (get) Token: 0x06004CFD RID: 19709 RVA: 0x002828A8 File Offset: 0x00280CA8
 		public static int TotalMaterialCount
@@ -72,15 +78,15 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x04003361 RID: 13153
-		private static Dictionary<FadedMaterialPool.FadedMatRequest, Material> cachedMats = new Dictionary<FadedMaterialPool.FadedMatRequest, Material>(FadedMaterialPool.FadedMatRequestComparer.Instance);
-
-		// Token: 0x04003362 RID: 13154
-		private const int NumFadeSteps = 30;
-
 		// Token: 0x02000D69 RID: 3433
 		private struct FadedMatRequest : IEquatable<FadedMaterialPool.FadedMatRequest>
 		{
+			// Token: 0x04003363 RID: 13155
+			private Material mat;
+
+			// Token: 0x04003364 RID: 13156
+			private int alphaIndex;
+
 			// Token: 0x06004D02 RID: 19714 RVA: 0x00282A0F File Offset: 0x00280E0F
 			public FadedMatRequest(Material mat, int alphaIndex)
 			{
@@ -117,17 +123,14 @@ namespace Verse
 			{
 				return !(lhs == rhs);
 			}
-
-			// Token: 0x04003363 RID: 13155
-			private Material mat;
-
-			// Token: 0x04003364 RID: 13156
-			private int alphaIndex;
 		}
 
 		// Token: 0x02000D6A RID: 3434
 		private class FadedMatRequestComparer : IEqualityComparer<FadedMaterialPool.FadedMatRequest>
 		{
+			// Token: 0x04003365 RID: 13157
+			public static readonly FadedMaterialPool.FadedMatRequestComparer Instance = new FadedMaterialPool.FadedMatRequestComparer();
+
 			// Token: 0x06004D09 RID: 19721 RVA: 0x00282B10 File Offset: 0x00280F10
 			public bool Equals(FadedMaterialPool.FadedMatRequest x, FadedMaterialPool.FadedMatRequest y)
 			{
@@ -139,9 +142,6 @@ namespace Verse
 			{
 				return obj.GetHashCode();
 			}
-
-			// Token: 0x04003365 RID: 13157
-			public static readonly FadedMaterialPool.FadedMatRequestComparer Instance = new FadedMaterialPool.FadedMatRequestComparer();
 		}
 	}
 }

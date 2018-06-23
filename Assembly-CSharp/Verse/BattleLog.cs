@@ -8,6 +8,15 @@ namespace Verse
 	// Token: 0x02000BB9 RID: 3001
 	public class BattleLog : IExposable
 	{
+		// Token: 0x04002C80 RID: 11392
+		private List<Battle> battles = new List<Battle>();
+
+		// Token: 0x04002C81 RID: 11393
+		private const int BattleHistoryLength = 20;
+
+		// Token: 0x04002C82 RID: 11394
+		private HashSet<LogEntry> activeEntries = null;
+
 		// Token: 0x17000A2D RID: 2605
 		// (get) Token: 0x0600411A RID: 16666 RVA: 0x00225D20 File Offset: 0x00224120
 		public List<Battle> Battles
@@ -120,14 +129,5 @@ namespace Verse
 				this.battles[i].Notify_PawnDiscarded(p, silentlyRemoveReferences);
 			}
 		}
-
-		// Token: 0x04002C80 RID: 11392
-		private List<Battle> battles = new List<Battle>();
-
-		// Token: 0x04002C81 RID: 11393
-		private const int BattleHistoryLength = 20;
-
-		// Token: 0x04002C82 RID: 11394
-		private HashSet<LogEntry> activeEntries = null;
 	}
 }

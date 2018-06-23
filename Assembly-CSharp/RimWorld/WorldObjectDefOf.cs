@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class WorldObjectDefOf
 	{
-		// Token: 0x06003652 RID: 13906 RVA: 0x001D0C81 File Offset: 0x001CF081
-		static WorldObjectDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(WorldObjectDefOf));
-		}
-
 		// Token: 0x04002263 RID: 8803
 		public static WorldObjectDef Caravan;
 
@@ -47,5 +41,11 @@ namespace RimWorld
 
 		// Token: 0x0400226E RID: 8814
 		public static WorldObjectDef Debug_Arena;
+
+		// Token: 0x06003652 RID: 13906 RVA: 0x001D0C81 File Offset: 0x001CF081
+		static WorldObjectDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(WorldObjectDefOf));
+		}
 	}
 }

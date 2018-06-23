@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000C9C RID: 3228
 	public static class RoofCollapseCellsFinder
 	{
+		// Token: 0x0400305C RID: 12380
+		private static List<IntVec3> roofsCollapsingBecauseTooFar = new List<IntVec3>();
+
+		// Token: 0x0400305D RID: 12381
+		private static HashSet<IntVec3> visitedCells = new HashSet<IntVec3>();
+
 		// Token: 0x06004720 RID: 18208 RVA: 0x00258778 File Offset: 0x00256B78
 		public static void Notify_RoofHolderDespawned(Thing t, Map map)
 		{
@@ -160,11 +166,5 @@ namespace Verse
 			}, int.MaxValue, false, null);
 			return connected;
 		}
-
-		// Token: 0x0400305C RID: 12380
-		private static List<IntVec3> roofsCollapsingBecauseTooFar = new List<IntVec3>();
-
-		// Token: 0x0400305D RID: 12381
-		private static HashSet<IntVec3> visitedCells = new HashSet<IntVec3>();
 	}
 }

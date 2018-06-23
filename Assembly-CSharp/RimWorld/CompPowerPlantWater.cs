@@ -9,6 +9,27 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class CompPowerPlantWater : CompPowerPlant
 	{
+		// Token: 0x04000B10 RID: 2832
+		private float spinPosition = 0f;
+
+		// Token: 0x04000B11 RID: 2833
+		private float spinDirection = 1f;
+
+		// Token: 0x04000B12 RID: 2834
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float SpinRateFactor = 0.005f;
+
+		// Token: 0x04000B13 RID: 2835
+		[TweakValue("Graphics", 0f, 3f)]
+		private static float BladeOffset = 1.9f;
+
+		// Token: 0x04000B14 RID: 2836
+		[TweakValue("Graphics", 0f, 20f)]
+		private static int BladeCount = 9;
+
+		// Token: 0x04000B15 RID: 2837
+		public static readonly Material BladesMat = MaterialPool.MatFrom("Things/Building/Power/WatermillGenerator/WatermillGeneratorBlades");
+
 		// Token: 0x17000278 RID: 632
 		// (get) Token: 0x06001240 RID: 4672 RVA: 0x0009E5C4 File Offset: 0x0009C9C4
 		protected override float DesiredPowerOutput
@@ -102,26 +123,5 @@ namespace RimWorld
 				Graphics.DrawMesh((!flag) ? MeshPool.plane10Flip : MeshPool.plane10, matrix, CompPowerPlantWater.BladesMat, 0);
 			}
 		}
-
-		// Token: 0x04000B10 RID: 2832
-		private float spinPosition = 0f;
-
-		// Token: 0x04000B11 RID: 2833
-		private float spinDirection = 1f;
-
-		// Token: 0x04000B12 RID: 2834
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float SpinRateFactor = 0.005f;
-
-		// Token: 0x04000B13 RID: 2835
-		[TweakValue("Graphics", 0f, 3f)]
-		private static float BladeOffset = 1.9f;
-
-		// Token: 0x04000B14 RID: 2836
-		[TweakValue("Graphics", 0f, 20f)]
-		private static int BladeCount = 9;
-
-		// Token: 0x04000B15 RID: 2837
-		public static readonly Material BladesMat = MaterialPool.MatFrom("Things/Building/Power/WatermillGenerator/WatermillGeneratorBlades");
 	}
 }

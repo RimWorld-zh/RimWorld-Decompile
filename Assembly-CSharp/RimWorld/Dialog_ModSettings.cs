@@ -9,6 +9,18 @@ namespace RimWorld
 	// Token: 0x02000802 RID: 2050
 	public class Dialog_ModSettings : Window
 	{
+		// Token: 0x0400184F RID: 6223
+		private Mod selMod = null;
+
+		// Token: 0x04001850 RID: 6224
+		private const float TopAreaHeight = 40f;
+
+		// Token: 0x04001851 RID: 6225
+		private const float TopButtonHeight = 35f;
+
+		// Token: 0x04001852 RID: 6226
+		private const float TopButtonWidth = 150f;
+
 		// Token: 0x06002DCF RID: 11727 RVA: 0x00182106 File Offset: 0x00180506
 		public Dialog_ModSettings()
 		{
@@ -87,17 +99,5 @@ namespace RimWorld
 		{
 			return LoadedModManager.ModHandles.Any((Mod mod) => !mod.SettingsCategory().NullOrEmpty());
 		}
-
-		// Token: 0x0400184F RID: 6223
-		private Mod selMod = null;
-
-		// Token: 0x04001850 RID: 6224
-		private const float TopAreaHeight = 40f;
-
-		// Token: 0x04001851 RID: 6225
-		private const float TopButtonHeight = 35f;
-
-		// Token: 0x04001852 RID: 6226
-		private const float TopButtonWidth = 150f;
 	}
 }

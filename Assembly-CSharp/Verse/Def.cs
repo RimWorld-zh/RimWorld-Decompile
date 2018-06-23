@@ -8,6 +8,64 @@ namespace Verse
 	// Token: 0x02000AF6 RID: 2806
 	public class Def : Editable
 	{
+		// Token: 0x04002749 RID: 10057
+		[Description("The name of this Def. It is used as an identifier by the game code.")]
+		[NoTranslate]
+		public string defName = "UnnamedDef";
+
+		// Token: 0x0400274A RID: 10058
+		[Description("A human-readable label used to identify this in game.")]
+		[DefaultValue(null)]
+		[MustTranslate]
+		public string label = null;
+
+		// Token: 0x0400274B RID: 10059
+		[Description("A human-readable description given when the Def is inspected by players.")]
+		[DefaultValue(null)]
+		[MustTranslate]
+		public string description = null;
+
+		// Token: 0x0400274C RID: 10060
+		[Description("Disables config error checking. Intended for mod use. (Be careful!)")]
+		[DefaultValue(false)]
+		[MustTranslate]
+		public bool ignoreConfigErrors = false;
+
+		// Token: 0x0400274D RID: 10061
+		[Description("Mod-specific data. Not used by core game code.")]
+		[DefaultValue(null)]
+		public List<DefModExtension> modExtensions;
+
+		// Token: 0x0400274E RID: 10062
+		[Unsaved]
+		public ushort shortHash;
+
+		// Token: 0x0400274F RID: 10063
+		[Unsaved]
+		public ushort index = ushort.MaxValue;
+
+		// Token: 0x04002750 RID: 10064
+		[Unsaved]
+		public ModContentPack modContentPack;
+
+		// Token: 0x04002751 RID: 10065
+		[Unsaved]
+		private string cachedLabelCap = null;
+
+		// Token: 0x04002752 RID: 10066
+		[Unsaved]
+		public bool generated;
+
+		// Token: 0x04002753 RID: 10067
+		[Unsaved]
+		public ushort debugRandomId = (ushort)Rand.RangeInclusive(0, 65535);
+
+		// Token: 0x04002754 RID: 10068
+		public const string DefaultDefName = "UnnamedDef";
+
+		// Token: 0x04002755 RID: 10069
+		private static Regex AllowedDefnamesRegex = new Regex("^[a-zA-Z0-9\\-_]*$");
+
 		// Token: 0x17000958 RID: 2392
 		// (get) Token: 0x06003E30 RID: 15920 RVA: 0x000633F0 File Offset: 0x000617F0
 		public string LabelCap
@@ -125,63 +183,5 @@ namespace Verse
 		{
 			return this.GetModExtension<T>() != null;
 		}
-
-		// Token: 0x04002749 RID: 10057
-		[Description("The name of this Def. It is used as an identifier by the game code.")]
-		[NoTranslate]
-		public string defName = "UnnamedDef";
-
-		// Token: 0x0400274A RID: 10058
-		[Description("A human-readable label used to identify this in game.")]
-		[DefaultValue(null)]
-		[MustTranslate]
-		public string label = null;
-
-		// Token: 0x0400274B RID: 10059
-		[Description("A human-readable description given when the Def is inspected by players.")]
-		[DefaultValue(null)]
-		[MustTranslate]
-		public string description = null;
-
-		// Token: 0x0400274C RID: 10060
-		[Description("Disables config error checking. Intended for mod use. (Be careful!)")]
-		[DefaultValue(false)]
-		[MustTranslate]
-		public bool ignoreConfigErrors = false;
-
-		// Token: 0x0400274D RID: 10061
-		[Description("Mod-specific data. Not used by core game code.")]
-		[DefaultValue(null)]
-		public List<DefModExtension> modExtensions;
-
-		// Token: 0x0400274E RID: 10062
-		[Unsaved]
-		public ushort shortHash;
-
-		// Token: 0x0400274F RID: 10063
-		[Unsaved]
-		public ushort index = ushort.MaxValue;
-
-		// Token: 0x04002750 RID: 10064
-		[Unsaved]
-		public ModContentPack modContentPack;
-
-		// Token: 0x04002751 RID: 10065
-		[Unsaved]
-		private string cachedLabelCap = null;
-
-		// Token: 0x04002752 RID: 10066
-		[Unsaved]
-		public bool generated;
-
-		// Token: 0x04002753 RID: 10067
-		[Unsaved]
-		public ushort debugRandomId = (ushort)Rand.RangeInclusive(0, 65535);
-
-		// Token: 0x04002754 RID: 10068
-		public const string DefaultDefName = "UnnamedDef";
-
-		// Token: 0x04002755 RID: 10069
-		private static Regex AllowedDefnamesRegex = new Regex("^[a-zA-Z0-9\\-_]*$");
 	}
 }

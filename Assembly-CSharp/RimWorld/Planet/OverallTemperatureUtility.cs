@@ -6,41 +6,6 @@ namespace RimWorld.Planet
 	// Token: 0x02000579 RID: 1401
 	public static class OverallTemperatureUtility
 	{
-		// Token: 0x170003E2 RID: 994
-		// (get) Token: 0x06001AD0 RID: 6864 RVA: 0x000E69B8 File Offset: 0x000E4DB8
-		public static int EnumValuesCount
-		{
-			get
-			{
-				if (OverallTemperatureUtility.cachedEnumValuesCount < 0)
-				{
-					OverallTemperatureUtility.cachedEnumValuesCount = Enum.GetNames(typeof(OverallTemperature)).Length;
-				}
-				return OverallTemperatureUtility.cachedEnumValuesCount;
-			}
-		}
-
-		// Token: 0x06001AD1 RID: 6865 RVA: 0x000E69F4 File Offset: 0x000E4DF4
-		public static SimpleCurve GetTemperatureCurve(this OverallTemperature overallTemperature)
-		{
-			switch (overallTemperature)
-			{
-			case OverallTemperature.VeryCold:
-				return OverallTemperatureUtility.Curve_VeryCold;
-			case OverallTemperature.Cold:
-				return OverallTemperatureUtility.Curve_Cold;
-			case OverallTemperature.LittleBitColder:
-				return OverallTemperatureUtility.Curve_LittleBitColder;
-			case OverallTemperature.LittleBitWarmer:
-				return OverallTemperatureUtility.Curve_LittleBitWarmer;
-			case OverallTemperature.Hot:
-				return OverallTemperatureUtility.Curve_Hot;
-			case OverallTemperature.VeryHot:
-				return OverallTemperatureUtility.Curve_VeryHot;
-			}
-			return null;
-		}
-
 		// Token: 0x04000FA2 RID: 4002
 		private static int cachedEnumValuesCount = -1;
 
@@ -233,5 +198,40 @@ namespace RimWorld.Planet
 				true
 			}
 		};
+
+		// Token: 0x170003E2 RID: 994
+		// (get) Token: 0x06001AD0 RID: 6864 RVA: 0x000E69B8 File Offset: 0x000E4DB8
+		public static int EnumValuesCount
+		{
+			get
+			{
+				if (OverallTemperatureUtility.cachedEnumValuesCount < 0)
+				{
+					OverallTemperatureUtility.cachedEnumValuesCount = Enum.GetNames(typeof(OverallTemperature)).Length;
+				}
+				return OverallTemperatureUtility.cachedEnumValuesCount;
+			}
+		}
+
+		// Token: 0x06001AD1 RID: 6865 RVA: 0x000E69F4 File Offset: 0x000E4DF4
+		public static SimpleCurve GetTemperatureCurve(this OverallTemperature overallTemperature)
+		{
+			switch (overallTemperature)
+			{
+			case OverallTemperature.VeryCold:
+				return OverallTemperatureUtility.Curve_VeryCold;
+			case OverallTemperature.Cold:
+				return OverallTemperatureUtility.Curve_Cold;
+			case OverallTemperature.LittleBitColder:
+				return OverallTemperatureUtility.Curve_LittleBitColder;
+			case OverallTemperature.LittleBitWarmer:
+				return OverallTemperatureUtility.Curve_LittleBitWarmer;
+			case OverallTemperature.Hot:
+				return OverallTemperatureUtility.Curve_Hot;
+			case OverallTemperature.VeryHot:
+				return OverallTemperatureUtility.Curve_VeryHot;
+			}
+			return null;
+		}
 	}
 }

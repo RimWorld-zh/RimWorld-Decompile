@@ -7,6 +7,68 @@ namespace Verse.Noise
 	// Token: 0x02000F82 RID: 3970
 	public class Noise2D : IDisposable
 	{
+		// Token: 0x04003EF9 RID: 16121
+		public static readonly double South = -90.0;
+
+		// Token: 0x04003EFA RID: 16122
+		public static readonly double North = 90.0;
+
+		// Token: 0x04003EFB RID: 16123
+		public static readonly double West = -180.0;
+
+		// Token: 0x04003EFC RID: 16124
+		public static readonly double East = 180.0;
+
+		// Token: 0x04003EFD RID: 16125
+		public static readonly double AngleMin = -180.0;
+
+		// Token: 0x04003EFE RID: 16126
+		public static readonly double AngleMax = 180.0;
+
+		// Token: 0x04003EFF RID: 16127
+		public static readonly double Left = -1.0;
+
+		// Token: 0x04003F00 RID: 16128
+		public static readonly double Right = 1.0;
+
+		// Token: 0x04003F01 RID: 16129
+		public static readonly double Top = -1.0;
+
+		// Token: 0x04003F02 RID: 16130
+		public static readonly double Bottom = 1.0;
+
+		// Token: 0x04003F03 RID: 16131
+		private int m_width = 0;
+
+		// Token: 0x04003F04 RID: 16132
+		private int m_height = 0;
+
+		// Token: 0x04003F05 RID: 16133
+		private float[,] m_data = null;
+
+		// Token: 0x04003F06 RID: 16134
+		private int m_ucWidth = 0;
+
+		// Token: 0x04003F07 RID: 16135
+		private int m_ucHeight = 0;
+
+		// Token: 0x04003F08 RID: 16136
+		private int m_ucBorder = 1;
+
+		// Token: 0x04003F09 RID: 16137
+		private float[,] m_ucData = null;
+
+		// Token: 0x04003F0A RID: 16138
+		private float m_borderValue = float.NaN;
+
+		// Token: 0x04003F0B RID: 16139
+		private ModuleBase m_generator = null;
+
+		// Token: 0x04003F0C RID: 16140
+		[XmlIgnore]
+		[NonSerialized]
+		private bool m_disposed = false;
+
 		// Token: 0x06005FE5 RID: 24549 RVA: 0x0030C2F0 File Offset: 0x0030A6F0
 		protected Noise2D()
 		{
@@ -451,67 +513,5 @@ namespace Verse.Noise
 			this.m_height = 0;
 			return true;
 		}
-
-		// Token: 0x04003EF9 RID: 16121
-		public static readonly double South = -90.0;
-
-		// Token: 0x04003EFA RID: 16122
-		public static readonly double North = 90.0;
-
-		// Token: 0x04003EFB RID: 16123
-		public static readonly double West = -180.0;
-
-		// Token: 0x04003EFC RID: 16124
-		public static readonly double East = 180.0;
-
-		// Token: 0x04003EFD RID: 16125
-		public static readonly double AngleMin = -180.0;
-
-		// Token: 0x04003EFE RID: 16126
-		public static readonly double AngleMax = 180.0;
-
-		// Token: 0x04003EFF RID: 16127
-		public static readonly double Left = -1.0;
-
-		// Token: 0x04003F00 RID: 16128
-		public static readonly double Right = 1.0;
-
-		// Token: 0x04003F01 RID: 16129
-		public static readonly double Top = -1.0;
-
-		// Token: 0x04003F02 RID: 16130
-		public static readonly double Bottom = 1.0;
-
-		// Token: 0x04003F03 RID: 16131
-		private int m_width = 0;
-
-		// Token: 0x04003F04 RID: 16132
-		private int m_height = 0;
-
-		// Token: 0x04003F05 RID: 16133
-		private float[,] m_data = null;
-
-		// Token: 0x04003F06 RID: 16134
-		private int m_ucWidth = 0;
-
-		// Token: 0x04003F07 RID: 16135
-		private int m_ucHeight = 0;
-
-		// Token: 0x04003F08 RID: 16136
-		private int m_ucBorder = 1;
-
-		// Token: 0x04003F09 RID: 16137
-		private float[,] m_ucData = null;
-
-		// Token: 0x04003F0A RID: 16138
-		private float m_borderValue = float.NaN;
-
-		// Token: 0x04003F0B RID: 16139
-		private ModuleBase m_generator = null;
-
-		// Token: 0x04003F0C RID: 16140
-		[XmlIgnore]
-		[NonSerialized]
-		private bool m_disposed = false;
 	}
 }

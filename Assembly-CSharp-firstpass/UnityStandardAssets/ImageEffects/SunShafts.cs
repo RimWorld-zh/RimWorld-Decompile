@@ -9,6 +9,48 @@ namespace UnityStandardAssets.ImageEffects
 	[AddComponentMenu("Image Effects/Rendering/Sun Shafts")]
 	public class SunShafts : PostEffectsBase
 	{
+		// Token: 0x04000856 RID: 2134
+		public SunShafts.SunShaftsResolution resolution = SunShafts.SunShaftsResolution.Normal;
+
+		// Token: 0x04000857 RID: 2135
+		public SunShafts.ShaftsScreenBlendMode screenBlendMode = SunShafts.ShaftsScreenBlendMode.Screen;
+
+		// Token: 0x04000858 RID: 2136
+		public Transform sunTransform;
+
+		// Token: 0x04000859 RID: 2137
+		public int radialBlurIterations = 2;
+
+		// Token: 0x0400085A RID: 2138
+		public Color sunColor = Color.white;
+
+		// Token: 0x0400085B RID: 2139
+		public Color sunThreshold = new Color(0.87f, 0.74f, 0.65f);
+
+		// Token: 0x0400085C RID: 2140
+		public float sunShaftBlurRadius = 2.5f;
+
+		// Token: 0x0400085D RID: 2141
+		public float sunShaftIntensity = 1.15f;
+
+		// Token: 0x0400085E RID: 2142
+		public float maxRadius = 0.75f;
+
+		// Token: 0x0400085F RID: 2143
+		public bool useDepthTexture = true;
+
+		// Token: 0x04000860 RID: 2144
+		public Shader sunShaftsShader;
+
+		// Token: 0x04000861 RID: 2145
+		private Material sunShaftsMaterial;
+
+		// Token: 0x04000862 RID: 2146
+		public Shader simpleClearShader;
+
+		// Token: 0x04000863 RID: 2147
+		private Material simpleClearMaterial;
+
 		// Token: 0x06000966 RID: 2406 RVA: 0x00018AF0 File Offset: 0x00016CF0
 		public override bool CheckResources()
 		{
@@ -104,48 +146,6 @@ namespace UnityStandardAssets.ImageEffects
 				RenderTexture.ReleaseTemporary(temporary);
 			}
 		}
-
-		// Token: 0x04000856 RID: 2134
-		public SunShafts.SunShaftsResolution resolution = SunShafts.SunShaftsResolution.Normal;
-
-		// Token: 0x04000857 RID: 2135
-		public SunShafts.ShaftsScreenBlendMode screenBlendMode = SunShafts.ShaftsScreenBlendMode.Screen;
-
-		// Token: 0x04000858 RID: 2136
-		public Transform sunTransform;
-
-		// Token: 0x04000859 RID: 2137
-		public int radialBlurIterations = 2;
-
-		// Token: 0x0400085A RID: 2138
-		public Color sunColor = Color.white;
-
-		// Token: 0x0400085B RID: 2139
-		public Color sunThreshold = new Color(0.87f, 0.74f, 0.65f);
-
-		// Token: 0x0400085C RID: 2140
-		public float sunShaftBlurRadius = 2.5f;
-
-		// Token: 0x0400085D RID: 2141
-		public float sunShaftIntensity = 1.15f;
-
-		// Token: 0x0400085E RID: 2142
-		public float maxRadius = 0.75f;
-
-		// Token: 0x0400085F RID: 2143
-		public bool useDepthTexture = true;
-
-		// Token: 0x04000860 RID: 2144
-		public Shader sunShaftsShader;
-
-		// Token: 0x04000861 RID: 2145
-		private Material sunShaftsMaterial;
-
-		// Token: 0x04000862 RID: 2146
-		public Shader simpleClearShader;
-
-		// Token: 0x04000863 RID: 2147
-		private Material simpleClearMaterial;
 
 		// Token: 0x020001AA RID: 426
 		public enum SunShaftsResolution

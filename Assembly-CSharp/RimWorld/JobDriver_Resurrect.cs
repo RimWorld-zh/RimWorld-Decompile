@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x0200007D RID: 125
 	public class JobDriver_Resurrect : JobDriver
 	{
+		// Token: 0x04000233 RID: 563
+		private const TargetIndex CorpseInd = TargetIndex.A;
+
+		// Token: 0x04000234 RID: 564
+		private const TargetIndex ItemInd = TargetIndex.B;
+
+		// Token: 0x04000235 RID: 565
+		private const int DurationTicks = 600;
+
 		// Token: 0x170000AE RID: 174
 		// (get) Token: 0x06000352 RID: 850 RVA: 0x00024F00 File Offset: 0x00023300
 		private Corpse Corpse
@@ -60,14 +69,5 @@ namespace RimWorld
 			}).CapitalizeFirst(), innerPawn, MessageTypeDefOf.PositiveEvent, true);
 			this.Item.SplitOff(1).Destroy(DestroyMode.Vanish);
 		}
-
-		// Token: 0x04000233 RID: 563
-		private const TargetIndex CorpseInd = TargetIndex.A;
-
-		// Token: 0x04000234 RID: 564
-		private const TargetIndex ItemInd = TargetIndex.B;
-
-		// Token: 0x04000235 RID: 565
-		private const int DurationTicks = 600;
 	}
 }

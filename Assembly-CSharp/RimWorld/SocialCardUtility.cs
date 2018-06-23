@@ -12,6 +12,48 @@ namespace RimWorld
 	// Token: 0x0200081A RID: 2074
 	public static class SocialCardUtility
 	{
+		// Token: 0x040018CF RID: 6351
+		private static Vector2 listScrollPosition = Vector2.zero;
+
+		// Token: 0x040018D0 RID: 6352
+		private static float listScrollViewHeight = 0f;
+
+		// Token: 0x040018D1 RID: 6353
+		private static bool showAllRelations;
+
+		// Token: 0x040018D2 RID: 6354
+		private static List<SocialCardUtility.CachedSocialTabEntry> cachedEntries = new List<SocialCardUtility.CachedSocialTabEntry>();
+
+		// Token: 0x040018D3 RID: 6355
+		private static Pawn cachedForPawn;
+
+		// Token: 0x040018D4 RID: 6356
+		private const float TopPadding = 20f;
+
+		// Token: 0x040018D5 RID: 6357
+		private static readonly Color RelationLabelColor = new Color(0.6f, 0.6f, 0.6f);
+
+		// Token: 0x040018D6 RID: 6358
+		private static readonly Color PawnLabelColor = new Color(0.9f, 0.9f, 0.9f, 1f);
+
+		// Token: 0x040018D7 RID: 6359
+		private static readonly Color HighlightColor = new Color(0.5f, 0.5f, 0.5f, 1f);
+
+		// Token: 0x040018D8 RID: 6360
+		private const float RowTopPadding = 3f;
+
+		// Token: 0x040018D9 RID: 6361
+		private const float RowLeftRightPadding = 5f;
+
+		// Token: 0x040018DA RID: 6362
+		private static SocialCardUtility.CachedSocialTabEntryComparer CachedEntriesComparer = new SocialCardUtility.CachedSocialTabEntryComparer();
+
+		// Token: 0x040018DB RID: 6363
+		private static HashSet<Pawn> tmpCached = new HashSet<Pawn>();
+
+		// Token: 0x040018DC RID: 6364
+		private static HashSet<Pawn> tmpToCache = new HashSet<Pawn>();
+
 		// Token: 0x06002E5F RID: 11871 RVA: 0x0018B12C File Offset: 0x0018952C
 		public static void DrawSocialCard(Rect rect, Pawn pawn)
 		{
@@ -730,48 +772,6 @@ namespace RimWorld
 			}
 			GUI.EndGroup();
 		}
-
-		// Token: 0x040018CF RID: 6351
-		private static Vector2 listScrollPosition = Vector2.zero;
-
-		// Token: 0x040018D0 RID: 6352
-		private static float listScrollViewHeight = 0f;
-
-		// Token: 0x040018D1 RID: 6353
-		private static bool showAllRelations;
-
-		// Token: 0x040018D2 RID: 6354
-		private static List<SocialCardUtility.CachedSocialTabEntry> cachedEntries = new List<SocialCardUtility.CachedSocialTabEntry>();
-
-		// Token: 0x040018D3 RID: 6355
-		private static Pawn cachedForPawn;
-
-		// Token: 0x040018D4 RID: 6356
-		private const float TopPadding = 20f;
-
-		// Token: 0x040018D5 RID: 6357
-		private static readonly Color RelationLabelColor = new Color(0.6f, 0.6f, 0.6f);
-
-		// Token: 0x040018D6 RID: 6358
-		private static readonly Color PawnLabelColor = new Color(0.9f, 0.9f, 0.9f, 1f);
-
-		// Token: 0x040018D7 RID: 6359
-		private static readonly Color HighlightColor = new Color(0.5f, 0.5f, 0.5f, 1f);
-
-		// Token: 0x040018D8 RID: 6360
-		private const float RowTopPadding = 3f;
-
-		// Token: 0x040018D9 RID: 6361
-		private const float RowLeftRightPadding = 5f;
-
-		// Token: 0x040018DA RID: 6362
-		private static SocialCardUtility.CachedSocialTabEntryComparer CachedEntriesComparer = new SocialCardUtility.CachedSocialTabEntryComparer();
-
-		// Token: 0x040018DB RID: 6363
-		private static HashSet<Pawn> tmpCached = new HashSet<Pawn>();
-
-		// Token: 0x040018DC RID: 6364
-		private static HashSet<Pawn> tmpToCache = new HashSet<Pawn>();
 
 		// Token: 0x0200081B RID: 2075
 		private class CachedSocialTabEntry

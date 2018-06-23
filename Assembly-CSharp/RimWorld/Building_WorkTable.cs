@@ -7,6 +7,18 @@ namespace RimWorld
 	// Token: 0x020006B1 RID: 1713
 	public class Building_WorkTable : Building, IBillGiver, IBillGiverWithTickAction
 	{
+		// Token: 0x04001450 RID: 5200
+		public BillStack billStack = null;
+
+		// Token: 0x04001451 RID: 5201
+		private CompPowerTrader powerComp = null;
+
+		// Token: 0x04001452 RID: 5202
+		private CompRefuelable refuelableComp = null;
+
+		// Token: 0x04001453 RID: 5203
+		private CompBreakdownable breakdownableComp = null;
+
 		// Token: 0x060024D6 RID: 9430 RVA: 0x0013B966 File Offset: 0x00139D66
 		public Building_WorkTable()
 		{
@@ -96,17 +108,5 @@ namespace RimWorld
 		{
 			return (this.CanWorkWithoutPower || (this.powerComp != null && this.powerComp.PowerOn)) && (this.breakdownableComp == null || !this.breakdownableComp.BrokenDown);
 		}
-
-		// Token: 0x04001450 RID: 5200
-		public BillStack billStack = null;
-
-		// Token: 0x04001451 RID: 5201
-		private CompPowerTrader powerComp = null;
-
-		// Token: 0x04001452 RID: 5202
-		private CompRefuelable refuelableComp = null;
-
-		// Token: 0x04001453 RID: 5203
-		private CompBreakdownable breakdownableComp = null;
 	}
 }

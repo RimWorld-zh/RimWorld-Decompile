@@ -8,105 +8,6 @@ namespace RimWorld
 	// Token: 0x020002D6 RID: 726
 	public class StatDef : Def
 	{
-		// Token: 0x170001C9 RID: 457
-		// (get) Token: 0x06000BFE RID: 3070 RVA: 0x0006A7DC File Offset: 0x00068BDC
-		public StatWorker Worker
-		{
-			get
-			{
-				if (this.workerInt == null)
-				{
-					if (this.parts != null)
-					{
-						for (int i = 0; i < this.parts.Count; i++)
-						{
-							this.parts[i].parentStat = this;
-						}
-					}
-					this.workerInt = (StatWorker)Activator.CreateInstance(this.workerClass);
-					this.workerInt.InitSetStat(this);
-				}
-				return this.workerInt;
-			}
-		}
-
-		// Token: 0x170001CA RID: 458
-		// (get) Token: 0x06000BFF RID: 3071 RVA: 0x0006A864 File Offset: 0x00068C64
-		public ToStringStyle ToStringStyleUnfinalized
-		{
-			get
-			{
-				ToStringStyle? toStringStyle = this.toStringStyleUnfinalized;
-				return (toStringStyle == null) ? this.toStringStyle : this.toStringStyleUnfinalized.Value;
-			}
-		}
-
-		// Token: 0x06000C00 RID: 3072 RVA: 0x0006A8A4 File Offset: 0x00068CA4
-		public override IEnumerable<string> ConfigErrors()
-		{
-			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
-			{
-				yield return err;
-			}
-			if (this.capacityFactors != null)
-			{
-				foreach (PawnCapacityFactor afac in this.capacityFactors)
-				{
-					if (afac.weight > 1f)
-					{
-						yield return this.defName + " has activity factor with weight > 1";
-					}
-				}
-			}
-			if (this.parts != null)
-			{
-				for (int i = 0; i < this.parts.Count; i++)
-				{
-					foreach (string err2 in this.parts[i].ConfigErrors())
-					{
-						yield return string.Concat(new string[]
-						{
-							this.defName,
-							" has error in StatPart ",
-							this.parts[i].ToString(),
-							": ",
-							err2
-						});
-					}
-				}
-			}
-			yield break;
-		}
-
-		// Token: 0x06000C01 RID: 3073 RVA: 0x0006A8D0 File Offset: 0x00068CD0
-		public string ValueToString(float val, ToStringNumberSense numberSense = ToStringNumberSense.Absolute)
-		{
-			return this.Worker.ValueToString(val, true, numberSense);
-		}
-
-		// Token: 0x06000C02 RID: 3074 RVA: 0x0006A8F4 File Offset: 0x00068CF4
-		public static StatDef Named(string defName)
-		{
-			return DefDatabase<StatDef>.GetNamed(defName, true);
-		}
-
-		// Token: 0x06000C03 RID: 3075 RVA: 0x0006A910 File Offset: 0x00068D10
-		public override void PostLoad()
-		{
-			base.PostLoad();
-			if (this.parts != null)
-			{
-				List<StatPart> partsCopy = this.parts.ToList<StatPart>();
-				this.parts.SortBy((StatPart x) => -x.priority, (StatPart x) => partsCopy.IndexOf(x));
-			}
-		}
-
-		// Token: 0x06000C04 RID: 3076 RVA: 0x0006A97C File Offset: 0x00068D7C
-		public T GetStatPart<T>() where T : StatPart
-		{
-			return this.parts.OfType<T>().FirstOrDefault<T>();
-		}
-
 		// Token: 0x0400073A RID: 1850
 		public StatCategoryDef category = null;
 
@@ -216,5 +117,104 @@ namespace RimWorld
 		// Token: 0x0400075D RID: 1885
 		[Unsaved]
 		private StatWorker workerInt = null;
+
+		// Token: 0x170001C9 RID: 457
+		// (get) Token: 0x06000BFE RID: 3070 RVA: 0x0006A7DC File Offset: 0x00068BDC
+		public StatWorker Worker
+		{
+			get
+			{
+				if (this.workerInt == null)
+				{
+					if (this.parts != null)
+					{
+						for (int i = 0; i < this.parts.Count; i++)
+						{
+							this.parts[i].parentStat = this;
+						}
+					}
+					this.workerInt = (StatWorker)Activator.CreateInstance(this.workerClass);
+					this.workerInt.InitSetStat(this);
+				}
+				return this.workerInt;
+			}
+		}
+
+		// Token: 0x170001CA RID: 458
+		// (get) Token: 0x06000BFF RID: 3071 RVA: 0x0006A864 File Offset: 0x00068C64
+		public ToStringStyle ToStringStyleUnfinalized
+		{
+			get
+			{
+				ToStringStyle? toStringStyle = this.toStringStyleUnfinalized;
+				return (toStringStyle == null) ? this.toStringStyle : this.toStringStyleUnfinalized.Value;
+			}
+		}
+
+		// Token: 0x06000C00 RID: 3072 RVA: 0x0006A8A4 File Offset: 0x00068CA4
+		public override IEnumerable<string> ConfigErrors()
+		{
+			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
+			{
+				yield return err;
+			}
+			if (this.capacityFactors != null)
+			{
+				foreach (PawnCapacityFactor afac in this.capacityFactors)
+				{
+					if (afac.weight > 1f)
+					{
+						yield return this.defName + " has activity factor with weight > 1";
+					}
+				}
+			}
+			if (this.parts != null)
+			{
+				for (int i = 0; i < this.parts.Count; i++)
+				{
+					foreach (string err2 in this.parts[i].ConfigErrors())
+					{
+						yield return string.Concat(new string[]
+						{
+							this.defName,
+							" has error in StatPart ",
+							this.parts[i].ToString(),
+							": ",
+							err2
+						});
+					}
+				}
+			}
+			yield break;
+		}
+
+		// Token: 0x06000C01 RID: 3073 RVA: 0x0006A8D0 File Offset: 0x00068CD0
+		public string ValueToString(float val, ToStringNumberSense numberSense = ToStringNumberSense.Absolute)
+		{
+			return this.Worker.ValueToString(val, true, numberSense);
+		}
+
+		// Token: 0x06000C02 RID: 3074 RVA: 0x0006A8F4 File Offset: 0x00068CF4
+		public static StatDef Named(string defName)
+		{
+			return DefDatabase<StatDef>.GetNamed(defName, true);
+		}
+
+		// Token: 0x06000C03 RID: 3075 RVA: 0x0006A910 File Offset: 0x00068D10
+		public override void PostLoad()
+		{
+			base.PostLoad();
+			if (this.parts != null)
+			{
+				List<StatPart> partsCopy = this.parts.ToList<StatPart>();
+				this.parts.SortBy((StatPart x) => -x.priority, (StatPart x) => partsCopy.IndexOf(x));
+			}
+		}
+
+		// Token: 0x06000C04 RID: 3076 RVA: 0x0006A97C File Offset: 0x00068D7C
+		public T GetStatPart<T>() where T : StatPart
+		{
+			return this.parts.OfType<T>().FirstOrDefault<T>();
+		}
 	}
 }

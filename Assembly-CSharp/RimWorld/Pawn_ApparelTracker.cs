@@ -8,6 +8,24 @@ namespace RimWorld
 	// Token: 0x0200050D RID: 1293
 	public class Pawn_ApparelTracker : IThingHolder, IExposable
 	{
+		// Token: 0x04000DD0 RID: 3536
+		public Pawn pawn;
+
+		// Token: 0x04000DD1 RID: 3537
+		private ThingOwner<Apparel> wornApparel;
+
+		// Token: 0x04000DD2 RID: 3538
+		private int lastApparelWearoutTick = -1;
+
+		// Token: 0x04000DD3 RID: 3539
+		private const int RecordWalkedNakedTaleIntervalTicks = 60000;
+
+		// Token: 0x04000DD4 RID: 3540
+		private static List<Apparel> tmpApparelList = new List<Apparel>();
+
+		// Token: 0x04000DD5 RID: 3541
+		private static List<Apparel> tmpApparel = new List<Apparel>();
+
 		// Token: 0x06001746 RID: 5958 RVA: 0x000CC663 File Offset: 0x000CAA63
 		public Pawn_ApparelTracker(Pawn pawn)
 		{
@@ -444,23 +462,5 @@ namespace RimWorld
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
-
-		// Token: 0x04000DD0 RID: 3536
-		public Pawn pawn;
-
-		// Token: 0x04000DD1 RID: 3537
-		private ThingOwner<Apparel> wornApparel;
-
-		// Token: 0x04000DD2 RID: 3538
-		private int lastApparelWearoutTick = -1;
-
-		// Token: 0x04000DD3 RID: 3539
-		private const int RecordWalkedNakedTaleIntervalTicks = 60000;
-
-		// Token: 0x04000DD4 RID: 3540
-		private static List<Apparel> tmpApparelList = new List<Apparel>();
-
-		// Token: 0x04000DD5 RID: 3541
-		private static List<Apparel> tmpApparel = new List<Apparel>();
 	}
 }

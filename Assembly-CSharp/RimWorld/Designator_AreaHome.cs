@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020007BE RID: 1982
 	public abstract class Designator_AreaHome : Designator_Area
 	{
+		// Token: 0x04001797 RID: 6039
+		private DesignateMode mode;
+
 		// Token: 0x06002BEE RID: 11246 RVA: 0x00174426 File Offset: 0x00172826
 		public Designator_AreaHome(DesignateMode mode)
 		{
@@ -85,8 +88,5 @@ namespace RimWorld
 			GenUI.RenderMouseoverBracket();
 			base.Map.areaManager.Home.MarkForDraw();
 		}
-
-		// Token: 0x04001797 RID: 6039
-		private DesignateMode mode;
 	}
 }

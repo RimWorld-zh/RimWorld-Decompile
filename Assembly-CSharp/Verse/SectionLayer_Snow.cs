@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000C48 RID: 3144
 	internal class SectionLayer_Snow : SectionLayer
 	{
+		// Token: 0x04002F65 RID: 12133
+		private float[] vertDepth = new float[9];
+
+		// Token: 0x04002F66 RID: 12134
+		private static readonly Color32 ColorClear = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, 0);
+
+		// Token: 0x04002F67 RID: 12135
+		private static readonly Color32 ColorWhite = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue);
+
 		// Token: 0x06004553 RID: 17747 RVA: 0x0024A002 File Offset: 0x00248402
 		public SectionLayer_Snow(Section section) : base(section)
 		{
@@ -100,14 +109,5 @@ namespace Verse
 		{
 			return Color32.Lerp(SectionLayer_Snow.ColorClear, SectionLayer_Snow.ColorWhite, snowDepth);
 		}
-
-		// Token: 0x04002F65 RID: 12133
-		private float[] vertDepth = new float[9];
-
-		// Token: 0x04002F66 RID: 12134
-		private static readonly Color32 ColorClear = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, 0);
-
-		// Token: 0x04002F67 RID: 12135
-		private static readonly Color32 ColorWhite = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue);
 	}
 }

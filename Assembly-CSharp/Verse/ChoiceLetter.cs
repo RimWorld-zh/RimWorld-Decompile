@@ -8,6 +8,15 @@ namespace Verse
 	// Token: 0x02000E72 RID: 3698
 	public abstract class ChoiceLetter : LetterWithTimeout
 	{
+		// Token: 0x040039C1 RID: 14785
+		public string title;
+
+		// Token: 0x040039C2 RID: 14786
+		public string text;
+
+		// Token: 0x040039C3 RID: 14787
+		public bool radioMode;
+
 		// Token: 0x17000DAF RID: 3503
 		// (get) Token: 0x0600571D RID: 22301
 		public abstract IEnumerable<DiaOption> Choices { get; }
@@ -110,14 +119,5 @@ namespace Verse
 			Dialog_NodeTreeWithFactionInfo window = new Dialog_NodeTreeWithFactionInfo(nodeRoot, relatedFaction, false, flag, this.title);
 			Find.WindowStack.Add(window);
 		}
-
-		// Token: 0x040039C1 RID: 14785
-		public string title;
-
-		// Token: 0x040039C2 RID: 14786
-		public string text;
-
-		// Token: 0x040039C3 RID: 14787
-		public bool radioMode;
 	}
 }

@@ -7,6 +7,27 @@ namespace RimWorld
 	// Token: 0x0200042C RID: 1068
 	public class RetainedCaravanData : IExposable
 	{
+		// Token: 0x04000B6A RID: 2922
+		private Map map;
+
+		// Token: 0x04000B6B RID: 2923
+		private bool shouldPassStoryState;
+
+		// Token: 0x04000B6C RID: 2924
+		private int nextTile = -1;
+
+		// Token: 0x04000B6D RID: 2925
+		private float nextTileCostLeftPct;
+
+		// Token: 0x04000B6E RID: 2926
+		private bool paused;
+
+		// Token: 0x04000B6F RID: 2927
+		private int destinationTile = -1;
+
+		// Token: 0x04000B70 RID: 2928
+		private CaravanArrivalAction arrivalAction;
+
 		// Token: 0x060012B4 RID: 4788 RVA: 0x000A22D6 File Offset: 0x000A06D6
 		public RetainedCaravanData(Map map)
 		{
@@ -88,26 +109,5 @@ namespace RimWorld
 				this.arrivalAction = null;
 			}
 		}
-
-		// Token: 0x04000B6A RID: 2922
-		private Map map;
-
-		// Token: 0x04000B6B RID: 2923
-		private bool shouldPassStoryState;
-
-		// Token: 0x04000B6C RID: 2924
-		private int nextTile = -1;
-
-		// Token: 0x04000B6D RID: 2925
-		private float nextTileCostLeftPct;
-
-		// Token: 0x04000B6E RID: 2926
-		private bool paused;
-
-		// Token: 0x04000B6F RID: 2927
-		private int destinationTile = -1;
-
-		// Token: 0x04000B70 RID: 2928
-		private CaravanArrivalAction arrivalAction;
 	}
 }

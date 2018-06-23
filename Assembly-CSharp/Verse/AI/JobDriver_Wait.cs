@@ -7,6 +7,9 @@ namespace Verse.AI
 	// Token: 0x02000A35 RID: 2613
 	public class JobDriver_Wait : JobDriver
 	{
+		// Token: 0x040024FD RID: 9469
+		private const int TargetSearchInterval = 4;
+
 		// Token: 0x06003A07 RID: 14855 RVA: 0x001EB06C File Offset: 0x001E946C
 		public override string GetReport()
 		{
@@ -146,8 +149,5 @@ namespace Verse.AI
 				}
 			}
 		}
-
-		// Token: 0x040024FD RID: 9469
-		private const int TargetSearchInterval = 4;
 	}
 }

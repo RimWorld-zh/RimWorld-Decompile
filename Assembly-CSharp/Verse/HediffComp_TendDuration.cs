@@ -9,6 +9,30 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public class HediffComp_TendDuration : HediffComp_SeverityPerDay
 	{
+		// Token: 0x04003222 RID: 12834
+		public int tendTick = -999999;
+
+		// Token: 0x04003223 RID: 12835
+		public float tendQuality = 0f;
+
+		// Token: 0x04003224 RID: 12836
+		private float totalTendQuality = 0f;
+
+		// Token: 0x04003225 RID: 12837
+		public const float TendQualityRandomVariance = 0.25f;
+
+		// Token: 0x04003226 RID: 12838
+		private static readonly Color UntendedColor;
+
+		// Token: 0x04003227 RID: 12839
+		private static readonly Texture2D TendedIcon_Need_General;
+
+		// Token: 0x04003228 RID: 12840
+		private static readonly Texture2D TendedIcon_Well_General;
+
+		// Token: 0x04003229 RID: 12841
+		private static readonly Texture2D TendedIcon_Well_Injury;
+
 		// Token: 0x17000BB3 RID: 2995
 		// (get) Token: 0x060049EA RID: 18922 RVA: 0x0026AA74 File Offset: 0x00268E74
 		public HediffCompProperties_TendDuration TProps
@@ -299,29 +323,5 @@ namespace Verse
 			HediffComp_TendDuration.TendedIcon_Well_General = ContentFinder<Texture2D>.Get("UI/Icons/Medical/TendedWell", true);
 			HediffComp_TendDuration.TendedIcon_Well_Injury = ContentFinder<Texture2D>.Get("UI/Icons/Medical/BandageWell", true);
 		}
-
-		// Token: 0x04003222 RID: 12834
-		public int tendTick = -999999;
-
-		// Token: 0x04003223 RID: 12835
-		public float tendQuality = 0f;
-
-		// Token: 0x04003224 RID: 12836
-		private float totalTendQuality = 0f;
-
-		// Token: 0x04003225 RID: 12837
-		public const float TendQualityRandomVariance = 0.25f;
-
-		// Token: 0x04003226 RID: 12838
-		private static readonly Color UntendedColor;
-
-		// Token: 0x04003227 RID: 12839
-		private static readonly Texture2D TendedIcon_Need_General;
-
-		// Token: 0x04003228 RID: 12840
-		private static readonly Texture2D TendedIcon_Well_General;
-
-		// Token: 0x04003229 RID: 12841
-		private static readonly Texture2D TendedIcon_Well_Injury;
 	}
 }

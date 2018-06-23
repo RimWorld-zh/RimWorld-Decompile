@@ -8,6 +8,18 @@ namespace RimWorld
 	// Token: 0x0200006C RID: 108
 	public class JobDriver_HaulCorpseToPublicPlace : JobDriver
 	{
+		// Token: 0x0400020F RID: 527
+		private const TargetIndex CorpseInd = TargetIndex.A;
+
+		// Token: 0x04000210 RID: 528
+		private const TargetIndex GraveInd = TargetIndex.B;
+
+		// Token: 0x04000211 RID: 529
+		private const TargetIndex CellInd = TargetIndex.C;
+
+		// Token: 0x04000212 RID: 530
+		private static List<IntVec3> tmpCells = new List<IntVec3>();
+
 		// Token: 0x17000099 RID: 153
 		// (get) Token: 0x060002F3 RID: 755 RVA: 0x0001FF7C File Offset: 0x0001E37C
 		private Corpse Corpse
@@ -173,17 +185,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x0400020F RID: 527
-		private const TargetIndex CorpseInd = TargetIndex.A;
-
-		// Token: 0x04000210 RID: 528
-		private const TargetIndex GraveInd = TargetIndex.B;
-
-		// Token: 0x04000211 RID: 529
-		private const TargetIndex CellInd = TargetIndex.C;
-
-		// Token: 0x04000212 RID: 530
-		private static List<IntVec3> tmpCells = new List<IntVec3>();
 	}
 }

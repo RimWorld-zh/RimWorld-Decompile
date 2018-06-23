@@ -6,78 +6,6 @@ namespace RimWorld
 	// Token: 0x020006E7 RID: 1767
 	public static class SkyfallerShrapnelUtility
 	{
-		// Token: 0x06002688 RID: 9864 RVA: 0x0014A0DC File Offset: 0x001484DC
-		public static void MakeShrapnel(IntVec3 center, Map map, float angle, float distanceFactor, int metalShrapnelCount, int rubbleShrapnelCount, bool spawnMotes)
-		{
-			angle -= 90f;
-			SkyfallerShrapnelUtility.SpawnShrapnel(ThingDefOf.ChunkSlagSteel, metalShrapnelCount, center, map, angle, distanceFactor);
-			SkyfallerShrapnelUtility.SpawnShrapnel(ThingDefOf.Filth_RubbleBuilding, rubbleShrapnelCount, center, map, angle, distanceFactor);
-			if (spawnMotes)
-			{
-				SkyfallerShrapnelUtility.ThrowShrapnelMotes((metalShrapnelCount + rubbleShrapnelCount) * 2, center, map, angle, distanceFactor);
-			}
-		}
-
-		// Token: 0x06002689 RID: 9865 RVA: 0x0014A12C File Offset: 0x0014852C
-		private static void SpawnShrapnel(ThingDef def, int quantity, IntVec3 center, Map map, float angle, float distanceFactor)
-		{
-			for (int i = 0; i < quantity; i++)
-			{
-				IntVec3 intVec = SkyfallerShrapnelUtility.GenerateShrapnelLocation(center, angle, distanceFactor);
-				if (SkyfallerShrapnelUtility.IsGoodShrapnelCell(intVec, map))
-				{
-					if (def.category != ThingCategory.Item || intVec.GetFirstItem(map) == null)
-					{
-						if (intVec.GetFirstThing(map, def) == null)
-						{
-							GenSpawn.Spawn(def, intVec, map, WipeMode.Vanish);
-						}
-					}
-				}
-			}
-		}
-
-		// Token: 0x0600268A RID: 9866 RVA: 0x0014A1A4 File Offset: 0x001485A4
-		private static void ThrowShrapnelMotes(int count, IntVec3 center, Map map, float angle, float distanceFactor)
-		{
-			for (int i = 0; i < count; i++)
-			{
-				IntVec3 c = SkyfallerShrapnelUtility.GenerateShrapnelLocation(center, angle, distanceFactor);
-				if (SkyfallerShrapnelUtility.IsGoodShrapnelCell(c, map))
-				{
-					MoteMaker.ThrowDustPuff(c.ToVector3Shifted() + Gen.RandomHorizontalVector(0.5f), map, 2f);
-				}
-			}
-		}
-
-		// Token: 0x0600268B RID: 9867 RVA: 0x0014A204 File Offset: 0x00148604
-		private static bool IsGoodShrapnelCell(IntVec3 c, Map map)
-		{
-			bool result;
-			if (!c.InBounds(map))
-			{
-				result = false;
-			}
-			else if (c.Impassable(map) || c.Filled(map))
-			{
-				result = false;
-			}
-			else
-			{
-				RoofDef roofDef = map.roofGrid.RoofAt(c);
-				result = (roofDef == null);
-			}
-			return result;
-		}
-
-		// Token: 0x0600268C RID: 9868 RVA: 0x0014A268 File Offset: 0x00148668
-		private static IntVec3 GenerateShrapnelLocation(IntVec3 center, float angleOffset, float distanceFactor)
-		{
-			float num = SkyfallerShrapnelUtility.ShrapnelAngleDistribution.Evaluate(Rand.Value);
-			float d = SkyfallerShrapnelUtility.ShrapnelDistanceFromAngle.Evaluate(num) * Rand.Value * distanceFactor;
-			return (Vector3Utility.HorizontalVectorFromAngle(num + angleOffset) * d).ToIntVec3() + center;
-		}
-
 		// Token: 0x04001574 RID: 5492
 		private const float ShrapnelDistanceFront = 6f;
 
@@ -155,5 +83,77 @@ namespace RimWorld
 				true
 			}
 		};
+
+		// Token: 0x06002688 RID: 9864 RVA: 0x0014A0DC File Offset: 0x001484DC
+		public static void MakeShrapnel(IntVec3 center, Map map, float angle, float distanceFactor, int metalShrapnelCount, int rubbleShrapnelCount, bool spawnMotes)
+		{
+			angle -= 90f;
+			SkyfallerShrapnelUtility.SpawnShrapnel(ThingDefOf.ChunkSlagSteel, metalShrapnelCount, center, map, angle, distanceFactor);
+			SkyfallerShrapnelUtility.SpawnShrapnel(ThingDefOf.Filth_RubbleBuilding, rubbleShrapnelCount, center, map, angle, distanceFactor);
+			if (spawnMotes)
+			{
+				SkyfallerShrapnelUtility.ThrowShrapnelMotes((metalShrapnelCount + rubbleShrapnelCount) * 2, center, map, angle, distanceFactor);
+			}
+		}
+
+		// Token: 0x06002689 RID: 9865 RVA: 0x0014A12C File Offset: 0x0014852C
+		private static void SpawnShrapnel(ThingDef def, int quantity, IntVec3 center, Map map, float angle, float distanceFactor)
+		{
+			for (int i = 0; i < quantity; i++)
+			{
+				IntVec3 intVec = SkyfallerShrapnelUtility.GenerateShrapnelLocation(center, angle, distanceFactor);
+				if (SkyfallerShrapnelUtility.IsGoodShrapnelCell(intVec, map))
+				{
+					if (def.category != ThingCategory.Item || intVec.GetFirstItem(map) == null)
+					{
+						if (intVec.GetFirstThing(map, def) == null)
+						{
+							GenSpawn.Spawn(def, intVec, map, WipeMode.Vanish);
+						}
+					}
+				}
+			}
+		}
+
+		// Token: 0x0600268A RID: 9866 RVA: 0x0014A1A4 File Offset: 0x001485A4
+		private static void ThrowShrapnelMotes(int count, IntVec3 center, Map map, float angle, float distanceFactor)
+		{
+			for (int i = 0; i < count; i++)
+			{
+				IntVec3 c = SkyfallerShrapnelUtility.GenerateShrapnelLocation(center, angle, distanceFactor);
+				if (SkyfallerShrapnelUtility.IsGoodShrapnelCell(c, map))
+				{
+					MoteMaker.ThrowDustPuff(c.ToVector3Shifted() + Gen.RandomHorizontalVector(0.5f), map, 2f);
+				}
+			}
+		}
+
+		// Token: 0x0600268B RID: 9867 RVA: 0x0014A204 File Offset: 0x00148604
+		private static bool IsGoodShrapnelCell(IntVec3 c, Map map)
+		{
+			bool result;
+			if (!c.InBounds(map))
+			{
+				result = false;
+			}
+			else if (c.Impassable(map) || c.Filled(map))
+			{
+				result = false;
+			}
+			else
+			{
+				RoofDef roofDef = map.roofGrid.RoofAt(c);
+				result = (roofDef == null);
+			}
+			return result;
+		}
+
+		// Token: 0x0600268C RID: 9868 RVA: 0x0014A268 File Offset: 0x00148668
+		private static IntVec3 GenerateShrapnelLocation(IntVec3 center, float angleOffset, float distanceFactor)
+		{
+			float num = SkyfallerShrapnelUtility.ShrapnelAngleDistribution.Evaluate(Rand.Value);
+			float d = SkyfallerShrapnelUtility.ShrapnelDistanceFromAngle.Evaluate(num) * Rand.Value * distanceFactor;
+			return (Vector3Utility.HorizontalVectorFromAngle(num + angleOffset) * d).ToIntVec3() + center;
+		}
 	}
 }

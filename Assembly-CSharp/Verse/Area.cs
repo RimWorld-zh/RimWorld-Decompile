@@ -7,6 +7,21 @@ namespace Verse
 	// Token: 0x02000BFB RID: 3067
 	public abstract class Area : IExposable, ILoadReferenceable, ICellBoolGiver
 	{
+		// Token: 0x04002DE1 RID: 11745
+		public AreaManager areaManager;
+
+		// Token: 0x04002DE2 RID: 11746
+		public int ID = -1;
+
+		// Token: 0x04002DE3 RID: 11747
+		private BoolGrid innerGrid;
+
+		// Token: 0x04002DE4 RID: 11748
+		private CellBoolDrawer drawer;
+
+		// Token: 0x04002DE5 RID: 11749
+		private Texture2D colorTextureInt;
+
 		// Token: 0x060042FF RID: 17151 RVA: 0x00082EA1 File Offset: 0x000812A1
 		public Area()
 		{
@@ -209,20 +224,5 @@ namespace Verse
 
 		// Token: 0x06004319 RID: 17177
 		public abstract string GetUniqueLoadID();
-
-		// Token: 0x04002DE1 RID: 11745
-		public AreaManager areaManager;
-
-		// Token: 0x04002DE2 RID: 11746
-		public int ID = -1;
-
-		// Token: 0x04002DE3 RID: 11747
-		private BoolGrid innerGrid;
-
-		// Token: 0x04002DE4 RID: 11748
-		private CellBoolDrawer drawer;
-
-		// Token: 0x04002DE5 RID: 11749
-		private Texture2D colorTextureInt;
 	}
 }

@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x0200024C RID: 588
 	public class CompProperties_OrbitalBeam : CompProperties
 	{
+		// Token: 0x04000499 RID: 1177
+		public float width = 8f;
+
+		// Token: 0x0400049A RID: 1178
+		public Color color = Color.white;
+
+		// Token: 0x0400049B RID: 1179
+		public SoundDef sound;
+
 		// Token: 0x06000A80 RID: 2688 RVA: 0x0005F3AE File Offset: 0x0005D7AE
 		public CompProperties_OrbitalBeam()
 		{
@@ -27,14 +36,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04000499 RID: 1177
-		public float width = 8f;
-
-		// Token: 0x0400049A RID: 1178
-		public Color color = Color.white;
-
-		// Token: 0x0400049B RID: 1179
-		public SoundDef sound;
 	}
 }

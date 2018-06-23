@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x0200047B RID: 1147
 	public struct IndividualThoughtToAdd
 	{
+		// Token: 0x04000C04 RID: 3076
+		public Thought_Memory thought;
+
+		// Token: 0x04000C05 RID: 3077
+		public Pawn addTo;
+
+		// Token: 0x04000C06 RID: 3078
+		private Pawn otherPawn;
+
 		// Token: 0x06001420 RID: 5152 RVA: 0x000AF388 File Offset: 0x000AD788
 		public IndividualThoughtToAdd(ThoughtDef thoughtDef, Pawn addTo, Pawn otherPawn = null, float moodPowerFactor = 1f, float opinionOffsetFactor = 1f)
 		{
@@ -46,14 +55,5 @@ namespace RimWorld
 				this.addTo.needs.mood.thoughts.memories.TryGainMemory(this.thought, this.otherPawn);
 			}
 		}
-
-		// Token: 0x04000C04 RID: 3076
-		public Thought_Memory thought;
-
-		// Token: 0x04000C05 RID: 3077
-		public Pawn addTo;
-
-		// Token: 0x04000C06 RID: 3078
-		private Pawn otherPawn;
 	}
 }

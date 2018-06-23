@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class MapGeneratorDefOf
 	{
-		// Token: 0x06003653 RID: 13907 RVA: 0x001D0C93 File Offset: 0x001CF093
-		static MapGeneratorDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(MapGeneratorDefOf));
-		}
-
 		// Token: 0x0400226F RID: 8815
 		public static MapGeneratorDef Encounter;
 
@@ -24,5 +18,11 @@ namespace RimWorld
 
 		// Token: 0x04002272 RID: 8818
 		public static MapGeneratorDef EscapeShip;
+
+		// Token: 0x06003653 RID: 13907 RVA: 0x001D0C93 File Offset: 0x001CF093
+		static MapGeneratorDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(MapGeneratorDefOf));
+		}
 	}
 }

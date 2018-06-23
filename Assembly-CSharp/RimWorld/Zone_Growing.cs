@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x02000454 RID: 1108
 	public class Zone_Growing : Zone, IPlantToGrowSettable
 	{
+		// Token: 0x04000BD2 RID: 3026
+		private ThingDef plantDefToGrow = ThingDefOf.Plant_Potato;
+
+		// Token: 0x04000BD3 RID: 3027
+		public bool allowSow = true;
+
 		// Token: 0x06001364 RID: 4964 RVA: 0x000A80BE File Offset: 0x000A64BE
 		public Zone_Growing()
 		{
@@ -158,11 +164,5 @@ namespace RimWorld
 		{
 			return true;
 		}
-
-		// Token: 0x04000BD2 RID: 3026
-		private ThingDef plantDefToGrow = ThingDefOf.Plant_Potato;
-
-		// Token: 0x04000BD3 RID: 3027
-		public bool allowSow = true;
 	}
 }

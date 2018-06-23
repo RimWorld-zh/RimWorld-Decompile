@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020002CF RID: 719
 	public class SiteCoreWorker : SiteWorkerBase
 	{
+		// Token: 0x04000721 RID: 1825
+		public static readonly IntVec3 MapSize = new IntVec3(120, 1, 120);
+
 		// Token: 0x170001C3 RID: 451
 		// (get) Token: 0x06000BE0 RID: 3040 RVA: 0x00069EDC File Offset: 0x000682DC
 		public SiteCoreDef Def
@@ -95,8 +98,5 @@ namespace RimWorld
 			bool draftColonists = flag;
 			CaravanEnterMapUtility.Enter(caravan, map, enterMode, CaravanDropInventoryMode.DoNotDrop, draftColonists, null);
 		}
-
-		// Token: 0x04000721 RID: 1825
-		public static readonly IntVec3 MapSize = new IntVec3(120, 1, 120);
 	}
 }

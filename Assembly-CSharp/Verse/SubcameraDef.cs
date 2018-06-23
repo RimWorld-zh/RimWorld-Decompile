@@ -6,6 +6,20 @@ namespace Verse
 	// Token: 0x02000BA0 RID: 2976
 	public class SubcameraDef : Def
 	{
+		// Token: 0x04002B5F RID: 11103
+		[NoTranslate]
+		public string layer;
+
+		// Token: 0x04002B60 RID: 11104
+		public int depth;
+
+		// Token: 0x04002B61 RID: 11105
+		public RenderTextureFormat format;
+
+		// Token: 0x04002B62 RID: 11106
+		[Unsaved]
+		private int layerCached = -1;
+
 		// Token: 0x170009DA RID: 2522
 		// (get) Token: 0x0600406D RID: 16493 RVA: 0x0021DD9C File Offset: 0x0021C19C
 		public int LayerId
@@ -54,19 +68,5 @@ namespace Verse
 				return result;
 			}
 		}
-
-		// Token: 0x04002B5F RID: 11103
-		[NoTranslate]
-		public string layer;
-
-		// Token: 0x04002B60 RID: 11104
-		public int depth;
-
-		// Token: 0x04002B61 RID: 11105
-		public RenderTextureFormat format;
-
-		// Token: 0x04002B62 RID: 11106
-		[Unsaved]
-		private int layerCached = -1;
 	}
 }

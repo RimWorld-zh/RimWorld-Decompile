@@ -5,6 +5,18 @@ namespace Verse.Noise
 	// Token: 0x02000F7E RID: 3966
 	public class Voronoi : ModuleBase
 	{
+		// Token: 0x04003EEA RID: 16106
+		private double m_displacement = 1.0;
+
+		// Token: 0x04003EEB RID: 16107
+		private double m_frequency = 1.0;
+
+		// Token: 0x04003EEC RID: 16108
+		private int m_seed = 0;
+
+		// Token: 0x04003EED RID: 16109
+		private bool m_distance = false;
+
 		// Token: 0x06005FC9 RID: 24521 RVA: 0x0030BC20 File Offset: 0x0030A020
 		public Voronoi() : base(0)
 		{
@@ -130,17 +142,5 @@ namespace Verse.Noise
 			}
 			return num18 + this.m_displacement * Utils.ValueNoise3D((int)Math.Floor(num5), (int)Math.Floor(num6), (int)Math.Floor(num7), 0);
 		}
-
-		// Token: 0x04003EEA RID: 16106
-		private double m_displacement = 1.0;
-
-		// Token: 0x04003EEB RID: 16107
-		private double m_frequency = 1.0;
-
-		// Token: 0x04003EEC RID: 16108
-		private int m_seed = 0;
-
-		// Token: 0x04003EED RID: 16109
-		private bool m_distance = false;
 	}
 }

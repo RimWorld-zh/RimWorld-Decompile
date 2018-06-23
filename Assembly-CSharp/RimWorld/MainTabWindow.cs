@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020002AE RID: 686
 	public abstract class MainTabWindow : Window
 	{
+		// Token: 0x04000686 RID: 1670
+		public MainButtonDef def;
+
 		// Token: 0x06000B7C RID: 2940 RVA: 0x00067DF0 File Offset: 0x000661F0
 		public MainTabWindow()
 		{
@@ -77,8 +80,5 @@ namespace RimWorld
 			}
 			this.windowRect.y = (float)(UI.screenHeight - 35) - this.windowRect.height;
 		}
-
-		// Token: 0x04000686 RID: 1670
-		public MainButtonDef def;
 	}
 }

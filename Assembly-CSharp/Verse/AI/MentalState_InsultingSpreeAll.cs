@@ -8,6 +8,18 @@ namespace Verse.AI
 	// Token: 0x02000A6D RID: 2669
 	public class MentalState_InsultingSpreeAll : MentalState_InsultingSpree
 	{
+		// Token: 0x04002560 RID: 9568
+		private int targetFoundTicks;
+
+		// Token: 0x04002561 RID: 9569
+		private const int CheckChooseNewTargetIntervalTicks = 250;
+
+		// Token: 0x04002562 RID: 9570
+		private const int MaxSameTargetChaseTicks = 1250;
+
+		// Token: 0x04002563 RID: 9571
+		private static List<Pawn> candidates = new List<Pawn>();
+
 		// Token: 0x06003B4E RID: 15182 RVA: 0x001F7126 File Offset: 0x001F5526
 		public override void ExposeData()
 		{
@@ -75,17 +87,5 @@ namespace Verse.AI
 			float num2 = Mathf.Min(num / 40f, 1f);
 			return 1f - num2 + 0.01f;
 		}
-
-		// Token: 0x04002560 RID: 9568
-		private int targetFoundTicks;
-
-		// Token: 0x04002561 RID: 9569
-		private const int CheckChooseNewTargetIntervalTicks = 250;
-
-		// Token: 0x04002562 RID: 9570
-		private const int MaxSameTargetChaseTicks = 1250;
-
-		// Token: 0x04002563 RID: 9571
-		private static List<Pawn> candidates = new List<Pawn>();
 	}
 }

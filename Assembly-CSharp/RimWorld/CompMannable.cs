@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x0200071D RID: 1821
 	public class CompMannable : ThingComp
 	{
+		// Token: 0x040015F9 RID: 5625
+		private int lastManTick = -1;
+
+		// Token: 0x040015FA RID: 5626
+		private Pawn lastManPawn = null;
+
 		// Token: 0x17000622 RID: 1570
 		// (get) Token: 0x0600282C RID: 10284 RVA: 0x0015762C File Offset: 0x00155A2C
 		public bool MannedNow
@@ -91,11 +97,5 @@ namespace RimWorld
 			yield return opt;
 			yield break;
 		}
-
-		// Token: 0x040015F9 RID: 5625
-		private int lastManTick = -1;
-
-		// Token: 0x040015FA RID: 5626
-		private Pawn lastManPawn = null;
 	}
 }

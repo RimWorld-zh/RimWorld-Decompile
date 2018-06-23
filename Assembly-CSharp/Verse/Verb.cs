@@ -11,6 +11,63 @@ namespace Verse
 	// Token: 0x02000FD1 RID: 4049
 	public abstract class Verb : IExposable, ILoadReferenceable
 	{
+		// Token: 0x04004008 RID: 16392
+		public VerbProperties verbProps;
+
+		// Token: 0x04004009 RID: 16393
+		public Thing caster = null;
+
+		// Token: 0x0400400A RID: 16394
+		public ThingWithComps ownerEquipment = null;
+
+		// Token: 0x0400400B RID: 16395
+		public HediffComp_VerbGiver ownerHediffComp = null;
+
+		// Token: 0x0400400C RID: 16396
+		public ImplementOwnerTypeDef implementOwnerType = null;
+
+		// Token: 0x0400400D RID: 16397
+		public Tool tool = null;
+
+		// Token: 0x0400400E RID: 16398
+		public ManeuverDef maneuver = null;
+
+		// Token: 0x0400400F RID: 16399
+		public TerrainDef terrainDef = null;
+
+		// Token: 0x04004010 RID: 16400
+		public string loadID;
+
+		// Token: 0x04004011 RID: 16401
+		public VerbState state = VerbState.Idle;
+
+		// Token: 0x04004012 RID: 16402
+		protected LocalTargetInfo currentTarget;
+
+		// Token: 0x04004013 RID: 16403
+		protected int burstShotsLeft;
+
+		// Token: 0x04004014 RID: 16404
+		protected int ticksToNextBurstShot;
+
+		// Token: 0x04004015 RID: 16405
+		protected bool surpriseAttack;
+
+		// Token: 0x04004016 RID: 16406
+		protected bool canHitNonTargetPawnsNow = true;
+
+		// Token: 0x04004017 RID: 16407
+		public Action castCompleteCallback;
+
+		// Token: 0x04004018 RID: 16408
+		private const float MinLinkedBodyPartGroupEfficiencyIfMustBeAlwaysUsable = 0.4f;
+
+		// Token: 0x04004019 RID: 16409
+		private static List<IntVec3> tempLeanShootSources = new List<IntVec3>();
+
+		// Token: 0x0400401A RID: 16410
+		private static List<IntVec3> tempDestList = new List<IntVec3>();
+
 		// Token: 0x17000FDF RID: 4063
 		// (get) Token: 0x060061F1 RID: 25073 RVA: 0x001E095C File Offset: 0x001DED5C
 		public Pawn CasterPawn
@@ -660,62 +717,5 @@ namespace Verse
 			}
 			return base.GetType().ToString() + "(" + text + ")";
 		}
-
-		// Token: 0x04004008 RID: 16392
-		public VerbProperties verbProps;
-
-		// Token: 0x04004009 RID: 16393
-		public Thing caster = null;
-
-		// Token: 0x0400400A RID: 16394
-		public ThingWithComps ownerEquipment = null;
-
-		// Token: 0x0400400B RID: 16395
-		public HediffComp_VerbGiver ownerHediffComp = null;
-
-		// Token: 0x0400400C RID: 16396
-		public ImplementOwnerTypeDef implementOwnerType = null;
-
-		// Token: 0x0400400D RID: 16397
-		public Tool tool = null;
-
-		// Token: 0x0400400E RID: 16398
-		public ManeuverDef maneuver = null;
-
-		// Token: 0x0400400F RID: 16399
-		public TerrainDef terrainDef = null;
-
-		// Token: 0x04004010 RID: 16400
-		public string loadID;
-
-		// Token: 0x04004011 RID: 16401
-		public VerbState state = VerbState.Idle;
-
-		// Token: 0x04004012 RID: 16402
-		protected LocalTargetInfo currentTarget;
-
-		// Token: 0x04004013 RID: 16403
-		protected int burstShotsLeft;
-
-		// Token: 0x04004014 RID: 16404
-		protected int ticksToNextBurstShot;
-
-		// Token: 0x04004015 RID: 16405
-		protected bool surpriseAttack;
-
-		// Token: 0x04004016 RID: 16406
-		protected bool canHitNonTargetPawnsNow = true;
-
-		// Token: 0x04004017 RID: 16407
-		public Action castCompleteCallback;
-
-		// Token: 0x04004018 RID: 16408
-		private const float MinLinkedBodyPartGroupEfficiencyIfMustBeAlwaysUsable = 0.4f;
-
-		// Token: 0x04004019 RID: 16409
-		private static List<IntVec3> tempLeanShootSources = new List<IntVec3>();
-
-		// Token: 0x0400401A RID: 16410
-		private static List<IntVec3> tempDestList = new List<IntVec3>();
 	}
 }

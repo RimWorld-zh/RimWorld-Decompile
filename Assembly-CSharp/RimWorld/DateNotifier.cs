@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020002F0 RID: 752
 	public class DateNotifier : IExposable
 	{
+		// Token: 0x0400082C RID: 2092
+		private Season lastSeason = Season.Undefined;
+
 		// Token: 0x06000C74 RID: 3188 RVA: 0x0006EAAD File Offset: 0x0006CEAD
 		public void ExposeData()
 		{
@@ -88,8 +91,5 @@ namespace RimWorld
 			}
 			return false;
 		}
-
-		// Token: 0x0400082C RID: 2092
-		private Season lastSeason = Season.Undefined;
 	}
 }

@@ -7,6 +7,27 @@ namespace Verse
 	// Token: 0x02000D71 RID: 3441
 	public struct MaterialRequest : IEquatable<MaterialRequest>
 	{
+		// Token: 0x04003377 RID: 13175
+		public Shader shader;
+
+		// Token: 0x04003378 RID: 13176
+		public Texture2D mainTex;
+
+		// Token: 0x04003379 RID: 13177
+		public Color color;
+
+		// Token: 0x0400337A RID: 13178
+		public Color colorTwo;
+
+		// Token: 0x0400337B RID: 13179
+		public Texture2D maskTex;
+
+		// Token: 0x0400337C RID: 13180
+		public int renderQueue;
+
+		// Token: 0x0400337D RID: 13181
+		public List<ShaderParameter> shaderParameters;
+
 		// Token: 0x06004D2F RID: 19759 RVA: 0x002837D9 File Offset: 0x00281BD9
 		public MaterialRequest(Texture2D tex)
 		{
@@ -110,26 +131,5 @@ namespace Verse
 				")"
 			});
 		}
-
-		// Token: 0x04003377 RID: 13175
-		public Shader shader;
-
-		// Token: 0x04003378 RID: 13176
-		public Texture2D mainTex;
-
-		// Token: 0x04003379 RID: 13177
-		public Color color;
-
-		// Token: 0x0400337A RID: 13178
-		public Color colorTwo;
-
-		// Token: 0x0400337B RID: 13179
-		public Texture2D maskTex;
-
-		// Token: 0x0400337C RID: 13180
-		public int renderQueue;
-
-		// Token: 0x0400337D RID: 13181
-		public List<ShaderParameter> shaderParameters;
 	}
 }

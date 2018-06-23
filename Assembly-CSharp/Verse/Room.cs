@@ -9,6 +9,78 @@ namespace Verse
 	// Token: 0x02000C96 RID: 3222
 	public sealed class Room
 	{
+		// Token: 0x04003028 RID: 12328
+		public sbyte mapIndex = -1;
+
+		// Token: 0x04003029 RID: 12329
+		private RoomGroup groupInt;
+
+		// Token: 0x0400302A RID: 12330
+		private List<Region> regions = new List<Region>();
+
+		// Token: 0x0400302B RID: 12331
+		public int ID = -16161616;
+
+		// Token: 0x0400302C RID: 12332
+		public int lastChangeTick = -1;
+
+		// Token: 0x0400302D RID: 12333
+		private int numRegionsTouchingMapEdge;
+
+		// Token: 0x0400302E RID: 12334
+		private int cachedOpenRoofCount = -1;
+
+		// Token: 0x0400302F RID: 12335
+		private IEnumerator<IntVec3> cachedOpenRoofState = null;
+
+		// Token: 0x04003030 RID: 12336
+		public bool isPrisonCell;
+
+		// Token: 0x04003031 RID: 12337
+		private int cachedCellCount = -1;
+
+		// Token: 0x04003032 RID: 12338
+		private bool statsAndRoleDirty = true;
+
+		// Token: 0x04003033 RID: 12339
+		private DefMap<RoomStatDef, float> stats = new DefMap<RoomStatDef, float>();
+
+		// Token: 0x04003034 RID: 12340
+		private RoomRoleDef role;
+
+		// Token: 0x04003035 RID: 12341
+		public int newOrReusedRoomGroupIndex = -1;
+
+		// Token: 0x04003036 RID: 12342
+		private static int nextRoomID;
+
+		// Token: 0x04003037 RID: 12343
+		private const int RegionCountHuge = 60;
+
+		// Token: 0x04003038 RID: 12344
+		private const int MaxRegionsToAssignRoomRole = 36;
+
+		// Token: 0x04003039 RID: 12345
+		private static readonly Color PrisonFieldColor = new Color(1f, 0.7f, 0.2f);
+
+		// Token: 0x0400303A RID: 12346
+		private static readonly Color NonPrisonFieldColor = new Color(0.3f, 0.3f, 1f);
+
+		// Token: 0x0400303B RID: 12347
+		private HashSet<Room> uniqueNeighborsSet = new HashSet<Room>();
+
+		// Token: 0x0400303C RID: 12348
+		private List<Room> uniqueNeighbors = new List<Room>();
+
+		// Token: 0x0400303D RID: 12349
+		private HashSet<Thing> uniqueContainedThingsSet = new HashSet<Thing>();
+
+		// Token: 0x0400303E RID: 12350
+		private List<Thing> uniqueContainedThings = new List<Thing>();
+
+		// Token: 0x0400303F RID: 12351
+		private static List<IntVec3> fields = new List<IntVec3>();
+
 		// Token: 0x17000B21 RID: 2849
 		// (get) Token: 0x060046BF RID: 18111 RVA: 0x00255278 File Offset: 0x00253678
 		public Map Map
@@ -676,77 +748,5 @@ namespace Verse
 		{
 			return Gen.HashCombineInt(this.ID, 1538478890);
 		}
-
-		// Token: 0x04003028 RID: 12328
-		public sbyte mapIndex = -1;
-
-		// Token: 0x04003029 RID: 12329
-		private RoomGroup groupInt;
-
-		// Token: 0x0400302A RID: 12330
-		private List<Region> regions = new List<Region>();
-
-		// Token: 0x0400302B RID: 12331
-		public int ID = -16161616;
-
-		// Token: 0x0400302C RID: 12332
-		public int lastChangeTick = -1;
-
-		// Token: 0x0400302D RID: 12333
-		private int numRegionsTouchingMapEdge;
-
-		// Token: 0x0400302E RID: 12334
-		private int cachedOpenRoofCount = -1;
-
-		// Token: 0x0400302F RID: 12335
-		private IEnumerator<IntVec3> cachedOpenRoofState = null;
-
-		// Token: 0x04003030 RID: 12336
-		public bool isPrisonCell;
-
-		// Token: 0x04003031 RID: 12337
-		private int cachedCellCount = -1;
-
-		// Token: 0x04003032 RID: 12338
-		private bool statsAndRoleDirty = true;
-
-		// Token: 0x04003033 RID: 12339
-		private DefMap<RoomStatDef, float> stats = new DefMap<RoomStatDef, float>();
-
-		// Token: 0x04003034 RID: 12340
-		private RoomRoleDef role;
-
-		// Token: 0x04003035 RID: 12341
-		public int newOrReusedRoomGroupIndex = -1;
-
-		// Token: 0x04003036 RID: 12342
-		private static int nextRoomID;
-
-		// Token: 0x04003037 RID: 12343
-		private const int RegionCountHuge = 60;
-
-		// Token: 0x04003038 RID: 12344
-		private const int MaxRegionsToAssignRoomRole = 36;
-
-		// Token: 0x04003039 RID: 12345
-		private static readonly Color PrisonFieldColor = new Color(1f, 0.7f, 0.2f);
-
-		// Token: 0x0400303A RID: 12346
-		private static readonly Color NonPrisonFieldColor = new Color(0.3f, 0.3f, 1f);
-
-		// Token: 0x0400303B RID: 12347
-		private HashSet<Room> uniqueNeighborsSet = new HashSet<Room>();
-
-		// Token: 0x0400303C RID: 12348
-		private List<Room> uniqueNeighbors = new List<Room>();
-
-		// Token: 0x0400303D RID: 12349
-		private HashSet<Thing> uniqueContainedThingsSet = new HashSet<Thing>();
-
-		// Token: 0x0400303E RID: 12350
-		private List<Thing> uniqueContainedThings = new List<Thing>();
-
-		// Token: 0x0400303F RID: 12351
-		private static List<IntVec3> fields = new List<IntVec3>();
 	}
 }

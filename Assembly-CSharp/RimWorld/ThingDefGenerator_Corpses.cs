@@ -8,6 +8,18 @@ namespace RimWorld
 	// Token: 0x02000238 RID: 568
 	public static class ThingDefGenerator_Corpses
 	{
+		// Token: 0x040003F0 RID: 1008
+		private const float DaysToStartRot = 2.5f;
+
+		// Token: 0x040003F1 RID: 1009
+		private const float DaysToDessicate = 5f;
+
+		// Token: 0x040003F2 RID: 1010
+		private const float RotDamagePerDay = 2f;
+
+		// Token: 0x040003F3 RID: 1011
+		private const float DessicatedDamagePerDay = 0.7f;
+
 		// Token: 0x06000A44 RID: 2628 RVA: 0x0005C6A4 File Offset: 0x0005AAA4
 		public static IEnumerable<ThingDef> ImpliedCorpseDefs()
 		{
@@ -103,17 +115,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x040003F0 RID: 1008
-		private const float DaysToStartRot = 2.5f;
-
-		// Token: 0x040003F1 RID: 1009
-		private const float DaysToDessicate = 5f;
-
-		// Token: 0x040003F2 RID: 1010
-		private const float RotDamagePerDay = 2f;
-
-		// Token: 0x040003F3 RID: 1011
-		private const float DessicatedDamagePerDay = 0.7f;
 	}
 }

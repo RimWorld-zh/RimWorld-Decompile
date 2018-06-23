@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020008BF RID: 2239
 	public abstract class Instruction_ExpandArea : Lesson_Instruction
 	{
+		// Token: 0x04001B96 RID: 7062
+		private int startingAreaCount = -1;
+
 		// Token: 0x17000828 RID: 2088
 		// (get) Token: 0x06003342 RID: 13122
 		protected abstract Area MyArea { get; }
@@ -42,8 +45,5 @@ namespace RimWorld
 				Find.ActiveLesson.Deactivate();
 			}
 		}
-
-		// Token: 0x04001B96 RID: 7062
-		private int startingAreaCount = -1;
 	}
 }

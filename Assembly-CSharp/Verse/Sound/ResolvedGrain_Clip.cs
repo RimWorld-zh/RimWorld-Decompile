@@ -6,6 +6,9 @@ namespace Verse.Sound
 	// Token: 0x02000B78 RID: 2936
 	public class ResolvedGrain_Clip : ResolvedGrain
 	{
+		// Token: 0x04002AED RID: 10989
+		public AudioClip clip;
+
 		// Token: 0x06004004 RID: 16388 RVA: 0x0021BA9C File Offset: 0x00219E9C
 		public ResolvedGrain_Clip(AudioClip clip)
 		{
@@ -49,8 +52,5 @@ namespace Verse.Sound
 			}
 			return result;
 		}
-
-		// Token: 0x04002AED RID: 10989
-		public AudioClip clip;
 	}
 }

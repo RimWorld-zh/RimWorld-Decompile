@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x02000881 RID: 2177
 	public class PawnColumnWorker_CopyPasteTimetable : PawnColumnWorker_CopyPaste
 	{
+		// Token: 0x04001ACC RID: 6860
+		private static List<TimeAssignmentDef> clipboard;
+
 		// Token: 0x170007FF RID: 2047
 		// (get) Token: 0x060031B5 RID: 12725 RVA: 0x001AE744 File Offset: 0x001ACB44
 		protected override bool AnythingInClipboard
@@ -42,8 +45,5 @@ namespace RimWorld
 				p.timetable.times[i] = PawnColumnWorker_CopyPasteTimetable.clipboard[i];
 			}
 		}
-
-		// Token: 0x04001ACC RID: 6860
-		private static List<TimeAssignmentDef> clipboard;
 	}
 }

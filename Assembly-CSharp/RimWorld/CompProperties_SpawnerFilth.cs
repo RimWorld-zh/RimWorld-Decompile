@@ -6,12 +6,6 @@ namespace RimWorld
 	// Token: 0x02000737 RID: 1847
 	public class CompProperties_SpawnerFilth : CompProperties
 	{
-		// Token: 0x060028D2 RID: 10450 RVA: 0x0015C3D0 File Offset: 0x0015A7D0
-		public CompProperties_SpawnerFilth()
-		{
-			this.compClass = typeof(CompSpawnerFilth);
-		}
-
 		// Token: 0x04001654 RID: 5716
 		public ThingDef filthDef = null;
 
@@ -29,5 +23,11 @@ namespace RimWorld
 
 		// Token: 0x04001659 RID: 5721
 		public RotStage? requiredRotStage;
+
+		// Token: 0x060028D2 RID: 10450 RVA: 0x0015C3D0 File Offset: 0x0015A7D0
+		public CompProperties_SpawnerFilth()
+		{
+			this.compClass = typeof(CompSpawnerFilth);
+		}
 	}
 }

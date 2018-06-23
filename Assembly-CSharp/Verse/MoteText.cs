@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000DEB RID: 3563
 	public class MoteText : MoteThrown
 	{
+		// Token: 0x040034F3 RID: 13555
+		public string text;
+
+		// Token: 0x040034F4 RID: 13556
+		public Color textColor = Color.white;
+
+		// Token: 0x040034F5 RID: 13557
+		public float overrideTimeBeforeStartFadeout = -1f;
+
 		// Token: 0x17000CFB RID: 3323
 		// (get) Token: 0x06004FE7 RID: 20455 RVA: 0x00297CA8 File Offset: 0x002960A8
 		protected float TimeBeforeStartFadeout
@@ -38,14 +47,5 @@ namespace Verse
 			Color color = new Color(this.textColor.r, this.textColor.g, this.textColor.b, a);
 			GenMapUI.DrawText(new Vector2(this.exactPosition.x, this.exactPosition.z), this.text, color);
 		}
-
-		// Token: 0x040034F3 RID: 13555
-		public string text;
-
-		// Token: 0x040034F4 RID: 13556
-		public Color textColor = Color.white;
-
-		// Token: 0x040034F5 RID: 13557
-		public float overrideTimeBeforeStartFadeout = -1f;
 	}
 }

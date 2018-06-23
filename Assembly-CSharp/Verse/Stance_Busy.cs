@@ -5,6 +5,21 @@ namespace Verse
 	// Token: 0x02000D5D RID: 3421
 	public abstract class Stance_Busy : Stance
 	{
+		// Token: 0x0400332B RID: 13099
+		public int ticksLeft = 0;
+
+		// Token: 0x0400332C RID: 13100
+		public Verb verb;
+
+		// Token: 0x0400332D RID: 13101
+		public LocalTargetInfo focusTarg;
+
+		// Token: 0x0400332E RID: 13102
+		public bool neverAimWeapon = false;
+
+		// Token: 0x0400332F RID: 13103
+		protected float pieSizeFactor = 1f;
+
 		// Token: 0x06004CBA RID: 19642 RVA: 0x0027FED5 File Offset: 0x0027E2D5
 		public Stance_Busy()
 		{
@@ -83,20 +98,5 @@ namespace Verse
 				this.stanceTracker.SetStance(new Stance_Mobile());
 			}
 		}
-
-		// Token: 0x0400332B RID: 13099
-		public int ticksLeft = 0;
-
-		// Token: 0x0400332C RID: 13100
-		public Verb verb;
-
-		// Token: 0x0400332D RID: 13101
-		public LocalTargetInfo focusTarg;
-
-		// Token: 0x0400332E RID: 13102
-		public bool neverAimWeapon = false;
-
-		// Token: 0x0400332F RID: 13103
-		protected float pieSizeFactor = 1f;
 	}
 }

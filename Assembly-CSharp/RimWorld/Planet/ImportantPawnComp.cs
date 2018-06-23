@@ -7,6 +7,12 @@ namespace RimWorld.Planet
 	// Token: 0x02000620 RID: 1568
 	public abstract class ImportantPawnComp : WorldObjectComp, IThingHolder
 	{
+		// Token: 0x0400126B RID: 4715
+		public ThingOwner<Pawn> pawn;
+
+		// Token: 0x0400126C RID: 4716
+		private const float AutoFoodLevel = 0.8f;
+
 		// Token: 0x06001FE2 RID: 8162 RVA: 0x001121E6 File Offset: 0x001105E6
 		public ImportantPawnComp()
 		{
@@ -75,11 +81,5 @@ namespace RimWorld.Planet
 
 		// Token: 0x06001FE9 RID: 8169
 		protected abstract void RemovePawnOnWorldObjectRemoved();
-
-		// Token: 0x0400126B RID: 4715
-		public ThingOwner<Pawn> pawn;
-
-		// Token: 0x0400126C RID: 4716
-		private const float AutoFoodLevel = 0.8f;
 	}
 }

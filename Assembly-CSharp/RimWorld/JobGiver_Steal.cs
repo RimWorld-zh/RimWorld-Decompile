@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x020000D9 RID: 217
 	public class JobGiver_Steal : ThinkNode_JobGiver
 	{
+		// Token: 0x040002A8 RID: 680
+		public const float ItemsSearchRadiusInitial = 7f;
+
+		// Token: 0x040002A9 RID: 681
+		private const float ItemsSearchRadiusOngoing = 12f;
+
 		// Token: 0x060004C9 RID: 1225 RVA: 0x000358CC File Offset: 0x00033CCC
 		protected override Job TryGiveJob(Pawn pawn)
 		{
@@ -33,11 +39,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040002A8 RID: 680
-		public const float ItemsSearchRadiusInitial = 7f;
-
-		// Token: 0x040002A9 RID: 681
-		private const float ItemsSearchRadiusOngoing = 12f;
 	}
 }

@@ -11,6 +11,51 @@ namespace RimWorld
 	[HasDebugOutput]
 	public class MusicManagerPlay
 	{
+		// Token: 0x04001331 RID: 4913
+		private AudioSource audioSource;
+
+		// Token: 0x04001332 RID: 4914
+		private MusicManagerPlay.MusicManagerState state = MusicManagerPlay.MusicManagerState.Normal;
+
+		// Token: 0x04001333 RID: 4915
+		private float fadeoutFactor = 1f;
+
+		// Token: 0x04001334 RID: 4916
+		private float nextSongStartTime = 12f;
+
+		// Token: 0x04001335 RID: 4917
+		private SongDef lastStartedSong;
+
+		// Token: 0x04001336 RID: 4918
+		private Queue<SongDef> recentSongs = new Queue<SongDef>();
+
+		// Token: 0x04001337 RID: 4919
+		public bool disabled = false;
+
+		// Token: 0x04001338 RID: 4920
+		private SongDef forcedNextSong = null;
+
+		// Token: 0x04001339 RID: 4921
+		private bool songWasForced = false;
+
+		// Token: 0x0400133A RID: 4922
+		private bool ignorePrefsVolumeThisSong = false;
+
+		// Token: 0x0400133B RID: 4923
+		public float subtleAmbienceSoundVolumeMultiplier = 1f;
+
+		// Token: 0x0400133C RID: 4924
+		private bool gameObjectCreated;
+
+		// Token: 0x0400133D RID: 4925
+		private static readonly FloatRange SongIntervalRelax = new FloatRange(85f, 105f);
+
+		// Token: 0x0400133E RID: 4926
+		private static readonly FloatRange SongIntervalTension = new FloatRange(2f, 5f);
+
+		// Token: 0x0400133F RID: 4927
+		private const float FadeoutDuration = 10f;
+
 		// Token: 0x170004FA RID: 1274
 		// (get) Token: 0x060021DF RID: 8671 RVA: 0x0011F6C8 File Offset: 0x0011DAC8
 		private float CurTime
@@ -330,51 +375,6 @@ namespace RimWorld
 			}
 			Log.Message(stringBuilder.ToString(), false);
 		}
-
-		// Token: 0x04001331 RID: 4913
-		private AudioSource audioSource;
-
-		// Token: 0x04001332 RID: 4914
-		private MusicManagerPlay.MusicManagerState state = MusicManagerPlay.MusicManagerState.Normal;
-
-		// Token: 0x04001333 RID: 4915
-		private float fadeoutFactor = 1f;
-
-		// Token: 0x04001334 RID: 4916
-		private float nextSongStartTime = 12f;
-
-		// Token: 0x04001335 RID: 4917
-		private SongDef lastStartedSong;
-
-		// Token: 0x04001336 RID: 4918
-		private Queue<SongDef> recentSongs = new Queue<SongDef>();
-
-		// Token: 0x04001337 RID: 4919
-		public bool disabled = false;
-
-		// Token: 0x04001338 RID: 4920
-		private SongDef forcedNextSong = null;
-
-		// Token: 0x04001339 RID: 4921
-		private bool songWasForced = false;
-
-		// Token: 0x0400133A RID: 4922
-		private bool ignorePrefsVolumeThisSong = false;
-
-		// Token: 0x0400133B RID: 4923
-		public float subtleAmbienceSoundVolumeMultiplier = 1f;
-
-		// Token: 0x0400133C RID: 4924
-		private bool gameObjectCreated;
-
-		// Token: 0x0400133D RID: 4925
-		private static readonly FloatRange SongIntervalRelax = new FloatRange(85f, 105f);
-
-		// Token: 0x0400133E RID: 4926
-		private static readonly FloatRange SongIntervalTension = new FloatRange(2f, 5f);
-
-		// Token: 0x0400133F RID: 4927
-		private const float FadeoutDuration = 10f;
 
 		// Token: 0x02000657 RID: 1623
 		private enum MusicManagerState

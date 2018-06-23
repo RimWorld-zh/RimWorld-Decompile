@@ -7,6 +7,42 @@ namespace RimWorld.Planet
 	// Token: 0x02000628 RID: 1576
 	public class WorldObjectsHolder : IExposable
 	{
+		// Token: 0x0400127C RID: 4732
+		private List<WorldObject> worldObjects = new List<WorldObject>();
+
+		// Token: 0x0400127D RID: 4733
+		private List<Caravan> caravans = new List<Caravan>();
+
+		// Token: 0x0400127E RID: 4734
+		private List<FactionBase> factionBases = new List<FactionBase>();
+
+		// Token: 0x0400127F RID: 4735
+		private List<TravelingTransportPods> travelingTransportPods = new List<TravelingTransportPods>();
+
+		// Token: 0x04001280 RID: 4736
+		private List<Settlement> settlements = new List<Settlement>();
+
+		// Token: 0x04001281 RID: 4737
+		private List<DestroyedFactionBase> destroyedFactionBases = new List<DestroyedFactionBase>();
+
+		// Token: 0x04001282 RID: 4738
+		private List<RoutePlannerWaypoint> routePlannerWaypoints = new List<RoutePlannerWaypoint>();
+
+		// Token: 0x04001283 RID: 4739
+		private List<MapParent> mapParents = new List<MapParent>();
+
+		// Token: 0x04001284 RID: 4740
+		private List<Site> sites = new List<Site>();
+
+		// Token: 0x04001285 RID: 4741
+		private List<PeaceTalks> peaceTalks = new List<PeaceTalks>();
+
+		// Token: 0x04001286 RID: 4742
+		private static List<WorldObject> tmpUnsavedWorldObjects = new List<WorldObject>();
+
+		// Token: 0x04001287 RID: 4743
+		private static List<WorldObject> tmpWorldObjects = new List<WorldObject>();
+
 		// Token: 0x170004D0 RID: 1232
 		// (get) Token: 0x0600202C RID: 8236 RVA: 0x00113D8C File Offset: 0x0011218C
 		public List<WorldObject> AllWorldObjects
@@ -592,41 +628,5 @@ namespace RimWorld.Planet
 				}
 			}
 		}
-
-		// Token: 0x0400127C RID: 4732
-		private List<WorldObject> worldObjects = new List<WorldObject>();
-
-		// Token: 0x0400127D RID: 4733
-		private List<Caravan> caravans = new List<Caravan>();
-
-		// Token: 0x0400127E RID: 4734
-		private List<FactionBase> factionBases = new List<FactionBase>();
-
-		// Token: 0x0400127F RID: 4735
-		private List<TravelingTransportPods> travelingTransportPods = new List<TravelingTransportPods>();
-
-		// Token: 0x04001280 RID: 4736
-		private List<Settlement> settlements = new List<Settlement>();
-
-		// Token: 0x04001281 RID: 4737
-		private List<DestroyedFactionBase> destroyedFactionBases = new List<DestroyedFactionBase>();
-
-		// Token: 0x04001282 RID: 4738
-		private List<RoutePlannerWaypoint> routePlannerWaypoints = new List<RoutePlannerWaypoint>();
-
-		// Token: 0x04001283 RID: 4739
-		private List<MapParent> mapParents = new List<MapParent>();
-
-		// Token: 0x04001284 RID: 4740
-		private List<Site> sites = new List<Site>();
-
-		// Token: 0x04001285 RID: 4741
-		private List<PeaceTalks> peaceTalks = new List<PeaceTalks>();
-
-		// Token: 0x04001286 RID: 4742
-		private static List<WorldObject> tmpUnsavedWorldObjects = new List<WorldObject>();
-
-		// Token: 0x04001287 RID: 4743
-		private static List<WorldObject> tmpWorldObjects = new List<WorldObject>();
 	}
 }

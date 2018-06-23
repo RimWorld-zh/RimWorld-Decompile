@@ -9,6 +9,26 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class TrainingCardUtility
 	{
+		// Token: 0x040018FA RID: 6394
+		public const float RowHeight = 28f;
+
+		// Token: 0x040018FB RID: 6395
+		private const float InfoHeaderHeight = 50f;
+
+		// Token: 0x040018FC RID: 6396
+		[TweakValue("Interface", -100f, 300f)]
+		private static float TrainabilityLeft = 220f;
+
+		// Token: 0x040018FD RID: 6397
+		[TweakValue("Interface", -100f, 300f)]
+		private static float TrainabilityTop = 0f;
+
+		// Token: 0x040018FE RID: 6398
+		private static readonly Texture2D LearnedTrainingTex = ContentFinder<Texture2D>.Get("UI/Icons/FixedCheck", true);
+
+		// Token: 0x040018FF RID: 6399
+		private static readonly Texture2D LearnedNotTrainingTex = ContentFinder<Texture2D>.Get("UI/Icons/FixedCheckOff", true);
+
 		// Token: 0x06002E9A RID: 11930 RVA: 0x0018EB94 File Offset: 0x0018CF94
 		public static void DrawTrainingCard(Rect rect, Pawn pawn)
 		{
@@ -150,25 +170,5 @@ namespace RimWorld
 				return text;
 			}, (int)(rect.y * 612f + rect.x));
 		}
-
-		// Token: 0x040018FA RID: 6394
-		public const float RowHeight = 28f;
-
-		// Token: 0x040018FB RID: 6395
-		private const float InfoHeaderHeight = 50f;
-
-		// Token: 0x040018FC RID: 6396
-		[TweakValue("Interface", -100f, 300f)]
-		private static float TrainabilityLeft = 220f;
-
-		// Token: 0x040018FD RID: 6397
-		[TweakValue("Interface", -100f, 300f)]
-		private static float TrainabilityTop = 0f;
-
-		// Token: 0x040018FE RID: 6398
-		private static readonly Texture2D LearnedTrainingTex = ContentFinder<Texture2D>.Get("UI/Icons/FixedCheck", true);
-
-		// Token: 0x040018FF RID: 6399
-		private static readonly Texture2D LearnedNotTrainingTex = ContentFinder<Texture2D>.Get("UI/Icons/FixedCheckOff", true);
 	}
 }

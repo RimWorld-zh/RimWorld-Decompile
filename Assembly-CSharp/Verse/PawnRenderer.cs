@@ -8,6 +8,69 @@ namespace Verse
 	// Token: 0x02000CEF RID: 3311
 	public class PawnRenderer
 	{
+		// Token: 0x04003175 RID: 12661
+		private Pawn pawn;
+
+		// Token: 0x04003176 RID: 12662
+		public PawnGraphicSet graphics;
+
+		// Token: 0x04003177 RID: 12663
+		public PawnDownedWiggler wiggler;
+
+		// Token: 0x04003178 RID: 12664
+		private PawnHeadOverlays statusOverlays;
+
+		// Token: 0x04003179 RID: 12665
+		private PawnStatusEffecters effecters;
+
+		// Token: 0x0400317A RID: 12666
+		private PawnWoundDrawer woundOverlays;
+
+		// Token: 0x0400317B RID: 12667
+		private Graphic_Shadow shadowGraphic;
+
+		// Token: 0x0400317C RID: 12668
+		private const float CarriedThingDrawAngle = 16f;
+
+		// Token: 0x0400317D RID: 12669
+		private const float SubInterval = 0.00390625f;
+
+		// Token: 0x0400317E RID: 12670
+		private const float YOffset_PrimaryEquipmentUnder = 0f;
+
+		// Token: 0x0400317F RID: 12671
+		private const float YOffset_Behind = 0.00390625f;
+
+		// Token: 0x04003180 RID: 12672
+		private const float YOffset_Body = 0.0078125f;
+
+		// Token: 0x04003181 RID: 12673
+		private const float YOffsetInterval_Clothes = 0.00390625f;
+
+		// Token: 0x04003182 RID: 12674
+		private const float YOffset_Wounds = 0.01953125f;
+
+		// Token: 0x04003183 RID: 12675
+		private const float YOffset_Shell = 0.0234375f;
+
+		// Token: 0x04003184 RID: 12676
+		private const float YOffset_Head = 0.02734375f;
+
+		// Token: 0x04003185 RID: 12677
+		private const float YOffset_OnHead = 0.03125f;
+
+		// Token: 0x04003186 RID: 12678
+		private const float YOffset_PostHead = 0.03515625f;
+
+		// Token: 0x04003187 RID: 12679
+		private const float YOffset_CarriedThing = 0.0390625f;
+
+		// Token: 0x04003188 RID: 12680
+		private const float YOffset_PrimaryEquipmentOver = 0.0390625f;
+
+		// Token: 0x04003189 RID: 12681
+		private const float YOffset_Status = 0.04296875f;
+
 		// Token: 0x060048EE RID: 18670 RVA: 0x002645C4 File Offset: 0x002629C4
 		public PawnRenderer(Pawn pawn)
 		{
@@ -538,68 +601,5 @@ namespace Verse
 				this.pawn.mindState.duty.DrawDebug(this.pawn);
 			}
 		}
-
-		// Token: 0x04003175 RID: 12661
-		private Pawn pawn;
-
-		// Token: 0x04003176 RID: 12662
-		public PawnGraphicSet graphics;
-
-		// Token: 0x04003177 RID: 12663
-		public PawnDownedWiggler wiggler;
-
-		// Token: 0x04003178 RID: 12664
-		private PawnHeadOverlays statusOverlays;
-
-		// Token: 0x04003179 RID: 12665
-		private PawnStatusEffecters effecters;
-
-		// Token: 0x0400317A RID: 12666
-		private PawnWoundDrawer woundOverlays;
-
-		// Token: 0x0400317B RID: 12667
-		private Graphic_Shadow shadowGraphic;
-
-		// Token: 0x0400317C RID: 12668
-		private const float CarriedThingDrawAngle = 16f;
-
-		// Token: 0x0400317D RID: 12669
-		private const float SubInterval = 0.00390625f;
-
-		// Token: 0x0400317E RID: 12670
-		private const float YOffset_PrimaryEquipmentUnder = 0f;
-
-		// Token: 0x0400317F RID: 12671
-		private const float YOffset_Behind = 0.00390625f;
-
-		// Token: 0x04003180 RID: 12672
-		private const float YOffset_Body = 0.0078125f;
-
-		// Token: 0x04003181 RID: 12673
-		private const float YOffsetInterval_Clothes = 0.00390625f;
-
-		// Token: 0x04003182 RID: 12674
-		private const float YOffset_Wounds = 0.01953125f;
-
-		// Token: 0x04003183 RID: 12675
-		private const float YOffset_Shell = 0.0234375f;
-
-		// Token: 0x04003184 RID: 12676
-		private const float YOffset_Head = 0.02734375f;
-
-		// Token: 0x04003185 RID: 12677
-		private const float YOffset_OnHead = 0.03125f;
-
-		// Token: 0x04003186 RID: 12678
-		private const float YOffset_PostHead = 0.03515625f;
-
-		// Token: 0x04003187 RID: 12679
-		private const float YOffset_CarriedThing = 0.0390625f;
-
-		// Token: 0x04003188 RID: 12680
-		private const float YOffset_PrimaryEquipmentOver = 0.0390625f;
-
-		// Token: 0x04003189 RID: 12681
-		private const float YOffset_Status = 0.04296875f;
 	}
 }

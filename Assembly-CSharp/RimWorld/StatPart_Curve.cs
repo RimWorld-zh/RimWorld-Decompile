@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020009A5 RID: 2469
 	public abstract class StatPart_Curve : StatPart
 	{
+		// Token: 0x0400239B RID: 9115
+		protected SimpleCurve curve = null;
+
 		// Token: 0x06003761 RID: 14177
 		protected abstract bool AppliesTo(StatRequest req);
 
@@ -38,8 +41,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x0400239B RID: 9115
-		protected SimpleCurve curve = null;
 	}
 }

@@ -12,6 +12,36 @@ namespace RimWorld
 	// Token: 0x0200069B RID: 1691
 	public class Building_Bed : Building, IAssignableBuilding
 	{
+		// Token: 0x04001409 RID: 5129
+		private bool forPrisonersInt = false;
+
+		// Token: 0x0400140A RID: 5130
+		private bool medicalInt = false;
+
+		// Token: 0x0400140B RID: 5131
+		private bool alreadySetDefaultMed = false;
+
+		// Token: 0x0400140C RID: 5132
+		public List<Pawn> owners = new List<Pawn>();
+
+		// Token: 0x0400140D RID: 5133
+		private static int lastPrisonerSetChangeFrame = -1;
+
+		// Token: 0x0400140E RID: 5134
+		private static readonly Color SheetColorNormal = new Color(0.6313726f, 0.8352941f, 0.7058824f);
+
+		// Token: 0x0400140F RID: 5135
+		private static readonly Color SheetColorRoyal = new Color(0.670588255f, 0.9137255f, 0.745098054f);
+
+		// Token: 0x04001410 RID: 5136
+		public static readonly Color SheetColorForPrisoner = new Color(1f, 0.7176471f, 0.129411772f);
+
+		// Token: 0x04001411 RID: 5137
+		private static readonly Color SheetColorMedical = new Color(0.3882353f, 0.623529434f, 0.8862745f);
+
+		// Token: 0x04001412 RID: 5138
+		private static readonly Color SheetColorMedicalForPrisoner = new Color(0.654902f, 0.3764706f, 0.152941182f);
+
 		// Token: 0x17000559 RID: 1369
 		// (get) Token: 0x060023DB RID: 9179 RVA: 0x0013440C File Offset: 0x0013280C
 		// (set) Token: 0x060023DC RID: 9180 RVA: 0x00134428 File Offset: 0x00132828
@@ -771,35 +801,5 @@ namespace RimWorld
 			}
 			return screenPos;
 		}
-
-		// Token: 0x04001409 RID: 5129
-		private bool forPrisonersInt = false;
-
-		// Token: 0x0400140A RID: 5130
-		private bool medicalInt = false;
-
-		// Token: 0x0400140B RID: 5131
-		private bool alreadySetDefaultMed = false;
-
-		// Token: 0x0400140C RID: 5132
-		public List<Pawn> owners = new List<Pawn>();
-
-		// Token: 0x0400140D RID: 5133
-		private static int lastPrisonerSetChangeFrame = -1;
-
-		// Token: 0x0400140E RID: 5134
-		private static readonly Color SheetColorNormal = new Color(0.6313726f, 0.8352941f, 0.7058824f);
-
-		// Token: 0x0400140F RID: 5135
-		private static readonly Color SheetColorRoyal = new Color(0.670588255f, 0.9137255f, 0.745098054f);
-
-		// Token: 0x04001410 RID: 5136
-		public static readonly Color SheetColorForPrisoner = new Color(1f, 0.7176471f, 0.129411772f);
-
-		// Token: 0x04001411 RID: 5137
-		private static readonly Color SheetColorMedical = new Color(0.3882353f, 0.623529434f, 0.8862745f);
-
-		// Token: 0x04001412 RID: 5138
-		private static readonly Color SheetColorMedicalForPrisoner = new Color(0.654902f, 0.3764706f, 0.152941182f);
 	}
 }

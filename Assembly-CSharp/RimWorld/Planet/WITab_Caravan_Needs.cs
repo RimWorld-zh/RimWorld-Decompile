@@ -8,6 +8,21 @@ namespace RimWorld.Planet
 	// Token: 0x020008E3 RID: 2275
 	public class WITab_Caravan_Needs : WITab
 	{
+		// Token: 0x04001C51 RID: 7249
+		private Vector2 scrollPosition;
+
+		// Token: 0x04001C52 RID: 7250
+		private float scrollViewHeight;
+
+		// Token: 0x04001C53 RID: 7251
+		private Pawn specificNeedsTabForPawn;
+
+		// Token: 0x04001C54 RID: 7252
+		private Vector2 thoughtScrollPosition;
+
+		// Token: 0x04001C55 RID: 7253
+		private bool doNeeds;
+
 		// Token: 0x06003457 RID: 13399 RVA: 0x001BFF2A File Offset: 0x001BE32A
 		public WITab_Caravan_Needs()
 		{
@@ -80,20 +95,5 @@ namespace RimWorld.Planet
 				}, true, false, 1f);
 			}
 		}
-
-		// Token: 0x04001C51 RID: 7249
-		private Vector2 scrollPosition;
-
-		// Token: 0x04001C52 RID: 7250
-		private float scrollViewHeight;
-
-		// Token: 0x04001C53 RID: 7251
-		private Pawn specificNeedsTabForPawn;
-
-		// Token: 0x04001C54 RID: 7252
-		private Vector2 thoughtScrollPosition;
-
-		// Token: 0x04001C55 RID: 7253
-		private bool doNeeds;
 	}
 }

@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x0200040E RID: 1038
 	public class GenStep_PrisonerWillingToJoin : GenStep_Scatterer
 	{
+		// Token: 0x04000AE0 RID: 2784
+		private const int Size = 8;
+
 		// Token: 0x17000263 RID: 611
 		// (get) Token: 0x060011DE RID: 4574 RVA: 0x0009B21C File Offset: 0x0009961C
 		public override int SeedPart
@@ -93,8 +96,5 @@ namespace RimWorld
 			BaseGen.Generate();
 			MapGenerator.SetVar<CellRect>("RectOfInterest", cellRect);
 		}
-
-		// Token: 0x04000AE0 RID: 2784
-		private const int Size = 8;
 	}
 }

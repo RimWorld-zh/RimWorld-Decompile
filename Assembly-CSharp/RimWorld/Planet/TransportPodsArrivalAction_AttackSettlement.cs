@@ -7,6 +7,12 @@ namespace RimWorld.Planet
 	// Token: 0x0200060F RID: 1551
 	public class TransportPodsArrivalAction_AttackSettlement : TransportPodsArrivalAction
 	{
+		// Token: 0x04001242 RID: 4674
+		private Settlement settlement;
+
+		// Token: 0x04001243 RID: 4675
+		private PawnsArrivalModeDef arrivalMode;
+
 		// Token: 0x06001F3E RID: 7998 RVA: 0x0010F493 File Offset: 0x0010D893
 		public TransportPodsArrivalAction_AttackSettlement()
 		{
@@ -122,11 +128,5 @@ namespace RimWorld.Planet
 			}
 			yield break;
 		}
-
-		// Token: 0x04001242 RID: 4674
-		private Settlement settlement;
-
-		// Token: 0x04001243 RID: 4675
-		private PawnsArrivalModeDef arrivalMode;
 	}
 }

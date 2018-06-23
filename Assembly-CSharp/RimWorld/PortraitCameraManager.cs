@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x0200049F RID: 1183
 	public static class PortraitCameraManager
 	{
+		// Token: 0x04000C9A RID: 3226
+		private static Camera portraitCameraInt = PortraitCameraManager.CreatePortraitCamera();
+
+		// Token: 0x04000C9B RID: 3227
+		private static PortraitRenderer portraitRendererInt = PortraitCameraManager.portraitCameraInt.GetComponent<PortraitRenderer>();
+
 		// Token: 0x170002DA RID: 730
 		// (get) Token: 0x0600153D RID: 5437 RVA: 0x000BD3D8 File Offset: 0x000BB7D8
 		public static Camera PortraitCamera
@@ -52,11 +58,5 @@ namespace RimWorld
 			component.farClipPlane = camera.farClipPlane;
 			return component;
 		}
-
-		// Token: 0x04000C9A RID: 3226
-		private static Camera portraitCameraInt = PortraitCameraManager.CreatePortraitCamera();
-
-		// Token: 0x04000C9B RID: 3227
-		private static PortraitRenderer portraitRendererInt = PortraitCameraManager.portraitCameraInt.GetComponent<PortraitRenderer>();
 	}
 }

@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000498 RID: 1176
 	public class PawnsArrivalModeWorker_CenterDrop : PawnsArrivalModeWorker
 	{
+		// Token: 0x04000C99 RID: 3225
+		public const int PodOpenDelay = 520;
+
 		// Token: 0x0600150F RID: 5391 RVA: 0x000B96AE File Offset: 0x000B7AAE
 		public override void Arrive(List<Pawn> pawns, IncidentParms parms)
 		{
@@ -45,8 +48,5 @@ namespace RimWorld
 			}
 			return true;
 		}
-
-		// Token: 0x04000C99 RID: 3225
-		public const int PodOpenDelay = 520;
 	}
 }

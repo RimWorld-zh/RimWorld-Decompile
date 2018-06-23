@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x02000819 RID: 2073
 	public static class RecordsCardUtility
 	{
+		// Token: 0x040018CC RID: 6348
+		private static Vector2 scrollPosition;
+
+		// Token: 0x040018CD RID: 6349
+		private static float listHeight;
+
+		// Token: 0x040018CE RID: 6350
+		private const float RecordsLeftPadding = 8f;
+
 		// Token: 0x06002E5B RID: 11867 RVA: 0x0018ADD8 File Offset: 0x001891D8
 		public static void DrawRecordsCard(Rect rect, Pawn pawn)
 		{
@@ -91,14 +100,5 @@ namespace RimWorld
 			TooltipHandler.TipRegion(rect, new TipSignal(() => record.description, record.GetHashCode()));
 			return rect.height;
 		}
-
-		// Token: 0x040018CC RID: 6348
-		private static Vector2 scrollPosition;
-
-		// Token: 0x040018CD RID: 6349
-		private static float listHeight;
-
-		// Token: 0x040018CE RID: 6350
-		private const float RecordsLeftPadding = 8f;
 	}
 }

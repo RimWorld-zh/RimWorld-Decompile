@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020002B7 RID: 695
 	public class PawnRelationWorker
 	{
+		// Token: 0x040006C2 RID: 1730
+		public PawnRelationDef def;
+
 		// Token: 0x06000BAB RID: 2987 RVA: 0x00068FA8 File Offset: 0x000673A8
 		public virtual bool InRelation(Pawn me, Pawn other)
 		{
@@ -61,8 +64,5 @@ namespace RimWorld
 			}
 			return num;
 		}
-
-		// Token: 0x040006C2 RID: 1730
-		public PawnRelationDef def;
 	}
 }

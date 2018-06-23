@@ -5,6 +5,12 @@ namespace Steamworks
 	// Token: 0x02000164 RID: 356
 	public struct PublishedFileUpdateHandle_t : IEquatable<PublishedFileUpdateHandle_t>, IComparable<PublishedFileUpdateHandle_t>
 	{
+		// Token: 0x0400067A RID: 1658
+		public static readonly PublishedFileUpdateHandle_t Invalid = new PublishedFileUpdateHandle_t(ulong.MaxValue);
+
+		// Token: 0x0400067B RID: 1659
+		public ulong m_PublishedFileUpdateHandle;
+
 		// Token: 0x06000815 RID: 2069 RVA: 0x0000E219 File Offset: 0x0000C419
 		public PublishedFileUpdateHandle_t(ulong value)
 		{
@@ -64,11 +70,5 @@ namespace Steamworks
 		{
 			return this.m_PublishedFileUpdateHandle.CompareTo(other.m_PublishedFileUpdateHandle);
 		}
-
-		// Token: 0x0400067A RID: 1658
-		public static readonly PublishedFileUpdateHandle_t Invalid = new PublishedFileUpdateHandle_t(ulong.MaxValue);
-
-		// Token: 0x0400067B RID: 1659
-		public ulong m_PublishedFileUpdateHandle;
 	}
 }

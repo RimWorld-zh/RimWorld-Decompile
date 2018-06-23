@@ -10,6 +10,48 @@ namespace RimWorld
 	// Token: 0x02000849 RID: 2121
 	public class ITab_Pawn_FormingCaravan : ITab
 	{
+		// Token: 0x040019FC RID: 6652
+		private Vector2 scrollPosition;
+
+		// Token: 0x040019FD RID: 6653
+		private float lastDrawnHeight;
+
+		// Token: 0x040019FE RID: 6654
+		private List<Thing> thingsToSelect = new List<Thing>();
+
+		// Token: 0x040019FF RID: 6655
+		private static List<Thing> tmpSingleThing = new List<Thing>();
+
+		// Token: 0x04001A00 RID: 6656
+		private const float TopPadding = 20f;
+
+		// Token: 0x04001A01 RID: 6657
+		private const float StandardLineHeight = 22f;
+
+		// Token: 0x04001A02 RID: 6658
+		private const float ExtraSpaceBetweenSections = 4f;
+
+		// Token: 0x04001A03 RID: 6659
+		private const float SpaceBetweenItemsLists = 10f;
+
+		// Token: 0x04001A04 RID: 6660
+		private const float ThingRowHeight = 28f;
+
+		// Token: 0x04001A05 RID: 6661
+		private const float ThingIconSize = 28f;
+
+		// Token: 0x04001A06 RID: 6662
+		private const float ThingLeftX = 36f;
+
+		// Token: 0x04001A07 RID: 6663
+		private static readonly Color ThingLabelColor = ITab_Pawn_Gear.ThingLabelColor;
+
+		// Token: 0x04001A08 RID: 6664
+		private static readonly Color ThingHighlightColor = ITab_Pawn_Gear.HighlightColor;
+
+		// Token: 0x04001A09 RID: 6665
+		private static List<Thing> tmpPawns = new List<Thing>();
+
 		// Token: 0x0600300C RID: 12300 RVA: 0x001A1EBD File Offset: 0x001A02BD
 		public ITab_Pawn_FormingCaravan()
 		{
@@ -429,47 +471,5 @@ namespace RimWorld
 			}
 			curY += 28f;
 		}
-
-		// Token: 0x040019FC RID: 6652
-		private Vector2 scrollPosition;
-
-		// Token: 0x040019FD RID: 6653
-		private float lastDrawnHeight;
-
-		// Token: 0x040019FE RID: 6654
-		private List<Thing> thingsToSelect = new List<Thing>();
-
-		// Token: 0x040019FF RID: 6655
-		private static List<Thing> tmpSingleThing = new List<Thing>();
-
-		// Token: 0x04001A00 RID: 6656
-		private const float TopPadding = 20f;
-
-		// Token: 0x04001A01 RID: 6657
-		private const float StandardLineHeight = 22f;
-
-		// Token: 0x04001A02 RID: 6658
-		private const float ExtraSpaceBetweenSections = 4f;
-
-		// Token: 0x04001A03 RID: 6659
-		private const float SpaceBetweenItemsLists = 10f;
-
-		// Token: 0x04001A04 RID: 6660
-		private const float ThingRowHeight = 28f;
-
-		// Token: 0x04001A05 RID: 6661
-		private const float ThingIconSize = 28f;
-
-		// Token: 0x04001A06 RID: 6662
-		private const float ThingLeftX = 36f;
-
-		// Token: 0x04001A07 RID: 6663
-		private static readonly Color ThingLabelColor = ITab_Pawn_Gear.ThingLabelColor;
-
-		// Token: 0x04001A08 RID: 6664
-		private static readonly Color ThingHighlightColor = ITab_Pawn_Gear.HighlightColor;
-
-		// Token: 0x04001A09 RID: 6665
-		private static List<Thing> tmpPawns = new List<Thing>();
 	}
 }

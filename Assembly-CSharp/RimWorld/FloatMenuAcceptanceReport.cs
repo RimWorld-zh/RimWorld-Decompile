@@ -5,6 +5,15 @@ namespace RimWorld
 	// Token: 0x020005D0 RID: 1488
 	public struct FloatMenuAcceptanceReport
 	{
+		// Token: 0x04001157 RID: 4439
+		private string failMessageInt;
+
+		// Token: 0x04001158 RID: 4440
+		private string failReasonInt;
+
+		// Token: 0x04001159 RID: 4441
+		private bool acceptedInt;
+
 		// Token: 0x1700043C RID: 1084
 		// (get) Token: 0x06001D01 RID: 7425 RVA: 0x000F83C4 File Offset: 0x000F67C4
 		public bool Accepted
@@ -101,14 +110,5 @@ namespace RimWorld
 				failMessageInt = failMessage
 			};
 		}
-
-		// Token: 0x04001157 RID: 4439
-		private string failMessageInt;
-
-		// Token: 0x04001158 RID: 4440
-		private string failReasonInt;
-
-		// Token: 0x04001159 RID: 4441
-		private bool acceptedInt;
 	}
 }

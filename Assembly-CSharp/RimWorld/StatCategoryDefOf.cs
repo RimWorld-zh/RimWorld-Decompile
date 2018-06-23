@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class StatCategoryDefOf
 	{
-		// Token: 0x0600363E RID: 13886 RVA: 0x001D0B19 File Offset: 0x001CEF19
-		static StatCategoryDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(StatCategoryDefOf));
-		}
-
 		// Token: 0x04002053 RID: 8275
 		public static StatCategoryDef Basics;
 
@@ -56,5 +50,11 @@ namespace RimWorld
 
 		// Token: 0x04002061 RID: 8289
 		public static StatCategoryDef Surgery;
+
+		// Token: 0x0600363E RID: 13886 RVA: 0x001D0B19 File Offset: 0x001CEF19
+		static StatCategoryDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(StatCategoryDefOf));
+		}
 	}
 }

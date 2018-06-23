@@ -9,6 +9,21 @@ namespace RimWorld
 	// Token: 0x02000410 RID: 1040
 	public class GenStep_Turrets : GenStep
 	{
+		// Token: 0x04000AE3 RID: 2787
+		public IntRange widthRange = new IntRange(3, 4);
+
+		// Token: 0x04000AE4 RID: 2788
+		public IntRange turretsCountRange = new IntRange(4, 5);
+
+		// Token: 0x04000AE5 RID: 2789
+		public IntRange mortarsCountRange = new IntRange(0, 1);
+
+		// Token: 0x04000AE6 RID: 2790
+		public IntRange guardsCountRange = IntRange.one;
+
+		// Token: 0x04000AE7 RID: 2791
+		private const int Padding = 7;
+
 		// Token: 0x17000265 RID: 613
 		// (get) Token: 0x060011E7 RID: 4583 RVA: 0x0009B624 File Offset: 0x00099A24
 		public override int SeedPart
@@ -106,20 +121,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000AE3 RID: 2787
-		public IntRange widthRange = new IntRange(3, 4);
-
-		// Token: 0x04000AE4 RID: 2788
-		public IntRange turretsCountRange = new IntRange(4, 5);
-
-		// Token: 0x04000AE5 RID: 2789
-		public IntRange mortarsCountRange = new IntRange(0, 1);
-
-		// Token: 0x04000AE6 RID: 2790
-		public IntRange guardsCountRange = IntRange.one;
-
-		// Token: 0x04000AE7 RID: 2791
-		private const int Padding = 7;
 	}
 }

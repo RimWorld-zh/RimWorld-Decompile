@@ -9,6 +9,27 @@ namespace Verse
 	// Token: 0x02000DFB RID: 3579
 	public class UnfinishedThing : ThingWithComps
 	{
+		// Token: 0x0400353F RID: 13631
+		private Pawn creatorInt;
+
+		// Token: 0x04003540 RID: 13632
+		private string creatorName = "ErrorCreatorName";
+
+		// Token: 0x04003541 RID: 13633
+		private RecipeDef recipeInt;
+
+		// Token: 0x04003542 RID: 13634
+		public List<Thing> ingredients = new List<Thing>();
+
+		// Token: 0x04003543 RID: 13635
+		private Bill_ProductionWithUft boundBillInt;
+
+		// Token: 0x04003544 RID: 13636
+		public float workLeft = -10000f;
+
+		// Token: 0x04003545 RID: 13637
+		private const float CancelIngredientRecoveryFraction = 0.75f;
+
 		// Token: 0x17000D41 RID: 3393
 		// (get) Token: 0x06005118 RID: 20760 RVA: 0x0029ADC8 File Offset: 0x002991C8
 		// (set) Token: 0x06005119 RID: 20761 RVA: 0x0029ADE3 File Offset: 0x002991E3
@@ -299,26 +320,5 @@ namespace Verse
 				this.workLeft.ToStringWorkAmount()
 			});
 		}
-
-		// Token: 0x0400353F RID: 13631
-		private Pawn creatorInt;
-
-		// Token: 0x04003540 RID: 13632
-		private string creatorName = "ErrorCreatorName";
-
-		// Token: 0x04003541 RID: 13633
-		private RecipeDef recipeInt;
-
-		// Token: 0x04003542 RID: 13634
-		public List<Thing> ingredients = new List<Thing>();
-
-		// Token: 0x04003543 RID: 13635
-		private Bill_ProductionWithUft boundBillInt;
-
-		// Token: 0x04003544 RID: 13636
-		public float workLeft = -10000f;
-
-		// Token: 0x04003545 RID: 13637
-		private const float CancelIngredientRecoveryFraction = 0.75f;
 	}
 }

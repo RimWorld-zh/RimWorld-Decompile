@@ -9,6 +9,53 @@ namespace RimWorld.Planet
 	// Token: 0x020005BF RID: 1471
 	public class WorldGenStep_Rivers : WorldGenStep
 	{
+		// Token: 0x040010E9 RID: 4329
+		private static readonly SimpleCurve ElevationChangeCost = new SimpleCurve
+		{
+			{
+				new CurvePoint(-1000f, 50f),
+				true
+			},
+			{
+				new CurvePoint(-100f, 100f),
+				true
+			},
+			{
+				new CurvePoint(0f, 400f),
+				true
+			},
+			{
+				new CurvePoint(0f, 5000f),
+				true
+			},
+			{
+				new CurvePoint(100f, 50000f),
+				true
+			},
+			{
+				new CurvePoint(1000f, 50000f),
+				true
+			}
+		};
+
+		// Token: 0x040010EA RID: 4330
+		private const float HillinessSmallHillsElevation = 15f;
+
+		// Token: 0x040010EB RID: 4331
+		private const float HillinessLargeHillsElevation = 250f;
+
+		// Token: 0x040010EC RID: 4332
+		private const float HillinessMountainousElevation = 500f;
+
+		// Token: 0x040010ED RID: 4333
+		private const float HillinessImpassableElevation = 1000f;
+
+		// Token: 0x040010EE RID: 4334
+		private const float NonRiverEvaporation = 0f;
+
+		// Token: 0x040010EF RID: 4335
+		private const float EvaporationMultiple = 250f;
+
 		// Token: 0x17000421 RID: 1057
 		// (get) Token: 0x06001C42 RID: 7234 RVA: 0x000F2F04 File Offset: 0x000F1304
 		public override int SeedPart
@@ -213,52 +260,5 @@ namespace RimWorld.Planet
 		{
 			return WorldGenStep_Rivers.CalculateEvaporationConstant(temperature) * WorldGenStep_Rivers.CalculateEvaporativeArea(flow) * 250f;
 		}
-
-		// Token: 0x040010E9 RID: 4329
-		private static readonly SimpleCurve ElevationChangeCost = new SimpleCurve
-		{
-			{
-				new CurvePoint(-1000f, 50f),
-				true
-			},
-			{
-				new CurvePoint(-100f, 100f),
-				true
-			},
-			{
-				new CurvePoint(0f, 400f),
-				true
-			},
-			{
-				new CurvePoint(0f, 5000f),
-				true
-			},
-			{
-				new CurvePoint(100f, 50000f),
-				true
-			},
-			{
-				new CurvePoint(1000f, 50000f),
-				true
-			}
-		};
-
-		// Token: 0x040010EA RID: 4330
-		private const float HillinessSmallHillsElevation = 15f;
-
-		// Token: 0x040010EB RID: 4331
-		private const float HillinessLargeHillsElevation = 250f;
-
-		// Token: 0x040010EC RID: 4332
-		private const float HillinessMountainousElevation = 500f;
-
-		// Token: 0x040010ED RID: 4333
-		private const float HillinessImpassableElevation = 1000f;
-
-		// Token: 0x040010EE RID: 4334
-		private const float NonRiverEvaporation = 0f;
-
-		// Token: 0x040010EF RID: 4335
-		private const float EvaporationMultiple = 250f;
 	}
 }

@@ -6,6 +6,10 @@ namespace Verse.Sound
 	// Token: 0x02000B76 RID: 2934
 	public class AudioGrain_Silence : AudioGrain
 	{
+		// Token: 0x04002AEB RID: 10987
+		[EditSliderRange(0f, 5f)]
+		public FloatRange durationRange = new FloatRange(1f, 2f);
+
 		// Token: 0x06004001 RID: 16385 RVA: 0x0021B938 File Offset: 0x00219D38
 		public override IEnumerable<ResolvedGrain> GetResolvedGrains()
 		{
@@ -18,9 +22,5 @@ namespace Verse.Sound
 		{
 			return this.durationRange.GetHashCode();
 		}
-
-		// Token: 0x04002AEB RID: 10987
-		[EditSliderRange(0f, 5f)]
-		public FloatRange durationRange = new FloatRange(1f, 2f);
 	}
 }

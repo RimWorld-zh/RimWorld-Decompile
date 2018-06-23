@@ -8,6 +8,9 @@ namespace Verse
 	// Token: 0x02000E9A RID: 3738
 	public static class GhostUtility
 	{
+		// Token: 0x04003A70 RID: 14960
+		private static Dictionary<int, Graphic> ghostGraphics = new Dictionary<int, Graphic>();
+
 		// Token: 0x0600585E RID: 22622 RVA: 0x002D4CD4 File Offset: 0x002D30D4
 		public static Graphic GhostGraphicFor(Graphic baseGraphic, ThingDef thingDef, Color ghostCol)
 		{
@@ -41,8 +44,5 @@ namespace Verse
 			}
 			return graphic;
 		}
-
-		// Token: 0x04003A70 RID: 14960
-		private static Dictionary<int, Graphic> ghostGraphics = new Dictionary<int, Graphic>();
 	}
 }

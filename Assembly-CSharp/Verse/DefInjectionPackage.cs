@@ -11,6 +11,39 @@ namespace Verse
 	// Token: 0x02000BED RID: 3053
 	public class DefInjectionPackage
 	{
+		// Token: 0x04002D90 RID: 11664
+		public Type defType;
+
+		// Token: 0x04002D91 RID: 11665
+		private Dictionary<string, string> injections = new Dictionary<string, string>();
+
+		// Token: 0x04002D92 RID: 11666
+		private Dictionary<string, List<string>> fullListInjections = new Dictionary<string, List<string>>();
+
+		// Token: 0x04002D93 RID: 11667
+		private Dictionary<string, string> injectionsFileSource = new Dictionary<string, string>();
+
+		// Token: 0x04002D94 RID: 11668
+		private Dictionary<string, string> fullListInjectionsFileSource = new Dictionary<string, string>();
+
+		// Token: 0x04002D95 RID: 11669
+		public List<Pair<string, string>> autoFixedBackCompatKeys = new List<Pair<string, string>>();
+
+		// Token: 0x04002D96 RID: 11670
+		public List<string> loadErrors = new List<string>();
+
+		// Token: 0x04002D97 RID: 11671
+		public List<string> loadSyntaxSuggestions = new List<string>();
+
+		// Token: 0x04002D98 RID: 11672
+		public bool usedOldRepSyntax;
+
+		// Token: 0x04002D99 RID: 11673
+		public const BindingFlags FieldBindingFlags = BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
+
+		// Token: 0x04002D9A RID: 11674
+		public const string RepNodeName = "rep";
+
 		// Token: 0x0600429D RID: 17053 RVA: 0x00232014 File Offset: 0x00230414
 		public DefInjectionPackage(Type defType)
 		{
@@ -893,38 +926,5 @@ namespace Verse
 		{
 			return !str.NullOrEmpty() && !fi.HasAttribute<NoTranslateAttribute>() && !fi.HasAttribute<UnsavedAttribute>() && !fi.HasAttribute<MayTranslateAttribute>() && (fi.HasAttribute<MustTranslateAttribute>() || str.Contains(' '));
 		}
-
-		// Token: 0x04002D90 RID: 11664
-		public Type defType;
-
-		// Token: 0x04002D91 RID: 11665
-		private Dictionary<string, string> injections = new Dictionary<string, string>();
-
-		// Token: 0x04002D92 RID: 11666
-		private Dictionary<string, List<string>> fullListInjections = new Dictionary<string, List<string>>();
-
-		// Token: 0x04002D93 RID: 11667
-		private Dictionary<string, string> injectionsFileSource = new Dictionary<string, string>();
-
-		// Token: 0x04002D94 RID: 11668
-		private Dictionary<string, string> fullListInjectionsFileSource = new Dictionary<string, string>();
-
-		// Token: 0x04002D95 RID: 11669
-		public List<Pair<string, string>> autoFixedBackCompatKeys = new List<Pair<string, string>>();
-
-		// Token: 0x04002D96 RID: 11670
-		public List<string> loadErrors = new List<string>();
-
-		// Token: 0x04002D97 RID: 11671
-		public List<string> loadSyntaxSuggestions = new List<string>();
-
-		// Token: 0x04002D98 RID: 11672
-		public bool usedOldRepSyntax;
-
-		// Token: 0x04002D99 RID: 11673
-		public const BindingFlags FieldBindingFlags = BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
-
-		// Token: 0x04002D9A RID: 11674
-		public const string RepNodeName = "rep";
 	}
 }

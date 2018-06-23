@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000667 RID: 1639
 	public class Tale_DoublePawnAndDef : Tale_DoublePawn
 	{
+		// Token: 0x04001383 RID: 4995
+		public TaleData_Def defData;
+
 		// Token: 0x0600225C RID: 8796 RVA: 0x00123FEC File Offset: 0x001223EC
 		public Tale_DoublePawnAndDef()
 		{
@@ -50,8 +53,5 @@ namespace RimWorld
 			base.GenerateTestData();
 			this.defData = TaleData_Def.GenerateFrom((Def)GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), this.def.defType, "GetRandom"));
 		}
-
-		// Token: 0x04001383 RID: 4995
-		public TaleData_Def defData;
 	}
 }

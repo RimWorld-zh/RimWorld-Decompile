@@ -9,6 +9,12 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Command_SetTargetFuelLevel : Command
 	{
+		// Token: 0x04001639 RID: 5689
+		public CompRefuelable refuelable;
+
+		// Token: 0x0400163A RID: 5690
+		private List<CompRefuelable> refuelables;
+
 		// Token: 0x06002888 RID: 10376 RVA: 0x0015A7E4 File Offset: 0x00158BE4
 		public override void ProcessInput(Event ev)
 		{
@@ -74,11 +80,5 @@ namespace RimWorld
 			this.refuelables.Add(((Command_SetTargetFuelLevel)other).refuelable);
 			return false;
 		}
-
-		// Token: 0x04001639 RID: 5689
-		public CompRefuelable refuelable;
-
-		// Token: 0x0400163A RID: 5690
-		private List<CompRefuelable> refuelables;
 	}
 }

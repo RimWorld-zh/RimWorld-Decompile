@@ -7,6 +7,15 @@ namespace Verse
 	// Token: 0x02000CDD RID: 3293
 	public class PatchOperationFindMod : PatchOperation
 	{
+		// Token: 0x0400311A RID: 12570
+		private List<string> mods;
+
+		// Token: 0x0400311B RID: 12571
+		private PatchOperation match;
+
+		// Token: 0x0400311C RID: 12572
+		private PatchOperation nomatch;
+
 		// Token: 0x0600489C RID: 18588 RVA: 0x00261F64 File Offset: 0x00260364
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
@@ -38,14 +47,5 @@ namespace Verse
 		{
 			return string.Format("{0}({1})", base.ToString(), this.mods.ToCommaList(false));
 		}
-
-		// Token: 0x0400311A RID: 12570
-		private List<string> mods;
-
-		// Token: 0x0400311B RID: 12571
-		private PatchOperation match;
-
-		// Token: 0x0400311C RID: 12572
-		private PatchOperation nomatch;
 	}
 }

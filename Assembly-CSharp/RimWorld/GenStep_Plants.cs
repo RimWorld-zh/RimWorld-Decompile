@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020003F9 RID: 1017
 	public class GenStep_Plants : GenStep
 	{
+		// Token: 0x04000AA1 RID: 2721
+		private const float ChanceToSkip = 0.001f;
+
 		// Token: 0x17000255 RID: 597
 		// (get) Token: 0x06001180 RID: 4480 RVA: 0x000979CC File Offset: 0x00095DCC
 		public override int SeedPart
@@ -31,8 +34,5 @@ namespace RimWorld
 			}
 			map.regionAndRoomUpdater.Enabled = true;
 		}
-
-		// Token: 0x04000AA1 RID: 2721
-		private const float ChanceToSkip = 0.001f;
 	}
 }

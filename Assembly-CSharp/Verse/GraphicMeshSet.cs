@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000D76 RID: 3446
 	public class GraphicMeshSet
 	{
+		// Token: 0x04003385 RID: 13189
+		private Mesh[] meshes = new Mesh[4];
+
 		// Token: 0x06004D48 RID: 19784 RVA: 0x002845AC File Offset: 0x002829AC
 		public GraphicMeshSet(Mesh normalMesh, Mesh leftMesh)
 		{
@@ -38,8 +41,5 @@ namespace Verse
 		{
 			return this.meshes[rot.AsInt];
 		}
-
-		// Token: 0x04003385 RID: 13189
-		private Mesh[] meshes = new Mesh[4];
 	}
 }

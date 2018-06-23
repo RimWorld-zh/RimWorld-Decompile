@@ -6,6 +6,9 @@ namespace RimWorld.Planet
 	// Token: 0x020005F9 RID: 1529
 	public class CaravansBattlefield : MapParent
 	{
+		// Token: 0x04001213 RID: 4627
+		private bool wonBattle;
+
 		// Token: 0x17000476 RID: 1142
 		// (get) Token: 0x06001E72 RID: 7794 RVA: 0x00108D30 File Offset: 0x00107130
 		public bool WonBattle
@@ -71,8 +74,5 @@ namespace RimWorld.Planet
 				}
 			}
 		}
-
-		// Token: 0x04001213 RID: 4627
-		private bool wonBattle;
 	}
 }

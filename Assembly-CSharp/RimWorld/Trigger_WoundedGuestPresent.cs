@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020001B0 RID: 432
 	public class Trigger_WoundedGuestPresent : Trigger
 	{
+		// Token: 0x040003C0 RID: 960
+		private const int CheckInterval = 800;
+
 		// Token: 0x060008E0 RID: 2272 RVA: 0x000539ED File Offset: 0x00051DED
 		public Trigger_WoundedGuestPresent()
 		{
@@ -48,8 +51,5 @@ namespace RimWorld
 			}
 			return false;
 		}
-
-		// Token: 0x040003C0 RID: 960
-		private const int CheckInterval = 800;
 	}
 }

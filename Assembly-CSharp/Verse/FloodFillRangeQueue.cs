@@ -5,6 +5,21 @@ namespace Verse
 	// Token: 0x02000C7C RID: 3196
 	public class FloodFillRangeQueue
 	{
+		// Token: 0x04002FB9 RID: 12217
+		private FloodFillRange[] array;
+
+		// Token: 0x04002FBA RID: 12218
+		private int count;
+
+		// Token: 0x04002FBB RID: 12219
+		private int head;
+
+		// Token: 0x04002FBC RID: 12220
+		private int debugNumTimesExpanded = 0;
+
+		// Token: 0x04002FBD RID: 12221
+		private int debugMaxUsedSpace = 0;
+
 		// Token: 0x06004603 RID: 17923 RVA: 0x0024E7C3 File Offset: 0x0024CBC3
 		public FloodFillRangeQueue(int initialSize)
 		{
@@ -81,20 +96,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04002FB9 RID: 12217
-		private FloodFillRange[] array;
-
-		// Token: 0x04002FBA RID: 12218
-		private int count;
-
-		// Token: 0x04002FBB RID: 12219
-		private int head;
-
-		// Token: 0x04002FBC RID: 12220
-		private int debugNumTimesExpanded = 0;
-
-		// Token: 0x04002FBD RID: 12221
-		private int debugMaxUsedSpace = 0;
 	}
 }

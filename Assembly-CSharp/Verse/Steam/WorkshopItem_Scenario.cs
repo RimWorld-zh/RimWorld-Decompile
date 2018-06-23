@@ -9,6 +9,9 @@ namespace Verse.Steam
 	// Token: 0x02000FC2 RID: 4034
 	public class WorkshopItem_Scenario : WorkshopItem
 	{
+		// Token: 0x04003FCE RID: 16334
+		private Scenario cachedScenario;
+
 		// Token: 0x17000FC8 RID: 4040
 		// (get) Token: 0x0600618E RID: 24974 RVA: 0x003141DC File Offset: 0x003125DC
 		// (set) Token: 0x0600618F RID: 24975 RVA: 0x003141F7 File Offset: 0x003125F7
@@ -49,8 +52,5 @@ namespace Verse.Steam
 				this.cachedScenario.SetPublishedFileId(this.PublishedFileId);
 			}
 		}
-
-		// Token: 0x04003FCE RID: 16334
-		private Scenario cachedScenario;
 	}
 }

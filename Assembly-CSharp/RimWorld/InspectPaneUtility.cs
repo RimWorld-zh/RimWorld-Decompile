@@ -11,6 +11,33 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class InspectPaneUtility
 	{
+		// Token: 0x04001A47 RID: 6727
+		private static Dictionary<string, string> truncatedLabelsCached = new Dictionary<string, string>();
+
+		// Token: 0x04001A48 RID: 6728
+		public const float TabWidth = 72f;
+
+		// Token: 0x04001A49 RID: 6729
+		public const float TabHeight = 30f;
+
+		// Token: 0x04001A4A RID: 6730
+		private static readonly Texture2D InspectTabButtonFillTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.07450981f, 0.08627451f, 0.105882354f, 1f));
+
+		// Token: 0x04001A4B RID: 6731
+		public const float CornerButtonsSize = 24f;
+
+		// Token: 0x04001A4C RID: 6732
+		public const float PaneInnerMargin = 12f;
+
+		// Token: 0x04001A4D RID: 6733
+		public const float PaneHeight = 165f;
+
+		// Token: 0x04001A4E RID: 6734
+		private const int TabMinimum = 6;
+
+		// Token: 0x04001A4F RID: 6735
+		private static List<Thing> selectedThings = new List<Thing>();
+
 		// Token: 0x0600308D RID: 12429 RVA: 0x001A635B File Offset: 0x001A475B
 		public static void Reset()
 		{
@@ -289,32 +316,5 @@ namespace RimWorld
 				InspectPaneUtility.ToggleTab(tab, pane);
 			}
 		}
-
-		// Token: 0x04001A47 RID: 6727
-		private static Dictionary<string, string> truncatedLabelsCached = new Dictionary<string, string>();
-
-		// Token: 0x04001A48 RID: 6728
-		public const float TabWidth = 72f;
-
-		// Token: 0x04001A49 RID: 6729
-		public const float TabHeight = 30f;
-
-		// Token: 0x04001A4A RID: 6730
-		private static readonly Texture2D InspectTabButtonFillTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.07450981f, 0.08627451f, 0.105882354f, 1f));
-
-		// Token: 0x04001A4B RID: 6731
-		public const float CornerButtonsSize = 24f;
-
-		// Token: 0x04001A4C RID: 6732
-		public const float PaneInnerMargin = 12f;
-
-		// Token: 0x04001A4D RID: 6733
-		public const float PaneHeight = 165f;
-
-		// Token: 0x04001A4E RID: 6734
-		private const int TabMinimum = 6;
-
-		// Token: 0x04001A4F RID: 6735
-		private static List<Thing> selectedThings = new List<Thing>();
 	}
 }

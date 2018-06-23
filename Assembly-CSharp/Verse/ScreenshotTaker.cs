@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000FAF RID: 4015
 	public static class ScreenshotTaker
 	{
+		// Token: 0x04003F8A RID: 16266
+		private static bool takeScreenshot;
+
 		// Token: 0x06006132 RID: 24882 RVA: 0x00311A2B File Offset: 0x0030FE2B
 		public static void Update()
 		{
@@ -31,8 +34,5 @@ namespace Verse
 		{
 			SteamScreenshots.TriggerScreenshot();
 		}
-
-		// Token: 0x04003F8A RID: 16266
-		private static bool takeScreenshot;
 	}
 }

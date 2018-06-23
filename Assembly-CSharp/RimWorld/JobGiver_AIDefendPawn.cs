@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020000B3 RID: 179
 	public abstract class JobGiver_AIDefendPawn : JobGiver_AIFightEnemy
 	{
+		// Token: 0x04000284 RID: 644
+		private bool attackMeleeThreatEvenIfNotHostile;
+
 		// Token: 0x06000448 RID: 1096 RVA: 0x00032820 File Offset: 0x00030C20
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -103,8 +106,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000284 RID: 644
-		private bool attackMeleeThreatEvenIfNotHostile;
 	}
 }

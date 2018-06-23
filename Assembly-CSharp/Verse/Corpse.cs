@@ -10,6 +10,24 @@ namespace Verse
 	// Token: 0x02000DC6 RID: 3526
 	public class Corpse : ThingWithComps, IThingHolder, IThoughtGiver, IStrippable, IBillGiver
 	{
+		// Token: 0x0400346E RID: 13422
+		private ThingOwner<Pawn> innerContainer;
+
+		// Token: 0x0400346F RID: 13423
+		public int timeOfDeath = -1;
+
+		// Token: 0x04003470 RID: 13424
+		private int vanishAfterTimestamp = -1;
+
+		// Token: 0x04003471 RID: 13425
+		private BillStack operationsBillStack = null;
+
+		// Token: 0x04003472 RID: 13426
+		public bool everBuriedInSarcophagus;
+
+		// Token: 0x04003473 RID: 13427
+		private const int VanishAfterTicksSinceDessicated = 6000000;
+
 		// Token: 0x06004ED3 RID: 20179 RVA: 0x00292132 File Offset: 0x00290532
 		public Corpse()
 		{
@@ -498,23 +516,5 @@ namespace Verse
 				Find.ColonistBar.MarkColonistsDirty();
 			}
 		}
-
-		// Token: 0x0400346E RID: 13422
-		private ThingOwner<Pawn> innerContainer;
-
-		// Token: 0x0400346F RID: 13423
-		public int timeOfDeath = -1;
-
-		// Token: 0x04003470 RID: 13424
-		private int vanishAfterTimestamp = -1;
-
-		// Token: 0x04003471 RID: 13425
-		private BillStack operationsBillStack = null;
-
-		// Token: 0x04003472 RID: 13426
-		public bool everBuriedInSarcophagus;
-
-		// Token: 0x04003473 RID: 13427
-		private const int VanishAfterTicksSinceDessicated = 6000000;
 	}
 }

@@ -7,6 +7,25 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class DebugMatsSpectrum
 	{
+		// Token: 0x04002E0E RID: 11790
+		private static readonly Material[] spectrumMatsTranparent = new Material[100];
+
+		// Token: 0x04002E0F RID: 11791
+		private static readonly Material[] spectrumMatsOpaque = new Material[100];
+
+		// Token: 0x04002E10 RID: 11792
+		public const int MaterialCount = 100;
+
+		// Token: 0x04002E11 RID: 11793
+		public static Color[] DebugSpectrum = new Color[]
+		{
+			new Color(0.75f, 0f, 0f),
+			new Color(0.5f, 0.3f, 0f),
+			new Color(0f, 1f, 0f),
+			new Color(0f, 0f, 1f),
+			new Color(0.7f, 0f, 1f)
+		};
+
 		// Token: 0x06004358 RID: 17240 RVA: 0x00239784 File Offset: 0x00237B84
 		static DebugMatsSpectrum()
 		{
@@ -41,24 +60,5 @@ namespace Verse
 			}
 			return (!transparent) ? DebugMatsSpectrum.spectrumMatsOpaque[ind] : DebugMatsSpectrum.spectrumMatsTranparent[ind];
 		}
-
-		// Token: 0x04002E0E RID: 11790
-		private static readonly Material[] spectrumMatsTranparent = new Material[100];
-
-		// Token: 0x04002E0F RID: 11791
-		private static readonly Material[] spectrumMatsOpaque = new Material[100];
-
-		// Token: 0x04002E10 RID: 11792
-		public const int MaterialCount = 100;
-
-		// Token: 0x04002E11 RID: 11793
-		public static Color[] DebugSpectrum = new Color[]
-		{
-			new Color(0.75f, 0f, 0f),
-			new Color(0.5f, 0.3f, 0f),
-			new Color(0f, 1f, 0f),
-			new Color(0f, 0f, 1f),
-			new Color(0.7f, 0f, 1f)
-		};
 	}
 }

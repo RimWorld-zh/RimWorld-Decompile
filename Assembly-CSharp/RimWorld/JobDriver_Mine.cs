@@ -8,6 +8,21 @@ namespace RimWorld
 	// Token: 0x02000075 RID: 117
 	public class JobDriver_Mine : JobDriver
 	{
+		// Token: 0x04000221 RID: 545
+		private int ticksToPickHit = -1000;
+
+		// Token: 0x04000222 RID: 546
+		private Effecter effecter = null;
+
+		// Token: 0x04000223 RID: 547
+		public const int BaseTicksBetweenPickHits = 120;
+
+		// Token: 0x04000224 RID: 548
+		private const int BaseDamagePerPickHit = 80;
+
+		// Token: 0x04000225 RID: 549
+		private const float MinMiningSpeedForNPCs = 0.5f;
+
 		// Token: 0x170000A3 RID: 163
 		// (get) Token: 0x0600032D RID: 813 RVA: 0x00022DE4 File Offset: 0x000211E4
 		private Thing MineTarget
@@ -129,20 +144,5 @@ namespace RimWorld
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.ticksToPickHit, "ticksToPickHit", 0, false);
 		}
-
-		// Token: 0x04000221 RID: 545
-		private int ticksToPickHit = -1000;
-
-		// Token: 0x04000222 RID: 546
-		private Effecter effecter = null;
-
-		// Token: 0x04000223 RID: 547
-		public const int BaseTicksBetweenPickHits = 120;
-
-		// Token: 0x04000224 RID: 548
-		private const int BaseDamagePerPickHit = 80;
-
-		// Token: 0x04000225 RID: 549
-		private const float MinMiningSpeedForNPCs = 0.5f;
 	}
 }

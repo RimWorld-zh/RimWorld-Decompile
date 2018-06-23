@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020009B9 RID: 2489
 	public class StatPart_WornByCorpse : StatPart
 	{
+		// Token: 0x040023BF RID: 9151
+		private const float Factor = 0.1f;
+
 		// Token: 0x060037BF RID: 14271 RVA: 0x001DAD48 File Offset: 0x001D9148
 		public override void TransformValue(StatRequest req, ref float val)
 		{
@@ -32,8 +35,5 @@ namespace RimWorld
 			}
 			return null;
 		}
-
-		// Token: 0x040023BF RID: 9151
-		private const float Factor = 0.1f;
 	}
 }

@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000C9A RID: 3226
 	public class RoofCollapseBuffer
 	{
+		// Token: 0x04003058 RID: 12376
+		private List<IntVec3> cellsToCollapse = new List<IntVec3>();
+
 		// Token: 0x17000B46 RID: 2886
 		// (get) Token: 0x0600471A RID: 18202 RVA: 0x002584E8 File Offset: 0x002568E8
 		public List<IntVec3> CellsMarkedToCollapse
@@ -36,8 +39,5 @@ namespace Verse
 		{
 			this.cellsToCollapse.Clear();
 		}
-
-		// Token: 0x04003058 RID: 12376
-		private List<IntVec3> cellsToCollapse = new List<IntVec3>();
 	}
 }

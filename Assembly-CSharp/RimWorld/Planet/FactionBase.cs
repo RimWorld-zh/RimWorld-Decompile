@@ -8,6 +8,15 @@ namespace RimWorld.Planet
 	// Token: 0x020005FB RID: 1531
 	public class FactionBase : Settlement
 	{
+		// Token: 0x04001214 RID: 4628
+		private string nameInt;
+
+		// Token: 0x04001215 RID: 4629
+		public bool namedByPlayer;
+
+		// Token: 0x04001216 RID: 4630
+		private Material cachedMat;
+
 		// Token: 0x06001E7B RID: 7803 RVA: 0x0010A714 File Offset: 0x00108B14
 		public FactionBase()
 		{
@@ -114,14 +123,5 @@ namespace RimWorld.Planet
 			base.Tick();
 			FactionBaseDefeatUtility.CheckDefeated(this);
 		}
-
-		// Token: 0x04001214 RID: 4628
-		private string nameInt;
-
-		// Token: 0x04001215 RID: 4629
-		public bool namedByPlayer;
-
-		// Token: 0x04001216 RID: 4630
-		private Material cachedMat;
 	}
 }

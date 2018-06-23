@@ -8,6 +8,33 @@ namespace RimWorld
 	// Token: 0x020002E9 RID: 745
 	public class TraitDef : Def
 	{
+		// Token: 0x040007ED RID: 2029
+		public List<TraitDegreeData> degreeDatas = new List<TraitDegreeData>();
+
+		// Token: 0x040007EE RID: 2030
+		public List<TraitDef> conflictingTraits = new List<TraitDef>();
+
+		// Token: 0x040007EF RID: 2031
+		public List<WorkTypeDef> requiredWorkTypes = new List<WorkTypeDef>();
+
+		// Token: 0x040007F0 RID: 2032
+		public WorkTags requiredWorkTags;
+
+		// Token: 0x040007F1 RID: 2033
+		public List<WorkTypeDef> disabledWorkTypes = new List<WorkTypeDef>();
+
+		// Token: 0x040007F2 RID: 2034
+		public WorkTags disabledWorkTags;
+
+		// Token: 0x040007F3 RID: 2035
+		private float commonality = 1f;
+
+		// Token: 0x040007F4 RID: 2036
+		private float commonalityFemale = -1f;
+
+		// Token: 0x040007F5 RID: 2037
+		public bool allowOnHostileSpawn = true;
+
 		// Token: 0x06000C4D RID: 3149 RVA: 0x0006D3A4 File Offset: 0x0006B7A4
 		public static TraitDef Named(string defName)
 		{
@@ -92,32 +119,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040007ED RID: 2029
-		public List<TraitDegreeData> degreeDatas = new List<TraitDegreeData>();
-
-		// Token: 0x040007EE RID: 2030
-		public List<TraitDef> conflictingTraits = new List<TraitDef>();
-
-		// Token: 0x040007EF RID: 2031
-		public List<WorkTypeDef> requiredWorkTypes = new List<WorkTypeDef>();
-
-		// Token: 0x040007F0 RID: 2032
-		public WorkTags requiredWorkTags;
-
-		// Token: 0x040007F1 RID: 2033
-		public List<WorkTypeDef> disabledWorkTypes = new List<WorkTypeDef>();
-
-		// Token: 0x040007F2 RID: 2034
-		public WorkTags disabledWorkTags;
-
-		// Token: 0x040007F3 RID: 2035
-		private float commonality = 1f;
-
-		// Token: 0x040007F4 RID: 2036
-		private float commonalityFemale = -1f;
-
-		// Token: 0x040007F5 RID: 2037
-		public bool allowOnHostileSpawn = true;
 	}
 }

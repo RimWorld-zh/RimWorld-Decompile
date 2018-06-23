@@ -5,6 +5,21 @@ namespace Verse
 	// Token: 0x02000FAB RID: 4011
 	public class RandomNumberGenerator_BasicHash : RandomNumberGenerator
 	{
+		// Token: 0x04003F79 RID: 16249
+		private const uint Prime1 = 2654435761u;
+
+		// Token: 0x04003F7A RID: 16250
+		private const uint Prime2 = 2246822519u;
+
+		// Token: 0x04003F7B RID: 16251
+		private const uint Prime3 = 3266489917u;
+
+		// Token: 0x04003F7C RID: 16252
+		private const uint Prime4 = 668265263u;
+
+		// Token: 0x04003F7D RID: 16253
+		private const uint Prime5 = 374761393u;
+
 		// Token: 0x060060FF RID: 24831 RVA: 0x003105EC File Offset: 0x0030E9EC
 		public override int GetInt(uint iterations)
 		{
@@ -30,20 +45,5 @@ namespace Verse
 		{
 			return value << count | value >> 32 - count;
 		}
-
-		// Token: 0x04003F79 RID: 16249
-		private const uint Prime1 = 2654435761u;
-
-		// Token: 0x04003F7A RID: 16250
-		private const uint Prime2 = 2246822519u;
-
-		// Token: 0x04003F7B RID: 16251
-		private const uint Prime3 = 3266489917u;
-
-		// Token: 0x04003F7C RID: 16252
-		private const uint Prime4 = 668265263u;
-
-		// Token: 0x04003F7D RID: 16253
-		private const uint Prime5 = 374761393u;
 	}
 }

@@ -8,6 +8,15 @@ namespace Verse
 	// Token: 0x02000D8E RID: 3470
 	public struct SaveFileInfo
 	{
+		// Token: 0x040033D4 RID: 13268
+		private FileInfo fileInfo;
+
+		// Token: 0x040033D5 RID: 13269
+		private string gameVersion;
+
+		// Token: 0x040033D6 RID: 13270
+		public static readonly Color UnimportantTextColor = new Color(1f, 1f, 1f, 0.5f);
+
 		// Token: 0x06004DAE RID: 19886 RVA: 0x00289636 File Offset: 0x00287A36
 		public SaveFileInfo(FileInfo fileInfo)
 		{
@@ -122,14 +131,5 @@ namespace Verse
 				return result;
 			}
 		}
-
-		// Token: 0x040033D4 RID: 13268
-		private FileInfo fileInfo;
-
-		// Token: 0x040033D5 RID: 13269
-		private string gameVersion;
-
-		// Token: 0x040033D6 RID: 13270
-		public static readonly Color UnimportantTextColor = new Color(1f, 1f, 1f, 0.5f);
 	}
 }

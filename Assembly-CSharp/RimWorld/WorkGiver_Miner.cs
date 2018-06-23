@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000150 RID: 336
 	public class WorkGiver_Miner : WorkGiver_Scanner
 	{
+		// Token: 0x0400032D RID: 813
+		private static string NoPathTrans;
+
 		// Token: 0x1700010C RID: 268
 		// (get) Token: 0x060006F0 RID: 1776 RVA: 0x00046D2C File Offset: 0x0004512C
 		public override PathEndMode PathEndMode
@@ -130,8 +133,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x0400032D RID: 813
-		private static string NoPathTrans;
 	}
 }

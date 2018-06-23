@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000C29 RID: 3113
 	public class FastEntityTypeComparer : IEqualityComparer<ThingCategory>
 	{
+		// Token: 0x04002E7C RID: 11900
+		public static readonly FastEntityTypeComparer Instance = new FastEntityTypeComparer();
+
 		// Token: 0x0600447E RID: 17534 RVA: 0x002408C4 File Offset: 0x0023ECC4
 		public bool Equals(ThingCategory x, ThingCategory y)
 		{
@@ -17,8 +20,5 @@ namespace Verse
 		{
 			return (int)obj;
 		}
-
-		// Token: 0x04002E7C RID: 11900
-		public static readonly FastEntityTypeComparer Instance = new FastEntityTypeComparer();
 	}
 }

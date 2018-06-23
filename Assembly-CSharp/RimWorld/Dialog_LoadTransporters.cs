@@ -14,6 +14,78 @@ namespace RimWorld
 	// Token: 0x020007FC RID: 2044
 	public class Dialog_LoadTransporters : Window
 	{
+		// Token: 0x04001816 RID: 6166
+		private Map map;
+
+		// Token: 0x04001817 RID: 6167
+		private List<CompTransporter> transporters;
+
+		// Token: 0x04001818 RID: 6168
+		private List<TransferableOneWay> transferables;
+
+		// Token: 0x04001819 RID: 6169
+		private TransferableOneWayWidget pawnsTransfer;
+
+		// Token: 0x0400181A RID: 6170
+		private TransferableOneWayWidget itemsTransfer;
+
+		// Token: 0x0400181B RID: 6171
+		private Dialog_LoadTransporters.Tab tab = Dialog_LoadTransporters.Tab.Pawns;
+
+		// Token: 0x0400181C RID: 6172
+		private float lastMassFlashTime = -9999f;
+
+		// Token: 0x0400181D RID: 6173
+		private bool massUsageDirty = true;
+
+		// Token: 0x0400181E RID: 6174
+		private float cachedMassUsage;
+
+		// Token: 0x0400181F RID: 6175
+		private bool tilesPerDayDirty = true;
+
+		// Token: 0x04001820 RID: 6176
+		private float cachedTilesPerDay;
+
+		// Token: 0x04001821 RID: 6177
+		private string cachedTilesPerDayExplanation;
+
+		// Token: 0x04001822 RID: 6178
+		private bool daysWorthOfFoodDirty = true;
+
+		// Token: 0x04001823 RID: 6179
+		private Pair<float, float> cachedDaysWorthOfFood;
+
+		// Token: 0x04001824 RID: 6180
+		private bool foragedFoodPerDayDirty = true;
+
+		// Token: 0x04001825 RID: 6181
+		private Pair<ThingDef, float> cachedForagedFoodPerDay;
+
+		// Token: 0x04001826 RID: 6182
+		private string cachedForagedFoodPerDayExplanation;
+
+		// Token: 0x04001827 RID: 6183
+		private bool visibilityDirty = true;
+
+		// Token: 0x04001828 RID: 6184
+		private float cachedVisibility;
+
+		// Token: 0x04001829 RID: 6185
+		private string cachedVisibilityExplanation;
+
+		// Token: 0x0400182A RID: 6186
+		private const float TitleRectHeight = 35f;
+
+		// Token: 0x0400182B RID: 6187
+		private const float BottomAreaHeight = 55f;
+
+		// Token: 0x0400182C RID: 6188
+		private readonly Vector2 BottomButtonSize = new Vector2(160f, 40f);
+
+		// Token: 0x0400182D RID: 6189
+		private static List<TabRecord> tabsList = new List<TabRecord>();
+
 		// Token: 0x06002D89 RID: 11657 RVA: 0x0017F7A0 File Offset: 0x0017DBA0
 		public Dialog_LoadTransporters(Map map, List<CompTransporter> transporters)
 		{
@@ -549,78 +621,6 @@ namespace RimWorld
 			this.foragedFoodPerDayDirty = true;
 			this.visibilityDirty = true;
 		}
-
-		// Token: 0x04001816 RID: 6166
-		private Map map;
-
-		// Token: 0x04001817 RID: 6167
-		private List<CompTransporter> transporters;
-
-		// Token: 0x04001818 RID: 6168
-		private List<TransferableOneWay> transferables;
-
-		// Token: 0x04001819 RID: 6169
-		private TransferableOneWayWidget pawnsTransfer;
-
-		// Token: 0x0400181A RID: 6170
-		private TransferableOneWayWidget itemsTransfer;
-
-		// Token: 0x0400181B RID: 6171
-		private Dialog_LoadTransporters.Tab tab = Dialog_LoadTransporters.Tab.Pawns;
-
-		// Token: 0x0400181C RID: 6172
-		private float lastMassFlashTime = -9999f;
-
-		// Token: 0x0400181D RID: 6173
-		private bool massUsageDirty = true;
-
-		// Token: 0x0400181E RID: 6174
-		private float cachedMassUsage;
-
-		// Token: 0x0400181F RID: 6175
-		private bool tilesPerDayDirty = true;
-
-		// Token: 0x04001820 RID: 6176
-		private float cachedTilesPerDay;
-
-		// Token: 0x04001821 RID: 6177
-		private string cachedTilesPerDayExplanation;
-
-		// Token: 0x04001822 RID: 6178
-		private bool daysWorthOfFoodDirty = true;
-
-		// Token: 0x04001823 RID: 6179
-		private Pair<float, float> cachedDaysWorthOfFood;
-
-		// Token: 0x04001824 RID: 6180
-		private bool foragedFoodPerDayDirty = true;
-
-		// Token: 0x04001825 RID: 6181
-		private Pair<ThingDef, float> cachedForagedFoodPerDay;
-
-		// Token: 0x04001826 RID: 6182
-		private string cachedForagedFoodPerDayExplanation;
-
-		// Token: 0x04001827 RID: 6183
-		private bool visibilityDirty = true;
-
-		// Token: 0x04001828 RID: 6184
-		private float cachedVisibility;
-
-		// Token: 0x04001829 RID: 6185
-		private string cachedVisibilityExplanation;
-
-		// Token: 0x0400182A RID: 6186
-		private const float TitleRectHeight = 35f;
-
-		// Token: 0x0400182B RID: 6187
-		private const float BottomAreaHeight = 55f;
-
-		// Token: 0x0400182C RID: 6188
-		private readonly Vector2 BottomButtonSize = new Vector2(160f, 40f);
-
-		// Token: 0x0400182D RID: 6189
-		private static List<TabRecord> tabsList = new List<TabRecord>();
 
 		// Token: 0x020007FD RID: 2045
 		private enum Tab

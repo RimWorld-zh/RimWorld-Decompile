@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000E62 RID: 3682
 	internal static class GUIEventFilterForOSX
 	{
+		// Token: 0x04003979 RID: 14713
+		private static List<Event> eventsThisFrame = new List<Event>();
+
+		// Token: 0x0400397A RID: 14714
+		private static int lastRecordedFrame = -1;
+
 		// Token: 0x060056C6 RID: 22214 RVA: 0x002CBAB8 File Offset: 0x002C9EB8
 		public static void CheckRejectGUIEvent()
 		{
@@ -52,11 +58,5 @@ namespace Verse
 			}
 			Event.current.Use();
 		}
-
-		// Token: 0x04003979 RID: 14713
-		private static List<Event> eventsThisFrame = new List<Event>();
-
-		// Token: 0x0400397A RID: 14714
-		private static int lastRecordedFrame = -1;
 	}
 }

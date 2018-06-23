@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x020006DF RID: 1759
 	public class ActiveDropPod : Thing, IActiveDropPod, IThingHolder
 	{
+		// Token: 0x04001558 RID: 5464
+		public int age = 0;
+
+		// Token: 0x04001559 RID: 5465
+		private ActiveDropPodInfo contents;
+
 		// Token: 0x170005D4 RID: 1492
 		// (get) Token: 0x06002649 RID: 9801 RVA: 0x00148698 File Offset: 0x00146A98
 		// (set) Token: 0x0600264A RID: 9802 RVA: 0x001486B3 File Offset: 0x00146AB3
@@ -136,11 +142,5 @@ namespace RimWorld
 			SoundDefOf.DropPod_Open.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 			this.Destroy(DestroyMode.Vanish);
 		}
-
-		// Token: 0x04001558 RID: 5464
-		public int age = 0;
-
-		// Token: 0x04001559 RID: 5465
-		private ActiveDropPodInfo contents;
 	}
 }

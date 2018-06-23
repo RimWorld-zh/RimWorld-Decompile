@@ -9,6 +9,15 @@ namespace RimWorld
 	// Token: 0x020003F7 RID: 1015
 	public class GenStep_ElevationFertility : GenStep
 	{
+		// Token: 0x04000A9D RID: 2717
+		private const float ElevationFreq = 0.021f;
+
+		// Token: 0x04000A9E RID: 2718
+		private const float FertilityFreq = 0.021f;
+
+		// Token: 0x04000A9F RID: 2719
+		private const float EdgeMountainSpan = 0.42f;
+
 		// Token: 0x17000253 RID: 595
 		// (get) Token: 0x0600117A RID: 4474 RVA: 0x000974E4 File Offset: 0x000958E4
 		public override int SeedPart
@@ -94,14 +103,5 @@ namespace RimWorld
 				fertility[intVec2] = moduleBase3.GetValue(intVec2);
 			}
 		}
-
-		// Token: 0x04000A9D RID: 2717
-		private const float ElevationFreq = 0.021f;
-
-		// Token: 0x04000A9E RID: 2718
-		private const float FertilityFreq = 0.021f;
-
-		// Token: 0x04000A9F RID: 2719
-		private const float EdgeMountainSpan = 0.42f;
 	}
 }

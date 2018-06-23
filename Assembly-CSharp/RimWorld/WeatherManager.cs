@@ -9,6 +9,30 @@ namespace RimWorld
 	// Token: 0x0200044A RID: 1098
 	public sealed class WeatherManager : IExposable
 	{
+		// Token: 0x04000BA3 RID: 2979
+		public Map map;
+
+		// Token: 0x04000BA4 RID: 2980
+		public WeatherEventHandler eventHandler = new WeatherEventHandler();
+
+		// Token: 0x04000BA5 RID: 2981
+		public WeatherDef curWeather = WeatherDefOf.Clear;
+
+		// Token: 0x04000BA6 RID: 2982
+		public WeatherDef lastWeather = WeatherDefOf.Clear;
+
+		// Token: 0x04000BA7 RID: 2983
+		public int curWeatherAge = 0;
+
+		// Token: 0x04000BA8 RID: 2984
+		private List<Sustainer> ambienceSustainers = new List<Sustainer>();
+
+		// Token: 0x04000BA9 RID: 2985
+		public TemperatureMemory growthSeasonMemory;
+
+		// Token: 0x04000BAA RID: 2986
+		public const float TransitionTicks = 4000f;
+
 		// Token: 0x0600131E RID: 4894 RVA: 0x000A4B14 File Offset: 0x000A2F14
 		public WeatherManager(Map map)
 		{
@@ -273,29 +297,5 @@ namespace RimWorld
 			this.lastWeather.Worker.DrawWeather(this.map);
 			this.curWeather.Worker.DrawWeather(this.map);
 		}
-
-		// Token: 0x04000BA3 RID: 2979
-		public Map map;
-
-		// Token: 0x04000BA4 RID: 2980
-		public WeatherEventHandler eventHandler = new WeatherEventHandler();
-
-		// Token: 0x04000BA5 RID: 2981
-		public WeatherDef curWeather = WeatherDefOf.Clear;
-
-		// Token: 0x04000BA6 RID: 2982
-		public WeatherDef lastWeather = WeatherDefOf.Clear;
-
-		// Token: 0x04000BA7 RID: 2983
-		public int curWeatherAge = 0;
-
-		// Token: 0x04000BA8 RID: 2984
-		private List<Sustainer> ambienceSustainers = new List<Sustainer>();
-
-		// Token: 0x04000BA9 RID: 2985
-		public TemperatureMemory growthSeasonMemory;
-
-		// Token: 0x04000BAA RID: 2986
-		public const float TransitionTicks = 4000f;
 	}
 }

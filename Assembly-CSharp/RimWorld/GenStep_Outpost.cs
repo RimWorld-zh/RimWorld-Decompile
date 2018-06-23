@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x0200040C RID: 1036
 	public class GenStep_Outpost : GenStep
 	{
+		// Token: 0x04000AD7 RID: 2775
+		private const int Size = 16;
+
+		// Token: 0x04000AD8 RID: 2776
+		private static List<CellRect> possibleRects = new List<CellRect>();
+
 		// Token: 0x17000261 RID: 609
 		// (get) Token: 0x060011CF RID: 4559 RVA: 0x0009AD30 File Offset: 0x00099130
 		public override int SeedPart
@@ -69,11 +75,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000AD7 RID: 2775
-		private const int Size = 16;
-
-		// Token: 0x04000AD8 RID: 2776
-		private static List<CellRect> possibleRects = new List<CellRect>();
 	}
 }

@@ -5,6 +5,12 @@ namespace Steamworks
 	// Token: 0x02000157 RID: 343
 	public struct HAuthTicket : IEquatable<HAuthTicket>, IComparable<HAuthTicket>
 	{
+		// Token: 0x04000663 RID: 1635
+		public static readonly HAuthTicket Invalid = new HAuthTicket(0u);
+
+		// Token: 0x04000664 RID: 1636
+		public uint m_HAuthTicket;
+
 		// Token: 0x0600078A RID: 1930 RVA: 0x0000D013 File Offset: 0x0000B213
 		public HAuthTicket(uint value)
 		{
@@ -64,11 +70,5 @@ namespace Steamworks
 		{
 			return this.m_HAuthTicket.CompareTo(other.m_HAuthTicket);
 		}
-
-		// Token: 0x04000663 RID: 1635
-		public static readonly HAuthTicket Invalid = new HAuthTicket(0u);
-
-		// Token: 0x04000664 RID: 1636
-		public uint m_HAuthTicket;
 	}
 }

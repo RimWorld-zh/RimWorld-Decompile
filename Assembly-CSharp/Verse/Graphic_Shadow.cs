@@ -7,6 +7,20 @@ namespace Verse
 	// Token: 0x02000DDE RID: 3550
 	public class Graphic_Shadow : Graphic
 	{
+		// Token: 0x040034C7 RID: 13511
+		private Mesh shadowMesh;
+
+		// Token: 0x040034C8 RID: 13512
+		private ShadowData shadowInfo;
+
+		// Token: 0x040034C9 RID: 13513
+		[TweakValue("Graphics_Shadow", -5f, 5f)]
+		private static float GlobalShadowPosOffsetX = 0f;
+
+		// Token: 0x040034CA RID: 13514
+		[TweakValue("Graphics_Shadow", -5f, 5f)]
+		private static float GlobalShadowPosOffsetZ = 0f;
+
 		// Token: 0x06004F8F RID: 20367 RVA: 0x002969F4 File Offset: 0x00294DF4
 		public Graphic_Shadow(ShadowData shadowInfo)
 		{
@@ -45,19 +59,5 @@ namespace Verse
 		{
 			return "Graphic_Shadow(" + this.shadowInfo + ")";
 		}
-
-		// Token: 0x040034C7 RID: 13511
-		private Mesh shadowMesh;
-
-		// Token: 0x040034C8 RID: 13512
-		private ShadowData shadowInfo;
-
-		// Token: 0x040034C9 RID: 13513
-		[TweakValue("Graphics_Shadow", -5f, 5f)]
-		private static float GlobalShadowPosOffsetX = 0f;
-
-		// Token: 0x040034CA RID: 13514
-		[TweakValue("Graphics_Shadow", -5f, 5f)]
-		private static float GlobalShadowPosOffsetZ = 0f;
 	}
 }

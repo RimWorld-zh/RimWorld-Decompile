@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class BodyPartTagDefOf
 	{
-		// Token: 0x0600366C RID: 13932 RVA: 0x001D0E55 File Offset: 0x001CF255
-		static BodyPartTagDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(BodyPartTagDefOf));
-		}
-
 		// Token: 0x040022DB RID: 8923
 		public static BodyPartTagDef BloodFiltrationSource;
 
@@ -81,5 +75,11 @@ namespace RimWorld
 
 		// Token: 0x040022F1 RID: 8945
 		public static BodyPartTagDef TalkingPathway;
+
+		// Token: 0x0600366C RID: 13932 RVA: 0x001D0E55 File Offset: 0x001CF255
+		static BodyPartTagDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(BodyPartTagDefOf));
+		}
 	}
 }

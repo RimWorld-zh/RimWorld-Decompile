@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x02000823 RID: 2083
 	public class TransferableOneWay : Transferable
 	{
+		// Token: 0x04001907 RID: 6407
+		public List<Thing> things = new List<Thing>();
+
+		// Token: 0x04001908 RID: 6408
+		private int countToTransfer;
+
 		// Token: 0x17000775 RID: 1909
 		// (get) Token: 0x06002ED0 RID: 11984 RVA: 0x0018F48C File Offset: 0x0018D88C
 		public override Thing AnyThing
@@ -148,11 +154,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04001907 RID: 6407
-		public List<Thing> things = new List<Thing>();
-
-		// Token: 0x04001908 RID: 6408
-		private int countToTransfer;
 	}
 }

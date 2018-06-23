@@ -6,6 +6,19 @@ namespace Verse.Grammar
 	// Token: 0x02000BE8 RID: 3048
 	public class Rule_File : Rule
 	{
+		// Token: 0x04002D85 RID: 11653
+		[MayTranslate]
+		public string path = null;
+
+		// Token: 0x04002D86 RID: 11654
+		[MayTranslate]
+		[TranslationCanChangeCount]
+		public List<string> pathList = new List<string>();
+
+		// Token: 0x04002D87 RID: 11655
+		[Unsaved]
+		private List<string> cachedStrings = new List<string>();
+
 		// Token: 0x17000A79 RID: 2681
 		// (get) Token: 0x0600428C RID: 17036 RVA: 0x00230FD8 File Offset: 0x0022F3D8
 		public override float BaseSelectionWeight
@@ -82,18 +95,5 @@ namespace Verse.Grammar
 			}
 			return result;
 		}
-
-		// Token: 0x04002D85 RID: 11653
-		[MayTranslate]
-		public string path = null;
-
-		// Token: 0x04002D86 RID: 11654
-		[MayTranslate]
-		[TranslationCanChangeCount]
-		public List<string> pathList = new List<string>();
-
-		// Token: 0x04002D87 RID: 11655
-		[Unsaved]
-		private List<string> cachedStrings = new List<string>();
 	}
 }

@@ -10,6 +10,15 @@ namespace RimWorld
 	// Token: 0x020006A6 RID: 1702
 	public class Building_Grave : Building_Casket, IStoreSettingsParent, IAssignableBuilding, IHaulDestination
 	{
+		// Token: 0x04001430 RID: 5168
+		private StorageSettings storageSettings = null;
+
+		// Token: 0x04001431 RID: 5169
+		private Graphic cachedGraphicFull = null;
+
+		// Token: 0x04001432 RID: 5170
+		public Pawn assignedPawn = null;
+
 		// Token: 0x1700057D RID: 1405
 		// (get) Token: 0x0600246C RID: 9324 RVA: 0x001381D8 File Offset: 0x001365D8
 		public override Graphic Graphic
@@ -325,14 +334,5 @@ namespace RimWorld
 			}
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x04001430 RID: 5168
-		private StorageSettings storageSettings = null;
-
-		// Token: 0x04001431 RID: 5169
-		private Graphic cachedGraphicFull = null;
-
-		// Token: 0x04001432 RID: 5170
-		public Pawn assignedPawn = null;
 	}
 }

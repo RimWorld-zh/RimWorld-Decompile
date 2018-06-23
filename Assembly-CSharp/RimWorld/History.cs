@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x020002F8 RID: 760
 	public sealed class History : IExposable
 	{
+		// Token: 0x04000849 RID: 2121
+		public Archive archive = new Archive();
+
+		// Token: 0x0400084A RID: 2122
+		private List<HistoryAutoRecorderGroup> autoRecorderGroups;
+
+		// Token: 0x0400084B RID: 2123
+		public SimpleCurveDrawerStyle curveDrawerStyle;
+
 		// Token: 0x06000CAE RID: 3246 RVA: 0x0006FBE0 File Offset: 0x0006DFE0
 		public History()
 		{
@@ -60,14 +69,5 @@ namespace RimWorld
 				BackCompatibility.HistoryLoadingVars(this);
 			}
 		}
-
-		// Token: 0x04000849 RID: 2121
-		public Archive archive = new Archive();
-
-		// Token: 0x0400084A RID: 2122
-		private List<HistoryAutoRecorderGroup> autoRecorderGroups;
-
-		// Token: 0x0400084B RID: 2123
-		public SimpleCurveDrawerStyle curveDrawerStyle;
 	}
 }

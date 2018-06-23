@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x02000992 RID: 2450
 	public static class ShortCircuitUtility
 	{
+		// Token: 0x0400238E RID: 9102
+		private static Dictionary<PowerNet, bool> tmpPowerNetHasActivePowerSource = new Dictionary<PowerNet, bool>();
+
+		// Token: 0x0400238F RID: 9103
+		private static List<IntVec3> tmpCells = new List<IntVec3>();
+
 		// Token: 0x06003714 RID: 14100 RVA: 0x001D7908 File Offset: 0x001D5D08
 		public static IEnumerable<Building> GetShortCircuitablePowerConduits(Map map)
 		{
@@ -171,11 +177,5 @@ namespace RimWorld
 			}
 			return ShortCircuitUtility.tmpCells.Any<IntVec3>() && FireUtility.TryStartFireIn(ShortCircuitUtility.tmpCells.RandomElement<IntVec3>(), b.Map, Rand.Range(0.1f, 1.75f));
 		}
-
-		// Token: 0x0400238E RID: 9102
-		private static Dictionary<PowerNet, bool> tmpPowerNetHasActivePowerSource = new Dictionary<PowerNet, bool>();
-
-		// Token: 0x0400238F RID: 9103
-		private static List<IntVec3> tmpCells = new List<IntVec3>();
 	}
 }

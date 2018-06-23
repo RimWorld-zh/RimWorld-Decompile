@@ -7,6 +7,55 @@ namespace RimWorld
 	// Token: 0x020002B2 RID: 690
 	public class PawnColumnDef : Def
 	{
+		// Token: 0x0400069B RID: 1691
+		public Type workerClass = typeof(PawnColumnWorker);
+
+		// Token: 0x0400069C RID: 1692
+		public bool sortable;
+
+		// Token: 0x0400069D RID: 1693
+		public bool ignoreWhenCalculatingOptimalTableSize;
+
+		// Token: 0x0400069E RID: 1694
+		[NoTranslate]
+		public string headerIcon;
+
+		// Token: 0x0400069F RID: 1695
+		public Vector2 headerIconSize;
+
+		// Token: 0x040006A0 RID: 1696
+		[MustTranslate]
+		public string headerTip;
+
+		// Token: 0x040006A1 RID: 1697
+		public bool headerAlwaysInteractable;
+
+		// Token: 0x040006A2 RID: 1698
+		public bool paintable;
+
+		// Token: 0x040006A3 RID: 1699
+		public TrainableDef trainable;
+
+		// Token: 0x040006A4 RID: 1700
+		public int gap;
+
+		// Token: 0x040006A5 RID: 1701
+		public WorkTypeDef workType;
+
+		// Token: 0x040006A6 RID: 1702
+		public bool moveWorkTypeLabelDown;
+
+		// Token: 0x040006A7 RID: 1703
+		public int widthPriority;
+
+		// Token: 0x040006A8 RID: 1704
+		[Unsaved]
+		private PawnColumnWorker workerInt;
+
+		// Token: 0x040006A9 RID: 1705
+		[Unsaved]
+		private Texture2D headerIconTex;
+
 		// Token: 0x170001B6 RID: 438
 		// (get) Token: 0x06000B87 RID: 2951 RVA: 0x00068354 File Offset: 0x00066754
 		public PawnColumnWorker Worker
@@ -72,54 +121,5 @@ namespace RimWorld
 				return this.sortable || !this.headerTip.NullOrEmpty() || this.headerAlwaysInteractable;
 			}
 		}
-
-		// Token: 0x0400069B RID: 1691
-		public Type workerClass = typeof(PawnColumnWorker);
-
-		// Token: 0x0400069C RID: 1692
-		public bool sortable;
-
-		// Token: 0x0400069D RID: 1693
-		public bool ignoreWhenCalculatingOptimalTableSize;
-
-		// Token: 0x0400069E RID: 1694
-		[NoTranslate]
-		public string headerIcon;
-
-		// Token: 0x0400069F RID: 1695
-		public Vector2 headerIconSize;
-
-		// Token: 0x040006A0 RID: 1696
-		[MustTranslate]
-		public string headerTip;
-
-		// Token: 0x040006A1 RID: 1697
-		public bool headerAlwaysInteractable;
-
-		// Token: 0x040006A2 RID: 1698
-		public bool paintable;
-
-		// Token: 0x040006A3 RID: 1699
-		public TrainableDef trainable;
-
-		// Token: 0x040006A4 RID: 1700
-		public int gap;
-
-		// Token: 0x040006A5 RID: 1701
-		public WorkTypeDef workType;
-
-		// Token: 0x040006A6 RID: 1702
-		public bool moveWorkTypeLabelDown;
-
-		// Token: 0x040006A7 RID: 1703
-		public int widthPriority;
-
-		// Token: 0x040006A8 RID: 1704
-		[Unsaved]
-		private PawnColumnWorker workerInt;
-
-		// Token: 0x040006A9 RID: 1705
-		[Unsaved]
-		private Texture2D headerIconTex;
 	}
 }

@@ -8,6 +8,9 @@ namespace Verse
 	// Token: 0x02000E7E RID: 3710
 	public class Listing_ScenEdit : Listing_Standard
 	{
+		// Token: 0x040039EB RID: 14827
+		private Scenario scen;
+
 		// Token: 0x0600577B RID: 22395 RVA: 0x002CFCC9 File Offset: 0x002CE0C9
 		public Listing_ScenEdit(Scenario scen)
 		{
@@ -56,8 +59,5 @@ namespace Verse
 			base.Gap(4f);
 			return rect.RightPart(0.5f).Rounded();
 		}
-
-		// Token: 0x040039EB RID: 14827
-		private Scenario scen;
 	}
 }

@@ -9,6 +9,24 @@ namespace Verse
 	// Token: 0x02000D52 RID: 3410
 	public class Pawn_AgeTracker : IExposable
 	{
+		// Token: 0x040032F5 RID: 13045
+		private Pawn pawn;
+
+		// Token: 0x040032F6 RID: 13046
+		private long ageBiologicalTicksInt = -1L;
+
+		// Token: 0x040032F7 RID: 13047
+		private long birthAbsTicksInt = -1L;
+
+		// Token: 0x040032F8 RID: 13048
+		private int cachedLifeStageIndex = -1;
+
+		// Token: 0x040032F9 RID: 13049
+		private long nextLifeStageChangeTick = -1L;
+
+		// Token: 0x040032FA RID: 13050
+		private const float BornAtLongitude = 0f;
+
 		// Token: 0x06004C0E RID: 19470 RVA: 0x0027B4E5 File Offset: 0x002798E5
 		public Pawn_AgeTracker(Pawn newPawn)
 		{
@@ -418,23 +436,5 @@ namespace Verse
 			this.birthAbsTicksInt -= 3600000L;
 			this.RecalculateLifeStageIndex();
 		}
-
-		// Token: 0x040032F5 RID: 13045
-		private Pawn pawn;
-
-		// Token: 0x040032F6 RID: 13046
-		private long ageBiologicalTicksInt = -1L;
-
-		// Token: 0x040032F7 RID: 13047
-		private long birthAbsTicksInt = -1L;
-
-		// Token: 0x040032F8 RID: 13048
-		private int cachedLifeStageIndex = -1;
-
-		// Token: 0x040032F9 RID: 13049
-		private long nextLifeStageChangeTick = -1L;
-
-		// Token: 0x040032FA RID: 13050
-		private const float BornAtLongitude = 0f;
 	}
 }

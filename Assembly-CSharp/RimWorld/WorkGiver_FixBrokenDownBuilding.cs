@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000144 RID: 324
 	public class WorkGiver_FixBrokenDownBuilding : WorkGiver_Scanner
 	{
+		// Token: 0x04000327 RID: 807
+		public static string NotInHomeAreaTrans;
+
+		// Token: 0x04000328 RID: 808
+		private static string NoComponentsToRepairTrans;
+
 		// Token: 0x060006B4 RID: 1716 RVA: 0x000451BC File Offset: 0x000435BC
 		public static void ResetStaticData()
 		{
@@ -126,11 +132,5 @@ namespace RimWorld
 		{
 			return GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForDef(ThingDefOf.ComponentIndustrial), PathEndMode.InteractionCell, TraverseParms.For(pawn, pawn.NormalMaxDanger(), TraverseMode.ByPawn, false), 9999f, (Thing x) => !x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, null, false), null, 0, -1, false, RegionType.Set_Passable, false);
 		}
-
-		// Token: 0x04000327 RID: 807
-		public static string NotInHomeAreaTrans;
-
-		// Token: 0x04000328 RID: 808
-		private static string NoComponentsToRepairTrans;
 	}
 }

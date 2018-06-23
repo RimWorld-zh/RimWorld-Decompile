@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class KeyBindingDefOf
 	{
-		// Token: 0x0600364E RID: 13902 RVA: 0x001D0C39 File Offset: 0x001CF039
-		static KeyBindingDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(KeyBindingDefOf));
-		}
-
 		// Token: 0x04002202 RID: 8706
 		public static KeyBindingDef MapDolly_Up;
 
@@ -159,5 +153,11 @@ namespace RimWorld
 
 		// Token: 0x04002232 RID: 8754
 		public static KeyBindingDef Dev_ToggleDebugSettingsMenu;
+
+		// Token: 0x0600364E RID: 13902 RVA: 0x001D0C39 File Offset: 0x001CF039
+		static KeyBindingDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(KeyBindingDefOf));
+		}
 	}
 }

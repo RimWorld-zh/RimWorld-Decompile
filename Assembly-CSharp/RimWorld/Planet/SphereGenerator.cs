@@ -7,6 +7,15 @@ namespace RimWorld.Planet
 	// Token: 0x020005B6 RID: 1462
 	public static class SphereGenerator
 	{
+		// Token: 0x040010D9 RID: 4313
+		private static List<TriangleIndices> tris = new List<TriangleIndices>();
+
+		// Token: 0x040010DA RID: 4314
+		private static List<TriangleIndices> newTris = new List<TriangleIndices>();
+
+		// Token: 0x040010DB RID: 4315
+		private static Dictionary<long, int> middlePointsCache = new Dictionary<long, int>();
+
 		// Token: 0x06001C1D RID: 7197 RVA: 0x000F2168 File Offset: 0x000F0568
 		public static void Generate(int subdivisionsCount, float radius, Vector3 viewCenter, float viewAngle, out List<Vector3> outVerts, out List<int> outIndices)
 		{
@@ -67,14 +76,5 @@ namespace RimWorld.Planet
 			}
 			return result;
 		}
-
-		// Token: 0x040010D9 RID: 4313
-		private static List<TriangleIndices> tris = new List<TriangleIndices>();
-
-		// Token: 0x040010DA RID: 4314
-		private static List<TriangleIndices> newTris = new List<TriangleIndices>();
-
-		// Token: 0x040010DB RID: 4315
-		private static Dictionary<long, int> middlePointsCache = new Dictionary<long, int>();
 	}
 }

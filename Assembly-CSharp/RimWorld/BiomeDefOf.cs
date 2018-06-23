@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class BiomeDefOf
 	{
-		// Token: 0x06003637 RID: 13879 RVA: 0x001D0A9B File Offset: 0x001CEE9B
-		static BiomeDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(BiomeDefOf));
-		}
-
 		// Token: 0x0400203B RID: 8251
 		public static BiomeDef IceSheet;
 
@@ -41,5 +35,11 @@ namespace RimWorld
 
 		// Token: 0x04002044 RID: 8260
 		public static BiomeDef Lake;
+
+		// Token: 0x06003637 RID: 13879 RVA: 0x001D0A9B File Offset: 0x001CEE9B
+		static BiomeDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(BiomeDefOf));
+		}
 	}
 }

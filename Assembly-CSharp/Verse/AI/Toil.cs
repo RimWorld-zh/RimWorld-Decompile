@@ -7,6 +7,45 @@ namespace Verse.AI
 	// Token: 0x02000A44 RID: 2628
 	public sealed class Toil : IJobEndable
 	{
+		// Token: 0x0400252D RID: 9517
+		public Pawn actor;
+
+		// Token: 0x0400252E RID: 9518
+		public Action initAction = null;
+
+		// Token: 0x0400252F RID: 9519
+		public Action tickAction = null;
+
+		// Token: 0x04002530 RID: 9520
+		public List<Func<JobCondition>> endConditions = new List<Func<JobCondition>>();
+
+		// Token: 0x04002531 RID: 9521
+		public List<Action> preInitActions = null;
+
+		// Token: 0x04002532 RID: 9522
+		public List<Action> preTickActions = null;
+
+		// Token: 0x04002533 RID: 9523
+		public List<Action> finishActions = null;
+
+		// Token: 0x04002534 RID: 9524
+		public bool atomicWithPrevious = false;
+
+		// Token: 0x04002535 RID: 9525
+		public RandomSocialMode socialMode = RandomSocialMode.Normal;
+
+		// Token: 0x04002536 RID: 9526
+		public Func<SkillDef> activeSkill;
+
+		// Token: 0x04002537 RID: 9527
+		public ToilCompleteMode defaultCompleteMode = ToilCompleteMode.Instant;
+
+		// Token: 0x04002538 RID: 9528
+		public int defaultDuration = 0;
+
+		// Token: 0x04002539 RID: 9529
+		public bool handlingFacing = false;
+
 		// Token: 0x06003A7F RID: 14975 RVA: 0x001F0110 File Offset: 0x001EE510
 		public void Cleanup(int myIndex, JobDriver jobDriver)
 		{
@@ -99,44 +138,5 @@ namespace Verse.AI
 			}
 			this.finishActions.Add(newAct);
 		}
-
-		// Token: 0x0400252D RID: 9517
-		public Pawn actor;
-
-		// Token: 0x0400252E RID: 9518
-		public Action initAction = null;
-
-		// Token: 0x0400252F RID: 9519
-		public Action tickAction = null;
-
-		// Token: 0x04002530 RID: 9520
-		public List<Func<JobCondition>> endConditions = new List<Func<JobCondition>>();
-
-		// Token: 0x04002531 RID: 9521
-		public List<Action> preInitActions = null;
-
-		// Token: 0x04002532 RID: 9522
-		public List<Action> preTickActions = null;
-
-		// Token: 0x04002533 RID: 9523
-		public List<Action> finishActions = null;
-
-		// Token: 0x04002534 RID: 9524
-		public bool atomicWithPrevious = false;
-
-		// Token: 0x04002535 RID: 9525
-		public RandomSocialMode socialMode = RandomSocialMode.Normal;
-
-		// Token: 0x04002536 RID: 9526
-		public Func<SkillDef> activeSkill;
-
-		// Token: 0x04002537 RID: 9527
-		public ToilCompleteMode defaultCompleteMode = ToilCompleteMode.Instant;
-
-		// Token: 0x04002538 RID: 9528
-		public int defaultDuration = 0;
-
-		// Token: 0x04002539 RID: 9529
-		public bool handlingFacing = false;
 	}
 }

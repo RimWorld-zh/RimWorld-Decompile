@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000EB4 RID: 3764
 	public abstract class Dialog_Rename : Window
 	{
+		// Token: 0x04003B67 RID: 15207
+		protected string curName;
+
+		// Token: 0x04003B68 RID: 15208
+		private bool focusedRenameField;
+
 		// Token: 0x0600591E RID: 22814 RVA: 0x002DBC68 File Offset: 0x002DA068
 		public Dialog_Rename()
 		{
@@ -97,11 +103,5 @@ namespace Verse
 
 		// Token: 0x06005923 RID: 22819
 		protected abstract void SetName(string name);
-
-		// Token: 0x04003B67 RID: 15207
-		protected string curName;
-
-		// Token: 0x04003B68 RID: 15208
-		private bool focusedRenameField;
 	}
 }

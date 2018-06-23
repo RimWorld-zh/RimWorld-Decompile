@@ -6,6 +6,18 @@ namespace Verse.Sound
 	// Token: 0x02000DB3 RID: 3507
 	public struct SoundInfo
 	{
+		// Token: 0x0400343A RID: 13370
+		private Dictionary<string, float> parameters;
+
+		// Token: 0x0400343B RID: 13371
+		public float volumeFactor;
+
+		// Token: 0x0400343C RID: 13372
+		public float pitchFactor;
+
+		// Token: 0x0400343D RID: 13373
+		public bool testPlay;
+
 		// Token: 0x17000CAC RID: 3244
 		// (get) Token: 0x06004E70 RID: 20080 RVA: 0x00290268 File Offset: 0x0028E668
 		// (set) Token: 0x06004E71 RID: 20081 RVA: 0x00290282 File Offset: 0x0028E682
@@ -125,17 +137,5 @@ namespace Verse.Sound
 				")"
 			});
 		}
-
-		// Token: 0x0400343A RID: 13370
-		private Dictionary<string, float> parameters;
-
-		// Token: 0x0400343B RID: 13371
-		public float volumeFactor;
-
-		// Token: 0x0400343C RID: 13372
-		public float pitchFactor;
-
-		// Token: 0x0400343D RID: 13373
-		public bool testPlay;
 	}
 }

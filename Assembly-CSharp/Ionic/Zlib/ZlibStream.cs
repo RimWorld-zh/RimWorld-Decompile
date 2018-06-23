@@ -6,6 +6,12 @@ namespace Ionic.Zlib
 	// Token: 0x02000024 RID: 36
 	public class ZlibStream : Stream
 	{
+		// Token: 0x04000189 RID: 393
+		internal ZlibBaseStream _baseStream;
+
+		// Token: 0x0400018A RID: 394
+		private bool _disposed;
+
 		// Token: 0x06000122 RID: 290 RVA: 0x0000CB9A File Offset: 0x0000AF9A
 		public ZlibStream(Stream stream, CompressionMode mode) : this(stream, mode, CompressionLevel.Default, false)
 		{
@@ -280,11 +286,5 @@ namespace Ionic.Zlib
 			}
 			return result;
 		}
-
-		// Token: 0x04000189 RID: 393
-		internal ZlibBaseStream _baseStream;
-
-		// Token: 0x0400018A RID: 394
-		private bool _disposed;
 	}
 }

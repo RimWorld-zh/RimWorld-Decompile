@@ -6,6 +6,37 @@ namespace Verse
 	// Token: 0x02000D14 RID: 3348
 	public class HediffComp_Infecter : HediffComp
 	{
+		// Token: 0x0400320E RID: 12814
+		private int ticksUntilInfect = -1;
+
+		// Token: 0x0400320F RID: 12815
+		private float infectionChanceFactorFromTendRoom = 1f;
+
+		// Token: 0x04003210 RID: 12816
+		private const int UninitializedValue = -1;
+
+		// Token: 0x04003211 RID: 12817
+		private const int WillNotInfectValue = -2;
+
+		// Token: 0x04003212 RID: 12818
+		private const int FailedToMakeInfectionValue = -3;
+
+		// Token: 0x04003213 RID: 12819
+		private const int AlreadyMadeInfectionValue = -4;
+
+		// Token: 0x04003214 RID: 12820
+		private static readonly SimpleCurve InfectionChanceFactorFromTendQualityCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 0.85f),
+				true
+			},
+			{
+				new CurvePoint(1f, 0.05f),
+				true
+			}
+		};
+
 		// Token: 0x17000BB0 RID: 2992
 		// (get) Token: 0x060049D7 RID: 18903 RVA: 0x0026A4AC File Offset: 0x002688AC
 		public HediffCompProperties_Infecter Props
@@ -153,36 +184,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x0400320E RID: 12814
-		private int ticksUntilInfect = -1;
-
-		// Token: 0x0400320F RID: 12815
-		private float infectionChanceFactorFromTendRoom = 1f;
-
-		// Token: 0x04003210 RID: 12816
-		private const int UninitializedValue = -1;
-
-		// Token: 0x04003211 RID: 12817
-		private const int WillNotInfectValue = -2;
-
-		// Token: 0x04003212 RID: 12818
-		private const int FailedToMakeInfectionValue = -3;
-
-		// Token: 0x04003213 RID: 12819
-		private const int AlreadyMadeInfectionValue = -4;
-
-		// Token: 0x04003214 RID: 12820
-		private static readonly SimpleCurve InfectionChanceFactorFromTendQualityCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 0.85f),
-				true
-			},
-			{
-				new CurvePoint(1f, 0.05f),
-				true
-			}
-		};
 	}
 }

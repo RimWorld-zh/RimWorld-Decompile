@@ -7,6 +7,16 @@ namespace RimWorld
 	// Token: 0x0200063B RID: 1595
 	public abstract class ScenPart : IExposable
 	{
+		// Token: 0x040012D8 RID: 4824
+		[TranslationHandle]
+		public ScenPartDef def;
+
+		// Token: 0x040012D9 RID: 4825
+		public bool visible = true;
+
+		// Token: 0x040012DA RID: 4826
+		public bool summarized = false;
+
 		// Token: 0x170004E5 RID: 1253
 		// (get) Token: 0x060020F9 RID: 8441 RVA: 0x00116F78 File Offset: 0x00115378
 		public static float RowHeight
@@ -159,15 +169,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x040012D8 RID: 4824
-		[TranslationHandle]
-		public ScenPartDef def;
-
-		// Token: 0x040012D9 RID: 4825
-		public bool visible = true;
-
-		// Token: 0x040012DA RID: 4826
-		public bool summarized = false;
 	}
 }

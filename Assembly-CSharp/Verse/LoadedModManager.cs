@@ -10,6 +10,12 @@ namespace Verse
 	// Token: 0x02000CBC RID: 3260
 	public static class LoadedModManager
 	{
+		// Token: 0x040030C6 RID: 12486
+		private static List<ModContentPack> runningMods = new List<ModContentPack>();
+
+		// Token: 0x040030C7 RID: 12487
+		private static Dictionary<Type, Mod> runningModClasses = new Dictionary<Type, Mod>();
+
 		// Token: 0x17000B5D RID: 2909
 		// (get) Token: 0x060047F0 RID: 18416 RVA: 0x0025E05C File Offset: 0x0025C45C
 		public static List<ModContentPack> RunningModsListForReading
@@ -314,11 +320,5 @@ namespace Verse
 			Scribe_Deep.Look<ModSettings>(ref settings, "ModSettings", new object[0]);
 			Scribe.saver.FinalizeSaving();
 		}
-
-		// Token: 0x040030C6 RID: 12486
-		private static List<ModContentPack> runningMods = new List<ModContentPack>();
-
-		// Token: 0x040030C7 RID: 12487
-		private static Dictionary<Type, Mod> runningModClasses = new Dictionary<Type, Mod>();
 	}
 }

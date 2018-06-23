@@ -6,6 +6,45 @@ namespace Verse.Noise
 	// Token: 0x02000F9F RID: 3999
 	public class Turbulence : ModuleBase
 	{
+		// Token: 0x04003F3A RID: 16186
+		private const double X0 = 0.189422607421875;
+
+		// Token: 0x04003F3B RID: 16187
+		private const double Y0 = 0.99371337890625;
+
+		// Token: 0x04003F3C RID: 16188
+		private const double Z0 = 0.4781646728515625;
+
+		// Token: 0x04003F3D RID: 16189
+		private const double X1 = 0.4046478271484375;
+
+		// Token: 0x04003F3E RID: 16190
+		private const double Y1 = 0.276611328125;
+
+		// Token: 0x04003F3F RID: 16191
+		private const double Z1 = 0.9230499267578125;
+
+		// Token: 0x04003F40 RID: 16192
+		private const double X2 = 0.82122802734375;
+
+		// Token: 0x04003F41 RID: 16193
+		private const double Y2 = 0.1710968017578125;
+
+		// Token: 0x04003F42 RID: 16194
+		private const double Z2 = 0.6842803955078125;
+
+		// Token: 0x04003F43 RID: 16195
+		private double m_power = 1.0;
+
+		// Token: 0x04003F44 RID: 16196
+		private Perlin m_xDistort = null;
+
+		// Token: 0x04003F45 RID: 16197
+		private Perlin m_yDistort = null;
+
+		// Token: 0x04003F46 RID: 16198
+		private Perlin m_zDistort = null;
+
 		// Token: 0x0600609B RID: 24731 RVA: 0x0030F204 File Offset: 0x0030D604
 		public Turbulence() : base(1)
 		{
@@ -113,44 +152,5 @@ namespace Verse.Noise
 			double z2 = z + this.m_zDistort.GetValue(x + 0.82122802734375, y + 0.1710968017578125, z + 0.6842803955078125) * this.m_power;
 			return this.modules[0].GetValue(x2, y2, z2);
 		}
-
-		// Token: 0x04003F3A RID: 16186
-		private const double X0 = 0.189422607421875;
-
-		// Token: 0x04003F3B RID: 16187
-		private const double Y0 = 0.99371337890625;
-
-		// Token: 0x04003F3C RID: 16188
-		private const double Z0 = 0.4781646728515625;
-
-		// Token: 0x04003F3D RID: 16189
-		private const double X1 = 0.4046478271484375;
-
-		// Token: 0x04003F3E RID: 16190
-		private const double Y1 = 0.276611328125;
-
-		// Token: 0x04003F3F RID: 16191
-		private const double Z1 = 0.9230499267578125;
-
-		// Token: 0x04003F40 RID: 16192
-		private const double X2 = 0.82122802734375;
-
-		// Token: 0x04003F41 RID: 16193
-		private const double Y2 = 0.1710968017578125;
-
-		// Token: 0x04003F42 RID: 16194
-		private const double Z2 = 0.6842803955078125;
-
-		// Token: 0x04003F43 RID: 16195
-		private double m_power = 1.0;
-
-		// Token: 0x04003F44 RID: 16196
-		private Perlin m_xDistort = null;
-
-		// Token: 0x04003F45 RID: 16197
-		private Perlin m_yDistort = null;
-
-		// Token: 0x04003F46 RID: 16198
-		private Perlin m_zDistort = null;
 	}
 }

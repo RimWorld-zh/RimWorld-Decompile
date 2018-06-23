@@ -7,6 +7,12 @@ namespace Verse.AI
 	// Token: 0x02000A39 RID: 2617
 	public class JobDriver_AttackStatic : JobDriver
 	{
+		// Token: 0x040024FF RID: 9471
+		private bool startedIncapacitated;
+
+		// Token: 0x04002500 RID: 9472
+		private int numAttacksMade;
+
 		// Token: 0x06003A19 RID: 14873 RVA: 0x001EBBF9 File Offset: 0x001E9FF9
 		public override void ExposeData()
 		{
@@ -75,11 +81,5 @@ namespace Verse.AI
 			};
 			yield break;
 		}
-
-		// Token: 0x040024FF RID: 9471
-		private bool startedIncapacitated;
-
-		// Token: 0x04002500 RID: 9472
-		private int numAttacksMade;
 	}
 }

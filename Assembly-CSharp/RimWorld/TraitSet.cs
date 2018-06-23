@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x0200053A RID: 1338
 	public class TraitSet : IExposable
 	{
+		// Token: 0x04000EAB RID: 3755
+		protected Pawn pawn;
+
+		// Token: 0x04000EAC RID: 3756
+		public List<Trait> allTraits = new List<Trait>();
+
 		// Token: 0x060018F0 RID: 6384 RVA: 0x000D9358 File Offset: 0x000D7758
 		public TraitSet(Pawn pawn)
 		{
@@ -104,11 +110,5 @@ namespace RimWorld
 			}
 			return 0;
 		}
-
-		// Token: 0x04000EAB RID: 3755
-		protected Pawn pawn;
-
-		// Token: 0x04000EAC RID: 3756
-		public List<Trait> allTraits = new List<Trait>();
 	}
 }

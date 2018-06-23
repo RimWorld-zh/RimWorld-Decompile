@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x0200063F RID: 1599
 	public abstract class ScenPart_IncidentBase : ScenPart
 	{
+		// Token: 0x040012E7 RID: 4839
+		protected IncidentDef incident;
+
 		// Token: 0x170004EA RID: 1258
 		// (get) Token: 0x06002125 RID: 8485 RVA: 0x00119704 File Offset: 0x00117B04
 		public IncidentDef Incident
@@ -99,8 +102,5 @@ namespace RimWorld
 				});
 			}
 		}
-
-		// Token: 0x040012E7 RID: 4839
-		protected IncidentDef incident;
 	}
 }

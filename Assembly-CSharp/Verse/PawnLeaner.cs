@@ -6,6 +6,21 @@ namespace Verse
 	// Token: 0x02000CE0 RID: 3296
 	public class PawnLeaner
 	{
+		// Token: 0x04003129 RID: 12585
+		private Pawn pawn;
+
+		// Token: 0x0400312A RID: 12586
+		private IntVec3 shootSourceOffset = new IntVec3(0, 0, 0);
+
+		// Token: 0x0400312B RID: 12587
+		private float leanOffsetCurPct = 0f;
+
+		// Token: 0x0400312C RID: 12588
+		private const float LeanOffsetPctChangeRate = 0.075f;
+
+		// Token: 0x0400312D RID: 12589
+		private const float LeanOffsetDistanceMultiplier = 0.5f;
+
 		// Token: 0x060048AD RID: 18605 RVA: 0x002626C6 File Offset: 0x00260AC6
 		public PawnLeaner(Pawn pawn)
 		{
@@ -55,20 +70,5 @@ namespace Verse
 		{
 			this.shootSourceOffset = newShootLine.Source - this.pawn.Position;
 		}
-
-		// Token: 0x04003129 RID: 12585
-		private Pawn pawn;
-
-		// Token: 0x0400312A RID: 12586
-		private IntVec3 shootSourceOffset = new IntVec3(0, 0, 0);
-
-		// Token: 0x0400312B RID: 12587
-		private float leanOffsetCurPct = 0f;
-
-		// Token: 0x0400312C RID: 12588
-		private const float LeanOffsetPctChangeRate = 0.075f;
-
-		// Token: 0x0400312D RID: 12589
-		private const float LeanOffsetDistanceMultiplier = 0.5f;
 	}
 }

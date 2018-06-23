@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class TaleDefOf
 	{
-		// Token: 0x0600364C RID: 13900 RVA: 0x001D0C15 File Offset: 0x001CF015
-		static TaleDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(TaleDefOf));
-		}
-
 		// Token: 0x040021CB RID: 8651
 		public static TaleDef FinishedResearchProject;
 
@@ -173,5 +167,11 @@ namespace RimWorld
 
 		// Token: 0x04002200 RID: 8704
 		public static TaleDef RaidArrived;
+
+		// Token: 0x0600364C RID: 13900 RVA: 0x001D0C15 File Offset: 0x001CF015
+		static TaleDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(TaleDefOf));
+		}
 	}
 }

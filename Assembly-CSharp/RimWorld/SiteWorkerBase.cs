@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020002D1 RID: 721
 	public class SiteWorkerBase
 	{
+		// Token: 0x04000732 RID: 1842
+		public SiteDefBase def;
+
 		// Token: 0x06000BEF RID: 3055 RVA: 0x00069E79 File Offset: 0x00068279
 		public virtual void PostMapGenerate(Map map)
 		{
@@ -25,8 +28,5 @@ namespace RimWorld
 			lookTargets = null;
 			return this.def.arrivedLetter;
 		}
-
-		// Token: 0x04000732 RID: 1842
-		public SiteDefBase def;
 	}
 }

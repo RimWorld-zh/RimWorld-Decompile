@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x0200080D RID: 2061
 	public abstract class Dialog_SaveFileList : Dialog_FileList
 	{
+		// Token: 0x04001883 RID: 6275
+		private static readonly Color AutosaveTextColor = new Color(0.75f, 0.75f, 0.75f);
+
 		// Token: 0x06002E15 RID: 11797 RVA: 0x00184BE4 File Offset: 0x00182FE4
 		protected override Color FileNameColor(SaveFileInfo sfi)
 		{
@@ -44,8 +47,5 @@ namespace RimWorld
 				Find.MainTabsRoot.SetCurrentTab(MainButtonDefOf.Menu, true);
 			}
 		}
-
-		// Token: 0x04001883 RID: 6275
-		private static readonly Color AutosaveTextColor = new Color(0.75f, 0.75f, 0.75f);
 	}
 }

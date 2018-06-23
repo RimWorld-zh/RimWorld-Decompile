@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000422 RID: 1058
 	public static class PowerConnectionMaker
 	{
+		// Token: 0x04000B35 RID: 2869
+		private const int ConnectMaxDist = 6;
+
 		// Token: 0x0600126F RID: 4719 RVA: 0x0009FA44 File Offset: 0x0009DE44
 		public static void ConnectAllConnectorsToTransmitter(CompPower newTransmitter)
 		{
@@ -139,8 +142,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000B35 RID: 2869
-		private const int ConnectMaxDist = 6;
 	}
 }

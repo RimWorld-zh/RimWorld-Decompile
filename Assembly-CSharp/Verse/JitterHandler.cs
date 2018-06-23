@@ -6,6 +6,21 @@ namespace Verse
 	// Token: 0x02000DE3 RID: 3555
 	public class JitterHandler
 	{
+		// Token: 0x040034CF RID: 13519
+		private Vector3 curOffset = new Vector3(0f, 0f, 0f);
+
+		// Token: 0x040034D0 RID: 13520
+		private float DamageJitterDistance = 0.17f;
+
+		// Token: 0x040034D1 RID: 13521
+		private float DeflectJitterDistance = 0.1f;
+
+		// Token: 0x040034D2 RID: 13522
+		private float JitterDropPerTick = 0.018f;
+
+		// Token: 0x040034D3 RID: 13523
+		private float JitterMax = 0.35f;
+
 		// Token: 0x17000CEC RID: 3308
 		// (get) Token: 0x06004FB0 RID: 20400 RVA: 0x00297014 File Offset: 0x00295414
 		public Vector3 CurrentOffset
@@ -56,20 +71,5 @@ namespace Verse
 				this.curOffset *= this.JitterMax / this.curOffset.magnitude;
 			}
 		}
-
-		// Token: 0x040034CF RID: 13519
-		private Vector3 curOffset = new Vector3(0f, 0f, 0f);
-
-		// Token: 0x040034D0 RID: 13520
-		private float DamageJitterDistance = 0.17f;
-
-		// Token: 0x040034D1 RID: 13521
-		private float DeflectJitterDistance = 0.1f;
-
-		// Token: 0x040034D2 RID: 13522
-		private float JitterDropPerTick = 0.018f;
-
-		// Token: 0x040034D3 RID: 13523
-		private float JitterMax = 0.35f;
 	}
 }

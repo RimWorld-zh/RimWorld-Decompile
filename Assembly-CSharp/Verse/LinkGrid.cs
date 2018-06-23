@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000DE2 RID: 3554
 	public class LinkGrid
 	{
+		// Token: 0x040034CD RID: 13517
+		private Map map;
+
+		// Token: 0x040034CE RID: 13518
+		private LinkFlags[] linkGrid;
+
 		// Token: 0x06004FAC RID: 20396 RVA: 0x00296E9C File Offset: 0x0029529C
 		public LinkGrid(Map map)
 		{
@@ -40,11 +46,5 @@ namespace Verse
 				iterator.MoveNext();
 			}
 		}
-
-		// Token: 0x040034CD RID: 13517
-		private Map map;
-
-		// Token: 0x040034CE RID: 13518
-		private LinkFlags[] linkGrid;
 	}
 }

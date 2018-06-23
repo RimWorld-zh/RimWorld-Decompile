@@ -6,6 +6,9 @@ namespace Verse.AI.Group
 	// Token: 0x020009F7 RID: 2551
 	public class LordToil_Travel : LordToil
 	{
+		// Token: 0x0400247B RID: 9339
+		public Danger maxDanger = Danger.Unspecified;
+
 		// Token: 0x0600394B RID: 14667 RVA: 0x000501C7 File Offset: 0x0004E5C7
 		public LordToil_Travel(IntVec3 dest)
 		{
@@ -99,8 +102,5 @@ namespace Verse.AI.Group
 		{
 			this.Data.dest = dest;
 		}
-
-		// Token: 0x0400247B RID: 9339
-		public Danger maxDanger = Danger.Unspecified;
 	}
 }

@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000E07 RID: 3591
 	public abstract class ThingComp
 	{
+		// Token: 0x04003555 RID: 13653
+		public ThingWithComps parent;
+
+		// Token: 0x04003556 RID: 13654
+		public CompProperties props;
+
 		// Token: 0x17000D5B RID: 3419
 		// (get) Token: 0x06005166 RID: 20838 RVA: 0x0009C0F0 File Offset: 0x0009A4F0
 		public IThingHolder ParentHolder
@@ -168,11 +174,5 @@ namespace Verse
 				")"
 			});
 		}
-
-		// Token: 0x04003555 RID: 13653
-		public ThingWithComps parent;
-
-		// Token: 0x04003556 RID: 13654
-		public CompProperties props;
 	}
 }

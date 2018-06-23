@@ -8,6 +8,30 @@ namespace RimWorld
 	// Token: 0x02000169 RID: 361
 	public class LordJob_AssaultColony : LordJob
 	{
+		// Token: 0x04000331 RID: 817
+		private Faction assaulterFaction;
+
+		// Token: 0x04000332 RID: 818
+		private bool canKidnap = true;
+
+		// Token: 0x04000333 RID: 819
+		private bool canTimeoutOrFlee = true;
+
+		// Token: 0x04000334 RID: 820
+		private bool sappers = false;
+
+		// Token: 0x04000335 RID: 821
+		private bool useAvoidGridSmart = false;
+
+		// Token: 0x04000336 RID: 822
+		private bool canSteal = true;
+
+		// Token: 0x04000337 RID: 823
+		private static readonly IntRange AssaultTimeBeforeGiveUp = new IntRange(26000, 38000);
+
+		// Token: 0x04000338 RID: 824
+		private static readonly IntRange SapTimeBeforeGiveUp = new IntRange(33000, 38000);
+
 		// Token: 0x06000768 RID: 1896 RVA: 0x00049972 File Offset: 0x00047D72
 		public LordJob_AssaultColony()
 		{
@@ -159,29 +183,5 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.useAvoidGridSmart, "useAvoidGridSmart", false, false);
 			Scribe_Values.Look<bool>(ref this.canSteal, "canSteal", true, false);
 		}
-
-		// Token: 0x04000331 RID: 817
-		private Faction assaulterFaction;
-
-		// Token: 0x04000332 RID: 818
-		private bool canKidnap = true;
-
-		// Token: 0x04000333 RID: 819
-		private bool canTimeoutOrFlee = true;
-
-		// Token: 0x04000334 RID: 820
-		private bool sappers = false;
-
-		// Token: 0x04000335 RID: 821
-		private bool useAvoidGridSmart = false;
-
-		// Token: 0x04000336 RID: 822
-		private bool canSteal = true;
-
-		// Token: 0x04000337 RID: 823
-		private static readonly IntRange AssaultTimeBeforeGiveUp = new IntRange(26000, 38000);
-
-		// Token: 0x04000338 RID: 824
-		private static readonly IntRange SapTimeBeforeGiveUp = new IntRange(33000, 38000);
 	}
 }

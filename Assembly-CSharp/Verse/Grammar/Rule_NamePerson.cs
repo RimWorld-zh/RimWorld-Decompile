@@ -6,6 +6,9 @@ namespace Verse.Grammar
 	// Token: 0x02000BE9 RID: 3049
 	public class Rule_NamePerson : Rule
 	{
+		// Token: 0x04002D88 RID: 11656
+		public Gender gender;
+
 		// Token: 0x17000A7A RID: 2682
 		// (get) Token: 0x06004292 RID: 17042 RVA: 0x002311FC File Offset: 0x0022F5FC
 		public override float BaseSelectionWeight
@@ -33,8 +36,5 @@ namespace Verse.Grammar
 		{
 			return this.keyword + "->(personname)";
 		}
-
-		// Token: 0x04002D88 RID: 11656
-		public Gender gender;
 	}
 }

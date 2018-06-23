@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000E88 RID: 3720
 	public static class MessagesRepeatAvoider
 	{
+		// Token: 0x04003A19 RID: 14873
+		private static Dictionary<string, float> lastShowTimes = new Dictionary<string, float>();
+
 		// Token: 0x060057E3 RID: 22499 RVA: 0x002D17E2 File Offset: 0x002CFBE2
 		public static void Reset()
 		{
@@ -27,8 +30,5 @@ namespace Verse
 			}
 			return flag;
 		}
-
-		// Token: 0x04003A19 RID: 14873
-		private static Dictionary<string, float> lastShowTimes = new Dictionary<string, float>();
 	}
 }

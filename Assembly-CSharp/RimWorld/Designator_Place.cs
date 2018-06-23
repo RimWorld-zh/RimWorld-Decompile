@@ -8,6 +8,18 @@ namespace RimWorld
 	// Token: 0x020007E3 RID: 2019
 	public abstract class Designator_Place : Designator
 	{
+		// Token: 0x040017B0 RID: 6064
+		protected Rot4 placingRot = Rot4.North;
+
+		// Token: 0x040017B1 RID: 6065
+		protected static float middleMouseDownTime;
+
+		// Token: 0x040017B2 RID: 6066
+		private const float RotButSize = 64f;
+
+		// Token: 0x040017B3 RID: 6067
+		private const float RotButSpacing = 10f;
+
 		// Token: 0x06002CE6 RID: 11494 RVA: 0x00178CB3 File Offset: 0x001770B3
 		public Designator_Place()
 		{
@@ -151,17 +163,5 @@ namespace RimWorld
 		{
 			this.placingRot = this.PlacingDef.defaultPlacingRot;
 		}
-
-		// Token: 0x040017B0 RID: 6064
-		protected Rot4 placingRot = Rot4.North;
-
-		// Token: 0x040017B1 RID: 6065
-		protected static float middleMouseDownTime;
-
-		// Token: 0x040017B2 RID: 6066
-		private const float RotButSize = 64f;
-
-		// Token: 0x040017B3 RID: 6067
-		private const float RotButSpacing = 10f;
 	}
 }

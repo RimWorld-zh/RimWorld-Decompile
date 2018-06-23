@@ -6,6 +6,9 @@ namespace Verse.AI.Group
 	// Token: 0x02000A0E RID: 2574
 	public class Trigger_TicksPassed : Trigger
 	{
+		// Token: 0x040024A2 RID: 9378
+		private int duration = 100;
+
 		// Token: 0x06003996 RID: 14742 RVA: 0x001E8094 File Offset: 0x001E6494
 		public Trigger_TicksPassed(int tickLimit)
 		{
@@ -62,8 +65,5 @@ namespace Verse.AI.Group
 				this.Data.ticksPassed = 0;
 			}
 		}
-
-		// Token: 0x040024A2 RID: 9378
-		private int duration = 100;
 	}
 }

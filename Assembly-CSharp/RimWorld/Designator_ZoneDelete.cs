@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020007EC RID: 2028
 	public class Designator_ZoneDelete : Designator_Zone
 	{
+		// Token: 0x040017B6 RID: 6070
+		private List<Zone> justDesignated = new List<Zone>();
+
 		// Token: 0x06002D0C RID: 11532 RVA: 0x0017AD84 File Offset: 0x00179184
 		public Designator_ZoneDelete()
 		{
@@ -65,8 +68,5 @@ namespace RimWorld
 			}
 			this.justDesignated.Clear();
 		}
-
-		// Token: 0x040017B6 RID: 6070
-		private List<Zone> justDesignated = new List<Zone>();
 	}
 }

@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x02000142 RID: 322
 	internal class WorkGiver_FightFires : WorkGiver_Scanner
 	{
+		// Token: 0x04000322 RID: 802
+		private const int NearbyPawnRadius = 15;
+
+		// Token: 0x04000323 RID: 803
+		private const int MaxReservationCheckDistance = 15;
+
+		// Token: 0x04000324 RID: 804
+		private const float HandledDistance = 5f;
+
 		// Token: 0x17000100 RID: 256
 		// (get) Token: 0x060006A6 RID: 1702 RVA: 0x00044CB4 File Offset: 0x000430B4
 		public override ThingRequest PotentialWorkThingRequest
@@ -109,14 +118,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000322 RID: 802
-		private const int NearbyPawnRadius = 15;
-
-		// Token: 0x04000323 RID: 803
-		private const int MaxReservationCheckDistance = 15;
-
-		// Token: 0x04000324 RID: 804
-		private const float HandledDistance = 5f;
 	}
 }

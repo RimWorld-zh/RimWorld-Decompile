@@ -7,6 +7,15 @@ namespace Verse
 	// Token: 0x02000C02 RID: 3074
 	public class MapFileCompressor : IExposable
 	{
+		// Token: 0x04002DFD RID: 11773
+		private Map map;
+
+		// Token: 0x04002DFE RID: 11774
+		private byte[] compressedData;
+
+		// Token: 0x04002DFF RID: 11775
+		public CompressibilityDecider compressibilityDecider;
+
 		// Token: 0x06004343 RID: 17219 RVA: 0x0023903A File Offset: 0x0023743A
 		public MapFileCompressor(Map map)
 		{
@@ -120,14 +129,5 @@ namespace Verse
 			});
 			return loadables;
 		}
-
-		// Token: 0x04002DFD RID: 11773
-		private Map map;
-
-		// Token: 0x04002DFE RID: 11774
-		private byte[] compressedData;
-
-		// Token: 0x04002DFF RID: 11775
-		public CompressibilityDecider compressibilityDecider;
 	}
 }

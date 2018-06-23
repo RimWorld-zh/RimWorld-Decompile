@@ -8,6 +8,30 @@ namespace RimWorld
 	// Token: 0x020004F5 RID: 1269
 	public class Need_Comfort : Need_Seeker
 	{
+		// Token: 0x04000D61 RID: 3425
+		public float lastComfortUsed;
+
+		// Token: 0x04000D62 RID: 3426
+		public int lastComfortUseTick;
+
+		// Token: 0x04000D63 RID: 3427
+		private const float MinNormal = 0.1f;
+
+		// Token: 0x04000D64 RID: 3428
+		private const float MinComfortable = 0.6f;
+
+		// Token: 0x04000D65 RID: 3429
+		private const float MinVeryComfortable = 0.7f;
+
+		// Token: 0x04000D66 RID: 3430
+		private const float MinExtremelyComfortablee = 0.8f;
+
+		// Token: 0x04000D67 RID: 3431
+		private const float MinLuxuriantlyComfortable = 0.9f;
+
+		// Token: 0x04000D68 RID: 3432
+		public const int ComfortUseInterval = 10;
+
 		// Token: 0x060016D6 RID: 5846 RVA: 0x000CA1C0 File Offset: 0x000C85C0
 		public Need_Comfort(Pawn pawn) : base(pawn)
 		{
@@ -83,29 +107,5 @@ namespace RimWorld
 			this.lastComfortUsed = comfort;
 			this.lastComfortUseTick = Find.TickManager.TicksGame;
 		}
-
-		// Token: 0x04000D61 RID: 3425
-		public float lastComfortUsed;
-
-		// Token: 0x04000D62 RID: 3426
-		public int lastComfortUseTick;
-
-		// Token: 0x04000D63 RID: 3427
-		private const float MinNormal = 0.1f;
-
-		// Token: 0x04000D64 RID: 3428
-		private const float MinComfortable = 0.6f;
-
-		// Token: 0x04000D65 RID: 3429
-		private const float MinVeryComfortable = 0.7f;
-
-		// Token: 0x04000D66 RID: 3430
-		private const float MinExtremelyComfortablee = 0.8f;
-
-		// Token: 0x04000D67 RID: 3431
-		private const float MinLuxuriantlyComfortable = 0.9f;
-
-		// Token: 0x04000D68 RID: 3432
-		public const int ComfortUseInterval = 10;
 	}
 }

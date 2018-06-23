@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x0200048A RID: 1162
 	public static class PawnTechHediffsGenerator
 	{
+		// Token: 0x04000C53 RID: 3155
+		private static List<Thing> emptyIngredientsList = new List<Thing>();
+
 		// Token: 0x06001486 RID: 5254 RVA: 0x000B47D0 File Offset: 0x000B2BD0
 		public static void GenerateTechHediffsFor(Pawn pawn)
 		{
@@ -37,8 +40,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000C53 RID: 3155
-		private static List<Thing> emptyIngredientsList = new List<Thing>();
 	}
 }

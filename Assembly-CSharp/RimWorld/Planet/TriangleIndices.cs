@@ -5,6 +5,15 @@ namespace RimWorld.Planet
 	// Token: 0x020005B7 RID: 1463
 	public struct TriangleIndices
 	{
+		// Token: 0x040010DC RID: 4316
+		public int v1;
+
+		// Token: 0x040010DD RID: 4317
+		public int v2;
+
+		// Token: 0x040010DE RID: 4318
+		public int v3;
+
 		// Token: 0x06001C20 RID: 7200 RVA: 0x000F2447 File Offset: 0x000F0847
 		public TriangleIndices(int v1, int v2, int v3)
 		{
@@ -37,14 +46,5 @@ namespace RimWorld.Planet
 			}
 			return result;
 		}
-
-		// Token: 0x040010DC RID: 4316
-		public int v1;
-
-		// Token: 0x040010DD RID: 4317
-		public int v2;
-
-		// Token: 0x040010DE RID: 4318
-		public int v3;
 	}
 }

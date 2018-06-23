@@ -14,6 +14,144 @@ namespace Verse
 	// Token: 0x02000D49 RID: 3401
 	public class Pawn : ThingWithComps, IStrippable, IBillGiver, IVerbOwner, ITrader, IAttackTarget, IAttackTargetSearcher, IThingHolder, ILoadReferenceable
 	{
+		// Token: 0x04003284 RID: 12932
+		public PawnKindDef kindDef;
+
+		// Token: 0x04003285 RID: 12933
+		private Name nameInt;
+
+		// Token: 0x04003286 RID: 12934
+		public Gender gender = Gender.None;
+
+		// Token: 0x04003287 RID: 12935
+		public Pawn_AgeTracker ageTracker;
+
+		// Token: 0x04003288 RID: 12936
+		public Pawn_HealthTracker health;
+
+		// Token: 0x04003289 RID: 12937
+		public Pawn_RecordsTracker records;
+
+		// Token: 0x0400328A RID: 12938
+		public Pawn_InventoryTracker inventory;
+
+		// Token: 0x0400328B RID: 12939
+		public Pawn_MeleeVerbs meleeVerbs;
+
+		// Token: 0x0400328C RID: 12940
+		public VerbTracker verbTracker;
+
+		// Token: 0x0400328D RID: 12941
+		public Pawn_CarryTracker carryTracker;
+
+		// Token: 0x0400328E RID: 12942
+		public Pawn_NeedsTracker needs;
+
+		// Token: 0x0400328F RID: 12943
+		public Pawn_MindState mindState;
+
+		// Token: 0x04003290 RID: 12944
+		public Pawn_RotationTracker rotationTracker;
+
+		// Token: 0x04003291 RID: 12945
+		public Pawn_PathFollower pather;
+
+		// Token: 0x04003292 RID: 12946
+		public Pawn_Thinker thinker;
+
+		// Token: 0x04003293 RID: 12947
+		public Pawn_JobTracker jobs;
+
+		// Token: 0x04003294 RID: 12948
+		public Pawn_StanceTracker stances;
+
+		// Token: 0x04003295 RID: 12949
+		public Pawn_NativeVerbs natives;
+
+		// Token: 0x04003296 RID: 12950
+		public Pawn_FilthTracker filth;
+
+		// Token: 0x04003297 RID: 12951
+		public Pawn_EquipmentTracker equipment;
+
+		// Token: 0x04003298 RID: 12952
+		public Pawn_ApparelTracker apparel;
+
+		// Token: 0x04003299 RID: 12953
+		public Pawn_Ownership ownership;
+
+		// Token: 0x0400329A RID: 12954
+		public Pawn_SkillTracker skills;
+
+		// Token: 0x0400329B RID: 12955
+		public Pawn_StoryTracker story;
+
+		// Token: 0x0400329C RID: 12956
+		public Pawn_GuestTracker guest;
+
+		// Token: 0x0400329D RID: 12957
+		public Pawn_GuiltTracker guilt;
+
+		// Token: 0x0400329E RID: 12958
+		public Pawn_WorkSettings workSettings;
+
+		// Token: 0x0400329F RID: 12959
+		public Pawn_TraderTracker trader;
+
+		// Token: 0x040032A0 RID: 12960
+		public Pawn_TrainingTracker training;
+
+		// Token: 0x040032A1 RID: 12961
+		public Pawn_CallTracker caller;
+
+		// Token: 0x040032A2 RID: 12962
+		public Pawn_RelationsTracker relations;
+
+		// Token: 0x040032A3 RID: 12963
+		public Pawn_InteractionsTracker interactions;
+
+		// Token: 0x040032A4 RID: 12964
+		public Pawn_PlayerSettings playerSettings;
+
+		// Token: 0x040032A5 RID: 12965
+		public Pawn_OutfitTracker outfits;
+
+		// Token: 0x040032A6 RID: 12966
+		public Pawn_DrugPolicyTracker drugs;
+
+		// Token: 0x040032A7 RID: 12967
+		public Pawn_TimetableTracker timetable;
+
+		// Token: 0x040032A8 RID: 12968
+		public Pawn_DraftController drafter;
+
+		// Token: 0x040032A9 RID: 12969
+		private Pawn_DrawTracker drawer;
+
+		// Token: 0x040032AA RID: 12970
+		private const float HumanSizedHeatOutput = 0.3f;
+
+		// Token: 0x040032AB RID: 12971
+		private const float AnimalHeatOutputFactor = 0.6f;
+
+		// Token: 0x040032AC RID: 12972
+		private static string NotSurgeryReadyTrans;
+
+		// Token: 0x040032AD RID: 12973
+		private static string CannotReachTrans;
+
+		// Token: 0x040032AE RID: 12974
+		public const int MaxMoveTicks = 450;
+
+		// Token: 0x040032AF RID: 12975
+		private static List<string> states = new List<string>();
+
+		// Token: 0x040032B0 RID: 12976
+		private int lastSleepDisturbedTick = 0;
+
+		// Token: 0x040032B1 RID: 12977
+		private const int SleepDisturbanceMinInterval = 300;
+
 		// Token: 0x17000C0B RID: 3083
 		// (get) Token: 0x06004B18 RID: 19224 RVA: 0x00272678 File Offset: 0x00270A78
 		// (set) Token: 0x06004B19 RID: 19225 RVA: 0x00272693 File Offset: 0x00270A93
@@ -2692,143 +2830,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04003284 RID: 12932
-		public PawnKindDef kindDef;
-
-		// Token: 0x04003285 RID: 12933
-		private Name nameInt;
-
-		// Token: 0x04003286 RID: 12934
-		public Gender gender = Gender.None;
-
-		// Token: 0x04003287 RID: 12935
-		public Pawn_AgeTracker ageTracker;
-
-		// Token: 0x04003288 RID: 12936
-		public Pawn_HealthTracker health;
-
-		// Token: 0x04003289 RID: 12937
-		public Pawn_RecordsTracker records;
-
-		// Token: 0x0400328A RID: 12938
-		public Pawn_InventoryTracker inventory;
-
-		// Token: 0x0400328B RID: 12939
-		public Pawn_MeleeVerbs meleeVerbs;
-
-		// Token: 0x0400328C RID: 12940
-		public VerbTracker verbTracker;
-
-		// Token: 0x0400328D RID: 12941
-		public Pawn_CarryTracker carryTracker;
-
-		// Token: 0x0400328E RID: 12942
-		public Pawn_NeedsTracker needs;
-
-		// Token: 0x0400328F RID: 12943
-		public Pawn_MindState mindState;
-
-		// Token: 0x04003290 RID: 12944
-		public Pawn_RotationTracker rotationTracker;
-
-		// Token: 0x04003291 RID: 12945
-		public Pawn_PathFollower pather;
-
-		// Token: 0x04003292 RID: 12946
-		public Pawn_Thinker thinker;
-
-		// Token: 0x04003293 RID: 12947
-		public Pawn_JobTracker jobs;
-
-		// Token: 0x04003294 RID: 12948
-		public Pawn_StanceTracker stances;
-
-		// Token: 0x04003295 RID: 12949
-		public Pawn_NativeVerbs natives;
-
-		// Token: 0x04003296 RID: 12950
-		public Pawn_FilthTracker filth;
-
-		// Token: 0x04003297 RID: 12951
-		public Pawn_EquipmentTracker equipment;
-
-		// Token: 0x04003298 RID: 12952
-		public Pawn_ApparelTracker apparel;
-
-		// Token: 0x04003299 RID: 12953
-		public Pawn_Ownership ownership;
-
-		// Token: 0x0400329A RID: 12954
-		public Pawn_SkillTracker skills;
-
-		// Token: 0x0400329B RID: 12955
-		public Pawn_StoryTracker story;
-
-		// Token: 0x0400329C RID: 12956
-		public Pawn_GuestTracker guest;
-
-		// Token: 0x0400329D RID: 12957
-		public Pawn_GuiltTracker guilt;
-
-		// Token: 0x0400329E RID: 12958
-		public Pawn_WorkSettings workSettings;
-
-		// Token: 0x0400329F RID: 12959
-		public Pawn_TraderTracker trader;
-
-		// Token: 0x040032A0 RID: 12960
-		public Pawn_TrainingTracker training;
-
-		// Token: 0x040032A1 RID: 12961
-		public Pawn_CallTracker caller;
-
-		// Token: 0x040032A2 RID: 12962
-		public Pawn_RelationsTracker relations;
-
-		// Token: 0x040032A3 RID: 12963
-		public Pawn_InteractionsTracker interactions;
-
-		// Token: 0x040032A4 RID: 12964
-		public Pawn_PlayerSettings playerSettings;
-
-		// Token: 0x040032A5 RID: 12965
-		public Pawn_OutfitTracker outfits;
-
-		// Token: 0x040032A6 RID: 12966
-		public Pawn_DrugPolicyTracker drugs;
-
-		// Token: 0x040032A7 RID: 12967
-		public Pawn_TimetableTracker timetable;
-
-		// Token: 0x040032A8 RID: 12968
-		public Pawn_DraftController drafter;
-
-		// Token: 0x040032A9 RID: 12969
-		private Pawn_DrawTracker drawer;
-
-		// Token: 0x040032AA RID: 12970
-		private const float HumanSizedHeatOutput = 0.3f;
-
-		// Token: 0x040032AB RID: 12971
-		private const float AnimalHeatOutputFactor = 0.6f;
-
-		// Token: 0x040032AC RID: 12972
-		private static string NotSurgeryReadyTrans;
-
-		// Token: 0x040032AD RID: 12973
-		private static string CannotReachTrans;
-
-		// Token: 0x040032AE RID: 12974
-		public const int MaxMoveTicks = 450;
-
-		// Token: 0x040032AF RID: 12975
-		private static List<string> states = new List<string>();
-
-		// Token: 0x040032B0 RID: 12976
-		private int lastSleepDisturbedTick = 0;
-
-		// Token: 0x040032B1 RID: 12977
-		private const int SleepDisturbanceMinInterval = 300;
 	}
 }

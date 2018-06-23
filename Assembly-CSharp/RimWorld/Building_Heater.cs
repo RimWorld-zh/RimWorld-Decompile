@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000696 RID: 1686
 	public class Building_Heater : Building_TempControl
 	{
+		// Token: 0x040013FA RID: 5114
+		private const float EfficiencyFalloffSpan = 100f;
+
 		// Token: 0x060023C4 RID: 9156 RVA: 0x00132BF8 File Offset: 0x00130FF8
 		public override void TickRare()
 		{
@@ -42,8 +45,5 @@ namespace RimWorld
 				this.compTempControl.operatingAtHighPower = flag;
 			}
 		}
-
-		// Token: 0x040013FA RID: 5114
-		private const float EfficiencyFalloffSpan = 100f;
 	}
 }

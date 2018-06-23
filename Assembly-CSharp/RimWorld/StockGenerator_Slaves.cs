@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000771 RID: 1905
 	public class StockGenerator_Slaves : StockGenerator
 	{
+		// Token: 0x040016B8 RID: 5816
+		private bool respectPopulationIntent = false;
+
 		// Token: 0x06002A19 RID: 10777 RVA: 0x001651A4 File Offset: 0x001635A4
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
@@ -38,8 +41,5 @@ namespace RimWorld
 		{
 			return thingDef.category == ThingCategory.Pawn && thingDef.race.Humanlike && thingDef.tradeability != Tradeability.None;
 		}
-
-		// Token: 0x040016B8 RID: 5816
-		private bool respectPopulationIntent = false;
 	}
 }

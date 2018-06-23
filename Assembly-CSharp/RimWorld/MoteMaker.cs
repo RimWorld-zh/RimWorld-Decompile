@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x020006CF RID: 1743
 	public static class MoteMaker
 	{
+		// Token: 0x0400151A RID: 5402
+		private static IntVec3[] UpRightPattern = new IntVec3[]
+		{
+			new IntVec3(0, 0, 0),
+			new IntVec3(1, 0, 0),
+			new IntVec3(0, 0, 1),
+			new IntVec3(1, 0, 1)
+		};
+
 		// Token: 0x060025BF RID: 9663 RVA: 0x00143774 File Offset: 0x00141B74
 		public static Mote ThrowMetaIcon(IntVec3 cell, Map map, ThingDef moteDef)
 		{
@@ -534,14 +543,5 @@ namespace RimWorld
 				GenSpawn.Spawn(mote, cell, map, WipeMode.Vanish);
 			}
 		}
-
-		// Token: 0x0400151A RID: 5402
-		private static IntVec3[] UpRightPattern = new IntVec3[]
-		{
-			new IntVec3(0, 0, 0),
-			new IntVec3(1, 0, 0),
-			new IntVec3(0, 0, 1),
-			new IntVec3(1, 0, 1)
-		};
 	}
 }

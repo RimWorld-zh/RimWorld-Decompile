@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x02000055 RID: 85
 	public class JobDriver_PlayBilliards : JobDriver
 	{
+		// Token: 0x040001F3 RID: 499
+		private const int ShotDuration = 600;
+
 		// Token: 0x06000293 RID: 659 RVA: 0x0001BB14 File Offset: 0x00019F14
 		public override bool TryMakePreToilReservations()
 		{
@@ -69,8 +72,5 @@ namespace RimWorld
 				base.TargetA.Thing.def
 			};
 		}
-
-		// Token: 0x040001F3 RID: 499
-		private const int ShotDuration = 600;
 	}
 }

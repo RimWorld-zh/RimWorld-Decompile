@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020002EF RID: 751
 	public class DrugPolicyDatabase : IExposable
 	{
+		// Token: 0x0400082A RID: 2090
+		private List<DrugPolicy> policies = new List<DrugPolicy>();
+
 		// Token: 0x06000C6B RID: 3179 RVA: 0x0006E720 File Offset: 0x0006CB20
 		public DrugPolicyDatabase()
 		{
@@ -108,8 +111,5 @@ namespace RimWorld
 			drugPolicy4[ThingDefOf.Beer].daysFrequency = 1f;
 			drugPolicy4[ThingDefOf.SmokeleafJoint].allowedForJoy = true;
 		}
-
-		// Token: 0x0400082A RID: 2090
-		private List<DrugPolicy> policies = new List<DrugPolicy>();
 	}
 }

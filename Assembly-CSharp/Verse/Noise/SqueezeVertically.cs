@@ -5,6 +5,9 @@ namespace Verse.Noise
 	// Token: 0x02000F9B RID: 3995
 	public class SqueezeVertically : ModuleBase
 	{
+		// Token: 0x04003F33 RID: 16179
+		private float factor;
+
 		// Token: 0x06006080 RID: 24704 RVA: 0x0030ECAD File Offset: 0x0030D0AD
 		public SqueezeVertically(ModuleBase input, float factor) : base(1)
 		{
@@ -17,8 +20,5 @@ namespace Verse.Noise
 		{
 			return this.modules[0].GetValue(x, y * (double)this.factor, z);
 		}
-
-		// Token: 0x04003F33 RID: 16179
-		private float factor;
 	}
 }

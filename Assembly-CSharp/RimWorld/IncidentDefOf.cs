@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class IncidentDefOf
 	{
-		// Token: 0x0600364B RID: 13899 RVA: 0x001D0C03 File Offset: 0x001CF003
-		static IncidentDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(IncidentDefOf));
-		}
-
 		// Token: 0x040021BC RID: 8636
 		public static IncidentDef RaidEnemy;
 
@@ -56,5 +50,11 @@ namespace RimWorld
 
 		// Token: 0x040021CA RID: 8650
 		public static IncidentDef Quest_JourneyOffer;
+
+		// Token: 0x0600364B RID: 13899 RVA: 0x001D0C03 File Offset: 0x001CF003
+		static IncidentDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(IncidentDefOf));
+		}
 	}
 }

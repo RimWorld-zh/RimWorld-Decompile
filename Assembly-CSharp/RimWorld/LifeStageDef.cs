@@ -8,29 +8,6 @@ namespace RimWorld
 	// Token: 0x020002AB RID: 683
 	public class LifeStageDef : Def
 	{
-		// Token: 0x170001AC RID: 428
-		// (get) Token: 0x06000B6C RID: 2924 RVA: 0x000671CC File Offset: 0x000655CC
-		public string Adjective
-		{
-			get
-			{
-				return this.adjective ?? this.label;
-			}
-		}
-
-		// Token: 0x06000B6D RID: 2925 RVA: 0x000671F4 File Offset: 0x000655F4
-		public override void ResolveReferences()
-		{
-			base.ResolveReferences();
-			if (!this.icon.NullOrEmpty())
-			{
-				LongEventHandler.ExecuteWhenFinished(delegate
-				{
-					this.iconTex = ContentFinder<Texture2D>.Get(this.icon, true);
-				});
-			}
-		}
-
 		// Token: 0x04000664 RID: 1636
 		[MustTranslate]
 		private string adjective = null;
@@ -81,5 +58,28 @@ namespace RimWorld
 
 		// Token: 0x04000673 RID: 1651
 		public float meleeDamageFactor = 1f;
+
+		// Token: 0x170001AC RID: 428
+		// (get) Token: 0x06000B6C RID: 2924 RVA: 0x000671CC File Offset: 0x000655CC
+		public string Adjective
+		{
+			get
+			{
+				return this.adjective ?? this.label;
+			}
+		}
+
+		// Token: 0x06000B6D RID: 2925 RVA: 0x000671F4 File Offset: 0x000655F4
+		public override void ResolveReferences()
+		{
+			base.ResolveReferences();
+			if (!this.icon.NullOrEmpty())
+			{
+				LongEventHandler.ExecuteWhenFinished(delegate
+				{
+					this.iconTex = ContentFinder<Texture2D>.Get(this.icon, true);
+				});
+			}
+		}
 	}
 }

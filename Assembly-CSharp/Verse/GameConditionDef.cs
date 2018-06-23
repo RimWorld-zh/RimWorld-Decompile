@@ -7,6 +7,25 @@ namespace Verse
 	// Token: 0x02000B3B RID: 2875
 	public class GameConditionDef : Def
 	{
+		// Token: 0x04002964 RID: 10596
+		public Type conditionClass = typeof(GameCondition);
+
+		// Token: 0x04002965 RID: 10597
+		private List<GameConditionDef> exclusiveConditions = null;
+
+		// Token: 0x04002966 RID: 10598
+		[MustTranslate]
+		public string endMessage = null;
+
+		// Token: 0x04002967 RID: 10599
+		public bool canBePermanent = false;
+
+		// Token: 0x04002968 RID: 10600
+		public PsychicDroneLevel droneLevel = PsychicDroneLevel.BadMedium;
+
+		// Token: 0x04002969 RID: 10601
+		public bool preventRain = false;
+
 		// Token: 0x06003F2E RID: 16174 RVA: 0x002144EC File Offset: 0x002128EC
 		public bool CanCoexistWith(GameConditionDef other)
 		{
@@ -32,24 +51,5 @@ namespace Verse
 			}
 			yield break;
 		}
-
-		// Token: 0x04002964 RID: 10596
-		public Type conditionClass = typeof(GameCondition);
-
-		// Token: 0x04002965 RID: 10597
-		private List<GameConditionDef> exclusiveConditions = null;
-
-		// Token: 0x04002966 RID: 10598
-		[MustTranslate]
-		public string endMessage = null;
-
-		// Token: 0x04002967 RID: 10599
-		public bool canBePermanent = false;
-
-		// Token: 0x04002968 RID: 10600
-		public PsychicDroneLevel droneLevel = PsychicDroneLevel.BadMedium;
-
-		// Token: 0x04002969 RID: 10601
-		public bool preventRain = false;
 	}
 }

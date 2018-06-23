@@ -8,6 +8,9 @@ namespace Verse.AI
 	// Token: 0x02000A4C RID: 2636
 	public static class Toils_JobTransforms
 	{
+		// Token: 0x0400253A RID: 9530
+		private static List<IntVec3> yieldedIngPlaceCells = new List<IntVec3>();
+
 		// Token: 0x06003ABD RID: 15037 RVA: 0x001F2A5C File Offset: 0x001F0E5C
 		public static Toil ExtractNextTargetFromQueue(TargetIndex ind, bool failIfCountFromQueueTooBig = true)
 		{
@@ -170,8 +173,5 @@ namespace Verse.AI
 			toil.EndOnNoTargetInQueue(ind, JobCondition.Succeeded);
 			return toil;
 		}
-
-		// Token: 0x0400253A RID: 9530
-		private static List<IntVec3> yieldedIngPlaceCells = new List<IntVec3>();
 	}
 }

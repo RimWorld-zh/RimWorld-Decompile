@@ -6,6 +6,24 @@ namespace Verse
 	// Token: 0x02000CB0 RID: 3248
 	public abstract class SkyOverlay
 	{
+		// Token: 0x0400309F RID: 12447
+		public Material worldOverlayMat = null;
+
+		// Token: 0x040030A0 RID: 12448
+		public Material screenOverlayMat = null;
+
+		// Token: 0x040030A1 RID: 12449
+		protected float worldOverlayPanSpeed1;
+
+		// Token: 0x040030A2 RID: 12450
+		protected float worldOverlayPanSpeed2;
+
+		// Token: 0x040030A3 RID: 12451
+		protected Vector2 worldPanDir1;
+
+		// Token: 0x040030A4 RID: 12452
+		protected Vector2 worldPanDir2;
+
 		// Token: 0x060047A3 RID: 18339 RVA: 0x000A51E7 File Offset: 0x000A35E7
 		public SkyOverlay()
 		{
@@ -83,23 +101,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x0400309F RID: 12447
-		public Material worldOverlayMat = null;
-
-		// Token: 0x040030A0 RID: 12448
-		public Material screenOverlayMat = null;
-
-		// Token: 0x040030A1 RID: 12449
-		protected float worldOverlayPanSpeed1;
-
-		// Token: 0x040030A2 RID: 12450
-		protected float worldOverlayPanSpeed2;
-
-		// Token: 0x040030A3 RID: 12451
-		protected Vector2 worldPanDir1;
-
-		// Token: 0x040030A4 RID: 12452
-		protected Vector2 worldPanDir2;
 	}
 }

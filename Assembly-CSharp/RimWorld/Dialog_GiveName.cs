@@ -7,6 +7,39 @@ namespace RimWorld
 	// Token: 0x020007F9 RID: 2041
 	public abstract class Dialog_GiveName : Window
 	{
+		// Token: 0x040017FD RID: 6141
+		protected Pawn suggestingPawn;
+
+		// Token: 0x040017FE RID: 6142
+		protected string curName;
+
+		// Token: 0x040017FF RID: 6143
+		protected Func<string> nameGenerator;
+
+		// Token: 0x04001800 RID: 6144
+		protected string nameMessageKey;
+
+		// Token: 0x04001801 RID: 6145
+		protected string gainedNameMessageKey;
+
+		// Token: 0x04001802 RID: 6146
+		protected string invalidNameMessageKey;
+
+		// Token: 0x04001803 RID: 6147
+		protected bool useSecondName;
+
+		// Token: 0x04001804 RID: 6148
+		protected string curSecondName;
+
+		// Token: 0x04001805 RID: 6149
+		protected Func<string> secondNameGenerator;
+
+		// Token: 0x04001806 RID: 6150
+		protected string secondNameMessageKey;
+
+		// Token: 0x04001807 RID: 6151
+		protected string invalidSecondNameMessageKey;
+
 		// Token: 0x06002D72 RID: 11634 RVA: 0x0017E744 File Offset: 0x0017CB44
 		public Dialog_GiveName()
 		{
@@ -152,38 +185,5 @@ namespace RimWorld
 		protected virtual void NamedSecond(string s)
 		{
 		}
-
-		// Token: 0x040017FD RID: 6141
-		protected Pawn suggestingPawn;
-
-		// Token: 0x040017FE RID: 6142
-		protected string curName;
-
-		// Token: 0x040017FF RID: 6143
-		protected Func<string> nameGenerator;
-
-		// Token: 0x04001800 RID: 6144
-		protected string nameMessageKey;
-
-		// Token: 0x04001801 RID: 6145
-		protected string gainedNameMessageKey;
-
-		// Token: 0x04001802 RID: 6146
-		protected string invalidNameMessageKey;
-
-		// Token: 0x04001803 RID: 6147
-		protected bool useSecondName;
-
-		// Token: 0x04001804 RID: 6148
-		protected string curSecondName;
-
-		// Token: 0x04001805 RID: 6149
-		protected Func<string> secondNameGenerator;
-
-		// Token: 0x04001806 RID: 6150
-		protected string secondNameMessageKey;
-
-		// Token: 0x04001807 RID: 6151
-		protected string invalidSecondNameMessageKey;
 	}
 }

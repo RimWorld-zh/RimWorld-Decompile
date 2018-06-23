@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x0200055C RID: 1372
 	public class FactionRelation : IExposable
 	{
+		// Token: 0x04000F33 RID: 3891
+		public Faction other = null;
+
+		// Token: 0x04000F34 RID: 3892
+		public int goodwill = 100;
+
+		// Token: 0x04000F35 RID: 3893
+		public FactionRelationKind kind = FactionRelationKind.Neutral;
+
 		// Token: 0x060019EA RID: 6634 RVA: 0x000E153C File Offset: 0x000DF93C
 		public void CheckKindThresholds(Faction faction, bool canSendLetter, string reason, GlobalTargetInfo lookTarget, out bool sentLetter)
 		{
@@ -60,14 +69,5 @@ namespace RimWorld
 				")"
 			});
 		}
-
-		// Token: 0x04000F33 RID: 3891
-		public Faction other = null;
-
-		// Token: 0x04000F34 RID: 3892
-		public int goodwill = 100;
-
-		// Token: 0x04000F35 RID: 3893
-		public FactionRelationKind kind = FactionRelationKind.Neutral;
 	}
 }

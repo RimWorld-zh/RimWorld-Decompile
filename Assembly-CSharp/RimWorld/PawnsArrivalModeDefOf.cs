@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class PawnsArrivalModeDefOf
 	{
-		// Token: 0x06003670 RID: 13936 RVA: 0x001D0E9D File Offset: 0x001CF29D
-		static PawnsArrivalModeDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(PawnsArrivalModeDefOf));
-		}
-
 		// Token: 0x040022FB RID: 8955
 		public static PawnsArrivalModeDef EdgeWalkIn;
 
@@ -20,5 +14,11 @@ namespace RimWorld
 
 		// Token: 0x040022FD RID: 8957
 		public static PawnsArrivalModeDef EdgeDrop;
+
+		// Token: 0x06003670 RID: 13936 RVA: 0x001D0E9D File Offset: 0x001CF29D
+		static PawnsArrivalModeDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(PawnsArrivalModeDefOf));
+		}
 	}
 }

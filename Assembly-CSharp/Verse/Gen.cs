@@ -13,6 +13,9 @@ namespace Verse
 	// Token: 0x02000F2D RID: 3885
 	public static class Gen
 	{
+		// Token: 0x04003DBC RID: 15804
+		private static MethodInfo s_memberwiseClone = null;
+
 		// Token: 0x06005D5D RID: 23901 RVA: 0x002F5980 File Offset: 0x002F3D80
 		public static Vector3 AveragePosition(List<IntVec3> cells)
 		{
@@ -361,8 +364,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003DBC RID: 15804
-		private static MethodInfo s_memberwiseClone = null;
 	}
 }

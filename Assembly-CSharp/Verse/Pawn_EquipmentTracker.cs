@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000D55 RID: 3413
 	public class Pawn_EquipmentTracker : IThingHolder, IExposable
 	{
+		// Token: 0x04003305 RID: 13061
+		private Pawn pawn;
+
+		// Token: 0x04003306 RID: 13062
+		private ThingOwner<ThingWithComps> equipment;
+
 		// Token: 0x06004C48 RID: 19528 RVA: 0x0027C5F1 File Offset: 0x0027A9F1
 		public Pawn_EquipmentTracker(Pawn newPawn)
 		{
@@ -342,11 +348,5 @@ namespace Verse
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
-
-		// Token: 0x04003305 RID: 13061
-		private Pawn pawn;
-
-		// Token: 0x04003306 RID: 13062
-		private ThingOwner<ThingWithComps> equipment;
 	}
 }

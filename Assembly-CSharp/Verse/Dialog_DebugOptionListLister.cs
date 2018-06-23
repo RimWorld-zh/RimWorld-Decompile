@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000E2C RID: 3628
 	public class Dialog_DebugOptionListLister : Dialog_DebugOptionLister
 	{
+		// Token: 0x040038D6 RID: 14550
+		protected List<DebugMenuOption> options;
+
 		// Token: 0x06005609 RID: 22025 RVA: 0x002C5D36 File Offset: 0x002C4136
 		public Dialog_DebugOptionListLister(IEnumerable<DebugMenuOption> options)
 		{
@@ -46,8 +49,5 @@ namespace Verse
 			}
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
-
-		// Token: 0x040038D6 RID: 14550
-		protected List<DebugMenuOption> options;
 	}
 }

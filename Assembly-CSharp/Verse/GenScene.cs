@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000BD4 RID: 3028
 	public static class GenScene
 	{
+		// Token: 0x04002D2A RID: 11562
+		public const string EntrySceneName = "Entry";
+
+		// Token: 0x04002D2B RID: 11563
+		public const string PlaySceneName = "Play";
+
 		// Token: 0x17000A5B RID: 2651
 		// (get) Token: 0x06004217 RID: 16919 RVA: 0x0022D1A0 File Offset: 0x0022B5A0
 		public static bool InEntryScene
@@ -37,11 +43,5 @@ namespace Verse
 				Current.Game = null;
 			}, "Entry", "LoadingLongEvent", true, null);
 		}
-
-		// Token: 0x04002D2A RID: 11562
-		public const string EntrySceneName = "Entry";
-
-		// Token: 0x04002D2B RID: 11563
-		public const string PlaySceneName = "Play";
 	}
 }

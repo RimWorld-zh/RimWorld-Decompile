@@ -6,6 +6,12 @@ namespace Verse.AI
 	// Token: 0x02000A88 RID: 2696
 	public static class TantrumMentalStateUtility
 	{
+		// Token: 0x04002586 RID: 9606
+		private const int MaxRegionsToSearch = 40;
+
+		// Token: 0x04002587 RID: 9607
+		private const int AbsoluteMinItemMarketValue = 75;
+
 		// Token: 0x06003BD8 RID: 15320 RVA: 0x001F8C80 File Offset: 0x001F7080
 		public static bool CanSmash(Pawn pawn, Thing thing, bool skipReachabilityCheck = false, Predicate<Thing> customValidator = null, int extraMinBuildingOrItemMarketValue = 0)
 		{
@@ -86,11 +92,5 @@ namespace Verse.AI
 			Pawn pawn2 = prisoner as Pawn;
 			return pawn2 != null && pawn2.IsPrisoner && !pawn2.Downed && pawn2.HostFaction == pawn.Faction;
 		}
-
-		// Token: 0x04002586 RID: 9606
-		private const int MaxRegionsToSearch = 40;
-
-		// Token: 0x04002587 RID: 9607
-		private const int AbsoluteMinItemMarketValue = 75;
 	}
 }

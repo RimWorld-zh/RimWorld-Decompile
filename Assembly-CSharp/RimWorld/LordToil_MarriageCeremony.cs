@@ -8,6 +8,18 @@ namespace RimWorld
 	// Token: 0x020001A1 RID: 417
 	public class LordToil_MarriageCeremony : LordToil
 	{
+		// Token: 0x040003A3 RID: 931
+		private Pawn firstPawn;
+
+		// Token: 0x040003A4 RID: 932
+		private Pawn secondPawn;
+
+		// Token: 0x040003A5 RID: 933
+		private IntVec3 spot;
+
+		// Token: 0x040003A6 RID: 934
+		public static readonly IntVec3 OtherFianceNoMarriageSpotCellOffset = new IntVec3(-1, 0, 0);
+
 		// Token: 0x060008A0 RID: 2208 RVA: 0x00051AA2 File Offset: 0x0004FEA2
 		public LordToil_MarriageCeremony(Pawn firstPawn, Pawn secondPawn, IntVec3 spot)
 		{
@@ -150,17 +162,5 @@ namespace RimWorld
 			IntVec3 second = this.FianceStandingSpotFor(this.secondPawn);
 			return CellRect.FromLimits(first, second);
 		}
-
-		// Token: 0x040003A3 RID: 931
-		private Pawn firstPawn;
-
-		// Token: 0x040003A4 RID: 932
-		private Pawn secondPawn;
-
-		// Token: 0x040003A5 RID: 933
-		private IntVec3 spot;
-
-		// Token: 0x040003A6 RID: 934
-		public static readonly IntVec3 OtherFianceNoMarriageSpotCellOffset = new IntVec3(-1, 0, 0);
 	}
 }

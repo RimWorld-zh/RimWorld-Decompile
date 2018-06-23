@@ -10,6 +10,21 @@ namespace RimWorld
 	// Token: 0x02000831 RID: 2097
 	public class Page_ScenarioEditor : Page
 	{
+		// Token: 0x040019A2 RID: 6562
+		private Scenario curScen = null;
+
+		// Token: 0x040019A3 RID: 6563
+		private Vector2 infoScrollPosition = Vector2.zero;
+
+		// Token: 0x040019A4 RID: 6564
+		private string seed;
+
+		// Token: 0x040019A5 RID: 6565
+		private bool seedIsValid = true;
+
+		// Token: 0x040019A6 RID: 6566
+		private bool editMode = false;
+
 		// Token: 0x06002F66 RID: 12134 RVA: 0x00196170 File Offset: 0x00194570
 		public Page_ScenarioEditor(Scenario scen)
 		{
@@ -239,20 +254,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040019A2 RID: 6562
-		private Scenario curScen = null;
-
-		// Token: 0x040019A3 RID: 6563
-		private Vector2 infoScrollPosition = Vector2.zero;
-
-		// Token: 0x040019A4 RID: 6564
-		private string seed;
-
-		// Token: 0x040019A5 RID: 6565
-		private bool seedIsValid = true;
-
-		// Token: 0x040019A6 RID: 6566
-		private bool editMode = false;
 	}
 }

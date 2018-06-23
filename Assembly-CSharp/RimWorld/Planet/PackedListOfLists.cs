@@ -7,6 +7,9 @@ namespace RimWorld.Planet
 	// Token: 0x020005B4 RID: 1460
 	public static class PackedListOfLists
 	{
+		// Token: 0x040010C1 RID: 4289
+		private static List<int> vertAdjacentTrisCount = new List<int>();
+
 		// Token: 0x06001C0B RID: 7179 RVA: 0x000F1527 File Offset: 0x000EF927
 		public static void AddList<T>(List<int> offsets, List<T> values, List<T> listToAdd)
 		{
@@ -118,8 +121,5 @@ namespace RimWorld.Planet
 				m++;
 			}
 		}
-
-		// Token: 0x040010C1 RID: 4289
-		private static List<int> vertAdjacentTrisCount = new List<int>();
 	}
 }

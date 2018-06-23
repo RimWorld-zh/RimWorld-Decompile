@@ -8,6 +8,21 @@ namespace RimWorld.Planet
 	// Token: 0x02000541 RID: 1345
 	public class WorldPathGrid
 	{
+		// Token: 0x04000EC7 RID: 3783
+		public float[] movementDifficulty;
+
+		// Token: 0x04000EC8 RID: 3784
+		private int allPathCostsRecalculatedDayOfYear = -1;
+
+		// Token: 0x04000EC9 RID: 3785
+		private const float ImpassableMovemenetDificulty = 1000f;
+
+		// Token: 0x04000ECA RID: 3786
+		public const float WinterMovementDifficultyOffset = 2f;
+
+		// Token: 0x04000ECB RID: 3787
+		public const float MaxTempForWinterOffset = 5f;
+
 		// Token: 0x06001925 RID: 6437 RVA: 0x000DB120 File Offset: 0x000D9520
 		public WorldPathGrid()
 		{
@@ -211,20 +226,5 @@ namespace RimWorld.Planet
 			}
 			return result;
 		}
-
-		// Token: 0x04000EC7 RID: 3783
-		public float[] movementDifficulty;
-
-		// Token: 0x04000EC8 RID: 3784
-		private int allPathCostsRecalculatedDayOfYear = -1;
-
-		// Token: 0x04000EC9 RID: 3785
-		private const float ImpassableMovemenetDificulty = 1000f;
-
-		// Token: 0x04000ECA RID: 3786
-		public const float WinterMovementDifficultyOffset = 2f;
-
-		// Token: 0x04000ECB RID: 3787
-		public const float MaxTempForWinterOffset = 5f;
 	}
 }

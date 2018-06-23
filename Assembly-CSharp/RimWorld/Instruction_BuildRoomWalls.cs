@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020008BA RID: 2234
 	public class Instruction_BuildRoomWalls : Lesson_Instruction
 	{
+		// Token: 0x04001B8E RID: 7054
+		private List<IntVec3> cachedEdgeCells = new List<IntVec3>();
+
 		// Token: 0x17000822 RID: 2082
 		// (get) Token: 0x0600331C RID: 13084 RVA: 0x001B8128 File Offset: 0x001B6528
 		// (set) Token: 0x0600331D RID: 13085 RVA: 0x001B8147 File Offset: 0x001B6547
@@ -88,8 +91,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04001B8E RID: 7054
-		private List<IntVec3> cachedEdgeCells = new List<IntVec3>();
 	}
 }

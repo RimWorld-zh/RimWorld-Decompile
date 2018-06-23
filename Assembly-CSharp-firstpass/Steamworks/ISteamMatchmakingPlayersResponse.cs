@@ -6,6 +6,24 @@ namespace Steamworks
 	// Token: 0x0200001C RID: 28
 	public class ISteamMatchmakingPlayersResponse
 	{
+		// Token: 0x04000029 RID: 41
+		private ISteamMatchmakingPlayersResponse.VTable m_VTable;
+
+		// Token: 0x0400002A RID: 42
+		private IntPtr m_pVTable;
+
+		// Token: 0x0400002B RID: 43
+		private GCHandle m_pGCHandle;
+
+		// Token: 0x0400002C RID: 44
+		private ISteamMatchmakingPlayersResponse.AddPlayerToList m_AddPlayerToList;
+
+		// Token: 0x0400002D RID: 45
+		private ISteamMatchmakingPlayersResponse.PlayersFailedToRespond m_PlayersFailedToRespond;
+
+		// Token: 0x0400002E RID: 46
+		private ISteamMatchmakingPlayersResponse.PlayersRefreshComplete m_PlayersRefreshComplete;
+
 		// Token: 0x0600006D RID: 109 RVA: 0x00002BBC File Offset: 0x00000DBC
 		public ISteamMatchmakingPlayersResponse(ISteamMatchmakingPlayersResponse.AddPlayerToList onAddPlayerToList, ISteamMatchmakingPlayersResponse.PlayersFailedToRespond onPlayersFailedToRespond, ISteamMatchmakingPlayersResponse.PlayersRefreshComplete onPlayersRefreshComplete)
 		{
@@ -63,24 +81,6 @@ namespace Steamworks
 		{
 			return that.m_pGCHandle.AddrOfPinnedObject();
 		}
-
-		// Token: 0x04000029 RID: 41
-		private ISteamMatchmakingPlayersResponse.VTable m_VTable;
-
-		// Token: 0x0400002A RID: 42
-		private IntPtr m_pVTable;
-
-		// Token: 0x0400002B RID: 43
-		private GCHandle m_pGCHandle;
-
-		// Token: 0x0400002C RID: 44
-		private ISteamMatchmakingPlayersResponse.AddPlayerToList m_AddPlayerToList;
-
-		// Token: 0x0400002D RID: 45
-		private ISteamMatchmakingPlayersResponse.PlayersFailedToRespond m_PlayersFailedToRespond;
-
-		// Token: 0x0400002E RID: 46
-		private ISteamMatchmakingPlayersResponse.PlayersRefreshComplete m_PlayersRefreshComplete;
 
 		// Token: 0x0200001D RID: 29
 		// (Invoke) Token: 0x06000074 RID: 116

@@ -6,6 +6,21 @@ namespace Verse.AI
 	// Token: 0x02000A6F RID: 2671
 	public class MentalState : IExposable
 	{
+		// Token: 0x04002565 RID: 9573
+		public Pawn pawn;
+
+		// Token: 0x04002566 RID: 9574
+		public MentalStateDef def;
+
+		// Token: 0x04002567 RID: 9575
+		private int age = 0;
+
+		// Token: 0x04002568 RID: 9576
+		public bool causedByMood = false;
+
+		// Token: 0x04002569 RID: 9577
+		private const int TickInterval = 150;
+
 		// Token: 0x17000912 RID: 2322
 		// (get) Token: 0x06003B62 RID: 15202 RVA: 0x001F6CD4 File Offset: 0x001F50D4
 		public int Age
@@ -163,20 +178,5 @@ namespace Verse.AI
 		public virtual void Notify_SlaughteredAnimal()
 		{
 		}
-
-		// Token: 0x04002565 RID: 9573
-		public Pawn pawn;
-
-		// Token: 0x04002566 RID: 9574
-		public MentalStateDef def;
-
-		// Token: 0x04002567 RID: 9575
-		private int age = 0;
-
-		// Token: 0x04002568 RID: 9576
-		public bool causedByMood = false;
-
-		// Token: 0x04002569 RID: 9577
-		private const int TickInterval = 150;
 	}
 }

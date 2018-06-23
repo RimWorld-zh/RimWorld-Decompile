@@ -9,6 +9,21 @@ namespace RimWorld.Planet
 	// Token: 0x020005E2 RID: 1506
 	public static class CaravanTicksPerMoveUtility
 	{
+		// Token: 0x040011A4 RID: 4516
+		private const int MaxPawnTicksPerMove = 150;
+
+		// Token: 0x040011A5 RID: 4517
+		private const int DownedPawnMoveTicks = 450;
+
+		// Token: 0x040011A6 RID: 4518
+		public const float CellToTilesConversionRatio = 380f;
+
+		// Token: 0x040011A7 RID: 4519
+		public const int DefaultTicksPerMove = 3500;
+
+		// Token: 0x040011A8 RID: 4520
+		private const float MoveSpeedFactorAtZeroMass = 1.6f;
+
 		// Token: 0x06001DCF RID: 7631 RVA: 0x00100F90 File Offset: 0x000FF390
 		public static int GetTicksPerMove(Caravan caravan, StringBuilder explanation = null)
 		{
@@ -150,24 +165,18 @@ namespace RimWorld.Planet
 			}));
 		}
 
-		// Token: 0x040011A4 RID: 4516
-		private const int MaxPawnTicksPerMove = 150;
-
-		// Token: 0x040011A5 RID: 4517
-		private const int DownedPawnMoveTicks = 450;
-
-		// Token: 0x040011A6 RID: 4518
-		public const float CellToTilesConversionRatio = 380f;
-
-		// Token: 0x040011A7 RID: 4519
-		public const int DefaultTicksPerMove = 3500;
-
-		// Token: 0x040011A8 RID: 4520
-		private const float MoveSpeedFactorAtZeroMass = 1.6f;
-
 		// Token: 0x020005E3 RID: 1507
 		public struct CaravanInfo
 		{
+			// Token: 0x040011A9 RID: 4521
+			public List<Pawn> pawns;
+
+			// Token: 0x040011AA RID: 4522
+			public float massUsage;
+
+			// Token: 0x040011AB RID: 4523
+			public float massCapacity;
+
 			// Token: 0x06001DD4 RID: 7636 RVA: 0x00101351 File Offset: 0x000FF751
 			public CaravanInfo(Caravan caravan)
 			{
@@ -183,15 +192,6 @@ namespace RimWorld.Planet
 				this.massUsage = formCaravanDialog.MassUsage;
 				this.massCapacity = formCaravanDialog.MassCapacity;
 			}
-
-			// Token: 0x040011A9 RID: 4521
-			public List<Pawn> pawns;
-
-			// Token: 0x040011AA RID: 4522
-			public float massUsage;
-
-			// Token: 0x040011AB RID: 4523
-			public float massCapacity;
 		}
 	}
 }

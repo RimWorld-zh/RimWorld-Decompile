@@ -7,6 +7,22 @@ namespace RimWorld.Planet
 	// Token: 0x02000572 RID: 1394
 	public class WorldFeatureTextMesh_Legacy : WorldFeatureTextMesh
 	{
+		// Token: 0x04000F73 RID: 3955
+		private TextMesh textMesh;
+
+		// Token: 0x04000F74 RID: 3956
+		private const float TextScale = 0.23f;
+
+		// Token: 0x04000F75 RID: 3957
+		private const int MinFontSize = 13;
+
+		// Token: 0x04000F76 RID: 3958
+		private const int MaxFontSize = 40;
+
+		// Token: 0x04000F77 RID: 3959
+		[TweakValue("Interface.World", 0f, 10f)]
+		private static float TextScaleFactor = 7.5f;
+
 		// Token: 0x06001A7F RID: 6783 RVA: 0x000E4CB4 File Offset: 0x000E30B4
 		private static void TextScaleFactor_Changed()
 		{
@@ -134,21 +150,5 @@ namespace RimWorld.Planet
 		public override void WrapAroundPlanetSurface()
 		{
 		}
-
-		// Token: 0x04000F73 RID: 3955
-		private TextMesh textMesh;
-
-		// Token: 0x04000F74 RID: 3956
-		private const float TextScale = 0.23f;
-
-		// Token: 0x04000F75 RID: 3957
-		private const int MinFontSize = 13;
-
-		// Token: 0x04000F76 RID: 3958
-		private const int MaxFontSize = 40;
-
-		// Token: 0x04000F77 RID: 3959
-		[TweakValue("Interface.World", 0f, 10f)]
-		private static float TextScaleFactor = 7.5f;
 	}
 }

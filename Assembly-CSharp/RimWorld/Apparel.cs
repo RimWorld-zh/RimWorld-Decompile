@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020006C4 RID: 1732
 	public class Apparel : ThingWithComps
 	{
+		// Token: 0x040014E1 RID: 5345
+		private bool wornByCorpseInt;
+
 		// Token: 0x170005A4 RID: 1444
 		// (get) Token: 0x06002577 RID: 9591 RVA: 0x00141790 File Offset: 0x0013FB90
 		public Pawn Wearer
@@ -108,8 +111,5 @@ namespace RimWorld
 		{
 			return 0f;
 		}
-
-		// Token: 0x040014E1 RID: 5345
-		private bool wornByCorpseInt;
 	}
 }

@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000D1B RID: 3355
 	public class HediffCompProperties_VerbGiver : HediffCompProperties
 	{
+		// Token: 0x0400322A RID: 12842
+		public List<VerbProperties> verbs = null;
+
+		// Token: 0x0400322B RID: 12843
+		public List<Tool> tools = null;
+
 		// Token: 0x060049F7 RID: 18935 RVA: 0x0026B2E2 File Offset: 0x002696E2
 		public HediffCompProperties_VerbGiver()
 		{
@@ -32,11 +38,5 @@ namespace Verse
 			}
 			yield break;
 		}
-
-		// Token: 0x0400322A RID: 12842
-		public List<VerbProperties> verbs = null;
-
-		// Token: 0x0400322B RID: 12843
-		public List<Tool> tools = null;
 	}
 }

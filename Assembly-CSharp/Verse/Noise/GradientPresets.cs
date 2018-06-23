@@ -7,6 +7,21 @@ namespace Verse.Noise
 	// Token: 0x02000F7F RID: 3967
 	public static class GradientPresets
 	{
+		// Token: 0x04003EEE RID: 16110
+		private static Gradient _empty;
+
+		// Token: 0x04003EEF RID: 16111
+		private static Gradient _grayscale;
+
+		// Token: 0x04003EF0 RID: 16112
+		private static Gradient _rgb;
+
+		// Token: 0x04003EF1 RID: 16113
+		private static Gradient _rgba;
+
+		// Token: 0x04003EF2 RID: 16114
+		private static Gradient _terrain;
+
 		// Token: 0x06005FD4 RID: 24532 RVA: 0x0030BF74 File Offset: 0x0030A374
 		static GradientPresets()
 		{
@@ -97,20 +112,5 @@ namespace Verse.Noise
 				return GradientPresets._terrain;
 			}
 		}
-
-		// Token: 0x04003EEE RID: 16110
-		private static Gradient _empty;
-
-		// Token: 0x04003EEF RID: 16111
-		private static Gradient _grayscale;
-
-		// Token: 0x04003EF0 RID: 16112
-		private static Gradient _rgb;
-
-		// Token: 0x04003EF1 RID: 16113
-		private static Gradient _rgba;
-
-		// Token: 0x04003EF2 RID: 16114
-		private static Gradient _terrain;
 	}
 }

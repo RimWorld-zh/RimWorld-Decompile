@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x020000C1 RID: 193
 	internal static class TrashUtility
 	{
+		// Token: 0x04000297 RID: 663
+		private const float ChanceHateInertBuilding = 0.008f;
+
+		// Token: 0x04000298 RID: 664
+		private static readonly IntRange TrashJobCheckOverrideInterval = new IntRange(450, 500);
+
 		// Token: 0x06000481 RID: 1153 RVA: 0x0003371C File Offset: 0x00031B1C
 		public static bool ShouldTrashPlant(Pawn pawn, Plant p)
 		{
@@ -111,11 +117,5 @@ namespace RimWorld
 			job.checkOverrideOnExpire = true;
 			job.expireRequiresEnemiesNearby = true;
 		}
-
-		// Token: 0x04000297 RID: 663
-		private const float ChanceHateInertBuilding = 0.008f;
-
-		// Token: 0x04000298 RID: 664
-		private static readonly IntRange TrashJobCheckOverrideInterval = new IntRange(450, 500);
 	}
 }

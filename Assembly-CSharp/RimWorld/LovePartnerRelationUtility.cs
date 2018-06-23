@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x020004BB RID: 1211
 	public static class LovePartnerRelationUtility
 	{
+		// Token: 0x04000CC3 RID: 3267
+		private const float MinAgeToGenerateWithLovePartnerRelation = 14f;
+
 		// Token: 0x06001596 RID: 5526 RVA: 0x000C03DC File Offset: 0x000BE7DC
 		public static bool HasAnyLovePartner(Pawn pawn)
 		{
@@ -526,8 +529,5 @@ namespace RimWorld
 			}
 			return num;
 		}
-
-		// Token: 0x04000CC3 RID: 3267
-		private const float MinAgeToGenerateWithLovePartnerRelation = 14f;
 	}
 }

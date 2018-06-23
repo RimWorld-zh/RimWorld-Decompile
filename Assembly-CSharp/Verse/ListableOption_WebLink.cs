@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000E9D RID: 3741
 	public class ListableOption_WebLink : ListableOption
 	{
+		// Token: 0x04003A75 RID: 14965
+		public Texture2D image;
+
+		// Token: 0x04003A76 RID: 14966
+		public string url;
+
+		// Token: 0x04003A77 RID: 14967
+		private static readonly Vector2 Imagesize = new Vector2(24f, 18f);
+
 		// Token: 0x06005864 RID: 22628 RVA: 0x002D4F25 File Offset: 0x002D3325
 		public ListableOption_WebLink(string label, Texture2D image) : base(label, null, null)
 		{
@@ -58,14 +67,5 @@ namespace Verse
 			}
 			return num3;
 		}
-
-		// Token: 0x04003A75 RID: 14965
-		public Texture2D image;
-
-		// Token: 0x04003A76 RID: 14966
-		public string url;
-
-		// Token: 0x04003A77 RID: 14967
-		private static readonly Vector2 Imagesize = new Vector2(24f, 18f);
 	}
 }

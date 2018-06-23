@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x0200003C RID: 60
 	public abstract class JobDriver_AffectFloor : JobDriver
 	{
+		// Token: 0x040001CA RID: 458
+		private float workLeft = -1000f;
+
+		// Token: 0x040001CB RID: 459
+		protected bool clearSnow = false;
+
 		// Token: 0x17000068 RID: 104
 		// (get) Token: 0x0600020A RID: 522
 		protected abstract int BaseWorkAmount { get; }
@@ -86,11 +92,5 @@ namespace RimWorld
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.workLeft, "workLeft", 0f, false);
 		}
-
-		// Token: 0x040001CA RID: 458
-		private float workLeft = -1000f;
-
-		// Token: 0x040001CB RID: 459
-		protected bool clearSnow = false;
 	}
 }

@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x02000143 RID: 323
 	public class WorkGiver_FillFermentingBarrel : WorkGiver_Scanner
 	{
+		// Token: 0x04000325 RID: 805
+		private static string TemperatureTrans;
+
+		// Token: 0x04000326 RID: 806
+		private static string NoWortTrans;
+
 		// Token: 0x17000102 RID: 258
 		// (get) Token: 0x060006AD RID: 1709 RVA: 0x00044F2C File Offset: 0x0004332C
 		public override ThingRequest PotentialWorkThingRequest
@@ -97,11 +103,5 @@ namespace RimWorld
 			Predicate<Thing> validator = predicate;
 			return GenClosest.ClosestThingReachable(position, map, thingReq, peMode, traverseParams, 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
 		}
-
-		// Token: 0x04000325 RID: 805
-		private static string TemperatureTrans;
-
-		// Token: 0x04000326 RID: 806
-		private static string NoWortTrans;
 	}
 }

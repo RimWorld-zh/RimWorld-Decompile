@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000698 RID: 1688
 	public class Building_Vent : Building_TempControl
 	{
+		// Token: 0x040013FD RID: 5117
+		private CompFlickable flickableComp;
+
 		// Token: 0x17000558 RID: 1368
 		// (get) Token: 0x060023C8 RID: 9160 RVA: 0x00132D20 File Offset: 0x00131120
 		public override Graphic Graphic
@@ -48,8 +51,5 @@ namespace RimWorld
 			}
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x040013FD RID: 5117
-		private CompFlickable flickableComp;
 	}
 }

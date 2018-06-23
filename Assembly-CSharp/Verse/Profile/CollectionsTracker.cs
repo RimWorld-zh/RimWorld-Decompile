@@ -9,6 +9,9 @@ namespace Verse.Profile
 	[HasDebugOutput]
 	public static class CollectionsTracker
 	{
+		// Token: 0x04003334 RID: 13108
+		private static Dictionary<WeakReference, int> collections = new Dictionary<WeakReference, int>();
+
 		// Token: 0x06004CCB RID: 19659 RVA: 0x002803C4 File Offset: 0x0027E7C4
 		[DebugOutput]
 		private static void GrownCollectionsStart()
@@ -52,8 +55,5 @@ namespace Verse.Profile
 				CollectionsTracker.collections.Clear();
 			}
 		}
-
-		// Token: 0x04003334 RID: 13108
-		private static Dictionary<WeakReference, int> collections = new Dictionary<WeakReference, int>();
 	}
 }

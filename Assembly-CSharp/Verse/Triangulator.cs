@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000FCD RID: 4045
 	public class Triangulator
 	{
+		// Token: 0x04004001 RID: 16385
+		private List<Vector2> m_points = new List<Vector2>();
+
 		// Token: 0x060061E7 RID: 25063 RVA: 0x00316739 File Offset: 0x00314B39
 		public Triangulator(Vector2[] points)
 		{
@@ -156,8 +159,5 @@ namespace Verse
 			float num15 = num3 * num12 - num4 * num11;
 			return num13 >= 0f && num15 >= 0f && num14 >= 0f;
 		}
-
-		// Token: 0x04004001 RID: 16385
-		private List<Vector2> m_points = new List<Vector2>();
 	}
 }

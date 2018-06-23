@@ -8,6 +8,57 @@ namespace RimWorld
 	// Token: 0x020009C9 RID: 2505
 	public class TargetingParameters
 	{
+		// Token: 0x040023DD RID: 9181
+		public bool canTargetLocations = false;
+
+		// Token: 0x040023DE RID: 9182
+		public bool canTargetSelf = false;
+
+		// Token: 0x040023DF RID: 9183
+		public bool canTargetPawns = true;
+
+		// Token: 0x040023E0 RID: 9184
+		public bool canTargetFires = false;
+
+		// Token: 0x040023E1 RID: 9185
+		public bool canTargetBuildings = true;
+
+		// Token: 0x040023E2 RID: 9186
+		public bool canTargetItems = false;
+
+		// Token: 0x040023E3 RID: 9187
+		public List<Faction> onlyTargetFactions = null;
+
+		// Token: 0x040023E4 RID: 9188
+		public Predicate<TargetInfo> validator = null;
+
+		// Token: 0x040023E5 RID: 9189
+		public bool onlyTargetFlammables = false;
+
+		// Token: 0x040023E6 RID: 9190
+		public Thing targetSpecificThing = null;
+
+		// Token: 0x040023E7 RID: 9191
+		public bool mustBeSelectable = false;
+
+		// Token: 0x040023E8 RID: 9192
+		public bool neverTargetDoors = false;
+
+		// Token: 0x040023E9 RID: 9193
+		public bool neverTargetIncapacitated = false;
+
+		// Token: 0x040023EA RID: 9194
+		public bool onlyTargetThingsAffectingRegions = false;
+
+		// Token: 0x040023EB RID: 9195
+		public bool onlyTargetDamagedThings = false;
+
+		// Token: 0x040023EC RID: 9196
+		public bool mapObjectTargetsMustBeAutoAttackable = true;
+
+		// Token: 0x040023ED RID: 9197
+		public bool onlyTargetIncapacitatedPawns = false;
+
 		// Token: 0x0600382B RID: 14379 RVA: 0x001DF2D0 File Offset: 0x001DD6D0
 		public bool CanTarget(TargetInfo targ)
 		{
@@ -214,56 +265,5 @@ namespace RimWorld
 			};
 			return targetingParameters;
 		}
-
-		// Token: 0x040023DD RID: 9181
-		public bool canTargetLocations = false;
-
-		// Token: 0x040023DE RID: 9182
-		public bool canTargetSelf = false;
-
-		// Token: 0x040023DF RID: 9183
-		public bool canTargetPawns = true;
-
-		// Token: 0x040023E0 RID: 9184
-		public bool canTargetFires = false;
-
-		// Token: 0x040023E1 RID: 9185
-		public bool canTargetBuildings = true;
-
-		// Token: 0x040023E2 RID: 9186
-		public bool canTargetItems = false;
-
-		// Token: 0x040023E3 RID: 9187
-		public List<Faction> onlyTargetFactions = null;
-
-		// Token: 0x040023E4 RID: 9188
-		public Predicate<TargetInfo> validator = null;
-
-		// Token: 0x040023E5 RID: 9189
-		public bool onlyTargetFlammables = false;
-
-		// Token: 0x040023E6 RID: 9190
-		public Thing targetSpecificThing = null;
-
-		// Token: 0x040023E7 RID: 9191
-		public bool mustBeSelectable = false;
-
-		// Token: 0x040023E8 RID: 9192
-		public bool neverTargetDoors = false;
-
-		// Token: 0x040023E9 RID: 9193
-		public bool neverTargetIncapacitated = false;
-
-		// Token: 0x040023EA RID: 9194
-		public bool onlyTargetThingsAffectingRegions = false;
-
-		// Token: 0x040023EB RID: 9195
-		public bool onlyTargetDamagedThings = false;
-
-		// Token: 0x040023EC RID: 9196
-		public bool mapObjectTargetsMustBeAutoAttackable = true;
-
-		// Token: 0x040023ED RID: 9197
-		public bool onlyTargetIncapacitatedPawns = false;
 	}
 }

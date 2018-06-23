@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000E04 RID: 3588
 	public class CompLifespan : ThingComp
 	{
+		// Token: 0x04003553 RID: 13651
+		public int age = -1;
+
 		// Token: 0x17000D59 RID: 3417
 		// (get) Token: 0x06005159 RID: 20825 RVA: 0x0029C094 File Offset: 0x0029A494
 		public CompProperties_Lifespan Props
@@ -59,8 +62,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003553 RID: 13651
-		public int age = -1;
 	}
 }

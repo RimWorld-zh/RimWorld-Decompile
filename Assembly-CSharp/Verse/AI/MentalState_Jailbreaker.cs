@@ -6,6 +6,9 @@ namespace Verse.AI
 	// Token: 0x02000A71 RID: 2673
 	public class MentalState_Jailbreaker : MentalState
 	{
+		// Token: 0x0400256C RID: 9580
+		private const int NoPrisonerToFreeCheckInterval = 500;
+
 		// Token: 0x06003B77 RID: 15223 RVA: 0x001F76F0 File Offset: 0x001F5AF0
 		public override void MentalStateTick()
 		{
@@ -32,8 +35,5 @@ namespace Verse.AI
 				base.RecoverFromState();
 			}
 		}
-
-		// Token: 0x0400256C RID: 9580
-		private const int NoPrisonerToFreeCheckInterval = 500;
 	}
 }

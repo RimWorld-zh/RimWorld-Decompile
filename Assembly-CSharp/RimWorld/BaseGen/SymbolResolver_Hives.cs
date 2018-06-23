@@ -7,6 +7,9 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003C9 RID: 969
 	public class SymbolResolver_Hives : SymbolResolver
 	{
+		// Token: 0x04000A35 RID: 2613
+		private static readonly IntRange DefaultHivesCountRange = new IntRange(1, 3);
+
 		// Token: 0x060010B7 RID: 4279 RVA: 0x0008E530 File Offset: 0x0008C930
 		public override bool CanResolve(ResolveParams rp)
 		{
@@ -48,8 +51,5 @@ namespace RimWorld.BaseGen
 			where mc.Standable(map)
 			select mc).TryRandomElement(out pos);
 		}
-
-		// Token: 0x04000A35 RID: 2613
-		private static readonly IntRange DefaultHivesCountRange = new IntRange(1, 3);
 	}
 }

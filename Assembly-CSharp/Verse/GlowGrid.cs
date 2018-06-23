@@ -8,6 +8,42 @@ namespace Verse
 	// Token: 0x02000C17 RID: 3095
 	public sealed class GlowGrid
 	{
+		// Token: 0x04002E3F RID: 11839
+		private Map map;
+
+		// Token: 0x04002E40 RID: 11840
+		public Color32[] glowGrid;
+
+		// Token: 0x04002E41 RID: 11841
+		public Color32[] glowGridNoCavePlants;
+
+		// Token: 0x04002E42 RID: 11842
+		private bool glowGridDirty = false;
+
+		// Token: 0x04002E43 RID: 11843
+		private HashSet<CompGlower> litGlowers = new HashSet<CompGlower>();
+
+		// Token: 0x04002E44 RID: 11844
+		private List<IntVec3> initialGlowerLocs = new List<IntVec3>();
+
+		// Token: 0x04002E45 RID: 11845
+		public const int AlphaOfNotOverlit = 0;
+
+		// Token: 0x04002E46 RID: 11846
+		public const int AlphaOfOverlit = 1;
+
+		// Token: 0x04002E47 RID: 11847
+		private const float GameGlowLitThreshold = 0.3f;
+
+		// Token: 0x04002E48 RID: 11848
+		private const float GameGlowOverlitThreshold = 0.9f;
+
+		// Token: 0x04002E49 RID: 11849
+		private const float GroundGameGlowFactor = 3.6f;
+
+		// Token: 0x04002E4A RID: 11850
+		private const float MaxGameGlowFromNonOverlitGroundLights = 0.5f;
+
 		// Token: 0x060043A5 RID: 17317 RVA: 0x0023C1CC File Offset: 0x0023A5CC
 		public GlowGrid(Map map)
 		{
@@ -142,41 +178,5 @@ namespace Verse
 				Profiler.EndSample();
 			}
 		}
-
-		// Token: 0x04002E3F RID: 11839
-		private Map map;
-
-		// Token: 0x04002E40 RID: 11840
-		public Color32[] glowGrid;
-
-		// Token: 0x04002E41 RID: 11841
-		public Color32[] glowGridNoCavePlants;
-
-		// Token: 0x04002E42 RID: 11842
-		private bool glowGridDirty = false;
-
-		// Token: 0x04002E43 RID: 11843
-		private HashSet<CompGlower> litGlowers = new HashSet<CompGlower>();
-
-		// Token: 0x04002E44 RID: 11844
-		private List<IntVec3> initialGlowerLocs = new List<IntVec3>();
-
-		// Token: 0x04002E45 RID: 11845
-		public const int AlphaOfNotOverlit = 0;
-
-		// Token: 0x04002E46 RID: 11846
-		public const int AlphaOfOverlit = 1;
-
-		// Token: 0x04002E47 RID: 11847
-		private const float GameGlowLitThreshold = 0.3f;
-
-		// Token: 0x04002E48 RID: 11848
-		private const float GameGlowOverlitThreshold = 0.9f;
-
-		// Token: 0x04002E49 RID: 11849
-		private const float GroundGameGlowFactor = 3.6f;
-
-		// Token: 0x04002E4A RID: 11850
-		private const float MaxGameGlowFromNonOverlitGroundLights = 0.5f;
 	}
 }

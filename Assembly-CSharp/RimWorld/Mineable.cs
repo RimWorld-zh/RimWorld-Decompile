@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x0200067D RID: 1661
 	public class Mineable : Building
 	{
+		// Token: 0x0400139F RID: 5023
+		private float yieldPct = 0f;
+
+		// Token: 0x040013A0 RID: 5024
+		private const float YieldChanceOnNonMiningKill = 0.2f;
+
 		// Token: 0x060022FA RID: 8954 RVA: 0x0012D80C File Offset: 0x0012BC0C
 		public override void ExposeData()
 		{
@@ -83,11 +89,5 @@ namespace RimWorld
 			float num2 = (float)num / (float)base.MaxHitPoints;
 			this.yieldPct += num2 * miner.GetStatValue(StatDefOf.MiningYield, true);
 		}
-
-		// Token: 0x0400139F RID: 5023
-		private float yieldPct = 0f;
-
-		// Token: 0x040013A0 RID: 5024
-		private const float YieldChanceOnNonMiningKill = 0.2f;
 	}
 }

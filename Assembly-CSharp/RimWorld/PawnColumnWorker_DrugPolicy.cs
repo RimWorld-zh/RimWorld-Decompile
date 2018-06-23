@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x0200088E RID: 2190
 	public class PawnColumnWorker_DrugPolicy : PawnColumnWorker
 	{
+		// Token: 0x04001AD4 RID: 6868
+		private const int TopAreaHeight = 65;
+
+		// Token: 0x04001AD5 RID: 6869
+		public const int ManageDrugPoliciesButtonHeight = 32;
+
 		// Token: 0x06003203 RID: 12803 RVA: 0x001AF4B0 File Offset: 0x001AD8B0
 		public override void DoHeader(Rect rect, PawnTable table)
 		{
@@ -58,11 +64,5 @@ namespace RimWorld
 		{
 			return (pawn.drugs != null && pawn.drugs.CurrentPolicy != null) ? pawn.drugs.CurrentPolicy.uniqueId : int.MinValue;
 		}
-
-		// Token: 0x04001AD4 RID: 6868
-		private const int TopAreaHeight = 65;
-
-		// Token: 0x04001AD5 RID: 6869
-		public const int ManageDrugPoliciesButtonHeight = 32;
 	}
 }

@@ -9,6 +9,12 @@ namespace RimWorld.Planet
 	// Token: 0x020005A7 RID: 1447
 	public static class TileFinder
 	{
+		// Token: 0x0400106E RID: 4206
+		private static List<Pair<int, int>> tmpTiles = new List<Pair<int, int>>();
+
+		// Token: 0x0400106F RID: 4207
+		private static List<int> tmpPlayerTiles = new List<int>();
+
 		// Token: 0x06001B96 RID: 7062 RVA: 0x000EE3A4 File Offset: 0x000EC7A4
 		public static int RandomStartingTile()
 		{
@@ -283,11 +289,5 @@ namespace RimWorld.Planet
 			tile = findTile(arg);
 			return tile != -1;
 		}
-
-		// Token: 0x0400106E RID: 4206
-		private static List<Pair<int, int>> tmpTiles = new List<Pair<int, int>>();
-
-		// Token: 0x0400106F RID: 4207
-		private static List<int> tmpPlayerTiles = new List<int>();
 	}
 }

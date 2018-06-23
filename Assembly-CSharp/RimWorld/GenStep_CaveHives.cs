@@ -8,6 +8,24 @@ namespace RimWorld
 	// Token: 0x020003E7 RID: 999
 	public class GenStep_CaveHives : GenStep
 	{
+		// Token: 0x04000A5E RID: 2654
+		private List<IntVec3> rockCells = new List<IntVec3>();
+
+		// Token: 0x04000A5F RID: 2655
+		private List<IntVec3> possibleSpawnCells = new List<IntVec3>();
+
+		// Token: 0x04000A60 RID: 2656
+		private List<Hive> spawnedHives = new List<Hive>();
+
+		// Token: 0x04000A61 RID: 2657
+		private const int MinDistToOpenSpace = 10;
+
+		// Token: 0x04000A62 RID: 2658
+		private const int MinDistFromFactionBase = 50;
+
+		// Token: 0x04000A63 RID: 2659
+		private const float CaveCellsPerHive = 1000f;
+
 		// Token: 0x17000249 RID: 585
 		// (get) Token: 0x0600111C RID: 4380 RVA: 0x00092954 File Offset: 0x00090D54
 		public override int SeedPart
@@ -119,23 +137,5 @@ namespace RimWorld
 			spawnCell = intVec;
 			return spawnCell.IsValid;
 		}
-
-		// Token: 0x04000A5E RID: 2654
-		private List<IntVec3> rockCells = new List<IntVec3>();
-
-		// Token: 0x04000A5F RID: 2655
-		private List<IntVec3> possibleSpawnCells = new List<IntVec3>();
-
-		// Token: 0x04000A60 RID: 2656
-		private List<Hive> spawnedHives = new List<Hive>();
-
-		// Token: 0x04000A61 RID: 2657
-		private const int MinDistToOpenSpace = 10;
-
-		// Token: 0x04000A62 RID: 2658
-		private const int MinDistFromFactionBase = 50;
-
-		// Token: 0x04000A63 RID: 2659
-		private const float CaveCellsPerHive = 1000f;
 	}
 }

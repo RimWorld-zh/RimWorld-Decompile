@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class ThingSetMakerDefOf
 	{
-		// Token: 0x0600365B RID: 13915 RVA: 0x001D0D23 File Offset: 0x001CF123
-		static ThingSetMakerDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(ThingSetMakerDefOf));
-		}
-
 		// Token: 0x04002289 RID: 8841
 		public static ThingSetMakerDef MapGen_AncientTempleContents;
 
@@ -53,5 +47,11 @@ namespace RimWorld
 
 		// Token: 0x04002296 RID: 8854
 		public static ThingSetMakerDef VisitorGift;
+
+		// Token: 0x0600365B RID: 13915 RVA: 0x001D0D23 File Offset: 0x001CF123
+		static ThingSetMakerDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(ThingSetMakerDefOf));
+		}
 	}
 }

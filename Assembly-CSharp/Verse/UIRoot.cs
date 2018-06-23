@@ -9,6 +9,21 @@ namespace Verse
 	// Token: 0x02000E94 RID: 3732
 	public abstract class UIRoot
 	{
+		// Token: 0x04003A48 RID: 14920
+		public WindowStack windows = new WindowStack();
+
+		// Token: 0x04003A49 RID: 14921
+		protected DebugWindowsOpener debugWindowOpener = new DebugWindowsOpener();
+
+		// Token: 0x04003A4A RID: 14922
+		public ScreenshotModeHandler screenshotMode = new ScreenshotModeHandler();
+
+		// Token: 0x04003A4B RID: 14923
+		private ShortcutKeys shortcutKeys = new ShortcutKeys();
+
+		// Token: 0x04003A4C RID: 14924
+		public FeedbackFloaters feedbackFloaters = new FeedbackFloaters();
+
 		// Token: 0x0600581E RID: 22558 RVA: 0x001BAC9B File Offset: 0x001B909B
 		public virtual void Init()
 		{
@@ -64,20 +79,5 @@ namespace Verse
 				EditWindow_Log.wantsToOpen = false;
 			}
 		}
-
-		// Token: 0x04003A48 RID: 14920
-		public WindowStack windows = new WindowStack();
-
-		// Token: 0x04003A49 RID: 14921
-		protected DebugWindowsOpener debugWindowOpener = new DebugWindowsOpener();
-
-		// Token: 0x04003A4A RID: 14922
-		public ScreenshotModeHandler screenshotMode = new ScreenshotModeHandler();
-
-		// Token: 0x04003A4B RID: 14923
-		private ShortcutKeys shortcutKeys = new ShortcutKeys();
-
-		// Token: 0x04003A4C RID: 14924
-		public FeedbackFloaters feedbackFloaters = new FeedbackFloaters();
 	}
 }

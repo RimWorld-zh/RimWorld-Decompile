@@ -9,6 +9,21 @@ namespace RimWorld
 	// Token: 0x02000510 RID: 1296
 	public class Pawn_FilthTracker : IExposable
 	{
+		// Token: 0x04000DD9 RID: 3545
+		private Pawn pawn;
+
+		// Token: 0x04000DDA RID: 3546
+		private List<Filth> carriedFilth = new List<Filth>();
+
+		// Token: 0x04000DDB RID: 3547
+		private const float FilthPickupChance = 0.1f;
+
+		// Token: 0x04000DDC RID: 3548
+		private const float FilthDropChance = 0.05f;
+
+		// Token: 0x04000DDD RID: 3549
+		private const int MaxCarriedTerrainFilthThickness = 1;
+
 		// Token: 0x0600176D RID: 5997 RVA: 0x000CD7F8 File Offset: 0x000CBBF8
 		public Pawn_FilthTracker(Pawn pawn)
 		{
@@ -177,20 +192,5 @@ namespace RimWorld
 				this.carriedFilth.Add(filth2);
 			}
 		}
-
-		// Token: 0x04000DD9 RID: 3545
-		private Pawn pawn;
-
-		// Token: 0x04000DDA RID: 3546
-		private List<Filth> carriedFilth = new List<Filth>();
-
-		// Token: 0x04000DDB RID: 3547
-		private const float FilthPickupChance = 0.1f;
-
-		// Token: 0x04000DDC RID: 3548
-		private const float FilthDropChance = 0.05f;
-
-		// Token: 0x04000DDD RID: 3549
-		private const int MaxCarriedTerrainFilthThickness = 1;
 	}
 }

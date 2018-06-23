@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x02000460 RID: 1120
 	public class Hediff_Addiction : HediffWithComps
 	{
+		// Token: 0x04000BF3 RID: 3059
+		private const int DefaultStageIndex = 0;
+
+		// Token: 0x04000BF4 RID: 3060
+		private const int WithdrawalStageIndex = 1;
+
 		// Token: 0x170002B7 RID: 695
 		// (get) Token: 0x060013AF RID: 5039 RVA: 0x000AB4D0 File Offset: 0x000A98D0
 		public Need_Chemical Need
@@ -96,11 +102,5 @@ namespace RimWorld
 		{
 			this.pawn.health.Notify_HediffChanged(this);
 		}
-
-		// Token: 0x04000BF3 RID: 3059
-		private const int DefaultStageIndex = 0;
-
-		// Token: 0x04000BF4 RID: 3060
-		private const int WithdrawalStageIndex = 1;
 	}
 }

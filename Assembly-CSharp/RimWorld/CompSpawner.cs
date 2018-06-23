@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000735 RID: 1845
 	public class CompSpawner : ThingComp
 	{
+		// Token: 0x04001651 RID: 5713
+		private int ticksUntilSpawn;
+
 		// Token: 0x1700064F RID: 1615
 		// (get) Token: 0x060028BC RID: 10428 RVA: 0x0015B96C File Offset: 0x00159D6C
 		public CompProperties_Spawner PropsSpawner
@@ -234,8 +237,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04001651 RID: 5713
-		private int ticksUntilSpawn;
 	}
 }

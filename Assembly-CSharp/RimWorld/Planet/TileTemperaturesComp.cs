@@ -8,6 +8,12 @@ namespace RimWorld.Planet
 	// Token: 0x020005A8 RID: 1448
 	public class TileTemperaturesComp : WorldComponent
 	{
+		// Token: 0x04001071 RID: 4209
+		private TileTemperaturesComp.CachedTileTemperatureData[] cache;
+
+		// Token: 0x04001072 RID: 4210
+		private List<int> usedSlots;
+
 		// Token: 0x06001B9E RID: 7070 RVA: 0x000EED6E File Offset: 0x000ED16E
 		public TileTemperaturesComp(World world) : base(world)
 		{
@@ -102,15 +108,30 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x04001071 RID: 4209
-		private TileTemperaturesComp.CachedTileTemperatureData[] cache;
-
-		// Token: 0x04001072 RID: 4210
-		private List<int> usedSlots;
-
 		// Token: 0x020005A9 RID: 1449
 		private class CachedTileTemperatureData
 		{
+			// Token: 0x04001073 RID: 4211
+			private int tile;
+
+			// Token: 0x04001074 RID: 4212
+			private int tickCachesNeedReset = int.MinValue;
+
+			// Token: 0x04001075 RID: 4213
+			private float cachedOutdoorTemp = float.MinValue;
+
+			// Token: 0x04001076 RID: 4214
+			private float cachedSeasonalTemp = float.MinValue;
+
+			// Token: 0x04001077 RID: 4215
+			private float[] twelfthlyTempAverages;
+
+			// Token: 0x04001078 RID: 4216
+			private Perlin dailyVariationPerlinCached;
+
+			// Token: 0x04001079 RID: 4217
+			private const int CachedTempUpdateInterval = 60;
+
 			// Token: 0x06001BAA RID: 7082 RVA: 0x000EEFF0 File Offset: 0x000ED3F0
 			public CachedTileTemperatureData(int tile)
 			{
@@ -186,27 +207,6 @@ namespace RimWorld.Planet
 				}
 				return num;
 			}
-
-			// Token: 0x04001073 RID: 4211
-			private int tile;
-
-			// Token: 0x04001074 RID: 4212
-			private int tickCachesNeedReset = int.MinValue;
-
-			// Token: 0x04001075 RID: 4213
-			private float cachedOutdoorTemp = float.MinValue;
-
-			// Token: 0x04001076 RID: 4214
-			private float cachedSeasonalTemp = float.MinValue;
-
-			// Token: 0x04001077 RID: 4215
-			private float[] twelfthlyTempAverages;
-
-			// Token: 0x04001078 RID: 4216
-			private Perlin dailyVariationPerlinCached;
-
-			// Token: 0x04001079 RID: 4217
-			private const int CachedTempUpdateInterval = 60;
 		}
 	}
 }

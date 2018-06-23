@@ -6,6 +6,18 @@ namespace RimWorld
 	// Token: 0x020009B3 RID: 2483
 	public class StatPart_Rest : StatPart
 	{
+		// Token: 0x040023B4 RID: 9140
+		private float factorExhausted = 1f;
+
+		// Token: 0x040023B5 RID: 9141
+		private float factorVeryTired = 1f;
+
+		// Token: 0x040023B6 RID: 9142
+		private float factorTired = 1f;
+
+		// Token: 0x040023B7 RID: 9143
+		private float factorRested = 1f;
+
 		// Token: 0x060037A7 RID: 14247 RVA: 0x001DA6BC File Offset: 0x001D8ABC
 		public override void TransformValue(StatRequest req, ref float val)
 		{
@@ -56,17 +68,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040023B4 RID: 9140
-		private float factorExhausted = 1f;
-
-		// Token: 0x040023B5 RID: 9141
-		private float factorVeryTired = 1f;
-
-		// Token: 0x040023B6 RID: 9142
-		private float factorTired = 1f;
-
-		// Token: 0x040023B7 RID: 9143
-		private float factorRested = 1f;
 	}
 }

@@ -7,6 +7,15 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003B8 RID: 952
 	public class SymbolResolver_SingleThing : SymbolResolver
 	{
+		// Token: 0x04000A25 RID: 2597
+		private static Rot4[] tmpRotations = new Rot4[]
+		{
+			Rot4.North,
+			Rot4.South,
+			Rot4.West,
+			Rot4.East
+		};
+
 		// Token: 0x06001083 RID: 4227 RVA: 0x0008BAD8 File Offset: 0x00089ED8
 		public override bool CanResolve(ResolveParams rp)
 		{
@@ -301,14 +310,5 @@ namespace RimWorld.BaseGen
 			}
 			return false;
 		}
-
-		// Token: 0x04000A25 RID: 2597
-		private static Rot4[] tmpRotations = new Rot4[]
-		{
-			Rot4.North,
-			Rot4.South,
-			Rot4.West,
-			Rot4.East
-		};
 	}
 }

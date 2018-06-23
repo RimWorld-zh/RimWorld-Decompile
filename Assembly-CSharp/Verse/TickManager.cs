@@ -10,6 +10,51 @@ namespace Verse
 	// Token: 0x02000BD1 RID: 3025
 	public sealed class TickManager : IExposable
 	{
+		// Token: 0x04002D18 RID: 11544
+		private int ticksGameInt = 0;
+
+		// Token: 0x04002D19 RID: 11545
+		public int gameStartAbsTick = 0;
+
+		// Token: 0x04002D1A RID: 11546
+		private float realTimeToTickThrough = 0f;
+
+		// Token: 0x04002D1B RID: 11547
+		private TimeSpeed curTimeSpeed = TimeSpeed.Normal;
+
+		// Token: 0x04002D1C RID: 11548
+		public TimeSpeed prePauseTimeSpeed = TimeSpeed.Paused;
+
+		// Token: 0x04002D1D RID: 11549
+		private int startingYearInt = 5500;
+
+		// Token: 0x04002D1E RID: 11550
+		private Stopwatch clock = new Stopwatch();
+
+		// Token: 0x04002D1F RID: 11551
+		private TickList tickListNormal = new TickList(TickerType.Normal);
+
+		// Token: 0x04002D20 RID: 11552
+		private TickList tickListRare = new TickList(TickerType.Rare);
+
+		// Token: 0x04002D21 RID: 11553
+		private TickList tickListLong = new TickList(TickerType.Long);
+
+		// Token: 0x04002D22 RID: 11554
+		public TimeSlower slower = new TimeSlower();
+
+		// Token: 0x04002D23 RID: 11555
+		private int lastAutoScreenshot = 0;
+
+		// Token: 0x04002D24 RID: 11556
+		private float WorstAllowedFPS = 22f;
+
+		// Token: 0x04002D25 RID: 11557
+		private int lastNothingHappeningCheckTick = -1;
+
+		// Token: 0x04002D26 RID: 11558
+		private bool nothingHappeningCached = false;
+
 		// Token: 0x17000A4D RID: 2637
 		// (get) Token: 0x060041F4 RID: 16884 RVA: 0x0022C5B8 File Offset: 0x0022A9B8
 		public int TicksGame
@@ -495,50 +540,5 @@ namespace Verse
 		{
 			this.ticksGameInt = newTicksGame;
 		}
-
-		// Token: 0x04002D18 RID: 11544
-		private int ticksGameInt = 0;
-
-		// Token: 0x04002D19 RID: 11545
-		public int gameStartAbsTick = 0;
-
-		// Token: 0x04002D1A RID: 11546
-		private float realTimeToTickThrough = 0f;
-
-		// Token: 0x04002D1B RID: 11547
-		private TimeSpeed curTimeSpeed = TimeSpeed.Normal;
-
-		// Token: 0x04002D1C RID: 11548
-		public TimeSpeed prePauseTimeSpeed = TimeSpeed.Paused;
-
-		// Token: 0x04002D1D RID: 11549
-		private int startingYearInt = 5500;
-
-		// Token: 0x04002D1E RID: 11550
-		private Stopwatch clock = new Stopwatch();
-
-		// Token: 0x04002D1F RID: 11551
-		private TickList tickListNormal = new TickList(TickerType.Normal);
-
-		// Token: 0x04002D20 RID: 11552
-		private TickList tickListRare = new TickList(TickerType.Rare);
-
-		// Token: 0x04002D21 RID: 11553
-		private TickList tickListLong = new TickList(TickerType.Long);
-
-		// Token: 0x04002D22 RID: 11554
-		public TimeSlower slower = new TimeSlower();
-
-		// Token: 0x04002D23 RID: 11555
-		private int lastAutoScreenshot = 0;
-
-		// Token: 0x04002D24 RID: 11556
-		private float WorstAllowedFPS = 22f;
-
-		// Token: 0x04002D25 RID: 11557
-		private int lastNothingHappeningCheckTick = -1;
-
-		// Token: 0x04002D26 RID: 11558
-		private bool nothingHappeningCached = false;
 	}
 }

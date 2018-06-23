@@ -9,6 +9,27 @@ namespace RimWorld.Planet
 	// Token: 0x02000616 RID: 1558
 	public class TravelingTransportPods : WorldObject, IThingHolder
 	{
+		// Token: 0x0400124E RID: 4686
+		public int destinationTile = -1;
+
+		// Token: 0x0400124F RID: 4687
+		public TransportPodsArrivalAction arrivalAction;
+
+		// Token: 0x04001250 RID: 4688
+		private List<ActiveDropPodInfo> pods = new List<ActiveDropPodInfo>();
+
+		// Token: 0x04001251 RID: 4689
+		private bool arrived;
+
+		// Token: 0x04001252 RID: 4690
+		private int initialTile = -1;
+
+		// Token: 0x04001253 RID: 4691
+		private float traveledPct;
+
+		// Token: 0x04001254 RID: 4692
+		private const float TravelSpeed = 0.00025f;
+
 		// Token: 0x1700049F RID: 1183
 		// (get) Token: 0x06001F6F RID: 8047 RVA: 0x00110B98 File Offset: 0x0010EF98
 		private Vector3 Start
@@ -312,26 +333,5 @@ namespace RimWorld.Planet
 				outChildren.Add(this.pods[i]);
 			}
 		}
-
-		// Token: 0x0400124E RID: 4686
-		public int destinationTile = -1;
-
-		// Token: 0x0400124F RID: 4687
-		public TransportPodsArrivalAction arrivalAction;
-
-		// Token: 0x04001250 RID: 4688
-		private List<ActiveDropPodInfo> pods = new List<ActiveDropPodInfo>();
-
-		// Token: 0x04001251 RID: 4689
-		private bool arrived;
-
-		// Token: 0x04001252 RID: 4690
-		private int initialTile = -1;
-
-		// Token: 0x04001253 RID: 4691
-		private float traveledPct;
-
-		// Token: 0x04001254 RID: 4692
-		private const float TravelSpeed = 0.00025f;
 	}
 }

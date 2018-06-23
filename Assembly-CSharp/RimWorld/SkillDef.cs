@@ -8,6 +8,19 @@ namespace RimWorld
 	// Token: 0x020002D4 RID: 724
 	public class SkillDef : Def
 	{
+		// Token: 0x04000734 RID: 1844
+		[MustTranslate]
+		public string skillLabel;
+
+		// Token: 0x04000735 RID: 1845
+		public bool usuallyDefinedInBackstories = true;
+
+		// Token: 0x04000736 RID: 1846
+		public bool pawnCreatorSummaryVisible = false;
+
+		// Token: 0x04000737 RID: 1847
+		public WorkTags disablingWorkTags = WorkTags.None;
+
 		// Token: 0x06000BFA RID: 3066 RVA: 0x0006A5D8 File Offset: 0x000689D8
 		public override void PostLoad()
 		{
@@ -48,18 +61,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000734 RID: 1844
-		[MustTranslate]
-		public string skillLabel;
-
-		// Token: 0x04000735 RID: 1845
-		public bool usuallyDefinedInBackstories = true;
-
-		// Token: 0x04000736 RID: 1846
-		public bool pawnCreatorSummaryVisible = false;
-
-		// Token: 0x04000737 RID: 1847
-		public WorkTags disablingWorkTags = WorkTags.None;
 	}
 }

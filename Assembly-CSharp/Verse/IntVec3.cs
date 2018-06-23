@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000EEC RID: 3820
 	public struct IntVec3 : IEquatable<IntVec3>
 	{
+		// Token: 0x04003CA1 RID: 15521
+		public int x;
+
+		// Token: 0x04003CA2 RID: 15522
+		public int y;
+
+		// Token: 0x04003CA3 RID: 15523
+		public int z;
+
 		// Token: 0x06005AF4 RID: 23284 RVA: 0x002E8752 File Offset: 0x002E6B52
 		public IntVec3(int newX, int newY, int newZ)
 		{
@@ -413,14 +422,5 @@ namespace Verse
 				")"
 			});
 		}
-
-		// Token: 0x04003CA1 RID: 15521
-		public int x;
-
-		// Token: 0x04003CA2 RID: 15522
-		public int y;
-
-		// Token: 0x04003CA3 RID: 15523
-		public int z;
 	}
 }

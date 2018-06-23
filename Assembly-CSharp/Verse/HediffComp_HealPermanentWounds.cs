@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000D12 RID: 3346
 	public class HediffComp_HealPermanentWounds : HediffComp
 	{
+		// Token: 0x0400320B RID: 12811
+		private int ticksToHeal = 0;
+
 		// Token: 0x17000BAF RID: 2991
 		// (get) Token: 0x060049CD RID: 18893 RVA: 0x0026A2E0 File Offset: 0x002686E0
 		public HediffCompProperties_HealPermanentWounds Props
@@ -73,8 +76,5 @@ namespace Verse
 		{
 			return "ticksToHeal: " + this.ticksToHeal;
 		}
-
-		// Token: 0x0400320B RID: 12811
-		private int ticksToHeal = 0;
 	}
 }

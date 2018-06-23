@@ -8,6 +8,42 @@ namespace RimWorld
 	// Token: 0x020004DD RID: 1245
 	public class Pawn_StoryTracker : IExposable
 	{
+		// Token: 0x04000CEA RID: 3306
+		private Pawn pawn;
+
+		// Token: 0x04000CEB RID: 3307
+		public Backstory childhood;
+
+		// Token: 0x04000CEC RID: 3308
+		public Backstory adulthood;
+
+		// Token: 0x04000CED RID: 3309
+		public float melanin;
+
+		// Token: 0x04000CEE RID: 3310
+		public Color hairColor = Color.white;
+
+		// Token: 0x04000CEF RID: 3311
+		public CrownType crownType = CrownType.Undefined;
+
+		// Token: 0x04000CF0 RID: 3312
+		public BodyTypeDef bodyType = null;
+
+		// Token: 0x04000CF1 RID: 3313
+		private string headGraphicPath = null;
+
+		// Token: 0x04000CF2 RID: 3314
+		public HairDef hairDef = null;
+
+		// Token: 0x04000CF3 RID: 3315
+		public TraitSet traits;
+
+		// Token: 0x04000CF4 RID: 3316
+		public string title = null;
+
+		// Token: 0x04000CF5 RID: 3317
+		private List<WorkTypeDef> cachedDisabledWorkTypes = null;
+
 		// Token: 0x06001632 RID: 5682 RVA: 0x000C53C8 File Offset: 0x000C37C8
 		public Pawn_StoryTracker(Pawn pawn)
 		{
@@ -310,41 +346,5 @@ namespace RimWorld
 		{
 			this.cachedDisabledWorkTypes = null;
 		}
-
-		// Token: 0x04000CEA RID: 3306
-		private Pawn pawn;
-
-		// Token: 0x04000CEB RID: 3307
-		public Backstory childhood;
-
-		// Token: 0x04000CEC RID: 3308
-		public Backstory adulthood;
-
-		// Token: 0x04000CED RID: 3309
-		public float melanin;
-
-		// Token: 0x04000CEE RID: 3310
-		public Color hairColor = Color.white;
-
-		// Token: 0x04000CEF RID: 3311
-		public CrownType crownType = CrownType.Undefined;
-
-		// Token: 0x04000CF0 RID: 3312
-		public BodyTypeDef bodyType = null;
-
-		// Token: 0x04000CF1 RID: 3313
-		private string headGraphicPath = null;
-
-		// Token: 0x04000CF2 RID: 3314
-		public HairDef hairDef = null;
-
-		// Token: 0x04000CF3 RID: 3315
-		public TraitSet traits;
-
-		// Token: 0x04000CF4 RID: 3316
-		public string title = null;
-
-		// Token: 0x04000CF5 RID: 3317
-		private List<WorkTypeDef> cachedDisabledWorkTypes = null;
 	}
 }

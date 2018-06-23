@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020009D6 RID: 2518
 	public class Verb_PowerBeam : Verb
 	{
+		// Token: 0x0400240D RID: 9229
+		private const int DurationTicks = 600;
+
 		// Token: 0x06003878 RID: 14456 RVA: 0x001E2D4C File Offset: 0x001E114C
 		protected override bool TryCastShot()
 		{
@@ -36,8 +39,5 @@ namespace RimWorld
 			needLOSToCenter = false;
 			return 15f;
 		}
-
-		// Token: 0x0400240D RID: 9229
-		private const int DurationTicks = 600;
 	}
 }

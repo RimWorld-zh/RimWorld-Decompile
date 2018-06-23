@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000CEA RID: 3306
 	public class DamageFlasher
 	{
+		// Token: 0x04003153 RID: 12627
+		private int lastDamageTick = -9999;
+
+		// Token: 0x04003154 RID: 12628
+		private const int DamagedMatTicksTotal = 16;
+
 		// Token: 0x060048D7 RID: 18647 RVA: 0x00263B3D File Offset: 0x00261F3D
 		public DamageFlasher(Pawn pawn)
 		{
@@ -45,11 +51,5 @@ namespace Verse
 				this.lastDamageTick = Find.TickManager.TicksGame;
 			}
 		}
-
-		// Token: 0x04003153 RID: 12627
-		private int lastDamageTick = -9999;
-
-		// Token: 0x04003154 RID: 12628
-		private const int DamagedMatTicksTotal = 16;
 	}
 }

@@ -8,44 +8,6 @@ namespace RimWorld
 	// Token: 0x020002A7 RID: 679
 	public class InteractionDef : Def
 	{
-		// Token: 0x170001A9 RID: 425
-		// (get) Token: 0x06000B60 RID: 2912 RVA: 0x00066CF0 File Offset: 0x000650F0
-		public InteractionWorker Worker
-		{
-			get
-			{
-				if (this.workerInt == null)
-				{
-					this.workerInt = (InteractionWorker)Activator.CreateInstance(this.workerClass);
-				}
-				return this.workerInt;
-			}
-		}
-
-		// Token: 0x170001AA RID: 426
-		// (get) Token: 0x06000B61 RID: 2913 RVA: 0x00066D2C File Offset: 0x0006512C
-		public Texture2D Symbol
-		{
-			get
-			{
-				if (this.symbolTex == null)
-				{
-					this.symbolTex = ContentFinder<Texture2D>.Get(this.symbol, true);
-				}
-				return this.symbolTex;
-			}
-		}
-
-		// Token: 0x06000B62 RID: 2914 RVA: 0x00066D6A File Offset: 0x0006516A
-		public override void ResolveReferences()
-		{
-			base.ResolveReferences();
-			if (this.interactionMote == null)
-			{
-				this.interactionMote = ThingDefOf.Mote_Speech;
-			}
-		}
-
 		// Token: 0x0400064B RID: 1611
 		private Type workerClass = typeof(InteractionWorker);
 
@@ -90,5 +52,43 @@ namespace RimWorld
 		// Token: 0x04000658 RID: 1624
 		[Unsaved]
 		private Texture2D symbolTex;
+
+		// Token: 0x170001A9 RID: 425
+		// (get) Token: 0x06000B60 RID: 2912 RVA: 0x00066CF0 File Offset: 0x000650F0
+		public InteractionWorker Worker
+		{
+			get
+			{
+				if (this.workerInt == null)
+				{
+					this.workerInt = (InteractionWorker)Activator.CreateInstance(this.workerClass);
+				}
+				return this.workerInt;
+			}
+		}
+
+		// Token: 0x170001AA RID: 426
+		// (get) Token: 0x06000B61 RID: 2913 RVA: 0x00066D2C File Offset: 0x0006512C
+		public Texture2D Symbol
+		{
+			get
+			{
+				if (this.symbolTex == null)
+				{
+					this.symbolTex = ContentFinder<Texture2D>.Get(this.symbol, true);
+				}
+				return this.symbolTex;
+			}
+		}
+
+		// Token: 0x06000B62 RID: 2914 RVA: 0x00066D6A File Offset: 0x0006516A
+		public override void ResolveReferences()
+		{
+			base.ResolveReferences();
+			if (this.interactionMote == null)
+			{
+				this.interactionMote = ThingDefOf.Mote_Speech;
+			}
+		}
 	}
 }

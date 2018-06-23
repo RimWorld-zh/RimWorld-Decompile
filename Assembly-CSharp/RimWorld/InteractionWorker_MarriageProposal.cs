@@ -9,6 +9,15 @@ namespace RimWorld
 	// Token: 0x020004B5 RID: 1205
 	public class InteractionWorker_MarriageProposal : InteractionWorker
 	{
+		// Token: 0x04000CB2 RID: 3250
+		private const float BaseSelectionWeight = 0.4f;
+
+		// Token: 0x04000CB3 RID: 3251
+		private const float BaseAcceptanceChance = 0.9f;
+
+		// Token: 0x04000CB4 RID: 3252
+		private const float BreakupChanceOnRejection = 0.4f;
+
 		// Token: 0x0600157E RID: 5502 RVA: 0x000BEEF4 File Offset: 0x000BD2F4
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
@@ -127,14 +136,5 @@ namespace RimWorld
 			num *= Mathf.Clamp01(GenMath.LerpDouble(-20f, 60f, 0f, 1f, (float)recipient.relations.OpinionOf(initiator)));
 			return Mathf.Clamp01(num);
 		}
-
-		// Token: 0x04000CB2 RID: 3250
-		private const float BaseSelectionWeight = 0.4f;
-
-		// Token: 0x04000CB3 RID: 3251
-		private const float BaseAcceptanceChance = 0.9f;
-
-		// Token: 0x04000CB4 RID: 3252
-		private const float BreakupChanceOnRejection = 0.4f;
 	}
 }

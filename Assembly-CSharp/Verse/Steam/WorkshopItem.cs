@@ -7,6 +7,12 @@ namespace Verse.Steam
 	// Token: 0x02000FC0 RID: 4032
 	public class WorkshopItem
 	{
+		// Token: 0x04003FCC RID: 16332
+		protected DirectoryInfo directoryInt;
+
+		// Token: 0x04003FCD RID: 16333
+		private PublishedFileId_t pfidInt;
+
 		// Token: 0x17000FC6 RID: 4038
 		// (get) Token: 0x06006187 RID: 24967 RVA: 0x0031406C File Offset: 0x0031246C
 		public DirectoryInfo Directory
@@ -74,11 +80,5 @@ namespace Verse.Steam
 		{
 			return base.GetType().ToString() + "-" + this.PublishedFileId;
 		}
-
-		// Token: 0x04003FCC RID: 16332
-		protected DirectoryInfo directoryInt;
-
-		// Token: 0x04003FCD RID: 16333
-		private PublishedFileId_t pfidInt;
 	}
 }

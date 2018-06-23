@@ -9,6 +9,24 @@ namespace Verse
 	// Token: 0x02000E7A RID: 3706
 	public class TreeNode_Editor : TreeNode
 	{
+		// Token: 0x040039D9 RID: 14809
+		public object obj;
+
+		// Token: 0x040039DA RID: 14810
+		public FieldInfo owningField;
+
+		// Token: 0x040039DB RID: 14811
+		public int owningIndex = -1;
+
+		// Token: 0x040039DC RID: 14812
+		private MethodInfo editWidgetsMethod = null;
+
+		// Token: 0x040039DD RID: 14813
+		public EditTreeNodeType nodeType;
+
+		// Token: 0x040039DE RID: 14814
+		private int indexToDelete = -1;
+
 		// Token: 0x06005757 RID: 22359 RVA: 0x002CE77A File Offset: 0x002CCB7A
 		private TreeNode_Editor()
 		{
@@ -438,23 +456,5 @@ namespace Verse
 			}
 			return text + ")";
 		}
-
-		// Token: 0x040039D9 RID: 14809
-		public object obj;
-
-		// Token: 0x040039DA RID: 14810
-		public FieldInfo owningField;
-
-		// Token: 0x040039DB RID: 14811
-		public int owningIndex = -1;
-
-		// Token: 0x040039DC RID: 14812
-		private MethodInfo editWidgetsMethod = null;
-
-		// Token: 0x040039DD RID: 14813
-		public EditTreeNodeType nodeType;
-
-		// Token: 0x040039DE RID: 14814
-		private int indexToDelete = -1;
 	}
 }

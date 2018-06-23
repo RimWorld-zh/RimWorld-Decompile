@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000EE9 RID: 3817
 	public struct FloatRange : IEquatable<FloatRange>
 	{
+		// Token: 0x04003C9B RID: 15515
+		public float min;
+
+		// Token: 0x04003C9C RID: 15516
+		public float max;
+
 		// Token: 0x06005AAE RID: 23214 RVA: 0x002E7AB5 File Offset: 0x002E5EB5
 		public FloatRange(float min, float max)
 		{
@@ -184,11 +190,5 @@ namespace Verse
 		{
 			return other.min == this.min && other.max == this.max;
 		}
-
-		// Token: 0x04003C9B RID: 15515
-		public float min;
-
-		// Token: 0x04003C9C RID: 15516
-		public float max;
 	}
 }

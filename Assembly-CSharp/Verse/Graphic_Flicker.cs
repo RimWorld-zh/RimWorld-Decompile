@@ -7,6 +7,15 @@ namespace Verse
 	// Token: 0x02000DD5 RID: 3541
 	public class Graphic_Flicker : Graphic_Collection
 	{
+		// Token: 0x040034B6 RID: 13494
+		private const int BaseTicksPerFrameChange = 15;
+
+		// Token: 0x040034B7 RID: 13495
+		private const int ExtraTicksPerFrameChange = 10;
+
+		// Token: 0x040034B8 RID: 13496
+		private const float MaxOffset = 0.05f;
+
 		// Token: 0x17000CD5 RID: 3285
 		// (get) Token: 0x06004F57 RID: 20311 RVA: 0x002955B0 File Offset: 0x002939B0
 		public override Material MatSingle
@@ -85,14 +94,5 @@ namespace Verse
 				")"
 			});
 		}
-
-		// Token: 0x040034B6 RID: 13494
-		private const int BaseTicksPerFrameChange = 15;
-
-		// Token: 0x040034B7 RID: 13495
-		private const int ExtraTicksPerFrameChange = 10;
-
-		// Token: 0x040034B8 RID: 13496
-		private const float MaxOffset = 0.05f;
 	}
 }

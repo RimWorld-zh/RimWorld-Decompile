@@ -5,6 +5,9 @@ namespace Steamworks
 	// Token: 0x02000162 RID: 354
 	public struct SNetSocket_t : IEquatable<SNetSocket_t>, IComparable<SNetSocket_t>
 	{
+		// Token: 0x04000677 RID: 1655
+		public uint m_SNetSocket;
+
 		// Token: 0x06000800 RID: 2048 RVA: 0x0000DF53 File Offset: 0x0000C153
 		public SNetSocket_t(uint value)
 		{
@@ -64,8 +67,5 @@ namespace Steamworks
 		{
 			return this.m_SNetSocket.CompareTo(other.m_SNetSocket);
 		}
-
-		// Token: 0x04000677 RID: 1655
-		public uint m_SNetSocket;
 	}
 }

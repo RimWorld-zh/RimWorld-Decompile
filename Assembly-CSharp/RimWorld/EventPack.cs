@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x020008CB RID: 2251
 	public struct EventPack
 	{
+		// Token: 0x04001BA5 RID: 7077
+		private string tagInt;
+
+		// Token: 0x04001BA6 RID: 7078
+		private IntVec3 cellInt;
+
+		// Token: 0x04001BA7 RID: 7079
+		private IEnumerable<IntVec3> cellsInt;
+
 		// Token: 0x0600338B RID: 13195 RVA: 0x001B98E9 File Offset: 0x001B7CE9
 		public EventPack(string tag)
 		{
@@ -81,14 +90,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04001BA5 RID: 7077
-		private string tagInt;
-
-		// Token: 0x04001BA6 RID: 7078
-		private IntVec3 cellInt;
-
-		// Token: 0x04001BA7 RID: 7079
-		private IEnumerable<IntVec3> cellsInt;
 	}
 }

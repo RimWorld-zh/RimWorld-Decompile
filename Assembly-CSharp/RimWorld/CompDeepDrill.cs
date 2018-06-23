@@ -7,6 +7,21 @@ namespace RimWorld
 	// Token: 0x02000707 RID: 1799
 	public class CompDeepDrill : ThingComp
 	{
+		// Token: 0x040015C8 RID: 5576
+		private CompPowerTrader powerComp;
+
+		// Token: 0x040015C9 RID: 5577
+		private float lumpProgress = 0f;
+
+		// Token: 0x040015CA RID: 5578
+		private float lumpYieldPct = 0f;
+
+		// Token: 0x040015CB RID: 5579
+		private int lastUsedTick = -99999;
+
+		// Token: 0x040015CC RID: 5580
+		private const float ResourceLumpWork = 16000f;
+
 		// Token: 0x170005EF RID: 1519
 		// (get) Token: 0x0600276F RID: 10095 RVA: 0x001528F8 File Offset: 0x00150CF8
 		public float ProgressToNextLumpPercent
@@ -136,20 +151,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040015C8 RID: 5576
-		private CompPowerTrader powerComp;
-
-		// Token: 0x040015C9 RID: 5577
-		private float lumpProgress = 0f;
-
-		// Token: 0x040015CA RID: 5578
-		private float lumpYieldPct = 0f;
-
-		// Token: 0x040015CB RID: 5579
-		private int lastUsedTick = -99999;
-
-		// Token: 0x040015CC RID: 5580
-		private const float ResourceLumpWork = 16000f;
 	}
 }

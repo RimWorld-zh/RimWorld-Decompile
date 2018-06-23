@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class IncidentTargetTypeDefOf
 	{
-		// Token: 0x06003668 RID: 13928 RVA: 0x001D0E0D File Offset: 0x001CF20D
-		static IncidentTargetTypeDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(IncidentTargetTypeDefOf));
-		}
-
 		// Token: 0x040022C7 RID: 8903
 		public static IncidentTargetTypeDef World;
 
@@ -26,5 +20,11 @@ namespace RimWorld
 
 		// Token: 0x040022CB RID: 8907
 		public static IncidentTargetTypeDef Map_Misc;
+
+		// Token: 0x06003668 RID: 13928 RVA: 0x001D0E0D File Offset: 0x001CF20D
+		static IncidentTargetTypeDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(IncidentTargetTypeDefOf));
+		}
 	}
 }

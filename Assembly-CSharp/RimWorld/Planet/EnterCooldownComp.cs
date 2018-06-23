@@ -7,6 +7,9 @@ namespace RimWorld.Planet
 	// Token: 0x0200061C RID: 1564
 	public class EnterCooldownComp : WorldObjectComp
 	{
+		// Token: 0x04001269 RID: 4713
+		private int ticksLeft;
+
 		// Token: 0x170004BC RID: 1212
 		// (get) Token: 0x06001FCA RID: 8138 RVA: 0x00112424 File Offset: 0x00110824
 		public WorldObjectCompProperties_EnterCooldown Props
@@ -106,8 +109,5 @@ namespace RimWorld.Planet
 			base.PostExposeData();
 			Scribe_Values.Look<int>(ref this.ticksLeft, "ticksLeft", 0, false);
 		}
-
-		// Token: 0x04001269 RID: 4713
-		private int ticksLeft;
 	}
 }

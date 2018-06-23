@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020009A2 RID: 2466
 	public class StatPart_BedStat : StatPart
 	{
+		// Token: 0x04002398 RID: 9112
+		private StatDef stat = null;
+
 		// Token: 0x06003756 RID: 14166 RVA: 0x001D9160 File Offset: 0x001D7560
 		public override void TransformValue(StatRequest req, ref float val)
 		{
@@ -47,8 +50,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04002398 RID: 9112
-		private StatDef stat = null;
 	}
 }

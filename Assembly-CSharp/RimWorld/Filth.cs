@@ -8,6 +8,24 @@ namespace RimWorld
 	// Token: 0x020006BF RID: 1727
 	public class Filth : Thing
 	{
+		// Token: 0x040014B9 RID: 5305
+		public int thickness = 1;
+
+		// Token: 0x040014BA RID: 5306
+		public List<string> sources = null;
+
+		// Token: 0x040014BB RID: 5307
+		private int growTick;
+
+		// Token: 0x040014BC RID: 5308
+		private const int MaxThickness = 5;
+
+		// Token: 0x040014BD RID: 5309
+		private const int MinAgeToPickUp = 400;
+
+		// Token: 0x040014BE RID: 5310
+		private const int MaxNumSources = 3;
+
 		// Token: 0x1700059D RID: 1437
 		// (get) Token: 0x06002543 RID: 9539 RVA: 0x0013FDF4 File Offset: 0x0013E1F4
 		public bool CanFilthAttachNow
@@ -173,23 +191,5 @@ namespace RimWorld
 			TerrainDef terrainDef = map.terrainGrid.TerrainAt(c);
 			return terrainDef.acceptFilth && (!this.def.filth.terrainSourced || terrainDef.acceptTerrainSourceFilth);
 		}
-
-		// Token: 0x040014B9 RID: 5305
-		public int thickness = 1;
-
-		// Token: 0x040014BA RID: 5306
-		public List<string> sources = null;
-
-		// Token: 0x040014BB RID: 5307
-		private int growTick;
-
-		// Token: 0x040014BC RID: 5308
-		private const int MaxThickness = 5;
-
-		// Token: 0x040014BD RID: 5309
-		private const int MinAgeToPickUp = 400;
-
-		// Token: 0x040014BE RID: 5310
-		private const int MaxNumSources = 3;
 	}
 }

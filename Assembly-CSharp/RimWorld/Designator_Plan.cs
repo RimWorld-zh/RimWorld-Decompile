@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020007D1 RID: 2001
 	public abstract class Designator_Plan : Designator
 	{
+		// Token: 0x040017A2 RID: 6050
+		private DesignateMode mode;
+
 		// Token: 0x06002C6A RID: 11370 RVA: 0x00176A80 File Offset: 0x00174E80
 		public Designator_Plan(DesignateMode mode)
 		{
@@ -105,8 +108,5 @@ namespace RimWorld
 		{
 			DesignatorUtility.RenderHighlightOverSelectableCells(this, dragCells);
 		}
-
-		// Token: 0x040017A2 RID: 6050
-		private DesignateMode mode;
 	}
 }

@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x020006AB RID: 1707
 	public class Building_PlantGrower : Building, IPlantToGrowSettable
 	{
+		// Token: 0x0400143D RID: 5181
+		private ThingDef plantDefToGrow;
+
+		// Token: 0x0400143E RID: 5182
+		private CompPowerTrader compPower;
+
 		// Token: 0x1700058A RID: 1418
 		// (get) Token: 0x060024A5 RID: 9381 RVA: 0x00139EAC File Offset: 0x001382AC
 		public IEnumerable<Plant> PlantsOnMe
@@ -137,11 +143,5 @@ namespace RimWorld
 		{
 			return this.compPower == null || this.compPower.PowerOn;
 		}
-
-		// Token: 0x0400143D RID: 5181
-		private ThingDef plantDefToGrow;
-
-		// Token: 0x0400143E RID: 5182
-		private CompPowerTrader compPower;
 	}
 }

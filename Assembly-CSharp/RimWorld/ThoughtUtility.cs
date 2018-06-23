@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x020009CC RID: 2508
 	public static class ThoughtUtility
 	{
+		// Token: 0x040023FA RID: 9210
+		public static List<ThoughtDef> situationalSocialThoughtDefs;
+
+		// Token: 0x040023FB RID: 9211
+		public static List<ThoughtDef> situationalNonSocialThoughtDefs;
+
 		// Token: 0x0600383B RID: 14395 RVA: 0x001DFA3C File Offset: 0x001DDE3C
 		public static void Reset()
 		{
@@ -209,11 +215,5 @@ namespace RimWorld
 			}
 			return true;
 		}
-
-		// Token: 0x040023FA RID: 9210
-		public static List<ThoughtDef> situationalSocialThoughtDefs;
-
-		// Token: 0x040023FB RID: 9211
-		public static List<ThoughtDef> situationalNonSocialThoughtDefs;
 	}
 }

@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000D5F RID: 3423
 	public class Stance_Cooldown : Stance_Busy
 	{
+		// Token: 0x04003332 RID: 13106
+		private const float RadiusPerTick = 0.002f;
+
+		// Token: 0x04003333 RID: 13107
+		private const float MaxRadius = 0.5f;
+
 		// Token: 0x06004CC8 RID: 19656 RVA: 0x00280337 File Offset: 0x0027E737
 		public Stance_Cooldown()
 		{
@@ -25,11 +31,5 @@ namespace Verse
 				GenDraw.DrawCooldownCircle(this.stanceTracker.pawn.Drawer.DrawPos + new Vector3(0f, 0.2f, 0f), radius);
 			}
 		}
-
-		// Token: 0x04003332 RID: 13106
-		private const float RadiusPerTick = 0.002f;
-
-		// Token: 0x04003333 RID: 13107
-		private const float MaxRadius = 0.5f;
 	}
 }

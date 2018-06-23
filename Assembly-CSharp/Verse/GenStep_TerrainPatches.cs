@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000C58 RID: 3160
 	public class GenStep_TerrainPatches : GenStep
 	{
+		// Token: 0x04002F83 RID: 12163
+		public TerrainDef terrainDef;
+
+		// Token: 0x04002F84 RID: 12164
+		public FloatRange patchesPer10kCellsRange;
+
+		// Token: 0x04002F85 RID: 12165
+		public FloatRange patchSizeRange;
+
 		// Token: 0x17000AFC RID: 2812
 		// (get) Token: 0x0600458D RID: 17805 RVA: 0x0024C444 File Offset: 0x0024A844
 		public override int SeedPart
@@ -34,14 +43,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04002F83 RID: 12163
-		public TerrainDef terrainDef;
-
-		// Token: 0x04002F84 RID: 12164
-		public FloatRange patchesPer10kCellsRange;
-
-		// Token: 0x04002F85 RID: 12165
-		public FloatRange patchSizeRange;
 	}
 }

@@ -10,6 +10,36 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Building_FermentingBarrel : Building
 	{
+		// Token: 0x04001426 RID: 5158
+		private int wortCount;
+
+		// Token: 0x04001427 RID: 5159
+		private float progressInt;
+
+		// Token: 0x04001428 RID: 5160
+		private Material barFilledCachedMat;
+
+		// Token: 0x04001429 RID: 5161
+		public const int MaxCapacity = 25;
+
+		// Token: 0x0400142A RID: 5162
+		private const int BaseFermentationDuration = 360000;
+
+		// Token: 0x0400142B RID: 5163
+		public const float MinIdealTemperature = 7f;
+
+		// Token: 0x0400142C RID: 5164
+		private static readonly Vector2 BarSize = new Vector2(0.55f, 0.1f);
+
+		// Token: 0x0400142D RID: 5165
+		private static readonly Color BarZeroProgressColor = new Color(0.4f, 0.27f, 0.22f);
+
+		// Token: 0x0400142E RID: 5166
+		private static readonly Color BarFermentedColor = new Color(0.9f, 0.85f, 0.2f);
+
+		// Token: 0x0400142F RID: 5167
+		private static readonly Material BarUnfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.3f, 0.3f, 0.3f), false);
+
 		// Token: 0x17000575 RID: 1397
 		// (get) Token: 0x06002456 RID: 9302 RVA: 0x0013786C File Offset: 0x00135C6C
 		// (set) Token: 0x06002457 RID: 9303 RVA: 0x00137887 File Offset: 0x00135C87
@@ -315,35 +345,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04001426 RID: 5158
-		private int wortCount;
-
-		// Token: 0x04001427 RID: 5159
-		private float progressInt;
-
-		// Token: 0x04001428 RID: 5160
-		private Material barFilledCachedMat;
-
-		// Token: 0x04001429 RID: 5161
-		public const int MaxCapacity = 25;
-
-		// Token: 0x0400142A RID: 5162
-		private const int BaseFermentationDuration = 360000;
-
-		// Token: 0x0400142B RID: 5163
-		public const float MinIdealTemperature = 7f;
-
-		// Token: 0x0400142C RID: 5164
-		private static readonly Vector2 BarSize = new Vector2(0.55f, 0.1f);
-
-		// Token: 0x0400142D RID: 5165
-		private static readonly Color BarZeroProgressColor = new Color(0.4f, 0.27f, 0.22f);
-
-		// Token: 0x0400142E RID: 5166
-		private static readonly Color BarFermentedColor = new Color(0.9f, 0.85f, 0.2f);
-
-		// Token: 0x0400142F RID: 5167
-		private static readonly Material BarUnfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.3f, 0.3f, 0.3f), false);
 	}
 }

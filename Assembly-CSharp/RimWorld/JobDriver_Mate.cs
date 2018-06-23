@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x0200002E RID: 46
 	public class JobDriver_Mate : JobDriver
 	{
+		// Token: 0x040001AD RID: 429
+		private const int MateDuration = 500;
+
+		// Token: 0x040001AE RID: 430
+		private const TargetIndex FemInd = TargetIndex.A;
+
+		// Token: 0x040001AF RID: 431
+		private const int TicksBetweenHeartMotes = 100;
+
 		// Token: 0x17000059 RID: 89
 		// (get) Token: 0x060001B1 RID: 433 RVA: 0x000122B4 File Offset: 0x000106B4
 		private Pawn Female
@@ -50,14 +59,5 @@ namespace RimWorld
 			});
 			yield break;
 		}
-
-		// Token: 0x040001AD RID: 429
-		private const int MateDuration = 500;
-
-		// Token: 0x040001AE RID: 430
-		private const TargetIndex FemInd = TargetIndex.A;
-
-		// Token: 0x040001AF RID: 431
-		private const int TicksBetweenHeartMotes = 100;
 	}
 }

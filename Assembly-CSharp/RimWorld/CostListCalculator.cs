@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000900 RID: 2304
 	public static class CostListCalculator
 	{
+		// Token: 0x04001CFD RID: 7421
+		private static Dictionary<CostListCalculator.CostListPair, List<ThingDefCountClass>> cachedCosts = new Dictionary<CostListCalculator.CostListPair, List<ThingDefCountClass>>(CostListCalculator.FastCostListPairComparer.Instance);
+
 		// Token: 0x06003583 RID: 13699 RVA: 0x001CD737 File Offset: 0x001CBB37
 		public static void Reset()
 		{
@@ -87,12 +90,15 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x04001CFD RID: 7421
-		private static Dictionary<CostListCalculator.CostListPair, List<ThingDefCountClass>> cachedCosts = new Dictionary<CostListCalculator.CostListPair, List<ThingDefCountClass>>(CostListCalculator.FastCostListPairComparer.Instance);
-
 		// Token: 0x02000901 RID: 2305
 		private struct CostListPair : IEquatable<CostListCalculator.CostListPair>
 		{
+			// Token: 0x04001CFE RID: 7422
+			public BuildableDef buildable;
+
+			// Token: 0x04001CFF RID: 7423
+			public ThingDef stuff;
+
 			// Token: 0x06003587 RID: 13703 RVA: 0x001CD922 File Offset: 0x001CBD22
 			public CostListPair(BuildableDef buildable, ThingDef stuff)
 			{
@@ -131,17 +137,14 @@ namespace RimWorld
 			{
 				return !(lhs == rhs);
 			}
-
-			// Token: 0x04001CFE RID: 7422
-			public BuildableDef buildable;
-
-			// Token: 0x04001CFF RID: 7423
-			public ThingDef stuff;
 		}
 
 		// Token: 0x02000902 RID: 2306
 		private class FastCostListPairComparer : IEqualityComparer<CostListCalculator.CostListPair>
 		{
+			// Token: 0x04001D00 RID: 7424
+			public static readonly CostListCalculator.FastCostListPairComparer Instance = new CostListCalculator.FastCostListPairComparer();
+
 			// Token: 0x0600358E RID: 13710 RVA: 0x001CDA24 File Offset: 0x001CBE24
 			public bool Equals(CostListCalculator.CostListPair x, CostListCalculator.CostListPair y)
 			{
@@ -153,9 +156,6 @@ namespace RimWorld
 			{
 				return obj.GetHashCode();
 			}
-
-			// Token: 0x04001D00 RID: 7424
-			public static readonly CostListCalculator.FastCostListPairComparer Instance = new CostListCalculator.FastCostListPairComparer();
 		}
 	}
 }

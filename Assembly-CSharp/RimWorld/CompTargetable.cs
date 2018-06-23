@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000758 RID: 1880
 	public abstract class CompTargetable : CompUseEffect
 	{
+		// Token: 0x04001699 RID: 5785
+		private Thing target;
+
 		// Token: 0x1700066C RID: 1644
 		// (get) Token: 0x06002994 RID: 10644 RVA: 0x00161830 File Offset: 0x0015FC30
 		private CompProperties_Targetable Props
@@ -104,8 +107,5 @@ namespace RimWorld
 			}
 			return true;
 		}
-
-		// Token: 0x04001699 RID: 5785
-		private Thing target;
 	}
 }

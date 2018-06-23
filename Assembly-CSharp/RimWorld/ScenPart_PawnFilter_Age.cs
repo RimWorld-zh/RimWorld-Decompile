@@ -7,6 +7,21 @@ namespace RimWorld
 	// Token: 0x02000640 RID: 1600
 	public class ScenPart_PawnFilter_Age : ScenPart
 	{
+		// Token: 0x040012E9 RID: 4841
+		public IntRange allowedAgeRange = new IntRange(0, 999999);
+
+		// Token: 0x040012EA RID: 4842
+		private const int RangeMin = 15;
+
+		// Token: 0x040012EB RID: 4843
+		private const int RangeMax = 120;
+
+		// Token: 0x040012EC RID: 4844
+		private const int RangeMinMax = 19;
+
+		// Token: 0x040012ED RID: 4845
+		private const int RangeMinWidth = 4;
+
 		// Token: 0x06002133 RID: 8499 RVA: 0x0011A34C File Offset: 0x0011874C
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
@@ -102,20 +117,5 @@ namespace RimWorld
 				this.allowedAgeRange.min = this.allowedAgeRange.max - 4;
 			}
 		}
-
-		// Token: 0x040012E9 RID: 4841
-		public IntRange allowedAgeRange = new IntRange(0, 999999);
-
-		// Token: 0x040012EA RID: 4842
-		private const int RangeMin = 15;
-
-		// Token: 0x040012EB RID: 4843
-		private const int RangeMax = 120;
-
-		// Token: 0x040012EC RID: 4844
-		private const int RangeMinMax = 19;
-
-		// Token: 0x040012ED RID: 4845
-		private const int RangeMinWidth = 4;
 	}
 }

@@ -11,6 +11,18 @@ namespace RimWorld
 	[HasDebugOutput]
 	public class ThingSetMaker_ResourcePod : ThingSetMaker
 	{
+		// Token: 0x040015A6 RID: 5542
+		private const int MaxStacks = 7;
+
+		// Token: 0x040015A7 RID: 5543
+		private const float MaxMarketValue = 40f;
+
+		// Token: 0x040015A8 RID: 5544
+		private const float MinMoney = 150f;
+
+		// Token: 0x040015A9 RID: 5545
+		private const float MaxMoney = 600f;
+
 		// Token: 0x060026EA RID: 9962 RVA: 0x0014E488 File Offset: 0x0014C888
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
@@ -91,17 +103,5 @@ namespace RimWorld
 		{
 			return ThingSetMaker_ResourcePod.PossiblePodContentsDefs();
 		}
-
-		// Token: 0x040015A6 RID: 5542
-		private const int MaxStacks = 7;
-
-		// Token: 0x040015A7 RID: 5543
-		private const float MaxMarketValue = 40f;
-
-		// Token: 0x040015A8 RID: 5544
-		private const float MinMoney = 150f;
-
-		// Token: 0x040015A9 RID: 5545
-		private const float MaxMoney = 600f;
 	}
 }

@@ -5,6 +5,12 @@ namespace Verse
 	// Token: 0x02000F1D RID: 3869
 	public class SubEffecter
 	{
+		// Token: 0x04003D96 RID: 15766
+		public Effecter parent;
+
+		// Token: 0x04003D97 RID: 15767
+		public SubEffecterDef def;
+
 		// Token: 0x06005CCE RID: 23758 RVA: 0x001D1089 File Offset: 0x001CF489
 		public SubEffecter(SubEffecterDef subDef, Effecter parent)
 		{
@@ -26,11 +32,5 @@ namespace Verse
 		public virtual void SubCleanup()
 		{
 		}
-
-		// Token: 0x04003D96 RID: 15766
-		public Effecter parent;
-
-		// Token: 0x04003D97 RID: 15767
-		public SubEffecterDef def;
 	}
 }

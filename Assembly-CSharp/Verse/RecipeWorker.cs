@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000B24 RID: 2852
 	public class RecipeWorker
 	{
+		// Token: 0x040028C4 RID: 10436
+		public RecipeDef recipe;
+
 		// Token: 0x06003EE6 RID: 16102 RVA: 0x000ABD08 File Offset: 0x000AA108
 		public virtual IEnumerable<BodyPartRecord> GetPartsToApplyOn(Pawn pawn, RecipeDef recipe)
 		{
@@ -35,8 +38,5 @@ namespace Verse
 		{
 			ingredient.Destroy(DestroyMode.Vanish);
 		}
-
-		// Token: 0x040028C4 RID: 10436
-		public RecipeDef recipe;
 	}
 }

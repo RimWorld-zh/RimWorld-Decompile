@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x0200013C RID: 316
 	public class WorkGiver_CookFillHopper : WorkGiver_Scanner
 	{
+		// Token: 0x04000314 RID: 788
+		private static string TheOnlyAvailableFoodIsInStorageOfHigherPriorityTrans;
+
+		// Token: 0x04000315 RID: 789
+		private static string NoFoodToFillHopperTrans;
+
 		// Token: 0x06000671 RID: 1649 RVA: 0x00042E4D File Offset: 0x0004124D
 		public WorkGiver_CookFillHopper()
 		{
@@ -155,11 +161,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000314 RID: 788
-		private static string TheOnlyAvailableFoodIsInStorageOfHigherPriorityTrans;
-
-		// Token: 0x04000315 RID: 789
-		private static string NoFoodToFillHopperTrans;
 	}
 }

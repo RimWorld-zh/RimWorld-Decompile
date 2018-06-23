@@ -6,6 +6,15 @@ namespace Verse.AI
 	// Token: 0x02000A6C RID: 2668
 	public abstract class MentalState_InsultingSpree : MentalState
 	{
+		// Token: 0x0400255D RID: 9565
+		public Pawn target;
+
+		// Token: 0x0400255E RID: 9566
+		public bool insultedTargetAtLeastOnce;
+
+		// Token: 0x0400255F RID: 9567
+		public int lastInsultTicks = -999999;
+
 		// Token: 0x06003B4B RID: 15179 RVA: 0x001F70CA File Offset: 0x001F54CA
 		public override void ExposeData()
 		{
@@ -20,14 +29,5 @@ namespace Verse.AI
 		{
 			return RandomSocialMode.Off;
 		}
-
-		// Token: 0x0400255D RID: 9565
-		public Pawn target;
-
-		// Token: 0x0400255E RID: 9566
-		public bool insultedTargetAtLeastOnce;
-
-		// Token: 0x0400255F RID: 9567
-		public int lastInsultTicks = -999999;
 	}
 }

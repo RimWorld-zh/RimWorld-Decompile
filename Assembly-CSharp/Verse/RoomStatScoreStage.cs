@@ -5,12 +5,6 @@ namespace Verse
 	// Token: 0x02000B6C RID: 2924
 	public class RoomStatScoreStage
 	{
-		// Token: 0x06003FE8 RID: 16360 RVA: 0x0021AFBB File Offset: 0x002193BB
-		public void PostLoad()
-		{
-			this.untranslatedLabel = this.label;
-		}
-
 		// Token: 0x04002ACE RID: 10958
 		public float minScore = float.MinValue;
 
@@ -21,5 +15,11 @@ namespace Verse
 		[Unsaved]
 		[TranslationHandle]
 		public string untranslatedLabel = null;
+
+		// Token: 0x06003FE8 RID: 16360 RVA: 0x0021AFBB File Offset: 0x002193BB
+		public void PostLoad()
+		{
+			this.untranslatedLabel = this.label;
+		}
 	}
 }

@@ -8,6 +8,18 @@ namespace RimWorld
 	// Token: 0x02000064 RID: 100
 	public class JobDriver_CleanFilth : JobDriver
 	{
+		// Token: 0x04000201 RID: 513
+		private float cleaningWorkDone = 0f;
+
+		// Token: 0x04000202 RID: 514
+		private float totalCleaningWorkDone = 0f;
+
+		// Token: 0x04000203 RID: 515
+		private float totalCleaningWorkRequired = 0f;
+
+		// Token: 0x04000204 RID: 516
+		private const TargetIndex FilthInd = TargetIndex.A;
+
 		// Token: 0x17000094 RID: 148
 		// (get) Token: 0x060002D4 RID: 724 RVA: 0x0001E36C File Offset: 0x0001C76C
 		private Filth Filth
@@ -75,17 +87,5 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.totalCleaningWorkDone, "totalCleaningWorkDone", 0f, false);
 			Scribe_Values.Look<float>(ref this.totalCleaningWorkRequired, "totalCleaningWorkRequired", 0f, false);
 		}
-
-		// Token: 0x04000201 RID: 513
-		private float cleaningWorkDone = 0f;
-
-		// Token: 0x04000202 RID: 514
-		private float totalCleaningWorkDone = 0f;
-
-		// Token: 0x04000203 RID: 515
-		private float totalCleaningWorkRequired = 0f;
-
-		// Token: 0x04000204 RID: 516
-		private const TargetIndex FilthInd = TargetIndex.A;
 	}
 }

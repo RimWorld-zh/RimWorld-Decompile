@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x0200066D RID: 1645
 	public class Tale_SinglePawnAndTrader : Tale_SinglePawn
 	{
+		// Token: 0x04001388 RID: 5000
+		public TaleData_Trader traderData;
+
 		// Token: 0x06002280 RID: 8832 RVA: 0x00125294 File Offset: 0x00123694
 		public Tale_SinglePawnAndTrader()
 		{
@@ -52,8 +55,5 @@ namespace RimWorld
 			base.GenerateTestData();
 			this.traderData = TaleData_Trader.GenerateRandom();
 		}
-
-		// Token: 0x04001388 RID: 5000
-		public TaleData_Trader traderData;
 	}
 }

@@ -7,18 +7,6 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class BaseContent
 	{
-		// Token: 0x060059E9 RID: 23017 RVA: 0x002E30A8 File Offset: 0x002E14A8
-		public static bool NullOrBad(this Material mat)
-		{
-			return mat == null || mat == BaseContent.BadMat;
-		}
-
-		// Token: 0x060059EA RID: 23018 RVA: 0x002E30D8 File Offset: 0x002E14D8
-		public static bool NullOrBad(this Texture2D tex)
-		{
-			return tex == null || tex == BaseContent.BadTex;
-		}
-
 		// Token: 0x04003C06 RID: 15366
 		public static readonly string BadTexPath = "UI/Misc/BadTexture";
 
@@ -54,5 +42,17 @@ namespace Verse
 
 		// Token: 0x04003C11 RID: 15377
 		public static readonly Material ClearMat = SolidColorMaterials.SimpleSolidColorMaterial(Color.clear, false);
+
+		// Token: 0x060059E9 RID: 23017 RVA: 0x002E30A8 File Offset: 0x002E14A8
+		public static bool NullOrBad(this Material mat)
+		{
+			return mat == null || mat == BaseContent.BadMat;
+		}
+
+		// Token: 0x060059EA RID: 23018 RVA: 0x002E30D8 File Offset: 0x002E14D8
+		public static bool NullOrBad(this Texture2D tex)
+		{
+			return tex == null || tex == BaseContent.BadTex;
+		}
 	}
 }

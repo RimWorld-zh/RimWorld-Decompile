@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x02000890 RID: 2192
 	public class PawnColumnWorker_HostilityResponse : PawnColumnWorker
 	{
+		// Token: 0x04001ADA RID: 6874
+		private const int TopPadding = 3;
+
+		// Token: 0x04001ADB RID: 6875
+		private const int Width = 24;
+
 		// Token: 0x0600320F RID: 12815 RVA: 0x001AFB29 File Offset: 0x001ADF29
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
@@ -54,11 +60,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04001ADA RID: 6874
-		private const int TopPadding = 3;
-
-		// Token: 0x04001ADB RID: 6875
-		private const int Width = 24;
 	}
 }

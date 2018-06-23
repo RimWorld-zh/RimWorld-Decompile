@@ -10,6 +10,12 @@ namespace Verse
 	// Token: 0x02000DC5 RID: 3525
 	public class Building : ThingWithComps
 	{
+		// Token: 0x0400346C RID: 13420
+		private Sustainer sustainerAmbient = null;
+
+		// Token: 0x0400346D RID: 13421
+		public bool canChangeTerrainOnDestroyed = true;
+
 		// Token: 0x17000CBA RID: 3258
 		// (get) Token: 0x06004EC0 RID: 20160 RVA: 0x00129570 File Offset: 0x00127970
 		public CompPower PowerComp
@@ -348,11 +354,5 @@ namespace Verse
 		{
 			return false;
 		}
-
-		// Token: 0x0400346C RID: 13420
-		private Sustainer sustainerAmbient = null;
-
-		// Token: 0x0400346D RID: 13421
-		public bool canChangeTerrainOnDestroyed = true;
 	}
 }

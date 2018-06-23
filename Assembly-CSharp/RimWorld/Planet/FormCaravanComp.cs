@@ -9,6 +9,9 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public class FormCaravanComp : WorldObjectComp
 	{
+		// Token: 0x0400126A RID: 4714
+		public static readonly Texture2D FormCaravanCommand = ContentFinder<Texture2D>.Get("UI/Commands/FormCaravan", true);
+
 		// Token: 0x170004C1 RID: 1217
 		// (get) Token: 0x06001FDC RID: 8156 RVA: 0x00112B38 File Offset: 0x00110F38
 		public WorldObjectCompProperties_FormCaravan Props
@@ -92,8 +95,5 @@ namespace RimWorld.Planet
 			}
 			yield break;
 		}
-
-		// Token: 0x0400126A RID: 4714
-		public static readonly Texture2D FormCaravanCommand = ContentFinder<Texture2D>.Get("UI/Commands/FormCaravan", true);
 	}
 }

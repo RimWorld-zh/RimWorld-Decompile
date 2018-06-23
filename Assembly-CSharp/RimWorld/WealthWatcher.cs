@@ -8,6 +8,30 @@ namespace RimWorld
 	// Token: 0x02000443 RID: 1091
 	public class WealthWatcher
 	{
+		// Token: 0x04000B7A RID: 2938
+		private Map map;
+
+		// Token: 0x04000B7B RID: 2939
+		private float wealthItems;
+
+		// Token: 0x04000B7C RID: 2940
+		private float wealthBuildings;
+
+		// Token: 0x04000B7D RID: 2941
+		private float wealthTameAnimals;
+
+		// Token: 0x04000B7E RID: 2942
+		private int totalHealth;
+
+		// Token: 0x04000B7F RID: 2943
+		private float lastCountTick = -99999f;
+
+		// Token: 0x04000B80 RID: 2944
+		private const int MinCountInterval = 5000;
+
+		// Token: 0x04000B81 RID: 2945
+		private List<Thing> tmpThings = new List<Thing>();
+
 		// Token: 0x060012EC RID: 4844 RVA: 0x000A3729 File Offset: 0x000A1B29
 		public WealthWatcher(Map map)
 		{
@@ -176,29 +200,5 @@ namespace RimWorld
 			this.tmpThings.Clear();
 			return num;
 		}
-
-		// Token: 0x04000B7A RID: 2938
-		private Map map;
-
-		// Token: 0x04000B7B RID: 2939
-		private float wealthItems;
-
-		// Token: 0x04000B7C RID: 2940
-		private float wealthBuildings;
-
-		// Token: 0x04000B7D RID: 2941
-		private float wealthTameAnimals;
-
-		// Token: 0x04000B7E RID: 2942
-		private int totalHealth;
-
-		// Token: 0x04000B7F RID: 2943
-		private float lastCountTick = -99999f;
-
-		// Token: 0x04000B80 RID: 2944
-		private const int MinCountInterval = 5000;
-
-		// Token: 0x04000B81 RID: 2945
-		private List<Thing> tmpThings = new List<Thing>();
 	}
 }

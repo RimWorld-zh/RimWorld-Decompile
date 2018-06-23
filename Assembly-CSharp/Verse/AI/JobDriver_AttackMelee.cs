@@ -7,6 +7,9 @@ namespace Verse.AI
 	// Token: 0x02000A38 RID: 2616
 	public class JobDriver_AttackMelee : JobDriver
 	{
+		// Token: 0x040024FE RID: 9470
+		private int numMeleeAttacksMade = 0;
+
 		// Token: 0x06003A13 RID: 14867 RVA: 0x001EB75C File Offset: 0x001E9B5C
 		public override void ExposeData()
 		{
@@ -86,8 +89,5 @@ namespace Verse.AI
 		{
 			return this.job.GetTarget(TargetIndex.A) == j.GetTarget(TargetIndex.A);
 		}
-
-		// Token: 0x040024FE RID: 9470
-		private int numMeleeAttacksMade = 0;
 	}
 }

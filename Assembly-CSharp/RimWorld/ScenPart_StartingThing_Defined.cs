@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x0200064D RID: 1613
 	public class ScenPart_StartingThing_Defined : ScenPart_ThingCount
 	{
+		// Token: 0x0400130C RID: 4876
+		public const string PlayerStartWithTag = "PlayerStartsWith";
+
 		// Token: 0x170004EF RID: 1263
 		// (get) Token: 0x06002184 RID: 8580 RVA: 0x0011C958 File Offset: 0x0011AD58
 		public static string PlayerStartWithIntro
@@ -45,8 +48,5 @@ namespace RimWorld
 			yield return t;
 			yield break;
 		}
-
-		// Token: 0x0400130C RID: 4876
-		public const string PlayerStartWithTag = "PlayerStartsWith";
 	}
 }

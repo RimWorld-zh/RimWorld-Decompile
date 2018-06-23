@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x020007D7 RID: 2007
 	public class Designator_Slaughter : Designator
 	{
+		// Token: 0x040017A3 RID: 6051
+		private List<Pawn> justDesignated = new List<Pawn>();
+
 		// Token: 0x06002C85 RID: 11397 RVA: 0x00177384 File Offset: 0x00175784
 		public Designator_Slaughter()
 		{
@@ -121,8 +124,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x040017A3 RID: 6051
-		private List<Pawn> justDesignated = new List<Pawn>();
 	}
 }

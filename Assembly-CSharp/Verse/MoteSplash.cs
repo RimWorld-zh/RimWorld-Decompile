@@ -6,6 +6,30 @@ namespace Verse
 	// Token: 0x02000DEA RID: 3562
 	public class MoteSplash : Mote
 	{
+		// Token: 0x040034EB RID: 13547
+		public const float VelocityFootstep = 1.5f;
+
+		// Token: 0x040034EC RID: 13548
+		public const float SizeFootstep = 2f;
+
+		// Token: 0x040034ED RID: 13549
+		public const float VelocityGunfire = 4f;
+
+		// Token: 0x040034EE RID: 13550
+		public const float SizeGunfire = 1f;
+
+		// Token: 0x040034EF RID: 13551
+		public const float VelocityExplosion = 20f;
+
+		// Token: 0x040034F0 RID: 13552
+		public const float SizeExplosion = 6f;
+
+		// Token: 0x040034F1 RID: 13553
+		private float targetSize;
+
+		// Token: 0x040034F2 RID: 13554
+		private float velocity;
+
 		// Token: 0x17000CF9 RID: 3321
 		// (get) Token: 0x06004FE0 RID: 20448 RVA: 0x002976D0 File Offset: 0x00295AD0
 		protected override bool EndOfLife
@@ -63,29 +87,5 @@ namespace Verse
 			num = Mathf.Min(num, this.exactScale.x);
 			return num / this.exactScale.x;
 		}
-
-		// Token: 0x040034EB RID: 13547
-		public const float VelocityFootstep = 1.5f;
-
-		// Token: 0x040034EC RID: 13548
-		public const float SizeFootstep = 2f;
-
-		// Token: 0x040034ED RID: 13549
-		public const float VelocityGunfire = 4f;
-
-		// Token: 0x040034EE RID: 13550
-		public const float SizeGunfire = 1f;
-
-		// Token: 0x040034EF RID: 13551
-		public const float VelocityExplosion = 20f;
-
-		// Token: 0x040034F0 RID: 13552
-		public const float SizeExplosion = 6f;
-
-		// Token: 0x040034F1 RID: 13553
-		private float targetSize;
-
-		// Token: 0x040034F2 RID: 13554
-		private float velocity;
 	}
 }

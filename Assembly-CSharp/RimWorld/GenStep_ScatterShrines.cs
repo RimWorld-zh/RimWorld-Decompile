@@ -8,6 +8,18 @@ namespace RimWorld
 	// Token: 0x02000400 RID: 1024
 	public class GenStep_ScatterShrines : GenStep_ScatterRuinsSimple
 	{
+		// Token: 0x04000AB0 RID: 2736
+		private static readonly IntRange ShrinesCountX = new IntRange(1, 4);
+
+		// Token: 0x04000AB1 RID: 2737
+		private static readonly IntRange ShrinesCountZ = new IntRange(1, 4);
+
+		// Token: 0x04000AB2 RID: 2738
+		private static readonly IntRange ExtraHeightRange = new IntRange(0, 8);
+
+		// Token: 0x04000AB3 RID: 2739
+		private const int MarginCells = 1;
+
 		// Token: 0x1700025A RID: 602
 		// (get) Token: 0x0600119C RID: 4508 RVA: 0x00098A74 File Offset: 0x00096E74
 		public override int SeedPart
@@ -85,17 +97,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000AB0 RID: 2736
-		private static readonly IntRange ShrinesCountX = new IntRange(1, 4);
-
-		// Token: 0x04000AB1 RID: 2737
-		private static readonly IntRange ShrinesCountZ = new IntRange(1, 4);
-
-		// Token: 0x04000AB2 RID: 2738
-		private static readonly IntRange ExtraHeightRange = new IntRange(0, 8);
-
-		// Token: 0x04000AB3 RID: 2739
-		private const int MarginCells = 1;
 	}
 }

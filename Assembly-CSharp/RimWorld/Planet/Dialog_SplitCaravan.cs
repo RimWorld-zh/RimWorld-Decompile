@@ -10,6 +10,135 @@ namespace RimWorld.Planet
 	// Token: 0x020008D8 RID: 2264
 	public class Dialog_SplitCaravan : Window
 	{
+		// Token: 0x04001BDE RID: 7134
+		private Caravan caravan;
+
+		// Token: 0x04001BDF RID: 7135
+		private List<TransferableOneWay> transferables;
+
+		// Token: 0x04001BE0 RID: 7136
+		private TransferableOneWayWidget pawnsTransfer;
+
+		// Token: 0x04001BE1 RID: 7137
+		private TransferableOneWayWidget itemsTransfer;
+
+		// Token: 0x04001BE2 RID: 7138
+		private Dialog_SplitCaravan.Tab tab = Dialog_SplitCaravan.Tab.Pawns;
+
+		// Token: 0x04001BE3 RID: 7139
+		private bool sourceMassUsageDirty = true;
+
+		// Token: 0x04001BE4 RID: 7140
+		private float cachedSourceMassUsage;
+
+		// Token: 0x04001BE5 RID: 7141
+		private bool sourceMassCapacityDirty = true;
+
+		// Token: 0x04001BE6 RID: 7142
+		private float cachedSourceMassCapacity;
+
+		// Token: 0x04001BE7 RID: 7143
+		private string cachedSourceMassCapacityExplanation;
+
+		// Token: 0x04001BE8 RID: 7144
+		private bool sourceTilesPerDayDirty = true;
+
+		// Token: 0x04001BE9 RID: 7145
+		private float cachedSourceTilesPerDay;
+
+		// Token: 0x04001BEA RID: 7146
+		private string cachedSourceTilesPerDayExplanation;
+
+		// Token: 0x04001BEB RID: 7147
+		private bool sourceDaysWorthOfFoodDirty = true;
+
+		// Token: 0x04001BEC RID: 7148
+		private Pair<float, float> cachedSourceDaysWorthOfFood;
+
+		// Token: 0x04001BED RID: 7149
+		private bool sourceForagedFoodPerDayDirty = true;
+
+		// Token: 0x04001BEE RID: 7150
+		private Pair<ThingDef, float> cachedSourceForagedFoodPerDay;
+
+		// Token: 0x04001BEF RID: 7151
+		private string cachedSourceForagedFoodPerDayExplanation;
+
+		// Token: 0x04001BF0 RID: 7152
+		private bool sourceVisibilityDirty = true;
+
+		// Token: 0x04001BF1 RID: 7153
+		private float cachedSourceVisibility;
+
+		// Token: 0x04001BF2 RID: 7154
+		private string cachedSourceVisibilityExplanation;
+
+		// Token: 0x04001BF3 RID: 7155
+		private bool destMassUsageDirty = true;
+
+		// Token: 0x04001BF4 RID: 7156
+		private float cachedDestMassUsage;
+
+		// Token: 0x04001BF5 RID: 7157
+		private bool destMassCapacityDirty = true;
+
+		// Token: 0x04001BF6 RID: 7158
+		private float cachedDestMassCapacity;
+
+		// Token: 0x04001BF7 RID: 7159
+		private string cachedDestMassCapacityExplanation;
+
+		// Token: 0x04001BF8 RID: 7160
+		private bool destTilesPerDayDirty = true;
+
+		// Token: 0x04001BF9 RID: 7161
+		private float cachedDestTilesPerDay;
+
+		// Token: 0x04001BFA RID: 7162
+		private string cachedDestTilesPerDayExplanation;
+
+		// Token: 0x04001BFB RID: 7163
+		private bool destDaysWorthOfFoodDirty = true;
+
+		// Token: 0x04001BFC RID: 7164
+		private Pair<float, float> cachedDestDaysWorthOfFood;
+
+		// Token: 0x04001BFD RID: 7165
+		private bool destForagedFoodPerDayDirty = true;
+
+		// Token: 0x04001BFE RID: 7166
+		private Pair<ThingDef, float> cachedDestForagedFoodPerDay;
+
+		// Token: 0x04001BFF RID: 7167
+		private string cachedDestForagedFoodPerDayExplanation;
+
+		// Token: 0x04001C00 RID: 7168
+		private bool destVisibilityDirty = true;
+
+		// Token: 0x04001C01 RID: 7169
+		private float cachedDestVisibility;
+
+		// Token: 0x04001C02 RID: 7170
+		private string cachedDestVisibilityExplanation;
+
+		// Token: 0x04001C03 RID: 7171
+		private bool ticksToArriveDirty = true;
+
+		// Token: 0x04001C04 RID: 7172
+		private int cachedTicksToArrive;
+
+		// Token: 0x04001C05 RID: 7173
+		private const float TitleRectHeight = 35f;
+
+		// Token: 0x04001C06 RID: 7174
+		private const float BottomAreaHeight = 55f;
+
+		// Token: 0x04001C07 RID: 7175
+		private readonly Vector2 BottomButtonSize = new Vector2(160f, 40f);
+
+		// Token: 0x04001C08 RID: 7176
+		private static List<TabRecord> tabsList = new List<TabRecord>();
+
 		// Token: 0x060033DA RID: 13274 RVA: 0x001BB9E8 File Offset: 0x001B9DE8
 		public Dialog_SplitCaravan(Caravan caravan)
 		{
@@ -512,135 +641,6 @@ namespace RimWorld.Planet
 			this.destVisibilityDirty = true;
 			this.ticksToArriveDirty = true;
 		}
-
-		// Token: 0x04001BDE RID: 7134
-		private Caravan caravan;
-
-		// Token: 0x04001BDF RID: 7135
-		private List<TransferableOneWay> transferables;
-
-		// Token: 0x04001BE0 RID: 7136
-		private TransferableOneWayWidget pawnsTransfer;
-
-		// Token: 0x04001BE1 RID: 7137
-		private TransferableOneWayWidget itemsTransfer;
-
-		// Token: 0x04001BE2 RID: 7138
-		private Dialog_SplitCaravan.Tab tab = Dialog_SplitCaravan.Tab.Pawns;
-
-		// Token: 0x04001BE3 RID: 7139
-		private bool sourceMassUsageDirty = true;
-
-		// Token: 0x04001BE4 RID: 7140
-		private float cachedSourceMassUsage;
-
-		// Token: 0x04001BE5 RID: 7141
-		private bool sourceMassCapacityDirty = true;
-
-		// Token: 0x04001BE6 RID: 7142
-		private float cachedSourceMassCapacity;
-
-		// Token: 0x04001BE7 RID: 7143
-		private string cachedSourceMassCapacityExplanation;
-
-		// Token: 0x04001BE8 RID: 7144
-		private bool sourceTilesPerDayDirty = true;
-
-		// Token: 0x04001BE9 RID: 7145
-		private float cachedSourceTilesPerDay;
-
-		// Token: 0x04001BEA RID: 7146
-		private string cachedSourceTilesPerDayExplanation;
-
-		// Token: 0x04001BEB RID: 7147
-		private bool sourceDaysWorthOfFoodDirty = true;
-
-		// Token: 0x04001BEC RID: 7148
-		private Pair<float, float> cachedSourceDaysWorthOfFood;
-
-		// Token: 0x04001BED RID: 7149
-		private bool sourceForagedFoodPerDayDirty = true;
-
-		// Token: 0x04001BEE RID: 7150
-		private Pair<ThingDef, float> cachedSourceForagedFoodPerDay;
-
-		// Token: 0x04001BEF RID: 7151
-		private string cachedSourceForagedFoodPerDayExplanation;
-
-		// Token: 0x04001BF0 RID: 7152
-		private bool sourceVisibilityDirty = true;
-
-		// Token: 0x04001BF1 RID: 7153
-		private float cachedSourceVisibility;
-
-		// Token: 0x04001BF2 RID: 7154
-		private string cachedSourceVisibilityExplanation;
-
-		// Token: 0x04001BF3 RID: 7155
-		private bool destMassUsageDirty = true;
-
-		// Token: 0x04001BF4 RID: 7156
-		private float cachedDestMassUsage;
-
-		// Token: 0x04001BF5 RID: 7157
-		private bool destMassCapacityDirty = true;
-
-		// Token: 0x04001BF6 RID: 7158
-		private float cachedDestMassCapacity;
-
-		// Token: 0x04001BF7 RID: 7159
-		private string cachedDestMassCapacityExplanation;
-
-		// Token: 0x04001BF8 RID: 7160
-		private bool destTilesPerDayDirty = true;
-
-		// Token: 0x04001BF9 RID: 7161
-		private float cachedDestTilesPerDay;
-
-		// Token: 0x04001BFA RID: 7162
-		private string cachedDestTilesPerDayExplanation;
-
-		// Token: 0x04001BFB RID: 7163
-		private bool destDaysWorthOfFoodDirty = true;
-
-		// Token: 0x04001BFC RID: 7164
-		private Pair<float, float> cachedDestDaysWorthOfFood;
-
-		// Token: 0x04001BFD RID: 7165
-		private bool destForagedFoodPerDayDirty = true;
-
-		// Token: 0x04001BFE RID: 7166
-		private Pair<ThingDef, float> cachedDestForagedFoodPerDay;
-
-		// Token: 0x04001BFF RID: 7167
-		private string cachedDestForagedFoodPerDayExplanation;
-
-		// Token: 0x04001C00 RID: 7168
-		private bool destVisibilityDirty = true;
-
-		// Token: 0x04001C01 RID: 7169
-		private float cachedDestVisibility;
-
-		// Token: 0x04001C02 RID: 7170
-		private string cachedDestVisibilityExplanation;
-
-		// Token: 0x04001C03 RID: 7171
-		private bool ticksToArriveDirty = true;
-
-		// Token: 0x04001C04 RID: 7172
-		private int cachedTicksToArrive;
-
-		// Token: 0x04001C05 RID: 7173
-		private const float TitleRectHeight = 35f;
-
-		// Token: 0x04001C06 RID: 7174
-		private const float BottomAreaHeight = 55f;
-
-		// Token: 0x04001C07 RID: 7175
-		private readonly Vector2 BottomButtonSize = new Vector2(160f, 40f);
-
-		// Token: 0x04001C08 RID: 7176
-		private static List<TabRecord> tabsList = new List<TabRecord>();
 
 		// Token: 0x020008D9 RID: 2265
 		private enum Tab

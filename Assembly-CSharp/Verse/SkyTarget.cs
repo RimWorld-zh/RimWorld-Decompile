@@ -6,6 +6,18 @@ namespace Verse
 	// Token: 0x02000CAE RID: 3246
 	public struct SkyTarget
 	{
+		// Token: 0x04003096 RID: 12438
+		public float glow;
+
+		// Token: 0x04003097 RID: 12439
+		public SkyColorSet colors;
+
+		// Token: 0x04003098 RID: 12440
+		public float lightsourceShineSize;
+
+		// Token: 0x04003099 RID: 12441
+		public float lightsourceShineIntensity;
+
 		// Token: 0x06004797 RID: 18327 RVA: 0x0025C606 File Offset: 0x0025AA06
 		public SkyTarget(float glow, SkyColorSet colorSet, float lightsourceShineSize, float lightsourceShineIntensity)
 		{
@@ -55,17 +67,5 @@ namespace Verse
 				")"
 			});
 		}
-
-		// Token: 0x04003096 RID: 12438
-		public float glow;
-
-		// Token: 0x04003097 RID: 12439
-		public SkyColorSet colors;
-
-		// Token: 0x04003098 RID: 12440
-		public float lightsourceShineSize;
-
-		// Token: 0x04003099 RID: 12441
-		public float lightsourceShineIntensity;
 	}
 }

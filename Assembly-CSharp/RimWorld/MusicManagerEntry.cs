@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x02000655 RID: 1621
 	public class MusicManagerEntry
 	{
+		// Token: 0x0400132F RID: 4911
+		private AudioSource audioSource;
+
+		// Token: 0x04001330 RID: 4912
+		private const string SourceGameObjectName = "MusicAudioSourceDummy";
+
 		// Token: 0x170004F8 RID: 1272
 		// (get) Token: 0x060021DA RID: 8666 RVA: 0x0011F4CC File Offset: 0x0011D8CC
 		private float CurVolume
@@ -68,11 +74,5 @@ namespace RimWorld
 				this.audioSource.Play();
 			}
 		}
-
-		// Token: 0x0400132F RID: 4911
-		private AudioSource audioSource;
-
-		// Token: 0x04001330 RID: 4912
-		private const string SourceGameObjectName = "MusicAudioSourceDummy";
 	}
 }

@@ -9,6 +9,18 @@ namespace RimWorld
 	// Token: 0x020004E4 RID: 1252
 	public class Pawn_DraftController : IExposable
 	{
+		// Token: 0x04000D09 RID: 3337
+		public Pawn pawn;
+
+		// Token: 0x04000D0A RID: 3338
+		private bool draftedInt = false;
+
+		// Token: 0x04000D0B RID: 3339
+		private bool fireAtWillInt = true;
+
+		// Token: 0x04000D0C RID: 3340
+		private AutoUndrafter autoUndrafter;
+
 		// Token: 0x06001659 RID: 5721 RVA: 0x000C673F File Offset: 0x000C4B3F
 		public Pawn_DraftController(Pawn pawn)
 		{
@@ -164,17 +176,5 @@ namespace RimWorld
 		{
 			this.fireAtWillInt = true;
 		}
-
-		// Token: 0x04000D09 RID: 3337
-		public Pawn pawn;
-
-		// Token: 0x04000D0A RID: 3338
-		private bool draftedInt = false;
-
-		// Token: 0x04000D0B RID: 3339
-		private bool fireAtWillInt = true;
-
-		// Token: 0x04000D0C RID: 3340
-		private AutoUndrafter autoUndrafter;
 	}
 }

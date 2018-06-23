@@ -7,6 +7,15 @@ namespace Verse
 	// Token: 0x02000D3B RID: 3387
 	public class ImmunityRecord : IExposable
 	{
+		// Token: 0x0400326D RID: 12909
+		public HediffDef hediffDef = null;
+
+		// Token: 0x0400326E RID: 12910
+		public HediffDef source = null;
+
+		// Token: 0x0400326F RID: 12911
+		public float immunity = 0f;
+
 		// Token: 0x06004ACB RID: 19147 RVA: 0x00270C34 File Offset: 0x0026F034
 		public float ImmunityChangePerTick(Pawn pawn, bool sick, Hediff diseaseInstance)
 		{
@@ -54,14 +63,5 @@ namespace Verse
 			Scribe_Defs.Look<HediffDef>(ref this.source, "source");
 			Scribe_Values.Look<float>(ref this.immunity, "immunity", 0f, false);
 		}
-
-		// Token: 0x0400326D RID: 12909
-		public HediffDef hediffDef = null;
-
-		// Token: 0x0400326E RID: 12910
-		public HediffDef source = null;
-
-		// Token: 0x0400326F RID: 12911
-		public float immunity = 0f;
 	}
 }

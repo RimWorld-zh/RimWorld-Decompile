@@ -7,6 +7,9 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003D1 RID: 977
 	public class SymbolResolver_Refuel : SymbolResolver
 	{
+		// Token: 0x04000A40 RID: 2624
+		private static List<CompRefuelable> refuelables = new List<CompRefuelable>();
+
 		// Token: 0x060010D6 RID: 4310 RVA: 0x0008F814 File Offset: 0x0008DC14
 		public override void Resolve(ResolveParams rp)
 		{
@@ -34,8 +37,5 @@ namespace RimWorld.BaseGen
 			}
 			SymbolResolver_Refuel.refuelables.Clear();
 		}
-
-		// Token: 0x04000A40 RID: 2624
-		private static List<CompRefuelable> refuelables = new List<CompRefuelable>();
 	}
 }

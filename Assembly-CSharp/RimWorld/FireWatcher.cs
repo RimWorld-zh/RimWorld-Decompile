@@ -7,6 +7,18 @@ namespace RimWorld
 	// Token: 0x02000385 RID: 901
 	public class FireWatcher
 	{
+		// Token: 0x04000992 RID: 2450
+		private Map map;
+
+		// Token: 0x04000993 RID: 2451
+		private float fireDanger = -1f;
+
+		// Token: 0x04000994 RID: 2452
+		private const int UpdateObservationsInterval = 426;
+
+		// Token: 0x04000995 RID: 2453
+		private const float BaseDangerPerFire = 0.5f;
+
 		// Token: 0x06000F9B RID: 3995 RVA: 0x00083C34 File Offset: 0x00082034
 		public FireWatcher(Map map)
 		{
@@ -57,17 +69,5 @@ namespace RimWorld
 				this.fireDanger += 0.5f + fire.fireSize;
 			}
 		}
-
-		// Token: 0x04000992 RID: 2450
-		private Map map;
-
-		// Token: 0x04000993 RID: 2451
-		private float fireDanger = -1f;
-
-		// Token: 0x04000994 RID: 2452
-		private const int UpdateObservationsInterval = 426;
-
-		// Token: 0x04000995 RID: 2453
-		private const float BaseDangerPerFire = 0.5f;
 	}
 }

@@ -8,6 +8,9 @@ namespace RimWorld.Planet
 	// Token: 0x02000608 RID: 1544
 	public static class SiteMakerHelper
 	{
+		// Token: 0x0400123B RID: 4667
+		private static List<Faction> possibleFactions = new List<Faction>();
+
 		// Token: 0x06001F1E RID: 7966 RVA: 0x0010E65C File Offset: 0x0010CA5C
 		public static bool TryFindSiteParams_SingleSitePart(SiteCoreDef core, IEnumerable<SitePartDef> singleSitePartCandidates, out SitePartDef sitePart, out Faction faction, Faction factionToUse = null, bool disallowNonHostileFactions = true, Predicate<Faction> extraFactionValidator = null)
 		{
@@ -136,8 +139,5 @@ namespace RimWorld.Planet
 			}
 			return result;
 		}
-
-		// Token: 0x0400123B RID: 4667
-		private static List<Faction> possibleFactions = new List<Faction>();
 	}
 }

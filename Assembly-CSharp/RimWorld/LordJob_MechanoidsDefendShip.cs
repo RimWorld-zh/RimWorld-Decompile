@@ -7,6 +7,18 @@ namespace RimWorld
 	// Token: 0x02000172 RID: 370
 	public class LordJob_MechanoidsDefendShip : LordJob
 	{
+		// Token: 0x04000350 RID: 848
+		private Thing shipPart;
+
+		// Token: 0x04000351 RID: 849
+		private Faction faction;
+
+		// Token: 0x04000352 RID: 850
+		private float defendRadius;
+
+		// Token: 0x04000353 RID: 851
+		private IntVec3 defSpot;
+
 		// Token: 0x0600079B RID: 1947 RVA: 0x0004AF9B File Offset: 0x0004939B
 		public LordJob_MechanoidsDefendShip()
 		{
@@ -75,17 +87,5 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.defendRadius, "defendRadius", 0f, false);
 			Scribe_Values.Look<IntVec3>(ref this.defSpot, "defSpot", default(IntVec3), false);
 		}
-
-		// Token: 0x04000350 RID: 848
-		private Thing shipPart;
-
-		// Token: 0x04000351 RID: 849
-		private Faction faction;
-
-		// Token: 0x04000352 RID: 850
-		private float defendRadius;
-
-		// Token: 0x04000353 RID: 851
-		private IntVec3 defSpot;
 	}
 }

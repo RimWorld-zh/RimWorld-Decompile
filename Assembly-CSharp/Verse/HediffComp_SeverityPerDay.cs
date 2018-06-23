@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000D20 RID: 3360
 	public class HediffComp_SeverityPerDay : HediffComp
 	{
+		// Token: 0x04003235 RID: 12853
+		protected const int SeverityUpdateInterval = 200;
+
 		// Token: 0x17000BC5 RID: 3013
 		// (get) Token: 0x06004A11 RID: 18961 RVA: 0x00269DD8 File Offset: 0x002681D8
 		private HediffCompProperties_SeverityPerDay Props
@@ -45,8 +48,5 @@ namespace Verse
 			}
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x04003235 RID: 12853
-		protected const int SeverityUpdateInterval = 200;
 	}
 }

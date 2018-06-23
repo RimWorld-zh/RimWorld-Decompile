@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000535 RID: 1333
 	public class Thought_MemorySocial : Thought_Memory, ISocialThought
 	{
+		// Token: 0x04000EA3 RID: 3747
+		public float opinionOffset;
+
 		// Token: 0x17000378 RID: 888
 		// (get) Token: 0x060018C6 RID: 6342 RVA: 0x000D85A4 File Offset: 0x000D69A4
 		public override bool ShouldDiscard
@@ -95,8 +98,5 @@ namespace RimWorld
 			Thought_MemorySocial thought_MemorySocial = other as Thought_MemorySocial;
 			return thought_MemorySocial != null && base.GroupsWith(other) && this.otherPawn == thought_MemorySocial.otherPawn;
 		}
-
-		// Token: 0x04000EA3 RID: 3747
-		public float opinionOffset;
 	}
 }

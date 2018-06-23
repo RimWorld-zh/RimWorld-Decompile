@@ -6,6 +6,18 @@ namespace RimWorld
 	// Token: 0x020009B5 RID: 2485
 	public class StatPart_RoomStat : StatPart
 	{
+		// Token: 0x040023B9 RID: 9145
+		private RoomStatDef roomStat = null;
+
+		// Token: 0x040023BA RID: 9146
+		[MustTranslate]
+		private string customLabel = null;
+
+		// Token: 0x040023BB RID: 9147
+		[Unsaved]
+		[TranslationHandle(Priority = 100)]
+		public string untranslatedCustomLabel = null;
+
 		// Token: 0x060037AF RID: 14255 RVA: 0x001DA918 File Offset: 0x001D8D18
 		public void PostLoad()
 		{
@@ -47,17 +59,5 @@ namespace RimWorld
 			}
 			return null;
 		}
-
-		// Token: 0x040023B9 RID: 9145
-		private RoomStatDef roomStat = null;
-
-		// Token: 0x040023BA RID: 9146
-		[MustTranslate]
-		private string customLabel = null;
-
-		// Token: 0x040023BB RID: 9147
-		[Unsaved]
-		[TranslationHandle(Priority = 100)]
-		public string untranslatedCustomLabel = null;
 	}
 }

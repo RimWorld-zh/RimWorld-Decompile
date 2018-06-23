@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x02000079 RID: 121
 	public class JobDriver_Refuel : JobDriver
 	{
+		// Token: 0x04000228 RID: 552
+		private const TargetIndex RefuelableInd = TargetIndex.A;
+
+		// Token: 0x04000229 RID: 553
+		private const TargetIndex FuelInd = TargetIndex.B;
+
+		// Token: 0x0400022A RID: 554
+		private const int RefuelingDuration = 240;
+
 		// Token: 0x170000A5 RID: 165
 		// (get) Token: 0x0600033D RID: 829 RVA: 0x00023D90 File Offset: 0x00022190
 		protected Thing Refuelable
@@ -64,14 +73,5 @@ namespace RimWorld
 			yield return Toils_Refuel.FinalizeRefueling(TargetIndex.A, TargetIndex.B);
 			yield break;
 		}
-
-		// Token: 0x04000228 RID: 552
-		private const TargetIndex RefuelableInd = TargetIndex.A;
-
-		// Token: 0x04000229 RID: 553
-		private const TargetIndex FuelInd = TargetIndex.B;
-
-		// Token: 0x0400022A RID: 554
-		private const int RefuelingDuration = 240;
 	}
 }

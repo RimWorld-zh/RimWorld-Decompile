@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x02000188 RID: 392
 	public class LordToil_AssaultColonySappers : LordToil
 	{
+		// Token: 0x0400037F RID: 895
+		private static readonly FloatRange EscortRadiusRanged = new FloatRange(15f, 19f);
+
+		// Token: 0x04000380 RID: 896
+		private static readonly FloatRange EscortRadiusMelee = new FloatRange(23f, 26f);
+
 		// Token: 0x06000823 RID: 2083 RVA: 0x0004E804 File Offset: 0x0004CC04
 		public LordToil_AssaultColonySappers()
 		{
@@ -126,11 +132,5 @@ namespace RimWorld
 			this.Data.sapperDest = IntVec3.Invalid;
 			this.UpdateAllDuties();
 		}
-
-		// Token: 0x0400037F RID: 895
-		private static readonly FloatRange EscortRadiusRanged = new FloatRange(15f, 19f);
-
-		// Token: 0x04000380 RID: 896
-		private static readonly FloatRange EscortRadiusMelee = new FloatRange(23f, 26f);
 	}
 }

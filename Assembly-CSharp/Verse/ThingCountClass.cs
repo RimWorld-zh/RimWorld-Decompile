@@ -5,6 +5,12 @@ namespace Verse
 	// Token: 0x02000F00 RID: 3840
 	public sealed class ThingCountClass : IExposable
 	{
+		// Token: 0x04003CE2 RID: 15586
+		public Thing thing;
+
+		// Token: 0x04003CE3 RID: 15587
+		private int countInt;
+
 		// Token: 0x06005C22 RID: 23586 RVA: 0x002EDEEA File Offset: 0x002EC2EA
 		public ThingCountClass()
 		{
@@ -84,11 +90,5 @@ namespace Verse
 		{
 			return new ThingCountClass(t.Thing, t.Count);
 		}
-
-		// Token: 0x04003CE2 RID: 15586
-		public Thing thing;
-
-		// Token: 0x04003CE3 RID: 15587
-		private int countInt;
 	}
 }

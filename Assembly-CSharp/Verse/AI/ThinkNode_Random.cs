@@ -6,6 +6,9 @@ namespace Verse.AI
 	// Token: 0x02000ABA RID: 2746
 	public class ThinkNode_Random : ThinkNode
 	{
+		// Token: 0x0400269C RID: 9884
+		private static List<ThinkNode> tempList = new List<ThinkNode>();
+
 		// Token: 0x06003D32 RID: 15666 RVA: 0x002051C4 File Offset: 0x002035C4
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
@@ -25,8 +28,5 @@ namespace Verse.AI
 			}
 			return ThinkResult.NoJob;
 		}
-
-		// Token: 0x0400269C RID: 9884
-		private static List<ThinkNode> tempList = new List<ThinkNode>();
 	}
 }

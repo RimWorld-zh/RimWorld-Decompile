@@ -7,6 +7,15 @@ namespace Verse
 	// Token: 0x02000EB3 RID: 3763
 	public class Dialog_NamePawn : Window
 	{
+		// Token: 0x04003B64 RID: 15204
+		private Pawn pawn;
+
+		// Token: 0x04003B65 RID: 15205
+		private string curName;
+
+		// Token: 0x04003B66 RID: 15206
+		private string curTitle;
+
 		// Token: 0x0600591A RID: 22810 RVA: 0x002DB86C File Offset: 0x002D9C6C
 		public Dialog_NamePawn(Pawn pawn)
 		{
@@ -121,14 +130,5 @@ namespace Verse
 				Messages.Message(text4, this.pawn, MessageTypeDefOf.PositiveEvent, false);
 			}
 		}
-
-		// Token: 0x04003B64 RID: 15204
-		private Pawn pawn;
-
-		// Token: 0x04003B65 RID: 15205
-		private string curName;
-
-		// Token: 0x04003B66 RID: 15206
-		private string curTitle;
 	}
 }

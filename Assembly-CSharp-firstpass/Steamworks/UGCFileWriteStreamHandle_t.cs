@@ -5,6 +5,12 @@ namespace Steamworks
 	// Token: 0x02000165 RID: 357
 	public struct UGCFileWriteStreamHandle_t : IEquatable<UGCFileWriteStreamHandle_t>, IComparable<UGCFileWriteStreamHandle_t>
 	{
+		// Token: 0x0400067C RID: 1660
+		public static readonly UGCFileWriteStreamHandle_t Invalid = new UGCFileWriteStreamHandle_t(ulong.MaxValue);
+
+		// Token: 0x0400067D RID: 1661
+		public ulong m_UGCFileWriteStreamHandle;
+
 		// Token: 0x06000820 RID: 2080 RVA: 0x0000E381 File Offset: 0x0000C581
 		public UGCFileWriteStreamHandle_t(ulong value)
 		{
@@ -64,11 +70,5 @@ namespace Steamworks
 		{
 			return this.m_UGCFileWriteStreamHandle.CompareTo(other.m_UGCFileWriteStreamHandle);
 		}
-
-		// Token: 0x0400067C RID: 1660
-		public static readonly UGCFileWriteStreamHandle_t Invalid = new UGCFileWriteStreamHandle_t(ulong.MaxValue);
-
-		// Token: 0x0400067D RID: 1661
-		public ulong m_UGCFileWriteStreamHandle;
 	}
 }

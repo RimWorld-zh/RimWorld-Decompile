@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class DutyDefOf
 	{
-		// Token: 0x06003633 RID: 13875 RVA: 0x001D0A53 File Offset: 0x001CEE53
-		static DutyDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(DutyDefOf));
-		}
-
 		// Token: 0x04002004 RID: 8196
 		public static DutyDef TravelOrLeave;
 
@@ -105,5 +99,11 @@ namespace RimWorld
 
 		// Token: 0x04002022 RID: 8226
 		public static DutyDef PrepareCaravan_Pause;
+
+		// Token: 0x06003633 RID: 13875 RVA: 0x001D0A53 File Offset: 0x001CEE53
+		static DutyDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(DutyDefOf));
+		}
 	}
 }

@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x02000176 RID: 374
 	public class LordJob_StageThenAttack : LordJob
 	{
+		// Token: 0x0400035E RID: 862
+		private Faction faction;
+
+		// Token: 0x0400035F RID: 863
+		private IntVec3 stageLoc;
+
+		// Token: 0x04000360 RID: 864
+		private int raidSeed;
+
 		// Token: 0x060007B5 RID: 1973 RVA: 0x0004B90F File Offset: 0x00049D0F
 		public LordJob_StageThenAttack()
 		{
@@ -58,14 +67,5 @@ namespace RimWorld
 			Scribe_Values.Look<IntVec3>(ref this.stageLoc, "stageLoc", default(IntVec3), false);
 			Scribe_Values.Look<int>(ref this.raidSeed, "raidSeed", 0, false);
 		}
-
-		// Token: 0x0400035E RID: 862
-		private Faction faction;
-
-		// Token: 0x0400035F RID: 863
-		private IntVec3 stageLoc;
-
-		// Token: 0x04000360 RID: 864
-		private int raidSeed;
 	}
 }

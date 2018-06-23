@@ -8,6 +8,36 @@ namespace RimWorld
 	// Token: 0x0200081D RID: 2077
 	public class StatDrawEntry
 	{
+		// Token: 0x040018E3 RID: 6371
+		public StatCategoryDef category;
+
+		// Token: 0x040018E4 RID: 6372
+		private int displayOrderWithinCategory = 0;
+
+		// Token: 0x040018E5 RID: 6373
+		public StatDef stat;
+
+		// Token: 0x040018E6 RID: 6374
+		private float value;
+
+		// Token: 0x040018E7 RID: 6375
+		public StatRequest optionalReq;
+
+		// Token: 0x040018E8 RID: 6376
+		public bool hasOptionalReq;
+
+		// Token: 0x040018E9 RID: 6377
+		private string labelInt;
+
+		// Token: 0x040018EA RID: 6378
+		private string valueStringInt;
+
+		// Token: 0x040018EB RID: 6379
+		public string overrideReportText = null;
+
+		// Token: 0x040018EC RID: 6380
+		private ToStringNumberSense numberSense;
+
 		// Token: 0x06002E79 RID: 11897 RVA: 0x0018D1D4 File Offset: 0x0018B5D4
 		public StatDrawEntry(StatCategoryDef category, StatDef stat, float value, StatRequest optionalReq, ToStringNumberSense numberSense = ToStringNumberSense.Undefined)
 		{
@@ -204,35 +234,5 @@ namespace RimWorld
 				")"
 			});
 		}
-
-		// Token: 0x040018E3 RID: 6371
-		public StatCategoryDef category;
-
-		// Token: 0x040018E4 RID: 6372
-		private int displayOrderWithinCategory = 0;
-
-		// Token: 0x040018E5 RID: 6373
-		public StatDef stat;
-
-		// Token: 0x040018E6 RID: 6374
-		private float value;
-
-		// Token: 0x040018E7 RID: 6375
-		public StatRequest optionalReq;
-
-		// Token: 0x040018E8 RID: 6376
-		public bool hasOptionalReq;
-
-		// Token: 0x040018E9 RID: 6377
-		private string labelInt;
-
-		// Token: 0x040018EA RID: 6378
-		private string valueStringInt;
-
-		// Token: 0x040018EB RID: 6379
-		public string overrideReportText = null;
-
-		// Token: 0x040018EC RID: 6380
-		private ToStringNumberSense numberSense;
 	}
 }

@@ -9,6 +9,12 @@ namespace RimWorld.Planet
 	// Token: 0x02000598 RID: 1432
 	public class WorldLayer_UngeneratedPlanetParts : WorldLayer
 	{
+		// Token: 0x04001022 RID: 4130
+		private const int SubdivisionsCount = 4;
+
+		// Token: 0x04001023 RID: 4131
+		private const float ViewAngleOffset = 10f;
+
 		// Token: 0x06001B5A RID: 7002 RVA: 0x000EC2A0 File Offset: 0x000EA6A0
 		public override IEnumerable Regenerate()
 		{
@@ -43,11 +49,5 @@ namespace RimWorld.Planet
 			base.FinalizeMesh(MeshParts.All);
 			yield break;
 		}
-
-		// Token: 0x04001022 RID: 4130
-		private const int SubdivisionsCount = 4;
-
-		// Token: 0x04001023 RID: 4131
-		private const float ViewAngleOffset = 10f;
 	}
 }

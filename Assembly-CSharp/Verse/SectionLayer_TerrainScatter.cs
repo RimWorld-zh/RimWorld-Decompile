@@ -8,6 +8,9 @@ namespace Verse
 	// Token: 0x02000C4B RID: 3147
 	public class SectionLayer_TerrainScatter : SectionLayer
 	{
+		// Token: 0x04002F6B RID: 12139
+		private List<SectionLayer_TerrainScatter.Scatterable> scats = new List<SectionLayer_TerrainScatter.Scatterable>();
+
 		// Token: 0x06004563 RID: 17763 RVA: 0x0024B152 File Offset: 0x00249552
 		public SectionLayer_TerrainScatter(Section section) : base(section)
 		{
@@ -71,12 +74,24 @@ namespace Verse
 			base.FinalizeMesh(MeshParts.All);
 		}
 
-		// Token: 0x04002F6B RID: 12139
-		private List<SectionLayer_TerrainScatter.Scatterable> scats = new List<SectionLayer_TerrainScatter.Scatterable>();
-
 		// Token: 0x02000C4C RID: 3148
 		private class Scatterable
 		{
+			// Token: 0x04002F6D RID: 12141
+			private Map map;
+
+			// Token: 0x04002F6E RID: 12142
+			public ScatterableDef def;
+
+			// Token: 0x04002F6F RID: 12143
+			public Vector3 loc;
+
+			// Token: 0x04002F70 RID: 12144
+			public float size;
+
+			// Token: 0x04002F71 RID: 12145
+			public float rotation;
+
 			// Token: 0x06004567 RID: 17767 RVA: 0x0024B3C0 File Offset: 0x002497C0
 			public Scatterable(ScatterableDef def, Vector3 loc, Map map)
 			{
@@ -104,21 +119,6 @@ namespace Verse
 					return this.def.scatterType == terrainDef.scatterType && !c.Filled(this.map);
 				}
 			}
-
-			// Token: 0x04002F6D RID: 12141
-			private Map map;
-
-			// Token: 0x04002F6E RID: 12142
-			public ScatterableDef def;
-
-			// Token: 0x04002F6F RID: 12143
-			public Vector3 loc;
-
-			// Token: 0x04002F70 RID: 12144
-			public float size;
-
-			// Token: 0x04002F71 RID: 12145
-			public float rotation;
 		}
 	}
 }

@@ -8,6 +8,10 @@ namespace Verse
 	// Token: 0x02000B0C RID: 2828
 	public class CompProperties
 	{
+		// Token: 0x040027E6 RID: 10214
+		[TranslationHandle]
+		public Type compClass = typeof(ThingComp);
+
 		// Token: 0x06003E97 RID: 16023 RVA: 0x0005E4A0 File Offset: 0x0005C8A0
 		public CompProperties()
 		{
@@ -44,9 +48,5 @@ namespace Verse
 		{
 			yield break;
 		}
-
-		// Token: 0x040027E6 RID: 10214
-		[TranslationHandle]
-		public Type compClass = typeof(ThingComp);
 	}
 }

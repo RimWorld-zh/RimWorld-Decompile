@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000C0C RID: 3084
 	public sealed class DynamicDrawManager
 	{
+		// Token: 0x04002E1D RID: 11805
+		private Map map;
+
+		// Token: 0x04002E1E RID: 11806
+		private HashSet<Thing> drawThings = new HashSet<Thing>();
+
+		// Token: 0x04002E1F RID: 11807
+		private bool drawingNow;
+
 		// Token: 0x0600437F RID: 17279 RVA: 0x0023AAA5 File Offset: 0x00238EA5
 		public DynamicDrawManager(Map map)
 		{
@@ -92,14 +101,5 @@ namespace Verse
 		{
 			Log.Message(DebugLogsUtility.ThingListToUniqueCountString(this.drawThings), false);
 		}
-
-		// Token: 0x04002E1D RID: 11805
-		private Map map;
-
-		// Token: 0x04002E1E RID: 11806
-		private HashSet<Thing> drawThings = new HashSet<Thing>();
-
-		// Token: 0x04002E1F RID: 11807
-		private bool drawingNow;
 	}
 }

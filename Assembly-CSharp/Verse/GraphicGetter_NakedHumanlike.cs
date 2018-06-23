@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000DD0 RID: 3536
 	public static class GraphicGetter_NakedHumanlike
 	{
+		// Token: 0x040034AF RID: 13487
+		private const string NakedBodyTextureFolderPath = "Things/Pawn/Humanlike/Bodies/";
+
 		// Token: 0x06004F43 RID: 20291 RVA: 0x00294DDC File Offset: 0x002931DC
 		public static Graphic GetNakedBodyGraphic(BodyTypeDef bodyType, Shader shader, Color skinColor)
 		{
@@ -19,8 +22,5 @@ namespace Verse
 			string path = "Things/Pawn/Humanlike/Bodies/" + str;
 			return GraphicDatabase.Get<Graphic_Multi>(path, shader, Vector2.one, skinColor);
 		}
-
-		// Token: 0x040034AF RID: 13487
-		private const string NakedBodyTextureFolderPath = "Things/Pawn/Humanlike/Bodies/";
 	}
 }

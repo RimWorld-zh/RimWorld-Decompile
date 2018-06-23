@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x020002B5 RID: 693
 	public abstract class PawnGroupKindWorker
 	{
+		// Token: 0x040006B0 RID: 1712
+		public PawnGroupKindDef def;
+
+		// Token: 0x040006B1 RID: 1713
+		public static List<List<Pawn>> pawnsBeingGeneratedNow = new List<List<Pawn>>();
+
 		// Token: 0x06000B9D RID: 2973
 		public abstract float MinPointsToGenerateAnything(PawnGroupMaker groupMaker);
 
@@ -43,11 +49,5 @@ namespace RimWorld
 		{
 			return true;
 		}
-
-		// Token: 0x040006B0 RID: 1712
-		public PawnGroupKindDef def;
-
-		// Token: 0x040006B1 RID: 1713
-		public static List<List<Pawn>> pawnsBeingGeneratedNow = new List<List<Pawn>>();
 	}
 }

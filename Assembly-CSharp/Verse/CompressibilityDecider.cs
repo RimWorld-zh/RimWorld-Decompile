@@ -10,6 +10,12 @@ namespace Verse
 	// Token: 0x02000C00 RID: 3072
 	public class CompressibilityDecider
 	{
+		// Token: 0x04002DFA RID: 11770
+		private Map map;
+
+		// Token: 0x04002DFB RID: 11771
+		private HashSet<Thing> referencedThings = new HashSet<Thing>();
+
 		// Token: 0x0600433E RID: 17214 RVA: 0x00238BAC File Offset: 0x00236FAC
 		public CompressibilityDecider(Map map)
 		{
@@ -89,11 +95,5 @@ namespace Verse
 		{
 			return this.referencedThings.Contains(th);
 		}
-
-		// Token: 0x04002DFA RID: 11770
-		private Map map;
-
-		// Token: 0x04002DFB RID: 11771
-		private HashSet<Thing> referencedThings = new HashSet<Thing>();
 	}
 }

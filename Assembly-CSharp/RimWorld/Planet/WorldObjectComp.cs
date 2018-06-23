@@ -7,6 +7,12 @@ namespace RimWorld.Planet
 	// Token: 0x02000626 RID: 1574
 	public abstract class WorldObjectComp
 	{
+		// Token: 0x0400127A RID: 4730
+		public WorldObject parent;
+
+		// Token: 0x0400127B RID: 4731
+		public WorldObjectCompProperties props;
+
 		// Token: 0x170004CE RID: 1230
 		// (get) Token: 0x06002019 RID: 8217 RVA: 0x001114F8 File Offset: 0x0010F8F8
 		public IThingHolder ParentHolder
@@ -119,11 +125,5 @@ namespace RimWorld.Planet
 				")"
 			});
 		}
-
-		// Token: 0x0400127A RID: 4730
-		public WorldObject parent;
-
-		// Token: 0x0400127B RID: 4731
-		public WorldObjectCompProperties props;
 	}
 }

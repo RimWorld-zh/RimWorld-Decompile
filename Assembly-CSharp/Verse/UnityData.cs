@@ -7,6 +7,27 @@ namespace Verse
 	// Token: 0x02000BDD RID: 3037
 	public static class UnityData
 	{
+		// Token: 0x04002D5F RID: 11615
+		private static bool initialized;
+
+		// Token: 0x04002D60 RID: 11616
+		public static bool isDebugBuild;
+
+		// Token: 0x04002D61 RID: 11617
+		public static bool isEditor;
+
+		// Token: 0x04002D62 RID: 11618
+		public static string dataPath;
+
+		// Token: 0x04002D63 RID: 11619
+		public static RuntimePlatform platform;
+
+		// Token: 0x04002D64 RID: 11620
+		public static string persistentDataPath;
+
+		// Token: 0x04002D65 RID: 11621
+		private static int mainThreadId;
+
 		// Token: 0x06004258 RID: 16984 RVA: 0x0022E970 File Offset: 0x0022CD70
 		static UnityData()
 		{
@@ -37,26 +58,5 @@ namespace Verse
 			UnityData.persistentDataPath = Application.persistentDataPath;
 			UnityData.initialized = true;
 		}
-
-		// Token: 0x04002D5F RID: 11615
-		private static bool initialized;
-
-		// Token: 0x04002D60 RID: 11616
-		public static bool isDebugBuild;
-
-		// Token: 0x04002D61 RID: 11617
-		public static bool isEditor;
-
-		// Token: 0x04002D62 RID: 11618
-		public static string dataPath;
-
-		// Token: 0x04002D63 RID: 11619
-		public static RuntimePlatform platform;
-
-		// Token: 0x04002D64 RID: 11620
-		public static string persistentDataPath;
-
-		// Token: 0x04002D65 RID: 11621
-		private static int mainThreadId;
 	}
 }

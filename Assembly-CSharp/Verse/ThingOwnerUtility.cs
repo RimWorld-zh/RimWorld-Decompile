@@ -8,6 +8,18 @@ namespace Verse
 	// Token: 0x02000DF8 RID: 3576
 	public static class ThingOwnerUtility
 	{
+		// Token: 0x04003538 RID: 13624
+		private static Stack<IThingHolder> tmpStack = new Stack<IThingHolder>();
+
+		// Token: 0x04003539 RID: 13625
+		private static List<IThingHolder> tmpHolders = new List<IThingHolder>();
+
+		// Token: 0x0400353A RID: 13626
+		private static List<Thing> tmpThings = new List<Thing>();
+
+		// Token: 0x0400353B RID: 13627
+		private static List<IThingHolder> tmpMapChildHolders = new List<IThingHolder>();
+
 		// Token: 0x060050D4 RID: 20692 RVA: 0x00299FF4 File Offset: 0x002983F4
 		public static bool ThisOrAnyCompIsThingHolder(this ThingDef thingDef)
 		{
@@ -388,17 +400,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003538 RID: 13624
-		private static Stack<IThingHolder> tmpStack = new Stack<IThingHolder>();
-
-		// Token: 0x04003539 RID: 13625
-		private static List<IThingHolder> tmpHolders = new List<IThingHolder>();
-
-		// Token: 0x0400353A RID: 13626
-		private static List<Thing> tmpThings = new List<Thing>();
-
-		// Token: 0x0400353B RID: 13627
-		private static List<IThingHolder> tmpMapChildHolders = new List<IThingHolder>();
 	}
 }

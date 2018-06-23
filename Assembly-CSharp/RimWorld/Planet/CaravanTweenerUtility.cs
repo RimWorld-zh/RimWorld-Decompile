@@ -8,6 +8,12 @@ namespace RimWorld.Planet
 	// Token: 0x020005EC RID: 1516
 	public static class CaravanTweenerUtility
 	{
+		// Token: 0x040011D3 RID: 4563
+		private const float BaseRadius = 0.15f;
+
+		// Token: 0x040011D4 RID: 4564
+		private const float BaseDistToCollide = 0.2f;
+
 		// Token: 0x06001E25 RID: 7717 RVA: 0x0010390C File Offset: 0x00101D0C
 		public static Vector3 PatherTweenedPosRoot(Caravan caravan)
 		{
@@ -151,11 +157,5 @@ namespace RimWorld.Planet
 			}
 			return false;
 		}
-
-		// Token: 0x040011D3 RID: 4563
-		private const float BaseRadius = 0.15f;
-
-		// Token: 0x040011D4 RID: 4564
-		private const float BaseDistToCollide = 0.2f;
 	}
 }

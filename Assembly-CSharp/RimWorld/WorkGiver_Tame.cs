@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000122 RID: 290
 	public class WorkGiver_Tame : WorkGiver_InteractAnimal
 	{
+		// Token: 0x04000308 RID: 776
+		public const int MinTameInterval = 30000;
+
 		// Token: 0x060005FE RID: 1534 RVA: 0x0003FD34 File Offset: 0x0003E134
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
@@ -58,8 +61,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000308 RID: 776
-		public const int MinTameInterval = 30000;
 	}
 }

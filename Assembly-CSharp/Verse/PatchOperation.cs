@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000CCB RID: 3275
 	public class PatchOperation
 	{
+		// Token: 0x040030FD RID: 12541
+		public string sourceFile;
+
+		// Token: 0x040030FE RID: 12542
+		private bool neverSucceeded = true;
+
+		// Token: 0x040030FF RID: 12543
+		private PatchOperation.Success success = PatchOperation.Success.Normal;
+
 		// Token: 0x0600487A RID: 18554 RVA: 0x0026142C File Offset: 0x0025F82C
 		public bool Apply(XmlDocument xml)
 		{
@@ -49,15 +58,6 @@ namespace Verse
 				Log.Error(text, false);
 			}
 		}
-
-		// Token: 0x040030FD RID: 12541
-		public string sourceFile;
-
-		// Token: 0x040030FE RID: 12542
-		private bool neverSucceeded = true;
-
-		// Token: 0x040030FF RID: 12543
-		private PatchOperation.Success success = PatchOperation.Success.Normal;
 
 		// Token: 0x02000CCC RID: 3276
 		private enum Success

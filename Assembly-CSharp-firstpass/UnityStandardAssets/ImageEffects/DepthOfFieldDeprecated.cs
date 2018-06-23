@@ -9,6 +9,135 @@ namespace UnityStandardAssets.ImageEffects
 	[AddComponentMenu("Image Effects/Camera/Depth of Field (deprecated)")]
 	public class DepthOfFieldDeprecated : PostEffectsBase
 	{
+		// Token: 0x040007AC RID: 1964
+		private static int SMOOTH_DOWNSAMPLE_PASS = 6;
+
+		// Token: 0x040007AD RID: 1965
+		private static float BOKEH_EXTRA_BLUR = 2f;
+
+		// Token: 0x040007AE RID: 1966
+		public DepthOfFieldDeprecated.Dof34QualitySetting quality = DepthOfFieldDeprecated.Dof34QualitySetting.OnlyBackground;
+
+		// Token: 0x040007AF RID: 1967
+		public DepthOfFieldDeprecated.DofResolution resolution = DepthOfFieldDeprecated.DofResolution.Low;
+
+		// Token: 0x040007B0 RID: 1968
+		public bool simpleTweakMode = true;
+
+		// Token: 0x040007B1 RID: 1969
+		public float focalPoint = 1f;
+
+		// Token: 0x040007B2 RID: 1970
+		public float smoothness = 0.5f;
+
+		// Token: 0x040007B3 RID: 1971
+		public float focalZDistance = 0f;
+
+		// Token: 0x040007B4 RID: 1972
+		public float focalZStartCurve = 1f;
+
+		// Token: 0x040007B5 RID: 1973
+		public float focalZEndCurve = 1f;
+
+		// Token: 0x040007B6 RID: 1974
+		private float focalStartCurve = 2f;
+
+		// Token: 0x040007B7 RID: 1975
+		private float focalEndCurve = 2f;
+
+		// Token: 0x040007B8 RID: 1976
+		private float focalDistance01 = 0.1f;
+
+		// Token: 0x040007B9 RID: 1977
+		public Transform objectFocus = null;
+
+		// Token: 0x040007BA RID: 1978
+		public float focalSize = 0f;
+
+		// Token: 0x040007BB RID: 1979
+		public DepthOfFieldDeprecated.DofBlurriness bluriness = DepthOfFieldDeprecated.DofBlurriness.High;
+
+		// Token: 0x040007BC RID: 1980
+		public float maxBlurSpread = 1.75f;
+
+		// Token: 0x040007BD RID: 1981
+		public float foregroundBlurExtrude = 1.15f;
+
+		// Token: 0x040007BE RID: 1982
+		public Shader dofBlurShader;
+
+		// Token: 0x040007BF RID: 1983
+		private Material dofBlurMaterial = null;
+
+		// Token: 0x040007C0 RID: 1984
+		public Shader dofShader;
+
+		// Token: 0x040007C1 RID: 1985
+		private Material dofMaterial = null;
+
+		// Token: 0x040007C2 RID: 1986
+		public bool visualize = false;
+
+		// Token: 0x040007C3 RID: 1987
+		public DepthOfFieldDeprecated.BokehDestination bokehDestination = DepthOfFieldDeprecated.BokehDestination.Background;
+
+		// Token: 0x040007C4 RID: 1988
+		private float widthOverHeight = 1.25f;
+
+		// Token: 0x040007C5 RID: 1989
+		private float oneOverBaseSize = 0.001953125f;
+
+		// Token: 0x040007C6 RID: 1990
+		public bool bokeh = false;
+
+		// Token: 0x040007C7 RID: 1991
+		public bool bokehSupport = true;
+
+		// Token: 0x040007C8 RID: 1992
+		public Shader bokehShader;
+
+		// Token: 0x040007C9 RID: 1993
+		public Texture2D bokehTexture;
+
+		// Token: 0x040007CA RID: 1994
+		public float bokehScale = 2.4f;
+
+		// Token: 0x040007CB RID: 1995
+		public float bokehIntensity = 0.15f;
+
+		// Token: 0x040007CC RID: 1996
+		public float bokehThresholdContrast = 0.1f;
+
+		// Token: 0x040007CD RID: 1997
+		public float bokehThresholdLuminance = 0.55f;
+
+		// Token: 0x040007CE RID: 1998
+		public int bokehDownsample = 1;
+
+		// Token: 0x040007CF RID: 1999
+		private Material bokehMaterial;
+
+		// Token: 0x040007D0 RID: 2000
+		private Camera _camera;
+
+		// Token: 0x040007D1 RID: 2001
+		private RenderTexture foregroundTexture = null;
+
+		// Token: 0x040007D2 RID: 2002
+		private RenderTexture mediumRezWorkTexture = null;
+
+		// Token: 0x040007D3 RID: 2003
+		private RenderTexture finalDefocus = null;
+
+		// Token: 0x040007D4 RID: 2004
+		private RenderTexture lowRezWorkTexture = null;
+
+		// Token: 0x040007D5 RID: 2005
+		private RenderTexture bokehSource = null;
+
+		// Token: 0x040007D6 RID: 2006
+		private RenderTexture bokehSource2 = null;
+
 		// Token: 0x06000906 RID: 2310 RVA: 0x00015174 File Offset: 0x00013374
 		private void CreateMaterials()
 		{
@@ -352,135 +481,6 @@ namespace UnityStandardAssets.ImageEffects
 				this.foregroundTexture.filterMode = FilterMode.Bilinear;
 			}
 		}
-
-		// Token: 0x040007AC RID: 1964
-		private static int SMOOTH_DOWNSAMPLE_PASS = 6;
-
-		// Token: 0x040007AD RID: 1965
-		private static float BOKEH_EXTRA_BLUR = 2f;
-
-		// Token: 0x040007AE RID: 1966
-		public DepthOfFieldDeprecated.Dof34QualitySetting quality = DepthOfFieldDeprecated.Dof34QualitySetting.OnlyBackground;
-
-		// Token: 0x040007AF RID: 1967
-		public DepthOfFieldDeprecated.DofResolution resolution = DepthOfFieldDeprecated.DofResolution.Low;
-
-		// Token: 0x040007B0 RID: 1968
-		public bool simpleTweakMode = true;
-
-		// Token: 0x040007B1 RID: 1969
-		public float focalPoint = 1f;
-
-		// Token: 0x040007B2 RID: 1970
-		public float smoothness = 0.5f;
-
-		// Token: 0x040007B3 RID: 1971
-		public float focalZDistance = 0f;
-
-		// Token: 0x040007B4 RID: 1972
-		public float focalZStartCurve = 1f;
-
-		// Token: 0x040007B5 RID: 1973
-		public float focalZEndCurve = 1f;
-
-		// Token: 0x040007B6 RID: 1974
-		private float focalStartCurve = 2f;
-
-		// Token: 0x040007B7 RID: 1975
-		private float focalEndCurve = 2f;
-
-		// Token: 0x040007B8 RID: 1976
-		private float focalDistance01 = 0.1f;
-
-		// Token: 0x040007B9 RID: 1977
-		public Transform objectFocus = null;
-
-		// Token: 0x040007BA RID: 1978
-		public float focalSize = 0f;
-
-		// Token: 0x040007BB RID: 1979
-		public DepthOfFieldDeprecated.DofBlurriness bluriness = DepthOfFieldDeprecated.DofBlurriness.High;
-
-		// Token: 0x040007BC RID: 1980
-		public float maxBlurSpread = 1.75f;
-
-		// Token: 0x040007BD RID: 1981
-		public float foregroundBlurExtrude = 1.15f;
-
-		// Token: 0x040007BE RID: 1982
-		public Shader dofBlurShader;
-
-		// Token: 0x040007BF RID: 1983
-		private Material dofBlurMaterial = null;
-
-		// Token: 0x040007C0 RID: 1984
-		public Shader dofShader;
-
-		// Token: 0x040007C1 RID: 1985
-		private Material dofMaterial = null;
-
-		// Token: 0x040007C2 RID: 1986
-		public bool visualize = false;
-
-		// Token: 0x040007C3 RID: 1987
-		public DepthOfFieldDeprecated.BokehDestination bokehDestination = DepthOfFieldDeprecated.BokehDestination.Background;
-
-		// Token: 0x040007C4 RID: 1988
-		private float widthOverHeight = 1.25f;
-
-		// Token: 0x040007C5 RID: 1989
-		private float oneOverBaseSize = 0.001953125f;
-
-		// Token: 0x040007C6 RID: 1990
-		public bool bokeh = false;
-
-		// Token: 0x040007C7 RID: 1991
-		public bool bokehSupport = true;
-
-		// Token: 0x040007C8 RID: 1992
-		public Shader bokehShader;
-
-		// Token: 0x040007C9 RID: 1993
-		public Texture2D bokehTexture;
-
-		// Token: 0x040007CA RID: 1994
-		public float bokehScale = 2.4f;
-
-		// Token: 0x040007CB RID: 1995
-		public float bokehIntensity = 0.15f;
-
-		// Token: 0x040007CC RID: 1996
-		public float bokehThresholdContrast = 0.1f;
-
-		// Token: 0x040007CD RID: 1997
-		public float bokehThresholdLuminance = 0.55f;
-
-		// Token: 0x040007CE RID: 1998
-		public int bokehDownsample = 1;
-
-		// Token: 0x040007CF RID: 1999
-		private Material bokehMaterial;
-
-		// Token: 0x040007D0 RID: 2000
-		private Camera _camera;
-
-		// Token: 0x040007D1 RID: 2001
-		private RenderTexture foregroundTexture = null;
-
-		// Token: 0x040007D2 RID: 2002
-		private RenderTexture mediumRezWorkTexture = null;
-
-		// Token: 0x040007D3 RID: 2003
-		private RenderTexture finalDefocus = null;
-
-		// Token: 0x040007D4 RID: 2004
-		private RenderTexture lowRezWorkTexture = null;
-
-		// Token: 0x040007D5 RID: 2005
-		private RenderTexture bokehSource = null;
-
-		// Token: 0x040007D6 RID: 2006
-		private RenderTexture bokehSource2 = null;
 
 		// Token: 0x02000192 RID: 402
 		public enum Dof34QualitySetting

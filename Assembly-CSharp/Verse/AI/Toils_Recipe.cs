@@ -8,6 +8,9 @@ namespace Verse.AI
 	// Token: 0x02000A3D RID: 2621
 	public static class Toils_Recipe
 	{
+		// Token: 0x04002509 RID: 9481
+		private const int LongCraftingProjectThreshold = 20000;
+
 		// Token: 0x06003A2A RID: 14890 RVA: 0x001ECF0C File Offset: 0x001EB30C
 		public static Toil MakeUnfinishedThingIfNeeded()
 		{
@@ -365,8 +368,5 @@ namespace Verse.AI
 				recipe.Worker.ConsumeIngredient(ingredients[i], recipe, map);
 			}
 		}
-
-		// Token: 0x04002509 RID: 9481
-		private const int LongCraftingProjectThreshold = 20000;
 	}
 }

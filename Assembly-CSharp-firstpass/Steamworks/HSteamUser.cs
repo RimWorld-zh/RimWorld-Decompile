@@ -5,6 +5,9 @@ namespace Steamworks
 	// Token: 0x02000150 RID: 336
 	public struct HSteamUser : IEquatable<HSteamUser>, IComparable<HSteamUser>
 	{
+		// Token: 0x04000656 RID: 1622
+		public int m_HSteamUser;
+
 		// Token: 0x06000732 RID: 1842 RVA: 0x0000C40B File Offset: 0x0000A60B
 		public HSteamUser(int value)
 		{
@@ -64,8 +67,5 @@ namespace Steamworks
 		{
 			return this.m_HSteamUser.CompareTo(other.m_HSteamUser);
 		}
-
-		// Token: 0x04000656 RID: 1622
-		public int m_HSteamUser;
 	}
 }

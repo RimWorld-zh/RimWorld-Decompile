@@ -9,76 +9,6 @@ namespace Verse
 	// Token: 0x02000B52 RID: 2898
 	public class MentalStateDef : Def
 	{
-		// Token: 0x170009A1 RID: 2465
-		// (get) Token: 0x06003F6C RID: 16236 RVA: 0x00216DD8 File Offset: 0x002151D8
-		public MentalStateWorker Worker
-		{
-			get
-			{
-				if (this.workerInt == null)
-				{
-					if (this.workerClass != null)
-					{
-						this.workerInt = (MentalStateWorker)Activator.CreateInstance(this.workerClass);
-						this.workerInt.def = this;
-					}
-				}
-				return this.workerInt;
-			}
-		}
-
-		// Token: 0x170009A2 RID: 2466
-		// (get) Token: 0x06003F6D RID: 16237 RVA: 0x00216E30 File Offset: 0x00215230
-		public bool IsAggro
-		{
-			get
-			{
-				return this.category == MentalStateCategory.Aggro;
-			}
-		}
-
-		// Token: 0x170009A3 RID: 2467
-		// (get) Token: 0x06003F6E RID: 16238 RVA: 0x00216E50 File Offset: 0x00215250
-		public bool IsExtreme
-		{
-			get
-			{
-				List<MentalBreakDef> allDefsListForReading = DefDatabase<MentalBreakDef>.AllDefsListForReading;
-				for (int i = 0; i < allDefsListForReading.Count; i++)
-				{
-					if (allDefsListForReading[i].intensity == MentalBreakIntensity.Extreme && allDefsListForReading[i].mentalState == this)
-					{
-						return true;
-					}
-				}
-				return false;
-			}
-		}
-
-		// Token: 0x06003F6F RID: 16239 RVA: 0x00216EB1 File Offset: 0x002152B1
-		public override void ResolveReferences()
-		{
-			base.ResolveReferences();
-			if (this.beginLetterDef == null)
-			{
-				this.beginLetterDef = LetterDefOf.NegativeEvent;
-			}
-		}
-
-		// Token: 0x06003F70 RID: 16240 RVA: 0x00216ED0 File Offset: 0x002152D0
-		public override IEnumerable<string> ConfigErrors()
-		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
-			{
-				yield return e;
-			}
-			if (!this.beginLetter.NullOrEmpty() && this.beginLetterLabel.NullOrEmpty())
-			{
-				yield return "no beginLetter or beginLetterLabel";
-			}
-			yield break;
-		}
-
 		// Token: 0x04002A01 RID: 10753
 		public Type stateClass = typeof(MentalState);
 
@@ -160,5 +90,75 @@ namespace Verse
 
 		// Token: 0x04002A1A RID: 10778
 		private MentalStateWorker workerInt = null;
+
+		// Token: 0x170009A1 RID: 2465
+		// (get) Token: 0x06003F6C RID: 16236 RVA: 0x00216DD8 File Offset: 0x002151D8
+		public MentalStateWorker Worker
+		{
+			get
+			{
+				if (this.workerInt == null)
+				{
+					if (this.workerClass != null)
+					{
+						this.workerInt = (MentalStateWorker)Activator.CreateInstance(this.workerClass);
+						this.workerInt.def = this;
+					}
+				}
+				return this.workerInt;
+			}
+		}
+
+		// Token: 0x170009A2 RID: 2466
+		// (get) Token: 0x06003F6D RID: 16237 RVA: 0x00216E30 File Offset: 0x00215230
+		public bool IsAggro
+		{
+			get
+			{
+				return this.category == MentalStateCategory.Aggro;
+			}
+		}
+
+		// Token: 0x170009A3 RID: 2467
+		// (get) Token: 0x06003F6E RID: 16238 RVA: 0x00216E50 File Offset: 0x00215250
+		public bool IsExtreme
+		{
+			get
+			{
+				List<MentalBreakDef> allDefsListForReading = DefDatabase<MentalBreakDef>.AllDefsListForReading;
+				for (int i = 0; i < allDefsListForReading.Count; i++)
+				{
+					if (allDefsListForReading[i].intensity == MentalBreakIntensity.Extreme && allDefsListForReading[i].mentalState == this)
+					{
+						return true;
+					}
+				}
+				return false;
+			}
+		}
+
+		// Token: 0x06003F6F RID: 16239 RVA: 0x00216EB1 File Offset: 0x002152B1
+		public override void ResolveReferences()
+		{
+			base.ResolveReferences();
+			if (this.beginLetterDef == null)
+			{
+				this.beginLetterDef = LetterDefOf.NegativeEvent;
+			}
+		}
+
+		// Token: 0x06003F70 RID: 16240 RVA: 0x00216ED0 File Offset: 0x002152D0
+		public override IEnumerable<string> ConfigErrors()
+		{
+			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			{
+				yield return e;
+			}
+			if (!this.beginLetter.NullOrEmpty() && this.beginLetterLabel.NullOrEmpty())
+			{
+				yield return "no beginLetter or beginLetterLabel";
+			}
+			yield break;
+		}
 	}
 }

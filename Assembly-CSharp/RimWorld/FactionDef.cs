@@ -9,6 +9,159 @@ namespace RimWorld
 	// Token: 0x02000293 RID: 659
 	public class FactionDef : Def
 	{
+		// Token: 0x040005A9 RID: 1449
+		public bool isPlayer = false;
+
+		// Token: 0x040005AA RID: 1450
+		public RulePackDef factionNameMaker;
+
+		// Token: 0x040005AB RID: 1451
+		public RulePackDef settlementNameMaker;
+
+		// Token: 0x040005AC RID: 1452
+		public RulePackDef playerInitialSettlementNameMaker;
+
+		// Token: 0x040005AD RID: 1453
+		[MustTranslate]
+		public string fixedName = null;
+
+		// Token: 0x040005AE RID: 1454
+		public bool humanlikeFaction = true;
+
+		// Token: 0x040005AF RID: 1455
+		public bool hidden = false;
+
+		// Token: 0x040005B0 RID: 1456
+		public float listOrderPriority = 0f;
+
+		// Token: 0x040005B1 RID: 1457
+		public List<PawnGroupMaker> pawnGroupMakers = null;
+
+		// Token: 0x040005B2 RID: 1458
+		public SimpleCurve raidCommonalityFromPointsCurve = null;
+
+		// Token: 0x040005B3 RID: 1459
+		public bool autoFlee = true;
+
+		// Token: 0x040005B4 RID: 1460
+		public bool canSiege = false;
+
+		// Token: 0x040005B5 RID: 1461
+		public bool canStageAttacks = false;
+
+		// Token: 0x040005B6 RID: 1462
+		public bool canUseAvoidGrid = true;
+
+		// Token: 0x040005B7 RID: 1463
+		public float earliestRaidDays = 0f;
+
+		// Token: 0x040005B8 RID: 1464
+		public FloatRange allowedArrivalTemperatureRange = new FloatRange(-1000f, 1000f);
+
+		// Token: 0x040005B9 RID: 1465
+		public PawnKindDef basicMemberKind;
+
+		// Token: 0x040005BA RID: 1466
+		public List<ResearchProjectTagDef> startingResearchTags = null;
+
+		// Token: 0x040005BB RID: 1467
+		[NoTranslate]
+		public List<string> recipePrerequisiteTags = null;
+
+		// Token: 0x040005BC RID: 1468
+		public bool rescueesCanJoin = false;
+
+		// Token: 0x040005BD RID: 1469
+		[MustTranslate]
+		public string pawnSingular = "member";
+
+		// Token: 0x040005BE RID: 1470
+		[MustTranslate]
+		public string pawnsPlural = "members";
+
+		// Token: 0x040005BF RID: 1471
+		public string leaderTitle = "leader";
+
+		// Token: 0x040005C0 RID: 1472
+		public float forageabilityFactor = 1f;
+
+		// Token: 0x040005C1 RID: 1473
+		public SimpleCurve maxPawnCostPerTotalPointsCurve = null;
+
+		// Token: 0x040005C2 RID: 1474
+		public int requiredCountAtGameStart = 0;
+
+		// Token: 0x040005C3 RID: 1475
+		public int maxCountAtGameStart = 9999;
+
+		// Token: 0x040005C4 RID: 1476
+		public bool canMakeRandomly = false;
+
+		// Token: 0x040005C5 RID: 1477
+		public float settlementGenerationWeight = 0f;
+
+		// Token: 0x040005C6 RID: 1478
+		public RulePackDef pawnNameMaker;
+
+		// Token: 0x040005C7 RID: 1479
+		public TechLevel techLevel = TechLevel.Undefined;
+
+		// Token: 0x040005C8 RID: 1480
+		[NoTranslate]
+		public string backstoryCategory = null;
+
+		// Token: 0x040005C9 RID: 1481
+		[NoTranslate]
+		public List<string> hairTags = new List<string>();
+
+		// Token: 0x040005CA RID: 1482
+		public ThingFilter apparelStuffFilter = null;
+
+		// Token: 0x040005CB RID: 1483
+		public List<TraderKindDef> caravanTraderKinds = new List<TraderKindDef>();
+
+		// Token: 0x040005CC RID: 1484
+		public List<TraderKindDef> visitorTraderKinds = new List<TraderKindDef>();
+
+		// Token: 0x040005CD RID: 1485
+		public List<TraderKindDef> baseTraderKinds = new List<TraderKindDef>();
+
+		// Token: 0x040005CE RID: 1486
+		public float geneticVariance = 1f;
+
+		// Token: 0x040005CF RID: 1487
+		public IntRange startingGoodwill = IntRange.zero;
+
+		// Token: 0x040005D0 RID: 1488
+		public bool mustStartOneEnemy = false;
+
+		// Token: 0x040005D1 RID: 1489
+		public IntRange naturalColonyGoodwill = IntRange.zero;
+
+		// Token: 0x040005D2 RID: 1490
+		public float goodwillDailyGain = 0f;
+
+		// Token: 0x040005D3 RID: 1491
+		public float goodwillDailyFall = 0f;
+
+		// Token: 0x040005D4 RID: 1492
+		public bool permanentEnemy = false;
+
+		// Token: 0x040005D5 RID: 1493
+		[NoTranslate]
+		public string homeIconPath;
+
+		// Token: 0x040005D6 RID: 1494
+		[NoTranslate]
+		public string expandingIconTexture;
+
+		// Token: 0x040005D7 RID: 1495
+		public List<Color> colorSpectrum;
+
+		// Token: 0x040005D8 RID: 1496
+		[Unsaved]
+		private Texture2D expandingIconTextureInt;
+
 		// Token: 0x1700019F RID: 415
 		// (get) Token: 0x06000B1D RID: 2845 RVA: 0x00064F04 File Offset: 0x00063304
 		public bool CanEverBeNonHostile
@@ -168,158 +321,5 @@ namespace RimWorld
 		{
 			return DefDatabase<FactionDef>.GetNamed(defName, true);
 		}
-
-		// Token: 0x040005A9 RID: 1449
-		public bool isPlayer = false;
-
-		// Token: 0x040005AA RID: 1450
-		public RulePackDef factionNameMaker;
-
-		// Token: 0x040005AB RID: 1451
-		public RulePackDef settlementNameMaker;
-
-		// Token: 0x040005AC RID: 1452
-		public RulePackDef playerInitialSettlementNameMaker;
-
-		// Token: 0x040005AD RID: 1453
-		[MustTranslate]
-		public string fixedName = null;
-
-		// Token: 0x040005AE RID: 1454
-		public bool humanlikeFaction = true;
-
-		// Token: 0x040005AF RID: 1455
-		public bool hidden = false;
-
-		// Token: 0x040005B0 RID: 1456
-		public float listOrderPriority = 0f;
-
-		// Token: 0x040005B1 RID: 1457
-		public List<PawnGroupMaker> pawnGroupMakers = null;
-
-		// Token: 0x040005B2 RID: 1458
-		public SimpleCurve raidCommonalityFromPointsCurve = null;
-
-		// Token: 0x040005B3 RID: 1459
-		public bool autoFlee = true;
-
-		// Token: 0x040005B4 RID: 1460
-		public bool canSiege = false;
-
-		// Token: 0x040005B5 RID: 1461
-		public bool canStageAttacks = false;
-
-		// Token: 0x040005B6 RID: 1462
-		public bool canUseAvoidGrid = true;
-
-		// Token: 0x040005B7 RID: 1463
-		public float earliestRaidDays = 0f;
-
-		// Token: 0x040005B8 RID: 1464
-		public FloatRange allowedArrivalTemperatureRange = new FloatRange(-1000f, 1000f);
-
-		// Token: 0x040005B9 RID: 1465
-		public PawnKindDef basicMemberKind;
-
-		// Token: 0x040005BA RID: 1466
-		public List<ResearchProjectTagDef> startingResearchTags = null;
-
-		// Token: 0x040005BB RID: 1467
-		[NoTranslate]
-		public List<string> recipePrerequisiteTags = null;
-
-		// Token: 0x040005BC RID: 1468
-		public bool rescueesCanJoin = false;
-
-		// Token: 0x040005BD RID: 1469
-		[MustTranslate]
-		public string pawnSingular = "member";
-
-		// Token: 0x040005BE RID: 1470
-		[MustTranslate]
-		public string pawnsPlural = "members";
-
-		// Token: 0x040005BF RID: 1471
-		public string leaderTitle = "leader";
-
-		// Token: 0x040005C0 RID: 1472
-		public float forageabilityFactor = 1f;
-
-		// Token: 0x040005C1 RID: 1473
-		public SimpleCurve maxPawnCostPerTotalPointsCurve = null;
-
-		// Token: 0x040005C2 RID: 1474
-		public int requiredCountAtGameStart = 0;
-
-		// Token: 0x040005C3 RID: 1475
-		public int maxCountAtGameStart = 9999;
-
-		// Token: 0x040005C4 RID: 1476
-		public bool canMakeRandomly = false;
-
-		// Token: 0x040005C5 RID: 1477
-		public float settlementGenerationWeight = 0f;
-
-		// Token: 0x040005C6 RID: 1478
-		public RulePackDef pawnNameMaker;
-
-		// Token: 0x040005C7 RID: 1479
-		public TechLevel techLevel = TechLevel.Undefined;
-
-		// Token: 0x040005C8 RID: 1480
-		[NoTranslate]
-		public string backstoryCategory = null;
-
-		// Token: 0x040005C9 RID: 1481
-		[NoTranslate]
-		public List<string> hairTags = new List<string>();
-
-		// Token: 0x040005CA RID: 1482
-		public ThingFilter apparelStuffFilter = null;
-
-		// Token: 0x040005CB RID: 1483
-		public List<TraderKindDef> caravanTraderKinds = new List<TraderKindDef>();
-
-		// Token: 0x040005CC RID: 1484
-		public List<TraderKindDef> visitorTraderKinds = new List<TraderKindDef>();
-
-		// Token: 0x040005CD RID: 1485
-		public List<TraderKindDef> baseTraderKinds = new List<TraderKindDef>();
-
-		// Token: 0x040005CE RID: 1486
-		public float geneticVariance = 1f;
-
-		// Token: 0x040005CF RID: 1487
-		public IntRange startingGoodwill = IntRange.zero;
-
-		// Token: 0x040005D0 RID: 1488
-		public bool mustStartOneEnemy = false;
-
-		// Token: 0x040005D1 RID: 1489
-		public IntRange naturalColonyGoodwill = IntRange.zero;
-
-		// Token: 0x040005D2 RID: 1490
-		public float goodwillDailyGain = 0f;
-
-		// Token: 0x040005D3 RID: 1491
-		public float goodwillDailyFall = 0f;
-
-		// Token: 0x040005D4 RID: 1492
-		public bool permanentEnemy = false;
-
-		// Token: 0x040005D5 RID: 1493
-		[NoTranslate]
-		public string homeIconPath;
-
-		// Token: 0x040005D6 RID: 1494
-		[NoTranslate]
-		public string expandingIconTexture;
-
-		// Token: 0x040005D7 RID: 1495
-		public List<Color> colorSpectrum;
-
-		// Token: 0x040005D8 RID: 1496
-		[Unsaved]
-		private Texture2D expandingIconTextureInt;
 	}
 }

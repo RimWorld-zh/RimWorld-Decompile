@@ -9,6 +9,33 @@ namespace RimWorld
 	// Token: 0x02000445 RID: 1093
 	public static class LightningBoltMeshMaker
 	{
+		// Token: 0x04000B85 RID: 2949
+		private static List<Vector2> verts2D;
+
+		// Token: 0x04000B86 RID: 2950
+		private static Vector2 lightningTop;
+
+		// Token: 0x04000B87 RID: 2951
+		private const float LightningHeight = 200f;
+
+		// Token: 0x04000B88 RID: 2952
+		private const float LightningRootXVar = 50f;
+
+		// Token: 0x04000B89 RID: 2953
+		private const float VertexInterval = 0.25f;
+
+		// Token: 0x04000B8A RID: 2954
+		private const float MeshWidth = 2f;
+
+		// Token: 0x04000B8B RID: 2955
+		private const float UVIntervalY = 0.04f;
+
+		// Token: 0x04000B8C RID: 2956
+		private const float PerturbAmp = 12f;
+
+		// Token: 0x04000B8D RID: 2957
+		private const float PerturbFreq = 0.007f;
+
 		// Token: 0x060012F9 RID: 4857 RVA: 0x000A3C84 File Offset: 0x000A2084
 		public static Mesh NewBoltMesh()
 		{
@@ -104,32 +131,5 @@ namespace RimWorld
 				name = "MeshFromVerts()"
 			};
 		}
-
-		// Token: 0x04000B85 RID: 2949
-		private static List<Vector2> verts2D;
-
-		// Token: 0x04000B86 RID: 2950
-		private static Vector2 lightningTop;
-
-		// Token: 0x04000B87 RID: 2951
-		private const float LightningHeight = 200f;
-
-		// Token: 0x04000B88 RID: 2952
-		private const float LightningRootXVar = 50f;
-
-		// Token: 0x04000B89 RID: 2953
-		private const float VertexInterval = 0.25f;
-
-		// Token: 0x04000B8A RID: 2954
-		private const float MeshWidth = 2f;
-
-		// Token: 0x04000B8B RID: 2955
-		private const float UVIntervalY = 0.04f;
-
-		// Token: 0x04000B8C RID: 2956
-		private const float PerturbAmp = 12f;
-
-		// Token: 0x04000B8D RID: 2957
-		private const float PerturbFreq = 0.007f;
 	}
 }

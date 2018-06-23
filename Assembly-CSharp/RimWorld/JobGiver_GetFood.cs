@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x020000E1 RID: 225
 	public class JobGiver_GetFood : ThinkNode_JobGiver
 	{
+		// Token: 0x040002B6 RID: 694
+		private HungerCategory minCategory = HungerCategory.Fed;
+
+		// Token: 0x040002B7 RID: 695
+		public bool forceScanWholeMap;
+
 		// Token: 0x060004E5 RID: 1253 RVA: 0x00036750 File Offset: 0x00034B50
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -124,11 +130,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040002B6 RID: 694
-		private HungerCategory minCategory = HungerCategory.Fed;
-
-		// Token: 0x040002B7 RID: 695
-		public bool forceScanWholeMap;
 	}
 }

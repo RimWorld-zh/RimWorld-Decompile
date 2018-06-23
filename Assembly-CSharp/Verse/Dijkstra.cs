@@ -7,6 +7,18 @@ namespace Verse
 	// Token: 0x02000F19 RID: 3865
 	public static class Dijkstra<T>
 	{
+		// Token: 0x04003D8F RID: 15759
+		private static Dictionary<T, float> distances = new Dictionary<T, float>();
+
+		// Token: 0x04003D90 RID: 15760
+		private static FastPriorityQueue<KeyValuePair<T, float>> queue = new FastPriorityQueue<KeyValuePair<T, float>>(new Dijkstra<T>.DistanceComparer());
+
+		// Token: 0x04003D91 RID: 15761
+		private static List<T> singleNodeList = new List<T>();
+
+		// Token: 0x04003D92 RID: 15762
+		private static List<KeyValuePair<T, float>> tmpResult = new List<KeyValuePair<T, float>>();
+
 		// Token: 0x06005CC0 RID: 23744 RVA: 0x002F0DB4 File Offset: 0x002EF1B4
 		public static void Run(T startingNode, Func<T, IEnumerable<T>> neighborsGetter, Func<T, T, float> distanceGetter, List<KeyValuePair<T, float>> outDistances, Dictionary<T, T> outParents = null)
 		{
@@ -138,18 +150,6 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04003D8F RID: 15759
-		private static Dictionary<T, float> distances = new Dictionary<T, float>();
-
-		// Token: 0x04003D90 RID: 15760
-		private static FastPriorityQueue<KeyValuePair<T, float>> queue = new FastPriorityQueue<KeyValuePair<T, float>>(new Dijkstra<T>.DistanceComparer());
-
-		// Token: 0x04003D91 RID: 15761
-		private static List<T> singleNodeList = new List<T>();
-
-		// Token: 0x04003D92 RID: 15762
-		private static List<KeyValuePair<T, float>> tmpResult = new List<KeyValuePair<T, float>>();
 
 		// Token: 0x02000F1A RID: 3866
 		private class DistanceComparer : IComparer<KeyValuePair<T, float>>

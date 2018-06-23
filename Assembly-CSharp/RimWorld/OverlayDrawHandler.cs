@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x0200038B RID: 907
 	public static class OverlayDrawHandler
 	{
+		// Token: 0x040009A3 RID: 2467
+		private static int lastPowerGridDrawFrame;
+
+		// Token: 0x040009A4 RID: 2468
+		private static int lastZoneDrawFrame;
+
 		// Token: 0x06000FD4 RID: 4052 RVA: 0x00084BDC File Offset: 0x00082FDC
 		public static void DrawPowerGridOverlayThisFrame()
 		{
@@ -38,11 +44,5 @@ namespace RimWorld
 				return Find.PlaySettings.showZones || Time.frameCount <= OverlayDrawHandler.lastZoneDrawFrame + 1;
 			}
 		}
-
-		// Token: 0x040009A3 RID: 2467
-		private static int lastPowerGridDrawFrame;
-
-		// Token: 0x040009A4 RID: 2468
-		private static int lastZoneDrawFrame;
 	}
 }

@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x020000FB RID: 251
 	public abstract class JoyGiver
 	{
+		// Token: 0x040002D2 RID: 722
+		public JoyGiverDef def;
+
+		// Token: 0x040002D3 RID: 723
+		private static List<Thing> tmpCandidates = new List<Thing>();
+
 		// Token: 0x06000545 RID: 1349 RVA: 0x000387D0 File Offset: 0x00036BD0
 		public virtual float GetChance(Pawn pawn)
 		{
@@ -66,11 +72,5 @@ namespace RimWorld
 			}
 			return null;
 		}
-
-		// Token: 0x040002D2 RID: 722
-		public JoyGiverDef def;
-
-		// Token: 0x040002D3 RID: 723
-		private static List<Thing> tmpCandidates = new List<Thing>();
 	}
 }

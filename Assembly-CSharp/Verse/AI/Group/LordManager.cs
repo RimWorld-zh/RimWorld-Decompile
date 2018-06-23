@@ -8,6 +8,12 @@ namespace Verse.AI.Group
 	// Token: 0x020009EB RID: 2539
 	public sealed class LordManager : IExposable
 	{
+		// Token: 0x04002468 RID: 9320
+		public Map map;
+
+		// Token: 0x04002469 RID: 9321
+		public List<Lord> lords = new List<Lord>();
+
 		// Token: 0x06003910 RID: 14608 RVA: 0x001E6678 File Offset: 0x001E4A78
 		public LordManager(Map map)
 		{
@@ -165,11 +171,5 @@ namespace Verse.AI.Group
 			}
 			Log.Message(stringBuilder.ToString(), false);
 		}
-
-		// Token: 0x04002468 RID: 9320
-		public Map map;
-
-		// Token: 0x04002469 RID: 9321
-		public List<Lord> lords = new List<Lord>();
 	}
 }

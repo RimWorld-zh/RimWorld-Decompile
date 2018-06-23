@@ -9,6 +9,84 @@ namespace Verse
 	// Token: 0x02000E57 RID: 3671
 	public class FloatMenuOption
 	{
+		// Token: 0x04003947 RID: 14663
+		private string labelInt = null;
+
+		// Token: 0x04003948 RID: 14664
+		public Action action = null;
+
+		// Token: 0x04003949 RID: 14665
+		private MenuOptionPriority priorityInt = MenuOptionPriority.Default;
+
+		// Token: 0x0400394A RID: 14666
+		public bool autoTakeable = false;
+
+		// Token: 0x0400394B RID: 14667
+		public float autoTakeablePriority;
+
+		// Token: 0x0400394C RID: 14668
+		public Action mouseoverGuiAction = null;
+
+		// Token: 0x0400394D RID: 14669
+		public Thing revalidateClickTarget = null;
+
+		// Token: 0x0400394E RID: 14670
+		public WorldObject revalidateWorldClickTarget = null;
+
+		// Token: 0x0400394F RID: 14671
+		public float extraPartWidth = 0f;
+
+		// Token: 0x04003950 RID: 14672
+		public Func<Rect, bool> extraPartOnGUI = null;
+
+		// Token: 0x04003951 RID: 14673
+		public string tutorTag = null;
+
+		// Token: 0x04003952 RID: 14674
+		private FloatMenuSizeMode sizeMode = FloatMenuSizeMode.Undefined;
+
+		// Token: 0x04003953 RID: 14675
+		private float cachedRequiredHeight;
+
+		// Token: 0x04003954 RID: 14676
+		private float cachedRequiredWidth;
+
+		// Token: 0x04003955 RID: 14677
+		public const float MaxWidth = 300f;
+
+		// Token: 0x04003956 RID: 14678
+		private const float NormalVerticalMargin = 4f;
+
+		// Token: 0x04003957 RID: 14679
+		private const float TinyVerticalMargin = 1f;
+
+		// Token: 0x04003958 RID: 14680
+		private const float NormalHorizontalMargin = 6f;
+
+		// Token: 0x04003959 RID: 14681
+		private const float TinyHorizontalMargin = 3f;
+
+		// Token: 0x0400395A RID: 14682
+		private const float MouseOverLabelShift = 4f;
+
+		// Token: 0x0400395B RID: 14683
+		private static readonly Color ColorBGActive;
+
+		// Token: 0x0400395C RID: 14684
+		private static readonly Color ColorBGActiveMouseover;
+
+		// Token: 0x0400395D RID: 14685
+		private static readonly Color ColorBGDisabled;
+
+		// Token: 0x0400395E RID: 14686
+		private static readonly Color ColorTextActive;
+
+		// Token: 0x0400395F RID: 14687
+		private static readonly Color ColorTextDisabled;
+
+		// Token: 0x04003960 RID: 14688
+		public const float ExtraPartHeight = 30f;
+
 		// Token: 0x0600568D RID: 22157 RVA: 0x002CA330 File Offset: 0x002C8730
 		public FloatMenuOption(string label, Action action, MenuOptionPriority priority = MenuOptionPriority.Default, Action mouseoverGuiAction = null, Thing revalidateClickTarget = null, float extraPartWidth = 0f, Func<Rect, bool> extraPartOnGUI = null, WorldObject revalidateWorldClickTarget = null)
 		{
@@ -289,83 +367,5 @@ namespace Verse
 			FloatMenuOption.ColorTextActive = Color.white;
 			FloatMenuOption.ColorTextDisabled = new Color(0.9f, 0.9f, 0.9f);
 		}
-
-		// Token: 0x04003947 RID: 14663
-		private string labelInt = null;
-
-		// Token: 0x04003948 RID: 14664
-		public Action action = null;
-
-		// Token: 0x04003949 RID: 14665
-		private MenuOptionPriority priorityInt = MenuOptionPriority.Default;
-
-		// Token: 0x0400394A RID: 14666
-		public bool autoTakeable = false;
-
-		// Token: 0x0400394B RID: 14667
-		public float autoTakeablePriority;
-
-		// Token: 0x0400394C RID: 14668
-		public Action mouseoverGuiAction = null;
-
-		// Token: 0x0400394D RID: 14669
-		public Thing revalidateClickTarget = null;
-
-		// Token: 0x0400394E RID: 14670
-		public WorldObject revalidateWorldClickTarget = null;
-
-		// Token: 0x0400394F RID: 14671
-		public float extraPartWidth = 0f;
-
-		// Token: 0x04003950 RID: 14672
-		public Func<Rect, bool> extraPartOnGUI = null;
-
-		// Token: 0x04003951 RID: 14673
-		public string tutorTag = null;
-
-		// Token: 0x04003952 RID: 14674
-		private FloatMenuSizeMode sizeMode = FloatMenuSizeMode.Undefined;
-
-		// Token: 0x04003953 RID: 14675
-		private float cachedRequiredHeight;
-
-		// Token: 0x04003954 RID: 14676
-		private float cachedRequiredWidth;
-
-		// Token: 0x04003955 RID: 14677
-		public const float MaxWidth = 300f;
-
-		// Token: 0x04003956 RID: 14678
-		private const float NormalVerticalMargin = 4f;
-
-		// Token: 0x04003957 RID: 14679
-		private const float TinyVerticalMargin = 1f;
-
-		// Token: 0x04003958 RID: 14680
-		private const float NormalHorizontalMargin = 6f;
-
-		// Token: 0x04003959 RID: 14681
-		private const float TinyHorizontalMargin = 3f;
-
-		// Token: 0x0400395A RID: 14682
-		private const float MouseOverLabelShift = 4f;
-
-		// Token: 0x0400395B RID: 14683
-		private static readonly Color ColorBGActive;
-
-		// Token: 0x0400395C RID: 14684
-		private static readonly Color ColorBGActiveMouseover;
-
-		// Token: 0x0400395D RID: 14685
-		private static readonly Color ColorBGDisabled;
-
-		// Token: 0x0400395E RID: 14686
-		private static readonly Color ColorTextActive;
-
-		// Token: 0x0400395F RID: 14687
-		private static readonly Color ColorTextDisabled;
-
-		// Token: 0x04003960 RID: 14688
-		public const float ExtraPartHeight = 30f;
 	}
 }

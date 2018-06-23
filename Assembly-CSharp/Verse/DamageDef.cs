@@ -8,21 +8,6 @@ namespace Verse
 	// Token: 0x02000B04 RID: 2820
 	public class DamageDef : Def
 	{
-		// Token: 0x1700096F RID: 2415
-		// (get) Token: 0x06003E82 RID: 16002 RVA: 0x0020F3C8 File Offset: 0x0020D7C8
-		public DamageWorker Worker
-		{
-			get
-			{
-				if (this.workerInt == null)
-				{
-					this.workerInt = (DamageWorker)Activator.CreateInstance(this.workerClass);
-					this.workerInt.def = this;
-				}
-				return this.workerInt;
-			}
-		}
-
 		// Token: 0x040027B0 RID: 10160
 		public Type workerClass = typeof(DamageWorker);
 
@@ -153,5 +138,20 @@ namespace Verse
 		// Token: 0x040027DA RID: 10202
 		[Unsaved]
 		private DamageWorker workerInt = null;
+
+		// Token: 0x1700096F RID: 2415
+		// (get) Token: 0x06003E82 RID: 16002 RVA: 0x0020F3C8 File Offset: 0x0020D7C8
+		public DamageWorker Worker
+		{
+			get
+			{
+				if (this.workerInt == null)
+				{
+					this.workerInt = (DamageWorker)Activator.CreateInstance(this.workerClass);
+					this.workerInt.def = this;
+				}
+				return this.workerInt;
+			}
+		}
 	}
 }

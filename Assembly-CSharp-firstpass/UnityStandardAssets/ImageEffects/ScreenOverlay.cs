@@ -9,6 +9,21 @@ namespace UnityStandardAssets.ImageEffects
 	[AddComponentMenu("Image Effects/Other/Screen Overlay")]
 	public class ScreenOverlay : PostEffectsBase
 	{
+		// Token: 0x04000834 RID: 2100
+		public ScreenOverlay.OverlayBlendMode blendMode = ScreenOverlay.OverlayBlendMode.Overlay;
+
+		// Token: 0x04000835 RID: 2101
+		public float intensity = 1f;
+
+		// Token: 0x04000836 RID: 2102
+		public Texture2D texture = null;
+
+		// Token: 0x04000837 RID: 2103
+		public Shader overlayShader = null;
+
+		// Token: 0x04000838 RID: 2104
+		private Material overlayMaterial = null;
+
 		// Token: 0x06000955 RID: 2389 RVA: 0x00018184 File Offset: 0x00016384
 		public override bool CheckResources()
 		{
@@ -37,21 +52,6 @@ namespace UnityStandardAssets.ImageEffects
 				Graphics.Blit(source, destination, this.overlayMaterial, (int)this.blendMode);
 			}
 		}
-
-		// Token: 0x04000834 RID: 2100
-		public ScreenOverlay.OverlayBlendMode blendMode = ScreenOverlay.OverlayBlendMode.Overlay;
-
-		// Token: 0x04000835 RID: 2101
-		public float intensity = 1f;
-
-		// Token: 0x04000836 RID: 2102
-		public Texture2D texture = null;
-
-		// Token: 0x04000837 RID: 2103
-		public Shader overlayShader = null;
-
-		// Token: 0x04000838 RID: 2104
-		private Material overlayMaterial = null;
 
 		// Token: 0x020001A4 RID: 420
 		public enum OverlayBlendMode

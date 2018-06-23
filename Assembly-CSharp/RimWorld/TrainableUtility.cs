@@ -11,6 +11,30 @@ namespace RimWorld
 	// Token: 0x0200053B RID: 1339
 	public static class TrainableUtility
 	{
+		// Token: 0x04000EAD RID: 3757
+		private static List<TrainableDef> defsInListOrder = new List<TrainableDef>();
+
+		// Token: 0x04000EAE RID: 3758
+		private static readonly SimpleCurve DecayIntervalDaysFromWildnessCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 15f),
+				true
+			},
+			{
+				new CurvePoint(1f, 5f),
+				true
+			}
+		};
+
+		// Token: 0x04000EB0 RID: 3760
+		[CompilerGenerated]
+		private static Func<Pawn, Pawn> <>f__mg$cache0;
+
+		// Token: 0x04000EB1 RID: 3761
+		[CompilerGenerated]
+		private static Func<Pawn, IEnumerable<Widgets.DropdownMenuElement<Pawn>>> <>f__mg$cache1;
+
 		// Token: 0x17000387 RID: 903
 		// (get) Token: 0x060018F7 RID: 6391 RVA: 0x000D9774 File Offset: 0x000D7B74
 		public static List<TrainableDef> TrainableDefsInListOrder
@@ -207,29 +231,5 @@ namespace RimWorld
 			}
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x04000EAD RID: 3757
-		private static List<TrainableDef> defsInListOrder = new List<TrainableDef>();
-
-		// Token: 0x04000EAE RID: 3758
-		private static readonly SimpleCurve DecayIntervalDaysFromWildnessCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 15f),
-				true
-			},
-			{
-				new CurvePoint(1f, 5f),
-				true
-			}
-		};
-
-		// Token: 0x04000EB0 RID: 3760
-		[CompilerGenerated]
-		private static Func<Pawn, Pawn> <>f__mg$cache0;
-
-		// Token: 0x04000EB1 RID: 3761
-		[CompilerGenerated]
-		private static Func<Pawn, IEnumerable<Widgets.DropdownMenuElement<Pawn>>> <>f__mg$cache1;
 	}
 }

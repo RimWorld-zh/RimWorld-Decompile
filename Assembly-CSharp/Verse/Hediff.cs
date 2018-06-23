@@ -12,6 +12,52 @@ namespace Verse
 	// Token: 0x02000D00 RID: 3328
 	public class Hediff : IExposable
 	{
+		// Token: 0x040031D8 RID: 12760
+		public HediffDef def = null;
+
+		// Token: 0x040031D9 RID: 12761
+		public int ageTicks = 0;
+
+		// Token: 0x040031DA RID: 12762
+		private BodyPartRecord part;
+
+		// Token: 0x040031DB RID: 12763
+		public ThingDef source = null;
+
+		// Token: 0x040031DC RID: 12764
+		public BodyPartGroupDef sourceBodyPartGroup = null;
+
+		// Token: 0x040031DD RID: 12765
+		public HediffDef sourceHediffDef = null;
+
+		// Token: 0x040031DE RID: 12766
+		public int loadID = -1;
+
+		// Token: 0x040031DF RID: 12767
+		protected float severityInt = 0f;
+
+		// Token: 0x040031E0 RID: 12768
+		private bool recordedTale = false;
+
+		// Token: 0x040031E1 RID: 12769
+		protected bool causesNoPain = false;
+
+		// Token: 0x040031E2 RID: 12770
+		private bool visible = false;
+
+		// Token: 0x040031E3 RID: 12771
+		public WeakReference<LogEntry> combatLogEntry = null;
+
+		// Token: 0x040031E4 RID: 12772
+		public string combatLogText = null;
+
+		// Token: 0x040031E5 RID: 12773
+		public int temp_partIndexToSetLater = -1;
+
+		// Token: 0x040031E6 RID: 12774
+		[Unsaved]
+		public Pawn pawn = null;
+
 		// Token: 0x17000B87 RID: 2951
 		// (get) Token: 0x0600495A RID: 18778 RVA: 0x000A9DA0 File Offset: 0x000A81A0
 		public virtual string LabelBase
@@ -574,51 +620,5 @@ namespace Verse
 		{
 			return "Hediff_" + this.loadID;
 		}
-
-		// Token: 0x040031D8 RID: 12760
-		public HediffDef def = null;
-
-		// Token: 0x040031D9 RID: 12761
-		public int ageTicks = 0;
-
-		// Token: 0x040031DA RID: 12762
-		private BodyPartRecord part;
-
-		// Token: 0x040031DB RID: 12763
-		public ThingDef source = null;
-
-		// Token: 0x040031DC RID: 12764
-		public BodyPartGroupDef sourceBodyPartGroup = null;
-
-		// Token: 0x040031DD RID: 12765
-		public HediffDef sourceHediffDef = null;
-
-		// Token: 0x040031DE RID: 12766
-		public int loadID = -1;
-
-		// Token: 0x040031DF RID: 12767
-		protected float severityInt = 0f;
-
-		// Token: 0x040031E0 RID: 12768
-		private bool recordedTale = false;
-
-		// Token: 0x040031E1 RID: 12769
-		protected bool causesNoPain = false;
-
-		// Token: 0x040031E2 RID: 12770
-		private bool visible = false;
-
-		// Token: 0x040031E3 RID: 12771
-		public WeakReference<LogEntry> combatLogEntry = null;
-
-		// Token: 0x040031E4 RID: 12772
-		public string combatLogText = null;
-
-		// Token: 0x040031E5 RID: 12773
-		public int temp_partIndexToSetLater = -1;
-
-		// Token: 0x040031E6 RID: 12774
-		[Unsaved]
-		public Pawn pawn = null;
 	}
 }

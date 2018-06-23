@@ -6,6 +6,12 @@ namespace Verse.AI
 	// Token: 0x02000A72 RID: 2674
 	public class MentalState_MurderousRage : MentalState
 	{
+		// Token: 0x0400256D RID: 9581
+		public Pawn target;
+
+		// Token: 0x0400256E RID: 9582
+		private const int NoLongerValidTargetCheckInterval = 120;
+
 		// Token: 0x06003B7A RID: 15226 RVA: 0x001F77C2 File Offset: 0x001F5BC2
 		public override void ExposeData()
 		{
@@ -80,11 +86,5 @@ namespace Verse.AI
 		{
 			return this.target != null && this.target.SpawnedParentOrMe != null && (!(this.target.SpawnedParentOrMe is Pawn) || this.target.SpawnedParentOrMe == this.target) && this.pawn.CanReach(this.target.SpawnedParentOrMe, PathEndMode.Touch, Danger.Deadly, true, TraverseMode.ByPawn);
 		}
-
-		// Token: 0x0400256D RID: 9581
-		public Pawn target;
-
-		// Token: 0x0400256E RID: 9582
-		private const int NoLongerValidTargetCheckInterval = 120;
 	}
 }

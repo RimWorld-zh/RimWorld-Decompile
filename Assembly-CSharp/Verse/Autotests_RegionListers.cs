@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x020008F6 RID: 2294
 	public static class Autotests_RegionListers
 	{
+		// Token: 0x04001CCA RID: 7370
+		private static Dictionary<Region, List<Thing>> expectedListers = new Dictionary<Region, List<Thing>>();
+
+		// Token: 0x04001CCB RID: 7371
+		private static List<Region> tmpTouchableRegions = new List<Region>();
+
 		// Token: 0x06003527 RID: 13607 RVA: 0x001C6E75 File Offset: 0x001C5275
 		public static void CheckBugs(Map map)
 		{
@@ -144,11 +150,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04001CCA RID: 7370
-		private static Dictionary<Region, List<Thing>> expectedListers = new Dictionary<Region, List<Thing>>();
-
-		// Token: 0x04001CCB RID: 7371
-		private static List<Region> tmpTouchableRegions = new List<Region>();
 	}
 }

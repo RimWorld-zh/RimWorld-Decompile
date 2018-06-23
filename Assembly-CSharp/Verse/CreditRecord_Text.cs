@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000ED9 RID: 3801
 	public class CreditRecord_Text : CreditsEntry
 	{
+		// Token: 0x04003C6C RID: 15468
+		public string text;
+
+		// Token: 0x04003C6D RID: 15469
+		public TextAnchor anchor;
+
 		// Token: 0x06005A0A RID: 23050 RVA: 0x002E3BF2 File Offset: 0x002E1FF2
 		public CreditRecord_Text()
 		{
@@ -31,11 +37,5 @@ namespace Verse
 			Widgets.Label(r, this.text);
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
-
-		// Token: 0x04003C6C RID: 15468
-		public string text;
-
-		// Token: 0x04003C6D RID: 15469
-		public TextAnchor anchor;
 	}
 }

@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000E75 RID: 3701
 	public abstract class LetterWithTimeout : Letter
 	{
+		// Token: 0x040039D2 RID: 14802
+		public int disappearAtTick = -1;
+
 		// Token: 0x17000DC0 RID: 3520
 		// (get) Token: 0x06005744 RID: 22340 RVA: 0x001A05F4 File Offset: 0x0019E9F4
 		public bool TimeoutActive
@@ -68,8 +71,5 @@ namespace Verse
 			}
 			return text;
 		}
-
-		// Token: 0x040039D2 RID: 14802
-		public int disappearAtTick = -1;
 	}
 }

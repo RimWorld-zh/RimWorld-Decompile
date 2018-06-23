@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x02000042 RID: 66
 	public class JobDriver_Deconstruct : JobDriver_RemoveBuilding
 	{
+		// Token: 0x040001D2 RID: 466
+		private const int MaxDeconstructWork = 3000;
+
 		// Token: 0x17000075 RID: 117
 		// (get) Token: 0x0600022F RID: 559 RVA: 0x0001766C File Offset: 0x00015A6C
 		protected override DesignationDef Designation
@@ -57,8 +60,5 @@ namespace RimWorld
 				this.pawn.skills.Learn(SkillDefOf.Construction, 0.275f, false);
 			}
 		}
-
-		// Token: 0x040001D2 RID: 466
-		private const int MaxDeconstructWork = 3000;
 	}
 }

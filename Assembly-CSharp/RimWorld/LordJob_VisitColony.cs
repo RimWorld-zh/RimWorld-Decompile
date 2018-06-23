@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000179 RID: 377
 	public class LordJob_VisitColony : LordJob
 	{
+		// Token: 0x04000363 RID: 867
+		private Faction faction;
+
+		// Token: 0x04000364 RID: 868
+		private IntVec3 chillSpot;
+
 		// Token: 0x060007C2 RID: 1986 RVA: 0x0004C008 File Offset: 0x0004A408
 		public LordJob_VisitColony()
 		{
@@ -109,11 +115,5 @@ namespace RimWorld
 			Scribe_References.Look<Faction>(ref this.faction, "faction", false);
 			Scribe_Values.Look<IntVec3>(ref this.chillSpot, "chillSpot", default(IntVec3), false);
 		}
-
-		// Token: 0x04000363 RID: 867
-		private Faction faction;
-
-		// Token: 0x04000364 RID: 868
-		private IntVec3 chillSpot;
 	}
 }

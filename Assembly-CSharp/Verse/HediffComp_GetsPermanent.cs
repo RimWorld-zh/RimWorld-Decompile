@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000D0B RID: 3339
 	public class HediffComp_GetsPermanent : HediffComp
 	{
+		// Token: 0x040031F8 RID: 12792
+		public float permanentDamageThreshold = 9999f;
+
+		// Token: 0x040031F9 RID: 12793
+		public bool isPermanentInt = false;
+
+		// Token: 0x040031FA RID: 12794
+		public float painFactor = 1f;
+
 		// Token: 0x17000BAA RID: 2986
 		// (get) Token: 0x060049B7 RID: 18871 RVA: 0x00269AB0 File Offset: 0x00267EB0
 		public HediffCompProperties_GetsPermanent Props
@@ -100,14 +109,5 @@ namespace Verse
 				this.painFactor
 			});
 		}
-
-		// Token: 0x040031F8 RID: 12792
-		public float permanentDamageThreshold = 9999f;
-
-		// Token: 0x040031F9 RID: 12793
-		public bool isPermanentInt = false;
-
-		// Token: 0x040031FA RID: 12794
-		public float painFactor = 1f;
 	}
 }

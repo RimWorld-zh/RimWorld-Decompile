@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x0200098C RID: 2444
 	public static class MeshUtility
 	{
+		// Token: 0x0400237C RID: 9084
+		private static List<int> offsets = new List<int>();
+
+		// Token: 0x0400237D RID: 9085
+		private static List<bool> vertIsUsed = new List<bool>();
+
 		// Token: 0x060036FD RID: 14077 RVA: 0x001D62B4 File Offset: 0x001D46B4
 		public static void RemoveVertices(List<Vector3> verts, List<TriangleIndices> tris, Predicate<Vector3> predicate)
 		{
@@ -104,11 +110,5 @@ namespace RimWorld
 			input.a = newAlpha;
 			return input;
 		}
-
-		// Token: 0x0400237C RID: 9084
-		private static List<int> offsets = new List<int>();
-
-		// Token: 0x0400237D RID: 9085
-		private static List<bool> vertIsUsed = new List<bool>();
 	}
 }

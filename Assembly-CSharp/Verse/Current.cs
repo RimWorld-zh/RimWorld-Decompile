@@ -8,6 +8,36 @@ namespace Verse
 	// Token: 0x02000BD9 RID: 3033
 	public static class Current
 	{
+		// Token: 0x04002D45 RID: 11589
+		private static ProgramState programStateInt = ProgramState.Entry;
+
+		// Token: 0x04002D46 RID: 11590
+		private static Root rootInt;
+
+		// Token: 0x04002D47 RID: 11591
+		private static Root_Entry rootEntryInt;
+
+		// Token: 0x04002D48 RID: 11592
+		private static Root_Play rootPlayInt;
+
+		// Token: 0x04002D49 RID: 11593
+		private static Camera cameraInt;
+
+		// Token: 0x04002D4A RID: 11594
+		private static CameraDriver cameraDriverInt;
+
+		// Token: 0x04002D4B RID: 11595
+		private static ColorCorrectionCurves colorCorrectionCurvesInt;
+
+		// Token: 0x04002D4C RID: 11596
+		private static SubcameraDriver subcameraDriverInt;
+
+		// Token: 0x04002D4D RID: 11597
+		private static Game gameInt;
+
+		// Token: 0x04002D4E RID: 11598
+		private static World creatingWorldInt;
+
 		// Token: 0x17000A65 RID: 2661
 		// (get) Token: 0x06004237 RID: 16951 RVA: 0x0022DEA8 File Offset: 0x0022C2A8
 		public static Root Root
@@ -147,35 +177,5 @@ namespace Verse
 				Current.subcameraDriverInt = GameObject.Find("Subcameras").GetComponent<SubcameraDriver>();
 			}
 		}
-
-		// Token: 0x04002D45 RID: 11589
-		private static ProgramState programStateInt = ProgramState.Entry;
-
-		// Token: 0x04002D46 RID: 11590
-		private static Root rootInt;
-
-		// Token: 0x04002D47 RID: 11591
-		private static Root_Entry rootEntryInt;
-
-		// Token: 0x04002D48 RID: 11592
-		private static Root_Play rootPlayInt;
-
-		// Token: 0x04002D49 RID: 11593
-		private static Camera cameraInt;
-
-		// Token: 0x04002D4A RID: 11594
-		private static CameraDriver cameraDriverInt;
-
-		// Token: 0x04002D4B RID: 11595
-		private static ColorCorrectionCurves colorCorrectionCurvesInt;
-
-		// Token: 0x04002D4C RID: 11596
-		private static SubcameraDriver subcameraDriverInt;
-
-		// Token: 0x04002D4D RID: 11597
-		private static Game gameInt;
-
-		// Token: 0x04002D4E RID: 11598
-		private static World creatingWorldInt;
 	}
 }

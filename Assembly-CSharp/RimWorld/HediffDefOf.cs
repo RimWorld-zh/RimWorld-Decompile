@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class HediffDefOf
 	{
-		// Token: 0x0600362B RID: 13867 RVA: 0x001D09C3 File Offset: 0x001CEDC3
-		static HediffDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(HediffDefOf));
-		}
-
 		// Token: 0x04001FB5 RID: 8117
 		public static HediffDef Misc;
 
@@ -150,5 +144,11 @@ namespace RimWorld
 
 		// Token: 0x04001FE2 RID: 8162
 		public static HediffDef PowerClaw;
+
+		// Token: 0x0600362B RID: 13867 RVA: 0x001D09C3 File Offset: 0x001CEDC3
+		static HediffDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(HediffDefOf));
+		}
 	}
 }

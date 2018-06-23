@@ -7,6 +7,15 @@ namespace Verse
 	// Token: 0x02000D2F RID: 3375
 	public class HediffGiver_Birthday : HediffGiver
 	{
+		// Token: 0x0400324B RID: 12875
+		public SimpleCurve ageFractionChanceCurve = null;
+
+		// Token: 0x0400324C RID: 12876
+		public float averageSeverityPerDayBeforeGeneration = 0f;
+
+		// Token: 0x0400324D RID: 12877
+		private static List<Hediff> addedHediffs = new List<Hediff>();
+
 		// Token: 0x06004A7A RID: 19066 RVA: 0x0026D984 File Offset: 0x0026BD84
 		public void TryApplyAndSimulateSeverityChange(Pawn pawn, float gotAtAge, bool tryNotToKillPawn)
 		{
@@ -89,14 +98,5 @@ namespace Verse
 			}
 			return 1f - num;
 		}
-
-		// Token: 0x0400324B RID: 12875
-		public SimpleCurve ageFractionChanceCurve = null;
-
-		// Token: 0x0400324C RID: 12876
-		public float averageSeverityPerDayBeforeGeneration = 0f;
-
-		// Token: 0x0400324D RID: 12877
-		private static List<Hediff> addedHediffs = new List<Hediff>();
 	}
 }

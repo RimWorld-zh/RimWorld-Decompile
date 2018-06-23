@@ -9,6 +9,9 @@ namespace Verse
 	// Token: 0x02000D24 RID: 3364
 	public class HediffWithComps : Hediff
 	{
+		// Token: 0x04003238 RID: 12856
+		public List<HediffComp> comps = new List<HediffComp>();
+
 		// Token: 0x17000BCA RID: 3018
 		// (get) Token: 0x06004A24 RID: 18980 RVA: 0x000AAE0C File Offset: 0x000A920C
 		public override string LabelInBrackets
@@ -282,8 +285,5 @@ namespace Verse
 			}
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x04003238 RID: 12856
-		public List<HediffComp> comps = new List<HediffComp>();
 	}
 }

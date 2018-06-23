@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x0200050C RID: 1292
 	public class OutfitForcedHandler : IExposable
 	{
+		// Token: 0x04000DCF RID: 3535
+		private List<Apparel> forcedAps = new List<Apparel>();
+
 		// Token: 0x17000334 RID: 820
 		// (get) Token: 0x0600173F RID: 5951 RVA: 0x000CC518 File Offset: 0x000CA918
 		public bool SomethingIsForced
@@ -80,8 +83,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000DCF RID: 3535
-		private List<Apparel> forcedAps = new List<Apparel>();
 	}
 }

@@ -9,6 +9,32 @@ namespace RimWorld
 	// Token: 0x02000487 RID: 1159
 	public static class PawnBioAndNameGenerator
 	{
+		// Token: 0x04000C4A RID: 3146
+		private const float MinAgeForAdulthood = 20f;
+
+		// Token: 0x04000C4B RID: 3147
+		private const float SolidBioChance = 0.25f;
+
+		// Token: 0x04000C4C RID: 3148
+		private const float SolidNameChance = 0.5f;
+
+		// Token: 0x04000C4D RID: 3149
+		private const float TryPreferredNameChance_Bio = 0.5f;
+
+		// Token: 0x04000C4E RID: 3150
+		private const float TryPreferredNameChance_Name = 0.5f;
+
+		// Token: 0x04000C4F RID: 3151
+		private const float ShuffledNicknameChance = 0.15f;
+
+		// Token: 0x04000C50 RID: 3152
+		[CompilerGenerated]
+		private static Func<Backstory, float> <>f__mg$cache0;
+
+		// Token: 0x04000C51 RID: 3153
+		[CompilerGenerated]
+		private static Func<PawnBio, float> <>f__mg$cache1;
+
 		// Token: 0x06001474 RID: 5236 RVA: 0x000B35A0 File Offset: 0x000B19A0
 		public static void GiveAppropriateBioAndNameTo(Pawn pawn, string requiredLastName, FactionDef factionType)
 		{
@@ -351,31 +377,5 @@ namespace RimWorld
 			}
 			return num;
 		}
-
-		// Token: 0x04000C4A RID: 3146
-		private const float MinAgeForAdulthood = 20f;
-
-		// Token: 0x04000C4B RID: 3147
-		private const float SolidBioChance = 0.25f;
-
-		// Token: 0x04000C4C RID: 3148
-		private const float SolidNameChance = 0.5f;
-
-		// Token: 0x04000C4D RID: 3149
-		private const float TryPreferredNameChance_Bio = 0.5f;
-
-		// Token: 0x04000C4E RID: 3150
-		private const float TryPreferredNameChance_Name = 0.5f;
-
-		// Token: 0x04000C4F RID: 3151
-		private const float ShuffledNicknameChance = 0.15f;
-
-		// Token: 0x04000C50 RID: 3152
-		[CompilerGenerated]
-		private static Func<Backstory, float> <>f__mg$cache0;
-
-		// Token: 0x04000C51 RID: 3153
-		[CompilerGenerated]
-		private static Func<PawnBio, float> <>f__mg$cache1;
 	}
 }

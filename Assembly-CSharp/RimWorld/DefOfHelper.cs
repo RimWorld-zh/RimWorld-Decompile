@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000911 RID: 2321
 	public static class DefOfHelper
 	{
+		// Token: 0x04001D3F RID: 7487
+		private static bool bindingNow;
+
+		// Token: 0x04001D40 RID: 7488
+		private static bool earlyTry = true;
+
 		// Token: 0x06003616 RID: 13846 RVA: 0x001D0668 File Offset: 0x001CEA68
 		public static void RebindAllDefOfs(bool earlyTryMode)
 		{
@@ -74,11 +80,5 @@ namespace RimWorld
 				Log.Warning("Tried to use an uninitialized DefOf of type " + defOf.Name + ". DefOfs are initialized right after all defs all loaded. Uninitialized DefOfs will return only nulls. (hint: don't use DefOfs as default field values in Defs, try to resolve them in ResolveReferences() instead)" + ((!text.NullOrEmpty()) ? (" Debug info: " + text) : ""), false);
 			}
 		}
-
-		// Token: 0x04001D3F RID: 7487
-		private static bool bindingNow;
-
-		// Token: 0x04001D40 RID: 7488
-		private static bool earlyTry = true;
 	}
 }

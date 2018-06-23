@@ -5,6 +5,48 @@ namespace Ionic.Zlib
 	// Token: 0x02000010 RID: 16
 	internal sealed class InflateManager
 	{
+		// Token: 0x040000C5 RID: 197
+		private const int PRESET_DICT = 32;
+
+		// Token: 0x040000C6 RID: 198
+		private const int Z_DEFLATED = 8;
+
+		// Token: 0x040000C7 RID: 199
+		private InflateManager.InflateManagerMode mode;
+
+		// Token: 0x040000C8 RID: 200
+		internal ZlibCodec _codec;
+
+		// Token: 0x040000C9 RID: 201
+		internal int method;
+
+		// Token: 0x040000CA RID: 202
+		internal uint computedCheck;
+
+		// Token: 0x040000CB RID: 203
+		internal uint expectedCheck;
+
+		// Token: 0x040000CC RID: 204
+		internal int marker;
+
+		// Token: 0x040000CD RID: 205
+		private bool _handleRfc1950HeaderBytes = true;
+
+		// Token: 0x040000CE RID: 206
+		internal int wbits;
+
+		// Token: 0x040000CF RID: 207
+		internal InflateBlocks blocks;
+
+		// Token: 0x040000D0 RID: 208
+		private static readonly byte[] mark = new byte[]
+		{
+			0,
+			0,
+			byte.MaxValue,
+			byte.MaxValue
+		};
+
 		// Token: 0x060000AD RID: 173 RVA: 0x000093D2 File Offset: 0x000077D2
 		public InflateManager()
 		{
@@ -384,48 +426,6 @@ namespace Ionic.Zlib
 		{
 			return this.blocks.SyncPoint();
 		}
-
-		// Token: 0x040000C5 RID: 197
-		private const int PRESET_DICT = 32;
-
-		// Token: 0x040000C6 RID: 198
-		private const int Z_DEFLATED = 8;
-
-		// Token: 0x040000C7 RID: 199
-		private InflateManager.InflateManagerMode mode;
-
-		// Token: 0x040000C8 RID: 200
-		internal ZlibCodec _codec;
-
-		// Token: 0x040000C9 RID: 201
-		internal int method;
-
-		// Token: 0x040000CA RID: 202
-		internal uint computedCheck;
-
-		// Token: 0x040000CB RID: 203
-		internal uint expectedCheck;
-
-		// Token: 0x040000CC RID: 204
-		internal int marker;
-
-		// Token: 0x040000CD RID: 205
-		private bool _handleRfc1950HeaderBytes = true;
-
-		// Token: 0x040000CE RID: 206
-		internal int wbits;
-
-		// Token: 0x040000CF RID: 207
-		internal InflateBlocks blocks;
-
-		// Token: 0x040000D0 RID: 208
-		private static readonly byte[] mark = new byte[]
-		{
-			0,
-			0,
-			byte.MaxValue,
-			byte.MaxValue
-		};
 
 		// Token: 0x02000011 RID: 17
 		private enum InflateManagerMode

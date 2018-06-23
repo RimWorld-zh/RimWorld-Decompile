@@ -7,6 +7,38 @@ namespace RimWorld
 	// Token: 0x020000AD RID: 173
 	public class JobGiver_BingeDrug : JobGiver_Binge
 	{
+		// Token: 0x0400027D RID: 637
+		private const int BaseIngestInterval = 600;
+
+		// Token: 0x0400027E RID: 638
+		private const float OverdoseSeverityToAvoid = 0.786f;
+
+		// Token: 0x0400027F RID: 639
+		private static readonly SimpleCurve IngestIntervalFactorCurve_Drunkness = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 1f),
+				true
+			},
+			{
+				new CurvePoint(1f, 4f),
+				true
+			}
+		};
+
+		// Token: 0x04000280 RID: 640
+		private static readonly SimpleCurve IngestIntervalFactorCurve_DrugOverdose = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 1f),
+				true
+			},
+			{
+				new CurvePoint(1f, 5f),
+				true
+			}
+		};
+
 		// Token: 0x0600042E RID: 1070 RVA: 0x00031C60 File Offset: 0x00030060
 		protected override int IngestInterval(Pawn pawn)
 		{
@@ -85,37 +117,5 @@ namespace RimWorld
 		{
 			return ((MentalState_BingingDrug)pawn.MentalState).drugCategory;
 		}
-
-		// Token: 0x0400027D RID: 637
-		private const int BaseIngestInterval = 600;
-
-		// Token: 0x0400027E RID: 638
-		private const float OverdoseSeverityToAvoid = 0.786f;
-
-		// Token: 0x0400027F RID: 639
-		private static readonly SimpleCurve IngestIntervalFactorCurve_Drunkness = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 1f),
-				true
-			},
-			{
-				new CurvePoint(1f, 4f),
-				true
-			}
-		};
-
-		// Token: 0x04000280 RID: 640
-		private static readonly SimpleCurve IngestIntervalFactorCurve_DrugOverdose = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 1f),
-				true
-			},
-			{
-				new CurvePoint(1f, 5f),
-				true
-			}
-		};
 	}
 }

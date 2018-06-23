@@ -9,6 +9,48 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public abstract class Command : Gizmo
 	{
+		// Token: 0x0400397B RID: 14715
+		public string defaultLabel = null;
+
+		// Token: 0x0400397C RID: 14716
+		public string defaultDesc = "No description.";
+
+		// Token: 0x0400397D RID: 14717
+		public Texture2D icon = null;
+
+		// Token: 0x0400397E RID: 14718
+		public float iconAngle;
+
+		// Token: 0x0400397F RID: 14719
+		public Vector2 iconProportions = Vector2.one;
+
+		// Token: 0x04003980 RID: 14720
+		public Rect iconTexCoords = new Rect(0f, 0f, 1f, 1f);
+
+		// Token: 0x04003981 RID: 14721
+		public float iconDrawScale = 1f;
+
+		// Token: 0x04003982 RID: 14722
+		public Vector2 iconOffset;
+
+		// Token: 0x04003983 RID: 14723
+		public Color defaultIconColor = Color.white;
+
+		// Token: 0x04003984 RID: 14724
+		public KeyBindingDef hotKey;
+
+		// Token: 0x04003985 RID: 14725
+		public SoundDef activateSound = null;
+
+		// Token: 0x04003986 RID: 14726
+		public int groupKey = 0;
+
+		// Token: 0x04003987 RID: 14727
+		public string tutorTag = "TutorTagNotSet";
+
+		// Token: 0x04003988 RID: 14728
+		public static readonly Texture2D BGTex = ContentFinder<Texture2D>.Get("UI/Widgets/DesButBG", true);
+
 		// Token: 0x17000D9E RID: 3486
 		// (get) Token: 0x060056CB RID: 22219 RVA: 0x0015A1B8 File Offset: 0x001585B8
 		public virtual string Label
@@ -240,47 +282,5 @@ namespace Verse
 				")"
 			});
 		}
-
-		// Token: 0x0400397B RID: 14715
-		public string defaultLabel = null;
-
-		// Token: 0x0400397C RID: 14716
-		public string defaultDesc = "No description.";
-
-		// Token: 0x0400397D RID: 14717
-		public Texture2D icon = null;
-
-		// Token: 0x0400397E RID: 14718
-		public float iconAngle;
-
-		// Token: 0x0400397F RID: 14719
-		public Vector2 iconProportions = Vector2.one;
-
-		// Token: 0x04003980 RID: 14720
-		public Rect iconTexCoords = new Rect(0f, 0f, 1f, 1f);
-
-		// Token: 0x04003981 RID: 14721
-		public float iconDrawScale = 1f;
-
-		// Token: 0x04003982 RID: 14722
-		public Vector2 iconOffset;
-
-		// Token: 0x04003983 RID: 14723
-		public Color defaultIconColor = Color.white;
-
-		// Token: 0x04003984 RID: 14724
-		public KeyBindingDef hotKey;
-
-		// Token: 0x04003985 RID: 14725
-		public SoundDef activateSound = null;
-
-		// Token: 0x04003986 RID: 14726
-		public int groupKey = 0;
-
-		// Token: 0x04003987 RID: 14727
-		public string tutorTag = "TutorTagNotSet";
-
-		// Token: 0x04003988 RID: 14728
-		public static readonly Texture2D BGTex = ContentFinder<Texture2D>.Get("UI/Widgets/DesButBG", true);
 	}
 }

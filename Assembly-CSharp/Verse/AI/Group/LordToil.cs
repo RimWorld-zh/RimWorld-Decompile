@@ -8,6 +8,18 @@ namespace Verse.AI.Group
 	// Token: 0x020009ED RID: 2541
 	public abstract class LordToil
 	{
+		// Token: 0x0400246E RID: 9326
+		public Lord lord;
+
+		// Token: 0x0400246F RID: 9327
+		public LordToilData data;
+
+		// Token: 0x04002470 RID: 9328
+		private List<Func<bool>> failConditions = new List<Func<bool>>();
+
+		// Token: 0x04002471 RID: 9329
+		public AvoidGridMode avoidGridMode = AvoidGridMode.Basic;
+
 		// Token: 0x170008CA RID: 2250
 		// (get) Token: 0x0600391A RID: 14618 RVA: 0x0004DC8C File Offset: 0x0004C08C
 		public Map Map
@@ -154,17 +166,5 @@ namespace Verse.AI.Group
 			}
 			return text;
 		}
-
-		// Token: 0x0400246E RID: 9326
-		public Lord lord;
-
-		// Token: 0x0400246F RID: 9327
-		public LordToilData data;
-
-		// Token: 0x04002470 RID: 9328
-		private List<Func<bool>> failConditions = new List<Func<bool>>();
-
-		// Token: 0x04002471 RID: 9329
-		public AvoidGridMode avoidGridMode = AvoidGridMode.Basic;
 	}
 }

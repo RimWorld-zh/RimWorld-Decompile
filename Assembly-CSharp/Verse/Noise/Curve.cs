@@ -8,6 +8,9 @@ namespace Verse.Noise
 	// Token: 0x02000F89 RID: 3977
 	public class Curve : ModuleBase
 	{
+		// Token: 0x04003F15 RID: 16149
+		private List<KeyValuePair<double, double>> m_data = new List<KeyValuePair<double, double>>();
+
 		// Token: 0x06006020 RID: 24608 RVA: 0x0030D6A5 File Offset: 0x0030BAA5
 		public Curve() : base(1)
 		{
@@ -88,8 +91,5 @@ namespace Verse.Noise
 			}
 			return result;
 		}
-
-		// Token: 0x04003F15 RID: 16149
-		private List<KeyValuePair<double, double>> m_data = new List<KeyValuePair<double, double>>();
 	}
 }

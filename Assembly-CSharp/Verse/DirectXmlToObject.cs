@@ -9,6 +9,33 @@ namespace Verse
 	// Token: 0x02000D84 RID: 3460
 	public static class DirectXmlToObject
 	{
+		// Token: 0x040033AA RID: 13226
+		public static Stack<Type> currentlyInstantiatingObjectOfType = new Stack<Type>();
+
+		// Token: 0x040033AB RID: 13227
+		public const string DictionaryKeyName = "key";
+
+		// Token: 0x040033AC RID: 13228
+		public const string DictionaryValueName = "value";
+
+		// Token: 0x040033AD RID: 13229
+		public const string LoadDataFromXmlCustomMethodName = "LoadDataFromXmlCustom";
+
+		// Token: 0x040033AE RID: 13230
+		public const string PostLoadMethodName = "PostLoad";
+
+		// Token: 0x040033AF RID: 13231
+		public const string ObjectFromXmlMethodName = "ObjectFromXml";
+
+		// Token: 0x040033B0 RID: 13232
+		public const string ListFromXmlMethodName = "ListFromXml";
+
+		// Token: 0x040033B1 RID: 13233
+		public const string DictionaryFromXmlMethodName = "DictionaryFromXml";
+
+		// Token: 0x040033B2 RID: 13234
+		private static Dictionary<Type, Dictionary<string, FieldInfo>> fieldInfoLookup = new Dictionary<Type, Dictionary<string, FieldInfo>>();
+
 		// Token: 0x06004D77 RID: 19831 RVA: 0x0028659C File Offset: 0x0028499C
 		public static T ObjectFromXml<T>(XmlNode xmlRoot, bool doPostLoad) where T : new()
 		{
@@ -533,32 +560,5 @@ namespace Verse
 			}
 			return field;
 		}
-
-		// Token: 0x040033AA RID: 13226
-		public static Stack<Type> currentlyInstantiatingObjectOfType = new Stack<Type>();
-
-		// Token: 0x040033AB RID: 13227
-		public const string DictionaryKeyName = "key";
-
-		// Token: 0x040033AC RID: 13228
-		public const string DictionaryValueName = "value";
-
-		// Token: 0x040033AD RID: 13229
-		public const string LoadDataFromXmlCustomMethodName = "LoadDataFromXmlCustom";
-
-		// Token: 0x040033AE RID: 13230
-		public const string PostLoadMethodName = "PostLoad";
-
-		// Token: 0x040033AF RID: 13231
-		public const string ObjectFromXmlMethodName = "ObjectFromXml";
-
-		// Token: 0x040033B0 RID: 13232
-		public const string ListFromXmlMethodName = "ListFromXml";
-
-		// Token: 0x040033B1 RID: 13233
-		public const string DictionaryFromXmlMethodName = "DictionaryFromXml";
-
-		// Token: 0x040033B2 RID: 13234
-		private static Dictionary<Type, Dictionary<string, FieldInfo>> fieldInfoLookup = new Dictionary<Type, Dictionary<string, FieldInfo>>();
 	}
 }

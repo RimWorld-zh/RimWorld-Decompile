@@ -10,6 +10,9 @@ namespace RimWorld
 	// Token: 0x02000641 RID: 1601
 	public class ScenPart_PlayerFaction : ScenPart
 	{
+		// Token: 0x040012EE RID: 4846
+		internal FactionDef factionDef;
+
 		// Token: 0x0600213A RID: 8506 RVA: 0x0011A5CA File Offset: 0x001189CA
 		public override void ExposeData()
 		{
@@ -88,8 +91,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x040012EE RID: 4846
-		internal FactionDef factionDef;
 	}
 }

@@ -6,6 +6,18 @@ namespace Verse
 	// Token: 0x02000C44 RID: 3140
 	internal class SectionLayer_EdgeShadows : SectionLayer
 	{
+		// Token: 0x04002F5B RID: 12123
+		private const float InDist = 0.45f;
+
+		// Token: 0x04002F5C RID: 12124
+		private const byte ShadowBrightness = 195;
+
+		// Token: 0x04002F5D RID: 12125
+		private static readonly Color32 Shadowed = new Color32(195, 195, 195, byte.MaxValue);
+
+		// Token: 0x04002F5E RID: 12126
+		private static readonly Color32 Lit = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue);
+
 		// Token: 0x06004542 RID: 17730 RVA: 0x0024836A File Offset: 0x0024676A
 		public SectionLayer_EdgeShadows(Section section) : base(section)
 		{
@@ -259,17 +271,5 @@ namespace Verse
 				sm.FinalizeMesh(MeshParts.Verts | MeshParts.Tris | MeshParts.Colors);
 			}
 		}
-
-		// Token: 0x04002F5B RID: 12123
-		private const float InDist = 0.45f;
-
-		// Token: 0x04002F5C RID: 12124
-		private const byte ShadowBrightness = 195;
-
-		// Token: 0x04002F5D RID: 12125
-		private static readonly Color32 Shadowed = new Color32(195, 195, 195, byte.MaxValue);
-
-		// Token: 0x04002F5E RID: 12126
-		private static readonly Color32 Lit = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue);
 	}
 }

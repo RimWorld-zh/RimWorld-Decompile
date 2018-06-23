@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020006E3 RID: 1763
 	public static class DropPodUtility
 	{
+		// Token: 0x04001568 RID: 5480
+		private static List<List<Thing>> tempList = new List<List<Thing>>();
+
 		// Token: 0x06002664 RID: 9828 RVA: 0x00149B70 File Offset: 0x00147F70
 		public static void MakeDropPodAt(IntVec3 c, Map map, ActiveDropPodInfo info, bool explode = false)
 		{
@@ -73,8 +76,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04001568 RID: 5480
-		private static List<List<Thing>> tempList = new List<List<Thing>>();
 	}
 }

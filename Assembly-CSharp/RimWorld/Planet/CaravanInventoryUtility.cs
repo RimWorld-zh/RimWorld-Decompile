@@ -8,6 +8,18 @@ namespace RimWorld.Planet
 	// Token: 0x020005DC RID: 1500
 	public static class CaravanInventoryUtility
 	{
+		// Token: 0x04001193 RID: 4499
+		private static List<Thing> inventoryItems = new List<Thing>();
+
+		// Token: 0x04001194 RID: 4500
+		private static List<Thing> inventoryToMove = new List<Thing>();
+
+		// Token: 0x04001195 RID: 4501
+		private static List<Apparel> tmpApparel = new List<Apparel>();
+
+		// Token: 0x04001196 RID: 4502
+		private static List<ThingWithComps> tmpEquipment = new List<ThingWithComps>();
+
 		// Token: 0x06001D98 RID: 7576 RVA: 0x000FF410 File Offset: 0x000FD810
 		public static List<Thing> AllInventoryItems(Caravan caravan)
 		{
@@ -376,17 +388,5 @@ namespace RimWorld.Planet
 			}
 			return num >= count;
 		}
-
-		// Token: 0x04001193 RID: 4499
-		private static List<Thing> inventoryItems = new List<Thing>();
-
-		// Token: 0x04001194 RID: 4500
-		private static List<Thing> inventoryToMove = new List<Thing>();
-
-		// Token: 0x04001195 RID: 4501
-		private static List<Apparel> tmpApparel = new List<Apparel>();
-
-		// Token: 0x04001196 RID: 4502
-		private static List<ThingWithComps> tmpEquipment = new List<ThingWithComps>();
 	}
 }

@@ -8,6 +8,15 @@ namespace UnityStandardAssets.ImageEffects
 	[RequireComponent(typeof(Camera))]
 	public class PostEffectsBase : MonoBehaviour
 	{
+		// Token: 0x0400082F RID: 2095
+		protected bool supportHDRTextures = true;
+
+		// Token: 0x04000830 RID: 2096
+		protected bool supportDX11 = false;
+
+		// Token: 0x04000831 RID: 2097
+		protected bool isSupported = true;
+
 		// Token: 0x0600093C RID: 2364 RVA: 0x0000F5C0 File Offset: 0x0000D7C0
 		protected Material CheckShaderAndCreateMaterial(Shader s, Material m2Create)
 		{
@@ -275,14 +284,5 @@ namespace UnityStandardAssets.ImageEffects
 			}
 			GL.PopMatrix();
 		}
-
-		// Token: 0x0400082F RID: 2095
-		protected bool supportHDRTextures = true;
-
-		// Token: 0x04000830 RID: 2096
-		protected bool supportDX11 = false;
-
-		// Token: 0x04000831 RID: 2097
-		protected bool isSupported = true;
 	}
 }

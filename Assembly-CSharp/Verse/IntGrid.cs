@@ -5,6 +5,15 @@ namespace Verse
 	// Token: 0x02000C22 RID: 3106
 	public sealed class IntGrid
 	{
+		// Token: 0x04002E64 RID: 11876
+		private int[] grid;
+
+		// Token: 0x04002E65 RID: 11877
+		private int mapSizeX;
+
+		// Token: 0x04002E66 RID: 11878
+		private int mapSizeZ;
+
 		// Token: 0x06004427 RID: 17447 RVA: 0x0023E5B6 File Offset: 0x0023C9B6
 		public IntGrid()
 		{
@@ -116,14 +125,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04002E64 RID: 11876
-		private int[] grid;
-
-		// Token: 0x04002E65 RID: 11877
-		private int mapSizeX;
-
-		// Token: 0x04002E66 RID: 11878
-		private int mapSizeZ;
 	}
 }

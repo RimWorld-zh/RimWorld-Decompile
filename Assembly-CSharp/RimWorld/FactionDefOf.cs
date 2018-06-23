@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class FactionDefOf
 	{
-		// Token: 0x06003622 RID: 13858 RVA: 0x001D0921 File Offset: 0x001CED21
-		static FactionDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(FactionDefOf));
-		}
-
 		// Token: 0x04001EC0 RID: 7872
 		public static FactionDef PlayerColony;
 
@@ -29,5 +23,11 @@ namespace RimWorld
 
 		// Token: 0x04001EC5 RID: 7877
 		public static FactionDef Insect;
+
+		// Token: 0x06003622 RID: 13858 RVA: 0x001D0921 File Offset: 0x001CED21
+		static FactionDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(FactionDefOf));
+		}
 	}
 }

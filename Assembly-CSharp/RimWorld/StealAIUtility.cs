@@ -10,6 +10,18 @@ namespace RimWorld
 	// Token: 0x020000DA RID: 218
 	public static class StealAIUtility
 	{
+		// Token: 0x040002AA RID: 682
+		private const float MinMarketValueToTake = 320f;
+
+		// Token: 0x040002AB RID: 683
+		private static readonly FloatRange StealThresholdValuePerCombatPowerRange = new FloatRange(2f, 10f);
+
+		// Token: 0x040002AC RID: 684
+		private const float MinCombatPowerPerPawn = 100f;
+
+		// Token: 0x040002AD RID: 685
+		private static List<Thing> tmpToSteal = new List<Thing>();
+
 		// Token: 0x060004CA RID: 1226 RVA: 0x00035978 File Offset: 0x00033D78
 		public static bool TryFindBestItemToSteal(IntVec3 root, Map map, float maxDist, out Thing item, Pawn thief, List<Thing> disallowed = null)
 		{
@@ -78,17 +90,5 @@ namespace RimWorld
 		{
 			return thing.MarketValue * (float)thing.stackCount;
 		}
-
-		// Token: 0x040002AA RID: 682
-		private const float MinMarketValueToTake = 320f;
-
-		// Token: 0x040002AB RID: 683
-		private static readonly FloatRange StealThresholdValuePerCombatPowerRange = new FloatRange(2f, 10f);
-
-		// Token: 0x040002AC RID: 684
-		private const float MinCombatPowerPerPawn = 100f;
-
-		// Token: 0x040002AD RID: 685
-		private static List<Thing> tmpToSteal = new List<Thing>();
 	}
 }

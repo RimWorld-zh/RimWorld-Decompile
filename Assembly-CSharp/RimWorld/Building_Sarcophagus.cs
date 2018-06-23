@@ -6,6 +6,12 @@ namespace RimWorld
 	// Token: 0x020006AD RID: 1709
 	public class Building_Sarcophagus : Building_Grave
 	{
+		// Token: 0x0400143F RID: 5183
+		private bool everNonEmpty = false;
+
+		// Token: 0x04001440 RID: 5184
+		private bool thisIsFirstBodyEver = false;
+
 		// Token: 0x060024B4 RID: 9396 RVA: 0x0013A566 File Offset: 0x00138966
 		public override void ExposeData()
 		{
@@ -46,11 +52,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x0400143F RID: 5183
-		private bool everNonEmpty = false;
-
-		// Token: 0x04001440 RID: 5184
-		private bool thisIsFirstBodyEver = false;
 	}
 }

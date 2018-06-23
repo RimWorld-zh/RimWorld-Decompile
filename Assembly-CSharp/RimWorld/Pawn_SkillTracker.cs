@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x02000521 RID: 1313
 	public class Pawn_SkillTracker : IExposable
 	{
+		// Token: 0x04000E3C RID: 3644
+		private Pawn pawn;
+
+		// Token: 0x04000E3D RID: 3645
+		public List<SkillRecord> skills = new List<SkillRecord>();
+
+		// Token: 0x04000E3E RID: 3646
+		private int lastXpSinceMidnightResetTimestamp = -1;
+
 		// Token: 0x060017FB RID: 6139 RVA: 0x000D1B30 File Offset: 0x000CFF30
 		public Pawn_SkillTracker(Pawn newPawn)
 		{
@@ -126,14 +135,5 @@ namespace RimWorld
 				this.skills[i].Notify_SkillDisablesChanged();
 			}
 		}
-
-		// Token: 0x04000E3C RID: 3644
-		private Pawn pawn;
-
-		// Token: 0x04000E3D RID: 3645
-		public List<SkillRecord> skills = new List<SkillRecord>();
-
-		// Token: 0x04000E3E RID: 3646
-		private int lastXpSinceMidnightResetTimestamp = -1;
 	}
 }

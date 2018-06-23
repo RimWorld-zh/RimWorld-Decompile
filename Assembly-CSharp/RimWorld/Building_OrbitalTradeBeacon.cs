@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x020006AA RID: 1706
 	public class Building_OrbitalTradeBeacon : Building
 	{
+		// Token: 0x0400143A RID: 5178
+		private const float TradeRadius = 7.9f;
+
+		// Token: 0x0400143B RID: 5179
+		private static List<IntVec3> tradeableCells = new List<IntVec3>();
+
 		// Token: 0x17000588 RID: 1416
 		// (get) Token: 0x0600249C RID: 9372 RVA: 0x001397AC File Offset: 0x00137BAC
 		public IEnumerable<IntVec3> TradeableCells
@@ -97,11 +103,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x0400143A RID: 5178
-		private const float TradeRadius = 7.9f;
-
-		// Token: 0x0400143B RID: 5179
-		private static List<IntVec3> tradeableCells = new List<IntVec3>();
 	}
 }

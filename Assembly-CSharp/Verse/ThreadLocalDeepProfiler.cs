@@ -9,6 +9,15 @@ namespace Verse
 	// Token: 0x02000F11 RID: 3857
 	public class ThreadLocalDeepProfiler
 	{
+		// Token: 0x04003D75 RID: 15733
+		private Stack<ThreadLocalDeepProfiler.Watcher> watchers = new Stack<ThreadLocalDeepProfiler.Watcher>();
+
+		// Token: 0x04003D76 RID: 15734
+		private static readonly string[] Prefixes = new string[50];
+
+		// Token: 0x04003D77 RID: 15735
+		private const int MaxDepth = 50;
+
 		// Token: 0x06005C96 RID: 23702 RVA: 0x002F0290 File Offset: 0x002EE690
 		static ThreadLocalDeepProfiler()
 		{
@@ -94,18 +103,18 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003D75 RID: 15733
-		private Stack<ThreadLocalDeepProfiler.Watcher> watchers = new Stack<ThreadLocalDeepProfiler.Watcher>();
-
-		// Token: 0x04003D76 RID: 15734
-		private static readonly string[] Prefixes = new string[50];
-
-		// Token: 0x04003D77 RID: 15735
-		private const int MaxDepth = 50;
-
 		// Token: 0x02000F12 RID: 3858
 		private class Watcher
 		{
+			// Token: 0x04003D78 RID: 15736
+			private string label;
+
+			// Token: 0x04003D79 RID: 15737
+			private Stopwatch watch;
+
+			// Token: 0x04003D7A RID: 15738
+			private List<ThreadLocalDeepProfiler.Watcher> children;
+
 			// Token: 0x06005C9C RID: 23708 RVA: 0x002F04B7 File Offset: 0x002EE8B7
 			public Watcher(string label)
 			{
@@ -153,15 +162,6 @@ namespace Verse
 				}
 				this.children.Add(w);
 			}
-
-			// Token: 0x04003D78 RID: 15736
-			private string label;
-
-			// Token: 0x04003D79 RID: 15737
-			private Stopwatch watch;
-
-			// Token: 0x04003D7A RID: 15738
-			private List<ThreadLocalDeepProfiler.Watcher> children;
 		}
 	}
 }

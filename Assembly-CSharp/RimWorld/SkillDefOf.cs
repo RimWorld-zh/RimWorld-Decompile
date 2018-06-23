@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class SkillDefOf
 	{
-		// Token: 0x06003621 RID: 13857 RVA: 0x001D090F File Offset: 0x001CED0F
-		static SkillDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(SkillDefOf));
-		}
-
 		// Token: 0x04001EB4 RID: 7860
 		public static SkillDef Construction;
 
@@ -47,5 +41,11 @@ namespace RimWorld
 
 		// Token: 0x04001EBF RID: 7871
 		public static SkillDef Crafting;
+
+		// Token: 0x06003621 RID: 13857 RVA: 0x001D090F File Offset: 0x001CED0F
+		static SkillDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(SkillDefOf));
+		}
 	}
 }

@@ -5,6 +5,9 @@ namespace Steamworks
 	// Token: 0x02000161 RID: 353
 	public struct SNetListenSocket_t : IEquatable<SNetListenSocket_t>, IComparable<SNetListenSocket_t>
 	{
+		// Token: 0x04000676 RID: 1654
+		public uint m_SNetListenSocket;
+
 		// Token: 0x060007F6 RID: 2038 RVA: 0x0000DDF8 File Offset: 0x0000BFF8
 		public SNetListenSocket_t(uint value)
 		{
@@ -64,8 +67,5 @@ namespace Steamworks
 		{
 			return this.m_SNetListenSocket.CompareTo(other.m_SNetListenSocket);
 		}
-
-		// Token: 0x04000676 RID: 1654
-		public uint m_SNetListenSocket;
 	}
 }

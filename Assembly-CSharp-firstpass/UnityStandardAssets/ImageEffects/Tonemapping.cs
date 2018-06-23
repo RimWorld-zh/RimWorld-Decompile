@@ -9,6 +9,45 @@ namespace UnityStandardAssets.ImageEffects
 	[AddComponentMenu("Image Effects/Color Adjustments/Tonemapping")]
 	public class Tonemapping : PostEffectsBase
 	{
+		// Token: 0x04000879 RID: 2169
+		public Tonemapping.TonemapperType type = Tonemapping.TonemapperType.Photographic;
+
+		// Token: 0x0400087A RID: 2170
+		public Tonemapping.AdaptiveTexSize adaptiveTextureSize = Tonemapping.AdaptiveTexSize.Square256;
+
+		// Token: 0x0400087B RID: 2171
+		public AnimationCurve remapCurve;
+
+		// Token: 0x0400087C RID: 2172
+		private Texture2D curveTex = null;
+
+		// Token: 0x0400087D RID: 2173
+		public float exposureAdjustment = 1.5f;
+
+		// Token: 0x0400087E RID: 2174
+		public float middleGrey = 0.4f;
+
+		// Token: 0x0400087F RID: 2175
+		public float white = 2f;
+
+		// Token: 0x04000880 RID: 2176
+		public float adaptionSpeed = 1.5f;
+
+		// Token: 0x04000881 RID: 2177
+		public Shader tonemapper = null;
+
+		// Token: 0x04000882 RID: 2178
+		public bool validRenderTextureFormat = true;
+
+		// Token: 0x04000883 RID: 2179
+		private Material tonemapMaterial = null;
+
+		// Token: 0x04000884 RID: 2180
+		private RenderTexture rt = null;
+
+		// Token: 0x04000885 RID: 2181
+		private RenderTextureFormat rtFormat = RenderTextureFormat.ARGBHalf;
+
 		// Token: 0x0600096C RID: 2412 RVA: 0x00019198 File Offset: 0x00017398
 		public override bool CheckResources()
 		{
@@ -191,45 +230,6 @@ namespace UnityStandardAssets.ImageEffects
 				}
 			}
 		}
-
-		// Token: 0x04000879 RID: 2169
-		public Tonemapping.TonemapperType type = Tonemapping.TonemapperType.Photographic;
-
-		// Token: 0x0400087A RID: 2170
-		public Tonemapping.AdaptiveTexSize adaptiveTextureSize = Tonemapping.AdaptiveTexSize.Square256;
-
-		// Token: 0x0400087B RID: 2171
-		public AnimationCurve remapCurve;
-
-		// Token: 0x0400087C RID: 2172
-		private Texture2D curveTex = null;
-
-		// Token: 0x0400087D RID: 2173
-		public float exposureAdjustment = 1.5f;
-
-		// Token: 0x0400087E RID: 2174
-		public float middleGrey = 0.4f;
-
-		// Token: 0x0400087F RID: 2175
-		public float white = 2f;
-
-		// Token: 0x04000880 RID: 2176
-		public float adaptionSpeed = 1.5f;
-
-		// Token: 0x04000881 RID: 2177
-		public Shader tonemapper = null;
-
-		// Token: 0x04000882 RID: 2178
-		public bool validRenderTextureFormat = true;
-
-		// Token: 0x04000883 RID: 2179
-		private Material tonemapMaterial = null;
-
-		// Token: 0x04000884 RID: 2180
-		private RenderTexture rt = null;
-
-		// Token: 0x04000885 RID: 2181
-		private RenderTextureFormat rtFormat = RenderTextureFormat.ARGBHalf;
 
 		// Token: 0x020001B0 RID: 432
 		public enum TonemapperType

@@ -10,6 +10,12 @@ namespace RimWorld
 	// Token: 0x02000869 RID: 2153
 	public class MainButtonsRoot
 	{
+		// Token: 0x04001A79 RID: 6777
+		public MainTabsRoot tabs = new MainTabsRoot();
+
+		// Token: 0x04001A7A RID: 6778
+		private List<MainButtonDef> allButtonsInOrder;
+
 		// Token: 0x060030F8 RID: 12536 RVA: 0x001A9D38 File Offset: 0x001A8138
 		public MainButtonsRoot()
 		{
@@ -91,11 +97,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04001A79 RID: 6777
-		public MainTabsRoot tabs = new MainTabsRoot();
-
-		// Token: 0x04001A7A RID: 6778
-		private List<MainButtonDef> allButtonsInOrder;
 	}
 }

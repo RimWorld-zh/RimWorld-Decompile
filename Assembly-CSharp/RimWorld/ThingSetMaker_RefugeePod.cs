@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020006F8 RID: 1784
 	public class ThingSetMaker_RefugeePod : ThingSetMaker
 	{
+		// Token: 0x040015A5 RID: 5541
+		private const float RelationWithColonistWeight = 20f;
+
 		// Token: 0x060026E7 RID: 9959 RVA: 0x0014E2F4 File Offset: 0x0014C6F4
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
@@ -22,8 +25,5 @@ namespace RimWorld
 			yield return PawnKindDefOf.SpaceRefugee.race;
 			yield break;
 		}
-
-		// Token: 0x040015A5 RID: 5541
-		private const float RelationWithColonistWeight = 20f;
 	}
 }

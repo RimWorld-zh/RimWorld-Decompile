@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x020003FF RID: 1023
 	public class GenStep_ScatterRuinsSimple : GenStep_Scatterer
 	{
+		// Token: 0x04000AAE RID: 2734
+		public IntRange ShedSizeRange = new IntRange(3, 10);
+
+		// Token: 0x04000AAF RID: 2735
+		public IntRange WallLengthRange = new IntRange(4, 14);
+
 		// Token: 0x17000259 RID: 601
 		// (get) Token: 0x06001195 RID: 4501 RVA: 0x000986F4 File Offset: 0x00096AF4
 		public override int SeedPart
@@ -124,11 +130,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000AAE RID: 2734
-		public IntRange ShedSizeRange = new IntRange(3, 10);
-
-		// Token: 0x04000AAF RID: 2735
-		public IntRange WallLengthRange = new IntRange(4, 14);
 	}
 }

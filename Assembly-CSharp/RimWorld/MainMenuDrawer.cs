@@ -12,6 +12,36 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class MainMenuDrawer
 	{
+		// Token: 0x0400195B RID: 6491
+		private static bool anyMapFiles;
+
+		// Token: 0x0400195C RID: 6492
+		private const float PlayRectWidth = 170f;
+
+		// Token: 0x0400195D RID: 6493
+		private const float WebRectWidth = 145f;
+
+		// Token: 0x0400195E RID: 6494
+		private const float RightEdgeMargin = 50f;
+
+		// Token: 0x0400195F RID: 6495
+		private static readonly Vector2 PaneSize = new Vector2(450f, 450f);
+
+		// Token: 0x04001960 RID: 6496
+		private static readonly Vector2 TitleSize = new Vector2(1032f, 146f);
+
+		// Token: 0x04001961 RID: 6497
+		private static readonly Texture2D TexTitle = ContentFinder<Texture2D>.Get("UI/HeroArt/GameTitle", true);
+
+		// Token: 0x04001962 RID: 6498
+		private const float TitleShift = 50f;
+
+		// Token: 0x04001963 RID: 6499
+		private static readonly Vector2 LudeonLogoSize = new Vector2(200f, 58f);
+
+		// Token: 0x04001964 RID: 6500
+		private static readonly Texture2D TexLudeonLogo = ContentFinder<Texture2D>.Get("UI/HeroArt/LudeonLogoSmall", true);
+
 		// Token: 0x06002F11 RID: 12049 RVA: 0x00192CC4 File Offset: 0x001910C4
 		public static void Init()
 		{
@@ -279,35 +309,5 @@ namespace RimWorld
 				Find.MainTabsRoot.EscapeCurrentTab(false);
 			}
 		}
-
-		// Token: 0x0400195B RID: 6491
-		private static bool anyMapFiles;
-
-		// Token: 0x0400195C RID: 6492
-		private const float PlayRectWidth = 170f;
-
-		// Token: 0x0400195D RID: 6493
-		private const float WebRectWidth = 145f;
-
-		// Token: 0x0400195E RID: 6494
-		private const float RightEdgeMargin = 50f;
-
-		// Token: 0x0400195F RID: 6495
-		private static readonly Vector2 PaneSize = new Vector2(450f, 450f);
-
-		// Token: 0x04001960 RID: 6496
-		private static readonly Vector2 TitleSize = new Vector2(1032f, 146f);
-
-		// Token: 0x04001961 RID: 6497
-		private static readonly Texture2D TexTitle = ContentFinder<Texture2D>.Get("UI/HeroArt/GameTitle", true);
-
-		// Token: 0x04001962 RID: 6498
-		private const float TitleShift = 50f;
-
-		// Token: 0x04001963 RID: 6499
-		private static readonly Vector2 LudeonLogoSize = new Vector2(200f, 58f);
-
-		// Token: 0x04001964 RID: 6500
-		private static readonly Texture2D TexLudeonLogo = ContentFinder<Texture2D>.Get("UI/HeroArt/LudeonLogoSmall", true);
 	}
 }

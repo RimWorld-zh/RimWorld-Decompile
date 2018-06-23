@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x0200015B RID: 347
 	public class WorkGiver_RescueDowned : WorkGiver_TakeToBed
 	{
+		// Token: 0x04000330 RID: 816
+		private const float MinDistFromEnemy = 40f;
+
 		// Token: 0x17000118 RID: 280
 		// (get) Token: 0x06000727 RID: 1831 RVA: 0x00048778 File Offset: 0x00046B78
 		public override PathEndMode PathEndMode
@@ -59,8 +62,5 @@ namespace RimWorld
 				count = 1
 			};
 		}
-
-		// Token: 0x04000330 RID: 816
-		private const float MinDistFromEnemy = 40f;
 	}
 }

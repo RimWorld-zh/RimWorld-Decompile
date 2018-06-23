@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x0200099F RID: 2463
 	public class StatPart_AddedBodyPartsMass : StatPart
 	{
+		// Token: 0x04002393 RID: 9107
+		private const float AddedBodyPartMassFactor = 0.9f;
+
 		// Token: 0x06003745 RID: 14149 RVA: 0x001D8B34 File Offset: 0x001D6F34
 		public override void TransformValue(StatRequest req, ref float val)
 		{
@@ -54,8 +57,5 @@ namespace RimWorld
 			}
 			return num;
 		}
-
-		// Token: 0x04002393 RID: 9107
-		private const float AddedBodyPartMassFactor = 0.9f;
 	}
 }

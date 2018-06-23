@@ -8,6 +8,18 @@ namespace Verse
 	// Token: 0x02000EF7 RID: 3831
 	public class SimpleCurveView
 	{
+		// Token: 0x04003CB0 RID: 15536
+		public Rect rect;
+
+		// Token: 0x04003CB1 RID: 15537
+		private Dictionary<object, float> debugInputValues = new Dictionary<object, float>();
+
+		// Token: 0x04003CB2 RID: 15538
+		private const float ResetZoomBuffer = 0.1f;
+
+		// Token: 0x04003CB3 RID: 15539
+		private static Rect identityRect = new Rect(0f, 0f, 1f, 1f);
+
 		// Token: 0x17000EA2 RID: 3746
 		// (get) Token: 0x06005BA3 RID: 23459 RVA: 0x002EB08C File Offset: 0x002E948C
 		public IEnumerable<float> DebugInputValues
@@ -82,17 +94,5 @@ namespace Verse
 				this.rect.yMax = this.rect.yMax + height * 0.1f;
 			}
 		}
-
-		// Token: 0x04003CB0 RID: 15536
-		public Rect rect;
-
-		// Token: 0x04003CB1 RID: 15537
-		private Dictionary<object, float> debugInputValues = new Dictionary<object, float>();
-
-		// Token: 0x04003CB2 RID: 15538
-		private const float ResetZoomBuffer = 0.1f;
-
-		// Token: 0x04003CB3 RID: 15539
-		private static Rect identityRect = new Rect(0f, 0f, 1f, 1f);
 	}
 }

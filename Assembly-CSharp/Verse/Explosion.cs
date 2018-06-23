@@ -9,6 +9,72 @@ namespace Verse
 	// Token: 0x02000DC7 RID: 3527
 	public class Explosion : Thing
 	{
+		// Token: 0x04003474 RID: 13428
+		public float radius;
+
+		// Token: 0x04003475 RID: 13429
+		public DamageDef damType;
+
+		// Token: 0x04003476 RID: 13430
+		public int damAmount;
+
+		// Token: 0x04003477 RID: 13431
+		public Thing instigator;
+
+		// Token: 0x04003478 RID: 13432
+		public ThingDef weapon;
+
+		// Token: 0x04003479 RID: 13433
+		public ThingDef projectile;
+
+		// Token: 0x0400347A RID: 13434
+		public Thing intendedTarget;
+
+		// Token: 0x0400347B RID: 13435
+		public bool applyDamageToExplosionCellsNeighbors;
+
+		// Token: 0x0400347C RID: 13436
+		public ThingDef preExplosionSpawnThingDef = null;
+
+		// Token: 0x0400347D RID: 13437
+		public float preExplosionSpawnChance = 0f;
+
+		// Token: 0x0400347E RID: 13438
+		public int preExplosionSpawnThingCount = 1;
+
+		// Token: 0x0400347F RID: 13439
+		public ThingDef postExplosionSpawnThingDef = null;
+
+		// Token: 0x04003480 RID: 13440
+		public float postExplosionSpawnChance = 0f;
+
+		// Token: 0x04003481 RID: 13441
+		public int postExplosionSpawnThingCount = 1;
+
+		// Token: 0x04003482 RID: 13442
+		public float chanceToStartFire;
+
+		// Token: 0x04003483 RID: 13443
+		public bool damageFalloff;
+
+		// Token: 0x04003484 RID: 13444
+		private int startTick;
+
+		// Token: 0x04003485 RID: 13445
+		private List<IntVec3> cellsToAffect;
+
+		// Token: 0x04003486 RID: 13446
+		private List<Thing> damagedThings;
+
+		// Token: 0x04003487 RID: 13447
+		private HashSet<IntVec3> addedCellsAffectedOnlyByDamage;
+
+		// Token: 0x04003488 RID: 13448
+		private const float DamageFactorAtEdge = 0.2f;
+
+		// Token: 0x04003489 RID: 13449
+		private static HashSet<IntVec3> tmpCells = new HashSet<IntVec3>();
+
 		// Token: 0x06004EF7 RID: 20215 RVA: 0x00293360 File Offset: 0x00291760
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
@@ -272,71 +338,5 @@ namespace Verse
 		{
 			return this.applyDamageToExplosionCellsNeighbors && this.addedCellsAffectedOnlyByDamage.Contains(c);
 		}
-
-		// Token: 0x04003474 RID: 13428
-		public float radius;
-
-		// Token: 0x04003475 RID: 13429
-		public DamageDef damType;
-
-		// Token: 0x04003476 RID: 13430
-		public int damAmount;
-
-		// Token: 0x04003477 RID: 13431
-		public Thing instigator;
-
-		// Token: 0x04003478 RID: 13432
-		public ThingDef weapon;
-
-		// Token: 0x04003479 RID: 13433
-		public ThingDef projectile;
-
-		// Token: 0x0400347A RID: 13434
-		public Thing intendedTarget;
-
-		// Token: 0x0400347B RID: 13435
-		public bool applyDamageToExplosionCellsNeighbors;
-
-		// Token: 0x0400347C RID: 13436
-		public ThingDef preExplosionSpawnThingDef = null;
-
-		// Token: 0x0400347D RID: 13437
-		public float preExplosionSpawnChance = 0f;
-
-		// Token: 0x0400347E RID: 13438
-		public int preExplosionSpawnThingCount = 1;
-
-		// Token: 0x0400347F RID: 13439
-		public ThingDef postExplosionSpawnThingDef = null;
-
-		// Token: 0x04003480 RID: 13440
-		public float postExplosionSpawnChance = 0f;
-
-		// Token: 0x04003481 RID: 13441
-		public int postExplosionSpawnThingCount = 1;
-
-		// Token: 0x04003482 RID: 13442
-		public float chanceToStartFire;
-
-		// Token: 0x04003483 RID: 13443
-		public bool damageFalloff;
-
-		// Token: 0x04003484 RID: 13444
-		private int startTick;
-
-		// Token: 0x04003485 RID: 13445
-		private List<IntVec3> cellsToAffect;
-
-		// Token: 0x04003486 RID: 13446
-		private List<Thing> damagedThings;
-
-		// Token: 0x04003487 RID: 13447
-		private HashSet<IntVec3> addedCellsAffectedOnlyByDamage;
-
-		// Token: 0x04003488 RID: 13448
-		private const float DamageFactorAtEdge = 0.2f;
-
-		// Token: 0x04003489 RID: 13449
-		private static HashSet<IntVec3> tmpCells = new HashSet<IntVec3>();
 	}
 }

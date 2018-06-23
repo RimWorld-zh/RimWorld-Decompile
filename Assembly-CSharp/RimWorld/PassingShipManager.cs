@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x02000766 RID: 1894
 	public sealed class PassingShipManager : IExposable
 	{
+		// Token: 0x040016A2 RID: 5794
+		public Map map;
+
+		// Token: 0x040016A3 RID: 5795
+		public List<PassingShip> passingShips = new List<PassingShip>();
+
+		// Token: 0x040016A4 RID: 5796
+		private static List<PassingShip> tmpPassingShips = new List<PassingShip>();
+
 		// Token: 0x060029EA RID: 10730 RVA: 0x001633CD File Offset: 0x001617CD
 		public PassingShipManager(Map map)
 		{
@@ -60,14 +69,5 @@ namespace RimWorld
 			}
 			Messages.Message("All passing ships sent away.", MessageTypeDefOf.TaskCompletion, false);
 		}
-
-		// Token: 0x040016A2 RID: 5794
-		public Map map;
-
-		// Token: 0x040016A3 RID: 5795
-		public List<PassingShip> passingShips = new List<PassingShip>();
-
-		// Token: 0x040016A4 RID: 5796
-		private static List<PassingShip> tmpPassingShips = new List<PassingShip>();
 	}
 }

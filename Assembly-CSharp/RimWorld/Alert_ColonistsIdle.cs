@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x0200079E RID: 1950
 	public class Alert_ColonistsIdle : Alert
 	{
+		// Token: 0x04001735 RID: 5941
+		public const int MinDaysPassed = 1;
+
 		// Token: 0x170006B8 RID: 1720
 		// (get) Token: 0x06002B36 RID: 11062 RVA: 0x0016D6D8 File Offset: 0x0016BAD8
 		private IEnumerable<Pawn> IdleColonists
@@ -64,8 +67,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04001735 RID: 5941
-		public const int MinDaysPassed = 1;
 	}
 }

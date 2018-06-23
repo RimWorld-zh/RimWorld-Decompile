@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x02000705 RID: 1797
 	public class CompChangeableProjectile : ThingComp, IStoreSettingsParent
 	{
+		// Token: 0x040015C2 RID: 5570
+		private ThingDef loadedShell;
+
+		// Token: 0x040015C3 RID: 5571
+		public int loadedCount;
+
+		// Token: 0x040015C4 RID: 5572
+		public StorageSettings allowedShellsSettings;
+
 		// Token: 0x170005E7 RID: 1511
 		// (get) Token: 0x0600275C RID: 10076 RVA: 0x0015250C File Offset: 0x0015090C
 		public CompProperties_ChangeableProjectile Props
@@ -117,14 +126,5 @@ namespace RimWorld
 		{
 			return this.parent.def.building.fixedStorageSettings;
 		}
-
-		// Token: 0x040015C2 RID: 5570
-		private ThingDef loadedShell;
-
-		// Token: 0x040015C3 RID: 5571
-		public int loadedCount;
-
-		// Token: 0x040015C4 RID: 5572
-		public StorageSettings allowedShellsSettings;
 	}
 }

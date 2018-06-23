@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000DDD RID: 3549
 	public class Graphic_RandomRotated : Graphic
 	{
+		// Token: 0x040034C5 RID: 13509
+		private Graphic subGraphic;
+
+		// Token: 0x040034C6 RID: 13510
+		private float maxAngle;
+
 		// Token: 0x06004F8A RID: 20362 RVA: 0x002968E1 File Offset: 0x00294CE1
 		public Graphic_RandomRotated(Graphic subGraphic, float maxAngle)
 		{
@@ -51,11 +57,5 @@ namespace Verse
 				data = this.data
 			};
 		}
-
-		// Token: 0x040034C5 RID: 13509
-		private Graphic subGraphic;
-
-		// Token: 0x040034C6 RID: 13510
-		private float maxAngle;
 	}
 }

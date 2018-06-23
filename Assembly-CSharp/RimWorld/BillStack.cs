@@ -8,6 +8,25 @@ namespace RimWorld
 	// Token: 0x02000026 RID: 38
 	public class BillStack : IExposable
 	{
+		// Token: 0x04000199 RID: 409
+		[Unsaved]
+		public IBillGiver billGiver = null;
+
+		// Token: 0x0400019A RID: 410
+		private List<Bill> bills = new List<Bill>();
+
+		// Token: 0x0400019B RID: 411
+		public const int MaxCount = 15;
+
+		// Token: 0x0400019C RID: 412
+		private const float TopAreaHeight = 35f;
+
+		// Token: 0x0400019D RID: 413
+		private const float BillInterfaceSpacing = 6f;
+
+		// Token: 0x0400019E RID: 414
+		private const float ExtraViewHeight = 60f;
+
 		// Token: 0x0600015B RID: 347 RVA: 0x0000DC8B File Offset: 0x0000C08B
 		public BillStack(IBillGiver giver)
 		{
@@ -185,24 +204,5 @@ namespace RimWorld
 			GUI.EndGroup();
 			return result;
 		}
-
-		// Token: 0x04000199 RID: 409
-		[Unsaved]
-		public IBillGiver billGiver = null;
-
-		// Token: 0x0400019A RID: 410
-		private List<Bill> bills = new List<Bill>();
-
-		// Token: 0x0400019B RID: 411
-		public const int MaxCount = 15;
-
-		// Token: 0x0400019C RID: 412
-		private const float TopAreaHeight = 35f;
-
-		// Token: 0x0400019D RID: 413
-		private const float BillInterfaceSpacing = 6f;
-
-		// Token: 0x0400019E RID: 414
-		private const float ExtraViewHeight = 60f;
 	}
 }

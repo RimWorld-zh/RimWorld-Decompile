@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x0200054B RID: 1355
 	public class BiomeWorker_SeaIce : BiomeWorker
 	{
+		// Token: 0x04000ED2 RID: 3794
+		private ModuleBase cachedSeaIceAllowedNoise;
+
+		// Token: 0x04000ED3 RID: 3795
+		private int cachedSeaIceAllowedNoiseForSeed;
+
 		// Token: 0x0600194D RID: 6477 RVA: 0x000DBC70 File Offset: 0x000DA070
 		public override float GetScore(Tile tile, int tileID)
 		{
@@ -55,11 +61,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000ED2 RID: 3794
-		private ModuleBase cachedSeaIceAllowedNoise;
-
-		// Token: 0x04000ED3 RID: 3795
-		private int cachedSeaIceAllowedNoiseForSeed;
 	}
 }

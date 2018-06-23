@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000C3C RID: 3132
 	internal static class MapMeshFlagUtility
 	{
+		// Token: 0x04002F3F RID: 12095
+		public static List<MapMeshFlag> allFlags = new List<MapMeshFlag>();
+
 		// Token: 0x06004510 RID: 17680 RVA: 0x00245C54 File Offset: 0x00244054
 		static MapMeshFlagUtility()
 		{
@@ -32,8 +35,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04002F3F RID: 12095
-		public static List<MapMeshFlag> allFlags = new List<MapMeshFlag>();
 	}
 }

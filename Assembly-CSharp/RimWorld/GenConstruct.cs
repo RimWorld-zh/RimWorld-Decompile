@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x0200097B RID: 2427
 	public static class GenConstruct
 	{
+		// Token: 0x0400233F RID: 9023
+		private static string ConstructionSkillTooLowTrans;
+
+		// Token: 0x04002340 RID: 9024
+		private static string IncapableOfDeconstruction;
+
 		// Token: 0x06003699 RID: 13977 RVA: 0x001D1B05 File Offset: 0x001CFF05
 		public static void Reset()
 		{
@@ -558,11 +564,5 @@ namespace RimWorld
 			}
 			return true;
 		}
-
-		// Token: 0x0400233F RID: 9023
-		private static string ConstructionSkillTooLowTrans;
-
-		// Token: 0x04002340 RID: 9024
-		private static string IncapableOfDeconstruction;
 	}
 }

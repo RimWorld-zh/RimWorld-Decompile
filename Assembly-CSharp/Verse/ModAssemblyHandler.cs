@@ -9,6 +9,15 @@ namespace Verse
 	// Token: 0x02000CBF RID: 3263
 	public class ModAssemblyHandler
 	{
+		// Token: 0x040030CB RID: 12491
+		private ModContentPack mod;
+
+		// Token: 0x040030CC RID: 12492
+		public List<Assembly> loadedAssemblies = new List<Assembly>();
+
+		// Token: 0x040030CD RID: 12493
+		private static bool globalResolverIsSet = false;
+
 		// Token: 0x0600480C RID: 18444 RVA: 0x0025EC79 File Offset: 0x0025D079
 		public ModAssemblyHandler(ModContentPack mod)
 		{
@@ -109,14 +118,5 @@ namespace Verse
 			}
 			return true;
 		}
-
-		// Token: 0x040030CB RID: 12491
-		private ModContentPack mod;
-
-		// Token: 0x040030CC RID: 12492
-		public List<Assembly> loadedAssemblies = new List<Assembly>();
-
-		// Token: 0x040030CD RID: 12493
-		private static bool globalResolverIsSet = false;
 	}
 }

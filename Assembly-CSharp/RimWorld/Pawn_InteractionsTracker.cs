@@ -9,6 +9,39 @@ namespace RimWorld
 	// Token: 0x02000526 RID: 1318
 	public class Pawn_InteractionsTracker : IExposable
 	{
+		// Token: 0x04000E5B RID: 3675
+		private Pawn pawn;
+
+		// Token: 0x04000E5C RID: 3676
+		private bool wantsRandomInteract = false;
+
+		// Token: 0x04000E5D RID: 3677
+		private int lastInteractionTime = -9999;
+
+		// Token: 0x04000E5E RID: 3678
+		private const int RandomInteractMTBTicks_Quiet = 22000;
+
+		// Token: 0x04000E5F RID: 3679
+		private const int RandomInteractMTBTicks_Normal = 6600;
+
+		// Token: 0x04000E60 RID: 3680
+		private const int RandomInteractMTBTicks_SuperActive = 550;
+
+		// Token: 0x04000E61 RID: 3681
+		public const int RandomInteractIntervalMin = 320;
+
+		// Token: 0x04000E62 RID: 3682
+		private const int RandomInteractCheckInterval = 60;
+
+		// Token: 0x04000E63 RID: 3683
+		private const int InteractIntervalAbsoluteMin = 120;
+
+		// Token: 0x04000E64 RID: 3684
+		public const int DirectTalkInteractInterval = 320;
+
+		// Token: 0x04000E65 RID: 3685
+		private static List<Pawn> workingList = new List<Pawn>();
+
 		// Token: 0x0600181D RID: 6173 RVA: 0x000D2886 File Offset: 0x000D0C86
 		public Pawn_InteractionsTracker(Pawn pawn)
 		{
@@ -411,38 +444,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000E5B RID: 3675
-		private Pawn pawn;
-
-		// Token: 0x04000E5C RID: 3676
-		private bool wantsRandomInteract = false;
-
-		// Token: 0x04000E5D RID: 3677
-		private int lastInteractionTime = -9999;
-
-		// Token: 0x04000E5E RID: 3678
-		private const int RandomInteractMTBTicks_Quiet = 22000;
-
-		// Token: 0x04000E5F RID: 3679
-		private const int RandomInteractMTBTicks_Normal = 6600;
-
-		// Token: 0x04000E60 RID: 3680
-		private const int RandomInteractMTBTicks_SuperActive = 550;
-
-		// Token: 0x04000E61 RID: 3681
-		public const int RandomInteractIntervalMin = 320;
-
-		// Token: 0x04000E62 RID: 3682
-		private const int RandomInteractCheckInterval = 60;
-
-		// Token: 0x04000E63 RID: 3683
-		private const int InteractIntervalAbsoluteMin = 120;
-
-		// Token: 0x04000E64 RID: 3684
-		public const int DirectTalkInteractInterval = 320;
-
-		// Token: 0x04000E65 RID: 3685
-		private static List<Pawn> workingList = new List<Pawn>();
 	}
 }

@@ -9,6 +9,18 @@ namespace RimWorld
 	// Token: 0x02000733 RID: 1843
 	public class CompSnowExpand : ThingComp
 	{
+		// Token: 0x04001643 RID: 5699
+		private float snowRadius;
+
+		// Token: 0x04001644 RID: 5700
+		private ModuleBase snowNoise;
+
+		// Token: 0x04001645 RID: 5701
+		private const float MaxOutdoorTemp = 10f;
+
+		// Token: 0x04001646 RID: 5702
+		private static HashSet<IntVec3> reachableCells = new HashSet<IntVec3>();
+
 		// Token: 0x1700064E RID: 1614
 		// (get) Token: 0x060028B4 RID: 10420 RVA: 0x0015B564 File Offset: 0x00159964
 		public CompProperties_SnowExpand Props
@@ -99,17 +111,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04001643 RID: 5699
-		private float snowRadius;
-
-		// Token: 0x04001644 RID: 5700
-		private ModuleBase snowNoise;
-
-		// Token: 0x04001645 RID: 5701
-		private const float MaxOutdoorTemp = 10f;
-
-		// Token: 0x04001646 RID: 5702
-		private static HashSet<IntVec3> reachableCells = new HashSet<IntVec3>();
 	}
 }

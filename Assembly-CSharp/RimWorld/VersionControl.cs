@@ -9,6 +9,18 @@ namespace RimWorld
 	// Token: 0x020009CE RID: 2510
 	public static class VersionControl
 	{
+		// Token: 0x04002402 RID: 9218
+		private static Version version;
+
+		// Token: 0x04002403 RID: 9219
+		private static string versionString;
+
+		// Token: 0x04002404 RID: 9220
+		private static string versionStringWithRev;
+
+		// Token: 0x04002405 RID: 9221
+		private static DateTime buildDate;
+
 		// Token: 0x06003849 RID: 14409 RVA: 0x001E01C0 File Offset: 0x001DE5C0
 		static VersionControl()
 		{
@@ -293,17 +305,5 @@ namespace RimWorld
 			}
 			return new Version(major, minor, build);
 		}
-
-		// Token: 0x04002402 RID: 9218
-		private static Version version;
-
-		// Token: 0x04002403 RID: 9219
-		private static string versionString;
-
-		// Token: 0x04002404 RID: 9220
-		private static string versionStringWithRev;
-
-		// Token: 0x04002405 RID: 9221
-		private static DateTime buildDate;
 	}
 }

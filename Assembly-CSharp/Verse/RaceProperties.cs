@@ -8,6 +8,182 @@ namespace Verse
 	// Token: 0x02000B22 RID: 2850
 	public class RaceProperties
 	{
+		// Token: 0x0400287D RID: 10365
+		public Intelligence intelligence = Intelligence.Animal;
+
+		// Token: 0x0400287E RID: 10366
+		private FleshTypeDef fleshType = null;
+
+		// Token: 0x0400287F RID: 10367
+		private ThingDef bloodDef = null;
+
+		// Token: 0x04002880 RID: 10368
+		public bool hasGenders = true;
+
+		// Token: 0x04002881 RID: 10369
+		public bool needsRest = true;
+
+		// Token: 0x04002882 RID: 10370
+		public ThinkTreeDef thinkTreeMain;
+
+		// Token: 0x04002883 RID: 10371
+		public ThinkTreeDef thinkTreeConstant;
+
+		// Token: 0x04002884 RID: 10372
+		public PawnNameCategory nameCategory = PawnNameCategory.NoName;
+
+		// Token: 0x04002885 RID: 10373
+		public FoodTypeFlags foodType = FoodTypeFlags.None;
+
+		// Token: 0x04002886 RID: 10374
+		public BodyDef body = null;
+
+		// Token: 0x04002887 RID: 10375
+		public Type deathActionWorkerClass;
+
+		// Token: 0x04002888 RID: 10376
+		public List<AnimalBiomeRecord> wildBiomes = null;
+
+		// Token: 0x04002889 RID: 10377
+		public SimpleCurve ageGenerationCurve = null;
+
+		// Token: 0x0400288A RID: 10378
+		public bool makesFootprints = false;
+
+		// Token: 0x0400288B RID: 10379
+		public int executionRange = 2;
+
+		// Token: 0x0400288C RID: 10380
+		public float lifeExpectancy = 10f;
+
+		// Token: 0x0400288D RID: 10381
+		public List<HediffGiverSetDef> hediffGiverSets = null;
+
+		// Token: 0x0400288E RID: 10382
+		public bool herdAnimal = false;
+
+		// Token: 0x0400288F RID: 10383
+		public bool packAnimal = false;
+
+		// Token: 0x04002890 RID: 10384
+		public bool predator = false;
+
+		// Token: 0x04002891 RID: 10385
+		public float maxPreyBodySize = 99999f;
+
+		// Token: 0x04002892 RID: 10386
+		public float wildness = 0f;
+
+		// Token: 0x04002893 RID: 10387
+		public float petness = 0f;
+
+		// Token: 0x04002894 RID: 10388
+		public float nuzzleMtbHours = -1f;
+
+		// Token: 0x04002895 RID: 10389
+		public float manhunterOnDamageChance = 0f;
+
+		// Token: 0x04002896 RID: 10390
+		public float manhunterOnTameFailChance = 0f;
+
+		// Token: 0x04002897 RID: 10391
+		public bool canBePredatorPrey = true;
+
+		// Token: 0x04002898 RID: 10392
+		public bool herdMigrationAllowed = true;
+
+		// Token: 0x04002899 RID: 10393
+		public float gestationPeriodDays = 10f;
+
+		// Token: 0x0400289A RID: 10394
+		public SimpleCurve litterSizeCurve = null;
+
+		// Token: 0x0400289B RID: 10395
+		public float mateMtbHours = 12f;
+
+		// Token: 0x0400289C RID: 10396
+		[NoTranslate]
+		public List<string> untrainableTags = null;
+
+		// Token: 0x0400289D RID: 10397
+		[NoTranslate]
+		public List<string> trainableTags = null;
+
+		// Token: 0x0400289E RID: 10398
+		public TrainabilityDef trainability = null;
+
+		// Token: 0x0400289F RID: 10399
+		private RulePackDef nameGenerator;
+
+		// Token: 0x040028A0 RID: 10400
+		private RulePackDef nameGeneratorFemale;
+
+		// Token: 0x040028A1 RID: 10401
+		public float nameOnTameChance = 0f;
+
+		// Token: 0x040028A2 RID: 10402
+		public float nameOnNuzzleChance = 0f;
+
+		// Token: 0x040028A3 RID: 10403
+		public float baseBodySize = 1f;
+
+		// Token: 0x040028A4 RID: 10404
+		public float baseHealthScale = 1f;
+
+		// Token: 0x040028A5 RID: 10405
+		public float baseHungerRate = 1f;
+
+		// Token: 0x040028A6 RID: 10406
+		public List<LifeStageAge> lifeStageAges = new List<LifeStageAge>();
+
+		// Token: 0x040028A7 RID: 10407
+		[MustTranslate]
+		public string meatLabel = null;
+
+		// Token: 0x040028A8 RID: 10408
+		public Color meatColor;
+
+		// Token: 0x040028A9 RID: 10409
+		public ThingDef useMeatFrom;
+
+		// Token: 0x040028AA RID: 10410
+		public ThingDef useLeatherFrom;
+
+		// Token: 0x040028AB RID: 10411
+		public ShadowData specialShadowData;
+
+		// Token: 0x040028AC RID: 10412
+		public IntRange soundCallIntervalRange;
+
+		// Token: 0x040028AD RID: 10413
+		public SoundDef soundMeleeHitPawn;
+
+		// Token: 0x040028AE RID: 10414
+		public SoundDef soundMeleeHitBuilding;
+
+		// Token: 0x040028AF RID: 10415
+		public SoundDef soundMeleeMiss;
+
+		// Token: 0x040028B0 RID: 10416
+		[Unsaved]
+		private DeathActionWorker deathActionWorkerInt;
+
+		// Token: 0x040028B1 RID: 10417
+		[Unsaved]
+		public ThingDef meatDef;
+
+		// Token: 0x040028B2 RID: 10418
+		[Unsaved]
+		public ThingDef leatherDef;
+
+		// Token: 0x040028B3 RID: 10419
+		[Unsaved]
+		public ThingDef corpseDef;
+
+		// Token: 0x040028B4 RID: 10420
+		[Unsaved]
+		private PawnKindDef cachedAnyPawnKind;
+
 		// Token: 0x06003ECE RID: 16078 RVA: 0x002113B4 File Offset: 0x0020F7B4
 		public RaceProperties()
 		{
@@ -440,181 +616,5 @@ namespace Verse
 			}
 			yield break;
 		}
-
-		// Token: 0x0400287D RID: 10365
-		public Intelligence intelligence = Intelligence.Animal;
-
-		// Token: 0x0400287E RID: 10366
-		private FleshTypeDef fleshType = null;
-
-		// Token: 0x0400287F RID: 10367
-		private ThingDef bloodDef = null;
-
-		// Token: 0x04002880 RID: 10368
-		public bool hasGenders = true;
-
-		// Token: 0x04002881 RID: 10369
-		public bool needsRest = true;
-
-		// Token: 0x04002882 RID: 10370
-		public ThinkTreeDef thinkTreeMain;
-
-		// Token: 0x04002883 RID: 10371
-		public ThinkTreeDef thinkTreeConstant;
-
-		// Token: 0x04002884 RID: 10372
-		public PawnNameCategory nameCategory = PawnNameCategory.NoName;
-
-		// Token: 0x04002885 RID: 10373
-		public FoodTypeFlags foodType = FoodTypeFlags.None;
-
-		// Token: 0x04002886 RID: 10374
-		public BodyDef body = null;
-
-		// Token: 0x04002887 RID: 10375
-		public Type deathActionWorkerClass;
-
-		// Token: 0x04002888 RID: 10376
-		public List<AnimalBiomeRecord> wildBiomes = null;
-
-		// Token: 0x04002889 RID: 10377
-		public SimpleCurve ageGenerationCurve = null;
-
-		// Token: 0x0400288A RID: 10378
-		public bool makesFootprints = false;
-
-		// Token: 0x0400288B RID: 10379
-		public int executionRange = 2;
-
-		// Token: 0x0400288C RID: 10380
-		public float lifeExpectancy = 10f;
-
-		// Token: 0x0400288D RID: 10381
-		public List<HediffGiverSetDef> hediffGiverSets = null;
-
-		// Token: 0x0400288E RID: 10382
-		public bool herdAnimal = false;
-
-		// Token: 0x0400288F RID: 10383
-		public bool packAnimal = false;
-
-		// Token: 0x04002890 RID: 10384
-		public bool predator = false;
-
-		// Token: 0x04002891 RID: 10385
-		public float maxPreyBodySize = 99999f;
-
-		// Token: 0x04002892 RID: 10386
-		public float wildness = 0f;
-
-		// Token: 0x04002893 RID: 10387
-		public float petness = 0f;
-
-		// Token: 0x04002894 RID: 10388
-		public float nuzzleMtbHours = -1f;
-
-		// Token: 0x04002895 RID: 10389
-		public float manhunterOnDamageChance = 0f;
-
-		// Token: 0x04002896 RID: 10390
-		public float manhunterOnTameFailChance = 0f;
-
-		// Token: 0x04002897 RID: 10391
-		public bool canBePredatorPrey = true;
-
-		// Token: 0x04002898 RID: 10392
-		public bool herdMigrationAllowed = true;
-
-		// Token: 0x04002899 RID: 10393
-		public float gestationPeriodDays = 10f;
-
-		// Token: 0x0400289A RID: 10394
-		public SimpleCurve litterSizeCurve = null;
-
-		// Token: 0x0400289B RID: 10395
-		public float mateMtbHours = 12f;
-
-		// Token: 0x0400289C RID: 10396
-		[NoTranslate]
-		public List<string> untrainableTags = null;
-
-		// Token: 0x0400289D RID: 10397
-		[NoTranslate]
-		public List<string> trainableTags = null;
-
-		// Token: 0x0400289E RID: 10398
-		public TrainabilityDef trainability = null;
-
-		// Token: 0x0400289F RID: 10399
-		private RulePackDef nameGenerator;
-
-		// Token: 0x040028A0 RID: 10400
-		private RulePackDef nameGeneratorFemale;
-
-		// Token: 0x040028A1 RID: 10401
-		public float nameOnTameChance = 0f;
-
-		// Token: 0x040028A2 RID: 10402
-		public float nameOnNuzzleChance = 0f;
-
-		// Token: 0x040028A3 RID: 10403
-		public float baseBodySize = 1f;
-
-		// Token: 0x040028A4 RID: 10404
-		public float baseHealthScale = 1f;
-
-		// Token: 0x040028A5 RID: 10405
-		public float baseHungerRate = 1f;
-
-		// Token: 0x040028A6 RID: 10406
-		public List<LifeStageAge> lifeStageAges = new List<LifeStageAge>();
-
-		// Token: 0x040028A7 RID: 10407
-		[MustTranslate]
-		public string meatLabel = null;
-
-		// Token: 0x040028A8 RID: 10408
-		public Color meatColor;
-
-		// Token: 0x040028A9 RID: 10409
-		public ThingDef useMeatFrom;
-
-		// Token: 0x040028AA RID: 10410
-		public ThingDef useLeatherFrom;
-
-		// Token: 0x040028AB RID: 10411
-		public ShadowData specialShadowData;
-
-		// Token: 0x040028AC RID: 10412
-		public IntRange soundCallIntervalRange;
-
-		// Token: 0x040028AD RID: 10413
-		public SoundDef soundMeleeHitPawn;
-
-		// Token: 0x040028AE RID: 10414
-		public SoundDef soundMeleeHitBuilding;
-
-		// Token: 0x040028AF RID: 10415
-		public SoundDef soundMeleeMiss;
-
-		// Token: 0x040028B0 RID: 10416
-		[Unsaved]
-		private DeathActionWorker deathActionWorkerInt;
-
-		// Token: 0x040028B1 RID: 10417
-		[Unsaved]
-		public ThingDef meatDef;
-
-		// Token: 0x040028B2 RID: 10418
-		[Unsaved]
-		public ThingDef leatherDef;
-
-		// Token: 0x040028B3 RID: 10419
-		[Unsaved]
-		public ThingDef corpseDef;
-
-		// Token: 0x040028B4 RID: 10420
-		[Unsaved]
-		private PawnKindDef cachedAnyPawnKind;
 	}
 }

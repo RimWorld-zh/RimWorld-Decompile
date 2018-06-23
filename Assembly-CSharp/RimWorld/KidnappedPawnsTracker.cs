@@ -9,6 +9,18 @@ namespace RimWorld
 	// Token: 0x02000561 RID: 1377
 	public class KidnappedPawnsTracker : IExposable
 	{
+		// Token: 0x04000F3D RID: 3901
+		private Faction faction;
+
+		// Token: 0x04000F3E RID: 3902
+		private List<Pawn> kidnappedPawns = new List<Pawn>();
+
+		// Token: 0x04000F3F RID: 3903
+		private const int TryRecruitInterval = 15051;
+
+		// Token: 0x04000F40 RID: 3904
+		private const float RecruitMTBDays = 30f;
+
 		// Token: 0x06001A08 RID: 6664 RVA: 0x000E21A7 File Offset: 0x000E05A7
 		public KidnappedPawnsTracker(Faction faction)
 		{
@@ -113,17 +125,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000F3D RID: 3901
-		private Faction faction;
-
-		// Token: 0x04000F3E RID: 3902
-		private List<Pawn> kidnappedPawns = new List<Pawn>();
-
-		// Token: 0x04000F3F RID: 3903
-		private const int TryRecruitInterval = 15051;
-
-		// Token: 0x04000F40 RID: 3904
-		private const float RecruitMTBDays = 30f;
 	}
 }

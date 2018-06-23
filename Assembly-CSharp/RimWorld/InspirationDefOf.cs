@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class InspirationDefOf
 	{
-		// Token: 0x0600366A RID: 13930 RVA: 0x001D0E31 File Offset: 0x001CF231
-		static InspirationDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(InspirationDefOf));
-		}
-
 		// Token: 0x040022D3 RID: 8915
 		public static InspirationDef Inspired_Trade;
 
@@ -23,5 +17,11 @@ namespace RimWorld
 
 		// Token: 0x040022D6 RID: 8918
 		public static InspirationDef Inspired_Creativity;
+
+		// Token: 0x0600366A RID: 13930 RVA: 0x001D0E31 File Offset: 0x001CF231
+		static InspirationDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(InspirationDefOf));
+		}
 	}
 }

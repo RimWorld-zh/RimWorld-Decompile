@@ -7,6 +7,9 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003D3 RID: 979
 	public class SymbolResolver_Street : SymbolResolver
 	{
+		// Token: 0x04000A43 RID: 2627
+		private static List<bool> street = new List<bool>();
+
 		// Token: 0x060010DC RID: 4316 RVA: 0x0008FD44 File Offset: 0x0008E144
 		public override void Resolve(ResolveParams rp)
 		{
@@ -133,8 +136,5 @@ namespace RimWorld.BaseGen
 			}
 			return result;
 		}
-
-		// Token: 0x04000A43 RID: 2627
-		private static List<bool> street = new List<bool>();
 	}
 }

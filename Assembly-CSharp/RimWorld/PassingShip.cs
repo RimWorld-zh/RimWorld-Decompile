@@ -7,6 +7,18 @@ namespace RimWorld
 	// Token: 0x02000765 RID: 1893
 	public class PassingShip : IExposable, ICommunicable, ILoadReferenceable
 	{
+		// Token: 0x0400169D RID: 5789
+		public PassingShipManager passingShipManager;
+
+		// Token: 0x0400169E RID: 5790
+		public string name = "Nameless";
+
+		// Token: 0x0400169F RID: 5791
+		protected int loadID = -1;
+
+		// Token: 0x040016A0 RID: 5792
+		public int ticksUntilDeparture = 40000;
+
 		// Token: 0x1700067D RID: 1661
 		// (get) Token: 0x060029DD RID: 10717 RVA: 0x001630FC File Offset: 0x001614FC
 		public virtual string FullTitle
@@ -118,17 +130,5 @@ namespace RimWorld
 		{
 			return "PassingShip_" + this.loadID;
 		}
-
-		// Token: 0x0400169D RID: 5789
-		public PassingShipManager passingShipManager;
-
-		// Token: 0x0400169E RID: 5790
-		public string name = "Nameless";
-
-		// Token: 0x0400169F RID: 5791
-		protected int loadID = -1;
-
-		// Token: 0x040016A0 RID: 5792
-		public int ticksUntilDeparture = 40000;
 	}
 }

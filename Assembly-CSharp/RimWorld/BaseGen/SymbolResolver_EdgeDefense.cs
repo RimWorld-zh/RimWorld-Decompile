@@ -8,6 +8,12 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003C1 RID: 961
 	public class SymbolResolver_EdgeDefense : SymbolResolver
 	{
+		// Token: 0x04000A2E RID: 2606
+		private const int DefaultCellsPerTurret = 30;
+
+		// Token: 0x04000A2F RID: 2607
+		private const int DefaultCellsPerMortar = 75;
+
 		// Token: 0x060010A0 RID: 4256 RVA: 0x0008CEF8 File Offset: 0x0008B2F8
 		public override void Resolve(ResolveParams rp)
 		{
@@ -146,11 +152,5 @@ namespace RimWorld.BaseGen
 				BaseGen.symbolStack.Push("edgeThing", rp5);
 			}
 		}
-
-		// Token: 0x04000A2E RID: 2606
-		private const int DefaultCellsPerTurret = 30;
-
-		// Token: 0x04000A2F RID: 2607
-		private const int DefaultCellsPerMortar = 75;
 	}
 }

@@ -5,6 +5,9 @@ namespace Verse
 	// Token: 0x02000DE8 RID: 3560
 	public class MoteDualAttached : Mote
 	{
+		// Token: 0x040034E4 RID: 13540
+		protected MoteAttachLink link2 = MoteAttachLink.Invalid;
+
 		// Token: 0x06004FD4 RID: 20436 RVA: 0x0014337B File Offset: 0x0014177B
 		public void Attach(TargetInfo a, TargetInfo b)
 		{
@@ -51,8 +54,5 @@ namespace Verse
 			}
 			this.exactPosition.y = this.def.altitudeLayer.AltitudeFor();
 		}
-
-		// Token: 0x040034E4 RID: 13540
-		protected MoteAttachLink link2 = MoteAttachLink.Invalid;
 	}
 }

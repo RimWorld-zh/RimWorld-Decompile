@@ -8,6 +8,21 @@ namespace RimWorld
 	// Token: 0x0200077B RID: 1915
 	public class TradeShip : PassingShip, ITrader, IThingHolder
 	{
+		// Token: 0x040016CF RID: 5839
+		public TraderKindDef def;
+
+		// Token: 0x040016D0 RID: 5840
+		private ThingOwner things;
+
+		// Token: 0x040016D1 RID: 5841
+		private List<Pawn> soldPrisoners = new List<Pawn>();
+
+		// Token: 0x040016D2 RID: 5842
+		private int randomPriceFactorSeed = -1;
+
+		// Token: 0x040016D3 RID: 5843
+		private static List<string> tmpExtantNames = new List<string>();
+
 		// Token: 0x06002A48 RID: 10824 RVA: 0x00166A0A File Offset: 0x00164E0A
 		public TradeShip()
 		{
@@ -319,20 +334,5 @@ namespace RimWorld
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
-
-		// Token: 0x040016CF RID: 5839
-		public TraderKindDef def;
-
-		// Token: 0x040016D0 RID: 5840
-		private ThingOwner things;
-
-		// Token: 0x040016D1 RID: 5841
-		private List<Pawn> soldPrisoners = new List<Pawn>();
-
-		// Token: 0x040016D2 RID: 5842
-		private int randomPriceFactorSeed = -1;
-
-		// Token: 0x040016D3 RID: 5843
-		private static List<string> tmpExtantNames = new List<string>();
 	}
 }

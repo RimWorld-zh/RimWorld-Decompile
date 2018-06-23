@@ -5,6 +5,9 @@ namespace Verse.AI.Group
 	// Token: 0x020009E8 RID: 2536
 	public class LordJob_Travel : LordJob
 	{
+		// Token: 0x04002466 RID: 9318
+		private IntVec3 travelDest;
+
 		// Token: 0x06003907 RID: 14599 RVA: 0x001E6408 File Offset: 0x001E4808
 		public LordJob_Travel()
 		{
@@ -41,8 +44,5 @@ namespace Verse.AI.Group
 		{
 			Scribe_Values.Look<IntVec3>(ref this.travelDest, "travelDest", default(IntVec3), false);
 		}
-
-		// Token: 0x04002466 RID: 9318
-		private IntVec3 travelDest;
 	}
 }

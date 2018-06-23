@@ -6,6 +6,18 @@ namespace Verse
 	// Token: 0x02000AED RID: 2797
 	public class CameraShaker
 	{
+		// Token: 0x04002732 RID: 10034
+		private float curShakeMag = 0f;
+
+		// Token: 0x04002733 RID: 10035
+		private const float ShakeDecayRate = 0.5f;
+
+		// Token: 0x04002734 RID: 10036
+		private const float ShakeFrequency = 24f;
+
+		// Token: 0x04002735 RID: 10037
+		private const float MaxShakeMag = 0.2f;
+
 		// Token: 0x17000952 RID: 2386
 		// (get) Token: 0x06003DF7 RID: 15863 RVA: 0x0020B30C File Offset: 0x0020970C
 		// (set) Token: 0x06003DF8 RID: 15864 RVA: 0x0020B327 File Offset: 0x00209727
@@ -58,17 +70,5 @@ namespace Verse
 				this.curShakeMag = 0f;
 			}
 		}
-
-		// Token: 0x04002732 RID: 10034
-		private float curShakeMag = 0f;
-
-		// Token: 0x04002733 RID: 10035
-		private const float ShakeDecayRate = 0.5f;
-
-		// Token: 0x04002734 RID: 10036
-		private const float ShakeFrequency = 24f;
-
-		// Token: 0x04002735 RID: 10037
-		private const float MaxShakeMag = 0.2f;
 	}
 }

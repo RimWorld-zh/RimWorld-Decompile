@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x0200084E RID: 2126
 	public class ITab_Pawn_Health : ITab
 	{
+		// Token: 0x04001A18 RID: 6680
+		private const int HideBloodLossTicksThreshold = 60000;
+
+		// Token: 0x04001A19 RID: 6681
+		public const float Width = 630f;
+
 		// Token: 0x06003038 RID: 12344 RVA: 0x001A401C File Offset: 0x001A241C
 		public ITab_Pawn_Health()
 		{
@@ -74,11 +80,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04001A18 RID: 6680
-		private const int HideBloodLossTicksThreshold = 60000;
-
-		// Token: 0x04001A19 RID: 6681
-		public const float Width = 630f;
 	}
 }

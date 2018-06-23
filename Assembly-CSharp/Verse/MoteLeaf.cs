@@ -6,6 +6,25 @@ namespace Verse
 	// Token: 0x02000DE9 RID: 3561
 	public class MoteLeaf : Mote
 	{
+		// Token: 0x040034E5 RID: 13541
+		private Vector3 startSpatialPosition;
+
+		// Token: 0x040034E6 RID: 13542
+		private Vector3 currentSpatialPosition;
+
+		// Token: 0x040034E7 RID: 13543
+		private float spawnDelay;
+
+		// Token: 0x040034E8 RID: 13544
+		private bool front;
+
+		// Token: 0x040034E9 RID: 13545
+		private float treeHeight;
+
+		// Token: 0x040034EA RID: 13546
+		[TweakValue("Graphics", 0f, 5f)]
+		private static float FallSpeed = 0.5f;
+
 		// Token: 0x17000CF6 RID: 3318
 		// (get) Token: 0x06004FD8 RID: 20440 RVA: 0x002973C0 File Offset: 0x002957C0
 		protected override bool EndOfLife
@@ -108,24 +127,5 @@ namespace Verse
 		{
 			base.Draw((!this.front) ? this.def.altitudeLayer.AltitudeFor() : (this.def.altitudeLayer.AltitudeFor() + 0.1f * GenMath.InverseLerp(0f, this.treeHeight, this.currentSpatialPosition.y) * 2f));
 		}
-
-		// Token: 0x040034E5 RID: 13541
-		private Vector3 startSpatialPosition;
-
-		// Token: 0x040034E6 RID: 13542
-		private Vector3 currentSpatialPosition;
-
-		// Token: 0x040034E7 RID: 13543
-		private float spawnDelay;
-
-		// Token: 0x040034E8 RID: 13544
-		private bool front;
-
-		// Token: 0x040034E9 RID: 13545
-		private float treeHeight;
-
-		// Token: 0x040034EA RID: 13546
-		[TweakValue("Graphics", 0f, 5f)]
-		private static float FallSpeed = 0.5f;
 	}
 }

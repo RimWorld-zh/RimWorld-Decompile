@@ -7,6 +7,24 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public class ActiveTip
 	{
+		// Token: 0x04003A2F RID: 14895
+		public TipSignal signal;
+
+		// Token: 0x04003A30 RID: 14896
+		public double firstTriggerTime = 0.0;
+
+		// Token: 0x04003A31 RID: 14897
+		public int lastTriggerFrame;
+
+		// Token: 0x04003A32 RID: 14898
+		private const int TipMargin = 4;
+
+		// Token: 0x04003A33 RID: 14899
+		private const float MaxWidth = 260f;
+
+		// Token: 0x04003A34 RID: 14900
+		public static readonly Texture2D TooltipBGAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/TooltipBG", true);
+
 		// Token: 0x06005801 RID: 22529 RVA: 0x002D2628 File Offset: 0x002D0A28
 		public ActiveTip(TipSignal signal)
 		{
@@ -83,23 +101,5 @@ namespace Verse
 			}, false, false, 1f);
 			return bgRect.height;
 		}
-
-		// Token: 0x04003A2F RID: 14895
-		public TipSignal signal;
-
-		// Token: 0x04003A30 RID: 14896
-		public double firstTriggerTime = 0.0;
-
-		// Token: 0x04003A31 RID: 14897
-		public int lastTriggerFrame;
-
-		// Token: 0x04003A32 RID: 14898
-		private const int TipMargin = 4;
-
-		// Token: 0x04003A33 RID: 14899
-		private const float MaxWidth = 260f;
-
-		// Token: 0x04003A34 RID: 14900
-		public static readonly Texture2D TooltipBGAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/TooltipBG", true);
 	}
 }

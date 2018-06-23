@@ -7,6 +7,15 @@ namespace Verse.AI
 	// Token: 0x02000A5D RID: 2653
 	public class MentalStateHandler : IExposable
 	{
+		// Token: 0x04002553 RID: 9555
+		private Pawn pawn;
+
+		// Token: 0x04002554 RID: 9556
+		private MentalState curStateInt;
+
+		// Token: 0x04002555 RID: 9557
+		public bool neverFleeIndividual;
+
 		// Token: 0x06003B1D RID: 15133 RVA: 0x001F5FE1 File Offset: 0x001F43E1
 		public MentalStateHandler()
 		{
@@ -215,14 +224,5 @@ namespace Verse.AI
 				}
 			}
 		}
-
-		// Token: 0x04002553 RID: 9555
-		private Pawn pawn;
-
-		// Token: 0x04002554 RID: 9556
-		private MentalState curStateInt;
-
-		// Token: 0x04002555 RID: 9557
-		public bool neverFleeIndividual;
 	}
 }

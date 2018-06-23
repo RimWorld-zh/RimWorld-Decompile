@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020007C3 RID: 1987
 	public abstract class Designator_AreaSnowClear : Designator_Area
 	{
+		// Token: 0x04001799 RID: 6041
+		private DesignateMode mode;
+
 		// Token: 0x06002C05 RID: 11269 RVA: 0x001749EC File Offset: 0x00172DEC
 		public Designator_AreaSnowClear(DesignateMode mode)
 		{
@@ -79,8 +82,5 @@ namespace RimWorld
 			GenUI.RenderMouseoverBracket();
 			base.Map.areaManager.SnowClear.MarkForDraw();
 		}
-
-		// Token: 0x04001799 RID: 6041
-		private DesignateMode mode;
 	}
 }

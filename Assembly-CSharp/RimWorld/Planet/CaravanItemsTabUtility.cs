@@ -8,6 +8,12 @@ namespace RimWorld.Planet
 	// Token: 0x020008DC RID: 2268
 	public static class CaravanItemsTabUtility
 	{
+		// Token: 0x04001C10 RID: 7184
+		private const float RowHeight = 30f;
+
+		// Token: 0x04001C11 RID: 7185
+		private const float LabelColumnWidth = 300f;
+
 		// Token: 0x06003406 RID: 13318 RVA: 0x001BD064 File Offset: 0x001BB464
 		public static void DoRows(Vector2 size, List<TransferableImmutable> things, Caravan caravan, ref Vector2 scrollPosition, ref float scrollViewHeight)
 		{
@@ -88,11 +94,5 @@ namespace RimWorld.Planet
 			Text.WordWrap = true;
 			GUI.EndGroup();
 		}
-
-		// Token: 0x04001C10 RID: 7184
-		private const float RowHeight = 30f;
-
-		// Token: 0x04001C11 RID: 7185
-		private const float LabelColumnWidth = 300f;
 	}
 }

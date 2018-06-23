@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x020007CD RID: 1997
 	public class Designator_Hunt : Designator
 	{
+		// Token: 0x040017A0 RID: 6048
+		private List<Pawn> justDesignated = new List<Pawn>();
+
 		// Token: 0x06002C4B RID: 11339 RVA: 0x00175E7C File Offset: 0x0017427C
 		public Designator_Hunt()
 		{
@@ -127,8 +130,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x040017A0 RID: 6048
-		private List<Pawn> justDesignated = new List<Pawn>();
 	}
 }

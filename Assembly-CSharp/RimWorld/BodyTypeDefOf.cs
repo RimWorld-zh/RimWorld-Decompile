@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class BodyTypeDefOf
 	{
-		// Token: 0x06003675 RID: 13941 RVA: 0x001D0EF7 File Offset: 0x001CF2F7
-		static BodyTypeDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(BodyTypeDef));
-		}
-
 		// Token: 0x04002315 RID: 8981
 		public static BodyTypeDef Male;
 
@@ -26,5 +20,11 @@ namespace RimWorld
 
 		// Token: 0x04002319 RID: 8985
 		public static BodyTypeDef Fat;
+
+		// Token: 0x06003675 RID: 13941 RVA: 0x001D0EF7 File Offset: 0x001CF2F7
+		static BodyTypeDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(BodyTypeDef));
+		}
 	}
 }

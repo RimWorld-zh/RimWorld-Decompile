@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000653 RID: 1619
 	public static class ScenarioMaker
 	{
+		// Token: 0x0400132B RID: 4907
+		private static Scenario scen;
+
 		// Token: 0x170004F5 RID: 1269
 		// (get) Token: 0x060021CC RID: 8652 RVA: 0x0011EAEC File Offset: 0x0011CEEC
 		public static Scenario GeneratingScenario
@@ -180,8 +183,5 @@ namespace RimWorld
 			scenPart.def = def;
 			return scenPart;
 		}
-
-		// Token: 0x0400132B RID: 4907
-		private static Scenario scen;
 	}
 }

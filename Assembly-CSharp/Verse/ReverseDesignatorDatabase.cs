@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000E14 RID: 3604
 	public class ReverseDesignatorDatabase
 	{
+		// Token: 0x04003591 RID: 13713
+		private List<Designator> desList;
+
 		// Token: 0x17000D71 RID: 3441
 		// (get) Token: 0x060051DE RID: 20958 RVA: 0x0029F324 File Offset: 0x0029D724
 		public List<Designator> AllDesignators
@@ -65,8 +68,5 @@ namespace Verse
 			this.desList.Add(new Designator_Open());
 			this.desList.RemoveAll((Designator des) => !Current.Game.Rules.DesignatorAllowed(des));
 		}
-
-		// Token: 0x04003591 RID: 13713
-		private List<Designator> desList;
 	}
 }

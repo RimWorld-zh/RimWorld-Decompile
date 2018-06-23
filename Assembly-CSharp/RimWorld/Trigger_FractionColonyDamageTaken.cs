@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x020001AB RID: 427
 	public class Trigger_FractionColonyDamageTaken : Trigger
 	{
+		// Token: 0x040003B8 RID: 952
+		private float desiredColonyDamageFraction;
+
+		// Token: 0x040003B9 RID: 953
+		private float minDamage;
+
 		// Token: 0x060008D3 RID: 2259 RVA: 0x000536D4 File Offset: 0x00051AD4
 		public Trigger_FractionColonyDamageTaken(float desiredColonyDamageFraction, float minDamage = 3.40282347E+38f)
 		{
@@ -54,11 +60,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040003B8 RID: 952
-		private float desiredColonyDamageFraction;
-
-		// Token: 0x040003B9 RID: 953
-		private float minDamage;
 	}
 }

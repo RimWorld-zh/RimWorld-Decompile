@@ -9,6 +9,27 @@ namespace RimWorld
 	// Token: 0x02000787 RID: 1927
 	public struct AlertReport
 	{
+		// Token: 0x0400171A RID: 5914
+		public bool active;
+
+		// Token: 0x0400171B RID: 5915
+		public IEnumerable<GlobalTargetInfo> culprits;
+
+		// Token: 0x0400171C RID: 5916
+		private static Func<Thing, GlobalTargetInfo> ThingToTargetInfo = (Thing x) => new GlobalTargetInfo(x);
+
+		// Token: 0x0400171D RID: 5917
+		private static Func<Pawn, GlobalTargetInfo> PawnToTargetInfo = (Pawn x) => new GlobalTargetInfo(x);
+
+		// Token: 0x0400171E RID: 5918
+		private static Func<Building, GlobalTargetInfo> BuildingToTargetInfo = (Building x) => new GlobalTargetInfo(x);
+
+		// Token: 0x0400171F RID: 5919
+		private static Func<WorldObject, GlobalTargetInfo> WorldObjectToTargetInfo = (WorldObject x) => new GlobalTargetInfo(x);
+
+		// Token: 0x04001720 RID: 5920
+		private static Func<Caravan, GlobalTargetInfo> CaravanToTargetInfo = (Caravan x) => new GlobalTargetInfo(x);
+
 		// Token: 0x170006A8 RID: 1704
 		// (get) Token: 0x06002AC0 RID: 10944 RVA: 0x00169EC0 File Offset: 0x001682C0
 		public bool AnyCulpritValid
@@ -138,26 +159,5 @@ namespace RimWorld
 				};
 			}
 		}
-
-		// Token: 0x0400171A RID: 5914
-		public bool active;
-
-		// Token: 0x0400171B RID: 5915
-		public IEnumerable<GlobalTargetInfo> culprits;
-
-		// Token: 0x0400171C RID: 5916
-		private static Func<Thing, GlobalTargetInfo> ThingToTargetInfo = (Thing x) => new GlobalTargetInfo(x);
-
-		// Token: 0x0400171D RID: 5917
-		private static Func<Pawn, GlobalTargetInfo> PawnToTargetInfo = (Pawn x) => new GlobalTargetInfo(x);
-
-		// Token: 0x0400171E RID: 5918
-		private static Func<Building, GlobalTargetInfo> BuildingToTargetInfo = (Building x) => new GlobalTargetInfo(x);
-
-		// Token: 0x0400171F RID: 5919
-		private static Func<WorldObject, GlobalTargetInfo> WorldObjectToTargetInfo = (WorldObject x) => new GlobalTargetInfo(x);
-
-		// Token: 0x04001720 RID: 5920
-		private static Func<Caravan, GlobalTargetInfo> CaravanToTargetInfo = (Caravan x) => new GlobalTargetInfo(x);
 	}
 }

@@ -7,6 +7,21 @@ namespace Verse
 	// Token: 0x02000CB8 RID: 3256
 	public static class ZoneColorUtility
 	{
+		// Token: 0x040030BE RID: 12478
+		private static List<Color> growingZoneColors = new List<Color>();
+
+		// Token: 0x040030BF RID: 12479
+		private static List<Color> storageZoneColors = new List<Color>();
+
+		// Token: 0x040030C0 RID: 12480
+		private static int nextGrowingZoneColorIndex = 0;
+
+		// Token: 0x040030C1 RID: 12481
+		private static int nextStorageZoneColorIndex = 0;
+
+		// Token: 0x040030C2 RID: 12482
+		private const float ZoneOpacity = 0.09f;
+
 		// Token: 0x060047DC RID: 18396 RVA: 0x0025D120 File Offset: 0x0025B520
 		static ZoneColorUtility()
 		{
@@ -68,20 +83,5 @@ namespace Verse
 			yield return Color.Lerp(new Color(0.5f, 0f, 1f), Color.gray, 0.5f);
 			yield break;
 		}
-
-		// Token: 0x040030BE RID: 12478
-		private static List<Color> growingZoneColors = new List<Color>();
-
-		// Token: 0x040030BF RID: 12479
-		private static List<Color> storageZoneColors = new List<Color>();
-
-		// Token: 0x040030C0 RID: 12480
-		private static int nextGrowingZoneColorIndex = 0;
-
-		// Token: 0x040030C1 RID: 12481
-		private static int nextStorageZoneColorIndex = 0;
-
-		// Token: 0x040030C2 RID: 12482
-		private const float ZoneOpacity = 0.09f;
 	}
 }

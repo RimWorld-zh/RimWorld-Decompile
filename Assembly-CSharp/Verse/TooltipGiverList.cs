@@ -9,6 +9,9 @@ namespace Verse
 	// Token: 0x02000CAC RID: 3244
 	public sealed class TooltipGiverList
 	{
+		// Token: 0x0400308F RID: 12431
+		private List<Thing> givers = new List<Thing>();
+
 		// Token: 0x06004788 RID: 18312 RVA: 0x0025BB89 File Offset: 0x00259F89
 		public void Notify_ThingSpawned(Thing t)
 		{
@@ -72,8 +75,5 @@ namespace Verse
 		{
 			return t.def.hasTooltip || t is Hive || t is IAttackTarget;
 		}
-
-		// Token: 0x0400308F RID: 12431
-		private List<Thing> givers = new List<Thing>();
 	}
 }

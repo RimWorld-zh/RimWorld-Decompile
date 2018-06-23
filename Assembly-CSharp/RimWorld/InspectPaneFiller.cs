@@ -8,6 +8,30 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	internal class InspectPaneFiller
 	{
+		// Token: 0x04001A3D RID: 6717
+		private const float BarHeight = 16f;
+
+		// Token: 0x04001A3E RID: 6718
+		private static readonly Texture2D MoodTex;
+
+		// Token: 0x04001A3F RID: 6719
+		private static readonly Texture2D BarBGTex;
+
+		// Token: 0x04001A40 RID: 6720
+		private static readonly Texture2D HealthTex;
+
+		// Token: 0x04001A41 RID: 6721
+		private const float BarWidth = 93f;
+
+		// Token: 0x04001A42 RID: 6722
+		private const float BarSpacing = 6f;
+
+		// Token: 0x04001A43 RID: 6723
+		private static bool debug_inspectStringExceptionErrored;
+
+		// Token: 0x04001A44 RID: 6724
+		private static Vector2 inspectStringScrollPos;
+
 		// Token: 0x06003083 RID: 12419 RVA: 0x001A5AC4 File Offset: 0x001A3EC4
 		public static void DoPaneContentsFor(ISelectable sel, Rect rect)
 		{
@@ -203,29 +227,5 @@ namespace RimWorld
 			InspectPaneFiller.HealthTex = SolidColorMaterials.NewSolidColorTexture(colorInt3.ToColor);
 			InspectPaneFiller.debug_inspectStringExceptionErrored = false;
 		}
-
-		// Token: 0x04001A3D RID: 6717
-		private const float BarHeight = 16f;
-
-		// Token: 0x04001A3E RID: 6718
-		private static readonly Texture2D MoodTex;
-
-		// Token: 0x04001A3F RID: 6719
-		private static readonly Texture2D BarBGTex;
-
-		// Token: 0x04001A40 RID: 6720
-		private static readonly Texture2D HealthTex;
-
-		// Token: 0x04001A41 RID: 6721
-		private const float BarWidth = 93f;
-
-		// Token: 0x04001A42 RID: 6722
-		private const float BarSpacing = 6f;
-
-		// Token: 0x04001A43 RID: 6723
-		private static bool debug_inspectStringExceptionErrored;
-
-		// Token: 0x04001A44 RID: 6724
-		private static Vector2 inspectStringScrollPos;
 	}
 }

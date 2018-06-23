@@ -5,6 +5,9 @@ namespace Verse
 	// Token: 0x02000BB7 RID: 2999
 	public abstract class WorldGenStep
 	{
+		// Token: 0x04002C74 RID: 11380
+		public WorldGenStepDef def;
+
 		// Token: 0x17000A27 RID: 2599
 		// (get) Token: 0x06004103 RID: 16643
 		public abstract int SeedPart { get; }
@@ -22,8 +25,5 @@ namespace Verse
 		public virtual void GenerateFromScribe(string seed)
 		{
 		}
-
-		// Token: 0x04002C74 RID: 11380
-		public WorldGenStepDef def;
 	}
 }

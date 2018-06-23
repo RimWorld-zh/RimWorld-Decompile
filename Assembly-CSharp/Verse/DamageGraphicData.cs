@@ -7,54 +7,6 @@ namespace Verse
 	// Token: 0x02000B12 RID: 2834
 	public class DamageGraphicData
 	{
-		// Token: 0x06003EA3 RID: 16035 RVA: 0x0020F994 File Offset: 0x0020DD94
-		public void ResolveReferencesSpecial()
-		{
-			LongEventHandler.ExecuteWhenFinished(delegate
-			{
-				if (this.scratches != null)
-				{
-					this.scratchMats = new List<Material>();
-					for (int i = 0; i < this.scratches.Count; i++)
-					{
-						this.scratchMats[i] = MaterialPool.MatFrom(this.scratches[i], ShaderDatabase.Transparent);
-					}
-				}
-				if (this.cornerTL != null)
-				{
-					this.cornerTLMat = MaterialPool.MatFrom(this.cornerTL, ShaderDatabase.Transparent);
-				}
-				if (this.cornerTR != null)
-				{
-					this.cornerTRMat = MaterialPool.MatFrom(this.cornerTR, ShaderDatabase.Transparent);
-				}
-				if (this.cornerBL != null)
-				{
-					this.cornerBLMat = MaterialPool.MatFrom(this.cornerBL, ShaderDatabase.Transparent);
-				}
-				if (this.cornerBR != null)
-				{
-					this.cornerBRMat = MaterialPool.MatFrom(this.cornerBR, ShaderDatabase.Transparent);
-				}
-				if (this.edgeTop != null)
-				{
-					this.edgeTopMat = MaterialPool.MatFrom(this.edgeTop, ShaderDatabase.Transparent);
-				}
-				if (this.edgeBot != null)
-				{
-					this.edgeBotMat = MaterialPool.MatFrom(this.edgeBot, ShaderDatabase.Transparent);
-				}
-				if (this.edgeLeft != null)
-				{
-					this.edgeLeftMat = MaterialPool.MatFrom(this.edgeLeft, ShaderDatabase.Transparent);
-				}
-				if (this.edgeRight != null)
-				{
-					this.edgeRightMat = MaterialPool.MatFrom(this.edgeRight, ShaderDatabase.Transparent);
-				}
-			});
-		}
-
 		// Token: 0x040027F2 RID: 10226
 		public bool enabled = true;
 
@@ -144,5 +96,53 @@ namespace Verse
 		// Token: 0x04002809 RID: 10249
 		[Unsaved]
 		public Material edgeBotMat;
+
+		// Token: 0x06003EA3 RID: 16035 RVA: 0x0020F994 File Offset: 0x0020DD94
+		public void ResolveReferencesSpecial()
+		{
+			LongEventHandler.ExecuteWhenFinished(delegate
+			{
+				if (this.scratches != null)
+				{
+					this.scratchMats = new List<Material>();
+					for (int i = 0; i < this.scratches.Count; i++)
+					{
+						this.scratchMats[i] = MaterialPool.MatFrom(this.scratches[i], ShaderDatabase.Transparent);
+					}
+				}
+				if (this.cornerTL != null)
+				{
+					this.cornerTLMat = MaterialPool.MatFrom(this.cornerTL, ShaderDatabase.Transparent);
+				}
+				if (this.cornerTR != null)
+				{
+					this.cornerTRMat = MaterialPool.MatFrom(this.cornerTR, ShaderDatabase.Transparent);
+				}
+				if (this.cornerBL != null)
+				{
+					this.cornerBLMat = MaterialPool.MatFrom(this.cornerBL, ShaderDatabase.Transparent);
+				}
+				if (this.cornerBR != null)
+				{
+					this.cornerBRMat = MaterialPool.MatFrom(this.cornerBR, ShaderDatabase.Transparent);
+				}
+				if (this.edgeTop != null)
+				{
+					this.edgeTopMat = MaterialPool.MatFrom(this.edgeTop, ShaderDatabase.Transparent);
+				}
+				if (this.edgeBot != null)
+				{
+					this.edgeBotMat = MaterialPool.MatFrom(this.edgeBot, ShaderDatabase.Transparent);
+				}
+				if (this.edgeLeft != null)
+				{
+					this.edgeLeftMat = MaterialPool.MatFrom(this.edgeLeft, ShaderDatabase.Transparent);
+				}
+				if (this.edgeRight != null)
+				{
+					this.edgeRightMat = MaterialPool.MatFrom(this.edgeRight, ShaderDatabase.Transparent);
+				}
+			});
+		}
 	}
 }

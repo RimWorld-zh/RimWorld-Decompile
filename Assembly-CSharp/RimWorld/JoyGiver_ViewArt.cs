@@ -10,6 +10,9 @@ namespace RimWorld
 	// Token: 0x02000103 RID: 259
 	public class JoyGiver_ViewArt : JoyGiver
 	{
+		// Token: 0x040002E3 RID: 739
+		private static List<Thing> candidates = new List<Thing>();
+
 		// Token: 0x06000571 RID: 1393 RVA: 0x0003B234 File Offset: 0x00039634
 		public override Job TryGiveJob(Pawn pawn)
 		{
@@ -74,8 +77,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040002E3 RID: 739
-		private static List<Thing> candidates = new List<Thing>();
 	}
 }

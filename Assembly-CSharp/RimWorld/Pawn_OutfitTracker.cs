@@ -6,6 +6,15 @@ namespace RimWorld
 	// Token: 0x0200050B RID: 1291
 	public class Pawn_OutfitTracker : IExposable
 	{
+		// Token: 0x04000DCC RID: 3532
+		public Pawn pawn;
+
+		// Token: 0x04000DCD RID: 3533
+		private Outfit curOutfit;
+
+		// Token: 0x04000DCE RID: 3534
+		public OutfitForcedHandler forcedHandler = new OutfitForcedHandler();
+
 		// Token: 0x06001739 RID: 5945 RVA: 0x000CC433 File Offset: 0x000CA833
 		public Pawn_OutfitTracker()
 		{
@@ -49,14 +58,5 @@ namespace RimWorld
 			Scribe_References.Look<Outfit>(ref this.curOutfit, "curOutfit", false);
 			Scribe_Deep.Look<OutfitForcedHandler>(ref this.forcedHandler, "overrideHandler", new object[0]);
 		}
-
-		// Token: 0x04000DCC RID: 3532
-		public Pawn pawn;
-
-		// Token: 0x04000DCD RID: 3533
-		private Outfit curOutfit;
-
-		// Token: 0x04000DCE RID: 3534
-		public OutfitForcedHandler forcedHandler = new OutfitForcedHandler();
 	}
 }

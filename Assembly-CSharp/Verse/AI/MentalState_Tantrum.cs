@@ -6,6 +6,12 @@ namespace Verse.AI
 	// Token: 0x02000A82 RID: 2690
 	public abstract class MentalState_Tantrum : MentalState
 	{
+		// Token: 0x0400257B RID: 9595
+		public Thing target;
+
+		// Token: 0x0400257C RID: 9596
+		protected bool hitTargetAtLeastOnce;
+
 		// Token: 0x06003BBB RID: 15291 RVA: 0x001F8346 File Offset: 0x001F6746
 		public override void ExposeData()
 		{
@@ -29,11 +35,5 @@ namespace Verse.AI
 				this.hitTargetAtLeastOnce = true;
 			}
 		}
-
-		// Token: 0x0400257B RID: 9595
-		public Thing target;
-
-		// Token: 0x0400257C RID: 9596
-		protected bool hitTargetAtLeastOnce;
 	}
 }

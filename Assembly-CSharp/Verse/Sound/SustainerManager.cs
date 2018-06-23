@@ -8,6 +8,12 @@ namespace Verse.Sound
 	// Token: 0x02000DC2 RID: 3522
 	public class SustainerManager
 	{
+		// Token: 0x04003464 RID: 13412
+		private List<Sustainer> allSustainers = new List<Sustainer>();
+
+		// Token: 0x04003465 RID: 13413
+		private static Dictionary<SoundDef, List<Sustainer>> playingPerDef = new Dictionary<SoundDef, List<Sustainer>>();
+
 		// Token: 0x17000CB7 RID: 3255
 		// (get) Token: 0x06004EAE RID: 20142 RVA: 0x00291C50 File Offset: 0x00290050
 		public List<Sustainer> AllSustainers
@@ -130,11 +136,5 @@ namespace Verse.Sound
 				}
 			}
 		}
-
-		// Token: 0x04003464 RID: 13412
-		private List<Sustainer> allSustainers = new List<Sustainer>();
-
-		// Token: 0x04003465 RID: 13413
-		private static Dictionary<SoundDef, List<Sustainer>> playingPerDef = new Dictionary<SoundDef, List<Sustainer>>();
 	}
 }

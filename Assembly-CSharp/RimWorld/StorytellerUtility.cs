@@ -10,6 +10,66 @@ namespace RimWorld
 	// Token: 0x02000378 RID: 888
 	public static class StorytellerUtility
 	{
+		// Token: 0x04000964 RID: 2404
+		private const float PointsPer1000Wealth = 7.8f;
+
+		// Token: 0x04000965 RID: 2405
+		public const float BuildingWealthFactor = 0.5f;
+
+		// Token: 0x04000966 RID: 2406
+		private const float PointsPerColonist = 34f;
+
+		// Token: 0x04000967 RID: 2407
+		private const float PointsPerTameAnimalCombatPower = 0.09f;
+
+		// Token: 0x04000968 RID: 2408
+		private const float PointsPerPlayerPawnFactorInContainer = 0.3f;
+
+		// Token: 0x04000969 RID: 2409
+		private const float PointsPerPlayerPawnHealthSummaryLerpAmount = 0.5f;
+
+		// Token: 0x0400096A RID: 2410
+		private static readonly SimpleCurve PostProcessCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 35f),
+				true
+			},
+			{
+				new CurvePoint(100f, 35f),
+				true
+			},
+			{
+				new CurvePoint(1000f, 1000f),
+				true
+			},
+			{
+				new CurvePoint(2000f, 2000f),
+				true
+			},
+			{
+				new CurvePoint(4000f, 3400f),
+				true
+			},
+			{
+				new CurvePoint(5000f, 4100f),
+				true
+			},
+			{
+				new CurvePoint(100000f, 70000f),
+				true
+			}
+		};
+
+		// Token: 0x0400096B RID: 2411
+		public const float CaravanWealthPointsFactor = 0.5f;
+
+		// Token: 0x0400096C RID: 2412
+		public static readonly FloatRange CaravanPointsRandomFactorRange = new FloatRange(0.6f, 1f);
+
+		// Token: 0x0400096D RID: 2413
+		private static Dictionary<IIncidentTarget, StoryState> tmpOldStoryStates = new Dictionary<IIncidentTarget, StoryState>();
+
 		// Token: 0x06000F55 RID: 3925 RVA: 0x00081EA4 File Offset: 0x000802A4
 		public static IncidentParms DefaultParmsNow(IncidentCategoryDef incCat, IIncidentTarget target)
 		{
@@ -305,65 +365,5 @@ namespace RimWorld
 			}
 			Log.Message(stringBuilder.ToString(), false);
 		}
-
-		// Token: 0x04000964 RID: 2404
-		private const float PointsPer1000Wealth = 7.8f;
-
-		// Token: 0x04000965 RID: 2405
-		public const float BuildingWealthFactor = 0.5f;
-
-		// Token: 0x04000966 RID: 2406
-		private const float PointsPerColonist = 34f;
-
-		// Token: 0x04000967 RID: 2407
-		private const float PointsPerTameAnimalCombatPower = 0.09f;
-
-		// Token: 0x04000968 RID: 2408
-		private const float PointsPerPlayerPawnFactorInContainer = 0.3f;
-
-		// Token: 0x04000969 RID: 2409
-		private const float PointsPerPlayerPawnHealthSummaryLerpAmount = 0.5f;
-
-		// Token: 0x0400096A RID: 2410
-		private static readonly SimpleCurve PostProcessCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 35f),
-				true
-			},
-			{
-				new CurvePoint(100f, 35f),
-				true
-			},
-			{
-				new CurvePoint(1000f, 1000f),
-				true
-			},
-			{
-				new CurvePoint(2000f, 2000f),
-				true
-			},
-			{
-				new CurvePoint(4000f, 3400f),
-				true
-			},
-			{
-				new CurvePoint(5000f, 4100f),
-				true
-			},
-			{
-				new CurvePoint(100000f, 70000f),
-				true
-			}
-		};
-
-		// Token: 0x0400096B RID: 2411
-		public const float CaravanWealthPointsFactor = 0.5f;
-
-		// Token: 0x0400096C RID: 2412
-		public static readonly FloatRange CaravanPointsRandomFactorRange = new FloatRange(0.6f, 1f);
-
-		// Token: 0x0400096D RID: 2413
-		private static Dictionary<IIncidentTarget, StoryState> tmpOldStoryStates = new Dictionary<IIncidentTarget, StoryState>();
 	}
 }

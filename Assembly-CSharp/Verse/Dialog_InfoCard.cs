@@ -9,6 +9,21 @@ namespace Verse
 	// Token: 0x02000EBA RID: 3770
 	public class Dialog_InfoCard : Window
 	{
+		// Token: 0x04003B79 RID: 15225
+		private Thing thing;
+
+		// Token: 0x04003B7A RID: 15226
+		private ThingDef stuff;
+
+		// Token: 0x04003B7B RID: 15227
+		private Def def;
+
+		// Token: 0x04003B7C RID: 15228
+		private WorldObject worldObject;
+
+		// Token: 0x04003B7D RID: 15229
+		private Dialog_InfoCard.InfoCardTab tab;
+
 		// Token: 0x0600593B RID: 22843 RVA: 0x002DC5F3 File Offset: 0x002DA9F3
 		public Dialog_InfoCard(Thing thing)
 		{
@@ -220,21 +235,6 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003B79 RID: 15225
-		private Thing thing;
-
-		// Token: 0x04003B7A RID: 15226
-		private ThingDef stuff;
-
-		// Token: 0x04003B7B RID: 15227
-		private Def def;
-
-		// Token: 0x04003B7C RID: 15228
-		private WorldObject worldObject;
-
-		// Token: 0x04003B7D RID: 15229
-		private Dialog_InfoCard.InfoCardTab tab;
 
 		// Token: 0x02000EBB RID: 3771
 		private enum InfoCardTab : byte

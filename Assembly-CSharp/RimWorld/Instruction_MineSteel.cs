@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020008C4 RID: 2244
 	public class Instruction_MineSteel : Lesson_Instruction
 	{
+		// Token: 0x04001B99 RID: 7065
+		private List<IntVec3> mineCells;
+
 		// Token: 0x1700082E RID: 2094
 		// (get) Token: 0x06003355 RID: 13141 RVA: 0x001B9054 File Offset: 0x001B7454
 		protected override float ProgressPercent
@@ -92,8 +95,5 @@ namespace RimWorld
 				Find.ActiveLesson.Deactivate();
 			}
 		}
-
-		// Token: 0x04001B99 RID: 7065
-		private List<IntVec3> mineCells;
 	}
 }

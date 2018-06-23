@@ -7,6 +7,15 @@ namespace Verse
 	// Token: 0x02000C24 RID: 3108
 	public sealed class TerrainGrid : IExposable
 	{
+		// Token: 0x04002E6B RID: 11883
+		private Map map;
+
+		// Token: 0x04002E6C RID: 11884
+		public TerrainDef[] topGrid;
+
+		// Token: 0x04002E6D RID: 11885
+		private TerrainDef[] underGrid;
+
 		// Token: 0x06004443 RID: 17475 RVA: 0x0023EC64 File Offset: 0x0023D064
 		public TerrainGrid(Map map)
 		{
@@ -247,14 +256,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04002E6B RID: 11883
-		private Map map;
-
-		// Token: 0x04002E6C RID: 11884
-		public TerrainDef[] topGrid;
-
-		// Token: 0x04002E6D RID: 11885
-		private TerrainDef[] underGrid;
 	}
 }

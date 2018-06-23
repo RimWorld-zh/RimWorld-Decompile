@@ -5,143 +5,6 @@ namespace Verse.Noise
 	// Token: 0x02000FA0 RID: 4000
 	internal static class Utils
 	{
-		// Token: 0x060060A8 RID: 24744 RVA: 0x0030F520 File Offset: 0x0030D920
-		internal static double GradientCoherentNoise3D(double x, double y, double z, long seed, QualityMode quality)
-		{
-			int num = (x <= 0.0) ? ((int)x - 1) : ((int)x);
-			int ix = num + 1;
-			int num2 = (y <= 0.0) ? ((int)y - 1) : ((int)y);
-			int iy = num2 + 1;
-			int num3 = (z <= 0.0) ? ((int)z - 1) : ((int)z);
-			int iz = num3 + 1;
-			double position = 0.0;
-			double position2 = 0.0;
-			double position3 = 0.0;
-			if (quality != QualityMode.Low)
-			{
-				if (quality != QualityMode.Medium)
-				{
-					if (quality == QualityMode.High)
-					{
-						position = Utils.MapQuinticSCurve(x - (double)num);
-						position2 = Utils.MapQuinticSCurve(y - (double)num2);
-						position3 = Utils.MapQuinticSCurve(z - (double)num3);
-					}
-				}
-				else
-				{
-					position = Utils.MapCubicSCurve(x - (double)num);
-					position2 = Utils.MapCubicSCurve(y - (double)num2);
-					position3 = Utils.MapCubicSCurve(z - (double)num3);
-				}
-			}
-			else
-			{
-				position = x - (double)num;
-				position2 = y - (double)num2;
-				position3 = z - (double)num3;
-			}
-			double a = Utils.GradientNoise3D(x, y, z, num, num2, num3, seed);
-			double b = Utils.GradientNoise3D(x, y, z, ix, num2, num3, seed);
-			double a2 = Utils.InterpolateLinear(a, b, position);
-			a = Utils.GradientNoise3D(x, y, z, num, iy, num3, seed);
-			b = Utils.GradientNoise3D(x, y, z, ix, iy, num3, seed);
-			double b2 = Utils.InterpolateLinear(a, b, position);
-			double a3 = Utils.InterpolateLinear(a2, b2, position2);
-			a = Utils.GradientNoise3D(x, y, z, num, num2, iz, seed);
-			b = Utils.GradientNoise3D(x, y, z, ix, num2, iz, seed);
-			a2 = Utils.InterpolateLinear(a, b, position);
-			a = Utils.GradientNoise3D(x, y, z, num, iy, iz, seed);
-			b = Utils.GradientNoise3D(x, y, z, ix, iy, iz, seed);
-			b2 = Utils.InterpolateLinear(a, b, position);
-			double b3 = Utils.InterpolateLinear(a2, b2, position2);
-			return Utils.InterpolateLinear(a3, b3, position3);
-		}
-
-		// Token: 0x060060A9 RID: 24745 RVA: 0x0030F710 File Offset: 0x0030DB10
-		internal static double GradientNoise3D(double fx, double fy, double fz, int ix, int iy, int iz, long seed)
-		{
-			long num = (long)(1619 * ix + 31337 * iy + 6971 * iz) + 1013L * seed & (long)((ulong)-1);
-			num ^= num >> 8;
-			num &= 255L;
-			double num2;
-			double num3;
-			double num4;
-			checked
-			{
-				num2 = Utils._randoms[(int)((IntPtr)(num << 2))];
-				num3 = Utils._randoms[(int)((IntPtr)(unchecked((num << 2) + 1L)))];
-				num4 = Utils._randoms[(int)((IntPtr)(unchecked((num << 2) + 2L)))];
-			}
-			double num5 = fx - (double)ix;
-			double num6 = fy - (double)iy;
-			double num7 = fz - (double)iz;
-			return (num2 * num5 + num3 * num6 + num4 * num7) * 2.12;
-		}
-
-		// Token: 0x060060AA RID: 24746 RVA: 0x0030F7B4 File Offset: 0x0030DBB4
-		internal static double InterpolateCubic(double a, double b, double c, double d, double position)
-		{
-			double num = d - c - (a - b);
-			double num2 = a - b - num;
-			double num3 = c - a;
-			return num * position * position * position + num2 * position * position + num3 * position + b;
-		}
-
-		// Token: 0x060060AB RID: 24747 RVA: 0x0030F7F8 File Offset: 0x0030DBF8
-		internal static double InterpolateLinear(double a, double b, double position)
-		{
-			return (1.0 - position) * a + position * b;
-		}
-
-		// Token: 0x060060AC RID: 24748 RVA: 0x0030F820 File Offset: 0x0030DC20
-		internal static double MakeInt32Range(double value)
-		{
-			double result;
-			if (value >= 1073741824.0)
-			{
-				result = 2.0 * Math.IEEERemainder(value, 1073741824.0) - 1073741824.0;
-			}
-			else if (value <= -1073741824.0)
-			{
-				result = 2.0 * Math.IEEERemainder(value, 1073741824.0) + 1073741824.0;
-			}
-			else
-			{
-				result = value;
-			}
-			return result;
-		}
-
-		// Token: 0x060060AD RID: 24749 RVA: 0x0030F8AC File Offset: 0x0030DCAC
-		internal static double MapCubicSCurve(double value)
-		{
-			return value * value * (3.0 - 2.0 * value);
-		}
-
-		// Token: 0x060060AE RID: 24750 RVA: 0x0030F8DC File Offset: 0x0030DCDC
-		internal static double MapQuinticSCurve(double value)
-		{
-			double num = value * value * value;
-			double num2 = num * value;
-			double num3 = num2 * value;
-			return 6.0 * num3 - 15.0 * num2 + 10.0 * num;
-		}
-
-		// Token: 0x060060AF RID: 24751 RVA: 0x0030F924 File Offset: 0x0030DD24
-		internal static double ValueNoise3D(int x, int y, int z, int seed)
-		{
-			return 1.0 - (double)Utils.ValueNoise3DInt(x, y, z, seed) / 1073741824.0;
-		}
-
-		// Token: 0x060060B0 RID: 24752 RVA: 0x0030F958 File Offset: 0x0030DD58
-		internal static long ValueNoise3DInt(int x, int y, int z, int seed)
-		{
-			long num = (long)(1619 * x + 31337 * y + 6971 * z + 1013 * seed & int.MaxValue);
-			num = (num >> 13 ^ num);
-			return num * (num * num * 60493L + 19990303L) + 1376312589L & 2147483647L;
-		}
-
 		// Token: 0x04003F47 RID: 16199
 		internal const double DegToRad = 0.017453292519943295;
 
@@ -1194,5 +1057,142 @@ namespace Verse.Noise
 			-0.196654,
 			0.0
 		};
+
+		// Token: 0x060060A8 RID: 24744 RVA: 0x0030F520 File Offset: 0x0030D920
+		internal static double GradientCoherentNoise3D(double x, double y, double z, long seed, QualityMode quality)
+		{
+			int num = (x <= 0.0) ? ((int)x - 1) : ((int)x);
+			int ix = num + 1;
+			int num2 = (y <= 0.0) ? ((int)y - 1) : ((int)y);
+			int iy = num2 + 1;
+			int num3 = (z <= 0.0) ? ((int)z - 1) : ((int)z);
+			int iz = num3 + 1;
+			double position = 0.0;
+			double position2 = 0.0;
+			double position3 = 0.0;
+			if (quality != QualityMode.Low)
+			{
+				if (quality != QualityMode.Medium)
+				{
+					if (quality == QualityMode.High)
+					{
+						position = Utils.MapQuinticSCurve(x - (double)num);
+						position2 = Utils.MapQuinticSCurve(y - (double)num2);
+						position3 = Utils.MapQuinticSCurve(z - (double)num3);
+					}
+				}
+				else
+				{
+					position = Utils.MapCubicSCurve(x - (double)num);
+					position2 = Utils.MapCubicSCurve(y - (double)num2);
+					position3 = Utils.MapCubicSCurve(z - (double)num3);
+				}
+			}
+			else
+			{
+				position = x - (double)num;
+				position2 = y - (double)num2;
+				position3 = z - (double)num3;
+			}
+			double a = Utils.GradientNoise3D(x, y, z, num, num2, num3, seed);
+			double b = Utils.GradientNoise3D(x, y, z, ix, num2, num3, seed);
+			double a2 = Utils.InterpolateLinear(a, b, position);
+			a = Utils.GradientNoise3D(x, y, z, num, iy, num3, seed);
+			b = Utils.GradientNoise3D(x, y, z, ix, iy, num3, seed);
+			double b2 = Utils.InterpolateLinear(a, b, position);
+			double a3 = Utils.InterpolateLinear(a2, b2, position2);
+			a = Utils.GradientNoise3D(x, y, z, num, num2, iz, seed);
+			b = Utils.GradientNoise3D(x, y, z, ix, num2, iz, seed);
+			a2 = Utils.InterpolateLinear(a, b, position);
+			a = Utils.GradientNoise3D(x, y, z, num, iy, iz, seed);
+			b = Utils.GradientNoise3D(x, y, z, ix, iy, iz, seed);
+			b2 = Utils.InterpolateLinear(a, b, position);
+			double b3 = Utils.InterpolateLinear(a2, b2, position2);
+			return Utils.InterpolateLinear(a3, b3, position3);
+		}
+
+		// Token: 0x060060A9 RID: 24745 RVA: 0x0030F710 File Offset: 0x0030DB10
+		internal static double GradientNoise3D(double fx, double fy, double fz, int ix, int iy, int iz, long seed)
+		{
+			long num = (long)(1619 * ix + 31337 * iy + 6971 * iz) + 1013L * seed & (long)((ulong)-1);
+			num ^= num >> 8;
+			num &= 255L;
+			double num2;
+			double num3;
+			double num4;
+			checked
+			{
+				num2 = Utils._randoms[(int)((IntPtr)(num << 2))];
+				num3 = Utils._randoms[(int)((IntPtr)(unchecked((num << 2) + 1L)))];
+				num4 = Utils._randoms[(int)((IntPtr)(unchecked((num << 2) + 2L)))];
+			}
+			double num5 = fx - (double)ix;
+			double num6 = fy - (double)iy;
+			double num7 = fz - (double)iz;
+			return (num2 * num5 + num3 * num6 + num4 * num7) * 2.12;
+		}
+
+		// Token: 0x060060AA RID: 24746 RVA: 0x0030F7B4 File Offset: 0x0030DBB4
+		internal static double InterpolateCubic(double a, double b, double c, double d, double position)
+		{
+			double num = d - c - (a - b);
+			double num2 = a - b - num;
+			double num3 = c - a;
+			return num * position * position * position + num2 * position * position + num3 * position + b;
+		}
+
+		// Token: 0x060060AB RID: 24747 RVA: 0x0030F7F8 File Offset: 0x0030DBF8
+		internal static double InterpolateLinear(double a, double b, double position)
+		{
+			return (1.0 - position) * a + position * b;
+		}
+
+		// Token: 0x060060AC RID: 24748 RVA: 0x0030F820 File Offset: 0x0030DC20
+		internal static double MakeInt32Range(double value)
+		{
+			double result;
+			if (value >= 1073741824.0)
+			{
+				result = 2.0 * Math.IEEERemainder(value, 1073741824.0) - 1073741824.0;
+			}
+			else if (value <= -1073741824.0)
+			{
+				result = 2.0 * Math.IEEERemainder(value, 1073741824.0) + 1073741824.0;
+			}
+			else
+			{
+				result = value;
+			}
+			return result;
+		}
+
+		// Token: 0x060060AD RID: 24749 RVA: 0x0030F8AC File Offset: 0x0030DCAC
+		internal static double MapCubicSCurve(double value)
+		{
+			return value * value * (3.0 - 2.0 * value);
+		}
+
+		// Token: 0x060060AE RID: 24750 RVA: 0x0030F8DC File Offset: 0x0030DCDC
+		internal static double MapQuinticSCurve(double value)
+		{
+			double num = value * value * value;
+			double num2 = num * value;
+			double num3 = num2 * value;
+			return 6.0 * num3 - 15.0 * num2 + 10.0 * num;
+		}
+
+		// Token: 0x060060AF RID: 24751 RVA: 0x0030F924 File Offset: 0x0030DD24
+		internal static double ValueNoise3D(int x, int y, int z, int seed)
+		{
+			return 1.0 - (double)Utils.ValueNoise3DInt(x, y, z, seed) / 1073741824.0;
+		}
+
+		// Token: 0x060060B0 RID: 24752 RVA: 0x0030F958 File Offset: 0x0030DD58
+		internal static long ValueNoise3DInt(int x, int y, int z, int seed)
+		{
+			long num = (long)(1619 * x + 31337 * y + 6971 * z + 1013 * seed & int.MaxValue);
+			num = (num >> 13 ^ num);
+			return num * (num * num * 60493L + 19990303L) + 1376312589L & 2147483647L;
+		}
 	}
 }

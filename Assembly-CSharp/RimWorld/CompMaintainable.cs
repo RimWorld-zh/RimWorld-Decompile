@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x0200071B RID: 1819
 	public class CompMaintainable : ThingComp
 	{
+		// Token: 0x040015F5 RID: 5621
+		public int ticksSinceMaintain;
+
 		// Token: 0x1700061F RID: 1567
 		// (get) Token: 0x06002821 RID: 10273 RVA: 0x001573F8 File Offset: 0x001557F8
 		public CompProperties_Maintainable Props
@@ -118,8 +121,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040015F5 RID: 5621
-		public int ticksSinceMaintain;
 	}
 }

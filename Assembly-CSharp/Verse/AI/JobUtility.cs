@@ -6,6 +6,9 @@ namespace Verse.AI
 	// Token: 0x02000A54 RID: 2644
 	public static class JobUtility
 	{
+		// Token: 0x04002540 RID: 9536
+		private static bool startingErrorRecoverJob = false;
+
 		// Token: 0x06003AEC RID: 15084 RVA: 0x001F44B0 File Offset: 0x001F28B0
 		public static void TryStartErrorRecoverJob(Pawn pawn, string message, Exception exception = null, JobDriver concreteDriver = null)
 		{
@@ -86,8 +89,5 @@ namespace Verse.AI
 				msg = msg + " lastJobGiver=" + pawn.mindState.lastJobGiver.ToStringSafe<ThinkNode>();
 			}
 		}
-
-		// Token: 0x04002540 RID: 9536
-		private static bool startingErrorRecoverJob = false;
 	}
 }

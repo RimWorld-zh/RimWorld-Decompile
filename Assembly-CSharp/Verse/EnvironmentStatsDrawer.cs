@@ -8,6 +8,33 @@ namespace Verse
 	// Token: 0x02000E5D RID: 3677
 	internal static class EnvironmentStatsDrawer
 	{
+		// Token: 0x04003967 RID: 14695
+		private const float StatLabelColumnWidth = 100f;
+
+		// Token: 0x04003968 RID: 14696
+		private const float ScoreColumnWidth = 50f;
+
+		// Token: 0x04003969 RID: 14697
+		private const float ScoreStageLabelColumnWidth = 160f;
+
+		// Token: 0x0400396A RID: 14698
+		private static readonly Color RelatedStatColor = new Color(0.85f, 0.85f, 0.85f);
+
+		// Token: 0x0400396B RID: 14699
+		private const float DistFromMouse = 26f;
+
+		// Token: 0x0400396C RID: 14700
+		private const float WindowPadding = 18f;
+
+		// Token: 0x0400396D RID: 14701
+		private const float LineHeight = 23f;
+
+		// Token: 0x0400396E RID: 14702
+		private const float SpaceBetweenLines = 2f;
+
+		// Token: 0x0400396F RID: 14703
+		private const float SpaceBetweenColumns = 35f;
+
 		// Token: 0x17000D9D RID: 3485
 		// (get) Token: 0x060056B0 RID: 22192 RVA: 0x002CAFE0 File Offset: 0x002C93E0
 		private static int DisplayedRoomStatsCount
@@ -230,32 +257,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003967 RID: 14695
-		private const float StatLabelColumnWidth = 100f;
-
-		// Token: 0x04003968 RID: 14696
-		private const float ScoreColumnWidth = 50f;
-
-		// Token: 0x04003969 RID: 14697
-		private const float ScoreStageLabelColumnWidth = 160f;
-
-		// Token: 0x0400396A RID: 14698
-		private static readonly Color RelatedStatColor = new Color(0.85f, 0.85f, 0.85f);
-
-		// Token: 0x0400396B RID: 14699
-		private const float DistFromMouse = 26f;
-
-		// Token: 0x0400396C RID: 14700
-		private const float WindowPadding = 18f;
-
-		// Token: 0x0400396D RID: 14701
-		private const float LineHeight = 23f;
-
-		// Token: 0x0400396E RID: 14702
-		private const float SpaceBetweenLines = 2f;
-
-		// Token: 0x0400396F RID: 14703
-		private const float SpaceBetweenColumns = 35f;
 	}
 }

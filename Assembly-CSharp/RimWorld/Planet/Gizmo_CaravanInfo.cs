@@ -8,6 +8,9 @@ namespace RimWorld.Planet
 	// Token: 0x020005F2 RID: 1522
 	public class Gizmo_CaravanInfo : Gizmo
 	{
+		// Token: 0x04001202 RID: 4610
+		private Caravan caravan;
+
 		// Token: 0x06001E57 RID: 7767 RVA: 0x0010691D File Offset: 0x00104D1D
 		public Gizmo_CaravanInfo(Caravan caravan)
 		{
@@ -45,8 +48,5 @@ namespace RimWorld.Planet
 			}
 			return result;
 		}
-
-		// Token: 0x04001202 RID: 4610
-		private Caravan caravan;
 	}
 }

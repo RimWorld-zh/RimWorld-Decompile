@@ -11,6 +11,69 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public class Caravan : WorldObject, IThingHolder, IIncidentTarget, ITrader, ILoadReferenceable
 	{
+		// Token: 0x0400115A RID: 4442
+		private string nameInt;
+
+		// Token: 0x0400115B RID: 4443
+		public ThingOwner<Pawn> pawns;
+
+		// Token: 0x0400115C RID: 4444
+		public bool autoJoinable;
+
+		// Token: 0x0400115D RID: 4445
+		public Caravan_PathFollower pather;
+
+		// Token: 0x0400115E RID: 4446
+		public Caravan_GotoMoteRenderer gotoMote;
+
+		// Token: 0x0400115F RID: 4447
+		public Caravan_Tweener tweener;
+
+		// Token: 0x04001160 RID: 4448
+		public Caravan_TraderTracker trader;
+
+		// Token: 0x04001161 RID: 4449
+		public Caravan_ForageTracker forage;
+
+		// Token: 0x04001162 RID: 4450
+		public StoryState storyState;
+
+		// Token: 0x04001163 RID: 4451
+		private Material cachedMat;
+
+		// Token: 0x04001164 RID: 4452
+		private bool cachedImmobilized;
+
+		// Token: 0x04001165 RID: 4453
+		private int cachedImmobilizedForTicks = -99999;
+
+		// Token: 0x04001166 RID: 4454
+		private Pair<float, float> cachedDaysWorthOfFood;
+
+		// Token: 0x04001167 RID: 4455
+		private int cachedDaysWorthOfFoodForTicks = -99999;
+
+		// Token: 0x04001168 RID: 4456
+		public bool notifiedOutOfFood;
+
+		// Token: 0x04001169 RID: 4457
+		private const int ImmobilizedCacheDuration = 60;
+
+		// Token: 0x0400116A RID: 4458
+		private const int DaysWorthOfFoodCacheDuration = 3000;
+
+		// Token: 0x0400116B RID: 4459
+		private const int TendIntervalTicks = 2000;
+
+		// Token: 0x0400116C RID: 4460
+		private const int TryTakeScheduledDrugsIntervalTicks = 120;
+
+		// Token: 0x0400116D RID: 4461
+		private static readonly Texture2D SplitCommand = ContentFinder<Texture2D>.Get("UI/Commands/SplitCaravan", true);
+
+		// Token: 0x0400116E RID: 4462
+		private static readonly Color PlayerCaravanColor = new Color(1f, 0.863f, 0.33f);
+
 		// Token: 0x06001D0F RID: 7439 RVA: 0x000F9EB8 File Offset: 0x000F82B8
 		public Caravan()
 		{
@@ -1123,68 +1186,5 @@ namespace RimWorld.Planet
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
-
-		// Token: 0x0400115A RID: 4442
-		private string nameInt;
-
-		// Token: 0x0400115B RID: 4443
-		public ThingOwner<Pawn> pawns;
-
-		// Token: 0x0400115C RID: 4444
-		public bool autoJoinable;
-
-		// Token: 0x0400115D RID: 4445
-		public Caravan_PathFollower pather;
-
-		// Token: 0x0400115E RID: 4446
-		public Caravan_GotoMoteRenderer gotoMote;
-
-		// Token: 0x0400115F RID: 4447
-		public Caravan_Tweener tweener;
-
-		// Token: 0x04001160 RID: 4448
-		public Caravan_TraderTracker trader;
-
-		// Token: 0x04001161 RID: 4449
-		public Caravan_ForageTracker forage;
-
-		// Token: 0x04001162 RID: 4450
-		public StoryState storyState;
-
-		// Token: 0x04001163 RID: 4451
-		private Material cachedMat;
-
-		// Token: 0x04001164 RID: 4452
-		private bool cachedImmobilized;
-
-		// Token: 0x04001165 RID: 4453
-		private int cachedImmobilizedForTicks = -99999;
-
-		// Token: 0x04001166 RID: 4454
-		private Pair<float, float> cachedDaysWorthOfFood;
-
-		// Token: 0x04001167 RID: 4455
-		private int cachedDaysWorthOfFoodForTicks = -99999;
-
-		// Token: 0x04001168 RID: 4456
-		public bool notifiedOutOfFood;
-
-		// Token: 0x04001169 RID: 4457
-		private const int ImmobilizedCacheDuration = 60;
-
-		// Token: 0x0400116A RID: 4458
-		private const int DaysWorthOfFoodCacheDuration = 3000;
-
-		// Token: 0x0400116B RID: 4459
-		private const int TendIntervalTicks = 2000;
-
-		// Token: 0x0400116C RID: 4460
-		private const int TryTakeScheduledDrugsIntervalTicks = 120;
-
-		// Token: 0x0400116D RID: 4461
-		private static readonly Texture2D SplitCommand = ContentFinder<Texture2D>.Get("UI/Commands/SplitCaravan", true);
-
-		// Token: 0x0400116E RID: 4462
-		private static readonly Color PlayerCaravanColor = new Color(1f, 0.863f, 0.33f);
 	}
 }

@@ -7,6 +7,87 @@ namespace RimWorld.Planet
 	// Token: 0x02000582 RID: 1410
 	public class WorldCameraDriver : MonoBehaviour
 	{
+		// Token: 0x04000FBB RID: 4027
+		public WorldCameraConfig config = new WorldCameraConfig_Normal();
+
+		// Token: 0x04000FBC RID: 4028
+		public Quaternion sphereRotation = Quaternion.identity;
+
+		// Token: 0x04000FBD RID: 4029
+		private Vector2 rotationVelocity;
+
+		// Token: 0x04000FBE RID: 4030
+		private Vector2 desiredRotation;
+
+		// Token: 0x04000FBF RID: 4031
+		private float desiredAltitude;
+
+		// Token: 0x04000FC0 RID: 4032
+		public float altitude;
+
+		// Token: 0x04000FC1 RID: 4033
+		private Camera cachedCamera;
+
+		// Token: 0x04000FC2 RID: 4034
+		private Vector2 mouseDragVect;
+
+		// Token: 0x04000FC3 RID: 4035
+		private bool mouseCoveredByUI;
+
+		// Token: 0x04000FC4 RID: 4036
+		private float mouseTouchingScreenBottomEdgeStartTime = -1f;
+
+		// Token: 0x04000FC5 RID: 4037
+		private float fixedTimeStepBuffer;
+
+		// Token: 0x04000FC6 RID: 4038
+		private Quaternion rotationAnimation_prevSphereRotation = Quaternion.identity;
+
+		// Token: 0x04000FC7 RID: 4039
+		private float rotationAnimation_lerpFactor = 1f;
+
+		// Token: 0x04000FC8 RID: 4040
+		private const float SphereRadius = 100f;
+
+		// Token: 0x04000FC9 RID: 4041
+		private const float ScreenDollyEdgeWidth = 20f;
+
+		// Token: 0x04000FCA RID: 4042
+		private const float ScreenDollyEdgeWidth_BottomFullscreen = 6f;
+
+		// Token: 0x04000FCB RID: 4043
+		private const float MinDurationForMouseToTouchScreenBottomEdgeToDolly = 0.28f;
+
+		// Token: 0x04000FCC RID: 4044
+		private const float MaxXRotationAtMinAltitude = 88.6f;
+
+		// Token: 0x04000FCD RID: 4045
+		private const float MaxXRotationAtMaxAltitude = 78f;
+
+		// Token: 0x04000FCE RID: 4046
+		private const float StartingAltitude_Playing = 160f;
+
+		// Token: 0x04000FCF RID: 4047
+		private const float StartingAltitude_Entry = 550f;
+
+		// Token: 0x04000FD0 RID: 4048
+		public const float MinAltitude = 125f;
+
+		// Token: 0x04000FD1 RID: 4049
+		private const float MaxAltitude = 1100f;
+
+		// Token: 0x04000FD2 RID: 4050
+		private const float ZoomTightness = 0.4f;
+
+		// Token: 0x04000FD3 RID: 4051
+		private const float ZoomScaleFromAltDenominator = 12f;
+
+		// Token: 0x04000FD4 RID: 4052
+		private const float PageKeyZoomRate = 2f;
+
+		// Token: 0x04000FD5 RID: 4053
+		private const float ScrollWheelZoomRate = 0.1f;
+
 		// Token: 0x170003E3 RID: 995
 		// (get) Token: 0x06001ADE RID: 6878 RVA: 0x000E70D4 File Offset: 0x000E54D4
 		private Camera MyCamera
@@ -401,86 +482,5 @@ namespace RimWorld.Planet
 				invRot = Quaternion.Inverse(Quaternion.Euler(eulerAngles));
 			}
 		}
-
-		// Token: 0x04000FBB RID: 4027
-		public WorldCameraConfig config = new WorldCameraConfig_Normal();
-
-		// Token: 0x04000FBC RID: 4028
-		public Quaternion sphereRotation = Quaternion.identity;
-
-		// Token: 0x04000FBD RID: 4029
-		private Vector2 rotationVelocity;
-
-		// Token: 0x04000FBE RID: 4030
-		private Vector2 desiredRotation;
-
-		// Token: 0x04000FBF RID: 4031
-		private float desiredAltitude;
-
-		// Token: 0x04000FC0 RID: 4032
-		public float altitude;
-
-		// Token: 0x04000FC1 RID: 4033
-		private Camera cachedCamera;
-
-		// Token: 0x04000FC2 RID: 4034
-		private Vector2 mouseDragVect;
-
-		// Token: 0x04000FC3 RID: 4035
-		private bool mouseCoveredByUI;
-
-		// Token: 0x04000FC4 RID: 4036
-		private float mouseTouchingScreenBottomEdgeStartTime = -1f;
-
-		// Token: 0x04000FC5 RID: 4037
-		private float fixedTimeStepBuffer;
-
-		// Token: 0x04000FC6 RID: 4038
-		private Quaternion rotationAnimation_prevSphereRotation = Quaternion.identity;
-
-		// Token: 0x04000FC7 RID: 4039
-		private float rotationAnimation_lerpFactor = 1f;
-
-		// Token: 0x04000FC8 RID: 4040
-		private const float SphereRadius = 100f;
-
-		// Token: 0x04000FC9 RID: 4041
-		private const float ScreenDollyEdgeWidth = 20f;
-
-		// Token: 0x04000FCA RID: 4042
-		private const float ScreenDollyEdgeWidth_BottomFullscreen = 6f;
-
-		// Token: 0x04000FCB RID: 4043
-		private const float MinDurationForMouseToTouchScreenBottomEdgeToDolly = 0.28f;
-
-		// Token: 0x04000FCC RID: 4044
-		private const float MaxXRotationAtMinAltitude = 88.6f;
-
-		// Token: 0x04000FCD RID: 4045
-		private const float MaxXRotationAtMaxAltitude = 78f;
-
-		// Token: 0x04000FCE RID: 4046
-		private const float StartingAltitude_Playing = 160f;
-
-		// Token: 0x04000FCF RID: 4047
-		private const float StartingAltitude_Entry = 550f;
-
-		// Token: 0x04000FD0 RID: 4048
-		public const float MinAltitude = 125f;
-
-		// Token: 0x04000FD1 RID: 4049
-		private const float MaxAltitude = 1100f;
-
-		// Token: 0x04000FD2 RID: 4050
-		private const float ZoomTightness = 0.4f;
-
-		// Token: 0x04000FD3 RID: 4051
-		private const float ZoomScaleFromAltDenominator = 12f;
-
-		// Token: 0x04000FD4 RID: 4052
-		private const float PageKeyZoomRate = 2f;
-
-		// Token: 0x04000FD5 RID: 4053
-		private const float ScrollWheelZoomRate = 0.1f;
 	}
 }

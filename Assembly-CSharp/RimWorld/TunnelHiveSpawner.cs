@@ -12,6 +12,42 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class TunnelHiveSpawner : ThingWithComps
 	{
+		// Token: 0x040014AD RID: 5293
+		private int secondarySpawnTick;
+
+		// Token: 0x040014AE RID: 5294
+		public bool spawnHive = true;
+
+		// Token: 0x040014AF RID: 5295
+		public float insectsPoints;
+
+		// Token: 0x040014B0 RID: 5296
+		private Sustainer sustainer;
+
+		// Token: 0x040014B1 RID: 5297
+		private static MaterialPropertyBlock matPropertyBlock = new MaterialPropertyBlock();
+
+		// Token: 0x040014B2 RID: 5298
+		private readonly FloatRange ResultSpawnDelay = new FloatRange(12f, 16f);
+
+		// Token: 0x040014B3 RID: 5299
+		[TweakValue("Gameplay", 0f, 1f)]
+		private static float DustMoteSpawnMTB = 0.2f;
+
+		// Token: 0x040014B4 RID: 5300
+		[TweakValue("Gameplay", 0f, 1f)]
+		private static float FilthSpawnMTB = 0.3f;
+
+		// Token: 0x040014B5 RID: 5301
+		[TweakValue("Gameplay", 0f, 10f)]
+		private static float FilthSpawnRadius = 3f;
+
+		// Token: 0x040014B6 RID: 5302
+		private static readonly Material TunnelMaterial = MaterialPool.MatFrom("Things/Filth/Grainy/GrainyA", ShaderDatabase.Transparent);
+
+		// Token: 0x040014B7 RID: 5303
+		private static List<ThingDef> filthTypes = new List<ThingDef>();
+
 		// Token: 0x06002538 RID: 9528 RVA: 0x0013F7AC File Offset: 0x0013DBAC
 		public static void ResetStaticData()
 		{
@@ -152,41 +188,5 @@ namespace RimWorld
 				this.sustainer = tunnel.TrySpawnSustainer(SoundInfo.InMap(this, MaintenanceType.PerTick));
 			});
 		}
-
-		// Token: 0x040014AD RID: 5293
-		private int secondarySpawnTick;
-
-		// Token: 0x040014AE RID: 5294
-		public bool spawnHive = true;
-
-		// Token: 0x040014AF RID: 5295
-		public float insectsPoints;
-
-		// Token: 0x040014B0 RID: 5296
-		private Sustainer sustainer;
-
-		// Token: 0x040014B1 RID: 5297
-		private static MaterialPropertyBlock matPropertyBlock = new MaterialPropertyBlock();
-
-		// Token: 0x040014B2 RID: 5298
-		private readonly FloatRange ResultSpawnDelay = new FloatRange(12f, 16f);
-
-		// Token: 0x040014B3 RID: 5299
-		[TweakValue("Gameplay", 0f, 1f)]
-		private static float DustMoteSpawnMTB = 0.2f;
-
-		// Token: 0x040014B4 RID: 5300
-		[TweakValue("Gameplay", 0f, 1f)]
-		private static float FilthSpawnMTB = 0.3f;
-
-		// Token: 0x040014B5 RID: 5301
-		[TweakValue("Gameplay", 0f, 10f)]
-		private static float FilthSpawnRadius = 3f;
-
-		// Token: 0x040014B6 RID: 5302
-		private static readonly Material TunnelMaterial = MaterialPool.MatFrom("Things/Filth/Grainy/GrainyA", ShaderDatabase.Transparent);
-
-		// Token: 0x040014B7 RID: 5303
-		private static List<ThingDef> filthTypes = new List<ThingDef>();
 	}
 }

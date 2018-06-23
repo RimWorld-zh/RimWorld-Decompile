@@ -5,31 +5,6 @@ namespace Verse
 	// Token: 0x02000B5B RID: 2907
 	public class PawnKindLifeStage
 	{
-		// Token: 0x06003F89 RID: 16265 RVA: 0x00217A32 File Offset: 0x00215E32
-		public void PostLoad()
-		{
-			this.untranslatedLabel = this.label;
-			this.untranslatedLabelMale = this.labelMale;
-			this.untranslatedLabelFemale = this.labelFemale;
-		}
-
-		// Token: 0x06003F8A RID: 16266 RVA: 0x00217A5C File Offset: 0x00215E5C
-		public void ResolveReferences()
-		{
-			if (this.bodyGraphicData != null && this.bodyGraphicData.graphicClass == null)
-			{
-				this.bodyGraphicData.graphicClass = typeof(Graphic_Multi);
-			}
-			if (this.femaleGraphicData != null && this.femaleGraphicData.graphicClass == null)
-			{
-				this.femaleGraphicData.graphicClass = typeof(Graphic_Multi);
-			}
-			if (this.dessicatedBodyGraphicData != null && this.dessicatedBodyGraphicData.graphicClass == null)
-			{
-				this.dessicatedBodyGraphicData.graphicClass = typeof(Graphic_Multi);
-			}
-		}
-
 		// Token: 0x04002A3C RID: 10812
 		[MustTranslate]
 		public string label = null;
@@ -80,5 +55,30 @@ namespace Verse
 
 		// Token: 0x04002A48 RID: 10824
 		public BodyPartToDrop butcherBodyPart = null;
+
+		// Token: 0x06003F89 RID: 16265 RVA: 0x00217A32 File Offset: 0x00215E32
+		public void PostLoad()
+		{
+			this.untranslatedLabel = this.label;
+			this.untranslatedLabelMale = this.labelMale;
+			this.untranslatedLabelFemale = this.labelFemale;
+		}
+
+		// Token: 0x06003F8A RID: 16266 RVA: 0x00217A5C File Offset: 0x00215E5C
+		public void ResolveReferences()
+		{
+			if (this.bodyGraphicData != null && this.bodyGraphicData.graphicClass == null)
+			{
+				this.bodyGraphicData.graphicClass = typeof(Graphic_Multi);
+			}
+			if (this.femaleGraphicData != null && this.femaleGraphicData.graphicClass == null)
+			{
+				this.femaleGraphicData.graphicClass = typeof(Graphic_Multi);
+			}
+			if (this.dessicatedBodyGraphicData != null && this.dessicatedBodyGraphicData.graphicClass == null)
+			{
+				this.dessicatedBodyGraphicData.graphicClass = typeof(Graphic_Multi);
+			}
+		}
 	}
 }

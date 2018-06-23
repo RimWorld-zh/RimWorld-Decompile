@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020003E4 RID: 996
 	public class GenStep_FactionBase : GenStep_Scatterer
 	{
+		// Token: 0x04000A58 RID: 2648
+		private static readonly IntRange FactionBaseSizeRange = new IntRange(34, 38);
+
 		// Token: 0x17000247 RID: 583
 		// (get) Token: 0x06001110 RID: 4368 RVA: 0x00092314 File Offset: 0x00090714
 		public override int SeedPart
@@ -71,8 +74,5 @@ namespace RimWorld
 			BaseGen.symbolStack.Push("factionBase", resolveParams);
 			BaseGen.Generate();
 		}
-
-		// Token: 0x04000A58 RID: 2648
-		private static readonly IntRange FactionBaseSizeRange = new IntRange(34, 38);
 	}
 }

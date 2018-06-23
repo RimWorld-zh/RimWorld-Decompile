@@ -8,6 +8,30 @@ namespace RimWorld
 	// Token: 0x0200065A RID: 1626
 	public class TaleData_Pawn : TaleData
 	{
+		// Token: 0x04001348 RID: 4936
+		public Pawn pawn;
+
+		// Token: 0x04001349 RID: 4937
+		public PawnKindDef kind;
+
+		// Token: 0x0400134A RID: 4938
+		public Faction faction;
+
+		// Token: 0x0400134B RID: 4939
+		public Gender gender;
+
+		// Token: 0x0400134C RID: 4940
+		public Name name;
+
+		// Token: 0x0400134D RID: 4941
+		public string title;
+
+		// Token: 0x0400134E RID: 4942
+		public ThingDef primaryEquipment;
+
+		// Token: 0x0400134F RID: 4943
+		public ThingDef notableApparel;
+
 		// Token: 0x060021FB RID: 8699 RVA: 0x00120554 File Offset: 0x0011E954
 		public override void ExposeData()
 		{
@@ -63,29 +87,5 @@ namespace RimWorld
 			Pawn pawn = PawnGenerator.GeneratePawn(random, faction);
 			return TaleData_Pawn.GenerateFrom(pawn);
 		}
-
-		// Token: 0x04001348 RID: 4936
-		public Pawn pawn;
-
-		// Token: 0x04001349 RID: 4937
-		public PawnKindDef kind;
-
-		// Token: 0x0400134A RID: 4938
-		public Faction faction;
-
-		// Token: 0x0400134B RID: 4939
-		public Gender gender;
-
-		// Token: 0x0400134C RID: 4940
-		public Name name;
-
-		// Token: 0x0400134D RID: 4941
-		public string title;
-
-		// Token: 0x0400134E RID: 4942
-		public ThingDef primaryEquipment;
-
-		// Token: 0x0400134F RID: 4943
-		public ThingDef notableApparel;
 	}
 }

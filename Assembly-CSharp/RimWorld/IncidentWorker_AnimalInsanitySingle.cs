@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000323 RID: 803
 	public class IncidentWorker_AnimalInsanitySingle : IncidentWorker
 	{
+		// Token: 0x040008C2 RID: 2242
+		private const int FixedPoints = 30;
+
 		// Token: 0x06000DB9 RID: 3513 RVA: 0x0007570C File Offset: 0x00073B0C
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
@@ -59,8 +62,5 @@ namespace RimWorld
 			where p.RaceProps.Animal && p.kindDef.combatPower <= (float)maxPoints && IncidentWorker_AnimalInsanityMass.AnimalUsable(p)
 			select p).TryRandomElement(out animal);
 		}
-
-		// Token: 0x040008C2 RID: 2242
-		private const int FixedPoints = 30;
 	}
 }

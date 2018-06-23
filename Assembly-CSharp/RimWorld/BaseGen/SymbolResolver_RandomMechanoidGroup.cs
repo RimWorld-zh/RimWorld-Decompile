@@ -8,6 +8,9 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003CF RID: 975
 	public class SymbolResolver_RandomMechanoidGroup : SymbolResolver
 	{
+		// Token: 0x04000A3D RID: 2621
+		private static readonly IntRange DefaultMechanoidCountRange = new IntRange(1, 5);
+
 		// Token: 0x060010CF RID: 4303 RVA: 0x0008F514 File Offset: 0x0008D914
 		public override void Resolve(ResolveParams rp)
 		{
@@ -47,8 +50,5 @@ namespace RimWorld.BaseGen
 				BaseGen.symbolStack.Push("pawn", resolveParams);
 			}
 		}
-
-		// Token: 0x04000A3D RID: 2621
-		private static readonly IntRange DefaultMechanoidCountRange = new IntRange(1, 5);
 	}
 }

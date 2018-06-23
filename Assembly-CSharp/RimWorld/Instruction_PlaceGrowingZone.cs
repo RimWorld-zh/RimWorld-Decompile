@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x020008C5 RID: 2245
 	public class Instruction_PlaceGrowingZone : Lesson_Instruction
 	{
+		// Token: 0x04001B9A RID: 7066
+		private CellRect growingZoneRect;
+
+		// Token: 0x04001B9B RID: 7067
+		private List<IntVec3> cachedCells;
+
 		// Token: 0x0600335D RID: 13149 RVA: 0x001B92AC File Offset: 0x001B76AC
 		public override void ExposeData()
 		{
@@ -61,11 +67,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04001B9A RID: 7066
-		private CellRect growingZoneRect;
-
-		// Token: 0x04001B9B RID: 7067
-		private List<IntVec3> cachedCells;
 	}
 }

@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000199 RID: 409
 	public class LordToil_PrisonerEscape : LordToil_Travel
 	{
+		// Token: 0x0400038C RID: 908
+		private int sapperThingID;
+
 		// Token: 0x0600086E RID: 2158 RVA: 0x000503D0 File Offset: 0x0004E7D0
 		public LordToil_PrisonerEscape(IntVec3 dest, int sapperThingID) : base(dest)
 		{
@@ -113,8 +116,5 @@ namespace RimWorld
 		{
 			return p.thingIDNumber == this.sapperThingID;
 		}
-
-		// Token: 0x0400038C RID: 908
-		private int sapperThingID;
 	}
 }

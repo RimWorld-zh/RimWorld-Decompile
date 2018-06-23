@@ -9,6 +9,42 @@ namespace RimWorld
 	// Token: 0x020006B5 RID: 1717
 	public class Blight : Thing
 	{
+		// Token: 0x04001462 RID: 5218
+		private float severity = 0.2f;
+
+		// Token: 0x04001463 RID: 5219
+		private int lastPlantHarmTick;
+
+		// Token: 0x04001464 RID: 5220
+		private float lastMapMeshUpdateSeverity;
+
+		// Token: 0x04001465 RID: 5221
+		private const float InitialSeverity = 0.2f;
+
+		// Token: 0x04001466 RID: 5222
+		private const float SeverityPerDay = 1f;
+
+		// Token: 0x04001467 RID: 5223
+		private const int DamagePerDay = 5;
+
+		// Token: 0x04001468 RID: 5224
+		private const float MinSeverityToReproduce = 0.28f;
+
+		// Token: 0x04001469 RID: 5225
+		private const float ReproduceMTBHoursAtMinSeverity = 16.8f;
+
+		// Token: 0x0400146A RID: 5226
+		private const float ReproduceMTBHoursAtMaxSeverity = 2.1f;
+
+		// Token: 0x0400146B RID: 5227
+		private const float ReproductionRadius = 4f;
+
+		// Token: 0x0400146C RID: 5228
+		private static FloatRange SizeRange = new FloatRange(0.6f, 1f);
+
+		// Token: 0x0400146D RID: 5229
+		private static Color32[] workingColors = new Color32[4];
+
 		// Token: 0x17000597 RID: 1431
 		// (get) Token: 0x060024F1 RID: 9457 RVA: 0x0013DAD4 File Offset: 0x0013BED4
 		// (set) Token: 0x060024F2 RID: 9458 RVA: 0x0013DAEF File Offset: 0x0013BEEF
@@ -209,41 +245,5 @@ namespace RimWorld
 			Color32[] colors = Blight.workingColors;
 			Printer_Plane.PrintPlane(layer, center, size, mat, 0f, false, null, colors, 0.1f, 0f);
 		}
-
-		// Token: 0x04001462 RID: 5218
-		private float severity = 0.2f;
-
-		// Token: 0x04001463 RID: 5219
-		private int lastPlantHarmTick;
-
-		// Token: 0x04001464 RID: 5220
-		private float lastMapMeshUpdateSeverity;
-
-		// Token: 0x04001465 RID: 5221
-		private const float InitialSeverity = 0.2f;
-
-		// Token: 0x04001466 RID: 5222
-		private const float SeverityPerDay = 1f;
-
-		// Token: 0x04001467 RID: 5223
-		private const int DamagePerDay = 5;
-
-		// Token: 0x04001468 RID: 5224
-		private const float MinSeverityToReproduce = 0.28f;
-
-		// Token: 0x04001469 RID: 5225
-		private const float ReproduceMTBHoursAtMinSeverity = 16.8f;
-
-		// Token: 0x0400146A RID: 5226
-		private const float ReproduceMTBHoursAtMaxSeverity = 2.1f;
-
-		// Token: 0x0400146B RID: 5227
-		private const float ReproductionRadius = 4f;
-
-		// Token: 0x0400146C RID: 5228
-		private static FloatRange SizeRange = new FloatRange(0.6f, 1f);
-
-		// Token: 0x0400146D RID: 5229
-		private static Color32[] workingColors = new Color32[4];
 	}
 }

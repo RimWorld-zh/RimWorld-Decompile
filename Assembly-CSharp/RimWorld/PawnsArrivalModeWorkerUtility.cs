@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x02000497 RID: 1175
 	public static class PawnsArrivalModeWorkerUtility
 	{
+		// Token: 0x04000C98 RID: 3224
+		private const int MaxGroupsCount = 3;
+
 		// Token: 0x06001509 RID: 5385 RVA: 0x000B9410 File Offset: 0x000B7810
 		public static void DropInDropPodsNearSpawnCenter(IncidentParms parms, List<Pawn> pawns)
 		{
@@ -115,8 +118,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000C98 RID: 3224
-		private const int MaxGroupsCount = 3;
 	}
 }

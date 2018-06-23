@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x02000736 RID: 1846
 	public class CompSpawnerFilth : ThingComp
 	{
+		// Token: 0x04001652 RID: 5714
+		private int nextSpawnTimestamp = -1;
+
 		// Token: 0x17000651 RID: 1617
 		// (get) Token: 0x060028CA RID: 10442 RVA: 0x0015C124 File Offset: 0x0015A524
 		private CompProperties_SpawnerFilth Props
@@ -89,8 +92,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04001652 RID: 5714
-		private int nextSpawnTimestamp = -1;
 	}
 }

@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class PawnRelationDefOf
 	{
-		// Token: 0x06003649 RID: 13897 RVA: 0x001D0BDF File Offset: 0x001CEFDF
-		static PawnRelationDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(PawnRelationDefOf));
-		}
-
 		// Token: 0x0400219D RID: 8605
 		public static PawnRelationDef Kin;
 
@@ -68,5 +62,11 @@ namespace RimWorld
 
 		// Token: 0x040021AF RID: 8623
 		public static PawnRelationDef Bond;
+
+		// Token: 0x06003649 RID: 13897 RVA: 0x001D0BDF File Offset: 0x001CEFDF
+		static PawnRelationDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(PawnRelationDefOf));
+		}
 	}
 }

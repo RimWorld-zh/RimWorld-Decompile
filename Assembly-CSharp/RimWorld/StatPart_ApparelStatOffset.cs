@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x020009A1 RID: 2465
 	public class StatPart_ApparelStatOffset : StatPart
 	{
+		// Token: 0x04002396 RID: 9110
+		private StatDef apparelStat;
+
+		// Token: 0x04002397 RID: 9111
+		private bool subtract;
+
 		// Token: 0x06003751 RID: 14161 RVA: 0x001D8F08 File Offset: 0x001D7308
 		public override void TransformValue(StatRequest req, ref float val)
 		{
@@ -83,11 +89,5 @@ namespace RimWorld
 			}
 			return false;
 		}
-
-		// Token: 0x04002396 RID: 9110
-		private StatDef apparelStat;
-
-		// Token: 0x04002397 RID: 9111
-		private bool subtract;
 	}
 }

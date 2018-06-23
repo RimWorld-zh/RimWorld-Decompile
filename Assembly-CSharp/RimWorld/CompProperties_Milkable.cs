@@ -6,12 +6,6 @@ namespace RimWorld
 	// Token: 0x0200024B RID: 587
 	public class CompProperties_Milkable : CompProperties
 	{
-		// Token: 0x06000A7F RID: 2687 RVA: 0x0005F387 File Offset: 0x0005D787
-		public CompProperties_Milkable()
-		{
-			this.compClass = typeof(CompMilkable);
-		}
-
 		// Token: 0x04000495 RID: 1173
 		public int milkIntervalDays;
 
@@ -23,5 +17,11 @@ namespace RimWorld
 
 		// Token: 0x04000498 RID: 1176
 		public bool milkFemaleOnly = true;
+
+		// Token: 0x06000A7F RID: 2687 RVA: 0x0005F387 File Offset: 0x0005D787
+		public CompProperties_Milkable()
+		{
+			this.compClass = typeof(CompMilkable);
+		}
 	}
 }

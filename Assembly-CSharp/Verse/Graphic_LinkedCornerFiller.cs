@@ -6,6 +6,24 @@ namespace Verse
 	// Token: 0x02000DD8 RID: 3544
 	public class Graphic_LinkedCornerFiller : Graphic_Linked
 	{
+		// Token: 0x040034BC RID: 13500
+		private const float ShiftUp = 0.09f;
+
+		// Token: 0x040034BD RID: 13501
+		private const float CoverSize = 0.5f;
+
+		// Token: 0x040034BE RID: 13502
+		private static readonly float CoverSizeCornerCorner;
+
+		// Token: 0x040034BF RID: 13503
+		private static readonly float DistCenterCorner;
+
+		// Token: 0x040034C0 RID: 13504
+		private static readonly float CoverOffsetDist;
+
+		// Token: 0x040034C1 RID: 13505
+		private static readonly Vector2[] CornerFillUVs;
+
 		// Token: 0x06004F65 RID: 20325 RVA: 0x00295BA1 File Offset: 0x00293FA1
 		public Graphic_LinkedCornerFiller(Graphic subGraphic) : base(subGraphic)
 		{
@@ -125,23 +143,5 @@ namespace Verse
 				new Vector2(0.5f, 0.6f)
 			};
 		}
-
-		// Token: 0x040034BC RID: 13500
-		private const float ShiftUp = 0.09f;
-
-		// Token: 0x040034BD RID: 13501
-		private const float CoverSize = 0.5f;
-
-		// Token: 0x040034BE RID: 13502
-		private static readonly float CoverSizeCornerCorner;
-
-		// Token: 0x040034BF RID: 13503
-		private static readonly float DistCenterCorner;
-
-		// Token: 0x040034C0 RID: 13504
-		private static readonly float CoverOffsetDist;
-
-		// Token: 0x040034C1 RID: 13505
-		private static readonly Vector2[] CornerFillUVs;
 	}
 }

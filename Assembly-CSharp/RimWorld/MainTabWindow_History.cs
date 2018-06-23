@@ -12,6 +12,51 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class MainTabWindow_History : MainTabWindow
 	{
+		// Token: 0x04001A85 RID: 6789
+		private HistoryAutoRecorderGroup historyAutoRecorderGroup = null;
+
+		// Token: 0x04001A86 RID: 6790
+		private FloatRange graphSection;
+
+		// Token: 0x04001A87 RID: 6791
+		private Vector2 messagesScrollPos;
+
+		// Token: 0x04001A88 RID: 6792
+		private float messagesLastHeight;
+
+		// Token: 0x04001A89 RID: 6793
+		private static MainTabWindow_History.HistoryTab curTab = MainTabWindow_History.HistoryTab.Graph;
+
+		// Token: 0x04001A8A RID: 6794
+		private static bool showLetters = true;
+
+		// Token: 0x04001A8B RID: 6795
+		private static bool showMessages;
+
+		// Token: 0x04001A8C RID: 6796
+		private const float MessagesRowHeight = 30f;
+
+		// Token: 0x04001A8D RID: 6797
+		private const float PinColumnSize = 30f;
+
+		// Token: 0x04001A8E RID: 6798
+		private const float PinSize = 22f;
+
+		// Token: 0x04001A8F RID: 6799
+		private const float IconColumnSize = 30f;
+
+		// Token: 0x04001A90 RID: 6800
+		private const float DateSize = 200f;
+
+		// Token: 0x04001A91 RID: 6801
+		private const float SpaceBetweenColumns = 10f;
+
+		// Token: 0x04001A92 RID: 6802
+		private static readonly Texture2D PinTex = ContentFinder<Texture2D>.Get("UI/Icons/Pin", true);
+
+		// Token: 0x04001A93 RID: 6803
+		private static List<CurveMark> marks = new List<CurveMark>();
+
 		// Token: 0x170007DC RID: 2012
 		// (get) Token: 0x06003115 RID: 12565 RVA: 0x001AA69C File Offset: 0x001A8A9C
 		public override Vector2 RequestedTabSize
@@ -329,51 +374,6 @@ namespace RimWorld
 			}
 			GUI.EndGroup();
 		}
-
-		// Token: 0x04001A85 RID: 6789
-		private HistoryAutoRecorderGroup historyAutoRecorderGroup = null;
-
-		// Token: 0x04001A86 RID: 6790
-		private FloatRange graphSection;
-
-		// Token: 0x04001A87 RID: 6791
-		private Vector2 messagesScrollPos;
-
-		// Token: 0x04001A88 RID: 6792
-		private float messagesLastHeight;
-
-		// Token: 0x04001A89 RID: 6793
-		private static MainTabWindow_History.HistoryTab curTab = MainTabWindow_History.HistoryTab.Graph;
-
-		// Token: 0x04001A8A RID: 6794
-		private static bool showLetters = true;
-
-		// Token: 0x04001A8B RID: 6795
-		private static bool showMessages;
-
-		// Token: 0x04001A8C RID: 6796
-		private const float MessagesRowHeight = 30f;
-
-		// Token: 0x04001A8D RID: 6797
-		private const float PinColumnSize = 30f;
-
-		// Token: 0x04001A8E RID: 6798
-		private const float PinSize = 22f;
-
-		// Token: 0x04001A8F RID: 6799
-		private const float IconColumnSize = 30f;
-
-		// Token: 0x04001A90 RID: 6800
-		private const float DateSize = 200f;
-
-		// Token: 0x04001A91 RID: 6801
-		private const float SpaceBetweenColumns = 10f;
-
-		// Token: 0x04001A92 RID: 6802
-		private static readonly Texture2D PinTex = ContentFinder<Texture2D>.Get("UI/Icons/Pin", true);
-
-		// Token: 0x04001A93 RID: 6803
-		private static List<CurveMark> marks = new List<CurveMark>();
 
 		// Token: 0x0200086F RID: 2159
 		private enum HistoryTab : byte

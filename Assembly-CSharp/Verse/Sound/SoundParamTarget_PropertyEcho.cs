@@ -6,6 +6,9 @@ namespace Verse.Sound
 	// Token: 0x02000B98 RID: 2968
 	public class SoundParamTarget_PropertyEcho : SoundParamTarget
 	{
+		// Token: 0x04002B32 RID: 11058
+		private EchoFilterProperty filterProperty;
+
 		// Token: 0x170009D6 RID: 2518
 		// (get) Token: 0x0600405A RID: 16474 RVA: 0x0021D208 File Offset: 0x0021B608
 		public override string Label
@@ -51,8 +54,5 @@ namespace Verse.Sound
 				audioEchoFilter.dryMix = value;
 			}
 		}
-
-		// Token: 0x04002B32 RID: 11058
-		private EchoFilterProperty filterProperty;
 	}
 }

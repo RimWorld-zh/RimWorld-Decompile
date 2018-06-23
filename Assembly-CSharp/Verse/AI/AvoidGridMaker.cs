@@ -10,6 +10,9 @@ namespace Verse.AI
 	// Token: 0x020009DF RID: 2527
 	public static class AvoidGridMaker
 	{
+		// Token: 0x04002432 RID: 9266
+		private static readonly int TrapRadialCells = GenRadial.NumCellsInRadius(2.9f);
+
 		// Token: 0x060038BA RID: 14522 RVA: 0x001E477C File Offset: 0x001E2B7C
 		public static void RegenerateAllAvoidGridsFor(Faction faction)
 		{
@@ -161,8 +164,5 @@ namespace Verse.AI
 				}
 			}
 		}
-
-		// Token: 0x04002432 RID: 9266
-		private static readonly int TrapRadialCells = GenRadial.NumCellsInRadius(2.9f);
 	}
 }

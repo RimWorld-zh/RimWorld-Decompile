@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000F25 RID: 3877
 	public class SubEffecter_Sustainer : SubEffecter
 	{
+		// Token: 0x04003D9B RID: 15771
+		private int age = 0;
+
+		// Token: 0x04003D9C RID: 15772
+		private Sustainer sustainer = null;
+
 		// Token: 0x06005CE1 RID: 23777 RVA: 0x002F1971 File Offset: 0x002EFD71
 		public SubEffecter_Sustainer(SubEffecterDef def, Effecter parent) : base(def, parent)
 		{
@@ -28,11 +34,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04003D9B RID: 15771
-		private int age = 0;
-
-		// Token: 0x04003D9C RID: 15772
-		private Sustainer sustainer = null;
 	}
 }

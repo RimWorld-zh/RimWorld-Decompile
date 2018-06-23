@@ -11,6 +11,24 @@ namespace Verse
 	[HasDebugOutput]
 	public static class GenMath
 	{
+		// Token: 0x04003E16 RID: 15894
+		public const float BigEpsilon = 1E-07f;
+
+		// Token: 0x04003E17 RID: 15895
+		public const float Sqrt2 = 1.41421354f;
+
+		// Token: 0x04003E18 RID: 15896
+		private static List<float> tmpElements = new List<float>();
+
+		// Token: 0x04003E19 RID: 15897
+		private static List<Pair<float, float>> tmpPairs = new List<Pair<float, float>>();
+
+		// Token: 0x04003E1A RID: 15898
+		private static List<float> tmpScores = new List<float>();
+
+		// Token: 0x04003E1B RID: 15899
+		private static List<float> tmpCalcList = new List<float>();
+
 		// Token: 0x06005E63 RID: 24163 RVA: 0x002FFCC0 File Offset: 0x002FE0C0
 		public static float RoundedHundredth(float f)
 		{
@@ -769,24 +787,6 @@ namespace Verse
 			double num7 = num3 / (double)num - num6 * num6;
 			return Mathf.Sqrt((float)num7);
 		}
-
-		// Token: 0x04003E16 RID: 15894
-		public const float BigEpsilon = 1E-07f;
-
-		// Token: 0x04003E17 RID: 15895
-		public const float Sqrt2 = 1.41421354f;
-
-		// Token: 0x04003E18 RID: 15896
-		private static List<float> tmpElements = new List<float>();
-
-		// Token: 0x04003E19 RID: 15897
-		private static List<Pair<float, float>> tmpPairs = new List<Pair<float, float>>();
-
-		// Token: 0x04003E1A RID: 15898
-		private static List<float> tmpScores = new List<float>();
-
-		// Token: 0x04003E1B RID: 15899
-		private static List<float> tmpCalcList = new List<float>();
 
 		// Token: 0x02000F44 RID: 3908
 		public struct BezierCubicControls

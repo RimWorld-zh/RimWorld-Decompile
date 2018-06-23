@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000D9D RID: 3485
 	public class DebugLoadIDsSavingErrorsChecker
 	{
+		// Token: 0x04003400 RID: 13312
+		private HashSet<string> deepSaved = new HashSet<string>();
+
+		// Token: 0x04003401 RID: 13313
+		private HashSet<DebugLoadIDsSavingErrorsChecker.ReferencedObject> referenced = new HashSet<DebugLoadIDsSavingErrorsChecker.ReferencedObject>();
+
 		// Token: 0x06004DEC RID: 19948 RVA: 0x0028BA81 File Offset: 0x00289E81
 		public void Clear()
 		{
@@ -100,15 +106,15 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003400 RID: 13312
-		private HashSet<string> deepSaved = new HashSet<string>();
-
-		// Token: 0x04003401 RID: 13313
-		private HashSet<DebugLoadIDsSavingErrorsChecker.ReferencedObject> referenced = new HashSet<DebugLoadIDsSavingErrorsChecker.ReferencedObject>();
-
 		// Token: 0x02000D9E RID: 3486
 		private struct ReferencedObject : IEquatable<DebugLoadIDsSavingErrorsChecker.ReferencedObject>
 		{
+			// Token: 0x04003402 RID: 13314
+			public string loadID;
+
+			// Token: 0x04003403 RID: 13315
+			public string label;
+
 			// Token: 0x06004DF0 RID: 19952 RVA: 0x0028BCCB File Offset: 0x0028A0CB
 			public ReferencedObject(string loadID, string label)
 			{
@@ -147,12 +153,6 @@ namespace Verse
 			{
 				return !(lhs == rhs);
 			}
-
-			// Token: 0x04003402 RID: 13314
-			public string loadID;
-
-			// Token: 0x04003403 RID: 13315
-			public string label;
 		}
 	}
 }

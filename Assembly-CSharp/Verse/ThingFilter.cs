@@ -9,6 +9,97 @@ namespace Verse
 	// Token: 0x02000FCB RID: 4043
 	public class ThingFilter : IExposable
 	{
+		// Token: 0x04003FDE RID: 16350
+		[Unsaved]
+		private Action settingsChangedCallback;
+
+		// Token: 0x04003FDF RID: 16351
+		[Unsaved]
+		private TreeNode_ThingCategory displayRootCategoryInt = null;
+
+		// Token: 0x04003FE0 RID: 16352
+		[Unsaved]
+		private HashSet<ThingDef> allowedDefs = new HashSet<ThingDef>();
+
+		// Token: 0x04003FE1 RID: 16353
+		[Unsaved]
+		private List<SpecialThingFilterDef> disallowedSpecialFilters = new List<SpecialThingFilterDef>();
+
+		// Token: 0x04003FE2 RID: 16354
+		private FloatRange allowedHitPointsPercents = FloatRange.ZeroToOne;
+
+		// Token: 0x04003FE3 RID: 16355
+		public bool allowedHitPointsConfigurable = true;
+
+		// Token: 0x04003FE4 RID: 16356
+		private QualityRange allowedQualities = QualityRange.All;
+
+		// Token: 0x04003FE5 RID: 16357
+		public bool allowedQualitiesConfigurable = true;
+
+		// Token: 0x04003FE6 RID: 16358
+		[MustTranslate]
+		public string customSummary = null;
+
+		// Token: 0x04003FE7 RID: 16359
+		private List<ThingDef> thingDefs = null;
+
+		// Token: 0x04003FE8 RID: 16360
+		[NoTranslate]
+		private List<string> categories = null;
+
+		// Token: 0x04003FE9 RID: 16361
+		[NoTranslate]
+		private List<string> tradeTagsToAllow = null;
+
+		// Token: 0x04003FEA RID: 16362
+		[NoTranslate]
+		private List<string> tradeTagsToDisallow = null;
+
+		// Token: 0x04003FEB RID: 16363
+		[NoTranslate]
+		private List<string> thingSetMakerTagsToAllow = null;
+
+		// Token: 0x04003FEC RID: 16364
+		[NoTranslate]
+		private List<string> thingSetMakerTagsToDisallow = null;
+
+		// Token: 0x04003FED RID: 16365
+		[NoTranslate]
+		private List<string> disallowedCategories = null;
+
+		// Token: 0x04003FEE RID: 16366
+		[NoTranslate]
+		private List<string> specialFiltersToAllow = null;
+
+		// Token: 0x04003FEF RID: 16367
+		[NoTranslate]
+		private List<string> specialFiltersToDisallow = null;
+
+		// Token: 0x04003FF0 RID: 16368
+		private List<StuffCategoryDef> stuffCategoriesToAllow = null;
+
+		// Token: 0x04003FF1 RID: 16369
+		private List<ThingDef> allowAllWhoCanMake = null;
+
+		// Token: 0x04003FF2 RID: 16370
+		private FoodPreferability disallowWorsePreferability = FoodPreferability.Undefined;
+
+		// Token: 0x04003FF3 RID: 16371
+		private bool disallowInedibleByHuman = false;
+
+		// Token: 0x04003FF4 RID: 16372
+		private Type allowWithComp = null;
+
+		// Token: 0x04003FF5 RID: 16373
+		private Type disallowWithComp = null;
+
+		// Token: 0x04003FF6 RID: 16374
+		private float disallowCheaperThan = float.MinValue;
+
+		// Token: 0x04003FF7 RID: 16375
+		private List<ThingDef> disallowedThingDefs = null;
+
 		// Token: 0x060061C0 RID: 25024 RVA: 0x00314A78 File Offset: 0x00312E78
 		public ThingFilter()
 		{
@@ -771,96 +862,5 @@ namespace Verse
 		{
 			return this.Summary;
 		}
-
-		// Token: 0x04003FDE RID: 16350
-		[Unsaved]
-		private Action settingsChangedCallback;
-
-		// Token: 0x04003FDF RID: 16351
-		[Unsaved]
-		private TreeNode_ThingCategory displayRootCategoryInt = null;
-
-		// Token: 0x04003FE0 RID: 16352
-		[Unsaved]
-		private HashSet<ThingDef> allowedDefs = new HashSet<ThingDef>();
-
-		// Token: 0x04003FE1 RID: 16353
-		[Unsaved]
-		private List<SpecialThingFilterDef> disallowedSpecialFilters = new List<SpecialThingFilterDef>();
-
-		// Token: 0x04003FE2 RID: 16354
-		private FloatRange allowedHitPointsPercents = FloatRange.ZeroToOne;
-
-		// Token: 0x04003FE3 RID: 16355
-		public bool allowedHitPointsConfigurable = true;
-
-		// Token: 0x04003FE4 RID: 16356
-		private QualityRange allowedQualities = QualityRange.All;
-
-		// Token: 0x04003FE5 RID: 16357
-		public bool allowedQualitiesConfigurable = true;
-
-		// Token: 0x04003FE6 RID: 16358
-		[MustTranslate]
-		public string customSummary = null;
-
-		// Token: 0x04003FE7 RID: 16359
-		private List<ThingDef> thingDefs = null;
-
-		// Token: 0x04003FE8 RID: 16360
-		[NoTranslate]
-		private List<string> categories = null;
-
-		// Token: 0x04003FE9 RID: 16361
-		[NoTranslate]
-		private List<string> tradeTagsToAllow = null;
-
-		// Token: 0x04003FEA RID: 16362
-		[NoTranslate]
-		private List<string> tradeTagsToDisallow = null;
-
-		// Token: 0x04003FEB RID: 16363
-		[NoTranslate]
-		private List<string> thingSetMakerTagsToAllow = null;
-
-		// Token: 0x04003FEC RID: 16364
-		[NoTranslate]
-		private List<string> thingSetMakerTagsToDisallow = null;
-
-		// Token: 0x04003FED RID: 16365
-		[NoTranslate]
-		private List<string> disallowedCategories = null;
-
-		// Token: 0x04003FEE RID: 16366
-		[NoTranslate]
-		private List<string> specialFiltersToAllow = null;
-
-		// Token: 0x04003FEF RID: 16367
-		[NoTranslate]
-		private List<string> specialFiltersToDisallow = null;
-
-		// Token: 0x04003FF0 RID: 16368
-		private List<StuffCategoryDef> stuffCategoriesToAllow = null;
-
-		// Token: 0x04003FF1 RID: 16369
-		private List<ThingDef> allowAllWhoCanMake = null;
-
-		// Token: 0x04003FF2 RID: 16370
-		private FoodPreferability disallowWorsePreferability = FoodPreferability.Undefined;
-
-		// Token: 0x04003FF3 RID: 16371
-		private bool disallowInedibleByHuman = false;
-
-		// Token: 0x04003FF4 RID: 16372
-		private Type allowWithComp = null;
-
-		// Token: 0x04003FF5 RID: 16373
-		private Type disallowWithComp = null;
-
-		// Token: 0x04003FF6 RID: 16374
-		private float disallowCheaperThan = float.MinValue;
-
-		// Token: 0x04003FF7 RID: 16375
-		private List<ThingDef> disallowedThingDefs = null;
 	}
 }

@@ -5,6 +5,9 @@ namespace Verse.Noise
 	// Token: 0x02000F75 RID: 3957
 	public class Const : ModuleBase
 	{
+		// Token: 0x04003ED3 RID: 16083
+		private double m_value = 0.0;
+
 		// Token: 0x06005F90 RID: 24464 RVA: 0x0030B193 File Offset: 0x00309593
 		public Const() : base(0)
 		{
@@ -36,8 +39,5 @@ namespace Verse.Noise
 		{
 			return this.m_value;
 		}
-
-		// Token: 0x04003ED3 RID: 16083
-		private double m_value = 0.0;
 	}
 }

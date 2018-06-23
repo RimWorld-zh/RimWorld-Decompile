@@ -8,6 +8,9 @@ namespace Verse
 	// Token: 0x02000C30 RID: 3120
 	public static class ThingListGroupHelper
 	{
+		// Token: 0x04002EB3 RID: 11955
+		public static readonly ThingRequestGroup[] AllGroups;
+
 		// Token: 0x06004498 RID: 17560 RVA: 0x00241140 File Offset: 0x0023F540
 		static ThingListGroupHelper()
 		{
@@ -171,8 +174,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04002EB3 RID: 11955
-		public static readonly ThingRequestGroup[] AllGroups;
 	}
 }

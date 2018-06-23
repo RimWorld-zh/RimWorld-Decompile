@@ -10,6 +10,84 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Plant : ThingWithComps
 	{
+		// Token: 0x04001523 RID: 5411
+		protected float growthInt = 0.05f;
+
+		// Token: 0x04001524 RID: 5412
+		protected int ageInt = 0;
+
+		// Token: 0x04001525 RID: 5413
+		protected int unlitTicks = 0;
+
+		// Token: 0x04001526 RID: 5414
+		protected int madeLeaflessTick = -99999;
+
+		// Token: 0x04001527 RID: 5415
+		public bool sown = false;
+
+		// Token: 0x04001528 RID: 5416
+		private string cachedLabelMouseover = null;
+
+		// Token: 0x04001529 RID: 5417
+		private static Color32[] workingColors = new Color32[4];
+
+		// Token: 0x0400152A RID: 5418
+		public const float BaseGrowthPercent = 0.05f;
+
+		// Token: 0x0400152B RID: 5419
+		private const float BaseDyingDamagePerTick = 0.005f;
+
+		// Token: 0x0400152C RID: 5420
+		private static readonly FloatRange DyingDamagePerTickBecauseExposedToLight = new FloatRange(0.0001f, 0.001f);
+
+		// Token: 0x0400152D RID: 5421
+		private const float GridPosRandomnessFactor = 0.3f;
+
+		// Token: 0x0400152E RID: 5422
+		private const int TicksWithoutLightBeforeStartDying = 450000;
+
+		// Token: 0x0400152F RID: 5423
+		private const int LeaflessMinRecoveryTicks = 60000;
+
+		// Token: 0x04001530 RID: 5424
+		public const float MinGrowthTemperature = 0f;
+
+		// Token: 0x04001531 RID: 5425
+		public const float MinOptimalGrowthTemperature = 10f;
+
+		// Token: 0x04001532 RID: 5426
+		public const float MaxOptimalGrowthTemperature = 42f;
+
+		// Token: 0x04001533 RID: 5427
+		public const float MaxGrowthTemperature = 58f;
+
+		// Token: 0x04001534 RID: 5428
+		public const float MaxLeaflessTemperature = -2f;
+
+		// Token: 0x04001535 RID: 5429
+		private const float MinLeaflessTemperature = -10f;
+
+		// Token: 0x04001536 RID: 5430
+		private const float MinAnimalEatPlantsTemperature = 0f;
+
+		// Token: 0x04001537 RID: 5431
+		public const float TopVerticesAltitudeBias = 0.1f;
+
+		// Token: 0x04001538 RID: 5432
+		private static Graphic GraphicSowing = GraphicDatabase.Get<Graphic_Single>("Things/Plant/Plant_Sowing", ShaderDatabase.Cutout, Vector2.one, Color.white);
+
+		// Token: 0x04001539 RID: 5433
+		[TweakValue("Graphics", -1f, 1f)]
+		private static float LeafSpawnRadius = 0.4f;
+
+		// Token: 0x0400153A RID: 5434
+		[TweakValue("Graphics", 0f, 2f)]
+		private static float LeafSpawnYMin = 0.3f;
+
+		// Token: 0x0400153B RID: 5435
+		[TweakValue("Graphics", 0f, 2f)]
+		private static float LeafSpawnYMax = 1f;
+
 		// Token: 0x170005B4 RID: 1460
 		// (get) Token: 0x060025F2 RID: 9714 RVA: 0x00144D10 File Offset: 0x00143110
 		// (set) Token: 0x060025F3 RID: 9715 RVA: 0x00144D2B File Offset: 0x0014312B
@@ -931,84 +1009,6 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04001523 RID: 5411
-		protected float growthInt = 0.05f;
-
-		// Token: 0x04001524 RID: 5412
-		protected int ageInt = 0;
-
-		// Token: 0x04001525 RID: 5413
-		protected int unlitTicks = 0;
-
-		// Token: 0x04001526 RID: 5414
-		protected int madeLeaflessTick = -99999;
-
-		// Token: 0x04001527 RID: 5415
-		public bool sown = false;
-
-		// Token: 0x04001528 RID: 5416
-		private string cachedLabelMouseover = null;
-
-		// Token: 0x04001529 RID: 5417
-		private static Color32[] workingColors = new Color32[4];
-
-		// Token: 0x0400152A RID: 5418
-		public const float BaseGrowthPercent = 0.05f;
-
-		// Token: 0x0400152B RID: 5419
-		private const float BaseDyingDamagePerTick = 0.005f;
-
-		// Token: 0x0400152C RID: 5420
-		private static readonly FloatRange DyingDamagePerTickBecauseExposedToLight = new FloatRange(0.0001f, 0.001f);
-
-		// Token: 0x0400152D RID: 5421
-		private const float GridPosRandomnessFactor = 0.3f;
-
-		// Token: 0x0400152E RID: 5422
-		private const int TicksWithoutLightBeforeStartDying = 450000;
-
-		// Token: 0x0400152F RID: 5423
-		private const int LeaflessMinRecoveryTicks = 60000;
-
-		// Token: 0x04001530 RID: 5424
-		public const float MinGrowthTemperature = 0f;
-
-		// Token: 0x04001531 RID: 5425
-		public const float MinOptimalGrowthTemperature = 10f;
-
-		// Token: 0x04001532 RID: 5426
-		public const float MaxOptimalGrowthTemperature = 42f;
-
-		// Token: 0x04001533 RID: 5427
-		public const float MaxGrowthTemperature = 58f;
-
-		// Token: 0x04001534 RID: 5428
-		public const float MaxLeaflessTemperature = -2f;
-
-		// Token: 0x04001535 RID: 5429
-		private const float MinLeaflessTemperature = -10f;
-
-		// Token: 0x04001536 RID: 5430
-		private const float MinAnimalEatPlantsTemperature = 0f;
-
-		// Token: 0x04001537 RID: 5431
-		public const float TopVerticesAltitudeBias = 0.1f;
-
-		// Token: 0x04001538 RID: 5432
-		private static Graphic GraphicSowing = GraphicDatabase.Get<Graphic_Single>("Things/Plant/Plant_Sowing", ShaderDatabase.Cutout, Vector2.one, Color.white);
-
-		// Token: 0x04001539 RID: 5433
-		[TweakValue("Graphics", -1f, 1f)]
-		private static float LeafSpawnRadius = 0.4f;
-
-		// Token: 0x0400153A RID: 5434
-		[TweakValue("Graphics", 0f, 2f)]
-		private static float LeafSpawnYMin = 0.3f;
-
-		// Token: 0x0400153B RID: 5435
-		[TweakValue("Graphics", 0f, 2f)]
-		private static float LeafSpawnYMax = 1f;
 
 		// Token: 0x020006D4 RID: 1748
 		public enum LeaflessCause

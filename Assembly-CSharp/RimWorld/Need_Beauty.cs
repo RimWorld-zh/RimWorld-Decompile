@@ -8,6 +8,27 @@ namespace RimWorld
 	// Token: 0x020004F0 RID: 1264
 	public class Need_Beauty : Need_Seeker
 	{
+		// Token: 0x04000D49 RID: 3401
+		private const float BeautyImpactFactor = 0.1f;
+
+		// Token: 0x04000D4A RID: 3402
+		private const float ThreshVeryUgly = 0.01f;
+
+		// Token: 0x04000D4B RID: 3403
+		private const float ThreshUgly = 0.15f;
+
+		// Token: 0x04000D4C RID: 3404
+		private const float ThreshNeutral = 0.35f;
+
+		// Token: 0x04000D4D RID: 3405
+		private const float ThreshPretty = 0.65f;
+
+		// Token: 0x04000D4E RID: 3406
+		private const float ThreshVeryPretty = 0.85f;
+
+		// Token: 0x04000D4F RID: 3407
+		private const float ThreshBeautiful = 0.99f;
+
 		// Token: 0x060016C2 RID: 5826 RVA: 0x000C99F0 File Offset: 0x000C7DF0
 		public Need_Beauty(Pawn pawn) : base(pawn)
 		{
@@ -100,26 +121,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000D49 RID: 3401
-		private const float BeautyImpactFactor = 0.1f;
-
-		// Token: 0x04000D4A RID: 3402
-		private const float ThreshVeryUgly = 0.01f;
-
-		// Token: 0x04000D4B RID: 3403
-		private const float ThreshUgly = 0.15f;
-
-		// Token: 0x04000D4C RID: 3404
-		private const float ThreshNeutral = 0.35f;
-
-		// Token: 0x04000D4D RID: 3405
-		private const float ThreshPretty = 0.65f;
-
-		// Token: 0x04000D4E RID: 3406
-		private const float ThreshVeryPretty = 0.85f;
-
-		// Token: 0x04000D4F RID: 3407
-		private const float ThreshBeautiful = 0.99f;
 	}
 }

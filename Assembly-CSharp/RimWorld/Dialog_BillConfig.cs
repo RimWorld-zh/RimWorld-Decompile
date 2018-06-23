@@ -11,6 +11,40 @@ namespace RimWorld
 	// Token: 0x020006B4 RID: 1716
 	public class Dialog_BillConfig : Window
 	{
+		// Token: 0x04001455 RID: 5205
+		private IntVec3 billGiverPos;
+
+		// Token: 0x04001456 RID: 5206
+		private Bill_Production bill;
+
+		// Token: 0x04001457 RID: 5207
+		private Vector2 thingFilterScrollPosition;
+
+		// Token: 0x04001458 RID: 5208
+		private string repeatCountEditBuffer;
+
+		// Token: 0x04001459 RID: 5209
+		private string targetCountEditBuffer;
+
+		// Token: 0x0400145A RID: 5210
+		private string unpauseCountEditBuffer;
+
+		// Token: 0x0400145B RID: 5211
+		[TweakValue("Interface", 0f, 400f)]
+		private static int RepeatModeSubdialogHeight = 300;
+
+		// Token: 0x0400145C RID: 5212
+		[TweakValue("Interface", 0f, 400f)]
+		private static int StoreModeSubdialogHeight = 30;
+
+		// Token: 0x0400145D RID: 5213
+		[TweakValue("Interface", 0f, 400f)]
+		private static int WorkerSelectionSubdialogHeight = 85;
+
+		// Token: 0x0400145E RID: 5214
+		[TweakValue("Interface", 0f, 400f)]
+		private static int IngredientRadiusSubdialogHeight = 50;
+
 		// Token: 0x060024E3 RID: 9443 RVA: 0x0013BD36 File Offset: 0x0013A136
 		public Dialog_BillConfig(Bill_Production bill, IntVec3 billGiverPos)
 		{
@@ -452,39 +486,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04001455 RID: 5205
-		private IntVec3 billGiverPos;
-
-		// Token: 0x04001456 RID: 5206
-		private Bill_Production bill;
-
-		// Token: 0x04001457 RID: 5207
-		private Vector2 thingFilterScrollPosition;
-
-		// Token: 0x04001458 RID: 5208
-		private string repeatCountEditBuffer;
-
-		// Token: 0x04001459 RID: 5209
-		private string targetCountEditBuffer;
-
-		// Token: 0x0400145A RID: 5210
-		private string unpauseCountEditBuffer;
-
-		// Token: 0x0400145B RID: 5211
-		[TweakValue("Interface", 0f, 400f)]
-		private static int RepeatModeSubdialogHeight = 300;
-
-		// Token: 0x0400145C RID: 5212
-		[TweakValue("Interface", 0f, 400f)]
-		private static int StoreModeSubdialogHeight = 30;
-
-		// Token: 0x0400145D RID: 5213
-		[TweakValue("Interface", 0f, 400f)]
-		private static int WorkerSelectionSubdialogHeight = 85;
-
-		// Token: 0x0400145E RID: 5214
-		[TweakValue("Interface", 0f, 400f)]
-		private static int IngredientRadiusSubdialogHeight = 50;
 	}
 }

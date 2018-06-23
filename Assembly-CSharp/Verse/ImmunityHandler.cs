@@ -7,6 +7,15 @@ namespace Verse
 	// Token: 0x02000D39 RID: 3385
 	public class ImmunityHandler : IExposable
 	{
+		// Token: 0x04003268 RID: 12904
+		public Pawn pawn;
+
+		// Token: 0x04003269 RID: 12905
+		private List<ImmunityRecord> immunityList = new List<ImmunityRecord>();
+
+		// Token: 0x0400326A RID: 12906
+		private static List<ImmunityHandler.ImmunityInfo> tmpNeededImmunitiesNow = new List<ImmunityHandler.ImmunityInfo>();
+
 		// Token: 0x06004ABE RID: 19134 RVA: 0x00270620 File Offset: 0x0026EA20
 		public ImmunityHandler(Pawn pawn)
 		{
@@ -197,15 +206,6 @@ namespace Verse
 		{
 			return this.GetImmunityRecord(def) != null;
 		}
-
-		// Token: 0x04003268 RID: 12904
-		public Pawn pawn;
-
-		// Token: 0x04003269 RID: 12905
-		private List<ImmunityRecord> immunityList = new List<ImmunityRecord>();
-
-		// Token: 0x0400326A RID: 12906
-		private static List<ImmunityHandler.ImmunityInfo> tmpNeededImmunitiesNow = new List<ImmunityHandler.ImmunityInfo>();
 
 		// Token: 0x02000D3A RID: 3386
 		public struct ImmunityInfo

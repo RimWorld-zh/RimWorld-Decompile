@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000D5E RID: 3422
 	public class Stance_Warmup : Stance_Busy
 	{
+		// Token: 0x04003330 RID: 13104
+		private Sustainer sustainer;
+
+		// Token: 0x04003331 RID: 13105
+		private bool targetStartedDowned;
+
 		// Token: 0x06004CC2 RID: 19650 RVA: 0x0028006D File Offset: 0x0027E46D
 		public Stance_Warmup()
 		{
@@ -95,11 +101,5 @@ namespace Verse
 			this.verb.WarmupComplete();
 			base.Expire();
 		}
-
-		// Token: 0x04003330 RID: 13104
-		private Sustainer sustainer;
-
-		// Token: 0x04003331 RID: 13105
-		private bool targetStartedDowned;
 	}
 }

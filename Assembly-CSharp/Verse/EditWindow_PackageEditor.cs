@@ -10,6 +10,24 @@ namespace Verse
 	// Token: 0x02000E4C RID: 3660
 	public class EditWindow_PackageEditor<TNewDef> : EditWindow where TNewDef : Def, new()
 	{
+		// Token: 0x04003911 RID: 14609
+		public ModContentPack curMod = LoadedModManager.RunningMods.First<ModContentPack>();
+
+		// Token: 0x04003912 RID: 14610
+		private DefPackage curPackage = null;
+
+		// Token: 0x04003913 RID: 14611
+		private Vector2 scrollPosition = default(Vector2);
+
+		// Token: 0x04003914 RID: 14612
+		private float viewHeight;
+
+		// Token: 0x04003915 RID: 14613
+		private string relFolder;
+
+		// Token: 0x04003916 RID: 14614
+		private const float EditButSize = 24f;
+
 		// Token: 0x0600565D RID: 22109 RVA: 0x002C83EC File Offset: 0x002C67EC
 		public EditWindow_PackageEditor(string relFolder)
 		{
@@ -160,23 +178,5 @@ namespace Verse
 			Widgets.EndScrollView();
 			Profiler.EndSample();
 		}
-
-		// Token: 0x04003911 RID: 14609
-		public ModContentPack curMod = LoadedModManager.RunningMods.First<ModContentPack>();
-
-		// Token: 0x04003912 RID: 14610
-		private DefPackage curPackage = null;
-
-		// Token: 0x04003913 RID: 14611
-		private Vector2 scrollPosition = default(Vector2);
-
-		// Token: 0x04003914 RID: 14612
-		private float viewHeight;
-
-		// Token: 0x04003915 RID: 14613
-		private string relFolder;
-
-		// Token: 0x04003916 RID: 14614
-		private const float EditButSize = 24f;
 	}
 }

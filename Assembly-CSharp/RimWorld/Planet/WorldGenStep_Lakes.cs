@@ -7,6 +7,9 @@ namespace RimWorld.Planet
 	// Token: 0x020005BE RID: 1470
 	public class WorldGenStep_Lakes : WorldGenStep
 	{
+		// Token: 0x040010E8 RID: 4328
+		private const int LakeMaxSize = 15;
+
 		// Token: 0x17000420 RID: 1056
 		// (get) Token: 0x06001C3E RID: 7230 RVA: 0x000F2D74 File Offset: 0x000F1174
 		public override int SeedPart
@@ -52,8 +55,5 @@ namespace RimWorld.Planet
 				}
 			}
 		}
-
-		// Token: 0x040010E8 RID: 4328
-		private const int LakeMaxSize = 15;
 	}
 }

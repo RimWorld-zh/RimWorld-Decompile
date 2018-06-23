@@ -8,6 +8,21 @@ namespace RimWorld
 	// Token: 0x0200006D RID: 109
 	public class JobDriver_Hunt : JobDriver
 	{
+		// Token: 0x04000213 RID: 531
+		private int jobStartTick = -1;
+
+		// Token: 0x04000214 RID: 532
+		private const TargetIndex VictimInd = TargetIndex.A;
+
+		// Token: 0x04000215 RID: 533
+		private const TargetIndex CorpseInd = TargetIndex.A;
+
+		// Token: 0x04000216 RID: 534
+		private const TargetIndex StoreCellInd = TargetIndex.B;
+
+		// Token: 0x04000217 RID: 535
+		private const int MaxHuntTicks = 5000;
+
 		// Token: 0x1700009D RID: 157
 		// (get) Token: 0x06000303 RID: 771 RVA: 0x000206F4 File Offset: 0x0001EAF4
 		public Pawn Victim
@@ -173,20 +188,5 @@ namespace RimWorld
 			};
 			return toil;
 		}
-
-		// Token: 0x04000213 RID: 531
-		private int jobStartTick = -1;
-
-		// Token: 0x04000214 RID: 532
-		private const TargetIndex VictimInd = TargetIndex.A;
-
-		// Token: 0x04000215 RID: 533
-		private const TargetIndex CorpseInd = TargetIndex.A;
-
-		// Token: 0x04000216 RID: 534
-		private const TargetIndex StoreCellInd = TargetIndex.B;
-
-		// Token: 0x04000217 RID: 535
-		private const int MaxHuntTicks = 5000;
 	}
 }

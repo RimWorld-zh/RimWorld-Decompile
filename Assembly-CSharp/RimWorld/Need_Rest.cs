@@ -8,6 +8,42 @@ namespace RimWorld
 	// Token: 0x02000501 RID: 1281
 	public class Need_Rest : Need
 	{
+		// Token: 0x04000D9D RID: 3485
+		private int lastRestTick = -999;
+
+		// Token: 0x04000D9E RID: 3486
+		private float lastRestEffectiveness = 1f;
+
+		// Token: 0x04000D9F RID: 3487
+		private int ticksAtZero = 0;
+
+		// Token: 0x04000DA0 RID: 3488
+		private const float FullSleepHours = 10.5f;
+
+		// Token: 0x04000DA1 RID: 3489
+		public const float BaseRestGainPerTick = 3.8095237E-05f;
+
+		// Token: 0x04000DA2 RID: 3490
+		private const float BaseRestFallPerTick = 1.58333332E-05f;
+
+		// Token: 0x04000DA3 RID: 3491
+		public const float ThreshTired = 0.28f;
+
+		// Token: 0x04000DA4 RID: 3492
+		public const float ThreshVeryTired = 0.14f;
+
+		// Token: 0x04000DA5 RID: 3493
+		public const float DefaultFallAsleepMaxLevel = 0.75f;
+
+		// Token: 0x04000DA6 RID: 3494
+		public const float DefaultNaturalWakeThreshold = 1f;
+
+		// Token: 0x04000DA7 RID: 3495
+		public const float CanWakeThreshold = 0.2f;
+
+		// Token: 0x04000DA8 RID: 3496
+		private const float BaseInvoluntarySleepMTBDays = 0.25f;
+
 		// Token: 0x06001708 RID: 5896 RVA: 0x000CB388 File Offset: 0x000C9788
 		public Need_Rest(Pawn pawn) : base(pawn)
 		{
@@ -213,41 +249,5 @@ namespace RimWorld
 				this.lastRestEffectiveness = restEffectiveness;
 			}
 		}
-
-		// Token: 0x04000D9D RID: 3485
-		private int lastRestTick = -999;
-
-		// Token: 0x04000D9E RID: 3486
-		private float lastRestEffectiveness = 1f;
-
-		// Token: 0x04000D9F RID: 3487
-		private int ticksAtZero = 0;
-
-		// Token: 0x04000DA0 RID: 3488
-		private const float FullSleepHours = 10.5f;
-
-		// Token: 0x04000DA1 RID: 3489
-		public const float BaseRestGainPerTick = 3.8095237E-05f;
-
-		// Token: 0x04000DA2 RID: 3490
-		private const float BaseRestFallPerTick = 1.58333332E-05f;
-
-		// Token: 0x04000DA3 RID: 3491
-		public const float ThreshTired = 0.28f;
-
-		// Token: 0x04000DA4 RID: 3492
-		public const float ThreshVeryTired = 0.14f;
-
-		// Token: 0x04000DA5 RID: 3493
-		public const float DefaultFallAsleepMaxLevel = 0.75f;
-
-		// Token: 0x04000DA6 RID: 3494
-		public const float DefaultNaturalWakeThreshold = 1f;
-
-		// Token: 0x04000DA7 RID: 3495
-		public const float CanWakeThreshold = 0.2f;
-
-		// Token: 0x04000DA8 RID: 3496
-		private const float BaseInvoluntarySleepMTBDays = 0.25f;
 	}
 }

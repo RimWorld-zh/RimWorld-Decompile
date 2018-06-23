@@ -9,6 +9,41 @@ namespace RimWorld.Planet
 	// Token: 0x02000574 RID: 1396
 	public class WorldFeatures : IExposable
 	{
+		// Token: 0x04000F7B RID: 3963
+		public List<WorldFeature> features = new List<WorldFeature>();
+
+		// Token: 0x04000F7C RID: 3964
+		public bool textsCreated;
+
+		// Token: 0x04000F7D RID: 3965
+		private static List<WorldFeatureTextMesh> texts = new List<WorldFeatureTextMesh>();
+
+		// Token: 0x04000F7E RID: 3966
+		private const float BaseAlpha = 0.3f;
+
+		// Token: 0x04000F7F RID: 3967
+		private const float AlphaChangeSpeed = 5f;
+
+		// Token: 0x04000F80 RID: 3968
+		[TweakValue("Interface", 0f, 300f)]
+		private static float TextWrapThreshold = 150f;
+
+		// Token: 0x04000F81 RID: 3969
+		[TweakValue("Interface.World", 0f, 100f)]
+		protected static bool ForceLegacyText = false;
+
+		// Token: 0x04000F82 RID: 3970
+		[TweakValue("Interface.World", 1f, 150f)]
+		protected static float AlphaScale = 30f;
+
+		// Token: 0x04000F83 RID: 3971
+		[TweakValue("Interface.World", 0f, 1f)]
+		protected static float VisibleMinimumSize = 0.04f;
+
+		// Token: 0x04000F84 RID: 3972
+		[TweakValue("Interface.World", 0f, 5f)]
+		protected static float VisibleMaximumSize = 1f;
+
 		// Token: 0x06001AA3 RID: 6819 RVA: 0x000E5505 File Offset: 0x000E3905
 		private static void TextWrapThreshold_Changed()
 		{
@@ -205,40 +240,5 @@ namespace RimWorld.Planet
 			}
 			return result;
 		}
-
-		// Token: 0x04000F7B RID: 3963
-		public List<WorldFeature> features = new List<WorldFeature>();
-
-		// Token: 0x04000F7C RID: 3964
-		public bool textsCreated;
-
-		// Token: 0x04000F7D RID: 3965
-		private static List<WorldFeatureTextMesh> texts = new List<WorldFeatureTextMesh>();
-
-		// Token: 0x04000F7E RID: 3966
-		private const float BaseAlpha = 0.3f;
-
-		// Token: 0x04000F7F RID: 3967
-		private const float AlphaChangeSpeed = 5f;
-
-		// Token: 0x04000F80 RID: 3968
-		[TweakValue("Interface", 0f, 300f)]
-		private static float TextWrapThreshold = 150f;
-
-		// Token: 0x04000F81 RID: 3969
-		[TweakValue("Interface.World", 0f, 100f)]
-		protected static bool ForceLegacyText = false;
-
-		// Token: 0x04000F82 RID: 3970
-		[TweakValue("Interface.World", 1f, 150f)]
-		protected static float AlphaScale = 30f;
-
-		// Token: 0x04000F83 RID: 3971
-		[TweakValue("Interface.World", 0f, 1f)]
-		protected static float VisibleMinimumSize = 0.04f;
-
-		// Token: 0x04000F84 RID: 3972
-		[TweakValue("Interface.World", 0f, 5f)]
-		protected static float VisibleMaximumSize = 1f;
 	}
 }

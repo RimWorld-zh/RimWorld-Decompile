@@ -8,6 +8,9 @@ namespace Verse
 	// Token: 0x02000B25 RID: 2853
 	public class RecipeWorkerCounter
 	{
+		// Token: 0x040028C5 RID: 10437
+		public RecipeDef recipe;
+
 		// Token: 0x06003EEC RID: 16108 RVA: 0x002127A0 File Offset: 0x00210BA0
 		public virtual bool CanCountProducts(Bill_Production bill)
 		{
@@ -118,8 +121,5 @@ namespace Verse
 		{
 			return !this.CanCountProducts(bill) || stockpile.GetStoreSettings().AllowedToAccept(this.recipe.products[0].thingDef);
 		}
-
-		// Token: 0x040028C5 RID: 10437
-		public RecipeDef recipe;
 	}
 }

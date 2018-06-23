@@ -6,6 +6,9 @@ namespace Verse.Noise
 	// Token: 0x02000F8C RID: 3980
 	public class Exponent : ModuleBase
 	{
+		// Token: 0x04003F18 RID: 16152
+		private double m_exponent = 1.0;
+
 		// Token: 0x06006033 RID: 24627 RVA: 0x0030DB2E File Offset: 0x0030BF2E
 		public Exponent() : base(1)
 		{
@@ -46,8 +49,5 @@ namespace Verse.Noise
 			double value = this.modules[0].GetValue(x, y, z);
 			return Math.Pow(Math.Abs((value + 1.0) / 2.0), this.m_exponent) * 2.0 - 1.0;
 		}
-
-		// Token: 0x04003F18 RID: 16152
-		private double m_exponent = 1.0;
 	}
 }

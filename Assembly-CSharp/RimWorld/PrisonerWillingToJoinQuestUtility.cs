@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x02000356 RID: 854
 	public static class PrisonerWillingToJoinQuestUtility
 	{
+		// Token: 0x04000912 RID: 2322
+		private const float RelationWithColonistWeight = 75f;
+
 		// Token: 0x06000EC6 RID: 3782 RVA: 0x0007CE08 File Offset: 0x0007B208
 		public static Pawn GeneratePrisoner(int tile, Faction hostFaction)
 		{
@@ -15,8 +18,5 @@ namespace RimWorld
 			pawn.guest.SetGuestStatus(hostFaction, true);
 			return pawn;
 		}
-
-		// Token: 0x04000912 RID: 2322
-		private const float RelationWithColonistWeight = 75f;
 	}
 }

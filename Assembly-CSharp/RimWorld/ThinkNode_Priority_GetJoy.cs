@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020001B8 RID: 440
 	public class ThinkNode_Priority_GetJoy : ThinkNode_Priority
 	{
+		// Token: 0x040003DA RID: 986
+		private const int GameStartNoJoyTicks = 5000;
+
 		// Token: 0x06000925 RID: 2341 RVA: 0x00055C2C File Offset: 0x0005402C
 		public override float GetPriority(Pawn pawn)
 		{
@@ -71,8 +74,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040003DA RID: 986
-		private const int GameStartNoJoyTicks = 5000;
 	}
 }

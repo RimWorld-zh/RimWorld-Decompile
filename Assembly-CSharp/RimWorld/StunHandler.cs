@@ -7,6 +7,21 @@ namespace RimWorld
 	// Token: 0x020006CC RID: 1740
 	public class StunHandler : IExposable
 	{
+		// Token: 0x04001510 RID: 5392
+		public Thing parent;
+
+		// Token: 0x04001511 RID: 5393
+		private int stunTicksLeft = 0;
+
+		// Token: 0x04001512 RID: 5394
+		private Mote moteStun = null;
+
+		// Token: 0x04001513 RID: 5395
+		private int EMPAdaptedTicksLeft = 0;
+
+		// Token: 0x04001514 RID: 5396
+		public const float StunDurationTicksPerDamage = 30f;
+
 		// Token: 0x060025AD RID: 9645 RVA: 0x00142BF3 File Offset: 0x00140FF3
 		public StunHandler(Thing parent)
 		{
@@ -108,20 +123,5 @@ namespace RimWorld
 			this.stunTicksLeft = Mathf.Max(this.stunTicksLeft, ticks);
 			Find.BattleLog.Add(new BattleLogEntry_Event(this.parent, RulePackDefOf.Event_Stun, instigator));
 		}
-
-		// Token: 0x04001510 RID: 5392
-		public Thing parent;
-
-		// Token: 0x04001511 RID: 5393
-		private int stunTicksLeft = 0;
-
-		// Token: 0x04001512 RID: 5394
-		private Mote moteStun = null;
-
-		// Token: 0x04001513 RID: 5395
-		private int EMPAdaptedTicksLeft = 0;
-
-		// Token: 0x04001514 RID: 5396
-		public const float StunDurationTicksPerDamage = 30f;
 	}
 }

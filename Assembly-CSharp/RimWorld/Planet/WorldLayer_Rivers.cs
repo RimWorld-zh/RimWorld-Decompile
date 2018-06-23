@@ -10,6 +10,24 @@ namespace RimWorld.Planet
 	// Token: 0x02000590 RID: 1424
 	public class WorldLayer_Rivers : WorldLayer_Paths
 	{
+		// Token: 0x0400100D RID: 4109
+		private Color32 riverColor = new Color32(73, 82, 100, byte.MaxValue);
+
+		// Token: 0x0400100E RID: 4110
+		private const float PerlinFrequency = 0.6f;
+
+		// Token: 0x0400100F RID: 4111
+		private const float PerlinMagnitude = 0.1f;
+
+		// Token: 0x04001010 RID: 4112
+		private ModuleBase riverDisplacementX = new Perlin(0.60000002384185791, 2.0, 0.5, 3, 84905524, QualityMode.Medium);
+
+		// Token: 0x04001011 RID: 4113
+		private ModuleBase riverDisplacementY = new Perlin(0.60000002384185791, 2.0, 0.5, 3, 37971116, QualityMode.Medium);
+
+		// Token: 0x04001012 RID: 4114
+		private ModuleBase riverDisplacementZ = new Perlin(0.60000002384185791, 2.0, 0.5, 3, 91572032, QualityMode.Medium);
+
 		// Token: 0x06001B31 RID: 6961 RVA: 0x000EA01C File Offset: 0x000E841C
 		public WorldLayer_Rivers()
 		{
@@ -85,23 +103,5 @@ namespace RimWorld.Planet
 			inp = (inp + new Vector3(this.riverDisplacementX.GetValue(inp), this.riverDisplacementY.GetValue(inp), this.riverDisplacementZ.GetValue(inp)) * 0.1f).normalized * magnitude;
 			return inp + inp.normalized * 0.008f;
 		}
-
-		// Token: 0x0400100D RID: 4109
-		private Color32 riverColor = new Color32(73, 82, 100, byte.MaxValue);
-
-		// Token: 0x0400100E RID: 4110
-		private const float PerlinFrequency = 0.6f;
-
-		// Token: 0x0400100F RID: 4111
-		private const float PerlinMagnitude = 0.1f;
-
-		// Token: 0x04001010 RID: 4112
-		private ModuleBase riverDisplacementX = new Perlin(0.60000002384185791, 2.0, 0.5, 3, 84905524, QualityMode.Medium);
-
-		// Token: 0x04001011 RID: 4113
-		private ModuleBase riverDisplacementY = new Perlin(0.60000002384185791, 2.0, 0.5, 3, 37971116, QualityMode.Medium);
-
-		// Token: 0x04001012 RID: 4114
-		private ModuleBase riverDisplacementZ = new Perlin(0.60000002384185791, 2.0, 0.5, 3, 91572032, QualityMode.Medium);
 	}
 }

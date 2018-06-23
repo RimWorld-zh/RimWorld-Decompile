@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x0200083E RID: 2110
 	public class GlobalControls
 	{
+		// Token: 0x040019D3 RID: 6611
+		public const float Width = 200f;
+
+		// Token: 0x040019D4 RID: 6612
+		private WidgetRow rowVisibility = new WidgetRow();
+
 		// Token: 0x06002FC8 RID: 12232 RVA: 0x0019E5C8 File Offset: 0x0019C9C8
 		public void GlobalControlsOnGUI()
 		{
@@ -157,11 +163,5 @@ namespace RimWorld
 			}));
 			Widgets.Label(rect2, text);
 		}
-
-		// Token: 0x040019D3 RID: 6611
-		public const float Width = 200f;
-
-		// Token: 0x040019D4 RID: 6612
-		private WidgetRow rowVisibility = new WidgetRow();
 	}
 }

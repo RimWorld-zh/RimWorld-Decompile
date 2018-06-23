@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000717 RID: 1815
 	public class CompIngredients : ThingComp
 	{
+		// Token: 0x040015E6 RID: 5606
+		public List<ThingDef> ingredients = new List<ThingDef>();
+
+		// Token: 0x040015E7 RID: 5607
+		private const int MaxNumIngredients = 3;
+
 		// Token: 0x060027ED RID: 10221 RVA: 0x0015580C File Offset: 0x00153C0C
 		public override void PostExposeData()
 		{
@@ -86,11 +92,5 @@ namespace RimWorld
 			}
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x040015E6 RID: 5606
-		public List<ThingDef> ingredients = new List<ThingDef>();
-
-		// Token: 0x040015E7 RID: 5607
-		private const int MaxNumIngredients = 3;
 	}
 }

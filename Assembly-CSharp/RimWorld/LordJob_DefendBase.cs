@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x0200016D RID: 365
 	public class LordJob_DefendBase : LordJob
 	{
+		// Token: 0x0400033D RID: 829
+		private Faction faction;
+
+		// Token: 0x0400033E RID: 830
+		private IntVec3 baseCenter;
+
 		// Token: 0x0600077A RID: 1914 RVA: 0x0004A470 File Offset: 0x00048870
 		public LordJob_DefendBase()
 		{
@@ -63,11 +69,5 @@ namespace RimWorld
 			Scribe_References.Look<Faction>(ref this.faction, "faction", false);
 			Scribe_Values.Look<IntVec3>(ref this.baseCenter, "baseCenter", default(IntVec3), false);
 		}
-
-		// Token: 0x0400033D RID: 829
-		private Faction faction;
-
-		// Token: 0x0400033E RID: 830
-		private IntVec3 baseCenter;
 	}
 }

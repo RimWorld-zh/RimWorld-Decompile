@@ -6,41 +6,6 @@ namespace RimWorld.Planet
 	// Token: 0x02000577 RID: 1399
 	public static class OverallRainfallUtility
 	{
-		// Token: 0x170003E1 RID: 993
-		// (get) Token: 0x06001ACD RID: 6861 RVA: 0x000E65E0 File Offset: 0x000E49E0
-		public static int EnumValuesCount
-		{
-			get
-			{
-				if (OverallRainfallUtility.cachedEnumValuesCount < 0)
-				{
-					OverallRainfallUtility.cachedEnumValuesCount = Enum.GetNames(typeof(OverallRainfall)).Length;
-				}
-				return OverallRainfallUtility.cachedEnumValuesCount;
-			}
-		}
-
-		// Token: 0x06001ACE RID: 6862 RVA: 0x000E661C File Offset: 0x000E4A1C
-		public static SimpleCurve GetRainfallCurve(this OverallRainfall overallRainfall)
-		{
-			switch (overallRainfall)
-			{
-			case OverallRainfall.AlmostNone:
-				return OverallRainfallUtility.Curve_AlmostNone;
-			case OverallRainfall.Little:
-				return OverallRainfallUtility.Curve_Little;
-			case OverallRainfall.LittleBitLess:
-				return OverallRainfallUtility.Curve_LittleBitLess;
-			case OverallRainfall.LittleBitMore:
-				return OverallRainfallUtility.Curve_LittleBitMore;
-			case OverallRainfall.High:
-				return OverallRainfallUtility.Curve_High;
-			case OverallRainfall.VeryHigh:
-				return OverallRainfallUtility.Curve_VeryHigh;
-			}
-			return null;
-		}
-
 		// Token: 0x04000F93 RID: 3987
 		private static int cachedEnumValuesCount = -1;
 
@@ -201,5 +166,40 @@ namespace RimWorld.Planet
 				true
 			}
 		};
+
+		// Token: 0x170003E1 RID: 993
+		// (get) Token: 0x06001ACD RID: 6861 RVA: 0x000E65E0 File Offset: 0x000E49E0
+		public static int EnumValuesCount
+		{
+			get
+			{
+				if (OverallRainfallUtility.cachedEnumValuesCount < 0)
+				{
+					OverallRainfallUtility.cachedEnumValuesCount = Enum.GetNames(typeof(OverallRainfall)).Length;
+				}
+				return OverallRainfallUtility.cachedEnumValuesCount;
+			}
+		}
+
+		// Token: 0x06001ACE RID: 6862 RVA: 0x000E661C File Offset: 0x000E4A1C
+		public static SimpleCurve GetRainfallCurve(this OverallRainfall overallRainfall)
+		{
+			switch (overallRainfall)
+			{
+			case OverallRainfall.AlmostNone:
+				return OverallRainfallUtility.Curve_AlmostNone;
+			case OverallRainfall.Little:
+				return OverallRainfallUtility.Curve_Little;
+			case OverallRainfall.LittleBitLess:
+				return OverallRainfallUtility.Curve_LittleBitLess;
+			case OverallRainfall.LittleBitMore:
+				return OverallRainfallUtility.Curve_LittleBitMore;
+			case OverallRainfall.High:
+				return OverallRainfallUtility.Curve_High;
+			case OverallRainfall.VeryHigh:
+				return OverallRainfallUtility.Curve_VeryHigh;
+			}
+			return null;
+		}
 	}
 }

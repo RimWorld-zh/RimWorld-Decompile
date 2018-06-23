@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020009A0 RID: 2464
 	public class StatPart_Age : StatPart
 	{
+		// Token: 0x04002395 RID: 9109
+		private SimpleCurve curve = null;
+
 		// Token: 0x0600374C RID: 14156 RVA: 0x001D8CC0 File Offset: 0x001D70C0
 		public override void TransformValue(StatRequest req, ref float val)
 		{
@@ -52,8 +55,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04002395 RID: 9109
-		private SimpleCurve curve = null;
 	}
 }

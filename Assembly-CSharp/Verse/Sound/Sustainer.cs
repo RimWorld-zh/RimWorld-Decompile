@@ -7,6 +7,33 @@ namespace Verse.Sound
 	// Token: 0x02000DC0 RID: 3520
 	public class Sustainer
 	{
+		// Token: 0x0400345A RID: 13402
+		public SoundDef def;
+
+		// Token: 0x0400345B RID: 13403
+		public SoundInfo info;
+
+		// Token: 0x0400345C RID: 13404
+		internal GameObject worldRootObject;
+
+		// Token: 0x0400345D RID: 13405
+		private int lastMaintainTick;
+
+		// Token: 0x0400345E RID: 13406
+		private int lastMaintainFrame;
+
+		// Token: 0x0400345F RID: 13407
+		private float endRealTime = -1f;
+
+		// Token: 0x04003460 RID: 13408
+		private List<SubSustainer> subSustainers = new List<SubSustainer>();
+
+		// Token: 0x04003461 RID: 13409
+		public SoundParams externalParams = new SoundParams();
+
+		// Token: 0x04003462 RID: 13410
+		public SustainerScopeFader scopeFader = new SustainerScopeFader();
+
 		// Token: 0x06004EA0 RID: 20128 RVA: 0x00291430 File Offset: 0x0028F830
 		public Sustainer(SoundDef def, SoundInfo info)
 		{
@@ -224,32 +251,5 @@ namespace Verse.Sound
 			}
 			return text;
 		}
-
-		// Token: 0x0400345A RID: 13402
-		public SoundDef def;
-
-		// Token: 0x0400345B RID: 13403
-		public SoundInfo info;
-
-		// Token: 0x0400345C RID: 13404
-		internal GameObject worldRootObject;
-
-		// Token: 0x0400345D RID: 13405
-		private int lastMaintainTick;
-
-		// Token: 0x0400345E RID: 13406
-		private int lastMaintainFrame;
-
-		// Token: 0x0400345F RID: 13407
-		private float endRealTime = -1f;
-
-		// Token: 0x04003460 RID: 13408
-		private List<SubSustainer> subSustainers = new List<SubSustainer>();
-
-		// Token: 0x04003461 RID: 13409
-		public SoundParams externalParams = new SoundParams();
-
-		// Token: 0x04003462 RID: 13410
-		public SustainerScopeFader scopeFader = new SustainerScopeFader();
 	}
 }

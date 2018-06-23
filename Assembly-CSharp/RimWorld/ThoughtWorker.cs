@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020001EF RID: 495
 	public abstract class ThoughtWorker
 	{
+		// Token: 0x040003E7 RID: 999
+		public ThoughtDef def;
+
 		// Token: 0x060009A3 RID: 2467 RVA: 0x0005721C File Offset: 0x0005561C
 		public ThoughtState CurrentState(Pawn p)
 		{
@@ -46,8 +49,5 @@ namespace RimWorld
 		{
 			throw new NotImplementedException(this.def.defName + " (social)");
 		}
-
-		// Token: 0x040003E7 RID: 999
-		public ThoughtDef def;
 	}
 }

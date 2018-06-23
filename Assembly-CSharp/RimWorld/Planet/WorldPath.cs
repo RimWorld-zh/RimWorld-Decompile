@@ -8,6 +8,18 @@ namespace RimWorld.Planet
 	// Token: 0x0200053C RID: 1340
 	public class WorldPath : IDisposable
 	{
+		// Token: 0x04000EB5 RID: 3765
+		private List<int> nodes = new List<int>(128);
+
+		// Token: 0x04000EB6 RID: 3766
+		private float totalCostInt = 0f;
+
+		// Token: 0x04000EB7 RID: 3767
+		private int curNodeIndex;
+
+		// Token: 0x04000EB8 RID: 3768
+		public bool inUse = false;
+
 		// Token: 0x17000388 RID: 904
 		// (get) Token: 0x0600190A RID: 6410 RVA: 0x000DA13C File Offset: 0x000D853C
 		public bool Found
@@ -202,17 +214,5 @@ namespace RimWorld.Planet
 				}
 			}
 		}
-
-		// Token: 0x04000EB5 RID: 3765
-		private List<int> nodes = new List<int>(128);
-
-		// Token: 0x04000EB6 RID: 3766
-		private float totalCostInt = 0f;
-
-		// Token: 0x04000EB7 RID: 3767
-		private int curNodeIndex;
-
-		// Token: 0x04000EB8 RID: 3768
-		public bool inUse = false;
 	}
 }

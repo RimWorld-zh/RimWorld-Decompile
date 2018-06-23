@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000F26 RID: 3878
 	public static class EloUtility
 	{
+		// Token: 0x04003D9D RID: 15773
+		private const float TenFactorRating = 400f;
+
 		// Token: 0x06005CE3 RID: 23779 RVA: 0x002F19FE File Offset: 0x002EFDFE
 		public static void Update(ref float teamA, ref float teamB, float expectedA, float scoreA, float kfactor = 32f)
 		{
@@ -31,8 +34,5 @@ namespace Verse
 		{
 			return referenceRating + Mathf.Log(teamScore / referenceScore, 10f) * 400f;
 		}
-
-		// Token: 0x04003D9D RID: 15773
-		private const float TenFactorRating = 400f;
 	}
 }

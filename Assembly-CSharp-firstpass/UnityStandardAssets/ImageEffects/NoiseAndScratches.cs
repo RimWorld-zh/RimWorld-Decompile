@@ -9,6 +9,67 @@ namespace UnityStandardAssets.ImageEffects
 	[AddComponentMenu("Image Effects/Noise/Noise and Scratches")]
 	public class NoiseAndScratches : MonoBehaviour
 	{
+		// Token: 0x0400081D RID: 2077
+		public bool monochrome = true;
+
+		// Token: 0x0400081E RID: 2078
+		private bool rgbFallback = false;
+
+		// Token: 0x0400081F RID: 2079
+		[Range(0f, 5f)]
+		public float grainIntensityMin = 0.1f;
+
+		// Token: 0x04000820 RID: 2080
+		[Range(0f, 5f)]
+		public float grainIntensityMax = 0.2f;
+
+		// Token: 0x04000821 RID: 2081
+		[Range(0.1f, 50f)]
+		public float grainSize = 2f;
+
+		// Token: 0x04000822 RID: 2082
+		[Range(0f, 5f)]
+		public float scratchIntensityMin = 0.05f;
+
+		// Token: 0x04000823 RID: 2083
+		[Range(0f, 5f)]
+		public float scratchIntensityMax = 0.25f;
+
+		// Token: 0x04000824 RID: 2084
+		[Range(1f, 30f)]
+		public float scratchFPS = 10f;
+
+		// Token: 0x04000825 RID: 2085
+		[Range(0f, 1f)]
+		public float scratchJitter = 0.01f;
+
+		// Token: 0x04000826 RID: 2086
+		public Texture grainTexture;
+
+		// Token: 0x04000827 RID: 2087
+		public Texture scratchTexture;
+
+		// Token: 0x04000828 RID: 2088
+		public Shader shaderRGB;
+
+		// Token: 0x04000829 RID: 2089
+		public Shader shaderYUV;
+
+		// Token: 0x0400082A RID: 2090
+		private Material m_MaterialRGB;
+
+		// Token: 0x0400082B RID: 2091
+		private Material m_MaterialYUV;
+
+		// Token: 0x0400082C RID: 2092
+		private float scratchTimeLeft = 0f;
+
+		// Token: 0x0400082D RID: 2093
+		private float scratchX;
+
+		// Token: 0x0400082E RID: 2094
+		private float scratchY;
+
 		// Token: 0x06000936 RID: 2358 RVA: 0x000174C0 File Offset: 0x000156C0
 		protected void Start()
 		{
@@ -96,66 +157,5 @@ namespace UnityStandardAssets.ImageEffects
 			material.SetVector("_Intensity", new Vector4(UnityEngine.Random.Range(this.grainIntensityMin, this.grainIntensityMax), UnityEngine.Random.Range(this.scratchIntensityMin, this.scratchIntensityMax), 0f, 0f));
 			Graphics.Blit(source, destination, material);
 		}
-
-		// Token: 0x0400081D RID: 2077
-		public bool monochrome = true;
-
-		// Token: 0x0400081E RID: 2078
-		private bool rgbFallback = false;
-
-		// Token: 0x0400081F RID: 2079
-		[Range(0f, 5f)]
-		public float grainIntensityMin = 0.1f;
-
-		// Token: 0x04000820 RID: 2080
-		[Range(0f, 5f)]
-		public float grainIntensityMax = 0.2f;
-
-		// Token: 0x04000821 RID: 2081
-		[Range(0.1f, 50f)]
-		public float grainSize = 2f;
-
-		// Token: 0x04000822 RID: 2082
-		[Range(0f, 5f)]
-		public float scratchIntensityMin = 0.05f;
-
-		// Token: 0x04000823 RID: 2083
-		[Range(0f, 5f)]
-		public float scratchIntensityMax = 0.25f;
-
-		// Token: 0x04000824 RID: 2084
-		[Range(1f, 30f)]
-		public float scratchFPS = 10f;
-
-		// Token: 0x04000825 RID: 2085
-		[Range(0f, 1f)]
-		public float scratchJitter = 0.01f;
-
-		// Token: 0x04000826 RID: 2086
-		public Texture grainTexture;
-
-		// Token: 0x04000827 RID: 2087
-		public Texture scratchTexture;
-
-		// Token: 0x04000828 RID: 2088
-		public Shader shaderRGB;
-
-		// Token: 0x04000829 RID: 2089
-		public Shader shaderYUV;
-
-		// Token: 0x0400082A RID: 2090
-		private Material m_MaterialRGB;
-
-		// Token: 0x0400082B RID: 2091
-		private Material m_MaterialYUV;
-
-		// Token: 0x0400082C RID: 2092
-		private float scratchTimeLeft = 0f;
-
-		// Token: 0x0400082D RID: 2093
-		private float scratchX;
-
-		// Token: 0x0400082E RID: 2094
-		private float scratchY;
 	}
 }

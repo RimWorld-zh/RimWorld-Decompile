@@ -8,6 +8,42 @@ namespace Verse
 	// Token: 0x02000C59 RID: 3161
 	public class GenStep_ScatterThings : GenStep_Scatterer
 	{
+		// Token: 0x04002F86 RID: 12166
+		public ThingDef thingDef;
+
+		// Token: 0x04002F87 RID: 12167
+		public ThingDef stuff;
+
+		// Token: 0x04002F88 RID: 12168
+		public int clearSpaceSize;
+
+		// Token: 0x04002F89 RID: 12169
+		public int clusterSize = 1;
+
+		// Token: 0x04002F8A RID: 12170
+		public float terrainValidationRadius = 0f;
+
+		// Token: 0x04002F8B RID: 12171
+		[NoTranslate]
+		private List<string> terrainValidationDisallowed;
+
+		// Token: 0x04002F8C RID: 12172
+		[Unsaved]
+		private IntVec3 clusterCenter;
+
+		// Token: 0x04002F8D RID: 12173
+		[Unsaved]
+		private int leftInCluster = 0;
+
+		// Token: 0x04002F8E RID: 12174
+		private const int ClusterRadius = 4;
+
+		// Token: 0x04002F8F RID: 12175
+		private List<Rot4> possibleRotationsInt;
+
+		// Token: 0x04002F90 RID: 12176
+		private static List<Rot4> tmpRotations = new List<Rot4>();
+
 		// Token: 0x17000AFD RID: 2813
 		// (get) Token: 0x06004590 RID: 17808 RVA: 0x0024C55C File Offset: 0x0024A95C
 		public override int SeedPart
@@ -252,41 +288,5 @@ namespace Verse
 			}
 			return list;
 		}
-
-		// Token: 0x04002F86 RID: 12166
-		public ThingDef thingDef;
-
-		// Token: 0x04002F87 RID: 12167
-		public ThingDef stuff;
-
-		// Token: 0x04002F88 RID: 12168
-		public int clearSpaceSize;
-
-		// Token: 0x04002F89 RID: 12169
-		public int clusterSize = 1;
-
-		// Token: 0x04002F8A RID: 12170
-		public float terrainValidationRadius = 0f;
-
-		// Token: 0x04002F8B RID: 12171
-		[NoTranslate]
-		private List<string> terrainValidationDisallowed;
-
-		// Token: 0x04002F8C RID: 12172
-		[Unsaved]
-		private IntVec3 clusterCenter;
-
-		// Token: 0x04002F8D RID: 12173
-		[Unsaved]
-		private int leftInCluster = 0;
-
-		// Token: 0x04002F8E RID: 12174
-		private const int ClusterRadius = 4;
-
-		// Token: 0x04002F8F RID: 12175
-		private List<Rot4> possibleRotationsInt;
-
-		// Token: 0x04002F90 RID: 12176
-		private static List<Rot4> tmpRotations = new List<Rot4>();
 	}
 }

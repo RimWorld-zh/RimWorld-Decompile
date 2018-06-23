@@ -11,6 +11,18 @@ namespace Verse
 	// Token: 0x02000DF7 RID: 3575
 	public abstract class ThingOwner : IExposable, IList<Thing>, ICollection<Thing>, IEnumerable<Thing>, IEnumerable
 	{
+		// Token: 0x04003534 RID: 13620
+		protected IThingHolder owner;
+
+		// Token: 0x04003535 RID: 13621
+		protected int maxStacks = 999999;
+
+		// Token: 0x04003536 RID: 13622
+		protected LookMode contentsLookMode = LookMode.Deep;
+
+		// Token: 0x04003537 RID: 13623
+		private const int InfMaxStacks = 999999;
+
 		// Token: 0x0600509C RID: 20636 RVA: 0x00298223 File Offset: 0x00296623
 		public ThingOwner()
 		{
@@ -861,17 +873,5 @@ namespace Verse
 			}
 			yield break;
 		}
-
-		// Token: 0x04003534 RID: 13620
-		protected IThingHolder owner;
-
-		// Token: 0x04003535 RID: 13621
-		protected int maxStacks = 999999;
-
-		// Token: 0x04003536 RID: 13622
-		protected LookMode contentsLookMode = LookMode.Deep;
-
-		// Token: 0x04003537 RID: 13623
-		private const int InfMaxStacks = 999999;
 	}
 }

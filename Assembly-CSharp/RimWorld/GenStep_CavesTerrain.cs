@@ -7,6 +7,18 @@ namespace RimWorld
 	// Token: 0x020003E9 RID: 1001
 	public class GenStep_CavesTerrain : GenStep
 	{
+		// Token: 0x04000A7A RID: 2682
+		private const float WaterFrequency = 0.08f;
+
+		// Token: 0x04000A7B RID: 2683
+		private const float GravelFrequency = 0.16f;
+
+		// Token: 0x04000A7C RID: 2684
+		private const float WaterThreshold = 0.93f;
+
+		// Token: 0x04000A7D RID: 2685
+		private const float GravelThreshold = 0.55f;
+
 		// Token: 0x1700024B RID: 587
 		// (get) Token: 0x06001135 RID: 4405 RVA: 0x00093D2C File Offset: 0x0009212C
 		public override int SeedPart
@@ -47,17 +59,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000A7A RID: 2682
-		private const float WaterFrequency = 0.08f;
-
-		// Token: 0x04000A7B RID: 2683
-		private const float GravelFrequency = 0.16f;
-
-		// Token: 0x04000A7C RID: 2684
-		private const float WaterThreshold = 0.93f;
-
-		// Token: 0x04000A7D RID: 2685
-		private const float GravelThreshold = 0.55f;
 	}
 }

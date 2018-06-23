@@ -10,6 +10,33 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class CompRefuelable : ThingComp
 	{
+		// Token: 0x0400162A RID: 5674
+		private float fuel;
+
+		// Token: 0x0400162B RID: 5675
+		private float configuredTargetFuelLevel = -1f;
+
+		// Token: 0x0400162C RID: 5676
+		private CompFlickable flickComp;
+
+		// Token: 0x0400162D RID: 5677
+		public const string RefueledSignal = "Refueled";
+
+		// Token: 0x0400162E RID: 5678
+		public const string RanOutOfFuelSignal = "RanOutOfFuel";
+
+		// Token: 0x0400162F RID: 5679
+		private static readonly Texture2D SetTargetFuelLevelCommand = ContentFinder<Texture2D>.Get("UI/Commands/SetTargetFuelLevel", true);
+
+		// Token: 0x04001630 RID: 5680
+		private static readonly Vector2 FuelBarSize = new Vector2(1f, 0.2f);
+
+		// Token: 0x04001631 RID: 5681
+		private static readonly Material FuelBarFilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.6f, 0.56f, 0.13f), false);
+
+		// Token: 0x04001632 RID: 5682
+		private static readonly Material FuelBarUnfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.3f, 0.3f, 0.3f), false);
+
 		// Token: 0x17000637 RID: 1591
 		// (get) Token: 0x0600286A RID: 10346 RVA: 0x00159194 File Offset: 0x00157594
 		// (set) Token: 0x0600286B RID: 10347 RVA: 0x001591F1 File Offset: 0x001575F1
@@ -356,32 +383,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x0400162A RID: 5674
-		private float fuel;
-
-		// Token: 0x0400162B RID: 5675
-		private float configuredTargetFuelLevel = -1f;
-
-		// Token: 0x0400162C RID: 5676
-		private CompFlickable flickComp;
-
-		// Token: 0x0400162D RID: 5677
-		public const string RefueledSignal = "Refueled";
-
-		// Token: 0x0400162E RID: 5678
-		public const string RanOutOfFuelSignal = "RanOutOfFuel";
-
-		// Token: 0x0400162F RID: 5679
-		private static readonly Texture2D SetTargetFuelLevelCommand = ContentFinder<Texture2D>.Get("UI/Commands/SetTargetFuelLevel", true);
-
-		// Token: 0x04001630 RID: 5680
-		private static readonly Vector2 FuelBarSize = new Vector2(1f, 0.2f);
-
-		// Token: 0x04001631 RID: 5681
-		private static readonly Material FuelBarFilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.6f, 0.56f, 0.13f), false);
-
-		// Token: 0x04001632 RID: 5682
-		private static readonly Material FuelBarUnfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.3f, 0.3f, 0.3f), false);
 	}
 }

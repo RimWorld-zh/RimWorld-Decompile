@@ -5,6 +5,9 @@ namespace Verse.AI
 	// Token: 0x02000AB7 RID: 2743
 	public class ThinkNode_ForbidOutsideFlagRadius : ThinkNode_Priority
 	{
+		// Token: 0x04002690 RID: 9872
+		public float maxDistToSquadFlag = -1f;
+
 		// Token: 0x06003D2B RID: 15659 RVA: 0x00204ED0 File Offset: 0x002032D0
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -35,8 +38,5 @@ namespace Verse.AI
 			}
 			return result;
 		}
-
-		// Token: 0x04002690 RID: 9872
-		public float maxDistToSquadFlag = -1f;
 	}
 }

@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x02000871 RID: 2161
 	public class MainTabWindow_Menu : MainTabWindow
 	{
+		// Token: 0x04001A9F RID: 6815
+		private bool anyGameFiles;
+
 		// Token: 0x0600313A RID: 12602 RVA: 0x001ABA0A File Offset: 0x001A9E0A
 		public MainTabWindow_Menu()
 		{
@@ -57,8 +60,5 @@ namespace RimWorld
 			base.DoWindowContents(rect);
 			MainMenuDrawer.DoMainMenuControls(rect, this.anyGameFiles);
 		}
-
-		// Token: 0x04001A9F RID: 6815
-		private bool anyGameFiles;
 	}
 }

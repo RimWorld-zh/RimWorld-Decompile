@@ -10,6 +10,96 @@ namespace RimWorld
 	// Token: 0x020006C1 RID: 1729
 	public class Fire : AttachableThing, ISizeReporter
 	{
+		// Token: 0x040014C0 RID: 5312
+		private int ticksSinceSpawn;
+
+		// Token: 0x040014C1 RID: 5313
+		public float fireSize = 0.1f;
+
+		// Token: 0x040014C2 RID: 5314
+		private int ticksSinceSpread;
+
+		// Token: 0x040014C3 RID: 5315
+		private float flammabilityMax = 0.5f;
+
+		// Token: 0x040014C4 RID: 5316
+		private int ticksUntilSmoke = 0;
+
+		// Token: 0x040014C5 RID: 5317
+		private Sustainer sustainer = null;
+
+		// Token: 0x040014C6 RID: 5318
+		private static List<Thing> flammableList = new List<Thing>();
+
+		// Token: 0x040014C7 RID: 5319
+		private static int fireCount;
+
+		// Token: 0x040014C8 RID: 5320
+		private static int lastFireCountUpdateTick;
+
+		// Token: 0x040014C9 RID: 5321
+		public const float MinFireSize = 0.1f;
+
+		// Token: 0x040014CA RID: 5322
+		private const float MinSizeForSpark = 1f;
+
+		// Token: 0x040014CB RID: 5323
+		private const float TicksBetweenSparksBase = 150f;
+
+		// Token: 0x040014CC RID: 5324
+		private const float TicksBetweenSparksReductionPerFireSize = 40f;
+
+		// Token: 0x040014CD RID: 5325
+		private const float MinTicksBetweenSparks = 75f;
+
+		// Token: 0x040014CE RID: 5326
+		private const float MinFireSizeToEmitSpark = 1f;
+
+		// Token: 0x040014CF RID: 5327
+		public const float MaxFireSize = 1.75f;
+
+		// Token: 0x040014D0 RID: 5328
+		private const int TicksToBurnFloor = 7500;
+
+		// Token: 0x040014D1 RID: 5329
+		private const int ComplexCalcsInterval = 150;
+
+		// Token: 0x040014D2 RID: 5330
+		private const float CellIgniteChancePerTickPerSize = 0.01f;
+
+		// Token: 0x040014D3 RID: 5331
+		private const float MinSizeForIgniteMovables = 0.4f;
+
+		// Token: 0x040014D4 RID: 5332
+		private const float FireBaseGrowthPerTick = 0.00055f;
+
+		// Token: 0x040014D5 RID: 5333
+		private static readonly IntRange SmokeIntervalRange = new IntRange(130, 200);
+
+		// Token: 0x040014D6 RID: 5334
+		private const int SmokeIntervalRandomAddon = 10;
+
+		// Token: 0x040014D7 RID: 5335
+		private const float BaseSkyExtinguishChance = 0.04f;
+
+		// Token: 0x040014D8 RID: 5336
+		private const int BaseSkyExtinguishDamage = 10;
+
+		// Token: 0x040014D9 RID: 5337
+		private const float HeatPerFireSizePerInterval = 160f;
+
+		// Token: 0x040014DA RID: 5338
+		private const float HeatFactorWhenDoorPresent = 0.15f;
+
+		// Token: 0x040014DB RID: 5339
+		private const float SnowClearRadiusPerFireSize = 3f;
+
+		// Token: 0x040014DC RID: 5340
+		private const float SnowClearDepthFactor = 0.1f;
+
+		// Token: 0x040014DD RID: 5341
+		private const int FireCountParticlesOff = 15;
+
 		// Token: 0x170005A1 RID: 1441
 		// (get) Token: 0x06002557 RID: 9559 RVA: 0x001405F0 File Offset: 0x0013E9F0
 		public override string Label
@@ -417,95 +507,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x040014C0 RID: 5312
-		private int ticksSinceSpawn;
-
-		// Token: 0x040014C1 RID: 5313
-		public float fireSize = 0.1f;
-
-		// Token: 0x040014C2 RID: 5314
-		private int ticksSinceSpread;
-
-		// Token: 0x040014C3 RID: 5315
-		private float flammabilityMax = 0.5f;
-
-		// Token: 0x040014C4 RID: 5316
-		private int ticksUntilSmoke = 0;
-
-		// Token: 0x040014C5 RID: 5317
-		private Sustainer sustainer = null;
-
-		// Token: 0x040014C6 RID: 5318
-		private static List<Thing> flammableList = new List<Thing>();
-
-		// Token: 0x040014C7 RID: 5319
-		private static int fireCount;
-
-		// Token: 0x040014C8 RID: 5320
-		private static int lastFireCountUpdateTick;
-
-		// Token: 0x040014C9 RID: 5321
-		public const float MinFireSize = 0.1f;
-
-		// Token: 0x040014CA RID: 5322
-		private const float MinSizeForSpark = 1f;
-
-		// Token: 0x040014CB RID: 5323
-		private const float TicksBetweenSparksBase = 150f;
-
-		// Token: 0x040014CC RID: 5324
-		private const float TicksBetweenSparksReductionPerFireSize = 40f;
-
-		// Token: 0x040014CD RID: 5325
-		private const float MinTicksBetweenSparks = 75f;
-
-		// Token: 0x040014CE RID: 5326
-		private const float MinFireSizeToEmitSpark = 1f;
-
-		// Token: 0x040014CF RID: 5327
-		public const float MaxFireSize = 1.75f;
-
-		// Token: 0x040014D0 RID: 5328
-		private const int TicksToBurnFloor = 7500;
-
-		// Token: 0x040014D1 RID: 5329
-		private const int ComplexCalcsInterval = 150;
-
-		// Token: 0x040014D2 RID: 5330
-		private const float CellIgniteChancePerTickPerSize = 0.01f;
-
-		// Token: 0x040014D3 RID: 5331
-		private const float MinSizeForIgniteMovables = 0.4f;
-
-		// Token: 0x040014D4 RID: 5332
-		private const float FireBaseGrowthPerTick = 0.00055f;
-
-		// Token: 0x040014D5 RID: 5333
-		private static readonly IntRange SmokeIntervalRange = new IntRange(130, 200);
-
-		// Token: 0x040014D6 RID: 5334
-		private const int SmokeIntervalRandomAddon = 10;
-
-		// Token: 0x040014D7 RID: 5335
-		private const float BaseSkyExtinguishChance = 0.04f;
-
-		// Token: 0x040014D8 RID: 5336
-		private const int BaseSkyExtinguishDamage = 10;
-
-		// Token: 0x040014D9 RID: 5337
-		private const float HeatPerFireSizePerInterval = 160f;
-
-		// Token: 0x040014DA RID: 5338
-		private const float HeatFactorWhenDoorPresent = 0.15f;
-
-		// Token: 0x040014DB RID: 5339
-		private const float SnowClearRadiusPerFireSize = 3f;
-
-		// Token: 0x040014DC RID: 5340
-		private const float SnowClearDepthFactor = 0.1f;
-
-		// Token: 0x040014DD RID: 5341
-		private const int FireCountParticlesOff = 15;
 	}
 }

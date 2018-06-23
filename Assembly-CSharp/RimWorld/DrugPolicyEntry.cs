@@ -6,19 +6,6 @@ namespace RimWorld
 	// Token: 0x020004E5 RID: 1253
 	public class DrugPolicyEntry : IExposable
 	{
-		// Token: 0x06001663 RID: 5731 RVA: 0x000C6E40 File Offset: 0x000C5240
-		public void ExposeData()
-		{
-			Scribe_Defs.Look<ThingDef>(ref this.drug, "drug");
-			Scribe_Values.Look<bool>(ref this.allowedForAddiction, "allowedForAddiction", false, false);
-			Scribe_Values.Look<bool>(ref this.allowedForJoy, "allowedForJoy", false, false);
-			Scribe_Values.Look<bool>(ref this.allowScheduled, "allowScheduled", false, false);
-			Scribe_Values.Look<float>(ref this.daysFrequency, "daysFrequency", 1f, false);
-			Scribe_Values.Look<float>(ref this.onlyIfMoodBelow, "onlyIfMoodBelow", 1f, false);
-			Scribe_Values.Look<float>(ref this.onlyIfJoyBelow, "onlyIfJoyBelow", 1f, false);
-			Scribe_Values.Look<int>(ref this.takeToInventory, "takeToInventory", 0, false);
-		}
-
 		// Token: 0x04000D0D RID: 3341
 		public ThingDef drug;
 
@@ -45,5 +32,18 @@ namespace RimWorld
 
 		// Token: 0x04000D15 RID: 3349
 		public string takeToInventoryTempBuffer;
+
+		// Token: 0x06001663 RID: 5731 RVA: 0x000C6E40 File Offset: 0x000C5240
+		public void ExposeData()
+		{
+			Scribe_Defs.Look<ThingDef>(ref this.drug, "drug");
+			Scribe_Values.Look<bool>(ref this.allowedForAddiction, "allowedForAddiction", false, false);
+			Scribe_Values.Look<bool>(ref this.allowedForJoy, "allowedForJoy", false, false);
+			Scribe_Values.Look<bool>(ref this.allowScheduled, "allowScheduled", false, false);
+			Scribe_Values.Look<float>(ref this.daysFrequency, "daysFrequency", 1f, false);
+			Scribe_Values.Look<float>(ref this.onlyIfMoodBelow, "onlyIfMoodBelow", 1f, false);
+			Scribe_Values.Look<float>(ref this.onlyIfJoyBelow, "onlyIfJoyBelow", 1f, false);
+			Scribe_Values.Look<int>(ref this.takeToInventory, "takeToInventory", 0, false);
+		}
 	}
 }

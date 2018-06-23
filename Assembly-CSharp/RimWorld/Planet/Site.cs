@@ -10,6 +10,36 @@ namespace RimWorld.Planet
 	// Token: 0x02000606 RID: 1542
 	public class Site : MapParent
 	{
+		// Token: 0x04001230 RID: 4656
+		public string customLabel;
+
+		// Token: 0x04001231 RID: 4657
+		public SiteCoreDef core;
+
+		// Token: 0x04001232 RID: 4658
+		public List<SitePartDef> parts = new List<SitePartDef>();
+
+		// Token: 0x04001233 RID: 4659
+		public bool writeSiteParts;
+
+		// Token: 0x04001234 RID: 4660
+		public bool factionMustRemainHostile;
+
+		// Token: 0x04001235 RID: 4661
+		private bool startedCountdown;
+
+		// Token: 0x04001236 RID: 4662
+		private bool anyEnemiesInitially;
+
+		// Token: 0x04001237 RID: 4663
+		private Material cachedMat;
+
+		// Token: 0x04001238 RID: 4664
+		private static List<SiteDefBase> tmpDefs = new List<SiteDefBase>();
+
+		// Token: 0x04001239 RID: 4665
+		private static List<SiteDefBase> tmpUsedDefs = new List<SiteDefBase>();
+
 		// Token: 0x17000497 RID: 1175
 		// (get) Token: 0x06001F00 RID: 7936 RVA: 0x0010D0A8 File Offset: 0x0010B4A8
 		public override string Label
@@ -368,35 +398,5 @@ namespace RimWorld.Planet
 			}
 			return text;
 		}
-
-		// Token: 0x04001230 RID: 4656
-		public string customLabel;
-
-		// Token: 0x04001231 RID: 4657
-		public SiteCoreDef core;
-
-		// Token: 0x04001232 RID: 4658
-		public List<SitePartDef> parts = new List<SitePartDef>();
-
-		// Token: 0x04001233 RID: 4659
-		public bool writeSiteParts;
-
-		// Token: 0x04001234 RID: 4660
-		public bool factionMustRemainHostile;
-
-		// Token: 0x04001235 RID: 4661
-		private bool startedCountdown;
-
-		// Token: 0x04001236 RID: 4662
-		private bool anyEnemiesInitially;
-
-		// Token: 0x04001237 RID: 4663
-		private Material cachedMat;
-
-		// Token: 0x04001238 RID: 4664
-		private static List<SiteDefBase> tmpDefs = new List<SiteDefBase>();
-
-		// Token: 0x04001239 RID: 4665
-		private static List<SiteDefBase> tmpUsedDefs = new List<SiteDefBase>();
 	}
 }

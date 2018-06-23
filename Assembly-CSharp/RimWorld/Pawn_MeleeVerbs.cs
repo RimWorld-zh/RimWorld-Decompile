@@ -9,6 +9,27 @@ namespace RimWorld
 	// Token: 0x02000511 RID: 1297
 	public class Pawn_MeleeVerbs : IExposable
 	{
+		// Token: 0x04000DDE RID: 3550
+		private Pawn pawn;
+
+		// Token: 0x04000DDF RID: 3551
+		private Verb curMeleeVerb = null;
+
+		// Token: 0x04000DE0 RID: 3552
+		private Thing curMeleeVerbTarget = null;
+
+		// Token: 0x04000DE1 RID: 3553
+		private int curMeleeVerbUpdateTick = 0;
+
+		// Token: 0x04000DE2 RID: 3554
+		private Pawn_MeleeVerbs_TerrainSource terrainVerbs = null;
+
+		// Token: 0x04000DE3 RID: 3555
+		private static List<VerbEntry> meleeVerbs = new List<VerbEntry>();
+
+		// Token: 0x04000DE4 RID: 3556
+		private const int BestMeleeVerbUpdateInterval = 60;
+
 		// Token: 0x06001777 RID: 6007 RVA: 0x000CDD67 File Offset: 0x000CC167
 		public Pawn_MeleeVerbs(Pawn pawn)
 		{
@@ -260,26 +281,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000DDE RID: 3550
-		private Pawn pawn;
-
-		// Token: 0x04000DDF RID: 3551
-		private Verb curMeleeVerb = null;
-
-		// Token: 0x04000DE0 RID: 3552
-		private Thing curMeleeVerbTarget = null;
-
-		// Token: 0x04000DE1 RID: 3553
-		private int curMeleeVerbUpdateTick = 0;
-
-		// Token: 0x04000DE2 RID: 3554
-		private Pawn_MeleeVerbs_TerrainSource terrainVerbs = null;
-
-		// Token: 0x04000DE3 RID: 3555
-		private static List<VerbEntry> meleeVerbs = new List<VerbEntry>();
-
-		// Token: 0x04000DE4 RID: 3556
-		private const int BestMeleeVerbUpdateInterval = 60;
 	}
 }

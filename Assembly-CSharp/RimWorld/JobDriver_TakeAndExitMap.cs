@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000080 RID: 128
 	public class JobDriver_TakeAndExitMap : JobDriver
 	{
+		// Token: 0x04000238 RID: 568
+		private const TargetIndex ItemInd = TargetIndex.A;
+
+		// Token: 0x04000239 RID: 569
+		private const TargetIndex ExitCellInd = TargetIndex.B;
+
 		// Token: 0x170000B1 RID: 177
 		// (get) Token: 0x06000360 RID: 864 RVA: 0x000216A4 File Offset: 0x0001FAA4
 		protected Thing Item
@@ -53,11 +59,5 @@ namespace RimWorld
 			};
 			yield break;
 		}
-
-		// Token: 0x04000238 RID: 568
-		private const TargetIndex ItemInd = TargetIndex.A;
-
-		// Token: 0x04000239 RID: 569
-		private const TargetIndex ExitCellInd = TargetIndex.B;
 	}
 }

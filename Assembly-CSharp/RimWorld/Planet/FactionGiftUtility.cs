@@ -11,6 +11,9 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public static class FactionGiftUtility
 	{
+		// Token: 0x04000F25 RID: 3877
+		private static readonly Texture2D OfferGiftsCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/OfferGifts", true);
+
 		// Token: 0x060019C2 RID: 6594 RVA: 0x000E0538 File Offset: 0x000DE938
 		public static Command OfferGiftsCommand(Caravan caravan, Settlement settlement)
 		{
@@ -218,8 +221,5 @@ namespace RimWorld.Planet
 				giveTo.Name
 			}).CapitalizeFirst(), lookTarget, MessageTypeDefOf.NegativeEvent, true);
 		}
-
-		// Token: 0x04000F25 RID: 3877
-		private static readonly Texture2D OfferGiftsCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/OfferGifts", true);
 	}
 }

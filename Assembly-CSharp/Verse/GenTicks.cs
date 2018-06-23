@@ -7,6 +7,15 @@ namespace Verse
 	// Token: 0x02000F4B RID: 3915
 	public static class GenTicks
 	{
+		// Token: 0x04003E33 RID: 15923
+		public const int TicksPerRealSecond = 60;
+
+		// Token: 0x04003E34 RID: 15924
+		public const int TickRareInterval = 250;
+
+		// Token: 0x04003E35 RID: 15925
+		public const int TickLongInterval = 2000;
+
 		// Token: 0x17000F3F RID: 3903
 		// (get) Token: 0x06005EB1 RID: 24241 RVA: 0x00303590 File Offset: 0x00301990
 		public static int TicksAbs
@@ -119,14 +128,5 @@ namespace Verse
 		{
 			return numSeconds.SecondsToTicks().ToString();
 		}
-
-		// Token: 0x04003E33 RID: 15923
-		public const int TicksPerRealSecond = 60;
-
-		// Token: 0x04003E34 RID: 15924
-		public const int TickRareInterval = 250;
-
-		// Token: 0x04003E35 RID: 15925
-		public const int TickLongInterval = 2000;
 	}
 }

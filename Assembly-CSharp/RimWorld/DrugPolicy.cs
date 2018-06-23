@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x020004E6 RID: 1254
 	public class DrugPolicy : IExposable, ILoadReferenceable
 	{
+		// Token: 0x04000D16 RID: 3350
+		public int uniqueId;
+
+		// Token: 0x04000D17 RID: 3351
+		public string label;
+
+		// Token: 0x04000D18 RID: 3352
+		private List<DrugPolicyEntry> entriesInt;
+
 		// Token: 0x06001664 RID: 5732 RVA: 0x000C6EE8 File Offset: 0x000C52E8
 		public DrugPolicy()
 		{
@@ -93,14 +102,5 @@ namespace RimWorld
 		{
 			return "DrugPolicy_" + this.label + this.uniqueId.ToString();
 		}
-
-		// Token: 0x04000D16 RID: 3350
-		public int uniqueId;
-
-		// Token: 0x04000D17 RID: 3351
-		public string label;
-
-		// Token: 0x04000D18 RID: 3352
-		private List<DrugPolicyEntry> entriesInt;
 	}
 }

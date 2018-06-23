@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x020001A9 RID: 425
 	public class RaidStrategyWorker_Siege : RaidStrategyWorker
 	{
+		// Token: 0x040003AF RID: 943
+		private const float MinPointsForSiege = 350f;
+
 		// Token: 0x060008C8 RID: 2248 RVA: 0x00052808 File Offset: 0x00050C08
 		protected override LordJob MakeLordJob(IncidentParms parms, Map map, List<Pawn> pawns, int raidSeed)
 		{
@@ -33,8 +36,5 @@ namespace RimWorld
 		{
 			return base.CanUseWith(parms, groupKind) && parms.faction.def.canSiege;
 		}
-
-		// Token: 0x040003AF RID: 943
-		private const float MinPointsForSiege = 350f;
 	}
 }

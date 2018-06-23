@@ -8,6 +8,18 @@ namespace RimWorld
 	// Token: 0x02000081 RID: 129
 	public class JobDriver_TakeBeerOutOfFermentingBarrel : JobDriver
 	{
+		// Token: 0x0400023A RID: 570
+		private const TargetIndex BarrelInd = TargetIndex.A;
+
+		// Token: 0x0400023B RID: 571
+		private const TargetIndex BeerToHaulInd = TargetIndex.B;
+
+		// Token: 0x0400023C RID: 572
+		private const TargetIndex StorageCellInd = TargetIndex.C;
+
+		// Token: 0x0400023D RID: 573
+		private const int Duration = 200;
+
 		// Token: 0x170000B2 RID: 178
 		// (get) Token: 0x06000364 RID: 868 RVA: 0x000257F8 File Offset: 0x00023BF8
 		protected Building_FermentingBarrel Barrel
@@ -71,17 +83,5 @@ namespace RimWorld
 			yield return Toils_Haul.PlaceHauledThingInCell(TargetIndex.C, carryToCell, true);
 			yield break;
 		}
-
-		// Token: 0x0400023A RID: 570
-		private const TargetIndex BarrelInd = TargetIndex.A;
-
-		// Token: 0x0400023B RID: 571
-		private const TargetIndex BeerToHaulInd = TargetIndex.B;
-
-		// Token: 0x0400023C RID: 572
-		private const TargetIndex StorageCellInd = TargetIndex.C;
-
-		// Token: 0x0400023D RID: 573
-		private const int Duration = 200;
 	}
 }

@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x02000538 RID: 1336
 	public class Thought_SituationalSocial : Thought_Situational, ISocialThought
 	{
+		// Token: 0x04000EA7 RID: 3751
+		public Pawn otherPawn;
+
 		// Token: 0x17000380 RID: 896
 		// (get) Token: 0x060018DC RID: 6364 RVA: 0x00057E3C File Offset: 0x0005623C
 		public override bool VisibleInNeedsTab
@@ -40,8 +43,5 @@ namespace RimWorld
 		{
 			return this.def.Worker.CurrentSocialState(this.pawn, this.otherPawn);
 		}
-
-		// Token: 0x04000EA7 RID: 3751
-		public Pawn otherPawn;
 	}
 }

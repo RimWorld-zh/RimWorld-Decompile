@@ -6,6 +6,15 @@ namespace RimWorld
 	// Token: 0x02000F07 RID: 3847
 	public struct ThingStuffPairWithQuality : IEquatable<ThingStuffPairWithQuality>
 	{
+		// Token: 0x04003CF6 RID: 15606
+		public ThingDef thing;
+
+		// Token: 0x04003CF7 RID: 15607
+		public ThingDef stuff;
+
+		// Token: 0x04003CF8 RID: 15608
+		public QualityCategory? quality;
+
 		// Token: 0x06005C71 RID: 23665 RVA: 0x002EF0EC File Offset: 0x002ED4EC
 		public ThingStuffPairWithQuality(ThingDef thing, ThingDef stuff, QualityCategory quality)
 		{
@@ -117,14 +126,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04003CF6 RID: 15606
-		public ThingDef thing;
-
-		// Token: 0x04003CF7 RID: 15607
-		public ThingDef stuff;
-
-		// Token: 0x04003CF8 RID: 15608
-		public QualityCategory? quality;
 	}
 }

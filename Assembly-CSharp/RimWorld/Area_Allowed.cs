@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x0200037B RID: 891
 	public class Area_Allowed : Area
 	{
+		// Token: 0x0400097B RID: 2427
+		private string labelInt;
+
+		// Token: 0x0400097C RID: 2428
+		private Color colorInt = Color.red;
+
 		// Token: 0x06000F64 RID: 3940 RVA: 0x000831DC File Offset: 0x000815DC
 		public Area_Allowed()
 		{
@@ -117,11 +123,5 @@ namespace RimWorld
 		{
 			return this.labelInt;
 		}
-
-		// Token: 0x0400097B RID: 2427
-		private string labelInt;
-
-		// Token: 0x0400097C RID: 2428
-		private Color colorInt = Color.red;
 	}
 }

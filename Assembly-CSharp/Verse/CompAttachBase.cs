@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000DFD RID: 3581
 	public class CompAttachBase : ThingComp
 	{
+		// Token: 0x0400354B RID: 13643
+		public List<AttachableThing> attachments = null;
+
 		// Token: 0x06005132 RID: 20786 RVA: 0x0029B848 File Offset: 0x00299C48
 		public override void CompTick()
 		{
@@ -89,8 +92,5 @@ namespace Verse
 		{
 			this.attachments.Remove(t);
 		}
-
-		// Token: 0x0400354B RID: 13643
-		public List<AttachableThing> attachments = null;
 	}
 }

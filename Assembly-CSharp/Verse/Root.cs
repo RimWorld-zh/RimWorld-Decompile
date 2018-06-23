@@ -15,6 +15,28 @@ namespace Verse
 	// Token: 0x02000BDA RID: 3034
 	public abstract class Root : MonoBehaviour
 	{
+		// Token: 0x04002D4F RID: 11599
+		private static bool globalInitDone;
+
+		// Token: 0x04002D50 RID: 11600
+		private static bool prefsApplied;
+
+		// Token: 0x04002D51 RID: 11601
+		protected static bool checkedAutostartSaveFile;
+
+		// Token: 0x04002D52 RID: 11602
+		protected bool destroyed;
+
+		// Token: 0x04002D53 RID: 11603
+		public SoundRoot soundRoot;
+
+		// Token: 0x04002D54 RID: 11604
+		public UIRoot uiRoot;
+
+		// Token: 0x04002D56 RID: 11606
+		[CompilerGenerated]
+		private static Action <>f__mg$cache0;
+
 		// Token: 0x06004247 RID: 16967 RVA: 0x0022E0BC File Offset: 0x0022C4BC
 		public virtual void Start()
 		{
@@ -183,27 +205,5 @@ namespace Verse
 			}
 			Application.Quit();
 		}
-
-		// Token: 0x04002D4F RID: 11599
-		private static bool globalInitDone;
-
-		// Token: 0x04002D50 RID: 11600
-		private static bool prefsApplied;
-
-		// Token: 0x04002D51 RID: 11601
-		protected static bool checkedAutostartSaveFile;
-
-		// Token: 0x04002D52 RID: 11602
-		protected bool destroyed;
-
-		// Token: 0x04002D53 RID: 11603
-		public SoundRoot soundRoot;
-
-		// Token: 0x04002D54 RID: 11604
-		public UIRoot uiRoot;
-
-		// Token: 0x04002D56 RID: 11606
-		[CompilerGenerated]
-		private static Action <>f__mg$cache0;
 	}
 }

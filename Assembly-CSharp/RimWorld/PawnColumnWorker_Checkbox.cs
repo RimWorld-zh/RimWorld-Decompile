@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x02000879 RID: 2169
 	public abstract class PawnColumnWorker_Checkbox : PawnColumnWorker
 	{
+		// Token: 0x04001ACB RID: 6859
+		public const int HorizontalPadding = 2;
+
 		// Token: 0x06003184 RID: 12676 RVA: 0x001ADF4C File Offset: 0x001AC34C
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
@@ -143,8 +146,5 @@ namespace RimWorld
 		{
 			return base.GetHeaderTip(table) + "\n" + "CheckboxShiftClickTip".Translate();
 		}
-
-		// Token: 0x04001ACB RID: 6859
-		public const int HorizontalPadding = 2;
 	}
 }

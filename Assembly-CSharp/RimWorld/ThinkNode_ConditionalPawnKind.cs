@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020001E8 RID: 488
 	public class ThinkNode_ConditionalPawnKind : ThinkNode_Conditional
 	{
+		// Token: 0x040003E3 RID: 995
+		public PawnKindDef pawnKind;
+
 		// Token: 0x0600098B RID: 2443 RVA: 0x00056BF8 File Offset: 0x00054FF8
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -20,8 +23,5 @@ namespace RimWorld
 		{
 			return pawn.kindDef == this.pawnKind;
 		}
-
-		// Token: 0x040003E3 RID: 995
-		public PawnKindDef pawnKind;
 	}
 }

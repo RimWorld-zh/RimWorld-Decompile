@@ -6,6 +6,9 @@ namespace RimWorld.Planet
 	// Token: 0x020005B1 RID: 1457
 	public abstract class WorldComponent : IExposable
 	{
+		// Token: 0x040010BF RID: 4287
+		public World world;
+
 		// Token: 0x06001C00 RID: 7168 RVA: 0x000EED52 File Offset: 0x000ED152
 		public WorldComponent(World world)
 		{
@@ -31,8 +34,5 @@ namespace RimWorld.Planet
 		public virtual void FinalizeInit()
 		{
 		}
-
-		// Token: 0x040010BF RID: 4287
-		public World world;
 	}
 }

@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x0200070F RID: 1807
 	public class CompFoodPoisonable : ThingComp
 	{
+		// Token: 0x040015DB RID: 5595
+		private float poisonPct;
+
 		// Token: 0x170005FC RID: 1532
 		// (get) Token: 0x060027B4 RID: 10164 RVA: 0x001543B0 File Offset: 0x001527B0
 		// (set) Token: 0x060027B5 RID: 10165 RVA: 0x001543CB File Offset: 0x001527CB
@@ -53,8 +56,5 @@ namespace RimWorld
 				FoodUtility.AddFoodPoisoningHediff(ingester, this.parent);
 			}
 		}
-
-		// Token: 0x040015DB RID: 5595
-		private float poisonPct;
 	}
 }

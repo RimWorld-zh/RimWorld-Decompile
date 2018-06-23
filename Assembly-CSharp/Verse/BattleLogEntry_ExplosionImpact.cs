@@ -9,6 +9,27 @@ namespace Verse
 	// Token: 0x02000BBC RID: 3004
 	public class BattleLogEntry_ExplosionImpact : LogEntry_DamageResult
 	{
+		// Token: 0x04002C8C RID: 11404
+		private Pawn initiatorPawn;
+
+		// Token: 0x04002C8D RID: 11405
+		private ThingDef initiatorThing;
+
+		// Token: 0x04002C8E RID: 11406
+		private Pawn recipientPawn;
+
+		// Token: 0x04002C8F RID: 11407
+		private ThingDef recipientThing;
+
+		// Token: 0x04002C90 RID: 11408
+		private ThingDef weaponDef;
+
+		// Token: 0x04002C91 RID: 11409
+		private ThingDef projectileDef;
+
+		// Token: 0x04002C92 RID: 11410
+		private DamageDef damageDef;
+
 		// Token: 0x06004136 RID: 16694 RVA: 0x00226DB4 File Offset: 0x002251B4
 		public BattleLogEntry_ExplosionImpact() : base(null)
 		{
@@ -212,26 +233,5 @@ namespace Verse
 		{
 			return "BattleLogEntry_ExplosionImpact: " + this.InitiatorName + "->" + this.RecipientName;
 		}
-
-		// Token: 0x04002C8C RID: 11404
-		private Pawn initiatorPawn;
-
-		// Token: 0x04002C8D RID: 11405
-		private ThingDef initiatorThing;
-
-		// Token: 0x04002C8E RID: 11406
-		private Pawn recipientPawn;
-
-		// Token: 0x04002C8F RID: 11407
-		private ThingDef recipientThing;
-
-		// Token: 0x04002C90 RID: 11408
-		private ThingDef weaponDef;
-
-		// Token: 0x04002C91 RID: 11409
-		private ThingDef projectileDef;
-
-		// Token: 0x04002C92 RID: 11410
-		private DamageDef damageDef;
 	}
 }

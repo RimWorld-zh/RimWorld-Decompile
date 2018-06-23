@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020008C2 RID: 2242
 	public class Instruction_FinishConstruction : Lesson_Instruction
 	{
+		// Token: 0x04001B97 RID: 7063
+		private int initialBlueprintsCount = -1;
+
 		// Token: 0x1700082C RID: 2092
 		// (get) Token: 0x0600334C RID: 13132 RVA: 0x001B8E58 File Offset: 0x001B7258
 		protected override float ProgressPercent
@@ -55,8 +58,5 @@ namespace RimWorld
 				Find.ActiveLesson.Deactivate();
 			}
 		}
-
-		// Token: 0x04001B97 RID: 7063
-		private int initialBlueprintsCount = -1;
 	}
 }

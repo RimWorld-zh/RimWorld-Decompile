@@ -5,6 +5,12 @@ namespace Verse
 	// Token: 0x02000EB9 RID: 3769
 	public struct LabelValue
 	{
+		// Token: 0x04003B77 RID: 15223
+		private string label;
+
+		// Token: 0x04003B78 RID: 15224
+		private string value;
+
 		// Token: 0x06005937 RID: 22839 RVA: 0x002DC585 File Offset: 0x002DA985
 		public LabelValue(string label, string value)
 		{
@@ -38,11 +44,5 @@ namespace Verse
 		{
 			return this.label;
 		}
-
-		// Token: 0x04003B77 RID: 15223
-		private string label;
-
-		// Token: 0x04003B78 RID: 15224
-		private string value;
 	}
 }

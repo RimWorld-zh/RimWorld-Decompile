@@ -5,6 +5,12 @@ namespace Steamworks
 	// Token: 0x0200015A RID: 346
 	public struct HTTPCookieContainerHandle : IEquatable<HTTPCookieContainerHandle>, IComparable<HTTPCookieContainerHandle>
 	{
+		// Token: 0x04000669 RID: 1641
+		public static readonly HTTPCookieContainerHandle Invalid = new HTTPCookieContainerHandle(0u);
+
+		// Token: 0x0400066A RID: 1642
+		public uint m_HTTPCookieContainerHandle;
+
 		// Token: 0x060007AB RID: 1963 RVA: 0x0000D44C File Offset: 0x0000B64C
 		public HTTPCookieContainerHandle(uint value)
 		{
@@ -64,11 +70,5 @@ namespace Steamworks
 		{
 			return this.m_HTTPCookieContainerHandle.CompareTo(other.m_HTTPCookieContainerHandle);
 		}
-
-		// Token: 0x04000669 RID: 1641
-		public static readonly HTTPCookieContainerHandle Invalid = new HTTPCookieContainerHandle(0u);
-
-		// Token: 0x0400066A RID: 1642
-		public uint m_HTTPCookieContainerHandle;
 	}
 }

@@ -8,6 +8,27 @@ namespace Verse.AI
 	// Token: 0x02000A3C RID: 2620
 	public class JobDriver_DoBill : JobDriver
 	{
+		// Token: 0x04002502 RID: 9474
+		public float workLeft;
+
+		// Token: 0x04002503 RID: 9475
+		public int billStartTick;
+
+		// Token: 0x04002504 RID: 9476
+		public int ticksSpentDoingRecipeWork;
+
+		// Token: 0x04002505 RID: 9477
+		public const PathEndMode GotoIngredientPathEndMode = PathEndMode.ClosestTouch;
+
+		// Token: 0x04002506 RID: 9478
+		public const TargetIndex BillGiverInd = TargetIndex.A;
+
+		// Token: 0x04002507 RID: 9479
+		public const TargetIndex IngredientInd = TargetIndex.B;
+
+		// Token: 0x04002508 RID: 9480
+		public const TargetIndex IngredientPlaceCellInd = TargetIndex.C;
+
 		// Token: 0x06003A24 RID: 14884 RVA: 0x001EC444 File Offset: 0x001EA844
 		public override string GetReport()
 		{
@@ -192,26 +213,5 @@ namespace Verse.AI
 			};
 			return toil;
 		}
-
-		// Token: 0x04002502 RID: 9474
-		public float workLeft;
-
-		// Token: 0x04002503 RID: 9475
-		public int billStartTick;
-
-		// Token: 0x04002504 RID: 9476
-		public int ticksSpentDoingRecipeWork;
-
-		// Token: 0x04002505 RID: 9477
-		public const PathEndMode GotoIngredientPathEndMode = PathEndMode.ClosestTouch;
-
-		// Token: 0x04002506 RID: 9478
-		public const TargetIndex BillGiverInd = TargetIndex.A;
-
-		// Token: 0x04002507 RID: 9479
-		public const TargetIndex IngredientInd = TargetIndex.B;
-
-		// Token: 0x04002508 RID: 9480
-		public const TargetIndex IngredientPlaceCellInd = TargetIndex.C;
 	}
 }

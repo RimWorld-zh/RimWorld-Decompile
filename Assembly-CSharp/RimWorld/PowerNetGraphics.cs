@@ -8,6 +8,12 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class PowerNetGraphics
 	{
+		// Token: 0x04000B50 RID: 2896
+		private const AltitudeLayer WireAltitude = AltitudeLayer.SmallWire;
+
+		// Token: 0x04000B51 RID: 2897
+		private static readonly Material WireMat = MaterialPool.MatFrom("Things/Special/Power/Wire");
+
 		// Token: 0x06001286 RID: 4742 RVA: 0x000A0DB8 File Offset: 0x0009F1B8
 		public static void PrintWirePieceConnecting(SectionLayer layer, Thing A, Thing B, bool forPowerOverlay)
 		{
@@ -51,11 +57,5 @@ namespace RimWorld
 			center.y = AltitudeLayer.MapDataOverlay.AltitudeFor();
 			Printer_Plane.PrintPlane(layer, center, new Vector2(1f, 1f), PowerOverlayMats.MatConnectorBase, 0f, false, null, null, 0.01f, 0f);
 		}
-
-		// Token: 0x04000B50 RID: 2896
-		private const AltitudeLayer WireAltitude = AltitudeLayer.SmallWire;
-
-		// Token: 0x04000B51 RID: 2897
-		private static readonly Material WireMat = MaterialPool.MatFrom("Things/Special/Power/Wire");
 	}
 }

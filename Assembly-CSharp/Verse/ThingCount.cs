@@ -5,6 +5,12 @@ namespace Verse
 	// Token: 0x02000EFE RID: 3838
 	public struct ThingCount : IEquatable<ThingCount>, IExposable
 	{
+		// Token: 0x04003CE0 RID: 15584
+		private Thing thing;
+
+		// Token: 0x04003CE1 RID: 15585
+		private int count;
+
 		// Token: 0x06005C14 RID: 23572 RVA: 0x002EDB74 File Offset: 0x002EBF74
 		public ThingCount(Thing thing, int count)
 		{
@@ -117,11 +123,5 @@ namespace Verse
 		{
 			return new ThingCount(t.thing, t.Count);
 		}
-
-		// Token: 0x04003CE0 RID: 15584
-		private Thing thing;
-
-		// Token: 0x04003CE1 RID: 15585
-		private int count;
 	}
 }

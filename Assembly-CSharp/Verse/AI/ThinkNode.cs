@@ -6,6 +6,29 @@ namespace Verse.AI
 	// Token: 0x02000ACB RID: 2763
 	public abstract class ThinkNode
 	{
+		// Token: 0x040026B1 RID: 9905
+		public List<ThinkNode> subNodes = new List<ThinkNode>();
+
+		// Token: 0x040026B2 RID: 9906
+		public bool leaveJoinableLordIfIssuesJob;
+
+		// Token: 0x040026B3 RID: 9907
+		protected float priority = -1f;
+
+		// Token: 0x040026B4 RID: 9908
+		[Unsaved]
+		private int uniqueSaveKeyInt = -2;
+
+		// Token: 0x040026B5 RID: 9909
+		[Unsaved]
+		public ThinkNode parent;
+
+		// Token: 0x040026B6 RID: 9910
+		public const int InvalidSaveKey = -1;
+
+		// Token: 0x040026B7 RID: 9911
+		protected const int UnresolvedSaveKey = -2;
+
 		// Token: 0x17000942 RID: 2370
 		// (get) Token: 0x06003D68 RID: 15720 RVA: 0x0002F884 File Offset: 0x0002DC84
 		public int UniqueSaveKey
@@ -120,28 +143,5 @@ namespace Verse.AI
 		{
 			return Gen.HashCombineInt(this.uniqueSaveKeyInt, 1157295731);
 		}
-
-		// Token: 0x040026B1 RID: 9905
-		public List<ThinkNode> subNodes = new List<ThinkNode>();
-
-		// Token: 0x040026B2 RID: 9906
-		public bool leaveJoinableLordIfIssuesJob;
-
-		// Token: 0x040026B3 RID: 9907
-		protected float priority = -1f;
-
-		// Token: 0x040026B4 RID: 9908
-		[Unsaved]
-		private int uniqueSaveKeyInt = -2;
-
-		// Token: 0x040026B5 RID: 9909
-		[Unsaved]
-		public ThinkNode parent;
-
-		// Token: 0x040026B6 RID: 9910
-		public const int InvalidSaveKey = -1;
-
-		// Token: 0x040026B7 RID: 9911
-		protected const int UnresolvedSaveKey = -2;
 	}
 }

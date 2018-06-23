@@ -13,6 +13,43 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Frame : Building, IThingHolder, IConstructible
 	{
+		// Token: 0x04001393 RID: 5011
+		public ThingOwner resourceContainer;
+
+		// Token: 0x04001394 RID: 5012
+		public float workDone;
+
+		// Token: 0x04001395 RID: 5013
+		private Material cachedCornerMat;
+
+		// Token: 0x04001396 RID: 5014
+		private Material cachedTileMat;
+
+		// Token: 0x04001397 RID: 5015
+		protected const float UnderfieldOverdrawFactor = 1.15f;
+
+		// Token: 0x04001398 RID: 5016
+		protected const float CenterOverdrawFactor = 0.5f;
+
+		// Token: 0x04001399 RID: 5017
+		private const int LongConstructionProjectThreshold = 10000;
+
+		// Token: 0x0400139A RID: 5018
+		private static readonly Material UnderfieldMat = MaterialPool.MatFrom("Things/Building/BuildingFrame/Underfield", ShaderDatabase.Transparent);
+
+		// Token: 0x0400139B RID: 5019
+		private static readonly Texture2D CornerTex = ContentFinder<Texture2D>.Get("Things/Building/BuildingFrame/Corner", true);
+
+		// Token: 0x0400139C RID: 5020
+		private static readonly Texture2D TileTex = ContentFinder<Texture2D>.Get("Things/Building/BuildingFrame/Tile", true);
+
+		// Token: 0x0400139D RID: 5021
+		[TweakValue("Pathfinding", 0f, 1000f)]
+		public static ushort AvoidUnderConstructionPathFindCost = 800;
+
+		// Token: 0x0400139E RID: 5022
+		private List<ThingDefCountClass> cachedMaterialsNeeded = new List<ThingDefCountClass>();
+
 		// Token: 0x060022D3 RID: 8915 RVA: 0x0012BDD2 File Offset: 0x0012A1D2
 		public Frame()
 		{
@@ -423,42 +460,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04001393 RID: 5011
-		public ThingOwner resourceContainer;
-
-		// Token: 0x04001394 RID: 5012
-		public float workDone;
-
-		// Token: 0x04001395 RID: 5013
-		private Material cachedCornerMat;
-
-		// Token: 0x04001396 RID: 5014
-		private Material cachedTileMat;
-
-		// Token: 0x04001397 RID: 5015
-		protected const float UnderfieldOverdrawFactor = 1.15f;
-
-		// Token: 0x04001398 RID: 5016
-		protected const float CenterOverdrawFactor = 0.5f;
-
-		// Token: 0x04001399 RID: 5017
-		private const int LongConstructionProjectThreshold = 10000;
-
-		// Token: 0x0400139A RID: 5018
-		private static readonly Material UnderfieldMat = MaterialPool.MatFrom("Things/Building/BuildingFrame/Underfield", ShaderDatabase.Transparent);
-
-		// Token: 0x0400139B RID: 5019
-		private static readonly Texture2D CornerTex = ContentFinder<Texture2D>.Get("Things/Building/BuildingFrame/Corner", true);
-
-		// Token: 0x0400139C RID: 5020
-		private static readonly Texture2D TileTex = ContentFinder<Texture2D>.Get("Things/Building/BuildingFrame/Tile", true);
-
-		// Token: 0x0400139D RID: 5021
-		[TweakValue("Pathfinding", 0f, 1000f)]
-		public static ushort AvoidUnderConstructionPathFindCost = 800;
-
-		// Token: 0x0400139E RID: 5022
-		private List<ThingDefCountClass> cachedMaterialsNeeded = new List<ThingDefCountClass>();
 	}
 }

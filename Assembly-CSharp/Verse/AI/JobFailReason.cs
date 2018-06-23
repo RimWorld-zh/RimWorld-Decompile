@@ -5,6 +5,12 @@ namespace Verse.AI
 	// Token: 0x02000A51 RID: 2641
 	public static class JobFailReason
 	{
+		// Token: 0x0400253B RID: 9531
+		private static string lastReason;
+
+		// Token: 0x0400253C RID: 9532
+		private static string lastCustomJobString;
+
 		// Token: 0x170008FC RID: 2300
 		// (get) Token: 0x06003AD7 RID: 15063 RVA: 0x001F4144 File Offset: 0x001F2544
 		public static string Reason
@@ -48,11 +54,5 @@ namespace Verse.AI
 			JobFailReason.lastReason = null;
 			JobFailReason.lastCustomJobString = null;
 		}
-
-		// Token: 0x0400253B RID: 9531
-		private static string lastReason;
-
-		// Token: 0x0400253C RID: 9532
-		private static string lastCustomJobString;
 	}
 }

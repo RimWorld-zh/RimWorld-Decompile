@@ -7,6 +7,21 @@ namespace RimWorld
 	// Token: 0x020000D2 RID: 210
 	public class JobGiver_GotoTravelDestination : ThinkNode_JobGiver
 	{
+		// Token: 0x0400029F RID: 671
+		private LocomotionUrgency locomotionUrgency = LocomotionUrgency.Walk;
+
+		// Token: 0x040002A0 RID: 672
+		private Danger maxDanger = Danger.Some;
+
+		// Token: 0x040002A1 RID: 673
+		private int jobMaxDuration = 999999;
+
+		// Token: 0x040002A2 RID: 674
+		private bool exactCell;
+
+		// Token: 0x040002A3 RID: 675
+		private IntRange WaitTicks = new IntRange(30, 80);
+
 		// Token: 0x060004B7 RID: 1207 RVA: 0x00035238 File Offset: 0x00033638
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -57,20 +72,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x0400029F RID: 671
-		private LocomotionUrgency locomotionUrgency = LocomotionUrgency.Walk;
-
-		// Token: 0x040002A0 RID: 672
-		private Danger maxDanger = Danger.Some;
-
-		// Token: 0x040002A1 RID: 673
-		private int jobMaxDuration = 999999;
-
-		// Token: 0x040002A2 RID: 674
-		private bool exactCell;
-
-		// Token: 0x040002A3 RID: 675
-		private IntRange WaitTicks = new IntRange(30, 80);
 	}
 }

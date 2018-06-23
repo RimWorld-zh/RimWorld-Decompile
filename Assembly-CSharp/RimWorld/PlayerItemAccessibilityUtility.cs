@@ -10,6 +10,27 @@ namespace RimWorld
 	// Token: 0x02000990 RID: 2448
 	public static class PlayerItemAccessibilityUtility
 	{
+		// Token: 0x04002381 RID: 9089
+		private static List<Thing> cachedAccessibleThings = new List<Thing>();
+
+		// Token: 0x04002382 RID: 9090
+		private static List<ThingDefCount> cachedPossiblyAccessibleThings = new List<ThingDefCount>();
+
+		// Token: 0x04002383 RID: 9091
+		private static int cachedAccessibleThingsForTile = -1;
+
+		// Token: 0x04002384 RID: 9092
+		private static int cachedAccessibleThingsForFrame = -1;
+
+		// Token: 0x04002385 RID: 9093
+		private static List<Thing> tmpThings = new List<Thing>();
+
+		// Token: 0x04002386 RID: 9094
+		private static HashSet<ThingDef> tmpWorkTables = new HashSet<ThingDef>();
+
+		// Token: 0x04002387 RID: 9095
+		private const float MaxDistanceInTilesToConsiderAccessible = 5f;
+
 		// Token: 0x0600370A RID: 14090 RVA: 0x001D6B38 File Offset: 0x001D4F38
 		public static bool Accessible(ThingDef thing, int count, Map map)
 		{
@@ -317,26 +338,5 @@ namespace RimWorld
 			}
 			return false;
 		}
-
-		// Token: 0x04002381 RID: 9089
-		private static List<Thing> cachedAccessibleThings = new List<Thing>();
-
-		// Token: 0x04002382 RID: 9090
-		private static List<ThingDefCount> cachedPossiblyAccessibleThings = new List<ThingDefCount>();
-
-		// Token: 0x04002383 RID: 9091
-		private static int cachedAccessibleThingsForTile = -1;
-
-		// Token: 0x04002384 RID: 9092
-		private static int cachedAccessibleThingsForFrame = -1;
-
-		// Token: 0x04002385 RID: 9093
-		private static List<Thing> tmpThings = new List<Thing>();
-
-		// Token: 0x04002386 RID: 9094
-		private static HashSet<ThingDef> tmpWorkTables = new HashSet<ThingDef>();
-
-		// Token: 0x04002387 RID: 9095
-		private const float MaxDistanceInTilesToConsiderAccessible = 5f;
 	}
 }

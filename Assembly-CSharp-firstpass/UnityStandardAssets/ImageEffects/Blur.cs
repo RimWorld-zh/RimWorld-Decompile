@@ -8,6 +8,20 @@ namespace UnityStandardAssets.ImageEffects
 	[AddComponentMenu("Image Effects/Blur/Blur")]
 	public class Blur : MonoBehaviour
 	{
+		// Token: 0x0400071E RID: 1822
+		[Range(0f, 10f)]
+		public int iterations = 3;
+
+		// Token: 0x0400071F RID: 1823
+		[Range(0f, 1f)]
+		public float blurSpread = 0.6f;
+
+		// Token: 0x04000720 RID: 1824
+		public Shader blurShader = null;
+
+		// Token: 0x04000721 RID: 1825
+		private static Material m_Material = null;
+
 		// Token: 0x17000003 RID: 3
 		// (get) Token: 0x060008C4 RID: 2244 RVA: 0x00011978 File Offset: 0x0000FB78
 		protected Material material
@@ -88,19 +102,5 @@ namespace UnityStandardAssets.ImageEffects
 			Graphics.Blit(renderTexture, destination);
 			RenderTexture.ReleaseTemporary(renderTexture);
 		}
-
-		// Token: 0x0400071E RID: 1822
-		[Range(0f, 10f)]
-		public int iterations = 3;
-
-		// Token: 0x0400071F RID: 1823
-		[Range(0f, 1f)]
-		public float blurSpread = 0.6f;
-
-		// Token: 0x04000720 RID: 1824
-		public Shader blurShader = null;
-
-		// Token: 0x04000721 RID: 1825
-		private static Material m_Material = null;
 	}
 }

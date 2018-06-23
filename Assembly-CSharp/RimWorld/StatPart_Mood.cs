@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020009AE RID: 2478
 	public class StatPart_Mood : StatPart
 	{
+		// Token: 0x040023A7 RID: 9127
+		private SimpleCurve factorFromMoodCurve = null;
+
 		// Token: 0x0600378E RID: 14222 RVA: 0x001D9E70 File Offset: 0x001D8270
 		public override IEnumerable<string> ConfigErrors()
 		{
@@ -58,8 +61,5 @@ namespace RimWorld
 		{
 			return this.factorFromMoodCurve.Evaluate(pawn.needs.mood.CurLevel);
 		}
-
-		// Token: 0x040023A7 RID: 9127
-		private SimpleCurve factorFromMoodCurve = null;
 	}
 }

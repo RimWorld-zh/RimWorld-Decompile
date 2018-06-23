@@ -6,6 +6,18 @@ namespace Verse.Grammar
 	// Token: 0x02000BE0 RID: 3040
 	public struct GrammarRequest
 	{
+		// Token: 0x04002D68 RID: 11624
+		private List<Rule> rules;
+
+		// Token: 0x04002D69 RID: 11625
+		private List<RulePack> includesBare;
+
+		// Token: 0x04002D6A RID: 11626
+		private List<RulePackDef> includes;
+
+		// Token: 0x04002D6B RID: 11627
+		private Dictionary<string, string> constants;
+
 		// Token: 0x17000A71 RID: 2673
 		// (get) Token: 0x06004264 RID: 16996 RVA: 0x0022EFA8 File Offset: 0x0022D3A8
 		public List<Rule> Rules
@@ -102,17 +114,5 @@ namespace Verse.Grammar
 		{
 			return this.constants;
 		}
-
-		// Token: 0x04002D68 RID: 11624
-		private List<Rule> rules;
-
-		// Token: 0x04002D69 RID: 11625
-		private List<RulePack> includesBare;
-
-		// Token: 0x04002D6A RID: 11626
-		private List<RulePackDef> includes;
-
-		// Token: 0x04002D6B RID: 11627
-		private Dictionary<string, string> constants;
 	}
 }

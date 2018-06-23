@@ -8,6 +8,15 @@ namespace RimWorld.Planet
 	// Token: 0x02000623 RID: 1571
 	public class TimedForcedExit : WorldObjectComp
 	{
+		// Token: 0x0400126E RID: 4718
+		private int ticksLeftToForceExitAndRemoveMap = -1;
+
+		// Token: 0x0400126F RID: 4719
+		public const int DefaultForceExitAndRemoveMapCountdownHours = 24;
+
+		// Token: 0x04001270 RID: 4720
+		private static List<Pawn> tmpPawns = new List<Pawn>();
+
 		// Token: 0x170004C7 RID: 1223
 		// (get) Token: 0x06001FF5 RID: 8181 RVA: 0x00113104 File Offset: 0x00111504
 		public bool ForceExitAndRemoveMapCountdownActive
@@ -140,14 +149,5 @@ namespace RimWorld.Planet
 				Find.WorldObjects.Remove(mapParent);
 			}
 		}
-
-		// Token: 0x0400126E RID: 4718
-		private int ticksLeftToForceExitAndRemoveMap = -1;
-
-		// Token: 0x0400126F RID: 4719
-		public const int DefaultForceExitAndRemoveMapCountdownHours = 24;
-
-		// Token: 0x04001270 RID: 4720
-		private static List<Pawn> tmpPawns = new List<Pawn>();
 	}
 }

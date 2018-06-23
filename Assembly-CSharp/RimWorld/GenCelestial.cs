@@ -8,6 +8,18 @@ namespace RimWorld
 	// Token: 0x02000903 RID: 2307
 	public static class GenCelestial
 	{
+		// Token: 0x04001D01 RID: 7425
+		public const float ShadowMaxLengthDay = 15f;
+
+		// Token: 0x04001D02 RID: 7426
+		public const float ShadowMaxLengthNight = 15f;
+
+		// Token: 0x04001D03 RID: 7427
+		private const float ShadowGlowLerpSpan = 0.15f;
+
+		// Token: 0x04001D04 RID: 7428
+		private const float ShadowDayNightThreshold = 0.6f;
+
 		// Token: 0x17000890 RID: 2192
 		// (get) Token: 0x06003591 RID: 13713 RVA: 0x001CDA70 File Offset: 0x001CBE70
 		private static int TicksAbsForSunPosInWorldSpace
@@ -201,18 +213,6 @@ namespace RimWorld
 				Log.Message(stringBuilder.ToString(), false);
 			}
 		}
-
-		// Token: 0x04001D01 RID: 7425
-		public const float ShadowMaxLengthDay = 15f;
-
-		// Token: 0x04001D02 RID: 7426
-		public const float ShadowMaxLengthNight = 15f;
-
-		// Token: 0x04001D03 RID: 7427
-		private const float ShadowGlowLerpSpan = 0.15f;
-
-		// Token: 0x04001D04 RID: 7428
-		private const float ShadowDayNightThreshold = 0.6f;
 
 		// Token: 0x02000904 RID: 2308
 		public struct LightInfo

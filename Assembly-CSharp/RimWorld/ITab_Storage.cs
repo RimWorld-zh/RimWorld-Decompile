@@ -10,6 +10,12 @@ namespace RimWorld
 	// Token: 0x0200085A RID: 2138
 	public class ITab_Storage : ITab
 	{
+		// Token: 0x04001A3B RID: 6715
+		private Vector2 scrollPosition;
+
+		// Token: 0x04001A3C RID: 6716
+		private static readonly Vector2 WinSize = new Vector2(300f, 480f);
+
 		// Token: 0x0600306A RID: 12394 RVA: 0x001A54D5 File Offset: 0x001A38D5
 		public ITab_Storage()
 		{
@@ -174,11 +180,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04001A3B RID: 6715
-		private Vector2 scrollPosition;
-
-		// Token: 0x04001A3C RID: 6716
-		private static readonly Vector2 WinSize = new Vector2(300f, 480f);
 	}
 }

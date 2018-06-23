@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000D01 RID: 3329
 	public class HediffComp
 	{
+		// Token: 0x040031E7 RID: 12775
+		public HediffWithComps parent;
+
+		// Token: 0x040031E8 RID: 12776
+		public HediffCompProperties props;
+
 		// Token: 0x17000B9D RID: 2973
 		// (get) Token: 0x06004985 RID: 18821 RVA: 0x002691B8 File Offset: 0x002675B8
 		public Pawn Pawn
@@ -127,11 +133,5 @@ namespace Verse
 		{
 			return null;
 		}
-
-		// Token: 0x040031E7 RID: 12775
-		public HediffWithComps parent;
-
-		// Token: 0x040031E8 RID: 12776
-		public HediffCompProperties props;
 	}
 }

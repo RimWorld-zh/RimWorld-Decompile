@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020000E9 RID: 233
 	public class JobGiver_PrisonerEscape : ThinkNode_JobGiver
 	{
+		// Token: 0x040002C8 RID: 712
+		private const int MaxRegionsToCheckWhenEscapingThroughOpenDoors = 25;
+
 		// Token: 0x06000500 RID: 1280 RVA: 0x00037B1C File Offset: 0x00035F1C
 		protected override Job TryGiveJob(Pawn pawn)
 		{
@@ -68,8 +71,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040002C8 RID: 712
-		private const int MaxRegionsToCheckWhenEscapingThroughOpenDoors = 25;
 	}
 }

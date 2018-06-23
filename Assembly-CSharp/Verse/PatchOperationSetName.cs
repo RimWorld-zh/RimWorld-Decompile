@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000CD5 RID: 3285
 	public class PatchOperationSetName : PatchOperationPathed
 	{
+		// Token: 0x04003112 RID: 12562
+		protected string name;
+
 		// Token: 0x0600488A RID: 18570 RVA: 0x00261A58 File Offset: 0x0025FE58
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
@@ -34,8 +37,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003112 RID: 12562
-		protected string name;
 	}
 }

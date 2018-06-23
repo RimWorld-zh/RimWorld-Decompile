@@ -9,6 +9,18 @@ namespace Verse
 	// Token: 0x02000E7F RID: 3711
 	public class Listing_Standard : Listing
 	{
+		// Token: 0x040039EC RID: 14828
+		private GameFont font;
+
+		// Token: 0x040039ED RID: 14829
+		private List<Pair<Vector2, Vector2>> labelScrollbarPositions;
+
+		// Token: 0x040039EE RID: 14830
+		private List<Vector2> labelScrollbarPositionsSetThisFrame;
+
+		// Token: 0x040039EF RID: 14831
+		private const float DefSelectionLineHeight = 21f;
+
 		// Token: 0x0600577D RID: 22397 RVA: 0x002CF25B File Offset: 0x002CD65B
 		public Listing_Standard(GameFont font)
 		{
@@ -406,17 +418,5 @@ namespace Verse
 			base.Gap(22f + this.verticalSpacing);
 			return result;
 		}
-
-		// Token: 0x040039EC RID: 14828
-		private GameFont font;
-
-		// Token: 0x040039ED RID: 14829
-		private List<Pair<Vector2, Vector2>> labelScrollbarPositions;
-
-		// Token: 0x040039EE RID: 14830
-		private List<Vector2> labelScrollbarPositionsSetThisFrame;
-
-		// Token: 0x040039EF RID: 14831
-		private const float DefSelectionLineHeight = 21f;
 	}
 }

@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x0200064B RID: 1611
 	public class ScenPart_ScatterThingsAnywhere : ScenPart_ScatterThings
 	{
+		// Token: 0x0400130B RID: 4875
+		public const string MapScatteredWithTag = "MapScatteredWith";
+
 		// Token: 0x170004ED RID: 1261
 		// (get) Token: 0x0600217C RID: 8572 RVA: 0x0011C5CC File Offset: 0x0011A9CC
 		protected override bool NearPlayerStart
@@ -32,8 +35,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x0400130B RID: 4875
-		public const string MapScatteredWithTag = "MapScatteredWith";
 	}
 }

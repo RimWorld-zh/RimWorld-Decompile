@@ -10,6 +10,12 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class PawnColumnWorker_Bond : PawnColumnWorker_Icon
 	{
+		// Token: 0x04001ACE RID: 6862
+		private static readonly Texture2D BondIcon = ContentFinder<Texture2D>.Get("UI/Icons/Animal/Bond", true);
+
+		// Token: 0x04001ACF RID: 6863
+		private static readonly Texture2D BondBrokenIcon = ContentFinder<Texture2D>.Get("UI/Icons/Animal/BondBroken", true);
+
 		// Token: 0x060031BF RID: 12735 RVA: 0x001AEBB0 File Offset: 0x001ACFB0
 		protected override Texture2D GetIconFor(Pawn pawn)
 		{
@@ -80,11 +86,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04001ACE RID: 6862
-		private static readonly Texture2D BondIcon = ContentFinder<Texture2D>.Get("UI/Icons/Animal/Bond", true);
-
-		// Token: 0x04001ACF RID: 6863
-		private static readonly Texture2D BondBrokenIcon = ContentFinder<Texture2D>.Get("UI/Icons/Animal/BondBroken", true);
 	}
 }

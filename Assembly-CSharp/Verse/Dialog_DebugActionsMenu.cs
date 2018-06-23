@@ -16,6 +16,12 @@ namespace Verse
 	// Token: 0x02000E28 RID: 3624
 	public class Dialog_DebugActionsMenu : Dialog_DebugOptionLister
 	{
+		// Token: 0x04003817 RID: 14359
+		private static List<PawnKindDef> pawnKindsForDamageTypeBattleRoyale = null;
+
+		// Token: 0x04003818 RID: 14360
+		private static Map mapLeak = null;
+
 		// Token: 0x06005519 RID: 21785 RVA: 0x002BBA91 File Offset: 0x002B9E91
 		public Dialog_DebugActionsMenu()
 		{
@@ -2709,11 +2715,5 @@ namespace Verse
 			}
 			yield break;
 		}
-
-		// Token: 0x04003817 RID: 14359
-		private static List<PawnKindDef> pawnKindsForDamageTypeBattleRoyale = null;
-
-		// Token: 0x04003818 RID: 14360
-		private static Map mapLeak = null;
 	}
 }

@@ -8,6 +8,9 @@ namespace Verse
 	// Token: 0x02000DD4 RID: 3540
 	public abstract class Graphic_Collection : Graphic
 	{
+		// Token: 0x040034B3 RID: 13491
+		protected Graphic[] subGraphics;
+
 		// Token: 0x06004F53 RID: 20307 RVA: 0x00295230 File Offset: 0x00293630
 		public override void Init(GraphicRequest req)
 		{
@@ -45,8 +48,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x040034B3 RID: 13491
-		protected Graphic[] subGraphics;
 	}
 }

@@ -6,6 +6,21 @@ namespace Verse
 	// Token: 0x02000DFC RID: 3580
 	public class CompAffectsSky : ThingComp
 	{
+		// Token: 0x04003546 RID: 13638
+		private int autoAnimationStartTick;
+
+		// Token: 0x04003547 RID: 13639
+		private int fadeInDuration;
+
+		// Token: 0x04003548 RID: 13640
+		private int holdDuration;
+
+		// Token: 0x04003549 RID: 13641
+		private int fadeOutDuration;
+
+		// Token: 0x0400354A RID: 13642
+		private float autoAnimationTarget;
+
 		// Token: 0x17000D49 RID: 3401
 		// (get) Token: 0x0600512A RID: 20778 RVA: 0x0029B614 File Offset: 0x00299A14
 		public CompProperties_AffectsSky Props
@@ -99,20 +114,5 @@ namespace Verse
 			this.fadeOutDuration = fadeOutDuration;
 			this.autoAnimationTarget = target;
 		}
-
-		// Token: 0x04003546 RID: 13638
-		private int autoAnimationStartTick;
-
-		// Token: 0x04003547 RID: 13639
-		private int fadeInDuration;
-
-		// Token: 0x04003548 RID: 13640
-		private int holdDuration;
-
-		// Token: 0x04003549 RID: 13641
-		private int fadeOutDuration;
-
-		// Token: 0x0400354A RID: 13642
-		private float autoAnimationTarget;
 	}
 }

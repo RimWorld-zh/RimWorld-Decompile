@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000D70 RID: 3440
 	public static class MaterialPool
 	{
+		// Token: 0x04003376 RID: 13174
+		private static Dictionary<MaterialRequest, Material> matDictionary = new Dictionary<MaterialRequest, Material>();
+
 		// Token: 0x06004D24 RID: 19748 RVA: 0x002833DC File Offset: 0x002817DC
 		public static Material MatFrom(string texPath, bool reportFailure)
 		{
@@ -157,8 +160,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003376 RID: 13174
-		private static Dictionary<MaterialRequest, Material> matDictionary = new Dictionary<MaterialRequest, Material>();
 	}
 }

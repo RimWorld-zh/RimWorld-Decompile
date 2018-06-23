@@ -9,6 +9,15 @@ namespace RimWorld
 	// Token: 0x02000539 RID: 1337
 	public class Trait : IExposable
 	{
+		// Token: 0x04000EA8 RID: 3752
+		public TraitDef def;
+
+		// Token: 0x04000EA9 RID: 3753
+		private int degree;
+
+		// Token: 0x04000EAA RID: 3754
+		private bool scenForced;
+
 		// Token: 0x060018E1 RID: 6369 RVA: 0x000D892A File Offset: 0x000D6D2A
 		public Trait()
 		{
@@ -261,14 +270,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04000EA8 RID: 3752
-		public TraitDef def;
-
-		// Token: 0x04000EA9 RID: 3753
-		private int degree;
-
-		// Token: 0x04000EAA RID: 3754
-		private bool scenForced;
 	}
 }

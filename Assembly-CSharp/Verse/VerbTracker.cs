@@ -9,6 +9,12 @@ namespace Verse
 	// Token: 0x02000FD2 RID: 4050
 	public class VerbTracker : IExposable
 	{
+		// Token: 0x0400401B RID: 16411
+		public IVerbOwner directOwner = null;
+
+		// Token: 0x0400401C RID: 16412
+		private List<Verb> verbs = null;
+
 		// Token: 0x06006212 RID: 25106 RVA: 0x00316B91 File Offset: 0x00314F91
 		public VerbTracker(IVerbOwner directOwner)
 		{
@@ -314,11 +320,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x0400401B RID: 16411
-		public IVerbOwner directOwner = null;
-
-		// Token: 0x0400401C RID: 16412
-		private List<Verb> verbs = null;
 	}
 }

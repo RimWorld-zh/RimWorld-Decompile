@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x02000050 RID: 80
 	public class JobDriver_TendPatient : JobDriver
 	{
+		// Token: 0x040001E4 RID: 484
+		private bool usesMedicine;
+
+		// Token: 0x040001E5 RID: 485
+		private const int BaseTendDuration = 600;
+
 		// Token: 0x17000087 RID: 135
 		// (get) Token: 0x06000278 RID: 632 RVA: 0x0001A1F0 File Offset: 0x000185F0
 		protected Thing MedicineUsed
@@ -158,11 +164,5 @@ namespace RimWorld
 				this.pawn.jobs.CheckForJobOverride();
 			}
 		}
-
-		// Token: 0x040001E4 RID: 484
-		private bool usesMedicine;
-
-		// Token: 0x040001E5 RID: 485
-		private const int BaseTendDuration = 600;
 	}
 }

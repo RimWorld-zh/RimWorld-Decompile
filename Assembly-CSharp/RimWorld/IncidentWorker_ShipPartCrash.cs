@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x02000340 RID: 832
 	internal abstract class IncidentWorker_ShipPartCrash : IncidentWorker
 	{
+		// Token: 0x040008E9 RID: 2281
+		private const float ShipPointsFactor = 0.9f;
+
+		// Token: 0x040008EA RID: 2282
+		private const int IncidentMinimumPoints = 300;
+
 		// Token: 0x1700020D RID: 525
 		// (get) Token: 0x06000E39 RID: 3641 RVA: 0x00077CD8 File Offset: 0x000760D8
 		protected virtual int CountToSpawn
@@ -54,11 +60,5 @@ namespace RimWorld
 			}
 			return num > 0;
 		}
-
-		// Token: 0x040008E9 RID: 2281
-		private const float ShipPointsFactor = 0.9f;
-
-		// Token: 0x040008EA RID: 2282
-		private const int IncidentMinimumPoints = 300;
 	}
 }

@@ -9,6 +9,21 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public class Settlement : MapParent, ITrader
 	{
+		// Token: 0x04001223 RID: 4643
+		public Settlement_TraderTracker trader;
+
+		// Token: 0x04001224 RID: 4644
+		public List<Pawn> previouslyGeneratedInhabitants = new List<Pawn>();
+
+		// Token: 0x04001225 RID: 4645
+		public static readonly Texture2D ShowSellableItemsCommand = ContentFinder<Texture2D>.Get("UI/Commands/SellableItems", true);
+
+		// Token: 0x04001226 RID: 4646
+		public static readonly Texture2D FormCaravanCommand = ContentFinder<Texture2D>.Get("UI/Commands/FormCaravan", true);
+
+		// Token: 0x04001227 RID: 4647
+		public static readonly Texture2D AttackCommand = ContentFinder<Texture2D>.Get("UI/Commands/AttackSettlement", true);
+
 		// Token: 0x17000486 RID: 1158
 		// (get) Token: 0x06001EC2 RID: 7874 RVA: 0x0010913C File Offset: 0x0010753C
 		protected override bool UseGenericEnterMapFloatMenuOption
@@ -372,20 +387,5 @@ namespace RimWorld.Planet
 				outChildren.Add(this.trader);
 			}
 		}
-
-		// Token: 0x04001223 RID: 4643
-		public Settlement_TraderTracker trader;
-
-		// Token: 0x04001224 RID: 4644
-		public List<Pawn> previouslyGeneratedInhabitants = new List<Pawn>();
-
-		// Token: 0x04001225 RID: 4645
-		public static readonly Texture2D ShowSellableItemsCommand = ContentFinder<Texture2D>.Get("UI/Commands/SellableItems", true);
-
-		// Token: 0x04001226 RID: 4646
-		public static readonly Texture2D FormCaravanCommand = ContentFinder<Texture2D>.Get("UI/Commands/FormCaravan", true);
-
-		// Token: 0x04001227 RID: 4647
-		public static readonly Texture2D AttackCommand = ContentFinder<Texture2D>.Get("UI/Commands/AttackSettlement", true);
 	}
 }

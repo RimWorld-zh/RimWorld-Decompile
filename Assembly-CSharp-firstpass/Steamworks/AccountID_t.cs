@@ -5,6 +5,9 @@ namespace Steamworks
 	// Token: 0x02000168 RID: 360
 	public struct AccountID_t : IEquatable<AccountID_t>, IComparable<AccountID_t>
 	{
+		// Token: 0x04000682 RID: 1666
+		public uint m_AccountID;
+
 		// Token: 0x06000841 RID: 2113 RVA: 0x0000E7B8 File Offset: 0x0000C9B8
 		public AccountID_t(uint value)
 		{
@@ -64,8 +67,5 @@ namespace Steamworks
 		{
 			return this.m_AccountID.CompareTo(other.m_AccountID);
 		}
-
-		// Token: 0x04000682 RID: 1666
-		public uint m_AccountID;
 	}
 }

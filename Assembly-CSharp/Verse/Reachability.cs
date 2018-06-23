@@ -8,6 +8,36 @@ namespace Verse
 	// Token: 0x02000C80 RID: 3200
 	public class Reachability
 	{
+		// Token: 0x04002FC6 RID: 12230
+		private Map map;
+
+		// Token: 0x04002FC7 RID: 12231
+		private Queue<Region> openQueue = new Queue<Region>();
+
+		// Token: 0x04002FC8 RID: 12232
+		private List<Region> startingRegions = new List<Region>();
+
+		// Token: 0x04002FC9 RID: 12233
+		private List<Region> destRegions = new List<Region>();
+
+		// Token: 0x04002FCA RID: 12234
+		private uint reachedIndex = 1u;
+
+		// Token: 0x04002FCB RID: 12235
+		private int numRegionsOpened;
+
+		// Token: 0x04002FCC RID: 12236
+		private bool working = false;
+
+		// Token: 0x04002FCD RID: 12237
+		private ReachabilityCache cache = new ReachabilityCache();
+
+		// Token: 0x04002FCE RID: 12238
+		private PathGrid pathGrid;
+
+		// Token: 0x04002FCF RID: 12239
+		private RegionGrid regionGrid;
+
 		// Token: 0x0600461A RID: 17946 RVA: 0x0024EC64 File Offset: 0x0024D064
 		public Reachability(Map map)
 		{
@@ -612,35 +642,5 @@ namespace Verse
 		{
 			return mode != TraverseMode.PassAllDestroyableThingsNotWater && mode != TraverseMode.NoPassClosedDoorsOrWater;
 		}
-
-		// Token: 0x04002FC6 RID: 12230
-		private Map map;
-
-		// Token: 0x04002FC7 RID: 12231
-		private Queue<Region> openQueue = new Queue<Region>();
-
-		// Token: 0x04002FC8 RID: 12232
-		private List<Region> startingRegions = new List<Region>();
-
-		// Token: 0x04002FC9 RID: 12233
-		private List<Region> destRegions = new List<Region>();
-
-		// Token: 0x04002FCA RID: 12234
-		private uint reachedIndex = 1u;
-
-		// Token: 0x04002FCB RID: 12235
-		private int numRegionsOpened;
-
-		// Token: 0x04002FCC RID: 12236
-		private bool working = false;
-
-		// Token: 0x04002FCD RID: 12237
-		private ReachabilityCache cache = new ReachabilityCache();
-
-		// Token: 0x04002FCE RID: 12238
-		private PathGrid pathGrid;
-
-		// Token: 0x04002FCF RID: 12239
-		private RegionGrid regionGrid;
 	}
 }

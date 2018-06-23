@@ -5,6 +5,9 @@ namespace Verse
 	// Token: 0x02000D18 RID: 3352
 	public class HediffComp_SelfHeal : HediffComp
 	{
+		// Token: 0x04003218 RID: 12824
+		public int ticksSinceHeal = 0;
+
 		// Token: 0x17000BB2 RID: 2994
 		// (get) Token: 0x060049E5 RID: 18917 RVA: 0x0026A964 File Offset: 0x00268D64
 		public HediffCompProperties_SelfHeal Props
@@ -31,8 +34,5 @@ namespace Verse
 				this.ticksSinceHeal = 0;
 			}
 		}
-
-		// Token: 0x04003218 RID: 12824
-		public int ticksSinceHeal = 0;
 	}
 }

@@ -7,6 +7,21 @@ namespace RimWorld
 	// Token: 0x020002E6 RID: 742
 	public class TraderKindDef : Def
 	{
+		// Token: 0x040007CD RID: 1997
+		public List<StockGenerator> stockGenerators = new List<StockGenerator>();
+
+		// Token: 0x040007CE RID: 1998
+		public float commonality = 1f;
+
+		// Token: 0x040007CF RID: 1999
+		public bool orbital;
+
+		// Token: 0x040007D0 RID: 2000
+		public bool requestable = true;
+
+		// Token: 0x040007D1 RID: 2001
+		public SimpleCurve commonalityMultFromPopulationIntent;
+
 		// Token: 0x170001D5 RID: 469
 		// (get) Token: 0x06000C3F RID: 3135 RVA: 0x0006CA54 File Offset: 0x0006AE54
 		public float CalculatedCommonality
@@ -87,20 +102,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040007CD RID: 1997
-		public List<StockGenerator> stockGenerators = new List<StockGenerator>();
-
-		// Token: 0x040007CE RID: 1998
-		public float commonality = 1f;
-
-		// Token: 0x040007CF RID: 1999
-		public bool orbital;
-
-		// Token: 0x040007D0 RID: 2000
-		public bool requestable = true;
-
-		// Token: 0x040007D1 RID: 2001
-		public SimpleCurve commonalityMultFromPopulationIntent;
 	}
 }

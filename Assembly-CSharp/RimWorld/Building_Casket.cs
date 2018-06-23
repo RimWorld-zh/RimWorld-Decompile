@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x0200069D RID: 1693
 	public class Building_Casket : Building, IThingHolder, IOpenable
 	{
+		// Token: 0x04001414 RID: 5140
+		protected ThingOwner innerContainer = null;
+
+		// Token: 0x04001415 RID: 5141
+		protected bool contentsKnown = false;
+
 		// Token: 0x06002405 RID: 9221 RVA: 0x00132DD3 File Offset: 0x001311D3
 		public Building_Casket()
 		{
@@ -219,11 +225,5 @@ namespace RimWorld
 			}
 			return text + "CasketContains".Translate() + ": " + str.CapitalizeFirst();
 		}
-
-		// Token: 0x04001414 RID: 5140
-		protected ThingOwner innerContainer = null;
-
-		// Token: 0x04001415 RID: 5141
-		protected bool contentsKnown = false;
 	}
 }

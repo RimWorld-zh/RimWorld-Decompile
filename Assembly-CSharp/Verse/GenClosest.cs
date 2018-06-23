@@ -9,6 +9,9 @@ namespace Verse
 	// Token: 0x02000F31 RID: 3889
 	public static class GenClosest
 	{
+		// Token: 0x04003DCD RID: 15821
+		private const int DefaultLocalTraverseRegionsBeforeGlobal = 30;
+
 		// Token: 0x06005DAA RID: 23978 RVA: 0x002F91A0 File Offset: 0x002F75A0
 		private static bool EarlyOutSearch(IntVec3 start, Map map, ThingRequest thingReq, IEnumerable<Thing> customGlobalSearchSet, Predicate<Thing> validator)
 		{
@@ -322,8 +325,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003DCD RID: 15821
-		private const int DefaultLocalTraverseRegionsBeforeGlobal = 30;
 	}
 }

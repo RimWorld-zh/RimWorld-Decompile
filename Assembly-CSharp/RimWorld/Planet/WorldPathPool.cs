@@ -7,6 +7,12 @@ namespace RimWorld.Planet
 	// Token: 0x02000542 RID: 1346
 	public class WorldPathPool
 	{
+		// Token: 0x04000ECC RID: 3788
+		private List<WorldPath> paths = new List<WorldPath>(64);
+
+		// Token: 0x04000ECD RID: 3789
+		private static readonly WorldPath notFoundPathInt = WorldPath.NewNotFound();
+
 		// Token: 0x17000390 RID: 912
 		// (get) Token: 0x06001935 RID: 6453 RVA: 0x000DB624 File Offset: 0x000D9A24
 		public static WorldPath NotFoundPath
@@ -38,11 +44,5 @@ namespace RimWorld.Planet
 			worldPath.inUse = true;
 			return worldPath;
 		}
-
-		// Token: 0x04000ECC RID: 3788
-		private List<WorldPath> paths = new List<WorldPath>(64);
-
-		// Token: 0x04000ECD RID: 3789
-		private static readonly WorldPath notFoundPathInt = WorldPath.NewNotFound();
 	}
 }

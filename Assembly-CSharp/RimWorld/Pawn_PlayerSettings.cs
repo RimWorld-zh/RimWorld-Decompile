@@ -10,6 +10,39 @@ namespace RimWorld
 	// Token: 0x0200051F RID: 1311
 	public class Pawn_PlayerSettings : IExposable
 	{
+		// Token: 0x04000E20 RID: 3616
+		private Pawn pawn;
+
+		// Token: 0x04000E21 RID: 3617
+		private Area areaAllowedInt = null;
+
+		// Token: 0x04000E22 RID: 3618
+		public int joinTick = -1;
+
+		// Token: 0x04000E23 RID: 3619
+		private Pawn master = null;
+
+		// Token: 0x04000E24 RID: 3620
+		public bool followDrafted = true;
+
+		// Token: 0x04000E25 RID: 3621
+		public bool followFieldwork = true;
+
+		// Token: 0x04000E26 RID: 3622
+		public bool animalsReleased = false;
+
+		// Token: 0x04000E27 RID: 3623
+		public MedicalCareCategory medCare = MedicalCareCategory.NoMeds;
+
+		// Token: 0x04000E28 RID: 3624
+		public HostilityResponseMode hostilityResponse = HostilityResponseMode.Flee;
+
+		// Token: 0x04000E29 RID: 3625
+		public bool selfTend = false;
+
+		// Token: 0x04000E2A RID: 3626
+		public int displayOrder;
+
 		// Token: 0x060017EA RID: 6122 RVA: 0x000D1338 File Offset: 0x000CF738
 		public Pawn_PlayerSettings(Pawn pawn)
 		{
@@ -256,38 +289,5 @@ namespace RimWorld
 				this.areaAllowedInt = null;
 			}
 		}
-
-		// Token: 0x04000E20 RID: 3616
-		private Pawn pawn;
-
-		// Token: 0x04000E21 RID: 3617
-		private Area areaAllowedInt = null;
-
-		// Token: 0x04000E22 RID: 3618
-		public int joinTick = -1;
-
-		// Token: 0x04000E23 RID: 3619
-		private Pawn master = null;
-
-		// Token: 0x04000E24 RID: 3620
-		public bool followDrafted = true;
-
-		// Token: 0x04000E25 RID: 3621
-		public bool followFieldwork = true;
-
-		// Token: 0x04000E26 RID: 3622
-		public bool animalsReleased = false;
-
-		// Token: 0x04000E27 RID: 3623
-		public MedicalCareCategory medCare = MedicalCareCategory.NoMeds;
-
-		// Token: 0x04000E28 RID: 3624
-		public HostilityResponseMode hostilityResponse = HostilityResponseMode.Flee;
-
-		// Token: 0x04000E29 RID: 3625
-		public bool selfTend = false;
-
-		// Token: 0x04000E2A RID: 3626
-		public int displayOrder;
 	}
 }

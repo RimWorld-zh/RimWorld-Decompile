@@ -5,6 +5,9 @@ namespace Verse
 	// Token: 0x02000C34 RID: 3124
 	public abstract class MapComponent : IExposable
 	{
+		// Token: 0x04002F19 RID: 12057
+		public Map map;
+
 		// Token: 0x060044ED RID: 17645 RVA: 0x00152351 File Offset: 0x00150751
 		public MapComponent(Map map)
 		{
@@ -45,8 +48,5 @@ namespace Verse
 		public virtual void MapRemoved()
 		{
 		}
-
-		// Token: 0x04002F19 RID: 12057
-		public Map map;
 	}
 }

@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000E61 RID: 3681
 	public class FeedbackFloaters
 	{
+		// Token: 0x04003978 RID: 14712
+		protected List<FeedbackItem> feeders = new List<FeedbackItem>();
+
 		// Token: 0x060056C3 RID: 22211 RVA: 0x002CB9D2 File Offset: 0x002C9DD2
 		public void AddFeedback(FeedbackItem newFeedback)
 		{
@@ -33,8 +36,5 @@ namespace Verse
 				feedbackItem.FeedbackOnGUI();
 			}
 		}
-
-		// Token: 0x04003978 RID: 14712
-		protected List<FeedbackItem> feeders = new List<FeedbackItem>();
 	}
 }

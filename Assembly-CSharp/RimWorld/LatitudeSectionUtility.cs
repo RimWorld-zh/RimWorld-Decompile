@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000909 RID: 2313
 	public static class LatitudeSectionUtility
 	{
+		// Token: 0x04001D1F RID: 7455
+		private const float LerpDistance = 5f;
+
 		// Token: 0x060035F1 RID: 13809 RVA: 0x001CF54C File Offset: 0x001CD94C
 		public static LatitudeSection GetReportedLatitudeSection(float latitude)
 		{
@@ -196,8 +199,5 @@ namespace RimWorld
 			}
 			return -1f;
 		}
-
-		// Token: 0x04001D1F RID: 7455
-		private const float LerpDistance = 5f;
 	}
 }

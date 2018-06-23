@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000087 RID: 135
 	public class JobDriver_UseItem : JobDriver
 	{
+		// Token: 0x04000248 RID: 584
+		private int useDuration = -1;
+
 		// Token: 0x0600037F RID: 895 RVA: 0x00027495 File Offset: 0x00025895
 		public override void ExposeData()
 		{
@@ -49,8 +52,5 @@ namespace RimWorld
 			yield return use;
 			yield break;
 		}
-
-		// Token: 0x04000248 RID: 584
-		private int useDuration = -1;
 	}
 }

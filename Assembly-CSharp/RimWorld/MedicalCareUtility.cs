@@ -11,6 +11,26 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class MedicalCareUtility
 	{
+		// Token: 0x04000E19 RID: 3609
+		private static Texture2D[] careTextures;
+
+		// Token: 0x04000E1A RID: 3610
+		public const float CareSetterHeight = 28f;
+
+		// Token: 0x04000E1B RID: 3611
+		public const float CareSetterWidth = 140f;
+
+		// Token: 0x04000E1C RID: 3612
+		private static bool medicalCarePainting = false;
+
+		// Token: 0x04000E1E RID: 3614
+		[CompilerGenerated]
+		private static Func<Pawn, MedicalCareCategory> <>f__mg$cache0;
+
+		// Token: 0x04000E1F RID: 3615
+		[CompilerGenerated]
+		private static Func<Pawn, IEnumerable<Widgets.DropdownMenuElement<MedicalCareCategory>>> <>f__mg$cache1;
+
 		// Token: 0x060017E1 RID: 6113 RVA: 0x000D0DDD File Offset: 0x000CF1DD
 		public static void Reset()
 		{
@@ -130,25 +150,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04000E19 RID: 3609
-		private static Texture2D[] careTextures;
-
-		// Token: 0x04000E1A RID: 3610
-		public const float CareSetterHeight = 28f;
-
-		// Token: 0x04000E1B RID: 3611
-		public const float CareSetterWidth = 140f;
-
-		// Token: 0x04000E1C RID: 3612
-		private static bool medicalCarePainting = false;
-
-		// Token: 0x04000E1E RID: 3614
-		[CompilerGenerated]
-		private static Func<Pawn, MedicalCareCategory> <>f__mg$cache0;
-
-		// Token: 0x04000E1F RID: 3615
-		[CompilerGenerated]
-		private static Func<Pawn, IEnumerable<Widgets.DropdownMenuElement<MedicalCareCategory>>> <>f__mg$cache1;
 	}
 }

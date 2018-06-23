@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x0200004E RID: 78
 	public class JobDriver_Spectate : JobDriver
 	{
+		// Token: 0x040001E1 RID: 481
+		private const TargetIndex MySpotOrChairInd = TargetIndex.A;
+
+		// Token: 0x040001E2 RID: 482
+		private const TargetIndex WatchTargetInd = TargetIndex.B;
+
 		// Token: 0x06000270 RID: 624 RVA: 0x00019CA0 File Offset: 0x000180A0
 		public override bool TryMakePreToilReservations()
 		{
@@ -39,11 +45,5 @@ namespace RimWorld
 			};
 			yield break;
 		}
-
-		// Token: 0x040001E1 RID: 481
-		private const TargetIndex MySpotOrChairInd = TargetIndex.A;
-
-		// Token: 0x040001E2 RID: 482
-		private const TargetIndex WatchTargetInd = TargetIndex.B;
 	}
 }

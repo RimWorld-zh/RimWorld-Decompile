@@ -9,6 +9,77 @@ namespace RimWorld
 	// Token: 0x020004B7 RID: 1207
 	public class InteractionWorker_RecruitAttempt : InteractionWorker
 	{
+		// Token: 0x04000CB5 RID: 3253
+		private const float MinRecruitChance = 0.005f;
+
+		// Token: 0x04000CB6 RID: 3254
+		private const float BondRelationChanceFactor = 4f;
+
+		// Token: 0x04000CB7 RID: 3255
+		private static readonly SimpleCurve RecruitChanceFactorCurve_Wildness = new SimpleCurve
+		{
+			{
+				new CurvePoint(1f, 0f),
+				true
+			},
+			{
+				new CurvePoint(0.5f, 1f),
+				true
+			},
+			{
+				new CurvePoint(0f, 2f),
+				true
+			}
+		};
+
+		// Token: 0x04000CB8 RID: 3256
+		private static readonly SimpleCurve RecruitChanceFactorCurve_Opinion = new SimpleCurve
+		{
+			{
+				new CurvePoint(-50f, 0f),
+				true
+			},
+			{
+				new CurvePoint(50f, 1f),
+				true
+			},
+			{
+				new CurvePoint(100f, 2f),
+				true
+			}
+		};
+
+		// Token: 0x04000CB9 RID: 3257
+		private static readonly SimpleCurve RecruitChanceFactorCurve_Mood = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 0.25f),
+				true
+			},
+			{
+				new CurvePoint(0.1f, 0.25f),
+				true
+			},
+			{
+				new CurvePoint(0.25f, 1f),
+				true
+			},
+			{
+				new CurvePoint(0.5f, 1f),
+				true
+			},
+			{
+				new CurvePoint(1f, 1.5f),
+				true
+			}
+		};
+
+		// Token: 0x04000CBA RID: 3258
+		private const int MenagerieThreshold = 10;
+
+		// Token: 0x04000CBB RID: 3259
+		private const float WildManTameChanceFactor = 2f;
+
 		// Token: 0x06001586 RID: 5510 RVA: 0x000BF380 File Offset: 0x000BD780
 		public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks, out string letterText, out string letterLabel, out LetterDef letterDef)
 		{
@@ -175,76 +246,5 @@ namespace RimWorld
 				recruitee.caller.DoCall();
 			}
 		}
-
-		// Token: 0x04000CB5 RID: 3253
-		private const float MinRecruitChance = 0.005f;
-
-		// Token: 0x04000CB6 RID: 3254
-		private const float BondRelationChanceFactor = 4f;
-
-		// Token: 0x04000CB7 RID: 3255
-		private static readonly SimpleCurve RecruitChanceFactorCurve_Wildness = new SimpleCurve
-		{
-			{
-				new CurvePoint(1f, 0f),
-				true
-			},
-			{
-				new CurvePoint(0.5f, 1f),
-				true
-			},
-			{
-				new CurvePoint(0f, 2f),
-				true
-			}
-		};
-
-		// Token: 0x04000CB8 RID: 3256
-		private static readonly SimpleCurve RecruitChanceFactorCurve_Opinion = new SimpleCurve
-		{
-			{
-				new CurvePoint(-50f, 0f),
-				true
-			},
-			{
-				new CurvePoint(50f, 1f),
-				true
-			},
-			{
-				new CurvePoint(100f, 2f),
-				true
-			}
-		};
-
-		// Token: 0x04000CB9 RID: 3257
-		private static readonly SimpleCurve RecruitChanceFactorCurve_Mood = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 0.25f),
-				true
-			},
-			{
-				new CurvePoint(0.1f, 0.25f),
-				true
-			},
-			{
-				new CurvePoint(0.25f, 1f),
-				true
-			},
-			{
-				new CurvePoint(0.5f, 1f),
-				true
-			},
-			{
-				new CurvePoint(1f, 1.5f),
-				true
-			}
-		};
-
-		// Token: 0x04000CBA RID: 3258
-		private const int MenagerieThreshold = 10;
-
-		// Token: 0x04000CBB RID: 3259
-		private const float WildManTameChanceFactor = 2f;
 	}
 }

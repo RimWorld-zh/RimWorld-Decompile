@@ -9,6 +9,107 @@ namespace Verse
 	// Token: 0x02000BA2 RID: 2978
 	public class TerrainDef : BuildableDef
 	{
+		// Token: 0x04002B64 RID: 11108
+		[NoTranslate]
+		public string texturePath;
+
+		// Token: 0x04002B65 RID: 11109
+		public TerrainDef.TerrainEdgeType edgeType = TerrainDef.TerrainEdgeType.Hard;
+
+		// Token: 0x04002B66 RID: 11110
+		[NoTranslate]
+		public string waterDepthShader = null;
+
+		// Token: 0x04002B67 RID: 11111
+		public List<ShaderParameter> waterDepthShaderParameters = null;
+
+		// Token: 0x04002B68 RID: 11112
+		public int renderPrecedence = 0;
+
+		// Token: 0x04002B69 RID: 11113
+		public List<TerrainAffordanceDef> affordances = new List<TerrainAffordanceDef>();
+
+		// Token: 0x04002B6A RID: 11114
+		public bool layerable = false;
+
+		// Token: 0x04002B6B RID: 11115
+		[NoTranslate]
+		public string scatterType = null;
+
+		// Token: 0x04002B6C RID: 11116
+		public bool takeFootprints = false;
+
+		// Token: 0x04002B6D RID: 11117
+		public bool takeSplashes = false;
+
+		// Token: 0x04002B6E RID: 11118
+		public bool avoidWander = false;
+
+		// Token: 0x04002B6F RID: 11119
+		public bool changeable = true;
+
+		// Token: 0x04002B70 RID: 11120
+		public TerrainDef smoothedTerrain = null;
+
+		// Token: 0x04002B71 RID: 11121
+		public bool holdSnow = true;
+
+		// Token: 0x04002B72 RID: 11122
+		public bool extinguishesFire = false;
+
+		// Token: 0x04002B73 RID: 11123
+		public Color color = Color.white;
+
+		// Token: 0x04002B74 RID: 11124
+		public TerrainDef driesTo = null;
+
+		// Token: 0x04002B75 RID: 11125
+		[NoTranslate]
+		public List<string> tags = null;
+
+		// Token: 0x04002B76 RID: 11126
+		public TerrainDef burnedDef = null;
+
+		// Token: 0x04002B77 RID: 11127
+		public List<Tool> tools = null;
+
+		// Token: 0x04002B78 RID: 11128
+		public float extraDeteriorationFactor;
+
+		// Token: 0x04002B79 RID: 11129
+		public float destroyOnBombDamageThreshold = -1f;
+
+		// Token: 0x04002B7A RID: 11130
+		public bool destroyBuildingsOnDestroyed;
+
+		// Token: 0x04002B7B RID: 11131
+		public ThoughtDef traversedThought;
+
+		// Token: 0x04002B7C RID: 11132
+		public int extraDraftedPerceivedPathCost;
+
+		// Token: 0x04002B7D RID: 11133
+		public int extraNonDraftedPerceivedPathCost;
+
+		// Token: 0x04002B7E RID: 11134
+		public EffecterDef destroyEffect;
+
+		// Token: 0x04002B7F RID: 11135
+		public EffecterDef destroyEffectWater;
+
+		// Token: 0x04002B80 RID: 11136
+		public ThingDef generatedFilth = null;
+
+		// Token: 0x04002B81 RID: 11137
+		public bool acceptTerrainSourceFilth = false;
+
+		// Token: 0x04002B82 RID: 11138
+		public bool acceptFilth = true;
+
+		// Token: 0x04002B83 RID: 11139
+		[Unsaved]
+		public Material waterDepthMaterial = null;
+
 		// Token: 0x170009DC RID: 2524
 		// (get) Token: 0x06004071 RID: 16497 RVA: 0x0021DFAC File Offset: 0x0021C3AC
 		public bool Removable
@@ -162,107 +263,6 @@ namespace Verse
 			}
 			yield break;
 		}
-
-		// Token: 0x04002B64 RID: 11108
-		[NoTranslate]
-		public string texturePath;
-
-		// Token: 0x04002B65 RID: 11109
-		public TerrainDef.TerrainEdgeType edgeType = TerrainDef.TerrainEdgeType.Hard;
-
-		// Token: 0x04002B66 RID: 11110
-		[NoTranslate]
-		public string waterDepthShader = null;
-
-		// Token: 0x04002B67 RID: 11111
-		public List<ShaderParameter> waterDepthShaderParameters = null;
-
-		// Token: 0x04002B68 RID: 11112
-		public int renderPrecedence = 0;
-
-		// Token: 0x04002B69 RID: 11113
-		public List<TerrainAffordanceDef> affordances = new List<TerrainAffordanceDef>();
-
-		// Token: 0x04002B6A RID: 11114
-		public bool layerable = false;
-
-		// Token: 0x04002B6B RID: 11115
-		[NoTranslate]
-		public string scatterType = null;
-
-		// Token: 0x04002B6C RID: 11116
-		public bool takeFootprints = false;
-
-		// Token: 0x04002B6D RID: 11117
-		public bool takeSplashes = false;
-
-		// Token: 0x04002B6E RID: 11118
-		public bool avoidWander = false;
-
-		// Token: 0x04002B6F RID: 11119
-		public bool changeable = true;
-
-		// Token: 0x04002B70 RID: 11120
-		public TerrainDef smoothedTerrain = null;
-
-		// Token: 0x04002B71 RID: 11121
-		public bool holdSnow = true;
-
-		// Token: 0x04002B72 RID: 11122
-		public bool extinguishesFire = false;
-
-		// Token: 0x04002B73 RID: 11123
-		public Color color = Color.white;
-
-		// Token: 0x04002B74 RID: 11124
-		public TerrainDef driesTo = null;
-
-		// Token: 0x04002B75 RID: 11125
-		[NoTranslate]
-		public List<string> tags = null;
-
-		// Token: 0x04002B76 RID: 11126
-		public TerrainDef burnedDef = null;
-
-		// Token: 0x04002B77 RID: 11127
-		public List<Tool> tools = null;
-
-		// Token: 0x04002B78 RID: 11128
-		public float extraDeteriorationFactor;
-
-		// Token: 0x04002B79 RID: 11129
-		public float destroyOnBombDamageThreshold = -1f;
-
-		// Token: 0x04002B7A RID: 11130
-		public bool destroyBuildingsOnDestroyed;
-
-		// Token: 0x04002B7B RID: 11131
-		public ThoughtDef traversedThought;
-
-		// Token: 0x04002B7C RID: 11132
-		public int extraDraftedPerceivedPathCost;
-
-		// Token: 0x04002B7D RID: 11133
-		public int extraNonDraftedPerceivedPathCost;
-
-		// Token: 0x04002B7E RID: 11134
-		public EffecterDef destroyEffect;
-
-		// Token: 0x04002B7F RID: 11135
-		public EffecterDef destroyEffectWater;
-
-		// Token: 0x04002B80 RID: 11136
-		public ThingDef generatedFilth = null;
-
-		// Token: 0x04002B81 RID: 11137
-		public bool acceptTerrainSourceFilth = false;
-
-		// Token: 0x04002B82 RID: 11138
-		public bool acceptFilth = true;
-
-		// Token: 0x04002B83 RID: 11139
-		[Unsaved]
-		public Material waterDepthMaterial = null;
 
 		// Token: 0x02000BA3 RID: 2979
 		public enum TerrainEdgeType : byte

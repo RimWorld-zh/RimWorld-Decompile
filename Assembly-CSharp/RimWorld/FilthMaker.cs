@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020006C0 RID: 1728
 	public static class FilthMaker
 	{
+		// Token: 0x040014BF RID: 5311
+		private static List<Filth> toBeRemoved = new List<Filth>();
+
 		// Token: 0x06002550 RID: 9552 RVA: 0x0014022C File Offset: 0x0013E62C
 		public static void MakeFilth(IntVec3 c, Map map, ThingDef filthDef, int count = 1)
 		{
@@ -102,8 +105,5 @@ namespace RimWorld
 			}
 			FilthMaker.toBeRemoved.Clear();
 		}
-
-		// Token: 0x040014BF RID: 5311
-		private static List<Filth> toBeRemoved = new List<Filth>();
 	}
 }

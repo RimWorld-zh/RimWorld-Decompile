@@ -7,6 +7,24 @@ namespace Verse.AI.Group
 	// Token: 0x020009FE RID: 2558
 	public class TransitionAction_Message : TransitionAction
 	{
+		// Token: 0x04002489 RID: 9353
+		public string message;
+
+		// Token: 0x0400248A RID: 9354
+		public MessageTypeDef type;
+
+		// Token: 0x0400248B RID: 9355
+		public TargetInfo lookTarget;
+
+		// Token: 0x0400248C RID: 9356
+		public Func<TargetInfo> lookTargetGetter;
+
+		// Token: 0x0400248D RID: 9357
+		public string repeatAvoiderTag;
+
+		// Token: 0x0400248E RID: 9358
+		public float repeatAvoiderSeconds;
+
 		// Token: 0x06003970 RID: 14704 RVA: 0x001E788F File Offset: 0x001E5C8F
 		public TransitionAction_Message(string message, string repeatAvoiderTag = null, float repeatAvoiderSeconds = 1f) : this(message, MessageTypeDefOf.NeutralEvent, repeatAvoiderTag, repeatAvoiderSeconds)
 		{
@@ -60,23 +78,5 @@ namespace Verse.AI.Group
 				Messages.Message(this.message, target, this.type, true);
 			}
 		}
-
-		// Token: 0x04002489 RID: 9353
-		public string message;
-
-		// Token: 0x0400248A RID: 9354
-		public MessageTypeDef type;
-
-		// Token: 0x0400248B RID: 9355
-		public TargetInfo lookTarget;
-
-		// Token: 0x0400248C RID: 9356
-		public Func<TargetInfo> lookTargetGetter;
-
-		// Token: 0x0400248D RID: 9357
-		public string repeatAvoiderTag;
-
-		// Token: 0x0400248E RID: 9358
-		public float repeatAvoiderSeconds;
 	}
 }

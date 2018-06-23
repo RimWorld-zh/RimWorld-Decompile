@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000843 RID: 2115
 	public class ArchitectCategoryTab
 	{
+		// Token: 0x040019EC RID: 6636
+		public DesignationCategoryDef def;
+
+		// Token: 0x040019ED RID: 6637
+		public const float InfoRectHeight = 270f;
+
 		// Token: 0x06002FE6 RID: 12262 RVA: 0x001A0E59 File Offset: 0x0019F259
 		public ArchitectCategoryTab(DesignationCategoryDef def)
 		{
@@ -63,11 +69,5 @@ namespace RimWorld
 				}
 			}, true, false, 1f);
 		}
-
-		// Token: 0x040019EC RID: 6636
-		public DesignationCategoryDef def;
-
-		// Token: 0x040019ED RID: 6637
-		public const float InfoRectHeight = 270f;
 	}
 }

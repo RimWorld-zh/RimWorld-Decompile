@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x020000A8 RID: 168
 	public class JobGiver_ConfigurableHostilityResponse : ThinkNode_JobGiver
 	{
+		// Token: 0x04000271 RID: 625
+		private static List<Thing> tmpThreats = new List<Thing>();
+
 		// Token: 0x06000418 RID: 1048 RVA: 0x00030EEC File Offset: 0x0002F2EC
 		protected override Job TryGiveJob(Pawn pawn)
 		{
@@ -158,8 +161,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000271 RID: 625
-		private static List<Thing> tmpThreats = new List<Thing>();
 	}
 }

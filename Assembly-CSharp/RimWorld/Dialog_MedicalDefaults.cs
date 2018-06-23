@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x02000801 RID: 2049
 	public class Dialog_MedicalDefaults : Window
 	{
+		// Token: 0x0400184C RID: 6220
+		private const float MedicalCareStartX = 170f;
+
+		// Token: 0x0400184D RID: 6221
+		private const float VerticalGap = 6f;
+
+		// Token: 0x0400184E RID: 6222
+		private const float VerticalBigGap = 24f;
+
 		// Token: 0x06002DCC RID: 11724 RVA: 0x00181EF1 File Offset: 0x001802F1
 		public Dialog_MedicalDefaults()
 		{
@@ -55,14 +64,5 @@ namespace RimWorld
 			Widgets.Label(rect, "MedGroupHostileFaction".Translate());
 			MedicalCareUtility.MedicalCareSetter(rect2, ref Find.PlaySettings.defaultCareForHostileFaction);
 		}
-
-		// Token: 0x0400184C RID: 6220
-		private const float MedicalCareStartX = 170f;
-
-		// Token: 0x0400184D RID: 6221
-		private const float VerticalGap = 6f;
-
-		// Token: 0x0400184E RID: 6222
-		private const float VerticalBigGap = 24f;
 	}
 }

@@ -13,6 +13,24 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Page_SelectScenario : Page
 	{
+		// Token: 0x040019AC RID: 6572
+		private Scenario curScen = null;
+
+		// Token: 0x040019AD RID: 6573
+		private Vector2 infoScrollPosition = Vector2.zero;
+
+		// Token: 0x040019AE RID: 6574
+		private const float ScenarioEntryHeight = 62f;
+
+		// Token: 0x040019AF RID: 6575
+		private static readonly Texture2D CanUploadIcon = ContentFinder<Texture2D>.Get("UI/Icons/ContentSources/CanUpload", true);
+
+		// Token: 0x040019B0 RID: 6576
+		private Vector2 scenariosScrollPosition = Vector2.zero;
+
+		// Token: 0x040019B1 RID: 6577
+		private float totalScenarioListHeight;
+
 		// Token: 0x17000789 RID: 1929
 		// (get) Token: 0x06002F86 RID: 12166 RVA: 0x00196FB4 File Offset: 0x001953B4
 		public override string PageTitle
@@ -251,23 +269,5 @@ namespace RimWorld
 			}
 			this.EnsureValidSelection();
 		}
-
-		// Token: 0x040019AC RID: 6572
-		private Scenario curScen = null;
-
-		// Token: 0x040019AD RID: 6573
-		private Vector2 infoScrollPosition = Vector2.zero;
-
-		// Token: 0x040019AE RID: 6574
-		private const float ScenarioEntryHeight = 62f;
-
-		// Token: 0x040019AF RID: 6575
-		private static readonly Texture2D CanUploadIcon = ContentFinder<Texture2D>.Get("UI/Icons/ContentSources/CanUpload", true);
-
-		// Token: 0x040019B0 RID: 6576
-		private Vector2 scenariosScrollPosition = Vector2.zero;
-
-		// Token: 0x040019B1 RID: 6577
-		private float totalScenarioListHeight;
 	}
 }

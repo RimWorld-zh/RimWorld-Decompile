@@ -8,6 +8,39 @@ namespace RimWorld.BaseGen
 	// Token: 0x02000399 RID: 921
 	public class SymbolResolver_BasePart_Outdoors_Division_Grid : SymbolResolver
 	{
+		// Token: 0x040009F7 RID: 2551
+		private List<Pair<int, int>> optionsX = new List<Pair<int, int>>();
+
+		// Token: 0x040009F8 RID: 2552
+		private List<Pair<int, int>> optionsZ = new List<Pair<int, int>>();
+
+		// Token: 0x040009F9 RID: 2553
+		private List<SymbolResolver_BasePart_Outdoors_Division_Grid.Child> children = new List<SymbolResolver_BasePart_Outdoors_Division_Grid.Child>();
+
+		// Token: 0x040009FA RID: 2554
+		private const int MinWidthOrHeight = 13;
+
+		// Token: 0x040009FB RID: 2555
+		private const int MinRoomsPerRow = 2;
+
+		// Token: 0x040009FC RID: 2556
+		private const int MaxRoomsPerRow = 4;
+
+		// Token: 0x040009FD RID: 2557
+		private const int MinPathwayWidth = 1;
+
+		// Token: 0x040009FE RID: 2558
+		private const int MaxPathwayWidth = 5;
+
+		// Token: 0x040009FF RID: 2559
+		private const int MinRoomSize = 6;
+
+		// Token: 0x04000A00 RID: 2560
+		private const float AllowNonSquareRoomsInTheFirstStepChance = 0.2f;
+
+		// Token: 0x04000A01 RID: 2561
+		private static List<Pair<Pair<int, int>, Pair<int, int>>> options = new List<Pair<Pair<int, int>, Pair<int, int>>>();
+
 		// Token: 0x0600100C RID: 4108 RVA: 0x000870C4 File Offset: 0x000854C4
 		public override bool CanResolve(ResolveParams rp)
 		{
@@ -247,39 +280,6 @@ namespace RimWorld.BaseGen
 				}
 			}
 		}
-
-		// Token: 0x040009F7 RID: 2551
-		private List<Pair<int, int>> optionsX = new List<Pair<int, int>>();
-
-		// Token: 0x040009F8 RID: 2552
-		private List<Pair<int, int>> optionsZ = new List<Pair<int, int>>();
-
-		// Token: 0x040009F9 RID: 2553
-		private List<SymbolResolver_BasePart_Outdoors_Division_Grid.Child> children = new List<SymbolResolver_BasePart_Outdoors_Division_Grid.Child>();
-
-		// Token: 0x040009FA RID: 2554
-		private const int MinWidthOrHeight = 13;
-
-		// Token: 0x040009FB RID: 2555
-		private const int MinRoomsPerRow = 2;
-
-		// Token: 0x040009FC RID: 2556
-		private const int MaxRoomsPerRow = 4;
-
-		// Token: 0x040009FD RID: 2557
-		private const int MinPathwayWidth = 1;
-
-		// Token: 0x040009FE RID: 2558
-		private const int MaxPathwayWidth = 5;
-
-		// Token: 0x040009FF RID: 2559
-		private const int MinRoomSize = 6;
-
-		// Token: 0x04000A00 RID: 2560
-		private const float AllowNonSquareRoomsInTheFirstStepChance = 0.2f;
-
-		// Token: 0x04000A01 RID: 2561
-		private static List<Pair<Pair<int, int>, Pair<int, int>>> options = new List<Pair<Pair<int, int>, Pair<int, int>>>();
 
 		// Token: 0x0200039A RID: 922
 		private class Child

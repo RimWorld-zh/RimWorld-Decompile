@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x0200080B RID: 2059
 	public static class ResolutionUtility
 	{
+		// Token: 0x04001870 RID: 6256
+		public const int MinResolutionWidth = 1024;
+
+		// Token: 0x04001871 RID: 6257
+		public const int MinResolutionHeight = 768;
+
 		// Token: 0x06002E06 RID: 11782 RVA: 0x0018441C File Offset: 0x0018281C
 		public static void SafeSetResolution(Resolution res)
 		{
@@ -45,11 +51,5 @@ namespace RimWorld
 		{
 			return (float)w / scale >= 1024f && (float)h / scale >= 768f;
 		}
-
-		// Token: 0x04001870 RID: 6256
-		public const int MinResolutionWidth = 1024;
-
-		// Token: 0x04001871 RID: 6257
-		public const int MinResolutionHeight = 768;
 	}
 }

@@ -8,6 +8,9 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class PlaceWorker_FuelingPort : PlaceWorker
 	{
+		// Token: 0x04002FB5 RID: 12213
+		private static readonly Material FuelingPortCellMaterial = MaterialPool.MatFrom("UI/Overlays/FuelingPort", ShaderDatabase.Transparent);
+
 		// Token: 0x060045F6 RID: 17910 RVA: 0x0024E314 File Offset: 0x0024C714
 		public override void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot, Color ghostCol)
 		{
@@ -27,8 +30,5 @@ namespace RimWorld
 			Vector3 position = FuelingPortUtility.GetFuelingPortCell(center, rot).ToVector3ShiftedWithAltitude(AltitudeLayer.MetaOverlays);
 			Graphics.DrawMesh(MeshPool.plane10, position, Quaternion.identity, PlaceWorker_FuelingPort.FuelingPortCellMaterial, 0);
 		}
-
-		// Token: 0x04002FB5 RID: 12213
-		private static readonly Material FuelingPortCellMaterial = MaterialPool.MatFrom("UI/Overlays/FuelingPort", ShaderDatabase.Transparent);
 	}
 }

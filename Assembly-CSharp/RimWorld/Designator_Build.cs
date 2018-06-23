@@ -9,6 +9,24 @@ namespace RimWorld
 	// Token: 0x020007E0 RID: 2016
 	public class Designator_Build : Designator_Place
 	{
+		// Token: 0x040017AA RID: 6058
+		protected BuildableDef entDef;
+
+		// Token: 0x040017AB RID: 6059
+		private ThingDef stuffDef = null;
+
+		// Token: 0x040017AC RID: 6060
+		private bool writeStuff = false;
+
+		// Token: 0x040017AD RID: 6061
+		private static readonly Vector2 TerrainTextureCroppedSize = new Vector2(64f, 64f);
+
+		// Token: 0x040017AE RID: 6062
+		private static readonly Vector2 DragPriceDrawOffset = new Vector2(19f, 17f);
+
+		// Token: 0x040017AF RID: 6063
+		private const float DragPriceDrawNumberX = 29f;
+
 		// Token: 0x06002CC0 RID: 11456 RVA: 0x001790BC File Offset: 0x001774BC
 		public Designator_Build(BuildableDef entDef)
 		{
@@ -444,23 +462,5 @@ namespace RimWorld
 		{
 			DesignatorUtility.RenderHighlightOverSelectableCells(this, dragCells);
 		}
-
-		// Token: 0x040017AA RID: 6058
-		protected BuildableDef entDef;
-
-		// Token: 0x040017AB RID: 6059
-		private ThingDef stuffDef = null;
-
-		// Token: 0x040017AC RID: 6060
-		private bool writeStuff = false;
-
-		// Token: 0x040017AD RID: 6061
-		private static readonly Vector2 TerrainTextureCroppedSize = new Vector2(64f, 64f);
-
-		// Token: 0x040017AE RID: 6062
-		private static readonly Vector2 DragPriceDrawOffset = new Vector2(19f, 17f);
-
-		// Token: 0x040017AF RID: 6063
-		private const float DragPriceDrawNumberX = 29f;
 	}
 }

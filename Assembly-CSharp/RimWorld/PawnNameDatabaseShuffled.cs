@@ -9,6 +9,9 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class PawnNameDatabaseShuffled
 	{
+		// Token: 0x04000C41 RID: 3137
+		private static Dictionary<PawnNameCategory, NameBank> banks = new Dictionary<PawnNameCategory, NameBank>();
+
 		// Token: 0x0600146D RID: 5229 RVA: 0x000B302C File Offset: 0x000B142C
 		static PawnNameDatabaseShuffled()
 		{
@@ -51,8 +54,5 @@ namespace RimWorld
 		{
 			return PawnNameDatabaseShuffled.banks[category];
 		}
-
-		// Token: 0x04000C41 RID: 3137
-		private static Dictionary<PawnNameCategory, NameBank> banks = new Dictionary<PawnNameCategory, NameBank>();
 	}
 }

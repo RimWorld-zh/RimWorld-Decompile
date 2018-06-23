@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x020002F3 RID: 755
 	public class Archive : IExposable
 	{
+		// Token: 0x04000832 RID: 2098
+		private List<IArchivable> archivables = new List<IArchivable>();
+
+		// Token: 0x04000833 RID: 2099
+		private HashSet<IArchivable> pinnedArchivables = new HashSet<IArchivable>();
+
+		// Token: 0x04000834 RID: 2100
+		public const int MaxNonPinnedArchivables = 200;
+
 		// Token: 0x170001DD RID: 477
 		// (get) Token: 0x06000C84 RID: 3204 RVA: 0x0006F1A8 File Offset: 0x0006D5A8
 		public List<IArchivable> ArchivablesListForReading
@@ -133,14 +142,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000832 RID: 2098
-		private List<IArchivable> archivables = new List<IArchivable>();
-
-		// Token: 0x04000833 RID: 2099
-		private HashSet<IArchivable> pinnedArchivables = new HashSet<IArchivable>();
-
-		// Token: 0x04000834 RID: 2100
-		public const int MaxNonPinnedArchivables = 200;
 	}
 }

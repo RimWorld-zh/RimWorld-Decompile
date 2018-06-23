@@ -5,6 +5,18 @@ namespace Verse.AI
 	// Token: 0x02000ACA RID: 2762
 	public struct ThinkResult : IEquatable<ThinkResult>
 	{
+		// Token: 0x040026AD RID: 9901
+		private Job jobInt;
+
+		// Token: 0x040026AE RID: 9902
+		private ThinkNode sourceNodeInt;
+
+		// Token: 0x040026AF RID: 9903
+		private JobTag? tag;
+
+		// Token: 0x040026B0 RID: 9904
+		private bool fromQueue;
+
 		// Token: 0x06003D5A RID: 15706 RVA: 0x00205BA0 File Offset: 0x00203FA0
 		public ThinkResult(Job job, ThinkNode sourceNode, JobTag? tag = null, bool fromQueue = false)
 		{
@@ -132,17 +144,5 @@ namespace Verse.AI
 		{
 			return !(lhs == rhs);
 		}
-
-		// Token: 0x040026AD RID: 9901
-		private Job jobInt;
-
-		// Token: 0x040026AE RID: 9902
-		private ThinkNode sourceNodeInt;
-
-		// Token: 0x040026AF RID: 9903
-		private JobTag? tag;
-
-		// Token: 0x040026B0 RID: 9904
-		private bool fromQueue;
 	}
 }

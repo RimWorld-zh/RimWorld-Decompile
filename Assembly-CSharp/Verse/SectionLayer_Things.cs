@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000C51 RID: 3153
 	public abstract class SectionLayer_Things : SectionLayer
 	{
+		// Token: 0x04002F7B RID: 12155
+		protected bool requireAddToMapMesh;
+
 		// Token: 0x06004574 RID: 17780 RVA: 0x0008521D File Offset: 0x0008361D
 		public SectionLayer_Things(Section section) : base(section)
 		{
@@ -51,8 +54,5 @@ namespace Verse
 
 		// Token: 0x06004577 RID: 17783
 		protected abstract void TakePrintFrom(Thing t);
-
-		// Token: 0x04002F7B RID: 12155
-		protected bool requireAddToMapMesh;
 	}
 }

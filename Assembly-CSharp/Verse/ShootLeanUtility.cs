@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000FB2 RID: 4018
 	public static class ShootLeanUtility
 	{
+		// Token: 0x04003F8E RID: 16270
+		private static Queue<bool[]> blockedArrays = new Queue<bool[]>();
+
 		// Token: 0x0600613E RID: 24894 RVA: 0x00311E20 File Offset: 0x00310220
 		private static bool[] GetWorkingBlockedArray()
 		{
@@ -136,8 +139,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04003F8E RID: 16270
-		private static Queue<bool[]> blockedArrays = new Queue<bool[]>();
 	}
 }

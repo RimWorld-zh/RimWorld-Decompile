@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x020006FE RID: 1790
 	public class CompAnimalInsanityPulser : ThingComp
 	{
+		// Token: 0x040015B4 RID: 5556
+		private int ticksToInsanityPulse;
+
 		// Token: 0x170005DE RID: 1502
 		// (get) Token: 0x0600272D RID: 10029 RVA: 0x00151A04 File Offset: 0x0014FE04
 		public CompProperties_AnimalInsanityPulser Props
@@ -75,8 +78,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x040015B4 RID: 5556
-		private int ticksToInsanityPulse;
 	}
 }

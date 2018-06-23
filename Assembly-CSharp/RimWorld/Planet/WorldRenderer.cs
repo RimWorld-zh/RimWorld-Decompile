@@ -10,6 +10,15 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public class WorldRenderer
 	{
+		// Token: 0x04001052 RID: 4178
+		private List<WorldLayer> layers = new List<WorldLayer>();
+
+		// Token: 0x04001053 RID: 4179
+		public WorldRenderMode wantedMode;
+
+		// Token: 0x04001054 RID: 4180
+		private bool asynchronousRegenerationActive = false;
+
 		// Token: 0x06001B77 RID: 7031 RVA: 0x000ED4D0 File Offset: 0x000EB8D0
 		public WorldRenderer()
 		{
@@ -157,14 +166,5 @@ namespace RimWorld.Planet
 			}
 			return -1;
 		}
-
-		// Token: 0x04001052 RID: 4178
-		private List<WorldLayer> layers = new List<WorldLayer>();
-
-		// Token: 0x04001053 RID: 4179
-		public WorldRenderMode wantedMode;
-
-		// Token: 0x04001054 RID: 4180
-		private bool asynchronousRegenerationActive = false;
 	}
 }

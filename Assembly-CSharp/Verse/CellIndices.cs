@@ -5,6 +5,12 @@ namespace Verse
 	// Token: 0x02000ED0 RID: 3792
 	public class CellIndices
 	{
+		// Token: 0x04003C12 RID: 15378
+		private int mapSizeX;
+
+		// Token: 0x04003C13 RID: 15379
+		private int mapSizeZ;
+
 		// Token: 0x060059EE RID: 23022 RVA: 0x002E31EC File Offset: 0x002E15EC
 		public CellIndices(Map map)
 		{
@@ -39,11 +45,5 @@ namespace Verse
 		{
 			return CellIndicesUtility.IndexToCell(ind, this.mapSizeX);
 		}
-
-		// Token: 0x04003C12 RID: 15378
-		private int mapSizeX;
-
-		// Token: 0x04003C13 RID: 15379
-		private int mapSizeZ;
 	}
 }

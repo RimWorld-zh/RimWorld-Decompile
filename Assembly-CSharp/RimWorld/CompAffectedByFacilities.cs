@@ -11,6 +11,18 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class CompAffectedByFacilities : ThingComp
 	{
+		// Token: 0x040015B0 RID: 5552
+		private List<Thing> linkedFacilities = new List<Thing>();
+
+		// Token: 0x040015B1 RID: 5553
+		public static Material InactiveFacilityLineMat = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, new Color(1f, 0.5f, 0.5f));
+
+		// Token: 0x040015B2 RID: 5554
+		private static Dictionary<ThingDef, int> alreadyReturnedCount = new Dictionary<ThingDef, int>();
+
+		// Token: 0x040015B3 RID: 5555
+		private List<ThingDef> alreadyUsed = new List<ThingDef>();
+
 		// Token: 0x170005DC RID: 1500
 		// (get) Token: 0x0600270E RID: 9998 RVA: 0x00150558 File Offset: 0x0014E958
 		public List<Thing> LinkedFacilitiesListForReading
@@ -555,17 +567,5 @@ namespace RimWorld
 			}
 			this.linkedFacilities.Clear();
 		}
-
-		// Token: 0x040015B0 RID: 5552
-		private List<Thing> linkedFacilities = new List<Thing>();
-
-		// Token: 0x040015B1 RID: 5553
-		public static Material InactiveFacilityLineMat = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, new Color(1f, 0.5f, 0.5f));
-
-		// Token: 0x040015B2 RID: 5554
-		private static Dictionary<ThingDef, int> alreadyReturnedCount = new Dictionary<ThingDef, int>();
-
-		// Token: 0x040015B3 RID: 5555
-		private List<ThingDef> alreadyUsed = new List<ThingDef>();
 	}
 }

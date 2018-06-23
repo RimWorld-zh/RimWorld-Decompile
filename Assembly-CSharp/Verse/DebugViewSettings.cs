@@ -5,24 +5,6 @@ namespace Verse
 	// Token: 0x02000F0F RID: 3855
 	public static class DebugViewSettings
 	{
-		// Token: 0x06005C8F RID: 23695 RVA: 0x002EFF6B File Offset: 0x002EE36B
-		public static void drawTerrainWaterToggled()
-		{
-			if (Find.CurrentMap != null)
-			{
-				Find.CurrentMap.mapDrawer.WholeMapChanged(MapMeshFlag.Terrain);
-			}
-		}
-
-		// Token: 0x06005C90 RID: 23696 RVA: 0x002EFF89 File Offset: 0x002EE389
-		public static void drawShadowsToggled()
-		{
-			if (Find.CurrentMap != null)
-			{
-				Find.CurrentMap.mapDrawer.WholeMapChanged((MapMeshFlag)(-1));
-			}
-		}
-
 		// Token: 0x04003D1A RID: 15642
 		public static bool drawFog = true;
 
@@ -289,5 +271,23 @@ namespace Verse
 
 		// Token: 0x04003D72 RID: 15730
 		public static bool showFloatMenuWorkGivers = false;
+
+		// Token: 0x06005C8F RID: 23695 RVA: 0x002EFF6B File Offset: 0x002EE36B
+		public static void drawTerrainWaterToggled()
+		{
+			if (Find.CurrentMap != null)
+			{
+				Find.CurrentMap.mapDrawer.WholeMapChanged(MapMeshFlag.Terrain);
+			}
+		}
+
+		// Token: 0x06005C90 RID: 23696 RVA: 0x002EFF89 File Offset: 0x002EE389
+		public static void drawShadowsToggled()
+		{
+			if (Find.CurrentMap != null)
+			{
+				Find.CurrentMap.mapDrawer.WholeMapChanged((MapMeshFlag)(-1));
+			}
+		}
 	}
 }

@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class RecipeDefOf
 	{
-		// Token: 0x0600362E RID: 13870 RVA: 0x001D09F9 File Offset: 0x001CEDF9
-		static RecipeDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(RecipeDefOf));
-		}
-
 		// Token: 0x04001FEA RID: 8170
 		public static RecipeDef RemoveBodyPart;
 
@@ -21,5 +15,11 @@ namespace RimWorld
 
 		// Token: 0x04001FEC RID: 8172
 		public static RecipeDef InstallPegLeg;
+
+		// Token: 0x0600362E RID: 13870 RVA: 0x001D09F9 File Offset: 0x001CEDF9
+		static RecipeDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(RecipeDefOf));
+		}
 	}
 }

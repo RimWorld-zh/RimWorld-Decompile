@@ -10,6 +10,30 @@ namespace RimWorld
 	// Token: 0x02000295 RID: 661
 	public abstract class FeatureWorker
 	{
+		// Token: 0x040005EB RID: 1515
+		public FeatureDef def;
+
+		// Token: 0x040005EC RID: 1516
+		protected static bool[] visited;
+
+		// Token: 0x040005ED RID: 1517
+		protected static int[] groupSize;
+
+		// Token: 0x040005EE RID: 1518
+		protected static int[] groupID;
+
+		// Token: 0x040005EF RID: 1519
+		private static List<int> tmpNeighbors = new List<int>();
+
+		// Token: 0x040005F0 RID: 1520
+		private static HashSet<int> tmpTilesForTextDrawPosCalculationSet = new HashSet<int>();
+
+		// Token: 0x040005F1 RID: 1521
+		private static List<int> tmpEdgeTiles = new List<int>();
+
+		// Token: 0x040005F2 RID: 1522
+		private static List<Pair<int, int>> tmpTraversedTiles = new List<Pair<int, int>>();
+
 		// Token: 0x06000B2A RID: 2858
 		public abstract void GenerateWhereAppropriate();
 
@@ -129,29 +153,5 @@ namespace RimWorld
 				Array.Clear(array, 0, array.Length);
 			}
 		}
-
-		// Token: 0x040005EB RID: 1515
-		public FeatureDef def;
-
-		// Token: 0x040005EC RID: 1516
-		protected static bool[] visited;
-
-		// Token: 0x040005ED RID: 1517
-		protected static int[] groupSize;
-
-		// Token: 0x040005EE RID: 1518
-		protected static int[] groupID;
-
-		// Token: 0x040005EF RID: 1519
-		private static List<int> tmpNeighbors = new List<int>();
-
-		// Token: 0x040005F0 RID: 1520
-		private static HashSet<int> tmpTilesForTextDrawPosCalculationSet = new HashSet<int>();
-
-		// Token: 0x040005F1 RID: 1521
-		private static List<int> tmpEdgeTiles = new List<int>();
-
-		// Token: 0x040005F2 RID: 1522
-		private static List<Pair<int, int>> tmpTraversedTiles = new List<Pair<int, int>>();
 	}
 }

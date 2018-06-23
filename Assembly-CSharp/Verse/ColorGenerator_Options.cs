@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000B0A RID: 2826
 	public class ColorGenerator_Options : ColorGenerator
 	{
+		// Token: 0x040027E0 RID: 10208
+		public List<ColorOption> options = new List<ColorOption>();
+
 		// Token: 0x17000972 RID: 2418
 		// (get) Token: 0x06003E8F RID: 16015 RVA: 0x0020F5F0 File Offset: 0x0020D9F0
 		public override Color ExemplaryColor
@@ -44,8 +47,5 @@ namespace Verse
 			ColorOption colorOption = this.options.RandomElementByWeight((ColorOption pi) => pi.weight);
 			return colorOption.RandomizedColor();
 		}
-
-		// Token: 0x040027E0 RID: 10208
-		public List<ColorOption> options = new List<ColorOption>();
 	}
 }

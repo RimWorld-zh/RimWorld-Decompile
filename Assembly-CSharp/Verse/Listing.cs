@@ -6,6 +6,30 @@ namespace Verse
 	// Token: 0x02000E7B RID: 3707
 	public abstract class Listing
 	{
+		// Token: 0x040039DF RID: 14815
+		public float verticalSpacing = 2f;
+
+		// Token: 0x040039E0 RID: 14816
+		protected Rect listingRect;
+
+		// Token: 0x040039E1 RID: 14817
+		protected float curY = 0f;
+
+		// Token: 0x040039E2 RID: 14818
+		protected float curX = 0f;
+
+		// Token: 0x040039E3 RID: 14819
+		private float columnWidthInt;
+
+		// Token: 0x040039E4 RID: 14820
+		private bool hasCustomColumnWidth;
+
+		// Token: 0x040039E5 RID: 14821
+		public const float ColumnSpacing = 17f;
+
+		// Token: 0x040039E6 RID: 14822
+		private const float DefaultGap = 12f;
+
 		// Token: 0x17000DD0 RID: 3536
 		// (get) Token: 0x0600576F RID: 22383 RVA: 0x001B2AF4 File Offset: 0x001B0EF4
 		public float CurHeight
@@ -107,29 +131,5 @@ namespace Verse
 		{
 			GUI.EndGroup();
 		}
-
-		// Token: 0x040039DF RID: 14815
-		public float verticalSpacing = 2f;
-
-		// Token: 0x040039E0 RID: 14816
-		protected Rect listingRect;
-
-		// Token: 0x040039E1 RID: 14817
-		protected float curY = 0f;
-
-		// Token: 0x040039E2 RID: 14818
-		protected float curX = 0f;
-
-		// Token: 0x040039E3 RID: 14819
-		private float columnWidthInt;
-
-		// Token: 0x040039E4 RID: 14820
-		private bool hasCustomColumnWidth;
-
-		// Token: 0x040039E5 RID: 14821
-		public const float ColumnSpacing = 17f;
-
-		// Token: 0x040039E6 RID: 14822
-		private const float DefaultGap = 12f;
 	}
 }

@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000C8E RID: 3214
 	public static class RegionListersUpdater
 	{
+		// Token: 0x04003010 RID: 12304
+		private static List<Region> tmpRegions = new List<Region>();
+
 		// Token: 0x06004694 RID: 18068 RVA: 0x00253FDC File Offset: 0x002523DC
 		public static void DeregisterInRegions(Thing thing, Map map)
 		{
@@ -97,8 +100,5 @@ namespace Verse
 		{
 			return true;
 		}
-
-		// Token: 0x04003010 RID: 12304
-		private static List<Region> tmpRegions = new List<Region>();
 	}
 }

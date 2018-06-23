@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x0200083F RID: 2111
 	public static class GlobalControlsUtility
 	{
+		// Token: 0x040019D5 RID: 6613
+		private const int VisibilityControlsPerRow = 5;
+
 		// Token: 0x06002FCB RID: 12235 RVA: 0x0019EB40 File Offset: 0x0019CF40
 		public static void DoPlaySettings(WidgetRow rowVisibility, bool worldView, ref float curBaseY)
 		{
@@ -44,8 +47,5 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 			curBaseY -= 26f;
 		}
-
-		// Token: 0x040019D5 RID: 6613
-		private const int VisibilityControlsPerRow = 5;
 	}
 }

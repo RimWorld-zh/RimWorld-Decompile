@@ -10,6 +10,12 @@ namespace RimWorld
 	// Token: 0x02000832 RID: 2098
 	public class Page_SelectLandingSite : Page
 	{
+		// Token: 0x040019AA RID: 6570
+		private const float GapBetweenBottomButtons = 10f;
+
+		// Token: 0x040019AB RID: 6571
+		private const float UseTwoRowsIfScreenWidthBelow = 1340f;
+
 		// Token: 0x06002F78 RID: 12152 RVA: 0x0019692C File Offset: 0x00194D2C
 		public Page_SelectLandingSite()
 		{
@@ -210,11 +216,5 @@ namespace RimWorld
 			num6 += Page.BottomButSize.x + 10f;
 			GenUI.AbsorbClicksInRect(rect);
 		}
-
-		// Token: 0x040019AA RID: 6570
-		private const float GapBetweenBottomButtons = 10f;
-
-		// Token: 0x040019AB RID: 6571
-		private const float UseTwoRowsIfScreenWidthBelow = 1340f;
 	}
 }

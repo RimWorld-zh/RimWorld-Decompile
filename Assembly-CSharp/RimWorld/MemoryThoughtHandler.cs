@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x0200052C RID: 1324
 	public sealed class MemoryThoughtHandler : IExposable
 	{
+		// Token: 0x04000E7F RID: 3711
+		public Pawn pawn;
+
+		// Token: 0x04000E80 RID: 3712
+		private List<Thought_Memory> memories = new List<Thought_Memory>();
+
 		// Token: 0x0600186F RID: 6255 RVA: 0x000D6BDA File Offset: 0x000D4FDA
 		public MemoryThoughtHandler(Pawn pawn)
 		{
@@ -308,11 +314,5 @@ namespace RimWorld
 		{
 			this.RemoveMemoriesWhereOtherPawnIs(discarded);
 		}
-
-		// Token: 0x04000E7F RID: 3711
-		public Pawn pawn;
-
-		// Token: 0x04000E80 RID: 3712
-		private List<Thought_Memory> memories = new List<Thought_Memory>();
 	}
 }

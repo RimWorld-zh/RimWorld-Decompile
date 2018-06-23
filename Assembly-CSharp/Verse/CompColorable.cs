@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000DFF RID: 3583
 	public class CompColorable : ThingComp
 	{
+		// Token: 0x0400354C RID: 13644
+		private Color color = Color.white;
+
+		// Token: 0x0400354D RID: 13645
+		private bool active = false;
+
 		// Token: 0x17000D4E RID: 3406
 		// (get) Token: 0x0600513C RID: 20796 RVA: 0x0029BA98 File Offset: 0x00299E98
 		// (set) Token: 0x0600513D RID: 20797 RVA: 0x0029BAD9 File Offset: 0x00299ED9
@@ -75,11 +81,5 @@ namespace Verse
 				piece.SetColor(this.color, true);
 			}
 		}
-
-		// Token: 0x0400354C RID: 13644
-		private Color color = Color.white;
-
-		// Token: 0x0400354D RID: 13645
-		private bool active = false;
 	}
 }

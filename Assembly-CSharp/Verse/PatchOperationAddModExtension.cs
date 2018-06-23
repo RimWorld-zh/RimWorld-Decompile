@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000CD0 RID: 3280
 	public class PatchOperationAddModExtension : PatchOperationPathed
 	{
+		// Token: 0x0400310B RID: 12555
+		private XmlContainer value;
+
 		// Token: 0x06004882 RID: 18562 RVA: 0x00261688 File Offset: 0x0025FA88
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
@@ -42,8 +45,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x0400310B RID: 12555
-		private XmlContainer value;
 	}
 }

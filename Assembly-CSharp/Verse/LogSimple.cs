@@ -9,6 +9,12 @@ namespace Verse
 	// Token: 0x02000F17 RID: 3863
 	public static class LogSimple
 	{
+		// Token: 0x04003D8C RID: 15756
+		private static List<string> messages = new List<string>();
+
+		// Token: 0x04003D8D RID: 15757
+		private static int tabDepth = 0;
+
 		// Token: 0x06005CB6 RID: 23734 RVA: 0x002F0A60 File Offset: 0x002EEE60
 		public static void Message(string text)
 		{
@@ -72,11 +78,5 @@ namespace Verse
 			}
 			return stringBuilder.ToString().TrimEnd(new char[0]);
 		}
-
-		// Token: 0x04003D8C RID: 15756
-		private static List<string> messages = new List<string>();
-
-		// Token: 0x04003D8D RID: 15757
-		private static int tabDepth = 0;
 	}
 }

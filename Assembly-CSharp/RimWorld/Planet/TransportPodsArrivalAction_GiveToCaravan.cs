@@ -7,6 +7,12 @@ namespace RimWorld.Planet
 	// Token: 0x02000612 RID: 1554
 	public class TransportPodsArrivalAction_GiveToCaravan : TransportPodsArrivalAction
 	{
+		// Token: 0x04001247 RID: 4679
+		private Caravan caravan;
+
+		// Token: 0x04001248 RID: 4680
+		private static List<Thing> tmpContainedThings = new List<Thing>();
+
 		// Token: 0x06001F52 RID: 8018 RVA: 0x0010FF4B File Offset: 0x0010E34B
 		public TransportPodsArrivalAction_GiveToCaravan()
 		{
@@ -79,11 +85,5 @@ namespace RimWorld.Planet
 				caravan.Label
 			}), representative, caravan.Tile);
 		}
-
-		// Token: 0x04001247 RID: 4679
-		private Caravan caravan;
-
-		// Token: 0x04001248 RID: 4680
-		private static List<Thing> tmpContainedThings = new List<Thing>();
 	}
 }

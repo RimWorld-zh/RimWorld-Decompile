@@ -7,6 +7,12 @@ namespace RimWorld.BaseGen
 	// Token: 0x0200039B RID: 923
 	public class SymbolResolver_BasePart_Outdoors_Division_Split : SymbolResolver
 	{
+		// Token: 0x04000A09 RID: 2569
+		private const int MinLengthAfterSplit = 5;
+
+		// Token: 0x04000A0A RID: 2570
+		private static readonly IntRange SpaceBetweenRange = new IntRange(1, 2);
+
 		// Token: 0x0600101A RID: 4122 RVA: 0x00087BDC File Offset: 0x00085FDC
 		public override bool CanResolve(ResolveParams rp)
 		{
@@ -97,11 +103,5 @@ namespace RimWorld.BaseGen
 			}
 			return result;
 		}
-
-		// Token: 0x04000A09 RID: 2569
-		private const int MinLengthAfterSplit = 5;
-
-		// Token: 0x04000A0A RID: 2570
-		private static readonly IntRange SpaceBetweenRange = new IntRange(1, 2);
 	}
 }

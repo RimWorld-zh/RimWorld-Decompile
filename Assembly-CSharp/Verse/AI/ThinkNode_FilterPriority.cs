@@ -5,6 +5,9 @@ namespace Verse.AI
 	// Token: 0x02000AB6 RID: 2742
 	public class ThinkNode_FilterPriority : ThinkNode
 	{
+		// Token: 0x0400268F RID: 9871
+		public float minPriority = 0.5f;
+
 		// Token: 0x06003D28 RID: 15656 RVA: 0x00204E0C File Offset: 0x0020320C
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -30,8 +33,5 @@ namespace Verse.AI
 			}
 			return ThinkResult.NoJob;
 		}
-
-		// Token: 0x0400268F RID: 9871
-		public float minPriority = 0.5f;
 	}
 }

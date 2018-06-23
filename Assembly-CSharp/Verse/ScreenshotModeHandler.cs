@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000E8A RID: 3722
 	public class ScreenshotModeHandler
 	{
+		// Token: 0x04003A1F RID: 14879
+		private bool active = false;
+
 		// Token: 0x17000DE7 RID: 3559
 		// (get) Token: 0x060057EC RID: 22508 RVA: 0x002D1E08 File Offset: 0x002D0208
 		public bool Active
@@ -36,8 +39,5 @@ namespace Verse
 				Event.current.Use();
 			}
 		}
-
-		// Token: 0x04003A1F RID: 14879
-		private bool active = false;
 	}
 }

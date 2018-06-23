@@ -8,39 +8,6 @@ namespace RimWorld
 	// Token: 0x02000BB1 RID: 2993
 	public class WorkGiverDef : Def
 	{
-		// Token: 0x17000A25 RID: 2597
-		// (get) Token: 0x060040F1 RID: 16625 RVA: 0x00224CD4 File Offset: 0x002230D4
-		public WorkGiver Worker
-		{
-			get
-			{
-				if (this.workerInt == null)
-				{
-					this.workerInt = (WorkGiver)Activator.CreateInstance(this.giverClass);
-					this.workerInt.def = this;
-				}
-				return this.workerInt;
-			}
-		}
-
-		// Token: 0x060040F2 RID: 16626 RVA: 0x00224D20 File Offset: 0x00223120
-		public override IEnumerable<string> ConfigErrors()
-		{
-			foreach (string error in this.<ConfigErrors>__BaseCallProxy0())
-			{
-				yield return error;
-			}
-			if (this.verb.NullOrEmpty())
-			{
-				yield return this.defName + " lacks a verb.";
-			}
-			if (this.gerund.NullOrEmpty())
-			{
-				yield return this.defName + " lacks a gerund.";
-			}
-			yield break;
-		}
-
 		// Token: 0x04002C36 RID: 11318
 		public Type giverClass = null;
 
@@ -133,5 +100,38 @@ namespace RimWorld
 		// Token: 0x04002C53 RID: 11347
 		[Unsaved]
 		private WorkGiver workerInt = null;
+
+		// Token: 0x17000A25 RID: 2597
+		// (get) Token: 0x060040F1 RID: 16625 RVA: 0x00224CD4 File Offset: 0x002230D4
+		public WorkGiver Worker
+		{
+			get
+			{
+				if (this.workerInt == null)
+				{
+					this.workerInt = (WorkGiver)Activator.CreateInstance(this.giverClass);
+					this.workerInt.def = this;
+				}
+				return this.workerInt;
+			}
+		}
+
+		// Token: 0x060040F2 RID: 16626 RVA: 0x00224D20 File Offset: 0x00223120
+		public override IEnumerable<string> ConfigErrors()
+		{
+			foreach (string error in this.<ConfigErrors>__BaseCallProxy0())
+			{
+				yield return error;
+			}
+			if (this.verb.NullOrEmpty())
+			{
+				yield return this.defName + " lacks a verb.";
+			}
+			if (this.gerund.NullOrEmpty())
+			{
+				yield return this.defName + " lacks a gerund.";
+			}
+			yield break;
+		}
 	}
 }

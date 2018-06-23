@@ -9,6 +9,21 @@ namespace RimWorld
 	// Token: 0x02000684 RID: 1668
 	public class Building_TrapRearmable : Building_Trap
 	{
+		// Token: 0x040013C3 RID: 5059
+		private bool autoRearm = false;
+
+		// Token: 0x040013C4 RID: 5060
+		private bool armedInt = true;
+
+		// Token: 0x040013C5 RID: 5061
+		private Graphic graphicUnarmedInt;
+
+		// Token: 0x040013C6 RID: 5062
+		private static readonly FloatRange TrapDamageFactor = new FloatRange(0.7f, 1.3f);
+
+		// Token: 0x040013C7 RID: 5063
+		private static readonly IntRange DamageCount = new IntRange(1, 2);
+
 		// Token: 0x1700052B RID: 1323
 		// (get) Token: 0x0600232B RID: 9003 RVA: 0x0012E8EC File Offset: 0x0012CCEC
 		public override bool Armed
@@ -112,20 +127,5 @@ namespace RimWorld
 			};
 			yield break;
 		}
-
-		// Token: 0x040013C3 RID: 5059
-		private bool autoRearm = false;
-
-		// Token: 0x040013C4 RID: 5060
-		private bool armedInt = true;
-
-		// Token: 0x040013C5 RID: 5061
-		private Graphic graphicUnarmedInt;
-
-		// Token: 0x040013C6 RID: 5062
-		private static readonly FloatRange TrapDamageFactor = new FloatRange(0.7f, 1.3f);
-
-		// Token: 0x040013C7 RID: 5063
-		private static readonly IntRange DamageCount = new IntRange(1, 2);
 	}
 }

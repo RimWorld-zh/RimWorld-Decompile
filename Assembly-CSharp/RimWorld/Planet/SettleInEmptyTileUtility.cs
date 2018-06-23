@@ -9,6 +9,20 @@ namespace RimWorld.Planet
 	// Token: 0x020005F5 RID: 1525
 	public static class SettleInEmptyTileUtility
 	{
+		// Token: 0x0400120A RID: 4618
+		private const int MinStartingLocCellsCount = 600;
+
+		// Token: 0x0400120B RID: 4619
+		private static StringBuilder tmpSettleFailReason = new StringBuilder();
+
+		// Token: 0x0400120C RID: 4620
+		[CompilerGenerated]
+		private static Action<Exception> <>f__mg$cache0;
+
+		// Token: 0x0400120D RID: 4621
+		[CompilerGenerated]
+		private static Action<Exception> <>f__mg$cache1;
+
 		// Token: 0x06001E60 RID: 7776 RVA: 0x00107128 File Offset: 0x00105528
 		public static void Settle(Caravan caravan)
 		{
@@ -81,19 +95,5 @@ namespace RimWorld.Planet
 			}
 			return command_Settle;
 		}
-
-		// Token: 0x0400120A RID: 4618
-		private const int MinStartingLocCellsCount = 600;
-
-		// Token: 0x0400120B RID: 4619
-		private static StringBuilder tmpSettleFailReason = new StringBuilder();
-
-		// Token: 0x0400120C RID: 4620
-		[CompilerGenerated]
-		private static Action<Exception> <>f__mg$cache0;
-
-		// Token: 0x0400120D RID: 4621
-		[CompilerGenerated]
-		private static Action<Exception> <>f__mg$cache1;
 	}
 }

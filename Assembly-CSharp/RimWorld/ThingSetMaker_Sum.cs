@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x020006ED RID: 1773
 	public class ThingSetMaker_Sum : ThingSetMaker
 	{
+		// Token: 0x04001580 RID: 5504
+		public List<ThingSetMaker_Sum.Option> options;
+
+		// Token: 0x04001581 RID: 5505
+		private List<ThingSetMaker_Sum.Option> optionsInRandomOrder = new List<ThingSetMaker_Sum.Option>();
+
 		// Token: 0x0600269E RID: 9886 RVA: 0x0014AB38 File Offset: 0x00148F38
 		protected override bool CanGenerateSub(ThingSetMakerParams parms)
 		{
@@ -100,12 +106,6 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04001580 RID: 5504
-		public List<ThingSetMaker_Sum.Option> options;
-
-		// Token: 0x04001581 RID: 5505
-		private List<ThingSetMaker_Sum.Option> optionsInRandomOrder = new List<ThingSetMaker_Sum.Option>();
 
 		// Token: 0x020006EE RID: 1774
 		public class Option

@@ -9,6 +9,15 @@ namespace RimWorld
 	// Token: 0x02000981 RID: 2433
 	public static class GenLabel
 	{
+		// Token: 0x04002363 RID: 9059
+		private static Dictionary<GenLabel.LabelRequest, string> labelDictionary = new Dictionary<GenLabel.LabelRequest, string>();
+
+		// Token: 0x04002364 RID: 9060
+		private const int LabelDictionaryMaxCount = 2000;
+
+		// Token: 0x04002365 RID: 9061
+		private static List<GenLabel.LabelElement> tmpThingsLabelElements = new List<GenLabel.LabelElement>();
+
 		// Token: 0x060036D9 RID: 14041 RVA: 0x001D4E26 File Offset: 0x001D3226
 		public static void ClearCache()
 		{
@@ -382,15 +391,6 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x04002363 RID: 9059
-		private static Dictionary<GenLabel.LabelRequest, string> labelDictionary = new Dictionary<GenLabel.LabelRequest, string>();
-
-		// Token: 0x04002364 RID: 9060
-		private const int LabelDictionaryMaxCount = 2000;
-
-		// Token: 0x04002365 RID: 9061
-		private static List<GenLabel.LabelElement> tmpThingsLabelElements = new List<GenLabel.LabelElement>();
-
 		// Token: 0x02000982 RID: 2434
 		private class LabelElement
 		{
@@ -404,6 +404,27 @@ namespace RimWorld
 		// Token: 0x02000983 RID: 2435
 		private struct LabelRequest : IEquatable<GenLabel.LabelRequest>
 		{
+			// Token: 0x04002369 RID: 9065
+			public BuildableDef entDef;
+
+			// Token: 0x0400236A RID: 9066
+			public ThingDef stuffDef;
+
+			// Token: 0x0400236B RID: 9067
+			public int stackCount;
+
+			// Token: 0x0400236C RID: 9068
+			public QualityCategory quality;
+
+			// Token: 0x0400236D RID: 9069
+			public int health;
+
+			// Token: 0x0400236E RID: 9070
+			public int maxHealth;
+
+			// Token: 0x0400236F RID: 9071
+			public bool wornByCorpse;
+
 			// Token: 0x060036E3 RID: 14051 RVA: 0x001D59E8 File Offset: 0x001D3DE8
 			public static bool operator ==(GenLabel.LabelRequest lhs, GenLabel.LabelRequest rhs)
 			{
@@ -448,27 +469,6 @@ namespace RimWorld
 				}
 				return num;
 			}
-
-			// Token: 0x04002369 RID: 9065
-			public BuildableDef entDef;
-
-			// Token: 0x0400236A RID: 9066
-			public ThingDef stuffDef;
-
-			// Token: 0x0400236B RID: 9067
-			public int stackCount;
-
-			// Token: 0x0400236C RID: 9068
-			public QualityCategory quality;
-
-			// Token: 0x0400236D RID: 9069
-			public int health;
-
-			// Token: 0x0400236E RID: 9070
-			public int maxHealth;
-
-			// Token: 0x0400236F RID: 9071
-			public bool wornByCorpse;
 		}
 	}
 }

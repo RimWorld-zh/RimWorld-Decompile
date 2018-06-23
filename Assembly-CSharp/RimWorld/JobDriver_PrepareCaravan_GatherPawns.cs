@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x0200003B RID: 59
 	public class JobDriver_PrepareCaravan_GatherPawns : JobDriver
 	{
+		// Token: 0x040001C9 RID: 457
+		private const TargetIndex AnimalOrSlaveInd = TargetIndex.A;
+
 		// Token: 0x17000067 RID: 103
 		// (get) Token: 0x06000204 RID: 516 RVA: 0x00015A7C File Offset: 0x00013E7C
 		private Pawn AnimalOrSlave
@@ -48,8 +51,5 @@ namespace RimWorld
 				defaultCompleteMode = ToilCompleteMode.Instant
 			};
 		}
-
-		// Token: 0x040001C9 RID: 457
-		private const TargetIndex AnimalOrSlaveInd = TargetIndex.A;
 	}
 }

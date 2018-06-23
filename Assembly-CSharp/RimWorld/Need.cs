@@ -10,6 +10,30 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public abstract class Need : IExposable
 	{
+		// Token: 0x04000D39 RID: 3385
+		public NeedDef def;
+
+		// Token: 0x04000D3A RID: 3386
+		protected Pawn pawn;
+
+		// Token: 0x04000D3B RID: 3387
+		protected float curLevelInt;
+
+		// Token: 0x04000D3C RID: 3388
+		protected List<float> threshPercents = null;
+
+		// Token: 0x04000D3D RID: 3389
+		public const float MaxDrawHeight = 70f;
+
+		// Token: 0x04000D3E RID: 3390
+		private static readonly Texture2D BarInstantMarkerTex = ContentFinder<Texture2D>.Get("UI/Misc/BarInstantMarker", true);
+
+		// Token: 0x04000D3F RID: 3391
+		private static readonly Texture2D NeedUnitDividerTex = ContentFinder<Texture2D>.Get("UI/Misc/NeedUnitDivider", true);
+
+		// Token: 0x04000D40 RID: 3392
+		private const float BarInstantMarkerSize = 12f;
+
 		// Token: 0x060016A9 RID: 5801 RVA: 0x000C9010 File Offset: 0x000C7410
 		public Need()
 		{
@@ -302,29 +326,5 @@ namespace RimWorld
 			}
 			GUI.color = Color.white;
 		}
-
-		// Token: 0x04000D39 RID: 3385
-		public NeedDef def;
-
-		// Token: 0x04000D3A RID: 3386
-		protected Pawn pawn;
-
-		// Token: 0x04000D3B RID: 3387
-		protected float curLevelInt;
-
-		// Token: 0x04000D3C RID: 3388
-		protected List<float> threshPercents = null;
-
-		// Token: 0x04000D3D RID: 3389
-		public const float MaxDrawHeight = 70f;
-
-		// Token: 0x04000D3E RID: 3390
-		private static readonly Texture2D BarInstantMarkerTex = ContentFinder<Texture2D>.Get("UI/Misc/BarInstantMarker", true);
-
-		// Token: 0x04000D3F RID: 3391
-		private static readonly Texture2D NeedUnitDividerTex = ContentFinder<Texture2D>.Get("UI/Misc/NeedUnitDivider", true);
-
-		// Token: 0x04000D40 RID: 3392
-		private const float BarInstantMarkerSize = 12f;
 	}
 }

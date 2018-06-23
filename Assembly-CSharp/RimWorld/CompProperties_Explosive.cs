@@ -7,36 +7,6 @@ namespace RimWorld
 	// Token: 0x02000244 RID: 580
 	public class CompProperties_Explosive : CompProperties
 	{
-		// Token: 0x06000A73 RID: 2675 RVA: 0x0005EE40 File Offset: 0x0005D240
-		public CompProperties_Explosive()
-		{
-			this.compClass = typeof(CompExplosive);
-		}
-
-		// Token: 0x06000A74 RID: 2676 RVA: 0x0005EED3 File Offset: 0x0005D2D3
-		public override void ResolveReferences(ThingDef parentDef)
-		{
-			base.ResolveReferences(parentDef);
-			if (this.explosiveDamageType == null)
-			{
-				this.explosiveDamageType = DamageDefOf.Bomb;
-			}
-		}
-
-		// Token: 0x06000A75 RID: 2677 RVA: 0x0005EEF4 File Offset: 0x0005D2F4
-		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
-		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))
-			{
-				yield return e;
-			}
-			if (parentDef.tickerType != TickerType.Normal)
-			{
-				yield return "CompExplosive requires Normal ticker type";
-			}
-			yield break;
-		}
-
 		// Token: 0x0400046F RID: 1135
 		public float explosiveRadius = 1.9f;
 
@@ -105,5 +75,35 @@ namespace RimWorld
 
 		// Token: 0x04000485 RID: 1157
 		public DamageDef requiredDamageTypeToExplode = null;
+
+		// Token: 0x06000A73 RID: 2675 RVA: 0x0005EE40 File Offset: 0x0005D240
+		public CompProperties_Explosive()
+		{
+			this.compClass = typeof(CompExplosive);
+		}
+
+		// Token: 0x06000A74 RID: 2676 RVA: 0x0005EED3 File Offset: 0x0005D2D3
+		public override void ResolveReferences(ThingDef parentDef)
+		{
+			base.ResolveReferences(parentDef);
+			if (this.explosiveDamageType == null)
+			{
+				this.explosiveDamageType = DamageDefOf.Bomb;
+			}
+		}
+
+		// Token: 0x06000A75 RID: 2677 RVA: 0x0005EEF4 File Offset: 0x0005D2F4
+		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
+		{
+			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))
+			{
+				yield return e;
+			}
+			if (parentDef.tickerType != TickerType.Normal)
+			{
+				yield return "CompExplosive requires Normal ticker type";
+			}
+			yield break;
+		}
 	}
 }

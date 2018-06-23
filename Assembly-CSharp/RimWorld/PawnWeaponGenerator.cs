@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x0200048B RID: 1163
 	public static class PawnWeaponGenerator
 	{
+		// Token: 0x04000C55 RID: 3157
+		private static List<ThingStuffPair> allWeaponPairs;
+
+		// Token: 0x04000C56 RID: 3158
+		private static List<ThingStuffPair> workingWeapons = new List<ThingStuffPair>();
+
 		// Token: 0x06001489 RID: 5257 RVA: 0x000B4A48 File Offset: 0x000B2E48
 		public static void Reset()
 		{
@@ -163,11 +169,5 @@ namespace RimWorld
 		{
 			DebugOutputsGeneral.MakeTablePairsByThing(PawnWeaponGenerator.allWeaponPairs);
 		}
-
-		// Token: 0x04000C55 RID: 3157
-		private static List<ThingStuffPair> allWeaponPairs;
-
-		// Token: 0x04000C56 RID: 3158
-		private static List<ThingStuffPair> workingWeapons = new List<ThingStuffPair>();
 	}
 }

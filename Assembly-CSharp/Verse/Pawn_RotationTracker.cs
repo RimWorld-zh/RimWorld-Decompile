@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000D59 RID: 3417
 	public class Pawn_RotationTracker : IExposable
 	{
+		// Token: 0x04003321 RID: 13089
+		private Pawn pawn;
+
 		// Token: 0x06004C9E RID: 19614 RVA: 0x0027F639 File Offset: 0x0027DA39
 		public Pawn_RotationTracker(Pawn pawn)
 		{
@@ -210,8 +213,5 @@ namespace Verse
 		public void ExposeData()
 		{
 		}
-
-		// Token: 0x04003321 RID: 13089
-		private Pawn pawn;
 	}
 }

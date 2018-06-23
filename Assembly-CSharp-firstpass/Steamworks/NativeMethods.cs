@@ -6,6 +6,9 @@ namespace Steamworks
 	// Token: 0x02000037 RID: 55
 	internal static class NativeMethods
 	{
+		// Token: 0x0400004A RID: 74
+		internal const string NativeLibraryName = "CSteamworks";
+
 		// Token: 0x060000D7 RID: 215
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl, EntryPoint = "Shutdown")]
 		public static extern void SteamAPI_Shutdown();
@@ -3675,8 +3678,5 @@ namespace Steamworks
 		// Token: 0x0600040F RID: 1039
 		[DllImport("CSteamworks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void ISteamGameServerUtils_SetOverlayNotificationInset(int nHorizontalInset, int nVerticalInset);
-
-		// Token: 0x0400004A RID: 74
-		internal const string NativeLibraryName = "CSteamworks";
 	}
 }

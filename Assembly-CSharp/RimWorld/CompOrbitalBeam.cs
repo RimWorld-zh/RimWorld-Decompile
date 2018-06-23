@@ -9,6 +9,39 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class CompOrbitalBeam : ThingComp
 	{
+		// Token: 0x040015FD RID: 5629
+		private int startTick;
+
+		// Token: 0x040015FE RID: 5630
+		private int totalDuration;
+
+		// Token: 0x040015FF RID: 5631
+		private int fadeOutDuration;
+
+		// Token: 0x04001600 RID: 5632
+		private float angle;
+
+		// Token: 0x04001601 RID: 5633
+		private Sustainer sustainer;
+
+		// Token: 0x04001602 RID: 5634
+		private const float AlphaAnimationSpeed = 0.3f;
+
+		// Token: 0x04001603 RID: 5635
+		private const float AlphaAnimationStrength = 0.025f;
+
+		// Token: 0x04001604 RID: 5636
+		private const float BeamEndHeightRatio = 0.5f;
+
+		// Token: 0x04001605 RID: 5637
+		private static readonly Material BeamMat = MaterialPool.MatFrom("Other/OrbitalBeam", ShaderDatabase.MoteGlow, MapMaterialRenderQueues.OrbitalBeam);
+
+		// Token: 0x04001606 RID: 5638
+		private static readonly Material BeamEndMat = MaterialPool.MatFrom("Other/OrbitalBeamEnd", ShaderDatabase.MoteGlow, MapMaterialRenderQueues.OrbitalBeam);
+
+		// Token: 0x04001607 RID: 5639
+		private static readonly MaterialPropertyBlock MatPropertyBlock = new MaterialPropertyBlock();
+
 		// Token: 0x1700062C RID: 1580
 		// (get) Token: 0x06002844 RID: 10308 RVA: 0x001583F0 File Offset: 0x001567F0
 		public CompProperties_OrbitalBeam Props
@@ -134,38 +167,5 @@ namespace RimWorld
 				});
 			}
 		}
-
-		// Token: 0x040015FD RID: 5629
-		private int startTick;
-
-		// Token: 0x040015FE RID: 5630
-		private int totalDuration;
-
-		// Token: 0x040015FF RID: 5631
-		private int fadeOutDuration;
-
-		// Token: 0x04001600 RID: 5632
-		private float angle;
-
-		// Token: 0x04001601 RID: 5633
-		private Sustainer sustainer;
-
-		// Token: 0x04001602 RID: 5634
-		private const float AlphaAnimationSpeed = 0.3f;
-
-		// Token: 0x04001603 RID: 5635
-		private const float AlphaAnimationStrength = 0.025f;
-
-		// Token: 0x04001604 RID: 5636
-		private const float BeamEndHeightRatio = 0.5f;
-
-		// Token: 0x04001605 RID: 5637
-		private static readonly Material BeamMat = MaterialPool.MatFrom("Other/OrbitalBeam", ShaderDatabase.MoteGlow, MapMaterialRenderQueues.OrbitalBeam);
-
-		// Token: 0x04001606 RID: 5638
-		private static readonly Material BeamEndMat = MaterialPool.MatFrom("Other/OrbitalBeamEnd", ShaderDatabase.MoteGlow, MapMaterialRenderQueues.OrbitalBeam);
-
-		// Token: 0x04001607 RID: 5639
-		private static readonly MaterialPropertyBlock MatPropertyBlock = new MaterialPropertyBlock();
 	}
 }

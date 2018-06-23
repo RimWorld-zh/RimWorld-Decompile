@@ -5,6 +5,12 @@ namespace RimWorld
 	// Token: 0x02000419 RID: 1049
 	public class CompPowerPlant : CompPowerTrader
 	{
+		// Token: 0x04000B07 RID: 2823
+		protected CompRefuelable refuelableComp;
+
+		// Token: 0x04000B08 RID: 2824
+		protected CompBreakdownable breakdownableComp;
+
 		// Token: 0x17000275 RID: 629
 		// (get) Token: 0x06001232 RID: 4658 RVA: 0x0009E1C4 File Offset: 0x0009C5C4
 		protected virtual float DesiredPowerOutput
@@ -46,11 +52,5 @@ namespace RimWorld
 				base.PowerOutput = this.DesiredPowerOutput;
 			}
 		}
-
-		// Token: 0x04000B07 RID: 2823
-		protected CompRefuelable refuelableComp;
-
-		// Token: 0x04000B08 RID: 2824
-		protected CompBreakdownable breakdownableComp;
 	}
 }

@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x02000414 RID: 1044
 	public class MineStrikeManager : IExposable
 	{
+		// Token: 0x04000AF3 RID: 2803
+		private List<StrikeRecord> strikeRecords = new List<StrikeRecord>();
+
+		// Token: 0x04000AF4 RID: 2804
+		private const int RecentStrikeIgnoreRadius = 12;
+
+		// Token: 0x04000AF5 RID: 2805
+		private static readonly int RadialVisibleCells = GenRadial.NumCellsInRadius(5.9f);
+
 		// Token: 0x060011F2 RID: 4594 RVA: 0x0009BCE8 File Offset: 0x0009A0E8
 		public void ExposeData()
 		{
@@ -105,14 +114,5 @@ namespace RimWorld
 			}
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x04000AF3 RID: 2803
-		private List<StrikeRecord> strikeRecords = new List<StrikeRecord>();
-
-		// Token: 0x04000AF4 RID: 2804
-		private const int RecentStrikeIgnoreRadius = 12;
-
-		// Token: 0x04000AF5 RID: 2805
-		private static readonly int RadialVisibleCells = GenRadial.NumCellsInRadius(5.9f);
 	}
 }

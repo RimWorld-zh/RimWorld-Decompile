@@ -6,6 +6,18 @@ namespace RimWorld
 	// Token: 0x02000446 RID: 1094
 	public class TemperatureMemory : IExposable
 	{
+		// Token: 0x04000B8E RID: 2958
+		private Map map;
+
+		// Token: 0x04000B8F RID: 2959
+		private int growthSeasonUntilTick = -1;
+
+		// Token: 0x04000B90 RID: 2960
+		private int noSowUntilTick = -1;
+
+		// Token: 0x04000B91 RID: 2961
+		private const int TicksBuffer = 30000;
+
 		// Token: 0x060012FE RID: 4862 RVA: 0x000A408B File Offset: 0x000A248B
 		public TemperatureMemory(Map map)
 		{
@@ -52,17 +64,5 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.growthSeasonUntilTick, "growthSeasonUntilTick", 0, true);
 			Scribe_Values.Look<int>(ref this.noSowUntilTick, "noSowUntilTick", 0, true);
 		}
-
-		// Token: 0x04000B8E RID: 2958
-		private Map map;
-
-		// Token: 0x04000B8F RID: 2959
-		private int growthSeasonUntilTick = -1;
-
-		// Token: 0x04000B90 RID: 2960
-		private int noSowUntilTick = -1;
-
-		// Token: 0x04000B91 RID: 2961
-		private const int TicksBuffer = 30000;
 	}
 }

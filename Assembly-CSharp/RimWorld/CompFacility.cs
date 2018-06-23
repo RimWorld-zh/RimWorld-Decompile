@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x0200070D RID: 1805
 	public class CompFacility : ThingComp
 	{
+		// Token: 0x040015D7 RID: 5591
+		private List<Thing> linkedBuildings = new List<Thing>();
+
+		// Token: 0x040015D8 RID: 5592
+		private HashSet<Thing> thingsToNotify = new HashSet<Thing>();
+
 		// Token: 0x170005F9 RID: 1529
 		// (get) Token: 0x0600279F RID: 10143 RVA: 0x00153CD8 File Offset: 0x001520D8
 		public bool CanBeActive
@@ -214,11 +220,5 @@ namespace RimWorld
 			}
 			this.linkedBuildings.Clear();
 		}
-
-		// Token: 0x040015D7 RID: 5591
-		private List<Thing> linkedBuildings = new List<Thing>();
-
-		// Token: 0x040015D8 RID: 5592
-		private HashSet<Thing> thingsToNotify = new HashSet<Thing>();
 	}
 }

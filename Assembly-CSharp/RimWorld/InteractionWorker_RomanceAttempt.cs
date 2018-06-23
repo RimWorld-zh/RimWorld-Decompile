@@ -9,6 +9,18 @@ namespace RimWorld
 	// Token: 0x020004B8 RID: 1208
 	public class InteractionWorker_RomanceAttempt : InteractionWorker
 	{
+		// Token: 0x04000CBC RID: 3260
+		private const float MinAttractionForRomanceAttempt = 0.25f;
+
+		// Token: 0x04000CBD RID: 3261
+		private const int MinOpinionForRomanceAttempt = 5;
+
+		// Token: 0x04000CBE RID: 3262
+		private const float BaseSelectionWeight = 1.15f;
+
+		// Token: 0x04000CBF RID: 3263
+		private const float BaseSuccessChance = 0.6f;
+
 		// Token: 0x0600158A RID: 5514 RVA: 0x000BFA58 File Offset: 0x000BDE58
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
@@ -273,17 +285,5 @@ namespace RimWorld
 			}
 			letterText = stringBuilder.ToString().TrimEndNewlines();
 		}
-
-		// Token: 0x04000CBC RID: 3260
-		private const float MinAttractionForRomanceAttempt = 0.25f;
-
-		// Token: 0x04000CBD RID: 3261
-		private const int MinOpinionForRomanceAttempt = 5;
-
-		// Token: 0x04000CBE RID: 3262
-		private const float BaseSelectionWeight = 1.15f;
-
-		// Token: 0x04000CBF RID: 3263
-		private const float BaseSuccessChance = 0.6f;
 	}
 }

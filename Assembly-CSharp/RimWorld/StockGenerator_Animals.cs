@@ -10,6 +10,51 @@ namespace RimWorld
 	[HasDebugOutput]
 	public class StockGenerator_Animals : StockGenerator
 	{
+		// Token: 0x040016B9 RID: 5817
+		[NoTranslate]
+		private List<string> tradeTagsSell = null;
+
+		// Token: 0x040016BA RID: 5818
+		[NoTranslate]
+		private List<string> tradeTagsBuy = null;
+
+		// Token: 0x040016BB RID: 5819
+		private IntRange kindCountRange = new IntRange(1, 1);
+
+		// Token: 0x040016BC RID: 5820
+		private float minWildness = 0f;
+
+		// Token: 0x040016BD RID: 5821
+		private float maxWildness = 1f;
+
+		// Token: 0x040016BE RID: 5822
+		private bool checkTemperature = false;
+
+		// Token: 0x040016BF RID: 5823
+		private static readonly SimpleCurve SelectionChanceFromWildnessCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 100f),
+				true
+			},
+			{
+				new CurvePoint(0.25f, 60f),
+				true
+			},
+			{
+				new CurvePoint(0.5f, 30f),
+				true
+			},
+			{
+				new CurvePoint(0.75f, 12f),
+				true
+			},
+			{
+				new CurvePoint(1f, 2f),
+				true
+			}
+		};
+
 		// Token: 0x06002A1C RID: 10780 RVA: 0x001654CC File Offset: 0x001638CC
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
@@ -106,50 +151,5 @@ namespace RimWorld
 				}
 			}.LogAnimalChances();
 		}
-
-		// Token: 0x040016B9 RID: 5817
-		[NoTranslate]
-		private List<string> tradeTagsSell = null;
-
-		// Token: 0x040016BA RID: 5818
-		[NoTranslate]
-		private List<string> tradeTagsBuy = null;
-
-		// Token: 0x040016BB RID: 5819
-		private IntRange kindCountRange = new IntRange(1, 1);
-
-		// Token: 0x040016BC RID: 5820
-		private float minWildness = 0f;
-
-		// Token: 0x040016BD RID: 5821
-		private float maxWildness = 1f;
-
-		// Token: 0x040016BE RID: 5822
-		private bool checkTemperature = false;
-
-		// Token: 0x040016BF RID: 5823
-		private static readonly SimpleCurve SelectionChanceFromWildnessCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 100f),
-				true
-			},
-			{
-				new CurvePoint(0.25f, 60f),
-				true
-			},
-			{
-				new CurvePoint(0.5f, 30f),
-				true
-			},
-			{
-				new CurvePoint(0.75f, 12f),
-				true
-			},
-			{
-				new CurvePoint(1f, 2f),
-				true
-			}
-		};
 	}
 }

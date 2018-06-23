@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class EffecterDefOf
 	{
-		// Token: 0x0600361D RID: 13853 RVA: 0x001D08C7 File Offset: 0x001CECC7
-		static EffecterDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(EffecterDefOf));
-		}
-
 		// Token: 0x04001E82 RID: 7810
 		public static EffecterDef Clean;
 
@@ -69,5 +63,11 @@ namespace RimWorld
 
 		// Token: 0x04001E94 RID: 7828
 		public static EffecterDef PlayPoker;
+
+		// Token: 0x0600361D RID: 13853 RVA: 0x001D08C7 File Offset: 0x001CECC7
+		static EffecterDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(EffecterDefOf));
+		}
 	}
 }

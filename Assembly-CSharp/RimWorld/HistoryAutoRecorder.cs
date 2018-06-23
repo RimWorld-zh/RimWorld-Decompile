@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x020002F9 RID: 761
 	public class HistoryAutoRecorder : IExposable
 	{
+		// Token: 0x0400084C RID: 2124
+		public HistoryAutoRecorderDef def = null;
+
+		// Token: 0x0400084D RID: 2125
+		public List<float> records;
+
 		// Token: 0x06000CB2 RID: 3250 RVA: 0x0006FDD8 File Offset: 0x0006E1D8
 		public HistoryAutoRecorder()
 		{
@@ -53,11 +59,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x0400084C RID: 2124
-		public HistoryAutoRecorderDef def = null;
-
-		// Token: 0x0400084D RID: 2125
-		public List<float> records;
 	}
 }

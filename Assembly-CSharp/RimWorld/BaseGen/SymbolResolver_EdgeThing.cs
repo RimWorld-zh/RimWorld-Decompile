@@ -9,6 +9,18 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003AB RID: 939
 	public class SymbolResolver_EdgeThing : SymbolResolver
 	{
+		// Token: 0x04000A17 RID: 2583
+		private List<int> randomRotations = new List<int>
+		{
+			0,
+			1,
+			2,
+			3
+		};
+
+		// Token: 0x04000A18 RID: 2584
+		private int MaxTriesToAvoidOtherEdgeThings = 4;
+
 		// Token: 0x0600104B RID: 4171 RVA: 0x0008946C File Offset: 0x0008786C
 		public override bool CanResolve(ResolveParams rp)
 		{
@@ -224,17 +236,5 @@ namespace RimWorld.BaseGen
 			}
 			return num;
 		}
-
-		// Token: 0x04000A17 RID: 2583
-		private List<int> randomRotations = new List<int>
-		{
-			0,
-			1,
-			2,
-			3
-		};
-
-		// Token: 0x04000A18 RID: 2584
-		private int MaxTriesToAvoidOtherEdgeThings = 4;
 	}
 }

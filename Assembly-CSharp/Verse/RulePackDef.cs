@@ -7,6 +7,16 @@ namespace Verse
 	// Token: 0x02000B6E RID: 2926
 	public class RulePackDef : Def
 	{
+		// Token: 0x04002AD2 RID: 10962
+		public List<RulePackDef> include = null;
+
+		// Token: 0x04002AD3 RID: 10963
+		private RulePack rulePack = null;
+
+		// Token: 0x04002AD4 RID: 10964
+		[Unsaved]
+		private List<Rule> cachedRules = null;
+
 		// Token: 0x170009BE RID: 2494
 		// (get) Token: 0x06003FEC RID: 16364 RVA: 0x0021AFE8 File Offset: 0x002193E8
 		public List<Rule> RulesPlusIncludes
@@ -67,15 +77,5 @@ namespace Verse
 		{
 			return DefDatabase<RulePackDef>.GetNamed(defName, true);
 		}
-
-		// Token: 0x04002AD2 RID: 10962
-		public List<RulePackDef> include = null;
-
-		// Token: 0x04002AD3 RID: 10963
-		private RulePack rulePack = null;
-
-		// Token: 0x04002AD4 RID: 10964
-		[Unsaved]
-		private List<Rule> cachedRules = null;
 	}
 }

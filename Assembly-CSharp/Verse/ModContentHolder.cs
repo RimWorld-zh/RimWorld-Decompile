@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000CC0 RID: 3264
 	public class ModContentHolder<T> where T : class
 	{
+		// Token: 0x040030CF RID: 12495
+		private ModContentPack mod;
+
+		// Token: 0x040030D0 RID: 12496
+		public Dictionary<string, T> contentList = new Dictionary<string, T>();
+
 		// Token: 0x06004811 RID: 18449 RVA: 0x0025EFB6 File Offset: 0x0025D3B6
 		public ModContentHolder(ModContentPack mod)
 		{
@@ -80,11 +86,5 @@ namespace Verse
 			}
 			yield break;
 		}
-
-		// Token: 0x040030CF RID: 12495
-		private ModContentPack mod;
-
-		// Token: 0x040030D0 RID: 12496
-		public Dictionary<string, T> contentList = new Dictionary<string, T>();
 	}
 }

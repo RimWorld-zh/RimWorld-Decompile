@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000388 RID: 904
 	public class ListerFilthInHomeArea
 	{
+		// Token: 0x04000998 RID: 2456
+		private Map map;
+
+		// Token: 0x04000999 RID: 2457
+		private List<Thing> filthInHomeArea = new List<Thing>();
+
 		// Token: 0x06000FAD RID: 4013 RVA: 0x00084168 File Offset: 0x00082568
 		public ListerFilthInHomeArea(Map map)
 		{
@@ -94,11 +100,5 @@ namespace RimWorld
 			}
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x04000998 RID: 2456
-		private Map map;
-
-		// Token: 0x04000999 RID: 2457
-		private List<Thing> filthInHomeArea = new List<Thing>();
 	}
 }

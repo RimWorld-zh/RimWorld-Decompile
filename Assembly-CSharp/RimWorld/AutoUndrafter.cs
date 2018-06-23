@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x020004E3 RID: 1251
 	public class AutoUndrafter : IExposable
 	{
+		// Token: 0x04000D06 RID: 3334
+		private Pawn pawn;
+
+		// Token: 0x04000D07 RID: 3335
+		private int lastNonWaitingTick;
+
+		// Token: 0x04000D08 RID: 3336
+		private const int UndraftDelay = 6000;
+
 		// Token: 0x06001653 RID: 5715 RVA: 0x000C65B5 File Offset: 0x000C49B5
 		public AutoUndrafter(Pawn pawn)
 		{
@@ -61,14 +70,5 @@ namespace RimWorld
 			}
 			return false;
 		}
-
-		// Token: 0x04000D06 RID: 3334
-		private Pawn pawn;
-
-		// Token: 0x04000D07 RID: 3335
-		private int lastNonWaitingTick;
-
-		// Token: 0x04000D08 RID: 3336
-		private const int UndraftDelay = 6000;
 	}
 }

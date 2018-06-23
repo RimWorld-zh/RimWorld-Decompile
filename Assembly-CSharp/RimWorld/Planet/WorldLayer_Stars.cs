@@ -8,6 +8,24 @@ namespace RimWorld.Planet
 	// Token: 0x02000595 RID: 1429
 	public class WorldLayer_Stars : WorldLayer
 	{
+		// Token: 0x04001018 RID: 4120
+		private bool calculatedForStaticRotation = false;
+
+		// Token: 0x04001019 RID: 4121
+		private int calculatedForStartingTile = -1;
+
+		// Token: 0x0400101A RID: 4122
+		public const float DistanceToStars = 10f;
+
+		// Token: 0x0400101B RID: 4123
+		private static readonly FloatRange StarsDrawSize = new FloatRange(1f, 3.8f);
+
+		// Token: 0x0400101C RID: 4124
+		private const int StarsCount = 1500;
+
+		// Token: 0x0400101D RID: 4125
+		private const float DistToSunToReduceStarSize = 0.8f;
+
 		// Token: 0x17000402 RID: 1026
 		// (get) Token: 0x06001B47 RID: 6983 RVA: 0x000EADD0 File Offset: 0x000E91D0
 		protected override int Layer
@@ -99,23 +117,5 @@ namespace RimWorld.Planet
 			base.FinalizeMesh(MeshParts.All);
 			yield break;
 		}
-
-		// Token: 0x04001018 RID: 4120
-		private bool calculatedForStaticRotation = false;
-
-		// Token: 0x04001019 RID: 4121
-		private int calculatedForStartingTile = -1;
-
-		// Token: 0x0400101A RID: 4122
-		public const float DistanceToStars = 10f;
-
-		// Token: 0x0400101B RID: 4123
-		private static readonly FloatRange StarsDrawSize = new FloatRange(1f, 3.8f);
-
-		// Token: 0x0400101C RID: 4124
-		private const int StarsCount = 1500;
-
-		// Token: 0x0400101D RID: 4125
-		private const float DistToSunToReduceStarSize = 0.8f;
 	}
 }

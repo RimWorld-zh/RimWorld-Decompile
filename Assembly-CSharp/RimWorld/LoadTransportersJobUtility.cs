@@ -10,6 +10,9 @@ namespace RimWorld
 	// Token: 0x0200014E RID: 334
 	public static class LoadTransportersJobUtility
 	{
+		// Token: 0x0400032C RID: 812
+		private static HashSet<Thing> neededThings = new HashSet<Thing>();
+
 		// Token: 0x060006E7 RID: 1767 RVA: 0x00046808 File Offset: 0x00044C08
 		public static bool HasJobOnTransporter(Pawn pawn, CompTransporter transporter)
 		{
@@ -70,8 +73,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x0400032C RID: 812
-		private static HashSet<Thing> neededThings = new HashSet<Thing>();
 	}
 }

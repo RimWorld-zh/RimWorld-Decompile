@@ -7,6 +7,9 @@ namespace Verse.AI
 	// Token: 0x02000AD2 RID: 2770
 	public class JobGiver_WanderHerd : JobGiver_Wander
 	{
+		// Token: 0x040026C0 RID: 9920
+		private const int MinDistToHumanlike = 15;
+
 		// Token: 0x06003D84 RID: 15748 RVA: 0x002060D1 File Offset: 0x002044D1
 		public JobGiver_WanderHerd()
 		{
@@ -67,8 +70,5 @@ namespace Verse.AI
 			}
 			return position;
 		}
-
-		// Token: 0x040026C0 RID: 9920
-		private const int MinDistToHumanlike = 15;
 	}
 }

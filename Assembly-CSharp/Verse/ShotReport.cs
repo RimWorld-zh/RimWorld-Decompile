@@ -9,6 +9,63 @@ namespace Verse
 	// Token: 0x02000FB5 RID: 4021
 	public struct ShotReport
 	{
+		// Token: 0x04003F9C RID: 16284
+		private TargetInfo target;
+
+		// Token: 0x04003F9D RID: 16285
+		private float distance;
+
+		// Token: 0x04003F9E RID: 16286
+		private List<CoverInfo> covers;
+
+		// Token: 0x04003F9F RID: 16287
+		private float coversOverallBlockChance;
+
+		// Token: 0x04003FA0 RID: 16288
+		private ThingDef coveringGas;
+
+		// Token: 0x04003FA1 RID: 16289
+		private float factorFromShooterAndDist;
+
+		// Token: 0x04003FA2 RID: 16290
+		private float factorFromEquipment;
+
+		// Token: 0x04003FA3 RID: 16291
+		private float factorFromTargetSize;
+
+		// Token: 0x04003FA4 RID: 16292
+		private float factorFromWeather;
+
+		// Token: 0x04003FA5 RID: 16293
+		private float forcedMissRadius;
+
+		// Token: 0x04003FA6 RID: 16294
+		private ShootLine shootLine;
+
+		// Token: 0x04003FA7 RID: 16295
+		public const float LayingDownHitChanceFactorMinDistance = 4.5f;
+
+		// Token: 0x04003FA8 RID: 16296
+		public const float HitChanceFactorIfLayingDown = 0.2f;
+
+		// Token: 0x04003FA9 RID: 16297
+		private const float NonPawnShooterHitFactorPerDistance = 0.96f;
+
+		// Token: 0x04003FAA RID: 16298
+		private const float ExecutionMaxDistance = 3.9f;
+
+		// Token: 0x04003FAB RID: 16299
+		private const float ExecutionFactor = 7.5f;
+
+		// Token: 0x04003FAC RID: 16300
+		private const float TargetSizeFactorFromFillPercentFactor = 1.7f;
+
+		// Token: 0x04003FAD RID: 16301
+		private const float TargetSizeFactorMin = 0.5f;
+
+		// Token: 0x04003FAE RID: 16302
+		private const float TargetSizeFactorMax = 2f;
+
 		// Token: 0x17000FBA RID: 4026
 		// (get) Token: 0x06006149 RID: 24905 RVA: 0x00312394 File Offset: 0x00310794
 		private float FactorFromPosture
@@ -255,62 +312,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003F9C RID: 16284
-		private TargetInfo target;
-
-		// Token: 0x04003F9D RID: 16285
-		private float distance;
-
-		// Token: 0x04003F9E RID: 16286
-		private List<CoverInfo> covers;
-
-		// Token: 0x04003F9F RID: 16287
-		private float coversOverallBlockChance;
-
-		// Token: 0x04003FA0 RID: 16288
-		private ThingDef coveringGas;
-
-		// Token: 0x04003FA1 RID: 16289
-		private float factorFromShooterAndDist;
-
-		// Token: 0x04003FA2 RID: 16290
-		private float factorFromEquipment;
-
-		// Token: 0x04003FA3 RID: 16291
-		private float factorFromTargetSize;
-
-		// Token: 0x04003FA4 RID: 16292
-		private float factorFromWeather;
-
-		// Token: 0x04003FA5 RID: 16293
-		private float forcedMissRadius;
-
-		// Token: 0x04003FA6 RID: 16294
-		private ShootLine shootLine;
-
-		// Token: 0x04003FA7 RID: 16295
-		public const float LayingDownHitChanceFactorMinDistance = 4.5f;
-
-		// Token: 0x04003FA8 RID: 16296
-		public const float HitChanceFactorIfLayingDown = 0.2f;
-
-		// Token: 0x04003FA9 RID: 16297
-		private const float NonPawnShooterHitFactorPerDistance = 0.96f;
-
-		// Token: 0x04003FAA RID: 16298
-		private const float ExecutionMaxDistance = 3.9f;
-
-		// Token: 0x04003FAB RID: 16299
-		private const float ExecutionFactor = 7.5f;
-
-		// Token: 0x04003FAC RID: 16300
-		private const float TargetSizeFactorFromFillPercentFactor = 1.7f;
-
-		// Token: 0x04003FAD RID: 16301
-		private const float TargetSizeFactorMin = 0.5f;
-
-		// Token: 0x04003FAE RID: 16302
-		private const float TargetSizeFactorMax = 2f;
 	}
 }

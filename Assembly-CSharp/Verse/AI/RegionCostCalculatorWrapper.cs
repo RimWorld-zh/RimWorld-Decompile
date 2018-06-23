@@ -7,6 +7,48 @@ namespace Verse.AI
 	// Token: 0x02000A9B RID: 2715
 	public class RegionCostCalculatorWrapper
 	{
+		// Token: 0x04002638 RID: 9784
+		private Map map;
+
+		// Token: 0x04002639 RID: 9785
+		private IntVec3 endCell;
+
+		// Token: 0x0400263A RID: 9786
+		private HashSet<Region> destRegions = new HashSet<Region>();
+
+		// Token: 0x0400263B RID: 9787
+		private int moveTicksCardinal;
+
+		// Token: 0x0400263C RID: 9788
+		private int moveTicksDiagonal;
+
+		// Token: 0x0400263D RID: 9789
+		private RegionCostCalculator regionCostCalculator;
+
+		// Token: 0x0400263E RID: 9790
+		private Region cachedRegion;
+
+		// Token: 0x0400263F RID: 9791
+		private RegionLink cachedBestLink;
+
+		// Token: 0x04002640 RID: 9792
+		private RegionLink cachedSecondBestLink;
+
+		// Token: 0x04002641 RID: 9793
+		private int cachedBestLinkCost;
+
+		// Token: 0x04002642 RID: 9794
+		private int cachedSecondBestLinkCost;
+
+		// Token: 0x04002643 RID: 9795
+		private int cachedRegionCellPathCost;
+
+		// Token: 0x04002644 RID: 9796
+		private bool cachedRegionIsDestination;
+
+		// Token: 0x04002645 RID: 9797
+		private Region[] regionGrid;
+
 		// Token: 0x06003C7E RID: 15486 RVA: 0x001FFBDE File Offset: 0x001FDFDE
 		public RegionCostCalculatorWrapper(Map map)
 		{
@@ -123,47 +165,5 @@ namespace Verse.AI
 			int dz = Mathf.Abs(cell.z - this.endCell.z);
 			return GenMath.OctileDistance(dx, dz, 2, 3);
 		}
-
-		// Token: 0x04002638 RID: 9784
-		private Map map;
-
-		// Token: 0x04002639 RID: 9785
-		private IntVec3 endCell;
-
-		// Token: 0x0400263A RID: 9786
-		private HashSet<Region> destRegions = new HashSet<Region>();
-
-		// Token: 0x0400263B RID: 9787
-		private int moveTicksCardinal;
-
-		// Token: 0x0400263C RID: 9788
-		private int moveTicksDiagonal;
-
-		// Token: 0x0400263D RID: 9789
-		private RegionCostCalculator regionCostCalculator;
-
-		// Token: 0x0400263E RID: 9790
-		private Region cachedRegion;
-
-		// Token: 0x0400263F RID: 9791
-		private RegionLink cachedBestLink;
-
-		// Token: 0x04002640 RID: 9792
-		private RegionLink cachedSecondBestLink;
-
-		// Token: 0x04002641 RID: 9793
-		private int cachedBestLinkCost;
-
-		// Token: 0x04002642 RID: 9794
-		private int cachedSecondBestLinkCost;
-
-		// Token: 0x04002643 RID: 9795
-		private int cachedRegionCellPathCost;
-
-		// Token: 0x04002644 RID: 9796
-		private bool cachedRegionIsDestination;
-
-		// Token: 0x04002645 RID: 9797
-		private Region[] regionGrid;
 	}
 }

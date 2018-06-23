@@ -7,6 +7,16 @@ namespace NVorbis.NAudioSupport
 	// Token: 0x020009DD RID: 2525
 	internal class VorbisWaveReader : WaveStream, IDisposable, ISampleProvider, IWaveProvider
 	{
+		// Token: 0x04002429 RID: 9257
+		private VorbisReader _reader;
+
+		// Token: 0x0400242A RID: 9258
+		private WaveFormat _waveFormat;
+
+		// Token: 0x0400242B RID: 9259
+		[ThreadStatic]
+		private static float[] _conversionBuffer = null;
+
 		// Token: 0x060038A1 RID: 14497 RVA: 0x001E42E9 File Offset: 0x001E26E9
 		public VorbisWaveReader(string fileName)
 		{
@@ -234,15 +244,5 @@ namespace NVorbis.NAudioSupport
 				return this._reader.Stats;
 			}
 		}
-
-		// Token: 0x04002429 RID: 9257
-		private VorbisReader _reader;
-
-		// Token: 0x0400242A RID: 9258
-		private WaveFormat _waveFormat;
-
-		// Token: 0x0400242B RID: 9259
-		[ThreadStatic]
-		private static float[] _conversionBuffer = null;
 	}
 }

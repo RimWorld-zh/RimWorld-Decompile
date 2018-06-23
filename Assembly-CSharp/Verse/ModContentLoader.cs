@@ -9,6 +9,31 @@ namespace Verse
 	// Token: 0x02000CC2 RID: 3266
 	public static class ModContentLoader<T> where T : class
 	{
+		// Token: 0x040030D3 RID: 12499
+		private static string[] AcceptableExtensionsAudio = new string[]
+		{
+			".wav",
+			".mp3",
+			".ogg",
+			".xm",
+			".it",
+			".mod",
+			".s3m"
+		};
+
+		// Token: 0x040030D4 RID: 12500
+		private static string[] AcceptableExtensionsTexture = new string[]
+		{
+			".png",
+			".jpg"
+		};
+
+		// Token: 0x040030D5 RID: 12501
+		private static string[] AcceptableExtensionsString = new string[]
+		{
+			".txt"
+		};
+
 		// Token: 0x06004817 RID: 18455 RVA: 0x0025F3E0 File Offset: 0x0025D7E0
 		private static bool IsAcceptableExtension(string extension)
 		{
@@ -177,30 +202,5 @@ namespace Verse
 			}
 			return texture2D;
 		}
-
-		// Token: 0x040030D3 RID: 12499
-		private static string[] AcceptableExtensionsAudio = new string[]
-		{
-			".wav",
-			".mp3",
-			".ogg",
-			".xm",
-			".it",
-			".mod",
-			".s3m"
-		};
-
-		// Token: 0x040030D4 RID: 12500
-		private static string[] AcceptableExtensionsTexture = new string[]
-		{
-			".png",
-			".jpg"
-		};
-
-		// Token: 0x040030D5 RID: 12501
-		private static string[] AcceptableExtensionsString = new string[]
-		{
-			".txt"
-		};
 	}
 }

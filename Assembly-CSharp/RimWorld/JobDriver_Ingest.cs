@@ -9,6 +9,24 @@ namespace RimWorld
 	// Token: 0x02000097 RID: 151
 	public class JobDriver_Ingest : JobDriver
 	{
+		// Token: 0x0400025B RID: 603
+		private bool usingNutrientPasteDispenser;
+
+		// Token: 0x0400025C RID: 604
+		private bool eatingFromInventory;
+
+		// Token: 0x0400025D RID: 605
+		public const float EatCorpseBodyPartsUntilFoodLevelPct = 0.9f;
+
+		// Token: 0x0400025E RID: 606
+		public const TargetIndex IngestibleSourceInd = TargetIndex.A;
+
+		// Token: 0x0400025F RID: 607
+		private const TargetIndex TableCellInd = TargetIndex.B;
+
+		// Token: 0x04000260 RID: 608
+		private const TargetIndex ExtraIngestiblesToCollectInd = TargetIndex.C;
+
 		// Token: 0x170000C2 RID: 194
 		// (get) Token: 0x060003CC RID: 972 RVA: 0x0002B3B0 File Offset: 0x000297B0
 		private Thing IngestibleSource
@@ -274,23 +292,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x0400025B RID: 603
-		private bool usingNutrientPasteDispenser;
-
-		// Token: 0x0400025C RID: 604
-		private bool eatingFromInventory;
-
-		// Token: 0x0400025D RID: 605
-		public const float EatCorpseBodyPartsUntilFoodLevelPct = 0.9f;
-
-		// Token: 0x0400025E RID: 606
-		public const TargetIndex IngestibleSourceInd = TargetIndex.A;
-
-		// Token: 0x0400025F RID: 607
-		private const TargetIndex TableCellInd = TargetIndex.B;
-
-		// Token: 0x04000260 RID: 608
-		private const TargetIndex ExtraIngestiblesToCollectInd = TargetIndex.C;
 	}
 }

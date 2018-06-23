@@ -8,6 +8,48 @@ namespace Verse.Sound
 	// Token: 0x02000B7D RID: 2941
 	public class ReverbSetup
 	{
+		// Token: 0x04002AFD RID: 11005
+		public float dryLevel = 0f;
+
+		// Token: 0x04002AFE RID: 11006
+		public float room = 0f;
+
+		// Token: 0x04002AFF RID: 11007
+		public float roomHF = 0f;
+
+		// Token: 0x04002B00 RID: 11008
+		public float roomLF = 0f;
+
+		// Token: 0x04002B01 RID: 11009
+		public float decayTime = 1f;
+
+		// Token: 0x04002B02 RID: 11010
+		public float decayHFRatio = 0.5f;
+
+		// Token: 0x04002B03 RID: 11011
+		public float reflectionsLevel = -10000f;
+
+		// Token: 0x04002B04 RID: 11012
+		public float reflectionsDelay = 0f;
+
+		// Token: 0x04002B05 RID: 11013
+		public float reverbLevel = 0f;
+
+		// Token: 0x04002B06 RID: 11014
+		public float reverbDelay = 0.04f;
+
+		// Token: 0x04002B07 RID: 11015
+		public float hfReference = 5000f;
+
+		// Token: 0x04002B08 RID: 11016
+		public float lfReference = 250f;
+
+		// Token: 0x04002B09 RID: 11017
+		public float diffusion = 100f;
+
+		// Token: 0x04002B0A RID: 11018
+		public float density = 100f;
+
 		// Token: 0x0600401A RID: 16410 RVA: 0x0021C654 File Offset: 0x0021AA54
 		public void DoEditWidgets(WidgetRow widgetRow)
 		{
@@ -83,47 +125,5 @@ namespace Verse.Sound
 				density = Mathf.Lerp(A.density, B.density, t)
 			};
 		}
-
-		// Token: 0x04002AFD RID: 11005
-		public float dryLevel = 0f;
-
-		// Token: 0x04002AFE RID: 11006
-		public float room = 0f;
-
-		// Token: 0x04002AFF RID: 11007
-		public float roomHF = 0f;
-
-		// Token: 0x04002B00 RID: 11008
-		public float roomLF = 0f;
-
-		// Token: 0x04002B01 RID: 11009
-		public float decayTime = 1f;
-
-		// Token: 0x04002B02 RID: 11010
-		public float decayHFRatio = 0.5f;
-
-		// Token: 0x04002B03 RID: 11011
-		public float reflectionsLevel = -10000f;
-
-		// Token: 0x04002B04 RID: 11012
-		public float reflectionsDelay = 0f;
-
-		// Token: 0x04002B05 RID: 11013
-		public float reverbLevel = 0f;
-
-		// Token: 0x04002B06 RID: 11014
-		public float reverbDelay = 0.04f;
-
-		// Token: 0x04002B07 RID: 11015
-		public float hfReference = 5000f;
-
-		// Token: 0x04002B08 RID: 11016
-		public float lfReference = 250f;
-
-		// Token: 0x04002B09 RID: 11017
-		public float diffusion = 100f;
-
-		// Token: 0x04002B0A RID: 11018
-		public float density = 100f;
 	}
 }

@@ -11,6 +11,22 @@ namespace RimWorld
 	// Token: 0x020003EC RID: 1004
 	public class GenStep_Roads : GenStep
 	{
+		// Token: 0x04000A8A RID: 2698
+		private const float CurveControlPointDistance = 4f;
+
+		// Token: 0x04000A8B RID: 2699
+		private const int CurveSampleMultiplier = 4;
+
+		// Token: 0x04000A8C RID: 2700
+		private readonly float[] endcapSamples = new float[]
+		{
+			0.75f,
+			0.8f,
+			0.85f,
+			0.9f,
+			0.95f
+		};
+
 		// Token: 0x1700024E RID: 590
 		// (get) Token: 0x06001154 RID: 4436 RVA: 0x00095444 File Offset: 0x00093844
 		public override int SeedPart
@@ -459,22 +475,6 @@ namespace RimWorld
 			}
 			return input;
 		}
-
-		// Token: 0x04000A8A RID: 2698
-		private const float CurveControlPointDistance = 4f;
-
-		// Token: 0x04000A8B RID: 2699
-		private const int CurveSampleMultiplier = 4;
-
-		// Token: 0x04000A8C RID: 2700
-		private readonly float[] endcapSamples = new float[]
-		{
-			0.75f,
-			0.8f,
-			0.85f,
-			0.9f,
-			0.95f
-		};
 
 		// Token: 0x020003ED RID: 1005
 		private struct NeededRoad

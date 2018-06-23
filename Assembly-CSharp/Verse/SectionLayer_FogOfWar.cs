@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000C45 RID: 3141
 	public class SectionLayer_FogOfWar : SectionLayer
 	{
+		// Token: 0x04002F5F RID: 12127
+		private bool[] vertsCovered = new bool[9];
+
+		// Token: 0x04002F60 RID: 12128
+		private const byte FogBrightness = 35;
+
 		// Token: 0x06004546 RID: 17734 RVA: 0x00248EFB File Offset: 0x002472FB
 		public SectionLayer_FogOfWar(Section section) : base(section)
 		{
@@ -121,11 +127,5 @@ namespace Verse
 				subMesh.disabled = true;
 			}
 		}
-
-		// Token: 0x04002F5F RID: 12127
-		private bool[] vertsCovered = new bool[9];
-
-		// Token: 0x04002F60 RID: 12128
-		private const byte FogBrightness = 35;
 	}
 }

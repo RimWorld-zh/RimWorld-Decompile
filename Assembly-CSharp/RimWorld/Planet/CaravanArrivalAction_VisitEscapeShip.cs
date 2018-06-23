@@ -7,6 +7,9 @@ namespace RimWorld.Planet
 	// Token: 0x020005CC RID: 1484
 	public class CaravanArrivalAction_VisitEscapeShip : CaravanArrivalAction
 	{
+		// Token: 0x04001153 RID: 4435
+		private MapParent target;
+
 		// Token: 0x06001CDC RID: 7388 RVA: 0x000F79BB File Offset: 0x000F5DBB
 		public CaravanArrivalAction_VisitEscapeShip()
 		{
@@ -127,8 +130,5 @@ namespace RimWorld.Planet
 				escapeShip.Label
 			}), caravan, escapeShip.Tile, escapeShip);
 		}
-
-		// Token: 0x04001153 RID: 4435
-		private MapParent target;
 	}
 }

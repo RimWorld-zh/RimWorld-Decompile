@@ -7,6 +7,18 @@ namespace RimWorld
 	// Token: 0x020006CA RID: 1738
 	public class Building_SteamGeyser : Building
 	{
+		// Token: 0x04001502 RID: 5378
+		private IntermittentSteamSprayer steamSprayer;
+
+		// Token: 0x04001503 RID: 5379
+		public Building harvester = null;
+
+		// Token: 0x04001504 RID: 5380
+		private Sustainer spraySustainer = null;
+
+		// Token: 0x04001505 RID: 5381
+		private int spraySustainerStartTick = -999;
+
 		// Token: 0x060025A7 RID: 9639 RVA: 0x0014297C File Offset: 0x00140D7C
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
@@ -51,17 +63,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04001502 RID: 5378
-		private IntermittentSteamSprayer steamSprayer;
-
-		// Token: 0x04001503 RID: 5379
-		public Building harvester = null;
-
-		// Token: 0x04001504 RID: 5380
-		private Sustainer spraySustainer = null;
-
-		// Token: 0x04001505 RID: 5381
-		private int spraySustainerStartTick = -999;
 	}
 }

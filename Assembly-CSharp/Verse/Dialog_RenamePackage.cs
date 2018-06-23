@@ -8,6 +8,12 @@ namespace Verse
 	// Token: 0x02000E36 RID: 3638
 	public class Dialog_RenamePackage : Window
 	{
+		// Token: 0x040038E7 RID: 14567
+		private DefPackage renamingPackage;
+
+		// Token: 0x040038E8 RID: 14568
+		private string proposedName;
+
 		// Token: 0x06005625 RID: 22053 RVA: 0x002C6872 File Offset: 0x002C4C72
 		public Dialog_RenamePackage(DefPackage renamingPackage)
 		{
@@ -72,11 +78,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x040038E7 RID: 14567
-		private DefPackage renamingPackage;
-
-		// Token: 0x040038E8 RID: 14568
-		private string proposedName;
 	}
 }

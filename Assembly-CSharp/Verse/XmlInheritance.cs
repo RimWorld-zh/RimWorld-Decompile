@@ -9,6 +9,27 @@ namespace Verse
 	// Token: 0x02000D88 RID: 3464
 	public static class XmlInheritance
 	{
+		// Token: 0x040033BB RID: 13243
+		private static Dictionary<XmlNode, XmlInheritance.XmlInheritanceNode> resolvedNodes = new Dictionary<XmlNode, XmlInheritance.XmlInheritanceNode>();
+
+		// Token: 0x040033BC RID: 13244
+		private static List<XmlInheritance.XmlInheritanceNode> unresolvedNodes = new List<XmlInheritance.XmlInheritanceNode>();
+
+		// Token: 0x040033BD RID: 13245
+		private static Dictionary<string, List<XmlInheritance.XmlInheritanceNode>> nodesByName = new Dictionary<string, List<XmlInheritance.XmlInheritanceNode>>();
+
+		// Token: 0x040033BE RID: 13246
+		private const string NameAttributeName = "Name";
+
+		// Token: 0x040033BF RID: 13247
+		private const string ParentNameAttributeName = "ParentName";
+
+		// Token: 0x040033C0 RID: 13248
+		private const string InheritAttributeName = "Inherit";
+
+		// Token: 0x040033C1 RID: 13249
+		private static HashSet<string> tempUsedNodeNames = new HashSet<string>();
+
 		// Token: 0x06004D85 RID: 19845 RVA: 0x00287574 File Offset: 0x00285974
 		public static void TryRegisterAllFrom(LoadableXmlAsset xmlAsset, ModContentPack mod)
 		{
@@ -487,27 +508,6 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x040033BB RID: 13243
-		private static Dictionary<XmlNode, XmlInheritance.XmlInheritanceNode> resolvedNodes = new Dictionary<XmlNode, XmlInheritance.XmlInheritanceNode>();
-
-		// Token: 0x040033BC RID: 13244
-		private static List<XmlInheritance.XmlInheritanceNode> unresolvedNodes = new List<XmlInheritance.XmlInheritanceNode>();
-
-		// Token: 0x040033BD RID: 13245
-		private static Dictionary<string, List<XmlInheritance.XmlInheritanceNode>> nodesByName = new Dictionary<string, List<XmlInheritance.XmlInheritanceNode>>();
-
-		// Token: 0x040033BE RID: 13246
-		private const string NameAttributeName = "Name";
-
-		// Token: 0x040033BF RID: 13247
-		private const string ParentNameAttributeName = "ParentName";
-
-		// Token: 0x040033C0 RID: 13248
-		private const string InheritAttributeName = "Inherit";
-
-		// Token: 0x040033C1 RID: 13249
-		private static HashSet<string> tempUsedNodeNames = new HashSet<string>();
 
 		// Token: 0x02000D89 RID: 3465
 		private class XmlInheritanceNode

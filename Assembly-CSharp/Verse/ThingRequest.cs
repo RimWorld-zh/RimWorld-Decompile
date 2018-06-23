@@ -5,6 +5,12 @@ namespace Verse
 	// Token: 0x02000C2D RID: 3117
 	public struct ThingRequest
 	{
+		// Token: 0x04002E86 RID: 11910
+		public ThingDef singleDef;
+
+		// Token: 0x04002E87 RID: 11911
+		public ThingRequestGroup group;
+
 		// Token: 0x17000AB9 RID: 2745
 		// (get) Token: 0x06004490 RID: 17552 RVA: 0x00240D84 File Offset: 0x0023F184
 		public bool IsUndefined
@@ -84,11 +90,5 @@ namespace Verse
 			}
 			return "ThingRequest(" + str + ")";
 		}
-
-		// Token: 0x04002E86 RID: 11910
-		public ThingDef singleDef;
-
-		// Token: 0x04002E87 RID: 11911
-		public ThingRequestGroup group;
 	}
 }

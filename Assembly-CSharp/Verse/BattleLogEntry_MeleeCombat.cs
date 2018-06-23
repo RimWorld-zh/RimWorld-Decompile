@@ -8,6 +8,37 @@ namespace Verse
 	// Token: 0x02000BBD RID: 3005
 	public class BattleLogEntry_MeleeCombat : LogEntry_DamageResult
 	{
+		// Token: 0x04002C93 RID: 11411
+		private RulePackDef ruleDef;
+
+		// Token: 0x04002C94 RID: 11412
+		private Pawn initiator;
+
+		// Token: 0x04002C95 RID: 11413
+		private Pawn recipientPawn;
+
+		// Token: 0x04002C96 RID: 11414
+		private ThingDef recipientThing;
+
+		// Token: 0x04002C97 RID: 11415
+		private ImplementOwnerTypeDef implementType;
+
+		// Token: 0x04002C98 RID: 11416
+		private ThingDef ownerEquipmentDef;
+
+		// Token: 0x04002C99 RID: 11417
+		private HediffDef ownerHediffDef;
+
+		// Token: 0x04002C9A RID: 11418
+		private string toolLabel;
+
+		// Token: 0x04002C9B RID: 11419
+		public bool alwaysShowInCompact;
+
+		// Token: 0x04002C9C RID: 11420
+		[TweakValue("LogFilter", 0f, 1f)]
+		private static float DisplayChanceOnMiss = 0.5f;
+
 		// Token: 0x06004142 RID: 16706 RVA: 0x002273EC File Offset: 0x002257EC
 		public BattleLogEntry_MeleeCombat() : base(null)
 		{
@@ -215,36 +246,5 @@ namespace Verse
 				this.RecipientName
 			});
 		}
-
-		// Token: 0x04002C93 RID: 11411
-		private RulePackDef ruleDef;
-
-		// Token: 0x04002C94 RID: 11412
-		private Pawn initiator;
-
-		// Token: 0x04002C95 RID: 11413
-		private Pawn recipientPawn;
-
-		// Token: 0x04002C96 RID: 11414
-		private ThingDef recipientThing;
-
-		// Token: 0x04002C97 RID: 11415
-		private ImplementOwnerTypeDef implementType;
-
-		// Token: 0x04002C98 RID: 11416
-		private ThingDef ownerEquipmentDef;
-
-		// Token: 0x04002C99 RID: 11417
-		private HediffDef ownerHediffDef;
-
-		// Token: 0x04002C9A RID: 11418
-		private string toolLabel;
-
-		// Token: 0x04002C9B RID: 11419
-		public bool alwaysShowInCompact;
-
-		// Token: 0x04002C9C RID: 11420
-		[TweakValue("LogFilter", 0f, 1f)]
-		private static float DisplayChanceOnMiss = 0.5f;
 	}
 }

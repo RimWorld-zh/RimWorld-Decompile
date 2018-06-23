@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class PawnCapacityDefOf
 	{
-		// Token: 0x0600362F RID: 13871 RVA: 0x001D0A0B File Offset: 0x001CEE0B
-		static PawnCapacityDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(PawnCapacityDefOf));
-		}
-
 		// Token: 0x04001FED RID: 8173
 		public static PawnCapacityDef Consciousness;
 
@@ -45,5 +39,11 @@ namespace RimWorld
 
 		// Token: 0x04001FF7 RID: 8183
 		public static PawnCapacityDef Metabolism;
+
+		// Token: 0x0600362F RID: 13871 RVA: 0x001D0A0B File Offset: 0x001CEE0B
+		static PawnCapacityDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(PawnCapacityDefOf));
+		}
 	}
 }

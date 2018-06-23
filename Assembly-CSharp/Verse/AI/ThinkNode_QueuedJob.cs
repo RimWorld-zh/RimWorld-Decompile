@@ -5,6 +5,9 @@ namespace Verse.AI
 	// Token: 0x02000ACD RID: 2765
 	public class ThinkNode_QueuedJob : ThinkNode
 	{
+		// Token: 0x040026B8 RID: 9912
+		public bool inBedOnly;
+
 		// Token: 0x06003D77 RID: 15735 RVA: 0x00205E4C File Offset: 0x0020424C
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -46,8 +49,5 @@ namespace Verse.AI
 			}
 			return result;
 		}
-
-		// Token: 0x040026B8 RID: 9912
-		public bool inBedOnly;
 	}
 }

@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x020007F6 RID: 2038
 	public class Dialog_FactionDuringLanding : Window
 	{
+		// Token: 0x040017CA RID: 6090
+		private Vector2 scrollPosition = Vector2.zero;
+
+		// Token: 0x040017CB RID: 6091
+		private float scrollViewHeight;
+
 		// Token: 0x06002D36 RID: 11574 RVA: 0x0017C28F File Offset: 0x0017A68F
 		public Dialog_FactionDuringLanding()
 		{
@@ -30,11 +36,5 @@ namespace RimWorld
 		{
 			FactionUIUtility.DoWindowContents(new Rect(inRect.x, inRect.y, inRect.width, inRect.height - this.CloseButSize.y), ref this.scrollPosition, ref this.scrollViewHeight);
 		}
-
-		// Token: 0x040017CA RID: 6090
-		private Vector2 scrollPosition = Vector2.zero;
-
-		// Token: 0x040017CB RID: 6091
-		private float scrollViewHeight;
 	}
 }

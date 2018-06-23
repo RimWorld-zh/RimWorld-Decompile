@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class ThingDefOf
 	{
-		// Token: 0x0600361A RID: 13850 RVA: 0x001D0891 File Offset: 0x001CEC91
-		static ThingDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(ThingDefOf));
-		}
-
 		// Token: 0x04001D41 RID: 7489
 		public static ThingDef Silver;
 
@@ -576,5 +570,11 @@ namespace RimWorld
 
 		// Token: 0x04001DFC RID: 7676
 		public static ThingDef Gas_Smoke;
+
+		// Token: 0x0600361A RID: 13850 RVA: 0x001D0891 File Offset: 0x001CEC91
+		static ThingDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(ThingDefOf));
+		}
 	}
 }

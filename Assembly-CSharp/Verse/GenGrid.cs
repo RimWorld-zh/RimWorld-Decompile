@@ -8,6 +8,12 @@ namespace Verse
 	// Token: 0x02000F40 RID: 3904
 	public static class GenGrid
 	{
+		// Token: 0x04003E14 RID: 15892
+		public const int NoBuildEdgeWidth = 10;
+
+		// Token: 0x04003E15 RID: 15893
+		public const int NoZoneEdgeWidth = 5;
+
 		// Token: 0x06005E4B RID: 24139 RVA: 0x002FF514 File Offset: 0x002FD914
 		public static bool InNoBuildEdgeArea(this IntVec3 c, Map map)
 		{
@@ -192,11 +198,5 @@ namespace Verse
 		{
 			return c.GetSurfaceType(map) == SurfaceType.Eat;
 		}
-
-		// Token: 0x04003E14 RID: 15892
-		public const int NoBuildEdgeWidth = 10;
-
-		// Token: 0x04003E15 RID: 15893
-		public const int NoZoneEdgeWidth = 5;
 	}
 }

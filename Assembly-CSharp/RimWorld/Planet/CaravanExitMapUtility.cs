@@ -8,6 +8,18 @@ namespace RimWorld.Planet
 	// Token: 0x020005D9 RID: 1497
 	public static class CaravanExitMapUtility
 	{
+		// Token: 0x04001181 RID: 4481
+		private static List<int> tmpNeighbors = new List<int>();
+
+		// Token: 0x04001182 RID: 4482
+		private static List<Pawn> tmpPawns = new List<Pawn>();
+
+		// Token: 0x04001183 RID: 4483
+		private static List<int> retTiles = new List<int>();
+
+		// Token: 0x04001184 RID: 4484
+		private static List<int> tileCandidates = new List<int>();
+
 		// Token: 0x06001D71 RID: 7537 RVA: 0x000FD4D0 File Offset: 0x000FB8D0
 		public static Caravan ExitMapAndCreateCaravan(IEnumerable<Pawn> pawns, Faction faction, int exitFromTile, Direction8Way dir, int destinationTile, bool sendMessage = true)
 		{
@@ -458,17 +470,5 @@ namespace RimWorld.Planet
 				}
 			}
 		}
-
-		// Token: 0x04001181 RID: 4481
-		private static List<int> tmpNeighbors = new List<int>();
-
-		// Token: 0x04001182 RID: 4482
-		private static List<Pawn> tmpPawns = new List<Pawn>();
-
-		// Token: 0x04001183 RID: 4483
-		private static List<int> retTiles = new List<int>();
-
-		// Token: 0x04001184 RID: 4484
-		private static List<int> tileCandidates = new List<int>();
 	}
 }

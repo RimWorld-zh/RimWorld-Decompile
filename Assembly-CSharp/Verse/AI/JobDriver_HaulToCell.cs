@@ -7,6 +7,15 @@ namespace Verse.AI
 	// Token: 0x02000A3E RID: 2622
 	public class JobDriver_HaulToCell : JobDriver
 	{
+		// Token: 0x0400250E RID: 9486
+		private bool forbiddenInitially;
+
+		// Token: 0x0400250F RID: 9487
+		private const TargetIndex HaulableInd = TargetIndex.A;
+
+		// Token: 0x04002510 RID: 9488
+		private const TargetIndex StoreCellInd = TargetIndex.B;
+
 		// Token: 0x06003A35 RID: 14901 RVA: 0x001EDE6F File Offset: 0x001EC26F
 		public override void ExposeData()
 		{
@@ -117,14 +126,5 @@ namespace Verse.AI
 			yield return Toils_Haul.PlaceHauledThingInCell(TargetIndex.B, carryToCell, true);
 			yield break;
 		}
-
-		// Token: 0x0400250E RID: 9486
-		private bool forbiddenInitially;
-
-		// Token: 0x0400250F RID: 9487
-		private const TargetIndex HaulableInd = TargetIndex.A;
-
-		// Token: 0x04002510 RID: 9488
-		private const TargetIndex StoreCellInd = TargetIndex.B;
 	}
 }

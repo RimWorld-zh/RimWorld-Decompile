@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000D77 RID: 3447
 	public class FastVector2Comparer : IEqualityComparer<Vector2>
 	{
+		// Token: 0x04003386 RID: 13190
+		public static readonly FastVector2Comparer Instance = new FastVector2Comparer();
+
 		// Token: 0x06004D4D RID: 19789 RVA: 0x002846DC File Offset: 0x00282ADC
 		public bool Equals(Vector2 x, Vector2 y)
 		{
@@ -18,8 +21,5 @@ namespace Verse
 		{
 			return obj.GetHashCode();
 		}
-
-		// Token: 0x04003386 RID: 13190
-		public static readonly FastVector2Comparer Instance = new FastVector2Comparer();
 	}
 }

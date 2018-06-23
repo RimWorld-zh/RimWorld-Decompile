@@ -10,6 +10,30 @@ namespace RimWorld
 	// Token: 0x020001AA RID: 426
 	public static class SiegeBlueprintPlacer
 	{
+		// Token: 0x040003B0 RID: 944
+		private static IntVec3 center;
+
+		// Token: 0x040003B1 RID: 945
+		private static Faction faction;
+
+		// Token: 0x040003B2 RID: 946
+		private static List<IntVec3> placedSandbagLocs = new List<IntVec3>();
+
+		// Token: 0x040003B3 RID: 947
+		private const int MaxArtyCount = 2;
+
+		// Token: 0x040003B4 RID: 948
+		public const float ArtyCost = 60f;
+
+		// Token: 0x040003B5 RID: 949
+		private const int MinSandbagDistSquared = 36;
+
+		// Token: 0x040003B6 RID: 950
+		private static readonly IntRange NumSandbagRange = new IntRange(2, 4);
+
+		// Token: 0x040003B7 RID: 951
+		private static readonly IntRange SandbagLengthRange = new IntRange(2, 7);
+
 		// Token: 0x060008CB RID: 2251 RVA: 0x000528E8 File Offset: 0x00050CE8
 		public static IEnumerable<Blueprint_Build> PlaceBlueprints(IntVec3 placeCenter, Map map, Faction placeFaction, float points)
 		{
@@ -190,29 +214,5 @@ namespace RimWorld
 			IL_83:
 			return randomCell;
 		}
-
-		// Token: 0x040003B0 RID: 944
-		private static IntVec3 center;
-
-		// Token: 0x040003B1 RID: 945
-		private static Faction faction;
-
-		// Token: 0x040003B2 RID: 946
-		private static List<IntVec3> placedSandbagLocs = new List<IntVec3>();
-
-		// Token: 0x040003B3 RID: 947
-		private const int MaxArtyCount = 2;
-
-		// Token: 0x040003B4 RID: 948
-		public const float ArtyCost = 60f;
-
-		// Token: 0x040003B5 RID: 949
-		private const int MinSandbagDistSquared = 36;
-
-		// Token: 0x040003B6 RID: 950
-		private static readonly IntRange NumSandbagRange = new IntRange(2, 4);
-
-		// Token: 0x040003B7 RID: 951
-		private static readonly IntRange SandbagLengthRange = new IntRange(2, 7);
 	}
 }

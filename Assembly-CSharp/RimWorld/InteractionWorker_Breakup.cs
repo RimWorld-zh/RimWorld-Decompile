@@ -10,6 +10,12 @@ namespace RimWorld
 	// Token: 0x020004AF RID: 1199
 	public class InteractionWorker_Breakup : InteractionWorker
 	{
+		// Token: 0x04000CA8 RID: 3240
+		private const float BaseChance = 0.02f;
+
+		// Token: 0x04000CA9 RID: 3241
+		private const float SpouseRelationChanceFactor = 0.4f;
+
 		// Token: 0x0600156E RID: 5486 RVA: 0x000BE740 File Offset: 0x000BCB40
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
@@ -112,11 +118,5 @@ namespace RimWorld
 				letterDef = null;
 			}
 		}
-
-		// Token: 0x04000CA8 RID: 3240
-		private const float BaseChance = 0.02f;
-
-		// Token: 0x04000CA9 RID: 3241
-		private const float SpouseRelationChanceFactor = 0.4f;
 	}
 }

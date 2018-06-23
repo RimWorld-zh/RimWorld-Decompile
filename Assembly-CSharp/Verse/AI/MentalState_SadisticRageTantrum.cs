@@ -6,6 +6,12 @@ namespace Verse.AI
 	// Token: 0x02000A81 RID: 2689
 	public class MentalState_SadisticRageTantrum : MentalState_TantrumRandom
 	{
+		// Token: 0x04002579 RID: 9593
+		private int hits;
+
+		// Token: 0x0400257A RID: 9594
+		public const int MaxHits = 7;
+
 		// Token: 0x06003BB5 RID: 15285 RVA: 0x001F872E File Offset: 0x001F6B2E
 		public override void ExposeData()
 		{
@@ -38,11 +44,5 @@ namespace Verse.AI
 				}
 			}
 		}
-
-		// Token: 0x04002579 RID: 9593
-		private int hits;
-
-		// Token: 0x0400257A RID: 9594
-		public const int MaxHits = 7;
 	}
 }

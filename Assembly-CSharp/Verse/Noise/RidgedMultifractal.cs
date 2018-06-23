@@ -6,6 +6,24 @@ namespace Verse.Noise
 	// Token: 0x02000F7C RID: 3964
 	public class RidgedMultifractal : ModuleBase
 	{
+		// Token: 0x04003EE3 RID: 16099
+		private double m_frequency = 1.0;
+
+		// Token: 0x04003EE4 RID: 16100
+		private double m_lacunarity = 2.0;
+
+		// Token: 0x04003EE5 RID: 16101
+		private QualityMode m_quality = QualityMode.Medium;
+
+		// Token: 0x04003EE6 RID: 16102
+		private int m_octaveCount = 6;
+
+		// Token: 0x04003EE7 RID: 16103
+		private int m_seed = 0;
+
+		// Token: 0x04003EE8 RID: 16104
+		private double[] m_weights = new double[30];
+
 		// Token: 0x06005FB6 RID: 24502 RVA: 0x0030B7F8 File Offset: 0x00309BF8
 		public RidgedMultifractal() : base(0)
 		{
@@ -146,23 +164,5 @@ namespace Verse.Noise
 			}
 			return num * 1.25 - 1.0;
 		}
-
-		// Token: 0x04003EE3 RID: 16099
-		private double m_frequency = 1.0;
-
-		// Token: 0x04003EE4 RID: 16100
-		private double m_lacunarity = 2.0;
-
-		// Token: 0x04003EE5 RID: 16101
-		private QualityMode m_quality = QualityMode.Medium;
-
-		// Token: 0x04003EE6 RID: 16102
-		private int m_octaveCount = 6;
-
-		// Token: 0x04003EE7 RID: 16103
-		private int m_seed = 0;
-
-		// Token: 0x04003EE8 RID: 16104
-		private double[] m_weights = new double[30];
 	}
 }

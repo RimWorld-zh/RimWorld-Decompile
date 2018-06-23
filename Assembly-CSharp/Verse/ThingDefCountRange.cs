@@ -5,6 +5,12 @@ namespace Verse
 	// Token: 0x02000F03 RID: 3843
 	public struct ThingDefCountRange : IEquatable<ThingDefCountRange>, IExposable
 	{
+		// Token: 0x04003CE8 RID: 15592
+		private ThingDef thingDef;
+
+		// Token: 0x04003CE9 RID: 15593
+		private IntRange countRange;
+
 		// Token: 0x06005C3D RID: 23613 RVA: 0x002EE510 File Offset: 0x002EC910
 		public ThingDefCountRange(ThingDef thingDef, int min, int max)
 		{
@@ -157,11 +163,5 @@ namespace Verse
 		{
 			return new ThingDefCountRange(t.thingDef, t.count, t.count);
 		}
-
-		// Token: 0x04003CE8 RID: 15592
-		private ThingDef thingDef;
-
-		// Token: 0x04003CE9 RID: 15593
-		private IntRange countRange;
 	}
 }

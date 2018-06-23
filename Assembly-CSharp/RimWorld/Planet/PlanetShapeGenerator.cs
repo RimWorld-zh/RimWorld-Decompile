@@ -8,6 +8,75 @@ namespace RimWorld.Planet
 	// Token: 0x020005B5 RID: 1461
 	public static class PlanetShapeGenerator
 	{
+		// Token: 0x040010C2 RID: 4290
+		private static int subdivisionsCount;
+
+		// Token: 0x040010C3 RID: 4291
+		private static float radius;
+
+		// Token: 0x040010C4 RID: 4292
+		private static Vector3 viewCenter;
+
+		// Token: 0x040010C5 RID: 4293
+		private static float viewAngle;
+
+		// Token: 0x040010C6 RID: 4294
+		private static List<TriangleIndices> tris = new List<TriangleIndices>();
+
+		// Token: 0x040010C7 RID: 4295
+		private static List<Vector3> verts = new List<Vector3>();
+
+		// Token: 0x040010C8 RID: 4296
+		private static List<Vector3> finalVerts;
+
+		// Token: 0x040010C9 RID: 4297
+		private static List<int> tileIDToFinalVerts_offsets;
+
+		// Token: 0x040010CA RID: 4298
+		private static List<int> tileIDToNeighbors_offsets;
+
+		// Token: 0x040010CB RID: 4299
+		private static List<int> tileIDToNeighbors_values;
+
+		// Token: 0x040010CC RID: 4300
+		private static List<TriangleIndices> newTris = new List<TriangleIndices>();
+
+		// Token: 0x040010CD RID: 4301
+		private static List<int> generatedTileVerts = new List<int>();
+
+		// Token: 0x040010CE RID: 4302
+		private static List<int> adjacentTris = new List<int>();
+
+		// Token: 0x040010CF RID: 4303
+		private static List<int> tmpTileIDs = new List<int>();
+
+		// Token: 0x040010D0 RID: 4304
+		private static List<int> tmpVerts = new List<int>();
+
+		// Token: 0x040010D1 RID: 4305
+		private static List<int> tmpNeighborsToAdd = new List<int>();
+
+		// Token: 0x040010D2 RID: 4306
+		private static List<int> vertToTris_offsets = new List<int>();
+
+		// Token: 0x040010D3 RID: 4307
+		private static List<int> vertToTris_values = new List<int>();
+
+		// Token: 0x040010D4 RID: 4308
+		private static List<int> vertToTileIDs_offsets = new List<int>();
+
+		// Token: 0x040010D5 RID: 4309
+		private static List<int> vertToTileIDs_values = new List<int>();
+
+		// Token: 0x040010D6 RID: 4310
+		private static List<int> tileIDToVerts_offsets = new List<int>();
+
+		// Token: 0x040010D7 RID: 4311
+		private static List<int> tileIDToVerts_values = new List<int>();
+
+		// Token: 0x040010D8 RID: 4312
+		private const int MaxTileVertices = 6;
+
 		// Token: 0x06001C11 RID: 7185 RVA: 0x000F1888 File Offset: 0x000EFC88
 		public static void Generate(int subdivisionsCount, out List<Vector3> outVerts, out List<int> outTileIDToVerts_offsets, out List<int> outTileIDToNeighbors_offsets, out List<int> outTileIDToNeighbors_values, float radius, Vector3 viewCenter, float viewAngle)
 		{
@@ -273,74 +342,5 @@ namespace RimWorld.Planet
 			Log.Error("Planet shape generation internal error: could not find next adjacent triangle.", false);
 			return -1;
 		}
-
-		// Token: 0x040010C2 RID: 4290
-		private static int subdivisionsCount;
-
-		// Token: 0x040010C3 RID: 4291
-		private static float radius;
-
-		// Token: 0x040010C4 RID: 4292
-		private static Vector3 viewCenter;
-
-		// Token: 0x040010C5 RID: 4293
-		private static float viewAngle;
-
-		// Token: 0x040010C6 RID: 4294
-		private static List<TriangleIndices> tris = new List<TriangleIndices>();
-
-		// Token: 0x040010C7 RID: 4295
-		private static List<Vector3> verts = new List<Vector3>();
-
-		// Token: 0x040010C8 RID: 4296
-		private static List<Vector3> finalVerts;
-
-		// Token: 0x040010C9 RID: 4297
-		private static List<int> tileIDToFinalVerts_offsets;
-
-		// Token: 0x040010CA RID: 4298
-		private static List<int> tileIDToNeighbors_offsets;
-
-		// Token: 0x040010CB RID: 4299
-		private static List<int> tileIDToNeighbors_values;
-
-		// Token: 0x040010CC RID: 4300
-		private static List<TriangleIndices> newTris = new List<TriangleIndices>();
-
-		// Token: 0x040010CD RID: 4301
-		private static List<int> generatedTileVerts = new List<int>();
-
-		// Token: 0x040010CE RID: 4302
-		private static List<int> adjacentTris = new List<int>();
-
-		// Token: 0x040010CF RID: 4303
-		private static List<int> tmpTileIDs = new List<int>();
-
-		// Token: 0x040010D0 RID: 4304
-		private static List<int> tmpVerts = new List<int>();
-
-		// Token: 0x040010D1 RID: 4305
-		private static List<int> tmpNeighborsToAdd = new List<int>();
-
-		// Token: 0x040010D2 RID: 4306
-		private static List<int> vertToTris_offsets = new List<int>();
-
-		// Token: 0x040010D3 RID: 4307
-		private static List<int> vertToTris_values = new List<int>();
-
-		// Token: 0x040010D4 RID: 4308
-		private static List<int> vertToTileIDs_offsets = new List<int>();
-
-		// Token: 0x040010D5 RID: 4309
-		private static List<int> vertToTileIDs_values = new List<int>();
-
-		// Token: 0x040010D6 RID: 4310
-		private static List<int> tileIDToVerts_offsets = new List<int>();
-
-		// Token: 0x040010D7 RID: 4311
-		private static List<int> tileIDToVerts_values = new List<int>();
-
-		// Token: 0x040010D8 RID: 4312
-		private const int MaxTileVertices = 6;
 	}
 }

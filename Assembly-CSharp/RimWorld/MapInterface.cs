@@ -10,6 +10,33 @@ namespace RimWorld
 	// Token: 0x02000878 RID: 2168
 	public class MapInterface
 	{
+		// Token: 0x04001AC2 RID: 6850
+		public ThingOverlays thingOverlays = new ThingOverlays();
+
+		// Token: 0x04001AC3 RID: 6851
+		public Selector selector = new Selector();
+
+		// Token: 0x04001AC4 RID: 6852
+		public Targeter targeter = new Targeter();
+
+		// Token: 0x04001AC5 RID: 6853
+		public DesignatorManager designatorManager = new DesignatorManager();
+
+		// Token: 0x04001AC6 RID: 6854
+		public ReverseDesignatorDatabase reverseDesignatorDatabase = new ReverseDesignatorDatabase();
+
+		// Token: 0x04001AC7 RID: 6855
+		private MouseoverReadout mouseoverReadout = new MouseoverReadout();
+
+		// Token: 0x04001AC8 RID: 6856
+		public GlobalControls globalControls = new GlobalControls();
+
+		// Token: 0x04001AC9 RID: 6857
+		protected ResourceReadout resourceReadout = new ResourceReadout();
+
+		// Token: 0x04001ACA RID: 6858
+		public ColonistBar colonistBar = new ColonistBar();
+
 		// Token: 0x0600317D RID: 12669 RVA: 0x001AD9EC File Offset: 0x001ABDEC
 		public void MapInterfaceOnGUI_BeforeMainTabs()
 		{
@@ -216,32 +243,5 @@ namespace RimWorld
 				Find.CameraDriver.SetRootPosAndSize(rememberedCameraPos.rootPos, rememberedCameraPos.rootSize);
 			}
 		}
-
-		// Token: 0x04001AC2 RID: 6850
-		public ThingOverlays thingOverlays = new ThingOverlays();
-
-		// Token: 0x04001AC3 RID: 6851
-		public Selector selector = new Selector();
-
-		// Token: 0x04001AC4 RID: 6852
-		public Targeter targeter = new Targeter();
-
-		// Token: 0x04001AC5 RID: 6853
-		public DesignatorManager designatorManager = new DesignatorManager();
-
-		// Token: 0x04001AC6 RID: 6854
-		public ReverseDesignatorDatabase reverseDesignatorDatabase = new ReverseDesignatorDatabase();
-
-		// Token: 0x04001AC7 RID: 6855
-		private MouseoverReadout mouseoverReadout = new MouseoverReadout();
-
-		// Token: 0x04001AC8 RID: 6856
-		public GlobalControls globalControls = new GlobalControls();
-
-		// Token: 0x04001AC9 RID: 6857
-		protected ResourceReadout resourceReadout = new ResourceReadout();
-
-		// Token: 0x04001ACA RID: 6858
-		public ColonistBar colonistBar = new ColonistBar();
 	}
 }

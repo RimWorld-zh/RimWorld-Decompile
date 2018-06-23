@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020009A6 RID: 2470
 	public class StatPart_Difficulty : StatPart
 	{
+		// Token: 0x0400239C RID: 9116
+		private List<float> factorsPerDifficulty = new List<float>();
+
 		// Token: 0x06003767 RID: 14183 RVA: 0x001D94F4 File Offset: 0x001D78F4
 		public override void TransformValue(StatRequest req, ref float val)
 		{
@@ -31,8 +34,5 @@ namespace RimWorld
 			}
 			return this.factorsPerDifficulty[num];
 		}
-
-		// Token: 0x0400239C RID: 9116
-		private List<float> factorsPerDifficulty = new List<float>();
 	}
 }

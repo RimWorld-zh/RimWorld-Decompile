@@ -12,6 +12,44 @@ namespace RimWorld.Planet
 	[HasDebugOutput]
 	public class PeaceTalks : WorldObject
 	{
+		// Token: 0x0400121A RID: 4634
+		private Material cachedMat;
+
+		// Token: 0x0400121B RID: 4635
+		private static readonly SimpleCurve BadOutcomeFactorAtDiplomacyPower = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 4f),
+				true
+			},
+			{
+				new CurvePoint(1f, 1f),
+				true
+			},
+			{
+				new CurvePoint(1.5f, 0.4f),
+				true
+			}
+		};
+
+		// Token: 0x0400121C RID: 4636
+		private const float BaseWeight_Disaster = 0.05f;
+
+		// Token: 0x0400121D RID: 4637
+		private const float BaseWeight_Backfire = 0.1f;
+
+		// Token: 0x0400121E RID: 4638
+		private const float BaseWeight_TalksFlounder = 0.2f;
+
+		// Token: 0x0400121F RID: 4639
+		private const float BaseWeight_Success = 0.55f;
+
+		// Token: 0x04001220 RID: 4640
+		private const float BaseWeight_Triumph = 0.1f;
+
+		// Token: 0x04001221 RID: 4641
+		private static List<Pair<Action, float>> tmpPossibleOutcomes = new List<Pair<Action, float>>();
+
 		// Token: 0x17000484 RID: 1156
 		// (get) Token: 0x06001EAC RID: 7852 RVA: 0x0010B928 File Offset: 0x00109D28
 		public override Material Material
@@ -244,43 +282,5 @@ namespace RimWorld.Planet
 			sb.AppendLine("Success: " + (num5 / num7).ToStringPercent());
 			sb.AppendLine("Triumph: " + (num6 / num7).ToStringPercent());
 		}
-
-		// Token: 0x0400121A RID: 4634
-		private Material cachedMat;
-
-		// Token: 0x0400121B RID: 4635
-		private static readonly SimpleCurve BadOutcomeFactorAtDiplomacyPower = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 4f),
-				true
-			},
-			{
-				new CurvePoint(1f, 1f),
-				true
-			},
-			{
-				new CurvePoint(1.5f, 0.4f),
-				true
-			}
-		};
-
-		// Token: 0x0400121C RID: 4636
-		private const float BaseWeight_Disaster = 0.05f;
-
-		// Token: 0x0400121D RID: 4637
-		private const float BaseWeight_Backfire = 0.1f;
-
-		// Token: 0x0400121E RID: 4638
-		private const float BaseWeight_TalksFlounder = 0.2f;
-
-		// Token: 0x0400121F RID: 4639
-		private const float BaseWeight_Success = 0.55f;
-
-		// Token: 0x04001220 RID: 4640
-		private const float BaseWeight_Triumph = 0.1f;
-
-		// Token: 0x04001221 RID: 4641
-		private static List<Pair<Action, float>> tmpPossibleOutcomes = new List<Pair<Action, float>>();
 	}
 }

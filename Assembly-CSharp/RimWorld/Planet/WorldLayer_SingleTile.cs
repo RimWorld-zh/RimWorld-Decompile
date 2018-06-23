@@ -9,6 +9,12 @@ namespace RimWorld.Planet
 	// Token: 0x02000594 RID: 1428
 	public abstract class WorldLayer_SingleTile : WorldLayer
 	{
+		// Token: 0x04001016 RID: 4118
+		private int lastDrawnTile = -1;
+
+		// Token: 0x04001017 RID: 4119
+		private List<Vector3> verts = new List<Vector3>();
+
 		// Token: 0x170003FF RID: 1023
 		// (get) Token: 0x06001B41 RID: 6977
 		protected abstract int Tile { get; }
@@ -72,11 +78,5 @@ namespace RimWorld.Planet
 			this.lastDrawnTile = tile;
 			yield break;
 		}
-
-		// Token: 0x04001016 RID: 4118
-		private int lastDrawnTile = -1;
-
-		// Token: 0x04001017 RID: 4119
-		private List<Vector3> verts = new List<Vector3>();
 	}
 }

@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000F6B RID: 3947
 	public static class SolidColorMaterials
 	{
+		// Token: 0x04003EBB RID: 16059
+		private static Dictionary<Color, Material> simpleColorMats = new Dictionary<Color, Material>();
+
+		// Token: 0x04003EBC RID: 16060
+		private static Dictionary<Color, Material> simpleColorAndVertexColorMats = new Dictionary<Color, Material>();
+
 		// Token: 0x17000F48 RID: 3912
 		// (get) Token: 0x06005F61 RID: 24417 RVA: 0x0030A138 File Offset: 0x00308538
 		public static int SimpleColorMatCount
@@ -87,11 +93,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003EBB RID: 16059
-		private static Dictionary<Color, Material> simpleColorMats = new Dictionary<Color, Material>();
-
-		// Token: 0x04003EBC RID: 16060
-		private static Dictionary<Color, Material> simpleColorAndVertexColorMats = new Dictionary<Color, Material>();
 	}
 }

@@ -7,6 +7,15 @@ namespace Verse
 	// Token: 0x02000CB4 RID: 3252
 	public class WeatherWorker
 	{
+		// Token: 0x040030A9 RID: 12457
+		private WeatherDef def;
+
+		// Token: 0x040030AA RID: 12458
+		public List<SkyOverlay> overlays = new List<SkyOverlay>();
+
+		// Token: 0x040030AB RID: 12459
+		private WeatherWorker.SkyThreshold[] skyTargets = new WeatherWorker.SkyThreshold[4];
+
 		// Token: 0x060047B9 RID: 18361 RVA: 0x0025CC6C File Offset: 0x0025B06C
 		public WeatherWorker(WeatherDef def)
 		{
@@ -87,30 +96,21 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x040030A9 RID: 12457
-		private WeatherDef def;
-
-		// Token: 0x040030AA RID: 12458
-		public List<SkyOverlay> overlays = new List<SkyOverlay>();
-
-		// Token: 0x040030AB RID: 12459
-		private WeatherWorker.SkyThreshold[] skyTargets = new WeatherWorker.SkyThreshold[4];
-
 		// Token: 0x02000CB5 RID: 3253
 		private struct SkyThreshold
 		{
+			// Token: 0x040030AC RID: 12460
+			public SkyColorSet colors;
+
+			// Token: 0x040030AD RID: 12461
+			public float celGlowThreshold;
+
 			// Token: 0x060047BD RID: 18365 RVA: 0x0025CF82 File Offset: 0x0025B382
 			public SkyThreshold(SkyColorSet colors, float celGlowThreshold)
 			{
 				this.colors = colors;
 				this.celGlowThreshold = celGlowThreshold;
 			}
-
-			// Token: 0x040030AC RID: 12460
-			public SkyColorSet colors;
-
-			// Token: 0x040030AD RID: 12461
-			public float celGlowThreshold;
 		}
 	}
 }

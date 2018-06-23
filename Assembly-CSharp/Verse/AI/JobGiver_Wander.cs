@@ -6,6 +6,24 @@ namespace Verse.AI
 	// Token: 0x02000ACE RID: 2766
 	public abstract class JobGiver_Wander : ThinkNode_JobGiver
 	{
+		// Token: 0x040026B9 RID: 9913
+		protected float wanderRadius;
+
+		// Token: 0x040026BA RID: 9914
+		protected Func<Pawn, IntVec3, IntVec3, bool> wanderDestValidator = null;
+
+		// Token: 0x040026BB RID: 9915
+		protected IntRange ticksBetweenWandersRange = new IntRange(20, 100);
+
+		// Token: 0x040026BC RID: 9916
+		protected LocomotionUrgency locomotionUrgency = LocomotionUrgency.Walk;
+
+		// Token: 0x040026BD RID: 9917
+		protected Danger maxDanger = Danger.None;
+
+		// Token: 0x040026BE RID: 9918
+		protected int expiryInterval = -1;
+
 		// Token: 0x06003D7A RID: 15738 RVA: 0x0003088C File Offset: 0x0002EC8C
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -66,23 +84,5 @@ namespace Verse.AI
 
 		// Token: 0x06003D7D RID: 15741
 		protected abstract IntVec3 GetWanderRoot(Pawn pawn);
-
-		// Token: 0x040026B9 RID: 9913
-		protected float wanderRadius;
-
-		// Token: 0x040026BA RID: 9914
-		protected Func<Pawn, IntVec3, IntVec3, bool> wanderDestValidator = null;
-
-		// Token: 0x040026BB RID: 9915
-		protected IntRange ticksBetweenWandersRange = new IntRange(20, 100);
-
-		// Token: 0x040026BC RID: 9916
-		protected LocomotionUrgency locomotionUrgency = LocomotionUrgency.Walk;
-
-		// Token: 0x040026BD RID: 9917
-		protected Danger maxDanger = Danger.None;
-
-		// Token: 0x040026BE RID: 9918
-		protected int expiryInterval = -1;
 	}
 }

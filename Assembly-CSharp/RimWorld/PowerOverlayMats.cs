@@ -8,16 +8,6 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class PowerOverlayMats
 	{
-		// Token: 0x06001285 RID: 4741 RVA: 0x000A0D04 File Offset: 0x0009F104
-		static PowerOverlayMats()
-		{
-			Graphic graphic = GraphicDatabase.Get<Graphic_Single>("Things/Special/Power/TransmitterAtlas", PowerOverlayMats.TransmitterShader);
-			PowerOverlayMats.LinkedOverlayGraphic = GraphicUtility.WrapLinked(graphic, LinkDrawerType.TransmitterOverlay);
-			graphic.MatSingle.renderQueue = 3600;
-			PowerOverlayMats.MatConnectorBase.renderQueue = 3600;
-			PowerOverlayMats.MatConnectorLine.renderQueue = 3600;
-		}
-
 		// Token: 0x04000B49 RID: 2889
 		private const string TransmitterAtlasPath = "Things/Special/Power/TransmitterAtlas";
 
@@ -38,5 +28,15 @@ namespace RimWorld
 
 		// Token: 0x04000B4F RID: 2895
 		public static readonly Material MatConnectorBaseAnticipated = MaterialPool.MatFrom("Things/Special/Power/OverlayBaseAnticipated", ShaderDatabase.MetaOverlay);
+
+		// Token: 0x06001285 RID: 4741 RVA: 0x000A0D04 File Offset: 0x0009F104
+		static PowerOverlayMats()
+		{
+			Graphic graphic = GraphicDatabase.Get<Graphic_Single>("Things/Special/Power/TransmitterAtlas", PowerOverlayMats.TransmitterShader);
+			PowerOverlayMats.LinkedOverlayGraphic = GraphicUtility.WrapLinked(graphic, LinkDrawerType.TransmitterOverlay);
+			graphic.MatSingle.renderQueue = 3600;
+			PowerOverlayMats.MatConnectorBase.renderQueue = 3600;
+			PowerOverlayMats.MatConnectorLine.renderQueue = 3600;
+		}
 	}
 }

@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000F3E RID: 3902
 	public static class GenGeneric
 	{
+		// Token: 0x04003E13 RID: 15891
+		public const BindingFlags BindingFlagsAll = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
+
 		// Token: 0x06005E38 RID: 24120 RVA: 0x002FEC78 File Offset: 0x002FD078
 		private static MethodInfo MethodOnGenericType(Type genericBase, Type genericParam, string methodName)
 		{
@@ -113,8 +116,5 @@ namespace Verse
 			}
 			return null;
 		}
-
-		// Token: 0x04003E13 RID: 15891
-		public const BindingFlags BindingFlagsAll = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
 	}
 }

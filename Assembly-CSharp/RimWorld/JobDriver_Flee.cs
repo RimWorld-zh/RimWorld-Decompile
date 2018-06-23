@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x02000069 RID: 105
 	public class JobDriver_Flee : JobDriver
 	{
+		// Token: 0x0400020B RID: 523
+		protected const TargetIndex DestInd = TargetIndex.A;
+
+		// Token: 0x0400020C RID: 524
+		protected const TargetIndex DangerInd = TargetIndex.B;
+
 		// Token: 0x060002E9 RID: 745 RVA: 0x0001F6D4 File Offset: 0x0001DAD4
 		public override bool TryMakePreToilReservations()
 		{
@@ -32,11 +38,5 @@ namespace RimWorld
 			yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
 			yield break;
 		}
-
-		// Token: 0x0400020B RID: 523
-		protected const TargetIndex DestInd = TargetIndex.A;
-
-		// Token: 0x0400020C RID: 524
-		protected const TargetIndex DangerInd = TargetIndex.B;
 	}
 }

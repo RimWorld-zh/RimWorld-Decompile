@@ -6,6 +6,33 @@ namespace Verse
 	// Token: 0x02000C8F RID: 3215
 	public class RegionMaker
 	{
+		// Token: 0x04003011 RID: 12305
+		private Map map;
+
+		// Token: 0x04003012 RID: 12306
+		private Region newReg;
+
+		// Token: 0x04003013 RID: 12307
+		private List<IntVec3> newRegCells = new List<IntVec3>();
+
+		// Token: 0x04003014 RID: 12308
+		private bool working;
+
+		// Token: 0x04003015 RID: 12309
+		private HashSet<IntVec3>[] linksProcessedAt = new HashSet<IntVec3>[]
+		{
+			new HashSet<IntVec3>(),
+			new HashSet<IntVec3>(),
+			new HashSet<IntVec3>(),
+			new HashSet<IntVec3>()
+		};
+
+		// Token: 0x04003016 RID: 12310
+		private RegionGrid regionGrid;
+
+		// Token: 0x04003017 RID: 12311
+		private static HashSet<Thing> tmpProcessedThings = new HashSet<Thing>();
+
 		// Token: 0x0600469A RID: 18074 RVA: 0x00254230 File Offset: 0x00252630
 		public RegionMaker(Map map)
 		{
@@ -227,32 +254,5 @@ namespace Verse
 			}
 			RegionMaker.tmpProcessedThings.Clear();
 		}
-
-		// Token: 0x04003011 RID: 12305
-		private Map map;
-
-		// Token: 0x04003012 RID: 12306
-		private Region newReg;
-
-		// Token: 0x04003013 RID: 12307
-		private List<IntVec3> newRegCells = new List<IntVec3>();
-
-		// Token: 0x04003014 RID: 12308
-		private bool working;
-
-		// Token: 0x04003015 RID: 12309
-		private HashSet<IntVec3>[] linksProcessedAt = new HashSet<IntVec3>[]
-		{
-			new HashSet<IntVec3>(),
-			new HashSet<IntVec3>(),
-			new HashSet<IntVec3>(),
-			new HashSet<IntVec3>()
-		};
-
-		// Token: 0x04003016 RID: 12310
-		private RegionGrid regionGrid;
-
-		// Token: 0x04003017 RID: 12311
-		private static HashSet<Thing> tmpProcessedThings = new HashSet<Thing>();
 	}
 }

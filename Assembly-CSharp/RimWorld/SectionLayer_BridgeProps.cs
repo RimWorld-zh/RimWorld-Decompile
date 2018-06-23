@@ -8,6 +8,12 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class SectionLayer_BridgeProps : SectionLayer
 	{
+		// Token: 0x040009A5 RID: 2469
+		private static readonly Material PropsLoopMat = MaterialPool.MatFrom("Terrain/Misc/BridgeProps_Loop", ShaderDatabase.Transparent);
+
+		// Token: 0x040009A6 RID: 2470
+		private static readonly Material PropsRightMat = MaterialPool.MatFrom("Terrain/Misc/BridgeProps_Right", ShaderDatabase.Transparent);
+
 		// Token: 0x06000FD8 RID: 4056 RVA: 0x00084ED8 File Offset: 0x000832D8
 		public SectionLayer_BridgeProps(Section section) : base(section)
 		{
@@ -97,11 +103,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040009A5 RID: 2469
-		private static readonly Material PropsLoopMat = MaterialPool.MatFrom("Terrain/Misc/BridgeProps_Loop", ShaderDatabase.Transparent);
-
-		// Token: 0x040009A6 RID: 2470
-		private static readonly Material PropsRightMat = MaterialPool.MatFrom("Terrain/Misc/BridgeProps_Right", ShaderDatabase.Transparent);
 	}
 }

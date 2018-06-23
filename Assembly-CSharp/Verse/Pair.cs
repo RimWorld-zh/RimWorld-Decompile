@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000F08 RID: 3848
 	public struct Pair<T1, T2> : IEquatable<Pair<T1, T2>>
 	{
+		// Token: 0x04003CF9 RID: 15609
+		private T1 first;
+
+		// Token: 0x04003CFA RID: 15610
+		private T2 second;
+
 		// Token: 0x06005C7B RID: 23675 RVA: 0x002EF3BE File Offset: 0x002ED7BE
 		public Pair(T1 first, T2 second)
 		{
@@ -80,11 +86,5 @@ namespace Verse
 		{
 			return !(lhs == rhs);
 		}
-
-		// Token: 0x04003CF9 RID: 15609
-		private T1 first;
-
-		// Token: 0x04003CFA RID: 15610
-		private T2 second;
 	}
 }

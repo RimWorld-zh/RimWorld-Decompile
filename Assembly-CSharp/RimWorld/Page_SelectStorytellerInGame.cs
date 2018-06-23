@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000836 RID: 2102
 	public class Page_SelectStorytellerInGame : Page
 	{
+		// Token: 0x040019B8 RID: 6584
+		private Listing_Standard selectedStorytellerInfoListing = new Listing_Standard();
+
 		// Token: 0x06002F9D RID: 12189 RVA: 0x00197C2E File Offset: 0x0019602E
 		public Page_SelectStorytellerInGame()
 		{
@@ -37,8 +40,5 @@ namespace RimWorld
 				storyteller.Notify_DefChanged();
 			}
 		}
-
-		// Token: 0x040019B8 RID: 6584
-		private Listing_Standard selectedStorytellerInfoListing = new Listing_Standard();
 	}
 }

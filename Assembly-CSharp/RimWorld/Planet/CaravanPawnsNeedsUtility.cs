@@ -8,6 +8,18 @@ namespace RimWorld.Planet
 	// Token: 0x020005DF RID: 1503
 	public static class CaravanPawnsNeedsUtility
 	{
+		// Token: 0x0400119D RID: 4509
+		private const float AutoRefillMiscNeedsIfBelowLevel = 0.3f;
+
+		// Token: 0x0400119E RID: 4510
+		private const float ExtraJoyFromEatingFoodPerNutritionPct = 0.2f;
+
+		// Token: 0x0400119F RID: 4511
+		private const float BaseJoyGainPerHour = 0.035f;
+
+		// Token: 0x040011A0 RID: 4512
+		private static List<Thing> tmpInvFood = new List<Thing>();
+
 		// Token: 0x06001DB5 RID: 7605 RVA: 0x00100404 File Offset: 0x000FE804
 		public static void TrySatisfyPawnsNeeds(Caravan caravan)
 		{
@@ -294,17 +306,5 @@ namespace RimWorld.Planet
 				}
 			}
 		}
-
-		// Token: 0x0400119D RID: 4509
-		private const float AutoRefillMiscNeedsIfBelowLevel = 0.3f;
-
-		// Token: 0x0400119E RID: 4510
-		private const float ExtraJoyFromEatingFoodPerNutritionPct = 0.2f;
-
-		// Token: 0x0400119F RID: 4511
-		private const float BaseJoyGainPerHour = 0.035f;
-
-		// Token: 0x040011A0 RID: 4512
-		private static List<Thing> tmpInvFood = new List<Thing>();
 	}
 }

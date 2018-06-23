@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020009B4 RID: 2484
 	public class StatPart_Resting : StatPart
 	{
+		// Token: 0x040023B8 RID: 9144
+		public float factor = 1f;
+
 		// Token: 0x060037AB RID: 14251 RVA: 0x001DA814 File Offset: 0x001D8C14
 		public override void TransformValue(StatRequest req, ref float val)
 		{
@@ -47,8 +50,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040023B8 RID: 9144
-		public float factor = 1f;
 	}
 }

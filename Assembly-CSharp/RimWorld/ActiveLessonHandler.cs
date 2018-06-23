@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020008B1 RID: 2225
 	public class ActiveLessonHandler : IExposable
 	{
+		// Token: 0x04001B7D RID: 7037
+		private Lesson activeLesson;
+
 		// Token: 0x17000818 RID: 2072
 		// (get) Token: 0x060032E2 RID: 13026 RVA: 0x001B6814 File Offset: 0x001B4C14
 		public Lesson Current
@@ -95,8 +98,5 @@ namespace RimWorld
 				this.Current.Notify_KnowledgeDemonstrated(conc);
 			}
 		}
-
-		// Token: 0x04001B7D RID: 7037
-		private Lesson activeLesson;
 	}
 }

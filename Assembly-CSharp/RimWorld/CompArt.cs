@@ -6,6 +6,15 @@ namespace RimWorld
 	// Token: 0x02000700 RID: 1792
 	public class CompArt : ThingComp
 	{
+		// Token: 0x040015B8 RID: 5560
+		private string authorNameInt = null;
+
+		// Token: 0x040015B9 RID: 5561
+		private string titleInt = null;
+
+		// Token: 0x040015BA RID: 5562
+		private TaleReference taleRef = null;
+
 		// Token: 0x170005DF RID: 1503
 		// (get) Token: 0x06002734 RID: 10036 RVA: 0x00151C38 File Offset: 0x00150038
 		public string AuthorName
@@ -249,14 +258,5 @@ namespace RimWorld
 			}
 			return GenText.CapitalizeAsTitle(this.taleRef.GenerateText(TextGenerationPurpose.ArtName, this.Props.nameMaker));
 		}
-
-		// Token: 0x040015B8 RID: 5560
-		private string authorNameInt = null;
-
-		// Token: 0x040015B9 RID: 5561
-		private string titleInt = null;
-
-		// Token: 0x040015BA RID: 5562
-		private TaleReference taleRef = null;
 	}
 }

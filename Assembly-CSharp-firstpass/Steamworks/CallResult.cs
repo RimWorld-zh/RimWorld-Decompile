@@ -7,6 +7,24 @@ namespace Steamworks
 	// Token: 0x02000005 RID: 5
 	public sealed class CallResult<T>
 	{
+		// Token: 0x04000008 RID: 8
+		private CCallbackBaseVTable VTable;
+
+		// Token: 0x04000009 RID: 9
+		private IntPtr m_pVTable = IntPtr.Zero;
+
+		// Token: 0x0400000A RID: 10
+		private CCallbackBase m_CCallbackBase;
+
+		// Token: 0x0400000B RID: 11
+		private GCHandle m_pCCallbackBase;
+
+		// Token: 0x0400000D RID: 13
+		private SteamAPICall_t m_hAPICall = SteamAPICall_t.Invalid;
+
+		// Token: 0x0400000E RID: 14
+		private readonly int m_size = Marshal.SizeOf(typeof(T));
+
 		// Token: 0x06000013 RID: 19 RVA: 0x000023DC File Offset: 0x000005DC
 		public CallResult(CallResult<T>.APIDispatchDelegate func = null)
 		{
@@ -155,24 +173,6 @@ namespace Steamworks
 			};
 			this.m_pCCallbackBase = GCHandle.Alloc(this.m_CCallbackBase, GCHandleType.Pinned);
 		}
-
-		// Token: 0x04000008 RID: 8
-		private CCallbackBaseVTable VTable;
-
-		// Token: 0x04000009 RID: 9
-		private IntPtr m_pVTable = IntPtr.Zero;
-
-		// Token: 0x0400000A RID: 10
-		private CCallbackBase m_CCallbackBase;
-
-		// Token: 0x0400000B RID: 11
-		private GCHandle m_pCCallbackBase;
-
-		// Token: 0x0400000D RID: 13
-		private SteamAPICall_t m_hAPICall = SteamAPICall_t.Invalid;
-
-		// Token: 0x0400000E RID: 14
-		private readonly int m_size = Marshal.SizeOf(typeof(T));
 
 		// Token: 0x02000006 RID: 6
 		// (Invoke) Token: 0x06000022 RID: 34

@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x02000457 RID: 1111
 	public class Zone_Stockpile : Zone, ISlotGroupParent, IStoreSettingsParent, IHaulDestination
 	{
+		// Token: 0x04000BD7 RID: 3031
+		public StorageSettings settings;
+
+		// Token: 0x04000BD8 RID: 3032
+		public SlotGroup slotGroup;
+
+		// Token: 0x04000BD9 RID: 3033
+		private static readonly ITab StorageTab = new ITab_Storage();
+
 		// Token: 0x06001373 RID: 4979 RVA: 0x000A87AA File Offset: 0x000A6BAA
 		public Zone_Stockpile()
 		{
@@ -173,14 +182,5 @@ namespace RimWorld
 		public void Notify_LostThing(Thing newItem)
 		{
 		}
-
-		// Token: 0x04000BD7 RID: 3031
-		public StorageSettings settings;
-
-		// Token: 0x04000BD8 RID: 3032
-		public SlotGroup slotGroup;
-
-		// Token: 0x04000BD9 RID: 3033
-		private static readonly ITab StorageTab = new ITab_Storage();
 	}
 }

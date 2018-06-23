@@ -8,6 +8,12 @@ namespace Verse
 	// Token: 0x02000F5A RID: 3930
 	public class KeyPrefs
 	{
+		// Token: 0x04003E68 RID: 15976
+		private static KeyPrefsData data;
+
+		// Token: 0x04003E69 RID: 15977
+		private static Dictionary<string, KeyBindingData> unresolvedBindings;
+
 		// Token: 0x17000F46 RID: 3910
 		// (get) Token: 0x06005F35 RID: 24373 RVA: 0x00308A44 File Offset: 0x00306E44
 		// (set) Token: 0x06005F36 RID: 24374 RVA: 0x00308A5E File Offset: 0x00306E5E
@@ -89,12 +95,6 @@ namespace Verse
 				Log.Error("Exception saving keyprefs: " + ex, false);
 			}
 		}
-
-		// Token: 0x04003E68 RID: 15976
-		private static KeyPrefsData data;
-
-		// Token: 0x04003E69 RID: 15977
-		private static Dictionary<string, KeyBindingData> unresolvedBindings;
 
 		// Token: 0x02000F5B RID: 3931
 		public enum BindingSlot : byte

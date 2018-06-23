@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000F45 RID: 3909
 	public static class GenMorphology
 	{
+		// Token: 0x04003E21 RID: 15905
+		private static HashSet<IntVec3> tmpOutput = new HashSet<IntVec3>();
+
+		// Token: 0x04003E22 RID: 15906
+		private static HashSet<IntVec3> cellsSet = new HashSet<IntVec3>();
+
+		// Token: 0x04003E23 RID: 15907
+		private static List<IntVec3> tmpEdgeCells = new List<IntVec3>();
+
 		// Token: 0x06005E95 RID: 24213 RVA: 0x0030122C File Offset: 0x002FF62C
 		public static void Erode(List<IntVec3> cells, int count, Map map, Predicate<IntVec3> extraPredicate = null)
 		{
@@ -106,14 +115,5 @@ namespace Verse
 			GenMorphology.Dilate(cells, count, map, null);
 			GenMorphology.Erode(cells, count, map, null);
 		}
-
-		// Token: 0x04003E21 RID: 15905
-		private static HashSet<IntVec3> tmpOutput = new HashSet<IntVec3>();
-
-		// Token: 0x04003E22 RID: 15906
-		private static HashSet<IntVec3> cellsSet = new HashSet<IntVec3>();
-
-		// Token: 0x04003E23 RID: 15907
-		private static List<IntVec3> tmpEdgeCells = new List<IntVec3>();
 	}
 }

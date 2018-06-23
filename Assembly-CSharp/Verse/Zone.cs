@@ -9,6 +9,42 @@ namespace Verse
 	// Token: 0x02000CB7 RID: 3255
 	public abstract class Zone : IExposable, ISelectable, ILoadReferenceable
 	{
+		// Token: 0x040030B1 RID: 12465
+		public ZoneManager zoneManager;
+
+		// Token: 0x040030B2 RID: 12466
+		public string label;
+
+		// Token: 0x040030B3 RID: 12467
+		public List<IntVec3> cells = new List<IntVec3>();
+
+		// Token: 0x040030B4 RID: 12468
+		private bool cellsShuffled = false;
+
+		// Token: 0x040030B5 RID: 12469
+		public Color color = Color.white;
+
+		// Token: 0x040030B6 RID: 12470
+		private Material materialInt = null;
+
+		// Token: 0x040030B7 RID: 12471
+		public bool hidden = false;
+
+		// Token: 0x040030B8 RID: 12472
+		private int lastStaticFireCheckTick = -9999;
+
+		// Token: 0x040030B9 RID: 12473
+		private bool lastStaticFireCheckResult = false;
+
+		// Token: 0x040030BA RID: 12474
+		private const int StaticFireCheckInterval = 1000;
+
+		// Token: 0x040030BB RID: 12475
+		private static BoolGrid extantGrid;
+
+		// Token: 0x040030BC RID: 12476
+		private static BoolGrid foundGrid;
+
 		// Token: 0x060047C0 RID: 18368 RVA: 0x000A6F08 File Offset: 0x000A5308
 		public Zone()
 		{
@@ -397,41 +433,5 @@ namespace Verse
 		{
 			return "Zone_" + this.zoneManager.AllZones.IndexOf(this);
 		}
-
-		// Token: 0x040030B1 RID: 12465
-		public ZoneManager zoneManager;
-
-		// Token: 0x040030B2 RID: 12466
-		public string label;
-
-		// Token: 0x040030B3 RID: 12467
-		public List<IntVec3> cells = new List<IntVec3>();
-
-		// Token: 0x040030B4 RID: 12468
-		private bool cellsShuffled = false;
-
-		// Token: 0x040030B5 RID: 12469
-		public Color color = Color.white;
-
-		// Token: 0x040030B6 RID: 12470
-		private Material materialInt = null;
-
-		// Token: 0x040030B7 RID: 12471
-		public bool hidden = false;
-
-		// Token: 0x040030B8 RID: 12472
-		private int lastStaticFireCheckTick = -9999;
-
-		// Token: 0x040030B9 RID: 12473
-		private bool lastStaticFireCheckResult = false;
-
-		// Token: 0x040030BA RID: 12474
-		private const int StaticFireCheckInterval = 1000;
-
-		// Token: 0x040030BB RID: 12475
-		private static BoolGrid extantGrid;
-
-		// Token: 0x040030BC RID: 12476
-		private static BoolGrid foundGrid;
 	}
 }

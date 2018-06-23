@@ -10,6 +10,12 @@ namespace RimWorld
 	// Token: 0x020008FC RID: 2300
 	public static class RCellFinder
 	{
+		// Token: 0x04001CE5 RID: 7397
+		private static List<Region> regions = new List<Region>();
+
+		// Token: 0x04001CE6 RID: 7398
+		private static HashSet<Thing> tmpBuildings = new HashSet<Thing>();
+
 		// Token: 0x0600354F RID: 13647 RVA: 0x001C9124 File Offset: 0x001C7524
 		public static IntVec3 BestOrderedGotoDestNear(IntVec3 root, Pawn searcher)
 		{
@@ -1315,11 +1321,5 @@ namespace RimWorld
 			result = randomCell;
 			return true;
 		}
-
-		// Token: 0x04001CE5 RID: 7397
-		private static List<Region> regions = new List<Region>();
-
-		// Token: 0x04001CE6 RID: 7398
-		private static HashSet<Thing> tmpBuildings = new HashSet<Thing>();
 	}
 }

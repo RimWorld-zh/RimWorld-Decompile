@@ -9,6 +9,48 @@ namespace RimWorld
 	// Token: 0x020006AF RID: 1711
 	public class Bill_Production : Bill, IExposable
 	{
+		// Token: 0x04001441 RID: 5185
+		public BillRepeatModeDef repeatMode = BillRepeatModeDefOf.RepeatCount;
+
+		// Token: 0x04001442 RID: 5186
+		public int repeatCount = 1;
+
+		// Token: 0x04001443 RID: 5187
+		private BillStoreModeDef storeMode = BillStoreModeDefOf.BestStockpile;
+
+		// Token: 0x04001444 RID: 5188
+		private Zone_Stockpile storeZone = null;
+
+		// Token: 0x04001445 RID: 5189
+		public int targetCount = 10;
+
+		// Token: 0x04001446 RID: 5190
+		public bool pauseWhenSatisfied = false;
+
+		// Token: 0x04001447 RID: 5191
+		public int unpauseWhenYouHave = 5;
+
+		// Token: 0x04001448 RID: 5192
+		public bool includeEquipped = false;
+
+		// Token: 0x04001449 RID: 5193
+		public bool includeTainted = false;
+
+		// Token: 0x0400144A RID: 5194
+		public Zone_Stockpile includeFromZone = null;
+
+		// Token: 0x0400144B RID: 5195
+		public FloatRange hpRange = FloatRange.ZeroToOne;
+
+		// Token: 0x0400144C RID: 5196
+		public QualityRange qualityRange = QualityRange.All;
+
+		// Token: 0x0400144D RID: 5197
+		public bool limitToAllowedStuff = false;
+
+		// Token: 0x0400144E RID: 5198
+		public bool paused = false;
+
 		// Token: 0x060024BC RID: 9404 RVA: 0x0013AA28 File Offset: 0x00138E28
 		public Bill_Production()
 		{
@@ -357,47 +399,5 @@ namespace RimWorld
 			bill_Production.paused = this.paused;
 			return bill_Production;
 		}
-
-		// Token: 0x04001441 RID: 5185
-		public BillRepeatModeDef repeatMode = BillRepeatModeDefOf.RepeatCount;
-
-		// Token: 0x04001442 RID: 5186
-		public int repeatCount = 1;
-
-		// Token: 0x04001443 RID: 5187
-		private BillStoreModeDef storeMode = BillStoreModeDefOf.BestStockpile;
-
-		// Token: 0x04001444 RID: 5188
-		private Zone_Stockpile storeZone = null;
-
-		// Token: 0x04001445 RID: 5189
-		public int targetCount = 10;
-
-		// Token: 0x04001446 RID: 5190
-		public bool pauseWhenSatisfied = false;
-
-		// Token: 0x04001447 RID: 5191
-		public int unpauseWhenYouHave = 5;
-
-		// Token: 0x04001448 RID: 5192
-		public bool includeEquipped = false;
-
-		// Token: 0x04001449 RID: 5193
-		public bool includeTainted = false;
-
-		// Token: 0x0400144A RID: 5194
-		public Zone_Stockpile includeFromZone = null;
-
-		// Token: 0x0400144B RID: 5195
-		public FloatRange hpRange = FloatRange.ZeroToOne;
-
-		// Token: 0x0400144C RID: 5196
-		public QualityRange qualityRange = QualityRange.All;
-
-		// Token: 0x0400144D RID: 5197
-		public bool limitToAllowedStuff = false;
-
-		// Token: 0x0400144E RID: 5198
-		public bool paused = false;
 	}
 }

@@ -6,6 +6,18 @@ namespace Verse
 	// Token: 0x02000B0B RID: 2827
 	public class ColorOption
 	{
+		// Token: 0x040027E2 RID: 10210
+		public float weight = 10f;
+
+		// Token: 0x040027E3 RID: 10211
+		public Color min = new Color(-1f, -1f, -1f, -1f);
+
+		// Token: 0x040027E4 RID: 10212
+		public Color max = new Color(-1f, -1f, -1f, -1f);
+
+		// Token: 0x040027E5 RID: 10213
+		public Color only = new Color(-1f, -1f, -1f, -1f);
+
 		// Token: 0x06003E93 RID: 16019 RVA: 0x0020F7DC File Offset: 0x0020DBDC
 		public Color RandomizedColor()
 		{
@@ -38,17 +50,5 @@ namespace Verse
 		{
 			this.max = color;
 		}
-
-		// Token: 0x040027E2 RID: 10210
-		public float weight = 10f;
-
-		// Token: 0x040027E3 RID: 10211
-		public Color min = new Color(-1f, -1f, -1f, -1f);
-
-		// Token: 0x040027E4 RID: 10212
-		public Color max = new Color(-1f, -1f, -1f, -1f);
-
-		// Token: 0x040027E5 RID: 10213
-		public Color only = new Color(-1f, -1f, -1f, -1f);
 	}
 }

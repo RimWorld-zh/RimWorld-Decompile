@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020009CF RID: 2511
 	public static class VersionUpdateDialogMaker
 	{
+		// Token: 0x04002406 RID: 9222
+		private static bool dialogDone = false;
+
 		// Token: 0x0600385A RID: 14426 RVA: 0x001E07B4 File Offset: 0x001DEBB4
 		public static void CreateVersionUpdateDialogIfNecessary()
 		{
@@ -39,8 +42,5 @@ namespace RimWorld
 			Find.WindowStack.Add(new Dialog_MessageBox(text3, null, null, null, null, null, false, null, null));
 			VersionUpdateDialogMaker.dialogDone = true;
 		}
-
-		// Token: 0x04002406 RID: 9222
-		private static bool dialogDone = false;
 	}
 }

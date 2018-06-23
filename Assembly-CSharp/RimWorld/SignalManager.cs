@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000306 RID: 774
 	public class SignalManager
 	{
+		// Token: 0x0400085C RID: 2140
+		public List<ISignalReceiver> receivers = new List<ISignalReceiver>();
+
 		// Token: 0x06000CE1 RID: 3297 RVA: 0x00070E90 File Offset: 0x0006F290
 		public void RegisterReceiver(ISignalReceiver receiver)
 		{
@@ -55,8 +58,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x0400085C RID: 2140
-		public List<ISignalReceiver> receivers = new List<ISignalReceiver>();
 	}
 }

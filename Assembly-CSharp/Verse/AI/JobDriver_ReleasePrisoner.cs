@@ -7,6 +7,12 @@ namespace Verse.AI
 	// Token: 0x0200007B RID: 123
 	public class JobDriver_ReleasePrisoner : JobDriver
 	{
+		// Token: 0x0400022F RID: 559
+		private const TargetIndex PrisonerInd = TargetIndex.A;
+
+		// Token: 0x04000230 RID: 560
+		private const TargetIndex ReleaseCellInd = TargetIndex.B;
+
 		// Token: 0x170000AB RID: 171
 		// (get) Token: 0x06000349 RID: 841 RVA: 0x000246A4 File Offset: 0x00022AA4
 		private Pawn Prisoner
@@ -47,11 +53,5 @@ namespace Verse.AI
 			yield return setReleased;
 			yield break;
 		}
-
-		// Token: 0x0400022F RID: 559
-		private const TargetIndex PrisonerInd = TargetIndex.A;
-
-		// Token: 0x04000230 RID: 560
-		private const TargetIndex ReleaseCellInd = TargetIndex.B;
 	}
 }

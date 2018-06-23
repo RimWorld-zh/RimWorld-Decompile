@@ -11,6 +11,27 @@ namespace RimWorld
 	// Token: 0x020006BB RID: 1723
 	public class SignalAction_Ambush : SignalAction
 	{
+		// Token: 0x04001484 RID: 5252
+		public float points;
+
+		// Token: 0x04001485 RID: 5253
+		public bool manhunters;
+
+		// Token: 0x04001486 RID: 5254
+		public bool mechanoids;
+
+		// Token: 0x04001487 RID: 5255
+		public IntVec3 spawnNear = IntVec3.Invalid;
+
+		// Token: 0x04001488 RID: 5256
+		public CellRect spawnAround;
+
+		// Token: 0x04001489 RID: 5257
+		public bool spawnPawnsOnEdge;
+
+		// Token: 0x0400148A RID: 5258
+		private const int PawnsDelayAfterSpawnTicks = 120;
+
 		// Token: 0x0600251F RID: 9503 RVA: 0x0013E704 File Offset: 0x0013CB04
 		public override void ExposeData()
 		{
@@ -129,26 +150,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04001484 RID: 5252
-		public float points;
-
-		// Token: 0x04001485 RID: 5253
-		public bool manhunters;
-
-		// Token: 0x04001486 RID: 5254
-		public bool mechanoids;
-
-		// Token: 0x04001487 RID: 5255
-		public IntVec3 spawnNear = IntVec3.Invalid;
-
-		// Token: 0x04001488 RID: 5256
-		public CellRect spawnAround;
-
-		// Token: 0x04001489 RID: 5257
-		public bool spawnPawnsOnEdge;
-
-		// Token: 0x0400148A RID: 5258
-		private const int PawnsDelayAfterSpawnTicks = 120;
 	}
 }

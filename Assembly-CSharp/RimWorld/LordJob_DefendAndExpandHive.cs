@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x0200016B RID: 363
 	public class LordJob_DefendAndExpandHive : LordJob
 	{
+		// Token: 0x0400033B RID: 827
+		private bool aggressive;
+
 		// Token: 0x06000772 RID: 1906 RVA: 0x0004A16D File Offset: 0x0004856D
 		public LordJob_DefendAndExpandHive()
 		{
@@ -77,8 +80,5 @@ namespace RimWorld
 		{
 			Scribe_Values.Look<bool>(ref this.aggressive, "aggressive", false, false);
 		}
-
-		// Token: 0x0400033B RID: 827
-		private bool aggressive;
 	}
 }

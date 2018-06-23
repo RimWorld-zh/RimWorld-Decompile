@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x02000762 RID: 1890
 	public class CompUseEffect_LearnSkill : CompUseEffect
 	{
+		// Token: 0x0400169C RID: 5788
+		private const float XPGainAmount = 50000f;
+
 		// Token: 0x17000675 RID: 1653
 		// (get) Token: 0x060029CD RID: 10701 RVA: 0x00162F84 File Offset: 0x00161384
 		private SkillDef Skill
@@ -56,8 +59,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x0400169C RID: 5788
-		private const float XPGainAmount = 50000f;
 	}
 }

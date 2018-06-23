@@ -6,6 +6,18 @@ namespace RimWorld
 	// Token: 0x02000D28 RID: 3368
 	public class Hediff_HeartAttack : HediffWithComps
 	{
+		// Token: 0x0400323A RID: 12858
+		private float intervalFactor;
+
+		// Token: 0x0400323B RID: 12859
+		private const int SeverityChangeInterval = 5000;
+
+		// Token: 0x0400323C RID: 12860
+		private const float TendSuccessChanceFactor = 0.65f;
+
+		// Token: 0x0400323D RID: 12861
+		private const float TendSeverityReduction = 0.3f;
+
 		// Token: 0x06004A3F RID: 19007 RVA: 0x0026C0C6 File Offset: 0x0026A4C6
 		public override void PostMake()
 		{
@@ -54,17 +66,5 @@ namespace RimWorld
 				}), 6.5f);
 			}
 		}
-
-		// Token: 0x0400323A RID: 12858
-		private float intervalFactor;
-
-		// Token: 0x0400323B RID: 12859
-		private const int SeverityChangeInterval = 5000;
-
-		// Token: 0x0400323C RID: 12860
-		private const float TendSuccessChanceFactor = 0.65f;
-
-		// Token: 0x0400323D RID: 12861
-		private const float TendSeverityReduction = 0.3f;
 	}
 }

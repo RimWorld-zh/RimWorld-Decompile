@@ -6,6 +6,9 @@ namespace Verse.AI
 	// Token: 0x02000A86 RID: 2694
 	public static class MurderousRageMentalStateUtility
 	{
+		// Token: 0x04002584 RID: 9604
+		private static List<Pawn> tmpTargets = new List<Pawn>();
+
 		// Token: 0x06003BD4 RID: 15316 RVA: 0x001F8A54 File Offset: 0x001F6E54
 		public static Pawn FindPawnToKill(Pawn pawn)
 		{
@@ -42,8 +45,5 @@ namespace Verse.AI
 			}
 			return result;
 		}
-
-		// Token: 0x04002584 RID: 9604
-		private static List<Pawn> tmpTargets = new List<Pawn>();
 	}
 }

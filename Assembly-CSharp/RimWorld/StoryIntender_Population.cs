@@ -10,6 +10,12 @@ namespace RimWorld
 	[HasDebugOutput]
 	public class StoryIntender_Population : IExposable
 	{
+		// Token: 0x0400091E RID: 2334
+		public Storyteller teller;
+
+		// Token: 0x0400091F RID: 2335
+		private int lastPopGainTime = -600000;
+
 		// Token: 0x06000ED3 RID: 3795 RVA: 0x0007D770 File Offset: 0x0007BB70
 		public StoryIntender_Population()
 		{
@@ -122,11 +128,5 @@ namespace RimWorld
 			}
 			DebugTables.MakeTablesDialog<float, float>(list2, (float ds) => "d-" + ds.ToString("F0"), list, (float rv) => rv.ToString("F2"), (float ds, float p) => StoryIntender_Population.CalculatePopulationIntent(this.Def, p, (int)(ds * 60000f)).ToString("F2"), "pop");
 		}
-
-		// Token: 0x0400091E RID: 2334
-		public Storyteller teller;
-
-		// Token: 0x0400091F RID: 2335
-		private int lastPopGainTime = -600000;
 	}
 }

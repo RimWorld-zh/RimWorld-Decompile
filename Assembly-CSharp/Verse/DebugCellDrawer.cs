@@ -7,6 +7,15 @@ namespace Verse
 	// Token: 0x02000C03 RID: 3075
 	public sealed class DebugCellDrawer
 	{
+		// Token: 0x04002E00 RID: 11776
+		private List<DebugCell> debugCells = new List<DebugCell>();
+
+		// Token: 0x04002E01 RID: 11777
+		private List<DebugLine> debugLines = new List<DebugLine>();
+
+		// Token: 0x04002E02 RID: 11778
+		private const int DefaultLifespanTicks = 50;
+
 		// Token: 0x06004349 RID: 17225 RVA: 0x002393B0 File Offset: 0x002377B0
 		public void FlashCell(IntVec3 c, float colorPct = 0f, string text = null, int duration = 50)
 		{
@@ -79,14 +88,5 @@ namespace Verse
 				Text.Anchor = TextAnchor.UpperLeft;
 			}
 		}
-
-		// Token: 0x04002E00 RID: 11776
-		private List<DebugCell> debugCells = new List<DebugCell>();
-
-		// Token: 0x04002E01 RID: 11777
-		private List<DebugLine> debugLines = new List<DebugLine>();
-
-		// Token: 0x04002E02 RID: 11778
-		private const int DefaultLifespanTicks = 50;
 	}
 }

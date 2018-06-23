@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x020006FB RID: 1787
 	public static class ThingSetMakerByTotalStatUtility
 	{
+		// Token: 0x040015AD RID: 5549
+		private static List<ThingStuffPairWithQuality> allowedThingStuffPairs = new List<ThingStuffPairWithQuality>();
+
 		// Token: 0x060026F8 RID: 9976 RVA: 0x0014EE10 File Offset: 0x0014D210
 		public static List<ThingStuffPairWithQuality> GenerateDefsWithPossibleTotalValue(IntRange countRange, float totalValue, IEnumerable<ThingDef> allowed, TechLevel techLevel, QualityGenerator qualityGenerator, Func<ThingStuffPairWithQuality, float> getMinValue, Func<ThingStuffPairWithQuality, float> getMaxValue, Func<ThingDef, float> weightSelector = null, int tries = 100, float maxMass = 3.40282347E+38f)
 		{
@@ -308,8 +311,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040015AD RID: 5549
-		private static List<ThingStuffPairWithQuality> allowedThingStuffPairs = new List<ThingStuffPairWithQuality>();
 	}
 }

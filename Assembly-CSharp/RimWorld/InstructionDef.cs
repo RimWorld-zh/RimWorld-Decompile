@@ -7,34 +7,6 @@ namespace RimWorld
 	// Token: 0x020002ED RID: 749
 	public class InstructionDef : Def
 	{
-		// Token: 0x06000C61 RID: 3169 RVA: 0x0006DE34 File Offset: 0x0006C234
-		public override IEnumerable<string> ConfigErrors()
-		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
-			{
-				yield return e;
-			}
-			if (this.instructionClass == null)
-			{
-				yield return "no instruction class";
-			}
-			if (this.text.NullOrEmpty())
-			{
-				yield return "no text";
-			}
-			if (this.eventTagInitiate.NullOrEmpty())
-			{
-				yield return "no eventTagInitiate";
-			}
-			InstructionDef.tmpParseErrors.Clear();
-			this.text.AdjustedForKeys(InstructionDef.tmpParseErrors, false);
-			for (int i = 0; i < InstructionDef.tmpParseErrors.Count; i++)
-			{
-				yield return "text error: " + InstructionDef.tmpParseErrors[i];
-			}
-			yield break;
-		}
-
 		// Token: 0x04000800 RID: 2048
 		public Type instructionClass = typeof(Instruction_Basic);
 
@@ -104,5 +76,33 @@ namespace RimWorld
 
 		// Token: 0x04000814 RID: 2068
 		private static List<string> tmpParseErrors = new List<string>();
+
+		// Token: 0x06000C61 RID: 3169 RVA: 0x0006DE34 File Offset: 0x0006C234
+		public override IEnumerable<string> ConfigErrors()
+		{
+			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			{
+				yield return e;
+			}
+			if (this.instructionClass == null)
+			{
+				yield return "no instruction class";
+			}
+			if (this.text.NullOrEmpty())
+			{
+				yield return "no text";
+			}
+			if (this.eventTagInitiate.NullOrEmpty())
+			{
+				yield return "no eventTagInitiate";
+			}
+			InstructionDef.tmpParseErrors.Clear();
+			this.text.AdjustedForKeys(InstructionDef.tmpParseErrors, false);
+			for (int i = 0; i < InstructionDef.tmpParseErrors.Count; i++)
+			{
+				yield return "text error: " + InstructionDef.tmpParseErrors[i];
+			}
+			yield break;
+		}
 	}
 }

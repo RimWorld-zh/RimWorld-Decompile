@@ -9,6 +9,27 @@ namespace Verse.Grammar
 	// Token: 0x02000BE1 RID: 3041
 	public static class GrammarResolver
 	{
+		// Token: 0x04002D6C RID: 11628
+		private static SimpleLinearPool<List<GrammarResolver.RuleEntry>> rulePool = new SimpleLinearPool<List<GrammarResolver.RuleEntry>>();
+
+		// Token: 0x04002D6D RID: 11629
+		private static Dictionary<string, List<GrammarResolver.RuleEntry>> rules = new Dictionary<string, List<GrammarResolver.RuleEntry>>();
+
+		// Token: 0x04002D6E RID: 11630
+		private static int loopCount;
+
+		// Token: 0x04002D6F RID: 11631
+		private static StringBuilder logSb;
+
+		// Token: 0x04002D70 RID: 11632
+		private const int DepthLimit = 50;
+
+		// Token: 0x04002D71 RID: 11633
+		private const int LoopsLimit = 1000;
+
+		// Token: 0x04002D72 RID: 11634
+		private static Regex Spaces = new Regex(" +([,.])");
+
 		// Token: 0x0600426D RID: 17005 RVA: 0x0022F138 File Offset: 0x0022D538
 		private static void AddRule(Rule rule)
 		{
@@ -305,30 +326,24 @@ namespace Verse.Grammar
 			return result;
 		}
 
-		// Token: 0x04002D6C RID: 11628
-		private static SimpleLinearPool<List<GrammarResolver.RuleEntry>> rulePool = new SimpleLinearPool<List<GrammarResolver.RuleEntry>>();
-
-		// Token: 0x04002D6D RID: 11629
-		private static Dictionary<string, List<GrammarResolver.RuleEntry>> rules = new Dictionary<string, List<GrammarResolver.RuleEntry>>();
-
-		// Token: 0x04002D6E RID: 11630
-		private static int loopCount;
-
-		// Token: 0x04002D6F RID: 11631
-		private static StringBuilder logSb;
-
-		// Token: 0x04002D70 RID: 11632
-		private const int DepthLimit = 50;
-
-		// Token: 0x04002D71 RID: 11633
-		private const int LoopsLimit = 1000;
-
-		// Token: 0x04002D72 RID: 11634
-		private static Regex Spaces = new Regex(" +([,.])");
-
 		// Token: 0x02000BE2 RID: 3042
 		private class RuleEntry
 		{
+			// Token: 0x04002D74 RID: 11636
+			public Rule rule;
+
+			// Token: 0x04002D75 RID: 11637
+			public bool knownUnresolvable;
+
+			// Token: 0x04002D76 RID: 11638
+			public bool constantConstraintsChecked;
+
+			// Token: 0x04002D77 RID: 11639
+			public bool constantConstraintsValid;
+
+			// Token: 0x04002D78 RID: 11640
+			public int uses = 0;
+
 			// Token: 0x06004273 RID: 17011 RVA: 0x0022F9C5 File Offset: 0x0022DDC5
 			public RuleEntry(Rule rule)
 			{
@@ -381,21 +396,6 @@ namespace Verse.Grammar
 			{
 				return this.rule.ToString();
 			}
-
-			// Token: 0x04002D74 RID: 11636
-			public Rule rule;
-
-			// Token: 0x04002D75 RID: 11637
-			public bool knownUnresolvable;
-
-			// Token: 0x04002D76 RID: 11638
-			public bool constantConstraintsChecked;
-
-			// Token: 0x04002D77 RID: 11639
-			public bool constantConstraintsValid;
-
-			// Token: 0x04002D78 RID: 11640
-			public int uses = 0;
 		}
 	}
 }

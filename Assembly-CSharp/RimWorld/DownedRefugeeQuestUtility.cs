@@ -6,6 +6,12 @@ namespace RimWorld
 	// Token: 0x02000350 RID: 848
 	public static class DownedRefugeeQuestUtility
 	{
+		// Token: 0x04000902 RID: 2306
+		private const float RelationWithColonistWeight = 20f;
+
+		// Token: 0x04000903 RID: 2307
+		private const float ChanceToRedressWorldPawn = 0.2f;
+
 		// Token: 0x06000EA5 RID: 3749 RVA: 0x0007C078 File Offset: 0x0007A478
 		public static Pawn GenerateRefugee(int tile)
 		{
@@ -31,11 +37,5 @@ namespace RimWorld
 			}
 			return null;
 		}
-
-		// Token: 0x04000902 RID: 2306
-		private const float RelationWithColonistWeight = 20f;
-
-		// Token: 0x04000903 RID: 2307
-		private const float ChanceToRedressWorldPawn = 0.2f;
 	}
 }

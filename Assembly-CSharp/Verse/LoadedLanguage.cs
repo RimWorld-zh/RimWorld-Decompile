@@ -9,6 +9,39 @@ namespace Verse
 	// Token: 0x02000BF6 RID: 3062
 	public class LoadedLanguage
 	{
+		// Token: 0x04002DAE RID: 11694
+		public string folderName;
+
+		// Token: 0x04002DAF RID: 11695
+		public LanguageInfo info = null;
+
+		// Token: 0x04002DB0 RID: 11696
+		private LanguageWorker workerInt;
+
+		// Token: 0x04002DB1 RID: 11697
+		private bool dataIsLoaded = false;
+
+		// Token: 0x04002DB2 RID: 11698
+		public List<string> loadErrors = new List<string>();
+
+		// Token: 0x04002DB3 RID: 11699
+		public List<string> backstoriesLoadErrors = new List<string>();
+
+		// Token: 0x04002DB4 RID: 11700
+		public Texture2D icon = BaseContent.BadTex;
+
+		// Token: 0x04002DB5 RID: 11701
+		public Dictionary<string, string> keyedReplacements = new Dictionary<string, string>();
+
+		// Token: 0x04002DB6 RID: 11702
+		public Dictionary<string, Pair<string, int>> keyedReplacementsFileSource = new Dictionary<string, Pair<string, int>>();
+
+		// Token: 0x04002DB7 RID: 11703
+		public List<DefInjectionPackage> defInjections = new List<DefInjectionPackage>();
+
+		// Token: 0x04002DB8 RID: 11704
+		public Dictionary<string, List<string>> stringFiles = new Dictionary<string, List<string>>();
+
 		// Token: 0x060042E0 RID: 17120 RVA: 0x002364E0 File Offset: 0x002348E0
 		public LoadedLanguage(string folderPath)
 		{
@@ -429,38 +462,5 @@ namespace Verse
 		{
 			return this.info.friendlyNameEnglish;
 		}
-
-		// Token: 0x04002DAE RID: 11694
-		public string folderName;
-
-		// Token: 0x04002DAF RID: 11695
-		public LanguageInfo info = null;
-
-		// Token: 0x04002DB0 RID: 11696
-		private LanguageWorker workerInt;
-
-		// Token: 0x04002DB1 RID: 11697
-		private bool dataIsLoaded = false;
-
-		// Token: 0x04002DB2 RID: 11698
-		public List<string> loadErrors = new List<string>();
-
-		// Token: 0x04002DB3 RID: 11699
-		public List<string> backstoriesLoadErrors = new List<string>();
-
-		// Token: 0x04002DB4 RID: 11700
-		public Texture2D icon = BaseContent.BadTex;
-
-		// Token: 0x04002DB5 RID: 11701
-		public Dictionary<string, string> keyedReplacements = new Dictionary<string, string>();
-
-		// Token: 0x04002DB6 RID: 11702
-		public Dictionary<string, Pair<string, int>> keyedReplacementsFileSource = new Dictionary<string, Pair<string, int>>();
-
-		// Token: 0x04002DB7 RID: 11703
-		public List<DefInjectionPackage> defInjections = new List<DefInjectionPackage>();
-
-		// Token: 0x04002DB8 RID: 11704
-		public Dictionary<string, List<string>> stringFiles = new Dictionary<string, List<string>>();
 	}
 }

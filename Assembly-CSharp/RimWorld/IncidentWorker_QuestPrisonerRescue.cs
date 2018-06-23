@@ -7,6 +7,18 @@ namespace RimWorld
 	// Token: 0x02000355 RID: 853
 	public class IncidentWorker_QuestPrisonerRescue : IncidentWorker
 	{
+		// Token: 0x0400090E RID: 2318
+		private const int MinDistance = 2;
+
+		// Token: 0x0400090F RID: 2319
+		private const int MaxDistance = 18;
+
+		// Token: 0x04000910 RID: 2320
+		private static readonly string PrisonerRescueQuestThreatTag = "PrisonerRescueQuestThreat";
+
+		// Token: 0x04000911 RID: 2321
+		private static readonly IntRange TimeoutDaysRange = new IntRange(15, 45);
+
 		// Token: 0x06000EC1 RID: 3777 RVA: 0x0007CB38 File Offset: 0x0007AF38
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
@@ -92,17 +104,5 @@ namespace RimWorld
 				prisoner.LabelShort
 			});
 		}
-
-		// Token: 0x0400090E RID: 2318
-		private const int MinDistance = 2;
-
-		// Token: 0x0400090F RID: 2319
-		private const int MaxDistance = 18;
-
-		// Token: 0x04000910 RID: 2320
-		private static readonly string PrisonerRescueQuestThreatTag = "PrisonerRescueQuestThreat";
-
-		// Token: 0x04000911 RID: 2321
-		private static readonly IntRange TimeoutDaysRange = new IntRange(15, 45);
 	}
 }

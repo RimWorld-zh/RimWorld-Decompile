@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x0200016C RID: 364
 	public class LordJob_DefendAttackedTraderCaravan : LordJob
 	{
+		// Token: 0x0400033C RID: 828
+		private IntVec3 defendSpot;
+
 		// Token: 0x06000776 RID: 1910 RVA: 0x0004A3C1 File Offset: 0x000487C1
 		public LordJob_DefendAttackedTraderCaravan()
 		{
@@ -39,8 +42,5 @@ namespace RimWorld
 		{
 			Scribe_Values.Look<IntVec3>(ref this.defendSpot, "defendSpot", default(IntVec3), false);
 		}
-
-		// Token: 0x0400033C RID: 828
-		private IntVec3 defendSpot;
 	}
 }

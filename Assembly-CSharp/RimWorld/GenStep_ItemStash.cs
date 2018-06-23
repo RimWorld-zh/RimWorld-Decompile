@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x0200040A RID: 1034
 	public class GenStep_ItemStash : GenStep_Scatterer
 	{
+		// Token: 0x04000AD3 RID: 2771
+		public ThingSetMakerDef thingSetMakerDef;
+
+		// Token: 0x04000AD4 RID: 2772
+		private const int Size = 7;
+
 		// Token: 0x1700025F RID: 607
 		// (get) Token: 0x060011C8 RID: 4552 RVA: 0x0009A9CC File Offset: 0x00098DCC
 		public override int SeedPart
@@ -71,11 +77,5 @@ namespace RimWorld
 			BaseGen.Generate();
 			MapGenerator.SetVar<CellRect>("RectOfInterest", cellRect);
 		}
-
-		// Token: 0x04000AD3 RID: 2771
-		public ThingSetMakerDef thingSetMakerDef;
-
-		// Token: 0x04000AD4 RID: 2772
-		private const int Size = 7;
 	}
 }

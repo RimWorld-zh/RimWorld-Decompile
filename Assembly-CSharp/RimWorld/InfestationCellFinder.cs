@@ -8,6 +8,54 @@ namespace RimWorld
 	// Token: 0x020008FA RID: 2298
 	public static class InfestationCellFinder
 	{
+		// Token: 0x04001CCF RID: 7375
+		private static List<InfestationCellFinder.LocationCandidate> locationCandidates = new List<InfestationCellFinder.LocationCandidate>();
+
+		// Token: 0x04001CD0 RID: 7376
+		private static Dictionary<Region, float> regionsDistanceToUnroofed = new Dictionary<Region, float>();
+
+		// Token: 0x04001CD1 RID: 7377
+		private static ByteGrid closedAreaSize;
+
+		// Token: 0x04001CD2 RID: 7378
+		private static ByteGrid distToColonyBuilding;
+
+		// Token: 0x04001CD3 RID: 7379
+		private const float MinRequiredScore = 7.5f;
+
+		// Token: 0x04001CD4 RID: 7380
+		private const float MinMountainousnessScore = 0.17f;
+
+		// Token: 0x04001CD5 RID: 7381
+		private const int MountainousnessScoreRadialPatternIdx = 700;
+
+		// Token: 0x04001CD6 RID: 7382
+		private const int MountainousnessScoreRadialPatternSkip = 10;
+
+		// Token: 0x04001CD7 RID: 7383
+		private const float MountainousnessScorePerRock = 1f;
+
+		// Token: 0x04001CD8 RID: 7384
+		private const float MountainousnessScorePerThickRoof = 0.5f;
+
+		// Token: 0x04001CD9 RID: 7385
+		private const float MinCellTempToSpawnHive = -17f;
+
+		// Token: 0x04001CDA RID: 7386
+		private const float MaxDistanceToColonyBuilding = 30f;
+
+		// Token: 0x04001CDB RID: 7387
+		private static List<Pair<IntVec3, float>> tmpCachedInfestationChanceCellColors;
+
+		// Token: 0x04001CDC RID: 7388
+		private static HashSet<Region> tempUnroofedRegions = new HashSet<Region>();
+
+		// Token: 0x04001CDD RID: 7389
+		private static List<IntVec3> tmpColonyBuildingsLocs = new List<IntVec3>();
+
+		// Token: 0x04001CDE RID: 7390
+		private static List<KeyValuePair<IntVec3, float>> tmpDistanceResult = new List<KeyValuePair<IntVec3, float>>();
+
 		// Token: 0x0600353D RID: 13629 RVA: 0x001C8284 File Offset: 0x001C6684
 		public static bool TryFindCell(out IntVec3 cell, Map map)
 		{
@@ -445,69 +493,21 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04001CCF RID: 7375
-		private static List<InfestationCellFinder.LocationCandidate> locationCandidates = new List<InfestationCellFinder.LocationCandidate>();
-
-		// Token: 0x04001CD0 RID: 7376
-		private static Dictionary<Region, float> regionsDistanceToUnroofed = new Dictionary<Region, float>();
-
-		// Token: 0x04001CD1 RID: 7377
-		private static ByteGrid closedAreaSize;
-
-		// Token: 0x04001CD2 RID: 7378
-		private static ByteGrid distToColonyBuilding;
-
-		// Token: 0x04001CD3 RID: 7379
-		private const float MinRequiredScore = 7.5f;
-
-		// Token: 0x04001CD4 RID: 7380
-		private const float MinMountainousnessScore = 0.17f;
-
-		// Token: 0x04001CD5 RID: 7381
-		private const int MountainousnessScoreRadialPatternIdx = 700;
-
-		// Token: 0x04001CD6 RID: 7382
-		private const int MountainousnessScoreRadialPatternSkip = 10;
-
-		// Token: 0x04001CD7 RID: 7383
-		private const float MountainousnessScorePerRock = 1f;
-
-		// Token: 0x04001CD8 RID: 7384
-		private const float MountainousnessScorePerThickRoof = 0.5f;
-
-		// Token: 0x04001CD9 RID: 7385
-		private const float MinCellTempToSpawnHive = -17f;
-
-		// Token: 0x04001CDA RID: 7386
-		private const float MaxDistanceToColonyBuilding = 30f;
-
-		// Token: 0x04001CDB RID: 7387
-		private static List<Pair<IntVec3, float>> tmpCachedInfestationChanceCellColors;
-
-		// Token: 0x04001CDC RID: 7388
-		private static HashSet<Region> tempUnroofedRegions = new HashSet<Region>();
-
-		// Token: 0x04001CDD RID: 7389
-		private static List<IntVec3> tmpColonyBuildingsLocs = new List<IntVec3>();
-
-		// Token: 0x04001CDE RID: 7390
-		private static List<KeyValuePair<IntVec3, float>> tmpDistanceResult = new List<KeyValuePair<IntVec3, float>>();
-
 		// Token: 0x020008FB RID: 2299
 		private struct LocationCandidate
 		{
+			// Token: 0x04001CE3 RID: 7395
+			public IntVec3 cell;
+
+			// Token: 0x04001CE4 RID: 7396
+			public float score;
+
 			// Token: 0x0600354E RID: 13646 RVA: 0x001C9007 File Offset: 0x001C7407
 			public LocationCandidate(IntVec3 cell, float score)
 			{
 				this.cell = cell;
 				this.score = score;
 			}
-
-			// Token: 0x04001CE3 RID: 7395
-			public IntVec3 cell;
-
-			// Token: 0x04001CE4 RID: 7396
-			public float score;
 		}
 	}
 }

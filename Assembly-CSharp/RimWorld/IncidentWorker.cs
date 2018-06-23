@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x020002A3 RID: 675
 	public class IncidentWorker
 	{
+		// Token: 0x04000635 RID: 1589
+		public IncidentDef def;
+
 		// Token: 0x170001A7 RID: 423
 		// (get) Token: 0x06000B52 RID: 2898 RVA: 0x000664D4 File Offset: 0x000648D4
 		public virtual float AdjustedChance
@@ -155,8 +158,5 @@ namespace RimWorld
 			string text = string.Format(this.def.letterText, textArgs).CapitalizeFirst();
 			Find.LetterStack.ReceiveLetter(this.def.letterLabel, text, this.def.letterDef, target, relatedFaction, null);
 		}
-
-		// Token: 0x04000635 RID: 1589
-		public IncidentDef def;
 	}
 }

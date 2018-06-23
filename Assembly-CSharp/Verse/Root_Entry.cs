@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000BDB RID: 3035
 	public class Root_Entry : Root
 	{
+		// Token: 0x04002D57 RID: 11607
+		public MusicManagerEntry musicManagerEntry;
+
 		// Token: 0x0600424F RID: 16975 RVA: 0x0022E4E0 File Offset: 0x0022C8E0
 		public override void Start()
 		{
@@ -52,8 +55,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04002D57 RID: 11607
-		public MusicManagerEntry musicManagerEntry;
 	}
 }

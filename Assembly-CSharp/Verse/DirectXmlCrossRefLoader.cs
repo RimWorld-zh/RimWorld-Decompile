@@ -8,6 +8,9 @@ namespace Verse
 	// Token: 0x02000D79 RID: 3449
 	public static class DirectXmlCrossRefLoader
 	{
+		// Token: 0x0400339D RID: 13213
+		private static List<DirectXmlCrossRefLoader.WantedRef> wantedRefs = new List<DirectXmlCrossRefLoader.WantedRef>();
+
 		// Token: 0x17000C86 RID: 3206
 		// (get) Token: 0x06004D55 RID: 19797 RVA: 0x0028499C File Offset: 0x00282D9C
 		public static bool LoadingInProgress
@@ -121,22 +124,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0400339D RID: 13213
-		private static List<DirectXmlCrossRefLoader.WantedRef> wantedRefs = new List<DirectXmlCrossRefLoader.WantedRef>();
-
 		// Token: 0x02000D7A RID: 3450
 		private abstract class WantedRef
 		{
-			// Token: 0x06004D5F RID: 19807
-			public abstract bool TryResolve(FailMode failReportMode);
-
 			// Token: 0x0400339E RID: 13214
 			public object wanter;
+
+			// Token: 0x06004D5F RID: 19807
+			public abstract bool TryResolve(FailMode failReportMode);
 		}
 
 		// Token: 0x02000D7B RID: 3451
 		private class WantedRefForObject : DirectXmlCrossRefLoader.WantedRef
 		{
+			// Token: 0x0400339F RID: 13215
+			public FieldInfo fi;
+
+			// Token: 0x040033A0 RID: 13216
+			public string defName;
+
 			// Token: 0x06004D60 RID: 19808 RVA: 0x00284C80 File Offset: 0x00283080
 			public WantedRefForObject(object wanter, FieldInfo fi, string targetDefName)
 			{
@@ -199,17 +205,17 @@ namespace Verse
 				}
 				return result;
 			}
-
-			// Token: 0x0400339F RID: 13215
-			public FieldInfo fi;
-
-			// Token: 0x040033A0 RID: 13216
-			public string defName;
 		}
 
 		// Token: 0x02000D7C RID: 3452
 		private class WantedRefForList<T> : DirectXmlCrossRefLoader.WantedRef where T : new()
 		{
+			// Token: 0x040033A1 RID: 13217
+			private List<string> defNames = new List<string>();
+
+			// Token: 0x040033A2 RID: 13218
+			private object debugWanterInfo;
+
 			// Token: 0x06004D62 RID: 19810 RVA: 0x00284E17 File Offset: 0x00283217
 			public WantedRefForList(object wanter, object debugWanterInfo)
 			{
@@ -243,17 +249,17 @@ namespace Verse
 				}
 				return !flag;
 			}
-
-			// Token: 0x040033A1 RID: 13217
-			private List<string> defNames = new List<string>();
-
-			// Token: 0x040033A2 RID: 13218
-			private object debugWanterInfo;
 		}
 
 		// Token: 0x02000D7D RID: 3453
 		private class WantedRefForDictionary<K, V> : DirectXmlCrossRefLoader.WantedRef where K : new() where V : new()
 		{
+			// Token: 0x040033A3 RID: 13219
+			private List<XmlNode> wantedDictRefs = new List<XmlNode>();
+
+			// Token: 0x040033A4 RID: 13220
+			private object debugWanterInfo;
+
 			// Token: 0x06004D65 RID: 19813 RVA: 0x00284ECF File Offset: 0x002832CF
 			public WantedRefForDictionary(object wanter, object debugWanterInfo)
 			{
@@ -319,12 +325,6 @@ namespace Verse
 				}
 				return true;
 			}
-
-			// Token: 0x040033A3 RID: 13219
-			private List<XmlNode> wantedDictRefs = new List<XmlNode>();
-
-			// Token: 0x040033A4 RID: 13220
-			private object debugWanterInfo;
 		}
 	}
 }

@@ -9,6 +9,21 @@ namespace RimWorld
 	// Token: 0x02000237 RID: 567
 	public static class ThingDefGenerator_Buildings
 	{
+		// Token: 0x040003EB RID: 1003
+		public static readonly string BlueprintDefNamePrefix = "Blueprint_";
+
+		// Token: 0x040003EC RID: 1004
+		public static readonly string InstallBlueprintDefNamePrefix = "Install_";
+
+		// Token: 0x040003ED RID: 1005
+		public static readonly string BuildingFrameDefNamePrefix = "Frame_";
+
+		// Token: 0x040003EE RID: 1006
+		private static readonly string TerrainBlueprintGraphicPath = "Things/Special/TerrainBlueprint";
+
+		// Token: 0x040003EF RID: 1007
+		private static Color BlueprintColor = new Color(0.8235294f, 0.921568632f, 1f, 0.6f);
+
 		// Token: 0x06000A3C RID: 2620 RVA: 0x0005BC00 File Offset: 0x0005A000
 		public static IEnumerable<ThingDef> ImpliedBlueprintAndFrameDefs()
 		{
@@ -248,20 +263,5 @@ namespace RimWorld
 			}
 			return thingDef;
 		}
-
-		// Token: 0x040003EB RID: 1003
-		public static readonly string BlueprintDefNamePrefix = "Blueprint_";
-
-		// Token: 0x040003EC RID: 1004
-		public static readonly string InstallBlueprintDefNamePrefix = "Install_";
-
-		// Token: 0x040003ED RID: 1005
-		public static readonly string BuildingFrameDefNamePrefix = "Frame_";
-
-		// Token: 0x040003EE RID: 1006
-		private static readonly string TerrainBlueprintGraphicPath = "Things/Special/TerrainBlueprint";
-
-		// Token: 0x040003EF RID: 1007
-		private static Color BlueprintColor = new Color(0.8235294f, 0.921568632f, 1f, 0.6f);
 	}
 }

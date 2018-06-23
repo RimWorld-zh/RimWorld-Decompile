@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000078 RID: 120
 	public class JobDriver_RearmTrap : JobDriver
 	{
+		// Token: 0x04000227 RID: 551
+		private const int RearmTicks = 800;
+
 		// Token: 0x0600033A RID: 826 RVA: 0x00023AA0 File Offset: 0x00021EA0
 		public override bool TryMakePreToilReservations()
 		{
@@ -46,8 +49,5 @@ namespace RimWorld
 			};
 			yield break;
 		}
-
-		// Token: 0x04000227 RID: 551
-		private const int RearmTicks = 800;
 	}
 }

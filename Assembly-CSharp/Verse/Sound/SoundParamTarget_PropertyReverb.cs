@@ -6,6 +6,14 @@ namespace Verse.Sound
 	// Token: 0x02000B99 RID: 2969
 	public class SoundParamTarget_PropertyReverb : SoundParamTarget
 	{
+		// Token: 0x04002B33 RID: 11059
+		[Description("The base setup for the reverb.\n\nOnly used if no parameters are touching this filter.")]
+		private ReverbSetup baseSetup = new ReverbSetup();
+
+		// Token: 0x04002B34 RID: 11060
+		[Description("The interpolation target setup for this filter.\n\nWhen the interpolant parameter is at 1, these settings will be active.")]
+		private ReverbSetup targetSetup = new ReverbSetup();
+
 		// Token: 0x170009D8 RID: 2520
 		// (get) Token: 0x0600405E RID: 16478 RVA: 0x0021D2F4 File Offset: 0x0021B6F4
 		public override string Label
@@ -49,13 +57,5 @@ namespace Verse.Sound
 			}
 			reverbSetup.ApplyTo(audioReverbFilter);
 		}
-
-		// Token: 0x04002B33 RID: 11059
-		[Description("The base setup for the reverb.\n\nOnly used if no parameters are touching this filter.")]
-		private ReverbSetup baseSetup = new ReverbSetup();
-
-		// Token: 0x04002B34 RID: 11060
-		[Description("The interpolation target setup for this filter.\n\nWhen the interpolant parameter is at 1, these settings will be active.")]
-		private ReverbSetup targetSetup = new ReverbSetup();
 	}
 }

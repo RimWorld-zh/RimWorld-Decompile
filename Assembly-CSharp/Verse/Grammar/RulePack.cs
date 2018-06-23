@@ -6,6 +6,23 @@ namespace Verse.Grammar
 	// Token: 0x02000BE4 RID: 3044
 	public class RulePack
 	{
+		// Token: 0x04002D79 RID: 11641
+		[MustTranslate]
+		[TranslationCanChangeCount]
+		private List<string> rulesStrings = new List<string>();
+
+		// Token: 0x04002D7A RID: 11642
+		[MayTranslate]
+		[TranslationCanChangeCount]
+		private List<string> rulesFiles = new List<string>();
+
+		// Token: 0x04002D7B RID: 11643
+		private List<Rule> rulesRaw = null;
+
+		// Token: 0x04002D7C RID: 11644
+		[Unsaved]
+		private List<Rule> rulesResolved = null;
+
 		// Token: 0x17000A76 RID: 2678
 		// (get) Token: 0x0600427F RID: 17023 RVA: 0x00230AA8 File Offset: 0x0022EEA8
 		public List<Rule> Rules
@@ -84,22 +101,5 @@ namespace Verse.Grammar
 				return this.rulesResolved;
 			}
 		}
-
-		// Token: 0x04002D79 RID: 11641
-		[MustTranslate]
-		[TranslationCanChangeCount]
-		private List<string> rulesStrings = new List<string>();
-
-		// Token: 0x04002D7A RID: 11642
-		[MayTranslate]
-		[TranslationCanChangeCount]
-		private List<string> rulesFiles = new List<string>();
-
-		// Token: 0x04002D7B RID: 11643
-		private List<Rule> rulesRaw = null;
-
-		// Token: 0x04002D7C RID: 11644
-		[Unsaved]
-		private List<Rule> rulesResolved = null;
 	}
 }

@@ -9,6 +9,24 @@ namespace Verse
 	// Token: 0x02000CAD RID: 3245
 	public class SkyManager
 	{
+		// Token: 0x04003090 RID: 12432
+		private Map map;
+
+		// Token: 0x04003091 RID: 12433
+		private float curSkyGlowInt;
+
+		// Token: 0x04003092 RID: 12434
+		private List<Pair<SkyOverlay, float>> tempOverlays = new List<Pair<SkyOverlay, float>>();
+
+		// Token: 0x04003093 RID: 12435
+		private static readonly Color FogOfWarBaseColor = new Color32(77, 69, 66, byte.MaxValue);
+
+		// Token: 0x04003094 RID: 12436
+		public const float NightMaxCelGlow = 0.1f;
+
+		// Token: 0x04003095 RID: 12437
+		public const float DuskMaxCelGlow = 0.6f;
+
 		// Token: 0x0600478C RID: 18316 RVA: 0x0025BDCC File Offset: 0x0025A1CC
 		public SkyManager(Map map)
 		{
@@ -193,23 +211,5 @@ namespace Verse
 			stringBuilder.AppendLine("CurrentSkyTarget: " + this.CurrentSkyTarget().ToString());
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x04003090 RID: 12432
-		private Map map;
-
-		// Token: 0x04003091 RID: 12433
-		private float curSkyGlowInt;
-
-		// Token: 0x04003092 RID: 12434
-		private List<Pair<SkyOverlay, float>> tempOverlays = new List<Pair<SkyOverlay, float>>();
-
-		// Token: 0x04003093 RID: 12435
-		private static readonly Color FogOfWarBaseColor = new Color32(77, 69, 66, byte.MaxValue);
-
-		// Token: 0x04003094 RID: 12436
-		public const float NightMaxCelGlow = 0.1f;
-
-		// Token: 0x04003095 RID: 12437
-		public const float DuskMaxCelGlow = 0.6f;
 	}
 }

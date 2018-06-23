@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000712 RID: 1810
 	public class CompGatherSpot : ThingComp
 	{
+		// Token: 0x040015DD RID: 5597
+		private bool active = true;
+
 		// Token: 0x170005FE RID: 1534
 		// (get) Token: 0x060027CB RID: 10187 RVA: 0x00154DF0 File Offset: 0x001531F0
 		// (set) Token: 0x060027CC RID: 10188 RVA: 0x00154E0C File Offset: 0x0015320C
@@ -85,8 +88,5 @@ namespace RimWorld
 			yield return com;
 			yield break;
 		}
-
-		// Token: 0x040015DD RID: 5597
-		private bool active = true;
 	}
 }

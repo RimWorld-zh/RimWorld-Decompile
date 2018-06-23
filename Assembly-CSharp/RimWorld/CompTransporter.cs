@@ -11,6 +11,36 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class CompTransporter : ThingComp, IThingHolder
 	{
+		// Token: 0x04001671 RID: 5745
+		public int groupID = -1;
+
+		// Token: 0x04001672 RID: 5746
+		public ThingOwner innerContainer;
+
+		// Token: 0x04001673 RID: 5747
+		public List<TransferableOneWay> leftToLoad;
+
+		// Token: 0x04001674 RID: 5748
+		private CompLaunchable cachedCompLaunchable;
+
+		// Token: 0x04001675 RID: 5749
+		private static readonly Texture2D CancelLoadCommandTex = ContentFinder<Texture2D>.Get("UI/Designators/Cancel", true);
+
+		// Token: 0x04001676 RID: 5750
+		private static readonly Texture2D LoadCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/LoadTransporter", true);
+
+		// Token: 0x04001677 RID: 5751
+		private static readonly Texture2D SelectPreviousInGroupCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/SelectPreviousTransporter", true);
+
+		// Token: 0x04001678 RID: 5752
+		private static readonly Texture2D SelectAllInGroupCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/SelectAllTransporters", true);
+
+		// Token: 0x04001679 RID: 5753
+		private static readonly Texture2D SelectNextInGroupCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/SelectNextTransporter", true);
+
+		// Token: 0x0400167A RID: 5754
+		private static List<CompTransporter> tmpTransportersInGroup = new List<CompTransporter>();
+
 		// Token: 0x06002916 RID: 10518 RVA: 0x0015E26D File Offset: 0x0015C66D
 		public CompTransporter()
 		{
@@ -422,35 +452,5 @@ namespace RimWorld
 			int num = list.IndexOf(this);
 			CameraJumper.TryJumpAndSelect(list[(num + 1) % list.Count].parent);
 		}
-
-		// Token: 0x04001671 RID: 5745
-		public int groupID = -1;
-
-		// Token: 0x04001672 RID: 5746
-		public ThingOwner innerContainer;
-
-		// Token: 0x04001673 RID: 5747
-		public List<TransferableOneWay> leftToLoad;
-
-		// Token: 0x04001674 RID: 5748
-		private CompLaunchable cachedCompLaunchable;
-
-		// Token: 0x04001675 RID: 5749
-		private static readonly Texture2D CancelLoadCommandTex = ContentFinder<Texture2D>.Get("UI/Designators/Cancel", true);
-
-		// Token: 0x04001676 RID: 5750
-		private static readonly Texture2D LoadCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/LoadTransporter", true);
-
-		// Token: 0x04001677 RID: 5751
-		private static readonly Texture2D SelectPreviousInGroupCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/SelectPreviousTransporter", true);
-
-		// Token: 0x04001678 RID: 5752
-		private static readonly Texture2D SelectAllInGroupCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/SelectAllTransporters", true);
-
-		// Token: 0x04001679 RID: 5753
-		private static readonly Texture2D SelectNextInGroupCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/SelectNextTransporter", true);
-
-		// Token: 0x0400167A RID: 5754
-		private static List<CompTransporter> tmpTransportersInGroup = new List<CompTransporter>();
 	}
 }

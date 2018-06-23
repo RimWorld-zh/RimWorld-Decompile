@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class IncidentCategoryDefOf
 	{
-		// Token: 0x06003672 RID: 13938 RVA: 0x001D0EC1 File Offset: 0x001CF2C1
-		static IncidentCategoryDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(IncidentCategoryDefOf));
-		}
-
 		// Token: 0x04002303 RID: 8963
 		public static IncidentCategoryDef Misc;
 
@@ -50,5 +44,11 @@ namespace RimWorld
 
 		// Token: 0x0400230F RID: 8975
 		public static IncidentCategoryDef DeepDrillInfestation;
+
+		// Token: 0x06003672 RID: 13938 RVA: 0x001D0EC1 File Offset: 0x001CF2C1
+		static IncidentCategoryDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(IncidentCategoryDefOf));
+		}
 	}
 }

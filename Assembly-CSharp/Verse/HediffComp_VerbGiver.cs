@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000D1C RID: 3356
 	public class HediffComp_VerbGiver : HediffComp, IVerbOwner
 	{
+		// Token: 0x0400322C RID: 12844
+		public VerbTracker verbTracker = null;
+
 		// Token: 0x060049FA RID: 18938 RVA: 0x0026B64D File Offset: 0x00269A4D
 		public HediffComp_VerbGiver()
 		{
@@ -81,8 +84,5 @@ namespace Verse
 		{
 			return this.parent.GetUniqueLoadID();
 		}
-
-		// Token: 0x0400322C RID: 12844
-		public VerbTracker verbTracker = null;
 	}
 }

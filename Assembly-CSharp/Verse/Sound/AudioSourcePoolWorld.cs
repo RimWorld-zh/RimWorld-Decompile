@@ -7,6 +7,12 @@ namespace Verse.Sound
 	// Token: 0x02000DBC RID: 3516
 	public class AudioSourcePoolWorld
 	{
+		// Token: 0x0400344A RID: 13386
+		private List<AudioSource> sourcesWorld = new List<AudioSource>();
+
+		// Token: 0x0400344B RID: 13387
+		private const int NumSourcesWorld = 32;
+
 		// Token: 0x06004E8F RID: 20111 RVA: 0x00290E74 File Offset: 0x0028F274
 		public AudioSourcePoolWorld()
 		{
@@ -34,11 +40,5 @@ namespace Verse.Sound
 			}
 			return null;
 		}
-
-		// Token: 0x0400344A RID: 13386
-		private List<AudioSource> sourcesWorld = new List<AudioSource>();
-
-		// Token: 0x0400344B RID: 13387
-		private const int NumSourcesWorld = 32;
 	}
 }

@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x02000174 RID: 372
 	public class LordJob_Siege : LordJob
 	{
+		// Token: 0x04000357 RID: 855
+		private Faction faction;
+
+		// Token: 0x04000358 RID: 856
+		private IntVec3 siegeSpot;
+
+		// Token: 0x04000359 RID: 857
+		private float blueprintPoints;
+
 		// Token: 0x060007A8 RID: 1960 RVA: 0x0004B466 File Offset: 0x00049866
 		public LordJob_Siege()
 		{
@@ -65,14 +74,5 @@ namespace RimWorld
 			Scribe_Values.Look<IntVec3>(ref this.siegeSpot, "siegeSpot", default(IntVec3), false);
 			Scribe_Values.Look<float>(ref this.blueprintPoints, "blueprintPoints", 0f, false);
 		}
-
-		// Token: 0x04000357 RID: 855
-		private Faction faction;
-
-		// Token: 0x04000358 RID: 856
-		private IntVec3 siegeSpot;
-
-		// Token: 0x04000359 RID: 857
-		private float blueprintPoints;
 	}
 }

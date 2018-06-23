@@ -10,6 +10,51 @@ namespace RimWorld
 	// Token: 0x0200016E RID: 366
 	public class LordJob_FormAndSendCaravan : LordJob
 	{
+		// Token: 0x0400033F RID: 831
+		public List<TransferableOneWay> transferables;
+
+		// Token: 0x04000340 RID: 832
+		private IntVec3 meetingPoint;
+
+		// Token: 0x04000341 RID: 833
+		private IntVec3 exitSpot;
+
+		// Token: 0x04000342 RID: 834
+		private int startingTile;
+
+		// Token: 0x04000343 RID: 835
+		private int destinationTile;
+
+		// Token: 0x04000344 RID: 836
+		private bool caravanSent;
+
+		// Token: 0x04000345 RID: 837
+		private LordToil gatherAnimals;
+
+		// Token: 0x04000346 RID: 838
+		private LordToil gatherAnimals_pause;
+
+		// Token: 0x04000347 RID: 839
+		private LordToil gatherItems;
+
+		// Token: 0x04000348 RID: 840
+		private LordToil gatherItems_pause;
+
+		// Token: 0x04000349 RID: 841
+		private LordToil gatherSlaves;
+
+		// Token: 0x0400034A RID: 842
+		private LordToil gatherSlaves_pause;
+
+		// Token: 0x0400034B RID: 843
+		private LordToil leave;
+
+		// Token: 0x0400034C RID: 844
+		private LordToil leave_pause;
+
+		// Token: 0x0400034D RID: 845
+		public const float CustomWakeThreshold = 0.5f;
+
 		// Token: 0x0600077E RID: 1918 RVA: 0x0004A65F File Offset: 0x00048A5F
 		public LordJob_FormAndSendCaravan()
 		{
@@ -235,50 +280,5 @@ namespace RimWorld
 		{
 			return true;
 		}
-
-		// Token: 0x0400033F RID: 831
-		public List<TransferableOneWay> transferables;
-
-		// Token: 0x04000340 RID: 832
-		private IntVec3 meetingPoint;
-
-		// Token: 0x04000341 RID: 833
-		private IntVec3 exitSpot;
-
-		// Token: 0x04000342 RID: 834
-		private int startingTile;
-
-		// Token: 0x04000343 RID: 835
-		private int destinationTile;
-
-		// Token: 0x04000344 RID: 836
-		private bool caravanSent;
-
-		// Token: 0x04000345 RID: 837
-		private LordToil gatherAnimals;
-
-		// Token: 0x04000346 RID: 838
-		private LordToil gatherAnimals_pause;
-
-		// Token: 0x04000347 RID: 839
-		private LordToil gatherItems;
-
-		// Token: 0x04000348 RID: 840
-		private LordToil gatherItems_pause;
-
-		// Token: 0x04000349 RID: 841
-		private LordToil gatherSlaves;
-
-		// Token: 0x0400034A RID: 842
-		private LordToil gatherSlaves_pause;
-
-		// Token: 0x0400034B RID: 843
-		private LordToil leave;
-
-		// Token: 0x0400034C RID: 844
-		private LordToil leave_pause;
-
-		// Token: 0x0400034D RID: 845
-		public const float CustomWakeThreshold = 0.5f;
 	}
 }

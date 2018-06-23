@@ -5,6 +5,9 @@ namespace Steamworks
 	// Token: 0x0200015D RID: 349
 	public struct SteamItemDef_t : IEquatable<SteamItemDef_t>, IComparable<SteamItemDef_t>
 	{
+		// Token: 0x0400066F RID: 1647
+		public int m_SteamItemDef;
+
 		// Token: 0x060007CC RID: 1996 RVA: 0x0000D884 File Offset: 0x0000BA84
 		public SteamItemDef_t(int value)
 		{
@@ -64,8 +67,5 @@ namespace Steamworks
 		{
 			return this.m_SteamItemDef.CompareTo(other.m_SteamItemDef);
 		}
-
-		// Token: 0x0400066F RID: 1647
-		public int m_SteamItemDef;
 	}
 }

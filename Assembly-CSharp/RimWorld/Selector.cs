@@ -12,6 +12,18 @@ namespace RimWorld
 	// Token: 0x02000864 RID: 2148
 	public class Selector
 	{
+		// Token: 0x04001A63 RID: 6755
+		public DragBox dragBox = new DragBox();
+
+		// Token: 0x04001A64 RID: 6756
+		private List<object> selected = new List<object>();
+
+		// Token: 0x04001A65 RID: 6757
+		private const float PawnSelectRadius = 1f;
+
+		// Token: 0x04001A66 RID: 6758
+		private const int MaxNumSelected = 80;
+
 		// Token: 0x170007CB RID: 1995
 		// (get) Token: 0x060030C0 RID: 12480 RVA: 0x001A7B38 File Offset: 0x001A5F38
 		private bool ShiftIsHeld
@@ -691,17 +703,5 @@ namespace RimWorld
 				floatMenuOption.Chosen(true);
 			}
 		}
-
-		// Token: 0x04001A63 RID: 6755
-		public DragBox dragBox = new DragBox();
-
-		// Token: 0x04001A64 RID: 6756
-		private List<object> selected = new List<object>();
-
-		// Token: 0x04001A65 RID: 6757
-		private const float PawnSelectRadius = 1f;
-
-		// Token: 0x04001A66 RID: 6758
-		private const int MaxNumSelected = 80;
 	}
 }

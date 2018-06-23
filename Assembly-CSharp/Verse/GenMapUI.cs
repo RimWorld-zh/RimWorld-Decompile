@@ -8,6 +8,27 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class GenMapUI
 	{
+		// Token: 0x0400311D RID: 12573
+		public static readonly Texture2D OverlayHealthTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 0f, 0f, 0.25f));
+
+		// Token: 0x0400311E RID: 12574
+		public const float NameBGHeight_Tiny = 12f;
+
+		// Token: 0x0400311F RID: 12575
+		public const float NameBGExtraWidth_Tiny = 4f;
+
+		// Token: 0x04003120 RID: 12576
+		public const float NameBGHeight_Small = 16f;
+
+		// Token: 0x04003121 RID: 12577
+		public const float NameBGExtraWidth_Small = 6f;
+
+		// Token: 0x04003122 RID: 12578
+		public const float LabelOffsetYStandard = -0.4f;
+
+		// Token: 0x04003123 RID: 12579
+		public static readonly Color DefaultThingLabelColor = new Color(1f, 1f, 1f, 0.75f);
+
 		// Token: 0x0600489E RID: 18590 RVA: 0x00262038 File Offset: 0x00260438
 		public static Vector2 LabelDrawPosFor(Thing thing, float worldOffsetZ)
 		{
@@ -155,26 +176,5 @@ namespace Verse
 			Text.Font = font2;
 			return result;
 		}
-
-		// Token: 0x0400311D RID: 12573
-		public static readonly Texture2D OverlayHealthTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 0f, 0f, 0.25f));
-
-		// Token: 0x0400311E RID: 12574
-		public const float NameBGHeight_Tiny = 12f;
-
-		// Token: 0x0400311F RID: 12575
-		public const float NameBGExtraWidth_Tiny = 4f;
-
-		// Token: 0x04003120 RID: 12576
-		public const float NameBGHeight_Small = 16f;
-
-		// Token: 0x04003121 RID: 12577
-		public const float NameBGExtraWidth_Small = 6f;
-
-		// Token: 0x04003122 RID: 12578
-		public const float LabelOffsetYStandard = -0.4f;
-
-		// Token: 0x04003123 RID: 12579
-		public static readonly Color DefaultThingLabelColor = new Color(1f, 1f, 1f, 0.75f);
 	}
 }

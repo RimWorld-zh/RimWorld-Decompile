@@ -5,6 +5,9 @@ namespace RimWorld.BaseGen
 	// Token: 0x02000395 RID: 917
 	public class SymbolResolver_BasePart_Indoors_Leaf_Brewery : SymbolResolver
 	{
+		// Token: 0x040009F6 RID: 2550
+		private const float MaxCoverage = 0.08f;
+
 		// Token: 0x06001001 RID: 4097 RVA: 0x00086E34 File Offset: 0x00085234
 		public override bool CanResolve(ResolveParams rp)
 		{
@@ -17,8 +20,5 @@ namespace RimWorld.BaseGen
 			BaseGen.symbolStack.Push("brewery", rp);
 			BaseGen.globalSettings.basePart_breweriesCoverage += (float)rp.rect.Area / (float)BaseGen.globalSettings.mainRect.Area;
 		}
-
-		// Token: 0x040009F6 RID: 2550
-		private const float MaxCoverage = 0.08f;
 	}
 }

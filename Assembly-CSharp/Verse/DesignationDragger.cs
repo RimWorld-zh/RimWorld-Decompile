@@ -9,6 +9,33 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public class DesignationDragger
 	{
+		// Token: 0x04003578 RID: 13688
+		private bool dragging = false;
+
+		// Token: 0x04003579 RID: 13689
+		private IntVec3 startDragCell;
+
+		// Token: 0x0400357A RID: 13690
+		private int lastFrameDragCellsDrawn = 0;
+
+		// Token: 0x0400357B RID: 13691
+		private Sustainer sustainer;
+
+		// Token: 0x0400357C RID: 13692
+		private float lastDragRealTime = -1000f;
+
+		// Token: 0x0400357D RID: 13693
+		private List<IntVec3> dragCells = new List<IntVec3>();
+
+		// Token: 0x0400357E RID: 13694
+		private string failureReasonInt = null;
+
+		// Token: 0x0400357F RID: 13695
+		private int lastUpdateFrame = -1;
+
+		// Token: 0x04003580 RID: 13696
+		private const int MaxSquareWidth = 50;
+
 		// Token: 0x17000D61 RID: 3425
 		// (get) Token: 0x060051A1 RID: 20897 RVA: 0x0029E718 File Offset: 0x0029CB18
 		public bool Dragging
@@ -240,32 +267,5 @@ namespace Verse
 				this.failureReasonInt = acceptanceReport.Reason;
 			}
 		}
-
-		// Token: 0x04003578 RID: 13688
-		private bool dragging = false;
-
-		// Token: 0x04003579 RID: 13689
-		private IntVec3 startDragCell;
-
-		// Token: 0x0400357A RID: 13690
-		private int lastFrameDragCellsDrawn = 0;
-
-		// Token: 0x0400357B RID: 13691
-		private Sustainer sustainer;
-
-		// Token: 0x0400357C RID: 13692
-		private float lastDragRealTime = -1000f;
-
-		// Token: 0x0400357D RID: 13693
-		private List<IntVec3> dragCells = new List<IntVec3>();
-
-		// Token: 0x0400357E RID: 13694
-		private string failureReasonInt = null;
-
-		// Token: 0x0400357F RID: 13695
-		private int lastUpdateFrame = -1;
-
-		// Token: 0x04003580 RID: 13696
-		private const int MaxSquareWidth = 50;
 	}
 }

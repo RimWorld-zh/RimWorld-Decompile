@@ -6,6 +6,9 @@ namespace Steamworks
 	// Token: 0x02000031 RID: 49
 	public static class Packsize
 	{
+		// Token: 0x04000040 RID: 64
+		public const int value = 8;
+
 		// Token: 0x060000BD RID: 189 RVA: 0x0000348C File Offset: 0x0000168C
 		public static bool Test()
 		{
@@ -13,9 +16,6 @@ namespace Steamworks
 			int num2 = Marshal.SizeOf(typeof(RemoteStorageEnumerateUserSubscribedFilesResult_t));
 			return num == 32 && num2 == 616;
 		}
-
-		// Token: 0x04000040 RID: 64
-		public const int value = 8;
 
 		// Token: 0x02000032 RID: 50
 		[StructLayout(LayoutKind.Sequential, Pack = 8)]

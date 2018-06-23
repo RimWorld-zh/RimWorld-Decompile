@@ -10,6 +10,9 @@ namespace RimWorld.Planet
 	// Token: 0x020005F6 RID: 1526
 	public static class SettleInExistingMapUtility
 	{
+		// Token: 0x0400120E RID: 4622
+		private static List<Pawn> tmpPlayerPawns = new List<Pawn>();
+
 		// Token: 0x06001E63 RID: 7779 RVA: 0x001073E4 File Offset: 0x001057E4
 		public static Command SettleCommand(Map map, bool requiresNoEnemies)
 		{
@@ -80,8 +83,5 @@ namespace RimWorld.Planet
 				prisonersOfColonySpawned[i].guest.WaitInsteadOfEscapingForDefaultTicks();
 			}
 		}
-
-		// Token: 0x0400120E RID: 4622
-		private static List<Pawn> tmpPlayerPawns = new List<Pawn>();
 	}
 }

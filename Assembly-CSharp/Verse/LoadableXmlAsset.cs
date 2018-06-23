@@ -7,6 +7,21 @@ namespace Verse
 	// Token: 0x02000D87 RID: 3463
 	public class LoadableXmlAsset
 	{
+		// Token: 0x040033B6 RID: 13238
+		public string name;
+
+		// Token: 0x040033B7 RID: 13239
+		public string fullFolderPath;
+
+		// Token: 0x040033B8 RID: 13240
+		public XmlDocument xmlDoc;
+
+		// Token: 0x040033B9 RID: 13241
+		public ModContentPack mod;
+
+		// Token: 0x040033BA RID: 13242
+		public DefPackage defPackage;
+
 		// Token: 0x06004D82 RID: 19842 RVA: 0x002874A0 File Offset: 0x002858A0
 		public LoadableXmlAsset(string name, string fullFolderPath, string contents)
 		{
@@ -45,20 +60,5 @@ namespace Verse
 		{
 			return this.name;
 		}
-
-		// Token: 0x040033B6 RID: 13238
-		public string name;
-
-		// Token: 0x040033B7 RID: 13239
-		public string fullFolderPath;
-
-		// Token: 0x040033B8 RID: 13240
-		public XmlDocument xmlDoc;
-
-		// Token: 0x040033B9 RID: 13241
-		public ModContentPack mod;
-
-		// Token: 0x040033BA RID: 13242
-		public DefPackage defPackage;
 	}
 }

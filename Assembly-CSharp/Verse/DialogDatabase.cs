@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000EC4 RID: 3780
 	public static class DialogDatabase
 	{
+		// Token: 0x04003BB8 RID: 15288
+		private static List<DiaNodeMold> Nodes = new List<DiaNodeMold>();
+
+		// Token: 0x04003BB9 RID: 15289
+		private static List<DiaNodeList> NodeLists = new List<DiaNodeList>();
+
 		// Token: 0x0600596E RID: 22894 RVA: 0x002DD718 File Offset: 0x002DBB18
 		static DialogDatabase()
 		{
@@ -75,11 +81,5 @@ namespace Verse
 			Log.Error("Did not find node named '" + NodeName + "'.", false);
 			return null;
 		}
-
-		// Token: 0x04003BB8 RID: 15288
-		private static List<DiaNodeMold> Nodes = new List<DiaNodeMold>();
-
-		// Token: 0x04003BB9 RID: 15289
-		private static List<DiaNodeList> NodeLists = new List<DiaNodeList>();
 	}
 }

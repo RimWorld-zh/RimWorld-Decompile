@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x0200073E RID: 1854
 	public abstract class CompTerrainPump : ThingComp
 	{
+		// Token: 0x0400166D RID: 5741
+		private CompPowerTrader powerComp;
+
+		// Token: 0x0400166E RID: 5742
+		private int progressTicks;
+
 		// Token: 0x17000658 RID: 1624
 		// (get) Token: 0x06002903 RID: 10499 RVA: 0x0015DD0C File Offset: 0x0015C10C
 		private CompProperties_TerrainPump Props
@@ -153,11 +159,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x0400166D RID: 5741
-		private CompPowerTrader powerComp;
-
-		// Token: 0x0400166E RID: 5742
-		private int progressTicks;
 	}
 }

@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020009BA RID: 2490
 	public class StatPart_WorkTableOutdoors : StatPart
 	{
+		// Token: 0x040023C0 RID: 9152
+		public const float WorkRateFactor = 0.9f;
+
 		// Token: 0x060037C2 RID: 14274 RVA: 0x001DADFA File Offset: 0x001D91FA
 		public override void TransformValue(StatRequest req, ref float val)
 		{
@@ -55,8 +58,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040023C0 RID: 9152
-		public const float WorkRateFactor = 0.9f;
 	}
 }

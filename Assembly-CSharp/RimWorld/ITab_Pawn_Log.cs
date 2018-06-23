@@ -10,6 +10,68 @@ namespace RimWorld
 	// Token: 0x0200084F RID: 2127
 	public class ITab_Pawn_Log : ITab
 	{
+		// Token: 0x04001A1B RID: 6683
+		public const float Width = 630f;
+
+		// Token: 0x04001A1C RID: 6684
+		[TweakValue("Interface", 0f, 1000f)]
+		private static float ShowAllX = 60f;
+
+		// Token: 0x04001A1D RID: 6685
+		[TweakValue("Interface", 0f, 1000f)]
+		private static float ShowAllWidth = 100f;
+
+		// Token: 0x04001A1E RID: 6686
+		[TweakValue("Interface", 0f, 1000f)]
+		private static float ShowCombatX = 445f;
+
+		// Token: 0x04001A1F RID: 6687
+		[TweakValue("Interface", 0f, 1000f)]
+		private static float ShowCombatWidth = 115f;
+
+		// Token: 0x04001A20 RID: 6688
+		[TweakValue("Interface", 0f, 1000f)]
+		private static float ShowSocialX = 330f;
+
+		// Token: 0x04001A21 RID: 6689
+		[TweakValue("Interface", 0f, 1000f)]
+		private static float ShowSocialWidth = 105f;
+
+		// Token: 0x04001A22 RID: 6690
+		[TweakValue("Interface", 0f, 20f)]
+		private static float ToolbarHeight = 2f;
+
+		// Token: 0x04001A23 RID: 6691
+		[TweakValue("Interface", 0f, 100f)]
+		private static float ButtonOffset = 60f;
+
+		// Token: 0x04001A24 RID: 6692
+		public bool showAll = false;
+
+		// Token: 0x04001A25 RID: 6693
+		public bool showCombat = true;
+
+		// Token: 0x04001A26 RID: 6694
+		public bool showSocial = true;
+
+		// Token: 0x04001A27 RID: 6695
+		public LogEntry logSeek = null;
+
+		// Token: 0x04001A28 RID: 6696
+		public ITab_Pawn_Log_Utility.LogDrawData data = new ITab_Pawn_Log_Utility.LogDrawData();
+
+		// Token: 0x04001A29 RID: 6697
+		public List<ITab_Pawn_Log_Utility.LogLineDisplayable> cachedLogDisplay;
+
+		// Token: 0x04001A2A RID: 6698
+		public int cachedLogDisplayLastTick = -1;
+
+		// Token: 0x04001A2B RID: 6699
+		public int cachedLogPlayLastTick = -1;
+
+		// Token: 0x04001A2C RID: 6700
+		private Vector2 scrollPosition = default(Vector2);
+
 		// Token: 0x0600303D RID: 12349 RVA: 0x001A4264 File Offset: 0x001A2664
 		public ITab_Pawn_Log()
 		{
@@ -133,67 +195,5 @@ namespace RimWorld
 			this.data.highlightEntry = entry;
 			this.data.highlightIntensity = 1f;
 		}
-
-		// Token: 0x04001A1B RID: 6683
-		public const float Width = 630f;
-
-		// Token: 0x04001A1C RID: 6684
-		[TweakValue("Interface", 0f, 1000f)]
-		private static float ShowAllX = 60f;
-
-		// Token: 0x04001A1D RID: 6685
-		[TweakValue("Interface", 0f, 1000f)]
-		private static float ShowAllWidth = 100f;
-
-		// Token: 0x04001A1E RID: 6686
-		[TweakValue("Interface", 0f, 1000f)]
-		private static float ShowCombatX = 445f;
-
-		// Token: 0x04001A1F RID: 6687
-		[TweakValue("Interface", 0f, 1000f)]
-		private static float ShowCombatWidth = 115f;
-
-		// Token: 0x04001A20 RID: 6688
-		[TweakValue("Interface", 0f, 1000f)]
-		private static float ShowSocialX = 330f;
-
-		// Token: 0x04001A21 RID: 6689
-		[TweakValue("Interface", 0f, 1000f)]
-		private static float ShowSocialWidth = 105f;
-
-		// Token: 0x04001A22 RID: 6690
-		[TweakValue("Interface", 0f, 20f)]
-		private static float ToolbarHeight = 2f;
-
-		// Token: 0x04001A23 RID: 6691
-		[TweakValue("Interface", 0f, 100f)]
-		private static float ButtonOffset = 60f;
-
-		// Token: 0x04001A24 RID: 6692
-		public bool showAll = false;
-
-		// Token: 0x04001A25 RID: 6693
-		public bool showCombat = true;
-
-		// Token: 0x04001A26 RID: 6694
-		public bool showSocial = true;
-
-		// Token: 0x04001A27 RID: 6695
-		public LogEntry logSeek = null;
-
-		// Token: 0x04001A28 RID: 6696
-		public ITab_Pawn_Log_Utility.LogDrawData data = new ITab_Pawn_Log_Utility.LogDrawData();
-
-		// Token: 0x04001A29 RID: 6697
-		public List<ITab_Pawn_Log_Utility.LogLineDisplayable> cachedLogDisplay;
-
-		// Token: 0x04001A2A RID: 6698
-		public int cachedLogDisplayLastTick = -1;
-
-		// Token: 0x04001A2B RID: 6699
-		public int cachedLogPlayLastTick = -1;
-
-		// Token: 0x04001A2C RID: 6700
-		private Vector2 scrollPosition = default(Vector2);
 	}
 }

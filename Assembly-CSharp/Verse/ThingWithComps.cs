@@ -9,6 +9,12 @@ namespace Verse
 	// Token: 0x02000DFA RID: 3578
 	public class ThingWithComps : Thing
 	{
+		// Token: 0x0400353D RID: 13629
+		private List<ThingComp> comps;
+
+		// Token: 0x0400353E RID: 13630
+		private static readonly List<ThingComp> EmptyCompsList = new List<ThingComp>();
+
 		// Token: 0x17000D3D RID: 3389
 		// (get) Token: 0x060050F0 RID: 20720 RVA: 0x00128214 File Offset: 0x00126614
 		public List<ThingComp> AllComps
@@ -596,11 +602,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x0400353D RID: 13629
-		private List<ThingComp> comps;
-
-		// Token: 0x0400353E RID: 13630
-		private static readonly List<ThingComp> EmptyCompsList = new List<ThingComp>();
 	}
 }

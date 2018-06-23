@@ -8,6 +8,21 @@ namespace RimWorld
 	// Token: 0x02000030 RID: 48
 	public class JobDriver_PredatorHunt : JobDriver
 	{
+		// Token: 0x040001B1 RID: 433
+		private bool notifiedPlayer;
+
+		// Token: 0x040001B2 RID: 434
+		private bool firstHit = true;
+
+		// Token: 0x040001B3 RID: 435
+		public const TargetIndex PreyInd = TargetIndex.A;
+
+		// Token: 0x040001B4 RID: 436
+		private const TargetIndex CorpseInd = TargetIndex.A;
+
+		// Token: 0x040001B5 RID: 437
+		private const int MaxHuntTicks = 5000;
+
 		// Token: 0x1700005A RID: 90
 		// (get) Token: 0x060001B8 RID: 440 RVA: 0x000127D8 File Offset: 0x00010BD8
 		public Pawn Prey
@@ -146,20 +161,5 @@ namespace RimWorld
 				this.pawn.mindState.StartFleeingBecauseOfPawnAction(dinfo.Instigator);
 			}
 		}
-
-		// Token: 0x040001B1 RID: 433
-		private bool notifiedPlayer;
-
-		// Token: 0x040001B2 RID: 434
-		private bool firstHit = true;
-
-		// Token: 0x040001B3 RID: 435
-		public const TargetIndex PreyInd = TargetIndex.A;
-
-		// Token: 0x040001B4 RID: 436
-		private const TargetIndex CorpseInd = TargetIndex.A;
-
-		// Token: 0x040001B5 RID: 437
-		private const int MaxHuntTicks = 5000;
 	}
 }

@@ -11,6 +11,21 @@ namespace RimWorld
 	// Token: 0x0200081E RID: 2078
 	public static class StatsReportUtility
 	{
+		// Token: 0x040018ED RID: 6381
+		private static StatDrawEntry selectedEntry;
+
+		// Token: 0x040018EE RID: 6382
+		private static StatDrawEntry mousedOverEntry;
+
+		// Token: 0x040018EF RID: 6383
+		private static Vector2 scrollPosition;
+
+		// Token: 0x040018F0 RID: 6384
+		private static float listHeight;
+
+		// Token: 0x040018F1 RID: 6385
+		private static List<StatDrawEntry> cachedDrawEntries = new List<StatDrawEntry>();
+
 		// Token: 0x06002E83 RID: 11907 RVA: 0x0018D6C0 File Offset: 0x0018BAC0
 		public static void Reset()
 		{
@@ -287,20 +302,5 @@ namespace RimWorld
 			}
 			GUI.EndGroup();
 		}
-
-		// Token: 0x040018ED RID: 6381
-		private static StatDrawEntry selectedEntry;
-
-		// Token: 0x040018EE RID: 6382
-		private static StatDrawEntry mousedOverEntry;
-
-		// Token: 0x040018EF RID: 6383
-		private static Vector2 scrollPosition;
-
-		// Token: 0x040018F0 RID: 6384
-		private static float listHeight;
-
-		// Token: 0x040018F1 RID: 6385
-		private static List<StatDrawEntry> cachedDrawEntries = new List<StatDrawEntry>();
 	}
 }

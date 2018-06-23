@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020001DD RID: 477
 	public class ThinkNode_ConditionalCloseToDutyTarget : ThinkNode_Conditional
 	{
+		// Token: 0x040003E0 RID: 992
+		private float maxDistToDutyTarget = 10f;
+
 		// Token: 0x06000972 RID: 2418 RVA: 0x00056790 File Offset: 0x00054B90
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -20,8 +23,5 @@ namespace RimWorld
 		{
 			return pawn.mindState.duty.focus.IsValid && pawn.Position.InHorDistOf(pawn.mindState.duty.focus.Cell, this.maxDistToDutyTarget);
 		}
-
-		// Token: 0x040003E0 RID: 992
-		private float maxDistToDutyTarget = 10f;
 	}
 }

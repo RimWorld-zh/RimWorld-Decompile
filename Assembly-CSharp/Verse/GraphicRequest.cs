@@ -7,6 +7,33 @@ namespace Verse
 	// Token: 0x02000DCA RID: 3530
 	public struct GraphicRequest : IEquatable<GraphicRequest>
 	{
+		// Token: 0x04003497 RID: 13463
+		public Type graphicClass;
+
+		// Token: 0x04003498 RID: 13464
+		public string path;
+
+		// Token: 0x04003499 RID: 13465
+		public Shader shader;
+
+		// Token: 0x0400349A RID: 13466
+		public Vector2 drawSize;
+
+		// Token: 0x0400349B RID: 13467
+		public Color color;
+
+		// Token: 0x0400349C RID: 13468
+		public Color colorTwo;
+
+		// Token: 0x0400349D RID: 13469
+		public GraphicData graphicData;
+
+		// Token: 0x0400349E RID: 13470
+		public int renderQueue;
+
+		// Token: 0x0400349F RID: 13471
+		public List<ShaderParameter> shaderParameters;
+
 		// Token: 0x06004F27 RID: 20263 RVA: 0x00293F28 File Offset: 0x00292328
 		public GraphicRequest(Type graphicClass, string path, Shader shader, Vector2 drawSize, Color color, Color colorTwo, GraphicData graphicData, int renderQueue, List<ShaderParameter> shaderParameters)
 		{
@@ -63,32 +90,5 @@ namespace Verse
 		{
 			return !(lhs == rhs);
 		}
-
-		// Token: 0x04003497 RID: 13463
-		public Type graphicClass;
-
-		// Token: 0x04003498 RID: 13464
-		public string path;
-
-		// Token: 0x04003499 RID: 13465
-		public Shader shader;
-
-		// Token: 0x0400349A RID: 13466
-		public Vector2 drawSize;
-
-		// Token: 0x0400349B RID: 13467
-		public Color color;
-
-		// Token: 0x0400349C RID: 13468
-		public Color colorTwo;
-
-		// Token: 0x0400349D RID: 13469
-		public GraphicData graphicData;
-
-		// Token: 0x0400349E RID: 13470
-		public int renderQueue;
-
-		// Token: 0x0400349F RID: 13471
-		public List<ShaderParameter> shaderParameters;
 	}
 }

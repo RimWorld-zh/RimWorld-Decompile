@@ -6,6 +6,15 @@ namespace Verse.Noise
 	// Token: 0x02000F7A RID: 3962
 	public class DistanceFromPlanetViewCenter : ModuleBase
 	{
+		// Token: 0x04003EDA RID: 16090
+		public Vector3 viewCenter;
+
+		// Token: 0x04003EDB RID: 16091
+		public float viewAngle;
+
+		// Token: 0x04003EDC RID: 16092
+		public bool invert;
+
 		// Token: 0x06005FA3 RID: 24483 RVA: 0x0030B489 File Offset: 0x00309889
 		public DistanceFromPlanetViewCenter() : base(0)
 		{
@@ -50,14 +59,5 @@ namespace Verse.Noise
 			}
 			return result;
 		}
-
-		// Token: 0x04003EDA RID: 16090
-		public Vector3 viewCenter;
-
-		// Token: 0x04003EDB RID: 16091
-		public float viewAngle;
-
-		// Token: 0x04003EDC RID: 16092
-		public bool invert;
 	}
 }

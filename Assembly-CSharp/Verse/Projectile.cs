@@ -9,6 +9,45 @@ namespace Verse
 	// Token: 0x02000DEF RID: 3567
 	public abstract class Projectile : ThingWithComps
 	{
+		// Token: 0x040034FF RID: 13567
+		protected Vector3 origin;
+
+		// Token: 0x04003500 RID: 13568
+		protected Vector3 destination;
+
+		// Token: 0x04003501 RID: 13569
+		protected LocalTargetInfo usedTarget;
+
+		// Token: 0x04003502 RID: 13570
+		protected LocalTargetInfo intendedTarget;
+
+		// Token: 0x04003503 RID: 13571
+		protected ThingDef equipmentDef;
+
+		// Token: 0x04003504 RID: 13572
+		protected Thing launcher;
+
+		// Token: 0x04003505 RID: 13573
+		protected ThingDef targetCoverDef;
+
+		// Token: 0x04003506 RID: 13574
+		private ProjectileHitFlags desiredHitFlags = ProjectileHitFlags.All;
+
+		// Token: 0x04003507 RID: 13575
+		protected bool landed;
+
+		// Token: 0x04003508 RID: 13576
+		protected int ticksToImpact;
+
+		// Token: 0x04003509 RID: 13577
+		private Sustainer ambientSustainer = null;
+
+		// Token: 0x0400350A RID: 13578
+		private static List<IntVec3> checkedCells = new List<IntVec3>();
+
+		// Token: 0x0400350B RID: 13579
+		private static readonly List<Thing> cellThingsFiltered = new List<Thing>();
+
 		// Token: 0x17000D02 RID: 3330
 		// (get) Token: 0x06004FFC RID: 20476 RVA: 0x00146A34 File Offset: 0x00144E34
 		// (set) Token: 0x06004FFD RID: 20477 RVA: 0x00146A87 File Offset: 0x00144E87
@@ -468,44 +507,5 @@ namespace Verse
 			GenClamor.DoClamor(this, 2.1f, ClamorDefOf.Impact);
 			this.Destroy(DestroyMode.Vanish);
 		}
-
-		// Token: 0x040034FF RID: 13567
-		protected Vector3 origin;
-
-		// Token: 0x04003500 RID: 13568
-		protected Vector3 destination;
-
-		// Token: 0x04003501 RID: 13569
-		protected LocalTargetInfo usedTarget;
-
-		// Token: 0x04003502 RID: 13570
-		protected LocalTargetInfo intendedTarget;
-
-		// Token: 0x04003503 RID: 13571
-		protected ThingDef equipmentDef;
-
-		// Token: 0x04003504 RID: 13572
-		protected Thing launcher;
-
-		// Token: 0x04003505 RID: 13573
-		protected ThingDef targetCoverDef;
-
-		// Token: 0x04003506 RID: 13574
-		private ProjectileHitFlags desiredHitFlags = ProjectileHitFlags.All;
-
-		// Token: 0x04003507 RID: 13575
-		protected bool landed;
-
-		// Token: 0x04003508 RID: 13576
-		protected int ticksToImpact;
-
-		// Token: 0x04003509 RID: 13577
-		private Sustainer ambientSustainer = null;
-
-		// Token: 0x0400350A RID: 13578
-		private static List<IntVec3> checkedCells = new List<IntVec3>();
-
-		// Token: 0x0400350B RID: 13579
-		private static readonly List<Thing> cellThingsFiltered = new List<Thing>();
 	}
 }

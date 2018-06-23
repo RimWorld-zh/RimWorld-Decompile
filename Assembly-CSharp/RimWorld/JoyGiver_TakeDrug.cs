@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000102 RID: 258
 	public class JoyGiver_TakeDrug : JoyGiver_Ingest
 	{
+		// Token: 0x040002E2 RID: 738
+		private static List<ThingDef> takeableDrugs = new List<ThingDef>();
+
 		// Token: 0x0600056C RID: 1388 RVA: 0x0003AF60 File Offset: 0x00039360
 		protected override Thing BestIngestItem(Pawn pawn, Predicate<Thing> extraValidator)
 		{
@@ -94,8 +97,5 @@ namespace RimWorld
 		{
 			return DrugAIUtility.IngestAndTakeToInventoryJob(ingestible, pawn, 9999);
 		}
-
-		// Token: 0x040002E2 RID: 738
-		private static List<ThingDef> takeableDrugs = new List<ThingDef>();
 	}
 }

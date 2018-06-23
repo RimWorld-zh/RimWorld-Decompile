@@ -7,6 +7,15 @@ namespace Verse
 	// Token: 0x02000C3F RID: 3135
 	public abstract class SectionLayer
 	{
+		// Token: 0x04002F49 RID: 12105
+		protected Section section;
+
+		// Token: 0x04002F4A RID: 12106
+		public MapMeshFlag relevantChangeTypes = MapMeshFlag.None;
+
+		// Token: 0x04002F4B RID: 12107
+		public List<LayerSubMesh> subMeshes = new List<LayerSubMesh>();
+
 		// Token: 0x06004524 RID: 17700 RVA: 0x00084C64 File Offset: 0x00083064
 		public SectionLayer(Section section)
 		{
@@ -108,14 +117,5 @@ namespace Verse
 				layerSubMesh.Clear(parts);
 			}
 		}
-
-		// Token: 0x04002F49 RID: 12105
-		protected Section section;
-
-		// Token: 0x04002F4A RID: 12106
-		public MapMeshFlag relevantChangeTypes = MapMeshFlag.None;
-
-		// Token: 0x04002F4B RID: 12107
-		public List<LayerSubMesh> subMeshes = new List<LayerSubMesh>();
 	}
 }

@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000F5C RID: 3932
 	public class KeyPrefsData
 	{
+		// Token: 0x04003E6D RID: 15981
+		public Dictionary<KeyBindingDef, KeyBindingData> keyPrefs = new Dictionary<KeyBindingDef, KeyBindingData>();
+
 		// Token: 0x06005F3A RID: 24378 RVA: 0x00308CFB File Offset: 0x003070FB
 		public void ResetToDefaults()
 		{
@@ -190,8 +193,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04003E6D RID: 15981
-		public Dictionary<KeyBindingDef, KeyBindingData> keyPrefs = new Dictionary<KeyBindingDef, KeyBindingData>();
 	}
 }

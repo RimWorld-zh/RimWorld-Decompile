@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x0200062E RID: 1582
 	public class ScenPart_GameCondition : ScenPart
 	{
+		// Token: 0x040012B7 RID: 4791
+		private float durationDays;
+
+		// Token: 0x040012B8 RID: 4792
+		private string durationDaysBuf;
+
 		// Token: 0x170004E2 RID: 1250
 		// (get) Token: 0x06002093 RID: 8339 RVA: 0x00117440 File Offset: 0x00115840
 		public override string Label
@@ -81,11 +87,5 @@ namespace RimWorld
 			ScenPart_GameCondition scenPart_GameCondition = other as ScenPart_GameCondition;
 			return scenPart_GameCondition == null || scenPart_GameCondition.def.gameCondition.CanCoexistWith(this.def.gameCondition);
 		}
-
-		// Token: 0x040012B7 RID: 4791
-		private float durationDays;
-
-		// Token: 0x040012B8 RID: 4792
-		private string durationDaysBuf;
 	}
 }

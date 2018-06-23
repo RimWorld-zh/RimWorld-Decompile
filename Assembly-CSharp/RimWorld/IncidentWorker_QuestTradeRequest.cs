@@ -10,6 +10,67 @@ namespace RimWorld
 	// Token: 0x02000357 RID: 855
 	public class IncidentWorker_QuestTradeRequest : IncidentWorker
 	{
+		// Token: 0x04000913 RID: 2323
+		private static readonly IntRange RandomDurationRangeDays = new IntRange(18, 38);
+
+		// Token: 0x04000914 RID: 2324
+		private const int MaxDurationDays = 40;
+
+		// Token: 0x04000915 RID: 2325
+		private const float MinTravelTimeFraction = 0.35f;
+
+		// Token: 0x04000916 RID: 2326
+		private const float MinTravelTimeAbsolute = 6f;
+
+		// Token: 0x04000917 RID: 2327
+		private const int MaxTileDistance = 36;
+
+		// Token: 0x04000918 RID: 2328
+		private static readonly IntRange BaseValueWantedRange = new IntRange(500, 2500);
+
+		// Token: 0x04000919 RID: 2329
+		private static readonly SimpleCurve ValueWantedFactorFromWealthCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 0.5f),
+				true
+			},
+			{
+				new CurvePoint(50000f, 1f),
+				true
+			},
+			{
+				new CurvePoint(300000f, 2f),
+				true
+			}
+		};
+
+		// Token: 0x0400091A RID: 2330
+		private static readonly FloatRange RewardValueFactorRange = new FloatRange(2f, 3f);
+
+		// Token: 0x0400091B RID: 2331
+		private static readonly SimpleCurve RewardValueFactorFromWealthCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 1.5f),
+				true
+			},
+			{
+				new CurvePoint(50000f, 1f),
+				true
+			},
+			{
+				new CurvePoint(300000f, 0.75f),
+				true
+			}
+		};
+
+		// Token: 0x0400091C RID: 2332
+		private static Dictionary<ThingDef, int> requestCountDict = new Dictionary<ThingDef, int>();
+
+		// Token: 0x0400091D RID: 2333
+		private static List<Map> tmpAvailableMaps = new List<Map>();
+
 		// Token: 0x06000EC8 RID: 3784 RVA: 0x0007CE9C File Offset: 0x0007B29C
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
@@ -245,66 +306,5 @@ namespace RimWorld
 			}
 			return false;
 		}
-
-		// Token: 0x04000913 RID: 2323
-		private static readonly IntRange RandomDurationRangeDays = new IntRange(18, 38);
-
-		// Token: 0x04000914 RID: 2324
-		private const int MaxDurationDays = 40;
-
-		// Token: 0x04000915 RID: 2325
-		private const float MinTravelTimeFraction = 0.35f;
-
-		// Token: 0x04000916 RID: 2326
-		private const float MinTravelTimeAbsolute = 6f;
-
-		// Token: 0x04000917 RID: 2327
-		private const int MaxTileDistance = 36;
-
-		// Token: 0x04000918 RID: 2328
-		private static readonly IntRange BaseValueWantedRange = new IntRange(500, 2500);
-
-		// Token: 0x04000919 RID: 2329
-		private static readonly SimpleCurve ValueWantedFactorFromWealthCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 0.5f),
-				true
-			},
-			{
-				new CurvePoint(50000f, 1f),
-				true
-			},
-			{
-				new CurvePoint(300000f, 2f),
-				true
-			}
-		};
-
-		// Token: 0x0400091A RID: 2330
-		private static readonly FloatRange RewardValueFactorRange = new FloatRange(2f, 3f);
-
-		// Token: 0x0400091B RID: 2331
-		private static readonly SimpleCurve RewardValueFactorFromWealthCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 1.5f),
-				true
-			},
-			{
-				new CurvePoint(50000f, 1f),
-				true
-			},
-			{
-				new CurvePoint(300000f, 0.75f),
-				true
-			}
-		};
-
-		// Token: 0x0400091C RID: 2332
-		private static Dictionary<ThingDef, int> requestCountDict = new Dictionary<ThingDef, int>();
-
-		// Token: 0x0400091D RID: 2333
-		private static List<Map> tmpAvailableMaps = new List<Map>();
 	}
 }

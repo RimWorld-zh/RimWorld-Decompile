@@ -6,6 +6,28 @@ namespace RimWorld
 	// Token: 0x02000664 RID: 1636
 	public static class TaleUtility
 	{
+		// Token: 0x04001378 RID: 4984
+		private const float KilledTaleLongRangeThreshold = 35f;
+
+		// Token: 0x04001379 RID: 4985
+		private const float KilledTaleMeleeRangeThreshold = 2f;
+
+		// Token: 0x0400137A RID: 4986
+		private const float MajorEnemyThreshold = 250f;
+
+		// Token: 0x0400137B RID: 4987
+		private static readonly SimpleCurve MajorThreatCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(100f, 0f),
+				true
+			},
+			{
+				new CurvePoint(400f, 1f),
+				true
+			}
+		};
+
 		// Token: 0x0600223F RID: 8767 RVA: 0x00122BC0 File Offset: 0x00120FC0
 		public static void Notify_PawnDied(Pawn victim, DamageInfo? dinfo)
 		{
@@ -109,27 +131,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04001378 RID: 4984
-		private const float KilledTaleLongRangeThreshold = 35f;
-
-		// Token: 0x04001379 RID: 4985
-		private const float KilledTaleMeleeRangeThreshold = 2f;
-
-		// Token: 0x0400137A RID: 4986
-		private const float MajorEnemyThreshold = 250f;
-
-		// Token: 0x0400137B RID: 4987
-		private static readonly SimpleCurve MajorThreatCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(100f, 0f),
-				true
-			},
-			{
-				new CurvePoint(400f, 1f),
-				true
-			}
-		};
 	}
 }

@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000045 RID: 69
 	public abstract class JobDriver_RemoveBuilding : JobDriver
 	{
+		// Token: 0x040001D6 RID: 470
+		private float workLeft = 0f;
+
+		// Token: 0x040001D7 RID: 471
+		private float totalNeededWork = 0f;
+
 		// Token: 0x17000079 RID: 121
 		// (get) Token: 0x0600023E RID: 574 RVA: 0x00017198 File Offset: 0x00015598
 		protected Thing Target
@@ -96,11 +102,5 @@ namespace RimWorld
 		protected virtual void TickAction()
 		{
 		}
-
-		// Token: 0x040001D6 RID: 470
-		private float workLeft = 0f;
-
-		// Token: 0x040001D7 RID: 471
-		private float totalNeededWork = 0f;
 	}
 }

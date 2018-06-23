@@ -9,6 +9,60 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class OverlayDrawer
 	{
+		// Token: 0x040013AA RID: 5034
+		private Dictionary<Thing, OverlayTypes> overlaysToDraw = new Dictionary<Thing, OverlayTypes>();
+
+		// Token: 0x040013AB RID: 5035
+		private Vector3 curOffset;
+
+		// Token: 0x040013AC RID: 5036
+		private static readonly Material ForbiddenMat = MaterialPool.MatFrom("Things/Special/ForbiddenOverlay", ShaderDatabase.MetaOverlay);
+
+		// Token: 0x040013AD RID: 5037
+		private static readonly Material NeedsPowerMat = MaterialPool.MatFrom("UI/Overlays/NeedsPower", ShaderDatabase.MetaOverlay);
+
+		// Token: 0x040013AE RID: 5038
+		private static readonly Material PowerOffMat = MaterialPool.MatFrom("UI/Overlays/PowerOff", ShaderDatabase.MetaOverlay);
+
+		// Token: 0x040013AF RID: 5039
+		private static readonly Material QuestionMarkMat = MaterialPool.MatFrom("UI/Overlays/QuestionMark", ShaderDatabase.MetaOverlay);
+
+		// Token: 0x040013B0 RID: 5040
+		private static readonly Material BrokenDownMat = MaterialPool.MatFrom("UI/Overlays/BrokenDown", ShaderDatabase.MetaOverlay);
+
+		// Token: 0x040013B1 RID: 5041
+		private static readonly Material OutOfFuelMat = MaterialPool.MatFrom("UI/Overlays/OutOfFuel", ShaderDatabase.MetaOverlay);
+
+		// Token: 0x040013B2 RID: 5042
+		private static readonly Material WickMaterialA = MaterialPool.MatFrom("Things/Special/BurningWickA", ShaderDatabase.MetaOverlay);
+
+		// Token: 0x040013B3 RID: 5043
+		private static readonly Material WickMaterialB = MaterialPool.MatFrom("Things/Special/BurningWickB", ShaderDatabase.MetaOverlay);
+
+		// Token: 0x040013B4 RID: 5044
+		private const int AltitudeIndex_Forbidden = 4;
+
+		// Token: 0x040013B5 RID: 5045
+		private const int AltitudeIndex_BurningWick = 5;
+
+		// Token: 0x040013B6 RID: 5046
+		private const int AltitudeIndex_QuestionMark = 6;
+
+		// Token: 0x040013B7 RID: 5047
+		private static float SingleCellForbiddenOffset = 0.3f;
+
+		// Token: 0x040013B8 RID: 5048
+		private const float PulseFrequency = 4f;
+
+		// Token: 0x040013B9 RID: 5049
+		private const float PulseAmplitude = 0.7f;
+
+		// Token: 0x040013BA RID: 5050
+		private static readonly float BaseAlt = AltitudeLayer.MetaOverlays.AltitudeFor();
+
+		// Token: 0x040013BB RID: 5051
+		private const float StackOffsetMultipiler = 0.25f;
+
 		// Token: 0x06002302 RID: 8962 RVA: 0x0012DB30 File Offset: 0x0012BF30
 		public void DrawOverlay(Thing t, OverlayTypes overlayType)
 		{
@@ -207,59 +261,5 @@ namespace RimWorld
 			}
 			this.RenderPulsingOverlayInternal(t, OverlayDrawer.QuestionMarkMat, drawPos, MeshPool.plane05);
 		}
-
-		// Token: 0x040013AA RID: 5034
-		private Dictionary<Thing, OverlayTypes> overlaysToDraw = new Dictionary<Thing, OverlayTypes>();
-
-		// Token: 0x040013AB RID: 5035
-		private Vector3 curOffset;
-
-		// Token: 0x040013AC RID: 5036
-		private static readonly Material ForbiddenMat = MaterialPool.MatFrom("Things/Special/ForbiddenOverlay", ShaderDatabase.MetaOverlay);
-
-		// Token: 0x040013AD RID: 5037
-		private static readonly Material NeedsPowerMat = MaterialPool.MatFrom("UI/Overlays/NeedsPower", ShaderDatabase.MetaOverlay);
-
-		// Token: 0x040013AE RID: 5038
-		private static readonly Material PowerOffMat = MaterialPool.MatFrom("UI/Overlays/PowerOff", ShaderDatabase.MetaOverlay);
-
-		// Token: 0x040013AF RID: 5039
-		private static readonly Material QuestionMarkMat = MaterialPool.MatFrom("UI/Overlays/QuestionMark", ShaderDatabase.MetaOverlay);
-
-		// Token: 0x040013B0 RID: 5040
-		private static readonly Material BrokenDownMat = MaterialPool.MatFrom("UI/Overlays/BrokenDown", ShaderDatabase.MetaOverlay);
-
-		// Token: 0x040013B1 RID: 5041
-		private static readonly Material OutOfFuelMat = MaterialPool.MatFrom("UI/Overlays/OutOfFuel", ShaderDatabase.MetaOverlay);
-
-		// Token: 0x040013B2 RID: 5042
-		private static readonly Material WickMaterialA = MaterialPool.MatFrom("Things/Special/BurningWickA", ShaderDatabase.MetaOverlay);
-
-		// Token: 0x040013B3 RID: 5043
-		private static readonly Material WickMaterialB = MaterialPool.MatFrom("Things/Special/BurningWickB", ShaderDatabase.MetaOverlay);
-
-		// Token: 0x040013B4 RID: 5044
-		private const int AltitudeIndex_Forbidden = 4;
-
-		// Token: 0x040013B5 RID: 5045
-		private const int AltitudeIndex_BurningWick = 5;
-
-		// Token: 0x040013B6 RID: 5046
-		private const int AltitudeIndex_QuestionMark = 6;
-
-		// Token: 0x040013B7 RID: 5047
-		private static float SingleCellForbiddenOffset = 0.3f;
-
-		// Token: 0x040013B8 RID: 5048
-		private const float PulseFrequency = 4f;
-
-		// Token: 0x040013B9 RID: 5049
-		private const float PulseAmplitude = 0.7f;
-
-		// Token: 0x040013BA RID: 5050
-		private static readonly float BaseAlt = AltitudeLayer.MetaOverlays.AltitudeFor();
-
-		// Token: 0x040013BB RID: 5051
-		private const float StackOffsetMultipiler = 0.25f;
 	}
 }

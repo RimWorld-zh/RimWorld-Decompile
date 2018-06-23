@@ -11,6 +11,23 @@ namespace RimWorld
 	[HasDebugOutput]
 	public class PawnGroupMakerUtility
 	{
+		// Token: 0x04000C7C RID: 3196
+		private static readonly SimpleCurve PawnWeightFactorByMostExpensivePawnCostFractionCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0.2f, 0.01f),
+				true
+			},
+			{
+				new CurvePoint(0.3f, 0.3f),
+				true
+			},
+			{
+				new CurvePoint(0.5f, 1f),
+				true
+			}
+		};
+
 		// Token: 0x060014B6 RID: 5302 RVA: 0x000B6244 File Offset: 0x000B4644
 		public static IEnumerable<Pawn> GeneratePawns(PawnGroupMakerParms parms, bool warnOnZeroResults = true)
 		{
@@ -269,22 +286,5 @@ namespace RimWorld
 			}).ToList<Faction>();
 			return source.TryRandomElementByWeight((Faction f) => f.def.RaidCommonalityFromPoints(points), out faction);
 		}
-
-		// Token: 0x04000C7C RID: 3196
-		private static readonly SimpleCurve PawnWeightFactorByMostExpensivePawnCostFractionCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(0.2f, 0.01f),
-				true
-			},
-			{
-				new CurvePoint(0.3f, 0.3f),
-				true
-			},
-			{
-				new CurvePoint(0.5f, 1f),
-				true
-			}
-		};
 	}
 }

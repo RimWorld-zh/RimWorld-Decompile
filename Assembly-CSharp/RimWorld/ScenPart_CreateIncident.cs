@@ -9,6 +9,27 @@ namespace RimWorld
 	// Token: 0x0200063C RID: 1596
 	internal class ScenPart_CreateIncident : ScenPart_IncidentBase
 	{
+		// Token: 0x040012DB RID: 4827
+		private const float IntervalMidpoint = 30f;
+
+		// Token: 0x040012DC RID: 4828
+		private const float IntervalDeviation = 15f;
+
+		// Token: 0x040012DD RID: 4829
+		private float intervalDays = 0f;
+
+		// Token: 0x040012DE RID: 4830
+		private bool repeat = false;
+
+		// Token: 0x040012DF RID: 4831
+		private string intervalDaysBuffer;
+
+		// Token: 0x040012E0 RID: 4832
+		private float occurTick = 0f;
+
+		// Token: 0x040012E1 RID: 4833
+		private bool isFinished = false;
+
 		// Token: 0x170004E7 RID: 1255
 		// (get) Token: 0x06002113 RID: 8467 RVA: 0x00119AEC File Offset: 0x00117EEC
 		protected override string IncidentTag
@@ -113,26 +134,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x040012DB RID: 4827
-		private const float IntervalMidpoint = 30f;
-
-		// Token: 0x040012DC RID: 4828
-		private const float IntervalDeviation = 15f;
-
-		// Token: 0x040012DD RID: 4829
-		private float intervalDays = 0f;
-
-		// Token: 0x040012DE RID: 4830
-		private bool repeat = false;
-
-		// Token: 0x040012DF RID: 4831
-		private string intervalDaysBuffer;
-
-		// Token: 0x040012E0 RID: 4832
-		private float occurTick = 0f;
-
-		// Token: 0x040012E1 RID: 4833
-		private bool isFinished = false;
 	}
 }

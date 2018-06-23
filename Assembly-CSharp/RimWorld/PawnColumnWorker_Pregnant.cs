@@ -8,6 +8,9 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class PawnColumnWorker_Pregnant : PawnColumnWorker_Icon
 	{
+		// Token: 0x04001AD1 RID: 6865
+		private static readonly Texture2D Icon = ContentFinder<Texture2D>.Get("UI/Icons/Animal/Pregnant", true);
+
 		// Token: 0x060031E4 RID: 12772 RVA: 0x001AEF88 File Offset: 0x001AD388
 		protected override Texture2D GetIconFor(Pawn pawn)
 		{
@@ -40,8 +43,5 @@ namespace RimWorld
 		{
 			return (Hediff_Pregnant)pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Pregnant, true);
 		}
-
-		// Token: 0x04001AD1 RID: 6865
-		private static readonly Texture2D Icon = ContentFinder<Texture2D>.Get("UI/Icons/Animal/Pregnant", true);
 	}
 }

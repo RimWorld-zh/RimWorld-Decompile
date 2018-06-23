@@ -10,6 +10,10 @@ namespace RimWorld
 	// Token: 0x020000F8 RID: 248
 	public class JobGiver_GetJoy : ThinkNode_JobGiver
 	{
+		// Token: 0x040002CF RID: 719
+		[Unsaved]
+		private DefMap<JoyGiverDef, float> joyGiverChances;
+
 		// Token: 0x170000CE RID: 206
 		// (get) Token: 0x06000537 RID: 1335 RVA: 0x00034934 File Offset: 0x00032D34
 		protected virtual bool CanDoDuringMedicalRest
@@ -97,9 +101,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040002CF RID: 719
-		[Unsaved]
-		private DefMap<JoyGiverDef, float> joyGiverChances;
 	}
 }

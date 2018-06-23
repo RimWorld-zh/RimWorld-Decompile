@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x02000292 RID: 658
 	public class PawnGenOption
 	{
+		// Token: 0x040005A7 RID: 1447
+		public PawnKindDef kind;
+
+		// Token: 0x040005A8 RID: 1448
+		public float selectionWeight;
+
 		// Token: 0x1700019E RID: 414
 		// (get) Token: 0x06000B19 RID: 2841 RVA: 0x00064C90 File Offset: 0x00063090
 		public float Cost
@@ -38,11 +44,5 @@ namespace RimWorld
 			DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "kind", xmlRoot.Name);
 			this.selectionWeight = (float)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(float));
 		}
-
-		// Token: 0x040005A7 RID: 1447
-		public PawnKindDef kind;
-
-		// Token: 0x040005A8 RID: 1448
-		public float selectionWeight;
 	}
 }

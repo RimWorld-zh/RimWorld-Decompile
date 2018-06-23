@@ -9,6 +9,15 @@ namespace RimWorld
 	// Token: 0x0200005C RID: 92
 	public class JobDriver_SocialRelax : JobDriver
 	{
+		// Token: 0x040001F9 RID: 505
+		private const TargetIndex GatherSpotParentInd = TargetIndex.A;
+
+		// Token: 0x040001FA RID: 506
+		private const TargetIndex ChairOrSpotInd = TargetIndex.B;
+
+		// Token: 0x040001FB RID: 507
+		private const TargetIndex OptionalIngestibleInd = TargetIndex.C;
+
 		// Token: 0x1700008A RID: 138
 		// (get) Token: 0x060002AE RID: 686 RVA: 0x0001D15C File Offset: 0x0001B55C
 		private Thing GatherSpotParent
@@ -116,14 +125,5 @@ namespace RimWorld
 			IntVec3 closestGatherSpotParentCell = this.ClosestGatherSpotParentCell;
 			return JobDriver_Ingest.ModifyCarriedThingDrawPosWorker(ref drawPos, ref behind, ref flip, closestGatherSpotParentCell, this.pawn);
 		}
-
-		// Token: 0x040001F9 RID: 505
-		private const TargetIndex GatherSpotParentInd = TargetIndex.A;
-
-		// Token: 0x040001FA RID: 506
-		private const TargetIndex ChairOrSpotInd = TargetIndex.B;
-
-		// Token: 0x040001FB RID: 507
-		private const TargetIndex OptionalIngestibleInd = TargetIndex.C;
 	}
 }

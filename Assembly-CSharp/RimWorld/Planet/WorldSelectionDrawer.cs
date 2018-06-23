@@ -8,6 +8,24 @@ namespace RimWorld.Planet
 	// Token: 0x020008EE RID: 2286
 	public static class WorldSelectionDrawer
 	{
+		// Token: 0x04001C85 RID: 7301
+		private static Dictionary<WorldObject, float> selectTimes = new Dictionary<WorldObject, float>();
+
+		// Token: 0x04001C86 RID: 7302
+		private const float BaseSelectedTexJump = 25f;
+
+		// Token: 0x04001C87 RID: 7303
+		private const float BaseSelectedTexScale = 0.4f;
+
+		// Token: 0x04001C88 RID: 7304
+		private const float BaseSelectionRectSize = 35f;
+
+		// Token: 0x04001C89 RID: 7305
+		private static readonly Color HiddenSelectionBracketColor = new Color(1f, 1f, 1f, 0.35f);
+
+		// Token: 0x04001C8A RID: 7306
+		private static Vector2[] bracketLocs = new Vector2[4];
+
 		// Token: 0x17000885 RID: 2181
 		// (get) Token: 0x060034C5 RID: 13509 RVA: 0x001C3720 File Offset: 0x001C1B20
 		public static Dictionary<WorldObject, float> SelectTimes
@@ -76,23 +94,5 @@ namespace RimWorld.Planet
 			}
 			GUI.color = Color.white;
 		}
-
-		// Token: 0x04001C85 RID: 7301
-		private static Dictionary<WorldObject, float> selectTimes = new Dictionary<WorldObject, float>();
-
-		// Token: 0x04001C86 RID: 7302
-		private const float BaseSelectedTexJump = 25f;
-
-		// Token: 0x04001C87 RID: 7303
-		private const float BaseSelectedTexScale = 0.4f;
-
-		// Token: 0x04001C88 RID: 7304
-		private const float BaseSelectionRectSize = 35f;
-
-		// Token: 0x04001C89 RID: 7305
-		private static readonly Color HiddenSelectionBracketColor = new Color(1f, 1f, 1f, 0.35f);
-
-		// Token: 0x04001C8A RID: 7306
-		private static Vector2[] bracketLocs = new Vector2[4];
 	}
 }

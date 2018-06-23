@@ -8,6 +8,27 @@ namespace RimWorld.Planet
 	// Token: 0x020005D4 RID: 1492
 	public static class CaravanArrivalTimeEstimator
 	{
+		// Token: 0x04001171 RID: 4465
+		private static int cacheTicks = -1;
+
+		// Token: 0x04001172 RID: 4466
+		private static Caravan cachedForCaravan;
+
+		// Token: 0x04001173 RID: 4467
+		private static int cachedForDest = -1;
+
+		// Token: 0x04001174 RID: 4468
+		private static int cachedResult = -1;
+
+		// Token: 0x04001175 RID: 4469
+		private const int CacheDuration = 100;
+
+		// Token: 0x04001176 RID: 4470
+		private const int MaxIterations = 10000;
+
+		// Token: 0x04001177 RID: 4471
+		private static List<Pair<int, int>> tmpTicksToArrive = new List<Pair<int, int>>();
+
 		// Token: 0x06001D5E RID: 7518 RVA: 0x000FC7F4 File Offset: 0x000FABF4
 		public static int EstimatedTicksToArrive(Caravan caravan, bool allowCaching)
 		{
@@ -218,26 +239,5 @@ namespace RimWorld.Planet
 			}
 			return result;
 		}
-
-		// Token: 0x04001171 RID: 4465
-		private static int cacheTicks = -1;
-
-		// Token: 0x04001172 RID: 4466
-		private static Caravan cachedForCaravan;
-
-		// Token: 0x04001173 RID: 4467
-		private static int cachedForDest = -1;
-
-		// Token: 0x04001174 RID: 4468
-		private static int cachedResult = -1;
-
-		// Token: 0x04001175 RID: 4469
-		private const int CacheDuration = 100;
-
-		// Token: 0x04001176 RID: 4470
-		private const int MaxIterations = 10000;
-
-		// Token: 0x04001177 RID: 4471
-		private static List<Pair<int, int>> tmpTicksToArrive = new List<Pair<int, int>>();
 	}
 }

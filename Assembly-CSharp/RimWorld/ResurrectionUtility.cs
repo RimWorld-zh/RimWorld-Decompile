@@ -10,6 +10,45 @@ namespace RimWorld
 	// Token: 0x020004AD RID: 1197
 	public static class ResurrectionUtility
 	{
+		// Token: 0x04000C9D RID: 3229
+		private static SimpleCurve DementiaChancePerRotDaysCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0.1f, 0.02f),
+				true
+			},
+			{
+				new CurvePoint(5f, 0.8f),
+				true
+			}
+		};
+
+		// Token: 0x04000C9E RID: 3230
+		private static SimpleCurve BlindnessChancePerRotDaysCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0.1f, 0.02f),
+				true
+			},
+			{
+				new CurvePoint(5f, 0.8f),
+				true
+			}
+		};
+
+		// Token: 0x04000C9F RID: 3231
+		private static SimpleCurve ResurrectionPsychosisChancePerRotDaysCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0.1f, 0.02f),
+				true
+			},
+			{
+				new CurvePoint(5f, 0.8f),
+				true
+			}
+		};
+
 		// Token: 0x0600155D RID: 5469 RVA: 0x000BD9C8 File Offset: 0x000BBDC8
 		public static void Resurrect(Pawn pawn)
 		{
@@ -134,44 +173,5 @@ namespace RimWorld
 				ResurrectionUtility.Resurrect(pawn);
 			}
 		}
-
-		// Token: 0x04000C9D RID: 3229
-		private static SimpleCurve DementiaChancePerRotDaysCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(0.1f, 0.02f),
-				true
-			},
-			{
-				new CurvePoint(5f, 0.8f),
-				true
-			}
-		};
-
-		// Token: 0x04000C9E RID: 3230
-		private static SimpleCurve BlindnessChancePerRotDaysCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(0.1f, 0.02f),
-				true
-			},
-			{
-				new CurvePoint(5f, 0.8f),
-				true
-			}
-		};
-
-		// Token: 0x04000C9F RID: 3231
-		private static SimpleCurve ResurrectionPsychosisChancePerRotDaysCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(0.1f, 0.02f),
-				true
-			},
-			{
-				new CurvePoint(5f, 0.8f),
-				true
-			}
-		};
 	}
 }

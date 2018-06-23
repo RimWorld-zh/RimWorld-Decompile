@@ -6,6 +6,27 @@ namespace Verse.AI
 	// Token: 0x02000ABE RID: 2750
 	public abstract class JobGiver_ExitMap : ThinkNode_JobGiver
 	{
+		// Token: 0x040026A3 RID: 9891
+		protected LocomotionUrgency defaultLocomotion = LocomotionUrgency.None;
+
+		// Token: 0x040026A4 RID: 9892
+		protected int jobMaxDuration = 999999;
+
+		// Token: 0x040026A5 RID: 9893
+		protected bool canBash = false;
+
+		// Token: 0x040026A6 RID: 9894
+		protected bool forceCanDig = false;
+
+		// Token: 0x040026A7 RID: 9895
+		protected bool forceCanDigIfAnyHostileActiveThreat = false;
+
+		// Token: 0x040026A8 RID: 9896
+		protected bool forceCanDigIfCantReachMapEdge = false;
+
+		// Token: 0x040026A9 RID: 9897
+		protected bool failIfCantJoinOrCreateCaravan = false;
+
 		// Token: 0x06003D42 RID: 15682 RVA: 0x00205604 File Offset: 0x00203A04
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -66,26 +87,5 @@ namespace Verse.AI
 
 		// Token: 0x06003D44 RID: 15684
 		protected abstract bool TryFindGoodExitDest(Pawn pawn, bool canDig, out IntVec3 dest);
-
-		// Token: 0x040026A3 RID: 9891
-		protected LocomotionUrgency defaultLocomotion = LocomotionUrgency.None;
-
-		// Token: 0x040026A4 RID: 9892
-		protected int jobMaxDuration = 999999;
-
-		// Token: 0x040026A5 RID: 9893
-		protected bool canBash = false;
-
-		// Token: 0x040026A6 RID: 9894
-		protected bool forceCanDig = false;
-
-		// Token: 0x040026A7 RID: 9895
-		protected bool forceCanDigIfAnyHostileActiveThreat = false;
-
-		// Token: 0x040026A8 RID: 9896
-		protected bool forceCanDigIfCantReachMapEdge = false;
-
-		// Token: 0x040026A9 RID: 9897
-		protected bool failIfCantJoinOrCreateCaravan = false;
 	}
 }

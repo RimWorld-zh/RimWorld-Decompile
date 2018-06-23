@@ -8,6 +8,27 @@ namespace RimWorld.Planet
 	// Token: 0x0200059B RID: 1435
 	public static class ExpandableWorldObjectsUtility
 	{
+		// Token: 0x04001024 RID: 4132
+		private static float transitionPct;
+
+		// Token: 0x04001025 RID: 4133
+		private static float expandMoreTransitionPct;
+
+		// Token: 0x04001026 RID: 4134
+		private static List<WorldObject> tmpWorldObjects = new List<WorldObject>();
+
+		// Token: 0x04001027 RID: 4135
+		private const float WorldObjectIconSize = 30f;
+
+		// Token: 0x04001028 RID: 4136
+		private const float ExpandMoreWorldObjectIconSizeFactor = 1.35f;
+
+		// Token: 0x04001029 RID: 4137
+		private const float TransitionSpeed = 3f;
+
+		// Token: 0x0400102A RID: 4138
+		private const float ExpandMoreTransitionSpeed = 4f;
+
 		// Token: 0x17000409 RID: 1033
 		// (get) Token: 0x06001B63 RID: 7011 RVA: 0x000EC8F4 File Offset: 0x000EACF4
 		public static float TransitionPct
@@ -171,26 +192,5 @@ namespace RimWorld.Planet
 				return num;
 			}, (WorldObject x) => x.ID);
 		}
-
-		// Token: 0x04001024 RID: 4132
-		private static float transitionPct;
-
-		// Token: 0x04001025 RID: 4133
-		private static float expandMoreTransitionPct;
-
-		// Token: 0x04001026 RID: 4134
-		private static List<WorldObject> tmpWorldObjects = new List<WorldObject>();
-
-		// Token: 0x04001027 RID: 4135
-		private const float WorldObjectIconSize = 30f;
-
-		// Token: 0x04001028 RID: 4136
-		private const float ExpandMoreWorldObjectIconSizeFactor = 1.35f;
-
-		// Token: 0x04001029 RID: 4137
-		private const float TransitionSpeed = 3f;
-
-		// Token: 0x0400102A RID: 4138
-		private const float ExpandMoreTransitionSpeed = 4f;
 	}
 }

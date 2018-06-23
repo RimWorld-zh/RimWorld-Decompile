@@ -10,6 +10,21 @@ namespace RimWorld.Planet
 	// Token: 0x020008EF RID: 2287
 	public class WorldSelector
 	{
+		// Token: 0x04001C8B RID: 7307
+		public WorldDragBox dragBox = new WorldDragBox();
+
+		// Token: 0x04001C8C RID: 7308
+		private List<WorldObject> selected = new List<WorldObject>();
+
+		// Token: 0x04001C8D RID: 7309
+		public int selectedTile = -1;
+
+		// Token: 0x04001C8E RID: 7310
+		private const int MaxNumSelected = 80;
+
+		// Token: 0x04001C8F RID: 7311
+		private const float MaxDragBoxDiagonalToSelectTile = 30f;
+
 		// Token: 0x17000886 RID: 2182
 		// (get) Token: 0x060034CD RID: 13517 RVA: 0x001C3930 File Offset: 0x001C1D30
 		private bool ShiftIsHeld
@@ -522,20 +537,5 @@ namespace RimWorld.Planet
 			}
 			this.selectedTile = num2;
 		}
-
-		// Token: 0x04001C8B RID: 7307
-		public WorldDragBox dragBox = new WorldDragBox();
-
-		// Token: 0x04001C8C RID: 7308
-		private List<WorldObject> selected = new List<WorldObject>();
-
-		// Token: 0x04001C8D RID: 7309
-		public int selectedTile = -1;
-
-		// Token: 0x04001C8E RID: 7310
-		private const int MaxNumSelected = 80;
-
-		// Token: 0x04001C8F RID: 7311
-		private const float MaxDragBoxDiagonalToSelectTile = 30f;
 	}
 }

@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x02000359 RID: 857
 	public class StoryState : IExposable
 	{
+		// Token: 0x04000922 RID: 2338
+		private IIncidentTarget target;
+
+		// Token: 0x04000923 RID: 2339
+		private int lastThreatBigTick = -1;
+
+		// Token: 0x04000924 RID: 2340
+		public Dictionary<IncidentDef, int> lastFireTicks = new Dictionary<IncidentDef, int>();
+
 		// Token: 0x06000EE1 RID: 3809 RVA: 0x0007DA95 File Offset: 0x0007BE95
 		public StoryState(IIncidentTarget target)
 		{
@@ -81,14 +90,5 @@ namespace RimWorld
 				other.lastFireTicks.Add(keyValuePair.Key, keyValuePair.Value);
 			}
 		}
-
-		// Token: 0x04000922 RID: 2338
-		private IIncidentTarget target;
-
-		// Token: 0x04000923 RID: 2339
-		private int lastThreatBigTick = -1;
-
-		// Token: 0x04000924 RID: 2340
-		public Dictionary<IncidentDef, int> lastFireTicks = new Dictionary<IncidentDef, int>();
 	}
 }

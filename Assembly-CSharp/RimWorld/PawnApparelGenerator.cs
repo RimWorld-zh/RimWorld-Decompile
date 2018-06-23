@@ -10,6 +10,24 @@ namespace RimWorld
 	[HasDebugOutput]
 	public static class PawnApparelGenerator
 	{
+		// Token: 0x04000C13 RID: 3091
+		private static List<ThingStuffPair> allApparelPairs = new List<ThingStuffPair>();
+
+		// Token: 0x04000C14 RID: 3092
+		private static float freeWarmParkaMaxPrice;
+
+		// Token: 0x04000C15 RID: 3093
+		private static float freeWarmHatMaxPrice;
+
+		// Token: 0x04000C16 RID: 3094
+		private static PawnApparelGenerator.PossibleApparelSet workingSet = new PawnApparelGenerator.PossibleApparelSet();
+
+		// Token: 0x04000C17 RID: 3095
+		private static List<ThingStuffPair> usableApparel = new List<ThingStuffPair>();
+
+		// Token: 0x04000C18 RID: 3096
+		private static StringBuilder debugSb = null;
+
 		// Token: 0x06001437 RID: 5175 RVA: 0x000B0E9D File Offset: 0x000AF29D
 		static PawnApparelGenerator()
 		{
@@ -348,27 +366,33 @@ namespace RimWorld
 			DebugOutputsGeneral.MakeTablePairsByThing(PawnApparelGenerator.allApparelPairs);
 		}
 
-		// Token: 0x04000C13 RID: 3091
-		private static List<ThingStuffPair> allApparelPairs = new List<ThingStuffPair>();
-
-		// Token: 0x04000C14 RID: 3092
-		private static float freeWarmParkaMaxPrice;
-
-		// Token: 0x04000C15 RID: 3093
-		private static float freeWarmHatMaxPrice;
-
-		// Token: 0x04000C16 RID: 3094
-		private static PawnApparelGenerator.PossibleApparelSet workingSet = new PawnApparelGenerator.PossibleApparelSet();
-
-		// Token: 0x04000C17 RID: 3095
-		private static List<ThingStuffPair> usableApparel = new List<ThingStuffPair>();
-
-		// Token: 0x04000C18 RID: 3096
-		private static StringBuilder debugSb = null;
-
 		// Token: 0x02000480 RID: 1152
 		private class PossibleApparelSet
 		{
+			// Token: 0x04000C24 RID: 3108
+			private List<ThingStuffPair> aps = new List<ThingStuffPair>();
+
+			// Token: 0x04000C25 RID: 3109
+			private HashSet<ApparelUtility.LayerGroupPair> lgps = new HashSet<ApparelUtility.LayerGroupPair>();
+
+			// Token: 0x04000C26 RID: 3110
+			private BodyDef body;
+
+			// Token: 0x04000C27 RID: 3111
+			private ThingDef raceDef;
+
+			// Token: 0x04000C28 RID: 3112
+			private const float StartingMinTemperature = 12f;
+
+			// Token: 0x04000C29 RID: 3113
+			private const float TargetMinTemperature = -40f;
+
+			// Token: 0x04000C2A RID: 3114
+			private const float StartingMaxTemperature = 32f;
+
+			// Token: 0x04000C2B RID: 3115
+			private const float TargetMaxTemperature = 30f;
+
 			// Token: 0x170002BC RID: 700
 			// (get) Token: 0x0600144D RID: 5197 RVA: 0x000B1B74 File Offset: 0x000AFF74
 			public int Count
@@ -738,30 +762,6 @@ namespace RimWorld
 				}
 				return str + "]";
 			}
-
-			// Token: 0x04000C24 RID: 3108
-			private List<ThingStuffPair> aps = new List<ThingStuffPair>();
-
-			// Token: 0x04000C25 RID: 3109
-			private HashSet<ApparelUtility.LayerGroupPair> lgps = new HashSet<ApparelUtility.LayerGroupPair>();
-
-			// Token: 0x04000C26 RID: 3110
-			private BodyDef body;
-
-			// Token: 0x04000C27 RID: 3111
-			private ThingDef raceDef;
-
-			// Token: 0x04000C28 RID: 3112
-			private const float StartingMinTemperature = 12f;
-
-			// Token: 0x04000C29 RID: 3113
-			private const float TargetMinTemperature = -40f;
-
-			// Token: 0x04000C2A RID: 3114
-			private const float StartingMaxTemperature = 32f;
-
-			// Token: 0x04000C2B RID: 3115
-			private const float TargetMaxTemperature = 30f;
 		}
 	}
 }

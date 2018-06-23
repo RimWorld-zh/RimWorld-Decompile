@@ -8,6 +8,64 @@ namespace RimWorld
 	// Token: 0x020002D0 RID: 720
 	public abstract class SiteDefBase : Def
 	{
+		// Token: 0x04000722 RID: 1826
+		public Type workerClass = typeof(SitePartWorker);
+
+		// Token: 0x04000723 RID: 1827
+		[NoTranslate]
+		public string siteTexture;
+
+		// Token: 0x04000724 RID: 1828
+		[NoTranslate]
+		public string expandingIconTexture;
+
+		// Token: 0x04000725 RID: 1829
+		public bool applyFactionColorToSiteTexture;
+
+		// Token: 0x04000726 RID: 1830
+		public bool showFactionInInspectString;
+
+		// Token: 0x04000727 RID: 1831
+		public bool requiresFaction;
+
+		// Token: 0x04000728 RID: 1832
+		public TechLevel minFactionTechLevel = TechLevel.Undefined;
+
+		// Token: 0x04000729 RID: 1833
+		[MustTranslate]
+		public string approachOrderString;
+
+		// Token: 0x0400072A RID: 1834
+		[MustTranslate]
+		public string approachingReportString;
+
+		// Token: 0x0400072B RID: 1835
+		[NoTranslate]
+		public List<string> tags = new List<string>();
+
+		// Token: 0x0400072C RID: 1836
+		[MustTranslate]
+		public string arrivedLetter;
+
+		// Token: 0x0400072D RID: 1837
+		[MustTranslate]
+		public string arrivedLetterLabel;
+
+		// Token: 0x0400072E RID: 1838
+		public LetterDef arrivedLetterDef;
+
+		// Token: 0x0400072F RID: 1839
+		[Unsaved]
+		private SiteWorkerBase workerInt;
+
+		// Token: 0x04000730 RID: 1840
+		[Unsaved]
+		private Texture2D expandingIconTextureInt;
+
+		// Token: 0x04000731 RID: 1841
+		[Unsaved]
+		private List<GenStepDef> extraGenSteps;
+
 		// Token: 0x170001C4 RID: 452
 		// (get) Token: 0x06000BE9 RID: 3049 RVA: 0x00069C24 File Offset: 0x00068024
 		public SiteWorkerBase Worker
@@ -94,63 +152,5 @@ namespace RimWorld
 
 		// Token: 0x06000BED RID: 3053
 		protected abstract SiteWorkerBase CreateWorker();
-
-		// Token: 0x04000722 RID: 1826
-		public Type workerClass = typeof(SitePartWorker);
-
-		// Token: 0x04000723 RID: 1827
-		[NoTranslate]
-		public string siteTexture;
-
-		// Token: 0x04000724 RID: 1828
-		[NoTranslate]
-		public string expandingIconTexture;
-
-		// Token: 0x04000725 RID: 1829
-		public bool applyFactionColorToSiteTexture;
-
-		// Token: 0x04000726 RID: 1830
-		public bool showFactionInInspectString;
-
-		// Token: 0x04000727 RID: 1831
-		public bool requiresFaction;
-
-		// Token: 0x04000728 RID: 1832
-		public TechLevel minFactionTechLevel = TechLevel.Undefined;
-
-		// Token: 0x04000729 RID: 1833
-		[MustTranslate]
-		public string approachOrderString;
-
-		// Token: 0x0400072A RID: 1834
-		[MustTranslate]
-		public string approachingReportString;
-
-		// Token: 0x0400072B RID: 1835
-		[NoTranslate]
-		public List<string> tags = new List<string>();
-
-		// Token: 0x0400072C RID: 1836
-		[MustTranslate]
-		public string arrivedLetter;
-
-		// Token: 0x0400072D RID: 1837
-		[MustTranslate]
-		public string arrivedLetterLabel;
-
-		// Token: 0x0400072E RID: 1838
-		public LetterDef arrivedLetterDef;
-
-		// Token: 0x0400072F RID: 1839
-		[Unsaved]
-		private SiteWorkerBase workerInt;
-
-		// Token: 0x04000730 RID: 1840
-		[Unsaved]
-		private Texture2D expandingIconTextureInt;
-
-		// Token: 0x04000731 RID: 1841
-		[Unsaved]
-		private List<GenStepDef> extraGenSteps;
 	}
 }

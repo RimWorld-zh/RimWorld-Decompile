@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000DDB RID: 3547
 	public class Graphic_Multi : Graphic
 	{
+		// Token: 0x040034C3 RID: 13507
+		private Material[] mats = new Material[4];
+
+		// Token: 0x040034C4 RID: 13508
+		private bool westFlipped = false;
+
 		// Token: 0x17000CDB RID: 3291
 		// (get) Token: 0x06004F75 RID: 20341 RVA: 0x002962A0 File Offset: 0x002946A0
 		public string GraphicPath
@@ -184,11 +190,5 @@ namespace Verse
 			seed = Gen.HashCombineStruct<Color>(seed, this.color);
 			return Gen.HashCombineStruct<Color>(seed, this.colorTwo);
 		}
-
-		// Token: 0x040034C3 RID: 13507
-		private Material[] mats = new Material[4];
-
-		// Token: 0x040034C4 RID: 13508
-		private bool westFlipped = false;
 	}
 }

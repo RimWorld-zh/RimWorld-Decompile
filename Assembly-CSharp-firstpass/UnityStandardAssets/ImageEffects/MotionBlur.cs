@@ -9,6 +9,16 @@ namespace UnityStandardAssets.ImageEffects
 	[RequireComponent(typeof(Camera))]
 	public class MotionBlur : ImageEffectBase
 	{
+		// Token: 0x04000808 RID: 2056
+		[Range(0f, 0.92f)]
+		public float blurAmount = 0.8f;
+
+		// Token: 0x04000809 RID: 2057
+		public bool extraBlur = false;
+
+		// Token: 0x0400080A RID: 2058
+		private RenderTexture accumTexture;
+
 		// Token: 0x0600092E RID: 2350 RVA: 0x00016BE5 File Offset: 0x00014DE5
 		protected override void OnDisable()
 		{
@@ -41,15 +51,5 @@ namespace UnityStandardAssets.ImageEffects
 			Graphics.Blit(source, this.accumTexture, base.material);
 			Graphics.Blit(this.accumTexture, destination);
 		}
-
-		// Token: 0x04000808 RID: 2056
-		[Range(0f, 0.92f)]
-		public float blurAmount = 0.8f;
-
-		// Token: 0x04000809 RID: 2057
-		public bool extraBlur = false;
-
-		// Token: 0x0400080A RID: 2058
-		private RenderTexture accumTexture;
 	}
 }

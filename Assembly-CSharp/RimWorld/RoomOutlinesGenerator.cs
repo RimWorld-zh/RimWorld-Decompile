@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x020003E6 RID: 998
 	public static class RoomOutlinesGenerator
 	{
+		// Token: 0x04000A5A RID: 2650
+		private const int MinFreeRoomCellsToDivide = 32;
+
+		// Token: 0x04000A5B RID: 2651
+		private const int MinAllowedRoomWidthAndHeight = 2;
+
 		// Token: 0x06001116 RID: 4374 RVA: 0x00092560 File Offset: 0x00090960
 		public static List<RoomOutline> GenerateRoomOutlines(CellRect initialRect, Map map, int divisionsCount, int finalRoomsCount, int maxRoomCells, int minTotalRoomsNonWallCellsCount)
 		{
@@ -92,11 +98,5 @@ namespace RimWorld
 				allRooms.Add(new RoomOutline(new CellRect(x, room.rect.minZ, room.rect.maxX - x + 1, room.rect.Height)));
 			}
 		}
-
-		// Token: 0x04000A5A RID: 2650
-		private const int MinFreeRoomCellsToDivide = 32;
-
-		// Token: 0x04000A5B RID: 2651
-		private const int MinAllowedRoomWidthAndHeight = 2;
 	}
 }

@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x02000631 RID: 1585
 	public class ScenPart_ForcedTrait : ScenPart_PawnModifier
 	{
+		// Token: 0x040012C1 RID: 4801
+		private TraitDef trait;
+
+		// Token: 0x040012C2 RID: 4802
+		private int degree = 0;
+
 		// Token: 0x060020B9 RID: 8377 RVA: 0x001182B8 File Offset: 0x001166B8
 		public override void ExposeData()
 		{
@@ -111,11 +117,5 @@ namespace RimWorld
 		{
 			return (pawn.story.childhood != null && pawn.story.childhood.forcedTraits != null && pawn.story.childhood.forcedTraits.Any((TraitEntry te) => te.def == trait)) || (pawn.story.adulthood != null && pawn.story.adulthood.forcedTraits != null && pawn.story.adulthood.forcedTraits.Any((TraitEntry te) => te.def == trait));
 		}
-
-		// Token: 0x040012C1 RID: 4801
-		private TraitDef trait;
-
-		// Token: 0x040012C2 RID: 4802
-		private int degree = 0;
 	}
 }

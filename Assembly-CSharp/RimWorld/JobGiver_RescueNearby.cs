@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x020000ED RID: 237
 	public class JobGiver_RescueNearby : ThinkNode_JobGiver
 	{
+		// Token: 0x040002CB RID: 715
+		private float radius = 30f;
+
+		// Token: 0x040002CC RID: 716
+		private const float MinDistFromEnemy = 25f;
+
 		// Token: 0x0600050D RID: 1293 RVA: 0x0003811C File Offset: 0x0003651C
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -46,11 +52,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040002CB RID: 715
-		private float radius = 30f;
-
-		// Token: 0x040002CC RID: 716
-		private const float MinDistFromEnemy = 25f;
 	}
 }

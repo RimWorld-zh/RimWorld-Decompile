@@ -6,6 +6,24 @@ namespace Verse
 	// Token: 0x02000B59 RID: 2905
 	public class PawnInventoryOption
 	{
+		// Token: 0x04002A32 RID: 10802
+		public ThingDef thingDef;
+
+		// Token: 0x04002A33 RID: 10803
+		public IntRange countRange = IntRange.one;
+
+		// Token: 0x04002A34 RID: 10804
+		public float choiceChance = 1f;
+
+		// Token: 0x04002A35 RID: 10805
+		public float skipChance;
+
+		// Token: 0x04002A36 RID: 10806
+		public List<PawnInventoryOption> subOptionsTakeAll = null;
+
+		// Token: 0x04002A37 RID: 10807
+		public List<PawnInventoryOption> subOptionsChooseOne = null;
+
 		// Token: 0x06003F86 RID: 16262 RVA: 0x00217534 File Offset: 0x00215934
 		public IEnumerable<Thing> GenerateThings()
 		{
@@ -39,23 +57,5 @@ namespace Verse
 			}
 			yield break;
 		}
-
-		// Token: 0x04002A32 RID: 10802
-		public ThingDef thingDef;
-
-		// Token: 0x04002A33 RID: 10803
-		public IntRange countRange = IntRange.one;
-
-		// Token: 0x04002A34 RID: 10804
-		public float choiceChance = 1f;
-
-		// Token: 0x04002A35 RID: 10805
-		public float skipChance;
-
-		// Token: 0x04002A36 RID: 10806
-		public List<PawnInventoryOption> subOptionsTakeAll = null;
-
-		// Token: 0x04002A37 RID: 10807
-		public List<PawnInventoryOption> subOptionsChooseOne = null;
 	}
 }

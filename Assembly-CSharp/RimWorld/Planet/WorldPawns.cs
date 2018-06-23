@@ -10,6 +10,42 @@ namespace RimWorld.Planet
 	// Token: 0x0200062C RID: 1580
 	public class WorldPawns : IExposable
 	{
+		// Token: 0x040012A2 RID: 4770
+		private HashSet<Pawn> pawnsAlive = new HashSet<Pawn>();
+
+		// Token: 0x040012A3 RID: 4771
+		private HashSet<Pawn> pawnsMothballed = new HashSet<Pawn>();
+
+		// Token: 0x040012A4 RID: 4772
+		private HashSet<Pawn> pawnsDead = new HashSet<Pawn>();
+
+		// Token: 0x040012A5 RID: 4773
+		private HashSet<Pawn> pawnsForcefullyKeptAsWorldPawns = new HashSet<Pawn>();
+
+		// Token: 0x040012A6 RID: 4774
+		public WorldPawnGC gc = new WorldPawnGC();
+
+		// Token: 0x040012A7 RID: 4775
+		private Stack<Pawn> pawnsBeingDiscarded = new Stack<Pawn>();
+
+		// Token: 0x040012A8 RID: 4776
+		private const float PctOfHumanlikesAlwaysKept = 0.1f;
+
+		// Token: 0x040012A9 RID: 4777
+		private const float PctOfUnnamedColonyAnimalsAlwaysKept = 0.05f;
+
+		// Token: 0x040012AA RID: 4778
+		private const int TendIntervalTicks = 7500;
+
+		// Token: 0x040012AB RID: 4779
+		private const int MothballUpdateInterval = 15000;
+
+		// Token: 0x040012AC RID: 4780
+		private static List<Pawn> tmpPawnsToTick = new List<Pawn>();
+
+		// Token: 0x040012AD RID: 4781
+		private static List<Pawn> tmpPawnsToRemove = new List<Pawn>();
+
 		// Token: 0x170004DE RID: 1246
 		// (get) Token: 0x0600206E RID: 8302 RVA: 0x00115E10 File Offset: 0x00114210
 		public IEnumerable<Pawn> AllPawnsAliveOrDead
@@ -509,41 +545,5 @@ namespace RimWorld.Planet
 			}
 			Log.Message(stringBuilder.ToString(), false);
 		}
-
-		// Token: 0x040012A2 RID: 4770
-		private HashSet<Pawn> pawnsAlive = new HashSet<Pawn>();
-
-		// Token: 0x040012A3 RID: 4771
-		private HashSet<Pawn> pawnsMothballed = new HashSet<Pawn>();
-
-		// Token: 0x040012A4 RID: 4772
-		private HashSet<Pawn> pawnsDead = new HashSet<Pawn>();
-
-		// Token: 0x040012A5 RID: 4773
-		private HashSet<Pawn> pawnsForcefullyKeptAsWorldPawns = new HashSet<Pawn>();
-
-		// Token: 0x040012A6 RID: 4774
-		public WorldPawnGC gc = new WorldPawnGC();
-
-		// Token: 0x040012A7 RID: 4775
-		private Stack<Pawn> pawnsBeingDiscarded = new Stack<Pawn>();
-
-		// Token: 0x040012A8 RID: 4776
-		private const float PctOfHumanlikesAlwaysKept = 0.1f;
-
-		// Token: 0x040012A9 RID: 4777
-		private const float PctOfUnnamedColonyAnimalsAlwaysKept = 0.05f;
-
-		// Token: 0x040012AA RID: 4778
-		private const int TendIntervalTicks = 7500;
-
-		// Token: 0x040012AB RID: 4779
-		private const int MothballUpdateInterval = 15000;
-
-		// Token: 0x040012AC RID: 4780
-		private static List<Pawn> tmpPawnsToTick = new List<Pawn>();
-
-		// Token: 0x040012AD RID: 4781
-		private static List<Pawn> tmpPawnsToRemove = new List<Pawn>();
 	}
 }

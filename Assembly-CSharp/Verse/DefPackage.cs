@@ -9,6 +9,15 @@ namespace Verse
 	// Token: 0x02000AF7 RID: 2807
 	public class DefPackage
 	{
+		// Token: 0x04002756 RID: 10070
+		public string fileName = "NamelessPackage";
+
+		// Token: 0x04002757 RID: 10071
+		public string relFolder = "";
+
+		// Token: 0x04002758 RID: 10072
+		public List<Def> defs = new List<Def>();
+
 		// Token: 0x06003E39 RID: 15929 RVA: 0x0020CC16 File Offset: 0x0020B016
 		public DefPackage(string name, string relFolder)
 		{
@@ -102,14 +111,5 @@ namespace Verse
 			while (File.Exists(Path.Combine(fullPath, text)));
 			return text;
 		}
-
-		// Token: 0x04002756 RID: 10070
-		public string fileName = "NamelessPackage";
-
-		// Token: 0x04002757 RID: 10071
-		public string relFolder = "";
-
-		// Token: 0x04002758 RID: 10072
-		public List<Def> defs = new List<Def>();
 	}
 }

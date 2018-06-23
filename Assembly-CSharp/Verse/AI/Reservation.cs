@@ -6,6 +6,24 @@ namespace Verse.AI
 	// Token: 0x02000AA6 RID: 2726
 	internal class Reservation : IExposable
 	{
+		// Token: 0x0400267E RID: 9854
+		private Pawn claimant;
+
+		// Token: 0x0400267F RID: 9855
+		private Job job;
+
+		// Token: 0x04002680 RID: 9856
+		private LocalTargetInfo target;
+
+		// Token: 0x04002681 RID: 9857
+		private ReservationLayerDef layer;
+
+		// Token: 0x04002682 RID: 9858
+		private int maxPawns;
+
+		// Token: 0x04002683 RID: 9859
+		private int stackCount = -1;
+
 		// Token: 0x06003CDB RID: 15579 RVA: 0x0020330D File Offset: 0x0020170D
 		public Reservation()
 		{
@@ -121,23 +139,5 @@ namespace Verse.AI
 				this.stackCount
 			});
 		}
-
-		// Token: 0x0400267E RID: 9854
-		private Pawn claimant;
-
-		// Token: 0x0400267F RID: 9855
-		private Job job;
-
-		// Token: 0x04002680 RID: 9856
-		private LocalTargetInfo target;
-
-		// Token: 0x04002681 RID: 9857
-		private ReservationLayerDef layer;
-
-		// Token: 0x04002682 RID: 9858
-		private int maxPawns;
-
-		// Token: 0x04002683 RID: 9859
-		private int stackCount = -1;
 	}
 }

@@ -5,6 +5,12 @@ namespace Steamworks
 	// Token: 0x0200016C RID: 364
 	public struct SteamAPICall_t : IEquatable<SteamAPICall_t>, IComparable<SteamAPICall_t>
 	{
+		// Token: 0x04000689 RID: 1673
+		public static readonly SteamAPICall_t Invalid = new SteamAPICall_t(0UL);
+
+		// Token: 0x0400068A RID: 1674
+		public ulong m_SteamAPICall;
+
 		// Token: 0x0600086C RID: 2156 RVA: 0x0000ED4D File Offset: 0x0000CF4D
 		public SteamAPICall_t(ulong value)
 		{
@@ -64,11 +70,5 @@ namespace Steamworks
 		{
 			return this.m_SteamAPICall.CompareTo(other.m_SteamAPICall);
 		}
-
-		// Token: 0x04000689 RID: 1673
-		public static readonly SteamAPICall_t Invalid = new SteamAPICall_t(0UL);
-
-		// Token: 0x0400068A RID: 1674
-		public ulong m_SteamAPICall;
 	}
 }

@@ -9,6 +9,39 @@ namespace UnityStandardAssets.ImageEffects
 	[AddComponentMenu("Image Effects/Edge Detection/Edge Detection")]
 	public class EdgeDetection : PostEffectsBase
 	{
+		// Token: 0x040007E6 RID: 2022
+		public EdgeDetection.EdgeDetectMode mode = EdgeDetection.EdgeDetectMode.SobelDepthThin;
+
+		// Token: 0x040007E7 RID: 2023
+		public float sensitivityDepth = 1f;
+
+		// Token: 0x040007E8 RID: 2024
+		public float sensitivityNormals = 1f;
+
+		// Token: 0x040007E9 RID: 2025
+		public float lumThreshold = 0.2f;
+
+		// Token: 0x040007EA RID: 2026
+		public float edgeExp = 1f;
+
+		// Token: 0x040007EB RID: 2027
+		public float sampleDist = 1f;
+
+		// Token: 0x040007EC RID: 2028
+		public float edgesOnly = 0f;
+
+		// Token: 0x040007ED RID: 2029
+		public Color edgesOnlyBgColor = Color.white;
+
+		// Token: 0x040007EE RID: 2030
+		public Shader edgeDetectShader;
+
+		// Token: 0x040007EF RID: 2031
+		private Material edgeDetectMaterial = null;
+
+		// Token: 0x040007F0 RID: 2032
+		private EdgeDetection.EdgeDetectMode oldMode = EdgeDetection.EdgeDetectMode.SobelDepthThin;
+
 		// Token: 0x06000917 RID: 2327 RVA: 0x0001626C File Offset: 0x0001446C
 		public override bool CheckResources()
 		{
@@ -71,39 +104,6 @@ namespace UnityStandardAssets.ImageEffects
 				Graphics.Blit(source, destination, this.edgeDetectMaterial, (int)this.mode);
 			}
 		}
-
-		// Token: 0x040007E6 RID: 2022
-		public EdgeDetection.EdgeDetectMode mode = EdgeDetection.EdgeDetectMode.SobelDepthThin;
-
-		// Token: 0x040007E7 RID: 2023
-		public float sensitivityDepth = 1f;
-
-		// Token: 0x040007E8 RID: 2024
-		public float sensitivityNormals = 1f;
-
-		// Token: 0x040007E9 RID: 2025
-		public float lumThreshold = 0.2f;
-
-		// Token: 0x040007EA RID: 2026
-		public float edgeExp = 1f;
-
-		// Token: 0x040007EB RID: 2027
-		public float sampleDist = 1f;
-
-		// Token: 0x040007EC RID: 2028
-		public float edgesOnly = 0f;
-
-		// Token: 0x040007ED RID: 2029
-		public Color edgesOnlyBgColor = Color.white;
-
-		// Token: 0x040007EE RID: 2030
-		public Shader edgeDetectShader;
-
-		// Token: 0x040007EF RID: 2031
-		private Material edgeDetectMaterial = null;
-
-		// Token: 0x040007F0 RID: 2032
-		private EdgeDetection.EdgeDetectMode oldMode = EdgeDetection.EdgeDetectMode.SobelDepthThin;
 
 		// Token: 0x02000197 RID: 407
 		public enum EdgeDetectMode

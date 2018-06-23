@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x020006F5 RID: 1781
 	public class ThingSetMaker_Meteorite : ThingSetMaker
 	{
+		// Token: 0x04001593 RID: 5523
+		public static List<ThingDef> nonSmoothedMineables = new List<ThingDef>();
+
+		// Token: 0x04001594 RID: 5524
+		public static readonly IntRange MineablesCountRange = new IntRange(8, 20);
+
+		// Token: 0x04001595 RID: 5525
+		private const float PreciousMineableMarketValue = 5f;
+
 		// Token: 0x060026CF RID: 9935 RVA: 0x0014D3A1 File Offset: 0x0014B7A1
 		public static void Reset()
 		{
@@ -62,14 +71,5 @@ namespace RimWorld
 		{
 			return ThingSetMaker_Meteorite.nonSmoothedMineables;
 		}
-
-		// Token: 0x04001593 RID: 5523
-		public static List<ThingDef> nonSmoothedMineables = new List<ThingDef>();
-
-		// Token: 0x04001594 RID: 5524
-		public static readonly IntRange MineablesCountRange = new IntRange(8, 20);
-
-		// Token: 0x04001595 RID: 5525
-		private const float PreciousMineableMarketValue = 5f;
 	}
 }

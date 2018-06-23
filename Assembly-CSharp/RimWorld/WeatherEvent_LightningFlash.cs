@@ -8,6 +8,30 @@ namespace RimWorld
 	// Token: 0x02000448 RID: 1096
 	public class WeatherEvent_LightningFlash : WeatherEvent
 	{
+		// Token: 0x04000B98 RID: 2968
+		private int duration;
+
+		// Token: 0x04000B99 RID: 2969
+		private Vector2 shadowVector;
+
+		// Token: 0x04000B9A RID: 2970
+		private int age = 0;
+
+		// Token: 0x04000B9B RID: 2971
+		private const int FlashFadeInTicks = 3;
+
+		// Token: 0x04000B9C RID: 2972
+		private const int MinFlashDuration = 15;
+
+		// Token: 0x04000B9D RID: 2973
+		private const int MaxFlashDuration = 60;
+
+		// Token: 0x04000B9E RID: 2974
+		private const float FlashShadowDistance = 5f;
+
+		// Token: 0x04000B9F RID: 2975
+		private static readonly SkyColorSet LightningFlashColors = new SkyColorSet(new Color(0.9f, 0.95f, 1f), new Color(0.784313738f, 0.8235294f, 0.847058833f), new Color(0.9f, 0.95f, 1f), 1.15f);
+
 		// Token: 0x0600130F RID: 4879 RVA: 0x000A4794 File Offset: 0x000A2B94
 		public WeatherEvent_LightningFlash(Map map) : base(map)
 		{
@@ -85,29 +109,5 @@ namespace RimWorld
 		{
 			this.age++;
 		}
-
-		// Token: 0x04000B98 RID: 2968
-		private int duration;
-
-		// Token: 0x04000B99 RID: 2969
-		private Vector2 shadowVector;
-
-		// Token: 0x04000B9A RID: 2970
-		private int age = 0;
-
-		// Token: 0x04000B9B RID: 2971
-		private const int FlashFadeInTicks = 3;
-
-		// Token: 0x04000B9C RID: 2972
-		private const int MinFlashDuration = 15;
-
-		// Token: 0x04000B9D RID: 2973
-		private const int MaxFlashDuration = 60;
-
-		// Token: 0x04000B9E RID: 2974
-		private const float FlashShadowDistance = 5f;
-
-		// Token: 0x04000B9F RID: 2975
-		private static readonly SkyColorSet LightningFlashColors = new SkyColorSet(new Color(0.9f, 0.95f, 1f), new Color(0.784313738f, 0.8235294f, 0.847058833f), new Color(0.9f, 0.95f, 1f), 1.15f);
 	}
 }

@@ -7,6 +7,39 @@ namespace Verse
 	// Token: 0x02000E8C RID: 3724
 	public static class Text
 	{
+		// Token: 0x04003A24 RID: 14884
+		private static GameFont fontInt = GameFont.Small;
+
+		// Token: 0x04003A25 RID: 14885
+		private static TextAnchor anchorInt = TextAnchor.UpperLeft;
+
+		// Token: 0x04003A26 RID: 14886
+		private static bool wordWrapInt = true;
+
+		// Token: 0x04003A27 RID: 14887
+		public static readonly GUIStyle[] fontStyles = new GUIStyle[3];
+
+		// Token: 0x04003A28 RID: 14888
+		public static readonly GUIStyle[] textFieldStyles = new GUIStyle[3];
+
+		// Token: 0x04003A29 RID: 14889
+		public static readonly GUIStyle[] textAreaStyles = new GUIStyle[3];
+
+		// Token: 0x04003A2A RID: 14890
+		public static readonly GUIStyle[] textAreaReadOnlyStyles = new GUIStyle[3];
+
+		// Token: 0x04003A2B RID: 14891
+		private static readonly float[] lineHeights = new float[3];
+
+		// Token: 0x04003A2C RID: 14892
+		private static readonly float[] spaceBetweenLines = new float[3];
+
+		// Token: 0x04003A2D RID: 14893
+		private static GUIContent tmpTextGUIContent = new GUIContent();
+
+		// Token: 0x04003A2E RID: 14894
+		private const int NumFonts = 3;
+
 		// Token: 0x060057EF RID: 22511 RVA: 0x002D1ED8 File Offset: 0x002D02D8
 		static Text()
 		{
@@ -292,38 +325,5 @@ namespace Verse
 			}
 			Text.Font = GameFont.Small;
 		}
-
-		// Token: 0x04003A24 RID: 14884
-		private static GameFont fontInt = GameFont.Small;
-
-		// Token: 0x04003A25 RID: 14885
-		private static TextAnchor anchorInt = TextAnchor.UpperLeft;
-
-		// Token: 0x04003A26 RID: 14886
-		private static bool wordWrapInt = true;
-
-		// Token: 0x04003A27 RID: 14887
-		public static readonly GUIStyle[] fontStyles = new GUIStyle[3];
-
-		// Token: 0x04003A28 RID: 14888
-		public static readonly GUIStyle[] textFieldStyles = new GUIStyle[3];
-
-		// Token: 0x04003A29 RID: 14889
-		public static readonly GUIStyle[] textAreaStyles = new GUIStyle[3];
-
-		// Token: 0x04003A2A RID: 14890
-		public static readonly GUIStyle[] textAreaReadOnlyStyles = new GUIStyle[3];
-
-		// Token: 0x04003A2B RID: 14891
-		private static readonly float[] lineHeights = new float[3];
-
-		// Token: 0x04003A2C RID: 14892
-		private static readonly float[] spaceBetweenLines = new float[3];
-
-		// Token: 0x04003A2D RID: 14893
-		private static GUIContent tmpTextGUIContent = new GUIContent();
-
-		// Token: 0x04003A2E RID: 14894
-		private const int NumFonts = 3;
 	}
 }

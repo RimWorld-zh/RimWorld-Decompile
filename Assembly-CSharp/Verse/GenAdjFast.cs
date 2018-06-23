@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000F2F RID: 3887
 	public static class GenAdjFast
 	{
+		// Token: 0x04003DCA RID: 15818
+		private static List<IntVec3> resultList = new List<IntVec3>();
+
+		// Token: 0x04003DCB RID: 15819
+		private static bool working = false;
+
 		// Token: 0x06005D9E RID: 23966 RVA: 0x002F8A98 File Offset: 0x002F6E98
 		public static List<IntVec3> AdjacentCells8Way(LocalTargetInfo pack)
 		{
@@ -210,11 +216,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04003DCA RID: 15818
-		private static List<IntVec3> resultList = new List<IntVec3>();
-
-		// Token: 0x04003DCB RID: 15819
-		private static bool working = false;
 	}
 }

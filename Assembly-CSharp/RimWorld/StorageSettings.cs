@@ -6,6 +6,16 @@ namespace RimWorld
 	// Token: 0x02000694 RID: 1684
 	public class StorageSettings : IExposable
 	{
+		// Token: 0x040013F5 RID: 5109
+		public IStoreSettingsParent owner = null;
+
+		// Token: 0x040013F6 RID: 5110
+		public ThingFilter filter;
+
+		// Token: 0x040013F7 RID: 5111
+		[LoadAlias("priority")]
+		private StoragePriority priorityInt = StoragePriority.Normal;
+
 		// Token: 0x060023B5 RID: 9141 RVA: 0x00132722 File Offset: 0x00130B22
 		public StorageSettings()
 		{
@@ -145,15 +155,5 @@ namespace RimWorld
 				this.SlotGroupParentOwner.Map.listerHaulables.Notify_SlotGroupChanged(this.SlotGroupParentOwner.GetSlotGroup());
 			}
 		}
-
-		// Token: 0x040013F5 RID: 5109
-		public IStoreSettingsParent owner = null;
-
-		// Token: 0x040013F6 RID: 5110
-		public ThingFilter filter;
-
-		// Token: 0x040013F7 RID: 5111
-		[LoadAlias("priority")]
-		private StoragePriority priorityInt = StoragePriority.Normal;
 	}
 }

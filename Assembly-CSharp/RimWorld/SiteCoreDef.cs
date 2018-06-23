@@ -5,6 +5,12 @@ namespace RimWorld
 	// Token: 0x020002CE RID: 718
 	public class SiteCoreDef : SiteDefBase
 	{
+		// Token: 0x0400071F RID: 1823
+		public bool transportPodsCanLandAndGenerateMap = true;
+
+		// Token: 0x04000720 RID: 1824
+		public float forceExitAndRemoveMapCountdownDurationDays = 3f;
+
 		// Token: 0x06000BDB RID: 3035 RVA: 0x00069DCE File Offset: 0x000681CE
 		public SiteCoreDef()
 		{
@@ -32,11 +38,5 @@ namespace RimWorld
 		{
 			return (SiteCoreWorker)Activator.CreateInstance(this.workerClass);
 		}
-
-		// Token: 0x0400071F RID: 1823
-		public bool transportPodsCanLandAndGenerateMap = true;
-
-		// Token: 0x04000720 RID: 1824
-		public float forceExitAndRemoveMapCountdownDurationDays = 3f;
 	}
 }

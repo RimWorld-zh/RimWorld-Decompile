@@ -10,6 +10,18 @@ namespace Verse
 	// Token: 0x02000D2C RID: 3372
 	public class Hediff_Pregnant : HediffWithComps
 	{
+		// Token: 0x04003241 RID: 12865
+		public Pawn father;
+
+		// Token: 0x04003242 RID: 12866
+		private const int MiscarryCheckInterval = 1000;
+
+		// Token: 0x04003243 RID: 12867
+		private const float MTBMiscarryStarvingDays = 0.5f;
+
+		// Token: 0x04003244 RID: 12868
+		private const float MTBMiscarryWoundedDays = 0.5f;
+
 		// Token: 0x17000BE7 RID: 3047
 		// (get) Token: 0x06004A69 RID: 19049 RVA: 0x0026CF7C File Offset: 0x0026B37C
 		// (set) Token: 0x06004A6A RID: 19050 RVA: 0x0026CF97 File Offset: 0x0026B397
@@ -172,17 +184,5 @@ namespace Verse
 			stringBuilder.AppendLine("Time left: " + ((int)((1f - this.GestationProgress) * this.pawn.RaceProps.gestationPeriodDays * 60000f)).ToStringTicksToPeriod());
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x04003241 RID: 12865
-		public Pawn father;
-
-		// Token: 0x04003242 RID: 12866
-		private const int MiscarryCheckInterval = 1000;
-
-		// Token: 0x04003243 RID: 12867
-		private const float MTBMiscarryStarvingDays = 0.5f;
-
-		// Token: 0x04003244 RID: 12868
-		private const float MTBMiscarryWoundedDays = 0.5f;
 	}
 }

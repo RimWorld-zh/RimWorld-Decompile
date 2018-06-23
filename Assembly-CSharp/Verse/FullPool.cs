@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000FB8 RID: 4024
 	public static class FullPool<T> where T : IFullPoolable, new()
 	{
+		// Token: 0x04003FB1 RID: 16305
+		private static List<T> freeItems = new List<T>();
+
 		// Token: 0x06006158 RID: 24920 RVA: 0x00312C6C File Offset: 0x0031106C
 		public static T Get()
 		{
@@ -29,8 +32,5 @@ namespace Verse
 			item.Reset();
 			FullPool<T>.freeItems.Add(item);
 		}
-
-		// Token: 0x04003FB1 RID: 16305
-		private static List<T> freeItems = new List<T>();
 	}
 }

@@ -9,6 +9,15 @@ namespace RimWorld
 	// Token: 0x02000047 RID: 71
 	public class JobDriver_Repair : JobDriver
 	{
+		// Token: 0x040001D9 RID: 473
+		protected float ticksToNextRepair = 0f;
+
+		// Token: 0x040001DA RID: 474
+		private const float WarmupTicks = 80f;
+
+		// Token: 0x040001DB RID: 475
+		private const float TicksBetweenRepairs = 20f;
+
 		// Token: 0x0600024F RID: 591 RVA: 0x00018290 File Offset: 0x00016690
 		public override bool TryMakePreToilReservations()
 		{
@@ -51,14 +60,5 @@ namespace RimWorld
 			yield return repair;
 			yield break;
 		}
-
-		// Token: 0x040001D9 RID: 473
-		protected float ticksToNextRepair = 0f;
-
-		// Token: 0x040001DA RID: 474
-		private const float WarmupTicks = 80f;
-
-		// Token: 0x040001DB RID: 475
-		private const float TicksBetweenRepairs = 20f;
 	}
 }

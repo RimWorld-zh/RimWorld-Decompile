@@ -10,6 +10,18 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public abstract class PawnColumnWorker
 	{
+		// Token: 0x040006AA RID: 1706
+		public PawnColumnDef def;
+
+		// Token: 0x040006AB RID: 1707
+		protected const int DefaultCellHeight = 30;
+
+		// Token: 0x040006AC RID: 1708
+		private static readonly Texture2D SortingIcon = ContentFinder<Texture2D>.Get("UI/Icons/Sorting", true);
+
+		// Token: 0x040006AD RID: 1709
+		private static readonly Texture2D SortingDescendingIcon = ContentFinder<Texture2D>.Get("UI/Icons/SortingDescending", true);
+
 		// Token: 0x170001BA RID: 442
 		// (get) Token: 0x06000B8C RID: 2956 RVA: 0x000684A0 File Offset: 0x000668A0
 		protected virtual Color DefaultHeaderColor
@@ -218,17 +230,5 @@ namespace RimWorld
 			}
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x040006AA RID: 1706
-		public PawnColumnDef def;
-
-		// Token: 0x040006AB RID: 1707
-		protected const int DefaultCellHeight = 30;
-
-		// Token: 0x040006AC RID: 1708
-		private static readonly Texture2D SortingIcon = ContentFinder<Texture2D>.Get("UI/Icons/Sorting", true);
-
-		// Token: 0x040006AD RID: 1709
-		private static readonly Texture2D SortingDescendingIcon = ContentFinder<Texture2D>.Get("UI/Icons/SortingDescending", true);
 	}
 }

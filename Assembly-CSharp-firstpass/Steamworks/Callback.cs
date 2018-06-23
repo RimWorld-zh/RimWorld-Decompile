@@ -7,6 +7,24 @@ namespace Steamworks
 	// Token: 0x02000003 RID: 3
 	public sealed class Callback<T>
 	{
+		// Token: 0x04000001 RID: 1
+		private CCallbackBaseVTable VTable;
+
+		// Token: 0x04000002 RID: 2
+		private IntPtr m_pVTable = IntPtr.Zero;
+
+		// Token: 0x04000003 RID: 3
+		private CCallbackBase m_CCallbackBase;
+
+		// Token: 0x04000004 RID: 4
+		private GCHandle m_pCCallbackBase;
+
+		// Token: 0x04000006 RID: 6
+		private bool m_bGameServer;
+
+		// Token: 0x04000007 RID: 7
+		private readonly int m_size = Marshal.SizeOf(typeof(T));
+
 		// Token: 0x06000002 RID: 2 RVA: 0x0000205E File Offset: 0x0000025E
 		public Callback(Callback<T>.DispatchDelegate func, bool bGameServer = false)
 		{
@@ -130,24 +148,6 @@ namespace Steamworks
 			};
 			this.m_pCCallbackBase = GCHandle.Alloc(this.m_CCallbackBase, GCHandleType.Pinned);
 		}
-
-		// Token: 0x04000001 RID: 1
-		private CCallbackBaseVTable VTable;
-
-		// Token: 0x04000002 RID: 2
-		private IntPtr m_pVTable = IntPtr.Zero;
-
-		// Token: 0x04000003 RID: 3
-		private CCallbackBase m_CCallbackBase;
-
-		// Token: 0x04000004 RID: 4
-		private GCHandle m_pCCallbackBase;
-
-		// Token: 0x04000006 RID: 6
-		private bool m_bGameServer;
-
-		// Token: 0x04000007 RID: 7
-		private readonly int m_size = Marshal.SizeOf(typeof(T));
 
 		// Token: 0x02000004 RID: 4
 		// (Invoke) Token: 0x06000010 RID: 16

@@ -9,6 +9,21 @@ namespace RimWorld
 	// Token: 0x02000665 RID: 1637
 	public class Tale : IExposable, ILoadReferenceable
 	{
+		// Token: 0x0400137C RID: 4988
+		public TaleDef def;
+
+		// Token: 0x0400137D RID: 4989
+		public int id;
+
+		// Token: 0x0400137E RID: 4990
+		private int uses = 0;
+
+		// Token: 0x0400137F RID: 4991
+		public int date = -1;
+
+		// Token: 0x04001380 RID: 4992
+		public TaleData_Surroundings surroundings;
+
 		// Token: 0x17000503 RID: 1283
 		// (get) Token: 0x06002242 RID: 8770 RVA: 0x00122FF4 File Offset: 0x001213F4
 		public int AgeTicks
@@ -224,20 +239,5 @@ namespace RimWorld
 			}
 			return str + ")";
 		}
-
-		// Token: 0x0400137C RID: 4988
-		public TaleDef def;
-
-		// Token: 0x0400137D RID: 4989
-		public int id;
-
-		// Token: 0x0400137E RID: 4990
-		private int uses = 0;
-
-		// Token: 0x0400137F RID: 4991
-		public int date = -1;
-
-		// Token: 0x04001380 RID: 4992
-		public TaleData_Surroundings surroundings;
 	}
 }

@@ -9,6 +9,60 @@ namespace Ionic.Zlib
 	// Token: 0x02000020 RID: 32
 	internal class ZlibBaseStream : Stream
 	{
+		// Token: 0x0400015A RID: 346
+		protected internal ZlibCodec _z = null;
+
+		// Token: 0x0400015B RID: 347
+		protected internal ZlibBaseStream.StreamMode _streamMode = ZlibBaseStream.StreamMode.Undefined;
+
+		// Token: 0x0400015C RID: 348
+		protected internal FlushType _flushMode;
+
+		// Token: 0x0400015D RID: 349
+		protected internal ZlibStreamFlavor _flavor;
+
+		// Token: 0x0400015E RID: 350
+		protected internal CompressionMode _compressionMode;
+
+		// Token: 0x0400015F RID: 351
+		protected internal CompressionLevel _level;
+
+		// Token: 0x04000160 RID: 352
+		protected internal bool _leaveOpen;
+
+		// Token: 0x04000161 RID: 353
+		protected internal byte[] _workingBuffer;
+
+		// Token: 0x04000162 RID: 354
+		protected internal int _bufferSize = 16384;
+
+		// Token: 0x04000163 RID: 355
+		protected internal byte[] _buf1 = new byte[1];
+
+		// Token: 0x04000164 RID: 356
+		protected internal Stream _stream;
+
+		// Token: 0x04000165 RID: 357
+		protected internal CompressionStrategy Strategy = CompressionStrategy.Default;
+
+		// Token: 0x04000166 RID: 358
+		private CRC32 crc;
+
+		// Token: 0x04000167 RID: 359
+		protected internal string _GzipFileName;
+
+		// Token: 0x04000168 RID: 360
+		protected internal string _GzipComment;
+
+		// Token: 0x04000169 RID: 361
+		protected internal DateTime _GzipMtime;
+
+		// Token: 0x0400016A RID: 362
+		protected internal int _gzipHeaderByteCount;
+
+		// Token: 0x0400016B RID: 363
+		private bool nomoreinput = false;
+
 		// Token: 0x060000F2 RID: 242 RVA: 0x0000B5C0 File Offset: 0x000099C0
 		public ZlibBaseStream(Stream stream, CompressionMode compressionMode, CompressionLevel level, ZlibStreamFlavor flavor, bool leaveOpen)
 		{
@@ -633,60 +687,6 @@ namespace Ionic.Zlib
 			}
 			return result;
 		}
-
-		// Token: 0x0400015A RID: 346
-		protected internal ZlibCodec _z = null;
-
-		// Token: 0x0400015B RID: 347
-		protected internal ZlibBaseStream.StreamMode _streamMode = ZlibBaseStream.StreamMode.Undefined;
-
-		// Token: 0x0400015C RID: 348
-		protected internal FlushType _flushMode;
-
-		// Token: 0x0400015D RID: 349
-		protected internal ZlibStreamFlavor _flavor;
-
-		// Token: 0x0400015E RID: 350
-		protected internal CompressionMode _compressionMode;
-
-		// Token: 0x0400015F RID: 351
-		protected internal CompressionLevel _level;
-
-		// Token: 0x04000160 RID: 352
-		protected internal bool _leaveOpen;
-
-		// Token: 0x04000161 RID: 353
-		protected internal byte[] _workingBuffer;
-
-		// Token: 0x04000162 RID: 354
-		protected internal int _bufferSize = 16384;
-
-		// Token: 0x04000163 RID: 355
-		protected internal byte[] _buf1 = new byte[1];
-
-		// Token: 0x04000164 RID: 356
-		protected internal Stream _stream;
-
-		// Token: 0x04000165 RID: 357
-		protected internal CompressionStrategy Strategy = CompressionStrategy.Default;
-
-		// Token: 0x04000166 RID: 358
-		private CRC32 crc;
-
-		// Token: 0x04000167 RID: 359
-		protected internal string _GzipFileName;
-
-		// Token: 0x04000168 RID: 360
-		protected internal string _GzipComment;
-
-		// Token: 0x04000169 RID: 361
-		protected internal DateTime _GzipMtime;
-
-		// Token: 0x0400016A RID: 362
-		protected internal int _gzipHeaderByteCount;
-
-		// Token: 0x0400016B RID: 363
-		private bool nomoreinput = false;
 
 		// Token: 0x02000021 RID: 33
 		internal enum StreamMode

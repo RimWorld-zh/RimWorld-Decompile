@@ -8,6 +8,12 @@ namespace Verse
 	// Token: 0x02000E67 RID: 3687
 	public class Command_Target : Command
 	{
+		// Token: 0x0400398F RID: 14735
+		public Action<Thing> action;
+
+		// Token: 0x04003990 RID: 14736
+		public TargetingParameters targetingParams;
+
 		// Token: 0x060056E6 RID: 22246 RVA: 0x002CC52C File Offset: 0x002CA92C
 		public override void ProcessInput(Event ev)
 		{
@@ -24,11 +30,5 @@ namespace Verse
 		{
 			return false;
 		}
-
-		// Token: 0x0400398F RID: 14735
-		public Action<Thing> action;
-
-		// Token: 0x04003990 RID: 14736
-		public TargetingParameters targetingParams;
 	}
 }

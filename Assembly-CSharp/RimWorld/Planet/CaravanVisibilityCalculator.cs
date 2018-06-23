@@ -8,6 +8,36 @@ namespace RimWorld.Planet
 	// Token: 0x020005E5 RID: 1509
 	public static class CaravanVisibilityCalculator
 	{
+		// Token: 0x040011AC RID: 4524
+		private static List<ThingCount> tmpThingCounts = new List<ThingCount>();
+
+		// Token: 0x040011AD RID: 4525
+		private static List<Pawn> tmpPawns = new List<Pawn>();
+
+		// Token: 0x040011AE RID: 4526
+		private static readonly SimpleCurve BodySizeSumToVisibility = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 0f),
+				true
+			},
+			{
+				new CurvePoint(1f, 0.2f),
+				true
+			},
+			{
+				new CurvePoint(6f, 1f),
+				true
+			},
+			{
+				new CurvePoint(12f, 1.12f),
+				true
+			}
+		};
+
+		// Token: 0x040011AF RID: 4527
+		public const float NotMovingFactor = 0.3f;
+
 		// Token: 0x06001DDE RID: 7646 RVA: 0x00101624 File Offset: 0x000FFA24
 		public static float Visibility(float bodySizeSum, bool caravanMovingNow, StringBuilder explanation = null)
 		{
@@ -128,35 +158,5 @@ namespace RimWorld.Planet
 			CaravanVisibilityCalculator.tmpPawns.Clear();
 			return result;
 		}
-
-		// Token: 0x040011AC RID: 4524
-		private static List<ThingCount> tmpThingCounts = new List<ThingCount>();
-
-		// Token: 0x040011AD RID: 4525
-		private static List<Pawn> tmpPawns = new List<Pawn>();
-
-		// Token: 0x040011AE RID: 4526
-		private static readonly SimpleCurve BodySizeSumToVisibility = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 0f),
-				true
-			},
-			{
-				new CurvePoint(1f, 0.2f),
-				true
-			},
-			{
-				new CurvePoint(6f, 1f),
-				true
-			},
-			{
-				new CurvePoint(12f, 1.12f),
-				true
-			}
-		};
-
-		// Token: 0x040011AF RID: 4527
-		public const float NotMovingFactor = 0.3f;
 	}
 }

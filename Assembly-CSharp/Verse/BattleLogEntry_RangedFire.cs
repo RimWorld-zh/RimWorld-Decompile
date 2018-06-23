@@ -8,6 +8,31 @@ namespace Verse
 	// Token: 0x02000BBE RID: 3006
 	public class BattleLogEntry_RangedFire : LogEntry
 	{
+		// Token: 0x04002C9D RID: 11421
+		private Pawn initiatorPawn;
+
+		// Token: 0x04002C9E RID: 11422
+		private ThingDef initiatorThing;
+
+		// Token: 0x04002C9F RID: 11423
+		private Pawn recipientPawn;
+
+		// Token: 0x04002CA0 RID: 11424
+		private ThingDef recipientThing;
+
+		// Token: 0x04002CA1 RID: 11425
+		private ThingDef weaponDef;
+
+		// Token: 0x04002CA2 RID: 11426
+		private ThingDef projectileDef;
+
+		// Token: 0x04002CA3 RID: 11427
+		private bool burst;
+
+		// Token: 0x04002CA4 RID: 11428
+		[TweakValue("LogFilter", 0f, 1f)]
+		private static float DisplayChance = 0.25f;
+
 		// Token: 0x06004152 RID: 16722 RVA: 0x00227B0C File Offset: 0x00225F0C
 		public BattleLogEntry_RangedFire() : base(null)
 		{
@@ -166,30 +191,5 @@ namespace Verse
 		{
 			return "BattleLogEntry_RangedFire: " + this.InitiatorName + "->" + this.RecipientName;
 		}
-
-		// Token: 0x04002C9D RID: 11421
-		private Pawn initiatorPawn;
-
-		// Token: 0x04002C9E RID: 11422
-		private ThingDef initiatorThing;
-
-		// Token: 0x04002C9F RID: 11423
-		private Pawn recipientPawn;
-
-		// Token: 0x04002CA0 RID: 11424
-		private ThingDef recipientThing;
-
-		// Token: 0x04002CA1 RID: 11425
-		private ThingDef weaponDef;
-
-		// Token: 0x04002CA2 RID: 11426
-		private ThingDef projectileDef;
-
-		// Token: 0x04002CA3 RID: 11427
-		private bool burst;
-
-		// Token: 0x04002CA4 RID: 11428
-		[TweakValue("LogFilter", 0f, 1f)]
-		private static float DisplayChance = 0.25f;
 	}
 }

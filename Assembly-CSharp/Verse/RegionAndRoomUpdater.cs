@@ -7,6 +7,45 @@ namespace Verse
 	// Token: 0x02000C87 RID: 3207
 	public class RegionAndRoomUpdater
 	{
+		// Token: 0x04002FEE RID: 12270
+		private Map map;
+
+		// Token: 0x04002FEF RID: 12271
+		private List<Region> newRegions = new List<Region>();
+
+		// Token: 0x04002FF0 RID: 12272
+		private List<Room> newRooms = new List<Room>();
+
+		// Token: 0x04002FF1 RID: 12273
+		private HashSet<Room> reusedOldRooms = new HashSet<Room>();
+
+		// Token: 0x04002FF2 RID: 12274
+		private List<RoomGroup> newRoomGroups = new List<RoomGroup>();
+
+		// Token: 0x04002FF3 RID: 12275
+		private HashSet<RoomGroup> reusedOldRoomGroups = new HashSet<RoomGroup>();
+
+		// Token: 0x04002FF4 RID: 12276
+		private List<Region> currentRegionGroup = new List<Region>();
+
+		// Token: 0x04002FF5 RID: 12277
+		private List<Room> currentRoomGroup = new List<Room>();
+
+		// Token: 0x04002FF6 RID: 12278
+		private Stack<Room> tmpRoomStack = new Stack<Room>();
+
+		// Token: 0x04002FF7 RID: 12279
+		private HashSet<Room> tmpVisitedRooms = new HashSet<Room>();
+
+		// Token: 0x04002FF8 RID: 12280
+		private bool initialized = false;
+
+		// Token: 0x04002FF9 RID: 12281
+		private bool working = false;
+
+		// Token: 0x04002FFA RID: 12282
+		private bool enabledInt = true;
+
 		// Token: 0x0600465A RID: 18010 RVA: 0x00251BDC File Offset: 0x0024FFDC
 		public RegionAndRoomUpdater(Map map)
 		{
@@ -388,44 +427,5 @@ namespace Verse
 			RegionType regionType2 = b.RegionType;
 			return (regionType == RegionType.Normal || regionType == RegionType.ImpassableFreeAirExchange) && (regionType2 == RegionType.Normal || regionType2 == RegionType.ImpassableFreeAirExchange);
 		}
-
-		// Token: 0x04002FEE RID: 12270
-		private Map map;
-
-		// Token: 0x04002FEF RID: 12271
-		private List<Region> newRegions = new List<Region>();
-
-		// Token: 0x04002FF0 RID: 12272
-		private List<Room> newRooms = new List<Room>();
-
-		// Token: 0x04002FF1 RID: 12273
-		private HashSet<Room> reusedOldRooms = new HashSet<Room>();
-
-		// Token: 0x04002FF2 RID: 12274
-		private List<RoomGroup> newRoomGroups = new List<RoomGroup>();
-
-		// Token: 0x04002FF3 RID: 12275
-		private HashSet<RoomGroup> reusedOldRoomGroups = new HashSet<RoomGroup>();
-
-		// Token: 0x04002FF4 RID: 12276
-		private List<Region> currentRegionGroup = new List<Region>();
-
-		// Token: 0x04002FF5 RID: 12277
-		private List<Room> currentRoomGroup = new List<Room>();
-
-		// Token: 0x04002FF6 RID: 12278
-		private Stack<Room> tmpRoomStack = new Stack<Room>();
-
-		// Token: 0x04002FF7 RID: 12279
-		private HashSet<Room> tmpVisitedRooms = new HashSet<Room>();
-
-		// Token: 0x04002FF8 RID: 12280
-		private bool initialized = false;
-
-		// Token: 0x04002FF9 RID: 12281
-		private bool working = false;
-
-		// Token: 0x04002FFA RID: 12282
-		private bool enabledInt = true;
 	}
 }

@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000ED8 RID: 3800
 	public class CreditRecord_Space : CreditsEntry
 	{
+		// Token: 0x04003C6B RID: 15467
+		private float height = 10f;
+
 		// Token: 0x06005A06 RID: 23046 RVA: 0x002E3BA3 File Offset: 0x002E1FA3
 		public CreditRecord_Space()
 		{
@@ -27,8 +30,5 @@ namespace Verse
 		public override void Draw(Rect rect)
 		{
 		}
-
-		// Token: 0x04003C6B RID: 15467
-		private float height = 10f;
 	}
 }

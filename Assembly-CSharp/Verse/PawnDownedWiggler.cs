@@ -6,6 +6,36 @@ namespace Verse
 	// Token: 0x02000CEC RID: 3308
 	public class PawnDownedWiggler
 	{
+		// Token: 0x04003157 RID: 12631
+		private Pawn pawn;
+
+		// Token: 0x04003158 RID: 12632
+		public float downedAngle = PawnDownedWiggler.RandomDownedAngle;
+
+		// Token: 0x04003159 RID: 12633
+		public int ticksToIncapIcon = 0;
+
+		// Token: 0x0400315A RID: 12634
+		private bool usingCustomRotation = false;
+
+		// Token: 0x0400315B RID: 12635
+		private const float DownedAngleWidth = 45f;
+
+		// Token: 0x0400315C RID: 12636
+		private const float DamageTakenDownedAngleShift = 10f;
+
+		// Token: 0x0400315D RID: 12637
+		private const int IncapWigglePeriod = 300;
+
+		// Token: 0x0400315E RID: 12638
+		private const int IncapWiggleLength = 90;
+
+		// Token: 0x0400315F RID: 12639
+		private const float IncapWiggleSpeed = 0.35f;
+
+		// Token: 0x04003160 RID: 12640
+		private const int TicksBetweenIncapIcons = 200;
+
 		// Token: 0x060048DF RID: 18655 RVA: 0x00263C8E File Offset: 0x0026208E
 		public PawnDownedWiggler(Pawn pawn)
 		{
@@ -101,35 +131,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04003157 RID: 12631
-		private Pawn pawn;
-
-		// Token: 0x04003158 RID: 12632
-		public float downedAngle = PawnDownedWiggler.RandomDownedAngle;
-
-		// Token: 0x04003159 RID: 12633
-		public int ticksToIncapIcon = 0;
-
-		// Token: 0x0400315A RID: 12634
-		private bool usingCustomRotation = false;
-
-		// Token: 0x0400315B RID: 12635
-		private const float DownedAngleWidth = 45f;
-
-		// Token: 0x0400315C RID: 12636
-		private const float DamageTakenDownedAngleShift = 10f;
-
-		// Token: 0x0400315D RID: 12637
-		private const int IncapWigglePeriod = 300;
-
-		// Token: 0x0400315E RID: 12638
-		private const int IncapWiggleLength = 90;
-
-		// Token: 0x0400315F RID: 12639
-		private const float IncapWiggleSpeed = 0.35f;
-
-		// Token: 0x04003160 RID: 12640
-		private const int TicksBetweenIncapIcons = 200;
 	}
 }

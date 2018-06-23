@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x0200068B RID: 1675
 	public class Building_Storage : Building, ISlotGroupParent, IStoreSettingsParent, IHaulDestination
 	{
+		// Token: 0x040013E0 RID: 5088
+		public StorageSettings settings;
+
+		// Token: 0x040013E1 RID: 5089
+		public SlotGroup slotGroup;
+
+		// Token: 0x040013E2 RID: 5090
+		private List<IntVec3> cachedOccupiedCells = null;
+
 		// Token: 0x06002377 RID: 9079 RVA: 0x00131134 File Offset: 0x0012F534
 		public Building_Storage()
 		{
@@ -139,14 +148,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x040013E0 RID: 5088
-		public StorageSettings settings;
-
-		// Token: 0x040013E1 RID: 5089
-		public SlotGroup slotGroup;
-
-		// Token: 0x040013E2 RID: 5090
-		private List<IntVec3> cachedOccupiedCells = null;
 	}
 }

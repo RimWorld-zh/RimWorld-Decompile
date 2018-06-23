@@ -8,6 +8,33 @@ namespace RimWorld
 	// Token: 0x02000814 RID: 2068
 	public static class FactionUIUtility
 	{
+		// Token: 0x0400188E RID: 6286
+		private static bool showAll;
+
+		// Token: 0x0400188F RID: 6287
+		private const float FactionColorRectSize = 15f;
+
+		// Token: 0x04001890 RID: 6288
+		private const float FactionColorRectGap = 10f;
+
+		// Token: 0x04001891 RID: 6289
+		private const float RowMinHeight = 80f;
+
+		// Token: 0x04001892 RID: 6290
+		private const float LabelRowHeight = 50f;
+
+		// Token: 0x04001893 RID: 6291
+		private const float TypeColumnWidth = 100f;
+
+		// Token: 0x04001894 RID: 6292
+		private const float NameColumnWidth = 250f;
+
+		// Token: 0x04001895 RID: 6293
+		private const float RelationsColumnWidth = 90f;
+
+		// Token: 0x04001896 RID: 6294
+		private const float NameLeftMargin = 15f;
+
 		// Token: 0x06002E29 RID: 11817 RVA: 0x00185DB4 File Offset: 0x001841B4
 		public static void DoWindowContents(Rect fillRect, ref Vector2 scrollPosition, ref float scrollViewHeight)
 		{
@@ -169,32 +196,5 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 			return num2;
 		}
-
-		// Token: 0x0400188E RID: 6286
-		private static bool showAll;
-
-		// Token: 0x0400188F RID: 6287
-		private const float FactionColorRectSize = 15f;
-
-		// Token: 0x04001890 RID: 6288
-		private const float FactionColorRectGap = 10f;
-
-		// Token: 0x04001891 RID: 6289
-		private const float RowMinHeight = 80f;
-
-		// Token: 0x04001892 RID: 6290
-		private const float LabelRowHeight = 50f;
-
-		// Token: 0x04001893 RID: 6291
-		private const float TypeColumnWidth = 100f;
-
-		// Token: 0x04001894 RID: 6292
-		private const float NameColumnWidth = 250f;
-
-		// Token: 0x04001895 RID: 6293
-		private const float RelationsColumnWidth = 90f;
-
-		// Token: 0x04001896 RID: 6294
-		private const float NameLeftMargin = 15f;
 	}
 }

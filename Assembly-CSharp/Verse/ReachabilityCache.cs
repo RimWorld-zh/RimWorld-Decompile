@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000C7E RID: 3198
 	internal class ReachabilityCache
 	{
+		// Token: 0x04002FC2 RID: 12226
+		private Dictionary<ReachabilityCache.CachedEntry, bool> cacheDict = new Dictionary<ReachabilityCache.CachedEntry, bool>();
+
 		// Token: 0x17000B07 RID: 2823
 		// (get) Token: 0x0600460A RID: 17930 RVA: 0x0024EA00 File Offset: 0x0024CE00
 		public int Count
@@ -48,9 +51,6 @@ namespace Verse
 		{
 			this.cacheDict.Clear();
 		}
-
-		// Token: 0x04002FC2 RID: 12226
-		private Dictionary<ReachabilityCache.CachedEntry, bool> cacheDict = new Dictionary<ReachabilityCache.CachedEntry, bool>();
 
 		// Token: 0x02000C7F RID: 3199
 		[StructLayout(LayoutKind.Sequential, Size = 1)]

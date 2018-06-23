@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000BC4 RID: 3012
 	public class GameComponent_DebugTools : GameComponent
 	{
+		// Token: 0x04002CD4 RID: 11476
+		private List<Func<bool>> callbacks = new List<Func<bool>>();
+
 		// Token: 0x060041A4 RID: 16804 RVA: 0x0022A308 File Offset: 0x00228708
 		public GameComponent_DebugTools(Game game)
 		{
@@ -25,8 +28,5 @@ namespace Verse
 		{
 			this.callbacks.Add(callback);
 		}
-
-		// Token: 0x04002CD4 RID: 11476
-		private List<Func<bool>> callbacks = new List<Func<bool>>();
 	}
 }

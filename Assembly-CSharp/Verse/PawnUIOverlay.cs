@@ -7,6 +7,21 @@ namespace Verse
 	// Token: 0x02000CE6 RID: 3302
 	public class PawnUIOverlay
 	{
+		// Token: 0x04003143 RID: 12611
+		private Pawn pawn;
+
+		// Token: 0x04003144 RID: 12612
+		private const float PawnLabelOffsetY = -0.6f;
+
+		// Token: 0x04003145 RID: 12613
+		private const int PawnStatBarWidth = 32;
+
+		// Token: 0x04003146 RID: 12614
+		private const float ActivityIconSize = 13f;
+
+		// Token: 0x04003147 RID: 12615
+		private const float ActivityIconOffsetY = 12f;
+
 		// Token: 0x060048C9 RID: 18633 RVA: 0x00263630 File Offset: 0x00261A30
 		public PawnUIOverlay(Pawn pawn)
 		{
@@ -48,20 +63,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04003143 RID: 12611
-		private Pawn pawn;
-
-		// Token: 0x04003144 RID: 12612
-		private const float PawnLabelOffsetY = -0.6f;
-
-		// Token: 0x04003145 RID: 12613
-		private const int PawnStatBarWidth = 32;
-
-		// Token: 0x04003146 RID: 12614
-		private const float ActivityIconSize = 13f;
-
-		// Token: 0x04003147 RID: 12615
-		private const float ActivityIconOffsetY = 12f;
 	}
 }

@@ -9,129 +9,6 @@ namespace Verse
 	// Token: 0x02000B5C RID: 2908
 	public class PawnKindDef : Def
 	{
-		// Token: 0x170009A5 RID: 2469
-		// (get) Token: 0x06003F8C RID: 16268 RVA: 0x00217C94 File Offset: 0x00216094
-		public RaceProperties RaceProps
-		{
-			get
-			{
-				return this.race.race;
-			}
-		}
-
-		// Token: 0x06003F8D RID: 16269 RVA: 0x00217CB4 File Offset: 0x002160B4
-		public override void ResolveReferences()
-		{
-			base.ResolveReferences();
-			for (int i = 0; i < this.lifeStages.Count; i++)
-			{
-				this.lifeStages[i].ResolveReferences();
-			}
-		}
-
-		// Token: 0x06003F8E RID: 16270 RVA: 0x00217CF8 File Offset: 0x002160F8
-		public string GetLabelPlural(int count = -1)
-		{
-			string result;
-			if (!this.labelPlural.NullOrEmpty())
-			{
-				result = this.labelPlural;
-			}
-			else
-			{
-				result = Find.ActiveLanguageWorker.Pluralize(this.label, count);
-			}
-			return result;
-		}
-
-		// Token: 0x06003F8F RID: 16271 RVA: 0x00217D3C File Offset: 0x0021613C
-		public override IEnumerable<string> ConfigErrors()
-		{
-			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
-			{
-				yield return err;
-			}
-			if (this.race == null)
-			{
-				yield return "no race";
-			}
-			else if (this.RaceProps.Humanlike && this.backstoryCategory.NullOrEmpty())
-			{
-				yield return "Humanlike needs backstoryCategory.";
-			}
-			if (this.baseRecruitDifficulty > 1.0001f)
-			{
-				yield return this.defName + " recruitDifficulty is greater than 1. 1 means impossible to recruit.";
-			}
-			if (this.combatPower < 0f)
-			{
-				yield return this.defName + " has no combatPower.";
-			}
-			if (this.weaponMoney != FloatRange.Zero)
-			{
-				float minCost = 999999f;
-				int i;
-				for (i = 0; i < this.weaponTags.Count; i++)
-				{
-					IEnumerable<ThingDef> source = from d in DefDatabase<ThingDef>.AllDefs
-					where d.weaponTags != null && d.weaponTags.Contains(this.weaponTags[i])
-					select d;
-					if (source.Any<ThingDef>())
-					{
-						minCost = Mathf.Min(minCost, source.Min((ThingDef d) => PawnWeaponGenerator.CheapestNonDerpPriceFor(d)));
-					}
-				}
-				if (minCost > this.weaponMoney.min)
-				{
-					yield return string.Concat(new object[]
-					{
-						"Cheapest weapon with one of my weaponTags costs ",
-						minCost,
-						" but weaponMoney min is ",
-						this.weaponMoney.min,
-						", so could end up weaponless."
-					});
-				}
-			}
-			if (!this.RaceProps.Humanlike && this.lifeStages.Count != this.RaceProps.lifeStageAges.Count)
-			{
-				yield return string.Concat(new object[]
-				{
-					"PawnKindDef defines ",
-					this.lifeStages.Count,
-					" lifeStages while race def defines ",
-					this.RaceProps.lifeStageAges.Count
-				});
-			}
-			if (this.apparelRequired != null)
-			{
-				for (int k = 0; k < this.apparelRequired.Count; k++)
-				{
-					for (int j = k + 1; j < this.apparelRequired.Count; j++)
-					{
-						if (!ApparelUtility.CanWearTogether(this.apparelRequired[k], this.apparelRequired[j], this.race.race.body))
-						{
-							yield return string.Concat(new object[]
-							{
-								"required apparel can't be worn together (",
-								this.apparelRequired[k],
-								", ",
-								this.apparelRequired[j],
-								")"
-							});
-						}
-					}
-				}
-			}
-			yield break;
-		}
-
-		// Token: 0x06003F90 RID: 16272 RVA: 0x00217D68 File Offset: 0x00216168
-		public static PawnKindDef Named(string defName)
-		{
-			return DefDatabase<PawnKindDef>.GetNamed(defName, true);
-		}
-
 		// Token: 0x04002A49 RID: 10825
 		public ThingDef race = null;
 
@@ -272,5 +149,128 @@ namespace Verse
 
 		// Token: 0x04002A74 RID: 10868
 		public float ecoSystemWeight = 1f;
+
+		// Token: 0x170009A5 RID: 2469
+		// (get) Token: 0x06003F8C RID: 16268 RVA: 0x00217C94 File Offset: 0x00216094
+		public RaceProperties RaceProps
+		{
+			get
+			{
+				return this.race.race;
+			}
+		}
+
+		// Token: 0x06003F8D RID: 16269 RVA: 0x00217CB4 File Offset: 0x002160B4
+		public override void ResolveReferences()
+		{
+			base.ResolveReferences();
+			for (int i = 0; i < this.lifeStages.Count; i++)
+			{
+				this.lifeStages[i].ResolveReferences();
+			}
+		}
+
+		// Token: 0x06003F8E RID: 16270 RVA: 0x00217CF8 File Offset: 0x002160F8
+		public string GetLabelPlural(int count = -1)
+		{
+			string result;
+			if (!this.labelPlural.NullOrEmpty())
+			{
+				result = this.labelPlural;
+			}
+			else
+			{
+				result = Find.ActiveLanguageWorker.Pluralize(this.label, count);
+			}
+			return result;
+		}
+
+		// Token: 0x06003F8F RID: 16271 RVA: 0x00217D3C File Offset: 0x0021613C
+		public override IEnumerable<string> ConfigErrors()
+		{
+			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
+			{
+				yield return err;
+			}
+			if (this.race == null)
+			{
+				yield return "no race";
+			}
+			else if (this.RaceProps.Humanlike && this.backstoryCategory.NullOrEmpty())
+			{
+				yield return "Humanlike needs backstoryCategory.";
+			}
+			if (this.baseRecruitDifficulty > 1.0001f)
+			{
+				yield return this.defName + " recruitDifficulty is greater than 1. 1 means impossible to recruit.";
+			}
+			if (this.combatPower < 0f)
+			{
+				yield return this.defName + " has no combatPower.";
+			}
+			if (this.weaponMoney != FloatRange.Zero)
+			{
+				float minCost = 999999f;
+				int i;
+				for (i = 0; i < this.weaponTags.Count; i++)
+				{
+					IEnumerable<ThingDef> source = from d in DefDatabase<ThingDef>.AllDefs
+					where d.weaponTags != null && d.weaponTags.Contains(this.weaponTags[i])
+					select d;
+					if (source.Any<ThingDef>())
+					{
+						minCost = Mathf.Min(minCost, source.Min((ThingDef d) => PawnWeaponGenerator.CheapestNonDerpPriceFor(d)));
+					}
+				}
+				if (minCost > this.weaponMoney.min)
+				{
+					yield return string.Concat(new object[]
+					{
+						"Cheapest weapon with one of my weaponTags costs ",
+						minCost,
+						" but weaponMoney min is ",
+						this.weaponMoney.min,
+						", so could end up weaponless."
+					});
+				}
+			}
+			if (!this.RaceProps.Humanlike && this.lifeStages.Count != this.RaceProps.lifeStageAges.Count)
+			{
+				yield return string.Concat(new object[]
+				{
+					"PawnKindDef defines ",
+					this.lifeStages.Count,
+					" lifeStages while race def defines ",
+					this.RaceProps.lifeStageAges.Count
+				});
+			}
+			if (this.apparelRequired != null)
+			{
+				for (int k = 0; k < this.apparelRequired.Count; k++)
+				{
+					for (int j = k + 1; j < this.apparelRequired.Count; j++)
+					{
+						if (!ApparelUtility.CanWearTogether(this.apparelRequired[k], this.apparelRequired[j], this.race.race.body))
+						{
+							yield return string.Concat(new object[]
+							{
+								"required apparel can't be worn together (",
+								this.apparelRequired[k],
+								", ",
+								this.apparelRequired[j],
+								")"
+							});
+						}
+					}
+				}
+			}
+			yield break;
+		}
+
+		// Token: 0x06003F90 RID: 16272 RVA: 0x00217D68 File Offset: 0x00216168
+		public static PawnKindDef Named(string defName)
+		{
+			return DefDatabase<PawnKindDef>.GetNamed(defName, true);
+		}
 	}
 }

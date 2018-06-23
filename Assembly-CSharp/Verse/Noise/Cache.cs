@@ -6,6 +6,21 @@ namespace Verse.Noise
 	// Token: 0x02000F87 RID: 3975
 	public class Cache : ModuleBase
 	{
+		// Token: 0x04003F0E RID: 16142
+		private double m_value = 0.0;
+
+		// Token: 0x04003F0F RID: 16143
+		private bool m_cached = false;
+
+		// Token: 0x04003F10 RID: 16144
+		private double m_x = 0.0;
+
+		// Token: 0x04003F11 RID: 16145
+		private double m_y = 0.0;
+
+		// Token: 0x04003F12 RID: 16146
+		private double m_z = 0.0;
+
 		// Token: 0x06006012 RID: 24594 RVA: 0x0030D38C File Offset: 0x0030B78C
 		public Cache() : base(1)
 		{
@@ -45,20 +60,5 @@ namespace Verse.Noise
 			this.m_cached = true;
 			return this.m_value;
 		}
-
-		// Token: 0x04003F0E RID: 16142
-		private double m_value = 0.0;
-
-		// Token: 0x04003F0F RID: 16143
-		private bool m_cached = false;
-
-		// Token: 0x04003F10 RID: 16144
-		private double m_x = 0.0;
-
-		// Token: 0x04003F11 RID: 16145
-		private double m_y = 0.0;
-
-		// Token: 0x04003F12 RID: 16146
-		private double m_z = 0.0;
 	}
 }

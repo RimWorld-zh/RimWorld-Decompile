@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000147 RID: 327
 	public class WorkGiver_GrowerSow : WorkGiver_Grower
 	{
+		// Token: 0x0400032A RID: 810
+		protected static string CantSowCavePlantBecauseOfLightTrans;
+
+		// Token: 0x0400032B RID: 811
+		protected static string CantSowCavePlantBecauseUnroofedTrans;
+
 		// Token: 0x17000108 RID: 264
 		// (get) Token: 0x060006C8 RID: 1736 RVA: 0x00045BAC File Offset: 0x00043FAC
 		public override PathEndMode PathEndMode
@@ -209,11 +215,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x0400032A RID: 810
-		protected static string CantSowCavePlantBecauseOfLightTrans;
-
-		// Token: 0x0400032B RID: 811
-		protected static string CantSowCavePlantBecauseUnroofedTrans;
 	}
 }

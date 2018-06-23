@@ -6,6 +6,21 @@ namespace Verse
 	// Token: 0x02000CE4 RID: 3300
 	public class PawnTweener
 	{
+		// Token: 0x0400313D RID: 12605
+		private Pawn pawn;
+
+		// Token: 0x0400313E RID: 12606
+		private Vector3 tweenedPos = new Vector3(0f, 0f, 0f);
+
+		// Token: 0x0400313F RID: 12607
+		private int lastDrawFrame = -1;
+
+		// Token: 0x04003140 RID: 12608
+		private Vector3 lastTickSpringPos;
+
+		// Token: 0x04003141 RID: 12609
+		private const float SpringTightness = 0.09f;
+
 		// Token: 0x060048BE RID: 18622 RVA: 0x00262E0F File Offset: 0x0026120F
 		public PawnTweener(Pawn pawn)
 		{
@@ -117,20 +132,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x0400313D RID: 12605
-		private Pawn pawn;
-
-		// Token: 0x0400313E RID: 12606
-		private Vector3 tweenedPos = new Vector3(0f, 0f, 0f);
-
-		// Token: 0x0400313F RID: 12607
-		private int lastDrawFrame = -1;
-
-		// Token: 0x04003140 RID: 12608
-		private Vector3 lastTickSpringPos;
-
-		// Token: 0x04003141 RID: 12609
-		private const float SpringTightness = 0.09f;
 	}
 }

@@ -8,6 +8,15 @@ namespace RimWorld.Planet
 	// Token: 0x020005B9 RID: 1465
 	public class WorldGenStep_AncientRoads : WorldGenStep
 	{
+		// Token: 0x040010E1 RID: 4321
+		public float maximumSiteCurve;
+
+		// Token: 0x040010E2 RID: 4322
+		public float minimumChain;
+
+		// Token: 0x040010E3 RID: 4323
+		public float maximumSegmentCurviness;
+
 		// Token: 0x1700041B RID: 1051
 		// (get) Token: 0x06001C26 RID: 7206 RVA: 0x000F25E8 File Offset: 0x000F09E8
 		public override int SeedPart
@@ -111,14 +120,5 @@ namespace RimWorld.Planet
 			}
 			return list;
 		}
-
-		// Token: 0x040010E1 RID: 4321
-		public float maximumSiteCurve;
-
-		// Token: 0x040010E2 RID: 4322
-		public float minimumChain;
-
-		// Token: 0x040010E3 RID: 4323
-		public float maximumSegmentCurviness;
 	}
 }

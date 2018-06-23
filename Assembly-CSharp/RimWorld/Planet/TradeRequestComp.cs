@@ -10,6 +10,21 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public class TradeRequestComp : WorldObjectComp, IThingHolder
 	{
+		// Token: 0x04001275 RID: 4725
+		public ThingDef requestThingDef;
+
+		// Token: 0x04001276 RID: 4726
+		public int requestCount;
+
+		// Token: 0x04001277 RID: 4727
+		public ThingOwner rewards;
+
+		// Token: 0x04001278 RID: 4728
+		public int expiration = -1;
+
+		// Token: 0x04001279 RID: 4729
+		private static readonly Texture2D TradeCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/FulfillTradeRequest", true);
+
 		// Token: 0x0600200B RID: 8203 RVA: 0x0011360C File Offset: 0x00111A0C
 		public TradeRequestComp()
 		{
@@ -200,20 +215,5 @@ namespace RimWorld.Planet
 			}
 			return result;
 		}
-
-		// Token: 0x04001275 RID: 4725
-		public ThingDef requestThingDef;
-
-		// Token: 0x04001276 RID: 4726
-		public int requestCount;
-
-		// Token: 0x04001277 RID: 4727
-		public ThingOwner rewards;
-
-		// Token: 0x04001278 RID: 4728
-		public int expiration = -1;
-
-		// Token: 0x04001279 RID: 4729
-		private static readonly Texture2D TradeCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/FulfillTradeRequest", true);
 	}
 }

@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x0200033F RID: 831
 	public class IncidentWorker_ShipChunkDrop : IncidentWorker
 	{
+		// Token: 0x040008E8 RID: 2280
+		private static readonly Pair<int, float>[] CountChance = new Pair<int, float>[]
+		{
+			new Pair<int, float>(1, 1f),
+			new Pair<int, float>(2, 0.95f),
+			new Pair<int, float>(3, 0.7f),
+			new Pair<int, float>(4, 0.4f)
+		};
+
 		// Token: 0x1700020C RID: 524
 		// (get) Token: 0x06000E31 RID: 3633 RVA: 0x00078D18 File Offset: 0x00077118
 		private int RandomCountToDrop
@@ -94,14 +103,5 @@ namespace RimWorld
 			ref IntVec3 cell = ref pos;
 			return CellFinderLoose.TryFindSkyfallerCell(shipChunkIncoming, map, out cell, 10, nearLoc, maxDist, true, false, false, false, true, false, null);
 		}
-
-		// Token: 0x040008E8 RID: 2280
-		private static readonly Pair<int, float>[] CountChance = new Pair<int, float>[]
-		{
-			new Pair<int, float>(1, 1f),
-			new Pair<int, float>(2, 0.95f),
-			new Pair<int, float>(3, 0.7f),
-			new Pair<int, float>(4, 0.4f)
-		};
 	}
 }

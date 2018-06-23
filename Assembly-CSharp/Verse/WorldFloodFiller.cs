@@ -7,6 +7,18 @@ namespace Verse
 	// Token: 0x020005AD RID: 1453
 	public class WorldFloodFiller
 	{
+		// Token: 0x04001093 RID: 4243
+		private bool working;
+
+		// Token: 0x04001094 RID: 4244
+		private Queue<int> openSet = new Queue<int>();
+
+		// Token: 0x04001095 RID: 4245
+		private List<int> traversalDistance = new List<int>();
+
+		// Token: 0x04001096 RID: 4246
+		private List<int> visited = new List<int>();
+
 		// Token: 0x06001BD2 RID: 7122 RVA: 0x000EFAE0 File Offset: 0x000EDEE0
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Action<int> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
@@ -139,17 +151,5 @@ namespace Verse
 			this.visited.Clear();
 			this.openSet.Clear();
 		}
-
-		// Token: 0x04001093 RID: 4243
-		private bool working;
-
-		// Token: 0x04001094 RID: 4244
-		private Queue<int> openSet = new Queue<int>();
-
-		// Token: 0x04001095 RID: 4245
-		private List<int> traversalDistance = new List<int>();
-
-		// Token: 0x04001096 RID: 4246
-		private List<int> visited = new List<int>();
 	}
 }

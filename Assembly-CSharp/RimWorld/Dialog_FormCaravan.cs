@@ -13,6 +13,120 @@ namespace RimWorld
 	// Token: 0x020007F7 RID: 2039
 	public class Dialog_FormCaravan : Window
 	{
+		// Token: 0x040017CC RID: 6092
+		private Map map;
+
+		// Token: 0x040017CD RID: 6093
+		private bool reform;
+
+		// Token: 0x040017CE RID: 6094
+		private Action onClosed;
+
+		// Token: 0x040017CF RID: 6095
+		private bool canChooseRoute;
+
+		// Token: 0x040017D0 RID: 6096
+		private bool mapAboutToBeRemoved;
+
+		// Token: 0x040017D1 RID: 6097
+		public bool choosingRoute;
+
+		// Token: 0x040017D2 RID: 6098
+		private bool thisWindowInstanceEverOpened;
+
+		// Token: 0x040017D3 RID: 6099
+		public List<TransferableOneWay> transferables;
+
+		// Token: 0x040017D4 RID: 6100
+		private TransferableOneWayWidget pawnsTransfer;
+
+		// Token: 0x040017D5 RID: 6101
+		private TransferableOneWayWidget itemsTransfer;
+
+		// Token: 0x040017D6 RID: 6102
+		private Dialog_FormCaravan.Tab tab = Dialog_FormCaravan.Tab.Pawns;
+
+		// Token: 0x040017D7 RID: 6103
+		private float lastMassFlashTime = -9999f;
+
+		// Token: 0x040017D8 RID: 6104
+		private int startingTile = -1;
+
+		// Token: 0x040017D9 RID: 6105
+		private int destinationTile = -1;
+
+		// Token: 0x040017DA RID: 6106
+		private bool massUsageDirty = true;
+
+		// Token: 0x040017DB RID: 6107
+		private float cachedMassUsage;
+
+		// Token: 0x040017DC RID: 6108
+		private bool massCapacityDirty = true;
+
+		// Token: 0x040017DD RID: 6109
+		private float cachedMassCapacity;
+
+		// Token: 0x040017DE RID: 6110
+		private string cachedMassCapacityExplanation;
+
+		// Token: 0x040017DF RID: 6111
+		private bool tilesPerDayDirty = true;
+
+		// Token: 0x040017E0 RID: 6112
+		private float cachedTilesPerDay;
+
+		// Token: 0x040017E1 RID: 6113
+		private string cachedTilesPerDayExplanation;
+
+		// Token: 0x040017E2 RID: 6114
+		private bool daysWorthOfFoodDirty = true;
+
+		// Token: 0x040017E3 RID: 6115
+		private Pair<float, float> cachedDaysWorthOfFood;
+
+		// Token: 0x040017E4 RID: 6116
+		private bool foragedFoodPerDayDirty = true;
+
+		// Token: 0x040017E5 RID: 6117
+		private Pair<ThingDef, float> cachedForagedFoodPerDay;
+
+		// Token: 0x040017E6 RID: 6118
+		private string cachedForagedFoodPerDayExplanation;
+
+		// Token: 0x040017E7 RID: 6119
+		private bool visibilityDirty = true;
+
+		// Token: 0x040017E8 RID: 6120
+		private float cachedVisibility;
+
+		// Token: 0x040017E9 RID: 6121
+		private string cachedVisibilityExplanation;
+
+		// Token: 0x040017EA RID: 6122
+		private bool ticksToArriveDirty = true;
+
+		// Token: 0x040017EB RID: 6123
+		private int cachedTicksToArrive;
+
+		// Token: 0x040017EC RID: 6124
+		private const float TitleRectHeight = 35f;
+
+		// Token: 0x040017ED RID: 6125
+		private const float BottomAreaHeight = 55f;
+
+		// Token: 0x040017EE RID: 6126
+		private readonly Vector2 BottomButtonSize = new Vector2(160f, 40f);
+
+		// Token: 0x040017EF RID: 6127
+		private const float MaxDaysWorthOfFoodToShowWarningDialog = 5f;
+
+		// Token: 0x040017F0 RID: 6128
+		private static List<TabRecord> tabsList = new List<TabRecord>();
+
+		// Token: 0x040017F1 RID: 6129
+		private static List<Thing> tmpPackingSpots = new List<Thing>();
+
 		// Token: 0x06002D39 RID: 11577 RVA: 0x0017C32C File Offset: 0x0017A72C
 		public Dialog_FormCaravan(Map map, bool reform = false, Action onClosed = null, bool mapAboutToBeRemoved = false)
 		{
@@ -1074,120 +1188,6 @@ namespace RimWorld
 		{
 			return CaravanFormingUtility.AllSendablePawns(map, reform, reform, reform);
 		}
-
-		// Token: 0x040017CC RID: 6092
-		private Map map;
-
-		// Token: 0x040017CD RID: 6093
-		private bool reform;
-
-		// Token: 0x040017CE RID: 6094
-		private Action onClosed;
-
-		// Token: 0x040017CF RID: 6095
-		private bool canChooseRoute;
-
-		// Token: 0x040017D0 RID: 6096
-		private bool mapAboutToBeRemoved;
-
-		// Token: 0x040017D1 RID: 6097
-		public bool choosingRoute;
-
-		// Token: 0x040017D2 RID: 6098
-		private bool thisWindowInstanceEverOpened;
-
-		// Token: 0x040017D3 RID: 6099
-		public List<TransferableOneWay> transferables;
-
-		// Token: 0x040017D4 RID: 6100
-		private TransferableOneWayWidget pawnsTransfer;
-
-		// Token: 0x040017D5 RID: 6101
-		private TransferableOneWayWidget itemsTransfer;
-
-		// Token: 0x040017D6 RID: 6102
-		private Dialog_FormCaravan.Tab tab = Dialog_FormCaravan.Tab.Pawns;
-
-		// Token: 0x040017D7 RID: 6103
-		private float lastMassFlashTime = -9999f;
-
-		// Token: 0x040017D8 RID: 6104
-		private int startingTile = -1;
-
-		// Token: 0x040017D9 RID: 6105
-		private int destinationTile = -1;
-
-		// Token: 0x040017DA RID: 6106
-		private bool massUsageDirty = true;
-
-		// Token: 0x040017DB RID: 6107
-		private float cachedMassUsage;
-
-		// Token: 0x040017DC RID: 6108
-		private bool massCapacityDirty = true;
-
-		// Token: 0x040017DD RID: 6109
-		private float cachedMassCapacity;
-
-		// Token: 0x040017DE RID: 6110
-		private string cachedMassCapacityExplanation;
-
-		// Token: 0x040017DF RID: 6111
-		private bool tilesPerDayDirty = true;
-
-		// Token: 0x040017E0 RID: 6112
-		private float cachedTilesPerDay;
-
-		// Token: 0x040017E1 RID: 6113
-		private string cachedTilesPerDayExplanation;
-
-		// Token: 0x040017E2 RID: 6114
-		private bool daysWorthOfFoodDirty = true;
-
-		// Token: 0x040017E3 RID: 6115
-		private Pair<float, float> cachedDaysWorthOfFood;
-
-		// Token: 0x040017E4 RID: 6116
-		private bool foragedFoodPerDayDirty = true;
-
-		// Token: 0x040017E5 RID: 6117
-		private Pair<ThingDef, float> cachedForagedFoodPerDay;
-
-		// Token: 0x040017E6 RID: 6118
-		private string cachedForagedFoodPerDayExplanation;
-
-		// Token: 0x040017E7 RID: 6119
-		private bool visibilityDirty = true;
-
-		// Token: 0x040017E8 RID: 6120
-		private float cachedVisibility;
-
-		// Token: 0x040017E9 RID: 6121
-		private string cachedVisibilityExplanation;
-
-		// Token: 0x040017EA RID: 6122
-		private bool ticksToArriveDirty = true;
-
-		// Token: 0x040017EB RID: 6123
-		private int cachedTicksToArrive;
-
-		// Token: 0x040017EC RID: 6124
-		private const float TitleRectHeight = 35f;
-
-		// Token: 0x040017ED RID: 6125
-		private const float BottomAreaHeight = 55f;
-
-		// Token: 0x040017EE RID: 6126
-		private readonly Vector2 BottomButtonSize = new Vector2(160f, 40f);
-
-		// Token: 0x040017EF RID: 6127
-		private const float MaxDaysWorthOfFoodToShowWarningDialog = 5f;
-
-		// Token: 0x040017F0 RID: 6128
-		private static List<TabRecord> tabsList = new List<TabRecord>();
-
-		// Token: 0x040017F1 RID: 6129
-		private static List<Thing> tmpPackingSpots = new List<Thing>();
 
 		// Token: 0x020007F8 RID: 2040
 		private enum Tab

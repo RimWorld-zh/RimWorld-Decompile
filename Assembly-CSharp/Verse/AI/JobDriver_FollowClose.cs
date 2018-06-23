@@ -7,6 +7,12 @@ namespace Verse.AI
 	// Token: 0x02000A32 RID: 2610
 	public class JobDriver_FollowClose : JobDriver
 	{
+		// Token: 0x040024FB RID: 9467
+		private const TargetIndex FolloweeInd = TargetIndex.A;
+
+		// Token: 0x040024FC RID: 9468
+		private const int CheckPathIntervalTicks = 30;
+
 		// Token: 0x170008E8 RID: 2280
 		// (get) Token: 0x060039F6 RID: 14838 RVA: 0x001EA388 File Offset: 0x001E8788
 		private Pawn Followee
@@ -170,11 +176,5 @@ namespace Verse.AI
 			}
 			return result;
 		}
-
-		// Token: 0x040024FB RID: 9467
-		private const TargetIndex FolloweeInd = TargetIndex.A;
-
-		// Token: 0x040024FC RID: 9468
-		private const int CheckPathIntervalTicks = 30;
 	}
 }

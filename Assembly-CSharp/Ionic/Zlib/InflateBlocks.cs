@@ -5,6 +5,93 @@ namespace Ionic.Zlib
 	// Token: 0x0200000C RID: 12
 	internal sealed class InflateBlocks
 	{
+		// Token: 0x0400008B RID: 139
+		private const int MANY = 1440;
+
+		// Token: 0x0400008C RID: 140
+		internal static readonly int[] border = new int[]
+		{
+			16,
+			17,
+			18,
+			0,
+			8,
+			7,
+			9,
+			6,
+			10,
+			5,
+			11,
+			4,
+			12,
+			3,
+			13,
+			2,
+			14,
+			1,
+			15
+		};
+
+		// Token: 0x0400008D RID: 141
+		private InflateBlocks.InflateBlockMode mode;
+
+		// Token: 0x0400008E RID: 142
+		internal int left;
+
+		// Token: 0x0400008F RID: 143
+		internal int table;
+
+		// Token: 0x04000090 RID: 144
+		internal int index;
+
+		// Token: 0x04000091 RID: 145
+		internal int[] blens;
+
+		// Token: 0x04000092 RID: 146
+		internal int[] bb = new int[1];
+
+		// Token: 0x04000093 RID: 147
+		internal int[] tb = new int[1];
+
+		// Token: 0x04000094 RID: 148
+		internal InflateCodes codes = new InflateCodes();
+
+		// Token: 0x04000095 RID: 149
+		internal int last;
+
+		// Token: 0x04000096 RID: 150
+		internal ZlibCodec _codec;
+
+		// Token: 0x04000097 RID: 151
+		internal int bitk;
+
+		// Token: 0x04000098 RID: 152
+		internal int bitb;
+
+		// Token: 0x04000099 RID: 153
+		internal int[] hufts;
+
+		// Token: 0x0400009A RID: 154
+		internal byte[] window;
+
+		// Token: 0x0400009B RID: 155
+		internal int end;
+
+		// Token: 0x0400009C RID: 156
+		internal int readAt;
+
+		// Token: 0x0400009D RID: 157
+		internal int writeAt;
+
+		// Token: 0x0400009E RID: 158
+		internal object checkfn;
+
+		// Token: 0x0400009F RID: 159
+		internal uint check;
+
+		// Token: 0x040000A0 RID: 160
+		internal InfTree inftree = new InfTree();
+
 		// Token: 0x060000A0 RID: 160 RVA: 0x00006C18 File Offset: 0x00005018
 		internal InflateBlocks(ZlibCodec codec, object checkfn, int w)
 		{
@@ -611,93 +698,6 @@ namespace Ionic.Zlib
 			}
 			return r;
 		}
-
-		// Token: 0x0400008B RID: 139
-		private const int MANY = 1440;
-
-		// Token: 0x0400008C RID: 140
-		internal static readonly int[] border = new int[]
-		{
-			16,
-			17,
-			18,
-			0,
-			8,
-			7,
-			9,
-			6,
-			10,
-			5,
-			11,
-			4,
-			12,
-			3,
-			13,
-			2,
-			14,
-			1,
-			15
-		};
-
-		// Token: 0x0400008D RID: 141
-		private InflateBlocks.InflateBlockMode mode;
-
-		// Token: 0x0400008E RID: 142
-		internal int left;
-
-		// Token: 0x0400008F RID: 143
-		internal int table;
-
-		// Token: 0x04000090 RID: 144
-		internal int index;
-
-		// Token: 0x04000091 RID: 145
-		internal int[] blens;
-
-		// Token: 0x04000092 RID: 146
-		internal int[] bb = new int[1];
-
-		// Token: 0x04000093 RID: 147
-		internal int[] tb = new int[1];
-
-		// Token: 0x04000094 RID: 148
-		internal InflateCodes codes = new InflateCodes();
-
-		// Token: 0x04000095 RID: 149
-		internal int last;
-
-		// Token: 0x04000096 RID: 150
-		internal ZlibCodec _codec;
-
-		// Token: 0x04000097 RID: 151
-		internal int bitk;
-
-		// Token: 0x04000098 RID: 152
-		internal int bitb;
-
-		// Token: 0x04000099 RID: 153
-		internal int[] hufts;
-
-		// Token: 0x0400009A RID: 154
-		internal byte[] window;
-
-		// Token: 0x0400009B RID: 155
-		internal int end;
-
-		// Token: 0x0400009C RID: 156
-		internal int readAt;
-
-		// Token: 0x0400009D RID: 157
-		internal int writeAt;
-
-		// Token: 0x0400009E RID: 158
-		internal object checkfn;
-
-		// Token: 0x0400009F RID: 159
-		internal uint check;
-
-		// Token: 0x040000A0 RID: 160
-		internal InfTree inftree = new InfTree();
 
 		// Token: 0x0200000D RID: 13
 		private enum InflateBlockMode

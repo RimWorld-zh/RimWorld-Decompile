@@ -10,6 +10,18 @@ namespace RimWorld
 	// Token: 0x0200077E RID: 1918
 	public static class TradeUtility
 	{
+		// Token: 0x040016DB RID: 5851
+		public const float MinimumBuyPrice = 0.5f;
+
+		// Token: 0x040016DC RID: 5852
+		public const float MinimumSellPrice = 0.01f;
+
+		// Token: 0x040016DD RID: 5853
+		public const float PriceFactorBuy_Global = 1.5f;
+
+		// Token: 0x040016DE RID: 5854
+		public const float PriceFactorSell_Global = 0.5f;
+
 		// Token: 0x06002A68 RID: 10856 RVA: 0x00167584 File Offset: 0x00165984
 		public static bool EverPlayerSellable(ThingDef def)
 		{
@@ -214,17 +226,5 @@ namespace RimWorld
 			}
 			return num;
 		}
-
-		// Token: 0x040016DB RID: 5851
-		public const float MinimumBuyPrice = 0.5f;
-
-		// Token: 0x040016DC RID: 5852
-		public const float MinimumSellPrice = 0.01f;
-
-		// Token: 0x040016DD RID: 5853
-		public const float PriceFactorBuy_Global = 1.5f;
-
-		// Token: 0x040016DE RID: 5854
-		public const float PriceFactorSell_Global = 0.5f;
 	}
 }

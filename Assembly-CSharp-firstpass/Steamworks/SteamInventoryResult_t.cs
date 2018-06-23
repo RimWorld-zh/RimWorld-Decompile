@@ -5,6 +5,12 @@ namespace Steamworks
 	// Token: 0x0200015C RID: 348
 	public struct SteamInventoryResult_t : IEquatable<SteamInventoryResult_t>, IComparable<SteamInventoryResult_t>
 	{
+		// Token: 0x0400066D RID: 1645
+		public static readonly SteamInventoryResult_t Invalid = new SteamInventoryResult_t(-1);
+
+		// Token: 0x0400066E RID: 1646
+		public int m_SteamInventoryResult;
+
 		// Token: 0x060007C1 RID: 1985 RVA: 0x0000D71C File Offset: 0x0000B91C
 		public SteamInventoryResult_t(int value)
 		{
@@ -64,11 +70,5 @@ namespace Steamworks
 		{
 			return this.m_SteamInventoryResult.CompareTo(other.m_SteamInventoryResult);
 		}
-
-		// Token: 0x0400066D RID: 1645
-		public static readonly SteamInventoryResult_t Invalid = new SteamInventoryResult_t(-1);
-
-		// Token: 0x0400066E RID: 1646
-		public int m_SteamInventoryResult;
 	}
 }

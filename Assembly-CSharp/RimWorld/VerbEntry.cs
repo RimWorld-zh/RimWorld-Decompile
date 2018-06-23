@@ -6,6 +6,12 @@ namespace RimWorld
 	// Token: 0x02000512 RID: 1298
 	public struct VerbEntry
 	{
+		// Token: 0x04000DE5 RID: 3557
+		public Verb verb;
+
+		// Token: 0x04000DE6 RID: 3558
+		private float cachedSelectionWeight;
+
 		// Token: 0x06001783 RID: 6019 RVA: 0x000CE4E1 File Offset: 0x000CC8E1
 		public VerbEntry(Verb verb, Pawn pawn, Thing equipment = null)
 		{
@@ -43,11 +49,5 @@ namespace RimWorld
 		{
 			return this.verb.ToString() + " - " + this.cachedSelectionWeight;
 		}
-
-		// Token: 0x04000DE5 RID: 3557
-		public Verb verb;
-
-		// Token: 0x04000DE6 RID: 3558
-		private float cachedSelectionWeight;
 	}
 }

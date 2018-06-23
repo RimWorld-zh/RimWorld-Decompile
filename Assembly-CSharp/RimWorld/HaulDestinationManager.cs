@@ -8,6 +8,34 @@ namespace RimWorld
 	// Token: 0x0200068C RID: 1676
 	public sealed class HaulDestinationManager
 	{
+		// Token: 0x040013E3 RID: 5091
+		private Map map;
+
+		// Token: 0x040013E4 RID: 5092
+		private List<IHaulDestination> allHaulDestinationsInOrder = new List<IHaulDestination>();
+
+		// Token: 0x040013E5 RID: 5093
+		private List<SlotGroup> allGroupsInOrder = new List<SlotGroup>();
+
+		// Token: 0x040013E6 RID: 5094
+		private SlotGroup[,,] groupGrid;
+
+		// Token: 0x040013E7 RID: 5095
+		[CompilerGenerated]
+		private static Comparison<IHaulDestination> <>f__mg$cache0;
+
+		// Token: 0x040013E8 RID: 5096
+		[CompilerGenerated]
+		private static Comparison<SlotGroup> <>f__mg$cache1;
+
+		// Token: 0x040013E9 RID: 5097
+		[CompilerGenerated]
+		private static Comparison<IHaulDestination> <>f__mg$cache2;
+
+		// Token: 0x040013EA RID: 5098
+		[CompilerGenerated]
+		private static Comparison<SlotGroup> <>f__mg$cache3;
+
 		// Token: 0x06002388 RID: 9096 RVA: 0x00131824 File Offset: 0x0012FC24
 		public HaulDestinationManager(Map map)
 		{
@@ -249,33 +277,5 @@ namespace RimWorld
 			}
 			this.groupGrid[c.x, c.y, c.z] = null;
 		}
-
-		// Token: 0x040013E3 RID: 5091
-		private Map map;
-
-		// Token: 0x040013E4 RID: 5092
-		private List<IHaulDestination> allHaulDestinationsInOrder = new List<IHaulDestination>();
-
-		// Token: 0x040013E5 RID: 5093
-		private List<SlotGroup> allGroupsInOrder = new List<SlotGroup>();
-
-		// Token: 0x040013E6 RID: 5094
-		private SlotGroup[,,] groupGrid;
-
-		// Token: 0x040013E7 RID: 5095
-		[CompilerGenerated]
-		private static Comparison<IHaulDestination> <>f__mg$cache0;
-
-		// Token: 0x040013E8 RID: 5096
-		[CompilerGenerated]
-		private static Comparison<SlotGroup> <>f__mg$cache1;
-
-		// Token: 0x040013E9 RID: 5097
-		[CompilerGenerated]
-		private static Comparison<IHaulDestination> <>f__mg$cache2;
-
-		// Token: 0x040013EA RID: 5098
-		[CompilerGenerated]
-		private static Comparison<SlotGroup> <>f__mg$cache3;
 	}
 }

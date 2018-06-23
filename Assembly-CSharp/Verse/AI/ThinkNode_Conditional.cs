@@ -5,6 +5,9 @@ namespace Verse.AI
 	// Token: 0x02000AAE RID: 2734
 	public abstract class ThinkNode_Conditional : ThinkNode_Priority
 	{
+		// Token: 0x0400268A RID: 9866
+		public bool invert = false;
+
 		// Token: 0x06003D12 RID: 15634 RVA: 0x00055D70 File Offset: 0x00054170
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -30,8 +33,5 @@ namespace Verse.AI
 
 		// Token: 0x06003D14 RID: 15636
 		protected abstract bool Satisfied(Pawn pawn);
-
-		// Token: 0x0400268A RID: 9866
-		public bool invert = false;
 	}
 }

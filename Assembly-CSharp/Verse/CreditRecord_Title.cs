@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000EDB RID: 3803
 	public class CreditRecord_Title : CreditsEntry
 	{
+		// Token: 0x04003C71 RID: 15473
+		public string title;
+
 		// Token: 0x06005A12 RID: 23058 RVA: 0x002E3D8B File Offset: 0x002E218B
 		public CreditRecord_Title()
 		{
@@ -35,8 +38,5 @@ namespace Verse
 			Widgets.DrawLineHorizontal(rect.x + 10f, Mathf.Round(rect.yMax) - 14f, rect.width - 20f);
 			GUI.color = Color.white;
 		}
-
-		// Token: 0x04003C71 RID: 15473
-		public string title;
 	}
 }

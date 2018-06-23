@@ -8,6 +8,27 @@ namespace RimWorld.Planet
 	// Token: 0x0200056B RID: 1387
 	public abstract class FeatureWorker_FloodFill : FeatureWorker
 	{
+		// Token: 0x04000F56 RID: 3926
+		private List<int> roots = new List<int>();
+
+		// Token: 0x04000F57 RID: 3927
+		private HashSet<int> rootsSet = new HashSet<int>();
+
+		// Token: 0x04000F58 RID: 3928
+		private List<int> possiblyAllowed = new List<int>();
+
+		// Token: 0x04000F59 RID: 3929
+		private HashSet<int> possiblyAllowedSet = new HashSet<int>();
+
+		// Token: 0x04000F5A RID: 3930
+		private List<int> currentGroup = new List<int>();
+
+		// Token: 0x04000F5B RID: 3931
+		private List<int> currentGroupMembers = new List<int>();
+
+		// Token: 0x04000F5C RID: 3932
+		private static List<int> tmpGroup = new List<int>();
+
 		// Token: 0x170003B6 RID: 950
 		// (get) Token: 0x06001A42 RID: 6722 RVA: 0x000E38D8 File Offset: 0x000E1CD8
 		protected virtual int MinSize
@@ -185,26 +206,5 @@ namespace RimWorld.Planet
 				}
 			}
 		}
-
-		// Token: 0x04000F56 RID: 3926
-		private List<int> roots = new List<int>();
-
-		// Token: 0x04000F57 RID: 3927
-		private HashSet<int> rootsSet = new HashSet<int>();
-
-		// Token: 0x04000F58 RID: 3928
-		private List<int> possiblyAllowed = new List<int>();
-
-		// Token: 0x04000F59 RID: 3929
-		private HashSet<int> possiblyAllowedSet = new HashSet<int>();
-
-		// Token: 0x04000F5A RID: 3930
-		private List<int> currentGroup = new List<int>();
-
-		// Token: 0x04000F5B RID: 3931
-		private List<int> currentGroupMembers = new List<int>();
-
-		// Token: 0x04000F5C RID: 3932
-		private static List<int> tmpGroup = new List<int>();
 	}
 }

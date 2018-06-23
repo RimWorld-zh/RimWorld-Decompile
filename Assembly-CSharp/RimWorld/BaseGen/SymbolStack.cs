@@ -7,6 +7,9 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003E2 RID: 994
 	public class SymbolStack
 	{
+		// Token: 0x04000A55 RID: 2645
+		private Stack<Pair<string, ResolveParams>> stack = new Stack<Pair<string, ResolveParams>>();
+
 		// Token: 0x17000244 RID: 580
 		// (get) Token: 0x06001102 RID: 4354 RVA: 0x00091A48 File Offset: 0x0008FE48
 		public bool Empty
@@ -71,8 +74,5 @@ namespace RimWorld.BaseGen
 		{
 			this.stack.Clear();
 		}
-
-		// Token: 0x04000A55 RID: 2645
-		private Stack<Pair<string, ResolveParams>> stack = new Stack<Pair<string, ResolveParams>>();
 	}
 }

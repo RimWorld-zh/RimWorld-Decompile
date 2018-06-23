@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020000C8 RID: 200
 	public class JobGiver_PickUpOpportunisticWeapon : ThinkNode_JobGiver
 	{
+		// Token: 0x0400029B RID: 667
+		private bool preferBuildingDestroyers;
+
 		// Token: 0x170000CB RID: 203
 		// (get) Token: 0x06000497 RID: 1175 RVA: 0x00034360 File Offset: 0x00032760
 		private float MinMeleeWeaponDPSThreshold
@@ -134,8 +137,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x0400029B RID: 667
-		private bool preferBuildingDestroyers;
 	}
 }

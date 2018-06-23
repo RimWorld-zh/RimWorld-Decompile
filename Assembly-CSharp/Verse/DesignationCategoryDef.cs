@@ -8,6 +8,27 @@ namespace Verse
 	// Token: 0x02000B32 RID: 2866
 	public class DesignationCategoryDef : Def
 	{
+		// Token: 0x04002932 RID: 10546
+		public List<Type> specialDesignatorClasses = new List<Type>();
+
+		// Token: 0x04002933 RID: 10547
+		public int order = 0;
+
+		// Token: 0x04002934 RID: 10548
+		public bool showPowerGrid = false;
+
+		// Token: 0x04002935 RID: 10549
+		[Unsaved]
+		private List<Designator> resolvedDesignators = new List<Designator>();
+
+		// Token: 0x04002936 RID: 10550
+		[Unsaved]
+		public KeyBindingCategoryDef bindingCatDef;
+
+		// Token: 0x04002937 RID: 10551
+		[Unsaved]
+		public string cachedHighlightClosedTag;
+
 		// Token: 0x17000990 RID: 2448
 		// (get) Token: 0x06003F1E RID: 16158 RVA: 0x00213EE4 File Offset: 0x002122E4
 		public IEnumerable<Designator> ResolvedAllowedDesignators
@@ -97,26 +118,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04002932 RID: 10546
-		public List<Type> specialDesignatorClasses = new List<Type>();
-
-		// Token: 0x04002933 RID: 10547
-		public int order = 0;
-
-		// Token: 0x04002934 RID: 10548
-		public bool showPowerGrid = false;
-
-		// Token: 0x04002935 RID: 10549
-		[Unsaved]
-		private List<Designator> resolvedDesignators = new List<Designator>();
-
-		// Token: 0x04002936 RID: 10550
-		[Unsaved]
-		public KeyBindingCategoryDef bindingCatDef;
-
-		// Token: 0x04002937 RID: 10551
-		[Unsaved]
-		public string cachedHighlightClosedTag;
 	}
 }

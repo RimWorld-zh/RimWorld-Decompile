@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000D74 RID: 3444
 	public static class ShadowMeshPool
 	{
+		// Token: 0x04003380 RID: 13184
+		private static Dictionary<int, Mesh> shadowMeshDict = new Dictionary<int, Mesh>();
+
 		// Token: 0x06004D41 RID: 19777 RVA: 0x00284138 File Offset: 0x00282538
 		public static Mesh GetShadowMesh(ShadowData sha)
 		{
@@ -42,8 +45,5 @@ namespace Verse
 			num4 ^= num2 * 612331;
 			return num4 ^ num3 * 456123;
 		}
-
-		// Token: 0x04003380 RID: 13184
-		private static Dictionary<int, Mesh> shadowMeshDict = new Dictionary<int, Mesh>();
 	}
 }

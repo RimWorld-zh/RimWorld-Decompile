@@ -8,6 +8,9 @@ namespace Verse
 	// Token: 0x02000AF4 RID: 2804
 	public static class ShortHashGiver
 	{
+		// Token: 0x04002747 RID: 10055
+		private static Dictionary<Type, HashSet<ushort>> takenHashesPerDeftype = new Dictionary<Type, HashSet<ushort>>();
+
 		// Token: 0x06003E27 RID: 15911 RVA: 0x0020C9D0 File Offset: 0x0020ADD0
 		public static void GiveAllShortHashes()
 		{
@@ -79,8 +82,5 @@ namespace Verse
 				hashSet.Add(num);
 			}
 		}
-
-		// Token: 0x04002747 RID: 10055
-		private static Dictionary<Type, HashSet<ushort>> takenHashesPerDeftype = new Dictionary<Type, HashSet<ushort>>();
 	}
 }

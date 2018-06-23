@@ -7,6 +7,24 @@ namespace RimWorld
 	// Token: 0x02000311 RID: 785
 	public class GameCondition_VolcanicWinter : GameCondition
 	{
+		// Token: 0x04000888 RID: 2184
+		private int LerpTicks = 50000;
+
+		// Token: 0x04000889 RID: 2185
+		private float MaxTempOffset = -7f;
+
+		// Token: 0x0400088A RID: 2186
+		private const float AnimalDensityImpact = 0.5f;
+
+		// Token: 0x0400088B RID: 2187
+		private const float SkyGlow = 0.55f;
+
+		// Token: 0x0400088C RID: 2188
+		private const float MaxSkyLerpFactor = 0.3f;
+
+		// Token: 0x0400088D RID: 2189
+		private SkyColorSet VolcanicWinterColors;
+
 		// Token: 0x06000D51 RID: 3409 RVA: 0x00073174 File Offset: 0x00071574
 		public GameCondition_VolcanicWinter()
 		{
@@ -44,23 +62,5 @@ namespace RimWorld
 		{
 			return false;
 		}
-
-		// Token: 0x04000888 RID: 2184
-		private int LerpTicks = 50000;
-
-		// Token: 0x04000889 RID: 2185
-		private float MaxTempOffset = -7f;
-
-		// Token: 0x0400088A RID: 2186
-		private const float AnimalDensityImpact = 0.5f;
-
-		// Token: 0x0400088B RID: 2187
-		private const float SkyGlow = 0.55f;
-
-		// Token: 0x0400088C RID: 2188
-		private const float MaxSkyLerpFactor = 0.3f;
-
-		// Token: 0x0400088D RID: 2189
-		private SkyColorSet VolcanicWinterColors;
 	}
 }

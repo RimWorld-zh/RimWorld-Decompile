@@ -11,6 +11,36 @@ namespace RimWorld
 	// Token: 0x0200082E RID: 2094
 	public class Page_ConfigureStartingPawns : Page
 	{
+		// Token: 0x04001980 RID: 6528
+		private Pawn curPawn;
+
+		// Token: 0x04001981 RID: 6529
+		private const float TabAreaWidth = 140f;
+
+		// Token: 0x04001982 RID: 6530
+		private const float RightRectLeftPadding = 5f;
+
+		// Token: 0x04001983 RID: 6531
+		private const float PawnEntryHeight = 60f;
+
+		// Token: 0x04001984 RID: 6532
+		private const float SkillSummaryHeight = 141f;
+
+		// Token: 0x04001985 RID: 6533
+		private const int SkillSummaryColumns = 4;
+
+		// Token: 0x04001986 RID: 6534
+		private const int TeamSkillExtraInset = 10;
+
+		// Token: 0x04001987 RID: 6535
+		private static readonly Vector2 PawnPortraitSize = new Vector2(100f, 140f);
+
+		// Token: 0x04001988 RID: 6536
+		private static readonly Vector2 PawnSelectorPortraitSize = new Vector2(70f, 110f);
+
+		// Token: 0x04001989 RID: 6537
+		private int SkillsPerColumn = -1;
+
 		// Token: 0x17000782 RID: 1922
 		// (get) Token: 0x06002F3B RID: 12091 RVA: 0x00193EA8 File Offset: 0x001922A8
 		public override string PageTitle
@@ -326,35 +356,5 @@ namespace RimWorld
 				this.curPawn = c;
 			}
 		}
-
-		// Token: 0x04001980 RID: 6528
-		private Pawn curPawn;
-
-		// Token: 0x04001981 RID: 6529
-		private const float TabAreaWidth = 140f;
-
-		// Token: 0x04001982 RID: 6530
-		private const float RightRectLeftPadding = 5f;
-
-		// Token: 0x04001983 RID: 6531
-		private const float PawnEntryHeight = 60f;
-
-		// Token: 0x04001984 RID: 6532
-		private const float SkillSummaryHeight = 141f;
-
-		// Token: 0x04001985 RID: 6533
-		private const int SkillSummaryColumns = 4;
-
-		// Token: 0x04001986 RID: 6534
-		private const int TeamSkillExtraInset = 10;
-
-		// Token: 0x04001987 RID: 6535
-		private static readonly Vector2 PawnPortraitSize = new Vector2(100f, 140f);
-
-		// Token: 0x04001988 RID: 6536
-		private static readonly Vector2 PawnSelectorPortraitSize = new Vector2(70f, 110f);
-
-		// Token: 0x04001989 RID: 6537
-		private int SkillsPerColumn = -1;
 	}
 }

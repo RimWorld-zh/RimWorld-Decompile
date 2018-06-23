@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020000CF RID: 207
 	public class JobGiver_EnterTransporter : ThinkNode_JobGiver
 	{
+		// Token: 0x0400029D RID: 669
+		private static List<CompTransporter> tmpTransporters = new List<CompTransporter>();
+
 		// Token: 0x060004AE RID: 1198 RVA: 0x00034F24 File Offset: 0x00033324
 		protected override Job TryGiveJob(Pawn pawn)
 		{
@@ -52,8 +55,5 @@ namespace RimWorld
 			}
 			return null;
 		}
-
-		// Token: 0x0400029D RID: 669
-		private static List<CompTransporter> tmpTransporters = new List<CompTransporter>();
 	}
 }

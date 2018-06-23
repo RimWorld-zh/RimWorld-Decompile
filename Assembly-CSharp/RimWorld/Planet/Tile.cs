@@ -7,6 +7,36 @@ namespace RimWorld.Planet
 	// Token: 0x020005A4 RID: 1444
 	public class Tile
 	{
+		// Token: 0x04001060 RID: 4192
+		public const int Invalid = -1;
+
+		// Token: 0x04001061 RID: 4193
+		public BiomeDef biome;
+
+		// Token: 0x04001062 RID: 4194
+		public float elevation = 100f;
+
+		// Token: 0x04001063 RID: 4195
+		public Hilliness hilliness = Hilliness.Undefined;
+
+		// Token: 0x04001064 RID: 4196
+		public float temperature = 20f;
+
+		// Token: 0x04001065 RID: 4197
+		public float rainfall = 0f;
+
+		// Token: 0x04001066 RID: 4198
+		public float swampiness;
+
+		// Token: 0x04001067 RID: 4199
+		public WorldFeature feature;
+
+		// Token: 0x04001068 RID: 4200
+		public List<Tile.RoadLink> potentialRoads;
+
+		// Token: 0x04001069 RID: 4201
+		public List<Tile.RiverLink> potentialRivers;
+
 		// Token: 0x17000410 RID: 1040
 		// (get) Token: 0x06001B92 RID: 7058 RVA: 0x000EE1D0 File Offset: 0x000EC5D0
 		public bool WaterCovered
@@ -65,36 +95,6 @@ namespace RimWorld.Planet
 				"))"
 			});
 		}
-
-		// Token: 0x04001060 RID: 4192
-		public const int Invalid = -1;
-
-		// Token: 0x04001061 RID: 4193
-		public BiomeDef biome;
-
-		// Token: 0x04001062 RID: 4194
-		public float elevation = 100f;
-
-		// Token: 0x04001063 RID: 4195
-		public Hilliness hilliness = Hilliness.Undefined;
-
-		// Token: 0x04001064 RID: 4196
-		public float temperature = 20f;
-
-		// Token: 0x04001065 RID: 4197
-		public float rainfall = 0f;
-
-		// Token: 0x04001066 RID: 4198
-		public float swampiness;
-
-		// Token: 0x04001067 RID: 4199
-		public WorldFeature feature;
-
-		// Token: 0x04001068 RID: 4200
-		public List<Tile.RoadLink> potentialRoads;
-
-		// Token: 0x04001069 RID: 4201
-		public List<Tile.RiverLink> potentialRivers;
 
 		// Token: 0x020005A5 RID: 1445
 		public struct RoadLink

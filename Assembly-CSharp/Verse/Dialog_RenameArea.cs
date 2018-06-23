@@ -5,6 +5,9 @@ namespace Verse
 	// Token: 0x02000EB6 RID: 3766
 	public class Dialog_RenameArea : Dialog_Rename
 	{
+		// Token: 0x04003B6A RID: 15210
+		private Area area;
+
 		// Token: 0x06005927 RID: 22823 RVA: 0x002DBF9D File Offset: 0x002DA39D
 		public Dialog_RenameArea(Area area)
 		{
@@ -37,8 +40,5 @@ namespace Verse
 		{
 			this.area.SetLabel(this.curName);
 		}
-
-		// Token: 0x04003B6A RID: 15210
-		private Area area;
 	}
 }

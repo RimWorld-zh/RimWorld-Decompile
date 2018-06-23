@@ -8,6 +8,18 @@ namespace RimWorld
 	// Token: 0x020003FA RID: 1018
 	public class GenStep_RockChunks : GenStep
 	{
+		// Token: 0x04000AA2 RID: 2722
+		private ModuleBase freqFactorNoise = null;
+
+		// Token: 0x04000AA3 RID: 2723
+		private const float ThreshLooseRock = 0.55f;
+
+		// Token: 0x04000AA4 RID: 2724
+		private const float PlaceProbabilityPerCell = 0.006f;
+
+		// Token: 0x04000AA5 RID: 2725
+		private const float RubbleProbability = 0.5f;
+
 		// Token: 0x17000256 RID: 598
 		// (get) Token: 0x06001183 RID: 4483 RVA: 0x00097AAC File Offset: 0x00095EAC
 		public override int SeedPart
@@ -103,17 +115,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000AA2 RID: 2722
-		private ModuleBase freqFactorNoise = null;
-
-		// Token: 0x04000AA3 RID: 2723
-		private const float ThreshLooseRock = 0.55f;
-
-		// Token: 0x04000AA4 RID: 2724
-		private const float PlaceProbabilityPerCell = 0.006f;
-
-		// Token: 0x04000AA5 RID: 2725
-		private const float RubbleProbability = 0.5f;
 	}
 }

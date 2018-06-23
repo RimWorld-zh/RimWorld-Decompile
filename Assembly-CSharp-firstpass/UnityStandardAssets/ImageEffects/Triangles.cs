@@ -6,6 +6,12 @@ namespace UnityStandardAssets.ImageEffects
 	// Token: 0x020001B2 RID: 434
 	internal class Triangles
 	{
+		// Token: 0x04000896 RID: 2198
+		private static Mesh[] meshes;
+
+		// Token: 0x04000897 RID: 2199
+		private static int currentTris = 0;
+
 		// Token: 0x06000972 RID: 2418 RVA: 0x00019850 File Offset: 0x00017A50
 		private static bool HasMeshes()
 		{
@@ -107,11 +113,5 @@ namespace UnityStandardAssets.ImageEffects
 			mesh.uv2 = array3;
 			return mesh;
 		}
-
-		// Token: 0x04000896 RID: 2198
-		private static Mesh[] meshes;
-
-		// Token: 0x04000897 RID: 2199
-		private static int currentTris = 0;
 	}
 }

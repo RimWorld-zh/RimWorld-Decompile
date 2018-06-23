@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020006EC RID: 1772
 	public class ThingSetMaker_SubTree : ThingSetMaker
 	{
+		// Token: 0x0400157F RID: 5503
+		public ThingSetMakerDef def;
+
 		// Token: 0x0600269A RID: 9882 RVA: 0x0014AABC File Offset: 0x00148EBC
 		protected override bool CanGenerateSub(ThingSetMakerParams parms)
 		{
@@ -24,8 +27,5 @@ namespace RimWorld
 		{
 			return this.def.root.AllGeneratableThingsDebug(parms);
 		}
-
-		// Token: 0x0400157F RID: 5503
-		public ThingSetMakerDef def;
 	}
 }

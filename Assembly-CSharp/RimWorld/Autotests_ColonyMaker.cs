@@ -10,6 +10,15 @@ namespace RimWorld
 	// Token: 0x020008F4 RID: 2292
 	public static class Autotests_ColonyMaker
 	{
+		// Token: 0x04001CB6 RID: 7350
+		private static CellRect overRect;
+
+		// Token: 0x04001CB7 RID: 7351
+		private static BoolGrid usedCells;
+
+		// Token: 0x04001CB8 RID: 7352
+		private const int OverRectSize = 100;
+
 		// Token: 0x1700088F RID: 2191
 		// (get) Token: 0x06003503 RID: 13571 RVA: 0x001C513C File Offset: 0x001C353C
 		private static Map Map
@@ -516,14 +525,5 @@ namespace RimWorld
 			Designator_AreaHomeExpand designator_AreaHomeExpand = new Designator_AreaHomeExpand();
 			designator_AreaHomeExpand.DesignateMultiCell(r.Cells);
 		}
-
-		// Token: 0x04001CB6 RID: 7350
-		private static CellRect overRect;
-
-		// Token: 0x04001CB7 RID: 7351
-		private static BoolGrid usedCells;
-
-		// Token: 0x04001CB8 RID: 7352
-		private const int OverRectSize = 100;
 	}
 }

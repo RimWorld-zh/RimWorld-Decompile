@@ -8,183 +8,6 @@ namespace RimWorld
 	// Token: 0x0200023B RID: 571
 	public class BuildingProperties
 	{
-		// Token: 0x1700017F RID: 383
-		// (get) Token: 0x06000A5B RID: 2651 RVA: 0x0005DD94 File Offset: 0x0005C194
-		public bool SupportsPlants
-		{
-			get
-			{
-				return this.sowTag != null;
-			}
-		}
-
-		// Token: 0x17000180 RID: 384
-		// (get) Token: 0x06000A5C RID: 2652 RVA: 0x0005DDB8 File Offset: 0x0005C1B8
-		public bool IsTurret
-		{
-			get
-			{
-				return this.turretGunDef != null;
-			}
-		}
-
-		// Token: 0x17000181 RID: 385
-		// (get) Token: 0x06000A5D RID: 2653 RVA: 0x0005DDDC File Offset: 0x0005C1DC
-		public bool IsDeconstructible
-		{
-			get
-			{
-				return this.alwaysDeconstructible || (!this.isNaturalRock && this.deconstructible);
-			}
-		}
-
-		// Token: 0x17000182 RID: 386
-		// (get) Token: 0x06000A5E RID: 2654 RVA: 0x0005DE14 File Offset: 0x0005C214
-		public bool IsMortar
-		{
-			get
-			{
-				bool result;
-				if (!this.IsTurret)
-				{
-					result = false;
-				}
-				else
-				{
-					List<VerbProperties> verbs = this.turretGunDef.Verbs;
-					for (int i = 0; i < verbs.Count; i++)
-					{
-						if (verbs[i].isPrimary && verbs[i].defaultProjectile != null && verbs[i].defaultProjectile.projectile.flyOverhead)
-						{
-							return true;
-						}
-					}
-					if (this.turretGunDef.HasComp(typeof(CompChangeableProjectile)))
-					{
-						if (this.turretGunDef.building.fixedStorageSettings.filter.Allows(ThingDefOf.Shell_HighExplosive))
-						{
-							return true;
-						}
-						foreach (ThingDef thingDef in this.turretGunDef.building.fixedStorageSettings.filter.AllowedThingDefs)
-						{
-							if (thingDef.projectileWhenLoaded != null && thingDef.projectileWhenLoaded.projectile.flyOverhead)
-							{
-								return true;
-							}
-						}
-					}
-					result = false;
-				}
-				return result;
-			}
-		}
-
-		// Token: 0x06000A5F RID: 2655 RVA: 0x0005DF74 File Offset: 0x0005C374
-		public IEnumerable<string> ConfigErrors(ThingDef parent)
-		{
-			if (this.isTrap && !this.isEdifice)
-			{
-				yield return "isTrap but is not edifice. Code will break.";
-			}
-			if (this.alwaysDeconstructible && !this.deconstructible)
-			{
-				yield return "alwaysDeconstructible=true but deconstructible=false";
-			}
-			if (parent.holdsRoof && !this.isEdifice)
-			{
-				yield return "holds roof but is not an edifice.";
-			}
-			yield break;
-		}
-
-		// Token: 0x06000A60 RID: 2656 RVA: 0x0005DFA5 File Offset: 0x0005C3A5
-		public void PostLoadSpecial(ThingDef parent)
-		{
-		}
-
-		// Token: 0x06000A61 RID: 2657 RVA: 0x0005DFA8 File Offset: 0x0005C3A8
-		public void ResolveReferencesSpecial()
-		{
-			if (this.soundDoorOpenPowered == null)
-			{
-				this.soundDoorOpenPowered = SoundDefOf.Door_OpenPowered;
-			}
-			if (this.soundDoorClosePowered == null)
-			{
-				this.soundDoorClosePowered = SoundDefOf.Door_ClosePowered;
-			}
-			if (this.soundDoorOpenManual == null)
-			{
-				this.soundDoorOpenManual = SoundDefOf.Door_OpenManual;
-			}
-			if (this.soundDoorCloseManual == null)
-			{
-				this.soundDoorCloseManual = SoundDefOf.Door_CloseManual;
-			}
-			if (!this.turretTopGraphicPath.NullOrEmpty())
-			{
-				LongEventHandler.ExecuteWhenFinished(delegate
-				{
-					this.turretTopMat = MaterialPool.MatFrom(this.turretTopGraphicPath);
-				});
-			}
-			if (this.fixedStorageSettings != null)
-			{
-				this.fixedStorageSettings.filter.ResolveReferences();
-			}
-			if (this.defaultStorageSettings == null)
-			{
-				if (this.fixedStorageSettings != null)
-				{
-					this.defaultStorageSettings = new StorageSettings();
-					this.defaultStorageSettings.CopyFrom(this.fixedStorageSettings);
-				}
-			}
-			if (this.defaultStorageSettings != null)
-			{
-				this.defaultStorageSettings.filter.ResolveReferences();
-			}
-		}
-
-		// Token: 0x06000A62 RID: 2658 RVA: 0x0005E09C File Offset: 0x0005C49C
-		public static void FinalizeInit()
-		{
-			List<ThingDef> allDefsListForReading = DefDatabase<ThingDef>.AllDefsListForReading;
-			for (int i = 0; i < allDefsListForReading.Count; i++)
-			{
-				ThingDef thingDef = allDefsListForReading[i];
-				if (thingDef.building != null)
-				{
-					if (thingDef.building.smoothedThing != null)
-					{
-						ThingDef thingDef2 = thingDef.building.smoothedThing;
-						if (thingDef2.building == null)
-						{
-							Log.Error(string.Format("{0} is smoothable to non-building {1}", thingDef, thingDef2), false);
-						}
-						else if (thingDef2.building.unsmoothedThing == null || thingDef2.building.unsmoothedThing == thingDef)
-						{
-							thingDef2.building.unsmoothedThing = thingDef;
-						}
-						else
-						{
-							Log.Error(string.Format("{0} and {1} both smooth to {2}", thingDef, thingDef2.building.unsmoothedThing, thingDef2), false);
-						}
-					}
-				}
-			}
-		}
-
-		// Token: 0x06000A63 RID: 2659 RVA: 0x0005E174 File Offset: 0x0005C574
-		public IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
-		{
-			if (this.joyKind != null)
-			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Building, "StatsReport_JoyKind".Translate(), this.joyKind.LabelCap, 0, "");
-			}
-			yield break;
-		}
-
 		// Token: 0x04000406 RID: 1030
 		public bool isEdifice = true;
 
@@ -424,5 +247,182 @@ namespace RimWorld
 
 		// Token: 0x04000453 RID: 1107
 		public int haulToContainerDuration;
+
+		// Token: 0x1700017F RID: 383
+		// (get) Token: 0x06000A5B RID: 2651 RVA: 0x0005DD94 File Offset: 0x0005C194
+		public bool SupportsPlants
+		{
+			get
+			{
+				return this.sowTag != null;
+			}
+		}
+
+		// Token: 0x17000180 RID: 384
+		// (get) Token: 0x06000A5C RID: 2652 RVA: 0x0005DDB8 File Offset: 0x0005C1B8
+		public bool IsTurret
+		{
+			get
+			{
+				return this.turretGunDef != null;
+			}
+		}
+
+		// Token: 0x17000181 RID: 385
+		// (get) Token: 0x06000A5D RID: 2653 RVA: 0x0005DDDC File Offset: 0x0005C1DC
+		public bool IsDeconstructible
+		{
+			get
+			{
+				return this.alwaysDeconstructible || (!this.isNaturalRock && this.deconstructible);
+			}
+		}
+
+		// Token: 0x17000182 RID: 386
+		// (get) Token: 0x06000A5E RID: 2654 RVA: 0x0005DE14 File Offset: 0x0005C214
+		public bool IsMortar
+		{
+			get
+			{
+				bool result;
+				if (!this.IsTurret)
+				{
+					result = false;
+				}
+				else
+				{
+					List<VerbProperties> verbs = this.turretGunDef.Verbs;
+					for (int i = 0; i < verbs.Count; i++)
+					{
+						if (verbs[i].isPrimary && verbs[i].defaultProjectile != null && verbs[i].defaultProjectile.projectile.flyOverhead)
+						{
+							return true;
+						}
+					}
+					if (this.turretGunDef.HasComp(typeof(CompChangeableProjectile)))
+					{
+						if (this.turretGunDef.building.fixedStorageSettings.filter.Allows(ThingDefOf.Shell_HighExplosive))
+						{
+							return true;
+						}
+						foreach (ThingDef thingDef in this.turretGunDef.building.fixedStorageSettings.filter.AllowedThingDefs)
+						{
+							if (thingDef.projectileWhenLoaded != null && thingDef.projectileWhenLoaded.projectile.flyOverhead)
+							{
+								return true;
+							}
+						}
+					}
+					result = false;
+				}
+				return result;
+			}
+		}
+
+		// Token: 0x06000A5F RID: 2655 RVA: 0x0005DF74 File Offset: 0x0005C374
+		public IEnumerable<string> ConfigErrors(ThingDef parent)
+		{
+			if (this.isTrap && !this.isEdifice)
+			{
+				yield return "isTrap but is not edifice. Code will break.";
+			}
+			if (this.alwaysDeconstructible && !this.deconstructible)
+			{
+				yield return "alwaysDeconstructible=true but deconstructible=false";
+			}
+			if (parent.holdsRoof && !this.isEdifice)
+			{
+				yield return "holds roof but is not an edifice.";
+			}
+			yield break;
+		}
+
+		// Token: 0x06000A60 RID: 2656 RVA: 0x0005DFA5 File Offset: 0x0005C3A5
+		public void PostLoadSpecial(ThingDef parent)
+		{
+		}
+
+		// Token: 0x06000A61 RID: 2657 RVA: 0x0005DFA8 File Offset: 0x0005C3A8
+		public void ResolveReferencesSpecial()
+		{
+			if (this.soundDoorOpenPowered == null)
+			{
+				this.soundDoorOpenPowered = SoundDefOf.Door_OpenPowered;
+			}
+			if (this.soundDoorClosePowered == null)
+			{
+				this.soundDoorClosePowered = SoundDefOf.Door_ClosePowered;
+			}
+			if (this.soundDoorOpenManual == null)
+			{
+				this.soundDoorOpenManual = SoundDefOf.Door_OpenManual;
+			}
+			if (this.soundDoorCloseManual == null)
+			{
+				this.soundDoorCloseManual = SoundDefOf.Door_CloseManual;
+			}
+			if (!this.turretTopGraphicPath.NullOrEmpty())
+			{
+				LongEventHandler.ExecuteWhenFinished(delegate
+				{
+					this.turretTopMat = MaterialPool.MatFrom(this.turretTopGraphicPath);
+				});
+			}
+			if (this.fixedStorageSettings != null)
+			{
+				this.fixedStorageSettings.filter.ResolveReferences();
+			}
+			if (this.defaultStorageSettings == null)
+			{
+				if (this.fixedStorageSettings != null)
+				{
+					this.defaultStorageSettings = new StorageSettings();
+					this.defaultStorageSettings.CopyFrom(this.fixedStorageSettings);
+				}
+			}
+			if (this.defaultStorageSettings != null)
+			{
+				this.defaultStorageSettings.filter.ResolveReferences();
+			}
+		}
+
+		// Token: 0x06000A62 RID: 2658 RVA: 0x0005E09C File Offset: 0x0005C49C
+		public static void FinalizeInit()
+		{
+			List<ThingDef> allDefsListForReading = DefDatabase<ThingDef>.AllDefsListForReading;
+			for (int i = 0; i < allDefsListForReading.Count; i++)
+			{
+				ThingDef thingDef = allDefsListForReading[i];
+				if (thingDef.building != null)
+				{
+					if (thingDef.building.smoothedThing != null)
+					{
+						ThingDef thingDef2 = thingDef.building.smoothedThing;
+						if (thingDef2.building == null)
+						{
+							Log.Error(string.Format("{0} is smoothable to non-building {1}", thingDef, thingDef2), false);
+						}
+						else if (thingDef2.building.unsmoothedThing == null || thingDef2.building.unsmoothedThing == thingDef)
+						{
+							thingDef2.building.unsmoothedThing = thingDef;
+						}
+						else
+						{
+							Log.Error(string.Format("{0} and {1} both smooth to {2}", thingDef, thingDef2.building.unsmoothedThing, thingDef2), false);
+						}
+					}
+				}
+			}
+		}
+
+		// Token: 0x06000A63 RID: 2659 RVA: 0x0005E174 File Offset: 0x0005C574
+		public IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
+		{
+			if (this.joyKind != null)
+			{
+				yield return new StatDrawEntry(StatCategoryDefOf.Building, "StatsReport_JoyKind".Translate(), this.joyKind.LabelCap, 0, "");
+			}
+			yield break;
+		}
 	}
 }

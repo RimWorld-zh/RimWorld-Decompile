@@ -10,6 +10,41 @@ namespace RimWorld
 	// Token: 0x0200002A RID: 42
 	public static class FoodUtility
 	{
+		// Token: 0x040001A0 RID: 416
+		private static HashSet<Thing> filtered = new HashSet<Thing>();
+
+		// Token: 0x040001A1 RID: 417
+		private static readonly SimpleCurve FoodOptimalityEffectFromMoodCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(-100f, -600f),
+				true
+			},
+			{
+				new CurvePoint(-10f, -100f),
+				true
+			},
+			{
+				new CurvePoint(-5f, -70f),
+				true
+			},
+			{
+				new CurvePoint(-1f, -50f),
+				true
+			},
+			{
+				new CurvePoint(0f, 0f),
+				true
+			},
+			{
+				new CurvePoint(100f, 800f),
+				true
+			}
+		};
+
+		// Token: 0x040001A2 RID: 418
+		private static List<ThoughtDef> ingestThoughts = new List<ThoughtDef>();
+
 		// Token: 0x06000179 RID: 377 RVA: 0x0000EAC0 File Offset: 0x0000CEC0
 		public static bool TryFindBestFoodSourceFor(Pawn getter, Pawn eater, bool desperate, out Thing foodSource, out ThingDef foodDef, bool canRefillDispenser = true, bool canUseInventory = true, bool allowForbidden = false, bool allowCorpse = true, bool allowSociallyImproper = false, bool allowHarvest = false, bool forceScanWholeMap = false)
 		{
@@ -876,40 +911,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040001A0 RID: 416
-		private static HashSet<Thing> filtered = new HashSet<Thing>();
-
-		// Token: 0x040001A1 RID: 417
-		private static readonly SimpleCurve FoodOptimalityEffectFromMoodCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(-100f, -600f),
-				true
-			},
-			{
-				new CurvePoint(-10f, -100f),
-				true
-			},
-			{
-				new CurvePoint(-5f, -70f),
-				true
-			},
-			{
-				new CurvePoint(-1f, -50f),
-				true
-			},
-			{
-				new CurvePoint(0f, 0f),
-				true
-			},
-			{
-				new CurvePoint(100f, 800f),
-				true
-			}
-		};
-
-		// Token: 0x040001A2 RID: 418
-		private static List<ThoughtDef> ingestThoughts = new List<ThoughtDef>();
 	}
 }

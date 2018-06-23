@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000098 RID: 152
 	public class JobDriver_LayDown : JobDriver
 	{
+		// Token: 0x04000261 RID: 609
+		public const TargetIndex BedOrRestSpotIndex = TargetIndex.A;
+
 		// Token: 0x170000C4 RID: 196
 		// (get) Token: 0x060003DC RID: 988 RVA: 0x0002C6BC File Offset: 0x0002AABC
 		public Building_Bed Bed
@@ -69,8 +72,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000261 RID: 609
-		public const TargetIndex BedOrRestSpotIndex = TargetIndex.A;
 	}
 }

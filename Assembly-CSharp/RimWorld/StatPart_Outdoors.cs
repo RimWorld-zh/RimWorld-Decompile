@@ -6,6 +6,12 @@ namespace RimWorld
 	// Token: 0x020009B0 RID: 2480
 	public class StatPart_Outdoors : StatPart
 	{
+		// Token: 0x040023AA RID: 9130
+		private float factorIndoors = 1f;
+
+		// Token: 0x040023AB RID: 9131
+		private float factorOutdoors = 1f;
+
 		// Token: 0x0600379A RID: 14234 RVA: 0x001DA20B File Offset: 0x001D860B
 		public override void TransformValue(StatRequest req, ref float val)
 		{
@@ -63,11 +69,5 @@ namespace RimWorld
 			}
 			return false;
 		}
-
-		// Token: 0x040023AA RID: 9130
-		private float factorIndoors = 1f;
-
-		// Token: 0x040023AB RID: 9131
-		private float factorOutdoors = 1f;
 	}
 }

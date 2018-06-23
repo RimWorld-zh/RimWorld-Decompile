@@ -10,6 +10,42 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class TransferableUIUtility
 	{
+		// Token: 0x04001943 RID: 6467
+		private static List<TransferableCountToTransferStoppingPoint> stoppingPoints = new List<TransferableCountToTransferStoppingPoint>();
+
+		// Token: 0x04001944 RID: 6468
+		private const float AmountAreaWidth = 90f;
+
+		// Token: 0x04001945 RID: 6469
+		private const float AmountAreaHeight = 25f;
+
+		// Token: 0x04001946 RID: 6470
+		private const float AdjustArrowWidth = 30f;
+
+		// Token: 0x04001947 RID: 6471
+		public const float ResourceIconSize = 27f;
+
+		// Token: 0x04001948 RID: 6472
+		public const float SortersHeight = 27f;
+
+		// Token: 0x04001949 RID: 6473
+		public const float ExtraInfoHeight = 40f;
+
+		// Token: 0x0400194A RID: 6474
+		public const float ExtraInfoMargin = 12f;
+
+		// Token: 0x0400194B RID: 6475
+		public static readonly Color ZeroCountColor = new Color(0.5f, 0.5f, 0.5f);
+
+		// Token: 0x0400194C RID: 6476
+		public static readonly Texture2D FlashTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 0f, 0f, 0.4f));
+
+		// Token: 0x0400194D RID: 6477
+		private static readonly Texture2D TradeArrow = ContentFinder<Texture2D>.Get("UI/Widgets/TradeArrow", true);
+
+		// Token: 0x0400194E RID: 6478
+		private static readonly Texture2D DividerTex = ContentFinder<Texture2D>.Get("UI/Widgets/Divider", true);
+
 		// Token: 0x06002EFC RID: 12028 RVA: 0x001911A8 File Offset: 0x0018F5A8
 		public static void DoCountAdjustInterface(Rect rect, Transferable trad, int index, int min, int max, bool flash = false, List<TransferableCountToTransferStoppingPoint> extraStoppingPoints = null, bool readOnly = false)
 		{
@@ -425,45 +461,30 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x04001943 RID: 6467
-		private static List<TransferableCountToTransferStoppingPoint> stoppingPoints = new List<TransferableCountToTransferStoppingPoint>();
-
-		// Token: 0x04001944 RID: 6468
-		private const float AmountAreaWidth = 90f;
-
-		// Token: 0x04001945 RID: 6469
-		private const float AmountAreaHeight = 25f;
-
-		// Token: 0x04001946 RID: 6470
-		private const float AdjustArrowWidth = 30f;
-
-		// Token: 0x04001947 RID: 6471
-		public const float ResourceIconSize = 27f;
-
-		// Token: 0x04001948 RID: 6472
-		public const float SortersHeight = 27f;
-
-		// Token: 0x04001949 RID: 6473
-		public const float ExtraInfoHeight = 40f;
-
-		// Token: 0x0400194A RID: 6474
-		public const float ExtraInfoMargin = 12f;
-
-		// Token: 0x0400194B RID: 6475
-		public static readonly Color ZeroCountColor = new Color(0.5f, 0.5f, 0.5f);
-
-		// Token: 0x0400194C RID: 6476
-		public static readonly Texture2D FlashTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 0f, 0f, 0.4f));
-
-		// Token: 0x0400194D RID: 6477
-		private static readonly Texture2D TradeArrow = ContentFinder<Texture2D>.Get("UI/Widgets/TradeArrow", true);
-
-		// Token: 0x0400194E RID: 6478
-		private static readonly Texture2D DividerTex = ContentFinder<Texture2D>.Get("UI/Widgets/Divider", true);
-
 		// Token: 0x02000828 RID: 2088
 		public struct ExtraInfo
 		{
+			// Token: 0x0400194F RID: 6479
+			public string key;
+
+			// Token: 0x04001950 RID: 6480
+			public string value;
+
+			// Token: 0x04001951 RID: 6481
+			public string secondValue;
+
+			// Token: 0x04001952 RID: 6482
+			public string tip;
+
+			// Token: 0x04001953 RID: 6483
+			public float lastFlashTime;
+
+			// Token: 0x04001954 RID: 6484
+			public Color color;
+
+			// Token: 0x04001955 RID: 6485
+			public Color secondColor;
+
 			// Token: 0x06002F05 RID: 12037 RVA: 0x00192148 File Offset: 0x00190548
 			public ExtraInfo(string key, string value, Color color, string tip, float lastFlashTime = -9999f)
 			{
@@ -487,27 +508,6 @@ namespace RimWorld
 				this.secondValue = secondValue;
 				this.secondColor = secondColor;
 			}
-
-			// Token: 0x0400194F RID: 6479
-			public string key;
-
-			// Token: 0x04001950 RID: 6480
-			public string value;
-
-			// Token: 0x04001951 RID: 6481
-			public string secondValue;
-
-			// Token: 0x04001952 RID: 6482
-			public string tip;
-
-			// Token: 0x04001953 RID: 6483
-			public float lastFlashTime;
-
-			// Token: 0x04001954 RID: 6484
-			public Color color;
-
-			// Token: 0x04001955 RID: 6485
-			public Color secondColor;
 		}
 	}
 }

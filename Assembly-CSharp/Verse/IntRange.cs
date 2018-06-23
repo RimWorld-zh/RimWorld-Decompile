@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000EEA RID: 3818
 	public struct IntRange : IEquatable<IntRange>
 	{
+		// Token: 0x04003C9D RID: 15517
+		public int min;
+
+		// Token: 0x04003C9E RID: 15518
+		public int max;
+
 		// Token: 0x06005AC4 RID: 23236 RVA: 0x002E7EC1 File Offset: 0x002E62C1
 		public IntRange(int min, int max)
 		{
@@ -140,11 +146,5 @@ namespace Verse
 		{
 			return val >= this.min && val <= this.max;
 		}
-
-		// Token: 0x04003C9D RID: 15517
-		public int min;
-
-		// Token: 0x04003C9E RID: 15518
-		public int max;
 	}
 }

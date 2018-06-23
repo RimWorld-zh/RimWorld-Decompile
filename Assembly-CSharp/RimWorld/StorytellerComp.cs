@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x0200035E RID: 862
 	public abstract class StorytellerComp
 	{
+		// Token: 0x0400093F RID: 2367
+		public StorytellerCompProperties props;
+
 		// Token: 0x06000F02 RID: 3842
 		public abstract IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target);
 
@@ -120,8 +123,5 @@ namespace RimWorld
 			array[9] = new TableDataGetter<IncidentDef>("pop-intent", (IncidentDef d) => Find.Storyteller.intenderPopulation.PopulationIntent.ToString("F3"));
 			DebugTables.MakeTablesDialog<IncidentDef>(dataSources, array);
 		}
-
-		// Token: 0x0400093F RID: 2367
-		public StorytellerCompProperties props;
 	}
 }

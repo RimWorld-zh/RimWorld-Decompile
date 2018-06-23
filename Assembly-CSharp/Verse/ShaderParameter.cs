@@ -7,6 +7,19 @@ namespace Verse
 	// Token: 0x02000F69 RID: 3945
 	public class ShaderParameter
 	{
+		// Token: 0x04003EB2 RID: 16050
+		[NoTranslate]
+		private string name;
+
+		// Token: 0x04003EB3 RID: 16051
+		private Vector4 value;
+
+		// Token: 0x04003EB4 RID: 16052
+		private Texture2D valueTex;
+
+		// Token: 0x04003EB5 RID: 16053
+		private ShaderParameter.Type type;
+
 		// Token: 0x06005F5F RID: 24415 RVA: 0x00309F44 File Offset: 0x00308344
 		public void Apply(Material mat)
 		{
@@ -69,19 +82,6 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04003EB2 RID: 16050
-		[NoTranslate]
-		private string name;
-
-		// Token: 0x04003EB3 RID: 16051
-		private Vector4 value;
-
-		// Token: 0x04003EB4 RID: 16052
-		private Texture2D valueTex;
-
-		// Token: 0x04003EB5 RID: 16053
-		private ShaderParameter.Type type;
 
 		// Token: 0x02000F6A RID: 3946
 		private enum Type

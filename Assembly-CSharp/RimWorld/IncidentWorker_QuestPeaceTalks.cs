@@ -9,6 +9,15 @@ namespace RimWorld
 	// Token: 0x02000354 RID: 852
 	public class IncidentWorker_QuestPeaceTalks : IncidentWorker
 	{
+		// Token: 0x0400090B RID: 2315
+		private const int MinDistance = 5;
+
+		// Token: 0x0400090C RID: 2316
+		private const int MaxDistance = 13;
+
+		// Token: 0x0400090D RID: 2317
+		private static readonly IntRange TimeoutDaysRange = new IntRange(21, 23);
+
 		// Token: 0x06000EB9 RID: 3769 RVA: 0x0007C89C File Offset: 0x0007AC9C
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
@@ -73,14 +82,5 @@ namespace RimWorld
 			}
 			return false;
 		}
-
-		// Token: 0x0400090B RID: 2315
-		private const int MinDistance = 5;
-
-		// Token: 0x0400090C RID: 2316
-		private const int MaxDistance = 13;
-
-		// Token: 0x0400090D RID: 2317
-		private static readonly IntRange TimeoutDaysRange = new IntRange(21, 23);
 	}
 }

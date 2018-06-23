@@ -10,6 +10,21 @@ namespace Verse
 	// Token: 0x02000CFF RID: 3327
 	public static class HealthUtility
 	{
+		// Token: 0x040031CD RID: 12749
+		public static readonly Color GoodConditionColor = new Color(0.6f, 0.8f, 0.65f);
+
+		// Token: 0x040031CE RID: 12750
+		public static readonly Color DarkRedColor = new Color(0.73f, 0.02f, 0.02f);
+
+		// Token: 0x040031CF RID: 12751
+		public static readonly Color ImpairedColor = new Color(0.9f, 0.7f, 0f);
+
+		// Token: 0x040031D0 RID: 12752
+		public static readonly Color SlightlyImpairedColor = new Color(0.9f, 0.9f, 0f);
+
+		// Token: 0x040031D1 RID: 12753
+		private static List<Hediff> tmpHediffs = new List<Hediff>();
+
 		// Token: 0x0600493E RID: 18750 RVA: 0x00267E34 File Offset: 0x00266234
 		public static string GetGeneralConditionLabel(Pawn pawn, bool shortVersion = false)
 		{
@@ -523,20 +538,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x040031CD RID: 12749
-		public static readonly Color GoodConditionColor = new Color(0.6f, 0.8f, 0.65f);
-
-		// Token: 0x040031CE RID: 12750
-		public static readonly Color DarkRedColor = new Color(0.73f, 0.02f, 0.02f);
-
-		// Token: 0x040031CF RID: 12751
-		public static readonly Color ImpairedColor = new Color(0.9f, 0.7f, 0f);
-
-		// Token: 0x040031D0 RID: 12752
-		public static readonly Color SlightlyImpairedColor = new Color(0.9f, 0.9f, 0f);
-
-		// Token: 0x040031D1 RID: 12753
-		private static List<Hediff> tmpHediffs = new List<Hediff>();
 	}
 }

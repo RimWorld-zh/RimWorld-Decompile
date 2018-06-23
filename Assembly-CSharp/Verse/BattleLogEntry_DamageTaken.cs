@@ -8,6 +8,15 @@ namespace Verse
 	// Token: 0x02000BBA RID: 3002
 	public class BattleLogEntry_DamageTaken : LogEntry_DamageResult
 	{
+		// Token: 0x04002C84 RID: 11396
+		private Pawn initiatorPawn;
+
+		// Token: 0x04002C85 RID: 11397
+		private Pawn recipientPawn;
+
+		// Token: 0x04002C86 RID: 11398
+		private RulePackDef ruleDef;
+
 		// Token: 0x06004122 RID: 16674 RVA: 0x00226632 File Offset: 0x00224A32
 		public BattleLogEntry_DamageTaken() : base(null)
 		{
@@ -96,14 +105,5 @@ namespace Verse
 		{
 			return "BattleLogEntry_DamageTaken: " + this.RecipientName;
 		}
-
-		// Token: 0x04002C84 RID: 11396
-		private Pawn initiatorPawn;
-
-		// Token: 0x04002C85 RID: 11397
-		private Pawn recipientPawn;
-
-		// Token: 0x04002C86 RID: 11398
-		private RulePackDef ruleDef;
 	}
 }

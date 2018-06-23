@@ -11,6 +11,50 @@ namespace Verse
 	// Token: 0x02000BEF RID: 3055
 	public static class LanguageDatabase
 	{
+		// Token: 0x04002D9C RID: 11676
+		private static List<LoadedLanguage> languages = new List<LoadedLanguage>();
+
+		// Token: 0x04002D9D RID: 11677
+		public static LoadedLanguage activeLanguage;
+
+		// Token: 0x04002D9E RID: 11678
+		public static LoadedLanguage defaultLanguage;
+
+		// Token: 0x04002D9F RID: 11679
+		public static readonly string DefaultLangFolderName = "English";
+
+		// Token: 0x04002DA0 RID: 11680
+		private static readonly List<string> SupportedAutoSelectLanguages = new List<string>
+		{
+			"Arabic",
+			"ChineseSimplified",
+			"ChineseTraditional",
+			"Czech",
+			"Danish",
+			"Dutch",
+			"English",
+			"Estonian",
+			"Finnish",
+			"French",
+			"German",
+			"Hungarian",
+			"Italian",
+			"Japanese",
+			"Korean",
+			"Norwegian",
+			"Polish",
+			"Portuguese",
+			"PortugueseBrazilian",
+			"Romanian",
+			"Russian",
+			"Slovak",
+			"Spanish",
+			"SpanishLatin",
+			"Swedish",
+			"Turkish",
+			"Ukrainian"
+		};
+
 		// Token: 0x17000A7C RID: 2684
 		// (get) Token: 0x060042AE RID: 17070 RVA: 0x002347CC File Offset: 0x00232BCC
 		public static IEnumerable<LoadedLanguage> AllLoadedLanguages
@@ -108,49 +152,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04002D9C RID: 11676
-		private static List<LoadedLanguage> languages = new List<LoadedLanguage>();
-
-		// Token: 0x04002D9D RID: 11677
-		public static LoadedLanguage activeLanguage;
-
-		// Token: 0x04002D9E RID: 11678
-		public static LoadedLanguage defaultLanguage;
-
-		// Token: 0x04002D9F RID: 11679
-		public static readonly string DefaultLangFolderName = "English";
-
-		// Token: 0x04002DA0 RID: 11680
-		private static readonly List<string> SupportedAutoSelectLanguages = new List<string>
-		{
-			"Arabic",
-			"ChineseSimplified",
-			"ChineseTraditional",
-			"Czech",
-			"Danish",
-			"Dutch",
-			"English",
-			"Estonian",
-			"Finnish",
-			"French",
-			"German",
-			"Hungarian",
-			"Italian",
-			"Japanese",
-			"Korean",
-			"Norwegian",
-			"Polish",
-			"Portuguese",
-			"PortugueseBrazilian",
-			"Romanian",
-			"Russian",
-			"Slovak",
-			"Spanish",
-			"SpanishLatin",
-			"Swedish",
-			"Turkish",
-			"Ukrainian"
-		};
 	}
 }

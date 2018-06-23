@@ -9,6 +9,21 @@ namespace RimWorld
 	// Token: 0x02000719 RID: 1817
 	public class CompLongRangeMineralScanner : ThingComp
 	{
+		// Token: 0x040015EC RID: 5612
+		private CompPowerTrader powerComp;
+
+		// Token: 0x040015ED RID: 5613
+		private List<Pair<Vector3, float>> otherActiveMineralScanners = new List<Pair<Vector3, float>>();
+
+		// Token: 0x040015EE RID: 5614
+		private float cachedEffectiveAreaPct;
+
+		// Token: 0x040015EF RID: 5615
+		private const float NoSitePartChance = 0.6f;
+
+		// Token: 0x040015F0 RID: 5616
+		private static readonly string MineralScannerPreciousLumpThreatTag = "MineralScannerPreciousLumpThreat";
+
 		// Token: 0x1700061B RID: 1563
 		// (get) Token: 0x06002811 RID: 10257 RVA: 0x00156D64 File Offset: 0x00155164
 		public CompProperties_LongRangeMineralScanner Props
@@ -247,20 +262,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x040015EC RID: 5612
-		private CompPowerTrader powerComp;
-
-		// Token: 0x040015ED RID: 5613
-		private List<Pair<Vector3, float>> otherActiveMineralScanners = new List<Pair<Vector3, float>>();
-
-		// Token: 0x040015EE RID: 5614
-		private float cachedEffectiveAreaPct;
-
-		// Token: 0x040015EF RID: 5615
-		private const float NoSitePartChance = 0.6f;
-
-		// Token: 0x040015F0 RID: 5616
-		private static readonly string MineralScannerPreciousLumpThreatTag = "MineralScannerPreciousLumpThreat";
 	}
 }

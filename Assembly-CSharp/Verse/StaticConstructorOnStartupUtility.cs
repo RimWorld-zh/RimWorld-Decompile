@@ -10,6 +10,9 @@ namespace Verse
 	// Token: 0x02000FBB RID: 4027
 	public static class StaticConstructorOnStartupUtility
 	{
+		// Token: 0x04003FB4 RID: 16308
+		public static bool coreStaticAssetsLoaded;
+
 		// Token: 0x0600615F RID: 24927 RVA: 0x00312D78 File Offset: 0x00311178
 		public static void CallAll()
 		{
@@ -54,8 +57,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04003FB4 RID: 16308
-		public static bool coreStaticAssetsLoaded;
 	}
 }

@@ -6,6 +6,12 @@ namespace RimWorld
 	// Token: 0x02000537 RID: 1335
 	public class Thought_Situational : Thought
 	{
+		// Token: 0x04000EA5 RID: 3749
+		private int curStageIndex = -1;
+
+		// Token: 0x04000EA6 RID: 3750
+		protected string reason;
+
 		// Token: 0x1700037D RID: 893
 		// (get) Token: 0x060018D6 RID: 6358 RVA: 0x00057840 File Offset: 0x00055C40
 		public bool Active
@@ -65,11 +71,5 @@ namespace RimWorld
 		{
 			return this.def.Worker.CurrentState(this.pawn);
 		}
-
-		// Token: 0x04000EA5 RID: 3749
-		private int curStageIndex = -1;
-
-		// Token: 0x04000EA6 RID: 3750
-		protected string reason;
 	}
 }

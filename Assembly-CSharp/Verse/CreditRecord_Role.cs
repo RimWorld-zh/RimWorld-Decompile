@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000EDA RID: 3802
 	public class CreditRecord_Role : CreditsEntry
 	{
+		// Token: 0x04003C6E RID: 15470
+		public string roleKey;
+
+		// Token: 0x04003C6F RID: 15471
+		public string creditee;
+
+		// Token: 0x04003C70 RID: 15472
+		public string extra;
+
 		// Token: 0x06005A0E RID: 23054 RVA: 0x002E3C55 File Offset: 0x002E2055
 		public CreditRecord_Role()
 		{
@@ -55,14 +64,5 @@ namespace Verse
 				GUI.color = Color.white;
 			}
 		}
-
-		// Token: 0x04003C6E RID: 15470
-		public string roleKey;
-
-		// Token: 0x04003C6F RID: 15471
-		public string creditee;
-
-		// Token: 0x04003C70 RID: 15472
-		public string extra;
 	}
 }

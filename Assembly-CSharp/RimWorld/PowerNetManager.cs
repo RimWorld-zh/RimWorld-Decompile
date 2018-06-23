@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x02000428 RID: 1064
 	public class PowerNetManager
 	{
+		// Token: 0x04000B59 RID: 2905
+		public Map map;
+
+		// Token: 0x04000B5A RID: 2906
+		private List<PowerNet> allNets = new List<PowerNet>();
+
+		// Token: 0x04000B5B RID: 2907
+		private List<PowerNetManager.DelayedAction> delayedActions = new List<PowerNetManager.DelayedAction>();
+
 		// Token: 0x06001294 RID: 4756 RVA: 0x000A15FA File Offset: 0x0009F9FA
 		public PowerNetManager(Map map)
 		{
@@ -260,15 +269,6 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000B59 RID: 2905
-		public Map map;
-
-		// Token: 0x04000B5A RID: 2906
-		private List<PowerNet> allNets = new List<PowerNet>();
-
-		// Token: 0x04000B5B RID: 2907
-		private List<PowerNetManager.DelayedAction> delayedActions = new List<PowerNetManager.DelayedAction>();
-
 		// Token: 0x02000429 RID: 1065
 		private enum DelayedActionType
 		{
@@ -285,15 +285,6 @@ namespace RimWorld
 		// Token: 0x0200042A RID: 1066
 		private struct DelayedAction
 		{
-			// Token: 0x060012A4 RID: 4772 RVA: 0x000A1DF4 File Offset: 0x000A01F4
-			public DelayedAction(PowerNetManager.DelayedActionType type, CompPower compPower)
-			{
-				this.type = type;
-				this.compPower = compPower;
-				this.position = compPower.parent.Position;
-				this.rotation = compPower.parent.Rotation;
-			}
-
 			// Token: 0x04000B61 RID: 2913
 			public PowerNetManager.DelayedActionType type;
 
@@ -305,6 +296,15 @@ namespace RimWorld
 
 			// Token: 0x04000B64 RID: 2916
 			public Rot4 rotation;
+
+			// Token: 0x060012A4 RID: 4772 RVA: 0x000A1DF4 File Offset: 0x000A01F4
+			public DelayedAction(PowerNetManager.DelayedActionType type, CompPower compPower)
+			{
+				this.type = type;
+				this.compPower = compPower;
+				this.position = compPower.parent.Position;
+				this.rotation = compPower.parent.Rotation;
+			}
 		}
 	}
 }

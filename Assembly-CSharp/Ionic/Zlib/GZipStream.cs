@@ -7,6 +7,36 @@ namespace Ionic.Zlib
 	// Token: 0x0200000A RID: 10
 	public class GZipStream : Stream
 	{
+		// Token: 0x04000068 RID: 104
+		public DateTime? LastModified;
+
+		// Token: 0x04000069 RID: 105
+		private int _headerByteCount;
+
+		// Token: 0x0400006A RID: 106
+		internal ZlibBaseStream _baseStream;
+
+		// Token: 0x0400006B RID: 107
+		private bool _disposed;
+
+		// Token: 0x0400006C RID: 108
+		private bool _firstReadDone;
+
+		// Token: 0x0400006D RID: 109
+		private string _FileName;
+
+		// Token: 0x0400006E RID: 110
+		private string _Comment;
+
+		// Token: 0x0400006F RID: 111
+		private int _Crc32;
+
+		// Token: 0x04000070 RID: 112
+		internal static readonly DateTime _unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+		// Token: 0x04000071 RID: 113
+		internal static readonly Encoding iso8859dash1 = Encoding.GetEncoding("iso-8859-1");
+
 		// Token: 0x06000078 RID: 120 RVA: 0x00005AD0 File Offset: 0x00003ED0
 		public GZipStream(Stream stream, CompressionMode mode) : this(stream, mode, CompressionLevel.Default, false)
 		{
@@ -408,35 +438,5 @@ namespace Ionic.Zlib
 			}
 			return result;
 		}
-
-		// Token: 0x04000068 RID: 104
-		public DateTime? LastModified;
-
-		// Token: 0x04000069 RID: 105
-		private int _headerByteCount;
-
-		// Token: 0x0400006A RID: 106
-		internal ZlibBaseStream _baseStream;
-
-		// Token: 0x0400006B RID: 107
-		private bool _disposed;
-
-		// Token: 0x0400006C RID: 108
-		private bool _firstReadDone;
-
-		// Token: 0x0400006D RID: 109
-		private string _FileName;
-
-		// Token: 0x0400006E RID: 110
-		private string _Comment;
-
-		// Token: 0x0400006F RID: 111
-		private int _Crc32;
-
-		// Token: 0x04000070 RID: 112
-		internal static readonly DateTime _unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-
-		// Token: 0x04000071 RID: 113
-		internal static readonly Encoding iso8859dash1 = Encoding.GetEncoding("iso-8859-1");
 	}
 }

@@ -7,6 +7,12 @@ namespace Verse.Sound
 	// Token: 0x02000DB0 RID: 3504
 	public class SampleOneShotManager
 	{
+		// Token: 0x04003432 RID: 13362
+		private List<SampleOneShot> samples = new List<SampleOneShot>();
+
+		// Token: 0x04003433 RID: 13363
+		private List<SampleOneShot> cleanupList = new List<SampleOneShot>();
+
 		// Token: 0x17000CA5 RID: 3237
 		// (get) Token: 0x06004E5C RID: 20060 RVA: 0x0028F964 File Offset: 0x0028DD64
 		public IEnumerable<SampleOneShot> PlayingOneShots
@@ -129,11 +135,5 @@ namespace Verse.Sound
 				this.samples.RemoveAll((SampleOneShot s) => this.cleanupList.Contains(s));
 			}
 		}
-
-		// Token: 0x04003432 RID: 13362
-		private List<SampleOneShot> samples = new List<SampleOneShot>();
-
-		// Token: 0x04003433 RID: 13363
-		private List<SampleOneShot> cleanupList = new List<SampleOneShot>();
 	}
 }

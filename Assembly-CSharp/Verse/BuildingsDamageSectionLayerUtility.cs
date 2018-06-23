@@ -9,6 +9,23 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class BuildingsDamageSectionLayerUtility
 	{
+		// Token: 0x04002F56 RID: 12118
+		private static readonly Material[] DefaultScratchMats = new Material[]
+		{
+			MaterialPool.MatFrom("Damage/Scratch1"),
+			MaterialPool.MatFrom("Damage/Scratch2"),
+			MaterialPool.MatFrom("Damage/Scratch3")
+		};
+
+		// Token: 0x04002F57 RID: 12119
+		private static List<DamageOverlay> availableOverlays = new List<DamageOverlay>();
+
+		// Token: 0x04002F58 RID: 12120
+		private static List<DamageOverlay> overlaysWorkingList = new List<DamageOverlay>();
+
+		// Token: 0x04002F59 RID: 12121
+		private static List<DamageOverlay> overlays = new List<DamageOverlay>();
+
 		// Token: 0x0600452D RID: 17709 RVA: 0x00246B30 File Offset: 0x00244F30
 		public static void Notify_BuildingHitPointsChanged(Building b, int oldHitPoints)
 		{
@@ -319,22 +336,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04002F56 RID: 12118
-		private static readonly Material[] DefaultScratchMats = new Material[]
-		{
-			MaterialPool.MatFrom("Damage/Scratch1"),
-			MaterialPool.MatFrom("Damage/Scratch2"),
-			MaterialPool.MatFrom("Damage/Scratch3")
-		};
-
-		// Token: 0x04002F57 RID: 12119
-		private static List<DamageOverlay> availableOverlays = new List<DamageOverlay>();
-
-		// Token: 0x04002F58 RID: 12120
-		private static List<DamageOverlay> overlaysWorkingList = new List<DamageOverlay>();
-
-		// Token: 0x04002F59 RID: 12121
-		private static List<DamageOverlay> overlays = new List<DamageOverlay>();
 	}
 }

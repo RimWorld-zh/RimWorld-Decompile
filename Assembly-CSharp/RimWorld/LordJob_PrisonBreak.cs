@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x02000173 RID: 371
 	public class LordJob_PrisonBreak : LordJob
 	{
+		// Token: 0x04000354 RID: 852
+		private IntVec3 groupUpLoc;
+
+		// Token: 0x04000355 RID: 853
+		private IntVec3 exitPoint;
+
+		// Token: 0x04000356 RID: 854
+		private int sapperThingID = -1;
+
 		// Token: 0x0600079F RID: 1951 RVA: 0x0004B1C0 File Offset: 0x000495C0
 		public LordJob_PrisonBreak()
 		{
@@ -118,14 +127,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000354 RID: 852
-		private IntVec3 groupUpLoc;
-
-		// Token: 0x04000355 RID: 853
-		private IntVec3 exitPoint;
-
-		// Token: 0x04000356 RID: 854
-		private int sapperThingID = -1;
 	}
 }

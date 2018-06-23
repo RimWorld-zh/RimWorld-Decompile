@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x02000343 RID: 835
 	public class IncidentWorker_WandererJoin : IncidentWorker
 	{
+		// Token: 0x040008EB RID: 2283
+		private const float RelationWithColonistWeight = 20f;
+
 		// Token: 0x06000E44 RID: 3652 RVA: 0x00079220 File Offset: 0x00077620
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
@@ -58,8 +61,5 @@ namespace RimWorld
 		{
 			return CellFinder.TryFindRandomEdgeCellWith((IntVec3 c) => map.reachability.CanReachColony(c), map, CellFinder.EdgeRoadChance_Neutral, out cell);
 		}
-
-		// Token: 0x040008EB RID: 2283
-		private const float RelationWithColonistWeight = 20f;
 	}
 }

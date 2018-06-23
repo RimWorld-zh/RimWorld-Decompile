@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000186 RID: 390
 	public class LordToil_PrepareCaravan_Wait : LordToil
 	{
+		// Token: 0x0400037D RID: 893
+		private IntVec3 meetingPoint;
+
 		// Token: 0x0600081A RID: 2074 RVA: 0x0004E682 File Offset: 0x0004CA82
 		public LordToil_PrepareCaravan_Wait(IntVec3 meetingPoint)
 		{
@@ -42,8 +45,5 @@ namespace RimWorld
 				this.lord.ownedPawns[i].mindState.duty = new PawnDuty(DutyDefOf.PrepareCaravan_Wait, this.meetingPoint, -1f);
 			}
 		}
-
-		// Token: 0x0400037D RID: 893
-		private IntVec3 meetingPoint;
 	}
 }

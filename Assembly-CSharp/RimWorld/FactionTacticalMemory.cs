@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x0200055D RID: 1373
 	public class FactionTacticalMemory : IExposable
 	{
+		// Token: 0x04000F36 RID: 3894
+		private List<TrapMemory> traps = new List<TrapMemory>();
+
+		// Token: 0x04000F37 RID: 3895
+		private const float TrapRememberChance = 0.2f;
+
 		// Token: 0x060019EE RID: 6638 RVA: 0x000E16F9 File Offset: 0x000DFAF9
 		public void ExposeData()
 		{
@@ -34,11 +40,5 @@ namespace RimWorld
 				this.traps.Add(new TrapMemory(c, map, Find.TickManager.TicksGame));
 			}
 		}
-
-		// Token: 0x04000F36 RID: 3894
-		private List<TrapMemory> traps = new List<TrapMemory>();
-
-		// Token: 0x04000F37 RID: 3895
-		private const float TrapRememberChance = 0.2f;
 	}
 }

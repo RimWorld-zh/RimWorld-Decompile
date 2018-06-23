@@ -10,6 +10,9 @@ namespace RimWorld
 	// Token: 0x020009BF RID: 2495
 	public class StatWorker
 	{
+		// Token: 0x040023C8 RID: 9160
+		protected StatDef stat;
+
 		// Token: 0x060037E4 RID: 14308 RVA: 0x001DB654 File Offset: 0x001D9A54
 		public void InitSetStat(StatDef newStat)
 		{
@@ -821,8 +824,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040023C8 RID: 9160
-		protected StatDef stat;
 	}
 }

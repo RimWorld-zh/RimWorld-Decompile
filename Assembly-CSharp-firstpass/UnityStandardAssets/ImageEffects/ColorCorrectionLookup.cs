@@ -8,6 +8,18 @@ namespace UnityStandardAssets.ImageEffects
 	[AddComponentMenu("Image Effects/Color Adjustments/Color Correction (3D Lookup Texture)")]
 	public class ColorCorrectionLookup : PostEffectsBase
 	{
+		// Token: 0x0400076A RID: 1898
+		public Shader shader;
+
+		// Token: 0x0400076B RID: 1899
+		private Material material;
+
+		// Token: 0x0400076C RID: 1900
+		public Texture3D converted3DLut = null;
+
+		// Token: 0x0400076D RID: 1901
+		public string basedOnTempTex = "";
+
 		// Token: 0x060008E3 RID: 2275 RVA: 0x000132E0 File Offset: 0x000114E0
 		public override bool CheckResources()
 		{
@@ -146,17 +158,5 @@ namespace UnityStandardAssets.ImageEffects
 				Graphics.Blit(source, destination, this.material, (QualitySettings.activeColorSpace != ColorSpace.Linear) ? 0 : 1);
 			}
 		}
-
-		// Token: 0x0400076A RID: 1898
-		public Shader shader;
-
-		// Token: 0x0400076B RID: 1899
-		private Material material;
-
-		// Token: 0x0400076C RID: 1900
-		public Texture3D converted3DLut = null;
-
-		// Token: 0x0400076D RID: 1901
-		public string basedOnTempTex = "";
 	}
 }

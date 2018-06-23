@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x020007C9 RID: 1993
 	public class Designator_Dropdown : Designator
 	{
+		// Token: 0x0400179D RID: 6045
+		private List<Designator> elements = new List<Designator>();
+
+		// Token: 0x0400179E RID: 6046
+		private Designator activeDesignator = null;
+
+		// Token: 0x0400179F RID: 6047
+		private bool activeDesignatorSet = false;
+
 		// Token: 0x170006EA RID: 1770
 		// (get) Token: 0x06002C2A RID: 11306 RVA: 0x001756FC File Offset: 0x00173AFC
 		public override string Label
@@ -151,14 +160,5 @@ namespace RimWorld
 		{
 			this.activeDesignator.DrawPanelReadout(ref curY, width);
 		}
-
-		// Token: 0x0400179D RID: 6045
-		private List<Designator> elements = new List<Designator>();
-
-		// Token: 0x0400179E RID: 6046
-		private Designator activeDesignator = null;
-
-		// Token: 0x0400179F RID: 6047
-		private bool activeDesignatorSet = false;
 	}
 }

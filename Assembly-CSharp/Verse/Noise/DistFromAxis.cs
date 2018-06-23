@@ -5,6 +5,9 @@ namespace Verse.Noise
 	// Token: 0x02000F79 RID: 3961
 	public class DistFromAxis : ModuleBase
 	{
+		// Token: 0x04003ED9 RID: 16089
+		public float span;
+
 		// Token: 0x06005FA0 RID: 24480 RVA: 0x0030B446 File Offset: 0x00309846
 		public DistFromAxis() : base(0)
 		{
@@ -21,8 +24,5 @@ namespace Verse.Noise
 		{
 			return Math.Abs(x) / (double)this.span;
 		}
-
-		// Token: 0x04003ED9 RID: 16089
-		public float span;
 	}
 }

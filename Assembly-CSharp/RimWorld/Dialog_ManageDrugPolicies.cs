@@ -10,6 +10,51 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Dialog_ManageDrugPolicies : Window
 	{
+		// Token: 0x04001837 RID: 6199
+		private Vector2 scrollPosition;
+
+		// Token: 0x04001838 RID: 6200
+		private DrugPolicy selPolicy;
+
+		// Token: 0x04001839 RID: 6201
+		private const float TopAreaHeight = 40f;
+
+		// Token: 0x0400183A RID: 6202
+		private const float TopButtonHeight = 35f;
+
+		// Token: 0x0400183B RID: 6203
+		private const float TopButtonWidth = 150f;
+
+		// Token: 0x0400183C RID: 6204
+		private const float DrugEntryRowHeight = 35f;
+
+		// Token: 0x0400183D RID: 6205
+		private const float BottomButtonsAreaHeight = 50f;
+
+		// Token: 0x0400183E RID: 6206
+		private const float AddEntryButtonHeight = 35f;
+
+		// Token: 0x0400183F RID: 6207
+		private const float AddEntryButtonWidth = 150f;
+
+		// Token: 0x04001840 RID: 6208
+		private const float CellsPadding = 4f;
+
+		// Token: 0x04001841 RID: 6209
+		private static readonly Texture2D IconForAddiction = ContentFinder<Texture2D>.Get("UI/Icons/DrugPolicy/ForAddiction", true);
+
+		// Token: 0x04001842 RID: 6210
+		private static readonly Texture2D IconForJoy = ContentFinder<Texture2D>.Get("UI/Icons/DrugPolicy/ForJoy", true);
+
+		// Token: 0x04001843 RID: 6211
+		private static readonly Texture2D IconScheduled = ContentFinder<Texture2D>.Get("UI/Icons/DrugPolicy/Scheduled", true);
+
+		// Token: 0x04001844 RID: 6212
+		private static readonly Regex ValidNameRegex = Outfit.ValidNameRegex;
+
+		// Token: 0x04001845 RID: 6213
+		private const float UsageSpacing = 12f;
+
 		// Token: 0x06002DB5 RID: 11701 RVA: 0x00180C7B File Offset: 0x0017F07B
 		public Dialog_ManageDrugPolicies(DrugPolicy selectedAssignedDrugs)
 		{
@@ -310,50 +355,5 @@ namespace RimWorld
 			}
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
-
-		// Token: 0x04001837 RID: 6199
-		private Vector2 scrollPosition;
-
-		// Token: 0x04001838 RID: 6200
-		private DrugPolicy selPolicy;
-
-		// Token: 0x04001839 RID: 6201
-		private const float TopAreaHeight = 40f;
-
-		// Token: 0x0400183A RID: 6202
-		private const float TopButtonHeight = 35f;
-
-		// Token: 0x0400183B RID: 6203
-		private const float TopButtonWidth = 150f;
-
-		// Token: 0x0400183C RID: 6204
-		private const float DrugEntryRowHeight = 35f;
-
-		// Token: 0x0400183D RID: 6205
-		private const float BottomButtonsAreaHeight = 50f;
-
-		// Token: 0x0400183E RID: 6206
-		private const float AddEntryButtonHeight = 35f;
-
-		// Token: 0x0400183F RID: 6207
-		private const float AddEntryButtonWidth = 150f;
-
-		// Token: 0x04001840 RID: 6208
-		private const float CellsPadding = 4f;
-
-		// Token: 0x04001841 RID: 6209
-		private static readonly Texture2D IconForAddiction = ContentFinder<Texture2D>.Get("UI/Icons/DrugPolicy/ForAddiction", true);
-
-		// Token: 0x04001842 RID: 6210
-		private static readonly Texture2D IconForJoy = ContentFinder<Texture2D>.Get("UI/Icons/DrugPolicy/ForJoy", true);
-
-		// Token: 0x04001843 RID: 6211
-		private static readonly Texture2D IconScheduled = ContentFinder<Texture2D>.Get("UI/Icons/DrugPolicy/Scheduled", true);
-
-		// Token: 0x04001844 RID: 6212
-		private static readonly Regex ValidNameRegex = Outfit.ValidNameRegex;
-
-		// Token: 0x04001845 RID: 6213
-		private const float UsageSpacing = 12f;
 	}
 }

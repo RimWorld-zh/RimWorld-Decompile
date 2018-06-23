@@ -6,6 +6,18 @@ namespace Verse
 	// Token: 0x02000C2C RID: 3116
 	public sealed class ListerThings
 	{
+		// Token: 0x04002E82 RID: 11906
+		private Dictionary<ThingDef, List<Thing>> listsByDef = new Dictionary<ThingDef, List<Thing>>(ThingDefComparer.Instance);
+
+		// Token: 0x04002E83 RID: 11907
+		private List<Thing>[] listsByGroup;
+
+		// Token: 0x04002E84 RID: 11908
+		public ListerThingsUse use = ListerThingsUse.Undefined;
+
+		// Token: 0x04002E85 RID: 11909
+		private static readonly List<Thing> EmptyList = new List<Thing>();
+
 		// Token: 0x06004485 RID: 17541 RVA: 0x00240980 File Offset: 0x0023ED80
 		public ListerThings(ListerThingsUse use)
 		{
@@ -148,17 +160,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04002E82 RID: 11906
-		private Dictionary<ThingDef, List<Thing>> listsByDef = new Dictionary<ThingDef, List<Thing>>(ThingDefComparer.Instance);
-
-		// Token: 0x04002E83 RID: 11907
-		private List<Thing>[] listsByGroup;
-
-		// Token: 0x04002E84 RID: 11908
-		public ListerThingsUse use = ListerThingsUse.Undefined;
-
-		// Token: 0x04002E85 RID: 11909
-		private static readonly List<Thing> EmptyList = new List<Thing>();
 	}
 }

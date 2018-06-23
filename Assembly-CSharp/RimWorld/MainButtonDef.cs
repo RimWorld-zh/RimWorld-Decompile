@@ -7,6 +7,62 @@ namespace RimWorld
 	// Token: 0x020002AC RID: 684
 	public class MainButtonDef : Def
 	{
+		// Token: 0x04000674 RID: 1652
+		public Type workerClass = typeof(MainButtonWorker_ToggleTab);
+
+		// Token: 0x04000675 RID: 1653
+		public Type tabWindowClass;
+
+		// Token: 0x04000676 RID: 1654
+		public bool buttonVisible = true;
+
+		// Token: 0x04000677 RID: 1655
+		public int order;
+
+		// Token: 0x04000678 RID: 1656
+		public KeyCode defaultHotKey = KeyCode.None;
+
+		// Token: 0x04000679 RID: 1657
+		public bool canBeTutorDenied = true;
+
+		// Token: 0x0400067A RID: 1658
+		public bool validWithoutMap;
+
+		// Token: 0x0400067B RID: 1659
+		[Unsaved]
+		public KeyBindingDef hotKey;
+
+		// Token: 0x0400067C RID: 1660
+		[Unsaved]
+		public string cachedTutorTag;
+
+		// Token: 0x0400067D RID: 1661
+		[Unsaved]
+		public string cachedHighlightTagClosed;
+
+		// Token: 0x0400067E RID: 1662
+		[Unsaved]
+		private MainButtonWorker workerInt;
+
+		// Token: 0x0400067F RID: 1663
+		[Unsaved]
+		private MainTabWindow tabWindowInt;
+
+		// Token: 0x04000680 RID: 1664
+		[Unsaved]
+		private string cachedShortenedLabelCap;
+
+		// Token: 0x04000681 RID: 1665
+		[Unsaved]
+		private float cachedLabelCapWidth = -1f;
+
+		// Token: 0x04000682 RID: 1666
+		[Unsaved]
+		private float cachedShortenedLabelCapWidth = -1f;
+
+		// Token: 0x04000683 RID: 1667
+		public const int ButtonHeight = 35;
+
 		// Token: 0x170001AD RID: 429
 		// (get) Token: 0x06000B70 RID: 2928 RVA: 0x00067284 File Offset: 0x00065684
 		public MainButtonWorker Worker
@@ -101,61 +157,5 @@ namespace RimWorld
 				this.tabWindowInt = null;
 			}
 		}
-
-		// Token: 0x04000674 RID: 1652
-		public Type workerClass = typeof(MainButtonWorker_ToggleTab);
-
-		// Token: 0x04000675 RID: 1653
-		public Type tabWindowClass;
-
-		// Token: 0x04000676 RID: 1654
-		public bool buttonVisible = true;
-
-		// Token: 0x04000677 RID: 1655
-		public int order;
-
-		// Token: 0x04000678 RID: 1656
-		public KeyCode defaultHotKey = KeyCode.None;
-
-		// Token: 0x04000679 RID: 1657
-		public bool canBeTutorDenied = true;
-
-		// Token: 0x0400067A RID: 1658
-		public bool validWithoutMap;
-
-		// Token: 0x0400067B RID: 1659
-		[Unsaved]
-		public KeyBindingDef hotKey;
-
-		// Token: 0x0400067C RID: 1660
-		[Unsaved]
-		public string cachedTutorTag;
-
-		// Token: 0x0400067D RID: 1661
-		[Unsaved]
-		public string cachedHighlightTagClosed;
-
-		// Token: 0x0400067E RID: 1662
-		[Unsaved]
-		private MainButtonWorker workerInt;
-
-		// Token: 0x0400067F RID: 1663
-		[Unsaved]
-		private MainTabWindow tabWindowInt;
-
-		// Token: 0x04000680 RID: 1664
-		[Unsaved]
-		private string cachedShortenedLabelCap;
-
-		// Token: 0x04000681 RID: 1665
-		[Unsaved]
-		private float cachedLabelCapWidth = -1f;
-
-		// Token: 0x04000682 RID: 1666
-		[Unsaved]
-		private float cachedShortenedLabelCapWidth = -1f;
-
-		// Token: 0x04000683 RID: 1667
-		public const int ButtonHeight = 35;
 	}
 }

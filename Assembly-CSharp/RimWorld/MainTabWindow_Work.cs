@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000876 RID: 2166
 	public class MainTabWindow_Work : MainTabWindow_PawnTable
 	{
+		// Token: 0x04001AC1 RID: 6849
+		private const int SpaceBetweenPriorityArrowsAndWorkLabels = 40;
+
 		// Token: 0x170007F7 RID: 2039
 		// (get) Token: 0x06003171 RID: 12657 RVA: 0x001AD4D4 File Offset: 0x001AB8D4
 		protected override PawnTableDef PawnTableDef
@@ -79,8 +82,5 @@ namespace RimWorld
 				UIHighlighter.HighlightOpportunity(rect, "ManualPriorities-Off");
 			}
 		}
-
-		// Token: 0x04001AC1 RID: 6849
-		private const int SpaceBetweenPriorityArrowsAndWorkLabels = 40;
 	}
 }

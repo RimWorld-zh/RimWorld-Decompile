@@ -6,6 +6,18 @@ namespace Verse
 	// Token: 0x02000E85 RID: 3717
 	public class TreeNode
 	{
+		// Token: 0x04003A04 RID: 14852
+		public TreeNode parentNode;
+
+		// Token: 0x04003A05 RID: 14853
+		public List<TreeNode> children;
+
+		// Token: 0x04003A06 RID: 14854
+		public int nestDepth;
+
+		// Token: 0x04003A07 RID: 14855
+		private int openBits;
+
 		// Token: 0x060057C0 RID: 22464 RVA: 0x002CE714 File Offset: 0x002CCB14
 		public bool IsOpen(int mask)
 		{
@@ -34,17 +46,5 @@ namespace Verse
 				return true;
 			}
 		}
-
-		// Token: 0x04003A04 RID: 14852
-		public TreeNode parentNode;
-
-		// Token: 0x04003A05 RID: 14853
-		public List<TreeNode> children;
-
-		// Token: 0x04003A06 RID: 14854
-		public int nestDepth;
-
-		// Token: 0x04003A07 RID: 14855
-		private int openBits;
 	}
 }

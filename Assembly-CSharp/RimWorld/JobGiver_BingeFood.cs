@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020000AE RID: 174
 	public class JobGiver_BingeFood : JobGiver_Binge
 	{
+		// Token: 0x04000281 RID: 641
+		private const int BaseIngestInterval = 1100;
+
 		// Token: 0x06000434 RID: 1076 RVA: 0x0003203C File Offset: 0x0003043C
 		protected override int IngestInterval(Pawn pawn)
 		{
@@ -28,8 +31,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000281 RID: 641
-		private const int BaseIngestInterval = 1100;
 	}
 }

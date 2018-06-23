@@ -6,6 +6,15 @@ namespace RimWorld
 	// Token: 0x020001EE RID: 494
 	public struct ThoughtState
 	{
+		// Token: 0x040003E4 RID: 996
+		private int stageIndex;
+
+		// Token: 0x040003E5 RID: 997
+		private string reason;
+
+		// Token: 0x040003E6 RID: 998
+		private const int InactiveIndex = -99999;
+
 		// Token: 0x17000173 RID: 371
 		// (get) Token: 0x06000997 RID: 2455 RVA: 0x00057048 File Offset: 0x00055448
 		public bool Active
@@ -122,14 +131,5 @@ namespace RimWorld
 		{
 			return Mathf.Min(this.StageIndex, thoughtDef.stages.Count - 1);
 		}
-
-		// Token: 0x040003E4 RID: 996
-		private int stageIndex;
-
-		// Token: 0x040003E5 RID: 997
-		private string reason;
-
-		// Token: 0x040003E6 RID: 998
-		private const int InactiveIndex = -99999;
 	}
 }

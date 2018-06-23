@@ -7,6 +7,9 @@ namespace RimWorld.Planet
 	// Token: 0x020005CB RID: 1483
 	public class CaravanArrivalAction_OfferGifts : CaravanArrivalAction
 	{
+		// Token: 0x04001152 RID: 4434
+		private Settlement settlement;
+
 		// Token: 0x06001CD2 RID: 7378 RVA: 0x000F770F File Offset: 0x000F5B0F
 		public CaravanArrivalAction_OfferGifts()
 		{
@@ -94,8 +97,5 @@ namespace RimWorld.Planet
 		{
 			return CaravanArrivalActionUtility.GetFloatMenuOptions<CaravanArrivalAction_OfferGifts>(() => CaravanArrivalAction_OfferGifts.CanOfferGiftsTo(caravan, settlement), () => new CaravanArrivalAction_OfferGifts(settlement), "OfferGifts".Translate(), caravan, settlement.Tile, settlement);
 		}
-
-		// Token: 0x04001152 RID: 4434
-		private Settlement settlement;
 	}
 }

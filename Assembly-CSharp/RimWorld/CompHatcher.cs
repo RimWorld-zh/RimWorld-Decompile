@@ -8,6 +8,18 @@ namespace RimWorld
 	// Token: 0x02000716 RID: 1814
 	public class CompHatcher : ThingComp
 	{
+		// Token: 0x040015E2 RID: 5602
+		private float gestateProgress = 0f;
+
+		// Token: 0x040015E3 RID: 5603
+		public Pawn hatcheeParent = null;
+
+		// Token: 0x040015E4 RID: 5604
+		public Pawn otherParent = null;
+
+		// Token: 0x040015E5 RID: 5605
+		public Faction hatcheeFaction = null;
+
 		// Token: 0x17000606 RID: 1542
 		// (get) Token: 0x060027E1 RID: 10209 RVA: 0x001553D0 File Offset: 0x001537D0
 		public CompProperties_Hatcher Props
@@ -160,17 +172,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040015E2 RID: 5602
-		private float gestateProgress = 0f;
-
-		// Token: 0x040015E3 RID: 5603
-		public Pawn hatcheeParent = null;
-
-		// Token: 0x040015E4 RID: 5604
-		public Pawn otherParent = null;
-
-		// Token: 0x040015E5 RID: 5605
-		public Faction hatcheeFaction = null;
 	}
 }

@@ -9,6 +9,9 @@ namespace Verse
 	// Token: 0x02000CC8 RID: 3272
 	public static class ModsConfig
 	{
+		// Token: 0x040030F7 RID: 12535
+		private static ModsConfig.ModsConfigData data;
+
 		// Token: 0x06004869 RID: 18537 RVA: 0x00260EF4 File Offset: 0x0025F2F4
 		static ModsConfig()
 		{
@@ -136,9 +139,6 @@ namespace Verse
 				GenCommandLine.Restart();
 			}, null, null, null, false, null, null));
 		}
-
-		// Token: 0x040030F7 RID: 12535
-		private static ModsConfig.ModsConfigData data;
 
 		// Token: 0x02000CC9 RID: 3273
 		private class ModsConfigData

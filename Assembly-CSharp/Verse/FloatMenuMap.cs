@@ -8,6 +8,9 @@ namespace Verse
 	// Token: 0x02000E55 RID: 3669
 	public class FloatMenuMap : FloatMenu
 	{
+		// Token: 0x0400393C RID: 14652
+		private Vector3 clickPos;
+
 		// Token: 0x06005689 RID: 22153 RVA: 0x002CA133 File Offset: 0x002C8533
 		public FloatMenuMap(List<FloatMenuOption> options, string title, Vector3 clickPos) : base(options, title, false)
 		{
@@ -85,8 +88,5 @@ namespace Verse
 		{
 			return a.Label == b.Label;
 		}
-
-		// Token: 0x0400393C RID: 14652
-		private Vector3 clickPos;
 	}
 }

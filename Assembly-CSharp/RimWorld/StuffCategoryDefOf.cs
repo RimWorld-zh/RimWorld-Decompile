@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class StuffCategoryDefOf
 	{
-		// Token: 0x0600363F RID: 13887 RVA: 0x001D0B2B File Offset: 0x001CEF2B
-		static StuffCategoryDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(StuffCategoryDefOf));
-		}
-
 		// Token: 0x04002062 RID: 8290
 		public static StuffCategoryDef Metallic;
 
@@ -26,5 +20,11 @@ namespace RimWorld
 
 		// Token: 0x04002066 RID: 8294
 		public static StuffCategoryDef Leathery;
+
+		// Token: 0x0600363F RID: 13887 RVA: 0x001D0B2B File Offset: 0x001CEF2B
+		static StuffCategoryDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(StuffCategoryDefOf));
+		}
 	}
 }

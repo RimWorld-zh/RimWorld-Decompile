@@ -7,6 +7,27 @@ namespace RimWorld
 	// Token: 0x02000979 RID: 2425
 	internal static class FilthMonitor
 	{
+		// Token: 0x04002335 RID: 9013
+		private static int lastUpdate = 0;
+
+		// Token: 0x04002336 RID: 9014
+		private static int filthAccumulated = 0;
+
+		// Token: 0x04002337 RID: 9015
+		private static int filthDropped = 0;
+
+		// Token: 0x04002338 RID: 9016
+		private static int filthAnimalGenerated = 0;
+
+		// Token: 0x04002339 RID: 9017
+		private static int filthHumanGenerated = 0;
+
+		// Token: 0x0400233A RID: 9018
+		private static int filthSpawned = 0;
+
+		// Token: 0x0400233B RID: 9019
+		private const int SampleDuration = 2500;
+
 		// Token: 0x06003689 RID: 13961 RVA: 0x001D1644 File Offset: 0x001CFA44
 		public static void FilthMonitorTick()
 		{
@@ -79,26 +100,5 @@ namespace RimWorld
 				FilthMonitor.filthSpawned++;
 			}
 		}
-
-		// Token: 0x04002335 RID: 9013
-		private static int lastUpdate = 0;
-
-		// Token: 0x04002336 RID: 9014
-		private static int filthAccumulated = 0;
-
-		// Token: 0x04002337 RID: 9015
-		private static int filthDropped = 0;
-
-		// Token: 0x04002338 RID: 9016
-		private static int filthAnimalGenerated = 0;
-
-		// Token: 0x04002339 RID: 9017
-		private static int filthHumanGenerated = 0;
-
-		// Token: 0x0400233A RID: 9018
-		private static int filthSpawned = 0;
-
-		// Token: 0x0400233B RID: 9019
-		private const int SampleDuration = 2500;
 	}
 }

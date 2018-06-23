@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x0200036B RID: 875
 	public class StorytellerComp_FactionInteraction : StorytellerComp
 	{
+		// Token: 0x0400094F RID: 2383
+		private const int ForceChooseTraderAfterTicks = 780000;
+
 		// Token: 0x17000221 RID: 545
 		// (get) Token: 0x06000F30 RID: 3888 RVA: 0x00080B2C File Offset: 0x0007EF2C
 		private StorytellerCompProperties_FactionInteraction Props
@@ -54,8 +57,5 @@ namespace RimWorld
 			}
 			return base.UsableIncidentsInCategory(IncidentCategoryDefOf.FactionArrival, target).TryRandomElementByWeight((IncidentDef d) => d.baseChance, out result);
 		}
-
-		// Token: 0x0400094F RID: 2383
-		private const int ForceChooseTraderAfterTicks = 780000;
 	}
 }

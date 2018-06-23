@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class PawnTableDefOf
 	{
-		// Token: 0x06003663 RID: 13923 RVA: 0x001D0DB3 File Offset: 0x001CF1B3
-		static PawnTableDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(PawnTableDefOf));
-		}
-
 		// Token: 0x040022AC RID: 8876
 		public static PawnTableDef Work;
 
@@ -26,5 +20,11 @@ namespace RimWorld
 
 		// Token: 0x040022B0 RID: 8880
 		public static PawnTableDef Wildlife;
+
+		// Token: 0x06003663 RID: 13923 RVA: 0x001D0DB3 File Offset: 0x001CF1B3
+		static PawnTableDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(PawnTableDefOf));
+		}
 	}
 }

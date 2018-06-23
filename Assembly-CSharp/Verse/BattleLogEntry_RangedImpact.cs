@@ -9,6 +9,40 @@ namespace Verse
 	// Token: 0x02000BBF RID: 3007
 	public class BattleLogEntry_RangedImpact : LogEntry_DamageResult
 	{
+		// Token: 0x04002CA5 RID: 11429
+		private Pawn initiatorPawn;
+
+		// Token: 0x04002CA6 RID: 11430
+		private ThingDef initiatorThing;
+
+		// Token: 0x04002CA7 RID: 11431
+		private Pawn recipientPawn;
+
+		// Token: 0x04002CA8 RID: 11432
+		private ThingDef recipientThing;
+
+		// Token: 0x04002CA9 RID: 11433
+		private Pawn originalTargetPawn;
+
+		// Token: 0x04002CAA RID: 11434
+		private ThingDef originalTargetThing;
+
+		// Token: 0x04002CAB RID: 11435
+		private bool originalTargetMobile;
+
+		// Token: 0x04002CAC RID: 11436
+		private ThingDef weaponDef;
+
+		// Token: 0x04002CAD RID: 11437
+		private ThingDef projectileDef;
+
+		// Token: 0x04002CAE RID: 11438
+		private ThingDef coverDef;
+
+		// Token: 0x04002CAF RID: 11439
+		[TweakValue("LogFilter", 0f, 1f)]
+		private static float DisplayChanceOnMiss = 0.25f;
+
 		// Token: 0x0600415E RID: 16734 RVA: 0x002280E0 File Offset: 0x002264E0
 		public BattleLogEntry_RangedImpact() : base(null)
 		{
@@ -274,39 +308,5 @@ namespace Verse
 		{
 			return "BattleLogEntry_RangedImpact: " + this.InitiatorName + "->" + this.RecipientName;
 		}
-
-		// Token: 0x04002CA5 RID: 11429
-		private Pawn initiatorPawn;
-
-		// Token: 0x04002CA6 RID: 11430
-		private ThingDef initiatorThing;
-
-		// Token: 0x04002CA7 RID: 11431
-		private Pawn recipientPawn;
-
-		// Token: 0x04002CA8 RID: 11432
-		private ThingDef recipientThing;
-
-		// Token: 0x04002CA9 RID: 11433
-		private Pawn originalTargetPawn;
-
-		// Token: 0x04002CAA RID: 11434
-		private ThingDef originalTargetThing;
-
-		// Token: 0x04002CAB RID: 11435
-		private bool originalTargetMobile;
-
-		// Token: 0x04002CAC RID: 11436
-		private ThingDef weaponDef;
-
-		// Token: 0x04002CAD RID: 11437
-		private ThingDef projectileDef;
-
-		// Token: 0x04002CAE RID: 11438
-		private ThingDef coverDef;
-
-		// Token: 0x04002CAF RID: 11439
-		[TweakValue("LogFilter", 0f, 1f)]
-		private static float DisplayChanceOnMiss = 0.25f;
 	}
 }

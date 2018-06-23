@@ -12,6 +12,9 @@ namespace RimWorld
 	[HasDebugOutput]
 	public static class QualityUtility
 	{
+		// Token: 0x0400168B RID: 5771
+		public static List<QualityCategory> AllQualityCategories = new List<QualityCategory>();
+
 		// Token: 0x06002955 RID: 10581 RVA: 0x0015F6D0 File Offset: 0x0015DAD0
 		static QualityUtility()
 		{
@@ -441,8 +444,5 @@ namespace RimWorld
 			}
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x0400168B RID: 5771
-		public static List<QualityCategory> AllQualityCategories = new List<QualityCategory>();
 	}
 }

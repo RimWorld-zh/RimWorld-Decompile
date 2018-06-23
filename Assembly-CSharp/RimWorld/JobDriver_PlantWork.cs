@@ -10,6 +10,15 @@ namespace RimWorld
 	// Token: 0x0200008C RID: 140
 	public abstract class JobDriver_PlantWork : JobDriver
 	{
+		// Token: 0x0400024B RID: 587
+		private float workDone = 0f;
+
+		// Token: 0x0400024C RID: 588
+		protected float xpPerTick = 0f;
+
+		// Token: 0x0400024D RID: 589
+		protected const TargetIndex PlantInd = TargetIndex.A;
+
 		// Token: 0x170000B9 RID: 185
 		// (get) Token: 0x06000395 RID: 917 RVA: 0x000288B4 File Offset: 0x00026CB4
 		protected Plant Plant
@@ -142,14 +151,5 @@ namespace RimWorld
 		{
 			return null;
 		}
-
-		// Token: 0x0400024B RID: 587
-		private float workDone = 0f;
-
-		// Token: 0x0400024C RID: 588
-		protected float xpPerTick = 0f;
-
-		// Token: 0x0400024D RID: 589
-		protected const TargetIndex PlantInd = TargetIndex.A;
 	}
 }

@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000E6B RID: 3691
 	public struct GizmoResult
 	{
+		// Token: 0x0400399C RID: 14748
+		private GizmoState stateInt;
+
+		// Token: 0x0400399D RID: 14749
+		private Event interactEventInt;
+
 		// Token: 0x060056F3 RID: 22259 RVA: 0x002CC8DB File Offset: 0x002CACDB
 		public GizmoResult(GizmoState state)
 		{
@@ -39,11 +45,5 @@ namespace Verse
 				return this.interactEventInt;
 			}
 		}
-
-		// Token: 0x0400399C RID: 14748
-		private GizmoState stateInt;
-
-		// Token: 0x0400399D RID: 14749
-		private Event interactEventInt;
 	}
 }

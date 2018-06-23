@@ -12,6 +12,15 @@ namespace RimWorld
 	// Token: 0x020008F2 RID: 2290
 	public sealed class Autosaver
 	{
+		// Token: 0x04001C9C RID: 7324
+		private int ticksSinceSave = 0;
+
+		// Token: 0x04001C9D RID: 7325
+		private const int NumAutosaves = 5;
+
+		// Token: 0x04001C9E RID: 7326
+		public const float MaxPermadeathModeAutosaveInterval = 1f;
+
 		// Token: 0x1700088D RID: 2189
 		// (get) Token: 0x060034FA RID: 13562 RVA: 0x001C4E20 File Offset: 0x001C3220
 		private float AutosaveIntervalDays
@@ -99,14 +108,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04001C9C RID: 7324
-		private int ticksSinceSave = 0;
-
-		// Token: 0x04001C9D RID: 7325
-		private const int NumAutosaves = 5;
-
-		// Token: 0x04001C9E RID: 7326
-		public const float MaxPermadeathModeAutosaveInterval = 1f;
 	}
 }

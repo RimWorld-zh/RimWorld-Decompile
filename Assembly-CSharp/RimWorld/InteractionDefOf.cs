@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class InteractionDefOf
 	{
-		// Token: 0x0600364A RID: 13898 RVA: 0x001D0BF1 File Offset: 0x001CEFF1
-		static InteractionDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(InteractionDefOf));
-		}
-
 		// Token: 0x040021B0 RID: 8624
 		public static InteractionDef Chitchat;
 
@@ -47,5 +41,11 @@ namespace RimWorld
 
 		// Token: 0x040021BB RID: 8635
 		public static InteractionDef Nuzzle;
+
+		// Token: 0x0600364A RID: 13898 RVA: 0x001D0BF1 File Offset: 0x001CEFF1
+		static InteractionDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(InteractionDefOf));
+		}
 	}
 }

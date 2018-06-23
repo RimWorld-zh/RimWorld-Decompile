@@ -8,6 +8,33 @@ namespace Verse
 	// Token: 0x02000EAC RID: 3756
 	public class WidgetRow
 	{
+		// Token: 0x04003B05 RID: 15109
+		private float startX;
+
+		// Token: 0x04003B06 RID: 15110
+		private float curX;
+
+		// Token: 0x04003B07 RID: 15111
+		private float curY;
+
+		// Token: 0x04003B08 RID: 15112
+		private float maxWidth = 99999f;
+
+		// Token: 0x04003B09 RID: 15113
+		private float gap;
+
+		// Token: 0x04003B0A RID: 15114
+		private UIDirection growDirection = UIDirection.RightThenUp;
+
+		// Token: 0x04003B0B RID: 15115
+		public const float IconSize = 24f;
+
+		// Token: 0x04003B0C RID: 15116
+		public const float DefaultGap = 4f;
+
+		// Token: 0x04003B0D RID: 15117
+		private const float DefaultMaxWidth = 99999f;
+
 		// Token: 0x06005896 RID: 22678 RVA: 0x002D6D41 File Offset: 0x002D5141
 		public WidgetRow()
 		{
@@ -243,32 +270,5 @@ namespace Verse
 			this.IncrementPosition(width);
 			return rect;
 		}
-
-		// Token: 0x04003B05 RID: 15109
-		private float startX;
-
-		// Token: 0x04003B06 RID: 15110
-		private float curX;
-
-		// Token: 0x04003B07 RID: 15111
-		private float curY;
-
-		// Token: 0x04003B08 RID: 15112
-		private float maxWidth = 99999f;
-
-		// Token: 0x04003B09 RID: 15113
-		private float gap;
-
-		// Token: 0x04003B0A RID: 15114
-		private UIDirection growDirection = UIDirection.RightThenUp;
-
-		// Token: 0x04003B0B RID: 15115
-		public const float IconSize = 24f;
-
-		// Token: 0x04003B0C RID: 15116
-		public const float DefaultGap = 4f;
-
-		// Token: 0x04003B0D RID: 15117
-		private const float DefaultMaxWidth = 99999f;
 	}
 }

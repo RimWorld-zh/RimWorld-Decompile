@@ -7,6 +7,9 @@ namespace Verse.AI
 	// Token: 0x02000A6E RID: 2670
 	public class MentalState_TargetedInsultingSpree : MentalState_InsultingSpree
 	{
+		// Token: 0x04002564 RID: 9572
+		private static List<Pawn> candidates = new List<Pawn>();
+
 		// Token: 0x17000910 RID: 2320
 		// (get) Token: 0x06003B59 RID: 15193 RVA: 0x001F739C File Offset: 0x001F579C
 		public override string InspectLine
@@ -103,8 +106,5 @@ namespace Verse.AI
 			}
 			return result;
 		}
-
-		// Token: 0x04002564 RID: 9572
-		private static List<Pawn> candidates = new List<Pawn>();
 	}
 }

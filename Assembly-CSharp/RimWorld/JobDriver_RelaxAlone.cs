@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000059 RID: 89
 	public class JobDriver_RelaxAlone : JobDriver
 	{
+		// Token: 0x040001F7 RID: 503
+		private Rot4 faceDir = Rot4.Invalid;
+
+		// Token: 0x040001F8 RID: 504
+		private const TargetIndex SpotOrBedInd = TargetIndex.A;
+
 		// Token: 0x17000089 RID: 137
 		// (get) Token: 0x0600029F RID: 671 RVA: 0x0001C910 File Offset: 0x0001AD10
 		private bool FromBed
@@ -84,11 +90,5 @@ namespace RimWorld
 			base.ExposeData();
 			Scribe_Values.Look<Rot4>(ref this.faceDir, "faceDir", default(Rot4), false);
 		}
-
-		// Token: 0x040001F7 RID: 503
-		private Rot4 faceDir = Rot4.Invalid;
-
-		// Token: 0x040001F8 RID: 504
-		private const TargetIndex SpotOrBedInd = TargetIndex.A;
 	}
 }

@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x02000145 RID: 325
 	public abstract class WorkGiver_Grower : WorkGiver_Scanner
 	{
+		// Token: 0x04000329 RID: 809
+		protected static ThingDef wantedPlantDef = null;
+
 		// Token: 0x17000106 RID: 262
 		// (get) Token: 0x060006BE RID: 1726 RVA: 0x000454CC File Offset: 0x000438CC
 		public override bool AllowUnreachable
@@ -104,8 +107,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000329 RID: 809
-		protected static ThingDef wantedPlantDef = null;
 	}
 }

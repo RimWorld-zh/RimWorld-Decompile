@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x0200069F RID: 1695
 	public class Building_CommsConsole : Building
 	{
+		// Token: 0x04001416 RID: 5142
+		private CompPowerTrader powerComp;
+
 		// Token: 0x17000568 RID: 1384
 		// (get) Token: 0x0600241C RID: 9244 RVA: 0x0013620C File Offset: 0x0013460C
 		public bool CanUseCommsNow
@@ -116,8 +119,5 @@ namespace RimWorld
 			negotiator.jobs.TryTakeOrderedJob(job, JobTag.Misc);
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.OpeningComms, KnowledgeAmount.Total);
 		}
-
-		// Token: 0x04001416 RID: 5142
-		private CompPowerTrader powerComp;
 	}
 }

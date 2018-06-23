@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x0200016A RID: 362
 	public class LordJob_AssistColony : LordJob
 	{
+		// Token: 0x04000339 RID: 825
+		private Faction faction;
+
+		// Token: 0x0400033A RID: 826
+		private IntVec3 fallbackLocation;
+
 		// Token: 0x0600076E RID: 1902 RVA: 0x00049ED3 File Offset: 0x000482D3
 		public LordJob_AssistColony()
 		{
@@ -77,11 +83,5 @@ namespace RimWorld
 			Scribe_References.Look<Faction>(ref this.faction, "faction", false);
 			Scribe_Values.Look<IntVec3>(ref this.fallbackLocation, "fallbackLocation", default(IntVec3), false);
 		}
-
-		// Token: 0x04000339 RID: 825
-		private Faction faction;
-
-		// Token: 0x0400033A RID: 826
-		private IntVec3 fallbackLocation;
 	}
 }

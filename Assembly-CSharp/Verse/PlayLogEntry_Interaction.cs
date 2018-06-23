@@ -10,6 +10,18 @@ namespace Verse
 	[HasDebugOutput]
 	public class PlayLogEntry_Interaction : LogEntry
 	{
+		// Token: 0x04002CF7 RID: 11511
+		private InteractionDef intDef;
+
+		// Token: 0x04002CF8 RID: 11512
+		private Pawn initiator;
+
+		// Token: 0x04002CF9 RID: 11513
+		private Pawn recipient;
+
+		// Token: 0x04002CFA RID: 11514
+		private List<RulePackDef> extraSentencePacks = null;
+
 		// Token: 0x060041DB RID: 16859 RVA: 0x0022B4D4 File Offset: 0x002298D4
 		public PlayLogEntry_Interaction() : base(null)
 		{
@@ -177,17 +189,5 @@ namespace Verse
 				this.RecipientName
 			});
 		}
-
-		// Token: 0x04002CF7 RID: 11511
-		private InteractionDef intDef;
-
-		// Token: 0x04002CF8 RID: 11512
-		private Pawn initiator;
-
-		// Token: 0x04002CF9 RID: 11513
-		private Pawn recipient;
-
-		// Token: 0x04002CFA RID: 11514
-		private List<RulePackDef> extraSentencePacks = null;
 	}
 }

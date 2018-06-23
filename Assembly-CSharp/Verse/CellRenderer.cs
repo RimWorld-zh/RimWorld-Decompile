@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000C09 RID: 3081
 	public static class CellRenderer
 	{
+		// Token: 0x04002E15 RID: 11797
+		private static int lastCameraUpdateFrame = -1;
+
+		// Token: 0x04002E16 RID: 11798
+		private static CellRect viewRect;
+
 		// Token: 0x0600435D RID: 17245 RVA: 0x002399F2 File Offset: 0x00237DF2
 		private static void InitFrame()
 		{
@@ -60,11 +66,5 @@ namespace Verse
 				Graphics.DrawMesh(MeshPool.circle, matrix, mat, 0);
 			}
 		}
-
-		// Token: 0x04002E15 RID: 11797
-		private static int lastCameraUpdateFrame = -1;
-
-		// Token: 0x04002E16 RID: 11798
-		private static CellRect viewRect;
 	}
 }

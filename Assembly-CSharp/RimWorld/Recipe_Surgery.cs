@@ -7,6 +7,32 @@ namespace RimWorld
 	// Token: 0x0200046B RID: 1131
 	public class Recipe_Surgery : RecipeWorker
 	{
+		// Token: 0x04000BF5 RID: 3061
+		private const float CatastrophicFailChance = 0.5f;
+
+		// Token: 0x04000BF6 RID: 3062
+		private const float RidiculousFailChanceFromCatastrophic = 0.1f;
+
+		// Token: 0x04000BF7 RID: 3063
+		private const float InspiredSurgeryFailChanceFactor = 0.1f;
+
+		// Token: 0x04000BF8 RID: 3064
+		private static readonly SimpleCurve MedicineMedicalPotencyToSurgeryChanceFactor = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 0.7f),
+				true
+			},
+			{
+				new CurvePoint(1f, 1f),
+				true
+			},
+			{
+				new CurvePoint(2f, 1.3f),
+				true
+			}
+		};
+
 		// Token: 0x060013DF RID: 5087 RVA: 0x000ABE34 File Offset: 0x000AA234
 		protected bool CheckSurgeryFail(Pawn surgeon, Pawn patient, List<Thing> ingredients, BodyPartRecord part, Bill bill)
 		{
@@ -138,31 +164,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000BF5 RID: 3061
-		private const float CatastrophicFailChance = 0.5f;
-
-		// Token: 0x04000BF6 RID: 3062
-		private const float RidiculousFailChanceFromCatastrophic = 0.1f;
-
-		// Token: 0x04000BF7 RID: 3063
-		private const float InspiredSurgeryFailChanceFactor = 0.1f;
-
-		// Token: 0x04000BF8 RID: 3064
-		private static readonly SimpleCurve MedicineMedicalPotencyToSurgeryChanceFactor = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 0.7f),
-				true
-			},
-			{
-				new CurvePoint(1f, 1f),
-				true
-			},
-			{
-				new CurvePoint(2f, 1.3f),
-				true
-			}
-		};
 	}
 }

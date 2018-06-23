@@ -7,6 +7,18 @@ namespace Verse
 	// Token: 0x02000D75 RID: 3445
 	internal static class MeshMakerShadows
 	{
+		// Token: 0x04003381 RID: 13185
+		private static List<Vector3> vertsList = new List<Vector3>();
+
+		// Token: 0x04003382 RID: 13186
+		private static List<Color32> colorsList = new List<Color32>();
+
+		// Token: 0x04003383 RID: 13187
+		private static List<int> trianglesList = new List<int>();
+
+		// Token: 0x04003384 RID: 13188
+		private static readonly Color32 LowVertexColor = new Color32(0, 0, 0, 0);
+
 		// Token: 0x06004D46 RID: 19782 RVA: 0x00284230 File Offset: 0x00282630
 		public static Mesh NewShadowMesh(float baseWidth, float baseHeight, float tallness)
 		{
@@ -71,17 +83,5 @@ namespace Verse
 				triangles = MeshMakerShadows.trianglesList.ToArray()
 			};
 		}
-
-		// Token: 0x04003381 RID: 13185
-		private static List<Vector3> vertsList = new List<Vector3>();
-
-		// Token: 0x04003382 RID: 13186
-		private static List<Color32> colorsList = new List<Color32>();
-
-		// Token: 0x04003383 RID: 13187
-		private static List<int> trianglesList = new List<int>();
-
-		// Token: 0x04003384 RID: 13188
-		private static readonly Color32 LowVertexColor = new Color32(0, 0, 0, 0);
 	}
 }

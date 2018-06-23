@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x02000709 RID: 1801
 	public class CompDeepScanner : ThingComp
 	{
+		// Token: 0x040015CE RID: 5582
+		private CompPowerTrader powerComp;
+
 		// Token: 0x0600277E RID: 10110 RVA: 0x00152E1F File Offset: 0x0015121F
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
@@ -21,8 +24,5 @@ namespace RimWorld
 				this.parent.Map.deepResourceGrid.MarkForDraw();
 			}
 		}
-
-		// Token: 0x040015CE RID: 5582
-		private CompPowerTrader powerComp;
 	}
 }

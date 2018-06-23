@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000AEC RID: 2796
 	public class SubcameraDriver : MonoBehaviour
 	{
+		// Token: 0x04002731 RID: 10033
+		private Camera[] subcameras;
+
 		// Token: 0x06003DF3 RID: 15859 RVA: 0x0020B000 File Offset: 0x00209400
 		public void Init()
 		{
@@ -96,8 +99,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04002731 RID: 10033
-		private Camera[] subcameras;
 	}
 }

@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020008A3 RID: 2211
 	public static class TimeAssignmentSelector
 	{
+		// Token: 0x04001B2F RID: 6959
+		public static TimeAssignmentDef selectedAssignment = TimeAssignmentDefOf.Work;
+
 		// Token: 0x0600329A RID: 12954 RVA: 0x001B42E0 File Offset: 0x001B26E0
 		public static void DrawTimeAssignmentSelectorGrid(Rect rect)
 		{
@@ -50,8 +53,5 @@ namespace RimWorld
 				Widgets.DrawBox(rect, 2);
 			}
 		}
-
-		// Token: 0x04001B2F RID: 6959
-		public static TimeAssignmentDef selectedAssignment = TimeAssignmentDefOf.Work;
 	}
 }

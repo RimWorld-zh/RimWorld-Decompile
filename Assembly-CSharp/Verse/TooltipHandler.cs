@@ -8,6 +8,28 @@ namespace Verse
 	// Token: 0x02000E91 RID: 3729
 	public static class TooltipHandler
 	{
+		// Token: 0x04003A3C RID: 14908
+		private static Dictionary<int, ActiveTip> activeTips = new Dictionary<int, ActiveTip>();
+
+		// Token: 0x04003A3D RID: 14909
+		private static int frame = 0;
+
+		// Token: 0x04003A3E RID: 14910
+		private static List<int> dyingTips = new List<int>(32);
+
+		// Token: 0x04003A3F RID: 14911
+		private static float TooltipDelay = 0.45f;
+
+		// Token: 0x04003A40 RID: 14912
+		private const float SpaceBetweenTooltips = 2f;
+
+		// Token: 0x04003A41 RID: 14913
+		private static List<ActiveTip> drawingTips = new List<ActiveTip>();
+
+		// Token: 0x04003A42 RID: 14914
+		[CompilerGenerated]
+		private static Comparison<ActiveTip> <>f__mg$cache0;
+
 		// Token: 0x0600580E RID: 22542 RVA: 0x002D29A8 File Offset: 0x002D0DA8
 		public static void ClearTooltipsFrom(Rect rect)
 		{
@@ -158,27 +180,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003A3C RID: 14908
-		private static Dictionary<int, ActiveTip> activeTips = new Dictionary<int, ActiveTip>();
-
-		// Token: 0x04003A3D RID: 14909
-		private static int frame = 0;
-
-		// Token: 0x04003A3E RID: 14910
-		private static List<int> dyingTips = new List<int>(32);
-
-		// Token: 0x04003A3F RID: 14911
-		private static float TooltipDelay = 0.45f;
-
-		// Token: 0x04003A40 RID: 14912
-		private const float SpaceBetweenTooltips = 2f;
-
-		// Token: 0x04003A41 RID: 14913
-		private static List<ActiveTip> drawingTips = new List<ActiveTip>();
-
-		// Token: 0x04003A42 RID: 14914
-		[CompilerGenerated]
-		private static Comparison<ActiveTip> <>f__mg$cache0;
 	}
 }

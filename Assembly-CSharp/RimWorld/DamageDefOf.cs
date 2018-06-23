@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class DamageDefOf
 	{
-		// Token: 0x06003627 RID: 13863 RVA: 0x001D097B File Offset: 0x001CED7B
-		static DamageDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(DamageDefOf));
-		}
-
 		// Token: 0x04001F5C RID: 8028
 		public static DamageDef Cut;
 
@@ -78,5 +72,11 @@ namespace RimWorld
 
 		// Token: 0x04001F71 RID: 8049
 		public static DamageDef Rotting;
+
+		// Token: 0x06003627 RID: 13863 RVA: 0x001D097B File Offset: 0x001CED7B
+		static DamageDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(DamageDefOf));
+		}
 	}
 }

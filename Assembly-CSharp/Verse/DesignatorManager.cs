@@ -8,6 +8,12 @@ namespace Verse
 	// Token: 0x02000E13 RID: 3603
 	public class DesignatorManager
 	{
+		// Token: 0x0400358F RID: 13711
+		private Designator selectedDesignator;
+
+		// Token: 0x04003590 RID: 13712
+		private DesignationDragger dragger = new DesignationDragger();
+
 		// Token: 0x17000D6F RID: 3439
 		// (get) Token: 0x060051D5 RID: 20949 RVA: 0x0029F08C File Offset: 0x0029D48C
 		public Designator SelectedDesignator
@@ -133,11 +139,5 @@ namespace Verse
 				this.selectedDesignator.SelectedUpdate();
 			}
 		}
-
-		// Token: 0x0400358F RID: 13711
-		private Designator selectedDesignator;
-
-		// Token: 0x04003590 RID: 13712
-		private DesignationDragger dragger = new DesignationDragger();
 	}
 }

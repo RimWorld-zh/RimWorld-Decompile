@@ -10,6 +10,15 @@ namespace RimWorld
 	// Token: 0x0200009B RID: 155
 	public class Toils_Ingest
 	{
+		// Token: 0x04000262 RID: 610
+		private static List<IntVec3> spotSearchList = new List<IntVec3>();
+
+		// Token: 0x04000263 RID: 611
+		private static List<IntVec3> cardinals = GenAdj.CardinalDirections.ToList<IntVec3>();
+
+		// Token: 0x04000264 RID: 612
+		private static List<IntVec3> diagonals = GenAdj.DiagonalDirections.ToList<IntVec3>();
+
 		// Token: 0x060003E8 RID: 1000 RVA: 0x0002D114 File Offset: 0x0002B514
 		public static Toil TakeMealFromDispenser(TargetIndex ind, Pawn eater)
 		{
@@ -420,14 +429,5 @@ namespace RimWorld
 			toil.defaultCompleteMode = ToilCompleteMode.Instant;
 			return toil;
 		}
-
-		// Token: 0x04000262 RID: 610
-		private static List<IntVec3> spotSearchList = new List<IntVec3>();
-
-		// Token: 0x04000263 RID: 611
-		private static List<IntVec3> cardinals = GenAdj.CardinalDirections.ToList<IntVec3>();
-
-		// Token: 0x04000264 RID: 612
-		private static List<IntVec3> diagonals = GenAdj.DiagonalDirections.ToList<IntVec3>();
 	}
 }

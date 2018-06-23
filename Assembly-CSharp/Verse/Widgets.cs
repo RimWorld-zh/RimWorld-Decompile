@@ -15,6 +15,221 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class Widgets
 	{
+		// Token: 0x04003B12 RID: 15122
+		public static Stack<bool> mouseOverScrollViewStack = new Stack<bool>();
+
+		// Token: 0x04003B13 RID: 15123
+		public static readonly GUIStyle EmptyStyle = new GUIStyle();
+
+		// Token: 0x04003B14 RID: 15124
+		[TweakValue("Input", 0f, 100f)]
+		private static float DragStartDistanceSquared = 20f;
+
+		// Token: 0x04003B15 RID: 15125
+		private static readonly Color InactiveColor = new Color(0.37f, 0.37f, 0.37f, 0.8f);
+
+		// Token: 0x04003B16 RID: 15126
+		private static readonly Texture2D DefaultBarBgTex = BaseContent.BlackTex;
+
+		// Token: 0x04003B17 RID: 15127
+		private static readonly Texture2D BarFullTexHor = SolidColorMaterials.NewSolidColorTexture(new Color(0.2f, 0.8f, 0.85f));
+
+		// Token: 0x04003B18 RID: 15128
+		public static readonly Texture2D CheckboxOnTex = ContentFinder<Texture2D>.Get("UI/Widgets/CheckOn", true);
+
+		// Token: 0x04003B19 RID: 15129
+		public static readonly Texture2D CheckboxOffTex = ContentFinder<Texture2D>.Get("UI/Widgets/CheckOff", true);
+
+		// Token: 0x04003B1A RID: 15130
+		public static readonly Texture2D CheckboxPartialTex = ContentFinder<Texture2D>.Get("UI/Widgets/CheckPartial", true);
+
+		// Token: 0x04003B1B RID: 15131
+		public const float CheckboxSize = 24f;
+
+		// Token: 0x04003B1C RID: 15132
+		public const float RadioButtonSize = 24f;
+
+		// Token: 0x04003B1D RID: 15133
+		private static readonly Texture2D RadioButOnTex = ContentFinder<Texture2D>.Get("UI/Widgets/RadioButOn", true);
+
+		// Token: 0x04003B1E RID: 15134
+		private static readonly Texture2D RadioButOffTex = ContentFinder<Texture2D>.Get("UI/Widgets/RadioButOff", true);
+
+		// Token: 0x04003B1F RID: 15135
+		private static readonly Texture2D FillArrowTexRight = ContentFinder<Texture2D>.Get("UI/Widgets/FillChangeArrowRight", true);
+
+		// Token: 0x04003B20 RID: 15136
+		private static readonly Texture2D FillArrowTexLeft = ContentFinder<Texture2D>.Get("UI/Widgets/FillChangeArrowLeft", true);
+
+		// Token: 0x04003B21 RID: 15137
+		private const int FillableBarBorderWidth = 3;
+
+		// Token: 0x04003B22 RID: 15138
+		private const int MaxFillChangeArrowHeight = 16;
+
+		// Token: 0x04003B23 RID: 15139
+		private const int FillChangeArrowWidth = 8;
+
+		// Token: 0x04003B24 RID: 15140
+		private const float CloseButtonSize = 18f;
+
+		// Token: 0x04003B25 RID: 15141
+		private const float CloseButtonMargin = 4f;
+
+		// Token: 0x04003B26 RID: 15142
+		private static readonly Texture2D ShadowAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/DropShadow", true);
+
+		// Token: 0x04003B27 RID: 15143
+		private static readonly Texture2D ButtonBGAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/ButtonBG", true);
+
+		// Token: 0x04003B28 RID: 15144
+		private static readonly Texture2D ButtonBGAtlasMouseover = ContentFinder<Texture2D>.Get("UI/Widgets/ButtonBGMouseover", true);
+
+		// Token: 0x04003B29 RID: 15145
+		private static readonly Texture2D ButtonBGAtlasClick = ContentFinder<Texture2D>.Get("UI/Widgets/ButtonBGClick", true);
+
+		// Token: 0x04003B2A RID: 15146
+		private static readonly Texture2D FloatRangeSliderTex = ContentFinder<Texture2D>.Get("UI/Widgets/RangeSlider", true);
+
+		// Token: 0x04003B2B RID: 15147
+		public static readonly Texture2D LightHighlight = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 1f, 1f, 0.04f));
+
+		// Token: 0x04003B2C RID: 15148
+		[TweakValue("Input", 0f, 100f)]
+		private static int IntEntryButtonWidth = 40;
+
+		// Token: 0x04003B2D RID: 15149
+		private static Texture2D LineTexAA = null;
+
+		// Token: 0x04003B2E RID: 15150
+		private static readonly Rect LineRect = new Rect(0f, 0f, 1f, 1f);
+
+		// Token: 0x04003B2F RID: 15151
+		private static readonly Material LineMat = null;
+
+		// Token: 0x04003B30 RID: 15152
+		private static readonly Texture2D AltTexture = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 1f, 1f, 0.05f));
+
+		// Token: 0x04003B31 RID: 15153
+		public static readonly Color NormalOptionColor = new Color(0.8f, 0.85f, 1f);
+
+		// Token: 0x04003B32 RID: 15154
+		public static readonly Color MouseoverOptionColor = Color.yellow;
+
+		// Token: 0x04003B33 RID: 15155
+		private static Dictionary<string, float> LabelCache = new Dictionary<string, float>();
+
+		// Token: 0x04003B34 RID: 15156
+		public static readonly Color SeparatorLabelColor = new Color(0.8f, 0.8f, 0.8f, 1f);
+
+		// Token: 0x04003B35 RID: 15157
+		private static readonly Color SeparatorLineColor = new Color(0.3f, 0.3f, 0.3f, 1f);
+
+		// Token: 0x04003B36 RID: 15158
+		private const float SeparatorLabelHeight = 20f;
+
+		// Token: 0x04003B37 RID: 15159
+		public const float ListSeparatorHeight = 25f;
+
+		// Token: 0x04003B38 RID: 15160
+		private static bool checkboxPainting = false;
+
+		// Token: 0x04003B39 RID: 15161
+		private static bool checkboxPaintingState = false;
+
+		// Token: 0x04003B3A RID: 15162
+		public static readonly Texture2D ButtonSubtleAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/ButtonSubtleAtlas", true);
+
+		// Token: 0x04003B3B RID: 15163
+		private static readonly Texture2D ButtonBarTex;
+
+		// Token: 0x04003B3C RID: 15164
+		public const float ButtonSubtleDefaultMarginPct = 0.15f;
+
+		// Token: 0x04003B3D RID: 15165
+		private static int buttonInvisibleDraggable_activeControl;
+
+		// Token: 0x04003B3E RID: 15166
+		private static bool buttonInvisibleDraggable_dragged;
+
+		// Token: 0x04003B3F RID: 15167
+		private static Vector3 buttonInvisibleDraggable_mouseStart;
+
+		// Token: 0x04003B40 RID: 15168
+		public const float RangeControlIdealHeight = 31f;
+
+		// Token: 0x04003B41 RID: 15169
+		public const float RangeControlCompactHeight = 28f;
+
+		// Token: 0x04003B42 RID: 15170
+		private const float RangeSliderSize = 16f;
+
+		// Token: 0x04003B43 RID: 15171
+		private static readonly Color RangeControlTextColor;
+
+		// Token: 0x04003B44 RID: 15172
+		private static int draggingId;
+
+		// Token: 0x04003B45 RID: 15173
+		private static Widgets.RangeEnd curDragEnd;
+
+		// Token: 0x04003B46 RID: 15174
+		private static float lastDragSliderSoundTime;
+
+		// Token: 0x04003B47 RID: 15175
+		private static float FillableBarChangeRateDisplayRatio;
+
+		// Token: 0x04003B48 RID: 15176
+		public static int MaxFillableBarChangeRate;
+
+		// Token: 0x04003B49 RID: 15177
+		private static readonly Color WindowBGBorderColor;
+
+		// Token: 0x04003B4A RID: 15178
+		public static readonly Color WindowBGFillColor;
+
+		// Token: 0x04003B4B RID: 15179
+		private static readonly Color MenuSectionBGFillColor;
+
+		// Token: 0x04003B4C RID: 15180
+		private static readonly Color MenuSectionBGBorderColor;
+
+		// Token: 0x04003B4D RID: 15181
+		private static readonly Color TutorWindowBGFillColor;
+
+		// Token: 0x04003B4E RID: 15182
+		private static readonly Color TutorWindowBGBorderColor;
+
+		// Token: 0x04003B4F RID: 15183
+		private static readonly Color OptionUnselectedBGFillColor;
+
+		// Token: 0x04003B50 RID: 15184
+		private static readonly Color OptionUnselectedBGBorderColor;
+
+		// Token: 0x04003B51 RID: 15185
+		private static readonly Color OptionSelectedBGFillColor;
+
+		// Token: 0x04003B52 RID: 15186
+		private static readonly Color OptionSelectedBGBorderColor;
+
+		// Token: 0x04003B53 RID: 15187
+		public const float InfoCardButtonSize = 24f;
+
+		// Token: 0x04003B54 RID: 15188
+		private static bool dropdownPainting;
+
+		// Token: 0x04003B55 RID: 15189
+		private static object dropdownPainting_Payload;
+
+		// Token: 0x04003B56 RID: 15190
+		private static Type dropdownPainting_Type;
+
+		// Token: 0x04003B57 RID: 15191
+		private static string dropdownPainting_Text;
+
+		// Token: 0x04003B58 RID: 15192
+		private static Texture2D dropdownPainting_Icon;
+
 		// Token: 0x060058A7 RID: 22695 RVA: 0x002D7378 File Offset: 0x002D5778
 		static Widgets()
 		{
@@ -2264,221 +2479,6 @@ namespace Verse
 				GenUI.DrawMouseAttachment(Widgets.dropdownPainting_Icon, Widgets.dropdownPainting_Text, 0f, default(Vector2), null);
 			}
 		}
-
-		// Token: 0x04003B12 RID: 15122
-		public static Stack<bool> mouseOverScrollViewStack = new Stack<bool>();
-
-		// Token: 0x04003B13 RID: 15123
-		public static readonly GUIStyle EmptyStyle = new GUIStyle();
-
-		// Token: 0x04003B14 RID: 15124
-		[TweakValue("Input", 0f, 100f)]
-		private static float DragStartDistanceSquared = 20f;
-
-		// Token: 0x04003B15 RID: 15125
-		private static readonly Color InactiveColor = new Color(0.37f, 0.37f, 0.37f, 0.8f);
-
-		// Token: 0x04003B16 RID: 15126
-		private static readonly Texture2D DefaultBarBgTex = BaseContent.BlackTex;
-
-		// Token: 0x04003B17 RID: 15127
-		private static readonly Texture2D BarFullTexHor = SolidColorMaterials.NewSolidColorTexture(new Color(0.2f, 0.8f, 0.85f));
-
-		// Token: 0x04003B18 RID: 15128
-		public static readonly Texture2D CheckboxOnTex = ContentFinder<Texture2D>.Get("UI/Widgets/CheckOn", true);
-
-		// Token: 0x04003B19 RID: 15129
-		public static readonly Texture2D CheckboxOffTex = ContentFinder<Texture2D>.Get("UI/Widgets/CheckOff", true);
-
-		// Token: 0x04003B1A RID: 15130
-		public static readonly Texture2D CheckboxPartialTex = ContentFinder<Texture2D>.Get("UI/Widgets/CheckPartial", true);
-
-		// Token: 0x04003B1B RID: 15131
-		public const float CheckboxSize = 24f;
-
-		// Token: 0x04003B1C RID: 15132
-		public const float RadioButtonSize = 24f;
-
-		// Token: 0x04003B1D RID: 15133
-		private static readonly Texture2D RadioButOnTex = ContentFinder<Texture2D>.Get("UI/Widgets/RadioButOn", true);
-
-		// Token: 0x04003B1E RID: 15134
-		private static readonly Texture2D RadioButOffTex = ContentFinder<Texture2D>.Get("UI/Widgets/RadioButOff", true);
-
-		// Token: 0x04003B1F RID: 15135
-		private static readonly Texture2D FillArrowTexRight = ContentFinder<Texture2D>.Get("UI/Widgets/FillChangeArrowRight", true);
-
-		// Token: 0x04003B20 RID: 15136
-		private static readonly Texture2D FillArrowTexLeft = ContentFinder<Texture2D>.Get("UI/Widgets/FillChangeArrowLeft", true);
-
-		// Token: 0x04003B21 RID: 15137
-		private const int FillableBarBorderWidth = 3;
-
-		// Token: 0x04003B22 RID: 15138
-		private const int MaxFillChangeArrowHeight = 16;
-
-		// Token: 0x04003B23 RID: 15139
-		private const int FillChangeArrowWidth = 8;
-
-		// Token: 0x04003B24 RID: 15140
-		private const float CloseButtonSize = 18f;
-
-		// Token: 0x04003B25 RID: 15141
-		private const float CloseButtonMargin = 4f;
-
-		// Token: 0x04003B26 RID: 15142
-		private static readonly Texture2D ShadowAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/DropShadow", true);
-
-		// Token: 0x04003B27 RID: 15143
-		private static readonly Texture2D ButtonBGAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/ButtonBG", true);
-
-		// Token: 0x04003B28 RID: 15144
-		private static readonly Texture2D ButtonBGAtlasMouseover = ContentFinder<Texture2D>.Get("UI/Widgets/ButtonBGMouseover", true);
-
-		// Token: 0x04003B29 RID: 15145
-		private static readonly Texture2D ButtonBGAtlasClick = ContentFinder<Texture2D>.Get("UI/Widgets/ButtonBGClick", true);
-
-		// Token: 0x04003B2A RID: 15146
-		private static readonly Texture2D FloatRangeSliderTex = ContentFinder<Texture2D>.Get("UI/Widgets/RangeSlider", true);
-
-		// Token: 0x04003B2B RID: 15147
-		public static readonly Texture2D LightHighlight = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 1f, 1f, 0.04f));
-
-		// Token: 0x04003B2C RID: 15148
-		[TweakValue("Input", 0f, 100f)]
-		private static int IntEntryButtonWidth = 40;
-
-		// Token: 0x04003B2D RID: 15149
-		private static Texture2D LineTexAA = null;
-
-		// Token: 0x04003B2E RID: 15150
-		private static readonly Rect LineRect = new Rect(0f, 0f, 1f, 1f);
-
-		// Token: 0x04003B2F RID: 15151
-		private static readonly Material LineMat = null;
-
-		// Token: 0x04003B30 RID: 15152
-		private static readonly Texture2D AltTexture = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 1f, 1f, 0.05f));
-
-		// Token: 0x04003B31 RID: 15153
-		public static readonly Color NormalOptionColor = new Color(0.8f, 0.85f, 1f);
-
-		// Token: 0x04003B32 RID: 15154
-		public static readonly Color MouseoverOptionColor = Color.yellow;
-
-		// Token: 0x04003B33 RID: 15155
-		private static Dictionary<string, float> LabelCache = new Dictionary<string, float>();
-
-		// Token: 0x04003B34 RID: 15156
-		public static readonly Color SeparatorLabelColor = new Color(0.8f, 0.8f, 0.8f, 1f);
-
-		// Token: 0x04003B35 RID: 15157
-		private static readonly Color SeparatorLineColor = new Color(0.3f, 0.3f, 0.3f, 1f);
-
-		// Token: 0x04003B36 RID: 15158
-		private const float SeparatorLabelHeight = 20f;
-
-		// Token: 0x04003B37 RID: 15159
-		public const float ListSeparatorHeight = 25f;
-
-		// Token: 0x04003B38 RID: 15160
-		private static bool checkboxPainting = false;
-
-		// Token: 0x04003B39 RID: 15161
-		private static bool checkboxPaintingState = false;
-
-		// Token: 0x04003B3A RID: 15162
-		public static readonly Texture2D ButtonSubtleAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/ButtonSubtleAtlas", true);
-
-		// Token: 0x04003B3B RID: 15163
-		private static readonly Texture2D ButtonBarTex;
-
-		// Token: 0x04003B3C RID: 15164
-		public const float ButtonSubtleDefaultMarginPct = 0.15f;
-
-		// Token: 0x04003B3D RID: 15165
-		private static int buttonInvisibleDraggable_activeControl;
-
-		// Token: 0x04003B3E RID: 15166
-		private static bool buttonInvisibleDraggable_dragged;
-
-		// Token: 0x04003B3F RID: 15167
-		private static Vector3 buttonInvisibleDraggable_mouseStart;
-
-		// Token: 0x04003B40 RID: 15168
-		public const float RangeControlIdealHeight = 31f;
-
-		// Token: 0x04003B41 RID: 15169
-		public const float RangeControlCompactHeight = 28f;
-
-		// Token: 0x04003B42 RID: 15170
-		private const float RangeSliderSize = 16f;
-
-		// Token: 0x04003B43 RID: 15171
-		private static readonly Color RangeControlTextColor;
-
-		// Token: 0x04003B44 RID: 15172
-		private static int draggingId;
-
-		// Token: 0x04003B45 RID: 15173
-		private static Widgets.RangeEnd curDragEnd;
-
-		// Token: 0x04003B46 RID: 15174
-		private static float lastDragSliderSoundTime;
-
-		// Token: 0x04003B47 RID: 15175
-		private static float FillableBarChangeRateDisplayRatio;
-
-		// Token: 0x04003B48 RID: 15176
-		public static int MaxFillableBarChangeRate;
-
-		// Token: 0x04003B49 RID: 15177
-		private static readonly Color WindowBGBorderColor;
-
-		// Token: 0x04003B4A RID: 15178
-		public static readonly Color WindowBGFillColor;
-
-		// Token: 0x04003B4B RID: 15179
-		private static readonly Color MenuSectionBGFillColor;
-
-		// Token: 0x04003B4C RID: 15180
-		private static readonly Color MenuSectionBGBorderColor;
-
-		// Token: 0x04003B4D RID: 15181
-		private static readonly Color TutorWindowBGFillColor;
-
-		// Token: 0x04003B4E RID: 15182
-		private static readonly Color TutorWindowBGBorderColor;
-
-		// Token: 0x04003B4F RID: 15183
-		private static readonly Color OptionUnselectedBGFillColor;
-
-		// Token: 0x04003B50 RID: 15184
-		private static readonly Color OptionUnselectedBGBorderColor;
-
-		// Token: 0x04003B51 RID: 15185
-		private static readonly Color OptionSelectedBGFillColor;
-
-		// Token: 0x04003B52 RID: 15186
-		private static readonly Color OptionSelectedBGBorderColor;
-
-		// Token: 0x04003B53 RID: 15187
-		public const float InfoCardButtonSize = 24f;
-
-		// Token: 0x04003B54 RID: 15188
-		private static bool dropdownPainting;
-
-		// Token: 0x04003B55 RID: 15189
-		private static object dropdownPainting_Payload;
-
-		// Token: 0x04003B56 RID: 15190
-		private static Type dropdownPainting_Type;
-
-		// Token: 0x04003B57 RID: 15191
-		private static string dropdownPainting_Text;
-
-		// Token: 0x04003B58 RID: 15192
-		private static Texture2D dropdownPainting_Icon;
 
 		// Token: 0x02000EAF RID: 3759
 		public enum DraggableResult

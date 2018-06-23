@@ -7,6 +7,33 @@ namespace RimWorld
 	// Token: 0x02000242 RID: 578
 	public class CompProperties_Drug : CompProperties
 	{
+		// Token: 0x0400045F RID: 1119
+		public ChemicalDef chemical = null;
+
+		// Token: 0x04000460 RID: 1120
+		public float addictiveness = 0f;
+
+		// Token: 0x04000461 RID: 1121
+		public float minToleranceToAddict = 0f;
+
+		// Token: 0x04000462 RID: 1122
+		public float existingAddictionSeverityOffset = 0.1f;
+
+		// Token: 0x04000463 RID: 1123
+		public float needLevelOffset = 1f;
+
+		// Token: 0x04000464 RID: 1124
+		public FloatRange overdoseSeverityOffset = FloatRange.Zero;
+
+		// Token: 0x04000465 RID: 1125
+		public float largeOverdoseChance = 0f;
+
+		// Token: 0x04000466 RID: 1126
+		public bool isCombatEnhancingDrug = false;
+
+		// Token: 0x04000467 RID: 1127
+		public float listOrder = 0f;
+
 		// Token: 0x06000A6B RID: 2667 RVA: 0x0005E820 File Offset: 0x0005CC20
 		public CompProperties_Drug()
 		{
@@ -60,32 +87,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x0400045F RID: 1119
-		public ChemicalDef chemical = null;
-
-		// Token: 0x04000460 RID: 1120
-		public float addictiveness = 0f;
-
-		// Token: 0x04000461 RID: 1121
-		public float minToleranceToAddict = 0f;
-
-		// Token: 0x04000462 RID: 1122
-		public float existingAddictionSeverityOffset = 0.1f;
-
-		// Token: 0x04000463 RID: 1123
-		public float needLevelOffset = 1f;
-
-		// Token: 0x04000464 RID: 1124
-		public FloatRange overdoseSeverityOffset = FloatRange.Zero;
-
-		// Token: 0x04000465 RID: 1125
-		public float largeOverdoseChance = 0f;
-
-		// Token: 0x04000466 RID: 1126
-		public bool isCombatEnhancingDrug = false;
-
-		// Token: 0x04000467 RID: 1127
-		public float listOrder = 0f;
 	}
 }

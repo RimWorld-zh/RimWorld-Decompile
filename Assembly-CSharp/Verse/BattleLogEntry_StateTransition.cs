@@ -9,6 +9,27 @@ namespace Verse
 	// Token: 0x02000BC0 RID: 3008
 	public class BattleLogEntry_StateTransition : LogEntry
 	{
+		// Token: 0x04002CB0 RID: 11440
+		private RulePackDef transitionDef;
+
+		// Token: 0x04002CB1 RID: 11441
+		private Pawn subjectPawn;
+
+		// Token: 0x04002CB2 RID: 11442
+		private ThingDef subjectThing;
+
+		// Token: 0x04002CB3 RID: 11443
+		private Pawn initiator;
+
+		// Token: 0x04002CB4 RID: 11444
+		private HediffDef culpritHediffDef;
+
+		// Token: 0x04002CB5 RID: 11445
+		private BodyPartRecord culpritHediffTargetPart;
+
+		// Token: 0x04002CB6 RID: 11446
+		private BodyPartRecord culpritTargetPart;
+
 		// Token: 0x0600416C RID: 16748 RVA: 0x002289B0 File Offset: 0x00226DB0
 		public BattleLogEntry_StateTransition() : base(null)
 		{
@@ -154,26 +175,5 @@ namespace Verse
 		{
 			return this.transitionDef.defName + ": " + this.subjectPawn;
 		}
-
-		// Token: 0x04002CB0 RID: 11440
-		private RulePackDef transitionDef;
-
-		// Token: 0x04002CB1 RID: 11441
-		private Pawn subjectPawn;
-
-		// Token: 0x04002CB2 RID: 11442
-		private ThingDef subjectThing;
-
-		// Token: 0x04002CB3 RID: 11443
-		private Pawn initiator;
-
-		// Token: 0x04002CB4 RID: 11444
-		private HediffDef culpritHediffDef;
-
-		// Token: 0x04002CB5 RID: 11445
-		private BodyPartRecord culpritHediffTargetPart;
-
-		// Token: 0x04002CB6 RID: 11446
-		private BodyPartRecord culpritTargetPart;
 	}
 }

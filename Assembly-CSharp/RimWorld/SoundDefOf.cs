@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class SoundDefOf
 	{
-		// Token: 0x0600361B RID: 13851 RVA: 0x001D08A3 File Offset: 0x001CECA3
-		static SoundDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(SoundDefOf));
-		}
-
 		// Token: 0x04001DFD RID: 7677
 		public static SoundDef Tick_High;
 
@@ -402,5 +396,11 @@ namespace RimWorld
 
 		// Token: 0x04001E7E RID: 7806
 		public static SoundDef PlanetkillerImpact;
+
+		// Token: 0x0600361B RID: 13851 RVA: 0x001D08A3 File Offset: 0x001CECA3
+		static SoundDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(SoundDefOf));
+		}
 	}
 }

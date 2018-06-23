@@ -7,6 +7,9 @@ namespace RimWorld.Planet
 	// Token: 0x020005CD RID: 1485
 	public class CaravanArrivalAction_VisitPeaceTalks : CaravanArrivalAction
 	{
+		// Token: 0x04001154 RID: 4436
+		private PeaceTalks peaceTalks;
+
 		// Token: 0x06001CE6 RID: 7398 RVA: 0x000F7D40 File Offset: 0x000F6140
 		public CaravanArrivalAction_VisitPeaceTalks()
 		{
@@ -91,8 +94,5 @@ namespace RimWorld.Planet
 				peaceTalks.Label
 			}), caravan, peaceTalks.Tile, peaceTalks);
 		}
-
-		// Token: 0x04001154 RID: 4436
-		private PeaceTalks peaceTalks;
 	}
 }

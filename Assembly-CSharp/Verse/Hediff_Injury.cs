@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000D2A RID: 3370
 	public class Hediff_Injury : HediffWithComps
 	{
+		// Token: 0x0400323E RID: 12862
+		private static readonly Color PermanentInjuryColor = new Color(0.72f, 0.72f, 0.72f);
+
 		// Token: 0x17000BD3 RID: 3027
 		// (get) Token: 0x06004A48 RID: 19016 RVA: 0x0026C2E8 File Offset: 0x0026A6E8
 		public override int UIGroupKey
@@ -262,8 +265,5 @@ namespace Verse
 				this.pawn.health.hediffSet.hediffs.Remove(this);
 			}
 		}
-
-		// Token: 0x0400323E RID: 12862
-		private static readonly Color PermanentInjuryColor = new Color(0.72f, 0.72f, 0.72f);
 	}
 }

@@ -9,6 +9,18 @@ namespace RimWorld
 	// Token: 0x02000636 RID: 1590
 	public class ScenPart_PawnModifier : ScenPart
 	{
+		// Token: 0x040012CC RID: 4812
+		protected float chance = 1f;
+
+		// Token: 0x040012CD RID: 4813
+		protected PawnGenerationContext context = PawnGenerationContext.All;
+
+		// Token: 0x040012CE RID: 4814
+		protected bool hideOffMap;
+
+		// Token: 0x040012CF RID: 4815
+		private string chanceBuf;
+
 		// Token: 0x060020D3 RID: 8403 RVA: 0x00117A14 File Offset: 0x00115E14
 		public override void ExposeData()
 		{
@@ -133,17 +145,5 @@ namespace RimWorld
 		protected virtual void ModifyHideOffMapStartingPawnPostMapGenerate(Pawn p)
 		{
 		}
-
-		// Token: 0x040012CC RID: 4812
-		protected float chance = 1f;
-
-		// Token: 0x040012CD RID: 4813
-		protected PawnGenerationContext context = PawnGenerationContext.All;
-
-		// Token: 0x040012CE RID: 4814
-		protected bool hideOffMap;
-
-		// Token: 0x040012CF RID: 4815
-		private string chanceBuf;
 	}
 }

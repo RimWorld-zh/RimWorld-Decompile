@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x0200033B RID: 827
 	public class IncidentWorker_RefugeeChased : IncidentWorker
 	{
+		// Token: 0x040008E3 RID: 2275
+		private static readonly IntRange RaidDelay = new IntRange(1000, 2500);
+
+		// Token: 0x040008E4 RID: 2276
+		private const float RaidPointsFactor = 1.35f;
+
+		// Token: 0x040008E5 RID: 2277
+		private const float RelationWithColonistWeight = 20f;
+
 		// Token: 0x06000E20 RID: 3616 RVA: 0x000783F4 File Offset: 0x000767F4
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
@@ -114,14 +123,5 @@ namespace RimWorld
 			where !f.def.hidden && !f.defeated && f.HostileTo(Faction.OfPlayer)
 			select f).TryRandomElement(out enemyFac);
 		}
-
-		// Token: 0x040008E3 RID: 2275
-		private static readonly IntRange RaidDelay = new IntRange(1000, 2500);
-
-		// Token: 0x040008E4 RID: 2276
-		private const float RaidPointsFactor = 1.35f;
-
-		// Token: 0x040008E5 RID: 2277
-		private const float RelationWithColonistWeight = 20f;
 	}
 }

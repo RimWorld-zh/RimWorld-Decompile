@@ -9,6 +9,99 @@ namespace Verse
 	// Token: 0x02000ECA RID: 3786
 	public abstract class Window
 	{
+		// Token: 0x04003BD0 RID: 15312
+		public WindowLayer layer = WindowLayer.Dialog;
+
+		// Token: 0x04003BD1 RID: 15313
+		public string optionalTitle;
+
+		// Token: 0x04003BD2 RID: 15314
+		public bool doCloseX;
+
+		// Token: 0x04003BD3 RID: 15315
+		public bool doCloseButton;
+
+		// Token: 0x04003BD4 RID: 15316
+		public bool closeOnAccept = true;
+
+		// Token: 0x04003BD5 RID: 15317
+		public bool closeOnCancel = true;
+
+		// Token: 0x04003BD6 RID: 15318
+		public bool forceCatchAcceptAndCancelEventEvenIfUnfocused;
+
+		// Token: 0x04003BD7 RID: 15319
+		public bool closeOnClickedOutside;
+
+		// Token: 0x04003BD8 RID: 15320
+		public bool forcePause;
+
+		// Token: 0x04003BD9 RID: 15321
+		public bool preventCameraMotion = true;
+
+		// Token: 0x04003BDA RID: 15322
+		public bool preventDrawTutor;
+
+		// Token: 0x04003BDB RID: 15323
+		public bool doWindowBackground = true;
+
+		// Token: 0x04003BDC RID: 15324
+		public bool onlyOneOfTypeAllowed = true;
+
+		// Token: 0x04003BDD RID: 15325
+		public bool absorbInputAroundWindow;
+
+		// Token: 0x04003BDE RID: 15326
+		public bool resizeable;
+
+		// Token: 0x04003BDF RID: 15327
+		public bool draggable;
+
+		// Token: 0x04003BE0 RID: 15328
+		public bool drawShadow = true;
+
+		// Token: 0x04003BE1 RID: 15329
+		public bool focusWhenOpened = true;
+
+		// Token: 0x04003BE2 RID: 15330
+		public float shadowAlpha = 1f;
+
+		// Token: 0x04003BE3 RID: 15331
+		public SoundDef soundAppear;
+
+		// Token: 0x04003BE4 RID: 15332
+		public SoundDef soundClose;
+
+		// Token: 0x04003BE5 RID: 15333
+		public SoundDef soundAmbient;
+
+		// Token: 0x04003BE6 RID: 15334
+		public bool silenceAmbientSound = false;
+
+		// Token: 0x04003BE7 RID: 15335
+		protected const float StandardMargin = 18f;
+
+		// Token: 0x04003BE8 RID: 15336
+		protected readonly Vector2 CloseButSize = new Vector2(120f, 40f);
+
+		// Token: 0x04003BE9 RID: 15337
+		public int ID;
+
+		// Token: 0x04003BEA RID: 15338
+		public Rect windowRect;
+
+		// Token: 0x04003BEB RID: 15339
+		private Sustainer sustainerAmbient;
+
+		// Token: 0x04003BEC RID: 15340
+		private WindowResizer resizer;
+
+		// Token: 0x04003BED RID: 15341
+		private bool resizeLater;
+
+		// Token: 0x04003BEE RID: 15342
+		private Rect resizeLaterRect;
+
 		// Token: 0x06005987 RID: 22919 RVA: 0x00067690 File Offset: 0x00065A90
 		public Window()
 		{
@@ -279,98 +372,5 @@ namespace Verse
 		{
 			this.SetInitialSizeAndPosition();
 		}
-
-		// Token: 0x04003BD0 RID: 15312
-		public WindowLayer layer = WindowLayer.Dialog;
-
-		// Token: 0x04003BD1 RID: 15313
-		public string optionalTitle;
-
-		// Token: 0x04003BD2 RID: 15314
-		public bool doCloseX;
-
-		// Token: 0x04003BD3 RID: 15315
-		public bool doCloseButton;
-
-		// Token: 0x04003BD4 RID: 15316
-		public bool closeOnAccept = true;
-
-		// Token: 0x04003BD5 RID: 15317
-		public bool closeOnCancel = true;
-
-		// Token: 0x04003BD6 RID: 15318
-		public bool forceCatchAcceptAndCancelEventEvenIfUnfocused;
-
-		// Token: 0x04003BD7 RID: 15319
-		public bool closeOnClickedOutside;
-
-		// Token: 0x04003BD8 RID: 15320
-		public bool forcePause;
-
-		// Token: 0x04003BD9 RID: 15321
-		public bool preventCameraMotion = true;
-
-		// Token: 0x04003BDA RID: 15322
-		public bool preventDrawTutor;
-
-		// Token: 0x04003BDB RID: 15323
-		public bool doWindowBackground = true;
-
-		// Token: 0x04003BDC RID: 15324
-		public bool onlyOneOfTypeAllowed = true;
-
-		// Token: 0x04003BDD RID: 15325
-		public bool absorbInputAroundWindow;
-
-		// Token: 0x04003BDE RID: 15326
-		public bool resizeable;
-
-		// Token: 0x04003BDF RID: 15327
-		public bool draggable;
-
-		// Token: 0x04003BE0 RID: 15328
-		public bool drawShadow = true;
-
-		// Token: 0x04003BE1 RID: 15329
-		public bool focusWhenOpened = true;
-
-		// Token: 0x04003BE2 RID: 15330
-		public float shadowAlpha = 1f;
-
-		// Token: 0x04003BE3 RID: 15331
-		public SoundDef soundAppear;
-
-		// Token: 0x04003BE4 RID: 15332
-		public SoundDef soundClose;
-
-		// Token: 0x04003BE5 RID: 15333
-		public SoundDef soundAmbient;
-
-		// Token: 0x04003BE6 RID: 15334
-		public bool silenceAmbientSound = false;
-
-		// Token: 0x04003BE7 RID: 15335
-		protected const float StandardMargin = 18f;
-
-		// Token: 0x04003BE8 RID: 15336
-		protected readonly Vector2 CloseButSize = new Vector2(120f, 40f);
-
-		// Token: 0x04003BE9 RID: 15337
-		public int ID;
-
-		// Token: 0x04003BEA RID: 15338
-		public Rect windowRect;
-
-		// Token: 0x04003BEB RID: 15339
-		private Sustainer sustainerAmbient;
-
-		// Token: 0x04003BEC RID: 15340
-		private WindowResizer resizer;
-
-		// Token: 0x04003BED RID: 15341
-		private bool resizeLater;
-
-		// Token: 0x04003BEE RID: 15342
-		private Rect resizeLaterRect;
 	}
 }

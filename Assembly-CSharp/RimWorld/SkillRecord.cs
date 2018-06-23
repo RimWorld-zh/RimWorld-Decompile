@@ -7,6 +7,71 @@ namespace RimWorld
 	// Token: 0x02000523 RID: 1315
 	public class SkillRecord : IExposable
 	{
+		// Token: 0x04000E43 RID: 3651
+		private Pawn pawn;
+
+		// Token: 0x04000E44 RID: 3652
+		public SkillDef def;
+
+		// Token: 0x04000E45 RID: 3653
+		public int levelInt = 0;
+
+		// Token: 0x04000E46 RID: 3654
+		public Passion passion = Passion.None;
+
+		// Token: 0x04000E47 RID: 3655
+		public float xpSinceLastLevel;
+
+		// Token: 0x04000E48 RID: 3656
+		public float xpSinceMidnight;
+
+		// Token: 0x04000E49 RID: 3657
+		private BoolUnknown cachedTotallyDisabled = BoolUnknown.Unknown;
+
+		// Token: 0x04000E4A RID: 3658
+		public const int IntervalTicks = 200;
+
+		// Token: 0x04000E4B RID: 3659
+		public const int MinLevel = 0;
+
+		// Token: 0x04000E4C RID: 3660
+		public const int MaxLevel = 20;
+
+		// Token: 0x04000E4D RID: 3661
+		public const int MaxFullRateXpPerDay = 4000;
+
+		// Token: 0x04000E4E RID: 3662
+		public const int MasterSkillThreshold = 14;
+
+		// Token: 0x04000E4F RID: 3663
+		public const float SaturatedLearningFactor = 0.2f;
+
+		// Token: 0x04000E50 RID: 3664
+		public const float LearnFactorPassionNone = 0.35f;
+
+		// Token: 0x04000E51 RID: 3665
+		public const float LearnFactorPassionMinor = 1f;
+
+		// Token: 0x04000E52 RID: 3666
+		public const float LearnFactorPassionMajor = 1.5f;
+
+		// Token: 0x04000E53 RID: 3667
+		private static readonly SimpleCurve XpForLevelUpCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 1000f),
+				true
+			},
+			{
+				new CurvePoint(9f, 10000f),
+				true
+			},
+			{
+				new CurvePoint(19f, 30000f),
+				true
+			}
+		};
+
 		// Token: 0x06001803 RID: 6147 RVA: 0x000D1EA1 File Offset: 0x000D02A1
 		public SkillRecord()
 		{
@@ -387,70 +452,5 @@ namespace RimWorld
 				"xp)"
 			});
 		}
-
-		// Token: 0x04000E43 RID: 3651
-		private Pawn pawn;
-
-		// Token: 0x04000E44 RID: 3652
-		public SkillDef def;
-
-		// Token: 0x04000E45 RID: 3653
-		public int levelInt = 0;
-
-		// Token: 0x04000E46 RID: 3654
-		public Passion passion = Passion.None;
-
-		// Token: 0x04000E47 RID: 3655
-		public float xpSinceLastLevel;
-
-		// Token: 0x04000E48 RID: 3656
-		public float xpSinceMidnight;
-
-		// Token: 0x04000E49 RID: 3657
-		private BoolUnknown cachedTotallyDisabled = BoolUnknown.Unknown;
-
-		// Token: 0x04000E4A RID: 3658
-		public const int IntervalTicks = 200;
-
-		// Token: 0x04000E4B RID: 3659
-		public const int MinLevel = 0;
-
-		// Token: 0x04000E4C RID: 3660
-		public const int MaxLevel = 20;
-
-		// Token: 0x04000E4D RID: 3661
-		public const int MaxFullRateXpPerDay = 4000;
-
-		// Token: 0x04000E4E RID: 3662
-		public const int MasterSkillThreshold = 14;
-
-		// Token: 0x04000E4F RID: 3663
-		public const float SaturatedLearningFactor = 0.2f;
-
-		// Token: 0x04000E50 RID: 3664
-		public const float LearnFactorPassionNone = 0.35f;
-
-		// Token: 0x04000E51 RID: 3665
-		public const float LearnFactorPassionMinor = 1f;
-
-		// Token: 0x04000E52 RID: 3666
-		public const float LearnFactorPassionMajor = 1.5f;
-
-		// Token: 0x04000E53 RID: 3667
-		private static readonly SimpleCurve XpForLevelUpCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 1000f),
-				true
-			},
-			{
-				new CurvePoint(9f, 10000f),
-				true
-			},
-			{
-				new CurvePoint(19f, 30000f),
-				true
-			}
-		};
 	}
 }

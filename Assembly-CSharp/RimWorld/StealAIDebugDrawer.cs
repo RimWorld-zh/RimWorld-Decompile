@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x020000DB RID: 219
 	public static class StealAIDebugDrawer
 	{
+		// Token: 0x040002AF RID: 687
+		private static List<Thing> tmpToSteal = new List<Thing>();
+
+		// Token: 0x040002B0 RID: 688
+		private static BoolGrid debugDrawGrid;
+
+		// Token: 0x040002B1 RID: 689
+		private static Lord debugDrawLord = null;
+
 		// Token: 0x060004D0 RID: 1232 RVA: 0x00035CD4 File Offset: 0x000340D4
 		public static void DebugDraw()
 		{
@@ -144,14 +153,5 @@ namespace RimWorld
 				StealAIDebugDrawer.debugDrawGrid.ClearAndResizeTo(Find.CurrentMap);
 			}
 		}
-
-		// Token: 0x040002AF RID: 687
-		private static List<Thing> tmpToSteal = new List<Thing>();
-
-		// Token: 0x040002B0 RID: 688
-		private static BoolGrid debugDrawGrid;
-
-		// Token: 0x040002B1 RID: 689
-		private static Lord debugDrawLord = null;
 	}
 }

@@ -6,6 +6,15 @@ namespace Ionic.Zlib
 	// Token: 0x02000009 RID: 9
 	public class DeflateStream : Stream
 	{
+		// Token: 0x04000065 RID: 101
+		internal ZlibBaseStream _baseStream;
+
+		// Token: 0x04000066 RID: 102
+		internal Stream _innerStream;
+
+		// Token: 0x04000067 RID: 103
+		private bool _disposed;
+
 		// Token: 0x0600005C RID: 92 RVA: 0x000055DC File Offset: 0x000039DC
 		public DeflateStream(Stream stream, CompressionMode mode) : this(stream, mode, CompressionLevel.Default, false)
 		{
@@ -300,14 +309,5 @@ namespace Ionic.Zlib
 			}
 			return result;
 		}
-
-		// Token: 0x04000065 RID: 101
-		internal ZlibBaseStream _baseStream;
-
-		// Token: 0x04000066 RID: 102
-		internal Stream _innerStream;
-
-		// Token: 0x04000067 RID: 103
-		private bool _disposed;
 	}
 }

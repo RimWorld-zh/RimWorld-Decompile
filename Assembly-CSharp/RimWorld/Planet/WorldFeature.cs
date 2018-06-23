@@ -8,6 +8,72 @@ namespace RimWorld.Planet
 	// Token: 0x02000570 RID: 1392
 	public class WorldFeature : IExposable, ILoadReferenceable
 	{
+		// Token: 0x04000F66 RID: 3942
+		public int uniqueID;
+
+		// Token: 0x04000F67 RID: 3943
+		public FeatureDef def;
+
+		// Token: 0x04000F68 RID: 3944
+		public string name;
+
+		// Token: 0x04000F69 RID: 3945
+		public Vector3 drawCenter;
+
+		// Token: 0x04000F6A RID: 3946
+		public float drawAngle;
+
+		// Token: 0x04000F6B RID: 3947
+		public float maxDrawSizeInTiles;
+
+		// Token: 0x04000F6C RID: 3948
+		public float alpha;
+
+		// Token: 0x04000F6D RID: 3949
+		protected static SimpleCurve EffectiveDrawSizeCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(10f, 15f),
+				true
+			},
+			{
+				new CurvePoint(25f, 40f),
+				true
+			},
+			{
+				new CurvePoint(50f, 100f),
+				true
+			},
+			{
+				new CurvePoint(100f, 200f),
+				true
+			},
+			{
+				new CurvePoint(200f, 400f),
+				true
+			}
+		};
+
+		// Token: 0x04000F6E RID: 3950
+		[TweakValue("Interface.World", 0f, 40f)]
+		protected static float FeatureSizePoint10 = 15f;
+
+		// Token: 0x04000F6F RID: 3951
+		[TweakValue("Interface.World", 0f, 100f)]
+		protected static float FeatureSizePoint25 = 40f;
+
+		// Token: 0x04000F70 RID: 3952
+		[TweakValue("Interface.World", 0f, 200f)]
+		protected static float FeatureSizePoint50 = 100f;
+
+		// Token: 0x04000F71 RID: 3953
+		[TweakValue("Interface.World", 0f, 400f)]
+		protected static float FeatureSizePoint100 = 200f;
+
+		// Token: 0x04000F72 RID: 3954
+		[TweakValue("Interface.World", 0f, 800f)]
+		protected static float FeatureSizePoint200 = 400f;
+
 		// Token: 0x06001A63 RID: 6755 RVA: 0x000E4843 File Offset: 0x000E2C43
 		protected static void FeatureSizePoint10_Changed()
 		{
@@ -99,71 +165,5 @@ namespace RimWorld.Planet
 				yield break;
 			}
 		}
-
-		// Token: 0x04000F66 RID: 3942
-		public int uniqueID;
-
-		// Token: 0x04000F67 RID: 3943
-		public FeatureDef def;
-
-		// Token: 0x04000F68 RID: 3944
-		public string name;
-
-		// Token: 0x04000F69 RID: 3945
-		public Vector3 drawCenter;
-
-		// Token: 0x04000F6A RID: 3946
-		public float drawAngle;
-
-		// Token: 0x04000F6B RID: 3947
-		public float maxDrawSizeInTiles;
-
-		// Token: 0x04000F6C RID: 3948
-		public float alpha;
-
-		// Token: 0x04000F6D RID: 3949
-		protected static SimpleCurve EffectiveDrawSizeCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(10f, 15f),
-				true
-			},
-			{
-				new CurvePoint(25f, 40f),
-				true
-			},
-			{
-				new CurvePoint(50f, 100f),
-				true
-			},
-			{
-				new CurvePoint(100f, 200f),
-				true
-			},
-			{
-				new CurvePoint(200f, 400f),
-				true
-			}
-		};
-
-		// Token: 0x04000F6E RID: 3950
-		[TweakValue("Interface.World", 0f, 40f)]
-		protected static float FeatureSizePoint10 = 15f;
-
-		// Token: 0x04000F6F RID: 3951
-		[TweakValue("Interface.World", 0f, 100f)]
-		protected static float FeatureSizePoint25 = 40f;
-
-		// Token: 0x04000F70 RID: 3952
-		[TweakValue("Interface.World", 0f, 200f)]
-		protected static float FeatureSizePoint50 = 100f;
-
-		// Token: 0x04000F71 RID: 3953
-		[TweakValue("Interface.World", 0f, 400f)]
-		protected static float FeatureSizePoint100 = 200f;
-
-		// Token: 0x04000F72 RID: 3954
-		[TweakValue("Interface.World", 0f, 800f)]
-		protected static float FeatureSizePoint200 = 400f;
 	}
 }

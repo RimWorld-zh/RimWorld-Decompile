@@ -10,6 +10,51 @@ namespace Verse
 	// Token: 0x02000E54 RID: 3668
 	public class FloatMenu : Window
 	{
+		// Token: 0x0400392C RID: 14636
+		public bool givesColonistOrders = false;
+
+		// Token: 0x0400392D RID: 14637
+		public bool vanishIfMouseDistant = true;
+
+		// Token: 0x0400392E RID: 14638
+		public Action onCloseCallback = null;
+
+		// Token: 0x0400392F RID: 14639
+		protected List<FloatMenuOption> options;
+
+		// Token: 0x04003930 RID: 14640
+		private string title = null;
+
+		// Token: 0x04003931 RID: 14641
+		private bool needSelection = false;
+
+		// Token: 0x04003932 RID: 14642
+		private Color baseColor = Color.white;
+
+		// Token: 0x04003933 RID: 14643
+		private Vector2 scrollPosition;
+
+		// Token: 0x04003934 RID: 14644
+		private static readonly Vector2 TitleOffset = new Vector2(30f, -25f);
+
+		// Token: 0x04003935 RID: 14645
+		private const float OptionSpacing = -1f;
+
+		// Token: 0x04003936 RID: 14646
+		private const float MaxScreenHeightPercent = 0.9f;
+
+		// Token: 0x04003937 RID: 14647
+		private const float MinimumColumnWidth = 70f;
+
+		// Token: 0x04003938 RID: 14648
+		private static readonly Vector2 InitialPositionShift = new Vector2(4f, 0f);
+
+		// Token: 0x04003939 RID: 14649
+		private const float FadeStartMouseDist = 5f;
+
+		// Token: 0x0400393A RID: 14650
+		private const float FadeFinishMouseDist = 100f;
+
 		// Token: 0x06005672 RID: 22130 RVA: 0x002C9740 File Offset: 0x002C7B40
 		public FloatMenu(List<FloatMenuOption> options)
 		{
@@ -391,50 +436,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x0400392C RID: 14636
-		public bool givesColonistOrders = false;
-
-		// Token: 0x0400392D RID: 14637
-		public bool vanishIfMouseDistant = true;
-
-		// Token: 0x0400392E RID: 14638
-		public Action onCloseCallback = null;
-
-		// Token: 0x0400392F RID: 14639
-		protected List<FloatMenuOption> options;
-
-		// Token: 0x04003930 RID: 14640
-		private string title = null;
-
-		// Token: 0x04003931 RID: 14641
-		private bool needSelection = false;
-
-		// Token: 0x04003932 RID: 14642
-		private Color baseColor = Color.white;
-
-		// Token: 0x04003933 RID: 14643
-		private Vector2 scrollPosition;
-
-		// Token: 0x04003934 RID: 14644
-		private static readonly Vector2 TitleOffset = new Vector2(30f, -25f);
-
-		// Token: 0x04003935 RID: 14645
-		private const float OptionSpacing = -1f;
-
-		// Token: 0x04003936 RID: 14646
-		private const float MaxScreenHeightPercent = 0.9f;
-
-		// Token: 0x04003937 RID: 14647
-		private const float MinimumColumnWidth = 70f;
-
-		// Token: 0x04003938 RID: 14648
-		private static readonly Vector2 InitialPositionShift = new Vector2(4f, 0f);
-
-		// Token: 0x04003939 RID: 14649
-		private const float FadeStartMouseDist = 5f;
-
-		// Token: 0x0400393A RID: 14650
-		private const float FadeFinishMouseDist = 100f;
 	}
 }

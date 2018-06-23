@@ -7,6 +7,18 @@ namespace Verse
 	// Token: 0x02000C0A RID: 3082
 	public class Designation : IExposable
 	{
+		// Token: 0x04002E17 RID: 11799
+		public DesignationManager designationManager;
+
+		// Token: 0x04002E18 RID: 11800
+		public DesignationDef def;
+
+		// Token: 0x04002E19 RID: 11801
+		public LocalTargetInfo target;
+
+		// Token: 0x04002E1A RID: 11802
+		public const float ClaimedDesignationDrawAltitude = 15f;
+
 		// Token: 0x06004364 RID: 17252 RVA: 0x00239B34 File Offset: 0x00237F34
 		public Designation()
 		{
@@ -109,17 +121,5 @@ namespace Verse
 				")"
 			}), new object[0]);
 		}
-
-		// Token: 0x04002E17 RID: 11799
-		public DesignationManager designationManager;
-
-		// Token: 0x04002E18 RID: 11800
-		public DesignationDef def;
-
-		// Token: 0x04002E19 RID: 11801
-		public LocalTargetInfo target;
-
-		// Token: 0x04002E1A RID: 11802
-		public const float ClaimedDesignationDrawAltitude = 15f;
 	}
 }

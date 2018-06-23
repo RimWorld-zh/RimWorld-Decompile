@@ -7,6 +7,19 @@ namespace RimWorld
 	// Token: 0x020002DB RID: 731
 	public class StorytellerCompProperties
 	{
+		// Token: 0x0400077A RID: 1914
+		[TranslationHandle]
+		public Type compClass;
+
+		// Token: 0x0400077B RID: 1915
+		public float minDaysPassed = 0f;
+
+		// Token: 0x0400077C RID: 1916
+		public List<IncidentTargetTypeDef> allowedTargetTypes = null;
+
+		// Token: 0x0400077D RID: 1917
+		public float minIncChancePopulationIntentFactor = 0.05f;
+
 		// Token: 0x06000C11 RID: 3089 RVA: 0x0006B3A4 File Offset: 0x000697A4
 		public StorytellerCompProperties()
 		{
@@ -32,18 +45,5 @@ namespace RimWorld
 		public virtual void ResolveReferences(StorytellerDef parentDef)
 		{
 		}
-
-		// Token: 0x0400077A RID: 1914
-		[TranslationHandle]
-		public Type compClass;
-
-		// Token: 0x0400077B RID: 1915
-		public float minDaysPassed = 0f;
-
-		// Token: 0x0400077C RID: 1916
-		public List<IncidentTargetTypeDef> allowedTargetTypes = null;
-
-		// Token: 0x0400077D RID: 1917
-		public float minIncChancePopulationIntentFactor = 0.05f;
 	}
 }

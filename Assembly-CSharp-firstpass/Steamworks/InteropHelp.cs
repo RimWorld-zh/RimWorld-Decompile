@@ -97,6 +97,15 @@ namespace Steamworks
 		// Token: 0x0200002E RID: 46
 		public class SteamParamStringArray
 		{
+			// Token: 0x0400003B RID: 59
+			private IntPtr[] m_Strings;
+
+			// Token: 0x0400003C RID: 60
+			private IntPtr m_ptrStrings;
+
+			// Token: 0x0400003D RID: 61
+			private IntPtr m_pSteamParamStringArray;
+
 			// Token: 0x060000B2 RID: 178 RVA: 0x00003058 File Offset: 0x00001258
 			public SteamParamStringArray(IList<string> strings)
 			{
@@ -155,15 +164,6 @@ namespace Steamworks
 			{
 				return that.m_pSteamParamStringArray;
 			}
-
-			// Token: 0x0400003B RID: 59
-			private IntPtr[] m_Strings;
-
-			// Token: 0x0400003C RID: 60
-			private IntPtr m_ptrStrings;
-
-			// Token: 0x0400003D RID: 61
-			private IntPtr m_pSteamParamStringArray;
 		}
 	}
 }

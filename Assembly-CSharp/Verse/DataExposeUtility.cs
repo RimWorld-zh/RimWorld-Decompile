@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000EDD RID: 3805
 	public static class DataExposeUtility
 	{
+		// Token: 0x04003C73 RID: 15475
+		private const int NewlineInterval = 100;
+
 		// Token: 0x06005A17 RID: 23063 RVA: 0x002E3E90 File Offset: 0x002E2290
 		public static void ByteArray(ref byte[] arr, string label)
 		{
@@ -148,8 +151,5 @@ namespace Verse
 		{
 			return str.Replace("\n", "").Replace("\r", "");
 		}
-
-		// Token: 0x04003C73 RID: 15475
-		private const int NewlineInterval = 100;
 	}
 }

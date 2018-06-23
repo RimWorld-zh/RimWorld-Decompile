@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000DE5 RID: 3557
 	public class RealtimeMoteList
 	{
+		// Token: 0x040034D6 RID: 13526
+		public List<Mote> allMotes = new List<Mote>();
+
 		// Token: 0x06004FB9 RID: 20409 RVA: 0x00297255 File Offset: 0x00295655
 		public void Clear()
 		{
@@ -32,8 +35,5 @@ namespace Verse
 				this.allMotes[i].RealtimeUpdate();
 			}
 		}
-
-		// Token: 0x040034D6 RID: 13526
-		public List<Mote> allMotes = new List<Mote>();
 	}
 }

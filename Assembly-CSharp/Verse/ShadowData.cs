@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000C4F RID: 3151
 	public class ShadowData
 	{
+		// Token: 0x04002F75 RID: 12149
+		public Vector3 volume = Vector3.one;
+
+		// Token: 0x04002F76 RID: 12150
+		public Vector3 offset = Vector3.zero;
+
 		// Token: 0x17000AF4 RID: 2804
 		// (get) Token: 0x0600456E RID: 17774 RVA: 0x0024BA8C File Offset: 0x00249E8C
 		public float BaseX
@@ -35,11 +41,5 @@ namespace Verse
 				return this.volume.z;
 			}
 		}
-
-		// Token: 0x04002F75 RID: 12149
-		public Vector3 volume = Vector3.one;
-
-		// Token: 0x04002F76 RID: 12150
-		public Vector3 offset = Vector3.zero;
 	}
 }

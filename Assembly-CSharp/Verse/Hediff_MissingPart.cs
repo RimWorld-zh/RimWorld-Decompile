@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000D2B RID: 3371
 	public class Hediff_MissingPart : HediffWithComps
 	{
+		// Token: 0x0400323F RID: 12863
+		public HediffDef lastInjury = null;
+
+		// Token: 0x04003240 RID: 12864
+		private bool isFreshInt = false;
+
 		// Token: 0x17000BDD RID: 3037
 		// (get) Token: 0x06004A58 RID: 19032 RVA: 0x0026C934 File Offset: 0x0026AD34
 		public override float SummaryHealthPercentImpact
@@ -234,11 +240,5 @@ namespace Verse
 				this.pawn.health.hediffSet.hediffs.Remove(this);
 			}
 		}
-
-		// Token: 0x0400323F RID: 12863
-		public HediffDef lastInjury = null;
-
-		// Token: 0x04003240 RID: 12864
-		private bool isFreshInt = false;
 	}
 }

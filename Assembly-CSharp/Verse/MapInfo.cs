@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000C55 RID: 3157
 	public sealed class MapInfo : IExposable
 	{
+		// Token: 0x04002F7C RID: 12156
+		private IntVec3 sizeInt;
+
+		// Token: 0x04002F7D RID: 12157
+		public MapParent parent;
+
 		// Token: 0x17000AF8 RID: 2808
 		// (get) Token: 0x06004582 RID: 17794 RVA: 0x0024C2B8 File Offset: 0x0024A6B8
 		public int Tile
@@ -47,11 +53,5 @@ namespace Verse
 			Scribe_Values.Look<IntVec3>(ref this.sizeInt, "size", default(IntVec3), false);
 			Scribe_References.Look<MapParent>(ref this.parent, "parent", false);
 		}
-
-		// Token: 0x04002F7C RID: 12156
-		private IntVec3 sizeInt;
-
-		// Token: 0x04002F7D RID: 12157
-		public MapParent parent;
 	}
 }

@@ -10,6 +10,27 @@ namespace RimWorld
 	// Token: 0x0200031E RID: 798
 	public class IncidentWorker_CaravanDemand : IncidentWorker
 	{
+		// Token: 0x040008AE RID: 2222
+		private static readonly FloatRange DemandAsPercentageOfCaravan = new FloatRange(0.02f, 0.35f);
+
+		// Token: 0x040008AF RID: 2223
+		private const float IncidentPointsFactor = 1.5f;
+
+		// Token: 0x040008B0 RID: 2224
+		private const float DemandSilverWeight = 5f;
+
+		// Token: 0x040008B1 RID: 2225
+		private const float DemandAnimalWeight = 1f;
+
+		// Token: 0x040008B2 RID: 2226
+		private const float DemandPrisonerWeight = 1f;
+
+		// Token: 0x040008B3 RID: 2227
+		private const float DemandColonistWeight = 0.2f;
+
+		// Token: 0x040008B4 RID: 2228
+		private const float DemandFallbackWeight = 1f;
+
 		// Token: 0x06000D97 RID: 3479 RVA: 0x00074350 File Offset: 0x00072750
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
@@ -223,26 +244,5 @@ namespace RimWorld
 				CameraJumper.TryJump(attackers[0]);
 			}, "GeneratingMapForNewEncounter", false, null);
 		}
-
-		// Token: 0x040008AE RID: 2222
-		private static readonly FloatRange DemandAsPercentageOfCaravan = new FloatRange(0.02f, 0.35f);
-
-		// Token: 0x040008AF RID: 2223
-		private const float IncidentPointsFactor = 1.5f;
-
-		// Token: 0x040008B0 RID: 2224
-		private const float DemandSilverWeight = 5f;
-
-		// Token: 0x040008B1 RID: 2225
-		private const float DemandAnimalWeight = 1f;
-
-		// Token: 0x040008B2 RID: 2226
-		private const float DemandPrisonerWeight = 1f;
-
-		// Token: 0x040008B3 RID: 2227
-		private const float DemandColonistWeight = 0.2f;
-
-		// Token: 0x040008B4 RID: 2228
-		private const float DemandFallbackWeight = 1f;
 	}
 }

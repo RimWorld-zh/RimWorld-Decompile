@@ -7,6 +7,27 @@ namespace RimWorld
 	// Token: 0x0200035C RID: 860
 	public class StoryWatcher_RampUp : IExposable
 	{
+		// Token: 0x0400092B RID: 2347
+		private float shortTermFactor = 1f;
+
+		// Token: 0x0400092C RID: 2348
+		private float longTermFactor = 1f;
+
+		// Token: 0x0400092D RID: 2349
+		private const int UpdateInterval = 5000;
+
+		// Token: 0x0400092E RID: 2350
+		private const float ShortFactor_GameStartGraceDays = 21f;
+
+		// Token: 0x0400092F RID: 2351
+		private const float ShortFactor_DaysToDouble = 234f;
+
+		// Token: 0x04000930 RID: 2352
+		private const float LongFactor_GameStartGraceDays = 42f;
+
+		// Token: 0x04000931 RID: 2353
+		private const float LongFactor_DaysToDouble = 360f;
+
 		// Token: 0x17000216 RID: 534
 		// (get) Token: 0x06000EEC RID: 3820 RVA: 0x0007DDE8 File Offset: 0x0007C1E8
 		public float TotalThreatPointsFactor
@@ -143,26 +164,5 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.shortTermFactor, "shortTermFactor", 0f, false);
 			Scribe_Values.Look<float>(ref this.longTermFactor, "longTermFactor", 0f, false);
 		}
-
-		// Token: 0x0400092B RID: 2347
-		private float shortTermFactor = 1f;
-
-		// Token: 0x0400092C RID: 2348
-		private float longTermFactor = 1f;
-
-		// Token: 0x0400092D RID: 2349
-		private const int UpdateInterval = 5000;
-
-		// Token: 0x0400092E RID: 2350
-		private const float ShortFactor_GameStartGraceDays = 21f;
-
-		// Token: 0x0400092F RID: 2351
-		private const float ShortFactor_DaysToDouble = 234f;
-
-		// Token: 0x04000930 RID: 2352
-		private const float LongFactor_GameStartGraceDays = 42f;
-
-		// Token: 0x04000931 RID: 2353
-		private const float LongFactor_DaysToDouble = 360f;
 	}
 }

@@ -6,6 +6,21 @@ namespace Verse
 	// Token: 0x02000E97 RID: 3735
 	public static class DragSliderManager
 	{
+		// Token: 0x04003A4D RID: 14925
+		private static bool dragging = false;
+
+		// Token: 0x04003A4E RID: 14926
+		private static float rootX;
+
+		// Token: 0x04003A4F RID: 14927
+		private static float lastRateFactor = 1f;
+
+		// Token: 0x04003A50 RID: 14928
+		private static DragSliderCallback draggingUpdateMethod;
+
+		// Token: 0x04003A51 RID: 14929
+		private static DragSliderCallback completedMethod;
+
 		// Token: 0x06005828 RID: 22568 RVA: 0x002D3522 File Offset: 0x002D1922
 		public static void ForceStop()
 		{
@@ -72,20 +87,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04003A4D RID: 14925
-		private static bool dragging = false;
-
-		// Token: 0x04003A4E RID: 14926
-		private static float rootX;
-
-		// Token: 0x04003A4F RID: 14927
-		private static float lastRateFactor = 1f;
-
-		// Token: 0x04003A50 RID: 14928
-		private static DragSliderCallback draggingUpdateMethod;
-
-		// Token: 0x04003A51 RID: 14929
-		private static DragSliderCallback completedMethod;
 	}
 }

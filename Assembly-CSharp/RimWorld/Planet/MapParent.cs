@@ -11,6 +11,12 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public class MapParent : WorldObject, IThingHolder
 	{
+		// Token: 0x04001218 RID: 4632
+		private HashSet<IncidentTargetTypeDef> hibernatableIncidentTargets;
+
+		// Token: 0x04001219 RID: 4633
+		private static readonly Texture2D ShowMapCommand = ContentFinder<Texture2D>.Get("UI/Commands/ShowMap", true);
+
 		// Token: 0x1700047E RID: 1150
 		// (get) Token: 0x06001E8F RID: 7823 RVA: 0x00107B9C File Offset: 0x00105F9C
 		public bool HasMap
@@ -298,11 +304,5 @@ namespace RimWorld.Planet
 				}
 			}
 		}
-
-		// Token: 0x04001218 RID: 4632
-		private HashSet<IncidentTargetTypeDef> hibernatableIncidentTargets;
-
-		// Token: 0x04001219 RID: 4633
-		private static readonly Texture2D ShowMapCommand = ContentFinder<Texture2D>.Get("UI/Commands/ShowMap", true);
 	}
 }

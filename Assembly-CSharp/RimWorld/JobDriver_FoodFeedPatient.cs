@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x02000096 RID: 150
 	public class JobDriver_FoodFeedPatient : JobDriver
 	{
+		// Token: 0x04000258 RID: 600
+		private const TargetIndex FoodSourceInd = TargetIndex.A;
+
+		// Token: 0x04000259 RID: 601
+		private const TargetIndex DelivereeInd = TargetIndex.B;
+
+		// Token: 0x0400025A RID: 602
+		private const float FeedDurationMultiplier = 1.5f;
+
 		// Token: 0x170000C0 RID: 192
 		// (get) Token: 0x060003C6 RID: 966 RVA: 0x0002AEFC File Offset: 0x000292FC
 		protected Thing Food
@@ -89,14 +98,5 @@ namespace RimWorld
 			yield return Toils_Ingest.FinalizeIngest(this.Deliveree, TargetIndex.A);
 			yield break;
 		}
-
-		// Token: 0x04000258 RID: 600
-		private const TargetIndex FoodSourceInd = TargetIndex.A;
-
-		// Token: 0x04000259 RID: 601
-		private const TargetIndex DelivereeInd = TargetIndex.B;
-
-		// Token: 0x0400025A RID: 602
-		private const float FeedDurationMultiplier = 1.5f;
 	}
 }

@@ -9,6 +9,15 @@ namespace RimWorld
 	// Token: 0x0200065D RID: 1629
 	public class TaleData_Trader : TaleData
 	{
+		// Token: 0x0400135F RID: 4959
+		public string name;
+
+		// Token: 0x04001360 RID: 4960
+		public int pawnID = -1;
+
+		// Token: 0x04001361 RID: 4961
+		public Gender gender = Gender.Male;
+
 		// Token: 0x17000500 RID: 1280
 		// (get) Token: 0x0600220D RID: 8717 RVA: 0x001211EC File Offset: 0x0011F5EC
 		private bool IsPawn
@@ -92,14 +101,5 @@ namespace RimWorld
 			PawnComponentsUtility.AddAndRemoveDynamicComponents(pawn, true);
 			return TaleData_Trader.GenerateFrom(pawn);
 		}
-
-		// Token: 0x0400135F RID: 4959
-		public string name;
-
-		// Token: 0x04001360 RID: 4960
-		public int pawnID = -1;
-
-		// Token: 0x04001361 RID: 4961
-		public Gender gender = Gender.Male;
 	}
 }

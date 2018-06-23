@@ -8,6 +8,9 @@ namespace Verse
 	// Token: 0x02000CE5 RID: 3301
 	public static class PawnCollisionTweenerUtility
 	{
+		// Token: 0x04003142 RID: 12610
+		private const float Radius = 0.32f;
+
 		// Token: 0x060048C5 RID: 18629 RVA: 0x002630F4 File Offset: 0x002614F4
 		public static Vector3 PawnCollisionPosOffsetFor(Pawn pawn)
 		{
@@ -189,8 +192,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003142 RID: 12610
-		private const float Radius = 0.32f;
 	}
 }

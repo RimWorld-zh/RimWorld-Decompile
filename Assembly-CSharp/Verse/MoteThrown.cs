@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000DEC RID: 3564
 	public class MoteThrown : Mote
 	{
+		// Token: 0x040034F6 RID: 13558
+		public float airTimeLeft = 999999f;
+
+		// Token: 0x040034F7 RID: 13559
+		protected Vector3 velocity = Vector3.zero;
+
 		// Token: 0x17000CFD RID: 3325
 		// (get) Token: 0x06004FEC RID: 20460 RVA: 0x00297870 File Offset: 0x00295C70
 		protected bool Flying
@@ -165,11 +171,5 @@ namespace Verse
 			this.Speed = 0f;
 			this.rotationRate = 0f;
 		}
-
-		// Token: 0x040034F6 RID: 13558
-		public float airTimeLeft = 999999f;
-
-		// Token: 0x040034F7 RID: 13559
-		protected Vector3 velocity = Vector3.zero;
 	}
 }

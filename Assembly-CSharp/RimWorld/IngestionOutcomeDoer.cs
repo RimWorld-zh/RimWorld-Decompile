@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x0200026D RID: 621
 	public abstract class IngestionOutcomeDoer
 	{
+		// Token: 0x0400051B RID: 1307
+		public float chance = 1f;
+
+		// Token: 0x0400051C RID: 1308
+		public bool doToGeneratedPawnIfAddicted;
+
 		// Token: 0x06000AB1 RID: 2737 RVA: 0x00060D8B File Offset: 0x0005F18B
 		public void DoIngestionOutcome(Pawn pawn, Thing ingested)
 		{
@@ -24,11 +30,5 @@ namespace RimWorld
 		{
 			yield break;
 		}
-
-		// Token: 0x0400051B RID: 1307
-		public float chance = 1f;
-
-		// Token: 0x0400051C RID: 1308
-		public bool doToGeneratedPawnIfAddicted;
 	}
 }

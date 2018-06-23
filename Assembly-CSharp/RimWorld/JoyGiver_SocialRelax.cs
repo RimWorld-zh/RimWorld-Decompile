@@ -10,6 +10,23 @@ namespace RimWorld
 	// Token: 0x02000101 RID: 257
 	public class JoyGiver_SocialRelax : JoyGiver
 	{
+		// Token: 0x040002DD RID: 733
+		private static List<CompGatherSpot> workingSpots = new List<CompGatherSpot>();
+
+		// Token: 0x040002DE RID: 734
+		private const float GatherRadius = 3.9f;
+
+		// Token: 0x040002DF RID: 735
+		private static readonly int NumRadiusCells = GenRadial.NumCellsInRadius(3.9f);
+
+		// Token: 0x040002E0 RID: 736
+		private static readonly List<IntVec3> RadialPatternMiddleOutward = (from c in GenRadial.RadialPattern.Take(JoyGiver_SocialRelax.NumRadiusCells)
+		orderby Mathf.Abs((c - IntVec3.Zero).LengthHorizontal - 1.95f)
+		select c).ToList<IntVec3>();
+
+		// Token: 0x040002E1 RID: 737
+		private static List<ThingDef> nurseableDrugs = new List<ThingDef>();
+
 		// Token: 0x06000562 RID: 1378 RVA: 0x0003A808 File Offset: 0x00038C08
 		public override Job TryGiveJob(Pawn pawn)
 		{
@@ -190,22 +207,5 @@ namespace RimWorld
 			result = IntVec3.Invalid;
 			return false;
 		}
-
-		// Token: 0x040002DD RID: 733
-		private static List<CompGatherSpot> workingSpots = new List<CompGatherSpot>();
-
-		// Token: 0x040002DE RID: 734
-		private const float GatherRadius = 3.9f;
-
-		// Token: 0x040002DF RID: 735
-		private static readonly int NumRadiusCells = GenRadial.NumCellsInRadius(3.9f);
-
-		// Token: 0x040002E0 RID: 736
-		private static readonly List<IntVec3> RadialPatternMiddleOutward = (from c in GenRadial.RadialPattern.Take(JoyGiver_SocialRelax.NumRadiusCells)
-		orderby Mathf.Abs((c - IntVec3.Zero).LengthHorizontal - 1.95f)
-		select c).ToList<IntVec3>();
-
-		// Token: 0x040002E1 RID: 737
-		private static List<ThingDef> nurseableDrugs = new List<ThingDef>();
 	}
 }

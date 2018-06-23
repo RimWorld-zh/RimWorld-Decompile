@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x0200005F RID: 95
 	public abstract class JobDriver_VisitJoyThing : JobDriver
 	{
+		// Token: 0x040001FC RID: 508
+		protected const TargetIndex TargetThingIndex = TargetIndex.A;
+
 		// Token: 0x060002BD RID: 701 RVA: 0x0001D5F0 File Offset: 0x0001B9F0
 		public override bool TryMakePreToilReservations()
 		{
@@ -34,8 +37,5 @@ namespace RimWorld
 
 		// Token: 0x060002BF RID: 703
 		protected abstract void WaitTickAction();
-
-		// Token: 0x040001FC RID: 508
-		protected const TargetIndex TargetThingIndex = TargetIndex.A;
 	}
 }

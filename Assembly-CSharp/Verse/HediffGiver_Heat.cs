@@ -8,6 +8,45 @@ namespace Verse
 	// Token: 0x02000D33 RID: 3379
 	public class HediffGiver_Heat : HediffGiver
 	{
+		// Token: 0x04003252 RID: 12882
+		private const int BurnCheckInterval = 420;
+
+		// Token: 0x04003253 RID: 12883
+		public static readonly string MemoPawnBurnedByAir = "PawnBurnedByAir";
+
+		// Token: 0x04003254 RID: 12884
+		public static readonly SimpleCurve TemperatureOverageAdjustmentCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 0f),
+				true
+			},
+			{
+				new CurvePoint(25f, 25f),
+				true
+			},
+			{
+				new CurvePoint(50f, 40f),
+				true
+			},
+			{
+				new CurvePoint(100f, 60f),
+				true
+			},
+			{
+				new CurvePoint(200f, 80f),
+				true
+			},
+			{
+				new CurvePoint(400f, 100f),
+				true
+			},
+			{
+				new CurvePoint(4000f, 1000f),
+				true
+			}
+		};
+
 		// Token: 0x06004A86 RID: 19078 RVA: 0x0026DD74 File Offset: 0x0026C174
 		public override void OnIntervalPassed(Pawn pawn, Hediff cause)
 		{
@@ -63,44 +102,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04003252 RID: 12882
-		private const int BurnCheckInterval = 420;
-
-		// Token: 0x04003253 RID: 12883
-		public static readonly string MemoPawnBurnedByAir = "PawnBurnedByAir";
-
-		// Token: 0x04003254 RID: 12884
-		public static readonly SimpleCurve TemperatureOverageAdjustmentCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 0f),
-				true
-			},
-			{
-				new CurvePoint(25f, 25f),
-				true
-			},
-			{
-				new CurvePoint(50f, 40f),
-				true
-			},
-			{
-				new CurvePoint(100f, 60f),
-				true
-			},
-			{
-				new CurvePoint(200f, 80f),
-				true
-			},
-			{
-				new CurvePoint(400f, 100f),
-				true
-			},
-			{
-				new CurvePoint(4000f, 1000f),
-				true
-			}
-		};
 	}
 }

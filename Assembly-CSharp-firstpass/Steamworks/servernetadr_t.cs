@@ -5,6 +5,15 @@ namespace Steamworks
 	// Token: 0x0200014E RID: 334
 	public struct servernetadr_t
 	{
+		// Token: 0x04000652 RID: 1618
+		private ushort m_usConnectionPort;
+
+		// Token: 0x04000653 RID: 1619
+		private ushort m_usQueryPort;
+
+		// Token: 0x04000654 RID: 1620
+		private uint m_unIP;
+
 		// Token: 0x06000716 RID: 1814 RVA: 0x0000BF21 File Offset: 0x0000A121
 		public void Init(uint ip, ushort usQueryPort, ushort usConnectionPort)
 		{
@@ -121,14 +130,5 @@ namespace Steamworks
 		{
 			return this.m_unIP.CompareTo(other.m_unIP) + this.m_usQueryPort.CompareTo(other.m_usQueryPort) + this.m_usConnectionPort.CompareTo(other.m_usConnectionPort);
 		}
-
-		// Token: 0x04000652 RID: 1618
-		private ushort m_usConnectionPort;
-
-		// Token: 0x04000653 RID: 1619
-		private ushort m_usQueryPort;
-
-		// Token: 0x04000654 RID: 1620
-		private uint m_unIP;
 	}
 }

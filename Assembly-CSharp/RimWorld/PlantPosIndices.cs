@@ -6,6 +6,12 @@ namespace RimWorld
 	// Token: 0x020006D5 RID: 1749
 	internal static class PlantPosIndices
 	{
+		// Token: 0x0400153F RID: 5439
+		private static int[][][] rootList = null;
+
+		// Token: 0x04001540 RID: 5440
+		private const int ListCount = 8;
+
 		// Token: 0x06002620 RID: 9760 RVA: 0x00146954 File Offset: 0x00144D54
 		static PlantPosIndices()
 		{
@@ -33,11 +39,5 @@ namespace RimWorld
 			int num = (p.thingIDNumber ^ 42348528) % 8;
 			return PlantPosIndices.rootList[maxMeshCount - 1][num];
 		}
-
-		// Token: 0x0400153F RID: 5439
-		private static int[][][] rootList = null;
-
-		// Token: 0x04001540 RID: 5440
-		private const int ListCount = 8;
 	}
 }

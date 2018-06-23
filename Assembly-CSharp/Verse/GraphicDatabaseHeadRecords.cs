@@ -9,6 +9,28 @@ namespace Verse
 	// Token: 0x02000DCD RID: 3533
 	public static class GraphicDatabaseHeadRecords
 	{
+		// Token: 0x040034A5 RID: 13477
+		private static List<GraphicDatabaseHeadRecords.HeadGraphicRecord> heads = new List<GraphicDatabaseHeadRecords.HeadGraphicRecord>();
+
+		// Token: 0x040034A6 RID: 13478
+		private static GraphicDatabaseHeadRecords.HeadGraphicRecord skull;
+
+		// Token: 0x040034A7 RID: 13479
+		private static GraphicDatabaseHeadRecords.HeadGraphicRecord stump;
+
+		// Token: 0x040034A8 RID: 13480
+		private static readonly string[] HeadsFolderPaths = new string[]
+		{
+			"Things/Pawn/Humanlike/Heads/Male",
+			"Things/Pawn/Humanlike/Heads/Female"
+		};
+
+		// Token: 0x040034A9 RID: 13481
+		private static readonly string SkullPath = "Things/Pawn/Humanlike/Heads/None_Average_Skull";
+
+		// Token: 0x040034AA RID: 13482
+		private static readonly string StumpPath = "Things/Pawn/Humanlike/Heads/None_Average_Stump";
+
 		// Token: 0x06004F39 RID: 20281 RVA: 0x00294630 File Offset: 0x00292A30
 		public static void Reset()
 		{
@@ -98,31 +120,21 @@ namespace Verse
 			return GraphicDatabaseHeadRecords.heads.First<GraphicDatabaseHeadRecords.HeadGraphicRecord>().GetGraphic(skinColor);
 		}
 
-		// Token: 0x040034A5 RID: 13477
-		private static List<GraphicDatabaseHeadRecords.HeadGraphicRecord> heads = new List<GraphicDatabaseHeadRecords.HeadGraphicRecord>();
-
-		// Token: 0x040034A6 RID: 13478
-		private static GraphicDatabaseHeadRecords.HeadGraphicRecord skull;
-
-		// Token: 0x040034A7 RID: 13479
-		private static GraphicDatabaseHeadRecords.HeadGraphicRecord stump;
-
-		// Token: 0x040034A8 RID: 13480
-		private static readonly string[] HeadsFolderPaths = new string[]
-		{
-			"Things/Pawn/Humanlike/Heads/Male",
-			"Things/Pawn/Humanlike/Heads/Female"
-		};
-
-		// Token: 0x040034A9 RID: 13481
-		private static readonly string SkullPath = "Things/Pawn/Humanlike/Heads/None_Average_Skull";
-
-		// Token: 0x040034AA RID: 13482
-		private static readonly string StumpPath = "Things/Pawn/Humanlike/Heads/None_Average_Stump";
-
 		// Token: 0x02000DCE RID: 3534
 		private class HeadGraphicRecord
 		{
+			// Token: 0x040034AB RID: 13483
+			public Gender gender;
+
+			// Token: 0x040034AC RID: 13484
+			public CrownType crownType = CrownType.Undefined;
+
+			// Token: 0x040034AD RID: 13485
+			public string graphicPath;
+
+			// Token: 0x040034AE RID: 13486
+			private List<KeyValuePair<Color, Graphic_Multi>> graphics = new List<KeyValuePair<Color, Graphic_Multi>>();
+
 			// Token: 0x06004F40 RID: 20288 RVA: 0x00294968 File Offset: 0x00292D68
 			public HeadGraphicRecord(string graphicPath)
 			{
@@ -159,18 +171,6 @@ namespace Verse
 				this.graphics.Add(new KeyValuePair<Color, Graphic_Multi>(color, graphic_Multi));
 				return graphic_Multi;
 			}
-
-			// Token: 0x040034AB RID: 13483
-			public Gender gender;
-
-			// Token: 0x040034AC RID: 13484
-			public CrownType crownType = CrownType.Undefined;
-
-			// Token: 0x040034AD RID: 13485
-			public string graphicPath;
-
-			// Token: 0x040034AE RID: 13486
-			private List<KeyValuePair<Color, Graphic_Multi>> graphics = new List<KeyValuePair<Color, Graphic_Multi>>();
 		}
 	}
 }

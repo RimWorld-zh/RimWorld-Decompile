@@ -8,40 +8,6 @@ namespace Verse
 	// Token: 0x02000B2C RID: 2860
 	public class StuffProperties
 	{
-		// Token: 0x06003F04 RID: 16132 RVA: 0x002132C8 File Offset: 0x002116C8
-		public bool CanMake(BuildableDef t)
-		{
-			bool result;
-			if (!t.MadeFromStuff)
-			{
-				result = false;
-			}
-			else
-			{
-				for (int i = 0; i < t.stuffCategories.Count; i++)
-				{
-					for (int j = 0; j < this.categories.Count; j++)
-					{
-						if (t.stuffCategories[i] == this.categories[j])
-						{
-							return true;
-						}
-					}
-				}
-				result = false;
-			}
-			return result;
-		}
-
-		// Token: 0x06003F05 RID: 16133 RVA: 0x00213350 File Offset: 0x00211750
-		public void ResolveReferencesSpecial()
-		{
-			if (this.appearance == null)
-			{
-				this.appearance = StuffAppearanceDefOf.Smooth;
-			}
-		}
-
 		// Token: 0x040028E2 RID: 10466
 		public string stuffAdjective = null;
 
@@ -80,5 +46,39 @@ namespace Verse
 
 		// Token: 0x040028EE RID: 10478
 		public SoundDef soundMeleeHitBlunt = null;
+
+		// Token: 0x06003F04 RID: 16132 RVA: 0x002132C8 File Offset: 0x002116C8
+		public bool CanMake(BuildableDef t)
+		{
+			bool result;
+			if (!t.MadeFromStuff)
+			{
+				result = false;
+			}
+			else
+			{
+				for (int i = 0; i < t.stuffCategories.Count; i++)
+				{
+					for (int j = 0; j < this.categories.Count; j++)
+					{
+						if (t.stuffCategories[i] == this.categories[j])
+						{
+							return true;
+						}
+					}
+				}
+				result = false;
+			}
+			return result;
+		}
+
+		// Token: 0x06003F05 RID: 16133 RVA: 0x00213350 File Offset: 0x00211750
+		public void ResolveReferencesSpecial()
+		{
+			if (this.appearance == null)
+			{
+				this.appearance = StuffAppearanceDefOf.Smooth;
+			}
+		}
 	}
 }

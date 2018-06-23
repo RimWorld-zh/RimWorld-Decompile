@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000CCE RID: 3278
 	public class PatchOperationAdd : PatchOperationPathed
 	{
+		// Token: 0x04003106 RID: 12550
+		private XmlContainer value;
+
+		// Token: 0x04003107 RID: 12551
+		private PatchOperationAdd.Order order = PatchOperationAdd.Order.Append;
+
 		// Token: 0x06004880 RID: 18560 RVA: 0x0026154C File Offset: 0x0025F94C
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
@@ -46,12 +52,6 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003106 RID: 12550
-		private XmlContainer value;
-
-		// Token: 0x04003107 RID: 12551
-		private PatchOperationAdd.Order order = PatchOperationAdd.Order.Append;
 
 		// Token: 0x02000CCF RID: 3279
 		private enum Order

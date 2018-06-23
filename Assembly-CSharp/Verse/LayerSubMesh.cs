@@ -7,6 +7,30 @@ namespace Verse
 	// Token: 0x02000C3A RID: 3130
 	public class LayerSubMesh
 	{
+		// Token: 0x04002F2B RID: 12075
+		public bool finalized = false;
+
+		// Token: 0x04002F2C RID: 12076
+		public bool disabled = false;
+
+		// Token: 0x04002F2D RID: 12077
+		public Material material;
+
+		// Token: 0x04002F2E RID: 12078
+		public Mesh mesh;
+
+		// Token: 0x04002F2F RID: 12079
+		public List<Vector3> verts = new List<Vector3>();
+
+		// Token: 0x04002F30 RID: 12080
+		public List<int> tris = new List<int>();
+
+		// Token: 0x04002F31 RID: 12081
+		public List<Color32> colors = new List<Color32>();
+
+		// Token: 0x04002F32 RID: 12082
+		public List<Vector3> uvs = new List<Vector3>();
+
 		// Token: 0x0600450C RID: 17676 RVA: 0x00245A18 File Offset: 0x00243E18
 		public LayerSubMesh(Mesh mesh, Material material)
 		{
@@ -91,29 +115,5 @@ namespace Verse
 		{
 			return "LayerSubMesh(" + this.material.ToString() + ")";
 		}
-
-		// Token: 0x04002F2B RID: 12075
-		public bool finalized = false;
-
-		// Token: 0x04002F2C RID: 12076
-		public bool disabled = false;
-
-		// Token: 0x04002F2D RID: 12077
-		public Material material;
-
-		// Token: 0x04002F2E RID: 12078
-		public Mesh mesh;
-
-		// Token: 0x04002F2F RID: 12079
-		public List<Vector3> verts = new List<Vector3>();
-
-		// Token: 0x04002F30 RID: 12080
-		public List<int> tris = new List<int>();
-
-		// Token: 0x04002F31 RID: 12081
-		public List<Color32> colors = new List<Color32>();
-
-		// Token: 0x04002F32 RID: 12082
-		public List<Vector3> uvs = new List<Vector3>();
 	}
 }

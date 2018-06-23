@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x0200024E RID: 590
 	public class CompProperties_ProximityFuse : CompProperties
 	{
+		// Token: 0x040004A2 RID: 1186
+		public ThingDef target;
+
+		// Token: 0x040004A3 RID: 1187
+		public float radius;
+
 		// Token: 0x06000A84 RID: 2692 RVA: 0x0005F664 File Offset: 0x0005DA64
 		public CompProperties_ProximityFuse()
 		{
@@ -36,11 +42,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x040004A2 RID: 1186
-		public ThingDef target;
-
-		// Token: 0x040004A3 RID: 1187
-		public float radius;
 	}
 }

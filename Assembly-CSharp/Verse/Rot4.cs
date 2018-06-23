@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000EF4 RID: 3828
 	public struct Rot4 : IEquatable<Rot4>
 	{
+		// Token: 0x04003CAB RID: 15531
+		private byte rotInt;
+
 		// Token: 0x06005B76 RID: 23414 RVA: 0x002EA74B File Offset: 0x002E8B4B
 		public Rot4(byte newRot)
 		{
@@ -484,8 +487,5 @@ namespace Verse
 		{
 			return this.rotInt == other.rotInt;
 		}
-
-		// Token: 0x04003CAB RID: 15531
-		private byte rotInt;
 	}
 }

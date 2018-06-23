@@ -8,6 +8,141 @@ namespace Verse.AI
 	// Token: 0x02000A2E RID: 2606
 	public class Job : IExposable, ILoadReferenceable
 	{
+		// Token: 0x040024C2 RID: 9410
+		public JobDef def;
+
+		// Token: 0x040024C3 RID: 9411
+		public LocalTargetInfo targetA = LocalTargetInfo.Invalid;
+
+		// Token: 0x040024C4 RID: 9412
+		public LocalTargetInfo targetB = LocalTargetInfo.Invalid;
+
+		// Token: 0x040024C5 RID: 9413
+		public LocalTargetInfo targetC = LocalTargetInfo.Invalid;
+
+		// Token: 0x040024C6 RID: 9414
+		public List<LocalTargetInfo> targetQueueA = null;
+
+		// Token: 0x040024C7 RID: 9415
+		public List<LocalTargetInfo> targetQueueB = null;
+
+		// Token: 0x040024C8 RID: 9416
+		public int count = -1;
+
+		// Token: 0x040024C9 RID: 9417
+		public List<int> countQueue = null;
+
+		// Token: 0x040024CA RID: 9418
+		public int loadID;
+
+		// Token: 0x040024CB RID: 9419
+		public int startTick = -1;
+
+		// Token: 0x040024CC RID: 9420
+		public int expiryInterval = -1;
+
+		// Token: 0x040024CD RID: 9421
+		public bool checkOverrideOnExpire = false;
+
+		// Token: 0x040024CE RID: 9422
+		public bool playerForced = false;
+
+		// Token: 0x040024CF RID: 9423
+		public List<ThingCountClass> placedThings = null;
+
+		// Token: 0x040024D0 RID: 9424
+		public int maxNumMeleeAttacks = int.MaxValue;
+
+		// Token: 0x040024D1 RID: 9425
+		public int maxNumStaticAttacks = int.MaxValue;
+
+		// Token: 0x040024D2 RID: 9426
+		public LocomotionUrgency locomotionUrgency = LocomotionUrgency.Jog;
+
+		// Token: 0x040024D3 RID: 9427
+		public HaulMode haulMode = HaulMode.Undefined;
+
+		// Token: 0x040024D4 RID: 9428
+		public Bill bill = null;
+
+		// Token: 0x040024D5 RID: 9429
+		public ICommunicable commTarget = null;
+
+		// Token: 0x040024D6 RID: 9430
+		public ThingDef plantDefToSow = null;
+
+		// Token: 0x040024D7 RID: 9431
+		public Verb verbToUse;
+
+		// Token: 0x040024D8 RID: 9432
+		public bool haulOpportunisticDuplicates = false;
+
+		// Token: 0x040024D9 RID: 9433
+		public bool exitMapOnArrival = false;
+
+		// Token: 0x040024DA RID: 9434
+		public bool failIfCantJoinOrCreateCaravan = false;
+
+		// Token: 0x040024DB RID: 9435
+		public bool killIncappedTarget = false;
+
+		// Token: 0x040024DC RID: 9436
+		public bool ignoreForbidden = false;
+
+		// Token: 0x040024DD RID: 9437
+		public bool ignoreDesignations = false;
+
+		// Token: 0x040024DE RID: 9438
+		public bool canBash = false;
+
+		// Token: 0x040024DF RID: 9439
+		public bool haulDroppedApparel = false;
+
+		// Token: 0x040024E0 RID: 9440
+		public bool restUntilHealed = false;
+
+		// Token: 0x040024E1 RID: 9441
+		public bool ignoreJoyTimeAssignment = false;
+
+		// Token: 0x040024E2 RID: 9442
+		public bool overeat = false;
+
+		// Token: 0x040024E3 RID: 9443
+		public bool attackDoorIfTargetLost = false;
+
+		// Token: 0x040024E4 RID: 9444
+		public int takeExtraIngestibles = 0;
+
+		// Token: 0x040024E5 RID: 9445
+		public bool expireRequiresEnemiesNearby = false;
+
+		// Token: 0x040024E6 RID: 9446
+		public Lord lord = null;
+
+		// Token: 0x040024E7 RID: 9447
+		public bool collideWithPawns;
+
+		// Token: 0x040024E8 RID: 9448
+		public bool forceSleep;
+
+		// Token: 0x040024E9 RID: 9449
+		public InteractionDef interaction;
+
+		// Token: 0x040024EA RID: 9450
+		public bool endIfCantShootTargetFromCurPos;
+
+		// Token: 0x040024EB RID: 9451
+		public bool checkEncumbrance;
+
+		// Token: 0x040024EC RID: 9452
+		public float followRadius;
+
+		// Token: 0x040024ED RID: 9453
+		public bool endAfterTendedOnce;
+
+		// Token: 0x040024EE RID: 9454
+		private JobDriver cachedDriver;
+
 		// Token: 0x060039D7 RID: 14807 RVA: 0x001E8F70 File Offset: 0x001E7370
 		public Job()
 		{
@@ -294,140 +429,5 @@ namespace Verse.AI
 		{
 			return "Job_" + this.loadID;
 		}
-
-		// Token: 0x040024C2 RID: 9410
-		public JobDef def;
-
-		// Token: 0x040024C3 RID: 9411
-		public LocalTargetInfo targetA = LocalTargetInfo.Invalid;
-
-		// Token: 0x040024C4 RID: 9412
-		public LocalTargetInfo targetB = LocalTargetInfo.Invalid;
-
-		// Token: 0x040024C5 RID: 9413
-		public LocalTargetInfo targetC = LocalTargetInfo.Invalid;
-
-		// Token: 0x040024C6 RID: 9414
-		public List<LocalTargetInfo> targetQueueA = null;
-
-		// Token: 0x040024C7 RID: 9415
-		public List<LocalTargetInfo> targetQueueB = null;
-
-		// Token: 0x040024C8 RID: 9416
-		public int count = -1;
-
-		// Token: 0x040024C9 RID: 9417
-		public List<int> countQueue = null;
-
-		// Token: 0x040024CA RID: 9418
-		public int loadID;
-
-		// Token: 0x040024CB RID: 9419
-		public int startTick = -1;
-
-		// Token: 0x040024CC RID: 9420
-		public int expiryInterval = -1;
-
-		// Token: 0x040024CD RID: 9421
-		public bool checkOverrideOnExpire = false;
-
-		// Token: 0x040024CE RID: 9422
-		public bool playerForced = false;
-
-		// Token: 0x040024CF RID: 9423
-		public List<ThingCountClass> placedThings = null;
-
-		// Token: 0x040024D0 RID: 9424
-		public int maxNumMeleeAttacks = int.MaxValue;
-
-		// Token: 0x040024D1 RID: 9425
-		public int maxNumStaticAttacks = int.MaxValue;
-
-		// Token: 0x040024D2 RID: 9426
-		public LocomotionUrgency locomotionUrgency = LocomotionUrgency.Jog;
-
-		// Token: 0x040024D3 RID: 9427
-		public HaulMode haulMode = HaulMode.Undefined;
-
-		// Token: 0x040024D4 RID: 9428
-		public Bill bill = null;
-
-		// Token: 0x040024D5 RID: 9429
-		public ICommunicable commTarget = null;
-
-		// Token: 0x040024D6 RID: 9430
-		public ThingDef plantDefToSow = null;
-
-		// Token: 0x040024D7 RID: 9431
-		public Verb verbToUse;
-
-		// Token: 0x040024D8 RID: 9432
-		public bool haulOpportunisticDuplicates = false;
-
-		// Token: 0x040024D9 RID: 9433
-		public bool exitMapOnArrival = false;
-
-		// Token: 0x040024DA RID: 9434
-		public bool failIfCantJoinOrCreateCaravan = false;
-
-		// Token: 0x040024DB RID: 9435
-		public bool killIncappedTarget = false;
-
-		// Token: 0x040024DC RID: 9436
-		public bool ignoreForbidden = false;
-
-		// Token: 0x040024DD RID: 9437
-		public bool ignoreDesignations = false;
-
-		// Token: 0x040024DE RID: 9438
-		public bool canBash = false;
-
-		// Token: 0x040024DF RID: 9439
-		public bool haulDroppedApparel = false;
-
-		// Token: 0x040024E0 RID: 9440
-		public bool restUntilHealed = false;
-
-		// Token: 0x040024E1 RID: 9441
-		public bool ignoreJoyTimeAssignment = false;
-
-		// Token: 0x040024E2 RID: 9442
-		public bool overeat = false;
-
-		// Token: 0x040024E3 RID: 9443
-		public bool attackDoorIfTargetLost = false;
-
-		// Token: 0x040024E4 RID: 9444
-		public int takeExtraIngestibles = 0;
-
-		// Token: 0x040024E5 RID: 9445
-		public bool expireRequiresEnemiesNearby = false;
-
-		// Token: 0x040024E6 RID: 9446
-		public Lord lord = null;
-
-		// Token: 0x040024E7 RID: 9447
-		public bool collideWithPawns;
-
-		// Token: 0x040024E8 RID: 9448
-		public bool forceSleep;
-
-		// Token: 0x040024E9 RID: 9449
-		public InteractionDef interaction;
-
-		// Token: 0x040024EA RID: 9450
-		public bool endIfCantShootTargetFromCurPos;
-
-		// Token: 0x040024EB RID: 9451
-		public bool checkEncumbrance;
-
-		// Token: 0x040024EC RID: 9452
-		public float followRadius;
-
-		// Token: 0x040024ED RID: 9453
-		public bool endAfterTendedOnce;
-
-		// Token: 0x040024EE RID: 9454
-		private JobDriver cachedDriver;
 	}
 }

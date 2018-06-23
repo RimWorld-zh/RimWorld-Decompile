@@ -8,6 +8,18 @@ namespace RimWorld
 	// Token: 0x02000084 RID: 132
 	public class JobDriver_UnloadInventory : JobDriver
 	{
+		// Token: 0x04000240 RID: 576
+		private const TargetIndex OtherPawnInd = TargetIndex.A;
+
+		// Token: 0x04000241 RID: 577
+		private const TargetIndex ItemToHaulInd = TargetIndex.B;
+
+		// Token: 0x04000242 RID: 578
+		private const TargetIndex StoreCellInd = TargetIndex.C;
+
+		// Token: 0x04000243 RID: 579
+		private const int UnloadDuration = 10;
+
 		// Token: 0x170000B7 RID: 183
 		// (get) Token: 0x06000374 RID: 884 RVA: 0x000268E4 File Offset: 0x00024CE4
 		private Pawn OtherPawn
@@ -71,17 +83,5 @@ namespace RimWorld
 			yield return Toils_Haul.PlaceHauledThingInCell(TargetIndex.C, carryToCell, true);
 			yield break;
 		}
-
-		// Token: 0x04000240 RID: 576
-		private const TargetIndex OtherPawnInd = TargetIndex.A;
-
-		// Token: 0x04000241 RID: 577
-		private const TargetIndex ItemToHaulInd = TargetIndex.B;
-
-		// Token: 0x04000242 RID: 578
-		private const TargetIndex StoreCellInd = TargetIndex.C;
-
-		// Token: 0x04000243 RID: 579
-		private const int UnloadDuration = 10;
 	}
 }

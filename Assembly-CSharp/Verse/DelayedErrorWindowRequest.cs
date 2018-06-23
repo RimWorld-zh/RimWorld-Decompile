@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000E0E RID: 3598
 	public static class DelayedErrorWindowRequest
 	{
+		// Token: 0x04003575 RID: 13685
+		private static List<DelayedErrorWindowRequest.Request> requests = new List<DelayedErrorWindowRequest.Request>();
+
 		// Token: 0x0600519D RID: 20893 RVA: 0x0029E600 File Offset: 0x0029CA00
 		public static void DelayedErrorWindowRequestOnGUI()
 		{
@@ -34,9 +37,6 @@ namespace Verse
 			item.title = title;
 			DelayedErrorWindowRequest.requests.Add(item);
 		}
-
-		// Token: 0x04003575 RID: 13685
-		private static List<DelayedErrorWindowRequest.Request> requests = new List<DelayedErrorWindowRequest.Request>();
 
 		// Token: 0x02000E0F RID: 3599
 		private struct Request

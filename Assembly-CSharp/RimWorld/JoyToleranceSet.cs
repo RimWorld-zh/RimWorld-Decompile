@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x020004ED RID: 1261
 	public class JoyToleranceSet : IExposable
 	{
+		// Token: 0x04000D38 RID: 3384
+		private DefMap<JoyKindDef, float> tolerances = new DefMap<JoyKindDef, float>();
+
 		// Token: 0x170002FC RID: 764
 		public float this[JoyKindDef d]
 		{
@@ -71,8 +74,5 @@ namespace RimWorld
 			}
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
-
-		// Token: 0x04000D38 RID: 3384
-		private DefMap<JoyKindDef, float> tolerances = new DefMap<JoyKindDef, float>();
 	}
 }

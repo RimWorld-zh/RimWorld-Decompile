@@ -7,30 +7,6 @@ namespace RimWorld
 	// Token: 0x020002CB RID: 715
 	public class ScenPartDef : Def
 	{
-		// Token: 0x170001C1 RID: 449
-		// (get) Token: 0x06000BD5 RID: 3029 RVA: 0x000696C8 File Offset: 0x00067AC8
-		public bool PlayerAddRemovable
-		{
-			get
-			{
-				return this.category != ScenPartCategory.Fixed;
-			}
-		}
-
-		// Token: 0x06000BD6 RID: 3030 RVA: 0x000696EC File Offset: 0x00067AEC
-		public override IEnumerable<string> ConfigErrors()
-		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
-			{
-				yield return e;
-			}
-			if (this.scenPartClass == null)
-			{
-				yield return "scenPartClass is null";
-			}
-			yield break;
-		}
-
 		// Token: 0x0400070F RID: 1807
 		public ScenPartCategory category = ScenPartCategory.Undefined;
 
@@ -60,5 +36,29 @@ namespace RimWorld
 
 		// Token: 0x04000718 RID: 1816
 		public Type designatorType;
+
+		// Token: 0x170001C1 RID: 449
+		// (get) Token: 0x06000BD5 RID: 3029 RVA: 0x000696C8 File Offset: 0x00067AC8
+		public bool PlayerAddRemovable
+		{
+			get
+			{
+				return this.category != ScenPartCategory.Fixed;
+			}
+		}
+
+		// Token: 0x06000BD6 RID: 3030 RVA: 0x000696EC File Offset: 0x00067AEC
+		public override IEnumerable<string> ConfigErrors()
+		{
+			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			{
+				yield return e;
+			}
+			if (this.scenPartClass == null)
+			{
+				yield return "scenPartClass is null";
+			}
+			yield break;
+		}
 	}
 }

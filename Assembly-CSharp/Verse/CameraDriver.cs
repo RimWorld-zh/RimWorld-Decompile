@@ -8,6 +8,96 @@ namespace Verse
 	// Token: 0x02000AE4 RID: 2788
 	public class CameraDriver : MonoBehaviour
 	{
+		// Token: 0x04002706 RID: 9990
+		public CameraShaker shaker = new CameraShaker();
+
+		// Token: 0x04002707 RID: 9991
+		private Camera cachedCamera = null;
+
+		// Token: 0x04002708 RID: 9992
+		private GameObject reverbDummy;
+
+		// Token: 0x04002709 RID: 9993
+		public CameraMapConfig config = new CameraMapConfig_Normal();
+
+		// Token: 0x0400270A RID: 9994
+		private Vector3 velocity;
+
+		// Token: 0x0400270B RID: 9995
+		private Vector3 rootPos;
+
+		// Token: 0x0400270C RID: 9996
+		private float rootSize;
+
+		// Token: 0x0400270D RID: 9997
+		private float desiredSize;
+
+		// Token: 0x0400270E RID: 9998
+		private Vector2 desiredDolly = Vector2.zero;
+
+		// Token: 0x0400270F RID: 9999
+		private Vector2 mouseDragVect = Vector2.zero;
+
+		// Token: 0x04002710 RID: 10000
+		private bool mouseCoveredByUI = false;
+
+		// Token: 0x04002711 RID: 10001
+		private float mouseTouchingScreenBottomEdgeStartTime = -1f;
+
+		// Token: 0x04002712 RID: 10002
+		private float fixedTimeStepBuffer;
+
+		// Token: 0x04002713 RID: 10003
+		private static int lastViewRectGetFrame = -1;
+
+		// Token: 0x04002714 RID: 10004
+		private static CellRect lastViewRect;
+
+		// Token: 0x04002715 RID: 10005
+		public const float MaxDeltaTime = 0.1f;
+
+		// Token: 0x04002716 RID: 10006
+		private const float ScreenDollyEdgeWidth = 20f;
+
+		// Token: 0x04002717 RID: 10007
+		private const float ScreenDollyEdgeWidth_BottomFullscreen = 6f;
+
+		// Token: 0x04002718 RID: 10008
+		private const float MinDurationForMouseToTouchScreenBottomEdgeToDolly = 0.28f;
+
+		// Token: 0x04002719 RID: 10009
+		private const float MapEdgeClampMarginCells = -2f;
+
+		// Token: 0x0400271A RID: 10010
+		public const float StartingSize = 24f;
+
+		// Token: 0x0400271B RID: 10011
+		private const float MinSize = 11f;
+
+		// Token: 0x0400271C RID: 10012
+		private const float MaxSize = 60f;
+
+		// Token: 0x0400271D RID: 10013
+		private const float ZoomTightness = 0.4f;
+
+		// Token: 0x0400271E RID: 10014
+		private const float ZoomScaleFromAltDenominator = 35f;
+
+		// Token: 0x0400271F RID: 10015
+		private const float PageKeyZoomRate = 4f;
+
+		// Token: 0x04002720 RID: 10016
+		private const float ScrollWheelZoomRate = 0.35f;
+
+		// Token: 0x04002721 RID: 10017
+		public const float MinAltitude = 15f;
+
+		// Token: 0x04002722 RID: 10018
+		private const float MaxAltitude = 65f;
+
+		// Token: 0x04002723 RID: 10019
+		private const float ReverbDummyAltitude = 65f;
+
 		// Token: 0x17000949 RID: 2377
 		// (get) Token: 0x06003DD2 RID: 15826 RVA: 0x0020A044 File Offset: 0x00208444
 		private Camera MyCamera
@@ -434,95 +524,5 @@ namespace Verse
 			this.desiredSize = rootSize;
 			LongEventHandler.ExecuteWhenFinished(new Action(this.ApplyPositionToGameObject));
 		}
-
-		// Token: 0x04002706 RID: 9990
-		public CameraShaker shaker = new CameraShaker();
-
-		// Token: 0x04002707 RID: 9991
-		private Camera cachedCamera = null;
-
-		// Token: 0x04002708 RID: 9992
-		private GameObject reverbDummy;
-
-		// Token: 0x04002709 RID: 9993
-		public CameraMapConfig config = new CameraMapConfig_Normal();
-
-		// Token: 0x0400270A RID: 9994
-		private Vector3 velocity;
-
-		// Token: 0x0400270B RID: 9995
-		private Vector3 rootPos;
-
-		// Token: 0x0400270C RID: 9996
-		private float rootSize;
-
-		// Token: 0x0400270D RID: 9997
-		private float desiredSize;
-
-		// Token: 0x0400270E RID: 9998
-		private Vector2 desiredDolly = Vector2.zero;
-
-		// Token: 0x0400270F RID: 9999
-		private Vector2 mouseDragVect = Vector2.zero;
-
-		// Token: 0x04002710 RID: 10000
-		private bool mouseCoveredByUI = false;
-
-		// Token: 0x04002711 RID: 10001
-		private float mouseTouchingScreenBottomEdgeStartTime = -1f;
-
-		// Token: 0x04002712 RID: 10002
-		private float fixedTimeStepBuffer;
-
-		// Token: 0x04002713 RID: 10003
-		private static int lastViewRectGetFrame = -1;
-
-		// Token: 0x04002714 RID: 10004
-		private static CellRect lastViewRect;
-
-		// Token: 0x04002715 RID: 10005
-		public const float MaxDeltaTime = 0.1f;
-
-		// Token: 0x04002716 RID: 10006
-		private const float ScreenDollyEdgeWidth = 20f;
-
-		// Token: 0x04002717 RID: 10007
-		private const float ScreenDollyEdgeWidth_BottomFullscreen = 6f;
-
-		// Token: 0x04002718 RID: 10008
-		private const float MinDurationForMouseToTouchScreenBottomEdgeToDolly = 0.28f;
-
-		// Token: 0x04002719 RID: 10009
-		private const float MapEdgeClampMarginCells = -2f;
-
-		// Token: 0x0400271A RID: 10010
-		public const float StartingSize = 24f;
-
-		// Token: 0x0400271B RID: 10011
-		private const float MinSize = 11f;
-
-		// Token: 0x0400271C RID: 10012
-		private const float MaxSize = 60f;
-
-		// Token: 0x0400271D RID: 10013
-		private const float ZoomTightness = 0.4f;
-
-		// Token: 0x0400271E RID: 10014
-		private const float ZoomScaleFromAltDenominator = 35f;
-
-		// Token: 0x0400271F RID: 10015
-		private const float PageKeyZoomRate = 4f;
-
-		// Token: 0x04002720 RID: 10016
-		private const float ScrollWheelZoomRate = 0.35f;
-
-		// Token: 0x04002721 RID: 10017
-		public const float MinAltitude = 15f;
-
-		// Token: 0x04002722 RID: 10018
-		private const float MaxAltitude = 65f;
-
-		// Token: 0x04002723 RID: 10019
-		private const float ReverbDummyAltitude = 65f;
 	}
 }

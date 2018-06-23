@@ -11,6 +11,12 @@ namespace RimWorld
 	// Token: 0x020001B3 RID: 435
 	public static class RestUtility
 	{
+		// Token: 0x040003CF RID: 975
+		private static List<ThingDef> bedDefsBestToWorst_RestEffectiveness;
+
+		// Token: 0x040003D0 RID: 976
+		private static List<ThingDef> bedDefsBestToWorst_Medical;
+
 		// Token: 0x17000172 RID: 370
 		// (get) Token: 0x060008FD RID: 2301 RVA: 0x000544A8 File Offset: 0x000528A8
 		public static List<ThingDef> AllBedDefBestToWorst
@@ -441,11 +447,5 @@ namespace RimWorld
 		{
 			return Mathf.Min(0.75f, RestUtility.WakeThreshold(p) - 0.01f);
 		}
-
-		// Token: 0x040003CF RID: 975
-		private static List<ThingDef> bedDefsBestToWorst_RestEffectiveness;
-
-		// Token: 0x040003D0 RID: 976
-		private static List<ThingDef> bedDefsBestToWorst_Medical;
 	}
 }

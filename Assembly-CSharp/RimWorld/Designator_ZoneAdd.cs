@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x020007E5 RID: 2021
 	public abstract class Designator_ZoneAdd : Designator_Zone
 	{
+		// Token: 0x040017B4 RID: 6068
+		protected Type zoneTypeToPlace;
+
 		// Token: 0x06002CF3 RID: 11507 RVA: 0x0017A47B File Offset: 0x0017887B
 		public Designator_ZoneAdd()
 		{
@@ -214,8 +217,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x040017B4 RID: 6068
-		protected Type zoneTypeToPlace;
 	}
 }

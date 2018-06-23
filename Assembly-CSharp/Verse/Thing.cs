@@ -12,6 +12,57 @@ namespace Verse
 	// Token: 0x02000DF2 RID: 3570
 	public class Thing : Entity, IExposable, ISelectable, ILoadReferenceable, ISignalReceiver
 	{
+		// Token: 0x04003515 RID: 13589
+		public ThingDef def = null;
+
+		// Token: 0x04003516 RID: 13590
+		public int thingIDNumber = -1;
+
+		// Token: 0x04003517 RID: 13591
+		private sbyte mapIndexOrState = -1;
+
+		// Token: 0x04003518 RID: 13592
+		private IntVec3 positionInt = IntVec3.Invalid;
+
+		// Token: 0x04003519 RID: 13593
+		private Rot4 rotationInt = Rot4.North;
+
+		// Token: 0x0400351A RID: 13594
+		public int stackCount = 1;
+
+		// Token: 0x0400351B RID: 13595
+		protected Faction factionInt = null;
+
+		// Token: 0x0400351C RID: 13596
+		private ThingDef stuffInt = null;
+
+		// Token: 0x0400351D RID: 13597
+		private Graphic graphicInt = null;
+
+		// Token: 0x0400351E RID: 13598
+		private int hitPointsInt = -1;
+
+		// Token: 0x0400351F RID: 13599
+		public ThingOwner holdingOwner = null;
+
+		// Token: 0x04003520 RID: 13600
+		protected const sbyte UnspawnedState = -1;
+
+		// Token: 0x04003521 RID: 13601
+		private const sbyte MemoryState = -2;
+
+		// Token: 0x04003522 RID: 13602
+		private const sbyte DiscardedState = -3;
+
+		// Token: 0x04003523 RID: 13603
+		public static bool allowDestroyNonDestroyable = false;
+
+		// Token: 0x04003524 RID: 13604
+		private static List<string> tmpDeteriorationReasons = new List<string>();
+
+		// Token: 0x04003525 RID: 13605
+		public const float SmeltCostRecoverFraction = 0.25f;
+
 		// Token: 0x17000D08 RID: 3336
 		// (get) Token: 0x06005015 RID: 20501 RVA: 0x0012571C File Offset: 0x00123B1C
 		// (set) Token: 0x06005016 RID: 20502 RVA: 0x00125737 File Offset: 0x00123B37
@@ -1655,56 +1706,5 @@ namespace Verse
 		{
 			return 0;
 		}
-
-		// Token: 0x04003515 RID: 13589
-		public ThingDef def = null;
-
-		// Token: 0x04003516 RID: 13590
-		public int thingIDNumber = -1;
-
-		// Token: 0x04003517 RID: 13591
-		private sbyte mapIndexOrState = -1;
-
-		// Token: 0x04003518 RID: 13592
-		private IntVec3 positionInt = IntVec3.Invalid;
-
-		// Token: 0x04003519 RID: 13593
-		private Rot4 rotationInt = Rot4.North;
-
-		// Token: 0x0400351A RID: 13594
-		public int stackCount = 1;
-
-		// Token: 0x0400351B RID: 13595
-		protected Faction factionInt = null;
-
-		// Token: 0x0400351C RID: 13596
-		private ThingDef stuffInt = null;
-
-		// Token: 0x0400351D RID: 13597
-		private Graphic graphicInt = null;
-
-		// Token: 0x0400351E RID: 13598
-		private int hitPointsInt = -1;
-
-		// Token: 0x0400351F RID: 13599
-		public ThingOwner holdingOwner = null;
-
-		// Token: 0x04003520 RID: 13600
-		protected const sbyte UnspawnedState = -1;
-
-		// Token: 0x04003521 RID: 13601
-		private const sbyte MemoryState = -2;
-
-		// Token: 0x04003522 RID: 13602
-		private const sbyte DiscardedState = -3;
-
-		// Token: 0x04003523 RID: 13603
-		public static bool allowDestroyNonDestroyable = false;
-
-		// Token: 0x04003524 RID: 13604
-		private static List<string> tmpDeteriorationReasons = new List<string>();
-
-		// Token: 0x04003525 RID: 13605
-		public const float SmeltCostRecoverFraction = 0.25f;
 	}
 }

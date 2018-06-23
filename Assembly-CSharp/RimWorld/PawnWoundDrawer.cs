@@ -9,6 +9,15 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class PawnWoundDrawer
 	{
+		// Token: 0x04000BE9 RID: 3049
+		protected Pawn pawn;
+
+		// Token: 0x04000BEA RID: 3050
+		private List<PawnWoundDrawer.Wound> wounds = new List<PawnWoundDrawer.Wound>();
+
+		// Token: 0x04000BEB RID: 3051
+		private int MaxDisplayWounds = 3;
+
 		// Token: 0x0600139B RID: 5019 RVA: 0x000A95B2 File Offset: 0x000A79B2
 		public PawnWoundDrawer(Pawn pawn)
 		{
@@ -52,18 +61,21 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04000BE9 RID: 3049
-		protected Pawn pawn;
-
-		// Token: 0x04000BEA RID: 3050
-		private List<PawnWoundDrawer.Wound> wounds = new List<PawnWoundDrawer.Wound>();
-
-		// Token: 0x04000BEB RID: 3051
-		private int MaxDisplayWounds = 3;
-
 		// Token: 0x0200045E RID: 1118
 		private class Wound
 		{
+			// Token: 0x04000BEC RID: 3052
+			private List<Vector2> locsPerSide = new List<Vector2>();
+
+			// Token: 0x04000BED RID: 3053
+			private Material mat;
+
+			// Token: 0x04000BEE RID: 3054
+			private Quaternion quat;
+
+			// Token: 0x04000BEF RID: 3055
+			private static readonly Vector2 WoundSpan = new Vector2(0.18f, 0.3f);
+
 			// Token: 0x0600139D RID: 5021 RVA: 0x000A972C File Offset: 0x000A7B2C
 			public Wound(Pawn pawn)
 			{
@@ -88,18 +100,6 @@ namespace RimWorld
 				drawLoc.z -= 0.3f;
 				GenDraw.DrawMeshNowOrLater(MeshPool.plane025, drawLoc, this.quat, this.mat, forPortrait);
 			}
-
-			// Token: 0x04000BEC RID: 3052
-			private List<Vector2> locsPerSide = new List<Vector2>();
-
-			// Token: 0x04000BED RID: 3053
-			private Material mat;
-
-			// Token: 0x04000BEE RID: 3054
-			private Quaternion quat;
-
-			// Token: 0x04000BEF RID: 3055
-			private static readonly Vector2 WoundSpan = new Vector2(0.18f, 0.3f);
 		}
 	}
 }

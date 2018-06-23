@@ -9,6 +9,24 @@ namespace RimWorld
 	// Token: 0x02000418 RID: 1048
 	public abstract class CompPower : ThingComp
 	{
+		// Token: 0x04000B01 RID: 2817
+		public PowerNet transNet = null;
+
+		// Token: 0x04000B02 RID: 2818
+		public CompPower connectParent = null;
+
+		// Token: 0x04000B03 RID: 2819
+		public List<CompPower> connectChildren = null;
+
+		// Token: 0x04000B04 RID: 2820
+		private static List<PowerNet> recentlyConnectedNets = new List<PowerNet>();
+
+		// Token: 0x04000B05 RID: 2821
+		private static CompPower lastManualReconnector = null;
+
+		// Token: 0x04000B06 RID: 2822
+		public static readonly float WattsToWattDaysPerTick = 1.66666669E-05f;
+
 		// Token: 0x17000272 RID: 626
 		// (get) Token: 0x06001220 RID: 4640 RVA: 0x0009C3C8 File Offset: 0x0009A7C8
 		public bool TransmitsPowerNow
@@ -282,23 +300,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000B01 RID: 2817
-		public PowerNet transNet = null;
-
-		// Token: 0x04000B02 RID: 2818
-		public CompPower connectParent = null;
-
-		// Token: 0x04000B03 RID: 2819
-		public List<CompPower> connectChildren = null;
-
-		// Token: 0x04000B04 RID: 2820
-		private static List<PowerNet> recentlyConnectedNets = new List<PowerNet>();
-
-		// Token: 0x04000B05 RID: 2821
-		private static CompPower lastManualReconnector = null;
-
-		// Token: 0x04000B06 RID: 2822
-		public static readonly float WattsToWattDaysPerTick = 1.66666669E-05f;
 	}
 }

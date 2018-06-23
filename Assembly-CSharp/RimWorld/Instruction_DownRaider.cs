@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x020008BD RID: 2237
 	public class Instruction_DownRaider : Lesson_Instruction
 	{
+		// Token: 0x04001B91 RID: 7057
+		private List<IntVec3> coverCells;
+
 		// Token: 0x06003332 RID: 13106 RVA: 0x001B8792 File Offset: 0x001B6B92
 		public override void ExposeData()
 		{
@@ -91,8 +94,5 @@ namespace RimWorld
 				Find.ActiveLesson.Deactivate();
 			}
 		}
-
-		// Token: 0x04001B91 RID: 7057
-		private List<IntVec3> coverCells;
 	}
 }

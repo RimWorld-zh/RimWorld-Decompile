@@ -8,6 +8,15 @@ namespace Verse
 	// Token: 0x02000C28 RID: 3112
 	public sealed class ListerBuildings
 	{
+		// Token: 0x04002E79 RID: 11897
+		public List<Building> allBuildingsColonist = new List<Building>();
+
+		// Token: 0x04002E7A RID: 11898
+		public HashSet<Building> allBuildingsColonistCombatTargets = new HashSet<Building>();
+
+		// Token: 0x04002E7B RID: 11899
+		public HashSet<Building> allBuildingsColonistElecFire = new HashSet<Building>();
+
 		// Token: 0x06004475 RID: 17525 RVA: 0x00240300 File Offset: 0x0023E700
 		public void Add(Building b)
 		{
@@ -126,14 +135,5 @@ namespace Verse
 			}
 			yield break;
 		}
-
-		// Token: 0x04002E79 RID: 11897
-		public List<Building> allBuildingsColonist = new List<Building>();
-
-		// Token: 0x04002E7A RID: 11898
-		public HashSet<Building> allBuildingsColonistCombatTargets = new HashSet<Building>();
-
-		// Token: 0x04002E7B RID: 11899
-		public HashSet<Building> allBuildingsColonistElecFire = new HashSet<Building>();
 	}
 }

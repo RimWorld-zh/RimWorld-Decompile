@@ -8,6 +8,21 @@ namespace Verse
 	// Token: 0x02000D10 RID: 3344
 	public class HediffComp_GrowthMode : HediffComp_SeverityPerDay
 	{
+		// Token: 0x04003206 RID: 12806
+		private const int CheckGrowthModeChangeInterval = 5000;
+
+		// Token: 0x04003207 RID: 12807
+		private const float GrowthModeChangeMtbDays = 100f;
+
+		// Token: 0x04003208 RID: 12808
+		public HediffGrowthMode growthMode = HediffGrowthMode.Growing;
+
+		// Token: 0x04003209 RID: 12809
+		private float severityPerDayGrowingRandomFactor = 1f;
+
+		// Token: 0x0400320A RID: 12810
+		private float severityPerDayRemissionRandomFactor = 1f;
+
 		// Token: 0x17000BAD RID: 2989
 		// (get) Token: 0x060049C2 RID: 18882 RVA: 0x00269EE4 File Offset: 0x002682E4
 		public HediffCompProperties_GrowthMode Props
@@ -129,20 +144,5 @@ namespace Verse
 			stringBuilder.AppendLine("severityPerDayRemissionRandomFactor: " + this.severityPerDayRemissionRandomFactor.ToString("0.##"));
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x04003206 RID: 12806
-		private const int CheckGrowthModeChangeInterval = 5000;
-
-		// Token: 0x04003207 RID: 12807
-		private const float GrowthModeChangeMtbDays = 100f;
-
-		// Token: 0x04003208 RID: 12808
-		public HediffGrowthMode growthMode = HediffGrowthMode.Growing;
-
-		// Token: 0x04003209 RID: 12809
-		private float severityPerDayGrowingRandomFactor = 1f;
-
-		// Token: 0x0400320A RID: 12810
-		private float severityPerDayRemissionRandomFactor = 1f;
 	}
 }

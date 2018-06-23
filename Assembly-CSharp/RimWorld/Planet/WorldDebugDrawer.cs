@@ -8,6 +8,18 @@ namespace RimWorld.Planet
 	// Token: 0x02000584 RID: 1412
 	public class WorldDebugDrawer
 	{
+		// Token: 0x04000FE0 RID: 4064
+		private List<DebugTile> debugTiles = new List<DebugTile>();
+
+		// Token: 0x04000FE1 RID: 4065
+		private List<DebugWorldLine> debugLines = new List<DebugWorldLine>();
+
+		// Token: 0x04000FE2 RID: 4066
+		private const int DefaultLifespanTicks = 50;
+
+		// Token: 0x04000FE3 RID: 4067
+		private const float MaxDistToCameraToDisplayLabel = 39f;
+
 		// Token: 0x06001AF6 RID: 6902 RVA: 0x000E7F48 File Offset: 0x000E6348
 		public void FlashTile(int tile, float colorPct = 0f, string text = null, int duration = 50)
 		{
@@ -101,17 +113,5 @@ namespace RimWorld.Planet
 			GUI.color = Color.white;
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
-
-		// Token: 0x04000FE0 RID: 4064
-		private List<DebugTile> debugTiles = new List<DebugTile>();
-
-		// Token: 0x04000FE1 RID: 4065
-		private List<DebugWorldLine> debugLines = new List<DebugWorldLine>();
-
-		// Token: 0x04000FE2 RID: 4066
-		private const int DefaultLifespanTicks = 50;
-
-		// Token: 0x04000FE3 RID: 4067
-		private const float MaxDistToCameraToDisplayLabel = 39f;
 	}
 }

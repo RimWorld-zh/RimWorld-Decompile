@@ -11,6 +11,33 @@ namespace RimWorld.Planet
 	// Token: 0x02000629 RID: 1577
 	public class WorldPawnGC : IExposable
 	{
+		// Token: 0x04001289 RID: 4745
+		private int lastSuccessfulGCTick = 0;
+
+		// Token: 0x0400128A RID: 4746
+		private int currentGCRate = 1;
+
+		// Token: 0x0400128B RID: 4747
+		private const float PctOfHumanlikesAlwaysKept = 0.1f;
+
+		// Token: 0x0400128C RID: 4748
+		private const float PctOfUnnamedColonyAnimalsAlwaysKept = 0.05f;
+
+		// Token: 0x0400128D RID: 4749
+		private const int AdditionalStoryRelevantPawns = 20;
+
+		// Token: 0x0400128E RID: 4750
+		private const int GCUpdateInterval = 15000;
+
+		// Token: 0x0400128F RID: 4751
+		private IEnumerator activeGCProcess = null;
+
+		// Token: 0x04001290 RID: 4752
+		private StringBuilder logDotgraph = null;
+
+		// Token: 0x04001291 RID: 4753
+		private HashSet<string> logDotgraphUniqueLinks = null;
+
 		// Token: 0x0600205B RID: 8283 RVA: 0x00114D64 File Offset: 0x00113164
 		public void WorldPawnGCTick()
 		{
@@ -364,32 +391,5 @@ namespace RimWorld.Planet
 			where char.IsLetter(ch)
 			select ch).ToArray<char>()) + "_" + pawn.thingIDNumber.ToString();
 		}
-
-		// Token: 0x04001289 RID: 4745
-		private int lastSuccessfulGCTick = 0;
-
-		// Token: 0x0400128A RID: 4746
-		private int currentGCRate = 1;
-
-		// Token: 0x0400128B RID: 4747
-		private const float PctOfHumanlikesAlwaysKept = 0.1f;
-
-		// Token: 0x0400128C RID: 4748
-		private const float PctOfUnnamedColonyAnimalsAlwaysKept = 0.05f;
-
-		// Token: 0x0400128D RID: 4749
-		private const int AdditionalStoryRelevantPawns = 20;
-
-		// Token: 0x0400128E RID: 4750
-		private const int GCUpdateInterval = 15000;
-
-		// Token: 0x0400128F RID: 4751
-		private IEnumerator activeGCProcess = null;
-
-		// Token: 0x04001290 RID: 4752
-		private StringBuilder logDotgraph = null;
-
-		// Token: 0x04001291 RID: 4753
-		private HashSet<string> logDotgraphUniqueLinks = null;
 	}
 }

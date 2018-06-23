@@ -8,6 +8,27 @@ namespace Verse
 	// Token: 0x02000E37 RID: 3639
 	public class EditWindow_CurveEditor : EditWindow
 	{
+		// Token: 0x040038E9 RID: 14569
+		private SimpleCurve curve;
+
+		// Token: 0x040038EA RID: 14570
+		public List<float> debugInputValues = null;
+
+		// Token: 0x040038EB RID: 14571
+		private int draggingPointIndex = -1;
+
+		// Token: 0x040038EC RID: 14572
+		private int draggingButton = -1;
+
+		// Token: 0x040038ED RID: 14573
+		private const float ViewDragPanSpeed = 0.002f;
+
+		// Token: 0x040038EE RID: 14574
+		private const float ScrollZoomSpeed = 0.025f;
+
+		// Token: 0x040038EF RID: 14575
+		private const float PointClickDistanceLimit = 7f;
+
 		// Token: 0x0600562A RID: 22058 RVA: 0x002C69F6 File Offset: 0x002C4DF6
 		public EditWindow_CurveEditor(SimpleCurve curve, string title)
 		{
@@ -244,26 +265,5 @@ namespace Verse
 			}
 			yield break;
 		}
-
-		// Token: 0x040038E9 RID: 14569
-		private SimpleCurve curve;
-
-		// Token: 0x040038EA RID: 14570
-		public List<float> debugInputValues = null;
-
-		// Token: 0x040038EB RID: 14571
-		private int draggingPointIndex = -1;
-
-		// Token: 0x040038EC RID: 14572
-		private int draggingButton = -1;
-
-		// Token: 0x040038ED RID: 14573
-		private const float ViewDragPanSpeed = 0.002f;
-
-		// Token: 0x040038EE RID: 14574
-		private const float ScrollZoomSpeed = 0.025f;
-
-		// Token: 0x040038EF RID: 14575
-		private const float PointClickDistanceLimit = 7f;
 	}
 }

@@ -6,6 +6,24 @@ namespace Verse
 	// Token: 0x02000F29 RID: 3881
 	public class FloodFiller
 	{
+		// Token: 0x04003DA0 RID: 15776
+		private Map map;
+
+		// Token: 0x04003DA1 RID: 15777
+		private bool working;
+
+		// Token: 0x04003DA2 RID: 15778
+		private Queue<IntVec3> openSet = new Queue<IntVec3>();
+
+		// Token: 0x04003DA3 RID: 15779
+		private IntGrid traversalDistance;
+
+		// Token: 0x04003DA4 RID: 15780
+		private CellGrid parentGrid;
+
+		// Token: 0x04003DA5 RID: 15781
+		private List<int> visited = new List<int>();
+
 		// Token: 0x06005D30 RID: 23856 RVA: 0x002F25EF File Offset: 0x002F09EF
 		public FloodFiller(Map map)
 		{
@@ -199,23 +217,5 @@ namespace Verse
 			this.visited.Clear();
 			this.openSet.Clear();
 		}
-
-		// Token: 0x04003DA0 RID: 15776
-		private Map map;
-
-		// Token: 0x04003DA1 RID: 15777
-		private bool working;
-
-		// Token: 0x04003DA2 RID: 15778
-		private Queue<IntVec3> openSet = new Queue<IntVec3>();
-
-		// Token: 0x04003DA3 RID: 15779
-		private IntGrid traversalDistance;
-
-		// Token: 0x04003DA4 RID: 15780
-		private CellGrid parentGrid;
-
-		// Token: 0x04003DA5 RID: 15781
-		private List<int> visited = new List<int>();
 	}
 }

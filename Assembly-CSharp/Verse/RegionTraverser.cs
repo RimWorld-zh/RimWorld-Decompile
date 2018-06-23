@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000C92 RID: 3218
 	public static class RegionTraverser
 	{
+		// Token: 0x04003018 RID: 12312
+		private static Queue<RegionTraverser.BFSWorker> freeWorkers = new Queue<RegionTraverser.BFSWorker>();
+
+		// Token: 0x04003019 RID: 12313
+		public static int NumWorkers = 8;
+
+		// Token: 0x0400301A RID: 12314
+		public static readonly RegionEntryPredicate PassAll = (Region from, Region to) => true;
+
 		// Token: 0x060046AC RID: 18092 RVA: 0x002549FC File Offset: 0x00252DFC
 		static RegionTraverser()
 		{
@@ -158,18 +167,24 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003018 RID: 12312
-		private static Queue<RegionTraverser.BFSWorker> freeWorkers = new Queue<RegionTraverser.BFSWorker>();
-
-		// Token: 0x04003019 RID: 12313
-		public static int NumWorkers = 8;
-
-		// Token: 0x0400301A RID: 12314
-		public static readonly RegionEntryPredicate PassAll = (Region from, Region to) => true;
-
 		// Token: 0x02000C93 RID: 3219
 		private class BFSWorker
 		{
+			// Token: 0x0400301B RID: 12315
+			private Deque<Region> open = new Deque<Region>();
+
+			// Token: 0x0400301C RID: 12316
+			private int numRegionsProcessed;
+
+			// Token: 0x0400301D RID: 12317
+			private uint closedIndex = 1u;
+
+			// Token: 0x0400301E RID: 12318
+			private int closedArrayPos;
+
+			// Token: 0x0400301F RID: 12319
+			private const int skippableRegionSize = 4;
+
 			// Token: 0x060046B4 RID: 18100 RVA: 0x00254D5D File Offset: 0x0025315D
 			public BFSWorker(int closedArrayPos)
 			{
@@ -251,21 +266,6 @@ namespace Verse
 					this.FinalizeSearch();
 				}
 			}
-
-			// Token: 0x0400301B RID: 12315
-			private Deque<Region> open = new Deque<Region>();
-
-			// Token: 0x0400301C RID: 12316
-			private int numRegionsProcessed;
-
-			// Token: 0x0400301D RID: 12317
-			private uint closedIndex = 1u;
-
-			// Token: 0x0400301E RID: 12318
-			private int closedArrayPos;
-
-			// Token: 0x0400301F RID: 12319
-			private const int skippableRegionSize = 4;
 		}
 	}
 }

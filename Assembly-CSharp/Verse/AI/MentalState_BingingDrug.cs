@@ -8,6 +8,15 @@ namespace Verse.AI
 	// Token: 0x02000A76 RID: 2678
 	public class MentalState_BingingDrug : MentalState_Binging
 	{
+		// Token: 0x04002574 RID: 9588
+		public ChemicalDef chemical;
+
+		// Token: 0x04002575 RID: 9589
+		public DrugCategory drugCategory;
+
+		// Token: 0x04002576 RID: 9590
+		private static List<ChemicalDef> addictions = new List<ChemicalDef>();
+
 		// Token: 0x17000917 RID: 2327
 		// (get) Token: 0x06003B8E RID: 15246 RVA: 0x001F7BA0 File Offset: 0x001F5FA0
 		public override string InspectLine
@@ -112,14 +121,5 @@ namespace Verse.AI
 				}
 			}
 		}
-
-		// Token: 0x04002574 RID: 9588
-		public ChemicalDef chemical;
-
-		// Token: 0x04002575 RID: 9589
-		public DrugCategory drugCategory;
-
-		// Token: 0x04002576 RID: 9590
-		private static List<ChemicalDef> addictions = new List<ChemicalDef>();
 	}
 }

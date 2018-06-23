@@ -9,6 +9,198 @@ namespace Verse
 	// Token: 0x02000F3D RID: 3901
 	public static class GenFilePaths
 	{
+		// Token: 0x04003DFF RID: 15871
+		private static string saveDataPath = null;
+
+		// Token: 0x04003E00 RID: 15872
+		private static string coreModsFolderPath = null;
+
+		// Token: 0x04003E01 RID: 15873
+		public const string SoundsFolder = "Sounds/";
+
+		// Token: 0x04003E02 RID: 15874
+		public const string TexturesFolder = "Textures/";
+
+		// Token: 0x04003E03 RID: 15875
+		public const string StringsFolder = "Strings/";
+
+		// Token: 0x04003E04 RID: 15876
+		public const string DefsFolder = "Defs/";
+
+		// Token: 0x04003E05 RID: 15877
+		public const string PatchesFolder = "Patches/";
+
+		// Token: 0x04003E06 RID: 15878
+		public const string BackstoriesPath = "Backstories";
+
+		// Token: 0x04003E07 RID: 15879
+		public const string SavedGameExtension = ".rws";
+
+		// Token: 0x04003E08 RID: 15880
+		public const string ScenarioExtension = ".rsc";
+
+		// Token: 0x04003E09 RID: 15881
+		public const string ExternalHistoryFileExtension = ".rwh";
+
+		// Token: 0x04003E0A RID: 15882
+		private const string SaveDataFolderCommand = "savedatafolder";
+
+		// Token: 0x04003E0B RID: 15883
+		private static readonly string[] FilePathRaw = new string[]
+		{
+			"Ž",
+			"ž",
+			"Ÿ",
+			"¡",
+			"¢",
+			"£",
+			"¤",
+			"¥",
+			"¦",
+			"§",
+			"¨",
+			"©",
+			"ª",
+			"À",
+			"Á",
+			"Â",
+			"Ã",
+			"Ä",
+			"Å",
+			"Æ",
+			"Ç",
+			"È",
+			"É",
+			"Ê",
+			"Ë",
+			"Ì",
+			"Í",
+			"Î",
+			"Ï",
+			"Ð",
+			"Ñ",
+			"Ò",
+			"Ó",
+			"Ô",
+			"Õ",
+			"Ö",
+			"Ù",
+			"Ú",
+			"Û",
+			"Ü",
+			"Ý",
+			"Þ",
+			"ß",
+			"à",
+			"á",
+			"â",
+			"ã",
+			"ä",
+			"å",
+			"æ",
+			"ç",
+			"è",
+			"é",
+			"ê",
+			"ë",
+			"ì",
+			"í",
+			"î",
+			"ï",
+			"ð",
+			"ñ",
+			"ò",
+			"ó",
+			"ô",
+			"õ",
+			"ö",
+			"ù",
+			"ú",
+			"û",
+			"ü",
+			"ý",
+			"þ",
+			"ÿ"
+		};
+
+		// Token: 0x04003E0C RID: 15884
+		private static readonly string[] FilePathSafe = new string[]
+		{
+			"%8E",
+			"%9E",
+			"%9F",
+			"%A1",
+			"%A2",
+			"%A3",
+			"%A4",
+			"%A5",
+			"%A6",
+			"%A7",
+			"%A8",
+			"%A9",
+			"%AA",
+			"%C0",
+			"%C1",
+			"%C2",
+			"%C3",
+			"%C4",
+			"%C5",
+			"%C6",
+			"%C7",
+			"%C8",
+			"%C9",
+			"%CA",
+			"%CB",
+			"%CC",
+			"%CD",
+			"%CE",
+			"%CF",
+			"%D0",
+			"%D1",
+			"%D2",
+			"%D3",
+			"%D4",
+			"%D5",
+			"%D6",
+			"%D9",
+			"%DA",
+			"%DB",
+			"%DC",
+			"%DD",
+			"%DE",
+			"%DF",
+			"%E0",
+			"%E1",
+			"%E2",
+			"%E3",
+			"%E4",
+			"%E5",
+			"%E6",
+			"%E7",
+			"%E8",
+			"%E9",
+			"%EA",
+			"%EB",
+			"%EC",
+			"%ED",
+			"%EE",
+			"%EF",
+			"%F0",
+			"%F1",
+			"%F2",
+			"%F3",
+			"%F4",
+			"%F5",
+			"%F6",
+			"%F9",
+			"%FA",
+			"%FB",
+			"%FC",
+			"%FD",
+			"%FE",
+			"%FF"
+		};
+
 		// Token: 0x17000F29 RID: 3881
 		// (get) Token: 0x06005E16 RID: 24086 RVA: 0x002FDDA0 File Offset: 0x002FC1A0
 		public static string SaveDataFolderPath
@@ -427,197 +619,5 @@ namespace Verse
 			}
 			return "file:///" + text;
 		}
-
-		// Token: 0x04003DFF RID: 15871
-		private static string saveDataPath = null;
-
-		// Token: 0x04003E00 RID: 15872
-		private static string coreModsFolderPath = null;
-
-		// Token: 0x04003E01 RID: 15873
-		public const string SoundsFolder = "Sounds/";
-
-		// Token: 0x04003E02 RID: 15874
-		public const string TexturesFolder = "Textures/";
-
-		// Token: 0x04003E03 RID: 15875
-		public const string StringsFolder = "Strings/";
-
-		// Token: 0x04003E04 RID: 15876
-		public const string DefsFolder = "Defs/";
-
-		// Token: 0x04003E05 RID: 15877
-		public const string PatchesFolder = "Patches/";
-
-		// Token: 0x04003E06 RID: 15878
-		public const string BackstoriesPath = "Backstories";
-
-		// Token: 0x04003E07 RID: 15879
-		public const string SavedGameExtension = ".rws";
-
-		// Token: 0x04003E08 RID: 15880
-		public const string ScenarioExtension = ".rsc";
-
-		// Token: 0x04003E09 RID: 15881
-		public const string ExternalHistoryFileExtension = ".rwh";
-
-		// Token: 0x04003E0A RID: 15882
-		private const string SaveDataFolderCommand = "savedatafolder";
-
-		// Token: 0x04003E0B RID: 15883
-		private static readonly string[] FilePathRaw = new string[]
-		{
-			"Ž",
-			"ž",
-			"Ÿ",
-			"¡",
-			"¢",
-			"£",
-			"¤",
-			"¥",
-			"¦",
-			"§",
-			"¨",
-			"©",
-			"ª",
-			"À",
-			"Á",
-			"Â",
-			"Ã",
-			"Ä",
-			"Å",
-			"Æ",
-			"Ç",
-			"È",
-			"É",
-			"Ê",
-			"Ë",
-			"Ì",
-			"Í",
-			"Î",
-			"Ï",
-			"Ð",
-			"Ñ",
-			"Ò",
-			"Ó",
-			"Ô",
-			"Õ",
-			"Ö",
-			"Ù",
-			"Ú",
-			"Û",
-			"Ü",
-			"Ý",
-			"Þ",
-			"ß",
-			"à",
-			"á",
-			"â",
-			"ã",
-			"ä",
-			"å",
-			"æ",
-			"ç",
-			"è",
-			"é",
-			"ê",
-			"ë",
-			"ì",
-			"í",
-			"î",
-			"ï",
-			"ð",
-			"ñ",
-			"ò",
-			"ó",
-			"ô",
-			"õ",
-			"ö",
-			"ù",
-			"ú",
-			"û",
-			"ü",
-			"ý",
-			"þ",
-			"ÿ"
-		};
-
-		// Token: 0x04003E0C RID: 15884
-		private static readonly string[] FilePathSafe = new string[]
-		{
-			"%8E",
-			"%9E",
-			"%9F",
-			"%A1",
-			"%A2",
-			"%A3",
-			"%A4",
-			"%A5",
-			"%A6",
-			"%A7",
-			"%A8",
-			"%A9",
-			"%AA",
-			"%C0",
-			"%C1",
-			"%C2",
-			"%C3",
-			"%C4",
-			"%C5",
-			"%C6",
-			"%C7",
-			"%C8",
-			"%C9",
-			"%CA",
-			"%CB",
-			"%CC",
-			"%CD",
-			"%CE",
-			"%CF",
-			"%D0",
-			"%D1",
-			"%D2",
-			"%D3",
-			"%D4",
-			"%D5",
-			"%D6",
-			"%D9",
-			"%DA",
-			"%DB",
-			"%DC",
-			"%DD",
-			"%DE",
-			"%DF",
-			"%E0",
-			"%E1",
-			"%E2",
-			"%E3",
-			"%E4",
-			"%E5",
-			"%E6",
-			"%E7",
-			"%E8",
-			"%E9",
-			"%EA",
-			"%EB",
-			"%EC",
-			"%ED",
-			"%EE",
-			"%EF",
-			"%F0",
-			"%F1",
-			"%F2",
-			"%F3",
-			"%F4",
-			"%F5",
-			"%F6",
-			"%F9",
-			"%FA",
-			"%FB",
-			"%FC",
-			"%FD",
-			"%FE",
-			"%FF"
-		};
 	}
 }

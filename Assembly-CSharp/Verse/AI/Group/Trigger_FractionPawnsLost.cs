@@ -5,6 +5,9 @@ namespace Verse.AI.Group
 	// Token: 0x02000A15 RID: 2581
 	public class Trigger_FractionPawnsLost : Trigger
 	{
+		// Token: 0x040024A9 RID: 9385
+		private float fraction = 0.5f;
+
 		// Token: 0x060039A7 RID: 14759 RVA: 0x001E8347 File Offset: 0x001E6747
 		public Trigger_FractionPawnsLost(float fraction)
 		{
@@ -16,8 +19,5 @@ namespace Verse.AI.Group
 		{
 			return signal.type == TriggerSignalType.PawnLost && (float)lord.numPawnsLostViolently >= (float)lord.numPawnsEverGained * this.fraction;
 		}
-
-		// Token: 0x040024A9 RID: 9385
-		private float fraction = 0.5f;
 	}
 }

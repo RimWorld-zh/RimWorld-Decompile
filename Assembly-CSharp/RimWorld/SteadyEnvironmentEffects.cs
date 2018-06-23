@@ -10,6 +10,54 @@ namespace RimWorld
 	// Token: 0x020009C8 RID: 2504
 	public class SteadyEnvironmentEffects
 	{
+		// Token: 0x040023CD RID: 9165
+		private Map map;
+
+		// Token: 0x040023CE RID: 9166
+		private ModuleBase snowNoise;
+
+		// Token: 0x040023CF RID: 9167
+		private int cycleIndex;
+
+		// Token: 0x040023D0 RID: 9168
+		private float outdoorMeltAmount;
+
+		// Token: 0x040023D1 RID: 9169
+		private float snowRate;
+
+		// Token: 0x040023D2 RID: 9170
+		private float rainRate;
+
+		// Token: 0x040023D3 RID: 9171
+		private float deteriorationRate;
+
+		// Token: 0x040023D4 RID: 9172
+		private const float MapFractionCheckPerTick = 0.0006f;
+
+		// Token: 0x040023D5 RID: 9173
+		private const float RainFireCheckInterval = 97f;
+
+		// Token: 0x040023D6 RID: 9174
+		private const float RainFireChanceOverall = 0.02f;
+
+		// Token: 0x040023D7 RID: 9175
+		private const float RainFireChancePerBuilding = 0.2f;
+
+		// Token: 0x040023D8 RID: 9176
+		private const float SnowFallRateFactor = 0.046f;
+
+		// Token: 0x040023D9 RID: 9177
+		private const float SnowMeltRateFactor = 0.0058f;
+
+		// Token: 0x040023DA RID: 9178
+		private static readonly FloatRange AutoIgnitionTemperatureRange = new FloatRange(240f, 1000f);
+
+		// Token: 0x040023DB RID: 9179
+		private const float AutoIgnitionChanceFactor = 0.7f;
+
+		// Token: 0x040023DC RID: 9180
+		private const float FireGlowRate = 0.33f;
+
 		// Token: 0x0600381F RID: 14367 RVA: 0x001DEA27 File Offset: 0x001DCE27
 		public SteadyEnvironmentEffects(Map map)
 		{
@@ -287,53 +335,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x040023CD RID: 9165
-		private Map map;
-
-		// Token: 0x040023CE RID: 9166
-		private ModuleBase snowNoise;
-
-		// Token: 0x040023CF RID: 9167
-		private int cycleIndex;
-
-		// Token: 0x040023D0 RID: 9168
-		private float outdoorMeltAmount;
-
-		// Token: 0x040023D1 RID: 9169
-		private float snowRate;
-
-		// Token: 0x040023D2 RID: 9170
-		private float rainRate;
-
-		// Token: 0x040023D3 RID: 9171
-		private float deteriorationRate;
-
-		// Token: 0x040023D4 RID: 9172
-		private const float MapFractionCheckPerTick = 0.0006f;
-
-		// Token: 0x040023D5 RID: 9173
-		private const float RainFireCheckInterval = 97f;
-
-		// Token: 0x040023D6 RID: 9174
-		private const float RainFireChanceOverall = 0.02f;
-
-		// Token: 0x040023D7 RID: 9175
-		private const float RainFireChancePerBuilding = 0.2f;
-
-		// Token: 0x040023D8 RID: 9176
-		private const float SnowFallRateFactor = 0.046f;
-
-		// Token: 0x040023D9 RID: 9177
-		private const float SnowMeltRateFactor = 0.0058f;
-
-		// Token: 0x040023DA RID: 9178
-		private static readonly FloatRange AutoIgnitionTemperatureRange = new FloatRange(240f, 1000f);
-
-		// Token: 0x040023DB RID: 9179
-		private const float AutoIgnitionChanceFactor = 0.7f;
-
-		// Token: 0x040023DC RID: 9180
-		private const float FireGlowRate = 0.33f;
 	}
 }

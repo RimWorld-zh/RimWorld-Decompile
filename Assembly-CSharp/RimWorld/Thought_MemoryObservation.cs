@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000534 RID: 1332
 	public class Thought_MemoryObservation : Thought_Memory
 	{
+		// Token: 0x04000EA2 RID: 3746
+		private int targetThingID;
+
 		// Token: 0x17000377 RID: 887
 		// (set) Token: 0x060018C2 RID: 6338 RVA: 0x000D8496 File Offset: 0x000D6896
 		public Thing Target
@@ -52,8 +55,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000EA2 RID: 3746
-		private int targetThingID;
 	}
 }

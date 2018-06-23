@@ -8,6 +8,21 @@ namespace Verse
 	// Token: 0x02000E89 RID: 3721
 	public class MouseoverReadout
 	{
+		// Token: 0x04003A1A RID: 14874
+		private TerrainDef cachedTerrain;
+
+		// Token: 0x04003A1B RID: 14875
+		private string cachedTerrainString;
+
+		// Token: 0x04003A1C RID: 14876
+		private string[] glowStrings;
+
+		// Token: 0x04003A1D RID: 14877
+		private const float YInterval = 19f;
+
+		// Token: 0x04003A1E RID: 14878
+		private static readonly Vector2 BotLeft = new Vector2(15f, 65f);
+
 		// Token: 0x060057E6 RID: 22502 RVA: 0x002D184B File Offset: 0x002CFC4B
 		public MouseoverReadout()
 		{
@@ -128,20 +143,5 @@ namespace Verse
 			float f = 13f / (extraPathTicks + 13f);
 			return f.ToStringPercent();
 		}
-
-		// Token: 0x04003A1A RID: 14874
-		private TerrainDef cachedTerrain;
-
-		// Token: 0x04003A1B RID: 14875
-		private string cachedTerrainString;
-
-		// Token: 0x04003A1C RID: 14876
-		private string[] glowStrings;
-
-		// Token: 0x04003A1D RID: 14877
-		private const float YInterval = 19f;
-
-		// Token: 0x04003A1E RID: 14878
-		private static readonly Vector2 BotLeft = new Vector2(15f, 65f);
 	}
 }

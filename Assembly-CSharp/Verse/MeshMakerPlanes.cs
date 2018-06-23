@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000D73 RID: 3443
 	internal static class MeshMakerPlanes
 	{
+		// Token: 0x0400337E RID: 13182
+		private const float BackLiftAmount = 0.00234375f;
+
+		// Token: 0x0400337F RID: 13183
+		private const float TwistAmount = 0.001171875f;
+
 		// Token: 0x06004D3B RID: 19771 RVA: 0x00283DA0 File Offset: 0x002821A0
 		public static Mesh NewPlaneMesh(float size)
 		{
@@ -95,11 +101,5 @@ namespace Verse
 			mesh.uv = array;
 			return mesh;
 		}
-
-		// Token: 0x0400337E RID: 13182
-		private const float BackLiftAmount = 0.00234375f;
-
-		// Token: 0x0400337F RID: 13183
-		private const float TwistAmount = 0.001171875f;
 	}
 }

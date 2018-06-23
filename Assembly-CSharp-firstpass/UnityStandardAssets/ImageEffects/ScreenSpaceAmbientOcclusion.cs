@@ -9,6 +9,45 @@ namespace UnityStandardAssets.ImageEffects
 	[AddComponentMenu("Image Effects/Rendering/Screen Space Ambient Occlusion")]
 	public class ScreenSpaceAmbientOcclusion : MonoBehaviour
 	{
+		// Token: 0x04000847 RID: 2119
+		[Range(0.05f, 1f)]
+		public float m_Radius = 0.4f;
+
+		// Token: 0x04000848 RID: 2120
+		public ScreenSpaceAmbientOcclusion.SSAOSamples m_SampleCount = ScreenSpaceAmbientOcclusion.SSAOSamples.Medium;
+
+		// Token: 0x04000849 RID: 2121
+		[Range(0.5f, 4f)]
+		public float m_OcclusionIntensity = 1.5f;
+
+		// Token: 0x0400084A RID: 2122
+		[Range(0f, 4f)]
+		public int m_Blur = 2;
+
+		// Token: 0x0400084B RID: 2123
+		[Range(1f, 6f)]
+		public int m_Downsampling = 2;
+
+		// Token: 0x0400084C RID: 2124
+		[Range(0.2f, 2f)]
+		public float m_OcclusionAttenuation = 1f;
+
+		// Token: 0x0400084D RID: 2125
+		[Range(1E-05f, 0.5f)]
+		public float m_MinZ = 0.01f;
+
+		// Token: 0x0400084E RID: 2126
+		public Shader m_SSAOShader;
+
+		// Token: 0x0400084F RID: 2127
+		private Material m_SSAOMaterial;
+
+		// Token: 0x04000850 RID: 2128
+		public Texture2D m_RandomTexture;
+
+		// Token: 0x04000851 RID: 2129
+		private bool m_Supported;
+
 		// Token: 0x0600095C RID: 2396 RVA: 0x000185F4 File Offset: 0x000167F4
 		private static Material CreateMaterial(Shader shader)
 		{
@@ -140,45 +179,6 @@ namespace UnityStandardAssets.ImageEffects
 				RenderTexture.ReleaseTemporary(renderTexture);
 			}
 		}
-
-		// Token: 0x04000847 RID: 2119
-		[Range(0.05f, 1f)]
-		public float m_Radius = 0.4f;
-
-		// Token: 0x04000848 RID: 2120
-		public ScreenSpaceAmbientOcclusion.SSAOSamples m_SampleCount = ScreenSpaceAmbientOcclusion.SSAOSamples.Medium;
-
-		// Token: 0x04000849 RID: 2121
-		[Range(0.5f, 4f)]
-		public float m_OcclusionIntensity = 1.5f;
-
-		// Token: 0x0400084A RID: 2122
-		[Range(0f, 4f)]
-		public int m_Blur = 2;
-
-		// Token: 0x0400084B RID: 2123
-		[Range(1f, 6f)]
-		public int m_Downsampling = 2;
-
-		// Token: 0x0400084C RID: 2124
-		[Range(0.2f, 2f)]
-		public float m_OcclusionAttenuation = 1f;
-
-		// Token: 0x0400084D RID: 2125
-		[Range(1E-05f, 0.5f)]
-		public float m_MinZ = 0.01f;
-
-		// Token: 0x0400084E RID: 2126
-		public Shader m_SSAOShader;
-
-		// Token: 0x0400084F RID: 2127
-		private Material m_SSAOMaterial;
-
-		// Token: 0x04000850 RID: 2128
-		public Texture2D m_RandomTexture;
-
-		// Token: 0x04000851 RID: 2129
-		private bool m_Supported;
 
 		// Token: 0x020001A7 RID: 423
 		public enum SSAOSamples

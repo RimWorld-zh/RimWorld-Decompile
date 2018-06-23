@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000822 RID: 2082
 	public class TransferableImmutable : Transferable
 	{
+		// Token: 0x04001904 RID: 6404
+		public List<Thing> things = new List<Thing>();
+
 		// Token: 0x1700076A RID: 1898
 		// (get) Token: 0x06002EBD RID: 11965 RVA: 0x0018F164 File Offset: 0x0018D564
 		public override Thing AnyThing
@@ -171,8 +174,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04001904 RID: 6404
-		public List<Thing> things = new List<Thing>();
 	}
 }

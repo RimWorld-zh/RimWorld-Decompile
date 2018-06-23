@@ -8,6 +8,18 @@ namespace RimWorld
 	// Token: 0x02000095 RID: 149
 	public class JobDriver_FoodDeliver : JobDriver
 	{
+		// Token: 0x04000254 RID: 596
+		private bool usingNutrientPasteDispenser;
+
+		// Token: 0x04000255 RID: 597
+		private bool eatingFromInventory;
+
+		// Token: 0x04000256 RID: 598
+		private const TargetIndex FoodSourceInd = TargetIndex.A;
+
+		// Token: 0x04000257 RID: 599
+		private const TargetIndex DelivereeInd = TargetIndex.B;
+
 		// Token: 0x170000BF RID: 191
 		// (get) Token: 0x060003BF RID: 959 RVA: 0x0002A914 File Offset: 0x00028D14
 		private Pawn Deliveree
@@ -99,17 +111,5 @@ namespace RimWorld
 			yield return toil;
 			yield break;
 		}
-
-		// Token: 0x04000254 RID: 596
-		private bool usingNutrientPasteDispenser;
-
-		// Token: 0x04000255 RID: 597
-		private bool eatingFromInventory;
-
-		// Token: 0x04000256 RID: 598
-		private const TargetIndex FoodSourceInd = TargetIndex.A;
-
-		// Token: 0x04000257 RID: 599
-		private const TargetIndex DelivereeInd = TargetIndex.B;
 	}
 }

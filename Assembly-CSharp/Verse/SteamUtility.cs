@@ -8,6 +8,9 @@ namespace Verse
 	// Token: 0x02000FBE RID: 4030
 	public static class SteamUtility
 	{
+		// Token: 0x04003FB8 RID: 16312
+		private static string cachedPersonaName = null;
+
 		// Token: 0x17000FC4 RID: 4036
 		// (get) Token: 0x0600616D RID: 24941 RVA: 0x00313204 File Offset: 0x00311604
 		public static string SteamPersonaName
@@ -52,8 +55,5 @@ namespace Verse
 		{
 			return "steam://url/CommunityFilePage/" + pfid;
 		}
-
-		// Token: 0x04003FB8 RID: 16312
-		private static string cachedPersonaName = null;
 	}
 }

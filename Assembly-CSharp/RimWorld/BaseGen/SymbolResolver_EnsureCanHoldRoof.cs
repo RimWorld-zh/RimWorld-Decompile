@@ -8,6 +8,15 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003AE RID: 942
 	public class SymbolResolver_EnsureCanHoldRoof : SymbolResolver
 	{
+		// Token: 0x04000A19 RID: 2585
+		private static HashSet<IntVec3> roofsAboutToCollapse = new HashSet<IntVec3>();
+
+		// Token: 0x04000A1A RID: 2586
+		private static List<IntVec3> edgeRoofs = new List<IntVec3>();
+
+		// Token: 0x04000A1B RID: 2587
+		private static HashSet<IntVec3> visited = new HashSet<IntVec3>();
+
 		// Token: 0x06001056 RID: 4182 RVA: 0x00089F30 File Offset: 0x00088330
 		public override void Resolve(ResolveParams rp)
 		{
@@ -152,14 +161,5 @@ namespace RimWorld.BaseGen
 			}
 			return result;
 		}
-
-		// Token: 0x04000A19 RID: 2585
-		private static HashSet<IntVec3> roofsAboutToCollapse = new HashSet<IntVec3>();
-
-		// Token: 0x04000A1A RID: 2586
-		private static List<IntVec3> edgeRoofs = new List<IntVec3>();
-
-		// Token: 0x04000A1B RID: 2587
-		private static HashSet<IntVec3> visited = new HashSet<IntVec3>();
 	}
 }

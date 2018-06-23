@@ -9,6 +9,15 @@ namespace RimWorld.Planet
 	// Token: 0x02000597 RID: 1431
 	public class WorldLayer_Terrain : WorldLayer
 	{
+		// Token: 0x0400101F RID: 4127
+		private List<MeshCollider> meshCollidersInOrder = new List<MeshCollider>();
+
+		// Token: 0x04001020 RID: 4128
+		private List<List<int>> triangleIndexToTileID = new List<List<int>>();
+
+		// Token: 0x04001021 RID: 4129
+		private List<Vector3> elevationValues = new List<Vector3>();
+
 		// Token: 0x06001B54 RID: 6996 RVA: 0x000EB524 File Offset: 0x000E9924
 		public override IEnumerable Regenerate()
 		{
@@ -203,14 +212,5 @@ namespace RimWorld.Planet
 			}
 			yield break;
 		}
-
-		// Token: 0x0400101F RID: 4127
-		private List<MeshCollider> meshCollidersInOrder = new List<MeshCollider>();
-
-		// Token: 0x04001020 RID: 4128
-		private List<List<int>> triangleIndexToTileID = new List<List<int>>();
-
-		// Token: 0x04001021 RID: 4129
-		private List<Vector3> elevationValues = new List<Vector3>();
 	}
 }

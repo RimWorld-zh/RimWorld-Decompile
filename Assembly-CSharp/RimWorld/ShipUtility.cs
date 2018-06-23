@@ -10,6 +10,15 @@ namespace RimWorld
 	// Token: 0x0200074D RID: 1869
 	public static class ShipUtility
 	{
+		// Token: 0x04001694 RID: 5780
+		private static Dictionary<ThingDef, int> requiredParts;
+
+		// Token: 0x04001695 RID: 5781
+		private static List<Building> closedSet = new List<Building>();
+
+		// Token: 0x04001696 RID: 5782
+		private static List<Building> openSet = new List<Building>();
+
 		// Token: 0x06002978 RID: 10616 RVA: 0x001608A8 File Offset: 0x0015ECA8
 		public static Dictionary<ThingDef, int> RequiredParts()
 		{
@@ -181,14 +190,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04001694 RID: 5780
-		private static Dictionary<ThingDef, int> requiredParts;
-
-		// Token: 0x04001695 RID: 5781
-		private static List<Building> closedSet = new List<Building>();
-
-		// Token: 0x04001696 RID: 5782
-		private static List<Building> openSet = new List<Building>();
 	}
 }

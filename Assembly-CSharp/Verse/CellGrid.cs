@@ -5,6 +5,15 @@ namespace Verse
 	// Token: 0x02000C1B RID: 3099
 	public class CellGrid
 	{
+		// Token: 0x04002E54 RID: 11860
+		private int[] grid;
+
+		// Token: 0x04002E55 RID: 11861
+		private int mapSizeX;
+
+		// Token: 0x04002E56 RID: 11862
+		private int mapSizeZ;
+
 		// Token: 0x060043D2 RID: 17362 RVA: 0x0023CEB8 File Offset: 0x0023B2B8
 		public CellGrid()
 		{
@@ -100,14 +109,5 @@ namespace Verse
 				this.grid[i] = num;
 			}
 		}
-
-		// Token: 0x04002E54 RID: 11860
-		private int[] grid;
-
-		// Token: 0x04002E55 RID: 11861
-		private int mapSizeX;
-
-		// Token: 0x04002E56 RID: 11862
-		private int mapSizeZ;
 	}
 }

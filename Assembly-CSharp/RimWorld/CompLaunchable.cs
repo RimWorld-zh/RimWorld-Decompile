@@ -11,6 +11,18 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class CompLaunchable : ThingComp
 	{
+		// Token: 0x040015E8 RID: 5608
+		private CompTransporter cachedCompTransporter;
+
+		// Token: 0x040015E9 RID: 5609
+		public static readonly Texture2D TargeterMouseAttachment = ContentFinder<Texture2D>.Get("UI/Overlays/LaunchableMouseAttachment", true);
+
+		// Token: 0x040015EA RID: 5610
+		private static readonly Texture2D LaunchCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/LaunchShip", true);
+
+		// Token: 0x040015EB RID: 5611
+		private const float FuelPerTile = 2.25f;
+
 		// Token: 0x17000609 RID: 1545
 		// (get) Token: 0x060027F3 RID: 10227 RVA: 0x00155A48 File Offset: 0x00153E48
 		public Building FuelingPortSource
@@ -593,17 +605,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x040015E8 RID: 5608
-		private CompTransporter cachedCompTransporter;
-
-		// Token: 0x040015E9 RID: 5609
-		public static readonly Texture2D TargeterMouseAttachment = ContentFinder<Texture2D>.Get("UI/Overlays/LaunchableMouseAttachment", true);
-
-		// Token: 0x040015EA RID: 5610
-		private static readonly Texture2D LaunchCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/LaunchShip", true);
-
-		// Token: 0x040015EB RID: 5611
-		private const float FuelPerTile = 2.25f;
 	}
 }

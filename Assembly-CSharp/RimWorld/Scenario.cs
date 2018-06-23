@@ -12,6 +12,53 @@ namespace RimWorld
 	// Token: 0x02000650 RID: 1616
 	public class Scenario : IExposable, WorkshopUploadable
 	{
+		// Token: 0x04001314 RID: 4884
+		[MustTranslate]
+		public string name;
+
+		// Token: 0x04001315 RID: 4885
+		[MustTranslate]
+		public string summary;
+
+		// Token: 0x04001316 RID: 4886
+		[MustTranslate]
+		public string description;
+
+		// Token: 0x04001317 RID: 4887
+		internal ScenPart_PlayerFaction playerFaction;
+
+		// Token: 0x04001318 RID: 4888
+		internal List<ScenPart> parts = new List<ScenPart>();
+
+		// Token: 0x04001319 RID: 4889
+		private PublishedFileId_t publishedFileIdInt = PublishedFileId_t.Invalid;
+
+		// Token: 0x0400131A RID: 4890
+		private ScenarioCategory categoryInt = ScenarioCategory.Undefined;
+
+		// Token: 0x0400131B RID: 4891
+		[NoTranslate]
+		public string fileName;
+
+		// Token: 0x0400131C RID: 4892
+		private WorkshopItemHook workshopHookInt;
+
+		// Token: 0x0400131D RID: 4893
+		[NoTranslate]
+		private string tempUploadDir;
+
+		// Token: 0x0400131E RID: 4894
+		public bool enabled = true;
+
+		// Token: 0x0400131F RID: 4895
+		public const int NameMaxLength = 55;
+
+		// Token: 0x04001320 RID: 4896
+		public const int SummaryMaxLength = 300;
+
+		// Token: 0x04001321 RID: 4897
+		public const int DescriptionMaxLength = 1000;
+
 		// Token: 0x170004F0 RID: 1264
 		// (get) Token: 0x06002194 RID: 8596 RVA: 0x0011CE14 File Offset: 0x0011B214
 		public FileInfo File
@@ -463,52 +510,5 @@ namespace RimWorld
 			}
 			return num ^ this.publishedFileIdInt.GetHashCode();
 		}
-
-		// Token: 0x04001314 RID: 4884
-		[MustTranslate]
-		public string name;
-
-		// Token: 0x04001315 RID: 4885
-		[MustTranslate]
-		public string summary;
-
-		// Token: 0x04001316 RID: 4886
-		[MustTranslate]
-		public string description;
-
-		// Token: 0x04001317 RID: 4887
-		internal ScenPart_PlayerFaction playerFaction;
-
-		// Token: 0x04001318 RID: 4888
-		internal List<ScenPart> parts = new List<ScenPart>();
-
-		// Token: 0x04001319 RID: 4889
-		private PublishedFileId_t publishedFileIdInt = PublishedFileId_t.Invalid;
-
-		// Token: 0x0400131A RID: 4890
-		private ScenarioCategory categoryInt = ScenarioCategory.Undefined;
-
-		// Token: 0x0400131B RID: 4891
-		[NoTranslate]
-		public string fileName;
-
-		// Token: 0x0400131C RID: 4892
-		private WorkshopItemHook workshopHookInt;
-
-		// Token: 0x0400131D RID: 4893
-		[NoTranslate]
-		private string tempUploadDir;
-
-		// Token: 0x0400131E RID: 4894
-		public bool enabled = true;
-
-		// Token: 0x0400131F RID: 4895
-		public const int NameMaxLength = 55;
-
-		// Token: 0x04001320 RID: 4896
-		public const int SummaryMaxLength = 300;
-
-		// Token: 0x04001321 RID: 4897
-		public const int DescriptionMaxLength = 1000;
 	}
 }

@@ -7,6 +7,12 @@ namespace RimWorld.Planet
 	// Token: 0x02000610 RID: 1552
 	public class TransportPodsArrivalAction_FormCaravan : TransportPodsArrivalAction
 	{
+		// Token: 0x04001244 RID: 4676
+		private static List<Pawn> tmpPawns = new List<Pawn>();
+
+		// Token: 0x04001245 RID: 4677
+		private static List<Thing> tmpContainedThings = new List<Thing>();
+
 		// Token: 0x06001F47 RID: 8007 RVA: 0x0010FB6C File Offset: 0x0010DF6C
 		public override FloatMenuAcceptanceReport StillValid(IEnumerable<IThingHolder> pods, int destinationTile)
 		{
@@ -66,11 +72,5 @@ namespace RimWorld.Planet
 		{
 			return TransportPodsArrivalActionUtility.AnyPotentialCaravanOwner(pods, Faction.OfPlayer) && !Find.World.Impassable(tile);
 		}
-
-		// Token: 0x04001244 RID: 4676
-		private static List<Pawn> tmpPawns = new List<Pawn>();
-
-		// Token: 0x04001245 RID: 4677
-		private static List<Thing> tmpContainedThings = new List<Thing>();
 	}
 }

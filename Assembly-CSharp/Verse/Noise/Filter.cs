@@ -5,6 +5,12 @@ namespace Verse.Noise
 	// Token: 0x02000F8D RID: 3981
 	public class Filter : ModuleBase
 	{
+		// Token: 0x04003F19 RID: 16153
+		private float from;
+
+		// Token: 0x04003F1A RID: 16154
+		private float to;
+
 		// Token: 0x06006039 RID: 24633 RVA: 0x0030DC2E File Offset: 0x0030C02E
 		public Filter() : base(1)
 		{
@@ -33,11 +39,5 @@ namespace Verse.Noise
 			}
 			return result;
 		}
-
-		// Token: 0x04003F19 RID: 16153
-		private float from;
-
-		// Token: 0x04003F1A RID: 16154
-		private float to;
 	}
 }

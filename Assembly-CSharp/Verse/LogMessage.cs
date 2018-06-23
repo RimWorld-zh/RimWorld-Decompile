@@ -6,6 +6,18 @@ namespace Verse
 	// Token: 0x02000F15 RID: 3861
 	public class LogMessage
 	{
+		// Token: 0x04003D85 RID: 15749
+		public string text;
+
+		// Token: 0x04003D86 RID: 15750
+		public LogMessageType type = LogMessageType.Message;
+
+		// Token: 0x04003D87 RID: 15751
+		public int repeats = 1;
+
+		// Token: 0x04003D88 RID: 15752
+		private string stackTrace = null;
+
 		// Token: 0x06005CAC RID: 23724 RVA: 0x002F07FD File Offset: 0x002EEBFD
 		public LogMessage(string text)
 		{
@@ -95,17 +107,5 @@ namespace Verse
 		{
 			return this.text == other.text && this.type == other.type;
 		}
-
-		// Token: 0x04003D85 RID: 15749
-		public string text;
-
-		// Token: 0x04003D86 RID: 15750
-		public LogMessageType type = LogMessageType.Message;
-
-		// Token: 0x04003D87 RID: 15751
-		public int repeats = 1;
-
-		// Token: 0x04003D88 RID: 15752
-		private string stackTrace = null;
 	}
 }

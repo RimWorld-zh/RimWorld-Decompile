@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000675 RID: 1653
 	public class Blueprint_Install : Blueprint
 	{
+		// Token: 0x04001391 RID: 5009
+		private MinifiedThing miniToInstall;
+
+		// Token: 0x04001392 RID: 5010
+		private Building buildingToReinstall;
+
 		// Token: 0x17000517 RID: 1303
 		// (get) Token: 0x060022C1 RID: 8897 RVA: 0x0012B748 File Offset: 0x00129B48
 		public Thing MiniToInstallOrBuildingToReinstall
@@ -160,11 +166,5 @@ namespace RimWorld
 				this.buildingToReinstall = buildingToReinstall;
 			}
 		}
-
-		// Token: 0x04001391 RID: 5009
-		private MinifiedThing miniToInstall;
-
-		// Token: 0x04001392 RID: 5010
-		private Building buildingToReinstall;
 	}
 }

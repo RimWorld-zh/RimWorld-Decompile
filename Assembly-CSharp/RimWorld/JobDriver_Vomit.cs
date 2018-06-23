@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000088 RID: 136
 	public class JobDriver_Vomit : JobDriver
 	{
+		// Token: 0x04000249 RID: 585
+		private int ticksLeft;
+
 		// Token: 0x06000384 RID: 900 RVA: 0x0002778B File Offset: 0x00025B8B
 		public override void SetInitialPosture()
 		{
@@ -79,8 +82,5 @@ namespace RimWorld
 			yield return to;
 			yield break;
 		}
-
-		// Token: 0x04000249 RID: 585
-		private int ticksLeft;
 	}
 }

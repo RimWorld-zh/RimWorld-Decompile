@@ -7,6 +7,18 @@ namespace RimWorld
 	// Token: 0x0200050A RID: 1290
 	public class Outfit : IExposable, ILoadReferenceable
 	{
+		// Token: 0x04000DC8 RID: 3528
+		public int uniqueId;
+
+		// Token: 0x04000DC9 RID: 3529
+		public string label;
+
+		// Token: 0x04000DCA RID: 3530
+		public ThingFilter filter = new ThingFilter();
+
+		// Token: 0x04000DCB RID: 3531
+		public static readonly Regex ValidNameRegex = new Regex("^[a-zA-Z0-9 '\\-]*$");
+
 		// Token: 0x06001734 RID: 5940 RVA: 0x000CC377 File Offset: 0x000CA777
 		public Outfit()
 		{
@@ -32,17 +44,5 @@ namespace RimWorld
 		{
 			return "Outfit_" + this.label + this.uniqueId.ToString();
 		}
-
-		// Token: 0x04000DC8 RID: 3528
-		public int uniqueId;
-
-		// Token: 0x04000DC9 RID: 3529
-		public string label;
-
-		// Token: 0x04000DCA RID: 3530
-		public ThingFilter filter = new ThingFilter();
-
-		// Token: 0x04000DCB RID: 3531
-		public static readonly Regex ValidNameRegex = new Regex("^[a-zA-Z0-9 '\\-]*$");
 	}
 }

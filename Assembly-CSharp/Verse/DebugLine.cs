@@ -6,6 +6,18 @@ namespace Verse
 	// Token: 0x02000C05 RID: 3077
 	internal struct DebugLine
 	{
+		// Token: 0x04002E09 RID: 11785
+		public Vector3 a;
+
+		// Token: 0x04002E0A RID: 11786
+		public Vector3 b;
+
+		// Token: 0x04002E0B RID: 11787
+		private int deathTick;
+
+		// Token: 0x04002E0C RID: 11788
+		private SimpleColor color;
+
 		// Token: 0x06004353 RID: 17235 RVA: 0x002396C0 File Offset: 0x00237AC0
 		public DebugLine(Vector3 a, Vector3 b, int ticksLeft = 100, SimpleColor color = SimpleColor.White)
 		{
@@ -30,17 +42,5 @@ namespace Verse
 		{
 			GenDraw.DrawLineBetween(this.a, this.b, this.color);
 		}
-
-		// Token: 0x04002E09 RID: 11785
-		public Vector3 a;
-
-		// Token: 0x04002E0A RID: 11786
-		public Vector3 b;
-
-		// Token: 0x04002E0B RID: 11787
-		private int deathTick;
-
-		// Token: 0x04002E0C RID: 11788
-		private SimpleColor color;
 	}
 }

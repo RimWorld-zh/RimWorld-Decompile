@@ -7,6 +7,12 @@ namespace RimWorld.Planet
 	// Token: 0x02000613 RID: 1555
 	public class TransportPodsArrivalAction_LandInSpecificCell : TransportPodsArrivalAction
 	{
+		// Token: 0x04001249 RID: 4681
+		private MapParent mapParent;
+
+		// Token: 0x0400124A RID: 4682
+		private IntVec3 cell;
+
 		// Token: 0x06001F5A RID: 8026 RVA: 0x001101CB File Offset: 0x0010E5CB
 		public TransportPodsArrivalAction_LandInSpecificCell()
 		{
@@ -63,11 +69,5 @@ namespace RimWorld.Planet
 				mapParent.EnterCooldownDaysLeft().ToString("0.#")
 			})));
 		}
-
-		// Token: 0x04001249 RID: 4681
-		private MapParent mapParent;
-
-		// Token: 0x0400124A RID: 4682
-		private IntVec3 cell;
 	}
 }

@@ -6,6 +6,39 @@ namespace Verse
 	// Token: 0x02000F2E RID: 3886
 	public static class GenAdj
 	{
+		// Token: 0x04003DBF RID: 15807
+		public static IntVec3[] CardinalDirections = new IntVec3[4];
+
+		// Token: 0x04003DC0 RID: 15808
+		public static IntVec3[] CardinalDirectionsAndInside = new IntVec3[5];
+
+		// Token: 0x04003DC1 RID: 15809
+		public static IntVec3[] CardinalDirectionsAround = new IntVec3[4];
+
+		// Token: 0x04003DC2 RID: 15810
+		public static IntVec3[] DiagonalDirections = new IntVec3[4];
+
+		// Token: 0x04003DC3 RID: 15811
+		public static IntVec3[] DiagonalDirectionsAround = new IntVec3[4];
+
+		// Token: 0x04003DC4 RID: 15812
+		public static IntVec3[] AdjacentCells = new IntVec3[8];
+
+		// Token: 0x04003DC5 RID: 15813
+		public static IntVec3[] AdjacentCellsAndInside = new IntVec3[9];
+
+		// Token: 0x04003DC6 RID: 15814
+		public static IntVec3[] AdjacentCellsAround = new IntVec3[8];
+
+		// Token: 0x04003DC7 RID: 15815
+		public static IntVec3[] AdjacentCellsAroundBottom = new IntVec3[9];
+
+		// Token: 0x04003DC8 RID: 15816
+		private static List<IntVec3> adjRandomOrderList;
+
+		// Token: 0x04003DC9 RID: 15817
+		private static List<IntVec3> validCells = new List<IntVec3>();
+
 		// Token: 0x06005D7B RID: 23931 RVA: 0x002F6534 File Offset: 0x002F4934
 		static GenAdj()
 		{
@@ -614,38 +647,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04003DBF RID: 15807
-		public static IntVec3[] CardinalDirections = new IntVec3[4];
-
-		// Token: 0x04003DC0 RID: 15808
-		public static IntVec3[] CardinalDirectionsAndInside = new IntVec3[5];
-
-		// Token: 0x04003DC1 RID: 15809
-		public static IntVec3[] CardinalDirectionsAround = new IntVec3[4];
-
-		// Token: 0x04003DC2 RID: 15810
-		public static IntVec3[] DiagonalDirections = new IntVec3[4];
-
-		// Token: 0x04003DC3 RID: 15811
-		public static IntVec3[] DiagonalDirectionsAround = new IntVec3[4];
-
-		// Token: 0x04003DC4 RID: 15812
-		public static IntVec3[] AdjacentCells = new IntVec3[8];
-
-		// Token: 0x04003DC5 RID: 15813
-		public static IntVec3[] AdjacentCellsAndInside = new IntVec3[9];
-
-		// Token: 0x04003DC6 RID: 15814
-		public static IntVec3[] AdjacentCellsAround = new IntVec3[8];
-
-		// Token: 0x04003DC7 RID: 15815
-		public static IntVec3[] AdjacentCellsAroundBottom = new IntVec3[9];
-
-		// Token: 0x04003DC8 RID: 15816
-		private static List<IntVec3> adjRandomOrderList;
-
-		// Token: 0x04003DC9 RID: 15817
-		private static List<IntVec3> validCells = new List<IntVec3>();
 	}
 }

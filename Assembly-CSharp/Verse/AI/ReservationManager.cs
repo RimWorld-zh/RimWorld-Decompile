@@ -11,6 +11,18 @@ namespace Verse.AI
 	[StaticConstructorOnStartup]
 	public sealed class ReservationManager : IExposable
 	{
+		// Token: 0x04002684 RID: 9860
+		private Map map;
+
+		// Token: 0x04002685 RID: 9861
+		private List<Reservation> reservations = new List<Reservation>();
+
+		// Token: 0x04002686 RID: 9862
+		private static readonly Material DebugReservedThingIcon = MaterialPool.MatFrom("UI/Overlays/ReservedForWork", ShaderDatabase.Cutout);
+
+		// Token: 0x04002687 RID: 9863
+		public const int StackCount_All = -1;
+
 		// Token: 0x06003CE6 RID: 15590 RVA: 0x0020357C File Offset: 0x0020197C
 		public ReservationManager(Map map)
 		{
@@ -603,17 +615,5 @@ namespace Verse.AI
 			}
 			Log.Error(text3, false);
 		}
-
-		// Token: 0x04002684 RID: 9860
-		private Map map;
-
-		// Token: 0x04002685 RID: 9861
-		private List<Reservation> reservations = new List<Reservation>();
-
-		// Token: 0x04002686 RID: 9862
-		private static readonly Material DebugReservedThingIcon = MaterialPool.MatFrom("UI/Overlays/ReservedForWork", ShaderDatabase.Cutout);
-
-		// Token: 0x04002687 RID: 9863
-		public const int StackCount_All = -1;
 	}
 }

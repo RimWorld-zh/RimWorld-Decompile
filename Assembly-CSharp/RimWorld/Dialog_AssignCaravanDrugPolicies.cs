@@ -8,6 +8,24 @@ namespace RimWorld
 	// Token: 0x020007F5 RID: 2037
 	public class Dialog_AssignCaravanDrugPolicies : Window
 	{
+		// Token: 0x040017C4 RID: 6084
+		private Caravan caravan;
+
+		// Token: 0x040017C5 RID: 6085
+		private Vector2 scrollPos;
+
+		// Token: 0x040017C6 RID: 6086
+		private float lastHeight;
+
+		// Token: 0x040017C7 RID: 6087
+		private const float RowHeight = 30f;
+
+		// Token: 0x040017C8 RID: 6088
+		private const float AssignDrugPolicyButtonsTotalWidth = 354f;
+
+		// Token: 0x040017C9 RID: 6089
+		private const int ManageDrugPoliciesButtonHeight = 32;
+
 		// Token: 0x06002D32 RID: 11570 RVA: 0x0017C01C File Offset: 0x0017A41C
 		public Dialog_AssignCaravanDrugPolicies(Caravan caravan)
 		{
@@ -68,23 +86,5 @@ namespace RimWorld
 			Rect rect3 = new Rect(rect.x + rect.width - 354f, rect.y, 354f, 30f);
 			DrugPolicyUIUtility.DoAssignDrugPolicyButtons(rect3, pawn);
 		}
-
-		// Token: 0x040017C4 RID: 6084
-		private Caravan caravan;
-
-		// Token: 0x040017C5 RID: 6085
-		private Vector2 scrollPos;
-
-		// Token: 0x040017C6 RID: 6086
-		private float lastHeight;
-
-		// Token: 0x040017C7 RID: 6087
-		private const float RowHeight = 30f;
-
-		// Token: 0x040017C8 RID: 6088
-		private const float AssignDrugPolicyButtonsTotalWidth = 354f;
-
-		// Token: 0x040017C9 RID: 6089
-		private const int ManageDrugPoliciesButtonHeight = 32;
 	}
 }

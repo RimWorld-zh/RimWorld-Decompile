@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x0200073D RID: 1853
 	public class CompTemperatureRuinable : ThingComp
 	{
+		// Token: 0x0400166B RID: 5739
+		protected float ruinedPercent = 0f;
+
+		// Token: 0x0400166C RID: 5740
+		public const string RuinedSignal = "RuinedByTemperature";
+
 		// Token: 0x17000656 RID: 1622
 		// (get) Token: 0x060028F7 RID: 10487 RVA: 0x0015DA40 File Offset: 0x0015BE40
 		public CompProperties_TemperatureRuinable Props
@@ -131,11 +137,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x0400166B RID: 5739
-		protected float ruinedPercent = 0f;
-
-		// Token: 0x0400166C RID: 5740
-		public const string RuinedSignal = "RuinedByTemperature";
 	}
 }

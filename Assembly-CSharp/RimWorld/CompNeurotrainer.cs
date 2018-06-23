@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x02000721 RID: 1825
 	public class CompNeurotrainer : CompUsable
 	{
+		// Token: 0x040015FC RID: 5628
+		public SkillDef skill;
+
 		// Token: 0x1700062B RID: 1579
 		// (get) Token: 0x0600283D RID: 10301 RVA: 0x001582DC File Offset: 0x001566DC
 		protected override string FloatMenuOptionLabel
@@ -62,8 +65,5 @@ namespace RimWorld
 				compNeurotrainer.skill = this.skill;
 			}
 		}
-
-		// Token: 0x040015FC RID: 5628
-		public SkillDef skill;
 	}
 }

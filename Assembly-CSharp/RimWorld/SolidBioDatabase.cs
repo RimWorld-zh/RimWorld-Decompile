@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020004E1 RID: 1249
 	public class SolidBioDatabase
 	{
+		// Token: 0x04000D03 RID: 3331
+		public static List<PawnBio> allBios = new List<PawnBio>();
+
 		// Token: 0x0600164C RID: 5708 RVA: 0x000C6130 File Offset: 0x000C4530
 		public static void Clear()
 		{
@@ -42,8 +45,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000D03 RID: 3331
-		public static List<PawnBio> allBios = new List<PawnBio>();
 	}
 }

@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000027 RID: 39
 	public static class BillUtility
 	{
+		// Token: 0x0400019F RID: 415
+		public static Bill Clipboard = null;
+
 		// Token: 0x0600016A RID: 362 RVA: 0x0000E0C9 File Offset: 0x0000C4C9
 		public static void TryDrawIngredientSearchRadiusOnMap(this Bill bill, IntVec3 center)
 		{
@@ -137,8 +140,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x0400019F RID: 415
-		public static Bill Clipboard = null;
 	}
 }

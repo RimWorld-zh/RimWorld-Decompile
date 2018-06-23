@@ -9,6 +9,9 @@ namespace Verse.Steam
 	// Token: 0x02000FC6 RID: 4038
 	public static class WorkshopItems
 	{
+		// Token: 0x04003FD3 RID: 16339
+		private static List<WorkshopItem> subbedItems = new List<WorkshopItem>();
+
 		// Token: 0x060061AA RID: 25002 RVA: 0x003144B1 File Offset: 0x003128B1
 		static WorkshopItems()
 		{
@@ -106,8 +109,5 @@ namespace Verse.Steam
 			}
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x04003FD3 RID: 16339
-		private static List<WorkshopItem> subbedItems = new List<WorkshopItem>();
 	}
 }

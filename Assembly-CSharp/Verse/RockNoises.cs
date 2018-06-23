@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000C60 RID: 3168
 	public static class RockNoises
 	{
+		// Token: 0x04002FAF RID: 12207
+		public static List<RockNoises.RockNoise> rockNoises = null;
+
+		// Token: 0x04002FB0 RID: 12208
+		private const float RockNoiseFreq = 0.005f;
+
 		// Token: 0x060045BC RID: 17852 RVA: 0x0024D45C File Offset: 0x0024B85C
 		public static void Init(Map map)
 		{
@@ -26,12 +32,6 @@ namespace Verse
 		{
 			RockNoises.rockNoises = null;
 		}
-
-		// Token: 0x04002FAF RID: 12207
-		public static List<RockNoises.RockNoise> rockNoises = null;
-
-		// Token: 0x04002FB0 RID: 12208
-		private const float RockNoiseFreq = 0.005f;
 
 		// Token: 0x02000C61 RID: 3169
 		public class RockNoise

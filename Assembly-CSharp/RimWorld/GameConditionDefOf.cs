@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class GameConditionDefOf
 	{
-		// Token: 0x06003620 RID: 13856 RVA: 0x001D08FD File Offset: 0x001CECFD
-		static GameConditionDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(GameConditionDefOf));
-		}
-
 		// Token: 0x04001EAA RID: 7850
 		public static GameConditionDef SolarFlare;
 
@@ -42,5 +36,11 @@ namespace RimWorld
 
 		// Token: 0x04001EB3 RID: 7859
 		public static GameConditionDef Aurora;
+
+		// Token: 0x06003620 RID: 13856 RVA: 0x001D08FD File Offset: 0x001CECFD
+		static GameConditionDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(GameConditionDefOf));
+		}
 	}
 }

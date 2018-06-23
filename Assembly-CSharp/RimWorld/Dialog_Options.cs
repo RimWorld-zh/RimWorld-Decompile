@@ -12,6 +12,23 @@ namespace RimWorld
 	// Token: 0x0200080A RID: 2058
 	public class Dialog_Options : Window
 	{
+		// Token: 0x04001861 RID: 6241
+		private const float SubOptionTabWidth = 40f;
+
+		// Token: 0x04001862 RID: 6242
+		private static readonly float[] UIScales = new float[]
+		{
+			1f,
+			1.25f,
+			1.5f,
+			1.75f,
+			2f,
+			2.5f,
+			3f,
+			3.5f,
+			4f
+		};
+
 		// Token: 0x06002DF2 RID: 11762 RVA: 0x001830D7 File Offset: 0x001814D7
 		public Dialog_Options()
 		{
@@ -439,22 +456,5 @@ namespace RimWorld
 				GenCommandLine.Restart();
 			}, null, null, null, false, null, null));
 		}
-
-		// Token: 0x04001861 RID: 6241
-		private const float SubOptionTabWidth = 40f;
-
-		// Token: 0x04001862 RID: 6242
-		private static readonly float[] UIScales = new float[]
-		{
-			1f,
-			1.25f,
-			1.5f,
-			1.75f,
-			2f,
-			2.5f,
-			3f,
-			3.5f,
-			4f
-		};
 	}
 }

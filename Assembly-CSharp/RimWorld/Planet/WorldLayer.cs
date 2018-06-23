@@ -10,6 +10,18 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public class WorldLayer
 	{
+		// Token: 0x04000FF6 RID: 4086
+		protected List<LayerSubMesh> subMeshes = new List<LayerSubMesh>();
+
+		// Token: 0x04000FF7 RID: 4087
+		private bool dirty = true;
+
+		// Token: 0x04000FF8 RID: 4088
+		private static MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
+
+		// Token: 0x04000FF9 RID: 4089
+		private const int MaxVerticesPerMesh = 40000;
+
 		// Token: 0x170003F1 RID: 1009
 		// (get) Token: 0x06001B10 RID: 6928 RVA: 0x000E8864 File Offset: 0x000E6C64
 		public virtual bool ShouldRegenerate
@@ -159,17 +171,5 @@ namespace RimWorld.Planet
 				this.subMeshes[i].Clear(parts);
 			}
 		}
-
-		// Token: 0x04000FF6 RID: 4086
-		protected List<LayerSubMesh> subMeshes = new List<LayerSubMesh>();
-
-		// Token: 0x04000FF7 RID: 4087
-		private bool dirty = true;
-
-		// Token: 0x04000FF8 RID: 4088
-		private static MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
-
-		// Token: 0x04000FF9 RID: 4089
-		private const int MaxVerticesPerMesh = 40000;
 	}
 }

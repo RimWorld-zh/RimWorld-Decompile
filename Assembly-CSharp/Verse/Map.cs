@@ -13,6 +13,271 @@ namespace Verse
 	// Token: 0x02000C33 RID: 3123
 	public sealed class Map : IIncidentTarget, IThingHolder, IExposable, ILoadReferenceable
 	{
+		// Token: 0x04002EBF RID: 11967
+		public MapFileCompressor compressor;
+
+		// Token: 0x04002EC0 RID: 11968
+		private List<Thing> loadedFullThings;
+
+		// Token: 0x04002EC1 RID: 11969
+		public int uniqueID = -1;
+
+		// Token: 0x04002EC2 RID: 11970
+		public MapInfo info = new MapInfo();
+
+		// Token: 0x04002EC3 RID: 11971
+		public List<MapComponent> components = new List<MapComponent>();
+
+		// Token: 0x04002EC4 RID: 11972
+		public ThingOwner spawnedThings;
+
+		// Token: 0x04002EC5 RID: 11973
+		public CellIndices cellIndices;
+
+		// Token: 0x04002EC6 RID: 11974
+		public ListerThings listerThings;
+
+		// Token: 0x04002EC7 RID: 11975
+		public ListerBuildings listerBuildings;
+
+		// Token: 0x04002EC8 RID: 11976
+		public MapPawns mapPawns;
+
+		// Token: 0x04002EC9 RID: 11977
+		public DynamicDrawManager dynamicDrawManager;
+
+		// Token: 0x04002ECA RID: 11978
+		public MapDrawer mapDrawer;
+
+		// Token: 0x04002ECB RID: 11979
+		public PawnDestinationReservationManager pawnDestinationReservationManager;
+
+		// Token: 0x04002ECC RID: 11980
+		public TooltipGiverList tooltipGiverList;
+
+		// Token: 0x04002ECD RID: 11981
+		public ReservationManager reservationManager;
+
+		// Token: 0x04002ECE RID: 11982
+		public PhysicalInteractionReservationManager physicalInteractionReservationManager;
+
+		// Token: 0x04002ECF RID: 11983
+		public DesignationManager designationManager;
+
+		// Token: 0x04002ED0 RID: 11984
+		public LordManager lordManager;
+
+		// Token: 0x04002ED1 RID: 11985
+		public PassingShipManager passingShipManager;
+
+		// Token: 0x04002ED2 RID: 11986
+		public HaulDestinationManager haulDestinationManager;
+
+		// Token: 0x04002ED3 RID: 11987
+		public DebugCellDrawer debugDrawer;
+
+		// Token: 0x04002ED4 RID: 11988
+		public GameConditionManager gameConditionManager;
+
+		// Token: 0x04002ED5 RID: 11989
+		public WeatherManager weatherManager;
+
+		// Token: 0x04002ED6 RID: 11990
+		public ZoneManager zoneManager;
+
+		// Token: 0x04002ED7 RID: 11991
+		public ResourceCounter resourceCounter;
+
+		// Token: 0x04002ED8 RID: 11992
+		public MapTemperature mapTemperature;
+
+		// Token: 0x04002ED9 RID: 11993
+		public TemperatureCache temperatureCache;
+
+		// Token: 0x04002EDA RID: 11994
+		public AreaManager areaManager;
+
+		// Token: 0x04002EDB RID: 11995
+		public AttackTargetsCache attackTargetsCache;
+
+		// Token: 0x04002EDC RID: 11996
+		public AttackTargetReservationManager attackTargetReservationManager;
+
+		// Token: 0x04002EDD RID: 11997
+		public VoluntarilyJoinableLordsStarter lordsStarter;
+
+		// Token: 0x04002EDE RID: 11998
+		public ThingGrid thingGrid;
+
+		// Token: 0x04002EDF RID: 11999
+		public CoverGrid coverGrid;
+
+		// Token: 0x04002EE0 RID: 12000
+		public EdificeGrid edificeGrid;
+
+		// Token: 0x04002EE1 RID: 12001
+		public BlueprintGrid blueprintGrid;
+
+		// Token: 0x04002EE2 RID: 12002
+		public FogGrid fogGrid;
+
+		// Token: 0x04002EE3 RID: 12003
+		public RegionGrid regionGrid;
+
+		// Token: 0x04002EE4 RID: 12004
+		public GlowGrid glowGrid;
+
+		// Token: 0x04002EE5 RID: 12005
+		public TerrainGrid terrainGrid;
+
+		// Token: 0x04002EE6 RID: 12006
+		public PathGrid pathGrid;
+
+		// Token: 0x04002EE7 RID: 12007
+		public RoofGrid roofGrid;
+
+		// Token: 0x04002EE8 RID: 12008
+		public FertilityGrid fertilityGrid;
+
+		// Token: 0x04002EE9 RID: 12009
+		public SnowGrid snowGrid;
+
+		// Token: 0x04002EEA RID: 12010
+		public DeepResourceGrid deepResourceGrid;
+
+		// Token: 0x04002EEB RID: 12011
+		public ExitMapGrid exitMapGrid;
+
+		// Token: 0x04002EEC RID: 12012
+		public LinkGrid linkGrid;
+
+		// Token: 0x04002EED RID: 12013
+		public GlowFlooder glowFlooder;
+
+		// Token: 0x04002EEE RID: 12014
+		public PowerNetManager powerNetManager;
+
+		// Token: 0x04002EEF RID: 12015
+		public PowerNetGrid powerNetGrid;
+
+		// Token: 0x04002EF0 RID: 12016
+		public RegionMaker regionMaker;
+
+		// Token: 0x04002EF1 RID: 12017
+		public PathFinder pathFinder;
+
+		// Token: 0x04002EF2 RID: 12018
+		public PawnPathPool pawnPathPool;
+
+		// Token: 0x04002EF3 RID: 12019
+		public RegionAndRoomUpdater regionAndRoomUpdater;
+
+		// Token: 0x04002EF4 RID: 12020
+		public RegionLinkDatabase regionLinkDatabase;
+
+		// Token: 0x04002EF5 RID: 12021
+		public MoteCounter moteCounter;
+
+		// Token: 0x04002EF6 RID: 12022
+		public GatherSpotLister gatherSpotLister;
+
+		// Token: 0x04002EF7 RID: 12023
+		public WindManager windManager;
+
+		// Token: 0x04002EF8 RID: 12024
+		public ListerBuildingsRepairable listerBuildingsRepairable;
+
+		// Token: 0x04002EF9 RID: 12025
+		public ListerHaulables listerHaulables;
+
+		// Token: 0x04002EFA RID: 12026
+		public ListerMergeables listerMergeables;
+
+		// Token: 0x04002EFB RID: 12027
+		public ListerFilthInHomeArea listerFilthInHomeArea;
+
+		// Token: 0x04002EFC RID: 12028
+		public Reachability reachability;
+
+		// Token: 0x04002EFD RID: 12029
+		public ItemAvailability itemAvailability;
+
+		// Token: 0x04002EFE RID: 12030
+		public AutoBuildRoofAreaSetter autoBuildRoofAreaSetter;
+
+		// Token: 0x04002EFF RID: 12031
+		public RoofCollapseBufferResolver roofCollapseBufferResolver;
+
+		// Token: 0x04002F00 RID: 12032
+		public RoofCollapseBuffer roofCollapseBuffer;
+
+		// Token: 0x04002F01 RID: 12033
+		public WildAnimalSpawner wildAnimalSpawner;
+
+		// Token: 0x04002F02 RID: 12034
+		public WildPlantSpawner wildPlantSpawner;
+
+		// Token: 0x04002F03 RID: 12035
+		public SteadyEnvironmentEffects steadyEnvironmentEffects;
+
+		// Token: 0x04002F04 RID: 12036
+		public SkyManager skyManager;
+
+		// Token: 0x04002F05 RID: 12037
+		public OverlayDrawer overlayDrawer;
+
+		// Token: 0x04002F06 RID: 12038
+		public FloodFiller floodFiller;
+
+		// Token: 0x04002F07 RID: 12039
+		public WeatherDecider weatherDecider;
+
+		// Token: 0x04002F08 RID: 12040
+		public FireWatcher fireWatcher;
+
+		// Token: 0x04002F09 RID: 12041
+		public DangerWatcher dangerWatcher;
+
+		// Token: 0x04002F0A RID: 12042
+		public DamageWatcher damageWatcher;
+
+		// Token: 0x04002F0B RID: 12043
+		public StrengthWatcher strengthWatcher;
+
+		// Token: 0x04002F0C RID: 12044
+		public WealthWatcher wealthWatcher;
+
+		// Token: 0x04002F0D RID: 12045
+		public RegionDirtyer regionDirtyer;
+
+		// Token: 0x04002F0E RID: 12046
+		public MapCellsInRandomOrder cellsInRandomOrder;
+
+		// Token: 0x04002F0F RID: 12047
+		public RememberedCameraPos rememberedCameraPos;
+
+		// Token: 0x04002F10 RID: 12048
+		public MineStrikeManager mineStrikeManager;
+
+		// Token: 0x04002F11 RID: 12049
+		public StoryState storyState;
+
+		// Token: 0x04002F12 RID: 12050
+		public RoadInfo roadInfo;
+
+		// Token: 0x04002F13 RID: 12051
+		public WaterInfo waterInfo;
+
+		// Token: 0x04002F14 RID: 12052
+		public RetainedCaravanData retainedCaravanData;
+
+		// Token: 0x04002F15 RID: 12053
+		public const string ThingSaveKey = "thing";
+
+		// Token: 0x04002F16 RID: 12054
+		[TweakValue("Graphics_Shadow", 0f, 100f)]
+		private static bool AlwaysRedrawShadows = false;
+
 		// Token: 0x060044C5 RID: 17605 RVA: 0x00242C91 File Offset: 0x00241091
 		public Map()
 		{
@@ -960,270 +1225,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04002EBF RID: 11967
-		public MapFileCompressor compressor;
-
-		// Token: 0x04002EC0 RID: 11968
-		private List<Thing> loadedFullThings;
-
-		// Token: 0x04002EC1 RID: 11969
-		public int uniqueID = -1;
-
-		// Token: 0x04002EC2 RID: 11970
-		public MapInfo info = new MapInfo();
-
-		// Token: 0x04002EC3 RID: 11971
-		public List<MapComponent> components = new List<MapComponent>();
-
-		// Token: 0x04002EC4 RID: 11972
-		public ThingOwner spawnedThings;
-
-		// Token: 0x04002EC5 RID: 11973
-		public CellIndices cellIndices;
-
-		// Token: 0x04002EC6 RID: 11974
-		public ListerThings listerThings;
-
-		// Token: 0x04002EC7 RID: 11975
-		public ListerBuildings listerBuildings;
-
-		// Token: 0x04002EC8 RID: 11976
-		public MapPawns mapPawns;
-
-		// Token: 0x04002EC9 RID: 11977
-		public DynamicDrawManager dynamicDrawManager;
-
-		// Token: 0x04002ECA RID: 11978
-		public MapDrawer mapDrawer;
-
-		// Token: 0x04002ECB RID: 11979
-		public PawnDestinationReservationManager pawnDestinationReservationManager;
-
-		// Token: 0x04002ECC RID: 11980
-		public TooltipGiverList tooltipGiverList;
-
-		// Token: 0x04002ECD RID: 11981
-		public ReservationManager reservationManager;
-
-		// Token: 0x04002ECE RID: 11982
-		public PhysicalInteractionReservationManager physicalInteractionReservationManager;
-
-		// Token: 0x04002ECF RID: 11983
-		public DesignationManager designationManager;
-
-		// Token: 0x04002ED0 RID: 11984
-		public LordManager lordManager;
-
-		// Token: 0x04002ED1 RID: 11985
-		public PassingShipManager passingShipManager;
-
-		// Token: 0x04002ED2 RID: 11986
-		public HaulDestinationManager haulDestinationManager;
-
-		// Token: 0x04002ED3 RID: 11987
-		public DebugCellDrawer debugDrawer;
-
-		// Token: 0x04002ED4 RID: 11988
-		public GameConditionManager gameConditionManager;
-
-		// Token: 0x04002ED5 RID: 11989
-		public WeatherManager weatherManager;
-
-		// Token: 0x04002ED6 RID: 11990
-		public ZoneManager zoneManager;
-
-		// Token: 0x04002ED7 RID: 11991
-		public ResourceCounter resourceCounter;
-
-		// Token: 0x04002ED8 RID: 11992
-		public MapTemperature mapTemperature;
-
-		// Token: 0x04002ED9 RID: 11993
-		public TemperatureCache temperatureCache;
-
-		// Token: 0x04002EDA RID: 11994
-		public AreaManager areaManager;
-
-		// Token: 0x04002EDB RID: 11995
-		public AttackTargetsCache attackTargetsCache;
-
-		// Token: 0x04002EDC RID: 11996
-		public AttackTargetReservationManager attackTargetReservationManager;
-
-		// Token: 0x04002EDD RID: 11997
-		public VoluntarilyJoinableLordsStarter lordsStarter;
-
-		// Token: 0x04002EDE RID: 11998
-		public ThingGrid thingGrid;
-
-		// Token: 0x04002EDF RID: 11999
-		public CoverGrid coverGrid;
-
-		// Token: 0x04002EE0 RID: 12000
-		public EdificeGrid edificeGrid;
-
-		// Token: 0x04002EE1 RID: 12001
-		public BlueprintGrid blueprintGrid;
-
-		// Token: 0x04002EE2 RID: 12002
-		public FogGrid fogGrid;
-
-		// Token: 0x04002EE3 RID: 12003
-		public RegionGrid regionGrid;
-
-		// Token: 0x04002EE4 RID: 12004
-		public GlowGrid glowGrid;
-
-		// Token: 0x04002EE5 RID: 12005
-		public TerrainGrid terrainGrid;
-
-		// Token: 0x04002EE6 RID: 12006
-		public PathGrid pathGrid;
-
-		// Token: 0x04002EE7 RID: 12007
-		public RoofGrid roofGrid;
-
-		// Token: 0x04002EE8 RID: 12008
-		public FertilityGrid fertilityGrid;
-
-		// Token: 0x04002EE9 RID: 12009
-		public SnowGrid snowGrid;
-
-		// Token: 0x04002EEA RID: 12010
-		public DeepResourceGrid deepResourceGrid;
-
-		// Token: 0x04002EEB RID: 12011
-		public ExitMapGrid exitMapGrid;
-
-		// Token: 0x04002EEC RID: 12012
-		public LinkGrid linkGrid;
-
-		// Token: 0x04002EED RID: 12013
-		public GlowFlooder glowFlooder;
-
-		// Token: 0x04002EEE RID: 12014
-		public PowerNetManager powerNetManager;
-
-		// Token: 0x04002EEF RID: 12015
-		public PowerNetGrid powerNetGrid;
-
-		// Token: 0x04002EF0 RID: 12016
-		public RegionMaker regionMaker;
-
-		// Token: 0x04002EF1 RID: 12017
-		public PathFinder pathFinder;
-
-		// Token: 0x04002EF2 RID: 12018
-		public PawnPathPool pawnPathPool;
-
-		// Token: 0x04002EF3 RID: 12019
-		public RegionAndRoomUpdater regionAndRoomUpdater;
-
-		// Token: 0x04002EF4 RID: 12020
-		public RegionLinkDatabase regionLinkDatabase;
-
-		// Token: 0x04002EF5 RID: 12021
-		public MoteCounter moteCounter;
-
-		// Token: 0x04002EF6 RID: 12022
-		public GatherSpotLister gatherSpotLister;
-
-		// Token: 0x04002EF7 RID: 12023
-		public WindManager windManager;
-
-		// Token: 0x04002EF8 RID: 12024
-		public ListerBuildingsRepairable listerBuildingsRepairable;
-
-		// Token: 0x04002EF9 RID: 12025
-		public ListerHaulables listerHaulables;
-
-		// Token: 0x04002EFA RID: 12026
-		public ListerMergeables listerMergeables;
-
-		// Token: 0x04002EFB RID: 12027
-		public ListerFilthInHomeArea listerFilthInHomeArea;
-
-		// Token: 0x04002EFC RID: 12028
-		public Reachability reachability;
-
-		// Token: 0x04002EFD RID: 12029
-		public ItemAvailability itemAvailability;
-
-		// Token: 0x04002EFE RID: 12030
-		public AutoBuildRoofAreaSetter autoBuildRoofAreaSetter;
-
-		// Token: 0x04002EFF RID: 12031
-		public RoofCollapseBufferResolver roofCollapseBufferResolver;
-
-		// Token: 0x04002F00 RID: 12032
-		public RoofCollapseBuffer roofCollapseBuffer;
-
-		// Token: 0x04002F01 RID: 12033
-		public WildAnimalSpawner wildAnimalSpawner;
-
-		// Token: 0x04002F02 RID: 12034
-		public WildPlantSpawner wildPlantSpawner;
-
-		// Token: 0x04002F03 RID: 12035
-		public SteadyEnvironmentEffects steadyEnvironmentEffects;
-
-		// Token: 0x04002F04 RID: 12036
-		public SkyManager skyManager;
-
-		// Token: 0x04002F05 RID: 12037
-		public OverlayDrawer overlayDrawer;
-
-		// Token: 0x04002F06 RID: 12038
-		public FloodFiller floodFiller;
-
-		// Token: 0x04002F07 RID: 12039
-		public WeatherDecider weatherDecider;
-
-		// Token: 0x04002F08 RID: 12040
-		public FireWatcher fireWatcher;
-
-		// Token: 0x04002F09 RID: 12041
-		public DangerWatcher dangerWatcher;
-
-		// Token: 0x04002F0A RID: 12042
-		public DamageWatcher damageWatcher;
-
-		// Token: 0x04002F0B RID: 12043
-		public StrengthWatcher strengthWatcher;
-
-		// Token: 0x04002F0C RID: 12044
-		public WealthWatcher wealthWatcher;
-
-		// Token: 0x04002F0D RID: 12045
-		public RegionDirtyer regionDirtyer;
-
-		// Token: 0x04002F0E RID: 12046
-		public MapCellsInRandomOrder cellsInRandomOrder;
-
-		// Token: 0x04002F0F RID: 12047
-		public RememberedCameraPos rememberedCameraPos;
-
-		// Token: 0x04002F10 RID: 12048
-		public MineStrikeManager mineStrikeManager;
-
-		// Token: 0x04002F11 RID: 12049
-		public StoryState storyState;
-
-		// Token: 0x04002F12 RID: 12050
-		public RoadInfo roadInfo;
-
-		// Token: 0x04002F13 RID: 12051
-		public WaterInfo waterInfo;
-
-		// Token: 0x04002F14 RID: 12052
-		public RetainedCaravanData retainedCaravanData;
-
-		// Token: 0x04002F15 RID: 12053
-		public const string ThingSaveKey = "thing";
-
-		// Token: 0x04002F16 RID: 12054
-		[TweakValue("Graphics_Shadow", 0f, 100f)]
-		private static bool AlwaysRedrawShadows = false;
 	}
 }

@@ -8,41 +8,6 @@ namespace RimWorld
 	// Token: 0x020002DA RID: 730
 	public class StorytellerDef : Def
 	{
-		// Token: 0x06000C0D RID: 3085 RVA: 0x0006AFD8 File Offset: 0x000693D8
-		public override void ResolveReferences()
-		{
-			base.ResolveReferences();
-			LongEventHandler.ExecuteWhenFinished(delegate
-			{
-				if (!this.portraitTiny.NullOrEmpty())
-				{
-					this.portraitTinyTex = ContentFinder<Texture2D>.Get(this.portraitTiny, true);
-					this.portraitLargeTex = ContentFinder<Texture2D>.Get(this.portraitLarge, true);
-				}
-			});
-			for (int i = 0; i < this.comps.Count; i++)
-			{
-				this.comps[i].ResolveReferences(this);
-			}
-		}
-
-		// Token: 0x06000C0E RID: 3086 RVA: 0x0006B030 File Offset: 0x00069430
-		public override IEnumerable<string> ConfigErrors()
-		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
-			{
-				yield return e;
-			}
-			for (int i = 0; i < this.comps.Count; i++)
-			{
-				foreach (string e2 in this.comps[i].ConfigErrors(this))
-				{
-					yield return e2;
-				}
-			}
-			yield break;
-		}
-
 		// Token: 0x04000769 RID: 1897
 		public int listOrder = 9999;
 
@@ -97,5 +62,40 @@ namespace RimWorld
 		// Token: 0x04000779 RID: 1913
 		[Unsaved]
 		public Texture2D portraitTinyTex;
+
+		// Token: 0x06000C0D RID: 3085 RVA: 0x0006AFD8 File Offset: 0x000693D8
+		public override void ResolveReferences()
+		{
+			base.ResolveReferences();
+			LongEventHandler.ExecuteWhenFinished(delegate
+			{
+				if (!this.portraitTiny.NullOrEmpty())
+				{
+					this.portraitTinyTex = ContentFinder<Texture2D>.Get(this.portraitTiny, true);
+					this.portraitLargeTex = ContentFinder<Texture2D>.Get(this.portraitLarge, true);
+				}
+			});
+			for (int i = 0; i < this.comps.Count; i++)
+			{
+				this.comps[i].ResolveReferences(this);
+			}
+		}
+
+		// Token: 0x06000C0E RID: 3086 RVA: 0x0006B030 File Offset: 0x00069430
+		public override IEnumerable<string> ConfigErrors()
+		{
+			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			{
+				yield return e;
+			}
+			for (int i = 0; i < this.comps.Count; i++)
+			{
+				foreach (string e2 in this.comps[i].ConfigErrors(this))
+				{
+					yield return e2;
+				}
+			}
+			yield break;
+		}
 	}
 }

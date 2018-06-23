@@ -6,6 +6,12 @@ namespace RimWorld
 	// Token: 0x020006D7 RID: 1751
 	public class LiquidFuel : Filth
 	{
+		// Token: 0x04001541 RID: 5441
+		private int spawnTick;
+
+		// Token: 0x04001542 RID: 5442
+		private const int DryOutTime = 1500;
+
 		// Token: 0x06002625 RID: 9765 RVA: 0x001478AD File Offset: 0x00145CAD
 		public override void ExposeData()
 		{
@@ -41,11 +47,5 @@ namespace RimWorld
 			base.ThickenFilth();
 			this.Refill();
 		}
-
-		// Token: 0x04001541 RID: 5441
-		private int spawnTick;
-
-		// Token: 0x04001542 RID: 5442
-		private const int DryOutTime = 1500;
 	}
 }

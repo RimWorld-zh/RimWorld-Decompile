@@ -6,6 +6,12 @@ namespace Verse.Sound
 	// Token: 0x02000DB6 RID: 3510
 	public class SoundSizeAggregator
 	{
+		// Token: 0x04003441 RID: 13377
+		private List<ISizeReporter> reporters = new List<ISizeReporter>();
+
+		// Token: 0x04003442 RID: 13378
+		private float testSize;
+
 		// Token: 0x06004E80 RID: 20096 RVA: 0x002907CB File Offset: 0x0028EBCB
 		public SoundSizeAggregator()
 		{
@@ -48,11 +54,5 @@ namespace Verse.Sound
 		{
 			this.reporters.Remove(oldRep);
 		}
-
-		// Token: 0x04003441 RID: 13377
-		private List<ISizeReporter> reporters = new List<ISizeReporter>();
-
-		// Token: 0x04003442 RID: 13378
-		private float testSize;
 	}
 }

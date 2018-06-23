@@ -5,6 +5,12 @@ namespace Verse
 	// Token: 0x02000C9D RID: 3229
 	public static class RoofCollapseUtility
 	{
+		// Token: 0x0400305E RID: 12382
+		public const float RoofMaxSupportDistance = 6.9f;
+
+		// Token: 0x0400305F RID: 12383
+		public static readonly int RoofSupportRadialCellsCount = GenRadial.NumCellsInRadius(6.9f);
+
 		// Token: 0x06004728 RID: 18216 RVA: 0x00258CE0 File Offset: 0x002570E0
 		public static bool WithinRangeOfRoofHolder(IntVec3 c, Map map, bool assumeNonNoRoofCellsAreRoofed = false)
 		{
@@ -51,11 +57,5 @@ namespace Verse
 			}, int.MaxValue, false, null);
 			return connected;
 		}
-
-		// Token: 0x0400305E RID: 12382
-		public const float RoofMaxSupportDistance = 6.9f;
-
-		// Token: 0x0400305F RID: 12383
-		public static readonly int RoofSupportRadialCellsCount = GenRadial.NumCellsInRadius(6.9f);
 	}
 }

@@ -8,6 +8,57 @@ namespace RimWorld
 	// Token: 0x0200090D RID: 2317
 	public static class SeasonUtility
 	{
+		// Token: 0x04001D2E RID: 7470
+		private const float HemisphereLerpDistance = 5f;
+
+		// Token: 0x04001D2F RID: 7471
+		private const float SeasonYearPctLerpDistance = 0.085f;
+
+		// Token: 0x04001D30 RID: 7472
+		private static readonly SimpleCurve SeasonalAreaSeasons = new SimpleCurve
+		{
+			{
+				new CurvePoint(-0.0425f, 0f),
+				true
+			},
+			{
+				new CurvePoint(0.0425f, 1f),
+				true
+			},
+			{
+				new CurvePoint(0.2075f, 1f),
+				true
+			},
+			{
+				new CurvePoint(0.2925f, 2f),
+				true
+			},
+			{
+				new CurvePoint(0.4575f, 2f),
+				true
+			},
+			{
+				new CurvePoint(0.5425f, 3f),
+				true
+			},
+			{
+				new CurvePoint(0.7075f, 3f),
+				true
+			},
+			{
+				new CurvePoint(0.7925f, 4f),
+				true
+			},
+			{
+				new CurvePoint(0.9575f, 4f),
+				true
+			},
+			{
+				new CurvePoint(1.0425f, 5f),
+				true
+			}
+		};
+
 		// Token: 0x1700089A RID: 2202
 		// (get) Token: 0x060035FD RID: 13821 RVA: 0x001CFBCC File Offset: 0x001CDFCC
 		public static Season FirstSeason
@@ -359,56 +410,5 @@ namespace RimWorld
 			twelfths.Remove(rightMostTwelfth);
 			return GenDate.SeasonDateStringAt(leftMostTwelfth, longLat) + " - " + GenDate.SeasonDateStringAt(rightMostTwelfth, longLat);
 		}
-
-		// Token: 0x04001D2E RID: 7470
-		private const float HemisphereLerpDistance = 5f;
-
-		// Token: 0x04001D2F RID: 7471
-		private const float SeasonYearPctLerpDistance = 0.085f;
-
-		// Token: 0x04001D30 RID: 7472
-		private static readonly SimpleCurve SeasonalAreaSeasons = new SimpleCurve
-		{
-			{
-				new CurvePoint(-0.0425f, 0f),
-				true
-			},
-			{
-				new CurvePoint(0.0425f, 1f),
-				true
-			},
-			{
-				new CurvePoint(0.2075f, 1f),
-				true
-			},
-			{
-				new CurvePoint(0.2925f, 2f),
-				true
-			},
-			{
-				new CurvePoint(0.4575f, 2f),
-				true
-			},
-			{
-				new CurvePoint(0.5425f, 3f),
-				true
-			},
-			{
-				new CurvePoint(0.7075f, 3f),
-				true
-			},
-			{
-				new CurvePoint(0.7925f, 4f),
-				true
-			},
-			{
-				new CurvePoint(0.9575f, 4f),
-				true
-			},
-			{
-				new CurvePoint(1.0425f, 5f),
-				true
-			}
-		};
 	}
 }

@@ -7,6 +7,39 @@ namespace Verse
 	// Token: 0x02000E86 RID: 3718
 	public class Message : IArchivable, IExposable
 	{
+		// Token: 0x04003A08 RID: 14856
+		public MessageTypeDef def;
+
+		// Token: 0x04003A09 RID: 14857
+		private int ID;
+
+		// Token: 0x04003A0A RID: 14858
+		public string text;
+
+		// Token: 0x04003A0B RID: 14859
+		private float startingTime;
+
+		// Token: 0x04003A0C RID: 14860
+		public int startingFrame;
+
+		// Token: 0x04003A0D RID: 14861
+		public int startingTick;
+
+		// Token: 0x04003A0E RID: 14862
+		public LookTargets lookTargets;
+
+		// Token: 0x04003A0F RID: 14863
+		private Vector2 cachedSize = new Vector2(-1f, -1f);
+
+		// Token: 0x04003A10 RID: 14864
+		public Rect lastDrawRect;
+
+		// Token: 0x04003A11 RID: 14865
+		private const float DefaultMessageLifespan = 13f;
+
+		// Token: 0x04003A12 RID: 14866
+		private const float FadeoutDuration = 0.6f;
+
 		// Token: 0x060057C3 RID: 22467 RVA: 0x002D0E68 File Offset: 0x002CF268
 		public Message()
 		{
@@ -246,38 +279,5 @@ namespace Verse
 		{
 			Find.WindowStack.Add(new Dialog_MessageBox(this.text, null, null, null, null, null, false, null, null));
 		}
-
-		// Token: 0x04003A08 RID: 14856
-		public MessageTypeDef def;
-
-		// Token: 0x04003A09 RID: 14857
-		private int ID;
-
-		// Token: 0x04003A0A RID: 14858
-		public string text;
-
-		// Token: 0x04003A0B RID: 14859
-		private float startingTime;
-
-		// Token: 0x04003A0C RID: 14860
-		public int startingFrame;
-
-		// Token: 0x04003A0D RID: 14861
-		public int startingTick;
-
-		// Token: 0x04003A0E RID: 14862
-		public LookTargets lookTargets;
-
-		// Token: 0x04003A0F RID: 14863
-		private Vector2 cachedSize = new Vector2(-1f, -1f);
-
-		// Token: 0x04003A10 RID: 14864
-		public Rect lastDrawRect;
-
-		// Token: 0x04003A11 RID: 14865
-		private const float DefaultMessageLifespan = 13f;
-
-		// Token: 0x04003A12 RID: 14866
-		private const float FadeoutDuration = 0.6f;
 	}
 }

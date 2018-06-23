@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000170 RID: 368
 	public class LordJob_LoadAndEnterTransporters : LordJob
 	{
+		// Token: 0x0400034F RID: 847
+		public int transportersGroup = -1;
+
 		// Token: 0x06000793 RID: 1939 RVA: 0x0004AE19 File Offset: 0x00049219
 		public LordJob_LoadAndEnterTransporters()
 		{
@@ -65,8 +68,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x0400034F RID: 847
-		public int transportersGroup = -1;
 	}
 }

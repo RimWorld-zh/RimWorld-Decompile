@@ -6,6 +6,15 @@ namespace RimWorld
 	// Token: 0x02000514 RID: 1300
 	public class Pawn_NativeVerbs : IExposable
 	{
+		// Token: 0x04000DEA RID: 3562
+		private Pawn pawn;
+
+		// Token: 0x04000DEB RID: 3563
+		private Verb_BeatFire beatFireVerb;
+
+		// Token: 0x04000DEC RID: 3564
+		private Verb_Ignite igniteVerb;
+
 		// Token: 0x0600178E RID: 6030 RVA: 0x000CE67F File Offset: 0x000CCA7F
 		public Pawn_NativeVerbs(Pawn pawn)
 		{
@@ -139,14 +148,5 @@ namespace RimWorld
 				this.igniteVerb.loadID = VerbUtility.GenerateIgniteLoadId(this.pawn);
 			}
 		}
-
-		// Token: 0x04000DEA RID: 3562
-		private Pawn pawn;
-
-		// Token: 0x04000DEB RID: 3563
-		private Verb_BeatFire beatFireVerb;
-
-		// Token: 0x04000DEC RID: 3564
-		private Verb_Ignite igniteVerb;
 	}
 }

@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x020001B7 RID: 439
 	public class ThinkNode_JoinVoluntarilyJoinableLord : ThinkNode_Priority
 	{
+		// Token: 0x040003D9 RID: 985
+		public ThinkTreeDutyHook dutyHook;
+
 		// Token: 0x06000920 RID: 2336 RVA: 0x00055A10 File Offset: 0x00053E10
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -94,8 +97,5 @@ namespace RimWorld
 				lord2.AddPawn(pawn);
 			}
 		}
-
-		// Token: 0x040003D9 RID: 985
-		public ThinkTreeDutyHook dutyHook;
 	}
 }

@@ -11,6 +11,24 @@ namespace Verse
 	// Token: 0x02000C31 RID: 3121
 	public sealed class MapPawns
 	{
+		// Token: 0x04002EB4 RID: 11956
+		private Map map;
+
+		// Token: 0x04002EB5 RID: 11957
+		private List<Pawn> pawnsSpawned = new List<Pawn>();
+
+		// Token: 0x04002EB6 RID: 11958
+		private Dictionary<Faction, List<Pawn>> pawnsInFactionSpawned = new Dictionary<Faction, List<Pawn>>();
+
+		// Token: 0x04002EB7 RID: 11959
+		private List<Pawn> prisonersOfColonySpawned = new List<Pawn>();
+
+		// Token: 0x04002EB8 RID: 11960
+		private List<Thing> tmpThings = new List<Thing>();
+
+		// Token: 0x04002EB9 RID: 11961
+		private List<Pawn> tmpUnspawnedPawns = new List<Pawn>();
+
 		// Token: 0x0600449A RID: 17562 RVA: 0x002415F0 File Offset: 0x0023F9F0
 		public MapPawns(Map map)
 		{
@@ -588,23 +606,5 @@ namespace Verse
 			}
 			Log.Message(stringBuilder.ToString(), false);
 		}
-
-		// Token: 0x04002EB4 RID: 11956
-		private Map map;
-
-		// Token: 0x04002EB5 RID: 11957
-		private List<Pawn> pawnsSpawned = new List<Pawn>();
-
-		// Token: 0x04002EB6 RID: 11958
-		private Dictionary<Faction, List<Pawn>> pawnsInFactionSpawned = new Dictionary<Faction, List<Pawn>>();
-
-		// Token: 0x04002EB7 RID: 11959
-		private List<Pawn> prisonersOfColonySpawned = new List<Pawn>();
-
-		// Token: 0x04002EB8 RID: 11960
-		private List<Thing> tmpThings = new List<Thing>();
-
-		// Token: 0x04002EB9 RID: 11961
-		private List<Pawn> tmpUnspawnedPawns = new List<Pawn>();
 	}
 }

@@ -5,6 +5,12 @@ namespace Verse.Noise
 	// Token: 0x02000F8E RID: 3982
 	public class InverseLerp : ModuleBase
 	{
+		// Token: 0x04003F1B RID: 16155
+		private float from;
+
+		// Token: 0x04003F1C RID: 16156
+		private float to;
+
 		// Token: 0x0600603C RID: 24636 RVA: 0x0030DCB4 File Offset: 0x0030C0B4
 		public InverseLerp() : base(1)
 		{
@@ -38,11 +44,5 @@ namespace Verse.Noise
 			}
 			return result;
 		}
-
-		// Token: 0x04003F1B RID: 16155
-		private float from;
-
-		// Token: 0x04003F1C RID: 16156
-		private float to;
 	}
 }

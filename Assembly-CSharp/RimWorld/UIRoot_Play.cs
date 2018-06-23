@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x020008D5 RID: 2261
 	public class UIRoot_Play : UIRoot
 	{
+		// Token: 0x04001BCB RID: 7115
+		public MapInterface mapUI = new MapInterface();
+
+		// Token: 0x04001BCC RID: 7116
+		public MainButtonsRoot mainButtonsRoot = new MainButtonsRoot();
+
+		// Token: 0x04001BCD RID: 7117
+		public AlertsReadout alerts = new AlertsReadout();
+
 		// Token: 0x060033CD RID: 13261 RVA: 0x001BADD7 File Offset: 0x001B91D7
 		public override void Init()
 		{
@@ -123,14 +132,5 @@ namespace RimWorld
 				Find.MainTabsRoot.SetCurrentTab(MainButtonDefOf.Menu, true);
 			}
 		}
-
-		// Token: 0x04001BCB RID: 7115
-		public MapInterface mapUI = new MapInterface();
-
-		// Token: 0x04001BCC RID: 7116
-		public MainButtonsRoot mainButtonsRoot = new MainButtonsRoot();
-
-		// Token: 0x04001BCD RID: 7117
-		public AlertsReadout alerts = new AlertsReadout();
 	}
 }

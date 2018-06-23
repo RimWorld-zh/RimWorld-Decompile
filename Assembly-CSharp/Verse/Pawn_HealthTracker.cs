@@ -12,6 +12,34 @@ namespace Verse
 	// Token: 0x02000D57 RID: 3415
 	public class Pawn_HealthTracker : IExposable
 	{
+		// Token: 0x0400330B RID: 13067
+		private Pawn pawn;
+
+		// Token: 0x0400330C RID: 13068
+		private PawnHealthState healthState = PawnHealthState.Mobile;
+
+		// Token: 0x0400330D RID: 13069
+		[Unsaved]
+		public Effecter deflectionEffecter = null;
+
+		// Token: 0x0400330E RID: 13070
+		public bool forceIncap = false;
+
+		// Token: 0x0400330F RID: 13071
+		public HediffSet hediffSet = null;
+
+		// Token: 0x04003310 RID: 13072
+		public PawnCapacitiesHandler capacities = null;
+
+		// Token: 0x04003311 RID: 13073
+		public BillStack surgeryBills = null;
+
+		// Token: 0x04003312 RID: 13074
+		public SummaryHealthHandler summaryHealth = null;
+
+		// Token: 0x04003313 RID: 13075
+		public ImmunityHandler immunity = null;
+
 		// Token: 0x06004C61 RID: 19553 RVA: 0x0027D0C0 File Offset: 0x0027B4C0
 		public Pawn_HealthTracker(Pawn pawn)
 		{
@@ -902,33 +930,5 @@ namespace Verse
 				FilthMaker.MakeFilth(this.pawn.PositionHeld, this.pawn.MapHeld, this.pawn.RaceProps.BloodDef, this.pawn.LabelIndefinite(), 1);
 			}
 		}
-
-		// Token: 0x0400330B RID: 13067
-		private Pawn pawn;
-
-		// Token: 0x0400330C RID: 13068
-		private PawnHealthState healthState = PawnHealthState.Mobile;
-
-		// Token: 0x0400330D RID: 13069
-		[Unsaved]
-		public Effecter deflectionEffecter = null;
-
-		// Token: 0x0400330E RID: 13070
-		public bool forceIncap = false;
-
-		// Token: 0x0400330F RID: 13071
-		public HediffSet hediffSet = null;
-
-		// Token: 0x04003310 RID: 13072
-		public PawnCapacitiesHandler capacities = null;
-
-		// Token: 0x04003311 RID: 13073
-		public BillStack surgeryBills = null;
-
-		// Token: 0x04003312 RID: 13074
-		public SummaryHealthHandler summaryHealth = null;
-
-		// Token: 0x04003313 RID: 13075
-		public ImmunityHandler immunity = null;
 	}
 }

@@ -5,6 +5,9 @@ namespace Verse
 	// Token: 0x02000D5B RID: 3419
 	public abstract class Stance : IExposable
 	{
+		// Token: 0x0400332A RID: 13098
+		public Pawn_StanceTracker stanceTracker;
+
 		// Token: 0x17000C7E RID: 3198
 		// (get) Token: 0x06004CB4 RID: 19636 RVA: 0x0027FE8C File Offset: 0x0027E28C
 		public virtual bool StanceBusy
@@ -39,8 +42,5 @@ namespace Verse
 		public virtual void ExposeData()
 		{
 		}
-
-		// Token: 0x0400332A RID: 13098
-		public Pawn_StanceTracker stanceTracker;
 	}
 }

@@ -10,6 +10,12 @@ namespace RimWorld
 	// Token: 0x0200030A RID: 778
 	public sealed class GameConditionManager : IExposable
 	{
+		// Token: 0x04000865 RID: 2149
+		public Map ownerMap;
+
+		// Token: 0x04000866 RID: 2150
+		private List<GameCondition> activeConditions = new List<GameCondition>();
+
 		// Token: 0x06000D06 RID: 3334 RVA: 0x000716B7 File Offset: 0x0006FAB7
 		public GameConditionManager(Map map)
 		{
@@ -367,11 +373,5 @@ namespace RimWorld
 			}
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x04000865 RID: 2149
-		public Map ownerMap;
-
-		// Token: 0x04000866 RID: 2150
-		private List<GameCondition> activeConditions = new List<GameCondition>();
 	}
 }

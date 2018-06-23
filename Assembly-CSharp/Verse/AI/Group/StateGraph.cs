@@ -7,6 +7,15 @@ namespace Verse.AI.Group
 	// Token: 0x020009FA RID: 2554
 	public class StateGraph
 	{
+		// Token: 0x0400247D RID: 9341
+		public List<LordToil> lordToils = new List<LordToil>();
+
+		// Token: 0x0400247E RID: 9342
+		public List<Transition> transitions = new List<Transition>();
+
+		// Token: 0x0400247F RID: 9343
+		private static HashSet<LordToil> checkedToils;
+
 		// Token: 0x170008E1 RID: 2273
 		// (get) Token: 0x06003958 RID: 14680 RVA: 0x001E7028 File Offset: 0x001E5428
 		// (set) Token: 0x06003959 RID: 14681 RVA: 0x001E7049 File Offset: 0x001E5449
@@ -123,14 +132,5 @@ namespace Verse.AI.Group
 				}
 			}
 		}
-
-		// Token: 0x0400247D RID: 9341
-		public List<LordToil> lordToils = new List<LordToil>();
-
-		// Token: 0x0400247E RID: 9342
-		public List<Transition> transitions = new List<Transition>();
-
-		// Token: 0x0400247F RID: 9343
-		private static HashSet<LordToil> checkedToils;
 	}
 }

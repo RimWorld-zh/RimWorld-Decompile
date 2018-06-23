@@ -8,6 +8,35 @@ namespace RimWorld
 	// Token: 0x0200034B RID: 843
 	public class IncidentWorker_TravelerGroup : IncidentWorker_NeutralGroup
 	{
+		// Token: 0x040008F8 RID: 2296
+		private static readonly SimpleCurve PointsCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(40f, 0f),
+				true
+			},
+			{
+				new CurvePoint(50f, 1f),
+				true
+			},
+			{
+				new CurvePoint(100f, 1f),
+				true
+			},
+			{
+				new CurvePoint(200f, 0.5f),
+				true
+			},
+			{
+				new CurvePoint(300f, 0.1f),
+				true
+			},
+			{
+				new CurvePoint(500f, 0f),
+				true
+			}
+		};
+
 		// Token: 0x06000E8B RID: 3723 RVA: 0x0007B25C File Offset: 0x0007965C
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
@@ -71,34 +100,5 @@ namespace RimWorld
 				parms.points = Rand.ByCurve(IncidentWorker_TravelerGroup.PointsCurve);
 			}
 		}
-
-		// Token: 0x040008F8 RID: 2296
-		private static readonly SimpleCurve PointsCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(40f, 0f),
-				true
-			},
-			{
-				new CurvePoint(50f, 1f),
-				true
-			},
-			{
-				new CurvePoint(100f, 1f),
-				true
-			},
-			{
-				new CurvePoint(200f, 0.5f),
-				true
-			},
-			{
-				new CurvePoint(300f, 0.1f),
-				true
-			},
-			{
-				new CurvePoint(500f, 0f),
-				true
-			}
-		};
 	}
 }

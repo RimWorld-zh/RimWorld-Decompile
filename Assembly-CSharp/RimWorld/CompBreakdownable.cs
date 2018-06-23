@@ -6,6 +6,18 @@ namespace RimWorld
 	// Token: 0x02000701 RID: 1793
 	public class CompBreakdownable : ThingComp
 	{
+		// Token: 0x040015BB RID: 5563
+		private bool brokenDownInt;
+
+		// Token: 0x040015BC RID: 5564
+		private CompPowerTrader powerComp;
+
+		// Token: 0x040015BD RID: 5565
+		private const int BreakdownMTBTicks = 13679999;
+
+		// Token: 0x040015BE RID: 5566
+		public const string BreakdownSignal = "Breakdown";
+
 		// Token: 0x170005E5 RID: 1509
 		// (get) Token: 0x06002747 RID: 10055 RVA: 0x001520F8 File Offset: 0x001504F8
 		public bool BrokenDown
@@ -105,17 +117,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040015BB RID: 5563
-		private bool brokenDownInt;
-
-		// Token: 0x040015BC RID: 5564
-		private CompPowerTrader powerComp;
-
-		// Token: 0x040015BD RID: 5565
-		private const int BreakdownMTBTicks = 13679999;
-
-		// Token: 0x040015BE RID: 5566
-		public const string BreakdownSignal = "Breakdown";
 	}
 }

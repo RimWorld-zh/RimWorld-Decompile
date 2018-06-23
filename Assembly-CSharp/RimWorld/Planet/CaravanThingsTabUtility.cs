@@ -9,6 +9,36 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public static class CaravanThingsTabUtility
 	{
+		// Token: 0x04001C1A RID: 7194
+		public const float MassColumnWidth = 60f;
+
+		// Token: 0x04001C1B RID: 7195
+		public const float SpaceAroundIcon = 4f;
+
+		// Token: 0x04001C1C RID: 7196
+		public const float SpecificTabButtonSize = 24f;
+
+		// Token: 0x04001C1D RID: 7197
+		public const float AbandonButtonSize = 24f;
+
+		// Token: 0x04001C1E RID: 7198
+		public const float AbandonSpecificCountButtonSize = 24f;
+
+		// Token: 0x04001C1F RID: 7199
+		public static readonly Texture2D AbandonButtonTex = ContentFinder<Texture2D>.Get("UI/Buttons/Abandon", true);
+
+		// Token: 0x04001C20 RID: 7200
+		public static readonly Texture2D AbandonSpecificCountButtonTex = ContentFinder<Texture2D>.Get("UI/Buttons/AbandonSpecificCount", true);
+
+		// Token: 0x04001C21 RID: 7201
+		public static readonly Texture2D SpecificTabButtonTex = ContentFinder<Texture2D>.Get("UI/Buttons/OpenSpecificTab", true);
+
+		// Token: 0x04001C22 RID: 7202
+		public static readonly Color OpenedSpecificTabButtonColor = new Color(0f, 0.8f, 0f);
+
+		// Token: 0x04001C23 RID: 7203
+		public static readonly Color OpenedSpecificTabButtonMouseoverColor = new Color(0f, 0.5f, 0f);
+
 		// Token: 0x06003412 RID: 13330 RVA: 0x001BDA44 File Offset: 0x001BBE44
 		public static void DoAbandonButton(Rect rowRect, Thing t, Caravan caravan)
 		{
@@ -105,35 +135,5 @@ namespace RimWorld.Planet
 			Text.Anchor = TextAnchor.UpperLeft;
 			GUI.color = Color.white;
 		}
-
-		// Token: 0x04001C1A RID: 7194
-		public const float MassColumnWidth = 60f;
-
-		// Token: 0x04001C1B RID: 7195
-		public const float SpaceAroundIcon = 4f;
-
-		// Token: 0x04001C1C RID: 7196
-		public const float SpecificTabButtonSize = 24f;
-
-		// Token: 0x04001C1D RID: 7197
-		public const float AbandonButtonSize = 24f;
-
-		// Token: 0x04001C1E RID: 7198
-		public const float AbandonSpecificCountButtonSize = 24f;
-
-		// Token: 0x04001C1F RID: 7199
-		public static readonly Texture2D AbandonButtonTex = ContentFinder<Texture2D>.Get("UI/Buttons/Abandon", true);
-
-		// Token: 0x04001C20 RID: 7200
-		public static readonly Texture2D AbandonSpecificCountButtonTex = ContentFinder<Texture2D>.Get("UI/Buttons/AbandonSpecificCount", true);
-
-		// Token: 0x04001C21 RID: 7201
-		public static readonly Texture2D SpecificTabButtonTex = ContentFinder<Texture2D>.Get("UI/Buttons/OpenSpecificTab", true);
-
-		// Token: 0x04001C22 RID: 7202
-		public static readonly Color OpenedSpecificTabButtonColor = new Color(0f, 0.8f, 0f);
-
-		// Token: 0x04001C23 RID: 7203
-		public static readonly Color OpenedSpecificTabButtonMouseoverColor = new Color(0f, 0.5f, 0f);
 	}
 }

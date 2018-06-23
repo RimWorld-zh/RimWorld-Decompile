@@ -5,6 +5,12 @@ namespace Verse
 	// Token: 0x020006CE RID: 1742
 	public class MoteCounter
 	{
+		// Token: 0x04001518 RID: 5400
+		private int moteCount;
+
+		// Token: 0x04001519 RID: 5401
+		private const int SaturatedCount = 250;
+
 		// Token: 0x170005AB RID: 1451
 		// (get) Token: 0x060025B9 RID: 9657 RVA: 0x001436CC File Offset: 0x00141ACC
 		public int MoteCount
@@ -56,11 +62,5 @@ namespace Verse
 		{
 			this.moteCount--;
 		}
-
-		// Token: 0x04001518 RID: 5400
-		private int moteCount;
-
-		// Token: 0x04001519 RID: 5401
-		private const int SaturatedCount = 250;
 	}
 }

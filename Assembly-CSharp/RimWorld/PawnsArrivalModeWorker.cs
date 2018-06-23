@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020002BA RID: 698
 	public abstract class PawnsArrivalModeWorker
 	{
+		// Token: 0x040006CE RID: 1742
+		public PawnsArrivalModeDef def;
+
 		// Token: 0x06000BB3 RID: 2995 RVA: 0x000691F8 File Offset: 0x000675F8
 		public virtual bool CanUseWith(IncidentParms parms)
 		{
@@ -30,8 +33,5 @@ namespace RimWorld
 
 		// Token: 0x06000BB7 RID: 2999
 		public abstract bool TryResolveRaidSpawnCenter(IncidentParms parms);
-
-		// Token: 0x040006CE RID: 1742
-		public PawnsArrivalModeDef def;
 	}
 }

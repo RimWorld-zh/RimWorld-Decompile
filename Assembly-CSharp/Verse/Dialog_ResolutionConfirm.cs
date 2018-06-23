@@ -6,6 +6,21 @@ namespace Verse
 	// Token: 0x02000EB7 RID: 3767
 	public class Dialog_ResolutionConfirm : Window
 	{
+		// Token: 0x04003B6B RID: 15211
+		private float startTime;
+
+		// Token: 0x04003B6C RID: 15212
+		private IntVec2 oldRes;
+
+		// Token: 0x04003B6D RID: 15213
+		private bool oldFullscreen;
+
+		// Token: 0x04003B6E RID: 15214
+		private float oldUIScale;
+
+		// Token: 0x04003B6F RID: 15215
+		private const float RevertTime = 10f;
+
 		// Token: 0x0600592A RID: 22826 RVA: 0x002DC0A1 File Offset: 0x002DA4A1
 		private Dialog_ResolutionConfirm()
 		{
@@ -107,20 +122,5 @@ namespace Verse
 				this.Close(true);
 			}
 		}
-
-		// Token: 0x04003B6B RID: 15211
-		private float startTime;
-
-		// Token: 0x04003B6C RID: 15212
-		private IntVec2 oldRes;
-
-		// Token: 0x04003B6D RID: 15213
-		private bool oldFullscreen;
-
-		// Token: 0x04003B6E RID: 15214
-		private float oldUIScale;
-
-		// Token: 0x04003B6F RID: 15215
-		private const float RevertTime = 10f;
 	}
 }

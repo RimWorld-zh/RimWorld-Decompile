@@ -9,6 +9,12 @@ namespace Verse
 	// Token: 0x02000CA6 RID: 3238
 	public class MapTemperature
 	{
+		// Token: 0x04003072 RID: 12402
+		private Map map;
+
+		// Token: 0x04003073 RID: 12403
+		private HashSet<RoomGroup> fastProcessedRoomGroups = new HashSet<RoomGroup>();
+
 		// Token: 0x0600476C RID: 18284 RVA: 0x0025AE3E File Offset: 0x0025923E
 		public MapTemperature(Map map)
 		{
@@ -149,11 +155,5 @@ namespace Verse
 			}
 			Log.Message(stringBuilder.ToString(), false);
 		}
-
-		// Token: 0x04003072 RID: 12402
-		private Map map;
-
-		// Token: 0x04003073 RID: 12403
-		private HashSet<RoomGroup> fastProcessedRoomGroups = new HashSet<RoomGroup>();
 	}
 }

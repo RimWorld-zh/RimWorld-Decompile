@@ -5,6 +5,9 @@ namespace Verse.Noise
 	// Token: 0x02000F78 RID: 3960
 	public class Cylinders : ModuleBase
 	{
+		// Token: 0x04003ED8 RID: 16088
+		private double m_frequency = 1.0;
+
 		// Token: 0x06005F9B RID: 24475 RVA: 0x0030B37A File Offset: 0x0030977A
 		public Cylinders() : base(0)
 		{
@@ -42,8 +45,5 @@ namespace Verse.Noise
 			double num3 = Math.Min(num2, val);
 			return 1.0 - num3 * 4.0;
 		}
-
-		// Token: 0x04003ED8 RID: 16088
-		private double m_frequency = 1.0;
 	}
 }

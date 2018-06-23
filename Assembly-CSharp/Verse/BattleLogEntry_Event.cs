@@ -7,6 +7,21 @@ namespace Verse
 	// Token: 0x02000BBB RID: 3003
 	public class BattleLogEntry_Event : LogEntry
 	{
+		// Token: 0x04002C87 RID: 11399
+		private RulePackDef eventDef;
+
+		// Token: 0x04002C88 RID: 11400
+		private Pawn subjectPawn;
+
+		// Token: 0x04002C89 RID: 11401
+		private ThingDef subjectThing;
+
+		// Token: 0x04002C8A RID: 11402
+		private Pawn initiatorPawn;
+
+		// Token: 0x04002C8B RID: 11403
+		private ThingDef initiatorThing;
+
 		// Token: 0x0600412D RID: 16685 RVA: 0x00226978 File Offset: 0x00224D78
 		public BattleLogEntry_Event() : base(null)
 		{
@@ -121,20 +136,5 @@ namespace Verse
 		{
 			return this.eventDef.defName + ": " + this.subjectPawn;
 		}
-
-		// Token: 0x04002C87 RID: 11399
-		private RulePackDef eventDef;
-
-		// Token: 0x04002C88 RID: 11400
-		private Pawn subjectPawn;
-
-		// Token: 0x04002C89 RID: 11401
-		private ThingDef subjectThing;
-
-		// Token: 0x04002C8A RID: 11402
-		private Pawn initiatorPawn;
-
-		// Token: 0x04002C8B RID: 11403
-		private ThingDef initiatorThing;
 	}
 }

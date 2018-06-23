@@ -9,6 +9,15 @@ namespace RimWorld
 	// Token: 0x020007F2 RID: 2034
 	public class Dialog_AddPreferredName : Window
 	{
+		// Token: 0x040017B8 RID: 6072
+		private string searchName = "";
+
+		// Token: 0x040017B9 RID: 6073
+		private string[] searchWords;
+
+		// Token: 0x040017BA RID: 6074
+		private List<NameTriple> cachedNames;
+
 		// Token: 0x06002D23 RID: 11555 RVA: 0x0017B48C File Offset: 0x0017988C
 		public Dialog_AddPreferredName()
 		{
@@ -105,14 +114,5 @@ namespace RimWorld
 		{
 			return Prefs.PreferredNames.Contains(name.ToString());
 		}
-
-		// Token: 0x040017B8 RID: 6072
-		private string searchName = "";
-
-		// Token: 0x040017B9 RID: 6073
-		private string[] searchWords;
-
-		// Token: 0x040017BA RID: 6074
-		private List<NameTriple> cachedNames;
 	}
 }

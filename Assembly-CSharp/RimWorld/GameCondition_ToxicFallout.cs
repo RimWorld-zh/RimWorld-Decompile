@@ -8,6 +8,33 @@ namespace RimWorld
 	// Token: 0x02000310 RID: 784
 	public class GameCondition_ToxicFallout : GameCondition
 	{
+		// Token: 0x0400087F RID: 2175
+		private const int LerpTicks = 5000;
+
+		// Token: 0x04000880 RID: 2176
+		private const float MaxSkyLerpFactor = 0.5f;
+
+		// Token: 0x04000881 RID: 2177
+		private const float SkyGlow = 0.85f;
+
+		// Token: 0x04000882 RID: 2178
+		private SkyColorSet ToxicFalloutColors;
+
+		// Token: 0x04000883 RID: 2179
+		private List<SkyOverlay> overlays;
+
+		// Token: 0x04000884 RID: 2180
+		private const int CheckInterval = 3451;
+
+		// Token: 0x04000885 RID: 2181
+		private const float ToxicPerDay = 0.5f;
+
+		// Token: 0x04000886 RID: 2182
+		private const float PlantKillChance = 0.0065f;
+
+		// Token: 0x04000887 RID: 2183
+		private const float CorpseRotProgressAdd = 3000f;
+
 		// Token: 0x06000D45 RID: 3397 RVA: 0x00072DB4 File Offset: 0x000711B4
 		public GameCondition_ToxicFallout()
 		{
@@ -145,32 +172,5 @@ namespace RimWorld
 		{
 			return this.overlays;
 		}
-
-		// Token: 0x0400087F RID: 2175
-		private const int LerpTicks = 5000;
-
-		// Token: 0x04000880 RID: 2176
-		private const float MaxSkyLerpFactor = 0.5f;
-
-		// Token: 0x04000881 RID: 2177
-		private const float SkyGlow = 0.85f;
-
-		// Token: 0x04000882 RID: 2178
-		private SkyColorSet ToxicFalloutColors;
-
-		// Token: 0x04000883 RID: 2179
-		private List<SkyOverlay> overlays;
-
-		// Token: 0x04000884 RID: 2180
-		private const int CheckInterval = 3451;
-
-		// Token: 0x04000885 RID: 2181
-		private const float ToxicPerDay = 0.5f;
-
-		// Token: 0x04000886 RID: 2182
-		private const float PlantKillChance = 0.0065f;
-
-		// Token: 0x04000887 RID: 2183
-		private const float CorpseRotProgressAdd = 3000f;
 	}
 }

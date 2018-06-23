@@ -6,6 +6,24 @@ namespace Verse.Noise
 	// Token: 0x02000F73 RID: 3955
 	public class Billow : ModuleBase
 	{
+		// Token: 0x04003ECD RID: 16077
+		private double m_frequency = 1.0;
+
+		// Token: 0x04003ECE RID: 16078
+		private double m_lacunarity = 2.0;
+
+		// Token: 0x04003ECF RID: 16079
+		private QualityMode m_quality = QualityMode.Medium;
+
+		// Token: 0x04003ED0 RID: 16080
+		private int m_octaveCount = 6;
+
+		// Token: 0x04003ED1 RID: 16081
+		private double m_persistence = 0.5;
+
+		// Token: 0x04003ED2 RID: 16082
+		private int m_seed = 0;
+
 		// Token: 0x06005F7F RID: 24447 RVA: 0x0030AE54 File Offset: 0x00309254
 		public Billow() : base(0)
 		{
@@ -136,23 +154,5 @@ namespace Verse.Noise
 			}
 			return num + 0.5;
 		}
-
-		// Token: 0x04003ECD RID: 16077
-		private double m_frequency = 1.0;
-
-		// Token: 0x04003ECE RID: 16078
-		private double m_lacunarity = 2.0;
-
-		// Token: 0x04003ECF RID: 16079
-		private QualityMode m_quality = QualityMode.Medium;
-
-		// Token: 0x04003ED0 RID: 16080
-		private int m_octaveCount = 6;
-
-		// Token: 0x04003ED1 RID: 16081
-		private double m_persistence = 0.5;
-
-		// Token: 0x04003ED2 RID: 16082
-		private int m_seed = 0;
 	}
 }

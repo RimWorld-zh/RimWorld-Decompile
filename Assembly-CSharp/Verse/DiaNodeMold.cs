@@ -6,24 +6,6 @@ namespace Verse
 	// Token: 0x02000EC0 RID: 3776
 	public class DiaNodeMold
 	{
-		// Token: 0x06005961 RID: 22881 RVA: 0x002DD104 File Offset: 0x002DB504
-		public void PostLoad()
-		{
-			int num = 0;
-			foreach (string text in this.texts.ListFullCopy<string>())
-			{
-				this.texts[num] = text.Replace("\\n", Environment.NewLine);
-				num++;
-			}
-			foreach (DiaOptionMold diaOptionMold in this.optionList)
-			{
-				foreach (DiaNodeMold diaNodeMold in diaOptionMold.ChildNodes)
-				{
-					diaNodeMold.PostLoad();
-				}
-			}
-		}
-
 		// Token: 0x04003BA1 RID: 15265
 		public string name = "Unnamed";
 
@@ -47,5 +29,23 @@ namespace Verse
 		// Token: 0x04003BA7 RID: 15271
 		[Unsaved]
 		public DiaNodeType nodeType = DiaNodeType.Undefined;
+
+		// Token: 0x06005961 RID: 22881 RVA: 0x002DD104 File Offset: 0x002DB504
+		public void PostLoad()
+		{
+			int num = 0;
+			foreach (string text in this.texts.ListFullCopy<string>())
+			{
+				this.texts[num] = text.Replace("\\n", Environment.NewLine);
+				num++;
+			}
+			foreach (DiaOptionMold diaOptionMold in this.optionList)
+			{
+				foreach (DiaNodeMold diaNodeMold in diaOptionMold.ChildNodes)
+				{
+					diaNodeMold.PostLoad();
+				}
+			}
+		}
 	}
 }

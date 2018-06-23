@@ -8,6 +8,49 @@ namespace Verse
 	// Token: 0x02000C5A RID: 3162
 	public abstract class GenStep_Scatterer : GenStep
 	{
+		// Token: 0x04002F91 RID: 12177
+		public int count = -1;
+
+		// Token: 0x04002F92 RID: 12178
+		public FloatRange countPer10kCellsRange = FloatRange.Zero;
+
+		// Token: 0x04002F93 RID: 12179
+		public bool nearPlayerStart = false;
+
+		// Token: 0x04002F94 RID: 12180
+		public bool nearMapCenter = false;
+
+		// Token: 0x04002F95 RID: 12181
+		public float minSpacing = 10f;
+
+		// Token: 0x04002F96 RID: 12182
+		public bool spotMustBeStandable = false;
+
+		// Token: 0x04002F97 RID: 12183
+		public int minDistToPlayerStart = 0;
+
+		// Token: 0x04002F98 RID: 12184
+		public int minEdgeDist = 0;
+
+		// Token: 0x04002F99 RID: 12185
+		public int extraNoBuildEdgeDist = 0;
+
+		// Token: 0x04002F9A RID: 12186
+		public List<ScattererValidator> validators = new List<ScattererValidator>();
+
+		// Token: 0x04002F9B RID: 12187
+		public bool allowInWaterBiome = true;
+
+		// Token: 0x04002F9C RID: 12188
+		public bool warnOnFail = true;
+
+		// Token: 0x04002F9D RID: 12189
+		[Unsaved]
+		protected List<IntVec3> usedSpots = new List<IntVec3>();
+
+		// Token: 0x04002F9E RID: 12190
+		private const int ScatterNearPlayerRadius = 20;
+
 		// Token: 0x0600459C RID: 17820 RVA: 0x00091BE4 File Offset: 0x0008FFE4
 		public override void Generate(Map map)
 		{
@@ -145,48 +188,5 @@ namespace Verse
 		{
 			this.ScatterAt(loc, map, 1);
 		}
-
-		// Token: 0x04002F91 RID: 12177
-		public int count = -1;
-
-		// Token: 0x04002F92 RID: 12178
-		public FloatRange countPer10kCellsRange = FloatRange.Zero;
-
-		// Token: 0x04002F93 RID: 12179
-		public bool nearPlayerStart = false;
-
-		// Token: 0x04002F94 RID: 12180
-		public bool nearMapCenter = false;
-
-		// Token: 0x04002F95 RID: 12181
-		public float minSpacing = 10f;
-
-		// Token: 0x04002F96 RID: 12182
-		public bool spotMustBeStandable = false;
-
-		// Token: 0x04002F97 RID: 12183
-		public int minDistToPlayerStart = 0;
-
-		// Token: 0x04002F98 RID: 12184
-		public int minEdgeDist = 0;
-
-		// Token: 0x04002F99 RID: 12185
-		public int extraNoBuildEdgeDist = 0;
-
-		// Token: 0x04002F9A RID: 12186
-		public List<ScattererValidator> validators = new List<ScattererValidator>();
-
-		// Token: 0x04002F9B RID: 12187
-		public bool allowInWaterBiome = true;
-
-		// Token: 0x04002F9C RID: 12188
-		public bool warnOnFail = true;
-
-		// Token: 0x04002F9D RID: 12189
-		[Unsaved]
-		protected List<IntVec3> usedSpots = new List<IntVec3>();
-
-		// Token: 0x04002F9E RID: 12190
-		private const int ScatterNearPlayerRadius = 20;
 	}
 }

@@ -5,6 +5,12 @@ namespace Verse
 	// Token: 0x02000C1E RID: 3102
 	public sealed class EdificeGrid
 	{
+		// Token: 0x04002E5D RID: 11869
+		private Map map;
+
+		// Token: 0x04002E5E RID: 11870
+		private Building[] innerArray;
+
 		// Token: 0x060043F2 RID: 17394 RVA: 0x0023D6B7 File Offset: 0x0023BAB7
 		public EdificeGrid(Map map)
 		{
@@ -83,11 +89,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04002E5D RID: 11869
-		private Map map;
-
-		// Token: 0x04002E5E RID: 11870
-		private Building[] innerArray;
 	}
 }

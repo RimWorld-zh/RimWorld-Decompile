@@ -7,6 +7,15 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class ContentSourceUtility
 	{
+		// Token: 0x04003C68 RID: 15464
+		public const float IconSize = 24f;
+
+		// Token: 0x04003C69 RID: 15465
+		private static readonly Texture2D ContentSourceIcon_LocalFolder = ContentFinder<Texture2D>.Get("UI/Icons/ContentSources/LocalFolder", true);
+
+		// Token: 0x04003C6A RID: 15466
+		private static readonly Texture2D ContentSourceIcon_SteamWorkshop = ContentFinder<Texture2D>.Get("UI/Icons/ContentSources/SteamWorkshop", true);
+
 		// Token: 0x060059FF RID: 23039 RVA: 0x002E3A14 File Offset: 0x002E1E14
 		public static Texture2D GetIcon(this ContentSource s)
 		{
@@ -51,14 +60,5 @@ namespace Verse
 		{
 			return ("ContentSource_" + s.ToString()).Translate();
 		}
-
-		// Token: 0x04003C68 RID: 15464
-		public const float IconSize = 24f;
-
-		// Token: 0x04003C69 RID: 15465
-		private static readonly Texture2D ContentSourceIcon_LocalFolder = ContentFinder<Texture2D>.Get("UI/Icons/ContentSources/LocalFolder", true);
-
-		// Token: 0x04003C6A RID: 15466
-		private static readonly Texture2D ContentSourceIcon_SteamWorkshop = ContentFinder<Texture2D>.Get("UI/Icons/ContentSources/SteamWorkshop", true);
 	}
 }

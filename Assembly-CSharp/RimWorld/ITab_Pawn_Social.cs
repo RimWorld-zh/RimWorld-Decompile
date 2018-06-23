@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000857 RID: 2135
 	public class ITab_Pawn_Social : ITab
 	{
+		// Token: 0x04001A3A RID: 6714
+		public const float Width = 540f;
+
 		// Token: 0x06003060 RID: 12384 RVA: 0x001A5302 File Offset: 0x001A3702
 		public ITab_Pawn_Social()
 		{
@@ -54,8 +57,5 @@ namespace RimWorld
 		{
 			SocialCardUtility.DrawSocialCard(new Rect(0f, 0f, this.size.x, this.size.y), this.SelPawnForSocialInfo);
 		}
-
-		// Token: 0x04001A3A RID: 6714
-		public const float Width = 540f;
 	}
 }

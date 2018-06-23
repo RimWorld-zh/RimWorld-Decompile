@@ -6,6 +6,13 @@ namespace Verse.Grammar
 	// Token: 0x02000BE5 RID: 3045
 	public abstract class Rule
 	{
+		// Token: 0x04002D7D RID: 11645
+		[MayTranslate]
+		public string keyword;
+
+		// Token: 0x04002D7E RID: 11646
+		public List<Rule.ConstantConstraint> constantConstraints;
+
 		// Token: 0x17000A77 RID: 2679
 		// (get) Token: 0x06004281 RID: 17025
 		public abstract float BaseSelectionWeight { get; }
@@ -32,13 +39,6 @@ namespace Verse.Grammar
 				equality = equality
 			});
 		}
-
-		// Token: 0x04002D7D RID: 11645
-		[MayTranslate]
-		public string keyword;
-
-		// Token: 0x04002D7E RID: 11646
-		public List<Rule.ConstantConstraint> constantConstraints;
 
 		// Token: 0x02000BE6 RID: 3046
 		public struct ConstantConstraint

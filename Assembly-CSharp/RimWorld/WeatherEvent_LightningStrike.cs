@@ -9,6 +9,15 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class WeatherEvent_LightningStrike : WeatherEvent_LightningFlash
 	{
+		// Token: 0x04000BA0 RID: 2976
+		private IntVec3 strikeLoc = IntVec3.Invalid;
+
+		// Token: 0x04000BA1 RID: 2977
+		private Mesh boltMesh = null;
+
+		// Token: 0x04000BA2 RID: 2978
+		private static readonly Material LightningMat = MatLoader.LoadMat("Weather/LightningBolt", -1);
+
 		// Token: 0x06001318 RID: 4888 RVA: 0x000A4940 File Offset: 0x000A2D40
 		public WeatherEvent_LightningStrike(Map map) : base(map)
 		{
@@ -49,14 +58,5 @@ namespace RimWorld
 		{
 			Graphics.DrawMesh(this.boltMesh, this.strikeLoc.ToVector3ShiftedWithAltitude(AltitudeLayer.Weather), Quaternion.identity, FadedMaterialPool.FadedVersionOf(WeatherEvent_LightningStrike.LightningMat, base.LightningBrightness), 0);
 		}
-
-		// Token: 0x04000BA0 RID: 2976
-		private IntVec3 strikeLoc = IntVec3.Invalid;
-
-		// Token: 0x04000BA1 RID: 2977
-		private Mesh boltMesh = null;
-
-		// Token: 0x04000BA2 RID: 2978
-		private static readonly Material LightningMat = MatLoader.LoadMat("Weather/LightningBolt", -1);
 	}
 }

@@ -5,6 +5,9 @@ namespace Verse.AI.Group
 	// Token: 0x020009E5 RID: 2533
 	public class LordJob_DefendPoint : LordJob
 	{
+		// Token: 0x0400245D RID: 9309
+		private IntVec3 point;
+
 		// Token: 0x060038FB RID: 14587 RVA: 0x001E61E2 File Offset: 0x001E45E2
 		public LordJob_DefendPoint()
 		{
@@ -29,8 +32,5 @@ namespace Verse.AI.Group
 		{
 			Scribe_Values.Look<IntVec3>(ref this.point, "point", default(IntVec3), false);
 		}
-
-		// Token: 0x0400245D RID: 9309
-		private IntVec3 point;
 	}
 }

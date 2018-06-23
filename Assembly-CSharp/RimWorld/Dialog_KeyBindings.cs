@@ -9,6 +9,27 @@ namespace RimWorld
 	// Token: 0x020007FA RID: 2042
 	public class Dialog_KeyBindings : Window
 	{
+		// Token: 0x04001808 RID: 6152
+		protected Vector2 scrollPosition;
+
+		// Token: 0x04001809 RID: 6153
+		protected float contentHeight;
+
+		// Token: 0x0400180A RID: 6154
+		protected KeyPrefsData keyPrefsData = null;
+
+		// Token: 0x0400180B RID: 6155
+		protected Vector2 WindowSize = new Vector2(900f, 760f);
+
+		// Token: 0x0400180C RID: 6156
+		protected const float EntryHeight = 34f;
+
+		// Token: 0x0400180D RID: 6157
+		protected const float CategoryHeadingHeight = 40f;
+
+		// Token: 0x0400180E RID: 6158
+		private static List<KeyBindingDef> keyBindingsWorkingList = new List<KeyBindingDef>();
+
 		// Token: 0x06002D7A RID: 11642 RVA: 0x0017ED08 File Offset: 0x0017D108
 		public Dialog_KeyBindings()
 		{
@@ -194,26 +215,5 @@ namespace RimWorld
 				Find.WindowStack.Add(new FloatMenu(list));
 			}
 		}
-
-		// Token: 0x04001808 RID: 6152
-		protected Vector2 scrollPosition;
-
-		// Token: 0x04001809 RID: 6153
-		protected float contentHeight;
-
-		// Token: 0x0400180A RID: 6154
-		protected KeyPrefsData keyPrefsData = null;
-
-		// Token: 0x0400180B RID: 6155
-		protected Vector2 WindowSize = new Vector2(900f, 760f);
-
-		// Token: 0x0400180C RID: 6156
-		protected const float EntryHeight = 34f;
-
-		// Token: 0x0400180D RID: 6157
-		protected const float CategoryHeadingHeight = 40f;
-
-		// Token: 0x0400180E RID: 6158
-		private static List<KeyBindingDef> keyBindingsWorkingList = new List<KeyBindingDef>();
 	}
 }

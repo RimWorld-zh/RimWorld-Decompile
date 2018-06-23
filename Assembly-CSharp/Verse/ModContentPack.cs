@@ -10,6 +10,39 @@ namespace Verse
 	// Token: 0x02000CC3 RID: 3267
 	public class ModContentPack
 	{
+		// Token: 0x040030D6 RID: 12502
+		private DirectoryInfo rootDirInt;
+
+		// Token: 0x040030D7 RID: 12503
+		public int loadOrder;
+
+		// Token: 0x040030D8 RID: 12504
+		private string nameInt;
+
+		// Token: 0x040030D9 RID: 12505
+		private ModContentHolder<AudioClip> audioClips;
+
+		// Token: 0x040030DA RID: 12506
+		private ModContentHolder<Texture2D> textures;
+
+		// Token: 0x040030DB RID: 12507
+		private ModContentHolder<string> strings;
+
+		// Token: 0x040030DC RID: 12508
+		public ModAssemblyHandler assemblies;
+
+		// Token: 0x040030DD RID: 12509
+		private List<PatchOperation> patches;
+
+		// Token: 0x040030DE RID: 12510
+		private List<DefPackage> defPackages = new List<DefPackage>();
+
+		// Token: 0x040030DF RID: 12511
+		private DefPackage impliedDefPackage;
+
+		// Token: 0x040030E0 RID: 12512
+		public static readonly string CoreModIdentifier = "Core";
+
 		// Token: 0x0600481D RID: 18461 RVA: 0x0025FA48 File Offset: 0x0025DE48
 		public ModContentPack(DirectoryInfo directory, int loadOrder, string name)
 		{
@@ -250,38 +283,5 @@ namespace Verse
 		{
 			return this.Identifier;
 		}
-
-		// Token: 0x040030D6 RID: 12502
-		private DirectoryInfo rootDirInt;
-
-		// Token: 0x040030D7 RID: 12503
-		public int loadOrder;
-
-		// Token: 0x040030D8 RID: 12504
-		private string nameInt;
-
-		// Token: 0x040030D9 RID: 12505
-		private ModContentHolder<AudioClip> audioClips;
-
-		// Token: 0x040030DA RID: 12506
-		private ModContentHolder<Texture2D> textures;
-
-		// Token: 0x040030DB RID: 12507
-		private ModContentHolder<string> strings;
-
-		// Token: 0x040030DC RID: 12508
-		public ModAssemblyHandler assemblies;
-
-		// Token: 0x040030DD RID: 12509
-		private List<PatchOperation> patches;
-
-		// Token: 0x040030DE RID: 12510
-		private List<DefPackage> defPackages = new List<DefPackage>();
-
-		// Token: 0x040030DF RID: 12511
-		private DefPackage impliedDefPackage;
-
-		// Token: 0x040030E0 RID: 12512
-		public static readonly string CoreModIdentifier = "Core";
 	}
 }

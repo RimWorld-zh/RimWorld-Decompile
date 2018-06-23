@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x020008A1 RID: 2209
 	public static class TargetHighlighter
 	{
+		// Token: 0x04001B1B RID: 6939
+		private static List<Vector3> arrowPositions = new List<Vector3>();
+
+		// Token: 0x04001B1C RID: 6940
+		private static List<Pair<Vector3, float>> circleOverlays = new List<Pair<Vector3, float>>();
+
 		// Token: 0x06003296 RID: 12950 RVA: 0x001B3E94 File Offset: 0x001B2294
 		public static void Highlight(GlobalTargetInfo target, bool arrow = true, bool colonistBar = true, bool circleOverlay = false)
 		{
@@ -94,11 +100,5 @@ namespace RimWorld
 			}
 			TargetHighlighter.circleOverlays.Clear();
 		}
-
-		// Token: 0x04001B1B RID: 6939
-		private static List<Vector3> arrowPositions = new List<Vector3>();
-
-		// Token: 0x04001B1C RID: 6940
-		private static List<Pair<Vector3, float>> circleOverlays = new List<Pair<Vector3, float>>();
 	}
 }

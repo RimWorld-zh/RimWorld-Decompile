@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x02000117 RID: 279
 	public class JobGiver_Work : ThinkNode
 	{
+		// Token: 0x040002FB RID: 763
+		public bool emergency = false;
+
 		// Token: 0x060005AD RID: 1453 RVA: 0x0003CF10 File Offset: 0x0003B310
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -316,8 +319,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040002FB RID: 763
-		public bool emergency = false;
 	}
 }

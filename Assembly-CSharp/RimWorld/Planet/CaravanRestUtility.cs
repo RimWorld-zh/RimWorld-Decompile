@@ -7,6 +7,12 @@ namespace RimWorld.Planet
 	// Token: 0x020005E0 RID: 1504
 	public static class CaravanRestUtility
 	{
+		// Token: 0x040011A1 RID: 4513
+		public const float WakeUpHour = 6f;
+
+		// Token: 0x040011A2 RID: 4514
+		public const float RestStartHour = 22f;
+
 		// Token: 0x06001DC5 RID: 7621 RVA: 0x00100BF8 File Offset: 0x000FEFF8
 		public static bool RestingNowAt(int tile)
 		{
@@ -70,11 +76,5 @@ namespace RimWorld.Planet
 			}
 			return result;
 		}
-
-		// Token: 0x040011A1 RID: 4513
-		public const float WakeUpHour = 6f;
-
-		// Token: 0x040011A2 RID: 4514
-		public const float RestStartHour = 22f;
 	}
 }

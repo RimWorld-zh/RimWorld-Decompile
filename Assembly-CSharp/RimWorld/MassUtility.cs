@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x0200098B RID: 2443
 	public static class MassUtility
 	{
+		// Token: 0x0400237B RID: 9083
+		public const float MassCapacityPerBodySize = 35f;
+
 		// Token: 0x060036F2 RID: 14066 RVA: 0x001D5FB4 File Offset: 0x001D43B4
 		public static float EncumbrancePercent(Pawn pawn)
 		{
@@ -114,8 +117,5 @@ namespace RimWorld
 		{
 			return p.RaceProps.ToolUser || p.RaceProps.packAnimal;
 		}
-
-		// Token: 0x0400237B RID: 9083
-		public const float MassCapacityPerBodySize = 35f;
 	}
 }

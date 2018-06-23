@@ -7,6 +7,24 @@ namespace RimWorld
 	// Token: 0x02000649 RID: 1609
 	public class ScenPart_ConfigPage_ConfigureStartingPawns : ScenPart_ConfigPage
 	{
+		// Token: 0x04001305 RID: 4869
+		public int pawnCount = 3;
+
+		// Token: 0x04001306 RID: 4870
+		public int pawnChoiceCount = 10;
+
+		// Token: 0x04001307 RID: 4871
+		private string pawnCountBuffer;
+
+		// Token: 0x04001308 RID: 4872
+		private string pawnCountChoiceBuffer;
+
+		// Token: 0x04001309 RID: 4873
+		private const int MaxPawnCount = 10;
+
+		// Token: 0x0400130A RID: 4874
+		private const int MaxPawnChoiceCount = 10;
+
 		// Token: 0x06002173 RID: 8563 RVA: 0x0011BDC8 File Offset: 0x0011A1C8
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
@@ -72,23 +90,5 @@ namespace RimWorld
 				Find.GameInitData.startingAndOptionalPawns.Add(StartingPawnUtility.NewGeneratedStartingPawn());
 			}
 		}
-
-		// Token: 0x04001305 RID: 4869
-		public int pawnCount = 3;
-
-		// Token: 0x04001306 RID: 4870
-		public int pawnChoiceCount = 10;
-
-		// Token: 0x04001307 RID: 4871
-		private string pawnCountBuffer;
-
-		// Token: 0x04001308 RID: 4872
-		private string pawnCountChoiceBuffer;
-
-		// Token: 0x04001309 RID: 4873
-		private const int MaxPawnCount = 10;
-
-		// Token: 0x0400130A RID: 4874
-		private const int MaxPawnChoiceCount = 10;
 	}
 }

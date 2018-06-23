@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020000CD RID: 205
 	public class JobGiver_StandAndBeSociallyActive : ThinkNode_JobGiver
 	{
+		// Token: 0x0400029C RID: 668
+		public IntRange ticksRange = new IntRange(300, 600);
+
 		// Token: 0x060004A8 RID: 1192 RVA: 0x00034E78 File Offset: 0x00033278
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -23,8 +26,5 @@ namespace RimWorld
 				expiryInterval = this.ticksRange.RandomInRange
 			};
 		}
-
-		// Token: 0x0400029C RID: 668
-		public IntRange ticksRange = new IntRange(300, 600);
 	}
 }

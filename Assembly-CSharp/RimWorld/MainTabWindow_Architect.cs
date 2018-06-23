@@ -11,6 +11,18 @@ namespace RimWorld
 	// Token: 0x0200086B RID: 2155
 	public class MainTabWindow_Architect : MainTabWindow
 	{
+		// Token: 0x04001A7E RID: 6782
+		private List<ArchitectCategoryTab> desPanelsCached = null;
+
+		// Token: 0x04001A7F RID: 6783
+		public ArchitectCategoryTab selectedDesPanel = null;
+
+		// Token: 0x04001A80 RID: 6784
+		public const float WinWidth = 200f;
+
+		// Token: 0x04001A81 RID: 6785
+		private const float ButHeight = 32f;
+
 		// Token: 0x06003104 RID: 12548 RVA: 0x001AA2EF File Offset: 0x001A86EF
 		public MainTabWindow_Architect()
 		{
@@ -136,17 +148,5 @@ namespace RimWorld
 			}
 			SoundDefOf.ArchitectCategorySelect.PlayOneShotOnCamera(null);
 		}
-
-		// Token: 0x04001A7E RID: 6782
-		private List<ArchitectCategoryTab> desPanelsCached = null;
-
-		// Token: 0x04001A7F RID: 6783
-		public ArchitectCategoryTab selectedDesPanel = null;
-
-		// Token: 0x04001A80 RID: 6784
-		public const float WinWidth = 200f;
-
-		// Token: 0x04001A81 RID: 6785
-		private const float ButHeight = 32f;
 	}
 }

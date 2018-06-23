@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x02000811 RID: 2065
 	public class Dialog_ScenarioList_Save : Dialog_ScenarioList
 	{
+		// Token: 0x04001884 RID: 6276
+		private Scenario savingScen;
+
 		// Token: 0x06002E20 RID: 11808 RVA: 0x00184F00 File Offset: 0x00183300
 		public Dialog_ScenarioList_Save(Scenario scen)
 		{
@@ -38,8 +41,5 @@ namespace RimWorld
 			}), MessageTypeDefOf.SilentInput, false);
 			this.Close(true);
 		}
-
-		// Token: 0x04001884 RID: 6276
-		private Scenario savingScen;
 	}
 }

@@ -8,6 +8,12 @@ namespace Verse
 	// Token: 0x02000C3D RID: 3133
 	public sealed class MapDrawer
 	{
+		// Token: 0x04002F40 RID: 12096
+		private Map map;
+
+		// Token: 0x04002F41 RID: 12097
+		private Section[,] sections;
+
 		// Token: 0x06004511 RID: 17681 RVA: 0x00245CE0 File Offset: 0x002440E0
 		public MapDrawer(Map map)
 		{
@@ -237,11 +243,5 @@ namespace Verse
 			}
 			return rect;
 		}
-
-		// Token: 0x04002F40 RID: 12096
-		private Map map;
-
-		// Token: 0x04002F41 RID: 12097
-		private Section[,] sections;
 	}
 }

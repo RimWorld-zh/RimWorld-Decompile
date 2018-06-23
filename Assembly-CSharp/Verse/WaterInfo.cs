@@ -8,6 +8,24 @@ namespace Verse
 	// Token: 0x02000C37 RID: 3127
 	public class WaterInfo : MapComponent
 	{
+		// Token: 0x04002F1B RID: 12059
+		public byte[] riverOffsetMap;
+
+		// Token: 0x04002F1C RID: 12060
+		public Texture2D riverOffsetTexture;
+
+		// Token: 0x04002F1D RID: 12061
+		public List<Vector3> riverDebugData = new List<Vector3>();
+
+		// Token: 0x04002F1E RID: 12062
+		public float[] riverFlowMap;
+
+		// Token: 0x04002F1F RID: 12063
+		public CellRect riverFlowMapBounds;
+
+		// Token: 0x04002F20 RID: 12064
+		public const int RiverOffsetMapBorder = 2;
+
 		// Token: 0x060044FD RID: 17661 RVA: 0x00244CF5 File Offset: 0x002430F5
 		public WaterInfo(Map map) : base(map)
 		{
@@ -118,23 +136,5 @@ namespace Verse
 				GenDraw.DrawLineBetween(this.riverDebugData[i], this.riverDebugData[i + 1], SimpleColor.Magenta);
 			}
 		}
-
-		// Token: 0x04002F1B RID: 12059
-		public byte[] riverOffsetMap;
-
-		// Token: 0x04002F1C RID: 12060
-		public Texture2D riverOffsetTexture;
-
-		// Token: 0x04002F1D RID: 12061
-		public List<Vector3> riverDebugData = new List<Vector3>();
-
-		// Token: 0x04002F1E RID: 12062
-		public float[] riverFlowMap;
-
-		// Token: 0x04002F1F RID: 12063
-		public CellRect riverFlowMapBounds;
-
-		// Token: 0x04002F20 RID: 12064
-		public const int RiverOffsetMapBorder = 2;
 	}
 }

@@ -6,6 +6,18 @@ namespace Verse.Noise
 	// Token: 0x02000F99 RID: 3993
 	public class Select : ModuleBase
 	{
+		// Token: 0x04003F2E RID: 16174
+		private double m_fallOff = 0.0;
+
+		// Token: 0x04003F2F RID: 16175
+		private double m_raw = 0.0;
+
+		// Token: 0x04003F30 RID: 16176
+		private double m_min = -1.0;
+
+		// Token: 0x04003F31 RID: 16177
+		private double m_max = 1.0;
+
 		// Token: 0x06006071 RID: 24689 RVA: 0x0030E854 File Offset: 0x0030CC54
 		public Select() : base(3)
 		{
@@ -148,17 +160,5 @@ namespace Verse.Noise
 			}
 			return result;
 		}
-
-		// Token: 0x04003F2E RID: 16174
-		private double m_fallOff = 0.0;
-
-		// Token: 0x04003F2F RID: 16175
-		private double m_raw = 0.0;
-
-		// Token: 0x04003F30 RID: 16176
-		private double m_min = -1.0;
-
-		// Token: 0x04003F31 RID: 16177
-		private double m_max = 1.0;
 	}
 }

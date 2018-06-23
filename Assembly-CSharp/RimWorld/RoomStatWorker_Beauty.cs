@@ -7,6 +7,29 @@ namespace RimWorld
 	// Token: 0x0200043B RID: 1083
 	public class RoomStatWorker_Beauty : RoomStatWorker
 	{
+		// Token: 0x04000B71 RID: 2929
+		private static readonly SimpleCurve CellCountCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 20f),
+				true
+			},
+			{
+				new CurvePoint(40f, 40f),
+				true
+			},
+			{
+				new CurvePoint(100000f, 100000f),
+				true
+			}
+		};
+
+		// Token: 0x04000B72 RID: 2930
+		private static List<Thing> countedThings = new List<Thing>();
+
+		// Token: 0x04000B73 RID: 2931
+		private static List<IntVec3> countedAdjCells = new List<IntVec3>();
+
 		// Token: 0x060012D7 RID: 4823 RVA: 0x000A2DAC File Offset: 0x000A11AC
 		public override float GetScore(Room room)
 		{
@@ -41,28 +64,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000B71 RID: 2929
-		private static readonly SimpleCurve CellCountCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 20f),
-				true
-			},
-			{
-				new CurvePoint(40f, 40f),
-				true
-			},
-			{
-				new CurvePoint(100000f, 100000f),
-				true
-			}
-		};
-
-		// Token: 0x04000B72 RID: 2930
-		private static List<Thing> countedThings = new List<Thing>();
-
-		// Token: 0x04000B73 RID: 2931
-		private static List<IntVec3> countedAdjCells = new List<IntVec3>();
 	}
 }

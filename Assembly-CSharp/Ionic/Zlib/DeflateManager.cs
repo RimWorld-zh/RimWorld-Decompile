@@ -5,6 +5,240 @@ namespace Ionic.Zlib
 	// Token: 0x02000006 RID: 6
 	internal sealed class DeflateManager
 	{
+		// Token: 0x04000015 RID: 21
+		private static readonly int MEM_LEVEL_MAX = 9;
+
+		// Token: 0x04000016 RID: 22
+		private static readonly int MEM_LEVEL_DEFAULT = 8;
+
+		// Token: 0x04000017 RID: 23
+		private DeflateManager.CompressFunc DeflateFunction;
+
+		// Token: 0x04000018 RID: 24
+		private static readonly string[] _ErrorMessage = new string[]
+		{
+			"need dictionary",
+			"stream end",
+			"",
+			"file error",
+			"stream error",
+			"data error",
+			"insufficient memory",
+			"buffer error",
+			"incompatible version",
+			""
+		};
+
+		// Token: 0x04000019 RID: 25
+		private static readonly int PRESET_DICT = 32;
+
+		// Token: 0x0400001A RID: 26
+		private static readonly int INIT_STATE = 42;
+
+		// Token: 0x0400001B RID: 27
+		private static readonly int BUSY_STATE = 113;
+
+		// Token: 0x0400001C RID: 28
+		private static readonly int FINISH_STATE = 666;
+
+		// Token: 0x0400001D RID: 29
+		private static readonly int Z_DEFLATED = 8;
+
+		// Token: 0x0400001E RID: 30
+		private static readonly int STORED_BLOCK = 0;
+
+		// Token: 0x0400001F RID: 31
+		private static readonly int STATIC_TREES = 1;
+
+		// Token: 0x04000020 RID: 32
+		private static readonly int DYN_TREES = 2;
+
+		// Token: 0x04000021 RID: 33
+		private static readonly int Z_BINARY = 0;
+
+		// Token: 0x04000022 RID: 34
+		private static readonly int Z_ASCII = 1;
+
+		// Token: 0x04000023 RID: 35
+		private static readonly int Z_UNKNOWN = 2;
+
+		// Token: 0x04000024 RID: 36
+		private static readonly int Buf_size = 16;
+
+		// Token: 0x04000025 RID: 37
+		private static readonly int MIN_MATCH = 3;
+
+		// Token: 0x04000026 RID: 38
+		private static readonly int MAX_MATCH = 258;
+
+		// Token: 0x04000027 RID: 39
+		private static readonly int MIN_LOOKAHEAD = DeflateManager.MAX_MATCH + DeflateManager.MIN_MATCH + 1;
+
+		// Token: 0x04000028 RID: 40
+		private static readonly int HEAP_SIZE = 2 * InternalConstants.L_CODES + 1;
+
+		// Token: 0x04000029 RID: 41
+		private static readonly int END_BLOCK = 256;
+
+		// Token: 0x0400002A RID: 42
+		internal ZlibCodec _codec;
+
+		// Token: 0x0400002B RID: 43
+		internal int status;
+
+		// Token: 0x0400002C RID: 44
+		internal byte[] pending;
+
+		// Token: 0x0400002D RID: 45
+		internal int nextPending;
+
+		// Token: 0x0400002E RID: 46
+		internal int pendingCount;
+
+		// Token: 0x0400002F RID: 47
+		internal sbyte data_type;
+
+		// Token: 0x04000030 RID: 48
+		internal int last_flush;
+
+		// Token: 0x04000031 RID: 49
+		internal int w_size;
+
+		// Token: 0x04000032 RID: 50
+		internal int w_bits;
+
+		// Token: 0x04000033 RID: 51
+		internal int w_mask;
+
+		// Token: 0x04000034 RID: 52
+		internal byte[] window;
+
+		// Token: 0x04000035 RID: 53
+		internal int window_size;
+
+		// Token: 0x04000036 RID: 54
+		internal short[] prev;
+
+		// Token: 0x04000037 RID: 55
+		internal short[] head;
+
+		// Token: 0x04000038 RID: 56
+		internal int ins_h;
+
+		// Token: 0x04000039 RID: 57
+		internal int hash_size;
+
+		// Token: 0x0400003A RID: 58
+		internal int hash_bits;
+
+		// Token: 0x0400003B RID: 59
+		internal int hash_mask;
+
+		// Token: 0x0400003C RID: 60
+		internal int hash_shift;
+
+		// Token: 0x0400003D RID: 61
+		internal int block_start;
+
+		// Token: 0x0400003E RID: 62
+		private DeflateManager.Config config;
+
+		// Token: 0x0400003F RID: 63
+		internal int match_length;
+
+		// Token: 0x04000040 RID: 64
+		internal int prev_match;
+
+		// Token: 0x04000041 RID: 65
+		internal int match_available;
+
+		// Token: 0x04000042 RID: 66
+		internal int strstart;
+
+		// Token: 0x04000043 RID: 67
+		internal int match_start;
+
+		// Token: 0x04000044 RID: 68
+		internal int lookahead;
+
+		// Token: 0x04000045 RID: 69
+		internal int prev_length;
+
+		// Token: 0x04000046 RID: 70
+		internal CompressionLevel compressionLevel;
+
+		// Token: 0x04000047 RID: 71
+		internal CompressionStrategy compressionStrategy;
+
+		// Token: 0x04000048 RID: 72
+		internal short[] dyn_ltree;
+
+		// Token: 0x04000049 RID: 73
+		internal short[] dyn_dtree;
+
+		// Token: 0x0400004A RID: 74
+		internal short[] bl_tree;
+
+		// Token: 0x0400004B RID: 75
+		internal Tree treeLiterals = new Tree();
+
+		// Token: 0x0400004C RID: 76
+		internal Tree treeDistances = new Tree();
+
+		// Token: 0x0400004D RID: 77
+		internal Tree treeBitLengths = new Tree();
+
+		// Token: 0x0400004E RID: 78
+		internal short[] bl_count = new short[InternalConstants.MAX_BITS + 1];
+
+		// Token: 0x0400004F RID: 79
+		internal int[] heap = new int[2 * InternalConstants.L_CODES + 1];
+
+		// Token: 0x04000050 RID: 80
+		internal int heap_len;
+
+		// Token: 0x04000051 RID: 81
+		internal int heap_max;
+
+		// Token: 0x04000052 RID: 82
+		internal sbyte[] depth = new sbyte[2 * InternalConstants.L_CODES + 1];
+
+		// Token: 0x04000053 RID: 83
+		internal int _lengthOffset;
+
+		// Token: 0x04000054 RID: 84
+		internal int lit_bufsize;
+
+		// Token: 0x04000055 RID: 85
+		internal int last_lit;
+
+		// Token: 0x04000056 RID: 86
+		internal int _distanceOffset;
+
+		// Token: 0x04000057 RID: 87
+		internal int opt_len;
+
+		// Token: 0x04000058 RID: 88
+		internal int static_len;
+
+		// Token: 0x04000059 RID: 89
+		internal int matches;
+
+		// Token: 0x0400005A RID: 90
+		internal int last_eob_len;
+
+		// Token: 0x0400005B RID: 91
+		internal short bi_buf;
+
+		// Token: 0x0400005C RID: 92
+		internal int bi_valid;
+
+		// Token: 0x0400005D RID: 93
+		private bool Rfc1950BytesEmitted = false;
+
+		// Token: 0x0400005E RID: 94
+		private bool _WantRfc1950HeaderBytes = true;
+
 		// Token: 0x0600002C RID: 44 RVA: 0x00002B40 File Offset: 0x00000F40
 		internal DeflateManager()
 		{
@@ -1202,240 +1436,6 @@ namespace Ionic.Zlib
 			return result;
 		}
 
-		// Token: 0x04000015 RID: 21
-		private static readonly int MEM_LEVEL_MAX = 9;
-
-		// Token: 0x04000016 RID: 22
-		private static readonly int MEM_LEVEL_DEFAULT = 8;
-
-		// Token: 0x04000017 RID: 23
-		private DeflateManager.CompressFunc DeflateFunction;
-
-		// Token: 0x04000018 RID: 24
-		private static readonly string[] _ErrorMessage = new string[]
-		{
-			"need dictionary",
-			"stream end",
-			"",
-			"file error",
-			"stream error",
-			"data error",
-			"insufficient memory",
-			"buffer error",
-			"incompatible version",
-			""
-		};
-
-		// Token: 0x04000019 RID: 25
-		private static readonly int PRESET_DICT = 32;
-
-		// Token: 0x0400001A RID: 26
-		private static readonly int INIT_STATE = 42;
-
-		// Token: 0x0400001B RID: 27
-		private static readonly int BUSY_STATE = 113;
-
-		// Token: 0x0400001C RID: 28
-		private static readonly int FINISH_STATE = 666;
-
-		// Token: 0x0400001D RID: 29
-		private static readonly int Z_DEFLATED = 8;
-
-		// Token: 0x0400001E RID: 30
-		private static readonly int STORED_BLOCK = 0;
-
-		// Token: 0x0400001F RID: 31
-		private static readonly int STATIC_TREES = 1;
-
-		// Token: 0x04000020 RID: 32
-		private static readonly int DYN_TREES = 2;
-
-		// Token: 0x04000021 RID: 33
-		private static readonly int Z_BINARY = 0;
-
-		// Token: 0x04000022 RID: 34
-		private static readonly int Z_ASCII = 1;
-
-		// Token: 0x04000023 RID: 35
-		private static readonly int Z_UNKNOWN = 2;
-
-		// Token: 0x04000024 RID: 36
-		private static readonly int Buf_size = 16;
-
-		// Token: 0x04000025 RID: 37
-		private static readonly int MIN_MATCH = 3;
-
-		// Token: 0x04000026 RID: 38
-		private static readonly int MAX_MATCH = 258;
-
-		// Token: 0x04000027 RID: 39
-		private static readonly int MIN_LOOKAHEAD = DeflateManager.MAX_MATCH + DeflateManager.MIN_MATCH + 1;
-
-		// Token: 0x04000028 RID: 40
-		private static readonly int HEAP_SIZE = 2 * InternalConstants.L_CODES + 1;
-
-		// Token: 0x04000029 RID: 41
-		private static readonly int END_BLOCK = 256;
-
-		// Token: 0x0400002A RID: 42
-		internal ZlibCodec _codec;
-
-		// Token: 0x0400002B RID: 43
-		internal int status;
-
-		// Token: 0x0400002C RID: 44
-		internal byte[] pending;
-
-		// Token: 0x0400002D RID: 45
-		internal int nextPending;
-
-		// Token: 0x0400002E RID: 46
-		internal int pendingCount;
-
-		// Token: 0x0400002F RID: 47
-		internal sbyte data_type;
-
-		// Token: 0x04000030 RID: 48
-		internal int last_flush;
-
-		// Token: 0x04000031 RID: 49
-		internal int w_size;
-
-		// Token: 0x04000032 RID: 50
-		internal int w_bits;
-
-		// Token: 0x04000033 RID: 51
-		internal int w_mask;
-
-		// Token: 0x04000034 RID: 52
-		internal byte[] window;
-
-		// Token: 0x04000035 RID: 53
-		internal int window_size;
-
-		// Token: 0x04000036 RID: 54
-		internal short[] prev;
-
-		// Token: 0x04000037 RID: 55
-		internal short[] head;
-
-		// Token: 0x04000038 RID: 56
-		internal int ins_h;
-
-		// Token: 0x04000039 RID: 57
-		internal int hash_size;
-
-		// Token: 0x0400003A RID: 58
-		internal int hash_bits;
-
-		// Token: 0x0400003B RID: 59
-		internal int hash_mask;
-
-		// Token: 0x0400003C RID: 60
-		internal int hash_shift;
-
-		// Token: 0x0400003D RID: 61
-		internal int block_start;
-
-		// Token: 0x0400003E RID: 62
-		private DeflateManager.Config config;
-
-		// Token: 0x0400003F RID: 63
-		internal int match_length;
-
-		// Token: 0x04000040 RID: 64
-		internal int prev_match;
-
-		// Token: 0x04000041 RID: 65
-		internal int match_available;
-
-		// Token: 0x04000042 RID: 66
-		internal int strstart;
-
-		// Token: 0x04000043 RID: 67
-		internal int match_start;
-
-		// Token: 0x04000044 RID: 68
-		internal int lookahead;
-
-		// Token: 0x04000045 RID: 69
-		internal int prev_length;
-
-		// Token: 0x04000046 RID: 70
-		internal CompressionLevel compressionLevel;
-
-		// Token: 0x04000047 RID: 71
-		internal CompressionStrategy compressionStrategy;
-
-		// Token: 0x04000048 RID: 72
-		internal short[] dyn_ltree;
-
-		// Token: 0x04000049 RID: 73
-		internal short[] dyn_dtree;
-
-		// Token: 0x0400004A RID: 74
-		internal short[] bl_tree;
-
-		// Token: 0x0400004B RID: 75
-		internal Tree treeLiterals = new Tree();
-
-		// Token: 0x0400004C RID: 76
-		internal Tree treeDistances = new Tree();
-
-		// Token: 0x0400004D RID: 77
-		internal Tree treeBitLengths = new Tree();
-
-		// Token: 0x0400004E RID: 78
-		internal short[] bl_count = new short[InternalConstants.MAX_BITS + 1];
-
-		// Token: 0x0400004F RID: 79
-		internal int[] heap = new int[2 * InternalConstants.L_CODES + 1];
-
-		// Token: 0x04000050 RID: 80
-		internal int heap_len;
-
-		// Token: 0x04000051 RID: 81
-		internal int heap_max;
-
-		// Token: 0x04000052 RID: 82
-		internal sbyte[] depth = new sbyte[2 * InternalConstants.L_CODES + 1];
-
-		// Token: 0x04000053 RID: 83
-		internal int _lengthOffset;
-
-		// Token: 0x04000054 RID: 84
-		internal int lit_bufsize;
-
-		// Token: 0x04000055 RID: 85
-		internal int last_lit;
-
-		// Token: 0x04000056 RID: 86
-		internal int _distanceOffset;
-
-		// Token: 0x04000057 RID: 87
-		internal int opt_len;
-
-		// Token: 0x04000058 RID: 88
-		internal int static_len;
-
-		// Token: 0x04000059 RID: 89
-		internal int matches;
-
-		// Token: 0x0400005A RID: 90
-		internal int last_eob_len;
-
-		// Token: 0x0400005B RID: 91
-		internal short bi_buf;
-
-		// Token: 0x0400005C RID: 92
-		internal int bi_valid;
-
-		// Token: 0x0400005D RID: 93
-		private bool Rfc1950BytesEmitted = false;
-
-		// Token: 0x0400005E RID: 94
-		private bool _WantRfc1950HeaderBytes = true;
-
 		// Token: 0x02000007 RID: 7
 		// (Invoke) Token: 0x06000056 RID: 86
 		internal delegate BlockState CompressFunc(FlushType flush);
@@ -1443,22 +1443,6 @@ namespace Ionic.Zlib
 		// Token: 0x02000008 RID: 8
 		internal class Config
 		{
-			// Token: 0x06000059 RID: 89 RVA: 0x000054BD File Offset: 0x000038BD
-			private Config(int goodLength, int maxLazy, int niceLength, int maxChainLength, DeflateFlavor flavor)
-			{
-				this.GoodLength = goodLength;
-				this.MaxLazy = maxLazy;
-				this.NiceLength = niceLength;
-				this.MaxChainLength = maxChainLength;
-				this.Flavor = flavor;
-			}
-
-			// Token: 0x0600005B RID: 91 RVA: 0x000055C0 File Offset: 0x000039C0
-			public static DeflateManager.Config Lookup(CompressionLevel level)
-			{
-				return DeflateManager.Config.Table[(int)level];
-			}
-
 			// Token: 0x0400005F RID: 95
 			internal int GoodLength;
 
@@ -1488,6 +1472,22 @@ namespace Ionic.Zlib
 				new DeflateManager.Config(32, 128, 258, 1024, DeflateFlavor.Slow),
 				new DeflateManager.Config(32, 258, 258, 4096, DeflateFlavor.Slow)
 			};
+
+			// Token: 0x06000059 RID: 89 RVA: 0x000054BD File Offset: 0x000038BD
+			private Config(int goodLength, int maxLazy, int niceLength, int maxChainLength, DeflateFlavor flavor)
+			{
+				this.GoodLength = goodLength;
+				this.MaxLazy = maxLazy;
+				this.NiceLength = niceLength;
+				this.MaxChainLength = maxChainLength;
+				this.Flavor = flavor;
+			}
+
+			// Token: 0x0600005B RID: 91 RVA: 0x000055C0 File Offset: 0x000039C0
+			public static DeflateManager.Config Lookup(CompressionLevel level)
+			{
+				return DeflateManager.Config.Table[(int)level];
+			}
 		}
 	}
 }

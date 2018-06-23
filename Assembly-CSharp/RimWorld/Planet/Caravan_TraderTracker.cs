@@ -8,6 +8,12 @@ namespace RimWorld.Planet
 	// Token: 0x020005EA RID: 1514
 	public class Caravan_TraderTracker : IExposable
 	{
+		// Token: 0x040011CC RID: 4556
+		private Caravan caravan;
+
+		// Token: 0x040011CD RID: 4557
+		private List<Pawn> soldPrisoners = new List<Pawn>();
+
 		// Token: 0x06001E13 RID: 7699 RVA: 0x00102F0F File Offset: 0x0010130F
 		public Caravan_TraderTracker(Caravan caravan)
 		{
@@ -191,11 +197,5 @@ namespace RimWorld.Planet
 				}
 			}
 		}
-
-		// Token: 0x040011CC RID: 4556
-		private Caravan caravan;
-
-		// Token: 0x040011CD RID: 4557
-		private List<Pawn> soldPrisoners = new List<Pawn>();
 	}
 }

@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000805 RID: 2053
 	public class Dialog_NamePlayerFactionAndSettlement : Dialog_GiveName
 	{
+		// Token: 0x04001857 RID: 6231
+		private FactionBase factionBase;
+
 		// Token: 0x06002DDD RID: 11741 RVA: 0x0018265C File Offset: 0x00180A5C
 		public Dialog_NamePlayerFactionAndSettlement(FactionBase factionBase)
 		{
@@ -60,8 +63,5 @@ namespace RimWorld
 		{
 			NamePlayerFactionBaseDialogUtility.Named(this.factionBase, s);
 		}
-
-		// Token: 0x04001857 RID: 6231
-		private FactionBase factionBase;
 	}
 }

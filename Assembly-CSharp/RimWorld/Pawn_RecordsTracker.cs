@@ -8,6 +8,33 @@ namespace RimWorld
 	// Token: 0x02000516 RID: 1302
 	public class Pawn_RecordsTracker : IExposable
 	{
+		// Token: 0x04000DF0 RID: 3568
+		public Pawn pawn;
+
+		// Token: 0x04000DF1 RID: 3569
+		private DefMap<RecordDef, float> records = new DefMap<RecordDef, float>();
+
+		// Token: 0x04000DF2 RID: 3570
+		private double storyRelevance = 0.0;
+
+		// Token: 0x04000DF3 RID: 3571
+		private Battle battleActive = null;
+
+		// Token: 0x04000DF4 RID: 3572
+		private int battleExitTick = 0;
+
+		// Token: 0x04000DF5 RID: 3573
+		private float storyRelevanceBonus = 0f;
+
+		// Token: 0x04000DF6 RID: 3574
+		private const int UpdateTimeRecordsIntervalTicks = 80;
+
+		// Token: 0x04000DF7 RID: 3575
+		private const float StoryRelevanceBonusRange = 100f;
+
+		// Token: 0x04000DF8 RID: 3576
+		private const float StoryRelevanceMultiplierPerYear = 0.2f;
+
 		// Token: 0x060017A4 RID: 6052 RVA: 0x000CECC8 File Offset: 0x000CD0C8
 		public Pawn_RecordsTracker(Pawn pawn)
 		{
@@ -196,32 +223,5 @@ namespace RimWorld
 				BackCompatibility.RecordsTrackerPostLoadInit(this);
 			}
 		}
-
-		// Token: 0x04000DF0 RID: 3568
-		public Pawn pawn;
-
-		// Token: 0x04000DF1 RID: 3569
-		private DefMap<RecordDef, float> records = new DefMap<RecordDef, float>();
-
-		// Token: 0x04000DF2 RID: 3570
-		private double storyRelevance = 0.0;
-
-		// Token: 0x04000DF3 RID: 3571
-		private Battle battleActive = null;
-
-		// Token: 0x04000DF4 RID: 3572
-		private int battleExitTick = 0;
-
-		// Token: 0x04000DF5 RID: 3573
-		private float storyRelevanceBonus = 0f;
-
-		// Token: 0x04000DF6 RID: 3574
-		private const int UpdateTimeRecordsIntervalTicks = 80;
-
-		// Token: 0x04000DF7 RID: 3575
-		private const float StoryRelevanceBonusRange = 100f;
-
-		// Token: 0x04000DF8 RID: 3576
-		private const float StoryRelevanceMultiplierPerYear = 0.2f;
 	}
 }

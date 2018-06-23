@@ -7,6 +7,18 @@ namespace Verse
 	// Token: 0x02000E68 RID: 3688
 	public class Command_Toggle : Command
 	{
+		// Token: 0x04003991 RID: 14737
+		public Func<bool> isActive = null;
+
+		// Token: 0x04003992 RID: 14738
+		public Action toggleAction;
+
+		// Token: 0x04003993 RID: 14739
+		public SoundDef turnOnSound = SoundDefOf.Checkbox_TurnedOn;
+
+		// Token: 0x04003994 RID: 14740
+		public SoundDef turnOffSound = SoundDefOf.Checkbox_TurnedOff;
+
 		// Token: 0x17000DA6 RID: 3494
 		// (get) Token: 0x060056EA RID: 22250 RVA: 0x002CC5B0 File Offset: 0x002CA9B0
 		public override SoundDef CurActivateSound
@@ -50,17 +62,5 @@ namespace Verse
 			Command_Toggle command_Toggle = other as Command_Toggle;
 			return command_Toggle != null && command_Toggle.isActive() == this.isActive();
 		}
-
-		// Token: 0x04003991 RID: 14737
-		public Func<bool> isActive = null;
-
-		// Token: 0x04003992 RID: 14738
-		public Action toggleAction;
-
-		// Token: 0x04003993 RID: 14739
-		public SoundDef turnOnSound = SoundDefOf.Checkbox_TurnedOn;
-
-		// Token: 0x04003994 RID: 14740
-		public SoundDef turnOffSound = SoundDefOf.Checkbox_TurnedOff;
 	}
 }

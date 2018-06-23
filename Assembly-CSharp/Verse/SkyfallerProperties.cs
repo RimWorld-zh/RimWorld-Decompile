@@ -6,26 +6,6 @@ namespace Verse
 	// Token: 0x02000B2A RID: 2858
 	public class SkyfallerProperties
 	{
-		// Token: 0x17000987 RID: 2439
-		// (get) Token: 0x06003F00 RID: 16128 RVA: 0x002131CC File Offset: 0x002115CC
-		public bool MakesShrapnel
-		{
-			get
-			{
-				return this.metalShrapnelCountRange.max > 0 || this.rubbleShrapnelCountRange.max > 0;
-			}
-		}
-
-		// Token: 0x17000988 RID: 2440
-		// (get) Token: 0x06003F01 RID: 16129 RVA: 0x00213204 File Offset: 0x00211604
-		public bool CausesExplosion
-		{
-			get
-			{
-				return this.explosionDamage != null && this.explosionRadius > 0f;
-			}
-		}
-
 		// Token: 0x040028CE RID: 10446
 		public bool hitRoof = true;
 
@@ -82,5 +62,25 @@ namespace Verse
 
 		// Token: 0x040028E0 RID: 10464
 		public int motesPerCell = 3;
+
+		// Token: 0x17000987 RID: 2439
+		// (get) Token: 0x06003F00 RID: 16128 RVA: 0x002131CC File Offset: 0x002115CC
+		public bool MakesShrapnel
+		{
+			get
+			{
+				return this.metalShrapnelCountRange.max > 0 || this.rubbleShrapnelCountRange.max > 0;
+			}
+		}
+
+		// Token: 0x17000988 RID: 2440
+		// (get) Token: 0x06003F01 RID: 16129 RVA: 0x00213204 File Offset: 0x00211604
+		public bool CausesExplosion
+		{
+			get
+			{
+				return this.explosionDamage != null && this.explosionRadius > 0f;
+			}
+		}
 	}
 }

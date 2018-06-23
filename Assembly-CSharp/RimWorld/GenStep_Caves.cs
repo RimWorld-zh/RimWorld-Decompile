@@ -9,6 +9,77 @@ namespace RimWorld
 	// Token: 0x020003E8 RID: 1000
 	public class GenStep_Caves : GenStep
 	{
+		// Token: 0x04000A65 RID: 2661
+		private ModuleBase directionNoise;
+
+		// Token: 0x04000A66 RID: 2662
+		private static HashSet<IntVec3> tmpGroupSet = new HashSet<IntVec3>();
+
+		// Token: 0x04000A67 RID: 2663
+		private const float OpenTunnelsPer10k = 5.8f;
+
+		// Token: 0x04000A68 RID: 2664
+		private const float ClosedTunnelsPer10k = 2.5f;
+
+		// Token: 0x04000A69 RID: 2665
+		private const int MaxOpenTunnelsPerRockGroup = 3;
+
+		// Token: 0x04000A6A RID: 2666
+		private const int MaxClosedTunnelsPerRockGroup = 1;
+
+		// Token: 0x04000A6B RID: 2667
+		private const float DirectionChangeSpeed = 8f;
+
+		// Token: 0x04000A6C RID: 2668
+		private const float DirectionNoiseFrequency = 0.00205f;
+
+		// Token: 0x04000A6D RID: 2669
+		private const int MinRocksToGenerateAnyTunnel = 300;
+
+		// Token: 0x04000A6E RID: 2670
+		private const int AllowBranchingAfterThisManyCells = 15;
+
+		// Token: 0x04000A6F RID: 2671
+		private const float MinTunnelWidth = 1.4f;
+
+		// Token: 0x04000A70 RID: 2672
+		private const float WidthOffsetPerCell = 0.034f;
+
+		// Token: 0x04000A71 RID: 2673
+		private const float BranchChance = 0.1f;
+
+		// Token: 0x04000A72 RID: 2674
+		private static readonly FloatRange BranchedTunnelWidthOffset = new FloatRange(0.2f, 0.4f);
+
+		// Token: 0x04000A73 RID: 2675
+		private static readonly SimpleCurve TunnelsWidthPerRockCount = new SimpleCurve
+		{
+			{
+				new CurvePoint(100f, 2f),
+				true
+			},
+			{
+				new CurvePoint(300f, 4f),
+				true
+			},
+			{
+				new CurvePoint(3000f, 5.5f),
+				true
+			}
+		};
+
+		// Token: 0x04000A74 RID: 2676
+		private static List<IntVec3> tmpCells = new List<IntVec3>();
+
+		// Token: 0x04000A75 RID: 2677
+		private static HashSet<IntVec3> groupSet = new HashSet<IntVec3>();
+
+		// Token: 0x04000A76 RID: 2678
+		private static HashSet<IntVec3> groupVisited = new HashSet<IntVec3>();
+
+		// Token: 0x04000A77 RID: 2679
+		private static List<IntVec3> subGroup = new List<IntVec3>();
+
 		// Token: 0x1700024A RID: 586
 		// (get) Token: 0x06001122 RID: 4386 RVA: 0x00092E50 File Offset: 0x00091250
 		public override int SeedPart
@@ -389,76 +460,5 @@ namespace RimWorld
 			group.Clear();
 			group.AddRange(GenStep_Caves.groupSet);
 		}
-
-		// Token: 0x04000A65 RID: 2661
-		private ModuleBase directionNoise;
-
-		// Token: 0x04000A66 RID: 2662
-		private static HashSet<IntVec3> tmpGroupSet = new HashSet<IntVec3>();
-
-		// Token: 0x04000A67 RID: 2663
-		private const float OpenTunnelsPer10k = 5.8f;
-
-		// Token: 0x04000A68 RID: 2664
-		private const float ClosedTunnelsPer10k = 2.5f;
-
-		// Token: 0x04000A69 RID: 2665
-		private const int MaxOpenTunnelsPerRockGroup = 3;
-
-		// Token: 0x04000A6A RID: 2666
-		private const int MaxClosedTunnelsPerRockGroup = 1;
-
-		// Token: 0x04000A6B RID: 2667
-		private const float DirectionChangeSpeed = 8f;
-
-		// Token: 0x04000A6C RID: 2668
-		private const float DirectionNoiseFrequency = 0.00205f;
-
-		// Token: 0x04000A6D RID: 2669
-		private const int MinRocksToGenerateAnyTunnel = 300;
-
-		// Token: 0x04000A6E RID: 2670
-		private const int AllowBranchingAfterThisManyCells = 15;
-
-		// Token: 0x04000A6F RID: 2671
-		private const float MinTunnelWidth = 1.4f;
-
-		// Token: 0x04000A70 RID: 2672
-		private const float WidthOffsetPerCell = 0.034f;
-
-		// Token: 0x04000A71 RID: 2673
-		private const float BranchChance = 0.1f;
-
-		// Token: 0x04000A72 RID: 2674
-		private static readonly FloatRange BranchedTunnelWidthOffset = new FloatRange(0.2f, 0.4f);
-
-		// Token: 0x04000A73 RID: 2675
-		private static readonly SimpleCurve TunnelsWidthPerRockCount = new SimpleCurve
-		{
-			{
-				new CurvePoint(100f, 2f),
-				true
-			},
-			{
-				new CurvePoint(300f, 4f),
-				true
-			},
-			{
-				new CurvePoint(3000f, 5.5f),
-				true
-			}
-		};
-
-		// Token: 0x04000A74 RID: 2676
-		private static List<IntVec3> tmpCells = new List<IntVec3>();
-
-		// Token: 0x04000A75 RID: 2677
-		private static HashSet<IntVec3> groupSet = new HashSet<IntVec3>();
-
-		// Token: 0x04000A76 RID: 2678
-		private static HashSet<IntVec3> groupVisited = new HashSet<IntVec3>();
-
-		// Token: 0x04000A77 RID: 2679
-		private static List<IntVec3> subGroup = new List<IntVec3>();
 	}
 }

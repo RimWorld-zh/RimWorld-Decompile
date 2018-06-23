@@ -10,6 +10,24 @@ namespace Ionic.Crc
 	[ClassInterface(ClassInterfaceType.AutoDispatch)]
 	public class CRC32
 	{
+		// Token: 0x04000001 RID: 1
+		private uint dwPolynomial;
+
+		// Token: 0x04000002 RID: 2
+		private long _TotalBytesRead;
+
+		// Token: 0x04000003 RID: 3
+		private bool reverseBits;
+
+		// Token: 0x04000004 RID: 4
+		private uint[] crc32Table;
+
+		// Token: 0x04000005 RID: 5
+		private const int BUFFER_SIZE = 8192;
+
+		// Token: 0x04000006 RID: 6
+		private uint _register = uint.MaxValue;
+
 		// Token: 0x06000001 RID: 1 RVA: 0x00002243 File Offset: 0x00000643
 		public CRC32() : this(false)
 		{
@@ -278,23 +296,5 @@ namespace Ionic.Crc
 		{
 			this._register = uint.MaxValue;
 		}
-
-		// Token: 0x04000001 RID: 1
-		private uint dwPolynomial;
-
-		// Token: 0x04000002 RID: 2
-		private long _TotalBytesRead;
-
-		// Token: 0x04000003 RID: 3
-		private bool reverseBits;
-
-		// Token: 0x04000004 RID: 4
-		private uint[] crc32Table;
-
-		// Token: 0x04000005 RID: 5
-		private const int BUFFER_SIZE = 8192;
-
-		// Token: 0x04000006 RID: 6
-		private uint _register = uint.MaxValue;
 	}
 }

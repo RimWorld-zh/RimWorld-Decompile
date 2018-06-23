@@ -8,6 +8,48 @@ namespace Verse
 	// Token: 0x02000CE1 RID: 3297
 	public static class PawnNameColorUtility
 	{
+		// Token: 0x0400312E RID: 12590
+		private static readonly List<Color> ColorsNeutral = new List<Color>();
+
+		// Token: 0x0400312F RID: 12591
+		private static readonly List<Color> ColorsHostile = new List<Color>();
+
+		// Token: 0x04003130 RID: 12592
+		private static readonly List<Color> ColorsPrisoner = new List<Color>();
+
+		// Token: 0x04003131 RID: 12593
+		private static readonly Color ColorBaseNeutral = new Color(0.4f, 0.85f, 0.9f);
+
+		// Token: 0x04003132 RID: 12594
+		private static readonly Color ColorBaseHostile = new Color(0.9f, 0.2f, 0.2f);
+
+		// Token: 0x04003133 RID: 12595
+		private static readonly Color ColorBasePrisoner = new Color(1f, 0.85f, 0.5f);
+
+		// Token: 0x04003134 RID: 12596
+		private static readonly Color ColorColony = new Color(0.9f, 0.9f, 0.9f);
+
+		// Token: 0x04003135 RID: 12597
+		private static readonly Color ColorWildMan = new Color(1f, 0.8f, 1f);
+
+		// Token: 0x04003136 RID: 12598
+		private const int ColorShiftCount = 10;
+
+		// Token: 0x04003137 RID: 12599
+		private static readonly List<Color> ColorShifts = new List<Color>
+		{
+			new Color(1f, 1f, 1f),
+			new Color(0.8f, 1f, 1f),
+			new Color(0.8f, 0.8f, 1f),
+			new Color(0.8f, 0.8f, 0.8f),
+			new Color(1.2f, 1f, 1f),
+			new Color(0.8f, 1.2f, 1f),
+			new Color(0.8f, 1.2f, 1.2f),
+			new Color(1.2f, 1.2f, 1.2f),
+			new Color(1f, 1.2f, 1f),
+			new Color(1.2f, 1f, 0.8f)
+		};
+
 		// Token: 0x060048B2 RID: 18610 RVA: 0x00262820 File Offset: 0x00260C20
 		static PawnNameColorUtility()
 		{
@@ -71,47 +113,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x0400312E RID: 12590
-		private static readonly List<Color> ColorsNeutral = new List<Color>();
-
-		// Token: 0x0400312F RID: 12591
-		private static readonly List<Color> ColorsHostile = new List<Color>();
-
-		// Token: 0x04003130 RID: 12592
-		private static readonly List<Color> ColorsPrisoner = new List<Color>();
-
-		// Token: 0x04003131 RID: 12593
-		private static readonly Color ColorBaseNeutral = new Color(0.4f, 0.85f, 0.9f);
-
-		// Token: 0x04003132 RID: 12594
-		private static readonly Color ColorBaseHostile = new Color(0.9f, 0.2f, 0.2f);
-
-		// Token: 0x04003133 RID: 12595
-		private static readonly Color ColorBasePrisoner = new Color(1f, 0.85f, 0.5f);
-
-		// Token: 0x04003134 RID: 12596
-		private static readonly Color ColorColony = new Color(0.9f, 0.9f, 0.9f);
-
-		// Token: 0x04003135 RID: 12597
-		private static readonly Color ColorWildMan = new Color(1f, 0.8f, 1f);
-
-		// Token: 0x04003136 RID: 12598
-		private const int ColorShiftCount = 10;
-
-		// Token: 0x04003137 RID: 12599
-		private static readonly List<Color> ColorShifts = new List<Color>
-		{
-			new Color(1f, 1f, 1f),
-			new Color(0.8f, 1f, 1f),
-			new Color(0.8f, 0.8f, 1f),
-			new Color(0.8f, 0.8f, 0.8f),
-			new Color(1.2f, 1f, 1f),
-			new Color(0.8f, 1.2f, 1f),
-			new Color(0.8f, 1.2f, 1.2f),
-			new Color(1.2f, 1.2f, 1.2f),
-			new Color(1f, 1.2f, 1f),
-			new Color(1.2f, 1f, 0.8f)
-		};
 	}
 }

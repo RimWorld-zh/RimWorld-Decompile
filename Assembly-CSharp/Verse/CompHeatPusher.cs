@@ -5,6 +5,9 @@ namespace Verse
 	// Token: 0x02000E02 RID: 3586
 	public class CompHeatPusher : ThingComp
 	{
+		// Token: 0x0400354F RID: 13647
+		private const int HeatPushInterval = 60;
+
 		// Token: 0x17000D56 RID: 3414
 		// (get) Token: 0x06005151 RID: 20817 RVA: 0x0029BE98 File Offset: 0x0029A298
 		public CompProperties_HeatPusher Props
@@ -55,8 +58,5 @@ namespace Verse
 				GenTemperature.PushHeat(this.parent.PositionHeld, this.parent.MapHeld, this.Props.heatPerSecond * 4.16666651f);
 			}
 		}
-
-		// Token: 0x0400354F RID: 13647
-		private const int HeatPushInterval = 60;
 	}
 }

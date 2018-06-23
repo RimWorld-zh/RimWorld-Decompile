@@ -9,6 +9,54 @@ namespace Verse
 	// Token: 0x02000EA1 RID: 3745
 	public static class ReorderableWidget
 	{
+		// Token: 0x04003A7C RID: 14972
+		private static List<ReorderableWidget.ReorderableGroup> groups = new List<ReorderableWidget.ReorderableGroup>();
+
+		// Token: 0x04003A7D RID: 14973
+		private static List<ReorderableWidget.ReorderableInstance> reorderables = new List<ReorderableWidget.ReorderableInstance>();
+
+		// Token: 0x04003A7E RID: 14974
+		private static int draggingReorderable = -1;
+
+		// Token: 0x04003A7F RID: 14975
+		private static Vector2 dragStartPos;
+
+		// Token: 0x04003A80 RID: 14976
+		private static bool clicked;
+
+		// Token: 0x04003A81 RID: 14977
+		private static bool released;
+
+		// Token: 0x04003A82 RID: 14978
+		private static bool dragBegun;
+
+		// Token: 0x04003A83 RID: 14979
+		private static Vector2 clickedAt;
+
+		// Token: 0x04003A84 RID: 14980
+		private static Rect clickedInRect;
+
+		// Token: 0x04003A85 RID: 14981
+		private static int lastInsertNear = -1;
+
+		// Token: 0x04003A86 RID: 14982
+		private static bool lastInsertNearLeft;
+
+		// Token: 0x04003A87 RID: 14983
+		private static int lastFrameReorderableCount = -1;
+
+		// Token: 0x04003A88 RID: 14984
+		private const float MinMouseMoveToHighlightReorderable = 5f;
+
+		// Token: 0x04003A89 RID: 14985
+		private static readonly Color LineColor = new Color(1f, 1f, 1f, 0.6f);
+
+		// Token: 0x04003A8A RID: 14986
+		private static readonly Color HighlightColor = new Color(1f, 1f, 1f, 0.3f);
+
+		// Token: 0x04003A8B RID: 14987
+		private const float LineWidth = 2f;
+
 		// Token: 0x0600586C RID: 22636 RVA: 0x002D51D4 File Offset: 0x002D35D4
 		public static void ReorderableWidgetOnGUI_BeforeWindowStack()
 		{
@@ -288,67 +336,9 @@ namespace Verse
 			ReorderableWidget.dragBegun = false;
 		}
 
-		// Token: 0x04003A7C RID: 14972
-		private static List<ReorderableWidget.ReorderableGroup> groups = new List<ReorderableWidget.ReorderableGroup>();
-
-		// Token: 0x04003A7D RID: 14973
-		private static List<ReorderableWidget.ReorderableInstance> reorderables = new List<ReorderableWidget.ReorderableInstance>();
-
-		// Token: 0x04003A7E RID: 14974
-		private static int draggingReorderable = -1;
-
-		// Token: 0x04003A7F RID: 14975
-		private static Vector2 dragStartPos;
-
-		// Token: 0x04003A80 RID: 14976
-		private static bool clicked;
-
-		// Token: 0x04003A81 RID: 14977
-		private static bool released;
-
-		// Token: 0x04003A82 RID: 14978
-		private static bool dragBegun;
-
-		// Token: 0x04003A83 RID: 14979
-		private static Vector2 clickedAt;
-
-		// Token: 0x04003A84 RID: 14980
-		private static Rect clickedInRect;
-
-		// Token: 0x04003A85 RID: 14981
-		private static int lastInsertNear = -1;
-
-		// Token: 0x04003A86 RID: 14982
-		private static bool lastInsertNearLeft;
-
-		// Token: 0x04003A87 RID: 14983
-		private static int lastFrameReorderableCount = -1;
-
-		// Token: 0x04003A88 RID: 14984
-		private const float MinMouseMoveToHighlightReorderable = 5f;
-
-		// Token: 0x04003A89 RID: 14985
-		private static readonly Color LineColor = new Color(1f, 1f, 1f, 0.6f);
-
-		// Token: 0x04003A8A RID: 14986
-		private static readonly Color HighlightColor = new Color(1f, 1f, 1f, 0.3f);
-
-		// Token: 0x04003A8B RID: 14987
-		private const float LineWidth = 2f;
-
 		// Token: 0x02000EA2 RID: 3746
 		private struct ReorderableGroup
 		{
-			// Token: 0x17000DF5 RID: 3573
-			// (get) Token: 0x06005874 RID: 22644 RVA: 0x002D5B30 File Offset: 0x002D3F30
-			public bool DrawLineExactlyBetween
-			{
-				get
-				{
-					return this.drawLineExactlyBetween_space > 0f;
-				}
-			}
-
 			// Token: 0x04003A8C RID: 14988
 			public Action<int, int> reorderedAction;
 
@@ -360,6 +350,16 @@ namespace Verse
 
 			// Token: 0x04003A8F RID: 14991
 			public Action<int, Vector2> extraDraggedItemOnGUI;
+
+			// Token: 0x17000DF5 RID: 3573
+			// (get) Token: 0x06005874 RID: 22644 RVA: 0x002D5B30 File Offset: 0x002D3F30
+			public bool DrawLineExactlyBetween
+			{
+				get
+				{
+					return this.drawLineExactlyBetween_space > 0f;
+				}
+			}
 		}
 
 		// Token: 0x02000EA3 RID: 3747

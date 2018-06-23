@@ -10,6 +10,9 @@ namespace RimWorld.Planet
 	// Token: 0x02000555 RID: 1365
 	public static class FactionBaseProximityGoodwillUtility
 	{
+		// Token: 0x04000F15 RID: 3861
+		private static List<Pair<FactionBase, int>> tmpGoodwillOffsets = new List<Pair<FactionBase, int>>();
+
 		// Token: 0x1700039E RID: 926
 		// (get) Token: 0x0600199D RID: 6557 RVA: 0x000DE83C File Offset: 0x000DCC3C
 		public static int MaxDist
@@ -146,8 +149,5 @@ namespace RimWorld.Planet
 				settleAction();
 			}
 		}
-
-		// Token: 0x04000F15 RID: 3861
-		private static List<Pair<FactionBase, int>> tmpGoodwillOffsets = new List<Pair<FactionBase, int>>();
 	}
 }

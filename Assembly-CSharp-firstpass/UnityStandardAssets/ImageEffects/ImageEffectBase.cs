@@ -8,6 +8,12 @@ namespace UnityStandardAssets.ImageEffects
 	[AddComponentMenu("")]
 	public class ImageEffectBase : MonoBehaviour
 	{
+		// Token: 0x04000806 RID: 2054
+		public Shader shader;
+
+		// Token: 0x04000807 RID: 2055
+		private Material m_Material;
+
 		// Token: 0x06000926 RID: 2342 RVA: 0x00013704 File Offset: 0x00011904
 		protected virtual void Start()
 		{
@@ -44,11 +50,5 @@ namespace UnityStandardAssets.ImageEffects
 				UnityEngine.Object.DestroyImmediate(this.m_Material);
 			}
 		}
-
-		// Token: 0x04000806 RID: 2054
-		public Shader shader;
-
-		// Token: 0x04000807 RID: 2055
-		private Material m_Material;
 	}
 }

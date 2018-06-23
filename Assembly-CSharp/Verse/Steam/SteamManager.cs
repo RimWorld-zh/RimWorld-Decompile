@@ -8,6 +8,12 @@ namespace Verse.Steam
 	// Token: 0x02000FBD RID: 4029
 	public static class SteamManager
 	{
+		// Token: 0x04003FB6 RID: 16310
+		private static SteamAPIWarningMessageHook_t steamAPIWarningMessageHook;
+
+		// Token: 0x04003FB7 RID: 16311
+		private static bool initializedInt = false;
+
 		// Token: 0x17000FC2 RID: 4034
 		// (get) Token: 0x06006166 RID: 24934 RVA: 0x0031309C File Offset: 0x0031149C
 		public static bool Initialized
@@ -95,11 +101,5 @@ namespace Verse.Steam
 		{
 			Log.Error(pchDebugText.ToString(), false);
 		}
-
-		// Token: 0x04003FB6 RID: 16310
-		private static SteamAPIWarningMessageHook_t steamAPIWarningMessageHook;
-
-		// Token: 0x04003FB7 RID: 16311
-		private static bool initializedInt = false;
 	}
 }

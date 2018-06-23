@@ -7,6 +7,45 @@ namespace RimWorld
 	// Token: 0x020004EA RID: 1258
 	public class Pawn_GuestTracker : IExposable
 	{
+		// Token: 0x04000D22 RID: 3362
+		private Pawn pawn;
+
+		// Token: 0x04000D23 RID: 3363
+		private bool getsFoodInt = true;
+
+		// Token: 0x04000D24 RID: 3364
+		public PrisonerInteractionModeDef interactionMode = PrisonerInteractionModeDefOf.NoInteraction;
+
+		// Token: 0x04000D25 RID: 3365
+		private Faction hostFactionInt = null;
+
+		// Token: 0x04000D26 RID: 3366
+		public bool isPrisonerInt = false;
+
+		// Token: 0x04000D27 RID: 3367
+		private bool releasedInt = false;
+
+		// Token: 0x04000D28 RID: 3368
+		private int ticksWhenAllowedToEscapeAgain;
+
+		// Token: 0x04000D29 RID: 3369
+		public IntVec3 spotToWaitInsteadOfEscaping = IntVec3.Invalid;
+
+		// Token: 0x04000D2A RID: 3370
+		public int lastPrisonBreakTicks = -1;
+
+		// Token: 0x04000D2B RID: 3371
+		public bool everParticipatedInPrisonBreak;
+
+		// Token: 0x04000D2C RID: 3372
+		private const int DefaultWaitInsteadOfEscapingTicks = 25000;
+
+		// Token: 0x04000D2D RID: 3373
+		public int MinInteractionInterval = 7500;
+
+		// Token: 0x04000D2E RID: 3374
+		private const int CheckInitiatePrisonBreakIntervalTicks = 2500;
+
 		// Token: 0x06001682 RID: 5762 RVA: 0x000C7B90 File Offset: 0x000C5F90
 		public Pawn_GuestTracker()
 		{
@@ -323,44 +362,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000D22 RID: 3362
-		private Pawn pawn;
-
-		// Token: 0x04000D23 RID: 3363
-		private bool getsFoodInt = true;
-
-		// Token: 0x04000D24 RID: 3364
-		public PrisonerInteractionModeDef interactionMode = PrisonerInteractionModeDefOf.NoInteraction;
-
-		// Token: 0x04000D25 RID: 3365
-		private Faction hostFactionInt = null;
-
-		// Token: 0x04000D26 RID: 3366
-		public bool isPrisonerInt = false;
-
-		// Token: 0x04000D27 RID: 3367
-		private bool releasedInt = false;
-
-		// Token: 0x04000D28 RID: 3368
-		private int ticksWhenAllowedToEscapeAgain;
-
-		// Token: 0x04000D29 RID: 3369
-		public IntVec3 spotToWaitInsteadOfEscaping = IntVec3.Invalid;
-
-		// Token: 0x04000D2A RID: 3370
-		public int lastPrisonBreakTicks = -1;
-
-		// Token: 0x04000D2B RID: 3371
-		public bool everParticipatedInPrisonBreak;
-
-		// Token: 0x04000D2C RID: 3372
-		private const int DefaultWaitInsteadOfEscapingTicks = 25000;
-
-		// Token: 0x04000D2D RID: 3373
-		public int MinInteractionInterval = 7500;
-
-		// Token: 0x04000D2E RID: 3374
-		private const int CheckInitiatePrisonBreakIntervalTicks = 2500;
 	}
 }

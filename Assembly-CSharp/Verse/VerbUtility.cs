@@ -8,6 +8,21 @@ namespace Verse
 	// Token: 0x02000FD3 RID: 4051
 	public static class VerbUtility
 	{
+		// Token: 0x0400401E RID: 16414
+		public const float InterceptDist_Possible = 4f;
+
+		// Token: 0x0400401F RID: 16415
+		private const float InterceptDist_Short = 7f;
+
+		// Token: 0x04004020 RID: 16416
+		private const float InterceptDist_Normal = 10f;
+
+		// Token: 0x04004021 RID: 16417
+		private const float InterceptChanceFactor_VeryShort = 0.5f;
+
+		// Token: 0x04004022 RID: 16418
+		private const float InterceptChanceFactor_Short = 0.75f;
+
 		// Token: 0x0600621E RID: 25118 RVA: 0x00317830 File Offset: 0x00315C30
 		public static ThingDef GetProjectile(this Verb verb)
 		{
@@ -164,20 +179,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x0400401E RID: 16414
-		public const float InterceptDist_Possible = 4f;
-
-		// Token: 0x0400401F RID: 16415
-		private const float InterceptDist_Short = 7f;
-
-		// Token: 0x04004020 RID: 16416
-		private const float InterceptDist_Normal = 10f;
-
-		// Token: 0x04004021 RID: 16417
-		private const float InterceptChanceFactor_VeryShort = 0.5f;
-
-		// Token: 0x04004022 RID: 16418
-		private const float InterceptChanceFactor_Short = 0.75f;
 	}
 }

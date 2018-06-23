@@ -9,6 +9,33 @@ namespace UnityStandardAssets.ImageEffects
 	[AddComponentMenu("Image Effects/Edge Detection/Crease Shading")]
 	public class CreaseShading : PostEffectsBase
 	{
+		// Token: 0x04000783 RID: 1923
+		public float intensity = 0.5f;
+
+		// Token: 0x04000784 RID: 1924
+		public int softness = 1;
+
+		// Token: 0x04000785 RID: 1925
+		public float spread = 1f;
+
+		// Token: 0x04000786 RID: 1926
+		public Shader blurShader = null;
+
+		// Token: 0x04000787 RID: 1927
+		private Material blurMaterial = null;
+
+		// Token: 0x04000788 RID: 1928
+		public Shader depthFetchShader = null;
+
+		// Token: 0x04000789 RID: 1929
+		private Material depthFetchMaterial = null;
+
+		// Token: 0x0400078A RID: 1930
+		public Shader creaseApplyShader = null;
+
+		// Token: 0x0400078B RID: 1931
+		private Material creaseApplyMaterial = null;
+
 		// Token: 0x060008FA RID: 2298 RVA: 0x00013EBC File Offset: 0x000120BC
 		public override bool CheckResources()
 		{
@@ -61,32 +88,5 @@ namespace UnityStandardAssets.ImageEffects
 				RenderTexture.ReleaseTemporary(renderTexture);
 			}
 		}
-
-		// Token: 0x04000783 RID: 1923
-		public float intensity = 0.5f;
-
-		// Token: 0x04000784 RID: 1924
-		public int softness = 1;
-
-		// Token: 0x04000785 RID: 1925
-		public float spread = 1f;
-
-		// Token: 0x04000786 RID: 1926
-		public Shader blurShader = null;
-
-		// Token: 0x04000787 RID: 1927
-		private Material blurMaterial = null;
-
-		// Token: 0x04000788 RID: 1928
-		public Shader depthFetchShader = null;
-
-		// Token: 0x04000789 RID: 1929
-		private Material depthFetchMaterial = null;
-
-		// Token: 0x0400078A RID: 1930
-		public Shader creaseApplyShader = null;
-
-		// Token: 0x0400078B RID: 1931
-		private Material creaseApplyMaterial = null;
 	}
 }

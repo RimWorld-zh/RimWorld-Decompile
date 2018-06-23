@@ -7,6 +7,18 @@ namespace RimWorld
 	// Token: 0x020002F4 RID: 756
 	public class ArchivedDialog : IArchivable, IExposable
 	{
+		// Token: 0x04000838 RID: 2104
+		public string text;
+
+		// Token: 0x04000839 RID: 2105
+		public string title;
+
+		// Token: 0x0400083A RID: 2106
+		public Faction relatedFaction;
+
+		// Token: 0x0400083B RID: 2107
+		public int createdTick;
+
 		// Token: 0x06000C90 RID: 3216 RVA: 0x0006F4F6 File Offset: 0x0006D8F6
 		public ArchivedDialog()
 		{
@@ -113,17 +125,5 @@ namespace RimWorld
 			Scribe_References.Look<Faction>(ref this.relatedFaction, "relatedFaction", false);
 			Scribe_Values.Look<int>(ref this.createdTick, "createdTick", 0, false);
 		}
-
-		// Token: 0x04000838 RID: 2104
-		public string text;
-
-		// Token: 0x04000839 RID: 2105
-		public string title;
-
-		// Token: 0x0400083A RID: 2106
-		public Faction relatedFaction;
-
-		// Token: 0x0400083B RID: 2107
-		public int createdTick;
 	}
 }

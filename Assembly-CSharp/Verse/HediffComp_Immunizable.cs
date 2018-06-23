@@ -9,6 +9,12 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public class HediffComp_Immunizable : HediffComp_SeverityPerDay
 	{
+		// Token: 0x04003232 RID: 12850
+		private float severityPerDayNotImmuneRandomFactor = 1f;
+
+		// Token: 0x04003233 RID: 12851
+		private static readonly Texture2D IconImmune = ContentFinder<Texture2D>.Get("UI/Icons/Medical/IconImmune", true);
+
 		// Token: 0x17000BBF RID: 3007
 		// (get) Token: 0x06004A04 RID: 18948 RVA: 0x0026B7E8 File Offset: 0x00269BE8
 		public HediffCompProperties_Immunizable Props
@@ -136,11 +142,5 @@ namespace Verse
 			}
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x04003232 RID: 12850
-		private float severityPerDayNotImmuneRandomFactor = 1f;
-
-		// Token: 0x04003233 RID: 12851
-		private static readonly Texture2D IconImmune = ContentFinder<Texture2D>.Get("UI/Icons/Medical/IconImmune", true);
 	}
 }

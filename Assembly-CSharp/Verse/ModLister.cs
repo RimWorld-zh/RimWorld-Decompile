@@ -9,6 +9,9 @@ namespace Verse
 	// Token: 0x02000CC4 RID: 3268
 	public static class ModLister
 	{
+		// Token: 0x040030E2 RID: 12514
+		private static List<ModMetaData> mods = new List<ModMetaData>();
+
 		// Token: 0x06004833 RID: 18483 RVA: 0x00260207 File Offset: 0x0025E607
 		static ModLister()
 		{
@@ -121,8 +124,5 @@ namespace Verse
 			}
 			return false;
 		}
-
-		// Token: 0x040030E2 RID: 12514
-		private static List<ModMetaData> mods = new List<ModMetaData>();
 	}
 }

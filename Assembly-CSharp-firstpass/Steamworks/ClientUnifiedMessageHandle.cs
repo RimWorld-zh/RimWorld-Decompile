@@ -5,6 +5,12 @@ namespace Steamworks
 	// Token: 0x0200016F RID: 367
 	public struct ClientUnifiedMessageHandle : IEquatable<ClientUnifiedMessageHandle>, IComparable<ClientUnifiedMessageHandle>
 	{
+		// Token: 0x0400068F RID: 1679
+		public static readonly ClientUnifiedMessageHandle Invalid = new ClientUnifiedMessageHandle(0UL);
+
+		// Token: 0x04000690 RID: 1680
+		public ulong m_ClientUnifiedMessageHandle;
+
 		// Token: 0x0600088D RID: 2189 RVA: 0x0000F185 File Offset: 0x0000D385
 		public ClientUnifiedMessageHandle(ulong value)
 		{
@@ -64,11 +70,5 @@ namespace Steamworks
 		{
 			return this.m_ClientUnifiedMessageHandle.CompareTo(other.m_ClientUnifiedMessageHandle);
 		}
-
-		// Token: 0x0400068F RID: 1679
-		public static readonly ClientUnifiedMessageHandle Invalid = new ClientUnifiedMessageHandle(0UL);
-
-		// Token: 0x04000690 RID: 1680
-		public ulong m_ClientUnifiedMessageHandle;
 	}
 }

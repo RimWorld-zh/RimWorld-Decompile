@@ -7,6 +7,18 @@ namespace RimWorld.Planet
 	// Token: 0x020005AB RID: 1451
 	public static class GenPlanetMorphology
 	{
+		// Token: 0x0400108C RID: 4236
+		private static HashSet<int> tmpOutput = new HashSet<int>();
+
+		// Token: 0x0400108D RID: 4237
+		private static HashSet<int> tilesSet = new HashSet<int>();
+
+		// Token: 0x0400108E RID: 4238
+		private static List<int> tmpNeighbors = new List<int>();
+
+		// Token: 0x0400108F RID: 4239
+		private static List<int> tmpEdgeTiles = new List<int>();
+
 		// Token: 0x06001BC7 RID: 7111 RVA: 0x000EF650 File Offset: 0x000EDA50
 		public static void Erode(List<int> tiles, int count, Predicate<int> extraPredicate = null)
 		{
@@ -107,17 +119,5 @@ namespace RimWorld.Planet
 			GenPlanetMorphology.Dilate(tiles, count, null);
 			GenPlanetMorphology.Erode(tiles, count, null);
 		}
-
-		// Token: 0x0400108C RID: 4236
-		private static HashSet<int> tmpOutput = new HashSet<int>();
-
-		// Token: 0x0400108D RID: 4237
-		private static HashSet<int> tilesSet = new HashSet<int>();
-
-		// Token: 0x0400108E RID: 4238
-		private static List<int> tmpNeighbors = new List<int>();
-
-		// Token: 0x0400108F RID: 4239
-		private static List<int> tmpEdgeTiles = new List<int>();
 	}
 }

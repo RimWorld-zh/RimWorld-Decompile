@@ -5,6 +5,12 @@ namespace Steamworks
 	// Token: 0x02000158 RID: 344
 	public struct FriendsGroupID_t : IEquatable<FriendsGroupID_t>, IComparable<FriendsGroupID_t>
 	{
+		// Token: 0x04000665 RID: 1637
+		public static readonly FriendsGroupID_t Invalid = new FriendsGroupID_t(-1);
+
+		// Token: 0x04000666 RID: 1638
+		public short m_FriendsGroupID;
+
 		// Token: 0x06000795 RID: 1941 RVA: 0x0000D17C File Offset: 0x0000B37C
 		public FriendsGroupID_t(short value)
 		{
@@ -64,11 +70,5 @@ namespace Steamworks
 		{
 			return this.m_FriendsGroupID.CompareTo(other.m_FriendsGroupID);
 		}
-
-		// Token: 0x04000665 RID: 1637
-		public static readonly FriendsGroupID_t Invalid = new FriendsGroupID_t(-1);
-
-		// Token: 0x04000666 RID: 1638
-		public short m_FriendsGroupID;
 	}
 }

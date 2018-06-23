@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x0200082A RID: 2090
 	public static class TransferableUtility
 	{
+		// Token: 0x0400195A RID: 6490
+		private static List<Thing> tmpThings = new List<Thing>();
+
 		// Token: 0x06002F07 RID: 12039 RVA: 0x00192260 File Offset: 0x00190660
 		public static void Transfer(List<Thing> things, int count, Action<Thing, IThingHolder> transferred)
 		{
@@ -386,8 +389,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x0400195A RID: 6490
-		private static List<Thing> tmpThings = new List<Thing>();
 	}
 }

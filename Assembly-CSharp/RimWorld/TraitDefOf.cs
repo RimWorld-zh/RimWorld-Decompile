@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class TraitDefOf
 	{
-		// Token: 0x06003640 RID: 13888 RVA: 0x001D0B3D File Offset: 0x001CEF3D
-		static TraitDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(TraitDefOf));
-		}
-
 		// Token: 0x04002067 RID: 8295
 		public static TraitDef Nudist;
 
@@ -95,5 +89,11 @@ namespace RimWorld
 
 		// Token: 0x04002082 RID: 8322
 		public static TraitDef ShootingAccuracy;
+
+		// Token: 0x06003640 RID: 13888 RVA: 0x001D0B3D File Offset: 0x001CEF3D
+		static TraitDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(TraitDefOf));
+		}
 	}
 }

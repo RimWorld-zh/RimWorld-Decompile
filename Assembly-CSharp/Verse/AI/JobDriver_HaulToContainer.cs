@@ -7,6 +7,15 @@ namespace Verse.AI
 	// Token: 0x02000A3F RID: 2623
 	public class JobDriver_HaulToContainer : JobDriver
 	{
+		// Token: 0x04002511 RID: 9489
+		private const TargetIndex CarryThingIndex = TargetIndex.A;
+
+		// Token: 0x04002512 RID: 9490
+		private const TargetIndex DestIndex = TargetIndex.B;
+
+		// Token: 0x04002513 RID: 9491
+		private const TargetIndex PrimaryDestIndex = TargetIndex.C;
+
 		// Token: 0x170008EB RID: 2283
 		// (get) Token: 0x06003A3B RID: 14907 RVA: 0x001EE37C File Offset: 0x001EC77C
 		private Thing ThingToCarry
@@ -110,14 +119,5 @@ namespace Verse.AI
 			yield return Toils_Haul.JumpToCarryToNextContainerIfPossible(carryToContainer, TargetIndex.C);
 			yield break;
 		}
-
-		// Token: 0x04002511 RID: 9489
-		private const TargetIndex CarryThingIndex = TargetIndex.A;
-
-		// Token: 0x04002512 RID: 9490
-		private const TargetIndex DestIndex = TargetIndex.B;
-
-		// Token: 0x04002513 RID: 9491
-		private const TargetIndex PrimaryDestIndex = TargetIndex.C;
 	}
 }

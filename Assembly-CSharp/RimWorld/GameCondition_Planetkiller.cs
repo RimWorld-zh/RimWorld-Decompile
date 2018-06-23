@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x0200030E RID: 782
 	public class GameCondition_Planetkiller : GameCondition
 	{
+		// Token: 0x0400087B RID: 2171
+		private const int SoundDuration = 179;
+
+		// Token: 0x0400087C RID: 2172
+		private const int FadeDuration = 90;
+
+		// Token: 0x0400087D RID: 2173
+		private static readonly Color FadeColor = Color.white;
+
 		// Token: 0x170001FF RID: 511
 		// (get) Token: 0x06000D3D RID: 3389 RVA: 0x00072B7C File Offset: 0x00070F7C
 		public override string TooltipString
@@ -81,14 +90,5 @@ namespace RimWorld
 				Find.World.info.name
 			}), false, GameCondition_Planetkiller.FadeColor);
 		}
-
-		// Token: 0x0400087B RID: 2171
-		private const int SoundDuration = 179;
-
-		// Token: 0x0400087C RID: 2172
-		private const int FadeDuration = 90;
-
-		// Token: 0x0400087D RID: 2173
-		private static readonly Color FadeColor = Color.white;
 	}
 }

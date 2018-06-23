@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x020004F3 RID: 1267
 	public class Need_Chemical : Need
 	{
+		// Token: 0x04000D58 RID: 3416
+		private const float ThreshDesire = 0.01f;
+
+		// Token: 0x04000D59 RID: 3417
+		private const float ThreshSatisfied = 0.3f;
+
 		// Token: 0x060016CC RID: 5836 RVA: 0x000C9FEC File Offset: 0x000C83EC
 		public Need_Chemical(Pawn pawn) : base(pawn)
 		{
@@ -120,11 +126,5 @@ namespace RimWorld
 				addictionHediff.Notify_NeedCategoryChanged();
 			}
 		}
-
-		// Token: 0x04000D58 RID: 3416
-		private const float ThreshDesire = 0.01f;
-
-		// Token: 0x04000D59 RID: 3417
-		private const float ThreshSatisfied = 0.3f;
 	}
 }

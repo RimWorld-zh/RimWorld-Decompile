@@ -10,6 +10,9 @@ namespace RimWorld
 	// Token: 0x020000C2 RID: 194
 	public class JobGiver_PackAnimalFollowColonists : ThinkNode_JobGiver
 	{
+		// Token: 0x04000299 RID: 665
+		private const int MaxDistanceToPawnToFollow = 10;
+
 		// Token: 0x06000488 RID: 1160 RVA: 0x00033AF8 File Offset: 0x00031EF8
 		protected override Job TryGiveJob(Pawn pawn)
 		{
@@ -79,8 +82,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000299 RID: 665
-		private const int MaxDistanceToPawnToFollow = 10;
 	}
 }

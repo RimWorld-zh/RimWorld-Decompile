@@ -10,6 +10,18 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class MainTabWindow_Inspect : MainTabWindow, IInspectPane
 	{
+		// Token: 0x04001A9B RID: 6811
+		private Type openTabType;
+
+		// Token: 0x04001A9C RID: 6812
+		private float recentHeight;
+
+		// Token: 0x04001A9D RID: 6813
+		private static IntVec3 lastSelectCell;
+
+		// Token: 0x04001A9E RID: 6814
+		private Gizmo mouseoverGizmo;
+
 		// Token: 0x06003120 RID: 12576 RVA: 0x001AB584 File Offset: 0x001A9984
 		public MainTabWindow_Inspect()
 		{
@@ -275,17 +287,5 @@ namespace RimWorld
 		{
 			this.openTabType = null;
 		}
-
-		// Token: 0x04001A9B RID: 6811
-		private Type openTabType;
-
-		// Token: 0x04001A9C RID: 6812
-		private float recentHeight;
-
-		// Token: 0x04001A9D RID: 6813
-		private static IntVec3 lastSelectCell;
-
-		// Token: 0x04001A9E RID: 6814
-		private Gizmo mouseoverGizmo;
 	}
 }

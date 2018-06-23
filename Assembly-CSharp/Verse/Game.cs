@@ -12,6 +12,84 @@ namespace Verse
 	// Token: 0x02000BC1 RID: 3009
 	public class Game : IExposable
 	{
+		// Token: 0x04002CB7 RID: 11447
+		private GameInitData initData;
+
+		// Token: 0x04002CB8 RID: 11448
+		public sbyte currentMapIndex = -1;
+
+		// Token: 0x04002CB9 RID: 11449
+		private GameInfo info = new GameInfo();
+
+		// Token: 0x04002CBA RID: 11450
+		public List<GameComponent> components = new List<GameComponent>();
+
+		// Token: 0x04002CBB RID: 11451
+		private GameRules rules = new GameRules();
+
+		// Token: 0x04002CBC RID: 11452
+		private Scenario scenarioInt;
+
+		// Token: 0x04002CBD RID: 11453
+		private World worldInt;
+
+		// Token: 0x04002CBE RID: 11454
+		private List<Map> maps = new List<Map>();
+
+		// Token: 0x04002CBF RID: 11455
+		public PlaySettings playSettings = new PlaySettings();
+
+		// Token: 0x04002CC0 RID: 11456
+		public StoryWatcher storyWatcher = new StoryWatcher();
+
+		// Token: 0x04002CC1 RID: 11457
+		public LetterStack letterStack = new LetterStack();
+
+		// Token: 0x04002CC2 RID: 11458
+		public ResearchManager researchManager = new ResearchManager();
+
+		// Token: 0x04002CC3 RID: 11459
+		public GameEnder gameEnder = new GameEnder();
+
+		// Token: 0x04002CC4 RID: 11460
+		public Storyteller storyteller = new Storyteller();
+
+		// Token: 0x04002CC5 RID: 11461
+		public History history = new History();
+
+		// Token: 0x04002CC6 RID: 11462
+		public TaleManager taleManager = new TaleManager();
+
+		// Token: 0x04002CC7 RID: 11463
+		public PlayLog playLog = new PlayLog();
+
+		// Token: 0x04002CC8 RID: 11464
+		public BattleLog battleLog = new BattleLog();
+
+		// Token: 0x04002CC9 RID: 11465
+		public OutfitDatabase outfitDatabase = new OutfitDatabase();
+
+		// Token: 0x04002CCA RID: 11466
+		public DrugPolicyDatabase drugPolicyDatabase = new DrugPolicyDatabase();
+
+		// Token: 0x04002CCB RID: 11467
+		public TickManager tickManager = new TickManager();
+
+		// Token: 0x04002CCC RID: 11468
+		public Tutor tutor = new Tutor();
+
+		// Token: 0x04002CCD RID: 11469
+		public Autosaver autosaver = new Autosaver();
+
+		// Token: 0x04002CCE RID: 11470
+		public DateNotifier dateNotifier = new DateNotifier();
+
+		// Token: 0x04002CCF RID: 11471
+		public SignalManager signalManager = new SignalManager();
+
+		// Token: 0x04002CD0 RID: 11472
+		public UniqueIDsManager uniqueIDsManager = new UniqueIDsManager();
+
 		// Token: 0x06004176 RID: 16758 RVA: 0x00228EEC File Offset: 0x002272EC
 		public Game()
 		{
@@ -598,83 +676,5 @@ namespace Verse
 			}
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x04002CB7 RID: 11447
-		private GameInitData initData;
-
-		// Token: 0x04002CB8 RID: 11448
-		public sbyte currentMapIndex = -1;
-
-		// Token: 0x04002CB9 RID: 11449
-		private GameInfo info = new GameInfo();
-
-		// Token: 0x04002CBA RID: 11450
-		public List<GameComponent> components = new List<GameComponent>();
-
-		// Token: 0x04002CBB RID: 11451
-		private GameRules rules = new GameRules();
-
-		// Token: 0x04002CBC RID: 11452
-		private Scenario scenarioInt;
-
-		// Token: 0x04002CBD RID: 11453
-		private World worldInt;
-
-		// Token: 0x04002CBE RID: 11454
-		private List<Map> maps = new List<Map>();
-
-		// Token: 0x04002CBF RID: 11455
-		public PlaySettings playSettings = new PlaySettings();
-
-		// Token: 0x04002CC0 RID: 11456
-		public StoryWatcher storyWatcher = new StoryWatcher();
-
-		// Token: 0x04002CC1 RID: 11457
-		public LetterStack letterStack = new LetterStack();
-
-		// Token: 0x04002CC2 RID: 11458
-		public ResearchManager researchManager = new ResearchManager();
-
-		// Token: 0x04002CC3 RID: 11459
-		public GameEnder gameEnder = new GameEnder();
-
-		// Token: 0x04002CC4 RID: 11460
-		public Storyteller storyteller = new Storyteller();
-
-		// Token: 0x04002CC5 RID: 11461
-		public History history = new History();
-
-		// Token: 0x04002CC6 RID: 11462
-		public TaleManager taleManager = new TaleManager();
-
-		// Token: 0x04002CC7 RID: 11463
-		public PlayLog playLog = new PlayLog();
-
-		// Token: 0x04002CC8 RID: 11464
-		public BattleLog battleLog = new BattleLog();
-
-		// Token: 0x04002CC9 RID: 11465
-		public OutfitDatabase outfitDatabase = new OutfitDatabase();
-
-		// Token: 0x04002CCA RID: 11466
-		public DrugPolicyDatabase drugPolicyDatabase = new DrugPolicyDatabase();
-
-		// Token: 0x04002CCB RID: 11467
-		public TickManager tickManager = new TickManager();
-
-		// Token: 0x04002CCC RID: 11468
-		public Tutor tutor = new Tutor();
-
-		// Token: 0x04002CCD RID: 11469
-		public Autosaver autosaver = new Autosaver();
-
-		// Token: 0x04002CCE RID: 11470
-		public DateNotifier dateNotifier = new DateNotifier();
-
-		// Token: 0x04002CCF RID: 11471
-		public SignalManager signalManager = new SignalManager();
-
-		// Token: 0x04002CD0 RID: 11472
-		public UniqueIDsManager uniqueIDsManager = new UniqueIDsManager();
 	}
 }

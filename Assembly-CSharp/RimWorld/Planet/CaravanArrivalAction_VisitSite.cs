@@ -7,6 +7,9 @@ namespace RimWorld.Planet
 	// Token: 0x020005CF RID: 1487
 	public class CaravanArrivalAction_VisitSite : CaravanArrivalAction
 	{
+		// Token: 0x04001156 RID: 4438
+		private Site site;
+
 		// Token: 0x06001CF8 RID: 7416 RVA: 0x000F819F File Offset: 0x000F659F
 		public CaravanArrivalAction_VisitSite()
 		{
@@ -98,8 +101,5 @@ namespace RimWorld.Planet
 		{
 			return CaravanArrivalActionUtility.GetFloatMenuOptions<CaravanArrivalAction_VisitSite>(() => CaravanArrivalAction_VisitSite.CanVisit(caravan, site), () => new CaravanArrivalAction_VisitSite(site), site.ApproachOrderString, caravan, site.Tile, site);
 		}
-
-		// Token: 0x04001156 RID: 4438
-		private Site site;
 	}
 }

@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class ConceptDefOf
 	{
-		// Token: 0x06003629 RID: 13865 RVA: 0x001D099F File Offset: 0x001CED9F
-		static ConceptDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(ConceptDefOf));
-		}
-
 		// Token: 0x04001F7F RID: 8063
 		public static ConceptDef CameraDolly;
 
@@ -164,5 +158,11 @@ namespace RimWorld
 
 		// Token: 0x04001FB1 RID: 8113
 		public static ConceptDef MaxNumberOfPlayerHomes;
+
+		// Token: 0x06003629 RID: 13865 RVA: 0x001D099F File Offset: 0x001CED9F
+		static ConceptDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(ConceptDefOf));
+		}
 	}
 }

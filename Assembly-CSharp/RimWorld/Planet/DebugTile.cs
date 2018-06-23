@@ -8,6 +8,30 @@ namespace RimWorld.Planet
 	// Token: 0x02000585 RID: 1413
 	internal class DebugTile
 	{
+		// Token: 0x04000FE4 RID: 4068
+		public int tile;
+
+		// Token: 0x04000FE5 RID: 4069
+		public string displayString;
+
+		// Token: 0x04000FE6 RID: 4070
+		public float colorPct;
+
+		// Token: 0x04000FE7 RID: 4071
+		public int ticksLeft;
+
+		// Token: 0x04000FE8 RID: 4072
+		public Material customMat;
+
+		// Token: 0x04000FE9 RID: 4073
+		private Mesh mesh;
+
+		// Token: 0x04000FEA RID: 4074
+		private static List<Vector3> tmpVerts = new List<Vector3>();
+
+		// Token: 0x04000FEB RID: 4075
+		private static List<int> tmpIndices = new List<int>();
+
 		// Token: 0x170003ED RID: 1005
 		// (get) Token: 0x06001AFE RID: 6910 RVA: 0x000E81F4 File Offset: 0x000E65F4
 		private Vector2 ScreenPos
@@ -94,29 +118,5 @@ namespace RimWorld.Planet
 				}
 			}
 		}
-
-		// Token: 0x04000FE4 RID: 4068
-		public int tile;
-
-		// Token: 0x04000FE5 RID: 4069
-		public string displayString;
-
-		// Token: 0x04000FE6 RID: 4070
-		public float colorPct;
-
-		// Token: 0x04000FE7 RID: 4071
-		public int ticksLeft;
-
-		// Token: 0x04000FE8 RID: 4072
-		public Material customMat;
-
-		// Token: 0x04000FE9 RID: 4073
-		private Mesh mesh;
-
-		// Token: 0x04000FEA RID: 4074
-		private static List<Vector3> tmpVerts = new List<Vector3>();
-
-		// Token: 0x04000FEB RID: 4075
-		private static List<int> tmpIndices = new List<int>();
 	}
 }

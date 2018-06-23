@@ -7,6 +7,18 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003D5 RID: 981
 	public class SymbolResolver_Interior_AncientTemple : SymbolResolver
 	{
+		// Token: 0x04000A48 RID: 2632
+		private const float MechanoidsChance = 0.5f;
+
+		// Token: 0x04000A49 RID: 2633
+		private static readonly IntRange MechanoidCountRange = new IntRange(1, 5);
+
+		// Token: 0x04000A4A RID: 2634
+		private const float HivesChance = 0.45f;
+
+		// Token: 0x04000A4B RID: 2635
+		private static readonly IntRange HivesCountRange = new IntRange(1, 2);
+
 		// Token: 0x060010E5 RID: 4325 RVA: 0x000902DC File Offset: 0x0008E6DC
 		public override void Resolve(ResolveParams rp)
 		{
@@ -40,17 +52,5 @@ namespace RimWorld.BaseGen
 			resolveParams4.rect.minZ = resolveParams4.rect.minZ + num;
 			BaseGen.symbolStack.Push("ancientShrinesGroup", resolveParams4);
 		}
-
-		// Token: 0x04000A48 RID: 2632
-		private const float MechanoidsChance = 0.5f;
-
-		// Token: 0x04000A49 RID: 2633
-		private static readonly IntRange MechanoidCountRange = new IntRange(1, 5);
-
-		// Token: 0x04000A4A RID: 2634
-		private const float HivesChance = 0.45f;
-
-		// Token: 0x04000A4B RID: 2635
-		private static readonly IntRange HivesCountRange = new IntRange(1, 2);
 	}
 }

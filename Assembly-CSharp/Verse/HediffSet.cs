@@ -9,6 +9,33 @@ namespace Verse
 	// Token: 0x02000D38 RID: 3384
 	public class HediffSet : IExposable
 	{
+		// Token: 0x0400325B RID: 12891
+		public Pawn pawn;
+
+		// Token: 0x0400325C RID: 12892
+		public List<Hediff> hediffs = new List<Hediff>();
+
+		// Token: 0x0400325D RID: 12893
+		private List<Hediff_MissingPart> cachedMissingPartsCommonAncestors = null;
+
+		// Token: 0x0400325E RID: 12894
+		private float cachedPain = -1f;
+
+		// Token: 0x0400325F RID: 12895
+		private float cachedBleedRate = -1f;
+
+		// Token: 0x04003260 RID: 12896
+		private bool? cachedHasHead;
+
+		// Token: 0x04003261 RID: 12897
+		private Stack<BodyPartRecord> coveragePartsStack = new Stack<BodyPartRecord>();
+
+		// Token: 0x04003262 RID: 12898
+		private HashSet<BodyPartRecord> coverageRejectedPartsSet = new HashSet<BodyPartRecord>();
+
+		// Token: 0x04003263 RID: 12899
+		private Queue<BodyPartRecord> missingPartsCommonAncestorsQueue = new Queue<BodyPartRecord>();
+
 		// Token: 0x06004A91 RID: 19089 RVA: 0x0026E398 File Offset: 0x0026C798
 		public HediffSet(Pawn newPawn)
 		{
@@ -771,32 +798,5 @@ namespace Verse
 			this.hediffs.Clear();
 			this.DirtyCache();
 		}
-
-		// Token: 0x0400325B RID: 12891
-		public Pawn pawn;
-
-		// Token: 0x0400325C RID: 12892
-		public List<Hediff> hediffs = new List<Hediff>();
-
-		// Token: 0x0400325D RID: 12893
-		private List<Hediff_MissingPart> cachedMissingPartsCommonAncestors = null;
-
-		// Token: 0x0400325E RID: 12894
-		private float cachedPain = -1f;
-
-		// Token: 0x0400325F RID: 12895
-		private float cachedBleedRate = -1f;
-
-		// Token: 0x04003260 RID: 12896
-		private bool? cachedHasHead;
-
-		// Token: 0x04003261 RID: 12897
-		private Stack<BodyPartRecord> coveragePartsStack = new Stack<BodyPartRecord>();
-
-		// Token: 0x04003262 RID: 12898
-		private HashSet<BodyPartRecord> coverageRejectedPartsSet = new HashSet<BodyPartRecord>();
-
-		// Token: 0x04003263 RID: 12899
-		private Queue<BodyPartRecord> missingPartsCommonAncestorsQueue = new Queue<BodyPartRecord>();
 	}
 }

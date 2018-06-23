@@ -12,6 +12,48 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public class WorldRoutePlanner
 	{
+		// Token: 0x04001C77 RID: 7287
+		private bool active;
+
+		// Token: 0x04001C78 RID: 7288
+		private CaravanTicksPerMoveUtility.CaravanInfo? caravanInfoFromFormCaravanDialog;
+
+		// Token: 0x04001C79 RID: 7289
+		private Dialog_FormCaravan currentFormCaravanDialog;
+
+		// Token: 0x04001C7A RID: 7290
+		private List<WorldPath> paths = new List<WorldPath>();
+
+		// Token: 0x04001C7B RID: 7291
+		private List<int> cachedTicksToWaypoint = new List<int>();
+
+		// Token: 0x04001C7C RID: 7292
+		public List<RoutePlannerWaypoint> waypoints = new List<RoutePlannerWaypoint>();
+
+		// Token: 0x04001C7D RID: 7293
+		private bool cantRemoveFirstWaypoint;
+
+		// Token: 0x04001C7E RID: 7294
+		private const int MaxCount = 25;
+
+		// Token: 0x04001C7F RID: 7295
+		private static readonly Texture2D ButtonTex = ContentFinder<Texture2D>.Get("UI/Misc/WorldRoutePlanner", true);
+
+		// Token: 0x04001C80 RID: 7296
+		private static readonly Texture2D MouseAttachment = ContentFinder<Texture2D>.Get("UI/Overlays/WaypointMouseAttachment", true);
+
+		// Token: 0x04001C81 RID: 7297
+		private static readonly Vector2 BottomWindowSize = new Vector2(500f, 95f);
+
+		// Token: 0x04001C82 RID: 7298
+		private static readonly Vector2 BottomButtonSize = new Vector2(160f, 40f);
+
+		// Token: 0x04001C83 RID: 7299
+		private const float BottomWindowBotMargin = 45f;
+
+		// Token: 0x04001C84 RID: 7300
+		private const float BottomWindowEntryExtraBotMargin = 22f;
+
 		// Token: 0x17000880 RID: 2176
 		// (get) Token: 0x060034AF RID: 13487 RVA: 0x001C2484 File Offset: 0x001C0884
 		public bool Active
@@ -535,47 +577,5 @@ namespace RimWorld.Planet
 			}
 			return null;
 		}
-
-		// Token: 0x04001C77 RID: 7287
-		private bool active;
-
-		// Token: 0x04001C78 RID: 7288
-		private CaravanTicksPerMoveUtility.CaravanInfo? caravanInfoFromFormCaravanDialog;
-
-		// Token: 0x04001C79 RID: 7289
-		private Dialog_FormCaravan currentFormCaravanDialog;
-
-		// Token: 0x04001C7A RID: 7290
-		private List<WorldPath> paths = new List<WorldPath>();
-
-		// Token: 0x04001C7B RID: 7291
-		private List<int> cachedTicksToWaypoint = new List<int>();
-
-		// Token: 0x04001C7C RID: 7292
-		public List<RoutePlannerWaypoint> waypoints = new List<RoutePlannerWaypoint>();
-
-		// Token: 0x04001C7D RID: 7293
-		private bool cantRemoveFirstWaypoint;
-
-		// Token: 0x04001C7E RID: 7294
-		private const int MaxCount = 25;
-
-		// Token: 0x04001C7F RID: 7295
-		private static readonly Texture2D ButtonTex = ContentFinder<Texture2D>.Get("UI/Misc/WorldRoutePlanner", true);
-
-		// Token: 0x04001C80 RID: 7296
-		private static readonly Texture2D MouseAttachment = ContentFinder<Texture2D>.Get("UI/Overlays/WaypointMouseAttachment", true);
-
-		// Token: 0x04001C81 RID: 7297
-		private static readonly Vector2 BottomWindowSize = new Vector2(500f, 95f);
-
-		// Token: 0x04001C82 RID: 7298
-		private static readonly Vector2 BottomButtonSize = new Vector2(160f, 40f);
-
-		// Token: 0x04001C83 RID: 7299
-		private const float BottomWindowBotMargin = 45f;
-
-		// Token: 0x04001C84 RID: 7300
-		private const float BottomWindowEntryExtraBotMargin = 22f;
 	}
 }

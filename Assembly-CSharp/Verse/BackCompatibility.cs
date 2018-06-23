@@ -13,6 +13,27 @@ namespace Verse
 	// Token: 0x02000ECD RID: 3789
 	public static class BackCompatibility
 	{
+		// Token: 0x04003C00 RID: 15360
+		public static readonly Pair<int, int>[] SaveCompatibleMinorVersions = new Pair<int, int>[]
+		{
+			new Pair<int, int>(17, 18)
+		};
+
+		// Token: 0x04003C01 RID: 15361
+		private static readonly Regex MeatSuffixExtract = new Regex("^(.+)_Meat$");
+
+		// Token: 0x04003C02 RID: 15362
+		private static readonly Regex CorpseSuffixExtract = new Regex("^(.+)_Corpse$");
+
+		// Token: 0x04003C03 RID: 15363
+		private static readonly Regex BlueprintSuffixExtract = new Regex("^(.+)_Blueprint$");
+
+		// Token: 0x04003C04 RID: 15364
+		private static readonly Regex BlueprintInstallSuffixExtract = new Regex("^(.+)_Blueprint_Install$");
+
+		// Token: 0x04003C05 RID: 15365
+		private static readonly Regex FrameSuffixExtract = new Regex("^(.+)_Frame$");
+
 		// Token: 0x060059C5 RID: 22981 RVA: 0x002DF124 File Offset: 0x002DD524
 		public static bool IsSaveCompatibleWith(string version)
 		{
@@ -2457,26 +2478,5 @@ namespace Verse
 				feature.maxDrawSizeInTiles = zero.x;
 			}
 		}
-
-		// Token: 0x04003C00 RID: 15360
-		public static readonly Pair<int, int>[] SaveCompatibleMinorVersions = new Pair<int, int>[]
-		{
-			new Pair<int, int>(17, 18)
-		};
-
-		// Token: 0x04003C01 RID: 15361
-		private static readonly Regex MeatSuffixExtract = new Regex("^(.+)_Meat$");
-
-		// Token: 0x04003C02 RID: 15362
-		private static readonly Regex CorpseSuffixExtract = new Regex("^(.+)_Corpse$");
-
-		// Token: 0x04003C03 RID: 15363
-		private static readonly Regex BlueprintSuffixExtract = new Regex("^(.+)_Blueprint$");
-
-		// Token: 0x04003C04 RID: 15364
-		private static readonly Regex BlueprintInstallSuffixExtract = new Regex("^(.+)_Blueprint_Install$");
-
-		// Token: 0x04003C05 RID: 15365
-		private static readonly Regex FrameSuffixExtract = new Regex("^(.+)_Frame$");
 	}
 }

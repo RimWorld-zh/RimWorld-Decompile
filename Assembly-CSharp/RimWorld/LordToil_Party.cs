@@ -9,6 +9,15 @@ namespace RimWorld
 	// Token: 0x020001A3 RID: 419
 	public class LordToil_Party : LordToil
 	{
+		// Token: 0x040003AA RID: 938
+		private IntVec3 spot;
+
+		// Token: 0x040003AB RID: 939
+		private int ticksPerPartyPulse = 600;
+
+		// Token: 0x040003AC RID: 940
+		private const int DefaultTicksPerPartyPulse = 600;
+
 		// Token: 0x060008AE RID: 2222 RVA: 0x00051EFA File Offset: 0x000502FA
 		public LordToil_Party(IntVec3 spot, int ticksPerPartyPulse = 600)
 		{
@@ -68,14 +77,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x040003AA RID: 938
-		private IntVec3 spot;
-
-		// Token: 0x040003AB RID: 939
-		private int ticksPerPartyPulse = 600;
-
-		// Token: 0x040003AC RID: 940
-		private const int DefaultTicksPerPartyPulse = 600;
 	}
 }

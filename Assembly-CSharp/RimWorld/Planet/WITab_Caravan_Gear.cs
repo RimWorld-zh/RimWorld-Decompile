@@ -9,6 +9,66 @@ namespace RimWorld.Planet
 	// Token: 0x020008E0 RID: 2272
 	public class WITab_Caravan_Gear : WITab
 	{
+		// Token: 0x04001C24 RID: 7204
+		private Vector2 leftPaneScrollPosition;
+
+		// Token: 0x04001C25 RID: 7205
+		private float leftPaneScrollViewHeight;
+
+		// Token: 0x04001C26 RID: 7206
+		private Vector2 rightPaneScrollPosition;
+
+		// Token: 0x04001C27 RID: 7207
+		private float rightPaneScrollViewHeight;
+
+		// Token: 0x04001C28 RID: 7208
+		private Thing draggedItem;
+
+		// Token: 0x04001C29 RID: 7209
+		private Vector2 draggedItemPosOffset;
+
+		// Token: 0x04001C2A RID: 7210
+		private bool droppedDraggedItem;
+
+		// Token: 0x04001C2B RID: 7211
+		private float leftPaneWidth;
+
+		// Token: 0x04001C2C RID: 7212
+		private float rightPaneWidth;
+
+		// Token: 0x04001C2D RID: 7213
+		private const float PawnRowHeight = 50f;
+
+		// Token: 0x04001C2E RID: 7214
+		private const float ItemRowHeight = 30f;
+
+		// Token: 0x04001C2F RID: 7215
+		private const float PawnLabelHeight = 18f;
+
+		// Token: 0x04001C30 RID: 7216
+		private const float PawnLabelColumnWidth = 100f;
+
+		// Token: 0x04001C31 RID: 7217
+		private const float GearLabelColumnWidth = 250f;
+
+		// Token: 0x04001C32 RID: 7218
+		private const float SpaceAroundIcon = 4f;
+
+		// Token: 0x04001C33 RID: 7219
+		private const float EquippedGearColumnWidth = 250f;
+
+		// Token: 0x04001C34 RID: 7220
+		private const float EquippedGearIconSize = 32f;
+
+		// Token: 0x04001C35 RID: 7221
+		private static List<Apparel> tmpApparel = new List<Apparel>();
+
+		// Token: 0x04001C36 RID: 7222
+		private static List<ThingWithComps> tmpExistingEquipment = new List<ThingWithComps>();
+
+		// Token: 0x04001C37 RID: 7223
+		private static List<Apparel> tmpExistingApparel = new List<Apparel>();
+
 		// Token: 0x06003424 RID: 13348 RVA: 0x001BE066 File Offset: 0x001BC466
 		public WITab_Caravan_Gear()
 		{
@@ -485,65 +545,5 @@ namespace RimWorld.Planet
 			}
 			this.draggedItem = null;
 		}
-
-		// Token: 0x04001C24 RID: 7204
-		private Vector2 leftPaneScrollPosition;
-
-		// Token: 0x04001C25 RID: 7205
-		private float leftPaneScrollViewHeight;
-
-		// Token: 0x04001C26 RID: 7206
-		private Vector2 rightPaneScrollPosition;
-
-		// Token: 0x04001C27 RID: 7207
-		private float rightPaneScrollViewHeight;
-
-		// Token: 0x04001C28 RID: 7208
-		private Thing draggedItem;
-
-		// Token: 0x04001C29 RID: 7209
-		private Vector2 draggedItemPosOffset;
-
-		// Token: 0x04001C2A RID: 7210
-		private bool droppedDraggedItem;
-
-		// Token: 0x04001C2B RID: 7211
-		private float leftPaneWidth;
-
-		// Token: 0x04001C2C RID: 7212
-		private float rightPaneWidth;
-
-		// Token: 0x04001C2D RID: 7213
-		private const float PawnRowHeight = 50f;
-
-		// Token: 0x04001C2E RID: 7214
-		private const float ItemRowHeight = 30f;
-
-		// Token: 0x04001C2F RID: 7215
-		private const float PawnLabelHeight = 18f;
-
-		// Token: 0x04001C30 RID: 7216
-		private const float PawnLabelColumnWidth = 100f;
-
-		// Token: 0x04001C31 RID: 7217
-		private const float GearLabelColumnWidth = 250f;
-
-		// Token: 0x04001C32 RID: 7218
-		private const float SpaceAroundIcon = 4f;
-
-		// Token: 0x04001C33 RID: 7219
-		private const float EquippedGearColumnWidth = 250f;
-
-		// Token: 0x04001C34 RID: 7220
-		private const float EquippedGearIconSize = 32f;
-
-		// Token: 0x04001C35 RID: 7221
-		private static List<Apparel> tmpApparel = new List<Apparel>();
-
-		// Token: 0x04001C36 RID: 7222
-		private static List<ThingWithComps> tmpExistingEquipment = new List<ThingWithComps>();
-
-		// Token: 0x04001C37 RID: 7223
-		private static List<Apparel> tmpExistingApparel = new List<Apparel>();
 	}
 }

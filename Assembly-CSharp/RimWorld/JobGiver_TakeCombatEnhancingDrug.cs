@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x020000DC RID: 220
 	public class JobGiver_TakeCombatEnhancingDrug : ThinkNode_JobGiver
 	{
+		// Token: 0x040002B2 RID: 690
+		private bool onlyIfInDanger;
+
+		// Token: 0x040002B3 RID: 691
+		private const int TakeEveryTicks = 20000;
+
 		// Token: 0x060004D7 RID: 1239 RVA: 0x0003618C File Offset: 0x0003458C
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -101,11 +107,5 @@ namespace RimWorld
 			}
 			return null;
 		}
-
-		// Token: 0x040002B2 RID: 690
-		private bool onlyIfInDanger;
-
-		// Token: 0x040002B3 RID: 691
-		private const int TakeEveryTicks = 20000;
 	}
 }

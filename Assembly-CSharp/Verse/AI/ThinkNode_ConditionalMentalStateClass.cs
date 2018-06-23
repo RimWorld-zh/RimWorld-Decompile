@@ -5,6 +5,9 @@ namespace Verse.AI
 	// Token: 0x02000AB0 RID: 2736
 	public class ThinkNode_ConditionalMentalStateClass : ThinkNode_Conditional
 	{
+		// Token: 0x0400268C RID: 9868
+		public Type stateClass;
+
 		// Token: 0x06003D19 RID: 15641 RVA: 0x00204C54 File Offset: 0x00203054
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -19,8 +22,5 @@ namespace Verse.AI
 			MentalState mentalState = pawn.MentalState;
 			return mentalState != null && this.stateClass.IsAssignableFrom(mentalState.GetType());
 		}
-
-		// Token: 0x0400268C RID: 9868
-		public Type stateClass;
 	}
 }

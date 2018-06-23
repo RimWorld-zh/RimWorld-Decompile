@@ -12,6 +12,15 @@ namespace RimWorld
 	// Token: 0x020006A9 RID: 1705
 	public class Building_NutrientPasteDispenser : Building
 	{
+		// Token: 0x04001437 RID: 5175
+		public CompPowerTrader powerComp;
+
+		// Token: 0x04001438 RID: 5176
+		private List<IntVec3> cachedAdjCellsCardinal;
+
+		// Token: 0x04001439 RID: 5177
+		public static int CollectDuration = 50;
+
 		// Token: 0x17000584 RID: 1412
 		// (get) Token: 0x0600248E RID: 9358 RVA: 0x00139284 File Offset: 0x00137684
 		public bool CanDispenseNow
@@ -211,14 +220,5 @@ namespace RimWorld
 			}
 			return stringBuilder.ToString().Trim();
 		}
-
-		// Token: 0x04001437 RID: 5175
-		public CompPowerTrader powerComp;
-
-		// Token: 0x04001438 RID: 5176
-		private List<IntVec3> cachedAdjCellsCardinal;
-
-		// Token: 0x04001439 RID: 5177
-		public static int CollectDuration = 50;
 	}
 }

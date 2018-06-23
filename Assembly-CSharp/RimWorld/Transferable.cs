@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000821 RID: 2081
 	public abstract class Transferable : IExposable
 	{
+		// Token: 0x04001903 RID: 6403
+		private string editBuffer = "0";
+
 		// Token: 0x1700075E RID: 1886
 		// (get) Token: 0x06002EA0 RID: 11936
 		public abstract Thing AnyThing { get; }
@@ -203,8 +206,5 @@ namespace RimWorld
 		public virtual void ExposeData()
 		{
 		}
-
-		// Token: 0x04001903 RID: 6403
-		private string editBuffer = "0";
 	}
 }

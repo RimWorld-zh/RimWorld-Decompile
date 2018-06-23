@@ -9,6 +9,12 @@ namespace RimWorld.Planet
 	// Token: 0x020005F8 RID: 1528
 	public static class TilesPerDayCalculator
 	{
+		// Token: 0x04001211 RID: 4625
+		private static List<Pawn> tmpPawns = new List<Pawn>();
+
+		// Token: 0x04001212 RID: 4626
+		private static List<ThingCount> tmpThingCounts = new List<ThingCount>();
+
 		// Token: 0x06001E6A RID: 7786 RVA: 0x00107764 File Offset: 0x00105B64
 		public static float ApproxTilesPerDay(int caravanTicksPerMove, int tile, int nextTile, StringBuilder explanation = null, string caravanTicksPerMoveExplanation = null)
 		{
@@ -139,11 +145,5 @@ namespace RimWorld.Planet
 			}
 			return result;
 		}
-
-		// Token: 0x04001211 RID: 4625
-		private static List<Pawn> tmpPawns = new List<Pawn>();
-
-		// Token: 0x04001212 RID: 4626
-		private static List<ThingCount> tmpThingCounts = new List<ThingCount>();
 	}
 }

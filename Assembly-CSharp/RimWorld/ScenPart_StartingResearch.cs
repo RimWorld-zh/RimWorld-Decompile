@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x02000646 RID: 1606
 	public class ScenPart_StartingResearch : ScenPart
 	{
+		// Token: 0x040012FD RID: 4861
+		private ResearchProjectDef project;
+
 		// Token: 0x0600215D RID: 8541 RVA: 0x0011B75C File Offset: 0x00119B5C
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
@@ -67,8 +70,5 @@ namespace RimWorld
 		{
 			Find.ResearchManager.InstantFinish(this.project, false);
 		}
-
-		// Token: 0x040012FD RID: 4861
-		private ResearchProjectDef project;
 	}
 }

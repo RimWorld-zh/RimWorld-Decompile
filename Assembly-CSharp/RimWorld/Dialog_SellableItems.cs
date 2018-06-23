@@ -9,6 +9,45 @@ namespace RimWorld
 	// Token: 0x020008A4 RID: 2212
 	public class Dialog_SellableItems : Window
 	{
+		// Token: 0x04001B30 RID: 6960
+		private ThingCategoryDef currentCategory;
+
+		// Token: 0x04001B31 RID: 6961
+		private bool pawnsTabOpen;
+
+		// Token: 0x04001B32 RID: 6962
+		private List<ThingDef> sellableItems = new List<ThingDef>();
+
+		// Token: 0x04001B33 RID: 6963
+		private List<TabRecord> tabs = new List<TabRecord>();
+
+		// Token: 0x04001B34 RID: 6964
+		private Vector2 scrollPosition;
+
+		// Token: 0x04001B35 RID: 6965
+		private List<ThingDef> cachedSellablePawns;
+
+		// Token: 0x04001B36 RID: 6966
+		private Dictionary<ThingCategoryDef, List<ThingDef>> cachedSellableItemsByCategory = new Dictionary<ThingCategoryDef, List<ThingDef>>();
+
+		// Token: 0x04001B37 RID: 6967
+		private const float RowHeight = 24f;
+
+		// Token: 0x04001B38 RID: 6968
+		private const float IconMargin = 4f;
+
+		// Token: 0x04001B39 RID: 6969
+		private const float IconSize = 20f;
+
+		// Token: 0x04001B3A RID: 6970
+		private const float TitleRectHeight = 60f;
+
+		// Token: 0x04001B3B RID: 6971
+		private const float BottomAreaHeight = 55f;
+
+		// Token: 0x04001B3C RID: 6972
+		private readonly Vector2 BottomButtonSize = new Vector2(160f, 40f);
+
 		// Token: 0x0600329D RID: 12957 RVA: 0x001B4458 File Offset: 0x001B2858
 		public Dialog_SellableItems(TraderKindDef trader)
 		{
@@ -217,44 +256,5 @@ namespace RimWorld
 			}
 			return false;
 		}
-
-		// Token: 0x04001B30 RID: 6960
-		private ThingCategoryDef currentCategory;
-
-		// Token: 0x04001B31 RID: 6961
-		private bool pawnsTabOpen;
-
-		// Token: 0x04001B32 RID: 6962
-		private List<ThingDef> sellableItems = new List<ThingDef>();
-
-		// Token: 0x04001B33 RID: 6963
-		private List<TabRecord> tabs = new List<TabRecord>();
-
-		// Token: 0x04001B34 RID: 6964
-		private Vector2 scrollPosition;
-
-		// Token: 0x04001B35 RID: 6965
-		private List<ThingDef> cachedSellablePawns;
-
-		// Token: 0x04001B36 RID: 6966
-		private Dictionary<ThingCategoryDef, List<ThingDef>> cachedSellableItemsByCategory = new Dictionary<ThingCategoryDef, List<ThingDef>>();
-
-		// Token: 0x04001B37 RID: 6967
-		private const float RowHeight = 24f;
-
-		// Token: 0x04001B38 RID: 6968
-		private const float IconMargin = 4f;
-
-		// Token: 0x04001B39 RID: 6969
-		private const float IconSize = 20f;
-
-		// Token: 0x04001B3A RID: 6970
-		private const float TitleRectHeight = 60f;
-
-		// Token: 0x04001B3B RID: 6971
-		private const float BottomAreaHeight = 55f;
-
-		// Token: 0x04001B3C RID: 6972
-		private readonly Vector2 BottomButtonSize = new Vector2(160f, 40f);
 	}
 }

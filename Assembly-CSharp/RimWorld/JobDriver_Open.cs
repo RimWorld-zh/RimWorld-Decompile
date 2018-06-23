@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000076 RID: 118
 	public class JobDriver_Open : JobDriver
 	{
+		// Token: 0x04000226 RID: 550
+		public const int OpenTicks = 300;
+
 		// Token: 0x170000A4 RID: 164
 		// (get) Token: 0x06000333 RID: 819 RVA: 0x000234B0 File Offset: 0x000218B0
 		private IOpenable Openable
@@ -46,8 +49,5 @@ namespace RimWorld
 			yield return Toils_General.Open(TargetIndex.A);
 			yield break;
 		}
-
-		// Token: 0x04000226 RID: 550
-		public const int OpenTicks = 300;
 	}
 }

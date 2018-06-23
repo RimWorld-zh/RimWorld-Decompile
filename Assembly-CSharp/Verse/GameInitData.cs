@@ -9,6 +9,36 @@ namespace Verse
 	// Token: 0x02000BC7 RID: 3015
 	public class GameInitData
 	{
+		// Token: 0x04002CDA RID: 11482
+		public int startingTile = -1;
+
+		// Token: 0x04002CDB RID: 11483
+		public int mapSize = 250;
+
+		// Token: 0x04002CDC RID: 11484
+		public List<Pawn> startingAndOptionalPawns = new List<Pawn>();
+
+		// Token: 0x04002CDD RID: 11485
+		public int startingPawnCount = -1;
+
+		// Token: 0x04002CDE RID: 11486
+		public Faction playerFaction = null;
+
+		// Token: 0x04002CDF RID: 11487
+		public Season startingSeason = Season.Undefined;
+
+		// Token: 0x04002CE0 RID: 11488
+		public bool permadeath;
+
+		// Token: 0x04002CE1 RID: 11489
+		public bool startedFromEntry = false;
+
+		// Token: 0x04002CE2 RID: 11490
+		public string gameToLoad;
+
+		// Token: 0x04002CE3 RID: 11491
+		public const int DefaultMapSize = 250;
+
 		// Token: 0x17000A43 RID: 2627
 		// (get) Token: 0x060041B0 RID: 16816 RVA: 0x0022A600 File Offset: 0x00228A00
 		public bool QuickStarted
@@ -105,35 +135,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04002CDA RID: 11482
-		public int startingTile = -1;
-
-		// Token: 0x04002CDB RID: 11483
-		public int mapSize = 250;
-
-		// Token: 0x04002CDC RID: 11484
-		public List<Pawn> startingAndOptionalPawns = new List<Pawn>();
-
-		// Token: 0x04002CDD RID: 11485
-		public int startingPawnCount = -1;
-
-		// Token: 0x04002CDE RID: 11486
-		public Faction playerFaction = null;
-
-		// Token: 0x04002CDF RID: 11487
-		public Season startingSeason = Season.Undefined;
-
-		// Token: 0x04002CE0 RID: 11488
-		public bool permadeath;
-
-		// Token: 0x04002CE1 RID: 11489
-		public bool startedFromEntry = false;
-
-		// Token: 0x04002CE2 RID: 11490
-		public string gameToLoad;
-
-		// Token: 0x04002CE3 RID: 11491
-		public const int DefaultMapSize = 250;
 	}
 }

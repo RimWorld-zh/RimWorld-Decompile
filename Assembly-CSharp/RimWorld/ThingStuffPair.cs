@@ -8,6 +8,24 @@ namespace RimWorld
 	// Token: 0x02000F06 RID: 3846
 	public struct ThingStuffPair : IEquatable<ThingStuffPair>
 	{
+		// Token: 0x04003CEE RID: 15598
+		public ThingDef thing;
+
+		// Token: 0x04003CEF RID: 15599
+		public ThingDef stuff;
+
+		// Token: 0x04003CF0 RID: 15600
+		public float commonalityMultiplier;
+
+		// Token: 0x04003CF1 RID: 15601
+		private float cachedPrice;
+
+		// Token: 0x04003CF2 RID: 15602
+		private float cachedInsulationCold;
+
+		// Token: 0x04003CF3 RID: 15603
+		private float cachedInsulationHeat;
+
 		// Token: 0x06005C62 RID: 23650 RVA: 0x002EEBB4 File Offset: 0x002ECFB4
 		public ThingStuffPair(ThingDef thing, ThingDef stuff, float commonalityMultiplier = 1f)
 		{
@@ -184,23 +202,5 @@ namespace RimWorld
 		{
 			return new ThingStuffPair(p.thing, p.stuff, 1f);
 		}
-
-		// Token: 0x04003CEE RID: 15598
-		public ThingDef thing;
-
-		// Token: 0x04003CEF RID: 15599
-		public ThingDef stuff;
-
-		// Token: 0x04003CF0 RID: 15600
-		public float commonalityMultiplier;
-
-		// Token: 0x04003CF1 RID: 15601
-		private float cachedPrice;
-
-		// Token: 0x04003CF2 RID: 15602
-		private float cachedInsulationCold;
-
-		// Token: 0x04003CF3 RID: 15603
-		private float cachedInsulationHeat;
 	}
 }

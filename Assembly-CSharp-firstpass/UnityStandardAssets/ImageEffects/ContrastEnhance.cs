@@ -9,6 +9,30 @@ namespace UnityStandardAssets.ImageEffects
 	[AddComponentMenu("Image Effects/Color Adjustments/Contrast Enhance (Unsharp Mask)")]
 	public class ContrastEnhance : PostEffectsBase
 	{
+		// Token: 0x0400076F RID: 1903
+		[Range(0f, 1f)]
+		public float intensity = 0.5f;
+
+		// Token: 0x04000770 RID: 1904
+		[Range(0f, 0.999f)]
+		public float threshold = 0f;
+
+		// Token: 0x04000771 RID: 1905
+		private Material separableBlurMaterial;
+
+		// Token: 0x04000772 RID: 1906
+		private Material contrastCompositeMaterial;
+
+		// Token: 0x04000773 RID: 1907
+		[Range(0f, 1f)]
+		public float blurSpread = 1f;
+
+		// Token: 0x04000774 RID: 1908
+		public Shader separableBlurShader = null;
+
+		// Token: 0x04000775 RID: 1909
+		public Shader contrastCompositeShader = null;
+
 		// Token: 0x060008ED RID: 2285 RVA: 0x00013824 File Offset: 0x00011A24
 		public override bool CheckResources()
 		{
@@ -53,29 +77,5 @@ namespace UnityStandardAssets.ImageEffects
 				RenderTexture.ReleaseTemporary(temporary2);
 			}
 		}
-
-		// Token: 0x0400076F RID: 1903
-		[Range(0f, 1f)]
-		public float intensity = 0.5f;
-
-		// Token: 0x04000770 RID: 1904
-		[Range(0f, 0.999f)]
-		public float threshold = 0f;
-
-		// Token: 0x04000771 RID: 1905
-		private Material separableBlurMaterial;
-
-		// Token: 0x04000772 RID: 1906
-		private Material contrastCompositeMaterial;
-
-		// Token: 0x04000773 RID: 1907
-		[Range(0f, 1f)]
-		public float blurSpread = 1f;
-
-		// Token: 0x04000774 RID: 1908
-		public Shader separableBlurShader = null;
-
-		// Token: 0x04000775 RID: 1909
-		public Shader contrastCompositeShader = null;
 	}
 }

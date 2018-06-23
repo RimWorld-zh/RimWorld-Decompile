@@ -8,6 +8,24 @@ namespace RimWorld
 	// Token: 0x02000800 RID: 2048
 	public class Dialog_ManageOutfits : Window
 	{
+		// Token: 0x04001846 RID: 6214
+		private Vector2 scrollPosition;
+
+		// Token: 0x04001847 RID: 6215
+		private Outfit selOutfitInt = null;
+
+		// Token: 0x04001848 RID: 6216
+		private const float TopAreaHeight = 40f;
+
+		// Token: 0x04001849 RID: 6217
+		private const float TopButtonHeight = 35f;
+
+		// Token: 0x0400184A RID: 6218
+		private const float TopButtonWidth = 150f;
+
+		// Token: 0x0400184B RID: 6219
+		private static ThingFilter apparelGlobalFilter;
+
 		// Token: 0x06002DC3 RID: 11715 RVA: 0x001818D0 File Offset: 0x0017FCD0
 		public Dialog_ManageOutfits(Outfit selectedOutfit)
 		{
@@ -154,23 +172,5 @@ namespace RimWorld
 		{
 			name = Widgets.TextField(rect, name, 30, Outfit.ValidNameRegex);
 		}
-
-		// Token: 0x04001846 RID: 6214
-		private Vector2 scrollPosition;
-
-		// Token: 0x04001847 RID: 6215
-		private Outfit selOutfitInt = null;
-
-		// Token: 0x04001848 RID: 6216
-		private const float TopAreaHeight = 40f;
-
-		// Token: 0x04001849 RID: 6217
-		private const float TopButtonHeight = 35f;
-
-		// Token: 0x0400184A RID: 6218
-		private const float TopButtonWidth = 150f;
-
-		// Token: 0x0400184B RID: 6219
-		private static ThingFilter apparelGlobalFilter;
 	}
 }

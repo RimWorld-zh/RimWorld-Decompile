@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000EBE RID: 3774
 	public class DiaNode
 	{
+		// Token: 0x04003B99 RID: 15257
+		public string text;
+
+		// Token: 0x04003B9A RID: 15258
+		public List<DiaOption> options = new List<DiaOption>();
+
+		// Token: 0x04003B9B RID: 15259
+		protected DiaNodeMold def;
+
 		// Token: 0x0600595C RID: 22876 RVA: 0x002DCF91 File Offset: 0x002DB391
 		public DiaNode(string text)
 		{
@@ -45,14 +54,5 @@ namespace Verse
 		public void PreClose()
 		{
 		}
-
-		// Token: 0x04003B99 RID: 15257
-		public string text;
-
-		// Token: 0x04003B9A RID: 15258
-		public List<DiaOption> options = new List<DiaOption>();
-
-		// Token: 0x04003B9B RID: 15259
-		protected DiaNodeMold def;
 	}
 }

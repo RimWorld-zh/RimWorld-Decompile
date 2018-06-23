@@ -9,6 +9,96 @@ namespace UnityStandardAssets.ImageEffects
 	[AddComponentMenu("Image Effects/Camera/Camera Motion Blur")]
 	public class CameraMotionBlur : PostEffectsBase
 	{
+		// Token: 0x0400072B RID: 1835
+		private static float MAX_RADIUS = 10f;
+
+		// Token: 0x0400072C RID: 1836
+		public CameraMotionBlur.MotionBlurFilter filterType = CameraMotionBlur.MotionBlurFilter.Reconstruction;
+
+		// Token: 0x0400072D RID: 1837
+		public bool preview = false;
+
+		// Token: 0x0400072E RID: 1838
+		public Vector3 previewScale = Vector3.one;
+
+		// Token: 0x0400072F RID: 1839
+		public float movementScale = 0f;
+
+		// Token: 0x04000730 RID: 1840
+		public float rotationScale = 1f;
+
+		// Token: 0x04000731 RID: 1841
+		public float maxVelocity = 8f;
+
+		// Token: 0x04000732 RID: 1842
+		public float minVelocity = 0.1f;
+
+		// Token: 0x04000733 RID: 1843
+		public float velocityScale = 0.375f;
+
+		// Token: 0x04000734 RID: 1844
+		public float softZDistance = 0.005f;
+
+		// Token: 0x04000735 RID: 1845
+		public int velocityDownsample = 1;
+
+		// Token: 0x04000736 RID: 1846
+		public LayerMask excludeLayers = 0;
+
+		// Token: 0x04000737 RID: 1847
+		private GameObject tmpCam = null;
+
+		// Token: 0x04000738 RID: 1848
+		public Shader shader;
+
+		// Token: 0x04000739 RID: 1849
+		public Shader dx11MotionBlurShader;
+
+		// Token: 0x0400073A RID: 1850
+		public Shader replacementClear;
+
+		// Token: 0x0400073B RID: 1851
+		private Material motionBlurMaterial = null;
+
+		// Token: 0x0400073C RID: 1852
+		private Material dx11MotionBlurMaterial = null;
+
+		// Token: 0x0400073D RID: 1853
+		public Texture2D noiseTexture = null;
+
+		// Token: 0x0400073E RID: 1854
+		public float jitter = 0.05f;
+
+		// Token: 0x0400073F RID: 1855
+		public bool showVelocity = false;
+
+		// Token: 0x04000740 RID: 1856
+		public float showVelocityScale = 1f;
+
+		// Token: 0x04000741 RID: 1857
+		private Matrix4x4 currentViewProjMat;
+
+		// Token: 0x04000742 RID: 1858
+		private Matrix4x4 prevViewProjMat;
+
+		// Token: 0x04000743 RID: 1859
+		private int prevFrameCount;
+
+		// Token: 0x04000744 RID: 1860
+		private bool wasActive;
+
+		// Token: 0x04000745 RID: 1861
+		private Vector3 prevFrameForward = Vector3.forward;
+
+		// Token: 0x04000746 RID: 1862
+		private Vector3 prevFrameUp = Vector3.up;
+
+		// Token: 0x04000747 RID: 1863
+		private Vector3 prevFramePos = Vector3.zero;
+
+		// Token: 0x04000748 RID: 1864
+		private Camera _camera;
+
 		// Token: 0x060008D0 RID: 2256 RVA: 0x00011ED4 File Offset: 0x000100D4
 		private void CalculateViewProjection()
 		{
@@ -297,96 +387,6 @@ namespace UnityStandardAssets.ImageEffects
 		{
 			return (x + d - 1) / d;
 		}
-
-		// Token: 0x0400072B RID: 1835
-		private static float MAX_RADIUS = 10f;
-
-		// Token: 0x0400072C RID: 1836
-		public CameraMotionBlur.MotionBlurFilter filterType = CameraMotionBlur.MotionBlurFilter.Reconstruction;
-
-		// Token: 0x0400072D RID: 1837
-		public bool preview = false;
-
-		// Token: 0x0400072E RID: 1838
-		public Vector3 previewScale = Vector3.one;
-
-		// Token: 0x0400072F RID: 1839
-		public float movementScale = 0f;
-
-		// Token: 0x04000730 RID: 1840
-		public float rotationScale = 1f;
-
-		// Token: 0x04000731 RID: 1841
-		public float maxVelocity = 8f;
-
-		// Token: 0x04000732 RID: 1842
-		public float minVelocity = 0.1f;
-
-		// Token: 0x04000733 RID: 1843
-		public float velocityScale = 0.375f;
-
-		// Token: 0x04000734 RID: 1844
-		public float softZDistance = 0.005f;
-
-		// Token: 0x04000735 RID: 1845
-		public int velocityDownsample = 1;
-
-		// Token: 0x04000736 RID: 1846
-		public LayerMask excludeLayers = 0;
-
-		// Token: 0x04000737 RID: 1847
-		private GameObject tmpCam = null;
-
-		// Token: 0x04000738 RID: 1848
-		public Shader shader;
-
-		// Token: 0x04000739 RID: 1849
-		public Shader dx11MotionBlurShader;
-
-		// Token: 0x0400073A RID: 1850
-		public Shader replacementClear;
-
-		// Token: 0x0400073B RID: 1851
-		private Material motionBlurMaterial = null;
-
-		// Token: 0x0400073C RID: 1852
-		private Material dx11MotionBlurMaterial = null;
-
-		// Token: 0x0400073D RID: 1853
-		public Texture2D noiseTexture = null;
-
-		// Token: 0x0400073E RID: 1854
-		public float jitter = 0.05f;
-
-		// Token: 0x0400073F RID: 1855
-		public bool showVelocity = false;
-
-		// Token: 0x04000740 RID: 1856
-		public float showVelocityScale = 1f;
-
-		// Token: 0x04000741 RID: 1857
-		private Matrix4x4 currentViewProjMat;
-
-		// Token: 0x04000742 RID: 1858
-		private Matrix4x4 prevViewProjMat;
-
-		// Token: 0x04000743 RID: 1859
-		private int prevFrameCount;
-
-		// Token: 0x04000744 RID: 1860
-		private bool wasActive;
-
-		// Token: 0x04000745 RID: 1861
-		private Vector3 prevFrameForward = Vector3.forward;
-
-		// Token: 0x04000746 RID: 1862
-		private Vector3 prevFrameUp = Vector3.up;
-
-		// Token: 0x04000747 RID: 1863
-		private Vector3 prevFramePos = Vector3.zero;
-
-		// Token: 0x04000748 RID: 1864
-		private Camera _camera;
 
 		// Token: 0x02000186 RID: 390
 		public enum MotionBlurFilter

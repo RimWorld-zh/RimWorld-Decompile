@@ -6,6 +6,30 @@ namespace Verse
 	// Token: 0x02000E6F RID: 3695
 	public class GridLayout
 	{
+		// Token: 0x040039B3 RID: 14771
+		public Rect container;
+
+		// Token: 0x040039B4 RID: 14772
+		private int cols;
+
+		// Token: 0x040039B5 RID: 14773
+		private float outerPadding;
+
+		// Token: 0x040039B6 RID: 14774
+		private float innerPadding;
+
+		// Token: 0x040039B7 RID: 14775
+		private float colStride;
+
+		// Token: 0x040039B8 RID: 14776
+		private float rowStride;
+
+		// Token: 0x040039B9 RID: 14777
+		private float colWidth;
+
+		// Token: 0x040039BA RID: 14778
+		private float rowHeight;
+
 		// Token: 0x06005707 RID: 22279 RVA: 0x002CD0C8 File Offset: 0x002CB4C8
 		public GridLayout(Rect container, int cols = 1, int rows = 1, float outerPadding = 4f, float innerPadding = 4f)
 		{
@@ -47,29 +71,5 @@ namespace Verse
 		{
 			return new Rect(Mathf.Floor(this.container.x + this.outerPadding + (float)col * this.colStride), Mathf.Floor(this.container.y + this.outerPadding + (float)row * this.rowStride), Mathf.Ceil(this.colWidth) * (float)colspan + this.innerPadding * (float)(colspan - 1), Mathf.Ceil(this.rowHeight) * (float)rowspan + this.innerPadding * (float)(rowspan - 1));
 		}
-
-		// Token: 0x040039B3 RID: 14771
-		public Rect container;
-
-		// Token: 0x040039B4 RID: 14772
-		private int cols;
-
-		// Token: 0x040039B5 RID: 14773
-		private float outerPadding;
-
-		// Token: 0x040039B6 RID: 14774
-		private float innerPadding;
-
-		// Token: 0x040039B7 RID: 14775
-		private float colStride;
-
-		// Token: 0x040039B8 RID: 14776
-		private float rowStride;
-
-		// Token: 0x040039B9 RID: 14777
-		private float colWidth;
-
-		// Token: 0x040039BA RID: 14778
-		private float rowHeight;
 	}
 }

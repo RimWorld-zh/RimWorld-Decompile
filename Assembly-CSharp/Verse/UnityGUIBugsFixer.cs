@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000EAA RID: 3754
 	public static class UnityGUIBugsFixer
 	{
+		// Token: 0x04003AFE RID: 15102
+		private static List<Resolution> resolutions = new List<Resolution>();
+
+		// Token: 0x04003AFF RID: 15103
+		private const float ScrollFactor = -6f;
+
 		// Token: 0x17000DFA RID: 3578
 		// (get) Token: 0x06005891 RID: 22673 RVA: 0x002D6B94 File Offset: 0x002D4F94
 		public static List<Resolution> ScreenResolutionsWithoutDuplicates
@@ -63,11 +69,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04003AFE RID: 15102
-		private static List<Resolution> resolutions = new List<Resolution>();
-
-		// Token: 0x04003AFF RID: 15103
-		private const float ScrollFactor = -6f;
 	}
 }

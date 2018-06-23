@@ -5,6 +5,15 @@ namespace Verse
 	// Token: 0x02000DA0 RID: 3488
 	public static class Scribe
 	{
+		// Token: 0x0400340B RID: 13323
+		public static ScribeSaver saver = new ScribeSaver();
+
+		// Token: 0x0400340C RID: 13324
+		public static ScribeLoader loader = new ScribeLoader();
+
+		// Token: 0x0400340D RID: 13325
+		public static LoadSaveMode mode = LoadSaveMode.Inactive;
+
 		// Token: 0x06004DFF RID: 19967 RVA: 0x0028C37C File Offset: 0x0028A77C
 		public static void ForceStop()
 		{
@@ -44,14 +53,5 @@ namespace Verse
 				Scribe.loader.ExitNode();
 			}
 		}
-
-		// Token: 0x0400340B RID: 13323
-		public static ScribeSaver saver = new ScribeSaver();
-
-		// Token: 0x0400340C RID: 13324
-		public static ScribeLoader loader = new ScribeLoader();
-
-		// Token: 0x0400340D RID: 13325
-		public static LoadSaveMode mode = LoadSaveMode.Inactive;
 	}
 }

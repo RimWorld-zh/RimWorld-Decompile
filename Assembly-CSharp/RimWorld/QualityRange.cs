@@ -6,6 +6,12 @@ namespace RimWorld
 	// Token: 0x02000747 RID: 1863
 	public struct QualityRange : IEquatable<QualityRange>
 	{
+		// Token: 0x04001681 RID: 5761
+		public QualityCategory min;
+
+		// Token: 0x04001682 RID: 5762
+		public QualityCategory max;
+
 		// Token: 0x0600294B RID: 10571 RVA: 0x0015F4AC File Offset: 0x0015D8AC
 		public QualityRange(QualityCategory min, QualityCategory max)
 		{
@@ -85,11 +91,5 @@ namespace RimWorld
 		{
 			return other.min == this.min && other.max == this.max;
 		}
-
-		// Token: 0x04001681 RID: 5761
-		public QualityCategory min;
-
-		// Token: 0x04001682 RID: 5762
-		public QualityCategory max;
 	}
 }

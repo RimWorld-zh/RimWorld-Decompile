@@ -13,6 +13,70 @@ namespace Verse.Steam
 	[HasDebugOutput]
 	public static class Workshop
 	{
+		// Token: 0x04003FB9 RID: 16313
+		private static WorkshopItemHook uploadingHook;
+
+		// Token: 0x04003FBA RID: 16314
+		private static UGCUpdateHandle_t curUpdateHandle;
+
+		// Token: 0x04003FBB RID: 16315
+		private static WorkshopInteractStage curStage = WorkshopInteractStage.None;
+
+		// Token: 0x04003FBC RID: 16316
+		private static Callback<RemoteStoragePublishedFileSubscribed_t> subscribedCallback;
+
+		// Token: 0x04003FBD RID: 16317
+		private static Callback<RemoteStoragePublishedFileUnsubscribed_t> unsubscribedCallback;
+
+		// Token: 0x04003FBE RID: 16318
+		private static Callback<ItemInstalled_t> installedCallback;
+
+		// Token: 0x04003FBF RID: 16319
+		private static CallResult<SubmitItemUpdateResult_t> submitResult;
+
+		// Token: 0x04003FC0 RID: 16320
+		private static CallResult<CreateItemResult_t> createResult;
+
+		// Token: 0x04003FC1 RID: 16321
+		private static CallResult<SteamUGCRequestUGCDetailsResult_t> requestDetailsResult;
+
+		// Token: 0x04003FC2 RID: 16322
+		private static UGCQueryHandle_t detailsQueryHandle;
+
+		// Token: 0x04003FC3 RID: 16323
+		private static int detailsQueryCount = -1;
+
+		// Token: 0x04003FC4 RID: 16324
+		public const uint InstallInfoFolderNameMaxLength = 257u;
+
+		// Token: 0x04003FC5 RID: 16325
+		[CompilerGenerated]
+		private static Callback<RemoteStoragePublishedFileSubscribed_t>.DispatchDelegate <>f__mg$cache0;
+
+		// Token: 0x04003FC6 RID: 16326
+		[CompilerGenerated]
+		private static Callback<ItemInstalled_t>.DispatchDelegate <>f__mg$cache1;
+
+		// Token: 0x04003FC7 RID: 16327
+		[CompilerGenerated]
+		private static Callback<RemoteStoragePublishedFileUnsubscribed_t>.DispatchDelegate <>f__mg$cache2;
+
+		// Token: 0x04003FC8 RID: 16328
+		[CompilerGenerated]
+		private static CallResult<SubmitItemUpdateResult_t>.APIDispatchDelegate <>f__mg$cache3;
+
+		// Token: 0x04003FC9 RID: 16329
+		[CompilerGenerated]
+		private static CallResult<CreateItemResult_t>.APIDispatchDelegate <>f__mg$cache4;
+
+		// Token: 0x04003FCA RID: 16330
+		[CompilerGenerated]
+		private static CallResult<SteamUGCRequestUGCDetailsResult_t>.APIDispatchDelegate <>f__mg$cache5;
+
+		// Token: 0x04003FCB RID: 16331
+		[CompilerGenerated]
+		private static CallResult<SubmitItemUpdateResult_t>.APIDispatchDelegate <>f__mg$cache6;
+
 		// Token: 0x17000FC5 RID: 4037
 		// (get) Token: 0x06006173 RID: 24947 RVA: 0x003132C8 File Offset: 0x003116C8
 		public static WorkshopInteractStage CurStage
@@ -399,69 +463,5 @@ namespace Verse.Steam
 		{
 			return !(appId != SteamUtils.GetAppID());
 		}
-
-		// Token: 0x04003FB9 RID: 16313
-		private static WorkshopItemHook uploadingHook;
-
-		// Token: 0x04003FBA RID: 16314
-		private static UGCUpdateHandle_t curUpdateHandle;
-
-		// Token: 0x04003FBB RID: 16315
-		private static WorkshopInteractStage curStage = WorkshopInteractStage.None;
-
-		// Token: 0x04003FBC RID: 16316
-		private static Callback<RemoteStoragePublishedFileSubscribed_t> subscribedCallback;
-
-		// Token: 0x04003FBD RID: 16317
-		private static Callback<RemoteStoragePublishedFileUnsubscribed_t> unsubscribedCallback;
-
-		// Token: 0x04003FBE RID: 16318
-		private static Callback<ItemInstalled_t> installedCallback;
-
-		// Token: 0x04003FBF RID: 16319
-		private static CallResult<SubmitItemUpdateResult_t> submitResult;
-
-		// Token: 0x04003FC0 RID: 16320
-		private static CallResult<CreateItemResult_t> createResult;
-
-		// Token: 0x04003FC1 RID: 16321
-		private static CallResult<SteamUGCRequestUGCDetailsResult_t> requestDetailsResult;
-
-		// Token: 0x04003FC2 RID: 16322
-		private static UGCQueryHandle_t detailsQueryHandle;
-
-		// Token: 0x04003FC3 RID: 16323
-		private static int detailsQueryCount = -1;
-
-		// Token: 0x04003FC4 RID: 16324
-		public const uint InstallInfoFolderNameMaxLength = 257u;
-
-		// Token: 0x04003FC5 RID: 16325
-		[CompilerGenerated]
-		private static Callback<RemoteStoragePublishedFileSubscribed_t>.DispatchDelegate <>f__mg$cache0;
-
-		// Token: 0x04003FC6 RID: 16326
-		[CompilerGenerated]
-		private static Callback<ItemInstalled_t>.DispatchDelegate <>f__mg$cache1;
-
-		// Token: 0x04003FC7 RID: 16327
-		[CompilerGenerated]
-		private static Callback<RemoteStoragePublishedFileUnsubscribed_t>.DispatchDelegate <>f__mg$cache2;
-
-		// Token: 0x04003FC8 RID: 16328
-		[CompilerGenerated]
-		private static CallResult<SubmitItemUpdateResult_t>.APIDispatchDelegate <>f__mg$cache3;
-
-		// Token: 0x04003FC9 RID: 16329
-		[CompilerGenerated]
-		private static CallResult<CreateItemResult_t>.APIDispatchDelegate <>f__mg$cache4;
-
-		// Token: 0x04003FCA RID: 16330
-		[CompilerGenerated]
-		private static CallResult<SteamUGCRequestUGCDetailsResult_t>.APIDispatchDelegate <>f__mg$cache5;
-
-		// Token: 0x04003FCB RID: 16331
-		[CompilerGenerated]
-		private static CallResult<SubmitItemUpdateResult_t>.APIDispatchDelegate <>f__mg$cache6;
 	}
 }

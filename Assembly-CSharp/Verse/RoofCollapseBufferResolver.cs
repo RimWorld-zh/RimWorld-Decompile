@@ -8,6 +8,15 @@ namespace Verse
 	// Token: 0x02000C9B RID: 3227
 	public class RoofCollapseBufferResolver
 	{
+		// Token: 0x04003059 RID: 12377
+		private Map map;
+
+		// Token: 0x0400305A RID: 12378
+		private List<Thing> tmpCrushedThings = new List<Thing>();
+
+		// Token: 0x0400305B RID: 12379
+		private HashSet<string> tmpCrushedNames = new HashSet<string>();
+
 		// Token: 0x0600471E RID: 18206 RVA: 0x00258553 File Offset: 0x00256953
 		public RoofCollapseBufferResolver(Map map)
 		{
@@ -57,14 +66,5 @@ namespace Verse
 				roofCollapseBuffer.Clear();
 			}
 		}
-
-		// Token: 0x04003059 RID: 12377
-		private Map map;
-
-		// Token: 0x0400305A RID: 12378
-		private List<Thing> tmpCrushedThings = new List<Thing>();
-
-		// Token: 0x0400305B RID: 12379
-		private HashSet<string> tmpCrushedNames = new HashSet<string>();
 	}
 }

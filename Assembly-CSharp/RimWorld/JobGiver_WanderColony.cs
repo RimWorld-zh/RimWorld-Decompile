@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x02000116 RID: 278
 	public class JobGiver_WanderColony : JobGiver_Wander
 	{
+		// Token: 0x040002F9 RID: 761
+		private static List<IntVec3> gatherSpots = new List<IntVec3>();
+
 		// Token: 0x060005A8 RID: 1448 RVA: 0x0003CBB8 File Offset: 0x0003AFB8
 		public JobGiver_WanderColony()
 		{
@@ -83,8 +86,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040002F9 RID: 761
-		private static List<IntVec3> gatherSpots = new List<IntVec3>();
 	}
 }

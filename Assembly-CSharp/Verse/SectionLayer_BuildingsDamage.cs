@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000C43 RID: 3139
 	public class SectionLayer_BuildingsDamage : SectionLayer
 	{
+		// Token: 0x04002F5A RID: 12122
+		private static List<Vector2> scratches = new List<Vector2>();
+
 		// Token: 0x06004538 RID: 17720 RVA: 0x00247885 File Offset: 0x00245C85
 		public SectionLayer_BuildingsDamage(Section section) : base(section)
 		{
@@ -263,8 +266,5 @@ namespace Verse
 		{
 			return b.def.Altitude + 0.046875f;
 		}
-
-		// Token: 0x04002F5A RID: 12122
-		private static List<Vector2> scratches = new List<Vector2>();
 	}
 }

@@ -7,6 +7,14 @@ namespace Verse.AI
 	// Token: 0x02000ABD RID: 2749
 	public class ThinkNode_SubtreesByTag : ThinkNode
 	{
+		// Token: 0x040026A0 RID: 9888
+		[NoTranslate]
+		public string insertTag;
+
+		// Token: 0x040026A1 RID: 9889
+		[Unsaved]
+		private List<ThinkTreeDef> matchedTrees = null;
+
 		// Token: 0x06003D3D RID: 15677 RVA: 0x00205458 File Offset: 0x00203858
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -47,13 +55,5 @@ namespace Verse.AI
 			}
 			return ThinkResult.NoJob;
 		}
-
-		// Token: 0x040026A0 RID: 9888
-		[NoTranslate]
-		public string insertTag;
-
-		// Token: 0x040026A1 RID: 9889
-		[Unsaved]
-		private List<ThinkTreeDef> matchedTrees = null;
 	}
 }

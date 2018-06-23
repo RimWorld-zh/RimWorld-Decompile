@@ -5,191 +5,6 @@ namespace Ionic.Zlib
 	// Token: 0x02000015 RID: 21
 	internal sealed class Tree
 	{
-		// Token: 0x060000DF RID: 223 RVA: 0x0000AB48 File Offset: 0x00008F48
-		internal static int DistanceCode(int dist)
-		{
-			return (int)((dist >= 256) ? Tree._dist_code[256 + SharedUtils.URShift(dist, 7)] : Tree._dist_code[dist]);
-		}
-
-		// Token: 0x060000E0 RID: 224 RVA: 0x0000AB88 File Offset: 0x00008F88
-		internal void gen_bitlen(DeflateManager s)
-		{
-			short[] array = this.dyn_tree;
-			short[] treeCodes = this.staticTree.treeCodes;
-			int[] extraBits = this.staticTree.extraBits;
-			int extraBase = this.staticTree.extraBase;
-			int maxLength = this.staticTree.maxLength;
-			int num = 0;
-			for (int i = 0; i <= InternalConstants.MAX_BITS; i++)
-			{
-				s.bl_count[i] = 0;
-			}
-			array[s.heap[s.heap_max] * 2 + 1] = 0;
-			int j;
-			for (j = s.heap_max + 1; j < Tree.HEAP_SIZE; j++)
-			{
-				int num2 = s.heap[j];
-				int i = (int)(array[(int)(array[num2 * 2 + 1] * 2 + 1)] + 1);
-				if (i > maxLength)
-				{
-					i = maxLength;
-					num++;
-				}
-				array[num2 * 2 + 1] = (short)i;
-				if (num2 <= this.max_code)
-				{
-					short[] bl_count = s.bl_count;
-					int num3 = i;
-					bl_count[num3] += 1;
-					int num4 = 0;
-					if (num2 >= extraBase)
-					{
-						num4 = extraBits[num2 - extraBase];
-					}
-					short num5 = array[num2 * 2];
-					s.opt_len += (int)num5 * (i + num4);
-					if (treeCodes != null)
-					{
-						s.static_len += (int)num5 * ((int)treeCodes[num2 * 2 + 1] + num4);
-					}
-				}
-			}
-			if (num != 0)
-			{
-				do
-				{
-					int i = maxLength - 1;
-					while (s.bl_count[i] == 0)
-					{
-						i--;
-					}
-					short[] bl_count2 = s.bl_count;
-					int num6 = i;
-					bl_count2[num6] -= 1;
-					s.bl_count[i + 1] = s.bl_count[i + 1] + 2;
-					short[] bl_count3 = s.bl_count;
-					int num7 = maxLength;
-					bl_count3[num7] -= 1;
-					num -= 2;
-				}
-				while (num > 0);
-				for (int i = maxLength; i != 0; i--)
-				{
-					int num2 = (int)s.bl_count[i];
-					while (num2 != 0)
-					{
-						int num8 = s.heap[--j];
-						if (num8 <= this.max_code)
-						{
-							if ((int)array[num8 * 2 + 1] != i)
-							{
-								s.opt_len = (int)((long)s.opt_len + ((long)i - (long)array[num8 * 2 + 1]) * (long)array[num8 * 2]);
-								array[num8 * 2 + 1] = (short)i;
-							}
-							num2--;
-						}
-					}
-				}
-			}
-		}
-
-		// Token: 0x060000E1 RID: 225 RVA: 0x0000ADF4 File Offset: 0x000091F4
-		internal void build_tree(DeflateManager s)
-		{
-			short[] array = this.dyn_tree;
-			short[] treeCodes = this.staticTree.treeCodes;
-			int elems = this.staticTree.elems;
-			int num = -1;
-			s.heap_len = 0;
-			s.heap_max = Tree.HEAP_SIZE;
-			for (int i = 0; i < elems; i++)
-			{
-				if (array[i * 2] != 0)
-				{
-					num = (s.heap[++s.heap_len] = i);
-					s.depth[i] = 0;
-				}
-				else
-				{
-					array[i * 2 + 1] = 0;
-				}
-			}
-			int num2;
-			while (s.heap_len < 2)
-			{
-				num2 = (s.heap[++s.heap_len] = ((num >= 2) ? 0 : (++num)));
-				array[num2 * 2] = 1;
-				s.depth[num2] = 0;
-				s.opt_len--;
-				if (treeCodes != null)
-				{
-					s.static_len -= (int)treeCodes[num2 * 2 + 1];
-				}
-			}
-			this.max_code = num;
-			for (int i = s.heap_len / 2; i >= 1; i--)
-			{
-				s.pqdownheap(array, i);
-			}
-			num2 = elems;
-			do
-			{
-				int i = s.heap[1];
-				s.heap[1] = s.heap[s.heap_len--];
-				s.pqdownheap(array, 1);
-				int num3 = s.heap[1];
-				s.heap[--s.heap_max] = i;
-				s.heap[--s.heap_max] = num3;
-				array[num2 * 2] = array[i * 2] + array[num3 * 2];
-				s.depth[num2] = (sbyte)(Math.Max((byte)s.depth[i], (byte)s.depth[num3]) + 1);
-				array[i * 2 + 1] = (array[num3 * 2 + 1] = (short)num2);
-				s.heap[1] = num2++;
-				s.pqdownheap(array, 1);
-			}
-			while (s.heap_len >= 2);
-			s.heap[--s.heap_max] = s.heap[1];
-			this.gen_bitlen(s);
-			Tree.gen_codes(array, num, s.bl_count);
-		}
-
-		// Token: 0x060000E2 RID: 226 RVA: 0x0000B05C File Offset: 0x0000945C
-		internal static void gen_codes(short[] tree, int max_code, short[] bl_count)
-		{
-			short[] array = new short[InternalConstants.MAX_BITS + 1];
-			short num = 0;
-			for (int i = 1; i <= InternalConstants.MAX_BITS; i++)
-			{
-				num = (array[i] = (short)(num + bl_count[i - 1] << 1));
-			}
-			for (int j = 0; j <= max_code; j++)
-			{
-				int num2 = (int)tree[j * 2 + 1];
-				if (num2 != 0)
-				{
-					int num3 = j * 2;
-					short[] array2 = array;
-					int num4 = num2;
-					short code;
-					array2[num4] = (code = array2[num4]) + 1;
-					tree[num3] = (short)Tree.bi_reverse((int)code, num2);
-				}
-			}
-		}
-
-		// Token: 0x060000E3 RID: 227 RVA: 0x0000B0EC File Offset: 0x000094EC
-		internal static int bi_reverse(int code, int len)
-		{
-			int num = 0;
-			do
-			{
-				num |= (code & 1);
-				code >>= 1;
-				num <<= 1;
-			}
-			while (--len > 0);
-			return num >> 1;
-		}
-
 		// Token: 0x04000117 RID: 279
 		private static readonly int HEAP_SIZE = 2 * InternalConstants.L_CODES + 1;
 
@@ -1168,5 +983,190 @@ namespace Ionic.Zlib
 
 		// Token: 0x04000123 RID: 291
 		internal StaticTree staticTree;
+
+		// Token: 0x060000DF RID: 223 RVA: 0x0000AB48 File Offset: 0x00008F48
+		internal static int DistanceCode(int dist)
+		{
+			return (int)((dist >= 256) ? Tree._dist_code[256 + SharedUtils.URShift(dist, 7)] : Tree._dist_code[dist]);
+		}
+
+		// Token: 0x060000E0 RID: 224 RVA: 0x0000AB88 File Offset: 0x00008F88
+		internal void gen_bitlen(DeflateManager s)
+		{
+			short[] array = this.dyn_tree;
+			short[] treeCodes = this.staticTree.treeCodes;
+			int[] extraBits = this.staticTree.extraBits;
+			int extraBase = this.staticTree.extraBase;
+			int maxLength = this.staticTree.maxLength;
+			int num = 0;
+			for (int i = 0; i <= InternalConstants.MAX_BITS; i++)
+			{
+				s.bl_count[i] = 0;
+			}
+			array[s.heap[s.heap_max] * 2 + 1] = 0;
+			int j;
+			for (j = s.heap_max + 1; j < Tree.HEAP_SIZE; j++)
+			{
+				int num2 = s.heap[j];
+				int i = (int)(array[(int)(array[num2 * 2 + 1] * 2 + 1)] + 1);
+				if (i > maxLength)
+				{
+					i = maxLength;
+					num++;
+				}
+				array[num2 * 2 + 1] = (short)i;
+				if (num2 <= this.max_code)
+				{
+					short[] bl_count = s.bl_count;
+					int num3 = i;
+					bl_count[num3] += 1;
+					int num4 = 0;
+					if (num2 >= extraBase)
+					{
+						num4 = extraBits[num2 - extraBase];
+					}
+					short num5 = array[num2 * 2];
+					s.opt_len += (int)num5 * (i + num4);
+					if (treeCodes != null)
+					{
+						s.static_len += (int)num5 * ((int)treeCodes[num2 * 2 + 1] + num4);
+					}
+				}
+			}
+			if (num != 0)
+			{
+				do
+				{
+					int i = maxLength - 1;
+					while (s.bl_count[i] == 0)
+					{
+						i--;
+					}
+					short[] bl_count2 = s.bl_count;
+					int num6 = i;
+					bl_count2[num6] -= 1;
+					s.bl_count[i + 1] = s.bl_count[i + 1] + 2;
+					short[] bl_count3 = s.bl_count;
+					int num7 = maxLength;
+					bl_count3[num7] -= 1;
+					num -= 2;
+				}
+				while (num > 0);
+				for (int i = maxLength; i != 0; i--)
+				{
+					int num2 = (int)s.bl_count[i];
+					while (num2 != 0)
+					{
+						int num8 = s.heap[--j];
+						if (num8 <= this.max_code)
+						{
+							if ((int)array[num8 * 2 + 1] != i)
+							{
+								s.opt_len = (int)((long)s.opt_len + ((long)i - (long)array[num8 * 2 + 1]) * (long)array[num8 * 2]);
+								array[num8 * 2 + 1] = (short)i;
+							}
+							num2--;
+						}
+					}
+				}
+			}
+		}
+
+		// Token: 0x060000E1 RID: 225 RVA: 0x0000ADF4 File Offset: 0x000091F4
+		internal void build_tree(DeflateManager s)
+		{
+			short[] array = this.dyn_tree;
+			short[] treeCodes = this.staticTree.treeCodes;
+			int elems = this.staticTree.elems;
+			int num = -1;
+			s.heap_len = 0;
+			s.heap_max = Tree.HEAP_SIZE;
+			for (int i = 0; i < elems; i++)
+			{
+				if (array[i * 2] != 0)
+				{
+					num = (s.heap[++s.heap_len] = i);
+					s.depth[i] = 0;
+				}
+				else
+				{
+					array[i * 2 + 1] = 0;
+				}
+			}
+			int num2;
+			while (s.heap_len < 2)
+			{
+				num2 = (s.heap[++s.heap_len] = ((num >= 2) ? 0 : (++num)));
+				array[num2 * 2] = 1;
+				s.depth[num2] = 0;
+				s.opt_len--;
+				if (treeCodes != null)
+				{
+					s.static_len -= (int)treeCodes[num2 * 2 + 1];
+				}
+			}
+			this.max_code = num;
+			for (int i = s.heap_len / 2; i >= 1; i--)
+			{
+				s.pqdownheap(array, i);
+			}
+			num2 = elems;
+			do
+			{
+				int i = s.heap[1];
+				s.heap[1] = s.heap[s.heap_len--];
+				s.pqdownheap(array, 1);
+				int num3 = s.heap[1];
+				s.heap[--s.heap_max] = i;
+				s.heap[--s.heap_max] = num3;
+				array[num2 * 2] = array[i * 2] + array[num3 * 2];
+				s.depth[num2] = (sbyte)(Math.Max((byte)s.depth[i], (byte)s.depth[num3]) + 1);
+				array[i * 2 + 1] = (array[num3 * 2 + 1] = (short)num2);
+				s.heap[1] = num2++;
+				s.pqdownheap(array, 1);
+			}
+			while (s.heap_len >= 2);
+			s.heap[--s.heap_max] = s.heap[1];
+			this.gen_bitlen(s);
+			Tree.gen_codes(array, num, s.bl_count);
+		}
+
+		// Token: 0x060000E2 RID: 226 RVA: 0x0000B05C File Offset: 0x0000945C
+		internal static void gen_codes(short[] tree, int max_code, short[] bl_count)
+		{
+			short[] array = new short[InternalConstants.MAX_BITS + 1];
+			short num = 0;
+			for (int i = 1; i <= InternalConstants.MAX_BITS; i++)
+			{
+				num = (array[i] = (short)(num + bl_count[i - 1] << 1));
+			}
+			for (int j = 0; j <= max_code; j++)
+			{
+				int num2 = (int)tree[j * 2 + 1];
+				if (num2 != 0)
+				{
+					int num3 = j * 2;
+					short[] array2 = array;
+					int num4 = num2;
+					short code;
+					array2[num4] = (code = array2[num4]) + 1;
+					tree[num3] = (short)Tree.bi_reverse((int)code, num2);
+				}
+			}
+		}
+
+		// Token: 0x060000E3 RID: 227 RVA: 0x0000B0EC File Offset: 0x000094EC
+		internal static int bi_reverse(int code, int len)
+		{
+			int num = 0;
+			do
+			{
+				num |= (code & 1);
+				code >>= 1;
+				num <<= 1;
+			}
+			while (--len > 0);
+			return num >> 1;
+		}
 	}
 }

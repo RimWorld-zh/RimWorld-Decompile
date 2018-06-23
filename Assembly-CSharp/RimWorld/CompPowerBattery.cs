@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000415 RID: 1045
 	public class CompPowerBattery : CompPower
 	{
+		// Token: 0x04000AF6 RID: 2806
+		private float storedEnergy = 0f;
+
+		// Token: 0x04000AF7 RID: 2807
+		private const float SelfDischargingWatts = 5f;
+
 		// Token: 0x17000267 RID: 615
 		// (get) Token: 0x060011FB RID: 4603 RVA: 0x0009CD08 File Offset: 0x0009B108
 		public float AmountCanAccept
@@ -189,11 +195,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04000AF6 RID: 2806
-		private float storedEnergy = 0f;
-
-		// Token: 0x04000AF7 RID: 2807
-		private const float SelfDischargingWatts = 5f;
 	}
 }

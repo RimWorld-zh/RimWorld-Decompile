@@ -9,6 +9,45 @@ namespace Verse
 	// Token: 0x02000ECC RID: 3788
 	public class WindowStack
 	{
+		// Token: 0x04003BF3 RID: 15347
+		public Window currentlyDrawnWindow;
+
+		// Token: 0x04003BF4 RID: 15348
+		private List<Window> windows = new List<Window>();
+
+		// Token: 0x04003BF5 RID: 15349
+		private List<int> immediateWindowsRequests = new List<int>();
+
+		// Token: 0x04003BF6 RID: 15350
+		private bool updateInternalWindowsOrderLater;
+
+		// Token: 0x04003BF7 RID: 15351
+		private Window focusedWindow;
+
+		// Token: 0x04003BF8 RID: 15352
+		private static int uniqueWindowID;
+
+		// Token: 0x04003BF9 RID: 15353
+		private bool gameStartDialogOpen;
+
+		// Token: 0x04003BFA RID: 15354
+		private float timeGameStartDialogClosed = -1f;
+
+		// Token: 0x04003BFB RID: 15355
+		private IntVec2 prevResolution = new IntVec2(UI.screenWidth, UI.screenHeight);
+
+		// Token: 0x04003BFC RID: 15356
+		private List<Window> windowStackOnGUITmpList = new List<Window>();
+
+		// Token: 0x04003BFD RID: 15357
+		private List<Window> updateImmediateWindowsListTmpList = new List<Window>();
+
+		// Token: 0x04003BFE RID: 15358
+		private List<Window> removeWindowsOfTypeTmpList = new List<Window>();
+
+		// Token: 0x04003BFF RID: 15359
+		private List<Window> closeWindowsTmpList = new List<Window>();
+
 		// Token: 0x17000E1C RID: 3612
 		// (get) Token: 0x0600599D RID: 22941 RVA: 0x002DE168 File Offset: 0x002DC568
 		public int Count
@@ -652,44 +691,5 @@ namespace Verse
 				GUI.FocusWindow(this.focusedWindow.ID);
 			}
 		}
-
-		// Token: 0x04003BF3 RID: 15347
-		public Window currentlyDrawnWindow;
-
-		// Token: 0x04003BF4 RID: 15348
-		private List<Window> windows = new List<Window>();
-
-		// Token: 0x04003BF5 RID: 15349
-		private List<int> immediateWindowsRequests = new List<int>();
-
-		// Token: 0x04003BF6 RID: 15350
-		private bool updateInternalWindowsOrderLater;
-
-		// Token: 0x04003BF7 RID: 15351
-		private Window focusedWindow;
-
-		// Token: 0x04003BF8 RID: 15352
-		private static int uniqueWindowID;
-
-		// Token: 0x04003BF9 RID: 15353
-		private bool gameStartDialogOpen;
-
-		// Token: 0x04003BFA RID: 15354
-		private float timeGameStartDialogClosed = -1f;
-
-		// Token: 0x04003BFB RID: 15355
-		private IntVec2 prevResolution = new IntVec2(UI.screenWidth, UI.screenHeight);
-
-		// Token: 0x04003BFC RID: 15356
-		private List<Window> windowStackOnGUITmpList = new List<Window>();
-
-		// Token: 0x04003BFD RID: 15357
-		private List<Window> updateImmediateWindowsListTmpList = new List<Window>();
-
-		// Token: 0x04003BFE RID: 15358
-		private List<Window> removeWindowsOfTypeTmpList = new List<Window>();
-
-		// Token: 0x04003BFF RID: 15359
-		private List<Window> closeWindowsTmpList = new List<Window>();
 	}
 }

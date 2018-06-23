@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x0200009C RID: 156
 	public static class Toils_LayDown
 	{
+		// Token: 0x04000265 RID: 613
+		private const int TicksBetweenSleepZs = 100;
+
+		// Token: 0x04000266 RID: 614
+		private const float GroundRestEffectiveness = 0.8f;
+
+		// Token: 0x04000267 RID: 615
+		private const int GetUpOrStartJobWhileInBedCheckInterval = 211;
+
 		// Token: 0x060003F1 RID: 1009 RVA: 0x0002E4AC File Offset: 0x0002C8AC
 		public static Toil LayDown(TargetIndex bedOrRestSpotIndex, bool hasBed, bool lookForOtherJobs, bool canSleep = true, bool gainRestAndHealth = true)
 		{
@@ -182,14 +191,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000265 RID: 613
-		private const int TicksBetweenSleepZs = 100;
-
-		// Token: 0x04000266 RID: 614
-		private const float GroundRestEffectiveness = 0.8f;
-
-		// Token: 0x04000267 RID: 615
-		private const int GetUpOrStartJobWhileInBedCheckInterval = 211;
 	}
 }

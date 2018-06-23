@@ -9,6 +9,18 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public class Command_SetPlantToGrow : Command
 	{
+		// Token: 0x0400398A RID: 14730
+		public IPlantToGrowSettable settable;
+
+		// Token: 0x0400398B RID: 14731
+		private List<IPlantToGrowSettable> settables;
+
+		// Token: 0x0400398C RID: 14732
+		private static List<ThingDef> tmpAvailablePlants = new List<ThingDef>();
+
+		// Token: 0x0400398D RID: 14733
+		private static readonly Texture2D SetPlantToGrowTex = ContentFinder<Texture2D>.Get("UI/Commands/SetPlantToGrow", true);
+
 		// Token: 0x060056DB RID: 22235 RVA: 0x002CBC40 File Offset: 0x002CA040
 		public Command_SetPlantToGrow()
 		{
@@ -229,17 +241,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x0400398A RID: 14730
-		public IPlantToGrowSettable settable;
-
-		// Token: 0x0400398B RID: 14731
-		private List<IPlantToGrowSettable> settables;
-
-		// Token: 0x0400398C RID: 14732
-		private static List<ThingDef> tmpAvailablePlants = new List<ThingDef>();
-
-		// Token: 0x0400398D RID: 14733
-		private static readonly Texture2D SetPlantToGrowTex = ContentFinder<Texture2D>.Get("UI/Commands/SetPlantToGrow", true);
 	}
 }

@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000073 RID: 115
 	public class JobDriver_Maintain : JobDriver
 	{
+		// Token: 0x0400021E RID: 542
+		private const int MaintainTicks = 180;
+
 		// Token: 0x06000325 RID: 805 RVA: 0x00022488 File Offset: 0x00020888
 		public override bool TryMakePreToilReservations()
 		{
@@ -35,8 +38,5 @@ namespace RimWorld
 			yield return maintain;
 			yield break;
 		}
-
-		// Token: 0x0400021E RID: 542
-		private const int MaintainTicks = 180;
 	}
 }

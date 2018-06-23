@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000302 RID: 770
 	public sealed class OutfitDatabase : IExposable
 	{
+		// Token: 0x04000853 RID: 2131
+		private List<Outfit> outfits = new List<Outfit>();
+
 		// Token: 0x06000CCA RID: 3274 RVA: 0x0007053C File Offset: 0x0006E93C
 		public OutfitDatabase()
 		{
@@ -122,8 +125,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000853 RID: 2131
-		private List<Outfit> outfits = new List<Outfit>();
 	}
 }

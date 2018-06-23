@@ -5,6 +5,12 @@ namespace Verse
 	// Token: 0x02000ED2 RID: 3794
 	public struct CellLine
 	{
+		// Token: 0x04003C14 RID: 15380
+		private float zIntercept;
+
+		// Token: 0x04003C15 RID: 15381
+		private float slope;
+
 		// Token: 0x060059F6 RID: 23030 RVA: 0x002E3321 File Offset: 0x002E1721
 		public CellLine(float zIntercept, float slope)
 		{
@@ -60,11 +66,5 @@ namespace Verse
 		{
 			return (float)c.z > this.slope * (float)c.x + this.zIntercept;
 		}
-
-		// Token: 0x04003C14 RID: 15380
-		private float zIntercept;
-
-		// Token: 0x04003C15 RID: 15381
-		private float slope;
 	}
 }

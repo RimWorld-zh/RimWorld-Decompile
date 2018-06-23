@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000F05 RID: 3845
 	public sealed class ThingOption
 	{
+		// Token: 0x04003CEC RID: 15596
+		public ThingDef thingDef;
+
+		// Token: 0x04003CED RID: 15597
+		public float weight = 1f;
+
 		// Token: 0x06005C5E RID: 23646 RVA: 0x002EEA98 File Offset: 0x002ECE98
 		public ThingOption()
 		{
@@ -44,11 +50,5 @@ namespace Verse
 				")"
 			});
 		}
-
-		// Token: 0x04003CEC RID: 15596
-		public ThingDef thingDef;
-
-		// Token: 0x04003CED RID: 15597
-		public float weight = 1f;
 	}
 }

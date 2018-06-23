@@ -5,6 +5,24 @@ namespace Verse.AI.Group
 	// Token: 0x020009E7 RID: 2535
 	public class LordJob_ExitMapNear : LordJob
 	{
+		// Token: 0x04002460 RID: 9312
+		private IntVec3 near;
+
+		// Token: 0x04002461 RID: 9313
+		private float radius;
+
+		// Token: 0x04002462 RID: 9314
+		private LocomotionUrgency locomotion = LocomotionUrgency.Jog;
+
+		// Token: 0x04002463 RID: 9315
+		private bool canDig;
+
+		// Token: 0x04002464 RID: 9316
+		private bool useAvoidGridSmart;
+
+		// Token: 0x04002465 RID: 9317
+		public const float DefaultRadius = 12f;
+
 		// Token: 0x06003903 RID: 14595 RVA: 0x001E62F7 File Offset: 0x001E46F7
 		public LordJob_ExitMapNear()
 		{
@@ -42,23 +60,5 @@ namespace Verse.AI.Group
 			Scribe_Values.Look<bool>(ref this.canDig, "canDig", false, false);
 			Scribe_Values.Look<bool>(ref this.useAvoidGridSmart, "useAvoidGridSmart", false, false);
 		}
-
-		// Token: 0x04002460 RID: 9312
-		private IntVec3 near;
-
-		// Token: 0x04002461 RID: 9313
-		private float radius;
-
-		// Token: 0x04002462 RID: 9314
-		private LocomotionUrgency locomotion = LocomotionUrgency.Jog;
-
-		// Token: 0x04002463 RID: 9315
-		private bool canDig;
-
-		// Token: 0x04002464 RID: 9316
-		private bool useAvoidGridSmart;
-
-		// Token: 0x04002465 RID: 9317
-		public const float DefaultRadius = 12f;
 	}
 }

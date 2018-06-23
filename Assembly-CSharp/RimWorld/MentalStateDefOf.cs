@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class MentalStateDefOf
 	{
-		// Token: 0x06003632 RID: 13874 RVA: 0x001D0A41 File Offset: 0x001CEE41
-		static MentalStateDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(MentalStateDefOf));
-		}
-
 		// Token: 0x04001FFA RID: 8186
 		public static MentalStateDef Berserk;
 
@@ -42,5 +36,11 @@ namespace RimWorld
 
 		// Token: 0x04002003 RID: 8195
 		public static MentalStateDef SocialFighting;
+
+		// Token: 0x06003632 RID: 13874 RVA: 0x001D0A41 File Offset: 0x001CEE41
+		static MentalStateDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(MentalStateDefOf));
+		}
 	}
 }

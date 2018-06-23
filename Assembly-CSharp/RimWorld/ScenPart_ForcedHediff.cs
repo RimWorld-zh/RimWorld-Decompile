@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x02000630 RID: 1584
 	public class ScenPart_ForcedHediff : ScenPart_PawnModifier
 	{
+		// Token: 0x040012BD RID: 4797
+		private HediffDef hediff;
+
+		// Token: 0x040012BE RID: 4798
+		private FloatRange severityRange;
+
 		// Token: 0x170004E4 RID: 1252
 		// (get) Token: 0x060020AA RID: 8362 RVA: 0x00117DD8 File Offset: 0x001161D8
 		private float MaxSeverity
@@ -140,11 +146,5 @@ namespace RimWorld
 			hediff.Severity = this.severityRange.RandomInRange;
 			p.health.AddHediff(hediff, null, null, null);
 		}
-
-		// Token: 0x040012BD RID: 4797
-		private HediffDef hediff;
-
-		// Token: 0x040012BE RID: 4798
-		private FloatRange severityRange;
 	}
 }

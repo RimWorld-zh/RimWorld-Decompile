@@ -6,6 +6,15 @@ namespace Verse.AI
 	// Token: 0x02000A93 RID: 2707
 	public class PawnPathPool
 	{
+		// Token: 0x040025F8 RID: 9720
+		private Map map;
+
+		// Token: 0x040025F9 RID: 9721
+		private List<PawnPath> paths = new List<PawnPath>(64);
+
+		// Token: 0x040025FA RID: 9722
+		private static readonly PawnPath NotFoundPathInt = PawnPath.NewNotFound();
+
 		// Token: 0x06003C36 RID: 15414 RVA: 0x001FD030 File Offset: 0x001FB430
 		public PawnPathPool(Map map)
 		{
@@ -43,14 +52,5 @@ namespace Verse.AI
 			pawnPath.inUse = true;
 			return pawnPath;
 		}
-
-		// Token: 0x040025F8 RID: 9720
-		private Map map;
-
-		// Token: 0x040025F9 RID: 9721
-		private List<PawnPath> paths = new List<PawnPath>(64);
-
-		// Token: 0x040025FA RID: 9722
-		private static readonly PawnPath NotFoundPathInt = PawnPath.NewNotFound();
 	}
 }

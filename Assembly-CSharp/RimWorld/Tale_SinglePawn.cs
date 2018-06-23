@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x0200066A RID: 1642
 	public class Tale_SinglePawn : Tale
 	{
+		// Token: 0x04001385 RID: 4997
+		public TaleData_Pawn pawnData;
+
 		// Token: 0x0600226B RID: 8811 RVA: 0x00124770 File Offset: 0x00122B70
 		public Tale_SinglePawn()
 		{
@@ -76,8 +79,5 @@ namespace RimWorld
 			base.GenerateTestData();
 			this.pawnData = TaleData_Pawn.GenerateRandom();
 		}
-
-		// Token: 0x04001385 RID: 4997
-		public TaleData_Pawn pawnData;
 	}
 }

@@ -8,6 +8,18 @@ namespace RimWorld
 	// Token: 0x020002FA RID: 762
 	public class HistoryAutoRecorderGroup : IExposable
 	{
+		// Token: 0x0400084E RID: 2126
+		public HistoryAutoRecorderGroupDef def = null;
+
+		// Token: 0x0400084F RID: 2127
+		public List<HistoryAutoRecorder> recorders;
+
+		// Token: 0x04000850 RID: 2128
+		private List<SimpleCurveDrawInfo> curves;
+
+		// Token: 0x04000851 RID: 2129
+		private int cachedGraphTickCount = -1;
+
 		// Token: 0x06000CB5 RID: 3253 RVA: 0x0006FF3B File Offset: 0x0006E33B
 		public HistoryAutoRecorderGroup()
 		{
@@ -101,17 +113,5 @@ namespace RimWorld
 			Scribe_Defs.Look<HistoryAutoRecorderGroupDef>(ref this.def, "def");
 			Scribe_Collections.Look<HistoryAutoRecorder>(ref this.recorders, "recorders", LookMode.Deep, new object[0]);
 		}
-
-		// Token: 0x0400084E RID: 2126
-		public HistoryAutoRecorderGroupDef def = null;
-
-		// Token: 0x0400084F RID: 2127
-		public List<HistoryAutoRecorder> recorders;
-
-		// Token: 0x04000850 RID: 2128
-		private List<SimpleCurveDrawInfo> curves;
-
-		// Token: 0x04000851 RID: 2129
-		private int cachedGraphTickCount = -1;
 	}
 }

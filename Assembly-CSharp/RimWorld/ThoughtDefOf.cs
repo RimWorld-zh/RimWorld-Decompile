@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class ThoughtDefOf
 	{
-		// Token: 0x06003643 RID: 13891 RVA: 0x001D0B73 File Offset: 0x001CEF73
-		static ThoughtDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(ThoughtDefOf));
-		}
-
 		// Token: 0x0400209E RID: 8350
 		public static ThoughtDef AteRawFood;
 
@@ -281,5 +275,11 @@ namespace RimWorld
 
 		// Token: 0x040020F7 RID: 8439
 		public static ThoughtDef ForcedMeToTakeLuciferium;
+
+		// Token: 0x06003643 RID: 13891 RVA: 0x001D0B73 File Offset: 0x001CEF73
+		static ThoughtDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(ThoughtDefOf));
+		}
 	}
 }

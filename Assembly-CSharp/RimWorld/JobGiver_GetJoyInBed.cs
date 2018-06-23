@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020000F9 RID: 249
 	public class JobGiver_GetJoyInBed : JobGiver_GetJoy
 	{
+		// Token: 0x040002D0 RID: 720
+		private const float MaxJoyLevel = 0.5f;
+
 		// Token: 0x170000CF RID: 207
 		// (get) Token: 0x0600053E RID: 1342 RVA: 0x00039918 File Offset: 0x00037D18
 		protected override bool CanDoDuringMedicalRest
@@ -55,8 +58,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040002D0 RID: 720
-		private const float MaxJoyLevel = 0.5f;
 	}
 }

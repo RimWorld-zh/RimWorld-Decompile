@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020000C0 RID: 192
 	public class JobGiver_AITrashBuildingsDistant : ThinkNode_JobGiver
 	{
+		// Token: 0x04000296 RID: 662
+		public bool attackAllInert;
+
 		// Token: 0x0600047F RID: 1151 RVA: 0x0003366C File Offset: 0x00031A6C
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -39,8 +42,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000296 RID: 662
-		public bool attackAllInert;
 	}
 }

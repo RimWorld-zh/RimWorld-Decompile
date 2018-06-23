@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000882 RID: 2178
 	public class PawnColumnWorker_CopyPasteWorkPriorities : PawnColumnWorker_CopyPaste
 	{
+		// Token: 0x04001ACD RID: 6861
+		private static DefMap<WorkTypeDef, int> clipboard;
+
 		// Token: 0x17000800 RID: 2048
 		// (get) Token: 0x060031BA RID: 12730 RVA: 0x001AE7E0 File Offset: 0x001ACBE0
 		protected override bool AnythingInClipboard
@@ -55,8 +58,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04001ACD RID: 6861
-		private static DefMap<WorkTypeDef, int> clipboard;
 	}
 }

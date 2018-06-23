@@ -8,6 +8,47 @@ namespace RimWorld
 	// Token: 0x0200023A RID: 570
 	public class ApparelProperties
 	{
+		// Token: 0x040003F4 RID: 1012
+		public List<BodyPartGroupDef> bodyPartGroups = new List<BodyPartGroupDef>();
+
+		// Token: 0x040003F5 RID: 1013
+		public List<ApparelLayerDef> layers = new List<ApparelLayerDef>();
+
+		// Token: 0x040003F6 RID: 1014
+		[NoTranslate]
+		public string wornGraphicPath = "";
+
+		// Token: 0x040003F7 RID: 1015
+		[NoTranslate]
+		public List<string> tags = new List<string>();
+
+		// Token: 0x040003F8 RID: 1016
+		[NoTranslate]
+		public List<string> defaultOutfitTags = null;
+
+		// Token: 0x040003F9 RID: 1017
+		public float wearPerDay = 0.4f;
+
+		// Token: 0x040003FA RID: 1018
+		public bool careIfWornByCorpse = true;
+
+		// Token: 0x040003FB RID: 1019
+		public bool hatRenderedFrontOfFace = false;
+
+		// Token: 0x040003FC RID: 1020
+		public bool useDeflectMetalEffect;
+
+		// Token: 0x040003FD RID: 1021
+		[Unsaved]
+		private float cachedHumanBodyCoverage = -1f;
+
+		// Token: 0x040003FE RID: 1022
+		[Unsaved]
+		private BodyPartGroupDef[][] interferingBodyPartGroups = null;
+
+		// Token: 0x040003FF RID: 1023
+		private static BodyPartGroupDef[] apparelRelevantGroups;
+
 		// Token: 0x1700017D RID: 381
 		// (get) Token: 0x06000A48 RID: 2632 RVA: 0x0005D5C0 File Offset: 0x0005B9C0
 		public ApparelLayerDef LastLayer
@@ -117,46 +158,5 @@ namespace RimWorld
 			}
 			return this.interferingBodyPartGroups[(int)body.index];
 		}
-
-		// Token: 0x040003F4 RID: 1012
-		public List<BodyPartGroupDef> bodyPartGroups = new List<BodyPartGroupDef>();
-
-		// Token: 0x040003F5 RID: 1013
-		public List<ApparelLayerDef> layers = new List<ApparelLayerDef>();
-
-		// Token: 0x040003F6 RID: 1014
-		[NoTranslate]
-		public string wornGraphicPath = "";
-
-		// Token: 0x040003F7 RID: 1015
-		[NoTranslate]
-		public List<string> tags = new List<string>();
-
-		// Token: 0x040003F8 RID: 1016
-		[NoTranslate]
-		public List<string> defaultOutfitTags = null;
-
-		// Token: 0x040003F9 RID: 1017
-		public float wearPerDay = 0.4f;
-
-		// Token: 0x040003FA RID: 1018
-		public bool careIfWornByCorpse = true;
-
-		// Token: 0x040003FB RID: 1019
-		public bool hatRenderedFrontOfFace = false;
-
-		// Token: 0x040003FC RID: 1020
-		public bool useDeflectMetalEffect;
-
-		// Token: 0x040003FD RID: 1021
-		[Unsaved]
-		private float cachedHumanBodyCoverage = -1f;
-
-		// Token: 0x040003FE RID: 1022
-		[Unsaved]
-		private BodyPartGroupDef[][] interferingBodyPartGroups = null;
-
-		// Token: 0x040003FF RID: 1023
-		private static BodyPartGroupDef[] apparelRelevantGroups;
 	}
 }

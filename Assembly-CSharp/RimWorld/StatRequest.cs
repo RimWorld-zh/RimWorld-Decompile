@@ -6,6 +6,18 @@ namespace RimWorld
 	// Token: 0x020009BD RID: 2493
 	public struct StatRequest : IEquatable<StatRequest>
 	{
+		// Token: 0x040023C4 RID: 9156
+		private Thing thingInt;
+
+		// Token: 0x040023C5 RID: 9157
+		private BuildableDef defInt;
+
+		// Token: 0x040023C6 RID: 9158
+		private ThingDef stuffDefInt;
+
+		// Token: 0x040023C7 RID: 9159
+		private QualityCategory qualityCategoryInt;
+
 		// Token: 0x1700089C RID: 2204
 		// (get) Token: 0x060037CF RID: 14287 RVA: 0x001DB140 File Offset: 0x001D9540
 		public Thing Thing
@@ -192,17 +204,5 @@ namespace RimWorld
 		{
 			return !(lhs == rhs);
 		}
-
-		// Token: 0x040023C4 RID: 9156
-		private Thing thingInt;
-
-		// Token: 0x040023C5 RID: 9157
-		private BuildableDef defInt;
-
-		// Token: 0x040023C6 RID: 9158
-		private ThingDef stuffDefInt;
-
-		// Token: 0x040023C7 RID: 9159
-		private QualityCategory qualityCategoryInt;
 	}
 }

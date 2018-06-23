@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x0200009D RID: 157
 	public class JobDriver_DropEquipment : JobDriver
 	{
+		// Token: 0x04000268 RID: 616
+		private const int DurationTicks = 30;
+
 		// Token: 0x170000C5 RID: 197
 		// (get) Token: 0x060003F4 RID: 1012 RVA: 0x0002EC68 File Offset: 0x0002D068
 		private ThingWithComps TargetEquipment
@@ -50,8 +53,5 @@ namespace RimWorld
 			};
 			yield break;
 		}
-
-		// Token: 0x04000268 RID: 616
-		private const int DurationTicks = 30;
 	}
 }

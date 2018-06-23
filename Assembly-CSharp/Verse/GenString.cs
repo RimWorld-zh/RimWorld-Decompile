@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000F49 RID: 3913
 	public static class GenString
 	{
+		// Token: 0x04003E2D RID: 15917
+		private static string[] numberStrings = new string[10000];
+
 		// Token: 0x06005EAE RID: 24238 RVA: 0x003032F0 File Offset: 0x003016F0
 		static GenString()
 		{
@@ -55,8 +58,5 @@ namespace Verse
 			}
 			yield break;
 		}
-
-		// Token: 0x04003E2D RID: 15917
-		private static string[] numberStrings = new string[10000];
 	}
 }

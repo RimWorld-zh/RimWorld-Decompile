@@ -9,6 +9,34 @@ namespace UnityStandardAssets.ImageEffects
 	[AddComponentMenu("Image Effects/Bloom and Glow/Bloom (Optimized)")]
 	public class BloomOptimized : PostEffectsBase
 	{
+		// Token: 0x04000710 RID: 1808
+		[Range(0f, 1.5f)]
+		public float threshold = 0.25f;
+
+		// Token: 0x04000711 RID: 1809
+		[Range(0f, 2.5f)]
+		public float intensity = 0.75f;
+
+		// Token: 0x04000712 RID: 1810
+		[Range(0.25f, 5.5f)]
+		public float blurSize = 1f;
+
+		// Token: 0x04000713 RID: 1811
+		private BloomOptimized.Resolution resolution = BloomOptimized.Resolution.Low;
+
+		// Token: 0x04000714 RID: 1812
+		[Range(1f, 4f)]
+		public int blurIterations = 1;
+
+		// Token: 0x04000715 RID: 1813
+		public BloomOptimized.BlurType blurType = BloomOptimized.BlurType.Standard;
+
+		// Token: 0x04000716 RID: 1814
+		public Shader fastBloomShader = null;
+
+		// Token: 0x04000717 RID: 1815
+		private Material fastBloomMaterial = null;
+
 		// Token: 0x060008C0 RID: 2240 RVA: 0x0001172C File Offset: 0x0000F92C
 		public override bool CheckResources()
 		{
@@ -68,34 +96,6 @@ namespace UnityStandardAssets.ImageEffects
 				RenderTexture.ReleaseTemporary(renderTexture);
 			}
 		}
-
-		// Token: 0x04000710 RID: 1808
-		[Range(0f, 1.5f)]
-		public float threshold = 0.25f;
-
-		// Token: 0x04000711 RID: 1809
-		[Range(0f, 2.5f)]
-		public float intensity = 0.75f;
-
-		// Token: 0x04000712 RID: 1810
-		[Range(0.25f, 5.5f)]
-		public float blurSize = 1f;
-
-		// Token: 0x04000713 RID: 1811
-		private BloomOptimized.Resolution resolution = BloomOptimized.Resolution.Low;
-
-		// Token: 0x04000714 RID: 1812
-		[Range(1f, 4f)]
-		public int blurIterations = 1;
-
-		// Token: 0x04000715 RID: 1813
-		public BloomOptimized.BlurType blurType = BloomOptimized.BlurType.Standard;
-
-		// Token: 0x04000716 RID: 1814
-		public Shader fastBloomShader = null;
-
-		// Token: 0x04000717 RID: 1815
-		private Material fastBloomMaterial = null;
 
 		// Token: 0x02000180 RID: 384
 		public enum Resolution

@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020007E6 RID: 2022
 	public abstract class Designator_ZoneAddStockpile : Designator_ZoneAdd
 	{
+		// Token: 0x040017B5 RID: 6069
+		protected StorageSettingsPreset preset;
+
 		// Token: 0x06002CFD RID: 11517 RVA: 0x0017AA1B File Offset: 0x00178E1B
 		public Designator_ZoneAddStockpile()
 		{
@@ -67,8 +70,5 @@ namespace RimWorld
 			base.FinalizeDesignationSucceeded();
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Stockpiles, KnowledgeAmount.Total);
 		}
-
-		// Token: 0x040017B5 RID: 6069
-		protected StorageSettingsPreset preset;
 	}
 }

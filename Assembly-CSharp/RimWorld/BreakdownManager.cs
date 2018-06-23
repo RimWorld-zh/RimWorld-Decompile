@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x02000702 RID: 1794
 	public class BreakdownManager : MapComponent
 	{
+		// Token: 0x040015BF RID: 5567
+		private List<CompBreakdownable> comps = new List<CompBreakdownable>();
+
+		// Token: 0x040015C0 RID: 5568
+		public HashSet<Thing> brokenDownThings = new HashSet<Thing>();
+
+		// Token: 0x040015C1 RID: 5569
+		public const int CheckIntervalTicks = 1041;
+
 		// Token: 0x06002751 RID: 10065 RVA: 0x00152376 File Offset: 0x00150776
 		public BreakdownManager(Map map) : base(map)
 		{
@@ -52,14 +61,5 @@ namespace RimWorld
 		{
 			this.brokenDownThings.Remove(thing);
 		}
-
-		// Token: 0x040015BF RID: 5567
-		private List<CompBreakdownable> comps = new List<CompBreakdownable>();
-
-		// Token: 0x040015C0 RID: 5568
-		public HashSet<Thing> brokenDownThings = new HashSet<Thing>();
-
-		// Token: 0x040015C1 RID: 5569
-		public const int CheckIntervalTicks = 1041;
 	}
 }

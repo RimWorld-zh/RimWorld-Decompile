@@ -8,6 +8,15 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public static class CompassWidget
 	{
+		// Token: 0x04001BDB RID: 7131
+		private const float Padding = 10f;
+
+		// Token: 0x04001BDC RID: 7132
+		private const float Size = 64f;
+
+		// Token: 0x04001BDD RID: 7133
+		private static readonly Texture2D CompassTex = ContentFinder<Texture2D>.Get("UI/Misc/Compass", true);
+
 		// Token: 0x17000844 RID: 2116
 		// (get) Token: 0x060033D6 RID: 13270 RVA: 0x001BB8B4 File Offset: 0x001B9CB4
 		private static float Angle
@@ -40,14 +49,5 @@ namespace RimWorld.Planet
 				Find.WorldCameraDriver.RotateSoNorthIsUp(true);
 			}
 		}
-
-		// Token: 0x04001BDB RID: 7131
-		private const float Padding = 10f;
-
-		// Token: 0x04001BDC RID: 7132
-		private const float Size = 64f;
-
-		// Token: 0x04001BDD RID: 7133
-		private static readonly Texture2D CompassTex = ContentFinder<Texture2D>.Get("UI/Misc/Compass", true);
 	}
 }

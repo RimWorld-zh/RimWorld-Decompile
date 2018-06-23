@@ -8,6 +8,33 @@ namespace Verse
 	// Token: 0x02000D8A RID: 3466
 	public static class GameDataSaveLoader
 	{
+		// Token: 0x040033C8 RID: 13256
+		private static int lastSaveTick = -9999;
+
+		// Token: 0x040033C9 RID: 13257
+		public const string SavedScenarioParentNodeName = "savedscenario";
+
+		// Token: 0x040033CA RID: 13258
+		public const string SavedWorldParentNodeName = "savedworld";
+
+		// Token: 0x040033CB RID: 13259
+		public const string SavedGameParentNodeName = "savegame";
+
+		// Token: 0x040033CC RID: 13260
+		public const string GameNodeName = "game";
+
+		// Token: 0x040033CD RID: 13261
+		public const string WorldNodeName = "world";
+
+		// Token: 0x040033CE RID: 13262
+		public const string ScenarioNodeName = "scenario";
+
+		// Token: 0x040033CF RID: 13263
+		public const string AutosavePrefix = "Autosave";
+
+		// Token: 0x040033D0 RID: 13264
+		public const string AutostartSaveName = "autostart";
+
 		// Token: 0x17000C88 RID: 3208
 		// (get) Token: 0x06004D94 RID: 19860 RVA: 0x002882E0 File Offset: 0x002866E0
 		public static bool CurrentGameStateIsValuable
@@ -113,32 +140,5 @@ namespace Verse
 		{
 			GameDataSaveLoader.LoadGame(Path.GetFileNameWithoutExtension(saveFile.Name));
 		}
-
-		// Token: 0x040033C8 RID: 13256
-		private static int lastSaveTick = -9999;
-
-		// Token: 0x040033C9 RID: 13257
-		public const string SavedScenarioParentNodeName = "savedscenario";
-
-		// Token: 0x040033CA RID: 13258
-		public const string SavedWorldParentNodeName = "savedworld";
-
-		// Token: 0x040033CB RID: 13259
-		public const string SavedGameParentNodeName = "savegame";
-
-		// Token: 0x040033CC RID: 13260
-		public const string GameNodeName = "game";
-
-		// Token: 0x040033CD RID: 13261
-		public const string WorldNodeName = "world";
-
-		// Token: 0x040033CE RID: 13262
-		public const string ScenarioNodeName = "scenario";
-
-		// Token: 0x040033CF RID: 13263
-		public const string AutosavePrefix = "Autosave";
-
-		// Token: 0x040033D0 RID: 13264
-		public const string AutostartSaveName = "autostart";
 	}
 }

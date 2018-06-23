@@ -9,6 +9,27 @@ namespace RimWorld
 	// Token: 0x02000416 RID: 1046
 	public class CompFlickable : ThingComp
 	{
+		// Token: 0x04000AF8 RID: 2808
+		private bool switchOnInt = true;
+
+		// Token: 0x04000AF9 RID: 2809
+		private bool wantSwitchOn = true;
+
+		// Token: 0x04000AFA RID: 2810
+		private Graphic offGraphic;
+
+		// Token: 0x04000AFB RID: 2811
+		private Texture2D cachedCommandTex;
+
+		// Token: 0x04000AFC RID: 2812
+		private const string OffGraphicSuffix = "_Off";
+
+		// Token: 0x04000AFD RID: 2813
+		public const string FlickedOnSignal = "FlickedOn";
+
+		// Token: 0x04000AFE RID: 2814
+		public const string FlickedOffSignal = "FlickedOff";
+
 		// Token: 0x1700026B RID: 619
 		// (get) Token: 0x06001209 RID: 4617 RVA: 0x0009D374 File Offset: 0x0009B774
 		private CompProperties_Flickable Props
@@ -139,26 +160,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04000AF8 RID: 2808
-		private bool switchOnInt = true;
-
-		// Token: 0x04000AF9 RID: 2809
-		private bool wantSwitchOn = true;
-
-		// Token: 0x04000AFA RID: 2810
-		private Graphic offGraphic;
-
-		// Token: 0x04000AFB RID: 2811
-		private Texture2D cachedCommandTex;
-
-		// Token: 0x04000AFC RID: 2812
-		private const string OffGraphicSuffix = "_Off";
-
-		// Token: 0x04000AFD RID: 2813
-		public const string FlickedOnSignal = "FlickedOn";
-
-		// Token: 0x04000AFE RID: 2814
-		public const string FlickedOffSignal = "FlickedOff";
 	}
 }

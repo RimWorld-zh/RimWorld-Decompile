@@ -8,6 +8,30 @@ namespace UnityStandardAssets.ImageEffects
 	[AddComponentMenu("Image Effects/Camera/Tilt Shift (Lens Blur)")]
 	internal class TiltShift : PostEffectsBase
 	{
+		// Token: 0x0400086B RID: 2155
+		public TiltShift.TiltShiftMode mode = TiltShift.TiltShiftMode.TiltShiftMode;
+
+		// Token: 0x0400086C RID: 2156
+		public TiltShift.TiltShiftQuality quality = TiltShift.TiltShiftQuality.Normal;
+
+		// Token: 0x0400086D RID: 2157
+		[Range(0f, 15f)]
+		public float blurArea = 1f;
+
+		// Token: 0x0400086E RID: 2158
+		[Range(0f, 25f)]
+		public float maxBlurSize = 5f;
+
+		// Token: 0x0400086F RID: 2159
+		[Range(0f, 1f)]
+		public int downsample = 0;
+
+		// Token: 0x04000870 RID: 2160
+		public Shader tiltShiftShader = null;
+
+		// Token: 0x04000871 RID: 2161
+		private Material tiltShiftMaterial = null;
+
 		// Token: 0x06000969 RID: 2409 RVA: 0x00018FA8 File Offset: 0x000171A8
 		public override bool CheckResources()
 		{
@@ -52,30 +76,6 @@ namespace UnityStandardAssets.ImageEffects
 				}
 			}
 		}
-
-		// Token: 0x0400086B RID: 2155
-		public TiltShift.TiltShiftMode mode = TiltShift.TiltShiftMode.TiltShiftMode;
-
-		// Token: 0x0400086C RID: 2156
-		public TiltShift.TiltShiftQuality quality = TiltShift.TiltShiftQuality.Normal;
-
-		// Token: 0x0400086D RID: 2157
-		[Range(0f, 15f)]
-		public float blurArea = 1f;
-
-		// Token: 0x0400086E RID: 2158
-		[Range(0f, 25f)]
-		public float maxBlurSize = 5f;
-
-		// Token: 0x0400086F RID: 2159
-		[Range(0f, 1f)]
-		public int downsample = 0;
-
-		// Token: 0x04000870 RID: 2160
-		public Shader tiltShiftShader = null;
-
-		// Token: 0x04000871 RID: 2161
-		private Material tiltShiftMaterial = null;
 
 		// Token: 0x020001AD RID: 429
 		public enum TiltShiftMode

@@ -10,6 +10,9 @@ namespace Verse
 	// Token: 0x02000E78 RID: 3704
 	public class Listing_TreeDefs : Listing_Tree
 	{
+		// Token: 0x040039D4 RID: 14804
+		private float labelWidthInt;
+
 		// Token: 0x0600574E RID: 22350 RVA: 0x002CDD94 File Offset: 0x002CC194
 		public Listing_TreeDefs(float labelColumnWidth)
 		{
@@ -293,8 +296,5 @@ namespace Verse
 			}
 			node.Value = obj;
 		}
-
-		// Token: 0x040039D4 RID: 14804
-		private float labelWidthInt;
 	}
 }

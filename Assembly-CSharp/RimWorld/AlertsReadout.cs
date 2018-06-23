@@ -10,6 +10,33 @@ namespace RimWorld
 	// Token: 0x020007AD RID: 1965
 	public class AlertsReadout
 	{
+		// Token: 0x0400173F RID: 5951
+		private List<Alert> activeAlerts = new List<Alert>(16);
+
+		// Token: 0x04001740 RID: 5952
+		private int curAlertIndex = 0;
+
+		// Token: 0x04001741 RID: 5953
+		private float lastFinalY = 0f;
+
+		// Token: 0x04001742 RID: 5954
+		private int mouseoverAlertIndex = -1;
+
+		// Token: 0x04001743 RID: 5955
+		private readonly List<Alert> AllAlerts = new List<Alert>();
+
+		// Token: 0x04001744 RID: 5956
+		private const int StartTickDelay = 600;
+
+		// Token: 0x04001745 RID: 5957
+		public const float AlertListWidth = 164f;
+
+		// Token: 0x04001746 RID: 5958
+		private static int AlertCycleLength = 20;
+
+		// Token: 0x04001747 RID: 5959
+		private readonly List<AlertPriority> PriosInDrawOrder = null;
+
 		// Token: 0x06002B70 RID: 11120 RVA: 0x0016F9D0 File Offset: 0x0016DDD0
 		public AlertsReadout()
 		{
@@ -179,32 +206,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x0400173F RID: 5951
-		private List<Alert> activeAlerts = new List<Alert>(16);
-
-		// Token: 0x04001740 RID: 5952
-		private int curAlertIndex = 0;
-
-		// Token: 0x04001741 RID: 5953
-		private float lastFinalY = 0f;
-
-		// Token: 0x04001742 RID: 5954
-		private int mouseoverAlertIndex = -1;
-
-		// Token: 0x04001743 RID: 5955
-		private readonly List<Alert> AllAlerts = new List<Alert>();
-
-		// Token: 0x04001744 RID: 5956
-		private const int StartTickDelay = 600;
-
-		// Token: 0x04001745 RID: 5957
-		public const float AlertListWidth = 164f;
-
-		// Token: 0x04001746 RID: 5958
-		private static int AlertCycleLength = 20;
-
-		// Token: 0x04001747 RID: 5959
-		private readonly List<AlertPriority> PriosInDrawOrder = null;
 	}
 }

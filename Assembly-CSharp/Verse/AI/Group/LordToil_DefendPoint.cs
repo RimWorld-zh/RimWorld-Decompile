@@ -6,6 +6,9 @@ namespace Verse.AI.Group
 	// Token: 0x020009EF RID: 2543
 	public class LordToil_DefendPoint : LordToil
 	{
+		// Token: 0x04002472 RID: 9330
+		private bool allowSatisfyLongNeeds = true;
+
 		// Token: 0x0600392E RID: 14638 RVA: 0x0004F07E File Offset: 0x0004D47E
 		public LordToil_DefendPoint(bool canSatisfyLongNeeds = true)
 		{
@@ -67,8 +70,5 @@ namespace Verse.AI.Group
 		{
 			this.Data.defendPoint = defendPoint;
 		}
-
-		// Token: 0x04002472 RID: 9330
-		private bool allowSatisfyLongNeeds = true;
 	}
 }

@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000C36 RID: 3126
 	public class RoadInfo : MapComponent
 	{
+		// Token: 0x04002F1A RID: 12058
+		public List<IntVec3> roadEdgeTiles = new List<IntVec3>();
+
 		// Token: 0x060044FB RID: 17659 RVA: 0x00244CC0 File Offset: 0x002430C0
 		public RoadInfo(Map map) : base(map)
 		{
@@ -17,8 +20,5 @@ namespace Verse
 			base.ExposeData();
 			Scribe_Collections.Look<IntVec3>(ref this.roadEdgeTiles, "roadEdgeTiles", LookMode.Undefined, new object[0]);
 		}
-
-		// Token: 0x04002F1A RID: 12058
-		public List<IntVec3> roadEdgeTiles = new List<IntVec3>();
 	}
 }

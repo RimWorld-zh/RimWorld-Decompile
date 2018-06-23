@@ -6,6 +6,27 @@ namespace Verse
 	// Token: 0x02000C89 RID: 3209
 	public sealed class RegionGrid
 	{
+		// Token: 0x04002FFE RID: 12286
+		private Map map;
+
+		// Token: 0x04002FFF RID: 12287
+		private Region[] regionGrid;
+
+		// Token: 0x04003000 RID: 12288
+		private int curCleanIndex = 0;
+
+		// Token: 0x04003001 RID: 12289
+		public List<Room> allRooms = new List<Room>();
+
+		// Token: 0x04003002 RID: 12290
+		public static HashSet<Region> allRegionsYielded = new HashSet<Region>();
+
+		// Token: 0x04003003 RID: 12291
+		private const int CleanSquaresPerFrame = 16;
+
+		// Token: 0x04003004 RID: 12292
+		public HashSet<Region> drawnRegions = new HashSet<Region>();
+
 		// Token: 0x06004674 RID: 18036 RVA: 0x00252F10 File Offset: 0x00251310
 		public RegionGrid(Map map)
 		{
@@ -220,26 +241,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04002FFE RID: 12286
-		private Map map;
-
-		// Token: 0x04002FFF RID: 12287
-		private Region[] regionGrid;
-
-		// Token: 0x04003000 RID: 12288
-		private int curCleanIndex = 0;
-
-		// Token: 0x04003001 RID: 12289
-		public List<Room> allRooms = new List<Room>();
-
-		// Token: 0x04003002 RID: 12290
-		public static HashSet<Region> allRegionsYielded = new HashSet<Region>();
-
-		// Token: 0x04003003 RID: 12291
-		private const int CleanSquaresPerFrame = 16;
-
-		// Token: 0x04003004 RID: 12292
-		public HashSet<Region> drawnRegions = new HashSet<Region>();
 	}
 }

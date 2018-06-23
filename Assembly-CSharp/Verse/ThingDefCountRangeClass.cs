@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000F04 RID: 3844
 	public sealed class ThingDefCountRangeClass : IExposable
 	{
+		// Token: 0x04003CEA RID: 15594
+		public ThingDef thingDef;
+
+		// Token: 0x04003CEB RID: 15595
+		public IntRange countRange;
+
 		// Token: 0x06005C51 RID: 23633 RVA: 0x002EE848 File Offset: 0x002ECC48
 		public ThingDefCountRangeClass()
 		{
@@ -114,11 +120,5 @@ namespace Verse
 		{
 			return new ThingDefCountRangeClass(t.thingDef, t.count, t.count);
 		}
-
-		// Token: 0x04003CEA RID: 15594
-		public ThingDef thingDef;
-
-		// Token: 0x04003CEB RID: 15595
-		public IntRange countRange;
 	}
 }

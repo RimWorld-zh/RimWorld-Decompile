@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x0200007F RID: 127
 	public class JobDriver_Strip : JobDriver
 	{
+		// Token: 0x04000237 RID: 567
+		private const int StripTicks = 60;
+
 		// Token: 0x0600035C RID: 860 RVA: 0x00025470 File Offset: 0x00023870
 		public override bool TryMakePreToilReservations()
 		{
@@ -61,8 +64,5 @@ namespace RimWorld
 				(corpse == null) ? base.TargetA.Thing : corpse.InnerPawn
 			};
 		}
-
-		// Token: 0x04000237 RID: 567
-		private const int StripTicks = 60;
 	}
 }

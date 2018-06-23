@@ -8,6 +8,14 @@ namespace Verse.Noise
 	// Token: 0x02000F81 RID: 3969
 	public abstract class ModuleBase : IDisposable
 	{
+		// Token: 0x04003EF7 RID: 16119
+		protected ModuleBase[] modules = null;
+
+		// Token: 0x04003EF8 RID: 16120
+		[XmlIgnore]
+		[NonSerialized]
+		private bool m_disposed = false;
+
 		// Token: 0x06005FDA RID: 24538 RVA: 0x0030AB44 File Offset: 0x00308F44
 		protected ModuleBase(int count)
 		{
@@ -114,13 +122,5 @@ namespace Verse.Noise
 			}
 			return true;
 		}
-
-		// Token: 0x04003EF7 RID: 16119
-		protected ModuleBase[] modules = null;
-
-		// Token: 0x04003EF8 RID: 16120
-		[XmlIgnore]
-		[NonSerialized]
-		private bool m_disposed = false;
 	}
 }

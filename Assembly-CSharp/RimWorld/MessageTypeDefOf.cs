@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class MessageTypeDefOf
 	{
-		// Token: 0x06003665 RID: 13925 RVA: 0x001D0DD7 File Offset: 0x001CF1D7
-		static MessageTypeDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(MessageTypeDefOf));
-		}
-
 		// Token: 0x040022B7 RID: 8887
 		public static MessageTypeDef ThreatBig;
 
@@ -48,5 +42,11 @@ namespace RimWorld
 
 		// Token: 0x040022C2 RID: 8898
 		public static MessageTypeDef SilentInput;
+
+		// Token: 0x06003665 RID: 13925 RVA: 0x001D0DD7 File Offset: 0x001CF1D7
+		static MessageTypeDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(MessageTypeDefOf));
+		}
 	}
 }

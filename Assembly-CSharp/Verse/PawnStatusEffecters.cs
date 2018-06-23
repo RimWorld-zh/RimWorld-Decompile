@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000CE2 RID: 3298
 	internal struct PawnStatusEffecters
 	{
+		// Token: 0x04003138 RID: 12600
+		public Pawn pawn;
+
+		// Token: 0x04003139 RID: 12601
+		private List<PawnStatusEffecters.LiveEffecter> pairs;
+
 		// Token: 0x060048B5 RID: 18613 RVA: 0x00262BA0 File Offset: 0x00260FA0
 		public PawnStatusEffecters(Pawn pawn)
 		{
@@ -68,15 +74,18 @@ namespace Verse
 			this.pairs.Add(liveEffecter);
 		}
 
-		// Token: 0x04003138 RID: 12600
-		public Pawn pawn;
-
-		// Token: 0x04003139 RID: 12601
-		private List<PawnStatusEffecters.LiveEffecter> pairs;
-
 		// Token: 0x02000CE3 RID: 3299
 		private class LiveEffecter : IFullPoolable
 		{
+			// Token: 0x0400313A RID: 12602
+			public EffecterDef def;
+
+			// Token: 0x0400313B RID: 12603
+			public Effecter effecter;
+
+			// Token: 0x0400313C RID: 12604
+			public int lastMaintainTick;
+
 			// Token: 0x17000B7C RID: 2940
 			// (get) Token: 0x060048B9 RID: 18617 RVA: 0x00262D68 File Offset: 0x00261168
 			public bool Expired
@@ -120,15 +129,6 @@ namespace Verse
 				}
 				this.effecter.EffectTick(pawn, null);
 			}
-
-			// Token: 0x0400313A RID: 12602
-			public EffecterDef def;
-
-			// Token: 0x0400313B RID: 12603
-			public Effecter effecter;
-
-			// Token: 0x0400313C RID: 12604
-			public int lastMaintainTick;
 		}
 	}
 }

@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000B5F RID: 2911
 	public class SkillGain
 	{
+		// Token: 0x04002A7A RID: 10874
+		public SkillDef skill;
+
+		// Token: 0x04002A7B RID: 10875
+		public int xp;
+
 		// Token: 0x06003F97 RID: 16279 RVA: 0x0021856F File Offset: 0x0021696F
 		public SkillGain()
 		{
@@ -32,11 +38,5 @@ namespace Verse
 				this.xp = (int)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(int));
 			}
 		}
-
-		// Token: 0x04002A7A RID: 10874
-		public SkillDef skill;
-
-		// Token: 0x04002A7B RID: 10875
-		public int xp;
 	}
 }

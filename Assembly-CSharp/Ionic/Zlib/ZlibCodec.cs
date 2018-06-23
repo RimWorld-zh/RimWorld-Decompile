@@ -9,6 +9,51 @@ namespace Ionic.Zlib
 	[ClassInterface(ClassInterfaceType.AutoDispatch)]
 	public sealed class ZlibCodec
 	{
+		// Token: 0x04000170 RID: 368
+		public byte[] InputBuffer;
+
+		// Token: 0x04000171 RID: 369
+		public int NextIn;
+
+		// Token: 0x04000172 RID: 370
+		public int AvailableBytesIn;
+
+		// Token: 0x04000173 RID: 371
+		public long TotalBytesIn;
+
+		// Token: 0x04000174 RID: 372
+		public byte[] OutputBuffer;
+
+		// Token: 0x04000175 RID: 373
+		public int NextOut;
+
+		// Token: 0x04000176 RID: 374
+		public int AvailableBytesOut;
+
+		// Token: 0x04000177 RID: 375
+		public long TotalBytesOut;
+
+		// Token: 0x04000178 RID: 376
+		public string Message;
+
+		// Token: 0x04000179 RID: 377
+		internal DeflateManager dstate;
+
+		// Token: 0x0400017A RID: 378
+		internal InflateManager istate;
+
+		// Token: 0x0400017B RID: 379
+		internal uint _Adler32;
+
+		// Token: 0x0400017C RID: 380
+		public CompressionLevel CompressLevel = CompressionLevel.Default;
+
+		// Token: 0x0400017D RID: 381
+		public int WindowBits = 15;
+
+		// Token: 0x0400017E RID: 382
+		public CompressionStrategy Strategy = CompressionStrategy.Default;
+
 		// Token: 0x0600010B RID: 267 RVA: 0x0000C534 File Offset: 0x0000A934
 		public ZlibCodec()
 		{
@@ -274,50 +319,5 @@ namespace Ionic.Zlib
 			}
 			return result;
 		}
-
-		// Token: 0x04000170 RID: 368
-		public byte[] InputBuffer;
-
-		// Token: 0x04000171 RID: 369
-		public int NextIn;
-
-		// Token: 0x04000172 RID: 370
-		public int AvailableBytesIn;
-
-		// Token: 0x04000173 RID: 371
-		public long TotalBytesIn;
-
-		// Token: 0x04000174 RID: 372
-		public byte[] OutputBuffer;
-
-		// Token: 0x04000175 RID: 373
-		public int NextOut;
-
-		// Token: 0x04000176 RID: 374
-		public int AvailableBytesOut;
-
-		// Token: 0x04000177 RID: 375
-		public long TotalBytesOut;
-
-		// Token: 0x04000178 RID: 376
-		public string Message;
-
-		// Token: 0x04000179 RID: 377
-		internal DeflateManager dstate;
-
-		// Token: 0x0400017A RID: 378
-		internal InflateManager istate;
-
-		// Token: 0x0400017B RID: 379
-		internal uint _Adler32;
-
-		// Token: 0x0400017C RID: 380
-		public CompressionLevel CompressLevel = CompressionLevel.Default;
-
-		// Token: 0x0400017D RID: 381
-		public int WindowBits = 15;
-
-		// Token: 0x0400017E RID: 382
-		public CompressionStrategy Strategy = CompressionStrategy.Default;
 	}
 }

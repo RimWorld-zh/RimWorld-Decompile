@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000809 RID: 2057
 	public class Dialog_NodeTreeWithFactionInfo : Dialog_NodeTree
 	{
+		// Token: 0x04001860 RID: 6240
+		private Faction faction;
+
 		// Token: 0x06002DEF RID: 11759 RVA: 0x00182FA0 File Offset: 0x001813A0
 		public Dialog_NodeTreeWithFactionInfo(DiaNode nodeRoot, Faction faction, bool delayInteractivity = false, bool radioMode = false, string title = null) : base(nodeRoot, delayInteractivity, radioMode, title)
 		{
@@ -47,8 +50,5 @@ namespace RimWorld
 			GenUI.ResetLabelAlign();
 			GUI.color = Color.white;
 		}
-
-		// Token: 0x04001860 RID: 6240
-		private Faction faction;
 	}
 }

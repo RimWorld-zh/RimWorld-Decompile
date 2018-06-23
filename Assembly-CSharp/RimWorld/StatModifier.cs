@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x02000276 RID: 630
 	public class StatModifier
 	{
+		// Token: 0x04000556 RID: 1366
+		public StatDef stat;
+
+		// Token: 0x04000557 RID: 1367
+		public float value;
+
 		// Token: 0x17000195 RID: 405
 		// (get) Token: 0x06000AD5 RID: 2773 RVA: 0x0006224C File Offset: 0x0006064C
 		public string ValueToStringAsOffset
@@ -48,11 +54,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000556 RID: 1366
-		public StatDef stat;
-
-		// Token: 0x04000557 RID: 1367
-		public float value;
 	}
 }

@@ -8,6 +8,12 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Building_PowerSwitch : Building
 	{
+		// Token: 0x040013BC RID: 5052
+		private bool wantsOnOld = true;
+
+		// Token: 0x040013BD RID: 5053
+		private CompFlickable flickableComp;
+
 		// Token: 0x17000528 RID: 1320
 		// (get) Token: 0x06002311 RID: 8977 RVA: 0x0012E09C File Offset: 0x0012C49C
 		public override bool TransmitsPowerNow
@@ -92,11 +98,5 @@ namespace RimWorld
 				this.wantsOnOld = FlickUtility.WantsToBeOn(this);
 			}
 		}
-
-		// Token: 0x040013BC RID: 5052
-		private bool wantsOnOld = true;
-
-		// Token: 0x040013BD RID: 5053
-		private CompFlickable flickableComp;
 	}
 }

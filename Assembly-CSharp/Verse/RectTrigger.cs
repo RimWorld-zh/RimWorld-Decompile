@@ -7,6 +7,18 @@ namespace Verse
 	// Token: 0x02000DC8 RID: 3528
 	public class RectTrigger : Thing
 	{
+		// Token: 0x0400348C RID: 13452
+		private CellRect rect;
+
+		// Token: 0x0400348D RID: 13453
+		public bool destroyIfUnfogged;
+
+		// Token: 0x0400348E RID: 13454
+		public bool activateOnExplosion;
+
+		// Token: 0x0400348F RID: 13455
+		public string signalTag;
+
 		// Token: 0x17000CC7 RID: 3271
 		// (get) Token: 0x06004F09 RID: 20233 RVA: 0x00293CEC File Offset: 0x002920EC
 		// (set) Token: 0x06004F0A RID: 20234 RVA: 0x00293D07 File Offset: 0x00292107
@@ -84,17 +96,5 @@ namespace Verse
 			Scribe_Values.Look<bool>(ref this.activateOnExplosion, "activateOnExplosion", false, false);
 			Scribe_Values.Look<string>(ref this.signalTag, "signalTag", null, false);
 		}
-
-		// Token: 0x0400348C RID: 13452
-		private CellRect rect;
-
-		// Token: 0x0400348D RID: 13453
-		public bool destroyIfUnfogged;
-
-		// Token: 0x0400348E RID: 13454
-		public bool activateOnExplosion;
-
-		// Token: 0x0400348F RID: 13455
-		public string signalTag;
 	}
 }

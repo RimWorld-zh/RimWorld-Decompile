@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class SiteCoreDefOf
 	{
-		// Token: 0x06003656 RID: 13910 RVA: 0x001D0CC9 File Offset: 0x001CF0C9
-		static SiteCoreDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(SiteCoreDefOf));
-		}
-
 		// Token: 0x04002278 RID: 8824
 		public static SiteCoreDef Nothing;
 
@@ -26,5 +20,11 @@ namespace RimWorld
 
 		// Token: 0x0400227C RID: 8828
 		public static SiteCoreDef PrisonerWillingToJoin;
+
+		// Token: 0x06003656 RID: 13910 RVA: 0x001D0CC9 File Offset: 0x001CF0C9
+		static SiteCoreDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(SiteCoreDefOf));
+		}
 	}
 }

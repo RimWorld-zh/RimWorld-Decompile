@@ -9,6 +9,24 @@ namespace RimWorld
 	// Token: 0x0200089E RID: 2206
 	public class ResourceReadout
 	{
+		// Token: 0x04001B06 RID: 6918
+		private Vector2 scrollPosition;
+
+		// Token: 0x04001B07 RID: 6919
+		private float lastDrawnHeight;
+
+		// Token: 0x04001B08 RID: 6920
+		private readonly List<ThingCategoryDef> RootThingCategories;
+
+		// Token: 0x04001B09 RID: 6921
+		private const float LineHeightSimple = 24f;
+
+		// Token: 0x04001B0A RID: 6922
+		private const float LineHeightCategorized = 24f;
+
+		// Token: 0x04001B0B RID: 6923
+		private const float DistFromScreenBottom = 200f;
+
 		// Token: 0x0600328A RID: 12938 RVA: 0x001B3485 File Offset: 0x001B1885
 		public ResourceReadout()
 		{
@@ -119,23 +137,5 @@ namespace RimWorld
 			GUI.color = color;
 			TooltipHandler.TipRegion(rect, new TipSignal(() => thingDef.LabelCap + ": " + thingDef.description.CapitalizeFirst(), thingDef.GetHashCode()));
 		}
-
-		// Token: 0x04001B06 RID: 6918
-		private Vector2 scrollPosition;
-
-		// Token: 0x04001B07 RID: 6919
-		private float lastDrawnHeight;
-
-		// Token: 0x04001B08 RID: 6920
-		private readonly List<ThingCategoryDef> RootThingCategories;
-
-		// Token: 0x04001B09 RID: 6921
-		private const float LineHeightSimple = 24f;
-
-		// Token: 0x04001B0A RID: 6922
-		private const float LineHeightCategorized = 24f;
-
-		// Token: 0x04001B0B RID: 6923
-		private const float DistFromScreenBottom = 200f;
 	}
 }

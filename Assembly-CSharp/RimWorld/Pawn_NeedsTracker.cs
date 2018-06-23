@@ -7,6 +7,36 @@ namespace RimWorld
 	// Token: 0x02000509 RID: 1289
 	public class Pawn_NeedsTracker : IExposable
 	{
+		// Token: 0x04000DBD RID: 3517
+		private Pawn pawn;
+
+		// Token: 0x04000DBE RID: 3518
+		private List<Need> needs = new List<Need>();
+
+		// Token: 0x04000DBF RID: 3519
+		public Need_Mood mood;
+
+		// Token: 0x04000DC0 RID: 3520
+		public Need_Food food;
+
+		// Token: 0x04000DC1 RID: 3521
+		public Need_Rest rest;
+
+		// Token: 0x04000DC2 RID: 3522
+		public Need_Joy joy;
+
+		// Token: 0x04000DC3 RID: 3523
+		public Need_Beauty beauty;
+
+		// Token: 0x04000DC4 RID: 3524
+		public Need_RoomSize roomsize;
+
+		// Token: 0x04000DC5 RID: 3525
+		public Need_Outdoors outdoors;
+
+		// Token: 0x04000DC6 RID: 3526
+		public Need_Comfort comfort;
+
 		// Token: 0x06001726 RID: 5926 RVA: 0x000CBDD5 File Offset: 0x000CA1D5
 		public Pawn_NeedsTracker()
 		{
@@ -194,35 +224,5 @@ namespace RimWorld
 			this.needs.Remove(item);
 			this.BindDirectNeedFields();
 		}
-
-		// Token: 0x04000DBD RID: 3517
-		private Pawn pawn;
-
-		// Token: 0x04000DBE RID: 3518
-		private List<Need> needs = new List<Need>();
-
-		// Token: 0x04000DBF RID: 3519
-		public Need_Mood mood;
-
-		// Token: 0x04000DC0 RID: 3520
-		public Need_Food food;
-
-		// Token: 0x04000DC1 RID: 3521
-		public Need_Rest rest;
-
-		// Token: 0x04000DC2 RID: 3522
-		public Need_Joy joy;
-
-		// Token: 0x04000DC3 RID: 3523
-		public Need_Beauty beauty;
-
-		// Token: 0x04000DC4 RID: 3524
-		public Need_RoomSize roomsize;
-
-		// Token: 0x04000DC5 RID: 3525
-		public Need_Outdoors outdoors;
-
-		// Token: 0x04000DC6 RID: 3526
-		public Need_Comfort comfort;
 	}
 }

@@ -7,6 +7,24 @@ namespace Verse
 	// Token: 0x02000F46 RID: 3910
 	public static class GenRadial
 	{
+		// Token: 0x04003E26 RID: 15910
+		public static IntVec3[] ManualRadialPattern = new IntVec3[49];
+
+		// Token: 0x04003E27 RID: 15911
+		public static IntVec3[] RadialPattern = new IntVec3[10000];
+
+		// Token: 0x04003E28 RID: 15912
+		private static float[] RadialPatternRadii = new float[10000];
+
+		// Token: 0x04003E29 RID: 15913
+		private const int RadialPatternCount = 10000;
+
+		// Token: 0x04003E2A RID: 15914
+		private static List<IntVec3> tmpCells = new List<IntVec3>();
+
+		// Token: 0x04003E2B RID: 15915
+		private static bool working = false;
+
 		// Token: 0x06005E9C RID: 24220 RVA: 0x00301554 File Offset: 0x002FF954
 		static GenRadial()
 		{
@@ -286,23 +304,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04003E26 RID: 15910
-		public static IntVec3[] ManualRadialPattern = new IntVec3[49];
-
-		// Token: 0x04003E27 RID: 15911
-		public static IntVec3[] RadialPattern = new IntVec3[10000];
-
-		// Token: 0x04003E28 RID: 15912
-		private static float[] RadialPatternRadii = new float[10000];
-
-		// Token: 0x04003E29 RID: 15913
-		private const int RadialPatternCount = 10000;
-
-		// Token: 0x04003E2A RID: 15914
-		private static List<IntVec3> tmpCells = new List<IntVec3>();
-
-		// Token: 0x04003E2B RID: 15915
-		private static bool working = false;
 	}
 }

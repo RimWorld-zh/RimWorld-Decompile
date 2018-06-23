@@ -5,6 +5,9 @@ namespace Verse
 	// Token: 0x02000C5D RID: 3165
 	public class ScattererValidator_NoNonNaturalEdifices : ScattererValidator
 	{
+		// Token: 0x04002FA1 RID: 12193
+		public int radius = 1;
+
 		// Token: 0x060045A9 RID: 17833 RVA: 0x0024CDE8 File Offset: 0x0024B1E8
 		public override bool Allows(IntVec3 c, Map map)
 		{
@@ -22,8 +25,5 @@ namespace Verse
 			}
 			return true;
 		}
-
-		// Token: 0x04002FA1 RID: 12193
-		public int radius = 1;
 	}
 }

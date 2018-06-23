@@ -10,6 +10,45 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public abstract class LogEntry : IExposable, ILoadReferenceable
 	{
+		// Token: 0x04002CE4 RID: 11492
+		protected int logID = 0;
+
+		// Token: 0x04002CE5 RID: 11493
+		protected int ticksAbs = -1;
+
+		// Token: 0x04002CE6 RID: 11494
+		public LogEntryDef def;
+
+		// Token: 0x04002CE7 RID: 11495
+		private WeakReference<Thing> cachedStringPov = null;
+
+		// Token: 0x04002CE8 RID: 11496
+		private string cachedString = null;
+
+		// Token: 0x04002CE9 RID: 11497
+		private float cachedHeightWidth;
+
+		// Token: 0x04002CEA RID: 11498
+		private float cachedHeight;
+
+		// Token: 0x04002CEB RID: 11499
+		public static readonly Texture2D Blood = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/Blood", true);
+
+		// Token: 0x04002CEC RID: 11500
+		public static readonly Texture2D BloodTarget = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/BloodTarget", true);
+
+		// Token: 0x04002CED RID: 11501
+		public static readonly Texture2D Downed = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/Downed", true);
+
+		// Token: 0x04002CEE RID: 11502
+		public static readonly Texture2D DownedTarget = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/DownedTarget", true);
+
+		// Token: 0x04002CEF RID: 11503
+		public static readonly Texture2D Skull = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/Skull", true);
+
+		// Token: 0x04002CF0 RID: 11504
+		public static readonly Texture2D SkullTarget = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/SkullTarget", true);
+
 		// Token: 0x060041B5 RID: 16821 RVA: 0x002260E8 File Offset: 0x002244E8
 		public LogEntry(LogEntryDef def = null)
 		{
@@ -169,44 +208,5 @@ namespace Verse
 		{
 			return string.Format("LogEntry_{0}_{1}", this.ticksAbs, this.logID);
 		}
-
-		// Token: 0x04002CE4 RID: 11492
-		protected int logID = 0;
-
-		// Token: 0x04002CE5 RID: 11493
-		protected int ticksAbs = -1;
-
-		// Token: 0x04002CE6 RID: 11494
-		public LogEntryDef def;
-
-		// Token: 0x04002CE7 RID: 11495
-		private WeakReference<Thing> cachedStringPov = null;
-
-		// Token: 0x04002CE8 RID: 11496
-		private string cachedString = null;
-
-		// Token: 0x04002CE9 RID: 11497
-		private float cachedHeightWidth;
-
-		// Token: 0x04002CEA RID: 11498
-		private float cachedHeight;
-
-		// Token: 0x04002CEB RID: 11499
-		public static readonly Texture2D Blood = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/Blood", true);
-
-		// Token: 0x04002CEC RID: 11500
-		public static readonly Texture2D BloodTarget = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/BloodTarget", true);
-
-		// Token: 0x04002CED RID: 11501
-		public static readonly Texture2D Downed = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/Downed", true);
-
-		// Token: 0x04002CEE RID: 11502
-		public static readonly Texture2D DownedTarget = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/DownedTarget", true);
-
-		// Token: 0x04002CEF RID: 11503
-		public static readonly Texture2D Skull = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/Skull", true);
-
-		// Token: 0x04002CF0 RID: 11504
-		public static readonly Texture2D SkullTarget = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/SkullTarget", true);
 	}
 }

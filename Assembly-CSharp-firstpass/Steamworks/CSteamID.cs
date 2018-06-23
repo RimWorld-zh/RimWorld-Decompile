@@ -5,6 +5,24 @@ namespace Steamworks
 	// Token: 0x02000156 RID: 342
 	public struct CSteamID : IEquatable<CSteamID>, IComparable<CSteamID>
 	{
+		// Token: 0x0400065D RID: 1629
+		public static readonly CSteamID Nil = default(CSteamID);
+
+		// Token: 0x0400065E RID: 1630
+		public static readonly CSteamID OutofDateGS = new CSteamID(new AccountID_t(0u), 0u, EUniverse.k_EUniverseInvalid, EAccountType.k_EAccountTypeInvalid);
+
+		// Token: 0x0400065F RID: 1631
+		public static readonly CSteamID LanModeGS = new CSteamID(new AccountID_t(0u), 0u, EUniverse.k_EUniversePublic, EAccountType.k_EAccountTypeInvalid);
+
+		// Token: 0x04000660 RID: 1632
+		public static readonly CSteamID NotInitYetGS = new CSteamID(new AccountID_t(1u), 0u, EUniverse.k_EUniverseInvalid, EAccountType.k_EAccountTypeInvalid);
+
+		// Token: 0x04000661 RID: 1633
+		public static readonly CSteamID NonSteamGS = new CSteamID(new AccountID_t(2u), 0u, EUniverse.k_EUniverseInvalid, EAccountType.k_EAccountTypeInvalid);
+
+		// Token: 0x04000662 RID: 1634
+		public ulong m_SteamID;
+
 		// Token: 0x06000761 RID: 1889 RVA: 0x0000C92B File Offset: 0x0000AB2B
 		public CSteamID(AccountID_t unAccountID, EUniverse eUniverse, EAccountType eAccountType)
 		{
@@ -302,23 +320,5 @@ namespace Steamworks
 		{
 			return this.m_SteamID.CompareTo(other.m_SteamID);
 		}
-
-		// Token: 0x0400065D RID: 1629
-		public static readonly CSteamID Nil = default(CSteamID);
-
-		// Token: 0x0400065E RID: 1630
-		public static readonly CSteamID OutofDateGS = new CSteamID(new AccountID_t(0u), 0u, EUniverse.k_EUniverseInvalid, EAccountType.k_EAccountTypeInvalid);
-
-		// Token: 0x0400065F RID: 1631
-		public static readonly CSteamID LanModeGS = new CSteamID(new AccountID_t(0u), 0u, EUniverse.k_EUniversePublic, EAccountType.k_EAccountTypeInvalid);
-
-		// Token: 0x04000660 RID: 1632
-		public static readonly CSteamID NotInitYetGS = new CSteamID(new AccountID_t(1u), 0u, EUniverse.k_EUniverseInvalid, EAccountType.k_EAccountTypeInvalid);
-
-		// Token: 0x04000661 RID: 1633
-		public static readonly CSteamID NonSteamGS = new CSteamID(new AccountID_t(2u), 0u, EUniverse.k_EUniverseInvalid, EAccountType.k_EAccountTypeInvalid);
-
-		// Token: 0x04000662 RID: 1634
-		public ulong m_SteamID;
 	}
 }

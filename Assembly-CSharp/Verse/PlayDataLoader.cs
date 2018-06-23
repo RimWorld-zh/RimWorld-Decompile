@@ -10,6 +10,9 @@ namespace Verse
 	// Token: 0x02000AF3 RID: 2803
 	public static class PlayDataLoader
 	{
+		// Token: 0x04002743 RID: 10051
+		private static bool loadedInt = false;
+
 		// Token: 0x17000957 RID: 2391
 		// (get) Token: 0x06003E1F RID: 15903 RVA: 0x0020C200 File Offset: 0x0020A600
 		public static bool Loaded
@@ -329,8 +332,5 @@ namespace Verse
 			Current.Game = null;
 			PlayDataLoader.loadedInt = false;
 		}
-
-		// Token: 0x04002743 RID: 10051
-		private static bool loadedInt = false;
 	}
 }

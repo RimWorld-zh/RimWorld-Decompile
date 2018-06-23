@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000872 RID: 2162
 	public abstract class MainTabWindow_PawnTable : MainTabWindow
 	{
+		// Token: 0x04001AA0 RID: 6816
+		private PawnTable table;
+
 		// Token: 0x170007EC RID: 2028
 		// (get) Token: 0x06003141 RID: 12609 RVA: 0x001AA020 File Offset: 0x001A8420
 		protected virtual float ExtraBottomSpace
@@ -119,8 +122,5 @@ namespace RimWorld
 			this.table.SetDirty();
 			this.SetInitialSizeAndPosition();
 		}
-
-		// Token: 0x04001AA0 RID: 6816
-		private PawnTable table;
 	}
 }

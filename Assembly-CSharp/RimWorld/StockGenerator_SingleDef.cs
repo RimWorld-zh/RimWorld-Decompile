@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x0200076D RID: 1901
 	public class StockGenerator_SingleDef : StockGenerator
 	{
+		// Token: 0x040016AF RID: 5807
+		private ThingDef thingDef = null;
+
 		// Token: 0x06002A09 RID: 10761 RVA: 0x00163ED0 File Offset: 0x001622D0
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
@@ -36,8 +39,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x040016AF RID: 5807
-		private ThingDef thingDef = null;
 	}
 }

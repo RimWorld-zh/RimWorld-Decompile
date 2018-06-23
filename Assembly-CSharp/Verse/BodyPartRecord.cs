@@ -7,6 +7,49 @@ namespace Verse
 	// Token: 0x02000AF9 RID: 2809
 	public class BodyPartRecord
 	{
+		// Token: 0x0400275A RID: 10074
+		public BodyDef body;
+
+		// Token: 0x0400275B RID: 10075
+		[TranslationHandle]
+		public BodyPartDef def = null;
+
+		// Token: 0x0400275C RID: 10076
+		[MustTranslate]
+		public string customLabel;
+
+		// Token: 0x0400275D RID: 10077
+		[Unsaved]
+		[TranslationHandle(Priority = 100)]
+		public string untranslatedCustomLabel = null;
+
+		// Token: 0x0400275E RID: 10078
+		public List<BodyPartRecord> parts = new List<BodyPartRecord>();
+
+		// Token: 0x0400275F RID: 10079
+		public BodyPartHeight height = BodyPartHeight.Undefined;
+
+		// Token: 0x04002760 RID: 10080
+		public BodyPartDepth depth = BodyPartDepth.Undefined;
+
+		// Token: 0x04002761 RID: 10081
+		public float coverage = 1f;
+
+		// Token: 0x04002762 RID: 10082
+		public List<BodyPartGroupDef> groups = new List<BodyPartGroupDef>();
+
+		// Token: 0x04002763 RID: 10083
+		[Unsaved]
+		public BodyPartRecord parent = null;
+
+		// Token: 0x04002764 RID: 10084
+		[Unsaved]
+		public float coverageAbsWithChildren = 0f;
+
+		// Token: 0x04002765 RID: 10085
+		[Unsaved]
+		public float coverageAbs = 0f;
+
 		// Token: 0x17000959 RID: 2393
 		// (get) Token: 0x06003E43 RID: 15939 RVA: 0x0020CF38 File Offset: 0x0020B338
 		public bool IsCorePart
@@ -146,48 +189,5 @@ namespace Verse
 			}
 			yield break;
 		}
-
-		// Token: 0x0400275A RID: 10074
-		public BodyDef body;
-
-		// Token: 0x0400275B RID: 10075
-		[TranslationHandle]
-		public BodyPartDef def = null;
-
-		// Token: 0x0400275C RID: 10076
-		[MustTranslate]
-		public string customLabel;
-
-		// Token: 0x0400275D RID: 10077
-		[Unsaved]
-		[TranslationHandle(Priority = 100)]
-		public string untranslatedCustomLabel = null;
-
-		// Token: 0x0400275E RID: 10078
-		public List<BodyPartRecord> parts = new List<BodyPartRecord>();
-
-		// Token: 0x0400275F RID: 10079
-		public BodyPartHeight height = BodyPartHeight.Undefined;
-
-		// Token: 0x04002760 RID: 10080
-		public BodyPartDepth depth = BodyPartDepth.Undefined;
-
-		// Token: 0x04002761 RID: 10081
-		public float coverage = 1f;
-
-		// Token: 0x04002762 RID: 10082
-		public List<BodyPartGroupDef> groups = new List<BodyPartGroupDef>();
-
-		// Token: 0x04002763 RID: 10083
-		[Unsaved]
-		public BodyPartRecord parent = null;
-
-		// Token: 0x04002764 RID: 10084
-		[Unsaved]
-		public float coverageAbsWithChildren = 0f;
-
-		// Token: 0x04002765 RID: 10085
-		[Unsaved]
-		public float coverageAbs = 0f;
 	}
 }

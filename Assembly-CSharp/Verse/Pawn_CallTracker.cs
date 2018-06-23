@@ -6,6 +6,24 @@ namespace Verse
 	// Token: 0x02000D53 RID: 3411
 	public class Pawn_CallTracker
 	{
+		// Token: 0x040032FB RID: 13051
+		public Pawn pawn;
+
+		// Token: 0x040032FC RID: 13052
+		private int ticksToNextCall = -1;
+
+		// Token: 0x040032FD RID: 13053
+		private static readonly IntRange CallOnAggroDelayRange = new IntRange(0, 120);
+
+		// Token: 0x040032FE RID: 13054
+		private static readonly IntRange CallOnMeleeDelayRange = new IntRange(0, 20);
+
+		// Token: 0x040032FF RID: 13055
+		private const float AngryCallOnMeleeChance = 0.5f;
+
+		// Token: 0x04003300 RID: 13056
+		private const int AggressiveDurationAfterEngagingTarget = 360;
+
 		// Token: 0x06004C2C RID: 19500 RVA: 0x0027BE2C File Offset: 0x0027A22C
 		public Pawn_CallTracker(Pawn pawn)
 		{
@@ -132,23 +150,5 @@ namespace Verse
 				this.ticksToNextCall = Pawn_CallTracker.CallOnAggroDelayRange.RandomInRange;
 			}
 		}
-
-		// Token: 0x040032FB RID: 13051
-		public Pawn pawn;
-
-		// Token: 0x040032FC RID: 13052
-		private int ticksToNextCall = -1;
-
-		// Token: 0x040032FD RID: 13053
-		private static readonly IntRange CallOnAggroDelayRange = new IntRange(0, 120);
-
-		// Token: 0x040032FE RID: 13054
-		private static readonly IntRange CallOnMeleeDelayRange = new IntRange(0, 20);
-
-		// Token: 0x040032FF RID: 13055
-		private const float AngryCallOnMeleeChance = 0.5f;
-
-		// Token: 0x04003300 RID: 13056
-		private const int AggressiveDurationAfterEngagingTarget = 360;
 	}
 }

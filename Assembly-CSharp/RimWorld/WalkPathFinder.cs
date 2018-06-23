@@ -9,6 +9,24 @@ namespace RimWorld
 	// Token: 0x020000FE RID: 254
 	public static class WalkPathFinder
 	{
+		// Token: 0x040002D7 RID: 727
+		private const int NumPathNodes = 8;
+
+		// Token: 0x040002D8 RID: 728
+		private const float StepDistMin = 2f;
+
+		// Token: 0x040002D9 RID: 729
+		private const float StepDistMax = 14f;
+
+		// Token: 0x040002DA RID: 730
+		private static readonly int StartRadialIndex = GenRadial.NumCellsInRadius(14f);
+
+		// Token: 0x040002DB RID: 731
+		private static readonly int EndRadialIndex = GenRadial.NumCellsInRadius(2f);
+
+		// Token: 0x040002DC RID: 732
+		private static readonly int RadialIndexStride = 3;
+
 		// Token: 0x06000553 RID: 1363 RVA: 0x00039FC8 File Offset: 0x000383C8
 		public static bool TryFindWalkPath(Pawn pawn, IntVec3 root, out List<IntVec3> result)
 		{
@@ -101,23 +119,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x040002D7 RID: 727
-		private const int NumPathNodes = 8;
-
-		// Token: 0x040002D8 RID: 728
-		private const float StepDistMin = 2f;
-
-		// Token: 0x040002D9 RID: 729
-		private const float StepDistMax = 14f;
-
-		// Token: 0x040002DA RID: 730
-		private static readonly int StartRadialIndex = GenRadial.NumCellsInRadius(14f);
-
-		// Token: 0x040002DB RID: 731
-		private static readonly int EndRadialIndex = GenRadial.NumCellsInRadius(2f);
-
-		// Token: 0x040002DC RID: 732
-		private static readonly int RadialIndexStride = 3;
 	}
 }

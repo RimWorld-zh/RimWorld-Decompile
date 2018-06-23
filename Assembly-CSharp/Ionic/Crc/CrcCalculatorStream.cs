@@ -6,6 +6,21 @@ namespace Ionic.Crc
 	// Token: 0x02000003 RID: 3
 	public class CrcCalculatorStream : Stream, IDisposable
 	{
+		// Token: 0x04000007 RID: 7
+		private static readonly long UnsetLengthLimit = -99L;
+
+		// Token: 0x04000008 RID: 8
+		private readonly Stream _innerStream;
+
+		// Token: 0x04000009 RID: 9
+		private readonly CRC32 _crc32;
+
+		// Token: 0x0400000A RID: 10
+		private readonly long _lengthLimit = -99L;
+
+		// Token: 0x0400000B RID: 11
+		private bool _leaveOpen;
+
 		// Token: 0x06000014 RID: 20 RVA: 0x0000283D File Offset: 0x00000C3D
 		public CrcCalculatorStream(Stream stream) : this(true, CrcCalculatorStream.UnsetLengthLimit, stream, null)
 		{
@@ -222,20 +237,5 @@ namespace Ionic.Crc
 				this._innerStream.Close();
 			}
 		}
-
-		// Token: 0x04000007 RID: 7
-		private static readonly long UnsetLengthLimit = -99L;
-
-		// Token: 0x04000008 RID: 8
-		private readonly Stream _innerStream;
-
-		// Token: 0x04000009 RID: 9
-		private readonly CRC32 _crc32;
-
-		// Token: 0x0400000A RID: 10
-		private readonly long _lengthLimit = -99L;
-
-		// Token: 0x0400000B RID: 11
-		private bool _leaveOpen;
 	}
 }

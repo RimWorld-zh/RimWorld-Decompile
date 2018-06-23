@@ -6,6 +6,9 @@ namespace Verse.Noise
 	// Token: 0x02000F77 RID: 3959
 	public class CurveFromAxis : ModuleBase
 	{
+		// Token: 0x04003ED7 RID: 16087
+		public SimpleCurve curve;
+
 		// Token: 0x06005F98 RID: 24472 RVA: 0x0030B333 File Offset: 0x00309733
 		public CurveFromAxis() : base(0)
 		{
@@ -23,8 +26,5 @@ namespace Verse.Noise
 			float x2 = Mathf.Abs((float)x);
 			return (double)this.curve.Evaluate(x2);
 		}
-
-		// Token: 0x04003ED7 RID: 16087
-		public SimpleCurve curve;
 	}
 }

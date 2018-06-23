@@ -7,21 +7,6 @@ namespace Verse
 	// Token: 0x02000FA9 RID: 4009
 	public class PrefsData
 	{
-		// Token: 0x060060FB RID: 24827 RVA: 0x0031052A File Offset: 0x0030E92A
-		public void Apply()
-		{
-			if (this.customCursorEnabled)
-			{
-				CustomCursor.Activate();
-			}
-			else
-			{
-				CustomCursor.Deactivate();
-			}
-			AudioListener.volume = this.volumeGame;
-			Application.runInBackground = this.runInBackground;
-		}
-
 		// Token: 0x04003F60 RID: 16224
 		public float volumeGame = 0.8f;
 
@@ -96,5 +81,20 @@ namespace Verse
 
 		// Token: 0x04003F78 RID: 16248
 		public bool resetModsConfigOnCrash = true;
+
+		// Token: 0x060060FB RID: 24827 RVA: 0x0031052A File Offset: 0x0030E92A
+		public void Apply()
+		{
+			if (this.customCursorEnabled)
+			{
+				CustomCursor.Activate();
+			}
+			else
+			{
+				CustomCursor.Deactivate();
+			}
+			AudioListener.volume = this.volumeGame;
+			Application.runInBackground = this.runInBackground;
+		}
 	}
 }

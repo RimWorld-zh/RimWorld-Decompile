@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000C0B RID: 3083
 	public sealed class DesignationManager : IExposable
 	{
+		// Token: 0x04002E1B RID: 11803
+		public Map map;
+
+		// Token: 0x04002E1C RID: 11804
+		public List<Designation> allDesignations = new List<Designation>();
+
 		// Token: 0x0600436E RID: 17262 RVA: 0x00239D8B File Offset: 0x0023818B
 		public DesignationManager(Map map)
 		{
@@ -283,11 +289,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04002E1B RID: 11803
-		public Map map;
-
-		// Token: 0x04002E1C RID: 11804
-		public List<Designation> allDesignations = new List<Designation>();
 	}
 }

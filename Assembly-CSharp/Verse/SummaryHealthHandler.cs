@@ -7,6 +7,15 @@ namespace Verse
 	// Token: 0x02000D45 RID: 3397
 	public class SummaryHealthHandler
 	{
+		// Token: 0x0400327B RID: 12923
+		private Pawn pawn;
+
+		// Token: 0x0400327C RID: 12924
+		private float cachedSummaryHealthPercent = 1f;
+
+		// Token: 0x0400327D RID: 12925
+		private bool dirty = true;
+
 		// Token: 0x06004AE9 RID: 19177 RVA: 0x002719B6 File Offset: 0x0026FDB6
 		public SummaryHealthHandler(Pawn pawn)
 		{
@@ -58,14 +67,5 @@ namespace Verse
 		{
 			this.dirty = true;
 		}
-
-		// Token: 0x0400327B RID: 12923
-		private Pawn pawn;
-
-		// Token: 0x0400327C RID: 12924
-		private float cachedSummaryHealthPercent = 1f;
-
-		// Token: 0x0400327D RID: 12925
-		private bool dirty = true;
 	}
 }

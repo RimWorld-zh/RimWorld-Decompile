@@ -6,6 +6,18 @@ namespace RimWorld
 	// Token: 0x020009A7 RID: 2471
 	public class StatPart_Food : StatPart
 	{
+		// Token: 0x0400239D RID: 9117
+		public float factorStarving = 1f;
+
+		// Token: 0x0400239E RID: 9118
+		public float factorUrgentlyHungry = 1f;
+
+		// Token: 0x0400239F RID: 9119
+		public float factorHungry = 1f;
+
+		// Token: 0x040023A0 RID: 9120
+		public float factorFed = 1f;
+
 		// Token: 0x0600376B RID: 14187 RVA: 0x001D95EC File Offset: 0x001D79EC
 		public override void TransformValue(StatRequest req, ref float val)
 		{
@@ -56,17 +68,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x0400239D RID: 9117
-		public float factorStarving = 1f;
-
-		// Token: 0x0400239E RID: 9118
-		public float factorUrgentlyHungry = 1f;
-
-		// Token: 0x0400239F RID: 9119
-		public float factorHungry = 1f;
-
-		// Token: 0x040023A0 RID: 9120
-		public float factorFed = 1f;
 	}
 }

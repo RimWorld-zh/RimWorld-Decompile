@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x020009C0 RID: 2496
 	public class StatWorker_MarketValue : StatWorker
 	{
+		// Token: 0x040023CB RID: 9163
+		public const float ValuePerWork = 0.0036f;
+
+		// Token: 0x040023CC RID: 9164
+		private const float DefaultGuessStuffCost = 2f;
+
 		// Token: 0x060037FF RID: 14335 RVA: 0x001DD890 File Offset: 0x001DBC90
 		public override float GetValueUnfinalized(StatRequest req, bool applyPostProcess = true)
 		{
@@ -138,11 +144,5 @@ namespace RimWorld
 			ThingDef thingDef = req.Def as ThingDef;
 			return thingDef != null && (thingDef.category == ThingCategory.Building || TradeUtility.EverPlayerSellable(thingDef) || (thingDef.tradeability.TraderCanSell() && (thingDef.category == ThingCategory.Item || thingDef.category == ThingCategory.Pawn)));
 		}
-
-		// Token: 0x040023CB RID: 9163
-		public const float ValuePerWork = 0.0036f;
-
-		// Token: 0x040023CC RID: 9164
-		private const float DefaultGuessStuffCost = 2f;
 	}
 }

@@ -10,6 +10,9 @@ namespace Verse
 	// Token: 0x02000C9E RID: 3230
 	public static class RoofCollapserImmediate
 	{
+		// Token: 0x04003060 RID: 12384
+		private static readonly IntRange ThinRoofCrushDamageRange = new IntRange(15, 30);
+
 		// Token: 0x0600472B RID: 18219 RVA: 0x00258FCB File Offset: 0x002573CB
 		public static void DropRoofInCells(IntVec3 c, Map map, List<Thing> outCrushedThings = null)
 		{
@@ -214,8 +217,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003060 RID: 12384
-		private static readonly IntRange ThinRoofCrushDamageRange = new IntRange(15, 30);
 	}
 }

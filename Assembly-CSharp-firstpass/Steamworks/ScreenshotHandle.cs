@@ -5,6 +5,12 @@ namespace Steamworks
 	// Token: 0x02000167 RID: 359
 	public struct ScreenshotHandle : IEquatable<ScreenshotHandle>, IComparable<ScreenshotHandle>
 	{
+		// Token: 0x04000680 RID: 1664
+		public static readonly ScreenshotHandle Invalid = new ScreenshotHandle(0u);
+
+		// Token: 0x04000681 RID: 1665
+		public uint m_ScreenshotHandle;
+
 		// Token: 0x06000836 RID: 2102 RVA: 0x0000E651 File Offset: 0x0000C851
 		public ScreenshotHandle(uint value)
 		{
@@ -64,11 +70,5 @@ namespace Steamworks
 		{
 			return this.m_ScreenshotHandle.CompareTo(other.m_ScreenshotHandle);
 		}
-
-		// Token: 0x04000680 RID: 1664
-		public static readonly ScreenshotHandle Invalid = new ScreenshotHandle(0u);
-
-		// Token: 0x04000681 RID: 1665
-		public uint m_ScreenshotHandle;
 	}
 }

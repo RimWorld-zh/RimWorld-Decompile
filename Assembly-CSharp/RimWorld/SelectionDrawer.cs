@@ -9,6 +9,15 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class SelectionDrawer
 	{
+		// Token: 0x04001A58 RID: 6744
+		private static Dictionary<object, float> selectTimes = new Dictionary<object, float>();
+
+		// Token: 0x04001A59 RID: 6745
+		private static readonly Material SelectionBracketMat = MaterialPool.MatFrom("UI/Overlays/SelectionBracket", ShaderDatabase.MetaOverlay);
+
+		// Token: 0x04001A5A RID: 6746
+		private static Vector3[] bracketLocs = new Vector3[4];
+
 		// Token: 0x170007CA RID: 1994
 		// (get) Token: 0x060030AE RID: 12462 RVA: 0x001A6CEC File Offset: 0x001A50EC
 		public static Dictionary<object, float> SelectTimes
@@ -66,14 +75,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04001A58 RID: 6744
-		private static Dictionary<object, float> selectTimes = new Dictionary<object, float>();
-
-		// Token: 0x04001A59 RID: 6745
-		private static readonly Material SelectionBracketMat = MaterialPool.MatFrom("UI/Overlays/SelectionBracket", ShaderDatabase.MetaOverlay);
-
-		// Token: 0x04001A5A RID: 6746
-		private static Vector3[] bracketLocs = new Vector3[4];
 	}
 }

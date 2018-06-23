@@ -9,6 +9,24 @@ namespace RimWorld
 	// Token: 0x02000129 RID: 297
 	public abstract class WorkGiver_ConstructDeliverResources : WorkGiver_Scanner
 	{
+		// Token: 0x0400030A RID: 778
+		private static List<Thing> resourcesAvailable = new List<Thing>();
+
+		// Token: 0x0400030B RID: 779
+		private const float MultiPickupRadius = 5f;
+
+		// Token: 0x0400030C RID: 780
+		private const float NearbyConstructScanRadius = 8f;
+
+		// Token: 0x0400030D RID: 781
+		private static string MissingMaterialsTranslated;
+
+		// Token: 0x0400030E RID: 782
+		private static string ForbiddenLowerTranslated;
+
+		// Token: 0x0400030F RID: 783
+		private static string NoPathTranslated;
+
 		// Token: 0x0600061B RID: 1563 RVA: 0x000409A0 File Offset: 0x0003EDA0
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
@@ -272,23 +290,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x0400030A RID: 778
-		private static List<Thing> resourcesAvailable = new List<Thing>();
-
-		// Token: 0x0400030B RID: 779
-		private const float MultiPickupRadius = 5f;
-
-		// Token: 0x0400030C RID: 780
-		private const float NearbyConstructScanRadius = 8f;
-
-		// Token: 0x0400030D RID: 781
-		private static string MissingMaterialsTranslated;
-
-		// Token: 0x0400030E RID: 782
-		private static string ForbiddenLowerTranslated;
-
-		// Token: 0x0400030F RID: 783
-		private static string NoPathTranslated;
 	}
 }

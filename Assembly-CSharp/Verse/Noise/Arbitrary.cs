@@ -5,6 +5,9 @@ namespace Verse.Noise
 	// Token: 0x02000F85 RID: 3973
 	public class Arbitrary : ModuleBase
 	{
+		// Token: 0x04003F0D RID: 16141
+		private Func<double, double> processor;
+
 		// Token: 0x0600600A RID: 24586 RVA: 0x0030D230 File Offset: 0x0030B630
 		public Arbitrary() : base(1)
 		{
@@ -22,8 +25,5 @@ namespace Verse.Noise
 		{
 			return this.processor(this.modules[0].GetValue(x, y, z));
 		}
-
-		// Token: 0x04003F0D RID: 16141
-		private Func<double, double> processor;
 	}
 }

@@ -10,6 +10,42 @@ namespace Verse.AI
 	// Token: 0x02000A5C RID: 2652
 	public class MentalBreaker : IExposable
 	{
+		// Token: 0x04002546 RID: 9542
+		private Pawn pawn;
+
+		// Token: 0x04002547 RID: 9543
+		private int ticksBelowExtreme = 0;
+
+		// Token: 0x04002548 RID: 9544
+		private int ticksBelowMajor = 0;
+
+		// Token: 0x04002549 RID: 9545
+		private int ticksBelowMinor = 0;
+
+		// Token: 0x0400254A RID: 9546
+		private const int CheckInterval = 150;
+
+		// Token: 0x0400254B RID: 9547
+		private const float ExtremeBreakMTBDays = 0.7f;
+
+		// Token: 0x0400254C RID: 9548
+		private const float MajorBreakMTBDays = 3f;
+
+		// Token: 0x0400254D RID: 9549
+		private const float MinorBreakMTBDays = 10f;
+
+		// Token: 0x0400254E RID: 9550
+		private const int MinTicksBelowToBreak = 1500;
+
+		// Token: 0x0400254F RID: 9551
+		private const float MajorBreakMoodSpan = 0.15f;
+
+		// Token: 0x04002550 RID: 9552
+		private const float MinorBreakMoodSpan = 0.15f;
+
+		// Token: 0x04002551 RID: 9553
+		private static List<Thought> tmpThoughts = new List<Thought>();
+
 		// Token: 0x06003B03 RID: 15107 RVA: 0x001F526D File Offset: 0x001F366D
 		public MentalBreaker()
 		{
@@ -403,41 +439,5 @@ namespace Verse.AI
 			}
 			Log.Message(stringBuilder.ToString(), false);
 		}
-
-		// Token: 0x04002546 RID: 9542
-		private Pawn pawn;
-
-		// Token: 0x04002547 RID: 9543
-		private int ticksBelowExtreme = 0;
-
-		// Token: 0x04002548 RID: 9544
-		private int ticksBelowMajor = 0;
-
-		// Token: 0x04002549 RID: 9545
-		private int ticksBelowMinor = 0;
-
-		// Token: 0x0400254A RID: 9546
-		private const int CheckInterval = 150;
-
-		// Token: 0x0400254B RID: 9547
-		private const float ExtremeBreakMTBDays = 0.7f;
-
-		// Token: 0x0400254C RID: 9548
-		private const float MajorBreakMTBDays = 3f;
-
-		// Token: 0x0400254D RID: 9549
-		private const float MinorBreakMTBDays = 10f;
-
-		// Token: 0x0400254E RID: 9550
-		private const int MinTicksBelowToBreak = 1500;
-
-		// Token: 0x0400254F RID: 9551
-		private const float MajorBreakMoodSpan = 0.15f;
-
-		// Token: 0x04002550 RID: 9552
-		private const float MinorBreakMoodSpan = 0.15f;
-
-		// Token: 0x04002551 RID: 9553
-		private static List<Thought> tmpThoughts = new List<Thought>();
 	}
 }

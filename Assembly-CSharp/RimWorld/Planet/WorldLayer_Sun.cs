@@ -8,6 +8,9 @@ namespace RimWorld.Planet
 	// Token: 0x02000596 RID: 1430
 	public class WorldLayer_Sun : WorldLayer
 	{
+		// Token: 0x0400101E RID: 4126
+		private const float SunDrawSize = 15f;
+
 		// Token: 0x17000406 RID: 1030
 		// (get) Token: 0x06001B4F RID: 6991 RVA: 0x000EB218 File Offset: 0x000E9618
 		protected override int Layer
@@ -56,8 +59,5 @@ namespace RimWorld.Planet
 			base.FinalizeMesh(MeshParts.All);
 			yield break;
 		}
-
-		// Token: 0x0400101E RID: 4126
-		private const float SunDrawSize = 15f;
 	}
 }

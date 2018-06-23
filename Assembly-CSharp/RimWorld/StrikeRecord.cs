@@ -6,6 +6,18 @@ namespace RimWorld
 	// Token: 0x02000413 RID: 1043
 	internal struct StrikeRecord : IExposable
 	{
+		// Token: 0x04000AEF RID: 2799
+		public IntVec3 cell;
+
+		// Token: 0x04000AF0 RID: 2800
+		public int ticksGame;
+
+		// Token: 0x04000AF1 RID: 2801
+		public ThingDef def;
+
+		// Token: 0x04000AF2 RID: 2802
+		private const int StrikeRecordExpiryDays = 15;
+
 		// Token: 0x17000266 RID: 614
 		// (get) Token: 0x060011EE RID: 4590 RVA: 0x0009BBF4 File Offset: 0x00099FF4
 		public bool Expired
@@ -38,17 +50,5 @@ namespace RimWorld
 				")"
 			});
 		}
-
-		// Token: 0x04000AEF RID: 2799
-		public IntVec3 cell;
-
-		// Token: 0x04000AF0 RID: 2800
-		public int ticksGame;
-
-		// Token: 0x04000AF1 RID: 2801
-		public ThingDef def;
-
-		// Token: 0x04000AF2 RID: 2802
-		private const int StrikeRecordExpiryDays = 15;
 	}
 }

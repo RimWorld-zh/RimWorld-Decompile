@@ -6,6 +6,17 @@ namespace Verse
 	// Token: 0x02000AFA RID: 2810
 	public class BodyDef : Def
 	{
+		// Token: 0x04002766 RID: 10086
+		public BodyPartRecord corePart = null;
+
+		// Token: 0x04002767 RID: 10087
+		[Unsaved]
+		private List<BodyPartRecord> cachedAllParts = new List<BodyPartRecord>();
+
+		// Token: 0x04002768 RID: 10088
+		[Unsaved]
+		private List<BodyPartRecord> cachedPartsVulnerableToFrostbite = null;
+
 		// Token: 0x1700095F RID: 2399
 		// (get) Token: 0x06003E51 RID: 15953 RVA: 0x0020D7CC File Offset: 0x0020BBCC
 		public List<BodyPartRecord> AllParts
@@ -201,16 +212,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04002766 RID: 10086
-		public BodyPartRecord corePart = null;
-
-		// Token: 0x04002767 RID: 10087
-		[Unsaved]
-		private List<BodyPartRecord> cachedAllParts = new List<BodyPartRecord>();
-
-		// Token: 0x04002768 RID: 10088
-		[Unsaved]
-		private List<BodyPartRecord> cachedPartsVulnerableToFrostbite = null;
 	}
 }

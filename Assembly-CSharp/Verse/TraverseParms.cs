@@ -5,6 +5,18 @@ namespace Verse
 	// Token: 0x02000ADB RID: 2779
 	public struct TraverseParms : IEquatable<TraverseParms>
 	{
+		// Token: 0x040026C9 RID: 9929
+		public Pawn pawn;
+
+		// Token: 0x040026CA RID: 9930
+		public TraverseMode mode;
+
+		// Token: 0x040026CB RID: 9931
+		public Danger maxDanger;
+
+		// Token: 0x040026CC RID: 9932
+		public bool canBash;
+
 		// Token: 0x06003D97 RID: 15767 RVA: 0x00206684 File Offset: 0x00204A84
 		public static TraverseParms For(Pawn pawn, Danger maxDanger = Danger.Deadly, TraverseMode mode = TraverseMode.ByPawn, bool canBash = false)
 		{
@@ -130,17 +142,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x040026C9 RID: 9929
-		public Pawn pawn;
-
-		// Token: 0x040026CA RID: 9930
-		public TraverseMode mode;
-
-		// Token: 0x040026CB RID: 9931
-		public Danger maxDanger;
-
-		// Token: 0x040026CC RID: 9932
-		public bool canBash;
 	}
 }

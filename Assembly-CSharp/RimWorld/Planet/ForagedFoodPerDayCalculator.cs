@@ -8,6 +8,18 @@ namespace RimWorld.Planet
 	// Token: 0x020005F1 RID: 1521
 	public static class ForagedFoodPerDayCalculator
 	{
+		// Token: 0x040011FE RID: 4606
+		private static List<Pawn> tmpPawns = new List<Pawn>();
+
+		// Token: 0x040011FF RID: 4607
+		private static List<ThingCount> tmpThingCounts = new List<ThingCount>();
+
+		// Token: 0x04001200 RID: 4608
+		private const float BaseProgressPerTick = 0.0001f;
+
+		// Token: 0x04001201 RID: 4609
+		public const float NotMovingProgressFactor = 2f;
+
 		// Token: 0x06001E4B RID: 7755 RVA: 0x00106074 File Offset: 0x00104474
 		public static Pair<ThingDef, float> ForagedFoodPerDay(List<Pawn> pawns, BiomeDef biome, Faction faction, bool caravanMovingNow, bool caravanResting, StringBuilder explanation = null)
 		{
@@ -249,17 +261,5 @@ namespace RimWorld.Planet
 			ForagedFoodPerDayCalculator.tmpPawns.Clear();
 			return result;
 		}
-
-		// Token: 0x040011FE RID: 4606
-		private static List<Pawn> tmpPawns = new List<Pawn>();
-
-		// Token: 0x040011FF RID: 4607
-		private static List<ThingCount> tmpThingCounts = new List<ThingCount>();
-
-		// Token: 0x04001200 RID: 4608
-		private const float BaseProgressPerTick = 0.0001f;
-
-		// Token: 0x04001201 RID: 4609
-		public const float NotMovingProgressFactor = 2f;
 	}
 }

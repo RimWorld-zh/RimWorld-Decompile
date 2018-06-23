@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x0200002D RID: 45
 	public class JobDriver_LayEgg : JobDriver
 	{
+		// Token: 0x040001AB RID: 427
+		private const int LayEgg = 500;
+
+		// Token: 0x040001AC RID: 428
+		private const TargetIndex LaySpotInd = TargetIndex.A;
+
 		// Token: 0x060001AE RID: 430 RVA: 0x000120C0 File Offset: 0x000104C0
 		public override bool TryMakePreToilReservations()
 		{
@@ -26,11 +32,5 @@ namespace RimWorld
 			});
 			yield break;
 		}
-
-		// Token: 0x040001AB RID: 427
-		private const int LayEgg = 500;
-
-		// Token: 0x040001AC RID: 428
-		private const TargetIndex LaySpotInd = TargetIndex.A;
 	}
 }

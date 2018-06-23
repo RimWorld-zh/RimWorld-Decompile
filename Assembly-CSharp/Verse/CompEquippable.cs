@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000E01 RID: 3585
 	public class CompEquippable : ThingComp, IVerbOwner
 	{
+		// Token: 0x0400354E RID: 13646
+		public VerbTracker verbTracker = null;
+
 		// Token: 0x06005143 RID: 20803 RVA: 0x0029BC92 File Offset: 0x0029A092
 		public CompEquippable()
 		{
@@ -121,8 +124,5 @@ namespace Verse
 		{
 			return this.parent.ThingID;
 		}
-
-		// Token: 0x0400354E RID: 13646
-		public VerbTracker verbTracker = null;
 	}
 }

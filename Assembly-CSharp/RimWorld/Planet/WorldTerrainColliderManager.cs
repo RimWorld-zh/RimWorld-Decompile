@@ -8,6 +8,9 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public static class WorldTerrainColliderManager
 	{
+		// Token: 0x04001058 RID: 4184
+		private static GameObject gameObjectInt = WorldTerrainColliderManager.CreateGameObject();
+
 		// Token: 0x1700040F RID: 1039
 		// (get) Token: 0x06001B8D RID: 7053 RVA: 0x000EE078 File Offset: 0x000EC478
 		public static GameObject GameObject
@@ -26,8 +29,5 @@ namespace RimWorld.Planet
 			gameObject.layer = WorldCameraManager.WorldLayer;
 			return gameObject;
 		}
-
-		// Token: 0x04001058 RID: 4184
-		private static GameObject gameObjectInt = WorldTerrainColliderManager.CreateGameObject();
 	}
 }

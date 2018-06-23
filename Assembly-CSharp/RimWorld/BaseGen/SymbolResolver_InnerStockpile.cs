@@ -7,6 +7,9 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003CB RID: 971
 	public class SymbolResolver_InnerStockpile : SymbolResolver
 	{
+		// Token: 0x04000A37 RID: 2615
+		private const int DefaultSize = 3;
+
 		// Token: 0x060010BE RID: 4286 RVA: 0x0008E780 File Offset: 0x0008CB80
 		public override void Resolve(ResolveParams rp)
 		{
@@ -80,8 +83,5 @@ namespace RimWorld.BaseGen
 			maxValidCellsFound = maxValidCellsFoundLocal;
 			return result;
 		}
-
-		// Token: 0x04000A37 RID: 2615
-		private const int DefaultSize = 3;
 	}
 }

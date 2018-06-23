@@ -7,31 +7,6 @@ namespace RimWorld
 	// Token: 0x020002B1 RID: 689
 	public class NeedDef : Def
 	{
-		// Token: 0x06000B84 RID: 2948 RVA: 0x0006802C File Offset: 0x0006642C
-		public override IEnumerable<string> ConfigErrors()
-		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
-			{
-				yield return e;
-			}
-			if (this.description.NullOrEmpty() && this.showOnNeedList)
-			{
-				yield return "no description";
-			}
-			if (this.needClass == null)
-			{
-				yield return "needClass is null";
-			}
-			if (this.needClass == typeof(Need_Seeker))
-			{
-				if (this.seekerRisePerHour == 0f || this.seekerFallPerHour == 0f)
-				{
-					yield return "seeker rise/fall rates not set";
-				}
-			}
-			yield break;
-		}
-
 		// Token: 0x0400068A RID: 1674
 		public Type needClass;
 
@@ -83,5 +58,30 @@ namespace RimWorld
 
 		// Token: 0x0400069A RID: 1690
 		public bool freezeWhileSleeping = false;
+
+		// Token: 0x06000B84 RID: 2948 RVA: 0x0006802C File Offset: 0x0006642C
+		public override IEnumerable<string> ConfigErrors()
+		{
+			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			{
+				yield return e;
+			}
+			if (this.description.NullOrEmpty() && this.showOnNeedList)
+			{
+				yield return "no description";
+			}
+			if (this.needClass == null)
+			{
+				yield return "needClass is null";
+			}
+			if (this.needClass == typeof(Need_Seeker))
+			{
+				if (this.seekerRisePerHour == 0f || this.seekerFallPerHour == 0f)
+				{
+					yield return "seeker rise/fall rates not set";
+				}
+			}
+			yield break;
+		}
 	}
 }

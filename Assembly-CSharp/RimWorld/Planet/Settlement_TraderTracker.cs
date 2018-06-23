@@ -7,6 +7,21 @@ namespace RimWorld.Planet
 	// Token: 0x02000605 RID: 1541
 	public abstract class Settlement_TraderTracker : IThingHolder, IExposable
 	{
+		// Token: 0x0400122B RID: 4651
+		public Settlement settlement;
+
+		// Token: 0x0400122C RID: 4652
+		private ThingOwner<Thing> stock;
+
+		// Token: 0x0400122D RID: 4653
+		private int lastStockGenerationTicks = -1;
+
+		// Token: 0x0400122E RID: 4654
+		private const float DefaultTradePriceImprovement = 0.02f;
+
+		// Token: 0x0400122F RID: 4655
+		private List<Pawn> tmpSavedPawns = new List<Pawn>();
+
 		// Token: 0x06001EEB RID: 7915 RVA: 0x0010AE49 File Offset: 0x00109249
 		public Settlement_TraderTracker(Settlement settlement)
 		{
@@ -301,20 +316,5 @@ namespace RimWorld.Planet
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
-
-		// Token: 0x0400122B RID: 4651
-		public Settlement settlement;
-
-		// Token: 0x0400122C RID: 4652
-		private ThingOwner<Thing> stock;
-
-		// Token: 0x0400122D RID: 4653
-		private int lastStockGenerationTicks = -1;
-
-		// Token: 0x0400122E RID: 4654
-		private const float DefaultTradePriceImprovement = 0.02f;
-
-		// Token: 0x0400122F RID: 4655
-		private List<Pawn> tmpSavedPawns = new List<Pawn>();
 	}
 }

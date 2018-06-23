@@ -8,6 +8,24 @@ namespace RimWorld
 	// Token: 0x02000797 RID: 1943
 	public class Alert_NeedWarmClothes : Alert
 	{
+		// Token: 0x0400172B RID: 5931
+		private static List<Thing> jackets = new List<Thing>();
+
+		// Token: 0x0400172C RID: 5932
+		private static List<Thing> shirts = new List<Thing>();
+
+		// Token: 0x0400172D RID: 5933
+		private static List<Thing> pants = new List<Thing>();
+
+		// Token: 0x0400172E RID: 5934
+		private const float MedicinePerColonistThreshold = 2f;
+
+		// Token: 0x0400172F RID: 5935
+		private const int CheckNextTwelfthsCount = 3;
+
+		// Token: 0x04001730 RID: 5936
+		private const float CanShowAlertOnlyIfTempBelow = 5f;
+
 		// Token: 0x06002B11 RID: 11025 RVA: 0x0016BF7E File Offset: 0x0016A37E
 		public Alert_NeedWarmClothes()
 		{
@@ -232,23 +250,5 @@ namespace RimWorld
 		{
 			return GenTemperature.AverageTemperatureAtTileForTwelfth(map.Tile, twelfth);
 		}
-
-		// Token: 0x0400172B RID: 5931
-		private static List<Thing> jackets = new List<Thing>();
-
-		// Token: 0x0400172C RID: 5932
-		private static List<Thing> shirts = new List<Thing>();
-
-		// Token: 0x0400172D RID: 5933
-		private static List<Thing> pants = new List<Thing>();
-
-		// Token: 0x0400172E RID: 5934
-		private const float MedicinePerColonistThreshold = 2f;
-
-		// Token: 0x0400172F RID: 5935
-		private const int CheckNextTwelfthsCount = 3;
-
-		// Token: 0x04001730 RID: 5936
-		private const float CanShowAlertOnlyIfTempBelow = 5f;
 	}
 }

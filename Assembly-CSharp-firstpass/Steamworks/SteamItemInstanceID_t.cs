@@ -5,6 +5,12 @@ namespace Steamworks
 	// Token: 0x0200015E RID: 350
 	public struct SteamItemInstanceID_t : IEquatable<SteamItemInstanceID_t>, IComparable<SteamItemInstanceID_t>
 	{
+		// Token: 0x04000670 RID: 1648
+		public static readonly SteamItemInstanceID_t Invalid = new SteamItemInstanceID_t(ulong.MaxValue);
+
+		// Token: 0x04000671 RID: 1649
+		public ulong m_SteamItemInstanceID;
+
 		// Token: 0x060007D6 RID: 2006 RVA: 0x0000D9DF File Offset: 0x0000BBDF
 		public SteamItemInstanceID_t(ulong value)
 		{
@@ -64,11 +70,5 @@ namespace Steamworks
 		{
 			return this.m_SteamItemInstanceID.CompareTo(other.m_SteamItemInstanceID);
 		}
-
-		// Token: 0x04000670 RID: 1648
-		public static readonly SteamItemInstanceID_t Invalid = new SteamItemInstanceID_t(ulong.MaxValue);
-
-		// Token: 0x04000671 RID: 1649
-		public ulong m_SteamItemInstanceID;
 	}
 }

@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x0200026F RID: 623
 	public class IngestionOutcomeDoer_OffsetNeed : IngestionOutcomeDoer
 	{
+		// Token: 0x04000521 RID: 1313
+		public NeedDef need;
+
+		// Token: 0x04000522 RID: 1314
+		public float offset = 0f;
+
+		// Token: 0x04000523 RID: 1315
+		public ChemicalDef toleranceChemical = null;
+
 		// Token: 0x06000AB8 RID: 2744 RVA: 0x0006116C File Offset: 0x0005F56C
 		protected override void DoIngestionOutcomeSpecial(Pawn pawn, Thing ingested)
 		{
@@ -28,14 +37,5 @@ namespace RimWorld
 			yield return new StatDrawEntry(StatCategoryDefOf.Basics, this.need.LabelCap, this.offset.ToStringPercent(), 0, "");
 			yield break;
 		}
-
-		// Token: 0x04000521 RID: 1313
-		public NeedDef need;
-
-		// Token: 0x04000522 RID: 1314
-		public float offset = 0f;
-
-		// Token: 0x04000523 RID: 1315
-		public ChemicalDef toleranceChemical = null;
 	}
 }

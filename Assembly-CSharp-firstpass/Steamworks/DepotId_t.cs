@@ -5,6 +5,12 @@ namespace Steamworks
 	// Token: 0x0200016A RID: 362
 	public struct DepotId_t : IEquatable<DepotId_t>, IComparable<DepotId_t>
 	{
+		// Token: 0x04000685 RID: 1669
+		public static readonly DepotId_t Invalid = new DepotId_t(0u);
+
+		// Token: 0x04000686 RID: 1670
+		public uint m_DepotId;
+
 		// Token: 0x06000856 RID: 2134 RVA: 0x0000EA7C File Offset: 0x0000CC7C
 		public DepotId_t(uint value)
 		{
@@ -64,11 +70,5 @@ namespace Steamworks
 		{
 			return this.m_DepotId.CompareTo(other.m_DepotId);
 		}
-
-		// Token: 0x04000685 RID: 1669
-		public static readonly DepotId_t Invalid = new DepotId_t(0u);
-
-		// Token: 0x04000686 RID: 1670
-		public uint m_DepotId;
 	}
 }

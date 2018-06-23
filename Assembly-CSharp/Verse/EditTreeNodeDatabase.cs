@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000E77 RID: 3703
 	public static class EditTreeNodeDatabase
 	{
+		// Token: 0x040039D3 RID: 14803
+		private static List<TreeNode_Editor> roots = new List<TreeNode_Editor>();
+
 		// Token: 0x0600574C RID: 22348 RVA: 0x002CDD1C File Offset: 0x002CC11C
 		public static TreeNode_Editor RootOf(object obj)
 		{
@@ -20,8 +23,5 @@ namespace Verse
 			EditTreeNodeDatabase.roots.Add(treeNode_Editor);
 			return treeNode_Editor;
 		}
-
-		// Token: 0x040039D3 RID: 14803
-		private static List<TreeNode_Editor> roots = new List<TreeNode_Editor>();
 	}
 }

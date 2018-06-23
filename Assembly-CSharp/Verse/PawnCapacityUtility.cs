@@ -312,19 +312,22 @@ namespace Verse
 		// Token: 0x02000D41 RID: 3393
 		public class CapacityImpactorBodyPartHealth : PawnCapacityUtility.CapacityImpactor
 		{
+			// Token: 0x04003278 RID: 12920
+			public BodyPartRecord bodyPart;
+
 			// Token: 0x06004AE0 RID: 19168 RVA: 0x002717BC File Offset: 0x0026FBBC
 			public override string Readable(Pawn pawn)
 			{
 				return string.Format("{0}: {1} / {2}", this.bodyPart.LabelCap, pawn.health.hediffSet.GetPartHealth(this.bodyPart), this.bodyPart.def.GetMaxHealth(pawn));
 			}
-
-			// Token: 0x04003278 RID: 12920
-			public BodyPartRecord bodyPart;
 		}
 
 		// Token: 0x02000D42 RID: 3394
 		public class CapacityImpactorCapacity : PawnCapacityUtility.CapacityImpactor
 		{
+			// Token: 0x04003279 RID: 12921
+			public PawnCapacityDef capacity;
+
 			// Token: 0x17000BF1 RID: 3057
 			// (get) Token: 0x06004AE2 RID: 19170 RVA: 0x00271820 File Offset: 0x0026FC20
 			public override bool IsDirect
@@ -340,22 +343,19 @@ namespace Verse
 			{
 				return string.Format("{0}: {1}%", this.capacity.LabelCap, (pawn.health.capacities.GetLevel(this.capacity) * 100f).ToString("F0"));
 			}
-
-			// Token: 0x04003279 RID: 12921
-			public PawnCapacityDef capacity;
 		}
 
 		// Token: 0x02000D43 RID: 3395
 		public class CapacityImpactorHediff : PawnCapacityUtility.CapacityImpactor
 		{
+			// Token: 0x0400327A RID: 12922
+			public Hediff hediff;
+
 			// Token: 0x06004AE5 RID: 19173 RVA: 0x00271894 File Offset: 0x0026FC94
 			public override string Readable(Pawn pawn)
 			{
 				return string.Format("{0}", this.hediff.LabelCap);
 			}
-
-			// Token: 0x0400327A RID: 12922
-			public Hediff hediff;
 		}
 
 		// Token: 0x02000D44 RID: 3396

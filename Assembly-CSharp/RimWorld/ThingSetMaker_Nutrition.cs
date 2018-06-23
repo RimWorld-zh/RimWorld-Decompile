@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020006F1 RID: 1777
 	public class ThingSetMaker_Nutrition : ThingSetMaker
 	{
+		// Token: 0x04001586 RID: 5510
+		private int nextSeed;
+
 		// Token: 0x060026B2 RID: 9906 RVA: 0x0014BE50 File Offset: 0x0014A250
 		public ThingSetMaker_Nutrition()
 		{
@@ -153,8 +156,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04001586 RID: 5510
-		private int nextSeed;
 	}
 }

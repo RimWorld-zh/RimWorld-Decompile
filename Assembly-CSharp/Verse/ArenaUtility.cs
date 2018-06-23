@@ -11,6 +11,9 @@ namespace Verse
 	// Token: 0x02000F09 RID: 3849
 	public static class ArenaUtility
 	{
+		// Token: 0x04003CFB RID: 15611
+		private const int liveSimultaneous = 15;
+
 		// Token: 0x06005C84 RID: 23684 RVA: 0x002EF564 File Offset: 0x002ED964
 		public static bool ValidateArenaCapability()
 		{
@@ -182,9 +185,6 @@ namespace Verse
 				});
 			}
 		}
-
-		// Token: 0x04003CFB RID: 15611
-		private const int liveSimultaneous = 15;
 
 		// Token: 0x02000F0A RID: 3850
 		public struct ArenaResult

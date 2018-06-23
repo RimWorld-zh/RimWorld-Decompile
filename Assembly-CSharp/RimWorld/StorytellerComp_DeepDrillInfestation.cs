@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000367 RID: 871
 	public class StorytellerComp_DeepDrillInfestation : StorytellerComp
 	{
+		// Token: 0x0400094C RID: 2380
+		private static List<Thing> tmpDrills = new List<Thing>();
+
 		// Token: 0x1700021E RID: 542
 		// (get) Token: 0x06000F25 RID: 3877 RVA: 0x00080558 File Offset: 0x0007E958
 		protected StorytellerCompProperties_DeepDrillInfestation Props
@@ -62,8 +65,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x0400094C RID: 2380
-		private static List<Thing> tmpDrills = new List<Thing>();
 	}
 }

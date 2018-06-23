@@ -11,6 +11,30 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public class WorldObject : IExposable, ILoadReferenceable, ISelectable
 	{
+		// Token: 0x04001255 RID: 4693
+		public WorldObjectDef def;
+
+		// Token: 0x04001256 RID: 4694
+		public int ID = -1;
+
+		// Token: 0x04001257 RID: 4695
+		private int tileInt = -1;
+
+		// Token: 0x04001258 RID: 4696
+		private Faction factionInt;
+
+		// Token: 0x04001259 RID: 4697
+		public int creationGameTicks = -1;
+
+		// Token: 0x0400125A RID: 4698
+		private List<WorldObjectComp> comps = new List<WorldObjectComp>();
+
+		// Token: 0x0400125B RID: 4699
+		private static MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
+
+		// Token: 0x0400125C RID: 4700
+		private const float BaseDrawSize = 0.7f;
+
 		// Token: 0x170004A6 RID: 1190
 		// (get) Token: 0x06001F81 RID: 8065 RVA: 0x000F8728 File Offset: 0x000F6B28
 		public List<WorldObjectComp> AllComps
@@ -567,29 +591,5 @@ namespace RimWorld.Planet
 			}
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x04001255 RID: 4693
-		public WorldObjectDef def;
-
-		// Token: 0x04001256 RID: 4694
-		public int ID = -1;
-
-		// Token: 0x04001257 RID: 4695
-		private int tileInt = -1;
-
-		// Token: 0x04001258 RID: 4696
-		private Faction factionInt;
-
-		// Token: 0x04001259 RID: 4697
-		public int creationGameTicks = -1;
-
-		// Token: 0x0400125A RID: 4698
-		private List<WorldObjectComp> comps = new List<WorldObjectComp>();
-
-		// Token: 0x0400125B RID: 4699
-		private static MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
-
-		// Token: 0x0400125C RID: 4700
-		private const float BaseDrawSize = 0.7f;
 	}
 }

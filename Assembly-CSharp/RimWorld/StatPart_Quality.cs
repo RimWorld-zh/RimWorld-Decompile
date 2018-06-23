@@ -6,6 +6,30 @@ namespace RimWorld
 	// Token: 0x020009B2 RID: 2482
 	public class StatPart_Quality : StatPart
 	{
+		// Token: 0x040023AC RID: 9132
+		private float factorAwful = 1f;
+
+		// Token: 0x040023AD RID: 9133
+		private float factorPoor = 1f;
+
+		// Token: 0x040023AE RID: 9134
+		private float factorNormal = 1f;
+
+		// Token: 0x040023AF RID: 9135
+		private float factorGood = 1f;
+
+		// Token: 0x040023B0 RID: 9136
+		private float factorExcellent = 1f;
+
+		// Token: 0x040023B1 RID: 9137
+		private float factorMasterwork = 1f;
+
+		// Token: 0x040023B2 RID: 9138
+		private float factorLegendary = 1f;
+
+		// Token: 0x040023B3 RID: 9139
+		private bool alsoAppliesToNegativeValues = false;
+
 		// Token: 0x060037A3 RID: 14243 RVA: 0x001DA52B File Offset: 0x001D892B
 		public override void TransformValue(StatRequest req, ref float val)
 		{
@@ -70,29 +94,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040023AC RID: 9132
-		private float factorAwful = 1f;
-
-		// Token: 0x040023AD RID: 9133
-		private float factorPoor = 1f;
-
-		// Token: 0x040023AE RID: 9134
-		private float factorNormal = 1f;
-
-		// Token: 0x040023AF RID: 9135
-		private float factorGood = 1f;
-
-		// Token: 0x040023B0 RID: 9136
-		private float factorExcellent = 1f;
-
-		// Token: 0x040023B1 RID: 9137
-		private float factorMasterwork = 1f;
-
-		// Token: 0x040023B2 RID: 9138
-		private float factorLegendary = 1f;
-
-		// Token: 0x040023B3 RID: 9139
-		private bool alsoAppliesToNegativeValues = false;
 	}
 }

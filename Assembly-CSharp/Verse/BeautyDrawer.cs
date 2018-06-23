@@ -8,6 +8,15 @@ namespace Verse
 	// Token: 0x02000E5C RID: 3676
 	internal static class BeautyDrawer
 	{
+		// Token: 0x04003964 RID: 14692
+		private static List<Thing> beautyCountedThings = new List<Thing>();
+
+		// Token: 0x04003965 RID: 14693
+		private static Color ColorUgly = Color.red;
+
+		// Token: 0x04003966 RID: 14694
+		private static Color ColorBeautiful = Color.green;
+
 		// Token: 0x060056AB RID: 22187 RVA: 0x002CAE2D File Offset: 0x002C922D
 		public static void BeautyDrawerOnGUI()
 		{
@@ -51,14 +60,5 @@ namespace Verse
 			Color a = Color.Lerp(BeautyDrawer.ColorUgly, BeautyDrawer.ColorBeautiful, num);
 			return Color.Lerp(a, Color.white, 0.5f);
 		}
-
-		// Token: 0x04003964 RID: 14692
-		private static List<Thing> beautyCountedThings = new List<Thing>();
-
-		// Token: 0x04003965 RID: 14693
-		private static Color ColorUgly = Color.red;
-
-		// Token: 0x04003966 RID: 14694
-		private static Color ColorBeautiful = Color.green;
 	}
 }

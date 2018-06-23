@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x02000513 RID: 1299
 	public class Pawn_MeleeVerbs_TerrainSource : IExposable, IVerbOwner
 	{
+		// Token: 0x04000DE7 RID: 3559
+		public Pawn_MeleeVerbs parent;
+
+		// Token: 0x04000DE8 RID: 3560
+		public TerrainDef def;
+
+		// Token: 0x04000DE9 RID: 3561
+		public VerbTracker tracker;
+
 		// Token: 0x1700033D RID: 829
 		// (get) Token: 0x06001788 RID: 6024 RVA: 0x000CE598 File Offset: 0x000CC998
 		public VerbTracker VerbTracker
@@ -62,14 +71,5 @@ namespace RimWorld
 		{
 			return "TerrainVerbs_" + this.parent.Pawn.ThingID;
 		}
-
-		// Token: 0x04000DE7 RID: 3559
-		public Pawn_MeleeVerbs parent;
-
-		// Token: 0x04000DE8 RID: 3560
-		public TerrainDef def;
-
-		// Token: 0x04000DE9 RID: 3561
-		public VerbTracker tracker;
 	}
 }

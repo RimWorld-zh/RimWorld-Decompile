@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x02000638 RID: 1592
 	public class ScenPart_DisallowBuilding : ScenPart_Rule
 	{
+		// Token: 0x040012D4 RID: 4820
+		private ThingDef building;
+
+		// Token: 0x040012D5 RID: 4821
+		private const string DisallowBuildingTag = "DisallowBuilding";
+
 		// Token: 0x060020E8 RID: 8424 RVA: 0x0011914F File Offset: 0x0011754F
 		protected override void ApplyRule()
 		{
@@ -92,11 +98,5 @@ namespace RimWorld
 			yield return ThingDefOf.Heater;
 			yield break;
 		}
-
-		// Token: 0x040012D4 RID: 4820
-		private ThingDef building;
-
-		// Token: 0x040012D5 RID: 4821
-		private const string DisallowBuildingTag = "DisallowBuilding";
 	}
 }

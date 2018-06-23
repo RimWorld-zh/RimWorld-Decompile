@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000C8C RID: 3212
 	public class RegionLink
 	{
+		// Token: 0x0400300B RID: 12299
+		public Region[] regions = new Region[2];
+
+		// Token: 0x0400300C RID: 12300
+		public EdgeSpan span;
+
 		// Token: 0x17000B1F RID: 2847
 		// (get) Token: 0x06004685 RID: 18053 RVA: 0x00253BA8 File Offset: 0x00251FA8
 		// (set) Token: 0x06004686 RID: 18054 RVA: 0x00253BC5 File Offset: 0x00251FC5
@@ -128,11 +134,5 @@ namespace Verse
 				")"
 			});
 		}
-
-		// Token: 0x0400300B RID: 12299
-		public Region[] regions = new Region[2];
-
-		// Token: 0x0400300C RID: 12300
-		public EdgeSpan span;
 	}
 }

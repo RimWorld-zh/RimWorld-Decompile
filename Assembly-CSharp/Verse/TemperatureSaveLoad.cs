@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000CA9 RID: 3241
 	internal class TemperatureSaveLoad
 	{
+		// Token: 0x0400307C RID: 12412
+		private Map map;
+
+		// Token: 0x0400307D RID: 12413
+		private ushort[] tempGrid;
+
 		// Token: 0x0600477F RID: 18303 RVA: 0x0025B748 File Offset: 0x00259B48
 		public TemperatureSaveLoad(Map map)
 		{
@@ -80,11 +86,5 @@ namespace Verse
 		{
 			return ((float)temp - 32768f) / 16f;
 		}
-
-		// Token: 0x0400307C RID: 12412
-		private Map map;
-
-		// Token: 0x0400307D RID: 12413
-		private ushort[] tempGrid;
 	}
 }

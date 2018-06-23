@@ -9,6 +9,15 @@ namespace RimWorld
 	// Token: 0x020007F4 RID: 2036
 	public class Dialog_AssignBuildingOwner : Window
 	{
+		// Token: 0x040017C1 RID: 6081
+		private IAssignableBuilding assignable;
+
+		// Token: 0x040017C2 RID: 6082
+		private Vector2 scrollPosition;
+
+		// Token: 0x040017C3 RID: 6083
+		private const float EntryHeight = 35f;
+
 		// Token: 0x06002D2F RID: 11567 RVA: 0x0017BCB7 File Offset: 0x0017A0B7
 		public Dialog_AssignBuildingOwner(IAssignableBuilding assignable)
 		{
@@ -93,14 +102,5 @@ namespace RimWorld
 				Widgets.EndScrollView();
 			}
 		}
-
-		// Token: 0x040017C1 RID: 6081
-		private IAssignableBuilding assignable;
-
-		// Token: 0x040017C2 RID: 6082
-		private Vector2 scrollPosition;
-
-		// Token: 0x040017C3 RID: 6083
-		private const float EntryHeight = 35f;
 	}
 }

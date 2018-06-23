@@ -7,6 +7,18 @@ namespace Verse
 	// Token: 0x02000C47 RID: 3143
 	public class SectionLayer_LightingOverlay : SectionLayer
 	{
+		// Token: 0x04002F61 RID: 12129
+		private Color32[] glowGrid;
+
+		// Token: 0x04002F62 RID: 12130
+		private int firstCenterInd;
+
+		// Token: 0x04002F63 RID: 12131
+		private CellRect sectRect;
+
+		// Token: 0x04002F64 RID: 12132
+		private const byte RoofedAreaMinSkyCover = 100;
+
 		// Token: 0x0600454D RID: 17741 RVA: 0x00249672 File Offset: 0x00247A72
 		public SectionLayer_LightingOverlay(Section section) : base(section)
 		{
@@ -228,17 +240,5 @@ namespace Verse
 			botRight = num2 * (this.sectRect.Width + 1) + (num + 1);
 			center = this.firstCenterInd + (num2 * this.sectRect.Width + num);
 		}
-
-		// Token: 0x04002F61 RID: 12129
-		private Color32[] glowGrid;
-
-		// Token: 0x04002F62 RID: 12130
-		private int firstCenterInd;
-
-		// Token: 0x04002F63 RID: 12131
-		private CellRect sectRect;
-
-		// Token: 0x04002F64 RID: 12132
-		private const byte RoofedAreaMinSkyCover = 100;
 	}
 }

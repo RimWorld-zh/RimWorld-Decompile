@@ -8,6 +8,24 @@ namespace RimWorld
 	// Token: 0x0200030D RID: 781
 	public class GameCondition_Flashstorm : GameCondition
 	{
+		// Token: 0x04000875 RID: 2165
+		private static readonly IntRange AreaRadiusRange = new IntRange(45, 60);
+
+		// Token: 0x04000876 RID: 2166
+		private static readonly IntRange TicksBetweenStrikes = new IntRange(320, 800);
+
+		// Token: 0x04000877 RID: 2167
+		private const int RainDisableTicksAfterConditionEnds = 30000;
+
+		// Token: 0x04000878 RID: 2168
+		public IntVec2 centerLocation;
+
+		// Token: 0x04000879 RID: 2169
+		private int areaRadius = 0;
+
+		// Token: 0x0400087A RID: 2170
+		private int nextLightningTicks = 0;
+
 		// Token: 0x06000D33 RID: 3379 RVA: 0x000725DC File Offset: 0x000709DC
 		public override void ExposeData()
 		{
@@ -104,23 +122,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04000875 RID: 2165
-		private static readonly IntRange AreaRadiusRange = new IntRange(45, 60);
-
-		// Token: 0x04000876 RID: 2166
-		private static readonly IntRange TicksBetweenStrikes = new IntRange(320, 800);
-
-		// Token: 0x04000877 RID: 2167
-		private const int RainDisableTicksAfterConditionEnds = 30000;
-
-		// Token: 0x04000878 RID: 2168
-		public IntVec2 centerLocation;
-
-		// Token: 0x04000879 RID: 2169
-		private int areaRadius = 0;
-
-		// Token: 0x0400087A RID: 2170
-		private int nextLightningTicks = 0;
 	}
 }

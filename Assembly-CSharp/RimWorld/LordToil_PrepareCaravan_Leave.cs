@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000184 RID: 388
 	public class LordToil_PrepareCaravan_Leave : LordToil
 	{
+		// Token: 0x0400037B RID: 891
+		private IntVec3 exitSpot;
+
 		// Token: 0x06000810 RID: 2064 RVA: 0x0004E4C2 File Offset: 0x0004C8C2
 		public LordToil_PrepareCaravan_Leave(IntVec3 exitSpot)
 		{
@@ -73,8 +76,5 @@ namespace RimWorld
 				GatherAnimalsAndSlavesForCaravanUtility.CheckArrived(this.lord, this.exitSpot, "ReadyToExitMap", (Pawn x) => true, null);
 			}
 		}
-
-		// Token: 0x0400037B RID: 891
-		private IntVec3 exitSpot;
 	}
 }

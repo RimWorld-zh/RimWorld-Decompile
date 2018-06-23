@@ -8,6 +8,24 @@ namespace Verse
 	// Token: 0x02000E81 RID: 3713
 	public class Listing_TreeThingFilter : Listing_Tree
 	{
+		// Token: 0x040039F2 RID: 14834
+		private ThingFilter filter;
+
+		// Token: 0x040039F3 RID: 14835
+		private ThingFilter parentFilter;
+
+		// Token: 0x040039F4 RID: 14836
+		private List<SpecialThingFilterDef> hiddenSpecialFilters;
+
+		// Token: 0x040039F5 RID: 14837
+		private List<ThingDef> forceHiddenDefs = null;
+
+		// Token: 0x040039F6 RID: 14838
+		private List<SpecialThingFilterDef> tempForceHiddenSpecialFilters;
+
+		// Token: 0x040039F7 RID: 14839
+		private List<ThingDef> suppressSmallVolumeTags;
+
 		// Token: 0x060057A7 RID: 22439 RVA: 0x002CFE74 File Offset: 0x002CE274
 		public Listing_TreeThingFilter(ThingFilter filter, ThingFilter parentFilter, IEnumerable<ThingDef> forceHiddenDefs, IEnumerable<SpecialThingFilterDef> forceHiddenFilters, List<ThingDef> suppressSmallVolumeTags)
 		{
@@ -279,23 +297,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x040039F2 RID: 14834
-		private ThingFilter filter;
-
-		// Token: 0x040039F3 RID: 14835
-		private ThingFilter parentFilter;
-
-		// Token: 0x040039F4 RID: 14836
-		private List<SpecialThingFilterDef> hiddenSpecialFilters;
-
-		// Token: 0x040039F5 RID: 14837
-		private List<ThingDef> forceHiddenDefs = null;
-
-		// Token: 0x040039F6 RID: 14838
-		private List<SpecialThingFilterDef> tempForceHiddenSpecialFilters;
-
-		// Token: 0x040039F7 RID: 14839
-		private List<ThingDef> suppressSmallVolumeTags;
 	}
 }

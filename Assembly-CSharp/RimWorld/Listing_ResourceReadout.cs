@@ -8,6 +8,12 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Listing_ResourceReadout : Listing_Tree
 	{
+		// Token: 0x04001B01 RID: 6913
+		private Map map;
+
+		// Token: 0x04001B02 RID: 6914
+		private static Texture2D SolidCategoryBG = SolidColorMaterials.NewSolidColorTexture(new Color(0.1f, 0.1f, 0.1f, 0.6f));
+
 		// Token: 0x06003284 RID: 12932 RVA: 0x001B306D File Offset: 0x001B146D
 		public Listing_ResourceReadout(Map map)
 		{
@@ -110,11 +116,5 @@ namespace RimWorld
 				base.EndLine();
 			}
 		}
-
-		// Token: 0x04001B01 RID: 6913
-		private Map map;
-
-		// Token: 0x04001B02 RID: 6914
-		private static Texture2D SolidCategoryBG = SolidColorMaterials.NewSolidColorTexture(new Color(0.1f, 0.1f, 0.1f, 0.6f));
 	}
 }

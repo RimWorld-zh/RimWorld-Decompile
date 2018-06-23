@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020009D1 RID: 2513
 	public class Verb_Bombardment : Verb
 	{
+		// Token: 0x04002408 RID: 9224
+		private const int DurationTicks = 450;
+
 		// Token: 0x06003860 RID: 14432 RVA: 0x001E1B68 File Offset: 0x001DFF68
 		protected override bool TryCastShot()
 		{
@@ -36,8 +39,5 @@ namespace RimWorld
 			needLOSToCenter = false;
 			return 23f;
 		}
-
-		// Token: 0x04002408 RID: 9224
-		private const int DurationTicks = 450;
 	}
 }

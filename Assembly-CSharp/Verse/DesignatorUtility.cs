@@ -9,6 +9,18 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class DesignatorUtility
 	{
+		// Token: 0x0400358B RID: 13707
+		public static readonly Material DragHighlightCellMat = MaterialPool.MatFrom("UI/Overlays/DragHighlightCell", ShaderDatabase.MetaOverlay);
+
+		// Token: 0x0400358C RID: 13708
+		public static readonly Material DragHighlightThingMat = MaterialPool.MatFrom("UI/Overlays/DragHighlightThing", ShaderDatabase.MetaOverlay);
+
+		// Token: 0x0400358D RID: 13709
+		private static Dictionary<Type, Designator> StandaloneDesignators = new Dictionary<Type, Designator>();
+
+		// Token: 0x0400358E RID: 13710
+		private static HashSet<Thing> selectedThings = new HashSet<Thing>();
+
 		// Token: 0x060051D0 RID: 20944 RVA: 0x0029EE00 File Offset: 0x0029D200
 		public static Designator FindAllowedDesignator<T>() where T : Designator
 		{
@@ -69,17 +81,5 @@ namespace Verse
 			}
 			DesignatorUtility.selectedThings.Clear();
 		}
-
-		// Token: 0x0400358B RID: 13707
-		public static readonly Material DragHighlightCellMat = MaterialPool.MatFrom("UI/Overlays/DragHighlightCell", ShaderDatabase.MetaOverlay);
-
-		// Token: 0x0400358C RID: 13708
-		public static readonly Material DragHighlightThingMat = MaterialPool.MatFrom("UI/Overlays/DragHighlightThing", ShaderDatabase.MetaOverlay);
-
-		// Token: 0x0400358D RID: 13709
-		private static Dictionary<Type, Designator> StandaloneDesignators = new Dictionary<Type, Designator>();
-
-		// Token: 0x0400358E RID: 13710
-		private static HashSet<Thing> selectedThings = new HashSet<Thing>();
 	}
 }

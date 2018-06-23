@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000035 RID: 53
 	public class JobDriver_Slaughter : JobDriver
 	{
+		// Token: 0x040001C1 RID: 449
+		public const int SlaughterDuration = 180;
+
 		// Token: 0x17000060 RID: 96
 		// (get) Token: 0x060001D6 RID: 470 RVA: 0x00014198 File Offset: 0x00012598
 		protected Pawn Victim
@@ -42,8 +45,5 @@ namespace RimWorld
 			});
 			yield break;
 		}
-
-		// Token: 0x040001C1 RID: 449
-		public const int SlaughterDuration = 180;
 	}
 }

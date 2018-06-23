@@ -11,6 +11,23 @@ namespace RimWorld
 	// Token: 0x02000863 RID: 2147
 	public static class ThingSelectionUtility
 	{
+		// Token: 0x04001A5E RID: 6750
+		private static HashSet<Thing> yieldedThings = new HashSet<Thing>();
+
+		// Token: 0x04001A5F RID: 6751
+		private static HashSet<Zone> yieldedZones = new HashSet<Zone>();
+
+		// Token: 0x04001A60 RID: 6752
+		private static List<Pawn> tmpColonists = new List<Pawn>();
+
+		// Token: 0x04001A61 RID: 6753
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__mg$cache0;
+
+		// Token: 0x04001A62 RID: 6754
+		[CompilerGenerated]
+		private static Func<Pawn, bool> <>f__mg$cache1;
+
 		// Token: 0x060030B7 RID: 12471 RVA: 0x001A7114 File Offset: 0x001A5514
 		public static bool SelectableByMapClick(Thing t)
 		{
@@ -187,22 +204,5 @@ namespace RimWorld
 				ThingSelectionUtility.tmpColonists.Clear();
 			}
 		}
-
-		// Token: 0x04001A5E RID: 6750
-		private static HashSet<Thing> yieldedThings = new HashSet<Thing>();
-
-		// Token: 0x04001A5F RID: 6751
-		private static HashSet<Zone> yieldedZones = new HashSet<Zone>();
-
-		// Token: 0x04001A60 RID: 6752
-		private static List<Pawn> tmpColonists = new List<Pawn>();
-
-		// Token: 0x04001A61 RID: 6753
-		[CompilerGenerated]
-		private static Func<Pawn, bool> <>f__mg$cache0;
-
-		// Token: 0x04001A62 RID: 6754
-		[CompilerGenerated]
-		private static Func<Pawn, bool> <>f__mg$cache1;
 	}
 }

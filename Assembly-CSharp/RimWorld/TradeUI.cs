@@ -8,6 +8,21 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class TradeUI
 	{
+		// Token: 0x04001B78 RID: 7032
+		public const float CountColumnWidth = 75f;
+
+		// Token: 0x04001B79 RID: 7033
+		public const float PriceColumnWidth = 100f;
+
+		// Token: 0x04001B7A RID: 7034
+		public const float AdjustColumnWidth = 240f;
+
+		// Token: 0x04001B7B RID: 7035
+		public const float TotalNumbersColumnsWidths = 590f;
+
+		// Token: 0x04001B7C RID: 7036
+		public static readonly Color NoTradeColor = new Color(0.5f, 0.5f, 0.5f);
+
 		// Token: 0x060032CC RID: 13004 RVA: 0x001B5F68 File Offset: 0x001B4368
 		public static void DrawTradeableRow(Rect rect, Tradeable trad, int index)
 		{
@@ -156,20 +171,5 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 			GUI.color = Color.white;
 		}
-
-		// Token: 0x04001B78 RID: 7032
-		public const float CountColumnWidth = 75f;
-
-		// Token: 0x04001B79 RID: 7033
-		public const float PriceColumnWidth = 100f;
-
-		// Token: 0x04001B7A RID: 7034
-		public const float AdjustColumnWidth = 240f;
-
-		// Token: 0x04001B7B RID: 7035
-		public const float TotalNumbersColumnsWidths = 590f;
-
-		// Token: 0x04001B7C RID: 7036
-		public static readonly Color NoTradeColor = new Color(0.5f, 0.5f, 0.5f);
 	}
 }

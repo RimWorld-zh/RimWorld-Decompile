@@ -12,6 +12,48 @@ namespace RimWorld
 	// Token: 0x02000830 RID: 2096
 	public class Page_ModsConfig : Page
 	{
+		// Token: 0x04001993 RID: 6547
+		public ModMetaData selectedMod = null;
+
+		// Token: 0x04001994 RID: 6548
+		private Vector2 modListScrollPosition = Vector2.zero;
+
+		// Token: 0x04001995 RID: 6549
+		private Vector2 modDescriptionScrollPosition = Vector2.zero;
+
+		// Token: 0x04001996 RID: 6550
+		private int activeModsWhenOpenedHash = -1;
+
+		// Token: 0x04001997 RID: 6551
+		private Dictionary<string, string> truncatedModNamesCache = new Dictionary<string, string>();
+
+		// Token: 0x04001998 RID: 6552
+		protected string filter = "";
+
+		// Token: 0x04001999 RID: 6553
+		private const float ModListAreaWidth = 350f;
+
+		// Token: 0x0400199A RID: 6554
+		private const float ModsListButtonHeight = 30f;
+
+		// Token: 0x0400199B RID: 6555
+		private const float ModsFolderButHeight = 30f;
+
+		// Token: 0x0400199C RID: 6556
+		private const float ButtonsGap = 4f;
+
+		// Token: 0x0400199D RID: 6557
+		private const float UploadRowHeight = 40f;
+
+		// Token: 0x0400199E RID: 6558
+		private const float PreviewMaxHeight = 300f;
+
+		// Token: 0x0400199F RID: 6559
+		private const float VersionWidth = 30f;
+
+		// Token: 0x040019A0 RID: 6560
+		private const float ModRowHeight = 26f;
+
 		// Token: 0x06002F58 RID: 12120 RVA: 0x001950E8 File Offset: 0x001934E8
 		public Page_ModsConfig()
 		{
@@ -341,47 +383,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04001993 RID: 6547
-		public ModMetaData selectedMod = null;
-
-		// Token: 0x04001994 RID: 6548
-		private Vector2 modListScrollPosition = Vector2.zero;
-
-		// Token: 0x04001995 RID: 6549
-		private Vector2 modDescriptionScrollPosition = Vector2.zero;
-
-		// Token: 0x04001996 RID: 6550
-		private int activeModsWhenOpenedHash = -1;
-
-		// Token: 0x04001997 RID: 6551
-		private Dictionary<string, string> truncatedModNamesCache = new Dictionary<string, string>();
-
-		// Token: 0x04001998 RID: 6552
-		protected string filter = "";
-
-		// Token: 0x04001999 RID: 6553
-		private const float ModListAreaWidth = 350f;
-
-		// Token: 0x0400199A RID: 6554
-		private const float ModsListButtonHeight = 30f;
-
-		// Token: 0x0400199B RID: 6555
-		private const float ModsFolderButHeight = 30f;
-
-		// Token: 0x0400199C RID: 6556
-		private const float ButtonsGap = 4f;
-
-		// Token: 0x0400199D RID: 6557
-		private const float UploadRowHeight = 40f;
-
-		// Token: 0x0400199E RID: 6558
-		private const float PreviewMaxHeight = 300f;
-
-		// Token: 0x0400199F RID: 6559
-		private const float VersionWidth = 30f;
-
-		// Token: 0x040019A0 RID: 6560
-		private const float ModRowHeight = 26f;
 	}
 }

@@ -7,6 +7,9 @@ namespace RimWorld.Planet
 	// Token: 0x02000614 RID: 1556
 	public class TransportPodsArrivalAction_VisitSettlement : TransportPodsArrivalAction_FormCaravan
 	{
+		// Token: 0x0400124B RID: 4683
+		private Settlement settlement;
+
 		// Token: 0x06001F60 RID: 8032 RVA: 0x0011035A File Offset: 0x0010E75A
 		public TransportPodsArrivalAction_VisitSettlement()
 		{
@@ -72,8 +75,5 @@ namespace RimWorld.Planet
 				settlement.Label
 			}), representative, settlement.Tile);
 		}
-
-		// Token: 0x0400124B RID: 4683
-		private Settlement settlement;
 	}
 }

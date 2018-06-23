@@ -5,6 +5,12 @@ namespace Verse
 	// Token: 0x02000D47 RID: 3399
 	public class NameSingle : Name
 	{
+		// Token: 0x0400327E RID: 12926
+		private string nameInt;
+
+		// Token: 0x0400327F RID: 12927
+		private bool numerical;
+
 		// Token: 0x06004AF4 RID: 19188 RVA: 0x00271B84 File Offset: 0x0026FF84
 		public NameSingle()
 		{
@@ -218,11 +224,5 @@ namespace Verse
 		{
 			return Gen.HashCombineInt(this.nameInt.GetHashCode(), 1384661390);
 		}
-
-		// Token: 0x0400327E RID: 12926
-		private string nameInt;
-
-		// Token: 0x0400327F RID: 12927
-		private bool numerical;
 	}
 }

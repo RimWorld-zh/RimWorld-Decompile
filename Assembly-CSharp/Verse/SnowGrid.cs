@@ -6,6 +6,18 @@ namespace Verse
 	// Token: 0x02000C23 RID: 3107
 	public sealed class SnowGrid : IExposable
 	{
+		// Token: 0x04002E67 RID: 11879
+		private Map map;
+
+		// Token: 0x04002E68 RID: 11880
+		private float[] depthGrid;
+
+		// Token: 0x04002E69 RID: 11881
+		private double totalDepth = 0.0;
+
+		// Token: 0x04002E6A RID: 11882
+		public const float MaxDepth = 1f;
+
 		// Token: 0x06004434 RID: 17460 RVA: 0x0023E81B File Offset: 0x0023CC1B
 		public SnowGrid(Map map)
 		{
@@ -168,17 +180,5 @@ namespace Verse
 		{
 			return SnowUtility.GetSnowCategory(this.GetDepth(c));
 		}
-
-		// Token: 0x04002E67 RID: 11879
-		private Map map;
-
-		// Token: 0x04002E68 RID: 11880
-		private float[] depthGrid;
-
-		// Token: 0x04002E69 RID: 11881
-		private double totalDepth = 0.0;
-
-		// Token: 0x04002E6A RID: 11882
-		public const float MaxDepth = 1f;
 	}
 }

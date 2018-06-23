@@ -7,6 +7,18 @@ namespace Verse.AI
 	// Token: 0x02000A92 RID: 2706
 	public class PawnPath : IDisposable
 	{
+		// Token: 0x040025F4 RID: 9716
+		private List<IntVec3> nodes = new List<IntVec3>(128);
+
+		// Token: 0x040025F5 RID: 9717
+		private float totalCostInt = 0f;
+
+		// Token: 0x040025F6 RID: 9718
+		private int curNodeIndex;
+
+		// Token: 0x040025F7 RID: 9719
+		public bool inUse = false;
+
 		// Token: 0x1700091D RID: 2333
 		// (get) Token: 0x06003C26 RID: 15398 RVA: 0x001FCC68 File Offset: 0x001FB068
 		public bool Found
@@ -200,17 +212,5 @@ namespace Verse.AI
 				}
 			}
 		}
-
-		// Token: 0x040025F4 RID: 9716
-		private List<IntVec3> nodes = new List<IntVec3>(128);
-
-		// Token: 0x040025F5 RID: 9717
-		private float totalCostInt = 0f;
-
-		// Token: 0x040025F6 RID: 9718
-		private int curNodeIndex;
-
-		// Token: 0x040025F7 RID: 9719
-		public bool inUse = false;
 	}
 }

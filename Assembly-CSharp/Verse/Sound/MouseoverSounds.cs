@@ -8,6 +8,18 @@ namespace Verse.Sound
 	// Token: 0x02000DAC RID: 3500
 	public static class MouseoverSounds
 	{
+		// Token: 0x04003420 RID: 13344
+		private static List<MouseoverSounds.MouseoverRegionCall> frameCalls = new List<MouseoverSounds.MouseoverRegionCall>();
+
+		// Token: 0x04003421 RID: 13345
+		private static int lastUsedCallInd = -1;
+
+		// Token: 0x04003422 RID: 13346
+		private static MouseoverSounds.MouseoverRegionCall lastUsedCall;
+
+		// Token: 0x04003423 RID: 13347
+		private static int forceSilenceUntilFrame = -1;
+
 		// Token: 0x06004E34 RID: 20020 RVA: 0x0028ED6F File Offset: 0x0028D16F
 		public static void SilenceForNextFrame()
 		{
@@ -61,21 +73,18 @@ namespace Verse.Sound
 			MouseoverSounds.frameCalls.Clear();
 		}
 
-		// Token: 0x04003420 RID: 13344
-		private static List<MouseoverSounds.MouseoverRegionCall> frameCalls = new List<MouseoverSounds.MouseoverRegionCall>();
-
-		// Token: 0x04003421 RID: 13345
-		private static int lastUsedCallInd = -1;
-
-		// Token: 0x04003422 RID: 13346
-		private static MouseoverSounds.MouseoverRegionCall lastUsedCall;
-
-		// Token: 0x04003423 RID: 13347
-		private static int forceSilenceUntilFrame = -1;
-
 		// Token: 0x02000DAD RID: 3501
 		private struct MouseoverRegionCall
 		{
+			// Token: 0x04003424 RID: 13348
+			public bool mouseIsOver;
+
+			// Token: 0x04003425 RID: 13349
+			public Rect rect;
+
+			// Token: 0x04003426 RID: 13350
+			public SoundDef sound;
+
 			// Token: 0x17000C8F RID: 3215
 			// (get) Token: 0x06004E39 RID: 20025 RVA: 0x0028EEDC File Offset: 0x0028D2DC
 			public bool IsValid
@@ -125,15 +134,6 @@ namespace Verse.Sound
 				}
 				return result;
 			}
-
-			// Token: 0x04003424 RID: 13348
-			public bool mouseIsOver;
-
-			// Token: 0x04003425 RID: 13349
-			public Rect rect;
-
-			// Token: 0x04003426 RID: 13350
-			public SoundDef sound;
 		}
 	}
 }

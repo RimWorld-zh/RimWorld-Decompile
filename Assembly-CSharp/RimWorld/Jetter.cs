@@ -7,6 +7,27 @@ namespace RimWorld
 	// Token: 0x020006C7 RID: 1735
 	public class Jetter : Thing
 	{
+		// Token: 0x040014F5 RID: 5365
+		private Jetter.JetterState JState = Jetter.JetterState.Resting;
+
+		// Token: 0x040014F6 RID: 5366
+		private int WickTicksLeft = 0;
+
+		// Token: 0x040014F7 RID: 5367
+		private int TicksUntilMove = 0;
+
+		// Token: 0x040014F8 RID: 5368
+		protected Sustainer wickSoundSustainer = null;
+
+		// Token: 0x040014F9 RID: 5369
+		protected Sustainer jetSoundSustainer = null;
+
+		// Token: 0x040014FA RID: 5370
+		private const int TicksBeforeBeginAccelerate = 25;
+
+		// Token: 0x040014FB RID: 5371
+		private const int TicksBetweenMoves = 3;
+
 		// Token: 0x0600259D RID: 9629 RVA: 0x001425CC File Offset: 0x001409CC
 		public override void Tick()
 		{
@@ -89,27 +110,6 @@ namespace RimWorld
 				this.jetSoundSustainer = null;
 			}
 		}
-
-		// Token: 0x040014F5 RID: 5365
-		private Jetter.JetterState JState = Jetter.JetterState.Resting;
-
-		// Token: 0x040014F6 RID: 5366
-		private int WickTicksLeft = 0;
-
-		// Token: 0x040014F7 RID: 5367
-		private int TicksUntilMove = 0;
-
-		// Token: 0x040014F8 RID: 5368
-		protected Sustainer wickSoundSustainer = null;
-
-		// Token: 0x040014F9 RID: 5369
-		protected Sustainer jetSoundSustainer = null;
-
-		// Token: 0x040014FA RID: 5370
-		private const int TicksBeforeBeginAccelerate = 25;
-
-		// Token: 0x040014FB RID: 5371
-		private const int TicksBetweenMoves = 3;
 
 		// Token: 0x020006C8 RID: 1736
 		private enum JetterState

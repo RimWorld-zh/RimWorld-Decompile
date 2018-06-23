@@ -8,6 +8,18 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public static class WorldDebugMatsSpectrum
 	{
+		// Token: 0x04000FF0 RID: 4080
+		private static readonly Material[] spectrumMats = new Material[100];
+
+		// Token: 0x04000FF1 RID: 4081
+		public const int MaterialCount = 100;
+
+		// Token: 0x04000FF2 RID: 4082
+		private const float Opacity = 0.25f;
+
+		// Token: 0x04000FF3 RID: 4083
+		private static readonly Color[] DebugSpectrum = DebugMatsSpectrum.DebugSpectrum;
+
 		// Token: 0x06001B09 RID: 6921 RVA: 0x000E8600 File Offset: 0x000E6A00
 		static WorldDebugMatsSpectrum()
 		{
@@ -24,17 +36,5 @@ namespace RimWorld.Planet
 			ind = Mathf.Clamp(ind, 0, 99);
 			return WorldDebugMatsSpectrum.spectrumMats[ind];
 		}
-
-		// Token: 0x04000FF0 RID: 4080
-		private static readonly Material[] spectrumMats = new Material[100];
-
-		// Token: 0x04000FF1 RID: 4081
-		public const int MaterialCount = 100;
-
-		// Token: 0x04000FF2 RID: 4082
-		private const float Opacity = 0.25f;
-
-		// Token: 0x04000FF3 RID: 4083
-		private static readonly Color[] DebugSpectrum = DebugMatsSpectrum.DebugSpectrum;
 	}
 }

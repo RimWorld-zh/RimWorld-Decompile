@@ -8,6 +8,33 @@ namespace RimWorld
 	// Token: 0x0200041F RID: 1055
 	public class CompPowerTrader : CompPower
 	{
+		// Token: 0x04000B29 RID: 2857
+		public Action powerStartedAction;
+
+		// Token: 0x04000B2A RID: 2858
+		public Action powerStoppedAction;
+
+		// Token: 0x04000B2B RID: 2859
+		private bool powerOnInt = false;
+
+		// Token: 0x04000B2C RID: 2860
+		public float powerOutputInt = 0f;
+
+		// Token: 0x04000B2D RID: 2861
+		private bool powerLastOutputted = false;
+
+		// Token: 0x04000B2E RID: 2862
+		private Sustainer sustainerPowered = null;
+
+		// Token: 0x04000B2F RID: 2863
+		protected CompFlickable flickableComp;
+
+		// Token: 0x04000B30 RID: 2864
+		public const string PowerTurnedOnSignal = "PowerTurnedOn";
+
+		// Token: 0x04000B31 RID: 2865
+		public const string PowerTurnedOffSignal = "PowerTurnedOff";
+
 		// Token: 0x1700027B RID: 635
 		// (get) Token: 0x06001255 RID: 4693 RVA: 0x0009DC08 File Offset: 0x0009C008
 		// (set) Token: 0x06001256 RID: 4694 RVA: 0x0009DC23 File Offset: 0x0009C023
@@ -237,32 +264,5 @@ namespace RimWorld
 				this.sustainerPowered = null;
 			}
 		}
-
-		// Token: 0x04000B29 RID: 2857
-		public Action powerStartedAction;
-
-		// Token: 0x04000B2A RID: 2858
-		public Action powerStoppedAction;
-
-		// Token: 0x04000B2B RID: 2859
-		private bool powerOnInt = false;
-
-		// Token: 0x04000B2C RID: 2860
-		public float powerOutputInt = 0f;
-
-		// Token: 0x04000B2D RID: 2861
-		private bool powerLastOutputted = false;
-
-		// Token: 0x04000B2E RID: 2862
-		private Sustainer sustainerPowered = null;
-
-		// Token: 0x04000B2F RID: 2863
-		protected CompFlickable flickableComp;
-
-		// Token: 0x04000B30 RID: 2864
-		public const string PowerTurnedOnSignal = "PowerTurnedOn";
-
-		// Token: 0x04000B31 RID: 2865
-		public const string PowerTurnedOffSignal = "PowerTurnedOff";
 	}
 }

@@ -9,6 +9,33 @@ namespace RimWorld
 	// Token: 0x02000032 RID: 50
 	public abstract class JobDriver_InteractAnimal : JobDriver
 	{
+		// Token: 0x040001B8 RID: 440
+		protected const TargetIndex AnimalInd = TargetIndex.A;
+
+		// Token: 0x040001B9 RID: 441
+		private const TargetIndex FoodHandInd = TargetIndex.B;
+
+		// Token: 0x040001BA RID: 442
+		private const int FeedDuration = 270;
+
+		// Token: 0x040001BB RID: 443
+		private const int TalkDuration = 270;
+
+		// Token: 0x040001BC RID: 444
+		private const float NutritionPercentagePerFeed = 0.15f;
+
+		// Token: 0x040001BD RID: 445
+		private const float MaxMinNutritionPerFeed = 0.3f;
+
+		// Token: 0x040001BE RID: 446
+		public const int FeedCount = 2;
+
+		// Token: 0x040001BF RID: 447
+		public const FoodPreferability MaxFoodPreferability = FoodPreferability.RawTasty;
+
+		// Token: 0x040001C0 RID: 448
+		private float feedNutritionLeft;
+
 		// Token: 0x1700005D RID: 93
 		// (get) Token: 0x060001C6 RID: 454 RVA: 0x00013538 File Offset: 0x00011938
 		protected Pawn Animal
@@ -152,32 +179,5 @@ namespace RimWorld
 			toil.defaultCompleteMode = ToilCompleteMode.Delay;
 			return toil;
 		}
-
-		// Token: 0x040001B8 RID: 440
-		protected const TargetIndex AnimalInd = TargetIndex.A;
-
-		// Token: 0x040001B9 RID: 441
-		private const TargetIndex FoodHandInd = TargetIndex.B;
-
-		// Token: 0x040001BA RID: 442
-		private const int FeedDuration = 270;
-
-		// Token: 0x040001BB RID: 443
-		private const int TalkDuration = 270;
-
-		// Token: 0x040001BC RID: 444
-		private const float NutritionPercentagePerFeed = 0.15f;
-
-		// Token: 0x040001BD RID: 445
-		private const float MaxMinNutritionPerFeed = 0.3f;
-
-		// Token: 0x040001BE RID: 446
-		public const int FeedCount = 2;
-
-		// Token: 0x040001BF RID: 447
-		public const FoodPreferability MaxFoodPreferability = FoodPreferability.RawTasty;
-
-		// Token: 0x040001C0 RID: 448
-		private float feedNutritionLeft;
 	}
 }

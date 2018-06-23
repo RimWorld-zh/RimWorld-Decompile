@@ -10,6 +10,89 @@ namespace Verse.AI
 	// Token: 0x02000A9F RID: 2719
 	public class Pawn_JobTracker : IExposable
 	{
+		// Token: 0x04002653 RID: 9811
+		protected Pawn pawn;
+
+		// Token: 0x04002654 RID: 9812
+		public Job curJob = null;
+
+		// Token: 0x04002655 RID: 9813
+		public JobDriver curDriver = null;
+
+		// Token: 0x04002656 RID: 9814
+		public JobQueue jobQueue = new JobQueue();
+
+		// Token: 0x04002657 RID: 9815
+		public PawnPosture posture = PawnPosture.Standing;
+
+		// Token: 0x04002658 RID: 9816
+		public bool startingNewJob;
+
+		// Token: 0x04002659 RID: 9817
+		private int jobsGivenThisTick = 0;
+
+		// Token: 0x0400265A RID: 9818
+		private string jobsGivenThisTickTextual = "";
+
+		// Token: 0x0400265B RID: 9819
+		private int lastJobGivenAtFrame = -1;
+
+		// Token: 0x0400265C RID: 9820
+		private List<int> jobsGivenRecentTicks = new List<int>(10);
+
+		// Token: 0x0400265D RID: 9821
+		private List<string> jobsGivenRecentTicksTextual = new List<string>(10);
+
+		// Token: 0x0400265E RID: 9822
+		public bool debugLog = false;
+
+		// Token: 0x0400265F RID: 9823
+		private const int ConstantThinkTreeJobCheckIntervalTicks = 30;
+
+		// Token: 0x04002660 RID: 9824
+		[TweakValue("Gameplay", 1f, 3f)]
+		private static float OpportunisticJobMaxDistanceFactor = 1.5f;
+
+		// Token: 0x04002661 RID: 9825
+		[TweakValue("Gameplay", 5f, 50f)]
+		private static float OpportunisticJobMaxPickupDistance = 20f;
+
+		// Token: 0x04002662 RID: 9826
+		[TweakValue("Gameplay", 0f, 2f)]
+		private static float OpportunisticJobMaxPickupDistanceFactor = 0.5f;
+
+		// Token: 0x04002663 RID: 9827
+		[TweakValue("Gameplay", 1f, 50f)]
+		private static int OpportunisticJobMaxPickupRegions = 25;
+
+		// Token: 0x04002664 RID: 9828
+		[TweakValue("Gameplay", 5f, 50f)]
+		private static float OpportunisticJobMaxDropoffDistance = 20f;
+
+		// Token: 0x04002665 RID: 9829
+		[TweakValue("Gameplay", 0f, 2f)]
+		private static float OpportunisticJobMaxDropoffDistanceFactor = 0.5f;
+
+		// Token: 0x04002666 RID: 9830
+		[TweakValue("Gameplay", 1f, 50f)]
+		private static int OpportunisticJobMaxDropoffRegions = 25;
+
+		// Token: 0x04002667 RID: 9831
+		[TweakValue("Gameplay", 0f, 10f)]
+		private static float OpportunisticJobMinDistance = 3f;
+
+		// Token: 0x04002668 RID: 9832
+		private const int RecentJobQueueMaxLength = 10;
+
+		// Token: 0x04002669 RID: 9833
+		private const int MaxRecentJobs = 10;
+
+		// Token: 0x0400266A RID: 9834
+		private int lastDamageCheckTick = -99999;
+
+		// Token: 0x0400266B RID: 9835
+		private const int DamageCheckMinInterval = 180;
+
 		// Token: 0x06003C90 RID: 15504 RVA: 0x002007A4 File Offset: 0x001FEBA4
 		public Pawn_JobTracker(Pawn newPawn)
 		{
@@ -870,88 +953,5 @@ namespace Verse.AI
 				}), false);
 			}
 		}
-
-		// Token: 0x04002653 RID: 9811
-		protected Pawn pawn;
-
-		// Token: 0x04002654 RID: 9812
-		public Job curJob = null;
-
-		// Token: 0x04002655 RID: 9813
-		public JobDriver curDriver = null;
-
-		// Token: 0x04002656 RID: 9814
-		public JobQueue jobQueue = new JobQueue();
-
-		// Token: 0x04002657 RID: 9815
-		public PawnPosture posture = PawnPosture.Standing;
-
-		// Token: 0x04002658 RID: 9816
-		public bool startingNewJob;
-
-		// Token: 0x04002659 RID: 9817
-		private int jobsGivenThisTick = 0;
-
-		// Token: 0x0400265A RID: 9818
-		private string jobsGivenThisTickTextual = "";
-
-		// Token: 0x0400265B RID: 9819
-		private int lastJobGivenAtFrame = -1;
-
-		// Token: 0x0400265C RID: 9820
-		private List<int> jobsGivenRecentTicks = new List<int>(10);
-
-		// Token: 0x0400265D RID: 9821
-		private List<string> jobsGivenRecentTicksTextual = new List<string>(10);
-
-		// Token: 0x0400265E RID: 9822
-		public bool debugLog = false;
-
-		// Token: 0x0400265F RID: 9823
-		private const int ConstantThinkTreeJobCheckIntervalTicks = 30;
-
-		// Token: 0x04002660 RID: 9824
-		[TweakValue("Gameplay", 1f, 3f)]
-		private static float OpportunisticJobMaxDistanceFactor = 1.5f;
-
-		// Token: 0x04002661 RID: 9825
-		[TweakValue("Gameplay", 5f, 50f)]
-		private static float OpportunisticJobMaxPickupDistance = 20f;
-
-		// Token: 0x04002662 RID: 9826
-		[TweakValue("Gameplay", 0f, 2f)]
-		private static float OpportunisticJobMaxPickupDistanceFactor = 0.5f;
-
-		// Token: 0x04002663 RID: 9827
-		[TweakValue("Gameplay", 1f, 50f)]
-		private static int OpportunisticJobMaxPickupRegions = 25;
-
-		// Token: 0x04002664 RID: 9828
-		[TweakValue("Gameplay", 5f, 50f)]
-		private static float OpportunisticJobMaxDropoffDistance = 20f;
-
-		// Token: 0x04002665 RID: 9829
-		[TweakValue("Gameplay", 0f, 2f)]
-		private static float OpportunisticJobMaxDropoffDistanceFactor = 0.5f;
-
-		// Token: 0x04002666 RID: 9830
-		[TweakValue("Gameplay", 1f, 50f)]
-		private static int OpportunisticJobMaxDropoffRegions = 25;
-
-		// Token: 0x04002667 RID: 9831
-		[TweakValue("Gameplay", 0f, 10f)]
-		private static float OpportunisticJobMinDistance = 3f;
-
-		// Token: 0x04002668 RID: 9832
-		private const int RecentJobQueueMaxLength = 10;
-
-		// Token: 0x04002669 RID: 9833
-		private const int MaxRecentJobs = 10;
-
-		// Token: 0x0400266A RID: 9834
-		private int lastDamageCheckTick = -99999;
-
-		// Token: 0x0400266B RID: 9835
-		private const int DamageCheckMinInterval = 180;
 	}
 }

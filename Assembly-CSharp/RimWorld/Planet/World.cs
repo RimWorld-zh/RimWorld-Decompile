@@ -10,6 +10,75 @@ namespace RimWorld.Planet
 	// Token: 0x020005AF RID: 1455
 	public sealed class World : IThingHolder, IExposable, IIncidentTarget, ILoadReferenceable
 	{
+		// Token: 0x04001098 RID: 4248
+		public WorldInfo info = new WorldInfo();
+
+		// Token: 0x04001099 RID: 4249
+		public List<WorldComponent> components = new List<WorldComponent>();
+
+		// Token: 0x0400109A RID: 4250
+		public FactionManager factionManager;
+
+		// Token: 0x0400109B RID: 4251
+		public WorldPawns worldPawns;
+
+		// Token: 0x0400109C RID: 4252
+		public WorldObjectsHolder worldObjects;
+
+		// Token: 0x0400109D RID: 4253
+		public GameConditionManager gameConditionManager;
+
+		// Token: 0x0400109E RID: 4254
+		public StoryState storyState;
+
+		// Token: 0x0400109F RID: 4255
+		public WorldFeatures features;
+
+		// Token: 0x040010A0 RID: 4256
+		public WorldGrid grid;
+
+		// Token: 0x040010A1 RID: 4257
+		public WorldPathGrid pathGrid;
+
+		// Token: 0x040010A2 RID: 4258
+		public WorldRenderer renderer;
+
+		// Token: 0x040010A3 RID: 4259
+		public WorldInterface UI;
+
+		// Token: 0x040010A4 RID: 4260
+		public WorldDebugDrawer debugDrawer;
+
+		// Token: 0x040010A5 RID: 4261
+		public WorldDynamicDrawManager dynamicDrawManager;
+
+		// Token: 0x040010A6 RID: 4262
+		public WorldPathFinder pathFinder;
+
+		// Token: 0x040010A7 RID: 4263
+		public WorldPathPool pathPool;
+
+		// Token: 0x040010A8 RID: 4264
+		public WorldReachability reachability;
+
+		// Token: 0x040010A9 RID: 4265
+		public WorldFloodFiller floodFiller;
+
+		// Token: 0x040010AA RID: 4266
+		public ConfiguredTicksAbsAtGameStartCache ticksAbsCache;
+
+		// Token: 0x040010AB RID: 4267
+		public TileTemperaturesComp tileTemperatures;
+
+		// Token: 0x040010AC RID: 4268
+		public WorldGenData genData;
+
+		// Token: 0x040010AD RID: 4269
+		private static List<int> tmpNeighbors = new List<int>();
+
+		// Token: 0x040010AE RID: 4270
+		private static List<Rot4> tmpOceanDirs = new List<Rot4>();
+
 		// Token: 0x17000413 RID: 1043
 		// (get) Token: 0x06001BE1 RID: 7137 RVA: 0x000F036C File Offset: 0x000EE76C
 		public float PlanetCoverage
@@ -440,74 +509,5 @@ namespace RimWorld.Planet
 		{
 			return "(World-" + this.info.name + ")";
 		}
-
-		// Token: 0x04001098 RID: 4248
-		public WorldInfo info = new WorldInfo();
-
-		// Token: 0x04001099 RID: 4249
-		public List<WorldComponent> components = new List<WorldComponent>();
-
-		// Token: 0x0400109A RID: 4250
-		public FactionManager factionManager;
-
-		// Token: 0x0400109B RID: 4251
-		public WorldPawns worldPawns;
-
-		// Token: 0x0400109C RID: 4252
-		public WorldObjectsHolder worldObjects;
-
-		// Token: 0x0400109D RID: 4253
-		public GameConditionManager gameConditionManager;
-
-		// Token: 0x0400109E RID: 4254
-		public StoryState storyState;
-
-		// Token: 0x0400109F RID: 4255
-		public WorldFeatures features;
-
-		// Token: 0x040010A0 RID: 4256
-		public WorldGrid grid;
-
-		// Token: 0x040010A1 RID: 4257
-		public WorldPathGrid pathGrid;
-
-		// Token: 0x040010A2 RID: 4258
-		public WorldRenderer renderer;
-
-		// Token: 0x040010A3 RID: 4259
-		public WorldInterface UI;
-
-		// Token: 0x040010A4 RID: 4260
-		public WorldDebugDrawer debugDrawer;
-
-		// Token: 0x040010A5 RID: 4261
-		public WorldDynamicDrawManager dynamicDrawManager;
-
-		// Token: 0x040010A6 RID: 4262
-		public WorldPathFinder pathFinder;
-
-		// Token: 0x040010A7 RID: 4263
-		public WorldPathPool pathPool;
-
-		// Token: 0x040010A8 RID: 4264
-		public WorldReachability reachability;
-
-		// Token: 0x040010A9 RID: 4265
-		public WorldFloodFiller floodFiller;
-
-		// Token: 0x040010AA RID: 4266
-		public ConfiguredTicksAbsAtGameStartCache ticksAbsCache;
-
-		// Token: 0x040010AB RID: 4267
-		public TileTemperaturesComp tileTemperatures;
-
-		// Token: 0x040010AC RID: 4268
-		public WorldGenData genData;
-
-		// Token: 0x040010AD RID: 4269
-		private static List<int> tmpNeighbors = new List<int>();
-
-		// Token: 0x040010AE RID: 4270
-		private static List<Rot4> tmpOceanDirs = new List<Rot4>();
 	}
 }

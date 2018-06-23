@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x020008CC RID: 2252
 	public abstract class Lesson_Instruction : Lesson
 	{
+		// Token: 0x04001BA8 RID: 7080
+		public InstructionDef def;
+
+		// Token: 0x04001BA9 RID: 7081
+		private const float RectWidth = 310f;
+
+		// Token: 0x04001BAA RID: 7082
+		private const float BarHeight = 30f;
+
 		// Token: 0x1700083A RID: 2106
 		// (get) Token: 0x06003394 RID: 13204 RVA: 0x001B7174 File Offset: 0x001B5574
 		protected Map Map
@@ -197,14 +206,5 @@ namespace RimWorld
 				LessonAutoActivator.Notify_TutorialEnding();
 			}
 		}
-
-		// Token: 0x04001BA8 RID: 7080
-		public InstructionDef def;
-
-		// Token: 0x04001BA9 RID: 7081
-		private const float RectWidth = 310f;
-
-		// Token: 0x04001BAA RID: 7082
-		private const float BarHeight = 30f;
 	}
 }

@@ -7,20 +7,6 @@ namespace Verse
 	// Token: 0x02000B48 RID: 2888
 	public class JobDef : Def
 	{
-		// Token: 0x06003F52 RID: 16210 RVA: 0x002161E0 File Offset: 0x002145E0
-		public override IEnumerable<string> ConfigErrors()
-		{
-			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
-			{
-				yield return e;
-			}
-			if (this.joySkill != null && this.joyXpPerTick == 0f)
-			{
-				yield return "funSkill is not null but funXpPerTick is zero";
-			}
-			yield break;
-		}
-
 		// Token: 0x040029BD RID: 10685
 		public Type driverClass;
 
@@ -81,5 +67,19 @@ namespace Verse
 
 		// Token: 0x040029D0 RID: 10704
 		public Rot4 faceDir = Rot4.Invalid;
+
+		// Token: 0x06003F52 RID: 16210 RVA: 0x002161E0 File Offset: 0x002145E0
+		public override IEnumerable<string> ConfigErrors()
+		{
+			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			{
+				yield return e;
+			}
+			if (this.joySkill != null && this.joyXpPerTick == 0f)
+			{
+				yield return "funSkill is not null but funXpPerTick is zero";
+			}
+			yield break;
+		}
 	}
 }

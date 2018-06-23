@@ -9,6 +9,15 @@ namespace RimWorld.Planet
 	// Token: 0x020008E6 RID: 2278
 	public class WITab_Terrain : WITab
 	{
+		// Token: 0x04001C5E RID: 7262
+		private Vector2 scrollPosition;
+
+		// Token: 0x04001C5F RID: 7263
+		private float lastDrawnHeight;
+
+		// Token: 0x04001C60 RID: 7264
+		private static readonly Vector2 WinSize = new Vector2(440f, 540f);
+
 		// Token: 0x0600346B RID: 13419 RVA: 0x001C097A File Offset: 0x001BED7A
 		public WITab_Terrain()
 		{
@@ -127,14 +136,5 @@ namespace RimWorld.Planet
 			listing_Standard.End();
 			Widgets.EndScrollView();
 		}
-
-		// Token: 0x04001C5E RID: 7262
-		private Vector2 scrollPosition;
-
-		// Token: 0x04001C5F RID: 7263
-		private float lastDrawnHeight;
-
-		// Token: 0x04001C60 RID: 7264
-		private static readonly Vector2 WinSize = new Vector2(440f, 540f);
 	}
 }

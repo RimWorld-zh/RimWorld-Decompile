@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000417 RID: 1047
 	public class CompHibernatable : ThingComp
 	{
+		// Token: 0x04000AFF RID: 2815
+		private HibernatableStateDef state = HibernatableStateDefOf.Hibernating;
+
+		// Token: 0x04000B00 RID: 2816
+		private int endStartupTick = 0;
+
 		// Token: 0x1700026F RID: 623
 		// (get) Token: 0x06001215 RID: 4629 RVA: 0x0009D954 File Offset: 0x0009BD54
 		public CompProperties_Hibernatable Props
@@ -124,11 +130,5 @@ namespace RimWorld
 			Scribe_Defs.Look<HibernatableStateDef>(ref this.state, "hibernateState");
 			Scribe_Values.Look<int>(ref this.endStartupTick, "hibernateendStartupTick", 0, false);
 		}
-
-		// Token: 0x04000AFF RID: 2815
-		private HibernatableStateDef state = HibernatableStateDefOf.Hibernating;
-
-		// Token: 0x04000B00 RID: 2816
-		private int endStartupTick = 0;
 	}
 }

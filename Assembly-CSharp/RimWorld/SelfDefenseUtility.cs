@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020000A9 RID: 169
 	public static class SelfDefenseUtility
 	{
+		// Token: 0x04000273 RID: 627
+		public const float FleeWhenDistToHostileLessThan = 8f;
+
 		// Token: 0x0600041D RID: 1053 RVA: 0x000313F0 File Offset: 0x0002F7F0
 		public static bool ShouldStartFleeing(Pawn pawn)
 		{
@@ -64,8 +67,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000273 RID: 627
-		public const float FleeWhenDistToHostileLessThan = 8f;
 	}
 }

@@ -7,6 +7,18 @@ namespace RimWorld
 	// Token: 0x02000842 RID: 2114
 	public class ChoiceLetter_RansomDemand : ChoiceLetter
 	{
+		// Token: 0x040019E8 RID: 6632
+		public Map map;
+
+		// Token: 0x040019E9 RID: 6633
+		public Faction faction;
+
+		// Token: 0x040019EA RID: 6634
+		public Pawn kidnapped;
+
+		// Token: 0x040019EB RID: 6635
+		public int fee;
+
 		// Token: 0x17000796 RID: 1942
 		// (get) Token: 0x06002FE3 RID: 12259 RVA: 0x001A098C File Offset: 0x0019ED8C
 		public override IEnumerable<DiaOption> Choices
@@ -76,17 +88,5 @@ namespace RimWorld
 			Scribe_References.Look<Pawn>(ref this.kidnapped, "kidnapped", false);
 			Scribe_Values.Look<int>(ref this.fee, "fee", 0, false);
 		}
-
-		// Token: 0x040019E8 RID: 6632
-		public Map map;
-
-		// Token: 0x040019E9 RID: 6633
-		public Faction faction;
-
-		// Token: 0x040019EA RID: 6634
-		public Pawn kidnapped;
-
-		// Token: 0x040019EB RID: 6635
-		public int fee;
 	}
 }

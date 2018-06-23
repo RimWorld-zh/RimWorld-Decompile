@@ -6,6 +6,18 @@ namespace Verse
 	// Token: 0x02000EE3 RID: 3811
 	public struct ColorInt : IEquatable<ColorInt>
 	{
+		// Token: 0x04003C82 RID: 15490
+		public int r;
+
+		// Token: 0x04003C83 RID: 15491
+		public int g;
+
+		// Token: 0x04003C84 RID: 15492
+		public int b;
+
+		// Token: 0x04003C85 RID: 15493
+		public int a;
+
 		// Token: 0x06005A6F RID: 23151 RVA: 0x002E6BF2 File Offset: 0x002E4FF2
 		public ColorInt(int r, int g, int b)
 		{
@@ -184,17 +196,5 @@ namespace Verse
 				return result;
 			}
 		}
-
-		// Token: 0x04003C82 RID: 15490
-		public int r;
-
-		// Token: 0x04003C83 RID: 15491
-		public int g;
-
-		// Token: 0x04003C84 RID: 15492
-		public int b;
-
-		// Token: 0x04003C85 RID: 15493
-		public int a;
 	}
 }

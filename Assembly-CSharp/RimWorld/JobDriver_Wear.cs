@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x0200009F RID: 159
 	public class JobDriver_Wear : JobDriver
 	{
+		// Token: 0x0400026B RID: 619
+		private int duration;
+
+		// Token: 0x0400026C RID: 620
+		private int unequipBuffer;
+
+		// Token: 0x0400026D RID: 621
+		private const TargetIndex ApparelInd = TargetIndex.A;
+
 		// Token: 0x170000C7 RID: 199
 		// (get) Token: 0x060003FE RID: 1022 RVA: 0x0002F368 File Offset: 0x0002D768
 		private Apparel Apparel
@@ -99,14 +108,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x0400026B RID: 619
-		private int duration;
-
-		// Token: 0x0400026C RID: 620
-		private int unequipBuffer;
-
-		// Token: 0x0400026D RID: 621
-		private const TargetIndex ApparelInd = TargetIndex.A;
 	}
 }

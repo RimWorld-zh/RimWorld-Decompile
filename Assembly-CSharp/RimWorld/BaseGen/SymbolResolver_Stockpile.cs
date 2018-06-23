@@ -8,6 +8,12 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003D2 RID: 978
 	public class SymbolResolver_Stockpile : SymbolResolver
 	{
+		// Token: 0x04000A41 RID: 2625
+		private List<IntVec3> cells = new List<IntVec3>();
+
+		// Token: 0x04000A42 RID: 2626
+		private const float FreeCellsFraction = 0.45f;
+
 		// Token: 0x060010D9 RID: 4313 RVA: 0x0008F940 File Offset: 0x0008DD40
 		public override void Resolve(ResolveParams rp)
 		{
@@ -84,11 +90,5 @@ namespace RimWorld.BaseGen
 			}
 			this.cells.Shuffle<IntVec3>();
 		}
-
-		// Token: 0x04000A41 RID: 2625
-		private List<IntVec3> cells = new List<IntVec3>();
-
-		// Token: 0x04000A42 RID: 2626
-		private const float FreeCellsFraction = 0.45f;
 	}
 }

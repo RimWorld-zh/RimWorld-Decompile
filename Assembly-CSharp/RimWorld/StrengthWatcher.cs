@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x02000441 RID: 1089
 	public class StrengthWatcher
 	{
+		// Token: 0x04000B74 RID: 2932
+		private Map map;
+
 		// Token: 0x060012E4 RID: 4836 RVA: 0x000A33B0 File Offset: 0x000A17B0
 		public StrengthWatcher(Map map)
 		{
@@ -39,8 +42,5 @@ namespace RimWorld
 				return num;
 			}
 		}
-
-		// Token: 0x04000B74 RID: 2932
-		private Map map;
 	}
 }

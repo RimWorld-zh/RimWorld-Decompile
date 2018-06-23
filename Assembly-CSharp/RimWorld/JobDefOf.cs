@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class JobDefOf
 	{
-		// Token: 0x06003625 RID: 13861 RVA: 0x001D0957 File Offset: 0x001CED57
-		static JobDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(JobDefOf));
-		}
-
 		// Token: 0x04001EDA RID: 7898
 		public static JobDef Goto;
 
@@ -351,5 +345,11 @@ namespace RimWorld
 
 		// Token: 0x04001F4A RID: 8010
 		public static JobDef PredatorHunt;
+
+		// Token: 0x06003625 RID: 13861 RVA: 0x001D0957 File Offset: 0x001CED57
+		static JobDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(JobDefOf));
+		}
 	}
 }

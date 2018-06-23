@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x0200033A RID: 826
 	public class IncidentWorker_RansomDemand : IncidentWorker
 	{
+		// Token: 0x040008E1 RID: 2273
+		private const int TimeoutTicks = 60000;
+
+		// Token: 0x040008E2 RID: 2274
+		private static List<Pawn> candidates = new List<Pawn>();
+
 		// Token: 0x06000E19 RID: 3609 RVA: 0x000780D4 File Offset: 0x000764D4
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
@@ -101,11 +107,5 @@ namespace RimWorld
 		{
 			return (int)(pawn.MarketValue * DiplomacyTuning.RansomFeeMarketValueFactorRange.RandomInRange);
 		}
-
-		// Token: 0x040008E1 RID: 2273
-		private const int TimeoutTicks = 60000;
-
-		// Token: 0x040008E2 RID: 2274
-		private static List<Pawn> candidates = new List<Pawn>();
 	}
 }

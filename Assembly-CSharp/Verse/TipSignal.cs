@@ -5,6 +5,18 @@ namespace Verse
 	// Token: 0x02000E90 RID: 3728
 	public struct TipSignal
 	{
+		// Token: 0x04003A38 RID: 14904
+		public string text;
+
+		// Token: 0x04003A39 RID: 14905
+		public Func<string> textGetter;
+
+		// Token: 0x04003A3A RID: 14906
+		public int uniqueId;
+
+		// Token: 0x04003A3B RID: 14907
+		public TooltipPriority priority;
+
 		// Token: 0x06005807 RID: 22535 RVA: 0x002D2879 File Offset: 0x002D0C79
 		public TipSignal(string text, int uniqueId)
 		{
@@ -72,17 +84,5 @@ namespace Verse
 				")"
 			});
 		}
-
-		// Token: 0x04003A38 RID: 14904
-		public string text;
-
-		// Token: 0x04003A39 RID: 14905
-		public Func<string> textGetter;
-
-		// Token: 0x04003A3A RID: 14906
-		public int uniqueId;
-
-		// Token: 0x04003A3B RID: 14907
-		public TooltipPriority priority;
 	}
 }

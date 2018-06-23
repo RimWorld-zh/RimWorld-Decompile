@@ -10,6 +10,87 @@ namespace Ionic.Zlib
 	// Token: 0x02000013 RID: 19
 	public class ParallelDeflateOutputStream : Stream
 	{
+		// Token: 0x040000E8 RID: 232
+		private static readonly int IO_BUFFER_SIZE_DEFAULT = 65536;
+
+		// Token: 0x040000E9 RID: 233
+		private static readonly int BufferPairsPerCore = 4;
+
+		// Token: 0x040000EA RID: 234
+		private List<WorkItem> _pool;
+
+		// Token: 0x040000EB RID: 235
+		private bool _leaveOpen;
+
+		// Token: 0x040000EC RID: 236
+		private bool emitting;
+
+		// Token: 0x040000ED RID: 237
+		private Stream _outStream;
+
+		// Token: 0x040000EE RID: 238
+		private int _maxBufferPairs;
+
+		// Token: 0x040000EF RID: 239
+		private int _bufferSize = ParallelDeflateOutputStream.IO_BUFFER_SIZE_DEFAULT;
+
+		// Token: 0x040000F0 RID: 240
+		private AutoResetEvent _newlyCompressedBlob;
+
+		// Token: 0x040000F1 RID: 241
+		private object _outputLock = new object();
+
+		// Token: 0x040000F2 RID: 242
+		private bool _isClosed;
+
+		// Token: 0x040000F3 RID: 243
+		private bool _firstWriteDone;
+
+		// Token: 0x040000F4 RID: 244
+		private int _currentlyFilling;
+
+		// Token: 0x040000F5 RID: 245
+		private int _lastFilled;
+
+		// Token: 0x040000F6 RID: 246
+		private int _lastWritten;
+
+		// Token: 0x040000F7 RID: 247
+		private int _latestCompressed;
+
+		// Token: 0x040000F8 RID: 248
+		private int _Crc32;
+
+		// Token: 0x040000F9 RID: 249
+		private CRC32 _runningCrc;
+
+		// Token: 0x040000FA RID: 250
+		private object _latestLock = new object();
+
+		// Token: 0x040000FB RID: 251
+		private Queue<int> _toWrite;
+
+		// Token: 0x040000FC RID: 252
+		private Queue<int> _toFill;
+
+		// Token: 0x040000FD RID: 253
+		private long _totalBytesProcessed;
+
+		// Token: 0x040000FE RID: 254
+		private CompressionLevel _compressLevel;
+
+		// Token: 0x040000FF RID: 255
+		private volatile Exception _pendingException;
+
+		// Token: 0x04000100 RID: 256
+		private bool _handlingException;
+
+		// Token: 0x04000101 RID: 257
+		private object _eLock = new object();
+
+		// Token: 0x04000102 RID: 258
+		private ParallelDeflateOutputStream.TraceBits _DesiredTrace = ParallelDeflateOutputStream.TraceBits.EmitLock | ParallelDeflateOutputStream.TraceBits.EmitEnter | ParallelDeflateOutputStream.TraceBits.EmitBegin | ParallelDeflateOutputStream.TraceBits.EmitDone | ParallelDeflateOutputStream.TraceBits.EmitSkip | ParallelDeflateOutputStream.TraceBits.Session | ParallelDeflateOutputStream.TraceBits.Compress | ParallelDeflateOutputStream.TraceBits.WriteEnter | ParallelDeflateOutputStream.TraceBits.WriteTake;
+
 		// Token: 0x060000BA RID: 186 RVA: 0x00009F93 File Offset: 0x00008393
 		public ParallelDeflateOutputStream(Stream stream) : this(stream, CompressionLevel.Default, CompressionStrategy.Default, false)
 		{
@@ -560,87 +641,6 @@ namespace Ionic.Zlib
 		{
 			throw new NotSupportedException();
 		}
-
-		// Token: 0x040000E8 RID: 232
-		private static readonly int IO_BUFFER_SIZE_DEFAULT = 65536;
-
-		// Token: 0x040000E9 RID: 233
-		private static readonly int BufferPairsPerCore = 4;
-
-		// Token: 0x040000EA RID: 234
-		private List<WorkItem> _pool;
-
-		// Token: 0x040000EB RID: 235
-		private bool _leaveOpen;
-
-		// Token: 0x040000EC RID: 236
-		private bool emitting;
-
-		// Token: 0x040000ED RID: 237
-		private Stream _outStream;
-
-		// Token: 0x040000EE RID: 238
-		private int _maxBufferPairs;
-
-		// Token: 0x040000EF RID: 239
-		private int _bufferSize = ParallelDeflateOutputStream.IO_BUFFER_SIZE_DEFAULT;
-
-		// Token: 0x040000F0 RID: 240
-		private AutoResetEvent _newlyCompressedBlob;
-
-		// Token: 0x040000F1 RID: 241
-		private object _outputLock = new object();
-
-		// Token: 0x040000F2 RID: 242
-		private bool _isClosed;
-
-		// Token: 0x040000F3 RID: 243
-		private bool _firstWriteDone;
-
-		// Token: 0x040000F4 RID: 244
-		private int _currentlyFilling;
-
-		// Token: 0x040000F5 RID: 245
-		private int _lastFilled;
-
-		// Token: 0x040000F6 RID: 246
-		private int _lastWritten;
-
-		// Token: 0x040000F7 RID: 247
-		private int _latestCompressed;
-
-		// Token: 0x040000F8 RID: 248
-		private int _Crc32;
-
-		// Token: 0x040000F9 RID: 249
-		private CRC32 _runningCrc;
-
-		// Token: 0x040000FA RID: 250
-		private object _latestLock = new object();
-
-		// Token: 0x040000FB RID: 251
-		private Queue<int> _toWrite;
-
-		// Token: 0x040000FC RID: 252
-		private Queue<int> _toFill;
-
-		// Token: 0x040000FD RID: 253
-		private long _totalBytesProcessed;
-
-		// Token: 0x040000FE RID: 254
-		private CompressionLevel _compressLevel;
-
-		// Token: 0x040000FF RID: 255
-		private volatile Exception _pendingException;
-
-		// Token: 0x04000100 RID: 256
-		private bool _handlingException;
-
-		// Token: 0x04000101 RID: 257
-		private object _eLock = new object();
-
-		// Token: 0x04000102 RID: 258
-		private ParallelDeflateOutputStream.TraceBits _DesiredTrace = ParallelDeflateOutputStream.TraceBits.EmitLock | ParallelDeflateOutputStream.TraceBits.EmitEnter | ParallelDeflateOutputStream.TraceBits.EmitBegin | ParallelDeflateOutputStream.TraceBits.EmitDone | ParallelDeflateOutputStream.TraceBits.EmitSkip | ParallelDeflateOutputStream.TraceBits.Session | ParallelDeflateOutputStream.TraceBits.Compress | ParallelDeflateOutputStream.TraceBits.WriteEnter | ParallelDeflateOutputStream.TraceBits.WriteTake;
 
 		// Token: 0x02000014 RID: 20
 		[Flags]

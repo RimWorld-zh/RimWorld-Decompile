@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000CEB RID: 3307
 	internal static class DamagedMatPool
 	{
+		// Token: 0x04003155 RID: 12629
+		private static Dictionary<Material, Material> damagedMats = new Dictionary<Material, Material>();
+
+		// Token: 0x04003156 RID: 12630
+		private static readonly Color DamagedMatStartingColor = Color.red;
+
 		// Token: 0x17000B82 RID: 2946
 		// (get) Token: 0x060048DC RID: 18652 RVA: 0x00263BF0 File Offset: 0x00261FF0
 		public static int MatCount
@@ -39,11 +45,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003155 RID: 12629
-		private static Dictionary<Material, Material> damagedMats = new Dictionary<Material, Material>();
-
-		// Token: 0x04003156 RID: 12630
-		private static readonly Color DamagedMatStartingColor = Color.red;
 	}
 }

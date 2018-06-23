@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000DDF RID: 3551
 	public class Graphic_Single : Graphic
 	{
+		// Token: 0x040034CB RID: 13515
+		protected Material mat = null;
+
+		// Token: 0x040034CC RID: 13516
+		public static readonly string MaskSuffix = "_m";
+
 		// Token: 0x17000CE5 RID: 3301
 		// (get) Token: 0x06004F95 RID: 20373 RVA: 0x00295828 File Offset: 0x00293C28
 		public override Material MatSingle
@@ -114,11 +120,5 @@ namespace Verse
 				")"
 			});
 		}
-
-		// Token: 0x040034CB RID: 13515
-		protected Material mat = null;
-
-		// Token: 0x040034CC RID: 13516
-		public static readonly string MaskSuffix = "_m";
 	}
 }

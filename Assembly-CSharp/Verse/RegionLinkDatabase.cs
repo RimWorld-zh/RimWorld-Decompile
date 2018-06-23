@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000C8D RID: 3213
 	public class RegionLinkDatabase
 	{
+		// Token: 0x0400300F RID: 12303
+		private Dictionary<ulong, RegionLink> links = new Dictionary<ulong, RegionLink>();
+
 		// Token: 0x06004691 RID: 18065 RVA: 0x00253EF8 File Offset: 0x002522F8
 		public RegionLink LinkFrom(EdgeSpan span)
 		{
@@ -37,8 +40,5 @@ namespace Verse
 			}
 			Log.Message(stringBuilder.ToString(), false);
 		}
-
-		// Token: 0x0400300F RID: 12303
-		private Dictionary<ulong, RegionLink> links = new Dictionary<ulong, RegionLink>();
 	}
 }

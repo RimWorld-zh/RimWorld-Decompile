@@ -11,6 +11,18 @@ namespace RimWorld
 	// Token: 0x0200073A RID: 1850
 	public class CompSpawnerMechanoidsOnDamaged : ThingComp
 	{
+		// Token: 0x04001661 RID: 5729
+		public float pointsLeft;
+
+		// Token: 0x04001662 RID: 5730
+		private Lord lord;
+
+		// Token: 0x04001663 RID: 5731
+		private const float MechanoidsDefendRadius = 21f;
+
+		// Token: 0x04001664 RID: 5732
+		public static readonly string MemoDamaged = "ShipPartDamaged";
+
 		// Token: 0x060028E2 RID: 10466 RVA: 0x0015CCF3 File Offset: 0x0015B0F3
 		public override void PostExposeData()
 		{
@@ -103,17 +115,5 @@ namespace RimWorld
 		{
 			return c.Walkable(this.parent.Map);
 		}
-
-		// Token: 0x04001661 RID: 5729
-		public float pointsLeft;
-
-		// Token: 0x04001662 RID: 5730
-		private Lord lord;
-
-		// Token: 0x04001663 RID: 5731
-		private const float MechanoidsDefendRadius = 21f;
-
-		// Token: 0x04001664 RID: 5732
-		public static readonly string MemoDamaged = "ShipPartDamaged";
 	}
 }

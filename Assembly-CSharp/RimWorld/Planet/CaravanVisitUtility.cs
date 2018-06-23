@@ -10,6 +10,9 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public static class CaravanVisitUtility
 	{
+		// Token: 0x040011B0 RID: 4528
+		private static readonly Texture2D TradeCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/Trade", true);
+
 		// Token: 0x06001DE7 RID: 7655 RVA: 0x00101A54 File Offset: 0x000FFE54
 		public static Settlement SettlementVisitedNow(Caravan caravan)
 		{
@@ -64,8 +67,5 @@ namespace RimWorld.Planet
 			}
 			return command_Action;
 		}
-
-		// Token: 0x040011B0 RID: 4528
-		private static readonly Texture2D TradeCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/Trade", true);
 	}
 }

@@ -7,6 +7,30 @@ namespace Verse.AI
 	// Token: 0x02000C27 RID: 3111
 	public class AttackTargetsCache
 	{
+		// Token: 0x04002E71 RID: 11889
+		private Map map;
+
+		// Token: 0x04002E72 RID: 11890
+		private HashSet<IAttackTarget> allTargets = new HashSet<IAttackTarget>();
+
+		// Token: 0x04002E73 RID: 11891
+		private Dictionary<Faction, HashSet<IAttackTarget>> targetsHostileToFaction = new Dictionary<Faction, HashSet<IAttackTarget>>();
+
+		// Token: 0x04002E74 RID: 11892
+		private HashSet<Pawn> pawnsInAggroMentalState = new HashSet<Pawn>();
+
+		// Token: 0x04002E75 RID: 11893
+		private static List<IAttackTarget> targets = new List<IAttackTarget>();
+
+		// Token: 0x04002E76 RID: 11894
+		private static HashSet<IAttackTarget> emptySet = new HashSet<IAttackTarget>();
+
+		// Token: 0x04002E77 RID: 11895
+		private static List<IAttackTarget> tmpTargets = new List<IAttackTarget>();
+
+		// Token: 0x04002E78 RID: 11896
+		private static List<IAttackTarget> tmpToUpdate = new List<IAttackTarget>();
+
 		// Token: 0x06004465 RID: 17509 RVA: 0x0023FB10 File Offset: 0x0023DF10
 		public AttackTargetsCache(Map map)
 		{
@@ -267,29 +291,5 @@ namespace Verse.AI
 		{
 			return f != null && t != null && this.targetsHostileToFaction[f].Contains(t);
 		}
-
-		// Token: 0x04002E71 RID: 11889
-		private Map map;
-
-		// Token: 0x04002E72 RID: 11890
-		private HashSet<IAttackTarget> allTargets = new HashSet<IAttackTarget>();
-
-		// Token: 0x04002E73 RID: 11891
-		private Dictionary<Faction, HashSet<IAttackTarget>> targetsHostileToFaction = new Dictionary<Faction, HashSet<IAttackTarget>>();
-
-		// Token: 0x04002E74 RID: 11892
-		private HashSet<Pawn> pawnsInAggroMentalState = new HashSet<Pawn>();
-
-		// Token: 0x04002E75 RID: 11893
-		private static List<IAttackTarget> targets = new List<IAttackTarget>();
-
-		// Token: 0x04002E76 RID: 11894
-		private static HashSet<IAttackTarget> emptySet = new HashSet<IAttackTarget>();
-
-		// Token: 0x04002E77 RID: 11895
-		private static List<IAttackTarget> tmpTargets = new List<IAttackTarget>();
-
-		// Token: 0x04002E78 RID: 11896
-		private static List<IAttackTarget> tmpToUpdate = new List<IAttackTarget>();
 	}
 }

@@ -6,6 +6,57 @@ namespace Verse
 	// Token: 0x02000EBC RID: 3772
 	public class Dialog_MessageBox : Window
 	{
+		// Token: 0x04003B83 RID: 15235
+		public string text;
+
+		// Token: 0x04003B84 RID: 15236
+		public string title;
+
+		// Token: 0x04003B85 RID: 15237
+		public string buttonAText;
+
+		// Token: 0x04003B86 RID: 15238
+		public Action buttonAAction;
+
+		// Token: 0x04003B87 RID: 15239
+		public bool buttonADestructive;
+
+		// Token: 0x04003B88 RID: 15240
+		public string buttonBText;
+
+		// Token: 0x04003B89 RID: 15241
+		public Action buttonBAction;
+
+		// Token: 0x04003B8A RID: 15242
+		public string buttonCText;
+
+		// Token: 0x04003B8B RID: 15243
+		public Action buttonCAction;
+
+		// Token: 0x04003B8C RID: 15244
+		public bool buttonCClose = true;
+
+		// Token: 0x04003B8D RID: 15245
+		public float interactionDelay = 0f;
+
+		// Token: 0x04003B8E RID: 15246
+		public Action acceptAction;
+
+		// Token: 0x04003B8F RID: 15247
+		public Action cancelAction;
+
+		// Token: 0x04003B90 RID: 15248
+		private Vector2 scrollPosition = Vector2.zero;
+
+		// Token: 0x04003B91 RID: 15249
+		private float creationRealTime = -1f;
+
+		// Token: 0x04003B92 RID: 15250
+		private const float TitleHeight = 42f;
+
+		// Token: 0x04003B93 RID: 15251
+		private const float ButtonHeight = 35f;
+
 		// Token: 0x0600594C RID: 22860 RVA: 0x002DCAA4 File Offset: 0x002DAEA4
 		public Dialog_MessageBox(string text, string buttonAText = null, Action buttonAAction = null, string buttonBText = null, Action buttonBAction = null, string title = null, bool buttonADestructive = false, Action acceptAction = null, Action cancelAction = null)
 		{
@@ -163,56 +214,5 @@ namespace Verse
 				base.OnAcceptKeyPressed();
 			}
 		}
-
-		// Token: 0x04003B83 RID: 15235
-		public string text;
-
-		// Token: 0x04003B84 RID: 15236
-		public string title;
-
-		// Token: 0x04003B85 RID: 15237
-		public string buttonAText;
-
-		// Token: 0x04003B86 RID: 15238
-		public Action buttonAAction;
-
-		// Token: 0x04003B87 RID: 15239
-		public bool buttonADestructive;
-
-		// Token: 0x04003B88 RID: 15240
-		public string buttonBText;
-
-		// Token: 0x04003B89 RID: 15241
-		public Action buttonBAction;
-
-		// Token: 0x04003B8A RID: 15242
-		public string buttonCText;
-
-		// Token: 0x04003B8B RID: 15243
-		public Action buttonCAction;
-
-		// Token: 0x04003B8C RID: 15244
-		public bool buttonCClose = true;
-
-		// Token: 0x04003B8D RID: 15245
-		public float interactionDelay = 0f;
-
-		// Token: 0x04003B8E RID: 15246
-		public Action acceptAction;
-
-		// Token: 0x04003B8F RID: 15247
-		public Action cancelAction;
-
-		// Token: 0x04003B90 RID: 15248
-		private Vector2 scrollPosition = Vector2.zero;
-
-		// Token: 0x04003B91 RID: 15249
-		private float creationRealTime = -1f;
-
-		// Token: 0x04003B92 RID: 15250
-		private const float TitleHeight = 42f;
-
-		// Token: 0x04003B93 RID: 15251
-		private const float ButtonHeight = 35f;
 	}
 }

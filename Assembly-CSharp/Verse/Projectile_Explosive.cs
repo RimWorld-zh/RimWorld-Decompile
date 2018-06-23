@@ -5,6 +5,9 @@ namespace Verse
 	// Token: 0x02000DF0 RID: 3568
 	public class Projectile_Explosive : Projectile
 	{
+		// Token: 0x0400350C RID: 13580
+		private int ticksToDetonation = 0;
+
 		// Token: 0x06005010 RID: 20496 RVA: 0x00297EC4 File Offset: 0x002962C4
 		public override void ExposeData()
 		{
@@ -68,8 +71,5 @@ namespace Verse
 			ThingDef preExplosionSpawnThingDef = this.def.projectile.preExplosionSpawnThingDef;
 			GenExplosion.DoExplosion(position, map2, explosionRadius, damageDef, launcher, damageAmount, soundExplode, equipmentDef, def, thing, postExplosionSpawnThingDef, postExplosionSpawnChance, postExplosionSpawnThingCount, this.def.projectile.applyDamageToExplosionCellsNeighbors, preExplosionSpawnThingDef, this.def.projectile.preExplosionSpawnChance, this.def.projectile.preExplosionSpawnThingCount, this.def.projectile.explosionChanceToStartFire, this.def.projectile.explosionDamageFalloff);
 		}
-
-		// Token: 0x0400350C RID: 13580
-		private int ticksToDetonation = 0;
 	}
 }

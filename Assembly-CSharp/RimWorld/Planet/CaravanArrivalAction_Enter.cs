@@ -7,6 +7,9 @@ namespace RimWorld.Planet
 	// Token: 0x020005CA RID: 1482
 	public class CaravanArrivalAction_Enter : CaravanArrivalAction
 	{
+		// Token: 0x04001151 RID: 4433
+		private MapParent mapParent;
+
 		// Token: 0x06001CC9 RID: 7369 RVA: 0x000F7387 File Offset: 0x000F5787
 		public CaravanArrivalAction_Enter()
 		{
@@ -130,8 +133,5 @@ namespace RimWorld.Planet
 				mapParent.Label
 			}), caravan, mapParent.Tile, mapParent);
 		}
-
-		// Token: 0x04001151 RID: 4433
-		private MapParent mapParent;
 	}
 }

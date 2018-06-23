@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000EB5 RID: 3765
 	public class Dialog_RenameZone : Dialog_Rename
 	{
+		// Token: 0x04003B69 RID: 15209
+		private Zone zone;
+
 		// Token: 0x06005924 RID: 22820 RVA: 0x002DBE78 File Offset: 0x002DA278
 		public Dialog_RenameZone(Zone zone)
 		{
@@ -42,8 +45,5 @@ namespace Verse
 				this.curName
 			}), MessageTypeDefOf.TaskCompletion, false);
 		}
-
-		// Token: 0x04003B69 RID: 15209
-		private Zone zone;
 	}
 }

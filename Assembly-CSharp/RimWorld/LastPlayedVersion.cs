@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x020009CD RID: 2509
 	public static class LastPlayedVersion
 	{
+		// Token: 0x04002400 RID: 9216
+		private static bool initialized = false;
+
+		// Token: 0x04002401 RID: 9217
+		private static Version lastPlayedVersionInt = null;
+
 		// Token: 0x170008A2 RID: 2210
 		// (get) Token: 0x06003846 RID: 14406 RVA: 0x001E0084 File Offset: 0x001DE484
 		public static Version Version
@@ -59,11 +65,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04002400 RID: 9216
-		private static bool initialized = false;
-
-		// Token: 0x04002401 RID: 9217
-		private static Version lastPlayedVersionInt = null;
 	}
 }

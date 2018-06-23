@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000DC4 RID: 3524
 	public abstract class AttachableThing : Thing
 	{
+		// Token: 0x0400346B RID: 13419
+		public Thing parent;
+
 		// Token: 0x17000CB8 RID: 3256
 		// (get) Token: 0x06004EBA RID: 20154 RVA: 0x001404A8 File Offset: 0x0013E8A8
 		public override Vector3 DrawPos
@@ -74,8 +77,5 @@ namespace Verse
 				this.parent.TryGetComp<CompAttachBase>().RemoveAttachment(this);
 			}
 		}
-
-		// Token: 0x0400346B RID: 13419
-		public Thing parent;
 	}
 }

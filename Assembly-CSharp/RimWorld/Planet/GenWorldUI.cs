@@ -8,6 +8,12 @@ namespace RimWorld.Planet
 	// Token: 0x020008DB RID: 2267
 	public static class GenWorldUI
 	{
+		// Token: 0x04001C0E RID: 7182
+		private static List<Caravan> clickedCaravans = new List<Caravan>();
+
+		// Token: 0x04001C0F RID: 7183
+		private static List<WorldObject> clickedDynamicallyDrawnObjects = new List<WorldObject>();
+
 		// Token: 0x17000855 RID: 2133
 		// (get) Token: 0x06003400 RID: 13312 RVA: 0x001BCC10 File Offset: 0x001BB010
 		public static float CaravanDirectClickRadius
@@ -119,11 +125,5 @@ namespace RimWorld.Planet
 			Vector3 vector = Find.WorldCamera.WorldToScreenPoint(worldLoc) / Prefs.UIScale;
 			return new Vector2(vector.x, (float)UI.screenHeight - vector.y);
 		}
-
-		// Token: 0x04001C0E RID: 7182
-		private static List<Caravan> clickedCaravans = new List<Caravan>();
-
-		// Token: 0x04001C0F RID: 7183
-		private static List<WorldObject> clickedDynamicallyDrawnObjects = new List<WorldObject>();
 	}
 }

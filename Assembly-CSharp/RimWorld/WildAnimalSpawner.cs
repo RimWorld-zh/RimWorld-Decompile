@@ -9,6 +9,15 @@ namespace RimWorld
 	// Token: 0x02000451 RID: 1105
 	public class WildAnimalSpawner
 	{
+		// Token: 0x04000BB1 RID: 2993
+		private Map map;
+
+		// Token: 0x04000BB2 RID: 2994
+		private const int AnimalCheckInterval = 1210;
+
+		// Token: 0x04000BB3 RID: 2995
+		private const float BaseAnimalSpawnChancePerInterval = 0.0268888883f;
+
 		// Token: 0x0600133B RID: 4923 RVA: 0x000A578E File Offset: 0x000A3B8E
 		public WildAnimalSpawner(Map map)
 		{
@@ -148,14 +157,5 @@ namespace RimWorld
 				this.DesiredAnimalDensity
 			});
 		}
-
-		// Token: 0x04000BB1 RID: 2993
-		private Map map;
-
-		// Token: 0x04000BB2 RID: 2994
-		private const int AnimalCheckInterval = 1210;
-
-		// Token: 0x04000BB3 RID: 2995
-		private const float BaseAnimalSpawnChancePerInterval = 0.0268888883f;
 	}
 }

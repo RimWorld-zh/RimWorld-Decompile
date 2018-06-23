@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x0200018F RID: 399
 	public abstract class LordToil_DoOpportunisticTaskOrCover : LordToil
 	{
+		// Token: 0x04000385 RID: 901
+		public bool cover = true;
+
 		// Token: 0x1700014D RID: 333
 		// (get) Token: 0x0600083E RID: 2110 RVA: 0x0004F3A0 File Offset: 0x0004D7A0
 		public override bool AllowSatisfyLongNeeds
@@ -80,8 +83,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000385 RID: 901
-		public bool cover = true;
 	}
 }

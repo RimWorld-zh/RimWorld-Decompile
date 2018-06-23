@@ -6,6 +6,18 @@ namespace Verse
 	// Token: 0x02000C19 RID: 3097
 	public class BoolGrid : IExposable
 	{
+		// Token: 0x04002E4D RID: 11853
+		private bool[] arr;
+
+		// Token: 0x04002E4E RID: 11854
+		private int trueCountInt = 0;
+
+		// Token: 0x04002E4F RID: 11855
+		private int mapSizeX;
+
+		// Token: 0x04002E50 RID: 11856
+		private int mapSizeZ;
+
 		// Token: 0x060043B3 RID: 17331 RVA: 0x0023C76C File Offset: 0x0023AB6C
 		public BoolGrid()
 		{
@@ -162,17 +174,5 @@ namespace Verse
 			}
 			this.trueCountInt = this.arr.Length - this.trueCountInt;
 		}
-
-		// Token: 0x04002E4D RID: 11853
-		private bool[] arr;
-
-		// Token: 0x04002E4E RID: 11854
-		private int trueCountInt = 0;
-
-		// Token: 0x04002E4F RID: 11855
-		private int mapSizeX;
-
-		// Token: 0x04002E50 RID: 11856
-		private int mapSizeZ;
 	}
 }

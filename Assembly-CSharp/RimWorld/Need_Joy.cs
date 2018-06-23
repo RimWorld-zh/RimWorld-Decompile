@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x020004FB RID: 1275
 	public class Need_Joy : Need
 	{
+		// Token: 0x04000D83 RID: 3459
+		public JoyToleranceSet tolerances = new JoyToleranceSet();
+
+		// Token: 0x04000D84 RID: 3460
+		private int lastGainTick = -999;
+
 		// Token: 0x060016EF RID: 5871 RVA: 0x000CA8EC File Offset: 0x000C8CEC
 		public Need_Joy(Pawn pawn) : base(pawn)
 		{
@@ -180,11 +186,5 @@ namespace RimWorld
 			}
 			return text;
 		}
-
-		// Token: 0x04000D83 RID: 3459
-		public JoyToleranceSet tolerances = new JoyToleranceSet();
-
-		// Token: 0x04000D84 RID: 3460
-		private int lastGainTick = -999;
 	}
 }

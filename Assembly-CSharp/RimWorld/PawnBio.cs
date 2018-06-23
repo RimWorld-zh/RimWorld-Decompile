@@ -8,6 +8,21 @@ namespace RimWorld
 	[CaseInsensitiveXMLParsing]
 	public class PawnBio
 	{
+		// Token: 0x04000CFE RID: 3326
+		public GenderPossibility gender;
+
+		// Token: 0x04000CFF RID: 3327
+		public NameTriple name;
+
+		// Token: 0x04000D00 RID: 3328
+		public Backstory childhood;
+
+		// Token: 0x04000D01 RID: 3329
+		public Backstory adulthood;
+
+		// Token: 0x04000D02 RID: 3330
+		public bool pirateKing = false;
+
 		// Token: 0x170002E9 RID: 745
 		// (get) Token: 0x06001646 RID: 5702 RVA: 0x000C5C84 File Offset: 0x000C4084
 		public PawnBioType BioType
@@ -100,20 +115,5 @@ namespace RimWorld
 		{
 			return "PawnBio(" + this.name + ")";
 		}
-
-		// Token: 0x04000CFE RID: 3326
-		public GenderPossibility gender;
-
-		// Token: 0x04000CFF RID: 3327
-		public NameTriple name;
-
-		// Token: 0x04000D00 RID: 3328
-		public Backstory childhood;
-
-		// Token: 0x04000D01 RID: 3329
-		public Backstory adulthood;
-
-		// Token: 0x04000D02 RID: 3330
-		public bool pirateKing = false;
 	}
 }

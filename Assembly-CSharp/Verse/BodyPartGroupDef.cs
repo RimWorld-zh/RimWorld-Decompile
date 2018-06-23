@@ -5,6 +5,13 @@ namespace Verse
 	// Token: 0x02000AFE RID: 2814
 	public class BodyPartGroupDef : Def
 	{
+		// Token: 0x04002782 RID: 10114
+		[MustTranslate]
+		public string labelShort;
+
+		// Token: 0x04002783 RID: 10115
+		public int listOrder;
+
 		// Token: 0x17000966 RID: 2406
 		// (get) Token: 0x06003E69 RID: 15977 RVA: 0x0020E814 File Offset: 0x0020CC14
 		public string LabelShort
@@ -24,12 +31,5 @@ namespace Verse
 				return this.LabelShort.CapitalizeFirst();
 			}
 		}
-
-		// Token: 0x04002782 RID: 10114
-		[MustTranslate]
-		public string labelShort;
-
-		// Token: 0x04002783 RID: 10115
-		public int listOrder;
 	}
 }

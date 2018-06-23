@@ -10,6 +10,9 @@ namespace RimWorld
 	// Token: 0x020008CF RID: 2255
 	public static class PlayerKnowledgeDatabase
 	{
+		// Token: 0x04001BBF RID: 7103
+		private static PlayerKnowledgeDatabase.ConceptKnowledge data;
+
 		// Token: 0x060033A9 RID: 13225 RVA: 0x001B9DBF File Offset: 0x001B81BF
 		static PlayerKnowledgeDatabase()
 		{
@@ -140,12 +143,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x04001BBF RID: 7103
-		private static PlayerKnowledgeDatabase.ConceptKnowledge data;
-
 		// Token: 0x020008D0 RID: 2256
 		private class ConceptKnowledge
 		{
+			// Token: 0x04001BC0 RID: 7104
+			public Dictionary<ConceptDef, float> knowledge = new Dictionary<ConceptDef, float>();
+
 			// Token: 0x060033B2 RID: 13234 RVA: 0x001BA104 File Offset: 0x001B8504
 			public ConceptKnowledge()
 			{
@@ -154,9 +157,6 @@ namespace RimWorld
 					this.knowledge.Add(key, 0f);
 				}
 			}
-
-			// Token: 0x04001BC0 RID: 7104
-			public Dictionary<ConceptDef, float> knowledge = new Dictionary<ConceptDef, float>();
 		}
 	}
 }

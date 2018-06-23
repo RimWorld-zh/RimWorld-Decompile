@@ -6,6 +6,9 @@ namespace Verse.AI
 	// Token: 0x02000A3A RID: 2618
 	public class JobDriver_Kill : JobDriver
 	{
+		// Token: 0x04002501 RID: 9473
+		private const TargetIndex VictimInd = TargetIndex.A;
+
 		// Token: 0x06003A1D RID: 14877 RVA: 0x001EC014 File Offset: 0x001EA414
 		public override bool TryMakePreToilReservations()
 		{
@@ -25,8 +28,5 @@ namespace Verse.AI
 			yield return Toils_Jump.Jump(jumpIfCannotHit);
 			yield break;
 		}
-
-		// Token: 0x04002501 RID: 9473
-		private const TargetIndex VictimInd = TargetIndex.A;
 	}
 }

@@ -9,6 +9,15 @@ namespace RimWorld
 	// Token: 0x02000043 RID: 67
 	public class JobDriver_FixBrokenDownBuilding : JobDriver
 	{
+		// Token: 0x040001D3 RID: 467
+		private const TargetIndex BuildingInd = TargetIndex.A;
+
+		// Token: 0x040001D4 RID: 468
+		private const TargetIndex ComponentInd = TargetIndex.B;
+
+		// Token: 0x040001D5 RID: 469
+		private const int TicksDuration = 1000;
+
 		// Token: 0x17000077 RID: 119
 		// (get) Token: 0x06000236 RID: 566 RVA: 0x000179C8 File Offset: 0x00015DC8
 		private Building Building
@@ -66,14 +75,5 @@ namespace RimWorld
 			};
 			yield break;
 		}
-
-		// Token: 0x040001D3 RID: 467
-		private const TargetIndex BuildingInd = TargetIndex.A;
-
-		// Token: 0x040001D4 RID: 468
-		private const TargetIndex ComponentInd = TargetIndex.B;
-
-		// Token: 0x040001D5 RID: 469
-		private const int TicksDuration = 1000;
 	}
 }

@@ -8,6 +8,18 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public abstract class Thought : IExposable
 	{
+		// Token: 0x04000E96 RID: 3734
+		public Pawn pawn;
+
+		// Token: 0x04000E97 RID: 3735
+		public ThoughtDef def;
+
+		// Token: 0x04000E98 RID: 3736
+		private static readonly Texture2D DefaultGoodIcon = ContentFinder<Texture2D>.Get("Things/Mote/ThoughtSymbol/GenericGood", true);
+
+		// Token: 0x04000E99 RID: 3737
+		private static readonly Texture2D DefaultBadIcon = ContentFinder<Texture2D>.Get("Things/Mote/ThoughtSymbol/GenericBad", true);
+
 		// Token: 0x1700036A RID: 874
 		// (get) Token: 0x060018A2 RID: 6306
 		public abstract int CurStageIndex { get; }
@@ -163,17 +175,5 @@ namespace RimWorld
 		{
 			return "(" + this.def.defName + ")";
 		}
-
-		// Token: 0x04000E96 RID: 3734
-		public Pawn pawn;
-
-		// Token: 0x04000E97 RID: 3735
-		public ThoughtDef def;
-
-		// Token: 0x04000E98 RID: 3736
-		private static readonly Texture2D DefaultGoodIcon = ContentFinder<Texture2D>.Get("Things/Mote/ThoughtSymbol/GenericGood", true);
-
-		// Token: 0x04000E99 RID: 3737
-		private static readonly Texture2D DefaultBadIcon = ContentFinder<Texture2D>.Get("Things/Mote/ThoughtSymbol/GenericBad", true);
 	}
 }

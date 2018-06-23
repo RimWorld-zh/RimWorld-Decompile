@@ -6,6 +6,9 @@ namespace Verse.AI.Group
 	// Token: 0x02000A27 RID: 2599
 	public class Trigger_NoPawnsVeryTiredAndSleeping : Trigger
 	{
+		// Token: 0x040024B4 RID: 9396
+		private float extraRestThreshOffset;
+
 		// Token: 0x060039CD RID: 14797 RVA: 0x001E8C0B File Offset: 0x001E700B
 		public Trigger_NoPawnsVeryTiredAndSleeping(float extraRestThreshOffset = 0f)
 		{
@@ -37,8 +40,5 @@ namespace Verse.AI.Group
 			}
 			return result;
 		}
-
-		// Token: 0x040024B4 RID: 9396
-		private float extraRestThreshOffset;
 	}
 }

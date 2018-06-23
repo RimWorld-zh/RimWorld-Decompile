@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x02000844 RID: 2116
 	public class DragBox
 	{
+		// Token: 0x040019EE RID: 6638
+		public bool active;
+
+		// Token: 0x040019EF RID: 6639
+		public Vector3 start;
+
+		// Token: 0x040019F0 RID: 6640
+		private const float DragBoxMinDiagonal = 0.5f;
+
 		// Token: 0x17000799 RID: 1945
 		// (get) Token: 0x06002FEB RID: 12267 RVA: 0x001A10AC File Offset: 0x0019F4AC
 		public float LeftX
@@ -136,14 +145,5 @@ namespace RimWorld
 		{
 			return v.x + 0.5f > this.LeftX && v.x - 0.5f < this.RightX && v.z + 0.5f > this.BotZ && v.z - 0.5f < this.TopZ;
 		}
-
-		// Token: 0x040019EE RID: 6638
-		public bool active;
-
-		// Token: 0x040019EF RID: 6639
-		public Vector3 start;
-
-		// Token: 0x040019F0 RID: 6640
-		private const float DragBoxMinDiagonal = 0.5f;
 	}
 }

@@ -8,6 +8,27 @@ namespace Verse
 	// Token: 0x02000B50 RID: 2896
 	public class MentalBreakDef : Def
 	{
+		// Token: 0x040029F5 RID: 10741
+		public Type workerClass = typeof(MentalBreakWorker);
+
+		// Token: 0x040029F6 RID: 10742
+		public MentalStateDef mentalState;
+
+		// Token: 0x040029F7 RID: 10743
+		public float baseCommonality;
+
+		// Token: 0x040029F8 RID: 10744
+		public SimpleCurve commonalityFactorPerPopulationCurve = null;
+
+		// Token: 0x040029F9 RID: 10745
+		public MentalBreakIntensity intensity = MentalBreakIntensity.None;
+
+		// Token: 0x040029FA RID: 10746
+		public TraitDef requiredTrait;
+
+		// Token: 0x040029FB RID: 10747
+		private MentalBreakWorker workerInt = null;
+
 		// Token: 0x170009A0 RID: 2464
 		// (get) Token: 0x06003F68 RID: 16232 RVA: 0x00216A70 File Offset: 0x00214E70
 		public MentalBreakWorker Worker
@@ -39,26 +60,5 @@ namespace Verse
 			}
 			yield break;
 		}
-
-		// Token: 0x040029F5 RID: 10741
-		public Type workerClass = typeof(MentalBreakWorker);
-
-		// Token: 0x040029F6 RID: 10742
-		public MentalStateDef mentalState;
-
-		// Token: 0x040029F7 RID: 10743
-		public float baseCommonality;
-
-		// Token: 0x040029F8 RID: 10744
-		public SimpleCurve commonalityFactorPerPopulationCurve = null;
-
-		// Token: 0x040029F9 RID: 10745
-		public MentalBreakIntensity intensity = MentalBreakIntensity.None;
-
-		// Token: 0x040029FA RID: 10746
-		public TraitDef requiredTrait;
-
-		// Token: 0x040029FB RID: 10747
-		private MentalBreakWorker workerInt = null;
 	}
 }

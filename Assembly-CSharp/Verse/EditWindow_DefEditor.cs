@@ -6,6 +6,24 @@ namespace Verse
 	// Token: 0x02000E4A RID: 3658
 	internal class EditWindow_DefEditor : EditWindow
 	{
+		// Token: 0x040038F7 RID: 14583
+		public Def def;
+
+		// Token: 0x040038F8 RID: 14584
+		private float viewHeight;
+
+		// Token: 0x040038F9 RID: 14585
+		private Vector2 scrollPosition = default(Vector2);
+
+		// Token: 0x040038FA RID: 14586
+		private float labelColumnWidth = 140f;
+
+		// Token: 0x040038FB RID: 14587
+		private const float TopAreaHeight = 16f;
+
+		// Token: 0x040038FC RID: 14588
+		private const float ExtraScrollHeight = 200f;
+
 		// Token: 0x06005649 RID: 22089 RVA: 0x002C7A78 File Offset: 0x002C5E78
 		public EditWindow_DefEditor(Def def)
 		{
@@ -59,23 +77,5 @@ namespace Verse
 			}
 			Widgets.EndScrollView();
 		}
-
-		// Token: 0x040038F7 RID: 14583
-		public Def def;
-
-		// Token: 0x040038F8 RID: 14584
-		private float viewHeight;
-
-		// Token: 0x040038F9 RID: 14585
-		private Vector2 scrollPosition = default(Vector2);
-
-		// Token: 0x040038FA RID: 14586
-		private float labelColumnWidth = 140f;
-
-		// Token: 0x040038FB RID: 14587
-		private const float TopAreaHeight = 16f;
-
-		// Token: 0x040038FC RID: 14588
-		private const float ExtraScrollHeight = 200f;
 	}
 }

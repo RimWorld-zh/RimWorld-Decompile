@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000CDA RID: 3290
 	public class PatchOperationSequence : PatchOperation
 	{
+		// Token: 0x04003116 RID: 12566
+		private List<PatchOperation> operations;
+
+		// Token: 0x04003117 RID: 12567
+		private PatchOperation lastFailedOperation;
+
 		// Token: 0x06004894 RID: 18580 RVA: 0x00261DB4 File Offset: 0x002601B4
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
@@ -39,11 +45,5 @@ namespace Verse
 			}
 			return text + ")";
 		}
-
-		// Token: 0x04003116 RID: 12566
-		private List<PatchOperation> operations;
-
-		// Token: 0x04003117 RID: 12567
-		private PatchOperation lastFailedOperation;
 	}
 }

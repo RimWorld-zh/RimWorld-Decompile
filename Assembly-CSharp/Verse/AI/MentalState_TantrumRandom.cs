@@ -8,6 +8,18 @@ namespace Verse.AI
 	// Token: 0x02000A84 RID: 2692
 	public abstract class MentalState_TantrumRandom : MentalState_Tantrum
 	{
+		// Token: 0x0400257D RID: 9597
+		private int targetFoundTicks;
+
+		// Token: 0x0400257E RID: 9598
+		private const int CheckChooseNewTargetIntervalTicks = 500;
+
+		// Token: 0x0400257F RID: 9599
+		private const int MaxSameTargetAttackTicks = 1250;
+
+		// Token: 0x04002580 RID: 9600
+		private static List<Thing> candidates = new List<Thing>();
+
 		// Token: 0x06003BC1 RID: 15297
 		protected abstract void GetPotentialTargets(List<Thing> outThings);
 
@@ -86,17 +98,5 @@ namespace Verse.AI
 			float num2 = Mathf.Min(num / 40f, 1f);
 			return (1f - num2) * (1f - num2) + 0.01f;
 		}
-
-		// Token: 0x0400257D RID: 9597
-		private int targetFoundTicks;
-
-		// Token: 0x0400257E RID: 9598
-		private const int CheckChooseNewTargetIntervalTicks = 500;
-
-		// Token: 0x0400257F RID: 9599
-		private const int MaxSameTargetAttackTicks = 1250;
-
-		// Token: 0x04002580 RID: 9600
-		private static List<Thing> candidates = new List<Thing>();
 	}
 }

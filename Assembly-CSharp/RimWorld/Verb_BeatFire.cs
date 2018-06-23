@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020009D0 RID: 2512
 	public class Verb_BeatFire : Verb
 	{
+		// Token: 0x04002407 RID: 9223
+		private const int DamageAmount = 32;
+
 		// Token: 0x0600385D RID: 14429 RVA: 0x001E1AC8 File Offset: 0x001DFEC8
 		public Verb_BeatFire()
 		{
@@ -34,8 +37,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04002407 RID: 9223
-		private const int DamageAmount = 32;
 	}
 }

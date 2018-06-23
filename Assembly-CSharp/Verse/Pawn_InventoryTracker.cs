@@ -7,6 +7,24 @@ namespace Verse
 	// Token: 0x02000D58 RID: 3416
 	public class Pawn_InventoryTracker : IThingHolder, IExposable
 	{
+		// Token: 0x0400331B RID: 13083
+		public Pawn pawn;
+
+		// Token: 0x0400331C RID: 13084
+		public ThingOwner<Thing> innerContainer;
+
+		// Token: 0x0400331D RID: 13085
+		private bool unloadEverything;
+
+		// Token: 0x0400331E RID: 13086
+		private List<Thing> itemsNotForSale = new List<Thing>();
+
+		// Token: 0x0400331F RID: 13087
+		private static List<ThingDefCount> tmpDrugsToKeep = new List<ThingDefCount>();
+
+		// Token: 0x04003320 RID: 13088
+		private static List<Thing> tmpThingList = new List<Thing>();
+
 		// Token: 0x06004C8C RID: 19596 RVA: 0x0027F050 File Offset: 0x0027D450
 		public Pawn_InventoryTracker(Pawn pawn)
 		{
@@ -221,23 +239,5 @@ namespace Verse
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
-
-		// Token: 0x0400331B RID: 13083
-		public Pawn pawn;
-
-		// Token: 0x0400331C RID: 13084
-		public ThingOwner<Thing> innerContainer;
-
-		// Token: 0x0400331D RID: 13085
-		private bool unloadEverything;
-
-		// Token: 0x0400331E RID: 13086
-		private List<Thing> itemsNotForSale = new List<Thing>();
-
-		// Token: 0x0400331F RID: 13087
-		private static List<ThingDefCount> tmpDrugsToKeep = new List<ThingDefCount>();
-
-		// Token: 0x04003320 RID: 13088
-		private static List<Thing> tmpThingList = new List<Thing>();
 	}
 }

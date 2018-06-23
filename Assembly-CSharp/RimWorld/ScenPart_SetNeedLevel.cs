@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x02000637 RID: 1591
 	public class ScenPart_SetNeedLevel : ScenPart_PawnModifier
 	{
+		// Token: 0x040012D0 RID: 4816
+		private NeedDef need;
+
+		// Token: 0x040012D1 RID: 4817
+		private FloatRange levelRange;
+
 		// Token: 0x060020DD RID: 8413 RVA: 0x00118DCC File Offset: 0x001171CC
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
@@ -91,11 +97,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x040012D0 RID: 4816
-		private NeedDef need;
-
-		// Token: 0x040012D1 RID: 4817
-		private FloatRange levelRange;
 	}
 }

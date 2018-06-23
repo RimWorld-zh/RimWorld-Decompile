@@ -8,6 +8,55 @@ namespace Verse
 	// Token: 0x02000B65 RID: 2917
 	public class ResearchProjectDef : Def
 	{
+		// Token: 0x04002AAE RID: 10926
+		public TechLevel techLevel = TechLevel.Undefined;
+
+		// Token: 0x04002AAF RID: 10927
+		[MustTranslate]
+		private string descriptionDiscovered = null;
+
+		// Token: 0x04002AB0 RID: 10928
+		public float baseCost = 100f;
+
+		// Token: 0x04002AB1 RID: 10929
+		public List<ResearchProjectDef> prerequisites = null;
+
+		// Token: 0x04002AB2 RID: 10930
+		public List<ResearchProjectDef> requiredByThis = null;
+
+		// Token: 0x04002AB3 RID: 10931
+		private List<ResearchMod> researchMods = null;
+
+		// Token: 0x04002AB4 RID: 10932
+		public ThingDef requiredResearchBuilding = null;
+
+		// Token: 0x04002AB5 RID: 10933
+		public List<ThingDef> requiredResearchFacilities = null;
+
+		// Token: 0x04002AB6 RID: 10934
+		public List<ResearchProjectTagDef> tags = null;
+
+		// Token: 0x04002AB7 RID: 10935
+		public ResearchTabDef tab;
+
+		// Token: 0x04002AB8 RID: 10936
+		public float researchViewX = 1f;
+
+		// Token: 0x04002AB9 RID: 10937
+		public float researchViewY = 1f;
+
+		// Token: 0x04002ABA RID: 10938
+		[Unsaved]
+		private float x = 1f;
+
+		// Token: 0x04002ABB RID: 10939
+		[Unsaved]
+		private float y = 1f;
+
+		// Token: 0x04002ABC RID: 10940
+		[Unsaved]
+		private bool positionModified = false;
+
 		// Token: 0x170009B0 RID: 2480
 		// (get) Token: 0x06003FC1 RID: 16321 RVA: 0x00219F94 File Offset: 0x00218394
 		public float ResearchViewX
@@ -389,54 +438,5 @@ namespace Verse
 		{
 			return this.positionModified;
 		}
-
-		// Token: 0x04002AAE RID: 10926
-		public TechLevel techLevel = TechLevel.Undefined;
-
-		// Token: 0x04002AAF RID: 10927
-		[MustTranslate]
-		private string descriptionDiscovered = null;
-
-		// Token: 0x04002AB0 RID: 10928
-		public float baseCost = 100f;
-
-		// Token: 0x04002AB1 RID: 10929
-		public List<ResearchProjectDef> prerequisites = null;
-
-		// Token: 0x04002AB2 RID: 10930
-		public List<ResearchProjectDef> requiredByThis = null;
-
-		// Token: 0x04002AB3 RID: 10931
-		private List<ResearchMod> researchMods = null;
-
-		// Token: 0x04002AB4 RID: 10932
-		public ThingDef requiredResearchBuilding = null;
-
-		// Token: 0x04002AB5 RID: 10933
-		public List<ThingDef> requiredResearchFacilities = null;
-
-		// Token: 0x04002AB6 RID: 10934
-		public List<ResearchProjectTagDef> tags = null;
-
-		// Token: 0x04002AB7 RID: 10935
-		public ResearchTabDef tab;
-
-		// Token: 0x04002AB8 RID: 10936
-		public float researchViewX = 1f;
-
-		// Token: 0x04002AB9 RID: 10937
-		public float researchViewY = 1f;
-
-		// Token: 0x04002ABA RID: 10938
-		[Unsaved]
-		private float x = 1f;
-
-		// Token: 0x04002ABB RID: 10939
-		[Unsaved]
-		private float y = 1f;
-
-		// Token: 0x04002ABC RID: 10940
-		[Unsaved]
-		private bool positionModified = false;
 	}
 }

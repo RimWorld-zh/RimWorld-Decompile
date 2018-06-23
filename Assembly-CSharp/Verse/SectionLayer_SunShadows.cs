@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000C49 RID: 3145
 	internal class SectionLayer_SunShadows : SectionLayer
 	{
+		// Token: 0x04002F68 RID: 12136
+		private static readonly Color32 LowVertexColor = new Color32(0, 0, 0, 0);
+
 		// Token: 0x06004559 RID: 17753 RVA: 0x0024A443 File Offset: 0x00248843
 		public SectionLayer_SunShadows(Section section) : base(section)
 		{
@@ -130,8 +133,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04002F68 RID: 12136
-		private static readonly Color32 LowVertexColor = new Color32(0, 0, 0, 0);
 	}
 }

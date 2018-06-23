@@ -10,6 +10,9 @@ namespace RimWorld
 	// Token: 0x0200040F RID: 1039
 	public class GenStep_SleepingMechanoids : GenStep
 	{
+		// Token: 0x04000AE2 RID: 2786
+		public FloatRange pointsRange;
+
 		// Token: 0x17000264 RID: 612
 		// (get) Token: 0x060011E3 RID: 4579 RVA: 0x0009B470 File Offset: 0x00099870
 		public override int SeedPart
@@ -61,8 +64,5 @@ namespace RimWorld
 				points = this.pointsRange.RandomInRange
 			}, true);
 		}
-
-		// Token: 0x04000AE2 RID: 2786
-		public FloatRange pointsRange;
 	}
 }

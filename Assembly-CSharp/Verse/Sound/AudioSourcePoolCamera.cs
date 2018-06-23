@@ -7,6 +7,15 @@ namespace Verse.Sound
 	// Token: 0x02000DBB RID: 3515
 	public class AudioSourcePoolCamera
 	{
+		// Token: 0x04003447 RID: 13383
+		public GameObject cameraSourcesContainer;
+
+		// Token: 0x04003448 RID: 13384
+		private List<AudioSource> sourcesCamera = new List<AudioSource>();
+
+		// Token: 0x04003449 RID: 13385
+		private const int NumSourcesCamera = 16;
+
 		// Token: 0x06004E8D RID: 20109 RVA: 0x00290D40 File Offset: 0x0028F140
 		public AudioSourcePoolCamera()
 		{
@@ -43,14 +52,5 @@ namespace Verse.Sound
 			}
 			return null;
 		}
-
-		// Token: 0x04003447 RID: 13383
-		public GameObject cameraSourcesContainer;
-
-		// Token: 0x04003448 RID: 13384
-		private List<AudioSource> sourcesCamera = new List<AudioSource>();
-
-		// Token: 0x04003449 RID: 13385
-		private const int NumSourcesCamera = 16;
 	}
 }

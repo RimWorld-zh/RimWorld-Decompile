@@ -10,6 +10,33 @@ namespace RimWorld
 	// Token: 0x020008B3 RID: 2227
 	public static class LessonAutoActivator
 	{
+		// Token: 0x04001B82 RID: 7042
+		private static Dictionary<ConceptDef, float> opportunities = new Dictionary<ConceptDef, float>();
+
+		// Token: 0x04001B83 RID: 7043
+		private static float timeSinceLastLesson = 10000f;
+
+		// Token: 0x04001B84 RID: 7044
+		private static List<ConceptDef> alertingConcepts = new List<ConceptDef>();
+
+		// Token: 0x04001B85 RID: 7045
+		private const float MapStartGracePeriod = 8f;
+
+		// Token: 0x04001B86 RID: 7046
+		private const float KnowledgeDecayRate = 0.00015f;
+
+		// Token: 0x04001B87 RID: 7047
+		private const float OpportunityDecayRate = 0.4f;
+
+		// Token: 0x04001B88 RID: 7048
+		private const float OpportunityMaxDesireAdd = 60f;
+
+		// Token: 0x04001B89 RID: 7049
+		private const int CheckInterval = 15;
+
+		// Token: 0x04001B8A RID: 7050
+		private const float MaxLessonInterval = 900f;
+
 		// Token: 0x1700081A RID: 2074
 		// (get) Token: 0x060032EB RID: 13035 RVA: 0x001B69B4 File Offset: 0x001B4DB4
 		private static float SecondsSinceLesson
@@ -282,32 +309,5 @@ namespace RimWorld
 			orderby LessonAutoActivator.GetDesire(def) descending
 			select def).First<ConceptDef>());
 		}
-
-		// Token: 0x04001B82 RID: 7042
-		private static Dictionary<ConceptDef, float> opportunities = new Dictionary<ConceptDef, float>();
-
-		// Token: 0x04001B83 RID: 7043
-		private static float timeSinceLastLesson = 10000f;
-
-		// Token: 0x04001B84 RID: 7044
-		private static List<ConceptDef> alertingConcepts = new List<ConceptDef>();
-
-		// Token: 0x04001B85 RID: 7045
-		private const float MapStartGracePeriod = 8f;
-
-		// Token: 0x04001B86 RID: 7046
-		private const float KnowledgeDecayRate = 0.00015f;
-
-		// Token: 0x04001B87 RID: 7047
-		private const float OpportunityDecayRate = 0.4f;
-
-		// Token: 0x04001B88 RID: 7048
-		private const float OpportunityMaxDesireAdd = 60f;
-
-		// Token: 0x04001B89 RID: 7049
-		private const int CheckInterval = 15;
-
-		// Token: 0x04001B8A RID: 7050
-		private const float MaxLessonInterval = 900f;
 	}
 }

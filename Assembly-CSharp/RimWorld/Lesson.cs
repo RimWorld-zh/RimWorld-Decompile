@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x020008CA RID: 2250
 	public abstract class Lesson : IExposable
 	{
+		// Token: 0x04001BA3 RID: 7075
+		public float startRealTime = -999f;
+
+		// Token: 0x04001BA4 RID: 7076
+		public const float KnowledgeForAutoVanish = 0.2f;
+
 		// Token: 0x17000832 RID: 2098
 		// (get) Token: 0x0600337E RID: 13182 RVA: 0x001B7094 File Offset: 0x001B5494
 		protected float AgeSeconds
@@ -100,11 +106,5 @@ namespace RimWorld
 				return null;
 			}
 		}
-
-		// Token: 0x04001BA3 RID: 7075
-		public float startRealTime = -999f;
-
-		// Token: 0x04001BA4 RID: 7076
-		public const float KnowledgeForAutoVanish = 0.2f;
 	}
 }

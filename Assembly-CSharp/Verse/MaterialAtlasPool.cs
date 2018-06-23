@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000D6D RID: 3437
 	public static class MaterialAtlasPool
 	{
+		// Token: 0x04003372 RID: 13170
+		private static Dictionary<Material, MaterialAtlasPool.MaterialAtlas> atlasDict = new Dictionary<Material, MaterialAtlasPool.MaterialAtlas>();
+
 		// Token: 0x06004D1D RID: 19741 RVA: 0x00283158 File Offset: 0x00281558
 		public static Material SubMaterialFromAtlas(Material mat, LinkDirections LinkSet)
 		{
@@ -17,12 +20,15 @@ namespace Verse
 			return MaterialAtlasPool.atlasDict[mat].SubMat(LinkSet);
 		}
 
-		// Token: 0x04003372 RID: 13170
-		private static Dictionary<Material, MaterialAtlasPool.MaterialAtlas> atlasDict = new Dictionary<Material, MaterialAtlasPool.MaterialAtlas>();
-
 		// Token: 0x02000D6E RID: 3438
 		private class MaterialAtlas
 		{
+			// Token: 0x04003373 RID: 13171
+			protected Material[] subMats = new Material[16];
+
+			// Token: 0x04003374 RID: 13172
+			private const float TexPadding = 0.03125f;
+
 			// Token: 0x06004D1F RID: 19743 RVA: 0x002831AC File Offset: 0x002815AC
 			public MaterialAtlas(Material newRootMat)
 			{
@@ -55,12 +61,6 @@ namespace Verse
 				}
 				return result;
 			}
-
-			// Token: 0x04003373 RID: 13171
-			protected Material[] subMats = new Material[16];
-
-			// Token: 0x04003374 RID: 13172
-			private const float TexPadding = 0.03125f;
 		}
 	}
 }

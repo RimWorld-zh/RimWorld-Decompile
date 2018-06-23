@@ -6,6 +6,9 @@ namespace Verse
 	[AttributeUsage(AttributeTargets.Field)]
 	public class DefaultValueAttribute : Attribute
 	{
+		// Token: 0x040038F3 RID: 14579
+		public object value;
+
 		// Token: 0x0600563D RID: 22077 RVA: 0x002C7910 File Offset: 0x002C5D10
 		public DefaultValueAttribute(object value)
 		{
@@ -26,8 +29,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x040038F3 RID: 14579
-		public object value;
 	}
 }

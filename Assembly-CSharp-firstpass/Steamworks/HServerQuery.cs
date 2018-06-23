@@ -5,6 +5,12 @@ namespace Steamworks
 	// Token: 0x02000160 RID: 352
 	public struct HServerQuery : IEquatable<HServerQuery>, IComparable<HServerQuery>
 	{
+		// Token: 0x04000674 RID: 1652
+		public static readonly HServerQuery Invalid = new HServerQuery(-1);
+
+		// Token: 0x04000675 RID: 1653
+		public int m_HServerQuery;
+
 		// Token: 0x060007EB RID: 2027 RVA: 0x0000DC90 File Offset: 0x0000BE90
 		public HServerQuery(int value)
 		{
@@ -64,11 +70,5 @@ namespace Steamworks
 		{
 			return this.m_HServerQuery.CompareTo(other.m_HServerQuery);
 		}
-
-		// Token: 0x04000674 RID: 1652
-		public static readonly HServerQuery Invalid = new HServerQuery(-1);
-
-		// Token: 0x04000675 RID: 1653
-		public int m_HServerQuery;
 	}
 }

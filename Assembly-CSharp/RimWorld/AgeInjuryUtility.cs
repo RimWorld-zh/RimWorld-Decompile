@@ -12,6 +12,12 @@ namespace RimWorld
 	[HasDebugOutput]
 	internal static class AgeInjuryUtility
 	{
+		// Token: 0x04000C0C RID: 3084
+		private const int MaxPermanentInjuryAge = 100;
+
+		// Token: 0x04000C0D RID: 3085
+		private static List<Thing> emptyIngredientsList = new List<Thing>();
+
 		// Token: 0x06001430 RID: 5168 RVA: 0x000B0520 File Offset: 0x000AE920
 		public static IEnumerable<HediffGiver_Birthday> RandomHediffsToGainOnBirthday(Pawn pawn, int age)
 		{
@@ -188,11 +194,5 @@ namespace RimWorld
 			}
 			Log.Message(stringBuilder.ToString(), false);
 		}
-
-		// Token: 0x04000C0C RID: 3084
-		private const int MaxPermanentInjuryAge = 100;
-
-		// Token: 0x04000C0D RID: 3085
-		private static List<Thing> emptyIngredientsList = new List<Thing>();
 	}
 }

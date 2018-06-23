@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020000BE RID: 190
 	public static class DigUtility
 	{
+		// Token: 0x04000294 RID: 660
+		private const int CheckOverrideInterval = 500;
+
 		// Token: 0x06000478 RID: 1144 RVA: 0x0003323C File Offset: 0x0003163C
 		public static Job PassBlockerJob(Pawn pawn, Thing blocker, IntVec3 cellBeforeBlocker, bool canMineMineables, bool canMineNonMineables)
 		{
@@ -109,8 +112,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000294 RID: 660
-		private const int CheckOverrideInterval = 500;
 	}
 }

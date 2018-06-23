@@ -13,6 +13,133 @@ namespace Verse
 	[HasDebugOutput]
 	public static class PawnGenerator
 	{
+		// Token: 0x040032C7 RID: 12999
+		private static List<PawnGenerator.PawnGenerationStatus> pawnsBeingGenerated = new List<PawnGenerator.PawnGenerationStatus>();
+
+		// Token: 0x040032C8 RID: 13000
+		private static PawnRelationDef[] relationsGeneratableBlood = (from rel in DefDatabase<PawnRelationDef>.AllDefsListForReading
+		where rel.familyByBloodRelation && rel.generationChanceFactor > 0f
+		select rel).ToArray<PawnRelationDef>();
+
+		// Token: 0x040032C9 RID: 13001
+		private static PawnRelationDef[] relationsGeneratableNonblood = (from rel in DefDatabase<PawnRelationDef>.AllDefsListForReading
+		where !rel.familyByBloodRelation && rel.generationChanceFactor > 0f
+		select rel).ToArray<PawnRelationDef>();
+
+		// Token: 0x040032CA RID: 13002
+		public const float MaxStartMentalBreakThreshold = 0.4f;
+
+		// Token: 0x040032CB RID: 13003
+		private static SimpleCurve DefaultAgeGenerationCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0.05f, 0f),
+				true
+			},
+			{
+				new CurvePoint(0.1f, 100f),
+				true
+			},
+			{
+				new CurvePoint(0.675f, 100f),
+				true
+			},
+			{
+				new CurvePoint(0.75f, 30f),
+				true
+			},
+			{
+				new CurvePoint(0.875f, 18f),
+				true
+			},
+			{
+				new CurvePoint(1f, 10f),
+				true
+			},
+			{
+				new CurvePoint(1.125f, 3f),
+				true
+			},
+			{
+				new CurvePoint(1.25f, 0f),
+				true
+			}
+		};
+
+		// Token: 0x040032CC RID: 13004
+		public const float MaxGeneratedMechanoidAge = 2500f;
+
+		// Token: 0x040032CD RID: 13005
+		private static readonly SimpleCurve AgeSkillMaxFactorCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 0f),
+				true
+			},
+			{
+				new CurvePoint(10f, 0.7f),
+				true
+			},
+			{
+				new CurvePoint(35f, 1f),
+				true
+			},
+			{
+				new CurvePoint(60f, 1.6f),
+				true
+			}
+		};
+
+		// Token: 0x040032CE RID: 13006
+		private static readonly SimpleCurve LevelFinalAdjustmentCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 0f),
+				true
+			},
+			{
+				new CurvePoint(10f, 10f),
+				true
+			},
+			{
+				new CurvePoint(20f, 16f),
+				true
+			},
+			{
+				new CurvePoint(27f, 20f),
+				true
+			}
+		};
+
+		// Token: 0x040032CF RID: 13007
+		private static readonly SimpleCurve LevelRandomCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 0f),
+				true
+			},
+			{
+				new CurvePoint(0.5f, 150f),
+				true
+			},
+			{
+				new CurvePoint(4f, 150f),
+				true
+			},
+			{
+				new CurvePoint(5f, 25f),
+				true
+			},
+			{
+				new CurvePoint(10f, 5f),
+				true
+			},
+			{
+				new CurvePoint(15f, 0f),
+				true
+			}
+		};
+
 		// Token: 0x06004BA9 RID: 19369 RVA: 0x002784AC File Offset: 0x002768AC
 		public static void Reset()
 		{
@@ -991,133 +1118,6 @@ namespace Verse
 			}
 			debugHistogram.Display();
 		}
-
-		// Token: 0x040032C7 RID: 12999
-		private static List<PawnGenerator.PawnGenerationStatus> pawnsBeingGenerated = new List<PawnGenerator.PawnGenerationStatus>();
-
-		// Token: 0x040032C8 RID: 13000
-		private static PawnRelationDef[] relationsGeneratableBlood = (from rel in DefDatabase<PawnRelationDef>.AllDefsListForReading
-		where rel.familyByBloodRelation && rel.generationChanceFactor > 0f
-		select rel).ToArray<PawnRelationDef>();
-
-		// Token: 0x040032C9 RID: 13001
-		private static PawnRelationDef[] relationsGeneratableNonblood = (from rel in DefDatabase<PawnRelationDef>.AllDefsListForReading
-		where !rel.familyByBloodRelation && rel.generationChanceFactor > 0f
-		select rel).ToArray<PawnRelationDef>();
-
-		// Token: 0x040032CA RID: 13002
-		public const float MaxStartMentalBreakThreshold = 0.4f;
-
-		// Token: 0x040032CB RID: 13003
-		private static SimpleCurve DefaultAgeGenerationCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(0.05f, 0f),
-				true
-			},
-			{
-				new CurvePoint(0.1f, 100f),
-				true
-			},
-			{
-				new CurvePoint(0.675f, 100f),
-				true
-			},
-			{
-				new CurvePoint(0.75f, 30f),
-				true
-			},
-			{
-				new CurvePoint(0.875f, 18f),
-				true
-			},
-			{
-				new CurvePoint(1f, 10f),
-				true
-			},
-			{
-				new CurvePoint(1.125f, 3f),
-				true
-			},
-			{
-				new CurvePoint(1.25f, 0f),
-				true
-			}
-		};
-
-		// Token: 0x040032CC RID: 13004
-		public const float MaxGeneratedMechanoidAge = 2500f;
-
-		// Token: 0x040032CD RID: 13005
-		private static readonly SimpleCurve AgeSkillMaxFactorCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 0f),
-				true
-			},
-			{
-				new CurvePoint(10f, 0.7f),
-				true
-			},
-			{
-				new CurvePoint(35f, 1f),
-				true
-			},
-			{
-				new CurvePoint(60f, 1.6f),
-				true
-			}
-		};
-
-		// Token: 0x040032CE RID: 13006
-		private static readonly SimpleCurve LevelFinalAdjustmentCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 0f),
-				true
-			},
-			{
-				new CurvePoint(10f, 10f),
-				true
-			},
-			{
-				new CurvePoint(20f, 16f),
-				true
-			},
-			{
-				new CurvePoint(27f, 20f),
-				true
-			}
-		};
-
-		// Token: 0x040032CF RID: 13007
-		private static readonly SimpleCurve LevelRandomCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 0f),
-				true
-			},
-			{
-				new CurvePoint(0.5f, 150f),
-				true
-			},
-			{
-				new CurvePoint(4f, 150f),
-				true
-			},
-			{
-				new CurvePoint(5f, 25f),
-				true
-			},
-			{
-				new CurvePoint(10f, 5f),
-				true
-			},
-			{
-				new CurvePoint(15f, 0f),
-				true
-			}
-		};
 
 		// Token: 0x02000D4E RID: 3406
 		[StructLayout(LayoutKind.Sequential, Size = 1)]

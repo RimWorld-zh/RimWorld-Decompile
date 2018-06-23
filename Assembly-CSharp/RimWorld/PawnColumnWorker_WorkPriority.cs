@@ -10,6 +10,12 @@ namespace RimWorld
 	// Token: 0x02000897 RID: 2199
 	public class PawnColumnWorker_WorkPriority : PawnColumnWorker
 	{
+		// Token: 0x04001AE3 RID: 6883
+		private const int LabelRowHeight = 50;
+
+		// Token: 0x04001AE4 RID: 6884
+		private Vector2 cachedWorkLabelSize;
+
 		// Token: 0x06003247 RID: 12871 RVA: 0x001B0F10 File Offset: 0x001AF310
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
@@ -252,11 +258,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04001AE3 RID: 6883
-		private const int LabelRowHeight = 50;
-
-		// Token: 0x04001AE4 RID: 6884
-		private Vector2 cachedWorkLabelSize;
 	}
 }

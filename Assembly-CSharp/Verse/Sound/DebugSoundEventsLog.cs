@@ -7,6 +7,9 @@ namespace Verse.Sound
 	// Token: 0x02000DAB RID: 3499
 	public static class DebugSoundEventsLog
 	{
+		// Token: 0x0400341F RID: 13343
+		private static LogMessageQueue queue = new LogMessageQueue();
+
 		// Token: 0x17000C8E RID: 3214
 		// (get) Token: 0x06004E2F RID: 20015 RVA: 0x0028EBFC File Offset: 0x0028CFFC
 		public static string EventsListingDebugString
@@ -58,8 +61,5 @@ namespace Verse.Sound
 		{
 			DebugSoundEventsLog.queue.Enqueue(new LogMessage(str));
 		}
-
-		// Token: 0x0400341F RID: 13343
-		private static LogMessageQueue queue = new LogMessageQueue();
 	}
 }

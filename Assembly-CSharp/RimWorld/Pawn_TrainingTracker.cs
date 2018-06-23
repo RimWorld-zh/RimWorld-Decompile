@@ -8,6 +8,21 @@ namespace RimWorld
 	// Token: 0x0200051A RID: 1306
 	public class Pawn_TrainingTracker : IExposable
 	{
+		// Token: 0x04000E00 RID: 3584
+		private Pawn pawn;
+
+		// Token: 0x04000E01 RID: 3585
+		private DefMap<TrainableDef, bool> wantedTrainables = new DefMap<TrainableDef, bool>();
+
+		// Token: 0x04000E02 RID: 3586
+		private DefMap<TrainableDef, int> steps = new DefMap<TrainableDef, int>();
+
+		// Token: 0x04000E03 RID: 3587
+		private DefMap<TrainableDef, bool> learned = new DefMap<TrainableDef, bool>();
+
+		// Token: 0x04000E04 RID: 3588
+		private int countDecayFrom = 0;
+
 		// Token: 0x060017C7 RID: 6087 RVA: 0x000CFF88 File Offset: 0x000CE388
 		public Pawn_TrainingTracker(Pawn pawn)
 		{
@@ -275,20 +290,5 @@ namespace RimWorld
 		{
 			this.countDecayFrom = Find.TickManager.TicksGame - TrainableUtility.DegradationPeriodTicks(this.pawn.def) - 500;
 		}
-
-		// Token: 0x04000E00 RID: 3584
-		private Pawn pawn;
-
-		// Token: 0x04000E01 RID: 3585
-		private DefMap<TrainableDef, bool> wantedTrainables = new DefMap<TrainableDef, bool>();
-
-		// Token: 0x04000E02 RID: 3586
-		private DefMap<TrainableDef, int> steps = new DefMap<TrainableDef, int>();
-
-		// Token: 0x04000E03 RID: 3587
-		private DefMap<TrainableDef, bool> learned = new DefMap<TrainableDef, bool>();
-
-		// Token: 0x04000E04 RID: 3588
-		private int countDecayFrom = 0;
 	}
 }

@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x020004E2 RID: 1250
 	public static class PawnNameDatabaseSolid
 	{
+		// Token: 0x04000D04 RID: 3332
+		private static Dictionary<GenderPossibility, List<NameTriple>> solidNames = new Dictionary<GenderPossibility, List<NameTriple>>();
+
+		// Token: 0x04000D05 RID: 3333
+		private const float PreferredNameChance = 0.5f;
+
 		// Token: 0x0600164F RID: 5711 RVA: 0x000C6290 File Offset: 0x000C4690
 		static PawnNameDatabaseSolid()
 		{
@@ -55,11 +61,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04000D04 RID: 3332
-		private static Dictionary<GenderPossibility, List<NameTriple>> solidNames = new Dictionary<GenderPossibility, List<NameTriple>>();
-
-		// Token: 0x04000D05 RID: 3333
-		private const float PreferredNameChance = 0.5f;
 	}
 }

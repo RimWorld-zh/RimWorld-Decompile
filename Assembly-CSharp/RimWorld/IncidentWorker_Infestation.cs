@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000330 RID: 816
 	public class IncidentWorker_Infestation : IncidentWorker
 	{
+		// Token: 0x040008D5 RID: 2261
+		private const float HivePoints = 250f;
+
 		// Token: 0x06000DF4 RID: 3572 RVA: 0x00077128 File Offset: 0x00075528
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
@@ -55,8 +58,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040008D5 RID: 2261
-		private const float HivePoints = 250f;
 	}
 }

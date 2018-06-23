@@ -9,6 +9,9 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003CC RID: 972
 	public class SymbolResolver_MannedMortar : SymbolResolver
 	{
+		// Token: 0x04000A38 RID: 2616
+		private const float MaxShellDefMarketValue = 250f;
+
 		// Token: 0x060010C2 RID: 4290 RVA: 0x0008E9D8 File Offset: 0x0008CDD8
 		public override bool CanResolve(ResolveParams rp)
 		{
@@ -121,8 +124,5 @@ namespace RimWorld.BaseGen
 				return ThingUtility.InteractionCellWhenAt(mortarDef, x, rot, map).Standable(map) && obj.FullyContainedWithin(rect) && edgeTouchCheck(obj);
 			}, out cell);
 		}
-
-		// Token: 0x04000A38 RID: 2616
-		private const float MaxShellDefMarketValue = 250f;
 	}
 }

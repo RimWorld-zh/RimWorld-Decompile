@@ -9,6 +9,15 @@ namespace RimWorld.Planet
 	// Token: 0x020005E7 RID: 1511
 	public class Caravan_ForageTracker : IExposable
 	{
+		// Token: 0x040011B1 RID: 4529
+		private Caravan caravan;
+
+		// Token: 0x040011B2 RID: 4530
+		private float progress;
+
+		// Token: 0x040011B3 RID: 4531
+		private const int UpdateProgressIntervalTicks = 10;
+
 		// Token: 0x06001DEA RID: 7658 RVA: 0x00101C55 File Offset: 0x00100055
 		public Caravan_ForageTracker(Caravan caravan)
 		{
@@ -97,14 +106,5 @@ namespace RimWorld.Planet
 				}
 			}
 		}
-
-		// Token: 0x040011B1 RID: 4529
-		private Caravan caravan;
-
-		// Token: 0x040011B2 RID: 4530
-		private float progress;
-
-		// Token: 0x040011B3 RID: 4531
-		private const int UpdateProgressIntervalTicks = 10;
 	}
 }

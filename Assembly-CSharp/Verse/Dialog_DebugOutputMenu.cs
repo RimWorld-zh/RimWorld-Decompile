@@ -8,6 +8,12 @@ namespace Verse
 	// Token: 0x02000E31 RID: 3633
 	public class Dialog_DebugOutputMenu : Dialog_DebugOptionLister
 	{
+		// Token: 0x040038D8 RID: 14552
+		private List<Dialog_DebugOutputMenu.DebugOutputOption> debugOutputs = new List<Dialog_DebugOutputMenu.DebugOutputOption>();
+
+		// Token: 0x040038D9 RID: 14553
+		private const string DefaultCategory = "General";
+
 		// Token: 0x06005610 RID: 22032 RVA: 0x002C5EE4 File Offset: 0x002C42E4
 		public Dialog_DebugOutputMenu()
 		{
@@ -82,12 +88,6 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x040038D8 RID: 14552
-		private List<Dialog_DebugOutputMenu.DebugOutputOption> debugOutputs = new List<Dialog_DebugOutputMenu.DebugOutputOption>();
-
-		// Token: 0x040038D9 RID: 14553
-		private const string DefaultCategory = "General";
 
 		// Token: 0x02000E32 RID: 3634
 		private struct DebugOutputOption

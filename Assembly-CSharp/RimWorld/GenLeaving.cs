@@ -9,6 +9,21 @@ namespace RimWorld
 	// Token: 0x0200097D RID: 2429
 	public static class GenLeaving
 	{
+		// Token: 0x04002342 RID: 9026
+		private const float LeaveFraction_Kill = 0.5f;
+
+		// Token: 0x04002343 RID: 9027
+		private const float LeaveFraction_Cancel = 1f;
+
+		// Token: 0x04002344 RID: 9028
+		public const float LeaveFraction_DeconstructDefault = 0.75f;
+
+		// Token: 0x04002345 RID: 9029
+		private const float LeaveFraction_FailConstruction = 0.5f;
+
+		// Token: 0x04002346 RID: 9030
+		private static List<IntVec3> tmpCellsCandidates = new List<IntVec3>();
+
 		// Token: 0x060036AB RID: 13995 RVA: 0x001D2CA5 File Offset: 0x001D10A5
 		public static void DoLeavingsFor(Thing diedThing, Map map, DestroyMode mode)
 		{
@@ -248,20 +263,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04002342 RID: 9026
-		private const float LeaveFraction_Kill = 0.5f;
-
-		// Token: 0x04002343 RID: 9027
-		private const float LeaveFraction_Cancel = 1f;
-
-		// Token: 0x04002344 RID: 9028
-		public const float LeaveFraction_DeconstructDefault = 0.75f;
-
-		// Token: 0x04002345 RID: 9029
-		private const float LeaveFraction_FailConstruction = 0.5f;
-
-		// Token: 0x04002346 RID: 9030
-		private static List<IntVec3> tmpCellsCandidates = new List<IntVec3>();
 	}
 }

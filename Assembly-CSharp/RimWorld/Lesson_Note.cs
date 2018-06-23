@@ -8,6 +8,36 @@ namespace RimWorld
 	// Token: 0x020008CD RID: 2253
 	public class Lesson_Note : Lesson
 	{
+		// Token: 0x04001BAB RID: 7083
+		public ConceptDef def;
+
+		// Token: 0x04001BAC RID: 7084
+		public bool doFadeIn = true;
+
+		// Token: 0x04001BAD RID: 7085
+		private float expiryTime = float.MaxValue;
+
+		// Token: 0x04001BAE RID: 7086
+		private const float RectWidth = 500f;
+
+		// Token: 0x04001BAF RID: 7087
+		private const float TextWidth = 432f;
+
+		// Token: 0x04001BB0 RID: 7088
+		private const float FadeInDuration = 0.4f;
+
+		// Token: 0x04001BB1 RID: 7089
+		private const float DoneButPad = 8f;
+
+		// Token: 0x04001BB2 RID: 7090
+		private const float DoneButSize = 32f;
+
+		// Token: 0x04001BB3 RID: 7091
+		private const float ExpiryDuration = 2.1f;
+
+		// Token: 0x04001BB4 RID: 7092
+		private const float ExpiryFadeTime = 1.1f;
+
 		// Token: 0x0600339F RID: 13215 RVA: 0x001B99FB File Offset: 0x001B7DFB
 		public Lesson_Note()
 		{
@@ -146,35 +176,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04001BAB RID: 7083
-		public ConceptDef def;
-
-		// Token: 0x04001BAC RID: 7084
-		public bool doFadeIn = true;
-
-		// Token: 0x04001BAD RID: 7085
-		private float expiryTime = float.MaxValue;
-
-		// Token: 0x04001BAE RID: 7086
-		private const float RectWidth = 500f;
-
-		// Token: 0x04001BAF RID: 7087
-		private const float TextWidth = 432f;
-
-		// Token: 0x04001BB0 RID: 7088
-		private const float FadeInDuration = 0.4f;
-
-		// Token: 0x04001BB1 RID: 7089
-		private const float DoneButPad = 8f;
-
-		// Token: 0x04001BB2 RID: 7090
-		private const float DoneButSize = 32f;
-
-		// Token: 0x04001BB3 RID: 7091
-		private const float ExpiryDuration = 2.1f;
-
-		// Token: 0x04001BB4 RID: 7092
-		private const float ExpiryFadeTime = 1.1f;
 	}
 }

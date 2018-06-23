@@ -6,6 +6,18 @@ namespace Verse
 	// Token: 0x02000EBD RID: 3773
 	public abstract class Dialog_OptionLister : Window
 	{
+		// Token: 0x04003B95 RID: 15253
+		protected Vector2 scrollPosition;
+
+		// Token: 0x04003B96 RID: 15254
+		protected string filter = "";
+
+		// Token: 0x04003B97 RID: 15255
+		protected float totalOptionsHeight = 0f;
+
+		// Token: 0x04003B98 RID: 15256
+		protected Listing_Standard listing;
+
 		// Token: 0x06005955 RID: 22869 RVA: 0x002BB4DF File Offset: 0x002B98DF
 		public Dialog_OptionLister()
 		{
@@ -75,17 +87,5 @@ namespace Verse
 		{
 			return this.filter.NullOrEmpty() || label.NullOrEmpty() || label.IndexOf(this.filter, StringComparison.OrdinalIgnoreCase) >= 0;
 		}
-
-		// Token: 0x04003B95 RID: 15253
-		protected Vector2 scrollPosition;
-
-		// Token: 0x04003B96 RID: 15254
-		protected string filter = "";
-
-		// Token: 0x04003B97 RID: 15255
-		protected float totalOptionsHeight = 0f;
-
-		// Token: 0x04003B98 RID: 15256
-		protected Listing_Standard listing;
 	}
 }

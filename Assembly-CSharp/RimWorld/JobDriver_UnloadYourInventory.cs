@@ -8,6 +8,18 @@ namespace RimWorld
 	// Token: 0x02000085 RID: 133
 	public class JobDriver_UnloadYourInventory : JobDriver
 	{
+		// Token: 0x04000244 RID: 580
+		private int countToDrop = -1;
+
+		// Token: 0x04000245 RID: 581
+		private const TargetIndex ItemToHaulInd = TargetIndex.A;
+
+		// Token: 0x04000246 RID: 582
+		private const TargetIndex StoreCellInd = TargetIndex.B;
+
+		// Token: 0x04000247 RID: 583
+		private const int UnloadDuration = 10;
+
 		// Token: 0x06000378 RID: 888 RVA: 0x00026CF3 File Offset: 0x000250F3
 		public override void ExposeData()
 		{
@@ -85,17 +97,5 @@ namespace RimWorld
 			yield return Toils_Haul.PlaceHauledThingInCell(TargetIndex.B, carryToCell, true);
 			yield break;
 		}
-
-		// Token: 0x04000244 RID: 580
-		private int countToDrop = -1;
-
-		// Token: 0x04000245 RID: 581
-		private const TargetIndex ItemToHaulInd = TargetIndex.A;
-
-		// Token: 0x04000246 RID: 582
-		private const TargetIndex StoreCellInd = TargetIndex.B;
-
-		// Token: 0x04000247 RID: 583
-		private const int UnloadDuration = 10;
 	}
 }

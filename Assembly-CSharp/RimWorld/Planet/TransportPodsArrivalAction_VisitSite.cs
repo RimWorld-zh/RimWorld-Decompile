@@ -7,6 +7,12 @@ namespace RimWorld.Planet
 	// Token: 0x02000615 RID: 1557
 	public class TransportPodsArrivalAction_VisitSite : TransportPodsArrivalAction
 	{
+		// Token: 0x0400124C RID: 4684
+		private Site site;
+
+		// Token: 0x0400124D RID: 4685
+		private PawnsArrivalModeDef arrivalMode;
+
 		// Token: 0x06001F66 RID: 8038 RVA: 0x00110513 File Offset: 0x0010E913
 		public TransportPodsArrivalAction_VisitSite()
 		{
@@ -110,11 +116,5 @@ namespace RimWorld.Planet
 			}
 			yield break;
 		}
-
-		// Token: 0x0400124C RID: 4684
-		private Site site;
-
-		// Token: 0x0400124D RID: 4685
-		private PawnsArrivalModeDef arrivalMode;
 	}
 }

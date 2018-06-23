@@ -7,6 +7,63 @@ namespace RimWorld
 	// Token: 0x02000BCE RID: 3022
 	public sealed class PlaySettings : IExposable
 	{
+		// Token: 0x04002CFB RID: 11515
+		public bool showLearningHelper = true;
+
+		// Token: 0x04002CFC RID: 11516
+		public bool showZones = true;
+
+		// Token: 0x04002CFD RID: 11517
+		public bool showBeauty = false;
+
+		// Token: 0x04002CFE RID: 11518
+		public bool showRoomStats = false;
+
+		// Token: 0x04002CFF RID: 11519
+		public bool showColonistBar = true;
+
+		// Token: 0x04002D00 RID: 11520
+		public bool showRoofOverlay = false;
+
+		// Token: 0x04002D01 RID: 11521
+		public bool autoHomeArea = true;
+
+		// Token: 0x04002D02 RID: 11522
+		public bool autoRebuild = false;
+
+		// Token: 0x04002D03 RID: 11523
+		public bool lockNorthUp = true;
+
+		// Token: 0x04002D04 RID: 11524
+		public bool usePlanetDayNightSystem = true;
+
+		// Token: 0x04002D05 RID: 11525
+		public bool showExpandingIcons = true;
+
+		// Token: 0x04002D06 RID: 11526
+		public bool showWorldFeatures = true;
+
+		// Token: 0x04002D07 RID: 11527
+		public bool useWorkPriorities = false;
+
+		// Token: 0x04002D08 RID: 11528
+		public MedicalCareCategory defaultCareForColonyHumanlike = MedicalCareCategory.Best;
+
+		// Token: 0x04002D09 RID: 11529
+		public MedicalCareCategory defaultCareForColonyAnimal = MedicalCareCategory.HerbalOrWorse;
+
+		// Token: 0x04002D0A RID: 11530
+		public MedicalCareCategory defaultCareForColonyPrisoner = MedicalCareCategory.HerbalOrWorse;
+
+		// Token: 0x04002D0B RID: 11531
+		public MedicalCareCategory defaultCareForNeutralFaction = MedicalCareCategory.HerbalOrWorse;
+
+		// Token: 0x04002D0C RID: 11532
+		public MedicalCareCategory defaultCareForNeutralAnimal = MedicalCareCategory.HerbalOrWorse;
+
+		// Token: 0x04002D0D RID: 11533
+		public MedicalCareCategory defaultCareForHostileFaction = MedicalCareCategory.HerbalOrWorse;
+
 		// Token: 0x060041E8 RID: 16872 RVA: 0x0022BC34 File Offset: 0x0022A034
 		public void ExposeData()
 		{
@@ -97,62 +154,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04002CFB RID: 11515
-		public bool showLearningHelper = true;
-
-		// Token: 0x04002CFC RID: 11516
-		public bool showZones = true;
-
-		// Token: 0x04002CFD RID: 11517
-		public bool showBeauty = false;
-
-		// Token: 0x04002CFE RID: 11518
-		public bool showRoomStats = false;
-
-		// Token: 0x04002CFF RID: 11519
-		public bool showColonistBar = true;
-
-		// Token: 0x04002D00 RID: 11520
-		public bool showRoofOverlay = false;
-
-		// Token: 0x04002D01 RID: 11521
-		public bool autoHomeArea = true;
-
-		// Token: 0x04002D02 RID: 11522
-		public bool autoRebuild = false;
-
-		// Token: 0x04002D03 RID: 11523
-		public bool lockNorthUp = true;
-
-		// Token: 0x04002D04 RID: 11524
-		public bool usePlanetDayNightSystem = true;
-
-		// Token: 0x04002D05 RID: 11525
-		public bool showExpandingIcons = true;
-
-		// Token: 0x04002D06 RID: 11526
-		public bool showWorldFeatures = true;
-
-		// Token: 0x04002D07 RID: 11527
-		public bool useWorkPriorities = false;
-
-		// Token: 0x04002D08 RID: 11528
-		public MedicalCareCategory defaultCareForColonyHumanlike = MedicalCareCategory.Best;
-
-		// Token: 0x04002D09 RID: 11529
-		public MedicalCareCategory defaultCareForColonyAnimal = MedicalCareCategory.HerbalOrWorse;
-
-		// Token: 0x04002D0A RID: 11530
-		public MedicalCareCategory defaultCareForColonyPrisoner = MedicalCareCategory.HerbalOrWorse;
-
-		// Token: 0x04002D0B RID: 11531
-		public MedicalCareCategory defaultCareForNeutralFaction = MedicalCareCategory.HerbalOrWorse;
-
-		// Token: 0x04002D0C RID: 11532
-		public MedicalCareCategory defaultCareForNeutralAnimal = MedicalCareCategory.HerbalOrWorse;
-
-		// Token: 0x04002D0D RID: 11533
-		public MedicalCareCategory defaultCareForHostileFaction = MedicalCareCategory.HerbalOrWorse;
 	}
 }

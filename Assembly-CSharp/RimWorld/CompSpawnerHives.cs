@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x02000738 RID: 1848
 	public class CompSpawnerHives : ThingComp
 	{
+		// Token: 0x0400165A RID: 5722
+		private int nextHiveSpawnTick = -1;
+
+		// Token: 0x0400165B RID: 5723
+		public bool canSpawnHives = true;
+
+		// Token: 0x0400165C RID: 5724
+		public const int MaxHivesPerMap = 30;
+
 		// Token: 0x17000653 RID: 1619
 		// (get) Token: 0x060028D4 RID: 10452 RVA: 0x0015C43C File Offset: 0x0015A83C
 		private CompProperties_SpawnerHives Props
@@ -223,14 +232,5 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.nextHiveSpawnTick, "nextHiveSpawnTick", 0, false);
 			Scribe_Values.Look<bool>(ref this.canSpawnHives, "canSpawnHives", true, false);
 		}
-
-		// Token: 0x0400165A RID: 5722
-		private int nextHiveSpawnTick = -1;
-
-		// Token: 0x0400165B RID: 5723
-		public bool canSpawnHives = true;
-
-		// Token: 0x0400165C RID: 5724
-		public const int MaxHivesPerMap = 30;
 	}
 }

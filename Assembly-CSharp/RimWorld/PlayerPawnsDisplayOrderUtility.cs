@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x020007B3 RID: 1971
 	public static class PlayerPawnsDisplayOrderUtility
 	{
+		// Token: 0x04001782 RID: 6018
+		private static Func<Pawn, int> displayOrderGetter = (Pawn x) => (x.playerSettings == null) ? 999999 : x.playerSettings.displayOrder;
+
+		// Token: 0x04001783 RID: 6019
+		private static Func<Pawn, int> thingIDNumberGetter = (Pawn x) => x.thingIDNumber;
+
 		// Token: 0x06002BB3 RID: 11187 RVA: 0x00172995 File Offset: 0x00170D95
 		public static void Sort(List<Pawn> pawns)
 		{
@@ -19,11 +25,5 @@ namespace RimWorld
 		{
 			return pawns.OrderBy(PlayerPawnsDisplayOrderUtility.displayOrderGetter).ThenBy(PlayerPawnsDisplayOrderUtility.thingIDNumberGetter);
 		}
-
-		// Token: 0x04001782 RID: 6018
-		private static Func<Pawn, int> displayOrderGetter = (Pawn x) => (x.playerSettings == null) ? 999999 : x.playerSettings.displayOrder;
-
-		// Token: 0x04001783 RID: 6019
-		private static Func<Pawn, int> thingIDNumberGetter = (Pawn x) => x.thingIDNumber;
 	}
 }

@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000F16 RID: 3862
 	public class LogMessageQueue
 	{
+		// Token: 0x04003D89 RID: 15753
+		public int maxMessages = 200;
+
+		// Token: 0x04003D8A RID: 15754
+		private Queue<LogMessage> messages = new Queue<LogMessage>();
+
+		// Token: 0x04003D8B RID: 15755
+		private LogMessage lastMessage = null;
+
 		// Token: 0x17000EE4 RID: 3812
 		// (get) Token: 0x06005CB3 RID: 23731 RVA: 0x002F09AC File Offset: 0x002EEDAC
 		public IEnumerable<LogMessage> Messages
@@ -41,14 +50,5 @@ namespace Verse
 			this.messages.Clear();
 			this.lastMessage = null;
 		}
-
-		// Token: 0x04003D89 RID: 15753
-		public int maxMessages = 200;
-
-		// Token: 0x04003D8A RID: 15754
-		private Queue<LogMessage> messages = new Queue<LogMessage>();
-
-		// Token: 0x04003D8B RID: 15755
-		private LogMessage lastMessage = null;
 	}
 }

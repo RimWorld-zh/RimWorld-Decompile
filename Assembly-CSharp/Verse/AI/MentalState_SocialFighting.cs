@@ -6,6 +6,9 @@ namespace Verse.AI
 	// Token: 0x02000A7F RID: 2687
 	public class MentalState_SocialFighting : MentalState
 	{
+		// Token: 0x04002578 RID: 9592
+		public Pawn otherPawn;
+
 		// Token: 0x17000918 RID: 2328
 		// (get) Token: 0x06003BAC RID: 15276 RVA: 0x001F80DC File Offset: 0x001F64DC
 		private bool ShouldStop
@@ -94,8 +97,5 @@ namespace Verse.AI
 		{
 			return RandomSocialMode.Off;
 		}
-
-		// Token: 0x04002578 RID: 9592
-		public Pawn otherPawn;
 	}
 }

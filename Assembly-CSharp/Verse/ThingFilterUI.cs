@@ -9,6 +9,24 @@ namespace Verse
 	// Token: 0x02000FCC RID: 4044
 	public static class ThingFilterUI
 	{
+		// Token: 0x04003FFB RID: 16379
+		private static float viewHeight;
+
+		// Token: 0x04003FFC RID: 16380
+		private const float ExtraViewHeight = 90f;
+
+		// Token: 0x04003FFD RID: 16381
+		private const float RangeLabelTab = 10f;
+
+		// Token: 0x04003FFE RID: 16382
+		private const float RangeLabelHeight = 19f;
+
+		// Token: 0x04003FFF RID: 16383
+		private const float SliderHeight = 28f;
+
+		// Token: 0x04004000 RID: 16384
+		private const float SliderTab = 20f;
+
 		// Token: 0x060061E4 RID: 25060 RVA: 0x0031646C File Offset: 0x0031486C
 		public static void DoThingFilterConfigWindow(Rect rect, ref Vector2 scrollPosition, ThingFilter filter, ThingFilter parentFilter = null, int openMask = 1, IEnumerable<ThingDef> forceHiddenDefs = null, IEnumerable<SpecialThingFilterDef> forceHiddenFilters = null, List<ThingDef> suppressSmallVolumeTags = null, Map map = null)
 		{
@@ -85,23 +103,5 @@ namespace Verse
 			y += 5f;
 			Text.Font = GameFont.Small;
 		}
-
-		// Token: 0x04003FFB RID: 16379
-		private static float viewHeight;
-
-		// Token: 0x04003FFC RID: 16380
-		private const float ExtraViewHeight = 90f;
-
-		// Token: 0x04003FFD RID: 16381
-		private const float RangeLabelTab = 10f;
-
-		// Token: 0x04003FFE RID: 16382
-		private const float RangeLabelHeight = 19f;
-
-		// Token: 0x04003FFF RID: 16383
-		private const float SliderHeight = 28f;
-
-		// Token: 0x04004000 RID: 16384
-		private const float SliderTab = 20f;
 	}
 }

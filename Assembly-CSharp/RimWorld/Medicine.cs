@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x020006C9 RID: 1737
 	public class Medicine : ThingWithComps
 	{
+		// Token: 0x04001500 RID: 5376
+		private static List<Hediff> tendableHediffsInTendPriorityOrder = new List<Hediff>();
+
+		// Token: 0x04001501 RID: 5377
+		private static List<Hediff> tmpHediffs = new List<Hediff>();
+
 		// Token: 0x060025A4 RID: 9636 RVA: 0x0014280C File Offset: 0x00140C0C
 		public static int GetMedicineCountToFullyHeal(Pawn pawn)
 		{
@@ -47,11 +53,5 @@ namespace RimWorld
 			Medicine.tendableHediffsInTendPriorityOrder.Clear();
 			return num3;
 		}
-
-		// Token: 0x04001500 RID: 5376
-		private static List<Hediff> tendableHediffsInTendPriorityOrder = new List<Hediff>();
-
-		// Token: 0x04001501 RID: 5377
-		private static List<Hediff> tmpHediffs = new List<Hediff>();
 	}
 }

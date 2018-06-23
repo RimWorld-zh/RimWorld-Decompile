@@ -6,6 +6,21 @@ namespace Verse
 	// Token: 0x02000CA8 RID: 3240
 	public sealed class TemperatureCache : IExposable
 	{
+		// Token: 0x04003077 RID: 12407
+		private Map map;
+
+		// Token: 0x04003078 RID: 12408
+		internal TemperatureSaveLoad temperatureSaveLoad;
+
+		// Token: 0x04003079 RID: 12409
+		public CachedTempInfo[] tempCache;
+
+		// Token: 0x0400307A RID: 12410
+		private HashSet<int> processedRoomGroupIDs = new HashSet<int>();
+
+		// Token: 0x0400307B RID: 12411
+		private List<CachedTempInfo> relevantTempInfoList = new List<CachedTempInfo>();
+
 		// Token: 0x06004778 RID: 18296 RVA: 0x0025B49C File Offset: 0x0025989C
 		public TemperatureCache(Map map)
 		{
@@ -79,20 +94,5 @@ namespace Verse
 			this.relevantTempInfoList.Clear();
 			return result2;
 		}
-
-		// Token: 0x04003077 RID: 12407
-		private Map map;
-
-		// Token: 0x04003078 RID: 12408
-		internal TemperatureSaveLoad temperatureSaveLoad;
-
-		// Token: 0x04003079 RID: 12409
-		public CachedTempInfo[] tempCache;
-
-		// Token: 0x0400307A RID: 12410
-		private HashSet<int> processedRoomGroupIDs = new HashSet<int>();
-
-		// Token: 0x0400307B RID: 12411
-		private List<CachedTempInfo> relevantTempInfoList = new List<CachedTempInfo>();
 	}
 }

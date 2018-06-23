@@ -8,6 +8,9 @@ namespace RimWorld.Planet
 	// Token: 0x020008E5 RID: 2277
 	public class WITab_Planet : WITab
 	{
+		// Token: 0x04001C5D RID: 7261
+		private static readonly Vector2 WinSize = new Vector2(400f, 150f);
+
 		// Token: 0x06003466 RID: 13414 RVA: 0x001C080A File Offset: 0x001BEC0A
 		public WITab_Planet()
 		{
@@ -54,8 +57,5 @@ namespace RimWorld.Planet
 			Text.Font = GameFont.Small;
 			Widgets.Label(rect3, this.Desc);
 		}
-
-		// Token: 0x04001C5D RID: 7261
-		private static readonly Vector2 WinSize = new Vector2(400f, 150f);
 	}
 }

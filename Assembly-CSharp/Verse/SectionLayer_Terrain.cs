@@ -8,6 +8,12 @@ namespace Verse
 	// Token: 0x02000C4A RID: 3146
 	internal class SectionLayer_Terrain : SectionLayer
 	{
+		// Token: 0x04002F69 RID: 12137
+		private static readonly Color32 ColorWhite = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue);
+
+		// Token: 0x04002F6A RID: 12138
+		private static readonly Color32 ColorClear = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, 0);
+
 		// Token: 0x0600455D RID: 17757 RVA: 0x0024AA69 File Offset: 0x00248E69
 		public SectionLayer_Terrain(Section section) : base(section)
 		{
@@ -151,11 +157,5 @@ namespace Verse
 			}
 			base.FinalizeMesh(MeshParts.All);
 		}
-
-		// Token: 0x04002F69 RID: 12137
-		private static readonly Color32 ColorWhite = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue);
-
-		// Token: 0x04002F6A RID: 12138
-		private static readonly Color32 ColorClear = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, 0);
 	}
 }

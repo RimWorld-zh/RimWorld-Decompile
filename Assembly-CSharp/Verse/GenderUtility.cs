@@ -7,6 +7,15 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class GenderUtility
 	{
+		// Token: 0x04002A2F RID: 10799
+		private static readonly Texture2D GenderlessIcon = ContentFinder<Texture2D>.Get("UI/Icons/Gender/Genderless", true);
+
+		// Token: 0x04002A30 RID: 10800
+		private static readonly Texture2D MaleIcon = ContentFinder<Texture2D>.Get("UI/Icons/Gender/Male", true);
+
+		// Token: 0x04002A31 RID: 10801
+		private static readonly Texture2D FemaleIcon = ContentFinder<Texture2D>.Get("UI/Icons/Gender/Female", true);
+
 		// Token: 0x06003F7F RID: 16255 RVA: 0x00217304 File Offset: 0x00215704
 		public static string GetLabel(this Gender gender)
 		{
@@ -136,14 +145,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04002A2F RID: 10799
-		private static readonly Texture2D GenderlessIcon = ContentFinder<Texture2D>.Get("UI/Icons/Gender/Genderless", true);
-
-		// Token: 0x04002A30 RID: 10800
-		private static readonly Texture2D MaleIcon = ContentFinder<Texture2D>.Get("UI/Icons/Gender/Male", true);
-
-		// Token: 0x04002A31 RID: 10801
-		private static readonly Texture2D FemaleIcon = ContentFinder<Texture2D>.Get("UI/Icons/Gender/Female", true);
 	}
 }

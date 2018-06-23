@@ -11,6 +11,23 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class HostilityResponseModeUtility
 	{
+		// Token: 0x04000E0D RID: 3597
+		private static readonly Texture2D IgnoreIcon = ContentFinder<Texture2D>.Get("UI/Icons/HostilityResponse/Ignore", true);
+
+		// Token: 0x04000E0E RID: 3598
+		private static readonly Texture2D AttackIcon = ContentFinder<Texture2D>.Get("UI/Icons/HostilityResponse/Attack", true);
+
+		// Token: 0x04000E0F RID: 3599
+		private static readonly Texture2D FleeIcon = ContentFinder<Texture2D>.Get("UI/Icons/HostilityResponse/Flee", true);
+
+		// Token: 0x04000E10 RID: 3600
+		[CompilerGenerated]
+		private static Func<Pawn, HostilityResponseMode> <>f__mg$cache0;
+
+		// Token: 0x04000E11 RID: 3601
+		[CompilerGenerated]
+		private static Func<Pawn, IEnumerable<Widgets.DropdownMenuElement<HostilityResponseMode>>> <>f__mg$cache1;
+
 		// Token: 0x060017D9 RID: 6105 RVA: 0x000D08BC File Offset: 0x000CECBC
 		public static Texture2D GetIcon(this HostilityResponseMode response)
 		{
@@ -132,22 +149,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04000E0D RID: 3597
-		private static readonly Texture2D IgnoreIcon = ContentFinder<Texture2D>.Get("UI/Icons/HostilityResponse/Ignore", true);
-
-		// Token: 0x04000E0E RID: 3598
-		private static readonly Texture2D AttackIcon = ContentFinder<Texture2D>.Get("UI/Icons/HostilityResponse/Attack", true);
-
-		// Token: 0x04000E0F RID: 3599
-		private static readonly Texture2D FleeIcon = ContentFinder<Texture2D>.Get("UI/Icons/HostilityResponse/Flee", true);
-
-		// Token: 0x04000E10 RID: 3600
-		[CompilerGenerated]
-		private static Func<Pawn, HostilityResponseMode> <>f__mg$cache0;
-
-		// Token: 0x04000E11 RID: 3601
-		[CompilerGenerated]
-		private static Func<Pawn, IEnumerable<Widgets.DropdownMenuElement<HostilityResponseMode>>> <>f__mg$cache1;
 	}
 }

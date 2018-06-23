@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020000B6 RID: 182
 	public class JobGiver_AIDefendMaster : JobGiver_AIDefendPawn
 	{
+		// Token: 0x04000285 RID: 645
+		private const float RadiusUnreleased = 5f;
+
 		// Token: 0x06000455 RID: 1109 RVA: 0x00032B48 File Offset: 0x00030F48
 		protected override Pawn GetDefendee(Pawn pawn)
 		{
@@ -26,8 +29,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000285 RID: 645
-		private const float RadiusUnreleased = 5f;
 	}
 }

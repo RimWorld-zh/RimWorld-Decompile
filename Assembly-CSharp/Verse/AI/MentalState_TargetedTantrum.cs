@@ -7,6 +7,12 @@ namespace Verse.AI
 	// Token: 0x02000A85 RID: 2693
 	public class MentalState_TargetedTantrum : MentalState_Tantrum
 	{
+		// Token: 0x04002581 RID: 9601
+		public const int MinMarketValue = 300;
+
+		// Token: 0x04002582 RID: 9602
+		private static List<Thing> tmpThings = new List<Thing>();
+
 		// Token: 0x06003BCE RID: 15310 RVA: 0x001F8838 File Offset: 0x001F6C38
 		public override void MentalStateTick()
 		{
@@ -69,11 +75,5 @@ namespace Verse.AI
 			}
 			return result;
 		}
-
-		// Token: 0x04002581 RID: 9601
-		public const int MinMarketValue = 300;
-
-		// Token: 0x04002582 RID: 9602
-		private static List<Thing> tmpThings = new List<Thing>();
 	}
 }

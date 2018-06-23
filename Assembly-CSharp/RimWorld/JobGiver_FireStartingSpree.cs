@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x0200010C RID: 268
 	internal class JobGiver_FireStartingSpree : ThinkNode_JobGiver
 	{
+		// Token: 0x040002EF RID: 751
+		private IntRange waitTicks = new IntRange(80, 140);
+
+		// Token: 0x040002F0 RID: 752
+		private const float FireStartChance = 0.75f;
+
+		// Token: 0x040002F1 RID: 753
+		private static List<Thing> potentialTargets = new List<Thing>();
+
 		// Token: 0x0600058D RID: 1421 RVA: 0x0003C1F0 File Offset: 0x0003A5F0
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -84,14 +93,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040002EF RID: 751
-		private IntRange waitTicks = new IntRange(80, 140);
-
-		// Token: 0x040002F0 RID: 752
-		private const float FireStartChance = 0.75f;
-
-		// Token: 0x040002F1 RID: 753
-		private static List<Thing> potentialTargets = new List<Thing>();
 	}
 }

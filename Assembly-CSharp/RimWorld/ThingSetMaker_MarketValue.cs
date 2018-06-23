@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020006F0 RID: 1776
 	public class ThingSetMaker_MarketValue : ThingSetMaker
 	{
+		// Token: 0x04001584 RID: 5508
+		private int nextSeed;
+
 		// Token: 0x060026A8 RID: 9896 RVA: 0x0014B6C4 File Offset: 0x00149AC4
 		public ThingSetMaker_MarketValue()
 		{
@@ -161,8 +164,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04001584 RID: 5508
-		private int nextSeed;
 	}
 }

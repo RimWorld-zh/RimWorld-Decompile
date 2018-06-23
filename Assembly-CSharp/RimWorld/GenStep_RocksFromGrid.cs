@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x020003FB RID: 1019
 	public class GenStep_RocksFromGrid : GenStep
 	{
+		// Token: 0x04000AA6 RID: 2726
+		private float maxMineableValue = float.MaxValue;
+
+		// Token: 0x04000AA7 RID: 2727
+		private const int MinRoofedCellsPerGroup = 20;
+
 		// Token: 0x17000257 RID: 599
 		// (get) Token: 0x06001187 RID: 4487 RVA: 0x00097DC4 File Offset: 0x000961C4
 		public override int SeedPart
@@ -136,12 +142,6 @@ namespace RimWorld
 		{
 			return c.Roofed(map) && c.GetRoof(map).isNatural;
 		}
-
-		// Token: 0x04000AA6 RID: 2726
-		private float maxMineableValue = float.MaxValue;
-
-		// Token: 0x04000AA7 RID: 2727
-		private const int MinRoofedCellsPerGroup = 20;
 
 		// Token: 0x020003FC RID: 1020
 		private class RoofThreshold

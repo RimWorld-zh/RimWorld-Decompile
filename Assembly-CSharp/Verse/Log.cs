@@ -7,6 +7,24 @@ namespace Verse
 	// Token: 0x02000F13 RID: 3859
 	public static class Log
 	{
+		// Token: 0x04003D7B RID: 15739
+		private static LogMessageQueue messageQueue = new LogMessageQueue();
+
+		// Token: 0x04003D7C RID: 15740
+		private static HashSet<int> usedKeys = new HashSet<int>();
+
+		// Token: 0x04003D7D RID: 15741
+		public static bool openOnMessage = false;
+
+		// Token: 0x04003D7E RID: 15742
+		private static bool currentlyLoggingError;
+
+		// Token: 0x04003D7F RID: 15743
+		private static int messageCount;
+
+		// Token: 0x04003D80 RID: 15744
+		private const int StopLoggingAtMessageCount = 1000;
+
 		// Token: 0x17000EE0 RID: 3808
 		// (get) Token: 0x06005CA1 RID: 23713 RVA: 0x002F0554 File Offset: 0x002EE954
 		public static IEnumerable<LogMessage> Messages
@@ -138,23 +156,5 @@ namespace Verse
 				Log.Warning("Reached max messages limit. Stopping logging to avoid spam.", true);
 			}
 		}
-
-		// Token: 0x04003D7B RID: 15739
-		private static LogMessageQueue messageQueue = new LogMessageQueue();
-
-		// Token: 0x04003D7C RID: 15740
-		private static HashSet<int> usedKeys = new HashSet<int>();
-
-		// Token: 0x04003D7D RID: 15741
-		public static bool openOnMessage = false;
-
-		// Token: 0x04003D7E RID: 15742
-		private static bool currentlyLoggingError;
-
-		// Token: 0x04003D7F RID: 15743
-		private static int messageCount;
-
-		// Token: 0x04003D80 RID: 15744
-		private const int StopLoggingAtMessageCount = 1000;
 	}
 }

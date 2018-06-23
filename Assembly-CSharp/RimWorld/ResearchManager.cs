@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x02000303 RID: 771
 	public sealed class ResearchManager : IExposable
 	{
+		// Token: 0x04000855 RID: 2133
+		public ResearchProjectDef currentProj = null;
+
+		// Token: 0x04000856 RID: 2134
+		private Dictionary<ResearchProjectDef, float> progress = new Dictionary<ResearchProjectDef, float>();
+
+		// Token: 0x04000857 RID: 2135
+		private float GlobalProgressFactor = 0.007f;
+
 		// Token: 0x170001EF RID: 495
 		// (get) Token: 0x06000CD3 RID: 3283 RVA: 0x00070A4C File Offset: 0x0006EE4C
 		public bool AnyProjectIsAvailable
@@ -149,14 +158,5 @@ namespace RimWorld
 			}
 			this.ReapplyAllMods();
 		}
-
-		// Token: 0x04000855 RID: 2133
-		public ResearchProjectDef currentProj = null;
-
-		// Token: 0x04000856 RID: 2134
-		private Dictionary<ResearchProjectDef, float> progress = new Dictionary<ResearchProjectDef, float>();
-
-		// Token: 0x04000857 RID: 2135
-		private float GlobalProgressFactor = 0.007f;
 	}
 }

@@ -5,6 +5,78 @@ namespace Ionic.Zlib
 	// Token: 0x0200000F RID: 15
 	internal sealed class InflateCodes
 	{
+		// Token: 0x040000AD RID: 173
+		private const int START = 0;
+
+		// Token: 0x040000AE RID: 174
+		private const int LEN = 1;
+
+		// Token: 0x040000AF RID: 175
+		private const int LENEXT = 2;
+
+		// Token: 0x040000B0 RID: 176
+		private const int DIST = 3;
+
+		// Token: 0x040000B1 RID: 177
+		private const int DISTEXT = 4;
+
+		// Token: 0x040000B2 RID: 178
+		private const int COPY = 5;
+
+		// Token: 0x040000B3 RID: 179
+		private const int LIT = 6;
+
+		// Token: 0x040000B4 RID: 180
+		private const int WASH = 7;
+
+		// Token: 0x040000B5 RID: 181
+		private const int END = 8;
+
+		// Token: 0x040000B6 RID: 182
+		private const int BADCODE = 9;
+
+		// Token: 0x040000B7 RID: 183
+		internal int mode;
+
+		// Token: 0x040000B8 RID: 184
+		internal int len;
+
+		// Token: 0x040000B9 RID: 185
+		internal int[] tree;
+
+		// Token: 0x040000BA RID: 186
+		internal int tree_index = 0;
+
+		// Token: 0x040000BB RID: 187
+		internal int need;
+
+		// Token: 0x040000BC RID: 188
+		internal int lit;
+
+		// Token: 0x040000BD RID: 189
+		internal int bitsToGet;
+
+		// Token: 0x040000BE RID: 190
+		internal int dist;
+
+		// Token: 0x040000BF RID: 191
+		internal byte lbits;
+
+		// Token: 0x040000C0 RID: 192
+		internal byte dbits;
+
+		// Token: 0x040000C1 RID: 193
+		internal int[] ltree;
+
+		// Token: 0x040000C2 RID: 194
+		internal int ltree_index;
+
+		// Token: 0x040000C3 RID: 195
+		internal int[] dtree;
+
+		// Token: 0x040000C4 RID: 196
+		internal int dtree_index;
+
 		// Token: 0x060000A9 RID: 169 RVA: 0x00008072 File Offset: 0x00006472
 		internal InflateCodes()
 		{
@@ -608,77 +680,5 @@ namespace Ionic.Zlib
 			s.writeAt = num4;
 			return 0;
 		}
-
-		// Token: 0x040000AD RID: 173
-		private const int START = 0;
-
-		// Token: 0x040000AE RID: 174
-		private const int LEN = 1;
-
-		// Token: 0x040000AF RID: 175
-		private const int LENEXT = 2;
-
-		// Token: 0x040000B0 RID: 176
-		private const int DIST = 3;
-
-		// Token: 0x040000B1 RID: 177
-		private const int DISTEXT = 4;
-
-		// Token: 0x040000B2 RID: 178
-		private const int COPY = 5;
-
-		// Token: 0x040000B3 RID: 179
-		private const int LIT = 6;
-
-		// Token: 0x040000B4 RID: 180
-		private const int WASH = 7;
-
-		// Token: 0x040000B5 RID: 181
-		private const int END = 8;
-
-		// Token: 0x040000B6 RID: 182
-		private const int BADCODE = 9;
-
-		// Token: 0x040000B7 RID: 183
-		internal int mode;
-
-		// Token: 0x040000B8 RID: 184
-		internal int len;
-
-		// Token: 0x040000B9 RID: 185
-		internal int[] tree;
-
-		// Token: 0x040000BA RID: 186
-		internal int tree_index = 0;
-
-		// Token: 0x040000BB RID: 187
-		internal int need;
-
-		// Token: 0x040000BC RID: 188
-		internal int lit;
-
-		// Token: 0x040000BD RID: 189
-		internal int bitsToGet;
-
-		// Token: 0x040000BE RID: 190
-		internal int dist;
-
-		// Token: 0x040000BF RID: 191
-		internal byte lbits;
-
-		// Token: 0x040000C0 RID: 192
-		internal byte dbits;
-
-		// Token: 0x040000C1 RID: 193
-		internal int[] ltree;
-
-		// Token: 0x040000C2 RID: 194
-		internal int ltree_index;
-
-		// Token: 0x040000C3 RID: 195
-		internal int[] dtree;
-
-		// Token: 0x040000C4 RID: 196
-		internal int dtree_index;
 	}
 }

@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x020004D9 RID: 1241
 	public class TraitEntry
 	{
+		// Token: 0x04000CCB RID: 3275
+		public TraitDef def;
+
+		// Token: 0x04000CCC RID: 3276
+		public int degree;
+
 		// Token: 0x0600160F RID: 5647 RVA: 0x000C3C52 File Offset: 0x000C2052
 		public TraitEntry()
 		{
@@ -32,11 +38,5 @@ namespace RimWorld
 				this.degree = 0;
 			}
 		}
-
-		// Token: 0x04000CCB RID: 3275
-		public TraitDef def;
-
-		// Token: 0x04000CCC RID: 3276
-		public int degree;
 	}
 }

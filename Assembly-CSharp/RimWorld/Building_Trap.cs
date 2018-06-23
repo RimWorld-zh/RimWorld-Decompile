@@ -10,6 +10,21 @@ namespace RimWorld
 	// Token: 0x02000682 RID: 1666
 	public abstract class Building_Trap : Building
 	{
+		// Token: 0x040013BE RID: 5054
+		private List<Pawn> touchingPawns = new List<Pawn>();
+
+		// Token: 0x040013BF RID: 5055
+		private const float KnowerSpringChance = 0.004f;
+
+		// Token: 0x040013C0 RID: 5056
+		private const ushort KnowerPathFindCost = 800;
+
+		// Token: 0x040013C1 RID: 5057
+		private const ushort KnowerPathWalkCost = 30;
+
+		// Token: 0x040013C2 RID: 5058
+		private const float AnimalSpringChanceFactor = 0.1f;
+
 		// Token: 0x1700052A RID: 1322
 		// (get) Token: 0x0600231C RID: 8988 RVA: 0x0012E460 File Offset: 0x0012C860
 		public virtual bool Armed
@@ -175,20 +190,5 @@ namespace RimWorld
 
 		// Token: 0x06002327 RID: 8999
 		protected abstract void SpringSub(Pawn p);
-
-		// Token: 0x040013BE RID: 5054
-		private List<Pawn> touchingPawns = new List<Pawn>();
-
-		// Token: 0x040013BF RID: 5055
-		private const float KnowerSpringChance = 0.004f;
-
-		// Token: 0x040013C0 RID: 5056
-		private const ushort KnowerPathFindCost = 800;
-
-		// Token: 0x040013C1 RID: 5057
-		private const ushort KnowerPathWalkCost = 30;
-
-		// Token: 0x040013C2 RID: 5058
-		private const float AnimalSpringChanceFactor = 0.1f;
 	}
 }

@@ -10,6 +10,21 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public sealed class PawnDestinationReservationManager : IExposable
 	{
+		// Token: 0x040032BC RID: 12988
+		private Dictionary<Faction, PawnDestinationReservationManager.PawnDestinationSet> reservedDestinations = new Dictionary<Faction, PawnDestinationReservationManager.PawnDestinationSet>();
+
+		// Token: 0x040032BD RID: 12989
+		private static readonly Material DestinationMat = MaterialPool.MatFrom("UI/Overlays/ReservedDestination");
+
+		// Token: 0x040032BE RID: 12990
+		private static readonly Material DestinationSelectionMat = MaterialPool.MatFrom("UI/Overlays/ReservedDestinationSelection");
+
+		// Token: 0x040032BF RID: 12991
+		private List<Faction> reservedDestinationsKeysWorkingList;
+
+		// Token: 0x040032C0 RID: 12992
+		private List<PawnDestinationReservationManager.PawnDestinationSet> reservedDestinationsValuesWorkingList;
+
 		// Token: 0x06004B94 RID: 19348 RVA: 0x00277B7C File Offset: 0x00275F7C
 		public PawnDestinationReservationManager()
 		{
@@ -286,33 +301,9 @@ namespace Verse
 			Scribe_Collections.Look<Faction, PawnDestinationReservationManager.PawnDestinationSet>(ref this.reservedDestinations, "reservedDestinations", LookMode.Reference, LookMode.Deep, ref this.reservedDestinationsKeysWorkingList, ref this.reservedDestinationsValuesWorkingList);
 		}
 
-		// Token: 0x040032BC RID: 12988
-		private Dictionary<Faction, PawnDestinationReservationManager.PawnDestinationSet> reservedDestinations = new Dictionary<Faction, PawnDestinationReservationManager.PawnDestinationSet>();
-
-		// Token: 0x040032BD RID: 12989
-		private static readonly Material DestinationMat = MaterialPool.MatFrom("UI/Overlays/ReservedDestination");
-
-		// Token: 0x040032BE RID: 12990
-		private static readonly Material DestinationSelectionMat = MaterialPool.MatFrom("UI/Overlays/ReservedDestinationSelection");
-
-		// Token: 0x040032BF RID: 12991
-		private List<Faction> reservedDestinationsKeysWorkingList;
-
-		// Token: 0x040032C0 RID: 12992
-		private List<PawnDestinationReservationManager.PawnDestinationSet> reservedDestinationsValuesWorkingList;
-
 		// Token: 0x02000D4B RID: 3403
 		public class PawnDestinationReservation : IExposable
 		{
-			// Token: 0x06004BA5 RID: 19365 RVA: 0x002783B0 File Offset: 0x002767B0
-			public void ExposeData()
-			{
-				Scribe_Values.Look<IntVec3>(ref this.target, "target", default(IntVec3), false);
-				Scribe_References.Look<Pawn>(ref this.claimant, "claimant", false);
-				Scribe_References.Look<Job>(ref this.job, "job", false);
-				Scribe_Values.Look<bool>(ref this.obsolete, "obsolete", false, false);
-			}
-
 			// Token: 0x040032C1 RID: 12993
 			public IntVec3 target;
 
@@ -324,11 +315,23 @@ namespace Verse
 
 			// Token: 0x040032C4 RID: 12996
 			public bool obsolete;
+
+			// Token: 0x06004BA5 RID: 19365 RVA: 0x002783B0 File Offset: 0x002767B0
+			public void ExposeData()
+			{
+				Scribe_Values.Look<IntVec3>(ref this.target, "target", default(IntVec3), false);
+				Scribe_References.Look<Pawn>(ref this.claimant, "claimant", false);
+				Scribe_References.Look<Job>(ref this.job, "job", false);
+				Scribe_Values.Look<bool>(ref this.obsolete, "obsolete", false, false);
+			}
 		}
 
 		// Token: 0x02000D4C RID: 3404
 		public class PawnDestinationSet : IExposable
 		{
+			// Token: 0x040032C5 RID: 12997
+			public List<PawnDestinationReservationManager.PawnDestinationReservation> list = new List<PawnDestinationReservationManager.PawnDestinationReservation>();
+
 			// Token: 0x06004BA7 RID: 19367 RVA: 0x00278420 File Offset: 0x00276820
 			public void ExposeData()
 			{
@@ -341,9 +344,6 @@ namespace Verse
 					}
 				}
 			}
-
-			// Token: 0x040032C5 RID: 12997
-			public List<PawnDestinationReservationManager.PawnDestinationReservation> list = new List<PawnDestinationReservationManager.PawnDestinationReservation>();
 		}
 	}
 }

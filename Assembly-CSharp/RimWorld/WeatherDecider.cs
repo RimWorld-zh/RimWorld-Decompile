@@ -8,6 +8,21 @@ namespace RimWorld
 	// Token: 0x02000447 RID: 1095
 	public class WeatherDecider : IExposable
 	{
+		// Token: 0x04000B92 RID: 2962
+		private Map map;
+
+		// Token: 0x04000B93 RID: 2963
+		private int curWeatherDuration = 10000;
+
+		// Token: 0x04000B94 RID: 2964
+		private int ticksWhenRainAllowedAgain = 0;
+
+		// Token: 0x04000B95 RID: 2965
+		private const int FirstWeatherDuration = 10000;
+
+		// Token: 0x04000B96 RID: 2966
+		private const float ChanceFactorRainOnFire = 15f;
+
 		// Token: 0x06001303 RID: 4867 RVA: 0x000A41D7 File Offset: 0x000A25D7
 		public WeatherDecider(Map map)
 		{
@@ -156,20 +171,5 @@ namespace RimWorld
 			}
 			Log.Message(stringBuilder.ToString(), false);
 		}
-
-		// Token: 0x04000B92 RID: 2962
-		private Map map;
-
-		// Token: 0x04000B93 RID: 2963
-		private int curWeatherDuration = 10000;
-
-		// Token: 0x04000B94 RID: 2964
-		private int ticksWhenRainAllowedAgain = 0;
-
-		// Token: 0x04000B95 RID: 2965
-		private const int FirstWeatherDuration = 10000;
-
-		// Token: 0x04000B96 RID: 2966
-		private const float ChanceFactorRainOnFire = 15f;
 	}
 }

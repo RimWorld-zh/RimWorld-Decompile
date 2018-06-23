@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000C25 RID: 3109
 	public sealed class ThingGrid
 	{
+		// Token: 0x04002E6E RID: 11886
+		private Map map;
+
+		// Token: 0x04002E6F RID: 11887
+		private List<Thing>[] thingGrid;
+
+		// Token: 0x04002E70 RID: 11888
+		private static readonly List<Thing> EmptyThingList = new List<Thing>();
+
 		// Token: 0x06004453 RID: 17491 RVA: 0x0023F3FC File Offset: 0x0023D7FC
 		public ThingGrid(Map map)
 		{
@@ -222,14 +231,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04002E6E RID: 11886
-		private Map map;
-
-		// Token: 0x04002E6F RID: 11887
-		private List<Thing>[] thingGrid;
-
-		// Token: 0x04002E70 RID: 11888
-		private static readonly List<Thing> EmptyThingList = new List<Thing>();
 	}
 }

@@ -9,6 +9,18 @@ namespace RimWorld
 	// Token: 0x020000BD RID: 189
 	public class JobGiver_AISapper : ThinkNode_JobGiver
 	{
+		// Token: 0x04000290 RID: 656
+		private bool canMineMineables = true;
+
+		// Token: 0x04000291 RID: 657
+		private bool canMineNonMineables = true;
+
+		// Token: 0x04000292 RID: 658
+		private const float ReachDestDist = 10f;
+
+		// Token: 0x04000293 RID: 659
+		private const int CheckOverrideInterval = 500;
+
 		// Token: 0x06000476 RID: 1142 RVA: 0x00032F98 File Offset: 0x00031398
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -65,17 +77,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000290 RID: 656
-		private bool canMineMineables = true;
-
-		// Token: 0x04000291 RID: 657
-		private bool canMineNonMineables = true;
-
-		// Token: 0x04000292 RID: 658
-		private const float ReachDestDist = 10f;
-
-		// Token: 0x04000293 RID: 659
-		private const int CheckOverrideInterval = 500;
 	}
 }

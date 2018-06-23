@@ -12,6 +12,12 @@ namespace RimWorld
 	// Token: 0x0200083B RID: 2107
 	public static class FloatMenuMakerMap
 	{
+		// Token: 0x040019CA RID: 6602
+		public static Pawn makingFor;
+
+		// Token: 0x040019CB RID: 6603
+		private static FloatMenuOption[] equivalenceGroupTempStorage;
+
 		// Token: 0x06002FB5 RID: 12213 RVA: 0x00199600 File Offset: 0x00197A00
 		private static bool CanTakeOrder(Pawn pawn)
 		{
@@ -1379,11 +1385,5 @@ namespace RimWorld
 			}
 			return null;
 		}
-
-		// Token: 0x040019CA RID: 6602
-		public static Pawn makingFor;
-
-		// Token: 0x040019CB RID: 6603
-		private static FloatMenuOption[] equivalenceGroupTempStorage;
 	}
 }

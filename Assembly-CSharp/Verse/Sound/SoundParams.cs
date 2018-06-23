@@ -6,6 +6,12 @@ namespace Verse.Sound
 	// Token: 0x02000DBD RID: 3517
 	public class SoundParams
 	{
+		// Token: 0x0400344C RID: 13388
+		private Dictionary<string, float> storedParams = new Dictionary<string, float>();
+
+		// Token: 0x0400344D RID: 13389
+		public SoundSizeAggregator sizeAggregator = null;
+
 		// Token: 0x17000CB1 RID: 3249
 		public float this[string key]
 		{
@@ -24,11 +30,5 @@ namespace Verse.Sound
 		{
 			return this.storedParams.TryGetValue(key, out val);
 		}
-
-		// Token: 0x0400344C RID: 13388
-		private Dictionary<string, float> storedParams = new Dictionary<string, float>();
-
-		// Token: 0x0400344D RID: 13389
-		public SoundSizeAggregator sizeAggregator = null;
 	}
 }

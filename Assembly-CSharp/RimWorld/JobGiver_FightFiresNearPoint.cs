@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020000D0 RID: 208
 	internal class JobGiver_FightFiresNearPoint : ThinkNode_JobGiver
 	{
+		// Token: 0x0400029E RID: 670
+		public float maxDistFromPoint = -1f;
+
 		// Token: 0x060004B2 RID: 1202 RVA: 0x00035084 File Offset: 0x00033484
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -36,8 +39,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x0400029E RID: 670
-		public float maxDistFromPoint = -1f;
 	}
 }

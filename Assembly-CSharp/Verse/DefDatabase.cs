@@ -8,6 +8,12 @@ namespace Verse
 	// Token: 0x02000AF1 RID: 2801
 	public static class DefDatabase<T> where T : Def, new()
 	{
+		// Token: 0x0400273F RID: 10047
+		private static List<T> defsList = new List<T>();
+
+		// Token: 0x04002740 RID: 10048
+		private static Dictionary<string, T> defsByName = new Dictionary<string, T>();
+
 		// Token: 0x17000954 RID: 2388
 		// (get) Token: 0x06003E08 RID: 15880 RVA: 0x0020B5FC File Offset: 0x002099FC
 		public static IEnumerable<T> AllDefs
@@ -297,11 +303,5 @@ namespace Verse
 		{
 			return DefDatabase<T>.defsList.RandomElement<T>();
 		}
-
-		// Token: 0x0400273F RID: 10047
-		private static List<T> defsList = new List<T>();
-
-		// Token: 0x04002740 RID: 10048
-		private static Dictionary<string, T> defsByName = new Dictionary<string, T>();
 	}
 }

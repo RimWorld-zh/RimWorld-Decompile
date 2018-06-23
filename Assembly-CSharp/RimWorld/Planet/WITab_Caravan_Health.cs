@@ -9,6 +9,36 @@ namespace RimWorld.Planet
 	// Token: 0x020008E1 RID: 2273
 	public class WITab_Caravan_Health : WITab
 	{
+		// Token: 0x04001C3A RID: 7226
+		private Vector2 scrollPosition;
+
+		// Token: 0x04001C3B RID: 7227
+		private float scrollViewHeight;
+
+		// Token: 0x04001C3C RID: 7228
+		private Pawn specificHealthTabForPawn;
+
+		// Token: 0x04001C3D RID: 7229
+		private bool compactMode;
+
+		// Token: 0x04001C3E RID: 7230
+		private static List<PawnCapacityDef> capacitiesToDisplay = new List<PawnCapacityDef>();
+
+		// Token: 0x04001C3F RID: 7231
+		private const float RowHeight = 50f;
+
+		// Token: 0x04001C40 RID: 7232
+		private const float PawnLabelHeight = 18f;
+
+		// Token: 0x04001C41 RID: 7233
+		private const float PawnLabelColumnWidth = 100f;
+
+		// Token: 0x04001C42 RID: 7234
+		private const float SpaceAroundIcon = 4f;
+
+		// Token: 0x04001C43 RID: 7235
+		private const float PawnCapacityColumnWidth = 100f;
+
 		// Token: 0x0600343C RID: 13372 RVA: 0x001BF1CD File Offset: 0x001BD5CD
 		public WITab_Caravan_Health()
 		{
@@ -297,35 +327,5 @@ namespace RimWorld.Planet
 			Text.Anchor = TextAnchor.UpperLeft;
 			TooltipHandler.TipRegion(rect, pawnCapacityTip);
 		}
-
-		// Token: 0x04001C3A RID: 7226
-		private Vector2 scrollPosition;
-
-		// Token: 0x04001C3B RID: 7227
-		private float scrollViewHeight;
-
-		// Token: 0x04001C3C RID: 7228
-		private Pawn specificHealthTabForPawn;
-
-		// Token: 0x04001C3D RID: 7229
-		private bool compactMode;
-
-		// Token: 0x04001C3E RID: 7230
-		private static List<PawnCapacityDef> capacitiesToDisplay = new List<PawnCapacityDef>();
-
-		// Token: 0x04001C3F RID: 7231
-		private const float RowHeight = 50f;
-
-		// Token: 0x04001C40 RID: 7232
-		private const float PawnLabelHeight = 18f;
-
-		// Token: 0x04001C41 RID: 7233
-		private const float PawnLabelColumnWidth = 100f;
-
-		// Token: 0x04001C42 RID: 7234
-		private const float SpaceAroundIcon = 4f;
-
-		// Token: 0x04001C43 RID: 7235
-		private const float PawnCapacityColumnWidth = 100f;
 	}
 }

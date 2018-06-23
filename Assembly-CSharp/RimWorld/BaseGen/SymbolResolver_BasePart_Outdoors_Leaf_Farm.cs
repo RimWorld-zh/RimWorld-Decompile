@@ -5,6 +5,9 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003A0 RID: 928
 	public class SymbolResolver_BasePart_Outdoors_Leaf_Farm : SymbolResolver
 	{
+		// Token: 0x04000A0D RID: 2573
+		private const float MaxCoverage = 0.55f;
+
 		// Token: 0x0600102A RID: 4138 RVA: 0x0008825C File Offset: 0x0008665C
 		public override bool CanResolve(ResolveParams rp)
 		{
@@ -17,8 +20,5 @@ namespace RimWorld.BaseGen
 			BaseGen.symbolStack.Push("farm", rp);
 			BaseGen.globalSettings.basePart_farmsCoverage += (float)rp.rect.Area / (float)BaseGen.globalSettings.mainRect.Area;
 		}
-
-		// Token: 0x04000A0D RID: 2573
-		private const float MaxCoverage = 0.55f;
 	}
 }

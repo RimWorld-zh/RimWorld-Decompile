@@ -7,6 +7,30 @@ namespace RimWorld.Planet
 	// Token: 0x02000567 RID: 1383
 	public abstract class FeatureWorker_Cluster : FeatureWorker
 	{
+		// Token: 0x04000F4C RID: 3916
+		private List<int> roots = new List<int>();
+
+		// Token: 0x04000F4D RID: 3917
+		private HashSet<int> rootsSet = new HashSet<int>();
+
+		// Token: 0x04000F4E RID: 3918
+		private List<int> rootsWithAreaInBetween = new List<int>();
+
+		// Token: 0x04000F4F RID: 3919
+		private HashSet<int> rootsWithAreaInBetweenSet = new HashSet<int>();
+
+		// Token: 0x04000F50 RID: 3920
+		private List<int> currentGroup = new List<int>();
+
+		// Token: 0x04000F51 RID: 3921
+		private List<int> currentGroupMembers = new List<int>();
+
+		// Token: 0x04000F52 RID: 3922
+		private HashSet<int> visitedValidGroupIDs = new HashSet<int>();
+
+		// Token: 0x04000F53 RID: 3923
+		private static List<int> tmpGroup = new List<int>();
+
 		// Token: 0x170003B0 RID: 944
 		// (get) Token: 0x06001A29 RID: 6697 RVA: 0x000E2DC8 File Offset: 0x000E11C8
 		protected virtual int MinRootGroupsInCluster
@@ -218,29 +242,5 @@ namespace RimWorld.Planet
 				}
 			}
 		}
-
-		// Token: 0x04000F4C RID: 3916
-		private List<int> roots = new List<int>();
-
-		// Token: 0x04000F4D RID: 3917
-		private HashSet<int> rootsSet = new HashSet<int>();
-
-		// Token: 0x04000F4E RID: 3918
-		private List<int> rootsWithAreaInBetween = new List<int>();
-
-		// Token: 0x04000F4F RID: 3919
-		private HashSet<int> rootsWithAreaInBetweenSet = new HashSet<int>();
-
-		// Token: 0x04000F50 RID: 3920
-		private List<int> currentGroup = new List<int>();
-
-		// Token: 0x04000F51 RID: 3921
-		private List<int> currentGroupMembers = new List<int>();
-
-		// Token: 0x04000F52 RID: 3922
-		private HashSet<int> visitedValidGroupIDs = new HashSet<int>();
-
-		// Token: 0x04000F53 RID: 3923
-		private static List<int> tmpGroup = new List<int>();
 	}
 }

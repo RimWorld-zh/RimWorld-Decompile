@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x02000041 RID: 65
 	public class JobDriver_ConstructFinishFrame : JobDriver
 	{
+		// Token: 0x040001D1 RID: 465
+		private const int JobEndInterval = 5000;
+
 		// Token: 0x17000074 RID: 116
 		// (get) Token: 0x0600022B RID: 555 RVA: 0x00016C80 File Offset: 0x00015080
 		private Frame Frame
@@ -79,8 +82,5 @@ namespace RimWorld
 			yield return build;
 			yield break;
 		}
-
-		// Token: 0x040001D1 RID: 465
-		private const int JobEndInterval = 5000;
 	}
 }

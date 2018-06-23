@@ -9,6 +9,24 @@ namespace Verse.AI
 	// Token: 0x02000118 RID: 280
 	public static class HaulAIUtility
 	{
+		// Token: 0x040002FC RID: 764
+		private static string ForbiddenLowerTrans;
+
+		// Token: 0x040002FD RID: 765
+		private static string ForbiddenOutsideAllowedAreaLowerTrans;
+
+		// Token: 0x040002FE RID: 766
+		private static string ReservedForPrisonersTrans;
+
+		// Token: 0x040002FF RID: 767
+		private static string BurningLowerTrans;
+
+		// Token: 0x04000300 RID: 768
+		private static string NoEmptyPlaceLowerTrans;
+
+		// Token: 0x04000301 RID: 769
+		private static List<IntVec3> candidates = new List<IntVec3>();
+
 		// Token: 0x060005B2 RID: 1458 RVA: 0x0003DBF0 File Offset: 0x0003BFF0
 		public static void Reset()
 		{
@@ -339,23 +357,5 @@ namespace Verse.AI
 			}
 			return result;
 		}
-
-		// Token: 0x040002FC RID: 764
-		private static string ForbiddenLowerTrans;
-
-		// Token: 0x040002FD RID: 765
-		private static string ForbiddenOutsideAllowedAreaLowerTrans;
-
-		// Token: 0x040002FE RID: 766
-		private static string ReservedForPrisonersTrans;
-
-		// Token: 0x040002FF RID: 767
-		private static string BurningLowerTrans;
-
-		// Token: 0x04000300 RID: 768
-		private static string NoEmptyPlaceLowerTrans;
-
-		// Token: 0x04000301 RID: 769
-		private static List<IntVec3> candidates = new List<IntVec3>();
 	}
 }

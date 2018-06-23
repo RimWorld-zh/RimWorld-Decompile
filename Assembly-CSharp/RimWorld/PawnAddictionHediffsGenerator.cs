@@ -8,6 +8,18 @@ namespace RimWorld
 	// Token: 0x02000485 RID: 1157
 	public static class PawnAddictionHediffsGenerator
 	{
+		// Token: 0x04000C42 RID: 3138
+		private static List<ThingDef> allDrugs = new List<ThingDef>();
+
+		// Token: 0x04000C43 RID: 3139
+		private const int MaxAddictions = 3;
+
+		// Token: 0x04000C44 RID: 3140
+		private static readonly FloatRange GeneratedAddictionSeverityRange = new FloatRange(0.6f, 1f);
+
+		// Token: 0x04000C45 RID: 3141
+		private static readonly FloatRange GeneratedToleranceSeverityRange = new FloatRange(0.1f, 0.9f);
+
 		// Token: 0x0600146F RID: 5231 RVA: 0x000B3188 File Offset: 0x000B1588
 		public static void GenerateAddictionsAndTolerancesFor(Pawn pawn)
 		{
@@ -83,17 +95,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000C42 RID: 3138
-		private static List<ThingDef> allDrugs = new List<ThingDef>();
-
-		// Token: 0x04000C43 RID: 3139
-		private const int MaxAddictions = 3;
-
-		// Token: 0x04000C44 RID: 3140
-		private static readonly FloatRange GeneratedAddictionSeverityRange = new FloatRange(0.6f, 1f);
-
-		// Token: 0x04000C45 RID: 3141
-		private static readonly FloatRange GeneratedToleranceSeverityRange = new FloatRange(0.1f, 0.9f);
 	}
 }

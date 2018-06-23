@@ -10,6 +10,18 @@ namespace Verse
 	[HasDebugOutput]
 	public static class Rand
 	{
+		// Token: 0x04003F7E RID: 16254
+		private static Stack<ulong> stateStack = new Stack<ulong>();
+
+		// Token: 0x04003F7F RID: 16255
+		private static RandomNumberGenerator random = new RandomNumberGenerator_BasicHash();
+
+		// Token: 0x04003F80 RID: 16256
+		private static uint iterations = 0u;
+
+		// Token: 0x04003F81 RID: 16257
+		private static List<int> tmpRange = new List<int>();
+
 		// Token: 0x06006102 RID: 24834 RVA: 0x00310698 File Offset: 0x0030EA98
 		static Rand()
 		{
@@ -715,17 +727,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003F7E RID: 16254
-		private static Stack<ulong> stateStack = new Stack<ulong>();
-
-		// Token: 0x04003F7F RID: 16255
-		private static RandomNumberGenerator random = new RandomNumberGenerator_BasicHash();
-
-		// Token: 0x04003F80 RID: 16256
-		private static uint iterations = 0u;
-
-		// Token: 0x04003F81 RID: 16257
-		private static List<int> tmpRange = new List<int>();
 	}
 }

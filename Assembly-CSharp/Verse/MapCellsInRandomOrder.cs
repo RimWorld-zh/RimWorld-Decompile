@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000F5E RID: 3934
 	public class MapCellsInRandomOrder
 	{
+		// Token: 0x04003E6E RID: 15982
+		private Map map;
+
+		// Token: 0x04003E6F RID: 15983
+		private List<IntVec3> randomizedCells;
+
 		// Token: 0x06005F46 RID: 24390 RVA: 0x00309656 File Offset: 0x00307A56
 		public MapCellsInRandomOrder(Map map)
 		{
@@ -42,11 +48,5 @@ namespace Verse
 				Rand.PopState();
 			}
 		}
-
-		// Token: 0x04003E6E RID: 15982
-		private Map map;
-
-		// Token: 0x04003E6F RID: 15983
-		private List<IntVec3> randomizedCells;
 	}
 }

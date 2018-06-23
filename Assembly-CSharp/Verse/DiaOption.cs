@@ -8,6 +8,36 @@ namespace Verse
 	// Token: 0x02000EC2 RID: 3778
 	public class DiaOption
 	{
+		// Token: 0x04003BAB RID: 15275
+		public Window dialog;
+
+		// Token: 0x04003BAC RID: 15276
+		protected string text;
+
+		// Token: 0x04003BAD RID: 15277
+		public DiaNode link;
+
+		// Token: 0x04003BAE RID: 15278
+		public Func<DiaNode> linkLateBind;
+
+		// Token: 0x04003BAF RID: 15279
+		public bool resolveTree = false;
+
+		// Token: 0x04003BB0 RID: 15280
+		public Action action;
+
+		// Token: 0x04003BB1 RID: 15281
+		public bool disabled = false;
+
+		// Token: 0x04003BB2 RID: 15282
+		public string disabledReason = null;
+
+		// Token: 0x04003BB3 RID: 15283
+		public SoundDef clickSound = SoundDefOf.PageChange;
+
+		// Token: 0x04003BB4 RID: 15284
+		protected readonly Color DisabledOptionColor = new Color(0.5f, 0.5f, 0.5f);
+
 		// Token: 0x06005964 RID: 22884 RVA: 0x002DD328 File Offset: 0x002DB728
 		public DiaOption()
 		{
@@ -106,35 +136,5 @@ namespace Verse
 				this.OwningDialog.GotoNode(this.link);
 			}
 		}
-
-		// Token: 0x04003BAB RID: 15275
-		public Window dialog;
-
-		// Token: 0x04003BAC RID: 15276
-		protected string text;
-
-		// Token: 0x04003BAD RID: 15277
-		public DiaNode link;
-
-		// Token: 0x04003BAE RID: 15278
-		public Func<DiaNode> linkLateBind;
-
-		// Token: 0x04003BAF RID: 15279
-		public bool resolveTree = false;
-
-		// Token: 0x04003BB0 RID: 15280
-		public Action action;
-
-		// Token: 0x04003BB1 RID: 15281
-		public bool disabled = false;
-
-		// Token: 0x04003BB2 RID: 15282
-		public string disabledReason = null;
-
-		// Token: 0x04003BB3 RID: 15283
-		public SoundDef clickSound = SoundDefOf.PageChange;
-
-		// Token: 0x04003BB4 RID: 15284
-		protected readonly Color DisabledOptionColor = new Color(0.5f, 0.5f, 0.5f);
 	}
 }

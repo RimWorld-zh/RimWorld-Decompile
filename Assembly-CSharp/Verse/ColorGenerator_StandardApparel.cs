@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000B09 RID: 2825
 	public class ColorGenerator_StandardApparel : ColorGenerator
 	{
+		// Token: 0x040027DF RID: 10207
+		private const float DarkAmp = 0.4f;
+
 		// Token: 0x17000971 RID: 2417
 		// (get) Token: 0x06003E8C RID: 16012 RVA: 0x0020F4B8 File Offset: 0x0020D8B8
 		public override Color ExemplaryColor
@@ -45,8 +48,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x040027DF RID: 10207
-		private const float DarkAmp = 0.4f;
 	}
 }

@@ -11,6 +11,96 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class GenUI
 	{
+		// Token: 0x04003A52 RID: 14930
+		public const float Pad = 10f;
+
+		// Token: 0x04003A53 RID: 14931
+		public const float GapTiny = 4f;
+
+		// Token: 0x04003A54 RID: 14932
+		public const float GapSmall = 10f;
+
+		// Token: 0x04003A55 RID: 14933
+		public const float Gap = 17f;
+
+		// Token: 0x04003A56 RID: 14934
+		public const float GapWide = 26f;
+
+		// Token: 0x04003A57 RID: 14935
+		public const float ListSpacing = 28f;
+
+		// Token: 0x04003A58 RID: 14936
+		public const float MouseAttachIconSize = 32f;
+
+		// Token: 0x04003A59 RID: 14937
+		public const float MouseAttachIconOffset = 8f;
+
+		// Token: 0x04003A5A RID: 14938
+		public const float ScrollBarWidth = 16f;
+
+		// Token: 0x04003A5B RID: 14939
+		public const float HorizontalSliderHeight = 16f;
+
+		// Token: 0x04003A5C RID: 14940
+		public static readonly Vector2 TradeableDrawSize = new Vector2(150f, 45f);
+
+		// Token: 0x04003A5D RID: 14941
+		public static readonly Color MouseoverColor = new Color(0.3f, 0.7f, 0.9f);
+
+		// Token: 0x04003A5E RID: 14942
+		public static readonly Color SubtleMouseoverColor = new Color(0.7f, 0.7f, 0.7f);
+
+		// Token: 0x04003A5F RID: 14943
+		public static readonly Vector2 MaxWinSize = new Vector2(1010f, 754f);
+
+		// Token: 0x04003A60 RID: 14944
+		public const float SmallIconSize = 24f;
+
+		// Token: 0x04003A61 RID: 14945
+		public const int RootGUIDepth = 50;
+
+		// Token: 0x04003A62 RID: 14946
+		public const int CameraGUIDepth = 100;
+
+		// Token: 0x04003A63 RID: 14947
+		private const float MouseIconSize = 32f;
+
+		// Token: 0x04003A64 RID: 14948
+		private const float MouseIconOffset = 12f;
+
+		// Token: 0x04003A65 RID: 14949
+		private static readonly Material MouseoverBracketMaterial = MaterialPool.MatFrom("UI/Overlays/MouseoverBracketTex", ShaderDatabase.MetaOverlay);
+
+		// Token: 0x04003A66 RID: 14950
+		private static readonly Texture2D UnderShadowTex = ContentFinder<Texture2D>.Get("UI/Misc/ScreenCornerShadow", true);
+
+		// Token: 0x04003A67 RID: 14951
+		private static readonly Texture2D UIFlash = ContentFinder<Texture2D>.Get("UI/Misc/Flash", true);
+
+		// Token: 0x04003A68 RID: 14952
+		private static Dictionary<string, float> labelWidthCache = new Dictionary<string, float>();
+
+		// Token: 0x04003A69 RID: 14953
+		private static readonly Vector2 PieceBarSize = new Vector2(100f, 17f);
+
+		// Token: 0x04003A6A RID: 14954
+		public const float PawnDirectClickRadius = 0.4f;
+
+		// Token: 0x04003A6B RID: 14955
+		private static List<Pawn> clickedPawns = new List<Pawn>();
+
+		// Token: 0x04003A6C RID: 14956
+		[CompilerGenerated]
+		private static Comparison<Pawn> <>f__mg$cache0;
+
+		// Token: 0x04003A6D RID: 14957
+		[CompilerGenerated]
+		private static Comparison<Thing> <>f__mg$cache1;
+
+		// Token: 0x04003A6E RID: 14958
+		[CompilerGenerated]
+		private static Comparison<Pawn> <>f__mg$cache2;
+
 		// Token: 0x0600582F RID: 22575 RVA: 0x002D368A File Offset: 0x002D1A8A
 		public static void SetLabelAlign(TextAnchor a)
 		{
@@ -555,95 +645,5 @@ namespace Verse
 			float num = (float)buttonsCount * buttonWidth + (float)(buttonsCount - 1) * pad;
 			return Mathf.Floor((totalWidth - num) / 2f + (float)buttonIndex * (buttonWidth + pad));
 		}
-
-		// Token: 0x04003A52 RID: 14930
-		public const float Pad = 10f;
-
-		// Token: 0x04003A53 RID: 14931
-		public const float GapTiny = 4f;
-
-		// Token: 0x04003A54 RID: 14932
-		public const float GapSmall = 10f;
-
-		// Token: 0x04003A55 RID: 14933
-		public const float Gap = 17f;
-
-		// Token: 0x04003A56 RID: 14934
-		public const float GapWide = 26f;
-
-		// Token: 0x04003A57 RID: 14935
-		public const float ListSpacing = 28f;
-
-		// Token: 0x04003A58 RID: 14936
-		public const float MouseAttachIconSize = 32f;
-
-		// Token: 0x04003A59 RID: 14937
-		public const float MouseAttachIconOffset = 8f;
-
-		// Token: 0x04003A5A RID: 14938
-		public const float ScrollBarWidth = 16f;
-
-		// Token: 0x04003A5B RID: 14939
-		public const float HorizontalSliderHeight = 16f;
-
-		// Token: 0x04003A5C RID: 14940
-		public static readonly Vector2 TradeableDrawSize = new Vector2(150f, 45f);
-
-		// Token: 0x04003A5D RID: 14941
-		public static readonly Color MouseoverColor = new Color(0.3f, 0.7f, 0.9f);
-
-		// Token: 0x04003A5E RID: 14942
-		public static readonly Color SubtleMouseoverColor = new Color(0.7f, 0.7f, 0.7f);
-
-		// Token: 0x04003A5F RID: 14943
-		public static readonly Vector2 MaxWinSize = new Vector2(1010f, 754f);
-
-		// Token: 0x04003A60 RID: 14944
-		public const float SmallIconSize = 24f;
-
-		// Token: 0x04003A61 RID: 14945
-		public const int RootGUIDepth = 50;
-
-		// Token: 0x04003A62 RID: 14946
-		public const int CameraGUIDepth = 100;
-
-		// Token: 0x04003A63 RID: 14947
-		private const float MouseIconSize = 32f;
-
-		// Token: 0x04003A64 RID: 14948
-		private const float MouseIconOffset = 12f;
-
-		// Token: 0x04003A65 RID: 14949
-		private static readonly Material MouseoverBracketMaterial = MaterialPool.MatFrom("UI/Overlays/MouseoverBracketTex", ShaderDatabase.MetaOverlay);
-
-		// Token: 0x04003A66 RID: 14950
-		private static readonly Texture2D UnderShadowTex = ContentFinder<Texture2D>.Get("UI/Misc/ScreenCornerShadow", true);
-
-		// Token: 0x04003A67 RID: 14951
-		private static readonly Texture2D UIFlash = ContentFinder<Texture2D>.Get("UI/Misc/Flash", true);
-
-		// Token: 0x04003A68 RID: 14952
-		private static Dictionary<string, float> labelWidthCache = new Dictionary<string, float>();
-
-		// Token: 0x04003A69 RID: 14953
-		private static readonly Vector2 PieceBarSize = new Vector2(100f, 17f);
-
-		// Token: 0x04003A6A RID: 14954
-		public const float PawnDirectClickRadius = 0.4f;
-
-		// Token: 0x04003A6B RID: 14955
-		private static List<Pawn> clickedPawns = new List<Pawn>();
-
-		// Token: 0x04003A6C RID: 14956
-		[CompilerGenerated]
-		private static Comparison<Pawn> <>f__mg$cache0;
-
-		// Token: 0x04003A6D RID: 14957
-		[CompilerGenerated]
-		private static Comparison<Thing> <>f__mg$cache1;
-
-		// Token: 0x04003A6E RID: 14958
-		[CompilerGenerated]
-		private static Comparison<Pawn> <>f__mg$cache2;
 	}
 }

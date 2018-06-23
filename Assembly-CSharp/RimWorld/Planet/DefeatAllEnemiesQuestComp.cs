@@ -7,6 +7,21 @@ namespace RimWorld.Planet
 	// Token: 0x0200061A RID: 1562
 	public class DefeatAllEnemiesQuestComp : WorldObjectComp, IThingHolder
 	{
+		// Token: 0x04001264 RID: 4708
+		private bool active;
+
+		// Token: 0x04001265 RID: 4709
+		public Faction requestingFaction;
+
+		// Token: 0x04001266 RID: 4710
+		public int relationsImprovement;
+
+		// Token: 0x04001267 RID: 4711
+		public ThingOwner rewards;
+
+		// Token: 0x04001268 RID: 4712
+		private static List<Thing> tmpRewards = new List<Thing>();
+
 		// Token: 0x06001FB8 RID: 8120 RVA: 0x00111ECF File Offset: 0x001102CF
 		public DefeatAllEnemiesQuestComp()
 		{
@@ -139,20 +154,5 @@ namespace RimWorld.Planet
 			}
 			return result;
 		}
-
-		// Token: 0x04001264 RID: 4708
-		private bool active;
-
-		// Token: 0x04001265 RID: 4709
-		public Faction requestingFaction;
-
-		// Token: 0x04001266 RID: 4710
-		public int relationsImprovement;
-
-		// Token: 0x04001267 RID: 4711
-		public ThingOwner rewards;
-
-		// Token: 0x04001268 RID: 4712
-		private static List<Thing> tmpRewards = new List<Thing>();
 	}
 }

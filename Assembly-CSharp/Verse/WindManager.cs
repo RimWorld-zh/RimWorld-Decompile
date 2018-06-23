@@ -9,6 +9,21 @@ namespace Verse
 	// Token: 0x02000CAF RID: 3247
 	public class WindManager
 	{
+		// Token: 0x0400309A RID: 12442
+		private Map map;
+
+		// Token: 0x0400309B RID: 12443
+		private static List<Material> plantMaterials = new List<Material>();
+
+		// Token: 0x0400309C RID: 12444
+		private float cachedWindSpeed;
+
+		// Token: 0x0400309D RID: 12445
+		private ModuleBase windNoise = null;
+
+		// Token: 0x0400309E RID: 12446
+		private float plantSwayHead = 0f;
+
 		// Token: 0x0600479B RID: 18331 RVA: 0x0025C7FC File Offset: 0x0025ABFC
 		public WindManager(Map map)
 		{
@@ -100,20 +115,5 @@ namespace Verse
 			}
 			Log.Message(stringBuilder.ToString(), false);
 		}
-
-		// Token: 0x0400309A RID: 12442
-		private Map map;
-
-		// Token: 0x0400309B RID: 12443
-		private static List<Material> plantMaterials = new List<Material>();
-
-		// Token: 0x0400309C RID: 12444
-		private float cachedWindSpeed;
-
-		// Token: 0x0400309D RID: 12445
-		private ModuleBase windNoise = null;
-
-		// Token: 0x0400309E RID: 12446
-		private float plantSwayHead = 0f;
 	}
 }

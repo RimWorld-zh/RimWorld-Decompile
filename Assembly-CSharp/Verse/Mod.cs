@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000CBD RID: 3261
 	public abstract class Mod
 	{
+		// Token: 0x040030C9 RID: 12489
+		private ModSettings modSettings;
+
+		// Token: 0x040030CA RID: 12490
+		private ModContentPack intContent;
+
 		// Token: 0x06004804 RID: 18436 RVA: 0x0025EA76 File Offset: 0x0025CE76
 		public Mod(ModContentPack content)
 		{
@@ -63,11 +69,5 @@ namespace Verse
 		{
 			return "";
 		}
-
-		// Token: 0x040030C9 RID: 12489
-		private ModSettings modSettings;
-
-		// Token: 0x040030CA RID: 12490
-		private ModContentPack intContent;
 	}
 }

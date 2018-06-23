@@ -9,6 +9,24 @@ namespace RimWorld.Planet
 	// Token: 0x020005C0 RID: 1472
 	public class WorldGenStep_Roads : WorldGenStep
 	{
+		// Token: 0x040010F3 RID: 4339
+		private static readonly FloatRange ExtraRoadNodesPer100kTiles = new FloatRange(30f, 50f);
+
+		// Token: 0x040010F4 RID: 4340
+		private static readonly IntRange RoadDistanceFromSettlement = new IntRange(-4, 4);
+
+		// Token: 0x040010F5 RID: 4341
+		private const float ChanceExtraNonSpanningTreeLink = 0.015f;
+
+		// Token: 0x040010F6 RID: 4342
+		private const float ChanceHideSpanningTreeLink = 0.1f;
+
+		// Token: 0x040010F7 RID: 4343
+		private const float ChanceWorldObjectReclusive = 0.05f;
+
+		// Token: 0x040010F8 RID: 4344
+		private const int PotentialSpanningTreeLinksPerSettlement = 8;
+
 		// Token: 0x17000422 RID: 1058
 		// (get) Token: 0x06001C53 RID: 7251 RVA: 0x000F377C File Offset: 0x000F1B7C
 		public override int SeedPart
@@ -174,24 +192,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x040010F3 RID: 4339
-		private static readonly FloatRange ExtraRoadNodesPer100kTiles = new FloatRange(30f, 50f);
-
-		// Token: 0x040010F4 RID: 4340
-		private static readonly IntRange RoadDistanceFromSettlement = new IntRange(-4, 4);
-
-		// Token: 0x040010F5 RID: 4341
-		private const float ChanceExtraNonSpanningTreeLink = 0.015f;
-
-		// Token: 0x040010F6 RID: 4342
-		private const float ChanceHideSpanningTreeLink = 0.1f;
-
-		// Token: 0x040010F7 RID: 4343
-		private const float ChanceWorldObjectReclusive = 0.05f;
-
-		// Token: 0x040010F8 RID: 4344
-		private const int PotentialSpanningTreeLinksPerSettlement = 8;
-
 		// Token: 0x020005C1 RID: 1473
 		private struct Link
 		{
@@ -208,6 +208,9 @@ namespace RimWorld.Planet
 		// Token: 0x020005C2 RID: 1474
 		private class Connectedness
 		{
+			// Token: 0x04001101 RID: 4353
+			public WorldGenStep_Roads.Connectedness parent;
+
 			// Token: 0x06001C62 RID: 7266 RVA: 0x000F3E20 File Offset: 0x000F2220
 			public WorldGenStep_Roads.Connectedness Group()
 			{
@@ -222,9 +225,6 @@ namespace RimWorld.Planet
 				}
 				return result;
 			}
-
-			// Token: 0x04001101 RID: 4353
-			public WorldGenStep_Roads.Connectedness parent;
 		}
 	}
 }

@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class SitePartDefOf
 	{
-		// Token: 0x06003657 RID: 13911 RVA: 0x001D0CDB File Offset: 0x001CF0DB
-		static SitePartDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(SitePartDefOf));
-		}
-
 		// Token: 0x0400227D RID: 8829
 		public static SitePartDef Outpost;
 
@@ -29,5 +23,11 @@ namespace RimWorld
 
 		// Token: 0x04002282 RID: 8834
 		public static SitePartDef AmbushEdge;
+
+		// Token: 0x06003657 RID: 13911 RVA: 0x001D0CDB File Offset: 0x001CF0DB
+		static SitePartDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(SitePartDefOf));
+		}
 	}
 }

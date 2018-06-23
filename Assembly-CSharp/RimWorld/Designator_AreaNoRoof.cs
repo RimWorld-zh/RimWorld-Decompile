@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020007C2 RID: 1986
 	public class Designator_AreaNoRoof : Designator_Area
 	{
+		// Token: 0x04001798 RID: 6040
+		private static List<IntVec3> justAddedCells = new List<IntVec3>();
+
 		// Token: 0x06002BFD RID: 11261 RVA: 0x001747E0 File Offset: 0x00172BE0
 		public Designator_AreaNoRoof()
 		{
@@ -94,8 +97,5 @@ namespace RimWorld
 			base.Map.areaManager.NoRoof.MarkForDraw();
 			base.Map.areaManager.BuildRoof.MarkForDraw();
 		}
-
-		// Token: 0x04001798 RID: 6040
-		private static List<IntVec3> justAddedCells = new List<IntVec3>();
 	}
 }

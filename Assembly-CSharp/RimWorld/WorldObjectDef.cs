@@ -9,6 +9,74 @@ namespace RimWorld
 	// Token: 0x020002EE RID: 750
 	public class WorldObjectDef : Def
 	{
+		// Token: 0x04000815 RID: 2069
+		public Type worldObjectClass = typeof(WorldObject);
+
+		// Token: 0x04000816 RID: 2070
+		public bool canHaveFaction = true;
+
+		// Token: 0x04000817 RID: 2071
+		public bool saved = true;
+
+		// Token: 0x04000818 RID: 2072
+		public List<WorldObjectCompProperties> comps = new List<WorldObjectCompProperties>();
+
+		// Token: 0x04000819 RID: 2073
+		public bool allowCaravanIncidentsWhichGenerateMap;
+
+		// Token: 0x0400081A RID: 2074
+		public bool isTempIncidentMapOwner;
+
+		// Token: 0x0400081B RID: 2075
+		public List<IncidentTargetTypeDef> incidentTargetTypes;
+
+		// Token: 0x0400081C RID: 2076
+		public bool selectable = true;
+
+		// Token: 0x0400081D RID: 2077
+		public bool neverMultiSelect;
+
+		// Token: 0x0400081E RID: 2078
+		public MapGeneratorDef mapGenerator = null;
+
+		// Token: 0x0400081F RID: 2079
+		public List<Type> inspectorTabs;
+
+		// Token: 0x04000820 RID: 2080
+		[Unsaved]
+		public List<InspectTabBase> inspectorTabsResolved;
+
+		// Token: 0x04000821 RID: 2081
+		public bool useDynamicDrawer;
+
+		// Token: 0x04000822 RID: 2082
+		public bool expandingIcon;
+
+		// Token: 0x04000823 RID: 2083
+		[NoTranslate]
+		public string expandingIconTexture;
+
+		// Token: 0x04000824 RID: 2084
+		public float expandingIconPriority;
+
+		// Token: 0x04000825 RID: 2085
+		[NoTranslate]
+		public string texture;
+
+		// Token: 0x04000826 RID: 2086
+		[Unsaved]
+		private Material material;
+
+		// Token: 0x04000827 RID: 2087
+		[Unsaved]
+		private Texture2D expandingIconTextureInt;
+
+		// Token: 0x04000828 RID: 2088
+		public bool expandMore;
+
+		// Token: 0x04000829 RID: 2089
+		public bool blockExitGridUntilBattleIsWon;
+
 		// Token: 0x170001DA RID: 474
 		// (get) Token: 0x06000C65 RID: 3173 RVA: 0x0006E1DC File Offset: 0x0006C5DC
 		public Material Material
@@ -110,73 +178,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04000815 RID: 2069
-		public Type worldObjectClass = typeof(WorldObject);
-
-		// Token: 0x04000816 RID: 2070
-		public bool canHaveFaction = true;
-
-		// Token: 0x04000817 RID: 2071
-		public bool saved = true;
-
-		// Token: 0x04000818 RID: 2072
-		public List<WorldObjectCompProperties> comps = new List<WorldObjectCompProperties>();
-
-		// Token: 0x04000819 RID: 2073
-		public bool allowCaravanIncidentsWhichGenerateMap;
-
-		// Token: 0x0400081A RID: 2074
-		public bool isTempIncidentMapOwner;
-
-		// Token: 0x0400081B RID: 2075
-		public List<IncidentTargetTypeDef> incidentTargetTypes;
-
-		// Token: 0x0400081C RID: 2076
-		public bool selectable = true;
-
-		// Token: 0x0400081D RID: 2077
-		public bool neverMultiSelect;
-
-		// Token: 0x0400081E RID: 2078
-		public MapGeneratorDef mapGenerator = null;
-
-		// Token: 0x0400081F RID: 2079
-		public List<Type> inspectorTabs;
-
-		// Token: 0x04000820 RID: 2080
-		[Unsaved]
-		public List<InspectTabBase> inspectorTabsResolved;
-
-		// Token: 0x04000821 RID: 2081
-		public bool useDynamicDrawer;
-
-		// Token: 0x04000822 RID: 2082
-		public bool expandingIcon;
-
-		// Token: 0x04000823 RID: 2083
-		[NoTranslate]
-		public string expandingIconTexture;
-
-		// Token: 0x04000824 RID: 2084
-		public float expandingIconPriority;
-
-		// Token: 0x04000825 RID: 2085
-		[NoTranslate]
-		public string texture;
-
-		// Token: 0x04000826 RID: 2086
-		[Unsaved]
-		private Material material;
-
-		// Token: 0x04000827 RID: 2087
-		[Unsaved]
-		private Texture2D expandingIconTextureInt;
-
-		// Token: 0x04000828 RID: 2088
-		public bool expandMore;
-
-		// Token: 0x04000829 RID: 2089
-		public bool blockExitGridUntilBattleIsWon;
 	}
 }

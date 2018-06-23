@@ -7,38 +7,6 @@ namespace Verse
 	// Token: 0x02000B43 RID: 2883
 	public class HediffStage
 	{
-		// Token: 0x17000997 RID: 2455
-		// (get) Token: 0x06003F4A RID: 16202 RVA: 0x00215664 File Offset: 0x00213A64
-		public bool AffectsMemory
-		{
-			get
-			{
-				return this.forgetMemoryThoughtMtbDays > 0f || this.pctConditionalThoughtsNullified > 0f;
-			}
-		}
-
-		// Token: 0x17000998 RID: 2456
-		// (get) Token: 0x06003F4B RID: 16203 RVA: 0x0021569C File Offset: 0x00213A9C
-		public bool AffectsSocialInteractions
-		{
-			get
-			{
-				return this.opinionOfOthersFactor != 1f;
-			}
-		}
-
-		// Token: 0x06003F4C RID: 16204 RVA: 0x002156C1 File Offset: 0x00213AC1
-		public void PostLoad()
-		{
-			this.untranslatedLabel = this.label;
-		}
-
-		// Token: 0x06003F4D RID: 16205 RVA: 0x002156D0 File Offset: 0x00213AD0
-		public IEnumerable<StatDrawEntry> SpecialDisplayStats()
-		{
-			return HediffStatsUtility.SpecialDisplayStats(this, null);
-		}
-
 		// Token: 0x0400299B RID: 10651
 		public float minSeverity = 0f;
 
@@ -121,5 +89,37 @@ namespace Verse
 
 		// Token: 0x040029B5 RID: 10677
 		public bool destroyPart;
+
+		// Token: 0x17000997 RID: 2455
+		// (get) Token: 0x06003F4A RID: 16202 RVA: 0x00215664 File Offset: 0x00213A64
+		public bool AffectsMemory
+		{
+			get
+			{
+				return this.forgetMemoryThoughtMtbDays > 0f || this.pctConditionalThoughtsNullified > 0f;
+			}
+		}
+
+		// Token: 0x17000998 RID: 2456
+		// (get) Token: 0x06003F4B RID: 16203 RVA: 0x0021569C File Offset: 0x00213A9C
+		public bool AffectsSocialInteractions
+		{
+			get
+			{
+				return this.opinionOfOthersFactor != 1f;
+			}
+		}
+
+		// Token: 0x06003F4C RID: 16204 RVA: 0x002156C1 File Offset: 0x00213AC1
+		public void PostLoad()
+		{
+			this.untranslatedLabel = this.label;
+		}
+
+		// Token: 0x06003F4D RID: 16205 RVA: 0x002156D0 File Offset: 0x00213AD0
+		public IEnumerable<StatDrawEntry> SpecialDisplayStats()
+		{
+			return HediffStatsUtility.SpecialDisplayStats(this, null);
+		}
 	}
 }

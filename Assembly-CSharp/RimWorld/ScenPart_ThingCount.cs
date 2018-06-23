@@ -9,6 +9,18 @@ namespace RimWorld
 	// Token: 0x0200064E RID: 1614
 	public abstract class ScenPart_ThingCount : ScenPart
 	{
+		// Token: 0x0400130D RID: 4877
+		protected ThingDef thingDef;
+
+		// Token: 0x0400130E RID: 4878
+		protected ThingDef stuff;
+
+		// Token: 0x0400130F RID: 4879
+		protected int count = 1;
+
+		// Token: 0x04001310 RID: 4880
+		private string countBuf;
+
 		// Token: 0x06002189 RID: 8585 RVA: 0x0011BFE3 File Offset: 0x0011A3E3
 		public override void ExposeData()
 		{
@@ -103,17 +115,5 @@ namespace RimWorld
 			where (d.category == ThingCategory.Item && d.scatterableOnMapGen && !d.destroyOnDrop) || (d.category == ThingCategory.Building && d.Minifiable) || (d.category == ThingCategory.Building && d.scatterableOnMapGen)
 			select d;
 		}
-
-		// Token: 0x0400130D RID: 4877
-		protected ThingDef thingDef;
-
-		// Token: 0x0400130E RID: 4878
-		protected ThingDef stuff;
-
-		// Token: 0x0400130F RID: 4879
-		protected int count = 1;
-
-		// Token: 0x04001310 RID: 4880
-		private string countBuf;
 	}
 }

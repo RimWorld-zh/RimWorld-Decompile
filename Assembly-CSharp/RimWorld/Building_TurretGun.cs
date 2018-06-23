@@ -13,6 +13,36 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Building_TurretGun : Building_Turret
 	{
+		// Token: 0x040013CD RID: 5069
+		protected int burstCooldownTicksLeft = 0;
+
+		// Token: 0x040013CE RID: 5070
+		protected int burstWarmupTicksLeft = 0;
+
+		// Token: 0x040013CF RID: 5071
+		protected LocalTargetInfo currentTargetInt = LocalTargetInfo.Invalid;
+
+		// Token: 0x040013D0 RID: 5072
+		private bool holdFire;
+
+		// Token: 0x040013D1 RID: 5073
+		public Thing gun;
+
+		// Token: 0x040013D2 RID: 5074
+		protected TurretTop top;
+
+		// Token: 0x040013D3 RID: 5075
+		protected CompPowerTrader powerComp;
+
+		// Token: 0x040013D4 RID: 5076
+		protected CompMannable mannableComp;
+
+		// Token: 0x040013D5 RID: 5077
+		private const int TryStartShootSomethingIntervalTicks = 10;
+
+		// Token: 0x040013D6 RID: 5078
+		public static Material ForcedTargetLineMat = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, new Color(1f, 0.5f, 0.5f));
+
 		// Token: 0x06002343 RID: 9027 RVA: 0x0012F022 File Offset: 0x0012D422
 		public Building_TurretGun()
 		{
@@ -623,35 +653,5 @@ namespace RimWorld
 				verb.castCompleteCallback = new Action(this.BurstComplete);
 			}
 		}
-
-		// Token: 0x040013CD RID: 5069
-		protected int burstCooldownTicksLeft = 0;
-
-		// Token: 0x040013CE RID: 5070
-		protected int burstWarmupTicksLeft = 0;
-
-		// Token: 0x040013CF RID: 5071
-		protected LocalTargetInfo currentTargetInt = LocalTargetInfo.Invalid;
-
-		// Token: 0x040013D0 RID: 5072
-		private bool holdFire;
-
-		// Token: 0x040013D1 RID: 5073
-		public Thing gun;
-
-		// Token: 0x040013D2 RID: 5074
-		protected TurretTop top;
-
-		// Token: 0x040013D3 RID: 5075
-		protected CompPowerTrader powerComp;
-
-		// Token: 0x040013D4 RID: 5076
-		protected CompMannable mannableComp;
-
-		// Token: 0x040013D5 RID: 5077
-		private const int TryStartShootSomethingIntervalTicks = 10;
-
-		// Token: 0x040013D6 RID: 5078
-		public static Material ForcedTargetLineMat = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, new Color(1f, 0.5f, 0.5f));
 	}
 }

@@ -8,6 +8,21 @@ namespace RimWorld
 	// Token: 0x0200017A RID: 378
 	public class LordJob_Joinable_MarriageCeremony : LordJob_VoluntarilyJoinable
 	{
+		// Token: 0x04000365 RID: 869
+		public Pawn firstPawn;
+
+		// Token: 0x04000366 RID: 870
+		public Pawn secondPawn;
+
+		// Token: 0x04000367 RID: 871
+		private IntVec3 spot;
+
+		// Token: 0x04000368 RID: 872
+		private Trigger_TicksPassed afterPartyTimeoutTrigger;
+
+		// Token: 0x04000369 RID: 873
+		private const int TicksPerPartyPulse = 2200;
+
 		// Token: 0x060007C6 RID: 1990 RVA: 0x0004C406 File Offset: 0x0004A806
 		public LordJob_Joinable_MarriageCeremony()
 		{
@@ -224,20 +239,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000365 RID: 869
-		public Pawn firstPawn;
-
-		// Token: 0x04000366 RID: 870
-		public Pawn secondPawn;
-
-		// Token: 0x04000367 RID: 871
-		private IntVec3 spot;
-
-		// Token: 0x04000368 RID: 872
-		private Trigger_TicksPassed afterPartyTimeoutTrigger;
-
-		// Token: 0x04000369 RID: 873
-		private const int TicksPerPartyPulse = 2200;
 	}
 }

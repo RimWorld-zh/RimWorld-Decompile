@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000C88 RID: 3208
 	public class RegionDirtyer
 	{
+		// Token: 0x04002FFB RID: 12283
+		private Map map;
+
+		// Token: 0x04002FFC RID: 12284
+		private List<IntVec3> dirtyCells = new List<IntVec3>();
+
+		// Token: 0x04002FFD RID: 12285
+		private List<Region> regionsToDirty = new List<Region>();
+
 		// Token: 0x0600466B RID: 18027 RVA: 0x002528DA File Offset: 0x00250CDA
 		public RegionDirtyer(Map map)
 		{
@@ -177,14 +186,5 @@ namespace Verse
 				this.SetRegionDirty(reg, false);
 			}
 		}
-
-		// Token: 0x04002FFB RID: 12283
-		private Map map;
-
-		// Token: 0x04002FFC RID: 12284
-		private List<IntVec3> dirtyCells = new List<IntVec3>();
-
-		// Token: 0x04002FFD RID: 12285
-		private List<Region> regionsToDirty = new List<Region>();
 	}
 }

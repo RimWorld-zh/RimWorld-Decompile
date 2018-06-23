@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x02000074 RID: 116
 	public class JobDriver_ManTurret : JobDriver
 	{
+		// Token: 0x0400021F RID: 543
+		private const float ShellSearchRadius = 40f;
+
+		// Token: 0x04000220 RID: 544
+		private const int MaxPawnAmmoReservations = 10;
+
 		// Token: 0x06000328 RID: 808 RVA: 0x0002271C File Offset: 0x00020B1C
 		private static bool GunNeedsLoading(Building b)
 		{
@@ -111,11 +117,5 @@ namespace RimWorld
 			yield return man;
 			yield break;
 		}
-
-		// Token: 0x0400021F RID: 543
-		private const float ShellSearchRadius = 40f;
-
-		// Token: 0x04000220 RID: 544
-		private const int MaxPawnAmmoReservations = 10;
 	}
 }

@@ -10,6 +10,12 @@ namespace RimWorld
 	// Token: 0x02000038 RID: 56
 	public class JobDriver_GiveToPackAnimal : JobDriver
 	{
+		// Token: 0x040001C2 RID: 450
+		private const TargetIndex ItemInd = TargetIndex.A;
+
+		// Token: 0x040001C3 RID: 451
+		private const TargetIndex AnimalInd = TargetIndex.B;
+
 		// Token: 0x17000061 RID: 97
 		// (get) Token: 0x060001E2 RID: 482 RVA: 0x00014960 File Offset: 0x00012D60
 		private Thing Item
@@ -125,11 +131,5 @@ namespace RimWorld
 				}
 			};
 		}
-
-		// Token: 0x040001C2 RID: 450
-		private const TargetIndex ItemInd = TargetIndex.A;
-
-		// Token: 0x040001C3 RID: 451
-		private const TargetIndex AnimalInd = TargetIndex.B;
 	}
 }

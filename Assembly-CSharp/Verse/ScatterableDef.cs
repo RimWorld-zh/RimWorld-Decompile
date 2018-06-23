@@ -6,20 +6,6 @@ namespace Verse
 	// Token: 0x02000B6F RID: 2927
 	public class ScatterableDef : Def
 	{
-		// Token: 0x06003FF2 RID: 16370 RVA: 0x0021B3F0 File Offset: 0x002197F0
-		public override void PostLoad()
-		{
-			base.PostLoad();
-			if (this.defName == "UnnamedDef")
-			{
-				this.defName = "Scatterable_" + this.texturePath;
-			}
-			LongEventHandler.ExecuteWhenFinished(delegate
-			{
-				this.mat = MaterialPool.MatFrom(this.texturePath, ShaderDatabase.Transparent);
-			});
-		}
-
 		// Token: 0x04002AD5 RID: 10965
 		[NoTranslate]
 		public string texturePath;
@@ -39,5 +25,19 @@ namespace Verse
 
 		// Token: 0x04002ADA RID: 10970
 		public Material mat;
+
+		// Token: 0x06003FF2 RID: 16370 RVA: 0x0021B3F0 File Offset: 0x002197F0
+		public override void PostLoad()
+		{
+			base.PostLoad();
+			if (this.defName == "UnnamedDef")
+			{
+				this.defName = "Scatterable_" + this.texturePath;
+			}
+			LongEventHandler.ExecuteWhenFinished(delegate
+			{
+				this.mat = MaterialPool.MatFrom(this.texturePath, ShaderDatabase.Transparent);
+			});
+		}
 	}
 }

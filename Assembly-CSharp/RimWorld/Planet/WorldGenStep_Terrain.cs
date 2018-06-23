@@ -9,6 +9,133 @@ namespace RimWorld.Planet
 	// Token: 0x020005C3 RID: 1475
 	public class WorldGenStep_Terrain : WorldGenStep
 	{
+		// Token: 0x04001102 RID: 4354
+		[Unsaved]
+		private ModuleBase noiseElevation;
+
+		// Token: 0x04001103 RID: 4355
+		[Unsaved]
+		private ModuleBase noiseTemperatureOffset;
+
+		// Token: 0x04001104 RID: 4356
+		[Unsaved]
+		private ModuleBase noiseRainfall;
+
+		// Token: 0x04001105 RID: 4357
+		[Unsaved]
+		private ModuleBase noiseSwampiness;
+
+		// Token: 0x04001106 RID: 4358
+		[Unsaved]
+		private ModuleBase noiseMountainLines;
+
+		// Token: 0x04001107 RID: 4359
+		[Unsaved]
+		private ModuleBase noiseHillsPatchesMicro;
+
+		// Token: 0x04001108 RID: 4360
+		[Unsaved]
+		private ModuleBase noiseHillsPatchesMacro;
+
+		// Token: 0x04001109 RID: 4361
+		private const float ElevationFrequencyMicro = 0.035f;
+
+		// Token: 0x0400110A RID: 4362
+		private const float ElevationFrequencyMacro = 0.012f;
+
+		// Token: 0x0400110B RID: 4363
+		private const float ElevationMacroFactorFrequency = 0.12f;
+
+		// Token: 0x0400110C RID: 4364
+		private const float ElevationContinentsFrequency = 0.01f;
+
+		// Token: 0x0400110D RID: 4365
+		private const float MountainLinesFrequency = 0.025f;
+
+		// Token: 0x0400110E RID: 4366
+		private const float MountainLinesHolesFrequency = 0.06f;
+
+		// Token: 0x0400110F RID: 4367
+		private const float HillsPatchesFrequencyMicro = 0.19f;
+
+		// Token: 0x04001110 RID: 4368
+		private const float HillsPatchesFrequencyMacro = 0.032f;
+
+		// Token: 0x04001111 RID: 4369
+		private const float SwampinessFrequencyMacro = 0.025f;
+
+		// Token: 0x04001112 RID: 4370
+		private const float SwampinessFrequencyMicro = 0.09f;
+
+		// Token: 0x04001113 RID: 4371
+		private static readonly FloatRange SwampinessMaxElevation = new FloatRange(650f, 750f);
+
+		// Token: 0x04001114 RID: 4372
+		private static readonly FloatRange SwampinessMinRainfall = new FloatRange(725f, 900f);
+
+		// Token: 0x04001115 RID: 4373
+		private static readonly FloatRange ElevationRange = new FloatRange(-500f, 5000f);
+
+		// Token: 0x04001116 RID: 4374
+		private const float TemperatureOffsetFrequency = 0.018f;
+
+		// Token: 0x04001117 RID: 4375
+		private const float TemperatureOffsetFactor = 4f;
+
+		// Token: 0x04001118 RID: 4376
+		private static readonly SimpleCurve AvgTempByLatitudeCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 30f),
+				true
+			},
+			{
+				new CurvePoint(0.1f, 29f),
+				true
+			},
+			{
+				new CurvePoint(0.5f, 7f),
+				true
+			},
+			{
+				new CurvePoint(1f, -37f),
+				true
+			}
+		};
+
+		// Token: 0x04001119 RID: 4377
+		private const float ElevationTempReductionStartAlt = 250f;
+
+		// Token: 0x0400111A RID: 4378
+		private const float ElevationTempReductionEndAlt = 5000f;
+
+		// Token: 0x0400111B RID: 4379
+		private const float MaxElevationTempReduction = 40f;
+
+		// Token: 0x0400111C RID: 4380
+		private const float RainfallOffsetFrequency = 0.013f;
+
+		// Token: 0x0400111D RID: 4381
+		private const float RainfallPower = 1.5f;
+
+		// Token: 0x0400111E RID: 4382
+		private const float RainfallFactor = 4000f;
+
+		// Token: 0x0400111F RID: 4383
+		private const float RainfallStartFallAltitude = 500f;
+
+		// Token: 0x04001120 RID: 4384
+		private const float RainfallFinishFallAltitude = 5000f;
+
+		// Token: 0x04001121 RID: 4385
+		private const float FertilityTempMinimum = -15f;
+
+		// Token: 0x04001122 RID: 4386
+		private const float FertilityTempOptimal = 30f;
+
+		// Token: 0x04001123 RID: 4387
+		private const float FertilityTempMaximum = 50f;
+
 		// Token: 0x17000423 RID: 1059
 		// (get) Token: 0x06001C64 RID: 7268 RVA: 0x000F3F60 File Offset: 0x000F2360
 		public override int SeedPart
@@ -357,132 +484,5 @@ namespace RimWorld.Planet
 			}
 			return result;
 		}
-
-		// Token: 0x04001102 RID: 4354
-		[Unsaved]
-		private ModuleBase noiseElevation;
-
-		// Token: 0x04001103 RID: 4355
-		[Unsaved]
-		private ModuleBase noiseTemperatureOffset;
-
-		// Token: 0x04001104 RID: 4356
-		[Unsaved]
-		private ModuleBase noiseRainfall;
-
-		// Token: 0x04001105 RID: 4357
-		[Unsaved]
-		private ModuleBase noiseSwampiness;
-
-		// Token: 0x04001106 RID: 4358
-		[Unsaved]
-		private ModuleBase noiseMountainLines;
-
-		// Token: 0x04001107 RID: 4359
-		[Unsaved]
-		private ModuleBase noiseHillsPatchesMicro;
-
-		// Token: 0x04001108 RID: 4360
-		[Unsaved]
-		private ModuleBase noiseHillsPatchesMacro;
-
-		// Token: 0x04001109 RID: 4361
-		private const float ElevationFrequencyMicro = 0.035f;
-
-		// Token: 0x0400110A RID: 4362
-		private const float ElevationFrequencyMacro = 0.012f;
-
-		// Token: 0x0400110B RID: 4363
-		private const float ElevationMacroFactorFrequency = 0.12f;
-
-		// Token: 0x0400110C RID: 4364
-		private const float ElevationContinentsFrequency = 0.01f;
-
-		// Token: 0x0400110D RID: 4365
-		private const float MountainLinesFrequency = 0.025f;
-
-		// Token: 0x0400110E RID: 4366
-		private const float MountainLinesHolesFrequency = 0.06f;
-
-		// Token: 0x0400110F RID: 4367
-		private const float HillsPatchesFrequencyMicro = 0.19f;
-
-		// Token: 0x04001110 RID: 4368
-		private const float HillsPatchesFrequencyMacro = 0.032f;
-
-		// Token: 0x04001111 RID: 4369
-		private const float SwampinessFrequencyMacro = 0.025f;
-
-		// Token: 0x04001112 RID: 4370
-		private const float SwampinessFrequencyMicro = 0.09f;
-
-		// Token: 0x04001113 RID: 4371
-		private static readonly FloatRange SwampinessMaxElevation = new FloatRange(650f, 750f);
-
-		// Token: 0x04001114 RID: 4372
-		private static readonly FloatRange SwampinessMinRainfall = new FloatRange(725f, 900f);
-
-		// Token: 0x04001115 RID: 4373
-		private static readonly FloatRange ElevationRange = new FloatRange(-500f, 5000f);
-
-		// Token: 0x04001116 RID: 4374
-		private const float TemperatureOffsetFrequency = 0.018f;
-
-		// Token: 0x04001117 RID: 4375
-		private const float TemperatureOffsetFactor = 4f;
-
-		// Token: 0x04001118 RID: 4376
-		private static readonly SimpleCurve AvgTempByLatitudeCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 30f),
-				true
-			},
-			{
-				new CurvePoint(0.1f, 29f),
-				true
-			},
-			{
-				new CurvePoint(0.5f, 7f),
-				true
-			},
-			{
-				new CurvePoint(1f, -37f),
-				true
-			}
-		};
-
-		// Token: 0x04001119 RID: 4377
-		private const float ElevationTempReductionStartAlt = 250f;
-
-		// Token: 0x0400111A RID: 4378
-		private const float ElevationTempReductionEndAlt = 5000f;
-
-		// Token: 0x0400111B RID: 4379
-		private const float MaxElevationTempReduction = 40f;
-
-		// Token: 0x0400111C RID: 4380
-		private const float RainfallOffsetFrequency = 0.013f;
-
-		// Token: 0x0400111D RID: 4381
-		private const float RainfallPower = 1.5f;
-
-		// Token: 0x0400111E RID: 4382
-		private const float RainfallFactor = 4000f;
-
-		// Token: 0x0400111F RID: 4383
-		private const float RainfallStartFallAltitude = 500f;
-
-		// Token: 0x04001120 RID: 4384
-		private const float RainfallFinishFallAltitude = 5000f;
-
-		// Token: 0x04001121 RID: 4385
-		private const float FertilityTempMinimum = -15f;
-
-		// Token: 0x04001122 RID: 4386
-		private const float FertilityTempOptimal = 30f;
-
-		// Token: 0x04001123 RID: 4387
-		private const float FertilityTempMaximum = 50f;
 	}
 }

@@ -9,6 +9,15 @@ namespace RimWorld
 	// Token: 0x020004FC RID: 1276
 	public class Need_Mood : Need_Seeker
 	{
+		// Token: 0x04000D85 RID: 3461
+		public ThoughtHandler thoughts;
+
+		// Token: 0x04000D86 RID: 3462
+		public PawnObserver observer;
+
+		// Token: 0x04000D87 RID: 3463
+		public PawnRecentMemory recentMemory;
+
 		// Token: 0x060016F9 RID: 5881 RVA: 0x000CAC66 File Offset: 0x000C9066
 		public Need_Mood(Pawn pawn) : base(pawn)
 		{
@@ -123,14 +132,5 @@ namespace RimWorld
 			this.threshPercents.Add(this.pawn.mindState.mentalBreaker.BreakThresholdMinor);
 			base.DrawOnGUI(rect, maxThresholdMarkers, customMargin, drawArrows, doTooltip);
 		}
-
-		// Token: 0x04000D85 RID: 3461
-		public ThoughtHandler thoughts;
-
-		// Token: 0x04000D86 RID: 3462
-		public PawnObserver observer;
-
-		// Token: 0x04000D87 RID: 3463
-		public PawnRecentMemory recentMemory;
 	}
 }

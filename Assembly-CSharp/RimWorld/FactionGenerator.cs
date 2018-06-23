@@ -10,6 +10,12 @@ namespace RimWorld
 	// Token: 0x02000557 RID: 1367
 	public static class FactionGenerator
 	{
+		// Token: 0x04000F1F RID: 3871
+		private const int MinStartVisibleFactions = 5;
+
+		// Token: 0x04000F20 RID: 3872
+		private static readonly FloatRange FactionBasesPer100kTiles = new FloatRange(75f, 85f);
+
 		// Token: 0x060019B8 RID: 6584 RVA: 0x000DFE10 File Offset: 0x000DE210
 		public static void GenerateFactionsIntoWorld()
 		{
@@ -145,11 +151,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000F1F RID: 3871
-		private const int MinStartVisibleFactions = 5;
-
-		// Token: 0x04000F20 RID: 3872
-		private static readonly FloatRange FactionBasesPer100kTiles = new FloatRange(75f, 85f);
 	}
 }

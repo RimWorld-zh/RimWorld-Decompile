@@ -7,28 +7,6 @@ namespace RimWorld
 	// Token: 0x0200048E RID: 1166
 	public class PawnGroupMaker
 	{
-		// Token: 0x170002C0 RID: 704
-		// (get) Token: 0x060014B0 RID: 5296 RVA: 0x000B6080 File Offset: 0x000B4480
-		public float MinPointsToGenerateAnything
-		{
-			get
-			{
-				return this.kindDef.Worker.MinPointsToGenerateAnything(this);
-			}
-		}
-
-		// Token: 0x060014B1 RID: 5297 RVA: 0x000B60A8 File Offset: 0x000B44A8
-		public IEnumerable<Pawn> GeneratePawns(PawnGroupMakerParms parms, bool errorOnZeroResults = true)
-		{
-			return this.kindDef.Worker.GeneratePawns(parms, this, errorOnZeroResults);
-		}
-
-		// Token: 0x060014B2 RID: 5298 RVA: 0x000B60D0 File Offset: 0x000B44D0
-		public bool CanGenerateFrom(PawnGroupMakerParms parms)
-		{
-			return parms.points <= this.maxTotalPoints && (this.disallowedStrategies == null || !this.disallowedStrategies.Contains(parms.raidStrategy)) && this.kindDef.Worker.CanGenerateFrom(parms, this);
-		}
-
 		// Token: 0x04000C6A RID: 3178
 		public PawnGroupKindDef kindDef;
 
@@ -52,5 +30,27 @@ namespace RimWorld
 
 		// Token: 0x04000C71 RID: 3185
 		public List<PawnGenOption> guards = new List<PawnGenOption>();
+
+		// Token: 0x170002C0 RID: 704
+		// (get) Token: 0x060014B0 RID: 5296 RVA: 0x000B6080 File Offset: 0x000B4480
+		public float MinPointsToGenerateAnything
+		{
+			get
+			{
+				return this.kindDef.Worker.MinPointsToGenerateAnything(this);
+			}
+		}
+
+		// Token: 0x060014B1 RID: 5297 RVA: 0x000B60A8 File Offset: 0x000B44A8
+		public IEnumerable<Pawn> GeneratePawns(PawnGroupMakerParms parms, bool errorOnZeroResults = true)
+		{
+			return this.kindDef.Worker.GeneratePawns(parms, this, errorOnZeroResults);
+		}
+
+		// Token: 0x060014B2 RID: 5298 RVA: 0x000B60D0 File Offset: 0x000B44D0
+		public bool CanGenerateFrom(PawnGroupMakerParms parms)
+		{
+			return parms.points <= this.maxTotalPoints && (this.disallowedStrategies == null || !this.disallowedStrategies.Contains(parms.raidStrategy)) && this.kindDef.Worker.CanGenerateFrom(parms, this);
+		}
 	}
 }

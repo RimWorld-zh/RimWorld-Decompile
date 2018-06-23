@@ -10,6 +10,33 @@ namespace RimWorld
 	// Token: 0x0200013E RID: 318
 	public class WorkGiver_DoBill : WorkGiver_Scanner
 	{
+		// Token: 0x04000316 RID: 790
+		private List<ThingCount> chosenIngThings = new List<ThingCount>();
+
+		// Token: 0x04000317 RID: 791
+		private static readonly IntRange ReCheckFailedBillTicksRange = new IntRange(500, 600);
+
+		// Token: 0x04000318 RID: 792
+		private static string MissingMaterialsTranslated;
+
+		// Token: 0x04000319 RID: 793
+		private static List<Thing> relevantThings = new List<Thing>();
+
+		// Token: 0x0400031A RID: 794
+		private static HashSet<Thing> processedThings = new HashSet<Thing>();
+
+		// Token: 0x0400031B RID: 795
+		private static List<Thing> newRelevantThings = new List<Thing>();
+
+		// Token: 0x0400031C RID: 796
+		private static List<IngredientCount> ingredientsOrdered = new List<IngredientCount>();
+
+		// Token: 0x0400031D RID: 797
+		private static List<Thing> tmpMedicine = new List<Thing>();
+
+		// Token: 0x0400031E RID: 798
+		private static WorkGiver_DoBill.DefCountList availableCounts = new WorkGiver_DoBill.DefCountList();
+
 		// Token: 0x170000FA RID: 250
 		// (get) Token: 0x0600067F RID: 1663 RVA: 0x00043368 File Offset: 0x00041768
 		public override PathEndMode PathEndMode
@@ -579,36 +606,15 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x04000316 RID: 790
-		private List<ThingCount> chosenIngThings = new List<ThingCount>();
-
-		// Token: 0x04000317 RID: 791
-		private static readonly IntRange ReCheckFailedBillTicksRange = new IntRange(500, 600);
-
-		// Token: 0x04000318 RID: 792
-		private static string MissingMaterialsTranslated;
-
-		// Token: 0x04000319 RID: 793
-		private static List<Thing> relevantThings = new List<Thing>();
-
-		// Token: 0x0400031A RID: 794
-		private static HashSet<Thing> processedThings = new HashSet<Thing>();
-
-		// Token: 0x0400031B RID: 795
-		private static List<Thing> newRelevantThings = new List<Thing>();
-
-		// Token: 0x0400031C RID: 796
-		private static List<IngredientCount> ingredientsOrdered = new List<IngredientCount>();
-
-		// Token: 0x0400031D RID: 797
-		private static List<Thing> tmpMedicine = new List<Thing>();
-
-		// Token: 0x0400031E RID: 798
-		private static WorkGiver_DoBill.DefCountList availableCounts = new WorkGiver_DoBill.DefCountList();
-
 		// Token: 0x0200013F RID: 319
 		private class DefCountList
 		{
+			// Token: 0x04000320 RID: 800
+			private List<ThingDef> defs = new List<ThingDef>();
+
+			// Token: 0x04000321 RID: 801
+			private List<float> counts = new List<float>();
+
 			// Token: 0x170000FC RID: 252
 			// (get) Token: 0x06000695 RID: 1685 RVA: 0x000443BC File Offset: 0x000427BC
 			public int Count
@@ -699,12 +705,6 @@ namespace RimWorld
 					this[def = things[i].def] = this[def] + (float)things[i].stackCount;
 				}
 			}
-
-			// Token: 0x04000320 RID: 800
-			private List<ThingDef> defs = new List<ThingDef>();
-
-			// Token: 0x04000321 RID: 801
-			private List<float> counts = new List<float>();
 		}
 	}
 }

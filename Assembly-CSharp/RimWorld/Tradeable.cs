@@ -7,6 +7,36 @@ namespace RimWorld
 	// Token: 0x02000780 RID: 1920
 	public class Tradeable : Transferable
 	{
+		// Token: 0x040016E9 RID: 5865
+		public List<Thing> thingsColony = new List<Thing>();
+
+		// Token: 0x040016EA RID: 5866
+		public List<Thing> thingsTrader = new List<Thing>();
+
+		// Token: 0x040016EB RID: 5867
+		private int countToTransfer;
+
+		// Token: 0x040016EC RID: 5868
+		private float pricePlayerBuy = -1f;
+
+		// Token: 0x040016ED RID: 5869
+		private float pricePlayerSell = -1f;
+
+		// Token: 0x040016EE RID: 5870
+		private float priceFactorBuy_TraderPriceType;
+
+		// Token: 0x040016EF RID: 5871
+		private float priceFactorSell_TraderPriceType;
+
+		// Token: 0x040016F0 RID: 5872
+		private float priceFactorSell_ItemSellPriceFactor;
+
+		// Token: 0x040016F1 RID: 5873
+		private float priceGain_PlayerNegotiator;
+
+		// Token: 0x040016F2 RID: 5874
+		private float priceGain_FactionBase;
+
 		// Token: 0x06002A7B RID: 10875 RVA: 0x001684FA File Offset: 0x001668FA
 		public Tradeable()
 		{
@@ -740,35 +770,5 @@ namespace RimWorld
 				IL_133:;
 			}
 		}
-
-		// Token: 0x040016E9 RID: 5865
-		public List<Thing> thingsColony = new List<Thing>();
-
-		// Token: 0x040016EA RID: 5866
-		public List<Thing> thingsTrader = new List<Thing>();
-
-		// Token: 0x040016EB RID: 5867
-		private int countToTransfer;
-
-		// Token: 0x040016EC RID: 5868
-		private float pricePlayerBuy = -1f;
-
-		// Token: 0x040016ED RID: 5869
-		private float pricePlayerSell = -1f;
-
-		// Token: 0x040016EE RID: 5870
-		private float priceFactorBuy_TraderPriceType;
-
-		// Token: 0x040016EF RID: 5871
-		private float priceFactorSell_TraderPriceType;
-
-		// Token: 0x040016F0 RID: 5872
-		private float priceFactorSell_ItemSellPriceFactor;
-
-		// Token: 0x040016F1 RID: 5873
-		private float priceGain_PlayerNegotiator;
-
-		// Token: 0x040016F2 RID: 5874
-		private float priceGain_FactionBase;
 	}
 }

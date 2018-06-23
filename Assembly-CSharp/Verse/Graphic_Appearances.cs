@@ -9,6 +9,9 @@ namespace Verse
 	// Token: 0x02000DD2 RID: 3538
 	public class Graphic_Appearances : Graphic
 	{
+		// Token: 0x040034B0 RID: 13488
+		protected Graphic[] subGraphics;
+
 		// Token: 0x17000CD3 RID: 3283
 		// (get) Token: 0x06004F47 RID: 20295 RVA: 0x00294EDC File Offset: 0x002932DC
 		public override Material MatSingle
@@ -102,8 +105,5 @@ namespace Verse
 				", colorTwo=unsupported)"
 			});
 		}
-
-		// Token: 0x040034B0 RID: 13488
-		protected Graphic[] subGraphics;
 	}
 }

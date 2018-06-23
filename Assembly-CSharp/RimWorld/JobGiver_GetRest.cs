@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020000E2 RID: 226
 	public class JobGiver_GetRest : ThinkNode_JobGiver
 	{
+		// Token: 0x040002B8 RID: 696
+		private RestCategory minCategory = RestCategory.Rested;
+
 		// Token: 0x060004E9 RID: 1257 RVA: 0x00036A48 File Offset: 0x00034E48
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -159,8 +162,5 @@ namespace RimWorld
 			}
 			return CellFinder.RandomClosewalkCellNearNotForbidden(pawn.Position, map, 4, pawn);
 		}
-
-		// Token: 0x040002B8 RID: 696
-		private RestCategory minCategory = RestCategory.Rested;
 	}
 }

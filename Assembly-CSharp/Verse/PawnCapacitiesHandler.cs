@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000D3C RID: 3388
 	public class PawnCapacitiesHandler
 	{
+		// Token: 0x04003270 RID: 12912
+		private Pawn pawn;
+
+		// Token: 0x04003271 RID: 12913
+		private DefMap<PawnCapacityDef, PawnCapacitiesHandler.CacheElement> cachedCapacityLevels = null;
+
 		// Token: 0x06004ACE RID: 19150 RVA: 0x00270D65 File Offset: 0x0026F165
 		public PawnCapacitiesHandler(Pawn pawn)
 		{
@@ -86,12 +92,6 @@ namespace Verse
 				this.cachedCapacityLevels[i].status = PawnCapacitiesHandler.CacheStatus.Uncached;
 			}
 		}
-
-		// Token: 0x04003270 RID: 12912
-		private Pawn pawn;
-
-		// Token: 0x04003271 RID: 12913
-		private DefMap<PawnCapacityDef, PawnCapacitiesHandler.CacheElement> cachedCapacityLevels = null;
 
 		// Token: 0x02000D3D RID: 3389
 		private enum CacheStatus

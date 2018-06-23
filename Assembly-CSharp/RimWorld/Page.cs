@@ -7,6 +7,27 @@ namespace RimWorld
 	// Token: 0x0200082C RID: 2092
 	public abstract class Page : Window
 	{
+		// Token: 0x04001978 RID: 6520
+		public Page prev;
+
+		// Token: 0x04001979 RID: 6521
+		public Page next;
+
+		// Token: 0x0400197A RID: 6522
+		public Action nextAct;
+
+		// Token: 0x0400197B RID: 6523
+		public static readonly Vector2 StandardSize = new Vector2(1020f, 764f);
+
+		// Token: 0x0400197C RID: 6524
+		public const float TitleAreaHeight = 45f;
+
+		// Token: 0x0400197D RID: 6525
+		public const float BottomButHeight = 38f;
+
+		// Token: 0x0400197E RID: 6526
+		protected static readonly Vector2 BottomButSize = new Vector2(150f, 38f);
+
 		// Token: 0x06002F2A RID: 12074 RVA: 0x0019393E File Offset: 0x00191D3E
 		public Page()
 		{
@@ -166,26 +187,5 @@ namespace RimWorld
 				Event.current.Use();
 			}
 		}
-
-		// Token: 0x04001978 RID: 6520
-		public Page prev;
-
-		// Token: 0x04001979 RID: 6521
-		public Page next;
-
-		// Token: 0x0400197A RID: 6522
-		public Action nextAct;
-
-		// Token: 0x0400197B RID: 6523
-		public static readonly Vector2 StandardSize = new Vector2(1020f, 764f);
-
-		// Token: 0x0400197C RID: 6524
-		public const float TitleAreaHeight = 45f;
-
-		// Token: 0x0400197D RID: 6525
-		public const float BottomButHeight = 38f;
-
-		// Token: 0x0400197E RID: 6526
-		protected static readonly Vector2 BottomButSize = new Vector2(150f, 38f);
 	}
 }

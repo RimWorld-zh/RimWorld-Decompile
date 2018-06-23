@@ -9,6 +9,15 @@ namespace RimWorld
 	// Token: 0x020004DB RID: 1243
 	public static class BackstoryDatabase
 	{
+		// Token: 0x04000CE7 RID: 3303
+		public static Dictionary<string, Backstory> allBackstories = new Dictionary<string, Backstory>();
+
+		// Token: 0x04000CE8 RID: 3304
+		private static Dictionary<Pair<BackstorySlot, string>, List<Backstory>> shuffleableBackstoryList = new Dictionary<Pair<BackstorySlot, string>, List<Backstory>>();
+
+		// Token: 0x04000CE9 RID: 3305
+		private static Regex regex = new Regex("^[^0-9]*");
+
 		// Token: 0x06001627 RID: 5671 RVA: 0x000C4CEC File Offset: 0x000C30EC
 		public static void Clear()
 		{
@@ -123,14 +132,5 @@ namespace RimWorld
 		{
 			return BackstoryDatabase.regex.Match(key).Captures[0].Value;
 		}
-
-		// Token: 0x04000CE7 RID: 3303
-		public static Dictionary<string, Backstory> allBackstories = new Dictionary<string, Backstory>();
-
-		// Token: 0x04000CE8 RID: 3304
-		private static Dictionary<Pair<BackstorySlot, string>, List<Backstory>> shuffleableBackstoryList = new Dictionary<Pair<BackstorySlot, string>, List<Backstory>>();
-
-		// Token: 0x04000CE9 RID: 3305
-		private static Regex regex = new Regex("^[^0-9]*");
 	}
 }

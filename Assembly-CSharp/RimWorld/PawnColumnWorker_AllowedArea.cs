@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x0200088C RID: 2188
 	public class PawnColumnWorker_AllowedArea : PawnColumnWorker
 	{
+		// Token: 0x04001AD2 RID: 6866
+		private const int TopAreaHeight = 65;
+
+		// Token: 0x04001AD3 RID: 6867
+		private const int ManageAreasButtonHeight = 32;
+
 		// Token: 0x17000803 RID: 2051
 		// (get) Token: 0x060031F6 RID: 12790 RVA: 0x001AF194 File Offset: 0x001AD594
 		protected override GameFont DefaultHeaderFont
@@ -117,11 +123,5 @@ namespace RimWorld
 		{
 			return base.GetHeaderTip(table) + "\n" + "AllowedAreaShiftClickTip".Translate();
 		}
-
-		// Token: 0x04001AD2 RID: 6866
-		private const int TopAreaHeight = 65;
-
-		// Token: 0x04001AD3 RID: 6867
-		private const int ManageAreasButtonHeight = 32;
 	}
 }

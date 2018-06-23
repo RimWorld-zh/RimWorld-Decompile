@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000196 RID: 406
 	public class LordToil_LoadAndEnterTransporters : LordToil
 	{
+		// Token: 0x0400038B RID: 907
+		private int transportersGroup = -1;
+
 		// Token: 0x06000863 RID: 2147 RVA: 0x0004FF05 File Offset: 0x0004E305
 		public LordToil_LoadAndEnterTransporters(int transportersGroup)
 		{
@@ -33,8 +36,5 @@ namespace RimWorld
 				this.lord.ownedPawns[i].mindState.duty = pawnDuty;
 			}
 		}
-
-		// Token: 0x0400038B RID: 907
-		private int transportersGroup = -1;
 	}
 }

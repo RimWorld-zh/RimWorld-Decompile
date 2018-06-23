@@ -7,6 +7,18 @@ namespace RimWorld
 	// Token: 0x020007FB RID: 2043
 	public class Dialog_DefineBinding : Window
 	{
+		// Token: 0x04001811 RID: 6161
+		protected Vector2 windowSize = new Vector2(400f, 200f);
+
+		// Token: 0x04001812 RID: 6162
+		protected KeyPrefsData keyPrefsData;
+
+		// Token: 0x04001813 RID: 6163
+		protected KeyBindingDef keyDef;
+
+		// Token: 0x04001814 RID: 6164
+		protected KeyPrefs.BindingSlot slot;
+
 		// Token: 0x06002D84 RID: 11652 RVA: 0x0017F604 File Offset: 0x0017DA04
 		public Dialog_DefineBinding(KeyPrefsData keyPrefsData, KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
@@ -63,17 +75,5 @@ namespace RimWorld
 				Event.current.Use();
 			}
 		}
-
-		// Token: 0x04001811 RID: 6161
-		protected Vector2 windowSize = new Vector2(400f, 200f);
-
-		// Token: 0x04001812 RID: 6162
-		protected KeyPrefsData keyPrefsData;
-
-		// Token: 0x04001813 RID: 6163
-		protected KeyBindingDef keyDef;
-
-		// Token: 0x04001814 RID: 6164
-		protected KeyPrefs.BindingSlot slot;
 	}
 }

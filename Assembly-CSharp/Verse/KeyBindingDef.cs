@@ -7,6 +7,22 @@ namespace Verse
 	// Token: 0x02000B4A RID: 2890
 	public class KeyBindingDef : Def
 	{
+		// Token: 0x040029D4 RID: 10708
+		public KeyBindingCategoryDef category;
+
+		// Token: 0x040029D5 RID: 10709
+		public KeyCode defaultKeyCodeA;
+
+		// Token: 0x040029D6 RID: 10710
+		public KeyCode defaultKeyCodeB;
+
+		// Token: 0x040029D7 RID: 10711
+		public bool devModeOnly = false;
+
+		// Token: 0x040029D8 RID: 10712
+		[NoTranslate]
+		public List<string> extraConflictTags;
+
 		// Token: 0x17000999 RID: 2457
 		// (get) Token: 0x06003F57 RID: 16215 RVA: 0x0021649C File Offset: 0x0021489C
 		public KeyCode MainKey
@@ -114,21 +130,5 @@ namespace Verse
 		{
 			return DefDatabase<KeyBindingDef>.GetNamedSilentFail(name);
 		}
-
-		// Token: 0x040029D4 RID: 10708
-		public KeyBindingCategoryDef category;
-
-		// Token: 0x040029D5 RID: 10709
-		public KeyCode defaultKeyCodeA;
-
-		// Token: 0x040029D6 RID: 10710
-		public KeyCode defaultKeyCodeB;
-
-		// Token: 0x040029D7 RID: 10711
-		public bool devModeOnly = false;
-
-		// Token: 0x040029D8 RID: 10712
-		[NoTranslate]
-		public List<string> extraConflictTags;
 	}
 }

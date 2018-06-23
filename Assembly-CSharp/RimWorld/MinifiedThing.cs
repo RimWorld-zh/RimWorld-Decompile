@@ -9,6 +9,21 @@ namespace RimWorld
 	// Token: 0x0200066F RID: 1647
 	public class MinifiedThing : ThingWithComps, IThingHolder
 	{
+		// Token: 0x04001389 RID: 5001
+		private const float MaxMinifiedGraphicSize = 1.1f;
+
+		// Token: 0x0400138A RID: 5002
+		private const float CrateToGraphicScale = 1.16f;
+
+		// Token: 0x0400138B RID: 5003
+		private ThingOwner innerContainer;
+
+		// Token: 0x0400138C RID: 5004
+		private Graphic cachedGraphic;
+
+		// Token: 0x0400138D RID: 5005
+		private Graphic crateFrontGraphic;
+
 		// Token: 0x06002289 RID: 8841 RVA: 0x0012A276 File Offset: 0x00128676
 		public MinifiedThing()
 		{
@@ -271,20 +286,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04001389 RID: 5001
-		private const float MaxMinifiedGraphicSize = 1.1f;
-
-		// Token: 0x0400138A RID: 5002
-		private const float CrateToGraphicScale = 1.16f;
-
-		// Token: 0x0400138B RID: 5003
-		private ThingOwner innerContainer;
-
-		// Token: 0x0400138C RID: 5004
-		private Graphic cachedGraphic;
-
-		// Token: 0x0400138D RID: 5005
-		private Graphic crateFrontGraphic;
 	}
 }

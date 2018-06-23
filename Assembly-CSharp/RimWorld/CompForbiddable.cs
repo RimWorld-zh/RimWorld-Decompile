@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000710 RID: 1808
 	public class CompForbiddable : ThingComp
 	{
+		// Token: 0x040015DC RID: 5596
+		private bool forbiddenInt = false;
+
 		// Token: 0x170005FD RID: 1533
 		// (get) Token: 0x060027BB RID: 10171 RVA: 0x001544A4 File Offset: 0x001528A4
 		// (set) Token: 0x060027BC RID: 10172 RVA: 0x001544C0 File Offset: 0x001528C0
@@ -122,8 +125,5 @@ namespace RimWorld
 			yield return com;
 			yield break;
 		}
-
-		// Token: 0x040015DC RID: 5596
-		private bool forbiddenInt = false;
 	}
 }

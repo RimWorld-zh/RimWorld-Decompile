@@ -7,6 +7,15 @@ namespace Verse
 	// Token: 0x02000E34 RID: 3636
 	public class Dialog_PackageSelector : Window
 	{
+		// Token: 0x040038DF RID: 14559
+		private Action<DefPackage> setPackageCallback;
+
+		// Token: 0x040038E0 RID: 14560
+		private ModContentPack mod;
+
+		// Token: 0x040038E1 RID: 14561
+		private string relFolder;
+
 		// Token: 0x06005619 RID: 22041 RVA: 0x002C632A File Offset: 0x002C472A
 		public Dialog_PackageSelector(Action<DefPackage> setPackageCallback, ModContentPack mod, string relFolder)
 		{
@@ -55,14 +64,5 @@ namespace Verse
 			}
 			listing_Standard.End();
 		}
-
-		// Token: 0x040038DF RID: 14559
-		private Action<DefPackage> setPackageCallback;
-
-		// Token: 0x040038E0 RID: 14560
-		private ModContentPack mod;
-
-		// Token: 0x040038E1 RID: 14561
-		private string relFolder;
 	}
 }

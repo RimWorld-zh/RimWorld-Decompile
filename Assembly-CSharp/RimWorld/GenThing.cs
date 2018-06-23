@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x02000980 RID: 2432
 	public static class GenThing
 	{
+		// Token: 0x0400235E RID: 9054
+		private static List<Thing> tmpThings = new List<Thing>();
+
+		// Token: 0x0400235F RID: 9055
+		private static List<string> tmpThingLabels = new List<string>();
+
+		// Token: 0x04002360 RID: 9056
+		private static List<Pair<string, int>> tmpThingCounts = new List<Pair<string, int>>();
+
 		// Token: 0x060036D1 RID: 14033 RVA: 0x001D48F4 File Offset: 0x001D2CF4
 		public static Vector3 TrueCenter(this Thing t)
 		{
@@ -163,14 +172,5 @@ namespace RimWorld
 			}
 			return num;
 		}
-
-		// Token: 0x0400235E RID: 9054
-		private static List<Thing> tmpThings = new List<Thing>();
-
-		// Token: 0x0400235F RID: 9055
-		private static List<string> tmpThingLabels = new List<string>();
-
-		// Token: 0x04002360 RID: 9056
-		private static List<Pair<string, int>> tmpThingCounts = new List<Pair<string, int>>();
 	}
 }

@@ -6,6 +6,9 @@ namespace Verse.AI
 	// Token: 0x02000A67 RID: 2663
 	public class MentalStateWorker_SadisticRageTantrum : MentalStateWorker
 	{
+		// Token: 0x0400255C RID: 9564
+		private static List<Thing> tmpThings = new List<Thing>();
+
 		// Token: 0x06003B40 RID: 15168 RVA: 0x001F6AF0 File Offset: 0x001F4EF0
 		public override bool StateCanOccur(Pawn pawn)
 		{
@@ -24,8 +27,5 @@ namespace Verse.AI
 			}
 			return result;
 		}
-
-		// Token: 0x0400255C RID: 9564
-		private static List<Thing> tmpThings = new List<Thing>();
 	}
 }

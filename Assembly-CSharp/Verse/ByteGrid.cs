@@ -5,6 +5,15 @@ namespace Verse
 	// Token: 0x02000C1A RID: 3098
 	public sealed class ByteGrid : IExposable
 	{
+		// Token: 0x04002E51 RID: 11857
+		private byte[] grid;
+
+		// Token: 0x04002E52 RID: 11858
+		private int mapSizeX;
+
+		// Token: 0x04002E53 RID: 11859
+		private int mapSizeZ;
+
 		// Token: 0x060043C4 RID: 17348 RVA: 0x0023CC1C File Offset: 0x0023B01C
 		public ByteGrid()
 		{
@@ -124,14 +133,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04002E51 RID: 11857
-		private byte[] grid;
-
-		// Token: 0x04002E52 RID: 11858
-		private int mapSizeX;
-
-		// Token: 0x04002E53 RID: 11859
-		private int mapSizeZ;
 	}
 }

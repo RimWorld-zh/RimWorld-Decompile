@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x0200012A RID: 298
 	public class ItemAvailability
 	{
+		// Token: 0x04000310 RID: 784
+		private Map map;
+
+		// Token: 0x04000311 RID: 785
+		private Dictionary<int, bool> cachedResults = new Dictionary<int, bool>();
+
 		// Token: 0x06000626 RID: 1574 RVA: 0x000413D4 File Offset: 0x0003F7D4
 		public ItemAvailability(Map map)
 		{
@@ -44,11 +50,5 @@ namespace RimWorld
 			}
 			return flag;
 		}
-
-		// Token: 0x04000310 RID: 784
-		private Map map;
-
-		// Token: 0x04000311 RID: 785
-		private Dictionary<int, bool> cachedResults = new Dictionary<int, bool>();
 	}
 }

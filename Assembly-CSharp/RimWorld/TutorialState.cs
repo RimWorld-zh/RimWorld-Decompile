@@ -7,6 +7,21 @@ namespace RimWorld
 	// Token: 0x020008D4 RID: 2260
 	public class TutorialState : IExposable
 	{
+		// Token: 0x04001BC4 RID: 7108
+		public List<Thing> startingItems = new List<Thing>();
+
+		// Token: 0x04001BC5 RID: 7109
+		public CellRect roomRect;
+
+		// Token: 0x04001BC6 RID: 7110
+		public CellRect sandbagsRect;
+
+		// Token: 0x04001BC7 RID: 7111
+		public int endTick = -1;
+
+		// Token: 0x04001BC8 RID: 7112
+		public bool introDone = false;
+
 		// Token: 0x060033C7 RID: 13255 RVA: 0x001BAAA8 File Offset: 0x001B8EA8
 		public void ExposeData()
 		{
@@ -42,20 +57,5 @@ namespace RimWorld
 				this.startingItems.Add(t);
 			}
 		}
-
-		// Token: 0x04001BC4 RID: 7108
-		public List<Thing> startingItems = new List<Thing>();
-
-		// Token: 0x04001BC5 RID: 7109
-		public CellRect roomRect;
-
-		// Token: 0x04001BC6 RID: 7110
-		public CellRect sandbagsRect;
-
-		// Token: 0x04001BC7 RID: 7111
-		public int endTick = -1;
-
-		// Token: 0x04001BC8 RID: 7112
-		public bool introDone = false;
 	}
 }

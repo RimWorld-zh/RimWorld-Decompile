@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x02000699 RID: 1689
 	public class Building_AncientCryptosleepCasket : Building_CryptosleepCasket
 	{
+		// Token: 0x040013FE RID: 5118
+		public int groupID = -1;
+
 		// Token: 0x060023CD RID: 9165 RVA: 0x00133BF2 File Offset: 0x00131FF2
 		public override void ExposeData()
 		{
@@ -91,8 +94,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x040013FE RID: 5118
-		public int groupID = -1;
 	}
 }

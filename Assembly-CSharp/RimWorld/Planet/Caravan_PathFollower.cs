@@ -9,6 +9,57 @@ namespace RimWorld.Planet
 	// Token: 0x020005E9 RID: 1513
 	public class Caravan_PathFollower : IExposable
 	{
+		// Token: 0x040011BB RID: 4539
+		private Caravan caravan;
+
+		// Token: 0x040011BC RID: 4540
+		private bool moving;
+
+		// Token: 0x040011BD RID: 4541
+		private bool paused;
+
+		// Token: 0x040011BE RID: 4542
+		public int nextTile = -1;
+
+		// Token: 0x040011BF RID: 4543
+		public int previousTileForDrawingIfInDoubt = -1;
+
+		// Token: 0x040011C0 RID: 4544
+		public float nextTileCostLeft = 0f;
+
+		// Token: 0x040011C1 RID: 4545
+		public float nextTileCostTotal = 1f;
+
+		// Token: 0x040011C2 RID: 4546
+		private int destTile;
+
+		// Token: 0x040011C3 RID: 4547
+		private CaravanArrivalAction arrivalAction;
+
+		// Token: 0x040011C4 RID: 4548
+		public WorldPath curPath;
+
+		// Token: 0x040011C5 RID: 4549
+		public int lastPathedTargetTile;
+
+		// Token: 0x040011C6 RID: 4550
+		public const int MaxMoveTicks = 120000;
+
+		// Token: 0x040011C7 RID: 4551
+		private const int MaxCheckAheadNodes = 20;
+
+		// Token: 0x040011C8 RID: 4552
+		private const int MinCostWalk = 50;
+
+		// Token: 0x040011C9 RID: 4553
+		private const int MinCostAmble = 60;
+
+		// Token: 0x040011CA RID: 4554
+		public const float DefaultPathCostToPayPerTick = 1f;
+
+		// Token: 0x040011CB RID: 4555
+		public const int FinalNoRestPushMaxDurationTicks = 10000;
+
 		// Token: 0x06001DF6 RID: 7670 RVA: 0x0010209F File Offset: 0x0010049F
 		public Caravan_PathFollower(Caravan caravan)
 		{
@@ -537,56 +588,5 @@ namespace RimWorld.Planet
 			}
 			return result;
 		}
-
-		// Token: 0x040011BB RID: 4539
-		private Caravan caravan;
-
-		// Token: 0x040011BC RID: 4540
-		private bool moving;
-
-		// Token: 0x040011BD RID: 4541
-		private bool paused;
-
-		// Token: 0x040011BE RID: 4542
-		public int nextTile = -1;
-
-		// Token: 0x040011BF RID: 4543
-		public int previousTileForDrawingIfInDoubt = -1;
-
-		// Token: 0x040011C0 RID: 4544
-		public float nextTileCostLeft = 0f;
-
-		// Token: 0x040011C1 RID: 4545
-		public float nextTileCostTotal = 1f;
-
-		// Token: 0x040011C2 RID: 4546
-		private int destTile;
-
-		// Token: 0x040011C3 RID: 4547
-		private CaravanArrivalAction arrivalAction;
-
-		// Token: 0x040011C4 RID: 4548
-		public WorldPath curPath;
-
-		// Token: 0x040011C5 RID: 4549
-		public int lastPathedTargetTile;
-
-		// Token: 0x040011C6 RID: 4550
-		public const int MaxMoveTicks = 120000;
-
-		// Token: 0x040011C7 RID: 4551
-		private const int MaxCheckAheadNodes = 20;
-
-		// Token: 0x040011C8 RID: 4552
-		private const int MinCostWalk = 50;
-
-		// Token: 0x040011C9 RID: 4553
-		private const int MinCostAmble = 60;
-
-		// Token: 0x040011CA RID: 4554
-		public const float DefaultPathCostToPayPerTick = 1f;
-
-		// Token: 0x040011CB RID: 4555
-		public const int FinalNoRestPushMaxDurationTicks = 10000;
 	}
 }

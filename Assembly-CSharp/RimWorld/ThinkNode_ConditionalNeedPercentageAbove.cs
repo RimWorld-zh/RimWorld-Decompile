@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x020001D8 RID: 472
 	public class ThinkNode_ConditionalNeedPercentageAbove : ThinkNode_Conditional
 	{
+		// Token: 0x040003DE RID: 990
+		private NeedDef need = null;
+
+		// Token: 0x040003DF RID: 991
+		private float threshold = 0f;
+
 		// Token: 0x06000967 RID: 2407 RVA: 0x000565DC File Offset: 0x000549DC
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -21,11 +27,5 @@ namespace RimWorld
 		{
 			return pawn.needs.TryGetNeed(this.need).CurLevelPercentage > this.threshold;
 		}
-
-		// Token: 0x040003DE RID: 990
-		private NeedDef need = null;
-
-		// Token: 0x040003DF RID: 991
-		private float threshold = 0f;
 	}
 }

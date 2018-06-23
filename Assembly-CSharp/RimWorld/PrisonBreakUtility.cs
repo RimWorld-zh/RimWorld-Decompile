@@ -12,6 +12,47 @@ namespace RimWorld
 	// Token: 0x020004EB RID: 1259
 	public static class PrisonBreakUtility
 	{
+		// Token: 0x04000D2F RID: 3375
+		private const float BaseInitiatePrisonBreakMtbDays = 45f;
+
+		// Token: 0x04000D30 RID: 3376
+		private const float DistanceToJoinPrisonBreak = 20f;
+
+		// Token: 0x04000D31 RID: 3377
+		private const float ChanceForRoomToJoinPrisonBreak = 0.5f;
+
+		// Token: 0x04000D32 RID: 3378
+		private const float SapperChance = 0.5f;
+
+		// Token: 0x04000D33 RID: 3379
+		private static readonly SimpleCurve PrisonBreakMTBFactorForDaysSincePrisonBreak = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 2f),
+				true
+			},
+			{
+				new CurvePoint(2f, 1.5f),
+				true
+			},
+			{
+				new CurvePoint(6f, 1f),
+				true
+			}
+		};
+
+		// Token: 0x04000D34 RID: 3380
+		private static HashSet<Room> participatingRooms = new HashSet<Room>();
+
+		// Token: 0x04000D35 RID: 3381
+		private static List<Pawn> allEscapingPrisoners = new List<Pawn>();
+
+		// Token: 0x04000D36 RID: 3382
+		private static List<Room> tmpToRemove = new List<Room>();
+
+		// Token: 0x04000D37 RID: 3383
+		private static List<Pawn> escapingPrisonersGroup = new List<Pawn>();
+
 		// Token: 0x06001695 RID: 5781 RVA: 0x000C843C File Offset: 0x000C683C
 		public static float InitiatePrisonBreakMtbDays(Pawn pawn)
 		{
@@ -267,46 +308,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000D2F RID: 3375
-		private const float BaseInitiatePrisonBreakMtbDays = 45f;
-
-		// Token: 0x04000D30 RID: 3376
-		private const float DistanceToJoinPrisonBreak = 20f;
-
-		// Token: 0x04000D31 RID: 3377
-		private const float ChanceForRoomToJoinPrisonBreak = 0.5f;
-
-		// Token: 0x04000D32 RID: 3378
-		private const float SapperChance = 0.5f;
-
-		// Token: 0x04000D33 RID: 3379
-		private static readonly SimpleCurve PrisonBreakMTBFactorForDaysSincePrisonBreak = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 2f),
-				true
-			},
-			{
-				new CurvePoint(2f, 1.5f),
-				true
-			},
-			{
-				new CurvePoint(6f, 1f),
-				true
-			}
-		};
-
-		// Token: 0x04000D34 RID: 3380
-		private static HashSet<Room> participatingRooms = new HashSet<Room>();
-
-		// Token: 0x04000D35 RID: 3381
-		private static List<Pawn> allEscapingPrisoners = new List<Pawn>();
-
-		// Token: 0x04000D36 RID: 3382
-		private static List<Room> tmpToRemove = new List<Room>();
-
-		// Token: 0x04000D37 RID: 3383
-		private static List<Pawn> escapingPrisonersGroup = new List<Pawn>();
 	}
 }

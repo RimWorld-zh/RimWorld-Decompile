@@ -9,6 +9,24 @@ namespace RimWorld.Planet
 	// Token: 0x0200058E RID: 1422
 	public abstract class WorldLayer_Paths : WorldLayer
 	{
+		// Token: 0x04001002 RID: 4098
+		protected bool pointyEnds = false;
+
+		// Token: 0x04001003 RID: 4099
+		private List<Vector3> tmpVerts = new List<Vector3>();
+
+		// Token: 0x04001004 RID: 4100
+		private List<Vector3> tmpHexVerts = new List<Vector3>();
+
+		// Token: 0x04001005 RID: 4101
+		private List<int> tmpNeighbors = new List<int>();
+
+		// Token: 0x04001006 RID: 4102
+		private static List<int> lhsID = new List<int>();
+
+		// Token: 0x04001007 RID: 4103
+		private static List<int> rhsID = new List<int>();
+
 		// Token: 0x06001B2C RID: 6956 RVA: 0x000E9918 File Offset: 0x000E7D18
 		public void GeneratePaths(LayerSubMesh subMesh, int tileID, List<WorldLayer_Paths.OutputDirection> nodes, Color32 color, bool allowSmoothTransition)
 		{
@@ -122,24 +140,6 @@ namespace RimWorld.Planet
 
 		// Token: 0x06001B2E RID: 6958
 		public abstract Vector3 FinalizePoint(Vector3 inp, float distortionFrequency, float distortionIntensity);
-
-		// Token: 0x04001002 RID: 4098
-		protected bool pointyEnds = false;
-
-		// Token: 0x04001003 RID: 4099
-		private List<Vector3> tmpVerts = new List<Vector3>();
-
-		// Token: 0x04001004 RID: 4100
-		private List<Vector3> tmpHexVerts = new List<Vector3>();
-
-		// Token: 0x04001005 RID: 4101
-		private List<int> tmpNeighbors = new List<int>();
-
-		// Token: 0x04001006 RID: 4102
-		private static List<int> lhsID = new List<int>();
-
-		// Token: 0x04001007 RID: 4103
-		private static List<int> rhsID = new List<int>();
 
 		// Token: 0x0200058F RID: 1423
 		public struct OutputDirection

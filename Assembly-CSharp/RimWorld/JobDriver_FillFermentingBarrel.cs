@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x02000068 RID: 104
 	public class JobDriver_FillFermentingBarrel : JobDriver
 	{
+		// Token: 0x04000208 RID: 520
+		private const TargetIndex BarrelInd = TargetIndex.A;
+
+		// Token: 0x04000209 RID: 521
+		private const TargetIndex WortInd = TargetIndex.B;
+
+		// Token: 0x0400020A RID: 522
+		private const int Duration = 200;
+
 		// Token: 0x17000097 RID: 151
 		// (get) Token: 0x060002E4 RID: 740 RVA: 0x0001F2BC File Offset: 0x0001D6BC
 		protected Building_FermentingBarrel Barrel
@@ -61,14 +70,5 @@ namespace RimWorld
 			};
 			yield break;
 		}
-
-		// Token: 0x04000208 RID: 520
-		private const TargetIndex BarrelInd = TargetIndex.A;
-
-		// Token: 0x04000209 RID: 521
-		private const TargetIndex WortInd = TargetIndex.B;
-
-		// Token: 0x0400020A RID: 522
-		private const int Duration = 200;
 	}
 }

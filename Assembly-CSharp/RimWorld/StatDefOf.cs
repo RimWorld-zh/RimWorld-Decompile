@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class StatDefOf
 	{
-		// Token: 0x06003644 RID: 13892 RVA: 0x001D0B85 File Offset: 0x001CEF85
-		static StatDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(StatDefOf));
-		}
-
 		// Token: 0x040020F8 RID: 8440
 		public static StatDef MaxHitPoints;
 
@@ -308,5 +302,11 @@ namespace RimWorld
 
 		// Token: 0x0400215A RID: 8538
 		public static StatDef SurgerySuccessChanceFactor;
+
+		// Token: 0x06003644 RID: 13892 RVA: 0x001D0B85 File Offset: 0x001CEF85
+		static StatDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(StatDefOf));
+		}
 	}
 }

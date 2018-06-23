@@ -6,6 +6,21 @@ namespace Verse.AI
 	// Token: 0x02000A73 RID: 2675
 	public class MentalState_Slaughterer : MentalState
 	{
+		// Token: 0x0400256F RID: 9583
+		private int lastSlaughterTicks = -1;
+
+		// Token: 0x04002570 RID: 9584
+		private int animalsSlaughtered;
+
+		// Token: 0x04002571 RID: 9585
+		private const int NoAnimalToSlaughterCheckInterval = 600;
+
+		// Token: 0x04002572 RID: 9586
+		private const int MinTicksBetweenSlaughter = 3750;
+
+		// Token: 0x04002573 RID: 9587
+		private const int MaxAnimalsSlaughtered = 4;
+
 		// Token: 0x17000915 RID: 2325
 		// (get) Token: 0x06003B82 RID: 15234 RVA: 0x001F79FC File Offset: 0x001F5DFC
 		public bool SlaughteredRecently
@@ -54,20 +69,5 @@ namespace Verse.AI
 				base.RecoverFromState();
 			}
 		}
-
-		// Token: 0x0400256F RID: 9583
-		private int lastSlaughterTicks = -1;
-
-		// Token: 0x04002570 RID: 9584
-		private int animalsSlaughtered;
-
-		// Token: 0x04002571 RID: 9585
-		private const int NoAnimalToSlaughterCheckInterval = 600;
-
-		// Token: 0x04002572 RID: 9586
-		private const int MinTicksBetweenSlaughter = 3750;
-
-		// Token: 0x04002573 RID: 9587
-		private const int MaxAnimalsSlaughtered = 4;
 	}
 }

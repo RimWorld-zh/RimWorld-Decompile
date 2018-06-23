@@ -7,6 +7,21 @@ namespace RimWorld
 	// Token: 0x0200034F RID: 847
 	public class IncidentWorker_QuestDownedRefugee : IncidentWorker
 	{
+		// Token: 0x040008FD RID: 2301
+		private const float NoSitePartChance = 0.3f;
+
+		// Token: 0x040008FE RID: 2302
+		private const int MinDistance = 2;
+
+		// Token: 0x040008FF RID: 2303
+		private const int MaxDistance = 13;
+
+		// Token: 0x04000900 RID: 2304
+		private static readonly string DownedRefugeeQuestThreatTag = "DownedRefugeeQuestThreat";
+
+		// Token: 0x04000901 RID: 2305
+		private static readonly IntRange TimeoutDaysRange = new IntRange(7, 15);
+
 		// Token: 0x06000EA1 RID: 3745 RVA: 0x0007BE18 File Offset: 0x0007A218
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
@@ -76,20 +91,5 @@ namespace RimWorld
 		{
 			return TileFinder.TryFindNewSiteTile(out tile, 2, 13, true, false, -1);
 		}
-
-		// Token: 0x040008FD RID: 2301
-		private const float NoSitePartChance = 0.3f;
-
-		// Token: 0x040008FE RID: 2302
-		private const int MinDistance = 2;
-
-		// Token: 0x040008FF RID: 2303
-		private const int MaxDistance = 13;
-
-		// Token: 0x04000900 RID: 2304
-		private static readonly string DownedRefugeeQuestThreatTag = "DownedRefugeeQuestThreat";
-
-		// Token: 0x04000901 RID: 2305
-		private static readonly IntRange TimeoutDaysRange = new IntRange(7, 15);
 	}
 }

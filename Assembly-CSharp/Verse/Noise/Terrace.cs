@@ -8,6 +8,12 @@ namespace Verse.Noise
 	// Token: 0x02000F9D RID: 3997
 	public class Terrace : ModuleBase
 	{
+		// Token: 0x04003F34 RID: 16180
+		private List<double> m_data = new List<double>();
+
+		// Token: 0x04003F35 RID: 16181
+		private bool m_inverted = false;
+
 		// Token: 0x06006085 RID: 24709 RVA: 0x0030ED78 File Offset: 0x0030D178
 		public Terrace() : base(1)
 		{
@@ -132,11 +138,5 @@ namespace Verse.Noise
 			}
 			return result;
 		}
-
-		// Token: 0x04003F34 RID: 16180
-		private List<double> m_data = new List<double>();
-
-		// Token: 0x04003F35 RID: 16181
-		private bool m_inverted = false;
 	}
 }

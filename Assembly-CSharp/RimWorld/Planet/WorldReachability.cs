@@ -6,6 +6,18 @@ namespace RimWorld.Planet
 	// Token: 0x02000543 RID: 1347
 	public class WorldReachability
 	{
+		// Token: 0x04000ECE RID: 3790
+		private int[] fields;
+
+		// Token: 0x04000ECF RID: 3791
+		private int nextFieldID;
+
+		// Token: 0x04000ED0 RID: 3792
+		private int impassableFieldID;
+
+		// Token: 0x04000ED1 RID: 3793
+		private int minValidFieldID;
+
 		// Token: 0x06001937 RID: 6455 RVA: 0x000DB70E File Offset: 0x000D9B0E
 		public WorldReachability()
 		{
@@ -85,17 +97,5 @@ namespace RimWorld.Planet
 				this.nextFieldID++;
 			}
 		}
-
-		// Token: 0x04000ECE RID: 3790
-		private int[] fields;
-
-		// Token: 0x04000ECF RID: 3791
-		private int nextFieldID;
-
-		// Token: 0x04000ED0 RID: 3792
-		private int impassableFieldID;
-
-		// Token: 0x04000ED1 RID: 3793
-		private int minValidFieldID;
 	}
 }

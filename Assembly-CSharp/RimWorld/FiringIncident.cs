@@ -6,6 +6,15 @@ namespace RimWorld
 	// Token: 0x02000315 RID: 789
 	public class FiringIncident : IExposable
 	{
+		// Token: 0x04000895 RID: 2197
+		public IncidentDef def;
+
+		// Token: 0x04000896 RID: 2198
+		public IncidentParms parms = new IncidentParms();
+
+		// Token: 0x04000897 RID: 2199
+		public StorytellerComp source;
+
 		// Token: 0x06000D5F RID: 3423 RVA: 0x00073387 File Offset: 0x00071787
 		public FiringIncident()
 		{
@@ -45,14 +54,5 @@ namespace RimWorld
 			}
 			return text2;
 		}
-
-		// Token: 0x04000895 RID: 2197
-		public IncidentDef def;
-
-		// Token: 0x04000896 RID: 2198
-		public IncidentParms parms = new IncidentParms();
-
-		// Token: 0x04000897 RID: 2199
-		public StorytellerComp source;
 	}
 }

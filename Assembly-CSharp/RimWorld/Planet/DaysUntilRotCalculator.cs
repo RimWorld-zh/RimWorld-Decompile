@@ -8,6 +8,24 @@ namespace RimWorld.Planet
 	// Token: 0x020005EF RID: 1519
 	public static class DaysUntilRotCalculator
 	{
+		// Token: 0x040011EB RID: 4587
+		private static List<ThingCount> tmpThingCounts = new List<ThingCount>();
+
+		// Token: 0x040011EC RID: 4588
+		private static List<ThingCount> tmpThingCountsFromTradeables = new List<ThingCount>();
+
+		// Token: 0x040011ED RID: 4589
+		private static List<Pair<float, float>> tmpNutritions = new List<Pair<float, float>>();
+
+		// Token: 0x040011EE RID: 4590
+		private static List<Thing> thingsInReverse = new List<Thing>();
+
+		// Token: 0x040011EF RID: 4591
+		private static List<Pair<int, int>> tmpTicksToArrive = new List<Pair<int, int>>();
+
+		// Token: 0x040011F0 RID: 4592
+		public const float InfiniteDaysUntilRot = 600f;
+
 		// Token: 0x06001E37 RID: 7735 RVA: 0x00104B7C File Offset: 0x00102F7C
 		public static float ApproxDaysUntilRot(List<ThingCount> potentiallyFood, int tile, WorldPath path = null, float nextTileCostLeft = 0f, int caravanTicksPerMove = 3500)
 		{
@@ -191,23 +209,5 @@ namespace RimWorld.Planet
 			DaysUntilRotCalculator.tmpThingCounts.Clear();
 			return result;
 		}
-
-		// Token: 0x040011EB RID: 4587
-		private static List<ThingCount> tmpThingCounts = new List<ThingCount>();
-
-		// Token: 0x040011EC RID: 4588
-		private static List<ThingCount> tmpThingCountsFromTradeables = new List<ThingCount>();
-
-		// Token: 0x040011ED RID: 4589
-		private static List<Pair<float, float>> tmpNutritions = new List<Pair<float, float>>();
-
-		// Token: 0x040011EE RID: 4590
-		private static List<Thing> thingsInReverse = new List<Thing>();
-
-		// Token: 0x040011EF RID: 4591
-		private static List<Pair<int, int>> tmpTicksToArrive = new List<Pair<int, int>>();
-
-		// Token: 0x040011F0 RID: 4592
-		public const float InfiniteDaysUntilRot = 600f;
 	}
 }

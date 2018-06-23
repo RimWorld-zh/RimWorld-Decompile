@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x0200013A RID: 314
 	internal class WorkGiver_CleanFilth : WorkGiver_Scanner
 	{
+		// Token: 0x04000313 RID: 787
+		private int MinTicksSinceThickened = 600;
+
 		// Token: 0x170000F2 RID: 242
 		// (get) Token: 0x06000665 RID: 1637 RVA: 0x00042AA0 File Offset: 0x00040EA0
 		public override PathEndMode PathEndMode
@@ -106,8 +109,5 @@ namespace RimWorld
 			}
 			return job;
 		}
-
-		// Token: 0x04000313 RID: 787
-		private int MinTicksSinceThickened = 600;
 	}
 }

@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000BF7 RID: 3063
 	public static class TranslationHandleUtility
 	{
+		// Token: 0x04002DB9 RID: 11705
+		public const char HandleIndexCharacter = '-';
+
+		// Token: 0x04002DBA RID: 11706
+		private static Regex StringFormatSymbolsRegex = new Regex("{[0-9]*}");
+
 		// Token: 0x060042F1 RID: 17137 RVA: 0x002373CC File Offset: 0x002357CC
 		public static int GetElementIndexByHandle(object list, string handle, int handleIndex)
 		{
@@ -332,11 +338,5 @@ namespace Verse
 		{
 			return lhs.DeclaringType == rhs.DeclaringType && lhs.Name == rhs.Name;
 		}
-
-		// Token: 0x04002DB9 RID: 11705
-		public const char HandleIndexCharacter = '-';
-
-		// Token: 0x04002DBA RID: 11706
-		private static Regex StringFormatSymbolsRegex = new Regex("{[0-9]*}");
 	}
 }

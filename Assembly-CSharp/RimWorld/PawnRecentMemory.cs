@@ -6,6 +6,15 @@ namespace RimWorld
 	// Token: 0x02000507 RID: 1287
 	public class PawnRecentMemory : IExposable
 	{
+		// Token: 0x04000DB9 RID: 3513
+		private Pawn pawn;
+
+		// Token: 0x04000DBA RID: 3514
+		private int lastLightTick = 999999;
+
+		// Token: 0x04000DBB RID: 3515
+		private int lastOutdoorTick = 999999;
+
 		// Token: 0x0600171F RID: 5919 RVA: 0x000CBC54 File Offset: 0x000CA054
 		public PawnRecentMemory(Pawn pawn)
 		{
@@ -71,14 +80,5 @@ namespace RimWorld
 				this.lastOutdoorTick = Find.TickManager.TicksGame;
 			}
 		}
-
-		// Token: 0x04000DB9 RID: 3513
-		private Pawn pawn;
-
-		// Token: 0x04000DBA RID: 3514
-		private int lastLightTick = 999999;
-
-		// Token: 0x04000DBB RID: 3515
-		private int lastOutdoorTick = 999999;
 	}
 }

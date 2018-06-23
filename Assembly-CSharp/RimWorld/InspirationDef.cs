@@ -7,21 +7,6 @@ namespace RimWorld
 	// Token: 0x020002A5 RID: 677
 	public class InspirationDef : Def
 	{
-		// Token: 0x170001A8 RID: 424
-		// (get) Token: 0x06000B5B RID: 2907 RVA: 0x00066978 File Offset: 0x00064D78
-		public InspirationWorker Worker
-		{
-			get
-			{
-				if (this.workerInt == null)
-				{
-					this.workerInt = (InspirationWorker)Activator.CreateInstance(this.workerClass);
-					this.workerInt.def = this;
-				}
-				return this.workerInt;
-			}
-		}
-
 		// Token: 0x04000636 RID: 1590
 		public Type inspirationClass = typeof(Inspiration);
 
@@ -86,5 +71,20 @@ namespace RimWorld
 		// Token: 0x04000649 RID: 1609
 		[Unsaved]
 		private InspirationWorker workerInt = null;
+
+		// Token: 0x170001A8 RID: 424
+		// (get) Token: 0x06000B5B RID: 2907 RVA: 0x00066978 File Offset: 0x00064D78
+		public InspirationWorker Worker
+		{
+			get
+			{
+				if (this.workerInt == null)
+				{
+					this.workerInt = (InspirationWorker)Activator.CreateInstance(this.workerClass);
+					this.workerInt.def = this;
+				}
+				return this.workerInt;
+			}
+		}
 	}
 }

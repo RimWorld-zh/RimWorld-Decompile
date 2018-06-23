@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000E80 RID: 3712
 	public class Listing_Tree : Listing_Lines
 	{
+		// Token: 0x040039F0 RID: 14832
+		public float nestIndentWidth = 11f;
+
+		// Token: 0x040039F1 RID: 14833
+		protected const float OpenCloseWidgetSize = 18f;
+
 		// Token: 0x17000DD2 RID: 3538
 		// (get) Token: 0x0600579D RID: 22429 RVA: 0x001B2D60 File Offset: 0x001B1160
 		protected virtual float LabelWidth
@@ -130,11 +136,5 @@ namespace Verse
 			this.curY += 24f;
 			return result;
 		}
-
-		// Token: 0x040039F0 RID: 14832
-		public float nestIndentWidth = 11f;
-
-		// Token: 0x040039F1 RID: 14833
-		protected const float OpenCloseWidgetSize = 18f;
 	}
 }

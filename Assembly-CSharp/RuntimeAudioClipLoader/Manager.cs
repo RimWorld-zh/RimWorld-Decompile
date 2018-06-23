@@ -13,6 +13,37 @@ namespace RuntimeAudioClipLoader
 	[StaticConstructorOnStartup]
 	public class Manager : MonoBehaviour
 	{
+		// Token: 0x0400241A RID: 9242
+		private static readonly string[] supportedFormats;
+
+		// Token: 0x0400241B RID: 9243
+		private static Dictionary<string, AudioClip> cache = new Dictionary<string, AudioClip>();
+
+		// Token: 0x0400241C RID: 9244
+		private static Queue<Manager.AudioInstance> deferredLoadQueue = new Queue<Manager.AudioInstance>();
+
+		// Token: 0x0400241D RID: 9245
+		private static Queue<Manager.AudioInstance> deferredSetDataQueue = new Queue<Manager.AudioInstance>();
+
+		// Token: 0x0400241E RID: 9246
+		private static Queue<Manager.AudioInstance> deferredSetFail = new Queue<Manager.AudioInstance>();
+
+		// Token: 0x0400241F RID: 9247
+		private static Thread deferredLoaderThread;
+
+		// Token: 0x04002420 RID: 9248
+		private static GameObject managerInstance;
+
+		// Token: 0x04002421 RID: 9249
+		private static Dictionary<AudioClip, AudioClipLoadType> audioClipLoadType = new Dictionary<AudioClip, AudioClipLoadType>();
+
+		// Token: 0x04002422 RID: 9250
+		private static Dictionary<AudioClip, AudioDataLoadState> audioLoadState = new Dictionary<AudioClip, AudioDataLoadState>();
+
+		// Token: 0x04002423 RID: 9251
+		[CompilerGenerated]
+		private static ThreadStart <>f__mg$cache0;
+
 		// Token: 0x0600388D RID: 14477 RVA: 0x001E3AA4 File Offset: 0x001E1EA4
 		static Manager()
 		{
@@ -295,40 +326,24 @@ namespace RuntimeAudioClipLoader
 			Manager.cache.Clear();
 		}
 
-		// Token: 0x0400241A RID: 9242
-		private static readonly string[] supportedFormats;
-
-		// Token: 0x0400241B RID: 9243
-		private static Dictionary<string, AudioClip> cache = new Dictionary<string, AudioClip>();
-
-		// Token: 0x0400241C RID: 9244
-		private static Queue<Manager.AudioInstance> deferredLoadQueue = new Queue<Manager.AudioInstance>();
-
-		// Token: 0x0400241D RID: 9245
-		private static Queue<Manager.AudioInstance> deferredSetDataQueue = new Queue<Manager.AudioInstance>();
-
-		// Token: 0x0400241E RID: 9246
-		private static Queue<Manager.AudioInstance> deferredSetFail = new Queue<Manager.AudioInstance>();
-
-		// Token: 0x0400241F RID: 9247
-		private static Thread deferredLoaderThread;
-
-		// Token: 0x04002420 RID: 9248
-		private static GameObject managerInstance;
-
-		// Token: 0x04002421 RID: 9249
-		private static Dictionary<AudioClip, AudioClipLoadType> audioClipLoadType = new Dictionary<AudioClip, AudioClipLoadType>();
-
-		// Token: 0x04002422 RID: 9250
-		private static Dictionary<AudioClip, AudioDataLoadState> audioLoadState = new Dictionary<AudioClip, AudioDataLoadState>();
-
-		// Token: 0x04002423 RID: 9251
-		[CompilerGenerated]
-		private static ThreadStart <>f__mg$cache0;
-
 		// Token: 0x020009DC RID: 2524
 		private class AudioInstance
 		{
+			// Token: 0x04002424 RID: 9252
+			public AudioClip audioClip;
+
+			// Token: 0x04002425 RID: 9253
+			public CustomAudioFileReader reader;
+
+			// Token: 0x04002426 RID: 9254
+			public float[] dataToSet;
+
+			// Token: 0x04002427 RID: 9255
+			public int samplesCount;
+
+			// Token: 0x04002428 RID: 9256
+			public Stream streamToDisposeOnceDone;
+
 			// Token: 0x170008AF RID: 2223
 			// (get) Token: 0x0600389E RID: 14494 RVA: 0x001E4250 File Offset: 0x001E2650
 			public int channels
@@ -354,21 +369,6 @@ namespace RuntimeAudioClipLoader
 			{
 				return ai.audioClip;
 			}
-
-			// Token: 0x04002424 RID: 9252
-			public AudioClip audioClip;
-
-			// Token: 0x04002425 RID: 9253
-			public CustomAudioFileReader reader;
-
-			// Token: 0x04002426 RID: 9254
-			public float[] dataToSet;
-
-			// Token: 0x04002427 RID: 9255
-			public int samplesCount;
-
-			// Token: 0x04002428 RID: 9256
-			public Stream streamToDisposeOnceDone;
 		}
 	}
 }

@@ -5,6 +5,9 @@ namespace Verse
 	// Token: 0x02000FAD RID: 4013
 	public abstract class RandomNumberGenerator
 	{
+		// Token: 0x04003F82 RID: 16258
+		public uint seed = (uint)DateTime.Now.GetHashCode();
+
 		// Token: 0x0600612A RID: 24874
 		public abstract int GetInt(uint iterations);
 
@@ -13,8 +16,5 @@ namespace Verse
 		{
 			return (float)(((double)this.GetInt(iterations) - -2147483648.0) / 4294967295.0);
 		}
-
-		// Token: 0x04003F82 RID: 16258
-		public uint seed = (uint)DateTime.Now.GetHashCode();
 	}
 }

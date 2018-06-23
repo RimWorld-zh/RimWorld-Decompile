@@ -8,6 +8,18 @@ namespace RimWorld
 	// Token: 0x02000481 RID: 1153
 	public class NameBank
 	{
+		// Token: 0x04000C32 RID: 3122
+		public PawnNameCategory nameType;
+
+		// Token: 0x04000C33 RID: 3123
+		private List<string>[,] names;
+
+		// Token: 0x04000C34 RID: 3124
+		private static readonly int numGenders = Enum.GetValues(typeof(Gender)).Length;
+
+		// Token: 0x04000C35 RID: 3125
+		private static readonly int numSlots = Enum.GetValues(typeof(PawnNameSlot)).Length;
+
 		// Token: 0x06001462 RID: 5218 RVA: 0x000B2AA0 File Offset: 0x000B0EA0
 		public NameBank(PawnNameCategory ID)
 		{
@@ -123,17 +135,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000C32 RID: 3122
-		public PawnNameCategory nameType;
-
-		// Token: 0x04000C33 RID: 3123
-		private List<string>[,] names;
-
-		// Token: 0x04000C34 RID: 3124
-		private static readonly int numGenders = Enum.GetValues(typeof(Gender)).Length;
-
-		// Token: 0x04000C35 RID: 3125
-		private static readonly int numSlots = Enum.GetValues(typeof(PawnNameSlot)).Length;
 	}
 }

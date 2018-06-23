@@ -8,6 +8,18 @@ namespace RimWorld.Planet
 	// Token: 0x020005C4 RID: 1476
 	public static class WorldGenerator
 	{
+		// Token: 0x04001125 RID: 4389
+		private static List<WorldGenStepDef> tmpGenSteps = new List<WorldGenStepDef>();
+
+		// Token: 0x04001126 RID: 4390
+		public const float DefaultPlanetCoverage = 0.3f;
+
+		// Token: 0x04001127 RID: 4391
+		public const OverallRainfall DefaultOverallRainfall = OverallRainfall.Normal;
+
+		// Token: 0x04001128 RID: 4392
+		public const OverallTemperature DefaultOverallTemperature = OverallTemperature.Normal;
+
 		// Token: 0x17000425 RID: 1061
 		// (get) Token: 0x06001C75 RID: 7285 RVA: 0x000F4CD0 File Offset: 0x000F30D0
 		public static IEnumerable<WorldGenStepDef> GenStepsInOrder
@@ -134,17 +146,5 @@ namespace RimWorld.Planet
 		{
 			return GenText.StableStringHash(seedString);
 		}
-
-		// Token: 0x04001125 RID: 4389
-		private static List<WorldGenStepDef> tmpGenSteps = new List<WorldGenStepDef>();
-
-		// Token: 0x04001126 RID: 4390
-		public const float DefaultPlanetCoverage = 0.3f;
-
-		// Token: 0x04001127 RID: 4391
-		public const OverallRainfall DefaultOverallRainfall = OverallRainfall.Normal;
-
-		// Token: 0x04001128 RID: 4392
-		public const OverallTemperature DefaultOverallTemperature = OverallTemperature.Normal;
 	}
 }

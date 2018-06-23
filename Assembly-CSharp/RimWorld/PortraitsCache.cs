@@ -10,6 +10,18 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class PortraitsCache
 	{
+		// Token: 0x04001784 RID: 6020
+		private static List<RenderTexture> renderTexturesPool = new List<RenderTexture>();
+
+		// Token: 0x04001785 RID: 6021
+		private static List<PortraitsCache.CachedPortraitsWithParams> cachedPortraits = new List<PortraitsCache.CachedPortraitsWithParams>();
+
+		// Token: 0x04001786 RID: 6022
+		private static List<Pawn> toRemove = new List<Pawn>();
+
+		// Token: 0x04001787 RID: 6023
+		private static List<Pawn> toSetDirty = new List<Pawn>();
+
 		// Token: 0x06002BB8 RID: 11192 RVA: 0x00172A48 File Offset: 0x00170E48
 		public static RenderTexture Get(Pawn pawn, Vector2 size, Vector3 cameraOffset = default(Vector3), float cameraZoom = 1f)
 		{
@@ -181,22 +193,13 @@ namespace RimWorld
 			return Current.ProgramState == ProgramState.Playing && pawn.Drawer.renderer.graphics.flasher.FlashingNowOrRecently;
 		}
 
-		// Token: 0x04001784 RID: 6020
-		private static List<RenderTexture> renderTexturesPool = new List<RenderTexture>();
-
-		// Token: 0x04001785 RID: 6021
-		private static List<PortraitsCache.CachedPortraitsWithParams> cachedPortraits = new List<PortraitsCache.CachedPortraitsWithParams>();
-
-		// Token: 0x04001786 RID: 6022
-		private static List<Pawn> toRemove = new List<Pawn>();
-
-		// Token: 0x04001787 RID: 6023
-		private static List<Pawn> toSetDirty = new List<Pawn>();
-
 		// Token: 0x020007B5 RID: 1973
 		[StructLayout(LayoutKind.Sequential, Size = 1)]
 		private struct CachedPortrait
 		{
+			// Token: 0x0400178B RID: 6027
+			private const float CacheDuration = 1f;
+
 			// Token: 0x06002BC4 RID: 11204 RVA: 0x001730AA File Offset: 0x001714AA
 			public CachedPortrait(RenderTexture renderTexture, bool dirty, float lastUseTime)
 			{
@@ -230,9 +233,6 @@ namespace RimWorld
 					return Time.time - this.LastUseTime > 1f;
 				}
 			}
-
-			// Token: 0x0400178B RID: 6027
-			private const float CacheDuration = 1f;
 		}
 
 		// Token: 0x020007B6 RID: 1974

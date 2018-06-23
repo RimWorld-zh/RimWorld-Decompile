@@ -9,6 +9,12 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003A7 RID: 935
 	public class SymbolResolver_CultivatedPlants : SymbolResolver
 	{
+		// Token: 0x04000A11 RID: 2577
+		private const float MinPlantGrowth = 0.2f;
+
+		// Token: 0x04000A12 RID: 2578
+		private static List<Thing> tmpThings = new List<Thing>();
+
 		// Token: 0x0600103D RID: 4157 RVA: 0x00088BC8 File Offset: 0x00086FC8
 		public override bool CanResolve(ResolveParams rp)
 		{
@@ -115,11 +121,5 @@ namespace RimWorld.BaseGen
 			SymbolResolver_CultivatedPlants.tmpThings.Clear();
 			return true;
 		}
-
-		// Token: 0x04000A11 RID: 2577
-		private const float MinPlantGrowth = 0.2f;
-
-		// Token: 0x04000A12 RID: 2578
-		private static List<Thing> tmpThings = new List<Thing>();
 	}
 }

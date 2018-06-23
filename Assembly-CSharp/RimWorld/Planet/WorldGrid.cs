@@ -9,6 +9,96 @@ namespace RimWorld.Planet
 	// Token: 0x020005C5 RID: 1477
 	public class WorldGrid : IExposable
 	{
+		// Token: 0x0400112B RID: 4395
+		public List<Tile> tiles = new List<Tile>();
+
+		// Token: 0x0400112C RID: 4396
+		public List<Vector3> verts;
+
+		// Token: 0x0400112D RID: 4397
+		public List<int> tileIDToVerts_offsets;
+
+		// Token: 0x0400112E RID: 4398
+		public List<int> tileIDToNeighbors_offsets;
+
+		// Token: 0x0400112F RID: 4399
+		public List<int> tileIDToNeighbors_values;
+
+		// Token: 0x04001130 RID: 4400
+		public float averageTileSize;
+
+		// Token: 0x04001131 RID: 4401
+		public Vector3 viewCenter;
+
+		// Token: 0x04001132 RID: 4402
+		public float viewAngle;
+
+		// Token: 0x04001133 RID: 4403
+		private byte[] tileBiome;
+
+		// Token: 0x04001134 RID: 4404
+		private byte[] tileElevation;
+
+		// Token: 0x04001135 RID: 4405
+		private byte[] tileHilliness;
+
+		// Token: 0x04001136 RID: 4406
+		private byte[] tileTemperature;
+
+		// Token: 0x04001137 RID: 4407
+		private byte[] tileRainfall;
+
+		// Token: 0x04001138 RID: 4408
+		private byte[] tileSwampiness;
+
+		// Token: 0x04001139 RID: 4409
+		public byte[] tileFeature;
+
+		// Token: 0x0400113A RID: 4410
+		private byte[] tileRoadOrigins;
+
+		// Token: 0x0400113B RID: 4411
+		private byte[] tileRoadAdjacency;
+
+		// Token: 0x0400113C RID: 4412
+		private byte[] tileRoadDef;
+
+		// Token: 0x0400113D RID: 4413
+		private byte[] tileRiverOrigins;
+
+		// Token: 0x0400113E RID: 4414
+		private byte[] tileRiverAdjacency;
+
+		// Token: 0x0400113F RID: 4415
+		private byte[] tileRiverDef;
+
+		// Token: 0x04001140 RID: 4416
+		private static List<int> tmpNeighbors = new List<int>();
+
+		// Token: 0x04001141 RID: 4417
+		private const int SubdivisionsCount = 10;
+
+		// Token: 0x04001142 RID: 4418
+		public const float PlanetRadius = 100f;
+
+		// Token: 0x04001143 RID: 4419
+		public const int ElevationOffset = 8192;
+
+		// Token: 0x04001144 RID: 4420
+		public const int TemperatureOffset = 300;
+
+		// Token: 0x04001145 RID: 4421
+		public const float TemperatureMultiplier = 10f;
+
+		// Token: 0x04001146 RID: 4422
+		private int cachedTraversalDistance = -1;
+
+		// Token: 0x04001147 RID: 4423
+		private int cachedTraversalDistanceForStart = -1;
+
+		// Token: 0x04001148 RID: 4424
+		private int cachedTraversalDistanceForEnd = -1;
+
 		// Token: 0x06001C7E RID: 7294 RVA: 0x000F5124 File Offset: 0x000F3524
 		public WorldGrid()
 		{
@@ -824,95 +914,5 @@ namespace RimWorld.Planet
 				}
 			}
 		}
-
-		// Token: 0x0400112B RID: 4395
-		public List<Tile> tiles = new List<Tile>();
-
-		// Token: 0x0400112C RID: 4396
-		public List<Vector3> verts;
-
-		// Token: 0x0400112D RID: 4397
-		public List<int> tileIDToVerts_offsets;
-
-		// Token: 0x0400112E RID: 4398
-		public List<int> tileIDToNeighbors_offsets;
-
-		// Token: 0x0400112F RID: 4399
-		public List<int> tileIDToNeighbors_values;
-
-		// Token: 0x04001130 RID: 4400
-		public float averageTileSize;
-
-		// Token: 0x04001131 RID: 4401
-		public Vector3 viewCenter;
-
-		// Token: 0x04001132 RID: 4402
-		public float viewAngle;
-
-		// Token: 0x04001133 RID: 4403
-		private byte[] tileBiome;
-
-		// Token: 0x04001134 RID: 4404
-		private byte[] tileElevation;
-
-		// Token: 0x04001135 RID: 4405
-		private byte[] tileHilliness;
-
-		// Token: 0x04001136 RID: 4406
-		private byte[] tileTemperature;
-
-		// Token: 0x04001137 RID: 4407
-		private byte[] tileRainfall;
-
-		// Token: 0x04001138 RID: 4408
-		private byte[] tileSwampiness;
-
-		// Token: 0x04001139 RID: 4409
-		public byte[] tileFeature;
-
-		// Token: 0x0400113A RID: 4410
-		private byte[] tileRoadOrigins;
-
-		// Token: 0x0400113B RID: 4411
-		private byte[] tileRoadAdjacency;
-
-		// Token: 0x0400113C RID: 4412
-		private byte[] tileRoadDef;
-
-		// Token: 0x0400113D RID: 4413
-		private byte[] tileRiverOrigins;
-
-		// Token: 0x0400113E RID: 4414
-		private byte[] tileRiverAdjacency;
-
-		// Token: 0x0400113F RID: 4415
-		private byte[] tileRiverDef;
-
-		// Token: 0x04001140 RID: 4416
-		private static List<int> tmpNeighbors = new List<int>();
-
-		// Token: 0x04001141 RID: 4417
-		private const int SubdivisionsCount = 10;
-
-		// Token: 0x04001142 RID: 4418
-		public const float PlanetRadius = 100f;
-
-		// Token: 0x04001143 RID: 4419
-		public const int ElevationOffset = 8192;
-
-		// Token: 0x04001144 RID: 4420
-		public const int TemperatureOffset = 300;
-
-		// Token: 0x04001145 RID: 4421
-		public const float TemperatureMultiplier = 10f;
-
-		// Token: 0x04001146 RID: 4422
-		private int cachedTraversalDistance = -1;
-
-		// Token: 0x04001147 RID: 4423
-		private int cachedTraversalDistanceForStart = -1;
-
-		// Token: 0x04001148 RID: 4424
-		private int cachedTraversalDistanceForEnd = -1;
 	}
 }

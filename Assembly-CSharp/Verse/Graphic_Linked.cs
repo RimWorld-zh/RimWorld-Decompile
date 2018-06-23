@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000DD7 RID: 3543
 	public class Graphic_Linked : Graphic
 	{
+		// Token: 0x040034BB RID: 13499
+		protected Graphic subGraphic = null;
+
 		// Token: 0x06004F5C RID: 20316 RVA: 0x0012D3F8 File Offset: 0x0012B7F8
 		public Graphic_Linked()
 		{
@@ -97,8 +100,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x040034BB RID: 13499
-		protected Graphic subGraphic = null;
 	}
 }

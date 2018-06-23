@@ -9,6 +9,35 @@ namespace UnityStandardAssets.ImageEffects
 	[AddComponentMenu("Image Effects/Rendering/Screen Space Ambient Obscurance")]
 	internal class ScreenSpaceAmbientObscurance : PostEffectsBase
 	{
+		// Token: 0x0400083F RID: 2111
+		[Range(0f, 3f)]
+		public float intensity = 0.5f;
+
+		// Token: 0x04000840 RID: 2112
+		[Range(0.1f, 3f)]
+		public float radius = 0.2f;
+
+		// Token: 0x04000841 RID: 2113
+		[Range(0f, 3f)]
+		public int blurIterations = 1;
+
+		// Token: 0x04000842 RID: 2114
+		[Range(0f, 5f)]
+		public float blurFilterDistance = 1.25f;
+
+		// Token: 0x04000843 RID: 2115
+		[Range(0f, 1f)]
+		public int downsample = 0;
+
+		// Token: 0x04000844 RID: 2116
+		public Texture2D rand = null;
+
+		// Token: 0x04000845 RID: 2117
+		public Shader aoShader = null;
+
+		// Token: 0x04000846 RID: 2118
+		private Material aoMaterial = null;
+
 		// Token: 0x06000958 RID: 2392 RVA: 0x000182BC File Offset: 0x000164BC
 		public override bool CheckResources()
 		{
@@ -78,34 +107,5 @@ namespace UnityStandardAssets.ImageEffects
 				RenderTexture.ReleaseTemporary(renderTexture);
 			}
 		}
-
-		// Token: 0x0400083F RID: 2111
-		[Range(0f, 3f)]
-		public float intensity = 0.5f;
-
-		// Token: 0x04000840 RID: 2112
-		[Range(0.1f, 3f)]
-		public float radius = 0.2f;
-
-		// Token: 0x04000841 RID: 2113
-		[Range(0f, 3f)]
-		public int blurIterations = 1;
-
-		// Token: 0x04000842 RID: 2114
-		[Range(0f, 5f)]
-		public float blurFilterDistance = 1.25f;
-
-		// Token: 0x04000843 RID: 2115
-		[Range(0f, 1f)]
-		public int downsample = 0;
-
-		// Token: 0x04000844 RID: 2116
-		public Texture2D rand = null;
-
-		// Token: 0x04000845 RID: 2117
-		public Shader aoShader = null;
-
-		// Token: 0x04000846 RID: 2118
-		private Material aoMaterial = null;
 	}
 }

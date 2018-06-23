@@ -12,6 +12,30 @@ namespace Verse
 	// Token: 0x02000CC5 RID: 3269
 	public class ModMetaData : WorkshopUploadable
 	{
+		// Token: 0x040030E9 RID: 12521
+		private DirectoryInfo rootDirInt;
+
+		// Token: 0x040030EA RID: 12522
+		private ContentSource source;
+
+		// Token: 0x040030EB RID: 12523
+		public Texture2D previewImage = null;
+
+		// Token: 0x040030EC RID: 12524
+		public bool enabled = true;
+
+		// Token: 0x040030ED RID: 12525
+		private ModMetaData.ModMetaDataInternal meta = new ModMetaData.ModMetaDataInternal();
+
+		// Token: 0x040030EE RID: 12526
+		private WorkshopItemHook workshopHookInt;
+
+		// Token: 0x040030EF RID: 12527
+		private PublishedFileId_t publishedFileIdInt = PublishedFileId_t.Invalid;
+
+		// Token: 0x040030F0 RID: 12528
+		private const string AboutFolderName = "About";
+
 		// Token: 0x06004841 RID: 18497 RVA: 0x002606F4 File Offset: 0x0025EAF4
 		public ModMetaData(string localAbsPath)
 		{
@@ -352,30 +376,6 @@ namespace Verse
 		{
 			return this.Identifier + "(" + this.RootDir.ToString() + ")";
 		}
-
-		// Token: 0x040030E9 RID: 12521
-		private DirectoryInfo rootDirInt;
-
-		// Token: 0x040030EA RID: 12522
-		private ContentSource source;
-
-		// Token: 0x040030EB RID: 12523
-		public Texture2D previewImage = null;
-
-		// Token: 0x040030EC RID: 12524
-		public bool enabled = true;
-
-		// Token: 0x040030ED RID: 12525
-		private ModMetaData.ModMetaDataInternal meta = new ModMetaData.ModMetaDataInternal();
-
-		// Token: 0x040030EE RID: 12526
-		private WorkshopItemHook workshopHookInt;
-
-		// Token: 0x040030EF RID: 12527
-		private PublishedFileId_t publishedFileIdInt = PublishedFileId_t.Invalid;
-
-		// Token: 0x040030F0 RID: 12528
-		private const string AboutFolderName = "About";
 
 		// Token: 0x02000CC6 RID: 3270
 		private class ModMetaDataInternal

@@ -11,6 +11,42 @@ namespace RimWorld
 	// Token: 0x0200019A RID: 410
 	public class LordToil_Siege : LordToil
 	{
+		// Token: 0x0400038D RID: 909
+		public Dictionary<Pawn, DutyDef> rememberedDuties = new Dictionary<Pawn, DutyDef>();
+
+		// Token: 0x0400038E RID: 910
+		private const float BaseRadiusMin = 14f;
+
+		// Token: 0x0400038F RID: 911
+		private const float BaseRadiusMax = 25f;
+
+		// Token: 0x04000390 RID: 912
+		private static readonly FloatRange MealCountRangePerRaider = new FloatRange(1f, 3f);
+
+		// Token: 0x04000391 RID: 913
+		private const int StartBuildingDelay = 450;
+
+		// Token: 0x04000392 RID: 914
+		private static readonly FloatRange BuilderCountFraction = new FloatRange(0.25f, 0.4f);
+
+		// Token: 0x04000393 RID: 915
+		private const float FractionLossesToAssault = 0.4f;
+
+		// Token: 0x04000394 RID: 916
+		private const int InitalShellsPerCannon = 5;
+
+		// Token: 0x04000395 RID: 917
+		private const int ReplenishAtShells = 4;
+
+		// Token: 0x04000396 RID: 918
+		private const int ShellReplenishCount = 10;
+
+		// Token: 0x04000397 RID: 919
+		private const int ReplenishAtMeals = 5;
+
+		// Token: 0x04000398 RID: 920
+		private const int MealReplenishCount = 12;
+
 		// Token: 0x06000877 RID: 2167 RVA: 0x0005068B File Offset: 0x0004EA8B
 		public LordToil_Siege(IntVec3 siegeCenter, float blueprintPoints)
 		{
@@ -374,41 +410,5 @@ namespace RimWorld
 				frame.Destroy(DestroyMode.Cancel);
 			}
 		}
-
-		// Token: 0x0400038D RID: 909
-		public Dictionary<Pawn, DutyDef> rememberedDuties = new Dictionary<Pawn, DutyDef>();
-
-		// Token: 0x0400038E RID: 910
-		private const float BaseRadiusMin = 14f;
-
-		// Token: 0x0400038F RID: 911
-		private const float BaseRadiusMax = 25f;
-
-		// Token: 0x04000390 RID: 912
-		private static readonly FloatRange MealCountRangePerRaider = new FloatRange(1f, 3f);
-
-		// Token: 0x04000391 RID: 913
-		private const int StartBuildingDelay = 450;
-
-		// Token: 0x04000392 RID: 914
-		private static readonly FloatRange BuilderCountFraction = new FloatRange(0.25f, 0.4f);
-
-		// Token: 0x04000393 RID: 915
-		private const float FractionLossesToAssault = 0.4f;
-
-		// Token: 0x04000394 RID: 916
-		private const int InitalShellsPerCannon = 5;
-
-		// Token: 0x04000395 RID: 917
-		private const int ReplenishAtShells = 4;
-
-		// Token: 0x04000396 RID: 918
-		private const int ShellReplenishCount = 10;
-
-		// Token: 0x04000397 RID: 919
-		private const int ReplenishAtMeals = 5;
-
-		// Token: 0x04000398 RID: 920
-		private const int MealReplenishCount = 12;
 	}
 }

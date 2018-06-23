@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x02000746 RID: 1862
 	public class CompQuality : ThingComp
 	{
+		// Token: 0x04001680 RID: 5760
+		private QualityCategory qualityInt = QualityCategory.Normal;
+
 		// Token: 0x17000667 RID: 1639
 		// (get) Token: 0x06002944 RID: 10564 RVA: 0x0015F3B0 File Offset: 0x0015D7B0
 		public QualityCategory Quality
@@ -62,8 +65,5 @@ namespace RimWorld
 				this.Quality.GetLabel().CapitalizeFirst()
 			});
 		}
-
-		// Token: 0x04001680 RID: 5760
-		private QualityCategory qualityInt = QualityCategory.Normal;
 	}
 }

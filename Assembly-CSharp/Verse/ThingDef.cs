@@ -11,6 +11,358 @@ namespace Verse
 	// Token: 0x02000BAA RID: 2986
 	public class ThingDef : BuildableDef
 	{
+		// Token: 0x04002BA5 RID: 11173
+		public Type thingClass;
+
+		// Token: 0x04002BA6 RID: 11174
+		public ThingCategory category;
+
+		// Token: 0x04002BA7 RID: 11175
+		public TickerType tickerType = TickerType.Never;
+
+		// Token: 0x04002BA8 RID: 11176
+		public int stackLimit = 1;
+
+		// Token: 0x04002BA9 RID: 11177
+		public IntVec2 size = new IntVec2(1, 1);
+
+		// Token: 0x04002BAA RID: 11178
+		public bool destroyable = true;
+
+		// Token: 0x04002BAB RID: 11179
+		public bool rotatable = true;
+
+		// Token: 0x04002BAC RID: 11180
+		public bool smallVolume;
+
+		// Token: 0x04002BAD RID: 11181
+		public bool useHitPoints = true;
+
+		// Token: 0x04002BAE RID: 11182
+		public bool receivesSignals;
+
+		// Token: 0x04002BAF RID: 11183
+		public List<CompProperties> comps = new List<CompProperties>();
+
+		// Token: 0x04002BB0 RID: 11184
+		public List<ThingDefCountClass> killedLeavings;
+
+		// Token: 0x04002BB1 RID: 11185
+		public List<ThingDefCountClass> butcherProducts;
+
+		// Token: 0x04002BB2 RID: 11186
+		public List<ThingDefCountClass> smeltProducts;
+
+		// Token: 0x04002BB3 RID: 11187
+		public bool smeltable;
+
+		// Token: 0x04002BB4 RID: 11188
+		public bool randomizeRotationOnSpawn;
+
+		// Token: 0x04002BB5 RID: 11189
+		public List<DamageMultiplier> damageMultipliers;
+
+		// Token: 0x04002BB6 RID: 11190
+		public bool isTechHediff;
+
+		// Token: 0x04002BB7 RID: 11191
+		public RecipeMakerProperties recipeMaker;
+
+		// Token: 0x04002BB8 RID: 11192
+		public ThingDef minifiedDef;
+
+		// Token: 0x04002BB9 RID: 11193
+		public bool isUnfinishedThing;
+
+		// Token: 0x04002BBA RID: 11194
+		public bool leaveResourcesWhenKilled;
+
+		// Token: 0x04002BBB RID: 11195
+		public ThingDef slagDef;
+
+		// Token: 0x04002BBC RID: 11196
+		public bool isFrame;
+
+		// Token: 0x04002BBD RID: 11197
+		public IntVec3 interactionCellOffset = IntVec3.Zero;
+
+		// Token: 0x04002BBE RID: 11198
+		public bool hasInteractionCell;
+
+		// Token: 0x04002BBF RID: 11199
+		public ThingDef interactionCellIcon;
+
+		// Token: 0x04002BC0 RID: 11200
+		public ThingDef filthLeaving;
+
+		// Token: 0x04002BC1 RID: 11201
+		public bool forceDebugSpawnable;
+
+		// Token: 0x04002BC2 RID: 11202
+		public bool intricate;
+
+		// Token: 0x04002BC3 RID: 11203
+		public bool scatterableOnMapGen = true;
+
+		// Token: 0x04002BC4 RID: 11204
+		public float deepCommonality;
+
+		// Token: 0x04002BC5 RID: 11205
+		public int deepCountPerCell = 300;
+
+		// Token: 0x04002BC6 RID: 11206
+		public IntRange deepLumpSizeRange = IntRange.zero;
+
+		// Token: 0x04002BC7 RID: 11207
+		public float generateCommonality = 1f;
+
+		// Token: 0x04002BC8 RID: 11208
+		public float generateAllowChance = 1f;
+
+		// Token: 0x04002BC9 RID: 11209
+		private bool canOverlapZones = true;
+
+		// Token: 0x04002BCA RID: 11210
+		public FloatRange startingHpRange = FloatRange.One;
+
+		// Token: 0x04002BCB RID: 11211
+		[NoTranslate]
+		public List<string> thingSetMakerTags;
+
+		// Token: 0x04002BCC RID: 11212
+		public bool alwaysFlee;
+
+		// Token: 0x04002BCD RID: 11213
+		public List<Tool> tools;
+
+		// Token: 0x04002BCE RID: 11214
+		public List<RecipeDef> recipes;
+
+		// Token: 0x04002BCF RID: 11215
+		public GraphicData graphicData;
+
+		// Token: 0x04002BD0 RID: 11216
+		public DrawerType drawerType = DrawerType.RealtimeOnly;
+
+		// Token: 0x04002BD1 RID: 11217
+		public bool drawOffscreen;
+
+		// Token: 0x04002BD2 RID: 11218
+		public ColorGenerator colorGenerator;
+
+		// Token: 0x04002BD3 RID: 11219
+		public float hideAtSnowDepth = 99999f;
+
+		// Token: 0x04002BD4 RID: 11220
+		public bool drawDamagedOverlay = true;
+
+		// Token: 0x04002BD5 RID: 11221
+		public bool castEdgeShadows;
+
+		// Token: 0x04002BD6 RID: 11222
+		public float staticSunShadowHeight;
+
+		// Token: 0x04002BD7 RID: 11223
+		public bool selectable;
+
+		// Token: 0x04002BD8 RID: 11224
+		public bool neverMultiSelect;
+
+		// Token: 0x04002BD9 RID: 11225
+		public bool isAutoAttackableMapObject;
+
+		// Token: 0x04002BDA RID: 11226
+		public bool hasTooltip;
+
+		// Token: 0x04002BDB RID: 11227
+		public List<Type> inspectorTabs;
+
+		// Token: 0x04002BDC RID: 11228
+		[Unsaved]
+		public List<InspectTabBase> inspectorTabsResolved;
+
+		// Token: 0x04002BDD RID: 11229
+		public bool seeThroughFog;
+
+		// Token: 0x04002BDE RID: 11230
+		public bool drawGUIOverlay;
+
+		// Token: 0x04002BDF RID: 11231
+		public ResourceCountPriority resourceReadoutPriority = ResourceCountPriority.Uncounted;
+
+		// Token: 0x04002BE0 RID: 11232
+		public bool resourceReadoutAlwaysShow;
+
+		// Token: 0x04002BE1 RID: 11233
+		public bool drawPlaceWorkersWhileSelected;
+
+		// Token: 0x04002BE2 RID: 11234
+		public ConceptDef storedConceptLearnOpportunity;
+
+		// Token: 0x04002BE3 RID: 11235
+		public float uiIconScale = 1f;
+
+		// Token: 0x04002BE4 RID: 11236
+		public bool alwaysHaulable;
+
+		// Token: 0x04002BE5 RID: 11237
+		public bool designateHaulable;
+
+		// Token: 0x04002BE6 RID: 11238
+		public List<ThingCategoryDef> thingCategories;
+
+		// Token: 0x04002BE7 RID: 11239
+		public bool mineable;
+
+		// Token: 0x04002BE8 RID: 11240
+		public bool socialPropernessMatters;
+
+		// Token: 0x04002BE9 RID: 11241
+		public bool stealable = true;
+
+		// Token: 0x04002BEA RID: 11242
+		public SoundDef soundDrop;
+
+		// Token: 0x04002BEB RID: 11243
+		public SoundDef soundPickup;
+
+		// Token: 0x04002BEC RID: 11244
+		public SoundDef soundInteract;
+
+		// Token: 0x04002BED RID: 11245
+		public SoundDef soundImpactDefault;
+
+		// Token: 0x04002BEE RID: 11246
+		public bool saveCompressible;
+
+		// Token: 0x04002BEF RID: 11247
+		public bool isSaveable = true;
+
+		// Token: 0x04002BF0 RID: 11248
+		public bool holdsRoof;
+
+		// Token: 0x04002BF1 RID: 11249
+		public float fillPercent;
+
+		// Token: 0x04002BF2 RID: 11250
+		public bool coversFloor;
+
+		// Token: 0x04002BF3 RID: 11251
+		public bool neverOverlapFloors;
+
+		// Token: 0x04002BF4 RID: 11252
+		public SurfaceType surfaceType = SurfaceType.None;
+
+		// Token: 0x04002BF5 RID: 11253
+		public bool blockPlants;
+
+		// Token: 0x04002BF6 RID: 11254
+		public bool blockLight;
+
+		// Token: 0x04002BF7 RID: 11255
+		public bool blockWind;
+
+		// Token: 0x04002BF8 RID: 11256
+		public Tradeability tradeability = Tradeability.All;
+
+		// Token: 0x04002BF9 RID: 11257
+		[NoTranslate]
+		public List<string> tradeTags;
+
+		// Token: 0x04002BFA RID: 11258
+		public bool tradeNeverStack;
+
+		// Token: 0x04002BFB RID: 11259
+		public ColorGenerator colorGeneratorInTraderStock;
+
+		// Token: 0x04002BFC RID: 11260
+		private List<VerbProperties> verbs = null;
+
+		// Token: 0x04002BFD RID: 11261
+		public float equippedAngleOffset;
+
+		// Token: 0x04002BFE RID: 11262
+		public EquipmentType equipmentType = EquipmentType.None;
+
+		// Token: 0x04002BFF RID: 11263
+		public TechLevel techLevel = TechLevel.Undefined;
+
+		// Token: 0x04002C00 RID: 11264
+		[NoTranslate]
+		public List<string> weaponTags;
+
+		// Token: 0x04002C01 RID: 11265
+		[NoTranslate]
+		public List<string> techHediffsTags;
+
+		// Token: 0x04002C02 RID: 11266
+		public bool destroyOnDrop;
+
+		// Token: 0x04002C03 RID: 11267
+		public List<StatModifier> equippedStatOffsets;
+
+		// Token: 0x04002C04 RID: 11268
+		public BuildableDef entityDefToBuild;
+
+		// Token: 0x04002C05 RID: 11269
+		public ThingDef projectileWhenLoaded;
+
+		// Token: 0x04002C06 RID: 11270
+		public IngestibleProperties ingestible;
+
+		// Token: 0x04002C07 RID: 11271
+		public FilthProperties filth;
+
+		// Token: 0x04002C08 RID: 11272
+		public GasProperties gas;
+
+		// Token: 0x04002C09 RID: 11273
+		public BuildingProperties building;
+
+		// Token: 0x04002C0A RID: 11274
+		public RaceProperties race;
+
+		// Token: 0x04002C0B RID: 11275
+		public ApparelProperties apparel;
+
+		// Token: 0x04002C0C RID: 11276
+		public MoteProperties mote;
+
+		// Token: 0x04002C0D RID: 11277
+		public PlantProperties plant;
+
+		// Token: 0x04002C0E RID: 11278
+		public ProjectileProperties projectile;
+
+		// Token: 0x04002C0F RID: 11279
+		public StuffProperties stuffProps;
+
+		// Token: 0x04002C10 RID: 11280
+		public SkyfallerProperties skyfaller;
+
+		// Token: 0x04002C11 RID: 11281
+		[Unsaved]
+		private string descriptionDetailedCached;
+
+		// Token: 0x04002C12 RID: 11282
+		[Unsaved]
+		public Graphic interactionCellGraphic;
+
+		// Token: 0x04002C13 RID: 11283
+		public const int SmallUnitPerVolume = 10;
+
+		// Token: 0x04002C14 RID: 11284
+		public const float SmallVolumePerUnit = 0.1f;
+
+		// Token: 0x04002C15 RID: 11285
+		private List<RecipeDef> allRecipesCached = null;
+
+		// Token: 0x04002C16 RID: 11286
+		private static List<VerbProperties> EmptyVerbPropertiesList = new List<VerbProperties>();
+
+		// Token: 0x04002C17 RID: 11287
+		private Dictionary<ThingDef, Thing> concreteExamplesInt;
+
 		// Token: 0x170009E5 RID: 2533
 		// (get) Token: 0x0600408A RID: 16522 RVA: 0x0021F7F4 File Offset: 0x0021DBF4
 		public bool EverHaulable
@@ -1577,357 +1929,5 @@ namespace Verse
 			}
 			yield break;
 		}
-
-		// Token: 0x04002BA5 RID: 11173
-		public Type thingClass;
-
-		// Token: 0x04002BA6 RID: 11174
-		public ThingCategory category;
-
-		// Token: 0x04002BA7 RID: 11175
-		public TickerType tickerType = TickerType.Never;
-
-		// Token: 0x04002BA8 RID: 11176
-		public int stackLimit = 1;
-
-		// Token: 0x04002BA9 RID: 11177
-		public IntVec2 size = new IntVec2(1, 1);
-
-		// Token: 0x04002BAA RID: 11178
-		public bool destroyable = true;
-
-		// Token: 0x04002BAB RID: 11179
-		public bool rotatable = true;
-
-		// Token: 0x04002BAC RID: 11180
-		public bool smallVolume;
-
-		// Token: 0x04002BAD RID: 11181
-		public bool useHitPoints = true;
-
-		// Token: 0x04002BAE RID: 11182
-		public bool receivesSignals;
-
-		// Token: 0x04002BAF RID: 11183
-		public List<CompProperties> comps = new List<CompProperties>();
-
-		// Token: 0x04002BB0 RID: 11184
-		public List<ThingDefCountClass> killedLeavings;
-
-		// Token: 0x04002BB1 RID: 11185
-		public List<ThingDefCountClass> butcherProducts;
-
-		// Token: 0x04002BB2 RID: 11186
-		public List<ThingDefCountClass> smeltProducts;
-
-		// Token: 0x04002BB3 RID: 11187
-		public bool smeltable;
-
-		// Token: 0x04002BB4 RID: 11188
-		public bool randomizeRotationOnSpawn;
-
-		// Token: 0x04002BB5 RID: 11189
-		public List<DamageMultiplier> damageMultipliers;
-
-		// Token: 0x04002BB6 RID: 11190
-		public bool isTechHediff;
-
-		// Token: 0x04002BB7 RID: 11191
-		public RecipeMakerProperties recipeMaker;
-
-		// Token: 0x04002BB8 RID: 11192
-		public ThingDef minifiedDef;
-
-		// Token: 0x04002BB9 RID: 11193
-		public bool isUnfinishedThing;
-
-		// Token: 0x04002BBA RID: 11194
-		public bool leaveResourcesWhenKilled;
-
-		// Token: 0x04002BBB RID: 11195
-		public ThingDef slagDef;
-
-		// Token: 0x04002BBC RID: 11196
-		public bool isFrame;
-
-		// Token: 0x04002BBD RID: 11197
-		public IntVec3 interactionCellOffset = IntVec3.Zero;
-
-		// Token: 0x04002BBE RID: 11198
-		public bool hasInteractionCell;
-
-		// Token: 0x04002BBF RID: 11199
-		public ThingDef interactionCellIcon;
-
-		// Token: 0x04002BC0 RID: 11200
-		public ThingDef filthLeaving;
-
-		// Token: 0x04002BC1 RID: 11201
-		public bool forceDebugSpawnable;
-
-		// Token: 0x04002BC2 RID: 11202
-		public bool intricate;
-
-		// Token: 0x04002BC3 RID: 11203
-		public bool scatterableOnMapGen = true;
-
-		// Token: 0x04002BC4 RID: 11204
-		public float deepCommonality;
-
-		// Token: 0x04002BC5 RID: 11205
-		public int deepCountPerCell = 300;
-
-		// Token: 0x04002BC6 RID: 11206
-		public IntRange deepLumpSizeRange = IntRange.zero;
-
-		// Token: 0x04002BC7 RID: 11207
-		public float generateCommonality = 1f;
-
-		// Token: 0x04002BC8 RID: 11208
-		public float generateAllowChance = 1f;
-
-		// Token: 0x04002BC9 RID: 11209
-		private bool canOverlapZones = true;
-
-		// Token: 0x04002BCA RID: 11210
-		public FloatRange startingHpRange = FloatRange.One;
-
-		// Token: 0x04002BCB RID: 11211
-		[NoTranslate]
-		public List<string> thingSetMakerTags;
-
-		// Token: 0x04002BCC RID: 11212
-		public bool alwaysFlee;
-
-		// Token: 0x04002BCD RID: 11213
-		public List<Tool> tools;
-
-		// Token: 0x04002BCE RID: 11214
-		public List<RecipeDef> recipes;
-
-		// Token: 0x04002BCF RID: 11215
-		public GraphicData graphicData;
-
-		// Token: 0x04002BD0 RID: 11216
-		public DrawerType drawerType = DrawerType.RealtimeOnly;
-
-		// Token: 0x04002BD1 RID: 11217
-		public bool drawOffscreen;
-
-		// Token: 0x04002BD2 RID: 11218
-		public ColorGenerator colorGenerator;
-
-		// Token: 0x04002BD3 RID: 11219
-		public float hideAtSnowDepth = 99999f;
-
-		// Token: 0x04002BD4 RID: 11220
-		public bool drawDamagedOverlay = true;
-
-		// Token: 0x04002BD5 RID: 11221
-		public bool castEdgeShadows;
-
-		// Token: 0x04002BD6 RID: 11222
-		public float staticSunShadowHeight;
-
-		// Token: 0x04002BD7 RID: 11223
-		public bool selectable;
-
-		// Token: 0x04002BD8 RID: 11224
-		public bool neverMultiSelect;
-
-		// Token: 0x04002BD9 RID: 11225
-		public bool isAutoAttackableMapObject;
-
-		// Token: 0x04002BDA RID: 11226
-		public bool hasTooltip;
-
-		// Token: 0x04002BDB RID: 11227
-		public List<Type> inspectorTabs;
-
-		// Token: 0x04002BDC RID: 11228
-		[Unsaved]
-		public List<InspectTabBase> inspectorTabsResolved;
-
-		// Token: 0x04002BDD RID: 11229
-		public bool seeThroughFog;
-
-		// Token: 0x04002BDE RID: 11230
-		public bool drawGUIOverlay;
-
-		// Token: 0x04002BDF RID: 11231
-		public ResourceCountPriority resourceReadoutPriority = ResourceCountPriority.Uncounted;
-
-		// Token: 0x04002BE0 RID: 11232
-		public bool resourceReadoutAlwaysShow;
-
-		// Token: 0x04002BE1 RID: 11233
-		public bool drawPlaceWorkersWhileSelected;
-
-		// Token: 0x04002BE2 RID: 11234
-		public ConceptDef storedConceptLearnOpportunity;
-
-		// Token: 0x04002BE3 RID: 11235
-		public float uiIconScale = 1f;
-
-		// Token: 0x04002BE4 RID: 11236
-		public bool alwaysHaulable;
-
-		// Token: 0x04002BE5 RID: 11237
-		public bool designateHaulable;
-
-		// Token: 0x04002BE6 RID: 11238
-		public List<ThingCategoryDef> thingCategories;
-
-		// Token: 0x04002BE7 RID: 11239
-		public bool mineable;
-
-		// Token: 0x04002BE8 RID: 11240
-		public bool socialPropernessMatters;
-
-		// Token: 0x04002BE9 RID: 11241
-		public bool stealable = true;
-
-		// Token: 0x04002BEA RID: 11242
-		public SoundDef soundDrop;
-
-		// Token: 0x04002BEB RID: 11243
-		public SoundDef soundPickup;
-
-		// Token: 0x04002BEC RID: 11244
-		public SoundDef soundInteract;
-
-		// Token: 0x04002BED RID: 11245
-		public SoundDef soundImpactDefault;
-
-		// Token: 0x04002BEE RID: 11246
-		public bool saveCompressible;
-
-		// Token: 0x04002BEF RID: 11247
-		public bool isSaveable = true;
-
-		// Token: 0x04002BF0 RID: 11248
-		public bool holdsRoof;
-
-		// Token: 0x04002BF1 RID: 11249
-		public float fillPercent;
-
-		// Token: 0x04002BF2 RID: 11250
-		public bool coversFloor;
-
-		// Token: 0x04002BF3 RID: 11251
-		public bool neverOverlapFloors;
-
-		// Token: 0x04002BF4 RID: 11252
-		public SurfaceType surfaceType = SurfaceType.None;
-
-		// Token: 0x04002BF5 RID: 11253
-		public bool blockPlants;
-
-		// Token: 0x04002BF6 RID: 11254
-		public bool blockLight;
-
-		// Token: 0x04002BF7 RID: 11255
-		public bool blockWind;
-
-		// Token: 0x04002BF8 RID: 11256
-		public Tradeability tradeability = Tradeability.All;
-
-		// Token: 0x04002BF9 RID: 11257
-		[NoTranslate]
-		public List<string> tradeTags;
-
-		// Token: 0x04002BFA RID: 11258
-		public bool tradeNeverStack;
-
-		// Token: 0x04002BFB RID: 11259
-		public ColorGenerator colorGeneratorInTraderStock;
-
-		// Token: 0x04002BFC RID: 11260
-		private List<VerbProperties> verbs = null;
-
-		// Token: 0x04002BFD RID: 11261
-		public float equippedAngleOffset;
-
-		// Token: 0x04002BFE RID: 11262
-		public EquipmentType equipmentType = EquipmentType.None;
-
-		// Token: 0x04002BFF RID: 11263
-		public TechLevel techLevel = TechLevel.Undefined;
-
-		// Token: 0x04002C00 RID: 11264
-		[NoTranslate]
-		public List<string> weaponTags;
-
-		// Token: 0x04002C01 RID: 11265
-		[NoTranslate]
-		public List<string> techHediffsTags;
-
-		// Token: 0x04002C02 RID: 11266
-		public bool destroyOnDrop;
-
-		// Token: 0x04002C03 RID: 11267
-		public List<StatModifier> equippedStatOffsets;
-
-		// Token: 0x04002C04 RID: 11268
-		public BuildableDef entityDefToBuild;
-
-		// Token: 0x04002C05 RID: 11269
-		public ThingDef projectileWhenLoaded;
-
-		// Token: 0x04002C06 RID: 11270
-		public IngestibleProperties ingestible;
-
-		// Token: 0x04002C07 RID: 11271
-		public FilthProperties filth;
-
-		// Token: 0x04002C08 RID: 11272
-		public GasProperties gas;
-
-		// Token: 0x04002C09 RID: 11273
-		public BuildingProperties building;
-
-		// Token: 0x04002C0A RID: 11274
-		public RaceProperties race;
-
-		// Token: 0x04002C0B RID: 11275
-		public ApparelProperties apparel;
-
-		// Token: 0x04002C0C RID: 11276
-		public MoteProperties mote;
-
-		// Token: 0x04002C0D RID: 11277
-		public PlantProperties plant;
-
-		// Token: 0x04002C0E RID: 11278
-		public ProjectileProperties projectile;
-
-		// Token: 0x04002C0F RID: 11279
-		public StuffProperties stuffProps;
-
-		// Token: 0x04002C10 RID: 11280
-		public SkyfallerProperties skyfaller;
-
-		// Token: 0x04002C11 RID: 11281
-		[Unsaved]
-		private string descriptionDetailedCached;
-
-		// Token: 0x04002C12 RID: 11282
-		[Unsaved]
-		public Graphic interactionCellGraphic;
-
-		// Token: 0x04002C13 RID: 11283
-		public const int SmallUnitPerVolume = 10;
-
-		// Token: 0x04002C14 RID: 11284
-		public const float SmallVolumePerUnit = 0.1f;
-
-		// Token: 0x04002C15 RID: 11285
-		private List<RecipeDef> allRecipesCached = null;
-
-		// Token: 0x04002C16 RID: 11286
-		private static List<VerbProperties> EmptyVerbPropertiesList = new List<VerbProperties>();
-
-		// Token: 0x04002C17 RID: 11287
-		private Dictionary<ThingDef, Thing> concreteExamplesInt;
 	}
 }

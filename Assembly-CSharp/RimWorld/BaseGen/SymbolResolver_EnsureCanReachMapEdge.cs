@@ -7,6 +7,15 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003AF RID: 943
 	public class SymbolResolver_EnsureCanReachMapEdge : SymbolResolver
 	{
+		// Token: 0x04000A1E RID: 2590
+		private static HashSet<Room> visited = new HashSet<Room>();
+
+		// Token: 0x04000A1F RID: 2591
+		private static List<IntVec3> path = new List<IntVec3>();
+
+		// Token: 0x04000A20 RID: 2592
+		private static List<IntVec3> cellsInRandomOrder = new List<IntVec3>();
+
 		// Token: 0x0600105F RID: 4191 RVA: 0x0008A420 File Offset: 0x00088820
 		public override void Resolve(ResolveParams rp)
 		{
@@ -130,14 +139,5 @@ namespace RimWorld.BaseGen
 		{
 			return b != null && (b.def == ThingDefOf.Wall || b.def.building.isNaturalRock);
 		}
-
-		// Token: 0x04000A1E RID: 2590
-		private static HashSet<Room> visited = new HashSet<Room>();
-
-		// Token: 0x04000A1F RID: 2591
-		private static List<IntVec3> path = new List<IntVec3>();
-
-		// Token: 0x04000A20 RID: 2592
-		private static List<IntVec3> cellsInRandomOrder = new List<IntVec3>();
 	}
 }

@@ -6,6 +6,27 @@ namespace Verse.AI.Group
 	// Token: 0x020009FB RID: 2555
 	public class Transition
 	{
+		// Token: 0x04002480 RID: 9344
+		public List<LordToil> sources;
+
+		// Token: 0x04002481 RID: 9345
+		public LordToil target;
+
+		// Token: 0x04002482 RID: 9346
+		public List<Trigger> triggers = new List<Trigger>();
+
+		// Token: 0x04002483 RID: 9347
+		public List<TransitionAction> preActions = new List<TransitionAction>();
+
+		// Token: 0x04002484 RID: 9348
+		public List<TransitionAction> postActions = new List<TransitionAction>();
+
+		// Token: 0x04002485 RID: 9349
+		public bool canMoveToSameState;
+
+		// Token: 0x04002486 RID: 9350
+		public bool updateDutiesIfMovedToSameState = true;
+
 		// Token: 0x0600395F RID: 14687 RVA: 0x001E73B4 File Offset: 0x001E57B4
 		public Transition(LordToil firstSource, LordToil target, bool canMoveToSameState = false, bool updateDutiesIfMovedToSameState = true)
 		{
@@ -168,26 +189,5 @@ namespace Verse.AI.Group
 				text2
 			});
 		}
-
-		// Token: 0x04002480 RID: 9344
-		public List<LordToil> sources;
-
-		// Token: 0x04002481 RID: 9345
-		public LordToil target;
-
-		// Token: 0x04002482 RID: 9346
-		public List<Trigger> triggers = new List<Trigger>();
-
-		// Token: 0x04002483 RID: 9347
-		public List<TransitionAction> preActions = new List<TransitionAction>();
-
-		// Token: 0x04002484 RID: 9348
-		public List<TransitionAction> postActions = new List<TransitionAction>();
-
-		// Token: 0x04002485 RID: 9349
-		public bool canMoveToSameState;
-
-		// Token: 0x04002486 RID: 9350
-		public bool updateDutiesIfMovedToSameState = true;
 	}
 }

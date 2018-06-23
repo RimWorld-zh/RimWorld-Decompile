@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000666 RID: 1638
 	public class Tale_DoublePawn : Tale
 	{
+		// Token: 0x04001381 RID: 4993
+		public TaleData_Pawn firstPawnData;
+
+		// Token: 0x04001382 RID: 4994
+		public TaleData_Pawn secondPawnData;
+
 		// Token: 0x06002254 RID: 8788 RVA: 0x00123951 File Offset: 0x00121D51
 		public Tale_DoublePawn()
 		{
@@ -102,11 +108,5 @@ namespace RimWorld
 			this.firstPawnData = TaleData_Pawn.GenerateRandom();
 			this.secondPawnData = TaleData_Pawn.GenerateRandom();
 		}
-
-		// Token: 0x04001381 RID: 4993
-		public TaleData_Pawn firstPawnData;
-
-		// Token: 0x04001382 RID: 4994
-		public TaleData_Pawn secondPawnData;
 	}
 }

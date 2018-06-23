@@ -5,6 +5,9 @@ namespace Steamworks
 	// Token: 0x02000154 RID: 340
 	public struct CGameID : IEquatable<CGameID>, IComparable<CGameID>
 	{
+		// Token: 0x04000657 RID: 1623
+		public ulong m_GameID;
+
 		// Token: 0x06000748 RID: 1864 RVA: 0x0000C567 File Offset: 0x0000A767
 		public CGameID(ulong GameID)
 		{
@@ -177,9 +180,6 @@ namespace Steamworks
 		{
 			return this.m_GameID.CompareTo(other.m_GameID);
 		}
-
-		// Token: 0x04000657 RID: 1623
-		public ulong m_GameID;
 
 		// Token: 0x02000155 RID: 341
 		public enum EGameIDType

@@ -11,6 +11,72 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class HealthCardUtility
 	{
+		// Token: 0x04001897 RID: 6295
+		private static Vector2 scrollPosition = Vector2.zero;
+
+		// Token: 0x04001898 RID: 6296
+		private static float scrollViewHeight = 0f;
+
+		// Token: 0x04001899 RID: 6297
+		private static bool highlight = true;
+
+		// Token: 0x0400189A RID: 6298
+		private static bool onOperationTab = false;
+
+		// Token: 0x0400189B RID: 6299
+		private static Vector2 billsScrollPosition = Vector2.zero;
+
+		// Token: 0x0400189C RID: 6300
+		private static float billsScrollHeight = 1000f;
+
+		// Token: 0x0400189D RID: 6301
+		private static bool showAllHediffs = false;
+
+		// Token: 0x0400189E RID: 6302
+		private static bool showHediffsDebugInfo = false;
+
+		// Token: 0x0400189F RID: 6303
+		public const float TopPadding = 20f;
+
+		// Token: 0x040018A0 RID: 6304
+		private const float ThoughtLevelHeight = 25f;
+
+		// Token: 0x040018A1 RID: 6305
+		private const float ThoughtLevelSpacing = 4f;
+
+		// Token: 0x040018A2 RID: 6306
+		private const float IconSize = 20f;
+
+		// Token: 0x040018A3 RID: 6307
+		private static readonly Color HighlightColor = new Color(0.5f, 0.5f, 0.5f, 1f);
+
+		// Token: 0x040018A4 RID: 6308
+		private static readonly Color StaticHighlightColor = new Color(0.75f, 0.75f, 0.85f, 1f);
+
+		// Token: 0x040018A5 RID: 6309
+		private static readonly Color VeryPoorColor = new Color(0.4f, 0.4f, 0.4f);
+
+		// Token: 0x040018A6 RID: 6310
+		private static readonly Color PoorColor = new Color(0.55f, 0.55f, 0.55f);
+
+		// Token: 0x040018A7 RID: 6311
+		private static readonly Color WeakenedColor = new Color(0.7f, 0.7f, 0.7f);
+
+		// Token: 0x040018A8 RID: 6312
+		private static readonly Color EnhancedColor = new Color(0.5f, 0.5f, 0.9f);
+
+		// Token: 0x040018A9 RID: 6313
+		private static readonly Color MediumPainColor = new Color(0.9f, 0.9f, 0f);
+
+		// Token: 0x040018AA RID: 6314
+		private static readonly Color SeverePainColor = new Color(0.9f, 0.5f, 0f);
+
+		// Token: 0x040018AB RID: 6315
+		private static readonly Texture2D BleedingIcon = ContentFinder<Texture2D>.Get("UI/Icons/Medical/Bleeding", true);
+
+		// Token: 0x040018AC RID: 6316
+		private static List<ThingDef> tmpMedicineBestToWorst = new List<ThingDef>();
+
 		// Token: 0x06002E2B RID: 11819 RVA: 0x00186488 File Offset: 0x00184888
 		public static void DrawPawnHealthCard(Rect outRect, Pawn pawn, bool allowOperations, bool showBloodLoss, Thing thingForMedBills)
 		{
@@ -1046,71 +1112,5 @@ namespace RimWorld
 			}
 			return new Pair<string, Color>(first, second);
 		}
-
-		// Token: 0x04001897 RID: 6295
-		private static Vector2 scrollPosition = Vector2.zero;
-
-		// Token: 0x04001898 RID: 6296
-		private static float scrollViewHeight = 0f;
-
-		// Token: 0x04001899 RID: 6297
-		private static bool highlight = true;
-
-		// Token: 0x0400189A RID: 6298
-		private static bool onOperationTab = false;
-
-		// Token: 0x0400189B RID: 6299
-		private static Vector2 billsScrollPosition = Vector2.zero;
-
-		// Token: 0x0400189C RID: 6300
-		private static float billsScrollHeight = 1000f;
-
-		// Token: 0x0400189D RID: 6301
-		private static bool showAllHediffs = false;
-
-		// Token: 0x0400189E RID: 6302
-		private static bool showHediffsDebugInfo = false;
-
-		// Token: 0x0400189F RID: 6303
-		public const float TopPadding = 20f;
-
-		// Token: 0x040018A0 RID: 6304
-		private const float ThoughtLevelHeight = 25f;
-
-		// Token: 0x040018A1 RID: 6305
-		private const float ThoughtLevelSpacing = 4f;
-
-		// Token: 0x040018A2 RID: 6306
-		private const float IconSize = 20f;
-
-		// Token: 0x040018A3 RID: 6307
-		private static readonly Color HighlightColor = new Color(0.5f, 0.5f, 0.5f, 1f);
-
-		// Token: 0x040018A4 RID: 6308
-		private static readonly Color StaticHighlightColor = new Color(0.75f, 0.75f, 0.85f, 1f);
-
-		// Token: 0x040018A5 RID: 6309
-		private static readonly Color VeryPoorColor = new Color(0.4f, 0.4f, 0.4f);
-
-		// Token: 0x040018A6 RID: 6310
-		private static readonly Color PoorColor = new Color(0.55f, 0.55f, 0.55f);
-
-		// Token: 0x040018A7 RID: 6311
-		private static readonly Color WeakenedColor = new Color(0.7f, 0.7f, 0.7f);
-
-		// Token: 0x040018A8 RID: 6312
-		private static readonly Color EnhancedColor = new Color(0.5f, 0.5f, 0.9f);
-
-		// Token: 0x040018A9 RID: 6313
-		private static readonly Color MediumPainColor = new Color(0.9f, 0.9f, 0f);
-
-		// Token: 0x040018AA RID: 6314
-		private static readonly Color SeverePainColor = new Color(0.9f, 0.5f, 0f);
-
-		// Token: 0x040018AB RID: 6315
-		private static readonly Texture2D BleedingIcon = ContentFinder<Texture2D>.Get("UI/Icons/Medical/Bleeding", true);
-
-		// Token: 0x040018AC RID: 6316
-		private static List<ThingDef> tmpMedicineBestToWorst = new List<ThingDef>();
 	}
 }

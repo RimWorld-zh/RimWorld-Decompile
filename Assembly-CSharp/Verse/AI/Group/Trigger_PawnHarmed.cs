@@ -6,6 +6,15 @@ namespace Verse.AI.Group
 	// Token: 0x02000A1A RID: 2586
 	public class Trigger_PawnHarmed : Trigger
 	{
+		// Token: 0x040024AF RID: 9391
+		public float chance = 1f;
+
+		// Token: 0x040024B0 RID: 9392
+		public bool requireInstigatorWithFaction = false;
+
+		// Token: 0x040024B1 RID: 9393
+		public Faction requireInstigatorWithSpecificFaction = null;
+
 		// Token: 0x060039B2 RID: 14770 RVA: 0x001E856E File Offset: 0x001E696E
 		public Trigger_PawnHarmed(float chance = 1f, bool requireInstigatorWithFaction = false, Faction requireInstigatorWithSpecificFaction = null)
 		{
@@ -38,14 +47,5 @@ namespace Verse.AI.Group
 			}
 			return result;
 		}
-
-		// Token: 0x040024AF RID: 9391
-		public float chance = 1f;
-
-		// Token: 0x040024B0 RID: 9392
-		public bool requireInstigatorWithFaction = false;
-
-		// Token: 0x040024B1 RID: 9393
-		public Faction requireInstigatorWithSpecificFaction = null;
 	}
 }

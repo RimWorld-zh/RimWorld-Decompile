@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020002BD RID: 701
 	public abstract class RaidStrategyWorker
 	{
+		// Token: 0x040006DB RID: 1755
+		public RaidStrategyDef def;
+
 		// Token: 0x06000BBC RID: 3004 RVA: 0x000520E8 File Offset: 0x000504E8
 		public virtual float SelectionWeight(Map map, float basePoints)
 		{
@@ -72,8 +75,5 @@ namespace RimWorld
 		{
 			return true;
 		}
-
-		// Token: 0x040006DB RID: 1755
-		public RaidStrategyDef def;
 	}
 }

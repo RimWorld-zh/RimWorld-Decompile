@@ -7,6 +7,9 @@ namespace RimWorld.Planet
 	// Token: 0x02000611 RID: 1553
 	public class TransportPodsArrivalAction_GiveGift : TransportPodsArrivalAction
 	{
+		// Token: 0x04001246 RID: 4678
+		private Settlement settlement;
+
 		// Token: 0x06001F4B RID: 8011 RVA: 0x0010FD5C File Offset: 0x0010E15C
 		public TransportPodsArrivalAction_GiveGift()
 		{
@@ -66,8 +69,5 @@ namespace RimWorld.Planet
 				FactionGiftUtility.GetGoodwillChange(pods, settlement).ToStringWithSign()
 			}), representative, settlement.Tile);
 		}
-
-		// Token: 0x04001246 RID: 4678
-		private Settlement settlement;
 	}
 }

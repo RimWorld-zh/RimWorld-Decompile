@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000065 RID: 101
 	public class JobDriver_ClearSnow : JobDriver
 	{
+		// Token: 0x04000205 RID: 517
+		private float workDone = 0f;
+
+		// Token: 0x04000206 RID: 518
+		private const float ClearWorkPerSnowDepth = 100f;
+
 		// Token: 0x17000095 RID: 149
 		// (get) Token: 0x060002D9 RID: 729 RVA: 0x0001E91C File Offset: 0x0001CD1C
 		private float TotalNeededWork
@@ -49,11 +55,5 @@ namespace RimWorld
 			yield return clearToil;
 			yield break;
 		}
-
-		// Token: 0x04000205 RID: 517
-		private float workDone = 0f;
-
-		// Token: 0x04000206 RID: 518
-		private const float ClearWorkPerSnowDepth = 100f;
 	}
 }

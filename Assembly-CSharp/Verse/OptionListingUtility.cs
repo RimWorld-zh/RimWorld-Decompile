@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000E9E RID: 3742
 	public static class OptionListingUtility
 	{
+		// Token: 0x04003A78 RID: 14968
+		private const float OptionSpacing = 7f;
+
 		// Token: 0x06005869 RID: 22633 RVA: 0x002D50D0 File Offset: 0x002D34D0
 		public static float DrawOptionListing(Rect rect, List<ListableOption> optList)
 		{
@@ -20,8 +23,5 @@ namespace Verse
 			GUI.EndGroup();
 			return num;
 		}
-
-		// Token: 0x04003A78 RID: 14968
-		private const float OptionSpacing = 7f;
 	}
 }

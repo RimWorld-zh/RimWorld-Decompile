@@ -10,6 +10,21 @@ namespace Verse
 	[HasDebugOutput]
 	public class Dialog_PawnTableTest : Window
 	{
+		// Token: 0x040038E2 RID: 14562
+		private PawnColumnDef singleColumn;
+
+		// Token: 0x040038E3 RID: 14563
+		private PawnTable pawnTableMin;
+
+		// Token: 0x040038E4 RID: 14564
+		private PawnTable pawnTableOptimal;
+
+		// Token: 0x040038E5 RID: 14565
+		private PawnTable pawnTableMax;
+
+		// Token: 0x040038E6 RID: 14566
+		private const int TableTitleHeight = 30;
+
 		// Token: 0x0600561D RID: 22045 RVA: 0x002C6450 File Offset: 0x002C4850
 		public Dialog_PawnTableTest(PawnColumnDef singleColumn)
 		{
@@ -100,20 +115,5 @@ namespace Verse
 			}
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
-
-		// Token: 0x040038E2 RID: 14562
-		private PawnColumnDef singleColumn;
-
-		// Token: 0x040038E3 RID: 14563
-		private PawnTable pawnTableMin;
-
-		// Token: 0x040038E4 RID: 14564
-		private PawnTable pawnTableOptimal;
-
-		// Token: 0x040038E5 RID: 14565
-		private PawnTable pawnTableMax;
-
-		// Token: 0x040038E6 RID: 14566
-		private const int TableTitleHeight = 30;
 	}
 }

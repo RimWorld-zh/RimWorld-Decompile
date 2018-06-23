@@ -10,6 +10,75 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class ColonistBar
 	{
+		// Token: 0x04001749 RID: 5961
+		public ColonistBarColonistDrawer drawer = new ColonistBarColonistDrawer();
+
+		// Token: 0x0400174A RID: 5962
+		private ColonistBarDrawLocsFinder drawLocsFinder = new ColonistBarDrawLocsFinder();
+
+		// Token: 0x0400174B RID: 5963
+		private List<ColonistBar.Entry> cachedEntries = new List<ColonistBar.Entry>();
+
+		// Token: 0x0400174C RID: 5964
+		private List<Vector2> cachedDrawLocs = new List<Vector2>();
+
+		// Token: 0x0400174D RID: 5965
+		private float cachedScale = 1f;
+
+		// Token: 0x0400174E RID: 5966
+		private bool entriesDirty = true;
+
+		// Token: 0x0400174F RID: 5967
+		private List<Pawn> colonistsToHighlight = new List<Pawn>();
+
+		// Token: 0x04001750 RID: 5968
+		public static readonly Texture2D BGTex = Command.BGTex;
+
+		// Token: 0x04001751 RID: 5969
+		public static readonly Vector2 BaseSize = new Vector2(48f, 48f);
+
+		// Token: 0x04001752 RID: 5970
+		public const float BaseSelectedTexJump = 20f;
+
+		// Token: 0x04001753 RID: 5971
+		public const float BaseSelectedTexScale = 0.4f;
+
+		// Token: 0x04001754 RID: 5972
+		public const float EntryInAnotherMapAlpha = 0.4f;
+
+		// Token: 0x04001755 RID: 5973
+		public const float BaseSpaceBetweenGroups = 25f;
+
+		// Token: 0x04001756 RID: 5974
+		public const float BaseSpaceBetweenColonistsHorizontal = 24f;
+
+		// Token: 0x04001757 RID: 5975
+		public const float BaseSpaceBetweenColonistsVertical = 32f;
+
+		// Token: 0x04001758 RID: 5976
+		private static List<Pawn> tmpPawns = new List<Pawn>();
+
+		// Token: 0x04001759 RID: 5977
+		private static List<Map> tmpMaps = new List<Map>();
+
+		// Token: 0x0400175A RID: 5978
+		private static List<Caravan> tmpCaravans = new List<Caravan>();
+
+		// Token: 0x0400175B RID: 5979
+		private static List<Pawn> tmpColonistsInOrder = new List<Pawn>();
+
+		// Token: 0x0400175C RID: 5980
+		private static List<Pair<Thing, Map>> tmpColonistsWithMap = new List<Pair<Thing, Map>>();
+
+		// Token: 0x0400175D RID: 5981
+		private static List<Thing> tmpColonists = new List<Thing>();
+
+		// Token: 0x0400175E RID: 5982
+		private static List<Thing> tmpMapColonistsOrCorpsesInScreenRect = new List<Thing>();
+
+		// Token: 0x0400175F RID: 5983
+		private static List<Pawn> tmpCaravanPawns = new List<Pawn>();
+
 		// Token: 0x170006C7 RID: 1735
 		// (get) Token: 0x06002B77 RID: 11127 RVA: 0x00170290 File Offset: 0x0016E690
 		public List<ColonistBar.Entry> Entries
@@ -577,86 +646,9 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x04001749 RID: 5961
-		public ColonistBarColonistDrawer drawer = new ColonistBarColonistDrawer();
-
-		// Token: 0x0400174A RID: 5962
-		private ColonistBarDrawLocsFinder drawLocsFinder = new ColonistBarDrawLocsFinder();
-
-		// Token: 0x0400174B RID: 5963
-		private List<ColonistBar.Entry> cachedEntries = new List<ColonistBar.Entry>();
-
-		// Token: 0x0400174C RID: 5964
-		private List<Vector2> cachedDrawLocs = new List<Vector2>();
-
-		// Token: 0x0400174D RID: 5965
-		private float cachedScale = 1f;
-
-		// Token: 0x0400174E RID: 5966
-		private bool entriesDirty = true;
-
-		// Token: 0x0400174F RID: 5967
-		private List<Pawn> colonistsToHighlight = new List<Pawn>();
-
-		// Token: 0x04001750 RID: 5968
-		public static readonly Texture2D BGTex = Command.BGTex;
-
-		// Token: 0x04001751 RID: 5969
-		public static readonly Vector2 BaseSize = new Vector2(48f, 48f);
-
-		// Token: 0x04001752 RID: 5970
-		public const float BaseSelectedTexJump = 20f;
-
-		// Token: 0x04001753 RID: 5971
-		public const float BaseSelectedTexScale = 0.4f;
-
-		// Token: 0x04001754 RID: 5972
-		public const float EntryInAnotherMapAlpha = 0.4f;
-
-		// Token: 0x04001755 RID: 5973
-		public const float BaseSpaceBetweenGroups = 25f;
-
-		// Token: 0x04001756 RID: 5974
-		public const float BaseSpaceBetweenColonistsHorizontal = 24f;
-
-		// Token: 0x04001757 RID: 5975
-		public const float BaseSpaceBetweenColonistsVertical = 32f;
-
-		// Token: 0x04001758 RID: 5976
-		private static List<Pawn> tmpPawns = new List<Pawn>();
-
-		// Token: 0x04001759 RID: 5977
-		private static List<Map> tmpMaps = new List<Map>();
-
-		// Token: 0x0400175A RID: 5978
-		private static List<Caravan> tmpCaravans = new List<Caravan>();
-
-		// Token: 0x0400175B RID: 5979
-		private static List<Pawn> tmpColonistsInOrder = new List<Pawn>();
-
-		// Token: 0x0400175C RID: 5980
-		private static List<Pair<Thing, Map>> tmpColonistsWithMap = new List<Pair<Thing, Map>>();
-
-		// Token: 0x0400175D RID: 5981
-		private static List<Thing> tmpColonists = new List<Thing>();
-
-		// Token: 0x0400175E RID: 5982
-		private static List<Thing> tmpMapColonistsOrCorpsesInScreenRect = new List<Thing>();
-
-		// Token: 0x0400175F RID: 5983
-		private static List<Pawn> tmpCaravanPawns = new List<Pawn>();
-
 		// Token: 0x020007B0 RID: 1968
 		public struct Entry
 		{
-			// Token: 0x06002B96 RID: 11158 RVA: 0x001714F9 File Offset: 0x0016F8F9
-			public Entry(Pawn pawn, Map map, int group)
-			{
-				this.pawn = pawn;
-				this.map = map;
-				this.group = group;
-			}
-
 			// Token: 0x04001767 RID: 5991
 			public Pawn pawn;
 
@@ -665,6 +657,14 @@ namespace RimWorld
 
 			// Token: 0x04001769 RID: 5993
 			public int group;
+
+			// Token: 0x06002B96 RID: 11158 RVA: 0x001714F9 File Offset: 0x0016F8F9
+			public Entry(Pawn pawn, Map map, int group)
+			{
+				this.pawn = pawn;
+				this.map = map;
+				this.group = group;
+			}
 		}
 	}
 }

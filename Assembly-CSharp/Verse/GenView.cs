@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000DE4 RID: 3556
 	public static class GenView
 	{
+		// Token: 0x040034D4 RID: 13524
+		private static CellRect viewRect;
+
+		// Token: 0x040034D5 RID: 13525
+		private const int ViewRectMargin = 5;
+
 		// Token: 0x06004FB5 RID: 20405 RVA: 0x0029716C File Offset: 0x0029556C
 		public static bool ShouldSpawnMotesAt(this Vector3 loc, Map map)
 		{
@@ -41,11 +47,5 @@ namespace Verse
 			GenView.viewRect.ClipInsideMap(Find.CurrentMap);
 			return GenView.viewRect.RandomVector3;
 		}
-
-		// Token: 0x040034D4 RID: 13524
-		private static CellRect viewRect;
-
-		// Token: 0x040034D5 RID: 13525
-		private const int ViewRectMargin = 5;
 	}
 }

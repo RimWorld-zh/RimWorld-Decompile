@@ -8,6 +8,33 @@ namespace RimWorld
 	// Token: 0x020004FE RID: 1278
 	public class Need_Outdoors : Need
 	{
+		// Token: 0x04000D8F RID: 3471
+		private const float Delta_IndoorsThickRoof = -0.4f;
+
+		// Token: 0x04000D90 RID: 3472
+		private const float Delta_OutdoorsThickRoof = -0.4f;
+
+		// Token: 0x04000D91 RID: 3473
+		private const float Delta_IndoorsThinRoof = -0.3f;
+
+		// Token: 0x04000D92 RID: 3474
+		private const float Minimum_IndoorsThinRoof = 0.2f;
+
+		// Token: 0x04000D93 RID: 3475
+		private const float Delta_OutdoorsThinRoof = 0.7f;
+
+		// Token: 0x04000D94 RID: 3476
+		private const float Delta_IndoorsNoRoof = 2.5f;
+
+		// Token: 0x04000D95 RID: 3477
+		private const float Delta_OutdoorsNoRoof = 5f;
+
+		// Token: 0x04000D96 RID: 3478
+		private const float DeltaFactor_InBed = 0.25f;
+
+		// Token: 0x04000D97 RID: 3479
+		private float lastEffectiveDelta = 0f;
+
 		// Token: 0x06001700 RID: 5888 RVA: 0x000CAFEC File Offset: 0x000C93EC
 		public Need_Outdoors(Pawn pawn) : base(pawn)
 		{
@@ -148,32 +175,5 @@ namespace RimWorld
 				this.lastEffectiveDelta = this.CurLevel - curLevel;
 			}
 		}
-
-		// Token: 0x04000D8F RID: 3471
-		private const float Delta_IndoorsThickRoof = -0.4f;
-
-		// Token: 0x04000D90 RID: 3472
-		private const float Delta_OutdoorsThickRoof = -0.4f;
-
-		// Token: 0x04000D91 RID: 3473
-		private const float Delta_IndoorsThinRoof = -0.3f;
-
-		// Token: 0x04000D92 RID: 3474
-		private const float Minimum_IndoorsThinRoof = 0.2f;
-
-		// Token: 0x04000D93 RID: 3475
-		private const float Delta_OutdoorsThinRoof = 0.7f;
-
-		// Token: 0x04000D94 RID: 3476
-		private const float Delta_IndoorsNoRoof = 2.5f;
-
-		// Token: 0x04000D95 RID: 3477
-		private const float Delta_OutdoorsNoRoof = 5f;
-
-		// Token: 0x04000D96 RID: 3478
-		private const float DeltaFactor_InBed = 0.25f;
-
-		// Token: 0x04000D97 RID: 3479
-		private float lastEffectiveDelta = 0f;
 	}
 }

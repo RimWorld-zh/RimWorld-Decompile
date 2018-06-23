@@ -7,6 +7,21 @@ namespace Verse
 	// Token: 0x02000D9B RID: 3483
 	public class ScribeLoader
 	{
+		// Token: 0x040033F1 RID: 13297
+		public CrossRefHandler crossRefs = new CrossRefHandler();
+
+		// Token: 0x040033F2 RID: 13298
+		public PostLoadIniter initer = new PostLoadIniter();
+
+		// Token: 0x040033F3 RID: 13299
+		public IExposable curParent;
+
+		// Token: 0x040033F4 RID: 13300
+		public XmlNode curXmlParent;
+
+		// Token: 0x040033F5 RID: 13301
+		public string curPathRelToParent;
+
 		// Token: 0x06004DE5 RID: 19941 RVA: 0x0028B5F0 File Offset: 0x002899F0
 		public void InitLoading(string filePath)
 		{
@@ -171,20 +186,5 @@ namespace Verse
 				Scribe.mode = LoadSaveMode.Inactive;
 			}
 		}
-
-		// Token: 0x040033F1 RID: 13297
-		public CrossRefHandler crossRefs = new CrossRefHandler();
-
-		// Token: 0x040033F2 RID: 13298
-		public PostLoadIniter initer = new PostLoadIniter();
-
-		// Token: 0x040033F3 RID: 13299
-		public IExposable curParent;
-
-		// Token: 0x040033F4 RID: 13300
-		public XmlNode curXmlParent;
-
-		// Token: 0x040033F5 RID: 13301
-		public string curPathRelToParent;
 	}
 }

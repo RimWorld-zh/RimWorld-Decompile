@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000F27 RID: 3879
 	public class FastPriorityQueue<T>
 	{
+		// Token: 0x04003D9E RID: 15774
+		protected List<T> innerList = new List<T>();
+
+		// Token: 0x04003D9F RID: 15775
+		protected IComparer<T> comparer;
+
 		// Token: 0x06005CE7 RID: 23783 RVA: 0x002F1ABA File Offset: 0x002EFEBA
 		public FastPriorityQueue()
 		{
@@ -95,11 +101,5 @@ namespace Verse
 		{
 			return this.comparer.Compare(this.innerList[i], this.innerList[j]);
 		}
-
-		// Token: 0x04003D9E RID: 15774
-		protected List<T> innerList = new List<T>();
-
-		// Token: 0x04003D9F RID: 15775
-		protected IComparer<T> comparer;
 	}
 }

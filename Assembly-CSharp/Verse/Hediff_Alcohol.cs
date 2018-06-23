@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000D26 RID: 3366
 	public class Hediff_Alcohol : HediffWithComps
 	{
+		// Token: 0x04003239 RID: 12857
+		private const int HangoverCheckInterval = 300;
+
 		// Token: 0x06004A3A RID: 19002 RVA: 0x0026BFA4 File Offset: 0x0026A3A4
 		public override void Tick()
 		{
@@ -34,8 +37,5 @@ namespace Verse
 		{
 			return true;
 		}
-
-		// Token: 0x04003239 RID: 12857
-		private const int HangoverCheckInterval = 300;
 	}
 }

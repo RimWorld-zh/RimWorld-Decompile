@@ -6,6 +6,18 @@ namespace RimWorld.Planet
 	// Token: 0x020005EB RID: 1515
 	public class Caravan_Tweener
 	{
+		// Token: 0x040011CF RID: 4559
+		private Caravan caravan;
+
+		// Token: 0x040011D0 RID: 4560
+		private Vector3 tweenedPos = Vector3.zero;
+
+		// Token: 0x040011D1 RID: 4561
+		private Vector3 lastTickSpringPos;
+
+		// Token: 0x040011D2 RID: 4562
+		private const float SpringTightness = 0.09f;
+
 		// Token: 0x06001E1F RID: 7711 RVA: 0x00103818 File Offset: 0x00101C18
 		public Caravan_Tweener(Caravan caravan)
 		{
@@ -56,17 +68,5 @@ namespace RimWorld.Planet
 			this.tweenedPos = this.TweenedPosRoot;
 			this.lastTickSpringPos = this.tweenedPos;
 		}
-
-		// Token: 0x040011CF RID: 4559
-		private Caravan caravan;
-
-		// Token: 0x040011D0 RID: 4560
-		private Vector3 tweenedPos = Vector3.zero;
-
-		// Token: 0x040011D1 RID: 4561
-		private Vector3 lastTickSpringPos;
-
-		// Token: 0x040011D2 RID: 4562
-		private const float SpringTightness = 0.09f;
 	}
 }

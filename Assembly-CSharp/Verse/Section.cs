@@ -9,6 +9,27 @@ namespace Verse
 	// Token: 0x02000C3E RID: 3134
 	public class Section
 	{
+		// Token: 0x04002F42 RID: 12098
+		public IntVec3 botLeft;
+
+		// Token: 0x04002F43 RID: 12099
+		public Map map;
+
+		// Token: 0x04002F44 RID: 12100
+		public MapMeshFlag dirtyFlags = MapMeshFlag.None;
+
+		// Token: 0x04002F45 RID: 12101
+		private List<SectionLayer> layers = new List<SectionLayer>();
+
+		// Token: 0x04002F46 RID: 12102
+		private bool foundRect = false;
+
+		// Token: 0x04002F47 RID: 12103
+		private CellRect calculatedRect;
+
+		// Token: 0x04002F48 RID: 12104
+		public const int Size = 17;
+
 		// Token: 0x0600451E RID: 17694 RVA: 0x0024640C File Offset: 0x0024480C
 		public Section(IntVec3 sectCoords, Map map)
 		{
@@ -123,26 +144,5 @@ namespace Verse
 			where sect.GetType() == type
 			select sect).FirstOrDefault<SectionLayer>();
 		}
-
-		// Token: 0x04002F42 RID: 12098
-		public IntVec3 botLeft;
-
-		// Token: 0x04002F43 RID: 12099
-		public Map map;
-
-		// Token: 0x04002F44 RID: 12100
-		public MapMeshFlag dirtyFlags = MapMeshFlag.None;
-
-		// Token: 0x04002F45 RID: 12101
-		private List<SectionLayer> layers = new List<SectionLayer>();
-
-		// Token: 0x04002F46 RID: 12102
-		private bool foundRect = false;
-
-		// Token: 0x04002F47 RID: 12103
-		private CellRect calculatedRect;
-
-		// Token: 0x04002F48 RID: 12104
-		public const int Size = 17;
 	}
 }

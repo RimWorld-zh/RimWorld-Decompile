@@ -8,6 +8,15 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	internal class Gizmo_EnergyShieldStatus : Gizmo
 	{
+		// Token: 0x04001543 RID: 5443
+		public ShieldBelt shield;
+
+		// Token: 0x04001544 RID: 5444
+		private static readonly Texture2D FullShieldBarTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.2f, 0.2f, 0.24f));
+
+		// Token: 0x04001545 RID: 5445
+		private static readonly Texture2D EmptyShieldBarTex = SolidColorMaterials.NewSolidColorTexture(Color.clear);
+
 		// Token: 0x06002631 RID: 9777 RVA: 0x00147BA0 File Offset: 0x00145FA0
 		public Gizmo_EnergyShieldStatus()
 		{
@@ -42,14 +51,5 @@ namespace RimWorld
 			}, true, false, 1f);
 			return new GizmoResult(GizmoState.Clear);
 		}
-
-		// Token: 0x04001543 RID: 5443
-		public ShieldBelt shield;
-
-		// Token: 0x04001544 RID: 5444
-		private static readonly Texture2D FullShieldBarTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.2f, 0.2f, 0.24f));
-
-		// Token: 0x04001545 RID: 5445
-		private static readonly Texture2D EmptyShieldBarTex = SolidColorMaterials.NewSolidColorTexture(Color.clear);
 	}
 }

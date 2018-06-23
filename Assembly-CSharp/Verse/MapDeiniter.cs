@@ -10,6 +10,9 @@ namespace Verse
 	// Token: 0x02000C38 RID: 3128
 	public static class MapDeiniter
 	{
+		// Token: 0x04002F21 RID: 12065
+		private static List<Thing> tmpThings = new List<Thing>();
+
 		// Token: 0x06004504 RID: 17668 RVA: 0x002452A0 File Offset: 0x002436A0
 		public static void Deinit(Map map)
 		{
@@ -247,8 +250,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04002F21 RID: 12065
-		private static List<Thing> tmpThings = new List<Thing>();
 	}
 }

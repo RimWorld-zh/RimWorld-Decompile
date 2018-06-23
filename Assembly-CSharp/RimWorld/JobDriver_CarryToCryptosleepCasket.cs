@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000063 RID: 99
 	public class JobDriver_CarryToCryptosleepCasket : JobDriver
 	{
+		// Token: 0x040001FF RID: 511
+		private const TargetIndex TakeeInd = TargetIndex.A;
+
+		// Token: 0x04000200 RID: 512
+		private const TargetIndex DropPodInd = TargetIndex.B;
+
 		// Token: 0x17000092 RID: 146
 		// (get) Token: 0x060002CE RID: 718 RVA: 0x0001DECC File Offset: 0x0001C2CC
 		protected Pawn Takee
@@ -68,11 +74,5 @@ namespace RimWorld
 				this.Takee
 			};
 		}
-
-		// Token: 0x040001FF RID: 511
-		private const TargetIndex TakeeInd = TargetIndex.A;
-
-		// Token: 0x04000200 RID: 512
-		private const TargetIndex DropPodInd = TargetIndex.B;
 	}
 }

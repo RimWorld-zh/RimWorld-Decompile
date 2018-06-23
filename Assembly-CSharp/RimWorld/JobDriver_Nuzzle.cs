@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x0200002F RID: 47
 	public class JobDriver_Nuzzle : JobDriver
 	{
+		// Token: 0x040001B0 RID: 432
+		private const int NuzzleDuration = 100;
+
 		// Token: 0x060001B5 RID: 437 RVA: 0x00012588 File Offset: 0x00010988
 		public override bool TryMakePreToilReservations()
 		{
@@ -32,8 +35,5 @@ namespace RimWorld
 			});
 			yield break;
 		}
-
-		// Token: 0x040001B0 RID: 432
-		private const int NuzzleDuration = 100;
 	}
 }

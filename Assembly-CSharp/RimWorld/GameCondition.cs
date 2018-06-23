@@ -8,6 +8,30 @@ namespace RimWorld
 	// Token: 0x02000307 RID: 775
 	public class GameCondition : IExposable
 	{
+		// Token: 0x0400085D RID: 2141
+		public GameConditionManager gameConditionManager;
+
+		// Token: 0x0400085E RID: 2142
+		public GameConditionDef def;
+
+		// Token: 0x0400085F RID: 2143
+		public int startTick;
+
+		// Token: 0x04000860 RID: 2144
+		private int duration = -1;
+
+		// Token: 0x04000861 RID: 2145
+		private bool permanent;
+
+		// Token: 0x04000862 RID: 2146
+		private List<Map> cachedAffectedMaps = new List<Map>();
+
+		// Token: 0x04000863 RID: 2147
+		private List<Map> cachedAffectedMapsForMaps = new List<Map>();
+
+		// Token: 0x04000864 RID: 2148
+		private static List<GameConditionManager> tmpGameConditionManagers = new List<GameConditionManager>();
+
 		// Token: 0x170001F0 RID: 496
 		// (get) Token: 0x06000CE5 RID: 3301 RVA: 0x00070FF8 File Offset: 0x0006F3F8
 		protected Map SingleMap
@@ -308,29 +332,5 @@ namespace RimWorld
 		public virtual void DoCellSteadyEffects(IntVec3 c, Map map)
 		{
 		}
-
-		// Token: 0x0400085D RID: 2141
-		public GameConditionManager gameConditionManager;
-
-		// Token: 0x0400085E RID: 2142
-		public GameConditionDef def;
-
-		// Token: 0x0400085F RID: 2143
-		public int startTick;
-
-		// Token: 0x04000860 RID: 2144
-		private int duration = -1;
-
-		// Token: 0x04000861 RID: 2145
-		private bool permanent;
-
-		// Token: 0x04000862 RID: 2146
-		private List<Map> cachedAffectedMaps = new List<Map>();
-
-		// Token: 0x04000863 RID: 2147
-		private List<Map> cachedAffectedMapsForMaps = new List<Map>();
-
-		// Token: 0x04000864 RID: 2148
-		private static List<GameConditionManager> tmpGameConditionManagers = new List<GameConditionManager>();
 	}
 }

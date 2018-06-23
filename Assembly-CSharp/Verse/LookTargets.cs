@@ -8,6 +8,9 @@ namespace Verse
 	// Token: 0x02000EF1 RID: 3825
 	public class LookTargets : IExposable
 	{
+		// Token: 0x04003CA6 RID: 15526
+		public List<GlobalTargetInfo> targets;
+
 		// Token: 0x06005B4C RID: 23372 RVA: 0x002E9E63 File Offset: 0x002E8263
 		public LookTargets()
 		{
@@ -390,8 +393,5 @@ namespace Verse
 		{
 			this.targets.RemoveAll((GlobalTargetInfo t) => t.Map == map);
 		}
-
-		// Token: 0x04003CA6 RID: 15526
-		public List<GlobalTargetInfo> targets;
 	}
 }

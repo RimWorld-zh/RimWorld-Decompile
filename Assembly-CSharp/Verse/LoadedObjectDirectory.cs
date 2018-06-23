@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000D98 RID: 3480
 	public class LoadedObjectDirectory
 	{
+		// Token: 0x040033EF RID: 13295
+		private Dictionary<string, ILoadReferenceable> allObjectsByLoadID = new Dictionary<string, ILoadReferenceable>();
+
 		// Token: 0x06004DD1 RID: 19921 RVA: 0x0028A45D File Offset: 0x0028885D
 		public void Clear()
 		{
@@ -141,8 +144,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x040033EF RID: 13295
-		private Dictionary<string, ILoadReferenceable> allObjectsByLoadID = new Dictionary<string, ILoadReferenceable>();
 	}
 }

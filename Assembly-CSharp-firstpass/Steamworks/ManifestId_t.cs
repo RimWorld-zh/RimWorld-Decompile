@@ -5,6 +5,12 @@ namespace Steamworks
 	// Token: 0x0200016B RID: 363
 	public struct ManifestId_t : IEquatable<ManifestId_t>, IComparable<ManifestId_t>
 	{
+		// Token: 0x04000687 RID: 1671
+		public static readonly ManifestId_t Invalid = new ManifestId_t(0UL);
+
+		// Token: 0x04000688 RID: 1672
+		public ulong m_ManifestId;
+
 		// Token: 0x06000861 RID: 2145 RVA: 0x0000EBE4 File Offset: 0x0000CDE4
 		public ManifestId_t(ulong value)
 		{
@@ -64,11 +70,5 @@ namespace Steamworks
 		{
 			return this.m_ManifestId.CompareTo(other.m_ManifestId);
 		}
-
-		// Token: 0x04000687 RID: 1671
-		public static readonly ManifestId_t Invalid = new ManifestId_t(0UL);
-
-		// Token: 0x04000688 RID: 1672
-		public ulong m_ManifestId;
 	}
 }

@@ -7,6 +7,18 @@ namespace Verse
 	// Token: 0x02000BC6 RID: 3014
 	public sealed class GameInfo : IExposable
 	{
+		// Token: 0x04002CD6 RID: 11478
+		public bool permadeathMode = false;
+
+		// Token: 0x04002CD7 RID: 11479
+		public string permadeathModeUniqueName = null;
+
+		// Token: 0x04002CD8 RID: 11480
+		private float realPlayTimeInteracting = 0f;
+
+		// Token: 0x04002CD9 RID: 11481
+		private float lastInputRealTime = 0f;
+
 		// Token: 0x17000A42 RID: 2626
 		// (get) Token: 0x060041AB RID: 16811 RVA: 0x0022A4B8 File Offset: 0x002288B8
 		public float RealPlayTimeInteracting
@@ -42,17 +54,5 @@ namespace Verse
 			Scribe_Values.Look<bool>(ref this.permadeathMode, "permadeathMode", false, false);
 			Scribe_Values.Look<string>(ref this.permadeathModeUniqueName, "permadeathModeUniqueName", null, false);
 		}
-
-		// Token: 0x04002CD6 RID: 11478
-		public bool permadeathMode = false;
-
-		// Token: 0x04002CD7 RID: 11479
-		public string permadeathModeUniqueName = null;
-
-		// Token: 0x04002CD8 RID: 11480
-		private float realPlayTimeInteracting = 0f;
-
-		// Token: 0x04002CD9 RID: 11481
-		private float lastInputRealTime = 0f;
 	}
 }

@@ -7,6 +7,16 @@ namespace Verse
 	// Token: 0x02000BAC RID: 2988
 	public class ThinkTreeDef : Def
 	{
+		// Token: 0x04002C19 RID: 11289
+		public ThinkNode thinkRoot;
+
+		// Token: 0x04002C1A RID: 11290
+		[NoTranslate]
+		public string insertTag;
+
+		// Token: 0x04002C1B RID: 11291
+		public float insertPriority;
+
 		// Token: 0x060040E4 RID: 16612 RVA: 0x002242B4 File Offset: 0x002226B4
 		public override void ResolveReferences()
 		{
@@ -119,15 +129,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04002C19 RID: 11289
-		public ThinkNode thinkRoot;
-
-		// Token: 0x04002C1A RID: 11290
-		[NoTranslate]
-		public string insertTag;
-
-		// Token: 0x04002C1B RID: 11291
-		public float insertPriority;
 	}
 }

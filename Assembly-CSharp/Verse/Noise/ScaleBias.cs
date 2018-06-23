@@ -6,6 +6,12 @@ namespace Verse.Noise
 	// Token: 0x02000F98 RID: 3992
 	public class ScaleBias : ModuleBase
 	{
+		// Token: 0x04003F2C RID: 16172
+		private double scale = 1.0;
+
+		// Token: 0x04003F2D RID: 16173
+		private double bias = 0.0;
+
 		// Token: 0x06006069 RID: 24681 RVA: 0x0030E721 File Offset: 0x0030CB21
 		public ScaleBias() : base(1)
 		{
@@ -61,11 +67,5 @@ namespace Verse.Noise
 			Debug.Assert(this.modules[0] != null);
 			return this.modules[0].GetValue(x, y, z) * this.scale + this.bias;
 		}
-
-		// Token: 0x04003F2C RID: 16172
-		private double scale = 1.0;
-
-		// Token: 0x04003F2D RID: 16173
-		private double bias = 0.0;
 	}
 }

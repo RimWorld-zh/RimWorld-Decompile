@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000387 RID: 903
 	public class ListerBuildingsRepairable
 	{
+		// Token: 0x04000996 RID: 2454
+		private Dictionary<Faction, List<Thing>> repairables = new Dictionary<Faction, List<Thing>>();
+
+		// Token: 0x04000997 RID: 2455
+		private Dictionary<Faction, HashSet<Thing>> repairablesSet = new Dictionary<Faction, HashSet<Thing>>();
+
 		// Token: 0x06000FA3 RID: 4003 RVA: 0x00083E78 File Offset: 0x00082278
 		public List<Thing> RepairableBuildings(Faction fac)
 		{
@@ -129,11 +135,5 @@ namespace RimWorld
 			}
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x04000996 RID: 2454
-		private Dictionary<Faction, List<Thing>> repairables = new Dictionary<Faction, List<Thing>>();
-
-		// Token: 0x04000997 RID: 2455
-		private Dictionary<Faction, HashSet<Thing>> repairablesSet = new Dictionary<Faction, HashSet<Thing>>();
 	}
 }

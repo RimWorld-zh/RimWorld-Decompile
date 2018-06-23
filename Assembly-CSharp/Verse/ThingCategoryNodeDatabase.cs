@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000E82 RID: 3714
 	public static class ThingCategoryNodeDatabase
 	{
+		// Token: 0x040039F9 RID: 14841
+		public static bool initialized = false;
+
+		// Token: 0x040039FA RID: 14842
+		private static TreeNode_ThingCategory rootNode;
+
 		// Token: 0x17000DD4 RID: 3540
 		// (get) Token: 0x060057B3 RID: 22451 RVA: 0x002D074C File Offset: 0x002CEB4C
 		public static IEnumerable<TreeNode_ThingCategory> AllThingCategoryNodes
@@ -76,11 +82,5 @@ namespace Verse
 				ThingCategoryNodeDatabase.SetNestLevelRecursive(thingCategoryDef.treeNode, nestDepth + 1);
 			}
 		}
-
-		// Token: 0x040039F9 RID: 14841
-		public static bool initialized = false;
-
-		// Token: 0x040039FA RID: 14842
-		private static TreeNode_ThingCategory rootNode;
 	}
 }

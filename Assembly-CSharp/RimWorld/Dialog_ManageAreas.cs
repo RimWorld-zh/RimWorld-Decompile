@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x020007FE RID: 2046
 	public class Dialog_ManageAreas : Window
 	{
+		// Token: 0x04001835 RID: 6197
+		private Map map;
+
+		// Token: 0x04001836 RID: 6198
+		private static Regex validNameRegex = new Regex("^[a-zA-Z0-9 '\\-]*$");
+
 		// Token: 0x06002DAF RID: 11695 RVA: 0x001809E2 File Offset: 0x0017EDE2
 		public Dialog_ManageAreas(Map map)
 		{
@@ -106,11 +112,5 @@ namespace RimWorld
 				name = text;
 			}
 		}
-
-		// Token: 0x04001835 RID: 6197
-		private Map map;
-
-		// Token: 0x04001836 RID: 6198
-		private static Regex validNameRegex = new Regex("^[a-zA-Z0-9 '\\-]*$");
 	}
 }

@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x02000651 RID: 1617
 	public static class ScenarioFiles
 	{
+		// Token: 0x04001328 RID: 4904
+		private static List<Scenario> scenariosLocal = new List<Scenario>();
+
+		// Token: 0x04001329 RID: 4905
+		private static List<Scenario> scenariosWorkshop = new List<Scenario>();
+
 		// Token: 0x170004F3 RID: 1267
 		// (get) Token: 0x060021C0 RID: 8640 RVA: 0x0011E0A8 File Offset: 0x0011C4A8
 		public static IEnumerable<Scenario> AllScenariosLocal
@@ -51,11 +57,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04001328 RID: 4904
-		private static List<Scenario> scenariosLocal = new List<Scenario>();
-
-		// Token: 0x04001329 RID: 4905
-		private static List<Scenario> scenariosWorkshop = new List<Scenario>();
 	}
 }

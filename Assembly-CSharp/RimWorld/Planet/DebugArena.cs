@@ -8,6 +8,21 @@ namespace RimWorld.Planet
 	// Token: 0x02000619 RID: 1561
 	public class DebugArena : WorldObjectComp
 	{
+		// Token: 0x0400125D RID: 4701
+		public List<Pawn> lhs;
+
+		// Token: 0x0400125E RID: 4702
+		public List<Pawn> rhs;
+
+		// Token: 0x0400125F RID: 4703
+		public Action<ArenaUtility.ArenaResult> callback;
+
+		// Token: 0x04001260 RID: 4704
+		private int tickCreated = 0;
+
+		// Token: 0x04001261 RID: 4705
+		private int tickFightStarted = 0;
+
 		// Token: 0x06001FB4 RID: 8116 RVA: 0x00111B34 File Offset: 0x0010FF34
 		public DebugArena()
 		{
@@ -76,20 +91,5 @@ namespace RimWorld.Planet
 				}
 			}
 		}
-
-		// Token: 0x0400125D RID: 4701
-		public List<Pawn> lhs;
-
-		// Token: 0x0400125E RID: 4702
-		public List<Pawn> rhs;
-
-		// Token: 0x0400125F RID: 4703
-		public Action<ArenaUtility.ArenaResult> callback;
-
-		// Token: 0x04001260 RID: 4704
-		private int tickCreated = 0;
-
-		// Token: 0x04001261 RID: 4705
-		private int tickFightStarted = 0;
 	}
 }

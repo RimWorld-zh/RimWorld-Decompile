@@ -5,12 +5,6 @@ namespace Verse
 	// Token: 0x02000D19 RID: 3353
 	public class HediffCompProperties_TendDuration : HediffCompProperties
 	{
-		// Token: 0x060049E8 RID: 18920 RVA: 0x0026A9DC File Offset: 0x00268DDC
-		public HediffCompProperties_TendDuration()
-		{
-			this.compClass = typeof(HediffComp_TendDuration);
-		}
-
 		// Token: 0x04003219 RID: 12825
 		public float baseTendDurationHours = -1f;
 
@@ -40,5 +34,11 @@ namespace Verse
 		// Token: 0x04003221 RID: 12833
 		[LoadAlias("labelSolidTreatedWell")]
 		public string labelSolidTendedWell = null;
+
+		// Token: 0x060049E8 RID: 18920 RVA: 0x0026A9DC File Offset: 0x00268DDC
+		public HediffCompProperties_TendDuration()
+		{
+			this.compClass = typeof(HediffComp_TendDuration);
+		}
 	}
 }

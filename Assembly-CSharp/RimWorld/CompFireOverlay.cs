@@ -8,6 +8,12 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class CompFireOverlay : ThingComp
 	{
+		// Token: 0x040015D9 RID: 5593
+		protected CompRefuelable refuelableComp;
+
+		// Token: 0x040015DA RID: 5594
+		public static readonly Graphic FireGraphic = GraphicDatabase.Get<Graphic_Flicker>("Things/Special/Fire", ShaderDatabase.TransparentPostLight, Vector2.one, Color.white);
+
 		// Token: 0x170005FB RID: 1531
 		// (get) Token: 0x060027AF RID: 10159 RVA: 0x001542DC File Offset: 0x001526DC
 		public CompProperties_FireOverlay Props
@@ -36,11 +42,5 @@ namespace RimWorld
 			base.PostSpawnSetup(respawningAfterLoad);
 			this.refuelableComp = this.parent.GetComp<CompRefuelable>();
 		}
-
-		// Token: 0x040015D9 RID: 5593
-		protected CompRefuelable refuelableComp;
-
-		// Token: 0x040015DA RID: 5594
-		public static readonly Graphic FireGraphic = GraphicDatabase.Get<Graphic_Flicker>("Things/Special/Fire", ShaderDatabase.TransparentPostLight, Vector2.one, Color.white);
 	}
 }

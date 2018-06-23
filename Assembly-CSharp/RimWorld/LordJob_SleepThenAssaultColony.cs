@@ -8,6 +8,18 @@ namespace RimWorld
 	// Token: 0x02000175 RID: 373
 	public class LordJob_SleepThenAssaultColony : LordJob
 	{
+		// Token: 0x0400035A RID: 858
+		private Faction faction;
+
+		// Token: 0x0400035B RID: 859
+		private bool wakeUpIfColonistClose;
+
+		// Token: 0x0400035C RID: 860
+		private const int AnyColonistCloseCheckIntervalTicks = 30;
+
+		// Token: 0x0400035D RID: 861
+		private const float AnyColonistCloseCheckRadius = 6f;
+
 		// Token: 0x060007AD RID: 1965 RVA: 0x0004B66F File Offset: 0x00049A6F
 		public LordJob_SleepThenAssaultColony()
 		{
@@ -93,17 +105,5 @@ namespace RimWorld
 			}
 			return false;
 		}
-
-		// Token: 0x0400035A RID: 858
-		private Faction faction;
-
-		// Token: 0x0400035B RID: 859
-		private bool wakeUpIfColonistClose;
-
-		// Token: 0x0400035C RID: 860
-		private const int AnyColonistCloseCheckIntervalTicks = 30;
-
-		// Token: 0x0400035D RID: 861
-		private const float AnyColonistCloseCheckRadius = 6f;
 	}
 }

@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000051 RID: 81
 	public class Toils_Tend
 	{
+		// Token: 0x040001E6 RID: 486
+		public const int MaxMedicineReservations = 10;
+
 		// Token: 0x06000280 RID: 640 RVA: 0x0001AA08 File Offset: 0x00018E08
 		public static Toil ReserveMedicine(TargetIndex ind, Pawn injured)
 		{
@@ -82,8 +85,5 @@ namespace RimWorld
 			toil.defaultCompleteMode = ToilCompleteMode.Instant;
 			return toil;
 		}
-
-		// Token: 0x040001E6 RID: 486
-		public const int MaxMedicineReservations = 10;
 	}
 }

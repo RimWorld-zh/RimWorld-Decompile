@@ -6,6 +6,12 @@ namespace Verse.Noise
 	// Token: 0x02000F70 RID: 3952
 	public class AbsLatitudeCurve : ModuleBase
 	{
+		// Token: 0x04003ECB RID: 16075
+		public SimpleCurve curve;
+
+		// Token: 0x04003ECC RID: 16076
+		public float planetRadius;
+
 		// Token: 0x06005F78 RID: 24440 RVA: 0x0030ADAF File Offset: 0x003091AF
 		public AbsLatitudeCurve() : base(0)
 		{
@@ -24,11 +30,5 @@ namespace Verse.Noise
 			float f = Mathf.Asin((float)(y / (double)this.planetRadius)) * 57.29578f;
 			return (double)this.curve.Evaluate(Mathf.Abs(f));
 		}
-
-		// Token: 0x04003ECB RID: 16075
-		public SimpleCurve curve;
-
-		// Token: 0x04003ECC RID: 16076
-		public float planetRadius;
 	}
 }

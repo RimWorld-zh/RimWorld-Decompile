@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x02000532 RID: 1330
 	public class Thought_Dumb : Thought
 	{
+		// Token: 0x04000E9A RID: 3738
+		private int forcedStage = 0;
+
 		// Token: 0x17000372 RID: 882
 		// (get) Token: 0x060018B1 RID: 6321 RVA: 0x000D810C File Offset: 0x000D650C
 		public override int CurStageIndex
@@ -28,8 +31,5 @@ namespace RimWorld
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.forcedStage, "stageIndex", 0, false);
 		}
-
-		// Token: 0x04000E9A RID: 3738
-		private int forcedStage = 0;
 	}
 }

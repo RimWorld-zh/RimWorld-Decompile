@@ -7,6 +7,12 @@ namespace Verse.Sound
 	// Token: 0x02000DAF RID: 3503
 	public class SampleOneShot : Sample
 	{
+		// Token: 0x04003430 RID: 13360
+		public SoundInfo info;
+
+		// Token: 0x04003431 RID: 13361
+		private SoundParams externalParams = new SoundParams();
+
 		// Token: 0x06004E54 RID: 20052 RVA: 0x0028F62A File Offset: 0x0028DA2A
 		private SampleOneShot(SubSoundDef def) : base(def)
 		{
@@ -122,11 +128,5 @@ namespace Verse.Sound
 			}
 			return result;
 		}
-
-		// Token: 0x04003430 RID: 13360
-		public SoundInfo info;
-
-		// Token: 0x04003431 RID: 13361
-		private SoundParams externalParams = new SoundParams();
 	}
 }

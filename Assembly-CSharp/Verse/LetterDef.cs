@@ -7,30 +7,6 @@ namespace Verse
 	// Token: 0x02000B4B RID: 2891
 	public class LetterDef : Def
 	{
-		// Token: 0x1700099F RID: 2463
-		// (get) Token: 0x06003F60 RID: 16224 RVA: 0x002168FC File Offset: 0x00214CFC
-		public Texture2D Icon
-		{
-			get
-			{
-				if (this.iconTex == null && !this.icon.NullOrEmpty())
-				{
-					this.iconTex = ContentFinder<Texture2D>.Get(this.icon, true);
-				}
-				return this.iconTex;
-			}
-		}
-
-		// Token: 0x06003F61 RID: 16225 RVA: 0x0021694A File Offset: 0x00214D4A
-		public override void ResolveReferences()
-		{
-			base.ResolveReferences();
-			if (this.arriveSound == null)
-			{
-				this.arriveSound = SoundDefOf.LetterArrive;
-			}
-		}
-
 		// Token: 0x040029D9 RID: 10713
 		public Type letterClass = typeof(StandardLetter);
 
@@ -59,5 +35,29 @@ namespace Verse
 		// Token: 0x040029E1 RID: 10721
 		[Unsaved]
 		private Texture2D iconTex;
+
+		// Token: 0x1700099F RID: 2463
+		// (get) Token: 0x06003F60 RID: 16224 RVA: 0x002168FC File Offset: 0x00214CFC
+		public Texture2D Icon
+		{
+			get
+			{
+				if (this.iconTex == null && !this.icon.NullOrEmpty())
+				{
+					this.iconTex = ContentFinder<Texture2D>.Get(this.icon, true);
+				}
+				return this.iconTex;
+			}
+		}
+
+		// Token: 0x06003F61 RID: 16225 RVA: 0x0021694A File Offset: 0x00214D4A
+		public override void ResolveReferences()
+		{
+			base.ResolveReferences();
+			if (this.arriveSound == null)
+			{
+				this.arriveSound = SoundDefOf.LetterArrive;
+			}
+		}
 	}
 }

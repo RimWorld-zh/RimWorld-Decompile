@@ -8,6 +8,12 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003A1 RID: 929
 	public class SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant : SymbolResolver
 	{
+		// Token: 0x04000A0E RID: 2574
+		private static List<ThingDef> availablePowerPlants = new List<ThingDef>();
+
+		// Token: 0x04000A0F RID: 2575
+		private const float MaxCoverage = 0.09f;
+
 		// Token: 0x0600102D RID: 4141 RVA: 0x000883A0 File Offset: 0x000867A0
 		public override bool CanResolve(ResolveParams rp)
 		{
@@ -88,11 +94,5 @@ namespace RimWorld.BaseGen
 				SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.Add(ThingDefOf.WoodFiredGenerator);
 			}
 		}
-
-		// Token: 0x04000A0E RID: 2574
-		private static List<ThingDef> availablePowerPlants = new List<ThingDef>();
-
-		// Token: 0x04000A0F RID: 2575
-		private const float MaxCoverage = 0.09f;
 	}
 }

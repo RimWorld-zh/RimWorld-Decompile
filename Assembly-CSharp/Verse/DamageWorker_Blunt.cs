@@ -11,6 +11,9 @@ namespace Verse
 	[HasDebugOutput]
 	public class DamageWorker_Blunt : DamageWorker_AddInjury
 	{
+		// Token: 0x0400318D RID: 12685
+		private const float StunDuration = 3.5f;
+
 		// Token: 0x06004914 RID: 18708 RVA: 0x00266628 File Offset: 0x00264A28
 		protected override BodyPartRecord ChooseHitPart(DamageInfo dinfo, Pawn pawn)
 		{
@@ -140,8 +143,5 @@ namespace Verse
 			}
 			return lhs == rhs;
 		}
-
-		// Token: 0x0400318D RID: 12685
-		private const float StunDuration = 3.5f;
 	}
 }

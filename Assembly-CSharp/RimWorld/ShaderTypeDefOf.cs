@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class ShaderTypeDefOf
 	{
-		// Token: 0x06003677 RID: 13943 RVA: 0x001D0F1B File Offset: 0x001CF31B
-		static ShaderTypeDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(ShaderTypeDef));
-		}
-
 		// Token: 0x0400231B RID: 8987
 		public static ShaderTypeDef Cutout;
 
@@ -27,5 +21,11 @@ namespace RimWorld
 
 		// Token: 0x0400231F RID: 8991
 		public static ShaderTypeDef EdgeDetect;
+
+		// Token: 0x06003677 RID: 13943 RVA: 0x001D0F1B File Offset: 0x001CF31B
+		static ShaderTypeDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(ShaderTypeDef));
+		}
 	}
 }

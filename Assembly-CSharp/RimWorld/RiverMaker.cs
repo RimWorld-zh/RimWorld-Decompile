@@ -11,6 +11,30 @@ namespace RimWorld
 	// Token: 0x02000405 RID: 1029
 	internal class RiverMaker
 	{
+		// Token: 0x04000ACA RID: 2762
+		private ModuleBase generator;
+
+		// Token: 0x04000ACB RID: 2763
+		private ModuleBase coordinateX;
+
+		// Token: 0x04000ACC RID: 2764
+		private ModuleBase coordinateZ;
+
+		// Token: 0x04000ACD RID: 2765
+		private ModuleBase shallowizer;
+
+		// Token: 0x04000ACE RID: 2766
+		private float surfaceLevel;
+
+		// Token: 0x04000ACF RID: 2767
+		private float shallowFactor = 0.2f;
+
+		// Token: 0x04000AD0 RID: 2768
+		private List<IntVec3> lhs = new List<IntVec3>();
+
+		// Token: 0x04000AD1 RID: 2769
+		private List<IntVec3> rhs = new List<IntVec3>();
+
 		// Token: 0x060011B3 RID: 4531 RVA: 0x0009A1AC File Offset: 0x000985AC
 		public RiverMaker(Vector3 center, float angle, RiverDef riverDef)
 		{
@@ -104,29 +128,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000ACA RID: 2762
-		private ModuleBase generator;
-
-		// Token: 0x04000ACB RID: 2763
-		private ModuleBase coordinateX;
-
-		// Token: 0x04000ACC RID: 2764
-		private ModuleBase coordinateZ;
-
-		// Token: 0x04000ACD RID: 2765
-		private ModuleBase shallowizer;
-
-		// Token: 0x04000ACE RID: 2766
-		private float surfaceLevel;
-
-		// Token: 0x04000ACF RID: 2767
-		private float shallowFactor = 0.2f;
-
-		// Token: 0x04000AD0 RID: 2768
-		private List<IntVec3> lhs = new List<IntVec3>();
-
-		// Token: 0x04000AD1 RID: 2769
-		private List<IntVec3> rhs = new List<IntVec3>();
 	}
 }

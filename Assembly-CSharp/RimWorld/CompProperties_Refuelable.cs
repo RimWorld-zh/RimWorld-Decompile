@@ -8,6 +8,69 @@ namespace RimWorld
 	// Token: 0x02000728 RID: 1832
 	public class CompProperties_Refuelable : CompProperties
 	{
+		// Token: 0x04001615 RID: 5653
+		public float fuelConsumptionRate = 1f;
+
+		// Token: 0x04001616 RID: 5654
+		public float fuelCapacity = 2f;
+
+		// Token: 0x04001617 RID: 5655
+		public float initialFuelPercent = 0f;
+
+		// Token: 0x04001618 RID: 5656
+		public float autoRefuelPercent = 0.3f;
+
+		// Token: 0x04001619 RID: 5657
+		public float fuelConsumptionPerTickInRain;
+
+		// Token: 0x0400161A RID: 5658
+		public ThingFilter fuelFilter;
+
+		// Token: 0x0400161B RID: 5659
+		public bool destroyOnNoFuel;
+
+		// Token: 0x0400161C RID: 5660
+		public bool consumeFuelOnlyWhenUsed;
+
+		// Token: 0x0400161D RID: 5661
+		public bool showFuelGizmo;
+
+		// Token: 0x0400161E RID: 5662
+		public bool targetFuelLevelConfigurable;
+
+		// Token: 0x0400161F RID: 5663
+		public float initialConfigurableTargetFuelLevel;
+
+		// Token: 0x04001620 RID: 5664
+		public bool drawOutOfFuelOverlay = true;
+
+		// Token: 0x04001621 RID: 5665
+		public float minimumFueledThreshold = 0f;
+
+		// Token: 0x04001622 RID: 5666
+		public bool drawFuelGaugeInMap = false;
+
+		// Token: 0x04001623 RID: 5667
+		public bool atomicFueling = false;
+
+		// Token: 0x04001624 RID: 5668
+		public float fuelMultiplier = 1f;
+
+		// Token: 0x04001625 RID: 5669
+		public string fuelLabel;
+
+		// Token: 0x04001626 RID: 5670
+		public string fuelGizmoLabel;
+
+		// Token: 0x04001627 RID: 5671
+		public string outOfFuelMessage;
+
+		// Token: 0x04001628 RID: 5672
+		public string fuelIconPath;
+
+		// Token: 0x04001629 RID: 5673
+		private Texture2D fuelIcon;
+
 		// Token: 0x06002862 RID: 10338 RVA: 0x00158CEC File Offset: 0x001570EC
 		public CompProperties_Refuelable()
 		{
@@ -88,68 +151,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04001615 RID: 5653
-		public float fuelConsumptionRate = 1f;
-
-		// Token: 0x04001616 RID: 5654
-		public float fuelCapacity = 2f;
-
-		// Token: 0x04001617 RID: 5655
-		public float initialFuelPercent = 0f;
-
-		// Token: 0x04001618 RID: 5656
-		public float autoRefuelPercent = 0.3f;
-
-		// Token: 0x04001619 RID: 5657
-		public float fuelConsumptionPerTickInRain;
-
-		// Token: 0x0400161A RID: 5658
-		public ThingFilter fuelFilter;
-
-		// Token: 0x0400161B RID: 5659
-		public bool destroyOnNoFuel;
-
-		// Token: 0x0400161C RID: 5660
-		public bool consumeFuelOnlyWhenUsed;
-
-		// Token: 0x0400161D RID: 5661
-		public bool showFuelGizmo;
-
-		// Token: 0x0400161E RID: 5662
-		public bool targetFuelLevelConfigurable;
-
-		// Token: 0x0400161F RID: 5663
-		public float initialConfigurableTargetFuelLevel;
-
-		// Token: 0x04001620 RID: 5664
-		public bool drawOutOfFuelOverlay = true;
-
-		// Token: 0x04001621 RID: 5665
-		public float minimumFueledThreshold = 0f;
-
-		// Token: 0x04001622 RID: 5666
-		public bool drawFuelGaugeInMap = false;
-
-		// Token: 0x04001623 RID: 5667
-		public bool atomicFueling = false;
-
-		// Token: 0x04001624 RID: 5668
-		public float fuelMultiplier = 1f;
-
-		// Token: 0x04001625 RID: 5669
-		public string fuelLabel;
-
-		// Token: 0x04001626 RID: 5670
-		public string fuelGizmoLabel;
-
-		// Token: 0x04001627 RID: 5671
-		public string outOfFuelMessage;
-
-		// Token: 0x04001628 RID: 5672
-		public string fuelIconPath;
-
-		// Token: 0x04001629 RID: 5673
-		private Texture2D fuelIcon;
 	}
 }

@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x02000659 RID: 1625
 	public class TaleData_Def : TaleData
 	{
+		// Token: 0x04001345 RID: 4933
+		public Def def;
+
+		// Token: 0x04001346 RID: 4934
+		private string tmpDefName;
+
+		// Token: 0x04001347 RID: 4935
+		private Type tmpDefType;
+
 		// Token: 0x060021F7 RID: 8695 RVA: 0x00120268 File Offset: 0x0011E668
 		public override void ExposeData()
 		{
@@ -44,14 +53,5 @@ namespace RimWorld
 				def = def
 			};
 		}
-
-		// Token: 0x04001345 RID: 4933
-		public Def def;
-
-		// Token: 0x04001346 RID: 4934
-		private string tmpDefName;
-
-		// Token: 0x04001347 RID: 4935
-		private Type tmpDefType;
 	}
 }

@@ -5,6 +5,13 @@ namespace Verse.AI
 	// Token: 0x02000ABC RID: 2748
 	public class ThinkNode_Subtree : ThinkNode
 	{
+		// Token: 0x0400269E RID: 9886
+		private ThinkTreeDef treeDef;
+
+		// Token: 0x0400269F RID: 9887
+		[Unsaved]
+		public ThinkNode subtreeNode;
+
 		// Token: 0x06003D39 RID: 15673 RVA: 0x00205398 File Offset: 0x00203798
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -30,12 +37,5 @@ namespace Verse.AI
 		{
 			return this.subtreeNode.TryIssueJobPackage(pawn, jobParams);
 		}
-
-		// Token: 0x0400269E RID: 9886
-		private ThinkTreeDef treeDef;
-
-		// Token: 0x0400269F RID: 9887
-		[Unsaved]
-		public ThinkNode subtreeNode;
 	}
 }

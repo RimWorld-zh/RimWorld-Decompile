@@ -9,6 +9,27 @@ namespace RimWorld.Planet
 	// Token: 0x020008E4 RID: 2276
 	public class WITab_Caravan_Social : WITab
 	{
+		// Token: 0x04001C56 RID: 7254
+		private Vector2 scrollPosition;
+
+		// Token: 0x04001C57 RID: 7255
+		private float scrollViewHeight;
+
+		// Token: 0x04001C58 RID: 7256
+		private Pawn specificSocialTabForPawn;
+
+		// Token: 0x04001C59 RID: 7257
+		private const float RowHeight = 50f;
+
+		// Token: 0x04001C5A RID: 7258
+		private const float PawnLabelHeight = 18f;
+
+		// Token: 0x04001C5B RID: 7259
+		private const float PawnLabelColumnWidth = 100f;
+
+		// Token: 0x04001C5C RID: 7260
+		private const float SpaceAroundIcon = 4f;
+
 		// Token: 0x0600345C RID: 13404 RVA: 0x001C01AE File Offset: 0x001BE5AE
 		public WITab_Caravan_Social()
 		{
@@ -190,26 +211,5 @@ namespace RimWorld.Planet
 			}
 			GUI.EndGroup();
 		}
-
-		// Token: 0x04001C56 RID: 7254
-		private Vector2 scrollPosition;
-
-		// Token: 0x04001C57 RID: 7255
-		private float scrollViewHeight;
-
-		// Token: 0x04001C58 RID: 7256
-		private Pawn specificSocialTabForPawn;
-
-		// Token: 0x04001C59 RID: 7257
-		private const float RowHeight = 50f;
-
-		// Token: 0x04001C5A RID: 7258
-		private const float PawnLabelHeight = 18f;
-
-		// Token: 0x04001C5B RID: 7259
-		private const float PawnLabelColumnWidth = 100f;
-
-		// Token: 0x04001C5C RID: 7260
-		private const float SpaceAroundIcon = 4f;
 	}
 }

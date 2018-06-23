@@ -9,6 +9,108 @@ namespace RimWorld
 	// Token: 0x02000452 RID: 1106
 	public class WildPlantSpawner : IExposable
 	{
+		// Token: 0x04000BB4 RID: 2996
+		private Map map;
+
+		// Token: 0x04000BB5 RID: 2997
+		private int cycleIndex;
+
+		// Token: 0x04000BB6 RID: 2998
+		private float calculatedWholeMapNumDesiredPlants;
+
+		// Token: 0x04000BB7 RID: 2999
+		private float calculatedWholeMapNumDesiredPlantsTmp;
+
+		// Token: 0x04000BB8 RID: 3000
+		private int calculatedWholeMapNumNonZeroFertilityCells;
+
+		// Token: 0x04000BB9 RID: 3001
+		private int calculatedWholeMapNumNonZeroFertilityCellsTmp;
+
+		// Token: 0x04000BBA RID: 3002
+		private bool hasWholeMapNumDesiredPlantsCalculated;
+
+		// Token: 0x04000BBB RID: 3003
+		private float? cachedCavePlantsCommonalitiesSum;
+
+		// Token: 0x04000BBC RID: 3004
+		private static List<ThingDef> allCavePlants = new List<ThingDef>();
+
+		// Token: 0x04000BBD RID: 3005
+		private static List<ThingDef> tmpPossiblePlants = new List<ThingDef>();
+
+		// Token: 0x04000BBE RID: 3006
+		private static List<KeyValuePair<ThingDef, float>> tmpPossiblePlantsWithWeight = new List<KeyValuePair<ThingDef, float>>();
+
+		// Token: 0x04000BBF RID: 3007
+		private static Dictionary<ThingDef, float> distanceSqToNearbyClusters = new Dictionary<ThingDef, float>();
+
+		// Token: 0x04000BC0 RID: 3008
+		private static Dictionary<ThingDef, List<float>> nearbyClusters = new Dictionary<ThingDef, List<float>>();
+
+		// Token: 0x04000BC1 RID: 3009
+		private static List<KeyValuePair<ThingDef, List<float>>> nearbyClustersList = new List<KeyValuePair<ThingDef, List<float>>>();
+
+		// Token: 0x04000BC2 RID: 3010
+		private const float CavePlantsDensityFactor = 0.5f;
+
+		// Token: 0x04000BC3 RID: 3011
+		private const int PlantSaturationScanRadius = 20;
+
+		// Token: 0x04000BC4 RID: 3012
+		private const float MapFractionCheckPerTick = 0.0001f;
+
+		// Token: 0x04000BC5 RID: 3013
+		private const float ChanceToRegrow = 0.012f;
+
+		// Token: 0x04000BC6 RID: 3014
+		private const float CavePlantChanceToRegrow = 0.0001f;
+
+		// Token: 0x04000BC7 RID: 3015
+		private const float BaseLowerOrderScanRadius = 7f;
+
+		// Token: 0x04000BC8 RID: 3016
+		private const float LowerOrderScanRadiusWildClusterRadiusFactor = 1.5f;
+
+		// Token: 0x04000BC9 RID: 3017
+		private const float MinDesiredLowerOrderPlantsToConsiderSkipping = 4f;
+
+		// Token: 0x04000BCA RID: 3018
+		private const float MinLowerOrderPlantsPct = 0.57f;
+
+		// Token: 0x04000BCB RID: 3019
+		private const float LocalPlantProportionsMaxScanRadius = 25f;
+
+		// Token: 0x04000BCC RID: 3020
+		private const float MaxLocalProportionsBias = 7f;
+
+		// Token: 0x04000BCD RID: 3021
+		private const float CavePlantRegrowDays = 130f;
+
+		// Token: 0x04000BCE RID: 3022
+		private static readonly SimpleCurve GlobalPctSelectionWeightBias = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 3f),
+				true
+			},
+			{
+				new CurvePoint(1f, 1f),
+				true
+			},
+			{
+				new CurvePoint(1.5f, 0.25f),
+				true
+			},
+			{
+				new CurvePoint(3f, 0.02f),
+				true
+			}
+		};
+
+		// Token: 0x04000BCF RID: 3023
+		private static List<ThingDef> tmpPlantDefsLowerOrder = new List<ThingDef>();
+
 		// Token: 0x06001345 RID: 4933 RVA: 0x000A5B55 File Offset: 0x000A3F55
 		public WildPlantSpawner(Map map)
 		{
@@ -486,107 +588,5 @@ namespace RimWorld
 		{
 			return Mathf.Min(reg.GetBaseDesiredPlantsCount(true) * plantDensity * forCell.GetTerrain(this.map).fertility, (float)reg.CellCount);
 		}
-
-		// Token: 0x04000BB4 RID: 2996
-		private Map map;
-
-		// Token: 0x04000BB5 RID: 2997
-		private int cycleIndex;
-
-		// Token: 0x04000BB6 RID: 2998
-		private float calculatedWholeMapNumDesiredPlants;
-
-		// Token: 0x04000BB7 RID: 2999
-		private float calculatedWholeMapNumDesiredPlantsTmp;
-
-		// Token: 0x04000BB8 RID: 3000
-		private int calculatedWholeMapNumNonZeroFertilityCells;
-
-		// Token: 0x04000BB9 RID: 3001
-		private int calculatedWholeMapNumNonZeroFertilityCellsTmp;
-
-		// Token: 0x04000BBA RID: 3002
-		private bool hasWholeMapNumDesiredPlantsCalculated;
-
-		// Token: 0x04000BBB RID: 3003
-		private float? cachedCavePlantsCommonalitiesSum;
-
-		// Token: 0x04000BBC RID: 3004
-		private static List<ThingDef> allCavePlants = new List<ThingDef>();
-
-		// Token: 0x04000BBD RID: 3005
-		private static List<ThingDef> tmpPossiblePlants = new List<ThingDef>();
-
-		// Token: 0x04000BBE RID: 3006
-		private static List<KeyValuePair<ThingDef, float>> tmpPossiblePlantsWithWeight = new List<KeyValuePair<ThingDef, float>>();
-
-		// Token: 0x04000BBF RID: 3007
-		private static Dictionary<ThingDef, float> distanceSqToNearbyClusters = new Dictionary<ThingDef, float>();
-
-		// Token: 0x04000BC0 RID: 3008
-		private static Dictionary<ThingDef, List<float>> nearbyClusters = new Dictionary<ThingDef, List<float>>();
-
-		// Token: 0x04000BC1 RID: 3009
-		private static List<KeyValuePair<ThingDef, List<float>>> nearbyClustersList = new List<KeyValuePair<ThingDef, List<float>>>();
-
-		// Token: 0x04000BC2 RID: 3010
-		private const float CavePlantsDensityFactor = 0.5f;
-
-		// Token: 0x04000BC3 RID: 3011
-		private const int PlantSaturationScanRadius = 20;
-
-		// Token: 0x04000BC4 RID: 3012
-		private const float MapFractionCheckPerTick = 0.0001f;
-
-		// Token: 0x04000BC5 RID: 3013
-		private const float ChanceToRegrow = 0.012f;
-
-		// Token: 0x04000BC6 RID: 3014
-		private const float CavePlantChanceToRegrow = 0.0001f;
-
-		// Token: 0x04000BC7 RID: 3015
-		private const float BaseLowerOrderScanRadius = 7f;
-
-		// Token: 0x04000BC8 RID: 3016
-		private const float LowerOrderScanRadiusWildClusterRadiusFactor = 1.5f;
-
-		// Token: 0x04000BC9 RID: 3017
-		private const float MinDesiredLowerOrderPlantsToConsiderSkipping = 4f;
-
-		// Token: 0x04000BCA RID: 3018
-		private const float MinLowerOrderPlantsPct = 0.57f;
-
-		// Token: 0x04000BCB RID: 3019
-		private const float LocalPlantProportionsMaxScanRadius = 25f;
-
-		// Token: 0x04000BCC RID: 3020
-		private const float MaxLocalProportionsBias = 7f;
-
-		// Token: 0x04000BCD RID: 3021
-		private const float CavePlantRegrowDays = 130f;
-
-		// Token: 0x04000BCE RID: 3022
-		private static readonly SimpleCurve GlobalPctSelectionWeightBias = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 3f),
-				true
-			},
-			{
-				new CurvePoint(1f, 1f),
-				true
-			},
-			{
-				new CurvePoint(1.5f, 0.25f),
-				true
-			},
-			{
-				new CurvePoint(3f, 0.02f),
-				true
-			}
-		};
-
-		// Token: 0x04000BCF RID: 3023
-		private static List<ThingDef> tmpPlantDefsLowerOrder = new List<ThingDef>();
 	}
 }

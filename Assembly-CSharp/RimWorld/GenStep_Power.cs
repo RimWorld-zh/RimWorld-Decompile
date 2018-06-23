@@ -10,6 +10,39 @@ namespace RimWorld
 	// Token: 0x020003EB RID: 1003
 	public class GenStep_Power : GenStep
 	{
+		// Token: 0x04000A7E RID: 2686
+		public bool canSpawnBatteries = true;
+
+		// Token: 0x04000A7F RID: 2687
+		public bool canSpawnPowerGenerators = true;
+
+		// Token: 0x04000A80 RID: 2688
+		public bool spawnRoofOverNewBatteries = true;
+
+		// Token: 0x04000A81 RID: 2689
+		public FloatRange newBatteriesInitialStoredEnergyPctRange = new FloatRange(0.2f, 0.5f);
+
+		// Token: 0x04000A82 RID: 2690
+		private List<Thing> tmpThings = new List<Thing>();
+
+		// Token: 0x04000A83 RID: 2691
+		private List<IntVec3> tmpCells = new List<IntVec3>();
+
+		// Token: 0x04000A84 RID: 2692
+		private const int MaxDistToExistingNetForTurrets = 13;
+
+		// Token: 0x04000A85 RID: 2693
+		private const int RoofPadding = 2;
+
+		// Token: 0x04000A86 RID: 2694
+		private static readonly IntRange MaxDistanceBetweenBatteryAndTransmitter = new IntRange(20, 50);
+
+		// Token: 0x04000A87 RID: 2695
+		private Dictionary<PowerNet, bool> tmpPowerNetPredicateResults = new Dictionary<PowerNet, bool>();
+
+		// Token: 0x04000A88 RID: 2696
+		private static List<IntVec3> tmpTransmitterCells = new List<IntVec3>();
+
 		// Token: 0x1700024D RID: 589
 		// (get) Token: 0x0600113B RID: 4411 RVA: 0x00093FB0 File Offset: 0x000923B0
 		public override int SeedPart
@@ -565,38 +598,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000A7E RID: 2686
-		public bool canSpawnBatteries = true;
-
-		// Token: 0x04000A7F RID: 2687
-		public bool canSpawnPowerGenerators = true;
-
-		// Token: 0x04000A80 RID: 2688
-		public bool spawnRoofOverNewBatteries = true;
-
-		// Token: 0x04000A81 RID: 2689
-		public FloatRange newBatteriesInitialStoredEnergyPctRange = new FloatRange(0.2f, 0.5f);
-
-		// Token: 0x04000A82 RID: 2690
-		private List<Thing> tmpThings = new List<Thing>();
-
-		// Token: 0x04000A83 RID: 2691
-		private List<IntVec3> tmpCells = new List<IntVec3>();
-
-		// Token: 0x04000A84 RID: 2692
-		private const int MaxDistToExistingNetForTurrets = 13;
-
-		// Token: 0x04000A85 RID: 2693
-		private const int RoofPadding = 2;
-
-		// Token: 0x04000A86 RID: 2694
-		private static readonly IntRange MaxDistanceBetweenBatteryAndTransmitter = new IntRange(20, 50);
-
-		// Token: 0x04000A87 RID: 2695
-		private Dictionary<PowerNet, bool> tmpPowerNetPredicateResults = new Dictionary<PowerNet, bool>();
-
-		// Token: 0x04000A88 RID: 2696
-		private static List<IntVec3> tmpTransmitterCells = new List<IntVec3>();
 	}
 }

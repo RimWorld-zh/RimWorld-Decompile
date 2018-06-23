@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000183 RID: 387
 	public class LordToil_PrepareCaravan_GatherSlaves : LordToil
 	{
+		// Token: 0x04000378 RID: 888
+		private IntVec3 meetingPoint;
+
 		// Token: 0x06000809 RID: 2057 RVA: 0x0004E302 File Offset: 0x0004C702
 		public LordToil_PrepareCaravan_GatherSlaves(IntVec3 meetingPoint)
 		{
@@ -60,8 +63,5 @@ namespace RimWorld
 				GatherAnimalsAndSlavesForCaravanUtility.CheckArrived(this.lord, this.meetingPoint, "AllSlavesGathered", (Pawn x) => !x.IsColonist && !x.RaceProps.Animal, (Pawn x) => GatherAnimalsAndSlavesForCaravanUtility.IsFollowingAnyone(x));
 			}
 		}
-
-		// Token: 0x04000378 RID: 888
-		private IntVec3 meetingPoint;
 	}
 }

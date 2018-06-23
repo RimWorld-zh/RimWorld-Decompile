@@ -6,6 +6,30 @@ namespace Verse
 	// Token: 0x02000D5A RID: 3418
 	public class Pawn_StanceTracker : IExposable
 	{
+		// Token: 0x04003322 RID: 13090
+		public Pawn pawn;
+
+		// Token: 0x04003323 RID: 13091
+		public Stance curStance = new Stance_Mobile();
+
+		// Token: 0x04003324 RID: 13092
+		private int staggerUntilTick = -1;
+
+		// Token: 0x04003325 RID: 13093
+		public StunHandler stunner;
+
+		// Token: 0x04003326 RID: 13094
+		public const int StaggerMeleeAttackTicks = 95;
+
+		// Token: 0x04003327 RID: 13095
+		public const int StaggerBulletImpactTicks = 95;
+
+		// Token: 0x04003328 RID: 13096
+		public const int StaggerExplosionImpactTicks = 95;
+
+		// Token: 0x04003329 RID: 13097
+		public bool debugLog = false;
+
 		// Token: 0x06004CA8 RID: 19624 RVA: 0x0027FC55 File Offset: 0x0027E055
 		public Pawn_StanceTracker(Pawn newPawn)
 		{
@@ -113,29 +137,5 @@ namespace Verse
 		public void Notify_DamageTaken(DamageInfo dinfo)
 		{
 		}
-
-		// Token: 0x04003322 RID: 13090
-		public Pawn pawn;
-
-		// Token: 0x04003323 RID: 13091
-		public Stance curStance = new Stance_Mobile();
-
-		// Token: 0x04003324 RID: 13092
-		private int staggerUntilTick = -1;
-
-		// Token: 0x04003325 RID: 13093
-		public StunHandler stunner;
-
-		// Token: 0x04003326 RID: 13094
-		public const int StaggerMeleeAttackTicks = 95;
-
-		// Token: 0x04003327 RID: 13095
-		public const int StaggerBulletImpactTicks = 95;
-
-		// Token: 0x04003328 RID: 13096
-		public const int StaggerExplosionImpactTicks = 95;
-
-		// Token: 0x04003329 RID: 13097
-		public bool debugLog = false;
 	}
 }

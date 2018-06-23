@@ -6,16 +6,6 @@ namespace Verse
 	// Token: 0x02000AE5 RID: 2789
 	public abstract class CameraMapConfig
 	{
-		// Token: 0x06003DE9 RID: 15849 RVA: 0x0020ADF9 File Offset: 0x002091F9
-		public virtual void ConfigFixedUpdate_60(ref Vector3 velocity)
-		{
-		}
-
-		// Token: 0x06003DEA RID: 15850 RVA: 0x0020ADFC File Offset: 0x002091FC
-		public virtual void ConfigOnGUI()
-		{
-		}
-
 		// Token: 0x04002724 RID: 10020
 		public float dollyRateKeys = 50f;
 
@@ -39,5 +29,15 @@ namespace Verse
 
 		// Token: 0x0400272B RID: 10027
 		public bool smoothZoom;
+
+		// Token: 0x06003DE9 RID: 15849 RVA: 0x0020ADF9 File Offset: 0x002091F9
+		public virtual void ConfigFixedUpdate_60(ref Vector3 velocity)
+		{
+		}
+
+		// Token: 0x06003DEA RID: 15850 RVA: 0x0020ADFC File Offset: 0x002091FC
+		public virtual void ConfigOnGUI()
+		{
+		}
 	}
 }

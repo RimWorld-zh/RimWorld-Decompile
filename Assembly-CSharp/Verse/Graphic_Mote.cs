@@ -7,6 +7,9 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public class Graphic_Mote : Graphic_Single
 	{
+		// Token: 0x040034C2 RID: 13506
+		protected static MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
+
 		// Token: 0x17000CD9 RID: 3289
 		// (get) Token: 0x06004F6B RID: 20331 RVA: 0x00295FD8 File Offset: 0x002943D8
 		protected virtual bool ForcePropertyBlock
@@ -64,8 +67,5 @@ namespace Verse
 				", colorTwo=unsupported)"
 			});
 		}
-
-		// Token: 0x040034C2 RID: 13506
-		protected static MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
 	}
 }

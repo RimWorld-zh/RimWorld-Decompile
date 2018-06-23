@@ -7,6 +7,15 @@ namespace Verse
 	// Token: 0x02000C0F RID: 3087
 	public sealed class FogGrid : IExposable
 	{
+		// Token: 0x04002E26 RID: 11814
+		private Map map;
+
+		// Token: 0x04002E27 RID: 11815
+		public bool[] fogGrid;
+
+		// Token: 0x04002E28 RID: 11816
+		private const int AlwaysSendLetterIfUnfoggedMoreCellsThan = 600;
+
 		// Token: 0x06004388 RID: 17288 RVA: 0x0023B223 File Offset: 0x00239623
 		public FogGrid(Map map)
 		{
@@ -183,14 +192,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04002E26 RID: 11814
-		private Map map;
-
-		// Token: 0x04002E27 RID: 11815
-		public bool[] fogGrid;
-
-		// Token: 0x04002E28 RID: 11816
-		private const int AlwaysSendLetterIfUnfoggedMoreCellsThan = 600;
 	}
 }

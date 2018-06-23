@@ -6,6 +6,24 @@ namespace RimWorld.Planet
 	// Token: 0x02000575 RID: 1397
 	public struct GlobalTargetInfo : IEquatable<GlobalTargetInfo>
 	{
+		// Token: 0x04000F85 RID: 3973
+		private Thing thingInt;
+
+		// Token: 0x04000F86 RID: 3974
+		private IntVec3 cellInt;
+
+		// Token: 0x04000F87 RID: 3975
+		private Map mapInt;
+
+		// Token: 0x04000F88 RID: 3976
+		private WorldObject worldObjectInt;
+
+		// Token: 0x04000F89 RID: 3977
+		private int tileInt;
+
+		// Token: 0x04000F8A RID: 3978
+		public const char WorldObjectLoadIDMarker = '@';
+
 		// Token: 0x06001AAF RID: 6831 RVA: 0x000E5B98 File Offset: 0x000E3F98
 		public GlobalTargetInfo(Thing thing)
 		{
@@ -442,23 +460,5 @@ namespace RimWorld.Planet
 			}
 			return result;
 		}
-
-		// Token: 0x04000F85 RID: 3973
-		private Thing thingInt;
-
-		// Token: 0x04000F86 RID: 3974
-		private IntVec3 cellInt;
-
-		// Token: 0x04000F87 RID: 3975
-		private Map mapInt;
-
-		// Token: 0x04000F88 RID: 3976
-		private WorldObject worldObjectInt;
-
-		// Token: 0x04000F89 RID: 3977
-		private int tileInt;
-
-		// Token: 0x04000F8A RID: 3978
-		public const char WorldObjectLoadIDMarker = '@';
 	}
 }

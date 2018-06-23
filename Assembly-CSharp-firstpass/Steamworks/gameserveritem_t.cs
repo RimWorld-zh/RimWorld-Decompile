@@ -8,6 +8,69 @@ namespace Steamworks
 	[StructLayout(LayoutKind.Sequential, Pack = 4, Size = 372)]
 	public class gameserveritem_t
 	{
+		// Token: 0x04000640 RID: 1600
+		public servernetadr_t m_NetAdr;
+
+		// Token: 0x04000641 RID: 1601
+		public int m_nPing;
+
+		// Token: 0x04000642 RID: 1602
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bHadSuccessfulResponse;
+
+		// Token: 0x04000643 RID: 1603
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bDoNotRefresh;
+
+		// Token: 0x04000644 RID: 1604
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+		private byte[] m_szGameDir;
+
+		// Token: 0x04000645 RID: 1605
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+		private byte[] m_szMap;
+
+		// Token: 0x04000646 RID: 1606
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
+		private byte[] m_szGameDescription;
+
+		// Token: 0x04000647 RID: 1607
+		public uint m_nAppID;
+
+		// Token: 0x04000648 RID: 1608
+		public int m_nPlayers;
+
+		// Token: 0x04000649 RID: 1609
+		public int m_nMaxPlayers;
+
+		// Token: 0x0400064A RID: 1610
+		public int m_nBotPlayers;
+
+		// Token: 0x0400064B RID: 1611
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bPassword;
+
+		// Token: 0x0400064C RID: 1612
+		[MarshalAs(UnmanagedType.I1)]
+		public bool m_bSecure;
+
+		// Token: 0x0400064D RID: 1613
+		public uint m_ulTimeLastPlayed;
+
+		// Token: 0x0400064E RID: 1614
+		public int m_nServerVersion;
+
+		// Token: 0x0400064F RID: 1615
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
+		private byte[] m_szServerName;
+
+		// Token: 0x04000650 RID: 1616
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
+		private byte[] m_szGameTags;
+
+		// Token: 0x04000651 RID: 1617
+		public CSteamID m_steamID;
+
 		// Token: 0x0600070C RID: 1804 RVA: 0x0000BD64 File Offset: 0x00009F64
 		public string GetGameDir()
 		{
@@ -76,68 +139,5 @@ namespace Steamworks
 		{
 			this.m_szGameTags = Encoding.UTF8.GetBytes(tags + '\0');
 		}
-
-		// Token: 0x04000640 RID: 1600
-		public servernetadr_t m_NetAdr;
-
-		// Token: 0x04000641 RID: 1601
-		public int m_nPing;
-
-		// Token: 0x04000642 RID: 1602
-		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bHadSuccessfulResponse;
-
-		// Token: 0x04000643 RID: 1603
-		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bDoNotRefresh;
-
-		// Token: 0x04000644 RID: 1604
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-		private byte[] m_szGameDir;
-
-		// Token: 0x04000645 RID: 1605
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-		private byte[] m_szMap;
-
-		// Token: 0x04000646 RID: 1606
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-		private byte[] m_szGameDescription;
-
-		// Token: 0x04000647 RID: 1607
-		public uint m_nAppID;
-
-		// Token: 0x04000648 RID: 1608
-		public int m_nPlayers;
-
-		// Token: 0x04000649 RID: 1609
-		public int m_nMaxPlayers;
-
-		// Token: 0x0400064A RID: 1610
-		public int m_nBotPlayers;
-
-		// Token: 0x0400064B RID: 1611
-		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bPassword;
-
-		// Token: 0x0400064C RID: 1612
-		[MarshalAs(UnmanagedType.I1)]
-		public bool m_bSecure;
-
-		// Token: 0x0400064D RID: 1613
-		public uint m_ulTimeLastPlayed;
-
-		// Token: 0x0400064E RID: 1614
-		public int m_nServerVersion;
-
-		// Token: 0x0400064F RID: 1615
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-		private byte[] m_szServerName;
-
-		// Token: 0x04000650 RID: 1616
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
-		private byte[] m_szGameTags;
-
-		// Token: 0x04000651 RID: 1617
-		public CSteamID m_steamID;
 	}
 }

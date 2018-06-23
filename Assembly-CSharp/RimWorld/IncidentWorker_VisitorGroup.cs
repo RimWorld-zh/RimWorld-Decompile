@@ -8,6 +8,38 @@ namespace RimWorld
 	// Token: 0x0200034C RID: 844
 	public class IncidentWorker_VisitorGroup : IncidentWorker_NeutralGroup
 	{
+		// Token: 0x040008F9 RID: 2297
+		private const float TraderChance = 0.75f;
+
+		// Token: 0x040008FA RID: 2298
+		private static readonly SimpleCurve PointsCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(45f, 0f),
+				true
+			},
+			{
+				new CurvePoint(50f, 1f),
+				true
+			},
+			{
+				new CurvePoint(100f, 1f),
+				true
+			},
+			{
+				new CurvePoint(200f, 0.25f),
+				true
+			},
+			{
+				new CurvePoint(300f, 0.1f),
+				true
+			},
+			{
+				new CurvePoint(500f, 0f),
+				true
+			}
+		};
+
 		// Token: 0x06000E8F RID: 3727 RVA: 0x0007B4A4 File Offset: 0x000798A4
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
@@ -132,37 +164,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040008F9 RID: 2297
-		private const float TraderChance = 0.75f;
-
-		// Token: 0x040008FA RID: 2298
-		private static readonly SimpleCurve PointsCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(45f, 0f),
-				true
-			},
-			{
-				new CurvePoint(50f, 1f),
-				true
-			},
-			{
-				new CurvePoint(100f, 1f),
-				true
-			},
-			{
-				new CurvePoint(200f, 0.25f),
-				true
-			},
-			{
-				new CurvePoint(300f, 0.1f),
-				true
-			},
-			{
-				new CurvePoint(500f, 0f),
-				true
-			}
-		};
 	}
 }

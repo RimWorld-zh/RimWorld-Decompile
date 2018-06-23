@@ -9,6 +9,12 @@ namespace Verse
 	// Token: 0x02000E69 RID: 3689
 	internal class Command_VerbTarget : Command
 	{
+		// Token: 0x04003995 RID: 14741
+		public Verb verb;
+
+		// Token: 0x04003996 RID: 14742
+		private List<Verb> groupedVerbs;
+
 		// Token: 0x17000DA7 RID: 3495
 		// (get) Token: 0x060056EF RID: 22255 RVA: 0x002CC6E0 File Offset: 0x002CAAE0
 		public override Color IconDrawColor
@@ -83,11 +89,5 @@ namespace Verse
 				Find.Targeter.BeginTargeting(this.verb);
 			}
 		}
-
-		// Token: 0x04003995 RID: 14741
-		public Verb verb;
-
-		// Token: 0x04003996 RID: 14742
-		private List<Verb> groupedVerbs;
 	}
 }

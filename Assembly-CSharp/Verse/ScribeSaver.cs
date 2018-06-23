@@ -8,6 +8,27 @@ namespace Verse
 	// Token: 0x02000D9F RID: 3487
 	public class ScribeSaver
 	{
+		// Token: 0x04003404 RID: 13316
+		public DebugLoadIDsSavingErrorsChecker loadIDsErrorsChecker = new DebugLoadIDsSavingErrorsChecker();
+
+		// Token: 0x04003405 RID: 13317
+		public bool savingForDebug;
+
+		// Token: 0x04003406 RID: 13318
+		private Stream saveStream;
+
+		// Token: 0x04003407 RID: 13319
+		private XmlWriter writer;
+
+		// Token: 0x04003408 RID: 13320
+		private string curPath;
+
+		// Token: 0x04003409 RID: 13321
+		private HashSet<string> savedNodes = new HashSet<string>();
+
+		// Token: 0x0400340A RID: 13322
+		private int nextListElementTemporaryId;
+
 		// Token: 0x06004DF7 RID: 19959 RVA: 0x0028BDE8 File Offset: 0x0028A1E8
 		public void InitSaving(string filePath, string documentElementName)
 		{
@@ -237,26 +258,5 @@ namespace Verse
 				Scribe.mode = LoadSaveMode.Inactive;
 			}
 		}
-
-		// Token: 0x04003404 RID: 13316
-		public DebugLoadIDsSavingErrorsChecker loadIDsErrorsChecker = new DebugLoadIDsSavingErrorsChecker();
-
-		// Token: 0x04003405 RID: 13317
-		public bool savingForDebug;
-
-		// Token: 0x04003406 RID: 13318
-		private Stream saveStream;
-
-		// Token: 0x04003407 RID: 13319
-		private XmlWriter writer;
-
-		// Token: 0x04003408 RID: 13320
-		private string curPath;
-
-		// Token: 0x04003409 RID: 13321
-		private HashSet<string> savedNodes = new HashSet<string>();
-
-		// Token: 0x0400340A RID: 13322
-		private int nextListElementTemporaryId;
 	}
 }

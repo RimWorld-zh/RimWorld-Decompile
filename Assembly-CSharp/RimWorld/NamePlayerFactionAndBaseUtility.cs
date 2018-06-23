@@ -10,6 +10,15 @@ namespace RimWorld
 	// Token: 0x02000563 RID: 1379
 	public static class NamePlayerFactionAndBaseUtility
 	{
+		// Token: 0x04000F42 RID: 3906
+		private const float MinDaysPassedToNameFaction = 3f;
+
+		// Token: 0x04000F43 RID: 3907
+		private const float MinDaysPassedToNameFactionBase = 3f;
+
+		// Token: 0x04000F44 RID: 3908
+		private const int SoonTicks = 30000;
+
 		// Token: 0x06001A11 RID: 6673 RVA: 0x000E2504 File Offset: 0x000E0904
 		public static bool CanNameFactionNow()
 		{
@@ -77,14 +86,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000F42 RID: 3906
-		private const float MinDaysPassedToNameFaction = 3f;
-
-		// Token: 0x04000F43 RID: 3907
-		private const float MinDaysPassedToNameFactionBase = 3f;
-
-		// Token: 0x04000F44 RID: 3908
-		private const int SoonTicks = 30000;
 	}
 }

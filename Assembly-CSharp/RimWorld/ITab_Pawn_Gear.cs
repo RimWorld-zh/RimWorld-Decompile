@@ -12,6 +12,36 @@ namespace RimWorld
 	// Token: 0x0200084A RID: 2122
 	public class ITab_Pawn_Gear : ITab
 	{
+		// Token: 0x04001A0A RID: 6666
+		private Vector2 scrollPosition = Vector2.zero;
+
+		// Token: 0x04001A0B RID: 6667
+		private float scrollViewHeight = 0f;
+
+		// Token: 0x04001A0C RID: 6668
+		private const float TopPadding = 20f;
+
+		// Token: 0x04001A0D RID: 6669
+		public static readonly Color ThingLabelColor = new Color(0.9f, 0.9f, 0.9f, 1f);
+
+		// Token: 0x04001A0E RID: 6670
+		public static readonly Color HighlightColor = new Color(0.5f, 0.5f, 0.5f, 1f);
+
+		// Token: 0x04001A0F RID: 6671
+		private const float ThingIconSize = 28f;
+
+		// Token: 0x04001A10 RID: 6672
+		private const float ThingRowHeight = 28f;
+
+		// Token: 0x04001A11 RID: 6673
+		private const float ThingLeftX = 36f;
+
+		// Token: 0x04001A12 RID: 6674
+		private const float StandardLineHeight = 22f;
+
+		// Token: 0x04001A13 RID: 6675
+		private static List<Thing> workingInvList = new List<Thing>();
+
 		// Token: 0x0600301E RID: 12318 RVA: 0x001A2C60 File Offset: 0x001A1060
 		public ITab_Pawn_Gear()
 		{
@@ -334,35 +364,5 @@ namespace RimWorld
 		{
 			return p.RaceProps.Humanlike || this.ShouldShowApparel(p) || p.GetStatValue(StatDefOf.ArmorRating_Sharp, true) > 0f || p.GetStatValue(StatDefOf.ArmorRating_Blunt, true) > 0f || p.GetStatValue(StatDefOf.ArmorRating_Heat, true) > 0f;
 		}
-
-		// Token: 0x04001A0A RID: 6666
-		private Vector2 scrollPosition = Vector2.zero;
-
-		// Token: 0x04001A0B RID: 6667
-		private float scrollViewHeight = 0f;
-
-		// Token: 0x04001A0C RID: 6668
-		private const float TopPadding = 20f;
-
-		// Token: 0x04001A0D RID: 6669
-		public static readonly Color ThingLabelColor = new Color(0.9f, 0.9f, 0.9f, 1f);
-
-		// Token: 0x04001A0E RID: 6670
-		public static readonly Color HighlightColor = new Color(0.5f, 0.5f, 0.5f, 1f);
-
-		// Token: 0x04001A0F RID: 6671
-		private const float ThingIconSize = 28f;
-
-		// Token: 0x04001A10 RID: 6672
-		private const float ThingRowHeight = 28f;
-
-		// Token: 0x04001A11 RID: 6673
-		private const float ThingLeftX = 36f;
-
-		// Token: 0x04001A12 RID: 6674
-		private const float StandardLineHeight = 22f;
-
-		// Token: 0x04001A13 RID: 6675
-		private static List<Thing> workingInvList = new List<Thing>();
 	}
 }

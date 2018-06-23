@@ -6,6 +6,42 @@ namespace Verse.AI
 	// Token: 0x02000A9D RID: 2717
 	public class PawnDuty : IExposable
 	{
+		// Token: 0x04002646 RID: 9798
+		public DutyDef def = null;
+
+		// Token: 0x04002647 RID: 9799
+		public LocalTargetInfo focus = LocalTargetInfo.Invalid;
+
+		// Token: 0x04002648 RID: 9800
+		public LocalTargetInfo focusSecond = LocalTargetInfo.Invalid;
+
+		// Token: 0x04002649 RID: 9801
+		public float radius = -1f;
+
+		// Token: 0x0400264A RID: 9802
+		public LocomotionUrgency locomotion = LocomotionUrgency.None;
+
+		// Token: 0x0400264B RID: 9803
+		public Danger maxDanger = Danger.Unspecified;
+
+		// Token: 0x0400264C RID: 9804
+		public CellRect spectateRect = default(CellRect);
+
+		// Token: 0x0400264D RID: 9805
+		public SpectateRectSide spectateRectAllowedSides = SpectateRectSide.All;
+
+		// Token: 0x0400264E RID: 9806
+		public bool canDig = false;
+
+		// Token: 0x0400264F RID: 9807
+		public PawnsToGather pawnsToGather = PawnsToGather.None;
+
+		// Token: 0x04002650 RID: 9808
+		public int transportersGroup = -1;
+
+		// Token: 0x04002651 RID: 9809
+		public bool attackDownedIfStarving;
+
 		// Token: 0x06003C88 RID: 15496 RVA: 0x0020039C File Offset: 0x001FE79C
 		public PawnDuty()
 		{
@@ -77,41 +113,5 @@ namespace Verse.AI
 				}
 			}
 		}
-
-		// Token: 0x04002646 RID: 9798
-		public DutyDef def = null;
-
-		// Token: 0x04002647 RID: 9799
-		public LocalTargetInfo focus = LocalTargetInfo.Invalid;
-
-		// Token: 0x04002648 RID: 9800
-		public LocalTargetInfo focusSecond = LocalTargetInfo.Invalid;
-
-		// Token: 0x04002649 RID: 9801
-		public float radius = -1f;
-
-		// Token: 0x0400264A RID: 9802
-		public LocomotionUrgency locomotion = LocomotionUrgency.None;
-
-		// Token: 0x0400264B RID: 9803
-		public Danger maxDanger = Danger.Unspecified;
-
-		// Token: 0x0400264C RID: 9804
-		public CellRect spectateRect = default(CellRect);
-
-		// Token: 0x0400264D RID: 9805
-		public SpectateRectSide spectateRectAllowedSides = SpectateRectSide.All;
-
-		// Token: 0x0400264E RID: 9806
-		public bool canDig = false;
-
-		// Token: 0x0400264F RID: 9807
-		public PawnsToGather pawnsToGather = PawnsToGather.None;
-
-		// Token: 0x04002650 RID: 9808
-		public int transportersGroup = -1;
-
-		// Token: 0x04002651 RID: 9809
-		public bool attackDownedIfStarving;
 	}
 }

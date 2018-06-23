@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020009D4 RID: 2516
 	public abstract class Verb_MeleeAttack : Verb
 	{
+		// Token: 0x04002409 RID: 9225
+		private const int TargetCooldown = 50;
+
 		// Token: 0x06003868 RID: 14440 RVA: 0x001E1CE8 File Offset: 0x001E00E8
 		protected override bool TryCastShot()
 		{
@@ -269,8 +272,5 @@ namespace RimWorld
 			}
 			return SoundDefOf.Pawn_Melee_Punch_Miss;
 		}
-
-		// Token: 0x04002409 RID: 9225
-		private const int TargetCooldown = 50;
 	}
 }

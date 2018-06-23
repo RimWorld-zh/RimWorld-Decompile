@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x02000693 RID: 1683
 	public static class StorageSettingsClipboard
 	{
+		// Token: 0x040013F3 RID: 5107
+		private static StorageSettings clipboard = new StorageSettings();
+
+		// Token: 0x040013F4 RID: 5108
+		private static bool copied = false;
+
 		// Token: 0x17000554 RID: 1364
 		// (get) Token: 0x060023B0 RID: 9136 RVA: 0x00132424 File Offset: 0x00130824
 		public static bool HasCopiedSettings
@@ -64,11 +70,5 @@ namespace RimWorld
 			yield return paste;
 			yield break;
 		}
-
-		// Token: 0x040013F3 RID: 5107
-		private static StorageSettings clipboard = new StorageSettings();
-
-		// Token: 0x040013F4 RID: 5108
-		private static bool copied = false;
 	}
 }

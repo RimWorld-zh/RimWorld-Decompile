@@ -7,6 +7,27 @@ namespace RimWorld
 	// Token: 0x020004AE RID: 1198
 	public static class ChildRelationUtility
 	{
+		// Token: 0x04000CA1 RID: 3233
+		public const float MinFemaleAgeToHaveChildren = 16f;
+
+		// Token: 0x04000CA2 RID: 3234
+		public const float MaxFemaleAgeToHaveChildren = 45f;
+
+		// Token: 0x04000CA3 RID: 3235
+		public const float UsualFemaleAgeToHaveChildren = 27f;
+
+		// Token: 0x04000CA4 RID: 3236
+		public const float MinMaleAgeToHaveChildren = 14f;
+
+		// Token: 0x04000CA5 RID: 3237
+		public const float MaxMaleAgeToHaveChildren = 50f;
+
+		// Token: 0x04000CA6 RID: 3238
+		public const float UsualMaleAgeToHaveChildren = 30f;
+
+		// Token: 0x04000CA7 RID: 3239
+		public const float ChanceForChildToHaveNameOfAnyParent = 0.99f;
+
 		// Token: 0x06001561 RID: 5473 RVA: 0x000BDEB0 File Offset: 0x000BC2B0
 		public static float ChanceOfBecomingChildOf(Pawn child, Pawn father, Pawn mother, PawnGenerationRequest? childGenerationRequest, PawnGenerationRequest? fatherGenerationRequest, PawnGenerationRequest? motherGenerationRequest)
 		{
@@ -301,26 +322,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000CA1 RID: 3233
-		public const float MinFemaleAgeToHaveChildren = 16f;
-
-		// Token: 0x04000CA2 RID: 3234
-		public const float MaxFemaleAgeToHaveChildren = 45f;
-
-		// Token: 0x04000CA3 RID: 3235
-		public const float UsualFemaleAgeToHaveChildren = 27f;
-
-		// Token: 0x04000CA4 RID: 3236
-		public const float MinMaleAgeToHaveChildren = 14f;
-
-		// Token: 0x04000CA5 RID: 3237
-		public const float MaxMaleAgeToHaveChildren = 50f;
-
-		// Token: 0x04000CA6 RID: 3238
-		public const float UsualMaleAgeToHaveChildren = 30f;
-
-		// Token: 0x04000CA7 RID: 3239
-		public const float ChanceForChildToHaveNameOfAnyParent = 0.99f;
 	}
 }

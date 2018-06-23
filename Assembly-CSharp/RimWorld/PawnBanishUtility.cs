@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x0200046D RID: 1133
 	public static class PawnBanishUtility
 	{
+		// Token: 0x04000BFD RID: 3069
+		private const float DeathChanceForCaravanPawnBanishedToDie = 0.8f;
+
+		// Token: 0x04000BFE RID: 3070
+		private static List<Hediff> tmpHediffs = new List<Hediff>();
+
 		// Token: 0x060013F0 RID: 5104 RVA: 0x000AE030 File Offset: 0x000AC430
 		public static void Banish(Pawn pawn, int tile = -1)
 		{
@@ -217,11 +223,5 @@ namespace RimWorld
 		{
 			return !pawn.IsCaravanMember();
 		}
-
-		// Token: 0x04000BFD RID: 3069
-		private const float DeathChanceForCaravanPawnBanishedToDie = 0.8f;
-
-		// Token: 0x04000BFE RID: 3070
-		private static List<Hediff> tmpHediffs = new List<Hediff>();
 	}
 }

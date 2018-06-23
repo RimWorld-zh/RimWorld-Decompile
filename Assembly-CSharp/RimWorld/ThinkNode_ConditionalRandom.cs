@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020001E1 RID: 481
 	public class ThinkNode_ConditionalRandom : ThinkNode_Conditional
 	{
+		// Token: 0x040003E1 RID: 993
+		public float chance = 0.5f;
+
 		// Token: 0x0600097B RID: 2427 RVA: 0x00056968 File Offset: 0x00054D68
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -20,8 +23,5 @@ namespace RimWorld
 		{
 			return Rand.Value < this.chance;
 		}
-
-		// Token: 0x040003E1 RID: 993
-		public float chance = 0.5f;
 	}
 }

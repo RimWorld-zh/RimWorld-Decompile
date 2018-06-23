@@ -9,6 +9,15 @@ namespace RimWorld
 	// Token: 0x020008FE RID: 2302
 	public static class SpectatorCellFinder
 	{
+		// Token: 0x04001CF4 RID: 7412
+		private const float MaxDistanceToSpectateRect = 14.5f;
+
+		// Token: 0x04001CF5 RID: 7413
+		private static float[] scorePerSide = new float[4];
+
+		// Token: 0x04001CF6 RID: 7414
+		private static List<IntVec3> usedCells = new List<IntVec3>();
+
 		// Token: 0x0600356D RID: 13677 RVA: 0x001CC4FC File Offset: 0x001CA8FC
 		public static bool TryFindSpectatorCellFor(Pawn p, CellRect spectateRect, Map map, out IntVec3 cell, SpectateRectSide allowedSides = SpectateRectSide.All, int margin = 1, List<IntVec3> extraDisallowedCells = null)
 		{
@@ -361,14 +370,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04001CF4 RID: 7412
-		private const float MaxDistanceToSpectateRect = 14.5f;
-
-		// Token: 0x04001CF5 RID: 7413
-		private static float[] scorePerSide = new float[4];
-
-		// Token: 0x04001CF6 RID: 7414
-		private static List<IntVec3> usedCells = new List<IntVec3>();
 	}
 }

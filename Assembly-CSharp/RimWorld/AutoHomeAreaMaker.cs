@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020008F1 RID: 2289
 	public static class AutoHomeAreaMaker
 	{
+		// Token: 0x04001C9B RID: 7323
+		private const int BorderWidth = 4;
+
 		// Token: 0x060034F4 RID: 13556 RVA: 0x001C4BF4 File Offset: 0x001C2FF4
 		private static bool ShouldAdd()
 		{
@@ -57,8 +60,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04001C9B RID: 7323
-		private const int BorderWidth = 4;
 	}
 }

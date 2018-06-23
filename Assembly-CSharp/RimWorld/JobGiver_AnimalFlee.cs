@@ -9,6 +9,27 @@ namespace RimWorld
 	// Token: 0x020000AA RID: 170
 	public class JobGiver_AnimalFlee : ThinkNode_JobGiver
 	{
+		// Token: 0x04000275 RID: 629
+		private const int FleeDistance = 24;
+
+		// Token: 0x04000276 RID: 630
+		private const int DistToDangerToFlee = 18;
+
+		// Token: 0x04000277 RID: 631
+		private const int DistToFireToFlee = 10;
+
+		// Token: 0x04000278 RID: 632
+		private const int MinFiresNearbyToFlee = 60;
+
+		// Token: 0x04000279 RID: 633
+		private const int MinFiresNearbyRadius = 20;
+
+		// Token: 0x0400027A RID: 634
+		private const int MinFiresNearbyRegionsToScan = 18;
+
+		// Token: 0x0400027B RID: 635
+		private static List<Thing> tmpThings = new List<Thing>();
+
 		// Token: 0x06000421 RID: 1057 RVA: 0x00031630 File Offset: 0x0002FA30
 		protected override Job TryGiveJob(Pawn pawn)
 		{
@@ -142,26 +163,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000275 RID: 629
-		private const int FleeDistance = 24;
-
-		// Token: 0x04000276 RID: 630
-		private const int DistToDangerToFlee = 18;
-
-		// Token: 0x04000277 RID: 631
-		private const int DistToFireToFlee = 10;
-
-		// Token: 0x04000278 RID: 632
-		private const int MinFiresNearbyToFlee = 60;
-
-		// Token: 0x04000279 RID: 633
-		private const int MinFiresNearbyRadius = 20;
-
-		// Token: 0x0400027A RID: 634
-		private const int MinFiresNearbyRegionsToScan = 18;
-
-		// Token: 0x0400027B RID: 635
-		private static List<Thing> tmpThings = new List<Thing>();
 	}
 }

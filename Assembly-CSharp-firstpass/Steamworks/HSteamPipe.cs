@@ -5,6 +5,9 @@ namespace Steamworks
 	// Token: 0x0200014F RID: 335
 	public struct HSteamPipe : IEquatable<HSteamPipe>, IComparable<HSteamPipe>
 	{
+		// Token: 0x04000655 RID: 1621
+		public int m_HSteamPipe;
+
 		// Token: 0x06000728 RID: 1832 RVA: 0x0000C2B1 File Offset: 0x0000A4B1
 		public HSteamPipe(int value)
 		{
@@ -64,8 +67,5 @@ namespace Steamworks
 		{
 			return this.m_HSteamPipe.CompareTo(other.m_HSteamPipe);
 		}
-
-		// Token: 0x04000655 RID: 1621
-		public int m_HSteamPipe;
 	}
 }

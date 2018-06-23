@@ -7,6 +7,48 @@ namespace Verse
 	// Token: 0x02000BFF RID: 3071
 	public class CellBoolDrawer
 	{
+		// Token: 0x04002DEC RID: 11756
+		public ICellBoolGiver giver;
+
+		// Token: 0x04002DED RID: 11757
+		private bool wantDraw = false;
+
+		// Token: 0x04002DEE RID: 11758
+		private Material material;
+
+		// Token: 0x04002DEF RID: 11759
+		private bool materialCaresAboutVertexColors;
+
+		// Token: 0x04002DF0 RID: 11760
+		private bool dirty = true;
+
+		// Token: 0x04002DF1 RID: 11761
+		private List<Mesh> meshes = new List<Mesh>();
+
+		// Token: 0x04002DF2 RID: 11762
+		private int mapSizeX;
+
+		// Token: 0x04002DF3 RID: 11763
+		private int mapSizeZ;
+
+		// Token: 0x04002DF4 RID: 11764
+		private float opacity = 0.33f;
+
+		// Token: 0x04002DF5 RID: 11765
+		private static List<Vector3> verts = new List<Vector3>();
+
+		// Token: 0x04002DF6 RID: 11766
+		private static List<int> tris = new List<int>();
+
+		// Token: 0x04002DF7 RID: 11767
+		private static List<Color> colors = new List<Color>();
+
+		// Token: 0x04002DF8 RID: 11768
+		private const float DefaultOpacity = 0.33f;
+
+		// Token: 0x04002DF9 RID: 11769
+		private const int MaxCellsPerMesh = 16383;
+
 		// Token: 0x06004335 RID: 17205 RVA: 0x002386FC File Offset: 0x00236AFC
 		public CellBoolDrawer(ICellBoolGiver giver, int mapSizeX, int mapSizeZ, float opacity = 0.33f)
 		{
@@ -143,47 +185,5 @@ namespace Verse
 				this.material.renderQueue = 3600;
 			}
 		}
-
-		// Token: 0x04002DEC RID: 11756
-		public ICellBoolGiver giver;
-
-		// Token: 0x04002DED RID: 11757
-		private bool wantDraw = false;
-
-		// Token: 0x04002DEE RID: 11758
-		private Material material;
-
-		// Token: 0x04002DEF RID: 11759
-		private bool materialCaresAboutVertexColors;
-
-		// Token: 0x04002DF0 RID: 11760
-		private bool dirty = true;
-
-		// Token: 0x04002DF1 RID: 11761
-		private List<Mesh> meshes = new List<Mesh>();
-
-		// Token: 0x04002DF2 RID: 11762
-		private int mapSizeX;
-
-		// Token: 0x04002DF3 RID: 11763
-		private int mapSizeZ;
-
-		// Token: 0x04002DF4 RID: 11764
-		private float opacity = 0.33f;
-
-		// Token: 0x04002DF5 RID: 11765
-		private static List<Vector3> verts = new List<Vector3>();
-
-		// Token: 0x04002DF6 RID: 11766
-		private static List<int> tris = new List<int>();
-
-		// Token: 0x04002DF7 RID: 11767
-		private static List<Color> colors = new List<Color>();
-
-		// Token: 0x04002DF8 RID: 11768
-		private const float DefaultOpacity = 0.33f;
-
-		// Token: 0x04002DF9 RID: 11769
-		private const int MaxCellsPerMesh = 16383;
 	}
 }

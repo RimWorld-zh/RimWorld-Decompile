@@ -9,6 +9,37 @@ namespace RimWorld
 	// Token: 0x02000645 RID: 1605
 	public class ScenPart_StartingAnimal : ScenPart
 	{
+		// Token: 0x040012F5 RID: 4853
+		private PawnKindDef animalKind = null;
+
+		// Token: 0x040012F6 RID: 4854
+		private int count = 1;
+
+		// Token: 0x040012F7 RID: 4855
+		private float bondToRandomPlayerPawnChance = 0.5f;
+
+		// Token: 0x040012F8 RID: 4856
+		private string countBuf;
+
+		// Token: 0x040012F9 RID: 4857
+		private static readonly List<Pair<int, float>> PetCountChances = new List<Pair<int, float>>
+		{
+			new Pair<int, float>(1, 20f),
+			new Pair<int, float>(2, 10f),
+			new Pair<int, float>(3, 5f),
+			new Pair<int, float>(4, 3f),
+			new Pair<int, float>(5, 1f),
+			new Pair<int, float>(6, 1f),
+			new Pair<int, float>(7, 1f),
+			new Pair<int, float>(8, 1f),
+			new Pair<int, float>(9, 1f),
+			new Pair<int, float>(10, 0.1f),
+			new Pair<int, float>(11, 0.1f),
+			new Pair<int, float>(12, 0.1f),
+			new Pair<int, float>(13, 0.1f),
+			new Pair<int, float>(14, 0.1f)
+		};
+
 		// Token: 0x0600214D RID: 8525 RVA: 0x0011AD5C File Offset: 0x0011915C
 		public override void ExposeData()
 		{
@@ -152,36 +183,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x040012F5 RID: 4853
-		private PawnKindDef animalKind = null;
-
-		// Token: 0x040012F6 RID: 4854
-		private int count = 1;
-
-		// Token: 0x040012F7 RID: 4855
-		private float bondToRandomPlayerPawnChance = 0.5f;
-
-		// Token: 0x040012F8 RID: 4856
-		private string countBuf;
-
-		// Token: 0x040012F9 RID: 4857
-		private static readonly List<Pair<int, float>> PetCountChances = new List<Pair<int, float>>
-		{
-			new Pair<int, float>(1, 20f),
-			new Pair<int, float>(2, 10f),
-			new Pair<int, float>(3, 5f),
-			new Pair<int, float>(4, 3f),
-			new Pair<int, float>(5, 1f),
-			new Pair<int, float>(6, 1f),
-			new Pair<int, float>(7, 1f),
-			new Pair<int, float>(8, 1f),
-			new Pair<int, float>(9, 1f),
-			new Pair<int, float>(10, 0.1f),
-			new Pair<int, float>(11, 0.1f),
-			new Pair<int, float>(12, 0.1f),
-			new Pair<int, float>(13, 0.1f),
-			new Pair<int, float>(14, 0.1f)
-		};
 	}
 }

@@ -11,6 +11,69 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class ColonistBarColonistDrawer
 	{
+		// Token: 0x0400176A RID: 5994
+		private Dictionary<string, string> pawnLabelsCache = new Dictionary<string, string>();
+
+		// Token: 0x0400176B RID: 5995
+		private static readonly Texture2D MoodBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.4f, 0.47f, 0.53f, 0.44f));
+
+		// Token: 0x0400176C RID: 5996
+		private static readonly Texture2D DeadColonistTex = ContentFinder<Texture2D>.Get("UI/Misc/DeadColonist", true);
+
+		// Token: 0x0400176D RID: 5997
+		private static readonly Texture2D Icon_FormingCaravan = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/FormingCaravan", true);
+
+		// Token: 0x0400176E RID: 5998
+		private static readonly Texture2D Icon_MentalStateNonAggro = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MentalStateNonAggro", true);
+
+		// Token: 0x0400176F RID: 5999
+		private static readonly Texture2D Icon_MentalStateAggro = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MentalStateAggro", true);
+
+		// Token: 0x04001770 RID: 6000
+		private static readonly Texture2D Icon_MedicalRest = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MedicalRest", true);
+
+		// Token: 0x04001771 RID: 6001
+		private static readonly Texture2D Icon_Sleeping = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Sleeping", true);
+
+		// Token: 0x04001772 RID: 6002
+		private static readonly Texture2D Icon_Fleeing = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Fleeing", true);
+
+		// Token: 0x04001773 RID: 6003
+		private static readonly Texture2D Icon_Attacking = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Attacking", true);
+
+		// Token: 0x04001774 RID: 6004
+		private static readonly Texture2D Icon_Idle = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Idle", true);
+
+		// Token: 0x04001775 RID: 6005
+		private static readonly Texture2D Icon_Burning = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Burning", true);
+
+		// Token: 0x04001776 RID: 6006
+		private static readonly Texture2D Icon_Inspired = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Inspired", true);
+
+		// Token: 0x04001777 RID: 6007
+		public static readonly Vector2 PawnTextureSize = new Vector2(ColonistBar.BaseSize.x - 2f, 75f);
+
+		// Token: 0x04001778 RID: 6008
+		public static readonly Vector3 PawnTextureCameraOffset = new Vector3(0f, 0f, 0.3f);
+
+		// Token: 0x04001779 RID: 6009
+		public const float PawnTextureCameraZoom = 1.28205f;
+
+		// Token: 0x0400177A RID: 6010
+		private const float PawnTextureHorizontalPadding = 1f;
+
+		// Token: 0x0400177B RID: 6011
+		private const float BaseIconSize = 20f;
+
+		// Token: 0x0400177C RID: 6012
+		private const float BaseGroupFrameMargin = 12f;
+
+		// Token: 0x0400177D RID: 6013
+		public const float DoubleClickTime = 0.5f;
+
+		// Token: 0x0400177E RID: 6014
+		private static Vector2[] bracketLocs = new Vector2[4];
+
 		// Token: 0x170006CE RID: 1742
 		// (get) Token: 0x06002B98 RID: 11160 RVA: 0x00171560 File Offset: 0x0016F960
 		private ColonistBar ColonistBar
@@ -320,68 +383,5 @@ namespace RimWorld
 				num += 90;
 			}
 		}
-
-		// Token: 0x0400176A RID: 5994
-		private Dictionary<string, string> pawnLabelsCache = new Dictionary<string, string>();
-
-		// Token: 0x0400176B RID: 5995
-		private static readonly Texture2D MoodBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.4f, 0.47f, 0.53f, 0.44f));
-
-		// Token: 0x0400176C RID: 5996
-		private static readonly Texture2D DeadColonistTex = ContentFinder<Texture2D>.Get("UI/Misc/DeadColonist", true);
-
-		// Token: 0x0400176D RID: 5997
-		private static readonly Texture2D Icon_FormingCaravan = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/FormingCaravan", true);
-
-		// Token: 0x0400176E RID: 5998
-		private static readonly Texture2D Icon_MentalStateNonAggro = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MentalStateNonAggro", true);
-
-		// Token: 0x0400176F RID: 5999
-		private static readonly Texture2D Icon_MentalStateAggro = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MentalStateAggro", true);
-
-		// Token: 0x04001770 RID: 6000
-		private static readonly Texture2D Icon_MedicalRest = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MedicalRest", true);
-
-		// Token: 0x04001771 RID: 6001
-		private static readonly Texture2D Icon_Sleeping = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Sleeping", true);
-
-		// Token: 0x04001772 RID: 6002
-		private static readonly Texture2D Icon_Fleeing = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Fleeing", true);
-
-		// Token: 0x04001773 RID: 6003
-		private static readonly Texture2D Icon_Attacking = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Attacking", true);
-
-		// Token: 0x04001774 RID: 6004
-		private static readonly Texture2D Icon_Idle = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Idle", true);
-
-		// Token: 0x04001775 RID: 6005
-		private static readonly Texture2D Icon_Burning = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Burning", true);
-
-		// Token: 0x04001776 RID: 6006
-		private static readonly Texture2D Icon_Inspired = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Inspired", true);
-
-		// Token: 0x04001777 RID: 6007
-		public static readonly Vector2 PawnTextureSize = new Vector2(ColonistBar.BaseSize.x - 2f, 75f);
-
-		// Token: 0x04001778 RID: 6008
-		public static readonly Vector3 PawnTextureCameraOffset = new Vector3(0f, 0f, 0.3f);
-
-		// Token: 0x04001779 RID: 6009
-		public const float PawnTextureCameraZoom = 1.28205f;
-
-		// Token: 0x0400177A RID: 6010
-		private const float PawnTextureHorizontalPadding = 1f;
-
-		// Token: 0x0400177B RID: 6011
-		private const float BaseIconSize = 20f;
-
-		// Token: 0x0400177C RID: 6012
-		private const float BaseGroupFrameMargin = 12f;
-
-		// Token: 0x0400177D RID: 6013
-		public const float DoubleClickTime = 0.5f;
-
-		// Token: 0x0400177E RID: 6014
-		private static Vector2[] bracketLocs = new Vector2[4];
 	}
 }

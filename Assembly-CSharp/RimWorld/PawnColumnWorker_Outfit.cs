@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000894 RID: 2196
 	public class PawnColumnWorker_Outfit : PawnColumnWorker
 	{
+		// Token: 0x04001ADF RID: 6879
+		private const int TopAreaHeight = 65;
+
+		// Token: 0x04001AE0 RID: 6880
+		private const int ManageOutfitsButtonHeight = 32;
+
 		// Token: 0x06003229 RID: 12841 RVA: 0x001B0130 File Offset: 0x001AE530
 		public override void DoHeader(Rect rect, PawnTable table)
 		{
@@ -122,11 +128,5 @@ namespace RimWorld
 		{
 			return (pawn.outfits != null && pawn.outfits.CurrentOutfit != null) ? pawn.outfits.CurrentOutfit.uniqueId : int.MinValue;
 		}
-
-		// Token: 0x04001ADF RID: 6879
-		private const int TopAreaHeight = 65;
-
-		// Token: 0x04001AE0 RID: 6880
-		private const int ManageOutfitsButtonHeight = 32;
 	}
 }

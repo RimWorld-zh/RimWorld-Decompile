@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class StoryEventDefOf
 	{
-		// Token: 0x06003669 RID: 13929 RVA: 0x001D0E1F File Offset: 0x001CF21F
-		static StoryEventDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(StoryEventDefOf));
-		}
-
 		// Token: 0x040022CC RID: 8908
 		public static StoryEventDef DamageTaken;
 
@@ -32,5 +26,11 @@ namespace RimWorld
 
 		// Token: 0x040022D2 RID: 8914
 		public static StoryEventDef TaleCreated;
+
+		// Token: 0x06003669 RID: 13929 RVA: 0x001D0E1F File Offset: 0x001CF21F
+		static StoryEventDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(StoryEventDefOf));
+		}
 	}
 }

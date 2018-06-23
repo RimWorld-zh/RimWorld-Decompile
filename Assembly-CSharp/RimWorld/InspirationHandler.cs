@@ -7,6 +7,21 @@ namespace RimWorld
 	// Token: 0x0200002C RID: 44
 	public class InspirationHandler : IExposable
 	{
+		// Token: 0x040001A6 RID: 422
+		public Pawn pawn;
+
+		// Token: 0x040001A7 RID: 423
+		private Inspiration curState;
+
+		// Token: 0x040001A8 RID: 424
+		private const int CheckStartInspirationIntervalTicks = 100;
+
+		// Token: 0x040001A9 RID: 425
+		private const float MinMood = 0.5f;
+
+		// Token: 0x040001AA RID: 426
+		private const float StartInspirationMTBDaysAtMaxMood = 10f;
+
 		// Token: 0x0600019E RID: 414 RVA: 0x00010B10 File Offset: 0x0000EF10
 		public InspirationHandler(Pawn pawn)
 		{
@@ -178,20 +193,5 @@ namespace RimWorld
 			where x.Worker.InspirationCanOccur(this.pawn)
 			select x).RandomElementByWeightWithFallback((InspirationDef x) => x.Worker.CommonalityFor(this.pawn), null);
 		}
-
-		// Token: 0x040001A6 RID: 422
-		public Pawn pawn;
-
-		// Token: 0x040001A7 RID: 423
-		private Inspiration curState;
-
-		// Token: 0x040001A8 RID: 424
-		private const int CheckStartInspirationIntervalTicks = 100;
-
-		// Token: 0x040001A9 RID: 425
-		private const float MinMood = 0.5f;
-
-		// Token: 0x040001AA RID: 426
-		private const float StartInspirationMTBDaysAtMaxMood = 10f;
 	}
 }

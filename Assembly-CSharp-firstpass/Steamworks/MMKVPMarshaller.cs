@@ -6,6 +6,12 @@ namespace Steamworks
 	// Token: 0x0200002F RID: 47
 	public class MMKVPMarshaller
 	{
+		// Token: 0x0400003E RID: 62
+		private IntPtr m_pNativeArray;
+
+		// Token: 0x0400003F RID: 63
+		private IntPtr m_pArrayEntries;
+
 		// Token: 0x060000B5 RID: 181 RVA: 0x00003254 File Offset: 0x00001454
 		public MMKVPMarshaller(MatchMakingKeyValuePair_t[] filters)
 		{
@@ -40,11 +46,5 @@ namespace Steamworks
 		{
 			return that.m_pNativeArray;
 		}
-
-		// Token: 0x0400003E RID: 62
-		private IntPtr m_pNativeArray;
-
-		// Token: 0x0400003F RID: 63
-		private IntPtr m_pArrayEntries;
 	}
 }

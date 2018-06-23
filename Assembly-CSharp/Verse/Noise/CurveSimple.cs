@@ -5,6 +5,9 @@ namespace Verse.Noise
 	// Token: 0x02000F8A RID: 3978
 	public class CurveSimple : ModuleBase
 	{
+		// Token: 0x04003F17 RID: 16151
+		private SimpleCurve curve;
+
 		// Token: 0x06006028 RID: 24616 RVA: 0x0030D953 File Offset: 0x0030BD53
 		public CurveSimple(ModuleBase input, SimpleCurve curve) : base(1)
 		{
@@ -17,8 +20,5 @@ namespace Verse.Noise
 		{
 			return (double)this.curve.Evaluate((float)this.modules[0].GetValue(x, y, z));
 		}
-
-		// Token: 0x04003F17 RID: 16151
-		private SimpleCurve curve;
 	}
 }

@@ -5,6 +5,9 @@ namespace Verse
 	// Token: 0x02000D03 RID: 3331
 	public class HediffComp_Disappears : HediffComp
 	{
+		// Token: 0x040031EA RID: 12778
+		private int ticksToDisappear = 0;
+
 		// Token: 0x17000BA3 RID: 2979
 		// (get) Token: 0x06004999 RID: 18841 RVA: 0x002692EC File Offset: 0x002676EC
 		public HediffCompProperties_Disappears Props
@@ -60,8 +63,5 @@ namespace Verse
 		{
 			return "ticksToDisappear: " + this.ticksToDisappear;
 		}
-
-		// Token: 0x040031EA RID: 12778
-		private int ticksToDisappear = 0;
 	}
 }

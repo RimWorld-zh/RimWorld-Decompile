@@ -7,6 +7,19 @@ namespace Verse
 	// Token: 0x02000D2D RID: 3373
 	public abstract class HediffGiver
 	{
+		// Token: 0x04003245 RID: 12869
+		[TranslationHandle]
+		public HediffDef hediff;
+
+		// Token: 0x04003246 RID: 12870
+		public List<BodyPartDef> partsToAffect = null;
+
+		// Token: 0x04003247 RID: 12871
+		public bool canAffectAnyLivePart = false;
+
+		// Token: 0x04003248 RID: 12872
+		public int countToAffect = 1;
+
 		// Token: 0x06004A72 RID: 19058 RVA: 0x0026D589 File Offset: 0x0026B989
 		public virtual void OnIntervalPassed(Pawn pawn, Hediff cause)
 		{
@@ -56,18 +69,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04003245 RID: 12869
-		[TranslationHandle]
-		public HediffDef hediff;
-
-		// Token: 0x04003246 RID: 12870
-		public List<BodyPartDef> partsToAffect = null;
-
-		// Token: 0x04003247 RID: 12871
-		public bool canAffectAnyLivePart = false;
-
-		// Token: 0x04003248 RID: 12872
-		public int countToAffect = 1;
 	}
 }

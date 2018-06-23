@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000C8B RID: 3211
 	public struct EdgeSpan
 	{
+		// Token: 0x04003008 RID: 12296
+		public IntVec3 root;
+
+		// Token: 0x04003009 RID: 12297
+		public SpanDirection dir;
+
+		// Token: 0x0400300A RID: 12298
+		public int length;
+
 		// Token: 0x0600467F RID: 18047 RVA: 0x0025389A File Offset: 0x00251C9A
 		public EdgeSpan(IntVec3 root, SpanDirection dir, int length)
 		{
@@ -70,14 +79,5 @@ namespace Verse
 			}
 			return num + (ulong)(281474976710656L * (long)this.length);
 		}
-
-		// Token: 0x04003008 RID: 12296
-		public IntVec3 root;
-
-		// Token: 0x04003009 RID: 12297
-		public SpanDirection dir;
-
-		// Token: 0x0400300A RID: 12298
-		public int length;
 	}
 }

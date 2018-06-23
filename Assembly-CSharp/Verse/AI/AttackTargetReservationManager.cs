@@ -7,6 +7,12 @@ namespace Verse.AI
 	// Token: 0x02000AA2 RID: 2722
 	public class AttackTargetReservationManager : IExposable
 	{
+		// Token: 0x04002672 RID: 9842
+		private Map map;
+
+		// Token: 0x04002673 RID: 9843
+		private List<AttackTargetReservationManager.AttackTargetReservation> reservations = new List<AttackTargetReservationManager.AttackTargetReservation>();
+
 		// Token: 0x06003CBD RID: 15549 RVA: 0x0020293B File Offset: 0x00200D3B
 		public AttackTargetReservationManager(Map map)
 		{
@@ -185,23 +191,9 @@ namespace Verse.AI
 			return num;
 		}
 
-		// Token: 0x04002672 RID: 9842
-		private Map map;
-
-		// Token: 0x04002673 RID: 9843
-		private List<AttackTargetReservationManager.AttackTargetReservation> reservations = new List<AttackTargetReservationManager.AttackTargetReservation>();
-
 		// Token: 0x02000AA3 RID: 2723
 		public class AttackTargetReservation : IExposable
 		{
-			// Token: 0x06003CCC RID: 15564 RVA: 0x00202E6F File Offset: 0x0020126F
-			public void ExposeData()
-			{
-				Scribe_References.Look<IAttackTarget>(ref this.target, "target", false);
-				Scribe_References.Look<Pawn>(ref this.claimant, "claimant", false);
-				Scribe_References.Look<Job>(ref this.job, "job", false);
-			}
-
 			// Token: 0x04002676 RID: 9846
 			public IAttackTarget target;
 
@@ -210,6 +202,14 @@ namespace Verse.AI
 
 			// Token: 0x04002678 RID: 9848
 			public Job job;
+
+			// Token: 0x06003CCC RID: 15564 RVA: 0x00202E6F File Offset: 0x0020126F
+			public void ExposeData()
+			{
+				Scribe_References.Look<IAttackTarget>(ref this.target, "target", false);
+				Scribe_References.Look<Pawn>(ref this.claimant, "claimant", false);
+				Scribe_References.Look<Job>(ref this.job, "job", false);
+			}
 		}
 	}
 }

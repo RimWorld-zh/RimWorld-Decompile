@@ -8,6 +8,9 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class WeatherOverlay_SnowHard : SkyOverlay
 	{
+		// Token: 0x04000BAD RID: 2989
+		private static readonly Material SnowOverlayWorld = MatLoader.LoadMat("Weather/SnowOverlayWorld", -1);
+
 		// Token: 0x06001333 RID: 4915 RVA: 0x000A5574 File Offset: 0x000A3974
 		public WeatherOverlay_SnowHard()
 		{
@@ -19,8 +22,5 @@ namespace RimWorld
 			this.worldPanDir2 = new Vector2(-0.48f, -1f);
 			this.worldPanDir2.Normalize();
 		}
-
-		// Token: 0x04000BAD RID: 2989
-		private static readonly Material SnowOverlayWorld = MatLoader.LoadMat("Weather/SnowOverlayWorld", -1);
 	}
 }

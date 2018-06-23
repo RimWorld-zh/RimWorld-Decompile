@@ -6,6 +6,12 @@ namespace RimWorld
 	// Token: 0x02000724 RID: 1828
 	public class CompPlantHarmRadius : ThingComp
 	{
+		// Token: 0x0400160A RID: 5642
+		private int plantHarmAge;
+
+		// Token: 0x0400160B RID: 5643
+		private int ticksToPlantHarm;
+
 		// Token: 0x17000630 RID: 1584
 		// (get) Token: 0x06002852 RID: 10322 RVA: 0x00158860 File Offset: 0x00156C60
 		protected CompProperties_PlantHarmRadius PropsPlantHarmRadius
@@ -79,11 +85,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x0400160A RID: 5642
-		private int plantHarmAge;
-
-		// Token: 0x0400160B RID: 5643
-		private int ticksToPlantHarm;
 	}
 }

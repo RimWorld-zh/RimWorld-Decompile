@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x020007A9 RID: 1961
 	public abstract class Alert_Thought : Alert
 	{
+		// Token: 0x0400173D RID: 5949
+		protected string explanationKey;
+
+		// Token: 0x0400173E RID: 5950
+		private static List<Thought> tmpThoughts = new List<Thought>();
+
 		// Token: 0x170006BF RID: 1727
 		// (get) Token: 0x06002B62 RID: 11106
 		protected abstract ThoughtDef Thought { get; }
@@ -64,11 +70,5 @@ namespace RimWorld
 				stringBuilder.ToString()
 			});
 		}
-
-		// Token: 0x0400173D RID: 5949
-		protected string explanationKey;
-
-		// Token: 0x0400173E RID: 5950
-		private static List<Thought> tmpThoughts = new List<Thought>();
 	}
 }

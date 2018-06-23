@@ -10,6 +10,18 @@ namespace Verse
 	// Token: 0x02000EE0 RID: 3808
 	public struct CellRect : IEquatable<CellRect>
 	{
+		// Token: 0x04003C76 RID: 15478
+		public int minX;
+
+		// Token: 0x04003C77 RID: 15479
+		public int maxX;
+
+		// Token: 0x04003C78 RID: 15480
+		public int minZ;
+
+		// Token: 0x04003C79 RID: 15481
+		public int maxZ;
+
 		// Token: 0x06005A2E RID: 23086 RVA: 0x002E4657 File Offset: 0x002E2A57
 		public CellRect(int minX, int minZ, int width, int height)
 		{
@@ -821,21 +833,18 @@ namespace Verse
 			return this.minX == other.minX && this.maxX == other.maxX && this.minZ == other.minZ && this.maxZ == other.maxZ;
 		}
 
-		// Token: 0x04003C76 RID: 15478
-		public int minX;
-
-		// Token: 0x04003C77 RID: 15479
-		public int maxX;
-
-		// Token: 0x04003C78 RID: 15480
-		public int minZ;
-
-		// Token: 0x04003C79 RID: 15481
-		public int maxZ;
-
 		// Token: 0x02000EE1 RID: 3809
 		public struct Enumerator : IEnumerator<IntVec3>, IEnumerator, IDisposable
 		{
+			// Token: 0x04003C7A RID: 15482
+			private CellRect ir;
+
+			// Token: 0x04003C7B RID: 15483
+			private int x;
+
+			// Token: 0x04003C7C RID: 15484
+			private int z;
+
 			// Token: 0x06005A65 RID: 23141 RVA: 0x002E5BC1 File Offset: 0x002E3FC1
 			public Enumerator(CellRect ir)
 			{
@@ -887,20 +896,26 @@ namespace Verse
 			void IDisposable.Dispose()
 			{
 			}
-
-			// Token: 0x04003C7A RID: 15482
-			private CellRect ir;
-
-			// Token: 0x04003C7B RID: 15483
-			private int x;
-
-			// Token: 0x04003C7C RID: 15484
-			private int z;
 		}
 
 		// Token: 0x02000EE2 RID: 3810
 		public struct CellRectIterator
 		{
+			// Token: 0x04003C7D RID: 15485
+			private int maxX;
+
+			// Token: 0x04003C7E RID: 15486
+			private int minX;
+
+			// Token: 0x04003C7F RID: 15487
+			private int maxZ;
+
+			// Token: 0x04003C80 RID: 15488
+			private int x;
+
+			// Token: 0x04003C81 RID: 15489
+			private int z;
+
 			// Token: 0x06005A6B RID: 23147 RVA: 0x002E5CE0 File Offset: 0x002E40E0
 			public CellRectIterator(CellRect cr)
 			{
@@ -937,21 +952,6 @@ namespace Verse
 			{
 				return this.z > this.maxZ;
 			}
-
-			// Token: 0x04003C7D RID: 15485
-			private int maxX;
-
-			// Token: 0x04003C7E RID: 15486
-			private int minX;
-
-			// Token: 0x04003C7F RID: 15487
-			private int maxZ;
-
-			// Token: 0x04003C80 RID: 15488
-			private int x;
-
-			// Token: 0x04003C81 RID: 15489
-			private int z;
 		}
 	}
 }

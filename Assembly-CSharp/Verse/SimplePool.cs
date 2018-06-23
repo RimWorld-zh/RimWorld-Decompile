@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000FB6 RID: 4022
 	public static class SimplePool<T> where T : new()
 	{
+		// Token: 0x04003FB0 RID: 16304
+		private static List<T> freeItems = new List<T>();
+
 		// Token: 0x06006154 RID: 24916 RVA: 0x00312BF0 File Offset: 0x00310FF0
 		public static T Get()
 		{
@@ -28,8 +31,5 @@ namespace Verse
 		{
 			SimplePool<T>.freeItems.Add(item);
 		}
-
-		// Token: 0x04003FB0 RID: 16304
-		private static List<T> freeItems = new List<T>();
 	}
 }

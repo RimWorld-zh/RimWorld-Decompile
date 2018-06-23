@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x02000795 RID: 1941
 	public class Alert_LowFood : Alert
 	{
+		// Token: 0x04001728 RID: 5928
+		private const float NutritionThresholdPerColonist = 4f;
+
 		// Token: 0x06002B07 RID: 11015 RVA: 0x0016BC3C File Offset: 0x0016A03C
 		public Alert_LowFood()
 		{
@@ -73,8 +76,5 @@ namespace RimWorld
 			}
 			return null;
 		}
-
-		// Token: 0x04001728 RID: 5928
-		private const float NutritionThresholdPerColonist = 4f;
 	}
 }

@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x02000856 RID: 2134
 	public class ITab_Pawn_Needs : ITab
 	{
+		// Token: 0x04001A39 RID: 6713
+		private Vector2 thoughtScrollPosition;
+
 		// Token: 0x0600305B RID: 12379 RVA: 0x001A5238 File Offset: 0x001A3638
 		public ITab_Pawn_Needs()
 		{
@@ -40,8 +43,5 @@ namespace RimWorld
 		{
 			this.size = NeedsCardUtility.GetSize(base.SelPawn);
 		}
-
-		// Token: 0x04001A39 RID: 6713
-		private Vector2 thoughtScrollPosition;
 	}
 }

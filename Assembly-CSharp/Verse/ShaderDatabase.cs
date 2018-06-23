@@ -8,41 +8,6 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class ShaderDatabase
 	{
-		// Token: 0x17000F47 RID: 3911
-		// (get) Token: 0x06005F59 RID: 24409 RVA: 0x00309B60 File Offset: 0x00307F60
-		public static Shader DefaultShader
-		{
-			get
-			{
-				return ShaderDatabase.Cutout;
-			}
-		}
-
-		// Token: 0x06005F5A RID: 24410 RVA: 0x00309B7C File Offset: 0x00307F7C
-		public static Shader LoadShader(string shaderPath)
-		{
-			if (ShaderDatabase.lookup == null)
-			{
-				ShaderDatabase.lookup = new Dictionary<string, Shader>();
-			}
-			if (!ShaderDatabase.lookup.ContainsKey(shaderPath))
-			{
-				ShaderDatabase.lookup[shaderPath] = (Shader)Resources.Load("Materials/" + shaderPath, typeof(Shader));
-			}
-			Shader shader = ShaderDatabase.lookup[shaderPath];
-			Shader result;
-			if (shader == null)
-			{
-				Log.Warning("Could not load shader " + shaderPath, false);
-				result = ShaderDatabase.DefaultShader;
-			}
-			else
-			{
-				result = shader;
-			}
-			return result;
-		}
-
 		// Token: 0x04003E7C RID: 15996
 		public static readonly Shader Cutout = ShaderDatabase.LoadShader("Map/Cutout");
 
@@ -117,5 +82,40 @@ namespace Verse
 
 		// Token: 0x04003E94 RID: 16020
 		private static Dictionary<string, Shader> lookup;
+
+		// Token: 0x17000F47 RID: 3911
+		// (get) Token: 0x06005F59 RID: 24409 RVA: 0x00309B60 File Offset: 0x00307F60
+		public static Shader DefaultShader
+		{
+			get
+			{
+				return ShaderDatabase.Cutout;
+			}
+		}
+
+		// Token: 0x06005F5A RID: 24410 RVA: 0x00309B7C File Offset: 0x00307F7C
+		public static Shader LoadShader(string shaderPath)
+		{
+			if (ShaderDatabase.lookup == null)
+			{
+				ShaderDatabase.lookup = new Dictionary<string, Shader>();
+			}
+			if (!ShaderDatabase.lookup.ContainsKey(shaderPath))
+			{
+				ShaderDatabase.lookup[shaderPath] = (Shader)Resources.Load("Materials/" + shaderPath, typeof(Shader));
+			}
+			Shader shader = ShaderDatabase.lookup[shaderPath];
+			Shader result;
+			if (shader == null)
+			{
+				Log.Warning("Could not load shader " + shaderPath, false);
+				result = ShaderDatabase.DefaultShader;
+			}
+			else
+			{
+				result = shader;
+			}
+			return result;
+		}
 	}
 }

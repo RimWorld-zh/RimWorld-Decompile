@@ -13,6 +13,33 @@ namespace RimWorld
 	[HasDebugOutput]
 	public static class PawnUtility
 	{
+		// Token: 0x04000C89 RID: 3209
+		private const float HumanFilthFactor = 4f;
+
+		// Token: 0x04000C8A RID: 3210
+		private static List<Pawn> tmpPawns = new List<Pawn>();
+
+		// Token: 0x04000C8B RID: 3211
+		private static List<string> tmpPawnKinds = new List<string>();
+
+		// Token: 0x04000C8C RID: 3212
+		private static HashSet<PawnKindDef> tmpAddedPawnKinds = new HashSet<PawnKindDef>();
+
+		// Token: 0x04000C8D RID: 3213
+		private const float RecruitDifficultyMin = 0.33f;
+
+		// Token: 0x04000C8E RID: 3214
+		private const float RecruitDifficultyMax = 0.99f;
+
+		// Token: 0x04000C8F RID: 3215
+		private const float RecruitDifficultyRandomOffset = 0.2f;
+
+		// Token: 0x04000C90 RID: 3216
+		private const float RecruitDifficultyOffsetPerTechDiff = 0.15f;
+
+		// Token: 0x04000C91 RID: 3217
+		private static List<Thing> tmpThings = new List<Thing>();
+
 		// Token: 0x060014CC RID: 5324 RVA: 0x000B77A4 File Offset: 0x000B5BA4
 		public static bool IsFactionLeader(Pawn pawn)
 		{
@@ -914,32 +941,5 @@ namespace RimWorld
 		{
 			return (kind != PawnKindDefOf.WildMan) ? kind.RaceProps.manhunterOnTameFailChance : 0.1f;
 		}
-
-		// Token: 0x04000C89 RID: 3209
-		private const float HumanFilthFactor = 4f;
-
-		// Token: 0x04000C8A RID: 3210
-		private static List<Pawn> tmpPawns = new List<Pawn>();
-
-		// Token: 0x04000C8B RID: 3211
-		private static List<string> tmpPawnKinds = new List<string>();
-
-		// Token: 0x04000C8C RID: 3212
-		private static HashSet<PawnKindDef> tmpAddedPawnKinds = new HashSet<PawnKindDef>();
-
-		// Token: 0x04000C8D RID: 3213
-		private const float RecruitDifficultyMin = 0.33f;
-
-		// Token: 0x04000C8E RID: 3214
-		private const float RecruitDifficultyMax = 0.99f;
-
-		// Token: 0x04000C8F RID: 3215
-		private const float RecruitDifficultyRandomOffset = 0.2f;
-
-		// Token: 0x04000C90 RID: 3216
-		private const float RecruitDifficultyOffsetPerTechDiff = 0.15f;
-
-		// Token: 0x04000C91 RID: 3217
-		private static List<Thing> tmpThings = new List<Thing>();
 	}
 }

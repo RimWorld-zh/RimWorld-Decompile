@@ -7,6 +7,15 @@ namespace Verse
 	// Token: 0x02000EC7 RID: 3783
 	public abstract class EditWindow : Window
 	{
+		// Token: 0x04003BC6 RID: 15302
+		private const float SuperimposeAvoidThreshold = 8f;
+
+		// Token: 0x04003BC7 RID: 15303
+		private const float SuperimposeAvoidOffset = 16f;
+
+		// Token: 0x04003BC8 RID: 15304
+		private const float SuperimposeAvoidOffsetMinEdge = 200f;
+
 		// Token: 0x0600597E RID: 22910 RVA: 0x0029C3DC File Offset: 0x0029A7DC
 		public EditWindow()
 		{
@@ -65,14 +74,5 @@ namespace Verse
 				this.windowRect.y = this.windowRect.y + 16f;
 			}
 		}
-
-		// Token: 0x04003BC6 RID: 15302
-		private const float SuperimposeAvoidThreshold = 8f;
-
-		// Token: 0x04003BC7 RID: 15303
-		private const float SuperimposeAvoidOffset = 16f;
-
-		// Token: 0x04003BC8 RID: 15304
-		private const float SuperimposeAvoidOffsetMinEdge = 200f;
 	}
 }

@@ -6,6 +6,18 @@ namespace RimWorld
 	// Token: 0x020003F1 RID: 1009
 	public class RoadDefGenStep_Place : RoadDefGenStep_Bulldoze
 	{
+		// Token: 0x04000A97 RID: 2711
+		public BuildableDef place;
+
+		// Token: 0x04000A98 RID: 2712
+		public int proximitySpacing;
+
+		// Token: 0x04000A99 RID: 2713
+		public bool onlyIfOriginAllows;
+
+		// Token: 0x04000A9A RID: 2714
+		public string suppressOnTerrainTag;
+
 		// Token: 0x06001165 RID: 4453 RVA: 0x00096CA8 File Offset: 0x000950A8
 		public override void Place(Map map, IntVec3 position, TerrainDef rockDef, IntVec3 origin, GenStep_Roads.DistanceElement[,] distance)
 		{
@@ -95,17 +107,5 @@ namespace RimWorld
 				Log.ErrorOnce(string.Format("Can't figure out how to place object {0} while building road", this.place), 10785584, false);
 			}
 		}
-
-		// Token: 0x04000A97 RID: 2711
-		public BuildableDef place;
-
-		// Token: 0x04000A98 RID: 2712
-		public int proximitySpacing;
-
-		// Token: 0x04000A99 RID: 2713
-		public bool onlyIfOriginAllows;
-
-		// Token: 0x04000A9A RID: 2714
-		public string suppressOnTerrainTag;
 	}
 }

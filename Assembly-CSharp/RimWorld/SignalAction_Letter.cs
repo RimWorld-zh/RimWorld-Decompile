@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020006BC RID: 1724
 	public class SignalAction_Letter : SignalAction
 	{
+		// Token: 0x0400148B RID: 5259
+		public Letter letter;
+
 		// Token: 0x06002524 RID: 9508 RVA: 0x0013EB66 File Offset: 0x0013CF66
 		public override void ExposeData()
 		{
@@ -36,8 +39,5 @@ namespace RimWorld
 			}
 			Find.LetterStack.ReceiveLetter(this.letter, null);
 		}
-
-		// Token: 0x0400148B RID: 5259
-		public Letter letter;
 	}
 }

@@ -6,6 +6,39 @@ namespace Verse
 	// Token: 0x02000DE6 RID: 3558
 	public abstract class Mote : Thing
 	{
+		// Token: 0x040034D7 RID: 13527
+		public Vector3 exactPosition;
+
+		// Token: 0x040034D8 RID: 13528
+		public float exactRotation = 0f;
+
+		// Token: 0x040034D9 RID: 13529
+		public Vector3 exactScale = new Vector3(1f, 1f, 1f);
+
+		// Token: 0x040034DA RID: 13530
+		public float rotationRate = 0f;
+
+		// Token: 0x040034DB RID: 13531
+		public Color instanceColor = Color.white;
+
+		// Token: 0x040034DC RID: 13532
+		private int lastMaintainTick;
+
+		// Token: 0x040034DD RID: 13533
+		public int spawnTick;
+
+		// Token: 0x040034DE RID: 13534
+		public float spawnRealTime;
+
+		// Token: 0x040034DF RID: 13535
+		public MoteAttachLink link1 = MoteAttachLink.Invalid;
+
+		// Token: 0x040034E0 RID: 13536
+		protected float skidSpeedMultiplierPerTick = Rand.Range(0.3f, 0.95f);
+
+		// Token: 0x040034E1 RID: 13537
+		protected const float MinSpeed = 0.02f;
+
 		// Token: 0x17000CED RID: 3309
 		// (set) Token: 0x06004FBE RID: 20414 RVA: 0x00142F2E File Offset: 0x0014132E
 		public float Scale
@@ -178,38 +211,5 @@ namespace Verse
 			base.Notify_MyMapRemoved();
 			RealTime.moteList.MoteDespawned(this);
 		}
-
-		// Token: 0x040034D7 RID: 13527
-		public Vector3 exactPosition;
-
-		// Token: 0x040034D8 RID: 13528
-		public float exactRotation = 0f;
-
-		// Token: 0x040034D9 RID: 13529
-		public Vector3 exactScale = new Vector3(1f, 1f, 1f);
-
-		// Token: 0x040034DA RID: 13530
-		public float rotationRate = 0f;
-
-		// Token: 0x040034DB RID: 13531
-		public Color instanceColor = Color.white;
-
-		// Token: 0x040034DC RID: 13532
-		private int lastMaintainTick;
-
-		// Token: 0x040034DD RID: 13533
-		public int spawnTick;
-
-		// Token: 0x040034DE RID: 13534
-		public float spawnRealTime;
-
-		// Token: 0x040034DF RID: 13535
-		public MoteAttachLink link1 = MoteAttachLink.Invalid;
-
-		// Token: 0x040034E0 RID: 13536
-		protected float skidSpeedMultiplierPerTick = Rand.Range(0.3f, 0.95f);
-
-		// Token: 0x040034E1 RID: 13537
-		protected const float MinSpeed = 0.02f;
 	}
 }

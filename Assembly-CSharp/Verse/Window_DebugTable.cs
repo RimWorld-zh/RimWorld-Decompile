@@ -11,6 +11,39 @@ namespace Verse
 	// Token: 0x02000E4E RID: 3662
 	public class Window_DebugTable : Window
 	{
+		// Token: 0x04003917 RID: 14615
+		private string[,] tableRaw;
+
+		// Token: 0x04003918 RID: 14616
+		private Vector2 scrollPosition = Vector2.zero;
+
+		// Token: 0x04003919 RID: 14617
+		private string[,] tableSorted;
+
+		// Token: 0x0400391A RID: 14618
+		private List<float> colWidths = new List<float>();
+
+		// Token: 0x0400391B RID: 14619
+		private List<float> rowHeights = new List<float>();
+
+		// Token: 0x0400391C RID: 14620
+		private int sortColumn = -1;
+
+		// Token: 0x0400391D RID: 14621
+		private Window_DebugTable.SortMode sortMode = Window_DebugTable.SortMode.Off;
+
+		// Token: 0x0400391E RID: 14622
+		private bool[] colVisible;
+
+		// Token: 0x0400391F RID: 14623
+		private const float ColExtraWidth = 2f;
+
+		// Token: 0x04003920 RID: 14624
+		private const float RowExtraHeight = 2f;
+
+		// Token: 0x04003921 RID: 14625
+		private const float HiddenColumnWidth = 10f;
+
 		// Token: 0x06005663 RID: 22115 RVA: 0x002C89D0 File Offset: 0x002C6DD0
 		public Window_DebugTable(string[,] tables)
 		{
@@ -232,39 +265,6 @@ namespace Verse
 				GUIUtility.systemCopyBuffer = stringBuilder.ToString();
 			}
 		}
-
-		// Token: 0x04003917 RID: 14615
-		private string[,] tableRaw;
-
-		// Token: 0x04003918 RID: 14616
-		private Vector2 scrollPosition = Vector2.zero;
-
-		// Token: 0x04003919 RID: 14617
-		private string[,] tableSorted;
-
-		// Token: 0x0400391A RID: 14618
-		private List<float> colWidths = new List<float>();
-
-		// Token: 0x0400391B RID: 14619
-		private List<float> rowHeights = new List<float>();
-
-		// Token: 0x0400391C RID: 14620
-		private int sortColumn = -1;
-
-		// Token: 0x0400391D RID: 14621
-		private Window_DebugTable.SortMode sortMode = Window_DebugTable.SortMode.Off;
-
-		// Token: 0x0400391E RID: 14622
-		private bool[] colVisible;
-
-		// Token: 0x0400391F RID: 14623
-		private const float ColExtraWidth = 2f;
-
-		// Token: 0x04003920 RID: 14624
-		private const float RowExtraHeight = 2f;
-
-		// Token: 0x04003921 RID: 14625
-		private const float HiddenColumnWidth = 10f;
 
 		// Token: 0x02000E4F RID: 3663
 		private enum SortMode

@@ -9,6 +9,21 @@ namespace Verse
 	// Token: 0x02000B13 RID: 2835
 	public class DamageWorker
 	{
+		// Token: 0x0400280A RID: 10250
+		public DamageDef def;
+
+		// Token: 0x0400280B RID: 10251
+		private const float ExplosionCamShakeMultiplier = 4f;
+
+		// Token: 0x0400280C RID: 10252
+		private static List<Thing> thingsToAffect = new List<Thing>();
+
+		// Token: 0x0400280D RID: 10253
+		private static List<IntVec3> openCells = new List<IntVec3>();
+
+		// Token: 0x0400280E RID: 10254
+		private static List<IntVec3> adjWallCells = new List<IntVec3>();
+
 		// Token: 0x06003EA6 RID: 16038 RVA: 0x0020FB20 File Offset: 0x0020DF20
 		public virtual DamageWorker.DamageResult Apply(DamageInfo dinfo, Thing victim)
 		{
@@ -257,24 +272,33 @@ namespace Verse
 			return DamageWorker.openCells.Concat(DamageWorker.adjWallCells);
 		}
 
-		// Token: 0x0400280A RID: 10250
-		public DamageDef def;
-
-		// Token: 0x0400280B RID: 10251
-		private const float ExplosionCamShakeMultiplier = 4f;
-
-		// Token: 0x0400280C RID: 10252
-		private static List<Thing> thingsToAffect = new List<Thing>();
-
-		// Token: 0x0400280D RID: 10253
-		private static List<IntVec3> openCells = new List<IntVec3>();
-
-		// Token: 0x0400280E RID: 10254
-		private static List<IntVec3> adjWallCells = new List<IntVec3>();
-
 		// Token: 0x02000B14 RID: 2836
 		public class DamageResult
 		{
+			// Token: 0x0400280F RID: 10255
+			public bool wounded = false;
+
+			// Token: 0x04002810 RID: 10256
+			public bool headshot = false;
+
+			// Token: 0x04002811 RID: 10257
+			public bool deflected = false;
+
+			// Token: 0x04002812 RID: 10258
+			public bool deflectedByMetalArmor;
+
+			// Token: 0x04002813 RID: 10259
+			public Thing hitThing = null;
+
+			// Token: 0x04002814 RID: 10260
+			public List<BodyPartRecord> parts = null;
+
+			// Token: 0x04002815 RID: 10261
+			public List<Hediff> hediffs = null;
+
+			// Token: 0x04002816 RID: 10262
+			public float totalDamageDealt = 0f;
+
 			// Token: 0x17000973 RID: 2419
 			// (get) Token: 0x06003EB0 RID: 16048 RVA: 0x002104C8 File Offset: 0x0020E8C8
 			public BodyPartRecord LastHitPart
@@ -351,30 +375,6 @@ namespace Verse
 					}
 				}
 			}
-
-			// Token: 0x0400280F RID: 10255
-			public bool wounded = false;
-
-			// Token: 0x04002810 RID: 10256
-			public bool headshot = false;
-
-			// Token: 0x04002811 RID: 10257
-			public bool deflected = false;
-
-			// Token: 0x04002812 RID: 10258
-			public bool deflectedByMetalArmor;
-
-			// Token: 0x04002813 RID: 10259
-			public Thing hitThing = null;
-
-			// Token: 0x04002814 RID: 10260
-			public List<BodyPartRecord> parts = null;
-
-			// Token: 0x04002815 RID: 10261
-			public List<Hediff> hediffs = null;
-
-			// Token: 0x04002816 RID: 10262
-			public float totalDamageDealt = 0f;
 		}
 	}
 }

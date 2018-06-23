@@ -7,6 +7,18 @@ namespace RimWorld
 	// Token: 0x020004F1 RID: 1265
 	public static class BeautyUtility
 	{
+		// Token: 0x04000D50 RID: 3408
+		public static List<IntVec3> beautyRelevantCells = new List<IntVec3>();
+
+		// Token: 0x04000D51 RID: 3409
+		private static List<Room> visibleRooms = new List<Room>();
+
+		// Token: 0x04000D52 RID: 3410
+		public static readonly int SampleNumCells_Beauty = GenRadial.NumCellsInRadius(8.9f);
+
+		// Token: 0x04000D53 RID: 3411
+		private static List<Thing> tempCountedThings = new List<Thing>();
+
 		// Token: 0x060016C7 RID: 5831 RVA: 0x000C9BD4 File Offset: 0x000C7FD4
 		public static float AverageBeautyPerceptible(IntVec3 root, Map map)
 		{
@@ -148,17 +160,5 @@ namespace RimWorld
 		{
 			return cat == ThingCategory.Building || cat == ThingCategory.Item || cat == ThingCategory.Plant || cat == ThingCategory.Filth;
 		}
-
-		// Token: 0x04000D50 RID: 3408
-		public static List<IntVec3> beautyRelevantCells = new List<IntVec3>();
-
-		// Token: 0x04000D51 RID: 3409
-		private static List<Room> visibleRooms = new List<Room>();
-
-		// Token: 0x04000D52 RID: 3410
-		public static readonly int SampleNumCells_Beauty = GenRadial.NumCellsInRadius(8.9f);
-
-		// Token: 0x04000D53 RID: 3411
-		private static List<Thing> tempCountedThings = new List<Thing>();
 	}
 }

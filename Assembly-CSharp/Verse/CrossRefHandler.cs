@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000D94 RID: 3476
 	public class CrossRefHandler
 	{
+		// Token: 0x040033E3 RID: 13283
+		private LoadedObjectDirectory loadedObjectDirectory = new LoadedObjectDirectory();
+
+		// Token: 0x040033E4 RID: 13284
+		public LoadIDsWantedBank loadIDs = new LoadIDsWantedBank();
+
+		// Token: 0x040033E5 RID: 13285
+		private List<IExposable> crossReferencingExposables = new List<IExposable>();
+
 		// Token: 0x06004DBE RID: 19902 RVA: 0x00289A40 File Offset: 0x00287E40
 		public void RegisterForCrossRefResolve(IExposable s)
 		{
@@ -134,14 +143,5 @@ namespace Verse
 			this.crossReferencingExposables.Clear();
 			this.loadedObjectDirectory.Clear();
 		}
-
-		// Token: 0x040033E3 RID: 13283
-		private LoadedObjectDirectory loadedObjectDirectory = new LoadedObjectDirectory();
-
-		// Token: 0x040033E4 RID: 13284
-		public LoadIDsWantedBank loadIDs = new LoadIDsWantedBank();
-
-		// Token: 0x040033E5 RID: 13285
-		private List<IExposable> crossReferencingExposables = new List<IExposable>();
 	}
 }

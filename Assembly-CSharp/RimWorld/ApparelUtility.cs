@@ -112,6 +112,12 @@ namespace RimWorld
 		// Token: 0x0200050F RID: 1295
 		public struct LayerGroupPair
 		{
+			// Token: 0x04000DD7 RID: 3543
+			private readonly ApparelLayerDef layer;
+
+			// Token: 0x04000DD8 RID: 3544
+			private readonly BodyPartGroupDef group;
+
 			// Token: 0x0600176A RID: 5994 RVA: 0x000CD715 File Offset: 0x000CBB15
 			public LayerGroupPair(ApparelLayerDef layer, BodyPartGroupDef group)
 			{
@@ -142,12 +148,6 @@ namespace RimWorld
 				num = num * 23 + this.layer.GetHashCode();
 				return num * 23 + this.group.GetHashCode();
 			}
-
-			// Token: 0x04000DD7 RID: 3543
-			private readonly ApparelLayerDef layer;
-
-			// Token: 0x04000DD8 RID: 3544
-			private readonly BodyPartGroupDef group;
 		}
 	}
 }

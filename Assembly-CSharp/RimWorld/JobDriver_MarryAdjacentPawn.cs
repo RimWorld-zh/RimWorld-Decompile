@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x0200004D RID: 77
 	public class JobDriver_MarryAdjacentPawn : JobDriver
 	{
+		// Token: 0x040001DE RID: 478
+		private int ticksLeftToMarry = 2500;
+
+		// Token: 0x040001DF RID: 479
+		private const TargetIndex OtherFianceInd = TargetIndex.A;
+
+		// Token: 0x040001E0 RID: 480
+		private const int Duration = 2500;
+
 		// Token: 0x17000085 RID: 133
 		// (get) Token: 0x0600026A RID: 618 RVA: 0x000198E4 File Offset: 0x00017CE4
 		private Pawn OtherFiance
@@ -76,14 +85,5 @@ namespace RimWorld
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.ticksLeftToMarry, "ticksLeftToMarry", 0, false);
 		}
-
-		// Token: 0x040001DE RID: 478
-		private int ticksLeftToMarry = 2500;
-
-		// Token: 0x040001DF RID: 479
-		private const TargetIndex OtherFianceInd = TargetIndex.A;
-
-		// Token: 0x040001E0 RID: 480
-		private const int Duration = 2500;
 	}
 }

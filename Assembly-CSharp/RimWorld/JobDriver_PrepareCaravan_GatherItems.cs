@@ -12,6 +12,15 @@ namespace RimWorld
 	// Token: 0x0200003A RID: 58
 	public class JobDriver_PrepareCaravan_GatherItems : JobDriver
 	{
+		// Token: 0x040001C6 RID: 454
+		private const TargetIndex ToHaulInd = TargetIndex.A;
+
+		// Token: 0x040001C7 RID: 455
+		private const TargetIndex CarrierInd = TargetIndex.B;
+
+		// Token: 0x040001C8 RID: 456
+		private const int PlaceInInventoryDuration = 25;
+
 		// Token: 0x17000063 RID: 99
 		// (get) Token: 0x060001F1 RID: 497 RVA: 0x0001508C File Offset: 0x0001348C
 		public Thing ToHaul
@@ -230,14 +239,5 @@ namespace RimWorld
 			}
 			return pawn;
 		}
-
-		// Token: 0x040001C6 RID: 454
-		private const TargetIndex ToHaulInd = TargetIndex.A;
-
-		// Token: 0x040001C7 RID: 455
-		private const TargetIndex CarrierInd = TargetIndex.B;
-
-		// Token: 0x040001C8 RID: 456
-		private const int PlaceInInventoryDuration = 25;
 	}
 }

@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x02000727 RID: 1831
 	public class CompPsychicDrone : ThingComp
 	{
+		// Token: 0x04001613 RID: 5651
+		private int ticksToIncreaseDroneLevel;
+
+		// Token: 0x04001614 RID: 5652
+		private PsychicDroneLevel droneLevel = PsychicDroneLevel.BadLow;
+
 		// Token: 0x17000632 RID: 1586
 		// (get) Token: 0x0600285B RID: 10331 RVA: 0x00158AF4 File Offset: 0x00156EF4
 		public CompProperties_PsychicDrone Props
@@ -96,11 +102,5 @@ namespace RimWorld
 				text
 			});
 		}
-
-		// Token: 0x04001613 RID: 5651
-		private int ticksToIncreaseDroneLevel;
-
-		// Token: 0x04001614 RID: 5652
-		private PsychicDroneLevel droneLevel = PsychicDroneLevel.BadLow;
 	}
 }

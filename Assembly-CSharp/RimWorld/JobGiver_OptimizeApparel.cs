@@ -9,6 +9,66 @@ namespace RimWorld
 	// Token: 0x020000E6 RID: 230
 	public class JobGiver_OptimizeApparel : ThinkNode_JobGiver
 	{
+		// Token: 0x040002BB RID: 699
+		private static NeededWarmth neededWarmth;
+
+		// Token: 0x040002BC RID: 700
+		private static StringBuilder debugSb;
+
+		// Token: 0x040002BD RID: 701
+		private const int ApparelOptimizeCheckIntervalMin = 6000;
+
+		// Token: 0x040002BE RID: 702
+		private const int ApparelOptimizeCheckIntervalMax = 9000;
+
+		// Token: 0x040002BF RID: 703
+		private const float MinScoreGainToCare = 0.05f;
+
+		// Token: 0x040002C0 RID: 704
+		private const float ScoreFactorIfNotReplacing = 10f;
+
+		// Token: 0x040002C1 RID: 705
+		private static readonly SimpleCurve InsulationColdScoreFactorCurve_NeedWarm = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 1f),
+				true
+			},
+			{
+				new CurvePoint(30f, 8f),
+				true
+			}
+		};
+
+		// Token: 0x040002C2 RID: 706
+		private static readonly SimpleCurve HitPointsPercentScoreFactorCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 0f),
+				true
+			},
+			{
+				new CurvePoint(0.2f, 0.15f),
+				true
+			},
+			{
+				new CurvePoint(0.25f, 0.3f),
+				true
+			},
+			{
+				new CurvePoint(0.5f, 0.4f),
+				true
+			},
+			{
+				new CurvePoint(0.55f, 0.85f),
+				true
+			},
+			{
+				new CurvePoint(1f, 1f),
+				true
+			}
+		};
+
 		// Token: 0x060004F4 RID: 1268 RVA: 0x0003705E File Offset: 0x0003545E
 		private void SetNextOptimizeTick(Pawn pawn)
 		{
@@ -199,65 +259,5 @@ namespace RimWorld
 			}
 			return num;
 		}
-
-		// Token: 0x040002BB RID: 699
-		private static NeededWarmth neededWarmth;
-
-		// Token: 0x040002BC RID: 700
-		private static StringBuilder debugSb;
-
-		// Token: 0x040002BD RID: 701
-		private const int ApparelOptimizeCheckIntervalMin = 6000;
-
-		// Token: 0x040002BE RID: 702
-		private const int ApparelOptimizeCheckIntervalMax = 9000;
-
-		// Token: 0x040002BF RID: 703
-		private const float MinScoreGainToCare = 0.05f;
-
-		// Token: 0x040002C0 RID: 704
-		private const float ScoreFactorIfNotReplacing = 10f;
-
-		// Token: 0x040002C1 RID: 705
-		private static readonly SimpleCurve InsulationColdScoreFactorCurve_NeedWarm = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 1f),
-				true
-			},
-			{
-				new CurvePoint(30f, 8f),
-				true
-			}
-		};
-
-		// Token: 0x040002C2 RID: 706
-		private static readonly SimpleCurve HitPointsPercentScoreFactorCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 0f),
-				true
-			},
-			{
-				new CurvePoint(0.2f, 0.15f),
-				true
-			},
-			{
-				new CurvePoint(0.25f, 0.3f),
-				true
-			},
-			{
-				new CurvePoint(0.5f, 0.4f),
-				true
-			},
-			{
-				new CurvePoint(0.55f, 0.85f),
-				true
-			},
-			{
-				new CurvePoint(1f, 1f),
-				true
-			}
-		};
 	}
 }

@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000BAB RID: 2987
 	public static class ThinkTreeKeyAssigner
 	{
+		// Token: 0x04002C18 RID: 11288
+		private static HashSet<int> assignedKeys = new HashSet<int>();
+
 		// Token: 0x060040DE RID: 16606 RVA: 0x00224196 File Offset: 0x00222596
 		internal static void Reset()
 		{
@@ -48,8 +51,5 @@ namespace Verse
 			ThinkTreeKeyAssigner.assignedKeys.Add(num);
 			return num;
 		}
-
-		// Token: 0x04002C18 RID: 11288
-		private static HashSet<int> assignedKeys = new HashSet<int>();
 	}
 }

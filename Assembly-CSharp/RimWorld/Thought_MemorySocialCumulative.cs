@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000536 RID: 1334
 	public class Thought_MemorySocialCumulative : Thought_MemorySocial
 	{
+		// Token: 0x04000EA4 RID: 3748
+		private const float OpinionOffsetChangePerDay = 1f;
+
 		// Token: 0x1700037C RID: 892
 		// (get) Token: 0x060018D1 RID: 6353 RVA: 0x000D8768 File Offset: 0x000D6B68
 		public override bool ShouldDiscard
@@ -77,8 +80,5 @@ namespace RimWorld
 			}
 			return false;
 		}
-
-		// Token: 0x04000EA4 RID: 3748
-		private const float OpinionOffsetChangePerDay = 1f;
 	}
 }

@@ -11,6 +11,27 @@ namespace RimWorld
 	// Token: 0x02000865 RID: 2149
 	public class Targeter
 	{
+		// Token: 0x04001A70 RID: 6768
+		public Verb targetingVerb;
+
+		// Token: 0x04001A71 RID: 6769
+		public List<Pawn> targetingVerbAdditionalPawns;
+
+		// Token: 0x04001A72 RID: 6770
+		private Action<LocalTargetInfo> action;
+
+		// Token: 0x04001A73 RID: 6771
+		private Pawn caster;
+
+		// Token: 0x04001A74 RID: 6772
+		private TargetingParameters targetParams;
+
+		// Token: 0x04001A75 RID: 6773
+		private Action actionWhenFinished;
+
+		// Token: 0x04001A76 RID: 6774
+		private Texture2D mouseAttachment;
+
 		// Token: 0x170007D3 RID: 2003
 		// (get) Token: 0x060030E3 RID: 12515 RVA: 0x001A92B4 File Offset: 0x001A76B4
 		public bool IsTargeting
@@ -347,26 +368,5 @@ namespace RimWorld
 		{
 			return pawn.equipment.AllEquipmentVerbs.FirstOrDefault((Verb x) => x.verbProps == this.targetingVerb.verbProps);
 		}
-
-		// Token: 0x04001A70 RID: 6768
-		public Verb targetingVerb;
-
-		// Token: 0x04001A71 RID: 6769
-		public List<Pawn> targetingVerbAdditionalPawns;
-
-		// Token: 0x04001A72 RID: 6770
-		private Action<LocalTargetInfo> action;
-
-		// Token: 0x04001A73 RID: 6771
-		private Pawn caster;
-
-		// Token: 0x04001A74 RID: 6772
-		private TargetingParameters targetParams;
-
-		// Token: 0x04001A75 RID: 6773
-		private Action actionWhenFinished;
-
-		// Token: 0x04001A76 RID: 6774
-		private Texture2D mouseAttachment;
 	}
 }

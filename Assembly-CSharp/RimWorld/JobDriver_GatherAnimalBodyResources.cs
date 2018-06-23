@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000031 RID: 49
 	public abstract class JobDriver_GatherAnimalBodyResources : JobDriver
 	{
+		// Token: 0x040001B6 RID: 438
+		private float gatherProgress = 0f;
+
+		// Token: 0x040001B7 RID: 439
+		protected const TargetIndex AnimalInd = TargetIndex.A;
+
 		// Token: 0x1700005C RID: 92
 		// (get) Token: 0x060001C0 RID: 448
 		protected abstract float WorkTotal { get; }
@@ -83,11 +89,5 @@ namespace RimWorld
 			yield return wait;
 			yield break;
 		}
-
-		// Token: 0x040001B6 RID: 438
-		private float gatherProgress = 0f;
-
-		// Token: 0x040001B7 RID: 439
-		protected const TargetIndex AnimalInd = TargetIndex.A;
 	}
 }

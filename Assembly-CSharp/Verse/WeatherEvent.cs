@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000CB1 RID: 3249
 	public abstract class WeatherEvent
 	{
+		// Token: 0x040030A5 RID: 12453
+		protected Map map;
+
 		// Token: 0x060047A9 RID: 18345 RVA: 0x000A4717 File Offset: 0x000A2B17
 		public WeatherEvent(Map map)
 		{
@@ -66,8 +69,5 @@ namespace Verse
 		public virtual void WeatherEventDraw()
 		{
 		}
-
-		// Token: 0x040030A5 RID: 12453
-		protected Map map;
 	}
 }

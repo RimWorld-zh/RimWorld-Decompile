@@ -10,6 +10,51 @@ namespace RimWorld
 	// Token: 0x02000529 RID: 1321
 	public class Pawn_RelationsTracker : IExposable
 	{
+		// Token: 0x04000E6D RID: 3693
+		private Pawn pawn;
+
+		// Token: 0x04000E6E RID: 3694
+		private List<DirectPawnRelation> directRelations = new List<DirectPawnRelation>();
+
+		// Token: 0x04000E6F RID: 3695
+		public bool everSeenByPlayer;
+
+		// Token: 0x04000E70 RID: 3696
+		public bool canGetRescuedThought = true;
+
+		// Token: 0x04000E71 RID: 3697
+		public Pawn relativeInvolvedInRescueQuest;
+
+		// Token: 0x04000E72 RID: 3698
+		private HashSet<Pawn> pawnsWithDirectRelationsWithMe = new HashSet<Pawn>();
+
+		// Token: 0x04000E73 RID: 3699
+		private List<Pawn> cachedFamilyByBlood = new List<Pawn>();
+
+		// Token: 0x04000E74 RID: 3700
+		private bool familyByBloodIsCached;
+
+		// Token: 0x04000E75 RID: 3701
+		private bool canCacheFamilyByBlood;
+
+		// Token: 0x04000E76 RID: 3702
+		private const int CheckDevelopBondRelationIntervalTicks = 2500;
+
+		// Token: 0x04000E77 RID: 3703
+		private const float MaxBondRelationCheckDist = 12f;
+
+		// Token: 0x04000E78 RID: 3704
+		private const float BondRelationPerIntervalChance = 0.001f;
+
+		// Token: 0x04000E79 RID: 3705
+		public const int FriendOpinionThreshold = 20;
+
+		// Token: 0x04000E7A RID: 3706
+		public const int RivalOpinionThreshold = -20;
+
+		// Token: 0x04000E7B RID: 3707
+		private static List<ISocialThought> tmpSocialThoughts = new List<ISocialThought>();
+
 		// Token: 0x0600183A RID: 6202 RVA: 0x000D390C File Offset: 0x000D1D0C
 		public Pawn_RelationsTracker(Pawn pawn)
 		{
@@ -1048,50 +1093,5 @@ namespace RimWorld
 				this.pawn.needs.mood.thoughts.situational.Notify_SituationalThoughtsDirty();
 			}
 		}
-
-		// Token: 0x04000E6D RID: 3693
-		private Pawn pawn;
-
-		// Token: 0x04000E6E RID: 3694
-		private List<DirectPawnRelation> directRelations = new List<DirectPawnRelation>();
-
-		// Token: 0x04000E6F RID: 3695
-		public bool everSeenByPlayer;
-
-		// Token: 0x04000E70 RID: 3696
-		public bool canGetRescuedThought = true;
-
-		// Token: 0x04000E71 RID: 3697
-		public Pawn relativeInvolvedInRescueQuest;
-
-		// Token: 0x04000E72 RID: 3698
-		private HashSet<Pawn> pawnsWithDirectRelationsWithMe = new HashSet<Pawn>();
-
-		// Token: 0x04000E73 RID: 3699
-		private List<Pawn> cachedFamilyByBlood = new List<Pawn>();
-
-		// Token: 0x04000E74 RID: 3700
-		private bool familyByBloodIsCached;
-
-		// Token: 0x04000E75 RID: 3701
-		private bool canCacheFamilyByBlood;
-
-		// Token: 0x04000E76 RID: 3702
-		private const int CheckDevelopBondRelationIntervalTicks = 2500;
-
-		// Token: 0x04000E77 RID: 3703
-		private const float MaxBondRelationCheckDist = 12f;
-
-		// Token: 0x04000E78 RID: 3704
-		private const float BondRelationPerIntervalChance = 0.001f;
-
-		// Token: 0x04000E79 RID: 3705
-		public const int FriendOpinionThreshold = 20;
-
-		// Token: 0x04000E7A RID: 3706
-		public const int RivalOpinionThreshold = -20;
-
-		// Token: 0x04000E7B RID: 3707
-		private static List<ISocialThought> tmpSocialThoughts = new List<ISocialThought>();
 	}
 }

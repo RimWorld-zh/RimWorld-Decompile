@@ -5,6 +5,12 @@ namespace Steamworks
 	// Token: 0x02000159 RID: 345
 	public struct HHTMLBrowser : IEquatable<HHTMLBrowser>, IComparable<HHTMLBrowser>
 	{
+		// Token: 0x04000667 RID: 1639
+		public static readonly HHTMLBrowser Invalid = new HHTMLBrowser(0u);
+
+		// Token: 0x04000668 RID: 1640
+		public uint m_HHTMLBrowser;
+
 		// Token: 0x060007A0 RID: 1952 RVA: 0x0000D2E4 File Offset: 0x0000B4E4
 		public HHTMLBrowser(uint value)
 		{
@@ -64,11 +70,5 @@ namespace Steamworks
 		{
 			return this.m_HHTMLBrowser.CompareTo(other.m_HHTMLBrowser);
 		}
-
-		// Token: 0x04000667 RID: 1639
-		public static readonly HHTMLBrowser Invalid = new HHTMLBrowser(0u);
-
-		// Token: 0x04000668 RID: 1640
-		public uint m_HHTMLBrowser;
 	}
 }

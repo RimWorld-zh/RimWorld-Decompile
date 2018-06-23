@@ -9,6 +9,18 @@ namespace Verse
 	// Token: 0x02000EA6 RID: 3750
 	public static class TabDrawer
 	{
+		// Token: 0x04003A9A RID: 15002
+		private const float MaxTabWidth = 200f;
+
+		// Token: 0x04003A9B RID: 15003
+		public const float TabHeight = 32f;
+
+		// Token: 0x04003A9C RID: 15004
+		public const float TabHoriztonalOverlap = 10f;
+
+		// Token: 0x04003A9D RID: 15005
+		private static List<TabRecord> tmpTabs = new List<TabRecord>();
+
 		// Token: 0x0600587D RID: 22653 RVA: 0x002D5E10 File Offset: 0x002D4210
 		public static TabRecord DrawTabs(Rect baseRect, List<TabRecord> tabs, int rows)
 		{
@@ -112,17 +124,5 @@ namespace Verse
 			}
 			return tabRecord;
 		}
-
-		// Token: 0x04003A9A RID: 15002
-		private const float MaxTabWidth = 200f;
-
-		// Token: 0x04003A9B RID: 15003
-		public const float TabHeight = 32f;
-
-		// Token: 0x04003A9C RID: 15004
-		public const float TabHoriztonalOverlap = 10f;
-
-		// Token: 0x04003A9D RID: 15005
-		private static List<TabRecord> tmpTabs = new List<TabRecord>();
 	}
 }

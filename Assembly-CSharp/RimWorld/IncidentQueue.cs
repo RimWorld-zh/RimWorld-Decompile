@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x0200031A RID: 794
 	public class IncidentQueue : IExposable
 	{
+		// Token: 0x040008AC RID: 2220
+		private List<QueuedIncident> queuedIncidents = new List<QueuedIncident>();
+
 		// Token: 0x17000209 RID: 521
 		// (get) Token: 0x06000D77 RID: 3447 RVA: 0x00073948 File Offset: 0x00071D48
 		public int Count
@@ -86,8 +89,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x040008AC RID: 2220
-		private List<QueuedIncident> queuedIncidents = new List<QueuedIncident>();
 	}
 }

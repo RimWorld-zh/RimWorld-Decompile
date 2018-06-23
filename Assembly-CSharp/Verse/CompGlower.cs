@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000C11 RID: 3089
 	public class CompGlower : ThingComp
 	{
+		// Token: 0x04002E29 RID: 11817
+		private bool glowOnInt = false;
+
 		// Token: 0x17000A95 RID: 2709
 		// (get) Token: 0x06004396 RID: 17302 RVA: 0x0023B8B4 File Offset: 0x00239CB4
 		public CompProperties_Glower Props
@@ -103,8 +106,5 @@ namespace Verse
 			base.PostDeSpawn(map);
 			this.UpdateLit(map);
 		}
-
-		// Token: 0x04002E29 RID: 11817
-		private bool glowOnInt = false;
 	}
 }

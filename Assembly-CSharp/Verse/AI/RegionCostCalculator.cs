@@ -7,6 +7,69 @@ namespace Verse.AI
 	// Token: 0x02000A98 RID: 2712
 	public class RegionCostCalculator
 	{
+		// Token: 0x0400261F RID: 9759
+		private Map map;
+
+		// Token: 0x04002620 RID: 9760
+		private Region[] regionGrid;
+
+		// Token: 0x04002621 RID: 9761
+		private TraverseParms traverseParms;
+
+		// Token: 0x04002622 RID: 9762
+		private IntVec3 destinationCell;
+
+		// Token: 0x04002623 RID: 9763
+		private int moveTicksCardinal;
+
+		// Token: 0x04002624 RID: 9764
+		private int moveTicksDiagonal;
+
+		// Token: 0x04002625 RID: 9765
+		private ByteGrid avoidGrid;
+
+		// Token: 0x04002626 RID: 9766
+		private Area allowedArea;
+
+		// Token: 0x04002627 RID: 9767
+		private bool drafted;
+
+		// Token: 0x04002628 RID: 9768
+		private Func<int, int, float> preciseRegionLinkDistancesDistanceGetter;
+
+		// Token: 0x04002629 RID: 9769
+		private Dictionary<int, RegionLink> regionMinLink = new Dictionary<int, RegionLink>();
+
+		// Token: 0x0400262A RID: 9770
+		private Dictionary<RegionLink, int> distances = new Dictionary<RegionLink, int>();
+
+		// Token: 0x0400262B RID: 9771
+		private FastPriorityQueue<RegionCostCalculator.RegionLinkQueueEntry> queue = new FastPriorityQueue<RegionCostCalculator.RegionLinkQueueEntry>(new RegionCostCalculator.DistanceComparer());
+
+		// Token: 0x0400262C RID: 9772
+		private Dictionary<Region, int> minPathCosts = new Dictionary<Region, int>();
+
+		// Token: 0x0400262D RID: 9773
+		private List<Pair<RegionLink, int>> preciseRegionLinkDistances = new List<Pair<RegionLink, int>>();
+
+		// Token: 0x0400262E RID: 9774
+		private Dictionary<RegionLink, IntVec3> linkTargetCells = new Dictionary<RegionLink, IntVec3>();
+
+		// Token: 0x0400262F RID: 9775
+		private const int SampleCount = 11;
+
+		// Token: 0x04002630 RID: 9776
+		private static int[] pathCostSamples = new int[11];
+
+		// Token: 0x04002631 RID: 9777
+		private static List<int> tmpCellIndices = new List<int>();
+
+		// Token: 0x04002632 RID: 9778
+		private static Dictionary<int, float> tmpDistances = new Dictionary<int, float>();
+
+		// Token: 0x04002633 RID: 9779
+		private static List<int> tmpPathableNeighborIndices = new List<int>();
+
 		// Token: 0x06003C62 RID: 15458 RVA: 0x001FEBF4 File Offset: 0x001FCFF4
 		public RegionCostCalculator(Map map)
 		{
@@ -418,72 +481,21 @@ namespace Verse.AI
 			return RegionCostCalculator.tmpPathableNeighborIndices;
 		}
 
-		// Token: 0x0400261F RID: 9759
-		private Map map;
-
-		// Token: 0x04002620 RID: 9760
-		private Region[] regionGrid;
-
-		// Token: 0x04002621 RID: 9761
-		private TraverseParms traverseParms;
-
-		// Token: 0x04002622 RID: 9762
-		private IntVec3 destinationCell;
-
-		// Token: 0x04002623 RID: 9763
-		private int moveTicksCardinal;
-
-		// Token: 0x04002624 RID: 9764
-		private int moveTicksDiagonal;
-
-		// Token: 0x04002625 RID: 9765
-		private ByteGrid avoidGrid;
-
-		// Token: 0x04002626 RID: 9766
-		private Area allowedArea;
-
-		// Token: 0x04002627 RID: 9767
-		private bool drafted;
-
-		// Token: 0x04002628 RID: 9768
-		private Func<int, int, float> preciseRegionLinkDistancesDistanceGetter;
-
-		// Token: 0x04002629 RID: 9769
-		private Dictionary<int, RegionLink> regionMinLink = new Dictionary<int, RegionLink>();
-
-		// Token: 0x0400262A RID: 9770
-		private Dictionary<RegionLink, int> distances = new Dictionary<RegionLink, int>();
-
-		// Token: 0x0400262B RID: 9771
-		private FastPriorityQueue<RegionCostCalculator.RegionLinkQueueEntry> queue = new FastPriorityQueue<RegionCostCalculator.RegionLinkQueueEntry>(new RegionCostCalculator.DistanceComparer());
-
-		// Token: 0x0400262C RID: 9772
-		private Dictionary<Region, int> minPathCosts = new Dictionary<Region, int>();
-
-		// Token: 0x0400262D RID: 9773
-		private List<Pair<RegionLink, int>> preciseRegionLinkDistances = new List<Pair<RegionLink, int>>();
-
-		// Token: 0x0400262E RID: 9774
-		private Dictionary<RegionLink, IntVec3> linkTargetCells = new Dictionary<RegionLink, IntVec3>();
-
-		// Token: 0x0400262F RID: 9775
-		private const int SampleCount = 11;
-
-		// Token: 0x04002630 RID: 9776
-		private static int[] pathCostSamples = new int[11];
-
-		// Token: 0x04002631 RID: 9777
-		private static List<int> tmpCellIndices = new List<int>();
-
-		// Token: 0x04002632 RID: 9778
-		private static Dictionary<int, float> tmpDistances = new Dictionary<int, float>();
-
-		// Token: 0x04002633 RID: 9779
-		private static List<int> tmpPathableNeighborIndices = new List<int>();
-
 		// Token: 0x02000A99 RID: 2713
 		private struct RegionLinkQueueEntry
 		{
+			// Token: 0x04002634 RID: 9780
+			private Region from;
+
+			// Token: 0x04002635 RID: 9781
+			private RegionLink link;
+
+			// Token: 0x04002636 RID: 9782
+			private int cost;
+
+			// Token: 0x04002637 RID: 9783
+			private int estimatedPathCost;
+
 			// Token: 0x06003C77 RID: 15479 RVA: 0x001FFAEB File Offset: 0x001FDEEB
 			public RegionLinkQueueEntry(Region from, RegionLink link, int cost, int estimatedPathCost)
 			{
@@ -532,18 +544,6 @@ namespace Verse.AI
 					return this.estimatedPathCost;
 				}
 			}
-
-			// Token: 0x04002634 RID: 9780
-			private Region from;
-
-			// Token: 0x04002635 RID: 9781
-			private RegionLink link;
-
-			// Token: 0x04002636 RID: 9782
-			private int cost;
-
-			// Token: 0x04002637 RID: 9783
-			private int estimatedPathCost;
 		}
 
 		// Token: 0x02000A9A RID: 2714

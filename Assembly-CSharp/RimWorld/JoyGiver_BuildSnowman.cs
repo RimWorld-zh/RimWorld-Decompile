@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x020000FC RID: 252
 	public class JoyGiver_BuildSnowman : JoyGiver
 	{
+		// Token: 0x040002D4 RID: 724
+		private const float MinSnowmanDepth = 0.5f;
+
+		// Token: 0x040002D5 RID: 725
+		private const float MinDistBetweenSnowmen = 12f;
+
 		// Token: 0x0600054D RID: 1357 RVA: 0x00039A78 File Offset: 0x00037E78
 		public override Job TryGiveJob(Pawn pawn)
 		{
@@ -115,11 +121,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040002D4 RID: 724
-		private const float MinSnowmanDepth = 0.5f;
-
-		// Token: 0x040002D5 RID: 725
-		private const float MinDistBetweenSnowmen = 12f;
 	}
 }

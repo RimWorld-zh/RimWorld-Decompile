@@ -8,6 +8,21 @@ namespace Verse
 	// Token: 0x02000AA1 RID: 2721
 	public class PriorityWork : IExposable
 	{
+		// Token: 0x0400266D RID: 9837
+		private Pawn pawn;
+
+		// Token: 0x0400266E RID: 9838
+		private IntVec3 prioritizedCell = IntVec3.Invalid;
+
+		// Token: 0x0400266F RID: 9839
+		private WorkTypeDef prioritizedWorkType = null;
+
+		// Token: 0x04002670 RID: 9840
+		private int prioritizeTick = Find.TickManager.TicksGame;
+
+		// Token: 0x04002671 RID: 9841
+		private const int Timeout = 30000;
+
 		// Token: 0x06003CB3 RID: 15539 RVA: 0x00202547 File Offset: 0x00200947
 		public PriorityWork()
 		{
@@ -113,20 +128,5 @@ namespace Verse
 			}
 			yield break;
 		}
-
-		// Token: 0x0400266D RID: 9837
-		private Pawn pawn;
-
-		// Token: 0x0400266E RID: 9838
-		private IntVec3 prioritizedCell = IntVec3.Invalid;
-
-		// Token: 0x0400266F RID: 9839
-		private WorkTypeDef prioritizedWorkType = null;
-
-		// Token: 0x04002670 RID: 9840
-		private int prioritizeTick = Find.TickManager.TicksGame;
-
-		// Token: 0x04002671 RID: 9841
-		private const int Timeout = 30000;
 	}
 }

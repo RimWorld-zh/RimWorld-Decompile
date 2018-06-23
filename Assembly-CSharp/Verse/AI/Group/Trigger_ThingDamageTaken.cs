@@ -5,6 +5,12 @@ namespace Verse.AI.Group
 	// Token: 0x02000A28 RID: 2600
 	public class Trigger_ThingDamageTaken : Trigger
 	{
+		// Token: 0x040024B5 RID: 9397
+		private Thing thing;
+
+		// Token: 0x040024B6 RID: 9398
+		private float damageFraction = 0.5f;
+
 		// Token: 0x060039CF RID: 14799 RVA: 0x001E8CBB File Offset: 0x001E70BB
 		public Trigger_ThingDamageTaken(Thing thing, float damageFraction)
 		{
@@ -17,11 +23,5 @@ namespace Verse.AI.Group
 		{
 			return signal.type == TriggerSignalType.Tick && (this.thing.DestroyedOrNull() || (float)this.thing.HitPoints < (1f - this.damageFraction) * (float)this.thing.MaxHitPoints);
 		}
-
-		// Token: 0x040024B5 RID: 9397
-		private Thing thing;
-
-		// Token: 0x040024B6 RID: 9398
-		private float damageFraction = 0.5f;
 	}
 }

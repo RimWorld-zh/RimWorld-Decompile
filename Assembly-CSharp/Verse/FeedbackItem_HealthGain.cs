@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000E60 RID: 3680
 	public class FeedbackItem_HealthGain : FeedbackItem
 	{
+		// Token: 0x04003976 RID: 14710
+		protected Pawn Healer;
+
+		// Token: 0x04003977 RID: 14711
+		protected int Amount = 0;
+
 		// Token: 0x060056C0 RID: 22208 RVA: 0x002CB950 File Offset: 0x002C9D50
 		public FeedbackItem_HealthGain(Vector2 ScreenPos, int Amount, Pawn Healer) : base(ScreenPos)
 		{
@@ -28,11 +34,5 @@ namespace Verse
 			text += this.Amount;
 			base.DrawFloatingText(text, Color.red);
 		}
-
-		// Token: 0x04003976 RID: 14710
-		protected Pawn Healer;
-
-		// Token: 0x04003977 RID: 14711
-		protected int Amount = 0;
 	}
 }

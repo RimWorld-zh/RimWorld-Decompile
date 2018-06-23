@@ -10,6 +10,9 @@ namespace Verse
 	// Token: 0x02000FA4 RID: 4004
 	public static class Prefs
 	{
+		// Token: 0x04003F56 RID: 16214
+		private static PrefsData data;
+
 		// Token: 0x17000F91 RID: 3985
 		// (get) Token: 0x060060C1 RID: 24769 RVA: 0x0030FC90 File Offset: 0x0030E090
 		// (set) Token: 0x060060C2 RID: 24770 RVA: 0x0030FCAF File Offset: 0x0030E0AF
@@ -475,8 +478,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003F56 RID: 16214
-		private static PrefsData data;
 	}
 }

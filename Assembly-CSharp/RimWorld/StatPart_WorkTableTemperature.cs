@@ -6,6 +6,15 @@ namespace RimWorld
 	// Token: 0x020009BB RID: 2491
 	public class StatPart_WorkTableTemperature : StatPart
 	{
+		// Token: 0x040023C1 RID: 9153
+		public const float WorkRateFactor = 0.7f;
+
+		// Token: 0x040023C2 RID: 9154
+		public const float MinTemp = 9f;
+
+		// Token: 0x040023C3 RID: 9155
+		public const float MaxTemp = 35f;
+
 		// Token: 0x060037C7 RID: 14279 RVA: 0x001DAF0C File Offset: 0x001D930C
 		public override void TransformValue(StatRequest req, ref float val)
 		{
@@ -55,14 +64,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040023C1 RID: 9153
-		public const float WorkRateFactor = 0.7f;
-
-		// Token: 0x040023C2 RID: 9154
-		public const float MinTemp = 9f;
-
-		// Token: 0x040023C3 RID: 9155
-		public const float MaxTemp = 35f;
 	}
 }

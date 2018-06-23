@@ -8,6 +8,9 @@ namespace Verse
 	// Token: 0x02000EE7 RID: 3815
 	public class DefMap<D, V> : IExposable, IEnumerable<KeyValuePair<D, V>>, IEnumerable where D : Def, new() where V : new()
 	{
+		// Token: 0x04003C97 RID: 15511
+		private List<V> values = null;
+
 		// Token: 0x06005A9C RID: 23196 RVA: 0x002E7628 File Offset: 0x002E5A28
 		public DefMap()
 		{
@@ -105,8 +108,5 @@ namespace Verse
 			return (from d in DefDatabase<D>.AllDefsListForReading
 			select new KeyValuePair<D, V>(d, this[d])).GetEnumerator();
 		}
-
-		// Token: 0x04003C97 RID: 15511
-		private List<V> values = null;
 	}
 }

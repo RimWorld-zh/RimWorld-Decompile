@@ -8,6 +8,30 @@ namespace RimWorld
 	// Token: 0x0200065B RID: 1627
 	public class TaleData_Surroundings : TaleData
 	{
+		// Token: 0x04001350 RID: 4944
+		public int tile;
+
+		// Token: 0x04001351 RID: 4945
+		public float temperature;
+
+		// Token: 0x04001352 RID: 4946
+		public float snowDepth;
+
+		// Token: 0x04001353 RID: 4947
+		public WeatherDef weather;
+
+		// Token: 0x04001354 RID: 4948
+		public RoomRoleDef roomRole;
+
+		// Token: 0x04001355 RID: 4949
+		public float roomImpressiveness;
+
+		// Token: 0x04001356 RID: 4950
+		public float roomBeauty;
+
+		// Token: 0x04001357 RID: 4951
+		public float roomCleanliness;
+
 		// Token: 0x170004FF RID: 1279
 		// (get) Token: 0x06002200 RID: 8704 RVA: 0x0012074C File Offset: 0x0011EB4C
 		public bool Outdoors
@@ -83,29 +107,5 @@ namespace RimWorld
 		{
 			return TaleData_Surroundings.GenerateFrom(CellFinder.RandomCell(map), map);
 		}
-
-		// Token: 0x04001350 RID: 4944
-		public int tile;
-
-		// Token: 0x04001351 RID: 4945
-		public float temperature;
-
-		// Token: 0x04001352 RID: 4946
-		public float snowDepth;
-
-		// Token: 0x04001353 RID: 4947
-		public WeatherDef weather;
-
-		// Token: 0x04001354 RID: 4948
-		public RoomRoleDef roomRole;
-
-		// Token: 0x04001355 RID: 4949
-		public float roomImpressiveness;
-
-		// Token: 0x04001356 RID: 4950
-		public float roomBeauty;
-
-		// Token: 0x04001357 RID: 4951
-		public float roomCleanliness;
 	}
 }

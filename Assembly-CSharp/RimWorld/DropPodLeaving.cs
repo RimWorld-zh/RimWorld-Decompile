@@ -9,6 +9,21 @@ namespace RimWorld
 	// Token: 0x020006E1 RID: 1761
 	public class DropPodLeaving : Skyfaller, IActiveDropPod, IThingHolder
 	{
+		// Token: 0x0400155B RID: 5467
+		public int groupID = -1;
+
+		// Token: 0x0400155C RID: 5468
+		public int destinationTile = -1;
+
+		// Token: 0x0400155D RID: 5469
+		public TransportPodsArrivalAction arrivalAction;
+
+		// Token: 0x0400155E RID: 5470
+		private bool alreadyLeft;
+
+		// Token: 0x0400155F RID: 5471
+		private static List<Thing> tmpActiveDropPods = new List<Thing>();
+
 		// Token: 0x170005D6 RID: 1494
 		// (get) Token: 0x06002657 RID: 9815 RVA: 0x00149660 File Offset: 0x00147A60
 		// (set) Token: 0x06002658 RID: 9816 RVA: 0x0014968B File Offset: 0x00147A8B
@@ -79,20 +94,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x0400155B RID: 5467
-		public int groupID = -1;
-
-		// Token: 0x0400155C RID: 5468
-		public int destinationTile = -1;
-
-		// Token: 0x0400155D RID: 5469
-		public TransportPodsArrivalAction arrivalAction;
-
-		// Token: 0x0400155E RID: 5470
-		private bool alreadyLeft;
-
-		// Token: 0x0400155F RID: 5471
-		private static List<Thing> tmpActiveDropPods = new List<Thing>();
 	}
 }

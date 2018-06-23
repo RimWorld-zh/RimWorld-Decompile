@@ -5,6 +5,12 @@ namespace Verse
 	// Token: 0x02000FB0 RID: 4016
 	public struct CoverInfo
 	{
+		// Token: 0x04003F8B RID: 16267
+		private Thing thingInt;
+
+		// Token: 0x04003F8C RID: 16268
+		private float blockChanceInt;
+
 		// Token: 0x06006135 RID: 24885 RVA: 0x00311A74 File Offset: 0x0030FE74
 		public CoverInfo(Thing thing, float blockChance)
 		{
@@ -41,11 +47,5 @@ namespace Verse
 				return new CoverInfo(null, -999f);
 			}
 		}
-
-		// Token: 0x04003F8B RID: 16267
-		private Thing thingInt;
-
-		// Token: 0x04003F8C RID: 16268
-		private float blockChanceInt;
 	}
 }

@@ -7,6 +7,9 @@ namespace RimWorld.Planet
 	// Token: 0x020005C9 RID: 1481
 	public class CaravanArrivalAction_AttackSettlement : CaravanArrivalAction
 	{
+		// Token: 0x04001150 RID: 4432
+		private Settlement settlement;
+
 		// Token: 0x06001CC0 RID: 7360 RVA: 0x000F7128 File Offset: 0x000F5528
 		public CaravanArrivalAction_AttackSettlement()
 		{
@@ -107,8 +110,5 @@ namespace RimWorld.Planet
 				settlement.Label
 			}), caravan, settlement.Tile, settlement);
 		}
-
-		// Token: 0x04001150 RID: 4432
-		private Settlement settlement;
 	}
 }

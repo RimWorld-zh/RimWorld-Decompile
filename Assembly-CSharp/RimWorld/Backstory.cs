@@ -10,6 +10,96 @@ namespace RimWorld
 	[CaseInsensitiveXMLParsing]
 	public class Backstory
 	{
+		// Token: 0x04000CCD RID: 3277
+		public string identifier = null;
+
+		// Token: 0x04000CCE RID: 3278
+		public BackstorySlot slot;
+
+		// Token: 0x04000CCF RID: 3279
+		public string title;
+
+		// Token: 0x04000CD0 RID: 3280
+		public string titleFemale;
+
+		// Token: 0x04000CD1 RID: 3281
+		public string titleShort;
+
+		// Token: 0x04000CD2 RID: 3282
+		public string titleShortFemale;
+
+		// Token: 0x04000CD3 RID: 3283
+		public string baseDesc = null;
+
+		// Token: 0x04000CD4 RID: 3284
+		private Dictionary<string, int> skillGains = new Dictionary<string, int>();
+
+		// Token: 0x04000CD5 RID: 3285
+		[Unsaved]
+		public Dictionary<SkillDef, int> skillGainsResolved = new Dictionary<SkillDef, int>();
+
+		// Token: 0x04000CD6 RID: 3286
+		public WorkTags workDisables = WorkTags.None;
+
+		// Token: 0x04000CD7 RID: 3287
+		public WorkTags requiredWorkTags = WorkTags.None;
+
+		// Token: 0x04000CD8 RID: 3288
+		public List<string> spawnCategories = new List<string>();
+
+		// Token: 0x04000CD9 RID: 3289
+		[LoadAlias("bodyNameGlobal")]
+		private string bodyTypeGlobal = null;
+
+		// Token: 0x04000CDA RID: 3290
+		[LoadAlias("bodyNameFemale")]
+		private string bodyTypeFemale = null;
+
+		// Token: 0x04000CDB RID: 3291
+		[LoadAlias("bodyNameMale")]
+		private string bodyTypeMale = null;
+
+		// Token: 0x04000CDC RID: 3292
+		[Unsaved]
+		private BodyTypeDef bodyTypeGlobalResolved = null;
+
+		// Token: 0x04000CDD RID: 3293
+		[Unsaved]
+		private BodyTypeDef bodyTypeFemaleResolved = null;
+
+		// Token: 0x04000CDE RID: 3294
+		[Unsaved]
+		private BodyTypeDef bodyTypeMaleResolved = null;
+
+		// Token: 0x04000CDF RID: 3295
+		public List<TraitEntry> forcedTraits = null;
+
+		// Token: 0x04000CE0 RID: 3296
+		public List<TraitEntry> disallowedTraits = null;
+
+		// Token: 0x04000CE1 RID: 3297
+		public bool shuffleable = true;
+
+		// Token: 0x04000CE2 RID: 3298
+		[Unsaved]
+		public string untranslatedTitle;
+
+		// Token: 0x04000CE3 RID: 3299
+		[Unsaved]
+		public string untranslatedTitleFemale;
+
+		// Token: 0x04000CE4 RID: 3300
+		[Unsaved]
+		public string untranslatedTitleShort;
+
+		// Token: 0x04000CE5 RID: 3301
+		[Unsaved]
+		public string untranslatedTitleShortFemale;
+
+		// Token: 0x04000CE6 RID: 3302
+		[Unsaved]
+		public string untranslatedDesc;
+
 		// Token: 0x170002DC RID: 732
 		// (get) Token: 0x06001613 RID: 5651 RVA: 0x000C3D60 File Offset: 0x000C2160
 		public IEnumerable<WorkTypeDef> DisabledWorkTypes
@@ -341,95 +431,5 @@ namespace RimWorld
 		{
 			return this.identifier.GetHashCode();
 		}
-
-		// Token: 0x04000CCD RID: 3277
-		public string identifier = null;
-
-		// Token: 0x04000CCE RID: 3278
-		public BackstorySlot slot;
-
-		// Token: 0x04000CCF RID: 3279
-		public string title;
-
-		// Token: 0x04000CD0 RID: 3280
-		public string titleFemale;
-
-		// Token: 0x04000CD1 RID: 3281
-		public string titleShort;
-
-		// Token: 0x04000CD2 RID: 3282
-		public string titleShortFemale;
-
-		// Token: 0x04000CD3 RID: 3283
-		public string baseDesc = null;
-
-		// Token: 0x04000CD4 RID: 3284
-		private Dictionary<string, int> skillGains = new Dictionary<string, int>();
-
-		// Token: 0x04000CD5 RID: 3285
-		[Unsaved]
-		public Dictionary<SkillDef, int> skillGainsResolved = new Dictionary<SkillDef, int>();
-
-		// Token: 0x04000CD6 RID: 3286
-		public WorkTags workDisables = WorkTags.None;
-
-		// Token: 0x04000CD7 RID: 3287
-		public WorkTags requiredWorkTags = WorkTags.None;
-
-		// Token: 0x04000CD8 RID: 3288
-		public List<string> spawnCategories = new List<string>();
-
-		// Token: 0x04000CD9 RID: 3289
-		[LoadAlias("bodyNameGlobal")]
-		private string bodyTypeGlobal = null;
-
-		// Token: 0x04000CDA RID: 3290
-		[LoadAlias("bodyNameFemale")]
-		private string bodyTypeFemale = null;
-
-		// Token: 0x04000CDB RID: 3291
-		[LoadAlias("bodyNameMale")]
-		private string bodyTypeMale = null;
-
-		// Token: 0x04000CDC RID: 3292
-		[Unsaved]
-		private BodyTypeDef bodyTypeGlobalResolved = null;
-
-		// Token: 0x04000CDD RID: 3293
-		[Unsaved]
-		private BodyTypeDef bodyTypeFemaleResolved = null;
-
-		// Token: 0x04000CDE RID: 3294
-		[Unsaved]
-		private BodyTypeDef bodyTypeMaleResolved = null;
-
-		// Token: 0x04000CDF RID: 3295
-		public List<TraitEntry> forcedTraits = null;
-
-		// Token: 0x04000CE0 RID: 3296
-		public List<TraitEntry> disallowedTraits = null;
-
-		// Token: 0x04000CE1 RID: 3297
-		public bool shuffleable = true;
-
-		// Token: 0x04000CE2 RID: 3298
-		[Unsaved]
-		public string untranslatedTitle;
-
-		// Token: 0x04000CE3 RID: 3299
-		[Unsaved]
-		public string untranslatedTitleFemale;
-
-		// Token: 0x04000CE4 RID: 3300
-		[Unsaved]
-		public string untranslatedTitleShort;
-
-		// Token: 0x04000CE5 RID: 3301
-		[Unsaved]
-		public string untranslatedTitleShortFemale;
-
-		// Token: 0x04000CE6 RID: 3302
-		[Unsaved]
-		public string untranslatedDesc;
 	}
 }

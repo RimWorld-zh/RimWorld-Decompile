@@ -11,6 +11,45 @@ namespace RimWorld
 	// Token: 0x020006A3 RID: 1699
 	public class Building_Door : Building
 	{
+		// Token: 0x04001419 RID: 5145
+		public CompPowerTrader powerComp;
+
+		// Token: 0x0400141A RID: 5146
+		private bool openInt = false;
+
+		// Token: 0x0400141B RID: 5147
+		private bool holdOpenInt = false;
+
+		// Token: 0x0400141C RID: 5148
+		private int lastFriendlyTouchTick = -9999;
+
+		// Token: 0x0400141D RID: 5149
+		protected int ticksUntilClose = 0;
+
+		// Token: 0x0400141E RID: 5150
+		protected int visualTicksOpen = 0;
+
+		// Token: 0x0400141F RID: 5151
+		private bool freePassageWhenClearedReachabilityCache;
+
+		// Token: 0x04001420 RID: 5152
+		private const float BaseDoorOpenTicks = 45f;
+
+		// Token: 0x04001421 RID: 5153
+		private const int AutomaticCloseDelayTicks = 60;
+
+		// Token: 0x04001422 RID: 5154
+		private const int ApproachCloseDelayTicks = 300;
+
+		// Token: 0x04001423 RID: 5155
+		private const int MaxTicksSinceFriendlyTouchToAutoClose = 301;
+
+		// Token: 0x04001424 RID: 5156
+		private const float VisualDoorOffsetStart = 0f;
+
+		// Token: 0x04001425 RID: 5157
+		private const float VisualDoorOffsetEnd = 0.45f;
+
 		// Token: 0x17000569 RID: 1385
 		// (get) Token: 0x06002433 RID: 9267 RVA: 0x0013693C File Offset: 0x00134D3C
 		public bool Open
@@ -497,44 +536,5 @@ namespace RimWorld
 			map.reachability.ClearCache();
 			this.freePassageWhenClearedReachabilityCache = this.FreePassage;
 		}
-
-		// Token: 0x04001419 RID: 5145
-		public CompPowerTrader powerComp;
-
-		// Token: 0x0400141A RID: 5146
-		private bool openInt = false;
-
-		// Token: 0x0400141B RID: 5147
-		private bool holdOpenInt = false;
-
-		// Token: 0x0400141C RID: 5148
-		private int lastFriendlyTouchTick = -9999;
-
-		// Token: 0x0400141D RID: 5149
-		protected int ticksUntilClose = 0;
-
-		// Token: 0x0400141E RID: 5150
-		protected int visualTicksOpen = 0;
-
-		// Token: 0x0400141F RID: 5151
-		private bool freePassageWhenClearedReachabilityCache;
-
-		// Token: 0x04001420 RID: 5152
-		private const float BaseDoorOpenTicks = 45f;
-
-		// Token: 0x04001421 RID: 5153
-		private const int AutomaticCloseDelayTicks = 60;
-
-		// Token: 0x04001422 RID: 5154
-		private const int ApproachCloseDelayTicks = 300;
-
-		// Token: 0x04001423 RID: 5155
-		private const int MaxTicksSinceFriendlyTouchToAutoClose = 301;
-
-		// Token: 0x04001424 RID: 5156
-		private const float VisualDoorOffsetStart = 0f;
-
-		// Token: 0x04001425 RID: 5157
-		private const float VisualDoorOffsetEnd = 0.45f;
 	}
 }

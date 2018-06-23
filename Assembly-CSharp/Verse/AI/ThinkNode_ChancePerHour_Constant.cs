@@ -5,6 +5,9 @@ namespace Verse.AI
 	// Token: 0x02000AAA RID: 2730
 	public class ThinkNode_ChancePerHour_Constant : ThinkNode_ChancePerHour
 	{
+		// Token: 0x04002689 RID: 9865
+		private float mtbHours = 1f;
+
 		// Token: 0x06003D09 RID: 15625 RVA: 0x00204B00 File Offset: 0x00202F00
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -18,8 +21,5 @@ namespace Verse.AI
 		{
 			return this.mtbHours;
 		}
-
-		// Token: 0x04002689 RID: 9865
-		private float mtbHours = 1f;
 	}
 }

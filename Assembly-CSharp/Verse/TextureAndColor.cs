@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000D23 RID: 3363
 	public struct TextureAndColor
 	{
+		// Token: 0x04003236 RID: 12854
+		private Texture2D texture;
+
+		// Token: 0x04003237 RID: 12855
+		private Color color;
+
 		// Token: 0x06004A1D RID: 18973 RVA: 0x0026BD3E File Offset: 0x0026A13E
 		public TextureAndColor(Texture2D texture, Color color)
 		{
@@ -58,11 +64,5 @@ namespace Verse
 		{
 			return new TextureAndColor(texture, Color.white);
 		}
-
-		// Token: 0x04003236 RID: 12854
-		private Texture2D texture;
-
-		// Token: 0x04003237 RID: 12855
-		private Color color;
 	}
 }

@@ -11,6 +11,51 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class ShieldBelt : Apparel
 	{
+		// Token: 0x04001549 RID: 5449
+		private float energy = 0f;
+
+		// Token: 0x0400154A RID: 5450
+		private int ticksToReset = -1;
+
+		// Token: 0x0400154B RID: 5451
+		private int lastKeepDisplayTick = -9999;
+
+		// Token: 0x0400154C RID: 5452
+		private Vector3 impactAngleVect;
+
+		// Token: 0x0400154D RID: 5453
+		private int lastAbsorbDamageTick = -9999;
+
+		// Token: 0x0400154E RID: 5454
+		private const float MinDrawSize = 1.2f;
+
+		// Token: 0x0400154F RID: 5455
+		private const float MaxDrawSize = 1.55f;
+
+		// Token: 0x04001550 RID: 5456
+		private const float MaxDamagedJitterDist = 0.05f;
+
+		// Token: 0x04001551 RID: 5457
+		private const int JitterDurationTicks = 8;
+
+		// Token: 0x04001552 RID: 5458
+		private int StartingTicksToReset = 3200;
+
+		// Token: 0x04001553 RID: 5459
+		private float EnergyOnReset = 0.2f;
+
+		// Token: 0x04001554 RID: 5460
+		private float EnergyLossPerDamage = 0.033f;
+
+		// Token: 0x04001555 RID: 5461
+		private int KeepDisplayingTicks = 1000;
+
+		// Token: 0x04001556 RID: 5462
+		private float ApparelScorePerEnergyMax = 0.25f;
+
+		// Token: 0x04001557 RID: 5463
+		private static readonly Material BubbleMat = MaterialPool.MatFrom("Other/ShieldBubble", ShaderDatabase.Transparent);
+
 		// Token: 0x170005CE RID: 1486
 		// (get) Token: 0x06002636 RID: 9782 RVA: 0x00147E24 File Offset: 0x00146224
 		private float EnergyMax
@@ -236,50 +281,5 @@ namespace RimWorld
 		{
 			return !(verb is Verb_LaunchProjectile) || ReachabilityImmediate.CanReachImmediate(root, targ, map, PathEndMode.Touch, null);
 		}
-
-		// Token: 0x04001549 RID: 5449
-		private float energy = 0f;
-
-		// Token: 0x0400154A RID: 5450
-		private int ticksToReset = -1;
-
-		// Token: 0x0400154B RID: 5451
-		private int lastKeepDisplayTick = -9999;
-
-		// Token: 0x0400154C RID: 5452
-		private Vector3 impactAngleVect;
-
-		// Token: 0x0400154D RID: 5453
-		private int lastAbsorbDamageTick = -9999;
-
-		// Token: 0x0400154E RID: 5454
-		private const float MinDrawSize = 1.2f;
-
-		// Token: 0x0400154F RID: 5455
-		private const float MaxDrawSize = 1.55f;
-
-		// Token: 0x04001550 RID: 5456
-		private const float MaxDamagedJitterDist = 0.05f;
-
-		// Token: 0x04001551 RID: 5457
-		private const int JitterDurationTicks = 8;
-
-		// Token: 0x04001552 RID: 5458
-		private int StartingTicksToReset = 3200;
-
-		// Token: 0x04001553 RID: 5459
-		private float EnergyOnReset = 0.2f;
-
-		// Token: 0x04001554 RID: 5460
-		private float EnergyLossPerDamage = 0.033f;
-
-		// Token: 0x04001555 RID: 5461
-		private int KeepDisplayingTicks = 1000;
-
-		// Token: 0x04001556 RID: 5462
-		private float ApparelScorePerEnergyMax = 0.25f;
-
-		// Token: 0x04001557 RID: 5463
-		private static readonly Material BubbleMat = MaterialPool.MatFrom("Other/ShieldBubble", ShaderDatabase.Transparent);
 	}
 }

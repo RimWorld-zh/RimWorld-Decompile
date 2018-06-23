@@ -11,6 +11,63 @@ namespace Verse.AI.Group
 	[StaticConstructorOnStartup]
 	public class Lord : IExposable, ILoadReferenceable
 	{
+		// Token: 0x04002443 RID: 9283
+		public LordManager lordManager;
+
+		// Token: 0x04002444 RID: 9284
+		private LordToil curLordToil;
+
+		// Token: 0x04002445 RID: 9285
+		private StateGraph graph;
+
+		// Token: 0x04002446 RID: 9286
+		public int loadID = -1;
+
+		// Token: 0x04002447 RID: 9287
+		private LordJob curJob;
+
+		// Token: 0x04002448 RID: 9288
+		public Faction faction;
+
+		// Token: 0x04002449 RID: 9289
+		public List<Pawn> ownedPawns = new List<Pawn>();
+
+		// Token: 0x0400244A RID: 9290
+		public List<Thing> extraForbiddenThings = new List<Thing>();
+
+		// Token: 0x0400244B RID: 9291
+		private bool initialized;
+
+		// Token: 0x0400244C RID: 9292
+		public int ticksInToil = 0;
+
+		// Token: 0x0400244D RID: 9293
+		public int numPawnsLostViolently = 0;
+
+		// Token: 0x0400244E RID: 9294
+		public int numPawnsEverGained = 0;
+
+		// Token: 0x0400244F RID: 9295
+		public int initialColonyHealthTotal = 0;
+
+		// Token: 0x04002450 RID: 9296
+		public int lastPawnHarmTick = -99999;
+
+		// Token: 0x04002451 RID: 9297
+		private const int AttackTargetCacheInterval = 60;
+
+		// Token: 0x04002452 RID: 9298
+		private static readonly Material FlagTex = MaterialPool.MatFrom("UI/Overlays/SquadFlag");
+
+		// Token: 0x04002453 RID: 9299
+		private int tmpCurLordToilIdx = -1;
+
+		// Token: 0x04002454 RID: 9300
+		private Dictionary<int, LordToilData> tmpLordToilData = new Dictionary<int, LordToilData>();
+
+		// Token: 0x04002455 RID: 9301
+		private Dictionary<int, TriggerData> tmpTriggerData = new Dictionary<int, TriggerData>();
+
 		// Token: 0x170008BF RID: 2239
 		// (get) Token: 0x060038C6 RID: 14534 RVA: 0x001E4DD0 File Offset: 0x001E31D0
 		public Map Map
@@ -617,62 +674,5 @@ namespace Verse.AI.Group
 			}
 			return result;
 		}
-
-		// Token: 0x04002443 RID: 9283
-		public LordManager lordManager;
-
-		// Token: 0x04002444 RID: 9284
-		private LordToil curLordToil;
-
-		// Token: 0x04002445 RID: 9285
-		private StateGraph graph;
-
-		// Token: 0x04002446 RID: 9286
-		public int loadID = -1;
-
-		// Token: 0x04002447 RID: 9287
-		private LordJob curJob;
-
-		// Token: 0x04002448 RID: 9288
-		public Faction faction;
-
-		// Token: 0x04002449 RID: 9289
-		public List<Pawn> ownedPawns = new List<Pawn>();
-
-		// Token: 0x0400244A RID: 9290
-		public List<Thing> extraForbiddenThings = new List<Thing>();
-
-		// Token: 0x0400244B RID: 9291
-		private bool initialized;
-
-		// Token: 0x0400244C RID: 9292
-		public int ticksInToil = 0;
-
-		// Token: 0x0400244D RID: 9293
-		public int numPawnsLostViolently = 0;
-
-		// Token: 0x0400244E RID: 9294
-		public int numPawnsEverGained = 0;
-
-		// Token: 0x0400244F RID: 9295
-		public int initialColonyHealthTotal = 0;
-
-		// Token: 0x04002450 RID: 9296
-		public int lastPawnHarmTick = -99999;
-
-		// Token: 0x04002451 RID: 9297
-		private const int AttackTargetCacheInterval = 60;
-
-		// Token: 0x04002452 RID: 9298
-		private static readonly Material FlagTex = MaterialPool.MatFrom("UI/Overlays/SquadFlag");
-
-		// Token: 0x04002453 RID: 9299
-		private int tmpCurLordToilIdx = -1;
-
-		// Token: 0x04002454 RID: 9300
-		private Dictionary<int, LordToilData> tmpLordToilData = new Dictionary<int, LordToilData>();
-
-		// Token: 0x04002455 RID: 9301
-		private Dictionary<int, TriggerData> tmpTriggerData = new Dictionary<int, TriggerData>();
 	}
 }

@@ -8,6 +8,24 @@ namespace RimWorld
 	// Token: 0x020008EB RID: 2283
 	public class WorldInterface
 	{
+		// Token: 0x04001C71 RID: 7281
+		public WorldSelector selector = new WorldSelector();
+
+		// Token: 0x04001C72 RID: 7282
+		public WorldTargeter targeter = new WorldTargeter();
+
+		// Token: 0x04001C73 RID: 7283
+		public WorldInspectPane inspectPane = new WorldInspectPane();
+
+		// Token: 0x04001C74 RID: 7284
+		public WorldGlobalControls globalControls = new WorldGlobalControls();
+
+		// Token: 0x04001C75 RID: 7285
+		public WorldRoutePlanner routePlanner = new WorldRoutePlanner();
+
+		// Token: 0x04001C76 RID: 7286
+		public bool everReset;
+
 		// Token: 0x1700087F RID: 2175
 		// (get) Token: 0x060034A2 RID: 13474 RVA: 0x001C1CE8 File Offset: 0x001C00E8
 		// (set) Token: 0x060034A3 RID: 13475 RVA: 0x001C1D08 File Offset: 0x001C0108
@@ -162,23 +180,5 @@ namespace RimWorld
 				Find.WindowStack.TryRemove(this.inspectPane, false);
 			}
 		}
-
-		// Token: 0x04001C71 RID: 7281
-		public WorldSelector selector = new WorldSelector();
-
-		// Token: 0x04001C72 RID: 7282
-		public WorldTargeter targeter = new WorldTargeter();
-
-		// Token: 0x04001C73 RID: 7283
-		public WorldInspectPane inspectPane = new WorldInspectPane();
-
-		// Token: 0x04001C74 RID: 7284
-		public WorldGlobalControls globalControls = new WorldGlobalControls();
-
-		// Token: 0x04001C75 RID: 7285
-		public WorldRoutePlanner routePlanner = new WorldRoutePlanner();
-
-		// Token: 0x04001C76 RID: 7286
-		public bool everReset;
 	}
 }

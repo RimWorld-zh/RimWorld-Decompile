@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x02000182 RID: 386
 	public class LordToil_PrepareCaravan_GatherItems : LordToil
 	{
+		// Token: 0x04000377 RID: 887
+		private IntVec3 meetingPoint;
+
 		// Token: 0x06000804 RID: 2052 RVA: 0x0004E0DF File Offset: 0x0004C4DF
 		public LordToil_PrepareCaravan_GatherItems(IntVec3 meetingPoint)
 		{
@@ -90,8 +93,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000377 RID: 887
-		private IntVec3 meetingPoint;
 	}
 }

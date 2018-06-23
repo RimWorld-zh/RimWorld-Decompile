@@ -10,6 +10,49 @@ namespace RimWorld
 	// Token: 0x02000025 RID: 37
 	public abstract class Bill : IExposable, ILoadReferenceable
 	{
+		// Token: 0x0400018B RID: 395
+		[Unsaved]
+		public BillStack billStack = null;
+
+		// Token: 0x0400018C RID: 396
+		private int loadID = -1;
+
+		// Token: 0x0400018D RID: 397
+		public RecipeDef recipe;
+
+		// Token: 0x0400018E RID: 398
+		public bool suspended = false;
+
+		// Token: 0x0400018F RID: 399
+		public ThingFilter ingredientFilter;
+
+		// Token: 0x04000190 RID: 400
+		public float ingredientSearchRadius = 999f;
+
+		// Token: 0x04000191 RID: 401
+		public IntRange allowedSkillRange = new IntRange(0, 20);
+
+		// Token: 0x04000192 RID: 402
+		public Pawn pawnRestriction = null;
+
+		// Token: 0x04000193 RID: 403
+		public bool deleted = false;
+
+		// Token: 0x04000194 RID: 404
+		public int lastIngredientSearchFailTicks = -99999;
+
+		// Token: 0x04000195 RID: 405
+		public const int MaxIngredientSearchRadius = 999;
+
+		// Token: 0x04000196 RID: 406
+		public const float ButSize = 24f;
+
+		// Token: 0x04000197 RID: 407
+		private const float InterfaceBaseHeight = 53f;
+
+		// Token: 0x04000198 RID: 408
+		private const float InterfaceStatusLineHeight = 17f;
+
 		// Token: 0x0600013C RID: 316 RVA: 0x0000D040 File Offset: 0x0000B440
 		public Bill()
 		{
@@ -431,48 +474,5 @@ namespace RimWorld
 		{
 			return this.GetUniqueLoadID();
 		}
-
-		// Token: 0x0400018B RID: 395
-		[Unsaved]
-		public BillStack billStack = null;
-
-		// Token: 0x0400018C RID: 396
-		private int loadID = -1;
-
-		// Token: 0x0400018D RID: 397
-		public RecipeDef recipe;
-
-		// Token: 0x0400018E RID: 398
-		public bool suspended = false;
-
-		// Token: 0x0400018F RID: 399
-		public ThingFilter ingredientFilter;
-
-		// Token: 0x04000190 RID: 400
-		public float ingredientSearchRadius = 999f;
-
-		// Token: 0x04000191 RID: 401
-		public IntRange allowedSkillRange = new IntRange(0, 20);
-
-		// Token: 0x04000192 RID: 402
-		public Pawn pawnRestriction = null;
-
-		// Token: 0x04000193 RID: 403
-		public bool deleted = false;
-
-		// Token: 0x04000194 RID: 404
-		public int lastIngredientSearchFailTicks = -99999;
-
-		// Token: 0x04000195 RID: 405
-		public const int MaxIngredientSearchRadius = 999;
-
-		// Token: 0x04000196 RID: 406
-		public const float ButSize = 24f;
-
-		// Token: 0x04000197 RID: 407
-		private const float InterfaceBaseHeight = 53f;
-
-		// Token: 0x04000198 RID: 408
-		private const float InterfaceStatusLineHeight = 17f;
 	}
 }

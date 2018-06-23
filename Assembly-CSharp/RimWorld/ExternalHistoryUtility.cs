@@ -10,6 +10,15 @@ namespace RimWorld
 	// Token: 0x020002F7 RID: 759
 	public static class ExternalHistoryUtility
 	{
+		// Token: 0x04000846 RID: 2118
+		private static List<FileInfo> cachedFiles;
+
+		// Token: 0x04000847 RID: 2119
+		private static int gameplayIDLength = 20;
+
+		// Token: 0x04000848 RID: 2120
+		private static string gameplayIDAvailableChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+
 		// Token: 0x06000CA7 RID: 3239 RVA: 0x0006F83C File Offset: 0x0006DC3C
 		static ExternalHistoryUtility()
 		{
@@ -118,14 +127,5 @@ namespace RimWorld
 		{
 			return (int)(DateTime.UtcNow.TimeOfDay.TotalSeconds / 2.0);
 		}
-
-		// Token: 0x04000846 RID: 2118
-		private static List<FileInfo> cachedFiles;
-
-		// Token: 0x04000847 RID: 2119
-		private static int gameplayIDLength = 20;
-
-		// Token: 0x04000848 RID: 2120
-		private static string gameplayIDAvailableChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 	}
 }

@@ -6,6 +6,27 @@ namespace RimWorld
 	// Token: 0x02000533 RID: 1331
 	public class Thought_Memory : Thought
 	{
+		// Token: 0x04000E9B RID: 3739
+		public float moodPowerFactor = 1f;
+
+		// Token: 0x04000E9C RID: 3740
+		public Pawn otherPawn;
+
+		// Token: 0x04000E9D RID: 3741
+		public int age = 0;
+
+		// Token: 0x04000E9E RID: 3742
+		private int forcedStage = 0;
+
+		// Token: 0x04000E9F RID: 3743
+		private string cachedLabelCap;
+
+		// Token: 0x04000EA0 RID: 3744
+		private Pawn cachedLabelCapForOtherPawn;
+
+		// Token: 0x04000EA1 RID: 3745
+		private int cachedLabelCapForStageIndex = -1;
+
 		// Token: 0x17000373 RID: 883
 		// (get) Token: 0x060018B5 RID: 6325 RVA: 0x000D8174 File Offset: 0x000D6574
 		public override bool VisibleInNeedsTab
@@ -133,26 +154,5 @@ namespace RimWorld
 				")"
 			});
 		}
-
-		// Token: 0x04000E9B RID: 3739
-		public float moodPowerFactor = 1f;
-
-		// Token: 0x04000E9C RID: 3740
-		public Pawn otherPawn;
-
-		// Token: 0x04000E9D RID: 3741
-		public int age = 0;
-
-		// Token: 0x04000E9E RID: 3742
-		private int forcedStage = 0;
-
-		// Token: 0x04000E9F RID: 3743
-		private string cachedLabelCap;
-
-		// Token: 0x04000EA0 RID: 3744
-		private Pawn cachedLabelCapForOtherPawn;
-
-		// Token: 0x04000EA1 RID: 3745
-		private int cachedLabelCapForStageIndex = -1;
 	}
 }

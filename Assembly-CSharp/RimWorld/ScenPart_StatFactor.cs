@@ -9,6 +9,15 @@ namespace RimWorld
 	// Token: 0x02000647 RID: 1607
 	public class ScenPart_StatFactor : ScenPart
 	{
+		// Token: 0x04001301 RID: 4865
+		private StatDef stat;
+
+		// Token: 0x04001302 RID: 4866
+		private float factor;
+
+		// Token: 0x04001303 RID: 4867
+		private string factorBuf;
+
 		// Token: 0x06002168 RID: 8552 RVA: 0x0011B989 File Offset: 0x00119D89
 		public override void ExposeData()
 		{
@@ -94,14 +103,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04001301 RID: 4865
-		private StatDef stat;
-
-		// Token: 0x04001302 RID: 4866
-		private float factor;
-
-		// Token: 0x04001303 RID: 4867
-		private string factorBuf;
 	}
 }

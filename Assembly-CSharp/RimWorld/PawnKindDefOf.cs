@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class PawnKindDefOf
 	{
-		// Token: 0x06003628 RID: 13864 RVA: 0x001D098D File Offset: 0x001CED8D
-		static PawnKindDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(PawnKindDefOf));
-		}
-
 		// Token: 0x04001F72 RID: 8050
 		public static PawnKindDef Colonist;
 
@@ -51,5 +45,11 @@ namespace RimWorld
 
 		// Token: 0x04001F7E RID: 8062
 		public static PawnKindDef Megaspider;
+
+		// Token: 0x06003628 RID: 13864 RVA: 0x001D098D File Offset: 0x001CED8D
+		static PawnKindDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(PawnKindDefOf));
+		}
 	}
 }

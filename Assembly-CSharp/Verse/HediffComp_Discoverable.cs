@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000D05 RID: 3333
 	public class HediffComp_Discoverable : HediffComp
 	{
+		// Token: 0x040031F0 RID: 12784
+		private bool discovered = false;
+
 		// Token: 0x17000BA5 RID: 2981
 		// (get) Token: 0x060049A2 RID: 18850 RVA: 0x00269438 File Offset: 0x00267838
 		public HediffCompProperties_Discoverable Props
@@ -134,8 +137,5 @@ namespace Verse
 		{
 			return "discovered: " + this.discovered;
 		}
-
-		// Token: 0x040031F0 RID: 12784
-		private bool discovered = false;
 	}
 }

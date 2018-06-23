@@ -7,6 +7,46 @@ namespace RimWorld
 	// Token: 0x02000503 RID: 1283
 	public class Need_RoomSize : Need_Seeker
 	{
+		// Token: 0x04000DAE RID: 3502
+		private static List<Room> tempScanRooms = new List<Room>();
+
+		// Token: 0x04000DAF RID: 3503
+		private const float MinCramped = 0.01f;
+
+		// Token: 0x04000DB0 RID: 3504
+		private const float MinNormal = 0.3f;
+
+		// Token: 0x04000DB1 RID: 3505
+		private const float MinSpacious = 0.7f;
+
+		// Token: 0x04000DB2 RID: 3506
+		public static readonly int SampleNumCells = GenRadial.NumCellsInRadius(7.9f);
+
+		// Token: 0x04000DB3 RID: 3507
+		private static readonly SimpleCurve RoomCellCountSpaceCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(3f, 0f),
+				true
+			},
+			{
+				new CurvePoint(9f, 0.25f),
+				true
+			},
+			{
+				new CurvePoint(16f, 0.5f),
+				true
+			},
+			{
+				new CurvePoint(42f, 0.71f),
+				true
+			},
+			{
+				new CurvePoint(100f, 1f),
+				true
+			}
+		};
+
 		// Token: 0x06001713 RID: 5907 RVA: 0x000CB815 File Offset: 0x000C9C15
 		public Need_RoomSize(Pawn pawn) : base(pawn)
 		{
@@ -102,45 +142,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000DAE RID: 3502
-		private static List<Room> tempScanRooms = new List<Room>();
-
-		// Token: 0x04000DAF RID: 3503
-		private const float MinCramped = 0.01f;
-
-		// Token: 0x04000DB0 RID: 3504
-		private const float MinNormal = 0.3f;
-
-		// Token: 0x04000DB1 RID: 3505
-		private const float MinSpacious = 0.7f;
-
-		// Token: 0x04000DB2 RID: 3506
-		public static readonly int SampleNumCells = GenRadial.NumCellsInRadius(7.9f);
-
-		// Token: 0x04000DB3 RID: 3507
-		private static readonly SimpleCurve RoomCellCountSpaceCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(3f, 0f),
-				true
-			},
-			{
-				new CurvePoint(9f, 0.25f),
-				true
-			},
-			{
-				new CurvePoint(16f, 0.5f),
-				true
-			},
-			{
-				new CurvePoint(42f, 0.71f),
-				true
-			},
-			{
-				new CurvePoint(100f, 1f),
-				true
-			}
-		};
 	}
 }

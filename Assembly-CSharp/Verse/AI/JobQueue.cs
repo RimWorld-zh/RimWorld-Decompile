@@ -7,6 +7,9 @@ namespace Verse.AI
 	// Token: 0x02000A53 RID: 2643
 	public class JobQueue : IExposable, IEnumerable<QueuedJob>, IEnumerable
 	{
+		// Token: 0x0400253F RID: 9535
+		private List<QueuedJob> jobs = new List<QueuedJob>();
+
 		// Token: 0x170008FF RID: 2303
 		// (get) Token: 0x06003AE0 RID: 15072 RVA: 0x001F422C File Offset: 0x001F262C
 		public int Count
@@ -126,8 +129,5 @@ namespace Verse.AI
 		{
 			return this.jobs.GetEnumerator();
 		}
-
-		// Token: 0x0400253F RID: 9535
-		private List<QueuedJob> jobs = new List<QueuedJob>();
 	}
 }

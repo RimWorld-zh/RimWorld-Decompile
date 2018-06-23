@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x02000633 RID: 1587
 	public class ScenPart_OnPawnDeathExplode : ScenPart
 	{
+		// Token: 0x040012C4 RID: 4804
+		private float radius = 5.9f;
+
+		// Token: 0x040012C5 RID: 4805
+		private DamageDef damage;
+
+		// Token: 0x040012C6 RID: 4806
+		private string radiusBuf;
+
 		// Token: 0x060020C6 RID: 8390 RVA: 0x0011899B File Offset: 0x00116D9B
 		public override void Randomize()
 		{
@@ -63,14 +72,5 @@ namespace RimWorld
 			yield return DamageDefOf.Flame;
 			yield break;
 		}
-
-		// Token: 0x040012C4 RID: 4804
-		private float radius = 5.9f;
-
-		// Token: 0x040012C5 RID: 4805
-		private DamageDef damage;
-
-		// Token: 0x040012C6 RID: 4806
-		private string radiusBuf;
 	}
 }

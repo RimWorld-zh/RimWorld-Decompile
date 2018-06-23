@@ -10,6 +10,15 @@ namespace RimWorld
 	// Token: 0x02000519 RID: 1305
 	public class Pawn_TraderTracker : IExposable
 	{
+		// Token: 0x04000DFB RID: 3579
+		private Pawn pawn;
+
+		// Token: 0x04000DFC RID: 3580
+		public TraderKindDef traderKind;
+
+		// Token: 0x04000DFD RID: 3581
+		private List<Pawn> soldPrisoners = new List<Pawn>();
+
 		// Token: 0x060017B8 RID: 6072 RVA: 0x000CF279 File Offset: 0x000CD679
 		public Pawn_TraderTracker(Pawn pawn)
 		{
@@ -273,14 +282,5 @@ namespace RimWorld
 		{
 			return this.pawn.Map == thing.Map && this.pawn.Map.reachability.CanReach(this.pawn.Position, thing, PathEndMode.Touch, TraverseMode.PassDoors, Danger.Some);
 		}
-
-		// Token: 0x04000DFB RID: 3579
-		private Pawn pawn;
-
-		// Token: 0x04000DFC RID: 3580
-		public TraderKindDef traderKind;
-
-		// Token: 0x04000DFD RID: 3581
-		private List<Pawn> soldPrisoners = new List<Pawn>();
 	}
 }

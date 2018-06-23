@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000F58 RID: 3928
 	public class KeyBindingData
 	{
+		// Token: 0x04003E66 RID: 15974
+		public KeyCode keyBindingA;
+
+		// Token: 0x04003E67 RID: 15975
+		public KeyCode keyBindingB;
+
 		// Token: 0x06005F2F RID: 24367 RVA: 0x003083AB File Offset: 0x003067AB
 		public KeyBindingData()
 		{
@@ -32,11 +38,5 @@ namespace Verse
 			}
 			return str + "]";
 		}
-
-		// Token: 0x04003E66 RID: 15974
-		public KeyCode keyBindingA;
-
-		// Token: 0x04003E67 RID: 15975
-		public KeyCode keyBindingB;
 	}
 }

@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020006B0 RID: 1712
 	public class Bill_ProductionWithUft : Bill_Production
 	{
+		// Token: 0x0400144F RID: 5199
+		private UnfinishedThing boundUftInt;
+
 		// Token: 0x060024CC RID: 9420 RVA: 0x0013B6DE File Offset: 0x00139ADE
 		public Bill_ProductionWithUft()
 		{
@@ -142,8 +145,5 @@ namespace RimWorld
 		{
 			return (Bill_Production)base.Clone();
 		}
-
-		// Token: 0x0400144F RID: 5199
-		private UnfinishedThing boundUftInt;
 	}
 }

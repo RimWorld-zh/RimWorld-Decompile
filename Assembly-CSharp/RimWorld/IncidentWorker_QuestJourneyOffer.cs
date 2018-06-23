@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x02000353 RID: 851
 	public class IncidentWorker_QuestJourneyOffer : IncidentWorker
 	{
+		// Token: 0x04000908 RID: 2312
+		private const int MinTraversalDistance = 180;
+
+		// Token: 0x04000909 RID: 2313
+		private const int MaxTraversalDistance = 800;
+
 		// Token: 0x06000EB2 RID: 3762 RVA: 0x0007C5BC File Offset: 0x0007A9BC
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
@@ -95,11 +101,5 @@ namespace RimWorld
 		{
 			return TileFinder.TryFindPassableTileWithTraversalDistance(rootTile, minDist, 800, out tile, (int x) => !Find.WorldObjects.AnyWorldObjectAt(x) && Find.WorldGrid[x].biome.canBuildBase && Find.WorldGrid[x].biome.canAutoChoose, true, true);
 		}
-
-		// Token: 0x04000908 RID: 2312
-		private const int MinTraversalDistance = 180;
-
-		// Token: 0x04000909 RID: 2313
-		private const int MaxTraversalDistance = 800;
 	}
 }

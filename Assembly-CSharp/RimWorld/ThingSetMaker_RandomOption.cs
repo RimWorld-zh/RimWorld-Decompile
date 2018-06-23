@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x020006EA RID: 1770
 	public class ThingSetMaker_RandomOption : ThingSetMaker
 	{
+		// Token: 0x0400157B RID: 5499
+		public List<ThingSetMaker_RandomOption.Option> options;
+
 		// Token: 0x06002693 RID: 9875 RVA: 0x0014A604 File Offset: 0x00148A04
 		protected override bool CanGenerateSub(ThingSetMakerParams parms)
 		{
@@ -81,9 +84,6 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x0400157B RID: 5499
-		public List<ThingSetMaker_RandomOption.Option> options;
 
 		// Token: 0x020006EB RID: 1771
 		public class Option

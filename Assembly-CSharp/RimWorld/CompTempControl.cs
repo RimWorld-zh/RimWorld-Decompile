@@ -10,6 +10,16 @@ namespace RimWorld
 	// Token: 0x0200073B RID: 1851
 	public class CompTempControl : ThingComp
 	{
+		// Token: 0x04001665 RID: 5733
+		[Unsaved]
+		public bool operatingAtHighPower = false;
+
+		// Token: 0x04001666 RID: 5734
+		public float targetTemperature = -99999f;
+
+		// Token: 0x04001667 RID: 5735
+		private const float DefaultTargetTemperature = 21f;
+
 		// Token: 0x17000655 RID: 1621
 		// (get) Token: 0x060028EC RID: 10476 RVA: 0x0015D0FC File Offset: 0x0015B4FC
 		public CompProperties_TempControl Props
@@ -155,15 +165,5 @@ namespace RimWorld
 			}
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x04001665 RID: 5733
-		[Unsaved]
-		public bool operatingAtHighPower = false;
-
-		// Token: 0x04001666 RID: 5734
-		public float targetTemperature = -99999f;
-
-		// Token: 0x04001667 RID: 5735
-		private const float DefaultTargetTemperature = 21f;
 	}
 }

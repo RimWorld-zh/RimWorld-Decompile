@@ -7,6 +7,18 @@ namespace RimWorld.Planet
 	// Token: 0x02000586 RID: 1414
 	internal class DebugWorldLine
 	{
+		// Token: 0x04000FEC RID: 4076
+		public Vector3 a;
+
+		// Token: 0x04000FED RID: 4077
+		public Vector3 b;
+
+		// Token: 0x04000FEE RID: 4078
+		public int ticksLeft;
+
+		// Token: 0x04000FEF RID: 4079
+		private bool onPlanetSurface;
+
 		// Token: 0x06001B04 RID: 6916 RVA: 0x000E8495 File Offset: 0x000E6895
 		public DebugWorldLine(Vector3 a, Vector3 b, bool onPlanetSurface)
 		{
@@ -66,17 +78,5 @@ namespace RimWorld.Planet
 				}
 			}
 		}
-
-		// Token: 0x04000FEC RID: 4076
-		public Vector3 a;
-
-		// Token: 0x04000FED RID: 4077
-		public Vector3 b;
-
-		// Token: 0x04000FEE RID: 4078
-		public int ticksLeft;
-
-		// Token: 0x04000FEF RID: 4079
-		private bool onPlanetSurface;
 	}
 }

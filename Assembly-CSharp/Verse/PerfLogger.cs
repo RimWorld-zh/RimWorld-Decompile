@@ -7,6 +7,18 @@ namespace Verse
 	// Token: 0x02000FA1 RID: 4001
 	public static class PerfLogger
 	{
+		// Token: 0x04003F50 RID: 16208
+		public static StringBuilder currentLog = new StringBuilder();
+
+		// Token: 0x04003F51 RID: 16209
+		private static long start;
+
+		// Token: 0x04003F52 RID: 16210
+		private static long current;
+
+		// Token: 0x04003F53 RID: 16211
+		private static int indent;
+
 		// Token: 0x060060B2 RID: 24754 RVA: 0x0030F9D8 File Offset: 0x0030DDD8
 		public static void Reset()
 		{
@@ -57,17 +69,5 @@ namespace Verse
 		{
 			return (float)(Stopwatch.GetTimestamp() - PerfLogger.start) / (float)Stopwatch.Frequency;
 		}
-
-		// Token: 0x04003F50 RID: 16208
-		public static StringBuilder currentLog = new StringBuilder();
-
-		// Token: 0x04003F51 RID: 16209
-		private static long start;
-
-		// Token: 0x04003F52 RID: 16210
-		private static long current;
-
-		// Token: 0x04003F53 RID: 16211
-		private static int indent;
 	}
 }

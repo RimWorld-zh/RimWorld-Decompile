@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x020003E3 RID: 995
 	public class GenStep_EscapeShip : GenStep_Scatterer
 	{
+		// Token: 0x04000A56 RID: 2646
+		private static readonly IntRange EscapeShipSizeWidth = new IntRange(20, 28);
+
+		// Token: 0x04000A57 RID: 2647
+		private static readonly IntRange EscapeShipSizeHeight = new IntRange(34, 42);
+
 		// Token: 0x17000246 RID: 582
 		// (get) Token: 0x0600110B RID: 4363 RVA: 0x00091FEC File Offset: 0x000903EC
 		public override int SeedPart
@@ -90,11 +96,5 @@ namespace RimWorld
 			BaseGen.symbolStack.Push("ship_core", resolveParams);
 			BaseGen.Generate();
 		}
-
-		// Token: 0x04000A56 RID: 2646
-		private static readonly IntRange EscapeShipSizeWidth = new IntRange(20, 28);
-
-		// Token: 0x04000A57 RID: 2647
-		private static readonly IntRange EscapeShipSizeHeight = new IntRange(34, 42);
 	}
 }

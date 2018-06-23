@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000DED RID: 3565
 	internal class MoteThrownAttached : MoteThrown
 	{
+		// Token: 0x040034F8 RID: 13560
+		private Vector3 attacheeLastPosition = new Vector3(-1000f, -1000f, -1000f);
+
 		// Token: 0x06004FF9 RID: 20473 RVA: 0x00297DCC File Offset: 0x002961CC
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
@@ -34,8 +37,5 @@ namespace Verse
 			}
 			return vector;
 		}
-
-		// Token: 0x040034F8 RID: 13560
-		private Vector3 attacheeLastPosition = new Vector3(-1000f, -1000f, -1000f);
 	}
 }

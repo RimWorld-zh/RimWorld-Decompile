@@ -7,6 +7,21 @@ namespace RimWorld
 	// Token: 0x02000442 RID: 1090
 	public class VoluntarilyJoinableLordsStarter : IExposable
 	{
+		// Token: 0x04000B75 RID: 2933
+		private Map map;
+
+		// Token: 0x04000B76 RID: 2934
+		private int lastLordStartTick = -999999;
+
+		// Token: 0x04000B77 RID: 2935
+		private bool startPartyASAP = false;
+
+		// Token: 0x04000B78 RID: 2936
+		private const int CheckStartPartyIntervalTicks = 5000;
+
+		// Token: 0x04000B79 RID: 2937
+		private const float StartPartyMTBDays = 40f;
+
 		// Token: 0x060012E6 RID: 4838 RVA: 0x000A34E4 File Offset: 0x000A18E4
 		public VoluntarilyJoinableLordsStarter(Map map)
 		{
@@ -95,20 +110,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000B75 RID: 2933
-		private Map map;
-
-		// Token: 0x04000B76 RID: 2934
-		private int lastLordStartTick = -999999;
-
-		// Token: 0x04000B77 RID: 2935
-		private bool startPartyASAP = false;
-
-		// Token: 0x04000B78 RID: 2936
-		private const int CheckStartPartyIntervalTicks = 5000;
-
-		// Token: 0x04000B79 RID: 2937
-		private const float StartPartyMTBDays = 40f;
 	}
 }

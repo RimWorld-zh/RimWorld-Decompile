@@ -8,6 +8,9 @@ namespace Verse
 	// Token: 0x02000E29 RID: 3625
 	public abstract class Dialog_DebugOptionLister : Dialog_OptionLister
 	{
+		// Token: 0x040038CF RID: 14543
+		private const float DebugOptionsGap = 7f;
+
 		// Token: 0x06005601 RID: 22017 RVA: 0x002BB6EC File Offset: 0x002B9AEC
 		protected bool DebugAction(string label, Action action)
 		{
@@ -120,8 +123,5 @@ namespace Verse
 			this.listing.Gap(7f);
 			this.totalOptionsHeight += 7f;
 		}
-
-		// Token: 0x040038CF RID: 14543
-		private const float DebugOptionsGap = 7f;
 	}
 }

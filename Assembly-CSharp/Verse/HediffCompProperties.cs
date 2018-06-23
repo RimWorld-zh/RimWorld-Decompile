@@ -6,6 +6,10 @@ namespace Verse
 	// Token: 0x02000B19 RID: 2841
 	public class HediffCompProperties
 	{
+		// Token: 0x04002844 RID: 10308
+		[TranslationHandle]
+		public Type compClass = null;
+
 		// Token: 0x06003EBD RID: 16061 RVA: 0x00210C3C File Offset: 0x0020F03C
 		public virtual IEnumerable<string> ConfigErrors(HediffDef parentDef)
 		{
@@ -22,9 +26,5 @@ namespace Verse
 			}
 			yield break;
 		}
-
-		// Token: 0x04002844 RID: 10308
-		[TranslationHandle]
-		public Type compClass = null;
 	}
 }

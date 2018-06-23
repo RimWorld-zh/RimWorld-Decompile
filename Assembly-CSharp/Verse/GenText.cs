@@ -14,6 +14,18 @@ namespace Verse
 	// Token: 0x02000F55 RID: 3925
 	public static class GenText
 	{
+		// Token: 0x04003E5F RID: 15967
+		private const int SaveNameMaxLength = 30;
+
+		// Token: 0x04003E60 RID: 15968
+		private const char DegreeSymbol = '°';
+
+		// Token: 0x04003E61 RID: 15969
+		private static StringBuilder tmpSb = new StringBuilder();
+
+		// Token: 0x04003E62 RID: 15970
+		private static StringBuilder tmpStringBuilder = new StringBuilder();
+
 		// Token: 0x06005EDA RID: 24282 RVA: 0x003057F8 File Offset: 0x00303BF8
 		public static string Possessive(this Pawn p)
 		{
@@ -1641,17 +1653,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003E5F RID: 15967
-		private const int SaveNameMaxLength = 30;
-
-		// Token: 0x04003E60 RID: 15968
-		private const char DegreeSymbol = '°';
-
-		// Token: 0x04003E61 RID: 15969
-		private static StringBuilder tmpSb = new StringBuilder();
-
-		// Token: 0x04003E62 RID: 15970
-		private static StringBuilder tmpStringBuilder = new StringBuilder();
 	}
 }

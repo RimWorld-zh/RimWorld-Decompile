@@ -8,6 +8,12 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class UI_BackgroundMain : UIMenuBackground
 	{
+		// Token: 0x040019C8 RID: 6600
+		private static readonly Vector2 BGPlanetSize = new Vector2(2048f, 1280f);
+
+		// Token: 0x040019C9 RID: 6601
+		private static readonly Texture2D BGPlanet = ContentFinder<Texture2D>.Get("UI/HeroArt/BGPlanet", true);
+
 		// Token: 0x06002FB3 RID: 12211 RVA: 0x001994E0 File Offset: 0x001978E0
 		public override void BackgroundOnGUI()
 		{
@@ -31,11 +37,5 @@ namespace RimWorld
 			}
 			GUI.DrawTexture(position, UI_BackgroundMain.BGPlanet, ScaleMode.ScaleToFit);
 		}
-
-		// Token: 0x040019C8 RID: 6600
-		private static readonly Vector2 BGPlanetSize = new Vector2(2048f, 1280f);
-
-		// Token: 0x040019C9 RID: 6601
-		private static readonly Texture2D BGPlanet = ContentFinder<Texture2D>.Get("UI/HeroArt/BGPlanet", true);
 	}
 }

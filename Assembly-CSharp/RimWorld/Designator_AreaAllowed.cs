@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020007B9 RID: 1977
 	public abstract class Designator_AreaAllowed : Designator_Area
 	{
+		// Token: 0x04001793 RID: 6035
+		private static Area selectedArea;
+
 		// Token: 0x06002BD8 RID: 11224 RVA: 0x00173EED File Offset: 0x001722ED
 		public Designator_AreaAllowed(DesignateMode mode)
 		{
@@ -84,8 +87,5 @@ namespace RimWorld
 			base.FinalizeDesignationSucceeded();
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.AllowedAreas, KnowledgeAmount.SpecificInteraction);
 		}
-
-		// Token: 0x04001793 RID: 6035
-		private static Area selectedArea;
 	}
 }

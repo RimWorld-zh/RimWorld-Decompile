@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x0200011A RID: 282
 	public abstract class WorkGiver
 	{
+		// Token: 0x04000302 RID: 770
+		public WorkGiverDef def;
+
 		// Token: 0x060005D2 RID: 1490 RVA: 0x0003F0CC File Offset: 0x0003D4CC
 		public virtual bool ShouldSkip(Pawn pawn, bool forced = false)
 		{
@@ -31,8 +34,5 @@ namespace RimWorld
 			}
 			return null;
 		}
-
-		// Token: 0x04000302 RID: 770
-		public WorkGiverDef def;
 	}
 }

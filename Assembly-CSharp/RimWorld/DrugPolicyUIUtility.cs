@@ -9,6 +9,13 @@ namespace RimWorld
 	// Token: 0x0200088F RID: 2191
 	public static class DrugPolicyUIUtility
 	{
+		// Token: 0x04001AD6 RID: 6870
+		public const string AssigningDrugsTutorHighlightTag = "ButtonAssignDrugs";
+
+		// Token: 0x04001AD7 RID: 6871
+		[CompilerGenerated]
+		private static Func<Pawn, IEnumerable<Widgets.DropdownMenuElement<DrugPolicy>>> <>f__mg$cache0;
+
 		// Token: 0x0600320A RID: 12810 RVA: 0x001AF654 File Offset: 0x001ADA54
 		public static void DoAssignDrugPolicyButtons(Rect rect, Pawn pawn)
 		{
@@ -70,12 +77,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04001AD6 RID: 6870
-		public const string AssigningDrugsTutorHighlightTag = "ButtonAssignDrugs";
-
-		// Token: 0x04001AD7 RID: 6871
-		[CompilerGenerated]
-		private static Func<Pawn, IEnumerable<Widgets.DropdownMenuElement<DrugPolicy>>> <>f__mg$cache0;
 	}
 }

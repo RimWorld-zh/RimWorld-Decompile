@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000C0E RID: 3086
 	public static class FloodFillerFog
 	{
+		// Token: 0x04002E23 RID: 11811
+		private static bool testMode = false;
+
+		// Token: 0x04002E24 RID: 11812
+		private static List<IntVec3> cellsToUnfog = new List<IntVec3>(1024);
+
+		// Token: 0x04002E25 RID: 11813
+		private const int MaxNumTestUnfog = 500;
+
 		// Token: 0x06004384 RID: 17284 RVA: 0x0023AD64 File Offset: 0x00239164
 		public static FloodUnfogResult FloodUnfog(IntVec3 root, Map map)
 		{
@@ -112,14 +121,5 @@ namespace Verse
 			}
 			FloodFillerFog.FloodUnfog(map.mapPawns.FreeColonistsSpawned.RandomElement<Pawn>().Position, map);
 		}
-
-		// Token: 0x04002E23 RID: 11811
-		private static bool testMode = false;
-
-		// Token: 0x04002E24 RID: 11812
-		private static List<IntVec3> cellsToUnfog = new List<IntVec3>(1024);
-
-		// Token: 0x04002E25 RID: 11813
-		private const int MaxNumTestUnfog = 500;
 	}
 }

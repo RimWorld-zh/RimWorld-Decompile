@@ -7,21 +7,6 @@ namespace RimWorld
 	// Token: 0x02000294 RID: 660
 	public class FeatureDef : Def
 	{
-		// Token: 0x170001A1 RID: 417
-		// (get) Token: 0x06000B28 RID: 2856 RVA: 0x0006573C File Offset: 0x00063B3C
-		public FeatureWorker Worker
-		{
-			get
-			{
-				if (this.workerInt == null)
-				{
-					this.workerInt = (FeatureWorker)Activator.CreateInstance(this.workerClass);
-					this.workerInt.def = this;
-				}
-				return this.workerInt;
-			}
-		}
-
 		// Token: 0x040005DA RID: 1498
 		public Type workerClass = typeof(FeatureWorker);
 
@@ -73,5 +58,20 @@ namespace RimWorld
 		// Token: 0x040005EA RID: 1514
 		[Unsaved]
 		private FeatureWorker workerInt;
+
+		// Token: 0x170001A1 RID: 417
+		// (get) Token: 0x06000B28 RID: 2856 RVA: 0x0006573C File Offset: 0x00063B3C
+		public FeatureWorker Worker
+		{
+			get
+			{
+				if (this.workerInt == null)
+				{
+					this.workerInt = (FeatureWorker)Activator.CreateInstance(this.workerClass);
+					this.workerInt.def = this;
+				}
+				return this.workerInt;
+			}
+		}
 	}
 }

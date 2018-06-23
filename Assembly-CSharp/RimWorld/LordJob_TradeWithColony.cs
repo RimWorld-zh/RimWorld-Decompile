@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000178 RID: 376
 	public class LordJob_TradeWithColony : LordJob
 	{
+		// Token: 0x04000361 RID: 865
+		private Faction faction;
+
+		// Token: 0x04000362 RID: 866
+		private IntVec3 chillSpot;
+
 		// Token: 0x060007BD RID: 1981 RVA: 0x0004BB32 File Offset: 0x00049F32
 		public LordJob_TradeWithColony()
 		{
@@ -135,11 +141,5 @@ namespace RimWorld
 			Scribe_References.Look<Faction>(ref this.faction, "faction", false);
 			Scribe_Values.Look<IntVec3>(ref this.chillSpot, "chillSpot", default(IntVec3), false);
 		}
-
-		// Token: 0x04000361 RID: 865
-		private Faction faction;
-
-		// Token: 0x04000362 RID: 866
-		private IntVec3 chillSpot;
 	}
 }

@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000F1C RID: 3868
 	public class Effecter
 	{
+		// Token: 0x04003D94 RID: 15764
+		public EffecterDef def;
+
+		// Token: 0x04003D95 RID: 15765
+		public List<SubEffecter> children = new List<SubEffecter>();
+
 		// Token: 0x06005CCA RID: 23754 RVA: 0x002F129C File Offset: 0x002EF69C
 		public Effecter(EffecterDef def)
 		{
@@ -42,11 +48,5 @@ namespace Verse
 				this.children[i].SubCleanup();
 			}
 		}
-
-		// Token: 0x04003D94 RID: 15764
-		public EffecterDef def;
-
-		// Token: 0x04003D95 RID: 15765
-		public List<SubEffecter> children = new List<SubEffecter>();
 	}
 }

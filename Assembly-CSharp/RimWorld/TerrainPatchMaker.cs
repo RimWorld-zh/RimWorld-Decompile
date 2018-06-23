@@ -8,6 +8,37 @@ namespace RimWorld
 	// Token: 0x02000403 RID: 1027
 	public class TerrainPatchMaker
 	{
+		// Token: 0x04000ABA RID: 2746
+		private Map currentlyInitializedForMap;
+
+		// Token: 0x04000ABB RID: 2747
+		public List<TerrainThreshold> thresholds = new List<TerrainThreshold>();
+
+		// Token: 0x04000ABC RID: 2748
+		public float perlinFrequency = 0.01f;
+
+		// Token: 0x04000ABD RID: 2749
+		public float perlinLacunarity = 2f;
+
+		// Token: 0x04000ABE RID: 2750
+		public float perlinPersistence = 0.5f;
+
+		// Token: 0x04000ABF RID: 2751
+		public int perlinOctaves = 6;
+
+		// Token: 0x04000AC0 RID: 2752
+		public float minFertility = -999f;
+
+		// Token: 0x04000AC1 RID: 2753
+		public float maxFertility = 999f;
+
+		// Token: 0x04000AC2 RID: 2754
+		public int minSize;
+
+		// Token: 0x04000AC3 RID: 2755
+		[Unsaved]
+		private ModuleBase noise;
+
 		// Token: 0x060011AC RID: 4524 RVA: 0x00099CF4 File Offset: 0x000980F4
 		private void Init(Map map)
 		{
@@ -59,36 +90,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000ABA RID: 2746
-		private Map currentlyInitializedForMap;
-
-		// Token: 0x04000ABB RID: 2747
-		public List<TerrainThreshold> thresholds = new List<TerrainThreshold>();
-
-		// Token: 0x04000ABC RID: 2748
-		public float perlinFrequency = 0.01f;
-
-		// Token: 0x04000ABD RID: 2749
-		public float perlinLacunarity = 2f;
-
-		// Token: 0x04000ABE RID: 2750
-		public float perlinPersistence = 0.5f;
-
-		// Token: 0x04000ABF RID: 2751
-		public int perlinOctaves = 6;
-
-		// Token: 0x04000AC0 RID: 2752
-		public float minFertility = -999f;
-
-		// Token: 0x04000AC1 RID: 2753
-		public float maxFertility = 999f;
-
-		// Token: 0x04000AC2 RID: 2754
-		public int minSize;
-
-		// Token: 0x04000AC3 RID: 2755
-		[Unsaved]
-		private ModuleBase noise;
 	}
 }

@@ -8,6 +8,26 @@ namespace Verse
 	// Token: 0x02000CF0 RID: 3312
 	public class DamageWorker_AddInjury : DamageWorker
 	{
+		// Token: 0x0400318A RID: 12682
+		private const float SpreadDamageChance = 0.5f;
+
+		// Token: 0x0400318B RID: 12683
+		private static readonly SimpleCurve PartBlowOffChancePerOverkillDamagePercent = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 0f),
+				true
+			},
+			{
+				new CurvePoint(0.1f, 0f),
+				true
+			},
+			{
+				new CurvePoint(0.7f, 1f),
+				true
+			}
+		};
+
 		// Token: 0x060048FE RID: 18686 RVA: 0x002658EC File Offset: 0x00263CEC
 		public override DamageWorker.DamageResult Apply(DamageInfo dinfo, Thing thing)
 		{
@@ -402,25 +422,5 @@ namespace Verse
 		{
 			return bodyPart.depth == BodyPartDepth.Outside && !bodyPart.IsCorePart;
 		}
-
-		// Token: 0x0400318A RID: 12682
-		private const float SpreadDamageChance = 0.5f;
-
-		// Token: 0x0400318B RID: 12683
-		private static readonly SimpleCurve PartBlowOffChancePerOverkillDamagePercent = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 0f),
-				true
-			},
-			{
-				new CurvePoint(0.1f, 0f),
-				true
-			},
-			{
-				new CurvePoint(0.7f, 1f),
-				true
-			}
-		};
 	}
 }

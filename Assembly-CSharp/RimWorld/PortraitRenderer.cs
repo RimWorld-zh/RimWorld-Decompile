@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020004A0 RID: 1184
 	public class PortraitRenderer : MonoBehaviour
 	{
+		// Token: 0x04000C9C RID: 3228
+		private Pawn pawn;
+
 		// Token: 0x06001541 RID: 5441 RVA: 0x000BD510 File Offset: 0x000BB910
 		public void RenderPortrait(Pawn pawn, RenderTexture renderTexture, Vector3 cameraOffset, float cameraZoom)
 		{
@@ -29,8 +32,5 @@ namespace RimWorld
 		{
 			this.pawn.Drawer.renderer.RenderPortrait();
 		}
-
-		// Token: 0x04000C9C RID: 3228
-		private Pawn pawn;
 	}
 }

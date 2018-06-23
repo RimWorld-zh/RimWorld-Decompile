@@ -9,6 +9,27 @@ namespace UnityStandardAssets.ImageEffects
 	[AddComponentMenu("Image Effects/Blur/Blur (Optimized)")]
 	public class BlurOptimized : PostEffectsBase
 	{
+		// Token: 0x04000722 RID: 1826
+		[Range(0f, 2f)]
+		public int downsample = 1;
+
+		// Token: 0x04000723 RID: 1827
+		[Range(0f, 10f)]
+		public float blurSize = 3f;
+
+		// Token: 0x04000724 RID: 1828
+		[Range(1f, 4f)]
+		public int blurIterations = 2;
+
+		// Token: 0x04000725 RID: 1829
+		public BlurOptimized.BlurType blurType = BlurOptimized.BlurType.StandardGauss;
+
+		// Token: 0x04000726 RID: 1830
+		public Shader blurShader = null;
+
+		// Token: 0x04000727 RID: 1831
+		private Material blurMaterial = null;
+
 		// Token: 0x060008CC RID: 2252 RVA: 0x00011BE8 File Offset: 0x0000FDE8
 		public override bool CheckResources()
 		{
@@ -67,27 +88,6 @@ namespace UnityStandardAssets.ImageEffects
 				RenderTexture.ReleaseTemporary(renderTexture);
 			}
 		}
-
-		// Token: 0x04000722 RID: 1826
-		[Range(0f, 2f)]
-		public int downsample = 1;
-
-		// Token: 0x04000723 RID: 1827
-		[Range(0f, 10f)]
-		public float blurSize = 3f;
-
-		// Token: 0x04000724 RID: 1828
-		[Range(1f, 4f)]
-		public int blurIterations = 2;
-
-		// Token: 0x04000725 RID: 1829
-		public BlurOptimized.BlurType blurType = BlurOptimized.BlurType.StandardGauss;
-
-		// Token: 0x04000726 RID: 1830
-		public Shader blurShader = null;
-
-		// Token: 0x04000727 RID: 1831
-		private Material blurMaterial = null;
 
 		// Token: 0x02000184 RID: 388
 		public enum BlurType

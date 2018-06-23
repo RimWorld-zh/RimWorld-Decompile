@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000DD3 RID: 3539
 	public class Graphic_Cluster : Graphic_Collection
 	{
+		// Token: 0x040034B1 RID: 13489
+		private const float PositionVariance = 0.45f;
+
+		// Token: 0x040034B2 RID: 13490
+		private const float SizeVariance = 0.2f;
+
 		// Token: 0x17000CD4 RID: 3284
 		// (get) Token: 0x06004F4E RID: 20302 RVA: 0x0029540C File Offset: 0x0029380C
 		public override Material MatSingle
@@ -63,11 +69,5 @@ namespace Verse
 				")"
 			});
 		}
-
-		// Token: 0x040034B1 RID: 13489
-		private const float PositionVariance = 0.45f;
-
-		// Token: 0x040034B2 RID: 13490
-		private const float SizeVariance = 0.2f;
 	}
 }

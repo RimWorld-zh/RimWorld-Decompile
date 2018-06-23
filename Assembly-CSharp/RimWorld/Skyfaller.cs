@@ -11,6 +11,36 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Skyfaller : Thing, IThingHolder
 	{
+		// Token: 0x04001569 RID: 5481
+		public ThingOwner innerContainer;
+
+		// Token: 0x0400156A RID: 5482
+		public int ticksToImpact;
+
+		// Token: 0x0400156B RID: 5483
+		public float angle;
+
+		// Token: 0x0400156C RID: 5484
+		public float shrapnelDirection;
+
+		// Token: 0x0400156D RID: 5485
+		private Material cachedShadowMaterial;
+
+		// Token: 0x0400156E RID: 5486
+		private bool anticipationSoundPlayed;
+
+		// Token: 0x0400156F RID: 5487
+		private static MaterialPropertyBlock shadowPropertyBlock = new MaterialPropertyBlock();
+
+		// Token: 0x04001570 RID: 5488
+		public const float DefaultAngle = -33.7f;
+
+		// Token: 0x04001571 RID: 5489
+		private const int RoofHitPreDelay = 15;
+
+		// Token: 0x04001572 RID: 5490
+		private const int LeaveMapAfterTicks = 220;
+
 		// Token: 0x06002668 RID: 9832 RVA: 0x001489D2 File Offset: 0x00146DD2
 		public Skyfaller()
 		{
@@ -332,35 +362,5 @@ namespace RimWorld
 			matrix.SetTRS(pos, rot.AsQuat, s);
 			Graphics.DrawMesh(MeshPool.plane10Back, matrix, material, 0, null, 0, Skyfaller.shadowPropertyBlock);
 		}
-
-		// Token: 0x04001569 RID: 5481
-		public ThingOwner innerContainer;
-
-		// Token: 0x0400156A RID: 5482
-		public int ticksToImpact;
-
-		// Token: 0x0400156B RID: 5483
-		public float angle;
-
-		// Token: 0x0400156C RID: 5484
-		public float shrapnelDirection;
-
-		// Token: 0x0400156D RID: 5485
-		private Material cachedShadowMaterial;
-
-		// Token: 0x0400156E RID: 5486
-		private bool anticipationSoundPlayed;
-
-		// Token: 0x0400156F RID: 5487
-		private static MaterialPropertyBlock shadowPropertyBlock = new MaterialPropertyBlock();
-
-		// Token: 0x04001570 RID: 5488
-		public const float DefaultAngle = -33.7f;
-
-		// Token: 0x04001571 RID: 5489
-		private const int RoofHitPreDelay = 15;
-
-		// Token: 0x04001572 RID: 5490
-		private const int LeaveMapAfterTicks = 220;
 	}
 }

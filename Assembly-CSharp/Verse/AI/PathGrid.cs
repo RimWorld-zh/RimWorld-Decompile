@@ -10,6 +10,18 @@ namespace Verse.AI
 	[HasDebugOutput]
 	public sealed class PathGrid
 	{
+		// Token: 0x040025F0 RID: 9712
+		private Map map;
+
+		// Token: 0x040025F1 RID: 9713
+		public int[] pathGrid;
+
+		// Token: 0x040025F2 RID: 9714
+		public const int ImpassableCost = 10000;
+
+		// Token: 0x040025F3 RID: 9715
+		private const int MaxThingsPathCost = 450;
+
 		// Token: 0x06003C17 RID: 15383 RVA: 0x001FC54C File Offset: 0x001FA94C
 		public PathGrid(Map map)
 		{
@@ -214,17 +226,5 @@ namespace Verse.AI
 			}
 			Log.Message(stringBuilder.ToString(), false);
 		}
-
-		// Token: 0x040025F0 RID: 9712
-		private Map map;
-
-		// Token: 0x040025F1 RID: 9713
-		public int[] pathGrid;
-
-		// Token: 0x040025F2 RID: 9714
-		public const int ImpassableCost = 10000;
-
-		// Token: 0x040025F3 RID: 9715
-		private const int MaxThingsPathCost = 450;
 	}
 }

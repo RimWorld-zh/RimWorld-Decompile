@@ -6,6 +6,21 @@ namespace Verse
 	// Token: 0x02000C50 RID: 3152
 	public static class Printer_Shadow
 	{
+		// Token: 0x04002F77 RID: 12151
+		private static readonly Color32 LowVertexColor = new Color32(0, 0, 0, 0);
+
+		// Token: 0x04002F78 RID: 12152
+		[TweakValue("Graphics_Shadow", -5f, 5f)]
+		private static float GlobalShadowSizeOffsetX = 0f;
+
+		// Token: 0x04002F79 RID: 12153
+		[TweakValue("Graphics_Shadow", -5f, 5f)]
+		private static float GlobalShadowSizeOffsetY = 0f;
+
+		// Token: 0x04002F7A RID: 12154
+		[TweakValue("Graphics_Shadow", -5f, 5f)]
+		private static float GlobalShadowSizeOffsetZ = 0f;
+
 		// Token: 0x06004571 RID: 17777 RVA: 0x0024BAEC File Offset: 0x00249EEC
 		public static void PrintShadow(SectionLayer layer, Vector3 center, ShadowData shadow, Rot4 rotation)
 		{
@@ -72,20 +87,5 @@ namespace Verse
 				subMesh.tris.Add(count4);
 			}
 		}
-
-		// Token: 0x04002F77 RID: 12151
-		private static readonly Color32 LowVertexColor = new Color32(0, 0, 0, 0);
-
-		// Token: 0x04002F78 RID: 12152
-		[TweakValue("Graphics_Shadow", -5f, 5f)]
-		private static float GlobalShadowSizeOffsetX = 0f;
-
-		// Token: 0x04002F79 RID: 12153
-		[TweakValue("Graphics_Shadow", -5f, 5f)]
-		private static float GlobalShadowSizeOffsetY = 0f;
-
-		// Token: 0x04002F7A RID: 12154
-		[TweakValue("Graphics_Shadow", -5f, 5f)]
-		private static float GlobalShadowSizeOffsetZ = 0f;
 	}
 }

@@ -8,6 +8,18 @@ namespace RimWorld
 	// Token: 0x020004F8 RID: 1272
 	public class Need_Food : Need
 	{
+		// Token: 0x04000D6E RID: 3438
+		private int lastNonStarvingTick = -99999;
+
+		// Token: 0x04000D6F RID: 3439
+		public const float BaseFoodFallPerTick = 2.66666666E-05f;
+
+		// Token: 0x04000D70 RID: 3440
+		private const float BaseMalnutritionSeverityPerDay = 0.17f;
+
+		// Token: 0x04000D71 RID: 3441
+		private const float BaseMalnutritionSeverityPerInterval = 0.00113333331f;
+
 		// Token: 0x060016DB RID: 5851 RVA: 0x000CA3A4 File Offset: 0x000C87A4
 		public Need_Food(Pawn pawn) : base(pawn)
 		{
@@ -262,17 +274,5 @@ namespace RimWorld
 			this.threshPercents.Add(this.PercentageThreshUrgentlyHungry);
 			base.DrawOnGUI(rect, maxThresholdMarkers, customMargin, drawArrows, doTooltip);
 		}
-
-		// Token: 0x04000D6E RID: 3438
-		private int lastNonStarvingTick = -99999;
-
-		// Token: 0x04000D6F RID: 3439
-		public const float BaseFoodFallPerTick = 2.66666666E-05f;
-
-		// Token: 0x04000D70 RID: 3440
-		private const float BaseMalnutritionSeverityPerDay = 0.17f;
-
-		// Token: 0x04000D71 RID: 3441
-		private const float BaseMalnutritionSeverityPerInterval = 0.00113333331f;
 	}
 }

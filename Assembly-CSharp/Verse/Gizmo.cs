@@ -7,6 +7,21 @@ namespace Verse
 	// Token: 0x02000E6C RID: 3692
 	public abstract class Gizmo
 	{
+		// Token: 0x0400399E RID: 14750
+		public bool disabled;
+
+		// Token: 0x0400399F RID: 14751
+		public string disabledReason;
+
+		// Token: 0x040039A0 RID: 14752
+		public bool alsoClickIfOtherInGroupClicked = true;
+
+		// Token: 0x040039A1 RID: 14753
+		public float order = 0f;
+
+		// Token: 0x040039A2 RID: 14754
+		public const float Height = 75f;
+
 		// Token: 0x17000DAA RID: 3498
 		// (get) Token: 0x060056F8 RID: 22264 RVA: 0x001067DC File Offset: 0x00104BDC
 		public virtual bool Visible
@@ -72,20 +87,5 @@ namespace Verse
 			this.disabled = true;
 			this.disabledReason = reason;
 		}
-
-		// Token: 0x0400399E RID: 14750
-		public bool disabled;
-
-		// Token: 0x0400399F RID: 14751
-		public string disabledReason;
-
-		// Token: 0x040039A0 RID: 14752
-		public bool alsoClickIfOtherInGroupClicked = true;
-
-		// Token: 0x040039A1 RID: 14753
-		public float order = 0f;
-
-		// Token: 0x040039A2 RID: 14754
-		public const float Height = 75f;
 	}
 }

@@ -9,6 +9,15 @@ namespace RimWorld
 	// Token: 0x0200045F RID: 1119
 	public class Bill_Medical : Bill
 	{
+		// Token: 0x04000BF0 RID: 3056
+		private BodyPartRecord part;
+
+		// Token: 0x04000BF1 RID: 3057
+		public ThingDef consumedInitialMedicineDef;
+
+		// Token: 0x04000BF2 RID: 3058
+		public int temp_partIndexToSetLater;
+
 		// Token: 0x060013A0 RID: 5024 RVA: 0x000A989B File Offset: 0x000A7C9B
 		public Bill_Medical()
 		{
@@ -186,14 +195,5 @@ namespace RimWorld
 			bill_Medical.consumedInitialMedicineDef = this.consumedInitialMedicineDef;
 			return bill_Medical;
 		}
-
-		// Token: 0x04000BF0 RID: 3056
-		private BodyPartRecord part;
-
-		// Token: 0x04000BF1 RID: 3057
-		public ThingDef consumedInitialMedicineDef;
-
-		// Token: 0x04000BF2 RID: 3058
-		public int temp_partIndexToSetLater;
 	}
 }

@@ -7,6 +7,15 @@ namespace Verse.AI
 	// Token: 0x02000A56 RID: 2646
 	public static class InsultingSpreeMentalStateUtility
 	{
+		// Token: 0x04002541 RID: 9537
+		private const int MaxRegionsToSearch = 40;
+
+		// Token: 0x04002542 RID: 9538
+		public const int MaxDistance = 40;
+
+		// Token: 0x04002543 RID: 9539
+		public const int MinTicksBetweenInsults = 1200;
+
 		// Token: 0x06003AF1 RID: 15089 RVA: 0x001F48D0 File Offset: 0x001F2CD0
 		public static bool CanChaseAndInsult(Pawn bully, Pawn insulted, bool skipReachabilityCheck = false, bool allowPrisoners = true)
 		{
@@ -36,14 +45,5 @@ namespace Verse.AI
 				}, 40, RegionType.Set_Passable);
 			}
 		}
-
-		// Token: 0x04002541 RID: 9537
-		private const int MaxRegionsToSearch = 40;
-
-		// Token: 0x04002542 RID: 9538
-		public const int MaxDistance = 40;
-
-		// Token: 0x04002543 RID: 9539
-		public const int MinTicksBetweenInsults = 1200;
 	}
 }

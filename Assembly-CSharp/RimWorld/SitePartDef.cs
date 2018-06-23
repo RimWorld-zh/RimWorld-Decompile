@@ -6,6 +6,10 @@ namespace RimWorld
 	// Token: 0x020002D2 RID: 722
 	public class SitePartDef : SiteDefBase
 	{
+		// Token: 0x04000733 RID: 1843
+		[MustTranslate]
+		public string descriptionDialogue;
+
 		// Token: 0x06000BF2 RID: 3058 RVA: 0x0006A4FD File Offset: 0x000688FD
 		public SitePartDef()
 		{
@@ -33,9 +37,5 @@ namespace RimWorld
 		{
 			return (SitePartWorker)Activator.CreateInstance(this.workerClass);
 		}
-
-		// Token: 0x04000733 RID: 1843
-		[MustTranslate]
-		public string descriptionDialogue;
 	}
 }

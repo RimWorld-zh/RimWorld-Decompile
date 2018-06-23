@@ -7,6 +7,9 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003CE RID: 974
 	public class SymbolResolver_PlaceChairsNearTables : SymbolResolver
 	{
+		// Token: 0x04000A3C RID: 2620
+		private static List<Thing> tables = new List<Thing>();
+
 		// Token: 0x060010CC RID: 4300 RVA: 0x0008F28C File Offset: 0x0008D68C
 		public override void Resolve(ResolveParams rp)
 		{
@@ -68,8 +71,5 @@ namespace RimWorld.BaseGen
 			}
 			SymbolResolver_PlaceChairsNearTables.tables.Clear();
 		}
-
-		// Token: 0x04000A3C RID: 2620
-		private static List<Thing> tables = new List<Thing>();
 	}
 }

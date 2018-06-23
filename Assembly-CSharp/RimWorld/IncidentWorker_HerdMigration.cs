@@ -11,6 +11,12 @@ namespace RimWorld
 	// Token: 0x0200032F RID: 815
 	public class IncidentWorker_HerdMigration : IncidentWorker
 	{
+		// Token: 0x040008D2 RID: 2258
+		private static readonly IntRange AnimalsCount = new IntRange(3, 5);
+
+		// Token: 0x040008D3 RID: 2259
+		private const float MinTotalBodySize = 4f;
+
 		// Token: 0x06000DEC RID: 3564 RVA: 0x00076CB8 File Offset: 0x000750B8
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
@@ -108,11 +114,5 @@ namespace RimWorld
 			}
 			return list;
 		}
-
-		// Token: 0x040008D2 RID: 2258
-		private static readonly IntRange AnimalsCount = new IntRange(3, 5);
-
-		// Token: 0x040008D3 RID: 2259
-		private const float MinTotalBodySize = 4f;
 	}
 }

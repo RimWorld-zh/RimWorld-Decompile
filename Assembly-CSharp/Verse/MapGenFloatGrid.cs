@@ -5,6 +5,12 @@ namespace Verse
 	// Token: 0x02000C5E RID: 3166
 	public class MapGenFloatGrid
 	{
+		// Token: 0x04002FA2 RID: 12194
+		private Map map;
+
+		// Token: 0x04002FA3 RID: 12195
+		private float[] grid;
+
 		// Token: 0x060045AA RID: 17834 RVA: 0x0024CE6B File Offset: 0x0024B26B
 		public MapGenFloatGrid(Map map)
 		{
@@ -24,11 +30,5 @@ namespace Verse
 				this.grid[this.map.cellIndices.CellToIndex(c)] = value;
 			}
 		}
-
-		// Token: 0x04002FA2 RID: 12194
-		private Map map;
-
-		// Token: 0x04002FA3 RID: 12195
-		private float[] grid;
 	}
 }

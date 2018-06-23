@@ -8,6 +8,153 @@ namespace Verse.AI
 	// Token: 0x02000A8B RID: 2699
 	public class Pawn_MindState : IExposable
 	{
+		// Token: 0x0400259B RID: 9627
+		public Pawn pawn;
+
+		// Token: 0x0400259C RID: 9628
+		public MentalStateHandler mentalStateHandler;
+
+		// Token: 0x0400259D RID: 9629
+		public MentalBreaker mentalBreaker;
+
+		// Token: 0x0400259E RID: 9630
+		public InspirationHandler inspirationHandler;
+
+		// Token: 0x0400259F RID: 9631
+		public PriorityWork priorityWork;
+
+		// Token: 0x040025A0 RID: 9632
+		private bool activeInt = true;
+
+		// Token: 0x040025A1 RID: 9633
+		public JobTag lastJobTag = JobTag.Misc;
+
+		// Token: 0x040025A2 RID: 9634
+		public int lastIngestTick = -99999;
+
+		// Token: 0x040025A3 RID: 9635
+		public int nextApparelOptimizeTick = -99999;
+
+		// Token: 0x040025A4 RID: 9636
+		public ThinkNode lastJobGiver;
+
+		// Token: 0x040025A5 RID: 9637
+		public ThinkTreeDef lastJobGiverThinkTree;
+
+		// Token: 0x040025A6 RID: 9638
+		public WorkTypeDef lastGivenWorkType;
+
+		// Token: 0x040025A7 RID: 9639
+		public bool canFleeIndividual = true;
+
+		// Token: 0x040025A8 RID: 9640
+		public int exitMapAfterTick = -99999;
+
+		// Token: 0x040025A9 RID: 9641
+		public int lastDisturbanceTick = -99999;
+
+		// Token: 0x040025AA RID: 9642
+		public IntVec3 forcedGotoPosition = IntVec3.Invalid;
+
+		// Token: 0x040025AB RID: 9643
+		public Thing knownExploder = null;
+
+		// Token: 0x040025AC RID: 9644
+		public bool wantsToTradeWithColony;
+
+		// Token: 0x040025AD RID: 9645
+		public Thing lastMannedThing;
+
+		// Token: 0x040025AE RID: 9646
+		public int canLovinTick = -99999;
+
+		// Token: 0x040025AF RID: 9647
+		public int canSleepTick = -99999;
+
+		// Token: 0x040025B0 RID: 9648
+		public Pawn meleeThreat = null;
+
+		// Token: 0x040025B1 RID: 9649
+		public int lastMeleeThreatHarmTick = -99999;
+
+		// Token: 0x040025B2 RID: 9650
+		public int lastEngageTargetTick = -99999;
+
+		// Token: 0x040025B3 RID: 9651
+		public int lastAttackTargetTick = -99999;
+
+		// Token: 0x040025B4 RID: 9652
+		public LocalTargetInfo lastAttackedTarget;
+
+		// Token: 0x040025B5 RID: 9653
+		public Thing enemyTarget;
+
+		// Token: 0x040025B6 RID: 9654
+		public PawnDuty duty = null;
+
+		// Token: 0x040025B7 RID: 9655
+		public Dictionary<int, int> thinkData = new Dictionary<int, int>();
+
+		// Token: 0x040025B8 RID: 9656
+		public int lastAssignedInteractTime = -99999;
+
+		// Token: 0x040025B9 RID: 9657
+		public int lastInventoryRawFoodUseTick = 0;
+
+		// Token: 0x040025BA RID: 9658
+		public bool nextMoveOrderIsWait = false;
+
+		// Token: 0x040025BB RID: 9659
+		public int lastTakeCombatEnhancingDrugTick = -99999;
+
+		// Token: 0x040025BC RID: 9660
+		public int lastHarmTick = -99999;
+
+		// Token: 0x040025BD RID: 9661
+		public bool anyCloseHostilesRecently;
+
+		// Token: 0x040025BE RID: 9662
+		public int applyBedThoughtsTick;
+
+		// Token: 0x040025BF RID: 9663
+		public bool applyBedThoughtsOnLeave;
+
+		// Token: 0x040025C0 RID: 9664
+		public bool willJoinColonyIfRescued;
+
+		// Token: 0x040025C1 RID: 9665
+		public bool wildManEverReachedOutside;
+
+		// Token: 0x040025C2 RID: 9666
+		public int timesGuestTendedToByPlayer;
+
+		// Token: 0x040025C3 RID: 9667
+		public int lastSelfTendTick = -99999;
+
+		// Token: 0x040025C4 RID: 9668
+		public float maxDistToSquadFlag = -1f;
+
+		// Token: 0x040025C5 RID: 9669
+		private int lastJobGiverKey = -1;
+
+		// Token: 0x040025C6 RID: 9670
+		private const int UpdateAnyCloseHostilesRecentlyEveryTicks = 100;
+
+		// Token: 0x040025C7 RID: 9671
+		private const int AnyCloseHostilesRecentlyRegionsToScan_ToActivate = 18;
+
+		// Token: 0x040025C8 RID: 9672
+		private const int AnyCloseHostilesRecentlyRegionsToScan_ToDeactivate = 24;
+
+		// Token: 0x040025C9 RID: 9673
+		private const float HarmForgetDistance = 3f;
+
+		// Token: 0x040025CA RID: 9674
+		private const int MeleeHarmForgetDelay = 400;
+
+		// Token: 0x040025CB RID: 9675
+		private const int CheckJoinColonyIfRescuedIntervalTicks = 30;
+
 		// Token: 0x06003BDF RID: 15327 RVA: 0x001F91CC File Offset: 0x001F75CC
 		public Pawn_MindState()
 		{
@@ -502,152 +649,5 @@ namespace Verse.AI
 				}
 			}
 		}
-
-		// Token: 0x0400259B RID: 9627
-		public Pawn pawn;
-
-		// Token: 0x0400259C RID: 9628
-		public MentalStateHandler mentalStateHandler;
-
-		// Token: 0x0400259D RID: 9629
-		public MentalBreaker mentalBreaker;
-
-		// Token: 0x0400259E RID: 9630
-		public InspirationHandler inspirationHandler;
-
-		// Token: 0x0400259F RID: 9631
-		public PriorityWork priorityWork;
-
-		// Token: 0x040025A0 RID: 9632
-		private bool activeInt = true;
-
-		// Token: 0x040025A1 RID: 9633
-		public JobTag lastJobTag = JobTag.Misc;
-
-		// Token: 0x040025A2 RID: 9634
-		public int lastIngestTick = -99999;
-
-		// Token: 0x040025A3 RID: 9635
-		public int nextApparelOptimizeTick = -99999;
-
-		// Token: 0x040025A4 RID: 9636
-		public ThinkNode lastJobGiver;
-
-		// Token: 0x040025A5 RID: 9637
-		public ThinkTreeDef lastJobGiverThinkTree;
-
-		// Token: 0x040025A6 RID: 9638
-		public WorkTypeDef lastGivenWorkType;
-
-		// Token: 0x040025A7 RID: 9639
-		public bool canFleeIndividual = true;
-
-		// Token: 0x040025A8 RID: 9640
-		public int exitMapAfterTick = -99999;
-
-		// Token: 0x040025A9 RID: 9641
-		public int lastDisturbanceTick = -99999;
-
-		// Token: 0x040025AA RID: 9642
-		public IntVec3 forcedGotoPosition = IntVec3.Invalid;
-
-		// Token: 0x040025AB RID: 9643
-		public Thing knownExploder = null;
-
-		// Token: 0x040025AC RID: 9644
-		public bool wantsToTradeWithColony;
-
-		// Token: 0x040025AD RID: 9645
-		public Thing lastMannedThing;
-
-		// Token: 0x040025AE RID: 9646
-		public int canLovinTick = -99999;
-
-		// Token: 0x040025AF RID: 9647
-		public int canSleepTick = -99999;
-
-		// Token: 0x040025B0 RID: 9648
-		public Pawn meleeThreat = null;
-
-		// Token: 0x040025B1 RID: 9649
-		public int lastMeleeThreatHarmTick = -99999;
-
-		// Token: 0x040025B2 RID: 9650
-		public int lastEngageTargetTick = -99999;
-
-		// Token: 0x040025B3 RID: 9651
-		public int lastAttackTargetTick = -99999;
-
-		// Token: 0x040025B4 RID: 9652
-		public LocalTargetInfo lastAttackedTarget;
-
-		// Token: 0x040025B5 RID: 9653
-		public Thing enemyTarget;
-
-		// Token: 0x040025B6 RID: 9654
-		public PawnDuty duty = null;
-
-		// Token: 0x040025B7 RID: 9655
-		public Dictionary<int, int> thinkData = new Dictionary<int, int>();
-
-		// Token: 0x040025B8 RID: 9656
-		public int lastAssignedInteractTime = -99999;
-
-		// Token: 0x040025B9 RID: 9657
-		public int lastInventoryRawFoodUseTick = 0;
-
-		// Token: 0x040025BA RID: 9658
-		public bool nextMoveOrderIsWait = false;
-
-		// Token: 0x040025BB RID: 9659
-		public int lastTakeCombatEnhancingDrugTick = -99999;
-
-		// Token: 0x040025BC RID: 9660
-		public int lastHarmTick = -99999;
-
-		// Token: 0x040025BD RID: 9661
-		public bool anyCloseHostilesRecently;
-
-		// Token: 0x040025BE RID: 9662
-		public int applyBedThoughtsTick;
-
-		// Token: 0x040025BF RID: 9663
-		public bool applyBedThoughtsOnLeave;
-
-		// Token: 0x040025C0 RID: 9664
-		public bool willJoinColonyIfRescued;
-
-		// Token: 0x040025C1 RID: 9665
-		public bool wildManEverReachedOutside;
-
-		// Token: 0x040025C2 RID: 9666
-		public int timesGuestTendedToByPlayer;
-
-		// Token: 0x040025C3 RID: 9667
-		public int lastSelfTendTick = -99999;
-
-		// Token: 0x040025C4 RID: 9668
-		public float maxDistToSquadFlag = -1f;
-
-		// Token: 0x040025C5 RID: 9669
-		private int lastJobGiverKey = -1;
-
-		// Token: 0x040025C6 RID: 9670
-		private const int UpdateAnyCloseHostilesRecentlyEveryTicks = 100;
-
-		// Token: 0x040025C7 RID: 9671
-		private const int AnyCloseHostilesRecentlyRegionsToScan_ToActivate = 18;
-
-		// Token: 0x040025C8 RID: 9672
-		private const int AnyCloseHostilesRecentlyRegionsToScan_ToDeactivate = 24;
-
-		// Token: 0x040025C9 RID: 9673
-		private const float HarmForgetDistance = 3f;
-
-		// Token: 0x040025CA RID: 9674
-		private const int MeleeHarmForgetDelay = 400;
-
-		// Token: 0x040025CB RID: 9675
-		private const int CheckJoinColonyIfRescuedIntervalTicks = 30;
 	}
 }

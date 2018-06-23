@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x0200084B RID: 2123
 	public abstract class ITab_Pawn_Visitor : ITab
 	{
+		// Token: 0x04001A15 RID: 6677
+		private const float CheckboxInterval = 30f;
+
+		// Token: 0x04001A16 RID: 6678
+		private const float CheckboxMargin = 50f;
+
 		// Token: 0x06003030 RID: 12336 RVA: 0x001A3B67 File Offset: 0x001A1F67
 		public ITab_Pawn_Visitor()
 		{
@@ -85,11 +91,5 @@ namespace RimWorld
 			}
 			return false;
 		}
-
-		// Token: 0x04001A15 RID: 6677
-		private const float CheckboxInterval = 30f;
-
-		// Token: 0x04001A16 RID: 6678
-		private const float CheckboxMargin = 50f;
 	}
 }

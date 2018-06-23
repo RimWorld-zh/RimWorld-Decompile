@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class BodyPartDefOf
 	{
-		// Token: 0x06003636 RID: 13878 RVA: 0x001D0A89 File Offset: 0x001CEE89
-		static BodyPartDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(BodyPartDefOf));
-		}
-
 		// Token: 0x0400202D RID: 8237
 		public static BodyPartDef Heart;
 
@@ -54,5 +48,11 @@ namespace RimWorld
 
 		// Token: 0x0400203A RID: 8250
 		public static BodyPartDef Stomach;
+
+		// Token: 0x06003636 RID: 13878 RVA: 0x001D0A89 File Offset: 0x001CEE89
+		static BodyPartDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(BodyPartDefOf));
+		}
 	}
 }

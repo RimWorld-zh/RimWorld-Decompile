@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000EF0 RID: 3824
 	public struct LocalTargetInfo : IEquatable<LocalTargetInfo>
 	{
+		// Token: 0x04003CA4 RID: 15524
+		private Thing thingInt;
+
+		// Token: 0x04003CA5 RID: 15525
+		private IntVec3 cellInt;
+
 		// Token: 0x06005B37 RID: 23351 RVA: 0x002E9980 File Offset: 0x002E7D80
 		public LocalTargetInfo(Thing thing)
 		{
@@ -260,11 +266,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003CA4 RID: 15524
-		private Thing thingInt;
-
-		// Token: 0x04003CA5 RID: 15525
-		private IntVec3 cellInt;
 	}
 }

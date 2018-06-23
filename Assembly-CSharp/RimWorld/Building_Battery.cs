@@ -9,6 +9,30 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Building_Battery : Building
 	{
+		// Token: 0x04001401 RID: 5121
+		private int ticksToExplode = 0;
+
+		// Token: 0x04001402 RID: 5122
+		private Sustainer wickSustainer = null;
+
+		// Token: 0x04001403 RID: 5123
+		private static readonly Vector2 BarSize = new Vector2(1.3f, 0.4f);
+
+		// Token: 0x04001404 RID: 5124
+		private const float MinEnergyToExplode = 500f;
+
+		// Token: 0x04001405 RID: 5125
+		private const float EnergyToLoseWhenExplode = 400f;
+
+		// Token: 0x04001406 RID: 5126
+		private const float ExplodeChancePerDamage = 0.05f;
+
+		// Token: 0x04001407 RID: 5127
+		private static readonly Material BatteryBarFilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.9f, 0.85f, 0.2f), false);
+
+		// Token: 0x04001408 RID: 5128
+		private static readonly Material BatteryBarUnfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.3f, 0.3f, 0.3f), false);
+
 		// Token: 0x060023D4 RID: 9172 RVA: 0x0013412A File Offset: 0x0013252A
 		public override void ExposeData()
 		{
@@ -80,29 +104,5 @@ namespace RimWorld
 			SoundInfo info = SoundInfo.InMap(this, MaintenanceType.PerTick);
 			this.wickSustainer = SoundDefOf.HissSmall.TrySpawnSustainer(info);
 		}
-
-		// Token: 0x04001401 RID: 5121
-		private int ticksToExplode = 0;
-
-		// Token: 0x04001402 RID: 5122
-		private Sustainer wickSustainer = null;
-
-		// Token: 0x04001403 RID: 5123
-		private static readonly Vector2 BarSize = new Vector2(1.3f, 0.4f);
-
-		// Token: 0x04001404 RID: 5124
-		private const float MinEnergyToExplode = 500f;
-
-		// Token: 0x04001405 RID: 5125
-		private const float EnergyToLoseWhenExplode = 400f;
-
-		// Token: 0x04001406 RID: 5126
-		private const float ExplodeChancePerDamage = 0.05f;
-
-		// Token: 0x04001407 RID: 5127
-		private static readonly Material BatteryBarFilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.9f, 0.85f, 0.2f), false);
-
-		// Token: 0x04001408 RID: 5128
-		private static readonly Material BatteryBarUnfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.3f, 0.3f, 0.3f), false);
 	}
 }

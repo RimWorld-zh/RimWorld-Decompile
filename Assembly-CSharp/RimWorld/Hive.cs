@@ -10,6 +10,51 @@ namespace RimWorld
 	// Token: 0x020006C5 RID: 1733
 	public class Hive : ThingWithComps
 	{
+		// Token: 0x040014E2 RID: 5346
+		public bool active = true;
+
+		// Token: 0x040014E3 RID: 5347
+		public int nextPawnSpawnTick = -1;
+
+		// Token: 0x040014E4 RID: 5348
+		private List<Pawn> spawnedPawns = new List<Pawn>();
+
+		// Token: 0x040014E5 RID: 5349
+		private int ticksToSpawnInitialPawns = -1;
+
+		// Token: 0x040014E6 RID: 5350
+		public bool caveColony = false;
+
+		// Token: 0x040014E7 RID: 5351
+		public bool canSpawnPawns = true;
+
+		// Token: 0x040014E8 RID: 5352
+		private const int InitialPawnSpawnDelay = 0;
+
+		// Token: 0x040014E9 RID: 5353
+		public const int PawnSpawnRadius = 2;
+
+		// Token: 0x040014EA RID: 5354
+		public const float MaxSpawnedPawnsPoints = 500f;
+
+		// Token: 0x040014EB RID: 5355
+		public const float InitialPawnsPoints = 200f;
+
+		// Token: 0x040014EC RID: 5356
+		private static readonly FloatRange PawnSpawnIntervalDays = new FloatRange(0.85f, 1.1f);
+
+		// Token: 0x040014ED RID: 5357
+		public static List<PawnKindDef> spawnablePawnKinds = new List<PawnKindDef>();
+
+		// Token: 0x040014EE RID: 5358
+		public static readonly string MemoAttackedByEnemy = "HiveAttacked";
+
+		// Token: 0x040014EF RID: 5359
+		public static readonly string MemoDestroyed = "HiveDestroyed";
+
+		// Token: 0x040014F0 RID: 5360
+		public static readonly string MemoBurnedBadly = "HiveBurnedBadly";
+
 		// Token: 0x170005A7 RID: 1447
 		// (get) Token: 0x06002584 RID: 9604 RVA: 0x001419FC File Offset: 0x0013FDFC
 		private Lord Lord
@@ -328,50 +373,5 @@ namespace RimWorld
 		{
 			return LordMaker.MakeNewLord(base.Faction, new LordJob_DefendAndExpandHive(!this.caveColony), base.Map, null);
 		}
-
-		// Token: 0x040014E2 RID: 5346
-		public bool active = true;
-
-		// Token: 0x040014E3 RID: 5347
-		public int nextPawnSpawnTick = -1;
-
-		// Token: 0x040014E4 RID: 5348
-		private List<Pawn> spawnedPawns = new List<Pawn>();
-
-		// Token: 0x040014E5 RID: 5349
-		private int ticksToSpawnInitialPawns = -1;
-
-		// Token: 0x040014E6 RID: 5350
-		public bool caveColony = false;
-
-		// Token: 0x040014E7 RID: 5351
-		public bool canSpawnPawns = true;
-
-		// Token: 0x040014E8 RID: 5352
-		private const int InitialPawnSpawnDelay = 0;
-
-		// Token: 0x040014E9 RID: 5353
-		public const int PawnSpawnRadius = 2;
-
-		// Token: 0x040014EA RID: 5354
-		public const float MaxSpawnedPawnsPoints = 500f;
-
-		// Token: 0x040014EB RID: 5355
-		public const float InitialPawnsPoints = 200f;
-
-		// Token: 0x040014EC RID: 5356
-		private static readonly FloatRange PawnSpawnIntervalDays = new FloatRange(0.85f, 1.1f);
-
-		// Token: 0x040014ED RID: 5357
-		public static List<PawnKindDef> spawnablePawnKinds = new List<PawnKindDef>();
-
-		// Token: 0x040014EE RID: 5358
-		public static readonly string MemoAttackedByEnemy = "HiveAttacked";
-
-		// Token: 0x040014EF RID: 5359
-		public static readonly string MemoDestroyed = "HiveDestroyed";
-
-		// Token: 0x040014F0 RID: 5360
-		public static readonly string MemoBurnedBadly = "HiveBurnedBadly";
 	}
 }

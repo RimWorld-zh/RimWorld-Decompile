@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020001B6 RID: 438
 	public class ThinkNode_DutyConstant : ThinkNode
 	{
+		// Token: 0x040003D8 RID: 984
+		private DefMap<DutyDef, int> dutyDefToSubNode;
+
 		// Token: 0x0600091C RID: 2332 RVA: 0x00055718 File Offset: 0x00053B18
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
@@ -73,8 +76,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x040003D8 RID: 984
-		private DefMap<DutyDef, int> dutyDefToSubNode;
 	}
 }

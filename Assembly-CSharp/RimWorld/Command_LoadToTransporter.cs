@@ -10,6 +10,15 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Command_LoadToTransporter : Command
 	{
+		// Token: 0x0400167C RID: 5756
+		public CompTransporter transComp;
+
+		// Token: 0x0400167D RID: 5757
+		private List<CompTransporter> transporters;
+
+		// Token: 0x0400167E RID: 5758
+		private static HashSet<Building> tmpFuelingPortGivers = new HashSet<Building>();
+
 		// Token: 0x06002938 RID: 10552 RVA: 0x0015F0C8 File Offset: 0x0015D4C8
 		public override void ProcessInput(Event ev)
 		{
@@ -79,14 +88,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x0400167C RID: 5756
-		public CompTransporter transComp;
-
-		// Token: 0x0400167D RID: 5757
-		private List<CompTransporter> transporters;
-
-		// Token: 0x0400167E RID: 5758
-		private static HashSet<Building> tmpFuelingPortGivers = new HashSet<Building>();
 	}
 }

@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000EE8 RID: 3816
 	internal class Deque<T>
 	{
+		// Token: 0x04003C98 RID: 15512
+		private T[] data;
+
+		// Token: 0x04003C99 RID: 15513
+		private int first;
+
+		// Token: 0x04003C9A RID: 15514
+		private int count;
+
 		// Token: 0x06005AA7 RID: 23207 RVA: 0x002E7895 File Offset: 0x002E5C95
 		public Deque()
 		{
@@ -76,14 +85,5 @@ namespace Verse
 				this.first = 0;
 			}
 		}
-
-		// Token: 0x04003C98 RID: 15512
-		private T[] data;
-
-		// Token: 0x04003C99 RID: 15513
-		private int first;
-
-		// Token: 0x04003C9A RID: 15514
-		private int count;
 	}
 }

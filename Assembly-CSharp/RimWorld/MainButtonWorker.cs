@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x020002AD RID: 685
 	public abstract class MainButtonWorker
 	{
+		// Token: 0x04000684 RID: 1668
+		public MainButtonDef def;
+
+		// Token: 0x04000685 RID: 1669
+		private const float CompactModeMargin = 2f;
+
 		// Token: 0x170001B2 RID: 434
 		// (get) Token: 0x06000B78 RID: 2936 RVA: 0x00067468 File Offset: 0x00065868
 		public virtual float ButtonBarPercent
@@ -73,11 +79,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000684 RID: 1668
-		public MainButtonDef def;
-
-		// Token: 0x04000685 RID: 1669
-		private const float CompactModeMargin = 2f;
 	}
 }

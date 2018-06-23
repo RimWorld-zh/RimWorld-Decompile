@@ -6,6 +6,9 @@ namespace Verse.Sound
 	// Token: 0x02000B96 RID: 2966
 	public class SoundParamTarget_PropertyHighPass : SoundParamTarget
 	{
+		// Token: 0x04002B2C RID: 11052
+		private HighPassFilterProperty filterProperty;
+
 		// Token: 0x170009D4 RID: 2516
 		// (get) Token: 0x06004056 RID: 16470 RVA: 0x0021D158 File Offset: 0x0021B558
 		public override string Label
@@ -43,8 +46,5 @@ namespace Verse.Sound
 				audioHighPassFilter.highpassResonanceQ = value;
 			}
 		}
-
-		// Token: 0x04002B2C RID: 11052
-		private HighPassFilterProperty filterProperty;
 	}
 }

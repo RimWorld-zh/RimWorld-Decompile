@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x0200017C RID: 380
 	public class LordJob_Joinable_Party : LordJob_VoluntarilyJoinable
 	{
+		// Token: 0x0400036A RID: 874
+		private IntVec3 spot;
+
+		// Token: 0x0400036B RID: 875
+		private Pawn organizer;
+
+		// Token: 0x0400036C RID: 876
+		private Trigger_TicksPassed timeoutTrigger;
+
 		// Token: 0x060007E3 RID: 2019 RVA: 0x0004D32D File Offset: 0x0004B72D
 		public LordJob_Joinable_Party()
 		{
@@ -123,14 +132,5 @@ namespace RimWorld
 		{
 			return this.lord.faction != null && p.Faction == this.lord.faction;
 		}
-
-		// Token: 0x0400036A RID: 874
-		private IntVec3 spot;
-
-		// Token: 0x0400036B RID: 875
-		private Pawn organizer;
-
-		// Token: 0x0400036C RID: 876
-		private Trigger_TicksPassed timeoutTrigger;
 	}
 }

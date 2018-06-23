@@ -11,6 +11,27 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class WorldTargeter
 	{
+		// Token: 0x04001C94 RID: 7316
+		private Func<GlobalTargetInfo, bool> action;
+
+		// Token: 0x04001C95 RID: 7317
+		private bool canTargetTiles;
+
+		// Token: 0x04001C96 RID: 7318
+		private Texture2D mouseAttachment;
+
+		// Token: 0x04001C97 RID: 7319
+		public bool closeWorldTabWhenFinished;
+
+		// Token: 0x04001C98 RID: 7320
+		private Action onUpdate;
+
+		// Token: 0x04001C99 RID: 7321
+		private Func<GlobalTargetInfo, string> extraLabelGetter;
+
+		// Token: 0x04001C9A RID: 7322
+		private const float BaseFeedbackTexSize = 0.8f;
+
 		// Token: 0x1700088C RID: 2188
 		// (get) Token: 0x060034EC RID: 13548 RVA: 0x001C47AC File Offset: 0x001C2BAC
 		public bool IsTargeting
@@ -190,26 +211,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04001C94 RID: 7316
-		private Func<GlobalTargetInfo, bool> action;
-
-		// Token: 0x04001C95 RID: 7317
-		private bool canTargetTiles;
-
-		// Token: 0x04001C96 RID: 7318
-		private Texture2D mouseAttachment;
-
-		// Token: 0x04001C97 RID: 7319
-		public bool closeWorldTabWhenFinished;
-
-		// Token: 0x04001C98 RID: 7320
-		private Action onUpdate;
-
-		// Token: 0x04001C99 RID: 7321
-		private Func<GlobalTargetInfo, string> extraLabelGetter;
-
-		// Token: 0x04001C9A RID: 7322
-		private const float BaseFeedbackTexSize = 0.8f;
 	}
 }

@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x02000322 RID: 802
 	public class IncidentWorker_AmbrosiaSprout : IncidentWorker
 	{
+		// Token: 0x040008BF RID: 2239
+		private static readonly IntRange CountRange = new IntRange(10, 20);
+
+		// Token: 0x040008C0 RID: 2240
+		private const int MinRoomCells = 64;
+
+		// Token: 0x040008C1 RID: 2241
+		private const int SpawnRadius = 6;
+
 		// Token: 0x06000DB3 RID: 3507 RVA: 0x000753E8 File Offset: 0x000737E8
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
@@ -105,14 +114,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040008BF RID: 2239
-		private static readonly IntRange CountRange = new IntRange(10, 20);
-
-		// Token: 0x040008C0 RID: 2240
-		private const int MinRoomCells = 64;
-
-		// Token: 0x040008C1 RID: 2241
-		private const int SpawnRadius = 6;
 	}
 }

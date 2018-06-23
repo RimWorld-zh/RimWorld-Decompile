@@ -6,43 +6,6 @@ namespace Verse
 	// Token: 0x02000BB0 RID: 2992
 	public class WeatherDef : Def
 	{
-		// Token: 0x17000A24 RID: 2596
-		// (get) Token: 0x060040EC RID: 16620 RVA: 0x00224A00 File Offset: 0x00222E00
-		public WeatherWorker Worker
-		{
-			get
-			{
-				if (this.workerInt == null)
-				{
-					this.workerInt = new WeatherWorker(this);
-				}
-				return this.workerInt;
-			}
-		}
-
-		// Token: 0x060040ED RID: 16621 RVA: 0x00224A32 File Offset: 0x00222E32
-		public override void PostLoad()
-		{
-			base.PostLoad();
-			this.workerInt = new WeatherWorker(this);
-		}
-
-		// Token: 0x060040EE RID: 16622 RVA: 0x00224A48 File Offset: 0x00222E48
-		public override IEnumerable<string> ConfigErrors()
-		{
-			if (this.skyColorsDay.saturation == 0f || this.skyColorsDusk.saturation == 0f || this.skyColorsNightMid.saturation == 0f || this.skyColorsNightEdge.saturation == 0f)
-			{
-				yield return "a sky color has saturation of 0";
-			}
-			yield break;
-		}
-
-		// Token: 0x060040EF RID: 16623 RVA: 0x00224A74 File Offset: 0x00222E74
-		public static WeatherDef Named(string defName)
-		{
-			return DefDatabase<WeatherDef>.GetNamed(defName, true);
-		}
-
 		// Token: 0x04002C23 RID: 11299
 		public IntRange durationRange = new IntRange(16000, 160000);
 
@@ -100,5 +63,42 @@ namespace Verse
 		// Token: 0x04002C35 RID: 11317
 		[Unsaved]
 		private WeatherWorker workerInt;
+
+		// Token: 0x17000A24 RID: 2596
+		// (get) Token: 0x060040EC RID: 16620 RVA: 0x00224A00 File Offset: 0x00222E00
+		public WeatherWorker Worker
+		{
+			get
+			{
+				if (this.workerInt == null)
+				{
+					this.workerInt = new WeatherWorker(this);
+				}
+				return this.workerInt;
+			}
+		}
+
+		// Token: 0x060040ED RID: 16621 RVA: 0x00224A32 File Offset: 0x00222E32
+		public override void PostLoad()
+		{
+			base.PostLoad();
+			this.workerInt = new WeatherWorker(this);
+		}
+
+		// Token: 0x060040EE RID: 16622 RVA: 0x00224A48 File Offset: 0x00222E48
+		public override IEnumerable<string> ConfigErrors()
+		{
+			if (this.skyColorsDay.saturation == 0f || this.skyColorsDusk.saturation == 0f || this.skyColorsNightMid.saturation == 0f || this.skyColorsNightEdge.saturation == 0f)
+			{
+				yield return "a sky color has saturation of 0";
+			}
+			yield break;
+		}
+
+		// Token: 0x060040EF RID: 16623 RVA: 0x00224A74 File Offset: 0x00222E74
+		public static WeatherDef Named(string defName)
+		{
+			return DefDatabase<WeatherDef>.GetNamed(defName, true);
+		}
 	}
 }

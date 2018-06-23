@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x02000524 RID: 1316
 	public class Pawn_GuiltTracker : IExposable
 	{
+		// Token: 0x04000E54 RID: 3668
+		public int lastGuiltyTick = -99999;
+
+		// Token: 0x04000E55 RID: 3669
+		private const int GuiltyDuration = 60000;
+
 		// Token: 0x1700035C RID: 860
 		// (get) Token: 0x06001819 RID: 6169 RVA: 0x000D2808 File Offset: 0x000D0C08
 		public bool IsGuilty
@@ -38,11 +44,5 @@ namespace RimWorld
 		{
 			this.lastGuiltyTick = Find.TickManager.TicksGame;
 		}
-
-		// Token: 0x04000E54 RID: 3668
-		public int lastGuiltyTick = -99999;
-
-		// Token: 0x04000E55 RID: 3669
-		private const int GuiltyDuration = 60000;
 	}
 }

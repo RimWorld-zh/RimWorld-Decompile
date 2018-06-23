@@ -7,6 +7,18 @@ namespace RimWorld
 	// Token: 0x02000788 RID: 1928
 	public abstract class Alert_Critical : Alert
 	{
+		// Token: 0x04001721 RID: 5921
+		private int lastActiveFrame = -1;
+
+		// Token: 0x04001722 RID: 5922
+		private const float PulseFreq = 0.5f;
+
+		// Token: 0x04001723 RID: 5923
+		private const float PulseAmpCritical = 0.6f;
+
+		// Token: 0x04001724 RID: 5924
+		private const float PulseAmpTutorial = 0.2f;
+
 		// Token: 0x06002AD4 RID: 10964 RVA: 0x0016A286 File Offset: 0x00168686
 		public Alert_Critical()
 		{
@@ -36,17 +48,5 @@ namespace RimWorld
 			}
 			this.lastActiveFrame = Time.frameCount;
 		}
-
-		// Token: 0x04001721 RID: 5921
-		private int lastActiveFrame = -1;
-
-		// Token: 0x04001722 RID: 5922
-		private const float PulseFreq = 0.5f;
-
-		// Token: 0x04001723 RID: 5923
-		private const float PulseAmpCritical = 0.6f;
-
-		// Token: 0x04001724 RID: 5924
-		private const float PulseAmpTutorial = 0.2f;
 	}
 }

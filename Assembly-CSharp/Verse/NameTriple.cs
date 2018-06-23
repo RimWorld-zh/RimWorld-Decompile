@@ -6,6 +6,21 @@ namespace Verse
 	// Token: 0x02000D48 RID: 3400
 	public class NameTriple : Name
 	{
+		// Token: 0x04003280 RID: 12928
+		[LoadAlias("first")]
+		private string firstInt;
+
+		// Token: 0x04003281 RID: 12929
+		[LoadAlias("nick")]
+		private string nickInt;
+
+		// Token: 0x04003282 RID: 12930
+		[LoadAlias("last")]
+		private string lastInt;
+
+		// Token: 0x04003283 RID: 12931
+		private static NameTriple invalidInt = new NameTriple("Invalid", "Invalid", "Invalid");
+
 		// Token: 0x06004B03 RID: 19203 RVA: 0x00271ED6 File Offset: 0x002702D6
 		public NameTriple()
 		{
@@ -327,20 +342,5 @@ namespace Verse
 			seed = Gen.HashCombine<string>(seed, this.Last);
 			return Gen.HashCombine<string>(seed, this.Nick);
 		}
-
-		// Token: 0x04003280 RID: 12928
-		[LoadAlias("first")]
-		private string firstInt;
-
-		// Token: 0x04003281 RID: 12929
-		[LoadAlias("nick")]
-		private string nickInt;
-
-		// Token: 0x04003282 RID: 12930
-		[LoadAlias("last")]
-		private string lastInt;
-
-		// Token: 0x04003283 RID: 12931
-		private static NameTriple invalidInt = new NameTriple("Invalid", "Invalid", "Invalid");
 	}
 }

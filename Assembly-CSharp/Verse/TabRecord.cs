@@ -7,6 +7,27 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public class TabRecord
 	{
+		// Token: 0x04003A93 RID: 14995
+		public string label = "Tab";
+
+		// Token: 0x04003A94 RID: 14996
+		public Action clickedAction = null;
+
+		// Token: 0x04003A95 RID: 14997
+		public bool selected = false;
+
+		// Token: 0x04003A96 RID: 14998
+		public Func<bool> selectedGetter;
+
+		// Token: 0x04003A97 RID: 14999
+		private const float TabEndWidth = 30f;
+
+		// Token: 0x04003A98 RID: 15000
+		private const float TabMiddleGraphicWidth = 4f;
+
+		// Token: 0x04003A99 RID: 15001
+		private static readonly Texture2D TabAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/TabAtlas", true);
+
 		// Token: 0x06005878 RID: 22648 RVA: 0x002D5B52 File Offset: 0x002D3F52
 		public TabRecord(string label, Action clickedAction, bool selected)
 		{
@@ -71,26 +92,5 @@ namespace Verse
 				Widgets.DrawTexturePart(drawRect4, uvRect3, TabRecord.TabAtlas);
 			}
 		}
-
-		// Token: 0x04003A93 RID: 14995
-		public string label = "Tab";
-
-		// Token: 0x04003A94 RID: 14996
-		public Action clickedAction = null;
-
-		// Token: 0x04003A95 RID: 14997
-		public bool selected = false;
-
-		// Token: 0x04003A96 RID: 14998
-		public Func<bool> selectedGetter;
-
-		// Token: 0x04003A97 RID: 14999
-		private const float TabEndWidth = 30f;
-
-		// Token: 0x04003A98 RID: 15000
-		private const float TabMiddleGraphicWidth = 4f;
-
-		// Token: 0x04003A99 RID: 15001
-		private static readonly Texture2D TabAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/TabAtlas", true);
 	}
 }

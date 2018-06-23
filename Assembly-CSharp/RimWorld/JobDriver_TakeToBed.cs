@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x02000082 RID: 130
 	public class JobDriver_TakeToBed : JobDriver
 	{
+		// Token: 0x0400023E RID: 574
+		private const TargetIndex TakeeIndex = TargetIndex.A;
+
+		// Token: 0x0400023F RID: 575
+		private const TargetIndex BedIndex = TargetIndex.B;
+
 		// Token: 0x170000B4 RID: 180
 		// (get) Token: 0x06000369 RID: 873 RVA: 0x00025C74 File Offset: 0x00024074
 		protected Pawn Takee
@@ -152,11 +158,5 @@ namespace RimWorld
 				this.Takee.guest.SetGuestStatus(Faction.OfPlayer, false);
 			}
 		}
-
-		// Token: 0x0400023E RID: 574
-		private const TargetIndex TakeeIndex = TargetIndex.A;
-
-		// Token: 0x0400023F RID: 575
-		private const TargetIndex BedIndex = TargetIndex.B;
 	}
 }

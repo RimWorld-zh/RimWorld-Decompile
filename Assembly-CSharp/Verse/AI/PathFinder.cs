@@ -9,6 +9,135 @@ namespace Verse.AI
 	// Token: 0x02000A8D RID: 2701
 	public class PathFinder
 	{
+		// Token: 0x040025CC RID: 9676
+		private Map map;
+
+		// Token: 0x040025CD RID: 9677
+		private FastPriorityQueue<PathFinder.CostNode> openList;
+
+		// Token: 0x040025CE RID: 9678
+		private PathFinder.PathFinderNodeFast[] calcGrid;
+
+		// Token: 0x040025CF RID: 9679
+		private ushort statusOpenValue = 1;
+
+		// Token: 0x040025D0 RID: 9680
+		private ushort statusClosedValue = 2;
+
+		// Token: 0x040025D1 RID: 9681
+		private RegionCostCalculatorWrapper regionCostCalculator;
+
+		// Token: 0x040025D2 RID: 9682
+		private int mapSizeX;
+
+		// Token: 0x040025D3 RID: 9683
+		private int mapSizeZ;
+
+		// Token: 0x040025D4 RID: 9684
+		private PathGrid pathGrid;
+
+		// Token: 0x040025D5 RID: 9685
+		private Building[] edificeGrid;
+
+		// Token: 0x040025D6 RID: 9686
+		private List<Blueprint>[] blueprintGrid;
+
+		// Token: 0x040025D7 RID: 9687
+		private CellIndices cellIndices;
+
+		// Token: 0x040025D8 RID: 9688
+		private List<int> disallowedCornerIndices = new List<int>(4);
+
+		// Token: 0x040025D9 RID: 9689
+		public const int DefaultMoveTicksCardinal = 13;
+
+		// Token: 0x040025DA RID: 9690
+		private const int DefaultMoveTicksDiagonal = 18;
+
+		// Token: 0x040025DB RID: 9691
+		private const int SearchLimit = 160000;
+
+		// Token: 0x040025DC RID: 9692
+		private static readonly int[] Directions = new int[]
+		{
+			0,
+			1,
+			0,
+			-1,
+			1,
+			1,
+			-1,
+			-1,
+			-1,
+			0,
+			1,
+			0,
+			-1,
+			1,
+			1,
+			-1
+		};
+
+		// Token: 0x040025DD RID: 9693
+		private const int Cost_DoorToBash = 300;
+
+		// Token: 0x040025DE RID: 9694
+		private const int Cost_BlockedWall = 70;
+
+		// Token: 0x040025DF RID: 9695
+		private const float Cost_BlockedWallPerHitPoint = 0.11f;
+
+		// Token: 0x040025E0 RID: 9696
+		private const int Cost_BlockedDoor = 50;
+
+		// Token: 0x040025E1 RID: 9697
+		private const float Cost_BlockedDoorPerHitPoint = 0.11f;
+
+		// Token: 0x040025E2 RID: 9698
+		public const int Cost_OutsideAllowedArea = 600;
+
+		// Token: 0x040025E3 RID: 9699
+		private const int Cost_PawnCollision = 175;
+
+		// Token: 0x040025E4 RID: 9700
+		private const int NodesToOpenBeforeRegionBasedPathing_NonColonist = 2000;
+
+		// Token: 0x040025E5 RID: 9701
+		private const int NodesToOpenBeforeRegionBasedPathing_Colonist = 100000;
+
+		// Token: 0x040025E6 RID: 9702
+		private const float NonRegionBasedHeuristicStrengthAnimal = 1.75f;
+
+		// Token: 0x040025E7 RID: 9703
+		private static readonly SimpleCurve NonRegionBasedHeuristicStrengthHuman_DistanceCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(40f, 1f),
+				true
+			},
+			{
+				new CurvePoint(120f, 2.8f),
+				true
+			}
+		};
+
+		// Token: 0x040025E8 RID: 9704
+		private static readonly SimpleCurve RegionHeuristicWeightByNodesOpened = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 5f),
+				true
+			},
+			{
+				new CurvePoint(4000f, 5f),
+				true
+			},
+			{
+				new CurvePoint(5000f, 500f),
+				true
+			}
+		};
+
 		// Token: 0x06003BFC RID: 15356 RVA: 0x001FAD60 File Offset: 0x001F9160
 		public PathFinder(Map map)
 		{
@@ -788,150 +917,21 @@ namespace Verse.AI
 			return TouchPathEndModeUtility.IsCornerTouchAllowed(cornerX, cornerZ, adjCardinal1X, adjCardinal1Z, adjCardinal2X, adjCardinal2Z, this.map);
 		}
 
-		// Token: 0x040025CC RID: 9676
-		private Map map;
-
-		// Token: 0x040025CD RID: 9677
-		private FastPriorityQueue<PathFinder.CostNode> openList;
-
-		// Token: 0x040025CE RID: 9678
-		private PathFinder.PathFinderNodeFast[] calcGrid;
-
-		// Token: 0x040025CF RID: 9679
-		private ushort statusOpenValue = 1;
-
-		// Token: 0x040025D0 RID: 9680
-		private ushort statusClosedValue = 2;
-
-		// Token: 0x040025D1 RID: 9681
-		private RegionCostCalculatorWrapper regionCostCalculator;
-
-		// Token: 0x040025D2 RID: 9682
-		private int mapSizeX;
-
-		// Token: 0x040025D3 RID: 9683
-		private int mapSizeZ;
-
-		// Token: 0x040025D4 RID: 9684
-		private PathGrid pathGrid;
-
-		// Token: 0x040025D5 RID: 9685
-		private Building[] edificeGrid;
-
-		// Token: 0x040025D6 RID: 9686
-		private List<Blueprint>[] blueprintGrid;
-
-		// Token: 0x040025D7 RID: 9687
-		private CellIndices cellIndices;
-
-		// Token: 0x040025D8 RID: 9688
-		private List<int> disallowedCornerIndices = new List<int>(4);
-
-		// Token: 0x040025D9 RID: 9689
-		public const int DefaultMoveTicksCardinal = 13;
-
-		// Token: 0x040025DA RID: 9690
-		private const int DefaultMoveTicksDiagonal = 18;
-
-		// Token: 0x040025DB RID: 9691
-		private const int SearchLimit = 160000;
-
-		// Token: 0x040025DC RID: 9692
-		private static readonly int[] Directions = new int[]
-		{
-			0,
-			1,
-			0,
-			-1,
-			1,
-			1,
-			-1,
-			-1,
-			-1,
-			0,
-			1,
-			0,
-			-1,
-			1,
-			1,
-			-1
-		};
-
-		// Token: 0x040025DD RID: 9693
-		private const int Cost_DoorToBash = 300;
-
-		// Token: 0x040025DE RID: 9694
-		private const int Cost_BlockedWall = 70;
-
-		// Token: 0x040025DF RID: 9695
-		private const float Cost_BlockedWallPerHitPoint = 0.11f;
-
-		// Token: 0x040025E0 RID: 9696
-		private const int Cost_BlockedDoor = 50;
-
-		// Token: 0x040025E1 RID: 9697
-		private const float Cost_BlockedDoorPerHitPoint = 0.11f;
-
-		// Token: 0x040025E2 RID: 9698
-		public const int Cost_OutsideAllowedArea = 600;
-
-		// Token: 0x040025E3 RID: 9699
-		private const int Cost_PawnCollision = 175;
-
-		// Token: 0x040025E4 RID: 9700
-		private const int NodesToOpenBeforeRegionBasedPathing_NonColonist = 2000;
-
-		// Token: 0x040025E5 RID: 9701
-		private const int NodesToOpenBeforeRegionBasedPathing_Colonist = 100000;
-
-		// Token: 0x040025E6 RID: 9702
-		private const float NonRegionBasedHeuristicStrengthAnimal = 1.75f;
-
-		// Token: 0x040025E7 RID: 9703
-		private static readonly SimpleCurve NonRegionBasedHeuristicStrengthHuman_DistanceCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(40f, 1f),
-				true
-			},
-			{
-				new CurvePoint(120f, 2.8f),
-				true
-			}
-		};
-
-		// Token: 0x040025E8 RID: 9704
-		private static readonly SimpleCurve RegionHeuristicWeightByNodesOpened = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 5f),
-				true
-			},
-			{
-				new CurvePoint(4000f, 5f),
-				true
-			},
-			{
-				new CurvePoint(5000f, 500f),
-				true
-			}
-		};
-
 		// Token: 0x02000A8E RID: 2702
 		internal struct CostNode
 		{
+			// Token: 0x040025E9 RID: 9705
+			public int index;
+
+			// Token: 0x040025EA RID: 9706
+			public int cost;
+
 			// Token: 0x06003C14 RID: 15380 RVA: 0x001FC50A File Offset: 0x001FA90A
 			public CostNode(int index, int cost)
 			{
 				this.index = index;
 				this.cost = cost;
 			}
-
-			// Token: 0x040025E9 RID: 9705
-			public int index;
-
-			// Token: 0x040025EA RID: 9706
-			public int cost;
 		}
 
 		// Token: 0x02000A8F RID: 2703

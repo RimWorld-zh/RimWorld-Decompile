@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x02000426 RID: 1062
 	public class PowerNetGrid
 	{
+		// Token: 0x04000B52 RID: 2898
+		private Map map;
+
+		// Token: 0x04000B53 RID: 2899
+		private PowerNet[] netGrid;
+
+		// Token: 0x04000B54 RID: 2900
+		private Dictionary<PowerNet, List<IntVec3>> powerNetCells = new Dictionary<PowerNet, List<IntVec3>>();
+
 		// Token: 0x0600128A RID: 4746 RVA: 0x000A0F61 File Offset: 0x0009F361
 		public PowerNetGrid(Map map)
 		{
@@ -110,14 +119,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000B52 RID: 2898
-		private Map map;
-
-		// Token: 0x04000B53 RID: 2899
-		private PowerNet[] netGrid;
-
-		// Token: 0x04000B54 RID: 2900
-		private Dictionary<PowerNet, List<IntVec3>> powerNetCells = new Dictionary<PowerNet, List<IntVec3>>();
 	}
 }

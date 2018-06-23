@@ -5,6 +5,12 @@ namespace Verse.AI.Group
 	// Token: 0x020009FD RID: 2557
 	public class TransitionAction_Custom : TransitionAction
 	{
+		// Token: 0x04002487 RID: 9351
+		public Action action;
+
+		// Token: 0x04002488 RID: 9352
+		public Action<Transition> actionWithArg;
+
 		// Token: 0x0600396D RID: 14701 RVA: 0x001E783F File Offset: 0x001E5C3F
 		public TransitionAction_Custom(Action action)
 		{
@@ -29,11 +35,5 @@ namespace Verse.AI.Group
 				this.action();
 			}
 		}
-
-		// Token: 0x04002487 RID: 9351
-		public Action action;
-
-		// Token: 0x04002488 RID: 9352
-		public Action<Transition> actionWithArg;
 	}
 }

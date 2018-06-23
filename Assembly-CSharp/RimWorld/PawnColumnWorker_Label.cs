@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x02000891 RID: 2193
 	public class PawnColumnWorker_Label : PawnColumnWorker
 	{
+		// Token: 0x04001ADC RID: 6876
+		private const int LeftMargin = 3;
+
+		// Token: 0x04001ADD RID: 6877
+		private static Dictionary<string, string> labelCache = new Dictionary<string, string>();
+
+		// Token: 0x04001ADE RID: 6878
+		private static float labelCacheForWidth = -1f;
+
 		// Token: 0x06003216 RID: 12822 RVA: 0x001AFC34 File Offset: 0x001AE034
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
@@ -73,14 +82,5 @@ namespace RimWorld
 		{
 			return Mathf.Clamp(165, this.GetMinWidth(table), this.GetMaxWidth(table));
 		}
-
-		// Token: 0x04001ADC RID: 6876
-		private const int LeftMargin = 3;
-
-		// Token: 0x04001ADD RID: 6877
-		private static Dictionary<string, string> labelCache = new Dictionary<string, string>();
-
-		// Token: 0x04001ADE RID: 6878
-		private static float labelCacheForWidth = -1f;
 	}
 }

@@ -9,6 +9,66 @@ namespace RimWorld
 	// Token: 0x02000898 RID: 2200
 	public class PawnTable
 	{
+		// Token: 0x04001AE5 RID: 6885
+		private PawnTableDef def;
+
+		// Token: 0x04001AE6 RID: 6886
+		private Func<IEnumerable<Pawn>> pawnsGetter;
+
+		// Token: 0x04001AE7 RID: 6887
+		private int minTableWidth;
+
+		// Token: 0x04001AE8 RID: 6888
+		private int maxTableWidth;
+
+		// Token: 0x04001AE9 RID: 6889
+		private int minTableHeight;
+
+		// Token: 0x04001AEA RID: 6890
+		private int maxTableHeight;
+
+		// Token: 0x04001AEB RID: 6891
+		private Vector2 fixedSize;
+
+		// Token: 0x04001AEC RID: 6892
+		private bool hasFixedSize;
+
+		// Token: 0x04001AED RID: 6893
+		private bool dirty;
+
+		// Token: 0x04001AEE RID: 6894
+		private List<bool> columnAtMaxWidth = new List<bool>();
+
+		// Token: 0x04001AEF RID: 6895
+		private List<bool> columnAtOptimalWidth = new List<bool>();
+
+		// Token: 0x04001AF0 RID: 6896
+		private Vector2 scrollPosition;
+
+		// Token: 0x04001AF1 RID: 6897
+		private PawnColumnDef sortByColumn;
+
+		// Token: 0x04001AF2 RID: 6898
+		private bool sortDescending;
+
+		// Token: 0x04001AF3 RID: 6899
+		private Vector2 cachedSize;
+
+		// Token: 0x04001AF4 RID: 6900
+		private List<Pawn> cachedPawns = new List<Pawn>();
+
+		// Token: 0x04001AF5 RID: 6901
+		private List<float> cachedColumnWidths = new List<float>();
+
+		// Token: 0x04001AF6 RID: 6902
+		private List<float> cachedRowHeights = new List<float>();
+
+		// Token: 0x04001AF7 RID: 6903
+		private float cachedHeaderHeight;
+
+		// Token: 0x04001AF8 RID: 6904
+		private float cachedHeightNoScrollbar;
+
 		// Token: 0x06003255 RID: 12885 RVA: 0x001B17D8 File Offset: 0x001AFBD8
 		public PawnTable(PawnTableDef def, Func<IEnumerable<Pawn>> pawnsGetter, int uiWidth, int uiHeight)
 		{
@@ -550,65 +610,5 @@ namespace RimWorld
 			}
 			return num;
 		}
-
-		// Token: 0x04001AE5 RID: 6885
-		private PawnTableDef def;
-
-		// Token: 0x04001AE6 RID: 6886
-		private Func<IEnumerable<Pawn>> pawnsGetter;
-
-		// Token: 0x04001AE7 RID: 6887
-		private int minTableWidth;
-
-		// Token: 0x04001AE8 RID: 6888
-		private int maxTableWidth;
-
-		// Token: 0x04001AE9 RID: 6889
-		private int minTableHeight;
-
-		// Token: 0x04001AEA RID: 6890
-		private int maxTableHeight;
-
-		// Token: 0x04001AEB RID: 6891
-		private Vector2 fixedSize;
-
-		// Token: 0x04001AEC RID: 6892
-		private bool hasFixedSize;
-
-		// Token: 0x04001AED RID: 6893
-		private bool dirty;
-
-		// Token: 0x04001AEE RID: 6894
-		private List<bool> columnAtMaxWidth = new List<bool>();
-
-		// Token: 0x04001AEF RID: 6895
-		private List<bool> columnAtOptimalWidth = new List<bool>();
-
-		// Token: 0x04001AF0 RID: 6896
-		private Vector2 scrollPosition;
-
-		// Token: 0x04001AF1 RID: 6897
-		private PawnColumnDef sortByColumn;
-
-		// Token: 0x04001AF2 RID: 6898
-		private bool sortDescending;
-
-		// Token: 0x04001AF3 RID: 6899
-		private Vector2 cachedSize;
-
-		// Token: 0x04001AF4 RID: 6900
-		private List<Pawn> cachedPawns = new List<Pawn>();
-
-		// Token: 0x04001AF5 RID: 6901
-		private List<float> cachedColumnWidths = new List<float>();
-
-		// Token: 0x04001AF6 RID: 6902
-		private List<float> cachedRowHeights = new List<float>();
-
-		// Token: 0x04001AF7 RID: 6903
-		private float cachedHeaderHeight;
-
-		// Token: 0x04001AF8 RID: 6904
-		private float cachedHeightNoScrollbar;
 	}
 }

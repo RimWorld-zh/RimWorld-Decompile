@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000046 RID: 70
 	public class JobDriver_RemoveRoof : JobDriver_AffectRoof
 	{
+		// Token: 0x040001D8 RID: 472
+		private static List<IntVec3> removedRoofs = new List<IntVec3>();
+
 		// Token: 0x1700007D RID: 125
 		// (get) Token: 0x06000248 RID: 584 RVA: 0x00017F5C File Offset: 0x0001635C
 		protected override PathEndMode PathEndMode
@@ -44,8 +47,5 @@ namespace RimWorld
 		{
 			return !base.Cell.Roofed(base.Map);
 		}
-
-		// Token: 0x040001D8 RID: 472
-		private static List<IntVec3> removedRoofs = new List<IntVec3>();
 	}
 }

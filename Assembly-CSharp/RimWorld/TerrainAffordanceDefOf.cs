@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class TerrainAffordanceDefOf
 	{
-		// Token: 0x0600366E RID: 13934 RVA: 0x001D0E79 File Offset: 0x001CF279
-		static TerrainAffordanceDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(TerrainAffordanceDefOf));
-		}
-
 		// Token: 0x040022F3 RID: 8947
 		public static TerrainAffordanceDef Light;
 
@@ -33,5 +27,11 @@ namespace RimWorld
 
 		// Token: 0x040022F9 RID: 8953
 		public static TerrainAffordanceDef MovingFluid;
+
+		// Token: 0x0600366E RID: 13934 RVA: 0x001D0E79 File Offset: 0x001CF279
+		static TerrainAffordanceDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(TerrainAffordanceDefOf));
+		}
 	}
 }

@@ -9,6 +9,42 @@ namespace Verse
 	// Token: 0x02000E74 RID: 3700
 	public abstract class Letter : IArchivable, ILoadReferenceable, IExposable
 	{
+		// Token: 0x040039C6 RID: 14790
+		public int ID;
+
+		// Token: 0x040039C7 RID: 14791
+		public LetterDef def;
+
+		// Token: 0x040039C8 RID: 14792
+		public string label;
+
+		// Token: 0x040039C9 RID: 14793
+		public LookTargets lookTargets;
+
+		// Token: 0x040039CA RID: 14794
+		public Faction relatedFaction;
+
+		// Token: 0x040039CB RID: 14795
+		public int arrivalTick;
+
+		// Token: 0x040039CC RID: 14796
+		public float arrivalTime;
+
+		// Token: 0x040039CD RID: 14797
+		public string debugInfo;
+
+		// Token: 0x040039CE RID: 14798
+		public const float DrawWidth = 38f;
+
+		// Token: 0x040039CF RID: 14799
+		public const float DrawHeight = 30f;
+
+		// Token: 0x040039D0 RID: 14800
+		private const float FallTime = 1f;
+
+		// Token: 0x040039D1 RID: 14801
+		private const float FallDistance = 200f;
+
 		// Token: 0x17000DBD RID: 3517
 		// (get) Token: 0x0600572E RID: 22318 RVA: 0x0019FDE8 File Offset: 0x0019E1E8
 		public virtual bool CanShowInLetterStack
@@ -292,41 +328,5 @@ namespace Verse
 		{
 			return "Letter_" + this.ID;
 		}
-
-		// Token: 0x040039C6 RID: 14790
-		public int ID;
-
-		// Token: 0x040039C7 RID: 14791
-		public LetterDef def;
-
-		// Token: 0x040039C8 RID: 14792
-		public string label;
-
-		// Token: 0x040039C9 RID: 14793
-		public LookTargets lookTargets;
-
-		// Token: 0x040039CA RID: 14794
-		public Faction relatedFaction;
-
-		// Token: 0x040039CB RID: 14795
-		public int arrivalTick;
-
-		// Token: 0x040039CC RID: 14796
-		public float arrivalTime;
-
-		// Token: 0x040039CD RID: 14797
-		public string debugInfo;
-
-		// Token: 0x040039CE RID: 14798
-		public const float DrawWidth = 38f;
-
-		// Token: 0x040039CF RID: 14799
-		public const float DrawHeight = 30f;
-
-		// Token: 0x040039D0 RID: 14800
-		private const float FallTime = 1f;
-
-		// Token: 0x040039D1 RID: 14801
-		private const float FallDistance = 200f;
 	}
 }

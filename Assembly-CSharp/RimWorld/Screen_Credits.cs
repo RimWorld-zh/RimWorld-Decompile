@@ -9,6 +9,42 @@ namespace RimWorld
 	// Token: 0x02000838 RID: 2104
 	public class Screen_Credits : Window
 	{
+		// Token: 0x040019BC RID: 6588
+		private List<CreditsEntry> creds;
+
+		// Token: 0x040019BD RID: 6589
+		public bool wonGame = false;
+
+		// Token: 0x040019BE RID: 6590
+		private float timeUntilAutoScroll;
+
+		// Token: 0x040019BF RID: 6591
+		private float scrollPosition = 0f;
+
+		// Token: 0x040019C0 RID: 6592
+		private bool playedMusic = false;
+
+		// Token: 0x040019C1 RID: 6593
+		public float creationRealtime = -1f;
+
+		// Token: 0x040019C2 RID: 6594
+		private const int ColumnWidth = 800;
+
+		// Token: 0x040019C3 RID: 6595
+		private const float InitialAutoScrollDelay = 1f;
+
+		// Token: 0x040019C4 RID: 6596
+		private const float InitialAutoScrollDelayWonGame = 6f;
+
+		// Token: 0x040019C5 RID: 6597
+		private const float AutoScrollDelayAfterManualScroll = 3f;
+
+		// Token: 0x040019C6 RID: 6598
+		private const float SongStartDelay = 5f;
+
+		// Token: 0x040019C7 RID: 6599
+		private const GameFont Font = GameFont.Medium;
+
 		// Token: 0x06002FA3 RID: 12195 RVA: 0x00198116 File Offset: 0x00196516
 		public Screen_Credits() : this("")
 		{
@@ -195,41 +231,5 @@ namespace RimWorld
 			this.scrollPosition += offset;
 			this.timeUntilAutoScroll = 3f;
 		}
-
-		// Token: 0x040019BC RID: 6588
-		private List<CreditsEntry> creds;
-
-		// Token: 0x040019BD RID: 6589
-		public bool wonGame = false;
-
-		// Token: 0x040019BE RID: 6590
-		private float timeUntilAutoScroll;
-
-		// Token: 0x040019BF RID: 6591
-		private float scrollPosition = 0f;
-
-		// Token: 0x040019C0 RID: 6592
-		private bool playedMusic = false;
-
-		// Token: 0x040019C1 RID: 6593
-		public float creationRealtime = -1f;
-
-		// Token: 0x040019C2 RID: 6594
-		private const int ColumnWidth = 800;
-
-		// Token: 0x040019C3 RID: 6595
-		private const float InitialAutoScrollDelay = 1f;
-
-		// Token: 0x040019C4 RID: 6596
-		private const float InitialAutoScrollDelayWonGame = 6f;
-
-		// Token: 0x040019C5 RID: 6597
-		private const float AutoScrollDelayAfterManualScroll = 3f;
-
-		// Token: 0x040019C6 RID: 6598
-		private const float SongStartDelay = 5f;
-
-		// Token: 0x040019C7 RID: 6599
-		private const GameFont Font = GameFont.Medium;
 	}
 }

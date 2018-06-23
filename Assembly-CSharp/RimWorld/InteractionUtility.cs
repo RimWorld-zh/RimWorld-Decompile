@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000527 RID: 1319
 	public static class InteractionUtility
 	{
+		// Token: 0x04000E66 RID: 3686
+		public const float MaxInteractRange = 6f;
+
+		// Token: 0x04000E67 RID: 3687
+		private static List<ISocialThought> tmpSocialThoughts = new List<ISocialThought>();
+
 		// Token: 0x0600182A RID: 6186 RVA: 0x000D3454 File Offset: 0x000D1854
 		public static bool CanInitiateInteraction(Pawn pawn)
 		{
@@ -117,11 +123,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000E66 RID: 3686
-		public const float MaxInteractRange = 6f;
-
-		// Token: 0x04000E67 RID: 3687
-		private static List<ISocialThought> tmpSocialThoughts = new List<ISocialThought>();
 	}
 }

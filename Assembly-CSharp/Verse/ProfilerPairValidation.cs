@@ -10,6 +10,9 @@ namespace Verse
 	// Token: 0x02000F18 RID: 3864
 	public static class ProfilerPairValidation
 	{
+		// Token: 0x04003D8E RID: 15758
+		public static Stack<StackTrace> profilerSignatures = new Stack<StackTrace>();
+
 		// Token: 0x06005CBD RID: 23741 RVA: 0x002F0C43 File Offset: 0x002EF043
 		public static void BeginSample(string token)
 		{
@@ -45,8 +48,5 @@ namespace Verse
 			}
 			Profiler.EndSample();
 		}
-
-		// Token: 0x04003D8E RID: 15758
-		public static Stack<StackTrace> profilerSignatures = new Stack<StackTrace>();
 	}
 }

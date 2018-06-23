@@ -10,6 +10,90 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class GenDraw
 	{
+		// Token: 0x04003DD9 RID: 15833
+		private static readonly Material TargetSquareMatSingle = MaterialPool.MatFrom("UI/Overlays/TargetHighlight_Square", ShaderDatabase.Transparent);
+
+		// Token: 0x04003DDA RID: 15834
+		private const float TargetPulseFrequency = 8f;
+
+		// Token: 0x04003DDB RID: 15835
+		public static readonly string LineTexPath = "UI/Overlays/ThingLine";
+
+		// Token: 0x04003DDC RID: 15836
+		public static readonly string OneSidedLineTexPath = "UI/Overlays/OneSidedLine";
+
+		// Token: 0x04003DDD RID: 15837
+		private static readonly Material LineMatWhite = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.white);
+
+		// Token: 0x04003DDE RID: 15838
+		private static readonly Material LineMatRed = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.red);
+
+		// Token: 0x04003DDF RID: 15839
+		private static readonly Material LineMatGreen = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.green);
+
+		// Token: 0x04003DE0 RID: 15840
+		private static readonly Material LineMatBlue = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.blue);
+
+		// Token: 0x04003DE1 RID: 15841
+		private static readonly Material LineMatMagenta = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.magenta);
+
+		// Token: 0x04003DE2 RID: 15842
+		private static readonly Material LineMatYellow = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.yellow);
+
+		// Token: 0x04003DE3 RID: 15843
+		private static readonly Material LineMatCyan = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.cyan);
+
+		// Token: 0x04003DE4 RID: 15844
+		private static readonly Material LineMatMetaOverlay = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.MetaOverlay);
+
+		// Token: 0x04003DE5 RID: 15845
+		private static readonly Material WorldLineMatWhite = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.WorldOverlayTransparent, Color.white, WorldMaterials.WorldLineRenderQueue);
+
+		// Token: 0x04003DE6 RID: 15846
+		private static readonly Material OneSidedWorldLineMatWhite = MaterialPool.MatFrom(GenDraw.OneSidedLineTexPath, ShaderDatabase.WorldOverlayTransparent, Color.white, WorldMaterials.WorldLineRenderQueue);
+
+		// Token: 0x04003DE7 RID: 15847
+		private const float LineWidth = 0.2f;
+
+		// Token: 0x04003DE8 RID: 15848
+		private const float BaseWorldLineWidth = 0.2f;
+
+		// Token: 0x04003DE9 RID: 15849
+		public static readonly Material InteractionCellMaterial = MaterialPool.MatFrom("UI/Overlays/InteractionCell", ShaderDatabase.Transparent);
+
+		// Token: 0x04003DEA RID: 15850
+		private static readonly Color InteractionCellIntensity = new Color(1f, 1f, 1f, 0.3f);
+
+		// Token: 0x04003DEB RID: 15851
+		private static List<int> cachedEdgeTiles = new List<int>();
+
+		// Token: 0x04003DEC RID: 15852
+		private static int cachedEdgeTilesForCenter = -1;
+
+		// Token: 0x04003DED RID: 15853
+		private static int cachedEdgeTilesForRadius = -1;
+
+		// Token: 0x04003DEE RID: 15854
+		private static int cachedEdgeTilesForWorldSeed = -1;
+
+		// Token: 0x04003DEF RID: 15855
+		private static List<IntVec3> ringDrawCells = new List<IntVec3>();
+
+		// Token: 0x04003DF0 RID: 15856
+		private static bool maxRadiusMessaged = false;
+
+		// Token: 0x04003DF1 RID: 15857
+		private static BoolGrid fieldGrid;
+
+		// Token: 0x04003DF2 RID: 15858
+		private static bool[] rotNeeded = new bool[4];
+
+		// Token: 0x04003DF3 RID: 15859
+		private static readonly Material AimPieMaterial = SolidColorMaterials.SimpleSolidColorMaterial(new Color(1f, 1f, 1f, 0.3f), false);
+
+		// Token: 0x04003DF4 RID: 15860
+		private static readonly Material ArrowMatWhite = MaterialPool.MatFrom("UI/Overlays/Arrow", ShaderDatabase.CutoutFlying, Color.white);
+
 		// Token: 0x17000F27 RID: 3879
 		// (get) Token: 0x06005DEB RID: 24043 RVA: 0x002FC3FC File Offset: 0x002FA7FC
 		public static Material CurTargetingMat
@@ -524,90 +608,6 @@ namespace Verse
 				Graphics.DrawMesh(MeshPool.plane20, position2, rotation, GenDraw.ArrowMatWhite, 0);
 			}
 		}
-
-		// Token: 0x04003DD9 RID: 15833
-		private static readonly Material TargetSquareMatSingle = MaterialPool.MatFrom("UI/Overlays/TargetHighlight_Square", ShaderDatabase.Transparent);
-
-		// Token: 0x04003DDA RID: 15834
-		private const float TargetPulseFrequency = 8f;
-
-		// Token: 0x04003DDB RID: 15835
-		public static readonly string LineTexPath = "UI/Overlays/ThingLine";
-
-		// Token: 0x04003DDC RID: 15836
-		public static readonly string OneSidedLineTexPath = "UI/Overlays/OneSidedLine";
-
-		// Token: 0x04003DDD RID: 15837
-		private static readonly Material LineMatWhite = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.white);
-
-		// Token: 0x04003DDE RID: 15838
-		private static readonly Material LineMatRed = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.red);
-
-		// Token: 0x04003DDF RID: 15839
-		private static readonly Material LineMatGreen = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.green);
-
-		// Token: 0x04003DE0 RID: 15840
-		private static readonly Material LineMatBlue = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.blue);
-
-		// Token: 0x04003DE1 RID: 15841
-		private static readonly Material LineMatMagenta = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.magenta);
-
-		// Token: 0x04003DE2 RID: 15842
-		private static readonly Material LineMatYellow = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.yellow);
-
-		// Token: 0x04003DE3 RID: 15843
-		private static readonly Material LineMatCyan = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.cyan);
-
-		// Token: 0x04003DE4 RID: 15844
-		private static readonly Material LineMatMetaOverlay = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.MetaOverlay);
-
-		// Token: 0x04003DE5 RID: 15845
-		private static readonly Material WorldLineMatWhite = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.WorldOverlayTransparent, Color.white, WorldMaterials.WorldLineRenderQueue);
-
-		// Token: 0x04003DE6 RID: 15846
-		private static readonly Material OneSidedWorldLineMatWhite = MaterialPool.MatFrom(GenDraw.OneSidedLineTexPath, ShaderDatabase.WorldOverlayTransparent, Color.white, WorldMaterials.WorldLineRenderQueue);
-
-		// Token: 0x04003DE7 RID: 15847
-		private const float LineWidth = 0.2f;
-
-		// Token: 0x04003DE8 RID: 15848
-		private const float BaseWorldLineWidth = 0.2f;
-
-		// Token: 0x04003DE9 RID: 15849
-		public static readonly Material InteractionCellMaterial = MaterialPool.MatFrom("UI/Overlays/InteractionCell", ShaderDatabase.Transparent);
-
-		// Token: 0x04003DEA RID: 15850
-		private static readonly Color InteractionCellIntensity = new Color(1f, 1f, 1f, 0.3f);
-
-		// Token: 0x04003DEB RID: 15851
-		private static List<int> cachedEdgeTiles = new List<int>();
-
-		// Token: 0x04003DEC RID: 15852
-		private static int cachedEdgeTilesForCenter = -1;
-
-		// Token: 0x04003DED RID: 15853
-		private static int cachedEdgeTilesForRadius = -1;
-
-		// Token: 0x04003DEE RID: 15854
-		private static int cachedEdgeTilesForWorldSeed = -1;
-
-		// Token: 0x04003DEF RID: 15855
-		private static List<IntVec3> ringDrawCells = new List<IntVec3>();
-
-		// Token: 0x04003DF0 RID: 15856
-		private static bool maxRadiusMessaged = false;
-
-		// Token: 0x04003DF1 RID: 15857
-		private static BoolGrid fieldGrid;
-
-		// Token: 0x04003DF2 RID: 15858
-		private static bool[] rotNeeded = new bool[4];
-
-		// Token: 0x04003DF3 RID: 15859
-		private static readonly Material AimPieMaterial = SolidColorMaterials.SimpleSolidColorMaterial(new Color(1f, 1f, 1f, 0.3f), false);
-
-		// Token: 0x04003DF4 RID: 15860
-		private static readonly Material ArrowMatWhite = MaterialPool.MatFrom("UI/Overlays/Arrow", ShaderDatabase.CutoutFlying, Color.white);
 
 		// Token: 0x02000F3A RID: 3898
 		public struct FillableBarRequest

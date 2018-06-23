@@ -7,6 +7,9 @@ namespace RimWorld.Planet
 	// Token: 0x020005D8 RID: 1496
 	public static class CaravanEnterMapUtility
 	{
+		// Token: 0x04001180 RID: 4480
+		private static List<Pawn> tmpPawns = new List<Pawn>();
+
 		// Token: 0x06001D68 RID: 7528 RVA: 0x000FCDF4 File Offset: 0x000FB1F4
 		public static void Enter(Caravan caravan, Map map, CaravanEnterMode enterMode, CaravanDropInventoryMode dropInventoryMode = CaravanDropInventoryMode.DoNotDrop, bool draftColonists = false, Predicate<IntVec3> extraCellValidator = null)
 		{
@@ -166,8 +169,5 @@ namespace RimWorld.Planet
 		{
 			return CellFinder.TryFindRandomReachableCellNear(root, map, (float)radius, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false), (IntVec3 c) => c.Standable(map) && c.GetFirstPawn(map) == null, null, out result, 999999);
 		}
-
-		// Token: 0x04001180 RID: 4480
-		private static List<Pawn> tmpPawns = new List<Pawn>();
 	}
 }

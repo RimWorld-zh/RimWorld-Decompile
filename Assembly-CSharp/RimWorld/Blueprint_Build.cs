@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000673 RID: 1651
 	public class Blueprint_Build : Blueprint
 	{
+		// Token: 0x04001390 RID: 5008
+		public ThingDef stuffToUse = null;
+
 		// Token: 0x17000515 RID: 1301
 		// (get) Token: 0x060022B5 RID: 8885 RVA: 0x0012B1B0 File Offset: 0x001295B0
 		public override string Label
@@ -111,8 +114,5 @@ namespace RimWorld
 			}
 			return stringBuilder.ToString().Trim();
 		}
-
-		// Token: 0x04001390 RID: 5008
-		public ThingDef stuffToUse = null;
 	}
 }

@@ -6,6 +6,12 @@ namespace RimWorld
 	// Token: 0x0200041B RID: 1051
 	public class CompPowerPlantSteam : CompPowerPlant
 	{
+		// Token: 0x04000B0E RID: 2830
+		private IntermittentSteamSprayer steamSprayer;
+
+		// Token: 0x04000B0F RID: 2831
+		private Building_SteamGeyser geyser = null;
+
 		// Token: 0x0600123C RID: 4668 RVA: 0x0009E4EA File Offset: 0x0009C8EA
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
@@ -37,11 +43,5 @@ namespace RimWorld
 				this.geyser.harvester = null;
 			}
 		}
-
-		// Token: 0x04000B0E RID: 2830
-		private IntermittentSteamSprayer steamSprayer;
-
-		// Token: 0x04000B0F RID: 2831
-		private Building_SteamGeyser geyser = null;
 	}
 }

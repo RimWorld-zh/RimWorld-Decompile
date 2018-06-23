@@ -7,6 +7,15 @@ namespace Verse
 	// Token: 0x02000C9F RID: 3231
 	public sealed class RoofGrid : IExposable, ICellBoolGiver
 	{
+		// Token: 0x04003061 RID: 12385
+		private Map map;
+
+		// Token: 0x04003062 RID: 12386
+		private RoofDef[] roofGrid;
+
+		// Token: 0x04003063 RID: 12387
+		private CellBoolDrawer drawerInt;
+
 		// Token: 0x06004733 RID: 18227 RVA: 0x00259679 File Offset: 0x00257A79
 		public RoofGrid(Map map)
 		{
@@ -133,14 +142,5 @@ namespace Verse
 			}
 			this.Drawer.CellBoolDrawerUpdate();
 		}
-
-		// Token: 0x04003061 RID: 12385
-		private Map map;
-
-		// Token: 0x04003062 RID: 12386
-		private RoofDef[] roofGrid;
-
-		// Token: 0x04003063 RID: 12387
-		private CellBoolDrawer drawerInt;
 	}
 }

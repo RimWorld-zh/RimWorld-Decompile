@@ -9,6 +9,33 @@ namespace RimWorld.Planet
 	// Token: 0x020008E2 RID: 2274
 	public class WITab_Caravan_Items : WITab
 	{
+		// Token: 0x04001C45 RID: 7237
+		private Vector2 scrollPosition;
+
+		// Token: 0x04001C46 RID: 7238
+		private float scrollViewHeight;
+
+		// Token: 0x04001C47 RID: 7239
+		private TransferableSorterDef sorter1;
+
+		// Token: 0x04001C48 RID: 7240
+		private TransferableSorterDef sorter2;
+
+		// Token: 0x04001C49 RID: 7241
+		private List<TransferableImmutable> cachedItems = new List<TransferableImmutable>();
+
+		// Token: 0x04001C4A RID: 7242
+		private int cachedItemsHash;
+
+		// Token: 0x04001C4B RID: 7243
+		private int cachedItemsCount;
+
+		// Token: 0x04001C4C RID: 7244
+		private const float SortersSpace = 25f;
+
+		// Token: 0x04001C4D RID: 7245
+		private const float AssignDrugPoliciesButtonHeight = 27f;
+
 		// Token: 0x0600344C RID: 13388 RVA: 0x001BFB6A File Offset: 0x001BDF6A
 		public WITab_Caravan_Items()
 		{
@@ -108,32 +135,5 @@ namespace RimWorld.Planet
 				this.sorter2 = TransferableSorterDefOf.MarketValue;
 			}
 		}
-
-		// Token: 0x04001C45 RID: 7237
-		private Vector2 scrollPosition;
-
-		// Token: 0x04001C46 RID: 7238
-		private float scrollViewHeight;
-
-		// Token: 0x04001C47 RID: 7239
-		private TransferableSorterDef sorter1;
-
-		// Token: 0x04001C48 RID: 7240
-		private TransferableSorterDef sorter2;
-
-		// Token: 0x04001C49 RID: 7241
-		private List<TransferableImmutable> cachedItems = new List<TransferableImmutable>();
-
-		// Token: 0x04001C4A RID: 7242
-		private int cachedItemsHash;
-
-		// Token: 0x04001C4B RID: 7243
-		private int cachedItemsCount;
-
-		// Token: 0x04001C4C RID: 7244
-		private const float SortersSpace = 25f;
-
-		// Token: 0x04001C4D RID: 7245
-		private const float AssignDrugPoliciesButtonHeight = 27f;
 	}
 }

@@ -7,6 +7,15 @@ namespace Verse.Sound
 	// Token: 0x02000DB1 RID: 3505
 	public class SampleSustainer : Sample
 	{
+		// Token: 0x04003434 RID: 13364
+		public SubSustainer subSustainer;
+
+		// Token: 0x04003435 RID: 13365
+		public float scheduledEndTime;
+
+		// Token: 0x04003436 RID: 13366
+		public bool resolvedSkipAttack = false;
+
 		// Token: 0x06004E65 RID: 20069 RVA: 0x0028FDB3 File Offset: 0x0028E1B3
 		private SampleSustainer(SubSoundDef def) : base(def)
 		{
@@ -166,14 +175,5 @@ namespace Verse.Sound
 				UnityEngine.Object.Destroy(this.source.gameObject);
 			}
 		}
-
-		// Token: 0x04003434 RID: 13364
-		public SubSustainer subSustainer;
-
-		// Token: 0x04003435 RID: 13365
-		public float scheduledEndTime;
-
-		// Token: 0x04003436 RID: 13366
-		public bool resolvedSkipAttack = false;
 	}
 }

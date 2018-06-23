@@ -8,6 +8,60 @@ namespace Verse.AI
 	// Token: 0x02000A41 RID: 2625
 	public abstract class JobDriver : IExposable, IJobEndable
 	{
+		// Token: 0x04002514 RID: 9492
+		public Pawn pawn;
+
+		// Token: 0x04002515 RID: 9493
+		public Job job;
+
+		// Token: 0x04002516 RID: 9494
+		private List<Toil> toils = new List<Toil>();
+
+		// Token: 0x04002517 RID: 9495
+		public List<Func<JobCondition>> globalFailConditions = new List<Func<JobCondition>>();
+
+		// Token: 0x04002518 RID: 9496
+		public List<Action> globalFinishActions = new List<Action>();
+
+		// Token: 0x04002519 RID: 9497
+		public bool ended = false;
+
+		// Token: 0x0400251A RID: 9498
+		private int curToilIndex = -1;
+
+		// Token: 0x0400251B RID: 9499
+		private ToilCompleteMode curToilCompleteMode;
+
+		// Token: 0x0400251C RID: 9500
+		public int ticksLeftThisToil = 99999;
+
+		// Token: 0x0400251D RID: 9501
+		private bool wantBeginNextToil = false;
+
+		// Token: 0x0400251E RID: 9502
+		protected int startTick = -1;
+
+		// Token: 0x0400251F RID: 9503
+		public TargetIndex rotateToFace = TargetIndex.A;
+
+		// Token: 0x04002520 RID: 9504
+		private int nextToilIndex = -1;
+
+		// Token: 0x04002521 RID: 9505
+		public bool asleep;
+
+		// Token: 0x04002522 RID: 9506
+		public float uninstallWorkLeft;
+
+		// Token: 0x04002523 RID: 9507
+		public bool collideWithPawns;
+
+		// Token: 0x04002524 RID: 9508
+		public Pawn locomotionUrgencySameAs;
+
+		// Token: 0x04002525 RID: 9509
+		public int debugTicksSpentThisToil = 0;
+
 		// Token: 0x170008EE RID: 2286
 		// (get) Token: 0x06003A4F RID: 14927 RVA: 0x00010F0C File Offset: 0x0000F30C
 		protected Toil CurToil
@@ -725,59 +779,5 @@ namespace Verse.AI
 		{
 			return true;
 		}
-
-		// Token: 0x04002514 RID: 9492
-		public Pawn pawn;
-
-		// Token: 0x04002515 RID: 9493
-		public Job job;
-
-		// Token: 0x04002516 RID: 9494
-		private List<Toil> toils = new List<Toil>();
-
-		// Token: 0x04002517 RID: 9495
-		public List<Func<JobCondition>> globalFailConditions = new List<Func<JobCondition>>();
-
-		// Token: 0x04002518 RID: 9496
-		public List<Action> globalFinishActions = new List<Action>();
-
-		// Token: 0x04002519 RID: 9497
-		public bool ended = false;
-
-		// Token: 0x0400251A RID: 9498
-		private int curToilIndex = -1;
-
-		// Token: 0x0400251B RID: 9499
-		private ToilCompleteMode curToilCompleteMode;
-
-		// Token: 0x0400251C RID: 9500
-		public int ticksLeftThisToil = 99999;
-
-		// Token: 0x0400251D RID: 9501
-		private bool wantBeginNextToil = false;
-
-		// Token: 0x0400251E RID: 9502
-		protected int startTick = -1;
-
-		// Token: 0x0400251F RID: 9503
-		public TargetIndex rotateToFace = TargetIndex.A;
-
-		// Token: 0x04002520 RID: 9504
-		private int nextToilIndex = -1;
-
-		// Token: 0x04002521 RID: 9505
-		public bool asleep;
-
-		// Token: 0x04002522 RID: 9506
-		public float uninstallWorkLeft;
-
-		// Token: 0x04002523 RID: 9507
-		public bool collideWithPawns;
-
-		// Token: 0x04002524 RID: 9508
-		public Pawn locomotionUrgencySameAs;
-
-		// Token: 0x04002525 RID: 9509
-		public int debugTicksSpentThisToil = 0;
 	}
 }

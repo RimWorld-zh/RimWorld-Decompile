@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x0200062F RID: 1583
 	public class ScenPart_PermaGameCondition : ScenPart
 	{
+		// Token: 0x040012B9 RID: 4793
+		private GameConditionDef gameCondition;
+
+		// Token: 0x040012BA RID: 4794
+		public const string PermaGameConditionTag = "PermaGameCondition";
+
 		// Token: 0x170004E3 RID: 1251
 		// (get) Token: 0x0600209D RID: 8349 RVA: 0x00117634 File Offset: 0x00115A34
 		public override string Label
@@ -98,11 +104,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040012B9 RID: 4793
-		private GameConditionDef gameCondition;
-
-		// Token: 0x040012BA RID: 4794
-		public const string PermaGameConditionTag = "PermaGameCondition";
 	}
 }

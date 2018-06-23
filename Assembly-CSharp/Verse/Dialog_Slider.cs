@@ -6,6 +6,27 @@ namespace Verse
 	// Token: 0x02000EB8 RID: 3768
 	public class Dialog_Slider : Window
 	{
+		// Token: 0x04003B70 RID: 15216
+		public Func<int, string> textGetter;
+
+		// Token: 0x04003B71 RID: 15217
+		public int from;
+
+		// Token: 0x04003B72 RID: 15218
+		public int to;
+
+		// Token: 0x04003B73 RID: 15219
+		private Action<int> confirmAction;
+
+		// Token: 0x04003B74 RID: 15220
+		private int curValue;
+
+		// Token: 0x04003B75 RID: 15221
+		private const float BotAreaHeight = 30f;
+
+		// Token: 0x04003B76 RID: 15222
+		private const float TopPadding = 15f;
+
 		// Token: 0x06005933 RID: 22835 RVA: 0x002DC370 File Offset: 0x002DA770
 		public Dialog_Slider(Func<int, string> textGetter, int from, int to, Action<int> confirmAction, int startingValue = -2147483648)
 		{
@@ -58,26 +79,5 @@ namespace Verse
 				this.confirmAction(this.curValue);
 			}
 		}
-
-		// Token: 0x04003B70 RID: 15216
-		public Func<int, string> textGetter;
-
-		// Token: 0x04003B71 RID: 15217
-		public int from;
-
-		// Token: 0x04003B72 RID: 15218
-		public int to;
-
-		// Token: 0x04003B73 RID: 15219
-		private Action<int> confirmAction;
-
-		// Token: 0x04003B74 RID: 15220
-		private int curValue;
-
-		// Token: 0x04003B75 RID: 15221
-		private const float BotAreaHeight = 30f;
-
-		// Token: 0x04003B76 RID: 15222
-		private const float TopPadding = 15f;
 	}
 }

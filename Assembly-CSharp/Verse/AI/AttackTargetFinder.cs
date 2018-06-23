@@ -10,6 +10,36 @@ namespace Verse.AI
 	// Token: 0x02000ADE RID: 2782
 	public static class AttackTargetFinder
 	{
+		// Token: 0x040026D7 RID: 9943
+		private const float FriendlyFireScoreOffsetPerHumanlikeOrMechanoid = 18f;
+
+		// Token: 0x040026D8 RID: 9944
+		private const float FriendlyFireScoreOffsetPerAnimal = 7f;
+
+		// Token: 0x040026D9 RID: 9945
+		private const float FriendlyFireScoreOffsetPerNonPawn = 10f;
+
+		// Token: 0x040026DA RID: 9946
+		private const float FriendlyFireScoreOffsetSelf = 40f;
+
+		// Token: 0x040026DB RID: 9947
+		private static List<IAttackTarget> tmpTargets = new List<IAttackTarget>();
+
+		// Token: 0x040026DC RID: 9948
+		private static List<Pair<IAttackTarget, float>> availableShootingTargets = new List<Pair<IAttackTarget, float>>();
+
+		// Token: 0x040026DD RID: 9949
+		private static List<float> tmpTargetScores = new List<float>();
+
+		// Token: 0x040026DE RID: 9950
+		private static List<bool> tmpCanShootAtTarget = new List<bool>();
+
+		// Token: 0x040026DF RID: 9951
+		private static List<IntVec3> tempDestList = new List<IntVec3>();
+
+		// Token: 0x040026E0 RID: 9952
+		private static List<IntVec3> tempSourceList = new List<IntVec3>();
+
 		// Token: 0x06003DA5 RID: 15781 RVA: 0x00206A0C File Offset: 0x00204E0C
 		public static IAttackTarget BestAttackTarget(IAttackTargetSearcher searcher, TargetScanFlags flags, Predicate<Thing> validator = null, float minDist = 0f, float maxDist = 9999f, IntVec3 locus = default(IntVec3), float maxTravelRadiusFromLocus = 3.40282347E+38f, bool canBash = false)
 		{
@@ -698,35 +728,5 @@ namespace Verse.AI
 				}
 			}
 		}
-
-		// Token: 0x040026D7 RID: 9943
-		private const float FriendlyFireScoreOffsetPerHumanlikeOrMechanoid = 18f;
-
-		// Token: 0x040026D8 RID: 9944
-		private const float FriendlyFireScoreOffsetPerAnimal = 7f;
-
-		// Token: 0x040026D9 RID: 9945
-		private const float FriendlyFireScoreOffsetPerNonPawn = 10f;
-
-		// Token: 0x040026DA RID: 9946
-		private const float FriendlyFireScoreOffsetSelf = 40f;
-
-		// Token: 0x040026DB RID: 9947
-		private static List<IAttackTarget> tmpTargets = new List<IAttackTarget>();
-
-		// Token: 0x040026DC RID: 9948
-		private static List<Pair<IAttackTarget, float>> availableShootingTargets = new List<Pair<IAttackTarget, float>>();
-
-		// Token: 0x040026DD RID: 9949
-		private static List<float> tmpTargetScores = new List<float>();
-
-		// Token: 0x040026DE RID: 9950
-		private static List<bool> tmpCanShootAtTarget = new List<bool>();
-
-		// Token: 0x040026DF RID: 9951
-		private static List<IntVec3> tempDestList = new List<IntVec3>();
-
-		// Token: 0x040026E0 RID: 9952
-		private static List<IntVec3> tempSourceList = new List<IntVec3>();
 	}
 }

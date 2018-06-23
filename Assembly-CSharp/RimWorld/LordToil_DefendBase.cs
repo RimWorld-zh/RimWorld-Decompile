@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x0200018C RID: 396
 	public class LordToil_DefendBase : LordToil
 	{
+		// Token: 0x04000383 RID: 899
+		public IntVec3 baseCenter;
+
 		// Token: 0x06000833 RID: 2099 RVA: 0x0004EF52 File Offset: 0x0004D352
 		public LordToil_DefendBase(IntVec3 baseCenter)
 		{
@@ -32,8 +35,5 @@ namespace RimWorld
 				this.lord.ownedPawns[i].mindState.duty = new PawnDuty(DutyDefOf.DefendBase, this.baseCenter, -1f);
 			}
 		}
-
-		// Token: 0x04000383 RID: 899
-		public IntVec3 baseCenter;
 	}
 }

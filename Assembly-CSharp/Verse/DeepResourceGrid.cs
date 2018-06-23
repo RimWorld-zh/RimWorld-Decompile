@@ -6,6 +6,18 @@ namespace Verse
 	// Token: 0x02000C1D RID: 3101
 	public sealed class DeepResourceGrid : ICellBoolGiver, IExposable
 	{
+		// Token: 0x04002E59 RID: 11865
+		private Map map;
+
+		// Token: 0x04002E5A RID: 11866
+		private CellBoolDrawer drawer;
+
+		// Token: 0x04002E5B RID: 11867
+		private ushort[] defGrid;
+
+		// Token: 0x04002E5C RID: 11868
+		private ushort[] countGrid;
+
 		// Token: 0x060043E4 RID: 17380 RVA: 0x0023D328 File Offset: 0x0023B728
 		public DeepResourceGrid(Map map)
 		{
@@ -122,17 +134,5 @@ namespace Verse
 			num3 %= 100;
 			return DebugMatsSpectrum.Mat(num3, true).color;
 		}
-
-		// Token: 0x04002E59 RID: 11865
-		private Map map;
-
-		// Token: 0x04002E5A RID: 11866
-		private CellBoolDrawer drawer;
-
-		// Token: 0x04002E5B RID: 11867
-		private ushort[] defGrid;
-
-		// Token: 0x04002E5C RID: 11868
-		private ushort[] countGrid;
 	}
 }

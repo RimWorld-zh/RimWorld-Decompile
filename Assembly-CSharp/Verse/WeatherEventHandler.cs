@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000CB2 RID: 3250
 	public class WeatherEventHandler
 	{
+		// Token: 0x040030A6 RID: 12454
+		private List<WeatherEvent> liveEvents = new List<WeatherEvent>();
+
 		// Token: 0x17000B53 RID: 2899
 		// (get) Token: 0x060047B3 RID: 18355 RVA: 0x0025CB2C File Offset: 0x0025AF2C
 		public List<WeatherEvent> LiveEventsListForReading
@@ -44,8 +47,5 @@ namespace Verse
 				this.liveEvents[i].WeatherEventDraw();
 			}
 		}
-
-		// Token: 0x040030A6 RID: 12454
-		private List<WeatherEvent> liveEvents = new List<WeatherEvent>();
 	}
 }

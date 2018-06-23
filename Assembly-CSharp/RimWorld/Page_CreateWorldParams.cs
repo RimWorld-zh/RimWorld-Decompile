@@ -11,6 +11,38 @@ namespace RimWorld
 	// Token: 0x0200082F RID: 2095
 	public class Page_CreateWorldParams : Page
 	{
+		// Token: 0x0400198C RID: 6540
+		private bool initialized = false;
+
+		// Token: 0x0400198D RID: 6541
+		private string seedString;
+
+		// Token: 0x0400198E RID: 6542
+		private float planetCoverage;
+
+		// Token: 0x0400198F RID: 6543
+		private OverallRainfall rainfall;
+
+		// Token: 0x04001990 RID: 6544
+		private OverallTemperature temperature;
+
+		// Token: 0x04001991 RID: 6545
+		private static readonly float[] PlanetCoverages = new float[]
+		{
+			0.3f,
+			0.5f,
+			1f
+		};
+
+		// Token: 0x04001992 RID: 6546
+		private static readonly float[] PlanetCoveragesDev = new float[]
+		{
+			0.3f,
+			0.5f,
+			1f,
+			0.05f
+		};
+
 		// Token: 0x17000783 RID: 1923
 		// (get) Token: 0x06002F4F RID: 12111 RVA: 0x00194B68 File Offset: 0x00192F68
 		public override string PageTitle
@@ -137,37 +169,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x0400198C RID: 6540
-		private bool initialized = false;
-
-		// Token: 0x0400198D RID: 6541
-		private string seedString;
-
-		// Token: 0x0400198E RID: 6542
-		private float planetCoverage;
-
-		// Token: 0x0400198F RID: 6543
-		private OverallRainfall rainfall;
-
-		// Token: 0x04001990 RID: 6544
-		private OverallTemperature temperature;
-
-		// Token: 0x04001991 RID: 6545
-		private static readonly float[] PlanetCoverages = new float[]
-		{
-			0.3f,
-			0.5f,
-			1f
-		};
-
-		// Token: 0x04001992 RID: 6546
-		private static readonly float[] PlanetCoveragesDev = new float[]
-		{
-			0.3f,
-			0.5f,
-			1f,
-			0.05f
-		};
 	}
 }

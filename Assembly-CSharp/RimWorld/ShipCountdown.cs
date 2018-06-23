@@ -11,6 +11,15 @@ namespace RimWorld
 	// Token: 0x0200074B RID: 1867
 	public static class ShipCountdown
 	{
+		// Token: 0x04001691 RID: 5777
+		private static float timeLeft = -1000f;
+
+		// Token: 0x04001692 RID: 5778
+		private static Building shipRoot;
+
+		// Token: 0x04001693 RID: 5779
+		private const float InitialTime = 7.2f;
+
 		// Token: 0x17000669 RID: 1641
 		// (get) Token: 0x06002970 RID: 10608 RVA: 0x0016056C File Offset: 0x0015E96C
 		public static bool CountingDown
@@ -75,14 +84,5 @@ namespace RimWorld
 			});
 			GameVictoryUtility.ShowCredits(victoryText);
 		}
-
-		// Token: 0x04001691 RID: 5777
-		private static float timeLeft = -1000f;
-
-		// Token: 0x04001692 RID: 5778
-		private static Building shipRoot;
-
-		// Token: 0x04001693 RID: 5779
-		private const float InitialTime = 7.2f;
 	}
 }

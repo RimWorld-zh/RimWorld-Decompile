@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000CFA RID: 3322
 	public class DamageWorker_Extinguish : DamageWorker
 	{
+		// Token: 0x04003196 RID: 12694
+		private const float DamageAmountToFireSizeRatio = 0.01f;
+
 		// Token: 0x06004933 RID: 18739 RVA: 0x00267A54 File Offset: 0x00265E54
 		public override DamageWorker.DamageResult Apply(DamageInfo dinfo, Thing victim)
 		{
@@ -28,8 +31,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003196 RID: 12694
-		private const float DamageAmountToFireSizeRatio = 0.01f;
 	}
 }

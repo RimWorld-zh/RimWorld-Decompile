@@ -5,6 +5,12 @@ namespace Steamworks
 	// Token: 0x0200015B RID: 347
 	public struct HTTPRequestHandle : IEquatable<HTTPRequestHandle>, IComparable<HTTPRequestHandle>
 	{
+		// Token: 0x0400066B RID: 1643
+		public static readonly HTTPRequestHandle Invalid = new HTTPRequestHandle(0u);
+
+		// Token: 0x0400066C RID: 1644
+		public uint m_HTTPRequestHandle;
+
 		// Token: 0x060007B6 RID: 1974 RVA: 0x0000D5B4 File Offset: 0x0000B7B4
 		public HTTPRequestHandle(uint value)
 		{
@@ -64,11 +70,5 @@ namespace Steamworks
 		{
 			return this.m_HTTPRequestHandle.CompareTo(other.m_HTTPRequestHandle);
 		}
-
-		// Token: 0x0400066B RID: 1643
-		public static readonly HTTPRequestHandle Invalid = new HTTPRequestHandle(0u);
-
-		// Token: 0x0400066C RID: 1644
-		public uint m_HTTPRequestHandle;
 	}
 }

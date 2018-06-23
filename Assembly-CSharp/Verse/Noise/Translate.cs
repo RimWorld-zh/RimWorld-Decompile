@@ -6,6 +6,15 @@ namespace Verse.Noise
 	// Token: 0x02000F9E RID: 3998
 	public class Translate : ModuleBase
 	{
+		// Token: 0x04003F37 RID: 16183
+		private double m_x = 1.0;
+
+		// Token: 0x04003F38 RID: 16184
+		private double m_y = 1.0;
+
+		// Token: 0x04003F39 RID: 16185
+		private double m_z = 1.0;
+
 		// Token: 0x06006091 RID: 24721 RVA: 0x0030F061 File Offset: 0x0030D461
 		public Translate() : base(1)
 		{
@@ -77,14 +86,5 @@ namespace Verse.Noise
 			Debug.Assert(this.modules[0] != null);
 			return this.modules[0].GetValue(x + this.m_x, y + this.m_y, z + this.m_z);
 		}
-
-		// Token: 0x04003F37 RID: 16183
-		private double m_x = 1.0;
-
-		// Token: 0x04003F38 RID: 16184
-		private double m_y = 1.0;
-
-		// Token: 0x04003F39 RID: 16185
-		private double m_z = 1.0;
 	}
 }

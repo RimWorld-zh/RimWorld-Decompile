@@ -12,6 +12,30 @@ namespace Verse.Profile
 	[HasDebugOutput]
 	public static class MemoryTracker
 	{
+		// Token: 0x04003341 RID: 13121
+		private static Dictionary<Type, HashSet<WeakReference>> tracked = new Dictionary<Type, HashSet<WeakReference>>();
+
+		// Token: 0x04003342 RID: 13122
+		private static List<WeakReference> foundCollections = new List<WeakReference>();
+
+		// Token: 0x04003343 RID: 13123
+		private static bool trackedLocked = false;
+
+		// Token: 0x04003344 RID: 13124
+		private static List<object> trackedQueue = new List<object>();
+
+		// Token: 0x04003345 RID: 13125
+		private static List<RuntimeTypeHandle> trackedTypeQueue = new List<RuntimeTypeHandle>();
+
+		// Token: 0x04003346 RID: 13126
+		private const int updatesPerCull = 10;
+
+		// Token: 0x04003347 RID: 13127
+		private static int updatesSinceLastCull = 0;
+
+		// Token: 0x04003348 RID: 13128
+		private static int cullTargetIndex = 0;
+
 		// Token: 0x17000C81 RID: 3201
 		// (get) Token: 0x06004CD6 RID: 19670 RVA: 0x00280954 File Offset: 0x0027ED54
 		public static bool AnythingTracked
@@ -521,30 +545,6 @@ namespace Verse.Profile
 		{
 			table.RemoveWhere((WeakReference element) => !element.IsAlive);
 		}
-
-		// Token: 0x04003341 RID: 13121
-		private static Dictionary<Type, HashSet<WeakReference>> tracked = new Dictionary<Type, HashSet<WeakReference>>();
-
-		// Token: 0x04003342 RID: 13122
-		private static List<WeakReference> foundCollections = new List<WeakReference>();
-
-		// Token: 0x04003343 RID: 13123
-		private static bool trackedLocked = false;
-
-		// Token: 0x04003344 RID: 13124
-		private static List<object> trackedQueue = new List<object>();
-
-		// Token: 0x04003345 RID: 13125
-		private static List<RuntimeTypeHandle> trackedTypeQueue = new List<RuntimeTypeHandle>();
-
-		// Token: 0x04003346 RID: 13126
-		private const int updatesPerCull = 10;
-
-		// Token: 0x04003347 RID: 13127
-		private static int updatesSinceLastCull = 0;
-
-		// Token: 0x04003348 RID: 13128
-		private static int cullTargetIndex = 0;
 
 		// Token: 0x02000D63 RID: 3427
 		private class ReferenceData

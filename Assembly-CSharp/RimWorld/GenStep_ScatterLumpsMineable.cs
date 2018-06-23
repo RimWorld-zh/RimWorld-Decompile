@@ -7,6 +7,19 @@ namespace RimWorld
 	// Token: 0x020003FD RID: 1021
 	public class GenStep_ScatterLumpsMineable : GenStep_Scatterer
 	{
+		// Token: 0x04000AAA RID: 2730
+		public ThingDef forcedDefToScatter;
+
+		// Token: 0x04000AAB RID: 2731
+		public int forcedLumpSize;
+
+		// Token: 0x04000AAC RID: 2732
+		public float maxValue = float.MaxValue;
+
+		// Token: 0x04000AAD RID: 2733
+		[Unsaved]
+		protected List<IntVec3> recentLumpCells = new List<IntVec3>();
+
 		// Token: 0x17000258 RID: 600
 		// (get) Token: 0x0600118D RID: 4493 RVA: 0x000982B4 File Offset: 0x000966B4
 		public override int SeedPart
@@ -98,18 +111,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000AAA RID: 2730
-		public ThingDef forcedDefToScatter;
-
-		// Token: 0x04000AAB RID: 2731
-		public int forcedLumpSize;
-
-		// Token: 0x04000AAC RID: 2732
-		public float maxValue = float.MaxValue;
-
-		// Token: 0x04000AAD RID: 2733
-		[Unsaved]
-		protected List<IntVec3> recentLumpCells = new List<IntVec3>();
 	}
 }

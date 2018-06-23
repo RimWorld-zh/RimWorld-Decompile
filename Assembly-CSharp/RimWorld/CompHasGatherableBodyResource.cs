@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000714 RID: 1812
 	public abstract class CompHasGatherableBodyResource : ThingComp
 	{
+		// Token: 0x040015DF RID: 5599
+		protected float fullness = 0f;
+
 		// Token: 0x170005FF RID: 1535
 		// (get) Token: 0x060027D5 RID: 10197
 		protected abstract int GatherResourcesIntervalDays { get; }
@@ -105,8 +108,5 @@ namespace RimWorld
 			}
 			this.fullness = 0f;
 		}
-
-		// Token: 0x040015DF RID: 5599
-		protected float fullness = 0f;
 	}
 }

@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000504 RID: 1284
 	public abstract class Need_Seeker : Need
 	{
+		// Token: 0x04000DB4 RID: 3508
+		private const float GUIArrowTolerance = 0.05f;
+
 		// Token: 0x06001718 RID: 5912 RVA: 0x000C98DE File Offset: 0x000C7CDE
 		public Need_Seeker(Pawn pawn) : base(pawn)
 		{
@@ -61,8 +64,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000DB4 RID: 3508
-		private const float GUIArrowTolerance = 0.05f;
 	}
 }

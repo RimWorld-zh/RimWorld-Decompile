@@ -6,13 +6,6 @@ namespace RimWorld
 	// Token: 0x020004B2 RID: 1202
 	public class InteractionWorker_DeepTalk : InteractionWorker
 	{
-		// Token: 0x06001578 RID: 5496 RVA: 0x000BECA8 File Offset: 0x000BD0A8
-		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
-		{
-			float num = 0.075f;
-			return num * this.CompatibilityFactorCurve.Evaluate(initiator.relations.CompatibilityWith(recipient));
-		}
-
 		// Token: 0x04000CAC RID: 3244
 		private const float BaseSelectionWeight = 0.075f;
 
@@ -40,5 +33,12 @@ namespace RimWorld
 				true
 			}
 		};
+
+		// Token: 0x06001578 RID: 5496 RVA: 0x000BECA8 File Offset: 0x000BD0A8
+		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
+		{
+			float num = 0.075f;
+			return num * this.CompatibilityFactorCurve.Evaluate(initiator.relations.CompatibilityWith(recipient));
+		}
 	}
 }

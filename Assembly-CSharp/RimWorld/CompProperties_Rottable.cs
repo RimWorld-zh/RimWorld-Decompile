@@ -8,6 +8,24 @@ namespace RimWorld
 	// Token: 0x02000250 RID: 592
 	public class CompProperties_Rottable : CompProperties
 	{
+		// Token: 0x040004A5 RID: 1189
+		public float daysToRotStart = 2f;
+
+		// Token: 0x040004A6 RID: 1190
+		public bool rotDestroys = false;
+
+		// Token: 0x040004A7 RID: 1191
+		public float rotDamagePerDay = 40f;
+
+		// Token: 0x040004A8 RID: 1192
+		public float daysToDessicated = 999f;
+
+		// Token: 0x040004A9 RID: 1193
+		public float dessicatedDamagePerDay = 0f;
+
+		// Token: 0x040004AA RID: 1194
+		public bool disableIfHatcher;
+
 		// Token: 0x06000A88 RID: 2696 RVA: 0x0005F980 File Offset: 0x0005DD80
 		public CompProperties_Rottable()
 		{
@@ -61,23 +79,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x040004A5 RID: 1189
-		public float daysToRotStart = 2f;
-
-		// Token: 0x040004A6 RID: 1190
-		public bool rotDestroys = false;
-
-		// Token: 0x040004A7 RID: 1191
-		public float rotDamagePerDay = 40f;
-
-		// Token: 0x040004A8 RID: 1192
-		public float daysToDessicated = 999f;
-
-		// Token: 0x040004A9 RID: 1193
-		public float dessicatedDamagePerDay = 0f;
-
-		// Token: 0x040004AA RID: 1194
-		public bool disableIfHatcher;
 	}
 }

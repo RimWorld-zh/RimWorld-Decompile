@@ -10,6 +10,30 @@ namespace RimWorld
 	// Token: 0x020000B8 RID: 184
 	public abstract class JobGiver_AIFightEnemy : ThinkNode_JobGiver
 	{
+		// Token: 0x04000286 RID: 646
+		private float targetAcquireRadius = 56f;
+
+		// Token: 0x04000287 RID: 647
+		private float targetKeepRadius = 65f;
+
+		// Token: 0x04000288 RID: 648
+		private bool needLOSToAcquireNonPawnTargets = false;
+
+		// Token: 0x04000289 RID: 649
+		private bool chaseTarget = false;
+
+		// Token: 0x0400028A RID: 650
+		public static readonly IntRange ExpiryInterval_ShooterSucceeded = new IntRange(450, 550);
+
+		// Token: 0x0400028B RID: 651
+		private static readonly IntRange ExpiryInterval_Melee = new IntRange(360, 480);
+
+		// Token: 0x0400028C RID: 652
+		private const int MinTargetDistanceToMove = 5;
+
+		// Token: 0x0400028D RID: 653
+		private const int TicksSinceEngageToLoseTarget = 400;
+
 		// Token: 0x0600045A RID: 1114
 		protected abstract bool TryFindShootingPosition(Pawn pawn, out IntVec3 dest);
 
@@ -200,29 +224,5 @@ namespace RimWorld
 			}
 			return false;
 		}
-
-		// Token: 0x04000286 RID: 646
-		private float targetAcquireRadius = 56f;
-
-		// Token: 0x04000287 RID: 647
-		private float targetKeepRadius = 65f;
-
-		// Token: 0x04000288 RID: 648
-		private bool needLOSToAcquireNonPawnTargets = false;
-
-		// Token: 0x04000289 RID: 649
-		private bool chaseTarget = false;
-
-		// Token: 0x0400028A RID: 650
-		public static readonly IntRange ExpiryInterval_ShooterSucceeded = new IntRange(450, 550);
-
-		// Token: 0x0400028B RID: 651
-		private static readonly IntRange ExpiryInterval_Melee = new IntRange(360, 480);
-
-		// Token: 0x0400028C RID: 652
-		private const int MinTargetDistanceToMove = 5;
-
-		// Token: 0x0400028D RID: 653
-		private const int TicksSinceEngageToLoseTarget = 400;
 	}
 }

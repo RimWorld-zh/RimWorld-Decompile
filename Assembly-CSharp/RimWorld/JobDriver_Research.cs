@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x0200007C RID: 124
 	public class JobDriver_Research : JobDriver
 	{
+		// Token: 0x04000231 RID: 561
+		private const int JobEndInterval = 4000;
+
+		// Token: 0x04000232 RID: 562
+		private const float BaseResearchSpeed = 1.1f;
+
 		// Token: 0x170000AC RID: 172
 		// (get) Token: 0x0600034D RID: 845 RVA: 0x00024A88 File Offset: 0x00022E88
 		private ResearchProjectDef Project
@@ -74,11 +80,5 @@ namespace RimWorld
 			yield return Toils_General.Wait(2);
 			yield break;
 		}
-
-		// Token: 0x04000231 RID: 561
-		private const int JobEndInterval = 4000;
-
-		// Token: 0x04000232 RID: 562
-		private const float BaseResearchSpeed = 1.1f;
 	}
 }

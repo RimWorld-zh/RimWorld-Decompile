@@ -6,12 +6,6 @@ namespace RimWorld
 	// Token: 0x02000255 RID: 597
 	public class CompProperties_TempControl : CompProperties
 	{
-		// Token: 0x06000A92 RID: 2706 RVA: 0x0005FDE8 File Offset: 0x0005E1E8
-		public CompProperties_TempControl()
-		{
-			this.compClass = typeof(CompTempControl);
-		}
-
 		// Token: 0x040004B4 RID: 1204
 		public float energyPerSecond = 12f;
 
@@ -26,5 +20,11 @@ namespace RimWorld
 
 		// Token: 0x040004B8 RID: 1208
 		public float lowPowerConsumptionFactor = 0.1f;
+
+		// Token: 0x06000A92 RID: 2706 RVA: 0x0005FDE8 File Offset: 0x0005E1E8
+		public CompProperties_TempControl()
+		{
+			this.compClass = typeof(CompTempControl);
+		}
 	}
 }

@@ -7,6 +7,32 @@ namespace RimWorld
 	// Token: 0x020002EC RID: 748
 	public class ConceptDef : Def
 	{
+		// Token: 0x040007F8 RID: 2040
+		public float priority = float.MaxValue;
+
+		// Token: 0x040007F9 RID: 2041
+		public bool noteTeaches = false;
+
+		// Token: 0x040007FA RID: 2042
+		public bool needsOpportunity = false;
+
+		// Token: 0x040007FB RID: 2043
+		public bool opportunityDecays = true;
+
+		// Token: 0x040007FC RID: 2044
+		public ProgramState gameMode = ProgramState.Playing;
+
+		// Token: 0x040007FD RID: 2045
+		[MustTranslate]
+		private string helpText = null;
+
+		// Token: 0x040007FE RID: 2046
+		[NoTranslate]
+		public List<string> highlightTags = null;
+
+		// Token: 0x040007FF RID: 2047
+		private static List<string> tmpParseErrors = new List<string>();
+
 		// Token: 0x170001D8 RID: 472
 		// (get) Token: 0x06000C58 RID: 3160 RVA: 0x0006D974 File Offset: 0x0006BD74
 		public bool TriggeredDirect
@@ -82,31 +108,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x040007F8 RID: 2040
-		public float priority = float.MaxValue;
-
-		// Token: 0x040007F9 RID: 2041
-		public bool noteTeaches = false;
-
-		// Token: 0x040007FA RID: 2042
-		public bool needsOpportunity = false;
-
-		// Token: 0x040007FB RID: 2043
-		public bool opportunityDecays = true;
-
-		// Token: 0x040007FC RID: 2044
-		public ProgramState gameMode = ProgramState.Playing;
-
-		// Token: 0x040007FD RID: 2045
-		[MustTranslate]
-		private string helpText = null;
-
-		// Token: 0x040007FE RID: 2046
-		[NoTranslate]
-		public List<string> highlightTags = null;
-
-		// Token: 0x040007FF RID: 2047
-		private static List<string> tmpParseErrors = new List<string>();
 	}
 }

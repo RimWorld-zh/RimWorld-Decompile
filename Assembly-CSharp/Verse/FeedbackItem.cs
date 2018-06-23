@@ -6,6 +6,21 @@ namespace Verse
 	// Token: 0x02000E5E RID: 3678
 	public abstract class FeedbackItem
 	{
+		// Token: 0x04003970 RID: 14704
+		protected Vector2 FloatPerSecond = new Vector2(20f, -20f);
+
+		// Token: 0x04003971 RID: 14705
+		private int uniqueID;
+
+		// Token: 0x04003972 RID: 14706
+		public float TimeLeft = 2f;
+
+		// Token: 0x04003973 RID: 14707
+		protected Vector2 CurScreenPos;
+
+		// Token: 0x04003974 RID: 14708
+		private static int freeUniqueID;
+
 		// Token: 0x060056BA RID: 22202 RVA: 0x002CB770 File Offset: 0x002C9B70
 		public FeedbackItem(Vector2 ScreenPos)
 		{
@@ -41,20 +56,5 @@ namespace Verse
 				Text.Anchor = TextAnchor.UpperLeft;
 			}, false, false, 1f);
 		}
-
-		// Token: 0x04003970 RID: 14704
-		protected Vector2 FloatPerSecond = new Vector2(20f, -20f);
-
-		// Token: 0x04003971 RID: 14705
-		private int uniqueID;
-
-		// Token: 0x04003972 RID: 14706
-		public float TimeLeft = 2f;
-
-		// Token: 0x04003973 RID: 14707
-		protected Vector2 CurScreenPos;
-
-		// Token: 0x04003974 RID: 14708
-		private static int freeUniqueID;
 	}
 }

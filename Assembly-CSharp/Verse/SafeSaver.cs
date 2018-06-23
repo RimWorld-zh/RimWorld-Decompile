@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000D8D RID: 3469
 	public static class SafeSaver
 	{
+		// Token: 0x040033D2 RID: 13266
+		private static readonly string NewFileSuffix = ".new";
+
+		// Token: 0x040033D3 RID: 13267
+		private static readonly string OldFileSuffix = ".old";
+
 		// Token: 0x06004DA5 RID: 19877 RVA: 0x00289238 File Offset: 0x00287638
 		private static string GetFileFullPath(string path)
 		{
@@ -183,11 +189,5 @@ namespace Verse
 			}
 			throw ex;
 		}
-
-		// Token: 0x040033D2 RID: 13266
-		private static readonly string NewFileSuffix = ".new";
-
-		// Token: 0x040033D3 RID: 13267
-		private static readonly string OldFileSuffix = ".old";
 	}
 }

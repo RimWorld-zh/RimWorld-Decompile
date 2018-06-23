@@ -9,6 +9,18 @@ namespace RimWorld
 	// Token: 0x02000351 RID: 849
 	public class IncidentWorker_QuestItemStash : IncidentWorker
 	{
+		// Token: 0x04000904 RID: 2308
+		private const float ChanceToRevealSitePart = 0.5f;
+
+		// Token: 0x04000905 RID: 2309
+		private static readonly IntRange TimeoutDaysRange = new IntRange(15, 45);
+
+		// Token: 0x04000906 RID: 2310
+		private const float NoSitePartChance = 0.15f;
+
+		// Token: 0x04000907 RID: 2311
+		private static readonly string ItemStashQuestThreatTag = "ItemStashQuestThreat";
+
 		// Token: 0x06000EA8 RID: 3752 RVA: 0x0007C154 File Offset: 0x0007A554
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
@@ -138,17 +150,5 @@ namespace RimWorld
 			}
 			return text2;
 		}
-
-		// Token: 0x04000904 RID: 2308
-		private const float ChanceToRevealSitePart = 0.5f;
-
-		// Token: 0x04000905 RID: 2309
-		private static readonly IntRange TimeoutDaysRange = new IntRange(15, 45);
-
-		// Token: 0x04000906 RID: 2310
-		private const float NoSitePartChance = 0.15f;
-
-		// Token: 0x04000907 RID: 2311
-		private static readonly string ItemStashQuestThreatTag = "ItemStashQuestThreat";
 	}
 }

@@ -13,6 +13,30 @@ namespace RimWorld
 	// Token: 0x02000813 RID: 2067
 	public static class CharacterCardUtility
 	{
+		// Token: 0x04001886 RID: 6278
+		public const int MainRectsY = 100;
+
+		// Token: 0x04001887 RID: 6279
+		private const float MainRectsHeight = 450f;
+
+		// Token: 0x04001888 RID: 6280
+		private const int ConfigRectTitlesHeight = 40;
+
+		// Token: 0x04001889 RID: 6281
+		public static Vector2 PawnCardSize = new Vector2(570f, 470f);
+
+		// Token: 0x0400188A RID: 6282
+		private const int MaxNameLength = 12;
+
+		// Token: 0x0400188B RID: 6283
+		public const int MaxNickLength = 16;
+
+		// Token: 0x0400188C RID: 6284
+		public const int MaxTitleLength = 25;
+
+		// Token: 0x0400188D RID: 6285
+		private static Regex validNameRegex = new Regex("^[a-zA-Z0-9 '\\-]*$");
+
 		// Token: 0x06002E25 RID: 11813 RVA: 0x00185074 File Offset: 0x00183474
 		public static void DrawCharacterCard(Rect rect, Pawn pawn, Action randomizeCallback = null, Rect creationRect = default(Rect))
 		{
@@ -257,29 +281,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x04001886 RID: 6278
-		public const int MainRectsY = 100;
-
-		// Token: 0x04001887 RID: 6279
-		private const float MainRectsHeight = 450f;
-
-		// Token: 0x04001888 RID: 6280
-		private const int ConfigRectTitlesHeight = 40;
-
-		// Token: 0x04001889 RID: 6281
-		public static Vector2 PawnCardSize = new Vector2(570f, 470f);
-
-		// Token: 0x0400188A RID: 6282
-		private const int MaxNameLength = 12;
-
-		// Token: 0x0400188B RID: 6283
-		public const int MaxNickLength = 16;
-
-		// Token: 0x0400188C RID: 6284
-		public const int MaxTitleLength = 25;
-
-		// Token: 0x0400188D RID: 6285
-		private static Regex validNameRegex = new Regex("^[a-zA-Z0-9 '\\-]*$");
 	}
 }

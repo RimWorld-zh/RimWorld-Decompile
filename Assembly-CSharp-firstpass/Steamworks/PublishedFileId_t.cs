@@ -5,6 +5,12 @@ namespace Steamworks
 	// Token: 0x02000163 RID: 355
 	public struct PublishedFileId_t : IEquatable<PublishedFileId_t>, IComparable<PublishedFileId_t>
 	{
+		// Token: 0x04000678 RID: 1656
+		public static readonly PublishedFileId_t Invalid = new PublishedFileId_t(0UL);
+
+		// Token: 0x04000679 RID: 1657
+		public ulong m_PublishedFileId;
+
 		// Token: 0x0600080A RID: 2058 RVA: 0x0000E0AF File Offset: 0x0000C2AF
 		public PublishedFileId_t(ulong value)
 		{
@@ -64,11 +70,5 @@ namespace Steamworks
 		{
 			return this.m_PublishedFileId.CompareTo(other.m_PublishedFileId);
 		}
-
-		// Token: 0x04000678 RID: 1656
-		public static readonly PublishedFileId_t Invalid = new PublishedFileId_t(0UL);
-
-		// Token: 0x04000679 RID: 1657
-		public ulong m_PublishedFileId;
 	}
 }

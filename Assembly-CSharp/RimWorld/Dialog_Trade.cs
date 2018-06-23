@@ -13,6 +13,123 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Dialog_Trade : Window
 	{
+		// Token: 0x04001B41 RID: 6977
+		private bool giftsOnly;
+
+		// Token: 0x04001B42 RID: 6978
+		private Vector2 scrollPosition = Vector2.zero;
+
+		// Token: 0x04001B43 RID: 6979
+		public static float lastCurrencyFlashTime = -100f;
+
+		// Token: 0x04001B44 RID: 6980
+		private List<Tradeable> cachedTradeables = null;
+
+		// Token: 0x04001B45 RID: 6981
+		private Tradeable cachedCurrencyTradeable = null;
+
+		// Token: 0x04001B46 RID: 6982
+		private TransferableSorterDef sorter1;
+
+		// Token: 0x04001B47 RID: 6983
+		private TransferableSorterDef sorter2;
+
+		// Token: 0x04001B48 RID: 6984
+		private bool playerIsCaravan;
+
+		// Token: 0x04001B49 RID: 6985
+		private List<Thing> playerCaravanAllPawnsAndItems;
+
+		// Token: 0x04001B4A RID: 6986
+		private bool massUsageDirty = true;
+
+		// Token: 0x04001B4B RID: 6987
+		private float cachedMassUsage;
+
+		// Token: 0x04001B4C RID: 6988
+		private bool massCapacityDirty = true;
+
+		// Token: 0x04001B4D RID: 6989
+		private float cachedMassCapacity;
+
+		// Token: 0x04001B4E RID: 6990
+		private string cachedMassCapacityExplanation;
+
+		// Token: 0x04001B4F RID: 6991
+		private bool tilesPerDayDirty = true;
+
+		// Token: 0x04001B50 RID: 6992
+		private float cachedTilesPerDay;
+
+		// Token: 0x04001B51 RID: 6993
+		private string cachedTilesPerDayExplanation;
+
+		// Token: 0x04001B52 RID: 6994
+		private bool daysWorthOfFoodDirty = true;
+
+		// Token: 0x04001B53 RID: 6995
+		private Pair<float, float> cachedDaysWorthOfFood;
+
+		// Token: 0x04001B54 RID: 6996
+		private bool foragedFoodPerDayDirty = true;
+
+		// Token: 0x04001B55 RID: 6997
+		private Pair<ThingDef, float> cachedForagedFoodPerDay;
+
+		// Token: 0x04001B56 RID: 6998
+		private string cachedForagedFoodPerDayExplanation;
+
+		// Token: 0x04001B57 RID: 6999
+		private bool visibilityDirty = true;
+
+		// Token: 0x04001B58 RID: 7000
+		private float cachedVisibility;
+
+		// Token: 0x04001B59 RID: 7001
+		private string cachedVisibilityExplanation;
+
+		// Token: 0x04001B5A RID: 7002
+		private const float TitleAreaHeight = 45f;
+
+		// Token: 0x04001B5B RID: 7003
+		private const float TopAreaHeight = 58f;
+
+		// Token: 0x04001B5C RID: 7004
+		private const float ColumnWidth = 120f;
+
+		// Token: 0x04001B5D RID: 7005
+		private const float FirstCommodityY = 6f;
+
+		// Token: 0x04001B5E RID: 7006
+		private const float RowInterval = 30f;
+
+		// Token: 0x04001B5F RID: 7007
+		private const float SpaceBetweenTraderNameAndTraderKind = 27f;
+
+		// Token: 0x04001B60 RID: 7008
+		private const float ShowSellableItemsIconSize = 32f;
+
+		// Token: 0x04001B61 RID: 7009
+		private const float GiftModeIconSize = 32f;
+
+		// Token: 0x04001B62 RID: 7010
+		private const float TradeModeIconSize = 32f;
+
+		// Token: 0x04001B63 RID: 7011
+		protected static readonly Vector2 AcceptButtonSize = new Vector2(160f, 40f);
+
+		// Token: 0x04001B64 RID: 7012
+		protected static readonly Vector2 OtherBottomButtonSize = new Vector2(160f, 40f);
+
+		// Token: 0x04001B65 RID: 7013
+		private static readonly Texture2D ShowSellableItemsIcon = ContentFinder<Texture2D>.Get("UI/Commands/SellableItems", true);
+
+		// Token: 0x04001B66 RID: 7014
+		private static readonly Texture2D GiftModeIcon = ContentFinder<Texture2D>.Get("UI/Buttons/GiftMode", true);
+
+		// Token: 0x04001B67 RID: 7015
+		private static readonly Texture2D TradeModeIcon = ContentFinder<Texture2D>.Get("UI/Buttons/TradeMode", true);
+
 		// Token: 0x060032AA RID: 12970 RVA: 0x001B4C20 File Offset: 0x001B3020
 		public Dialog_Trade(Pawn playerNegotiator, ITrader trader, bool giftsOnly = false)
 		{
@@ -470,122 +587,5 @@ namespace RimWorld
 			this.foragedFoodPerDayDirty = true;
 			this.visibilityDirty = true;
 		}
-
-		// Token: 0x04001B41 RID: 6977
-		private bool giftsOnly;
-
-		// Token: 0x04001B42 RID: 6978
-		private Vector2 scrollPosition = Vector2.zero;
-
-		// Token: 0x04001B43 RID: 6979
-		public static float lastCurrencyFlashTime = -100f;
-
-		// Token: 0x04001B44 RID: 6980
-		private List<Tradeable> cachedTradeables = null;
-
-		// Token: 0x04001B45 RID: 6981
-		private Tradeable cachedCurrencyTradeable = null;
-
-		// Token: 0x04001B46 RID: 6982
-		private TransferableSorterDef sorter1;
-
-		// Token: 0x04001B47 RID: 6983
-		private TransferableSorterDef sorter2;
-
-		// Token: 0x04001B48 RID: 6984
-		private bool playerIsCaravan;
-
-		// Token: 0x04001B49 RID: 6985
-		private List<Thing> playerCaravanAllPawnsAndItems;
-
-		// Token: 0x04001B4A RID: 6986
-		private bool massUsageDirty = true;
-
-		// Token: 0x04001B4B RID: 6987
-		private float cachedMassUsage;
-
-		// Token: 0x04001B4C RID: 6988
-		private bool massCapacityDirty = true;
-
-		// Token: 0x04001B4D RID: 6989
-		private float cachedMassCapacity;
-
-		// Token: 0x04001B4E RID: 6990
-		private string cachedMassCapacityExplanation;
-
-		// Token: 0x04001B4F RID: 6991
-		private bool tilesPerDayDirty = true;
-
-		// Token: 0x04001B50 RID: 6992
-		private float cachedTilesPerDay;
-
-		// Token: 0x04001B51 RID: 6993
-		private string cachedTilesPerDayExplanation;
-
-		// Token: 0x04001B52 RID: 6994
-		private bool daysWorthOfFoodDirty = true;
-
-		// Token: 0x04001B53 RID: 6995
-		private Pair<float, float> cachedDaysWorthOfFood;
-
-		// Token: 0x04001B54 RID: 6996
-		private bool foragedFoodPerDayDirty = true;
-
-		// Token: 0x04001B55 RID: 6997
-		private Pair<ThingDef, float> cachedForagedFoodPerDay;
-
-		// Token: 0x04001B56 RID: 6998
-		private string cachedForagedFoodPerDayExplanation;
-
-		// Token: 0x04001B57 RID: 6999
-		private bool visibilityDirty = true;
-
-		// Token: 0x04001B58 RID: 7000
-		private float cachedVisibility;
-
-		// Token: 0x04001B59 RID: 7001
-		private string cachedVisibilityExplanation;
-
-		// Token: 0x04001B5A RID: 7002
-		private const float TitleAreaHeight = 45f;
-
-		// Token: 0x04001B5B RID: 7003
-		private const float TopAreaHeight = 58f;
-
-		// Token: 0x04001B5C RID: 7004
-		private const float ColumnWidth = 120f;
-
-		// Token: 0x04001B5D RID: 7005
-		private const float FirstCommodityY = 6f;
-
-		// Token: 0x04001B5E RID: 7006
-		private const float RowInterval = 30f;
-
-		// Token: 0x04001B5F RID: 7007
-		private const float SpaceBetweenTraderNameAndTraderKind = 27f;
-
-		// Token: 0x04001B60 RID: 7008
-		private const float ShowSellableItemsIconSize = 32f;
-
-		// Token: 0x04001B61 RID: 7009
-		private const float GiftModeIconSize = 32f;
-
-		// Token: 0x04001B62 RID: 7010
-		private const float TradeModeIconSize = 32f;
-
-		// Token: 0x04001B63 RID: 7011
-		protected static readonly Vector2 AcceptButtonSize = new Vector2(160f, 40f);
-
-		// Token: 0x04001B64 RID: 7012
-		protected static readonly Vector2 OtherBottomButtonSize = new Vector2(160f, 40f);
-
-		// Token: 0x04001B65 RID: 7013
-		private static readonly Texture2D ShowSellableItemsIcon = ContentFinder<Texture2D>.Get("UI/Commands/SellableItems", true);
-
-		// Token: 0x04001B66 RID: 7014
-		private static readonly Texture2D GiftModeIcon = ContentFinder<Texture2D>.Get("UI/Buttons/GiftMode", true);
-
-		// Token: 0x04001B67 RID: 7015
-		private static readonly Texture2D TradeModeIcon = ContentFinder<Texture2D>.Get("UI/Buttons/TradeMode", true);
 	}
 }

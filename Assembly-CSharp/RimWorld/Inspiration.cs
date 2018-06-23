@@ -6,6 +6,15 @@ namespace RimWorld
 	// Token: 0x0200002B RID: 43
 	public class Inspiration : IExposable
 	{
+		// Token: 0x040001A3 RID: 419
+		public Pawn pawn;
+
+		// Token: 0x040001A4 RID: 420
+		public InspirationDef def;
+
+		// Token: 0x040001A5 RID: 421
+		private int age;
+
 		// Token: 0x17000052 RID: 82
 		// (get) Token: 0x06000194 RID: 404 RVA: 0x000108C4 File Offset: 0x0000ECC4
 		public int Age
@@ -105,14 +114,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x040001A3 RID: 419
-		public Pawn pawn;
-
-		// Token: 0x040001A4 RID: 420
-		public InspirationDef def;
-
-		// Token: 0x040001A5 RID: 421
-		private int age;
 	}
 }

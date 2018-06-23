@@ -7,6 +7,27 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class ScreenFader
 	{
+		// Token: 0x04003F83 RID: 16259
+		private static GUIStyle backgroundStyle = new GUIStyle();
+
+		// Token: 0x04003F84 RID: 16260
+		private static Texture2D fadeTexture;
+
+		// Token: 0x04003F85 RID: 16261
+		private static Color sourceColor = new Color(0f, 0f, 0f, 0f);
+
+		// Token: 0x04003F86 RID: 16262
+		private static Color targetColor = new Color(0f, 0f, 0f, 0f);
+
+		// Token: 0x04003F87 RID: 16263
+		private static float sourceTime = 0f;
+
+		// Token: 0x04003F88 RID: 16264
+		private static float targetTime = 0f;
+
+		// Token: 0x04003F89 RID: 16265
+		private static bool fadeTextureDirty = true;
+
 		// Token: 0x0600612C RID: 24876 RVA: 0x00311818 File Offset: 0x0030FC18
 		static ScreenFader()
 		{
@@ -81,26 +102,5 @@ namespace Verse
 				ScreenFader.targetTime = ScreenFader.CurTime + duration;
 			}
 		}
-
-		// Token: 0x04003F83 RID: 16259
-		private static GUIStyle backgroundStyle = new GUIStyle();
-
-		// Token: 0x04003F84 RID: 16260
-		private static Texture2D fadeTexture;
-
-		// Token: 0x04003F85 RID: 16261
-		private static Color sourceColor = new Color(0f, 0f, 0f, 0f);
-
-		// Token: 0x04003F86 RID: 16262
-		private static Color targetColor = new Color(0f, 0f, 0f, 0f);
-
-		// Token: 0x04003F87 RID: 16263
-		private static float sourceTime = 0f;
-
-		// Token: 0x04003F88 RID: 16264
-		private static float targetTime = 0f;
-
-		// Token: 0x04003F89 RID: 16265
-		private static bool fadeTextureDirty = true;
 	}
 }

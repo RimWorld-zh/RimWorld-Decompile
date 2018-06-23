@@ -7,6 +7,33 @@ namespace RimWorld
 	// Token: 0x02000688 RID: 1672
 	public class TurretTop
 	{
+		// Token: 0x040013D7 RID: 5079
+		private Building_Turret parentTurret;
+
+		// Token: 0x040013D8 RID: 5080
+		private float curRotationInt = 0f;
+
+		// Token: 0x040013D9 RID: 5081
+		private int ticksUntilIdleTurn;
+
+		// Token: 0x040013DA RID: 5082
+		private int idleTurnTicksLeft;
+
+		// Token: 0x040013DB RID: 5083
+		private bool idleTurnClockwise;
+
+		// Token: 0x040013DC RID: 5084
+		private const float IdleTurnDegreesPerTick = 0.26f;
+
+		// Token: 0x040013DD RID: 5085
+		private const int IdleTurnDuration = 140;
+
+		// Token: 0x040013DE RID: 5086
+		private const int IdleTurnIntervalMin = 150;
+
+		// Token: 0x040013DF RID: 5087
+		private const int IdleTurnIntervalMax = 350;
+
 		// Token: 0x0600236A RID: 9066 RVA: 0x0013079C File Offset: 0x0012EB9C
 		public TurretTop(Building_Turret ParentTurret)
 		{
@@ -89,32 +116,5 @@ namespace RimWorld
 			matrix.SetTRS(this.parentTurret.DrawPos + Altitudes.AltIncVect + b, this.CurRotation.ToQuat(), new Vector3(turretTopDrawSize, 1f, turretTopDrawSize));
 			Graphics.DrawMesh(MeshPool.plane10, matrix, this.parentTurret.def.building.turretTopMat, 0);
 		}
-
-		// Token: 0x040013D7 RID: 5079
-		private Building_Turret parentTurret;
-
-		// Token: 0x040013D8 RID: 5080
-		private float curRotationInt = 0f;
-
-		// Token: 0x040013D9 RID: 5081
-		private int ticksUntilIdleTurn;
-
-		// Token: 0x040013DA RID: 5082
-		private int idleTurnTicksLeft;
-
-		// Token: 0x040013DB RID: 5083
-		private bool idleTurnClockwise;
-
-		// Token: 0x040013DC RID: 5084
-		private const float IdleTurnDegreesPerTick = 0.26f;
-
-		// Token: 0x040013DD RID: 5085
-		private const int IdleTurnDuration = 140;
-
-		// Token: 0x040013DE RID: 5086
-		private const int IdleTurnIntervalMin = 150;
-
-		// Token: 0x040013DF RID: 5087
-		private const int IdleTurnIntervalMax = 350;
 	}
 }

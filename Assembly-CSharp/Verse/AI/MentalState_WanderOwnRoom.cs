@@ -6,6 +6,9 @@ namespace Verse.AI
 	// Token: 0x02000A7A RID: 2682
 	public class MentalState_WanderOwnRoom : MentalState
 	{
+		// Token: 0x04002577 RID: 9591
+		public IntVec3 target;
+
 		// Token: 0x06003BA0 RID: 15264 RVA: 0x001F7FB0 File Offset: 0x001F63B0
 		public override void PostStart(string reason)
 		{
@@ -32,8 +35,5 @@ namespace Verse.AI
 		{
 			return RandomSocialMode.Off;
 		}
-
-		// Token: 0x04002577 RID: 9591
-		public IntVec3 target;
 	}
 }

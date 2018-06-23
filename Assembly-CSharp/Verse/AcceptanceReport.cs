@@ -5,6 +5,12 @@ namespace Verse
 	// Token: 0x02000EDF RID: 3807
 	public struct AcceptanceReport
 	{
+		// Token: 0x04003C74 RID: 15476
+		private string reasonTextInt;
+
+		// Token: 0x04003C75 RID: 15477
+		private bool acceptedInt;
+
 		// Token: 0x06005A27 RID: 23079 RVA: 0x002E456F File Offset: 0x002E296F
 		public AcceptanceReport(string reasonText)
 		{
@@ -78,11 +84,5 @@ namespace Verse
 		{
 			return new AcceptanceReport(value);
 		}
-
-		// Token: 0x04003C74 RID: 15476
-		private string reasonTextInt;
-
-		// Token: 0x04003C75 RID: 15477
-		private bool acceptedInt;
 	}
 }

@@ -7,6 +7,18 @@ namespace Verse
 	// Token: 0x02000BCF RID: 3023
 	public class TickList
 	{
+		// Token: 0x04002D0E RID: 11534
+		private TickerType tickType;
+
+		// Token: 0x04002D0F RID: 11535
+		private List<List<Thing>> thingLists = new List<List<Thing>>();
+
+		// Token: 0x04002D10 RID: 11536
+		private List<Thing> thingsToRegister = new List<Thing>();
+
+		// Token: 0x04002D11 RID: 11537
+		private List<Thing> thingsToDeregister = new List<Thing>();
+
 		// Token: 0x060041EB RID: 16875 RVA: 0x0022C058 File Offset: 0x0022A458
 		public TickList(TickerType tickType)
 		{
@@ -183,17 +195,5 @@ namespace Verse
 			int index = num % this.TickInterval;
 			return this.thingLists[index];
 		}
-
-		// Token: 0x04002D0E RID: 11534
-		private TickerType tickType;
-
-		// Token: 0x04002D0F RID: 11535
-		private List<List<Thing>> thingLists = new List<List<Thing>>();
-
-		// Token: 0x04002D10 RID: 11536
-		private List<Thing> thingsToRegister = new List<Thing>();
-
-		// Token: 0x04002D11 RID: 11537
-		private List<Thing> thingsToDeregister = new List<Thing>();
 	}
 }

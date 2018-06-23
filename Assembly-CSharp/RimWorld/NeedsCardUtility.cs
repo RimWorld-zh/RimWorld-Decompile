@@ -9,6 +9,45 @@ namespace RimWorld
 	// Token: 0x02000817 RID: 2071
 	public static class NeedsCardUtility
 	{
+		// Token: 0x040018BD RID: 6333
+		private static List<Need> displayNeeds = new List<Need>();
+
+		// Token: 0x040018BE RID: 6334
+		private static readonly Color MoodColor = new Color(0.1f, 1f, 0.1f);
+
+		// Token: 0x040018BF RID: 6335
+		private static readonly Color MoodColorNegative = new Color(0.8f, 0.4f, 0.4f);
+
+		// Token: 0x040018C0 RID: 6336
+		private static readonly Color NoEffectColor = new Color(0.5f, 0.5f, 0.5f, 0.75f);
+
+		// Token: 0x040018C1 RID: 6337
+		private const float ThoughtHeight = 20f;
+
+		// Token: 0x040018C2 RID: 6338
+		private const float ThoughtSpacing = 4f;
+
+		// Token: 0x040018C3 RID: 6339
+		private const float ThoughtIntervalY = 24f;
+
+		// Token: 0x040018C4 RID: 6340
+		private const float MoodX = 235f;
+
+		// Token: 0x040018C5 RID: 6341
+		private const float MoodNumberWidth = 32f;
+
+		// Token: 0x040018C6 RID: 6342
+		private const float NeedsColumnWidth = 225f;
+
+		// Token: 0x040018C7 RID: 6343
+		public static readonly Vector2 FullSize = new Vector2(580f, 520f);
+
+		// Token: 0x040018C8 RID: 6344
+		private static List<Thought> thoughtGroupsPresent = new List<Thought>();
+
+		// Token: 0x040018C9 RID: 6345
+		private static List<Thought> thoughtGroup = new List<Thought>();
+
 		// Token: 0x06002E4E RID: 11854 RVA: 0x0018A37C File Offset: 0x0018877C
 		public static Vector2 GetSize(Pawn pawn)
 		{
@@ -235,44 +274,5 @@ namespace RimWorld
 			}
 			return true;
 		}
-
-		// Token: 0x040018BD RID: 6333
-		private static List<Need> displayNeeds = new List<Need>();
-
-		// Token: 0x040018BE RID: 6334
-		private static readonly Color MoodColor = new Color(0.1f, 1f, 0.1f);
-
-		// Token: 0x040018BF RID: 6335
-		private static readonly Color MoodColorNegative = new Color(0.8f, 0.4f, 0.4f);
-
-		// Token: 0x040018C0 RID: 6336
-		private static readonly Color NoEffectColor = new Color(0.5f, 0.5f, 0.5f, 0.75f);
-
-		// Token: 0x040018C1 RID: 6337
-		private const float ThoughtHeight = 20f;
-
-		// Token: 0x040018C2 RID: 6338
-		private const float ThoughtSpacing = 4f;
-
-		// Token: 0x040018C3 RID: 6339
-		private const float ThoughtIntervalY = 24f;
-
-		// Token: 0x040018C4 RID: 6340
-		private const float MoodX = 235f;
-
-		// Token: 0x040018C5 RID: 6341
-		private const float MoodNumberWidth = 32f;
-
-		// Token: 0x040018C6 RID: 6342
-		private const float NeedsColumnWidth = 225f;
-
-		// Token: 0x040018C7 RID: 6343
-		public static readonly Vector2 FullSize = new Vector2(580f, 520f);
-
-		// Token: 0x040018C8 RID: 6344
-		private static List<Thought> thoughtGroupsPresent = new List<Thought>();
-
-		// Token: 0x040018C9 RID: 6345
-		private static List<Thought> thoughtGroup = new List<Thought>();
 	}
 }

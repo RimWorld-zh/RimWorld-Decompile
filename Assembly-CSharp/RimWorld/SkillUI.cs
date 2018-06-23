@@ -10,6 +10,39 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class SkillUI
 	{
+		// Token: 0x04001B0D RID: 6925
+		private static float levelLabelWidth = -1f;
+
+		// Token: 0x04001B0E RID: 6926
+		private const float SkillWidth = 240f;
+
+		// Token: 0x04001B0F RID: 6927
+		public const float SkillHeight = 24f;
+
+		// Token: 0x04001B10 RID: 6928
+		public const float SkillYSpacing = 3f;
+
+		// Token: 0x04001B11 RID: 6929
+		private const float LeftEdgeMargin = 6f;
+
+		// Token: 0x04001B12 RID: 6930
+		private const float IncButX = 205f;
+
+		// Token: 0x04001B13 RID: 6931
+		private const float IncButSpacing = 10f;
+
+		// Token: 0x04001B14 RID: 6932
+		private static readonly Color DisabledSkillColor = new Color(1f, 1f, 1f, 0.5f);
+
+		// Token: 0x04001B15 RID: 6933
+		private static Texture2D PassionMinorIcon = ContentFinder<Texture2D>.Get("UI/Icons/PassionMinor", true);
+
+		// Token: 0x04001B16 RID: 6934
+		private static Texture2D PassionMajorIcon = ContentFinder<Texture2D>.Get("UI/Icons/PassionMajor", true);
+
+		// Token: 0x04001B17 RID: 6935
+		private static Texture2D SkillBarFillTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 1f, 1f, 0.1f));
+
 		// Token: 0x06003291 RID: 12945 RVA: 0x001B38F4 File Offset: 0x001B1CF4
 		public static void DrawSkillsOf(Pawn p, Vector2 offset, SkillUI.SkillDrawMode mode)
 		{
@@ -159,39 +192,6 @@ namespace RimWorld
 			stringBuilder.Append(sk.def.description);
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x04001B0D RID: 6925
-		private static float levelLabelWidth = -1f;
-
-		// Token: 0x04001B0E RID: 6926
-		private const float SkillWidth = 240f;
-
-		// Token: 0x04001B0F RID: 6927
-		public const float SkillHeight = 24f;
-
-		// Token: 0x04001B10 RID: 6928
-		public const float SkillYSpacing = 3f;
-
-		// Token: 0x04001B11 RID: 6929
-		private const float LeftEdgeMargin = 6f;
-
-		// Token: 0x04001B12 RID: 6930
-		private const float IncButX = 205f;
-
-		// Token: 0x04001B13 RID: 6931
-		private const float IncButSpacing = 10f;
-
-		// Token: 0x04001B14 RID: 6932
-		private static readonly Color DisabledSkillColor = new Color(1f, 1f, 1f, 0.5f);
-
-		// Token: 0x04001B15 RID: 6933
-		private static Texture2D PassionMinorIcon = ContentFinder<Texture2D>.Get("UI/Icons/PassionMinor", true);
-
-		// Token: 0x04001B16 RID: 6934
-		private static Texture2D PassionMajorIcon = ContentFinder<Texture2D>.Get("UI/Icons/PassionMajor", true);
-
-		// Token: 0x04001B17 RID: 6935
-		private static Texture2D SkillBarFillTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 1f, 1f, 0.1f));
 
 		// Token: 0x020008A0 RID: 2208
 		public enum SkillDrawMode : byte

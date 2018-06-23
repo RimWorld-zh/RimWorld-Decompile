@@ -5,6 +5,9 @@ namespace Steamworks
 	// Token: 0x02000171 RID: 369
 	public struct SteamLeaderboard_t : IEquatable<SteamLeaderboard_t>, IComparable<SteamLeaderboard_t>
 	{
+		// Token: 0x04000692 RID: 1682
+		public ulong m_SteamLeaderboard;
+
 		// Token: 0x060008A2 RID: 2210 RVA: 0x0000F447 File Offset: 0x0000D647
 		public SteamLeaderboard_t(ulong value)
 		{
@@ -64,8 +67,5 @@ namespace Steamworks
 		{
 			return this.m_SteamLeaderboard.CompareTo(other.m_SteamLeaderboard);
 		}
-
-		// Token: 0x04000692 RID: 1682
-		public ulong m_SteamLeaderboard;
 	}
 }

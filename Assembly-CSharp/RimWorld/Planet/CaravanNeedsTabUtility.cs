@@ -9,6 +9,30 @@ namespace RimWorld.Planet
 	// Token: 0x020008DD RID: 2269
 	public static class CaravanNeedsTabUtility
 	{
+		// Token: 0x04001C12 RID: 7186
+		private const float RowHeight = 50f;
+
+		// Token: 0x04001C13 RID: 7187
+		private const float LabelHeight = 18f;
+
+		// Token: 0x04001C14 RID: 7188
+		private const float LabelColumnWidth = 100f;
+
+		// Token: 0x04001C15 RID: 7189
+		private const float NeedWidth = 100f;
+
+		// Token: 0x04001C16 RID: 7190
+		private const float NeedMargin = 10f;
+
+		// Token: 0x04001C17 RID: 7191
+		private static List<Need> tmpNeeds = new List<Need>();
+
+		// Token: 0x04001C18 RID: 7192
+		private static List<Thought> thoughtGroupsPresent = new List<Thought>();
+
+		// Token: 0x04001C19 RID: 7193
+		private static List<Thought> thoughtGroup = new List<Thought>();
+
 		// Token: 0x0600340A RID: 13322 RVA: 0x001BD38C File Offset: 0x001BB78C
 		public static void DoRows(Vector2 size, List<Pawn> pawns, Caravan caravan, ref Vector2 scrollPosition, ref float scrollViewHeight, ref Pawn specificNeedsTabForPawn, bool doNeeds = true)
 		{
@@ -191,29 +215,5 @@ namespace RimWorld.Planet
 			}
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x04001C12 RID: 7186
-		private const float RowHeight = 50f;
-
-		// Token: 0x04001C13 RID: 7187
-		private const float LabelHeight = 18f;
-
-		// Token: 0x04001C14 RID: 7188
-		private const float LabelColumnWidth = 100f;
-
-		// Token: 0x04001C15 RID: 7189
-		private const float NeedWidth = 100f;
-
-		// Token: 0x04001C16 RID: 7190
-		private const float NeedMargin = 10f;
-
-		// Token: 0x04001C17 RID: 7191
-		private static List<Need> tmpNeeds = new List<Need>();
-
-		// Token: 0x04001C18 RID: 7192
-		private static List<Thought> thoughtGroupsPresent = new List<Thought>();
-
-		// Token: 0x04001C19 RID: 7193
-		private static List<Thought> thoughtGroup = new List<Thought>();
 	}
 }

@@ -7,6 +7,18 @@ namespace Verse
 	// Token: 0x0200085F RID: 2143
 	public abstract class InspectTabBase
 	{
+		// Token: 0x04001A53 RID: 6739
+		public string labelKey;
+
+		// Token: 0x04001A54 RID: 6740
+		protected Vector2 size;
+
+		// Token: 0x04001A55 RID: 6741
+		public string tutorTag;
+
+		// Token: 0x04001A56 RID: 6742
+		private string cachedTutorHighlightTagClosed = null;
+
 		// Token: 0x170007C5 RID: 1989
 		// (get) Token: 0x0600309F RID: 12447
 		protected abstract float PaneTopY { get; }
@@ -123,17 +135,5 @@ namespace Verse
 		public virtual void TabUpdate()
 		{
 		}
-
-		// Token: 0x04001A53 RID: 6739
-		public string labelKey;
-
-		// Token: 0x04001A54 RID: 6740
-		protected Vector2 size;
-
-		// Token: 0x04001A55 RID: 6741
-		public string tutorTag;
-
-		// Token: 0x04001A56 RID: 6742
-		private string cachedTutorHighlightTagClosed = null;
 	}
 }

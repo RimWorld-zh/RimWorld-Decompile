@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class ThingCategoryDefOf
 	{
-		// Token: 0x06003641 RID: 13889 RVA: 0x001D0B4F File Offset: 0x001CEF4F
-		static ThingCategoryDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(ThingCategoryDefOf));
-		}
-
 		// Token: 0x04002083 RID: 8323
 		public static ThingCategoryDef Foods;
 
@@ -87,5 +81,11 @@ namespace RimWorld
 
 		// Token: 0x0400209B RID: 8347
 		public static ThingCategoryDef CorpsesAnimal;
+
+		// Token: 0x06003641 RID: 13889 RVA: 0x001D0B4F File Offset: 0x001CEF4F
+		static ThingCategoryDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(ThingCategoryDefOf));
+		}
 	}
 }

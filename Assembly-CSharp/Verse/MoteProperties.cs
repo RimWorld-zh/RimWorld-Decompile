@@ -6,16 +6,6 @@ namespace Verse
 	// Token: 0x02000B1A RID: 2842
 	public class MoteProperties
 	{
-		// Token: 0x17000976 RID: 2422
-		// (get) Token: 0x06003EBF RID: 16063 RVA: 0x00210EA4 File Offset: 0x0020F2A4
-		public float Lifespan
-		{
-			get
-			{
-				return this.fadeInTime + this.solidTime + this.fadeOutTime;
-			}
-		}
-
 		// Token: 0x04002845 RID: 10309
 		public bool realTime = false;
 
@@ -54,5 +44,15 @@ namespace Verse
 
 		// Token: 0x04002851 RID: 10321
 		public bool rotateTowardsMoveDirection;
+
+		// Token: 0x17000976 RID: 2422
+		// (get) Token: 0x06003EBF RID: 16063 RVA: 0x00210EA4 File Offset: 0x0020F2A4
+		public float Lifespan
+		{
+			get
+			{
+				return this.fadeInTime + this.solidTime + this.fadeOutTime;
+			}
+		}
 	}
 }

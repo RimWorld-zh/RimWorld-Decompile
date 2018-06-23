@@ -6,6 +6,12 @@ namespace RimWorld
 	// Token: 0x02000661 RID: 1633
 	public class TaleReference : IExposable
 	{
+		// Token: 0x04001372 RID: 4978
+		private Tale tale;
+
+		// Token: 0x04001373 RID: 4979
+		private int seed;
+
 		// Token: 0x06002237 RID: 8759 RVA: 0x00122966 File Offset: 0x00120D66
 		public TaleReference()
 		{
@@ -63,11 +69,5 @@ namespace RimWorld
 				")"
 			});
 		}
-
-		// Token: 0x04001372 RID: 4978
-		private Tale tale;
-
-		// Token: 0x04001373 RID: 4979
-		private int seed;
 	}
 }

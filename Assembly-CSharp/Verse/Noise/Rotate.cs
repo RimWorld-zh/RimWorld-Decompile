@@ -6,6 +6,42 @@ namespace Verse.Noise
 	// Token: 0x02000F96 RID: 3990
 	public class Rotate : ModuleBase
 	{
+		// Token: 0x04003F1D RID: 16157
+		private double m_x = 0.0;
+
+		// Token: 0x04003F1E RID: 16158
+		private double m_x1Matrix = 0.0;
+
+		// Token: 0x04003F1F RID: 16159
+		private double m_x2Matrix = 0.0;
+
+		// Token: 0x04003F20 RID: 16160
+		private double m_x3Matrix = 0.0;
+
+		// Token: 0x04003F21 RID: 16161
+		private double m_y = 0.0;
+
+		// Token: 0x04003F22 RID: 16162
+		private double m_y1Matrix = 0.0;
+
+		// Token: 0x04003F23 RID: 16163
+		private double m_y2Matrix = 0.0;
+
+		// Token: 0x04003F24 RID: 16164
+		private double m_y3Matrix = 0.0;
+
+		// Token: 0x04003F25 RID: 16165
+		private double m_z = 0.0;
+
+		// Token: 0x04003F26 RID: 16166
+		private double m_z1Matrix = 0.0;
+
+		// Token: 0x04003F27 RID: 16167
+		private double m_z2Matrix = 0.0;
+
+		// Token: 0x04003F28 RID: 16168
+		private double m_z3Matrix = 0.0;
+
 		// Token: 0x06006054 RID: 24660 RVA: 0x0030E0C0 File Offset: 0x0030C4C0
 		public Rotate() : base(1)
 		{
@@ -102,41 +138,5 @@ namespace Verse.Noise
 			double z2 = this.m_x3Matrix * x + this.m_y3Matrix * y + this.m_z3Matrix * z;
 			return this.modules[0].GetValue(x2, y2, z2);
 		}
-
-		// Token: 0x04003F1D RID: 16157
-		private double m_x = 0.0;
-
-		// Token: 0x04003F1E RID: 16158
-		private double m_x1Matrix = 0.0;
-
-		// Token: 0x04003F1F RID: 16159
-		private double m_x2Matrix = 0.0;
-
-		// Token: 0x04003F20 RID: 16160
-		private double m_x3Matrix = 0.0;
-
-		// Token: 0x04003F21 RID: 16161
-		private double m_y = 0.0;
-
-		// Token: 0x04003F22 RID: 16162
-		private double m_y1Matrix = 0.0;
-
-		// Token: 0x04003F23 RID: 16163
-		private double m_y2Matrix = 0.0;
-
-		// Token: 0x04003F24 RID: 16164
-		private double m_y3Matrix = 0.0;
-
-		// Token: 0x04003F25 RID: 16165
-		private double m_z = 0.0;
-
-		// Token: 0x04003F26 RID: 16166
-		private double m_z1Matrix = 0.0;
-
-		// Token: 0x04003F27 RID: 16167
-		private double m_z2Matrix = 0.0;
-
-		// Token: 0x04003F28 RID: 16168
-		private double m_z3Matrix = 0.0;
 	}
 }

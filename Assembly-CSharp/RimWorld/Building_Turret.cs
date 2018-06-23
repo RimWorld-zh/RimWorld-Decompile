@@ -7,6 +7,21 @@ namespace RimWorld
 	// Token: 0x02000685 RID: 1669
 	public abstract class Building_Turret : Building, IAttackTarget, IAttackTargetSearcher, ILoadReferenceable
 	{
+		// Token: 0x040013C8 RID: 5064
+		protected StunHandler stunner;
+
+		// Token: 0x040013C9 RID: 5065
+		protected LocalTargetInfo forcedTarget = LocalTargetInfo.Invalid;
+
+		// Token: 0x040013CA RID: 5066
+		private LocalTargetInfo lastAttackedTarget;
+
+		// Token: 0x040013CB RID: 5067
+		private int lastAttackTargetTick;
+
+		// Token: 0x040013CC RID: 5068
+		private const float SightRadiusTurret = 13.4f;
+
 		// Token: 0x06002334 RID: 9012 RVA: 0x0012EDEF File Offset: 0x0012D1EF
 		public Building_Turret()
 		{
@@ -142,20 +157,5 @@ namespace RimWorld
 			this.lastAttackTargetTick = Find.TickManager.TicksGame;
 			this.lastAttackedTarget = target;
 		}
-
-		// Token: 0x040013C8 RID: 5064
-		protected StunHandler stunner;
-
-		// Token: 0x040013C9 RID: 5065
-		protected LocalTargetInfo forcedTarget = LocalTargetInfo.Invalid;
-
-		// Token: 0x040013CA RID: 5066
-		private LocalTargetInfo lastAttackedTarget;
-
-		// Token: 0x040013CB RID: 5067
-		private int lastAttackTargetTick;
-
-		// Token: 0x040013CC RID: 5068
-		private const float SightRadiusTurret = 13.4f;
 	}
 }

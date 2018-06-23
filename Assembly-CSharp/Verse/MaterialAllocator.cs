@@ -9,6 +9,15 @@ namespace Verse
 	[HasDebugOutput]
 	internal static class MaterialAllocator
 	{
+		// Token: 0x04003366 RID: 13158
+		private static Dictionary<Material, MaterialAllocator.MaterialInfo> references = new Dictionary<Material, MaterialAllocator.MaterialInfo>();
+
+		// Token: 0x04003367 RID: 13159
+		public static int nextWarningThreshold;
+
+		// Token: 0x04003368 RID: 13160
+		private static Dictionary<string, int> snapshot = new Dictionary<string, int>();
+
 		// Token: 0x06004D0C RID: 19724 RVA: 0x00282B60 File Offset: 0x00280F60
 		public static Material Create(Material material)
 		{
@@ -118,15 +127,6 @@ namespace Verse
 				Log.Error(text, false);
 			}
 		}
-
-		// Token: 0x04003366 RID: 13158
-		private static Dictionary<Material, MaterialAllocator.MaterialInfo> references = new Dictionary<Material, MaterialAllocator.MaterialInfo>();
-
-		// Token: 0x04003367 RID: 13159
-		public static int nextWarningThreshold;
-
-		// Token: 0x04003368 RID: 13160
-		private static Dictionary<string, int> snapshot = new Dictionary<string, int>();
 
 		// Token: 0x02000D6C RID: 3436
 		private struct MaterialInfo

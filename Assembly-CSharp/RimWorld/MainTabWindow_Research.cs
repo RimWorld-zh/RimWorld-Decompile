@@ -12,6 +12,90 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class MainTabWindow_Research : MainTabWindow
 	{
+		// Token: 0x04001AA1 RID: 6817
+		protected ResearchProjectDef selectedProject = null;
+
+		// Token: 0x04001AA2 RID: 6818
+		private bool noBenchWarned = false;
+
+		// Token: 0x04001AA3 RID: 6819
+		private bool requiredByThisFound = false;
+
+		// Token: 0x04001AA4 RID: 6820
+		private Vector2 leftScrollPosition = Vector2.zero;
+
+		// Token: 0x04001AA5 RID: 6821
+		private float leftScrollViewHeight = 0f;
+
+		// Token: 0x04001AA6 RID: 6822
+		private Vector2 rightScrollPosition = default(Vector2);
+
+		// Token: 0x04001AA7 RID: 6823
+		private float rightViewWidth;
+
+		// Token: 0x04001AA8 RID: 6824
+		private float rightViewHeight;
+
+		// Token: 0x04001AA9 RID: 6825
+		private ResearchTabDef curTabInt = null;
+
+		// Token: 0x04001AAA RID: 6826
+		private bool editMode = false;
+
+		// Token: 0x04001AAB RID: 6827
+		private ResearchProjectDef draggingTab = null;
+
+		// Token: 0x04001AAC RID: 6828
+		private const float LeftAreaWidth = 200f;
+
+		// Token: 0x04001AAD RID: 6829
+		private const int ModeSelectButHeight = 40;
+
+		// Token: 0x04001AAE RID: 6830
+		private const float ProjectTitleHeight = 50f;
+
+		// Token: 0x04001AAF RID: 6831
+		private const float ProjectTitleLeftMargin = 0f;
+
+		// Token: 0x04001AB0 RID: 6832
+		private const float localPadding = 20f;
+
+		// Token: 0x04001AB1 RID: 6833
+		private const int ResearchItemW = 140;
+
+		// Token: 0x04001AB2 RID: 6834
+		private const int ResearchItemH = 50;
+
+		// Token: 0x04001AB3 RID: 6835
+		private const int ResearchItemPaddingW = 50;
+
+		// Token: 0x04001AB4 RID: 6836
+		private const int ResearchItemPaddingH = 50;
+
+		// Token: 0x04001AB5 RID: 6837
+		private const float PrereqsLineSpacing = 15f;
+
+		// Token: 0x04001AB6 RID: 6838
+		private const int ColumnMaxProjects = 6;
+
+		// Token: 0x04001AB7 RID: 6839
+		private static readonly Texture2D ResearchBarFillTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.2f, 0.8f, 0.85f));
+
+		// Token: 0x04001AB8 RID: 6840
+		private static readonly Texture2D ResearchBarBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.1f, 0.1f, 0.1f));
+
+		// Token: 0x04001AB9 RID: 6841
+		private static readonly Color FulfilledPrerequisiteColor = Color.green;
+
+		// Token: 0x04001ABA RID: 6842
+		private static readonly Color MissingPrerequisiteColor = Color.red;
+
+		// Token: 0x04001ABB RID: 6843
+		private static readonly Color ProjectWithMissingPrerequisiteLabelColor = Color.gray;
+
+		// Token: 0x04001ABC RID: 6844
+		private static List<Building> tmpAllBuildings = new List<Building>();
+
 		// Token: 0x170007F2 RID: 2034
 		// (get) Token: 0x0600314F RID: 12623 RVA: 0x001ABB04 File Offset: 0x001A9F04
 		// (set) Token: 0x06003150 RID: 12624 RVA: 0x001ABB20 File Offset: 0x001A9F20
@@ -611,89 +695,5 @@ namespace RimWorld
 			}
 			return num;
 		}
-
-		// Token: 0x04001AA1 RID: 6817
-		protected ResearchProjectDef selectedProject = null;
-
-		// Token: 0x04001AA2 RID: 6818
-		private bool noBenchWarned = false;
-
-		// Token: 0x04001AA3 RID: 6819
-		private bool requiredByThisFound = false;
-
-		// Token: 0x04001AA4 RID: 6820
-		private Vector2 leftScrollPosition = Vector2.zero;
-
-		// Token: 0x04001AA5 RID: 6821
-		private float leftScrollViewHeight = 0f;
-
-		// Token: 0x04001AA6 RID: 6822
-		private Vector2 rightScrollPosition = default(Vector2);
-
-		// Token: 0x04001AA7 RID: 6823
-		private float rightViewWidth;
-
-		// Token: 0x04001AA8 RID: 6824
-		private float rightViewHeight;
-
-		// Token: 0x04001AA9 RID: 6825
-		private ResearchTabDef curTabInt = null;
-
-		// Token: 0x04001AAA RID: 6826
-		private bool editMode = false;
-
-		// Token: 0x04001AAB RID: 6827
-		private ResearchProjectDef draggingTab = null;
-
-		// Token: 0x04001AAC RID: 6828
-		private const float LeftAreaWidth = 200f;
-
-		// Token: 0x04001AAD RID: 6829
-		private const int ModeSelectButHeight = 40;
-
-		// Token: 0x04001AAE RID: 6830
-		private const float ProjectTitleHeight = 50f;
-
-		// Token: 0x04001AAF RID: 6831
-		private const float ProjectTitleLeftMargin = 0f;
-
-		// Token: 0x04001AB0 RID: 6832
-		private const float localPadding = 20f;
-
-		// Token: 0x04001AB1 RID: 6833
-		private const int ResearchItemW = 140;
-
-		// Token: 0x04001AB2 RID: 6834
-		private const int ResearchItemH = 50;
-
-		// Token: 0x04001AB3 RID: 6835
-		private const int ResearchItemPaddingW = 50;
-
-		// Token: 0x04001AB4 RID: 6836
-		private const int ResearchItemPaddingH = 50;
-
-		// Token: 0x04001AB5 RID: 6837
-		private const float PrereqsLineSpacing = 15f;
-
-		// Token: 0x04001AB6 RID: 6838
-		private const int ColumnMaxProjects = 6;
-
-		// Token: 0x04001AB7 RID: 6839
-		private static readonly Texture2D ResearchBarFillTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.2f, 0.8f, 0.85f));
-
-		// Token: 0x04001AB8 RID: 6840
-		private static readonly Texture2D ResearchBarBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.1f, 0.1f, 0.1f));
-
-		// Token: 0x04001AB9 RID: 6841
-		private static readonly Color FulfilledPrerequisiteColor = Color.green;
-
-		// Token: 0x04001ABA RID: 6842
-		private static readonly Color MissingPrerequisiteColor = Color.red;
-
-		// Token: 0x04001ABB RID: 6843
-		private static readonly Color ProjectWithMissingPrerequisiteLabelColor = Color.gray;
-
-		// Token: 0x04001ABC RID: 6844
-		private static List<Building> tmpAllBuildings = new List<Building>();
 	}
 }

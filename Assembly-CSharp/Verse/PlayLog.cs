@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000BCB RID: 3019
 	public class PlayLog : IExposable
 	{
+		// Token: 0x04002CF5 RID: 11509
+		private List<LogEntry> entries = new List<LogEntry>();
+
+		// Token: 0x04002CF6 RID: 11510
+		private const int Capacity = 150;
+
 		// Token: 0x17000A48 RID: 2632
 		// (get) Token: 0x060041D1 RID: 16849 RVA: 0x0022AAF0 File Offset: 0x00228EF0
 		public List<LogEntry> AllEntries
@@ -98,11 +104,5 @@ namespace Verse
 			}
 			return false;
 		}
-
-		// Token: 0x04002CF5 RID: 11509
-		private List<LogEntry> entries = new List<LogEntry>();
-
-		// Token: 0x04002CF6 RID: 11510
-		private const int Capacity = 150;
 	}
 }

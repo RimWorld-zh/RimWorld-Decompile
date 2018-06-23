@@ -11,6 +11,39 @@ namespace RimWorld
 	// Token: 0x0200035D RID: 861
 	public class Storyteller : IExposable
 	{
+		// Token: 0x04000932 RID: 2354
+		public StorytellerDef def;
+
+		// Token: 0x04000933 RID: 2355
+		public DifficultyDef difficulty;
+
+		// Token: 0x04000934 RID: 2356
+		public List<StorytellerComp> storytellerComps;
+
+		// Token: 0x04000935 RID: 2357
+		public IncidentQueue incidentQueue = new IncidentQueue();
+
+		// Token: 0x04000936 RID: 2358
+		public StoryIntender_Population intenderPopulation;
+
+		// Token: 0x04000937 RID: 2359
+		public static readonly Vector2 PortraitSizeTiny = new Vector2(116f, 124f);
+
+		// Token: 0x04000938 RID: 2360
+		public static readonly Vector2 PortraitSizeLarge = new Vector2(580f, 620f);
+
+		// Token: 0x04000939 RID: 2361
+		public const int IntervalsPerDay = 60;
+
+		// Token: 0x0400093A RID: 2362
+		public const int CheckInterval = 1000;
+
+		// Token: 0x0400093B RID: 2363
+		private static List<IIncidentTarget> tmpAllIncidentTargets = new List<IIncidentTarget>();
+
+		// Token: 0x0400093C RID: 2364
+		private string debugStringCached = "Generating data...";
+
 		// Token: 0x06000EF2 RID: 3826 RVA: 0x0007E11C File Offset: 0x0007C51C
 		public Storyteller()
 		{
@@ -220,38 +253,5 @@ namespace RimWorld
 			}
 			return this.debugStringCached;
 		}
-
-		// Token: 0x04000932 RID: 2354
-		public StorytellerDef def;
-
-		// Token: 0x04000933 RID: 2355
-		public DifficultyDef difficulty;
-
-		// Token: 0x04000934 RID: 2356
-		public List<StorytellerComp> storytellerComps;
-
-		// Token: 0x04000935 RID: 2357
-		public IncidentQueue incidentQueue = new IncidentQueue();
-
-		// Token: 0x04000936 RID: 2358
-		public StoryIntender_Population intenderPopulation;
-
-		// Token: 0x04000937 RID: 2359
-		public static readonly Vector2 PortraitSizeTiny = new Vector2(116f, 124f);
-
-		// Token: 0x04000938 RID: 2360
-		public static readonly Vector2 PortraitSizeLarge = new Vector2(580f, 620f);
-
-		// Token: 0x04000939 RID: 2361
-		public const int IntervalsPerDay = 60;
-
-		// Token: 0x0400093A RID: 2362
-		public const int CheckInterval = 1000;
-
-		// Token: 0x0400093B RID: 2363
-		private static List<IIncidentTarget> tmpAllIncidentTargets = new List<IIncidentTarget>();
-
-		// Token: 0x0400093C RID: 2364
-		private string debugStringCached = "Generating data...";
 	}
 }

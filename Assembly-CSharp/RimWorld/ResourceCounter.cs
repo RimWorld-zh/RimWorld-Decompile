@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x0200042B RID: 1067
 	public sealed class ResourceCounter
 	{
+		// Token: 0x04000B65 RID: 2917
+		private Map map;
+
+		// Token: 0x04000B66 RID: 2918
+		private Dictionary<ThingDef, int> countedAmounts = new Dictionary<ThingDef, int>();
+
+		// Token: 0x04000B67 RID: 2919
+		private static List<ThingDef> resources = new List<ThingDef>();
+
 		// Token: 0x060012A5 RID: 4773 RVA: 0x000A1E27 File Offset: 0x000A0227
 		public ResourceCounter(Map map)
 		{
@@ -162,14 +171,5 @@ namespace RimWorld
 		{
 			return !t.IsNotFresh();
 		}
-
-		// Token: 0x04000B65 RID: 2917
-		private Map map;
-
-		// Token: 0x04000B66 RID: 2918
-		private Dictionary<ThingDef, int> countedAmounts = new Dictionary<ThingDef, int>();
-
-		// Token: 0x04000B67 RID: 2919
-		private static List<ThingDef> resources = new List<ThingDef>();
 	}
 }

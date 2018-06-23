@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000690 RID: 1680
 	public class SlotGroup
 	{
+		// Token: 0x040013EB RID: 5099
+		public ISlotGroupParent parent;
+
 		// Token: 0x060023A6 RID: 9126 RVA: 0x00131F40 File Offset: 0x00130340
 		public SlotGroup(ISlotGroupParent parent)
 		{
@@ -107,8 +110,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040013EB RID: 5099
-		public ISlotGroupParent parent;
 	}
 }

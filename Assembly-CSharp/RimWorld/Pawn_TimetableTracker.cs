@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x02000518 RID: 1304
 	public class Pawn_TimetableTracker : IExposable
 	{
+		// Token: 0x04000DF9 RID: 3577
+		private Pawn pawn;
+
+		// Token: 0x04000DFA RID: 3578
+		public List<TimeAssignmentDef> times;
+
 		// Token: 0x060017B3 RID: 6067 RVA: 0x000CF17C File Offset: 0x000CD57C
 		public Pawn_TimetableTracker(Pawn pawn)
 		{
@@ -63,11 +69,5 @@ namespace RimWorld
 		{
 			this.times[hour] = ta;
 		}
-
-		// Token: 0x04000DF9 RID: 3577
-		private Pawn pawn;
-
-		// Token: 0x04000DFA RID: 3578
-		public List<TimeAssignmentDef> times;
 	}
 }

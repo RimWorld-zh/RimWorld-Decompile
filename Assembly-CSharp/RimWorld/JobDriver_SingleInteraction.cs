@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x0200007E RID: 126
 	public class JobDriver_SingleInteraction : JobDriver
 	{
+		// Token: 0x04000236 RID: 566
+		private const TargetIndex OtherPawnInd = TargetIndex.A;
+
 		// Token: 0x170000B0 RID: 176
 		// (get) Token: 0x06000358 RID: 856 RVA: 0x00025248 File Offset: 0x00023648
 		private Pawn OtherPawn
@@ -36,8 +39,5 @@ namespace RimWorld
 			yield return Toils_Interpersonal.Interact(TargetIndex.A, this.job.interaction);
 			yield break;
 		}
-
-		// Token: 0x04000236 RID: 566
-		private const TargetIndex OtherPawnInd = TargetIndex.A;
 	}
 }

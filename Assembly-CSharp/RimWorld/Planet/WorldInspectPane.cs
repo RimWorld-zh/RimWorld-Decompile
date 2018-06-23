@@ -10,6 +10,25 @@ namespace RimWorld.Planet
 	// Token: 0x020008E9 RID: 2281
 	public class WorldInspectPane : Window, IInspectPane
 	{
+		// Token: 0x04001C6A RID: 7274
+		private static readonly WITab[] TileTabs = new WITab[]
+		{
+			new WITab_Terrain(),
+			new WITab_Planet()
+		};
+
+		// Token: 0x04001C6B RID: 7275
+		private Type openTabType;
+
+		// Token: 0x04001C6C RID: 7276
+		private float recentHeight;
+
+		// Token: 0x04001C6D RID: 7277
+		public Gizmo mouseoverGizmo;
+
+		// Token: 0x04001C6E RID: 7278
+		private static List<object> tmpObjectsList = new List<object>();
+
 		// Token: 0x06003480 RID: 13440 RVA: 0x001C14E0 File Offset: 0x001BF8E0
 		public WorldInspectPane()
 		{
@@ -342,24 +361,5 @@ namespace RimWorld.Planet
 		{
 			this.openTabType = null;
 		}
-
-		// Token: 0x04001C6A RID: 7274
-		private static readonly WITab[] TileTabs = new WITab[]
-		{
-			new WITab_Terrain(),
-			new WITab_Planet()
-		};
-
-		// Token: 0x04001C6B RID: 7275
-		private Type openTabType;
-
-		// Token: 0x04001C6C RID: 7276
-		private float recentHeight;
-
-		// Token: 0x04001C6D RID: 7277
-		public Gizmo mouseoverGizmo;
-
-		// Token: 0x04001C6E RID: 7278
-		private static List<object> tmpObjectsList = new List<object>();
 	}
 }

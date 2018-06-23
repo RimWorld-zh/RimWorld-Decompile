@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000048 RID: 72
 	public class JobDriver_SmoothWall : JobDriver
 	{
+		// Token: 0x040001DC RID: 476
+		private float workLeft = -1000f;
+
 		// Token: 0x1700007E RID: 126
 		// (get) Token: 0x06000252 RID: 594 RVA: 0x000186C8 File Offset: 0x00016AC8
 		protected int BaseWorkAmount
@@ -94,8 +97,5 @@ namespace RimWorld
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.workLeft, "workLeft", 0f, false);
 		}
-
-		// Token: 0x040001DC RID: 476
-		private float workLeft = -1000f;
 	}
 }

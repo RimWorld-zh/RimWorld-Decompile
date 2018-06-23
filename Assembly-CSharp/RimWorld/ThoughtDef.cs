@@ -8,6 +8,86 @@ namespace RimWorld
 	// Token: 0x020002E4 RID: 740
 	public class ThoughtDef : Def
 	{
+		// Token: 0x040007AF RID: 1967
+		public Type thoughtClass = null;
+
+		// Token: 0x040007B0 RID: 1968
+		public Type workerClass = null;
+
+		// Token: 0x040007B1 RID: 1969
+		public List<ThoughtStage> stages = new List<ThoughtStage>();
+
+		// Token: 0x040007B2 RID: 1970
+		public int stackLimit = 1;
+
+		// Token: 0x040007B3 RID: 1971
+		public float stackedEffectMultiplier = 0.75f;
+
+		// Token: 0x040007B4 RID: 1972
+		public float durationDays = 0f;
+
+		// Token: 0x040007B5 RID: 1973
+		public bool invert = false;
+
+		// Token: 0x040007B6 RID: 1974
+		public bool validWhileDespawned = false;
+
+		// Token: 0x040007B7 RID: 1975
+		public ThoughtDef nextThought = null;
+
+		// Token: 0x040007B8 RID: 1976
+		public List<TraitDef> nullifyingTraits = null;
+
+		// Token: 0x040007B9 RID: 1977
+		public List<TaleDef> nullifyingOwnTales = null;
+
+		// Token: 0x040007BA RID: 1978
+		public List<TraitDef> requiredTraits = null;
+
+		// Token: 0x040007BB RID: 1979
+		public int requiredTraitsDegree = int.MinValue;
+
+		// Token: 0x040007BC RID: 1980
+		public StatDef effectMultiplyingStat = null;
+
+		// Token: 0x040007BD RID: 1981
+		public HediffDef hediff;
+
+		// Token: 0x040007BE RID: 1982
+		public GameConditionDef gameCondition;
+
+		// Token: 0x040007BF RID: 1983
+		public bool nullifiedIfNotColonist;
+
+		// Token: 0x040007C0 RID: 1984
+		public ThoughtDef thoughtToMake = null;
+
+		// Token: 0x040007C1 RID: 1985
+		[NoTranslate]
+		private string icon = null;
+
+		// Token: 0x040007C2 RID: 1986
+		public bool showBubble = false;
+
+		// Token: 0x040007C3 RID: 1987
+		public int stackLimitForSameOtherPawn = -1;
+
+		// Token: 0x040007C4 RID: 1988
+		public float lerpOpinionToZeroAfterDurationPct = 0.7f;
+
+		// Token: 0x040007C5 RID: 1989
+		public float maxCumulatedOpinionOffset = float.MaxValue;
+
+		// Token: 0x040007C6 RID: 1990
+		public TaleDef taleDef;
+
+		// Token: 0x040007C7 RID: 1991
+		[Unsaved]
+		private ThoughtWorker workerInt = null;
+
+		// Token: 0x040007C8 RID: 1992
+		private Texture2D iconInt;
+
 		// Token: 0x170001CB RID: 459
 		// (get) Token: 0x06000C30 RID: 3120 RVA: 0x0006C2A8 File Offset: 0x0006A6A8
 		public string Label
@@ -186,85 +266,5 @@ namespace RimWorld
 		{
 			return DefDatabase<ThoughtDef>.GetNamed(defName, true);
 		}
-
-		// Token: 0x040007AF RID: 1967
-		public Type thoughtClass = null;
-
-		// Token: 0x040007B0 RID: 1968
-		public Type workerClass = null;
-
-		// Token: 0x040007B1 RID: 1969
-		public List<ThoughtStage> stages = new List<ThoughtStage>();
-
-		// Token: 0x040007B2 RID: 1970
-		public int stackLimit = 1;
-
-		// Token: 0x040007B3 RID: 1971
-		public float stackedEffectMultiplier = 0.75f;
-
-		// Token: 0x040007B4 RID: 1972
-		public float durationDays = 0f;
-
-		// Token: 0x040007B5 RID: 1973
-		public bool invert = false;
-
-		// Token: 0x040007B6 RID: 1974
-		public bool validWhileDespawned = false;
-
-		// Token: 0x040007B7 RID: 1975
-		public ThoughtDef nextThought = null;
-
-		// Token: 0x040007B8 RID: 1976
-		public List<TraitDef> nullifyingTraits = null;
-
-		// Token: 0x040007B9 RID: 1977
-		public List<TaleDef> nullifyingOwnTales = null;
-
-		// Token: 0x040007BA RID: 1978
-		public List<TraitDef> requiredTraits = null;
-
-		// Token: 0x040007BB RID: 1979
-		public int requiredTraitsDegree = int.MinValue;
-
-		// Token: 0x040007BC RID: 1980
-		public StatDef effectMultiplyingStat = null;
-
-		// Token: 0x040007BD RID: 1981
-		public HediffDef hediff;
-
-		// Token: 0x040007BE RID: 1982
-		public GameConditionDef gameCondition;
-
-		// Token: 0x040007BF RID: 1983
-		public bool nullifiedIfNotColonist;
-
-		// Token: 0x040007C0 RID: 1984
-		public ThoughtDef thoughtToMake = null;
-
-		// Token: 0x040007C1 RID: 1985
-		[NoTranslate]
-		private string icon = null;
-
-		// Token: 0x040007C2 RID: 1986
-		public bool showBubble = false;
-
-		// Token: 0x040007C3 RID: 1987
-		public int stackLimitForSameOtherPawn = -1;
-
-		// Token: 0x040007C4 RID: 1988
-		public float lerpOpinionToZeroAfterDurationPct = 0.7f;
-
-		// Token: 0x040007C5 RID: 1989
-		public float maxCumulatedOpinionOffset = float.MaxValue;
-
-		// Token: 0x040007C6 RID: 1990
-		public TaleDef taleDef;
-
-		// Token: 0x040007C7 RID: 1991
-		[Unsaved]
-		private ThoughtWorker workerInt = null;
-
-		// Token: 0x040007C8 RID: 1992
-		private Texture2D iconInt;
 	}
 }

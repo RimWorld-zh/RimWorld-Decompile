@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000D99 RID: 3481
 	public class PostLoadIniter
 	{
+		// Token: 0x040033F0 RID: 13296
+		private HashSet<IExposable> saveablesToPostLoad = new HashSet<IExposable>();
+
 		// Token: 0x06004DD5 RID: 19925 RVA: 0x0028A78C File Offset: 0x00288B8C
 		public void RegisterForPostLoadInit(IExposable s)
 		{
@@ -67,8 +70,5 @@ namespace Verse
 		{
 			this.saveablesToPostLoad.Clear();
 		}
-
-		// Token: 0x040033F0 RID: 13296
-		private HashSet<IExposable> saveablesToPostLoad = new HashSet<IExposable>();
 	}
 }

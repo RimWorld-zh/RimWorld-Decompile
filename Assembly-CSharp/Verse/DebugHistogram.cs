@@ -8,6 +8,12 @@ namespace Verse
 	// Token: 0x02000E24 RID: 3620
 	public class DebugHistogram
 	{
+		// Token: 0x04003811 RID: 14353
+		private float[] buckets;
+
+		// Token: 0x04003812 RID: 14354
+		private int[] counts;
+
 		// Token: 0x06005505 RID: 21765 RVA: 0x002BA41A File Offset: 0x002B881A
 		public DebugHistogram(float[] buckets)
 		{
@@ -52,11 +58,5 @@ namespace Verse
 				}));
 			}
 		}
-
-		// Token: 0x04003811 RID: 14353
-		private float[] buckets;
-
-		// Token: 0x04003812 RID: 14354
-		private int[] counts;
 	}
 }

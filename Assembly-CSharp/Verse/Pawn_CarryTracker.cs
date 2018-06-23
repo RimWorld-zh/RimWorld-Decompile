@@ -10,6 +10,12 @@ namespace Verse
 	// Token: 0x02000D54 RID: 3412
 	public class Pawn_CarryTracker : IThingHolder, IExposable
 	{
+		// Token: 0x04003303 RID: 13059
+		public Pawn pawn;
+
+		// Token: 0x04003304 RID: 13060
+		public ThingOwner<Thing> innerContainer;
+
 		// Token: 0x06004C39 RID: 19513 RVA: 0x0027C1E6 File Offset: 0x0027A5E6
 		public Pawn_CarryTracker(Pawn pawn)
 		{
@@ -199,11 +205,5 @@ namespace Verse
 		{
 			this.innerContainer.ThingOwnerTick(true);
 		}
-
-		// Token: 0x04003303 RID: 13059
-		public Pawn pawn;
-
-		// Token: 0x04003304 RID: 13060
-		public ThingOwner<Thing> innerContainer;
 	}
 }

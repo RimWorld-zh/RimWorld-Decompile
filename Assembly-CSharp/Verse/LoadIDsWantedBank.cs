@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000D95 RID: 3477
 	public class LoadIDsWantedBank
 	{
+		// Token: 0x040033E6 RID: 13286
+		private List<LoadIDsWantedBank.IdRecord> idsRead = new List<LoadIDsWantedBank.IdRecord>();
+
+		// Token: 0x040033E7 RID: 13287
+		private List<LoadIDsWantedBank.IdListRecord> idListsRead = new List<LoadIDsWantedBank.IdListRecord>();
+
 		// Token: 0x06004DC6 RID: 19910 RVA: 0x00289DFC File Offset: 0x002881FC
 		public void ConfirmClear()
 		{
@@ -164,24 +170,9 @@ namespace Verse
 			return new List<string>();
 		}
 
-		// Token: 0x040033E6 RID: 13286
-		private List<LoadIDsWantedBank.IdRecord> idsRead = new List<LoadIDsWantedBank.IdRecord>();
-
-		// Token: 0x040033E7 RID: 13287
-		private List<LoadIDsWantedBank.IdListRecord> idListsRead = new List<LoadIDsWantedBank.IdListRecord>();
-
 		// Token: 0x02000D96 RID: 3478
 		private struct IdRecord
 		{
-			// Token: 0x06004DCE RID: 19918 RVA: 0x0028A412 File Offset: 0x00288812
-			public IdRecord(string targetLoadID, Type targetType, string pathRelToParent, IExposable parent)
-			{
-				this.targetLoadID = targetLoadID;
-				this.targetType = targetType;
-				this.pathRelToParent = pathRelToParent;
-				this.parent = parent;
-			}
-
 			// Token: 0x040033E8 RID: 13288
 			public string targetLoadID;
 
@@ -193,19 +184,20 @@ namespace Verse
 
 			// Token: 0x040033EB RID: 13291
 			public IExposable parent;
+
+			// Token: 0x06004DCE RID: 19918 RVA: 0x0028A412 File Offset: 0x00288812
+			public IdRecord(string targetLoadID, Type targetType, string pathRelToParent, IExposable parent)
+			{
+				this.targetLoadID = targetLoadID;
+				this.targetType = targetType;
+				this.pathRelToParent = pathRelToParent;
+				this.parent = parent;
+			}
 		}
 
 		// Token: 0x02000D97 RID: 3479
 		private struct IdListRecord
 		{
-			// Token: 0x06004DCF RID: 19919 RVA: 0x0028A432 File Offset: 0x00288832
-			public IdListRecord(List<string> targetLoadIDs, string pathRelToParent, IExposable parent)
-			{
-				this.targetLoadIDs = targetLoadIDs;
-				this.pathRelToParent = pathRelToParent;
-				this.parent = parent;
-			}
-
 			// Token: 0x040033EC RID: 13292
 			public List<string> targetLoadIDs;
 
@@ -214,6 +206,14 @@ namespace Verse
 
 			// Token: 0x040033EE RID: 13294
 			public IExposable parent;
+
+			// Token: 0x06004DCF RID: 19919 RVA: 0x0028A432 File Offset: 0x00288832
+			public IdListRecord(List<string> targetLoadIDs, string pathRelToParent, IExposable parent)
+			{
+				this.targetLoadIDs = targetLoadIDs;
+				this.pathRelToParent = pathRelToParent;
+				this.parent = parent;
+			}
 		}
 	}
 }

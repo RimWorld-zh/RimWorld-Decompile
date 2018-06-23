@@ -9,6 +9,43 @@ namespace RimWorld
 	// Token: 0x02000072 RID: 114
 	public class JobDriver_Lovin : JobDriver
 	{
+		// Token: 0x04000219 RID: 537
+		private int ticksLeft = 0;
+
+		// Token: 0x0400021A RID: 538
+		private TargetIndex PartnerInd = TargetIndex.A;
+
+		// Token: 0x0400021B RID: 539
+		private TargetIndex BedInd = TargetIndex.B;
+
+		// Token: 0x0400021C RID: 540
+		private const int TicksBetweenHeartMotes = 100;
+
+		// Token: 0x0400021D RID: 541
+		private static readonly SimpleCurve LovinIntervalHoursFromAgeCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(16f, 1.5f),
+				true
+			},
+			{
+				new CurvePoint(22f, 1.5f),
+				true
+			},
+			{
+				new CurvePoint(30f, 4f),
+				true
+			},
+			{
+				new CurvePoint(50f, 12f),
+				true
+			},
+			{
+				new CurvePoint(75f, 36f),
+				true
+			}
+		};
+
 		// Token: 0x170000A1 RID: 161
 		// (get) Token: 0x0600031C RID: 796 RVA: 0x00021D74 File Offset: 0x00020174
 		private Pawn Partner
@@ -119,42 +156,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000219 RID: 537
-		private int ticksLeft = 0;
-
-		// Token: 0x0400021A RID: 538
-		private TargetIndex PartnerInd = TargetIndex.A;
-
-		// Token: 0x0400021B RID: 539
-		private TargetIndex BedInd = TargetIndex.B;
-
-		// Token: 0x0400021C RID: 540
-		private const int TicksBetweenHeartMotes = 100;
-
-		// Token: 0x0400021D RID: 541
-		private static readonly SimpleCurve LovinIntervalHoursFromAgeCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(16f, 1.5f),
-				true
-			},
-			{
-				new CurvePoint(22f, 1.5f),
-				true
-			},
-			{
-				new CurvePoint(30f, 4f),
-				true
-			},
-			{
-				new CurvePoint(50f, 12f),
-				true
-			},
-			{
-				new CurvePoint(75f, 36f),
-				true
-			}
-		};
 	}
 }

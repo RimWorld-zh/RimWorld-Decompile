@@ -5,6 +5,9 @@ namespace Verse.Sound
 	// Token: 0x02000B79 RID: 2937
 	public class ResolvedGrain_Silence : ResolvedGrain
 	{
+		// Token: 0x04002AEE RID: 10990
+		public AudioGrain_Silence sourceGrain;
+
 		// Token: 0x06004008 RID: 16392 RVA: 0x0021BB64 File Offset: 0x00219F64
 		public ResolvedGrain_Silence(AudioGrain_Silence sourceGrain)
 		{
@@ -39,8 +42,5 @@ namespace Verse.Sound
 		{
 			return this.sourceGrain.GetHashCode();
 		}
-
-		// Token: 0x04002AEE RID: 10990
-		public AudioGrain_Silence sourceGrain;
 	}
 }

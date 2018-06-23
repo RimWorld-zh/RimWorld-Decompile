@@ -11,6 +11,15 @@ namespace RimWorld.Planet
 	// Token: 0x02000591 RID: 1425
 	public class WorldLayer_Roads : WorldLayer_Paths
 	{
+		// Token: 0x04001013 RID: 4115
+		private ModuleBase roadDisplacementX = new Perlin(1.0, 2.0, 0.5, 3, 74173887, QualityMode.Medium);
+
+		// Token: 0x04001014 RID: 4116
+		private ModuleBase roadDisplacementY = new Perlin(1.0, 2.0, 0.5, 3, 67515931, QualityMode.Medium);
+
+		// Token: 0x04001015 RID: 4117
+		private ModuleBase roadDisplacementZ = new Perlin(1.0, 2.0, 0.5, 3, 87116801, QualityMode.Medium);
+
 		// Token: 0x06001B36 RID: 6966 RVA: 0x000EA6A4 File Offset: 0x000E8AA4
 		public override IEnumerable Regenerate()
 		{
@@ -106,14 +115,5 @@ namespace RimWorld.Planet
 			inp = (inp + a * distortionIntensity).normalized * magnitude;
 			return inp + inp.normalized * 0.012f;
 		}
-
-		// Token: 0x04001013 RID: 4115
-		private ModuleBase roadDisplacementX = new Perlin(1.0, 2.0, 0.5, 3, 74173887, QualityMode.Medium);
-
-		// Token: 0x04001014 RID: 4116
-		private ModuleBase roadDisplacementY = new Perlin(1.0, 2.0, 0.5, 3, 67515931, QualityMode.Medium);
-
-		// Token: 0x04001015 RID: 4117
-		private ModuleBase roadDisplacementZ = new Perlin(1.0, 2.0, 0.5, 3, 87116801, QualityMode.Medium);
 	}
 }

@@ -9,6 +9,16 @@ namespace RimWorld
 	// Token: 0x02000654 RID: 1620
 	public static class AmbientSoundManager
 	{
+		// Token: 0x0400132C RID: 4908
+		private static List<Sustainer> biomeAmbientSustainers = new List<Sustainer>();
+
+		// Token: 0x0400132D RID: 4909
+		private static Action recreateMapSustainers;
+
+		// Token: 0x0400132E RID: 4910
+		[CompilerGenerated]
+		private static Action <>f__mg$cache0;
+
 		// Token: 0x170004F6 RID: 1270
 		// (get) Token: 0x060021D3 RID: 8659 RVA: 0x0011F330 File Offset: 0x0011D730
 		private static bool WorldAmbientSoundCreated
@@ -82,15 +92,5 @@ namespace RimWorld
 			}
 			AmbientSoundManager.recreateMapSustainers = AmbientSoundManager.<>f__mg$cache0;
 		}
-
-		// Token: 0x0400132C RID: 4908
-		private static List<Sustainer> biomeAmbientSustainers = new List<Sustainer>();
-
-		// Token: 0x0400132D RID: 4909
-		private static Action recreateMapSustainers;
-
-		// Token: 0x0400132E RID: 4910
-		[CompilerGenerated]
-		private static Action <>f__mg$cache0;
 	}
 }

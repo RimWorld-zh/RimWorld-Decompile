@@ -10,6 +10,24 @@ namespace RuntimeAudioClipLoader
 	// Token: 0x020009DA RID: 2522
 	internal class CustomAudioFileReader : WaveStream, ISampleProvider
 	{
+		// Token: 0x04002414 RID: 9236
+		private WaveStream readerStream;
+
+		// Token: 0x04002415 RID: 9237
+		private readonly SampleChannel sampleChannel;
+
+		// Token: 0x04002416 RID: 9238
+		private readonly int destBytesPerSample;
+
+		// Token: 0x04002417 RID: 9239
+		private readonly int sourceBytesPerSample;
+
+		// Token: 0x04002418 RID: 9240
+		private readonly long length;
+
+		// Token: 0x04002419 RID: 9241
+		private readonly object lockObject;
+
 		// Token: 0x06003880 RID: 14464 RVA: 0x001E3750 File Offset: 0x001E1B50
 		public CustomAudioFileReader(Stream stream, AudioFormat format)
 		{
@@ -151,23 +169,5 @@ namespace RuntimeAudioClipLoader
 			}
 			base.Dispose(disposing);
 		}
-
-		// Token: 0x04002414 RID: 9236
-		private WaveStream readerStream;
-
-		// Token: 0x04002415 RID: 9237
-		private readonly SampleChannel sampleChannel;
-
-		// Token: 0x04002416 RID: 9238
-		private readonly int destBytesPerSample;
-
-		// Token: 0x04002417 RID: 9239
-		private readonly int sourceBytesPerSample;
-
-		// Token: 0x04002418 RID: 9240
-		private readonly long length;
-
-		// Token: 0x04002419 RID: 9241
-		private readonly object lockObject;
 	}
 }

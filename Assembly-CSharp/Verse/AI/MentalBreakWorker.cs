@@ -8,6 +8,9 @@ namespace Verse.AI
 	// Token: 0x02000A58 RID: 2648
 	public class MentalBreakWorker
 	{
+		// Token: 0x04002545 RID: 9541
+		public MentalBreakDef def;
+
 		// Token: 0x06003AF6 RID: 15094 RVA: 0x001F4C1C File Offset: 0x001F301C
 		public virtual float CommonalityFor(Pawn pawn)
 		{
@@ -88,8 +91,5 @@ namespace Verse.AI
 			}
 			return result;
 		}
-
-		// Token: 0x04002545 RID: 9541
-		public MentalBreakDef def;
 	}
 }

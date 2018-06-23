@@ -12,6 +12,13 @@ namespace Verse
 	// Token: 0x02000BF1 RID: 3057
 	public static class LanguageReportGenerator
 	{
+		// Token: 0x04002DAA RID: 11690
+		private const string FileName = "TranslationReport.txt";
+
+		// Token: 0x04002DAB RID: 11691
+		[CompilerGenerated]
+		private static Action <>f__mg$cache0;
+
 		// Token: 0x060042BA RID: 17082 RVA: 0x00234CDC File Offset: 0x002330DC
 		public static void SaveTranslationReport()
 		{
@@ -465,12 +472,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04002DAA RID: 11690
-		private const string FileName = "TranslationReport.txt";
-
-		// Token: 0x04002DAB RID: 11691
-		[CompilerGenerated]
-		private static Action <>f__mg$cache0;
 	}
 }

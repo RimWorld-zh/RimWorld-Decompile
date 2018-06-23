@@ -9,6 +9,20 @@ namespace UnityStandardAssets.ImageEffects
 	[AddComponentMenu("Image Effects/Displacement/Fisheye")]
 	public class Fisheye : PostEffectsBase
 	{
+		// Token: 0x040007F7 RID: 2039
+		[Range(0f, 1.5f)]
+		public float strengthX = 0.05f;
+
+		// Token: 0x040007F8 RID: 2040
+		[Range(0f, 1.5f)]
+		public float strengthY = 0.05f;
+
+		// Token: 0x040007F9 RID: 2041
+		public Shader fishEyeShader = null;
+
+		// Token: 0x040007FA RID: 2042
+		private Material fisheyeMaterial = null;
+
 		// Token: 0x0600091D RID: 2333 RVA: 0x0001647C File Offset: 0x0001467C
 		public override bool CheckResources()
 		{
@@ -36,19 +50,5 @@ namespace UnityStandardAssets.ImageEffects
 				Graphics.Blit(source, destination, this.fisheyeMaterial);
 			}
 		}
-
-		// Token: 0x040007F7 RID: 2039
-		[Range(0f, 1.5f)]
-		public float strengthX = 0.05f;
-
-		// Token: 0x040007F8 RID: 2040
-		[Range(0f, 1.5f)]
-		public float strengthY = 0.05f;
-
-		// Token: 0x040007F9 RID: 2041
-		public Shader fishEyeShader = null;
-
-		// Token: 0x040007FA RID: 2042
-		private Material fisheyeMaterial = null;
 	}
 }

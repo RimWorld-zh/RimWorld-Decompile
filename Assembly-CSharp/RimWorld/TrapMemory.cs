@@ -6,6 +6,18 @@ namespace RimWorld
 	// Token: 0x0200055E RID: 1374
 	public class TrapMemory : IExposable
 	{
+		// Token: 0x04000F39 RID: 3897
+		public IntVec3 loc;
+
+		// Token: 0x04000F3A RID: 3898
+		public Map map;
+
+		// Token: 0x04000F3B RID: 3899
+		public int tick;
+
+		// Token: 0x04000F3C RID: 3900
+		private const int TrapRecordTicksBeforeExpiry = 1680000;
+
 		// Token: 0x060019F3 RID: 6643 RVA: 0x000E1802 File Offset: 0x000DFC02
 		public TrapMemory()
 		{
@@ -76,17 +88,5 @@ namespace RimWorld
 			Scribe_References.Look<Map>(ref this.map, "map", false);
 			Scribe_Values.Look<int>(ref this.tick, "tick", 0, false);
 		}
-
-		// Token: 0x04000F39 RID: 3897
-		public IntVec3 loc;
-
-		// Token: 0x04000F3A RID: 3898
-		public Map map;
-
-		// Token: 0x04000F3B RID: 3899
-		public int tick;
-
-		// Token: 0x04000F3C RID: 3900
-		private const int TrapRecordTicksBeforeExpiry = 1680000;
 	}
 }

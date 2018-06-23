@@ -8,6 +8,21 @@ namespace RimWorld
 	// Token: 0x0200070C RID: 1804
 	public class CompExplosive : ThingComp
 	{
+		// Token: 0x040015D2 RID: 5586
+		public bool wickStarted = false;
+
+		// Token: 0x040015D3 RID: 5587
+		protected int wickTicksLeft = 0;
+
+		// Token: 0x040015D4 RID: 5588
+		private Thing instigator;
+
+		// Token: 0x040015D5 RID: 5589
+		public bool destroyedThroughDetonation;
+
+		// Token: 0x040015D6 RID: 5590
+		protected Sustainer wickSoundSustainer = null;
+
 		// Token: 0x170005F6 RID: 1526
 		// (get) Token: 0x0600278F RID: 10127 RVA: 0x001535F4 File Offset: 0x001519F4
 		public CompProperties_Explosive Props
@@ -246,20 +261,5 @@ namespace RimWorld
 		{
 			return this.Props.requiredDamageTypeToExplode == null || this.Props.requiredDamageTypeToExplode == damage;
 		}
-
-		// Token: 0x040015D2 RID: 5586
-		public bool wickStarted = false;
-
-		// Token: 0x040015D3 RID: 5587
-		protected int wickTicksLeft = 0;
-
-		// Token: 0x040015D4 RID: 5588
-		private Thing instigator;
-
-		// Token: 0x040015D5 RID: 5589
-		public bool destroyedThroughDetonation;
-
-		// Token: 0x040015D6 RID: 5590
-		protected Sustainer wickSoundSustainer = null;
 	}
 }

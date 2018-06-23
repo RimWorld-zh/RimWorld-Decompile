@@ -5,6 +5,12 @@ namespace Steamworks
 	// Token: 0x0200015F RID: 351
 	public struct HServerListRequest : IEquatable<HServerListRequest>
 	{
+		// Token: 0x04000672 RID: 1650
+		public static readonly HServerListRequest Invalid = new HServerListRequest(IntPtr.Zero);
+
+		// Token: 0x04000673 RID: 1651
+		public IntPtr m_HServerListRequest;
+
 		// Token: 0x060007E1 RID: 2017 RVA: 0x0000DB49 File Offset: 0x0000BD49
 		public HServerListRequest(IntPtr value)
 		{
@@ -58,11 +64,5 @@ namespace Steamworks
 		{
 			return this.m_HServerListRequest == other.m_HServerListRequest;
 		}
-
-		// Token: 0x04000672 RID: 1650
-		public static readonly HServerListRequest Invalid = new HServerListRequest(IntPtr.Zero);
-
-		// Token: 0x04000673 RID: 1651
-		public IntPtr m_HServerListRequest;
 	}
 }

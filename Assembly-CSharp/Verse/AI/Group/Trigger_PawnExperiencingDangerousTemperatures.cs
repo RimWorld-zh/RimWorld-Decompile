@@ -6,6 +6,9 @@ namespace Verse.AI.Group
 	// Token: 0x02000A2B RID: 2603
 	public class Trigger_PawnExperiencingDangerousTemperatures : Trigger
 	{
+		// Token: 0x040024B7 RID: 9399
+		private float temperatureHediffThreshold = 0.15f;
+
 		// Token: 0x060039D6 RID: 14806 RVA: 0x001E8E78 File Offset: 0x001E7278
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
@@ -31,8 +34,5 @@ namespace Verse.AI.Group
 			}
 			return false;
 		}
-
-		// Token: 0x040024B7 RID: 9399
-		private float temperatureHediffThreshold = 0.15f;
 	}
 }

@@ -7,6 +7,27 @@ namespace Verse
 	// Token: 0x02000DC9 RID: 3529
 	public class Graphic
 	{
+		// Token: 0x04003490 RID: 13456
+		public GraphicData data;
+
+		// Token: 0x04003491 RID: 13457
+		public string path;
+
+		// Token: 0x04003492 RID: 13458
+		public Color color = Color.white;
+
+		// Token: 0x04003493 RID: 13459
+		public Color colorTwo = Color.white;
+
+		// Token: 0x04003494 RID: 13460
+		public Vector2 drawSize = Vector2.one;
+
+		// Token: 0x04003495 RID: 13461
+		private Graphic_Shadow cachedShadowGraphicInt = null;
+
+		// Token: 0x04003496 RID: 13462
+		private Graphic cachedShadowlessGraphicInt;
+
 		// Token: 0x17000CC8 RID: 3272
 		// (get) Token: 0x06004F10 RID: 20240 RVA: 0x0012CE54 File Offset: 0x0012B254
 		public Shader Shader
@@ -315,26 +336,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003490 RID: 13456
-		public GraphicData data;
-
-		// Token: 0x04003491 RID: 13457
-		public string path;
-
-		// Token: 0x04003492 RID: 13458
-		public Color color = Color.white;
-
-		// Token: 0x04003493 RID: 13459
-		public Color colorTwo = Color.white;
-
-		// Token: 0x04003494 RID: 13460
-		public Vector2 drawSize = Vector2.one;
-
-		// Token: 0x04003495 RID: 13461
-		private Graphic_Shadow cachedShadowGraphicInt = null;
-
-		// Token: 0x04003496 RID: 13462
-		private Graphic cachedShadowlessGraphicInt;
 	}
 }

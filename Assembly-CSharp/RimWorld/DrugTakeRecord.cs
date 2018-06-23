@@ -6,6 +6,18 @@ namespace RimWorld
 	// Token: 0x020004E7 RID: 1255
 	public class DrugTakeRecord : IExposable
 	{
+		// Token: 0x04000D1A RID: 3354
+		public ThingDef drug;
+
+		// Token: 0x04000D1B RID: 3355
+		public int lastTakenTicks;
+
+		// Token: 0x04000D1C RID: 3356
+		private int timesTakenThisDayInt;
+
+		// Token: 0x04000D1D RID: 3357
+		private int thisDay;
+
 		// Token: 0x170002EF RID: 751
 		// (get) Token: 0x0600166F RID: 5743 RVA: 0x000C7120 File Offset: 0x000C5520
 		public int LastTakenDays
@@ -49,17 +61,5 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.timesTakenThisDayInt, "timesTakenThisDay", 0, false);
 			Scribe_Values.Look<int>(ref this.thisDay, "thisDay", 0, false);
 		}
-
-		// Token: 0x04000D1A RID: 3354
-		public ThingDef drug;
-
-		// Token: 0x04000D1B RID: 3355
-		public int lastTakenTicks;
-
-		// Token: 0x04000D1C RID: 3356
-		private int timesTakenThisDayInt;
-
-		// Token: 0x04000D1D RID: 3357
-		private int thisDay;
 	}
 }

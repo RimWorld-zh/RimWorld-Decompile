@@ -9,6 +9,18 @@ namespace RimWorld
 	// Token: 0x020000E7 RID: 231
 	public class JobGiver_PackFood : ThinkNode_JobGiver
 	{
+		// Token: 0x040002C3 RID: 707
+		private const float MaxInvNutritionToConsiderLookingForFood = 0.4f;
+
+		// Token: 0x040002C4 RID: 708
+		private const float MinFinalInvNutritionToPickUp = 0.8f;
+
+		// Token: 0x040002C5 RID: 709
+		private const float MinNutritionPerColonistToDo = 1.5f;
+
+		// Token: 0x040002C6 RID: 710
+		public const FoodPreferability MinFoodPreferability = FoodPreferability.MealAwful;
+
 		// Token: 0x060004FA RID: 1274 RVA: 0x000376E4 File Offset: 0x00035AE4
 		protected override Job TryGiveJob(Pawn pawn)
 		{
@@ -99,17 +111,5 @@ namespace RimWorld
 		{
 			return food.def.IsNutritionGivingIngestible && food.def.EverHaulable && food.def.ingestible.preferability >= FoodPreferability.MealAwful && forPawn.RaceProps.CanEverEat(food);
 		}
-
-		// Token: 0x040002C3 RID: 707
-		private const float MaxInvNutritionToConsiderLookingForFood = 0.4f;
-
-		// Token: 0x040002C4 RID: 708
-		private const float MinFinalInvNutritionToPickUp = 0.8f;
-
-		// Token: 0x040002C5 RID: 709
-		private const float MinNutritionPerColonistToDo = 1.5f;
-
-		// Token: 0x040002C6 RID: 710
-		public const FoodPreferability MinFoodPreferability = FoodPreferability.MealAwful;
 	}
 }

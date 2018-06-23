@@ -6,6 +6,12 @@ namespace Verse.AI
 	// Token: 0x02000AB9 RID: 2745
 	public class ThinkNode_PrioritySorter : ThinkNode
 	{
+		// Token: 0x0400269A RID: 9882
+		public float minPriority = 0f;
+
+		// Token: 0x0400269B RID: 9883
+		private static List<ThinkNode> workingNodes = new List<ThinkNode>();
+
 		// Token: 0x06003D2E RID: 15662 RVA: 0x00204F9C File Offset: 0x0020339C
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -80,11 +86,5 @@ namespace Verse.AI
 			}
 			return ThinkResult.NoJob;
 		}
-
-		// Token: 0x0400269A RID: 9882
-		public float minPriority = 0f;
-
-		// Token: 0x0400269B RID: 9883
-		private static List<ThinkNode> workingNodes = new List<ThinkNode>();
 	}
 }

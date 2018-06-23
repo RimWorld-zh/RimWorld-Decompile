@@ -7,6 +7,9 @@ namespace RimWorld.Planet
 	// Token: 0x020005E1 RID: 1505
 	public static class CaravanTendUtility
 	{
+		// Token: 0x040011A3 RID: 4515
+		private static List<Pawn> tmpPawnsNeedingTreatment = new List<Pawn>();
+
 		// Token: 0x06001DCB RID: 7627 RVA: 0x00100D80 File Offset: 0x000FF180
 		public static void TryTendToRandomPawn(Caravan caravan)
 		{
@@ -78,8 +81,5 @@ namespace RimWorld.Planet
 			}
 			return pawn;
 		}
-
-		// Token: 0x040011A3 RID: 4515
-		private static List<Pawn> tmpPawnsNeedingTreatment = new List<Pawn>();
 	}
 }

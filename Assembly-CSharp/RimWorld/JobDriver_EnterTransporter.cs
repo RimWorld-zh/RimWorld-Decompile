@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000067 RID: 103
 	public class JobDriver_EnterTransporter : JobDriver
 	{
+		// Token: 0x04000207 RID: 519
+		private TargetIndex TransporterInd = TargetIndex.A;
+
 		// Token: 0x17000096 RID: 150
 		// (get) Token: 0x060002E0 RID: 736 RVA: 0x0001F03C File Offset: 0x0001D43C
 		private CompTransporter Transporter
@@ -51,8 +54,5 @@ namespace RimWorld
 			};
 			yield break;
 		}
-
-		// Token: 0x04000207 RID: 519
-		private TargetIndex TransporterInd = TargetIndex.A;
 	}
 }

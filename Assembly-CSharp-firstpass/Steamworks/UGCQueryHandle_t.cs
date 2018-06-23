@@ -5,6 +5,12 @@ namespace Steamworks
 	// Token: 0x0200016D RID: 365
 	public struct UGCQueryHandle_t : IEquatable<UGCQueryHandle_t>, IComparable<UGCQueryHandle_t>
 	{
+		// Token: 0x0400068B RID: 1675
+		public static readonly UGCQueryHandle_t Invalid = new UGCQueryHandle_t(ulong.MaxValue);
+
+		// Token: 0x0400068C RID: 1676
+		public ulong m_UGCQueryHandle;
+
 		// Token: 0x06000877 RID: 2167 RVA: 0x0000EEB5 File Offset: 0x0000D0B5
 		public UGCQueryHandle_t(ulong value)
 		{
@@ -64,11 +70,5 @@ namespace Steamworks
 		{
 			return this.m_UGCQueryHandle.CompareTo(other.m_UGCQueryHandle);
 		}
-
-		// Token: 0x0400068B RID: 1675
-		public static readonly UGCQueryHandle_t Invalid = new UGCQueryHandle_t(ulong.MaxValue);
-
-		// Token: 0x0400068C RID: 1676
-		public ulong m_UGCQueryHandle;
 	}
 }

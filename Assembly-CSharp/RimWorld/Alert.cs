@@ -11,6 +11,48 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public abstract class Alert
 	{
+		// Token: 0x04001702 RID: 5890
+		protected AlertPriority defaultPriority = AlertPriority.Medium;
+
+		// Token: 0x04001703 RID: 5891
+		protected string defaultLabel;
+
+		// Token: 0x04001704 RID: 5892
+		protected string defaultExplanation;
+
+		// Token: 0x04001705 RID: 5893
+		protected float lastBellTime = -1000f;
+
+		// Token: 0x04001706 RID: 5894
+		private int jumpToTargetCycleIndex;
+
+		// Token: 0x04001707 RID: 5895
+		private AlertBounce alertBounce = null;
+
+		// Token: 0x04001708 RID: 5896
+		public const float Width = 154f;
+
+		// Token: 0x04001709 RID: 5897
+		private const float TextWidth = 148f;
+
+		// Token: 0x0400170A RID: 5898
+		public const float Height = 28f;
+
+		// Token: 0x0400170B RID: 5899
+		private const float ItemPeekWidth = 30f;
+
+		// Token: 0x0400170C RID: 5900
+		public const float InfoRectWidth = 330f;
+
+		// Token: 0x0400170D RID: 5901
+		private static readonly Texture2D AlertBGTex = SolidColorMaterials.NewSolidColorTexture(Color.white);
+
+		// Token: 0x0400170E RID: 5902
+		private static readonly Texture2D AlertBGTexHighlight = TexUI.HighlightTex;
+
+		// Token: 0x0400170F RID: 5903
+		private static List<GlobalTargetInfo> tmpTargets = new List<GlobalTargetInfo>();
+
 		// Token: 0x170006A5 RID: 1701
 		// (get) Token: 0x06002AB2 RID: 10930 RVA: 0x00169870 File Offset: 0x00167C70
 		public virtual AlertPriority Priority
@@ -171,47 +213,5 @@ namespace RimWorld
 				}, false, false, 1f);
 			}
 		}
-
-		// Token: 0x04001702 RID: 5890
-		protected AlertPriority defaultPriority = AlertPriority.Medium;
-
-		// Token: 0x04001703 RID: 5891
-		protected string defaultLabel;
-
-		// Token: 0x04001704 RID: 5892
-		protected string defaultExplanation;
-
-		// Token: 0x04001705 RID: 5893
-		protected float lastBellTime = -1000f;
-
-		// Token: 0x04001706 RID: 5894
-		private int jumpToTargetCycleIndex;
-
-		// Token: 0x04001707 RID: 5895
-		private AlertBounce alertBounce = null;
-
-		// Token: 0x04001708 RID: 5896
-		public const float Width = 154f;
-
-		// Token: 0x04001709 RID: 5897
-		private const float TextWidth = 148f;
-
-		// Token: 0x0400170A RID: 5898
-		public const float Height = 28f;
-
-		// Token: 0x0400170B RID: 5899
-		private const float ItemPeekWidth = 30f;
-
-		// Token: 0x0400170C RID: 5900
-		public const float InfoRectWidth = 330f;
-
-		// Token: 0x0400170D RID: 5901
-		private static readonly Texture2D AlertBGTex = SolidColorMaterials.NewSolidColorTexture(Color.white);
-
-		// Token: 0x0400170E RID: 5902
-		private static readonly Texture2D AlertBGTexHighlight = TexUI.HighlightTex;
-
-		// Token: 0x0400170F RID: 5903
-		private static List<GlobalTargetInfo> tmpTargets = new List<GlobalTargetInfo>();
 	}
 }

@@ -8,6 +8,16 @@ namespace RimWorld
 	// Token: 0x02000770 RID: 1904
 	public class StockGenerator_Tag : StockGenerator
 	{
+		// Token: 0x040016B5 RID: 5813
+		[NoTranslate]
+		private string tradeTag = null;
+
+		// Token: 0x040016B6 RID: 5814
+		private IntRange thingDefCountRange = IntRange.one;
+
+		// Token: 0x040016B7 RID: 5815
+		private List<ThingDef> excludedThingDefs = null;
+
 		// Token: 0x06002A16 RID: 10774 RVA: 0x00164DFC File Offset: 0x001631FC
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
@@ -36,15 +46,5 @@ namespace RimWorld
 		{
 			return thingDef.tradeTags != null && thingDef.tradeability != Tradeability.None && thingDef.techLevel <= this.maxTechLevelBuy && thingDef.tradeTags.Contains(this.tradeTag);
 		}
-
-		// Token: 0x040016B5 RID: 5813
-		[NoTranslate]
-		private string tradeTag = null;
-
-		// Token: 0x040016B6 RID: 5814
-		private IntRange thingDefCountRange = IntRange.one;
-
-		// Token: 0x040016B7 RID: 5815
-		private List<ThingDef> excludedThingDefs = null;
 	}
 }

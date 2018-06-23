@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020000EC RID: 236
 	public class JobGiver_ReactToCloseMeleeThreat : ThinkNode_JobGiver
 	{
+		// Token: 0x040002CA RID: 714
+		private const int MaxMeleeChaseTicks = 200;
+
 		// Token: 0x0600050A RID: 1290 RVA: 0x00037FA0 File Offset: 0x000363A0
 		protected override Job TryGiveJob(Pawn pawn)
 		{
@@ -71,8 +74,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040002CA RID: 714
-		private const int MaxMeleeChaseTicks = 200;
 	}
 }

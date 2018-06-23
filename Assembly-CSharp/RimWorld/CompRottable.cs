@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000731 RID: 1841
 	public class CompRottable : ThingComp
 	{
+		// Token: 0x04001642 RID: 5698
+		private float rotProgressInt = 0f;
+
 		// Token: 0x17000642 RID: 1602
 		// (get) Token: 0x06002897 RID: 10391 RVA: 0x0015AD44 File Offset: 0x00159144
 		public CompProperties_Rottable PropsRot
@@ -307,8 +310,5 @@ namespace RimWorld
 				this.RotProgress = (float)this.PropsRot.TicksToRotStart;
 			}
 		}
-
-		// Token: 0x04001642 RID: 5698
-		private float rotProgressInt = 0f;
 	}
 }

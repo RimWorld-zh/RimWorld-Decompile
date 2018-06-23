@@ -7,6 +7,13 @@ namespace RimWorld
 	// Token: 0x0200099E RID: 2462
 	public abstract class StatPart
 	{
+		// Token: 0x04002391 RID: 9105
+		public float priority;
+
+		// Token: 0x04002392 RID: 9106
+		[Unsaved]
+		public StatDef parentStat;
+
 		// Token: 0x06003741 RID: 14145
 		public abstract void TransformValue(StatRequest req, ref float val);
 
@@ -18,12 +25,5 @@ namespace RimWorld
 		{
 			yield break;
 		}
-
-		// Token: 0x04002391 RID: 9105
-		public float priority;
-
-		// Token: 0x04002392 RID: 9106
-		[Unsaved]
-		public StatDef parentStat;
 	}
 }

@@ -7,6 +7,27 @@ namespace Verse.AI.Group
 	// Token: 0x02000A0D RID: 2573
 	public struct TriggerSignal
 	{
+		// Token: 0x0400249B RID: 9371
+		public TriggerSignalType type;
+
+		// Token: 0x0400249C RID: 9372
+		public string memo;
+
+		// Token: 0x0400249D RID: 9373
+		public Thing thing;
+
+		// Token: 0x0400249E RID: 9374
+		public DamageInfo dinfo;
+
+		// Token: 0x0400249F RID: 9375
+		public PawnLostCondition condition;
+
+		// Token: 0x040024A0 RID: 9376
+		public Faction faction;
+
+		// Token: 0x040024A1 RID: 9377
+		public FactionRelationKind? previousRelationKind;
+
 		// Token: 0x06003991 RID: 14737 RVA: 0x001E7EF8 File Offset: 0x001E62F8
 		public TriggerSignal(TriggerSignalType type)
 		{
@@ -73,26 +94,5 @@ namespace Verse.AI.Group
 			stringBuilder.Append(")");
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x0400249B RID: 9371
-		public TriggerSignalType type;
-
-		// Token: 0x0400249C RID: 9372
-		public string memo;
-
-		// Token: 0x0400249D RID: 9373
-		public Thing thing;
-
-		// Token: 0x0400249E RID: 9374
-		public DamageInfo dinfo;
-
-		// Token: 0x0400249F RID: 9375
-		public PawnLostCondition condition;
-
-		// Token: 0x040024A0 RID: 9376
-		public Faction faction;
-
-		// Token: 0x040024A1 RID: 9377
-		public FactionRelationKind? previousRelationKind;
 	}
 }

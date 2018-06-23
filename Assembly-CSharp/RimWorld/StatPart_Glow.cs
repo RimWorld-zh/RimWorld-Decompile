@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x020009A9 RID: 2473
 	public class StatPart_Glow : StatPart
 	{
+		// Token: 0x040023A3 RID: 9123
+		private bool humanlikeOnly = false;
+
+		// Token: 0x040023A4 RID: 9124
+		private SimpleCurve factorFromGlowCurve = null;
+
 		// Token: 0x06003775 RID: 14197 RVA: 0x001D9844 File Offset: 0x001D7C44
 		public override IEnumerable<string> ConfigErrors()
 		{
@@ -69,11 +75,5 @@ namespace RimWorld
 		{
 			return this.factorFromGlowCurve.Evaluate(this.GlowLevel(t));
 		}
-
-		// Token: 0x040023A3 RID: 9123
-		private bool humanlikeOnly = false;
-
-		// Token: 0x040023A4 RID: 9124
-		private SimpleCurve factorFromGlowCurve = null;
 	}
 }

@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class RoomStatDefOf
 	{
-		// Token: 0x06003646 RID: 13894 RVA: 0x001D0BA9 File Offset: 0x001CEFA9
-		static RoomStatDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(RoomStatDefOf));
-		}
-
 		// Token: 0x0400215D RID: 8541
 		public static RoomStatDef Cleanliness;
 
@@ -39,5 +33,11 @@ namespace RimWorld
 
 		// Token: 0x04002165 RID: 8549
 		public static RoomStatDef FoodPoisonChanceFactor;
+
+		// Token: 0x06003646 RID: 13894 RVA: 0x001D0BA9 File Offset: 0x001CEFA9
+		static RoomStatDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(RoomStatDefOf));
+		}
 	}
 }

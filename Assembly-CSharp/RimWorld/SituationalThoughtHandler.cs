@@ -8,6 +8,27 @@ namespace RimWorld
 	// Token: 0x0200052D RID: 1325
 	public sealed class SituationalThoughtHandler
 	{
+		// Token: 0x04000E81 RID: 3713
+		public Pawn pawn;
+
+		// Token: 0x04000E82 RID: 3714
+		private List<Thought_Situational> cachedThoughts = new List<Thought_Situational>();
+
+		// Token: 0x04000E83 RID: 3715
+		private int lastMoodThoughtsRecalculationTick = -99999;
+
+		// Token: 0x04000E84 RID: 3716
+		private Dictionary<Pawn, SituationalThoughtHandler.CachedSocialThoughts> cachedSocialThoughts = new Dictionary<Pawn, SituationalThoughtHandler.CachedSocialThoughts>();
+
+		// Token: 0x04000E85 RID: 3717
+		private const int RecalculateStateEveryTicks = 100;
+
+		// Token: 0x04000E86 RID: 3718
+		private HashSet<ThoughtDef> tmpCachedThoughts = new HashSet<ThoughtDef>();
+
+		// Token: 0x04000E87 RID: 3719
+		private HashSet<ThoughtDef> tmpCachedSocialThoughts = new HashSet<ThoughtDef>();
+
 		// Token: 0x06001882 RID: 6274 RVA: 0x000D741C File Offset: 0x000D581C
 		public SituationalThoughtHandler(Pawn pawn)
 		{
@@ -218,30 +239,24 @@ namespace RimWorld
 			this.cachedSocialThoughts.RemoveAll((KeyValuePair<Pawn, SituationalThoughtHandler.CachedSocialThoughts> x) => x.Value.Expired || x.Key.Discarded);
 		}
 
-		// Token: 0x04000E81 RID: 3713
-		public Pawn pawn;
-
-		// Token: 0x04000E82 RID: 3714
-		private List<Thought_Situational> cachedThoughts = new List<Thought_Situational>();
-
-		// Token: 0x04000E83 RID: 3715
-		private int lastMoodThoughtsRecalculationTick = -99999;
-
-		// Token: 0x04000E84 RID: 3716
-		private Dictionary<Pawn, SituationalThoughtHandler.CachedSocialThoughts> cachedSocialThoughts = new Dictionary<Pawn, SituationalThoughtHandler.CachedSocialThoughts>();
-
-		// Token: 0x04000E85 RID: 3717
-		private const int RecalculateStateEveryTicks = 100;
-
-		// Token: 0x04000E86 RID: 3718
-		private HashSet<ThoughtDef> tmpCachedThoughts = new HashSet<ThoughtDef>();
-
-		// Token: 0x04000E87 RID: 3719
-		private HashSet<ThoughtDef> tmpCachedSocialThoughts = new HashSet<ThoughtDef>();
-
 		// Token: 0x0200052E RID: 1326
 		private class CachedSocialThoughts
 		{
+			// Token: 0x04000E89 RID: 3721
+			public List<Thought_SituationalSocial> thoughts = new List<Thought_SituationalSocial>();
+
+			// Token: 0x04000E8A RID: 3722
+			public List<Thought_SituationalSocial> activeThoughts = new List<Thought_SituationalSocial>();
+
+			// Token: 0x04000E8B RID: 3723
+			public int lastRecalculationTick = -99999;
+
+			// Token: 0x04000E8C RID: 3724
+			public int lastQueryTick = -99999;
+
+			// Token: 0x04000E8D RID: 3725
+			private const int ExpireAfterTicks = 300;
+
 			// Token: 0x17000368 RID: 872
 			// (get) Token: 0x0600188E RID: 6286 RVA: 0x000D7A24 File Offset: 0x000D5E24
 			public bool Expired
@@ -261,21 +276,6 @@ namespace RimWorld
 					return Find.TickManager.TicksGame - this.lastRecalculationTick >= 100;
 				}
 			}
-
-			// Token: 0x04000E89 RID: 3721
-			public List<Thought_SituationalSocial> thoughts = new List<Thought_SituationalSocial>();
-
-			// Token: 0x04000E8A RID: 3722
-			public List<Thought_SituationalSocial> activeThoughts = new List<Thought_SituationalSocial>();
-
-			// Token: 0x04000E8B RID: 3723
-			public int lastRecalculationTick = -99999;
-
-			// Token: 0x04000E8C RID: 3724
-			public int lastQueryTick = -99999;
-
-			// Token: 0x04000E8D RID: 3725
-			private const int ExpireAfterTicks = 300;
 		}
 	}
 }

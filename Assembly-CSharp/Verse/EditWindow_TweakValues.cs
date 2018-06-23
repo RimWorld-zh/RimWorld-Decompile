@@ -9,6 +9,24 @@ namespace Verse
 	// Token: 0x02000E0C RID: 3596
 	public class EditWindow_TweakValues : EditWindow
 	{
+		// Token: 0x0400356C RID: 13676
+		[TweakValue("TweakValue", 0f, 300f)]
+		public static float CategoryWidth = 180f;
+
+		// Token: 0x0400356D RID: 13677
+		[TweakValue("TweakValue", 0f, 300f)]
+		public static float TitleWidth = 300f;
+
+		// Token: 0x0400356E RID: 13678
+		[TweakValue("TweakValue", 0f, 300f)]
+		public static float NumberWidth = 140f;
+
+		// Token: 0x0400356F RID: 13679
+		private Vector2 scrollPosition;
+
+		// Token: 0x04003570 RID: 13680
+		private static List<EditWindow_TweakValues.TweakInfo> tweakValueFields;
+
 		// Token: 0x06005193 RID: 20883 RVA: 0x0029DAFC File Offset: 0x0029BEFC
 		public EditWindow_TweakValues()
 		{
@@ -213,24 +231,6 @@ namespace Verse
 				Log.ErrorOnce(string.Format("Attempted to set unknown field type {0} from a float", field.FieldType), 83944645, false);
 			}
 		}
-
-		// Token: 0x0400356C RID: 13676
-		[TweakValue("TweakValue", 0f, 300f)]
-		public static float CategoryWidth = 180f;
-
-		// Token: 0x0400356D RID: 13677
-		[TweakValue("TweakValue", 0f, 300f)]
-		public static float TitleWidth = 300f;
-
-		// Token: 0x0400356E RID: 13678
-		[TweakValue("TweakValue", 0f, 300f)]
-		public static float NumberWidth = 140f;
-
-		// Token: 0x0400356F RID: 13679
-		private Vector2 scrollPosition;
-
-		// Token: 0x04003570 RID: 13680
-		private static List<EditWindow_TweakValues.TweakInfo> tweakValueFields;
 
 		// Token: 0x02000E0D RID: 3597
 		private struct TweakInfo

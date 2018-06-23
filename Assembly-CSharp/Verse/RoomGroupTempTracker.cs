@@ -8,6 +8,39 @@ namespace Verse
 	// Token: 0x02000C98 RID: 3224
 	public sealed class RoomGroupTempTracker
 	{
+		// Token: 0x04003048 RID: 12360
+		private RoomGroup roomGroup;
+
+		// Token: 0x04003049 RID: 12361
+		private float temperatureInt;
+
+		// Token: 0x0400304A RID: 12362
+		private List<IntVec3> equalizeCells = new List<IntVec3>();
+
+		// Token: 0x0400304B RID: 12363
+		private float noRoofCoverage;
+
+		// Token: 0x0400304C RID: 12364
+		private float thickRoofCoverage;
+
+		// Token: 0x0400304D RID: 12365
+		private int cycleIndex = 0;
+
+		// Token: 0x0400304E RID: 12366
+		private const float ThinRoofEqualizeRate = 5E-05f;
+
+		// Token: 0x0400304F RID: 12367
+		private const float NoRoofEqualizeRate = 0.0007f;
+
+		// Token: 0x04003050 RID: 12368
+		private const float DeepEqualizeFractionPerTick = 5E-05f;
+
+		// Token: 0x04003051 RID: 12369
+		private static int debugGetFrame = -999;
+
+		// Token: 0x04003052 RID: 12370
+		private static float debugWallEq;
+
 		// Token: 0x06004702 RID: 18178 RVA: 0x002574E4 File Offset: 0x002558E4
 		public RoomGroupTempTracker(RoomGroup roomGroup, Map map)
 		{
@@ -352,38 +385,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003048 RID: 12360
-		private RoomGroup roomGroup;
-
-		// Token: 0x04003049 RID: 12361
-		private float temperatureInt;
-
-		// Token: 0x0400304A RID: 12362
-		private List<IntVec3> equalizeCells = new List<IntVec3>();
-
-		// Token: 0x0400304B RID: 12363
-		private float noRoofCoverage;
-
-		// Token: 0x0400304C RID: 12364
-		private float thickRoofCoverage;
-
-		// Token: 0x0400304D RID: 12365
-		private int cycleIndex = 0;
-
-		// Token: 0x0400304E RID: 12366
-		private const float ThinRoofEqualizeRate = 5E-05f;
-
-		// Token: 0x0400304F RID: 12367
-		private const float NoRoofEqualizeRate = 0.0007f;
-
-		// Token: 0x04003050 RID: 12368
-		private const float DeepEqualizeFractionPerTick = 5E-05f;
-
-		// Token: 0x04003051 RID: 12369
-		private static int debugGetFrame = -999;
-
-		// Token: 0x04003052 RID: 12370
-		private static float debugWallEq;
 	}
 }

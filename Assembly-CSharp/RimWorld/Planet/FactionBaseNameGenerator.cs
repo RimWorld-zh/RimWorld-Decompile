@@ -7,6 +7,9 @@ namespace RimWorld.Planet
 	// Token: 0x020005FE RID: 1534
 	public static class FactionBaseNameGenerator
 	{
+		// Token: 0x04001217 RID: 4631
+		private static List<string> usedNames = new List<string>();
+
 		// Token: 0x06001E8C RID: 7820 RVA: 0x0010B854 File Offset: 0x00109C54
 		public static string GenerateFactionBaseName(FactionBase factionBase, RulePackDef rulePack = null)
 		{
@@ -30,8 +33,5 @@ namespace RimWorld.Planet
 			}
 			return NameGenerator.GenerateName(rulePack, FactionBaseNameGenerator.usedNames, true, null);
 		}
-
-		// Token: 0x04001217 RID: 4631
-		private static List<string> usedNames = new List<string>();
 	}
 }

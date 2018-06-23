@@ -9,6 +9,18 @@ namespace RimWorld
 	// Token: 0x020004E8 RID: 1256
 	public class Pawn_DrugPolicyTracker : IExposable
 	{
+		// Token: 0x04000D1E RID: 3358
+		public Pawn pawn;
+
+		// Token: 0x04000D1F RID: 3359
+		private DrugPolicy curPolicy;
+
+		// Token: 0x04000D20 RID: 3360
+		private List<DrugTakeRecord> drugTakeRecords = new List<DrugTakeRecord>();
+
+		// Token: 0x04000D21 RID: 3361
+		private const float DangerousDrugOverdoseSeverity = 0.5f;
+
 		// Token: 0x06001673 RID: 5747 RVA: 0x000C71DC File Offset: 0x000C55DC
 		public Pawn_DrugPolicyTracker()
 		{
@@ -312,17 +324,5 @@ namespace RimWorld
 			CompProperties_Drug compProperties = drug.GetCompProperties<CompProperties_Drug>();
 			return compProperties != null && compProperties.CanCauseOverdose;
 		}
-
-		// Token: 0x04000D1E RID: 3358
-		public Pawn pawn;
-
-		// Token: 0x04000D1F RID: 3359
-		private DrugPolicy curPolicy;
-
-		// Token: 0x04000D20 RID: 3360
-		private List<DrugTakeRecord> drugTakeRecords = new List<DrugTakeRecord>();
-
-		// Token: 0x04000D21 RID: 3361
-		private const float DangerousDrugOverdoseSeverity = 0.5f;
 	}
 }

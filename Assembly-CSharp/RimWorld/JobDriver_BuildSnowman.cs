@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000053 RID: 83
 	public class JobDriver_BuildSnowman : JobDriver
 	{
+		// Token: 0x040001F1 RID: 497
+		private float workLeft = -1000f;
+
+		// Token: 0x040001F2 RID: 498
+		protected const int BaseWorkAmount = 2300;
+
 		// Token: 0x0600028C RID: 652 RVA: 0x0001B438 File Offset: 0x00019838
 		public override bool TryMakePreToilReservations()
 		{
@@ -51,11 +57,5 @@ namespace RimWorld
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.workLeft, "workLeft", 0f, false);
 		}
-
-		// Token: 0x040001F1 RID: 497
-		private float workLeft = -1000f;
-
-		// Token: 0x040001F2 RID: 498
-		protected const int BaseWorkAmount = 2300;
 	}
 }

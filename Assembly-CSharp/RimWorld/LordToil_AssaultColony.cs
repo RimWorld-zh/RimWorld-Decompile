@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000187 RID: 391
 	public class LordToil_AssaultColony : LordToil
 	{
+		// Token: 0x0400037E RID: 894
+		private bool attackDownedIfStarving;
+
 		// Token: 0x0600081E RID: 2078 RVA: 0x0004E732 File Offset: 0x0004CB32
 		public LordToil_AssaultColony(bool attackDownedIfStarving = false)
 		{
@@ -49,8 +52,5 @@ namespace RimWorld
 				this.lord.ownedPawns[i].mindState.duty.attackDownedIfStarving = this.attackDownedIfStarving;
 			}
 		}
-
-		// Token: 0x0400037E RID: 894
-		private bool attackDownedIfStarving;
 	}
 }

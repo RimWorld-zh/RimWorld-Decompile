@@ -6,23 +6,6 @@ namespace RimWorld.BaseGen
 	// Token: 0x02000390 RID: 912
 	public class GlobalSettings
 	{
-		// Token: 0x06000FF2 RID: 4082 RVA: 0x00085CD0 File Offset: 0x000840D0
-		public void Clear()
-		{
-			this.map = null;
-			this.minBuildings = 0;
-			this.minBarracks = 0;
-			this.minEmptyNodes = 0;
-			this.mainRect = CellRect.Empty;
-			this.basePart_buildingsResolved = 0;
-			this.basePart_emptyNodesResolved = 0;
-			this.basePart_barracksResolved = 0;
-			this.basePart_batteriesCoverage = 0f;
-			this.basePart_farmsCoverage = 0f;
-			this.basePart_powerPlantsCoverage = 0f;
-			this.basePart_breweriesCoverage = 0f;
-		}
-
 		// Token: 0x040009AF RID: 2479
 		public Map map;
 
@@ -58,5 +41,22 @@ namespace RimWorld.BaseGen
 
 		// Token: 0x040009BA RID: 2490
 		public float basePart_breweriesCoverage;
+
+		// Token: 0x06000FF2 RID: 4082 RVA: 0x00085CD0 File Offset: 0x000840D0
+		public void Clear()
+		{
+			this.map = null;
+			this.minBuildings = 0;
+			this.minBarracks = 0;
+			this.minEmptyNodes = 0;
+			this.mainRect = CellRect.Empty;
+			this.basePart_buildingsResolved = 0;
+			this.basePart_emptyNodesResolved = 0;
+			this.basePart_barracksResolved = 0;
+			this.basePart_batteriesCoverage = 0f;
+			this.basePart_farmsCoverage = 0f;
+			this.basePart_powerPlantsCoverage = 0f;
+			this.basePart_breweriesCoverage = 0f;
+		}
 	}
 }

@@ -7,6 +7,9 @@ namespace Verse.Sound
 	// Token: 0x02000DB7 RID: 3511
 	public static class SoundSlotManager
 	{
+		// Token: 0x04003443 RID: 13379
+		private static Dictionary<string, float> allowedPlayTimes = new Dictionary<string, float>();
+
 		// Token: 0x06004E84 RID: 20100 RVA: 0x002908B0 File Offset: 0x0028ECB0
 		public static bool CanPlayNow(string slotName)
 		{
@@ -46,8 +49,5 @@ namespace Verse.Sound
 				}
 			}
 		}
-
-		// Token: 0x04003443 RID: 13379
-		private static Dictionary<string, float> allowedPlayTimes = new Dictionary<string, float>();
 	}
 }

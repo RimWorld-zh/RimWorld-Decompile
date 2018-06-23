@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000652 RID: 1618
 	public static class ScenarioLister
 	{
+		// Token: 0x0400132A RID: 4906
+		private static bool dirty = true;
+
 		// Token: 0x060021C4 RID: 8644 RVA: 0x0011E1E8 File Offset: 0x0011C5E8
 		public static IEnumerable<Scenario> AllScenarios()
 		{
@@ -116,8 +119,5 @@ namespace RimWorld
 			}
 			return num;
 		}
-
-		// Token: 0x0400132A RID: 4906
-		private static bool dirty = true;
 	}
 }

@@ -10,6 +10,60 @@ namespace Verse
 	// Token: 0x02000F2A RID: 3882
 	public static class CellFinder
 	{
+		// Token: 0x04003DA6 RID: 15782
+		public static float EdgeRoadChance_Ignore = 0f;
+
+		// Token: 0x04003DA7 RID: 15783
+		public static float EdgeRoadChance_Animal = 0f;
+
+		// Token: 0x04003DA8 RID: 15784
+		public static float EdgeRoadChance_Hostile = 0.2f;
+
+		// Token: 0x04003DA9 RID: 15785
+		public static float EdgeRoadChance_Neutral = 0.75f;
+
+		// Token: 0x04003DAA RID: 15786
+		public static float EdgeRoadChance_Friendly = 0.75f;
+
+		// Token: 0x04003DAB RID: 15787
+		public static float EdgeRoadChance_Always = 1f;
+
+		// Token: 0x04003DAC RID: 15788
+		private static List<IntVec3> workingCells = new List<IntVec3>();
+
+		// Token: 0x04003DAD RID: 15789
+		private static List<Region> workingRegions = new List<Region>();
+
+		// Token: 0x04003DAE RID: 15790
+		private static List<int> workingListX = new List<int>();
+
+		// Token: 0x04003DAF RID: 15791
+		private static List<int> workingListZ = new List<int>();
+
+		// Token: 0x04003DB0 RID: 15792
+		private static List<IntVec3> mapEdgeCells;
+
+		// Token: 0x04003DB1 RID: 15793
+		private static IntVec3 mapEdgeCellsSize;
+
+		// Token: 0x04003DB2 RID: 15794
+		private static List<IntVec3>[] mapSingleEdgeCells = new List<IntVec3>[4];
+
+		// Token: 0x04003DB3 RID: 15795
+		private static IntVec3 mapSingleEdgeCellsSize;
+
+		// Token: 0x04003DB4 RID: 15796
+		private static Dictionary<IntVec3, float> tmpDistances = new Dictionary<IntVec3, float>();
+
+		// Token: 0x04003DB5 RID: 15797
+		private static Dictionary<IntVec3, IntVec3> tmpParents = new Dictionary<IntVec3, IntVec3>();
+
+		// Token: 0x04003DB6 RID: 15798
+		private static List<IntVec3> tmpCells = new List<IntVec3>();
+
+		// Token: 0x04003DB7 RID: 15799
+		private static List<Thing> tmpUniqueWipedThings = new List<Thing>();
+
 		// Token: 0x06005D37 RID: 23863 RVA: 0x002F2C64 File Offset: 0x002F1064
 		public static IntVec3 RandomCell(Map map)
 		{
@@ -828,59 +882,5 @@ namespace Verse
 			}
 			yield break;
 		}
-
-		// Token: 0x04003DA6 RID: 15782
-		public static float EdgeRoadChance_Ignore = 0f;
-
-		// Token: 0x04003DA7 RID: 15783
-		public static float EdgeRoadChance_Animal = 0f;
-
-		// Token: 0x04003DA8 RID: 15784
-		public static float EdgeRoadChance_Hostile = 0.2f;
-
-		// Token: 0x04003DA9 RID: 15785
-		public static float EdgeRoadChance_Neutral = 0.75f;
-
-		// Token: 0x04003DAA RID: 15786
-		public static float EdgeRoadChance_Friendly = 0.75f;
-
-		// Token: 0x04003DAB RID: 15787
-		public static float EdgeRoadChance_Always = 1f;
-
-		// Token: 0x04003DAC RID: 15788
-		private static List<IntVec3> workingCells = new List<IntVec3>();
-
-		// Token: 0x04003DAD RID: 15789
-		private static List<Region> workingRegions = new List<Region>();
-
-		// Token: 0x04003DAE RID: 15790
-		private static List<int> workingListX = new List<int>();
-
-		// Token: 0x04003DAF RID: 15791
-		private static List<int> workingListZ = new List<int>();
-
-		// Token: 0x04003DB0 RID: 15792
-		private static List<IntVec3> mapEdgeCells;
-
-		// Token: 0x04003DB1 RID: 15793
-		private static IntVec3 mapEdgeCellsSize;
-
-		// Token: 0x04003DB2 RID: 15794
-		private static List<IntVec3>[] mapSingleEdgeCells = new List<IntVec3>[4];
-
-		// Token: 0x04003DB3 RID: 15795
-		private static IntVec3 mapSingleEdgeCellsSize;
-
-		// Token: 0x04003DB4 RID: 15796
-		private static Dictionary<IntVec3, float> tmpDistances = new Dictionary<IntVec3, float>();
-
-		// Token: 0x04003DB5 RID: 15797
-		private static Dictionary<IntVec3, IntVec3> tmpParents = new Dictionary<IntVec3, IntVec3>();
-
-		// Token: 0x04003DB6 RID: 15798
-		private static List<IntVec3> tmpCells = new List<IntVec3>();
-
-		// Token: 0x04003DB7 RID: 15799
-		private static List<Thing> tmpUniqueWipedThings = new List<Thing>();
 	}
 }

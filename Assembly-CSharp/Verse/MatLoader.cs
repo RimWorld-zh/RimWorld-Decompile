@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000F62 RID: 3938
 	public static class MatLoader
 	{
+		// Token: 0x04003E79 RID: 15993
+		private static Dictionary<MatLoader.Request, Material> dict = new Dictionary<MatLoader.Request, Material>();
+
 		// Token: 0x06005F4E RID: 24398 RVA: 0x00309880 File Offset: 0x00307C80
 		public static Material LoadMat(string matPath, int renderQueue = -1)
 		{
@@ -33,12 +36,15 @@ namespace Verse
 			return material2;
 		}
 
-		// Token: 0x04003E79 RID: 15993
-		private static Dictionary<MatLoader.Request, Material> dict = new Dictionary<MatLoader.Request, Material>();
-
 		// Token: 0x02000F63 RID: 3939
 		private struct Request
 		{
+			// Token: 0x04003E7A RID: 15994
+			public string path;
+
+			// Token: 0x04003E7B RID: 15995
+			public int renderQueue;
+
 			// Token: 0x06005F50 RID: 24400 RVA: 0x00309930 File Offset: 0x00307D30
 			public override int GetHashCode()
 			{
@@ -83,12 +89,6 @@ namespace Verse
 					")"
 				});
 			}
-
-			// Token: 0x04003E7A RID: 15994
-			public string path;
-
-			// Token: 0x04003E7B RID: 15995
-			public int renderQueue;
 		}
 	}
 }

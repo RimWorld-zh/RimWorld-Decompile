@@ -5,16 +5,6 @@ namespace Ionic.Zlib
 	// Token: 0x0200001D RID: 29
 	internal sealed class StaticTree
 	{
-		// Token: 0x060000ED RID: 237 RVA: 0x0000B334 File Offset: 0x00009734
-		private StaticTree(short[] treeCodes, int[] extraBits, int extraBase, int elems, int maxLength)
-		{
-			this.treeCodes = treeCodes;
-			this.extraBits = extraBits;
-			this.extraBase = extraBase;
-			this.elems = elems;
-			this.maxLength = maxLength;
-		}
-
 		// Token: 0x0400014A RID: 330
 		internal static readonly short[] lengthAndLiteralsTreeCodes = new short[]
 		{
@@ -684,5 +674,15 @@ namespace Ionic.Zlib
 
 		// Token: 0x04000153 RID: 339
 		internal int maxLength;
+
+		// Token: 0x060000ED RID: 237 RVA: 0x0000B334 File Offset: 0x00009734
+		private StaticTree(short[] treeCodes, int[] extraBits, int extraBase, int elems, int maxLength)
+		{
+			this.treeCodes = treeCodes;
+			this.extraBits = extraBits;
+			this.extraBase = extraBase;
+			this.elems = elems;
+			this.maxLength = maxLength;
+		}
 	}
 }

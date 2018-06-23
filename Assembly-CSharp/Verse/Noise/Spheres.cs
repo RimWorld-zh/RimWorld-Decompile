@@ -5,6 +5,9 @@ namespace Verse.Noise
 	// Token: 0x02000F7D RID: 3965
 	public class Spheres : ModuleBase
 	{
+		// Token: 0x04003EE9 RID: 16105
+		private double m_frequency = 1.0;
+
 		// Token: 0x06005FC4 RID: 24516 RVA: 0x0030BB46 File Offset: 0x00309F46
 		public Spheres() : base(0)
 		{
@@ -43,8 +46,5 @@ namespace Verse.Noise
 			double num3 = Math.Min(num2, val);
 			return 1.0 - num3 * 4.0;
 		}
-
-		// Token: 0x04003EE9 RID: 16105
-		private double m_frequency = 1.0;
 	}
 }

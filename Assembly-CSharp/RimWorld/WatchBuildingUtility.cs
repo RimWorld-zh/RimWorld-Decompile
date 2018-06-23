@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x020000F7 RID: 247
 	public static class WatchBuildingUtility
 	{
+		// Token: 0x040002CE RID: 718
+		private static List<int> allowedDirections = new List<int>();
+
 		// Token: 0x0600052F RID: 1327 RVA: 0x00038FE4 File Offset: 0x000373E4
 		public static IEnumerable<IntVec3> CalculateWatchCells(ThingDef def, IntVec3 center, Rot4 rot, Map map)
 		{
@@ -206,8 +209,5 @@ namespace RimWorld
 			}
 			return WatchBuildingUtility.allowedDirections;
 		}
-
-		// Token: 0x040002CE RID: 718
-		private static List<int> allowedDirections = new List<int>();
 	}
 }

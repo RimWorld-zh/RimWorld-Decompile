@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class DifficultyDefOf
 	{
-		// Token: 0x06003639 RID: 13881 RVA: 0x001D0ABF File Offset: 0x001CEEBF
-		static DifficultyDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(DifficultyDefOf));
-		}
-
 		// Token: 0x04002048 RID: 8264
 		public static DifficultyDef VeryEasy;
 
@@ -20,5 +14,11 @@ namespace RimWorld
 
 		// Token: 0x0400204A RID: 8266
 		public static DifficultyDef Hard;
+
+		// Token: 0x06003639 RID: 13881 RVA: 0x001D0ABF File Offset: 0x001CEEBF
+		static DifficultyDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(DifficultyDefOf));
+		}
 	}
 }

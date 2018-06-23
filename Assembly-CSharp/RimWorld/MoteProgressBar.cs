@@ -9,6 +9,18 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class MoteProgressBar : MoteDualAttached
 	{
+		// Token: 0x0400151B RID: 5403
+		public float progress;
+
+		// Token: 0x0400151C RID: 5404
+		public float offsetZ;
+
+		// Token: 0x0400151D RID: 5405
+		private static readonly Material UnfilledMat = SolidColorMaterials.NewSolidColorMaterial(new Color(0.3f, 0.3f, 0.3f, 0.65f), ShaderDatabase.MetaOverlay);
+
+		// Token: 0x0400151E RID: 5406
+		private static readonly Material FilledMat = SolidColorMaterials.NewSolidColorMaterial(new Color(0.9f, 0.85f, 0.2f, 0.65f), ShaderDatabase.MetaOverlay);
+
 		// Token: 0x060025E5 RID: 9701 RVA: 0x00144AE8 File Offset: 0x00142EE8
 		public override void Draw()
 		{
@@ -54,17 +66,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x0400151B RID: 5403
-		public float progress;
-
-		// Token: 0x0400151C RID: 5404
-		public float offsetZ;
-
-		// Token: 0x0400151D RID: 5405
-		private static readonly Material UnfilledMat = SolidColorMaterials.NewSolidColorMaterial(new Color(0.3f, 0.3f, 0.3f, 0.65f), ShaderDatabase.MetaOverlay);
-
-		// Token: 0x0400151E RID: 5406
-		private static readonly Material FilledMat = SolidColorMaterials.NewSolidColorMaterial(new Color(0.9f, 0.85f, 0.2f, 0.65f), ShaderDatabase.MetaOverlay);
 	}
 }

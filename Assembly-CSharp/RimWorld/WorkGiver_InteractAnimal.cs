@@ -8,6 +8,21 @@ namespace RimWorld
 	// Token: 0x0200011E RID: 286
 	public abstract class WorkGiver_InteractAnimal : WorkGiver_Scanner
 	{
+		// Token: 0x04000303 RID: 771
+		protected static string NoUsableFoodTrans;
+
+		// Token: 0x04000304 RID: 772
+		protected static string AnimalInteractedTooRecentlyTrans;
+
+		// Token: 0x04000305 RID: 773
+		private static string CantInteractAnimalDownedTrans;
+
+		// Token: 0x04000306 RID: 774
+		private static string CantInteractAnimalAsleepTrans;
+
+		// Token: 0x04000307 RID: 775
+		private static string CantInteractAnimalBusyTrans;
+
 		// Token: 0x170000D7 RID: 215
 		// (get) Token: 0x060005ED RID: 1517 RVA: 0x0003F6B4 File Offset: 0x0003DAB4
 		public override PathEndMode PathEndMode
@@ -122,20 +137,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000303 RID: 771
-		protected static string NoUsableFoodTrans;
-
-		// Token: 0x04000304 RID: 772
-		protected static string AnimalInteractedTooRecentlyTrans;
-
-		// Token: 0x04000305 RID: 773
-		private static string CantInteractAnimalDownedTrans;
-
-		// Token: 0x04000306 RID: 774
-		private static string CantInteractAnimalAsleepTrans;
-
-		// Token: 0x04000307 RID: 775
-		private static string CantInteractAnimalBusyTrans;
 	}
 }

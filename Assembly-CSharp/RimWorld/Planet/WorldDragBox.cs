@@ -7,6 +7,15 @@ namespace RimWorld.Planet
 	// Token: 0x020008E7 RID: 2279
 	public class WorldDragBox
 	{
+		// Token: 0x04001C64 RID: 7268
+		public bool active = false;
+
+		// Token: 0x04001C65 RID: 7269
+		public Vector2 start;
+
+		// Token: 0x04001C66 RID: 7270
+		private const float DragBoxMinDiagonal = 7f;
+
 		// Token: 0x17000869 RID: 2153
 		// (get) Token: 0x06003473 RID: 13427 RVA: 0x001C1094 File Offset: 0x001BF494
 		public float LeftX
@@ -107,14 +116,5 @@ namespace RimWorld.Planet
 		{
 			return screenPoint.x + 0.5f > this.LeftX && screenPoint.x - 0.5f < this.RightX && screenPoint.y + 0.5f > this.BotZ && screenPoint.y - 0.5f < this.TopZ;
 		}
-
-		// Token: 0x04001C64 RID: 7268
-		public bool active = false;
-
-		// Token: 0x04001C65 RID: 7269
-		public Vector2 start;
-
-		// Token: 0x04001C66 RID: 7270
-		private const float DragBoxMinDiagonal = 7f;
 	}
 }

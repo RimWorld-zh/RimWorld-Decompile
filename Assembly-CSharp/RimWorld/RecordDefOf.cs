@@ -6,12 +6,6 @@ namespace RimWorld
 	[DefOf]
 	public static class RecordDefOf
 	{
-		// Token: 0x06003648 RID: 13896 RVA: 0x001D0BCD File Offset: 0x001CEFCD
-		static RecordDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(RecordDefOf));
-		}
-
 		// Token: 0x0400216F RID: 8559
 		public static RecordDef Kills;
 
@@ -149,5 +143,11 @@ namespace RimWorld
 
 		// Token: 0x0400219C RID: 8604
 		public static RecordDef TimeAsPrisoner;
+
+		// Token: 0x06003648 RID: 13896 RVA: 0x001D0BCD File Offset: 0x001CEFCD
+		static RecordDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(RecordDefOf));
+		}
 	}
 }

@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000EA9 RID: 3753
 	public static class UI
 	{
+		// Token: 0x04003AFC RID: 15100
+		public static int screenWidth;
+
+		// Token: 0x04003AFD RID: 15101
+		public static int screenHeight;
+
 		// Token: 0x17000DF7 RID: 3575
 		// (get) Token: 0x06005884 RID: 22660 RVA: 0x002D68EC File Offset: 0x002D4CEC
 		public static Vector2 MousePositionOnUI
@@ -121,11 +127,5 @@ namespace Verse
 		{
 			return UI.UIToMapPosition(UI.MousePositionOnUI).ToIntVec3();
 		}
-
-		// Token: 0x04003AFC RID: 15100
-		public static int screenWidth;
-
-		// Token: 0x04003AFD RID: 15101
-		public static int screenHeight;
 	}
 }

@@ -9,6 +9,33 @@ namespace Verse
 	// Token: 0x02000C5F RID: 3167
 	public static class MapGenerator
 	{
+		// Token: 0x04002FA4 RID: 12196
+		public static Map mapBeingGenerated;
+
+		// Token: 0x04002FA5 RID: 12197
+		private static Dictionary<string, object> data = new Dictionary<string, object>();
+
+		// Token: 0x04002FA6 RID: 12198
+		private static IntVec3 playerStartSpotInt = IntVec3.Invalid;
+
+		// Token: 0x04002FA7 RID: 12199
+		public static List<IntVec3> rootsToUnfog = new List<IntVec3>();
+
+		// Token: 0x04002FA8 RID: 12200
+		private static List<GenStepDef> tmpGenSteps = new List<GenStepDef>();
+
+		// Token: 0x04002FA9 RID: 12201
+		public const string ElevationName = "Elevation";
+
+		// Token: 0x04002FAA RID: 12202
+		public const string FertilityName = "Fertility";
+
+		// Token: 0x04002FAB RID: 12203
+		public const string CavesName = "Caves";
+
+		// Token: 0x04002FAC RID: 12204
+		public const string RectOfInterestName = "RectOfInterest";
+
 		// Token: 0x17000B00 RID: 2816
 		// (get) Token: 0x060045AD RID: 17837 RVA: 0x0024CEE0 File Offset: 0x0024B2E0
 		public static MapGenFloatGrid Elevation
@@ -247,32 +274,5 @@ namespace Verse
 			}
 			return seedPart + num;
 		}
-
-		// Token: 0x04002FA4 RID: 12196
-		public static Map mapBeingGenerated;
-
-		// Token: 0x04002FA5 RID: 12197
-		private static Dictionary<string, object> data = new Dictionary<string, object>();
-
-		// Token: 0x04002FA6 RID: 12198
-		private static IntVec3 playerStartSpotInt = IntVec3.Invalid;
-
-		// Token: 0x04002FA7 RID: 12199
-		public static List<IntVec3> rootsToUnfog = new List<IntVec3>();
-
-		// Token: 0x04002FA8 RID: 12200
-		private static List<GenStepDef> tmpGenSteps = new List<GenStepDef>();
-
-		// Token: 0x04002FA9 RID: 12201
-		public const string ElevationName = "Elevation";
-
-		// Token: 0x04002FAA RID: 12202
-		public const string FertilityName = "Fertility";
-
-		// Token: 0x04002FAB RID: 12203
-		public const string CavesName = "Caves";
-
-		// Token: 0x04002FAC RID: 12204
-		public const string RectOfInterestName = "RectOfInterest";
 	}
 }

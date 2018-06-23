@@ -9,6 +9,21 @@ namespace Verse
 	// Token: 0x02000E71 RID: 3697
 	public sealed class LetterStack : IExposable
 	{
+		// Token: 0x040039BB RID: 14779
+		private List<Letter> letters = new List<Letter>();
+
+		// Token: 0x040039BC RID: 14780
+		private int mouseoverLetterIndex = -1;
+
+		// Token: 0x040039BD RID: 14781
+		private float lastTopYInt;
+
+		// Token: 0x040039BE RID: 14782
+		private const float LettersBottomY = 350f;
+
+		// Token: 0x040039BF RID: 14783
+		public const float LetterSpacing = 12f;
+
 		// Token: 0x17000DAD RID: 3501
 		// (get) Token: 0x0600570F RID: 22287 RVA: 0x002CD3B0 File Offset: 0x002CB7B0
 		public List<Letter> LettersListForReading
@@ -146,20 +161,5 @@ namespace Verse
 				this.letters.RemoveAll((Letter x) => x == null);
 			}
 		}
-
-		// Token: 0x040039BB RID: 14779
-		private List<Letter> letters = new List<Letter>();
-
-		// Token: 0x040039BC RID: 14780
-		private int mouseoverLetterIndex = -1;
-
-		// Token: 0x040039BD RID: 14781
-		private float lastTopYInt;
-
-		// Token: 0x040039BE RID: 14782
-		private const float LettersBottomY = 350f;
-
-		// Token: 0x040039BF RID: 14783
-		public const float LetterSpacing = 12f;
 	}
 }

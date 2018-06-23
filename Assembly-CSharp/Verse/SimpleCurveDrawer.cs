@@ -9,6 +9,36 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class SimpleCurveDrawer
 	{
+		// Token: 0x04003CBB RID: 15547
+		private const float PointSize = 10f;
+
+		// Token: 0x04003CBC RID: 15548
+		private static readonly Color AxisLineColor = new Color(0.2f, 0.5f, 1f, 1f);
+
+		// Token: 0x04003CBD RID: 15549
+		private static readonly Color MajorLineColor = new Color(0.2f, 0.4f, 1f, 0.6f);
+
+		// Token: 0x04003CBE RID: 15550
+		private static readonly Color MinorLineColor = new Color(0.2f, 0.3f, 1f, 0.19f);
+
+		// Token: 0x04003CBF RID: 15551
+		private const float MeasureWidth = 60f;
+
+		// Token: 0x04003CC0 RID: 15552
+		private const float MeasureHeight = 30f;
+
+		// Token: 0x04003CC1 RID: 15553
+		private const float MeasureLinePeekOut = 5f;
+
+		// Token: 0x04003CC2 RID: 15554
+		private const float LegendCellWidth = 140f;
+
+		// Token: 0x04003CC3 RID: 15555
+		private const float LegendCellHeight = 20f;
+
+		// Token: 0x04003CC4 RID: 15556
+		private static readonly Texture2D CurvePoint = ContentFinder<Texture2D>.Get("UI/Widgets/Dev/CurvePoint", true);
+
 		// Token: 0x06005BBF RID: 23487 RVA: 0x002EBE00 File Offset: 0x002EA200
 		public static void DrawCurve(Rect rect, SimpleCurve curve, SimpleCurveDrawerStyle style = null, List<CurveMark> marks = null, Rect legendScreenRect = default(Rect))
 		{
@@ -531,35 +561,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04003CBB RID: 15547
-		private const float PointSize = 10f;
-
-		// Token: 0x04003CBC RID: 15548
-		private static readonly Color AxisLineColor = new Color(0.2f, 0.5f, 1f, 1f);
-
-		// Token: 0x04003CBD RID: 15549
-		private static readonly Color MajorLineColor = new Color(0.2f, 0.4f, 1f, 0.6f);
-
-		// Token: 0x04003CBE RID: 15550
-		private static readonly Color MinorLineColor = new Color(0.2f, 0.3f, 1f, 0.19f);
-
-		// Token: 0x04003CBF RID: 15551
-		private const float MeasureWidth = 60f;
-
-		// Token: 0x04003CC0 RID: 15552
-		private const float MeasureHeight = 30f;
-
-		// Token: 0x04003CC1 RID: 15553
-		private const float MeasureLinePeekOut = 5f;
-
-		// Token: 0x04003CC2 RID: 15554
-		private const float LegendCellWidth = 140f;
-
-		// Token: 0x04003CC3 RID: 15555
-		private const float LegendCellHeight = 20f;
-
-		// Token: 0x04003CC4 RID: 15556
-		private static readonly Texture2D CurvePoint = ContentFinder<Texture2D>.Get("UI/Widgets/Dev/CurvePoint", true);
 	}
 }

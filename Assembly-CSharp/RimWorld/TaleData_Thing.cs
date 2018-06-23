@@ -9,6 +9,21 @@ namespace RimWorld
 	// Token: 0x0200065C RID: 1628
 	public class TaleData_Thing : TaleData
 	{
+		// Token: 0x04001358 RID: 4952
+		public int thingID;
+
+		// Token: 0x04001359 RID: 4953
+		public ThingDef thingDef;
+
+		// Token: 0x0400135A RID: 4954
+		public ThingDef stuff;
+
+		// Token: 0x0400135B RID: 4955
+		public string title;
+
+		// Token: 0x0400135C RID: 4956
+		public QualityCategory quality;
+
 		// Token: 0x06002206 RID: 8710 RVA: 0x00120CE8 File Offset: 0x0011F0E8
 		public override void ExposeData()
 		{
@@ -80,20 +95,5 @@ namespace RimWorld
 			thing.TryGetComp<CompArt>().InitializeArt(source);
 			return TaleData_Thing.GenerateFrom(thing);
 		}
-
-		// Token: 0x04001358 RID: 4952
-		public int thingID;
-
-		// Token: 0x04001359 RID: 4953
-		public ThingDef thingDef;
-
-		// Token: 0x0400135A RID: 4954
-		public ThingDef stuff;
-
-		// Token: 0x0400135B RID: 4955
-		public string title;
-
-		// Token: 0x0400135C RID: 4956
-		public QualityCategory quality;
 	}
 }

@@ -12,6 +12,69 @@ namespace RimWorld
 	// Token: 0x02000554 RID: 1364
 	public class Faction : IExposable, ILoadReferenceable, ICommunicable
 	{
+		// Token: 0x04000EFB RID: 3835
+		public FactionDef def;
+
+		// Token: 0x04000EFC RID: 3836
+		private string name = null;
+
+		// Token: 0x04000EFD RID: 3837
+		public int loadID = -1;
+
+		// Token: 0x04000EFE RID: 3838
+		public int randomKey;
+
+		// Token: 0x04000EFF RID: 3839
+		public float colorFromSpectrum = -999f;
+
+		// Token: 0x04000F00 RID: 3840
+		public float centralMelanin = 0.5f;
+
+		// Token: 0x04000F01 RID: 3841
+		private List<FactionRelation> relations = new List<FactionRelation>();
+
+		// Token: 0x04000F02 RID: 3842
+		public Pawn leader = null;
+
+		// Token: 0x04000F03 RID: 3843
+		private FactionTacticalMemory tacticalMemoryInt = new FactionTacticalMemory();
+
+		// Token: 0x04000F04 RID: 3844
+		public KidnappedPawnsTracker kidnapped;
+
+		// Token: 0x04000F05 RID: 3845
+		private List<PredatorThreat> predatorThreats = new List<PredatorThreat>();
+
+		// Token: 0x04000F06 RID: 3846
+		public Dictionary<Map, ByteGrid> avoidGridsBasic = new Dictionary<Map, ByteGrid>();
+
+		// Token: 0x04000F07 RID: 3847
+		public Dictionary<Map, ByteGrid> avoidGridsSmart = new Dictionary<Map, ByteGrid>();
+
+		// Token: 0x04000F08 RID: 3848
+		public bool defeated;
+
+		// Token: 0x04000F09 RID: 3849
+		public int lastTraderRequestTick = -9999999;
+
+		// Token: 0x04000F0A RID: 3850
+		private int naturalGoodwillTimer;
+
+		// Token: 0x04000F0B RID: 3851
+		private List<Map> avoidGridsBasicKeysWorkingList;
+
+		// Token: 0x04000F0C RID: 3852
+		private List<ByteGrid> avoidGridsBasicValuesWorkingList;
+
+		// Token: 0x04000F0D RID: 3853
+		private List<Map> avoidGridsSmartKeysWorkingList;
+
+		// Token: 0x04000F0E RID: 3854
+		private List<ByteGrid> avoidGridsSmartValuesWorkingList;
+
+		// Token: 0x04000F0F RID: 3855
+		private static List<PawnKindDef> allPawnKinds = new List<PawnKindDef>();
+
 		// Token: 0x0600195F RID: 6495 RVA: 0x000DC254 File Offset: 0x000DA654
 		public Faction()
 		{
@@ -1281,68 +1344,5 @@ namespace RimWorld
 				avoidGridSmart.DebugDraw();
 			}
 		}
-
-		// Token: 0x04000EFB RID: 3835
-		public FactionDef def;
-
-		// Token: 0x04000EFC RID: 3836
-		private string name = null;
-
-		// Token: 0x04000EFD RID: 3837
-		public int loadID = -1;
-
-		// Token: 0x04000EFE RID: 3838
-		public int randomKey;
-
-		// Token: 0x04000EFF RID: 3839
-		public float colorFromSpectrum = -999f;
-
-		// Token: 0x04000F00 RID: 3840
-		public float centralMelanin = 0.5f;
-
-		// Token: 0x04000F01 RID: 3841
-		private List<FactionRelation> relations = new List<FactionRelation>();
-
-		// Token: 0x04000F02 RID: 3842
-		public Pawn leader = null;
-
-		// Token: 0x04000F03 RID: 3843
-		private FactionTacticalMemory tacticalMemoryInt = new FactionTacticalMemory();
-
-		// Token: 0x04000F04 RID: 3844
-		public KidnappedPawnsTracker kidnapped;
-
-		// Token: 0x04000F05 RID: 3845
-		private List<PredatorThreat> predatorThreats = new List<PredatorThreat>();
-
-		// Token: 0x04000F06 RID: 3846
-		public Dictionary<Map, ByteGrid> avoidGridsBasic = new Dictionary<Map, ByteGrid>();
-
-		// Token: 0x04000F07 RID: 3847
-		public Dictionary<Map, ByteGrid> avoidGridsSmart = new Dictionary<Map, ByteGrid>();
-
-		// Token: 0x04000F08 RID: 3848
-		public bool defeated;
-
-		// Token: 0x04000F09 RID: 3849
-		public int lastTraderRequestTick = -9999999;
-
-		// Token: 0x04000F0A RID: 3850
-		private int naturalGoodwillTimer;
-
-		// Token: 0x04000F0B RID: 3851
-		private List<Map> avoidGridsBasicKeysWorkingList;
-
-		// Token: 0x04000F0C RID: 3852
-		private List<ByteGrid> avoidGridsBasicValuesWorkingList;
-
-		// Token: 0x04000F0D RID: 3853
-		private List<Map> avoidGridsSmartKeysWorkingList;
-
-		// Token: 0x04000F0E RID: 3854
-		private List<ByteGrid> avoidGridsSmartValuesWorkingList;
-
-		// Token: 0x04000F0F RID: 3855
-		private static List<PawnKindDef> allPawnKinds = new List<PawnKindDef>();
 	}
 }

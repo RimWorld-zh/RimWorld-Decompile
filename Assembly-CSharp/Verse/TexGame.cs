@@ -7,13 +7,6 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class TexGame
 	{
-		// Token: 0x0600383A RID: 14394 RVA: 0x001DF9E0 File Offset: 0x001DDDE0
-		static TexGame()
-		{
-			Shader.SetGlobalTexture("_NoiseTex", TexGame.NoiseTex);
-			Shader.SetGlobalTexture("_RippleTex", TexGame.RippleTex);
-		}
-
 		// Token: 0x040023F3 RID: 9203
 		public static readonly Texture2D AlphaAddTex = ContentFinder<Texture2D>.Get("Other/RoughAlphaAdd", true);
 
@@ -22,5 +15,12 @@ namespace Verse
 
 		// Token: 0x040023F5 RID: 9205
 		public static readonly Texture2D NoiseTex = ContentFinder<Texture2D>.Get("Other/Noise", true);
+
+		// Token: 0x0600383A RID: 14394 RVA: 0x001DF9E0 File Offset: 0x001DDDE0
+		static TexGame()
+		{
+			Shader.SetGlobalTexture("_NoiseTex", TexGame.NoiseTex);
+			Shader.SetGlobalTexture("_RippleTex", TexGame.RippleTex);
+		}
 	}
 }

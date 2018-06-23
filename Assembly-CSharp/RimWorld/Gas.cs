@@ -6,6 +6,15 @@ namespace RimWorld
 	// Token: 0x020006C3 RID: 1731
 	public class Gas : Thing
 	{
+		// Token: 0x040014DE RID: 5342
+		public int destroyTick;
+
+		// Token: 0x040014DF RID: 5343
+		public float graphicRotation = 0f;
+
+		// Token: 0x040014E0 RID: 5344
+		public float graphicRotationSpeed = 0f;
+
 		// Token: 0x06002573 RID: 9587 RVA: 0x001416A0 File Offset: 0x0013FAA0
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
@@ -39,14 +48,5 @@ namespace RimWorld
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.destroyTick, "destroyTick", 0, false);
 		}
-
-		// Token: 0x040014DE RID: 5342
-		public int destroyTick;
-
-		// Token: 0x040014DF RID: 5343
-		public float graphicRotation = 0f;
-
-		// Token: 0x040014E0 RID: 5344
-		public float graphicRotationSpeed = 0f;
 	}
 }

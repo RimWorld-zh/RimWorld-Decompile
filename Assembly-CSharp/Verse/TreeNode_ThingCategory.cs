@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000E83 RID: 3715
 	public class TreeNode_ThingCategory : TreeNode
 	{
+		// Token: 0x040039FB RID: 14843
+		public ThingCategoryDef catDef;
+
 		// Token: 0x060057B9 RID: 22457 RVA: 0x002D09E8 File Offset: 0x002CEDE8
 		public TreeNode_ThingCategory(ThingCategoryDef def)
 		{
@@ -65,8 +68,5 @@ namespace Verse
 		{
 			return this.catDef.defName;
 		}
-
-		// Token: 0x040039FB RID: 14843
-		public ThingCategoryDef catDef;
 	}
 }

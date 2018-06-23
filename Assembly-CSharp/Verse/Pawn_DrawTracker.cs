@@ -7,6 +7,33 @@ namespace Verse
 	// Token: 0x02000CE7 RID: 3303
 	public class Pawn_DrawTracker
 	{
+		// Token: 0x04003148 RID: 12616
+		private Pawn pawn;
+
+		// Token: 0x04003149 RID: 12617
+		public PawnTweener tweener;
+
+		// Token: 0x0400314A RID: 12618
+		private JitterHandler jitterer;
+
+		// Token: 0x0400314B RID: 12619
+		public PawnLeaner leaner;
+
+		// Token: 0x0400314C RID: 12620
+		public PawnRenderer renderer;
+
+		// Token: 0x0400314D RID: 12621
+		public PawnUIOverlay ui;
+
+		// Token: 0x0400314E RID: 12622
+		private PawnFootprintMaker footprintMaker;
+
+		// Token: 0x0400314F RID: 12623
+		private PawnBreathMoteMaker breathMoteMaker;
+
+		// Token: 0x04003150 RID: 12624
+		private const float MeleeJitterDistance = 0.5f;
+
 		// Token: 0x060048CB RID: 18635 RVA: 0x00263764 File Offset: 0x00261B64
 		public Pawn_DrawTracker(Pawn pawn)
 		{
@@ -110,32 +137,5 @@ namespace Verse
 			}
 			this.jitterer.AddOffset(0.05f, (float)Rand.Range(0, 360));
 		}
-
-		// Token: 0x04003148 RID: 12616
-		private Pawn pawn;
-
-		// Token: 0x04003149 RID: 12617
-		public PawnTweener tweener;
-
-		// Token: 0x0400314A RID: 12618
-		private JitterHandler jitterer;
-
-		// Token: 0x0400314B RID: 12619
-		public PawnLeaner leaner;
-
-		// Token: 0x0400314C RID: 12620
-		public PawnRenderer renderer;
-
-		// Token: 0x0400314D RID: 12621
-		public PawnUIOverlay ui;
-
-		// Token: 0x0400314E RID: 12622
-		private PawnFootprintMaker footprintMaker;
-
-		// Token: 0x0400314F RID: 12623
-		private PawnBreathMoteMaker breathMoteMaker;
-
-		// Token: 0x04003150 RID: 12624
-		private const float MeleeJitterDistance = 0.5f;
 	}
 }

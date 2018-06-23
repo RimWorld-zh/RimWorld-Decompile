@@ -5,6 +5,12 @@ namespace Verse
 	// Token: 0x02000E51 RID: 3665
 	public class TableDataGetter<T>
 	{
+		// Token: 0x04003926 RID: 14630
+		public string label;
+
+		// Token: 0x04003927 RID: 14631
+		public Func<T, string> getter;
+
 		// Token: 0x0600566B RID: 22123 RVA: 0x002C9293 File Offset: 0x002C7693
 		public TableDataGetter(string label, Func<T, string> getter)
 		{
@@ -52,11 +58,5 @@ namespace Verse
 			this.label = label;
 			this.getter = ((T t) => getter(t).ToString());
 		}
-
-		// Token: 0x04003926 RID: 14630
-		public string label;
-
-		// Token: 0x04003927 RID: 14631
-		public Func<T, string> getter;
 	}
 }

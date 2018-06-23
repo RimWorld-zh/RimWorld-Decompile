@@ -6,6 +6,60 @@ namespace RimWorld
 	// Token: 0x020005AA RID: 1450
 	public class UniqueIDsManager : IExposable
 	{
+		// Token: 0x0400107A RID: 4218
+		private int nextThingID;
+
+		// Token: 0x0400107B RID: 4219
+		private int nextBillID;
+
+		// Token: 0x0400107C RID: 4220
+		private int nextFactionID;
+
+		// Token: 0x0400107D RID: 4221
+		private int nextLordID;
+
+		// Token: 0x0400107E RID: 4222
+		private int nextTaleID;
+
+		// Token: 0x0400107F RID: 4223
+		private int nextPassingShipID;
+
+		// Token: 0x04001080 RID: 4224
+		private int nextWorldObjectID;
+
+		// Token: 0x04001081 RID: 4225
+		private int nextMapID;
+
+		// Token: 0x04001082 RID: 4226
+		private int nextAreaID;
+
+		// Token: 0x04001083 RID: 4227
+		private int nextTransporterGroupID;
+
+		// Token: 0x04001084 RID: 4228
+		private int nextAncientCryptosleepCasketGroupID;
+
+		// Token: 0x04001085 RID: 4229
+		private int nextJobID;
+
+		// Token: 0x04001086 RID: 4230
+		private int nextSignalTagID;
+
+		// Token: 0x04001087 RID: 4231
+		private int nextWorldFeatureID;
+
+		// Token: 0x04001088 RID: 4232
+		private int nextHediffID;
+
+		// Token: 0x04001089 RID: 4233
+		private int nextBattleID;
+
+		// Token: 0x0400108A RID: 4234
+		private int nextLogID;
+
+		// Token: 0x0400108B RID: 4235
+		private int nextLetterID;
+
 		// Token: 0x06001BB2 RID: 7090 RVA: 0x000EF245 File Offset: 0x000ED645
 		public UniqueIDsManager()
 		{
@@ -159,59 +213,5 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.nextLogID, "nextLogID", 0, false);
 			Scribe_Values.Look<int>(ref this.nextLetterID, "nextLetterID", 0, false);
 		}
-
-		// Token: 0x0400107A RID: 4218
-		private int nextThingID;
-
-		// Token: 0x0400107B RID: 4219
-		private int nextBillID;
-
-		// Token: 0x0400107C RID: 4220
-		private int nextFactionID;
-
-		// Token: 0x0400107D RID: 4221
-		private int nextLordID;
-
-		// Token: 0x0400107E RID: 4222
-		private int nextTaleID;
-
-		// Token: 0x0400107F RID: 4223
-		private int nextPassingShipID;
-
-		// Token: 0x04001080 RID: 4224
-		private int nextWorldObjectID;
-
-		// Token: 0x04001081 RID: 4225
-		private int nextMapID;
-
-		// Token: 0x04001082 RID: 4226
-		private int nextAreaID;
-
-		// Token: 0x04001083 RID: 4227
-		private int nextTransporterGroupID;
-
-		// Token: 0x04001084 RID: 4228
-		private int nextAncientCryptosleepCasketGroupID;
-
-		// Token: 0x04001085 RID: 4229
-		private int nextJobID;
-
-		// Token: 0x04001086 RID: 4230
-		private int nextSignalTagID;
-
-		// Token: 0x04001087 RID: 4231
-		private int nextWorldFeatureID;
-
-		// Token: 0x04001088 RID: 4232
-		private int nextHediffID;
-
-		// Token: 0x04001089 RID: 4233
-		private int nextBattleID;
-
-		// Token: 0x0400108A RID: 4234
-		private int nextLogID;
-
-		// Token: 0x0400108B RID: 4235
-		private int nextLetterID;
 	}
 }

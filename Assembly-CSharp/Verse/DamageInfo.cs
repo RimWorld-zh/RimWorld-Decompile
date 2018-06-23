@@ -6,6 +6,48 @@ namespace Verse
 	// Token: 0x02000EE5 RID: 3813
 	public struct DamageInfo
 	{
+		// Token: 0x04003C86 RID: 15494
+		private DamageDef defInt;
+
+		// Token: 0x04003C87 RID: 15495
+		private float amountInt;
+
+		// Token: 0x04003C88 RID: 15496
+		private float angleInt;
+
+		// Token: 0x04003C89 RID: 15497
+		private Thing instigatorInt;
+
+		// Token: 0x04003C8A RID: 15498
+		private DamageInfo.SourceCategory categoryInt;
+
+		// Token: 0x04003C8B RID: 15499
+		public Thing intendedTargetInt;
+
+		// Token: 0x04003C8C RID: 15500
+		private BodyPartRecord hitPartInt;
+
+		// Token: 0x04003C8D RID: 15501
+		private BodyPartHeight heightInt;
+
+		// Token: 0x04003C8E RID: 15502
+		private BodyPartDepth depthInt;
+
+		// Token: 0x04003C8F RID: 15503
+		private ThingDef weaponInt;
+
+		// Token: 0x04003C90 RID: 15504
+		private BodyPartGroupDef weaponBodyPartGroupInt;
+
+		// Token: 0x04003C91 RID: 15505
+		private HediffDef weaponHediffInt;
+
+		// Token: 0x04003C92 RID: 15506
+		private bool instantPermanentInjuryInt;
+
+		// Token: 0x04003C93 RID: 15507
+		private bool allowDamagePropagationInt;
+
 		// Token: 0x06005A82 RID: 23170 RVA: 0x002E71BC File Offset: 0x002E55BC
 		public DamageInfo(DamageDef def, float amount, float angle = -1f, Thing instigator = null, BodyPartRecord hitPart = null, ThingDef weapon = null, DamageInfo.SourceCategory category = DamageInfo.SourceCategory.ThingOrUnknown, Thing intendedTarget = null)
 		{
@@ -277,48 +319,6 @@ namespace Verse
 				")"
 			});
 		}
-
-		// Token: 0x04003C86 RID: 15494
-		private DamageDef defInt;
-
-		// Token: 0x04003C87 RID: 15495
-		private float amountInt;
-
-		// Token: 0x04003C88 RID: 15496
-		private float angleInt;
-
-		// Token: 0x04003C89 RID: 15497
-		private Thing instigatorInt;
-
-		// Token: 0x04003C8A RID: 15498
-		private DamageInfo.SourceCategory categoryInt;
-
-		// Token: 0x04003C8B RID: 15499
-		public Thing intendedTargetInt;
-
-		// Token: 0x04003C8C RID: 15500
-		private BodyPartRecord hitPartInt;
-
-		// Token: 0x04003C8D RID: 15501
-		private BodyPartHeight heightInt;
-
-		// Token: 0x04003C8E RID: 15502
-		private BodyPartDepth depthInt;
-
-		// Token: 0x04003C8F RID: 15503
-		private ThingDef weaponInt;
-
-		// Token: 0x04003C90 RID: 15504
-		private BodyPartGroupDef weaponBodyPartGroupInt;
-
-		// Token: 0x04003C91 RID: 15505
-		private HediffDef weaponHediffInt;
-
-		// Token: 0x04003C92 RID: 15506
-		private bool instantPermanentInjuryInt;
-
-		// Token: 0x04003C93 RID: 15507
-		private bool allowDamagePropagationInt;
 
 		// Token: 0x02000EE6 RID: 3814
 		public enum SourceCategory

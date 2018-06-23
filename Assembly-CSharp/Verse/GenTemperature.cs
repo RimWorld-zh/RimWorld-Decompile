@@ -10,6 +10,24 @@ namespace Verse
 	// Token: 0x02000CA5 RID: 3237
 	public static class GenTemperature
 	{
+		// Token: 0x0400306A RID: 12394
+		public static readonly Color ColorSpotHot = new Color(1f, 0f, 0f, 0.6f);
+
+		// Token: 0x0400306B RID: 12395
+		public static readonly Color ColorSpotCold = new Color(0f, 0f, 1f, 0.6f);
+
+		// Token: 0x0400306C RID: 12396
+		public static readonly Color ColorRoomHot = new Color(1f, 0f, 0f, 0.3f);
+
+		// Token: 0x0400306D RID: 12397
+		public static readonly Color ColorRoomCold = new Color(0f, 0f, 1f, 0.3f);
+
+		// Token: 0x0400306E RID: 12398
+		private static List<RoomGroup> neighRoomGroups = new List<RoomGroup>();
+
+		// Token: 0x0400306F RID: 12399
+		private static RoomGroup[] beqRoomGroups = new RoomGroup[4];
+
 		// Token: 0x0600474D RID: 18253 RVA: 0x00259E68 File Offset: 0x00258268
 		public static float AverageTemperatureAtTileForTwelfth(int tile, Twelfth twelfth)
 		{
@@ -627,23 +645,5 @@ namespace Verse
 			}
 			return temp;
 		}
-
-		// Token: 0x0400306A RID: 12394
-		public static readonly Color ColorSpotHot = new Color(1f, 0f, 0f, 0.6f);
-
-		// Token: 0x0400306B RID: 12395
-		public static readonly Color ColorSpotCold = new Color(0f, 0f, 1f, 0.6f);
-
-		// Token: 0x0400306C RID: 12396
-		public static readonly Color ColorRoomHot = new Color(1f, 0f, 0f, 0.3f);
-
-		// Token: 0x0400306D RID: 12397
-		public static readonly Color ColorRoomCold = new Color(0f, 0f, 1f, 0.3f);
-
-		// Token: 0x0400306E RID: 12398
-		private static List<RoomGroup> neighRoomGroups = new List<RoomGroup>();
-
-		// Token: 0x0400306F RID: 12399
-		private static RoomGroup[] beqRoomGroups = new RoomGroup[4];
 	}
 }

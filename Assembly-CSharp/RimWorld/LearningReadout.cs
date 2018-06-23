@@ -11,6 +11,51 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class LearningReadout : IExposable
 	{
+		// Token: 0x040019D8 RID: 6616
+		private List<ConceptDef> activeConcepts = new List<ConceptDef>();
+
+		// Token: 0x040019D9 RID: 6617
+		private ConceptDef selectedConcept = null;
+
+		// Token: 0x040019DA RID: 6618
+		private bool showAllMode = false;
+
+		// Token: 0x040019DB RID: 6619
+		private float contentHeight = 0f;
+
+		// Token: 0x040019DC RID: 6620
+		private Vector2 scrollPosition = Vector2.zero;
+
+		// Token: 0x040019DD RID: 6621
+		private string searchString = "";
+
+		// Token: 0x040019DE RID: 6622
+		private float lastConceptActivateRealTime = -999f;
+
+		// Token: 0x040019DF RID: 6623
+		private ConceptDef mouseoverConcept;
+
+		// Token: 0x040019E0 RID: 6624
+		private const float OuterMargin = 8f;
+
+		// Token: 0x040019E1 RID: 6625
+		private const float InnerMargin = 7f;
+
+		// Token: 0x040019E2 RID: 6626
+		private const float ReadoutWidth = 200f;
+
+		// Token: 0x040019E3 RID: 6627
+		private const float InfoPaneWidth = 310f;
+
+		// Token: 0x040019E4 RID: 6628
+		private const float OpenButtonSize = 24f;
+
+		// Token: 0x040019E5 RID: 6629
+		public static readonly Texture2D ProgressBarFillTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.745098054f, 0.6039216f, 0.2f));
+
+		// Token: 0x040019E6 RID: 6630
+		public static readonly Texture2D ProgressBarBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.509803951f, 0.407843143f, 0.13333334f));
+
 		// Token: 0x17000794 RID: 1940
 		// (get) Token: 0x06002FD3 RID: 12243 RVA: 0x0019F05C File Offset: 0x0019D45C
 		public int ActiveConceptsCount
@@ -368,50 +413,5 @@ namespace RimWorld
 			}, false, false, 1f);
 			return outRect2;
 		}
-
-		// Token: 0x040019D8 RID: 6616
-		private List<ConceptDef> activeConcepts = new List<ConceptDef>();
-
-		// Token: 0x040019D9 RID: 6617
-		private ConceptDef selectedConcept = null;
-
-		// Token: 0x040019DA RID: 6618
-		private bool showAllMode = false;
-
-		// Token: 0x040019DB RID: 6619
-		private float contentHeight = 0f;
-
-		// Token: 0x040019DC RID: 6620
-		private Vector2 scrollPosition = Vector2.zero;
-
-		// Token: 0x040019DD RID: 6621
-		private string searchString = "";
-
-		// Token: 0x040019DE RID: 6622
-		private float lastConceptActivateRealTime = -999f;
-
-		// Token: 0x040019DF RID: 6623
-		private ConceptDef mouseoverConcept;
-
-		// Token: 0x040019E0 RID: 6624
-		private const float OuterMargin = 8f;
-
-		// Token: 0x040019E1 RID: 6625
-		private const float InnerMargin = 7f;
-
-		// Token: 0x040019E2 RID: 6626
-		private const float ReadoutWidth = 200f;
-
-		// Token: 0x040019E3 RID: 6627
-		private const float InfoPaneWidth = 310f;
-
-		// Token: 0x040019E4 RID: 6628
-		private const float OpenButtonSize = 24f;
-
-		// Token: 0x040019E5 RID: 6629
-		public static readonly Texture2D ProgressBarFillTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.745098054f, 0.6039216f, 0.2f));
-
-		// Token: 0x040019E6 RID: 6630
-		public static readonly Texture2D ProgressBarBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.509803951f, 0.407843143f, 0.13333334f));
 	}
 }

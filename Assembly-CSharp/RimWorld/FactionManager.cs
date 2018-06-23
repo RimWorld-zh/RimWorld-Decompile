@@ -9,6 +9,24 @@ namespace RimWorld
 	// Token: 0x02000559 RID: 1369
 	public class FactionManager : IExposable
 	{
+		// Token: 0x04000F26 RID: 3878
+		private List<Faction> allFactions = new List<Faction>();
+
+		// Token: 0x04000F27 RID: 3879
+		private Faction ofPlayer;
+
+		// Token: 0x04000F28 RID: 3880
+		private Faction ofMechanoids;
+
+		// Token: 0x04000F29 RID: 3881
+		private Faction ofInsects;
+
+		// Token: 0x04000F2A RID: 3882
+		private Faction ofAncients;
+
+		// Token: 0x04000F2B RID: 3883
+		private Faction ofAncientsHostile;
+
 		// Token: 0x1700039F RID: 927
 		// (get) Token: 0x060019CD RID: 6605 RVA: 0x000E0B8C File Offset: 0x000DEF8C
 		public List<Faction> AllFactionsListForReading
@@ -286,23 +304,5 @@ namespace RimWorld
 			this.ofAncients = this.FirstFactionOfDef(FactionDefOf.Ancients);
 			this.ofAncientsHostile = this.FirstFactionOfDef(FactionDefOf.AncientsHostile);
 		}
-
-		// Token: 0x04000F26 RID: 3878
-		private List<Faction> allFactions = new List<Faction>();
-
-		// Token: 0x04000F27 RID: 3879
-		private Faction ofPlayer;
-
-		// Token: 0x04000F28 RID: 3880
-		private Faction ofMechanoids;
-
-		// Token: 0x04000F29 RID: 3881
-		private Faction ofInsects;
-
-		// Token: 0x04000F2A RID: 3882
-		private Faction ofAncients;
-
-		// Token: 0x04000F2B RID: 3883
-		private Faction ofAncientsHostile;
 	}
 }

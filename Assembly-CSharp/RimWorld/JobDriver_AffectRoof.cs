@@ -8,6 +8,18 @@ namespace RimWorld
 	// Token: 0x0200003F RID: 63
 	public abstract class JobDriver_AffectRoof : JobDriver
 	{
+		// Token: 0x040001CC RID: 460
+		private float workLeft;
+
+		// Token: 0x040001CD RID: 461
+		private const TargetIndex CellInd = TargetIndex.A;
+
+		// Token: 0x040001CE RID: 462
+		private const TargetIndex GotoTargetInd = TargetIndex.B;
+
+		// Token: 0x040001CF RID: 463
+		private const float BaseWorkAmount = 65f;
+
 		// Token: 0x17000071 RID: 113
 		// (get) Token: 0x0600021C RID: 540 RVA: 0x00016440 File Offset: 0x00014840
 		protected IntVec3 Cell
@@ -75,17 +87,5 @@ namespace RimWorld
 			yield return doWork;
 			yield break;
 		}
-
-		// Token: 0x040001CC RID: 460
-		private float workLeft;
-
-		// Token: 0x040001CD RID: 461
-		private const TargetIndex CellInd = TargetIndex.A;
-
-		// Token: 0x040001CE RID: 462
-		private const TargetIndex GotoTargetInd = TargetIndex.B;
-
-		// Token: 0x040001CF RID: 463
-		private const float BaseWorkAmount = 65f;
 	}
 }

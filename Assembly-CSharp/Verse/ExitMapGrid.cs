@@ -7,6 +7,21 @@ namespace Verse
 	// Token: 0x02000C20 RID: 3104
 	public sealed class ExitMapGrid : ICellBoolGiver
 	{
+		// Token: 0x04002E5F RID: 11871
+		private Map map;
+
+		// Token: 0x04002E60 RID: 11872
+		private bool dirty = true;
+
+		// Token: 0x04002E61 RID: 11873
+		private BoolGrid exitMapGrid;
+
+		// Token: 0x04002E62 RID: 11874
+		private CellBoolDrawer drawerInt;
+
+		// Token: 0x04002E63 RID: 11875
+		private const int MaxDistToEdge = 2;
+
 		// Token: 0x060043F9 RID: 17401 RVA: 0x0023D908 File Offset: 0x0023BD08
 		public ExitMapGrid(Map map)
 		{
@@ -198,20 +213,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04002E5F RID: 11871
-		private Map map;
-
-		// Token: 0x04002E60 RID: 11872
-		private bool dirty = true;
-
-		// Token: 0x04002E61 RID: 11873
-		private BoolGrid exitMapGrid;
-
-		// Token: 0x04002E62 RID: 11874
-		private CellBoolDrawer drawerInt;
-
-		// Token: 0x04002E63 RID: 11875
-		private const int MaxDistToEdge = 2;
 	}
 }

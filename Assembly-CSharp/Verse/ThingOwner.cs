@@ -8,6 +8,9 @@ namespace Verse
 	// Token: 0x02000DF5 RID: 3573
 	public class ThingOwner<T> : ThingOwner, IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable where T : Thing
 	{
+		// Token: 0x04003532 RID: 13618
+		private List<T> innerList = new List<T>();
+
 		// Token: 0x06005077 RID: 20599 RVA: 0x0029951D File Offset: 0x0029791D
 		public ThingOwner()
 		{
@@ -483,8 +486,5 @@ namespace Verse
 		{
 			return this.innerList.GetEnumerator();
 		}
-
-		// Token: 0x04003532 RID: 13618
-		private List<T> innerList = new List<T>();
 	}
 }

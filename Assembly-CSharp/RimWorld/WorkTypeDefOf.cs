@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class WorkTypeDefOf
 	{
-		// Token: 0x06003623 RID: 13859 RVA: 0x001D0933 File Offset: 0x001CED33
-		static WorkTypeDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(WorkTypeDefOf));
-		}
-
 		// Token: 0x04001EC6 RID: 7878
 		public static WorkTypeDef Mining;
 
@@ -42,5 +36,11 @@ namespace RimWorld
 
 		// Token: 0x04001ECF RID: 7887
 		public static WorkTypeDef Hauling;
+
+		// Token: 0x06003623 RID: 13859 RVA: 0x001D0933 File Offset: 0x001CED33
+		static WorkTypeDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(WorkTypeDefOf));
+		}
 	}
 }

@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x02000672 RID: 1650
 	public abstract class Blueprint : ThingWithComps, IConstructible
 	{
+		// Token: 0x0400138F RID: 5007
+		private static List<CompSpawnerMechanoidsOnDamaged> tmpCrashedShipParts = new List<CompSpawnerMechanoidsOnDamaged>();
+
 		// Token: 0x17000513 RID: 1299
 		// (get) Token: 0x060022A6 RID: 8870 RVA: 0x0012AD6C File Offset: 0x0012916C
 		public override string Label
@@ -186,8 +189,5 @@ namespace RimWorld
 			stringBuilder.Append("WorkLeft".Translate() + ": " + this.WorkTotal.ToStringWorkAmount());
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x0400138F RID: 5007
-		private static List<CompSpawnerMechanoidsOnDamaged> tmpCrashedShipParts = new List<CompSpawnerMechanoidsOnDamaged>();
 	}
 }

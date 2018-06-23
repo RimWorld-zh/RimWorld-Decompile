@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000EEB RID: 3819
 	public struct IntVec2 : IEquatable<IntVec2>
 	{
+		// Token: 0x04003C9F RID: 15519
+		public int x;
+
+		// Token: 0x04003CA0 RID: 15520
+		public int z;
+
 		// Token: 0x06005AD4 RID: 23252 RVA: 0x002E8190 File Offset: 0x002E6590
 		public IntVec2(int newX, int newZ)
 		{
@@ -276,11 +282,5 @@ namespace Verse
 		{
 			return Gen.HashCombineInt(this.x, this.z);
 		}
-
-		// Token: 0x04003C9F RID: 15519
-		public int x;
-
-		// Token: 0x04003CA0 RID: 15520
-		public int z;
 	}
 }

@@ -10,6 +10,15 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public static class CaravanMergeUtility
 	{
+		// Token: 0x04001198 RID: 4504
+		private static readonly Texture2D MergeCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/MergeCaravans", true);
+
+		// Token: 0x04001199 RID: 4505
+		private static List<Caravan> tmpSelectedPlayerCaravans = new List<Caravan>();
+
+		// Token: 0x0400119A RID: 4506
+		private static List<Caravan> tmpCaravansOnSameTile = new List<Caravan>();
+
 		// Token: 0x17000463 RID: 1123
 		// (get) Token: 0x06001DAB RID: 7595 RVA: 0x000FFF84 File Offset: 0x000FE384
 		public static bool ShouldShowMergeCommand
@@ -162,14 +171,5 @@ namespace RimWorld.Planet
 			}
 			caravan.Notify_Merged(caravans);
 		}
-
-		// Token: 0x04001198 RID: 4504
-		private static readonly Texture2D MergeCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/MergeCaravans", true);
-
-		// Token: 0x04001199 RID: 4505
-		private static List<Caravan> tmpSelectedPlayerCaravans = new List<Caravan>();
-
-		// Token: 0x0400119A RID: 4506
-		private static List<Caravan> tmpCaravansOnSameTile = new List<Caravan>();
 	}
 }

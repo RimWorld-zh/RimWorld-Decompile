@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020008B9 RID: 2233
 	public class Instruction_BuildRoomDoor : Lesson_Instruction
 	{
+		// Token: 0x04001B8D RID: 7053
+		private List<IntVec3> allowedPlaceCells;
+
 		// Token: 0x17000821 RID: 2081
 		// (get) Token: 0x06003314 RID: 13076 RVA: 0x001B7F14 File Offset: 0x001B6314
 		private CellRect RoomRect
@@ -62,8 +65,5 @@ namespace RimWorld
 				Find.ActiveLesson.Deactivate();
 			}
 		}
-
-		// Token: 0x04001B8D RID: 7053
-		private List<IntVec3> allowedPlaceCells;
 	}
 }

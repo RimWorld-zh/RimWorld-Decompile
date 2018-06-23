@@ -13,6 +13,21 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public static class CaravanFormingUtility
 	{
+		// Token: 0x04001189 RID: 4489
+		private static readonly Texture2D RemoveFromCaravanCommand = ContentFinder<Texture2D>.Get("UI/Commands/RemoveFromCaravan", true);
+
+		// Token: 0x0400118A RID: 4490
+		private static readonly Texture2D AddToCaravanCommand = ContentFinder<Texture2D>.Get("UI/Commands/AddToCaravan", true);
+
+		// Token: 0x0400118B RID: 4491
+		private static List<Thing> tmpReachableItems = new List<Thing>();
+
+		// Token: 0x0400118C RID: 4492
+		private static List<Pawn> tmpSendablePawns = new List<Pawn>();
+
+		// Token: 0x0400118D RID: 4493
+		private static List<ThingCount> tmpCaravanPawns = new List<ThingCount>();
+
 		// Token: 0x06001D84 RID: 7556 RVA: 0x000FE4C2 File Offset: 0x000FC8C2
 		public static void FormAndCreateCaravan(IEnumerable<Pawn> pawns, Faction faction, int exitFromTile, int directionTile, int destinationTile)
 		{
@@ -298,20 +313,5 @@ namespace RimWorld.Planet
 			}
 			return text;
 		}
-
-		// Token: 0x04001189 RID: 4489
-		private static readonly Texture2D RemoveFromCaravanCommand = ContentFinder<Texture2D>.Get("UI/Commands/RemoveFromCaravan", true);
-
-		// Token: 0x0400118A RID: 4490
-		private static readonly Texture2D AddToCaravanCommand = ContentFinder<Texture2D>.Get("UI/Commands/AddToCaravan", true);
-
-		// Token: 0x0400118B RID: 4491
-		private static List<Thing> tmpReachableItems = new List<Thing>();
-
-		// Token: 0x0400118C RID: 4492
-		private static List<Pawn> tmpSendablePawns = new List<Pawn>();
-
-		// Token: 0x0400118D RID: 4493
-		private static List<ThingCount> tmpCaravanPawns = new List<ThingCount>();
 	}
 }

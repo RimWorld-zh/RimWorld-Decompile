@@ -8,6 +8,21 @@ namespace RimWorld
 	// Token: 0x02000816 RID: 2070
 	public static class InteractionCardUtility
 	{
+		// Token: 0x040018B8 RID: 6328
+		private static Vector2 logScrollPosition = Vector2.zero;
+
+		// Token: 0x040018B9 RID: 6329
+		public const float ImageSize = 26f;
+
+		// Token: 0x040018BA RID: 6330
+		public const float ImagePadRight = 3f;
+
+		// Token: 0x040018BB RID: 6331
+		public const float TextOffset = 29f;
+
+		// Token: 0x040018BC RID: 6332
+		private static List<Pair<string, int>> logStrings = new List<Pair<string, int>>();
+
 		// Token: 0x06002E4C RID: 11852 RVA: 0x0018A0FC File Offset: 0x001884FC
 		public static void DrawInteractionsLog(Rect rect, Pawn pawn, List<LogEntry> entries, int maxEntries)
 		{
@@ -60,20 +75,5 @@ namespace RimWorld
 			}
 			Widgets.EndScrollView();
 		}
-
-		// Token: 0x040018B8 RID: 6328
-		private static Vector2 logScrollPosition = Vector2.zero;
-
-		// Token: 0x040018B9 RID: 6329
-		public const float ImageSize = 26f;
-
-		// Token: 0x040018BA RID: 6330
-		public const float ImagePadRight = 3f;
-
-		// Token: 0x040018BB RID: 6331
-		public const float TextOffset = 29f;
-
-		// Token: 0x040018BC RID: 6332
-		private static List<Pair<string, int>> logStrings = new List<Pair<string, int>>();
 	}
 }

@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000DE7 RID: 3559
 	public struct MoteAttachLink
 	{
+		// Token: 0x040034E2 RID: 13538
+		private TargetInfo targetInt;
+
+		// Token: 0x040034E3 RID: 13539
+		private Vector3 lastDrawPosInt;
+
 		// Token: 0x06004FCD RID: 20429 RVA: 0x002972C3 File Offset: 0x002956C3
 		public MoteAttachLink(TargetInfo target)
 		{
@@ -69,11 +75,5 @@ namespace Verse
 				this.lastDrawPosInt = this.targetInt.Cell.ToVector3Shifted();
 			}
 		}
-
-		// Token: 0x040034E2 RID: 13538
-		private TargetInfo targetInt;
-
-		// Token: 0x040034E3 RID: 13539
-		private Vector3 lastDrawPosInt;
 	}
 }

@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000868 RID: 2152
 	public class MainButtonWorker_ToggleWorld : MainButtonWorker
 	{
+		// Token: 0x04001A78 RID: 6776
+		public bool resetViewNextTime = true;
+
 		// Token: 0x060030F7 RID: 12535 RVA: 0x001A9C5C File Offset: 0x001A805C
 		public override void Activate()
 		{
@@ -34,8 +37,5 @@ namespace RimWorld
 				SoundDefOf.TabClose.PlayOneShotOnCamera(null);
 			}
 		}
-
-		// Token: 0x04001A78 RID: 6776
-		public bool resetViewNextTime = true;
 	}
 }

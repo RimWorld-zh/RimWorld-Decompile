@@ -8,6 +8,27 @@ namespace Verse
 	// Token: 0x02000C97 RID: 3223
 	public class RoomGroup
 	{
+		// Token: 0x04003041 RID: 12353
+		public int ID = -1;
+
+		// Token: 0x04003042 RID: 12354
+		private List<Room> rooms = new List<Room>();
+
+		// Token: 0x04003043 RID: 12355
+		private RoomGroupTempTracker tempTracker;
+
+		// Token: 0x04003044 RID: 12356
+		private int cachedOpenRoofCount = -1;
+
+		// Token: 0x04003045 RID: 12357
+		private int cachedCellCount = -1;
+
+		// Token: 0x04003046 RID: 12358
+		private static int nextRoomGroupID;
+
+		// Token: 0x04003047 RID: 12359
+		private const float UseOutdoorTemperatureUnroofedFraction = 0.25f;
+
 		// Token: 0x17000B37 RID: 2871
 		// (get) Token: 0x060046ED RID: 18157 RVA: 0x00256B28 File Offset: 0x00254F28
 		public List<Room> Rooms
@@ -286,26 +307,5 @@ namespace Verse
 			}
 			this.tempTracker.DebugDraw();
 		}
-
-		// Token: 0x04003041 RID: 12353
-		public int ID = -1;
-
-		// Token: 0x04003042 RID: 12354
-		private List<Room> rooms = new List<Room>();
-
-		// Token: 0x04003043 RID: 12355
-		private RoomGroupTempTracker tempTracker;
-
-		// Token: 0x04003044 RID: 12356
-		private int cachedOpenRoofCount = -1;
-
-		// Token: 0x04003045 RID: 12357
-		private int cachedCellCount = -1;
-
-		// Token: 0x04003046 RID: 12358
-		private static int nextRoomGroupID;
-
-		// Token: 0x04003047 RID: 12359
-		private const float UseOutdoorTemperatureUnroofedFraction = 0.25f;
 	}
 }

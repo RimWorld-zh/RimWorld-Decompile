@@ -6,6 +6,12 @@ namespace Verse.AI
 	// Token: 0x02000A31 RID: 2609
 	public class JobDriver_Follow : JobDriver
 	{
+		// Token: 0x040024F9 RID: 9465
+		private const TargetIndex FolloweeInd = TargetIndex.A;
+
+		// Token: 0x040024FA RID: 9466
+		private const int Distance = 4;
+
 		// Token: 0x060039F2 RID: 14834 RVA: 0x001EA0A8 File Offset: 0x001E84A8
 		public override bool TryMakePreToilReservations()
 		{
@@ -43,11 +49,5 @@ namespace Verse.AI
 		{
 			return this.job.GetTarget(TargetIndex.A) == j.GetTarget(TargetIndex.A);
 		}
-
-		// Token: 0x040024F9 RID: 9465
-		private const TargetIndex FolloweeInd = TargetIndex.A;
-
-		// Token: 0x040024FA RID: 9466
-		private const int Distance = 4;
 	}
 }

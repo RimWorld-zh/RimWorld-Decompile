@@ -8,6 +8,9 @@ namespace Verse
 	// Token: 0x02000F3B RID: 3899
 	public static class GenExplosion
 	{
+		// Token: 0x04003DFE RID: 15870
+		private static readonly int PawnNotifyCellCount = GenRadial.NumCellsInRadius(4.5f);
+
 		// Token: 0x06005E0C RID: 24076 RVA: 0x002FD68C File Offset: 0x002FBA8C
 		public static void DoExplosion(IntVec3 center, Map map, float radius, DamageDef damType, Thing instigator, int damAmount = -1, SoundDef explosionSound = null, ThingDef weapon = null, ThingDef projectile = null, Thing intendedTarget = null, ThingDef postExplosionSpawnThingDef = null, float postExplosionSpawnChance = 0f, int postExplosionSpawnThingCount = 1, bool applyDamageToExplosionCellsNeighbors = false, ThingDef preExplosionSpawnThingDef = null, float preExplosionSpawnChance = 0f, int preExplosionSpawnThingCount = 1, float chanceToStartFire = 0f, bool damageFalloff = false)
 		{
@@ -81,8 +84,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04003DFE RID: 15870
-		private static readonly int PawnNotifyCellCount = GenRadial.NumCellsInRadius(4.5f);
 	}
 }

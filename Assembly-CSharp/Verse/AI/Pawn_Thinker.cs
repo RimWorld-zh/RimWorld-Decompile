@@ -5,6 +5,9 @@ namespace Verse.AI
 	// Token: 0x02000AA0 RID: 2720
 	public class Pawn_Thinker
 	{
+		// Token: 0x0400266C RID: 9836
+		public Pawn pawn;
+
 		// Token: 0x06003CAC RID: 15532 RVA: 0x002023A7 File Offset: 0x002007A7
 		public Pawn_Thinker(Pawn pawn)
 		{
@@ -81,8 +84,5 @@ namespace Verse.AI
 			}
 			return t;
 		}
-
-		// Token: 0x0400266C RID: 9836
-		public Pawn pawn;
 	}
 }

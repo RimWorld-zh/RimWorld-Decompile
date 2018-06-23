@@ -5,6 +5,9 @@ namespace Verse.AI.Group
 	// Token: 0x020009E4 RID: 2532
 	public abstract class LordJob : IExposable
 	{
+		// Token: 0x0400245C RID: 9308
+		public Lord lord;
+
 		// Token: 0x170008C5 RID: 2245
 		// (get) Token: 0x060038EE RID: 14574 RVA: 0x00049898 File Offset: 0x00047C98
 		public virtual bool LostImportantReferenceDuringLoading
@@ -95,8 +98,5 @@ namespace Verse.AI.Group
 		{
 			return true;
 		}
-
-		// Token: 0x0400245C RID: 9308
-		public Lord lord;
 	}
 }

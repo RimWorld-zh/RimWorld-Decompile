@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000E22 RID: 3618
 	public class DebugTool
 	{
+		// Token: 0x0400380C RID: 14348
+		private string label;
+
+		// Token: 0x0400380D RID: 14349
+		private Action clickAction = null;
+
+		// Token: 0x0400380E RID: 14350
+		private Action onGUIAction = null;
+
 		// Token: 0x060054F4 RID: 21748 RVA: 0x002B9C83 File Offset: 0x002B8083
 		public DebugTool(string label, Action clickAction, Action onGUIAction = null)
 		{
@@ -74,14 +83,5 @@ namespace Verse
 				this.onGUIAction();
 			}
 		}
-
-		// Token: 0x0400380C RID: 14348
-		private string label;
-
-		// Token: 0x0400380D RID: 14349
-		private Action clickAction = null;
-
-		// Token: 0x0400380E RID: 14350
-		private Action onGUIAction = null;
 	}
 }

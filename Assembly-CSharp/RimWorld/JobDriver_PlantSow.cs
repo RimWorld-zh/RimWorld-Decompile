@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x0200008B RID: 139
 	public class JobDriver_PlantSow : JobDriver
 	{
+		// Token: 0x0400024A RID: 586
+		private float sowWorkDone = 0f;
+
 		// Token: 0x170000B8 RID: 184
 		// (get) Token: 0x06000390 RID: 912 RVA: 0x00028190 File Offset: 0x00026590
 		private Plant Plant
@@ -88,8 +91,5 @@ namespace RimWorld
 			yield return sowToil;
 			yield break;
 		}
-
-		// Token: 0x0400024A RID: 586
-		private float sowWorkDone = 0f;
 	}
 }

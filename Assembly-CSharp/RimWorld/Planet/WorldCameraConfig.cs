@@ -6,16 +6,6 @@ namespace RimWorld.Planet
 	// Token: 0x0200057A RID: 1402
 	public abstract class WorldCameraConfig
 	{
-		// Token: 0x06001AD4 RID: 6868 RVA: 0x000E6E95 File Offset: 0x000E5295
-		public virtual void ConfigFixedUpdate_60(ref Vector2 rotationVelocity)
-		{
-		}
-
-		// Token: 0x06001AD5 RID: 6869 RVA: 0x000E6E98 File Offset: 0x000E5298
-		public virtual void ConfigOnGUI()
-		{
-		}
-
 		// Token: 0x04000FA9 RID: 4009
 		public float dollyRateKeys = 170f;
 
@@ -39,5 +29,15 @@ namespace RimWorld.Planet
 
 		// Token: 0x04000FB0 RID: 4016
 		public bool smoothZoom;
+
+		// Token: 0x06001AD4 RID: 6868 RVA: 0x000E6E95 File Offset: 0x000E5295
+		public virtual void ConfigFixedUpdate_60(ref Vector2 rotationVelocity)
+		{
+		}
+
+		// Token: 0x06001AD5 RID: 6869 RVA: 0x000E6E98 File Offset: 0x000E5298
+		public virtual void ConfigOnGUI()
+		{
+		}
 	}
 }

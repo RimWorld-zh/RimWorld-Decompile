@@ -9,6 +9,15 @@ namespace RimWorld
 	// Token: 0x0200038A RID: 906
 	public class ListerMergeables
 	{
+		// Token: 0x040009A0 RID: 2464
+		private Map map;
+
+		// Token: 0x040009A1 RID: 2465
+		private List<Thing> mergeables = new List<Thing>();
+
+		// Token: 0x040009A2 RID: 2466
+		private string debugOutput = "uninitialized";
+
 		// Token: 0x06000FC6 RID: 4038 RVA: 0x00084904 File Offset: 0x00082D04
 		public ListerMergeables(Map map)
 		{
@@ -134,14 +143,5 @@ namespace RimWorld
 			}
 			return this.debugOutput;
 		}
-
-		// Token: 0x040009A0 RID: 2464
-		private Map map;
-
-		// Token: 0x040009A1 RID: 2465
-		private List<Thing> mergeables = new List<Thing>();
-
-		// Token: 0x040009A2 RID: 2466
-		private string debugOutput = "uninitialized";
 	}
 }

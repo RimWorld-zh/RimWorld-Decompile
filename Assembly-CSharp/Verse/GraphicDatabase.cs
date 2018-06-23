@@ -9,6 +9,9 @@ namespace Verse
 	[HasDebugOutput]
 	public static class GraphicDatabase
 	{
+		// Token: 0x040034A0 RID: 13472
+		private static Dictionary<GraphicRequest, Graphic> allGraphics = new Dictionary<GraphicRequest, Graphic>();
+
 		// Token: 0x06004F2D RID: 20269 RVA: 0x00294178 File Offset: 0x00292578
 		public static Graphic Get<T>(string path) where T : Graphic, new()
 		{
@@ -159,8 +162,5 @@ namespace Verse
 			}
 			Log.Message(stringBuilder.ToString(), false);
 		}
-
-		// Token: 0x040034A0 RID: 13472
-		private static Dictionary<GraphicRequest, Graphic> allGraphics = new Dictionary<GraphicRequest, Graphic>();
 	}
 }

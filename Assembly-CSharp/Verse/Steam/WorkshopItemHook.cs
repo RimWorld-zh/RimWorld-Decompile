@@ -8,6 +8,15 @@ namespace Verse.Steam
 	// Token: 0x02000FC5 RID: 4037
 	public class WorkshopItemHook
 	{
+		// Token: 0x04003FD0 RID: 16336
+		private WorkshopUploadable owner;
+
+		// Token: 0x04003FD1 RID: 16337
+		private CSteamID steamAuthor = CSteamID.Nil;
+
+		// Token: 0x04003FD2 RID: 16338
+		private CallResult<SteamUGCRequestUGCDetailsResult_t> queryResult;
+
 		// Token: 0x0600619E RID: 24990 RVA: 0x003142E0 File Offset: 0x003126E0
 		public WorkshopItemHook(WorkshopUploadable owner)
 		{
@@ -112,14 +121,5 @@ namespace Verse.Steam
 		{
 			this.steamAuthor = (CSteamID)result.m_details.m_ulSteamIDOwner;
 		}
-
-		// Token: 0x04003FD0 RID: 16336
-		private WorkshopUploadable owner;
-
-		// Token: 0x04003FD1 RID: 16337
-		private CSteamID steamAuthor = CSteamID.Nil;
-
-		// Token: 0x04003FD2 RID: 16338
-		private CallResult<SteamUGCRequestUGCDetailsResult_t> queryResult;
 	}
 }

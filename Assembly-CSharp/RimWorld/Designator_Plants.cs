@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020007EE RID: 2030
 	public abstract class Designator_Plants : Designator
 	{
+		// Token: 0x040017B7 RID: 6071
+		protected DesignationDef designationDef;
+
 		// Token: 0x06002D11 RID: 11537 RVA: 0x0017AF37 File Offset: 0x00179337
 		public Designator_Plants()
 		{
@@ -99,8 +102,5 @@ namespace RimWorld
 		{
 			GenUI.RenderMouseoverBracket();
 		}
-
-		// Token: 0x040017B7 RID: 6071
-		protected DesignationDef designationDef;
 	}
 }

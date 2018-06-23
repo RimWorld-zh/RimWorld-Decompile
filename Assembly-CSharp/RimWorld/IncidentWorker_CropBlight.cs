@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000325 RID: 805
 	public class IncidentWorker_CropBlight : IncidentWorker
 	{
+		// Token: 0x040008C3 RID: 2243
+		private const float Radius = 16f;
+
+		// Token: 0x040008C4 RID: 2244
+		private const float BaseBlightChance = 0.1f;
+
 		// Token: 0x06000DC1 RID: 3521 RVA: 0x00075CA0 File Offset: 0x000740A0
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
@@ -69,11 +75,5 @@ namespace RimWorld
 		{
 			return Mathf.InverseLerp(16f, 8f, c.DistanceTo(root));
 		}
-
-		// Token: 0x040008C3 RID: 2243
-		private const float Radius = 16f;
-
-		// Token: 0x040008C4 RID: 2244
-		private const float BaseBlightChance = 0.1f;
 	}
 }

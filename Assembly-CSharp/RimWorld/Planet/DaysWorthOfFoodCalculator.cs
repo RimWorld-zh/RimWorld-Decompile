@@ -8,6 +8,39 @@ namespace RimWorld.Planet
 	// Token: 0x020005F0 RID: 1520
 	public static class DaysWorthOfFoodCalculator
 	{
+		// Token: 0x040011F3 RID: 4595
+		private static List<Pawn> tmpPawns = new List<Pawn>();
+
+		// Token: 0x040011F4 RID: 4596
+		private static List<ThingDefCount> tmpThingDefCounts = new List<ThingDefCount>();
+
+		// Token: 0x040011F5 RID: 4597
+		private static List<ThingCount> tmpThingCounts = new List<ThingCount>();
+
+		// Token: 0x040011F6 RID: 4598
+		public const float InfiniteDaysWorthOfFood = 600f;
+
+		// Token: 0x040011F7 RID: 4599
+		private static List<float> tmpDaysWorthOfFoodForPawn = new List<float>();
+
+		// Token: 0x040011F8 RID: 4600
+		private static List<ThingDefCount> tmpFood = new List<ThingDefCount>();
+
+		// Token: 0x040011F9 RID: 4601
+		private static List<ThingDefCount> tmpFood2 = new List<ThingDefCount>();
+
+		// Token: 0x040011FA RID: 4602
+		private static List<Pair<int, int>> tmpTicksToArrive = new List<Pair<int, int>>();
+
+		// Token: 0x040011FB RID: 4603
+		private static List<float> cachedNutritionBetweenHungryAndFed = new List<float>();
+
+		// Token: 0x040011FC RID: 4604
+		private static List<int> cachedTicksUntilHungryWhenFed = new List<int>();
+
+		// Token: 0x040011FD RID: 4605
+		private static List<float> cachedMaxFoodLevel = new List<float>();
+
 		// Token: 0x06001E41 RID: 7745 RVA: 0x001052A0 File Offset: 0x001036A0
 		private static float ApproxDaysWorthOfFood(List<Pawn> pawns, List<ThingDefCount> extraFood, int tile, IgnorePawnsInventoryMode ignoreInventory, Faction faction, WorldPath path = null, float nextTileCostLeft = 0f, int caravanTicksPerMove = 3500, bool assumeCaravanMoving = true)
 		{
@@ -426,38 +459,5 @@ namespace RimWorld.Planet
 			}
 			return num;
 		}
-
-		// Token: 0x040011F3 RID: 4595
-		private static List<Pawn> tmpPawns = new List<Pawn>();
-
-		// Token: 0x040011F4 RID: 4596
-		private static List<ThingDefCount> tmpThingDefCounts = new List<ThingDefCount>();
-
-		// Token: 0x040011F5 RID: 4597
-		private static List<ThingCount> tmpThingCounts = new List<ThingCount>();
-
-		// Token: 0x040011F6 RID: 4598
-		public const float InfiniteDaysWorthOfFood = 600f;
-
-		// Token: 0x040011F7 RID: 4599
-		private static List<float> tmpDaysWorthOfFoodForPawn = new List<float>();
-
-		// Token: 0x040011F8 RID: 4600
-		private static List<ThingDefCount> tmpFood = new List<ThingDefCount>();
-
-		// Token: 0x040011F9 RID: 4601
-		private static List<ThingDefCount> tmpFood2 = new List<ThingDefCount>();
-
-		// Token: 0x040011FA RID: 4602
-		private static List<Pair<int, int>> tmpTicksToArrive = new List<Pair<int, int>>();
-
-		// Token: 0x040011FB RID: 4603
-		private static List<float> cachedNutritionBetweenHungryAndFed = new List<float>();
-
-		// Token: 0x040011FC RID: 4604
-		private static List<int> cachedTicksUntilHungryWhenFed = new List<int>();
-
-		// Token: 0x040011FD RID: 4605
-		private static List<float> cachedMaxFoodLevel = new List<float>();
 	}
 }

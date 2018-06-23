@@ -9,6 +9,16 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public class WorldFeatureTextMesh_TextMeshPro : WorldFeatureTextMesh
 	{
+		// Token: 0x04000F78 RID: 3960
+		private TextMeshPro textMesh;
+
+		// Token: 0x04000F79 RID: 3961
+		public static readonly GameObject WorldTextPrefab = Resources.Load<GameObject>("Prefabs/WorldText");
+
+		// Token: 0x04000F7A RID: 3962
+		[TweakValue("Interface.World", 0f, 5f)]
+		private static float TextScale = 1f;
+
 		// Token: 0x06001A91 RID: 6801 RVA: 0x000E4F12 File Offset: 0x000E3312
 		private static void TextScale_Changed()
 		{
@@ -182,15 +192,5 @@ namespace RimWorld.Planet
 				this.textMesh.mesh.vertices = vertices;
 			}
 		}
-
-		// Token: 0x04000F78 RID: 3960
-		private TextMeshPro textMesh;
-
-		// Token: 0x04000F79 RID: 3961
-		public static readonly GameObject WorldTextPrefab = Resources.Load<GameObject>("Prefabs/WorldText");
-
-		// Token: 0x04000F7A RID: 3962
-		[TweakValue("Interface.World", 0f, 5f)]
-		private static float TextScale = 1f;
 	}
 }

@@ -9,6 +9,35 @@ namespace RimWorld
 	// Token: 0x02000991 RID: 2449
 	public static class PriceUtility
 	{
+		// Token: 0x04002388 RID: 9096
+		private const float MinFactor = 0.1f;
+
+		// Token: 0x04002389 RID: 9097
+		private const float SummaryHealthImpact = 0.8f;
+
+		// Token: 0x0400238A RID: 9098
+		private const float CapacityImpact = 0.5f;
+
+		// Token: 0x0400238B RID: 9099
+		private const float MissingCapacityFactor = 0.6f;
+
+		// Token: 0x0400238C RID: 9100
+		private static readonly SimpleCurve AverageSkillCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 0.2f),
+				true
+			},
+			{
+				new CurvePoint(5.5f, 1f),
+				true
+			},
+			{
+				new CurvePoint(20f, 3f),
+				true
+			}
+		};
+
 		// Token: 0x06003711 RID: 14097 RVA: 0x001D7708 File Offset: 0x001D5B08
 		public static float PawnQualityPriceFactor(Pawn pawn)
 		{
@@ -45,34 +74,5 @@ namespace RimWorld
 			}
 			return num;
 		}
-
-		// Token: 0x04002388 RID: 9096
-		private const float MinFactor = 0.1f;
-
-		// Token: 0x04002389 RID: 9097
-		private const float SummaryHealthImpact = 0.8f;
-
-		// Token: 0x0400238A RID: 9098
-		private const float CapacityImpact = 0.5f;
-
-		// Token: 0x0400238B RID: 9099
-		private const float MissingCapacityFactor = 0.6f;
-
-		// Token: 0x0400238C RID: 9100
-		private static readonly SimpleCurve AverageSkillCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 0.2f),
-				true
-			},
-			{
-				new CurvePoint(5.5f, 1f),
-				true
-			},
-			{
-				new CurvePoint(20f, 3f),
-				true
-			}
-		};
 	}
 }

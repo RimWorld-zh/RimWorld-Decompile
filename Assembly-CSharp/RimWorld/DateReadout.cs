@@ -10,6 +10,27 @@ namespace RimWorld
 	// Token: 0x0200083D RID: 2109
 	public static class DateReadout
 	{
+		// Token: 0x040019CC RID: 6604
+		private static string dateString;
+
+		// Token: 0x040019CD RID: 6605
+		private static int dateStringDay = -1;
+
+		// Token: 0x040019CE RID: 6606
+		private static Season dateStringSeason = Season.Undefined;
+
+		// Token: 0x040019CF RID: 6607
+		private static Quadrum dateStringQuadrum = Quadrum.Undefined;
+
+		// Token: 0x040019D0 RID: 6608
+		private static int dateStringYear = -1;
+
+		// Token: 0x040019D1 RID: 6609
+		private static readonly List<string> fastHourStrings = new List<string>();
+
+		// Token: 0x040019D2 RID: 6610
+		private const float DateRightPadding = 7f;
+
 		// Token: 0x06002FC2 RID: 12226 RVA: 0x0019E0F7 File Offset: 0x0019C4F7
 		static DateReadout()
 		{
@@ -126,26 +147,5 @@ namespace RimWorld
 				});
 			}, 86423));
 		}
-
-		// Token: 0x040019CC RID: 6604
-		private static string dateString;
-
-		// Token: 0x040019CD RID: 6605
-		private static int dateStringDay = -1;
-
-		// Token: 0x040019CE RID: 6606
-		private static Season dateStringSeason = Season.Undefined;
-
-		// Token: 0x040019CF RID: 6607
-		private static Quadrum dateStringQuadrum = Quadrum.Undefined;
-
-		// Token: 0x040019D0 RID: 6608
-		private static int dateStringYear = -1;
-
-		// Token: 0x040019D1 RID: 6609
-		private static readonly List<string> fastHourStrings = new List<string>();
-
-		// Token: 0x040019D2 RID: 6610
-		private const float DateRightPadding = 7f;
 	}
 }

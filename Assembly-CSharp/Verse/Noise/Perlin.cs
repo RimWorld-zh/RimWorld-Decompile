@@ -6,6 +6,24 @@ namespace Verse.Noise
 	// Token: 0x02000F7B RID: 3963
 	public class Perlin : ModuleBase
 	{
+		// Token: 0x04003EDD RID: 16093
+		private double m_frequency = 1.0;
+
+		// Token: 0x04003EDE RID: 16094
+		private double m_lacunarity = 2.0;
+
+		// Token: 0x04003EDF RID: 16095
+		private QualityMode m_quality = QualityMode.Medium;
+
+		// Token: 0x04003EE0 RID: 16096
+		private int m_octaveCount = 6;
+
+		// Token: 0x04003EE1 RID: 16097
+		private double m_persistence = 0.5;
+
+		// Token: 0x04003EE2 RID: 16098
+		private int m_seed = 0;
+
 		// Token: 0x06005FA7 RID: 24487 RVA: 0x0030B54C File Offset: 0x0030994C
 		public Perlin() : base(0)
 		{
@@ -135,23 +153,5 @@ namespace Verse.Noise
 			}
 			return num;
 		}
-
-		// Token: 0x04003EDD RID: 16093
-		private double m_frequency = 1.0;
-
-		// Token: 0x04003EDE RID: 16094
-		private double m_lacunarity = 2.0;
-
-		// Token: 0x04003EDF RID: 16095
-		private QualityMode m_quality = QualityMode.Medium;
-
-		// Token: 0x04003EE0 RID: 16096
-		private int m_octaveCount = 6;
-
-		// Token: 0x04003EE1 RID: 16097
-		private double m_persistence = 0.5;
-
-		// Token: 0x04003EE2 RID: 16098
-		private int m_seed = 0;
 	}
 }

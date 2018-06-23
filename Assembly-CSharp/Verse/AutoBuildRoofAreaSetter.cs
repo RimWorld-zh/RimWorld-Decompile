@@ -7,6 +7,21 @@ namespace Verse
 	// Token: 0x02000C99 RID: 3225
 	public class AutoBuildRoofAreaSetter
 	{
+		// Token: 0x04003053 RID: 12371
+		private Map map;
+
+		// Token: 0x04003054 RID: 12372
+		private List<Room> queuedGenerateRooms = new List<Room>();
+
+		// Token: 0x04003055 RID: 12373
+		private HashSet<IntVec3> cellsToRoof = new HashSet<IntVec3>();
+
+		// Token: 0x04003056 RID: 12374
+		private HashSet<IntVec3> innerCells = new HashSet<IntVec3>();
+
+		// Token: 0x04003057 RID: 12375
+		private List<IntVec3> justRoofedCells = new List<IntVec3>();
+
 		// Token: 0x06004713 RID: 18195 RVA: 0x00257ED6 File Offset: 0x002562D6
 		public AutoBuildRoofAreaSetter(Map map)
 		{
@@ -151,20 +166,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04003053 RID: 12371
-		private Map map;
-
-		// Token: 0x04003054 RID: 12372
-		private List<Room> queuedGenerateRooms = new List<Room>();
-
-		// Token: 0x04003055 RID: 12373
-		private HashSet<IntVec3> cellsToRoof = new HashSet<IntVec3>();
-
-		// Token: 0x04003056 RID: 12374
-		private HashSet<IntVec3> innerCells = new HashSet<IntVec3>();
-
-		// Token: 0x04003057 RID: 12375
-		private List<IntVec3> justRoofedCells = new List<IntVec3>();
 	}
 }

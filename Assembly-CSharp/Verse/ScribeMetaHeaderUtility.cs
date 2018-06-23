@@ -10,6 +10,30 @@ namespace Verse
 	// Token: 0x02000DA1 RID: 3489
 	public class ScribeMetaHeaderUtility
 	{
+		// Token: 0x0400340E RID: 13326
+		private static ScribeMetaHeaderUtility.ScribeHeaderMode lastMode;
+
+		// Token: 0x0400340F RID: 13327
+		public static string loadedGameVersion;
+
+		// Token: 0x04003410 RID: 13328
+		public static List<string> loadedModIdsList;
+
+		// Token: 0x04003411 RID: 13329
+		public static List<string> loadedModNamesList;
+
+		// Token: 0x04003412 RID: 13330
+		public const string MetaNodeName = "meta";
+
+		// Token: 0x04003413 RID: 13331
+		public const string GameVersionNodeName = "gameVersion";
+
+		// Token: 0x04003414 RID: 13332
+		public const string ModIdsNodeName = "modIds";
+
+		// Token: 0x04003415 RID: 13333
+		public const string ModNamesNodeName = "modNames";
+
 		// Token: 0x06004E04 RID: 19972 RVA: 0x0028C488 File Offset: 0x0028A888
 		public static void WriteMetaHeader()
 		{
@@ -282,30 +306,6 @@ namespace Verse
 			}
 			return false;
 		}
-
-		// Token: 0x0400340E RID: 13326
-		private static ScribeMetaHeaderUtility.ScribeHeaderMode lastMode;
-
-		// Token: 0x0400340F RID: 13327
-		public static string loadedGameVersion;
-
-		// Token: 0x04003410 RID: 13328
-		public static List<string> loadedModIdsList;
-
-		// Token: 0x04003411 RID: 13329
-		public static List<string> loadedModNamesList;
-
-		// Token: 0x04003412 RID: 13330
-		public const string MetaNodeName = "meta";
-
-		// Token: 0x04003413 RID: 13331
-		public const string GameVersionNodeName = "gameVersion";
-
-		// Token: 0x04003414 RID: 13332
-		public const string ModIdsNodeName = "modIds";
-
-		// Token: 0x04003415 RID: 13333
-		public const string ModNamesNodeName = "modNames";
 
 		// Token: 0x02000DA2 RID: 3490
 		public enum ScribeHeaderMode

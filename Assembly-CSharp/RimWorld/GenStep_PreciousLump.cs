@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x0200040D RID: 1037
 	public class GenStep_PreciousLump : GenStep_ScatterLumpsMineable
 	{
+		// Token: 0x04000AD9 RID: 2777
+		public List<ThingOption> mineables;
+
+		// Token: 0x04000ADA RID: 2778
+		public FloatRange totalValueRange = new FloatRange(1000f, 2000f);
+
 		// Token: 0x17000262 RID: 610
 		// (get) Token: 0x060011D4 RID: 4564 RVA: 0x0009AFD4 File Offset: 0x000993D4
 		public override int SeedPart
@@ -47,11 +53,5 @@ namespace RimWorld
 			CellRect var = CellRect.FromLimits(minX, minZ, maxX, maxZ);
 			MapGenerator.SetVar<CellRect>("RectOfInterest", var);
 		}
-
-		// Token: 0x04000AD9 RID: 2777
-		public List<ThingOption> mineables;
-
-		// Token: 0x04000ADA RID: 2778
-		public FloatRange totalValueRange = new FloatRange(1000f, 2000f);
 	}
 }

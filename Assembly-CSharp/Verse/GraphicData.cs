@@ -8,6 +8,56 @@ namespace Verse
 	// Token: 0x02000B18 RID: 2840
 	public class GraphicData
 	{
+		// Token: 0x04002834 RID: 10292
+		[NoTranslate]
+		public string texPath = null;
+
+		// Token: 0x04002835 RID: 10293
+		public Type graphicClass = null;
+
+		// Token: 0x04002836 RID: 10294
+		public ShaderTypeDef shaderType = null;
+
+		// Token: 0x04002837 RID: 10295
+		public List<ShaderParameter> shaderParameters = null;
+
+		// Token: 0x04002838 RID: 10296
+		public Color color = Color.white;
+
+		// Token: 0x04002839 RID: 10297
+		public Color colorTwo = Color.white;
+
+		// Token: 0x0400283A RID: 10298
+		public Vector2 drawSize = Vector2.one;
+
+		// Token: 0x0400283B RID: 10299
+		public float onGroundRandomRotateAngle = 0f;
+
+		// Token: 0x0400283C RID: 10300
+		public bool drawRotated = true;
+
+		// Token: 0x0400283D RID: 10301
+		public bool allowFlip = true;
+
+		// Token: 0x0400283E RID: 10302
+		public float flipExtraRotation = 0f;
+
+		// Token: 0x0400283F RID: 10303
+		public ShadowData shadowData = null;
+
+		// Token: 0x04002840 RID: 10304
+		public DamageGraphicData damageData = null;
+
+		// Token: 0x04002841 RID: 10305
+		public LinkDrawerType linkType = LinkDrawerType.None;
+
+		// Token: 0x04002842 RID: 10306
+		public LinkFlags linkFlags = LinkFlags.None;
+
+		// Token: 0x04002843 RID: 10307
+		[Unsaved]
+		private Graphic cachedGraphic = null;
+
 		// Token: 0x17000974 RID: 2420
 		// (get) Token: 0x06003EB5 RID: 16053 RVA: 0x00210768 File Offset: 0x0020EB68
 		public bool Linked
@@ -126,55 +176,5 @@ namespace Verse
 			}
 			yield break;
 		}
-
-		// Token: 0x04002834 RID: 10292
-		[NoTranslate]
-		public string texPath = null;
-
-		// Token: 0x04002835 RID: 10293
-		public Type graphicClass = null;
-
-		// Token: 0x04002836 RID: 10294
-		public ShaderTypeDef shaderType = null;
-
-		// Token: 0x04002837 RID: 10295
-		public List<ShaderParameter> shaderParameters = null;
-
-		// Token: 0x04002838 RID: 10296
-		public Color color = Color.white;
-
-		// Token: 0x04002839 RID: 10297
-		public Color colorTwo = Color.white;
-
-		// Token: 0x0400283A RID: 10298
-		public Vector2 drawSize = Vector2.one;
-
-		// Token: 0x0400283B RID: 10299
-		public float onGroundRandomRotateAngle = 0f;
-
-		// Token: 0x0400283C RID: 10300
-		public bool drawRotated = true;
-
-		// Token: 0x0400283D RID: 10301
-		public bool allowFlip = true;
-
-		// Token: 0x0400283E RID: 10302
-		public float flipExtraRotation = 0f;
-
-		// Token: 0x0400283F RID: 10303
-		public ShadowData shadowData = null;
-
-		// Token: 0x04002840 RID: 10304
-		public DamageGraphicData damageData = null;
-
-		// Token: 0x04002841 RID: 10305
-		public LinkDrawerType linkType = LinkDrawerType.None;
-
-		// Token: 0x04002842 RID: 10306
-		public LinkFlags linkFlags = LinkFlags.None;
-
-		// Token: 0x04002843 RID: 10307
-		[Unsaved]
-		private Graphic cachedGraphic = null;
 	}
 }

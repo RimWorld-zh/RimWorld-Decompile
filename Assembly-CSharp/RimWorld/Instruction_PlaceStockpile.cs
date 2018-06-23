@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x020008C6 RID: 2246
 	public class Instruction_PlaceStockpile : Lesson_Instruction
 	{
+		// Token: 0x04001B9C RID: 7068
+		private CellRect stockpileRect;
+
+		// Token: 0x04001B9D RID: 7069
+		private List<IntVec3> cachedCells;
+
 		// Token: 0x06003364 RID: 13156 RVA: 0x001B93C0 File Offset: 0x001B77C0
 		public override void ExposeData()
 		{
@@ -61,11 +67,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04001B9C RID: 7068
-		private CellRect stockpileRect;
-
-		// Token: 0x04001B9D RID: 7069
-		private List<IntVec3> cachedCells;
 	}
 }

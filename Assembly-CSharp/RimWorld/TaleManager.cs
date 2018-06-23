@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x0200065F RID: 1631
 	public sealed class TaleManager : IExposable
 	{
+		// Token: 0x04001365 RID: 4965
+		private List<Tale> tales = new List<Tale>();
+
+		// Token: 0x04001366 RID: 4966
+		private const int MaxUnusedVolatileTales = 350;
+
 		// Token: 0x17000501 RID: 1281
 		// (get) Token: 0x06002218 RID: 8728 RVA: 0x00121800 File Offset: 0x0011FC00
 		public List<Tale> AllTalesListForReading
@@ -386,11 +392,5 @@ namespace RimWorld
 			}
 			Log.Message(stringBuilder.ToString(), false);
 		}
-
-		// Token: 0x04001365 RID: 4965
-		private List<Tale> tales = new List<Tale>();
-
-		// Token: 0x04001366 RID: 4966
-		private const int MaxUnusedVolatileTales = 350;
 	}
 }

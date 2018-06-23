@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x0200040B RID: 1035
 	public class GenStep_ManhunterPack : GenStep
 	{
+		// Token: 0x04000AD5 RID: 2773
+		public FloatRange pointsRange = new FloatRange(300f, 500f);
+
+		// Token: 0x04000AD6 RID: 2774
+		private int MinRoomCells = 225;
+
 		// Token: 0x17000260 RID: 608
 		// (get) Token: 0x060011CC RID: 4556 RVA: 0x0009AB80 File Offset: 0x00098F80
 		public override int SeedPart
@@ -38,11 +44,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000AD5 RID: 2773
-		public FloatRange pointsRange = new FloatRange(300f, 500f);
-
-		// Token: 0x04000AD6 RID: 2774
-		private int MinRoomCells = 225;
 	}
 }

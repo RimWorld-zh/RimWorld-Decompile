@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000FB1 RID: 4017
 	public static class CoverUtility
 	{
+		// Token: 0x04003F8D RID: 16269
+		public const float CoverPercent_Corner = 0.75f;
+
 		// Token: 0x06006139 RID: 24889 RVA: 0x00311AE0 File Offset: 0x0030FEE0
 		public static List<CoverInfo> CalculateCoverGiverSet(LocalTargetInfo target, IntVec3 shooterLoc, Map map)
 		{
@@ -140,8 +143,5 @@ namespace Verse
 			}
 			return num;
 		}
-
-		// Token: 0x04003F8D RID: 16269
-		public const float CoverPercent_Corner = 0.75f;
 	}
 }

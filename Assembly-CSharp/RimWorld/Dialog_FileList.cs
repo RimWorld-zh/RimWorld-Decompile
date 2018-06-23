@@ -9,6 +9,57 @@ namespace RimWorld
 	// Token: 0x0200080C RID: 2060
 	public abstract class Dialog_FileList : Window
 	{
+		// Token: 0x04001872 RID: 6258
+		protected string interactButLabel = "Error";
+
+		// Token: 0x04001873 RID: 6259
+		protected float bottomAreaHeight = 0f;
+
+		// Token: 0x04001874 RID: 6260
+		protected List<SaveFileInfo> files = new List<SaveFileInfo>();
+
+		// Token: 0x04001875 RID: 6261
+		protected Vector2 scrollPosition = Vector2.zero;
+
+		// Token: 0x04001876 RID: 6262
+		protected string typingName = "";
+
+		// Token: 0x04001877 RID: 6263
+		private bool focusedNameArea = false;
+
+		// Token: 0x04001878 RID: 6264
+		protected const float BoxMargin = 20f;
+
+		// Token: 0x04001879 RID: 6265
+		protected const float EntrySpacing = 3f;
+
+		// Token: 0x0400187A RID: 6266
+		protected const float EntryMargin = 1f;
+
+		// Token: 0x0400187B RID: 6267
+		protected const float NameExtraLeftMargin = 15f;
+
+		// Token: 0x0400187C RID: 6268
+		protected const float InfoExtraLeftMargin = 270f;
+
+		// Token: 0x0400187D RID: 6269
+		protected const float DeleteButtonSpace = 5f;
+
+		// Token: 0x0400187E RID: 6270
+		protected const float EntryHeight = 36f;
+
+		// Token: 0x0400187F RID: 6271
+		private static readonly Color DefaultFileTextColor = new Color(1f, 1f, 0.6f);
+
+		// Token: 0x04001880 RID: 6272
+		protected const float NameTextFieldWidth = 400f;
+
+		// Token: 0x04001881 RID: 6273
+		protected const float NameTextFieldHeight = 35f;
+
+		// Token: 0x04001882 RID: 6274
+		protected const float NameTextFieldButtonSpace = 20f;
+
 		// Token: 0x06002E0A RID: 11786 RVA: 0x00184538 File Offset: 0x00182938
 		public Dialog_FileList()
 		{
@@ -172,56 +223,5 @@ namespace RimWorld
 			TooltipHandler.TipRegion(rect3, sfi.CompatibilityTip);
 			GUI.EndGroup();
 		}
-
-		// Token: 0x04001872 RID: 6258
-		protected string interactButLabel = "Error";
-
-		// Token: 0x04001873 RID: 6259
-		protected float bottomAreaHeight = 0f;
-
-		// Token: 0x04001874 RID: 6260
-		protected List<SaveFileInfo> files = new List<SaveFileInfo>();
-
-		// Token: 0x04001875 RID: 6261
-		protected Vector2 scrollPosition = Vector2.zero;
-
-		// Token: 0x04001876 RID: 6262
-		protected string typingName = "";
-
-		// Token: 0x04001877 RID: 6263
-		private bool focusedNameArea = false;
-
-		// Token: 0x04001878 RID: 6264
-		protected const float BoxMargin = 20f;
-
-		// Token: 0x04001879 RID: 6265
-		protected const float EntrySpacing = 3f;
-
-		// Token: 0x0400187A RID: 6266
-		protected const float EntryMargin = 1f;
-
-		// Token: 0x0400187B RID: 6267
-		protected const float NameExtraLeftMargin = 15f;
-
-		// Token: 0x0400187C RID: 6268
-		protected const float InfoExtraLeftMargin = 270f;
-
-		// Token: 0x0400187D RID: 6269
-		protected const float DeleteButtonSpace = 5f;
-
-		// Token: 0x0400187E RID: 6270
-		protected const float EntryHeight = 36f;
-
-		// Token: 0x0400187F RID: 6271
-		private static readonly Color DefaultFileTextColor = new Color(1f, 1f, 0.6f);
-
-		// Token: 0x04001880 RID: 6272
-		protected const float NameTextFieldWidth = 400f;
-
-		// Token: 0x04001881 RID: 6273
-		protected const float NameTextFieldHeight = 35f;
-
-		// Token: 0x04001882 RID: 6274
-		protected const float NameTextFieldButtonSpace = 20f;
 	}
 }

@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x020003F2 RID: 1010
 	public class RoadDefGenStep_DryWithFallback : RoadDefGenStep
 	{
+		// Token: 0x04000A9B RID: 2715
+		public TerrainDef fallback;
+
 		// Token: 0x06001167 RID: 4455 RVA: 0x00097075 File Offset: 0x00095475
 		public override void Place(Map map, IntVec3 position, TerrainDef rockDef, IntVec3 origin, GenStep_Roads.DistanceElement[,] distance)
 		{
@@ -25,8 +28,5 @@ namespace RimWorld
 				map.terrainGrid.SetTerrain(position, fallback);
 			}
 		}
-
-		// Token: 0x04000A9B RID: 2715
-		public TerrainDef fallback;
 	}
 }

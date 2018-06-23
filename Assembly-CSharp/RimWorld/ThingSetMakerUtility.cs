@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x020006FC RID: 1788
 	public static class ThingSetMakerUtility
 	{
+		// Token: 0x040015AE RID: 5550
+		public static List<ThingDef> allGeneratableItems = new List<ThingDef>();
+
 		// Token: 0x06002701 RID: 9985 RVA: 0x0014FDD0 File Offset: 0x0014E1D0
 		public static void Reset()
 		{
@@ -221,8 +224,5 @@ namespace RimWorld
 			}
 			return num;
 		}
-
-		// Token: 0x040015AE RID: 5550
-		public static List<ThingDef> allGeneratableItems = new List<ThingDef>();
 	}
 }

@@ -8,6 +8,15 @@ namespace Verse
 	// Token: 0x02000BFC RID: 3068
 	public class AreaManager : IExposable
 	{
+		// Token: 0x04002DE6 RID: 11750
+		public Map map;
+
+		// Token: 0x04002DE7 RID: 11751
+		private List<Area> areas = new List<Area>();
+
+		// Token: 0x04002DE8 RID: 11752
+		public const int MaxAllowedAreas = 10;
+
 		// Token: 0x0600431A RID: 17178 RVA: 0x00238034 File Offset: 0x00236434
 		public AreaManager(Map map)
 		{
@@ -201,14 +210,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04002DE6 RID: 11750
-		public Map map;
-
-		// Token: 0x04002DE7 RID: 11751
-		private List<Area> areas = new List<Area>();
-
-		// Token: 0x04002DE8 RID: 11752
-		public const int MaxAllowedAreas = 10;
 	}
 }

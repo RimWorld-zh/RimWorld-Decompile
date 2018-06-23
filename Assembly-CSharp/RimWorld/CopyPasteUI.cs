@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x020007B7 RID: 1975
 	public static class CopyPasteUI
 	{
+		// Token: 0x04001790 RID: 6032
+		public const float CopyPasteIconHeight = 24f;
+
+		// Token: 0x04001791 RID: 6033
+		public const float CopyPasteIconWidth = 18f;
+
+		// Token: 0x04001792 RID: 6034
+		public const float CopyPasteColumnWidth = 36f;
+
 		// Token: 0x06002BD5 RID: 11221 RVA: 0x00173268 File Offset: 0x00171668
 		public static void DoCopyPasteButtons(Rect rect, Action copyAction, Action pasteAction)
 		{
@@ -30,14 +39,5 @@ namespace RimWorld
 				TooltipHandler.TipRegion(rect3, "Paste".Translate());
 			}
 		}
-
-		// Token: 0x04001790 RID: 6032
-		public const float CopyPasteIconHeight = 24f;
-
-		// Token: 0x04001791 RID: 6033
-		public const float CopyPasteIconWidth = 18f;
-
-		// Token: 0x04001792 RID: 6034
-		public const float CopyPasteColumnWidth = 36f;
 	}
 }

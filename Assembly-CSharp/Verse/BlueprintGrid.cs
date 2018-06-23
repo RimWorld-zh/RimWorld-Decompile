@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000C18 RID: 3096
 	public sealed class BlueprintGrid
 	{
+		// Token: 0x04002E4B RID: 11851
+		private Map map;
+
+		// Token: 0x04002E4C RID: 11852
+		private List<Blueprint>[] innerArray;
+
 		// Token: 0x060043AF RID: 17327 RVA: 0x0023C5F8 File Offset: 0x0023A9F8
 		public BlueprintGrid(Map map)
 		{
@@ -61,11 +67,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04002E4B RID: 11851
-		private Map map;
-
-		// Token: 0x04002E4C RID: 11852
-		private List<Blueprint>[] innerArray;
 	}
 }

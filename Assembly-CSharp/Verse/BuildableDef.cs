@@ -9,6 +9,126 @@ namespace Verse
 	// Token: 0x02000B01 RID: 2817
 	public abstract class BuildableDef : Def
 	{
+		// Token: 0x04002789 RID: 10121
+		public List<StatModifier> statBases = null;
+
+		// Token: 0x0400278A RID: 10122
+		public Traversability passability = Traversability.Standable;
+
+		// Token: 0x0400278B RID: 10123
+		public int pathCost = 0;
+
+		// Token: 0x0400278C RID: 10124
+		public bool pathCostIgnoreRepeat = true;
+
+		// Token: 0x0400278D RID: 10125
+		public float fertility = -1f;
+
+		// Token: 0x0400278E RID: 10126
+		public List<ThingDefCountClass> costList = null;
+
+		// Token: 0x0400278F RID: 10127
+		public int costStuffCount = 0;
+
+		// Token: 0x04002790 RID: 10128
+		public List<StuffCategoryDef> stuffCategories = null;
+
+		// Token: 0x04002791 RID: 10129
+		public int placingDraggableDimensions = 0;
+
+		// Token: 0x04002792 RID: 10130
+		public bool clearBuildingArea = true;
+
+		// Token: 0x04002793 RID: 10131
+		public Rot4 defaultPlacingRot = Rot4.North;
+
+		// Token: 0x04002794 RID: 10132
+		public float resourcesFractionWhenDeconstructed = 0.75f;
+
+		// Token: 0x04002795 RID: 10133
+		public TerrainAffordanceDef terrainAffordanceNeeded = null;
+
+		// Token: 0x04002796 RID: 10134
+		public List<ThingDef> buildingPrerequisites = null;
+
+		// Token: 0x04002797 RID: 10135
+		public List<ResearchProjectDef> researchPrerequisites = null;
+
+		// Token: 0x04002798 RID: 10136
+		public int constructionSkillPrerequisite = 0;
+
+		// Token: 0x04002799 RID: 10137
+		public TechLevel minTechLevelToBuild = TechLevel.Undefined;
+
+		// Token: 0x0400279A RID: 10138
+		public TechLevel maxTechLevelToBuild = TechLevel.Undefined;
+
+		// Token: 0x0400279B RID: 10139
+		public AltitudeLayer altitudeLayer = AltitudeLayer.Item;
+
+		// Token: 0x0400279C RID: 10140
+		public EffecterDef repairEffect = null;
+
+		// Token: 0x0400279D RID: 10141
+		public EffecterDef constructEffect = null;
+
+		// Token: 0x0400279E RID: 10142
+		public bool menuHidden = false;
+
+		// Token: 0x0400279F RID: 10143
+		public float specialDisplayRadius = 0f;
+
+		// Token: 0x040027A0 RID: 10144
+		public List<Type> placeWorkers = null;
+
+		// Token: 0x040027A1 RID: 10145
+		public DesignationCategoryDef designationCategory = null;
+
+		// Token: 0x040027A2 RID: 10146
+		public DesignatorDropdownGroupDef designatorDropdown = null;
+
+		// Token: 0x040027A3 RID: 10147
+		public KeyBindingDef designationHotKey = null;
+
+		// Token: 0x040027A4 RID: 10148
+		[NoTranslate]
+		public string uiIconPath;
+
+		// Token: 0x040027A5 RID: 10149
+		public Vector2 uiIconOffset;
+
+		// Token: 0x040027A6 RID: 10150
+		[Unsaved]
+		public ThingDef blueprintDef;
+
+		// Token: 0x040027A7 RID: 10151
+		[Unsaved]
+		public ThingDef installBlueprintDef;
+
+		// Token: 0x040027A8 RID: 10152
+		[Unsaved]
+		public ThingDef frameDef;
+
+		// Token: 0x040027A9 RID: 10153
+		[Unsaved]
+		private List<PlaceWorker> placeWorkersInstantiatedInt = null;
+
+		// Token: 0x040027AA RID: 10154
+		[Unsaved]
+		public Graphic graphic = BaseContent.BadGraphic;
+
+		// Token: 0x040027AB RID: 10155
+		[Unsaved]
+		public Texture2D uiIcon = BaseContent.BadTex;
+
+		// Token: 0x040027AC RID: 10156
+		[Unsaved]
+		public float uiIconAngle;
+
+		// Token: 0x040027AD RID: 10157
+		[Unsaved]
+		public Color uiIconColor = Color.white;
+
 		// Token: 0x17000968 RID: 2408
 		// (get) Token: 0x06003E6D RID: 15981 RVA: 0x0020E988 File Offset: 0x0020CD88
 		public virtual IntVec2 Size
@@ -215,125 +335,5 @@ namespace Verse
 		{
 			return this.defName.GetHashCode();
 		}
-
-		// Token: 0x04002789 RID: 10121
-		public List<StatModifier> statBases = null;
-
-		// Token: 0x0400278A RID: 10122
-		public Traversability passability = Traversability.Standable;
-
-		// Token: 0x0400278B RID: 10123
-		public int pathCost = 0;
-
-		// Token: 0x0400278C RID: 10124
-		public bool pathCostIgnoreRepeat = true;
-
-		// Token: 0x0400278D RID: 10125
-		public float fertility = -1f;
-
-		// Token: 0x0400278E RID: 10126
-		public List<ThingDefCountClass> costList = null;
-
-		// Token: 0x0400278F RID: 10127
-		public int costStuffCount = 0;
-
-		// Token: 0x04002790 RID: 10128
-		public List<StuffCategoryDef> stuffCategories = null;
-
-		// Token: 0x04002791 RID: 10129
-		public int placingDraggableDimensions = 0;
-
-		// Token: 0x04002792 RID: 10130
-		public bool clearBuildingArea = true;
-
-		// Token: 0x04002793 RID: 10131
-		public Rot4 defaultPlacingRot = Rot4.North;
-
-		// Token: 0x04002794 RID: 10132
-		public float resourcesFractionWhenDeconstructed = 0.75f;
-
-		// Token: 0x04002795 RID: 10133
-		public TerrainAffordanceDef terrainAffordanceNeeded = null;
-
-		// Token: 0x04002796 RID: 10134
-		public List<ThingDef> buildingPrerequisites = null;
-
-		// Token: 0x04002797 RID: 10135
-		public List<ResearchProjectDef> researchPrerequisites = null;
-
-		// Token: 0x04002798 RID: 10136
-		public int constructionSkillPrerequisite = 0;
-
-		// Token: 0x04002799 RID: 10137
-		public TechLevel minTechLevelToBuild = TechLevel.Undefined;
-
-		// Token: 0x0400279A RID: 10138
-		public TechLevel maxTechLevelToBuild = TechLevel.Undefined;
-
-		// Token: 0x0400279B RID: 10139
-		public AltitudeLayer altitudeLayer = AltitudeLayer.Item;
-
-		// Token: 0x0400279C RID: 10140
-		public EffecterDef repairEffect = null;
-
-		// Token: 0x0400279D RID: 10141
-		public EffecterDef constructEffect = null;
-
-		// Token: 0x0400279E RID: 10142
-		public bool menuHidden = false;
-
-		// Token: 0x0400279F RID: 10143
-		public float specialDisplayRadius = 0f;
-
-		// Token: 0x040027A0 RID: 10144
-		public List<Type> placeWorkers = null;
-
-		// Token: 0x040027A1 RID: 10145
-		public DesignationCategoryDef designationCategory = null;
-
-		// Token: 0x040027A2 RID: 10146
-		public DesignatorDropdownGroupDef designatorDropdown = null;
-
-		// Token: 0x040027A3 RID: 10147
-		public KeyBindingDef designationHotKey = null;
-
-		// Token: 0x040027A4 RID: 10148
-		[NoTranslate]
-		public string uiIconPath;
-
-		// Token: 0x040027A5 RID: 10149
-		public Vector2 uiIconOffset;
-
-		// Token: 0x040027A6 RID: 10150
-		[Unsaved]
-		public ThingDef blueprintDef;
-
-		// Token: 0x040027A7 RID: 10151
-		[Unsaved]
-		public ThingDef installBlueprintDef;
-
-		// Token: 0x040027A8 RID: 10152
-		[Unsaved]
-		public ThingDef frameDef;
-
-		// Token: 0x040027A9 RID: 10153
-		[Unsaved]
-		private List<PlaceWorker> placeWorkersInstantiatedInt = null;
-
-		// Token: 0x040027AA RID: 10154
-		[Unsaved]
-		public Graphic graphic = BaseContent.BadGraphic;
-
-		// Token: 0x040027AB RID: 10155
-		[Unsaved]
-		public Texture2D uiIcon = BaseContent.BadTex;
-
-		// Token: 0x040027AC RID: 10156
-		[Unsaved]
-		public float uiIconAngle;
-
-		// Token: 0x040027AD RID: 10157
-		[Unsaved]
-		public Color uiIconColor = Color.white;
 	}
 }

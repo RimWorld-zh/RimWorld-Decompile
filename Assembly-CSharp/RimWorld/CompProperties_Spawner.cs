@@ -6,12 +6,6 @@ namespace RimWorld
 	// Token: 0x02000734 RID: 1844
 	public class CompProperties_Spawner : CompProperties
 	{
-		// Token: 0x060028BA RID: 10426 RVA: 0x0015B92C File Offset: 0x00159D2C
-		public CompProperties_Spawner()
-		{
-			this.compClass = typeof(CompSpawner);
-		}
-
 		// Token: 0x04001648 RID: 5704
 		public ThingDef thingToSpawn;
 
@@ -38,5 +32,11 @@ namespace RimWorld
 
 		// Token: 0x04001650 RID: 5712
 		public string saveKeysPrefix;
+
+		// Token: 0x060028BA RID: 10426 RVA: 0x0015B92C File Offset: 0x00159D2C
+		public CompProperties_Spawner()
+		{
+			this.compClass = typeof(CompSpawner);
+		}
 	}
 }

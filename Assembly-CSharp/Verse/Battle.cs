@@ -10,6 +10,27 @@ namespace Verse
 	// Token: 0x02000BB8 RID: 3000
 	public class Battle : IExposable, ILoadReferenceable
 	{
+		// Token: 0x04002C75 RID: 11381
+		public const int TicksForBattleExit = 5000;
+
+		// Token: 0x04002C76 RID: 11382
+		private List<LogEntry> entries = new List<LogEntry>();
+
+		// Token: 0x04002C77 RID: 11383
+		private string battleName = null;
+
+		// Token: 0x04002C78 RID: 11384
+		private Battle absorbedBy;
+
+		// Token: 0x04002C79 RID: 11385
+		private HashSet<Pawn> concerns = new HashSet<Pawn>();
+
+		// Token: 0x04002C7A RID: 11386
+		private int loadID;
+
+		// Token: 0x04002C7B RID: 11387
+		private int creationTimestamp;
+
 		// Token: 0x17000A28 RID: 2600
 		// (get) Token: 0x06004108 RID: 16648 RVA: 0x00225670 File Offset: 0x00223A70
 		public int Importance
@@ -198,26 +219,5 @@ namespace Verse
 		{
 			return "Battle_" + this.loadID;
 		}
-
-		// Token: 0x04002C75 RID: 11381
-		public const int TicksForBattleExit = 5000;
-
-		// Token: 0x04002C76 RID: 11382
-		private List<LogEntry> entries = new List<LogEntry>();
-
-		// Token: 0x04002C77 RID: 11383
-		private string battleName = null;
-
-		// Token: 0x04002C78 RID: 11384
-		private Battle absorbedBy;
-
-		// Token: 0x04002C79 RID: 11385
-		private HashSet<Pawn> concerns = new HashSet<Pawn>();
-
-		// Token: 0x04002C7A RID: 11386
-		private int loadID;
-
-		// Token: 0x04002C7B RID: 11387
-		private int creationTimestamp;
 	}
 }

@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x020007AE RID: 1966
 	public static class AreaAllowedGUI
 	{
+		// Token: 0x04001748 RID: 5960
+		private static bool dragging;
+
 		// Token: 0x06002B74 RID: 11124 RVA: 0x0016FFC0 File Offset: 0x0016E3C0
 		public static void DoAllowedAreaSelectors(Rect rect, Pawn p)
 		{
@@ -86,8 +89,5 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 			TooltipHandler.TipRegion(rect, text);
 		}
-
-		// Token: 0x04001748 RID: 5960
-		private static bool dragging;
 	}
 }

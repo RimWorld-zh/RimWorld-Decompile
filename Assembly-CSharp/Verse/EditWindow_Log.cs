@@ -9,6 +9,66 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public class EditWindow_Log : EditWindow
 	{
+		// Token: 0x040038FD RID: 14589
+		private static LogMessage selectedMessage = null;
+
+		// Token: 0x040038FE RID: 14590
+		private static Vector2 messagesScrollPosition;
+
+		// Token: 0x040038FF RID: 14591
+		private static Vector2 detailsScrollPosition;
+
+		// Token: 0x04003900 RID: 14592
+		private static float detailsPaneHeight = 100f;
+
+		// Token: 0x04003901 RID: 14593
+		private static bool canAutoOpen = true;
+
+		// Token: 0x04003902 RID: 14594
+		public static bool wantsToOpen = false;
+
+		// Token: 0x04003903 RID: 14595
+		private float listingViewHeight;
+
+		// Token: 0x04003904 RID: 14596
+		private bool borderDragging = false;
+
+		// Token: 0x04003905 RID: 14597
+		private const float CountWidth = 28f;
+
+		// Token: 0x04003906 RID: 14598
+		private const float Yinc = 25f;
+
+		// Token: 0x04003907 RID: 14599
+		private const float DetailsPaneBorderHeight = 7f;
+
+		// Token: 0x04003908 RID: 14600
+		private const float DetailsPaneMinHeight = 10f;
+
+		// Token: 0x04003909 RID: 14601
+		private const float ListingMinHeight = 80f;
+
+		// Token: 0x0400390A RID: 14602
+		private const float TopAreaHeight = 26f;
+
+		// Token: 0x0400390B RID: 14603
+		private const float MessageMaxHeight = 30f;
+
+		// Token: 0x0400390C RID: 14604
+		private static readonly Texture2D AltMessageTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.17f, 0.17f, 0.17f, 0.85f));
+
+		// Token: 0x0400390D RID: 14605
+		private static readonly Texture2D SelectedMessageTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.25f, 0.25f, 0.17f, 0.85f));
+
+		// Token: 0x0400390E RID: 14606
+		private static readonly Texture2D StackTraceAreaTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.1f, 0.1f, 0.1f, 0.5f));
+
+		// Token: 0x0400390F RID: 14607
+		private static readonly Texture2D StackTraceBorderTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.3f, 0.3f, 0.3f, 1f));
+
+		// Token: 0x04003910 RID: 14608
+		private static readonly string MessageDetailsControlName = "MessageDetailsTextArea";
+
 		// Token: 0x0600564D RID: 22093 RVA: 0x002C7C47 File Offset: 0x002C6047
 		public EditWindow_Log()
 		{
@@ -264,65 +324,5 @@ namespace Verse
 			}
 			GUIUtility.systemCopyBuffer = stringBuilder.ToString();
 		}
-
-		// Token: 0x040038FD RID: 14589
-		private static LogMessage selectedMessage = null;
-
-		// Token: 0x040038FE RID: 14590
-		private static Vector2 messagesScrollPosition;
-
-		// Token: 0x040038FF RID: 14591
-		private static Vector2 detailsScrollPosition;
-
-		// Token: 0x04003900 RID: 14592
-		private static float detailsPaneHeight = 100f;
-
-		// Token: 0x04003901 RID: 14593
-		private static bool canAutoOpen = true;
-
-		// Token: 0x04003902 RID: 14594
-		public static bool wantsToOpen = false;
-
-		// Token: 0x04003903 RID: 14595
-		private float listingViewHeight;
-
-		// Token: 0x04003904 RID: 14596
-		private bool borderDragging = false;
-
-		// Token: 0x04003905 RID: 14597
-		private const float CountWidth = 28f;
-
-		// Token: 0x04003906 RID: 14598
-		private const float Yinc = 25f;
-
-		// Token: 0x04003907 RID: 14599
-		private const float DetailsPaneBorderHeight = 7f;
-
-		// Token: 0x04003908 RID: 14600
-		private const float DetailsPaneMinHeight = 10f;
-
-		// Token: 0x04003909 RID: 14601
-		private const float ListingMinHeight = 80f;
-
-		// Token: 0x0400390A RID: 14602
-		private const float TopAreaHeight = 26f;
-
-		// Token: 0x0400390B RID: 14603
-		private const float MessageMaxHeight = 30f;
-
-		// Token: 0x0400390C RID: 14604
-		private static readonly Texture2D AltMessageTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.17f, 0.17f, 0.17f, 0.85f));
-
-		// Token: 0x0400390D RID: 14605
-		private static readonly Texture2D SelectedMessageTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.25f, 0.25f, 0.17f, 0.85f));
-
-		// Token: 0x0400390E RID: 14606
-		private static readonly Texture2D StackTraceAreaTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.1f, 0.1f, 0.1f, 0.5f));
-
-		// Token: 0x0400390F RID: 14607
-		private static readonly Texture2D StackTraceBorderTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.3f, 0.3f, 0.3f, 1f));
-
-		// Token: 0x04003910 RID: 14608
-		private static readonly string MessageDetailsControlName = "MessageDetailsTextArea";
 	}
 }

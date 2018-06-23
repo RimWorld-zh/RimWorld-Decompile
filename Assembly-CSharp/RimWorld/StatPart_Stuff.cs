@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x020009B6 RID: 2486
 	public class StatPart_Stuff : StatPart
 	{
+		// Token: 0x040023BC RID: 9148
+		public StatDef stuffPowerStat;
+
+		// Token: 0x040023BD RID: 9149
+		public StatDef multiplierStat;
+
 		// Token: 0x060037B3 RID: 14259 RVA: 0x001DA9F8 File Offset: 0x001D8DF8
 		public override string ExplanationPart(StatRequest req)
 		{
@@ -51,11 +57,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040023BC RID: 9148
-		public StatDef stuffPowerStat;
-
-		// Token: 0x040023BD RID: 9149
-		public StatDef multiplierStat;
 	}
 }

@@ -8,6 +8,30 @@ namespace Verse.Sound
 	// Token: 0x02000DBF RID: 3519
 	public class SubSustainer
 	{
+		// Token: 0x04003452 RID: 13394
+		public Sustainer parent;
+
+		// Token: 0x04003453 RID: 13395
+		public SubSoundDef subDef;
+
+		// Token: 0x04003454 RID: 13396
+		private List<SampleSustainer> samples = new List<SampleSustainer>();
+
+		// Token: 0x04003455 RID: 13397
+		private float nextSampleStartTime;
+
+		// Token: 0x04003456 RID: 13398
+		public int creationFrame = -1;
+
+		// Token: 0x04003457 RID: 13399
+		public int creationTick = -1;
+
+		// Token: 0x04003458 RID: 13400
+		public float creationRealTime = -1f;
+
+		// Token: 0x04003459 RID: 13401
+		private const float MinSampleStartInterval = 0.01f;
+
 		// Token: 0x06004E95 RID: 20117 RVA: 0x00291004 File Offset: 0x0028F404
 		public SubSustainer(Sustainer parent, SubSoundDef subSoundDef)
 		{
@@ -158,29 +182,5 @@ namespace Verse.Sound
 			}
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x04003452 RID: 13394
-		public Sustainer parent;
-
-		// Token: 0x04003453 RID: 13395
-		public SubSoundDef subDef;
-
-		// Token: 0x04003454 RID: 13396
-		private List<SampleSustainer> samples = new List<SampleSustainer>();
-
-		// Token: 0x04003455 RID: 13397
-		private float nextSampleStartTime;
-
-		// Token: 0x04003456 RID: 13398
-		public int creationFrame = -1;
-
-		// Token: 0x04003457 RID: 13399
-		public int creationTick = -1;
-
-		// Token: 0x04003458 RID: 13400
-		public float creationRealTime = -1f;
-
-		// Token: 0x04003459 RID: 13401
-		private const float MinSampleStartInterval = 0.01f;
 	}
 }

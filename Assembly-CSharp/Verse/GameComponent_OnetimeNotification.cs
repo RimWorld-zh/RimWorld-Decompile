@@ -7,6 +7,9 @@ namespace Verse
 	// Token: 0x02000BC5 RID: 3013
 	public class GameComponent_OnetimeNotification : GameComponent
 	{
+		// Token: 0x04002CD5 RID: 11477
+		public bool sendAICoreRequestReminder = true;
+
 		// Token: 0x060041A7 RID: 16807 RVA: 0x0022A363 File Offset: 0x00228763
 		public GameComponent_OnetimeNotification(Game game)
 		{
@@ -45,8 +48,5 @@ namespace Verse
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.sendAICoreRequestReminder, "sendAICoreRequestReminder", false, false);
 		}
-
-		// Token: 0x04002CD5 RID: 11477
-		public bool sendAICoreRequestReminder = true;
 	}
 }

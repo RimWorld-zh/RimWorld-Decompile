@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x0200032B RID: 811
 	public class IncidentWorker_FarmAnimalsWanderIn : IncidentWorker
 	{
+		// Token: 0x040008CF RID: 2255
+		private const float MaxWildness = 0.35f;
+
+		// Token: 0x040008D0 RID: 2256
+		private const float TotalBodySizeToSpawn = 2.5f;
+
 		// Token: 0x06000DE0 RID: 3552 RVA: 0x000768C4 File Offset: 0x00074CC4
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
@@ -70,11 +76,5 @@ namespace RimWorld
 			where x.RaceProps.Animal && x.RaceProps.wildness < 0.35f && map.mapTemperature.SeasonAndOutdoorTemperatureAcceptableFor(x.race)
 			select x).TryRandomElementByWeight((PawnKindDef k) => 0.420000017f - k.RaceProps.wildness, out kind);
 		}
-
-		// Token: 0x040008CF RID: 2255
-		private const float MaxWildness = 0.35f;
-
-		// Token: 0x040008D0 RID: 2256
-		private const float TotalBodySizeToSpawn = 2.5f;
 	}
 }

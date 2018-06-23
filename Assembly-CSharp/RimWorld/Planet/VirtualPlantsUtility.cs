@@ -8,6 +8,9 @@ namespace RimWorld.Planet
 	// Token: 0x020005AE RID: 1454
 	public static class VirtualPlantsUtility
 	{
+		// Token: 0x04001097 RID: 4247
+		private static readonly FloatRange VirtualPlantNutritionRandomFactor = new FloatRange(0.7f, 1f);
+
 		// Token: 0x06001BD7 RID: 7127 RVA: 0x000EFF64 File Offset: 0x000EE364
 		public static bool CanEverEatVirtualPlants(Pawn p)
 		{
@@ -135,8 +138,5 @@ namespace RimWorld.Planet
 			}
 			return result;
 		}
-
-		// Token: 0x04001097 RID: 4247
-		private static readonly FloatRange VirtualPlantNutritionRandomFactor = new FloatRange(0.7f, 1f);
 	}
 }

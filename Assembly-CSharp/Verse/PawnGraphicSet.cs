@@ -8,6 +8,54 @@ namespace Verse
 	// Token: 0x02000CEE RID: 3310
 	public class PawnGraphicSet
 	{
+		// Token: 0x04003165 RID: 12645
+		public Pawn pawn;
+
+		// Token: 0x04003166 RID: 12646
+		public Graphic nakedGraphic = null;
+
+		// Token: 0x04003167 RID: 12647
+		public Graphic rottingGraphic = null;
+
+		// Token: 0x04003168 RID: 12648
+		public Graphic dessicatedGraphic = null;
+
+		// Token: 0x04003169 RID: 12649
+		public Graphic packGraphic = null;
+
+		// Token: 0x0400316A RID: 12650
+		public DamageFlasher flasher;
+
+		// Token: 0x0400316B RID: 12651
+		public Graphic headGraphic = null;
+
+		// Token: 0x0400316C RID: 12652
+		public Graphic desiccatedHeadGraphic = null;
+
+		// Token: 0x0400316D RID: 12653
+		public Graphic skullGraphic = null;
+
+		// Token: 0x0400316E RID: 12654
+		public Graphic headStumpGraphic = null;
+
+		// Token: 0x0400316F RID: 12655
+		public Graphic desiccatedHeadStumpGraphic = null;
+
+		// Token: 0x04003170 RID: 12656
+		public Graphic hairGraphic = null;
+
+		// Token: 0x04003171 RID: 12657
+		public List<ApparelGraphicRecord> apparelGraphics = new List<ApparelGraphicRecord>();
+
+		// Token: 0x04003172 RID: 12658
+		private List<Material> cachedMatsBodyBase = new List<Material>();
+
+		// Token: 0x04003173 RID: 12659
+		private int cachedMatsBodyBaseHash = -1;
+
+		// Token: 0x04003174 RID: 12660
+		public static readonly Color RottingColor = new Color(0.34f, 0.32f, 0.3f);
+
 		// Token: 0x060048E4 RID: 18660 RVA: 0x00263F40 File Offset: 0x00262340
 		public PawnGraphicSet(Pawn pawn)
 		{
@@ -184,53 +232,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04003165 RID: 12645
-		public Pawn pawn;
-
-		// Token: 0x04003166 RID: 12646
-		public Graphic nakedGraphic = null;
-
-		// Token: 0x04003167 RID: 12647
-		public Graphic rottingGraphic = null;
-
-		// Token: 0x04003168 RID: 12648
-		public Graphic dessicatedGraphic = null;
-
-		// Token: 0x04003169 RID: 12649
-		public Graphic packGraphic = null;
-
-		// Token: 0x0400316A RID: 12650
-		public DamageFlasher flasher;
-
-		// Token: 0x0400316B RID: 12651
-		public Graphic headGraphic = null;
-
-		// Token: 0x0400316C RID: 12652
-		public Graphic desiccatedHeadGraphic = null;
-
-		// Token: 0x0400316D RID: 12653
-		public Graphic skullGraphic = null;
-
-		// Token: 0x0400316E RID: 12654
-		public Graphic headStumpGraphic = null;
-
-		// Token: 0x0400316F RID: 12655
-		public Graphic desiccatedHeadStumpGraphic = null;
-
-		// Token: 0x04003170 RID: 12656
-		public Graphic hairGraphic = null;
-
-		// Token: 0x04003171 RID: 12657
-		public List<ApparelGraphicRecord> apparelGraphics = new List<ApparelGraphicRecord>();
-
-		// Token: 0x04003172 RID: 12658
-		private List<Material> cachedMatsBodyBase = new List<Material>();
-
-		// Token: 0x04003173 RID: 12659
-		private int cachedMatsBodyBaseHash = -1;
-
-		// Token: 0x04003174 RID: 12660
-		public static readonly Color RottingColor = new Color(0.34f, 0.32f, 0.3f);
 	}
 }

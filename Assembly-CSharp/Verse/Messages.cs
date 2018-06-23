@@ -9,6 +9,21 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class Messages
 	{
+		// Token: 0x04003A13 RID: 14867
+		private static List<Message> liveMessages = new List<Message>();
+
+		// Token: 0x04003A14 RID: 14868
+		private static int mouseoverMessageIndex = -1;
+
+		// Token: 0x04003A15 RID: 14869
+		public static readonly Vector2 MessagesTopLeftStandard = new Vector2(140f, 16f);
+
+		// Token: 0x04003A16 RID: 14870
+		private const int MessageYInterval = 26;
+
+		// Token: 0x04003A17 RID: 14871
+		private const int MaxLiveMessages = 12;
+
 		// Token: 0x060057D6 RID: 22486 RVA: 0x002D13FC File Offset: 0x002CF7FC
 		public static void Update()
 		{
@@ -147,20 +162,5 @@ namespace Verse
 		{
 			Messages.mouseoverMessageIndex = Messages.liveMessages.IndexOf(msg);
 		}
-
-		// Token: 0x04003A13 RID: 14867
-		private static List<Message> liveMessages = new List<Message>();
-
-		// Token: 0x04003A14 RID: 14868
-		private static int mouseoverMessageIndex = -1;
-
-		// Token: 0x04003A15 RID: 14869
-		public static readonly Vector2 MessagesTopLeftStandard = new Vector2(140f, 16f);
-
-		// Token: 0x04003A16 RID: 14870
-		private const int MessageYInterval = 26;
-
-		// Token: 0x04003A17 RID: 14871
-		private const int MaxLiveMessages = 12;
 	}
 }

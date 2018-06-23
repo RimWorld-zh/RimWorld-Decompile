@@ -10,6 +10,9 @@ namespace RimWorld
 	// Token: 0x02000401 RID: 1025
 	public class GenStep_Terrain : GenStep
 	{
+		// Token: 0x04000AB4 RID: 2740
+		private static bool debug_WarnedMissingTerrain = false;
+
 		// Token: 0x1700025B RID: 603
 		// (get) Token: 0x060011A1 RID: 4513 RVA: 0x00098DAC File Offset: 0x000971AC
 		public override int SeedPart
@@ -367,9 +370,6 @@ namespace RimWorld
 			map.waterInfo.riverOffsetMap = array4;
 			map.waterInfo.GenerateRiverFlowMap();
 		}
-
-		// Token: 0x04000AB4 RID: 2740
-		private static bool debug_WarnedMissingTerrain = false;
 
 		// Token: 0x02000402 RID: 1026
 		private struct GRLT_Entry

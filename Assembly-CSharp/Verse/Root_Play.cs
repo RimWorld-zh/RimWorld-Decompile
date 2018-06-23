@@ -11,6 +11,21 @@ namespace Verse
 	// Token: 0x02000BDC RID: 3036
 	public class Root_Play : Root
 	{
+		// Token: 0x04002D58 RID: 11608
+		public MusicManagerPlay musicManagerPlay;
+
+		// Token: 0x04002D59 RID: 11609
+		[CompilerGenerated]
+		private static Action<Exception> <>f__mg$cache0;
+
+		// Token: 0x04002D5A RID: 11610
+		[CompilerGenerated]
+		private static Action<Exception> <>f__mg$cache1;
+
+		// Token: 0x04002D5B RID: 11611
+		[CompilerGenerated]
+		private static Action<Exception> <>f__mg$cache2;
+
 		// Token: 0x06004252 RID: 16978 RVA: 0x0022E5FC File Offset: 0x0022C9FC
 		public override void Start()
 		{
@@ -122,20 +137,5 @@ namespace Verse
 			Find.GameInitData.PrepForMapGen();
 			Find.Scenario.PreMapGenerate();
 		}
-
-		// Token: 0x04002D58 RID: 11608
-		public MusicManagerPlay musicManagerPlay;
-
-		// Token: 0x04002D59 RID: 11609
-		[CompilerGenerated]
-		private static Action<Exception> <>f__mg$cache0;
-
-		// Token: 0x04002D5A RID: 11610
-		[CompilerGenerated]
-		private static Action<Exception> <>f__mg$cache1;
-
-		// Token: 0x04002D5B RID: 11611
-		[CompilerGenerated]
-		private static Action<Exception> <>f__mg$cache2;
 	}
 }

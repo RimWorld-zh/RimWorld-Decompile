@@ -8,6 +8,106 @@ namespace UnityStandardAssets.ImageEffects
 	[AddComponentMenu("Image Effects/Color Adjustments/Color Correction (Curves, Saturation)")]
 	public class ColorCorrectionCurves : PostEffectsBase
 	{
+		// Token: 0x0400074F RID: 1871
+		public AnimationCurve redChannel = new AnimationCurve(new Keyframe[]
+		{
+			new Keyframe(0f, 0f),
+			new Keyframe(1f, 1f)
+		});
+
+		// Token: 0x04000750 RID: 1872
+		public AnimationCurve greenChannel = new AnimationCurve(new Keyframe[]
+		{
+			new Keyframe(0f, 0f),
+			new Keyframe(1f, 1f)
+		});
+
+		// Token: 0x04000751 RID: 1873
+		public AnimationCurve blueChannel = new AnimationCurve(new Keyframe[]
+		{
+			new Keyframe(0f, 0f),
+			new Keyframe(1f, 1f)
+		});
+
+		// Token: 0x04000752 RID: 1874
+		public bool useDepthCorrection = false;
+
+		// Token: 0x04000753 RID: 1875
+		public AnimationCurve zCurve = new AnimationCurve(new Keyframe[]
+		{
+			new Keyframe(0f, 0f),
+			new Keyframe(1f, 1f)
+		});
+
+		// Token: 0x04000754 RID: 1876
+		public AnimationCurve depthRedChannel = new AnimationCurve(new Keyframe[]
+		{
+			new Keyframe(0f, 0f),
+			new Keyframe(1f, 1f)
+		});
+
+		// Token: 0x04000755 RID: 1877
+		public AnimationCurve depthGreenChannel = new AnimationCurve(new Keyframe[]
+		{
+			new Keyframe(0f, 0f),
+			new Keyframe(1f, 1f)
+		});
+
+		// Token: 0x04000756 RID: 1878
+		public AnimationCurve depthBlueChannel = new AnimationCurve(new Keyframe[]
+		{
+			new Keyframe(0f, 0f),
+			new Keyframe(1f, 1f)
+		});
+
+		// Token: 0x04000757 RID: 1879
+		private Material ccMaterial;
+
+		// Token: 0x04000758 RID: 1880
+		private Material ccDepthMaterial;
+
+		// Token: 0x04000759 RID: 1881
+		private Material selectiveCcMaterial;
+
+		// Token: 0x0400075A RID: 1882
+		private Texture2D rgbChannelTex;
+
+		// Token: 0x0400075B RID: 1883
+		private Texture2D rgbDepthChannelTex;
+
+		// Token: 0x0400075C RID: 1884
+		private Texture2D zCurveTex;
+
+		// Token: 0x0400075D RID: 1885
+		public float saturation = 1f;
+
+		// Token: 0x0400075E RID: 1886
+		public bool selectiveCc = false;
+
+		// Token: 0x0400075F RID: 1887
+		public Color selectiveFromColor = Color.white;
+
+		// Token: 0x04000760 RID: 1888
+		public Color selectiveToColor = Color.white;
+
+		// Token: 0x04000761 RID: 1889
+		public ColorCorrectionCurves.ColorCorrectionMode mode;
+
+		// Token: 0x04000762 RID: 1890
+		public bool updateTextures = true;
+
+		// Token: 0x04000763 RID: 1891
+		public Shader colorCorrectionCurvesShader = null;
+
+		// Token: 0x04000764 RID: 1892
+		public Shader simpleColorCorrectionCurvesShader = null;
+
+		// Token: 0x04000765 RID: 1893
+		public Shader colorCorrectionSelectiveShader = null;
+
+		// Token: 0x04000766 RID: 1894
+		private bool updateTexturesOnStartup = true;
+
 		// Token: 0x060008DC RID: 2268 RVA: 0x00012DC2 File Offset: 0x00010FC2
 		private new void Start()
 		{
@@ -133,106 +233,6 @@ namespace UnityStandardAssets.ImageEffects
 				}
 			}
 		}
-
-		// Token: 0x0400074F RID: 1871
-		public AnimationCurve redChannel = new AnimationCurve(new Keyframe[]
-		{
-			new Keyframe(0f, 0f),
-			new Keyframe(1f, 1f)
-		});
-
-		// Token: 0x04000750 RID: 1872
-		public AnimationCurve greenChannel = new AnimationCurve(new Keyframe[]
-		{
-			new Keyframe(0f, 0f),
-			new Keyframe(1f, 1f)
-		});
-
-		// Token: 0x04000751 RID: 1873
-		public AnimationCurve blueChannel = new AnimationCurve(new Keyframe[]
-		{
-			new Keyframe(0f, 0f),
-			new Keyframe(1f, 1f)
-		});
-
-		// Token: 0x04000752 RID: 1874
-		public bool useDepthCorrection = false;
-
-		// Token: 0x04000753 RID: 1875
-		public AnimationCurve zCurve = new AnimationCurve(new Keyframe[]
-		{
-			new Keyframe(0f, 0f),
-			new Keyframe(1f, 1f)
-		});
-
-		// Token: 0x04000754 RID: 1876
-		public AnimationCurve depthRedChannel = new AnimationCurve(new Keyframe[]
-		{
-			new Keyframe(0f, 0f),
-			new Keyframe(1f, 1f)
-		});
-
-		// Token: 0x04000755 RID: 1877
-		public AnimationCurve depthGreenChannel = new AnimationCurve(new Keyframe[]
-		{
-			new Keyframe(0f, 0f),
-			new Keyframe(1f, 1f)
-		});
-
-		// Token: 0x04000756 RID: 1878
-		public AnimationCurve depthBlueChannel = new AnimationCurve(new Keyframe[]
-		{
-			new Keyframe(0f, 0f),
-			new Keyframe(1f, 1f)
-		});
-
-		// Token: 0x04000757 RID: 1879
-		private Material ccMaterial;
-
-		// Token: 0x04000758 RID: 1880
-		private Material ccDepthMaterial;
-
-		// Token: 0x04000759 RID: 1881
-		private Material selectiveCcMaterial;
-
-		// Token: 0x0400075A RID: 1882
-		private Texture2D rgbChannelTex;
-
-		// Token: 0x0400075B RID: 1883
-		private Texture2D rgbDepthChannelTex;
-
-		// Token: 0x0400075C RID: 1884
-		private Texture2D zCurveTex;
-
-		// Token: 0x0400075D RID: 1885
-		public float saturation = 1f;
-
-		// Token: 0x0400075E RID: 1886
-		public bool selectiveCc = false;
-
-		// Token: 0x0400075F RID: 1887
-		public Color selectiveFromColor = Color.white;
-
-		// Token: 0x04000760 RID: 1888
-		public Color selectiveToColor = Color.white;
-
-		// Token: 0x04000761 RID: 1889
-		public ColorCorrectionCurves.ColorCorrectionMode mode;
-
-		// Token: 0x04000762 RID: 1890
-		public bool updateTextures = true;
-
-		// Token: 0x04000763 RID: 1891
-		public Shader colorCorrectionCurvesShader = null;
-
-		// Token: 0x04000764 RID: 1892
-		public Shader simpleColorCorrectionCurvesShader = null;
-
-		// Token: 0x04000765 RID: 1893
-		public Shader colorCorrectionSelectiveShader = null;
-
-		// Token: 0x04000766 RID: 1894
-		private bool updateTexturesOnStartup = true;
 
 		// Token: 0x02000188 RID: 392
 		public enum ColorCorrectionMode

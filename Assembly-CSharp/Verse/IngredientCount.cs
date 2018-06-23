@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000EFD RID: 3837
 	public sealed class IngredientCount
 	{
+		// Token: 0x04003CDE RID: 15582
+		public ThingFilter filter = new ThingFilter();
+
+		// Token: 0x04003CDF RID: 15583
+		private float count = 1f;
+
 		// Token: 0x17000EC3 RID: 3779
 		// (get) Token: 0x06005C0C RID: 23564 RVA: 0x002EDA4C File Offset: 0x002EBE4C
 		public bool IsFixedIngredient
@@ -70,11 +76,5 @@ namespace Verse
 		{
 			return "(" + this.Summary + ")";
 		}
-
-		// Token: 0x04003CDE RID: 15582
-		public ThingFilter filter = new ThingFilter();
-
-		// Token: 0x04003CDF RID: 15583
-		private float count = 1f;
 	}
 }

@@ -7,6 +7,12 @@ namespace RimWorld.BaseGen
 	// Token: 0x020003CD RID: 973
 	public class SymbolResolver_OutdoorLighting : SymbolResolver
 	{
+		// Token: 0x04000A3A RID: 2618
+		private static List<CompGlower> nearbyGlowers = new List<CompGlower>();
+
+		// Token: 0x04000A3B RID: 2619
+		private const float Margin = 2f;
+
 		// Token: 0x060010C7 RID: 4295 RVA: 0x0008EFBC File Offset: 0x0008D3BC
 		public override void Resolve(ResolveParams rp)
 		{
@@ -86,11 +92,5 @@ namespace RimWorld.BaseGen
 			}
 			return false;
 		}
-
-		// Token: 0x04000A3A RID: 2618
-		private static List<CompGlower> nearbyGlowers = new List<CompGlower>();
-
-		// Token: 0x04000A3B RID: 2619
-		private const float Margin = 2f;
 	}
 }

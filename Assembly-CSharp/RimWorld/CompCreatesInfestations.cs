@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x02000706 RID: 1798
 	public class CompCreatesInfestations : ThingComp
 	{
+		// Token: 0x040015C5 RID: 5573
+		private int lastCreatedInfestationTick = -999999;
+
+		// Token: 0x040015C6 RID: 5574
+		private const float MinRefireDays = 8f;
+
+		// Token: 0x040015C7 RID: 5575
+		private const float PreventInfestationsDist = 10f;
+
 		// Token: 0x170005EC RID: 1516
 		// (get) Token: 0x06002769 RID: 10089 RVA: 0x00152754 File Offset: 0x00150B54
 		public bool CanCreateInfestationNow
@@ -69,14 +78,5 @@ namespace RimWorld
 		{
 			this.lastCreatedInfestationTick = Find.TickManager.TicksGame;
 		}
-
-		// Token: 0x040015C5 RID: 5573
-		private int lastCreatedInfestationTick = -999999;
-
-		// Token: 0x040015C6 RID: 5574
-		private const float MinRefireDays = 8f;
-
-		// Token: 0x040015C7 RID: 5575
-		private const float PreventInfestationsDist = 10f;
 	}
 }

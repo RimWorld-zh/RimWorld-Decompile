@@ -6,6 +6,15 @@ namespace RimWorld
 	// Token: 0x02000421 RID: 1057
 	public class CompSchedule : ThingComp
 	{
+		// Token: 0x04000B32 RID: 2866
+		public const string ScheduledOnSignal = "ScheduledOn";
+
+		// Token: 0x04000B33 RID: 2867
+		public const string ScheduledOffSignal = "ScheduledOff";
+
+		// Token: 0x04000B34 RID: 2868
+		private bool intAllowed = false;
+
 		// Token: 0x1700027F RID: 639
 		// (get) Token: 0x06001268 RID: 4712 RVA: 0x0009F8E4 File Offset: 0x0009DCE4
 		public CompProperties_Schedule Props
@@ -77,14 +86,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04000B32 RID: 2866
-		public const string ScheduledOnSignal = "ScheduledOn";
-
-		// Token: 0x04000B33 RID: 2867
-		public const string ScheduledOffSignal = "ScheduledOff";
-
-		// Token: 0x04000B34 RID: 2868
-		private bool intAllowed = false;
 	}
 }

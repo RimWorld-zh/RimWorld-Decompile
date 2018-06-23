@@ -7,6 +7,30 @@ namespace RimWorld
 	// Token: 0x020006E2 RID: 1762
 	public class ActiveDropPodInfo : IThingHolder, IExposable
 	{
+		// Token: 0x04001560 RID: 5472
+		public IThingHolder parent;
+
+		// Token: 0x04001561 RID: 5473
+		public ThingOwner innerContainer;
+
+		// Token: 0x04001562 RID: 5474
+		public int openDelay = 110;
+
+		// Token: 0x04001563 RID: 5475
+		public bool leaveSlag = false;
+
+		// Token: 0x04001564 RID: 5476
+		public bool savePawnsWithReferenceMode;
+
+		// Token: 0x04001565 RID: 5477
+		public const int DefaultOpenDelay = 110;
+
+		// Token: 0x04001566 RID: 5478
+		private List<Thing> tmpThings = new List<Thing>();
+
+		// Token: 0x04001567 RID: 5479
+		private List<Pawn> tmpSavedPawns = new List<Pawn>();
+
 		// Token: 0x0600265C RID: 9820 RVA: 0x001498AB File Offset: 0x00147CAB
 		public ActiveDropPodInfo()
 		{
@@ -110,29 +134,5 @@ namespace RimWorld
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
-
-		// Token: 0x04001560 RID: 5472
-		public IThingHolder parent;
-
-		// Token: 0x04001561 RID: 5473
-		public ThingOwner innerContainer;
-
-		// Token: 0x04001562 RID: 5474
-		public int openDelay = 110;
-
-		// Token: 0x04001563 RID: 5475
-		public bool leaveSlag = false;
-
-		// Token: 0x04001564 RID: 5476
-		public bool savePawnsWithReferenceMode;
-
-		// Token: 0x04001565 RID: 5477
-		public const int DefaultOpenDelay = 110;
-
-		// Token: 0x04001566 RID: 5478
-		private List<Thing> tmpThings = new List<Thing>();
-
-		// Token: 0x04001567 RID: 5479
-		private List<Pawn> tmpSavedPawns = new List<Pawn>();
 	}
 }

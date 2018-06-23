@@ -12,6 +12,9 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public static class SettlementAbandonUtility
 	{
+		// Token: 0x04001229 RID: 4649
+		private static readonly Texture2D AbandonCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/AbandonHome", true);
+
 		// Token: 0x06001EDF RID: 7903 RVA: 0x0010CA0C File Offset: 0x0010AE0C
 		public static Command AbandonCommand(MapParent settlement)
 		{
@@ -104,8 +107,5 @@ namespace RimWorld.Planet
 			worldObject.SetFaction(factionBase.Faction);
 			Find.WorldObjects.Add(worldObject);
 		}
-
-		// Token: 0x04001229 RID: 4649
-		private static readonly Texture2D AbandonCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/AbandonHome", true);
 	}
 }

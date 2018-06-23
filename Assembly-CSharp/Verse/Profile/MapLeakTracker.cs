@@ -8,6 +8,30 @@ namespace Verse.Profile
 	[HasDebugOutput]
 	internal static class MapLeakTracker
 	{
+		// Token: 0x04003338 RID: 13112
+		private static List<WeakReference<Map>> references = new List<WeakReference<Map>>();
+
+		// Token: 0x04003339 RID: 13113
+		private static List<WeakReference<Map>> referencesFlagged = new List<WeakReference<Map>>();
+
+		// Token: 0x0400333A RID: 13114
+		private static float lastUpdateSecond = 0f;
+
+		// Token: 0x0400333B RID: 13115
+		private static int lastUpdateTick = 0;
+
+		// Token: 0x0400333C RID: 13116
+		private static bool gcSinceLastUpdate = false;
+
+		// Token: 0x0400333D RID: 13117
+		private static long gcUsedLastFrame = 0L;
+
+		// Token: 0x0400333E RID: 13118
+		private const float TimeBetweenUpdateRealtimeSeconds = 60f;
+
+		// Token: 0x0400333F RID: 13119
+		private const float TimeBetweenUpdateGameDays = 1f;
+
 		// Token: 0x06004CD1 RID: 19665 RVA: 0x002805D7 File Offset: 0x0027E9D7
 		public static void AddReference(Map element)
 		{
@@ -79,29 +103,5 @@ namespace Verse.Profile
 				}
 			}
 		}
-
-		// Token: 0x04003338 RID: 13112
-		private static List<WeakReference<Map>> references = new List<WeakReference<Map>>();
-
-		// Token: 0x04003339 RID: 13113
-		private static List<WeakReference<Map>> referencesFlagged = new List<WeakReference<Map>>();
-
-		// Token: 0x0400333A RID: 13114
-		private static float lastUpdateSecond = 0f;
-
-		// Token: 0x0400333B RID: 13115
-		private static int lastUpdateTick = 0;
-
-		// Token: 0x0400333C RID: 13116
-		private static bool gcSinceLastUpdate = false;
-
-		// Token: 0x0400333D RID: 13117
-		private static long gcUsedLastFrame = 0L;
-
-		// Token: 0x0400333E RID: 13118
-		private const float TimeBetweenUpdateRealtimeSeconds = 60f;
-
-		// Token: 0x0400333F RID: 13119
-		private const float TimeBetweenUpdateGameDays = 1f;
 	}
 }

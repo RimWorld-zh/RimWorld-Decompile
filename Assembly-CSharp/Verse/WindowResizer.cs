@@ -6,6 +6,18 @@ namespace Verse
 	// Token: 0x02000ECB RID: 3787
 	public class WindowResizer
 	{
+		// Token: 0x04003BEF RID: 15343
+		public Vector2 minWindowSize = new Vector2(150f, 150f);
+
+		// Token: 0x04003BF0 RID: 15344
+		private bool isResizing = false;
+
+		// Token: 0x04003BF1 RID: 15345
+		private Rect resizeStart = default(Rect);
+
+		// Token: 0x04003BF2 RID: 15346
+		private const float ResizeButtonSize = 24f;
+
 		// Token: 0x0600599B RID: 22939 RVA: 0x002DDF34 File Offset: 0x002DC334
 		public Rect DoResizeControl(Rect winRect)
 		{
@@ -38,17 +50,5 @@ namespace Verse
 			Widgets.ButtonImage(rect, TexUI.WinExpandWidget);
 			return new Rect(winRect.x, winRect.y, (float)((int)winRect.width), (float)((int)winRect.height));
 		}
-
-		// Token: 0x04003BEF RID: 15343
-		public Vector2 minWindowSize = new Vector2(150f, 150f);
-
-		// Token: 0x04003BF0 RID: 15344
-		private bool isResizing = false;
-
-		// Token: 0x04003BF1 RID: 15345
-		private Rect resizeStart = default(Rect);
-
-		// Token: 0x04003BF2 RID: 15346
-		private const float ResizeButtonSize = 24f;
 	}
 }

@@ -10,6 +10,124 @@ namespace RimWorld
 	// Token: 0x0200028D RID: 653
 	public class BiomeDef : Def
 	{
+		// Token: 0x0400056D RID: 1389
+		public Type workerClass = typeof(BiomeWorker);
+
+		// Token: 0x0400056E RID: 1390
+		public bool implemented = true;
+
+		// Token: 0x0400056F RID: 1391
+		public bool canBuildBase = true;
+
+		// Token: 0x04000570 RID: 1392
+		public bool canAutoChoose = true;
+
+		// Token: 0x04000571 RID: 1393
+		public bool allowRoads = true;
+
+		// Token: 0x04000572 RID: 1394
+		public bool allowRivers = true;
+
+		// Token: 0x04000573 RID: 1395
+		public float animalDensity = 0f;
+
+		// Token: 0x04000574 RID: 1396
+		public float plantDensity = 0f;
+
+		// Token: 0x04000575 RID: 1397
+		public float diseaseMtbDays = 60f;
+
+		// Token: 0x04000576 RID: 1398
+		public float factionBaseSelectionWeight = 1f;
+
+		// Token: 0x04000577 RID: 1399
+		public bool impassable;
+
+		// Token: 0x04000578 RID: 1400
+		public bool hasVirtualPlants = true;
+
+		// Token: 0x04000579 RID: 1401
+		public float forageability;
+
+		// Token: 0x0400057A RID: 1402
+		public ThingDef foragedFood;
+
+		// Token: 0x0400057B RID: 1403
+		public bool wildPlantsCareAboutLocalFertility = true;
+
+		// Token: 0x0400057C RID: 1404
+		public float wildPlantRegrowDays = 25f;
+
+		// Token: 0x0400057D RID: 1405
+		public float movementDifficulty = 1f;
+
+		// Token: 0x0400057E RID: 1406
+		public List<WeatherCommonalityRecord> baseWeatherCommonalities = new List<WeatherCommonalityRecord>();
+
+		// Token: 0x0400057F RID: 1407
+		public List<TerrainThreshold> terrainsByFertility = new List<TerrainThreshold>();
+
+		// Token: 0x04000580 RID: 1408
+		public List<SoundDef> soundsAmbient = new List<SoundDef>();
+
+		// Token: 0x04000581 RID: 1409
+		public List<TerrainPatchMaker> terrainPatchMakers = new List<TerrainPatchMaker>();
+
+		// Token: 0x04000582 RID: 1410
+		private List<BiomePlantRecord> wildPlants = new List<BiomePlantRecord>();
+
+		// Token: 0x04000583 RID: 1411
+		private List<BiomeAnimalRecord> wildAnimals = new List<BiomeAnimalRecord>();
+
+		// Token: 0x04000584 RID: 1412
+		private List<BiomeDiseaseRecord> diseases = new List<BiomeDiseaseRecord>();
+
+		// Token: 0x04000585 RID: 1413
+		private List<ThingDef> allowedPackAnimals = new List<ThingDef>();
+
+		// Token: 0x04000586 RID: 1414
+		public bool hasBedrock = true;
+
+		// Token: 0x04000587 RID: 1415
+		[NoTranslate]
+		public string texture;
+
+		// Token: 0x04000588 RID: 1416
+		[Unsaved]
+		private Dictionary<PawnKindDef, float> cachedAnimalCommonalities = null;
+
+		// Token: 0x04000589 RID: 1417
+		[Unsaved]
+		private Dictionary<ThingDef, float> cachedPlantCommonalities = null;
+
+		// Token: 0x0400058A RID: 1418
+		[Unsaved]
+		private Dictionary<IncidentDef, float> cachedDiseaseCommonalities = null;
+
+		// Token: 0x0400058B RID: 1419
+		[Unsaved]
+		private Material cachedMat;
+
+		// Token: 0x0400058C RID: 1420
+		[Unsaved]
+		private List<ThingDef> cachedWildPlants;
+
+		// Token: 0x0400058D RID: 1421
+		[Unsaved]
+		private int? cachedMaxWildPlantsClusterRadius;
+
+		// Token: 0x0400058E RID: 1422
+		[Unsaved]
+		private float cachedPlantCommonalitiesSum;
+
+		// Token: 0x0400058F RID: 1423
+		[Unsaved]
+		private float? cachedLowestWildPlantOrder;
+
+		// Token: 0x04000590 RID: 1424
+		[Unsaved]
+		private BiomeWorker workerInt;
+
 		// Token: 0x17000197 RID: 407
 		// (get) Token: 0x06000B02 RID: 2818 RVA: 0x00063D70 File Offset: 0x00062170
 		public BiomeWorker Worker
@@ -321,123 +439,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x0400056D RID: 1389
-		public Type workerClass = typeof(BiomeWorker);
-
-		// Token: 0x0400056E RID: 1390
-		public bool implemented = true;
-
-		// Token: 0x0400056F RID: 1391
-		public bool canBuildBase = true;
-
-		// Token: 0x04000570 RID: 1392
-		public bool canAutoChoose = true;
-
-		// Token: 0x04000571 RID: 1393
-		public bool allowRoads = true;
-
-		// Token: 0x04000572 RID: 1394
-		public bool allowRivers = true;
-
-		// Token: 0x04000573 RID: 1395
-		public float animalDensity = 0f;
-
-		// Token: 0x04000574 RID: 1396
-		public float plantDensity = 0f;
-
-		// Token: 0x04000575 RID: 1397
-		public float diseaseMtbDays = 60f;
-
-		// Token: 0x04000576 RID: 1398
-		public float factionBaseSelectionWeight = 1f;
-
-		// Token: 0x04000577 RID: 1399
-		public bool impassable;
-
-		// Token: 0x04000578 RID: 1400
-		public bool hasVirtualPlants = true;
-
-		// Token: 0x04000579 RID: 1401
-		public float forageability;
-
-		// Token: 0x0400057A RID: 1402
-		public ThingDef foragedFood;
-
-		// Token: 0x0400057B RID: 1403
-		public bool wildPlantsCareAboutLocalFertility = true;
-
-		// Token: 0x0400057C RID: 1404
-		public float wildPlantRegrowDays = 25f;
-
-		// Token: 0x0400057D RID: 1405
-		public float movementDifficulty = 1f;
-
-		// Token: 0x0400057E RID: 1406
-		public List<WeatherCommonalityRecord> baseWeatherCommonalities = new List<WeatherCommonalityRecord>();
-
-		// Token: 0x0400057F RID: 1407
-		public List<TerrainThreshold> terrainsByFertility = new List<TerrainThreshold>();
-
-		// Token: 0x04000580 RID: 1408
-		public List<SoundDef> soundsAmbient = new List<SoundDef>();
-
-		// Token: 0x04000581 RID: 1409
-		public List<TerrainPatchMaker> terrainPatchMakers = new List<TerrainPatchMaker>();
-
-		// Token: 0x04000582 RID: 1410
-		private List<BiomePlantRecord> wildPlants = new List<BiomePlantRecord>();
-
-		// Token: 0x04000583 RID: 1411
-		private List<BiomeAnimalRecord> wildAnimals = new List<BiomeAnimalRecord>();
-
-		// Token: 0x04000584 RID: 1412
-		private List<BiomeDiseaseRecord> diseases = new List<BiomeDiseaseRecord>();
-
-		// Token: 0x04000585 RID: 1413
-		private List<ThingDef> allowedPackAnimals = new List<ThingDef>();
-
-		// Token: 0x04000586 RID: 1414
-		public bool hasBedrock = true;
-
-		// Token: 0x04000587 RID: 1415
-		[NoTranslate]
-		public string texture;
-
-		// Token: 0x04000588 RID: 1416
-		[Unsaved]
-		private Dictionary<PawnKindDef, float> cachedAnimalCommonalities = null;
-
-		// Token: 0x04000589 RID: 1417
-		[Unsaved]
-		private Dictionary<ThingDef, float> cachedPlantCommonalities = null;
-
-		// Token: 0x0400058A RID: 1418
-		[Unsaved]
-		private Dictionary<IncidentDef, float> cachedDiseaseCommonalities = null;
-
-		// Token: 0x0400058B RID: 1419
-		[Unsaved]
-		private Material cachedMat;
-
-		// Token: 0x0400058C RID: 1420
-		[Unsaved]
-		private List<ThingDef> cachedWildPlants;
-
-		// Token: 0x0400058D RID: 1421
-		[Unsaved]
-		private int? cachedMaxWildPlantsClusterRadius;
-
-		// Token: 0x0400058E RID: 1422
-		[Unsaved]
-		private float cachedPlantCommonalitiesSum;
-
-		// Token: 0x0400058F RID: 1423
-		[Unsaved]
-		private float? cachedLowestWildPlantOrder;
-
-		// Token: 0x04000590 RID: 1424
-		[Unsaved]
-		private BiomeWorker workerInt;
 	}
 }

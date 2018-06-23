@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x020008FF RID: 2303
 	public static class CollectionsMassCalculator
 	{
+		// Token: 0x04001CF7 RID: 7415
+		private static List<ThingCount> tmpThingCounts = new List<ThingCount>();
+
+		// Token: 0x04001CF8 RID: 7416
+		private static List<Thing> thingsInReverse = new List<Thing>();
+
 		// Token: 0x06003574 RID: 13684 RVA: 0x001CD0A0 File Offset: 0x001CB4A0
 		public static float Capacity(List<ThingCount> thingCounts, StringBuilder explanation = null)
 		{
@@ -198,11 +204,5 @@ namespace RimWorld
 			CollectionsMassCalculator.tmpThingCounts.Clear();
 			return result;
 		}
-
-		// Token: 0x04001CF7 RID: 7415
-		private static List<ThingCount> tmpThingCounts = new List<ThingCount>();
-
-		// Token: 0x04001CF8 RID: 7416
-		private static List<Thing> thingsInReverse = new List<Thing>();
 	}
 }

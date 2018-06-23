@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x02000070 RID: 112
 	public class JobDriver_Insult : JobDriver
 	{
+		// Token: 0x04000218 RID: 536
+		private const TargetIndex TargetInd = TargetIndex.A;
+
 		// Token: 0x1700009F RID: 159
 		// (get) Token: 0x0600030F RID: 783 RVA: 0x00021320 File Offset: 0x0001F720
 		private Pawn Target
@@ -77,8 +80,5 @@ namespace RimWorld
 				defaultCompleteMode = ToilCompleteMode.Never
 			};
 		}
-
-		// Token: 0x04000218 RID: 536
-		private const TargetIndex TargetInd = TargetIndex.A;
 	}
 }

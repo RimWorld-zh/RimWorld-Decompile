@@ -7,6 +7,18 @@ namespace RimWorld
 	// Token: 0x02000505 RID: 1285
 	public class PawnObserver
 	{
+		// Token: 0x04000DB5 RID: 3509
+		private Pawn pawn;
+
+		// Token: 0x04000DB6 RID: 3510
+		private int intervalsUntilObserve;
+
+		// Token: 0x04000DB7 RID: 3511
+		private const int IntervalsBetweenObservations = 4;
+
+		// Token: 0x04000DB8 RID: 3512
+		private const float SampleNumCells = 100f;
+
 		// Token: 0x0600171B RID: 5915 RVA: 0x000CBAC8 File Offset: 0x000C9EC8
 		public PawnObserver(Pawn pawn)
 		{
@@ -61,17 +73,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000DB5 RID: 3509
-		private Pawn pawn;
-
-		// Token: 0x04000DB6 RID: 3510
-		private int intervalsUntilObserve;
-
-		// Token: 0x04000DB7 RID: 3511
-		private const int IntervalsBetweenObservations = 4;
-
-		// Token: 0x04000DB8 RID: 3512
-		private const float SampleNumCells = 100f;
 	}
 }

@@ -9,6 +9,12 @@ namespace RimWorld
 	// Token: 0x02000779 RID: 1913
 	public class TradeDeal
 	{
+		// Token: 0x040016C8 RID: 5832
+		private List<Tradeable> tradeables = new List<Tradeable>();
+
+		// Token: 0x040016C9 RID: 5833
+		public List<string> cannotSellReasons = new List<string>();
+
 		// Token: 0x06002A38 RID: 10808 RVA: 0x00166267 File Offset: 0x00164667
 		public TradeDeal()
 		{
@@ -258,11 +264,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x040016C8 RID: 5832
-		private List<Tradeable> tradeables = new List<Tradeable>();
-
-		// Token: 0x040016C9 RID: 5833
-		public List<string> cannotSellReasons = new List<string>();
 	}
 }

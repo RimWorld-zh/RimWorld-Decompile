@@ -8,6 +8,18 @@ namespace Verse
 	// Token: 0x02000F4C RID: 3916
 	public static class GenTypes
 	{
+		// Token: 0x04003E36 RID: 15926
+		public static readonly List<string> IgnoredNamespaceNames = new List<string>
+		{
+			"RimWorld",
+			"Verse",
+			"Verse.AI",
+			"Verse.Sound",
+			"Verse.Grammar",
+			"RimWorld.Planet",
+			"RimWorld.BaseGen"
+		};
+
 		// Token: 0x17000F42 RID: 3906
 		// (get) Token: 0x06005EB8 RID: 24248 RVA: 0x003037D4 File Offset: 0x00301BD4
 		private static IEnumerable<Assembly> AllActiveAssemblies
@@ -171,17 +183,5 @@ namespace Verse
 			string @namespace = type.Namespace;
 			return !@namespace.StartsWith("System") && !@namespace.StartsWith("UnityEngine") && !@namespace.StartsWith("Steamworks");
 		}
-
-		// Token: 0x04003E36 RID: 15926
-		public static readonly List<string> IgnoredNamespaceNames = new List<string>
-		{
-			"RimWorld",
-			"Verse",
-			"Verse.AI",
-			"Verse.Sound",
-			"Verse.Grammar",
-			"RimWorld.Planet",
-			"RimWorld.BaseGen"
-		};
 	}
 }

@@ -10,58 +10,6 @@ namespace Verse
 	[HasDebugOutput]
 	public static class MeshPool
 	{
-		// Token: 0x06004D50 RID: 19792 RVA: 0x00284728 File Offset: 0x00282B28
-		static MeshPool()
-		{
-			for (int i = 0; i < 361; i++)
-			{
-				MeshPool.pies[i] = MeshMakerCircles.MakePieMesh(i);
-			}
-			MeshPool.wholeMapPlane = MeshMakerPlanes.NewWholeMapPlane();
-		}
-
-		// Token: 0x06004D51 RID: 19793 RVA: 0x0028486C File Offset: 0x00282C6C
-		public static Mesh GridPlane(Vector2 size)
-		{
-			Mesh mesh;
-			if (!MeshPool.planes.TryGetValue(size, out mesh))
-			{
-				mesh = MeshMakerPlanes.NewPlaneMesh(size, false, false, false);
-				MeshPool.planes.Add(size, mesh);
-			}
-			return mesh;
-		}
-
-		// Token: 0x06004D52 RID: 19794 RVA: 0x002848AC File Offset: 0x00282CAC
-		public static Mesh GridPlaneFlip(Vector2 size)
-		{
-			Mesh mesh;
-			if (!MeshPool.planesFlip.TryGetValue(size, out mesh))
-			{
-				mesh = MeshMakerPlanes.NewPlaneMesh(size, true, false, false);
-				MeshPool.planesFlip.Add(size, mesh);
-			}
-			return mesh;
-		}
-
-		// Token: 0x06004D53 RID: 19795 RVA: 0x002848EC File Offset: 0x00282CEC
-		private static Vector2 RoundedToHundredths(this Vector2 v)
-		{
-			return new Vector2((float)((int)(v.x * 100f)) / 100f, (float)((int)(v.y * 100f)) / 100f);
-		}
-
-		// Token: 0x06004D54 RID: 19796 RVA: 0x00284930 File Offset: 0x00282D30
-		[DebugOutput]
-		[Category("System")]
-		public static void MeshPoolStats()
-		{
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.AppendLine("MeshPool stats:");
-			stringBuilder.AppendLine("Planes: " + MeshPool.planes.Count);
-			stringBuilder.AppendLine("PlanesFlip: " + MeshPool.planesFlip.Count);
-			Log.Message(stringBuilder.ToString(), false);
-		}
-
 		// Token: 0x04003387 RID: 13191
 		private const int MaxGridMeshSize = 15;
 
@@ -127,5 +75,57 @@ namespace Verse
 
 		// Token: 0x0400339C RID: 13212
 		public static readonly Mesh[] pies = new Mesh[361];
+
+		// Token: 0x06004D50 RID: 19792 RVA: 0x00284728 File Offset: 0x00282B28
+		static MeshPool()
+		{
+			for (int i = 0; i < 361; i++)
+			{
+				MeshPool.pies[i] = MeshMakerCircles.MakePieMesh(i);
+			}
+			MeshPool.wholeMapPlane = MeshMakerPlanes.NewWholeMapPlane();
+		}
+
+		// Token: 0x06004D51 RID: 19793 RVA: 0x0028486C File Offset: 0x00282C6C
+		public static Mesh GridPlane(Vector2 size)
+		{
+			Mesh mesh;
+			if (!MeshPool.planes.TryGetValue(size, out mesh))
+			{
+				mesh = MeshMakerPlanes.NewPlaneMesh(size, false, false, false);
+				MeshPool.planes.Add(size, mesh);
+			}
+			return mesh;
+		}
+
+		// Token: 0x06004D52 RID: 19794 RVA: 0x002848AC File Offset: 0x00282CAC
+		public static Mesh GridPlaneFlip(Vector2 size)
+		{
+			Mesh mesh;
+			if (!MeshPool.planesFlip.TryGetValue(size, out mesh))
+			{
+				mesh = MeshMakerPlanes.NewPlaneMesh(size, true, false, false);
+				MeshPool.planesFlip.Add(size, mesh);
+			}
+			return mesh;
+		}
+
+		// Token: 0x06004D53 RID: 19795 RVA: 0x002848EC File Offset: 0x00282CEC
+		private static Vector2 RoundedToHundredths(this Vector2 v)
+		{
+			return new Vector2((float)((int)(v.x * 100f)) / 100f, (float)((int)(v.y * 100f)) / 100f);
+		}
+
+		// Token: 0x06004D54 RID: 19796 RVA: 0x00284930 File Offset: 0x00282D30
+		[DebugOutput]
+		[Category("System")]
+		public static void MeshPoolStats()
+		{
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.AppendLine("MeshPool stats:");
+			stringBuilder.AppendLine("Planes: " + MeshPool.planes.Count);
+			stringBuilder.AppendLine("PlanesFlip: " + MeshPool.planesFlip.Count);
+			Log.Message(stringBuilder.ToString(), false);
+		}
 	}
 }

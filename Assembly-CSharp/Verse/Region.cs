@@ -10,6 +10,84 @@ namespace Verse
 	// Token: 0x02000C85 RID: 3205
 	public sealed class Region
 	{
+		// Token: 0x04002FD4 RID: 12244
+		public RegionType type = RegionType.Normal;
+
+		// Token: 0x04002FD5 RID: 12245
+		public int id = -1;
+
+		// Token: 0x04002FD6 RID: 12246
+		public sbyte mapIndex = -1;
+
+		// Token: 0x04002FD7 RID: 12247
+		private Room roomInt;
+
+		// Token: 0x04002FD8 RID: 12248
+		public List<RegionLink> links = new List<RegionLink>();
+
+		// Token: 0x04002FD9 RID: 12249
+		public CellRect extentsClose;
+
+		// Token: 0x04002FDA RID: 12250
+		public CellRect extentsLimit;
+
+		// Token: 0x04002FDB RID: 12251
+		public Building_Door portal;
+
+		// Token: 0x04002FDC RID: 12252
+		private int precalculatedHashCode;
+
+		// Token: 0x04002FDD RID: 12253
+		public bool touchesMapEdge = false;
+
+		// Token: 0x04002FDE RID: 12254
+		private int cachedCellCount = -1;
+
+		// Token: 0x04002FDF RID: 12255
+		public bool valid = true;
+
+		// Token: 0x04002FE0 RID: 12256
+		private ListerThings listerThings = new ListerThings(ListerThingsUse.Region);
+
+		// Token: 0x04002FE1 RID: 12257
+		public uint[] closedIndex = new uint[RegionTraverser.NumWorkers];
+
+		// Token: 0x04002FE2 RID: 12258
+		public uint reachedIndex = 0u;
+
+		// Token: 0x04002FE3 RID: 12259
+		public int newRegionGroupIndex = -1;
+
+		// Token: 0x04002FE4 RID: 12260
+		private Dictionary<Area, AreaOverlap> cachedAreaOverlaps = null;
+
+		// Token: 0x04002FE5 RID: 12261
+		public int mark;
+
+		// Token: 0x04002FE6 RID: 12262
+		private List<KeyValuePair<Pawn, Danger>> cachedDangers = new List<KeyValuePair<Pawn, Danger>>();
+
+		// Token: 0x04002FE7 RID: 12263
+		private int cachedDangersForFrame;
+
+		// Token: 0x04002FE8 RID: 12264
+		private float cachedBaseDesiredPlantsCount;
+
+		// Token: 0x04002FE9 RID: 12265
+		private int cachedBaseDesiredPlantsCountForTick = -999999;
+
+		// Token: 0x04002FEA RID: 12266
+		private int debug_makeTick = -1000;
+
+		// Token: 0x04002FEB RID: 12267
+		private int debug_lastTraverseTick = -1000;
+
+		// Token: 0x04002FEC RID: 12268
+		private static int nextId = 1;
+
+		// Token: 0x04002FED RID: 12269
+		public const int GridSize = 12;
+
 		// Token: 0x06004636 RID: 17974 RVA: 0x002503F8 File Offset: 0x0024E7F8
 		private Region()
 		{
@@ -585,83 +663,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04002FD4 RID: 12244
-		public RegionType type = RegionType.Normal;
-
-		// Token: 0x04002FD5 RID: 12245
-		public int id = -1;
-
-		// Token: 0x04002FD6 RID: 12246
-		public sbyte mapIndex = -1;
-
-		// Token: 0x04002FD7 RID: 12247
-		private Room roomInt;
-
-		// Token: 0x04002FD8 RID: 12248
-		public List<RegionLink> links = new List<RegionLink>();
-
-		// Token: 0x04002FD9 RID: 12249
-		public CellRect extentsClose;
-
-		// Token: 0x04002FDA RID: 12250
-		public CellRect extentsLimit;
-
-		// Token: 0x04002FDB RID: 12251
-		public Building_Door portal;
-
-		// Token: 0x04002FDC RID: 12252
-		private int precalculatedHashCode;
-
-		// Token: 0x04002FDD RID: 12253
-		public bool touchesMapEdge = false;
-
-		// Token: 0x04002FDE RID: 12254
-		private int cachedCellCount = -1;
-
-		// Token: 0x04002FDF RID: 12255
-		public bool valid = true;
-
-		// Token: 0x04002FE0 RID: 12256
-		private ListerThings listerThings = new ListerThings(ListerThingsUse.Region);
-
-		// Token: 0x04002FE1 RID: 12257
-		public uint[] closedIndex = new uint[RegionTraverser.NumWorkers];
-
-		// Token: 0x04002FE2 RID: 12258
-		public uint reachedIndex = 0u;
-
-		// Token: 0x04002FE3 RID: 12259
-		public int newRegionGroupIndex = -1;
-
-		// Token: 0x04002FE4 RID: 12260
-		private Dictionary<Area, AreaOverlap> cachedAreaOverlaps = null;
-
-		// Token: 0x04002FE5 RID: 12261
-		public int mark;
-
-		// Token: 0x04002FE6 RID: 12262
-		private List<KeyValuePair<Pawn, Danger>> cachedDangers = new List<KeyValuePair<Pawn, Danger>>();
-
-		// Token: 0x04002FE7 RID: 12263
-		private int cachedDangersForFrame;
-
-		// Token: 0x04002FE8 RID: 12264
-		private float cachedBaseDesiredPlantsCount;
-
-		// Token: 0x04002FE9 RID: 12265
-		private int cachedBaseDesiredPlantsCountForTick = -999999;
-
-		// Token: 0x04002FEA RID: 12266
-		private int debug_makeTick = -1000;
-
-		// Token: 0x04002FEB RID: 12267
-		private int debug_lastTraverseTick = -1000;
-
-		// Token: 0x04002FEC RID: 12268
-		private static int nextId = 1;
-
-		// Token: 0x04002FED RID: 12269
-		public const int GridSize = 12;
 	}
 }

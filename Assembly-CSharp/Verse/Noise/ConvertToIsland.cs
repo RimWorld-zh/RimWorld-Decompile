@@ -6,6 +6,15 @@ namespace Verse.Noise
 	// Token: 0x02000F76 RID: 3958
 	public class ConvertToIsland : ModuleBase
 	{
+		// Token: 0x04003ED4 RID: 16084
+		public Vector3 viewCenter;
+
+		// Token: 0x04003ED5 RID: 16085
+		public float viewAngle;
+
+		// Token: 0x04003ED6 RID: 16086
+		private const float WaterLevel = -0.12f;
+
 		// Token: 0x06005F95 RID: 24469 RVA: 0x0030B20F File Offset: 0x0030960F
 		public ConvertToIsland() : base(1)
 		{
@@ -45,14 +54,5 @@ namespace Verse.Noise
 			}
 			return result;
 		}
-
-		// Token: 0x04003ED4 RID: 16084
-		public Vector3 viewCenter;
-
-		// Token: 0x04003ED5 RID: 16085
-		public float viewAngle;
-
-		// Token: 0x04003ED6 RID: 16086
-		private const float WaterLevel = -0.12f;
 	}
 }

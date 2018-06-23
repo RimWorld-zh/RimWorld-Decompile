@@ -7,6 +7,42 @@ namespace Verse
 	// Token: 0x02000EC6 RID: 3782
 	public class Dialog_NodeTree : Window
 	{
+		// Token: 0x04003BBA RID: 15290
+		private Vector2 scrollPosition;
+
+		// Token: 0x04003BBB RID: 15291
+		protected string title;
+
+		// Token: 0x04003BBC RID: 15292
+		protected DiaNode curNode;
+
+		// Token: 0x04003BBD RID: 15293
+		public Action closeAction;
+
+		// Token: 0x04003BBE RID: 15294
+		private float makeInteractiveAtTime;
+
+		// Token: 0x04003BBF RID: 15295
+		public Color screenFillColor = Color.clear;
+
+		// Token: 0x04003BC0 RID: 15296
+		protected float minOptionsAreaHeight;
+
+		// Token: 0x04003BC1 RID: 15297
+		private const float InteractivityDelay = 0.5f;
+
+		// Token: 0x04003BC2 RID: 15298
+		private const float TitleHeight = 36f;
+
+		// Token: 0x04003BC3 RID: 15299
+		protected const float OptHorMargin = 15f;
+
+		// Token: 0x04003BC4 RID: 15300
+		protected const float OptVerticalSpace = 7f;
+
+		// Token: 0x04003BC5 RID: 15301
+		private float optTotalHeight;
+
 		// Token: 0x06005975 RID: 22901 RVA: 0x001829A0 File Offset: 0x00180DA0
 		public Dialog_NodeTree(DiaNode nodeRoot, bool delayInteractivity = false, bool radioMode = false, string title = null)
 		{
@@ -131,41 +167,5 @@ namespace Verse
 			}
 			this.curNode = node;
 		}
-
-		// Token: 0x04003BBA RID: 15290
-		private Vector2 scrollPosition;
-
-		// Token: 0x04003BBB RID: 15291
-		protected string title;
-
-		// Token: 0x04003BBC RID: 15292
-		protected DiaNode curNode;
-
-		// Token: 0x04003BBD RID: 15293
-		public Action closeAction;
-
-		// Token: 0x04003BBE RID: 15294
-		private float makeInteractiveAtTime;
-
-		// Token: 0x04003BBF RID: 15295
-		public Color screenFillColor = Color.clear;
-
-		// Token: 0x04003BC0 RID: 15296
-		protected float minOptionsAreaHeight;
-
-		// Token: 0x04003BC1 RID: 15297
-		private const float InteractivityDelay = 0.5f;
-
-		// Token: 0x04003BC2 RID: 15298
-		private const float TitleHeight = 36f;
-
-		// Token: 0x04003BC3 RID: 15299
-		protected const float OptHorMargin = 15f;
-
-		// Token: 0x04003BC4 RID: 15300
-		protected const float OptVerticalSpace = 7f;
-
-		// Token: 0x04003BC5 RID: 15301
-		private float optTotalHeight;
 	}
 }

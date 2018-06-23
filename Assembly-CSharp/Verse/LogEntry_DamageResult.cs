@@ -7,6 +7,15 @@ namespace Verse
 	// Token: 0x02000BC9 RID: 3017
 	public abstract class LogEntry_DamageResult : LogEntry
 	{
+		// Token: 0x04002CF1 RID: 11505
+		protected List<BodyPartRecord> damagedParts;
+
+		// Token: 0x04002CF2 RID: 11506
+		protected List<bool> damagedPartsDestroyed;
+
+		// Token: 0x04002CF3 RID: 11507
+		protected bool deflected;
+
 		// Token: 0x060041C9 RID: 16841 RVA: 0x002264B5 File Offset: 0x002248B5
 		public LogEntry_DamageResult(LogEntryDef def = null) : base(def)
 		{
@@ -61,14 +70,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x04002CF1 RID: 11505
-		protected List<BodyPartRecord> damagedParts;
-
-		// Token: 0x04002CF2 RID: 11506
-		protected List<bool> damagedPartsDestroyed;
-
-		// Token: 0x04002CF3 RID: 11507
-		protected bool deflected;
 	}
 }

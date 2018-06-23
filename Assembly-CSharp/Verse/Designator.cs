@@ -9,6 +9,36 @@ namespace Verse
 	// Token: 0x02000E11 RID: 3601
 	public abstract class Designator : Command
 	{
+		// Token: 0x04003581 RID: 13697
+		protected bool useMouseIcon = false;
+
+		// Token: 0x04003582 RID: 13698
+		public SoundDef soundDragSustain = null;
+
+		// Token: 0x04003583 RID: 13699
+		public SoundDef soundDragChanged = null;
+
+		// Token: 0x04003584 RID: 13700
+		protected SoundDef soundSucceeded = null;
+
+		// Token: 0x04003585 RID: 13701
+		protected SoundDef soundFailed = SoundDefOf.Designate_Failed;
+
+		// Token: 0x04003586 RID: 13702
+		protected bool hasDesignateAllFloatMenuOption;
+
+		// Token: 0x04003587 RID: 13703
+		protected string designateAllLabel;
+
+		// Token: 0x04003588 RID: 13704
+		private string cachedTutorTagSelect;
+
+		// Token: 0x04003589 RID: 13705
+		private string cachedTutorTagDesignate;
+
+		// Token: 0x0400358A RID: 13706
+		protected string cachedHighlightTag;
+
 		// Token: 0x060051AC RID: 20908 RVA: 0x00173334 File Offset: 0x00171734
 		public Designator()
 		{
@@ -401,35 +431,5 @@ namespace Verse
 		{
 			DesignatorUtility.RenderHighlightOverSelectableThings(this, dragCells);
 		}
-
-		// Token: 0x04003581 RID: 13697
-		protected bool useMouseIcon = false;
-
-		// Token: 0x04003582 RID: 13698
-		public SoundDef soundDragSustain = null;
-
-		// Token: 0x04003583 RID: 13699
-		public SoundDef soundDragChanged = null;
-
-		// Token: 0x04003584 RID: 13700
-		protected SoundDef soundSucceeded = null;
-
-		// Token: 0x04003585 RID: 13701
-		protected SoundDef soundFailed = SoundDefOf.Designate_Failed;
-
-		// Token: 0x04003586 RID: 13702
-		protected bool hasDesignateAllFloatMenuOption;
-
-		// Token: 0x04003587 RID: 13703
-		protected string designateAllLabel;
-
-		// Token: 0x04003588 RID: 13704
-		private string cachedTutorTagSelect;
-
-		// Token: 0x04003589 RID: 13705
-		private string cachedTutorTagDesignate;
-
-		// Token: 0x0400358A RID: 13706
-		protected string cachedHighlightTag;
 	}
 }

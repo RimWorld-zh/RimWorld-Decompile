@@ -10,6 +10,67 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class CompPowerPlantWind : CompPowerPlant
 	{
+		// Token: 0x04000B16 RID: 2838
+		public int updateWeatherEveryXTicks = 250;
+
+		// Token: 0x04000B17 RID: 2839
+		private int ticksSinceWeatherUpdate;
+
+		// Token: 0x04000B18 RID: 2840
+		private float cachedPowerOutput = 0f;
+
+		// Token: 0x04000B19 RID: 2841
+		private List<IntVec3> windPathCells = new List<IntVec3>();
+
+		// Token: 0x04000B1A RID: 2842
+		private List<Thing> windPathBlockedByThings = new List<Thing>();
+
+		// Token: 0x04000B1B RID: 2843
+		private List<IntVec3> windPathBlockedCells = new List<IntVec3>();
+
+		// Token: 0x04000B1C RID: 2844
+		private float spinPosition = 0f;
+
+		// Token: 0x04000B1D RID: 2845
+		private const float MaxUsableWindIntensity = 1.5f;
+
+		// Token: 0x04000B1E RID: 2846
+		[TweakValue("Graphics", 0f, 0.1f)]
+		private static float SpinRateFactor = 0.035f;
+
+		// Token: 0x04000B1F RID: 2847
+		[TweakValue("Graphics", -1f, 1f)]
+		private static float HorizontalBladeOffset = -0.02f;
+
+		// Token: 0x04000B20 RID: 2848
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float VerticalBladeOffset = 0.7f;
+
+		// Token: 0x04000B21 RID: 2849
+		[TweakValue("Graphics", 4f, 8f)]
+		private static float BladeWidth = 6.6f;
+
+		// Token: 0x04000B22 RID: 2850
+		private const float PowerReductionPercentPerObstacle = 0.2f;
+
+		// Token: 0x04000B23 RID: 2851
+		private const string TranslateWindPathIsBlockedBy = "WindTurbine_WindPathIsBlockedBy";
+
+		// Token: 0x04000B24 RID: 2852
+		private const string TranslateWindPathIsBlockedByRoof = "WindTurbine_WindPathIsBlockedByRoof";
+
+		// Token: 0x04000B25 RID: 2853
+		private static Vector2 BarSize;
+
+		// Token: 0x04000B26 RID: 2854
+		private static readonly Material WindTurbineBarFilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.5f, 0.475f, 0.1f), false);
+
+		// Token: 0x04000B27 RID: 2855
+		private static readonly Material WindTurbineBarUnfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.15f, 0.15f, 0.15f), false);
+
+		// Token: 0x04000B28 RID: 2856
+		private static readonly Material WindTurbineBladesMat = MaterialPool.MatFrom("Things/Building/Power/WindTurbine/WindTurbineBlades");
+
 		// Token: 0x17000279 RID: 633
 		// (get) Token: 0x0600124A RID: 4682 RVA: 0x0009ED88 File Offset: 0x0009D188
 		protected override float DesiredPowerOutput
@@ -181,66 +242,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000B16 RID: 2838
-		public int updateWeatherEveryXTicks = 250;
-
-		// Token: 0x04000B17 RID: 2839
-		private int ticksSinceWeatherUpdate;
-
-		// Token: 0x04000B18 RID: 2840
-		private float cachedPowerOutput = 0f;
-
-		// Token: 0x04000B19 RID: 2841
-		private List<IntVec3> windPathCells = new List<IntVec3>();
-
-		// Token: 0x04000B1A RID: 2842
-		private List<Thing> windPathBlockedByThings = new List<Thing>();
-
-		// Token: 0x04000B1B RID: 2843
-		private List<IntVec3> windPathBlockedCells = new List<IntVec3>();
-
-		// Token: 0x04000B1C RID: 2844
-		private float spinPosition = 0f;
-
-		// Token: 0x04000B1D RID: 2845
-		private const float MaxUsableWindIntensity = 1.5f;
-
-		// Token: 0x04000B1E RID: 2846
-		[TweakValue("Graphics", 0f, 0.1f)]
-		private static float SpinRateFactor = 0.035f;
-
-		// Token: 0x04000B1F RID: 2847
-		[TweakValue("Graphics", -1f, 1f)]
-		private static float HorizontalBladeOffset = -0.02f;
-
-		// Token: 0x04000B20 RID: 2848
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float VerticalBladeOffset = 0.7f;
-
-		// Token: 0x04000B21 RID: 2849
-		[TweakValue("Graphics", 4f, 8f)]
-		private static float BladeWidth = 6.6f;
-
-		// Token: 0x04000B22 RID: 2850
-		private const float PowerReductionPercentPerObstacle = 0.2f;
-
-		// Token: 0x04000B23 RID: 2851
-		private const string TranslateWindPathIsBlockedBy = "WindTurbine_WindPathIsBlockedBy";
-
-		// Token: 0x04000B24 RID: 2852
-		private const string TranslateWindPathIsBlockedByRoof = "WindTurbine_WindPathIsBlockedByRoof";
-
-		// Token: 0x04000B25 RID: 2853
-		private static Vector2 BarSize;
-
-		// Token: 0x04000B26 RID: 2854
-		private static readonly Material WindTurbineBarFilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.5f, 0.475f, 0.1f), false);
-
-		// Token: 0x04000B27 RID: 2855
-		private static readonly Material WindTurbineBarUnfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.15f, 0.15f, 0.15f), false);
-
-		// Token: 0x04000B28 RID: 2856
-		private static readonly Material WindTurbineBladesMat = MaterialPool.MatFrom("Things/Building/Power/WindTurbine/WindTurbineBlades");
 	}
 }

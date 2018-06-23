@@ -10,6 +10,12 @@ namespace RimWorld
 	// Token: 0x0200017D RID: 381
 	public static class PartyUtility
 	{
+		// Token: 0x0400036D RID: 877
+		private const float PartyAreaRadiusIfNotWholeRoom = 10f;
+
+		// Token: 0x0400036E RID: 878
+		private const int MaxRoomCellsCountToUseWholeRoom = 324;
+
 		// Token: 0x060007EF RID: 2031 RVA: 0x0004D674 File Offset: 0x0004BA74
 		public static bool AcceptableGameConditionsToStartParty(Map map)
 		{
@@ -164,11 +170,5 @@ namespace RimWorld
 			Room room = partySpot.GetRoom(map, RegionType.Set_Passable);
 			return room != null && !room.IsHuge && !room.PsychologicallyOutdoors && room.CellCount <= 324;
 		}
-
-		// Token: 0x0400036D RID: 877
-		private const float PartyAreaRadiusIfNotWholeRoom = 10f;
-
-		// Token: 0x0400036E RID: 878
-		private const int MaxRoomCellsCountToUseWholeRoom = 324;
 	}
 }

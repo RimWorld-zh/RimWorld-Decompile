@@ -9,6 +9,52 @@ namespace RimWorld
 	// Token: 0x0200030B RID: 779
 	public class GameCondition_Aurora : GameCondition
 	{
+		// Token: 0x04000867 RID: 2151
+		private int curColorIndex = -1;
+
+		// Token: 0x04000868 RID: 2152
+		private int prevColorIndex = -1;
+
+		// Token: 0x04000869 RID: 2153
+		private float curColorTransition;
+
+		// Token: 0x0400086A RID: 2154
+		private const int LerpTicks = 200;
+
+		// Token: 0x0400086B RID: 2155
+		public const float MaxSunGlow = 0.5f;
+
+		// Token: 0x0400086C RID: 2156
+		private const float Glow = 0.25f;
+
+		// Token: 0x0400086D RID: 2157
+		private const float SkyColorStrength = 0.075f;
+
+		// Token: 0x0400086E RID: 2158
+		private const float OverlayColorStrength = 0.025f;
+
+		// Token: 0x0400086F RID: 2159
+		private const float BaseBrightness = 0.73f;
+
+		// Token: 0x04000870 RID: 2160
+		private const int TransitionDurationTicks_NotPermanent = 280;
+
+		// Token: 0x04000871 RID: 2161
+		private const int TransitionDurationTicks_Permanent = 3750;
+
+		// Token: 0x04000872 RID: 2162
+		private static readonly Color[] Colors = new Color[]
+		{
+			new Color(0f, 1f, 0f),
+			new Color(0.3f, 1f, 0f),
+			new Color(0f, 1f, 0.7f),
+			new Color(0.3f, 1f, 0.7f),
+			new Color(0f, 0.5f, 1f),
+			new Color(0f, 0f, 1f),
+			new Color(0.87f, 0f, 1f),
+			new Color(0.75f, 0f, 1f)
+		};
+
 		// Token: 0x170001FC RID: 508
 		// (get) Token: 0x06000D21 RID: 3361 RVA: 0x000720A0 File Offset: 0x000704A0
 		public Color CurrentColor
@@ -121,51 +167,5 @@ namespace RimWorld
 			where x != this.curColorIndex
 			select x).RandomElement<int>();
 		}
-
-		// Token: 0x04000867 RID: 2151
-		private int curColorIndex = -1;
-
-		// Token: 0x04000868 RID: 2152
-		private int prevColorIndex = -1;
-
-		// Token: 0x04000869 RID: 2153
-		private float curColorTransition;
-
-		// Token: 0x0400086A RID: 2154
-		private const int LerpTicks = 200;
-
-		// Token: 0x0400086B RID: 2155
-		public const float MaxSunGlow = 0.5f;
-
-		// Token: 0x0400086C RID: 2156
-		private const float Glow = 0.25f;
-
-		// Token: 0x0400086D RID: 2157
-		private const float SkyColorStrength = 0.075f;
-
-		// Token: 0x0400086E RID: 2158
-		private const float OverlayColorStrength = 0.025f;
-
-		// Token: 0x0400086F RID: 2159
-		private const float BaseBrightness = 0.73f;
-
-		// Token: 0x04000870 RID: 2160
-		private const int TransitionDurationTicks_NotPermanent = 280;
-
-		// Token: 0x04000871 RID: 2161
-		private const int TransitionDurationTicks_Permanent = 3750;
-
-		// Token: 0x04000872 RID: 2162
-		private static readonly Color[] Colors = new Color[]
-		{
-			new Color(0f, 1f, 0f),
-			new Color(0.3f, 1f, 0f),
-			new Color(0f, 1f, 0.7f),
-			new Color(0.3f, 1f, 0.7f),
-			new Color(0f, 0.5f, 1f),
-			new Color(0f, 0f, 1f),
-			new Color(0.87f, 0f, 1f),
-			new Color(0.75f, 0f, 1f)
-		};
 	}
 }

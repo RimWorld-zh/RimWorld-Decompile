@@ -8,6 +8,15 @@ namespace RimWorld.Planet
 	// Token: 0x020005DB RID: 1499
 	public static class CaravanIncidentUtility
 	{
+		// Token: 0x04001190 RID: 4496
+		private const int MapCellsPerPawn = 900;
+
+		// Token: 0x04001191 RID: 4497
+		private const int MinMapSize = 75;
+
+		// Token: 0x04001192 RID: 4498
+		private const int MaxMapSize = 110;
+
 		// Token: 0x06001D94 RID: 7572 RVA: 0x000FF1B4 File Offset: 0x000FD5B4
 		public static int CalculateIncidentMapSize(List<Pawn> caravanPawns, List<Pawn> enemies)
 		{
@@ -78,14 +87,5 @@ namespace RimWorld.Planet
 			}
 			return orGenerateMap;
 		}
-
-		// Token: 0x04001190 RID: 4496
-		private const int MapCellsPerPawn = 900;
-
-		// Token: 0x04001191 RID: 4497
-		private const int MinMapSize = 75;
-
-		// Token: 0x04001192 RID: 4498
-		private const int MaxMapSize = 110;
 	}
 }

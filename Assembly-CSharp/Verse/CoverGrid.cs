@@ -6,6 +6,12 @@ namespace Verse
 	// Token: 0x02000C1C RID: 3100
 	public sealed class CoverGrid
 	{
+		// Token: 0x04002E57 RID: 11863
+		private Map map;
+
+		// Token: 0x04002E58 RID: 11864
+		private Thing[] innerArray;
+
 		// Token: 0x060043DE RID: 17374 RVA: 0x0023D10B File Offset: 0x0023B50B
 		public CoverGrid(Map map)
 		{
@@ -85,11 +91,5 @@ namespace Verse
 			}
 			this.innerArray[this.map.cellIndices.CellToIndex(c)] = thing;
 		}
-
-		// Token: 0x04002E57 RID: 11863
-		private Map map;
-
-		// Token: 0x04002E58 RID: 11864
-		private Thing[] innerArray;
 	}
 }

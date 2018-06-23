@@ -8,6 +8,18 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class UIHighlighter
 	{
+		// Token: 0x04003A43 RID: 14915
+		private static List<Pair<string, int>> liveTags = new List<Pair<string, int>>();
+
+		// Token: 0x04003A44 RID: 14916
+		private const float PulseFrequency = 1.2f;
+
+		// Token: 0x04003A45 RID: 14917
+		private const float PulseAmplitude = 0.7f;
+
+		// Token: 0x04003A46 RID: 14918
+		private static readonly Texture2D TutorHighlightAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/TutorHighlightAtlas", true);
+
 		// Token: 0x06005818 RID: 22552 RVA: 0x002D3098 File Offset: 0x002D1498
 		public static void HighlightTag(string tag)
 		{
@@ -51,17 +63,5 @@ namespace Verse
 		{
 			UIHighlighter.liveTags.RemoveAll((Pair<string, int> pair) => Time.frameCount > pair.Second + 1);
 		}
-
-		// Token: 0x04003A43 RID: 14915
-		private static List<Pair<string, int>> liveTags = new List<Pair<string, int>>();
-
-		// Token: 0x04003A44 RID: 14916
-		private const float PulseFrequency = 1.2f;
-
-		// Token: 0x04003A45 RID: 14917
-		private const float PulseAmplitude = 0.7f;
-
-		// Token: 0x04003A46 RID: 14918
-		private static readonly Texture2D TutorHighlightAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/TutorHighlightAtlas", true);
 	}
 }

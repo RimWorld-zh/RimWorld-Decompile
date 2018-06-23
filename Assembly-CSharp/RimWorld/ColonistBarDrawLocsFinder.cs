@@ -9,6 +9,15 @@ namespace RimWorld
 	// Token: 0x020007B2 RID: 1970
 	public class ColonistBarDrawLocsFinder
 	{
+		// Token: 0x0400177F RID: 6015
+		private List<int> entriesInGroup = new List<int>();
+
+		// Token: 0x04001780 RID: 6016
+		private List<int> horizontalSlotsPerGroup = new List<int>();
+
+		// Token: 0x04001781 RID: 6017
+		private const float MarginTop = 21f;
+
 		// Token: 0x170006CF RID: 1743
 		// (get) Token: 0x06002BA8 RID: 11176 RVA: 0x001722D0 File Offset: 0x001706D0
 		private ColonistBar ColonistBar
@@ -229,14 +238,5 @@ namespace RimWorld
 			}
 			return new Vector2(num, y);
 		}
-
-		// Token: 0x0400177F RID: 6015
-		private List<int> entriesInGroup = new List<int>();
-
-		// Token: 0x04001780 RID: 6016
-		private List<int> horizontalSlotsPerGroup = new List<int>();
-
-		// Token: 0x04001781 RID: 6017
-		private const float MarginTop = 21f;
 	}
 }

@@ -8,6 +8,94 @@ namespace Verse
 	// Token: 0x02000B3E RID: 2878
 	public class HediffDef : Def
 	{
+		// Token: 0x0400296E RID: 10606
+		public Type hediffClass = typeof(Hediff);
+
+		// Token: 0x0400296F RID: 10607
+		public List<HediffCompProperties> comps = null;
+
+		// Token: 0x04002970 RID: 10608
+		public float initialSeverity = 0.5f;
+
+		// Token: 0x04002971 RID: 10609
+		public float lethalSeverity = -1f;
+
+		// Token: 0x04002972 RID: 10610
+		public List<HediffStage> stages = null;
+
+		// Token: 0x04002973 RID: 10611
+		public bool tendable = false;
+
+		// Token: 0x04002974 RID: 10612
+		public bool isBad = true;
+
+		// Token: 0x04002975 RID: 10613
+		public ThingDef spawnThingOnRemoved = null;
+
+		// Token: 0x04002976 RID: 10614
+		public float chanceToCauseNoPain = 0f;
+
+		// Token: 0x04002977 RID: 10615
+		public bool makesSickThought = false;
+
+		// Token: 0x04002978 RID: 10616
+		public bool makesAlert = true;
+
+		// Token: 0x04002979 RID: 10617
+		public NeedDef causesNeed = null;
+
+		// Token: 0x0400297A RID: 10618
+		public float minSeverity = 0f;
+
+		// Token: 0x0400297B RID: 10619
+		public float maxSeverity = float.MaxValue;
+
+		// Token: 0x0400297C RID: 10620
+		public bool scenarioCanAdd = false;
+
+		// Token: 0x0400297D RID: 10621
+		public List<HediffGiver> hediffGivers = null;
+
+		// Token: 0x0400297E RID: 10622
+		public bool cureAllAtOnceIfCuredByItem = false;
+
+		// Token: 0x0400297F RID: 10623
+		public TaleDef taleOnVisible = null;
+
+		// Token: 0x04002980 RID: 10624
+		public bool everCurableByItem = true;
+
+		// Token: 0x04002981 RID: 10625
+		public string battleStateLabel = null;
+
+		// Token: 0x04002982 RID: 10626
+		public string labelNounPretty = null;
+
+		// Token: 0x04002983 RID: 10627
+		public bool displayWound = false;
+
+		// Token: 0x04002984 RID: 10628
+		public Color defaultLabelColor = Color.white;
+
+		// Token: 0x04002985 RID: 10629
+		public InjuryProps injuryProps = null;
+
+		// Token: 0x04002986 RID: 10630
+		public AddedBodyPartProps addedPartProps = null;
+
+		// Token: 0x04002987 RID: 10631
+		[MustTranslate]
+		public string labelNoun = null;
+
+		// Token: 0x04002988 RID: 10632
+		private bool alwaysAllowMothballCached = false;
+
+		// Token: 0x04002989 RID: 10633
+		private bool alwaysAllowMothball;
+
+		// Token: 0x0400298A RID: 10634
+		private Hediff concreteExampleInt;
+
 		// Token: 0x17000993 RID: 2451
 		// (get) Token: 0x06003F38 RID: 16184 RVA: 0x002148B4 File Offset: 0x00212CB4
 		public bool IsAddiction
@@ -214,93 +302,5 @@ namespace Verse
 		{
 			return DefDatabase<HediffDef>.GetNamed(defName, true);
 		}
-
-		// Token: 0x0400296E RID: 10606
-		public Type hediffClass = typeof(Hediff);
-
-		// Token: 0x0400296F RID: 10607
-		public List<HediffCompProperties> comps = null;
-
-		// Token: 0x04002970 RID: 10608
-		public float initialSeverity = 0.5f;
-
-		// Token: 0x04002971 RID: 10609
-		public float lethalSeverity = -1f;
-
-		// Token: 0x04002972 RID: 10610
-		public List<HediffStage> stages = null;
-
-		// Token: 0x04002973 RID: 10611
-		public bool tendable = false;
-
-		// Token: 0x04002974 RID: 10612
-		public bool isBad = true;
-
-		// Token: 0x04002975 RID: 10613
-		public ThingDef spawnThingOnRemoved = null;
-
-		// Token: 0x04002976 RID: 10614
-		public float chanceToCauseNoPain = 0f;
-
-		// Token: 0x04002977 RID: 10615
-		public bool makesSickThought = false;
-
-		// Token: 0x04002978 RID: 10616
-		public bool makesAlert = true;
-
-		// Token: 0x04002979 RID: 10617
-		public NeedDef causesNeed = null;
-
-		// Token: 0x0400297A RID: 10618
-		public float minSeverity = 0f;
-
-		// Token: 0x0400297B RID: 10619
-		public float maxSeverity = float.MaxValue;
-
-		// Token: 0x0400297C RID: 10620
-		public bool scenarioCanAdd = false;
-
-		// Token: 0x0400297D RID: 10621
-		public List<HediffGiver> hediffGivers = null;
-
-		// Token: 0x0400297E RID: 10622
-		public bool cureAllAtOnceIfCuredByItem = false;
-
-		// Token: 0x0400297F RID: 10623
-		public TaleDef taleOnVisible = null;
-
-		// Token: 0x04002980 RID: 10624
-		public bool everCurableByItem = true;
-
-		// Token: 0x04002981 RID: 10625
-		public string battleStateLabel = null;
-
-		// Token: 0x04002982 RID: 10626
-		public string labelNounPretty = null;
-
-		// Token: 0x04002983 RID: 10627
-		public bool displayWound = false;
-
-		// Token: 0x04002984 RID: 10628
-		public Color defaultLabelColor = Color.white;
-
-		// Token: 0x04002985 RID: 10629
-		public InjuryProps injuryProps = null;
-
-		// Token: 0x04002986 RID: 10630
-		public AddedBodyPartProps addedPartProps = null;
-
-		// Token: 0x04002987 RID: 10631
-		[MustTranslate]
-		public string labelNoun = null;
-
-		// Token: 0x04002988 RID: 10632
-		private bool alwaysAllowMothballCached = false;
-
-		// Token: 0x04002989 RID: 10633
-		private bool alwaysAllowMothball;
-
-		// Token: 0x0400298A RID: 10634
-		private Hediff concreteExampleInt;
 	}
 }

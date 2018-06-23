@@ -6,6 +6,9 @@ namespace Verse
 	// Token: 0x02000EC8 RID: 3784
 	public class ImmediateWindow : Window
 	{
+		// Token: 0x04003BCA RID: 15306
+		public Action doWindowFunc;
+
 		// Token: 0x06005983 RID: 22915 RVA: 0x002DDE58 File Offset: 0x002DC258
 		public ImmediateWindow()
 		{
@@ -45,8 +48,5 @@ namespace Verse
 		{
 			this.doWindowFunc();
 		}
-
-		// Token: 0x04003BCA RID: 15306
-		public Action doWindowFunc;
 	}
 }

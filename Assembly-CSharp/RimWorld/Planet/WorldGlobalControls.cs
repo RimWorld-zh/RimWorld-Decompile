@@ -8,6 +8,15 @@ namespace RimWorld.Planet
 	// Token: 0x020008E8 RID: 2280
 	public class WorldGlobalControls
 	{
+		// Token: 0x04001C67 RID: 7271
+		public const float Width = 200f;
+
+		// Token: 0x04001C68 RID: 7272
+		private const int VisibilityControlsPerRow = 5;
+
+		// Token: 0x04001C69 RID: 7273
+		private WidgetRow rowVisibility = new WidgetRow();
+
 		// Token: 0x0600347F RID: 13439 RVA: 0x001C130C File Offset: 0x001BF70C
 		public void WorldGlobalControlsOnGUI()
 		{
@@ -67,14 +76,5 @@ namespace RimWorld.Planet
 				}
 			}
 		}
-
-		// Token: 0x04001C67 RID: 7271
-		public const float Width = 200f;
-
-		// Token: 0x04001C68 RID: 7272
-		private const int VisibilityControlsPerRow = 5;
-
-		// Token: 0x04001C69 RID: 7273
-		private WidgetRow rowVisibility = new WidgetRow();
 	}
 }

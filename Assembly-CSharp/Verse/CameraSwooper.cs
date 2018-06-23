@@ -6,6 +6,27 @@ namespace Verse
 	// Token: 0x02000AEF RID: 2799
 	public class CameraSwooper
 	{
+		// Token: 0x04002736 RID: 10038
+		public bool Swooping = false;
+
+		// Token: 0x04002737 RID: 10039
+		private bool SwoopingTo = false;
+
+		// Token: 0x04002738 RID: 10040
+		private float TimeSinceSwoopStart = 0f;
+
+		// Token: 0x04002739 RID: 10041
+		private Vector3 FinalOffset;
+
+		// Token: 0x0400273A RID: 10042
+		private float FinalOrthoSizeOffset;
+
+		// Token: 0x0400273B RID: 10043
+		private float TotalSwoopTime;
+
+		// Token: 0x0400273C RID: 10044
+		private SwoopCallbackMethod SwoopFinishedCallback;
+
 		// Token: 0x06003E02 RID: 15874 RVA: 0x0020B43E File Offset: 0x0020983E
 		public void StartSwoopFromRoot(Vector3 FinalOffset, float FinalOrthoSizeOffset, float TotalSwoopTime, SwoopCallbackMethod SwoopFinishedCallback)
 		{
@@ -62,26 +83,5 @@ namespace Verse
 			camObj.transform.position = basePos + this.FinalOffset * num;
 			Find.Camera.orthographicSize = baseSize + this.FinalOrthoSizeOffset * num;
 		}
-
-		// Token: 0x04002736 RID: 10038
-		public bool Swooping = false;
-
-		// Token: 0x04002737 RID: 10039
-		private bool SwoopingTo = false;
-
-		// Token: 0x04002738 RID: 10040
-		private float TimeSinceSwoopStart = 0f;
-
-		// Token: 0x04002739 RID: 10041
-		private Vector3 FinalOffset;
-
-		// Token: 0x0400273A RID: 10042
-		private float FinalOrthoSizeOffset;
-
-		// Token: 0x0400273B RID: 10043
-		private float TotalSwoopTime;
-
-		// Token: 0x0400273C RID: 10044
-		private SwoopCallbackMethod SwoopFinishedCallback;
 	}
 }

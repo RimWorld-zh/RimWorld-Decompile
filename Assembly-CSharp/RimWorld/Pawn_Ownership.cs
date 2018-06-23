@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x02000515 RID: 1301
 	public class Pawn_Ownership : IExposable
 	{
+		// Token: 0x04000DED RID: 3565
+		private Pawn pawn;
+
+		// Token: 0x04000DEE RID: 3566
+		private Building_Bed intOwnedBed;
+
 		// Token: 0x06001797 RID: 6039 RVA: 0x000CE968 File Offset: 0x000CCD68
 		public Pawn_Ownership(Pawn pawn)
 		{
@@ -165,11 +171,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000DED RID: 3565
-		private Pawn pawn;
-
-		// Token: 0x04000DEE RID: 3566
-		private Building_Bed intOwnedBed;
 	}
 }

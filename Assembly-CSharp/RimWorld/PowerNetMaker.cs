@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x02000427 RID: 1063
 	public static class PowerNetMaker
 	{
+		// Token: 0x04000B55 RID: 2901
+		private static HashSet<Building> closedSet = new HashSet<Building>();
+
+		// Token: 0x04000B56 RID: 2902
+		private static HashSet<Building> openSet = new HashSet<Building>();
+
+		// Token: 0x04000B57 RID: 2903
+		private static HashSet<Building> currentSet = new HashSet<Building>();
+
 		// Token: 0x0600128F RID: 4751 RVA: 0x000A1318 File Offset: 0x0009F718
 		private static IEnumerable<CompPower> ContiguousPowerBuildings(Building root)
 		{
@@ -70,14 +79,5 @@ namespace RimWorld
 		public static void UpdateVisualLinkagesFor(PowerNet net)
 		{
 		}
-
-		// Token: 0x04000B55 RID: 2901
-		private static HashSet<Building> closedSet = new HashSet<Building>();
-
-		// Token: 0x04000B56 RID: 2902
-		private static HashSet<Building> openSet = new HashSet<Building>();
-
-		// Token: 0x04000B57 RID: 2903
-		private static HashSet<Building> currentSet = new HashSet<Building>();
 	}
 }

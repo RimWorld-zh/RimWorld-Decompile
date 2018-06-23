@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000B5E RID: 2910
 	public class SkillRequirement
 	{
+		// Token: 0x04002A78 RID: 10872
+		public SkillDef skill;
+
+		// Token: 0x04002A79 RID: 10873
+		public int minLevel;
+
 		// Token: 0x170009A6 RID: 2470
 		// (get) Token: 0x06003F93 RID: 16275 RVA: 0x00218454 File Offset: 0x00216854
 		public string Summary
@@ -53,11 +59,5 @@ namespace Verse
 			}
 			return result;
 		}
-
-		// Token: 0x04002A78 RID: 10872
-		public SkillDef skill;
-
-		// Token: 0x04002A79 RID: 10873
-		public int minLevel;
 	}
 }

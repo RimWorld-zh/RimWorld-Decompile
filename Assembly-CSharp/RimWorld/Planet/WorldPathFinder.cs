@@ -8,6 +8,41 @@ namespace RimWorld.Planet
 	// Token: 0x0200053D RID: 1341
 	public class WorldPathFinder
 	{
+		// Token: 0x04000EB9 RID: 3769
+		private FastPriorityQueue<WorldPathFinder.CostNode> openList;
+
+		// Token: 0x04000EBA RID: 3770
+		private WorldPathFinder.PathFinderNodeFast[] calcGrid;
+
+		// Token: 0x04000EBB RID: 3771
+		private ushort statusOpenValue = 1;
+
+		// Token: 0x04000EBC RID: 3772
+		private ushort statusClosedValue = 2;
+
+		// Token: 0x04000EBD RID: 3773
+		private const int SearchLimit = 500000;
+
+		// Token: 0x04000EBE RID: 3774
+		private static readonly SimpleCurve HeuristicStrength_DistanceCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(30f, 1f),
+				true
+			},
+			{
+				new CurvePoint(40f, 1.3f),
+				true
+			},
+			{
+				new CurvePoint(130f, 2f),
+				true
+			}
+		};
+
+		// Token: 0x04000EBF RID: 3775
+		private const float BestRoadDiscount = 0.5f;
+
 		// Token: 0x0600191A RID: 6426 RVA: 0x000DA534 File Offset: 0x000D8934
 		public WorldPathFinder()
 		{
@@ -298,56 +333,21 @@ namespace RimWorld.Planet
 			return Mathf.RoundToInt(WorldPathFinder.HeuristicStrength_DistanceCurve.Evaluate(x));
 		}
 
-		// Token: 0x04000EB9 RID: 3769
-		private FastPriorityQueue<WorldPathFinder.CostNode> openList;
-
-		// Token: 0x04000EBA RID: 3770
-		private WorldPathFinder.PathFinderNodeFast[] calcGrid;
-
-		// Token: 0x04000EBB RID: 3771
-		private ushort statusOpenValue = 1;
-
-		// Token: 0x04000EBC RID: 3772
-		private ushort statusClosedValue = 2;
-
-		// Token: 0x04000EBD RID: 3773
-		private const int SearchLimit = 500000;
-
-		// Token: 0x04000EBE RID: 3774
-		private static readonly SimpleCurve HeuristicStrength_DistanceCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(30f, 1f),
-				true
-			},
-			{
-				new CurvePoint(40f, 1.3f),
-				true
-			},
-			{
-				new CurvePoint(130f, 2f),
-				true
-			}
-		};
-
-		// Token: 0x04000EBF RID: 3775
-		private const float BestRoadDiscount = 0.5f;
-
 		// Token: 0x0200053E RID: 1342
 		private struct CostNode
 		{
+			// Token: 0x04000EC0 RID: 3776
+			public int tile;
+
+			// Token: 0x04000EC1 RID: 3777
+			public int cost;
+
 			// Token: 0x06001922 RID: 6434 RVA: 0x000DB09B File Offset: 0x000D949B
 			public CostNode(int tile, int cost)
 			{
 				this.tile = tile;
 				this.cost = cost;
 			}
-
-			// Token: 0x04000EC0 RID: 3776
-			public int tile;
-
-			// Token: 0x04000EC1 RID: 3777
-			public int cost;
 		}
 
 		// Token: 0x0200053F RID: 1343

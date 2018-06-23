@@ -9,6 +9,9 @@ namespace RimWorld
 	// Token: 0x02000644 RID: 1604
 	public class ScenPart_PlayerPawnsArriveMethod : ScenPart
 	{
+		// Token: 0x040012F4 RID: 4852
+		private PlayerPawnsArriveMethod method = PlayerPawnsArriveMethod.Standing;
+
 		// Token: 0x06002146 RID: 8518 RVA: 0x0011A9E2 File Offset: 0x00118DE2
 		public override void ExposeData()
 		{
@@ -120,8 +123,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x040012F4 RID: 4852
-		private PlayerPawnsArriveMethod method = PlayerPawnsArriveMethod.Standing;
 	}
 }

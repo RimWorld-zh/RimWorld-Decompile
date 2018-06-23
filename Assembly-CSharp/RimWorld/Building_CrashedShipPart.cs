@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x020006A1 RID: 1697
 	public class Building_CrashedShipPart : Building
 	{
+		// Token: 0x04001417 RID: 5143
+		protected int age;
+
 		// Token: 0x06002426 RID: 9254 RVA: 0x00136869 File Offset: 0x00134C69
 		public override void ExposeData()
 		{
@@ -36,8 +39,5 @@ namespace RimWorld
 			base.Tick();
 			this.age++;
 		}
-
-		// Token: 0x04001417 RID: 5143
-		protected int age;
 	}
 }

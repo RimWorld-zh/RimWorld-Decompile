@@ -5,6 +5,9 @@ namespace Verse.AI
 	// Token: 0x02000ABB RID: 2747
 	public class ThinkNode_Tagger : ThinkNode_Priority
 	{
+		// Token: 0x0400269D RID: 9885
+		private JobTag tagToGive = JobTag.Misc;
+
 		// Token: 0x06003D35 RID: 15669 RVA: 0x00205284 File Offset: 0x00203684
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -43,8 +46,5 @@ namespace Verse.AI
 			}
 			return result;
 		}
-
-		// Token: 0x0400269D RID: 9885
-		private JobTag tagToGive = JobTag.Misc;
 	}
 }

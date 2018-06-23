@@ -7,12 +7,6 @@ namespace RimWorld
 	[DefOf]
 	public static class RulePackDefOf
 	{
-		// Token: 0x06003650 RID: 13904 RVA: 0x001D0C5D File Offset: 0x001CF05D
-		static RulePackDefOf()
-		{
-			DefOfHelper.EnsureInitializedInCtor(typeof(RulePackDefOf));
-		}
-
 		// Token: 0x04002234 RID: 8756
 		public static RulePackDef Sentence_SocialFightStarted;
 
@@ -150,5 +144,11 @@ namespace RimWorld
 
 		// Token: 0x04002261 RID: 8801
 		public static RulePackDef DynamicWrapper;
+
+		// Token: 0x06003650 RID: 13904 RVA: 0x001D0C5D File Offset: 0x001CF05D
+		static RulePackDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(RulePackDefOf));
+		}
 	}
 }

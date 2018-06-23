@@ -11,6 +11,62 @@ namespace RimWorld
 	[HasDebugOutput]
 	public static class GenPlant
 	{
+		// Token: 0x0400234E RID: 9038
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallColorBegin = 0.55f;
+
+		// Token: 0x0400234F RID: 9039
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallColorEnd = 0.45f;
+
+		// Token: 0x04002350 RID: 9040
+		[TweakValue("Graphics", 0f, 30f)]
+		private static float FallSlopeComponent = 15f;
+
+		// Token: 0x04002351 RID: 9041
+		[TweakValue("Graphics", 0f, 100f)]
+		private static bool FallIntensityOverride = false;
+
+		// Token: 0x04002352 RID: 9042
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallIntensity = 0f;
+
+		// Token: 0x04002353 RID: 9043
+		[TweakValue("Graphics", 0f, 100f)]
+		private static bool FallGlobalControls = false;
+
+		// Token: 0x04002354 RID: 9044
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallSrcR = 0.3803f;
+
+		// Token: 0x04002355 RID: 9045
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallSrcG = 0.4352f;
+
+		// Token: 0x04002356 RID: 9046
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallSrcB = 0.1451f;
+
+		// Token: 0x04002357 RID: 9047
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallDstR = 0.4392f;
+
+		// Token: 0x04002358 RID: 9048
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallDstG = 0.3254f;
+
+		// Token: 0x04002359 RID: 9049
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallDstB = 0.1765f;
+
+		// Token: 0x0400235A RID: 9050
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallRangeBegin = 0.02f;
+
+		// Token: 0x0400235B RID: 9051
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallRangeEnd = 0.1f;
+
 		// Token: 0x060036B9 RID: 14009 RVA: 0x001D35F4 File Offset: 0x001D19F4
 		public static bool GrowthSeasonNow(IntVec3 c, Map map, bool forSowing = false)
 		{
@@ -284,61 +340,5 @@ namespace RimWorld
 			}
 			Log.Message(stringBuilder.ToString(), false);
 		}
-
-		// Token: 0x0400234E RID: 9038
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallColorBegin = 0.55f;
-
-		// Token: 0x0400234F RID: 9039
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallColorEnd = 0.45f;
-
-		// Token: 0x04002350 RID: 9040
-		[TweakValue("Graphics", 0f, 30f)]
-		private static float FallSlopeComponent = 15f;
-
-		// Token: 0x04002351 RID: 9041
-		[TweakValue("Graphics", 0f, 100f)]
-		private static bool FallIntensityOverride = false;
-
-		// Token: 0x04002352 RID: 9042
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallIntensity = 0f;
-
-		// Token: 0x04002353 RID: 9043
-		[TweakValue("Graphics", 0f, 100f)]
-		private static bool FallGlobalControls = false;
-
-		// Token: 0x04002354 RID: 9044
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallSrcR = 0.3803f;
-
-		// Token: 0x04002355 RID: 9045
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallSrcG = 0.4352f;
-
-		// Token: 0x04002356 RID: 9046
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallSrcB = 0.1451f;
-
-		// Token: 0x04002357 RID: 9047
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallDstR = 0.4392f;
-
-		// Token: 0x04002358 RID: 9048
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallDstG = 0.3254f;
-
-		// Token: 0x04002359 RID: 9049
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallDstB = 0.1765f;
-
-		// Token: 0x0400235A RID: 9050
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallRangeBegin = 0.02f;
-
-		// Token: 0x0400235B RID: 9051
-		[TweakValue("Graphics", 0f, 1f)]
-		private static float FallRangeEnd = 0.1f;
 	}
 }

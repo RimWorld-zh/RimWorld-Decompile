@@ -7,6 +7,15 @@ namespace RimWorld
 	// Token: 0x0200070B RID: 1803
 	public class CompEggLayer : ThingComp
 	{
+		// Token: 0x040015CF RID: 5583
+		private float eggProgress = 0f;
+
+		// Token: 0x040015D0 RID: 5584
+		private int fertilizationCount = 0;
+
+		// Token: 0x040015D1 RID: 5585
+		private Pawn fertilizedBy;
+
 		// Token: 0x170005F1 RID: 1521
 		// (get) Token: 0x06002784 RID: 10116 RVA: 0x0015320C File Offset: 0x0015160C
 		private bool Active
@@ -166,14 +175,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040015CF RID: 5583
-		private float eggProgress = 0f;
-
-		// Token: 0x040015D0 RID: 5584
-		private int fertilizationCount = 0;
-
-		// Token: 0x040015D1 RID: 5585
-		private Pawn fertilizedBy;
 	}
 }

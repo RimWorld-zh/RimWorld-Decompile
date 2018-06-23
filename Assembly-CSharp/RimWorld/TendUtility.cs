@@ -9,6 +9,30 @@ namespace RimWorld
 	// Token: 0x02000052 RID: 82
 	public static class TendUtility
 	{
+		// Token: 0x040001E7 RID: 487
+		public const float NoMedicinePotency = 0.3f;
+
+		// Token: 0x040001E8 RID: 488
+		public const float NoMedicineQualityMax = 0.7f;
+
+		// Token: 0x040001E9 RID: 489
+		public const float NoDoctorTendQuality = 0.75f;
+
+		// Token: 0x040001EA RID: 490
+		public const float SelfTendQualityFactor = 0.7f;
+
+		// Token: 0x040001EB RID: 491
+		private const float ChanceToDevelopBondRelationOnTended = 0.004f;
+
+		// Token: 0x040001EC RID: 492
+		private static List<Hediff> tmpHediffsToTend = new List<Hediff>();
+
+		// Token: 0x040001ED RID: 493
+		private static List<Hediff> tmpHediffs = new List<Hediff>();
+
+		// Token: 0x040001EE RID: 494
+		private static List<Pair<Hediff, float>> tmpHediffsWithTendPriority = new List<Pair<Hediff, float>>();
+
 		// Token: 0x06000283 RID: 643 RVA: 0x0001ADC0 File Offset: 0x000191C0
 		public static void DoTend(Pawn doctor, Pawn patient, Medicine medicine)
 		{
@@ -185,29 +209,5 @@ namespace RimWorld
 				TendUtility.tmpHediffsWithTendPriority.Clear();
 			}
 		}
-
-		// Token: 0x040001E7 RID: 487
-		public const float NoMedicinePotency = 0.3f;
-
-		// Token: 0x040001E8 RID: 488
-		public const float NoMedicineQualityMax = 0.7f;
-
-		// Token: 0x040001E9 RID: 489
-		public const float NoDoctorTendQuality = 0.75f;
-
-		// Token: 0x040001EA RID: 490
-		public const float SelfTendQualityFactor = 0.7f;
-
-		// Token: 0x040001EB RID: 491
-		private const float ChanceToDevelopBondRelationOnTended = 0.004f;
-
-		// Token: 0x040001EC RID: 492
-		private static List<Hediff> tmpHediffsToTend = new List<Hediff>();
-
-		// Token: 0x040001ED RID: 493
-		private static List<Hediff> tmpHediffs = new List<Hediff>();
-
-		// Token: 0x040001EE RID: 494
-		private static List<Pair<Hediff, float>> tmpHediffsWithTendPriority = new List<Pair<Hediff, float>>();
 	}
 }

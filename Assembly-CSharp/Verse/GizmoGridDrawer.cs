@@ -8,6 +8,27 @@ namespace Verse
 	// Token: 0x02000E6D RID: 3693
 	public static class GizmoGridDrawer
 	{
+		// Token: 0x040039A3 RID: 14755
+		public static HashSet<KeyCode> drawnHotKeys = new HashSet<KeyCode>();
+
+		// Token: 0x040039A4 RID: 14756
+		private static float heightDrawn;
+
+		// Token: 0x040039A5 RID: 14757
+		private static int heightDrawnFrame;
+
+		// Token: 0x040039A6 RID: 14758
+		private static readonly Vector2 GizmoSpacing = new Vector2(5f, 14f);
+
+		// Token: 0x040039A7 RID: 14759
+		private static List<List<Gizmo>> gizmoGroups = new List<List<Gizmo>>();
+
+		// Token: 0x040039A8 RID: 14760
+		private static List<Gizmo> firstGizmos = new List<Gizmo>();
+
+		// Token: 0x040039A9 RID: 14761
+		private static List<Gizmo> tmpAllGizmos = new List<Gizmo>();
+
 		// Token: 0x17000DAC RID: 3500
 		// (get) Token: 0x06005703 RID: 22275 RVA: 0x002CC938 File Offset: 0x002CAD38
 		public static float HeightDrawnRecently
@@ -186,26 +207,5 @@ namespace Verse
 			GizmoGridDrawer.firstGizmos.Clear();
 			GizmoGridDrawer.tmpAllGizmos.Clear();
 		}
-
-		// Token: 0x040039A3 RID: 14755
-		public static HashSet<KeyCode> drawnHotKeys = new HashSet<KeyCode>();
-
-		// Token: 0x040039A4 RID: 14756
-		private static float heightDrawn;
-
-		// Token: 0x040039A5 RID: 14757
-		private static int heightDrawnFrame;
-
-		// Token: 0x040039A6 RID: 14758
-		private static readonly Vector2 GizmoSpacing = new Vector2(5f, 14f);
-
-		// Token: 0x040039A7 RID: 14759
-		private static List<List<Gizmo>> gizmoGroups = new List<List<Gizmo>>();
-
-		// Token: 0x040039A8 RID: 14760
-		private static List<Gizmo> firstGizmos = new List<Gizmo>();
-
-		// Token: 0x040039A9 RID: 14761
-		private static List<Gizmo> tmpAllGizmos = new List<Gizmo>();
 	}
 }

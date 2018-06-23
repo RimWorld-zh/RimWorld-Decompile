@@ -16,6 +16,15 @@ namespace Verse
 	// Token: 0x02000E0A RID: 3594
 	public class EditWindow_DebugInspector : EditWindow
 	{
+		// Token: 0x04003564 RID: 13668
+		private StringBuilder debugStringBuilder = new StringBuilder();
+
+		// Token: 0x04003565 RID: 13669
+		public bool fullMode = false;
+
+		// Token: 0x04003566 RID: 13670
+		private float columnWidth = 360f;
+
 		// Token: 0x06005189 RID: 20873 RVA: 0x0029C5ED File Offset: 0x0029A9ED
 		public EditWindow_DebugInspector()
 		{
@@ -505,14 +514,5 @@ namespace Verse
 			}
 			return stringBuilder.ToString();
 		}
-
-		// Token: 0x04003564 RID: 13668
-		private StringBuilder debugStringBuilder = new StringBuilder();
-
-		// Token: 0x04003565 RID: 13669
-		public bool fullMode = false;
-
-		// Token: 0x04003566 RID: 13670
-		private float columnWidth = 360f;
 	}
 }

@@ -7,6 +7,9 @@ namespace RimWorld.Planet
 	// Token: 0x02000621 RID: 1569
 	public class ItemStashContentsComp : WorldObjectComp, IThingHolder
 	{
+		// Token: 0x0400126D RID: 4717
+		public ThingOwner contents;
+
 		// Token: 0x06001FEA RID: 8170 RVA: 0x00112F76 File Offset: 0x00111376
 		public ItemStashContentsComp()
 		{
@@ -70,8 +73,5 @@ namespace RimWorld.Planet
 			}
 			return result;
 		}
-
-		// Token: 0x0400126D RID: 4717
-		public ThingOwner contents;
 	}
 }

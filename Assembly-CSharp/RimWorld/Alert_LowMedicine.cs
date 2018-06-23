@@ -7,6 +7,9 @@ namespace RimWorld
 	// Token: 0x02000796 RID: 1942
 	public class Alert_LowMedicine : Alert
 	{
+		// Token: 0x0400172A RID: 5930
+		private const float MedicinePerColonistThreshold = 2f;
+
 		// Token: 0x06002B0C RID: 11020 RVA: 0x0016BDFF File Offset: 0x0016A1FF
 		public Alert_LowMedicine()
 		{
@@ -79,8 +82,5 @@ namespace RimWorld
 		{
 			return map.resourceCounter.GetCountIn(ThingRequestGroup.Medicine);
 		}
-
-		// Token: 0x0400172A RID: 5930
-		private const float MedicinePerColonistThreshold = 2f;
 	}
 }

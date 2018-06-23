@@ -7,6 +7,56 @@ namespace RimWorld
 	// Token: 0x020002B6 RID: 694
 	public class PawnRelationDef : Def
 	{
+		// Token: 0x040006B2 RID: 1714
+		public Type workerClass = typeof(PawnRelationWorker);
+
+		// Token: 0x040006B3 RID: 1715
+		[MustTranslate]
+		public string labelFemale;
+
+		// Token: 0x040006B4 RID: 1716
+		public float importance;
+
+		// Token: 0x040006B5 RID: 1717
+		public bool implied;
+
+		// Token: 0x040006B6 RID: 1718
+		public bool reflexive;
+
+		// Token: 0x040006B7 RID: 1719
+		public int opinionOffset;
+
+		// Token: 0x040006B8 RID: 1720
+		public float generationChanceFactor;
+
+		// Token: 0x040006B9 RID: 1721
+		public float attractionFactor = 1f;
+
+		// Token: 0x040006BA RID: 1722
+		public float incestOpinionOffset;
+
+		// Token: 0x040006BB RID: 1723
+		public bool familyByBloodRelation;
+
+		// Token: 0x040006BC RID: 1724
+		public ThoughtDef diedThought;
+
+		// Token: 0x040006BD RID: 1725
+		public ThoughtDef diedThoughtFemale;
+
+		// Token: 0x040006BE RID: 1726
+		public ThoughtDef soldThought;
+
+		// Token: 0x040006BF RID: 1727
+		public ThoughtDef killedThought;
+
+		// Token: 0x040006C0 RID: 1728
+		public ThoughtDef killedThoughtFemale;
+
+		// Token: 0x040006C1 RID: 1729
+		[Unsaved]
+		private PawnRelationWorker workerInt = null;
+
 		// Token: 0x170001BD RID: 445
 		// (get) Token: 0x06000BA3 RID: 2979 RVA: 0x00068BE8 File Offset: 0x00066FE8
 		public PawnRelationWorker Worker
@@ -87,55 +137,5 @@ namespace RimWorld
 			}
 			yield break;
 		}
-
-		// Token: 0x040006B2 RID: 1714
-		public Type workerClass = typeof(PawnRelationWorker);
-
-		// Token: 0x040006B3 RID: 1715
-		[MustTranslate]
-		public string labelFemale;
-
-		// Token: 0x040006B4 RID: 1716
-		public float importance;
-
-		// Token: 0x040006B5 RID: 1717
-		public bool implied;
-
-		// Token: 0x040006B6 RID: 1718
-		public bool reflexive;
-
-		// Token: 0x040006B7 RID: 1719
-		public int opinionOffset;
-
-		// Token: 0x040006B8 RID: 1720
-		public float generationChanceFactor;
-
-		// Token: 0x040006B9 RID: 1721
-		public float attractionFactor = 1f;
-
-		// Token: 0x040006BA RID: 1722
-		public float incestOpinionOffset;
-
-		// Token: 0x040006BB RID: 1723
-		public bool familyByBloodRelation;
-
-		// Token: 0x040006BC RID: 1724
-		public ThoughtDef diedThought;
-
-		// Token: 0x040006BD RID: 1725
-		public ThoughtDef diedThoughtFemale;
-
-		// Token: 0x040006BE RID: 1726
-		public ThoughtDef soldThought;
-
-		// Token: 0x040006BF RID: 1727
-		public ThoughtDef killedThought;
-
-		// Token: 0x040006C0 RID: 1728
-		public ThoughtDef killedThoughtFemale;
-
-		// Token: 0x040006C1 RID: 1729
-		[Unsaved]
-		private PawnRelationWorker workerInt = null;
 	}
 }

@@ -6,6 +6,9 @@ namespace RimWorld
 	// Token: 0x02000406 RID: 1030
 	public abstract class GenStep_Ambush : GenStep
 	{
+		// Token: 0x04000AD2 RID: 2770
+		public FloatRange pointsRange = new FloatRange(180f, 340f);
+
 		// Token: 0x060011B8 RID: 4536 RVA: 0x0009A6BC File Offset: 0x00098ABC
 		public override void Generate(Map map)
 		{
@@ -62,8 +65,5 @@ namespace RimWorld
 			}
 			return signalAction_Ambush;
 		}
-
-		// Token: 0x04000AD2 RID: 2770
-		public FloatRange pointsRange = new FloatRange(180f, 340f);
 	}
 }

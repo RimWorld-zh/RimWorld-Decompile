@@ -6,6 +6,15 @@ namespace Verse
 	// Token: 0x02000CBA RID: 3258
 	public sealed class ZoneManager : IExposable
 	{
+		// Token: 0x040030C3 RID: 12483
+		public Map map;
+
+		// Token: 0x040030C4 RID: 12484
+		private List<Zone> allZones = new List<Zone>();
+
+		// Token: 0x040030C5 RID: 12485
+		private Zone[] zoneGrid;
+
 		// Token: 0x060047E2 RID: 18402 RVA: 0x0025D7E0 File Offset: 0x0025BBE0
 		public ZoneManager(Map map)
 		{
@@ -122,14 +131,5 @@ namespace Verse
 				}
 			}
 		}
-
-		// Token: 0x040030C3 RID: 12483
-		public Map map;
-
-		// Token: 0x040030C4 RID: 12484
-		private List<Zone> allZones = new List<Zone>();
-
-		// Token: 0x040030C5 RID: 12485
-		private Zone[] zoneGrid;
 	}
 }

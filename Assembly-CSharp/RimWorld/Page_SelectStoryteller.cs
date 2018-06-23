@@ -8,6 +8,15 @@ namespace RimWorld
 	// Token: 0x02000835 RID: 2101
 	public class Page_SelectStoryteller : Page
 	{
+		// Token: 0x040019B3 RID: 6579
+		private StorytellerDef storyteller;
+
+		// Token: 0x040019B4 RID: 6580
+		private DifficultyDef difficulty;
+
+		// Token: 0x040019B5 RID: 6581
+		private Listing_Standard selectedStorytellerInfoListing = new Listing_Standard();
+
 		// Token: 0x1700078A RID: 1930
 		// (get) Token: 0x06002F97 RID: 12183 RVA: 0x00197A8C File Offset: 0x00195E8C
 		public override string PageTitle
@@ -62,14 +71,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x040019B3 RID: 6579
-		private StorytellerDef storyteller;
-
-		// Token: 0x040019B4 RID: 6580
-		private DifficultyDef difficulty;
-
-		// Token: 0x040019B5 RID: 6581
-		private Listing_Standard selectedStorytellerInfoListing = new Listing_Standard();
 	}
 }

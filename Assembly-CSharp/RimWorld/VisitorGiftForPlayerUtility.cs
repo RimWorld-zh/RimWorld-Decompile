@@ -9,6 +9,35 @@ namespace RimWorld
 	[HasDebugOutput]
 	public class VisitorGiftForPlayerUtility
 	{
+		// Token: 0x04000F49 RID: 3913
+		private const float ExtraChanceFactor = 0.75f;
+
+		// Token: 0x04000F4A RID: 3914
+		private static readonly SimpleCurve PlayerWealthChanceFactorCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(6000f, 1f),
+				true
+			},
+			{
+				new CurvePoint(80000f, 0.08f),
+				true
+			}
+		};
+
+		// Token: 0x04000F4B RID: 3915
+		private static readonly SimpleCurve GoodwillChanceFactorCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(10f, 0f),
+				true
+			},
+			{
+				new CurvePoint(100f, 1f),
+				true
+			}
+		};
+
 		// Token: 0x06001A1D RID: 6685 RVA: 0x000E2804 File Offset: 0x000E0C04
 		public static float ChanceToLeaveGift(Faction faction, Map map)
 		{
@@ -153,34 +182,5 @@ namespace RimWorld
 				}
 			}
 		}
-
-		// Token: 0x04000F49 RID: 3913
-		private const float ExtraChanceFactor = 0.75f;
-
-		// Token: 0x04000F4A RID: 3914
-		private static readonly SimpleCurve PlayerWealthChanceFactorCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(6000f, 1f),
-				true
-			},
-			{
-				new CurvePoint(80000f, 0.08f),
-				true
-			}
-		};
-
-		// Token: 0x04000F4B RID: 3915
-		private static readonly SimpleCurve GoodwillChanceFactorCurve = new SimpleCurve
-		{
-			{
-				new CurvePoint(10f, 0f),
-				true
-			},
-			{
-				new CurvePoint(100f, 1f),
-				true
-			}
-		};
 	}
 }

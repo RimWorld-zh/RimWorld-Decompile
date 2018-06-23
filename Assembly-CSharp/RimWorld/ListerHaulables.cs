@@ -9,6 +9,24 @@ namespace RimWorld
 	// Token: 0x02000389 RID: 905
 	public class ListerHaulables
 	{
+		// Token: 0x0400099A RID: 2458
+		private Map map;
+
+		// Token: 0x0400099B RID: 2459
+		private List<Thing> haulables = new List<Thing>();
+
+		// Token: 0x0400099C RID: 2460
+		private const int CellsPerTick = 4;
+
+		// Token: 0x0400099D RID: 2461
+		private static int groupCycleIndex = 0;
+
+		// Token: 0x0400099E RID: 2462
+		private List<int> cellCycleIndices = new List<int>();
+
+		// Token: 0x0400099F RID: 2463
+		private string debugOutput = "uninitialized";
+
 		// Token: 0x06000FB4 RID: 4020 RVA: 0x000843EC File Offset: 0x000827EC
 		public ListerHaulables(Map map)
 		{
@@ -213,23 +231,5 @@ namespace RimWorld
 			}
 			return this.debugOutput;
 		}
-
-		// Token: 0x0400099A RID: 2458
-		private Map map;
-
-		// Token: 0x0400099B RID: 2459
-		private List<Thing> haulables = new List<Thing>();
-
-		// Token: 0x0400099C RID: 2460
-		private const int CellsPerTick = 4;
-
-		// Token: 0x0400099D RID: 2461
-		private static int groupCycleIndex = 0;
-
-		// Token: 0x0400099E RID: 2462
-		private List<int> cellCycleIndices = new List<int>();
-
-		// Token: 0x0400099F RID: 2463
-		private string debugOutput = "uninitialized";
 	}
 }

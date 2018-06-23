@@ -6,12 +6,6 @@ namespace RimWorld
 	// Token: 0x02000243 RID: 579
 	public class CompProperties_EggLayer : CompProperties
 	{
-		// Token: 0x06000A72 RID: 2674 RVA: 0x0005EDEC File Offset: 0x0005D1EC
-		public CompProperties_EggLayer()
-		{
-			this.compClass = typeof(CompEggLayer);
-		}
-
 		// Token: 0x04000468 RID: 1128
 		public float eggLayIntervalDays = 1f;
 
@@ -32,5 +26,11 @@ namespace RimWorld
 
 		// Token: 0x0400046E RID: 1134
 		public float eggProgressUnfertilizedMax = 1f;
+
+		// Token: 0x06000A72 RID: 2674 RVA: 0x0005EDEC File Offset: 0x0005D1EC
+		public CompProperties_EggLayer()
+		{
+			this.compClass = typeof(CompEggLayer);
+		}
 	}
 }

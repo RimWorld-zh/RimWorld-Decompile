@@ -7,6 +7,12 @@ namespace RimWorld
 	// Token: 0x020002F2 RID: 754
 	public class GameRules : IExposable
 	{
+		// Token: 0x04000830 RID: 2096
+		private List<Type> disallowedDesignatorTypes = new List<Type>();
+
+		// Token: 0x04000831 RID: 2097
+		private List<BuildableDef> disallowedBuildings = new List<BuildableDef>();
+
 		// Token: 0x06000C7F RID: 3199 RVA: 0x0006F050 File Offset: 0x0006D450
 		public void SetAllowDesignator(Type type, bool allowed)
 		{
@@ -56,11 +62,5 @@ namespace RimWorld
 			Scribe_Collections.Look<BuildableDef>(ref this.disallowedBuildings, "disallowedBuildings", LookMode.Undefined, new object[0]);
 			Scribe_Collections.Look<Type>(ref this.disallowedDesignatorTypes, "disallowedDesignatorTypes", LookMode.Undefined, new object[0]);
 		}
-
-		// Token: 0x04000830 RID: 2096
-		private List<Type> disallowedDesignatorTypes = new List<Type>();
-
-		// Token: 0x04000831 RID: 2097
-		private List<BuildableDef> disallowedBuildings = new List<BuildableDef>();
 	}
 }

@@ -6,44 +6,6 @@ namespace Verse
 	// Token: 0x02000B1B RID: 2843
 	public class ProjectileProperties
 	{
-		// Token: 0x17000977 RID: 2423
-		// (get) Token: 0x06003EC1 RID: 16065 RVA: 0x00210F7C File Offset: 0x0020F37C
-		public int DamageAmount
-		{
-			get
-			{
-				int result;
-				if (this.damageAmountBase != -1)
-				{
-					result = this.damageAmountBase;
-				}
-				else if (this.damageDef != null)
-				{
-					result = this.damageDef.defaultDamage;
-				}
-				else
-				{
-					Log.ErrorOnce("Failed to find sane damage amount", 91094882, false);
-					result = 1;
-				}
-				return result;
-			}
-		}
-
-		// Token: 0x06003EC2 RID: 16066 RVA: 0x00210FD8 File Offset: 0x0020F3D8
-		public IEnumerable<string> ConfigErrors(ThingDef parent)
-		{
-			if (this.alwaysFreeIntercept && this.flyOverhead)
-			{
-				yield return "alwaysFreeIntercept and flyOverhead are both true";
-			}
-			if (this.damageAmountBase == -1 && this.damageDef != null && this.damageDef.defaultDamage == -1)
-			{
-				yield return "no damage amount specified for projectile";
-			}
-			yield break;
-		}
-
 		// Token: 0x04002852 RID: 10322
 		public float speed = 4f;
 
@@ -112,5 +74,43 @@ namespace Verse
 
 		// Token: 0x04002868 RID: 10344
 		public bool ai_IsIncendiary = false;
+
+		// Token: 0x17000977 RID: 2423
+		// (get) Token: 0x06003EC1 RID: 16065 RVA: 0x00210F7C File Offset: 0x0020F37C
+		public int DamageAmount
+		{
+			get
+			{
+				int result;
+				if (this.damageAmountBase != -1)
+				{
+					result = this.damageAmountBase;
+				}
+				else if (this.damageDef != null)
+				{
+					result = this.damageDef.defaultDamage;
+				}
+				else
+				{
+					Log.ErrorOnce("Failed to find sane damage amount", 91094882, false);
+					result = 1;
+				}
+				return result;
+			}
+		}
+
+		// Token: 0x06003EC2 RID: 16066 RVA: 0x00210FD8 File Offset: 0x0020F3D8
+		public IEnumerable<string> ConfigErrors(ThingDef parent)
+		{
+			if (this.alwaysFreeIntercept && this.flyOverhead)
+			{
+				yield return "alwaysFreeIntercept and flyOverhead are both true";
+			}
+			if (this.damageAmountBase == -1 && this.damageDef != null && this.damageDef.defaultDamage == -1)
+			{
+				yield return "no damage amount specified for projectile";
+			}
+			yield break;
+		}
 	}
 }

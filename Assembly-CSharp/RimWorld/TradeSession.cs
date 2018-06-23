@@ -6,6 +6,18 @@ namespace RimWorld
 	// Token: 0x0200077A RID: 1914
 	public static class TradeSession
 	{
+		// Token: 0x040016CB RID: 5835
+		public static ITrader trader;
+
+		// Token: 0x040016CC RID: 5836
+		public static Pawn playerNegotiator;
+
+		// Token: 0x040016CD RID: 5837
+		public static TradeDeal deal;
+
+		// Token: 0x040016CE RID: 5838
+		public static bool giftMode;
+
 		// Token: 0x17000683 RID: 1667
 		// (get) Token: 0x06002A45 RID: 10821 RVA: 0x0016695C File Offset: 0x00164D5C
 		public static bool Active
@@ -38,17 +50,5 @@ namespace RimWorld
 		{
 			TradeSession.trader = null;
 		}
-
-		// Token: 0x040016CB RID: 5835
-		public static ITrader trader;
-
-		// Token: 0x040016CC RID: 5836
-		public static Pawn playerNegotiator;
-
-		// Token: 0x040016CD RID: 5837
-		public static TradeDeal deal;
-
-		// Token: 0x040016CE RID: 5838
-		public static bool giftMode;
 	}
 }

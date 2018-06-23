@@ -10,6 +10,9 @@ namespace RimWorld
 	// Token: 0x0200031F RID: 799
 	public class IncidentWorker_CaravanMeeting : IncidentWorker
 	{
+		// Token: 0x040008BA RID: 2234
+		private const int MapSize = 100;
+
 		// Token: 0x06000DA5 RID: 3493 RVA: 0x00074B6C File Offset: 0x00072F6C
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
@@ -146,8 +149,5 @@ namespace RimWorld
 			}
 			caravan.RemoveAllPawns();
 		}
-
-		// Token: 0x040008BA RID: 2234
-		private const int MapSize = 100;
 	}
 }

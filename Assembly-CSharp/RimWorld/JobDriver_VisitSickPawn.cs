@@ -8,6 +8,12 @@ namespace RimWorld
 	// Token: 0x02000060 RID: 96
 	public class JobDriver_VisitSickPawn : JobDriver
 	{
+		// Token: 0x040001FD RID: 509
+		private const TargetIndex PatientInd = TargetIndex.A;
+
+		// Token: 0x040001FE RID: 510
+		private const TargetIndex ChairInd = TargetIndex.B;
+
 		// Token: 0x17000090 RID: 144
 		// (get) Token: 0x060002C1 RID: 705 RVA: 0x0001D998 File Offset: 0x0001BD98
 		private Pawn Patient
@@ -93,11 +99,5 @@ namespace RimWorld
 			};
 			yield break;
 		}
-
-		// Token: 0x040001FD RID: 509
-		private const TargetIndex PatientInd = TargetIndex.A;
-
-		// Token: 0x040001FE RID: 510
-		private const TargetIndex ChairInd = TargetIndex.B;
 	}
 }

@@ -8,6 +8,9 @@ namespace RimWorld
 	// Token: 0x020008BB RID: 2235
 	public class Instruction_BuildSandbags : Lesson_Instruction
 	{
+		// Token: 0x04001B8F RID: 7055
+		private List<IntVec3> sandbagCells;
+
 		// Token: 0x17000824 RID: 2084
 		// (get) Token: 0x06003326 RID: 13094 RVA: 0x001B8364 File Offset: 0x001B6764
 		protected override float ProgressPercent
@@ -100,8 +103,5 @@ namespace RimWorld
 			}
 			return result;
 		}
-
-		// Token: 0x04001B8F RID: 7055
-		private List<IntVec3> sandbagCells;
 	}
 }

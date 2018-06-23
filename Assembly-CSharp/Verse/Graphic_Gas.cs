@@ -7,6 +7,12 @@ namespace Verse
 	// Token: 0x02000DD6 RID: 3542
 	public class Graphic_Gas : Graphic_Single
 	{
+		// Token: 0x040034B9 RID: 13497
+		private const float PositionVariance = 0.45f;
+
+		// Token: 0x040034BA RID: 13498
+		private const float SizeVariance = 0.2f;
+
 		// Token: 0x06004F5B RID: 20315 RVA: 0x00295AA0 File Offset: 0x00293EA0
 		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
@@ -21,11 +27,5 @@ namespace Verse
 			Graphics.DrawMesh(MeshPool.plane10, matrix, this.MatSingle, 0);
 			Rand.PopState();
 		}
-
-		// Token: 0x040034B9 RID: 13497
-		private const float PositionVariance = 0.45f;
-
-		// Token: 0x040034BA RID: 13498
-		private const float SizeVariance = 0.2f;
 	}
 }

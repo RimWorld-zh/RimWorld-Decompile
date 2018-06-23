@@ -8,6 +8,12 @@ namespace Verse
 	// Token: 0x02000F4E RID: 3918
 	public static class GenPlace
 	{
+		// Token: 0x04003E3B RID: 15931
+		private static readonly int PlaceNearMaxRadialCells = GenRadial.NumCellsInRadius(12.9f);
+
+		// Token: 0x04003E3C RID: 15932
+		private static readonly int PlaceNearMiddleRadialCells = GenRadial.NumCellsInRadius(3f);
+
 		// Token: 0x06005EC6 RID: 24262 RVA: 0x00304298 File Offset: 0x00302698
 		public static bool TryPlaceThing(Thing thing, IntVec3 center, Map map, ThingPlaceMode mode, Action<Thing, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null)
 		{
@@ -343,12 +349,6 @@ namespace Verse
 			}
 			return null;
 		}
-
-		// Token: 0x04003E3B RID: 15931
-		private static readonly int PlaceNearMaxRadialCells = GenRadial.NumCellsInRadius(12.9f);
-
-		// Token: 0x04003E3C RID: 15932
-		private static readonly int PlaceNearMiddleRadialCells = GenRadial.NumCellsInRadius(3f);
 
 		// Token: 0x02000F4F RID: 3919
 		private enum PlaceSpotQuality : byte

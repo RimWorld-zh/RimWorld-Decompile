@@ -9,6 +9,27 @@ namespace RimWorld
 	// Token: 0x0200052F RID: 1327
 	public sealed class ThoughtHandler : IExposable
 	{
+		// Token: 0x04000E8E RID: 3726
+		public Pawn pawn;
+
+		// Token: 0x04000E8F RID: 3727
+		public MemoryThoughtHandler memories;
+
+		// Token: 0x04000E90 RID: 3728
+		public SituationalThoughtHandler situational;
+
+		// Token: 0x04000E91 RID: 3729
+		private static List<Thought> tmpThoughts = new List<Thought>();
+
+		// Token: 0x04000E92 RID: 3730
+		private static List<Thought> tmpTotalMoodOffsetThoughts = new List<Thought>();
+
+		// Token: 0x04000E93 RID: 3731
+		private static List<ISocialThought> tmpSocialThoughts = new List<ISocialThought>();
+
+		// Token: 0x04000E94 RID: 3732
+		private static List<ISocialThought> tmpTotalOpinionOffsetThoughts = new List<ISocialThought>();
+
 		// Token: 0x06001890 RID: 6288 RVA: 0x000D7A81 File Offset: 0x000D5E81
 		public ThoughtHandler(Pawn pawn)
 		{
@@ -228,26 +249,5 @@ namespace RimWorld
 			ThoughtHandler.tmpTotalOpinionOffsetThoughts.Clear();
 			return num;
 		}
-
-		// Token: 0x04000E8E RID: 3726
-		public Pawn pawn;
-
-		// Token: 0x04000E8F RID: 3727
-		public MemoryThoughtHandler memories;
-
-		// Token: 0x04000E90 RID: 3728
-		public SituationalThoughtHandler situational;
-
-		// Token: 0x04000E91 RID: 3729
-		private static List<Thought> tmpThoughts = new List<Thought>();
-
-		// Token: 0x04000E92 RID: 3730
-		private static List<Thought> tmpTotalMoodOffsetThoughts = new List<Thought>();
-
-		// Token: 0x04000E93 RID: 3731
-		private static List<ISocialThought> tmpSocialThoughts = new List<ISocialThought>();
-
-		// Token: 0x04000E94 RID: 3732
-		private static List<ISocialThought> tmpTotalOpinionOffsetThoughts = new List<ISocialThought>();
 	}
 }
