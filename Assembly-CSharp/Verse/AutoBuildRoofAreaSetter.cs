@@ -4,7 +4,7 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000C99 RID: 3225
+	// Token: 0x02000C9B RID: 3227
 	public class AutoBuildRoofAreaSetter
 	{
 		// Token: 0x04003053 RID: 12371
@@ -22,13 +22,13 @@ namespace Verse
 		// Token: 0x04003057 RID: 12375
 		private List<IntVec3> justRoofedCells = new List<IntVec3>();
 
-		// Token: 0x06004713 RID: 18195 RVA: 0x00257ED6 File Offset: 0x002562D6
+		// Token: 0x06004716 RID: 18198 RVA: 0x00257FB2 File Offset: 0x002563B2
 		public AutoBuildRoofAreaSetter(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x06004714 RID: 18196 RVA: 0x00257F14 File Offset: 0x00256314
+		// Token: 0x06004717 RID: 18199 RVA: 0x00257FF0 File Offset: 0x002563F0
 		public void TryGenerateAreaOnImpassable(IntVec3 c)
 		{
 			if (!c.Roofed(this.map) && c.Impassable(this.map) && RoofCollapseUtility.WithinRangeOfRoofHolder(c, this.map, false))
@@ -52,19 +52,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004715 RID: 18197 RVA: 0x00257FD8 File Offset: 0x002563D8
+		// Token: 0x06004718 RID: 18200 RVA: 0x002580B4 File Offset: 0x002564B4
 		public void TryGenerateAreaFor(Room room)
 		{
 			this.queuedGenerateRooms.Add(room);
 		}
 
-		// Token: 0x06004716 RID: 18198 RVA: 0x00257FE7 File Offset: 0x002563E7
+		// Token: 0x06004719 RID: 18201 RVA: 0x002580C3 File Offset: 0x002564C3
 		public void AutoBuildRoofAreaSetterTick_First()
 		{
 			this.ResolveQueuedGenerateRoofs();
 		}
 
-		// Token: 0x06004717 RID: 18199 RVA: 0x00257FF0 File Offset: 0x002563F0
+		// Token: 0x0600471A RID: 18202 RVA: 0x002580CC File Offset: 0x002564CC
 		public void ResolveQueuedGenerateRoofs()
 		{
 			for (int i = 0; i < this.queuedGenerateRooms.Count; i++)
@@ -74,7 +74,7 @@ namespace Verse
 			this.queuedGenerateRooms.Clear();
 		}
 
-		// Token: 0x06004718 RID: 18200 RVA: 0x0025803C File Offset: 0x0025643C
+		// Token: 0x0600471B RID: 18203 RVA: 0x00258118 File Offset: 0x00256518
 		private void TryGenerateAreaNow(Room room)
 		{
 			if (!room.Dereferenced && !room.TouchesMapEdge)

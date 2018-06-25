@@ -5,14 +5,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000277 RID: 631
+	// Token: 0x02000279 RID: 633
 	public class WorldObjectCompProperties
 	{
 		// Token: 0x04000558 RID: 1368
 		[TranslationHandle]
 		public Type compClass = typeof(WorldObjectComp);
 
-		// Token: 0x06000ADA RID: 2778 RVA: 0x00062350 File Offset: 0x00060750
+		// Token: 0x06000ADE RID: 2782 RVA: 0x000624A0 File Offset: 0x000608A0
 		public virtual IEnumerable<string> ConfigErrors(WorldObjectDef parentDef)
 		{
 			if (this.compClass == null)
@@ -22,7 +22,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000ADB RID: 2779 RVA: 0x00062381 File Offset: 0x00060781
+		// Token: 0x06000ADF RID: 2783 RVA: 0x000624D1 File Offset: 0x000608D1
 		public virtual void ResolveReferences(WorldObjectDef parentDef)
 		{
 		}

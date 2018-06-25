@@ -3,21 +3,21 @@ using System.Diagnostics;
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F83 RID: 3971
+	// Token: 0x02000F87 RID: 3975
 	public class Abs : ModuleBase
 	{
-		// Token: 0x06006004 RID: 24580 RVA: 0x0030D151 File Offset: 0x0030B551
+		// Token: 0x0600600E RID: 24590 RVA: 0x0030D7D1 File Offset: 0x0030BBD1
 		public Abs() : base(1)
 		{
 		}
 
-		// Token: 0x06006005 RID: 24581 RVA: 0x0030D15B File Offset: 0x0030B55B
+		// Token: 0x0600600F RID: 24591 RVA: 0x0030D7DB File Offset: 0x0030BBDB
 		public Abs(ModuleBase input) : base(1)
 		{
 			this.modules[0] = input;
 		}
 
-		// Token: 0x06006006 RID: 24582 RVA: 0x0030D170 File Offset: 0x0030B570
+		// Token: 0x06006010 RID: 24592 RVA: 0x0030D7F0 File Offset: 0x0030BBF0
 		public override double GetValue(double x, double y, double z)
 		{
 			Debug.Assert(this.modules[0] != null);

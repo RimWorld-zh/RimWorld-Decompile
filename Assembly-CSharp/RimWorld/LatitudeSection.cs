@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000908 RID: 2312
+	// Token: 0x0200090A RID: 2314
 	public enum LatitudeSection
 	{
 		// Token: 0x04001D1B RID: 7451

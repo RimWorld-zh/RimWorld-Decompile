@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000388 RID: 904
+	// Token: 0x0200038A RID: 906
 	public class ListerFilthInHomeArea
 	{
 		// Token: 0x04000998 RID: 2456
@@ -14,14 +14,14 @@ namespace RimWorld
 		// Token: 0x04000999 RID: 2457
 		private List<Thing> filthInHomeArea = new List<Thing>();
 
-		// Token: 0x06000FAD RID: 4013 RVA: 0x00084168 File Offset: 0x00082568
+		// Token: 0x06000FB1 RID: 4017 RVA: 0x000842B8 File Offset: 0x000826B8
 		public ListerFilthInHomeArea(Map map)
 		{
 			this.map = map;
 		}
 
 		// Token: 0x1700023F RID: 575
-		// (get) Token: 0x06000FAE RID: 4014 RVA: 0x00084184 File Offset: 0x00082584
+		// (get) Token: 0x06000FB2 RID: 4018 RVA: 0x000842D4 File Offset: 0x000826D4
 		public List<Thing> FilthInHomeArea
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000FAF RID: 4015 RVA: 0x000841A0 File Offset: 0x000825A0
+		// Token: 0x06000FB3 RID: 4019 RVA: 0x000842F0 File Offset: 0x000826F0
 		public void RebuildAll()
 		{
 			this.filthInHomeArea.Clear();
@@ -40,7 +40,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000FB0 RID: 4016 RVA: 0x00084210 File Offset: 0x00082610
+		// Token: 0x06000FB4 RID: 4020 RVA: 0x00084360 File Offset: 0x00082760
 		public void Notify_FilthSpawned(Filth f)
 		{
 			if (this.map.areaManager.Home[f.Position])
@@ -49,7 +49,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000FB1 RID: 4017 RVA: 0x00084240 File Offset: 0x00082640
+		// Token: 0x06000FB5 RID: 4021 RVA: 0x00084390 File Offset: 0x00082790
 		public void Notify_FilthDespawned(Filth f)
 		{
 			for (int i = 0; i < this.filthInHomeArea.Count; i++)
@@ -62,7 +62,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000FB2 RID: 4018 RVA: 0x00084290 File Offset: 0x00082690
+		// Token: 0x06000FB6 RID: 4022 RVA: 0x000843E0 File Offset: 0x000827E0
 		public void Notify_HomeAreaChanged(IntVec3 c)
 		{
 			if (this.map.areaManager.Home[c])
@@ -89,7 +89,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000FB3 RID: 4019 RVA: 0x00084350 File Offset: 0x00082750
+		// Token: 0x06000FB7 RID: 4023 RVA: 0x000844A0 File Offset: 0x000828A0
 		internal string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

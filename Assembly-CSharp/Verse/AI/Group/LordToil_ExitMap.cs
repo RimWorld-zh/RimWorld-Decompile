@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x020009F3 RID: 2547
+	// Token: 0x020009F5 RID: 2549
 	public class LordToil_ExitMap : LordToil
 	{
-		// Token: 0x0600393C RID: 14652 RVA: 0x001E6C99 File Offset: 0x001E5099
+		// Token: 0x06003940 RID: 14656 RVA: 0x001E6DC5 File Offset: 0x001E51C5
 		public LordToil_ExitMap(LocomotionUrgency locomotion = LocomotionUrgency.None, bool canDig = false)
 		{
 			this.data = new LordToilData_ExitMap();
@@ -15,7 +15,7 @@ namespace Verse.AI.Group
 		}
 
 		// Token: 0x170008D6 RID: 2262
-		// (get) Token: 0x0600393D RID: 14653 RVA: 0x001E6CC8 File Offset: 0x001E50C8
+		// (get) Token: 0x06003941 RID: 14657 RVA: 0x001E6DF4 File Offset: 0x001E51F4
 		public override bool AllowSatisfyLongNeeds
 		{
 			get
@@ -25,7 +25,7 @@ namespace Verse.AI.Group
 		}
 
 		// Token: 0x170008D7 RID: 2263
-		// (get) Token: 0x0600393E RID: 14654 RVA: 0x001E6CE0 File Offset: 0x001E50E0
+		// (get) Token: 0x06003942 RID: 14658 RVA: 0x001E6E0C File Offset: 0x001E520C
 		public override bool AllowSelfTend
 		{
 			get
@@ -35,7 +35,7 @@ namespace Verse.AI.Group
 		}
 
 		// Token: 0x170008D8 RID: 2264
-		// (get) Token: 0x0600393F RID: 14655 RVA: 0x001E6CF8 File Offset: 0x001E50F8
+		// (get) Token: 0x06003943 RID: 14659 RVA: 0x001E6E24 File Offset: 0x001E5224
 		protected LordToilData_ExitMap Data
 		{
 			get
@@ -44,7 +44,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x06003940 RID: 14656 RVA: 0x001E6D18 File Offset: 0x001E5118
+		// Token: 0x06003944 RID: 14660 RVA: 0x001E6E44 File Offset: 0x001E5244
 		public override void UpdateAllDuties()
 		{
 			LordToilData_ExitMap data = this.Data;

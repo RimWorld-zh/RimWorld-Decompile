@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002E5 RID: 741
+	// Token: 0x020002E7 RID: 743
 	public class TimeAssignmentDef : Def
 	{
 		// Token: 0x040007C9 RID: 1993
@@ -20,7 +20,7 @@ namespace RimWorld
 		private Texture2D colorTextureInt;
 
 		// Token: 0x170001D4 RID: 468
-		// (get) Token: 0x06000C3D RID: 3133 RVA: 0x0006C9F0 File Offset: 0x0006ADF0
+		// (get) Token: 0x06000C41 RID: 3137 RVA: 0x0006CB40 File Offset: 0x0006AF40
 		public Texture2D ColorTexture
 		{
 			get

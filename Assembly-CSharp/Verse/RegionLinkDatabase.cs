@@ -4,13 +4,13 @@ using System.Text;
 
 namespace Verse
 {
-	// Token: 0x02000C8D RID: 3213
+	// Token: 0x02000C8F RID: 3215
 	public class RegionLinkDatabase
 	{
 		// Token: 0x0400300F RID: 12303
 		private Dictionary<ulong, RegionLink> links = new Dictionary<ulong, RegionLink>();
 
-		// Token: 0x06004691 RID: 18065 RVA: 0x00253EF8 File Offset: 0x002522F8
+		// Token: 0x06004694 RID: 18068 RVA: 0x00253FD4 File Offset: 0x002523D4
 		public RegionLink LinkFrom(EdgeSpan span)
 		{
 			ulong key = span.UniqueHashCode();
@@ -24,13 +24,13 @@ namespace Verse
 			return regionLink;
 		}
 
-		// Token: 0x06004692 RID: 18066 RVA: 0x00253F45 File Offset: 0x00252345
+		// Token: 0x06004695 RID: 18069 RVA: 0x00254021 File Offset: 0x00252421
 		public void Notify_LinkHasNoRegions(RegionLink link)
 		{
 			this.links.Remove(link.UniqueHashCode());
 		}
 
-		// Token: 0x06004693 RID: 18067 RVA: 0x00253F5C File Offset: 0x0025235C
+		// Token: 0x06004696 RID: 18070 RVA: 0x00254038 File Offset: 0x00252438
 		public void DebugLog()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

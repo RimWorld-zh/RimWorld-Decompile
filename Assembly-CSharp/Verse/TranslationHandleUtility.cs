@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Verse
 {
-	// Token: 0x02000BF7 RID: 3063
+	// Token: 0x02000BF9 RID: 3065
 	public static class TranslationHandleUtility
 	{
 		// Token: 0x04002DB9 RID: 11705
@@ -13,7 +13,7 @@ namespace Verse
 		// Token: 0x04002DBA RID: 11706
 		private static Regex StringFormatSymbolsRegex = new Regex("{[0-9]*}");
 
-		// Token: 0x060042F1 RID: 17137 RVA: 0x002373CC File Offset: 0x002357CC
+		// Token: 0x060042F4 RID: 17140 RVA: 0x002374A8 File Offset: 0x002358A8
 		public static int GetElementIndexByHandle(object list, string handle, int handleIndex)
 		{
 			if (list == null)
@@ -114,7 +114,7 @@ namespace Verse
 			}));
 		}
 
-		// Token: 0x060042F2 RID: 17138 RVA: 0x0023764C File Offset: 0x00235A4C
+		// Token: 0x060042F5 RID: 17141 RVA: 0x00237728 File Offset: 0x00235B28
 		public static string GetBestHandleWithIndexForListElement(object list, object element)
 		{
 			string result;
@@ -246,7 +246,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060042F3 RID: 17139 RVA: 0x002378CC File Offset: 0x00235CCC
+		// Token: 0x060042F6 RID: 17142 RVA: 0x002379A8 File Offset: 0x00235DA8
 		public static bool HandlesMatch(object item, string handle)
 		{
 			bool result;
@@ -290,7 +290,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060042F4 RID: 17140 RVA: 0x002379C0 File Offset: 0x00235DC0
+		// Token: 0x060042F7 RID: 17143 RVA: 0x00237A9C File Offset: 0x00235E9C
 		private static string NormalizedHandle(string handle)
 		{
 			string result;
@@ -333,7 +333,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060042F5 RID: 17141 RVA: 0x00237B14 File Offset: 0x00235F14
+		// Token: 0x060042F8 RID: 17144 RVA: 0x00237BF0 File Offset: 0x00235FF0
 		private static bool FieldInfosEqual(FieldInfo lhs, FieldInfo rhs)
 		{
 			return lhs.DeclaringType == rhs.DeclaringType && lhs.Name == rhs.Name;

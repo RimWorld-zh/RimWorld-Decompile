@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DE6 RID: 3558
+	// Token: 0x02000DE8 RID: 3560
 	public abstract class Mote : Thing
 	{
 		// Token: 0x040034D7 RID: 13527
@@ -39,8 +39,8 @@ namespace Verse
 		// Token: 0x040034E1 RID: 13537
 		protected const float MinSpeed = 0.02f;
 
-		// Token: 0x17000CED RID: 3309
-		// (set) Token: 0x06004FBE RID: 20414 RVA: 0x00142F2E File Offset: 0x0014132E
+		// Token: 0x17000CEC RID: 3308
+		// (set) Token: 0x06004FC2 RID: 20418 RVA: 0x0014307E File Offset: 0x0014147E
 		public float Scale
 		{
 			set
@@ -49,8 +49,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CEE RID: 3310
-		// (get) Token: 0x06004FBF RID: 20415 RVA: 0x00142F44 File Offset: 0x00141344
+		// Token: 0x17000CED RID: 3309
+		// (get) Token: 0x06004FC3 RID: 20419 RVA: 0x00143094 File Offset: 0x00141494
 		public float AgeSecs
 		{
 			get
@@ -68,8 +68,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CEF RID: 3311
-		// (get) Token: 0x06004FC0 RID: 20416 RVA: 0x00142F98 File Offset: 0x00141398
+		// Token: 0x17000CEE RID: 3310
+		// (get) Token: 0x06004FC4 RID: 20420 RVA: 0x001430E8 File Offset: 0x001414E8
 		public override Vector3 DrawPos
 		{
 			get
@@ -78,8 +78,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CF0 RID: 3312
-		// (get) Token: 0x06004FC1 RID: 20417 RVA: 0x00142FB4 File Offset: 0x001413B4
+		// Token: 0x17000CEF RID: 3311
+		// (get) Token: 0x06004FC5 RID: 20421 RVA: 0x00143104 File Offset: 0x00141504
 		protected virtual bool EndOfLife
 		{
 			get
@@ -88,8 +88,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CF1 RID: 3313
-		// (get) Token: 0x06004FC2 RID: 20418 RVA: 0x00142FE4 File Offset: 0x001413E4
+		// Token: 0x17000CF0 RID: 3312
+		// (get) Token: 0x06004FC6 RID: 20422 RVA: 0x00143134 File Offset: 0x00141534
 		public virtual float Alpha
 		{
 			get
@@ -123,7 +123,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FC3 RID: 20419 RVA: 0x0014310C File Offset: 0x0014150C
+		// Token: 0x06004FC7 RID: 20423 RVA: 0x0014325C File Offset: 0x0014165C
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -134,7 +134,7 @@ namespace Verse
 			this.exactPosition.y = this.def.altitudeLayer.AltitudeFor();
 		}
 
-		// Token: 0x06004FC4 RID: 20420 RVA: 0x00143174 File Offset: 0x00141574
+		// Token: 0x06004FC8 RID: 20424 RVA: 0x001432C4 File Offset: 0x001416C4
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			Map map = base.Map;
@@ -143,7 +143,7 @@ namespace Verse
 			map.moteCounter.Notify_MoteDespawned();
 		}
 
-		// Token: 0x06004FC5 RID: 20421 RVA: 0x001431A6 File Offset: 0x001415A6
+		// Token: 0x06004FC9 RID: 20425 RVA: 0x001432F6 File Offset: 0x001416F6
 		public override void Tick()
 		{
 			if (!this.def.mote.realTime)
@@ -152,7 +152,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FC6 RID: 20422 RVA: 0x001431C9 File Offset: 0x001415C9
+		// Token: 0x06004FCA RID: 20426 RVA: 0x00143319 File Offset: 0x00141719
 		public void RealtimeUpdate()
 		{
 			if (this.def.mote.realTime)
@@ -161,7 +161,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FC7 RID: 20423 RVA: 0x001431EC File Offset: 0x001415EC
+		// Token: 0x06004FCB RID: 20427 RVA: 0x0014333C File Offset: 0x0014173C
 		protected virtual void TimeInterval(float deltaTime)
 		{
 			if (this.EndOfLife && !base.Destroyed)
@@ -180,32 +180,32 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FC8 RID: 20424 RVA: 0x00143304 File Offset: 0x00141704
+		// Token: 0x06004FCC RID: 20428 RVA: 0x00143454 File Offset: 0x00141854
 		public override void Draw()
 		{
 			this.Draw(this.def.altitudeLayer.AltitudeFor());
 		}
 
-		// Token: 0x06004FC9 RID: 20425 RVA: 0x0014331D File Offset: 0x0014171D
+		// Token: 0x06004FCD RID: 20429 RVA: 0x0014346D File Offset: 0x0014186D
 		public void Draw(float altitude)
 		{
 			this.exactPosition.y = altitude;
 			base.Draw();
 		}
 
-		// Token: 0x06004FCA RID: 20426 RVA: 0x00143332 File Offset: 0x00141732
+		// Token: 0x06004FCE RID: 20430 RVA: 0x00143482 File Offset: 0x00141882
 		public void Maintain()
 		{
 			this.lastMaintainTick = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06004FCB RID: 20427 RVA: 0x00143345 File Offset: 0x00141745
+		// Token: 0x06004FCF RID: 20431 RVA: 0x00143495 File Offset: 0x00141895
 		public void Attach(TargetInfo a)
 		{
 			this.link1 = new MoteAttachLink(a);
 		}
 
-		// Token: 0x06004FCC RID: 20428 RVA: 0x00143354 File Offset: 0x00141754
+		// Token: 0x06004FD0 RID: 20432 RVA: 0x001434A4 File Offset: 0x001418A4
 		public override void Notify_MyMapRemoved()
 		{
 			base.Notify_MyMapRemoved();

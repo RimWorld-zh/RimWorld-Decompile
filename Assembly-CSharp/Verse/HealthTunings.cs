@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000CFC RID: 3324
+	// Token: 0x02000CFE RID: 3326
 	public class HealthTunings
 	{
 		// Token: 0x04003198 RID: 12696

@@ -4,10 +4,10 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000670 RID: 1648
+	// Token: 0x02000672 RID: 1650
 	public static class MinifyUtility
 	{
-		// Token: 0x0600229E RID: 8862 RVA: 0x0012AAF8 File Offset: 0x00128EF8
+		// Token: 0x060022A2 RID: 8866 RVA: 0x0012AC48 File Offset: 0x00129048
 		public static MinifiedThing MakeMinified(this Thing thing)
 		{
 			MinifiedThing result;
@@ -54,7 +54,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600229F RID: 8863 RVA: 0x0012AC10 File Offset: 0x00129010
+		// Token: 0x060022A3 RID: 8867 RVA: 0x0012AD60 File Offset: 0x00129160
 		public static Thing TryMakeMinified(this Thing thing)
 		{
 			Thing result;
@@ -69,7 +69,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060022A0 RID: 8864 RVA: 0x0012AC44 File Offset: 0x00129044
+		// Token: 0x060022A4 RID: 8868 RVA: 0x0012AD94 File Offset: 0x00129194
 		public static Thing GetInnerIfMinified(this Thing outerThing)
 		{
 			MinifiedThing minifiedThing = outerThing as MinifiedThing;
@@ -85,7 +85,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060022A1 RID: 8865 RVA: 0x0012AC74 File Offset: 0x00129074
+		// Token: 0x060022A5 RID: 8869 RVA: 0x0012ADC4 File Offset: 0x001291C4
 		public static MinifiedThing Uninstall(this Thing th)
 		{
 			MinifiedThing result;

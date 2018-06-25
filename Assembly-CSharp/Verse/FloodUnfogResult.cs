@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000C0D RID: 3085
+	// Token: 0x02000C0F RID: 3087
 	public struct FloodUnfogResult
 	{
 		// Token: 0x04002E20 RID: 11808

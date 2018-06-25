@@ -7,7 +7,7 @@ using Verse.AI.Group;
 
 namespace Verse
 {
-	// Token: 0x02000C00 RID: 3072
+	// Token: 0x02000C02 RID: 3074
 	public class CompressibilityDecider
 	{
 		// Token: 0x04002DFA RID: 11770
@@ -16,13 +16,13 @@ namespace Verse
 		// Token: 0x04002DFB RID: 11771
 		private HashSet<Thing> referencedThings = new HashSet<Thing>();
 
-		// Token: 0x0600433E RID: 17214 RVA: 0x00238BAC File Offset: 0x00236FAC
+		// Token: 0x06004341 RID: 17217 RVA: 0x00238C88 File Offset: 0x00237088
 		public CompressibilityDecider(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x0600433F RID: 17215 RVA: 0x00238BC8 File Offset: 0x00236FC8
+		// Token: 0x06004342 RID: 17218 RVA: 0x00238CA4 File Offset: 0x002370A4
 		public void DetermineReferences()
 		{
 			this.referencedThings.Clear();
@@ -90,7 +90,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004340 RID: 17216 RVA: 0x00238F08 File Offset: 0x00237308
+		// Token: 0x06004343 RID: 17219 RVA: 0x00238FE4 File Offset: 0x002373E4
 		public bool IsReferenced(Thing th)
 		{
 			return this.referencedThings.Contains(th);

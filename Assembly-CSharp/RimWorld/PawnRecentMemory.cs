@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000507 RID: 1287
+	// Token: 0x02000509 RID: 1289
 	public class PawnRecentMemory : IExposable
 	{
 		// Token: 0x04000DB9 RID: 3513
@@ -15,14 +15,14 @@ namespace RimWorld
 		// Token: 0x04000DBB RID: 3515
 		private int lastOutdoorTick = 999999;
 
-		// Token: 0x0600171F RID: 5919 RVA: 0x000CBC54 File Offset: 0x000CA054
+		// Token: 0x06001723 RID: 5923 RVA: 0x000CBDA4 File Offset: 0x000CA1A4
 		public PawnRecentMemory(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
 		// Token: 0x17000330 RID: 816
-		// (get) Token: 0x06001720 RID: 5920 RVA: 0x000CBC7C File Offset: 0x000CA07C
+		// (get) Token: 0x06001724 RID: 5924 RVA: 0x000CBDCC File Offset: 0x000CA1CC
 		public int TicksSinceLastLight
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000331 RID: 817
-		// (get) Token: 0x06001721 RID: 5921 RVA: 0x000CBCA4 File Offset: 0x000CA0A4
+		// (get) Token: 0x06001725 RID: 5925 RVA: 0x000CBDF4 File Offset: 0x000CA1F4
 		public int TicksSinceOutdoors
 		{
 			get
@@ -41,14 +41,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001722 RID: 5922 RVA: 0x000CBCCA File Offset: 0x000CA0CA
+		// Token: 0x06001726 RID: 5926 RVA: 0x000CBE1A File Offset: 0x000CA21A
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.lastLightTick, "lastLightTick", 999999, false);
 			Scribe_Values.Look<int>(ref this.lastOutdoorTick, "lastOutdoorTick", 999999, false);
 		}
 
-		// Token: 0x06001723 RID: 5923 RVA: 0x000CBCFC File Offset: 0x000CA0FC
+		// Token: 0x06001727 RID: 5927 RVA: 0x000CBE4C File Offset: 0x000CA24C
 		public void RecentMemoryInterval()
 		{
 			if (this.pawn.Spawned)
@@ -64,14 +64,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001724 RID: 5924 RVA: 0x000CBD70 File Offset: 0x000CA170
+		// Token: 0x06001728 RID: 5928 RVA: 0x000CBEC0 File Offset: 0x000CA2C0
 		private bool Outdoors()
 		{
 			Room room = this.pawn.GetRoom(RegionType.Set_Passable);
 			return room != null && room.PsychologicallyOutdoors;
 		}
 
-		// Token: 0x06001725 RID: 5925 RVA: 0x000CBDA1 File Offset: 0x000CA1A1
+		// Token: 0x06001729 RID: 5929 RVA: 0x000CBEF1 File Offset: 0x000CA2F1
 		public void Notify_Spawned(bool respawningAfterLoad)
 		{
 			this.lastLightTick = Find.TickManager.TicksGame;

@@ -2,20 +2,20 @@
 
 namespace Verse
 {
-	// Token: 0x02000CC7 RID: 3271
+	// Token: 0x02000CC9 RID: 3273
 	public abstract class ModSettings : IExposable
 	{
-		// Token: 0x17000B79 RID: 2937
-		// (get) Token: 0x06004865 RID: 18533 RVA: 0x00260EA4 File Offset: 0x0025F2A4
-		// (set) Token: 0x06004866 RID: 18534 RVA: 0x00260EBE File Offset: 0x0025F2BE
+		// Token: 0x17000B78 RID: 2936
+		// (get) Token: 0x06004868 RID: 18536 RVA: 0x00260F80 File Offset: 0x0025F380
+		// (set) Token: 0x06004869 RID: 18537 RVA: 0x00260F9A File Offset: 0x0025F39A
 		public Mod Mod { get; internal set; }
 
-		// Token: 0x06004867 RID: 18535 RVA: 0x00260EC7 File Offset: 0x0025F2C7
+		// Token: 0x0600486A RID: 18538 RVA: 0x00260FA3 File Offset: 0x0025F3A3
 		public virtual void ExposeData()
 		{
 		}
 
-		// Token: 0x06004868 RID: 18536 RVA: 0x00260ECA File Offset: 0x0025F2CA
+		// Token: 0x0600486B RID: 18539 RVA: 0x00260FA6 File Offset: 0x0025F3A6
 		public void Write()
 		{
 			LoadedModManager.WriteModSettings(this.Mod.Content.Identifier, this.Mod.GetType().Name, this);

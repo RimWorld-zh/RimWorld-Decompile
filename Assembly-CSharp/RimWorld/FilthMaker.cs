@@ -5,13 +5,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006C0 RID: 1728
+	// Token: 0x020006C2 RID: 1730
 	public static class FilthMaker
 	{
 		// Token: 0x040014BF RID: 5311
 		private static List<Filth> toBeRemoved = new List<Filth>();
 
-		// Token: 0x06002550 RID: 9552 RVA: 0x0014022C File Offset: 0x0013E62C
+		// Token: 0x06002554 RID: 9556 RVA: 0x0014037C File Offset: 0x0013E77C
 		public static void MakeFilth(IntVec3 c, Map map, ThingDef filthDef, int count = 1)
 		{
 			for (int i = 0; i < count; i++)
@@ -20,7 +20,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002551 RID: 9553 RVA: 0x0014025C File Offset: 0x0013E65C
+		// Token: 0x06002555 RID: 9557 RVA: 0x001403AC File Offset: 0x0013E7AC
 		public static bool MakeFilth(IntVec3 c, Map map, ThingDef filthDef, string source, int count = 1)
 		{
 			bool flag = false;
@@ -31,13 +31,13 @@ namespace RimWorld
 			return flag;
 		}
 
-		// Token: 0x06002552 RID: 9554 RVA: 0x0014029B File Offset: 0x0013E69B
+		// Token: 0x06002556 RID: 9558 RVA: 0x001403EB File Offset: 0x0013E7EB
 		public static void MakeFilth(IntVec3 c, Map map, ThingDef filthDef, IEnumerable<string> sources)
 		{
 			FilthMaker.MakeFilth(c, map, filthDef, sources, true);
 		}
 
-		// Token: 0x06002553 RID: 9555 RVA: 0x001402AC File Offset: 0x0013E6AC
+		// Token: 0x06002557 RID: 9559 RVA: 0x001403FC File Offset: 0x0013E7FC
 		private static bool MakeFilth(IntVec3 c, Map map, ThingDef filthDef, IEnumerable<string> sources, bool shouldPropagate)
 		{
 			Filth filth = (Filth)(from t in c.GetThingList(map)
@@ -86,7 +86,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002554 RID: 9556 RVA: 0x001403D8 File Offset: 0x0013E7D8
+		// Token: 0x06002558 RID: 9560 RVA: 0x00140528 File Offset: 0x0013E928
 		public static void RemoveAllFilth(IntVec3 c, Map map)
 		{
 			FilthMaker.toBeRemoved.Clear();

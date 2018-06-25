@@ -8,7 +8,7 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000E4E RID: 3662
+	// Token: 0x02000E50 RID: 3664
 	public class Window_DebugTable : Window
 	{
 		// Token: 0x04003917 RID: 14615
@@ -44,7 +44,7 @@ namespace Verse
 		// Token: 0x04003921 RID: 14625
 		private const float HiddenColumnWidth = 10f;
 
-		// Token: 0x06005663 RID: 22115 RVA: 0x002C89D0 File Offset: 0x002C6DD0
+		// Token: 0x06005667 RID: 22119 RVA: 0x002C8AFC File Offset: 0x002C6EFC
 		public Window_DebugTable(string[,] tables)
 		{
 			this.tableRaw = tables;
@@ -59,8 +59,8 @@ namespace Verse
 			this.BuildTableSorted();
 		}
 
-		// Token: 0x17000D86 RID: 3462
-		// (get) Token: 0x06005664 RID: 22116 RVA: 0x002C8A70 File Offset: 0x002C6E70
+		// Token: 0x17000D85 RID: 3461
+		// (get) Token: 0x06005668 RID: 22120 RVA: 0x002C8B9C File Offset: 0x002C6F9C
 		public override Vector2 InitialSize
 		{
 			get
@@ -69,7 +69,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005665 RID: 22117 RVA: 0x002C8A98 File Offset: 0x002C6E98
+		// Token: 0x06005669 RID: 22121 RVA: 0x002C8BC4 File Offset: 0x002C6FC4
 		private void BuildTableSorted()
 		{
 			if (this.sortMode == Window_DebugTable.SortMode.Off)
@@ -164,7 +164,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005666 RID: 22118 RVA: 0x002C8DAC File Offset: 0x002C71AC
+		// Token: 0x0600566A RID: 22122 RVA: 0x002C8ED8 File Offset: 0x002C72D8
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Font = GameFont.Tiny;
@@ -266,7 +266,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000E4F RID: 3663
+		// Token: 0x02000E51 RID: 3665
 		private enum SortMode
 		{
 			// Token: 0x04003923 RID: 14627
@@ -277,10 +277,10 @@ namespace Verse
 			Descending
 		}
 
-		// Token: 0x02000E50 RID: 3664
+		// Token: 0x02000E52 RID: 3666
 		public class NumericStringComparer : IComparer<string>
 		{
-			// Token: 0x0600566A RID: 22122 RVA: 0x002C9184 File Offset: 0x002C7584
+			// Token: 0x0600566E RID: 22126 RVA: 0x002C92B0 File Offset: 0x002C76B0
 			public int Compare(string x, string y)
 			{
 				if (x.Contains("~"))

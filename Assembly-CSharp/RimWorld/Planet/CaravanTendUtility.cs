@@ -4,13 +4,13 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005E1 RID: 1505
+	// Token: 0x020005E3 RID: 1507
 	public static class CaravanTendUtility
 	{
 		// Token: 0x040011A3 RID: 4515
 		private static List<Pawn> tmpPawnsNeedingTreatment = new List<Pawn>();
 
-		// Token: 0x06001DCB RID: 7627 RVA: 0x00100D80 File Offset: 0x000FF180
+		// Token: 0x06001DCF RID: 7631 RVA: 0x00100ED0 File Offset: 0x000FF2D0
 		public static void TryTendToRandomPawn(Caravan caravan)
 		{
 			CaravanTendUtility.FindPawnsNeedingTend(caravan, CaravanTendUtility.tmpPawnsNeedingTreatment);
@@ -33,7 +33,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DCC RID: 7628 RVA: 0x00100E18 File Offset: 0x000FF218
+		// Token: 0x06001DD0 RID: 7632 RVA: 0x00100F68 File Offset: 0x000FF368
 		private static void FindPawnsNeedingTend(Caravan caravan, List<Pawn> outPawnsNeedingTend)
 		{
 			outPawnsNeedingTend.Clear();
@@ -51,7 +51,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DCD RID: 7629 RVA: 0x00100E90 File Offset: 0x000FF290
+		// Token: 0x06001DD1 RID: 7633 RVA: 0x00100FE0 File Offset: 0x000FF3E0
 		private static Pawn FindBestDoctor(Caravan caravan, Pawn patient)
 		{
 			float num = 0f;

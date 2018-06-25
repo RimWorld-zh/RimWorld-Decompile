@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000D04 RID: 3332
+	// Token: 0x02000D06 RID: 3334
 	public class HediffCompProperties_Discoverable : HediffCompProperties
 	{
 		// Token: 0x040031EB RID: 12779
@@ -20,7 +20,7 @@ namespace Verse
 		// Token: 0x040031EF RID: 12783
 		public LetterDef letterType = null;
 
-		// Token: 0x060049A0 RID: 18848 RVA: 0x002693EA File Offset: 0x002677EA
+		// Token: 0x060049A3 RID: 18851 RVA: 0x002694C6 File Offset: 0x002678C6
 		public HediffCompProperties_Discoverable()
 		{
 			this.compClass = typeof(HediffComp_Discoverable);

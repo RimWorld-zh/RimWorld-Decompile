@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000595 RID: 1429
+	// Token: 0x02000597 RID: 1431
 	public class WorldLayer_Stars : WorldLayer
 	{
 		// Token: 0x04001018 RID: 4120
@@ -27,7 +27,7 @@ namespace RimWorld.Planet
 		private const float DistToSunToReduceStarSize = 0.8f;
 
 		// Token: 0x17000402 RID: 1026
-		// (get) Token: 0x06001B47 RID: 6983 RVA: 0x000EADD0 File Offset: 0x000E91D0
+		// (get) Token: 0x06001B4B RID: 6987 RVA: 0x000EAF20 File Offset: 0x000E9320
 		protected override int Layer
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000403 RID: 1027
-		// (get) Token: 0x06001B48 RID: 6984 RVA: 0x000EADEC File Offset: 0x000E91EC
+		// (get) Token: 0x06001B4C RID: 6988 RVA: 0x000EAF3C File Offset: 0x000E933C
 		public override bool ShouldRegenerate
 		{
 			get
@@ -47,7 +47,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000404 RID: 1028
-		// (get) Token: 0x06001B49 RID: 6985 RVA: 0x000EAE40 File Offset: 0x000E9240
+		// (get) Token: 0x06001B4D RID: 6989 RVA: 0x000EAF90 File Offset: 0x000E9390
 		private bool UseStaticRotation
 		{
 			get
@@ -57,7 +57,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000405 RID: 1029
-		// (get) Token: 0x06001B4A RID: 6986 RVA: 0x000EAE60 File Offset: 0x000E9260
+		// (get) Token: 0x06001B4E RID: 6990 RVA: 0x000EAFB0 File Offset: 0x000E93B0
 		protected override Quaternion Rotation
 		{
 			get
@@ -75,7 +75,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B4B RID: 6987 RVA: 0x000EAE98 File Offset: 0x000E9298
+		// Token: 0x06001B4F RID: 6991 RVA: 0x000EAFE8 File Offset: 0x000E93E8
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();

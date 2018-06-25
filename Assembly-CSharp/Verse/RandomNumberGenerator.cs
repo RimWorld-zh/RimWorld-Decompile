@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000FAD RID: 4013
+	// Token: 0x02000FB1 RID: 4017
 	public abstract class RandomNumberGenerator
 	{
-		// Token: 0x04003F82 RID: 16258
+		// Token: 0x04003F85 RID: 16261
 		public uint seed = (uint)DateTime.Now.GetHashCode();
 
-		// Token: 0x0600612A RID: 24874
+		// Token: 0x06006134 RID: 24884
 		public abstract int GetInt(uint iterations);
 
-		// Token: 0x0600612B RID: 24875 RVA: 0x003105B0 File Offset: 0x0030E9B0
+		// Token: 0x06006135 RID: 24885 RVA: 0x00310C30 File Offset: 0x0030F030
 		public float GetFloat(uint iterations)
 		{
 			return (float)(((double)this.GetInt(iterations) - -2147483648.0) / 4294967295.0);

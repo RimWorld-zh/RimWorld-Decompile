@@ -7,7 +7,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000832 RID: 2098
+	// Token: 0x02000834 RID: 2100
 	public class Page_SelectLandingSite : Page
 	{
 		// Token: 0x040019AA RID: 6570
@@ -16,7 +16,7 @@ namespace RimWorld
 		// Token: 0x040019AB RID: 6571
 		private const float UseTwoRowsIfScreenWidthBelow = 1340f;
 
-		// Token: 0x06002F78 RID: 12152 RVA: 0x0019692C File Offset: 0x00194D2C
+		// Token: 0x06002F7C RID: 12156 RVA: 0x00196A7C File Offset: 0x00194E7C
 		public Page_SelectLandingSite()
 		{
 			this.absorbInputAroundWindow = false;
@@ -25,7 +25,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000786 RID: 1926
-		// (get) Token: 0x06002F79 RID: 12153 RVA: 0x00196950 File Offset: 0x00194D50
+		// (get) Token: 0x06002F7D RID: 12157 RVA: 0x00196AA0 File Offset: 0x00194EA0
 		public override string PageTitle
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000787 RID: 1927
-		// (get) Token: 0x06002F7A RID: 12154 RVA: 0x00196970 File Offset: 0x00194D70
+		// (get) Token: 0x06002F7E RID: 12158 RVA: 0x00196AC0 File Offset: 0x00194EC0
 		public override Vector2 InitialSize
 		{
 			get
@@ -45,7 +45,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000788 RID: 1928
-		// (get) Token: 0x06002F7B RID: 12155 RVA: 0x0019698C File Offset: 0x00194D8C
+		// (get) Token: 0x06002F7F RID: 12159 RVA: 0x00196ADC File Offset: 0x00194EDC
 		protected override float Margin
 		{
 			get
@@ -54,7 +54,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F7C RID: 12156 RVA: 0x001969A6 File Offset: 0x00194DA6
+		// Token: 0x06002F80 RID: 12160 RVA: 0x00196AF6 File Offset: 0x00194EF6
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -63,7 +63,7 @@ namespace RimWorld
 			((MainButtonWorker_ToggleWorld)MainButtonDefOf.World.Worker).resetViewNextTime = true;
 		}
 
-		// Token: 0x06002F7D RID: 12157 RVA: 0x001969DE File Offset: 0x00194DDE
+		// Token: 0x06002F81 RID: 12161 RVA: 0x00196B2E File Offset: 0x00194F2E
 		public override void PostOpen()
 		{
 			base.PostOpen();
@@ -72,14 +72,14 @@ namespace RimWorld
 			TutorSystem.Notify_Event("PageStart-SelectLandingSite");
 		}
 
-		// Token: 0x06002F7E RID: 12158 RVA: 0x00196A0B File Offset: 0x00194E0B
+		// Token: 0x06002F82 RID: 12162 RVA: 0x00196B5B File Offset: 0x00194F5B
 		public override void PostClose()
 		{
 			base.PostClose();
 			Find.World.renderer.wantedMode = WorldRenderMode.None;
 		}
 
-		// Token: 0x06002F7F RID: 12159 RVA: 0x00196A24 File Offset: 0x00194E24
+		// Token: 0x06002F83 RID: 12163 RVA: 0x00196B74 File Offset: 0x00194F74
 		public override void DoWindowContents(Rect rect)
 		{
 			if (Find.WorldInterface.SelectedTile >= 0)
@@ -92,7 +92,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F80 RID: 12160 RVA: 0x00196A83 File Offset: 0x00194E83
+		// Token: 0x06002F84 RID: 12164 RVA: 0x00196BD3 File Offset: 0x00194FD3
 		public override void ExtraOnGUI()
 		{
 			base.ExtraOnGUI();
@@ -102,7 +102,7 @@ namespace RimWorld
 			this.DoCustomBottomButtons();
 		}
 
-		// Token: 0x06002F81 RID: 12161 RVA: 0x00196AC0 File Offset: 0x00194EC0
+		// Token: 0x06002F85 RID: 12165 RVA: 0x00196C10 File Offset: 0x00195010
 		protected override bool CanDoNext()
 		{
 			bool result;
@@ -136,7 +136,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002F82 RID: 12162 RVA: 0x00196B90 File Offset: 0x00194F90
+		// Token: 0x06002F86 RID: 12166 RVA: 0x00196CE0 File Offset: 0x001950E0
 		protected override void DoNext()
 		{
 			int selTile = Find.WorldInterface.SelectedTile;
@@ -147,7 +147,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002F83 RID: 12163 RVA: 0x00196BD4 File Offset: 0x00194FD4
+		// Token: 0x06002F87 RID: 12167 RVA: 0x00196D24 File Offset: 0x00195124
 		private void DoCustomBottomButtons()
 		{
 			int num = (!TutorSystem.TutorialMode) ? 5 : 4;

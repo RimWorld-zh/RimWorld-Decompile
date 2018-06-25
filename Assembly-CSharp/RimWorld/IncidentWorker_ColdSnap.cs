@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200032E RID: 814
+	// Token: 0x02000330 RID: 816
 	public class IncidentWorker_ColdSnap : IncidentWorker_MakeGameCondition
 	{
-		// Token: 0x06000DEA RID: 3562 RVA: 0x00076C50 File Offset: 0x00075050
+		// Token: 0x06000DEE RID: 3566 RVA: 0x00076DA0 File Offset: 0x000751A0
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;

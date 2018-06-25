@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002C6 RID: 710
+	// Token: 0x020002C8 RID: 712
 	public abstract class RoadDefGenStep
 	{
 		// Token: 0x040006FD RID: 1789
@@ -15,7 +15,7 @@ namespace RimWorld
 		// Token: 0x040006FF RID: 1791
 		public int periodicSpacing = 0;
 
-		// Token: 0x06000BD0 RID: 3024
+		// Token: 0x06000BD4 RID: 3028
 		public abstract void Place(Map map, IntVec3 position, TerrainDef rockDef, IntVec3 origin, GenStep_Roads.DistanceElement[,] distance);
 	}
 }

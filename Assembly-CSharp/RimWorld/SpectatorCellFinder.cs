@@ -6,7 +6,7 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020008FE RID: 2302
+	// Token: 0x02000900 RID: 2304
 	public static class SpectatorCellFinder
 	{
 		// Token: 0x04001CF4 RID: 7412
@@ -18,7 +18,7 @@ namespace RimWorld
 		// Token: 0x04001CF6 RID: 7414
 		private static List<IntVec3> usedCells = new List<IntVec3>();
 
-		// Token: 0x0600356D RID: 13677 RVA: 0x001CC4FC File Offset: 0x001CA8FC
+		// Token: 0x06003571 RID: 13681 RVA: 0x001CC63C File Offset: 0x001CAA3C
 		public static bool TryFindSpectatorCellFor(Pawn p, CellRect spectateRect, Map map, out IntVec3 cell, SpectateRectSide allowedSides = SpectateRectSide.All, int margin = 1, List<IntVec3> extraDisallowedCells = null)
 		{
 			spectateRect.ClipInsideMap(map);
@@ -172,13 +172,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600356E RID: 13678 RVA: 0x001CC6F4 File Offset: 0x001CAAF4
+		// Token: 0x06003572 RID: 13682 RVA: 0x001CC834 File Offset: 0x001CAC34
 		private static bool CorrectlyRotatedChairAt(IntVec3 x, Map map, CellRect spectateRect)
 		{
 			return SpectatorCellFinder.GetCorrectlyRotatedChairAt(x, map, spectateRect) != null;
 		}
 
-		// Token: 0x0600356F RID: 13679 RVA: 0x001CC718 File Offset: 0x001CAB18
+		// Token: 0x06003573 RID: 13683 RVA: 0x001CC858 File Offset: 0x001CAC58
 		private static Building GetCorrectlyRotatedChairAt(IntVec3 x, Map map, CellRect spectateRect)
 		{
 			Building result;
@@ -209,7 +209,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003570 RID: 13680 RVA: 0x001CC7C0 File Offset: 0x001CABC0
+		// Token: 0x06003574 RID: 13684 RVA: 0x001CC900 File Offset: 0x001CAD00
 		private static int DistanceToClosestChair(IntVec3 from, IntVec3 step, Map map, int maxDist, CellRect spectateRect)
 		{
 			int num = 0;
@@ -244,7 +244,7 @@ namespace RimWorld
 			return -1;
 		}
 
-		// Token: 0x06003571 RID: 13681 RVA: 0x001CC830 File Offset: 0x001CAC30
+		// Token: 0x06003575 RID: 13685 RVA: 0x001CC970 File Offset: 0x001CAD70
 		public static void DebugFlashPotentialSpectatorCells(CellRect spectateRect, Map map, SpectateRectSide allowedSides = SpectateRectSide.All, int margin = 1)
 		{
 			List<IntVec3> list = new List<IntVec3>();
@@ -281,7 +281,7 @@ namespace RimWorld
 			map.debugDrawer.FlashLine(spectateRect.CenterCell, centerCell, 50, SimpleColor.White);
 		}
 
-		// Token: 0x06003572 RID: 13682 RVA: 0x001CC9AC File Offset: 0x001CADAC
+		// Token: 0x06003576 RID: 13686 RVA: 0x001CCAEC File Offset: 0x001CAEEC
 		public static SpectateRectSide FindSingleBestSide(CellRect spectateRect, Map map, SpectateRectSide allowedSides = SpectateRectSide.All, int margin = 1)
 		{
 			for (int i = 0; i < SpectatorCellFinder.scorePerSide.Length; i++)

@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000239 RID: 569
+	// Token: 0x0200023B RID: 571
 	public static class ThingDefGenerator_Meat
 	{
-		// Token: 0x06000A45 RID: 2629 RVA: 0x0005CDA0 File Offset: 0x0005B1A0
+		// Token: 0x06000A49 RID: 2633 RVA: 0x0005CEF0 File Offset: 0x0005B2F0
 		public static IEnumerable<ThingDef> ImpliedMeatDefs()
 		{
 			foreach (ThingDef sourceDef in DefDatabase<ThingDef>.AllDefs.ToList<ThingDef>())
@@ -129,7 +129,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000A46 RID: 2630 RVA: 0x0005CDC4 File Offset: 0x0005B1C4
+		// Token: 0x06000A4A RID: 2634 RVA: 0x0005CF14 File Offset: 0x0005B314
 		private static float GetMeatMarketValue(ThingDef sourceDef)
 		{
 			float result;

@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000410 RID: 1040
+	// Token: 0x02000412 RID: 1042
 	public class GenStep_Turrets : GenStep
 	{
 		// Token: 0x04000AE3 RID: 2787
@@ -25,7 +25,7 @@ namespace RimWorld
 		private const int Padding = 7;
 
 		// Token: 0x17000265 RID: 613
-		// (get) Token: 0x060011E7 RID: 4583 RVA: 0x0009B624 File Offset: 0x00099A24
+		// (get) Token: 0x060011EB RID: 4587 RVA: 0x0009B774 File Offset: 0x00099B74
 		public override int SeedPart
 		{
 			get
@@ -34,7 +34,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011E8 RID: 4584 RVA: 0x0009B640 File Offset: 0x00099A40
+		// Token: 0x060011EC RID: 4588 RVA: 0x0009B790 File Offset: 0x00099B90
 		public override void Generate(Map map)
 		{
 			CellRect cellRect;
@@ -73,7 +73,7 @@ namespace RimWorld
 			BaseGen.Generate();
 		}
 
-		// Token: 0x060011E9 RID: 4585 RVA: 0x0009B7BC File Offset: 0x00099BBC
+		// Token: 0x060011ED RID: 4589 RVA: 0x0009B90C File Offset: 0x00099D0C
 		private CellRect FindRandomRectToDefend(Map map)
 		{
 			int rectRadius = Mathf.Max(Mathf.RoundToInt((float)Mathf.Min(map.Size.x, map.Size.z) * 0.07f), 1);

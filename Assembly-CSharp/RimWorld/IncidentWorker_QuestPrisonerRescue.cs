@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000355 RID: 853
+	// Token: 0x02000357 RID: 855
 	public class IncidentWorker_QuestPrisonerRescue : IncidentWorker
 	{
 		// Token: 0x0400090E RID: 2318
@@ -19,7 +19,7 @@ namespace RimWorld
 		// Token: 0x04000911 RID: 2321
 		private static readonly IntRange TimeoutDaysRange = new IntRange(15, 45);
 
-		// Token: 0x06000EC1 RID: 3777 RVA: 0x0007CB38 File Offset: 0x0007AF38
+		// Token: 0x06000EC5 RID: 3781 RVA: 0x0007CC88 File Offset: 0x0007B088
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			int num;
@@ -28,7 +28,7 @@ namespace RimWorld
 			return base.CanFireNowSub(parms) && Find.AnyPlayerHomeMap != null && this.TryFindTile(out num) && SiteMakerHelper.TryFindSiteParams_SingleSitePart(SiteCoreDefOf.PrisonerWillingToJoin, IncidentWorker_QuestPrisonerRescue.PrisonerRescueQuestThreatTag, out sitePartDef, out faction, null, true, null);
 		}
 
-		// Token: 0x06000EC2 RID: 3778 RVA: 0x0007CBAC File Offset: 0x0007AFAC
+		// Token: 0x06000EC6 RID: 3782 RVA: 0x0007CCFC File Offset: 0x0007B0FC
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			int tile;
@@ -62,13 +62,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000EC3 RID: 3779 RVA: 0x0007CC88 File Offset: 0x0007B088
+		// Token: 0x06000EC7 RID: 3783 RVA: 0x0007CDD8 File Offset: 0x0007B1D8
 		private bool TryFindTile(out int tile)
 		{
 			return TileFinder.TryFindNewSiteTile(out tile, 2, 18, false, false, -1);
 		}
 
-		// Token: 0x06000EC4 RID: 3780 RVA: 0x0007CCAC File Offset: 0x0007B0AC
+		// Token: 0x06000EC8 RID: 3784 RVA: 0x0007CDFC File Offset: 0x0007B1FC
 		private void GetLetterText(Pawn prisoner, Faction siteFaction, int days, out string letter, out string label)
 		{
 			letter = string.Format(this.def.letterText.AdjustedFor(prisoner, "PAWN"), siteFaction.Name, prisoner.ageTracker.AgeBiologicalYears, prisoner.story.Title).CapitalizeFirst();

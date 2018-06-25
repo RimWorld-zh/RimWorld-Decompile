@@ -7,13 +7,13 @@ using Verse.Sound;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005F6 RID: 1526
+	// Token: 0x020005F8 RID: 1528
 	public static class SettleInExistingMapUtility
 	{
 		// Token: 0x0400120E RID: 4622
 		private static List<Pawn> tmpPlayerPawns = new List<Pawn>();
 
-		// Token: 0x06001E63 RID: 7779 RVA: 0x001073E4 File Offset: 0x001057E4
+		// Token: 0x06001E67 RID: 7783 RVA: 0x00107534 File Offset: 0x00105934
 		public static Command SettleCommand(Map map, bool requiresNoEnemies)
 		{
 			Command_Settle command_Settle = new Command_Settle();
@@ -60,7 +60,7 @@ namespace RimWorld.Planet
 			return command_Settle;
 		}
 
-		// Token: 0x06001E64 RID: 7780 RVA: 0x00107540 File Offset: 0x00105940
+		// Token: 0x06001E68 RID: 7784 RVA: 0x00107690 File Offset: 0x00105A90
 		public static void Settle(Map map)
 		{
 			MapParent parent = map.Parent;

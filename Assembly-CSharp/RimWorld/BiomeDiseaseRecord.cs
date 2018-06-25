@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200028C RID: 652
+	// Token: 0x0200028E RID: 654
 	public class BiomeDiseaseRecord
 	{
 		// Token: 0x0400056A RID: 1386

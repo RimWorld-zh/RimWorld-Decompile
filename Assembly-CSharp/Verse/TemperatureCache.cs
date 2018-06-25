@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000CA8 RID: 3240
+	// Token: 0x02000CAA RID: 3242
 	public sealed class TemperatureCache : IExposable
 	{
 		// Token: 0x04003077 RID: 12407
@@ -21,7 +21,7 @@ namespace Verse
 		// Token: 0x0400307B RID: 12411
 		private List<CachedTempInfo> relevantTempInfoList = new List<CachedTempInfo>();
 
-		// Token: 0x06004778 RID: 18296 RVA: 0x0025B49C File Offset: 0x0025989C
+		// Token: 0x0600477B RID: 18299 RVA: 0x0025B578 File Offset: 0x00259978
 		public TemperatureCache(Map map)
 		{
 			this.map = map;
@@ -29,7 +29,7 @@ namespace Verse
 			this.temperatureSaveLoad = new TemperatureSaveLoad(map);
 		}
 
-		// Token: 0x06004779 RID: 18297 RVA: 0x0025B4F0 File Offset: 0x002598F0
+		// Token: 0x0600477C RID: 18300 RVA: 0x0025B5CC File Offset: 0x002599CC
 		public void ResetTemperatureCache()
 		{
 			int numGridCells = this.map.cellIndices.NumGridCells;
@@ -39,25 +39,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600477A RID: 18298 RVA: 0x0025B534 File Offset: 0x00259934
+		// Token: 0x0600477D RID: 18301 RVA: 0x0025B610 File Offset: 0x00259A10
 		public void ExposeData()
 		{
 			this.temperatureSaveLoad.DoExposeWork();
 		}
 
-		// Token: 0x0600477B RID: 18299 RVA: 0x0025B542 File Offset: 0x00259942
+		// Token: 0x0600477E RID: 18302 RVA: 0x0025B61E File Offset: 0x00259A1E
 		public void ResetCachedCellInfo(IntVec3 c)
 		{
 			this.tempCache[this.map.cellIndices.CellToIndex(c)].Reset();
 		}
 
-		// Token: 0x0600477C RID: 18300 RVA: 0x0025B566 File Offset: 0x00259966
+		// Token: 0x0600477F RID: 18303 RVA: 0x0025B642 File Offset: 0x00259A42
 		private void SetCachedCellInfo(IntVec3 c, CachedTempInfo info)
 		{
 			this.tempCache[this.map.cellIndices.CellToIndex(c)] = info;
 		}
 
-		// Token: 0x0600477D RID: 18301 RVA: 0x0025B58C File Offset: 0x0025998C
+		// Token: 0x06004780 RID: 18304 RVA: 0x0025B668 File Offset: 0x00259A68
 		public void TryCacheRegionTempInfo(IntVec3 c, Region reg)
 		{
 			Room room = reg.Room;
@@ -68,7 +68,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600477E RID: 18302 RVA: 0x0025B5D0 File Offset: 0x002599D0
+		// Token: 0x06004781 RID: 18305 RVA: 0x0025B6AC File Offset: 0x00259AAC
 		public bool TryGetAverageCachedRoomGroupTemp(RoomGroup r, out float result)
 		{
 			CellIndices cellIndices = this.map.cellIndices;

@@ -6,14 +6,14 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005E6 RID: 1510
+	// Token: 0x020005E8 RID: 1512
 	[StaticConstructorOnStartup]
 	public static class CaravanVisitUtility
 	{
 		// Token: 0x040011B0 RID: 4528
 		private static readonly Texture2D TradeCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/Trade", true);
 
-		// Token: 0x06001DE7 RID: 7655 RVA: 0x00101A54 File Offset: 0x000FFE54
+		// Token: 0x06001DEB RID: 7659 RVA: 0x00101BA4 File Offset: 0x000FFFA4
 		public static Settlement SettlementVisitedNow(Caravan caravan)
 		{
 			Settlement result;
@@ -37,7 +37,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DE8 RID: 7656 RVA: 0x00101AF0 File Offset: 0x000FFEF0
+		// Token: 0x06001DEC RID: 7660 RVA: 0x00101C40 File Offset: 0x00100040
 		public static Command TradeCommand(Caravan caravan)
 		{
 			Pawn bestNegotiator = BestCaravanPawnUtility.FindBestNegotiator(caravan);

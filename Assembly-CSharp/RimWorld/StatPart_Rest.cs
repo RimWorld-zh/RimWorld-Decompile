@@ -3,22 +3,22 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009B3 RID: 2483
+	// Token: 0x020009B5 RID: 2485
 	public class StatPart_Rest : StatPart
 	{
-		// Token: 0x040023B4 RID: 9140
+		// Token: 0x040023B5 RID: 9141
 		private float factorExhausted = 1f;
 
-		// Token: 0x040023B5 RID: 9141
+		// Token: 0x040023B6 RID: 9142
 		private float factorVeryTired = 1f;
 
-		// Token: 0x040023B6 RID: 9142
+		// Token: 0x040023B7 RID: 9143
 		private float factorTired = 1f;
 
-		// Token: 0x040023B7 RID: 9143
+		// Token: 0x040023B8 RID: 9144
 		private float factorRested = 1f;
 
-		// Token: 0x060037A7 RID: 14247 RVA: 0x001DA6BC File Offset: 0x001D8ABC
+		// Token: 0x060037AB RID: 14251 RVA: 0x001DA7FC File Offset: 0x001D8BFC
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing)
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037A8 RID: 14248 RVA: 0x001DA718 File Offset: 0x001D8B18
+		// Token: 0x060037AC RID: 14252 RVA: 0x001DA858 File Offset: 0x001D8C58
 		public override string ExplanationPart(StatRequest req)
 		{
 			if (req.HasThing)
@@ -45,7 +45,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x060037A9 RID: 14249 RVA: 0x001DA7A0 File Offset: 0x001D8BA0
+		// Token: 0x060037AD RID: 14253 RVA: 0x001DA8E0 File Offset: 0x001D8CE0
 		private float RestMultiplier(RestCategory fatigue)
 		{
 			float result;

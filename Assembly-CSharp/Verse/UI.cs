@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EA9 RID: 3753
+	// Token: 0x02000EAB RID: 3755
 	public static class UI
 	{
 		// Token: 0x04003AFC RID: 15100
@@ -12,8 +12,8 @@ namespace Verse
 		// Token: 0x04003AFD RID: 15101
 		public static int screenHeight;
 
-		// Token: 0x17000DF7 RID: 3575
-		// (get) Token: 0x06005884 RID: 22660 RVA: 0x002D68EC File Offset: 0x002D4CEC
+		// Token: 0x17000DF6 RID: 3574
+		// (get) Token: 0x06005888 RID: 22664 RVA: 0x002D6A18 File Offset: 0x002D4E18
 		public static Vector2 MousePositionOnUI
 		{
 			get
@@ -22,8 +22,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DF8 RID: 3576
-		// (get) Token: 0x06005885 RID: 22661 RVA: 0x002D6918 File Offset: 0x002D4D18
+		// Token: 0x17000DF7 RID: 3575
+		// (get) Token: 0x06005889 RID: 22665 RVA: 0x002D6A44 File Offset: 0x002D4E44
 		public static Vector2 MousePositionOnUIInverted
 		{
 			get
@@ -34,8 +34,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DF9 RID: 3577
-		// (get) Token: 0x06005886 RID: 22662 RVA: 0x002D694C File Offset: 0x002D4D4C
+		// Token: 0x17000DF8 RID: 3576
+		// (get) Token: 0x0600588A RID: 22666 RVA: 0x002D6A78 File Offset: 0x002D4E78
 		public static Vector2 MousePosUIInvertedUseEventIfCan
 		{
 			get
@@ -53,7 +53,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005887 RID: 22663 RVA: 0x002D6988 File Offset: 0x002D4D88
+		// Token: 0x0600588B RID: 22667 RVA: 0x002D6AB4 File Offset: 0x002D4EB4
 		public static void ApplyUIScale()
 		{
 			if (Prefs.UIScale == 1f || !LongEventHandler.CanApplyUIScaleNow)
@@ -71,58 +71,58 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005888 RID: 22664 RVA: 0x002D6A33 File Offset: 0x002D4E33
+		// Token: 0x0600588C RID: 22668 RVA: 0x002D6B5F File Offset: 0x002D4F5F
 		public static void FocusControl(string controlName, Window window)
 		{
 			GUI.FocusControl(controlName);
 			Find.WindowStack.Notify_ManuallySetFocus(window);
 		}
 
-		// Token: 0x06005889 RID: 22665 RVA: 0x002D6A47 File Offset: 0x002D4E47
+		// Token: 0x0600588D RID: 22669 RVA: 0x002D6B73 File Offset: 0x002D4F73
 		public static void UnfocusCurrentControl()
 		{
 			GUI.FocusControl(null);
 		}
 
-		// Token: 0x0600588A RID: 22666 RVA: 0x002D6A50 File Offset: 0x002D4E50
+		// Token: 0x0600588E RID: 22670 RVA: 0x002D6B7C File Offset: 0x002D4F7C
 		public static Vector2 GUIToScreenPoint(Vector2 guiPoint)
 		{
 			return GUIUtility.GUIToScreenPoint(guiPoint / Prefs.UIScale);
 		}
 
-		// Token: 0x0600588B RID: 22667 RVA: 0x002D6A75 File Offset: 0x002D4E75
+		// Token: 0x0600588F RID: 22671 RVA: 0x002D6BA1 File Offset: 0x002D4FA1
 		public static void RotateAroundPivot(float angle, Vector2 center)
 		{
 			GUIUtility.RotateAroundPivot(angle, center * Prefs.UIScale);
 		}
 
-		// Token: 0x0600588C RID: 22668 RVA: 0x002D6A8C File Offset: 0x002D4E8C
+		// Token: 0x06005890 RID: 22672 RVA: 0x002D6BB8 File Offset: 0x002D4FB8
 		public static Vector2 MapToUIPosition(this Vector3 v)
 		{
 			Vector3 vector = Find.Camera.WorldToScreenPoint(v) / Prefs.UIScale;
 			return new Vector2(vector.x, (float)UI.screenHeight - vector.y);
 		}
 
-		// Token: 0x0600588D RID: 22669 RVA: 0x002D6AD4 File Offset: 0x002D4ED4
+		// Token: 0x06005891 RID: 22673 RVA: 0x002D6C00 File Offset: 0x002D5000
 		public static Vector3 UIToMapPosition(float x, float y)
 		{
 			return UI.UIToMapPosition(new Vector2(x, y));
 		}
 
-		// Token: 0x0600588E RID: 22670 RVA: 0x002D6AF8 File Offset: 0x002D4EF8
+		// Token: 0x06005892 RID: 22674 RVA: 0x002D6C24 File Offset: 0x002D5024
 		public static Vector3 UIToMapPosition(Vector2 screenLoc)
 		{
 			Ray ray = Find.Camera.ScreenPointToRay(screenLoc * Prefs.UIScale);
 			return new Vector3(ray.origin.x, 0f, ray.origin.z);
 		}
 
-		// Token: 0x0600588F RID: 22671 RVA: 0x002D6B50 File Offset: 0x002D4F50
+		// Token: 0x06005893 RID: 22675 RVA: 0x002D6C7C File Offset: 0x002D507C
 		public static Vector3 MouseMapPosition()
 		{
 			return UI.UIToMapPosition(UI.MousePositionOnUI);
 		}
 
-		// Token: 0x06005890 RID: 22672 RVA: 0x002D6B70 File Offset: 0x002D4F70
+		// Token: 0x06005894 RID: 22676 RVA: 0x002D6C9C File Offset: 0x002D509C
 		public static IntVec3 MouseCell()
 		{
 			return UI.UIToMapPosition(UI.MousePositionOnUI).ToIntVec3();

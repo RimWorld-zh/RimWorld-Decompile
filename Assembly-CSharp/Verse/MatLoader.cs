@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F62 RID: 3938
+	// Token: 0x02000F66 RID: 3942
 	public static class MatLoader
 	{
-		// Token: 0x04003E79 RID: 15993
+		// Token: 0x04003E7C RID: 15996
 		private static Dictionary<MatLoader.Request, Material> dict = new Dictionary<MatLoader.Request, Material>();
 
-		// Token: 0x06005F4E RID: 24398 RVA: 0x00309880 File Offset: 0x00307C80
+		// Token: 0x06005F58 RID: 24408 RVA: 0x00309F00 File Offset: 0x00308300
 		public static Material LoadMat(string matPath, int renderQueue = -1)
 		{
 			Material material = (Material)Resources.Load("Materials/" + matPath, typeof(Material));
@@ -36,16 +36,16 @@ namespace Verse
 			return material2;
 		}
 
-		// Token: 0x02000F63 RID: 3939
+		// Token: 0x02000F67 RID: 3943
 		private struct Request
 		{
-			// Token: 0x04003E7A RID: 15994
+			// Token: 0x04003E7D RID: 15997
 			public string path;
 
-			// Token: 0x04003E7B RID: 15995
+			// Token: 0x04003E7E RID: 15998
 			public int renderQueue;
 
-			// Token: 0x06005F50 RID: 24400 RVA: 0x00309930 File Offset: 0x00307D30
+			// Token: 0x06005F5A RID: 24410 RVA: 0x00309FB0 File Offset: 0x003083B0
 			public override int GetHashCode()
 			{
 				int seed = 0;
@@ -53,31 +53,31 @@ namespace Verse
 				return Gen.HashCombineInt(seed, this.renderQueue);
 			}
 
-			// Token: 0x06005F51 RID: 24401 RVA: 0x00309964 File Offset: 0x00307D64
+			// Token: 0x06005F5B RID: 24411 RVA: 0x00309FE4 File Offset: 0x003083E4
 			public override bool Equals(object obj)
 			{
 				return obj is MatLoader.Request && this.Equals((MatLoader.Request)obj);
 			}
 
-			// Token: 0x06005F52 RID: 24402 RVA: 0x00309998 File Offset: 0x00307D98
+			// Token: 0x06005F5C RID: 24412 RVA: 0x0030A018 File Offset: 0x00308418
 			public bool Equals(MatLoader.Request other)
 			{
 				return other.path == this.path && other.renderQueue == this.renderQueue;
 			}
 
-			// Token: 0x06005F53 RID: 24403 RVA: 0x003099D8 File Offset: 0x00307DD8
+			// Token: 0x06005F5D RID: 24413 RVA: 0x0030A058 File Offset: 0x00308458
 			public static bool operator ==(MatLoader.Request lhs, MatLoader.Request rhs)
 			{
 				return lhs.Equals(rhs);
 			}
 
-			// Token: 0x06005F54 RID: 24404 RVA: 0x003099F8 File Offset: 0x00307DF8
+			// Token: 0x06005F5E RID: 24414 RVA: 0x0030A078 File Offset: 0x00308478
 			public static bool operator !=(MatLoader.Request lhs, MatLoader.Request rhs)
 			{
 				return !(lhs == rhs);
 			}
 
-			// Token: 0x06005F55 RID: 24405 RVA: 0x00309A18 File Offset: 0x00307E18
+			// Token: 0x06005F5F RID: 24415 RVA: 0x0030A098 File Offset: 0x00308498
 			public override string ToString()
 			{
 				return string.Concat(new object[]

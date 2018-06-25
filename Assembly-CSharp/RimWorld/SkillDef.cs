@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002D4 RID: 724
+	// Token: 0x020002D6 RID: 726
 	public class SkillDef : Def
 	{
 		// Token: 0x04000734 RID: 1844
@@ -21,7 +21,7 @@ namespace RimWorld
 		// Token: 0x04000737 RID: 1847
 		public WorkTags disablingWorkTags = WorkTags.None;
 
-		// Token: 0x06000BFA RID: 3066 RVA: 0x0006A5D8 File Offset: 0x000689D8
+		// Token: 0x06000BFE RID: 3070 RVA: 0x0006A728 File Offset: 0x00068B28
 		public override void PostLoad()
 		{
 			if (this.label == null)
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000BFB RID: 3067 RVA: 0x0006A5F4 File Offset: 0x000689F4
+		// Token: 0x06000BFF RID: 3071 RVA: 0x0006A744 File Offset: 0x00068B44
 		public bool IsDisabled(WorkTags combinedDisabledWorkTags, IEnumerable<WorkTypeDef> disabledWorkTypes)
 		{
 			bool result;

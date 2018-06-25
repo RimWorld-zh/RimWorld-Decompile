@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B8E RID: 2958
+	// Token: 0x02000B90 RID: 2960
 	public class SoundParamSource_SourceAge : SoundParamSource
 	{
 		// Token: 0x04002B20 RID: 11040
 		public TimeType timeType = TimeType.Ticks;
 
-		// Token: 0x170009CD RID: 2509
-		// (get) Token: 0x06004045 RID: 16453 RVA: 0x0021CF54 File Offset: 0x0021B354
+		// Token: 0x170009CC RID: 2508
+		// (get) Token: 0x06004048 RID: 16456 RVA: 0x0021D030 File Offset: 0x0021B430
 		public override string Label
 		{
 			get
@@ -19,7 +19,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004046 RID: 16454 RVA: 0x0021CF70 File Offset: 0x0021B370
+		// Token: 0x06004049 RID: 16457 RVA: 0x0021D04C File Offset: 0x0021B44C
 		public override float ValueFor(Sample samp)
 		{
 			float result;

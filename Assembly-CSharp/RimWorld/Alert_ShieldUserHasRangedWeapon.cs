@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007A5 RID: 1957
+	// Token: 0x020007A7 RID: 1959
 	public class Alert_ShieldUserHasRangedWeapon : Alert
 	{
-		// Token: 0x06002B51 RID: 11089 RVA: 0x0016E2ED File Offset: 0x0016C6ED
+		// Token: 0x06002B55 RID: 11093 RVA: 0x0016E43D File Offset: 0x0016C83D
 		public Alert_ShieldUserHasRangedWeapon()
 		{
 			this.defaultLabel = "ShieldUserHasRangedWeapon".Translate();
@@ -15,7 +15,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006BB RID: 1723
-		// (get) Token: 0x06002B52 RID: 11090 RVA: 0x0016E318 File Offset: 0x0016C718
+		// (get) Token: 0x06002B56 RID: 11094 RVA: 0x0016E468 File Offset: 0x0016C868
 		private IEnumerable<Pawn> ShieldUsersWithRangedWeapon
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B53 RID: 11091 RVA: 0x0016E33C File Offset: 0x0016C73C
+		// Token: 0x06002B57 RID: 11095 RVA: 0x0016E48C File Offset: 0x0016C88C
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.ShieldUsersWithRangedWeapon);

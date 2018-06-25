@@ -2,26 +2,26 @@
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F7D RID: 3965
+	// Token: 0x02000F81 RID: 3969
 	public class Spheres : ModuleBase
 	{
-		// Token: 0x04003EE9 RID: 16105
+		// Token: 0x04003EEC RID: 16108
 		private double m_frequency = 1.0;
 
-		// Token: 0x06005FC4 RID: 24516 RVA: 0x0030BB46 File Offset: 0x00309F46
+		// Token: 0x06005FCE RID: 24526 RVA: 0x0030C1C6 File Offset: 0x0030A5C6
 		public Spheres() : base(0)
 		{
 		}
 
-		// Token: 0x06005FC5 RID: 24517 RVA: 0x0030BB5F File Offset: 0x00309F5F
+		// Token: 0x06005FCF RID: 24527 RVA: 0x0030C1DF File Offset: 0x0030A5DF
 		public Spheres(double frequency) : base(0)
 		{
 			this.Frequency = frequency;
 		}
 
-		// Token: 0x17000F5E RID: 3934
-		// (get) Token: 0x06005FC6 RID: 24518 RVA: 0x0030BB80 File Offset: 0x00309F80
-		// (set) Token: 0x06005FC7 RID: 24519 RVA: 0x0030BB9B File Offset: 0x00309F9B
+		// Token: 0x17000F5D RID: 3933
+		// (get) Token: 0x06005FD0 RID: 24528 RVA: 0x0030C200 File Offset: 0x0030A600
+		// (set) Token: 0x06005FD1 RID: 24529 RVA: 0x0030C21B File Offset: 0x0030A61B
 		public double Frequency
 		{
 			get
@@ -34,7 +34,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06005FC8 RID: 24520 RVA: 0x0030BBA8 File Offset: 0x00309FA8
+		// Token: 0x06005FD2 RID: 24530 RVA: 0x0030C228 File Offset: 0x0030A628
 		public override double GetValue(double x, double y, double z)
 		{
 			x *= this.m_frequency;

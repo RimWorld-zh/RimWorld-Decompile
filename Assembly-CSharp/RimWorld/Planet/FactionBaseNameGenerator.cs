@@ -4,13 +4,13 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005FE RID: 1534
+	// Token: 0x02000600 RID: 1536
 	public static class FactionBaseNameGenerator
 	{
 		// Token: 0x04001217 RID: 4631
 		private static List<string> usedNames = new List<string>();
 
-		// Token: 0x06001E8C RID: 7820 RVA: 0x0010B854 File Offset: 0x00109C54
+		// Token: 0x06001E90 RID: 7824 RVA: 0x0010B9A4 File Offset: 0x00109DA4
 		public static string GenerateFactionBaseName(FactionBase factionBase, RulePackDef rulePack = null)
 		{
 			if (rulePack == null)

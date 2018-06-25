@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000AFF RID: 2815
+	// Token: 0x02000B01 RID: 2817
 	public class BodyPartTagDef : Def
 	{
-		// Token: 0x04002784 RID: 10116
+		// Token: 0x04002785 RID: 10117
 		public bool vital = false;
 	}
 }

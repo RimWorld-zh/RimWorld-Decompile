@@ -6,19 +6,19 @@ using System.Threading;
 
 namespace Verse
 {
-	// Token: 0x02000F11 RID: 3857
+	// Token: 0x02000F15 RID: 3861
 	public class ThreadLocalDeepProfiler
 	{
-		// Token: 0x04003D75 RID: 15733
+		// Token: 0x04003D78 RID: 15736
 		private Stack<ThreadLocalDeepProfiler.Watcher> watchers = new Stack<ThreadLocalDeepProfiler.Watcher>();
 
-		// Token: 0x04003D76 RID: 15734
+		// Token: 0x04003D79 RID: 15737
 		private static readonly string[] Prefixes = new string[50];
 
-		// Token: 0x04003D77 RID: 15735
+		// Token: 0x04003D7A RID: 15738
 		private const int MaxDepth = 50;
 
-		// Token: 0x06005C96 RID: 23702 RVA: 0x002F0290 File Offset: 0x002EE690
+		// Token: 0x06005CA0 RID: 23712 RVA: 0x002F0910 File Offset: 0x002EED10
 		static ThreadLocalDeepProfiler()
 		{
 			for (int i = 0; i < 50; i++)
@@ -33,7 +33,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005C98 RID: 23704 RVA: 0x002F030A File Offset: 0x002EE70A
+		// Token: 0x06005CA2 RID: 23714 RVA: 0x002F098A File Offset: 0x002EED8A
 		public void Start(string label = null)
 		{
 			if (Prefs.LogVerbose)
@@ -42,7 +42,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005C99 RID: 23705 RVA: 0x002F0330 File Offset: 0x002EE730
+		// Token: 0x06005CA3 RID: 23715 RVA: 0x002F09B0 File Offset: 0x002EEDB0
 		public void End()
 		{
 			if (Prefs.LogVerbose)
@@ -67,7 +67,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005C9A RID: 23706 RVA: 0x002F03B4 File Offset: 0x002EE7B4
+		// Token: 0x06005CA4 RID: 23716 RVA: 0x002F0A34 File Offset: 0x002EEE34
 		private void Output(ThreadLocalDeepProfiler.Watcher root)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -83,7 +83,7 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06005C9B RID: 23707 RVA: 0x002F0420 File Offset: 0x002EE820
+		// Token: 0x06005CA5 RID: 23717 RVA: 0x002F0AA0 File Offset: 0x002EEEA0
 		private void AppendStringRecursive(StringBuilder sb, ThreadLocalDeepProfiler.Watcher w, int depth)
 		{
 			sb.AppendLine(string.Concat(new object[]
@@ -103,19 +103,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000F12 RID: 3858
+		// Token: 0x02000F16 RID: 3862
 		private class Watcher
 		{
-			// Token: 0x04003D78 RID: 15736
+			// Token: 0x04003D7B RID: 15739
 			private string label;
 
-			// Token: 0x04003D79 RID: 15737
+			// Token: 0x04003D7C RID: 15740
 			private Stopwatch watch;
 
-			// Token: 0x04003D7A RID: 15738
+			// Token: 0x04003D7D RID: 15741
 			private List<ThreadLocalDeepProfiler.Watcher> children;
 
-			// Token: 0x06005C9C RID: 23708 RVA: 0x002F04B7 File Offset: 0x002EE8B7
+			// Token: 0x06005CA6 RID: 23718 RVA: 0x002F0B37 File Offset: 0x002EEF37
 			public Watcher(string label)
 			{
 				this.label = label;
@@ -123,8 +123,8 @@ namespace Verse
 				this.children = null;
 			}
 
-			// Token: 0x17000EDD RID: 3805
-			// (get) Token: 0x06005C9D RID: 23709 RVA: 0x002F04DC File Offset: 0x002EE8DC
+			// Token: 0x17000EDC RID: 3804
+			// (get) Token: 0x06005CA7 RID: 23719 RVA: 0x002F0B5C File Offset: 0x002EEF5C
 			public string Label
 			{
 				get
@@ -133,8 +133,8 @@ namespace Verse
 				}
 			}
 
-			// Token: 0x17000EDE RID: 3806
-			// (get) Token: 0x06005C9E RID: 23710 RVA: 0x002F04F8 File Offset: 0x002EE8F8
+			// Token: 0x17000EDD RID: 3805
+			// (get) Token: 0x06005CA8 RID: 23720 RVA: 0x002F0B78 File Offset: 0x002EEF78
 			public Stopwatch Watch
 			{
 				get
@@ -143,8 +143,8 @@ namespace Verse
 				}
 			}
 
-			// Token: 0x17000EDF RID: 3807
-			// (get) Token: 0x06005C9F RID: 23711 RVA: 0x002F0514 File Offset: 0x002EE914
+			// Token: 0x17000EDE RID: 3806
+			// (get) Token: 0x06005CA9 RID: 23721 RVA: 0x002F0B94 File Offset: 0x002EEF94
 			public List<ThreadLocalDeepProfiler.Watcher> Children
 			{
 				get
@@ -153,7 +153,7 @@ namespace Verse
 				}
 			}
 
-			// Token: 0x06005CA0 RID: 23712 RVA: 0x002F052F File Offset: 0x002EE92F
+			// Token: 0x06005CAA RID: 23722 RVA: 0x002F0BAF File Offset: 0x002EEFAF
 			public void AddChildResult(ThreadLocalDeepProfiler.Watcher w)
 			{
 				if (this.children == null)

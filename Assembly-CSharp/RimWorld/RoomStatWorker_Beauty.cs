@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200043B RID: 1083
+	// Token: 0x0200043D RID: 1085
 	public class RoomStatWorker_Beauty : RoomStatWorker
 	{
 		// Token: 0x04000B71 RID: 2929
@@ -30,7 +30,7 @@ namespace RimWorld
 		// Token: 0x04000B73 RID: 2931
 		private static List<IntVec3> countedAdjCells = new List<IntVec3>();
 
-		// Token: 0x060012D7 RID: 4823 RVA: 0x000A2DAC File Offset: 0x000A11AC
+		// Token: 0x060012DB RID: 4827 RVA: 0x000A2EFC File Offset: 0x000A12FC
 		public override float GetScore(Room room)
 		{
 			float num = 0f;

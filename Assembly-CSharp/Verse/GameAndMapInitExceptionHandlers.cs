@@ -3,10 +3,10 @@ using System.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000C62 RID: 3170
+	// Token: 0x02000C64 RID: 3172
 	public static class GameAndMapInitExceptionHandlers
 	{
-		// Token: 0x060045C0 RID: 17856 RVA: 0x0024D558 File Offset: 0x0024B958
+		// Token: 0x060045C3 RID: 17859 RVA: 0x0024D634 File Offset: 0x0024BA34
 		public static void ErrorWhileLoadingAssets(Exception e)
 		{
 			string text = "ErrorWhileLoadingAssets".Translate();
@@ -18,7 +18,7 @@ namespace Verse
 			GenScene.GoToMainMenu();
 		}
 
-		// Token: 0x060045C1 RID: 17857 RVA: 0x0024D5C0 File Offset: 0x0024B9C0
+		// Token: 0x060045C4 RID: 17860 RVA: 0x0024D69C File Offset: 0x0024BA9C
 		public static void ErrorWhileGeneratingMap(Exception e)
 		{
 			DelayedErrorWindowRequest.Add("ErrorWhileGeneratingMap".Translate(), "ErrorWhileGeneratingMapTitle".Translate());
@@ -26,7 +26,7 @@ namespace Verse
 			GenScene.GoToMainMenu();
 		}
 
-		// Token: 0x060045C2 RID: 17858 RVA: 0x0024D5E8 File Offset: 0x0024B9E8
+		// Token: 0x060045C5 RID: 17861 RVA: 0x0024D6C4 File Offset: 0x0024BAC4
 		public static void ErrorWhileLoadingGame(Exception e)
 		{
 			string text = "ErrorWhileLoadingMap".Translate();

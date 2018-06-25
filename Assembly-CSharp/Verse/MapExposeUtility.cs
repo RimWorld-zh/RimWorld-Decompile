@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000CA1 RID: 3233
+	// Token: 0x02000CA3 RID: 3235
 	public static class MapExposeUtility
 	{
-		// Token: 0x06004746 RID: 18246 RVA: 0x00259B70 File Offset: 0x00257F70
+		// Token: 0x06004749 RID: 18249 RVA: 0x00259C4C File Offset: 0x0025804C
 		public static void ExposeUshort(Map map, Func<IntVec3, ushort> shortReader, Action<IntVec3, ushort> shortWriter, string label)
 		{
 			byte[] arr = null;

@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000861 RID: 2145
+	// Token: 0x02000863 RID: 2147
 	[StaticConstructorOnStartup]
 	public static class SelectionDrawer
 	{
@@ -19,7 +19,7 @@ namespace RimWorld
 		private static Vector3[] bracketLocs = new Vector3[4];
 
 		// Token: 0x170007CA RID: 1994
-		// (get) Token: 0x060030AE RID: 12462 RVA: 0x001A6CEC File Offset: 0x001A50EC
+		// (get) Token: 0x060030B2 RID: 12466 RVA: 0x001A6E3C File Offset: 0x001A523C
 		public static Dictionary<object, float> SelectTimes
 		{
 			get
@@ -28,19 +28,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030AF RID: 12463 RVA: 0x001A6D06 File Offset: 0x001A5106
+		// Token: 0x060030B3 RID: 12467 RVA: 0x001A6E56 File Offset: 0x001A5256
 		public static void Notify_Selected(object t)
 		{
 			SelectionDrawer.selectTimes[t] = Time.realtimeSinceStartup;
 		}
 
-		// Token: 0x060030B0 RID: 12464 RVA: 0x001A6D19 File Offset: 0x001A5119
+		// Token: 0x060030B4 RID: 12468 RVA: 0x001A6E69 File Offset: 0x001A5269
 		public static void Clear()
 		{
 			SelectionDrawer.selectTimes.Clear();
 		}
 
-		// Token: 0x060030B1 RID: 12465 RVA: 0x001A6D28 File Offset: 0x001A5128
+		// Token: 0x060030B5 RID: 12469 RVA: 0x001A6E78 File Offset: 0x001A5278
 		public static void DrawSelectionOverlays()
 		{
 			foreach (object obj in Find.Selector.SelectedObjects)
@@ -54,7 +54,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030B2 RID: 12466 RVA: 0x001A6DA0 File Offset: 0x001A51A0
+		// Token: 0x060030B6 RID: 12470 RVA: 0x001A6EF0 File Offset: 0x001A52F0
 		private static void DrawSelectionBracketFor(object obj)
 		{
 			Zone zone = obj as Zone;

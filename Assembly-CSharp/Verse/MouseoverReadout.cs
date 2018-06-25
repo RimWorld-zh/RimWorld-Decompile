@@ -5,7 +5,7 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000E89 RID: 3721
+	// Token: 0x02000E8B RID: 3723
 	public class MouseoverReadout
 	{
 		// Token: 0x04003A1A RID: 14874
@@ -23,13 +23,13 @@ namespace Verse
 		// Token: 0x04003A1E RID: 14878
 		private static readonly Vector2 BotLeft = new Vector2(15f, 65f);
 
-		// Token: 0x060057E6 RID: 22502 RVA: 0x002D184B File Offset: 0x002CFC4B
+		// Token: 0x060057EA RID: 22506 RVA: 0x002D1977 File Offset: 0x002CFD77
 		public MouseoverReadout()
 		{
 			this.MakePermaCache();
 		}
 
-		// Token: 0x060057E7 RID: 22503 RVA: 0x002D185C File Offset: 0x002CFC5C
+		// Token: 0x060057EB RID: 22507 RVA: 0x002D1988 File Offset: 0x002CFD88
 		private void MakePermaCache()
 		{
 			this.glowStrings = new string[101];
@@ -39,7 +39,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057E8 RID: 22504 RVA: 0x002D18C4 File Offset: 0x002CFCC4
+		// Token: 0x060057EC RID: 22508 RVA: 0x002D19F0 File Offset: 0x002CFDF0
 		public void MouseoverReadoutOnGUI()
 		{
 			if (Event.current.type == EventType.Repaint)
@@ -137,7 +137,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057E9 RID: 22505 RVA: 0x002D1DB8 File Offset: 0x002D01B8
+		// Token: 0x060057ED RID: 22509 RVA: 0x002D1EE4 File Offset: 0x002D02E4
 		private string SpeedPercentString(float extraPathTicks)
 		{
 			float f = 13f / (extraPathTicks + 13f);

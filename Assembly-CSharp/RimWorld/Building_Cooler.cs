@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000695 RID: 1685
+	// Token: 0x02000697 RID: 1687
 	public class Building_Cooler : Building_TempControl
 	{
 		// Token: 0x040013F8 RID: 5112
@@ -13,7 +13,7 @@ namespace RimWorld
 		// Token: 0x040013F9 RID: 5113
 		private const float EfficiencyLossPerDegreeDifference = 0.0076923077f;
 
-		// Token: 0x060023C2 RID: 9154 RVA: 0x00132A3C File Offset: 0x00130E3C
+		// Token: 0x060023C6 RID: 9158 RVA: 0x00132B8C File Offset: 0x00130F8C
 		public override void TickRare()
 		{
 			if (this.compPowerTrader.PowerOn)

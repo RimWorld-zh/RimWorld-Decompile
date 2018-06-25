@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000363 RID: 867
+	// Token: 0x02000365 RID: 869
 	public class StorytellerComp_CategoryMTB : StorytellerComp
 	{
 		// Token: 0x1700021C RID: 540
-		// (get) Token: 0x06000F1C RID: 3868 RVA: 0x0007FC84 File Offset: 0x0007E084
+		// (get) Token: 0x06000F20 RID: 3872 RVA: 0x0007FDD4 File Offset: 0x0007E1D4
 		protected StorytellerCompProperties_CategoryMTB Props
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F1D RID: 3869 RVA: 0x0007FCA4 File Offset: 0x0007E0A4
+		// Token: 0x06000F21 RID: 3873 RVA: 0x0007FDF4 File Offset: 0x0007E1F4
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			float mtbNow = this.Props.mtbDays;
@@ -36,7 +36,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000F1E RID: 3870 RVA: 0x0007FCD8 File Offset: 0x0007E0D8
+		// Token: 0x06000F22 RID: 3874 RVA: 0x0007FE28 File Offset: 0x0007E228
 		public override string ToString()
 		{
 			return base.ToString() + " " + this.Props.category;

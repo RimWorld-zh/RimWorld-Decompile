@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004EE RID: 1262
+	// Token: 0x020004F0 RID: 1264
 	[StaticConstructorOnStartup]
 	public abstract class Need : IExposable
 	{
@@ -34,12 +34,12 @@ namespace RimWorld
 		// Token: 0x04000D40 RID: 3392
 		private const float BarInstantMarkerSize = 12f;
 
-		// Token: 0x060016A9 RID: 5801 RVA: 0x000C9010 File Offset: 0x000C7410
+		// Token: 0x060016AD RID: 5805 RVA: 0x000C9160 File Offset: 0x000C7560
 		public Need()
 		{
 		}
 
-		// Token: 0x060016AA RID: 5802 RVA: 0x000C9020 File Offset: 0x000C7420
+		// Token: 0x060016AE RID: 5806 RVA: 0x000C9170 File Offset: 0x000C7570
 		public Need(Pawn newPawn)
 		{
 			this.pawn = newPawn;
@@ -47,7 +47,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002FD RID: 765
-		// (get) Token: 0x060016AB RID: 5803 RVA: 0x000C9040 File Offset: 0x000C7440
+		// (get) Token: 0x060016AF RID: 5807 RVA: 0x000C9190 File Offset: 0x000C7590
 		public string LabelCap
 		{
 			get
@@ -57,7 +57,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002FE RID: 766
-		// (get) Token: 0x060016AC RID: 5804 RVA: 0x000C9060 File Offset: 0x000C7460
+		// (get) Token: 0x060016B0 RID: 5808 RVA: 0x000C91B0 File Offset: 0x000C75B0
 		public float CurInstantLevelPercentage
 		{
 			get
@@ -67,7 +67,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002FF RID: 767
-		// (get) Token: 0x060016AD RID: 5805 RVA: 0x000C9084 File Offset: 0x000C7484
+		// (get) Token: 0x060016B1 RID: 5809 RVA: 0x000C91D4 File Offset: 0x000C75D4
 		public virtual int GUIChangeArrow
 		{
 			get
@@ -77,7 +77,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000300 RID: 768
-		// (get) Token: 0x060016AE RID: 5806 RVA: 0x000C909C File Offset: 0x000C749C
+		// (get) Token: 0x060016B2 RID: 5810 RVA: 0x000C91EC File Offset: 0x000C75EC
 		public virtual float CurInstantLevel
 		{
 			get
@@ -87,7 +87,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000301 RID: 769
-		// (get) Token: 0x060016AF RID: 5807 RVA: 0x000C90B8 File Offset: 0x000C74B8
+		// (get) Token: 0x060016B3 RID: 5811 RVA: 0x000C9208 File Offset: 0x000C7608
 		public virtual float MaxLevel
 		{
 			get
@@ -97,8 +97,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000302 RID: 770
-		// (get) Token: 0x060016B0 RID: 5808 RVA: 0x000C90D4 File Offset: 0x000C74D4
-		// (set) Token: 0x060016B1 RID: 5809 RVA: 0x000C90EF File Offset: 0x000C74EF
+		// (get) Token: 0x060016B4 RID: 5812 RVA: 0x000C9224 File Offset: 0x000C7624
+		// (set) Token: 0x060016B5 RID: 5813 RVA: 0x000C923F File Offset: 0x000C763F
 		public virtual float CurLevel
 		{
 			get
@@ -112,8 +112,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000303 RID: 771
-		// (get) Token: 0x060016B2 RID: 5810 RVA: 0x000C910C File Offset: 0x000C750C
-		// (set) Token: 0x060016B3 RID: 5811 RVA: 0x000C912E File Offset: 0x000C752E
+		// (get) Token: 0x060016B6 RID: 5814 RVA: 0x000C925C File Offset: 0x000C765C
+		// (set) Token: 0x060016B7 RID: 5815 RVA: 0x000C927E File Offset: 0x000C767E
 		public float CurLevelPercentage
 		{
 			get
@@ -127,7 +127,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000304 RID: 772
-		// (get) Token: 0x060016B4 RID: 5812 RVA: 0x000C9140 File Offset: 0x000C7540
+		// (get) Token: 0x060016B8 RID: 5816 RVA: 0x000C9290 File Offset: 0x000C7690
 		protected bool IsFrozen
 		{
 			get
@@ -137,7 +137,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000305 RID: 773
-		// (get) Token: 0x060016B5 RID: 5813 RVA: 0x000C919C File Offset: 0x000C759C
+		// (get) Token: 0x060016B9 RID: 5817 RVA: 0x000C92EC File Offset: 0x000C76EC
 		private bool IsPawnInteractableOrVisible
 		{
 			get
@@ -147,7 +147,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000306 RID: 774
-		// (get) Token: 0x060016B6 RID: 5814 RVA: 0x000C91F8 File Offset: 0x000C75F8
+		// (get) Token: 0x060016BA RID: 5818 RVA: 0x000C9348 File Offset: 0x000C7748
 		public virtual bool ShowOnNeedList
 		{
 			get
@@ -156,17 +156,17 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060016B7 RID: 5815 RVA: 0x000C9218 File Offset: 0x000C7618
+		// Token: 0x060016BB RID: 5819 RVA: 0x000C9368 File Offset: 0x000C7768
 		public virtual void ExposeData()
 		{
 			Scribe_Defs.Look<NeedDef>(ref this.def, "def");
 			Scribe_Values.Look<float>(ref this.curLevelInt, "curLevel", 0f, false);
 		}
 
-		// Token: 0x060016B8 RID: 5816
+		// Token: 0x060016BC RID: 5820
 		public abstract void NeedInterval();
 
-		// Token: 0x060016B9 RID: 5817 RVA: 0x000C9244 File Offset: 0x000C7644
+		// Token: 0x060016BD RID: 5821 RVA: 0x000C9394 File Offset: 0x000C7794
 		public virtual string GetTipString()
 		{
 			return string.Concat(new string[]
@@ -179,19 +179,19 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060016BA RID: 5818 RVA: 0x000C9299 File Offset: 0x000C7699
+		// Token: 0x060016BE RID: 5822 RVA: 0x000C93E9 File Offset: 0x000C77E9
 		public virtual void SetInitialLevel()
 		{
 			this.CurLevelPercentage = 0.5f;
 		}
 
-		// Token: 0x060016BB RID: 5819 RVA: 0x000C92A7 File Offset: 0x000C76A7
+		// Token: 0x060016BF RID: 5823 RVA: 0x000C93F7 File Offset: 0x000C77F7
 		public void ForceSetLevel(float levelPercent)
 		{
 			this.CurLevelPercentage = levelPercent;
 		}
 
-		// Token: 0x060016BC RID: 5820 RVA: 0x000C92B4 File Offset: 0x000C76B4
+		// Token: 0x060016C0 RID: 5824 RVA: 0x000C9404 File Offset: 0x000C7804
 		public virtual void DrawOnGUI(Rect rect, int maxThresholdMarkers = 2147483647, float customMargin = -1f, bool drawArrows = true, bool doTooltip = true)
 		{
 			if (rect.height > 70f)
@@ -261,7 +261,7 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 		}
 
-		// Token: 0x060016BD RID: 5821 RVA: 0x000C95B4 File Offset: 0x000C79B4
+		// Token: 0x060016C1 RID: 5825 RVA: 0x000C9704 File Offset: 0x000C7B04
 		protected void DrawBarInstantMarkerAt(Rect barRect, float pct)
 		{
 			if (pct > 1f)
@@ -278,7 +278,7 @@ namespace RimWorld
 			GUI.DrawTexture(position, Need.BarInstantMarkerTex);
 		}
 
-		// Token: 0x060016BE RID: 5822 RVA: 0x000C9660 File Offset: 0x000C7A60
+		// Token: 0x060016C2 RID: 5826 RVA: 0x000C97B0 File Offset: 0x000C7BB0
 		private void DrawBarThreshold(Rect barRect, float threshPct)
 		{
 			float num = (float)((barRect.width <= 60f) ? 1 : 2);
@@ -298,7 +298,7 @@ namespace RimWorld
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x060016BF RID: 5823 RVA: 0x000C973C File Offset: 0x000C7B3C
+		// Token: 0x060016C3 RID: 5827 RVA: 0x000C988C File Offset: 0x000C7C8C
 		private void DrawBarDivision(Rect barRect, float threshPct)
 		{
 			float num = 5f;

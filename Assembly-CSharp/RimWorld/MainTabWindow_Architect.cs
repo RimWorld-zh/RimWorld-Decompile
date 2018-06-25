@@ -8,7 +8,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200086B RID: 2155
+	// Token: 0x0200086D RID: 2157
 	public class MainTabWindow_Architect : MainTabWindow
 	{
 		// Token: 0x04001A7E RID: 6782
@@ -23,14 +23,14 @@ namespace RimWorld
 		// Token: 0x04001A81 RID: 6785
 		private const float ButHeight = 32f;
 
-		// Token: 0x06003104 RID: 12548 RVA: 0x001AA2EF File Offset: 0x001A86EF
+		// Token: 0x06003108 RID: 12552 RVA: 0x001AA43F File Offset: 0x001A883F
 		public MainTabWindow_Architect()
 		{
 			this.CacheDesPanels();
 		}
 
 		// Token: 0x170007D8 RID: 2008
-		// (get) Token: 0x06003105 RID: 12549 RVA: 0x001AA30C File Offset: 0x001A870C
+		// (get) Token: 0x06003109 RID: 12553 RVA: 0x001AA45C File Offset: 0x001A885C
 		public float WinHeight
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007D9 RID: 2009
-		// (get) Token: 0x06003106 RID: 12550 RVA: 0x001AA350 File Offset: 0x001A8750
+		// (get) Token: 0x0600310A RID: 12554 RVA: 0x001AA4A0 File Offset: 0x001A88A0
 		public override Vector2 RequestedTabSize
 		{
 			get
@@ -54,7 +54,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007DA RID: 2010
-		// (get) Token: 0x06003107 RID: 12551 RVA: 0x001AA378 File Offset: 0x001A8778
+		// (get) Token: 0x0600310B RID: 12555 RVA: 0x001AA4C8 File Offset: 0x001A88C8
 		protected override float Margin
 		{
 			get
@@ -63,14 +63,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003108 RID: 12552 RVA: 0x001AA392 File Offset: 0x001A8792
+		// Token: 0x0600310C RID: 12556 RVA: 0x001AA4E2 File Offset: 0x001A88E2
 		public override void PostOpen()
 		{
 			base.PostOpen();
 			Find.World.renderer.wantedMode = WorldRenderMode.None;
 		}
 
-		// Token: 0x06003109 RID: 12553 RVA: 0x001AA3AB File Offset: 0x001A87AB
+		// Token: 0x0600310D RID: 12557 RVA: 0x001AA4FB File Offset: 0x001A88FB
 		public override void WindowUpdate()
 		{
 			base.WindowUpdate();
@@ -80,7 +80,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600310A RID: 12554 RVA: 0x001AA3DB File Offset: 0x001A87DB
+		// Token: 0x0600310E RID: 12558 RVA: 0x001AA52B File Offset: 0x001A892B
 		public override void ExtraOnGUI()
 		{
 			base.ExtraOnGUI();
@@ -90,7 +90,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600310B RID: 12555 RVA: 0x001AA3FC File Offset: 0x001A87FC
+		// Token: 0x0600310F RID: 12559 RVA: 0x001AA54C File Offset: 0x001A894C
 		public override void DoWindowContents(Rect inRect)
 		{
 			base.DoWindowContents(inRect);
@@ -123,7 +123,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600310C RID: 12556 RVA: 0x001AA540 File Offset: 0x001A8940
+		// Token: 0x06003110 RID: 12560 RVA: 0x001AA690 File Offset: 0x001A8A90
 		private void CacheDesPanels()
 		{
 			this.desPanelsCached = new List<ArchitectCategoryTab>();
@@ -135,7 +135,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600310D RID: 12557 RVA: 0x001AA5D4 File Offset: 0x001A89D4
+		// Token: 0x06003111 RID: 12561 RVA: 0x001AA724 File Offset: 0x001A8B24
 		protected void ClickedCategory(ArchitectCategoryTab Pan)
 		{
 			if (this.selectedDesPanel == Pan)

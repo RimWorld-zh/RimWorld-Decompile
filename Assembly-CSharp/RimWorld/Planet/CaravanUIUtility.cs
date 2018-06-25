@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005ED RID: 1517
+	// Token: 0x020005EF RID: 1519
 	public static class CaravanUIUtility
 	{
 		// Token: 0x040011D5 RID: 4565
@@ -54,7 +54,7 @@ namespace RimWorld.Planet
 		// Token: 0x040011DA RID: 4570
 		private static List<TransferableUIUtility.ExtraInfo> tmpInfo = new List<TransferableUIUtility.ExtraInfo>();
 
-		// Token: 0x06001E29 RID: 7721 RVA: 0x00103CA4 File Offset: 0x001020A4
+		// Token: 0x06001E2D RID: 7725 RVA: 0x00103DF4 File Offset: 0x001021F4
 		public static void CreateCaravanTransferableWidgets(List<TransferableOneWay> transferables, out TransferableOneWayWidget pawnsTransfer, out TransferableOneWayWidget itemsTransfer, string thingCountTip, IgnorePawnsInventoryMode ignorePawnInventoryMass, Func<float> availableMassGetter, bool ignoreSpawnedCorpsesGearAndInventoryMass, int tile, bool playerPawnsReadOnly = false)
 		{
 			IEnumerable<TransferableOneWay> transferables2 = null;
@@ -74,7 +74,7 @@ namespace RimWorld.Planet
 			itemsTransfer = new TransferableOneWayWidget(transferables2, sourceLabel2, destinationLabel, thingCountTip, drawMass2, ignorePawnInventoryMass, includePawnsMassInMassUsage2, availableMassGetter, 0f, ignoreSpawnedCorpsesGearAndInventoryMass, tile, true, false, false, true, false, true, false);
 		}
 
-		// Token: 0x06001E2A RID: 7722 RVA: 0x00103D5C File Offset: 0x0010215C
+		// Token: 0x06001E2E RID: 7726 RVA: 0x00103EAC File Offset: 0x001022AC
 		public static void AddPawnsSections(TransferableOneWayWidget widget, List<TransferableOneWay> transferables)
 		{
 			IEnumerable<TransferableOneWay> source = from x in transferables
@@ -94,7 +94,7 @@ namespace RimWorld.Planet
 			select x);
 		}
 
-		// Token: 0x06001E2B RID: 7723 RVA: 0x00103E5C File Offset: 0x0010225C
+		// Token: 0x06001E2F RID: 7727 RVA: 0x00103FAC File Offset: 0x001023AC
 		private static string GetDaysWorthOfFoodLabel(Pair<float, float> daysWorthOfFood, bool multiline)
 		{
 			string result;
@@ -118,7 +118,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E2C RID: 7724 RVA: 0x00103F24 File Offset: 0x00102324
+		// Token: 0x06001E30 RID: 7728 RVA: 0x00104074 File Offset: 0x00102474
 		private static Color GetDaysWorthOfFoodColor(Pair<float, float> daysWorthOfFood, int? ticksToArrive)
 		{
 			Color result;
@@ -141,7 +141,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E2D RID: 7725 RVA: 0x00103FA0 File Offset: 0x001023A0
+		// Token: 0x06001E31 RID: 7729 RVA: 0x001040F0 File Offset: 0x001024F0
 		public static void DrawCaravanInfo(CaravanUIUtility.CaravanInfo info, CaravanUIUtility.CaravanInfo? info2, int currentTile, int? ticksToArrive, float lastMassFlashTime, Rect rect, bool lerpMassColor = true, string extraDaysWorthOfFoodTipInfo = null, bool multiline = false)
 		{
 			CaravanUIUtility.tmpInfo.Clear();
@@ -280,7 +280,7 @@ namespace RimWorld.Planet
 			TransferableUIUtility.DrawExtraInfo(CaravanUIUtility.tmpInfo, rect);
 		}
 
-		// Token: 0x06001E2E RID: 7726 RVA: 0x001047F8 File Offset: 0x00102BF8
+		// Token: 0x06001E32 RID: 7730 RVA: 0x00104948 File Offset: 0x00102D48
 		private static Color GetMassColor(float massUsage, float massCapacity, bool lerpMassColor)
 		{
 			Color result;
@@ -303,7 +303,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x020005EE RID: 1518
+		// Token: 0x020005F0 RID: 1520
 		public struct CaravanInfo
 		{
 			// Token: 0x040011E1 RID: 4577
@@ -336,7 +336,7 @@ namespace RimWorld.Planet
 			// Token: 0x040011EA RID: 4586
 			public string visibilityExplanation;
 
-			// Token: 0x06001E36 RID: 7734 RVA: 0x00104B20 File Offset: 0x00102F20
+			// Token: 0x06001E3A RID: 7738 RVA: 0x00104C70 File Offset: 0x00103070
 			public CaravanInfo(float massUsage, float massCapacity, string massCapacityExplanation, float tilesPerDay, string tilesPerDayExplanation, Pair<float, float> daysWorthOfFood, Pair<ThingDef, float> foragedFoodPerDay, string foragedFoodPerDayExplanation, float visibility, string visibilityExplanation)
 			{
 				this.massUsage = massUsage;

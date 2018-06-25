@@ -2,20 +2,20 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000968 RID: 2408
+	// Token: 0x0200096A RID: 2410
 	[DefOf]
 	public static class PawnsArrivalModeDefOf
 	{
-		// Token: 0x040022FB RID: 8955
+		// Token: 0x040022FC RID: 8956
 		public static PawnsArrivalModeDef EdgeWalkIn;
 
-		// Token: 0x040022FC RID: 8956
+		// Token: 0x040022FD RID: 8957
 		public static PawnsArrivalModeDef CenterDrop;
 
-		// Token: 0x040022FD RID: 8957
+		// Token: 0x040022FE RID: 8958
 		public static PawnsArrivalModeDef EdgeDrop;
 
-		// Token: 0x06003670 RID: 13936 RVA: 0x001D0E9D File Offset: 0x001CF29D
+		// Token: 0x06003674 RID: 13940 RVA: 0x001D0FDD File Offset: 0x001CF3DD
 		static PawnsArrivalModeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(PawnsArrivalModeDefOf));

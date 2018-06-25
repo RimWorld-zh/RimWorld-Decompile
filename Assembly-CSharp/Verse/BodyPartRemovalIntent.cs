@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000CFE RID: 3326
+	// Token: 0x02000D00 RID: 3328
 	public enum BodyPartRemovalIntent
 	{
 		// Token: 0x040031CB RID: 12747

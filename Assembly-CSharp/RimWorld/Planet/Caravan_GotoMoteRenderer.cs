@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005E8 RID: 1512
+	// Token: 0x020005EA RID: 1514
 	[StaticConstructorOnStartup]
 	public class Caravan_GotoMoteRenderer
 	{
@@ -29,7 +29,7 @@ namespace RimWorld.Planet
 		// Token: 0x040011BA RID: 4538
 		private const float BaseSize = 0.8f;
 
-		// Token: 0x06001DF3 RID: 7667 RVA: 0x00101F80 File Offset: 0x00100380
+		// Token: 0x06001DF7 RID: 7671 RVA: 0x001020D0 File Offset: 0x001004D0
 		public void RenderMote()
 		{
 			float num = (Time.time - this.lastOrderedToTileTime) / 0.5f;
@@ -52,7 +52,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DF4 RID: 7668 RVA: 0x00102065 File Offset: 0x00100465
+		// Token: 0x06001DF8 RID: 7672 RVA: 0x001021B5 File Offset: 0x001005B5
 		public void OrderedToTile(int tile)
 		{
 			this.tile = tile;

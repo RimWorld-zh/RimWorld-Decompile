@@ -1,24 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000225 RID: 549
+	// Token: 0x02000227 RID: 551
 	public class ThoughtWorker_HasAddedBodyPart : ThoughtWorker
 	{
-		// Token: 0x06000A16 RID: 2582 RVA: 0x00059718 File Offset: 0x00057B18
+		// Token: 0x06000A1A RID: 2586 RVA: 0x00059898 File Offset: 0x00057C98
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
-			int num = 0;
-			List<Hediff> hediffs = p.health.hediffSet.hediffs;
-			for (int i = 0; i < hediffs.Count; i++)
-			{
-				if (hediffs[i] is Hediff_AddedPart)
-				{
-					num++;
-				}
-			}
+			int num = p.health.hediffSet.CountAddedParts();
 			ThoughtState result;
 			if (num > 0)
 			{

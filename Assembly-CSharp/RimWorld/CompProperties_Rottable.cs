@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000250 RID: 592
+	// Token: 0x02000252 RID: 594
 	public class CompProperties_Rottable : CompProperties
 	{
 		// Token: 0x040004A5 RID: 1189
@@ -26,20 +26,20 @@ namespace RimWorld
 		// Token: 0x040004AA RID: 1194
 		public bool disableIfHatcher;
 
-		// Token: 0x06000A88 RID: 2696 RVA: 0x0005F980 File Offset: 0x0005DD80
+		// Token: 0x06000A8C RID: 2700 RVA: 0x0005FAD0 File Offset: 0x0005DED0
 		public CompProperties_Rottable()
 		{
 			this.compClass = typeof(CompRottable);
 		}
 
-		// Token: 0x06000A89 RID: 2697 RVA: 0x0005F9D8 File Offset: 0x0005DDD8
+		// Token: 0x06000A8D RID: 2701 RVA: 0x0005FB28 File Offset: 0x0005DF28
 		public CompProperties_Rottable(float daysToRotStart)
 		{
 			this.daysToRotStart = daysToRotStart;
 		}
 
 		// Token: 0x17000185 RID: 389
-		// (get) Token: 0x06000A8A RID: 2698 RVA: 0x0005FA28 File Offset: 0x0005DE28
+		// (get) Token: 0x06000A8E RID: 2702 RVA: 0x0005FB78 File Offset: 0x0005DF78
 		public int TicksToRotStart
 		{
 			get
@@ -49,7 +49,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000186 RID: 390
-		// (get) Token: 0x06000A8B RID: 2699 RVA: 0x0005FA50 File Offset: 0x0005DE50
+		// (get) Token: 0x06000A8F RID: 2703 RVA: 0x0005FBA0 File Offset: 0x0005DFA0
 		public int TicksToDessicated
 		{
 			get
@@ -58,7 +58,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000A8C RID: 2700 RVA: 0x0005FA78 File Offset: 0x0005DE78
+		// Token: 0x06000A90 RID: 2704 RVA: 0x0005FBC8 File Offset: 0x0005DFC8
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))

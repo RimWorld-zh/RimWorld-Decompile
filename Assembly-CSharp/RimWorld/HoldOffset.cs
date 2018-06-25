@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RimWorld
 {
-	// Token: 0x0200026A RID: 618
+	// Token: 0x0200026C RID: 620
 	public class HoldOffset
 	{
 		// Token: 0x040004F9 RID: 1273

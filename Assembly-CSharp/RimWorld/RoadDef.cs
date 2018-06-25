@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002C4 RID: 708
+	// Token: 0x020002C6 RID: 710
 	public class RoadDef : Def
 	{
 		// Token: 0x040006F0 RID: 1776
@@ -42,7 +42,7 @@ namespace RimWorld
 		[Unsaved]
 		private float[] cachedLayerWidth = null;
 
-		// Token: 0x06000BCC RID: 3020 RVA: 0x00069540 File Offset: 0x00067940
+		// Token: 0x06000BD0 RID: 3024 RVA: 0x00069690 File Offset: 0x00067A90
 		public float GetLayerWidth(RoadWorldLayerDef def)
 		{
 			if (this.cachedLayerWidth == null)
@@ -66,14 +66,14 @@ namespace RimWorld
 			return this.cachedLayerWidth[(int)def.index];
 		}
 
-		// Token: 0x06000BCD RID: 3021 RVA: 0x0006961C File Offset: 0x00067A1C
+		// Token: 0x06000BD1 RID: 3025 RVA: 0x0006976C File Offset: 0x00067B6C
 		public override void ClearCachedData()
 		{
 			base.ClearCachedData();
 			this.cachedLayerWidth = null;
 		}
 
-		// Token: 0x020002C5 RID: 709
+		// Token: 0x020002C7 RID: 711
 		public class WorldRenderStep
 		{
 			// Token: 0x040006FB RID: 1787

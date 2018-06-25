@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009A8 RID: 2472
+	// Token: 0x020009AA RID: 2474
 	public class StatPart_GearAndInventoryMass : StatPart
 	{
-		// Token: 0x0600376F RID: 14191 RVA: 0x001D9738 File Offset: 0x001D7B38
+		// Token: 0x06003773 RID: 14195 RVA: 0x001D9878 File Offset: 0x001D7C78
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			float num;
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003770 RID: 14192 RVA: 0x001D975C File Offset: 0x001D7B5C
+		// Token: 0x06003774 RID: 14196 RVA: 0x001D989C File Offset: 0x001D7C9C
 		public override string ExplanationPart(StatRequest req)
 		{
 			float mass;
@@ -32,7 +32,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003771 RID: 14193 RVA: 0x001D97A0 File Offset: 0x001D7BA0
+		// Token: 0x06003775 RID: 14197 RVA: 0x001D98E0 File Offset: 0x001D7CE0
 		private bool TryGetValue(StatRequest req, out float value)
 		{
 			return PawnOrCorpseStatUtility.TryGetPawnOrCorpseStat(req, (Pawn x) => MassUtility.GearAndInventoryMass(x), (ThingDef x) => 0f, out value);

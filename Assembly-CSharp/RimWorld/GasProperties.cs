@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000264 RID: 612
+	// Token: 0x02000266 RID: 614
 	public class GasProperties
 	{
 		// Token: 0x040004CD RID: 1229

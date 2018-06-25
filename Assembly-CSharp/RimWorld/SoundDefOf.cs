@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000913 RID: 2323
+	// Token: 0x02000915 RID: 2325
 	[DefOf]
 	public static class SoundDefOf
 	{
@@ -397,7 +397,7 @@ namespace RimWorld
 		// Token: 0x04001E7E RID: 7806
 		public static SoundDef PlanetkillerImpact;
 
-		// Token: 0x0600361B RID: 13851 RVA: 0x001D08A3 File Offset: 0x001CECA3
+		// Token: 0x0600361F RID: 13855 RVA: 0x001D09E3 File Offset: 0x001CEDE3
 		static SoundDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(SoundDefOf));

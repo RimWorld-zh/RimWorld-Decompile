@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002B2 RID: 690
+	// Token: 0x020002B4 RID: 692
 	public class PawnColumnDef : Def
 	{
 		// Token: 0x0400069B RID: 1691
@@ -57,7 +57,7 @@ namespace RimWorld
 		private Texture2D headerIconTex;
 
 		// Token: 0x170001B6 RID: 438
-		// (get) Token: 0x06000B87 RID: 2951 RVA: 0x00068354 File Offset: 0x00066754
+		// (get) Token: 0x06000B8B RID: 2955 RVA: 0x000684A4 File Offset: 0x000668A4
 		public PawnColumnWorker Worker
 		{
 			get
@@ -72,7 +72,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001B7 RID: 439
-		// (get) Token: 0x06000B88 RID: 2952 RVA: 0x000683A0 File Offset: 0x000667A0
+		// (get) Token: 0x06000B8C RID: 2956 RVA: 0x000684F0 File Offset: 0x000668F0
 		public Texture2D HeaderIcon
 		{
 			get
@@ -86,7 +86,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001B8 RID: 440
-		// (get) Token: 0x06000B89 RID: 2953 RVA: 0x000683F0 File Offset: 0x000667F0
+		// (get) Token: 0x06000B8D RID: 2957 RVA: 0x00068540 File Offset: 0x00066940
 		public Vector2 HeaderIconSize
 		{
 			get
@@ -113,7 +113,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001B9 RID: 441
-		// (get) Token: 0x06000B8A RID: 2954 RVA: 0x0006845C File Offset: 0x0006685C
+		// (get) Token: 0x06000B8E RID: 2958 RVA: 0x000685AC File Offset: 0x000669AC
 		public bool HeaderInteractable
 		{
 			get

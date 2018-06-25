@@ -4,16 +4,16 @@ using System.Text;
 
 namespace Verse
 {
-	// Token: 0x02000BF8 RID: 3064
+	// Token: 0x02000BFA RID: 3066
 	public static class Translator
 	{
-		// Token: 0x060042F7 RID: 17143 RVA: 0x00237B60 File Offset: 0x00235F60
+		// Token: 0x060042FA RID: 17146 RVA: 0x00237C3C File Offset: 0x0023603C
 		public static bool CanTranslate(this string key)
 		{
 			return LanguageDatabase.activeLanguage.HaveTextForKey(key);
 		}
 
-		// Token: 0x060042F8 RID: 17144 RVA: 0x00237B80 File Offset: 0x00235F80
+		// Token: 0x060042FB RID: 17147 RVA: 0x00237C5C File Offset: 0x0023605C
 		public static bool TryTranslate(this string key, out string result)
 		{
 			bool result2;
@@ -40,7 +40,7 @@ namespace Verse
 			return result2;
 		}
 
-		// Token: 0x060042F9 RID: 17145 RVA: 0x00237BF4 File Offset: 0x00235FF4
+		// Token: 0x060042FC RID: 17148 RVA: 0x00237CD0 File Offset: 0x002360D0
 		public static string Translate(this string key)
 		{
 			string result;
@@ -70,7 +70,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060042FA RID: 17146 RVA: 0x00237C7C File Offset: 0x0023607C
+		// Token: 0x060042FD RID: 17149 RVA: 0x00237D58 File Offset: 0x00236158
 		public static string Translate(this string key, params object[] args)
 		{
 			string result;
@@ -108,7 +108,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060042FB RID: 17147 RVA: 0x00237D44 File Offset: 0x00236144
+		// Token: 0x060042FE RID: 17150 RVA: 0x00237E20 File Offset: 0x00236220
 		public static bool TryGetTranslatedStringsForFile(string fileName, out List<string> stringList)
 		{
 			if (!LanguageDatabase.activeLanguage.TryGetStringsFromFile(fileName, out stringList))
@@ -122,7 +122,7 @@ namespace Verse
 			return true;
 		}
 
-		// Token: 0x060042FC RID: 17148 RVA: 0x00237D9C File Offset: 0x0023619C
+		// Token: 0x060042FF RID: 17151 RVA: 0x00237E78 File Offset: 0x00236278
 		private static string PseudoTranslated(string original)
 		{
 			string result;

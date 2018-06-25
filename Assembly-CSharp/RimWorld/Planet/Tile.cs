@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005A4 RID: 1444
+	// Token: 0x020005A6 RID: 1446
 	public class Tile
 	{
 		// Token: 0x04001060 RID: 4192
@@ -38,7 +38,7 @@ namespace RimWorld.Planet
 		public List<Tile.RiverLink> potentialRivers;
 
 		// Token: 0x17000410 RID: 1040
-		// (get) Token: 0x06001B92 RID: 7058 RVA: 0x000EE1D0 File Offset: 0x000EC5D0
+		// (get) Token: 0x06001B96 RID: 7062 RVA: 0x000EE320 File Offset: 0x000EC720
 		public bool WaterCovered
 		{
 			get
@@ -48,7 +48,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000411 RID: 1041
-		// (get) Token: 0x06001B93 RID: 7059 RVA: 0x000EE1F8 File Offset: 0x000EC5F8
+		// (get) Token: 0x06001B97 RID: 7063 RVA: 0x000EE348 File Offset: 0x000EC748
 		public List<Tile.RoadLink> Roads
 		{
 			get
@@ -58,7 +58,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000412 RID: 1042
-		// (get) Token: 0x06001B94 RID: 7060 RVA: 0x000EE22C File Offset: 0x000EC62C
+		// (get) Token: 0x06001B98 RID: 7064 RVA: 0x000EE37C File Offset: 0x000EC77C
 		public List<Tile.RiverLink> Rivers
 		{
 			get
@@ -67,7 +67,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B95 RID: 7061 RVA: 0x000EE260 File Offset: 0x000EC660
+		// Token: 0x06001B99 RID: 7065 RVA: 0x000EE3B0 File Offset: 0x000EC7B0
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -96,7 +96,7 @@ namespace RimWorld.Planet
 			});
 		}
 
-		// Token: 0x020005A5 RID: 1445
+		// Token: 0x020005A7 RID: 1447
 		public struct RoadLink
 		{
 			// Token: 0x0400106A RID: 4202
@@ -106,7 +106,7 @@ namespace RimWorld.Planet
 			public RoadDef road;
 		}
 
-		// Token: 0x020005A6 RID: 1446
+		// Token: 0x020005A8 RID: 1448
 		public struct RiverLink
 		{
 			// Token: 0x0400106C RID: 4204

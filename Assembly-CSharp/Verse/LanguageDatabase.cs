@@ -8,7 +8,7 @@ using Verse.Steam;
 
 namespace Verse
 {
-	// Token: 0x02000BEF RID: 3055
+	// Token: 0x02000BF1 RID: 3057
 	public static class LanguageDatabase
 	{
 		// Token: 0x04002D9C RID: 11676
@@ -55,8 +55,8 @@ namespace Verse
 			"Ukrainian"
 		};
 
-		// Token: 0x17000A7C RID: 2684
-		// (get) Token: 0x060042AE RID: 17070 RVA: 0x002347CC File Offset: 0x00232BCC
+		// Token: 0x17000A7B RID: 2683
+		// (get) Token: 0x060042B1 RID: 17073 RVA: 0x002348A8 File Offset: 0x00232CA8
 		public static IEnumerable<LoadedLanguage> AllLoadedLanguages
 		{
 			get
@@ -65,7 +65,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042AF RID: 17071 RVA: 0x002347E6 File Offset: 0x00232BE6
+		// Token: 0x060042B2 RID: 17074 RVA: 0x002348C2 File Offset: 0x00232CC2
 		public static void SelectLanguage(LoadedLanguage lang)
 		{
 			Prefs.LangFolderName = lang.folderName;
@@ -76,14 +76,14 @@ namespace Verse
 			}, "LoadingLongEvent", true, null);
 		}
 
-		// Token: 0x060042B0 RID: 17072 RVA: 0x0023481D File Offset: 0x00232C1D
+		// Token: 0x060042B3 RID: 17075 RVA: 0x002348F9 File Offset: 0x00232CF9
 		public static void Clear()
 		{
 			LanguageDatabase.languages.Clear();
 			LanguageDatabase.activeLanguage = null;
 		}
 
-		// Token: 0x060042B1 RID: 17073 RVA: 0x00234830 File Offset: 0x00232C30
+		// Token: 0x060042B4 RID: 17076 RVA: 0x0023490C File Offset: 0x00232D0C
 		public static void LoadAllMetadata()
 		{
 			foreach (ModContentPack modContentPack in LoadedModManager.RunningMods)
@@ -113,7 +113,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042B2 RID: 17074 RVA: 0x002349C0 File Offset: 0x00232DC0
+		// Token: 0x060042B5 RID: 17077 RVA: 0x00234A9C File Offset: 0x00232E9C
 		private static LoadedLanguage LoadLanguageMetadataFrom(DirectoryInfo langDir)
 		{
 			LoadedLanguage loadedLanguage = LanguageDatabase.languages.FirstOrDefault((LoadedLanguage lib) => lib.folderName == langDir.Name);
@@ -129,7 +129,7 @@ namespace Verse
 			return loadedLanguage;
 		}
 
-		// Token: 0x060042B3 RID: 17075 RVA: 0x00234A38 File Offset: 0x00232E38
+		// Token: 0x060042B6 RID: 17078 RVA: 0x00234B14 File Offset: 0x00232F14
 		public static string SystemLanguageFolderName()
 		{
 			if (SteamManager.Initialized)

@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020003E6 RID: 998
+	// Token: 0x020003E8 RID: 1000
 	public static class RoomOutlinesGenerator
 	{
 		// Token: 0x04000A5A RID: 2650
@@ -15,7 +15,7 @@ namespace RimWorld
 		// Token: 0x04000A5B RID: 2651
 		private const int MinAllowedRoomWidthAndHeight = 2;
 
-		// Token: 0x06001116 RID: 4374 RVA: 0x00092560 File Offset: 0x00090960
+		// Token: 0x0600111A RID: 4378 RVA: 0x000926B0 File Offset: 0x00090AB0
 		public static List<RoomOutline> GenerateRoomOutlines(CellRect initialRect, Map map, int divisionsCount, int finalRoomsCount, int maxRoomCells, int minTotalRoomsNonWallCellsCount)
 		{
 			int num = 0;
@@ -43,7 +43,7 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x06001117 RID: 4375 RVA: 0x000925D4 File Offset: 0x000909D4
+		// Token: 0x0600111B RID: 4379 RVA: 0x00092724 File Offset: 0x00090B24
 		public static List<RoomOutline> GenerateRoomOutlines(CellRect initialRect, Map map, int divisionsCount, int finalRoomsCount, int maxRoomCells)
 		{
 			List<RoomOutline> list = new List<RoomOutline>();
@@ -81,7 +81,7 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x06001118 RID: 4376 RVA: 0x0009274C File Offset: 0x00090B4C
+		// Token: 0x0600111C RID: 4380 RVA: 0x0009289C File Offset: 0x00090C9C
 		private static void Split(RoomOutline room, List<RoomOutline> allRooms, bool horizontalWall)
 		{
 			allRooms.Remove(room);

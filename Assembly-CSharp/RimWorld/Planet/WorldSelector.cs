@@ -7,7 +7,7 @@ using Verse.Sound;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008EF RID: 2287
+	// Token: 0x020008F1 RID: 2289
 	public class WorldSelector
 	{
 		// Token: 0x04001C8B RID: 7307
@@ -26,7 +26,7 @@ namespace RimWorld.Planet
 		private const float MaxDragBoxDiagonalToSelectTile = 30f;
 
 		// Token: 0x17000886 RID: 2182
-		// (get) Token: 0x060034CD RID: 13517 RVA: 0x001C3930 File Offset: 0x001C1D30
+		// (get) Token: 0x060034D1 RID: 13521 RVA: 0x001C3A70 File Offset: 0x001C1E70
 		private bool ShiftIsHeld
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000887 RID: 2183
-		// (get) Token: 0x060034CE RID: 13518 RVA: 0x001C3964 File Offset: 0x001C1D64
+		// (get) Token: 0x060034D2 RID: 13522 RVA: 0x001C3AA4 File Offset: 0x001C1EA4
 		public List<WorldObject> SelectedObjects
 		{
 			get
@@ -46,7 +46,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000888 RID: 2184
-		// (get) Token: 0x060034CF RID: 13519 RVA: 0x001C3980 File Offset: 0x001C1D80
+		// (get) Token: 0x060034D3 RID: 13523 RVA: 0x001C3AC0 File Offset: 0x001C1EC0
 		public WorldObject SingleSelectedObject
 		{
 			get
@@ -65,7 +65,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000889 RID: 2185
-		// (get) Token: 0x060034D0 RID: 13520 RVA: 0x001C39BC File Offset: 0x001C1DBC
+		// (get) Token: 0x060034D4 RID: 13524 RVA: 0x001C3AFC File Offset: 0x001C1EFC
 		public WorldObject FirstSelectedObject
 		{
 			get
@@ -84,7 +84,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700088A RID: 2186
-		// (get) Token: 0x060034D1 RID: 13521 RVA: 0x001C39F4 File Offset: 0x001C1DF4
+		// (get) Token: 0x060034D5 RID: 13525 RVA: 0x001C3B34 File Offset: 0x001C1F34
 		public int NumSelectedObjects
 		{
 			get
@@ -94,7 +94,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700088B RID: 2187
-		// (get) Token: 0x060034D2 RID: 13522 RVA: 0x001C3A14 File Offset: 0x001C1E14
+		// (get) Token: 0x060034D6 RID: 13526 RVA: 0x001C3B54 File Offset: 0x001C1F54
 		public bool AnyObjectOrTileSelected
 		{
 			get
@@ -103,7 +103,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034D3 RID: 13523 RVA: 0x001C3A43 File Offset: 0x001C1E43
+		// Token: 0x060034D7 RID: 13527 RVA: 0x001C3B83 File Offset: 0x001C1F83
 		public void WorldSelectorOnGUI()
 		{
 			this.HandleWorldClicks();
@@ -117,7 +117,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034D4 RID: 13524 RVA: 0x001C3A80 File Offset: 0x001C1E80
+		// Token: 0x060034D8 RID: 13528 RVA: 0x001C3BC0 File Offset: 0x001C1FC0
 		private void HandleWorldClicks()
 		{
 			if (Event.current.type == EventType.MouseDown)
@@ -186,13 +186,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034D5 RID: 13525 RVA: 0x001C3C50 File Offset: 0x001C2050
+		// Token: 0x060034D9 RID: 13529 RVA: 0x001C3D90 File Offset: 0x001C2190
 		public bool IsSelected(WorldObject obj)
 		{
 			return this.selected.Contains(obj);
 		}
 
-		// Token: 0x060034D6 RID: 13526 RVA: 0x001C3C71 File Offset: 0x001C2071
+		// Token: 0x060034DA RID: 13530 RVA: 0x001C3DB1 File Offset: 0x001C21B1
 		public void ClearSelection()
 		{
 			WorldSelectionDrawer.Clear();
@@ -200,7 +200,7 @@ namespace RimWorld.Planet
 			this.selectedTile = -1;
 		}
 
-		// Token: 0x060034D7 RID: 13527 RVA: 0x001C3C8B File Offset: 0x001C208B
+		// Token: 0x060034DB RID: 13531 RVA: 0x001C3DCB File Offset: 0x001C21CB
 		public void Deselect(WorldObject obj)
 		{
 			if (this.selected.Contains(obj))
@@ -209,7 +209,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034D8 RID: 13528 RVA: 0x001C3CAC File Offset: 0x001C20AC
+		// Token: 0x060034DC RID: 13532 RVA: 0x001C3DEC File Offset: 0x001C21EC
 		public void Select(WorldObject obj, bool playSound = true)
 		{
 			if (obj == null)
@@ -234,19 +234,19 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034D9 RID: 13529 RVA: 0x001C3D1C File Offset: 0x001C211C
+		// Token: 0x060034DD RID: 13533 RVA: 0x001C3E5C File Offset: 0x001C225C
 		public void Notify_DialogOpened()
 		{
 			this.dragBox.active = false;
 		}
 
-		// Token: 0x060034DA RID: 13530 RVA: 0x001C3D2B File Offset: 0x001C212B
+		// Token: 0x060034DE RID: 13534 RVA: 0x001C3E6B File Offset: 0x001C226B
 		private void PlaySelectionSoundFor(WorldObject obj)
 		{
 			SoundDefOf.ThingSelected.PlayOneShotOnCamera(null);
 		}
 
-		// Token: 0x060034DB RID: 13531 RVA: 0x001C3D3C File Offset: 0x001C213C
+		// Token: 0x060034DF RID: 13535 RVA: 0x001C3E7C File Offset: 0x001C227C
 		private void SelectInsideDragBox()
 		{
 			if (!this.ShiftIsHeld)
@@ -303,14 +303,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034DC RID: 13532 RVA: 0x001C3F38 File Offset: 0x001C2338
+		// Token: 0x060034E0 RID: 13536 RVA: 0x001C4078 File Offset: 0x001C2478
 		public IEnumerable<WorldObject> SelectableObjectsUnderMouse()
 		{
 			bool flag;
 			return this.SelectableObjectsUnderMouse(out flag, out flag);
 		}
 
-		// Token: 0x060034DD RID: 13533 RVA: 0x001C3F58 File Offset: 0x001C2358
+		// Token: 0x060034E1 RID: 13537 RVA: 0x001C4098 File Offset: 0x001C2498
 		public IEnumerable<WorldObject> SelectableObjectsUnderMouse(out bool clickedDirectlyOnCaravan, out bool usedColonistBar)
 		{
 			Vector2 mousePositionOnUIInverted = UI.MousePositionOnUIInverted;
@@ -345,7 +345,7 @@ namespace RimWorld.Planet
 			return list;
 		}
 
-		// Token: 0x060034DE RID: 13534 RVA: 0x001C404C File Offset: 0x001C244C
+		// Token: 0x060034E2 RID: 13538 RVA: 0x001C418C File Offset: 0x001C258C
 		public static IEnumerable<WorldObject> SelectableObjectsAt(int tileID)
 		{
 			foreach (WorldObject o in Find.WorldObjects.ObjectsAt(tileID))
@@ -358,7 +358,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x060034DF RID: 13535 RVA: 0x001C4078 File Offset: 0x001C2478
+		// Token: 0x060034E3 RID: 13539 RVA: 0x001C41B8 File Offset: 0x001C25B8
 		private void SelectUnderMouse(bool canSelectTile = true)
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -430,13 +430,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034E0 RID: 13536 RVA: 0x001C4234 File Offset: 0x001C2634
+		// Token: 0x060034E4 RID: 13540 RVA: 0x001C4374 File Offset: 0x001C2774
 		public void SelectFirstOrNextAt(int tileID)
 		{
 			this.SelectFirstOrNextFrom(WorldSelector.SelectableObjectsAt(tileID).ToList<WorldObject>(), tileID);
 		}
 
-		// Token: 0x060034E1 RID: 13537 RVA: 0x001C424C File Offset: 0x001C264C
+		// Token: 0x060034E5 RID: 13541 RVA: 0x001C438C File Offset: 0x001C278C
 		private void SelectAllMatchingObjectUnderMouseOnScreen()
 		{
 			List<WorldObject> list = this.SelectableObjectsUnderMouse().ToList<WorldObject>();
@@ -460,7 +460,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034E2 RID: 13538 RVA: 0x001C4314 File Offset: 0x001C2714
+		// Token: 0x060034E6 RID: 13542 RVA: 0x001C4454 File Offset: 0x001C2854
 		private void AutoOrderToTile(Caravan c, int tile)
 		{
 			if (tile >= 0)
@@ -479,7 +479,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034E3 RID: 13539 RVA: 0x001C439C File Offset: 0x001C279C
+		// Token: 0x060034E7 RID: 13543 RVA: 0x001C44DC File Offset: 0x001C28DC
 		private void AutoOrderToTileNow(Caravan c, int tile)
 		{
 			if (tile >= 0 && (tile != c.Tile || c.pather.Moving))
@@ -494,7 +494,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034E4 RID: 13540 RVA: 0x001C440C File Offset: 0x001C280C
+		// Token: 0x060034E8 RID: 13544 RVA: 0x001C454C File Offset: 0x001C294C
 		private void SelectFirstOrNextFrom(List<WorldObject> objects, int tile)
 		{
 			int num = objects.FindIndex((WorldObject x) => this.selected.Contains(x));

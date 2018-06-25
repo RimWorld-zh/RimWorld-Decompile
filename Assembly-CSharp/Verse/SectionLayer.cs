@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C3F RID: 3135
+	// Token: 0x02000C41 RID: 3137
 	public abstract class SectionLayer
 	{
 		// Token: 0x04002F49 RID: 12105
@@ -16,14 +16,14 @@ namespace Verse
 		// Token: 0x04002F4B RID: 12107
 		public List<LayerSubMesh> subMeshes = new List<LayerSubMesh>();
 
-		// Token: 0x06004524 RID: 17700 RVA: 0x00084C64 File Offset: 0x00083064
+		// Token: 0x06004527 RID: 17703 RVA: 0x00084DB4 File Offset: 0x000831B4
 		public SectionLayer(Section section)
 		{
 			this.section = section;
 		}
 
-		// Token: 0x17000AE9 RID: 2793
-		// (get) Token: 0x06004525 RID: 17701 RVA: 0x00084C88 File Offset: 0x00083088
+		// Token: 0x17000AE8 RID: 2792
+		// (get) Token: 0x06004528 RID: 17704 RVA: 0x00084DD8 File Offset: 0x000831D8
 		protected Map Map
 		{
 			get
@@ -32,8 +32,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AEA RID: 2794
-		// (get) Token: 0x06004526 RID: 17702 RVA: 0x00084CA8 File Offset: 0x000830A8
+		// Token: 0x17000AE9 RID: 2793
+		// (get) Token: 0x06004529 RID: 17705 RVA: 0x00084DF8 File Offset: 0x000831F8
 		public virtual bool Visible
 		{
 			get
@@ -42,7 +42,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004527 RID: 17703 RVA: 0x00084CC0 File Offset: 0x000830C0
+		// Token: 0x0600452A RID: 17706 RVA: 0x00084E10 File Offset: 0x00083210
 		public LayerSubMesh GetSubMesh(Material material)
 		{
 			LayerSubMesh result;
@@ -77,7 +77,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004528 RID: 17704 RVA: 0x00084D9C File Offset: 0x0008319C
+		// Token: 0x0600452B RID: 17707 RVA: 0x00084EEC File Offset: 0x000832EC
 		protected void FinalizeMesh(MeshParts tags)
 		{
 			for (int i = 0; i < this.subMeshes.Count; i++)
@@ -89,7 +89,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004529 RID: 17705 RVA: 0x00084DF8 File Offset: 0x000831F8
+		// Token: 0x0600452C RID: 17708 RVA: 0x00084F48 File Offset: 0x00083348
 		public virtual void DrawLayer()
 		{
 			if (this.Visible)
@@ -106,10 +106,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600452A RID: 17706
+		// Token: 0x0600452D RID: 17709
 		public abstract void Regenerate();
 
-		// Token: 0x0600452B RID: 17707 RVA: 0x00084E78 File Offset: 0x00083278
+		// Token: 0x0600452E RID: 17710 RVA: 0x00084FC8 File Offset: 0x000833C8
 		protected void ClearSubMeshes(MeshParts parts)
 		{
 			foreach (LayerSubMesh layerSubMesh in this.subMeshes)

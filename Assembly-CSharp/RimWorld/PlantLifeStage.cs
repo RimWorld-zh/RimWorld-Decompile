@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020006D2 RID: 1746
+	// Token: 0x020006D4 RID: 1748
 	public enum PlantLifeStage : byte
 	{
 		// Token: 0x04001520 RID: 5408

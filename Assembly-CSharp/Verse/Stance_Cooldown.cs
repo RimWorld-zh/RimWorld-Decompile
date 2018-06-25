@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D5F RID: 3423
+	// Token: 0x02000D61 RID: 3425
 	public class Stance_Cooldown : Stance_Busy
 	{
 		// Token: 0x04003332 RID: 13106
@@ -12,17 +12,17 @@ namespace Verse
 		// Token: 0x04003333 RID: 13107
 		private const float MaxRadius = 0.5f;
 
-		// Token: 0x06004CC8 RID: 19656 RVA: 0x00280337 File Offset: 0x0027E737
+		// Token: 0x06004CCC RID: 19660 RVA: 0x00280463 File Offset: 0x0027E863
 		public Stance_Cooldown()
 		{
 		}
 
-		// Token: 0x06004CC9 RID: 19657 RVA: 0x00280340 File Offset: 0x0027E740
+		// Token: 0x06004CCD RID: 19661 RVA: 0x0028046C File Offset: 0x0027E86C
 		public Stance_Cooldown(int ticks, LocalTargetInfo focusTarg, Verb verb) : base(ticks, focusTarg, verb)
 		{
 		}
 
-		// Token: 0x06004CCA RID: 19658 RVA: 0x0028034C File Offset: 0x0027E74C
+		// Token: 0x06004CCE RID: 19662 RVA: 0x00280478 File Offset: 0x0027E878
 		public override void StanceDraw()
 		{
 			if (Find.Selector.IsSelected(this.stanceTracker.pawn))

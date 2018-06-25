@@ -3,13 +3,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006BA RID: 1722
+	// Token: 0x020006BC RID: 1724
 	public abstract class SignalAction : Thing
 	{
 		// Token: 0x04001483 RID: 5251
 		public string signalTag;
 
-		// Token: 0x0600251B RID: 9499 RVA: 0x0013E688 File Offset: 0x0013CA88
+		// Token: 0x0600251F RID: 9503 RVA: 0x0013E7D8 File Offset: 0x0013CBD8
 		public override void Notify_SignalReceived(Signal signal)
 		{
 			base.Notify_SignalReceived(signal);
@@ -23,10 +23,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600251C RID: 9500
+		// Token: 0x06002520 RID: 9504
 		protected abstract void DoAction(object[] args);
 
-		// Token: 0x0600251D RID: 9501 RVA: 0x0013E6D5 File Offset: 0x0013CAD5
+		// Token: 0x06002521 RID: 9505 RVA: 0x0013E825 File Offset: 0x0013CC25
 		public override void ExposeData()
 		{
 			base.ExposeData();

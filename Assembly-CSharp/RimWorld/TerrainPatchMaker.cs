@@ -5,7 +5,7 @@ using Verse.Noise;
 
 namespace RimWorld
 {
-	// Token: 0x02000403 RID: 1027
+	// Token: 0x02000405 RID: 1029
 	public class TerrainPatchMaker
 	{
 		// Token: 0x04000ABA RID: 2746
@@ -39,7 +39,7 @@ namespace RimWorld
 		[Unsaved]
 		private ModuleBase noise;
 
-		// Token: 0x060011AC RID: 4524 RVA: 0x00099CF4 File Offset: 0x000980F4
+		// Token: 0x060011B0 RID: 4528 RVA: 0x00099E44 File Offset: 0x00098244
 		private void Init(Map map)
 		{
 			this.noise = new Perlin((double)this.perlinFrequency, (double)this.perlinLacunarity, (double)this.perlinPersistence, this.perlinOctaves, Rand.Range(0, int.MaxValue), QualityMode.Medium);
@@ -48,14 +48,14 @@ namespace RimWorld
 			this.currentlyInitializedForMap = map;
 		}
 
-		// Token: 0x060011AD RID: 4525 RVA: 0x00099D8C File Offset: 0x0009818C
+		// Token: 0x060011B1 RID: 4529 RVA: 0x00099EDC File Offset: 0x000982DC
 		public void Cleanup()
 		{
 			this.noise = null;
 			this.currentlyInitializedForMap = null;
 		}
 
-		// Token: 0x060011AE RID: 4526 RVA: 0x00099DA0 File Offset: 0x000981A0
+		// Token: 0x060011B2 RID: 4530 RVA: 0x00099EF0 File Offset: 0x000982F0
 		public TerrainDef TerrainAt(IntVec3 c, Map map, float fertility)
 		{
 			TerrainDef result;

@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002F8 RID: 760
+	// Token: 0x020002FA RID: 762
 	public sealed class History : IExposable
 	{
 		// Token: 0x04000849 RID: 2121
@@ -16,7 +16,7 @@ namespace RimWorld
 		// Token: 0x0400084B RID: 2123
 		public SimpleCurveDrawerStyle curveDrawerStyle;
 
-		// Token: 0x06000CAE RID: 3246 RVA: 0x0006FBE0 File Offset: 0x0006DFE0
+		// Token: 0x06000CB2 RID: 3250 RVA: 0x0006FD30 File Offset: 0x0006E130
 		public History()
 		{
 			this.autoRecorderGroups = new List<HistoryAutoRecorderGroup>();
@@ -44,7 +44,7 @@ namespace RimWorld
 			this.curveDrawerStyle.LabelX = "Day".Translate();
 		}
 
-		// Token: 0x06000CAF RID: 3247 RVA: 0x0006FD30 File Offset: 0x0006E130
+		// Token: 0x06000CB3 RID: 3251 RVA: 0x0006FE80 File Offset: 0x0006E280
 		public void HistoryTick()
 		{
 			for (int i = 0; i < this.autoRecorderGroups.Count; i++)
@@ -53,13 +53,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CB0 RID: 3248 RVA: 0x0006FD70 File Offset: 0x0006E170
+		// Token: 0x06000CB4 RID: 3252 RVA: 0x0006FEC0 File Offset: 0x0006E2C0
 		public List<HistoryAutoRecorderGroup> Groups()
 		{
 			return this.autoRecorderGroups;
 		}
 
-		// Token: 0x06000CB1 RID: 3249 RVA: 0x0006FD8C File Offset: 0x0006E18C
+		// Token: 0x06000CB5 RID: 3253 RVA: 0x0006FEDC File Offset: 0x0006E2DC
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<Archive>(ref this.archive, "archive", new object[0]);

@@ -4,15 +4,15 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200089A RID: 2202
+	// Token: 0x0200089C RID: 2204
 	public class PawnTable_PlayerPawns : PawnTable
 	{
-		// Token: 0x0600327E RID: 12926 RVA: 0x001B29F3 File Offset: 0x001B0DF3
+		// Token: 0x06003282 RID: 12930 RVA: 0x001B2B33 File Offset: 0x001B0F33
 		public PawnTable_PlayerPawns(PawnTableDef def, Func<IEnumerable<Pawn>> pawnsGetter, int uiWidth, int uiHeight) : base(def, pawnsGetter, uiWidth, uiHeight)
 		{
 		}
 
-		// Token: 0x0600327F RID: 12927 RVA: 0x001B2A04 File Offset: 0x001B0E04
+		// Token: 0x06003283 RID: 12931 RVA: 0x001B2B44 File Offset: 0x001B0F44
 		protected override IEnumerable<Pawn> LabelSortFunction(IEnumerable<Pawn> input)
 		{
 			return PlayerPawnsDisplayOrderUtility.InOrder(input);

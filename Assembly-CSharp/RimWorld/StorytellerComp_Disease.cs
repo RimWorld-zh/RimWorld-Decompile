@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000369 RID: 873
+	// Token: 0x0200036B RID: 875
 	public class StorytellerComp_Disease : StorytellerComp
 	{
 		// Token: 0x17000220 RID: 544
-		// (get) Token: 0x06000F2B RID: 3883 RVA: 0x00080834 File Offset: 0x0007EC34
+		// (get) Token: 0x06000F2F RID: 3887 RVA: 0x00080984 File Offset: 0x0007ED84
 		protected StorytellerCompProperties_Disease Props
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F2C RID: 3884 RVA: 0x00080854 File Offset: 0x0007EC54
+		// Token: 0x06000F30 RID: 3888 RVA: 0x000809A4 File Offset: 0x0007EDA4
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			if (!DebugSettings.enableRandomDiseases)
@@ -42,7 +42,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000F2D RID: 3885 RVA: 0x00080888 File Offset: 0x0007EC88
+		// Token: 0x06000F31 RID: 3889 RVA: 0x000809D8 File Offset: 0x0007EDD8
 		public override string ToString()
 		{
 			return base.ToString() + " " + this.Props.incidentCategory;

@@ -10,7 +10,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000813 RID: 2067
+	// Token: 0x02000815 RID: 2069
 	public static class CharacterCardUtility
 	{
 		// Token: 0x04001886 RID: 6278
@@ -37,7 +37,7 @@ namespace RimWorld
 		// Token: 0x0400188D RID: 6285
 		private static Regex validNameRegex = new Regex("^[a-zA-Z0-9 '\\-]*$");
 
-		// Token: 0x06002E25 RID: 11813 RVA: 0x00185074 File Offset: 0x00183474
+		// Token: 0x06002E29 RID: 11817 RVA: 0x001851C4 File Offset: 0x001835C4
 		public static void DrawCharacterCard(Rect rect, Pawn pawn, Action randomizeCallback = null, Rect creationRect = default(Rect))
 		{
 			bool flag = randomizeCallback != null;
@@ -259,7 +259,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002E26 RID: 11814 RVA: 0x00185ADC File Offset: 0x00183EDC
+		// Token: 0x06002E2A RID: 11818 RVA: 0x00185C2C File Offset: 0x0018402C
 		public static void DoNameInputRect(Rect rect, ref string name, int maxLength)
 		{
 			string text = Widgets.TextField(rect, name);
@@ -269,7 +269,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E27 RID: 11815 RVA: 0x00185B14 File Offset: 0x00183F14
+		// Token: 0x06002E2B RID: 11819 RVA: 0x00185C64 File Offset: 0x00184064
 		private static IEnumerable<WorkTags> WorkTagsFrom(WorkTags tags)
 		{
 			foreach (WorkTags workTag in tags.GetAllSelectedItems<WorkTags>())

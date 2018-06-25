@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000920 RID: 2336
+	// Token: 0x02000922 RID: 2338
 	[DefOf]
 	public static class PawnKindDefOf
 	{
@@ -46,7 +46,7 @@ namespace RimWorld
 		// Token: 0x04001F7E RID: 8062
 		public static PawnKindDef Megaspider;
 
-		// Token: 0x06003628 RID: 13864 RVA: 0x001D098D File Offset: 0x001CED8D
+		// Token: 0x0600362C RID: 13868 RVA: 0x001D0ACD File Offset: 0x001CEECD
 		static PawnKindDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(PawnKindDefOf));

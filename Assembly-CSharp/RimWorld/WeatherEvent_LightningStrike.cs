@@ -5,7 +5,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000449 RID: 1097
+	// Token: 0x0200044B RID: 1099
 	[StaticConstructorOnStartup]
 	public class WeatherEvent_LightningStrike : WeatherEvent_LightningFlash
 	{
@@ -18,18 +18,18 @@ namespace RimWorld
 		// Token: 0x04000BA2 RID: 2978
 		private static readonly Material LightningMat = MatLoader.LoadMat("Weather/LightningBolt", -1);
 
-		// Token: 0x06001318 RID: 4888 RVA: 0x000A4940 File Offset: 0x000A2D40
+		// Token: 0x0600131C RID: 4892 RVA: 0x000A4A90 File Offset: 0x000A2E90
 		public WeatherEvent_LightningStrike(Map map) : base(map)
 		{
 		}
 
-		// Token: 0x06001319 RID: 4889 RVA: 0x000A495C File Offset: 0x000A2D5C
+		// Token: 0x0600131D RID: 4893 RVA: 0x000A4AAC File Offset: 0x000A2EAC
 		public WeatherEvent_LightningStrike(Map map, IntVec3 forcedStrikeLoc) : base(map)
 		{
 			this.strikeLoc = forcedStrikeLoc;
 		}
 
-		// Token: 0x0600131A RID: 4890 RVA: 0x000A4980 File Offset: 0x000A2D80
+		// Token: 0x0600131E RID: 4894 RVA: 0x000A4AD0 File Offset: 0x000A2ED0
 		public override void FireEvent()
 		{
 			base.FireEvent();
@@ -53,7 +53,7 @@ namespace RimWorld
 			SoundDefOf.Thunder_OnMap.PlayOneShot(info);
 		}
 
-		// Token: 0x0600131B RID: 4891 RVA: 0x000A4A93 File Offset: 0x000A2E93
+		// Token: 0x0600131F RID: 4895 RVA: 0x000A4BE3 File Offset: 0x000A2FE3
 		public override void WeatherEventDraw()
 		{
 			Graphics.DrawMesh(this.boltMesh, this.strikeLoc.ToVector3ShiftedWithAltitude(AltitudeLayer.Weather), Quaternion.identity, FadedMaterialPool.FadedVersionOf(WeatherEvent_LightningStrike.LightningMat, base.LightningBrightness), 0);

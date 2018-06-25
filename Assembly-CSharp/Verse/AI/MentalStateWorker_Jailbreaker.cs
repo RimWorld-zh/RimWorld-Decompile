@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A69 RID: 2665
+	// Token: 0x02000A6B RID: 2667
 	public class MentalStateWorker_Jailbreaker : MentalStateWorker
 	{
-		// Token: 0x06003B45 RID: 15173 RVA: 0x001F6BEC File Offset: 0x001F4FEC
+		// Token: 0x06003B49 RID: 15177 RVA: 0x001F6D18 File Offset: 0x001F5118
 		public override bool StateCanOccur(Pawn pawn)
 		{
 			return base.StateCanOccur(pawn) && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Talking) && JailbreakerMentalStateUtility.FindPrisoner(pawn) != null;

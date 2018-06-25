@@ -3,16 +3,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008AA RID: 2218
+	// Token: 0x020008AC RID: 2220
 	public class TransferableComparer_Category : TransferableComparer
 	{
-		// Token: 0x060032D1 RID: 13009 RVA: 0x001B654C File Offset: 0x001B494C
+		// Token: 0x060032D5 RID: 13013 RVA: 0x001B668C File Offset: 0x001B4A8C
 		public override int Compare(Transferable lhs, Transferable rhs)
 		{
 			return TransferableComparer_Category.Compare(lhs.ThingDef, rhs.ThingDef);
 		}
 
-		// Token: 0x060032D2 RID: 13010 RVA: 0x001B6574 File Offset: 0x001B4974
+		// Token: 0x060032D6 RID: 13014 RVA: 0x001B66B4 File Offset: 0x001B4AB4
 		public static int Compare(ThingDef lhsTh, ThingDef rhsTh)
 		{
 			int result;

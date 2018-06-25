@@ -6,96 +6,96 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F39 RID: 3897
+	// Token: 0x02000F3D RID: 3901
 	[StaticConstructorOnStartup]
 	public static class GenDraw
 	{
-		// Token: 0x04003DD9 RID: 15833
+		// Token: 0x04003DDC RID: 15836
 		private static readonly Material TargetSquareMatSingle = MaterialPool.MatFrom("UI/Overlays/TargetHighlight_Square", ShaderDatabase.Transparent);
 
-		// Token: 0x04003DDA RID: 15834
+		// Token: 0x04003DDD RID: 15837
 		private const float TargetPulseFrequency = 8f;
 
-		// Token: 0x04003DDB RID: 15835
+		// Token: 0x04003DDE RID: 15838
 		public static readonly string LineTexPath = "UI/Overlays/ThingLine";
 
-		// Token: 0x04003DDC RID: 15836
+		// Token: 0x04003DDF RID: 15839
 		public static readonly string OneSidedLineTexPath = "UI/Overlays/OneSidedLine";
 
-		// Token: 0x04003DDD RID: 15837
+		// Token: 0x04003DE0 RID: 15840
 		private static readonly Material LineMatWhite = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.white);
 
-		// Token: 0x04003DDE RID: 15838
+		// Token: 0x04003DE1 RID: 15841
 		private static readonly Material LineMatRed = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.red);
 
-		// Token: 0x04003DDF RID: 15839
+		// Token: 0x04003DE2 RID: 15842
 		private static readonly Material LineMatGreen = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.green);
 
-		// Token: 0x04003DE0 RID: 15840
+		// Token: 0x04003DE3 RID: 15843
 		private static readonly Material LineMatBlue = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.blue);
 
-		// Token: 0x04003DE1 RID: 15841
+		// Token: 0x04003DE4 RID: 15844
 		private static readonly Material LineMatMagenta = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.magenta);
 
-		// Token: 0x04003DE2 RID: 15842
+		// Token: 0x04003DE5 RID: 15845
 		private static readonly Material LineMatYellow = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.yellow);
 
-		// Token: 0x04003DE3 RID: 15843
+		// Token: 0x04003DE6 RID: 15846
 		private static readonly Material LineMatCyan = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, Color.cyan);
 
-		// Token: 0x04003DE4 RID: 15844
+		// Token: 0x04003DE7 RID: 15847
 		private static readonly Material LineMatMetaOverlay = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.MetaOverlay);
 
-		// Token: 0x04003DE5 RID: 15845
+		// Token: 0x04003DE8 RID: 15848
 		private static readonly Material WorldLineMatWhite = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.WorldOverlayTransparent, Color.white, WorldMaterials.WorldLineRenderQueue);
 
-		// Token: 0x04003DE6 RID: 15846
+		// Token: 0x04003DE9 RID: 15849
 		private static readonly Material OneSidedWorldLineMatWhite = MaterialPool.MatFrom(GenDraw.OneSidedLineTexPath, ShaderDatabase.WorldOverlayTransparent, Color.white, WorldMaterials.WorldLineRenderQueue);
 
-		// Token: 0x04003DE7 RID: 15847
+		// Token: 0x04003DEA RID: 15850
 		private const float LineWidth = 0.2f;
 
-		// Token: 0x04003DE8 RID: 15848
+		// Token: 0x04003DEB RID: 15851
 		private const float BaseWorldLineWidth = 0.2f;
 
-		// Token: 0x04003DE9 RID: 15849
+		// Token: 0x04003DEC RID: 15852
 		public static readonly Material InteractionCellMaterial = MaterialPool.MatFrom("UI/Overlays/InteractionCell", ShaderDatabase.Transparent);
 
-		// Token: 0x04003DEA RID: 15850
+		// Token: 0x04003DED RID: 15853
 		private static readonly Color InteractionCellIntensity = new Color(1f, 1f, 1f, 0.3f);
 
-		// Token: 0x04003DEB RID: 15851
+		// Token: 0x04003DEE RID: 15854
 		private static List<int> cachedEdgeTiles = new List<int>();
 
-		// Token: 0x04003DEC RID: 15852
+		// Token: 0x04003DEF RID: 15855
 		private static int cachedEdgeTilesForCenter = -1;
 
-		// Token: 0x04003DED RID: 15853
+		// Token: 0x04003DF0 RID: 15856
 		private static int cachedEdgeTilesForRadius = -1;
 
-		// Token: 0x04003DEE RID: 15854
+		// Token: 0x04003DF1 RID: 15857
 		private static int cachedEdgeTilesForWorldSeed = -1;
 
-		// Token: 0x04003DEF RID: 15855
+		// Token: 0x04003DF2 RID: 15858
 		private static List<IntVec3> ringDrawCells = new List<IntVec3>();
 
-		// Token: 0x04003DF0 RID: 15856
+		// Token: 0x04003DF3 RID: 15859
 		private static bool maxRadiusMessaged = false;
 
-		// Token: 0x04003DF1 RID: 15857
+		// Token: 0x04003DF4 RID: 15860
 		private static BoolGrid fieldGrid;
 
-		// Token: 0x04003DF2 RID: 15858
+		// Token: 0x04003DF5 RID: 15861
 		private static bool[] rotNeeded = new bool[4];
 
-		// Token: 0x04003DF3 RID: 15859
+		// Token: 0x04003DF6 RID: 15862
 		private static readonly Material AimPieMaterial = SolidColorMaterials.SimpleSolidColorMaterial(new Color(1f, 1f, 1f, 0.3f), false);
 
-		// Token: 0x04003DF4 RID: 15860
+		// Token: 0x04003DF7 RID: 15863
 		private static readonly Material ArrowMatWhite = MaterialPool.MatFrom("UI/Overlays/Arrow", ShaderDatabase.CutoutFlying, Color.white);
 
-		// Token: 0x17000F27 RID: 3879
-		// (get) Token: 0x06005DEB RID: 24043 RVA: 0x002FC3FC File Offset: 0x002FA7FC
+		// Token: 0x17000F26 RID: 3878
+		// (get) Token: 0x06005DF5 RID: 24053 RVA: 0x002FCA7C File Offset: 0x002FAE7C
 		public static Material CurTargetingMat
 		{
 			get
@@ -105,8 +105,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F28 RID: 3880
-		// (get) Token: 0x06005DEC RID: 24044 RVA: 0x002FC428 File Offset: 0x002FA828
+		// Token: 0x17000F27 RID: 3879
+		// (get) Token: 0x06005DF6 RID: 24054 RVA: 0x002FCAA8 File Offset: 0x002FAEA8
 		public static Color CurTargetingColor
 		{
 			get
@@ -118,19 +118,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005DED RID: 24045 RVA: 0x002FC46C File Offset: 0x002FA86C
+		// Token: 0x06005DF7 RID: 24055 RVA: 0x002FCAEC File Offset: 0x002FAEEC
 		public static void DrawNoBuildEdgeLines()
 		{
 			GenDraw.DrawMapEdgeLines(10);
 		}
 
-		// Token: 0x06005DEE RID: 24046 RVA: 0x002FC476 File Offset: 0x002FA876
+		// Token: 0x06005DF8 RID: 24056 RVA: 0x002FCAF6 File Offset: 0x002FAEF6
 		public static void DrawNoZoneEdgeLines()
 		{
 			GenDraw.DrawMapEdgeLines(5);
 		}
 
-		// Token: 0x06005DEF RID: 24047 RVA: 0x002FC480 File Offset: 0x002FA880
+		// Token: 0x06005DF9 RID: 24057 RVA: 0x002FCB00 File Offset: 0x002FAF00
 		private static void DrawMapEdgeLines(int edgeDist)
 		{
 			float y = AltitudeLayer.MetaOverlays.AltitudeFor();
@@ -145,25 +145,25 @@ namespace Verse
 			GenDraw.DrawLineBetween(vector4, vector, GenDraw.LineMatMetaOverlay);
 		}
 
-		// Token: 0x06005DF0 RID: 24048 RVA: 0x002FC525 File Offset: 0x002FA925
+		// Token: 0x06005DFA RID: 24058 RVA: 0x002FCBA5 File Offset: 0x002FAFA5
 		public static void DrawLineBetween(Vector3 A, Vector3 B)
 		{
 			GenDraw.DrawLineBetween(A, B, GenDraw.LineMatWhite);
 		}
 
-		// Token: 0x06005DF1 RID: 24049 RVA: 0x002FC534 File Offset: 0x002FA934
+		// Token: 0x06005DFB RID: 24059 RVA: 0x002FCBB4 File Offset: 0x002FAFB4
 		public static void DrawLineBetween(Vector3 A, Vector3 B, float layer)
 		{
 			GenDraw.DrawLineBetween(A + Vector3.up * layer, B + Vector3.up * layer, GenDraw.LineMatWhite);
 		}
 
-		// Token: 0x06005DF2 RID: 24050 RVA: 0x002FC563 File Offset: 0x002FA963
+		// Token: 0x06005DFC RID: 24060 RVA: 0x002FCBE3 File Offset: 0x002FAFE3
 		public static void DrawLineBetween(Vector3 A, Vector3 B, SimpleColor color)
 		{
 			GenDraw.DrawLineBetween(A, B, GenDraw.GetLineMat(color));
 		}
 
-		// Token: 0x06005DF3 RID: 24051 RVA: 0x002FC574 File Offset: 0x002FA974
+		// Token: 0x06005DFD RID: 24061 RVA: 0x002FCBF4 File Offset: 0x002FAFF4
 		public static void DrawLineBetween(Vector3 A, Vector3 B, Material mat)
 		{
 			if (Mathf.Abs(A.x - B.x) >= 0.01f || Mathf.Abs(A.z - B.z) >= 0.01f)
@@ -182,19 +182,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005DF4 RID: 24052 RVA: 0x002FC640 File Offset: 0x002FAA40
+		// Token: 0x06005DFE RID: 24062 RVA: 0x002FCCC0 File Offset: 0x002FB0C0
 		public static void DrawCircleOutline(Vector3 center, float radius)
 		{
 			GenDraw.DrawCircleOutline(center, radius, GenDraw.LineMatWhite);
 		}
 
-		// Token: 0x06005DF5 RID: 24053 RVA: 0x002FC64F File Offset: 0x002FAA4F
+		// Token: 0x06005DFF RID: 24063 RVA: 0x002FCCCF File Offset: 0x002FB0CF
 		public static void DrawCircleOutline(Vector3 center, float radius, SimpleColor color)
 		{
 			GenDraw.DrawCircleOutline(center, radius, GenDraw.GetLineMat(color));
 		}
 
-		// Token: 0x06005DF6 RID: 24054 RVA: 0x002FC660 File Offset: 0x002FAA60
+		// Token: 0x06005E00 RID: 24064 RVA: 0x002FCCE0 File Offset: 0x002FB0E0
 		public static void DrawCircleOutline(Vector3 center, float radius, Material material)
 		{
 			int num = Mathf.Clamp(Mathf.RoundToInt(24f * radius), 12, 48);
@@ -216,7 +216,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005DF7 RID: 24055 RVA: 0x002FC6F8 File Offset: 0x002FAAF8
+		// Token: 0x06005E01 RID: 24065 RVA: 0x002FCD78 File Offset: 0x002FB178
 		private static Material GetLineMat(SimpleColor color)
 		{
 			Material result;
@@ -250,13 +250,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005DF8 RID: 24056 RVA: 0x002FC786 File Offset: 0x002FAB86
+		// Token: 0x06005E02 RID: 24066 RVA: 0x002FCE06 File Offset: 0x002FB206
 		public static void DrawWorldLineBetween(Vector3 A, Vector3 B)
 		{
 			GenDraw.DrawWorldLineBetween(A, B, GenDraw.WorldLineMatWhite, 1f);
 		}
 
-		// Token: 0x06005DF9 RID: 24057 RVA: 0x002FC79C File Offset: 0x002FAB9C
+		// Token: 0x06005E03 RID: 24067 RVA: 0x002FCE1C File Offset: 0x002FB21C
 		public static void DrawWorldLineBetween(Vector3 A, Vector3 B, Material material, float widthFactor = 1f)
 		{
 			if (Mathf.Abs(A.x - B.x) >= 0.005f || Mathf.Abs(A.y - B.y) >= 0.005f || Mathf.Abs(A.z - B.z) >= 0.005f)
@@ -271,7 +271,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005DFA RID: 24058 RVA: 0x002FC884 File Offset: 0x002FAC84
+		// Token: 0x06005E04 RID: 24068 RVA: 0x002FCF04 File Offset: 0x002FB304
 		public static void DrawWorldRadiusRing(int center, int radius)
 		{
 			if (radius >= 0)
@@ -325,7 +325,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005DFB RID: 24059 RVA: 0x002FC9B4 File Offset: 0x002FADB4
+		// Token: 0x06005E05 RID: 24069 RVA: 0x002FD034 File Offset: 0x002FB434
 		public static void DrawWorldLineStrip(List<int> edgeTiles, Material material, float widthFactor)
 		{
 			if (edgeTiles.Count >= 3)
@@ -349,7 +349,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005DFC RID: 24060 RVA: 0x002FCA80 File Offset: 0x002FAE80
+		// Token: 0x06005E06 RID: 24070 RVA: 0x002FD100 File Offset: 0x002FB500
 		public static void DrawTargetHighlight(LocalTargetInfo targ)
 		{
 			if (targ.Thing != null)
@@ -362,26 +362,26 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005DFD RID: 24061 RVA: 0x002FCAAC File Offset: 0x002FAEAC
+		// Token: 0x06005E07 RID: 24071 RVA: 0x002FD12C File Offset: 0x002FB52C
 		private static void DrawTargetingHighlight_Cell(IntVec3 c)
 		{
 			Vector3 position = c.ToVector3ShiftedWithAltitude(AltitudeLayer.Building);
 			Graphics.DrawMesh(MeshPool.plane10, position, Quaternion.identity, GenDraw.CurTargetingMat, 0);
 		}
 
-		// Token: 0x06005DFE RID: 24062 RVA: 0x002FCADC File Offset: 0x002FAEDC
+		// Token: 0x06005E08 RID: 24072 RVA: 0x002FD15C File Offset: 0x002FB55C
 		private static void DrawTargetingHighlight_Thing(Thing t)
 		{
 			Graphics.DrawMesh(MeshPool.plane10, t.TrueCenter() + Altitudes.AltIncVect, t.Rotation.AsQuat, GenDraw.CurTargetingMat, 0);
 		}
 
-		// Token: 0x06005DFF RID: 24063 RVA: 0x002FCB18 File Offset: 0x002FAF18
+		// Token: 0x06005E09 RID: 24073 RVA: 0x002FD198 File Offset: 0x002FB598
 		public static void DrawTargetingHightlight_Explosion(IntVec3 c, float Radius)
 		{
 			GenDraw.DrawRadiusRing(c, Radius);
 		}
 
-		// Token: 0x06005E00 RID: 24064 RVA: 0x002FCB24 File Offset: 0x002FAF24
+		// Token: 0x06005E0A RID: 24074 RVA: 0x002FD1A4 File Offset: 0x002FB5A4
 		public static void DrawInteractionCell(ThingDef tDef, IntVec3 center, Rot4 placingRot)
 		{
 			if (tDef.hasInteractionCell)
@@ -412,7 +412,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005E01 RID: 24065 RVA: 0x002FCC28 File Offset: 0x002FB028
+		// Token: 0x06005E0B RID: 24075 RVA: 0x002FD2A8 File Offset: 0x002FB6A8
 		public static void DrawRadiusRing(IntVec3 center, float radius)
 		{
 			if (radius > GenRadial.MaxRadialPatternRadius)
@@ -435,13 +435,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005E02 RID: 24066 RVA: 0x002FCCC3 File Offset: 0x002FB0C3
+		// Token: 0x06005E0C RID: 24076 RVA: 0x002FD343 File Offset: 0x002FB743
 		public static void DrawFieldEdges(List<IntVec3> cells)
 		{
 			GenDraw.DrawFieldEdges(cells, Color.white);
 		}
 
-		// Token: 0x06005E03 RID: 24067 RVA: 0x002FCCD4 File Offset: 0x002FB0D4
+		// Token: 0x06005E0D RID: 24077 RVA: 0x002FD354 File Offset: 0x002FB754
 		public static void DrawFieldEdges(List<IntVec3> cells, Color color)
 		{
 			Map currentMap = Find.CurrentMap;
@@ -493,7 +493,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005E04 RID: 24068 RVA: 0x002FCF24 File Offset: 0x002FB324
+		// Token: 0x06005E0E RID: 24078 RVA: 0x002FD5A4 File Offset: 0x002FB9A4
 		public static void DrawAimPie(Thing shooter, LocalTargetInfo target, int degreesWide, float offsetDist)
 		{
 			float facing = 0f;
@@ -511,7 +511,7 @@ namespace Verse
 			GenDraw.DrawAimPieRaw(shooter.DrawPos + new Vector3(0f, offsetDist, 0f), facing, degreesWide);
 		}
 
-		// Token: 0x06005E05 RID: 24069 RVA: 0x002FCFC4 File Offset: 0x002FB3C4
+		// Token: 0x06005E0F RID: 24079 RVA: 0x002FD644 File Offset: 0x002FBA44
 		public static void DrawAimPieRaw(Vector3 center, float facing, int degreesWide)
 		{
 			if (degreesWide > 0)
@@ -525,7 +525,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005E06 RID: 24070 RVA: 0x002FD040 File Offset: 0x002FB440
+		// Token: 0x06005E10 RID: 24080 RVA: 0x002FD6C0 File Offset: 0x002FBAC0
 		public static void DrawCooldownCircle(Vector3 center, float radius)
 		{
 			Vector3 s = new Vector3(radius, 1f, radius);
@@ -534,7 +534,7 @@ namespace Verse
 			Graphics.DrawMesh(MeshPool.circle, matrix, GenDraw.AimPieMaterial, 0);
 		}
 
-		// Token: 0x06005E07 RID: 24071 RVA: 0x002FD084 File Offset: 0x002FB484
+		// Token: 0x06005E11 RID: 24081 RVA: 0x002FD704 File Offset: 0x002FBB04
 		public static void DrawFillableBar(GenDraw.FillableBarRequest r)
 		{
 			Vector2 vector = r.preRotationOffset.RotatedBy(r.rotation.AsAngle);
@@ -571,7 +571,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005E08 RID: 24072 RVA: 0x002FD2B8 File Offset: 0x002FB6B8
+		// Token: 0x06005E12 RID: 24082 RVA: 0x002FD938 File Offset: 0x002FBD38
 		public static void DrawMeshNowOrLater(Mesh mesh, Vector3 loc, Quaternion quat, Material mat, bool drawNow)
 		{
 			if (drawNow)
@@ -585,7 +585,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005E09 RID: 24073 RVA: 0x002FD2E4 File Offset: 0x002FB6E4
+		// Token: 0x06005E13 RID: 24083 RVA: 0x002FD964 File Offset: 0x002FBD64
 		public static void DrawArrowPointingAt(Vector3 mapTarget, bool offscreenOnly = false)
 		{
 			Vector3 vector = UI.UIToMapPosition((float)(UI.screenWidth / 2), (float)(UI.screenHeight / 2));
@@ -609,31 +609,31 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000F3A RID: 3898
+		// Token: 0x02000F3E RID: 3902
 		public struct FillableBarRequest
 		{
-			// Token: 0x04003DF6 RID: 15862
+			// Token: 0x04003DF9 RID: 15865
 			public Vector3 center;
 
-			// Token: 0x04003DF7 RID: 15863
+			// Token: 0x04003DFA RID: 15866
 			public Vector2 size;
 
-			// Token: 0x04003DF8 RID: 15864
+			// Token: 0x04003DFB RID: 15867
 			public float fillPercent;
 
-			// Token: 0x04003DF9 RID: 15865
+			// Token: 0x04003DFC RID: 15868
 			public Material filledMat;
 
-			// Token: 0x04003DFA RID: 15866
+			// Token: 0x04003DFD RID: 15869
 			public Material unfilledMat;
 
-			// Token: 0x04003DFB RID: 15867
+			// Token: 0x04003DFE RID: 15870
 			public float margin;
 
-			// Token: 0x04003DFC RID: 15868
+			// Token: 0x04003DFF RID: 15871
 			public Rot4 rotation;
 
-			// Token: 0x04003DFD RID: 15869
+			// Token: 0x04003E00 RID: 15872
 			public Vector2 preRotationOffset;
 		}
 	}

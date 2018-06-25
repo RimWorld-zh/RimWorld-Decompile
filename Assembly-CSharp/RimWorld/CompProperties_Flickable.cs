@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000259 RID: 601
+	// Token: 0x0200025B RID: 603
 	public class CompProperties_Flickable : CompProperties
 	{
 		// Token: 0x040004BF RID: 1215
@@ -18,7 +18,7 @@ namespace RimWorld
 		[NoTranslate]
 		public string commandDescKey = "CommandDesignateTogglePowerDesc";
 
-		// Token: 0x06000A96 RID: 2710 RVA: 0x0005FE88 File Offset: 0x0005E288
+		// Token: 0x06000A9A RID: 2714 RVA: 0x0005FFD8 File Offset: 0x0005E3D8
 		public CompProperties_Flickable()
 		{
 			this.compClass = typeof(CompFlickable);

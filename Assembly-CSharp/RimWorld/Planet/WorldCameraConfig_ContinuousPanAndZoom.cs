@@ -2,10 +2,10 @@
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200057D RID: 1405
+	// Token: 0x0200057F RID: 1407
 	public class WorldCameraConfig_ContinuousPanAndZoom : WorldCameraConfig_ContinuousPan
 	{
-		// Token: 0x06001AD8 RID: 6872 RVA: 0x000E6EE4 File Offset: 0x000E52E4
+		// Token: 0x06001ADC RID: 6876 RVA: 0x000E7034 File Offset: 0x000E5434
 		public WorldCameraConfig_ContinuousPanAndZoom()
 		{
 			this.zoomSpeed = 0.03f;

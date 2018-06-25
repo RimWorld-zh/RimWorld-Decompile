@@ -2,30 +2,30 @@
 
 namespace Verse
 {
-	// Token: 0x02000F00 RID: 3840
+	// Token: 0x02000F04 RID: 3844
 	public sealed class ThingCountClass : IExposable
 	{
-		// Token: 0x04003CE2 RID: 15586
+		// Token: 0x04003CE5 RID: 15589
 		public Thing thing;
 
-		// Token: 0x04003CE3 RID: 15587
+		// Token: 0x04003CE6 RID: 15590
 		private int countInt;
 
-		// Token: 0x06005C22 RID: 23586 RVA: 0x002EDEEA File Offset: 0x002EC2EA
+		// Token: 0x06005C2C RID: 23596 RVA: 0x002EE56A File Offset: 0x002EC96A
 		public ThingCountClass()
 		{
 		}
 
-		// Token: 0x06005C23 RID: 23587 RVA: 0x002EDEF3 File Offset: 0x002EC2F3
+		// Token: 0x06005C2D RID: 23597 RVA: 0x002EE573 File Offset: 0x002EC973
 		public ThingCountClass(Thing thing, int count)
 		{
 			this.thing = thing;
 			this.Count = count;
 		}
 
-		// Token: 0x17000EC8 RID: 3784
-		// (get) Token: 0x06005C24 RID: 23588 RVA: 0x002EDF0C File Offset: 0x002EC30C
-		// (set) Token: 0x06005C25 RID: 23589 RVA: 0x002EDF28 File Offset: 0x002EC328
+		// Token: 0x17000EC7 RID: 3783
+		// (get) Token: 0x06005C2E RID: 23598 RVA: 0x002EE58C File Offset: 0x002EC98C
+		// (set) Token: 0x06005C2F RID: 23599 RVA: 0x002EE5A8 File Offset: 0x002EC9A8
 		public int Count
 		{
 			get
@@ -65,14 +65,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005C26 RID: 23590 RVA: 0x002EE005 File Offset: 0x002EC405
+		// Token: 0x06005C30 RID: 23600 RVA: 0x002EE685 File Offset: 0x002ECA85
 		public void ExposeData()
 		{
 			Scribe_References.Look<Thing>(ref this.thing, "thing", false);
 			Scribe_Values.Look<int>(ref this.countInt, "count", 1, false);
 		}
 
-		// Token: 0x06005C27 RID: 23591 RVA: 0x002EE02C File Offset: 0x002EC42C
+		// Token: 0x06005C31 RID: 23601 RVA: 0x002EE6AC File Offset: 0x002ECAAC
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -85,7 +85,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06005C28 RID: 23592 RVA: 0x002EE098 File Offset: 0x002EC498
+		// Token: 0x06005C32 RID: 23602 RVA: 0x002EE718 File Offset: 0x002ECB18
 		public static implicit operator ThingCountClass(ThingCount t)
 		{
 			return new ThingCountClass(t.Thing, t.Count);

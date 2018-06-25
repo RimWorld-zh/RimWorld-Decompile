@@ -6,14 +6,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002A3 RID: 675
+	// Token: 0x020002A5 RID: 677
 	public class IncidentWorker
 	{
 		// Token: 0x04000635 RID: 1589
 		public IncidentDef def;
 
 		// Token: 0x170001A7 RID: 423
-		// (get) Token: 0x06000B52 RID: 2898 RVA: 0x000664D4 File Offset: 0x000648D4
+		// (get) Token: 0x06000B56 RID: 2902 RVA: 0x00066624 File Offset: 0x00064A24
 		public virtual float AdjustedChance
 		{
 			get
@@ -22,7 +22,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B53 RID: 2899 RVA: 0x000664F4 File Offset: 0x000648F4
+		// Token: 0x06000B57 RID: 2903 RVA: 0x00066644 File Offset: 0x00064A44
 		public bool CanFireNow(IncidentParms parms)
 		{
 			bool result;
@@ -95,13 +95,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000B54 RID: 2900 RVA: 0x00066720 File Offset: 0x00064B20
+		// Token: 0x06000B58 RID: 2904 RVA: 0x00066870 File Offset: 0x00064C70
 		protected virtual bool CanFireNowSub(IncidentParms parms)
 		{
 			return true;
 		}
 
-		// Token: 0x06000B55 RID: 2901 RVA: 0x00066738 File Offset: 0x00064B38
+		// Token: 0x06000B59 RID: 2905 RVA: 0x00066888 File Offset: 0x00064C88
 		public bool TryExecute(IncidentParms parms)
 		{
 			bool flag = this.TryExecuteWorker(parms);
@@ -131,14 +131,14 @@ namespace RimWorld
 			return flag;
 		}
 
-		// Token: 0x06000B56 RID: 2902 RVA: 0x00066804 File Offset: 0x00064C04
+		// Token: 0x06000B5A RID: 2906 RVA: 0x00066954 File Offset: 0x00064D54
 		protected virtual bool TryExecuteWorker(IncidentParms parms)
 		{
 			Log.Error("Unimplemented incident " + this, false);
 			return false;
 		}
 
-		// Token: 0x06000B57 RID: 2903 RVA: 0x0006682C File Offset: 0x00064C2C
+		// Token: 0x06000B5B RID: 2907 RVA: 0x0006697C File Offset: 0x00064D7C
 		protected void SendStandardLetter()
 		{
 			if (this.def.letterLabel.NullOrEmpty() || this.def.letterText.NullOrEmpty())
@@ -148,7 +148,7 @@ namespace RimWorld
 			Find.LetterStack.ReceiveLetter(this.def.letterLabel, this.def.letterText, this.def.letterDef, null);
 		}
 
-		// Token: 0x06000B58 RID: 2904 RVA: 0x0006689C File Offset: 0x00064C9C
+		// Token: 0x06000B5C RID: 2908 RVA: 0x000669EC File Offset: 0x00064DEC
 		protected void SendStandardLetter(GlobalTargetInfo target, Faction relatedFaction = null, params string[] textArgs)
 		{
 			if (this.def.letterLabel.NullOrEmpty() || this.def.letterText.NullOrEmpty())

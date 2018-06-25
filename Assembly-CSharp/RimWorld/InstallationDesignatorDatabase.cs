@@ -4,13 +4,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000671 RID: 1649
+	// Token: 0x02000673 RID: 1651
 	public static class InstallationDesignatorDatabase
 	{
 		// Token: 0x0400138E RID: 5006
 		private static Dictionary<ThingDef, Designator_Install> designators = new Dictionary<ThingDef, Designator_Install>();
 
-		// Token: 0x060022A2 RID: 8866 RVA: 0x0012ACEC File Offset: 0x001290EC
+		// Token: 0x060022A6 RID: 8870 RVA: 0x0012AE3C File Offset: 0x0012923C
 		public static Designator_Install DesignatorFor(ThingDef artDef)
 		{
 			Designator_Install designator_Install;
@@ -28,7 +28,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060022A3 RID: 8867 RVA: 0x0012AD30 File Offset: 0x00129130
+		// Token: 0x060022A7 RID: 8871 RVA: 0x0012AE80 File Offset: 0x00129280
 		private static Designator_Install NewDesignatorFor(ThingDef artDef)
 		{
 			return new Designator_Install

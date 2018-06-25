@@ -6,7 +6,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020002B3 RID: 691
+	// Token: 0x020002B5 RID: 693
 	[StaticConstructorOnStartup]
 	public abstract class PawnColumnWorker
 	{
@@ -23,7 +23,7 @@ namespace RimWorld
 		private static readonly Texture2D SortingDescendingIcon = ContentFinder<Texture2D>.Get("UI/Icons/SortingDescending", true);
 
 		// Token: 0x170001BA RID: 442
-		// (get) Token: 0x06000B8C RID: 2956 RVA: 0x000684A0 File Offset: 0x000668A0
+		// (get) Token: 0x06000B90 RID: 2960 RVA: 0x000685F0 File Offset: 0x000669F0
 		protected virtual Color DefaultHeaderColor
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001BB RID: 443
-		// (get) Token: 0x06000B8D RID: 2957 RVA: 0x000684BC File Offset: 0x000668BC
+		// (get) Token: 0x06000B91 RID: 2961 RVA: 0x0006860C File Offset: 0x00066A0C
 		protected virtual GameFont DefaultHeaderFont
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B8E RID: 2958 RVA: 0x000684D4 File Offset: 0x000668D4
+		// Token: 0x06000B92 RID: 2962 RVA: 0x00068624 File Offset: 0x00066A24
 		public virtual void DoHeader(Rect rect, PawnTable table)
 		{
 			if (!this.def.label.NullOrEmpty())
@@ -89,10 +89,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B8F RID: 2959
+		// Token: 0x06000B93 RID: 2963
 		public abstract void DoCell(Rect rect, Pawn pawn, PawnTable table);
 
-		// Token: 0x06000B90 RID: 2960 RVA: 0x000686CC File Offset: 0x00066ACC
+		// Token: 0x06000B94 RID: 2964 RVA: 0x0006881C File Offset: 0x00066C1C
 		public virtual int GetMinWidth(PawnTable table)
 		{
 			int result;
@@ -114,25 +114,25 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000B91 RID: 2961 RVA: 0x00068764 File Offset: 0x00066B64
+		// Token: 0x06000B95 RID: 2965 RVA: 0x000688B4 File Offset: 0x00066CB4
 		public virtual int GetMaxWidth(PawnTable table)
 		{
 			return 1000000;
 		}
 
-		// Token: 0x06000B92 RID: 2962 RVA: 0x00068780 File Offset: 0x00066B80
+		// Token: 0x06000B96 RID: 2966 RVA: 0x000688D0 File Offset: 0x00066CD0
 		public virtual int GetOptimalWidth(PawnTable table)
 		{
 			return this.GetMinWidth(table);
 		}
 
-		// Token: 0x06000B93 RID: 2963 RVA: 0x0006879C File Offset: 0x00066B9C
+		// Token: 0x06000B97 RID: 2967 RVA: 0x000688EC File Offset: 0x00066CEC
 		public virtual int GetMinCellHeight(Pawn pawn)
 		{
 			return 30;
 		}
 
-		// Token: 0x06000B94 RID: 2964 RVA: 0x000687B4 File Offset: 0x00066BB4
+		// Token: 0x06000B98 RID: 2968 RVA: 0x00068904 File Offset: 0x00066D04
 		public virtual int GetMinHeaderHeight(PawnTable table)
 		{
 			int result;
@@ -154,20 +154,20 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000B95 RID: 2965 RVA: 0x0006884C File Offset: 0x00066C4C
+		// Token: 0x06000B99 RID: 2969 RVA: 0x0006899C File Offset: 0x00066D9C
 		public virtual int Compare(Pawn a, Pawn b)
 		{
 			return 0;
 		}
 
-		// Token: 0x06000B96 RID: 2966 RVA: 0x00068864 File Offset: 0x00066C64
+		// Token: 0x06000B9A RID: 2970 RVA: 0x000689B4 File Offset: 0x00066DB4
 		protected virtual Rect GetInteractableHeaderRect(Rect headerRect, PawnTable table)
 		{
 			float num = Mathf.Min(25f, headerRect.height);
 			return new Rect(headerRect.x, headerRect.yMax - num, headerRect.width, num);
 		}
 
-		// Token: 0x06000B97 RID: 2967 RVA: 0x000688A8 File Offset: 0x00066CA8
+		// Token: 0x06000B9B RID: 2971 RVA: 0x000689F8 File Offset: 0x00066DF8
 		protected virtual void HeaderClicked(Rect headerRect, PawnTable table)
 		{
 			if (this.def.sortable && !Event.current.shift)
@@ -211,7 +211,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B98 RID: 2968 RVA: 0x000689E0 File Offset: 0x00066DE0
+		// Token: 0x06000B9C RID: 2972 RVA: 0x00068B30 File Offset: 0x00066F30
 		protected virtual string GetHeaderTip(PawnTable table)
 		{
 			StringBuilder stringBuilder = new StringBuilder();

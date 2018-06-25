@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002F6 RID: 758
+	// Token: 0x020002F8 RID: 760
 	public class ExternalHistory : IExposable
 	{
 		// Token: 0x0400083C RID: 2108
@@ -38,7 +38,7 @@ namespace RimWorld
 		public static string defaultUserName = "Anonymous";
 
 		// Token: 0x170001EC RID: 492
-		// (get) Token: 0x06000CA4 RID: 3236 RVA: 0x0006F710 File Offset: 0x0006DB10
+		// (get) Token: 0x06000CA8 RID: 3240 RVA: 0x0006F860 File Offset: 0x0006DC60
 		public string AllInformation
 		{
 			get
@@ -54,7 +54,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CA5 RID: 3237 RVA: 0x0006F77C File Offset: 0x0006DB7C
+		// Token: 0x06000CA9 RID: 3241 RVA: 0x0006F8CC File Offset: 0x0006DCCC
 		public void ExposeData()
 		{
 			Scribe_Values.Look<string>(ref this.gameVersion, "gameVersion", null, false);

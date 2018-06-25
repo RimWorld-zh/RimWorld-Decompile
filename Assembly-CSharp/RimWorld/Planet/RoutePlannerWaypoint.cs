@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000601 RID: 1537
+	// Token: 0x02000603 RID: 1539
 	public class RoutePlannerWaypoint : WorldObject
 	{
 		// Token: 0x17000485 RID: 1157
-		// (get) Token: 0x06001EBD RID: 7869 RVA: 0x0010C610 File Offset: 0x0010AA10
+		// (get) Token: 0x06001EC1 RID: 7873 RVA: 0x0010C760 File Offset: 0x0010AB60
 		public override string Label
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EBE RID: 7870 RVA: 0x0010C674 File Offset: 0x0010AA74
+		// Token: 0x06001EC2 RID: 7874 RVA: 0x0010C7C4 File Offset: 0x0010ABC4
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -61,7 +61,7 @@ namespace RimWorld.Planet
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06001EBF RID: 7871 RVA: 0x0010C750 File Offset: 0x0010AB50
+		// Token: 0x06001EC3 RID: 7875 RVA: 0x0010C8A0 File Offset: 0x0010ACA0
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())

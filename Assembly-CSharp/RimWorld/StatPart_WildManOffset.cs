@@ -3,13 +3,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009B8 RID: 2488
+	// Token: 0x020009BA RID: 2490
 	public class StatPart_WildManOffset : StatPart
 	{
-		// Token: 0x040023BE RID: 9150
+		// Token: 0x040023BF RID: 9151
 		public float offset;
 
-		// Token: 0x060037BB RID: 14267 RVA: 0x001DACA4 File Offset: 0x001D90A4
+		// Token: 0x060037BF RID: 14271 RVA: 0x001DADE4 File Offset: 0x001D91E4
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (this.IsWildMan(req))
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037BC RID: 14268 RVA: 0x001DACC0 File Offset: 0x001D90C0
+		// Token: 0x060037C0 RID: 14272 RVA: 0x001DAE00 File Offset: 0x001D9200
 		public override string ExplanationPart(StatRequest req)
 		{
 			string result;
@@ -33,7 +33,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037BD RID: 14269 RVA: 0x001DAD0C File Offset: 0x001D910C
+		// Token: 0x060037C1 RID: 14273 RVA: 0x001DAE4C File Offset: 0x001D924C
 		private bool IsWildMan(StatRequest req)
 		{
 			Pawn pawn = req.Thing as Pawn;

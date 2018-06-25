@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006A0 RID: 1696
+	// Token: 0x020006A2 RID: 1698
 	public static class CommsConsoleUtility
 	{
-		// Token: 0x06002423 RID: 9251 RVA: 0x00136788 File Offset: 0x00134B88
+		// Token: 0x06002427 RID: 9255 RVA: 0x001368D8 File Offset: 0x00134CD8
 		public static bool PlayerHasPoweredCommsConsole(Map map)
 		{
 			List<Thing> list = map.listerThings.ThingsMatching(ThingRequest.ForDef(ThingDefOf.CommsConsole));
@@ -25,7 +25,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06002424 RID: 9252 RVA: 0x00136814 File Offset: 0x00134C14
+		// Token: 0x06002428 RID: 9256 RVA: 0x00136964 File Offset: 0x00134D64
 		public static bool PlayerHasPoweredCommsConsole()
 		{
 			List<Map> maps = Find.Maps;

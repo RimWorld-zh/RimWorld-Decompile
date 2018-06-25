@@ -6,7 +6,7 @@ using Verse.Grammar;
 
 namespace RimWorld
 {
-	// Token: 0x0200065C RID: 1628
+	// Token: 0x0200065E RID: 1630
 	public class TaleData_Thing : TaleData
 	{
 		// Token: 0x04001358 RID: 4952
@@ -24,7 +24,7 @@ namespace RimWorld
 		// Token: 0x0400135C RID: 4956
 		public QualityCategory quality;
 
-		// Token: 0x06002206 RID: 8710 RVA: 0x00120CE8 File Offset: 0x0011F0E8
+		// Token: 0x0600220A RID: 8714 RVA: 0x00120E38 File Offset: 0x0011F238
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.thingID, "thingID", 0, false);
@@ -34,7 +34,7 @@ namespace RimWorld
 			Scribe_Values.Look<QualityCategory>(ref this.quality, "quality", QualityCategory.Awful, false);
 		}
 
-		// Token: 0x06002207 RID: 8711 RVA: 0x00120D4C File Offset: 0x0011F14C
+		// Token: 0x0600220B RID: 8715 RVA: 0x00120E9C File Offset: 0x0011F29C
 		public override IEnumerable<Rule> GetRules(string prefix)
 		{
 			yield return new Rule_String(prefix + "_label", this.thingDef.label);
@@ -52,7 +52,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002208 RID: 8712 RVA: 0x00120D80 File Offset: 0x0011F180
+		// Token: 0x0600220C RID: 8716 RVA: 0x00120ED0 File Offset: 0x0011F2D0
 		public static TaleData_Thing GenerateFrom(Thing t)
 		{
 			TaleData_Thing taleData_Thing = new TaleData_Thing();
@@ -68,7 +68,7 @@ namespace RimWorld
 			return taleData_Thing;
 		}
 
-		// Token: 0x06002209 RID: 8713 RVA: 0x00120DF4 File Offset: 0x0011F1F4
+		// Token: 0x0600220D RID: 8717 RVA: 0x00120F44 File Offset: 0x0011F344
 		public static TaleData_Thing GenerateRandom()
 		{
 			ThingDef thingDef = DefDatabase<ThingDef>.AllDefs.Where(delegate(ThingDef d)

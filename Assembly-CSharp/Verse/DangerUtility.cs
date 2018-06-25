@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x020009E1 RID: 2529
+	// Token: 0x020009E3 RID: 2531
 	public static class DangerUtility
 	{
-		// Token: 0x060038C3 RID: 14531 RVA: 0x001E4C6C File Offset: 0x001E306C
+		// Token: 0x060038C7 RID: 14535 RVA: 0x001E4D98 File Offset: 0x001E3198
 		public static Danger NormalMaxDanger(this Pawn p)
 		{
 			Danger result;
@@ -36,7 +36,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060038C4 RID: 14532 RVA: 0x001E4D0C File Offset: 0x001E310C
+		// Token: 0x060038C8 RID: 14536 RVA: 0x001E4E38 File Offset: 0x001E3238
 		public static Danger GetDangerFor(this IntVec3 c, Pawn p, Map map)
 		{
 			Map mapHeld = p.MapHeld;

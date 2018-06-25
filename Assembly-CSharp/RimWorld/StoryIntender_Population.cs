@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000358 RID: 856
+	// Token: 0x0200035A RID: 858
 	[HasDebugOutput]
 	public class StoryIntender_Population : IExposable
 	{
@@ -16,19 +16,19 @@ namespace RimWorld
 		// Token: 0x0400091F RID: 2335
 		private int lastPopGainTime = -600000;
 
-		// Token: 0x06000ED3 RID: 3795 RVA: 0x0007D770 File Offset: 0x0007BB70
+		// Token: 0x06000ED7 RID: 3799 RVA: 0x0007D8C0 File Offset: 0x0007BCC0
 		public StoryIntender_Population()
 		{
 		}
 
-		// Token: 0x06000ED4 RID: 3796 RVA: 0x0007D784 File Offset: 0x0007BB84
+		// Token: 0x06000ED8 RID: 3800 RVA: 0x0007D8D4 File Offset: 0x0007BCD4
 		public StoryIntender_Population(Storyteller teller)
 		{
 			this.teller = teller;
 		}
 
 		// Token: 0x17000210 RID: 528
-		// (get) Token: 0x06000ED5 RID: 3797 RVA: 0x0007D7A0 File Offset: 0x0007BBA0
+		// (get) Token: 0x06000ED9 RID: 3801 RVA: 0x0007D8F0 File Offset: 0x0007BCF0
 		private StorytellerDef Def
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000211 RID: 529
-		// (get) Token: 0x06000ED6 RID: 3798 RVA: 0x0007D7C0 File Offset: 0x0007BBC0
+		// (get) Token: 0x06000EDA RID: 3802 RVA: 0x0007D910 File Offset: 0x0007BD10
 		private int TimeSinceLastGain
 		{
 			get
@@ -48,7 +48,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000212 RID: 530
-		// (get) Token: 0x06000ED7 RID: 3799 RVA: 0x0007D7E8 File Offset: 0x0007BBE8
+		// (get) Token: 0x06000EDB RID: 3803 RVA: 0x0007D938 File Offset: 0x0007BD38
 		public virtual float PopulationIntent
 		{
 			get
@@ -58,7 +58,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000213 RID: 531
-		// (get) Token: 0x06000ED8 RID: 3800 RVA: 0x0007D814 File Offset: 0x0007BC14
+		// (get) Token: 0x06000EDC RID: 3804 RVA: 0x0007D964 File Offset: 0x0007BD64
 		public float AdjustedPopulation
 		{
 			get
@@ -70,7 +70,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000214 RID: 532
-		// (get) Token: 0x06000ED9 RID: 3801 RVA: 0x0007D854 File Offset: 0x0007BC54
+		// (get) Token: 0x06000EDD RID: 3805 RVA: 0x0007D9A4 File Offset: 0x0007BDA4
 		public string DebugReadout
 		{
 			get
@@ -85,13 +85,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000EDA RID: 3802 RVA: 0x0007D8F1 File Offset: 0x0007BCF1
+		// Token: 0x06000EDE RID: 3806 RVA: 0x0007DA41 File Offset: 0x0007BE41
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.lastPopGainTime, "lastPopGainTime", 0, false);
 		}
 
-		// Token: 0x06000EDB RID: 3803 RVA: 0x0007D906 File Offset: 0x0007BD06
+		// Token: 0x06000EDF RID: 3807 RVA: 0x0007DA56 File Offset: 0x0007BE56
 		public void Notify_PopulationGained()
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -100,7 +100,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000EDC RID: 3804 RVA: 0x0007D924 File Offset: 0x0007BD24
+		// Token: 0x06000EE0 RID: 3808 RVA: 0x0007DA74 File Offset: 0x0007BE74
 		private static float CalculatePopulationIntent(StorytellerDef def, float curPop, int ticksSinceGain)
 		{
 			float num = def.populationIntentFromPopCurve.Evaluate(curPop);
@@ -112,7 +112,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06000EDD RID: 3805 RVA: 0x0007D96C File Offset: 0x0007BD6C
+		// Token: 0x06000EE1 RID: 3809 RVA: 0x0007DABC File Offset: 0x0007BEBC
 		[DebugOutput]
 		public void PopulationIntents()
 		{

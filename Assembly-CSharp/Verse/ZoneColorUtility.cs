@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CB8 RID: 3256
+	// Token: 0x02000CBA RID: 3258
 	public static class ZoneColorUtility
 	{
 		// Token: 0x040030BE RID: 12478
@@ -22,7 +22,7 @@ namespace Verse
 		// Token: 0x040030C2 RID: 12482
 		private const float ZoneOpacity = 0.09f;
 
-		// Token: 0x060047DC RID: 18396 RVA: 0x0025D120 File Offset: 0x0025B520
+		// Token: 0x060047DF RID: 18399 RVA: 0x0025D1FC File Offset: 0x0025B5FC
 		static ZoneColorUtility()
 		{
 			foreach (Color color in ZoneColorUtility.GrowingZoneColors())
@@ -37,7 +37,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047DD RID: 18397 RVA: 0x0025D238 File Offset: 0x0025B638
+		// Token: 0x060047E0 RID: 18400 RVA: 0x0025D314 File Offset: 0x0025B714
 		public static Color NextGrowingZoneColor()
 		{
 			Color result = ZoneColorUtility.growingZoneColors[ZoneColorUtility.nextGrowingZoneColorIndex];
@@ -49,7 +49,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060047DE RID: 18398 RVA: 0x0025D284 File Offset: 0x0025B684
+		// Token: 0x060047E1 RID: 18401 RVA: 0x0025D360 File Offset: 0x0025B760
 		public static Color NextStorageZoneColor()
 		{
 			Color result = ZoneColorUtility.storageZoneColors[ZoneColorUtility.nextStorageZoneColorIndex];
@@ -61,7 +61,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060047DF RID: 18399 RVA: 0x0025D2D0 File Offset: 0x0025B6D0
+		// Token: 0x060047E2 RID: 18402 RVA: 0x0025D3AC File Offset: 0x0025B7AC
 		private static IEnumerable<Color> GrowingZoneColors()
 		{
 			yield return Color.Lerp(new Color(0f, 1f, 0f), Color.gray, 0.5f);
@@ -72,7 +72,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060047E0 RID: 18400 RVA: 0x0025D2F4 File Offset: 0x0025B6F4
+		// Token: 0x060047E3 RID: 18403 RVA: 0x0025D3D0 File Offset: 0x0025B7D0
 		private static IEnumerable<Color> StorageZoneColors()
 		{
 			yield return Color.Lerp(new Color(1f, 0f, 0f), Color.gray, 0.5f);

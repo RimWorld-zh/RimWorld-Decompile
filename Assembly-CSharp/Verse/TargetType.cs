@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000B33 RID: 2867
+	// Token: 0x02000B35 RID: 2869
 	public enum TargetType : byte
 	{
 		// Token: 0x04002939 RID: 10553

@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200020F RID: 527
+	// Token: 0x02000211 RID: 529
 	public class ThoughtWorker_Hot : ThoughtWorker
 	{
-		// Token: 0x060009EA RID: 2538 RVA: 0x00058AF4 File Offset: 0x00056EF4
+		// Token: 0x060009EE RID: 2542 RVA: 0x00058C74 File Offset: 0x00057074
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			float statValue = p.GetStatValue(StatDefOf.ComfyTemperatureMax, true);

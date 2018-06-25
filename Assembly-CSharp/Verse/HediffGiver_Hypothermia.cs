@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D34 RID: 3380
+	// Token: 0x02000D36 RID: 3382
 	public class HediffGiver_Hypothermia : HediffGiver
 	{
 		// Token: 0x04003255 RID: 12885
 		public HediffDef hediffInsectoid;
 
-		// Token: 0x06004A89 RID: 19081 RVA: 0x0026E028 File Offset: 0x0026C428
+		// Token: 0x06004A8D RID: 19085 RVA: 0x0026E154 File Offset: 0x0026C554
 		public override void OnIntervalPassed(Pawn pawn, Hediff cause)
 		{
 			float ambientTemperature = pawn.AmbientTemperature;

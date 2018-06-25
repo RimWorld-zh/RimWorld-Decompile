@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020004FD RID: 1277
+	// Token: 0x020004FF RID: 1279
 	public enum OutdoorsCategory : byte
 	{
 		// Token: 0x04000D89 RID: 3465

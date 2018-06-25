@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002E1 RID: 737
+	// Token: 0x020002E3 RID: 739
 	public struct ThingSetMakerParams
 	{
 		// Token: 0x04000796 RID: 1942

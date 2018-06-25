@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CEF RID: 3311
+	// Token: 0x02000CF1 RID: 3313
 	public class PawnRenderer
 	{
 		// Token: 0x04003175 RID: 12661
@@ -71,7 +71,7 @@ namespace Verse
 		// Token: 0x04003189 RID: 12681
 		private const float YOffset_Status = 0.04296875f;
 
-		// Token: 0x060048EE RID: 18670 RVA: 0x002645C4 File Offset: 0x002629C4
+		// Token: 0x060048F1 RID: 18673 RVA: 0x002646A0 File Offset: 0x00262AA0
 		public PawnRenderer(Pawn pawn)
 		{
 			this.pawn = pawn;
@@ -82,8 +82,8 @@ namespace Verse
 			this.effecters = new PawnStatusEffecters(pawn);
 		}
 
-		// Token: 0x17000B86 RID: 2950
-		// (get) Token: 0x060048EF RID: 18671 RVA: 0x0026461C File Offset: 0x00262A1C
+		// Token: 0x17000B85 RID: 2949
+		// (get) Token: 0x060048F2 RID: 18674 RVA: 0x002646F8 File Offset: 0x00262AF8
 		private RotDrawMode CurRotDrawMode
 		{
 			get
@@ -101,13 +101,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048F0 RID: 18672 RVA: 0x00264668 File Offset: 0x00262A68
+		// Token: 0x060048F3 RID: 18675 RVA: 0x00264744 File Offset: 0x00262B44
 		public void RenderPawnAt(Vector3 drawLoc)
 		{
 			this.RenderPawnAt(drawLoc, this.CurRotDrawMode, !this.pawn.health.hediffSet.HasHead);
 		}
 
-		// Token: 0x060048F1 RID: 18673 RVA: 0x00264690 File Offset: 0x00262A90
+		// Token: 0x060048F4 RID: 18676 RVA: 0x0026476C File Offset: 0x00262B6C
 		public void RenderPawnAt(Vector3 drawLoc, RotDrawMode bodyDrawType, bool headStump)
 		{
 			if (!this.graphics.AllResolved)
@@ -226,7 +226,7 @@ namespace Verse
 			this.DrawDebug();
 		}
 
-		// Token: 0x060048F2 RID: 18674 RVA: 0x00264ACC File Offset: 0x00262ECC
+		// Token: 0x060048F5 RID: 18677 RVA: 0x00264BA8 File Offset: 0x00262FA8
 		public void RenderPortrait()
 		{
 			Vector3 zero = Vector3.zero;
@@ -244,13 +244,13 @@ namespace Verse
 			this.RenderPawnInternal(zero, quat, true, Rot4.South, Rot4.South, this.CurRotDrawMode, true, !this.pawn.health.hediffSet.HasHead);
 		}
 
-		// Token: 0x060048F3 RID: 18675 RVA: 0x00264B7C File Offset: 0x00262F7C
+		// Token: 0x060048F6 RID: 18678 RVA: 0x00264C58 File Offset: 0x00263058
 		private void RenderPawnInternal(Vector3 rootLoc, Quaternion quat, bool renderBody, RotDrawMode draw, bool headStump)
 		{
 			this.RenderPawnInternal(rootLoc, quat, renderBody, this.pawn.Rotation, this.pawn.Rotation, draw, false, headStump);
 		}
 
-		// Token: 0x060048F4 RID: 18676 RVA: 0x00264BB0 File Offset: 0x00262FB0
+		// Token: 0x060048F7 RID: 18679 RVA: 0x00264C8C File Offset: 0x0026308C
 		private void RenderPawnInternal(Vector3 rootLoc, Quaternion quat, bool renderBody, Rot4 bodyFacing, Rot4 headFacing, RotDrawMode bodyDrawType, bool portrait, bool headStump)
 		{
 			if (!this.graphics.AllResolved)
@@ -382,7 +382,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048F5 RID: 18677 RVA: 0x00265160 File Offset: 0x00263560
+		// Token: 0x060048F8 RID: 18680 RVA: 0x0026523C File Offset: 0x0026363C
 		private void DrawEquipment(Vector3 rootLoc)
 		{
 			if (!this.pawn.Dead && this.pawn.Spawned)
@@ -444,7 +444,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048F6 RID: 18678 RVA: 0x002654A8 File Offset: 0x002638A8
+		// Token: 0x060048F9 RID: 18681 RVA: 0x00265584 File Offset: 0x00263984
 		public void DrawEquipmentAiming(Thing eq, Vector3 drawLoc, float aimAngle)
 		{
 			float num = aimAngle - 90f;
@@ -479,7 +479,7 @@ namespace Verse
 			Graphics.DrawMesh(mesh, drawLoc, Quaternion.AngleAxis(num, Vector3.up), matSingle, 0);
 		}
 
-		// Token: 0x060048F7 RID: 18679 RVA: 0x00265594 File Offset: 0x00263994
+		// Token: 0x060048FA RID: 18682 RVA: 0x00265670 File Offset: 0x00263A70
 		private bool CarryWeaponOpenly()
 		{
 			bool result;
@@ -509,7 +509,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060048F8 RID: 18680 RVA: 0x0026565C File Offset: 0x00263A5C
+		// Token: 0x060048FB RID: 18683 RVA: 0x00265738 File Offset: 0x00263B38
 		private Rot4 LayingFacing()
 		{
 			Rot4 result;
@@ -552,7 +552,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060048F9 RID: 18681 RVA: 0x0026575C File Offset: 0x00263B5C
+		// Token: 0x060048FC RID: 18684 RVA: 0x00265838 File Offset: 0x00263C38
 		public Vector3 BaseHeadOffsetAt(Rot4 rotation)
 		{
 			Vector2 headOffset = this.pawn.story.bodyType.headOffset;
@@ -579,21 +579,21 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060048FA RID: 18682 RVA: 0x0026583A File Offset: 0x00263C3A
+		// Token: 0x060048FD RID: 18685 RVA: 0x00265916 File Offset: 0x00263D16
 		public void Notify_DamageApplied(DamageInfo dam)
 		{
 			this.graphics.flasher.Notify_DamageApplied(dam);
 			this.wiggler.Notify_DamageApplied(dam);
 		}
 
-		// Token: 0x060048FB RID: 18683 RVA: 0x0026585A File Offset: 0x00263C5A
+		// Token: 0x060048FE RID: 18686 RVA: 0x00265936 File Offset: 0x00263D36
 		public void RendererTick()
 		{
 			this.wiggler.WigglerTick();
 			this.effecters.EffectersTick();
 		}
 
-		// Token: 0x060048FC RID: 18684 RVA: 0x00265874 File Offset: 0x00263C74
+		// Token: 0x060048FF RID: 18687 RVA: 0x00265950 File Offset: 0x00263D50
 		private void DrawDebug()
 		{
 			if (DebugViewSettings.drawDuties && Find.Selector.IsSelected(this.pawn) && this.pawn.mindState != null && this.pawn.mindState.duty != null)

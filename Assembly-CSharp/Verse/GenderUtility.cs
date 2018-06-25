@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B58 RID: 2904
+	// Token: 0x02000B5A RID: 2906
 	[StaticConstructorOnStartup]
 	public static class GenderUtility
 	{
@@ -16,7 +16,7 @@ namespace Verse
 		// Token: 0x04002A31 RID: 10801
 		private static readonly Texture2D FemaleIcon = ContentFinder<Texture2D>.Get("UI/Icons/Gender/Female", true);
 
-		// Token: 0x06003F7F RID: 16255 RVA: 0x00217304 File Offset: 0x00215704
+		// Token: 0x06003F82 RID: 16258 RVA: 0x002173E0 File Offset: 0x002157E0
 		public static string GetLabel(this Gender gender)
 		{
 			string result;
@@ -42,7 +42,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003F80 RID: 16256 RVA: 0x00217364 File Offset: 0x00215764
+		// Token: 0x06003F83 RID: 16259 RVA: 0x00217440 File Offset: 0x00215840
 		public static string GetPronoun(this Gender gender)
 		{
 			string result;
@@ -68,7 +68,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003F81 RID: 16257 RVA: 0x002173C4 File Offset: 0x002157C4
+		// Token: 0x06003F84 RID: 16260 RVA: 0x002174A0 File Offset: 0x002158A0
 		public static string GetPossessive(this Gender gender)
 		{
 			string result;
@@ -94,7 +94,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003F82 RID: 16258 RVA: 0x00217424 File Offset: 0x00215824
+		// Token: 0x06003F85 RID: 16261 RVA: 0x00217500 File Offset: 0x00215900
 		public static string GetObjective(this Gender gender)
 		{
 			string result;
@@ -120,7 +120,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003F83 RID: 16259 RVA: 0x00217484 File Offset: 0x00215884
+		// Token: 0x06003F86 RID: 16262 RVA: 0x00217560 File Offset: 0x00215960
 		public static Texture2D GetIcon(this Gender gender)
 		{
 			Texture2D result;

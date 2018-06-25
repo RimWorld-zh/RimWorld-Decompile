@@ -5,11 +5,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000E15 RID: 3605
+	// Token: 0x02000E17 RID: 3607
 	[HasDebugOutput]
 	internal static class DebugOutputsEcology
 	{
-		// Token: 0x060051E3 RID: 20963 RVA: 0x0029F51C File Offset: 0x0029D91C
+		// Token: 0x060051E7 RID: 20967 RVA: 0x0029F648 File Offset: 0x0029DA48
 		[DebugOutput]
 		public static void PlantsBasics()
 		{
@@ -27,7 +27,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x060051E4 RID: 20964 RVA: 0x0029F67A File Offset: 0x0029DA7A
+		// Token: 0x060051E8 RID: 20968 RVA: 0x0029F7A6 File Offset: 0x0029DBA6
 		[DebugOutput]
 		[ModeRestrictionPlay]
 		public static void PlantCurrentProportions()
@@ -35,7 +35,7 @@ namespace Verse
 			GenPlant.LogPlantProportions();
 		}
 
-		// Token: 0x060051E5 RID: 20965 RVA: 0x0029F684 File Offset: 0x0029DA84
+		// Token: 0x060051E9 RID: 20969 RVA: 0x0029F7B0 File Offset: 0x0029DBB0
 		[DebugOutput]
 		public static void Biomes()
 		{
@@ -58,7 +58,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<BiomeDef>(dataSources, array);
 		}
 
-		// Token: 0x060051E6 RID: 20966 RVA: 0x0029F86A File Offset: 0x0029DC6A
+		// Token: 0x060051EA RID: 20970 RVA: 0x0029F996 File Offset: 0x0029DD96
 		[DebugOutput]
 		public static void BiomeAnimalsSpawnChances()
 		{
@@ -79,14 +79,14 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x060051E7 RID: 20967 RVA: 0x0029F88F File Offset: 0x0029DC8F
+		// Token: 0x060051EB RID: 20971 RVA: 0x0029F9BB File Offset: 0x0029DDBB
 		[DebugOutput]
 		public static void BiomeAnimalsTypicalCounts()
 		{
 			DebugOutputsEcology.BiomeAnimalsInternal((PawnKindDef k, BiomeDef b) => DebugOutputsEcology.ExpectedAnimalCount(k, b).ToStringEmptyZero("F2"));
 		}
 
-		// Token: 0x060051E8 RID: 20968 RVA: 0x0029F8B4 File Offset: 0x0029DCB4
+		// Token: 0x060051EC RID: 20972 RVA: 0x0029F9E0 File Offset: 0x0029DDE0
 		private static float ExpectedAnimalCount(PawnKindDef k, BiomeDef b)
 		{
 			float num = b.CommonalityOfAnimal(k);
@@ -110,7 +110,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060051E9 RID: 20969 RVA: 0x0029F984 File Offset: 0x0029DD84
+		// Token: 0x060051ED RID: 20973 RVA: 0x0029FAB0 File Offset: 0x0029DEB0
 		private static void BiomeAnimalsInternal(Func<PawnKindDef, BiomeDef, string> densityInBiomeOutputter)
 		{
 			List<TableDataGetter<PawnKindDef>> list = (from b in DefDatabase<BiomeDef>.AllDefs
@@ -124,7 +124,7 @@ namespace Verse
 			select d, list.ToArray());
 		}
 
-		// Token: 0x060051EA RID: 20970 RVA: 0x0029FA84 File Offset: 0x0029DE84
+		// Token: 0x060051EE RID: 20974 RVA: 0x0029FBB0 File Offset: 0x0029DFB0
 		[DebugOutput]
 		public static void BiomePlantsExpectedCount()
 		{
@@ -140,7 +140,7 @@ namespace Verse
 			select d, list.ToArray());
 		}
 
-		// Token: 0x060051EB RID: 20971 RVA: 0x0029FBA0 File Offset: 0x0029DFA0
+		// Token: 0x060051EF RID: 20975 RVA: 0x0029FCCC File Offset: 0x0029E0CC
 		[DebugOutput]
 		public static void AnimalWildCountsOnMap()
 		{
@@ -158,7 +158,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<PawnKindDef>(dataSources, array);
 		}
 
-		// Token: 0x060051EC RID: 20972 RVA: 0x0029FC50 File Offset: 0x0029E050
+		// Token: 0x060051F0 RID: 20976 RVA: 0x0029FD7C File Offset: 0x0029E17C
 		[DebugOutput]
 		public static void PlantCountsOnMap()
 		{

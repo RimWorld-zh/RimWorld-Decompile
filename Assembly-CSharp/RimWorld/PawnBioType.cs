@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020004DF RID: 1247
+	// Token: 0x020004E1 RID: 1249
 	public enum PawnBioType
 	{
 		// Token: 0x04000CFB RID: 3323

@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003DD RID: 989
+	// Token: 0x020003DF RID: 991
 	public class SymbolResolver_Ship_Populate : SymbolResolver
 	{
-		// Token: 0x060010F7 RID: 4343 RVA: 0x00090928 File Offset: 0x0008ED28
+		// Token: 0x060010FB RID: 4347 RVA: 0x00090A78 File Offset: 0x0008EE78
 		public override void Resolve(ResolveParams rp)
 		{
 			if (rp.thrustAxis == null)
@@ -29,7 +29,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010F8 RID: 4344 RVA: 0x00090A10 File Offset: 0x0008EE10
+		// Token: 0x060010FC RID: 4348 RVA: 0x00090B60 File Offset: 0x0008EF60
 		public void AttemptToPlace(ThingDef thingDef, CellRect rect, Rot4 rotation, Faction faction)
 		{
 			Map map = BaseGen.globalSettings.map;

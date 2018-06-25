@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DAE RID: 3502
+	// Token: 0x02000DB0 RID: 3504
 	public abstract class Sample
 	{
 		// Token: 0x04003427 RID: 13351
@@ -32,7 +32,7 @@ namespace Verse.Sound
 		// Token: 0x0400342E RID: 13358
 		private Dictionary<SoundParamTarget, float> volumeInMappings = new Dictionary<SoundParamTarget, float>();
 
-		// Token: 0x06004E3D RID: 20029 RVA: 0x0028EFF0 File Offset: 0x0028D3F0
+		// Token: 0x06004E41 RID: 20033 RVA: 0x0028F11C File Offset: 0x0028D51C
 		public Sample(SubSoundDef def)
 		{
 			this.subDef = def;
@@ -54,8 +54,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000C91 RID: 3217
-		// (get) Token: 0x06004E3E RID: 20030 RVA: 0x0028F0F4 File Offset: 0x0028D4F4
+		// Token: 0x17000C90 RID: 3216
+		// (get) Token: 0x06004E42 RID: 20034 RVA: 0x0028F220 File Offset: 0x0028D620
 		public float AgeRealTime
 		{
 			get
@@ -64,8 +64,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000C92 RID: 3218
-		// (get) Token: 0x06004E3F RID: 20031 RVA: 0x0028F118 File Offset: 0x0028D518
+		// Token: 0x17000C91 RID: 3217
+		// (get) Token: 0x06004E43 RID: 20035 RVA: 0x0028F244 File Offset: 0x0028D644
 		public int AgeTicks
 		{
 			get
@@ -83,28 +83,28 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000C93 RID: 3219
-		// (get) Token: 0x06004E40 RID: 20032
+		// Token: 0x17000C92 RID: 3218
+		// (get) Token: 0x06004E44 RID: 20036
 		public abstract float ParentStartRealTime { get; }
 
-		// Token: 0x17000C94 RID: 3220
-		// (get) Token: 0x06004E41 RID: 20033
+		// Token: 0x17000C93 RID: 3219
+		// (get) Token: 0x06004E45 RID: 20037
 		public abstract float ParentStartTick { get; }
 
-		// Token: 0x17000C95 RID: 3221
-		// (get) Token: 0x06004E42 RID: 20034
+		// Token: 0x17000C94 RID: 3220
+		// (get) Token: 0x06004E46 RID: 20038
 		public abstract float ParentHashCode { get; }
 
-		// Token: 0x17000C96 RID: 3222
-		// (get) Token: 0x06004E43 RID: 20035
+		// Token: 0x17000C95 RID: 3221
+		// (get) Token: 0x06004E47 RID: 20039
 		public abstract SoundParams ExternalParams { get; }
 
-		// Token: 0x17000C97 RID: 3223
-		// (get) Token: 0x06004E44 RID: 20036
+		// Token: 0x17000C96 RID: 3222
+		// (get) Token: 0x06004E48 RID: 20040
 		public abstract SoundInfo Info { get; }
 
-		// Token: 0x17000C98 RID: 3224
-		// (get) Token: 0x06004E45 RID: 20037 RVA: 0x0028F15C File Offset: 0x0028D55C
+		// Token: 0x17000C97 RID: 3223
+		// (get) Token: 0x06004E49 RID: 20041 RVA: 0x0028F288 File Offset: 0x0028D688
 		public Map Map
 		{
 			get
@@ -113,8 +113,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000C99 RID: 3225
-		// (get) Token: 0x06004E46 RID: 20038 RVA: 0x0028F188 File Offset: 0x0028D588
+		// Token: 0x17000C98 RID: 3224
+		// (get) Token: 0x06004E4A RID: 20042 RVA: 0x0028F2B4 File Offset: 0x0028D6B4
 		protected bool TestPlaying
 		{
 			get
@@ -123,8 +123,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000C9A RID: 3226
-		// (get) Token: 0x06004E47 RID: 20039 RVA: 0x0028F1AC File Offset: 0x0028D5AC
+		// Token: 0x17000C99 RID: 3225
+		// (get) Token: 0x06004E4B RID: 20043 RVA: 0x0028F2D8 File Offset: 0x0028D6D8
 		protected float MappedVolumeMultiplier
 		{
 			get
@@ -139,8 +139,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000C9B RID: 3227
-		// (get) Token: 0x06004E48 RID: 20040 RVA: 0x0028F220 File Offset: 0x0028D620
+		// Token: 0x17000C9A RID: 3226
+		// (get) Token: 0x06004E4C RID: 20044 RVA: 0x0028F34C File Offset: 0x0028D74C
 		protected float ContextVolumeMultiplier
 		{
 			get
@@ -158,8 +158,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000C9C RID: 3228
-		// (get) Token: 0x06004E49 RID: 20041 RVA: 0x0028F260 File Offset: 0x0028D660
+		// Token: 0x17000C9B RID: 3227
+		// (get) Token: 0x06004E4D RID: 20045 RVA: 0x0028F38C File Offset: 0x0028D78C
 		protected virtual float Volume
 		{
 			get
@@ -177,8 +177,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000C9D RID: 3229
-		// (get) Token: 0x06004E4A RID: 20042 RVA: 0x0028F2DC File Offset: 0x0028D6DC
+		// Token: 0x17000C9C RID: 3228
+		// (get) Token: 0x06004E4E RID: 20046 RVA: 0x0028F408 File Offset: 0x0028D808
 		public float SanitizedVolume
 		{
 			get
@@ -187,8 +187,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000C9E RID: 3230
-		// (get) Token: 0x06004E4B RID: 20043 RVA: 0x0028F308 File Offset: 0x0028D708
+		// Token: 0x17000C9D RID: 3229
+		// (get) Token: 0x06004E4F RID: 20047 RVA: 0x0028F434 File Offset: 0x0028D834
 		protected virtual float Pitch
 		{
 			get
@@ -202,8 +202,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000C9F RID: 3231
-		// (get) Token: 0x06004E4C RID: 20044 RVA: 0x0028F378 File Offset: 0x0028D778
+		// Token: 0x17000C9E RID: 3230
+		// (get) Token: 0x06004E50 RID: 20048 RVA: 0x0028F4A4 File Offset: 0x0028D8A4
 		public float SanitizedPitch
 		{
 			get
@@ -212,7 +212,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E4D RID: 20045 RVA: 0x0028F3A4 File Offset: 0x0028D7A4
+		// Token: 0x06004E51 RID: 20049 RVA: 0x0028F4D0 File Offset: 0x0028D8D0
 		public virtual void Update()
 		{
 			this.source.pitch = this.SanitizedPitch;
@@ -242,7 +242,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E4E RID: 20046 RVA: 0x0028F480 File Offset: 0x0028D880
+		// Token: 0x06004E52 RID: 20050 RVA: 0x0028F5AC File Offset: 0x0028D9AC
 		public void ApplyMappedParameters()
 		{
 			for (int i = 0; i < this.subDef.paramMappings.Count; i++)
@@ -256,13 +256,13 @@ namespace Verse.Sound
 			this.mappingsApplied = true;
 		}
 
-		// Token: 0x06004E4F RID: 20047 RVA: 0x0028F4ED File Offset: 0x0028D8ED
+		// Token: 0x06004E53 RID: 20051 RVA: 0x0028F619 File Offset: 0x0028DA19
 		public void SignalMappedVolume(float value, SoundParamTarget sourceParam)
 		{
 			this.volumeInMappings[sourceParam] = value;
 		}
 
-		// Token: 0x06004E50 RID: 20048 RVA: 0x0028F500 File Offset: 0x0028D900
+		// Token: 0x06004E54 RID: 20052 RVA: 0x0028F62C File Offset: 0x0028DA2C
 		public virtual void SampleCleanup()
 		{
 			for (int i = 0; i < this.subDef.paramMappings.Count; i++)
@@ -275,7 +275,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E51 RID: 20049 RVA: 0x0028F564 File Offset: 0x0028D964
+		// Token: 0x06004E55 RID: 20053 RVA: 0x0028F690 File Offset: 0x0028DA90
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -289,7 +289,7 @@ namespace Verse.Sound
 			});
 		}
 
-		// Token: 0x06004E52 RID: 20050 RVA: 0x0028F5DC File Offset: 0x0028D9DC
+		// Token: 0x06004E56 RID: 20054 RVA: 0x0028F708 File Offset: 0x0028DB08
 		public override int GetHashCode()
 		{
 			return Gen.HashCombine<SubSoundDef>(this.startRealTime.GetHashCode(), this.subDef);

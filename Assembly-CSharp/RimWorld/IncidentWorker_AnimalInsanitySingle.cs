@@ -4,13 +4,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000323 RID: 803
+	// Token: 0x02000325 RID: 805
 	public class IncidentWorker_AnimalInsanitySingle : IncidentWorker
 	{
 		// Token: 0x040008C2 RID: 2242
 		private const int FixedPoints = 30;
 
-		// Token: 0x06000DB9 RID: 3513 RVA: 0x0007570C File Offset: 0x00073B0C
+		// Token: 0x06000DBD RID: 3517 RVA: 0x0007585C File Offset: 0x00073C5C
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -27,7 +27,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DBA RID: 3514 RVA: 0x0007574C File Offset: 0x00073B4C
+		// Token: 0x06000DBE RID: 3518 RVA: 0x0007589C File Offset: 0x00073C9C
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -50,7 +50,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DBB RID: 3515 RVA: 0x000757C8 File Offset: 0x00073BC8
+		// Token: 0x06000DBF RID: 3519 RVA: 0x00075918 File Offset: 0x00073D18
 		private bool TryFindRandomAnimal(Map map, out Pawn animal)
 		{
 			int maxPoints = 150;

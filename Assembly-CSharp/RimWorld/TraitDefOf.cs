@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000938 RID: 2360
+	// Token: 0x0200093A RID: 2362
 	[DefOf]
 	public static class TraitDefOf
 	{
@@ -67,30 +67,33 @@ namespace RimWorld
 		public static TraitDef TooSmart;
 
 		// Token: 0x0400207B RID: 8315
-		public static TraitDef BodyPurist;
+		public static TraitDef Transhumanist;
 
 		// Token: 0x0400207C RID: 8316
-		public static TraitDef NaturalMood;
+		public static TraitDef BodyPurist;
 
 		// Token: 0x0400207D RID: 8317
-		public static TraitDef PsychicSensitivity;
+		public static TraitDef NaturalMood;
 
 		// Token: 0x0400207E RID: 8318
-		public static TraitDef Tunneler;
+		public static TraitDef PsychicSensitivity;
 
 		// Token: 0x0400207F RID: 8319
-		public static TraitDef GreatMemory;
+		public static TraitDef Tunneler;
 
 		// Token: 0x04002080 RID: 8320
-		public static TraitDef Tough;
+		public static TraitDef GreatMemory;
 
 		// Token: 0x04002081 RID: 8321
-		public static TraitDef SpeedOffset;
+		public static TraitDef Tough;
 
 		// Token: 0x04002082 RID: 8322
+		public static TraitDef SpeedOffset;
+
+		// Token: 0x04002083 RID: 8323
 		public static TraitDef ShootingAccuracy;
 
-		// Token: 0x06003640 RID: 13888 RVA: 0x001D0B3D File Offset: 0x001CEF3D
+		// Token: 0x06003644 RID: 13892 RVA: 0x001D0C7D File Offset: 0x001CF07D
 		static TraitDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(TraitDefOf));

@@ -2,10 +2,10 @@
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x0200039C RID: 924
+	// Token: 0x0200039E RID: 926
 	public class SymbolResolver_BasePart_Outdoors_LeafDecorated_EdgeStreet : SymbolResolver
 	{
-		// Token: 0x0600101F RID: 4127 RVA: 0x00087F88 File Offset: 0x00086388
+		// Token: 0x06001023 RID: 4131 RVA: 0x000880D8 File Offset: 0x000864D8
 		public override void Resolve(ResolveParams rp)
 		{
 			ResolveParams resolveParams = rp;

@@ -6,7 +6,7 @@ using RimWorld;
 
 namespace Verse.Grammar
 {
-	// Token: 0x02000BE1 RID: 3041
+	// Token: 0x02000BE3 RID: 3043
 	public static class GrammarResolver
 	{
 		// Token: 0x04002D6C RID: 11628
@@ -30,7 +30,7 @@ namespace Verse.Grammar
 		// Token: 0x04002D72 RID: 11634
 		private static Regex Spaces = new Regex(" +([,.])");
 
-		// Token: 0x0600426D RID: 17005 RVA: 0x0022F138 File Offset: 0x0022D538
+		// Token: 0x06004270 RID: 17008 RVA: 0x0022F214 File Offset: 0x0022D614
 		private static void AddRule(Rule rule)
 		{
 			List<GrammarResolver.RuleEntry> list = null;
@@ -43,7 +43,7 @@ namespace Verse.Grammar
 			list.Add(new GrammarResolver.RuleEntry(rule));
 		}
 
-		// Token: 0x0600426E RID: 17006 RVA: 0x0022F190 File Offset: 0x0022D590
+		// Token: 0x06004271 RID: 17009 RVA: 0x0022F26C File Offset: 0x0022D66C
 		public static string Resolve(string rootKeyword, GrammarRequest request, string debugLabel = null, bool forceLog = false)
 		{
 			bool flag = forceLog || DebugViewSettings.logGrammarResolution;
@@ -197,7 +197,7 @@ namespace Verse.Grammar
 			return text;
 		}
 
-		// Token: 0x0600426F RID: 17007 RVA: 0x0022F6C0 File Offset: 0x0022DAC0
+		// Token: 0x06004272 RID: 17010 RVA: 0x0022F79C File Offset: 0x0022DB9C
 		private static bool TryResolveRecursive(GrammarResolver.RuleEntry entry, int depth, Dictionary<string, string> constants, out string output, bool log)
 		{
 			if (log)
@@ -298,7 +298,7 @@ namespace Verse.Grammar
 			return result;
 		}
 
-		// Token: 0x06004270 RID: 17008 RVA: 0x0022F92C File Offset: 0x0022DD2C
+		// Token: 0x06004273 RID: 17011 RVA: 0x0022FA08 File Offset: 0x0022DE08
 		private static GrammarResolver.RuleEntry RandomPossiblyResolvableEntry(string keyword, Dictionary<string, string> constants)
 		{
 			List<GrammarResolver.RuleEntry> list = GrammarResolver.rules.TryGetValue(keyword, null);
@@ -326,7 +326,7 @@ namespace Verse.Grammar
 			return result;
 		}
 
-		// Token: 0x02000BE2 RID: 3042
+		// Token: 0x02000BE4 RID: 3044
 		private class RuleEntry
 		{
 			// Token: 0x04002D74 RID: 11636
@@ -344,15 +344,15 @@ namespace Verse.Grammar
 			// Token: 0x04002D78 RID: 11640
 			public int uses = 0;
 
-			// Token: 0x06004273 RID: 17011 RVA: 0x0022F9C5 File Offset: 0x0022DDC5
+			// Token: 0x06004276 RID: 17014 RVA: 0x0022FAA1 File Offset: 0x0022DEA1
 			public RuleEntry(Rule rule)
 			{
 				this.rule = rule;
 				this.knownUnresolvable = false;
 			}
 
-			// Token: 0x17000A75 RID: 2677
-			// (get) Token: 0x06004274 RID: 17012 RVA: 0x0022F9E4 File Offset: 0x0022DDE4
+			// Token: 0x17000A74 RID: 2676
+			// (get) Token: 0x06004277 RID: 17015 RVA: 0x0022FAC0 File Offset: 0x0022DEC0
 			public float SelectionWeight
 			{
 				get
@@ -361,13 +361,13 @@ namespace Verse.Grammar
 				}
 			}
 
-			// Token: 0x06004275 RID: 17013 RVA: 0x0022FA1A File Offset: 0x0022DE1A
+			// Token: 0x06004278 RID: 17016 RVA: 0x0022FAF6 File Offset: 0x0022DEF6
 			public void MarkKnownUnresolvable()
 			{
 				this.knownUnresolvable = true;
 			}
 
-			// Token: 0x06004276 RID: 17014 RVA: 0x0022FA24 File Offset: 0x0022DE24
+			// Token: 0x06004279 RID: 17017 RVA: 0x0022FB00 File Offset: 0x0022DF00
 			public bool ValidateConstantConstraints(Dictionary<string, string> constraints)
 			{
 				if (!this.constantConstraintsChecked)
@@ -391,7 +391,7 @@ namespace Verse.Grammar
 				return this.constantConstraintsValid;
 			}
 
-			// Token: 0x06004277 RID: 17015 RVA: 0x0022FAEC File Offset: 0x0022DEEC
+			// Token: 0x0600427A RID: 17018 RVA: 0x0022FBC8 File Offset: 0x0022DFC8
 			public override string ToString()
 			{
 				return this.rule.ToString();

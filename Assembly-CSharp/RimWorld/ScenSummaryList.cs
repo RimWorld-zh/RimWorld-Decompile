@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200064F RID: 1615
+	// Token: 0x02000651 RID: 1617
 	public static class ScenSummaryList
 	{
-		// Token: 0x06002191 RID: 8593 RVA: 0x0011CCA8 File Offset: 0x0011B0A8
+		// Token: 0x06002195 RID: 8597 RVA: 0x0011CDF8 File Offset: 0x0011B1F8
 		public static string SummaryWithList(Scenario scen, string tag, string intro)
 		{
 			string text = ScenSummaryList.SummaryList(scen, tag);
@@ -23,7 +23,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002192 RID: 8594 RVA: 0x0011CCEC File Offset: 0x0011B0EC
+		// Token: 0x06002196 RID: 8598 RVA: 0x0011CE3C File Offset: 0x0011B23C
 		private static string SummaryList(Scenario scen, string tag)
 		{
 			StringBuilder stringBuilder = new StringBuilder();

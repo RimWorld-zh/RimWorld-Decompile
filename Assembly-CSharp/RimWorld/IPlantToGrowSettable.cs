@@ -4,24 +4,24 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000453 RID: 1107
+	// Token: 0x02000455 RID: 1109
 	public interface IPlantToGrowSettable
 	{
 		// Token: 0x170002A5 RID: 677
-		// (get) Token: 0x0600135F RID: 4959
+		// (get) Token: 0x06001363 RID: 4963
 		Map Map { get; }
 
 		// Token: 0x170002A6 RID: 678
-		// (get) Token: 0x06001360 RID: 4960
+		// (get) Token: 0x06001364 RID: 4964
 		IEnumerable<IntVec3> Cells { get; }
 
-		// Token: 0x06001361 RID: 4961
+		// Token: 0x06001365 RID: 4965
 		ThingDef GetPlantDefToGrow();
 
-		// Token: 0x06001362 RID: 4962
+		// Token: 0x06001366 RID: 4966
 		void SetPlantDefToGrow(ThingDef plantDef);
 
-		// Token: 0x06001363 RID: 4963
+		// Token: 0x06001367 RID: 4967
 		bool CanAcceptSowNow();
 	}
 }

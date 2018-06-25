@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C20 RID: 3104
+	// Token: 0x02000C22 RID: 3106
 	public sealed class ExitMapGrid : ICellBoolGiver
 	{
 		// Token: 0x04002E5F RID: 11871
@@ -22,14 +22,14 @@ namespace Verse
 		// Token: 0x04002E63 RID: 11875
 		private const int MaxDistToEdge = 2;
 
-		// Token: 0x060043F9 RID: 17401 RVA: 0x0023D908 File Offset: 0x0023BD08
+		// Token: 0x060043FC RID: 17404 RVA: 0x0023D9E4 File Offset: 0x0023BDE4
 		public ExitMapGrid(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x17000AAB RID: 2731
-		// (get) Token: 0x060043FA RID: 17402 RVA: 0x0023D920 File Offset: 0x0023BD20
+		// Token: 0x17000AAA RID: 2730
+		// (get) Token: 0x060043FD RID: 17405 RVA: 0x0023D9FC File Offset: 0x0023BDFC
 		public bool MapUsesExitGrid
 		{
 			get
@@ -56,8 +56,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AAC RID: 2732
-		// (get) Token: 0x060043FB RID: 17403 RVA: 0x0023D9B0 File Offset: 0x0023BDB0
+		// Token: 0x17000AAB RID: 2731
+		// (get) Token: 0x060043FE RID: 17406 RVA: 0x0023DA8C File Offset: 0x0023BE8C
 		public CellBoolDrawer Drawer
 		{
 			get
@@ -83,8 +83,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AAD RID: 2733
-		// (get) Token: 0x060043FC RID: 17404 RVA: 0x0023DA30 File Offset: 0x0023BE30
+		// Token: 0x17000AAC RID: 2732
+		// (get) Token: 0x060043FF RID: 17407 RVA: 0x0023DB0C File Offset: 0x0023BF0C
 		public BoolGrid Grid
 		{
 			get
@@ -106,8 +106,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AAE RID: 2734
-		// (get) Token: 0x060043FD RID: 17405 RVA: 0x0023DA70 File Offset: 0x0023BE70
+		// Token: 0x17000AAD RID: 2733
+		// (get) Token: 0x06004400 RID: 17408 RVA: 0x0023DB4C File Offset: 0x0023BF4C
 		public Color Color
 		{
 			get
@@ -116,25 +116,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043FE RID: 17406 RVA: 0x0023DAA0 File Offset: 0x0023BEA0
+		// Token: 0x06004401 RID: 17409 RVA: 0x0023DB7C File Offset: 0x0023BF7C
 		public bool GetCellBool(int index)
 		{
 			return this.Grid[index] && !this.map.fogGrid.IsFogged(index);
 		}
 
-		// Token: 0x060043FF RID: 17407 RVA: 0x0023DAE0 File Offset: 0x0023BEE0
+		// Token: 0x06004402 RID: 17410 RVA: 0x0023DBBC File Offset: 0x0023BFBC
 		public Color GetCellExtraColor(int index)
 		{
 			return Color.white;
 		}
 
-		// Token: 0x06004400 RID: 17408 RVA: 0x0023DAFC File Offset: 0x0023BEFC
+		// Token: 0x06004403 RID: 17411 RVA: 0x0023DBD8 File Offset: 0x0023BFD8
 		public bool IsExitCell(IntVec3 c)
 		{
 			return this.MapUsesExitGrid && this.Grid[c];
 		}
 
-		// Token: 0x06004401 RID: 17409 RVA: 0x0023DB2F File Offset: 0x0023BF2F
+		// Token: 0x06004404 RID: 17412 RVA: 0x0023DC0B File Offset: 0x0023C00B
 		public void ExitMapGridUpdate()
 		{
 			if (this.MapUsesExitGrid)
@@ -144,19 +144,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004402 RID: 17410 RVA: 0x0023DB58 File Offset: 0x0023BF58
+		// Token: 0x06004405 RID: 17413 RVA: 0x0023DC34 File Offset: 0x0023C034
 		public void Notify_LOSBlockerSpawned()
 		{
 			this.dirty = true;
 		}
 
-		// Token: 0x06004403 RID: 17411 RVA: 0x0023DB62 File Offset: 0x0023BF62
+		// Token: 0x06004406 RID: 17414 RVA: 0x0023DC3E File Offset: 0x0023C03E
 		public void Notify_LOSBlockerDespawned()
 		{
 			this.dirty = true;
 		}
 
-		// Token: 0x06004404 RID: 17412 RVA: 0x0023DB6C File Offset: 0x0023BF6C
+		// Token: 0x06004407 RID: 17415 RVA: 0x0023DC48 File Offset: 0x0023C048
 		private void Rebuild()
 		{
 			this.dirty = false;
@@ -190,7 +190,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004405 RID: 17413 RVA: 0x0023DC70 File Offset: 0x0023C070
+		// Token: 0x06004408 RID: 17416 RVA: 0x0023DD4C File Offset: 0x0023C14C
 		private bool IsGoodExitCell(IntVec3 cell)
 		{
 			bool result;

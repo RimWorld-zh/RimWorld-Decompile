@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002DA RID: 730
+	// Token: 0x020002DC RID: 732
 	public class StorytellerDef : Def
 	{
 		// Token: 0x04000769 RID: 1897
@@ -63,7 +63,7 @@ namespace RimWorld
 		[Unsaved]
 		public Texture2D portraitTinyTex;
 
-		// Token: 0x06000C0D RID: 3085 RVA: 0x0006AFD8 File Offset: 0x000693D8
+		// Token: 0x06000C11 RID: 3089 RVA: 0x0006B128 File Offset: 0x00069528
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -81,7 +81,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C0E RID: 3086 RVA: 0x0006B030 File Offset: 0x00069430
+		// Token: 0x06000C12 RID: 3090 RVA: 0x0006B180 File Offset: 0x00069580
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())

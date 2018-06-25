@@ -6,7 +6,7 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020006E1 RID: 1761
+	// Token: 0x020006E3 RID: 1763
 	public class DropPodLeaving : Skyfaller, IActiveDropPod, IThingHolder
 	{
 		// Token: 0x0400155B RID: 5467
@@ -25,8 +25,8 @@ namespace RimWorld
 		private static List<Thing> tmpActiveDropPods = new List<Thing>();
 
 		// Token: 0x170005D6 RID: 1494
-		// (get) Token: 0x06002657 RID: 9815 RVA: 0x00149660 File Offset: 0x00147A60
-		// (set) Token: 0x06002658 RID: 9816 RVA: 0x0014968B File Offset: 0x00147A8B
+		// (get) Token: 0x0600265B RID: 9819 RVA: 0x001497B0 File Offset: 0x00147BB0
+		// (set) Token: 0x0600265C RID: 9820 RVA: 0x001497DB File Offset: 0x00147BDB
 		public ActiveDropPodInfo Contents
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002659 RID: 9817 RVA: 0x001496A8 File Offset: 0x00147AA8
+		// Token: 0x0600265D RID: 9821 RVA: 0x001497F8 File Offset: 0x00147BF8
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -49,7 +49,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.alreadyLeft, "alreadyLeft", false, false);
 		}
 
-		// Token: 0x0600265A RID: 9818 RVA: 0x00149708 File Offset: 0x00147B08
+		// Token: 0x0600265E RID: 9822 RVA: 0x00149858 File Offset: 0x00147C58
 		protected override void LeaveMap()
 		{
 			if (this.alreadyLeft)

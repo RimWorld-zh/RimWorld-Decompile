@@ -3,20 +3,20 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000EB5 RID: 3765
+	// Token: 0x02000EB7 RID: 3767
 	public class Dialog_RenameZone : Dialog_Rename
 	{
 		// Token: 0x04003B69 RID: 15209
 		private Zone zone;
 
-		// Token: 0x06005924 RID: 22820 RVA: 0x002DBE78 File Offset: 0x002DA278
+		// Token: 0x06005928 RID: 22824 RVA: 0x002DBFA4 File Offset: 0x002DA3A4
 		public Dialog_RenameZone(Zone zone)
 		{
 			this.zone = zone;
 			this.curName = zone.label;
 		}
 
-		// Token: 0x06005925 RID: 22821 RVA: 0x002DBE94 File Offset: 0x002DA294
+		// Token: 0x06005929 RID: 22825 RVA: 0x002DBFC0 File Offset: 0x002DA3C0
 		protected override AcceptanceReport NameIsValid(string name)
 		{
 			AcceptanceReport acceptanceReport = base.NameIsValid(name);
@@ -36,7 +36,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005926 RID: 22822 RVA: 0x002DBF23 File Offset: 0x002DA323
+		// Token: 0x0600592A RID: 22826 RVA: 0x002DC04F File Offset: 0x002DA44F
 		protected override void SetName(string name)
 		{
 			this.zone.label = this.curName;

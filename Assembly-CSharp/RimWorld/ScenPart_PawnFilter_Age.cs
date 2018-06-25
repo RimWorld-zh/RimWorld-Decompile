@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000640 RID: 1600
+	// Token: 0x02000642 RID: 1602
 	public class ScenPart_PawnFilter_Age : ScenPart
 	{
 		// Token: 0x040012E9 RID: 4841
@@ -22,21 +22,21 @@ namespace RimWorld
 		// Token: 0x040012ED RID: 4845
 		private const int RangeMinWidth = 4;
 
-		// Token: 0x06002133 RID: 8499 RVA: 0x0011A34C File Offset: 0x0011874C
+		// Token: 0x06002137 RID: 8503 RVA: 0x0011A49C File Offset: 0x0011889C
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, 31f);
 			Widgets.IntRange(scenPartRect, (int)listing.CurHeight, ref this.allowedAgeRange, 15, 120, null, 4);
 		}
 
-		// Token: 0x06002134 RID: 8500 RVA: 0x0011A380 File Offset: 0x00118780
+		// Token: 0x06002138 RID: 8504 RVA: 0x0011A4D0 File Offset: 0x001188D0
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<IntRange>(ref this.allowedAgeRange, "allowedAgeRange", default(IntRange), false);
 		}
 
-		// Token: 0x06002135 RID: 8501 RVA: 0x0011A3B0 File Offset: 0x001187B0
+		// Token: 0x06002139 RID: 8505 RVA: 0x0011A500 File Offset: 0x00118900
 		public override string Summary(Scenario scen)
 		{
 			string result;
@@ -72,13 +72,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002136 RID: 8502 RVA: 0x0011A490 File Offset: 0x00118890
+		// Token: 0x0600213A RID: 8506 RVA: 0x0011A5E0 File Offset: 0x001189E0
 		public override bool AllowPlayerStartingPawn(Pawn pawn, bool tryingToRedress, PawnGenerationRequest req)
 		{
 			return this.allowedAgeRange.Includes(pawn.ageTracker.AgeBiologicalYears);
 		}
 
-		// Token: 0x06002137 RID: 8503 RVA: 0x0011A4BC File Offset: 0x001188BC
+		// Token: 0x0600213B RID: 8507 RVA: 0x0011A60C File Offset: 0x00118A0C
 		public override void Randomize()
 		{
 			this.allowedAgeRange = new IntRange(15, 120);
@@ -105,7 +105,7 @@ namespace RimWorld
 			this.MakeAllowedAgeRangeValid();
 		}
 
-		// Token: 0x06002138 RID: 8504 RVA: 0x0011A560 File Offset: 0x00118960
+		// Token: 0x0600213C RID: 8508 RVA: 0x0011A6B0 File Offset: 0x00118AB0
 		private void MakeAllowedAgeRangeValid()
 		{
 			if (this.allowedAgeRange.max < 19)

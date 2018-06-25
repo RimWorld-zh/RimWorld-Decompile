@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008A4 RID: 2212
+	// Token: 0x020008A6 RID: 2214
 	public class Dialog_SellableItems : Window
 	{
 		// Token: 0x04001B30 RID: 6960
@@ -48,7 +48,7 @@ namespace RimWorld
 		// Token: 0x04001B3C RID: 6972
 		private readonly Vector2 BottomButtonSize = new Vector2(160f, 40f);
 
-		// Token: 0x0600329D RID: 12957 RVA: 0x001B4458 File Offset: 0x001B2858
+		// Token: 0x060032A1 RID: 12961 RVA: 0x001B4598 File Offset: 0x001B2998
 		public Dialog_SellableItems(TraderKindDef trader)
 		{
 			this.forcePause = true;
@@ -58,7 +58,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700080D RID: 2061
-		// (get) Token: 0x0600329E RID: 12958 RVA: 0x001B44C0 File Offset: 0x001B28C0
+		// (get) Token: 0x060032A2 RID: 12962 RVA: 0x001B4600 File Offset: 0x001B2A00
 		public override Vector2 InitialSize
 		{
 			get
@@ -68,7 +68,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700080E RID: 2062
-		// (get) Token: 0x0600329F RID: 12959 RVA: 0x001B44F0 File Offset: 0x001B28F0
+		// (get) Token: 0x060032A3 RID: 12963 RVA: 0x001B4630 File Offset: 0x001B2A30
 		protected override float Margin
 		{
 			get
@@ -77,7 +77,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060032A0 RID: 12960 RVA: 0x001B450C File Offset: 0x001B290C
+		// Token: 0x060032A4 RID: 12964 RVA: 0x001B464C File Offset: 0x001B2A4C
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = new Rect(0f, 0f, inRect.width, 60f);
@@ -124,7 +124,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x060032A1 RID: 12961 RVA: 0x001B46EC File Offset: 0x001B2AEC
+		// Token: 0x060032A5 RID: 12965 RVA: 0x001B482C File Offset: 0x001B2C2C
 		private void DoRow(Rect rect, ThingDef thingDef, int index)
 		{
 			Widgets.DrawHighlightIfMouseover(rect);
@@ -141,7 +141,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x060032A2 RID: 12962 RVA: 0x001B4798 File Offset: 0x001B2B98
+		// Token: 0x060032A6 RID: 12966 RVA: 0x001B48D8 File Offset: 0x001B2CD8
 		private void DoBottomButtons(Rect rect)
 		{
 			Rect rect2 = new Rect(rect.width / 2f - this.BottomButtonSize.x / 2f, rect.height - 55f, this.BottomButtonSize.x, this.BottomButtonSize.y);
@@ -151,7 +151,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060032A3 RID: 12963 RVA: 0x001B4818 File Offset: 0x001B2C18
+		// Token: 0x060032A7 RID: 12967 RVA: 0x001B4958 File Offset: 0x001B2D58
 		private void CalculateSellableItems(TraderKindDef trader)
 		{
 			this.sellableItems.Clear();
@@ -168,7 +168,7 @@ namespace RimWorld
 			this.sellableItems.SortBy((ThingDef x) => x.label);
 		}
 
-		// Token: 0x060032A4 RID: 12964 RVA: 0x001B48F8 File Offset: 0x001B2CF8
+		// Token: 0x060032A8 RID: 12968 RVA: 0x001B4A38 File Offset: 0x001B2E38
 		private void CalculateTabs()
 		{
 			this.tabs.Clear();
@@ -196,7 +196,7 @@ namespace RimWorld
 			}, () => this.pawnsTabOpen));
 		}
 
-		// Token: 0x060032A5 RID: 12965 RVA: 0x001B49F4 File Offset: 0x001B2DF4
+		// Token: 0x060032A9 RID: 12969 RVA: 0x001B4B34 File Offset: 0x001B2F34
 		private List<ThingDef> GetSellableItemsInCategory(ThingCategoryDef category, bool pawns)
 		{
 			List<ThingDef> result;
@@ -236,7 +236,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060032A6 RID: 12966 RVA: 0x001B4AF8 File Offset: 0x001B2EF8
+		// Token: 0x060032AA RID: 12970 RVA: 0x001B4C38 File Offset: 0x001B3038
 		private bool AnyTraderWillEverTrade(ThingCategoryDef thingCategory)
 		{
 			List<ThingDef> allDefsListForReading = DefDatabase<ThingDef>.AllDefsListForReading;

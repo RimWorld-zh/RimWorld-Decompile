@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007D3 RID: 2003
+	// Token: 0x020007D5 RID: 2005
 	public class Designator_PlanRemove : Designator_Plan
 	{
-		// Token: 0x06002C73 RID: 11379 RVA: 0x00176CB0 File Offset: 0x001750B0
+		// Token: 0x06002C77 RID: 11383 RVA: 0x00176E00 File Offset: 0x00175200
 		public Designator_PlanRemove() : base(DesignateMode.Remove)
 		{
 			this.defaultLabel = "DesignatorPlanRemove".Translate();

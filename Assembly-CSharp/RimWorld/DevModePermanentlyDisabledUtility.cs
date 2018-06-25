@@ -4,17 +4,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000970 RID: 2416
+	// Token: 0x02000972 RID: 2418
 	public static class DevModePermanentlyDisabledUtility
 	{
-		// Token: 0x04002320 RID: 8992
+		// Token: 0x04002321 RID: 8993
 		private static bool initialized;
 
-		// Token: 0x04002321 RID: 8993
+		// Token: 0x04002322 RID: 8994
 		private static bool disabled;
 
 		// Token: 0x1700089B RID: 2203
-		// (get) Token: 0x06003678 RID: 13944 RVA: 0x001D0F30 File Offset: 0x001CF330
+		// (get) Token: 0x0600367C RID: 13948 RVA: 0x001D1070 File Offset: 0x001CF470
 		public static bool Disabled
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003679 RID: 13945 RVA: 0x001D0F6C File Offset: 0x001CF36C
+		// Token: 0x0600367D RID: 13949 RVA: 0x001D10AC File Offset: 0x001CF4AC
 		public static void Disable()
 		{
 			try

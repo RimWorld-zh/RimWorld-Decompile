@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007BA RID: 1978
+	// Token: 0x020007BC RID: 1980
 	public class Designator_AreaAllowedExpand : Designator_AreaAllowed
 	{
-		// Token: 0x06002BE1 RID: 11233 RVA: 0x00174034 File Offset: 0x00172434
+		// Token: 0x06002BE5 RID: 11237 RVA: 0x00174184 File Offset: 0x00172584
 		public Designator_AreaAllowedExpand() : base(DesignateMode.Add)
 		{
 			this.defaultLabel = "DesignatorExpandAreaAllowed".Translate();
@@ -20,13 +20,13 @@ namespace RimWorld
 			this.tutorTag = "AreaAllowedExpand";
 		}
 
-		// Token: 0x06002BE2 RID: 11234 RVA: 0x001740B0 File Offset: 0x001724B0
+		// Token: 0x06002BE6 RID: 11238 RVA: 0x00174200 File Offset: 0x00172600
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			return c.InBounds(base.Map) && Designator_AreaAllowed.SelectedArea != null && !Designator_AreaAllowed.SelectedArea[c];
 		}
 
-		// Token: 0x06002BE3 RID: 11235 RVA: 0x001740F6 File Offset: 0x001724F6
+		// Token: 0x06002BE7 RID: 11239 RVA: 0x00174246 File Offset: 0x00172646
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			Designator_AreaAllowed.SelectedArea[c] = true;

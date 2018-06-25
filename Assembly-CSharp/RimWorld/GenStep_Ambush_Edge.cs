@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000407 RID: 1031
+	// Token: 0x02000409 RID: 1033
 	public class GenStep_Ambush_Edge : GenStep_Ambush
 	{
 		// Token: 0x1700025C RID: 604
-		// (get) Token: 0x060011BD RID: 4541 RVA: 0x0009A82C File Offset: 0x00098C2C
+		// (get) Token: 0x060011C1 RID: 4545 RVA: 0x0009A97C File Offset: 0x00098D7C
 		public override int SeedPart
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011BE RID: 4542 RVA: 0x0009A848 File Offset: 0x00098C48
+		// Token: 0x060011C2 RID: 4546 RVA: 0x0009A998 File Offset: 0x00098D98
 		protected override SignalAction_Ambush MakeAmbushSignalAction(CellRect rectToDefend, IntVec3 root)
 		{
 			SignalAction_Ambush signalAction_Ambush = base.MakeAmbushSignalAction(rectToDefend, root);

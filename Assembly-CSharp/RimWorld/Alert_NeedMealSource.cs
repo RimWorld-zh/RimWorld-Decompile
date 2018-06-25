@@ -4,17 +4,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200079F RID: 1951
+	// Token: 0x020007A1 RID: 1953
 	public class Alert_NeedMealSource : Alert
 	{
-		// Token: 0x06002B3A RID: 11066 RVA: 0x0016DA39 File Offset: 0x0016BE39
+		// Token: 0x06002B3E RID: 11070 RVA: 0x0016DB89 File Offset: 0x0016BF89
 		public Alert_NeedMealSource()
 		{
 			this.defaultLabel = "NeedMealSource".Translate();
 			this.defaultExplanation = "NeedMealSourceDesc".Translate();
 		}
 
-		// Token: 0x06002B3B RID: 11067 RVA: 0x0016DA64 File Offset: 0x0016BE64
+		// Token: 0x06002B3F RID: 11071 RVA: 0x0016DBB4 File Offset: 0x0016BFB4
 		public override AlertReport GetReport()
 		{
 			AlertReport result;
@@ -37,7 +37,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B3C RID: 11068 RVA: 0x0016DAD4 File Offset: 0x0016BED4
+		// Token: 0x06002B40 RID: 11072 RVA: 0x0016DC24 File Offset: 0x0016C024
 		private bool NeedMealSource(Map map)
 		{
 			bool result;

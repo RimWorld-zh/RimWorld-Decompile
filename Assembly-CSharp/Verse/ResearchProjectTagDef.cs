@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000B66 RID: 2918
+	// Token: 0x02000B68 RID: 2920
 	public class ResearchProjectTagDef : Def
 	{
-		// Token: 0x06003FD9 RID: 16345 RVA: 0x0021AC8C File Offset: 0x0021908C
+		// Token: 0x06003FDC RID: 16348 RVA: 0x0021AD68 File Offset: 0x00219168
 		public int CompletedProjects()
 		{
 			int num = 0;

@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005D3 RID: 1491
+	// Token: 0x020005D5 RID: 1493
 	public static class CaravanAbandonOrBanishUtility
 	{
-		// Token: 0x06001D57 RID: 7511 RVA: 0x000FC1CC File Offset: 0x000FA5CC
+		// Token: 0x06001D5B RID: 7515 RVA: 0x000FC31C File Offset: 0x000FA71C
 		public static void TryAbandonOrBanishViaInterface(Thing t, Caravan caravan)
 		{
 			Pawn p = t as Pawn;
@@ -46,7 +46,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D58 RID: 7512 RVA: 0x000FC2A4 File Offset: 0x000FA6A4
+		// Token: 0x06001D5C RID: 7516 RVA: 0x000FC3F4 File Offset: 0x000FA7F4
 		public static void TryAbandonOrBanishViaInterface(TransferableImmutable t, Caravan caravan)
 		{
 			Pawn pawn = t.AnyThing as Pawn;
@@ -80,7 +80,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D59 RID: 7513 RVA: 0x000FC330 File Offset: 0x000FA730
+		// Token: 0x06001D5D RID: 7517 RVA: 0x000FC480 File Offset: 0x000FA880
 		public static void TryAbandonSpecificCountViaInterface(Thing t, Caravan caravan)
 		{
 			Find.WindowStack.Add(new Dialog_Slider("AbandonSliderText".Translate(new object[]
@@ -110,7 +110,7 @@ namespace RimWorld.Planet
 			}, int.MinValue));
 		}
 
-		// Token: 0x06001D5A RID: 7514 RVA: 0x000FC39C File Offset: 0x000FA79C
+		// Token: 0x06001D5E RID: 7518 RVA: 0x000FC4EC File Offset: 0x000FA8EC
 		public static void TryAbandonSpecificCountViaInterface(TransferableImmutable t, Caravan caravan)
 		{
 			Find.WindowStack.Add(new Dialog_Slider("AbandonSliderText".Translate(new object[]
@@ -149,7 +149,7 @@ namespace RimWorld.Planet
 			}, int.MinValue));
 		}
 
-		// Token: 0x06001D5B RID: 7515 RVA: 0x000FC408 File Offset: 0x000FA808
+		// Token: 0x06001D5F RID: 7519 RVA: 0x000FC558 File Offset: 0x000FA958
 		public static string GetAbandonOrBanishButtonTooltip(Thing t, bool abandonSpecificCount)
 		{
 			Pawn pawn = t as Pawn;
@@ -165,7 +165,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001D5C RID: 7516 RVA: 0x000FC444 File Offset: 0x000FA844
+		// Token: 0x06001D60 RID: 7520 RVA: 0x000FC594 File Offset: 0x000FA994
 		public static string GetAbandonOrBanishButtonTooltip(TransferableImmutable t, bool abandonSpecificCount)
 		{
 			Pawn pawn = t.AnyThing as Pawn;
@@ -181,7 +181,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001D5D RID: 7517 RVA: 0x000FC484 File Offset: 0x000FA884
+		// Token: 0x06001D61 RID: 7521 RVA: 0x000FC5D4 File Offset: 0x000FA9D4
 		private static string GetAbandonItemButtonTooltip(int currentStackCount, bool abandonSpecificCount)
 		{
 			StringBuilder stringBuilder = new StringBuilder();

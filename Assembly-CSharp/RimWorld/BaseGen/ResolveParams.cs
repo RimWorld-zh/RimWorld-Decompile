@@ -5,7 +5,7 @@ using Verse.AI.Group;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x02000391 RID: 913
+	// Token: 0x02000393 RID: 915
 	public struct ResolveParams
 	{
 		// Token: 0x040009BB RID: 2491
@@ -176,7 +176,7 @@ namespace RimWorld.BaseGen
 		// Token: 0x040009F2 RID: 2546
 		public FloatRange? hpPercentRange;
 
-		// Token: 0x06000FF3 RID: 4083 RVA: 0x00085D48 File Offset: 0x00084148
+		// Token: 0x06000FF7 RID: 4087 RVA: 0x00085E98 File Offset: 0x00084298
 		public void SetCustom<T>(string name, T obj, bool inherit = false)
 		{
 			if (this.custom == null)
@@ -197,7 +197,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06000FF4 RID: 4084 RVA: 0x00085DC2 File Offset: 0x000841C2
+		// Token: 0x06000FF8 RID: 4088 RVA: 0x00085F12 File Offset: 0x00084312
 		public void RemoveCustom(string name)
 		{
 			if (this.custom != null)
@@ -207,7 +207,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06000FF5 RID: 4085 RVA: 0x00085DF4 File Offset: 0x000841F4
+		// Token: 0x06000FF9 RID: 4089 RVA: 0x00085F44 File Offset: 0x00084344
 		public bool TryGetCustom<T>(string name, out T obj)
 		{
 			object obj2;
@@ -225,7 +225,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06000FF6 RID: 4086 RVA: 0x00085E4C File Offset: 0x0008424C
+		// Token: 0x06000FFA RID: 4090 RVA: 0x00085F9C File Offset: 0x0008439C
 		public T GetCustom<T>(string name)
 		{
 			object obj;
@@ -241,7 +241,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06000FF7 RID: 4087 RVA: 0x00085E94 File Offset: 0x00084294
+		// Token: 0x06000FFB RID: 4091 RVA: 0x00085FE4 File Offset: 0x000843E4
 		public override string ToString()
 		{
 			object[] array = new object[110];

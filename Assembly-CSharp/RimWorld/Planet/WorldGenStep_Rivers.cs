@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005BF RID: 1471
+	// Token: 0x020005C1 RID: 1473
 	public class WorldGenStep_Rivers : WorldGenStep
 	{
 		// Token: 0x040010E9 RID: 4329
@@ -57,7 +57,7 @@ namespace RimWorld.Planet
 		private const float EvaporationMultiple = 250f;
 
 		// Token: 0x17000421 RID: 1057
-		// (get) Token: 0x06001C42 RID: 7234 RVA: 0x000F2F04 File Offset: 0x000F1304
+		// (get) Token: 0x06001C46 RID: 7238 RVA: 0x000F3054 File Offset: 0x000F1454
 		public override int SeedPart
 		{
 			get
@@ -66,13 +66,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C43 RID: 7235 RVA: 0x000F2F1E File Offset: 0x000F131E
+		// Token: 0x06001C47 RID: 7239 RVA: 0x000F306E File Offset: 0x000F146E
 		public override void GenerateFresh(string seed)
 		{
 			this.GenerateRivers();
 		}
 
-		// Token: 0x06001C44 RID: 7236 RVA: 0x000F2F28 File Offset: 0x000F1328
+		// Token: 0x06001C48 RID: 7240 RVA: 0x000F3078 File Offset: 0x000F1478
 		private void GenerateRivers()
 		{
 			Find.WorldPathGrid.RecalculateAllPerceivedPathCosts();
@@ -109,7 +109,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C45 RID: 7237 RVA: 0x000F2FE4 File Offset: 0x000F13E4
+		// Token: 0x06001C49 RID: 7241 RVA: 0x000F3134 File Offset: 0x000F1534
 		private static float GetImpliedElevation(Tile tile)
 		{
 			float num = 0f;
@@ -132,7 +132,7 @@ namespace RimWorld.Planet
 			return tile.elevation + num;
 		}
 
-		// Token: 0x06001C46 RID: 7238 RVA: 0x000F3060 File Offset: 0x000F1460
+		// Token: 0x06001C4A RID: 7242 RVA: 0x000F31B0 File Offset: 0x000F15B0
 		private List<int> GetCoastalWaterTiles()
 		{
 			List<int> list = new List<int>();
@@ -162,7 +162,7 @@ namespace RimWorld.Planet
 			return list;
 		}
 
-		// Token: 0x06001C47 RID: 7239 RVA: 0x000F3130 File Offset: 0x000F1530
+		// Token: 0x06001C4B RID: 7243 RVA: 0x000F3280 File Offset: 0x000F1680
 		private void AccumulateFlow(float[] flow, List<int>[] riverPaths, int index)
 		{
 			Tile tile = Find.WorldGrid[index];
@@ -178,7 +178,7 @@ namespace RimWorld.Planet
 			flow[index] = Mathf.Max(0f, flow[index] - WorldGenStep_Rivers.CalculateTotalEvaporation(flow[index], tile.temperature));
 		}
 
-		// Token: 0x06001C48 RID: 7240 RVA: 0x000F31C8 File Offset: 0x000F15C8
+		// Token: 0x06001C4C RID: 7244 RVA: 0x000F3318 File Offset: 0x000F1718
 		private void CreateRivers(float[] flow, List<int>[] riverPaths, int index)
 		{
 			List<int> list = new List<int>();
@@ -197,7 +197,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C49 RID: 7241 RVA: 0x000F328C File Offset: 0x000F168C
+		// Token: 0x06001C4D RID: 7245 RVA: 0x000F33DC File Offset: 0x000F17DC
 		private void ExtendRiver(float[] flow, List<int>[] riverPaths, int index, RiverDef incomingRiver)
 		{
 			if (riverPaths[index] != null)
@@ -236,26 +236,26 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C4A RID: 7242 RVA: 0x000F342C File Offset: 0x000F182C
+		// Token: 0x06001C4E RID: 7246 RVA: 0x000F357C File Offset: 0x000F197C
 		public static float CalculateEvaporationConstant(float temperature)
 		{
 			float num = 0.61121f * Mathf.Exp((18.678f - temperature / 234.5f) * (temperature / (257.14f + temperature)));
 			return num / (temperature + 273f);
 		}
 
-		// Token: 0x06001C4B RID: 7243 RVA: 0x000F3470 File Offset: 0x000F1870
+		// Token: 0x06001C4F RID: 7247 RVA: 0x000F35C0 File Offset: 0x000F19C0
 		public static float CalculateRiverSurfaceArea(float flow)
 		{
 			return Mathf.Pow(flow, 0.5f);
 		}
 
-		// Token: 0x06001C4C RID: 7244 RVA: 0x000F3490 File Offset: 0x000F1890
+		// Token: 0x06001C50 RID: 7248 RVA: 0x000F35E0 File Offset: 0x000F19E0
 		public static float CalculateEvaporativeArea(float flow)
 		{
 			return WorldGenStep_Rivers.CalculateRiverSurfaceArea(flow);
 		}
 
-		// Token: 0x06001C4D RID: 7245 RVA: 0x000F34AC File Offset: 0x000F18AC
+		// Token: 0x06001C51 RID: 7249 RVA: 0x000F35FC File Offset: 0x000F19FC
 		public static float CalculateTotalEvaporation(float flow, float temperature)
 		{
 			return WorldGenStep_Rivers.CalculateEvaporationConstant(temperature) * WorldGenStep_Rivers.CalculateEvaporativeArea(flow) * 250f;

@@ -3,17 +3,17 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000AD3 RID: 2771
+	// Token: 0x02000AD5 RID: 2773
 	public class JobGiver_WanderMapEdge : JobGiver_Wander
 	{
-		// Token: 0x06003D86 RID: 15750 RVA: 0x002062B3 File Offset: 0x002046B3
+		// Token: 0x06003D8A RID: 15754 RVA: 0x002063DF File Offset: 0x002047DF
 		public JobGiver_WanderMapEdge()
 		{
 			this.wanderRadius = 7f;
 			this.ticksBetweenWandersRange = new IntRange(50, 125);
 		}
 
-		// Token: 0x06003D87 RID: 15751 RVA: 0x002062D8 File Offset: 0x002046D8
+		// Token: 0x06003D8B RID: 15755 RVA: 0x00206404 File Offset: 0x00204804
 		protected override IntVec3 GetWanderRoot(Pawn pawn)
 		{
 			IntVec3 intVec;

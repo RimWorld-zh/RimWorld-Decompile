@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000247 RID: 583
+	// Token: 0x02000249 RID: 585
 	public class CompProperties_Glower : CompProperties
 	{
 		// Token: 0x0400048F RID: 1167
@@ -15,7 +15,7 @@ namespace RimWorld
 		// Token: 0x04000491 RID: 1169
 		public ColorInt glowColor = new ColorInt(255, 255, 255, 0) * 1.45f;
 
-		// Token: 0x06000A7B RID: 2683 RVA: 0x0005F2C0 File Offset: 0x0005D6C0
+		// Token: 0x06000A7F RID: 2687 RVA: 0x0005F410 File Offset: 0x0005D810
 		public CompProperties_Glower()
 		{
 			this.compClass = typeof(CompGlower);

@@ -2,15 +2,15 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A11 RID: 2577
+	// Token: 0x02000A13 RID: 2579
 	public class Trigger_TicksPassedWithoutHarm : Trigger_TicksPassed
 	{
-		// Token: 0x0600399F RID: 14751 RVA: 0x001E8207 File Offset: 0x001E6607
+		// Token: 0x060039A3 RID: 14755 RVA: 0x001E8333 File Offset: 0x001E6733
 		public Trigger_TicksPassedWithoutHarm(int tickLimit) : base(tickLimit)
 		{
 		}
 
-		// Token: 0x060039A0 RID: 14752 RVA: 0x001E8214 File Offset: 0x001E6614
+		// Token: 0x060039A4 RID: 14756 RVA: 0x001E8340 File Offset: 0x001E6740
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			if (Trigger_PawnHarmed.SignalIsHarm(signal))

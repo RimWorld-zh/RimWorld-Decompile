@@ -4,16 +4,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009A9 RID: 2473
+	// Token: 0x020009AB RID: 2475
 	public class StatPart_Glow : StatPart
 	{
-		// Token: 0x040023A3 RID: 9123
+		// Token: 0x040023A4 RID: 9124
 		private bool humanlikeOnly = false;
 
-		// Token: 0x040023A4 RID: 9124
+		// Token: 0x040023A5 RID: 9125
 		private SimpleCurve factorFromGlowCurve = null;
 
-		// Token: 0x06003775 RID: 14197 RVA: 0x001D9844 File Offset: 0x001D7C44
+		// Token: 0x06003779 RID: 14201 RVA: 0x001D9984 File Offset: 0x001D7D84
 		public override IEnumerable<string> ConfigErrors()
 		{
 			if (this.factorFromGlowCurve == null)
@@ -23,7 +23,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06003776 RID: 14198 RVA: 0x001D986E File Offset: 0x001D7C6E
+		// Token: 0x0600377A RID: 14202 RVA: 0x001D99AE File Offset: 0x001D7DAE
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing && this.ActiveFor(req.Thing))
@@ -32,7 +32,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003777 RID: 14199 RVA: 0x001D98A4 File Offset: 0x001D7CA4
+		// Token: 0x0600377B RID: 14203 RVA: 0x001D99E4 File Offset: 0x001D7DE4
 		public override string ExplanationPart(StatRequest req)
 		{
 			string result;
@@ -50,7 +50,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003778 RID: 14200 RVA: 0x001D9920 File Offset: 0x001D7D20
+		// Token: 0x0600377C RID: 14204 RVA: 0x001D9A60 File Offset: 0x001D7E60
 		private bool ActiveFor(Thing t)
 		{
 			if (this.humanlikeOnly)
@@ -64,13 +64,13 @@ namespace RimWorld
 			return t.Spawned;
 		}
 
-		// Token: 0x06003779 RID: 14201 RVA: 0x001D996C File Offset: 0x001D7D6C
+		// Token: 0x0600377D RID: 14205 RVA: 0x001D9AAC File Offset: 0x001D7EAC
 		private float GlowLevel(Thing t)
 		{
 			return t.Map.glowGrid.GameGlowAt(t.Position, false);
 		}
 
-		// Token: 0x0600377A RID: 14202 RVA: 0x001D9998 File Offset: 0x001D7D98
+		// Token: 0x0600377E RID: 14206 RVA: 0x001D9AD8 File Offset: 0x001D7ED8
 		private float FactorFromGlow(Thing t)
 		{
 			return this.factorFromGlowCurve.Evaluate(this.GlowLevel(t));

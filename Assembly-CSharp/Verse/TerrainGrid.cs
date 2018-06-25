@@ -4,7 +4,7 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000C24 RID: 3108
+	// Token: 0x02000C26 RID: 3110
 	public sealed class TerrainGrid : IExposable
 	{
 		// Token: 0x04002E6B RID: 11883
@@ -16,45 +16,45 @@ namespace Verse
 		// Token: 0x04002E6D RID: 11885
 		private TerrainDef[] underGrid;
 
-		// Token: 0x06004443 RID: 17475 RVA: 0x0023EC64 File Offset: 0x0023D064
+		// Token: 0x06004446 RID: 17478 RVA: 0x0023ED40 File Offset: 0x0023D140
 		public TerrainGrid(Map map)
 		{
 			this.map = map;
 			this.ResetGrids();
 		}
 
-		// Token: 0x06004444 RID: 17476 RVA: 0x0023EC7A File Offset: 0x0023D07A
+		// Token: 0x06004447 RID: 17479 RVA: 0x0023ED56 File Offset: 0x0023D156
 		public void ResetGrids()
 		{
 			this.topGrid = new TerrainDef[this.map.cellIndices.NumGridCells];
 			this.underGrid = new TerrainDef[this.map.cellIndices.NumGridCells];
 		}
 
-		// Token: 0x06004445 RID: 17477 RVA: 0x0023ECB4 File Offset: 0x0023D0B4
+		// Token: 0x06004448 RID: 17480 RVA: 0x0023ED90 File Offset: 0x0023D190
 		public TerrainDef TerrainAt(int ind)
 		{
 			return this.topGrid[ind];
 		}
 
-		// Token: 0x06004446 RID: 17478 RVA: 0x0023ECD4 File Offset: 0x0023D0D4
+		// Token: 0x06004449 RID: 17481 RVA: 0x0023EDB0 File Offset: 0x0023D1B0
 		public TerrainDef TerrainAt(IntVec3 c)
 		{
 			return this.topGrid[this.map.cellIndices.CellToIndex(c)];
 		}
 
-		// Token: 0x06004447 RID: 17479 RVA: 0x0023ED04 File Offset: 0x0023D104
+		// Token: 0x0600444A RID: 17482 RVA: 0x0023EDE0 File Offset: 0x0023D1E0
 		public TerrainDef UnderTerrainAt(int ind)
 		{
 			return this.underGrid[ind];
 		}
 
-		// Token: 0x06004448 RID: 17480 RVA: 0x0023ED24 File Offset: 0x0023D124
+		// Token: 0x0600444B RID: 17483 RVA: 0x0023EE00 File Offset: 0x0023D200
 		public TerrainDef UnderTerrainAt(IntVec3 c)
 		{
 			return this.underGrid[this.map.cellIndices.CellToIndex(c)];
 		}
 
-		// Token: 0x06004449 RID: 17481 RVA: 0x0023ED54 File Offset: 0x0023D154
+		// Token: 0x0600444C RID: 17484 RVA: 0x0023EE30 File Offset: 0x0023D230
 		public void SetTerrain(IntVec3 c, TerrainDef newTerr)
 		{
 			if (newTerr == null)
@@ -95,7 +95,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600444A RID: 17482 RVA: 0x0023EE40 File Offset: 0x0023D240
+		// Token: 0x0600444D RID: 17485 RVA: 0x0023EF1C File Offset: 0x0023D31C
 		public void SetUnderTerrain(IntVec3 c, TerrainDef newTerr)
 		{
 			if (!c.InBounds(this.map))
@@ -109,7 +109,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600444B RID: 17483 RVA: 0x0023EE98 File Offset: 0x0023D298
+		// Token: 0x0600444E RID: 17486 RVA: 0x0023EF74 File Offset: 0x0023D374
 		public void RemoveTopLayer(IntVec3 c, bool doLeavings = true)
 		{
 			int num = this.map.cellIndices.CellToIndex(c);
@@ -125,14 +125,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600444C RID: 17484 RVA: 0x0023EF04 File Offset: 0x0023D304
+		// Token: 0x0600444F RID: 17487 RVA: 0x0023EFE0 File Offset: 0x0023D3E0
 		public bool CanRemoveTopLayerAt(IntVec3 c)
 		{
 			int num = this.map.cellIndices.CellToIndex(c);
 			return this.topGrid[num].Removable && this.underGrid[num] != null;
 		}
 
-		// Token: 0x0600444D RID: 17485 RVA: 0x0023EF50 File Offset: 0x0023D350
+		// Token: 0x06004450 RID: 17488 RVA: 0x0023F02C File Offset: 0x0023D42C
 		private void DoTerrainChangedEffects(IntVec3 c)
 		{
 			this.map.mapDrawer.MapMeshDirty(c, MapMeshFlag.Terrain, true, false);
@@ -156,14 +156,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600444E RID: 17486 RVA: 0x0023F06B File Offset: 0x0023D46B
+		// Token: 0x06004451 RID: 17489 RVA: 0x0023F147 File Offset: 0x0023D547
 		public void ExposeData()
 		{
 			this.ExposeTerrainGrid(this.topGrid, "topGrid");
 			this.ExposeTerrainGrid(this.underGrid, "underGrid");
 		}
 
-		// Token: 0x0600444F RID: 17487 RVA: 0x0023F090 File Offset: 0x0023D490
+		// Token: 0x06004452 RID: 17490 RVA: 0x0023F16C File Offset: 0x0023D56C
 		public void Notify_TerrainBurned(IntVec3 c)
 		{
 			TerrainDef terrain = c.GetTerrain(this.map);
@@ -174,7 +174,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004450 RID: 17488 RVA: 0x0023F0CC File Offset: 0x0023D4CC
+		// Token: 0x06004453 RID: 17491 RVA: 0x0023F1A8 File Offset: 0x0023D5A8
 		public void Notify_TerrainDestroyed(IntVec3 c)
 		{
 			TerrainDef terrainDef = this.TerrainAt(c);
@@ -201,7 +201,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004451 RID: 17489 RVA: 0x0023F1C0 File Offset: 0x0023D5C0
+		// Token: 0x06004454 RID: 17492 RVA: 0x0023F29C File Offset: 0x0023D69C
 		private void ExposeTerrainGrid(TerrainDef[] grid, string label)
 		{
 			Dictionary<ushort, TerrainDef> terrainDefsByShortHash = new Dictionary<ushort, TerrainDef>();
@@ -240,7 +240,7 @@ namespace Verse
 			MapExposeUtility.ExposeUshort(this.map, shortReader, shortWriter, label);
 		}
 
-		// Token: 0x06004452 RID: 17490 RVA: 0x0023F270 File Offset: 0x0023D670
+		// Token: 0x06004455 RID: 17493 RVA: 0x0023F34C File Offset: 0x0023D74C
 		public string DebugStringAt(IntVec3 c)
 		{
 			string result;

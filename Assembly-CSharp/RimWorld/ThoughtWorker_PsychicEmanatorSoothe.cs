@@ -4,13 +4,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200022A RID: 554
+	// Token: 0x0200022C RID: 556
 	public class ThoughtWorker_PsychicEmanatorSoothe : ThoughtWorker
 	{
 		// Token: 0x040003EA RID: 1002
 		private const float Radius = 15f;
 
-		// Token: 0x06000A22 RID: 2594 RVA: 0x000599DC File Offset: 0x00057DDC
+		// Token: 0x06000A26 RID: 2598 RVA: 0x00059B2C File Offset: 0x00057F2C
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			ThoughtState result;

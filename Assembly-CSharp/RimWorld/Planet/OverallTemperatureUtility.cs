@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000579 RID: 1401
+	// Token: 0x0200057B RID: 1403
 	public static class OverallTemperatureUtility
 	{
 		// Token: 0x04000FA2 RID: 4002
@@ -200,7 +200,7 @@ namespace RimWorld.Planet
 		};
 
 		// Token: 0x170003E2 RID: 994
-		// (get) Token: 0x06001AD0 RID: 6864 RVA: 0x000E69B8 File Offset: 0x000E4DB8
+		// (get) Token: 0x06001AD4 RID: 6868 RVA: 0x000E6B08 File Offset: 0x000E4F08
 		public static int EnumValuesCount
 		{
 			get
@@ -213,7 +213,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001AD1 RID: 6865 RVA: 0x000E69F4 File Offset: 0x000E4DF4
+		// Token: 0x06001AD5 RID: 6869 RVA: 0x000E6B44 File Offset: 0x000E4F44
 		public static SimpleCurve GetTemperatureCurve(this OverallTemperature overallTemperature)
 		{
 			switch (overallTemperature)

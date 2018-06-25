@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200040C RID: 1036
+	// Token: 0x0200040E RID: 1038
 	public class GenStep_Outpost : GenStep
 	{
 		// Token: 0x04000AD7 RID: 2775
@@ -15,7 +15,7 @@ namespace RimWorld
 		private static List<CellRect> possibleRects = new List<CellRect>();
 
 		// Token: 0x17000261 RID: 609
-		// (get) Token: 0x060011CF RID: 4559 RVA: 0x0009AD30 File Offset: 0x00099130
+		// (get) Token: 0x060011D3 RID: 4563 RVA: 0x0009AE80 File Offset: 0x00099280
 		public override int SeedPart
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011D0 RID: 4560 RVA: 0x0009AD4C File Offset: 0x0009914C
+		// Token: 0x060011D4 RID: 4564 RVA: 0x0009AE9C File Offset: 0x0009929C
 		public override void Generate(Map map)
 		{
 			CellRect rectToDefend;
@@ -55,7 +55,7 @@ namespace RimWorld
 			BaseGen.Generate();
 		}
 
-		// Token: 0x060011D1 RID: 4561 RVA: 0x0009AE40 File Offset: 0x00099240
+		// Token: 0x060011D5 RID: 4565 RVA: 0x0009AF90 File Offset: 0x00099390
 		private CellRect GetOutpostRect(CellRect rectToDefend, Map map)
 		{
 			GenStep_Outpost.possibleRects.Add(new CellRect(rectToDefend.minX - 1 - 16, rectToDefend.CenterCell.z - 8, 16, 16));

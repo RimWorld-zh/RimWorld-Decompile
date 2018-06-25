@@ -8,7 +8,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000629 RID: 1577
+	// Token: 0x0200062B RID: 1579
 	public class WorldPawnGC : IExposable
 	{
 		// Token: 0x04001289 RID: 4745
@@ -38,7 +38,7 @@ namespace RimWorld.Planet
 		// Token: 0x04001291 RID: 4753
 		private HashSet<string> logDotgraphUniqueLinks = null;
 
-		// Token: 0x0600205B RID: 8283 RVA: 0x00114D64 File Offset: 0x00113164
+		// Token: 0x0600205F RID: 8287 RVA: 0x00114EB4 File Offset: 0x001132B4
 		public void WorldPawnGCTick()
 		{
 			if (this.lastSuccessfulGCTick < Find.TickManager.TicksGame / 15000 * 15000)
@@ -74,7 +74,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x0600205C RID: 8284 RVA: 0x00114E50 File Offset: 0x00113250
+		// Token: 0x06002060 RID: 8288 RVA: 0x00114FA0 File Offset: 0x001133A0
 		public void CancelGCPass()
 		{
 			if (this.activeGCProcess != null)
@@ -88,7 +88,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x0600205D RID: 8285 RVA: 0x00114EA0 File Offset: 0x001132A0
+		// Token: 0x06002061 RID: 8289 RVA: 0x00114FF0 File Offset: 0x001133F0
 		private IEnumerable AccumulatePawnGCData(Dictionary<Pawn, string> keptPawns)
 		{
 			foreach (Pawn pawn2 in PawnsFinder.AllMapsWorldAndTemporary_AliveOrDead)
@@ -133,7 +133,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x0600205E RID: 8286 RVA: 0x00114ED4 File Offset: 0x001132D4
+		// Token: 0x06002062 RID: 8290 RVA: 0x00115024 File Offset: 0x00113424
 		private Dictionary<Pawn, string> AccumulatePawnGCDataImmediate()
 		{
 			Dictionary<Pawn, string> dictionary = new Dictionary<Pawn, string>();
@@ -141,7 +141,7 @@ namespace RimWorld.Planet
 			return dictionary;
 		}
 
-		// Token: 0x0600205F RID: 8287 RVA: 0x00114EFC File Offset: 0x001132FC
+		// Token: 0x06002063 RID: 8291 RVA: 0x0011504C File Offset: 0x0011344C
 		public string PawnGCDebugResults()
 		{
 			Dictionary<Pawn, string> dictionary = this.AccumulatePawnGCDataImmediate();
@@ -166,7 +166,7 @@ namespace RimWorld.Planet
 			select string.Format("{0}: {1}", kvp.Value, kvp.Key), "\n");
 		}
 
-		// Token: 0x06002060 RID: 8288 RVA: 0x00115008 File Offset: 0x00113408
+		// Token: 0x06002064 RID: 8292 RVA: 0x00115158 File Offset: 0x00113558
 		public IEnumerable PawnGCPass()
 		{
 			Dictionary<Pawn, string> keptPawns = new Dictionary<Pawn, string>();
@@ -198,7 +198,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06002061 RID: 8289 RVA: 0x00115034 File Offset: 0x00113434
+		// Token: 0x06002065 RID: 8293 RVA: 0x00115184 File Offset: 0x00113584
 		private string GetCriticalPawnReason(Pawn pawn)
 		{
 			string result;
@@ -271,13 +271,13 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06002062 RID: 8290 RVA: 0x001151D0 File Offset: 0x001135D0
+		// Token: 0x06002066 RID: 8294 RVA: 0x00115320 File Offset: 0x00113720
 		private bool AllowedAsStoryPawn(Pawn pawn)
 		{
 			return pawn.RaceProps.Humanlike;
 		}
 
-		// Token: 0x06002063 RID: 8291 RVA: 0x00115200 File Offset: 0x00113600
+		// Token: 0x06002067 RID: 8295 RVA: 0x00115350 File Offset: 0x00113750
 		public void AddAllRelationships(Pawn pawn, Dictionary<Pawn, string> keptPawns)
 		{
 			if (pawn.relations != null)
@@ -301,7 +301,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002064 RID: 8292 RVA: 0x001152EC File Offset: 0x001136EC
+		// Token: 0x06002068 RID: 8296 RVA: 0x0011543C File Offset: 0x0011383C
 		public void AddAllMemories(Pawn pawn, Dictionary<Pawn, string> keptPawns)
 		{
 			if (pawn.needs != null && pawn.needs.mood != null && pawn.needs.mood.thoughts != null && pawn.needs.mood.thoughts.memories != null)
@@ -328,14 +328,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002065 RID: 8293 RVA: 0x0011543C File Offset: 0x0011383C
+		// Token: 0x06002069 RID: 8297 RVA: 0x0011558C File Offset: 0x0011398C
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.lastSuccessfulGCTick, "lastSuccessfulGCTick", 0, false);
 			Scribe_Values.Look<int>(ref this.currentGCRate, "nextGCRate", 1, false);
 		}
 
-		// Token: 0x06002066 RID: 8294 RVA: 0x00115464 File Offset: 0x00113864
+		// Token: 0x0600206A RID: 8298 RVA: 0x001155B4 File Offset: 0x001139B4
 		public void LogGC()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -344,7 +344,7 @@ namespace RimWorld.Planet
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06002067 RID: 8295 RVA: 0x001154A0 File Offset: 0x001138A0
+		// Token: 0x0600206B RID: 8299 RVA: 0x001155F0 File Offset: 0x001139F0
 		public void RunGC()
 		{
 			this.CancelGCPass();
@@ -370,7 +370,7 @@ namespace RimWorld.Planet
 			Log.Message(string.Format("World pawn GC run complete in {0} ms", num), false);
 		}
 
-		// Token: 0x06002068 RID: 8296 RVA: 0x00115530 File Offset: 0x00113930
+		// Token: 0x0600206C RID: 8300 RVA: 0x00115680 File Offset: 0x00113A80
 		public void LogDotgraph()
 		{
 			this.logDotgraph = new StringBuilder();
@@ -384,7 +384,7 @@ namespace RimWorld.Planet
 			this.logDotgraphUniqueLinks = null;
 		}
 
-		// Token: 0x06002069 RID: 8297 RVA: 0x001155A8 File Offset: 0x001139A8
+		// Token: 0x0600206D RID: 8301 RVA: 0x001156F8 File Offset: 0x00113AF8
 		public static string DotgraphIdentifier(Pawn pawn)
 		{
 			return new string((from ch in pawn.LabelShort

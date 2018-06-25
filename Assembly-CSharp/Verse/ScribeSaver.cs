@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000D9F RID: 3487
+	// Token: 0x02000DA1 RID: 3489
 	public class ScribeSaver
 	{
 		// Token: 0x04003404 RID: 13316
@@ -29,7 +29,7 @@ namespace Verse
 		// Token: 0x0400340A RID: 13322
 		private int nextListElementTemporaryId;
 
-		// Token: 0x06004DF7 RID: 19959 RVA: 0x0028BDE8 File Offset: 0x0028A1E8
+		// Token: 0x06004DFB RID: 19963 RVA: 0x0028BF14 File Offset: 0x0028A314
 		public void InitSaving(string filePath, string documentElementName)
 		{
 			if (Scribe.mode != LoadSaveMode.Inactive)
@@ -69,7 +69,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DF8 RID: 19960 RVA: 0x0028BEF0 File Offset: 0x0028A2F0
+		// Token: 0x06004DFC RID: 19964 RVA: 0x0028C01C File Offset: 0x0028A41C
 		public void FinalizeSaving()
 		{
 			if (Scribe.mode != LoadSaveMode.Saving)
@@ -110,7 +110,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DF9 RID: 19961 RVA: 0x0028BFF4 File Offset: 0x0028A3F4
+		// Token: 0x06004DFD RID: 19965 RVA: 0x0028C120 File Offset: 0x0028A520
 		public void WriteElement(string elementName, string value)
 		{
 			if (this.writer == null)
@@ -138,7 +138,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DFA RID: 19962 RVA: 0x0028C09B File Offset: 0x0028A49B
+		// Token: 0x06004DFE RID: 19966 RVA: 0x0028C1C7 File Offset: 0x0028A5C7
 		public void WriteAttribute(string attributeName, string value)
 		{
 			if (this.writer == null)
@@ -151,7 +151,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DFB RID: 19963 RVA: 0x0028C0C8 File Offset: 0x0028A4C8
+		// Token: 0x06004DFF RID: 19967 RVA: 0x0028C1F4 File Offset: 0x0028A5F4
 		public string DebugOutputFor(IExposable saveable)
 		{
 			string result;
@@ -196,7 +196,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004DFC RID: 19964 RVA: 0x0028C1DC File Offset: 0x0028A5DC
+		// Token: 0x06004E00 RID: 19968 RVA: 0x0028C308 File Offset: 0x0028A708
 		public bool EnterNode(string nodeName)
 		{
 			bool result;
@@ -221,7 +221,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004DFD RID: 19965 RVA: 0x0028C284 File Offset: 0x0028A684
+		// Token: 0x06004E01 RID: 19969 RVA: 0x0028C3B0 File Offset: 0x0028A7B0
 		public void ExitNode()
 		{
 			if (this.writer != null)
@@ -235,7 +235,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DFE RID: 19966 RVA: 0x0028C2F4 File Offset: 0x0028A6F4
+		// Token: 0x06004E02 RID: 19970 RVA: 0x0028C420 File Offset: 0x0028A820
 		public void ForceStop()
 		{
 			if (this.writer != null)

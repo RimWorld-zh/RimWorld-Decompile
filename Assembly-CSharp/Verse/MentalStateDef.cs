@@ -6,7 +6,7 @@ using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000B52 RID: 2898
+	// Token: 0x02000B54 RID: 2900
 	public class MentalStateDef : Def
 	{
 		// Token: 0x04002A01 RID: 10753
@@ -91,8 +91,8 @@ namespace Verse
 		// Token: 0x04002A1A RID: 10778
 		private MentalStateWorker workerInt = null;
 
-		// Token: 0x170009A1 RID: 2465
-		// (get) Token: 0x06003F6C RID: 16236 RVA: 0x00216DD8 File Offset: 0x002151D8
+		// Token: 0x170009A0 RID: 2464
+		// (get) Token: 0x06003F6F RID: 16239 RVA: 0x00216EB4 File Offset: 0x002152B4
 		public MentalStateWorker Worker
 		{
 			get
@@ -109,8 +109,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009A2 RID: 2466
-		// (get) Token: 0x06003F6D RID: 16237 RVA: 0x00216E30 File Offset: 0x00215230
+		// Token: 0x170009A1 RID: 2465
+		// (get) Token: 0x06003F70 RID: 16240 RVA: 0x00216F0C File Offset: 0x0021530C
 		public bool IsAggro
 		{
 			get
@@ -119,8 +119,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009A3 RID: 2467
-		// (get) Token: 0x06003F6E RID: 16238 RVA: 0x00216E50 File Offset: 0x00215250
+		// Token: 0x170009A2 RID: 2466
+		// (get) Token: 0x06003F71 RID: 16241 RVA: 0x00216F2C File Offset: 0x0021532C
 		public bool IsExtreme
 		{
 			get
@@ -137,7 +137,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F6F RID: 16239 RVA: 0x00216EB1 File Offset: 0x002152B1
+		// Token: 0x06003F72 RID: 16242 RVA: 0x00216F8D File Offset: 0x0021538D
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -147,7 +147,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F70 RID: 16240 RVA: 0x00216ED0 File Offset: 0x002152D0
+		// Token: 0x06003F73 RID: 16243 RVA: 0x00216FAC File Offset: 0x002153AC
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())

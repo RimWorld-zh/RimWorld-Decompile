@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000D5D RID: 3421
+	// Token: 0x02000D5F RID: 3423
 	public abstract class Stance_Busy : Stance
 	{
 		// Token: 0x0400332B RID: 13099
@@ -20,13 +20,13 @@ namespace Verse
 		// Token: 0x0400332F RID: 13103
 		protected float pieSizeFactor = 1f;
 
-		// Token: 0x06004CBA RID: 19642 RVA: 0x0027FED5 File Offset: 0x0027E2D5
+		// Token: 0x06004CBE RID: 19646 RVA: 0x00280001 File Offset: 0x0027E401
 		public Stance_Busy()
 		{
 			this.SetPieSizeFactor();
 		}
 
-		// Token: 0x06004CBB RID: 19643 RVA: 0x0027FEFD File Offset: 0x0027E2FD
+		// Token: 0x06004CBF RID: 19647 RVA: 0x00280029 File Offset: 0x0027E429
 		public Stance_Busy(int ticks, LocalTargetInfo focusTarg, Verb verb)
 		{
 			this.ticksLeft = ticks;
@@ -34,13 +34,13 @@ namespace Verse
 			this.verb = verb;
 		}
 
-		// Token: 0x06004CBC RID: 19644 RVA: 0x0027FF34 File Offset: 0x0027E334
+		// Token: 0x06004CC0 RID: 19648 RVA: 0x00280060 File Offset: 0x0027E460
 		public Stance_Busy(int ticks) : this(ticks, null, null)
 		{
 		}
 
-		// Token: 0x17000C80 RID: 3200
-		// (get) Token: 0x06004CBD RID: 19645 RVA: 0x0027FF48 File Offset: 0x0027E348
+		// Token: 0x17000C7F RID: 3199
+		// (get) Token: 0x06004CC1 RID: 19649 RVA: 0x00280074 File Offset: 0x0027E474
 		public override bool StanceBusy
 		{
 			get
@@ -49,7 +49,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004CBE RID: 19646 RVA: 0x0027FF60 File Offset: 0x0027E360
+		// Token: 0x06004CC2 RID: 19650 RVA: 0x0028008C File Offset: 0x0027E48C
 		private void SetPieSizeFactor()
 		{
 			if (this.ticksLeft < 300)
@@ -66,7 +66,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004CBF RID: 19647 RVA: 0x0027FFBC File Offset: 0x0027E3BC
+		// Token: 0x06004CC3 RID: 19651 RVA: 0x002800E8 File Offset: 0x0027E4E8
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -80,7 +80,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004CC0 RID: 19648 RVA: 0x00280026 File Offset: 0x0027E426
+		// Token: 0x06004CC4 RID: 19652 RVA: 0x00280152 File Offset: 0x0027E552
 		public override void StanceTick()
 		{
 			this.ticksLeft--;
@@ -90,7 +90,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004CC1 RID: 19649 RVA: 0x00280049 File Offset: 0x0027E449
+		// Token: 0x06004CC5 RID: 19653 RVA: 0x00280175 File Offset: 0x0027E575
 		protected virtual void Expire()
 		{
 			if (this.stanceTracker.curStance == this)

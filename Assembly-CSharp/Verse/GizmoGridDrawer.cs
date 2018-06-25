@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E6D RID: 3693
+	// Token: 0x02000E6F RID: 3695
 	public static class GizmoGridDrawer
 	{
 		// Token: 0x040039A3 RID: 14755
@@ -29,8 +29,8 @@ namespace Verse
 		// Token: 0x040039A9 RID: 14761
 		private static List<Gizmo> tmpAllGizmos = new List<Gizmo>();
 
-		// Token: 0x17000DAC RID: 3500
-		// (get) Token: 0x06005703 RID: 22275 RVA: 0x002CC938 File Offset: 0x002CAD38
+		// Token: 0x17000DAB RID: 3499
+		// (get) Token: 0x06005707 RID: 22279 RVA: 0x002CCA64 File Offset: 0x002CAE64
 		public static float HeightDrawnRecently
 		{
 			get
@@ -48,7 +48,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005704 RID: 22276 RVA: 0x002CC970 File Offset: 0x002CAD70
+		// Token: 0x06005708 RID: 22280 RVA: 0x002CCA9C File Offset: 0x002CAE9C
 		public static void DrawGizmoGrid(IEnumerable<Gizmo> gizmos, float startX, out Gizmo mouseoverGizmo)
 		{
 			GizmoGridDrawer.tmpAllGizmos.Clear();

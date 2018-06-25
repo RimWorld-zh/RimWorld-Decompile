@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DC4 RID: 3524
+	// Token: 0x02000DC6 RID: 3526
 	public abstract class AttachableThing : Thing
 	{
 		// Token: 0x0400346B RID: 13419
 		public Thing parent;
 
-		// Token: 0x17000CB8 RID: 3256
-		// (get) Token: 0x06004EBA RID: 20154 RVA: 0x001404A8 File Offset: 0x0013E8A8
+		// Token: 0x17000CB7 RID: 3255
+		// (get) Token: 0x06004EBE RID: 20158 RVA: 0x001405F8 File Offset: 0x0013E9F8
 		public override Vector3 DrawPos
 		{
 			get
@@ -28,11 +28,11 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CB9 RID: 3257
-		// (get) Token: 0x06004EBB RID: 20155
+		// Token: 0x17000CB8 RID: 3256
+		// (get) Token: 0x06004EBF RID: 20159
 		public abstract string InspectStringAddon { get; }
 
-		// Token: 0x06004EBC RID: 20156 RVA: 0x001404FD File Offset: 0x0013E8FD
+		// Token: 0x06004EC0 RID: 20160 RVA: 0x0014064D File Offset: 0x0013EA4D
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -46,7 +46,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EBD RID: 20157 RVA: 0x0014053C File Offset: 0x0013E93C
+		// Token: 0x06004EC1 RID: 20161 RVA: 0x0014068C File Offset: 0x0013EA8C
 		public virtual void AttachTo(Thing parent)
 		{
 			this.parent = parent;
@@ -68,7 +68,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EBE RID: 20158 RVA: 0x0014059C File Offset: 0x0013E99C
+		// Token: 0x06004EC2 RID: 20162 RVA: 0x001406EC File Offset: 0x0013EAEC
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
 			base.Destroy(mode);

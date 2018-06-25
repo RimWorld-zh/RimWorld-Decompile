@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000C8C RID: 3212
+	// Token: 0x02000C8E RID: 3214
 	public class RegionLink
 	{
 		// Token: 0x0400300B RID: 12299
@@ -12,9 +12,9 @@ namespace Verse
 		// Token: 0x0400300C RID: 12300
 		public EdgeSpan span;
 
-		// Token: 0x17000B1F RID: 2847
-		// (get) Token: 0x06004685 RID: 18053 RVA: 0x00253BA8 File Offset: 0x00251FA8
-		// (set) Token: 0x06004686 RID: 18054 RVA: 0x00253BC5 File Offset: 0x00251FC5
+		// Token: 0x17000B1E RID: 2846
+		// (get) Token: 0x06004688 RID: 18056 RVA: 0x00253C84 File Offset: 0x00252084
+		// (set) Token: 0x06004689 RID: 18057 RVA: 0x00253CA1 File Offset: 0x002520A1
 		public Region RegionA
 		{
 			get
@@ -27,9 +27,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B20 RID: 2848
-		// (get) Token: 0x06004687 RID: 18055 RVA: 0x00253BD4 File Offset: 0x00251FD4
-		// (set) Token: 0x06004688 RID: 18056 RVA: 0x00253BF1 File Offset: 0x00251FF1
+		// Token: 0x17000B1F RID: 2847
+		// (get) Token: 0x0600468A RID: 18058 RVA: 0x00253CB0 File Offset: 0x002520B0
+		// (set) Token: 0x0600468B RID: 18059 RVA: 0x00253CCD File Offset: 0x002520CD
 		public Region RegionB
 		{
 			get
@@ -42,7 +42,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004689 RID: 18057 RVA: 0x00253C00 File Offset: 0x00252000
+		// Token: 0x0600468C RID: 18060 RVA: 0x00253CDC File Offset: 0x002520DC
 		public void Register(Region reg)
 		{
 			if (this.regions[0] == reg || this.regions[1] == reg)
@@ -79,7 +79,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600468A RID: 18058 RVA: 0x00253D08 File Offset: 0x00252108
+		// Token: 0x0600468D RID: 18061 RVA: 0x00253DE4 File Offset: 0x002521E4
 		public void Deregister(Region reg)
 		{
 			if (this.RegionA == reg)
@@ -100,19 +100,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600468B RID: 18059 RVA: 0x00253D80 File Offset: 0x00252180
+		// Token: 0x0600468E RID: 18062 RVA: 0x00253E5C File Offset: 0x0025225C
 		public Region GetOtherRegion(Region reg)
 		{
 			return (reg != this.RegionA) ? this.RegionA : this.RegionB;
 		}
 
-		// Token: 0x0600468C RID: 18060 RVA: 0x00253DB4 File Offset: 0x002521B4
+		// Token: 0x0600468F RID: 18063 RVA: 0x00253E90 File Offset: 0x00252290
 		public ulong UniqueHashCode()
 		{
 			return this.span.UniqueHashCode();
 		}
 
-		// Token: 0x0600468D RID: 18061 RVA: 0x00253DD4 File Offset: 0x002521D4
+		// Token: 0x06004690 RID: 18064 RVA: 0x00253EB0 File Offset: 0x002522B0
 		public override string ToString()
 		{
 			string text = (from r in this.regions

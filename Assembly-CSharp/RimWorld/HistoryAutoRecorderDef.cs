@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200029C RID: 668
+	// Token: 0x0200029E RID: 670
 	public class HistoryAutoRecorderDef : Def
 	{
 		// Token: 0x04000608 RID: 1544
@@ -25,7 +25,7 @@ namespace RimWorld
 		private HistoryAutoRecorderWorker workerInt = null;
 
 		// Token: 0x170001A2 RID: 418
-		// (get) Token: 0x06000B3D RID: 2877 RVA: 0x00065D04 File Offset: 0x00064104
+		// (get) Token: 0x06000B41 RID: 2881 RVA: 0x00065E54 File Offset: 0x00064254
 		public HistoryAutoRecorderWorker Worker
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001A3 RID: 419
-		// (get) Token: 0x06000B3E RID: 2878 RVA: 0x00065D40 File Offset: 0x00064140
+		// (get) Token: 0x06000B42 RID: 2882 RVA: 0x00065E90 File Offset: 0x00064290
 		public string GraphLabelY
 		{
 			get
@@ -48,7 +48,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B3F RID: 2879 RVA: 0x00065D78 File Offset: 0x00064178
+		// Token: 0x06000B43 RID: 2883 RVA: 0x00065EC8 File Offset: 0x000642C8
 		public static HistoryAutoRecorderDef Named(string defName)
 		{
 			return DefDatabase<HistoryAutoRecorderDef>.GetNamed(defName, true);

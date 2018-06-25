@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000927 RID: 2343
+	// Token: 0x02000929 RID: 2345
 	[DefOf]
 	public static class PawnCapacityDefOf
 	{
@@ -40,7 +40,7 @@ namespace RimWorld
 		// Token: 0x04001FF7 RID: 8183
 		public static PawnCapacityDef Metabolism;
 
-		// Token: 0x0600362F RID: 13871 RVA: 0x001D0A0B File Offset: 0x001CEE0B
+		// Token: 0x06003633 RID: 13875 RVA: 0x001D0B4B File Offset: 0x001CEF4B
 		static PawnCapacityDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(PawnCapacityDefOf));

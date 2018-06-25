@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008CB RID: 2251
+	// Token: 0x020008CD RID: 2253
 	public struct EventPack
 	{
 		// Token: 0x04001BA5 RID: 7077
@@ -16,7 +16,7 @@ namespace RimWorld
 		// Token: 0x04001BA7 RID: 7079
 		private IEnumerable<IntVec3> cellsInt;
 
-		// Token: 0x0600338B RID: 13195 RVA: 0x001B98E9 File Offset: 0x001B7CE9
+		// Token: 0x0600338F RID: 13199 RVA: 0x001B9A29 File Offset: 0x001B7E29
 		public EventPack(string tag)
 		{
 			this.tagInt = tag;
@@ -24,7 +24,7 @@ namespace RimWorld
 			this.cellsInt = null;
 		}
 
-		// Token: 0x0600338C RID: 13196 RVA: 0x001B9905 File Offset: 0x001B7D05
+		// Token: 0x06003390 RID: 13200 RVA: 0x001B9A45 File Offset: 0x001B7E45
 		public EventPack(string tag, IntVec3 cell)
 		{
 			this.tagInt = tag;
@@ -32,7 +32,7 @@ namespace RimWorld
 			this.cellsInt = null;
 		}
 
-		// Token: 0x0600338D RID: 13197 RVA: 0x001B991D File Offset: 0x001B7D1D
+		// Token: 0x06003391 RID: 13201 RVA: 0x001B9A5D File Offset: 0x001B7E5D
 		public EventPack(string tag, IEnumerable<IntVec3> cells)
 		{
 			this.tagInt = tag;
@@ -41,7 +41,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000837 RID: 2103
-		// (get) Token: 0x0600338E RID: 13198 RVA: 0x001B993C File Offset: 0x001B7D3C
+		// (get) Token: 0x06003392 RID: 13202 RVA: 0x001B9A7C File Offset: 0x001B7E7C
 		public string Tag
 		{
 			get
@@ -51,7 +51,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000838 RID: 2104
-		// (get) Token: 0x0600338F RID: 13199 RVA: 0x001B9958 File Offset: 0x001B7D58
+		// (get) Token: 0x06003393 RID: 13203 RVA: 0x001B9A98 File Offset: 0x001B7E98
 		public IntVec3 Cell
 		{
 			get
@@ -61,7 +61,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000839 RID: 2105
-		// (get) Token: 0x06003390 RID: 13200 RVA: 0x001B9974 File Offset: 0x001B7D74
+		// (get) Token: 0x06003394 RID: 13204 RVA: 0x001B9AB4 File Offset: 0x001B7EB4
 		public IEnumerable<IntVec3> Cells
 		{
 			get
@@ -70,13 +70,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003391 RID: 13201 RVA: 0x001B9990 File Offset: 0x001B7D90
+		// Token: 0x06003395 RID: 13205 RVA: 0x001B9AD0 File Offset: 0x001B7ED0
 		public static implicit operator EventPack(string s)
 		{
 			return new EventPack(s);
 		}
 
-		// Token: 0x06003392 RID: 13202 RVA: 0x001B99AC File Offset: 0x001B7DAC
+		// Token: 0x06003396 RID: 13206 RVA: 0x001B9AEC File Offset: 0x001B7EEC
 		public override string ToString()
 		{
 			string result;

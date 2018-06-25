@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200030B RID: 779
+	// Token: 0x0200030D RID: 781
 	public class GameCondition_Aurora : GameCondition
 	{
 		// Token: 0x04000867 RID: 2151
@@ -56,7 +56,7 @@ namespace RimWorld
 		};
 
 		// Token: 0x170001FC RID: 508
-		// (get) Token: 0x06000D21 RID: 3361 RVA: 0x000720A0 File Offset: 0x000704A0
+		// (get) Token: 0x06000D25 RID: 3365 RVA: 0x000721F0 File Offset: 0x000705F0
 		public Color CurrentColor
 		{
 			get
@@ -66,7 +66,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001FD RID: 509
-		// (get) Token: 0x06000D22 RID: 3362 RVA: 0x000720EC File Offset: 0x000704EC
+		// (get) Token: 0x06000D26 RID: 3366 RVA: 0x0007223C File Offset: 0x0007063C
 		private int TransitionDurationTicks
 		{
 			get
@@ -76,7 +76,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001FE RID: 510
-		// (get) Token: 0x06000D23 RID: 3363 RVA: 0x0007211C File Offset: 0x0007051C
+		// (get) Token: 0x06000D27 RID: 3367 RVA: 0x0007226C File Offset: 0x0007066C
 		private bool BrightInAllMaps
 		{
 			get
@@ -93,7 +93,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D24 RID: 3364 RVA: 0x00072170 File Offset: 0x00070570
+		// Token: 0x06000D28 RID: 3368 RVA: 0x000722C0 File Offset: 0x000706C0
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -102,7 +102,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.curColorTransition, "curColorTransition", 0f, false);
 		}
 
-		// Token: 0x06000D25 RID: 3365 RVA: 0x000721BE File Offset: 0x000705BE
+		// Token: 0x06000D29 RID: 3369 RVA: 0x0007230E File Offset: 0x0007070E
 		public override void Init()
 		{
 			base.Init();
@@ -111,25 +111,25 @@ namespace RimWorld
 			this.curColorTransition = 1f;
 		}
 
-		// Token: 0x06000D26 RID: 3366 RVA: 0x000721F4 File Offset: 0x000705F4
+		// Token: 0x06000D2A RID: 3370 RVA: 0x00072344 File Offset: 0x00070744
 		public override float SkyGazeChanceFactor(Map map)
 		{
 			return 8f;
 		}
 
-		// Token: 0x06000D27 RID: 3367 RVA: 0x00072210 File Offset: 0x00070610
+		// Token: 0x06000D2B RID: 3371 RVA: 0x00072360 File Offset: 0x00070760
 		public override float SkyGazeJoyGainFactor(Map map)
 		{
 			return 5f;
 		}
 
-		// Token: 0x06000D28 RID: 3368 RVA: 0x0007222C File Offset: 0x0007062C
+		// Token: 0x06000D2C RID: 3372 RVA: 0x0007237C File Offset: 0x0007077C
 		public override float SkyTargetLerpFactor(Map map)
 		{
 			return GameConditionUtility.LerpInOutValue(this, 200f, 1f);
 		}
 
-		// Token: 0x06000D29 RID: 3369 RVA: 0x00072254 File Offset: 0x00070654
+		// Token: 0x06000D2D RID: 3373 RVA: 0x000723A4 File Offset: 0x000707A4
 		public override SkyTarget? SkyTarget(Map map)
 		{
 			Color currentColor = this.CurrentColor;
@@ -138,13 +138,13 @@ namespace RimWorld
 			return new SkyTarget?(new SkyTarget(glow, colorSet, 1f, 1f));
 		}
 
-		// Token: 0x06000D2A RID: 3370 RVA: 0x000722F0 File Offset: 0x000706F0
+		// Token: 0x06000D2E RID: 3374 RVA: 0x00072440 File Offset: 0x00070840
 		private float Brightness(Map map)
 		{
 			return Mathf.Max(0.73f, GenCelestial.CurCelestialSunGlow(map));
 		}
 
-		// Token: 0x06000D2B RID: 3371 RVA: 0x00072318 File Offset: 0x00070718
+		// Token: 0x06000D2F RID: 3375 RVA: 0x00072468 File Offset: 0x00070868
 		public override void GameConditionTick()
 		{
 			this.curColorTransition += 1f / (float)this.TransitionDurationTicks;
@@ -160,7 +160,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D2C RID: 3372 RVA: 0x000723A8 File Offset: 0x000707A8
+		// Token: 0x06000D30 RID: 3376 RVA: 0x000724F8 File Offset: 0x000708F8
 		private int GetNewColorIndex()
 		{
 			return (from x in Enumerable.Range(0, GameCondition_Aurora.Colors.Length)

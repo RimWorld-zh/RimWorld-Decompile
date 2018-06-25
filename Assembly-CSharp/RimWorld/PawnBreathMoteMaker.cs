@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200045B RID: 1115
+	// Token: 0x0200045D RID: 1117
 	public class PawnBreathMoteMaker
 	{
 		// Token: 0x04000BDA RID: 3034
@@ -31,13 +31,13 @@ namespace RimWorld
 		// Token: 0x04000BE1 RID: 3041
 		private const float BreathRotationOffsetDist = 0.21f;
 
-		// Token: 0x06001393 RID: 5011 RVA: 0x000A91E1 File Offset: 0x000A75E1
+		// Token: 0x06001397 RID: 5015 RVA: 0x000A9331 File Offset: 0x000A7731
 		public PawnBreathMoteMaker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x06001394 RID: 5012 RVA: 0x000A91F8 File Offset: 0x000A75F8
+		// Token: 0x06001398 RID: 5016 RVA: 0x000A9348 File Offset: 0x000A7748
 		public void BreathMoteMakerTick()
 		{
 			if (this.pawn.RaceProps.Humanlike && !this.pawn.RaceProps.IsMechanoid)
@@ -54,7 +54,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001395 RID: 5013 RVA: 0x000A92AC File Offset: 0x000A76AC
+		// Token: 0x06001399 RID: 5017 RVA: 0x000A93FC File Offset: 0x000A77FC
 		private void TryMakeBreathMote()
 		{
 			Vector3 loc = this.pawn.Drawer.DrawPos + this.pawn.Drawer.renderer.BaseHeadOffsetAt(this.pawn.Rotation) + this.pawn.Rotation.FacingCell.ToVector3() * 0.21f + PawnBreathMoteMaker.BreathOffset;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B6F RID: 2927
+	// Token: 0x02000B71 RID: 2929
 	public class ScatterableDef : Def
 	{
 		// Token: 0x04002AD5 RID: 10965
@@ -26,7 +26,7 @@ namespace Verse
 		// Token: 0x04002ADA RID: 10970
 		public Material mat;
 
-		// Token: 0x06003FF2 RID: 16370 RVA: 0x0021B3F0 File Offset: 0x002197F0
+		// Token: 0x06003FF5 RID: 16373 RVA: 0x0021B4CC File Offset: 0x002198CC
 		public override void PostLoad()
 		{
 			base.PostLoad();

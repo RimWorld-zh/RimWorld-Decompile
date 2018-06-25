@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000E77 RID: 3703
+	// Token: 0x02000E79 RID: 3705
 	public static class EditTreeNodeDatabase
 	{
 		// Token: 0x040039D3 RID: 14803
 		private static List<TreeNode_Editor> roots = new List<TreeNode_Editor>();
 
-		// Token: 0x0600574C RID: 22348 RVA: 0x002CDD1C File Offset: 0x002CC11C
+		// Token: 0x06005750 RID: 22352 RVA: 0x002CDE48 File Offset: 0x002CC248
 		public static TreeNode_Editor RootOf(object obj)
 		{
 			for (int i = 0; i < EditTreeNodeDatabase.roots.Count; i++)

@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000916 RID: 2326
+	// Token: 0x02000918 RID: 2328
 	[DefOf]
 	public static class NeedDefOf
 	{
@@ -15,7 +15,7 @@ namespace RimWorld
 		// Token: 0x04001E97 RID: 7831
 		public static NeedDef Joy;
 
-		// Token: 0x0600361E RID: 13854 RVA: 0x001D08D9 File Offset: 0x001CECD9
+		// Token: 0x06003622 RID: 13858 RVA: 0x001D0A19 File Offset: 0x001CEE19
 		static NeedDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(NeedDefOf));

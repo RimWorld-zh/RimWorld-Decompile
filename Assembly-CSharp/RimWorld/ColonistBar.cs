@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007AF RID: 1967
+	// Token: 0x020007B1 RID: 1969
 	[StaticConstructorOnStartup]
 	public class ColonistBar
 	{
@@ -80,7 +80,7 @@ namespace RimWorld
 		private static List<Pawn> tmpCaravanPawns = new List<Pawn>();
 
 		// Token: 0x170006C7 RID: 1735
-		// (get) Token: 0x06002B77 RID: 11127 RVA: 0x00170290 File Offset: 0x0016E690
+		// (get) Token: 0x06002B7B RID: 11131 RVA: 0x001703E0 File Offset: 0x0016E7E0
 		public List<ColonistBar.Entry> Entries
 		{
 			get
@@ -91,7 +91,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006C8 RID: 1736
-		// (get) Token: 0x06002B78 RID: 11128 RVA: 0x001702B4 File Offset: 0x0016E6B4
+		// (get) Token: 0x06002B7C RID: 11132 RVA: 0x00170404 File Offset: 0x0016E804
 		private bool ShowGroupFrames
 		{
 			get
@@ -107,7 +107,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006C9 RID: 1737
-		// (get) Token: 0x06002B79 RID: 11129 RVA: 0x0017030C File Offset: 0x0016E70C
+		// (get) Token: 0x06002B7D RID: 11133 RVA: 0x0017045C File Offset: 0x0016E85C
 		public float Scale
 		{
 			get
@@ -117,7 +117,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006CA RID: 1738
-		// (get) Token: 0x06002B7A RID: 11130 RVA: 0x00170328 File Offset: 0x0016E728
+		// (get) Token: 0x06002B7E RID: 11134 RVA: 0x00170478 File Offset: 0x0016E878
 		public List<Vector2> DrawLocs
 		{
 			get
@@ -127,7 +127,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006CB RID: 1739
-		// (get) Token: 0x06002B7B RID: 11131 RVA: 0x00170344 File Offset: 0x0016E744
+		// (get) Token: 0x06002B7F RID: 11135 RVA: 0x00170494 File Offset: 0x0016E894
 		public Vector2 Size
 		{
 			get
@@ -137,7 +137,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006CC RID: 1740
-		// (get) Token: 0x06002B7C RID: 11132 RVA: 0x0017036C File Offset: 0x0016E76C
+		// (get) Token: 0x06002B80 RID: 11136 RVA: 0x001704BC File Offset: 0x0016E8BC
 		public float SpaceBetweenColonistsHorizontal
 		{
 			get
@@ -147,7 +147,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006CD RID: 1741
-		// (get) Token: 0x06002B7D RID: 11133 RVA: 0x00170390 File Offset: 0x0016E790
+		// (get) Token: 0x06002B81 RID: 11137 RVA: 0x001704E0 File Offset: 0x0016E8E0
 		private bool Visible
 		{
 			get
@@ -156,13 +156,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B7E RID: 11134 RVA: 0x001703CB File Offset: 0x0016E7CB
+		// Token: 0x06002B82 RID: 11138 RVA: 0x0017051B File Offset: 0x0016E91B
 		public void MarkColonistsDirty()
 		{
 			this.entriesDirty = true;
 		}
 
-		// Token: 0x06002B7F RID: 11135 RVA: 0x001703D8 File Offset: 0x0016E7D8
+		// Token: 0x06002B83 RID: 11139 RVA: 0x00170528 File Offset: 0x0016E928
 		public void ColonistBarOnGUI()
 		{
 			if (this.Visible)
@@ -232,7 +232,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B80 RID: 11136 RVA: 0x00170638 File Offset: 0x0016EA38
+		// Token: 0x06002B84 RID: 11140 RVA: 0x00170788 File Offset: 0x0016EB88
 		private void CheckRecacheEntries()
 		{
 			if (this.entriesDirty)
@@ -313,7 +313,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B81 RID: 11137 RVA: 0x001709EC File Offset: 0x0016EDEC
+		// Token: 0x06002B85 RID: 11141 RVA: 0x00170B3C File Offset: 0x0016EF3C
 		public float GetEntryRectAlpha(Rect rect)
 		{
 			float t;
@@ -329,7 +329,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B82 RID: 11138 RVA: 0x00170A29 File Offset: 0x0016EE29
+		// Token: 0x06002B86 RID: 11142 RVA: 0x00170B79 File Offset: 0x0016EF79
 		public void Highlight(Pawn pawn)
 		{
 			if (this.Visible)
@@ -341,7 +341,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B83 RID: 11139 RVA: 0x00170A5C File Offset: 0x0016EE5C
+		// Token: 0x06002B87 RID: 11143 RVA: 0x00170BAC File Offset: 0x0016EFAC
 		private void Reorder(int from, int to, int entryGroup)
 		{
 			int num = 0;
@@ -402,7 +402,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B84 RID: 11140 RVA: 0x00170C74 File Offset: 0x0016F074
+		// Token: 0x06002B88 RID: 11144 RVA: 0x00170DC4 File Offset: 0x0016F1C4
 		private void DrawColonistMouseAttachment(int index, Vector2 dragStartPos, int entryGroup)
 		{
 			Pawn pawn = null;
@@ -433,14 +433,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B85 RID: 11141 RVA: 0x00170DD8 File Offset: 0x0016F1D8
+		// Token: 0x06002B89 RID: 11145 RVA: 0x00170F28 File Offset: 0x0016F328
 		public bool AnyColonistOrCorpseAt(Vector2 pos)
 		{
 			ColonistBar.Entry entry;
 			return this.TryGetEntryAt(pos, out entry) && entry.pawn != null;
 		}
 
-		// Token: 0x06002B86 RID: 11142 RVA: 0x00170E10 File Offset: 0x0016F210
+		// Token: 0x06002B8A RID: 11146 RVA: 0x00170F60 File Offset: 0x0016F360
 		public bool TryGetEntryAt(Vector2 pos, out ColonistBar.Entry entry)
 		{
 			List<Vector2> drawLocs = this.DrawLocs;
@@ -459,7 +459,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06002B87 RID: 11143 RVA: 0x00170EC0 File Offset: 0x0016F2C0
+		// Token: 0x06002B8B RID: 11147 RVA: 0x00171010 File Offset: 0x0016F410
 		public List<Pawn> GetColonistsInOrder()
 		{
 			List<ColonistBar.Entry> entries = this.Entries;
@@ -474,7 +474,7 @@ namespace RimWorld
 			return ColonistBar.tmpColonistsInOrder;
 		}
 
-		// Token: 0x06002B88 RID: 11144 RVA: 0x00170F34 File Offset: 0x0016F334
+		// Token: 0x06002B8C RID: 11148 RVA: 0x00171084 File Offset: 0x0016F484
 		public List<Thing> ColonistsOrCorpsesInScreenRect(Rect rect)
 		{
 			List<Vector2> drawLocs = this.DrawLocs;
@@ -523,7 +523,7 @@ namespace RimWorld
 			return ColonistBar.tmpColonists;
 		}
 
-		// Token: 0x06002B89 RID: 11145 RVA: 0x0017114C File Offset: 0x0016F54C
+		// Token: 0x06002B8D RID: 11149 RVA: 0x0017129C File Offset: 0x0016F69C
 		public List<Thing> MapColonistsOrCorpsesInScreenRect(Rect rect)
 		{
 			ColonistBar.tmpMapColonistsOrCorpsesInScreenRect.Clear();
@@ -547,7 +547,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B8A RID: 11146 RVA: 0x001711CC File Offset: 0x0016F5CC
+		// Token: 0x06002B8E RID: 11150 RVA: 0x0017131C File Offset: 0x0016F71C
 		public List<Pawn> CaravanMembersInScreenRect(Rect rect)
 		{
 			ColonistBar.tmpCaravanPawns.Clear();
@@ -572,7 +572,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B8B RID: 11147 RVA: 0x00171250 File Offset: 0x0016F650
+		// Token: 0x06002B8F RID: 11151 RVA: 0x001713A0 File Offset: 0x0016F7A0
 		public List<Caravan> CaravanMembersCaravansInScreenRect(Rect rect)
 		{
 			ColonistBar.tmpCaravans.Clear();
@@ -593,7 +593,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B8C RID: 11148 RVA: 0x001712C4 File Offset: 0x0016F6C4
+		// Token: 0x06002B90 RID: 11152 RVA: 0x00171414 File Offset: 0x0016F814
 		public Caravan CaravanMemberCaravanAt(Vector2 at)
 		{
 			Caravan result;
@@ -616,7 +616,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B8D RID: 11149 RVA: 0x00171318 File Offset: 0x0016F718
+		// Token: 0x06002B91 RID: 11153 RVA: 0x00171468 File Offset: 0x0016F868
 		public Thing ColonistOrCorpseAt(Vector2 pos)
 		{
 			Thing result;
@@ -646,7 +646,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x020007B0 RID: 1968
+		// Token: 0x020007B2 RID: 1970
 		public struct Entry
 		{
 			// Token: 0x04001767 RID: 5991
@@ -658,7 +658,7 @@ namespace RimWorld
 			// Token: 0x04001769 RID: 5993
 			public int group;
 
-			// Token: 0x06002B96 RID: 11158 RVA: 0x001714F9 File Offset: 0x0016F8F9
+			// Token: 0x06002B9A RID: 11162 RVA: 0x00171649 File Offset: 0x0016FA49
 			public Entry(Pawn pawn, Map map, int group)
 			{
 				this.pawn = pawn;

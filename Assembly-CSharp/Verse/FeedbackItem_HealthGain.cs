@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E60 RID: 3680
+	// Token: 0x02000E62 RID: 3682
 	public class FeedbackItem_HealthGain : FeedbackItem
 	{
 		// Token: 0x04003976 RID: 14710
@@ -12,14 +12,14 @@ namespace Verse
 		// Token: 0x04003977 RID: 14711
 		protected int Amount = 0;
 
-		// Token: 0x060056C0 RID: 22208 RVA: 0x002CB950 File Offset: 0x002C9D50
+		// Token: 0x060056C4 RID: 22212 RVA: 0x002CBA7C File Offset: 0x002C9E7C
 		public FeedbackItem_HealthGain(Vector2 ScreenPos, int Amount, Pawn Healer) : base(ScreenPos)
 		{
 			this.Amount = Amount;
 			this.Healer = Healer;
 		}
 
-		// Token: 0x060056C1 RID: 22209 RVA: 0x002CB970 File Offset: 0x002C9D70
+		// Token: 0x060056C5 RID: 22213 RVA: 0x002CBA9C File Offset: 0x002C9E9C
 		public override void FeedbackOnGUI()
 		{
 			string text;

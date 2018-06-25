@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200092A RID: 2346
+	// Token: 0x0200092C RID: 2348
 	[DefOf]
 	public static class MentalStateDefOf
 	{
@@ -37,7 +37,7 @@ namespace RimWorld
 		// Token: 0x04002003 RID: 8195
 		public static MentalStateDef SocialFighting;
 
-		// Token: 0x06003632 RID: 13874 RVA: 0x001D0A41 File Offset: 0x001CEE41
+		// Token: 0x06003636 RID: 13878 RVA: 0x001D0B81 File Offset: 0x001CEF81
 		static MentalStateDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(MentalStateDefOf));

@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000921 RID: 2337
+	// Token: 0x02000923 RID: 2339
 	[DefOf]
 	public static class ConceptDefOf
 	{
@@ -159,7 +159,7 @@ namespace RimWorld
 		// Token: 0x04001FB1 RID: 8113
 		public static ConceptDef MaxNumberOfPlayerHomes;
 
-		// Token: 0x06003629 RID: 13865 RVA: 0x001D099F File Offset: 0x001CED9F
+		// Token: 0x0600362D RID: 13869 RVA: 0x001D0ADF File Offset: 0x001CEEDF
 		static ConceptDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ConceptDefOf));

@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000577 RID: 1399
+	// Token: 0x02000579 RID: 1401
 	public static class OverallRainfallUtility
 	{
 		// Token: 0x04000F93 RID: 3987
@@ -168,7 +168,7 @@ namespace RimWorld.Planet
 		};
 
 		// Token: 0x170003E1 RID: 993
-		// (get) Token: 0x06001ACD RID: 6861 RVA: 0x000E65E0 File Offset: 0x000E49E0
+		// (get) Token: 0x06001AD1 RID: 6865 RVA: 0x000E6730 File Offset: 0x000E4B30
 		public static int EnumValuesCount
 		{
 			get
@@ -181,7 +181,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001ACE RID: 6862 RVA: 0x000E661C File Offset: 0x000E4A1C
+		// Token: 0x06001AD2 RID: 6866 RVA: 0x000E676C File Offset: 0x000E4B6C
 		public static SimpleCurve GetRainfallCurve(this OverallRainfall overallRainfall)
 		{
 			switch (overallRainfall)

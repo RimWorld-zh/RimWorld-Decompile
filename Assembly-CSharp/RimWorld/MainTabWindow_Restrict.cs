@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000874 RID: 2164
+	// Token: 0x02000876 RID: 2166
 	public class MainTabWindow_Restrict : MainTabWindow_PawnTable
 	{
 		// Token: 0x04001ABE RID: 6846
@@ -15,7 +15,7 @@ namespace RimWorld
 		private const int TimeAssignmentSelectorHeight = 65;
 
 		// Token: 0x170007F4 RID: 2036
-		// (get) Token: 0x06003168 RID: 12648 RVA: 0x001AD388 File Offset: 0x001AB788
+		// (get) Token: 0x0600316C RID: 12652 RVA: 0x001AD4D8 File Offset: 0x001AB8D8
 		protected override PawnTableDef PawnTableDef
 		{
 			get
@@ -24,14 +24,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003169 RID: 12649 RVA: 0x001AD3A2 File Offset: 0x001AB7A2
+		// Token: 0x0600316D RID: 12653 RVA: 0x001AD4F2 File Offset: 0x001AB8F2
 		public override void PostOpen()
 		{
 			base.PostOpen();
 			Find.World.renderer.wantedMode = WorldRenderMode.None;
 		}
 
-		// Token: 0x0600316A RID: 12650 RVA: 0x001AD3BC File Offset: 0x001AB7BC
+		// Token: 0x0600316E RID: 12654 RVA: 0x001AD50C File Offset: 0x001AB90C
 		public override void DoWindowContents(Rect fillRect)
 		{
 			base.DoWindowContents(fillRect);

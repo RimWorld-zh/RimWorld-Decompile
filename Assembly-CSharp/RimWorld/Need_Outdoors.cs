@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004FE RID: 1278
+	// Token: 0x02000500 RID: 1280
 	public class Need_Outdoors : Need
 	{
 		// Token: 0x04000D8F RID: 3471
@@ -35,7 +35,7 @@ namespace RimWorld
 		// Token: 0x04000D97 RID: 3479
 		private float lastEffectiveDelta = 0f;
 
-		// Token: 0x06001700 RID: 5888 RVA: 0x000CAFEC File Offset: 0x000C93EC
+		// Token: 0x06001704 RID: 5892 RVA: 0x000CB13C File Offset: 0x000C953C
 		public Need_Outdoors(Pawn pawn) : base(pawn)
 		{
 			this.threshPercents = new List<float>();
@@ -47,7 +47,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000323 RID: 803
-		// (get) Token: 0x06001701 RID: 5889 RVA: 0x000CB068 File Offset: 0x000C9468
+		// (get) Token: 0x06001705 RID: 5893 RVA: 0x000CB1B8 File Offset: 0x000C95B8
 		public override int GUIChangeArrow
 		{
 			get
@@ -57,7 +57,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000324 RID: 804
-		// (get) Token: 0x06001702 RID: 5890 RVA: 0x000CB088 File Offset: 0x000C9488
+		// (get) Token: 0x06001706 RID: 5894 RVA: 0x000CB1D8 File Offset: 0x000C95D8
 		public OutdoorsCategory CurCategory
 		{
 			get
@@ -92,7 +92,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000325 RID: 805
-		// (get) Token: 0x06001703 RID: 5891 RVA: 0x000CB114 File Offset: 0x000C9514
+		// (get) Token: 0x06001707 RID: 5895 RVA: 0x000CB264 File Offset: 0x000C9664
 		public override bool ShowOnNeedList
 		{
 			get
@@ -102,7 +102,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000326 RID: 806
-		// (get) Token: 0x06001704 RID: 5892 RVA: 0x000CB134 File Offset: 0x000C9534
+		// (get) Token: 0x06001708 RID: 5896 RVA: 0x000CB284 File Offset: 0x000C9684
 		private bool Disabled
 		{
 			get
@@ -111,13 +111,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001705 RID: 5893 RVA: 0x000CB163 File Offset: 0x000C9563
+		// Token: 0x06001709 RID: 5897 RVA: 0x000CB2B3 File Offset: 0x000C96B3
 		public override void SetInitialLevel()
 		{
 			this.CurLevel = 1f;
 		}
 
-		// Token: 0x06001706 RID: 5894 RVA: 0x000CB174 File Offset: 0x000C9574
+		// Token: 0x0600170A RID: 5898 RVA: 0x000CB2C4 File Offset: 0x000C96C4
 		public override void NeedInterval()
 		{
 			if (this.Disabled)

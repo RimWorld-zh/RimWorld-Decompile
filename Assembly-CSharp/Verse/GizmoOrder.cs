@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000E6E RID: 3694
+	// Token: 0x02000E70 RID: 3696
 	public static class GizmoOrder
 	{
 		// Token: 0x040039AB RID: 14763

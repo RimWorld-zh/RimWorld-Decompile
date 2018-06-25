@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000C87 RID: 3207
+	// Token: 0x02000C89 RID: 3209
 	public class RegionAndRoomUpdater
 	{
 		// Token: 0x04002FEE RID: 12270
@@ -46,15 +46,15 @@ namespace Verse
 		// Token: 0x04002FFA RID: 12282
 		private bool enabledInt = true;
 
-		// Token: 0x0600465A RID: 18010 RVA: 0x00251BDC File Offset: 0x0024FFDC
+		// Token: 0x0600465D RID: 18013 RVA: 0x00251CB8 File Offset: 0x002500B8
 		public RegionAndRoomUpdater(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x17000B16 RID: 2838
-		// (get) Token: 0x0600465B RID: 18011 RVA: 0x00251C70 File Offset: 0x00250070
-		// (set) Token: 0x0600465C RID: 18012 RVA: 0x00251C8B File Offset: 0x0025008B
+		// Token: 0x17000B15 RID: 2837
+		// (get) Token: 0x0600465E RID: 18014 RVA: 0x00251D4C File Offset: 0x0025014C
+		// (set) Token: 0x0600465F RID: 18015 RVA: 0x00251D67 File Offset: 0x00250167
 		public bool Enabled
 		{
 			get
@@ -67,8 +67,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B17 RID: 2839
-		// (get) Token: 0x0600465D RID: 18013 RVA: 0x00251C98 File Offset: 0x00250098
+		// Token: 0x17000B16 RID: 2838
+		// (get) Token: 0x06004660 RID: 18016 RVA: 0x00251D74 File Offset: 0x00250174
 		public bool AnythingToRebuild
 		{
 			get
@@ -77,7 +77,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600465E RID: 18014 RVA: 0x00251CCE File Offset: 0x002500CE
+		// Token: 0x06004661 RID: 18017 RVA: 0x00251DAA File Offset: 0x002501AA
 		public void RebuildAllRegionsAndRooms()
 		{
 			if (!this.Enabled)
@@ -89,7 +89,7 @@ namespace Verse
 			this.TryRebuildDirtyRegionsAndRooms();
 		}
 
-		// Token: 0x0600465F RID: 18015 RVA: 0x00251D10 File Offset: 0x00250110
+		// Token: 0x06004662 RID: 18018 RVA: 0x00251DEC File Offset: 0x002501EC
 		public void TryRebuildDirtyRegionsAndRooms()
 		{
 			if (!this.working && this.Enabled)
@@ -126,7 +126,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004660 RID: 18016 RVA: 0x00251DF0 File Offset: 0x002501F0
+		// Token: 0x06004663 RID: 18019 RVA: 0x00251ECC File Offset: 0x002502CC
 		private void RegenerateNewRegionsFromDirtyCells()
 		{
 			this.newRegions.Clear();
@@ -145,7 +145,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004661 RID: 18017 RVA: 0x00251E7C File Offset: 0x0025027C
+		// Token: 0x06004664 RID: 18020 RVA: 0x00251F58 File Offset: 0x00250358
 		private void CreateOrUpdateRooms()
 		{
 			this.newRooms.Clear();
@@ -163,7 +163,7 @@ namespace Verse
 			this.reusedOldRoomGroups.Clear();
 		}
 
-		// Token: 0x06004662 RID: 18018 RVA: 0x00251F04 File Offset: 0x00250304
+		// Token: 0x06004665 RID: 18021 RVA: 0x00251FE0 File Offset: 0x002503E0
 		private int CombineNewRegionsIntoContiguousGroups()
 		{
 			int num = 0;
@@ -178,7 +178,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06004663 RID: 18019 RVA: 0x00251F6C File Offset: 0x0025036C
+		// Token: 0x06004666 RID: 18022 RVA: 0x00252048 File Offset: 0x00250448
 		private void CreateOrAttachToExistingRooms(int numRegionGroups)
 		{
 			for (int i = 0; i < numRegionGroups; i++)
@@ -227,7 +227,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004664 RID: 18020 RVA: 0x0025210C File Offset: 0x0025050C
+		// Token: 0x06004667 RID: 18023 RVA: 0x002521E8 File Offset: 0x002505E8
 		private int CombineNewAndReusedRoomsIntoContiguousGroups()
 		{
 			int num = 0;
@@ -261,7 +261,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06004665 RID: 18021 RVA: 0x002522B0 File Offset: 0x002506B0
+		// Token: 0x06004668 RID: 18024 RVA: 0x0025238C File Offset: 0x0025078C
 		private void CreateOrAttachToExistingRoomGroups(int numRoomGroups)
 		{
 			for (int i = 0; i < numRoomGroups; i++)
@@ -305,7 +305,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004666 RID: 18022 RVA: 0x0025244C File Offset: 0x0025084C
+		// Token: 0x06004669 RID: 18025 RVA: 0x00252528 File Offset: 0x00250928
 		private void FloodAndSetRoomGroups(Room start, RoomGroup roomGroup)
 		{
 			this.tmpRoomStack.Clear();
@@ -329,7 +329,7 @@ namespace Verse
 			this.tmpRoomStack.Clear();
 		}
 
-		// Token: 0x06004667 RID: 18023 RVA: 0x00252550 File Offset: 0x00250950
+		// Token: 0x0600466A RID: 18026 RVA: 0x0025262C File Offset: 0x00250A2C
 		private void NotifyAffectedRoomsAndRoomGroupsAndUpdateTemperature()
 		{
 			foreach (Room room in this.reusedOldRooms)
@@ -356,7 +356,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004668 RID: 18024 RVA: 0x00252688 File Offset: 0x00250A88
+		// Token: 0x0600466B RID: 18027 RVA: 0x00252764 File Offset: 0x00250B64
 		private Room FindCurrentRegionGroupNeighborWithMostRegions(out bool multipleOldNeighborRooms)
 		{
 			multipleOldNeighborRooms = false;
@@ -388,7 +388,7 @@ namespace Verse
 			return room;
 		}
 
-		// Token: 0x06004669 RID: 18025 RVA: 0x00252784 File Offset: 0x00250B84
+		// Token: 0x0600466C RID: 18028 RVA: 0x00252860 File Offset: 0x00250C60
 		private RoomGroup FindCurrentRoomGroupNeighborWithMostRegions(out bool multipleOldNeighborRoomGroups)
 		{
 			multipleOldNeighborRoomGroups = false;
@@ -420,7 +420,7 @@ namespace Verse
 			return roomGroup;
 		}
 
-		// Token: 0x0600466A RID: 18026 RVA: 0x00252898 File Offset: 0x00250C98
+		// Token: 0x0600466D RID: 18029 RVA: 0x00252974 File Offset: 0x00250D74
 		private bool ShouldBeInTheSameRoomGroup(Room a, Room b)
 		{
 			RegionType regionType = a.RegionType;

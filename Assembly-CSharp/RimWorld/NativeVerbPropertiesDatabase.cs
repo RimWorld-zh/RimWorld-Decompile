@@ -5,13 +5,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200098E RID: 2446
+	// Token: 0x02000990 RID: 2448
 	public static class NativeVerbPropertiesDatabase
 	{
-		// Token: 0x04002380 RID: 9088
+		// Token: 0x04002381 RID: 9089
 		public static List<VerbProperties> allVerbDefs = VerbDefsHardcodedNative.AllVerbDefs().ToList<VerbProperties>();
 
-		// Token: 0x06003708 RID: 14088 RVA: 0x001D6804 File Offset: 0x001D4C04
+		// Token: 0x0600370C RID: 14092 RVA: 0x001D6944 File Offset: 0x001D4D44
 		public static VerbProperties VerbWithCategory(VerbCategory id)
 		{
 			VerbProperties verbProperties = (from v in NativeVerbPropertiesDatabase.allVerbDefs

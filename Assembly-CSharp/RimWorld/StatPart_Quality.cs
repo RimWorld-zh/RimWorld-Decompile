@@ -3,34 +3,34 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009B2 RID: 2482
+	// Token: 0x020009B4 RID: 2484
 	public class StatPart_Quality : StatPart
 	{
-		// Token: 0x040023AC RID: 9132
+		// Token: 0x040023AD RID: 9133
 		private float factorAwful = 1f;
 
-		// Token: 0x040023AD RID: 9133
+		// Token: 0x040023AE RID: 9134
 		private float factorPoor = 1f;
 
-		// Token: 0x040023AE RID: 9134
+		// Token: 0x040023AF RID: 9135
 		private float factorNormal = 1f;
 
-		// Token: 0x040023AF RID: 9135
+		// Token: 0x040023B0 RID: 9136
 		private float factorGood = 1f;
 
-		// Token: 0x040023B0 RID: 9136
+		// Token: 0x040023B1 RID: 9137
 		private float factorExcellent = 1f;
 
-		// Token: 0x040023B1 RID: 9137
+		// Token: 0x040023B2 RID: 9138
 		private float factorMasterwork = 1f;
 
-		// Token: 0x040023B2 RID: 9138
+		// Token: 0x040023B3 RID: 9139
 		private float factorLegendary = 1f;
 
-		// Token: 0x040023B3 RID: 9139
+		// Token: 0x040023B4 RID: 9140
 		private bool alsoAppliesToNegativeValues = false;
 
-		// Token: 0x060037A3 RID: 14243 RVA: 0x001DA52B File Offset: 0x001D892B
+		// Token: 0x060037A7 RID: 14247 RVA: 0x001DA66B File Offset: 0x001D8A6B
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (val > 0f || this.alsoAppliesToNegativeValues)
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037A4 RID: 14244 RVA: 0x001DA55C File Offset: 0x001D895C
+		// Token: 0x060037A8 RID: 14248 RVA: 0x001DA69C File Offset: 0x001D8A9C
 		public override string ExplanationPart(StatRequest req)
 		{
 			string result;
@@ -62,7 +62,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037A5 RID: 14245 RVA: 0x001DA5F8 File Offset: 0x001D89F8
+		// Token: 0x060037A9 RID: 14249 RVA: 0x001DA738 File Offset: 0x001D8B38
 		private float QualityMultiplier(QualityCategory qc)
 		{
 			float result;

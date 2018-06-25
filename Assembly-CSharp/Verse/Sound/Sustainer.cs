@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DC0 RID: 3520
+	// Token: 0x02000DC2 RID: 3522
 	public class Sustainer
 	{
 		// Token: 0x0400345A RID: 13402
@@ -34,7 +34,7 @@ namespace Verse.Sound
 		// Token: 0x04003462 RID: 13410
 		public SustainerScopeFader scopeFader = new SustainerScopeFader();
 
-		// Token: 0x06004EA0 RID: 20128 RVA: 0x00291430 File Offset: 0x0028F830
+		// Token: 0x06004EA4 RID: 20132 RVA: 0x0029155C File Offset: 0x0028F95C
 		public Sustainer(SoundDef def, SoundInfo info)
 		{
 			this.def = def;
@@ -75,8 +75,8 @@ namespace Verse.Sound
 			});
 		}
 
-		// Token: 0x17000CB4 RID: 3252
-		// (get) Token: 0x06004EA1 RID: 20129 RVA: 0x002915E0 File Offset: 0x0028F9E0
+		// Token: 0x17000CB3 RID: 3251
+		// (get) Token: 0x06004EA5 RID: 20133 RVA: 0x0029170C File Offset: 0x0028FB0C
 		public bool Ended
 		{
 			get
@@ -85,8 +85,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000CB5 RID: 3253
-		// (get) Token: 0x06004EA2 RID: 20130 RVA: 0x00291608 File Offset: 0x0028FA08
+		// Token: 0x17000CB4 RID: 3252
+		// (get) Token: 0x06004EA6 RID: 20134 RVA: 0x00291734 File Offset: 0x0028FB34
 		public float TimeSinceEnd
 		{
 			get
@@ -95,8 +95,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000CB6 RID: 3254
-		// (get) Token: 0x06004EA3 RID: 20131 RVA: 0x0029162C File Offset: 0x0028FA2C
+		// Token: 0x17000CB5 RID: 3253
+		// (get) Token: 0x06004EA7 RID: 20135 RVA: 0x00291758 File Offset: 0x0028FB58
 		public float CameraDistanceSquared
 		{
 			get
@@ -129,7 +129,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004EA4 RID: 20132 RVA: 0x002916F4 File Offset: 0x0028FAF4
+		// Token: 0x06004EA8 RID: 20136 RVA: 0x00291820 File Offset: 0x0028FC20
 		public void SustainerUpdate()
 		{
 			if (!this.Ended)
@@ -169,7 +169,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004EA5 RID: 20133 RVA: 0x00291820 File Offset: 0x0028FC20
+		// Token: 0x06004EA9 RID: 20137 RVA: 0x0029194C File Offset: 0x0028FD4C
 		private void UpdateRootObjectPosition()
 		{
 			if (this.worldRootObject != null)
@@ -178,7 +178,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004EA6 RID: 20134 RVA: 0x00291870 File Offset: 0x0028FC70
+		// Token: 0x06004EAA RID: 20138 RVA: 0x0029199C File Offset: 0x0028FD9C
 		public void Maintain()
 		{
 			if (this.Ended)
@@ -195,7 +195,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004EA7 RID: 20135 RVA: 0x002918E7 File Offset: 0x0028FCE7
+		// Token: 0x06004EAB RID: 20139 RVA: 0x00291A13 File Offset: 0x0028FE13
 		public void End()
 		{
 			this.endRealTime = Time.realtimeSinceStartup;
@@ -205,7 +205,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004EA8 RID: 20136 RVA: 0x00291910 File Offset: 0x0028FD10
+		// Token: 0x06004EAC RID: 20140 RVA: 0x00291A3C File Offset: 0x0028FE3C
 		private void Cleanup()
 		{
 			if (this.def.subSounds.Count > 0)
@@ -239,7 +239,7 @@ namespace Verse.Sound
 			DebugSoundEventsLog.Notify_SustainerEnded(this, this.info);
 		}
 
-		// Token: 0x06004EA9 RID: 20137 RVA: 0x00291A30 File Offset: 0x0028FE30
+		// Token: 0x06004EAD RID: 20141 RVA: 0x00291B5C File Offset: 0x0028FF5C
 		public string DebugString()
 		{
 			string text = this.def.defName;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E9C RID: 3740
+	// Token: 0x02000E9E RID: 3742
 	public class ListableOption
 	{
 		// Token: 0x04003A71 RID: 14961
@@ -18,7 +18,7 @@ namespace Verse
 		// Token: 0x04003A74 RID: 14964
 		public float minHeight = 45f;
 
-		// Token: 0x06005862 RID: 22626 RVA: 0x002D4E7D File Offset: 0x002D327D
+		// Token: 0x06005866 RID: 22630 RVA: 0x002D4FA9 File Offset: 0x002D33A9
 		public ListableOption(string label, Action action, string uiHighlightTag = null)
 		{
 			this.label = label;
@@ -26,7 +26,7 @@ namespace Verse
 			this.uiHighlightTag = uiHighlightTag;
 		}
 
-		// Token: 0x06005863 RID: 22627 RVA: 0x002D4EA8 File Offset: 0x002D32A8
+		// Token: 0x06005867 RID: 22631 RVA: 0x002D4FD4 File Offset: 0x002D33D4
 		public virtual float DrawOption(Vector2 pos, float width)
 		{
 			float b = Text.CalcHeight(this.label, width);

@@ -2,18 +2,18 @@
 
 namespace Verse
 {
-	// Token: 0x02000F22 RID: 3874
+	// Token: 0x02000F26 RID: 3878
 	public class SubEffecter_SprayerContinuous : SubEffecter_Sprayer
 	{
-		// Token: 0x04003D9A RID: 15770
+		// Token: 0x04003D9D RID: 15773
 		private int ticksUntilMote = 0;
 
-		// Token: 0x06005CDB RID: 23771 RVA: 0x002F188B File Offset: 0x002EFC8B
+		// Token: 0x06005CE5 RID: 23781 RVA: 0x002F1F0B File Offset: 0x002F030B
 		public SubEffecter_SprayerContinuous(SubEffecterDef def, Effecter parent) : base(def, parent)
 		{
 		}
 
-		// Token: 0x06005CDC RID: 23772 RVA: 0x002F189D File Offset: 0x002EFC9D
+		// Token: 0x06005CE6 RID: 23782 RVA: 0x002F1F1D File Offset: 0x002F031D
 		public override void SubEffectTick(TargetInfo A, TargetInfo B)
 		{
 			this.ticksUntilMote--;

@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004B8 RID: 1208
+	// Token: 0x020004BA RID: 1210
 	public class InteractionWorker_RomanceAttempt : InteractionWorker
 	{
 		// Token: 0x04000CBC RID: 3260
@@ -21,7 +21,7 @@ namespace RimWorld
 		// Token: 0x04000CBF RID: 3263
 		private const float BaseSuccessChance = 0.6f;
 
-		// Token: 0x0600158A RID: 5514 RVA: 0x000BFA58 File Offset: 0x000BDE58
+		// Token: 0x0600158E RID: 5518 RVA: 0x000BFBA8 File Offset: 0x000BDFA8
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
 			float result;
@@ -86,7 +86,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600158B RID: 5515 RVA: 0x000BFC40 File Offset: 0x000BE040
+		// Token: 0x0600158F RID: 5519 RVA: 0x000BFD90 File Offset: 0x000BE190
 		public float SuccessChance(Pawn initiator, Pawn recipient)
 		{
 			float num = 0.6f;
@@ -118,7 +118,7 @@ namespace RimWorld
 			return Mathf.Clamp01(num);
 		}
 
-		// Token: 0x0600158C RID: 5516 RVA: 0x000BFDA8 File Offset: 0x000BE1A8
+		// Token: 0x06001590 RID: 5520 RVA: 0x000BFEF8 File Offset: 0x000BE2F8
 		public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks, out string letterText, out string letterLabel, out LetterDef letterDef)
 		{
 			if (Rand.Value < this.SuccessChance(initiator, recipient))
@@ -176,7 +176,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600158D RID: 5517 RVA: 0x000C0004 File Offset: 0x000BE404
+		// Token: 0x06001591 RID: 5521 RVA: 0x000C0154 File Offset: 0x000BE554
 		private void BreakLoverAndFianceRelations(Pawn pawn, out List<Pawn> oldLoversAndFiances)
 		{
 			oldLoversAndFiances = new List<Pawn>();
@@ -203,7 +203,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600158E RID: 5518 RVA: 0x000C00B5 File Offset: 0x000BE4B5
+		// Token: 0x06001592 RID: 5522 RVA: 0x000C0205 File Offset: 0x000BE605
 		private void TryAddCheaterThought(Pawn pawn, Pawn cheater)
 		{
 			if (!pawn.Dead)
@@ -212,7 +212,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600158F RID: 5519 RVA: 0x000C00E8 File Offset: 0x000BE4E8
+		// Token: 0x06001593 RID: 5523 RVA: 0x000C0238 File Offset: 0x000BE638
 		private void GetNewLoversLetter(Pawn initiator, Pawn recipient, List<Pawn> initiatorOldLoversAndFiances, List<Pawn> recipientOldLoversAndFiances, out string letterText, out string letterLabel, out LetterDef letterDef)
 		{
 			bool flag = false;

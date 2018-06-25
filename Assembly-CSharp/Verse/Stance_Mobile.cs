@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000D5C RID: 3420
+	// Token: 0x02000D5E RID: 3422
 	public class Stance_Mobile : Stance
 	{
 	}

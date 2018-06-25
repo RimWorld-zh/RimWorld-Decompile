@@ -7,7 +7,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020006C1 RID: 1729
+	// Token: 0x020006C3 RID: 1731
 	public class Fire : AttachableThing, ISizeReporter
 	{
 		// Token: 0x040014C0 RID: 5312
@@ -101,7 +101,7 @@ namespace RimWorld
 		private const int FireCountParticlesOff = 15;
 
 		// Token: 0x170005A1 RID: 1441
-		// (get) Token: 0x06002557 RID: 9559 RVA: 0x001405F0 File Offset: 0x0013E9F0
+		// (get) Token: 0x0600255B RID: 9563 RVA: 0x00140740 File Offset: 0x0013EB40
 		public override string Label
 		{
 			get
@@ -123,7 +123,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005A2 RID: 1442
-		// (get) Token: 0x06002558 RID: 9560 RVA: 0x00140640 File Offset: 0x0013EA40
+		// (get) Token: 0x0600255C RID: 9564 RVA: 0x00140790 File Offset: 0x0013EB90
 		public override string InspectStringAddon
 		{
 			get
@@ -136,7 +136,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005A3 RID: 1443
-		// (get) Token: 0x06002559 RID: 9561 RVA: 0x0014069C File Offset: 0x0013EA9C
+		// (get) Token: 0x0600255D RID: 9565 RVA: 0x001407EC File Offset: 0x0013EBEC
 		private float SpreadInterval
 		{
 			get
@@ -150,7 +150,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600255A RID: 9562 RVA: 0x001406DC File Offset: 0x0013EADC
+		// Token: 0x0600255E RID: 9566 RVA: 0x0014082C File Offset: 0x0013EC2C
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -158,7 +158,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.fireSize, "fireSize", 0f, false);
 		}
 
-		// Token: 0x0600255B RID: 9563 RVA: 0x0014070D File Offset: 0x0013EB0D
+		// Token: 0x0600255F RID: 9567 RVA: 0x0014085D File Offset: 0x0013EC5D
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -167,13 +167,13 @@ namespace RimWorld
 			this.ticksSinceSpread = (int)(this.SpreadInterval * Rand.Value);
 		}
 
-		// Token: 0x0600255C RID: 9564 RVA: 0x00140740 File Offset: 0x0013EB40
+		// Token: 0x06002560 RID: 9568 RVA: 0x00140890 File Offset: 0x0013EC90
 		public float CurrentSize()
 		{
 			return this.fireSize;
 		}
 
-		// Token: 0x0600255D RID: 9565 RVA: 0x0014075C File Offset: 0x0013EB5C
+		// Token: 0x06002561 RID: 9569 RVA: 0x001408AC File Offset: 0x0013ECAC
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			if (this.sustainer != null)
@@ -189,7 +189,7 @@ namespace RimWorld
 			this.RecalcPathsOnAndAroundMe(map);
 		}
 
-		// Token: 0x0600255E RID: 9566 RVA: 0x001407CC File Offset: 0x0013EBCC
+		// Token: 0x06002562 RID: 9570 RVA: 0x0014091C File Offset: 0x0013ED1C
 		private void RecalcPathsOnAndAroundMe(Map map)
 		{
 			IntVec3[] adjacentCellsAndInside = GenAdj.AdjacentCellsAndInside;
@@ -203,7 +203,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600255F RID: 9567 RVA: 0x0014082C File Offset: 0x0013EC2C
+		// Token: 0x06002563 RID: 9571 RVA: 0x0014097C File Offset: 0x0013ED7C
 		public override void AttachTo(Thing parent)
 		{
 			base.AttachTo(parent);
@@ -217,7 +217,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002560 RID: 9568 RVA: 0x00140864 File Offset: 0x0013EC64
+		// Token: 0x06002564 RID: 9572 RVA: 0x001409B4 File Offset: 0x0013EDB4
 		public override void Tick()
 		{
 			this.ticksSinceSpawn++;
@@ -267,7 +267,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002561 RID: 9569 RVA: 0x00140A18 File Offset: 0x0013EE18
+		// Token: 0x06002565 RID: 9573 RVA: 0x00140B68 File Offset: 0x0013EF68
 		private void SpawnSmokeParticles()
 		{
 			if (Fire.fireCount < 15)
@@ -287,7 +287,7 @@ namespace RimWorld
 			this.ticksUntilSmoke = Fire.SmokeIntervalRange.Lerped(num) + (int)(10f * Rand.Value);
 		}
 
-		// Token: 0x06002562 RID: 9570 RVA: 0x00140AC4 File Offset: 0x0013EEC4
+		// Token: 0x06002566 RID: 9574 RVA: 0x00140C14 File Offset: 0x0013F014
 		private void DoComplexCalcs()
 		{
 			bool flag = false;
@@ -398,7 +398,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002563 RID: 9571 RVA: 0x00140E48 File Offset: 0x0013F248
+		// Token: 0x06002567 RID: 9575 RVA: 0x00140F98 File Offset: 0x0013F398
 		private void TryBurnFloor()
 		{
 			if (this.parent == null && base.Spawned)
@@ -410,7 +410,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002564 RID: 9572 RVA: 0x00140EA0 File Offset: 0x0013F2A0
+		// Token: 0x06002568 RID: 9576 RVA: 0x00140FF0 File Offset: 0x0013F3F0
 		private bool VulnerableToRain()
 		{
 			bool result;
@@ -438,7 +438,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002565 RID: 9573 RVA: 0x00140F24 File Offset: 0x0013F324
+		// Token: 0x06002569 RID: 9577 RVA: 0x00141074 File Offset: 0x0013F474
 		private void DoFireDamage(Thing targ)
 		{
 			float num = 0.0125f + 0.0036f * this.fireSize;
@@ -471,7 +471,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002566 RID: 9574 RVA: 0x00141028 File Offset: 0x0013F428
+		// Token: 0x0600256A RID: 9578 RVA: 0x00141178 File Offset: 0x0013F578
 		protected void TrySpread()
 		{
 			IntVec3 intVec = base.Position;

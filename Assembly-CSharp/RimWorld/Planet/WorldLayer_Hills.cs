@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200058C RID: 1420
+	// Token: 0x0200058E RID: 1422
 	public class WorldLayer_Hills : WorldLayer
 	{
 		// Token: 0x04000FFC RID: 4092
@@ -26,7 +26,7 @@ namespace RimWorld.Planet
 		// Token: 0x04001001 RID: 4097
 		private static readonly FloatRange BasePosOffsetRange_ImpassableMountains = new FloatRange(0f, 0.08f);
 
-		// Token: 0x06001B25 RID: 6949 RVA: 0x000E93D8 File Offset: 0x000E77D8
+		// Token: 0x06001B29 RID: 6953 RVA: 0x000E9528 File Offset: 0x000E7928
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();

@@ -3,25 +3,25 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000384 RID: 900
+	// Token: 0x02000386 RID: 902
 	public sealed class FertilityGrid
 	{
 		// Token: 0x04000991 RID: 2449
 		private Map map;
 
-		// Token: 0x06000F98 RID: 3992 RVA: 0x00083BA1 File Offset: 0x00081FA1
+		// Token: 0x06000F9C RID: 3996 RVA: 0x00083CF1 File Offset: 0x000820F1
 		public FertilityGrid(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x06000F99 RID: 3993 RVA: 0x00083BB4 File Offset: 0x00081FB4
+		// Token: 0x06000F9D RID: 3997 RVA: 0x00083D04 File Offset: 0x00082104
 		public float FertilityAt(IntVec3 loc)
 		{
 			return this.CalculateFertilityAt(loc);
 		}
 
-		// Token: 0x06000F9A RID: 3994 RVA: 0x00083BD0 File Offset: 0x00081FD0
+		// Token: 0x06000F9E RID: 3998 RVA: 0x00083D20 File Offset: 0x00082120
 		private float CalculateFertilityAt(IntVec3 loc)
 		{
 			Thing edifice = loc.GetEdifice(this.map);

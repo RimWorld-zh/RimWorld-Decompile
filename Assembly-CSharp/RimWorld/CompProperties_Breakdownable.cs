@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200025B RID: 603
+	// Token: 0x0200025D RID: 605
 	public class CompProperties_Breakdownable : CompProperties
 	{
-		// Token: 0x06000A98 RID: 2712 RVA: 0x0005FEDB File Offset: 0x0005E2DB
+		// Token: 0x06000A9C RID: 2716 RVA: 0x0006002B File Offset: 0x0005E42B
 		public CompProperties_Breakdownable()
 		{
 			this.compClass = typeof(CompBreakdownable);

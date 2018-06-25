@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000619 RID: 1561
+	// Token: 0x0200061B RID: 1563
 	public class DebugArena : WorldObjectComp
 	{
 		// Token: 0x0400125D RID: 4701
@@ -23,13 +23,13 @@ namespace RimWorld.Planet
 		// Token: 0x04001261 RID: 4705
 		private int tickFightStarted = 0;
 
-		// Token: 0x06001FB4 RID: 8116 RVA: 0x00111B34 File Offset: 0x0010FF34
+		// Token: 0x06001FB8 RID: 8120 RVA: 0x00111C84 File Offset: 0x00110084
 		public DebugArena()
 		{
 			this.tickCreated = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06001FB5 RID: 8117 RVA: 0x00111B5C File Offset: 0x0010FF5C
+		// Token: 0x06001FB9 RID: 8121 RVA: 0x00111CAC File Offset: 0x001100AC
 		public override void CompTick()
 		{
 			if (this.lhs == null || this.rhs == null)

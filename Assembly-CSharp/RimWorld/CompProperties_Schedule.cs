@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200025F RID: 607
+	// Token: 0x02000261 RID: 609
 	public class CompProperties_Schedule : CompProperties
 	{
 		// Token: 0x040004C2 RID: 1218
@@ -16,7 +16,7 @@ namespace RimWorld
 		[MustTranslate]
 		public string offMessage = null;
 
-		// Token: 0x06000A9C RID: 2716 RVA: 0x0005FF3F File Offset: 0x0005E33F
+		// Token: 0x06000AA0 RID: 2720 RVA: 0x0006008F File Offset: 0x0005E48F
 		public CompProperties_Schedule()
 		{
 			this.compClass = typeof(CompSchedule);

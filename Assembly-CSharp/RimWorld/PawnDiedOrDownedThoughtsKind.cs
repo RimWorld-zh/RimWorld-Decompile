@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200047A RID: 1146
+	// Token: 0x0200047C RID: 1148
 	public enum PawnDiedOrDownedThoughtsKind
 	{
 		// Token: 0x04000C00 RID: 3072

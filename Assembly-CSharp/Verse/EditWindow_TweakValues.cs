@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E0C RID: 3596
+	// Token: 0x02000E0E RID: 3598
 	public class EditWindow_TweakValues : EditWindow
 	{
 		// Token: 0x0400356C RID: 13676
@@ -27,7 +27,7 @@ namespace Verse
 		// Token: 0x04003570 RID: 13680
 		private static List<EditWindow_TweakValues.TweakInfo> tweakValueFields;
 
-		// Token: 0x06005193 RID: 20883 RVA: 0x0029DAFC File Offset: 0x0029BEFC
+		// Token: 0x06005197 RID: 20887 RVA: 0x0029DC28 File Offset: 0x0029C028
 		public EditWindow_TweakValues()
 		{
 			this.optionalTitle = "TweakValues";
@@ -45,8 +45,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D5F RID: 3423
-		// (get) Token: 0x06005194 RID: 20884 RVA: 0x0029DB68 File Offset: 0x0029BF68
+		// Token: 0x17000D5E RID: 3422
+		// (get) Token: 0x06005198 RID: 20888 RVA: 0x0029DC94 File Offset: 0x0029C094
 		public override Vector2 InitialSize
 		{
 			get
@@ -55,8 +55,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D60 RID: 3424
-		// (get) Token: 0x06005195 RID: 20885 RVA: 0x0029DB8C File Offset: 0x0029BF8C
+		// Token: 0x17000D5F RID: 3423
+		// (get) Token: 0x06005199 RID: 20889 RVA: 0x0029DCB8 File Offset: 0x0029C0B8
 		public override bool IsDebug
 		{
 			get
@@ -65,7 +65,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005196 RID: 20886 RVA: 0x0029DBA4 File Offset: 0x0029BFA4
+		// Token: 0x0600519A RID: 20890 RVA: 0x0029DCD0 File Offset: 0x0029C0D0
 		private IEnumerable<FieldInfo> FindAllTweakables()
 		{
 			foreach (Type type in GenTypes.AllTypes)
@@ -97,7 +97,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005197 RID: 20887 RVA: 0x0029DBC8 File Offset: 0x0029BFC8
+		// Token: 0x0600519B RID: 20891 RVA: 0x0029DCF4 File Offset: 0x0029C0F4
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Font = GameFont.Small;
@@ -179,7 +179,7 @@ namespace Verse
 			Widgets.EndScrollView();
 		}
 
-		// Token: 0x06005198 RID: 20888 RVA: 0x0029E0B0 File Offset: 0x0029C4B0
+		// Token: 0x0600519C RID: 20892 RVA: 0x0029E1DC File Offset: 0x0029C5DC
 		private float GetAsFloat(FieldInfo field)
 		{
 			float result;
@@ -207,7 +207,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005199 RID: 20889 RVA: 0x0029E194 File Offset: 0x0029C594
+		// Token: 0x0600519D RID: 20893 RVA: 0x0029E2C0 File Offset: 0x0029C6C0
 		private void SetFromFloat(FieldInfo field, float input)
 		{
 			if (field.FieldType == typeof(float))
@@ -232,7 +232,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000E0D RID: 3597
+		// Token: 0x02000E0F RID: 3599
 		private struct TweakInfo
 		{
 			// Token: 0x04003572 RID: 13682

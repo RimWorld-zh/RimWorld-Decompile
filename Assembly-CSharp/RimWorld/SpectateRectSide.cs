@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020008FD RID: 2301
+	// Token: 0x020008FF RID: 2303
 	[Flags]
 	public enum SpectateRectSide
 	{

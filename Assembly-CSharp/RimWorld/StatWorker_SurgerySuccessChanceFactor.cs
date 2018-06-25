@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009C7 RID: 2503
+	// Token: 0x020009C9 RID: 2505
 	public class StatWorker_SurgerySuccessChanceFactor : StatWorker
 	{
-		// Token: 0x0600381E RID: 14366 RVA: 0x001DE9BC File Offset: 0x001DCDBC
+		// Token: 0x06003822 RID: 14370 RVA: 0x001DEB00 File Offset: 0x001DCF00
 		public override bool ShouldShowFor(StatRequest req)
 		{
 			bool result;

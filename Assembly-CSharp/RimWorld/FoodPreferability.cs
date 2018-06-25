@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000265 RID: 613
+	// Token: 0x02000267 RID: 615
 	public enum FoodPreferability : byte
 	{
 		// Token: 0x040004D2 RID: 1234

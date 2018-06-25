@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002AC RID: 684
+	// Token: 0x020002AE RID: 686
 	public class MainButtonDef : Def
 	{
 		// Token: 0x04000674 RID: 1652
@@ -64,7 +64,7 @@ namespace RimWorld
 		public const int ButtonHeight = 35;
 
 		// Token: 0x170001AD RID: 429
-		// (get) Token: 0x06000B70 RID: 2928 RVA: 0x00067284 File Offset: 0x00065684
+		// (get) Token: 0x06000B74 RID: 2932 RVA: 0x000673D4 File Offset: 0x000657D4
 		public MainButtonWorker Worker
 		{
 			get
@@ -79,7 +79,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001AE RID: 430
-		// (get) Token: 0x06000B71 RID: 2929 RVA: 0x000672D0 File Offset: 0x000656D0
+		// (get) Token: 0x06000B75 RID: 2933 RVA: 0x00067420 File Offset: 0x00065820
 		public MainTabWindow TabWindow
 		{
 			get
@@ -94,7 +94,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001AF RID: 431
-		// (get) Token: 0x06000B72 RID: 2930 RVA: 0x00067328 File Offset: 0x00065728
+		// (get) Token: 0x06000B76 RID: 2934 RVA: 0x00067478 File Offset: 0x00065878
 		public string ShortenedLabelCap
 		{
 			get
@@ -108,7 +108,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001B0 RID: 432
-		// (get) Token: 0x06000B73 RID: 2931 RVA: 0x00067360 File Offset: 0x00065760
+		// (get) Token: 0x06000B77 RID: 2935 RVA: 0x000674B0 File Offset: 0x000658B0
 		public float LabelCapWidth
 		{
 			get
@@ -125,7 +125,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001B1 RID: 433
-		// (get) Token: 0x06000B74 RID: 2932 RVA: 0x000673B8 File Offset: 0x000657B8
+		// (get) Token: 0x06000B78 RID: 2936 RVA: 0x00067508 File Offset: 0x00065908
 		public float ShortenedLabelCapWidth
 		{
 			get
@@ -141,14 +141,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B75 RID: 2933 RVA: 0x00067410 File Offset: 0x00065810
+		// Token: 0x06000B79 RID: 2937 RVA: 0x00067560 File Offset: 0x00065960
 		public override void PostLoad()
 		{
 			base.PostLoad();
 			this.cachedHighlightTagClosed = "MainTab-" + this.defName + "-Closed";
 		}
 
-		// Token: 0x06000B76 RID: 2934 RVA: 0x00067434 File Offset: 0x00065834
+		// Token: 0x06000B7A RID: 2938 RVA: 0x00067584 File Offset: 0x00065984
 		public void Notify_SwitchedMap()
 		{
 			if (this.tabWindowInt != null)

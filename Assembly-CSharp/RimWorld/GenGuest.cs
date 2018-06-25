@@ -4,10 +4,10 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020004E9 RID: 1257
+	// Token: 0x020004EB RID: 1259
 	public static class GenGuest
 	{
-		// Token: 0x06001681 RID: 5761 RVA: 0x000C7AD8 File Offset: 0x000C5ED8
+		// Token: 0x06001685 RID: 5765 RVA: 0x000C7C28 File Offset: 0x000C6028
 		public static void PrisonerRelease(Pawn p)
 		{
 			if (p.ownership != null)

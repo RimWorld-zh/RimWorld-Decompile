@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000DF1 RID: 3569
+	// Token: 0x02000DF3 RID: 3571
 	public enum DestroyMode : byte
 	{
 		// Token: 0x0400350E RID: 13582

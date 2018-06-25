@@ -3,28 +3,28 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000F05 RID: 3845
+	// Token: 0x02000F09 RID: 3849
 	public sealed class ThingOption
 	{
-		// Token: 0x04003CEC RID: 15596
+		// Token: 0x04003CEF RID: 15599
 		public ThingDef thingDef;
 
-		// Token: 0x04003CED RID: 15597
+		// Token: 0x04003CF0 RID: 15600
 		public float weight = 1f;
 
-		// Token: 0x06005C5E RID: 23646 RVA: 0x002EEA98 File Offset: 0x002ECE98
+		// Token: 0x06005C68 RID: 23656 RVA: 0x002EF118 File Offset: 0x002ED518
 		public ThingOption()
 		{
 		}
 
-		// Token: 0x06005C5F RID: 23647 RVA: 0x002EEAAC File Offset: 0x002ECEAC
+		// Token: 0x06005C69 RID: 23657 RVA: 0x002EF12C File Offset: 0x002ED52C
 		public ThingOption(ThingDef thingDef, float weight)
 		{
 			this.thingDef = thingDef;
 			this.weight = weight;
 		}
 
-		// Token: 0x06005C60 RID: 23648 RVA: 0x002EEAD0 File Offset: 0x002ECED0
+		// Token: 0x06005C6A RID: 23658 RVA: 0x002EF150 File Offset: 0x002ED550
 		public void LoadDataFromXmlCustom(XmlNode xmlRoot)
 		{
 			if (xmlRoot.ChildNodes.Count != 1)
@@ -38,7 +38,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005C61 RID: 23649 RVA: 0x002EEB44 File Offset: 0x002ECF44
+		// Token: 0x06005C6B RID: 23659 RVA: 0x002EF1C4 File Offset: 0x002ED5C4
 		public override string ToString()
 		{
 			return string.Concat(new string[]

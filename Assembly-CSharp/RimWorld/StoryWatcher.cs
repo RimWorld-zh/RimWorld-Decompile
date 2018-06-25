@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200035B RID: 859
+	// Token: 0x0200035D RID: 861
 	public sealed class StoryWatcher : IExposable
 	{
 		// Token: 0x04000929 RID: 2345
@@ -12,13 +12,13 @@ namespace RimWorld
 		// Token: 0x0400092A RID: 2346
 		public StoryWatcher_RampUp watcherRampUp = new StoryWatcher_RampUp();
 
-		// Token: 0x06000EE9 RID: 3817 RVA: 0x0007DD8C File Offset: 0x0007C18C
+		// Token: 0x06000EED RID: 3821 RVA: 0x0007DEDC File Offset: 0x0007C2DC
 		public void StoryWatcherTick()
 		{
 			this.watcherRampUp.RampUpWatcherTick();
 		}
 
-		// Token: 0x06000EEA RID: 3818 RVA: 0x0007DD9A File Offset: 0x0007C19A
+		// Token: 0x06000EEE RID: 3822 RVA: 0x0007DEEA File Offset: 0x0007C2EA
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<StatsRecord>(ref this.statsRecord, "statsRecord", new object[0]);

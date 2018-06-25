@@ -4,16 +4,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200076A RID: 1898
+	// Token: 0x0200076C RID: 1900
 	public class StockGenerator_BuyWeirdOrganic : StockGenerator
 	{
-		// Token: 0x06002A00 RID: 10752 RVA: 0x00163BC8 File Offset: 0x00161FC8
+		// Token: 0x06002A04 RID: 10756 RVA: 0x00163D18 File Offset: 0x00162118
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
 			yield break;
 		}
 
-		// Token: 0x06002A01 RID: 10753 RVA: 0x00163BEC File Offset: 0x00161FEC
+		// Token: 0x06002A05 RID: 10757 RVA: 0x00163D3C File Offset: 0x0016213C
 		public override bool HandlesThingDef(ThingDef thingDef)
 		{
 			return thingDef == ThingDefOf.InsectJelly;

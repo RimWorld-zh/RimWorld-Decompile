@@ -5,62 +5,62 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DCB RID: 3531
+	// Token: 0x02000DCD RID: 3533
 	[HasDebugOutput]
 	public static class GraphicDatabase
 	{
 		// Token: 0x040034A0 RID: 13472
 		private static Dictionary<GraphicRequest, Graphic> allGraphics = new Dictionary<GraphicRequest, Graphic>();
 
-		// Token: 0x06004F2D RID: 20269 RVA: 0x00294178 File Offset: 0x00292578
+		// Token: 0x06004F31 RID: 20273 RVA: 0x002942A4 File Offset: 0x002926A4
 		public static Graphic Get<T>(string path) where T : Graphic, new()
 		{
 			GraphicRequest req = new GraphicRequest(typeof(T), path, ShaderDatabase.Cutout, Vector2.one, Color.white, Color.white, null, 0, null);
 			return GraphicDatabase.GetInner<T>(req);
 		}
 
-		// Token: 0x06004F2E RID: 20270 RVA: 0x002941C4 File Offset: 0x002925C4
+		// Token: 0x06004F32 RID: 20274 RVA: 0x002942F0 File Offset: 0x002926F0
 		public static Graphic Get<T>(string path, Shader shader) where T : Graphic, new()
 		{
 			GraphicRequest req = new GraphicRequest(typeof(T), path, shader, Vector2.one, Color.white, Color.white, null, 0, null);
 			return GraphicDatabase.GetInner<T>(req);
 		}
 
-		// Token: 0x06004F2F RID: 20271 RVA: 0x0029420C File Offset: 0x0029260C
+		// Token: 0x06004F33 RID: 20275 RVA: 0x00294338 File Offset: 0x00292738
 		public static Graphic Get<T>(string path, Shader shader, Vector2 drawSize, Color color) where T : Graphic, new()
 		{
 			GraphicRequest req = new GraphicRequest(typeof(T), path, shader, drawSize, color, Color.white, null, 0, null);
 			return GraphicDatabase.GetInner<T>(req);
 		}
 
-		// Token: 0x06004F30 RID: 20272 RVA: 0x0029424C File Offset: 0x0029264C
+		// Token: 0x06004F34 RID: 20276 RVA: 0x00294378 File Offset: 0x00292778
 		public static Graphic Get<T>(string path, Shader shader, Vector2 drawSize, Color color, int renderQueue) where T : Graphic, new()
 		{
 			GraphicRequest req = new GraphicRequest(typeof(T), path, shader, drawSize, color, Color.white, null, renderQueue, null);
 			return GraphicDatabase.GetInner<T>(req);
 		}
 
-		// Token: 0x06004F31 RID: 20273 RVA: 0x0029428C File Offset: 0x0029268C
+		// Token: 0x06004F35 RID: 20277 RVA: 0x002943B8 File Offset: 0x002927B8
 		public static Graphic Get<T>(string path, Shader shader, Vector2 drawSize, Color color, Color colorTwo) where T : Graphic, new()
 		{
 			GraphicRequest req = new GraphicRequest(typeof(T), path, shader, drawSize, color, colorTwo, null, 0, null);
 			return GraphicDatabase.GetInner<T>(req);
 		}
 
-		// Token: 0x06004F32 RID: 20274 RVA: 0x002942C8 File Offset: 0x002926C8
+		// Token: 0x06004F36 RID: 20278 RVA: 0x002943F4 File Offset: 0x002927F4
 		public static Graphic Get<T>(string path, Shader shader, Vector2 drawSize, Color color, Color colorTwo, GraphicData data) where T : Graphic, new()
 		{
 			GraphicRequest req = new GraphicRequest(typeof(T), path, shader, drawSize, color, colorTwo, data, 0, null);
 			return GraphicDatabase.GetInner<T>(req);
 		}
 
-		// Token: 0x06004F33 RID: 20275 RVA: 0x00294304 File Offset: 0x00292704
+		// Token: 0x06004F37 RID: 20279 RVA: 0x00294430 File Offset: 0x00292830
 		public static Graphic Get(Type graphicClass, string path, Shader shader, Vector2 drawSize, Color color, Color colorTwo)
 		{
 			return GraphicDatabase.Get(graphicClass, path, shader, drawSize, color, colorTwo, null, null);
 		}
 
-		// Token: 0x06004F34 RID: 20276 RVA: 0x00294328 File Offset: 0x00292728
+		// Token: 0x06004F38 RID: 20280 RVA: 0x00294454 File Offset: 0x00292854
 		public static Graphic Get(Type graphicClass, string path, Shader shader, Vector2 drawSize, Color color, Color colorTwo, GraphicData data, List<ShaderParameter> shaderParameters)
 		{
 			GraphicRequest graphicRequest = new GraphicRequest(graphicClass, path, shader, drawSize, color, colorTwo, data, 0, shaderParameters);
@@ -123,7 +123,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004F35 RID: 20277 RVA: 0x002944F0 File Offset: 0x002928F0
+		// Token: 0x06004F39 RID: 20281 RVA: 0x0029461C File Offset: 0x00292A1C
 		private static T GetInner<T>(GraphicRequest req) where T : Graphic, new()
 		{
 			Graphic graphic;
@@ -136,13 +136,13 @@ namespace Verse
 			return (T)((object)graphic);
 		}
 
-		// Token: 0x06004F36 RID: 20278 RVA: 0x0029453D File Offset: 0x0029293D
+		// Token: 0x06004F3A RID: 20282 RVA: 0x00294669 File Offset: 0x00292A69
 		public static void Clear()
 		{
 			GraphicDatabase.allGraphics.Clear();
 		}
 
-		// Token: 0x06004F37 RID: 20279 RVA: 0x0029454C File Offset: 0x0029294C
+		// Token: 0x06004F3B RID: 20283 RVA: 0x00294678 File Offset: 0x00292A78
 		[DebugOutput]
 		[Category("System")]
 		public static void AllGraphicsLoaded()

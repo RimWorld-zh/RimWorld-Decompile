@@ -3,17 +3,17 @@ using System.Reflection;
 
 namespace Verse
 {
-	// Token: 0x02000E38 RID: 3640
+	// Token: 0x02000E3A RID: 3642
 	public static class GenAttribute
 	{
-		// Token: 0x06005631 RID: 22065 RVA: 0x002C77BC File Offset: 0x002C5BBC
+		// Token: 0x06005635 RID: 22069 RVA: 0x002C78E8 File Offset: 0x002C5CE8
 		public static bool HasAttribute<T>(this MemberInfo memberInfo) where T : Attribute
 		{
 			T t;
 			return memberInfo.TryGetAttribute(out t);
 		}
 
-		// Token: 0x06005632 RID: 22066 RVA: 0x002C77DC File Offset: 0x002C5BDC
+		// Token: 0x06005636 RID: 22070 RVA: 0x002C7908 File Offset: 0x002C5D08
 		public static bool TryGetAttribute<T>(this MemberInfo memberInfo, out T customAttribute) where T : Attribute
 		{
 			object[] customAttributes = memberInfo.GetCustomAttributes(typeof(T), true);
@@ -39,7 +39,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005633 RID: 22067 RVA: 0x002C7868 File Offset: 0x002C5C68
+		// Token: 0x06005637 RID: 22071 RVA: 0x002C7994 File Offset: 0x002C5D94
 		public static T TryGetAttribute<T>(this MemberInfo memberInfo) where T : Attribute
 		{
 			T result = (T)((object)null);

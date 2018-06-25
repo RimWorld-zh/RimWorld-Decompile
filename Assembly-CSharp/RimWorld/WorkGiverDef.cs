@@ -5,7 +5,7 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000BB1 RID: 2993
+	// Token: 0x02000BB3 RID: 2995
 	public class WorkGiverDef : Def
 	{
 		// Token: 0x04002C36 RID: 11318
@@ -101,8 +101,8 @@ namespace RimWorld
 		[Unsaved]
 		private WorkGiver workerInt = null;
 
-		// Token: 0x17000A25 RID: 2597
-		// (get) Token: 0x060040F1 RID: 16625 RVA: 0x00224CD4 File Offset: 0x002230D4
+		// Token: 0x17000A24 RID: 2596
+		// (get) Token: 0x060040F4 RID: 16628 RVA: 0x00224DB0 File Offset: 0x002231B0
 		public WorkGiver Worker
 		{
 			get
@@ -116,7 +116,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060040F2 RID: 16626 RVA: 0x00224D20 File Offset: 0x00223120
+		// Token: 0x060040F5 RID: 16629 RVA: 0x00224DFC File Offset: 0x002231FC
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string error in this.<ConfigErrors>__BaseCallProxy0())

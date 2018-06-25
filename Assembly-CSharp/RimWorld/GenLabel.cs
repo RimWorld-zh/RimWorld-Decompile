@@ -6,25 +6,25 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000981 RID: 2433
+	// Token: 0x02000983 RID: 2435
 	public static class GenLabel
 	{
-		// Token: 0x04002363 RID: 9059
+		// Token: 0x04002364 RID: 9060
 		private static Dictionary<GenLabel.LabelRequest, string> labelDictionary = new Dictionary<GenLabel.LabelRequest, string>();
 
-		// Token: 0x04002364 RID: 9060
+		// Token: 0x04002365 RID: 9061
 		private const int LabelDictionaryMaxCount = 2000;
 
-		// Token: 0x04002365 RID: 9061
+		// Token: 0x04002366 RID: 9062
 		private static List<GenLabel.LabelElement> tmpThingsLabelElements = new List<GenLabel.LabelElement>();
 
-		// Token: 0x060036D9 RID: 14041 RVA: 0x001D4E26 File Offset: 0x001D3226
+		// Token: 0x060036DD RID: 14045 RVA: 0x001D4F66 File Offset: 0x001D3366
 		public static void ClearCache()
 		{
 			GenLabel.labelDictionary.Clear();
 		}
 
-		// Token: 0x060036DA RID: 14042 RVA: 0x001D4E34 File Offset: 0x001D3234
+		// Token: 0x060036DE RID: 14046 RVA: 0x001D4F74 File Offset: 0x001D3374
 		public static string ThingLabel(BuildableDef entDef, ThingDef stuffDef, int stackCount = 1)
 		{
 			GenLabel.LabelRequest key = default(GenLabel.LabelRequest);
@@ -44,7 +44,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x060036DB RID: 14043 RVA: 0x001D4EB4 File Offset: 0x001D32B4
+		// Token: 0x060036DF RID: 14047 RVA: 0x001D4FF4 File Offset: 0x001D33F4
 		private static string NewThingLabel(BuildableDef entDef, ThingDef stuffDef, int stackCount)
 		{
 			string text;
@@ -67,7 +67,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x060036DC RID: 14044 RVA: 0x001D4F18 File Offset: 0x001D3318
+		// Token: 0x060036E0 RID: 14048 RVA: 0x001D5058 File Offset: 0x001D3458
 		public static string ThingLabel(Thing t, int stackCount, bool includeHp = true)
 		{
 			GenLabel.LabelRequest key = default(GenLabel.LabelRequest);
@@ -98,7 +98,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x060036DD RID: 14045 RVA: 0x001D4FFC File Offset: 0x001D33FC
+		// Token: 0x060036E1 RID: 14049 RVA: 0x001D513C File Offset: 0x001D353C
 		private static string NewThingLabel(Thing t, int stackCount, bool includeHp)
 		{
 			string text = GenLabel.ThingLabel(t.def, t.Stuff, 1);
@@ -141,7 +141,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x060036DE RID: 14046 RVA: 0x001D5148 File Offset: 0x001D3548
+		// Token: 0x060036E2 RID: 14050 RVA: 0x001D5288 File Offset: 0x001D3688
 		public static string ThingsLabel(List<Thing> things)
 		{
 			GenLabel.tmpThingsLabelElements.Clear();
@@ -212,7 +212,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060036DF RID: 14047 RVA: 0x001D53EC File Offset: 0x001D37EC
+		// Token: 0x060036E3 RID: 14051 RVA: 0x001D552C File Offset: 0x001D392C
 		public static string BestKindLabel(Pawn pawn, bool mustNoteGender = false, bool mustNoteLifeStage = false, bool plural = false, int pluralCount = -1)
 		{
 			bool flag = false;
@@ -391,65 +391,65 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x02000982 RID: 2434
+		// Token: 0x02000984 RID: 2436
 		private class LabelElement
 		{
-			// Token: 0x04002367 RID: 9063
+			// Token: 0x04002368 RID: 9064
 			public Thing thingTemplate;
 
-			// Token: 0x04002368 RID: 9064
+			// Token: 0x04002369 RID: 9065
 			public int count;
 		}
 
-		// Token: 0x02000983 RID: 2435
+		// Token: 0x02000985 RID: 2437
 		private struct LabelRequest : IEquatable<GenLabel.LabelRequest>
 		{
-			// Token: 0x04002369 RID: 9065
+			// Token: 0x0400236A RID: 9066
 			public BuildableDef entDef;
 
-			// Token: 0x0400236A RID: 9066
+			// Token: 0x0400236B RID: 9067
 			public ThingDef stuffDef;
 
-			// Token: 0x0400236B RID: 9067
+			// Token: 0x0400236C RID: 9068
 			public int stackCount;
 
-			// Token: 0x0400236C RID: 9068
+			// Token: 0x0400236D RID: 9069
 			public QualityCategory quality;
 
-			// Token: 0x0400236D RID: 9069
+			// Token: 0x0400236E RID: 9070
 			public int health;
 
-			// Token: 0x0400236E RID: 9070
+			// Token: 0x0400236F RID: 9071
 			public int maxHealth;
 
-			// Token: 0x0400236F RID: 9071
+			// Token: 0x04002370 RID: 9072
 			public bool wornByCorpse;
 
-			// Token: 0x060036E3 RID: 14051 RVA: 0x001D59E8 File Offset: 0x001D3DE8
+			// Token: 0x060036E7 RID: 14055 RVA: 0x001D5B28 File Offset: 0x001D3F28
 			public static bool operator ==(GenLabel.LabelRequest lhs, GenLabel.LabelRequest rhs)
 			{
 				return lhs.Equals(rhs);
 			}
 
-			// Token: 0x060036E4 RID: 14052 RVA: 0x001D5A08 File Offset: 0x001D3E08
+			// Token: 0x060036E8 RID: 14056 RVA: 0x001D5B48 File Offset: 0x001D3F48
 			public static bool operator !=(GenLabel.LabelRequest lhs, GenLabel.LabelRequest rhs)
 			{
 				return !(lhs == rhs);
 			}
 
-			// Token: 0x060036E5 RID: 14053 RVA: 0x001D5A28 File Offset: 0x001D3E28
+			// Token: 0x060036E9 RID: 14057 RVA: 0x001D5B68 File Offset: 0x001D3F68
 			public override bool Equals(object obj)
 			{
 				return obj is GenLabel.LabelRequest && this.Equals((GenLabel.LabelRequest)obj);
 			}
 
-			// Token: 0x060036E6 RID: 14054 RVA: 0x001D5A5C File Offset: 0x001D3E5C
+			// Token: 0x060036EA RID: 14058 RVA: 0x001D5B9C File Offset: 0x001D3F9C
 			public bool Equals(GenLabel.LabelRequest other)
 			{
 				return this.entDef == other.entDef && this.stuffDef == other.stuffDef && this.stackCount == other.stackCount && this.quality == other.quality && this.health == other.health && this.maxHealth == other.maxHealth && this.wornByCorpse == other.wornByCorpse;
 			}
 
-			// Token: 0x060036E7 RID: 14055 RVA: 0x001D5AF0 File Offset: 0x001D3EF0
+			// Token: 0x060036EB RID: 14059 RVA: 0x001D5C30 File Offset: 0x001D4030
 			public override int GetHashCode()
 			{
 				int num = 0;

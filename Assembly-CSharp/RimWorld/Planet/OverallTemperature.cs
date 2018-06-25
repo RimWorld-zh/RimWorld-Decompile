@@ -2,7 +2,7 @@
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000578 RID: 1400
+	// Token: 0x0200057A RID: 1402
 	public enum OverallTemperature
 	{
 		// Token: 0x04000F9B RID: 3995

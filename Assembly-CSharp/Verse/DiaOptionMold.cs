@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 
 namespace Verse
 {
-	// Token: 0x02000EC3 RID: 3779
+	// Token: 0x02000EC5 RID: 3781
 	public class DiaOptionMold
 	{
 		// Token: 0x04003BB5 RID: 15285
@@ -19,7 +19,7 @@ namespace Verse
 		[DefaultValue("")]
 		public List<string> ChildNodeNames = new List<string>();
 
-		// Token: 0x0600596D RID: 22893 RVA: 0x002DD624 File Offset: 0x002DBA24
+		// Token: 0x06005970 RID: 22896 RVA: 0x002DD744 File Offset: 0x002DBB44
 		public DiaNodeMold RandomLinkNode()
 		{
 			List<DiaNodeMold> list = this.ChildNodes.ListFullCopy<DiaNodeMold>();

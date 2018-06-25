@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200089F RID: 2207
+	// Token: 0x020008A1 RID: 2209
 	[StaticConstructorOnStartup]
 	public static class SkillUI
 	{
@@ -43,7 +43,7 @@ namespace RimWorld
 		// Token: 0x04001B17 RID: 6935
 		private static Texture2D SkillBarFillTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 1f, 1f, 0.1f));
 
-		// Token: 0x06003291 RID: 12945 RVA: 0x001B38F4 File Offset: 0x001B1CF4
+		// Token: 0x06003295 RID: 12949 RVA: 0x001B3A34 File Offset: 0x001B1E34
 		public static void DrawSkillsOf(Pawn p, Vector2 offset, SkillUI.SkillDrawMode mode)
 		{
 			Text.Font = GameFont.Small;
@@ -63,13 +63,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003292 RID: 12946 RVA: 0x001B39BC File Offset: 0x001B1DBC
+		// Token: 0x06003296 RID: 12950 RVA: 0x001B3AFC File Offset: 0x001B1EFC
 		public static void DrawSkill(SkillRecord skill, Vector2 topLeft, SkillUI.SkillDrawMode mode, string tooltipPrefix = "")
 		{
 			SkillUI.DrawSkill(skill, new Rect(topLeft.x, topLeft.y, 240f, 24f), mode, "");
 		}
 
-		// Token: 0x06003293 RID: 12947 RVA: 0x001B39E8 File Offset: 0x001B1DE8
+		// Token: 0x06003297 RID: 12951 RVA: 0x001B3B28 File Offset: 0x001B1F28
 		public static void DrawSkill(SkillRecord skill, Rect holdingRect, SkillUI.SkillDrawMode mode, string tooltipPrefix = "")
 		{
 			if (Mouse.IsOver(holdingRect))
@@ -117,7 +117,7 @@ namespace RimWorld
 			TooltipHandler.TipRegion(holdingRect, new TipSignal(text, skill.def.GetHashCode() * 397945));
 		}
 
-		// Token: 0x06003294 RID: 12948 RVA: 0x001B3BD0 File Offset: 0x001B1FD0
+		// Token: 0x06003298 RID: 12952 RVA: 0x001B3D10 File Offset: 0x001B2110
 		private static string GetSkillDescription(SkillRecord sk)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -193,7 +193,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x020008A0 RID: 2208
+		// Token: 0x020008A2 RID: 2210
 		public enum SkillDrawMode : byte
 		{
 			// Token: 0x04001B19 RID: 6937

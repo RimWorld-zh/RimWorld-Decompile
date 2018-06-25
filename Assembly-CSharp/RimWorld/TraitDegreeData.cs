@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002E8 RID: 744
+	// Token: 0x020002EA RID: 746
 	public class TraitDegreeData
 	{
 		// Token: 0x040007DD RID: 2013
@@ -59,7 +59,7 @@ namespace RimWorld
 		// Token: 0x040007EC RID: 2028
 		public float randomDiseaseMtbDays = 0f;
 
-		// Token: 0x06000C4B RID: 3147 RVA: 0x0006D337 File Offset: 0x0006B737
+		// Token: 0x06000C4F RID: 3151 RVA: 0x0006D487 File Offset: 0x0006B887
 		public void PostLoad()
 		{
 			this.untranslatedLabel = this.label;

@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000E59 RID: 3673
+	// Token: 0x02000E5B RID: 3675
 	public abstract class UIMenuBackground
 	{
-		// Token: 0x060056A3 RID: 22179
+		// Token: 0x060056A7 RID: 22183
 		public abstract void BackgroundOnGUI();
 	}
 }

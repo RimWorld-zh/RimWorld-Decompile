@@ -2,7 +2,7 @@
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005B0 RID: 1456
+	// Token: 0x020005B2 RID: 1458
 	public static class WorldAltitudeOffsets
 	{
 		// Token: 0x040010B1 RID: 4273

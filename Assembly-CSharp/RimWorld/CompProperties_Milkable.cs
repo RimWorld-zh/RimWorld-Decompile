@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200024B RID: 587
+	// Token: 0x0200024D RID: 589
 	public class CompProperties_Milkable : CompProperties
 	{
 		// Token: 0x04000495 RID: 1173
@@ -18,7 +18,7 @@ namespace RimWorld
 		// Token: 0x04000498 RID: 1176
 		public bool milkFemaleOnly = true;
 
-		// Token: 0x06000A7F RID: 2687 RVA: 0x0005F387 File Offset: 0x0005D787
+		// Token: 0x06000A83 RID: 2691 RVA: 0x0005F4D7 File Offset: 0x0005D8D7
 		public CompProperties_Milkable()
 		{
 			this.compClass = typeof(CompMilkable);

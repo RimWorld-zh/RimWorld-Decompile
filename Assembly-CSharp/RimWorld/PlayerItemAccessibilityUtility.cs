@@ -7,31 +7,31 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000990 RID: 2448
+	// Token: 0x02000992 RID: 2450
 	public static class PlayerItemAccessibilityUtility
 	{
-		// Token: 0x04002381 RID: 9089
+		// Token: 0x04002382 RID: 9090
 		private static List<Thing> cachedAccessibleThings = new List<Thing>();
 
-		// Token: 0x04002382 RID: 9090
+		// Token: 0x04002383 RID: 9091
 		private static List<ThingDefCount> cachedPossiblyAccessibleThings = new List<ThingDefCount>();
 
-		// Token: 0x04002383 RID: 9091
+		// Token: 0x04002384 RID: 9092
 		private static int cachedAccessibleThingsForTile = -1;
 
-		// Token: 0x04002384 RID: 9092
+		// Token: 0x04002385 RID: 9093
 		private static int cachedAccessibleThingsForFrame = -1;
 
-		// Token: 0x04002385 RID: 9093
+		// Token: 0x04002386 RID: 9094
 		private static List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x04002386 RID: 9094
+		// Token: 0x04002387 RID: 9095
 		private static HashSet<ThingDef> tmpWorkTables = new HashSet<ThingDef>();
 
-		// Token: 0x04002387 RID: 9095
+		// Token: 0x04002388 RID: 9096
 		private const float MaxDistanceInTilesToConsiderAccessible = 5f;
 
-		// Token: 0x0600370A RID: 14090 RVA: 0x001D6B38 File Offset: 0x001D4F38
+		// Token: 0x0600370E RID: 14094 RVA: 0x001D6C78 File Offset: 0x001D5078
 		public static bool Accessible(ThingDef thing, int count, Map map)
 		{
 			PlayerItemAccessibilityUtility.CacheAccessibleThings(map.Tile);
@@ -46,7 +46,7 @@ namespace RimWorld
 			return num >= count;
 		}
 
-		// Token: 0x0600370B RID: 14091 RVA: 0x001D6BA8 File Offset: 0x001D4FA8
+		// Token: 0x0600370F RID: 14095 RVA: 0x001D6CE8 File Offset: 0x001D50E8
 		public static bool PossiblyAccessible(ThingDef thing, int count, Map map)
 		{
 			bool result;
@@ -70,7 +70,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600370C RID: 14092 RVA: 0x001D6C34 File Offset: 0x001D5034
+		// Token: 0x06003710 RID: 14096 RVA: 0x001D6D74 File Offset: 0x001D5174
 		private static void CacheAccessibleThings(int nearTile)
 		{
 			if (nearTile != PlayerItemAccessibilityUtility.cachedAccessibleThingsForTile || RealTime.frameCount != PlayerItemAccessibilityUtility.cachedAccessibleThingsForFrame)
@@ -238,7 +238,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600370D RID: 14093 RVA: 0x001D73A8 File Offset: 0x001D57A8
+		// Token: 0x06003711 RID: 14097 RVA: 0x001D74E8 File Offset: 0x001D58E8
 		public static bool PlayerOrItemStashHas(ThingFilter thingFilter)
 		{
 			ThingRequest bestThingRequest = thingFilter.BestThingRequest;
@@ -288,7 +288,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600370E RID: 14094 RVA: 0x001D7548 File Offset: 0x001D5948
+		// Token: 0x06003712 RID: 14098 RVA: 0x001D7688 File Offset: 0x001D5A88
 		public static bool PlayerOrItemStashHas(ThingDef thingDef)
 		{
 			List<Map> maps = Find.Maps;
@@ -317,7 +317,7 @@ namespace RimWorld
 			return PlayerItemAccessibilityUtility.ItemStashHas(thingDef);
 		}
 
-		// Token: 0x0600370F RID: 14095 RVA: 0x001D763C File Offset: 0x001D5A3C
+		// Token: 0x06003713 RID: 14099 RVA: 0x001D777C File Offset: 0x001D5B7C
 		public static bool ItemStashHas(ThingDef thingDef)
 		{
 			List<WorldObject> allWorldObjects = Find.WorldObjects.AllWorldObjects;

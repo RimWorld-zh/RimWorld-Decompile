@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000910 RID: 2320
+	// Token: 0x02000912 RID: 2322
 	[AttributeUsage(AttributeTargets.Class)]
 	public class DefOf : Attribute
 	{

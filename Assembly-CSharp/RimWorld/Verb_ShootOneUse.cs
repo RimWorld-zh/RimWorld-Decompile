@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009D7 RID: 2519
+	// Token: 0x020009D9 RID: 2521
 	public class Verb_ShootOneUse : Verb_Shoot
 	{
-		// Token: 0x0600387B RID: 14459 RVA: 0x001E35A4 File Offset: 0x001E19A4
+		// Token: 0x0600387F RID: 14463 RVA: 0x001E36D0 File Offset: 0x001E1AD0
 		protected override bool TryCastShot()
 		{
 			bool result;
@@ -29,7 +29,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600387C RID: 14460 RVA: 0x001E35FC File Offset: 0x001E19FC
+		// Token: 0x06003880 RID: 14464 RVA: 0x001E3728 File Offset: 0x001E1B28
 		public override void Notify_EquipmentLost()
 		{
 			base.Notify_EquipmentLost();
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600387D RID: 14461 RVA: 0x001E362D File Offset: 0x001E1A2D
+		// Token: 0x06003881 RID: 14465 RVA: 0x001E3759 File Offset: 0x001E1B59
 		private void SelfConsume()
 		{
 			if (this.ownerEquipment != null && !this.ownerEquipment.Destroyed)

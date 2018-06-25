@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000228 RID: 552
+	// Token: 0x0200022A RID: 554
 	public class ThoughtWorker_PsychicDrone : ThoughtWorker
 	{
-		// Token: 0x06000A1C RID: 2588 RVA: 0x0005986C File Offset: 0x00057C6C
+		// Token: 0x06000A20 RID: 2592 RVA: 0x000599BC File Offset: 0x00057DBC
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			PsychicDroneLevel psychicDroneLevel = PsychicDroneLevel.None;
@@ -48,7 +48,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000A1D RID: 2589 RVA: 0x00059950 File Offset: 0x00057D50
+		// Token: 0x06000A21 RID: 2593 RVA: 0x00059AA0 File Offset: 0x00057EA0
 		private static CompPsychicDrone PsychicDroneEmanator(Map map)
 		{
 			List<Thing> list = map.listerThings.ThingsInGroup(ThingRequestGroup.PsychicDroneEmanator);

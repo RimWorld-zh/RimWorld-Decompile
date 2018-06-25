@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000627 RID: 1575
+	// Token: 0x02000629 RID: 1577
 	public static class WorldObjectMaker
 	{
-		// Token: 0x0600202A RID: 8234 RVA: 0x00113CB4 File Offset: 0x001120B4
+		// Token: 0x0600202E RID: 8238 RVA: 0x00113E04 File Offset: 0x00112204
 		public static WorldObject MakeWorldObject(WorldObjectDef def)
 		{
 			WorldObject worldObject = (WorldObject)Activator.CreateInstance(def.worldObjectClass);

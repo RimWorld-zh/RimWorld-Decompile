@@ -4,7 +4,7 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000685 RID: 1669
+	// Token: 0x02000687 RID: 1671
 	public abstract class Building_Turret : Building, IAttackTarget, IAttackTargetSearcher, ILoadReferenceable
 	{
 		// Token: 0x040013C8 RID: 5064
@@ -22,22 +22,22 @@ namespace RimWorld
 		// Token: 0x040013CC RID: 5068
 		private const float SightRadiusTurret = 13.4f;
 
-		// Token: 0x06002334 RID: 9012 RVA: 0x0012EDEF File Offset: 0x0012D1EF
+		// Token: 0x06002338 RID: 9016 RVA: 0x0012EF3F File Offset: 0x0012D33F
 		public Building_Turret()
 		{
 			this.stunner = new StunHandler(this);
 		}
 
 		// Token: 0x1700052F RID: 1327
-		// (get) Token: 0x06002335 RID: 9013
+		// (get) Token: 0x06002339 RID: 9017
 		public abstract LocalTargetInfo CurrentTarget { get; }
 
 		// Token: 0x17000530 RID: 1328
-		// (get) Token: 0x06002336 RID: 9014
+		// (get) Token: 0x0600233A RID: 9018
 		public abstract Verb AttackVerb { get; }
 
 		// Token: 0x1700052D RID: 1325
-		// (get) Token: 0x06002337 RID: 9015 RVA: 0x0012EE10 File Offset: 0x0012D210
+		// (get) Token: 0x0600233B RID: 9019 RVA: 0x0012EF60 File Offset: 0x0012D360
 		Thing IAttackTarget.Thing
 		{
 			get
@@ -47,7 +47,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000531 RID: 1329
-		// (get) Token: 0x06002338 RID: 9016 RVA: 0x0012EE28 File Offset: 0x0012D228
+		// (get) Token: 0x0600233C RID: 9020 RVA: 0x0012EF78 File Offset: 0x0012D378
 		public LocalTargetInfo TargetCurrentlyAimingAt
 		{
 			get
@@ -57,7 +57,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700052E RID: 1326
-		// (get) Token: 0x06002339 RID: 9017 RVA: 0x0012EE44 File Offset: 0x0012D244
+		// (get) Token: 0x0600233D RID: 9021 RVA: 0x0012EF94 File Offset: 0x0012D394
 		Thing IAttackTargetSearcher.Thing
 		{
 			get
@@ -67,7 +67,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000532 RID: 1330
-		// (get) Token: 0x0600233A RID: 9018 RVA: 0x0012EE5C File Offset: 0x0012D25C
+		// (get) Token: 0x0600233E RID: 9022 RVA: 0x0012EFAC File Offset: 0x0012D3AC
 		public Verb CurrentEffectiveVerb
 		{
 			get
@@ -77,7 +77,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000533 RID: 1331
-		// (get) Token: 0x0600233B RID: 9019 RVA: 0x0012EE78 File Offset: 0x0012D278
+		// (get) Token: 0x0600233F RID: 9023 RVA: 0x0012EFC8 File Offset: 0x0012D3C8
 		public LocalTargetInfo LastAttackedTarget
 		{
 			get
@@ -87,7 +87,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000534 RID: 1332
-		// (get) Token: 0x0600233C RID: 9020 RVA: 0x0012EE94 File Offset: 0x0012D294
+		// (get) Token: 0x06002340 RID: 9024 RVA: 0x0012EFE4 File Offset: 0x0012D3E4
 		public int LastAttackTargetTick
 		{
 			get
@@ -96,7 +96,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600233D RID: 9021 RVA: 0x0012EEB0 File Offset: 0x0012D2B0
+		// Token: 0x06002341 RID: 9025 RVA: 0x0012F000 File Offset: 0x0012D400
 		public override void Tick()
 		{
 			base.Tick();
@@ -107,7 +107,7 @@ namespace RimWorld
 			this.stunner.StunHandlerTick();
 		}
 
-		// Token: 0x0600233E RID: 9022 RVA: 0x0012EF28 File Offset: 0x0012D328
+		// Token: 0x06002342 RID: 9026 RVA: 0x0012F078 File Offset: 0x0012D478
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -120,7 +120,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.lastAttackTargetTick, "lastAttackTargetTick", 0, false);
 		}
 
-		// Token: 0x0600233F RID: 9023 RVA: 0x0012EF88 File Offset: 0x0012D388
+		// Token: 0x06002343 RID: 9027 RVA: 0x0012F0D8 File Offset: 0x0012D4D8
 		public override void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
 		{
 			base.PreApplyDamage(ref dinfo, out absorbed);
@@ -131,10 +131,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002340 RID: 9024
+		// Token: 0x06002344 RID: 9028
 		public abstract void OrderAttack(LocalTargetInfo targ);
 
-		// Token: 0x06002341 RID: 9025 RVA: 0x0012EFB4 File Offset: 0x0012D3B4
+		// Token: 0x06002345 RID: 9029 RVA: 0x0012F104 File Offset: 0x0012D504
 		public bool ThreatDisabled(IAttackTargetSearcher disabledFor)
 		{
 			CompPowerTrader comp = base.GetComp<CompPowerTrader>();
@@ -151,7 +151,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002342 RID: 9026 RVA: 0x0012F008 File Offset: 0x0012D408
+		// Token: 0x06002346 RID: 9030 RVA: 0x0012F158 File Offset: 0x0012D558
 		protected void OnAttackedTarget(LocalTargetInfo target)
 		{
 			this.lastAttackTargetTick = Find.TickManager.TicksGame;

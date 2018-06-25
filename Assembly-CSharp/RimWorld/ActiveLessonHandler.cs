@@ -4,14 +4,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008B1 RID: 2225
+	// Token: 0x020008B3 RID: 2227
 	public class ActiveLessonHandler : IExposable
 	{
 		// Token: 0x04001B7D RID: 7037
 		private Lesson activeLesson;
 
 		// Token: 0x17000818 RID: 2072
-		// (get) Token: 0x060032E2 RID: 13026 RVA: 0x001B6814 File Offset: 0x001B4C14
+		// (get) Token: 0x060032E6 RID: 13030 RVA: 0x001B6954 File Offset: 0x001B4D54
 		public Lesson Current
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000819 RID: 2073
-		// (get) Token: 0x060032E3 RID: 13027 RVA: 0x001B6830 File Offset: 0x001B4C30
+		// (get) Token: 0x060032E7 RID: 13031 RVA: 0x001B6970 File Offset: 0x001B4D70
 		public bool ActiveLessonVisible
 		{
 			get
@@ -30,13 +30,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060032E4 RID: 13028 RVA: 0x001B6860 File Offset: 0x001B4C60
+		// Token: 0x060032E8 RID: 13032 RVA: 0x001B69A0 File Offset: 0x001B4DA0
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<Lesson>(ref this.activeLesson, "activeLesson", new object[0]);
 		}
 
-		// Token: 0x060032E5 RID: 13029 RVA: 0x001B687C File Offset: 0x001B4C7C
+		// Token: 0x060032E9 RID: 13033 RVA: 0x001B69BC File Offset: 0x001B4DBC
 		public void Activate(InstructionDef id)
 		{
 			Lesson_Instruction lesson_Instruction = this.activeLesson as Lesson_Instruction;
@@ -49,7 +49,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060032E6 RID: 13030 RVA: 0x001B68D8 File Offset: 0x001B4CD8
+		// Token: 0x060032EA RID: 13034 RVA: 0x001B6A18 File Offset: 0x001B4E18
 		public void Activate(Lesson lesson)
 		{
 			Lesson_Note lesson_Note = lesson as Lesson_Note;
@@ -61,7 +61,7 @@ namespace RimWorld
 			this.activeLesson.OnActivated();
 		}
 
-		// Token: 0x060032E7 RID: 13031 RVA: 0x001B6918 File Offset: 0x001B4D18
+		// Token: 0x060032EB RID: 13035 RVA: 0x001B6A58 File Offset: 0x001B4E58
 		public void Deactivate()
 		{
 			Lesson lesson = this.activeLesson;
@@ -72,7 +72,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060032E8 RID: 13032 RVA: 0x001B6940 File Offset: 0x001B4D40
+		// Token: 0x060032EC RID: 13036 RVA: 0x001B6A80 File Offset: 0x001B4E80
 		public void ActiveLessonOnGUI()
 		{
 			if (Time.timeSinceLevelLoad >= 0.01f && this.ActiveLessonVisible)
@@ -81,7 +81,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060032E9 RID: 13033 RVA: 0x001B696D File Offset: 0x001B4D6D
+		// Token: 0x060032ED RID: 13037 RVA: 0x001B6AAD File Offset: 0x001B4EAD
 		public void ActiveLessonUpdate()
 		{
 			if (Time.timeSinceLevelLoad >= 0.01f && this.ActiveLessonVisible)
@@ -90,7 +90,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060032EA RID: 13034 RVA: 0x001B699A File Offset: 0x001B4D9A
+		// Token: 0x060032EE RID: 13038 RVA: 0x001B6ADA File Offset: 0x001B4EDA
 		public void Notify_KnowledgeDemonstrated(ConceptDef conc)
 		{
 			if (this.Current != null)

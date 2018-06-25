@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003A1 RID: 929
+	// Token: 0x020003A3 RID: 931
 	public class SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant : SymbolResolver
 	{
 		// Token: 0x04000A0E RID: 2574
@@ -14,7 +14,7 @@ namespace RimWorld.BaseGen
 		// Token: 0x04000A0F RID: 2575
 		private const float MaxCoverage = 0.09f;
 
-		// Token: 0x0600102D RID: 4141 RVA: 0x000883A0 File Offset: 0x000867A0
+		// Token: 0x06001031 RID: 4145 RVA: 0x000884F0 File Offset: 0x000868F0
 		public override bool CanResolve(ResolveParams rp)
 		{
 			bool result;
@@ -50,7 +50,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x0600102E RID: 4142 RVA: 0x000884B0 File Offset: 0x000868B0
+		// Token: 0x06001032 RID: 4146 RVA: 0x00088600 File Offset: 0x00086A00
 		public override void Resolve(ResolveParams rp)
 		{
 			this.CalculateAvailablePowerPlants(rp.rect);
@@ -67,7 +67,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x0600102F RID: 4143 RVA: 0x00088588 File Offset: 0x00086988
+		// Token: 0x06001033 RID: 4147 RVA: 0x000886D8 File Offset: 0x00086AD8
 		private void CalculateAvailablePowerPlants(CellRect rect)
 		{
 			Map map = BaseGen.globalSettings.map;

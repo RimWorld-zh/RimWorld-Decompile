@@ -6,11 +6,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200078F RID: 1935
+	// Token: 0x02000791 RID: 1937
 	public class Alert_HypothermicAnimals : Alert
 	{
 		// Token: 0x170006B1 RID: 1713
-		// (get) Token: 0x06002AF1 RID: 10993 RVA: 0x0016B144 File Offset: 0x00169544
+		// (get) Token: 0x06002AF5 RID: 10997 RVA: 0x0016B294 File Offset: 0x00169694
 		private IEnumerable<Pawn> HypothermicAnimals
 		{
 			get
@@ -21,13 +21,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002AF2 RID: 10994 RVA: 0x0016B180 File Offset: 0x00169580
+		// Token: 0x06002AF6 RID: 10998 RVA: 0x0016B2D0 File Offset: 0x001696D0
 		public override string GetLabel()
 		{
 			return "Hypothermic wild animals (debug)";
 		}
 
-		// Token: 0x06002AF3 RID: 10995 RVA: 0x0016B19C File Offset: 0x0016959C
+		// Token: 0x06002AF7 RID: 10999 RVA: 0x0016B2EC File Offset: 0x001696EC
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -45,7 +45,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06002AF4 RID: 10996 RVA: 0x0016B248 File Offset: 0x00169648
+		// Token: 0x06002AF8 RID: 11000 RVA: 0x0016B398 File Offset: 0x00169798
 		public override AlertReport GetReport()
 		{
 			AlertReport result;

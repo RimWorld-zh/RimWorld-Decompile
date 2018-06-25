@@ -12,7 +12,7 @@ using Verse.Steam;
 
 namespace Verse
 {
-	// Token: 0x02000BDA RID: 3034
+	// Token: 0x02000BDC RID: 3036
 	public abstract class Root : MonoBehaviour
 	{
 		// Token: 0x04002D4F RID: 11599
@@ -37,7 +37,7 @@ namespace Verse
 		[CompilerGenerated]
 		private static Action <>f__mg$cache0;
 
-		// Token: 0x06004247 RID: 16967 RVA: 0x0022E0BC File Offset: 0x0022C4BC
+		// Token: 0x0600424A RID: 16970 RVA: 0x0022E198 File Offset: 0x0022C598
 		public virtual void Start()
 		{
 			try
@@ -82,7 +82,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004248 RID: 16968 RVA: 0x0022E160 File Offset: 0x0022C560
+		// Token: 0x0600424B RID: 16971 RVA: 0x0022E23C File Offset: 0x0022C63C
 		private static void CheckGlobalInit()
 		{
 			if (!Root.globalInitDone)
@@ -110,7 +110,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004249 RID: 16969 RVA: 0x0022E204 File Offset: 0x0022C604
+		// Token: 0x0600424C RID: 16972 RVA: 0x0022E2E0 File Offset: 0x0022C6E0
 		public virtual void Update()
 		{
 			try
@@ -163,7 +163,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600424A RID: 16970 RVA: 0x0022E334 File Offset: 0x0022C734
+		// Token: 0x0600424D RID: 16973 RVA: 0x0022E410 File Offset: 0x0022C810
 		public void OnGUI()
 		{
 			try
@@ -190,7 +190,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600424B RID: 16971 RVA: 0x0022E3DC File Offset: 0x0022C7DC
+		// Token: 0x0600424E RID: 16974 RVA: 0x0022E4B8 File Offset: 0x0022C8B8
 		public static void Shutdown()
 		{
 			SteamManager.ShutdownSteam();

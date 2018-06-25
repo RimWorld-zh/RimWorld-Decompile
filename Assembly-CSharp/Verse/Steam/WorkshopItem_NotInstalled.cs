@@ -2,7 +2,7 @@
 
 namespace Verse.Steam
 {
-	// Token: 0x02000FC1 RID: 4033
+	// Token: 0x02000FC5 RID: 4037
 	public class WorkshopItem_NotInstalled : WorkshopItem
 	{
 	}

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B70 RID: 2928
+	// Token: 0x02000B72 RID: 2930
 	public class ShaderTypeDef : Def
 	{
 		// Token: 0x04002ADB RID: 10971
@@ -14,8 +14,8 @@ namespace Verse
 		[Unsaved]
 		private Shader shaderInt;
 
-		// Token: 0x170009C0 RID: 2496
-		// (get) Token: 0x06003FF5 RID: 16373 RVA: 0x0021B460 File Offset: 0x00219860
+		// Token: 0x170009BF RID: 2495
+		// (get) Token: 0x06003FF8 RID: 16376 RVA: 0x0021B53C File Offset: 0x0021993C
 		public Shader Shader
 		{
 			get

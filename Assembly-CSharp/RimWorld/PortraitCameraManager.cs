@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200049F RID: 1183
+	// Token: 0x020004A1 RID: 1185
 	public static class PortraitCameraManager
 	{
 		// Token: 0x04000C9A RID: 3226
@@ -14,7 +14,7 @@ namespace RimWorld
 		private static PortraitRenderer portraitRendererInt = PortraitCameraManager.portraitCameraInt.GetComponent<PortraitRenderer>();
 
 		// Token: 0x170002DA RID: 730
-		// (get) Token: 0x0600153D RID: 5437 RVA: 0x000BD3D8 File Offset: 0x000BB7D8
+		// (get) Token: 0x06001541 RID: 5441 RVA: 0x000BD528 File Offset: 0x000BB928
 		public static Camera PortraitCamera
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002DB RID: 731
-		// (get) Token: 0x0600153E RID: 5438 RVA: 0x000BD3F4 File Offset: 0x000BB7F4
+		// (get) Token: 0x06001542 RID: 5442 RVA: 0x000BD544 File Offset: 0x000BB944
 		public static PortraitRenderer PortraitRenderer
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600153F RID: 5439 RVA: 0x000BD410 File Offset: 0x000BB810
+		// Token: 0x06001543 RID: 5443 RVA: 0x000BD560 File Offset: 0x000BB960
 		private static Camera CreatePortraitCamera()
 		{
 			GameObject gameObject = new GameObject("PortraitCamera", new Type[]

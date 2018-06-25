@@ -5,7 +5,7 @@ using Verse.AI;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005F3 RID: 1523
+	// Token: 0x020005F5 RID: 1525
 	public static class MultipleCaravansCellFinder
 	{
 		// Token: 0x04001203 RID: 4611
@@ -29,7 +29,7 @@ namespace RimWorld.Planet
 		// Token: 0x04001209 RID: 4617
 		private const float TryMinDistPctBetweenFallbackEdgeCells = 0.6f;
 
-		// Token: 0x06001E5A RID: 7770 RVA: 0x00106AB0 File Offset: 0x00104EB0
+		// Token: 0x06001E5E RID: 7774 RVA: 0x00106C00 File Offset: 0x00105000
 		public static void FindStartingCellsFor2Groups(Map map, out IntVec3 first, out IntVec3 second)
 		{
 			for (int i = 0; i < 10; i++)
@@ -68,7 +68,7 @@ namespace RimWorld.Planet
 			second = CellFinder.RandomClosewalkCellNear(second, map, 7, null);
 		}
 
-		// Token: 0x06001E5B RID: 7771 RVA: 0x00106C64 File Offset: 0x00105064
+		// Token: 0x06001E5F RID: 7775 RVA: 0x00106DB4 File Offset: 0x001051B4
 		private static bool TryFindOppositeSpots(Map map, float maxDistPctToOppositeSpots, out IntVec3 first, out IntVec3 second)
 		{
 			IntVec3 intVec = MultipleCaravansCellFinder.RandomSpotNearEdge(map);
@@ -92,7 +92,7 @@ namespace RimWorld.Planet
 			return false;
 		}
 
-		// Token: 0x06001E5C RID: 7772 RVA: 0x00106DBC File Offset: 0x001051BC
+		// Token: 0x06001E60 RID: 7776 RVA: 0x00106F0C File Offset: 0x0010530C
 		private static IntVec3 RandomSpotNearEdge(Map map)
 		{
 			CellRect cellRect = CellRect.WholeMap(map);
@@ -103,7 +103,7 @@ namespace RimWorld.Planet
 			return cellRect.EdgeCells.RandomElement<IntVec3>();
 		}
 
-		// Token: 0x06001E5D RID: 7773 RVA: 0x00106E88 File Offset: 0x00105288
+		// Token: 0x06001E61 RID: 7777 RVA: 0x00106FD8 File Offset: 0x001053D8
 		private static IntVec3 OppositeSpot(IntVec3 spot, Map map)
 		{
 			return new IntVec3(map.Size.x - spot.x, spot.y, map.Size.z - spot.z);

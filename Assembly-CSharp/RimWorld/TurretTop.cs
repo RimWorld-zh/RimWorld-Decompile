@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000688 RID: 1672
+	// Token: 0x0200068A RID: 1674
 	public class TurretTop
 	{
 		// Token: 0x040013D7 RID: 5079
@@ -34,15 +34,15 @@ namespace RimWorld
 		// Token: 0x040013DF RID: 5087
 		private const int IdleTurnIntervalMax = 350;
 
-		// Token: 0x0600236A RID: 9066 RVA: 0x0013079C File Offset: 0x0012EB9C
+		// Token: 0x0600236E RID: 9070 RVA: 0x001308EC File Offset: 0x0012ECEC
 		public TurretTop(Building_Turret ParentTurret)
 		{
 			this.parentTurret = ParentTurret;
 		}
 
 		// Token: 0x17000541 RID: 1345
-		// (get) Token: 0x0600236B RID: 9067 RVA: 0x001307B8 File Offset: 0x0012EBB8
-		// (set) Token: 0x0600236C RID: 9068 RVA: 0x001307D4 File Offset: 0x0012EBD4
+		// (get) Token: 0x0600236F RID: 9071 RVA: 0x00130908 File Offset: 0x0012ED08
+		// (set) Token: 0x06002370 RID: 9072 RVA: 0x00130924 File Offset: 0x0012ED24
 		private float CurRotation
 		{
 			get
@@ -63,7 +63,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600236D RID: 9069 RVA: 0x00130830 File Offset: 0x0012EC30
+		// Token: 0x06002371 RID: 9073 RVA: 0x00130980 File Offset: 0x0012ED80
 		public void TurretTopTick()
 		{
 			LocalTargetInfo currentTarget = this.parentTurret.CurrentTarget;
@@ -107,7 +107,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600236E RID: 9070 RVA: 0x00130964 File Offset: 0x0012ED64
+		// Token: 0x06002372 RID: 9074 RVA: 0x00130AB4 File Offset: 0x0012EEB4
 		public void DrawTurret()
 		{
 			Vector3 b = new Vector3(this.parentTurret.def.building.turretTopOffset.x, 0f, this.parentTurret.def.building.turretTopOffset.y);

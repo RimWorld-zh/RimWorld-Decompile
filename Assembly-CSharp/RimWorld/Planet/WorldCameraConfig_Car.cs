@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200057E RID: 1406
+	// Token: 0x02000580 RID: 1408
 	public class WorldCameraConfig_Car : WorldCameraConfig
 	{
 		// Token: 0x04000FB1 RID: 4017
@@ -21,7 +21,7 @@ namespace RimWorld.Planet
 		// Token: 0x04000FB5 RID: 4021
 		private const float AngleChangeSpeed = 0.72f;
 
-		// Token: 0x06001AD9 RID: 6873 RVA: 0x000E6F0A File Offset: 0x000E530A
+		// Token: 0x06001ADD RID: 6877 RVA: 0x000E705A File Offset: 0x000E545A
 		public WorldCameraConfig_Car()
 		{
 			this.dollyRateKeys = 0f;
@@ -31,7 +31,7 @@ namespace RimWorld.Planet
 			this.rotationSpeedScale = 0.15f;
 		}
 
-		// Token: 0x06001ADA RID: 6874 RVA: 0x000E6F4C File Offset: 0x000E534C
+		// Token: 0x06001ADE RID: 6878 RVA: 0x000E709C File Offset: 0x000E549C
 		public override void ConfigFixedUpdate_60(ref Vector2 rotationVelocity)
 		{
 			base.ConfigFixedUpdate_60(ref rotationVelocity);

@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000570 RID: 1392
+	// Token: 0x02000572 RID: 1394
 	public class WorldFeature : IExposable, ILoadReferenceable
 	{
 		// Token: 0x04000F66 RID: 3942
@@ -74,37 +74,37 @@ namespace RimWorld.Planet
 		[TweakValue("Interface.World", 0f, 800f)]
 		protected static float FeatureSizePoint200 = 400f;
 
-		// Token: 0x06001A63 RID: 6755 RVA: 0x000E4843 File Offset: 0x000E2C43
+		// Token: 0x06001A67 RID: 6759 RVA: 0x000E4993 File Offset: 0x000E2D93
 		protected static void FeatureSizePoint10_Changed()
 		{
 			WorldFeature.TweakChanged();
 		}
 
-		// Token: 0x06001A64 RID: 6756 RVA: 0x000E484B File Offset: 0x000E2C4B
+		// Token: 0x06001A68 RID: 6760 RVA: 0x000E499B File Offset: 0x000E2D9B
 		protected static void FeatureSizePoint25_Changed()
 		{
 			WorldFeature.TweakChanged();
 		}
 
-		// Token: 0x06001A65 RID: 6757 RVA: 0x000E4853 File Offset: 0x000E2C53
+		// Token: 0x06001A69 RID: 6761 RVA: 0x000E49A3 File Offset: 0x000E2DA3
 		protected static void FeatureSizePoint50_Changed()
 		{
 			WorldFeature.TweakChanged();
 		}
 
-		// Token: 0x06001A66 RID: 6758 RVA: 0x000E485B File Offset: 0x000E2C5B
+		// Token: 0x06001A6A RID: 6762 RVA: 0x000E49AB File Offset: 0x000E2DAB
 		protected static void FeatureSizePoint100_Changed()
 		{
 			WorldFeature.TweakChanged();
 		}
 
-		// Token: 0x06001A67 RID: 6759 RVA: 0x000E4863 File Offset: 0x000E2C63
+		// Token: 0x06001A6B RID: 6763 RVA: 0x000E49B3 File Offset: 0x000E2DB3
 		protected static void FeatureSizePoint200_Changed()
 		{
 			WorldFeature.TweakChanged();
 		}
 
-		// Token: 0x06001A68 RID: 6760 RVA: 0x000E486C File Offset: 0x000E2C6C
+		// Token: 0x06001A6C RID: 6764 RVA: 0x000E49BC File Offset: 0x000E2DBC
 		private static void TweakChanged()
 		{
 			Find.WorldFeatures.textsCreated = false;
@@ -116,7 +116,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003BE RID: 958
-		// (get) Token: 0x06001A69 RID: 6761 RVA: 0x000E4950 File Offset: 0x000E2D50
+		// (get) Token: 0x06001A6D RID: 6765 RVA: 0x000E4AA0 File Offset: 0x000E2EA0
 		public float EffectiveDrawSize
 		{
 			get
@@ -125,7 +125,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001A6A RID: 6762 RVA: 0x000E4978 File Offset: 0x000E2D78
+		// Token: 0x06001A6E RID: 6766 RVA: 0x000E4AC8 File Offset: 0x000E2EC8
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.uniqueID, "uniqueID", 0, false);
@@ -140,14 +140,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001A6B RID: 6763 RVA: 0x000E4A14 File Offset: 0x000E2E14
+		// Token: 0x06001A6F RID: 6767 RVA: 0x000E4B64 File Offset: 0x000E2F64
 		public string GetUniqueLoadID()
 		{
 			return "WorldFeature_" + this.uniqueID;
 		}
 
 		// Token: 0x170003BF RID: 959
-		// (get) Token: 0x06001A6C RID: 6764 RVA: 0x000E4A40 File Offset: 0x000E2E40
+		// (get) Token: 0x06001A70 RID: 6768 RVA: 0x000E4B90 File Offset: 0x000E2F90
 		public IEnumerable<int> Tiles
 		{
 			get

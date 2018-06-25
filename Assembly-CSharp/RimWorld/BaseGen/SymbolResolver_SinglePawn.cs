@@ -5,17 +5,17 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003B7 RID: 951
+	// Token: 0x020003B9 RID: 953
 	public class SymbolResolver_SinglePawn : SymbolResolver
 	{
-		// Token: 0x0600107D RID: 4221 RVA: 0x0008B704 File Offset: 0x00089B04
+		// Token: 0x06001081 RID: 4225 RVA: 0x0008B854 File Offset: 0x00089C54
 		public override bool CanResolve(ResolveParams rp)
 		{
 			IntVec3 intVec;
 			return base.CanResolve(rp) && ((rp.singlePawnToSpawn != null && rp.singlePawnToSpawn.Spawned) || SymbolResolver_SinglePawn.TryFindSpawnCell(rp, out intVec));
 		}
 
-		// Token: 0x0600107E RID: 4222 RVA: 0x0008B768 File Offset: 0x00089B68
+		// Token: 0x06001082 RID: 4226 RVA: 0x0008B8B8 File Offset: 0x00089CB8
 		public override void Resolve(ResolveParams rp)
 		{
 			if (rp.singlePawnToSpawn == null || !rp.singlePawnToSpawn.Spawned)
@@ -99,7 +99,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x0600107F RID: 4223 RVA: 0x0008B9DC File Offset: 0x00089DDC
+		// Token: 0x06001083 RID: 4227 RVA: 0x0008BB2C File Offset: 0x00089F2C
 		public static bool TryFindSpawnCell(ResolveParams rp, out IntVec3 cell)
 		{
 			Map map = BaseGen.globalSettings.map;

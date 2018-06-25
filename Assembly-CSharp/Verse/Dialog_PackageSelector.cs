@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E34 RID: 3636
+	// Token: 0x02000E36 RID: 3638
 	public class Dialog_PackageSelector : Window
 	{
 		// Token: 0x040038DF RID: 14559
@@ -16,7 +16,7 @@ namespace Verse
 		// Token: 0x040038E1 RID: 14561
 		private string relFolder;
 
-		// Token: 0x06005619 RID: 22041 RVA: 0x002C632A File Offset: 0x002C472A
+		// Token: 0x0600561D RID: 22045 RVA: 0x002C6456 File Offset: 0x002C4856
 		public Dialog_PackageSelector(Action<DefPackage> setPackageCallback, ModContentPack mod, string relFolder)
 		{
 			this.setPackageCallback = setPackageCallback;
@@ -27,8 +27,8 @@ namespace Verse
 			this.draggable = true;
 		}
 
-		// Token: 0x17000D75 RID: 3445
-		// (get) Token: 0x0600561A RID: 22042 RVA: 0x002C6360 File Offset: 0x002C4760
+		// Token: 0x17000D74 RID: 3444
+		// (get) Token: 0x0600561E RID: 22046 RVA: 0x002C648C File Offset: 0x002C488C
 		public override Vector2 InitialSize
 		{
 			get
@@ -37,8 +37,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D76 RID: 3446
-		// (get) Token: 0x0600561B RID: 22043 RVA: 0x002C6384 File Offset: 0x002C4784
+		// Token: 0x17000D75 RID: 3445
+		// (get) Token: 0x0600561F RID: 22047 RVA: 0x002C64B0 File Offset: 0x002C48B0
 		public override bool IsDebug
 		{
 			get
@@ -47,7 +47,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600561C RID: 22044 RVA: 0x002C639C File Offset: 0x002C479C
+		// Token: 0x06005620 RID: 22048 RVA: 0x002C64C8 File Offset: 0x002C48C8
 		public override void DoWindowContents(Rect inRect)
 		{
 			Listing_Standard listing_Standard = new Listing_Standard();

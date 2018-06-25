@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200023A RID: 570
+	// Token: 0x0200023C RID: 572
 	public class ApparelProperties
 	{
 		// Token: 0x040003F4 RID: 1012
@@ -50,7 +50,7 @@ namespace RimWorld
 		private static BodyPartGroupDef[] apparelRelevantGroups;
 
 		// Token: 0x1700017D RID: 381
-		// (get) Token: 0x06000A48 RID: 2632 RVA: 0x0005D5C0 File Offset: 0x0005B9C0
+		// (get) Token: 0x06000A4C RID: 2636 RVA: 0x0005D710 File Offset: 0x0005BB10
 		public ApparelLayerDef LastLayer
 		{
 			get
@@ -70,7 +70,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700017E RID: 382
-		// (get) Token: 0x06000A49 RID: 2633 RVA: 0x0005D61C File Offset: 0x0005BA1C
+		// (get) Token: 0x06000A4D RID: 2637 RVA: 0x0005D76C File Offset: 0x0005BB6C
 		public float HumanBodyCoverage
 		{
 			get
@@ -91,7 +91,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000A4A RID: 2634 RVA: 0x0005D6A4 File Offset: 0x0005BAA4
+		// Token: 0x06000A4E RID: 2638 RVA: 0x0005D7F4 File Offset: 0x0005BBF4
 		public static void ResetStaticData()
 		{
 			ApparelProperties.apparelRelevantGroups = (from td in DefDatabase<ThingDef>.AllDefs
@@ -99,7 +99,7 @@ namespace RimWorld
 			select td).SelectMany((ThingDef td) => td.apparel.bodyPartGroups).Distinct<BodyPartGroupDef>().ToArray<BodyPartGroupDef>();
 		}
 
-		// Token: 0x06000A4B RID: 2635 RVA: 0x0005D70C File Offset: 0x0005BB0C
+		// Token: 0x06000A4F RID: 2639 RVA: 0x0005D85C File Offset: 0x0005BC5C
 		public IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
 			if (this.layers.NullOrEmpty<ApparelLayerDef>())
@@ -109,7 +109,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000A4C RID: 2636 RVA: 0x0005D740 File Offset: 0x0005BB40
+		// Token: 0x06000A50 RID: 2640 RVA: 0x0005D890 File Offset: 0x0005BC90
 		public bool CoversBodyPart(BodyPartRecord partRec)
 		{
 			for (int i = 0; i < partRec.groups.Count; i++)
@@ -122,7 +122,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000A4D RID: 2637 RVA: 0x0005D798 File Offset: 0x0005BB98
+		// Token: 0x06000A51 RID: 2641 RVA: 0x0005D8E8 File Offset: 0x0005BCE8
 		public string GetCoveredOuterPartsString(BodyDef body)
 		{
 			IEnumerable<BodyPartRecord> source = from x in body.AllParts
@@ -132,14 +132,14 @@ namespace RimWorld
 			select part.Label).ToCommaList(true).CapitalizeFirst();
 		}
 
-		// Token: 0x06000A4E RID: 2638 RVA: 0x0005D7F8 File Offset: 0x0005BBF8
+		// Token: 0x06000A52 RID: 2642 RVA: 0x0005D948 File Offset: 0x0005BD48
 		public string GetLayersString()
 		{
 			return (from layer in this.layers
 			select layer.label).ToCommaList(true).CapitalizeFirst();
 		}
 
-		// Token: 0x06000A4F RID: 2639 RVA: 0x0005D840 File Offset: 0x0005BC40
+		// Token: 0x06000A53 RID: 2643 RVA: 0x0005D990 File Offset: 0x0005BD90
 		public BodyPartGroupDef[] GetInterferingBodyPartGroups(BodyDef body)
 		{
 			if (this.interferingBodyPartGroups == null || this.interferingBodyPartGroups.Length != DefDatabase<BodyDef>.DefCount)

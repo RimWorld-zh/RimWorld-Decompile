@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003DE RID: 990
+	// Token: 0x020003E0 RID: 992
 	public class SymbolResolver_Ship_Pregen : SymbolResolver
 	{
-		// Token: 0x060010FA RID: 4346 RVA: 0x00090BC0 File Offset: 0x0008EFC0
+		// Token: 0x060010FE RID: 4350 RVA: 0x00090D10 File Offset: 0x0008F110
 		public override void Resolve(ResolveParams rp)
 		{
 			SymbolResolver_Ship_Pregen.SpawnDescriptor[] array = new SymbolResolver_Ship_Pregen.SpawnDescriptor[]
@@ -213,7 +213,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x020003DF RID: 991
+		// Token: 0x020003E1 RID: 993
 		private struct SpawnDescriptor
 		{
 			// Token: 0x04000A4F RID: 2639

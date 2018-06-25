@@ -7,13 +7,13 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000C9E RID: 3230
+	// Token: 0x02000CA0 RID: 3232
 	public static class RoofCollapserImmediate
 	{
 		// Token: 0x04003060 RID: 12384
 		private static readonly IntRange ThinRoofCrushDamageRange = new IntRange(15, 30);
 
-		// Token: 0x0600472B RID: 18219 RVA: 0x00258FCB File Offset: 0x002573CB
+		// Token: 0x0600472E RID: 18222 RVA: 0x002590A7 File Offset: 0x002574A7
 		public static void DropRoofInCells(IntVec3 c, Map map, List<Thing> outCrushedThings = null)
 		{
 			if (c.Roofed(map))
@@ -24,7 +24,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600472C RID: 18220 RVA: 0x00259008 File Offset: 0x00257408
+		// Token: 0x0600472F RID: 18223 RVA: 0x002590E4 File Offset: 0x002574E4
 		public static void DropRoofInCells(IEnumerable<IntVec3> cells, Map map, List<Thing> outCrushedThings = null)
 		{
 			IntVec3 cell = IntVec3.Invalid;
@@ -49,7 +49,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600472D RID: 18221 RVA: 0x002590F4 File Offset: 0x002574F4
+		// Token: 0x06004730 RID: 18224 RVA: 0x002591D0 File Offset: 0x002575D0
 		public static void DropRoofInCells(List<IntVec3> cells, Map map, List<Thing> outCrushedThings = null)
 		{
 			if (!cells.NullOrEmpty<IntVec3>())
@@ -77,7 +77,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600472E RID: 18222 RVA: 0x002591B8 File Offset: 0x002575B8
+		// Token: 0x06004731 RID: 18225 RVA: 0x00259294 File Offset: 0x00257694
 		private static void DropRoofInCellPhaseOne(IntVec3 c, Map map, List<Thing> outCrushedThings)
 		{
 			RoofDef roofDef = map.roofGrid.RoofAt(c);
@@ -163,7 +163,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600472F RID: 18223 RVA: 0x002594C0 File Offset: 0x002578C0
+		// Token: 0x06004732 RID: 18226 RVA: 0x0025959C File Offset: 0x0025799C
 		private static void DropRoofInCellPhaseTwo(IntVec3 c, Map map)
 		{
 			RoofDef roofDef = map.roofGrid.RoofAt(c);
@@ -190,7 +190,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004730 RID: 18224 RVA: 0x0025959C File Offset: 0x0025799C
+		// Token: 0x06004733 RID: 18227 RVA: 0x00259678 File Offset: 0x00257A78
 		private static void TryAddToCrushedThingsList(Thing t, List<Thing> outCrushedThings)
 		{
 			if (outCrushedThings != null)
@@ -202,7 +202,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004731 RID: 18225 RVA: 0x002595C8 File Offset: 0x002579C8
+		// Token: 0x06004734 RID: 18228 RVA: 0x002596A4 File Offset: 0x00257AA4
 		private static bool WorthMentioningInCrushLetter(Thing t)
 		{
 			bool result;

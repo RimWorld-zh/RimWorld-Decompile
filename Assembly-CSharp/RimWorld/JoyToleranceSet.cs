@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004ED RID: 1261
+	// Token: 0x020004EF RID: 1263
 	public class JoyToleranceSet : IExposable
 	{
 		// Token: 0x04000D38 RID: 3384
@@ -21,25 +21,25 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060016A4 RID: 5796 RVA: 0x000C8E8D File Offset: 0x000C728D
+		// Token: 0x060016A8 RID: 5800 RVA: 0x000C8FDD File Offset: 0x000C73DD
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<DefMap<JoyKindDef, float>>(ref this.tolerances, "tolerances", new object[0]);
 		}
 
-		// Token: 0x060016A5 RID: 5797 RVA: 0x000C8EA6 File Offset: 0x000C72A6
+		// Token: 0x060016A9 RID: 5801 RVA: 0x000C8FF6 File Offset: 0x000C73F6
 		public void Notify_JoyGained(float amount, JoyKindDef joyKind)
 		{
 			this.tolerances[joyKind] = Mathf.Min(this.tolerances[joyKind] + amount * 0.65f, 1f);
 		}
 
-		// Token: 0x060016A6 RID: 5798 RVA: 0x000C8ED4 File Offset: 0x000C72D4
+		// Token: 0x060016AA RID: 5802 RVA: 0x000C9024 File Offset: 0x000C7424
 		public float JoyFactorFromTolerance(JoyKindDef joyKind)
 		{
 			return 1f - this.tolerances[joyKind];
 		}
 
-		// Token: 0x060016A7 RID: 5799 RVA: 0x000C8EFC File Offset: 0x000C72FC
+		// Token: 0x060016AB RID: 5803 RVA: 0x000C904C File Offset: 0x000C744C
 		public void NeedInterval()
 		{
 			for (int i = 0; i < this.tolerances.Count; i++)
@@ -54,7 +54,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060016A8 RID: 5800 RVA: 0x000C8F5C File Offset: 0x000C735C
+		// Token: 0x060016AC RID: 5804 RVA: 0x000C90AC File Offset: 0x000C74AC
 		public string TolerancesString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

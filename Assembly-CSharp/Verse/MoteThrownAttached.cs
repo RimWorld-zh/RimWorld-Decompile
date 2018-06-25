@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DED RID: 3565
+	// Token: 0x02000DEF RID: 3567
 	internal class MoteThrownAttached : MoteThrown
 	{
 		// Token: 0x040034F8 RID: 13560
 		private Vector3 attacheeLastPosition = new Vector3(-1000f, -1000f, -1000f);
 
-		// Token: 0x06004FF9 RID: 20473 RVA: 0x00297DCC File Offset: 0x002961CC
+		// Token: 0x06004FFD RID: 20477 RVA: 0x00297EF8 File Offset: 0x002962F8
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -20,7 +20,7 @@ namespace Verse
 			this.exactPosition += this.def.mote.attachedDrawOffset;
 		}
 
-		// Token: 0x06004FFA RID: 20474 RVA: 0x00297E24 File Offset: 0x00296224
+		// Token: 0x06004FFE RID: 20478 RVA: 0x00297F50 File Offset: 0x00296350
 		protected override Vector3 NextExactPosition(float deltaTime)
 		{
 			Vector3 vector = base.NextExactPosition(deltaTime);

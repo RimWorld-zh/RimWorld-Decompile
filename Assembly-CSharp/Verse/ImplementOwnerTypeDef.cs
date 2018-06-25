@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000B46 RID: 2886
+	// Token: 0x02000B48 RID: 2888
 	public class ImplementOwnerTypeDef : Def
 	{
 		// Token: 0x040029B7 RID: 10679

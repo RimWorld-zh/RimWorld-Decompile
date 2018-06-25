@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x0200039D RID: 925
+	// Token: 0x0200039F RID: 927
 	public class SymbolResolver_BasePart_Outdoors_LeafDecorated_RandomInnerRect : SymbolResolver
 	{
 		// Token: 0x04000A0B RID: 2571
@@ -12,13 +12,13 @@ namespace RimWorld.BaseGen
 		// Token: 0x04000A0C RID: 2572
 		private const int MaxRectSize = 15;
 
-		// Token: 0x06001021 RID: 4129 RVA: 0x00087FFC File Offset: 0x000863FC
+		// Token: 0x06001025 RID: 4133 RVA: 0x0008814C File Offset: 0x0008654C
 		public override bool CanResolve(ResolveParams rp)
 		{
 			return base.CanResolve(rp) && rp.rect.Width <= 15 && rp.rect.Height <= 15 && rp.rect.Width > 5 && rp.rect.Height > 5;
 		}
 
-		// Token: 0x06001022 RID: 4130 RVA: 0x00088068 File Offset: 0x00086468
+		// Token: 0x06001026 RID: 4134 RVA: 0x000881B8 File Offset: 0x000865B8
 		public override void Resolve(ResolveParams rp)
 		{
 			int num = Rand.RangeInclusive(5, rp.rect.Width - 1);

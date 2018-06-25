@@ -4,13 +4,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007B9 RID: 1977
+	// Token: 0x020007BB RID: 1979
 	public abstract class Designator_AreaAllowed : Designator_Area
 	{
 		// Token: 0x04001793 RID: 6035
 		private static Area selectedArea;
 
-		// Token: 0x06002BD8 RID: 11224 RVA: 0x00173EED File Offset: 0x001722ED
+		// Token: 0x06002BDC RID: 11228 RVA: 0x0017403D File Offset: 0x0017243D
 		public Designator_AreaAllowed(DesignateMode mode)
 		{
 			this.soundDragSustain = SoundDefOf.Designate_DragStandard;
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006D9 RID: 1753
-		// (get) Token: 0x06002BD9 RID: 11225 RVA: 0x00173F14 File Offset: 0x00172314
+		// (get) Token: 0x06002BDD RID: 11229 RVA: 0x00174064 File Offset: 0x00172464
 		public override int DraggableDimensions
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006DA RID: 1754
-		// (get) Token: 0x06002BDA RID: 11226 RVA: 0x00173F2C File Offset: 0x0017232C
+		// (get) Token: 0x06002BDE RID: 11230 RVA: 0x0017407C File Offset: 0x0017247C
 		public override bool DragDrawMeasurements
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006DB RID: 1755
-		// (get) Token: 0x06002BDB RID: 11227 RVA: 0x00173F44 File Offset: 0x00172344
+		// (get) Token: 0x06002BDF RID: 11231 RVA: 0x00174094 File Offset: 0x00172494
 		public static Area SelectedArea
 		{
 			get
@@ -48,13 +48,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BDC RID: 11228 RVA: 0x00173F5E File Offset: 0x0017235E
+		// Token: 0x06002BE0 RID: 11232 RVA: 0x001740AE File Offset: 0x001724AE
 		public static void ClearSelectedArea()
 		{
 			Designator_AreaAllowed.selectedArea = null;
 		}
 
-		// Token: 0x06002BDD RID: 11229 RVA: 0x00173F67 File Offset: 0x00172367
+		// Token: 0x06002BE1 RID: 11233 RVA: 0x001740B7 File Offset: 0x001724B7
 		public override void SelectedUpdate()
 		{
 			GenUI.RenderMouseoverBracket();
@@ -64,7 +64,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BDE RID: 11230 RVA: 0x00173F94 File Offset: 0x00172394
+		// Token: 0x06002BE2 RID: 11234 RVA: 0x001740E4 File Offset: 0x001724E4
 		public override void ProcessInput(Event ev)
 		{
 			if (base.CheckCanInteract())
@@ -81,7 +81,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BDF RID: 11231 RVA: 0x00173FF5 File Offset: 0x001723F5
+		// Token: 0x06002BE3 RID: 11235 RVA: 0x00174145 File Offset: 0x00172545
 		protected override void FinalizeDesignationSucceeded()
 		{
 			base.FinalizeDesignationSucceeded();

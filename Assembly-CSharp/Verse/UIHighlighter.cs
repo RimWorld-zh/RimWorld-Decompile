@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E93 RID: 3731
+	// Token: 0x02000E95 RID: 3733
 	[StaticConstructorOnStartup]
 	public static class UIHighlighter
 	{
@@ -20,7 +20,7 @@ namespace Verse
 		// Token: 0x04003A46 RID: 14918
 		private static readonly Texture2D TutorHighlightAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/TutorHighlightAtlas", true);
 
-		// Token: 0x06005818 RID: 22552 RVA: 0x002D3098 File Offset: 0x002D1498
+		// Token: 0x0600581C RID: 22556 RVA: 0x002D31C4 File Offset: 0x002D15C4
 		public static void HighlightTag(string tag)
 		{
 			if (Event.current.type == EventType.Repaint)
@@ -39,7 +39,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005819 RID: 22553 RVA: 0x002D3140 File Offset: 0x002D1540
+		// Token: 0x0600581D RID: 22557 RVA: 0x002D326C File Offset: 0x002D166C
 		public static void HighlightOpportunity(Rect rect, string tag)
 		{
 			if (Event.current.type == EventType.Repaint)
@@ -58,7 +58,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600581A RID: 22554 RVA: 0x002D31FC File Offset: 0x002D15FC
+		// Token: 0x0600581E RID: 22558 RVA: 0x002D3328 File Offset: 0x002D1728
 		public static void UIHighlighterUpdate()
 		{
 			UIHighlighter.liveTags.RemoveAll((Pair<string, int> pair) => Time.frameCount > pair.Second + 1);

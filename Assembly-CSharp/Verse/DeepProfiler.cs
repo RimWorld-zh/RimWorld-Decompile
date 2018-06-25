@@ -4,16 +4,16 @@ using System.Threading;
 
 namespace Verse
 {
-	// Token: 0x02000F10 RID: 3856
+	// Token: 0x02000F14 RID: 3860
 	public static class DeepProfiler
 	{
-		// Token: 0x04003D73 RID: 15731
+		// Token: 0x04003D76 RID: 15734
 		private static Dictionary<int, ThreadLocalDeepProfiler> deepProfilers = new Dictionary<int, ThreadLocalDeepProfiler>();
 
-		// Token: 0x04003D74 RID: 15732
+		// Token: 0x04003D77 RID: 15735
 		private static readonly object DeepProfilersLock = new object();
 
-		// Token: 0x06005C92 RID: 23698 RVA: 0x002F01CC File Offset: 0x002EE5CC
+		// Token: 0x06005C9C RID: 23708 RVA: 0x002F084C File Offset: 0x002EEC4C
 		public static ThreadLocalDeepProfiler Get()
 		{
 			object deepProfilersLock = DeepProfiler.DeepProfilersLock;
@@ -36,7 +36,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005C93 RID: 23699 RVA: 0x002F0240 File Offset: 0x002EE640
+		// Token: 0x06005C9D RID: 23709 RVA: 0x002F08C0 File Offset: 0x002EECC0
 		public static void Start(string label = null)
 		{
 			if (Prefs.LogVerbose)
@@ -45,7 +45,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005C94 RID: 23700 RVA: 0x002F025D File Offset: 0x002EE65D
+		// Token: 0x06005C9E RID: 23710 RVA: 0x002F08DD File Offset: 0x002EECDD
 		public static void End()
 		{
 			if (Prefs.LogVerbose)

@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200090E RID: 2318
+	// Token: 0x02000910 RID: 2320
 	public enum Twelfth : byte
 	{
 		// Token: 0x04001D32 RID: 7474

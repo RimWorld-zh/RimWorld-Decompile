@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002ED RID: 749
+	// Token: 0x020002EF RID: 751
 	public class InstructionDef : Def
 	{
 		// Token: 0x04000800 RID: 2048
@@ -77,7 +77,7 @@ namespace RimWorld
 		// Token: 0x04000814 RID: 2068
 		private static List<string> tmpParseErrors = new List<string>();
 
-		// Token: 0x06000C61 RID: 3169 RVA: 0x0006DE34 File Offset: 0x0006C234
+		// Token: 0x06000C65 RID: 3173 RVA: 0x0006DF84 File Offset: 0x0006C384
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())

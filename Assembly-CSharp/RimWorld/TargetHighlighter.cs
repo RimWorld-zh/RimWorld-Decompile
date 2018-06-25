@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008A1 RID: 2209
+	// Token: 0x020008A3 RID: 2211
 	public static class TargetHighlighter
 	{
 		// Token: 0x04001B1B RID: 6939
@@ -15,7 +15,7 @@ namespace RimWorld
 		// Token: 0x04001B1C RID: 6940
 		private static List<Pair<Vector3, float>> circleOverlays = new List<Pair<Vector3, float>>();
 
-		// Token: 0x06003296 RID: 12950 RVA: 0x001B3E94 File Offset: 0x001B2294
+		// Token: 0x0600329A RID: 12954 RVA: 0x001B3FD4 File Offset: 0x001B23D4
 		public static void Highlight(GlobalTargetInfo target, bool arrow = true, bool colonistBar = true, bool circleOverlay = false)
 		{
 			if (target.IsValid)
@@ -86,7 +86,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003297 RID: 12951 RVA: 0x001B4100 File Offset: 0x001B2500
+		// Token: 0x0600329B RID: 12955 RVA: 0x001B4240 File Offset: 0x001B2640
 		public static void TargetHighlighterUpdate()
 		{
 			for (int i = 0; i < TargetHighlighter.arrowPositions.Count; i++)

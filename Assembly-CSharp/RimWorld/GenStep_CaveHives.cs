@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020003E7 RID: 999
+	// Token: 0x020003E9 RID: 1001
 	public class GenStep_CaveHives : GenStep
 	{
 		// Token: 0x04000A5E RID: 2654
@@ -27,7 +27,7 @@ namespace RimWorld
 		private const float CaveCellsPerHive = 1000f;
 
 		// Token: 0x17000249 RID: 585
-		// (get) Token: 0x0600111C RID: 4380 RVA: 0x00092954 File Offset: 0x00090D54
+		// (get) Token: 0x06001120 RID: 4384 RVA: 0x00092AA4 File Offset: 0x00090EA4
 		public override int SeedPart
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600111D RID: 4381 RVA: 0x00092970 File Offset: 0x00090D70
+		// Token: 0x06001121 RID: 4385 RVA: 0x00092AC0 File Offset: 0x00090EC0
 		public override void Generate(Map map)
 		{
 			if (Find.Storyteller.difficulty.allowCaveHives)
@@ -85,7 +85,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600111E RID: 4382 RVA: 0x00092B94 File Offset: 0x00090F94
+		// Token: 0x06001122 RID: 4386 RVA: 0x00092CE4 File Offset: 0x000910E4
 		private void TrySpawnHive(Map map)
 		{
 			IntVec3 intVec;
@@ -105,7 +105,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600111F RID: 4383 RVA: 0x00092C58 File Offset: 0x00091058
+		// Token: 0x06001123 RID: 4387 RVA: 0x00092DA8 File Offset: 0x000911A8
 		private bool TryFindHiveSpawnCell(Map map, out IntVec3 spawnCell)
 		{
 			float num = -1f;

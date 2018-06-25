@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000ED5 RID: 3797
+	// Token: 0x02000ED7 RID: 3799
 	public enum ContentSource
 	{
 		// Token: 0x04003C65 RID: 15461

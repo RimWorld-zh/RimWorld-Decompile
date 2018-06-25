@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000BB9 RID: 3001
+	// Token: 0x02000BBB RID: 3003
 	public class BattleLog : IExposable
 	{
 		// Token: 0x04002C80 RID: 11392
@@ -17,8 +17,8 @@ namespace Verse
 		// Token: 0x04002C82 RID: 11394
 		private HashSet<LogEntry> activeEntries = null;
 
-		// Token: 0x17000A2D RID: 2605
-		// (get) Token: 0x0600411A RID: 16666 RVA: 0x00225D20 File Offset: 0x00224120
+		// Token: 0x17000A2C RID: 2604
+		// (get) Token: 0x0600411D RID: 16669 RVA: 0x00225DFC File Offset: 0x002241FC
 		public List<Battle> Battles
 		{
 			get
@@ -27,7 +27,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600411B RID: 16667 RVA: 0x00225D3C File Offset: 0x0022413C
+		// Token: 0x0600411E RID: 16670 RVA: 0x00225E18 File Offset: 0x00224218
 		public void Add(LogEntry entry)
 		{
 			Battle battle = null;
@@ -65,7 +65,7 @@ namespace Verse
 			this.ReduceToCapacity();
 		}
 
-		// Token: 0x0600411C RID: 16668 RVA: 0x00225E94 File Offset: 0x00224294
+		// Token: 0x0600411F RID: 16671 RVA: 0x00225F70 File Offset: 0x00224370
 		private void ReduceToCapacity()
 		{
 			int num = this.battles.Count((Battle btl) => btl.AbsorbedBy == null);
@@ -80,7 +80,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600411D RID: 16669 RVA: 0x00225F5B File Offset: 0x0022435B
+		// Token: 0x06004120 RID: 16672 RVA: 0x00226037 File Offset: 0x00224437
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Battle>(ref this.battles, "battles", LookMode.Deep, new object[0]);
@@ -90,7 +90,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600411E RID: 16670 RVA: 0x00225F98 File Offset: 0x00224398
+		// Token: 0x06004121 RID: 16673 RVA: 0x00226074 File Offset: 0x00224474
 		public bool AnyEntryConcerns(Pawn p)
 		{
 			for (int i = 0; i < this.battles.Count; i++)
@@ -103,7 +103,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x0600411F RID: 16671 RVA: 0x00225FEC File Offset: 0x002243EC
+		// Token: 0x06004122 RID: 16674 RVA: 0x002260C8 File Offset: 0x002244C8
 		public bool IsEntryActive(LogEntry log)
 		{
 			if (this.activeEntries == null)
@@ -121,7 +121,7 @@ namespace Verse
 			return this.activeEntries.Contains(log);
 		}
 
-		// Token: 0x06004120 RID: 16672 RVA: 0x00226084 File Offset: 0x00224484
+		// Token: 0x06004123 RID: 16675 RVA: 0x00226160 File Offset: 0x00224560
 		public void Notify_PawnDiscarded(Pawn p, bool silentlyRemoveReferences)
 		{
 			for (int i = this.battles.Count - 1; i >= 0; i--)

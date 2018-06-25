@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000415 RID: 1045
+	// Token: 0x02000417 RID: 1047
 	public class CompPowerBattery : CompPower
 	{
 		// Token: 0x04000AF6 RID: 2806
@@ -15,7 +15,7 @@ namespace RimWorld
 		private const float SelfDischargingWatts = 5f;
 
 		// Token: 0x17000267 RID: 615
-		// (get) Token: 0x060011FB RID: 4603 RVA: 0x0009CD08 File Offset: 0x0009B108
+		// (get) Token: 0x060011FF RID: 4607 RVA: 0x0009CE58 File Offset: 0x0009B258
 		public float AmountCanAccept
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000268 RID: 616
-		// (get) Token: 0x060011FC RID: 4604 RVA: 0x0009CD54 File Offset: 0x0009B154
+		// (get) Token: 0x06001200 RID: 4608 RVA: 0x0009CEA4 File Offset: 0x0009B2A4
 		public float StoredEnergy
 		{
 			get
@@ -45,7 +45,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000269 RID: 617
-		// (get) Token: 0x060011FD RID: 4605 RVA: 0x0009CD70 File Offset: 0x0009B170
+		// (get) Token: 0x06001201 RID: 4609 RVA: 0x0009CEC0 File Offset: 0x0009B2C0
 		public float StoredEnergyPct
 		{
 			get
@@ -55,7 +55,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700026A RID: 618
-		// (get) Token: 0x060011FE RID: 4606 RVA: 0x0009CD98 File Offset: 0x0009B198
+		// (get) Token: 0x06001202 RID: 4610 RVA: 0x0009CEE8 File Offset: 0x0009B2E8
 		public new CompProperties_Battery Props
 		{
 			get
@@ -64,7 +64,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011FF RID: 4607 RVA: 0x0009CDB8 File Offset: 0x0009B1B8
+		// Token: 0x06001203 RID: 4611 RVA: 0x0009CF08 File Offset: 0x0009B308
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -76,14 +76,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001200 RID: 4608 RVA: 0x0009CE06 File Offset: 0x0009B206
+		// Token: 0x06001204 RID: 4612 RVA: 0x0009CF56 File Offset: 0x0009B356
 		public override void CompTick()
 		{
 			base.CompTick();
 			this.DrawPower(Mathf.Min(5f * CompPower.WattsToWattDaysPerTick, this.storedEnergy));
 		}
 
-		// Token: 0x06001201 RID: 4609 RVA: 0x0009CE2C File Offset: 0x0009B22C
+		// Token: 0x06001205 RID: 4613 RVA: 0x0009CF7C File Offset: 0x0009B37C
 		public void AddEnergy(float amount)
 		{
 			if (amount < 0f)
@@ -101,7 +101,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001202 RID: 4610 RVA: 0x0009CE94 File Offset: 0x0009B294
+		// Token: 0x06001206 RID: 4614 RVA: 0x0009CFE4 File Offset: 0x0009B3E4
 		public void DrawPower(float amount)
 		{
 			this.storedEnergy -= amount;
@@ -112,14 +112,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001203 RID: 4611 RVA: 0x0009CEE3 File Offset: 0x0009B2E3
+		// Token: 0x06001207 RID: 4615 RVA: 0x0009D033 File Offset: 0x0009B433
 		public void SetStoredEnergyPct(float pct)
 		{
 			pct = Mathf.Clamp01(pct);
 			this.storedEnergy = this.Props.storedEnergyMax * pct;
 		}
 
-		// Token: 0x06001204 RID: 4612 RVA: 0x0009CF01 File Offset: 0x0009B301
+		// Token: 0x06001208 RID: 4616 RVA: 0x0009D051 File Offset: 0x0009B451
 		public override void ReceiveCompSignal(string signal)
 		{
 			if (signal == "Breakdown")
@@ -128,7 +128,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001205 RID: 4613 RVA: 0x0009CF20 File Offset: 0x0009B320
+		// Token: 0x06001209 RID: 4617 RVA: 0x0009D070 File Offset: 0x0009B470
 		public override string CompInspectStringExtra()
 		{
 			CompProperties_Battery props = this.Props;
@@ -167,7 +167,7 @@ namespace RimWorld
 			return text + "\n" + base.CompInspectStringExtra();
 		}
 
-		// Token: 0x06001206 RID: 4614 RVA: 0x0009D058 File Offset: 0x0009B458
+		// Token: 0x0600120A RID: 4618 RVA: 0x0009D1A8 File Offset: 0x0009B5A8
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			foreach (Gizmo c in this.<CompGetGizmosExtra>__BaseCallProxy0())

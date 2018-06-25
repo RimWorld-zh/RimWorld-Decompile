@@ -5,16 +5,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000804 RID: 2052
+	// Token: 0x02000806 RID: 2054
 	public static class NamePlayerFactionDialogUtility
 	{
-		// Token: 0x06002DDB RID: 11739 RVA: 0x0018251C File Offset: 0x0018091C
+		// Token: 0x06002DDF RID: 11743 RVA: 0x0018266C File Offset: 0x00180A6C
 		public static bool IsValidName(string s)
 		{
 			return s.Length != 0 && GenText.IsValidFilename(s);
 		}
 
-		// Token: 0x06002DDC RID: 11740 RVA: 0x00182558 File Offset: 0x00180958
+		// Token: 0x06002DE0 RID: 11744 RVA: 0x001826A8 File Offset: 0x00180AA8
 		public static void Named(string s)
 		{
 			Faction.OfPlayer.Name = s;

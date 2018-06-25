@@ -5,7 +5,7 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000B32 RID: 2866
+	// Token: 0x02000B34 RID: 2868
 	public class DesignationCategoryDef : Def
 	{
 		// Token: 0x04002932 RID: 10546
@@ -29,8 +29,8 @@ namespace Verse
 		[Unsaved]
 		public string cachedHighlightClosedTag;
 
-		// Token: 0x17000990 RID: 2448
-		// (get) Token: 0x06003F1E RID: 16158 RVA: 0x00213EE4 File Offset: 0x002122E4
+		// Token: 0x1700098F RID: 2447
+		// (get) Token: 0x06003F21 RID: 16161 RVA: 0x00213FC0 File Offset: 0x002123C0
 		public IEnumerable<Designator> ResolvedAllowedDesignators
 		{
 			get
@@ -48,8 +48,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000991 RID: 2449
-		// (get) Token: 0x06003F1F RID: 16159 RVA: 0x00213F10 File Offset: 0x00212310
+		// Token: 0x17000990 RID: 2448
+		// (get) Token: 0x06003F22 RID: 16162 RVA: 0x00213FEC File Offset: 0x002123EC
 		public List<Designator> AllResolvedDesignators
 		{
 			get
@@ -58,7 +58,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F20 RID: 16160 RVA: 0x00213F2B File Offset: 0x0021232B
+		// Token: 0x06003F23 RID: 16163 RVA: 0x00214007 File Offset: 0x00212407
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -69,7 +69,7 @@ namespace Verse
 			this.cachedHighlightClosedTag = "DesignationCategoryButton-" + this.defName + "-Closed";
 		}
 
-		// Token: 0x06003F21 RID: 16161 RVA: 0x00213F60 File Offset: 0x00212360
+		// Token: 0x06003F24 RID: 16164 RVA: 0x0021403C File Offset: 0x0021243C
 		private void ResolveDesignators()
 		{
 			this.resolvedDesignators.Clear();

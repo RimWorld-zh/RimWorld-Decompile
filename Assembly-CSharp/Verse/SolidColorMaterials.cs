@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F6B RID: 3947
+	// Token: 0x02000F6F RID: 3951
 	public static class SolidColorMaterials
 	{
-		// Token: 0x04003EBB RID: 16059
+		// Token: 0x04003EBE RID: 16062
 		private static Dictionary<Color, Material> simpleColorMats = new Dictionary<Color, Material>();
 
-		// Token: 0x04003EBC RID: 16060
+		// Token: 0x04003EBF RID: 16063
 		private static Dictionary<Color, Material> simpleColorAndVertexColorMats = new Dictionary<Color, Material>();
 
-		// Token: 0x17000F48 RID: 3912
-		// (get) Token: 0x06005F61 RID: 24417 RVA: 0x0030A138 File Offset: 0x00308538
+		// Token: 0x17000F47 RID: 3911
+		// (get) Token: 0x06005F6B RID: 24427 RVA: 0x0030A7B8 File Offset: 0x00308BB8
 		public static int SimpleColorMatCount
 		{
 			get
@@ -23,7 +23,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005F62 RID: 24418 RVA: 0x0030A164 File Offset: 0x00308564
+		// Token: 0x06005F6C RID: 24428 RVA: 0x0030A7E4 File Offset: 0x00308BE4
 		public static Material SimpleSolidColorMaterial(Color col, bool careAboutVertexColors = false)
 		{
 			Material material;
@@ -43,7 +43,7 @@ namespace Verse
 			return material;
 		}
 
-		// Token: 0x06005F63 RID: 24419 RVA: 0x0030A1E4 File Offset: 0x003085E4
+		// Token: 0x06005F6D RID: 24429 RVA: 0x0030A864 File Offset: 0x00308C64
 		public static Material NewSolidColorMaterial(Color col, Shader shader)
 		{
 			Material result;
@@ -68,13 +68,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005F64 RID: 24420 RVA: 0x0030A258 File Offset: 0x00308658
+		// Token: 0x06005F6E RID: 24430 RVA: 0x0030A8D8 File Offset: 0x00308CD8
 		public static Texture2D NewSolidColorTexture(float r, float g, float b, float a)
 		{
 			return SolidColorMaterials.NewSolidColorTexture(new Color(r, g, b, a));
 		}
 
-		// Token: 0x06005F65 RID: 24421 RVA: 0x0030A27C File Offset: 0x0030867C
+		// Token: 0x06005F6F RID: 24431 RVA: 0x0030A8FC File Offset: 0x00308CFC
 		public static Texture2D NewSolidColorTexture(Color color)
 		{
 			Texture2D result;

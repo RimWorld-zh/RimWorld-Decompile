@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000891 RID: 2193
+	// Token: 0x02000893 RID: 2195
 	public class PawnColumnWorker_Label : PawnColumnWorker
 	{
 		// Token: 0x04001ADC RID: 6876
@@ -17,7 +17,7 @@ namespace RimWorld
 		// Token: 0x04001ADE RID: 6878
 		private static float labelCacheForWidth = -1f;
 
-		// Token: 0x06003216 RID: 12822 RVA: 0x001AFC34 File Offset: 0x001AE034
+		// Token: 0x0600321A RID: 12826 RVA: 0x001AFD74 File Offset: 0x001AE174
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 			Rect rect2 = new Rect(rect.x, rect.y, rect.width, Mathf.Min(rect.height, 30f));
@@ -71,13 +71,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003217 RID: 12823 RVA: 0x001AFE44 File Offset: 0x001AE244
+		// Token: 0x0600321B RID: 12827 RVA: 0x001AFF84 File Offset: 0x001AE384
 		public override int GetMinWidth(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinWidth(table), 80);
 		}
 
-		// Token: 0x06003218 RID: 12824 RVA: 0x001AFE68 File Offset: 0x001AE268
+		// Token: 0x0600321C RID: 12828 RVA: 0x001AFFA8 File Offset: 0x001AE3A8
 		public override int GetOptimalWidth(PawnTable table)
 		{
 			return Mathf.Clamp(165, this.GetMinWidth(table), this.GetMaxWidth(table));

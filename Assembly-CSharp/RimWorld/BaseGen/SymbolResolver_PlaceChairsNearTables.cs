@@ -4,13 +4,13 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003CE RID: 974
+	// Token: 0x020003D0 RID: 976
 	public class SymbolResolver_PlaceChairsNearTables : SymbolResolver
 	{
 		// Token: 0x04000A3C RID: 2620
 		private static List<Thing> tables = new List<Thing>();
 
-		// Token: 0x060010CC RID: 4300 RVA: 0x0008F28C File Offset: 0x0008D68C
+		// Token: 0x060010D0 RID: 4304 RVA: 0x0008F3DC File Offset: 0x0008D7DC
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;

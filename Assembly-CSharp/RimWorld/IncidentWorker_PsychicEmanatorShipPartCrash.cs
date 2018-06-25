@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000339 RID: 825
+	// Token: 0x0200033B RID: 827
 	internal class IncidentWorker_PsychicEmanatorShipPartCrash : IncidentWorker_ShipPartCrash
 	{
-		// Token: 0x06000E17 RID: 3607 RVA: 0x00078088 File Offset: 0x00076488
+		// Token: 0x06000E1B RID: 3611 RVA: 0x000781D8 File Offset: 0x000765D8
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;

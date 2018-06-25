@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000528 RID: 1320
+	// Token: 0x0200052A RID: 1322
 	public class DirectPawnRelation : IExposable
 	{
 		// Token: 0x04000E6A RID: 3690
@@ -15,12 +15,12 @@ namespace RimWorld
 		// Token: 0x04000E6C RID: 3692
 		public int startTicks;
 
-		// Token: 0x06001837 RID: 6199 RVA: 0x000D38AF File Offset: 0x000D1CAF
+		// Token: 0x0600183B RID: 6203 RVA: 0x000D39FF File Offset: 0x000D1DFF
 		public DirectPawnRelation()
 		{
 		}
 
-		// Token: 0x06001838 RID: 6200 RVA: 0x000D38B8 File Offset: 0x000D1CB8
+		// Token: 0x0600183C RID: 6204 RVA: 0x000D3A08 File Offset: 0x000D1E08
 		public DirectPawnRelation(PawnRelationDef def, Pawn otherPawn, int startTicks)
 		{
 			this.def = def;
@@ -28,7 +28,7 @@ namespace RimWorld
 			this.startTicks = startTicks;
 		}
 
-		// Token: 0x06001839 RID: 6201 RVA: 0x000D38D6 File Offset: 0x000D1CD6
+		// Token: 0x0600183D RID: 6205 RVA: 0x000D3A26 File Offset: 0x000D1E26
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<PawnRelationDef>(ref this.def, "def");

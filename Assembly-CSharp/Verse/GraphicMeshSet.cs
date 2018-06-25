@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D76 RID: 3446
+	// Token: 0x02000D78 RID: 3448
 	public class GraphicMeshSet
 	{
 		// Token: 0x04003385 RID: 13189
 		private Mesh[] meshes = new Mesh[4];
 
-		// Token: 0x06004D48 RID: 19784 RVA: 0x002845AC File Offset: 0x002829AC
+		// Token: 0x06004D4C RID: 19788 RVA: 0x002846D8 File Offset: 0x00282AD8
 		public GraphicMeshSet(Mesh normalMesh, Mesh leftMesh)
 		{
 			Mesh[] array = this.meshes;
@@ -21,14 +21,14 @@ namespace Verse
 			this.meshes[3] = leftMesh;
 		}
 
-		// Token: 0x06004D49 RID: 19785 RVA: 0x002845F4 File Offset: 0x002829F4
+		// Token: 0x06004D4D RID: 19789 RVA: 0x00284720 File Offset: 0x00282B20
 		public GraphicMeshSet(float size)
 		{
 			this.meshes[0] = (this.meshes[1] = (this.meshes[2] = MeshMakerPlanes.NewPlaneMesh(size, false, true)));
 			this.meshes[3] = MeshMakerPlanes.NewPlaneMesh(size, true, true);
 		}
 
-		// Token: 0x06004D4A RID: 19786 RVA: 0x0028464C File Offset: 0x00282A4C
+		// Token: 0x06004D4E RID: 19790 RVA: 0x00284778 File Offset: 0x00282B78
 		public GraphicMeshSet(float width, float height)
 		{
 			Vector2 size = new Vector2(width, height);
@@ -36,7 +36,7 @@ namespace Verse
 			this.meshes[3] = MeshMakerPlanes.NewPlaneMesh(size, true, true, false);
 		}
 
-		// Token: 0x06004D4B RID: 19787 RVA: 0x002846B0 File Offset: 0x00282AB0
+		// Token: 0x06004D4F RID: 19791 RVA: 0x002847DC File Offset: 0x00282BDC
 		public Mesh MeshAt(Rot4 rot)
 		{
 			return this.meshes[rot.AsInt];

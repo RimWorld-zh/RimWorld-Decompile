@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000374 RID: 884
+	// Token: 0x02000376 RID: 886
 	public class StorytellerComp_SingleMTB : StorytellerComp
 	{
 		// Token: 0x17000225 RID: 549
-		// (get) Token: 0x06000F48 RID: 3912 RVA: 0x00081720 File Offset: 0x0007FB20
+		// (get) Token: 0x06000F4C RID: 3916 RVA: 0x00081870 File Offset: 0x0007FC70
 		private StorytellerCompProperties_SingleMTB Props
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F49 RID: 3913 RVA: 0x00081740 File Offset: 0x0007FB40
+		// Token: 0x06000F4D RID: 3917 RVA: 0x00081890 File Offset: 0x0007FC90
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			if (!this.Props.incident.TargetAllowed(target))
@@ -35,7 +35,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000F4A RID: 3914 RVA: 0x00081774 File Offset: 0x0007FB74
+		// Token: 0x06000F4E RID: 3918 RVA: 0x000818C4 File Offset: 0x0007FCC4
 		public override string ToString()
 		{
 			return base.ToString() + " " + this.Props.incident;

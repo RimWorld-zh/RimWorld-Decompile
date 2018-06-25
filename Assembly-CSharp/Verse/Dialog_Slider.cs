@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EB8 RID: 3768
+	// Token: 0x02000EBA RID: 3770
 	public class Dialog_Slider : Window
 	{
 		// Token: 0x04003B70 RID: 15216
@@ -27,7 +27,7 @@ namespace Verse
 		// Token: 0x04003B76 RID: 15222
 		private const float TopPadding = 15f;
 
-		// Token: 0x06005933 RID: 22835 RVA: 0x002DC370 File Offset: 0x002DA770
+		// Token: 0x06005937 RID: 22839 RVA: 0x002DC49C File Offset: 0x002DA89C
 		public Dialog_Slider(Func<int, string> textGetter, int from, int to, Action<int> confirmAction, int startingValue = -2147483648)
 		{
 			this.textGetter = textGetter;
@@ -46,13 +46,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005934 RID: 22836 RVA: 0x002DC3D0 File Offset: 0x002DA7D0
+		// Token: 0x06005938 RID: 22840 RVA: 0x002DC4FC File Offset: 0x002DA8FC
 		public Dialog_Slider(string text, int from, int to, Action<int> confirmAction, int startingValue = -2147483648) : this((int val) => string.Format(text, val), from, to, confirmAction, startingValue)
 		{
 		}
 
-		// Token: 0x17000E03 RID: 3587
-		// (get) Token: 0x06005935 RID: 22837 RVA: 0x002DC404 File Offset: 0x002DA804
+		// Token: 0x17000E02 RID: 3586
+		// (get) Token: 0x06005939 RID: 22841 RVA: 0x002DC530 File Offset: 0x002DA930
 		public override Vector2 InitialSize
 		{
 			get
@@ -61,7 +61,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005936 RID: 22838 RVA: 0x002DC428 File Offset: 0x002DA828
+		// Token: 0x0600593A RID: 22842 RVA: 0x002DC554 File Offset: 0x002DA954
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = new Rect(inRect.x, inRect.y + 15f, inRect.width, 30f);

@@ -3,7 +3,7 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000CEC RID: 3308
+	// Token: 0x02000CEE RID: 3310
 	public class PawnDownedWiggler
 	{
 		// Token: 0x04003157 RID: 12631
@@ -36,14 +36,14 @@ namespace Verse
 		// Token: 0x04003160 RID: 12640
 		private const int TicksBetweenIncapIcons = 200;
 
-		// Token: 0x060048DF RID: 18655 RVA: 0x00263C8E File Offset: 0x0026208E
+		// Token: 0x060048E2 RID: 18658 RVA: 0x00263D6A File Offset: 0x0026216A
 		public PawnDownedWiggler(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x17000B83 RID: 2947
-		// (get) Token: 0x060048E0 RID: 18656 RVA: 0x00263CB8 File Offset: 0x002620B8
+		// Token: 0x17000B82 RID: 2946
+		// (get) Token: 0x060048E3 RID: 18659 RVA: 0x00263D94 File Offset: 0x00262194
 		private static float RandomDownedAngle
 		{
 			get
@@ -57,7 +57,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048E1 RID: 18657 RVA: 0x00263CF8 File Offset: 0x002620F8
+		// Token: 0x060048E4 RID: 18660 RVA: 0x00263DD4 File Offset: 0x002621D4
 		public void WigglerTick()
 		{
 			if (this.pawn.Downed && this.pawn.Spawned && !this.pawn.InBed())
@@ -83,14 +83,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048E2 RID: 18658 RVA: 0x00263DEC File Offset: 0x002621EC
+		// Token: 0x060048E5 RID: 18661 RVA: 0x00263EC8 File Offset: 0x002622C8
 		public void SetToCustomRotation(float rot)
 		{
 			this.downedAngle = rot;
 			this.usingCustomRotation = true;
 		}
 
-		// Token: 0x060048E3 RID: 18659 RVA: 0x00263E00 File Offset: 0x00262200
+		// Token: 0x060048E6 RID: 18662 RVA: 0x00263EDC File Offset: 0x002622DC
 		public void Notify_DamageApplied(DamageInfo dam)
 		{
 			if ((this.pawn.Downed || this.pawn.Dead) && dam.Def.hasForcefulImpact)

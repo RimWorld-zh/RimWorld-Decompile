@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C59 RID: 3161
+	// Token: 0x02000C5B RID: 3163
 	public class GenStep_ScatterThings : GenStep_Scatterer
 	{
 		// Token: 0x04002F86 RID: 12166
@@ -44,8 +44,8 @@ namespace Verse
 		// Token: 0x04002F90 RID: 12176
 		private static List<Rot4> tmpRotations = new List<Rot4>();
 
-		// Token: 0x17000AFD RID: 2813
-		// (get) Token: 0x06004590 RID: 17808 RVA: 0x0024C55C File Offset: 0x0024A95C
+		// Token: 0x17000AFC RID: 2812
+		// (get) Token: 0x06004593 RID: 17811 RVA: 0x0024C638 File Offset: 0x0024AA38
 		public override int SeedPart
 		{
 			get
@@ -54,8 +54,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AFE RID: 2814
-		// (get) Token: 0x06004591 RID: 17809 RVA: 0x0024C578 File Offset: 0x0024A978
+		// Token: 0x17000AFD RID: 2813
+		// (get) Token: 0x06004594 RID: 17812 RVA: 0x0024C654 File Offset: 0x0024AA54
 		private List<Rot4> PossibleRotations
 		{
 			get
@@ -79,7 +79,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004592 RID: 17810 RVA: 0x0024C614 File Offset: 0x0024AA14
+		// Token: 0x06004595 RID: 17813 RVA: 0x0024C6F0 File Offset: 0x0024AAF0
 		public override void Generate(Map map)
 		{
 			if (this.allowInWaterBiome || !map.TileInfo.WaterCovered)
@@ -115,7 +115,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004593 RID: 17811 RVA: 0x0024C758 File Offset: 0x0024AB58
+		// Token: 0x06004596 RID: 17814 RVA: 0x0024C834 File Offset: 0x0024AC34
 		protected override bool TryFindScatterCell(Map map, out IntVec3 result)
 		{
 			bool result2;
@@ -144,7 +144,7 @@ namespace Verse
 			return result2;
 		}
 
-		// Token: 0x06004594 RID: 17812 RVA: 0x0024C824 File Offset: 0x0024AC24
+		// Token: 0x06004597 RID: 17815 RVA: 0x0024C900 File Offset: 0x0024AD00
 		protected override void ScatterAt(IntVec3 loc, Map map, int stackCount = 1)
 		{
 			Rot4 rot;
@@ -188,7 +188,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004595 RID: 17813 RVA: 0x0024C980 File Offset: 0x0024AD80
+		// Token: 0x06004598 RID: 17816 RVA: 0x0024CA5C File Offset: 0x0024AE5C
 		protected override bool CanScatterAt(IntVec3 loc, Map map)
 		{
 			bool result;
@@ -225,7 +225,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004596 RID: 17814 RVA: 0x0024CA7C File Offset: 0x0024AE7C
+		// Token: 0x06004599 RID: 17817 RVA: 0x0024CB58 File Offset: 0x0024AF58
 		private bool TryGetRandomValidRotation(IntVec3 loc, Map map, out Rot4 rot)
 		{
 			List<Rot4> possibleRotations = this.PossibleRotations;
@@ -250,13 +250,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004597 RID: 17815 RVA: 0x0024CB08 File Offset: 0x0024AF08
+		// Token: 0x0600459A RID: 17818 RVA: 0x0024CBE4 File Offset: 0x0024AFE4
 		private bool IsRotationValid(IntVec3 loc, Rot4 rot, Map map)
 		{
 			return GenAdj.OccupiedRect(loc, rot, this.thingDef.size).InBounds(map) && !GenSpawn.WouldWipeAnythingWith(loc, rot, this.thingDef, map, (Thing x) => x.def == this.thingDef || (x.def.category != ThingCategory.Plant && x.def.category != ThingCategory.Filth));
 		}
 
-		// Token: 0x06004598 RID: 17816 RVA: 0x0024CB6C File Offset: 0x0024AF6C
+		// Token: 0x0600459B RID: 17819 RVA: 0x0024CC48 File Offset: 0x0024B048
 		public static List<int> CountDividedIntoStacks(int count, IntRange stackSizeRange)
 		{
 			List<int> list = new List<int>();

@@ -9,7 +9,7 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000496 RID: 1174
+	// Token: 0x02000498 RID: 1176
 	[HasDebugOutput]
 	public static class PawnUtility
 	{
@@ -40,7 +40,7 @@ namespace RimWorld
 		// Token: 0x04000C91 RID: 3217
 		private static List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x060014CC RID: 5324 RVA: 0x000B77A4 File Offset: 0x000B5BA4
+		// Token: 0x060014D0 RID: 5328 RVA: 0x000B78F4 File Offset: 0x000B5CF4
 		public static bool IsFactionLeader(Pawn pawn)
 		{
 			List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;
@@ -54,7 +54,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060014CD RID: 5325 RVA: 0x000B77F8 File Offset: 0x000B5BF8
+		// Token: 0x060014D1 RID: 5329 RVA: 0x000B7948 File Offset: 0x000B5D48
 		public static bool IsKidnappedPawn(Pawn pawn)
 		{
 			List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;
@@ -68,19 +68,19 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060014CE RID: 5326 RVA: 0x000B7858 File Offset: 0x000B5C58
+		// Token: 0x060014D2 RID: 5330 RVA: 0x000B79A8 File Offset: 0x000B5DA8
 		public static bool IsTravelingInTransportPodWorldObject(Pawn pawn)
 		{
 			return ThingOwnerUtility.AnyParentIs<TravelingTransportPods>(pawn);
 		}
 
-		// Token: 0x060014CF RID: 5327 RVA: 0x000B7874 File Offset: 0x000B5C74
+		// Token: 0x060014D3 RID: 5331 RVA: 0x000B79C4 File Offset: 0x000B5DC4
 		public static bool ForSaleBySettlement(Pawn pawn)
 		{
 			return pawn.ParentHolder is Settlement_TraderTracker;
 		}
 
-		// Token: 0x060014D0 RID: 5328 RVA: 0x000B7897 File Offset: 0x000B5C97
+		// Token: 0x060014D4 RID: 5332 RVA: 0x000B79E7 File Offset: 0x000B5DE7
 		public static void TryDestroyStartingColonistFamily(Pawn pawn)
 		{
 			if (!pawn.relations.RelatedPawns.Any((Pawn x) => Find.GameInitData.startingAndOptionalPawns.Contains(x)))
@@ -89,7 +89,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060014D1 RID: 5329 RVA: 0x000B78D4 File Offset: 0x000B5CD4
+		// Token: 0x060014D5 RID: 5333 RVA: 0x000B7A24 File Offset: 0x000B5E24
 		public static void DestroyStartingColonistFamily(Pawn pawn)
 		{
 			foreach (Pawn pawn2 in pawn.relations.RelatedPawns.ToList<Pawn>())
@@ -106,7 +106,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060014D2 RID: 5330 RVA: 0x000B7984 File Offset: 0x000B5D84
+		// Token: 0x060014D6 RID: 5334 RVA: 0x000B7AD4 File Offset: 0x000B5ED4
 		public static bool EnemiesAreNearby(Pawn pawn, int regionsToScan = 9, bool passDoors = false)
 		{
 			TraverseParms tp = (!passDoors) ? TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false) : TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false);
@@ -127,27 +127,27 @@ namespace RimWorld
 			return foundEnemy;
 		}
 
-		// Token: 0x060014D3 RID: 5331 RVA: 0x000B7A10 File Offset: 0x000B5E10
+		// Token: 0x060014D7 RID: 5335 RVA: 0x000B7B60 File Offset: 0x000B5F60
 		public static bool WillSoonHaveBasicNeed(Pawn p)
 		{
 			return p.needs != null && ((p.needs.rest != null && p.needs.rest.CurLevel < 0.33f) || (p.needs.food != null && p.needs.food.CurLevelPercentage < p.needs.food.PercentageThreshHungry + 0.05f));
 		}
 
-		// Token: 0x060014D4 RID: 5332 RVA: 0x000B7AAC File Offset: 0x000B5EAC
+		// Token: 0x060014D8 RID: 5336 RVA: 0x000B7BFC File Offset: 0x000B5FFC
 		public static float AnimalFilthChancePerCell(ThingDef def, float bodySize)
 		{
 			float num = bodySize * 0.00125f;
 			return num * (1f - def.race.petness);
 		}
 
-		// Token: 0x060014D5 RID: 5333 RVA: 0x000B7AE0 File Offset: 0x000B5EE0
+		// Token: 0x060014D9 RID: 5337 RVA: 0x000B7C30 File Offset: 0x000B6030
 		public static float HumanFilthChancePerCell(ThingDef def, float bodySize)
 		{
 			float num = bodySize * 0.00125f;
 			return num * 4f;
 		}
 
-		// Token: 0x060014D6 RID: 5334 RVA: 0x000B7B08 File Offset: 0x000B5F08
+		// Token: 0x060014DA RID: 5338 RVA: 0x000B7C58 File Offset: 0x000B6058
 		public static bool CanCasuallyInteractNow(this Pawn p, bool twoWayInteraction = false)
 		{
 			bool result;
@@ -185,7 +185,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014D7 RID: 5335 RVA: 0x000B7BA0 File Offset: 0x000B5FA0
+		// Token: 0x060014DB RID: 5339 RVA: 0x000B7CF0 File Offset: 0x000B60F0
 		public static IEnumerable<Pawn> SpawnedMasteredPawns(Pawn master)
 		{
 			if (Current.ProgramState != ProgramState.Playing || master.Faction == null || !master.RaceProps.Humanlike)
@@ -207,7 +207,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060014D8 RID: 5336 RVA: 0x000B7BCC File Offset: 0x000B5FCC
+		// Token: 0x060014DC RID: 5340 RVA: 0x000B7D1C File Offset: 0x000B611C
 		public static bool InValidState(Pawn p)
 		{
 			bool result;
@@ -229,7 +229,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014D9 RID: 5337 RVA: 0x000B7C34 File Offset: 0x000B6034
+		// Token: 0x060014DD RID: 5341 RVA: 0x000B7D84 File Offset: 0x000B6184
 		public static PawnPosture GetPosture(this Pawn p)
 		{
 			PawnPosture result;
@@ -259,7 +259,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014DA RID: 5338 RVA: 0x000B7CBC File Offset: 0x000B60BC
+		// Token: 0x060014DE RID: 5342 RVA: 0x000B7E0C File Offset: 0x000B620C
 		public static void ForceWait(Pawn pawn, int ticks, Thing faceTarget = null, bool maintainPosture = false)
 		{
 			if (ticks <= 0)
@@ -271,7 +271,7 @@ namespace RimWorld
 			pawn.jobs.StartJob(job, JobCondition.InterruptForced, null, true, true, null, null, false);
 		}
 
-		// Token: 0x060014DB RID: 5339 RVA: 0x000B7D24 File Offset: 0x000B6124
+		// Token: 0x060014DF RID: 5343 RVA: 0x000B7E74 File Offset: 0x000B6274
 		public static void GiveNameBecauseOfNuzzle(Pawn namer, Pawn namee)
 		{
 			string text = (namee.Name != null) ? namee.Name.ToStringFull : namee.LabelIndefinite();
@@ -287,7 +287,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060014DC RID: 5340 RVA: 0x000B7DAC File Offset: 0x000B61AC
+		// Token: 0x060014E0 RID: 5344 RVA: 0x000B7EFC File Offset: 0x000B62FC
 		public static void GainComfortFromCellIfPossible(this Pawn p)
 		{
 			if (Find.TickManager.TicksGame % 10 == 0)
@@ -304,7 +304,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060014DD RID: 5341 RVA: 0x000B7E2C File Offset: 0x000B622C
+		// Token: 0x060014E1 RID: 5345 RVA: 0x000B7F7C File Offset: 0x000B637C
 		public static float BodyResourceGrowthSpeed(Pawn pawn)
 		{
 			if (pawn.needs != null && pawn.needs.food != null)
@@ -324,7 +324,7 @@ namespace RimWorld
 			return 1f;
 		}
 
-		// Token: 0x060014DE RID: 5342 RVA: 0x000B7EBC File Offset: 0x000B62BC
+		// Token: 0x060014E2 RID: 5346 RVA: 0x000B800C File Offset: 0x000B640C
 		public static bool FertileMateTarget(Pawn male, Pawn female)
 		{
 			bool result;
@@ -347,7 +347,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014DF RID: 5343 RVA: 0x000B7F30 File Offset: 0x000B6330
+		// Token: 0x060014E3 RID: 5347 RVA: 0x000B8080 File Offset: 0x000B6480
 		public static void Mated(Pawn male, Pawn female)
 		{
 			if (female.ageTracker.CurLifeStage.reproductive)
@@ -366,7 +366,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060014E0 RID: 5344 RVA: 0x000B7FD4 File Offset: 0x000B63D4
+		// Token: 0x060014E4 RID: 5348 RVA: 0x000B8124 File Offset: 0x000B6524
 		public static bool PlayerForcedJobNowOrSoon(Pawn pawn)
 		{
 			bool result;
@@ -389,7 +389,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014E1 RID: 5345 RVA: 0x000B804C File Offset: 0x000B644C
+		// Token: 0x060014E5 RID: 5349 RVA: 0x000B819C File Offset: 0x000B659C
 		public static bool TrySpawnHatchedOrBornPawn(Pawn pawn, Thing motherOrEgg)
 		{
 			bool result;
@@ -437,7 +437,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014E2 RID: 5346 RVA: 0x000B8168 File Offset: 0x000B6568
+		// Token: 0x060014E6 RID: 5350 RVA: 0x000B82B8 File Offset: 0x000B66B8
 		public static ByteGrid GetAvoidGrid(this Pawn p)
 		{
 			ByteGrid result;
@@ -476,19 +476,19 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014E3 RID: 5347 RVA: 0x000B8260 File Offset: 0x000B6660
+		// Token: 0x060014E7 RID: 5351 RVA: 0x000B83B0 File Offset: 0x000B67B0
 		public static bool ShouldCollideWithPawns(Pawn p)
 		{
 			return !p.Downed && !p.Dead && p.mindState.anyCloseHostilesRecently;
 		}
 
-		// Token: 0x060014E4 RID: 5348 RVA: 0x000B82AC File Offset: 0x000B66AC
+		// Token: 0x060014E8 RID: 5352 RVA: 0x000B83FC File Offset: 0x000B67FC
 		public static bool AnyPawnBlockingPathAt(IntVec3 c, Pawn forPawn, bool actAsIfHadCollideWithPawnsJob = false, bool collideOnlyWithStandingPawns = false, bool forPathFinder = false)
 		{
 			return PawnUtility.PawnBlockingPathAt(c, forPawn, actAsIfHadCollideWithPawnsJob, collideOnlyWithStandingPawns, forPathFinder) != null;
 		}
 
-		// Token: 0x060014E5 RID: 5349 RVA: 0x000B82D4 File Offset: 0x000B66D4
+		// Token: 0x060014E9 RID: 5353 RVA: 0x000B8424 File Offset: 0x000B6824
 		public static Pawn PawnBlockingPathAt(IntVec3 c, Pawn forPawn, bool actAsIfHadCollideWithPawnsJob = false, bool collideOnlyWithStandingPawns = false, bool forPathFinder = false)
 		{
 			List<Thing> thingList = c.GetThingList(forPawn.Map);
@@ -558,7 +558,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014E6 RID: 5350 RVA: 0x000B84B8 File Offset: 0x000B68B8
+		// Token: 0x060014EA RID: 5354 RVA: 0x000B8608 File Offset: 0x000B6A08
 		private static bool PawnsCanShareCellBecauseOfBodySize(Pawn p1, Pawn p2)
 		{
 			bool result;
@@ -578,14 +578,14 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014E7 RID: 5351 RVA: 0x000B8520 File Offset: 0x000B6920
+		// Token: 0x060014EB RID: 5355 RVA: 0x000B8670 File Offset: 0x000B6A70
 		public static bool KnownDangerAt(IntVec3 c, Map map, Pawn forPawn)
 		{
 			Building edifice = c.GetEdifice(map);
 			return edifice != null && edifice.IsDangerousFor(forPawn);
 		}
 
-		// Token: 0x060014E8 RID: 5352 RVA: 0x000B8550 File Offset: 0x000B6950
+		// Token: 0x060014EC RID: 5356 RVA: 0x000B86A0 File Offset: 0x000B6AA0
 		public static bool ShouldSendNotificationAbout(Pawn p)
 		{
 			bool result;
@@ -623,25 +623,25 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014E9 RID: 5353 RVA: 0x000B8668 File Offset: 0x000B6A68
+		// Token: 0x060014ED RID: 5357 RVA: 0x000B87B8 File Offset: 0x000B6BB8
 		public static bool ShouldGetThoughtAbout(Pawn pawn, Pawn subject)
 		{
 			return pawn.Faction == subject.Faction || (!subject.IsWorldPawn() && !pawn.IsWorldPawn());
 		}
 
-		// Token: 0x060014EA RID: 5354 RVA: 0x000B86A8 File Offset: 0x000B6AA8
+		// Token: 0x060014EE RID: 5358 RVA: 0x000B87F8 File Offset: 0x000B6BF8
 		public static bool IsTeetotaler(this Pawn pawn)
 		{
 			return pawn.story != null && pawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire) < 0;
 		}
 
-		// Token: 0x060014EB RID: 5355 RVA: 0x000B86E4 File Offset: 0x000B6AE4
+		// Token: 0x060014EF RID: 5359 RVA: 0x000B8834 File Offset: 0x000B6C34
 		public static bool IsProsthophobe(this Pawn pawn)
 		{
 			return pawn.story != null && pawn.story.traits.HasTrait(TraitDefOf.BodyPurist);
 		}
 
-		// Token: 0x060014EC RID: 5356 RVA: 0x000B871C File Offset: 0x000B6B1C
+		// Token: 0x060014F0 RID: 5360 RVA: 0x000B886C File Offset: 0x000B6C6C
 		public static string PawnKindsToCommaList(List<Pawn> pawns, bool useAnd = false)
 		{
 			PawnUtility.tmpPawns.Clear();
@@ -678,7 +678,7 @@ namespace RimWorld
 			return PawnUtility.tmpPawnKinds.ToCommaList(useAnd);
 		}
 
-		// Token: 0x060014ED RID: 5357 RVA: 0x000B88B8 File Offset: 0x000B6CB8
+		// Token: 0x060014F1 RID: 5361 RVA: 0x000B8A08 File Offset: 0x000B6E08
 		public static LocomotionUrgency ResolveLocomotion(Pawn pawn, LocomotionUrgency secondPriority)
 		{
 			LocomotionUrgency result;
@@ -693,7 +693,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014EE RID: 5358 RVA: 0x000B8914 File Offset: 0x000B6D14
+		// Token: 0x060014F2 RID: 5362 RVA: 0x000B8A64 File Offset: 0x000B6E64
 		public static LocomotionUrgency ResolveLocomotion(Pawn pawn, LocomotionUrgency secondPriority, LocomotionUrgency thirdPriority)
 		{
 			LocomotionUrgency locomotionUrgency = PawnUtility.ResolveLocomotion(pawn, secondPriority);
@@ -709,7 +709,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014EF RID: 5359 RVA: 0x000B8940 File Offset: 0x000B6D40
+		// Token: 0x060014F3 RID: 5363 RVA: 0x000B8A90 File Offset: 0x000B6E90
 		public static Danger ResolveMaxDanger(Pawn pawn, Danger secondPriority)
 		{
 			Danger result;
@@ -724,7 +724,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014F0 RID: 5360 RVA: 0x000B899C File Offset: 0x000B6D9C
+		// Token: 0x060014F4 RID: 5364 RVA: 0x000B8AEC File Offset: 0x000B6EEC
 		public static Danger ResolveMaxDanger(Pawn pawn, Danger secondPriority, Danger thirdPriority)
 		{
 			Danger danger = PawnUtility.ResolveMaxDanger(pawn, secondPriority);
@@ -740,13 +740,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014F1 RID: 5361 RVA: 0x000B89C8 File Offset: 0x000B6DC8
+		// Token: 0x060014F5 RID: 5365 RVA: 0x000B8B18 File Offset: 0x000B6F18
 		public static bool IsFighting(this Pawn pawn)
 		{
 			return pawn.CurJob != null && (pawn.CurJob.def == JobDefOf.AttackMelee || pawn.CurJob.def == JobDefOf.AttackStatic || pawn.CurJob.def == JobDefOf.Wait_Combat || pawn.CurJob.def == JobDefOf.PredatorHunt);
 		}
 
-		// Token: 0x060014F2 RID: 5362 RVA: 0x000B8A40 File Offset: 0x000B6E40
+		// Token: 0x060014F6 RID: 5366 RVA: 0x000B8B90 File Offset: 0x000B6F90
 		public static float RecruitDifficulty(this Pawn pawn, Faction recruiterFaction, bool withPopIntent)
 		{
 			float num = pawn.kindDef.baseRecruitDifficulty;
@@ -767,14 +767,14 @@ namespace RimWorld
 			return Mathf.Clamp(num, 0.33f, 0.99f);
 		}
 
-		// Token: 0x060014F3 RID: 5363 RVA: 0x000B8B0C File Offset: 0x000B6F0C
+		// Token: 0x060014F7 RID: 5367 RVA: 0x000B8C5C File Offset: 0x000B705C
 		private static float PopIntentAdjustedRecruitDifficulty(float baseDifficulty, float popIntent)
 		{
 			float num = Mathf.Clamp(popIntent, 0.25f, 3f);
 			return 1f - (1f - baseDifficulty) * num;
 		}
 
-		// Token: 0x060014F4 RID: 5364 RVA: 0x000B8B44 File Offset: 0x000B6F44
+		// Token: 0x060014F8 RID: 5368 RVA: 0x000B8C94 File Offset: 0x000B7094
 		[DebugOutput]
 		public static void PopIntentRecruitDifficulty()
 		{
@@ -800,7 +800,7 @@ namespace RimWorld
 			DebugTables.MakeTablesDialog<float, float>(colValues, (float d) => "d=" + d.ToString("F0"), list, (float rv) => rv.ToString("F1"), (float d, float pi) => PawnUtility.PopIntentAdjustedRecruitDifficulty(d, pi).ToStringPercent(), "intents");
 		}
 
-		// Token: 0x060014F5 RID: 5365 RVA: 0x000B8C64 File Offset: 0x000B7064
+		// Token: 0x060014F9 RID: 5369 RVA: 0x000B8DB4 File Offset: 0x000B71B4
 		public static void GiveAllStartingPlayerPawnsThought(ThoughtDef thought)
 		{
 			foreach (Pawn pawn in Find.GameInitData.startingAndOptionalPawns)
@@ -822,7 +822,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060014F6 RID: 5366 RVA: 0x000B8D60 File Offset: 0x000B7160
+		// Token: 0x060014FA RID: 5370 RVA: 0x000B8EB0 File Offset: 0x000B72B0
 		public static IntVec3 DutyLocation(this Pawn pawn)
 		{
 			IntVec3 result;
@@ -837,19 +837,19 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014F7 RID: 5367 RVA: 0x000B8DC0 File Offset: 0x000B71C0
+		// Token: 0x060014FB RID: 5371 RVA: 0x000B8F10 File Offset: 0x000B7310
 		public static bool EverBeenColonistOrTameAnimal(Pawn pawn)
 		{
 			return pawn.records.GetAsInt(RecordDefOf.TimeAsColonistOrColonyAnimal) > 0;
 		}
 
-		// Token: 0x060014F8 RID: 5368 RVA: 0x000B8DE8 File Offset: 0x000B71E8
+		// Token: 0x060014FC RID: 5372 RVA: 0x000B8F38 File Offset: 0x000B7338
 		public static bool EverBeenPrisoner(Pawn pawn)
 		{
 			return pawn.records.GetAsInt(RecordDefOf.TimeAsPrisoner) > 0;
 		}
 
-		// Token: 0x060014F9 RID: 5369 RVA: 0x000B8E10 File Offset: 0x000B7210
+		// Token: 0x060014FD RID: 5373 RVA: 0x000B8F60 File Offset: 0x000B7360
 		public static void RecoverFromUnwalkablePositionOrKill(IntVec3 c, Map map)
 		{
 			if (c.InBounds(map) && !c.Walkable(map))
@@ -884,26 +884,26 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060014FA RID: 5370 RVA: 0x000B8F08 File Offset: 0x000B7308
+		// Token: 0x060014FE RID: 5374 RVA: 0x000B9058 File Offset: 0x000B7458
 		public static float GetBaseManhunterOnDamageChance(Pawn pawn)
 		{
 			return PawnUtility.GetBaseManhunterOnDamageChance(pawn.kindDef);
 		}
 
-		// Token: 0x060014FB RID: 5371 RVA: 0x000B8F28 File Offset: 0x000B7328
+		// Token: 0x060014FF RID: 5375 RVA: 0x000B9078 File Offset: 0x000B7478
 		public static float GetBaseManhunterOnDamageChance(PawnKindDef kind)
 		{
 			return (kind != PawnKindDefOf.WildMan) ? kind.RaceProps.manhunterOnDamageChance : 0.5f;
 		}
 
-		// Token: 0x060014FC RID: 5372 RVA: 0x000B8F60 File Offset: 0x000B7360
+		// Token: 0x06001500 RID: 5376 RVA: 0x000B90B0 File Offset: 0x000B74B0
 		public static float GetManhunterOnDamageChance(Pawn pawn, float distance)
 		{
 			float manhunterOnDamageChance = PawnUtility.GetManhunterOnDamageChance(pawn.kindDef);
 			return manhunterOnDamageChance * GenMath.LerpDoubleClamped(1f, 30f, 3f, 1f, distance);
 		}
 
-		// Token: 0x060014FD RID: 5373 RVA: 0x000B8FA0 File Offset: 0x000B73A0
+		// Token: 0x06001501 RID: 5377 RVA: 0x000B90F0 File Offset: 0x000B74F0
 		public static float GetManhunterOnDamageChance(Pawn pawn, Thing instigator = null)
 		{
 			float manhunterOnDamageChance;
@@ -918,25 +918,25 @@ namespace RimWorld
 			return manhunterOnDamageChance;
 		}
 
-		// Token: 0x060014FE RID: 5374 RVA: 0x000B8FE4 File Offset: 0x000B73E4
+		// Token: 0x06001502 RID: 5378 RVA: 0x000B9134 File Offset: 0x000B7534
 		public static float GetManhunterOnDamageChance(PawnKindDef kind)
 		{
 			return PawnUtility.GetBaseManhunterOnDamageChance(kind) * Find.Storyteller.difficulty.manhunterChanceOnDamageFactor;
 		}
 
-		// Token: 0x060014FF RID: 5375 RVA: 0x000B9010 File Offset: 0x000B7410
+		// Token: 0x06001503 RID: 5379 RVA: 0x000B9160 File Offset: 0x000B7560
 		public static float GetManhunterOnDamageChance(RaceProperties race)
 		{
 			return race.manhunterOnDamageChance * Find.Storyteller.difficulty.manhunterChanceOnDamageFactor;
 		}
 
-		// Token: 0x06001500 RID: 5376 RVA: 0x000B903C File Offset: 0x000B743C
+		// Token: 0x06001504 RID: 5380 RVA: 0x000B918C File Offset: 0x000B758C
 		public static float GetManhunterOnTameFailChance(Pawn pawn)
 		{
 			return PawnUtility.GetManhunterOnTameFailChance(pawn.kindDef);
 		}
 
-		// Token: 0x06001501 RID: 5377 RVA: 0x000B905C File Offset: 0x000B745C
+		// Token: 0x06001505 RID: 5381 RVA: 0x000B91AC File Offset: 0x000B75AC
 		public static float GetManhunterOnTameFailChance(PawnKindDef kind)
 		{
 			return (kind != PawnKindDefOf.WildMan) ? kind.RaceProps.manhunterOnTameFailChance : 0.1f;

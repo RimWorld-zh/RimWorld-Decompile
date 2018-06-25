@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006CC RID: 1740
+	// Token: 0x020006CE RID: 1742
 	public class StunHandler : IExposable
 	{
 		// Token: 0x04001510 RID: 5392
@@ -22,14 +22,14 @@ namespace RimWorld
 		// Token: 0x04001514 RID: 5396
 		public const float StunDurationTicksPerDamage = 30f;
 
-		// Token: 0x060025AD RID: 9645 RVA: 0x00142BF3 File Offset: 0x00140FF3
+		// Token: 0x060025B1 RID: 9649 RVA: 0x00142D43 File Offset: 0x00141143
 		public StunHandler(Thing parent)
 		{
 			this.parent = parent;
 		}
 
 		// Token: 0x170005A9 RID: 1449
-		// (get) Token: 0x060025AE RID: 9646 RVA: 0x00142C18 File Offset: 0x00141018
+		// (get) Token: 0x060025B2 RID: 9650 RVA: 0x00142D68 File Offset: 0x00141168
 		public bool Stunned
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005AA RID: 1450
-		// (get) Token: 0x060025AF RID: 9647 RVA: 0x00142C38 File Offset: 0x00141038
+		// (get) Token: 0x060025B3 RID: 9651 RVA: 0x00142D88 File Offset: 0x00141188
 		private int EMPAdaptationTicksDuration
 		{
 			get
@@ -58,14 +58,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025B0 RID: 9648 RVA: 0x00142C7B File Offset: 0x0014107B
+		// Token: 0x060025B4 RID: 9652 RVA: 0x00142DCB File Offset: 0x001411CB
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.stunTicksLeft, "stunTicksLeft", 0, false);
 			Scribe_Values.Look<int>(ref this.EMPAdaptedTicksLeft, "EMPAdaptedTicksLeft", 0, false);
 		}
 
-		// Token: 0x060025B1 RID: 9649 RVA: 0x00142CA4 File Offset: 0x001410A4
+		// Token: 0x060025B5 RID: 9653 RVA: 0x00142DF4 File Offset: 0x001411F4
 		public void StunHandlerTick()
 		{
 			if (this.EMPAdaptedTicksLeft > 0)
@@ -91,7 +91,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025B2 RID: 9650 RVA: 0x00142D50 File Offset: 0x00141150
+		// Token: 0x060025B6 RID: 9654 RVA: 0x00142EA0 File Offset: 0x001412A0
 		public void Notify_DamageApplied(DamageInfo dinfo, bool affectedByEMP)
 		{
 			Pawn pawn = this.parent as Pawn;
@@ -117,7 +117,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025B3 RID: 9651 RVA: 0x00142E90 File Offset: 0x00141290
+		// Token: 0x060025B7 RID: 9655 RVA: 0x00142FE0 File Offset: 0x001413E0
 		public void StunFor(int ticks, Thing instigator)
 		{
 			this.stunTicksLeft = Mathf.Max(this.stunTicksLeft, ticks);

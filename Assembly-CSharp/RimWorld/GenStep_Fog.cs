@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020003EA RID: 1002
+	// Token: 0x020003EC RID: 1004
 	public class GenStep_Fog : GenStep
 	{
 		// Token: 0x1700024C RID: 588
-		// (get) Token: 0x06001138 RID: 4408 RVA: 0x00093ED0 File Offset: 0x000922D0
+		// (get) Token: 0x0600113C RID: 4412 RVA: 0x00094020 File Offset: 0x00092420
 		public override int SeedPart
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001139 RID: 4409 RVA: 0x00093EEC File Offset: 0x000922EC
+		// Token: 0x0600113D RID: 4413 RVA: 0x0009403C File Offset: 0x0009243C
 		public override void Generate(Map map)
 		{
 			DeepProfiler.Start("GenerateInitialFogGrid");

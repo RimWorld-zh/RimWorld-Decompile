@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006DB RID: 1755
+	// Token: 0x020006DD RID: 1757
 	[StaticConstructorOnStartup]
 	internal class Gizmo_EnergyShieldStatus : Gizmo
 	{
@@ -17,19 +17,19 @@ namespace RimWorld
 		// Token: 0x04001545 RID: 5445
 		private static readonly Texture2D EmptyShieldBarTex = SolidColorMaterials.NewSolidColorTexture(Color.clear);
 
-		// Token: 0x06002631 RID: 9777 RVA: 0x00147BA0 File Offset: 0x00145FA0
+		// Token: 0x06002635 RID: 9781 RVA: 0x00147CF0 File Offset: 0x001460F0
 		public Gizmo_EnergyShieldStatus()
 		{
 			this.order = -100f;
 		}
 
-		// Token: 0x06002632 RID: 9778 RVA: 0x00147BB4 File Offset: 0x00145FB4
+		// Token: 0x06002636 RID: 9782 RVA: 0x00147D04 File Offset: 0x00146104
 		public override float GetWidth(float maxWidth)
 		{
 			return 140f;
 		}
 
-		// Token: 0x06002633 RID: 9779 RVA: 0x00147BD0 File Offset: 0x00145FD0
+		// Token: 0x06002637 RID: 9783 RVA: 0x00147D20 File Offset: 0x00146120
 		public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth)
 		{
 			Rect overRect = new Rect(topLeft.x, topLeft.y, this.GetWidth(maxWidth), 75f);

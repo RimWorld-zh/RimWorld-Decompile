@@ -8,7 +8,7 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x0200032F RID: 815
+	// Token: 0x02000331 RID: 817
 	public class IncidentWorker_HerdMigration : IncidentWorker
 	{
 		// Token: 0x040008D2 RID: 2258
@@ -17,7 +17,7 @@ namespace RimWorld
 		// Token: 0x040008D3 RID: 2259
 		private const float MinTotalBodySize = 4f;
 
-		// Token: 0x06000DEC RID: 3564 RVA: 0x00076CB8 File Offset: 0x000750B8
+		// Token: 0x06000DF0 RID: 3568 RVA: 0x00076E08 File Offset: 0x00075208
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -27,7 +27,7 @@ namespace RimWorld
 			return this.TryFindAnimalKind(map.Tile, out pawnKindDef) && this.TryFindStartAndEndCells(map, out intVec, out intVec2);
 		}
 
-		// Token: 0x06000DED RID: 3565 RVA: 0x00076CFC File Offset: 0x000750FC
+		// Token: 0x06000DF1 RID: 3569 RVA: 0x00076E4C File Offset: 0x0007524C
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -62,7 +62,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DEE RID: 3566 RVA: 0x00076E3C File Offset: 0x0007523C
+		// Token: 0x06000DF2 RID: 3570 RVA: 0x00076F8C File Offset: 0x0007538C
 		private bool TryFindAnimalKind(int tile, out PawnKindDef animalKind)
 		{
 			return (from k in DefDatabase<PawnKindDef>.AllDefs
@@ -70,7 +70,7 @@ namespace RimWorld
 			select k).TryRandomElementByWeight((PawnKindDef x) => Mathf.Lerp(0.2f, 1f, x.RaceProps.wildness), out animalKind);
 		}
 
-		// Token: 0x06000DEF RID: 3567 RVA: 0x00076E98 File Offset: 0x00075298
+		// Token: 0x06000DF3 RID: 3571 RVA: 0x00076FE8 File Offset: 0x000753E8
 		private bool TryFindStartAndEndCells(Map map, out IntVec3 start, out IntVec3 end)
 		{
 			bool result;
@@ -100,7 +100,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DF0 RID: 3568 RVA: 0x00076F84 File Offset: 0x00075384
+		// Token: 0x06000DF4 RID: 3572 RVA: 0x000770D4 File Offset: 0x000754D4
 		private List<Pawn> GenerateAnimals(PawnKindDef animalKind, int tile)
 		{
 			int num = IncidentWorker_HerdMigration.AnimalsCount.RandomInRange;

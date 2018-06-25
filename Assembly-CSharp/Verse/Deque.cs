@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EE8 RID: 3816
+	// Token: 0x02000EEA RID: 3818
 	internal class Deque<T>
 	{
 		// Token: 0x04003C98 RID: 15512
@@ -15,7 +15,7 @@ namespace Verse
 		// Token: 0x04003C9A RID: 15514
 		private int count;
 
-		// Token: 0x06005AA7 RID: 23207 RVA: 0x002E7895 File Offset: 0x002E5C95
+		// Token: 0x06005AAA RID: 23210 RVA: 0x002E79B5 File Offset: 0x002E5DB5
 		public Deque()
 		{
 			this.data = new T[8];
@@ -23,8 +23,8 @@ namespace Verse
 			this.count = 0;
 		}
 
-		// Token: 0x17000E55 RID: 3669
-		// (get) Token: 0x06005AA8 RID: 23208 RVA: 0x002E78B8 File Offset: 0x002E5CB8
+		// Token: 0x17000E54 RID: 3668
+		// (get) Token: 0x06005AAB RID: 23211 RVA: 0x002E79D8 File Offset: 0x002E5DD8
 		public bool Empty
 		{
 			get
@@ -33,7 +33,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005AA9 RID: 23209 RVA: 0x002E78D8 File Offset: 0x002E5CD8
+		// Token: 0x06005AAC RID: 23212 RVA: 0x002E79F8 File Offset: 0x002E5DF8
 		public void PushFront(T item)
 		{
 			this.PushPrep();
@@ -46,14 +46,14 @@ namespace Verse
 			this.data[this.first] = item;
 		}
 
-		// Token: 0x06005AAA RID: 23210 RVA: 0x002E793C File Offset: 0x002E5D3C
+		// Token: 0x06005AAD RID: 23213 RVA: 0x002E7A5C File Offset: 0x002E5E5C
 		public void PushBack(T item)
 		{
 			this.PushPrep();
 			this.data[(this.first + this.count++) % this.data.Length] = item;
 		}
 
-		// Token: 0x06005AAB RID: 23211 RVA: 0x002E7980 File Offset: 0x002E5D80
+		// Token: 0x06005AAE RID: 23214 RVA: 0x002E7AA0 File Offset: 0x002E5EA0
 		public T PopFront()
 		{
 			T result = this.data[this.first];
@@ -63,14 +63,14 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005AAC RID: 23212 RVA: 0x002E79E7 File Offset: 0x002E5DE7
+		// Token: 0x06005AAF RID: 23215 RVA: 0x002E7B07 File Offset: 0x002E5F07
 		public void Clear()
 		{
 			this.first = 0;
 			this.count = 0;
 		}
 
-		// Token: 0x06005AAD RID: 23213 RVA: 0x002E79F8 File Offset: 0x002E5DF8
+		// Token: 0x06005AB0 RID: 23216 RVA: 0x002E7B18 File Offset: 0x002E5F18
 		private void PushPrep()
 		{
 			if (this.count >= this.data.Length)

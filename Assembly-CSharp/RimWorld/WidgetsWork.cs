@@ -7,7 +7,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020008D6 RID: 2262
+	// Token: 0x020008D8 RID: 2264
 	[StaticConstructorOnStartup]
 	public static class WidgetsWork
 	{
@@ -50,7 +50,7 @@ namespace RimWorld
 		// Token: 0x04001BDA RID: 7130
 		private const float PassionOpacity = 0.4f;
 
-		// Token: 0x060033D1 RID: 13265 RVA: 0x001BB13C File Offset: 0x001B953C
+		// Token: 0x060033D5 RID: 13269 RVA: 0x001BB27C File Offset: 0x001B967C
 		private static Color ColorOfPriority(int prio)
 		{
 			Color result;
@@ -75,7 +75,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060033D2 RID: 13266 RVA: 0x001BB1DC File Offset: 0x001B95DC
+		// Token: 0x060033D6 RID: 13270 RVA: 0x001BB31C File Offset: 0x001B971C
 		public static void DrawWorkBoxFor(float x, float y, Pawn p, WorkTypeDef wType, bool incapableBecauseOfCapacities)
 		{
 			if (p.story != null && !p.story.WorkTypeIsDisabled(wType))
@@ -162,7 +162,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060033D3 RID: 13267 RVA: 0x001BB498 File Offset: 0x001B9898
+		// Token: 0x060033D7 RID: 13271 RVA: 0x001BB5D8 File Offset: 0x001B99D8
 		public static string TipForPawnWorker(Pawn p, WorkTypeDef wDef, bool incapableBecauseOfCapacities)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -210,7 +210,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060033D4 RID: 13268 RVA: 0x001BB65C File Offset: 0x001B9A5C
+		// Token: 0x060033D8 RID: 13272 RVA: 0x001BB79C File Offset: 0x001B9B9C
 		private static void DrawWorkBoxBackground(Rect rect, Pawn p, WorkTypeDef workDef)
 		{
 			Profiler.BeginSample("AverageOfRelevantSkillsFor");

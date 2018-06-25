@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200050B RID: 1291
+	// Token: 0x0200050D RID: 1293
 	public class Pawn_OutfitTracker : IExposable
 	{
 		// Token: 0x04000DCC RID: 3532
@@ -15,20 +15,20 @@ namespace RimWorld
 		// Token: 0x04000DCE RID: 3534
 		public OutfitForcedHandler forcedHandler = new OutfitForcedHandler();
 
-		// Token: 0x06001739 RID: 5945 RVA: 0x000CC433 File Offset: 0x000CA833
+		// Token: 0x0600173D RID: 5949 RVA: 0x000CC583 File Offset: 0x000CA983
 		public Pawn_OutfitTracker()
 		{
 		}
 
-		// Token: 0x0600173A RID: 5946 RVA: 0x000CC447 File Offset: 0x000CA847
+		// Token: 0x0600173E RID: 5950 RVA: 0x000CC597 File Offset: 0x000CA997
 		public Pawn_OutfitTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
 		// Token: 0x17000333 RID: 819
-		// (get) Token: 0x0600173B RID: 5947 RVA: 0x000CC464 File Offset: 0x000CA864
-		// (set) Token: 0x0600173C RID: 5948 RVA: 0x000CC49F File Offset: 0x000CA89F
+		// (get) Token: 0x0600173F RID: 5951 RVA: 0x000CC5B4 File Offset: 0x000CA9B4
+		// (set) Token: 0x06001740 RID: 5952 RVA: 0x000CC5EF File Offset: 0x000CA9EF
 		public Outfit CurrentOutfit
 		{
 			get
@@ -52,7 +52,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600173D RID: 5949 RVA: 0x000CC4DA File Offset: 0x000CA8DA
+		// Token: 0x06001741 RID: 5953 RVA: 0x000CC62A File Offset: 0x000CAA2A
 		public void ExposeData()
 		{
 			Scribe_References.Look<Outfit>(ref this.curOutfit, "curOutfit", false);

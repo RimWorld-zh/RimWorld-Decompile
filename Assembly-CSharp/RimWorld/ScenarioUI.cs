@@ -4,13 +4,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000834 RID: 2100
+	// Token: 0x02000836 RID: 2102
 	public static class ScenarioUI
 	{
 		// Token: 0x040019B2 RID: 6578
 		private static float editViewHeight;
 
-		// Token: 0x06002F94 RID: 12180 RVA: 0x00197800 File Offset: 0x00195C00
+		// Token: 0x06002F98 RID: 12184 RVA: 0x00197950 File Offset: 0x00195D50
 		public static void DrawScenarioInfo(Rect rect, Scenario scen, ref Vector2 infoScrollPosition)
 		{
 			Widgets.DrawMenuSection(rect);
@@ -32,7 +32,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F95 RID: 12181 RVA: 0x001978D8 File Offset: 0x00195CD8
+		// Token: 0x06002F99 RID: 12185 RVA: 0x00197A28 File Offset: 0x00195E28
 		public static void DrawScenarioEditInterface(Rect rect, Scenario scen, ref Vector2 infoScrollPosition)
 		{
 			Widgets.DrawMenuSection(rect);

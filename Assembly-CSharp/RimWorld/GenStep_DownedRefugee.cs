@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000409 RID: 1033
+	// Token: 0x0200040B RID: 1035
 	public class GenStep_DownedRefugee : GenStep_Scatterer
 	{
 		// Token: 0x1700025E RID: 606
-		// (get) Token: 0x060011C4 RID: 4548 RVA: 0x0009A900 File Offset: 0x00098D00
+		// (get) Token: 0x060011C8 RID: 4552 RVA: 0x0009AA50 File Offset: 0x00098E50
 		public override int SeedPart
 		{
 			get
@@ -17,13 +17,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011C5 RID: 4549 RVA: 0x0009A91C File Offset: 0x00098D1C
+		// Token: 0x060011C9 RID: 4553 RVA: 0x0009AA6C File Offset: 0x00098E6C
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			return base.CanScatterAt(c, map) && c.Standable(map);
 		}
 
-		// Token: 0x060011C6 RID: 4550 RVA: 0x0009A948 File Offset: 0x00098D48
+		// Token: 0x060011CA RID: 4554 RVA: 0x0009AA98 File Offset: 0x00098E98
 		protected override void ScatterAt(IntVec3 loc, Map map, int count = 1)
 		{
 			DownedRefugeeComp component = map.Parent.GetComponent<DownedRefugeeComp>();

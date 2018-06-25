@@ -3,22 +3,22 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A74 RID: 2676
+	// Token: 0x02000A76 RID: 2678
 	public class MentalState_Berserk : MentalState
 	{
-		// Token: 0x06003B88 RID: 15240 RVA: 0x001F7B30 File Offset: 0x001F5F30
+		// Token: 0x06003B8C RID: 15244 RVA: 0x001F7C5C File Offset: 0x001F605C
 		public override bool ForceHostileTo(Thing t)
 		{
 			return true;
 		}
 
-		// Token: 0x06003B89 RID: 15241 RVA: 0x001F7B48 File Offset: 0x001F5F48
+		// Token: 0x06003B8D RID: 15245 RVA: 0x001F7C74 File Offset: 0x001F6074
 		public override bool ForceHostileTo(Faction f)
 		{
 			return true;
 		}
 
-		// Token: 0x06003B8A RID: 15242 RVA: 0x001F7B60 File Offset: 0x001F5F60
+		// Token: 0x06003B8E RID: 15246 RVA: 0x001F7C8C File Offset: 0x001F608C
 		public override RandomSocialMode SocialModeMax()
 		{
 			return RandomSocialMode.Off;

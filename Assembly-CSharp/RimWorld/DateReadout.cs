@@ -7,7 +7,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200083D RID: 2109
+	// Token: 0x0200083F RID: 2111
 	public static class DateReadout
 	{
 		// Token: 0x040019CC RID: 6604
@@ -31,14 +31,14 @@ namespace RimWorld
 		// Token: 0x040019D2 RID: 6610
 		private const float DateRightPadding = 7f;
 
-		// Token: 0x06002FC2 RID: 12226 RVA: 0x0019E0F7 File Offset: 0x0019C4F7
+		// Token: 0x06002FC6 RID: 12230 RVA: 0x0019E247 File Offset: 0x0019C647
 		static DateReadout()
 		{
 			DateReadout.Reset();
 		}
 
 		// Token: 0x17000792 RID: 1938
-		// (get) Token: 0x06002FC3 RID: 12227 RVA: 0x0019E124 File Offset: 0x0019C524
+		// (get) Token: 0x06002FC7 RID: 12231 RVA: 0x0019E274 File Offset: 0x0019C674
 		public static float Height
 		{
 			get
@@ -48,7 +48,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000793 RID: 1939
-		// (get) Token: 0x06002FC4 RID: 12228 RVA: 0x0019E150 File Offset: 0x0019C550
+		// (get) Token: 0x06002FC8 RID: 12232 RVA: 0x0019E2A0 File Offset: 0x0019C6A0
 		private static bool SeasonLabelVisible
 		{
 			get
@@ -57,7 +57,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FC5 RID: 12229 RVA: 0x0019E180 File Offset: 0x0019C580
+		// Token: 0x06002FC9 RID: 12233 RVA: 0x0019E2D0 File Offset: 0x0019C6D0
 		public static void Reset()
 		{
 			DateReadout.dateString = null;
@@ -72,7 +72,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FC6 RID: 12230 RVA: 0x0019E1EC File Offset: 0x0019C5EC
+		// Token: 0x06002FCA RID: 12234 RVA: 0x0019E33C File Offset: 0x0019C73C
 		public static void DateOnGUI(Rect dateRect)
 		{
 			Vector2 location;

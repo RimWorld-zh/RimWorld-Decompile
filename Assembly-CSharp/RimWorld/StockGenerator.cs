@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000767 RID: 1895
+	// Token: 0x02000769 RID: 1897
 	public abstract class StockGenerator
 	{
 		// Token: 0x040016A5 RID: 5797
@@ -30,25 +30,25 @@ namespace RimWorld
 		// Token: 0x040016AB RID: 5803
 		public PriceType price = PriceType.Normal;
 
-		// Token: 0x060029F2 RID: 10738 RVA: 0x0016355C File Offset: 0x0016195C
+		// Token: 0x060029F6 RID: 10742 RVA: 0x001636AC File Offset: 0x00161AAC
 		public virtual void ResolveReferences(TraderKindDef trader)
 		{
 			this.trader = trader;
 		}
 
-		// Token: 0x060029F3 RID: 10739 RVA: 0x00163568 File Offset: 0x00161968
+		// Token: 0x060029F7 RID: 10743 RVA: 0x001636B8 File Offset: 0x00161AB8
 		public virtual IEnumerable<string> ConfigErrors(TraderKindDef parentDef)
 		{
 			yield break;
 		}
 
-		// Token: 0x060029F4 RID: 10740
+		// Token: 0x060029F8 RID: 10744
 		public abstract IEnumerable<Thing> GenerateThings(int forTile);
 
-		// Token: 0x060029F5 RID: 10741
+		// Token: 0x060029F9 RID: 10745
 		public abstract bool HandlesThingDef(ThingDef thingDef);
 
-		// Token: 0x060029F6 RID: 10742 RVA: 0x0016358C File Offset: 0x0016198C
+		// Token: 0x060029FA RID: 10746 RVA: 0x001636DC File Offset: 0x00161ADC
 		public bool TryGetPriceType(ThingDef thingDef, TradeAction action, out PriceType priceType)
 		{
 			bool result;
@@ -65,7 +65,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060029F7 RID: 10743 RVA: 0x001635C4 File Offset: 0x001619C4
+		// Token: 0x060029FB RID: 10747 RVA: 0x00163714 File Offset: 0x00161B14
 		protected int RandomCountOf(ThingDef def)
 		{
 			IntRange intRange = this.countRange;

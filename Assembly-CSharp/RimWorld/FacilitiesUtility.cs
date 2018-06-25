@@ -5,25 +5,25 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000978 RID: 2424
+	// Token: 0x0200097A RID: 2426
 	public static class FacilitiesUtility
 	{
-		// Token: 0x0400232F RID: 9007
+		// Token: 0x04002330 RID: 9008
 		private const float MaxDistToLinkToFacilityEver = 10f;
 
-		// Token: 0x04002330 RID: 9008
+		// Token: 0x04002331 RID: 9009
 		private static int RegionsToSearch = (1 + 2 * Mathf.CeilToInt(0.8333333f)) * (1 + 2 * Mathf.CeilToInt(0.8333333f));
 
-		// Token: 0x04002331 RID: 9009
+		// Token: 0x04002332 RID: 9010
 		private static HashSet<Region> visited = new HashSet<Region>();
 
-		// Token: 0x04002332 RID: 9010
+		// Token: 0x04002333 RID: 9011
 		private static HashSet<Thing> processed = new HashSet<Thing>();
 
-		// Token: 0x04002333 RID: 9011
+		// Token: 0x04002334 RID: 9012
 		private static bool working;
 
-		// Token: 0x06003686 RID: 13958 RVA: 0x001D1350 File Offset: 0x001CF750
+		// Token: 0x0600368A RID: 13962 RVA: 0x001D1490 File Offset: 0x001CF890
 		public static void NotifyFacilitiesAboutChangedLOSBlockers(List<Region> affectedRegions)
 		{
 			if (affectedRegions.Any<Region>())

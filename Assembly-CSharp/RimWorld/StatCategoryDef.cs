@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002D5 RID: 725
+	// Token: 0x020002D7 RID: 727
 	public class StatCategoryDef : Def
 	{
 		// Token: 0x04000738 RID: 1848

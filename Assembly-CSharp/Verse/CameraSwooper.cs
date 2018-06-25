@@ -3,31 +3,31 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000AEF RID: 2799
+	// Token: 0x02000AF1 RID: 2801
 	public class CameraSwooper
 	{
-		// Token: 0x04002736 RID: 10038
+		// Token: 0x04002737 RID: 10039
 		public bool Swooping = false;
 
-		// Token: 0x04002737 RID: 10039
+		// Token: 0x04002738 RID: 10040
 		private bool SwoopingTo = false;
 
-		// Token: 0x04002738 RID: 10040
+		// Token: 0x04002739 RID: 10041
 		private float TimeSinceSwoopStart = 0f;
 
-		// Token: 0x04002739 RID: 10041
+		// Token: 0x0400273A RID: 10042
 		private Vector3 FinalOffset;
 
-		// Token: 0x0400273A RID: 10042
+		// Token: 0x0400273B RID: 10043
 		private float FinalOrthoSizeOffset;
 
-		// Token: 0x0400273B RID: 10043
+		// Token: 0x0400273C RID: 10044
 		private float TotalSwoopTime;
 
-		// Token: 0x0400273C RID: 10044
+		// Token: 0x0400273D RID: 10045
 		private SwoopCallbackMethod SwoopFinishedCallback;
 
-		// Token: 0x06003E02 RID: 15874 RVA: 0x0020B43E File Offset: 0x0020983E
+		// Token: 0x06003E06 RID: 15878 RVA: 0x0020B56A File Offset: 0x0020996A
 		public void StartSwoopFromRoot(Vector3 FinalOffset, float FinalOrthoSizeOffset, float TotalSwoopTime, SwoopCallbackMethod SwoopFinishedCallback)
 		{
 			this.Swooping = true;
@@ -39,14 +39,14 @@ namespace Verse
 			this.SwoopingTo = false;
 		}
 
-		// Token: 0x06003E03 RID: 15875 RVA: 0x0020B477 File Offset: 0x00209877
+		// Token: 0x06003E07 RID: 15879 RVA: 0x0020B5A3 File Offset: 0x002099A3
 		public void StartSwoopToRoot(Vector3 FinalOffset, float FinalOrthoSizeOffset, float TotalSwoopTime, SwoopCallbackMethod SwoopFinishedCallback)
 		{
 			this.StartSwoopFromRoot(FinalOffset, FinalOrthoSizeOffset, TotalSwoopTime, SwoopFinishedCallback);
 			this.SwoopingTo = true;
 		}
 
-		// Token: 0x06003E04 RID: 15876 RVA: 0x0020B48C File Offset: 0x0020988C
+		// Token: 0x06003E08 RID: 15880 RVA: 0x0020B5B8 File Offset: 0x002099B8
 		public void Update()
 		{
 			if (this.Swooping)
@@ -63,7 +63,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E05 RID: 15877 RVA: 0x0020B4EC File Offset: 0x002098EC
+		// Token: 0x06003E09 RID: 15881 RVA: 0x0020B618 File Offset: 0x00209A18
 		public void OffsetCameraFrom(GameObject camObj, Vector3 basePos, float baseSize)
 		{
 			float num = this.TimeSinceSwoopStart / this.TotalSwoopTime;

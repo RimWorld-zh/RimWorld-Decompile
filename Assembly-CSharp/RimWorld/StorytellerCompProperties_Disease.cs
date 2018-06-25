@@ -2,13 +2,13 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200036A RID: 874
+	// Token: 0x0200036C RID: 876
 	public class StorytellerCompProperties_Disease : StorytellerCompProperties
 	{
 		// Token: 0x0400094E RID: 2382
 		public IncidentCategoryDef incidentCategory;
 
-		// Token: 0x06000F2E RID: 3886 RVA: 0x00080B08 File Offset: 0x0007EF08
+		// Token: 0x06000F32 RID: 3890 RVA: 0x00080C58 File Offset: 0x0007F058
 		public StorytellerCompProperties_Disease()
 		{
 			this.compClass = typeof(StorytellerComp_Disease);

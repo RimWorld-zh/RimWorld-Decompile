@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A4F RID: 2639
+	// Token: 0x02000A51 RID: 2641
 	public static class Toils_Reserve
 	{
-		// Token: 0x06003AD3 RID: 15059 RVA: 0x001F3D80 File Offset: 0x001F2180
+		// Token: 0x06003AD7 RID: 15063 RVA: 0x001F3EAC File Offset: 0x001F22AC
 		public static Toil Reserve(TargetIndex ind, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null)
 		{
 			Toil toil = new Toil();
@@ -22,7 +22,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AD4 RID: 15060 RVA: 0x001F3DF8 File Offset: 0x001F21F8
+		// Token: 0x06003AD8 RID: 15064 RVA: 0x001F3F24 File Offset: 0x001F2324
 		public static Toil ReserveQueue(TargetIndex ind, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null)
 		{
 			Toil toil = new Toil();
@@ -45,7 +45,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AD5 RID: 15061 RVA: 0x001F3E70 File Offset: 0x001F2270
+		// Token: 0x06003AD9 RID: 15065 RVA: 0x001F3F9C File Offset: 0x001F239C
 		public static Toil Release(TargetIndex ind)
 		{
 			Toil toil = new Toil();

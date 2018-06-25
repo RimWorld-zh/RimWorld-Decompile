@@ -8,7 +8,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200073A RID: 1850
+	// Token: 0x0200073C RID: 1852
 	public class CompSpawnerMechanoidsOnDamaged : ThingComp
 	{
 		// Token: 0x04001661 RID: 5729
@@ -23,7 +23,7 @@ namespace RimWorld
 		// Token: 0x04001664 RID: 5732
 		public static readonly string MemoDamaged = "ShipPartDamaged";
 
-		// Token: 0x060028E2 RID: 10466 RVA: 0x0015CCF3 File Offset: 0x0015B0F3
+		// Token: 0x060028E6 RID: 10470 RVA: 0x0015CE43 File Offset: 0x0015B243
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -31,7 +31,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.pointsLeft, "mechanoidPointsLeft", 0f, false);
 		}
 
-		// Token: 0x060028E3 RID: 10467 RVA: 0x0015CD24 File Offset: 0x0015B124
+		// Token: 0x060028E7 RID: 10471 RVA: 0x0015CE74 File Offset: 0x0015B274
 		public override void PostPreApplyDamage(DamageInfo dinfo, out bool absorbed)
 		{
 			base.PostPreApplyDamage(dinfo, out absorbed);
@@ -53,7 +53,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028E4 RID: 10468 RVA: 0x0015CDE1 File Offset: 0x0015B1E1
+		// Token: 0x060028E8 RID: 10472 RVA: 0x0015CF31 File Offset: 0x0015B331
 		public void Notify_BlueprintReplacedWithSolidThingNearby(Pawn by)
 		{
 			if (by.Faction != Faction.OfMechanoids)
@@ -62,7 +62,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028E5 RID: 10469 RVA: 0x0015CDFC File Offset: 0x0015B1FC
+		// Token: 0x060028E9 RID: 10473 RVA: 0x0015CF4C File Offset: 0x0015B34C
 		private void TrySpawnMechanoids()
 		{
 			if (this.pointsLeft > 0f)
@@ -110,7 +110,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028E6 RID: 10470 RVA: 0x0015CFF4 File Offset: 0x0015B3F4
+		// Token: 0x060028EA RID: 10474 RVA: 0x0015D144 File Offset: 0x0015B544
 		private bool CanSpawnMechanoidAt(IntVec3 c)
 		{
 			return c.Walkable(this.parent.Map);

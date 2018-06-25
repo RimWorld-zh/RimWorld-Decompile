@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000DA6 RID: 3494
+	// Token: 0x02000DA8 RID: 3496
 	public static class Scribe_Defs
 	{
-		// Token: 0x06004E1C RID: 19996 RVA: 0x0028E144 File Offset: 0x0028C544
+		// Token: 0x06004E20 RID: 20000 RVA: 0x0028E270 File Offset: 0x0028C670
 		public static void Look<T>(ref T value, string label) where T : Def, new()
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)

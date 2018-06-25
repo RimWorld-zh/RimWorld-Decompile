@@ -8,10 +8,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EC5 RID: 3781
+	// Token: 0x02000EC7 RID: 3783
 	public static class LayerLoader
 	{
-		// Token: 0x06005972 RID: 22898 RVA: 0x002DDA00 File Offset: 0x002DBE00
+		// Token: 0x06005975 RID: 22901 RVA: 0x002DDB20 File Offset: 0x002DBF20
 		public static void LoadFileIntoList(TextAsset ass, List<DiaNodeMold> NodeListToFill, List<DiaNodeList> ListListToFill, DiaNodeType NodesType)
 		{
 			TextReader reader = new StringReader(ass.text);
@@ -91,7 +91,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005973 RID: 22899 RVA: 0x002DDC0C File Offset: 0x002DC00C
+		// Token: 0x06005976 RID: 22902 RVA: 0x002DDD2C File Offset: 0x002DC12C
 		public static void MarkNonRootNodes(List<DiaNodeMold> NodeList)
 		{
 			foreach (DiaNodeMold d in NodeList)
@@ -121,7 +121,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005974 RID: 22900 RVA: 0x002DDDA8 File Offset: 0x002DC1A8
+		// Token: 0x06005977 RID: 22903 RVA: 0x002DDEC8 File Offset: 0x002DC2C8
 		private static void RecursiveSetIsRootFalse(DiaNodeMold d)
 		{
 			foreach (DiaOptionMold diaOptionMold in d.optionList)

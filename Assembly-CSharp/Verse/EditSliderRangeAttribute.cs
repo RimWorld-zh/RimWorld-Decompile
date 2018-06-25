@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000E3E RID: 3646
+	// Token: 0x02000E40 RID: 3648
 	[AttributeUsage(AttributeTargets.Field)]
 	public class EditSliderRangeAttribute : Attribute
 	{
@@ -12,7 +12,7 @@ namespace Verse
 		// Token: 0x040038F2 RID: 14578
 		public float max = 1f;
 
-		// Token: 0x0600563B RID: 22075 RVA: 0x002C78DB File Offset: 0x002C5CDB
+		// Token: 0x0600563F RID: 22079 RVA: 0x002C7A07 File Offset: 0x002C5E07
 		public EditSliderRangeAttribute(float min, float max)
 		{
 			this.min = min;

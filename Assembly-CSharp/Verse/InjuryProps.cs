@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000B40 RID: 2880
+	// Token: 0x02000B42 RID: 2882
 	public class InjuryProps
 	{
 		// Token: 0x0400298E RID: 10638

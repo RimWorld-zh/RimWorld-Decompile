@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E9B RID: 3739
+	// Token: 0x02000E9D RID: 3741
 	public static class Mouse
 	{
-		// Token: 0x17000DF4 RID: 3572
-		// (get) Token: 0x06005860 RID: 22624 RVA: 0x002D4DD8 File Offset: 0x002D31D8
+		// Token: 0x17000DF3 RID: 3571
+		// (get) Token: 0x06005864 RID: 22628 RVA: 0x002D4F04 File Offset: 0x002D3304
 		public static bool IsInputBlockedNow
 		{
 			get
@@ -17,7 +17,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005861 RID: 22625 RVA: 0x002D4E40 File Offset: 0x002D3240
+		// Token: 0x06005865 RID: 22629 RVA: 0x002D4F6C File Offset: 0x002D336C
 		public static bool IsOver(Rect rect)
 		{
 			return rect.Contains(Event.current.mousePosition) && !Mouse.IsInputBlockedNow;

@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200049B RID: 1179
+	// Token: 0x0200049D RID: 1181
 	public class PawnsArrivalModeWorker_EdgeWalkIn : PawnsArrivalModeWorker
 	{
-		// Token: 0x0600151A RID: 5402 RVA: 0x000B98C4 File Offset: 0x000B7CC4
+		// Token: 0x0600151E RID: 5406 RVA: 0x000B9A14 File Offset: 0x000B7E14
 		public override void Arrive(List<Pawn> pawns, IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600151B RID: 5403 RVA: 0x000B9920 File Offset: 0x000B7D20
+		// Token: 0x0600151F RID: 5407 RVA: 0x000B9A70 File Offset: 0x000B7E70
 		public override bool TryResolveRaidSpawnCenter(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;

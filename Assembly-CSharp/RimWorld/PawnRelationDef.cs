@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002B6 RID: 694
+	// Token: 0x020002B8 RID: 696
 	public class PawnRelationDef : Def
 	{
 		// Token: 0x040006B2 RID: 1714
@@ -58,7 +58,7 @@ namespace RimWorld
 		private PawnRelationWorker workerInt = null;
 
 		// Token: 0x170001BD RID: 445
-		// (get) Token: 0x06000BA3 RID: 2979 RVA: 0x00068BE8 File Offset: 0x00066FE8
+		// (get) Token: 0x06000BA7 RID: 2983 RVA: 0x00068D38 File Offset: 0x00067138
 		public PawnRelationWorker Worker
 		{
 			get
@@ -72,7 +72,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000BA4 RID: 2980 RVA: 0x00068C34 File Offset: 0x00067034
+		// Token: 0x06000BA8 RID: 2984 RVA: 0x00068D84 File Offset: 0x00067184
 		public string GetGenderSpecificLabel(Pawn pawn)
 		{
 			string label;
@@ -87,13 +87,13 @@ namespace RimWorld
 			return label;
 		}
 
-		// Token: 0x06000BA5 RID: 2981 RVA: 0x00068C78 File Offset: 0x00067078
+		// Token: 0x06000BA9 RID: 2985 RVA: 0x00068DC8 File Offset: 0x000671C8
 		public string GetGenderSpecificLabelCap(Pawn pawn)
 		{
 			return this.GetGenderSpecificLabel(pawn).CapitalizeFirst();
 		}
 
-		// Token: 0x06000BA6 RID: 2982 RVA: 0x00068C9C File Offset: 0x0006709C
+		// Token: 0x06000BAA RID: 2986 RVA: 0x00068DEC File Offset: 0x000671EC
 		public ThoughtDef GetGenderSpecificDiedThought(Pawn killed)
 		{
 			ThoughtDef result;
@@ -108,7 +108,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000BA7 RID: 2983 RVA: 0x00068CDC File Offset: 0x000670DC
+		// Token: 0x06000BAB RID: 2987 RVA: 0x00068E2C File Offset: 0x0006722C
 		public ThoughtDef GetGenderSpecificKilledThought(Pawn killed)
 		{
 			ThoughtDef result;
@@ -123,7 +123,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000BA8 RID: 2984 RVA: 0x00068D1C File Offset: 0x0006711C
+		// Token: 0x06000BAC RID: 2988 RVA: 0x00068E6C File Offset: 0x0006726C
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string c in this.<ConfigErrors>__BaseCallProxy0())

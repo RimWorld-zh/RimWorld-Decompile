@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C48 RID: 3144
+	// Token: 0x02000C4A RID: 3146
 	internal class SectionLayer_Snow : SectionLayer
 	{
 		// Token: 0x04002F65 RID: 12133
@@ -15,14 +15,14 @@ namespace Verse
 		// Token: 0x04002F67 RID: 12135
 		private static readonly Color32 ColorWhite = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue);
 
-		// Token: 0x06004553 RID: 17747 RVA: 0x0024A002 File Offset: 0x00248402
+		// Token: 0x06004556 RID: 17750 RVA: 0x0024A0DE File Offset: 0x002484DE
 		public SectionLayer_Snow(Section section) : base(section)
 		{
 			this.relevantChangeTypes = MapMeshFlag.Snow;
 		}
 
-		// Token: 0x17000AEF RID: 2799
-		// (get) Token: 0x06004554 RID: 17748 RVA: 0x0024A024 File Offset: 0x00248424
+		// Token: 0x17000AEE RID: 2798
+		// (get) Token: 0x06004557 RID: 17751 RVA: 0x0024A100 File Offset: 0x00248500
 		public override bool Visible
 		{
 			get
@@ -31,14 +31,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004555 RID: 17749 RVA: 0x0024A040 File Offset: 0x00248440
+		// Token: 0x06004558 RID: 17752 RVA: 0x0024A11C File Offset: 0x0024851C
 		private bool Filled(int index)
 		{
 			Building building = base.Map.edificeGrid[index];
 			return building != null && building.def.Fillage == FillCategory.Full;
 		}
 
-		// Token: 0x06004556 RID: 17750 RVA: 0x0024A080 File Offset: 0x00248480
+		// Token: 0x06004559 RID: 17753 RVA: 0x0024A15C File Offset: 0x0024855C
 		public override void Regenerate()
 		{
 			LayerSubMesh subMesh = base.GetSubMesh(MatBases.Snow);
@@ -104,7 +104,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004557 RID: 17751 RVA: 0x0024A3E4 File Offset: 0x002487E4
+		// Token: 0x0600455A RID: 17754 RVA: 0x0024A4C0 File Offset: 0x002488C0
 		private static Color32 SnowDepthColor(float snowDepth)
 		{
 			return Color32.Lerp(SectionLayer_Snow.ColorClear, SectionLayer_Snow.ColorWhite, snowDepth);

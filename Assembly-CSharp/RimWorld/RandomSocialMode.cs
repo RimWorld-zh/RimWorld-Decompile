@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000525 RID: 1317
+	// Token: 0x02000527 RID: 1319
 	public enum RandomSocialMode
 	{
 		// Token: 0x04000E57 RID: 3671

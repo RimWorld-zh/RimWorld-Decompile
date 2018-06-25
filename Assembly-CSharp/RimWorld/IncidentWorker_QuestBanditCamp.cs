@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200034E RID: 846
+	// Token: 0x02000350 RID: 848
 	public class IncidentWorker_QuestBanditCamp : IncidentWorker
 	{
-		// Token: 0x06000E98 RID: 3736 RVA: 0x0007BAAC File Offset: 0x00079EAC
+		// Token: 0x06000E9C RID: 3740 RVA: 0x0007BBFC File Offset: 0x00079FFC
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Faction faction;
@@ -18,7 +18,7 @@ namespace RimWorld
 			return base.CanFireNowSub(parms) && this.TryFindFactions(out faction, out faction2) && TileFinder.TryFindNewSiteTile(out num, 7, 27, false, true, -1);
 		}
 
-		// Token: 0x06000E99 RID: 3737 RVA: 0x0007BAEC File Offset: 0x00079EEC
+		// Token: 0x06000E9D RID: 3741 RVA: 0x0007BC3C File Offset: 0x0007A03C
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Faction faction;
@@ -52,13 +52,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E9A RID: 3738 RVA: 0x0007BBBC File Offset: 0x00079FBC
+		// Token: 0x06000E9E RID: 3742 RVA: 0x0007BD0C File Offset: 0x0007A10C
 		private List<Thing> GenerateRewards(Faction alliedFaction)
 		{
 			return ThingSetMakerDefOf.Reward_StandardByDropPod.root.Generate();
 		}
 
-		// Token: 0x06000E9B RID: 3739 RVA: 0x0007BBE0 File Offset: 0x00079FE0
+		// Token: 0x06000E9F RID: 3743 RVA: 0x0007BD30 File Offset: 0x0007A130
 		private bool TryFindFactions(out Faction alliedFaction, out Faction enemyFaction)
 		{
 			bool result;
@@ -78,7 +78,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E9C RID: 3740 RVA: 0x0007BC3C File Offset: 0x0007A03C
+		// Token: 0x06000EA0 RID: 3744 RVA: 0x0007BD8C File Offset: 0x0007A18C
 		private bool AnyQuestExistsFrom(Faction faction)
 		{
 			List<Site> sites = Find.WorldObjects.Sites;
@@ -93,13 +93,13 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000E9D RID: 3741 RVA: 0x0007BCA8 File Offset: 0x0007A0A8
+		// Token: 0x06000EA1 RID: 3745 RVA: 0x0007BDF8 File Offset: 0x0007A1F8
 		private bool CommonHumanlikeEnemyFactionExists(Faction f1, Faction f2)
 		{
 			return this.CommonHumanlikeEnemyFaction(f1, f2) != null;
 		}
 
-		// Token: 0x06000E9E RID: 3742 RVA: 0x0007BCCC File Offset: 0x0007A0CC
+		// Token: 0x06000EA2 RID: 3746 RVA: 0x0007BE1C File Offset: 0x0007A21C
 		private Faction CommonHumanlikeEnemyFaction(Faction f1, Faction f2)
 		{
 			Faction faction;

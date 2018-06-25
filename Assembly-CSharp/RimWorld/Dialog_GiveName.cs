@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007F9 RID: 2041
+	// Token: 0x020007FB RID: 2043
 	public abstract class Dialog_GiveName : Window
 	{
 		// Token: 0x040017FD RID: 6141
@@ -40,7 +40,7 @@ namespace RimWorld
 		// Token: 0x04001807 RID: 6151
 		protected string invalidSecondNameMessageKey;
 
-		// Token: 0x06002D72 RID: 11634 RVA: 0x0017E744 File Offset: 0x0017CB44
+		// Token: 0x06002D76 RID: 11638 RVA: 0x0017E894 File Offset: 0x0017CC94
 		public Dialog_GiveName()
 		{
 			if (Find.AnyPlayerHomeMap != null && Find.AnyPlayerHomeMap.mapPawns.FreeColonistsCount != 0)
@@ -65,7 +65,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700073C RID: 1852
-		// (get) Token: 0x06002D73 RID: 11635 RVA: 0x0017E7F8 File Offset: 0x0017CBF8
+		// (get) Token: 0x06002D77 RID: 11639 RVA: 0x0017E948 File Offset: 0x0017CD48
 		private float Height
 		{
 			get
@@ -75,7 +75,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700073D RID: 1853
-		// (get) Token: 0x06002D74 RID: 11636 RVA: 0x0017E828 File Offset: 0x0017CC28
+		// (get) Token: 0x06002D78 RID: 11640 RVA: 0x0017E978 File Offset: 0x0017CD78
 		public override Vector2 InitialSize
 		{
 			get
@@ -84,7 +84,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D75 RID: 11637 RVA: 0x0017E850 File Offset: 0x0017CC50
+		// Token: 0x06002D79 RID: 11641 RVA: 0x0017E9A0 File Offset: 0x0017CDA0
 		public override void DoWindowContents(Rect rect)
 		{
 			Text.Font = GameFont.Small;
@@ -169,19 +169,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D76 RID: 11638
+		// Token: 0x06002D7A RID: 11642
 		protected abstract bool IsValidName(string s);
 
-		// Token: 0x06002D77 RID: 11639
+		// Token: 0x06002D7B RID: 11643
 		protected abstract void Named(string s);
 
-		// Token: 0x06002D78 RID: 11640 RVA: 0x0017ECEC File Offset: 0x0017D0EC
+		// Token: 0x06002D7C RID: 11644 RVA: 0x0017EE3C File Offset: 0x0017D23C
 		protected virtual bool IsValidSecondName(string s)
 		{
 			return true;
 		}
 
-		// Token: 0x06002D79 RID: 11641 RVA: 0x0017ED02 File Offset: 0x0017D102
+		// Token: 0x06002D7D RID: 11645 RVA: 0x0017EE52 File Offset: 0x0017D252
 		protected virtual void NamedSecond(string s)
 		{
 		}

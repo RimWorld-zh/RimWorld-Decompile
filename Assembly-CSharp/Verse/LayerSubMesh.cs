@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C3A RID: 3130
+	// Token: 0x02000C3C RID: 3132
 	public class LayerSubMesh
 	{
 		// Token: 0x04002F2B RID: 12075
@@ -31,14 +31,14 @@ namespace Verse
 		// Token: 0x04002F32 RID: 12082
 		public List<Vector3> uvs = new List<Vector3>();
 
-		// Token: 0x0600450C RID: 17676 RVA: 0x00245A18 File Offset: 0x00243E18
+		// Token: 0x0600450F RID: 17679 RVA: 0x00245AF4 File Offset: 0x00243EF4
 		public LayerSubMesh(Mesh mesh, Material material)
 		{
 			this.mesh = mesh;
 			this.material = material;
 		}
 
-		// Token: 0x0600450D RID: 17677 RVA: 0x00245A74 File Offset: 0x00243E74
+		// Token: 0x06004510 RID: 17680 RVA: 0x00245B50 File Offset: 0x00243F50
 		public void Clear(MeshParts parts)
 		{
 			if ((byte)(parts & MeshParts.Verts) != 0)
@@ -60,7 +60,7 @@ namespace Verse
 			this.finalized = false;
 		}
 
-		// Token: 0x0600450E RID: 17678 RVA: 0x00245ADC File Offset: 0x00243EDC
+		// Token: 0x06004511 RID: 17681 RVA: 0x00245BB8 File Offset: 0x00243FB8
 		public void FinalizeMesh(MeshParts parts)
 		{
 			if (this.finalized)
@@ -110,7 +110,7 @@ namespace Verse
 			this.finalized = true;
 		}
 
-		// Token: 0x0600450F RID: 17679 RVA: 0x00245C24 File Offset: 0x00244024
+		// Token: 0x06004512 RID: 17682 RVA: 0x00245D00 File Offset: 0x00244100
 		public override string ToString()
 		{
 			return "LayerSubMesh(" + this.material.ToString() + ")";

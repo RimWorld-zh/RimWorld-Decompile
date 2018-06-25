@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200070E RID: 1806
+	// Token: 0x02000710 RID: 1808
 	[StaticConstructorOnStartup]
 	public class CompFireOverlay : ThingComp
 	{
@@ -15,7 +15,7 @@ namespace RimWorld
 		public static readonly Graphic FireGraphic = GraphicDatabase.Get<Graphic_Flicker>("Things/Special/Fire", ShaderDatabase.TransparentPostLight, Vector2.one, Color.white);
 
 		// Token: 0x170005FB RID: 1531
-		// (get) Token: 0x060027AF RID: 10159 RVA: 0x001542DC File Offset: 0x001526DC
+		// (get) Token: 0x060027B3 RID: 10163 RVA: 0x0015442C File Offset: 0x0015282C
 		public CompProperties_FireOverlay Props
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027B0 RID: 10160 RVA: 0x001542FC File Offset: 0x001526FC
+		// Token: 0x060027B4 RID: 10164 RVA: 0x0015444C File Offset: 0x0015284C
 		public override void PostDraw()
 		{
 			base.PostDraw();
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027B1 RID: 10161 RVA: 0x0015436A File Offset: 0x0015276A
+		// Token: 0x060027B5 RID: 10165 RVA: 0x001544BA File Offset: 0x001528BA
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);

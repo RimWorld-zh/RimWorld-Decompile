@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E5E RID: 3678
+	// Token: 0x02000E60 RID: 3680
 	public abstract class FeedbackItem
 	{
 		// Token: 0x04003970 RID: 14704
@@ -21,7 +21,7 @@ namespace Verse
 		// Token: 0x04003974 RID: 14708
 		private static int freeUniqueID;
 
-		// Token: 0x060056BA RID: 22202 RVA: 0x002CB770 File Offset: 0x002C9B70
+		// Token: 0x060056BE RID: 22206 RVA: 0x002CB89C File Offset: 0x002C9C9C
 		public FeedbackItem(Vector2 ScreenPos)
 		{
 			this.uniqueID = FeedbackItem.freeUniqueID++;
@@ -29,17 +29,17 @@ namespace Verse
 			this.CurScreenPos.y = this.CurScreenPos.y - 15f;
 		}
 
-		// Token: 0x060056BB RID: 22203 RVA: 0x002CB7D5 File Offset: 0x002C9BD5
+		// Token: 0x060056BF RID: 22207 RVA: 0x002CB901 File Offset: 0x002C9D01
 		public void Update()
 		{
 			this.TimeLeft -= Time.deltaTime;
 			this.CurScreenPos += this.FloatPerSecond * Time.deltaTime;
 		}
 
-		// Token: 0x060056BC RID: 22204
+		// Token: 0x060056C0 RID: 22208
 		public abstract void FeedbackOnGUI();
 
-		// Token: 0x060056BD RID: 22205 RVA: 0x002CB80C File Offset: 0x002C9C0C
+		// Token: 0x060056C1 RID: 22209 RVA: 0x002CB938 File Offset: 0x002C9D38
 		protected void DrawFloatingText(string str, Color TextColor)
 		{
 			float x = Text.CalcSize(str).x;

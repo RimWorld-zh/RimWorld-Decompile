@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007B8 RID: 1976
+	// Token: 0x020007BA RID: 1978
 	public abstract class Designator_Area : Designator
 	{
-		// Token: 0x06002BD7 RID: 11223 RVA: 0x00173EE3 File Offset: 0x001722E3
+		// Token: 0x06002BDB RID: 11227 RVA: 0x00174033 File Offset: 0x00172433
 		public override void RenderHighlight(List<IntVec3> dragCells)
 		{
 			DesignatorUtility.RenderHighlightOverSelectableCells(this, dragCells);

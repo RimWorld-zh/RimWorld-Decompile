@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002B1 RID: 689
+	// Token: 0x020002B3 RID: 691
 	public class NeedDef : Def
 	{
 		// Token: 0x0400068A RID: 1674
@@ -59,7 +59,7 @@ namespace RimWorld
 		// Token: 0x0400069A RID: 1690
 		public bool freezeWhileSleeping = false;
 
-		// Token: 0x06000B84 RID: 2948 RVA: 0x0006802C File Offset: 0x0006642C
+		// Token: 0x06000B88 RID: 2952 RVA: 0x0006817C File Offset: 0x0006657C
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())

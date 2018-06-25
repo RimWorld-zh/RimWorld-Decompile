@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D52 RID: 3410
+	// Token: 0x02000D54 RID: 3412
 	public class Pawn_AgeTracker : IExposable
 	{
 		// Token: 0x040032F5 RID: 13045
@@ -27,15 +27,15 @@ namespace Verse
 		// Token: 0x040032FA RID: 13050
 		private const float BornAtLongitude = 0f;
 
-		// Token: 0x06004C0E RID: 19470 RVA: 0x0027B4E5 File Offset: 0x002798E5
+		// Token: 0x06004C12 RID: 19474 RVA: 0x0027B611 File Offset: 0x00279A11
 		public Pawn_AgeTracker(Pawn newPawn)
 		{
 			this.pawn = newPawn;
 		}
 
-		// Token: 0x17000C58 RID: 3160
-		// (get) Token: 0x06004C0F RID: 19471 RVA: 0x0027B514 File Offset: 0x00279914
-		// (set) Token: 0x06004C10 RID: 19472 RVA: 0x0027B52F File Offset: 0x0027992F
+		// Token: 0x17000C57 RID: 3159
+		// (get) Token: 0x06004C13 RID: 19475 RVA: 0x0027B640 File Offset: 0x00279A40
+		// (set) Token: 0x06004C14 RID: 19476 RVA: 0x0027B65B File Offset: 0x00279A5B
 		public long BirthAbsTicks
 		{
 			get
@@ -48,8 +48,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C59 RID: 3161
-		// (get) Token: 0x06004C11 RID: 19473 RVA: 0x0027B53C File Offset: 0x0027993C
+		// Token: 0x17000C58 RID: 3160
+		// (get) Token: 0x06004C15 RID: 19477 RVA: 0x0027B668 File Offset: 0x00279A68
 		public int AgeBiologicalYears
 		{
 			get
@@ -58,8 +58,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C5A RID: 3162
-		// (get) Token: 0x06004C12 RID: 19474 RVA: 0x0027B560 File Offset: 0x00279960
+		// Token: 0x17000C59 RID: 3161
+		// (get) Token: 0x06004C16 RID: 19478 RVA: 0x0027B68C File Offset: 0x00279A8C
 		public float AgeBiologicalYearsFloat
 		{
 			get
@@ -68,9 +68,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C5B RID: 3163
-		// (get) Token: 0x06004C13 RID: 19475 RVA: 0x0027B584 File Offset: 0x00279984
-		// (set) Token: 0x06004C14 RID: 19476 RVA: 0x0027B59F File Offset: 0x0027999F
+		// Token: 0x17000C5A RID: 3162
+		// (get) Token: 0x06004C17 RID: 19479 RVA: 0x0027B6B0 File Offset: 0x00279AB0
+		// (set) Token: 0x06004C18 RID: 19480 RVA: 0x0027B6CB File Offset: 0x00279ACB
 		public long AgeBiologicalTicks
 		{
 			get
@@ -84,9 +84,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C5C RID: 3164
-		// (get) Token: 0x06004C15 RID: 19477 RVA: 0x0027B5B0 File Offset: 0x002799B0
-		// (set) Token: 0x06004C16 RID: 19478 RVA: 0x0027B5D2 File Offset: 0x002799D2
+		// Token: 0x17000C5B RID: 3163
+		// (get) Token: 0x06004C19 RID: 19481 RVA: 0x0027B6DC File Offset: 0x00279ADC
+		// (set) Token: 0x06004C1A RID: 19482 RVA: 0x0027B6FE File Offset: 0x00279AFE
 		public long AgeChronologicalTicks
 		{
 			get
@@ -99,8 +99,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C5D RID: 3165
-		// (get) Token: 0x06004C17 RID: 19479 RVA: 0x0027B5E4 File Offset: 0x002799E4
+		// Token: 0x17000C5C RID: 3164
+		// (get) Token: 0x06004C1B RID: 19483 RVA: 0x0027B710 File Offset: 0x00279B10
 		public int AgeChronologicalYears
 		{
 			get
@@ -109,8 +109,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C5E RID: 3166
-		// (get) Token: 0x06004C18 RID: 19480 RVA: 0x0027B608 File Offset: 0x00279A08
+		// Token: 0x17000C5D RID: 3165
+		// (get) Token: 0x06004C1C RID: 19484 RVA: 0x0027B734 File Offset: 0x00279B34
 		public float AgeChronologicalYearsFloat
 		{
 			get
@@ -119,8 +119,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C5F RID: 3167
-		// (get) Token: 0x06004C19 RID: 19481 RVA: 0x0027B62C File Offset: 0x00279A2C
+		// Token: 0x17000C5E RID: 3166
+		// (get) Token: 0x06004C1D RID: 19485 RVA: 0x0027B758 File Offset: 0x00279B58
 		public int BirthYear
 		{
 			get
@@ -129,8 +129,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C60 RID: 3168
-		// (get) Token: 0x06004C1A RID: 19482 RVA: 0x0027B654 File Offset: 0x00279A54
+		// Token: 0x17000C5F RID: 3167
+		// (get) Token: 0x06004C1E RID: 19486 RVA: 0x0027B780 File Offset: 0x00279B80
 		public int BirthDayOfSeasonZeroBased
 		{
 			get
@@ -139,8 +139,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C61 RID: 3169
-		// (get) Token: 0x06004C1B RID: 19483 RVA: 0x0027B67C File Offset: 0x00279A7C
+		// Token: 0x17000C60 RID: 3168
+		// (get) Token: 0x06004C1F RID: 19487 RVA: 0x0027B7A8 File Offset: 0x00279BA8
 		public int BirthDayOfYear
 		{
 			get
@@ -149,8 +149,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C62 RID: 3170
-		// (get) Token: 0x06004C1C RID: 19484 RVA: 0x0027B6A4 File Offset: 0x00279AA4
+		// Token: 0x17000C61 RID: 3169
+		// (get) Token: 0x06004C20 RID: 19488 RVA: 0x0027B7D0 File Offset: 0x00279BD0
 		public Quadrum BirthQuadrum
 		{
 			get
@@ -159,8 +159,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C63 RID: 3171
-		// (get) Token: 0x06004C1D RID: 19485 RVA: 0x0027B6CC File Offset: 0x00279ACC
+		// Token: 0x17000C62 RID: 3170
+		// (get) Token: 0x06004C21 RID: 19489 RVA: 0x0027B7F8 File Offset: 0x00279BF8
 		public string AgeNumberString
 		{
 			get
@@ -181,8 +181,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C64 RID: 3172
-		// (get) Token: 0x06004C1E RID: 19486 RVA: 0x0027B730 File Offset: 0x00279B30
+		// Token: 0x17000C63 RID: 3171
+		// (get) Token: 0x06004C22 RID: 19490 RVA: 0x0027B85C File Offset: 0x00279C5C
 		public string AgeTooltipString
 		{
 			get
@@ -235,8 +235,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C65 RID: 3173
-		// (get) Token: 0x06004C1F RID: 19487 RVA: 0x0027B8B8 File Offset: 0x00279CB8
+		// Token: 0x17000C64 RID: 3172
+		// (get) Token: 0x06004C23 RID: 19491 RVA: 0x0027B9E4 File Offset: 0x00279DE4
 		public int CurLifeStageIndex
 		{
 			get
@@ -249,8 +249,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C66 RID: 3174
-		// (get) Token: 0x06004C20 RID: 19488 RVA: 0x0027B8E8 File Offset: 0x00279CE8
+		// Token: 0x17000C65 RID: 3173
+		// (get) Token: 0x06004C24 RID: 19492 RVA: 0x0027BA14 File Offset: 0x00279E14
 		public LifeStageDef CurLifeStage
 		{
 			get
@@ -259,8 +259,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C67 RID: 3175
-		// (get) Token: 0x06004C21 RID: 19489 RVA: 0x0027B908 File Offset: 0x00279D08
+		// Token: 0x17000C66 RID: 3174
+		// (get) Token: 0x06004C25 RID: 19493 RVA: 0x0027BA34 File Offset: 0x00279E34
 		public LifeStageAge CurLifeStageRace
 		{
 			get
@@ -269,8 +269,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C68 RID: 3176
-		// (get) Token: 0x06004C22 RID: 19490 RVA: 0x0027B938 File Offset: 0x00279D38
+		// Token: 0x17000C67 RID: 3175
+		// (get) Token: 0x06004C26 RID: 19494 RVA: 0x0027BA64 File Offset: 0x00279E64
 		public PawnKindLifeStage CurKindLifeStage
 		{
 			get
@@ -289,7 +289,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C23 RID: 19491 RVA: 0x0027B9A0 File Offset: 0x00279DA0
+		// Token: 0x06004C27 RID: 19495 RVA: 0x0027BACC File Offset: 0x00279ECC
 		public void ExposeData()
 		{
 			Scribe_Values.Look<long>(ref this.ageBiologicalTicksInt, "ageBiologicalTicks", 0L, false);
@@ -300,7 +300,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C24 RID: 19492 RVA: 0x0027B9DC File Offset: 0x00279DDC
+		// Token: 0x06004C28 RID: 19496 RVA: 0x0027BB08 File Offset: 0x00279F08
 		public void AgeTick()
 		{
 			this.ageBiologicalTicksInt += 1L;
@@ -314,7 +314,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C25 RID: 19493 RVA: 0x0027BA30 File Offset: 0x00279E30
+		// Token: 0x06004C29 RID: 19497 RVA: 0x0027BB5C File Offset: 0x00279F5C
 		public void AgeTickMothballed(int interval)
 		{
 			long num = this.ageBiologicalTicksInt;
@@ -331,7 +331,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C26 RID: 19494 RVA: 0x0027BAA8 File Offset: 0x00279EA8
+		// Token: 0x06004C2A RID: 19498 RVA: 0x0027BBD4 File Offset: 0x00279FD4
 		private void RecalculateLifeStageIndex()
 		{
 			int num = -1;
@@ -370,7 +370,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C27 RID: 19495 RVA: 0x0027BBD8 File Offset: 0x00279FD8
+		// Token: 0x06004C2B RID: 19499 RVA: 0x0027BD04 File Offset: 0x0027A104
 		private void BirthdayBiological()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -400,13 +400,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C28 RID: 19496 RVA: 0x0027BD20 File Offset: 0x0027A120
+		// Token: 0x06004C2C RID: 19500 RVA: 0x0027BE4C File Offset: 0x0027A24C
 		public void DebugForceBirthdayBiological()
 		{
 			this.BirthdayBiological();
 		}
 
-		// Token: 0x06004C29 RID: 19497 RVA: 0x0027BD2C File Offset: 0x0027A12C
+		// Token: 0x06004C2D RID: 19501 RVA: 0x0027BE58 File Offset: 0x0027A258
 		private void CheckChangePawnKindName()
 		{
 			NameSingle nameSingle = this.pawn.Name as NameSingle;
@@ -429,7 +429,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C2A RID: 19498 RVA: 0x0027BDE1 File Offset: 0x0027A1E1
+		// Token: 0x06004C2E RID: 19502 RVA: 0x0027BF0D File Offset: 0x0027A30D
 		public void DebugMake1YearOlder()
 		{
 			this.ageBiologicalTicksInt += 3600000L;

@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000452 RID: 1106
+	// Token: 0x02000454 RID: 1108
 	public class WildPlantSpawner : IExposable
 	{
 		// Token: 0x04000BB4 RID: 2996
@@ -111,14 +111,14 @@ namespace RimWorld
 		// Token: 0x04000BCF RID: 3023
 		private static List<ThingDef> tmpPlantDefsLowerOrder = new List<ThingDef>();
 
-		// Token: 0x06001345 RID: 4933 RVA: 0x000A5B55 File Offset: 0x000A3F55
+		// Token: 0x06001349 RID: 4937 RVA: 0x000A5CA5 File Offset: 0x000A40A5
 		public WildPlantSpawner(Map map)
 		{
 			this.map = map;
 		}
 
 		// Token: 0x170002A1 RID: 673
-		// (get) Token: 0x06001346 RID: 4934 RVA: 0x000A5B68 File Offset: 0x000A3F68
+		// (get) Token: 0x0600134A RID: 4938 RVA: 0x000A5CB8 File Offset: 0x000A40B8
 		public float CurrentPlantDensity
 		{
 			get
@@ -128,7 +128,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002A2 RID: 674
-		// (get) Token: 0x06001347 RID: 4935 RVA: 0x000A5BA4 File Offset: 0x000A3FA4
+		// (get) Token: 0x0600134B RID: 4939 RVA: 0x000A5CF4 File Offset: 0x000A40F4
 		public float CurrentWholeMapNumDesiredPlants
 		{
 			get
@@ -147,7 +147,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002A3 RID: 675
-		// (get) Token: 0x06001348 RID: 4936 RVA: 0x000A5C10 File Offset: 0x000A4010
+		// (get) Token: 0x0600134C RID: 4940 RVA: 0x000A5D60 File Offset: 0x000A4160
 		public int CurrentWholeMapNumNonZeroFertilityCells
 		{
 			get
@@ -168,7 +168,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002A4 RID: 676
-		// (get) Token: 0x06001349 RID: 4937 RVA: 0x000A5C7C File Offset: 0x000A407C
+		// (get) Token: 0x0600134D RID: 4941 RVA: 0x000A5DCC File Offset: 0x000A41CC
 		public float CavePlantsCommonalitiesSum
 		{
 			get
@@ -187,7 +187,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600134A RID: 4938 RVA: 0x000A5D25 File Offset: 0x000A4125
+		// Token: 0x0600134E RID: 4942 RVA: 0x000A5E75 File Offset: 0x000A4275
 		public static void ResetStaticData()
 		{
 			WildPlantSpawner.allCavePlants.Clear();
@@ -196,7 +196,7 @@ namespace RimWorld
 			select x);
 		}
 
-		// Token: 0x0600134B RID: 4939 RVA: 0x000A5D64 File Offset: 0x000A4164
+		// Token: 0x0600134F RID: 4943 RVA: 0x000A5EB4 File Offset: 0x000A42B4
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.cycleIndex, "cycleIndex", 0, false);
@@ -207,7 +207,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.calculatedWholeMapNumNonZeroFertilityCellsTmp, "calculatedWholeMapNumNonZeroFertilityCellsTmp", 0, false);
 		}
 
-		// Token: 0x0600134C RID: 4940 RVA: 0x000A5DE8 File Offset: 0x000A41E8
+		// Token: 0x06001350 RID: 4944 RVA: 0x000A5F38 File Offset: 0x000A4338
 		public void WildPlantSpawnerTick()
 		{
 			if (DebugSettings.fastEcology || DebugSettings.fastEcologyRegrowRateOnly)
@@ -223,7 +223,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600134D RID: 4941 RVA: 0x000A5E38 File Offset: 0x000A4238
+		// Token: 0x06001351 RID: 4945 RVA: 0x000A5F88 File Offset: 0x000A4388
 		private void WildPlantSpawnerTickInternal()
 		{
 			int area = this.map.Area;
@@ -262,7 +262,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600134E RID: 4942 RVA: 0x000A5FD8 File Offset: 0x000A43D8
+		// Token: 0x06001352 RID: 4946 RVA: 0x000A6128 File Offset: 0x000A4528
 		public bool CheckSpawnWildPlantAt(IntVec3 c, float plantDensity, float wholeMapNumDesiredPlants, bool setRandomGrowth = false)
 		{
 			bool result;
@@ -318,7 +318,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600134F RID: 4943 RVA: 0x000A61BC File Offset: 0x000A45BC
+		// Token: 0x06001353 RID: 4947 RVA: 0x000A630C File Offset: 0x000A470C
 		private float PlantChoiceWeight(ThingDef plantDef, IntVec3 c, Dictionary<ThingDef, float> distanceSqToNearbyClusters, float wholeMapNumDesiredPlants, float plantDensity)
 		{
 			float commonalityOfPlant = this.GetCommonalityOfPlant(plantDef);
@@ -374,7 +374,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001350 RID: 4944 RVA: 0x000A6430 File Offset: 0x000A4830
+		// Token: 0x06001354 RID: 4948 RVA: 0x000A6580 File Offset: 0x000A4980
 		private float LocalPlantProportionsWeightFactor(IntVec3 c, float commonalityPct, float plantDensity, float radiusToScan, ThingDef plantDef)
 		{
 			float numDesiredPlantsLocally = 0f;
@@ -405,7 +405,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001351 RID: 4945 RVA: 0x000A651C File Offset: 0x000A491C
+		// Token: 0x06001355 RID: 4949 RVA: 0x000A666C File Offset: 0x000A4A6C
 		private void CalculatePlantsWhichCanGrowAt(IntVec3 c, List<ThingDef> outPlants, bool cavePlants, float plantDensity)
 		{
 			outPlants.Clear();
@@ -446,7 +446,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001352 RID: 4946 RVA: 0x000A6644 File Offset: 0x000A4A44
+		// Token: 0x06001356 RID: 4950 RVA: 0x000A6794 File Offset: 0x000A4B94
 		private bool EnoughLowerOrderPlantsNearby(IntVec3 c, float plantDensity, float radiusToScan, ThingDef plantDef)
 		{
 			float num = 0f;
@@ -475,7 +475,7 @@ namespace RimWorld
 			return num2 < 4f || (float)numPlantsLowerOrder / num2 >= 0.57f;
 		}
 
-		// Token: 0x06001353 RID: 4947 RVA: 0x000A6770 File Offset: 0x000A4B70
+		// Token: 0x06001357 RID: 4951 RVA: 0x000A68C0 File Offset: 0x000A4CC0
 		private bool SaturatedAt(IntVec3 c, float plantDensity, bool cavePlants, float wholeMapNumDesiredPlants)
 		{
 			int num = GenRadial.NumCellsInRadius(20f);
@@ -500,7 +500,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001354 RID: 4948 RVA: 0x000A6858 File Offset: 0x000A4C58
+		// Token: 0x06001358 RID: 4952 RVA: 0x000A69A8 File Offset: 0x000A4DA8
 		private void CalculateDistancesToNearbyClusters(IntVec3 c)
 		{
 			WildPlantSpawner.nearbyClusters.Clear();
@@ -541,32 +541,32 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001355 RID: 4949 RVA: 0x000A6A20 File Offset: 0x000A4E20
+		// Token: 0x06001359 RID: 4953 RVA: 0x000A6B70 File Offset: 0x000A4F70
 		private bool CanRegrowAt(IntVec3 c)
 		{
 			return c.GetTemperature(this.map) > 0f && (!c.Roofed(this.map) || this.GoodRoofForCavePlant(c));
 		}
 
-		// Token: 0x06001356 RID: 4950 RVA: 0x000A6A6C File Offset: 0x000A4E6C
+		// Token: 0x0600135A RID: 4954 RVA: 0x000A6BBC File Offset: 0x000A4FBC
 		private bool GoodRoofForCavePlant(IntVec3 c)
 		{
 			RoofDef roof = c.GetRoof(this.map);
 			return roof != null && roof.isNatural;
 		}
 
-		// Token: 0x06001357 RID: 4951 RVA: 0x000A6AA0 File Offset: 0x000A4EA0
+		// Token: 0x0600135B RID: 4955 RVA: 0x000A6BF0 File Offset: 0x000A4FF0
 		private float GetCommonalityOfPlant(ThingDef plant)
 		{
 			return (!plant.plant.cavePlant) ? this.map.Biome.CommonalityOfPlant(plant) : plant.plant.cavePlantWeight;
 		}
 
-		// Token: 0x06001358 RID: 4952 RVA: 0x000A6AE8 File Offset: 0x000A4EE8
+		// Token: 0x0600135C RID: 4956 RVA: 0x000A6C38 File Offset: 0x000A5038
 		private float GetCommonalityPctOfPlant(ThingDef plant)
 		{
 			return (!plant.plant.cavePlant) ? this.map.Biome.CommonalityPctOfPlant(plant) : (this.GetCommonalityOfPlant(plant) / this.CavePlantsCommonalitiesSum);
 		}
 
-		// Token: 0x06001359 RID: 4953 RVA: 0x000A6B34 File Offset: 0x000A4F34
+		// Token: 0x0600135D RID: 4957 RVA: 0x000A6C84 File Offset: 0x000A5084
 		public float GetBaseDesiredPlantsCountAt(IntVec3 c)
 		{
 			float num = c.GetTerrain(this.map).fertility;
@@ -577,13 +577,13 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x0600135A RID: 4954 RVA: 0x000A6B70 File Offset: 0x000A4F70
+		// Token: 0x0600135E RID: 4958 RVA: 0x000A6CC0 File Offset: 0x000A50C0
 		public float GetDesiredPlantsCountAt(IntVec3 c, IntVec3 forCell, float plantDensity)
 		{
 			return Mathf.Min(this.GetBaseDesiredPlantsCountAt(c) * plantDensity * forCell.GetTerrain(this.map).fertility, 1f);
 		}
 
-		// Token: 0x0600135B RID: 4955 RVA: 0x000A6BAC File Offset: 0x000A4FAC
+		// Token: 0x0600135F RID: 4959 RVA: 0x000A6CFC File Offset: 0x000A50FC
 		public float GetDesiredPlantsCountIn(Region reg, IntVec3 forCell, float plantDensity)
 		{
 			return Mathf.Min(reg.GetBaseDesiredPlantsCount(true) * plantDensity * forCell.GetTerrain(this.map).fertility, (float)reg.CellCount);

@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000776 RID: 1910
+	// Token: 0x02000778 RID: 1912
 	public class StockGenerator_Clothes : StockGenerator_MiscItems
 	{
 		// Token: 0x040016C3 RID: 5827
@@ -27,13 +27,13 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x06002A31 RID: 10801 RVA: 0x00166080 File Offset: 0x00164480
+		// Token: 0x06002A35 RID: 10805 RVA: 0x001661D0 File Offset: 0x001645D0
 		public override bool HandlesThingDef(ThingDef td)
 		{
 			return td != ThingDefOf.Apparel_ShieldBelt && (base.HandlesThingDef(td) && td.IsApparel) && (td.GetStatValueAbstract(StatDefOf.ArmorRating_Blunt, null) < 0.15f || td.GetStatValueAbstract(StatDefOf.ArmorRating_Sharp, null) < 0.15f);
 		}
 
-		// Token: 0x06002A32 RID: 10802 RVA: 0x001660F0 File Offset: 0x001644F0
+		// Token: 0x06002A36 RID: 10806 RVA: 0x00166240 File Offset: 0x00164640
 		protected override float SelectionWeight(ThingDef thingDef)
 		{
 			return StockGenerator_Clothes.SelectionWeightMarketValueCurve.Evaluate(thingDef.BaseMarketValue);

@@ -3,14 +3,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020003F8 RID: 1016
+	// Token: 0x020003FA RID: 1018
 	public class GenStep_FindPlayerStartSpot : GenStep
 	{
 		// Token: 0x04000AA0 RID: 2720
 		private const int MinRoomCellCount = 10;
 
 		// Token: 0x17000254 RID: 596
-		// (get) Token: 0x0600117D RID: 4477 RVA: 0x00097920 File Offset: 0x00095D20
+		// (get) Token: 0x06001181 RID: 4481 RVA: 0x00097A70 File Offset: 0x00095E70
 		public override int SeedPart
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600117E RID: 4478 RVA: 0x0009793C File Offset: 0x00095D3C
+		// Token: 0x06001182 RID: 4482 RVA: 0x00097A8C File Offset: 0x00095E8C
 		public override void Generate(Map map)
 		{
 			DeepProfiler.Start("RebuildAllRegions");

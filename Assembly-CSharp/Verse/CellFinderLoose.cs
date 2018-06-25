@@ -5,10 +5,10 @@ using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000F2B RID: 3883
+	// Token: 0x02000F2F RID: 3887
 	public static class CellFinderLoose
 	{
-		// Token: 0x06005D53 RID: 23891 RVA: 0x002F4E04 File Offset: 0x002F3204
+		// Token: 0x06005D5D RID: 23901 RVA: 0x002F5484 File Offset: 0x002F3884
 		public static IntVec3 RandomCellWith(Predicate<IntVec3> validator, Map map, int maxTries = 1000)
 		{
 			IntVec3 result;
@@ -16,7 +16,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D54 RID: 23892 RVA: 0x002F4E28 File Offset: 0x002F3228
+		// Token: 0x06005D5E RID: 23902 RVA: 0x002F54A8 File Offset: 0x002F38A8
 		public static bool TryGetRandomCellWith(Predicate<IntVec3> validator, Map map, int maxTries, out IntVec3 result)
 		{
 			for (int i = 0; i < maxTries; i++)
@@ -31,7 +31,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06005D55 RID: 23893 RVA: 0x002F4E84 File Offset: 0x002F3284
+		// Token: 0x06005D5F RID: 23903 RVA: 0x002F5504 File Offset: 0x002F3904
 		public static bool TryFindRandomNotEdgeCellWith(int minEdgeDistance, Predicate<IntVec3> validator, Map map, out IntVec3 result)
 		{
 			for (int i = 0; i < 1000; i++)
@@ -46,7 +46,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06005D56 RID: 23894 RVA: 0x002F4EF0 File Offset: 0x002F32F0
+		// Token: 0x06005D60 RID: 23904 RVA: 0x002F5570 File Offset: 0x002F3970
 		public static IntVec3 GetFleeDest(Pawn pawn, List<Thing> threats, float distance = 23f)
 		{
 			IntVec3 result;
@@ -61,7 +61,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D57 RID: 23895 RVA: 0x002F4F2C File Offset: 0x002F332C
+		// Token: 0x06005D61 RID: 23905 RVA: 0x002F55AC File Offset: 0x002F39AC
 		public static IntVec3 GetFleeDestAnimal(Pawn pawn, List<Thing> threats, float distance = 23f)
 		{
 			Vector3 normalized = (pawn.Position - threats[0].Position).ToVector3().normalized;
@@ -87,7 +87,7 @@ namespace Verse
 			return pawn.Position;
 		}
 
-		// Token: 0x06005D58 RID: 23896 RVA: 0x002F504C File Offset: 0x002F344C
+		// Token: 0x06005D62 RID: 23906 RVA: 0x002F56CC File Offset: 0x002F3ACC
 		public static bool CanFleeToLocation(Pawn pawn, IntVec3 location)
 		{
 			bool result;
@@ -107,7 +107,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005D59 RID: 23897 RVA: 0x002F50D8 File Offset: 0x002F34D8
+		// Token: 0x06005D63 RID: 23907 RVA: 0x002F5758 File Offset: 0x002F3B58
 		public static IntVec3 GetFleeDestToolUser(Pawn pawn, List<Thing> threats, float distance = 23f)
 		{
 			IntVec3 bestPos = pawn.Position;
@@ -167,7 +167,7 @@ namespace Verse
 			return bestPos;
 		}
 
-		// Token: 0x06005D5A RID: 23898 RVA: 0x002F516C File Offset: 0x002F356C
+		// Token: 0x06005D64 RID: 23908 RVA: 0x002F57EC File Offset: 0x002F3BEC
 		public static IntVec3 TryFindCentralCell(Map map, int tightness, int minCellCount, Predicate<IntVec3> extraValidator = null)
 		{
 			int debug_numStand = 0;
@@ -239,7 +239,7 @@ namespace Verse
 			return CellFinderLoose.RandomCellWith((IntVec3 x) => x.Standable(map), map, 1000);
 		}
 
-		// Token: 0x06005D5B RID: 23899 RVA: 0x002F52D0 File Offset: 0x002F36D0
+		// Token: 0x06005D65 RID: 23909 RVA: 0x002F5950 File Offset: 0x002F3D50
 		public static bool TryFindSkyfallerCell(ThingDef skyfaller, Map map, out IntVec3 cell, int minDistToEdge = 10, IntVec3 nearLoc = default(IntVec3), int nearLocMaxDist = -1, bool allowRoofedCells = true, bool allowCellsWithItems = false, bool allowCellsWithBuildings = false, bool colonyReachable = false, bool avoidColonistsIfExplosive = true, bool alwaysAvoidColonists = false, Predicate<IntVec3> extraValidator = null)
 		{
 			bool avoidColonists = (avoidColonistsIfExplosive && skyfaller.skyfaller.CausesExplosion) || alwaysAvoidColonists;

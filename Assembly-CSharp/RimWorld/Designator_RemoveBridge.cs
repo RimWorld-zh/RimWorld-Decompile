@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007D5 RID: 2005
+	// Token: 0x020007D7 RID: 2007
 	public class Designator_RemoveBridge : Designator_RemoveFloor
 	{
-		// Token: 0x06002C7C RID: 11388 RVA: 0x001772E4 File Offset: 0x001756E4
+		// Token: 0x06002C80 RID: 11392 RVA: 0x00177434 File Offset: 0x00175834
 		public Designator_RemoveBridge()
 		{
 			this.defaultLabel = "DesignatorRemoveBridge".Translate();
@@ -16,7 +16,7 @@ namespace RimWorld
 			this.hotKey = KeyBindingDefOf.Misc5;
 		}
 
-		// Token: 0x06002C7D RID: 11389 RVA: 0x00177334 File Offset: 0x00175734
+		// Token: 0x06002C81 RID: 11393 RVA: 0x00177484 File Offset: 0x00175884
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;

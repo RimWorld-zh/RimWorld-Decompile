@@ -6,13 +6,13 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020007AE RID: 1966
+	// Token: 0x020007B0 RID: 1968
 	public static class AreaAllowedGUI
 	{
 		// Token: 0x04001748 RID: 5960
 		private static bool dragging;
 
-		// Token: 0x06002B74 RID: 11124 RVA: 0x0016FFC0 File Offset: 0x0016E3C0
+		// Token: 0x06002B78 RID: 11128 RVA: 0x00170110 File Offset: 0x0016E510
 		public static void DoAllowedAreaSelectors(Rect rect, Pawn p)
 		{
 			if (Find.CurrentMap != null)
@@ -47,7 +47,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B75 RID: 11125 RVA: 0x001700DC File Offset: 0x0016E4DC
+		// Token: 0x06002B79 RID: 11129 RVA: 0x0017022C File Offset: 0x0016E62C
 		private static void DoAreaSelector(Rect rect, Pawn p, Area area)
 		{
 			rect = rect.ContractedBy(1f);

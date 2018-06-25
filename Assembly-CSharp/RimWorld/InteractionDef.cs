@@ -5,7 +5,7 @@ using Verse.Grammar;
 
 namespace RimWorld
 {
-	// Token: 0x020002A7 RID: 679
+	// Token: 0x020002A9 RID: 681
 	public class InteractionDef : Def
 	{
 		// Token: 0x0400064B RID: 1611
@@ -54,7 +54,7 @@ namespace RimWorld
 		private Texture2D symbolTex;
 
 		// Token: 0x170001A9 RID: 425
-		// (get) Token: 0x06000B60 RID: 2912 RVA: 0x00066CF0 File Offset: 0x000650F0
+		// (get) Token: 0x06000B64 RID: 2916 RVA: 0x00066E40 File Offset: 0x00065240
 		public InteractionWorker Worker
 		{
 			get
@@ -68,7 +68,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001AA RID: 426
-		// (get) Token: 0x06000B61 RID: 2913 RVA: 0x00066D2C File Offset: 0x0006512C
+		// (get) Token: 0x06000B65 RID: 2917 RVA: 0x00066E7C File Offset: 0x0006527C
 		public Texture2D Symbol
 		{
 			get
@@ -81,7 +81,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B62 RID: 2914 RVA: 0x00066D6A File Offset: 0x0006516A
+		// Token: 0x06000B66 RID: 2918 RVA: 0x00066EBA File Offset: 0x000652BA
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();

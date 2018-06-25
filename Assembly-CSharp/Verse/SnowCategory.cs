@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000CA3 RID: 3235
+	// Token: 0x02000CA5 RID: 3237
 	public enum SnowCategory : byte
 	{
 		// Token: 0x04003065 RID: 12389

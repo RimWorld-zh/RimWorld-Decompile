@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000E26 RID: 3622
+	// Token: 0x02000E28 RID: 3624
 	public static class DebugTools_Health
 	{
-		// Token: 0x06005510 RID: 21776 RVA: 0x002BAB20 File Offset: 0x002B8F20
+		// Token: 0x06005514 RID: 21780 RVA: 0x002BAC4C File Offset: 0x002B904C
 		public static List<DebugMenuOption> Options_RestorePart(Pawn p)
 		{
 			if (p == null)
@@ -26,7 +26,7 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x06005511 RID: 21777 RVA: 0x002BABF8 File Offset: 0x002B8FF8
+		// Token: 0x06005515 RID: 21781 RVA: 0x002BAD24 File Offset: 0x002B9124
 		public static List<DebugMenuOption> Options_ApplyDamage()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
@@ -45,7 +45,7 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x06005512 RID: 21778 RVA: 0x002BAC90 File Offset: 0x002B9090
+		// Token: 0x06005516 RID: 21782 RVA: 0x002BADBC File Offset: 0x002B91BC
 		private static List<DebugMenuOption> Options_Damage_BodyParts(Pawn p, DamageDef def)
 		{
 			if (p == null)
@@ -72,7 +72,7 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x06005513 RID: 21779 RVA: 0x002BAD8C File Offset: 0x002B918C
+		// Token: 0x06005517 RID: 21783 RVA: 0x002BAEB8 File Offset: 0x002B92B8
 		public static List<DebugMenuOption> Options_AddHediff()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
@@ -92,7 +92,7 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x06005514 RID: 21780 RVA: 0x002BAE7C File Offset: 0x002B927C
+		// Token: 0x06005518 RID: 21784 RVA: 0x002BAFA8 File Offset: 0x002B93A8
 		private static List<DebugMenuOption> Options_HediffsDefs(Type diffType)
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
@@ -114,7 +114,7 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x06005515 RID: 21781 RVA: 0x002BAF34 File Offset: 0x002B9334
+		// Token: 0x06005519 RID: 21785 RVA: 0x002BB060 File Offset: 0x002B9460
 		private static List<DebugMenuOption> Options_Hediff_BodyParts(Pawn p, HediffDef def)
 		{
 			if (p == null)
@@ -137,7 +137,7 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x06005516 RID: 21782 RVA: 0x002BB030 File Offset: 0x002B9430
+		// Token: 0x0600551A RID: 21786 RVA: 0x002BB15C File Offset: 0x002B955C
 		public static List<DebugMenuOption> Options_RemoveHediff(Pawn pawn)
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();

@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200091E RID: 2334
+	// Token: 0x02000920 RID: 2336
 	[DefOf]
 	public static class DesignationDefOf
 	{
@@ -58,7 +58,7 @@ namespace RimWorld
 		// Token: 0x04001F5B RID: 8027
 		public static DesignationDef Open;
 
-		// Token: 0x06003626 RID: 13862 RVA: 0x001D0969 File Offset: 0x001CED69
+		// Token: 0x0600362A RID: 13866 RVA: 0x001D0AA9 File Offset: 0x001CEEA9
 		static DesignationDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(DesignationDefOf));

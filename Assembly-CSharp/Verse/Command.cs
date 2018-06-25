@@ -5,7 +5,7 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000E63 RID: 3683
+	// Token: 0x02000E65 RID: 3685
 	[StaticConstructorOnStartup]
 	public abstract class Command : Gizmo
 	{
@@ -51,8 +51,8 @@ namespace Verse
 		// Token: 0x04003988 RID: 14728
 		public static readonly Texture2D BGTex = ContentFinder<Texture2D>.Get("UI/Widgets/DesButBG", true);
 
-		// Token: 0x17000D9E RID: 3486
-		// (get) Token: 0x060056CB RID: 22219 RVA: 0x0015A1B8 File Offset: 0x001585B8
+		// Token: 0x17000D9D RID: 3485
+		// (get) Token: 0x060056CF RID: 22223 RVA: 0x0015A308 File Offset: 0x00158708
 		public virtual string Label
 		{
 			get
@@ -61,8 +61,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D9F RID: 3487
-		// (get) Token: 0x060056CC RID: 22220 RVA: 0x0015A1D4 File Offset: 0x001585D4
+		// Token: 0x17000D9E RID: 3486
+		// (get) Token: 0x060056D0 RID: 22224 RVA: 0x0015A324 File Offset: 0x00158724
 		public virtual string LabelCap
 		{
 			get
@@ -71,8 +71,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DA0 RID: 3488
-		// (get) Token: 0x060056CD RID: 22221 RVA: 0x0015A1F4 File Offset: 0x001585F4
+		// Token: 0x17000D9F RID: 3487
+		// (get) Token: 0x060056D1 RID: 22225 RVA: 0x0015A344 File Offset: 0x00158744
 		public virtual string Desc
 		{
 			get
@@ -81,8 +81,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DA1 RID: 3489
-		// (get) Token: 0x060056CE RID: 22222 RVA: 0x0015A210 File Offset: 0x00158610
+		// Token: 0x17000DA0 RID: 3488
+		// (get) Token: 0x060056D2 RID: 22226 RVA: 0x0015A360 File Offset: 0x00158760
 		public virtual Color IconDrawColor
 		{
 			get
@@ -91,8 +91,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DA2 RID: 3490
-		// (get) Token: 0x060056CF RID: 22223 RVA: 0x0015A22C File Offset: 0x0015862C
+		// Token: 0x17000DA1 RID: 3489
+		// (get) Token: 0x060056D3 RID: 22227 RVA: 0x0015A37C File Offset: 0x0015877C
 		public virtual SoundDef CurActivateSound
 		{
 			get
@@ -101,8 +101,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DA3 RID: 3491
-		// (get) Token: 0x060056D0 RID: 22224 RVA: 0x0015A248 File Offset: 0x00158648
+		// Token: 0x17000DA2 RID: 3490
+		// (get) Token: 0x060056D4 RID: 22228 RVA: 0x0015A398 File Offset: 0x00158798
 		protected virtual bool DoTooltip
 		{
 			get
@@ -111,8 +111,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DA4 RID: 3492
-		// (get) Token: 0x060056D1 RID: 22225 RVA: 0x0015A260 File Offset: 0x00158660
+		// Token: 0x17000DA3 RID: 3491
+		// (get) Token: 0x060056D5 RID: 22229 RVA: 0x0015A3B0 File Offset: 0x001587B0
 		public virtual string HighlightTag
 		{
 			get
@@ -121,8 +121,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DA5 RID: 3493
-		// (get) Token: 0x060056D2 RID: 22226 RVA: 0x0015A27C File Offset: 0x0015867C
+		// Token: 0x17000DA4 RID: 3492
+		// (get) Token: 0x060056D6 RID: 22230 RVA: 0x0015A3CC File Offset: 0x001587CC
 		public virtual string TutorTagSelect
 		{
 			get
@@ -131,13 +131,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056D3 RID: 22227 RVA: 0x0015A298 File Offset: 0x00158698
+		// Token: 0x060056D7 RID: 22231 RVA: 0x0015A3E8 File Offset: 0x001587E8
 		public override float GetWidth(float maxWidth)
 		{
 			return 75f;
 		}
 
-		// Token: 0x060056D4 RID: 22228 RVA: 0x0015A2B4 File Offset: 0x001586B4
+		// Token: 0x060056D8 RID: 22232 RVA: 0x0015A404 File Offset: 0x00158804
 		public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth)
 		{
 			Text.Font = GameFont.Tiny;
@@ -254,14 +254,14 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060056D5 RID: 22229 RVA: 0x0015A6C0 File Offset: 0x00158AC0
+		// Token: 0x060056D9 RID: 22233 RVA: 0x0015A810 File Offset: 0x00158C10
 		public override bool GroupsWith(Gizmo other)
 		{
 			Command command = other as Command;
 			return command != null && ((this.hotKey == command.hotKey && this.Label == command.Label && this.icon == command.icon) || (this.groupKey != 0 && command.groupKey != 0 && this.groupKey == command.groupKey));
 		}
 
-		// Token: 0x060056D6 RID: 22230 RVA: 0x0015A764 File Offset: 0x00158B64
+		// Token: 0x060056DA RID: 22234 RVA: 0x0015A8B4 File Offset: 0x00158CB4
 		public override void ProcessInput(Event ev)
 		{
 			if (this.CurActivateSound != null)
@@ -270,7 +270,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056D7 RID: 22231 RVA: 0x0015A780 File Offset: 0x00158B80
+		// Token: 0x060056DB RID: 22235 RVA: 0x0015A8D0 File Offset: 0x00158CD0
 		public override string ToString()
 		{
 			return string.Concat(new string[]

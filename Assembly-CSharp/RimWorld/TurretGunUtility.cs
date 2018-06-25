@@ -4,16 +4,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000687 RID: 1671
+	// Token: 0x02000689 RID: 1673
 	public static class TurretGunUtility
 	{
-		// Token: 0x06002368 RID: 9064 RVA: 0x001305DC File Offset: 0x0012E9DC
+		// Token: 0x0600236C RID: 9068 RVA: 0x0013072C File Offset: 0x0012EB2C
 		public static bool NeedsShells(ThingDef turret)
 		{
 			return turret.category == ThingCategory.Building && turret.building.IsTurret && turret.building.turretGunDef.HasComp(typeof(CompChangeableProjectile));
 		}
 
-		// Token: 0x06002369 RID: 9065 RVA: 0x0013062C File Offset: 0x0012EA2C
+		// Token: 0x0600236D RID: 9069 RVA: 0x0013077C File Offset: 0x0012EB7C
 		public static ThingDef TryFindRandomShellDef(ThingDef turret, bool allowEMP = true, bool mustHarmHealth = true, TechLevel techLevel = TechLevel.Undefined, bool allowAntigrainWarhead = false, float maxMarketValue = -1f)
 		{
 			ThingDef result;

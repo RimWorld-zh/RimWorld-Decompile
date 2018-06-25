@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000707 RID: 1799
+	// Token: 0x02000709 RID: 1801
 	public class CompDeepDrill : ThingComp
 	{
 		// Token: 0x040015C8 RID: 5576
@@ -23,7 +23,7 @@ namespace RimWorld
 		private const float ResourceLumpWork = 16000f;
 
 		// Token: 0x170005EF RID: 1519
-		// (get) Token: 0x0600276F RID: 10095 RVA: 0x001528F8 File Offset: 0x00150CF8
+		// (get) Token: 0x06002773 RID: 10099 RVA: 0x00152A48 File Offset: 0x00150E48
 		public float ProgressToNextLumpPercent
 		{
 			get
@@ -32,13 +32,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002770 RID: 10096 RVA: 0x0015291A File Offset: 0x00150D1A
+		// Token: 0x06002774 RID: 10100 RVA: 0x00152A6A File Offset: 0x00150E6A
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			this.powerComp = this.parent.TryGetComp<CompPowerTrader>();
 		}
 
-		// Token: 0x06002771 RID: 10097 RVA: 0x00152930 File Offset: 0x00150D30
+		// Token: 0x06002775 RID: 10101 RVA: 0x00152A80 File Offset: 0x00150E80
 		public override void PostExposeData()
 		{
 			Scribe_Values.Look<float>(ref this.lumpProgress, "lumpProgress", 0f, false);
@@ -46,7 +46,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.lastUsedTick, "lastUsedTick", 0, false);
 		}
 
-		// Token: 0x06002772 RID: 10098 RVA: 0x0015297C File Offset: 0x00150D7C
+		// Token: 0x06002776 RID: 10102 RVA: 0x00152ACC File Offset: 0x00150ECC
 		public void DrillWorkDone(Pawn driller)
 		{
 			float statValue = driller.GetStatValue(StatDefOf.MiningSpeed, true);
@@ -61,7 +61,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002773 RID: 10099 RVA: 0x00152A0C File Offset: 0x00150E0C
+		// Token: 0x06002777 RID: 10103 RVA: 0x00152B5C File Offset: 0x00150F5C
 		private void TryProduceLump(float yieldPct)
 		{
 			ThingDef thingDef;
@@ -97,19 +97,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002774 RID: 10100 RVA: 0x00152B58 File Offset: 0x00150F58
+		// Token: 0x06002778 RID: 10104 RVA: 0x00152CA8 File Offset: 0x001510A8
 		private bool GetNextResource(out ThingDef resDef, out int countPresent, out IntVec3 cell)
 		{
 			return DeepDrillUtility.GetNextResource(this.parent.Position, this.parent.Map, out resDef, out countPresent, out cell);
 		}
 
-		// Token: 0x06002775 RID: 10101 RVA: 0x00152B8C File Offset: 0x00150F8C
+		// Token: 0x06002779 RID: 10105 RVA: 0x00152CDC File Offset: 0x001510DC
 		public bool CanDrillNow()
 		{
 			return (this.powerComp == null || this.powerComp.PowerOn) && (DeepDrillUtility.GetBaseResource(this.parent.Map) != null || this.ValuableResourcesPresent());
 		}
 
-		// Token: 0x06002776 RID: 10102 RVA: 0x00152BE8 File Offset: 0x00150FE8
+		// Token: 0x0600277A RID: 10106 RVA: 0x00152D38 File Offset: 0x00151138
 		public bool ValuableResourcesPresent()
 		{
 			ThingDef thingDef;
@@ -118,13 +118,13 @@ namespace RimWorld
 			return this.GetNextResource(out thingDef, out num, out intVec);
 		}
 
-		// Token: 0x06002777 RID: 10103 RVA: 0x00152C0C File Offset: 0x0015100C
+		// Token: 0x0600277B RID: 10107 RVA: 0x00152D5C File Offset: 0x0015115C
 		public bool UsedRecently()
 		{
 			return this.lastUsedTick >= Find.TickManager.TicksGame - 1;
 		}
 
-		// Token: 0x06002778 RID: 10104 RVA: 0x00152C38 File Offset: 0x00151038
+		// Token: 0x0600277C RID: 10108 RVA: 0x00152D88 File Offset: 0x00151188
 		public override string CompInspectStringExtra()
 		{
 			ThingDef thingDef;

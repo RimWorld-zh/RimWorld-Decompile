@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000567 RID: 1383
+	// Token: 0x02000569 RID: 1385
 	public abstract class FeatureWorker_Cluster : FeatureWorker
 	{
 		// Token: 0x04000F4C RID: 3916
@@ -32,7 +32,7 @@ namespace RimWorld.Planet
 		private static List<int> tmpGroup = new List<int>();
 
 		// Token: 0x170003B0 RID: 944
-		// (get) Token: 0x06001A29 RID: 6697 RVA: 0x000E2DC8 File Offset: 0x000E11C8
+		// (get) Token: 0x06001A2D RID: 6701 RVA: 0x000E2F18 File Offset: 0x000E1318
 		protected virtual int MinRootGroupsInCluster
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003B1 RID: 945
-		// (get) Token: 0x06001A2A RID: 6698 RVA: 0x000E2DE8 File Offset: 0x000E11E8
+		// (get) Token: 0x06001A2E RID: 6702 RVA: 0x000E2F38 File Offset: 0x000E1338
 		protected virtual int MinRootGroupSize
 		{
 			get
@@ -52,7 +52,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003B2 RID: 946
-		// (get) Token: 0x06001A2B RID: 6699 RVA: 0x000E2E08 File Offset: 0x000E1208
+		// (get) Token: 0x06001A2F RID: 6703 RVA: 0x000E2F58 File Offset: 0x000E1358
 		protected virtual int MaxRootGroupSize
 		{
 			get
@@ -62,7 +62,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003B3 RID: 947
-		// (get) Token: 0x06001A2C RID: 6700 RVA: 0x000E2E28 File Offset: 0x000E1228
+		// (get) Token: 0x06001A30 RID: 6704 RVA: 0x000E2F78 File Offset: 0x000E1378
 		protected virtual int MinOverallSize
 		{
 			get
@@ -72,7 +72,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003B4 RID: 948
-		// (get) Token: 0x06001A2D RID: 6701 RVA: 0x000E2E48 File Offset: 0x000E1248
+		// (get) Token: 0x06001A31 RID: 6705 RVA: 0x000E2F98 File Offset: 0x000E1398
 		protected virtual int MaxOverallSize
 		{
 			get
@@ -82,7 +82,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003B5 RID: 949
-		// (get) Token: 0x06001A2E RID: 6702 RVA: 0x000E2E68 File Offset: 0x000E1268
+		// (get) Token: 0x06001A32 RID: 6706 RVA: 0x000E2FB8 File Offset: 0x000E13B8
 		protected virtual int MaxSpaceBetweenRootGroups
 		{
 			get
@@ -91,24 +91,24 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001A2F RID: 6703
+		// Token: 0x06001A33 RID: 6707
 		protected abstract bool IsRoot(int tile);
 
-		// Token: 0x06001A30 RID: 6704 RVA: 0x000E2E88 File Offset: 0x000E1288
+		// Token: 0x06001A34 RID: 6708 RVA: 0x000E2FD8 File Offset: 0x000E13D8
 		protected virtual bool CanTraverse(int tile, out bool ifRootThenRootGroupSizeMustMatch)
 		{
 			ifRootThenRootGroupSizeMustMatch = false;
 			return true;
 		}
 
-		// Token: 0x06001A31 RID: 6705 RVA: 0x000E2EA4 File Offset: 0x000E12A4
+		// Token: 0x06001A35 RID: 6709 RVA: 0x000E2FF4 File Offset: 0x000E13F4
 		protected virtual bool IsMember(int tile, out bool ifRootThenRootGroupSizeMustMatch)
 		{
 			ifRootThenRootGroupSizeMustMatch = false;
 			return Find.WorldGrid[tile].feature == null;
 		}
 
-		// Token: 0x06001A32 RID: 6706 RVA: 0x000E2ECF File Offset: 0x000E12CF
+		// Token: 0x06001A36 RID: 6710 RVA: 0x000E301F File Offset: 0x000E141F
 		public override void GenerateWhereAppropriate()
 		{
 			this.CalculateRootTiles();
@@ -116,7 +116,7 @@ namespace RimWorld.Planet
 			this.CalculateContiguousGroups();
 		}
 
-		// Token: 0x06001A33 RID: 6707 RVA: 0x000E2EE4 File Offset: 0x000E12E4
+		// Token: 0x06001A37 RID: 6711 RVA: 0x000E3034 File Offset: 0x000E1434
 		private void CalculateRootTiles()
 		{
 			this.roots.Clear();
@@ -132,7 +132,7 @@ namespace RimWorld.Planet
 			this.rootsSet.AddRange(this.roots);
 		}
 
-		// Token: 0x06001A34 RID: 6708 RVA: 0x000E2F50 File Offset: 0x000E1350
+		// Token: 0x06001A38 RID: 6712 RVA: 0x000E30A0 File Offset: 0x000E14A0
 		private void CalculateRootsWithAreaInBetween()
 		{
 			this.rootsWithAreaInBetween.Clear();
@@ -142,7 +142,7 @@ namespace RimWorld.Planet
 			this.rootsWithAreaInBetweenSet.AddRange(this.rootsWithAreaInBetween);
 		}
 
-		// Token: 0x06001A35 RID: 6709 RVA: 0x000E2FA8 File Offset: 0x000E13A8
+		// Token: 0x06001A39 RID: 6713 RVA: 0x000E30F8 File Offset: 0x000E14F8
 		private void CalculateContiguousGroups()
 		{
 			WorldFloodFiller worldFloodFiller = Find.WorldFloodFiller;

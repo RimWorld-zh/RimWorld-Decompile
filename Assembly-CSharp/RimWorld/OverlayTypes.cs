@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200067E RID: 1662
+	// Token: 0x02000680 RID: 1664
 	[Flags]
 	public enum OverlayTypes
 	{

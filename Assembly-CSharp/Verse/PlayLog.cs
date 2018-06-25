@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000BCB RID: 3019
+	// Token: 0x02000BCD RID: 3021
 	public class PlayLog : IExposable
 	{
 		// Token: 0x04002CF5 RID: 11509
@@ -12,8 +12,8 @@ namespace Verse
 		// Token: 0x04002CF6 RID: 11510
 		private const int Capacity = 150;
 
-		// Token: 0x17000A48 RID: 2632
-		// (get) Token: 0x060041D1 RID: 16849 RVA: 0x0022AAF0 File Offset: 0x00228EF0
+		// Token: 0x17000A47 RID: 2631
+		// (get) Token: 0x060041D4 RID: 16852 RVA: 0x0022ABCC File Offset: 0x00228FCC
 		public List<LogEntry> AllEntries
 		{
 			get
@@ -22,8 +22,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A49 RID: 2633
-		// (get) Token: 0x060041D2 RID: 16850 RVA: 0x0022AB0C File Offset: 0x00228F0C
+		// Token: 0x17000A48 RID: 2632
+		// (get) Token: 0x060041D5 RID: 16853 RVA: 0x0022ABE8 File Offset: 0x00228FE8
 		public int LastTick
 		{
 			get
@@ -41,14 +41,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041D3 RID: 16851 RVA: 0x0022AB49 File Offset: 0x00228F49
+		// Token: 0x060041D6 RID: 16854 RVA: 0x0022AC25 File Offset: 0x00229025
 		public void Add(LogEntry entry)
 		{
 			this.entries.Insert(0, entry);
 			this.ReduceToCapacity();
 		}
 
-		// Token: 0x060041D4 RID: 16852 RVA: 0x0022AB5F File Offset: 0x00228F5F
+		// Token: 0x060041D7 RID: 16855 RVA: 0x0022AC3B File Offset: 0x0022903B
 		private void ReduceToCapacity()
 		{
 			while (this.entries.Count > 150)
@@ -57,13 +57,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041D5 RID: 16853 RVA: 0x0022AB9C File Offset: 0x00228F9C
+		// Token: 0x060041D8 RID: 16856 RVA: 0x0022AC78 File Offset: 0x00229078
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<LogEntry>(ref this.entries, "entries", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x060041D6 RID: 16854 RVA: 0x0022ABB8 File Offset: 0x00228FB8
+		// Token: 0x060041D9 RID: 16857 RVA: 0x0022AC94 File Offset: 0x00229094
 		public void Notify_PawnDiscarded(Pawn p, bool silentlyRemoveReferences)
 		{
 			for (int i = this.entries.Count - 1; i >= 0; i--)
@@ -86,13 +86,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041D7 RID: 16855 RVA: 0x0022AC53 File Offset: 0x00229053
+		// Token: 0x060041DA RID: 16858 RVA: 0x0022AD2F File Offset: 0x0022912F
 		private void RemoveEntry(LogEntry entry)
 		{
 			this.entries.Remove(entry);
 		}
 
-		// Token: 0x060041D8 RID: 16856 RVA: 0x0022AC64 File Offset: 0x00229064
+		// Token: 0x060041DB RID: 16859 RVA: 0x0022AD40 File Offset: 0x00229140
 		public bool AnyEntryConcerns(Pawn p)
 		{
 			for (int i = 0; i < this.entries.Count; i++)

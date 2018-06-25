@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003C7 RID: 967
+	// Token: 0x020003C9 RID: 969
 	public class SymbolResolver_FillWithThings : SymbolResolver
 	{
-		// Token: 0x060010B1 RID: 4273 RVA: 0x0008E1FC File Offset: 0x0008C5FC
+		// Token: 0x060010B5 RID: 4277 RVA: 0x0008E34C File Offset: 0x0008C74C
 		public override bool CanResolve(ResolveParams rp)
 		{
 			bool result;
@@ -38,7 +38,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x060010B2 RID: 4274 RVA: 0x0008E2C4 File Offset: 0x0008C6C4
+		// Token: 0x060010B6 RID: 4278 RVA: 0x0008E414 File Offset: 0x0008C814
 		public override void Resolve(ResolveParams rp)
 		{
 			ThingDef thingDef;

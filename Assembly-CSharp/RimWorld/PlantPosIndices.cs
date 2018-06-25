@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006D5 RID: 1749
+	// Token: 0x020006D7 RID: 1751
 	internal static class PlantPosIndices
 	{
 		// Token: 0x0400153F RID: 5439
@@ -12,7 +12,7 @@ namespace RimWorld
 		// Token: 0x04001540 RID: 5440
 		private const int ListCount = 8;
 
-		// Token: 0x06002620 RID: 9760 RVA: 0x00146954 File Offset: 0x00144D54
+		// Token: 0x06002624 RID: 9764 RVA: 0x00146AA4 File Offset: 0x00144EA4
 		static PlantPosIndices()
 		{
 			PlantPosIndices.rootList = new int[25][][];
@@ -32,7 +32,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002621 RID: 9761 RVA: 0x001469DC File Offset: 0x00144DDC
+		// Token: 0x06002625 RID: 9765 RVA: 0x00146B2C File Offset: 0x00144F2C
 		public static int[] GetPositionIndices(Plant p)
 		{
 			int maxMeshCount = p.def.plant.maxMeshCount;

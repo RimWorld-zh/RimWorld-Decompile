@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EC6 RID: 3782
+	// Token: 0x02000EC8 RID: 3784
 	public class Dialog_NodeTree : Window
 	{
 		// Token: 0x04003BBA RID: 15290
@@ -43,7 +43,7 @@ namespace Verse
 		// Token: 0x04003BC5 RID: 15301
 		private float optTotalHeight;
 
-		// Token: 0x06005975 RID: 22901 RVA: 0x001829A0 File Offset: 0x00180DA0
+		// Token: 0x06005978 RID: 22904 RVA: 0x00182AF0 File Offset: 0x00180EF0
 		public Dialog_NodeTree(DiaNode nodeRoot, bool delayInteractivity = false, bool radioMode = false, string title = null)
 		{
 			this.title = title;
@@ -64,8 +64,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E12 RID: 3602
-		// (get) Token: 0x06005976 RID: 22902 RVA: 0x00182A28 File Offset: 0x00180E28
+		// Token: 0x17000E11 RID: 3601
+		// (get) Token: 0x06005979 RID: 22905 RVA: 0x00182B78 File Offset: 0x00180F78
 		public override Vector2 InitialSize
 		{
 			get
@@ -74,8 +74,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E13 RID: 3603
-		// (get) Token: 0x06005977 RID: 22903 RVA: 0x00182A4C File Offset: 0x00180E4C
+		// Token: 0x17000E12 RID: 3602
+		// (get) Token: 0x0600597A RID: 22906 RVA: 0x00182B9C File Offset: 0x00180F9C
 		private bool InteractiveNow
 		{
 			get
@@ -84,14 +84,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005978 RID: 22904 RVA: 0x00182A71 File Offset: 0x00180E71
+		// Token: 0x0600597B RID: 22907 RVA: 0x00182BC1 File Offset: 0x00180FC1
 		public override void PreClose()
 		{
 			base.PreClose();
 			this.curNode.PreClose();
 		}
 
-		// Token: 0x06005979 RID: 22905 RVA: 0x00182A85 File Offset: 0x00180E85
+		// Token: 0x0600597C RID: 22908 RVA: 0x00182BD5 File Offset: 0x00180FD5
 		public override void PostClose()
 		{
 			base.PostClose();
@@ -101,7 +101,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600597A RID: 22906 RVA: 0x00182AA4 File Offset: 0x00180EA4
+		// Token: 0x0600597D RID: 22909 RVA: 0x00182BF4 File Offset: 0x00180FF4
 		public override void WindowOnGUI()
 		{
 			if (this.screenFillColor != Color.clear)
@@ -113,7 +113,7 @@ namespace Verse
 			base.WindowOnGUI();
 		}
 
-		// Token: 0x0600597B RID: 22907 RVA: 0x00182B0C File Offset: 0x00180F0C
+		// Token: 0x0600597E RID: 22910 RVA: 0x00182C5C File Offset: 0x0018105C
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = inRect.AtZero();
@@ -131,7 +131,7 @@ namespace Verse
 			this.DrawNode(rect);
 		}
 
-		// Token: 0x0600597C RID: 22908 RVA: 0x00182B94 File Offset: 0x00180F94
+		// Token: 0x0600597F RID: 22911 RVA: 0x00182CE4 File Offset: 0x001810E4
 		protected void DrawNode(Rect rect)
 		{
 			GUI.BeginGroup(rect);
@@ -158,7 +158,7 @@ namespace Verse
 			GUI.EndGroup();
 		}
 
-		// Token: 0x0600597D RID: 22909 RVA: 0x00182CEC File Offset: 0x001810EC
+		// Token: 0x06005980 RID: 22912 RVA: 0x00182E3C File Offset: 0x0018123C
 		public void GotoNode(DiaNode node)
 		{
 			foreach (DiaOption diaOption in node.options)

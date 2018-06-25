@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000471 RID: 1137
+	// Token: 0x02000473 RID: 1139
 	public class PawnCapacityWorker_Consciousness : PawnCapacityWorker
 	{
-		// Token: 0x06001402 RID: 5122 RVA: 0x000AE940 File Offset: 0x000ACD40
+		// Token: 0x06001406 RID: 5126 RVA: 0x000AEA90 File Offset: 0x000ACE90
 		public override float CalculateCapacityLevel(HediffSet diffSet, List<PawnCapacityUtility.CapacityImpactor> impactors = null)
 		{
 			BodyPartTagDef consciousnessSource = BodyPartTagDefOf.ConsciousnessSource;
@@ -27,7 +27,7 @@ namespace RimWorld
 			return Mathf.Lerp(num, num * Mathf.Min(base.CalculateCapacityAndRecord(diffSet, PawnCapacityDefOf.BloodFiltration, impactors), 1f), 0.1f);
 		}
 
-		// Token: 0x06001403 RID: 5123 RVA: 0x000AEA44 File Offset: 0x000ACE44
+		// Token: 0x06001407 RID: 5127 RVA: 0x000AEB94 File Offset: 0x000ACF94
 		public override bool CanHaveCapacity(BodyDef body)
 		{
 			return body.HasPartWithTag(BodyPartTagDefOf.ConsciousnessSource);

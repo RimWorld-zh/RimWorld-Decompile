@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020008B2 RID: 2226
+	// Token: 0x020008B4 RID: 2228
 	public enum OpportunityType : byte
 	{
 		// Token: 0x04001B7F RID: 7039

@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000D22 RID: 3362
+	// Token: 0x02000D24 RID: 3364
 	public static class HediffUtility
 	{
-		// Token: 0x06004A17 RID: 18967 RVA: 0x0026BBA0 File Offset: 0x00269FA0
+		// Token: 0x06004A1A RID: 18970 RVA: 0x0026BC7C File Offset: 0x0026A07C
 		public static T TryGetComp<T>(this Hediff hd) where T : HediffComp
 		{
 			HediffWithComps hediffWithComps = hd as HediffWithComps;
@@ -32,7 +33,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004A18 RID: 18968 RVA: 0x0026BC28 File Offset: 0x0026A028
+		// Token: 0x06004A1B RID: 18971 RVA: 0x0026BD04 File Offset: 0x0026A104
 		public static bool IsTended(this Hediff hd)
 		{
 			HediffWithComps hediffWithComps = hd as HediffWithComps;
@@ -49,7 +50,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004A19 RID: 18969 RVA: 0x0026BC6C File Offset: 0x0026A06C
+		// Token: 0x06004A1C RID: 18972 RVA: 0x0026BD48 File Offset: 0x0026A148
 		public static bool IsPermanent(this Hediff hd)
 		{
 			HediffWithComps hediffWithComps = hd as HediffWithComps;
@@ -66,7 +67,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004A1A RID: 18970 RVA: 0x0026BCB0 File Offset: 0x0026A0B0
+		// Token: 0x06004A1D RID: 18973 RVA: 0x0026BD8C File Offset: 0x0026A18C
 		public static bool FullyImmune(this Hediff hd)
 		{
 			HediffWithComps hediffWithComps = hd as HediffWithComps;
@@ -83,16 +84,31 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004A1B RID: 18971 RVA: 0x0026BCF4 File Offset: 0x0026A0F4
+		// Token: 0x06004A1E RID: 18974 RVA: 0x0026BDD0 File Offset: 0x0026A1D0
 		public static bool CanHealFromTending(this Hediff_Injury hd)
 		{
 			return hd.IsTended() && !hd.IsPermanent();
 		}
 
-		// Token: 0x06004A1C RID: 18972 RVA: 0x0026BD20 File Offset: 0x0026A120
+		// Token: 0x06004A1F RID: 18975 RVA: 0x0026BDFC File Offset: 0x0026A1FC
 		public static bool CanHealNaturally(this Hediff_Injury hd)
 		{
 			return !hd.IsPermanent();
+		}
+
+		// Token: 0x06004A20 RID: 18976 RVA: 0x0026BE1C File Offset: 0x0026A21C
+		public static int CountAddedParts(this HediffSet hs)
+		{
+			int num = 0;
+			List<Hediff> hediffs = hs.hediffs;
+			for (int i = 0; i < hediffs.Count; i++)
+			{
+				if (hediffs[i] is Hediff_AddedPart)
+				{
+					num++;
+				}
+			}
+			return num;
 		}
 	}
 }

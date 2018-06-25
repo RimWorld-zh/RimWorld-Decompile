@@ -4,36 +4,36 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000B24 RID: 2852
+	// Token: 0x02000B26 RID: 2854
 	public class RecipeWorker
 	{
-		// Token: 0x040028C4 RID: 10436
+		// Token: 0x040028C5 RID: 10437
 		public RecipeDef recipe;
 
-		// Token: 0x06003EE6 RID: 16102 RVA: 0x000ABD08 File Offset: 0x000AA108
+		// Token: 0x06003EEA RID: 16106 RVA: 0x000ABE58 File Offset: 0x000AA258
 		public virtual IEnumerable<BodyPartRecord> GetPartsToApplyOn(Pawn pawn, RecipeDef recipe)
 		{
 			yield break;
 		}
 
-		// Token: 0x06003EE7 RID: 16103 RVA: 0x000ABD2B File Offset: 0x000AA12B
+		// Token: 0x06003EEB RID: 16107 RVA: 0x000ABE7B File Offset: 0x000AA27B
 		public virtual void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients, Bill bill)
 		{
 		}
 
-		// Token: 0x06003EE8 RID: 16104 RVA: 0x000ABD30 File Offset: 0x000AA130
+		// Token: 0x06003EEC RID: 16108 RVA: 0x000ABE80 File Offset: 0x000AA280
 		public virtual bool IsViolationOnPawn(Pawn pawn, BodyPartRecord part, Faction billDoerFaction)
 		{
 			return pawn.Faction != billDoerFaction && this.recipe.isViolation;
 		}
 
-		// Token: 0x06003EE9 RID: 16105 RVA: 0x000ABD64 File Offset: 0x000AA164
+		// Token: 0x06003EED RID: 16109 RVA: 0x000ABEB4 File Offset: 0x000AA2B4
 		public virtual string GetLabelWhenUsedOn(Pawn pawn, BodyPartRecord part)
 		{
 			return this.recipe.label;
 		}
 
-		// Token: 0x06003EEA RID: 16106 RVA: 0x000ABD84 File Offset: 0x000AA184
+		// Token: 0x06003EEE RID: 16110 RVA: 0x000ABED4 File Offset: 0x000AA2D4
 		public virtual void ConsumeIngredient(Thing ingredient, RecipeDef recipe, Map map)
 		{
 			ingredient.Destroy(DestroyMode.Vanish);

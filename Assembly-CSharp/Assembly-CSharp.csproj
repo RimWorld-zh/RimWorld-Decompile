@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A12DD7C4-E92D-4651-BE4E-95CC7BE7AD03}</ProjectGuid>
+    <ProjectGuid>{328F2579-267B-40D2-8687-278744431C73}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Assembly-CSharp</RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -2257,6 +2257,7 @@
     <Compile Include="RimWorld\ThoughtWorker_Ascetic.cs" />
     <Compile Include="RimWorld\ThoughtWorker_Aurora.cs" />
     <Compile Include="RimWorld\ThoughtWorker_BedroomJealous.cs" />
+    <Compile Include="RimWorld\ThoughtWorker_BodyPuristDisgust.cs" />
     <Compile Include="RimWorld\ThoughtWorker_BondedAnimalMaster.cs" />
     <Compile Include="RimWorld\ThoughtWorker_ChemicalInterestVsTeetotaler.cs" />
     <Compile Include="RimWorld\ThoughtWorker_Cold.cs" />
@@ -2306,6 +2307,7 @@
     <Compile Include="RimWorld\ThoughtWorker_Tale.cs" />
     <Compile Include="RimWorld\ThoughtWorker_TeetotalerVsAddict.cs" />
     <Compile Include="RimWorld\ThoughtWorker_TeetotalerVsChemicalInterest.cs" />
+    <Compile Include="RimWorld\ThoughtWorker_TranshumanistAppreciation.cs" />
     <Compile Include="RimWorld\ThoughtWorker_Ugly.cs" />
     <Compile Include="RimWorld\ThoughtWorker_WantToSleepWithSpouseOrLover.cs" />
     <Compile Include="RimWorld\ThoughtWorker_Woman.cs" />
@@ -2540,7 +2542,6 @@
     <Compile Include="RuntimeAudioClipLoader\AudioFormat.cs" />
     <Compile Include="RuntimeAudioClipLoader\CustomAudioFileReader.cs" />
     <Compile Include="RuntimeAudioClipLoader\Manager.cs" />
-    <Compile Include="ShootTunings.cs" />
     <Compile Include="SkyfallerUtility.cs" />
     <Compile Include="Verse\AcceptanceReport.cs" />
     <Compile Include="Verse\ActiveTip.cs" />
@@ -2924,6 +2925,7 @@
     <Compile Include="Verse\CrownType.cs" />
     <Compile Include="Verse\CultureInfoUtility.cs" />
     <Compile Include="Verse\Current.cs" />
+    <Compile Include="Verse\CurveColumn.cs" />
     <Compile Include="Verse\CurveMark.cs" />
     <Compile Include="Verse\CurvePoint.cs" />
     <Compile Include="Verse\CustomCursor.cs" />
@@ -3685,11 +3687,13 @@
     <Compile Include="Verse\ShadowMeshPool.cs" />
     <Compile Include="Verse\ShootLeanUtility.cs" />
     <Compile Include="Verse\ShootLine.cs" />
+    <Compile Include="Verse\ShootTunings.cs" />
     <Compile Include="Verse\ShortHashGiver.cs" />
     <Compile Include="Verse\ShotReport.cs" />
     <Compile Include="Verse\SimpleColor.cs" />
     <Compile Include="Verse\SimpleColorExtension.cs" />
     <Compile Include="Verse\SimpleCurve.cs" />
+    <Compile Include="Verse\SimpleCurve2D.cs" />
     <Compile Include="Verse\SimpleCurveDrawer.cs" />
     <Compile Include="Verse\SimpleCurveDrawerStyle.cs" />
     <Compile Include="Verse\SimpleCurveDrawInfo.cs" />
@@ -3967,7 +3971,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj">
-      <Project>{a12dd7c4-e92d-4651-be4e-95cc7be7ad04}</Project>
+      <Project>{328f2579-267b-40d2-8687-278744431c74}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>

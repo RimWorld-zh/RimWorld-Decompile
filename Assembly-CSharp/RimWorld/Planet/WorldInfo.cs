@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005C6 RID: 1478
+	// Token: 0x020005C8 RID: 1480
 	public class WorldInfo : IExposable
 	{
 		// Token: 0x04001149 RID: 4425
@@ -28,7 +28,7 @@ namespace RimWorld.Planet
 		public IntVec3 initialMapSize = new IntVec3(250, 1, 250);
 
 		// Token: 0x1700042A RID: 1066
-		// (get) Token: 0x06001CB6 RID: 7350 RVA: 0x000F6BB0 File Offset: 0x000F4FB0
+		// (get) Token: 0x06001CBA RID: 7354 RVA: 0x000F6D00 File Offset: 0x000F5100
 		public string FileNameNoExtension
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700042B RID: 1067
-		// (get) Token: 0x06001CB7 RID: 7351 RVA: 0x000F6BD0 File Offset: 0x000F4FD0
+		// (get) Token: 0x06001CBB RID: 7355 RVA: 0x000F6D20 File Offset: 0x000F5120
 		public int Seed
 		{
 			get
@@ -47,7 +47,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001CB8 RID: 7352 RVA: 0x000F6BF0 File Offset: 0x000F4FF0
+		// Token: 0x06001CBC RID: 7356 RVA: 0x000F6D40 File Offset: 0x000F5140
 		public void ExposeData()
 		{
 			Scribe_Values.Look<string>(ref this.name, "name", null, false);

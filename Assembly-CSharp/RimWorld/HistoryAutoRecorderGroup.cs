@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002FA RID: 762
+	// Token: 0x020002FC RID: 764
 	public class HistoryAutoRecorderGroup : IExposable
 	{
 		// Token: 0x0400084E RID: 2126
@@ -20,14 +20,14 @@ namespace RimWorld
 		// Token: 0x04000851 RID: 2129
 		private int cachedGraphTickCount = -1;
 
-		// Token: 0x06000CB5 RID: 3253 RVA: 0x0006FF3B File Offset: 0x0006E33B
+		// Token: 0x06000CB9 RID: 3257 RVA: 0x0007008B File Offset: 0x0006E48B
 		public HistoryAutoRecorderGroup()
 		{
 			this.recorders = new List<HistoryAutoRecorder>();
 			this.curves = new List<SimpleCurveDrawInfo>();
 		}
 
-		// Token: 0x06000CB6 RID: 3254 RVA: 0x0006FF68 File Offset: 0x0006E368
+		// Token: 0x06000CBA RID: 3258 RVA: 0x000700B8 File Offset: 0x0006E4B8
 		public void CreateRecorders()
 		{
 			foreach (HistoryAutoRecorderDef historyAutoRecorderDef in this.def.historyAutoRecorderDefs)
@@ -38,7 +38,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CB7 RID: 3255 RVA: 0x0006FFE0 File Offset: 0x0006E3E0
+		// Token: 0x06000CBB RID: 3259 RVA: 0x00070130 File Offset: 0x0006E530
 		public float GetMaxDay()
 		{
 			float num = 0f;
@@ -57,7 +57,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06000CB8 RID: 3256 RVA: 0x00070084 File Offset: 0x0006E484
+		// Token: 0x06000CBC RID: 3260 RVA: 0x000701D4 File Offset: 0x0006E5D4
 		public void Tick()
 		{
 			for (int i = 0; i < this.recorders.Count; i++)
@@ -66,7 +66,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CB9 RID: 3257 RVA: 0x000700C4 File Offset: 0x0006E4C4
+		// Token: 0x06000CBD RID: 3261 RVA: 0x00070214 File Offset: 0x0006E614
 		public void DrawGraph(Rect graphRect, Rect legendRect, FloatRange section, List<CurveMark> marks)
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -107,7 +107,7 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x06000CBA RID: 3258 RVA: 0x0007029A File Offset: 0x0006E69A
+		// Token: 0x06000CBE RID: 3262 RVA: 0x000703EA File Offset: 0x0006E7EA
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<HistoryAutoRecorderGroupDef>(ref this.def, "def");

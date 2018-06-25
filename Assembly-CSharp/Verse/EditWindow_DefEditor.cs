@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E4A RID: 3658
+	// Token: 0x02000E4C RID: 3660
 	internal class EditWindow_DefEditor : EditWindow
 	{
 		// Token: 0x040038F7 RID: 14583
@@ -24,7 +24,7 @@ namespace Verse
 		// Token: 0x040038FC RID: 14588
 		private const float ExtraScrollHeight = 200f;
 
-		// Token: 0x06005649 RID: 22089 RVA: 0x002C7A78 File Offset: 0x002C5E78
+		// Token: 0x0600564D RID: 22093 RVA: 0x002C7BA4 File Offset: 0x002C5FA4
 		public EditWindow_DefEditor(Def def)
 		{
 			this.def = def;
@@ -33,8 +33,8 @@ namespace Verse
 			this.optionalTitle = def.ToString();
 		}
 
-		// Token: 0x17000D7F RID: 3455
-		// (get) Token: 0x0600564A RID: 22090 RVA: 0x002C7AC8 File Offset: 0x002C5EC8
+		// Token: 0x17000D7E RID: 3454
+		// (get) Token: 0x0600564E RID: 22094 RVA: 0x002C7BF4 File Offset: 0x002C5FF4
 		public override Vector2 InitialSize
 		{
 			get
@@ -43,8 +43,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D80 RID: 3456
-		// (get) Token: 0x0600564B RID: 22091 RVA: 0x002C7AEC File Offset: 0x002C5EEC
+		// Token: 0x17000D7F RID: 3455
+		// (get) Token: 0x0600564F RID: 22095 RVA: 0x002C7C18 File Offset: 0x002C6018
 		public override bool IsDebug
 		{
 			get
@@ -53,7 +53,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600564C RID: 22092 RVA: 0x002C7B04 File Offset: 0x002C5F04
+		// Token: 0x06005650 RID: 22096 RVA: 0x002C7C30 File Offset: 0x002C6030
 		public override void DoWindowContents(Rect inRect)
 		{
 			if (Event.current.type == EventType.KeyDown && (Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.KeypadEnter || Event.current.keyCode == KeyCode.Escape))

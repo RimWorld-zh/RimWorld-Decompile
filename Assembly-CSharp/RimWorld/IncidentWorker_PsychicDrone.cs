@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000337 RID: 823
+	// Token: 0x02000339 RID: 825
 	public class IncidentWorker_PsychicDrone : IncidentWorker_PsychicEmanation
 	{
-		// Token: 0x06000E13 RID: 3603 RVA: 0x00077F80 File Offset: 0x00076380
+		// Token: 0x06000E17 RID: 3607 RVA: 0x000780D0 File Offset: 0x000764D0
 		protected override void DoConditionAndLetter(Map map, int duration, Gender gender)
 		{
 			GameCondition_PsychicEmanation gameCondition_PsychicEmanation = (GameCondition_PsychicEmanation)GameConditionMaker.MakeCondition(GameConditionDefOf.PsychicDrone, duration, 0);

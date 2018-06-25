@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000CFD RID: 3325
+	// Token: 0x02000CFF RID: 3327
 	public enum TemperatureInjuryStage : byte
 	{
 		// Token: 0x040031C4 RID: 12740

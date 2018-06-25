@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000263 RID: 611
+	// Token: 0x02000265 RID: 613
 	public class FilthProperties
 	{
 		// Token: 0x040004C7 RID: 1223

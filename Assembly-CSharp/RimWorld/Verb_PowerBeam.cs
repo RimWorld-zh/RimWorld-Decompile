@@ -3,13 +3,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009D6 RID: 2518
+	// Token: 0x020009D8 RID: 2520
 	public class Verb_PowerBeam : Verb
 	{
-		// Token: 0x0400240D RID: 9229
+		// Token: 0x0400240E RID: 9230
 		private const int DurationTicks = 600;
 
-		// Token: 0x06003878 RID: 14456 RVA: 0x001E2D4C File Offset: 0x001E114C
+		// Token: 0x0600387C RID: 14460 RVA: 0x001E2E70 File Offset: 0x001E1270
 		protected override bool TryCastShot()
 		{
 			bool result;
@@ -33,7 +33,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003879 RID: 14457 RVA: 0x001E2E28 File Offset: 0x001E1228
+		// Token: 0x0600387D RID: 14461 RVA: 0x001E2F4C File Offset: 0x001E134C
 		public override float HighlightFieldRadiusAroundTarget(out bool needLOSToCenter)
 		{
 			needLOSToCenter = false;

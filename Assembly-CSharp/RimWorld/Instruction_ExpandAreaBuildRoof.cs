@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008C1 RID: 2241
+	// Token: 0x020008C3 RID: 2243
 	public class Instruction_ExpandAreaBuildRoof : Instruction_ExpandArea
 	{
 		// Token: 0x1700082B RID: 2091
-		// (get) Token: 0x0600334A RID: 13130 RVA: 0x001B8E24 File Offset: 0x001B7224
+		// (get) Token: 0x0600334E RID: 13134 RVA: 0x001B8F64 File Offset: 0x001B7364
 		protected override Area MyArea
 		{
 			get

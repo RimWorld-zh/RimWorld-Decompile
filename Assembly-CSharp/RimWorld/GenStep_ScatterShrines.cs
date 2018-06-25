@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000400 RID: 1024
+	// Token: 0x02000402 RID: 1026
 	public class GenStep_ScatterShrines : GenStep_ScatterRuinsSimple
 	{
 		// Token: 0x04000AB0 RID: 2736
@@ -21,7 +21,7 @@ namespace RimWorld
 		private const int MarginCells = 1;
 
 		// Token: 0x1700025A RID: 602
-		// (get) Token: 0x0600119C RID: 4508 RVA: 0x00098A74 File Offset: 0x00096E74
+		// (get) Token: 0x060011A0 RID: 4512 RVA: 0x00098BC4 File Offset: 0x00096FC4
 		public override int SeedPart
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600119D RID: 4509 RVA: 0x00098A90 File Offset: 0x00096E90
+		// Token: 0x060011A1 RID: 4513 RVA: 0x00098BE0 File Offset: 0x00096FE0
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			bool result;
@@ -46,7 +46,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600119E RID: 4510 RVA: 0x00098AE4 File Offset: 0x00096EE4
+		// Token: 0x060011A2 RID: 4514 RVA: 0x00098C34 File Offset: 0x00097034
 		protected override void ScatterAt(IntVec3 loc, Map map, int stackCount = 1)
 		{
 			int randomInRange = GenStep_ScatterShrines.ShrinesCountX.RandomInRange;

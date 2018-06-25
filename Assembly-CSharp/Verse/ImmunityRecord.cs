@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D3B RID: 3387
+	// Token: 0x02000D3D RID: 3389
 	public class ImmunityRecord : IExposable
 	{
 		// Token: 0x0400326D RID: 12909
@@ -16,7 +16,7 @@ namespace Verse
 		// Token: 0x0400326F RID: 12911
 		public float immunity = 0f;
 
-		// Token: 0x06004ACB RID: 19147 RVA: 0x00270C34 File Offset: 0x0026F034
+		// Token: 0x06004ACF RID: 19151 RVA: 0x00270D60 File Offset: 0x0026F160
 		public float ImmunityChangePerTick(Pawn pawn, bool sick, Hediff diseaseInstance)
 		{
 			float result;
@@ -49,14 +49,14 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004ACC RID: 19148 RVA: 0x00270D02 File Offset: 0x0026F102
+		// Token: 0x06004AD0 RID: 19152 RVA: 0x00270E2E File Offset: 0x0026F22E
 		public void ImmunityTick(Pawn pawn, bool sick, Hediff diseaseInstance)
 		{
 			this.immunity += this.ImmunityChangePerTick(pawn, sick, diseaseInstance);
 			this.immunity = Mathf.Clamp01(this.immunity);
 		}
 
-		// Token: 0x06004ACD RID: 19149 RVA: 0x00270D2C File Offset: 0x0026F12C
+		// Token: 0x06004AD1 RID: 19153 RVA: 0x00270E58 File Offset: 0x0026F258
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<HediffDef>(ref this.hediffDef, "hediffDef");

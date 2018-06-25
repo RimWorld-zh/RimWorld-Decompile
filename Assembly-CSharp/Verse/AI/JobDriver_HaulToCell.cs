@@ -4,26 +4,26 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A3E RID: 2622
+	// Token: 0x02000A40 RID: 2624
 	public class JobDriver_HaulToCell : JobDriver
 	{
-		// Token: 0x0400250E RID: 9486
+		// Token: 0x0400250F RID: 9487
 		private bool forbiddenInitially;
 
-		// Token: 0x0400250F RID: 9487
+		// Token: 0x04002510 RID: 9488
 		private const TargetIndex HaulableInd = TargetIndex.A;
 
-		// Token: 0x04002510 RID: 9488
+		// Token: 0x04002511 RID: 9489
 		private const TargetIndex StoreCellInd = TargetIndex.B;
 
-		// Token: 0x06003A35 RID: 14901 RVA: 0x001EDE6F File Offset: 0x001EC26F
+		// Token: 0x06003A39 RID: 14905 RVA: 0x001EDF9B File Offset: 0x001EC39B
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.forbiddenInitially, "forbiddenInitially", false, false);
 		}
 
-		// Token: 0x06003A36 RID: 14902 RVA: 0x001EDE8C File Offset: 0x001EC28C
+		// Token: 0x06003A3A RID: 14906 RVA: 0x001EDFB8 File Offset: 0x001EC3B8
 		public override string GetReport()
 		{
 			IntVec3 cell = this.job.targetB.Cell;
@@ -68,13 +68,13 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003A37 RID: 14903 RVA: 0x001EDF94 File Offset: 0x001EC394
+		// Token: 0x06003A3B RID: 14907 RVA: 0x001EE0C0 File Offset: 0x001EC4C0
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.GetTarget(TargetIndex.B), this.job, 1, -1, null) && this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, 1, -1, null);
 		}
 
-		// Token: 0x06003A38 RID: 14904 RVA: 0x001EDFF1 File Offset: 0x001EC3F1
+		// Token: 0x06003A3C RID: 14908 RVA: 0x001EE11D File Offset: 0x001EC51D
 		public override void Notify_Starting()
 		{
 			base.Notify_Starting();
@@ -88,7 +88,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A39 RID: 14905 RVA: 0x001EE028 File Offset: 0x001EC428
+		// Token: 0x06003A3D RID: 14909 RVA: 0x001EE154 File Offset: 0x001EC554
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);

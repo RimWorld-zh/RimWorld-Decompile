@@ -3,10 +3,10 @@ using System.Globalization;
 
 namespace Verse
 {
-	// Token: 0x02000BF2 RID: 3058
+	// Token: 0x02000BF4 RID: 3060
 	public abstract class LanguageWorker
 	{
-		// Token: 0x060042CD RID: 17101 RVA: 0x00235D50 File Offset: 0x00234150
+		// Token: 0x060042D0 RID: 17104 RVA: 0x00235E2C File Offset: 0x0023422C
 		public virtual string WithIndefiniteArticle(string str)
 		{
 			if (str.NullOrEmpty())
@@ -28,13 +28,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060042CE RID: 17102 RVA: 0x00235DB4 File Offset: 0x002341B4
+		// Token: 0x060042D1 RID: 17105 RVA: 0x00235E90 File Offset: 0x00234290
 		public string WithIndefiniteArticlePostProcessed(string str)
 		{
 			return this.PostProcessed(this.WithIndefiniteArticle(str));
 		}
 
-		// Token: 0x060042CF RID: 17103 RVA: 0x00235DD8 File Offset: 0x002341D8
+		// Token: 0x060042D2 RID: 17106 RVA: 0x00235EB4 File Offset: 0x002342B4
 		public virtual string WithDefiniteArticle(string str)
 		{
 			if (str.NullOrEmpty())
@@ -56,26 +56,26 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060042D0 RID: 17104 RVA: 0x00235E3C File Offset: 0x0023423C
+		// Token: 0x060042D3 RID: 17107 RVA: 0x00235F18 File Offset: 0x00234318
 		public string WithDefiniteArticlePostProcessed(string str)
 		{
 			return this.PostProcessed(this.WithDefiniteArticle(str));
 		}
 
-		// Token: 0x060042D1 RID: 17105 RVA: 0x00235E60 File Offset: 0x00234260
+		// Token: 0x060042D4 RID: 17108 RVA: 0x00235F3C File Offset: 0x0023433C
 		public virtual string OrdinalNumber(int number)
 		{
 			return number.ToString();
 		}
 
-		// Token: 0x060042D2 RID: 17106 RVA: 0x00235E84 File Offset: 0x00234284
+		// Token: 0x060042D5 RID: 17109 RVA: 0x00235F60 File Offset: 0x00234360
 		public virtual string PostProcessed(string str)
 		{
 			str = str.MergeMultipleSpaces(true);
 			return str;
 		}
 
-		// Token: 0x060042D3 RID: 17107 RVA: 0x00235EA4 File Offset: 0x002342A4
+		// Token: 0x060042D6 RID: 17110 RVA: 0x00235F80 File Offset: 0x00234380
 		public virtual string ToTitleCase(string str)
 		{
 			string result;
@@ -90,7 +90,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060042D4 RID: 17108 RVA: 0x00235EDC File Offset: 0x002342DC
+		// Token: 0x060042D7 RID: 17111 RVA: 0x00235FB8 File Offset: 0x002343B8
 		public virtual string Pluralize(string str, int count = -1)
 		{
 			return str;

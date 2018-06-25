@@ -2,18 +2,18 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A10 RID: 2576
+	// Token: 0x02000A12 RID: 2578
 	public class Trigger_TicksPassedAndNoRecentHarm : Trigger_TicksPassed
 	{
-		// Token: 0x040024A4 RID: 9380
+		// Token: 0x040024A5 RID: 9381
 		private const int MinTicksSinceDamage = 300;
 
-		// Token: 0x0600399D RID: 14749 RVA: 0x001E81B3 File Offset: 0x001E65B3
+		// Token: 0x060039A1 RID: 14753 RVA: 0x001E82DF File Offset: 0x001E66DF
 		public Trigger_TicksPassedAndNoRecentHarm(int tickLimit) : base(tickLimit)
 		{
 		}
 
-		// Token: 0x0600399E RID: 14750 RVA: 0x001E81C0 File Offset: 0x001E65C0
+		// Token: 0x060039A2 RID: 14754 RVA: 0x001E82EC File Offset: 0x001E66EC
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			if (base.ActivateOn(lord, signal))

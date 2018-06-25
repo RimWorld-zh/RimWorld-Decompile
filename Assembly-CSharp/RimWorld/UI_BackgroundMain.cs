@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200083A RID: 2106
+	// Token: 0x0200083C RID: 2108
 	[StaticConstructorOnStartup]
 	public class UI_BackgroundMain : UIMenuBackground
 	{
@@ -14,7 +14,7 @@ namespace RimWorld
 		// Token: 0x040019C9 RID: 6601
 		private static readonly Texture2D BGPlanet = ContentFinder<Texture2D>.Get("UI/HeroArt/BGPlanet", true);
 
-		// Token: 0x06002FB3 RID: 12211 RVA: 0x001994E0 File Offset: 0x001978E0
+		// Token: 0x06002FB7 RID: 12215 RVA: 0x00199630 File Offset: 0x00197A30
 		public override void BackgroundOnGUI()
 		{
 			bool flag = true;

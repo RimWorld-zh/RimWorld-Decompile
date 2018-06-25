@@ -3,10 +3,10 @@ using RimWorld.Planet;
 
 namespace RimWorld
 {
-	// Token: 0x02000279 RID: 633
+	// Token: 0x0200027B RID: 635
 	public class WorldObjectCompProperties_DebugArena : WorldObjectCompProperties
 	{
-		// Token: 0x06000ADF RID: 2783 RVA: 0x0006275C File Offset: 0x00060B5C
+		// Token: 0x06000AE3 RID: 2787 RVA: 0x000628AC File Offset: 0x00060CAC
 		public WorldObjectCompProperties_DebugArena()
 		{
 			this.compClass = typeof(DebugArena);

@@ -5,7 +5,7 @@ using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x02000E72 RID: 3698
+	// Token: 0x02000E74 RID: 3700
 	public abstract class ChoiceLetter : LetterWithTimeout
 	{
 		// Token: 0x040039C1 RID: 14785
@@ -17,12 +17,12 @@ namespace Verse
 		// Token: 0x040039C3 RID: 14787
 		public bool radioMode;
 
-		// Token: 0x17000DAF RID: 3503
-		// (get) Token: 0x0600571D RID: 22301
+		// Token: 0x17000DAE RID: 3502
+		// (get) Token: 0x06005721 RID: 22305
 		public abstract IEnumerable<DiaOption> Choices { get; }
 
-		// Token: 0x17000DB0 RID: 3504
-		// (get) Token: 0x0600571E RID: 22302 RVA: 0x001A0744 File Offset: 0x0019EB44
+		// Token: 0x17000DAF RID: 3503
+		// (get) Token: 0x06005722 RID: 22306 RVA: 0x001A0894 File Offset: 0x0019EC94
 		protected DiaOption Reject
 		{
 			get
@@ -38,8 +38,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DB1 RID: 3505
-		// (get) Token: 0x0600571F RID: 22303 RVA: 0x001A0784 File Offset: 0x0019EB84
+		// Token: 0x17000DB0 RID: 3504
+		// (get) Token: 0x06005723 RID: 22307 RVA: 0x001A08D4 File Offset: 0x0019ECD4
 		protected DiaOption Postpone
 		{
 			get
@@ -54,8 +54,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DB2 RID: 3506
-		// (get) Token: 0x06005720 RID: 22304 RVA: 0x001A07DC File Offset: 0x0019EBDC
+		// Token: 0x17000DB1 RID: 3505
+		// (get) Token: 0x06005724 RID: 22308 RVA: 0x001A092C File Offset: 0x0019ED2C
 		protected DiaOption OK
 		{
 			get
@@ -71,8 +71,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DB3 RID: 3507
-		// (get) Token: 0x06005721 RID: 22305 RVA: 0x001A081C File Offset: 0x0019EC1C
+		// Token: 0x17000DB2 RID: 3506
+		// (get) Token: 0x06005725 RID: 22309 RVA: 0x001A096C File Offset: 0x0019ED6C
 		protected DiaOption JumpToLocation
 		{
 			get
@@ -93,7 +93,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005722 RID: 22306 RVA: 0x001A0890 File Offset: 0x0019EC90
+		// Token: 0x06005726 RID: 22310 RVA: 0x001A09E0 File Offset: 0x0019EDE0
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -102,13 +102,13 @@ namespace Verse
 			Scribe_Values.Look<bool>(ref this.radioMode, "radioMode", false, false);
 		}
 
-		// Token: 0x06005723 RID: 22307 RVA: 0x001A08D0 File Offset: 0x0019ECD0
+		// Token: 0x06005727 RID: 22311 RVA: 0x001A0A20 File Offset: 0x0019EE20
 		protected override string GetMouseoverText()
 		{
 			return this.text;
 		}
 
-		// Token: 0x06005724 RID: 22308 RVA: 0x001A08EC File Offset: 0x0019ECEC
+		// Token: 0x06005728 RID: 22312 RVA: 0x001A0A3C File Offset: 0x0019EE3C
 		public override void OpenLetter()
 		{
 			DiaNode diaNode = new DiaNode(this.text);

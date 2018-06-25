@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020005D0 RID: 1488
+	// Token: 0x020005D2 RID: 1490
 	public struct FloatMenuAcceptanceReport
 	{
 		// Token: 0x04001157 RID: 4439
@@ -15,7 +15,7 @@ namespace RimWorld
 		private bool acceptedInt;
 
 		// Token: 0x1700043C RID: 1084
-		// (get) Token: 0x06001D01 RID: 7425 RVA: 0x000F83C4 File Offset: 0x000F67C4
+		// (get) Token: 0x06001D05 RID: 7429 RVA: 0x000F8514 File Offset: 0x000F6914
 		public bool Accepted
 		{
 			get
@@ -25,7 +25,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700043D RID: 1085
-		// (get) Token: 0x06001D02 RID: 7426 RVA: 0x000F83E0 File Offset: 0x000F67E0
+		// (get) Token: 0x06001D06 RID: 7430 RVA: 0x000F8530 File Offset: 0x000F6930
 		public string FailMessage
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700043E RID: 1086
-		// (get) Token: 0x06001D03 RID: 7427 RVA: 0x000F83FC File Offset: 0x000F67FC
+		// (get) Token: 0x06001D07 RID: 7431 RVA: 0x000F854C File Offset: 0x000F694C
 		public string FailReason
 		{
 			get
@@ -45,7 +45,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700043F RID: 1087
-		// (get) Token: 0x06001D04 RID: 7428 RVA: 0x000F8418 File Offset: 0x000F6818
+		// (get) Token: 0x06001D08 RID: 7432 RVA: 0x000F8568 File Offset: 0x000F6968
 		public static FloatMenuAcceptanceReport WasAccepted
 		{
 			get
@@ -58,7 +58,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000440 RID: 1088
-		// (get) Token: 0x06001D05 RID: 7429 RVA: 0x000F8440 File Offset: 0x000F6840
+		// (get) Token: 0x06001D09 RID: 7433 RVA: 0x000F8590 File Offset: 0x000F6990
 		public static FloatMenuAcceptanceReport WasRejected
 		{
 			get
@@ -70,7 +70,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001D06 RID: 7430 RVA: 0x000F8468 File Offset: 0x000F6868
+		// Token: 0x06001D0A RID: 7434 RVA: 0x000F85B8 File Offset: 0x000F69B8
 		public static implicit operator FloatMenuAcceptanceReport(bool value)
 		{
 			FloatMenuAcceptanceReport result;
@@ -85,13 +85,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001D07 RID: 7431 RVA: 0x000F8494 File Offset: 0x000F6894
+		// Token: 0x06001D0B RID: 7435 RVA: 0x000F85E4 File Offset: 0x000F69E4
 		public static implicit operator bool(FloatMenuAcceptanceReport rep)
 		{
 			return rep.Accepted;
 		}
 
-		// Token: 0x06001D08 RID: 7432 RVA: 0x000F84B0 File Offset: 0x000F68B0
+		// Token: 0x06001D0C RID: 7436 RVA: 0x000F8600 File Offset: 0x000F6A00
 		public static FloatMenuAcceptanceReport WithFailReason(string failReason)
 		{
 			return new FloatMenuAcceptanceReport
@@ -101,7 +101,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06001D09 RID: 7433 RVA: 0x000F84E0 File Offset: 0x000F68E0
+		// Token: 0x06001D0D RID: 7437 RVA: 0x000F8630 File Offset: 0x000F6A30
 		public static FloatMenuAcceptanceReport WithFailMessage(string failMessage)
 		{
 			return new FloatMenuAcceptanceReport

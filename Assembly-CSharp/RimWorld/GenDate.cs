@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000906 RID: 2310
+	// Token: 0x02000908 RID: 2312
 	public static class GenDate
 	{
 		// Token: 0x04001D0B RID: 7435
@@ -53,7 +53,7 @@ namespace RimWorld
 		public const int DefaultStartingYear = 5500;
 
 		// Token: 0x17000891 RID: 2193
-		// (get) Token: 0x0600359E RID: 13726 RVA: 0x001CE098 File Offset: 0x001CC498
+		// (get) Token: 0x060035A2 RID: 13730 RVA: 0x001CE1D8 File Offset: 0x001CC5D8
 		private static int TicksGame
 		{
 			get
@@ -63,7 +63,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000892 RID: 2194
-		// (get) Token: 0x0600359F RID: 13727 RVA: 0x001CE0B8 File Offset: 0x001CC4B8
+		// (get) Token: 0x060035A3 RID: 13731 RVA: 0x001CE1F8 File Offset: 0x001CC5F8
 		public static int DaysPassed
 		{
 			get
@@ -73,7 +73,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000893 RID: 2195
-		// (get) Token: 0x060035A0 RID: 13728 RVA: 0x001CE0D8 File Offset: 0x001CC4D8
+		// (get) Token: 0x060035A4 RID: 13732 RVA: 0x001CE218 File Offset: 0x001CC618
 		public static float DaysPassedFloat
 		{
 			get
@@ -83,7 +83,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000894 RID: 2196
-		// (get) Token: 0x060035A1 RID: 13729 RVA: 0x001CE0FC File Offset: 0x001CC4FC
+		// (get) Token: 0x060035A5 RID: 13733 RVA: 0x001CE23C File Offset: 0x001CC63C
 		public static int TwelfthsPassed
 		{
 			get
@@ -93,7 +93,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000895 RID: 2197
-		// (get) Token: 0x060035A2 RID: 13730 RVA: 0x001CE11C File Offset: 0x001CC51C
+		// (get) Token: 0x060035A6 RID: 13734 RVA: 0x001CE25C File Offset: 0x001CC65C
 		public static float TwelfthsPassedFloat
 		{
 			get
@@ -103,7 +103,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000896 RID: 2198
-		// (get) Token: 0x060035A3 RID: 13731 RVA: 0x001CE140 File Offset: 0x001CC540
+		// (get) Token: 0x060035A7 RID: 13735 RVA: 0x001CE280 File Offset: 0x001CC680
 		public static int YearsPassed
 		{
 			get
@@ -113,7 +113,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000897 RID: 2199
-		// (get) Token: 0x060035A4 RID: 13732 RVA: 0x001CE160 File Offset: 0x001CC560
+		// (get) Token: 0x060035A8 RID: 13736 RVA: 0x001CE2A0 File Offset: 0x001CC6A0
 		public static float YearsPassedFloat
 		{
 			get
@@ -122,112 +122,112 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060035A5 RID: 13733 RVA: 0x001CE184 File Offset: 0x001CC584
+		// Token: 0x060035A9 RID: 13737 RVA: 0x001CE2C4 File Offset: 0x001CC6C4
 		public static int TickAbsToGame(int absTick)
 		{
 			return absTick - Find.TickManager.gameStartAbsTick;
 		}
 
-		// Token: 0x060035A6 RID: 13734 RVA: 0x001CE1A8 File Offset: 0x001CC5A8
+		// Token: 0x060035AA RID: 13738 RVA: 0x001CE2E8 File Offset: 0x001CC6E8
 		public static int TickGameToAbs(int gameTick)
 		{
 			return gameTick + Find.TickManager.gameStartAbsTick;
 		}
 
-		// Token: 0x060035A7 RID: 13735 RVA: 0x001CE1CC File Offset: 0x001CC5CC
+		// Token: 0x060035AB RID: 13739 RVA: 0x001CE30C File Offset: 0x001CC70C
 		public static int DaysPassedAt(int gameTicks)
 		{
 			return Mathf.FloorToInt((float)gameTicks / 60000f);
 		}
 
-		// Token: 0x060035A8 RID: 13736 RVA: 0x001CE1F0 File Offset: 0x001CC5F0
+		// Token: 0x060035AC RID: 13740 RVA: 0x001CE330 File Offset: 0x001CC730
 		public static int TwelfthsPassedAt(int gameTicks)
 		{
 			return Mathf.FloorToInt((float)gameTicks / 300000f);
 		}
 
-		// Token: 0x060035A9 RID: 13737 RVA: 0x001CE214 File Offset: 0x001CC614
+		// Token: 0x060035AD RID: 13741 RVA: 0x001CE354 File Offset: 0x001CC754
 		public static int YearsPassedAt(int gameTicks)
 		{
 			return Mathf.FloorToInt((float)gameTicks / 3600000f);
 		}
 
-		// Token: 0x060035AA RID: 13738 RVA: 0x001CE238 File Offset: 0x001CC638
+		// Token: 0x060035AE RID: 13742 RVA: 0x001CE378 File Offset: 0x001CC778
 		private static long LocalTicksOffsetFromLongitude(float longitude)
 		{
 			return (long)GenDate.TimeZoneAt(longitude) * 2500L;
 		}
 
-		// Token: 0x060035AB RID: 13739 RVA: 0x001CE25C File Offset: 0x001CC65C
+		// Token: 0x060035AF RID: 13743 RVA: 0x001CE39C File Offset: 0x001CC79C
 		public static int HourOfDay(long absTicks, float longitude)
 		{
 			long x = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
 			return GenMath.PositiveModRemap(x, 2500, 24);
 		}
 
-		// Token: 0x060035AC RID: 13740 RVA: 0x001CE288 File Offset: 0x001CC688
+		// Token: 0x060035B0 RID: 13744 RVA: 0x001CE3C8 File Offset: 0x001CC7C8
 		public static int DayOfTwelfth(long absTicks, float longitude)
 		{
 			long x = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
 			return GenMath.PositiveModRemap(x, 60000, 5);
 		}
 
-		// Token: 0x060035AD RID: 13741 RVA: 0x001CE2B4 File Offset: 0x001CC6B4
+		// Token: 0x060035B1 RID: 13745 RVA: 0x001CE3F4 File Offset: 0x001CC7F4
 		public static int DayOfYear(long absTicks, float longitude)
 		{
 			long x = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
 			return GenMath.PositiveModRemap(x, 60000, 60);
 		}
 
-		// Token: 0x060035AE RID: 13742 RVA: 0x001CE2E0 File Offset: 0x001CC6E0
+		// Token: 0x060035B2 RID: 13746 RVA: 0x001CE420 File Offset: 0x001CC820
 		public static Twelfth Twelfth(long absTicks, float longitude)
 		{
 			long x = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
 			return (Twelfth)GenMath.PositiveModRemap(x, 300000, 12);
 		}
 
-		// Token: 0x060035AF RID: 13743 RVA: 0x001CE30C File Offset: 0x001CC70C
+		// Token: 0x060035B3 RID: 13747 RVA: 0x001CE44C File Offset: 0x001CC84C
 		public static Season Season(long absTicks, Vector2 longLat)
 		{
 			return GenDate.Season(absTicks, longLat.y, longLat.x);
 		}
 
-		// Token: 0x060035B0 RID: 13744 RVA: 0x001CE338 File Offset: 0x001CC738
+		// Token: 0x060035B4 RID: 13748 RVA: 0x001CE478 File Offset: 0x001CC878
 		public static Season Season(long absTicks, float latitude, float longitude)
 		{
 			float yearPct = GenDate.YearPercent(absTicks, longitude);
 			return SeasonUtility.GetReportedSeason(yearPct, latitude);
 		}
 
-		// Token: 0x060035B1 RID: 13745 RVA: 0x001CE35C File Offset: 0x001CC75C
+		// Token: 0x060035B5 RID: 13749 RVA: 0x001CE49C File Offset: 0x001CC89C
 		public static Quadrum Quadrum(long absTicks, float longitude)
 		{
 			Twelfth twelfth = GenDate.Twelfth(absTicks, longitude);
 			return twelfth.GetQuadrum();
 		}
 
-		// Token: 0x060035B2 RID: 13746 RVA: 0x001CE380 File Offset: 0x001CC780
+		// Token: 0x060035B6 RID: 13750 RVA: 0x001CE4C0 File Offset: 0x001CC8C0
 		public static int Year(long absTicks, float longitude)
 		{
 			long num = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
 			return 5500 + Mathf.FloorToInt((float)num / 3600000f);
 		}
 
-		// Token: 0x060035B3 RID: 13747 RVA: 0x001CE3B4 File Offset: 0x001CC7B4
+		// Token: 0x060035B7 RID: 13751 RVA: 0x001CE4F4 File Offset: 0x001CC8F4
 		public static int DayOfSeason(long absTicks, float longitude)
 		{
 			int num = GenDate.DayOfYear(absTicks, longitude);
 			return (num - (int)(SeasonUtility.FirstSeason.GetFirstTwelfth(0f) * RimWorld.Twelfth.Sixth)) % 15;
 		}
 
-		// Token: 0x060035B4 RID: 13748 RVA: 0x001CE3E8 File Offset: 0x001CC7E8
+		// Token: 0x060035B8 RID: 13752 RVA: 0x001CE528 File Offset: 0x001CC928
 		public static int DayOfQuadrum(long absTicks, float longitude)
 		{
 			int num = GenDate.DayOfYear(absTicks, longitude);
 			return (num - (int)(QuadrumUtility.FirstQuadrum.GetFirstTwelfth() * RimWorld.Twelfth.Sixth)) % 15;
 		}
 
-		// Token: 0x060035B5 RID: 13749 RVA: 0x001CE418 File Offset: 0x001CC818
+		// Token: 0x060035B9 RID: 13753 RVA: 0x001CE558 File Offset: 0x001CC958
 		public static float DayPercent(long absTicks, float longitude)
 		{
 			long x = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
@@ -239,7 +239,7 @@ namespace RimWorld
 			return (float)num / 60000f;
 		}
 
-		// Token: 0x060035B6 RID: 13750 RVA: 0x001CE454 File Offset: 0x001CC854
+		// Token: 0x060035BA RID: 13754 RVA: 0x001CE594 File Offset: 0x001CC994
 		public static float YearPercent(long absTicks, float longitude)
 		{
 			long x = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
@@ -247,20 +247,20 @@ namespace RimWorld
 			return (float)num / 3600000f;
 		}
 
-		// Token: 0x060035B7 RID: 13751 RVA: 0x001CE488 File Offset: 0x001CC888
+		// Token: 0x060035BB RID: 13755 RVA: 0x001CE5C8 File Offset: 0x001CC9C8
 		public static int HourInteger(long absTicks, float longitude)
 		{
 			long x = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
 			return GenMath.PositiveModRemap(x, 2500, 24);
 		}
 
-		// Token: 0x060035B8 RID: 13752 RVA: 0x001CE4B4 File Offset: 0x001CC8B4
+		// Token: 0x060035BC RID: 13756 RVA: 0x001CE5F4 File Offset: 0x001CC9F4
 		public static float HourFloat(long absTicks, float longitude)
 		{
 			return GenDate.DayPercent(absTicks, longitude) * 24f;
 		}
 
-		// Token: 0x060035B9 RID: 13753 RVA: 0x001CE4D8 File Offset: 0x001CC8D8
+		// Token: 0x060035BD RID: 13757 RVA: 0x001CE618 File Offset: 0x001CCA18
 		public static string DateFullStringAt(long absTicks, Vector2 location)
 		{
 			int num = GenDate.DayOfSeason(absTicks, location.x) + 1;
@@ -274,7 +274,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060035BA RID: 13754 RVA: 0x001CE550 File Offset: 0x001CC950
+		// Token: 0x060035BE RID: 13758 RVA: 0x001CE690 File Offset: 0x001CCA90
 		public static string DateReadoutStringAt(long absTicks, Vector2 location)
 		{
 			int num = GenDate.DayOfSeason(absTicks, location.x) + 1;
@@ -288,7 +288,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060035BB RID: 13755 RVA: 0x001CE5C8 File Offset: 0x001CC9C8
+		// Token: 0x060035BF RID: 13759 RVA: 0x001CE708 File Offset: 0x001CCB08
 		public static string SeasonDateStringAt(long absTicks, Vector2 longLat)
 		{
 			int num = GenDate.DayOfSeason(absTicks, longLat.x) + 1;
@@ -301,13 +301,13 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060035BC RID: 13756 RVA: 0x001CE628 File Offset: 0x001CCA28
+		// Token: 0x060035C0 RID: 13760 RVA: 0x001CE768 File Offset: 0x001CCB68
 		public static string SeasonDateStringAt(Twelfth twelfth, Vector2 longLat)
 		{
 			return GenDate.SeasonDateStringAt((long)((int)twelfth * 300000 + 1), longLat);
 		}
 
-		// Token: 0x060035BD RID: 13757 RVA: 0x001CE650 File Offset: 0x001CCA50
+		// Token: 0x060035C1 RID: 13761 RVA: 0x001CE790 File Offset: 0x001CCB90
 		public static string QuadrumDateStringAt(long absTicks, float longitude)
 		{
 			int num = GenDate.DayOfQuadrum(absTicks, longitude) + 1;
@@ -320,25 +320,25 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060035BE RID: 13758 RVA: 0x001CE6A8 File Offset: 0x001CCAA8
+		// Token: 0x060035C2 RID: 13762 RVA: 0x001CE7E8 File Offset: 0x001CCBE8
 		public static string QuadrumDateStringAt(Quadrum quadrum)
 		{
 			return GenDate.QuadrumDateStringAt((long)((int)quadrum * 900000 + 1), 0f);
 		}
 
-		// Token: 0x060035BF RID: 13759 RVA: 0x001CE6D4 File Offset: 0x001CCAD4
+		// Token: 0x060035C3 RID: 13763 RVA: 0x001CE814 File Offset: 0x001CCC14
 		public static string QuadrumDateStringAt(Twelfth twelfth)
 		{
 			return GenDate.QuadrumDateStringAt((long)((int)twelfth * 300000 + 1), 0f);
 		}
 
-		// Token: 0x060035C0 RID: 13760 RVA: 0x001CE700 File Offset: 0x001CCB00
+		// Token: 0x060035C4 RID: 13764 RVA: 0x001CE840 File Offset: 0x001CCC40
 		public static float TicksToDays(this int numTicks)
 		{
 			return (float)numTicks / 60000f;
 		}
 
-		// Token: 0x060035C1 RID: 13761 RVA: 0x001CE720 File Offset: 0x001CCB20
+		// Token: 0x060035C5 RID: 13765 RVA: 0x001CE860 File Offset: 0x001CCC60
 		public static string ToStringTicksToDays(this int numTicks, string format = "F1")
 		{
 			string text = numTicks.TicksToDays().ToString(format);
@@ -354,7 +354,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060035C2 RID: 13762 RVA: 0x001CE77C File Offset: 0x001CCB7C
+		// Token: 0x060035C6 RID: 13766 RVA: 0x001CE8BC File Offset: 0x001CCCBC
 		public static string ToStringTicksToPeriod(this int numTicks)
 		{
 			string result;
@@ -439,7 +439,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060035C3 RID: 13763 RVA: 0x001CE958 File Offset: 0x001CCD58
+		// Token: 0x060035C7 RID: 13767 RVA: 0x001CEA98 File Offset: 0x001CCE98
 		public static string ToStringTicksToPeriodVerbose(this int numTicks, bool allowHours = true, bool allowQuadrums = true)
 		{
 			string result;
@@ -593,7 +593,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060035C4 RID: 13764 RVA: 0x001CEC38 File Offset: 0x001CD038
+		// Token: 0x060035C8 RID: 13768 RVA: 0x001CED78 File Offset: 0x001CD178
 		public static string ToStringTicksToPeriodVague(this int numTicks, bool vagueMin = true, bool vagueMax = true)
 		{
 			string result;
@@ -612,13 +612,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060035C5 RID: 13765 RVA: 0x001CEC95 File Offset: 0x001CD095
+		// Token: 0x060035C9 RID: 13769 RVA: 0x001CEDD5 File Offset: 0x001CD1D5
 		public static void TicksToPeriod(this int numTicks, out int years, out int quadrums, out int days, out float hoursFloat)
 		{
 			((long)numTicks).TicksToPeriod(out years, out quadrums, out days, out hoursFloat);
 		}
 
-		// Token: 0x060035C6 RID: 13766 RVA: 0x001CECA4 File Offset: 0x001CD0A4
+		// Token: 0x060035CA RID: 13770 RVA: 0x001CEDE4 File Offset: 0x001CD1E4
 		public static void TicksToPeriod(this long numTicks, out int years, out int quadrums, out int days, out float hoursFloat)
 		{
 			if (numTicks < 0L)
@@ -634,7 +634,7 @@ namespace RimWorld
 			hoursFloat = (float)num / 2500f;
 		}
 
-		// Token: 0x060035C7 RID: 13767 RVA: 0x001CED20 File Offset: 0x001CD120
+		// Token: 0x060035CB RID: 13771 RVA: 0x001CEE60 File Offset: 0x001CD260
 		public static string ToStringApproxAge(this float yearsFloat)
 		{
 			string result;
@@ -712,13 +712,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060035C8 RID: 13768 RVA: 0x001CEE64 File Offset: 0x001CD264
+		// Token: 0x060035CC RID: 13772 RVA: 0x001CEFA4 File Offset: 0x001CD3A4
 		public static int TimeZoneAt(float longitude)
 		{
 			return Mathf.RoundToInt(GenDate.TimeZoneFloatAt(longitude));
 		}
 
-		// Token: 0x060035C9 RID: 13769 RVA: 0x001CEE84 File Offset: 0x001CD284
+		// Token: 0x060035CD RID: 13773 RVA: 0x001CEFC4 File Offset: 0x001CD3C4
 		public static float TimeZoneFloatAt(float longitude)
 		{
 			return longitude / 15f;

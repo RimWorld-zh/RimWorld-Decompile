@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000E44 RID: 3652
+	// Token: 0x02000E46 RID: 3654
 	[AttributeUsage(AttributeTargets.Field)]
 	public class EditorNullableAttribute : Attribute
 	{

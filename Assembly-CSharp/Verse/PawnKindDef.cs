@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B5C RID: 2908
+	// Token: 0x02000B5E RID: 2910
 	public class PawnKindDef : Def
 	{
 		// Token: 0x04002A49 RID: 10825
@@ -150,8 +150,8 @@ namespace Verse
 		// Token: 0x04002A74 RID: 10868
 		public float ecoSystemWeight = 1f;
 
-		// Token: 0x170009A5 RID: 2469
-		// (get) Token: 0x06003F8C RID: 16268 RVA: 0x00217C94 File Offset: 0x00216094
+		// Token: 0x170009A4 RID: 2468
+		// (get) Token: 0x06003F8F RID: 16271 RVA: 0x00217D70 File Offset: 0x00216170
 		public RaceProperties RaceProps
 		{
 			get
@@ -160,7 +160,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F8D RID: 16269 RVA: 0x00217CB4 File Offset: 0x002160B4
+		// Token: 0x06003F90 RID: 16272 RVA: 0x00217D90 File Offset: 0x00216190
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -170,7 +170,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F8E RID: 16270 RVA: 0x00217CF8 File Offset: 0x002160F8
+		// Token: 0x06003F91 RID: 16273 RVA: 0x00217DD4 File Offset: 0x002161D4
 		public string GetLabelPlural(int count = -1)
 		{
 			string result;
@@ -185,7 +185,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003F8F RID: 16271 RVA: 0x00217D3C File Offset: 0x0021613C
+		// Token: 0x06003F92 RID: 16274 RVA: 0x00217E18 File Offset: 0x00216218
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -267,7 +267,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003F90 RID: 16272 RVA: 0x00217D68 File Offset: 0x00216168
+		// Token: 0x06003F93 RID: 16275 RVA: 0x00217E44 File Offset: 0x00216244
 		public static PawnKindDef Named(string defName)
 		{
 			return DefDatabase<PawnKindDef>.GetNamed(defName, true);

@@ -4,17 +4,17 @@ using Steamworks;
 
 namespace Verse.Steam
 {
-	// Token: 0x02000FC0 RID: 4032
+	// Token: 0x02000FC4 RID: 4036
 	public class WorkshopItem
 	{
-		// Token: 0x04003FCC RID: 16332
+		// Token: 0x04003FD4 RID: 16340
 		protected DirectoryInfo directoryInt;
 
-		// Token: 0x04003FCD RID: 16333
+		// Token: 0x04003FD5 RID: 16341
 		private PublishedFileId_t pfidInt;
 
-		// Token: 0x17000FC6 RID: 4038
-		// (get) Token: 0x06006187 RID: 24967 RVA: 0x0031406C File Offset: 0x0031246C
+		// Token: 0x17000FC7 RID: 4039
+		// (get) Token: 0x06006197 RID: 24983 RVA: 0x00314B4C File Offset: 0x00312F4C
 		public DirectoryInfo Directory
 		{
 			get
@@ -23,9 +23,9 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x17000FC7 RID: 4039
-		// (get) Token: 0x06006188 RID: 24968 RVA: 0x00314088 File Offset: 0x00312488
-		// (set) Token: 0x06006189 RID: 24969 RVA: 0x003140A3 File Offset: 0x003124A3
+		// Token: 0x17000FC8 RID: 4040
+		// (get) Token: 0x06006198 RID: 24984 RVA: 0x00314B68 File Offset: 0x00312F68
+		// (set) Token: 0x06006199 RID: 24985 RVA: 0x00314B83 File Offset: 0x00312F83
 		public virtual PublishedFileId_t PublishedFileId
 		{
 			get
@@ -38,7 +38,7 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x0600618A RID: 24970 RVA: 0x003140B0 File Offset: 0x003124B0
+		// Token: 0x0600619A RID: 24986 RVA: 0x00314B90 File Offset: 0x00312F90
 		public static WorkshopItem MakeFrom(PublishedFileId_t pfid)
 		{
 			ulong num;
@@ -75,7 +75,7 @@ namespace Verse.Steam
 			return workshopItem;
 		}
 
-		// Token: 0x0600618B RID: 24971 RVA: 0x00314194 File Offset: 0x00312594
+		// Token: 0x0600619B RID: 24987 RVA: 0x00314C74 File Offset: 0x00313074
 		public override string ToString()
 		{
 			return base.GetType().ToString() + "-" + this.PublishedFileId;

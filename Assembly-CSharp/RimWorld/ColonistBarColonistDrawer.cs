@@ -7,7 +7,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020007B1 RID: 1969
+	// Token: 0x020007B3 RID: 1971
 	[StaticConstructorOnStartup]
 	public class ColonistBarColonistDrawer
 	{
@@ -75,7 +75,7 @@ namespace RimWorld
 		private static Vector2[] bracketLocs = new Vector2[4];
 
 		// Token: 0x170006CE RID: 1742
-		// (get) Token: 0x06002B98 RID: 11160 RVA: 0x00171560 File Offset: 0x0016F960
+		// (get) Token: 0x06002B9C RID: 11164 RVA: 0x001716B0 File Offset: 0x0016FAB0
 		private ColonistBar ColonistBar
 		{
 			get
@@ -84,7 +84,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B99 RID: 11161 RVA: 0x0017157C File Offset: 0x0016F97C
+		// Token: 0x06002B9D RID: 11165 RVA: 0x001716CC File Offset: 0x0016FACC
 		public void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool highlight, bool reordering)
 		{
 			float num = this.ColonistBar.GetEntryRectAlpha(rect);
@@ -136,7 +136,7 @@ namespace RimWorld
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x06002B9A RID: 11162 RVA: 0x001717F8 File Offset: 0x0016FBF8
+		// Token: 0x06002B9E RID: 11166 RVA: 0x00171948 File Offset: 0x0016FD48
 		private Rect GroupFrameRect(int group)
 		{
 			float num = 99999f;
@@ -156,7 +156,7 @@ namespace RimWorld
 			return new Rect(num, 0f, num2 - num, num3).ContractedBy(-12f * this.ColonistBar.Scale);
 		}
 
-		// Token: 0x06002B9B RID: 11163 RVA: 0x0017190C File Offset: 0x0016FD0C
+		// Token: 0x06002B9F RID: 11167 RVA: 0x00171A5C File Offset: 0x0016FE5C
 		public void DrawGroupFrame(int group)
 		{
 			Rect position = this.GroupFrameRect(group);
@@ -185,7 +185,7 @@ namespace RimWorld
 			Widgets.DrawRectFast(position, new Color(0.5f, 0.5f, 0.5f, 0.4f * num), null);
 		}
 
-		// Token: 0x06002B9C RID: 11164 RVA: 0x001719D4 File Offset: 0x0016FDD4
+		// Token: 0x06002BA0 RID: 11168 RVA: 0x00171B24 File Offset: 0x0016FF24
 		private void ApplyEntryInAnotherMapAlphaFactor(Map map, ref float alpha)
 		{
 			if (map == null)
@@ -201,7 +201,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B9D RID: 11165 RVA: 0x00171A2C File Offset: 0x0016FE2C
+		// Token: 0x06002BA1 RID: 11169 RVA: 0x00171B7C File Offset: 0x0016FF7C
 		public void HandleClicks(Rect rect, Pawn colonist, int reorderableGroup, out bool reordering)
 		{
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 2 && Mouse.IsOver(rect))
@@ -216,7 +216,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B9E RID: 11166 RVA: 0x00171ACC File Offset: 0x0016FECC
+		// Token: 0x06002BA2 RID: 11170 RVA: 0x00171C1C File Offset: 0x0017001C
 		public void HandleGroupFrameClicks(int group)
 		{
 			Rect rect = this.GroupFrameRect(group);
@@ -256,13 +256,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B9F RID: 11167 RVA: 0x00171C5D File Offset: 0x0017005D
+		// Token: 0x06002BA3 RID: 11171 RVA: 0x00171DAD File Offset: 0x001701AD
 		public void Notify_RecachedEntries()
 		{
 			this.pawnLabelsCache.Clear();
 		}
 
-		// Token: 0x06002BA0 RID: 11168 RVA: 0x00171C6C File Offset: 0x0017006C
+		// Token: 0x06002BA4 RID: 11172 RVA: 0x00171DBC File Offset: 0x001701BC
 		public Rect GetPawnTextureRect(Vector2 pos)
 		{
 			float x = pos.x;
@@ -273,7 +273,7 @@ namespace RimWorld
 			return rect;
 		}
 
-		// Token: 0x06002BA1 RID: 11169 RVA: 0x00171CF8 File Offset: 0x001700F8
+		// Token: 0x06002BA5 RID: 11173 RVA: 0x00171E48 File Offset: 0x00170248
 		private void DrawIcons(Rect rect, Pawn colonist)
 		{
 			if (!colonist.Dead)
@@ -340,7 +340,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BA2 RID: 11170 RVA: 0x00171FA0 File Offset: 0x001703A0
+		// Token: 0x06002BA6 RID: 11174 RVA: 0x001720F0 File Offset: 0x001704F0
 		private void DrawIcon(Texture2D icon, ref Vector2 pos, string tooltip)
 		{
 			float num = 20f * this.ColonistBar.Scale;
@@ -350,7 +350,7 @@ namespace RimWorld
 			pos.x += num;
 		}
 
-		// Token: 0x06002BA3 RID: 11171 RVA: 0x00171FF8 File Offset: 0x001703F8
+		// Token: 0x06002BA7 RID: 11175 RVA: 0x00172148 File Offset: 0x00170548
 		private void DrawSelectionOverlayOnGUI(Pawn colonist, Rect rect)
 		{
 			Thing obj = colonist;
@@ -364,7 +364,7 @@ namespace RimWorld
 			this.DrawSelectionOverlayOnGUI(ColonistBarColonistDrawer.bracketLocs, num);
 		}
 
-		// Token: 0x06002BA4 RID: 11172 RVA: 0x0017207C File Offset: 0x0017047C
+		// Token: 0x06002BA8 RID: 11176 RVA: 0x001721CC File Offset: 0x001705CC
 		private void DrawCaravanSelectionOverlayOnGUI(Caravan caravan, Rect rect)
 		{
 			float num = 0.4f * this.ColonistBar.Scale;
@@ -373,7 +373,7 @@ namespace RimWorld
 			this.DrawSelectionOverlayOnGUI(ColonistBarColonistDrawer.bracketLocs, num);
 		}
 
-		// Token: 0x06002BA5 RID: 11173 RVA: 0x001720EC File Offset: 0x001704EC
+		// Token: 0x06002BA9 RID: 11177 RVA: 0x0017223C File Offset: 0x0017063C
 		private void DrawSelectionOverlayOnGUI(Vector2[] bracketLocs, float selectedTexScale)
 		{
 			int num = 90;

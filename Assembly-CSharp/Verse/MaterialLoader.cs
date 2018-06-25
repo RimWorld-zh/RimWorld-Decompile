@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D6F RID: 3439
+	// Token: 0x02000D71 RID: 3441
 	public static class MaterialLoader
 	{
-		// Token: 0x06004D21 RID: 19745 RVA: 0x002832B4 File Offset: 0x002816B4
+		// Token: 0x06004D25 RID: 19749 RVA: 0x002833E0 File Offset: 0x002817E0
 		public static List<Material> MatsFromTexturesInFolder(string dirPath)
 		{
 			string path = "Textures/" + dirPath;
@@ -16,7 +16,7 @@ namespace Verse
 			select MaterialPool.MatFrom(tex)).ToList<Material>();
 		}
 
-		// Token: 0x06004D22 RID: 19746 RVA: 0x00283314 File Offset: 0x00281714
+		// Token: 0x06004D26 RID: 19750 RVA: 0x00283440 File Offset: 0x00281840
 		public static Material MatWithEnding(string dirPath, string ending)
 		{
 			Material material = (from mat in MaterialLoader.MatsFromTexturesInFolder(dirPath)

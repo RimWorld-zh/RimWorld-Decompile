@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B3E RID: 2878
+	// Token: 0x02000B40 RID: 2880
 	public class HediffDef : Def
 	{
 		// Token: 0x0400296E RID: 10606
@@ -96,8 +96,8 @@ namespace Verse
 		// Token: 0x0400298A RID: 10634
 		private Hediff concreteExampleInt;
 
-		// Token: 0x17000993 RID: 2451
-		// (get) Token: 0x06003F38 RID: 16184 RVA: 0x002148B4 File Offset: 0x00212CB4
+		// Token: 0x17000992 RID: 2450
+		// (get) Token: 0x06003F3B RID: 16187 RVA: 0x00214990 File Offset: 0x00212D90
 		public bool IsAddiction
 		{
 			get
@@ -106,8 +106,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000994 RID: 2452
-		// (get) Token: 0x06003F39 RID: 16185 RVA: 0x002148E0 File Offset: 0x00212CE0
+		// Token: 0x17000993 RID: 2451
+		// (get) Token: 0x06003F3C RID: 16188 RVA: 0x002149BC File Offset: 0x00212DBC
 		public bool AlwaysAllowMothball
 		{
 			get
@@ -136,8 +136,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000995 RID: 2453
-		// (get) Token: 0x06003F3A RID: 16186 RVA: 0x002149A4 File Offset: 0x00212DA4
+		// Token: 0x17000994 RID: 2452
+		// (get) Token: 0x06003F3D RID: 16189 RVA: 0x00214A80 File Offset: 0x00212E80
 		public Hediff ConcreteExample
 		{
 			get
@@ -150,7 +150,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F3B RID: 16187 RVA: 0x002149D8 File Offset: 0x00212DD8
+		// Token: 0x06003F3E RID: 16190 RVA: 0x00214AB4 File Offset: 0x00212EB4
 		public bool HasComp(Type compClass)
 		{
 			if (this.comps != null)
@@ -166,7 +166,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06003F3C RID: 16188 RVA: 0x00214A38 File Offset: 0x00212E38
+		// Token: 0x06003F3F RID: 16191 RVA: 0x00214B14 File Offset: 0x00212F14
 		public HediffCompProperties CompPropsFor(Type compClass)
 		{
 			if (this.comps != null)
@@ -182,7 +182,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06003F3D RID: 16189 RVA: 0x00214AA4 File Offset: 0x00212EA4
+		// Token: 0x06003F40 RID: 16192 RVA: 0x00214B80 File Offset: 0x00212F80
 		public T CompProps<T>() where T : class
 		{
 			if (this.comps != null)
@@ -199,14 +199,14 @@ namespace Verse
 			return (T)((object)null);
 		}
 
-		// Token: 0x06003F3E RID: 16190 RVA: 0x00214B18 File Offset: 0x00212F18
+		// Token: 0x06003F41 RID: 16193 RVA: 0x00214BF4 File Offset: 0x00212FF4
 		public bool PossibleToDevelopImmunityNaturally()
 		{
 			HediffCompProperties_Immunizable hediffCompProperties_Immunizable = this.CompProps<HediffCompProperties_Immunizable>();
 			return hediffCompProperties_Immunizable != null && (hediffCompProperties_Immunizable.immunityPerDayNotSick > 0f || hediffCompProperties_Immunizable.immunityPerDaySick > 0f);
 		}
 
-		// Token: 0x06003F3F RID: 16191 RVA: 0x00214B64 File Offset: 0x00212F64
+		// Token: 0x06003F42 RID: 16194 RVA: 0x00214C40 File Offset: 0x00213040
 		public string PrettyTextForPart(BodyPartRecord bodyPart)
 		{
 			string result;
@@ -221,7 +221,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003F40 RID: 16192 RVA: 0x00214BA8 File Offset: 0x00212FA8
+		// Token: 0x06003F43 RID: 16195 RVA: 0x00214C84 File Offset: 0x00213084
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -284,7 +284,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003F41 RID: 16193 RVA: 0x00214BD4 File Offset: 0x00212FD4
+		// Token: 0x06003F44 RID: 16196 RVA: 0x00214CB0 File Offset: 0x002130B0
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			if (this.stages != null && this.stages.Count == 1)
@@ -297,7 +297,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003F42 RID: 16194 RVA: 0x00214C00 File Offset: 0x00213000
+		// Token: 0x06003F45 RID: 16197 RVA: 0x00214CDC File Offset: 0x002130DC
 		public static HediffDef Named(string defName)
 		{
 			return DefDatabase<HediffDef>.GetNamed(defName, true);

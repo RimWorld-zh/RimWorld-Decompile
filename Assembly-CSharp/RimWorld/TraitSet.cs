@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200053A RID: 1338
+	// Token: 0x0200053C RID: 1340
 	public class TraitSet : IExposable
 	{
 		// Token: 0x04000EAB RID: 3755
@@ -13,19 +13,19 @@ namespace RimWorld
 		// Token: 0x04000EAC RID: 3756
 		public List<Trait> allTraits = new List<Trait>();
 
-		// Token: 0x060018F0 RID: 6384 RVA: 0x000D9358 File Offset: 0x000D7758
+		// Token: 0x060018F4 RID: 6388 RVA: 0x000D94A8 File Offset: 0x000D78A8
 		public TraitSet(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x060018F1 RID: 6385 RVA: 0x000D9373 File Offset: 0x000D7773
+		// Token: 0x060018F5 RID: 6389 RVA: 0x000D94C3 File Offset: 0x000D78C3
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Trait>(ref this.allTraits, "allTraits", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x060018F2 RID: 6386 RVA: 0x000D9390 File Offset: 0x000D7790
+		// Token: 0x060018F6 RID: 6390 RVA: 0x000D94E0 File Offset: 0x000D78E0
 		public void GainTrait(Trait trait)
 		{
 			if (this.HasTrait(trait.def))
@@ -51,7 +51,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018F3 RID: 6387 RVA: 0x000D9474 File Offset: 0x000D7874
+		// Token: 0x060018F7 RID: 6391 RVA: 0x000D95C4 File Offset: 0x000D79C4
 		public bool HasTrait(TraitDef tDef)
 		{
 			for (int i = 0; i < this.allTraits.Count; i++)
@@ -65,7 +65,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000386 RID: 902
-		// (get) Token: 0x060018F4 RID: 6388 RVA: 0x000D94C8 File Offset: 0x000D78C8
+		// (get) Token: 0x060018F8 RID: 6392 RVA: 0x000D9618 File Offset: 0x000D7A18
 		public IEnumerable<MentalBreakDef> TheOnlyAllowedMentalBreaks
 		{
 			get
@@ -85,7 +85,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018F5 RID: 6389 RVA: 0x000D94F4 File Offset: 0x000D78F4
+		// Token: 0x060018F9 RID: 6393 RVA: 0x000D9644 File Offset: 0x000D7A44
 		public Trait GetTrait(TraitDef tDef)
 		{
 			for (int i = 0; i < this.allTraits.Count; i++)
@@ -98,7 +98,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x060018F6 RID: 6390 RVA: 0x000D9554 File Offset: 0x000D7954
+		// Token: 0x060018FA RID: 6394 RVA: 0x000D96A4 File Offset: 0x000D7AA4
 		public int DegreeOfTrait(TraitDef tDef)
 		{
 			for (int i = 0; i < this.allTraits.Count; i++)

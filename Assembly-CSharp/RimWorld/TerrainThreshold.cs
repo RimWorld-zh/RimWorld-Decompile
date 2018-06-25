@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000286 RID: 646
+	// Token: 0x02000288 RID: 648
 	public class TerrainThreshold
 	{
 		// Token: 0x0400055D RID: 1373
@@ -16,7 +16,7 @@ namespace RimWorld
 		// Token: 0x0400055F RID: 1375
 		public float max = 1000f;
 
-		// Token: 0x06000AF5 RID: 2805 RVA: 0x00063A70 File Offset: 0x00061E70
+		// Token: 0x06000AF9 RID: 2809 RVA: 0x00063BC0 File Offset: 0x00061FC0
 		public static TerrainDef TerrainAtValue(List<TerrainThreshold> threshes, float val)
 		{
 			for (int i = 0; i < threshes.Count; i++)

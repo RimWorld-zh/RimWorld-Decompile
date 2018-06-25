@@ -4,14 +4,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000698 RID: 1688
+	// Token: 0x0200069A RID: 1690
 	public class Building_Vent : Building_TempControl
 	{
 		// Token: 0x040013FD RID: 5117
 		private CompFlickable flickableComp;
 
 		// Token: 0x17000558 RID: 1368
-		// (get) Token: 0x060023C8 RID: 9160 RVA: 0x00132D20 File Offset: 0x00131120
+		// (get) Token: 0x060023CC RID: 9164 RVA: 0x00132E70 File Offset: 0x00131270
 		public override Graphic Graphic
 		{
 			get
@@ -20,14 +20,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023C9 RID: 9161 RVA: 0x00132D40 File Offset: 0x00131140
+		// Token: 0x060023CD RID: 9165 RVA: 0x00132E90 File Offset: 0x00131290
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
 			this.flickableComp = base.GetComp<CompFlickable>();
 		}
 
-		// Token: 0x060023CA RID: 9162 RVA: 0x00132D57 File Offset: 0x00131157
+		// Token: 0x060023CE RID: 9166 RVA: 0x00132EA7 File Offset: 0x001312A7
 		public override void TickRare()
 		{
 			if (FlickUtility.WantsToBeOn(this))
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023CB RID: 9163 RVA: 0x00132D74 File Offset: 0x00131174
+		// Token: 0x060023CF RID: 9167 RVA: 0x00132EC4 File Offset: 0x001312C4
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

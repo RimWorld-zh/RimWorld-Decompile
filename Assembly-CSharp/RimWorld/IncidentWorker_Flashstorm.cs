@@ -4,17 +4,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200032C RID: 812
+	// Token: 0x0200032E RID: 814
 	public class IncidentWorker_Flashstorm : IncidentWorker
 	{
-		// Token: 0x06000DE5 RID: 3557 RVA: 0x00076B18 File Offset: 0x00074F18
+		// Token: 0x06000DE9 RID: 3561 RVA: 0x00076C68 File Offset: 0x00075068
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			return !map.gameConditionManager.ConditionIsActive(GameConditionDefOf.Flashstorm);
 		}
 
-		// Token: 0x06000DE6 RID: 3558 RVA: 0x00076B4C File Offset: 0x00074F4C
+		// Token: 0x06000DEA RID: 3562 RVA: 0x00076C9C File Offset: 0x0007509C
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;

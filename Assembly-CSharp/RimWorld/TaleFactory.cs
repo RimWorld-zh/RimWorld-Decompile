@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200065E RID: 1630
+	// Token: 0x02000660 RID: 1632
 	public static class TaleFactory
 	{
-		// Token: 0x06002213 RID: 8723 RVA: 0x001216B0 File Offset: 0x0011FAB0
+		// Token: 0x06002217 RID: 8727 RVA: 0x00121800 File Offset: 0x0011FC00
 		public static Tale MakeRawTale(TaleDef def, params object[] args)
 		{
 			Tale result;
@@ -29,7 +29,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002214 RID: 8724 RVA: 0x00121754 File Offset: 0x0011FB54
+		// Token: 0x06002218 RID: 8728 RVA: 0x001218A4 File Offset: 0x0011FCA4
 		public static Tale MakeRandomTestTale(TaleDef def = null)
 		{
 			if (def == null)

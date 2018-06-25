@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005B5 RID: 1461
+	// Token: 0x020005B7 RID: 1463
 	public static class PlanetShapeGenerator
 	{
 		// Token: 0x040010C2 RID: 4290
@@ -77,7 +77,7 @@ namespace RimWorld.Planet
 		// Token: 0x040010D8 RID: 4312
 		private const int MaxTileVertices = 6;
 
-		// Token: 0x06001C11 RID: 7185 RVA: 0x000F1888 File Offset: 0x000EFC88
+		// Token: 0x06001C15 RID: 7189 RVA: 0x000F19D8 File Offset: 0x000EFDD8
 		public static void Generate(int subdivisionsCount, out List<Vector3> outVerts, out List<int> outTileIDToVerts_offsets, out List<int> outTileIDToNeighbors_offsets, out List<int> outTileIDToNeighbors_values, float radius, Vector3 viewCenter, float viewAngle)
 		{
 			PlanetShapeGenerator.subdivisionsCount = subdivisionsCount;
@@ -91,7 +91,7 @@ namespace RimWorld.Planet
 			outTileIDToNeighbors_values = PlanetShapeGenerator.tileIDToNeighbors_values;
 		}
 
-		// Token: 0x06001C12 RID: 7186 RVA: 0x000F18C8 File Offset: 0x000EFCC8
+		// Token: 0x06001C16 RID: 7190 RVA: 0x000F1A18 File Offset: 0x000EFE18
 		private static void DoGenerate()
 		{
 			PlanetShapeGenerator.ClearOrCreateMeshStaticData();
@@ -106,7 +106,7 @@ namespace RimWorld.Planet
 			PlanetShapeGenerator.ClearAndDeallocateWorkingLists();
 		}
 
-		// Token: 0x06001C13 RID: 7187 RVA: 0x000F1931 File Offset: 0x000EFD31
+		// Token: 0x06001C17 RID: 7191 RVA: 0x000F1A81 File Offset: 0x000EFE81
 		private static void ClearOrCreateMeshStaticData()
 		{
 			PlanetShapeGenerator.tris.Clear();
@@ -114,7 +114,7 @@ namespace RimWorld.Planet
 			PlanetShapeGenerator.finalVerts = new List<Vector3>();
 		}
 
-		// Token: 0x06001C14 RID: 7188 RVA: 0x000F1952 File Offset: 0x000EFD52
+		// Token: 0x06001C18 RID: 7192 RVA: 0x000F1AA2 File Offset: 0x000EFEA2
 		private static void CreateTileInfoStaticData()
 		{
 			PlanetShapeGenerator.tileIDToFinalVerts_offsets = new List<int>();
@@ -122,7 +122,7 @@ namespace RimWorld.Planet
 			PlanetShapeGenerator.tileIDToNeighbors_values = new List<int>();
 		}
 
-		// Token: 0x06001C15 RID: 7189 RVA: 0x000F1974 File Offset: 0x000EFD74
+		// Token: 0x06001C19 RID: 7193 RVA: 0x000F1AC4 File Offset: 0x000EFEC4
 		private static void ClearAndDeallocateWorkingLists()
 		{
 			PlanetShapeGenerator.ClearAndDeallocate<TriangleIndices>(ref PlanetShapeGenerator.tris);
@@ -141,7 +141,7 @@ namespace RimWorld.Planet
 			PlanetShapeGenerator.ClearAndDeallocate<int>(ref PlanetShapeGenerator.tileIDToVerts_values);
 		}
 
-		// Token: 0x06001C16 RID: 7190 RVA: 0x000F1A0E File Offset: 0x000EFE0E
+		// Token: 0x06001C1A RID: 7194 RVA: 0x000F1B5E File Offset: 0x000EFF5E
 		private static void ClearAndDeallocate<T>(ref List<T> list)
 		{
 			list.Clear();
@@ -149,7 +149,7 @@ namespace RimWorld.Planet
 			list = new List<T>();
 		}
 
-		// Token: 0x06001C17 RID: 7191 RVA: 0x000F1A28 File Offset: 0x000EFE28
+		// Token: 0x06001C1B RID: 7195 RVA: 0x000F1B78 File Offset: 0x000EFF78
 		private static void Subdivide(bool lastPass)
 		{
 			PackedListOfLists.GenerateVertToTrisPackedList(PlanetShapeGenerator.verts, PlanetShapeGenerator.tris, PlanetShapeGenerator.vertToTris_offsets, PlanetShapeGenerator.vertToTris_values);
@@ -244,7 +244,7 @@ namespace RimWorld.Planet
 			PlanetShapeGenerator.tris.AddRange(PlanetShapeGenerator.newTris);
 		}
 
-		// Token: 0x06001C18 RID: 7192 RVA: 0x000F1DA0 File Offset: 0x000F01A0
+		// Token: 0x06001C1C RID: 7196 RVA: 0x000F1EF0 File Offset: 0x000F02F0
 		private static void FinalizeGeneratedTile(List<int> generatedTileVerts)
 		{
 			if ((generatedTileVerts.Count != 5 && generatedTileVerts.Count != 6) || generatedTileVerts.Count > 6)
@@ -268,7 +268,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C19 RID: 7193 RVA: 0x000F1E90 File Offset: 0x000F0290
+		// Token: 0x06001C1D RID: 7197 RVA: 0x000F1FE0 File Offset: 0x000F03E0
 		private static bool ShouldDiscardGeneratedTile(List<int> generatedTileVerts)
 		{
 			Vector3 a = Vector3.zero;
@@ -282,7 +282,7 @@ namespace RimWorld.Planet
 			return !MeshUtility.VisibleForWorldgen(a / (float)generatedTileVerts.Count, PlanetShapeGenerator.radius, PlanetShapeGenerator.viewCenter, PlanetShapeGenerator.viewAngle);
 		}
 
-		// Token: 0x06001C1A RID: 7194 RVA: 0x000F1F04 File Offset: 0x000F0304
+		// Token: 0x06001C1E RID: 7198 RVA: 0x000F2054 File Offset: 0x000F0454
 		private static void CalculateTileNeighbors()
 		{
 			List<int> list = new List<int>();
@@ -322,7 +322,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C1B RID: 7195 RVA: 0x000F2040 File Offset: 0x000F0440
+		// Token: 0x06001C1F RID: 7199 RVA: 0x000F2190 File Offset: 0x000F0590
 		private static int GetNextAdjacentTriangle(int currentAdjTriangleIndex, int currentTriangleVertex, List<int> adjacentTris)
 		{
 			int i = 0;

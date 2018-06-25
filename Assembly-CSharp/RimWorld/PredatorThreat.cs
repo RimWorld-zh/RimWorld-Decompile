@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000564 RID: 1380
+	// Token: 0x02000566 RID: 1382
 	public class PredatorThreat : IExposable
 	{
 		// Token: 0x04000F46 RID: 3910
@@ -16,7 +16,7 @@ namespace RimWorld
 		private const int ExpireAfterTicks = 600;
 
 		// Token: 0x170003AF RID: 943
-		// (get) Token: 0x06001A1A RID: 6682 RVA: 0x000E278C File Offset: 0x000E0B8C
+		// (get) Token: 0x06001A1E RID: 6686 RVA: 0x000E28DC File Offset: 0x000E0CDC
 		public bool Expired
 		{
 			get
@@ -25,7 +25,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001A1B RID: 6683 RVA: 0x000E27D3 File Offset: 0x000E0BD3
+		// Token: 0x06001A1F RID: 6687 RVA: 0x000E2923 File Offset: 0x000E0D23
 		public void ExposeData()
 		{
 			Scribe_References.Look<Pawn>(ref this.predator, "predator", false);

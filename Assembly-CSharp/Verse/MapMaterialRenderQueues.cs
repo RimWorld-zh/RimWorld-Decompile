@@ -2,13 +2,13 @@
 
 namespace Verse
 {
-	// Token: 0x02000F5F RID: 3935
+	// Token: 0x02000F63 RID: 3939
 	public static class MapMaterialRenderQueues
 	{
-		// Token: 0x04003E70 RID: 15984
+		// Token: 0x04003E73 RID: 15987
 		public static int Tornado = 3176;
 
-		// Token: 0x04003E71 RID: 15985
+		// Token: 0x04003E74 RID: 15988
 		public static int OrbitalBeam = 3177;
 	}
 }

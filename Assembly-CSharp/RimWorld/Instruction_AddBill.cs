@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008B4 RID: 2228
+	// Token: 0x020008B6 RID: 2230
 	public class Instruction_AddBill : Lesson_Instruction
 	{
 		// Token: 0x1700081C RID: 2076
-		// (get) Token: 0x060032FE RID: 13054 RVA: 0x001B7830 File Offset: 0x001B5C30
+		// (get) Token: 0x06003302 RID: 13058 RVA: 0x001B7970 File Offset: 0x001B5D70
 		protected override float ProgressPercent
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060032FF RID: 13055 RVA: 0x001B7888 File Offset: 0x001B5C88
+		// Token: 0x06003303 RID: 13059 RVA: 0x001B79C8 File Offset: 0x001B5DC8
 		private Bill_Production RelevantBill()
 		{
 			if (Find.Selector.SingleSelectedThing != null && Find.Selector.SingleSelectedThing.def == this.def.thingDef)
@@ -43,7 +43,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06003300 RID: 13056 RVA: 0x001B790C File Offset: 0x001B5D0C
+		// Token: 0x06003304 RID: 13060 RVA: 0x001B7A4C File Offset: 0x001B5E4C
 		private IEnumerable<Thing> ThingsToSelect()
 		{
 			if (Find.Selector.SingleSelectedThing == null || Find.Selector.SingleSelectedThing.def != this.def.thingDef)
@@ -57,7 +57,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06003301 RID: 13057 RVA: 0x001B7938 File Offset: 0x001B5D38
+		// Token: 0x06003305 RID: 13061 RVA: 0x001B7A78 File Offset: 0x001B5E78
 		public override void LessonOnGUI()
 		{
 			foreach (Thing t in this.ThingsToSelect())
@@ -71,7 +71,7 @@ namespace RimWorld
 			base.LessonOnGUI();
 		}
 
-		// Token: 0x06003302 RID: 13058 RVA: 0x001B79BC File Offset: 0x001B5DBC
+		// Token: 0x06003306 RID: 13062 RVA: 0x001B7AFC File Offset: 0x001B5EFC
 		public override void LessonUpdate()
 		{
 			foreach (Thing thing in this.ThingsToSelect())

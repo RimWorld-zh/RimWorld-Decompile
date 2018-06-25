@@ -4,13 +4,13 @@ using Verse.Grammar;
 
 namespace RimWorld
 {
-	// Token: 0x02000663 RID: 1635
+	// Token: 0x02000665 RID: 1637
 	public static class TaleTextGenerator
 	{
 		// Token: 0x04001377 RID: 4983
 		private const float TalelessChanceWithTales = 0.2f;
 
-		// Token: 0x0600223E RID: 8766 RVA: 0x00122A88 File Offset: 0x00120E88
+		// Token: 0x06002242 RID: 8770 RVA: 0x00122BD8 File Offset: 0x00120FD8
 		public static string GenerateTextFromTale(TextGenerationPurpose purpose, Tale tale, int seed, RulePackDef extraInclude)
 		{
 			Rand.PushState();

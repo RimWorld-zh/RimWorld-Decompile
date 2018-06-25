@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200092C RID: 2348
+	// Token: 0x0200092E RID: 2350
 	[DefOf]
 	public static class RoofDefOf
 	{
@@ -16,7 +16,7 @@ namespace RimWorld
 		// Token: 0x04002025 RID: 8229
 		public static RoofDef RoofRockThin;
 
-		// Token: 0x06003634 RID: 13876 RVA: 0x001D0A65 File Offset: 0x001CEE65
+		// Token: 0x06003638 RID: 13880 RVA: 0x001D0BA5 File Offset: 0x001CEFA5
 		static RoofDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(RoofDefOf));

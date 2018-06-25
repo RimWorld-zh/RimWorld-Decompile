@@ -5,10 +5,10 @@ using System.Reflection;
 
 namespace Verse
 {
-	// Token: 0x02000F4C RID: 3916
+	// Token: 0x02000F50 RID: 3920
 	public static class GenTypes
 	{
-		// Token: 0x04003E36 RID: 15926
+		// Token: 0x04003E39 RID: 15929
 		public static readonly List<string> IgnoredNamespaceNames = new List<string>
 		{
 			"RimWorld",
@@ -20,8 +20,8 @@ namespace Verse
 			"RimWorld.BaseGen"
 		};
 
-		// Token: 0x17000F42 RID: 3906
-		// (get) Token: 0x06005EB8 RID: 24248 RVA: 0x003037D4 File Offset: 0x00301BD4
+		// Token: 0x17000F41 RID: 3905
+		// (get) Token: 0x06005EC2 RID: 24258 RVA: 0x00303E54 File Offset: 0x00302254
 		private static IEnumerable<Assembly> AllActiveAssemblies
 		{
 			get
@@ -38,8 +38,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F43 RID: 3907
-		// (get) Token: 0x06005EB9 RID: 24249 RVA: 0x003037F8 File Offset: 0x00301BF8
+		// Token: 0x17000F42 RID: 3906
+		// (get) Token: 0x06005EC3 RID: 24259 RVA: 0x00303E78 File Offset: 0x00302278
 		public static IEnumerable<Type> AllTypes
 		{
 			get
@@ -67,7 +67,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005EBA RID: 24250 RVA: 0x0030381C File Offset: 0x00301C1C
+		// Token: 0x06005EC4 RID: 24260 RVA: 0x00303E9C File Offset: 0x0030229C
 		public static IEnumerable<Type> AllTypesWithAttribute<TAttr>() where TAttr : Attribute
 		{
 			return from x in GenTypes.AllTypes
@@ -75,7 +75,7 @@ namespace Verse
 			select x;
 		}
 
-		// Token: 0x06005EBB RID: 24251 RVA: 0x00303848 File Offset: 0x00301C48
+		// Token: 0x06005EC5 RID: 24261 RVA: 0x00303EC8 File Offset: 0x003022C8
 		public static IEnumerable<Type> AllSubclasses(this Type baseType)
 		{
 			return from x in GenTypes.AllTypes
@@ -83,7 +83,7 @@ namespace Verse
 			select x;
 		}
 
-		// Token: 0x06005EBC RID: 24252 RVA: 0x00303880 File Offset: 0x00301C80
+		// Token: 0x06005EC6 RID: 24262 RVA: 0x00303F00 File Offset: 0x00302300
 		public static IEnumerable<Type> AllSubclassesNonAbstract(this Type baseType)
 		{
 			return from x in GenTypes.AllTypes
@@ -91,7 +91,7 @@ namespace Verse
 			select x;
 		}
 
-		// Token: 0x06005EBD RID: 24253 RVA: 0x003038B8 File Offset: 0x00301CB8
+		// Token: 0x06005EC7 RID: 24263 RVA: 0x00303F38 File Offset: 0x00302338
 		public static IEnumerable<Type> AllLeafSubclasses(this Type baseType)
 		{
 			return from type in baseType.AllSubclasses()
@@ -99,7 +99,7 @@ namespace Verse
 			select type;
 		}
 
-		// Token: 0x06005EBE RID: 24254 RVA: 0x003038F8 File Offset: 0x00301CF8
+		// Token: 0x06005EC8 RID: 24264 RVA: 0x00303F78 File Offset: 0x00302378
 		public static IEnumerable<Type> InstantiableDescendantsAndSelf(this Type baseType)
 		{
 			if (!baseType.IsAbstract)
@@ -116,7 +116,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005EBF RID: 24255 RVA: 0x00303924 File Offset: 0x00301D24
+		// Token: 0x06005EC9 RID: 24265 RVA: 0x00303FA4 File Offset: 0x003023A4
 		public static Type GetTypeInAnyAssembly(string typeName)
 		{
 			Type typeInAnyAssemblyRaw = GenTypes.GetTypeInAnyAssemblyRaw(typeName);
@@ -141,7 +141,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005EC0 RID: 24256 RVA: 0x00303998 File Offset: 0x00301D98
+		// Token: 0x06005ECA RID: 24266 RVA: 0x00304018 File Offset: 0x00302418
 		private static Type GetTypeInAnyAssemblyRaw(string typeName)
 		{
 			foreach (Assembly assembly in GenTypes.AllActiveAssemblies)
@@ -155,7 +155,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06005EC1 RID: 24257 RVA: 0x00303A0C File Offset: 0x00301E0C
+		// Token: 0x06005ECB RID: 24267 RVA: 0x0030408C File Offset: 0x0030248C
 		public static string GetTypeNameWithoutIgnoredNamespaces(Type type)
 		{
 			string result;
@@ -177,7 +177,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005EC2 RID: 24258 RVA: 0x00303A84 File Offset: 0x00301E84
+		// Token: 0x06005ECC RID: 24268 RVA: 0x00304104 File Offset: 0x00302504
 		public static bool IsCustomType(Type type)
 		{
 			string @namespace = type.Namespace;

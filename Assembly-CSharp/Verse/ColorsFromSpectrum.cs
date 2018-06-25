@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F65 RID: 3941
+	// Token: 0x02000F69 RID: 3945
 	public static class ColorsFromSpectrum
 	{
-		// Token: 0x06005F58 RID: 24408 RVA: 0x00309AB0 File Offset: 0x00307EB0
+		// Token: 0x06005F62 RID: 24418 RVA: 0x0030A130 File Offset: 0x00308530
 		public static Color Get(IList<Color> spectrum, float val)
 		{
 			Color result;

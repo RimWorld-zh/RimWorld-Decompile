@@ -2,13 +2,13 @@
 
 namespace Verse
 {
-	// Token: 0x02000E3D RID: 3645
+	// Token: 0x02000E3F RID: 3647
 	[AttributeUsage(AttributeTargets.Field)]
 	public class TranslationHandleAttribute : Attribute
 	{
-		// Token: 0x17000D7E RID: 3454
-		// (get) Token: 0x06005639 RID: 22073 RVA: 0x002C78B8 File Offset: 0x002C5CB8
-		// (set) Token: 0x0600563A RID: 22074 RVA: 0x002C78D2 File Offset: 0x002C5CD2
+		// Token: 0x17000D7D RID: 3453
+		// (get) Token: 0x0600563D RID: 22077 RVA: 0x002C79E4 File Offset: 0x002C5DE4
+		// (set) Token: 0x0600563E RID: 22078 RVA: 0x002C79FE File Offset: 0x002C5DFE
 		public int Priority { get; set; }
 	}
 }

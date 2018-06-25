@@ -4,34 +4,34 @@ using NAudio.Wave;
 
 namespace NVorbis.NAudioSupport
 {
-	// Token: 0x020009DD RID: 2525
+	// Token: 0x020009DF RID: 2527
 	internal class VorbisWaveReader : WaveStream, IDisposable, ISampleProvider, IWaveProvider
 	{
-		// Token: 0x04002429 RID: 9257
+		// Token: 0x0400242A RID: 9258
 		private VorbisReader _reader;
 
-		// Token: 0x0400242A RID: 9258
+		// Token: 0x0400242B RID: 9259
 		private WaveFormat _waveFormat;
 
-		// Token: 0x0400242B RID: 9259
+		// Token: 0x0400242C RID: 9260
 		[ThreadStatic]
 		private static float[] _conversionBuffer = null;
 
-		// Token: 0x060038A1 RID: 14497 RVA: 0x001E42E9 File Offset: 0x001E26E9
+		// Token: 0x060038A5 RID: 14501 RVA: 0x001E4415 File Offset: 0x001E2815
 		public VorbisWaveReader(string fileName)
 		{
 			this._reader = new VorbisReader(fileName);
 			this._waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(this._reader.SampleRate, this._reader.Channels);
 		}
 
-		// Token: 0x060038A2 RID: 14498 RVA: 0x001E431F File Offset: 0x001E271F
+		// Token: 0x060038A6 RID: 14502 RVA: 0x001E444B File Offset: 0x001E284B
 		public VorbisWaveReader(Stream sourceStream)
 		{
 			this._reader = new VorbisReader(sourceStream, false);
 			this._waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(this._reader.SampleRate, this._reader.Channels);
 		}
 
-		// Token: 0x060038A3 RID: 14499 RVA: 0x001E4356 File Offset: 0x001E2756
+		// Token: 0x060038A7 RID: 14503 RVA: 0x001E4482 File Offset: 0x001E2882
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing && this._reader != null)
@@ -43,7 +43,7 @@ namespace NVorbis.NAudioSupport
 		}
 
 		// Token: 0x170008B1 RID: 2225
-		// (get) Token: 0x060038A4 RID: 14500 RVA: 0x001E4388 File Offset: 0x001E2788
+		// (get) Token: 0x060038A8 RID: 14504 RVA: 0x001E44B4 File Offset: 0x001E28B4
 		public override WaveFormat WaveFormat
 		{
 			get
@@ -53,7 +53,7 @@ namespace NVorbis.NAudioSupport
 		}
 
 		// Token: 0x170008B2 RID: 2226
-		// (get) Token: 0x060038A5 RID: 14501 RVA: 0x001E43A4 File Offset: 0x001E27A4
+		// (get) Token: 0x060038A9 RID: 14505 RVA: 0x001E44D0 File Offset: 0x001E28D0
 		public override long Length
 		{
 			get
@@ -63,8 +63,8 @@ namespace NVorbis.NAudioSupport
 		}
 
 		// Token: 0x170008B3 RID: 2227
-		// (get) Token: 0x060038A6 RID: 14502 RVA: 0x001E43F4 File Offset: 0x001E27F4
-		// (set) Token: 0x060038A7 RID: 14503 RVA: 0x001E4444 File Offset: 0x001E2844
+		// (get) Token: 0x060038AA RID: 14506 RVA: 0x001E4520 File Offset: 0x001E2920
+		// (set) Token: 0x060038AB RID: 14507 RVA: 0x001E4570 File Offset: 0x001E2970
 		public override long Position
 		{
 			get
@@ -81,7 +81,7 @@ namespace NVorbis.NAudioSupport
 			}
 		}
 
-		// Token: 0x060038A8 RID: 14504 RVA: 0x001E44A8 File Offset: 0x001E28A8
+		// Token: 0x060038AC RID: 14508 RVA: 0x001E45D4 File Offset: 0x001E29D4
 		public override int Read(byte[] buffer, int offset, int count)
 		{
 			count /= 4;
@@ -101,14 +101,14 @@ namespace NVorbis.NAudioSupport
 			return num;
 		}
 
-		// Token: 0x060038A9 RID: 14505 RVA: 0x001E451C File Offset: 0x001E291C
+		// Token: 0x060038AD RID: 14509 RVA: 0x001E4648 File Offset: 0x001E2A48
 		public int Read(float[] buffer, int offset, int count)
 		{
 			return this._reader.ReadSamples(buffer, offset, count);
 		}
 
 		// Token: 0x170008B4 RID: 2228
-		// (get) Token: 0x060038AA RID: 14506 RVA: 0x001E4540 File Offset: 0x001E2940
+		// (get) Token: 0x060038AE RID: 14510 RVA: 0x001E466C File Offset: 0x001E2A6C
 		public bool IsParameterChange
 		{
 			get
@@ -117,14 +117,14 @@ namespace NVorbis.NAudioSupport
 			}
 		}
 
-		// Token: 0x060038AB RID: 14507 RVA: 0x001E4560 File Offset: 0x001E2960
+		// Token: 0x060038AF RID: 14511 RVA: 0x001E468C File Offset: 0x001E2A8C
 		public void ClearParameterChange()
 		{
 			this._reader.ClearParameterChange();
 		}
 
 		// Token: 0x170008B5 RID: 2229
-		// (get) Token: 0x060038AC RID: 14508 RVA: 0x001E4570 File Offset: 0x001E2970
+		// (get) Token: 0x060038B0 RID: 14512 RVA: 0x001E469C File Offset: 0x001E2A9C
 		public int StreamCount
 		{
 			get
@@ -134,11 +134,11 @@ namespace NVorbis.NAudioSupport
 		}
 
 		// Token: 0x170008B6 RID: 2230
-		// (get) Token: 0x060038AD RID: 14509 RVA: 0x001E4590 File Offset: 0x001E2990
-		// (set) Token: 0x060038AE RID: 14510 RVA: 0x001E45AA File Offset: 0x001E29AA
+		// (get) Token: 0x060038B1 RID: 14513 RVA: 0x001E46BC File Offset: 0x001E2ABC
+		// (set) Token: 0x060038B2 RID: 14514 RVA: 0x001E46D6 File Offset: 0x001E2AD6
 		public int? NextStreamIndex { get; set; }
 
-		// Token: 0x060038AF RID: 14511 RVA: 0x001E45B4 File Offset: 0x001E29B4
+		// Token: 0x060038B3 RID: 14515 RVA: 0x001E46E0 File Offset: 0x001E2AE0
 		public bool GetNextStreamIndex()
 		{
 			if (this.NextStreamIndex == null)
@@ -154,8 +154,8 @@ namespace NVorbis.NAudioSupport
 		}
 
 		// Token: 0x170008B7 RID: 2231
-		// (get) Token: 0x060038B0 RID: 14512 RVA: 0x001E4610 File Offset: 0x001E2A10
-		// (set) Token: 0x060038B1 RID: 14513 RVA: 0x001E4630 File Offset: 0x001E2A30
+		// (get) Token: 0x060038B4 RID: 14516 RVA: 0x001E473C File Offset: 0x001E2B3C
+		// (set) Token: 0x060038B5 RID: 14517 RVA: 0x001E475C File Offset: 0x001E2B5C
 		public int CurrentStream
 		{
 			get
@@ -176,7 +176,7 @@ namespace NVorbis.NAudioSupport
 		}
 
 		// Token: 0x170008B8 RID: 2232
-		// (get) Token: 0x060038B2 RID: 14514 RVA: 0x001E4694 File Offset: 0x001E2A94
+		// (get) Token: 0x060038B6 RID: 14518 RVA: 0x001E47C0 File Offset: 0x001E2BC0
 		public int UpperBitrate
 		{
 			get
@@ -186,7 +186,7 @@ namespace NVorbis.NAudioSupport
 		}
 
 		// Token: 0x170008B9 RID: 2233
-		// (get) Token: 0x060038B3 RID: 14515 RVA: 0x001E46B4 File Offset: 0x001E2AB4
+		// (get) Token: 0x060038B7 RID: 14519 RVA: 0x001E47E0 File Offset: 0x001E2BE0
 		public int NominalBitrate
 		{
 			get
@@ -196,7 +196,7 @@ namespace NVorbis.NAudioSupport
 		}
 
 		// Token: 0x170008BA RID: 2234
-		// (get) Token: 0x060038B4 RID: 14516 RVA: 0x001E46D4 File Offset: 0x001E2AD4
+		// (get) Token: 0x060038B8 RID: 14520 RVA: 0x001E4800 File Offset: 0x001E2C00
 		public int LowerBitrate
 		{
 			get
@@ -206,7 +206,7 @@ namespace NVorbis.NAudioSupport
 		}
 
 		// Token: 0x170008BB RID: 2235
-		// (get) Token: 0x060038B5 RID: 14517 RVA: 0x001E46F4 File Offset: 0x001E2AF4
+		// (get) Token: 0x060038B9 RID: 14521 RVA: 0x001E4820 File Offset: 0x001E2C20
 		public string Vendor
 		{
 			get
@@ -216,7 +216,7 @@ namespace NVorbis.NAudioSupport
 		}
 
 		// Token: 0x170008BC RID: 2236
-		// (get) Token: 0x060038B6 RID: 14518 RVA: 0x001E4714 File Offset: 0x001E2B14
+		// (get) Token: 0x060038BA RID: 14522 RVA: 0x001E4840 File Offset: 0x001E2C40
 		public string[] Comments
 		{
 			get
@@ -226,7 +226,7 @@ namespace NVorbis.NAudioSupport
 		}
 
 		// Token: 0x170008BD RID: 2237
-		// (get) Token: 0x060038B7 RID: 14519 RVA: 0x001E4734 File Offset: 0x001E2B34
+		// (get) Token: 0x060038BB RID: 14523 RVA: 0x001E4860 File Offset: 0x001E2C60
 		public long ContainerOverheadBits
 		{
 			get
@@ -236,7 +236,7 @@ namespace NVorbis.NAudioSupport
 		}
 
 		// Token: 0x170008BE RID: 2238
-		// (get) Token: 0x060038B8 RID: 14520 RVA: 0x001E4754 File Offset: 0x001E2B54
+		// (get) Token: 0x060038BC RID: 14524 RVA: 0x001E4880 File Offset: 0x001E2C80
 		public IVorbisStreamStatus[] Stats
 		{
 			get

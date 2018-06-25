@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000381 RID: 897
+	// Token: 0x02000383 RID: 899
 	public enum StoryDanger : byte
 	{
 		// Token: 0x04000986 RID: 2438

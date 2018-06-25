@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020008F3 RID: 2291
+	// Token: 0x020008F5 RID: 2293
 	public enum ColonyMakerFlag
 	{
 		// Token: 0x04001CA2 RID: 7330

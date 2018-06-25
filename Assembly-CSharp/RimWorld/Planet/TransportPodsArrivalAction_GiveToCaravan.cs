@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000612 RID: 1554
+	// Token: 0x02000614 RID: 1556
 	public class TransportPodsArrivalAction_GiveToCaravan : TransportPodsArrivalAction
 	{
 		// Token: 0x04001247 RID: 4679
@@ -13,25 +13,25 @@ namespace RimWorld.Planet
 		// Token: 0x04001248 RID: 4680
 		private static List<Thing> tmpContainedThings = new List<Thing>();
 
-		// Token: 0x06001F52 RID: 8018 RVA: 0x0010FF4B File Offset: 0x0010E34B
+		// Token: 0x06001F56 RID: 8022 RVA: 0x0011009B File Offset: 0x0010E49B
 		public TransportPodsArrivalAction_GiveToCaravan()
 		{
 		}
 
-		// Token: 0x06001F53 RID: 8019 RVA: 0x0010FF54 File Offset: 0x0010E354
+		// Token: 0x06001F57 RID: 8023 RVA: 0x001100A4 File Offset: 0x0010E4A4
 		public TransportPodsArrivalAction_GiveToCaravan(Caravan caravan)
 		{
 			this.caravan = caravan;
 		}
 
-		// Token: 0x06001F54 RID: 8020 RVA: 0x0010FF64 File Offset: 0x0010E364
+		// Token: 0x06001F58 RID: 8024 RVA: 0x001100B4 File Offset: 0x0010E4B4
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_References.Look<Caravan>(ref this.caravan, "caravan", false);
 		}
 
-		// Token: 0x06001F55 RID: 8021 RVA: 0x0010FF80 File Offset: 0x0010E380
+		// Token: 0x06001F59 RID: 8025 RVA: 0x001100D0 File Offset: 0x0010E4D0
 		public override FloatMenuAcceptanceReport StillValid(IEnumerable<IThingHolder> pods, int destinationTile)
 		{
 			FloatMenuAcceptanceReport floatMenuAcceptanceReport = base.StillValid(pods, destinationTile);
@@ -51,7 +51,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001F56 RID: 8022 RVA: 0x0010FFF0 File Offset: 0x0010E3F0
+		// Token: 0x06001F5A RID: 8026 RVA: 0x00110140 File Offset: 0x0010E540
 		public override void Arrived(List<ActiveDropPodInfo> pods, int tile)
 		{
 			for (int i = 0; i < pods.Count; i++)
@@ -71,13 +71,13 @@ namespace RimWorld.Planet
 			}).CapitalizeFirst(), this.caravan, MessageTypeDefOf.TaskCompletion, true);
 		}
 
-		// Token: 0x06001F57 RID: 8023 RVA: 0x001100CC File Offset: 0x0010E4CC
+		// Token: 0x06001F5B RID: 8027 RVA: 0x0011021C File Offset: 0x0010E61C
 		public static FloatMenuAcceptanceReport CanGiveTo(IEnumerable<IThingHolder> pods, Caravan caravan)
 		{
 			return caravan != null && caravan.Spawned && caravan.IsPlayerControlled;
 		}
 
-		// Token: 0x06001F58 RID: 8024 RVA: 0x00110100 File Offset: 0x0010E500
+		// Token: 0x06001F5C RID: 8028 RVA: 0x00110250 File Offset: 0x0010E650
 		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(CompLaunchable representative, IEnumerable<IThingHolder> pods, Caravan caravan)
 		{
 			return TransportPodsArrivalActionUtility.GetFloatMenuOptions<TransportPodsArrivalAction_GiveToCaravan>(() => TransportPodsArrivalAction_GiveToCaravan.CanGiveTo(pods, caravan), () => new TransportPodsArrivalAction_GiveToCaravan(caravan), "GiveToCaravan".Translate(new object[]

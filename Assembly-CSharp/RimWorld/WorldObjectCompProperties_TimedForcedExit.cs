@@ -4,16 +4,16 @@ using RimWorld.Planet;
 
 namespace RimWorld
 {
-	// Token: 0x02000281 RID: 641
+	// Token: 0x02000283 RID: 643
 	public class WorldObjectCompProperties_TimedForcedExit : WorldObjectCompProperties
 	{
-		// Token: 0x06000AED RID: 2797 RVA: 0x00062FEE File Offset: 0x000613EE
+		// Token: 0x06000AF1 RID: 2801 RVA: 0x0006313E File Offset: 0x0006153E
 		public WorldObjectCompProperties_TimedForcedExit()
 		{
 			this.compClass = typeof(TimedForcedExit);
 		}
 
-		// Token: 0x06000AEE RID: 2798 RVA: 0x00063008 File Offset: 0x00061408
+		// Token: 0x06000AF2 RID: 2802 RVA: 0x00063158 File Offset: 0x00061558
 		public override IEnumerable<string> ConfigErrors(WorldObjectDef parentDef)
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))

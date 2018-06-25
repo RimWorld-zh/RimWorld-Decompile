@@ -6,20 +6,20 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000795 RID: 1941
+	// Token: 0x02000797 RID: 1943
 	public class Alert_LowFood : Alert
 	{
 		// Token: 0x04001728 RID: 5928
 		private const float NutritionThresholdPerColonist = 4f;
 
-		// Token: 0x06002B07 RID: 11015 RVA: 0x0016BC3C File Offset: 0x0016A03C
+		// Token: 0x06002B0B RID: 11019 RVA: 0x0016BD8C File Offset: 0x0016A18C
 		public Alert_LowFood()
 		{
 			this.defaultLabel = "LowFood".Translate();
 			this.defaultPriority = AlertPriority.High;
 		}
 
-		// Token: 0x06002B08 RID: 11016 RVA: 0x0016BC5C File Offset: 0x0016A05C
+		// Token: 0x06002B0C RID: 11020 RVA: 0x0016BDAC File Offset: 0x0016A1AC
 		public override string GetExplanation()
 		{
 			Map map = this.MapWithLowFood();
@@ -40,7 +40,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B09 RID: 11017 RVA: 0x0016BD08 File Offset: 0x0016A108
+		// Token: 0x06002B0D RID: 11021 RVA: 0x0016BE58 File Offset: 0x0016A258
 		public override AlertReport GetReport()
 		{
 			AlertReport result;
@@ -55,7 +55,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B0A RID: 11018 RVA: 0x0016BD50 File Offset: 0x0016A150
+		// Token: 0x06002B0E RID: 11022 RVA: 0x0016BEA0 File Offset: 0x0016A2A0
 		private Map MapWithLowFood()
 		{
 			List<Map> maps = Find.Maps;

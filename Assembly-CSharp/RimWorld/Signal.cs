@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000305 RID: 773
+	// Token: 0x02000307 RID: 775
 	public struct Signal
 	{
 		// Token: 0x0400085A RID: 2138
@@ -11,14 +11,14 @@ namespace RimWorld
 		// Token: 0x0400085B RID: 2139
 		public object[] args;
 
-		// Token: 0x06000CDE RID: 3294 RVA: 0x00070E58 File Offset: 0x0006F258
+		// Token: 0x06000CE2 RID: 3298 RVA: 0x00070FA8 File Offset: 0x0006F3A8
 		public Signal(string tag)
 		{
 			this.tag = tag;
 			this.args = null;
 		}
 
-		// Token: 0x06000CDF RID: 3295 RVA: 0x00070E69 File Offset: 0x0006F269
+		// Token: 0x06000CE3 RID: 3299 RVA: 0x00070FB9 File Offset: 0x0006F3B9
 		public Signal(string tag, object[] args)
 		{
 			this.tag = tag;

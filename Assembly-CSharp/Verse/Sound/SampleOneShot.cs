@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DAF RID: 3503
+	// Token: 0x02000DB1 RID: 3505
 	public class SampleOneShot : Sample
 	{
 		// Token: 0x04003430 RID: 13360
@@ -13,13 +13,13 @@ namespace Verse.Sound
 		// Token: 0x04003431 RID: 13361
 		private SoundParams externalParams = new SoundParams();
 
-		// Token: 0x06004E54 RID: 20052 RVA: 0x0028F62A File Offset: 0x0028DA2A
+		// Token: 0x06004E58 RID: 20056 RVA: 0x0028F756 File Offset: 0x0028DB56
 		private SampleOneShot(SubSoundDef def) : base(def)
 		{
 		}
 
-		// Token: 0x17000CA0 RID: 3232
-		// (get) Token: 0x06004E55 RID: 20053 RVA: 0x0028F640 File Offset: 0x0028DA40
+		// Token: 0x17000C9F RID: 3231
+		// (get) Token: 0x06004E59 RID: 20057 RVA: 0x0028F76C File Offset: 0x0028DB6C
 		public override float ParentStartRealTime
 		{
 			get
@@ -28,8 +28,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000CA1 RID: 3233
-		// (get) Token: 0x06004E56 RID: 20054 RVA: 0x0028F65C File Offset: 0x0028DA5C
+		// Token: 0x17000CA0 RID: 3232
+		// (get) Token: 0x06004E5A RID: 20058 RVA: 0x0028F788 File Offset: 0x0028DB88
 		public override float ParentStartTick
 		{
 			get
@@ -38,8 +38,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000CA2 RID: 3234
-		// (get) Token: 0x06004E57 RID: 20055 RVA: 0x0028F678 File Offset: 0x0028DA78
+		// Token: 0x17000CA1 RID: 3233
+		// (get) Token: 0x06004E5B RID: 20059 RVA: 0x0028F7A4 File Offset: 0x0028DBA4
 		public override float ParentHashCode
 		{
 			get
@@ -48,8 +48,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000CA3 RID: 3235
-		// (get) Token: 0x06004E58 RID: 20056 RVA: 0x0028F694 File Offset: 0x0028DA94
+		// Token: 0x17000CA2 RID: 3234
+		// (get) Token: 0x06004E5C RID: 20060 RVA: 0x0028F7C0 File Offset: 0x0028DBC0
 		public override SoundParams ExternalParams
 		{
 			get
@@ -58,8 +58,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000CA4 RID: 3236
-		// (get) Token: 0x06004E59 RID: 20057 RVA: 0x0028F6B0 File Offset: 0x0028DAB0
+		// Token: 0x17000CA3 RID: 3235
+		// (get) Token: 0x06004E5D RID: 20061 RVA: 0x0028F7DC File Offset: 0x0028DBDC
 		public override SoundInfo Info
 		{
 			get
@@ -68,7 +68,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E5A RID: 20058 RVA: 0x0028F6CC File Offset: 0x0028DACC
+		// Token: 0x06004E5E RID: 20062 RVA: 0x0028F7F8 File Offset: 0x0028DBF8
 		public static SampleOneShot TryMakeAndPlay(SubSoundDef def, AudioClip clip, SoundInfo info)
 		{
 			SampleOneShot result;

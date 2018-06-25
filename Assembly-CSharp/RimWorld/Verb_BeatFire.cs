@@ -3,19 +3,19 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009D0 RID: 2512
+	// Token: 0x020009D2 RID: 2514
 	public class Verb_BeatFire : Verb
 	{
-		// Token: 0x04002407 RID: 9223
+		// Token: 0x04002408 RID: 9224
 		private const int DamageAmount = 32;
 
-		// Token: 0x0600385D RID: 14429 RVA: 0x001E1AC8 File Offset: 0x001DFEC8
+		// Token: 0x06003861 RID: 14433 RVA: 0x001E1BEC File Offset: 0x001DFFEC
 		public Verb_BeatFire()
 		{
 			this.verbProps = NativeVerbPropertiesDatabase.VerbWithCategory(VerbCategory.BeatFire);
 		}
 
-		// Token: 0x0600385E RID: 14430 RVA: 0x001E1AE0 File Offset: 0x001DFEE0
+		// Token: 0x06003862 RID: 14434 RVA: 0x001E1C04 File Offset: 0x001E0004
 		protected override bool TryCastShot()
 		{
 			Fire fire = (Fire)this.currentTarget.Thing;

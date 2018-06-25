@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000BFF RID: 3071
+	// Token: 0x02000C01 RID: 3073
 	public class CellBoolDrawer
 	{
 		// Token: 0x04002DEC RID: 11756
@@ -49,7 +49,7 @@ namespace Verse
 		// Token: 0x04002DF9 RID: 11769
 		private const int MaxCellsPerMesh = 16383;
 
-		// Token: 0x06004335 RID: 17205 RVA: 0x002386FC File Offset: 0x00236AFC
+		// Token: 0x06004338 RID: 17208 RVA: 0x002387D8 File Offset: 0x00236BD8
 		public CellBoolDrawer(ICellBoolGiver giver, int mapSizeX, int mapSizeZ, float opacity = 0.33f)
 		{
 			this.giver = giver;
@@ -58,13 +58,13 @@ namespace Verse
 			this.opacity = opacity;
 		}
 
-		// Token: 0x06004336 RID: 17206 RVA: 0x00238751 File Offset: 0x00236B51
+		// Token: 0x06004339 RID: 17209 RVA: 0x0023882D File Offset: 0x00236C2D
 		public void MarkForDraw()
 		{
 			this.wantDraw = true;
 		}
 
-		// Token: 0x06004337 RID: 17207 RVA: 0x0023875B File Offset: 0x00236B5B
+		// Token: 0x0600433A RID: 17210 RVA: 0x00238837 File Offset: 0x00236C37
 		public void CellBoolDrawerUpdate()
 		{
 			if (this.wantDraw)
@@ -74,7 +74,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004338 RID: 17208 RVA: 0x00238778 File Offset: 0x00236B78
+		// Token: 0x0600433B RID: 17211 RVA: 0x00238854 File Offset: 0x00236C54
 		private void ActuallyDraw()
 		{
 			if (this.dirty)
@@ -87,13 +87,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004339 RID: 17209 RVA: 0x002387D7 File Offset: 0x00236BD7
+		// Token: 0x0600433C RID: 17212 RVA: 0x002388B3 File Offset: 0x00236CB3
 		public void SetDirty()
 		{
 			this.dirty = true;
 		}
 
-		// Token: 0x0600433A RID: 17210 RVA: 0x002387E4 File Offset: 0x00236BE4
+		// Token: 0x0600433D RID: 17213 RVA: 0x002388C0 File Offset: 0x00236CC0
 		public void RegenerateMesh()
 		{
 			for (int i = 0; i < this.meshes.Count; i++)
@@ -161,7 +161,7 @@ namespace Verse
 			this.dirty = false;
 		}
 
-		// Token: 0x0600433B RID: 17211 RVA: 0x00238A84 File Offset: 0x00236E84
+		// Token: 0x0600433E RID: 17214 RVA: 0x00238B60 File Offset: 0x00236F60
 		private void FinalizeWorkingDataIntoMesh(Mesh mesh)
 		{
 			if (CellBoolDrawer.verts.Count > 0)
@@ -175,7 +175,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600433C RID: 17212 RVA: 0x00238AE4 File Offset: 0x00236EE4
+		// Token: 0x0600433F RID: 17215 RVA: 0x00238BC0 File Offset: 0x00236FC0
 		private void CreateMaterialIfNeeded(bool careAboutVertexColors)
 		{
 			if (this.material == null || this.materialCaresAboutVertexColors != careAboutVertexColors)

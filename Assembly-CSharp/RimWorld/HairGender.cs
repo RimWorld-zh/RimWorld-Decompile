@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000298 RID: 664
+	// Token: 0x0200029A RID: 666
 	public enum HairGender : byte
 	{
 		// Token: 0x040005FF RID: 1535

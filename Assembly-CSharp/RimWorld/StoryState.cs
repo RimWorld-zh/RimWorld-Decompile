@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000359 RID: 857
+	// Token: 0x0200035B RID: 859
 	public class StoryState : IExposable
 	{
 		// Token: 0x04000922 RID: 2338
@@ -16,14 +16,14 @@ namespace RimWorld
 		// Token: 0x04000924 RID: 2340
 		public Dictionary<IncidentDef, int> lastFireTicks = new Dictionary<IncidentDef, int>();
 
-		// Token: 0x06000EE1 RID: 3809 RVA: 0x0007DA95 File Offset: 0x0007BE95
+		// Token: 0x06000EE5 RID: 3813 RVA: 0x0007DBE5 File Offset: 0x0007BFE5
 		public StoryState(IIncidentTarget target)
 		{
 			this.target = target;
 		}
 
 		// Token: 0x17000215 RID: 533
-		// (get) Token: 0x06000EE2 RID: 3810 RVA: 0x0007DAB8 File Offset: 0x0007BEB8
+		// (get) Token: 0x06000EE6 RID: 3814 RVA: 0x0007DC08 File Offset: 0x0007C008
 		public int LastThreatBigTick
 		{
 			get
@@ -44,14 +44,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000EE3 RID: 3811 RVA: 0x0007DB4B File Offset: 0x0007BF4B
+		// Token: 0x06000EE7 RID: 3815 RVA: 0x0007DC9B File Offset: 0x0007C09B
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.lastThreatBigTick, "lastThreatBigTick", 0, true);
 			Scribe_Collections.Look<IncidentDef, int>(ref this.lastFireTicks, "lastFireTicks", LookMode.Def, LookMode.Value);
 		}
 
-		// Token: 0x06000EE4 RID: 3812 RVA: 0x0007DB74 File Offset: 0x0007BF74
+		// Token: 0x06000EE8 RID: 3816 RVA: 0x0007DCC4 File Offset: 0x0007C0C4
 		public void Notify_IncidentFired(FiringIncident qi)
 		{
 			if (!qi.parms.forced && qi.parms.target == this.target)
@@ -80,7 +80,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000EE5 RID: 3813 RVA: 0x0007DC68 File Offset: 0x0007C068
+		// Token: 0x06000EE9 RID: 3817 RVA: 0x0007DDB8 File Offset: 0x0007C1B8
 		public void CopyTo(StoryState other)
 		{
 			other.lastThreatBigTick = this.lastThreatBigTick;

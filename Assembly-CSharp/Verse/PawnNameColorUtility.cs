@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CE1 RID: 3297
+	// Token: 0x02000CE3 RID: 3299
 	public static class PawnNameColorUtility
 	{
 		// Token: 0x0400312E RID: 12590
@@ -50,7 +50,7 @@ namespace Verse
 			new Color(1.2f, 1f, 0.8f)
 		};
 
-		// Token: 0x060048B2 RID: 18610 RVA: 0x00262820 File Offset: 0x00260C20
+		// Token: 0x060048B5 RID: 18613 RVA: 0x002628FC File Offset: 0x00260CFC
 		static PawnNameColorUtility()
 		{
 			for (int i = 0; i < 10; i++)
@@ -61,13 +61,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048B3 RID: 18611 RVA: 0x00262A30 File Offset: 0x00260E30
+		// Token: 0x060048B6 RID: 18614 RVA: 0x00262B0C File Offset: 0x00260F0C
 		private static Color RandomShiftOf(Color color, int i)
 		{
 			return new Color(Mathf.Clamp01(color.r * PawnNameColorUtility.ColorShifts[i].r), Mathf.Clamp01(color.g * PawnNameColorUtility.ColorShifts[i].g), Mathf.Clamp01(color.b * PawnNameColorUtility.ColorShifts[i].b), color.a);
 		}
 
-		// Token: 0x060048B4 RID: 18612 RVA: 0x00262AB4 File Offset: 0x00260EB4
+		// Token: 0x060048B7 RID: 18615 RVA: 0x00262B90 File Offset: 0x00260F90
 		public static Color PawnNameColorOf(Pawn pawn)
 		{
 			Color result;

@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000E56 RID: 3670
+	// Token: 0x02000E58 RID: 3672
 	public enum MenuOptionPriority : byte
 	{
 		// Token: 0x0400393E RID: 14654

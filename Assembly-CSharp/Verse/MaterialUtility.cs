@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F61 RID: 3937
+	// Token: 0x02000F65 RID: 3941
 	public static class MaterialUtility
 	{
-		// Token: 0x06005F4C RID: 24396 RVA: 0x00309808 File Offset: 0x00307C08
+		// Token: 0x06005F56 RID: 24406 RVA: 0x00309E88 File Offset: 0x00308288
 		public static Texture2D GetMaskTexture(this Material mat)
 		{
 			Texture2D result;
@@ -21,7 +21,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005F4D RID: 24397 RVA: 0x00309844 File Offset: 0x00307C44
+		// Token: 0x06005F57 RID: 24407 RVA: 0x00309EC4 File Offset: 0x003082C4
 		public static Color GetColorTwo(this Material mat)
 		{
 			Color result;

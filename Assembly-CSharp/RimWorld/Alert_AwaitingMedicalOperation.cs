@@ -6,11 +6,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007A3 RID: 1955
+	// Token: 0x020007A5 RID: 1957
 	public class Alert_AwaitingMedicalOperation : Alert
 	{
 		// Token: 0x170006B9 RID: 1721
-		// (get) Token: 0x06002B49 RID: 11081 RVA: 0x0016DF14 File Offset: 0x0016C314
+		// (get) Token: 0x06002B4D RID: 11085 RVA: 0x0016E064 File Offset: 0x0016C464
 		private IEnumerable<Pawn> AwaitingMedicalOperation
 		{
 			get
@@ -21,13 +21,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B4A RID: 11082 RVA: 0x0016DF60 File Offset: 0x0016C360
+		// Token: 0x06002B4E RID: 11086 RVA: 0x0016E0B0 File Offset: 0x0016C4B0
 		public override string GetLabel()
 		{
 			return string.Format("PatientsAwaitingMedicalOperation".Translate(), this.AwaitingMedicalOperation.Count<Pawn>().ToStringCached());
 		}
 
-		// Token: 0x06002B4B RID: 11083 RVA: 0x0016DF94 File Offset: 0x0016C394
+		// Token: 0x06002B4F RID: 11087 RVA: 0x0016E0E4 File Offset: 0x0016C4E4
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -38,7 +38,7 @@ namespace RimWorld
 			return string.Format("PatientsAwaitingMedicalOperationDesc".Translate(), stringBuilder.ToString());
 		}
 
-		// Token: 0x06002B4C RID: 11084 RVA: 0x0016E028 File Offset: 0x0016C428
+		// Token: 0x06002B50 RID: 11088 RVA: 0x0016E178 File Offset: 0x0016C578
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.AwaitingMedicalOperation);

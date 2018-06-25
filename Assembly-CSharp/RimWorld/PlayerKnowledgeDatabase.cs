@@ -7,19 +7,19 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008CF RID: 2255
+	// Token: 0x020008D1 RID: 2257
 	public static class PlayerKnowledgeDatabase
 	{
 		// Token: 0x04001BBF RID: 7103
 		private static PlayerKnowledgeDatabase.ConceptKnowledge data;
 
-		// Token: 0x060033A9 RID: 13225 RVA: 0x001B9DBF File Offset: 0x001B81BF
+		// Token: 0x060033AD RID: 13229 RVA: 0x001B9EFF File Offset: 0x001B82FF
 		static PlayerKnowledgeDatabase()
 		{
 			PlayerKnowledgeDatabase.ReloadAndRebind();
 		}
 
-		// Token: 0x060033AA RID: 13226 RVA: 0x001B9DC8 File Offset: 0x001B81C8
+		// Token: 0x060033AE RID: 13230 RVA: 0x001B9F08 File Offset: 0x001B8308
 		public static void ReloadAndRebind()
 		{
 			PlayerKnowledgeDatabase.data = DirectXmlLoader.ItemFromXmlFile<PlayerKnowledgeDatabase.ConceptKnowledge>(GenFilePaths.ConceptKnowledgeFilePath, true);
@@ -33,7 +33,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060033AB RID: 13227 RVA: 0x001B9E70 File Offset: 0x001B8270
+		// Token: 0x060033AF RID: 13231 RVA: 0x001B9FB0 File Offset: 0x001B83B0
 		public static void ResetPersistent()
 		{
 			FileInfo fileInfo = new FileInfo(GenFilePaths.ConceptKnowledgeFilePath);
@@ -44,7 +44,7 @@ namespace RimWorld
 			PlayerKnowledgeDatabase.data = new PlayerKnowledgeDatabase.ConceptKnowledge();
 		}
 
-		// Token: 0x060033AC RID: 13228 RVA: 0x001B9EA4 File Offset: 0x001B82A4
+		// Token: 0x060033B0 RID: 13232 RVA: 0x001B9FE4 File Offset: 0x001B83E4
 		public static void Save()
 		{
 			try
@@ -65,13 +65,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060033AD RID: 13229 RVA: 0x001B9F38 File Offset: 0x001B8338
+		// Token: 0x060033B1 RID: 13233 RVA: 0x001BA078 File Offset: 0x001B8478
 		public static float GetKnowledge(ConceptDef def)
 		{
 			return PlayerKnowledgeDatabase.data.knowledge[def];
 		}
 
-		// Token: 0x060033AE RID: 13230 RVA: 0x001B9F60 File Offset: 0x001B8360
+		// Token: 0x060033B2 RID: 13234 RVA: 0x001BA0A0 File Offset: 0x001B84A0
 		public static void SetKnowledge(ConceptDef def, float value)
 		{
 			float num = PlayerKnowledgeDatabase.data.knowledge[def];
@@ -83,13 +83,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060033AF RID: 13231 RVA: 0x001B9FB4 File Offset: 0x001B83B4
+		// Token: 0x060033B3 RID: 13235 RVA: 0x001BA0F4 File Offset: 0x001B84F4
 		public static bool IsComplete(ConceptDef conc)
 		{
 			return PlayerKnowledgeDatabase.data.knowledge[conc] > 0.999f;
 		}
 
-		// Token: 0x060033B0 RID: 13232 RVA: 0x001B9FE0 File Offset: 0x001B83E0
+		// Token: 0x060033B4 RID: 13236 RVA: 0x001BA120 File Offset: 0x001B8520
 		private static void NewlyLearned(ConceptDef conc)
 		{
 			TutorSystem.Notify_Event("ConceptLearned-" + conc.defName);
@@ -99,7 +99,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060033B1 RID: 13233 RVA: 0x001BA018 File Offset: 0x001B8418
+		// Token: 0x060033B5 RID: 13237 RVA: 0x001BA158 File Offset: 0x001B8558
 		public static void KnowledgeDemonstrated(ConceptDef conc, KnowledgeAmount know)
 		{
 			float num;
@@ -143,13 +143,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x020008D0 RID: 2256
+		// Token: 0x020008D2 RID: 2258
 		private class ConceptKnowledge
 		{
 			// Token: 0x04001BC0 RID: 7104
 			public Dictionary<ConceptDef, float> knowledge = new Dictionary<ConceptDef, float>();
 
-			// Token: 0x060033B2 RID: 13234 RVA: 0x001BA104 File Offset: 0x001B8504
+			// Token: 0x060033B6 RID: 13238 RVA: 0x001BA244 File Offset: 0x001B8644
 			public ConceptKnowledge()
 			{
 				foreach (ConceptDef key in DefDatabase<ConceptDef>.AllDefs)

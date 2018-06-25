@@ -4,10 +4,10 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000FAA RID: 4010
+	// Token: 0x02000FAE RID: 4014
 	public static class ProfilerThreadCheck
 	{
-		// Token: 0x060060FC RID: 24828 RVA: 0x0031055D File Offset: 0x0030E95D
+		// Token: 0x06006106 RID: 24838 RVA: 0x00310BDD File Offset: 0x0030EFDD
 		[Conditional("UNITY_EDITOR")]
 		[Conditional("BUILD_AND_RUN")]
 		public static void BeginSample(string name)
@@ -18,7 +18,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060060FD RID: 24829 RVA: 0x00310570 File Offset: 0x0030E970
+		// Token: 0x06006107 RID: 24839 RVA: 0x00310BF0 File Offset: 0x0030EFF0
 		[Conditional("UNITY_EDITOR")]
 		[Conditional("BUILD_AND_RUN")]
 		public static void EndSample()

@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000C2E RID: 3118
+	// Token: 0x02000C30 RID: 3120
 	public enum ThingRequestGroup : byte
 	{
 		// Token: 0x04002E89 RID: 11913

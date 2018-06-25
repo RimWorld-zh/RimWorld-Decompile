@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200073E RID: 1854
+	// Token: 0x02000740 RID: 1856
 	public abstract class CompTerrainPump : ThingComp
 	{
 		// Token: 0x0400166D RID: 5741
@@ -15,7 +15,7 @@ namespace RimWorld
 		private int progressTicks;
 
 		// Token: 0x17000658 RID: 1624
-		// (get) Token: 0x06002903 RID: 10499 RVA: 0x0015DD0C File Offset: 0x0015C10C
+		// (get) Token: 0x06002907 RID: 10503 RVA: 0x0015DE5C File Offset: 0x0015C25C
 		private CompProperties_TerrainPump Props
 		{
 			get
@@ -25,7 +25,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000659 RID: 1625
-		// (get) Token: 0x06002904 RID: 10500 RVA: 0x0015DD2C File Offset: 0x0015C12C
+		// (get) Token: 0x06002908 RID: 10504 RVA: 0x0015DE7C File Offset: 0x0015C27C
 		private float ProgressDays
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700065A RID: 1626
-		// (get) Token: 0x06002905 RID: 10501 RVA: 0x0015DD50 File Offset: 0x0015C150
+		// (get) Token: 0x06002909 RID: 10505 RVA: 0x0015DEA0 File Offset: 0x0015C2A0
 		private float CurrentRadius
 		{
 			get
@@ -45,7 +45,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700065B RID: 1627
-		// (get) Token: 0x06002906 RID: 10502 RVA: 0x0015DD94 File Offset: 0x0015C194
+		// (get) Token: 0x0600290A RID: 10506 RVA: 0x0015DEE4 File Offset: 0x0015C2E4
 		private bool Working
 		{
 			get
@@ -55,7 +55,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700065C RID: 1628
-		// (get) Token: 0x06002907 RID: 10503 RVA: 0x0015DDC4 File Offset: 0x0015C1C4
+		// (get) Token: 0x0600290B RID: 10507 RVA: 0x0015DF14 File Offset: 0x0015C314
 		private int TicksUntilRadiusInteger
 		{
 			get
@@ -71,19 +71,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002908 RID: 10504 RVA: 0x0015DE21 File Offset: 0x0015C221
+		// Token: 0x0600290C RID: 10508 RVA: 0x0015DF71 File Offset: 0x0015C371
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			this.powerComp = this.parent.TryGetComp<CompPowerTrader>();
 		}
 
-		// Token: 0x06002909 RID: 10505 RVA: 0x0015DE35 File Offset: 0x0015C235
+		// Token: 0x0600290D RID: 10509 RVA: 0x0015DF85 File Offset: 0x0015C385
 		public override void PostDeSpawn(Map map)
 		{
 			this.progressTicks = 0;
 		}
 
-		// Token: 0x0600290A RID: 10506 RVA: 0x0015DE40 File Offset: 0x0015C240
+		// Token: 0x0600290E RID: 10510 RVA: 0x0015DF90 File Offset: 0x0015C390
 		public override void CompTickRare()
 		{
 			if (this.Working)
@@ -97,16 +97,16 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600290B RID: 10507
+		// Token: 0x0600290F RID: 10511
 		protected abstract void AffectCell(IntVec3 c);
 
-		// Token: 0x0600290C RID: 10508 RVA: 0x0015DEB3 File Offset: 0x0015C2B3
+		// Token: 0x06002910 RID: 10512 RVA: 0x0015E003 File Offset: 0x0015C403
 		public override void PostExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.progressTicks, "progressTicks", 0, false);
 		}
 
-		// Token: 0x0600290D RID: 10509 RVA: 0x0015DEC8 File Offset: 0x0015C2C8
+		// Token: 0x06002911 RID: 10513 RVA: 0x0015E018 File Offset: 0x0015C418
 		public override void PostDrawExtraSelectionOverlays()
 		{
 			if (this.CurrentRadius < this.Props.radius - 0.0001f)
@@ -115,7 +115,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600290E RID: 10510 RVA: 0x0015DF00 File Offset: 0x0015C300
+		// Token: 0x06002912 RID: 10514 RVA: 0x0015E050 File Offset: 0x0015C450
 		public override string CompInspectStringExtra()
 		{
 			string text = string.Concat(new string[]
@@ -143,7 +143,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x0600290F RID: 10511 RVA: 0x0015DFE8 File Offset: 0x0015C3E8
+		// Token: 0x06002913 RID: 10515 RVA: 0x0015E138 File Offset: 0x0015C538
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			if (Prefs.DevMode)

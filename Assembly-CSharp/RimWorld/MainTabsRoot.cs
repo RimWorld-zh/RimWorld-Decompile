@@ -6,11 +6,11 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000877 RID: 2167
+	// Token: 0x02000879 RID: 2169
 	public class MainTabsRoot
 	{
 		// Token: 0x170007F9 RID: 2041
-		// (get) Token: 0x06003177 RID: 12663 RVA: 0x001AD730 File Offset: 0x001ABB30
+		// (get) Token: 0x0600317B RID: 12667 RVA: 0x001AD878 File Offset: 0x001ABC78
 		public MainButtonDef OpenTab
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003178 RID: 12664 RVA: 0x001AD764 File Offset: 0x001ABB64
+		// Token: 0x0600317C RID: 12668 RVA: 0x001AD8AC File Offset: 0x001ABCAC
 		public void HandleLowPriorityShortcuts()
 		{
 			if (this.OpenTab == MainButtonDefOf.Inspect && (Find.Selector.NumSelected == 0 || WorldRendererUtility.WorldRenderedNow))
@@ -55,13 +55,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003179 RID: 12665 RVA: 0x001AD85F File Offset: 0x001ABC5F
+		// Token: 0x0600317D RID: 12669 RVA: 0x001AD9A7 File Offset: 0x001ABDA7
 		public void EscapeCurrentTab(bool playSound = true)
 		{
 			this.SetCurrentTab(null, playSound);
 		}
 
-		// Token: 0x0600317A RID: 12666 RVA: 0x001AD86A File Offset: 0x001ABC6A
+		// Token: 0x0600317E RID: 12670 RVA: 0x001AD9B2 File Offset: 0x001ABDB2
 		public void SetCurrentTab(MainButtonDef tab, bool playSound = true)
 		{
 			if (tab != this.OpenTab)
@@ -70,7 +70,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600317B RID: 12667 RVA: 0x001AD888 File Offset: 0x001ABC88
+		// Token: 0x0600317F RID: 12671 RVA: 0x001AD9D0 File Offset: 0x001ABDD0
 		public void ToggleTab(MainButtonDef newTab, bool playSound = true)
 		{
 			if (this.OpenTab != null || newTab != null)

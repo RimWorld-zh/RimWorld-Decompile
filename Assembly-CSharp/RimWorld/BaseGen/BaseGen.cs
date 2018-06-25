@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x0200038E RID: 910
+	// Token: 0x02000390 RID: 912
 	public static class BaseGen
 	{
 		// Token: 0x040009A7 RID: 2471
@@ -25,7 +25,7 @@ namespace RimWorld.BaseGen
 		// Token: 0x040009AC RID: 2476
 		private static List<SymbolResolver> tmpResolvers = new List<SymbolResolver>();
 
-		// Token: 0x06000FE0 RID: 4064 RVA: 0x00085428 File Offset: 0x00083828
+		// Token: 0x06000FE4 RID: 4068 RVA: 0x00085578 File Offset: 0x00083978
 		public static void Reset()
 		{
 			BaseGen.rulesBySymbol.Clear();
@@ -42,7 +42,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06000FE1 RID: 4065 RVA: 0x000854A8 File Offset: 0x000838A8
+		// Token: 0x06000FE5 RID: 4069 RVA: 0x000855F8 File Offset: 0x000839F8
 		public static void Generate()
 		{
 			if (BaseGen.working)
@@ -112,7 +112,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06000FE2 RID: 4066 RVA: 0x00085680 File Offset: 0x00083A80
+		// Token: 0x06000FE6 RID: 4070 RVA: 0x000857D0 File Offset: 0x00083BD0
 		private static void Resolve(Pair<string, ResolveParams> toResolve)
 		{
 			string first = toResolve.First;

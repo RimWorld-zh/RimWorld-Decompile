@@ -5,160 +5,160 @@ using Verse.AI.Group;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A2E RID: 2606
+	// Token: 0x02000A30 RID: 2608
 	public class Job : IExposable, ILoadReferenceable
 	{
-		// Token: 0x040024C2 RID: 9410
+		// Token: 0x040024C3 RID: 9411
 		public JobDef def;
 
-		// Token: 0x040024C3 RID: 9411
+		// Token: 0x040024C4 RID: 9412
 		public LocalTargetInfo targetA = LocalTargetInfo.Invalid;
 
-		// Token: 0x040024C4 RID: 9412
+		// Token: 0x040024C5 RID: 9413
 		public LocalTargetInfo targetB = LocalTargetInfo.Invalid;
 
-		// Token: 0x040024C5 RID: 9413
+		// Token: 0x040024C6 RID: 9414
 		public LocalTargetInfo targetC = LocalTargetInfo.Invalid;
 
-		// Token: 0x040024C6 RID: 9414
+		// Token: 0x040024C7 RID: 9415
 		public List<LocalTargetInfo> targetQueueA = null;
 
-		// Token: 0x040024C7 RID: 9415
+		// Token: 0x040024C8 RID: 9416
 		public List<LocalTargetInfo> targetQueueB = null;
 
-		// Token: 0x040024C8 RID: 9416
+		// Token: 0x040024C9 RID: 9417
 		public int count = -1;
 
-		// Token: 0x040024C9 RID: 9417
+		// Token: 0x040024CA RID: 9418
 		public List<int> countQueue = null;
 
-		// Token: 0x040024CA RID: 9418
+		// Token: 0x040024CB RID: 9419
 		public int loadID;
 
-		// Token: 0x040024CB RID: 9419
+		// Token: 0x040024CC RID: 9420
 		public int startTick = -1;
 
-		// Token: 0x040024CC RID: 9420
+		// Token: 0x040024CD RID: 9421
 		public int expiryInterval = -1;
 
-		// Token: 0x040024CD RID: 9421
+		// Token: 0x040024CE RID: 9422
 		public bool checkOverrideOnExpire = false;
 
-		// Token: 0x040024CE RID: 9422
+		// Token: 0x040024CF RID: 9423
 		public bool playerForced = false;
 
-		// Token: 0x040024CF RID: 9423
+		// Token: 0x040024D0 RID: 9424
 		public List<ThingCountClass> placedThings = null;
 
-		// Token: 0x040024D0 RID: 9424
+		// Token: 0x040024D1 RID: 9425
 		public int maxNumMeleeAttacks = int.MaxValue;
 
-		// Token: 0x040024D1 RID: 9425
+		// Token: 0x040024D2 RID: 9426
 		public int maxNumStaticAttacks = int.MaxValue;
 
-		// Token: 0x040024D2 RID: 9426
+		// Token: 0x040024D3 RID: 9427
 		public LocomotionUrgency locomotionUrgency = LocomotionUrgency.Jog;
 
-		// Token: 0x040024D3 RID: 9427
+		// Token: 0x040024D4 RID: 9428
 		public HaulMode haulMode = HaulMode.Undefined;
 
-		// Token: 0x040024D4 RID: 9428
+		// Token: 0x040024D5 RID: 9429
 		public Bill bill = null;
 
-		// Token: 0x040024D5 RID: 9429
+		// Token: 0x040024D6 RID: 9430
 		public ICommunicable commTarget = null;
 
-		// Token: 0x040024D6 RID: 9430
+		// Token: 0x040024D7 RID: 9431
 		public ThingDef plantDefToSow = null;
 
-		// Token: 0x040024D7 RID: 9431
+		// Token: 0x040024D8 RID: 9432
 		public Verb verbToUse;
 
-		// Token: 0x040024D8 RID: 9432
+		// Token: 0x040024D9 RID: 9433
 		public bool haulOpportunisticDuplicates = false;
 
-		// Token: 0x040024D9 RID: 9433
+		// Token: 0x040024DA RID: 9434
 		public bool exitMapOnArrival = false;
 
-		// Token: 0x040024DA RID: 9434
+		// Token: 0x040024DB RID: 9435
 		public bool failIfCantJoinOrCreateCaravan = false;
 
-		// Token: 0x040024DB RID: 9435
+		// Token: 0x040024DC RID: 9436
 		public bool killIncappedTarget = false;
 
-		// Token: 0x040024DC RID: 9436
+		// Token: 0x040024DD RID: 9437
 		public bool ignoreForbidden = false;
 
-		// Token: 0x040024DD RID: 9437
+		// Token: 0x040024DE RID: 9438
 		public bool ignoreDesignations = false;
 
-		// Token: 0x040024DE RID: 9438
+		// Token: 0x040024DF RID: 9439
 		public bool canBash = false;
 
-		// Token: 0x040024DF RID: 9439
+		// Token: 0x040024E0 RID: 9440
 		public bool haulDroppedApparel = false;
 
-		// Token: 0x040024E0 RID: 9440
+		// Token: 0x040024E1 RID: 9441
 		public bool restUntilHealed = false;
 
-		// Token: 0x040024E1 RID: 9441
+		// Token: 0x040024E2 RID: 9442
 		public bool ignoreJoyTimeAssignment = false;
 
-		// Token: 0x040024E2 RID: 9442
+		// Token: 0x040024E3 RID: 9443
 		public bool overeat = false;
 
-		// Token: 0x040024E3 RID: 9443
+		// Token: 0x040024E4 RID: 9444
 		public bool attackDoorIfTargetLost = false;
 
-		// Token: 0x040024E4 RID: 9444
+		// Token: 0x040024E5 RID: 9445
 		public int takeExtraIngestibles = 0;
 
-		// Token: 0x040024E5 RID: 9445
+		// Token: 0x040024E6 RID: 9446
 		public bool expireRequiresEnemiesNearby = false;
 
-		// Token: 0x040024E6 RID: 9446
+		// Token: 0x040024E7 RID: 9447
 		public Lord lord = null;
 
-		// Token: 0x040024E7 RID: 9447
+		// Token: 0x040024E8 RID: 9448
 		public bool collideWithPawns;
 
-		// Token: 0x040024E8 RID: 9448
+		// Token: 0x040024E9 RID: 9449
 		public bool forceSleep;
 
-		// Token: 0x040024E9 RID: 9449
+		// Token: 0x040024EA RID: 9450
 		public InteractionDef interaction;
 
-		// Token: 0x040024EA RID: 9450
+		// Token: 0x040024EB RID: 9451
 		public bool endIfCantShootTargetFromCurPos;
 
-		// Token: 0x040024EB RID: 9451
+		// Token: 0x040024EC RID: 9452
 		public bool checkEncumbrance;
 
-		// Token: 0x040024EC RID: 9452
+		// Token: 0x040024ED RID: 9453
 		public float followRadius;
 
-		// Token: 0x040024ED RID: 9453
+		// Token: 0x040024EE RID: 9454
 		public bool endAfterTendedOnce;
 
-		// Token: 0x040024EE RID: 9454
+		// Token: 0x040024EF RID: 9455
 		private JobDriver cachedDriver;
 
-		// Token: 0x060039D7 RID: 14807 RVA: 0x001E8F70 File Offset: 0x001E7370
+		// Token: 0x060039DB RID: 14811 RVA: 0x001E909C File Offset: 0x001E749C
 		public Job()
 		{
 		}
 
-		// Token: 0x060039D8 RID: 14808 RVA: 0x001E9086 File Offset: 0x001E7486
+		// Token: 0x060039DC RID: 14812 RVA: 0x001E91B2 File Offset: 0x001E75B2
 		public Job(JobDef def) : this(def, null)
 		{
 		}
 
-		// Token: 0x060039D9 RID: 14809 RVA: 0x001E9096 File Offset: 0x001E7496
+		// Token: 0x060039DD RID: 14813 RVA: 0x001E91C2 File Offset: 0x001E75C2
 		public Job(JobDef def, LocalTargetInfo targetA) : this(def, targetA, null)
 		{
 		}
 
-		// Token: 0x060039DA RID: 14810 RVA: 0x001E90A8 File Offset: 0x001E74A8
+		// Token: 0x060039DE RID: 14814 RVA: 0x001E91D4 File Offset: 0x001E75D4
 		public Job(JobDef def, LocalTargetInfo targetA, LocalTargetInfo targetB)
 		{
 			this.def = def;
@@ -167,7 +167,7 @@ namespace Verse.AI
 			this.loadID = Find.UniqueIDsManager.GetNextJobID();
 		}
 
-		// Token: 0x060039DB RID: 14811 RVA: 0x001E91E4 File Offset: 0x001E75E4
+		// Token: 0x060039DF RID: 14815 RVA: 0x001E9310 File Offset: 0x001E7710
 		public Job(JobDef def, LocalTargetInfo targetA, LocalTargetInfo targetB, LocalTargetInfo targetC)
 		{
 			this.def = def;
@@ -177,7 +177,7 @@ namespace Verse.AI
 			this.loadID = Find.UniqueIDsManager.GetNextJobID();
 		}
 
-		// Token: 0x060039DC RID: 14812 RVA: 0x001E9328 File Offset: 0x001E7728
+		// Token: 0x060039E0 RID: 14816 RVA: 0x001E9454 File Offset: 0x001E7854
 		public Job(JobDef def, LocalTargetInfo targetA, int expiryInterval, bool checkOverrideOnExpiry = false)
 		{
 			this.def = def;
@@ -187,7 +187,7 @@ namespace Verse.AI
 			this.loadID = Find.UniqueIDsManager.GetNextJobID();
 		}
 
-		// Token: 0x060039DD RID: 14813 RVA: 0x001E946C File Offset: 0x001E786C
+		// Token: 0x060039E1 RID: 14817 RVA: 0x001E9598 File Offset: 0x001E7998
 		public Job(JobDef def, int expiryInterval, bool checkOverrideOnExpiry = false)
 		{
 			this.def = def;
@@ -197,7 +197,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x170008E7 RID: 2279
-		// (get) Token: 0x060039DE RID: 14814 RVA: 0x001E95A8 File Offset: 0x001E79A8
+		// (get) Token: 0x060039E2 RID: 14818 RVA: 0x001E96D4 File Offset: 0x001E7AD4
 		public RecipeDef RecipeDef
 		{
 			get
@@ -206,7 +206,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x060039DF RID: 14815 RVA: 0x001E95DC File Offset: 0x001E79DC
+		// Token: 0x060039E3 RID: 14819 RVA: 0x001E9708 File Offset: 0x001E7B08
 		public LocalTargetInfo GetTarget(TargetIndex ind)
 		{
 			LocalTargetInfo result;
@@ -227,7 +227,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x060039E0 RID: 14816 RVA: 0x001E9630 File Offset: 0x001E7A30
+		// Token: 0x060039E4 RID: 14820 RVA: 0x001E975C File Offset: 0x001E7B5C
 		public List<LocalTargetInfo> GetTargetQueue(TargetIndex ind)
 		{
 			List<LocalTargetInfo> result;
@@ -254,7 +254,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x060039E1 RID: 14817 RVA: 0x001E969C File Offset: 0x001E7A9C
+		// Token: 0x060039E5 RID: 14821 RVA: 0x001E97C8 File Offset: 0x001E7BC8
 		public void SetTarget(TargetIndex ind, LocalTargetInfo pack)
 		{
 			if (ind != TargetIndex.A)
@@ -278,13 +278,13 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x060039E2 RID: 14818 RVA: 0x001E96EE File Offset: 0x001E7AEE
+		// Token: 0x060039E6 RID: 14822 RVA: 0x001E981A File Offset: 0x001E7C1A
 		public void AddQueuedTarget(TargetIndex ind, LocalTargetInfo target)
 		{
 			this.GetTargetQueue(ind).Add(target);
 		}
 
-		// Token: 0x060039E3 RID: 14819 RVA: 0x001E9700 File Offset: 0x001E7B00
+		// Token: 0x060039E7 RID: 14823 RVA: 0x001E982C File Offset: 0x001E7C2C
 		public void ExposeData()
 		{
 			ILoadReferenceable loadReferenceable = (ILoadReferenceable)this.commTarget;
@@ -334,7 +334,7 @@ namespace Verse.AI
 			Scribe_Values.Look<bool>(ref this.endAfterTendedOnce, "endAfterTendedOnce", false, false);
 		}
 
-		// Token: 0x060039E4 RID: 14820 RVA: 0x001E9A38 File Offset: 0x001E7E38
+		// Token: 0x060039E8 RID: 14824 RVA: 0x001E9B64 File Offset: 0x001E7F64
 		public JobDriver MakeDriver(Pawn driverPawn)
 		{
 			JobDriver jobDriver = (JobDriver)Activator.CreateInstance(this.def.driverClass);
@@ -343,7 +343,7 @@ namespace Verse.AI
 			return jobDriver;
 		}
 
-		// Token: 0x060039E5 RID: 14821 RVA: 0x001E9A74 File Offset: 0x001E7E74
+		// Token: 0x060039E9 RID: 14825 RVA: 0x001E9BA0 File Offset: 0x001E7FA0
 		public JobDriver GetCachedDriver(Pawn driverPawn)
 		{
 			if (this.cachedDriver == null)
@@ -365,25 +365,25 @@ namespace Verse.AI
 			return this.cachedDriver;
 		}
 
-		// Token: 0x060039E6 RID: 14822 RVA: 0x001E9B10 File Offset: 0x001E7F10
+		// Token: 0x060039EA RID: 14826 RVA: 0x001E9C3C File Offset: 0x001E803C
 		public bool TryMakePreToilReservations(Pawn driverPawn)
 		{
 			return this.GetCachedDriver(driverPawn).TryMakePreToilReservations();
 		}
 
-		// Token: 0x060039E7 RID: 14823 RVA: 0x001E9B34 File Offset: 0x001E7F34
+		// Token: 0x060039EB RID: 14827 RVA: 0x001E9C60 File Offset: 0x001E8060
 		public string GetReport(Pawn driverPawn)
 		{
 			return this.GetCachedDriver(driverPawn).GetReport();
 		}
 
-		// Token: 0x060039E8 RID: 14824 RVA: 0x001E9B58 File Offset: 0x001E7F58
+		// Token: 0x060039EC RID: 14828 RVA: 0x001E9C84 File Offset: 0x001E8084
 		public LocalTargetInfo GetDestination(Pawn driverPawn)
 		{
 			return this.targetA;
 		}
 
-		// Token: 0x060039E9 RID: 14825 RVA: 0x001E9B74 File Offset: 0x001E7F74
+		// Token: 0x060039ED RID: 14829 RVA: 0x001E9CA0 File Offset: 0x001E80A0
 		public bool CanBeginNow(Pawn pawn, bool whileLyingDown = false)
 		{
 			if (pawn.Downed)
@@ -393,19 +393,19 @@ namespace Verse.AI
 			return !whileLyingDown || this.GetCachedDriver(pawn).CanBeginNowWhileLyingDown();
 		}
 
-		// Token: 0x060039EA RID: 14826 RVA: 0x001E9BB0 File Offset: 0x001E7FB0
+		// Token: 0x060039EE RID: 14830 RVA: 0x001E9CDC File Offset: 0x001E80DC
 		public bool JobIsSameAs(Job other)
 		{
 			return other != null && (this == other || (this.def == other.def && !(this.targetA != other.targetA) && !(this.targetB != other.targetB) && this.verbToUse == other.verbToUse && !(this.targetC != other.targetC) && this.commTarget == other.commTarget && this.bill == other.bill));
 		}
 
-		// Token: 0x060039EB RID: 14827 RVA: 0x001E9C70 File Offset: 0x001E8070
+		// Token: 0x060039EF RID: 14831 RVA: 0x001E9D9C File Offset: 0x001E819C
 		public bool AnyTargetIs(LocalTargetInfo target)
 		{
 			return target.IsValid && (this.targetA == target || this.targetB == target || this.targetC == target || (this.targetQueueA != null && this.targetQueueA.Contains(target)) || (this.targetQueueB != null && this.targetQueueB.Contains(target)));
 		}
 
-		// Token: 0x060039EC RID: 14828 RVA: 0x001E9D04 File Offset: 0x001E8104
+		// Token: 0x060039F0 RID: 14832 RVA: 0x001E9E30 File Offset: 0x001E8230
 		public override string ToString()
 		{
 			string text = this.def.ToString() + " (" + this.GetUniqueLoadID() + ")";
@@ -424,7 +424,7 @@ namespace Verse.AI
 			return text;
 		}
 
-		// Token: 0x060039ED RID: 14829 RVA: 0x001E9DC4 File Offset: 0x001E81C4
+		// Token: 0x060039F1 RID: 14833 RVA: 0x001E9EF0 File Offset: 0x001E82F0
 		public string GetUniqueLoadID()
 		{
 			return "Job_" + this.loadID;

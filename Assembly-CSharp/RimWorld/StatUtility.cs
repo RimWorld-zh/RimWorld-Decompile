@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace RimWorld
 {
-	// Token: 0x020009BE RID: 2494
+	// Token: 0x020009C0 RID: 2496
 	public static class StatUtility
 	{
-		// Token: 0x060037DE RID: 14302 RVA: 0x001DB4DC File Offset: 0x001D98DC
+		// Token: 0x060037E2 RID: 14306 RVA: 0x001DB61C File Offset: 0x001D9A1C
 		public static void SetStatValueInList(ref List<StatModifier> statList, StatDef stat, float value)
 		{
 			if (statList == null)
@@ -27,19 +27,19 @@ namespace RimWorld
 			statList.Add(statModifier);
 		}
 
-		// Token: 0x060037DF RID: 14303 RVA: 0x001DB558 File Offset: 0x001D9958
+		// Token: 0x060037E3 RID: 14307 RVA: 0x001DB698 File Offset: 0x001D9A98
 		public static float GetStatFactorFromList(this List<StatModifier> modList, StatDef stat)
 		{
 			return modList.GetStatValueFromList(stat, 1f);
 		}
 
-		// Token: 0x060037E0 RID: 14304 RVA: 0x001DB57C File Offset: 0x001D997C
+		// Token: 0x060037E4 RID: 14308 RVA: 0x001DB6BC File Offset: 0x001D9ABC
 		public static float GetStatOffsetFromList(this List<StatModifier> modList, StatDef stat)
 		{
 			return modList.GetStatValueFromList(stat, 0f);
 		}
 
-		// Token: 0x060037E1 RID: 14305 RVA: 0x001DB5A0 File Offset: 0x001D99A0
+		// Token: 0x060037E5 RID: 14309 RVA: 0x001DB6E0 File Offset: 0x001D9AE0
 		public static float GetStatValueFromList(this List<StatModifier> modList, StatDef stat, float defaultValue)
 		{
 			if (modList != null)
@@ -55,7 +55,7 @@ namespace RimWorld
 			return defaultValue;
 		}
 
-		// Token: 0x060037E2 RID: 14306 RVA: 0x001DB5FC File Offset: 0x001D99FC
+		// Token: 0x060037E6 RID: 14310 RVA: 0x001DB73C File Offset: 0x001D9B3C
 		public static bool StatListContains(this List<StatModifier> modList, StatDef stat)
 		{
 			if (modList != null)

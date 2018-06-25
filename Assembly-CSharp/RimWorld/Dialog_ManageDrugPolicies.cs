@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007FF RID: 2047
+	// Token: 0x02000801 RID: 2049
 	[StaticConstructorOnStartup]
 	public class Dialog_ManageDrugPolicies : Window
 	{
@@ -55,7 +55,7 @@ namespace RimWorld
 		// Token: 0x04001845 RID: 6213
 		private const float UsageSpacing = 12f;
 
-		// Token: 0x06002DB5 RID: 11701 RVA: 0x00180C7B File Offset: 0x0017F07B
+		// Token: 0x06002DB9 RID: 11705 RVA: 0x00180DCB File Offset: 0x0017F1CB
 		public Dialog_ManageDrugPolicies(DrugPolicy selectedAssignedDrugs)
 		{
 			this.forcePause = true;
@@ -67,8 +67,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700074E RID: 1870
-		// (get) Token: 0x06002DB6 RID: 11702 RVA: 0x00180CB0 File Offset: 0x0017F0B0
-		// (set) Token: 0x06002DB7 RID: 11703 RVA: 0x00180CCB File Offset: 0x0017F0CB
+		// (get) Token: 0x06002DBA RID: 11706 RVA: 0x00180E00 File Offset: 0x0017F200
+		// (set) Token: 0x06002DBB RID: 11707 RVA: 0x00180E1B File Offset: 0x0017F21B
 		private DrugPolicy SelectedPolicy
 		{
 			get
@@ -83,7 +83,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700074F RID: 1871
-		// (get) Token: 0x06002DB8 RID: 11704 RVA: 0x00180CDC File Offset: 0x0017F0DC
+		// (get) Token: 0x06002DBC RID: 11708 RVA: 0x00180E2C File Offset: 0x0017F22C
 		public override Vector2 InitialSize
 		{
 			get
@@ -92,7 +92,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DB9 RID: 11705 RVA: 0x00180D00 File Offset: 0x0017F100
+		// Token: 0x06002DBD RID: 11709 RVA: 0x00180E50 File Offset: 0x0017F250
 		private void CheckSelectedPolicyHasName()
 		{
 			if (this.SelectedPolicy != null && this.SelectedPolicy.label.NullOrEmpty())
@@ -101,7 +101,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DBA RID: 11706 RVA: 0x00180D34 File Offset: 0x0017F134
+		// Token: 0x06002DBE RID: 11710 RVA: 0x00180E84 File Offset: 0x0017F284
 		public override void DoWindowContents(Rect inRect)
 		{
 			float num = 0f;
@@ -171,27 +171,27 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DBB RID: 11707 RVA: 0x0018106C File Offset: 0x0017F46C
+		// Token: 0x06002DBF RID: 11711 RVA: 0x001811BC File Offset: 0x0017F5BC
 		public override void PostOpen()
 		{
 			base.PostOpen();
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.DrugPolicies, KnowledgeAmount.Total);
 		}
 
-		// Token: 0x06002DBC RID: 11708 RVA: 0x00181080 File Offset: 0x0017F480
+		// Token: 0x06002DC0 RID: 11712 RVA: 0x001811D0 File Offset: 0x0017F5D0
 		public override void PreClose()
 		{
 			base.PreClose();
 			this.CheckSelectedPolicyHasName();
 		}
 
-		// Token: 0x06002DBD RID: 11709 RVA: 0x0018108F File Offset: 0x0017F48F
+		// Token: 0x06002DC1 RID: 11713 RVA: 0x001811DF File Offset: 0x0017F5DF
 		public static void DoNameInputRect(Rect rect, ref string name)
 		{
 			name = Widgets.TextField(rect, name, 30, Dialog_ManageDrugPolicies.ValidNameRegex);
 		}
 
-		// Token: 0x06002DBE RID: 11710 RVA: 0x001810A4 File Offset: 0x0017F4A4
+		// Token: 0x06002DC2 RID: 11714 RVA: 0x001811F4 File Offset: 0x0017F5F4
 		private void DoPolicyConfigArea(Rect rect)
 		{
 			Rect rect2 = rect;
@@ -226,7 +226,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DBF RID: 11711 RVA: 0x001811F0 File Offset: 0x0017F5F0
+		// Token: 0x06002DC3 RID: 11715 RVA: 0x00181340 File Offset: 0x0017F740
 		private void CalculateColumnsWidths(Rect rect, out float addictionWidth, out float allowJoyWidth, out float scheduledWidth, out float drugNameWidth, out float frequencyWidth, out float moodThresholdWidth, out float joyThresholdWidth, out float takeToInventoryWidth)
 		{
 			float num = rect.width - 108f;
@@ -240,7 +240,7 @@ namespace RimWorld
 			takeToInventoryWidth = num * 0.15f;
 		}
 
-		// Token: 0x06002DC0 RID: 11712 RVA: 0x00181254 File Offset: 0x0017F654
+		// Token: 0x06002DC4 RID: 11716 RVA: 0x001813A4 File Offset: 0x0017F7A4
 		private void DoColumnLabels(Rect rect)
 		{
 			rect.width -= 16f;
@@ -295,7 +295,7 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x06002DC1 RID: 11713 RVA: 0x00181534 File Offset: 0x0017F934
+		// Token: 0x06002DC5 RID: 11717 RVA: 0x00181684 File Offset: 0x0017FA84
 		private void DoEntryRow(Rect rect, DrugPolicyEntry entry)
 		{
 			float num;

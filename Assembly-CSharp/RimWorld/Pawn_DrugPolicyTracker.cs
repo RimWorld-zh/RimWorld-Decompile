@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004E8 RID: 1256
+	// Token: 0x020004EA RID: 1258
 	public class Pawn_DrugPolicyTracker : IExposable
 	{
 		// Token: 0x04000D1E RID: 3358
@@ -21,20 +21,20 @@ namespace RimWorld
 		// Token: 0x04000D21 RID: 3361
 		private const float DangerousDrugOverdoseSeverity = 0.5f;
 
-		// Token: 0x06001673 RID: 5747 RVA: 0x000C71DC File Offset: 0x000C55DC
+		// Token: 0x06001677 RID: 5751 RVA: 0x000C732C File Offset: 0x000C572C
 		public Pawn_DrugPolicyTracker()
 		{
 		}
 
-		// Token: 0x06001674 RID: 5748 RVA: 0x000C71F0 File Offset: 0x000C55F0
+		// Token: 0x06001678 RID: 5752 RVA: 0x000C7340 File Offset: 0x000C5740
 		public Pawn_DrugPolicyTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
 		// Token: 0x170002F1 RID: 753
-		// (get) Token: 0x06001675 RID: 5749 RVA: 0x000C720C File Offset: 0x000C560C
-		// (set) Token: 0x06001676 RID: 5750 RVA: 0x000C7247 File Offset: 0x000C5647
+		// (get) Token: 0x06001679 RID: 5753 RVA: 0x000C735C File Offset: 0x000C575C
+		// (set) Token: 0x0600167A RID: 5754 RVA: 0x000C7397 File Offset: 0x000C5797
 		public DrugPolicy CurrentPolicy
 		{
 			get
@@ -55,7 +55,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002F2 RID: 754
-		// (get) Token: 0x06001677 RID: 5751 RVA: 0x000C7264 File Offset: 0x000C5664
+		// (get) Token: 0x0600167B RID: 5755 RVA: 0x000C73B4 File Offset: 0x000C57B4
 		private float DayPercentNotSleeping
 		{
 			get
@@ -101,7 +101,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002F3 RID: 755
-		// (get) Token: 0x06001678 RID: 5752 RVA: 0x000C737C File Offset: 0x000C577C
+		// (get) Token: 0x0600167C RID: 5756 RVA: 0x000C74CC File Offset: 0x000C58CC
 		private float HoursPerDayNotSleeping
 		{
 			get
@@ -127,14 +127,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001679 RID: 5753 RVA: 0x000C73EA File Offset: 0x000C57EA
+		// Token: 0x0600167D RID: 5757 RVA: 0x000C753A File Offset: 0x000C593A
 		public void ExposeData()
 		{
 			Scribe_References.Look<DrugPolicy>(ref this.curPolicy, "curAssignedDrugs", false);
 			Scribe_Collections.Look<DrugTakeRecord>(ref this.drugTakeRecords, "drugTakeRecords", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x0600167A RID: 5754 RVA: 0x000C7418 File Offset: 0x000C5818
+		// Token: 0x0600167E RID: 5758 RVA: 0x000C7568 File Offset: 0x000C5968
 		public bool HasEverTaken(ThingDef drug)
 		{
 			bool result;
@@ -150,7 +150,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600167B RID: 5755 RVA: 0x000C7480 File Offset: 0x000C5880
+		// Token: 0x0600167F RID: 5759 RVA: 0x000C75D0 File Offset: 0x000C59D0
 		public bool AllowedToTakeScheduledEver(ThingDef thingDef)
 		{
 			bool result;
@@ -172,7 +172,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600167C RID: 5756 RVA: 0x000C7520 File Offset: 0x000C5920
+		// Token: 0x06001680 RID: 5760 RVA: 0x000C7670 File Offset: 0x000C5A70
 		public bool AllowedToTakeScheduledNow(ThingDef thingDef)
 		{
 			bool result;
@@ -230,7 +230,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600167D RID: 5757 RVA: 0x000C76F4 File Offset: 0x000C5AF4
+		// Token: 0x06001681 RID: 5761 RVA: 0x000C7844 File Offset: 0x000C5C44
 		public bool ShouldTryToTakeScheduledNow(ThingDef ingestible)
 		{
 			bool result;
@@ -290,7 +290,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600167E RID: 5758 RVA: 0x000C7904 File Offset: 0x000C5D04
+		// Token: 0x06001682 RID: 5762 RVA: 0x000C7A54 File Offset: 0x000C5E54
 		public void Notify_DrugIngested(Thing drug)
 		{
 			DrugTakeRecord drugTakeRecord = this.drugTakeRecords.Find((DrugTakeRecord x) => x.drug == drug.def);
@@ -304,7 +304,7 @@ namespace RimWorld
 			drugTakeRecord.TimesTakenThisDay++;
 		}
 
-		// Token: 0x0600167F RID: 5759 RVA: 0x000C7980 File Offset: 0x000C5D80
+		// Token: 0x06001683 RID: 5763 RVA: 0x000C7AD0 File Offset: 0x000C5ED0
 		private int LastTicksWhenTakenDrugWhichCanCauseOverdose()
 		{
 			int num = -999999;
@@ -318,7 +318,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06001680 RID: 5760 RVA: 0x000C79F4 File Offset: 0x000C5DF4
+		// Token: 0x06001684 RID: 5764 RVA: 0x000C7B44 File Offset: 0x000C5F44
 		private bool CanCauseOverdose(ThingDef drug)
 		{
 			CompProperties_Drug compProperties = drug.GetCompProperties<CompProperties_Drug>();

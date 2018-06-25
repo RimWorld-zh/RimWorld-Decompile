@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004E5 RID: 1253
+	// Token: 0x020004E7 RID: 1255
 	public class DrugPolicyEntry : IExposable
 	{
 		// Token: 0x04000D0D RID: 3341
@@ -33,7 +33,7 @@ namespace RimWorld
 		// Token: 0x04000D15 RID: 3349
 		public string takeToInventoryTempBuffer;
 
-		// Token: 0x06001663 RID: 5731 RVA: 0x000C6E40 File Offset: 0x000C5240
+		// Token: 0x06001667 RID: 5735 RVA: 0x000C6F90 File Offset: 0x000C5390
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<ThingDef>(ref this.drug, "drug");

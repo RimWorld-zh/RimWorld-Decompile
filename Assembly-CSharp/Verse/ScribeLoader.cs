@@ -4,7 +4,7 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000D9B RID: 3483
+	// Token: 0x02000D9D RID: 3485
 	public class ScribeLoader
 	{
 		// Token: 0x040033F1 RID: 13297
@@ -22,7 +22,7 @@ namespace Verse
 		// Token: 0x040033F5 RID: 13301
 		public string curPathRelToParent;
 
-		// Token: 0x06004DE5 RID: 19941 RVA: 0x0028B5F0 File Offset: 0x002899F0
+		// Token: 0x06004DE9 RID: 19945 RVA: 0x0028B71C File Offset: 0x00289B1C
 		public void InitLoading(string filePath)
 		{
 			if (Scribe.mode != LoadSaveMode.Inactive)
@@ -67,7 +67,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DE6 RID: 19942 RVA: 0x0028B720 File Offset: 0x00289B20
+		// Token: 0x06004DEA RID: 19946 RVA: 0x0028B84C File Offset: 0x00289C4C
 		public void InitLoadingMetaHeaderOnly(string filePath)
 		{
 			if (Scribe.mode != LoadSaveMode.Inactive)
@@ -111,7 +111,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DE7 RID: 19943 RVA: 0x0028B868 File Offset: 0x00289C68
+		// Token: 0x06004DEB RID: 19947 RVA: 0x0028B994 File Offset: 0x00289D94
 		public void FinalizeLoading()
 		{
 			if (Scribe.mode != LoadSaveMode.LoadingVars)
@@ -139,7 +139,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DE8 RID: 19944 RVA: 0x0028B90C File Offset: 0x00289D0C
+		// Token: 0x06004DEC RID: 19948 RVA: 0x0028BA38 File Offset: 0x00289E38
 		public bool EnterNode(string nodeName)
 		{
 			if (this.curXmlParent != null)
@@ -159,7 +159,7 @@ namespace Verse
 			return true;
 		}
 
-		// Token: 0x06004DE9 RID: 19945 RVA: 0x0028B998 File Offset: 0x00289D98
+		// Token: 0x06004DED RID: 19949 RVA: 0x0028BAC4 File Offset: 0x00289EC4
 		public void ExitNode()
 		{
 			if (this.curXmlParent != null)
@@ -173,7 +173,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DEA RID: 19946 RVA: 0x0028BA00 File Offset: 0x00289E00
+		// Token: 0x06004DEE RID: 19950 RVA: 0x0028BB2C File Offset: 0x00289F2C
 		public void ForceStop()
 		{
 			this.curXmlParent = null;

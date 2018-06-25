@@ -5,14 +5,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008BB RID: 2235
+	// Token: 0x020008BD RID: 2237
 	public class Instruction_BuildSandbags : Lesson_Instruction
 	{
 		// Token: 0x04001B8F RID: 7055
 		private List<IntVec3> sandbagCells;
 
 		// Token: 0x17000824 RID: 2084
-		// (get) Token: 0x06003326 RID: 13094 RVA: 0x001B8364 File Offset: 0x001B6764
+		// (get) Token: 0x0600332A RID: 13098 RVA: 0x001B84A4 File Offset: 0x001B68A4
 		protected override float ProgressPercent
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003327 RID: 13095 RVA: 0x001B83F0 File Offset: 0x001B67F0
+		// Token: 0x0600332B RID: 13099 RVA: 0x001B8530 File Offset: 0x001B6930
 		public override void OnActivated()
 		{
 			base.OnActivated();
@@ -61,21 +61,21 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003328 RID: 13096 RVA: 0x001B85C4 File Offset: 0x001B69C4
+		// Token: 0x0600332C RID: 13100 RVA: 0x001B8704 File Offset: 0x001B6B04
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Collections.Look<IntVec3>(ref this.sandbagCells, "sandbagCells", LookMode.Undefined, new object[0]);
 		}
 
-		// Token: 0x06003329 RID: 13097 RVA: 0x001B85E4 File Offset: 0x001B69E4
+		// Token: 0x0600332D RID: 13101 RVA: 0x001B8724 File Offset: 0x001B6B24
 		public override void LessonOnGUI()
 		{
 			TutorUtility.DrawLabelOnGUI(Gen.AveragePosition(this.sandbagCells), this.def.onMapInstruction);
 			base.LessonOnGUI();
 		}
 
-		// Token: 0x0600332A RID: 13098 RVA: 0x001B8608 File Offset: 0x001B6A08
+		// Token: 0x0600332E RID: 13102 RVA: 0x001B8748 File Offset: 0x001B6B48
 		public override void LessonUpdate()
 		{
 			List<IntVec3> cells = (from c in this.sandbagCells
@@ -89,7 +89,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600332B RID: 13099 RVA: 0x001B8664 File Offset: 0x001B6A64
+		// Token: 0x0600332F RID: 13103 RVA: 0x001B87A4 File Offset: 0x001B6BA4
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
 			AcceptanceReport result;

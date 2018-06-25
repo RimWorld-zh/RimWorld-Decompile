@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005A0 RID: 1440
+	// Token: 0x020005A2 RID: 1442
 	public static class WorldRendererUtility
 	{
 		// Token: 0x1700040D RID: 1037
-		// (get) Token: 0x06001B81 RID: 7041 RVA: 0x000EDAA0 File Offset: 0x000EBEA0
+		// (get) Token: 0x06001B85 RID: 7045 RVA: 0x000EDBF0 File Offset: 0x000EBFF0
 		public static WorldRenderMode CurrentWorldRenderMode
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700040E RID: 1038
-		// (get) Token: 0x06001B82 RID: 7042 RVA: 0x000EDAF4 File Offset: 0x000EBEF4
+		// (get) Token: 0x06001B86 RID: 7046 RVA: 0x000EDC44 File Offset: 0x000EC044
 		public static bool WorldRenderedNow
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B83 RID: 7043 RVA: 0x000EDB14 File Offset: 0x000EBF14
+		// Token: 0x06001B87 RID: 7047 RVA: 0x000EDC64 File Offset: 0x000EC064
 		public static void UpdateWorldShadersParams()
 		{
 			Vector3 v = -GenCelestial.CurSunPositionInWorldSpace();
@@ -52,13 +52,13 @@ namespace RimWorld.Planet
 			WorldMaterials.PlanetGlow.SetFloat(ShaderPropertyIDs.GlowRadius, 8f);
 		}
 
-		// Token: 0x06001B84 RID: 7044 RVA: 0x000EDB91 File Offset: 0x000EBF91
+		// Token: 0x06001B88 RID: 7048 RVA: 0x000EDCE1 File Offset: 0x000EC0E1
 		public static void PrintQuadTangentialToPlanet(Vector3 pos, float size, float altOffset, LayerSubMesh subMesh, bool counterClockwise = false, bool randomizeRotation = false, bool printUVs = true)
 		{
 			WorldRendererUtility.PrintQuadTangentialToPlanet(pos, pos, size, altOffset, subMesh, counterClockwise, randomizeRotation, printUVs);
 		}
 
-		// Token: 0x06001B85 RID: 7045 RVA: 0x000EDBA4 File Offset: 0x000EBFA4
+		// Token: 0x06001B89 RID: 7049 RVA: 0x000EDCF4 File Offset: 0x000EC0F4
 		public static void PrintQuadTangentialToPlanet(Vector3 pos, Vector3 posForTangents, float size, float altOffset, LayerSubMesh subMesh, bool counterClockwise = false, bool randomizeRotation = false, bool printUVs = true)
 		{
 			Vector3 a;
@@ -102,7 +102,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B86 RID: 7046 RVA: 0x000EDE04 File Offset: 0x000EC204
+		// Token: 0x06001B8A RID: 7050 RVA: 0x000EDF54 File Offset: 0x000EC354
 		public static void DrawQuadTangentialToPlanet(Vector3 pos, float size, float altOffset, Material material, bool counterClockwise = false, bool useSkyboxLayer = false, MaterialPropertyBlock propertyBlock = null)
 		{
 			if (material == null)
@@ -137,7 +137,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B87 RID: 7047 RVA: 0x000EDED0 File Offset: 0x000EC2D0
+		// Token: 0x06001B8B RID: 7051 RVA: 0x000EE020 File Offset: 0x000EC420
 		public static void GetTangentsToPlanet(Vector3 pos, out Vector3 first, out Vector3 second, bool randomizeRotation = false)
 		{
 			Vector3 upwards;
@@ -154,7 +154,7 @@ namespace RimWorld.Planet
 			second = rotation * Vector3.right;
 		}
 
-		// Token: 0x06001B88 RID: 7048 RVA: 0x000EDF28 File Offset: 0x000EC328
+		// Token: 0x06001B8C RID: 7052 RVA: 0x000EE078 File Offset: 0x000EC478
 		public static Vector3 ProjectOnQuadTangentialToPlanet(Vector3 center, Vector2 point)
 		{
 			Vector3 a;
@@ -163,7 +163,7 @@ namespace RimWorld.Planet
 			return point.x * a + point.y * a2;
 		}
 
-		// Token: 0x06001B89 RID: 7049 RVA: 0x000EDF68 File Offset: 0x000EC368
+		// Token: 0x06001B8D RID: 7053 RVA: 0x000EE0B8 File Offset: 0x000EC4B8
 		public static void GetTangentialVectorFacing(Vector3 root, Vector3 pointToFace, out Vector3 forward, out Vector3 right)
 		{
 			Quaternion rotation = Quaternion.LookRotation(root, pointToFace);
@@ -171,7 +171,7 @@ namespace RimWorld.Planet
 			right = rotation * Vector3.left;
 		}
 
-		// Token: 0x06001B8A RID: 7050 RVA: 0x000EDFA0 File Offset: 0x000EC3A0
+		// Token: 0x06001B8E RID: 7054 RVA: 0x000EE0F0 File Offset: 0x000EC4F0
 		public static void PrintTextureAtlasUVs(int indexX, int indexY, int numX, int numY, LayerSubMesh subMesh)
 		{
 			float num = 1f / (float)numX;
@@ -184,7 +184,7 @@ namespace RimWorld.Planet
 			subMesh.uvs.Add(new Vector2(num3 + num, num4));
 		}
 
-		// Token: 0x06001B8B RID: 7051 RVA: 0x000EE034 File Offset: 0x000EC434
+		// Token: 0x06001B8F RID: 7055 RVA: 0x000EE184 File Offset: 0x000EC584
 		public static bool HiddenBehindTerrainNow(Vector3 pos)
 		{
 			Vector3 normalized = pos.normalized;

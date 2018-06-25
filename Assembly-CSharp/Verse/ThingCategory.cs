@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000DF3 RID: 3571
+	// Token: 0x02000DF5 RID: 3573
 	public enum ThingCategory : byte
 	{
 		// Token: 0x04003527 RID: 13607

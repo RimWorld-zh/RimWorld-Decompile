@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D72 RID: 3442
+	// Token: 0x02000D74 RID: 3444
 	public static class MeshMakerCircles
 	{
-		// Token: 0x06004D39 RID: 19769 RVA: 0x00283AF8 File Offset: 0x00281EF8
+		// Token: 0x06004D3D RID: 19773 RVA: 0x00283C24 File Offset: 0x00282024
 		public static Mesh MakePieMesh(int DegreesWide)
 		{
 			List<Vector2> list = new List<Vector2>();
@@ -38,7 +38,7 @@ namespace Verse
 			return mesh;
 		}
 
-		// Token: 0x06004D3A RID: 19770 RVA: 0x00283C58 File Offset: 0x00282058
+		// Token: 0x06004D3E RID: 19774 RVA: 0x00283D84 File Offset: 0x00282184
 		public static Mesh MakeCircleMesh(float radius)
 		{
 			List<Vector2> list = new List<Vector2>();

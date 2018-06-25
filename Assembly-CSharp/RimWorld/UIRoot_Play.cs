@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008D5 RID: 2261
+	// Token: 0x020008D7 RID: 2263
 	public class UIRoot_Play : UIRoot
 	{
 		// Token: 0x04001BCB RID: 7115
@@ -17,14 +17,14 @@ namespace RimWorld
 		// Token: 0x04001BCD RID: 7117
 		public AlertsReadout alerts = new AlertsReadout();
 
-		// Token: 0x060033CD RID: 13261 RVA: 0x001BADD7 File Offset: 0x001B91D7
+		// Token: 0x060033D1 RID: 13265 RVA: 0x001BAF17 File Offset: 0x001B9317
 		public override void Init()
 		{
 			base.Init();
 			Messages.Clear();
 		}
 
-		// Token: 0x060033CE RID: 13262 RVA: 0x001BADE8 File Offset: 0x001B91E8
+		// Token: 0x060033D2 RID: 13266 RVA: 0x001BAF28 File Offset: 0x001B9328
 		public override void UIRootOnGUI()
 		{
 			Profiler.BeginSample("Event: " + Event.current.type);
@@ -95,7 +95,7 @@ namespace RimWorld
 			Profiler.EndSample();
 		}
 
-		// Token: 0x060033CF RID: 13263 RVA: 0x001BB018 File Offset: 0x001B9418
+		// Token: 0x060033D3 RID: 13267 RVA: 0x001BB158 File Offset: 0x001B9558
 		public override void UIRootUpdate()
 		{
 			base.UIRootUpdate();
@@ -123,7 +123,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060033D0 RID: 13264 RVA: 0x001BB0E0 File Offset: 0x001B94E0
+		// Token: 0x060033D4 RID: 13268 RVA: 0x001BB220 File Offset: 0x001B9620
 		private void OpenMainMenuShortcut()
 		{
 			if ((Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Escape) || KeyBindingDefOf.Cancel.KeyDownEvent)

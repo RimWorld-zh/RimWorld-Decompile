@@ -5,14 +5,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000731 RID: 1841
+	// Token: 0x02000733 RID: 1843
 	public class CompRottable : ThingComp
 	{
 		// Token: 0x04001642 RID: 5698
 		private float rotProgressInt = 0f;
 
 		// Token: 0x17000642 RID: 1602
-		// (get) Token: 0x06002897 RID: 10391 RVA: 0x0015AD44 File Offset: 0x00159144
+		// (get) Token: 0x0600289B RID: 10395 RVA: 0x0015AE94 File Offset: 0x00159294
 		public CompProperties_Rottable PropsRot
 		{
 			get
@@ -22,7 +22,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000643 RID: 1603
-		// (get) Token: 0x06002898 RID: 10392 RVA: 0x0015AD64 File Offset: 0x00159164
+		// (get) Token: 0x0600289C RID: 10396 RVA: 0x0015AEB4 File Offset: 0x001592B4
 		public float RotProgressPct
 		{
 			get
@@ -32,8 +32,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000644 RID: 1604
-		// (get) Token: 0x06002899 RID: 10393 RVA: 0x0015AD8C File Offset: 0x0015918C
-		// (set) Token: 0x0600289A RID: 10394 RVA: 0x0015ADA8 File Offset: 0x001591A8
+		// (get) Token: 0x0600289D RID: 10397 RVA: 0x0015AEDC File Offset: 0x001592DC
+		// (set) Token: 0x0600289E RID: 10398 RVA: 0x0015AEF8 File Offset: 0x001592F8
 		public float RotProgress
 		{
 			get
@@ -52,7 +52,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000645 RID: 1605
-		// (get) Token: 0x0600289B RID: 10395 RVA: 0x0015ADD8 File Offset: 0x001591D8
+		// (get) Token: 0x0600289F RID: 10399 RVA: 0x0015AF28 File Offset: 0x00159328
 		public RotStage Stage
 		{
 			get
@@ -75,7 +75,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000646 RID: 1606
-		// (get) Token: 0x0600289C RID: 10396 RVA: 0x0015AE2C File Offset: 0x0015922C
+		// (get) Token: 0x060028A0 RID: 10400 RVA: 0x0015AF7C File Offset: 0x0015937C
 		public int TicksUntilRotAtCurrentTemp
 		{
 			get
@@ -87,7 +87,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000647 RID: 1607
-		// (get) Token: 0x0600289D RID: 10397 RVA: 0x0015AE5C File Offset: 0x0015925C
+		// (get) Token: 0x060028A1 RID: 10401 RVA: 0x0015AFAC File Offset: 0x001593AC
 		public bool Active
 		{
 			get
@@ -104,26 +104,26 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600289E RID: 10398 RVA: 0x0015AEA8 File Offset: 0x001592A8
+		// Token: 0x060028A2 RID: 10402 RVA: 0x0015AFF8 File Offset: 0x001593F8
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_Values.Look<float>(ref this.rotProgressInt, "rotProg", 0f, false);
 		}
 
-		// Token: 0x0600289F RID: 10399 RVA: 0x0015AEC7 File Offset: 0x001592C7
+		// Token: 0x060028A3 RID: 10403 RVA: 0x0015B017 File Offset: 0x00159417
 		public override void CompTick()
 		{
 			this.Tick(1);
 		}
 
-		// Token: 0x060028A0 RID: 10400 RVA: 0x0015AED1 File Offset: 0x001592D1
+		// Token: 0x060028A4 RID: 10404 RVA: 0x0015B021 File Offset: 0x00159421
 		public override void CompTickRare()
 		{
 			this.Tick(250);
 		}
 
-		// Token: 0x060028A1 RID: 10401 RVA: 0x0015AEE0 File Offset: 0x001592E0
+		// Token: 0x060028A5 RID: 10405 RVA: 0x0015B030 File Offset: 0x00159430
 		private void Tick(int interval)
 		{
 			if (this.Active)
@@ -162,14 +162,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028A2 RID: 10402 RVA: 0x0015B0B4 File Offset: 0x001594B4
+		// Token: 0x060028A6 RID: 10406 RVA: 0x0015B204 File Offset: 0x00159604
 		private bool ShouldTakeRotDamage()
 		{
 			Thing thing = this.parent.ParentHolder as Thing;
 			return thing == null || thing.def.category != ThingCategory.Building || !thing.def.building.preventDeteriorationInside;
 		}
 
-		// Token: 0x060028A3 RID: 10403 RVA: 0x0015B110 File Offset: 0x00159510
+		// Token: 0x060028A7 RID: 10407 RVA: 0x0015B260 File Offset: 0x00159660
 		public override void PreAbsorbStack(Thing otherStack, int count)
 		{
 			float t = (float)count / (float)(this.parent.stackCount + count);
@@ -177,13 +177,13 @@ namespace RimWorld
 			this.RotProgress = Mathf.Lerp(this.RotProgress, rotProgress, t);
 		}
 
-		// Token: 0x060028A4 RID: 10404 RVA: 0x0015B154 File Offset: 0x00159554
+		// Token: 0x060028A8 RID: 10408 RVA: 0x0015B2A4 File Offset: 0x001596A4
 		public override void PostSplitOff(Thing piece)
 		{
 			((ThingWithComps)piece).GetComp<CompRottable>().RotProgress = this.RotProgress;
 		}
 
-		// Token: 0x060028A5 RID: 10405 RVA: 0x0015B16D File Offset: 0x0015956D
+		// Token: 0x060028A9 RID: 10409 RVA: 0x0015B2BD File Offset: 0x001596BD
 		public override void PostIngested(Pawn ingester)
 		{
 			if (this.Stage != RotStage.Fresh)
@@ -192,7 +192,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028A6 RID: 10406 RVA: 0x0015B188 File Offset: 0x00159588
+		// Token: 0x060028AA RID: 10410 RVA: 0x0015B2D8 File Offset: 0x001596D8
 		public override string CompInspectStringExtra()
 		{
 			string result;
@@ -254,14 +254,14 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060028A7 RID: 10407 RVA: 0x0015B328 File Offset: 0x00159728
+		// Token: 0x060028AB RID: 10411 RVA: 0x0015B478 File Offset: 0x00159878
 		public int ApproxTicksUntilRotWhenAtTempOfTile(int tile, int ticksAbs)
 		{
 			float temperatureFromSeasonAtTile = GenTemperature.GetTemperatureFromSeasonAtTile(ticksAbs, tile);
 			return this.TicksUntilRotAtTemp(temperatureFromSeasonAtTile);
 		}
 
-		// Token: 0x060028A8 RID: 10408 RVA: 0x0015B34C File Offset: 0x0015974C
+		// Token: 0x060028AC RID: 10412 RVA: 0x0015B49C File Offset: 0x0015989C
 		public int TicksUntilRotAtTemp(float temp)
 		{
 			int result;
@@ -292,7 +292,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060028A9 RID: 10409 RVA: 0x0015B3C4 File Offset: 0x001597C4
+		// Token: 0x060028AD RID: 10413 RVA: 0x0015B514 File Offset: 0x00159914
 		private void StageChanged()
 		{
 			Corpse corpse = this.parent as Corpse;
@@ -302,7 +302,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028AA RID: 10410 RVA: 0x0015B3EA File Offset: 0x001597EA
+		// Token: 0x060028AE RID: 10414 RVA: 0x0015B53A File Offset: 0x0015993A
 		public void RotImmediately()
 		{
 			if (this.RotProgress < (float)this.PropsRot.TicksToRotStart)

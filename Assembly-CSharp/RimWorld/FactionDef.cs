@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000293 RID: 659
+	// Token: 0x02000295 RID: 661
 	public class FactionDef : Def
 	{
 		// Token: 0x040005A9 RID: 1449
@@ -163,7 +163,7 @@ namespace RimWorld
 		private Texture2D expandingIconTextureInt;
 
 		// Token: 0x1700019F RID: 415
-		// (get) Token: 0x06000B1D RID: 2845 RVA: 0x00064F04 File Offset: 0x00063304
+		// (get) Token: 0x06000B21 RID: 2849 RVA: 0x00065054 File Offset: 0x00063454
 		public bool CanEverBeNonHostile
 		{
 			get
@@ -173,7 +173,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001A0 RID: 416
-		// (get) Token: 0x06000B1E RID: 2846 RVA: 0x00064F24 File Offset: 0x00063324
+		// (get) Token: 0x06000B22 RID: 2850 RVA: 0x00065074 File Offset: 0x00063474
 		public Texture2D ExpandingIconTexture
 		{
 			get
@@ -193,7 +193,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B1F RID: 2847 RVA: 0x00064F84 File Offset: 0x00063384
+		// Token: 0x06000B23 RID: 2851 RVA: 0x000650D4 File Offset: 0x000634D4
 		public float MinPointsToGeneratePawnGroup(PawnGroupKindDef groupKind)
 		{
 			float result;
@@ -218,13 +218,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000B20 RID: 2848 RVA: 0x00065010 File Offset: 0x00063410
+		// Token: 0x06000B24 RID: 2852 RVA: 0x00065160 File Offset: 0x00063560
 		public bool CanUseStuffForApparel(ThingDef stuffDef)
 		{
 			return this.apparelStuffFilter == null || this.apparelStuffFilter.Allows(stuffDef);
 		}
 
-		// Token: 0x06000B21 RID: 2849 RVA: 0x00065044 File Offset: 0x00063444
+		// Token: 0x06000B25 RID: 2853 RVA: 0x00065194 File Offset: 0x00063594
 		public float RaidCommonalityFromPoints(float points)
 		{
 			float result;
@@ -239,7 +239,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000B22 RID: 2850 RVA: 0x00065086 File Offset: 0x00063486
+		// Token: 0x06000B26 RID: 2854 RVA: 0x000651D6 File Offset: 0x000635D6
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -249,7 +249,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B23 RID: 2851 RVA: 0x000650A8 File Offset: 0x000634A8
+		// Token: 0x06000B27 RID: 2855 RVA: 0x000651F8 File Offset: 0x000635F8
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string error in this.<ConfigErrors>__BaseCallProxy0())
@@ -316,7 +316,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000B24 RID: 2852 RVA: 0x000650D4 File Offset: 0x000634D4
+		// Token: 0x06000B28 RID: 2856 RVA: 0x00065224 File Offset: 0x00063624
 		public static FactionDef Named(string defName)
 		{
 			return DefDatabase<FactionDef>.GetNamed(defName, true);

@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002E2 RID: 738
+	// Token: 0x020002E4 RID: 740
 	public abstract class ThingSetMaker
 	{
 		// Token: 0x040007A4 RID: 1956
@@ -14,19 +14,19 @@ namespace RimWorld
 		// Token: 0x040007A5 RID: 1957
 		public static List<List<Thing>> thingsBeingGeneratedNow = new List<List<Thing>>();
 
-		// Token: 0x06000C1C RID: 3100 RVA: 0x0006B9BC File Offset: 0x00069DBC
+		// Token: 0x06000C20 RID: 3104 RVA: 0x0006BB0C File Offset: 0x00069F0C
 		static ThingSetMaker()
 		{
 			Gen.EnsureAllFieldsNullable(typeof(ThingSetMakerParams));
 		}
 
-		// Token: 0x06000C1E RID: 3102 RVA: 0x0006B9E0 File Offset: 0x00069DE0
+		// Token: 0x06000C22 RID: 3106 RVA: 0x0006BB30 File Offset: 0x00069F30
 		public List<Thing> Generate()
 		{
 			return this.Generate(default(ThingSetMakerParams));
 		}
 
-		// Token: 0x06000C1F RID: 3103 RVA: 0x0006BA04 File Offset: 0x00069E04
+		// Token: 0x06000C23 RID: 3107 RVA: 0x0006BB54 File Offset: 0x00069F54
 		public List<Thing> Generate(ThingSetMakerParams parms)
 		{
 			List<Thing> list = new List<Thing>();
@@ -53,29 +53,29 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x06000C20 RID: 3104 RVA: 0x0006BAC0 File Offset: 0x00069EC0
+		// Token: 0x06000C24 RID: 3108 RVA: 0x0006BC10 File Offset: 0x0006A010
 		public bool CanGenerate(ThingSetMakerParams parms)
 		{
 			ThingSetMakerParams parms2 = this.ApplyFixedParams(parms);
 			return this.CanGenerateSub(parms2);
 		}
 
-		// Token: 0x06000C21 RID: 3105 RVA: 0x0006BAE4 File Offset: 0x00069EE4
+		// Token: 0x06000C25 RID: 3109 RVA: 0x0006BC34 File Offset: 0x0006A034
 		protected virtual bool CanGenerateSub(ThingSetMakerParams parms)
 		{
 			return true;
 		}
 
-		// Token: 0x06000C22 RID: 3106
+		// Token: 0x06000C26 RID: 3110
 		protected abstract void Generate(ThingSetMakerParams parms, List<Thing> outThings);
 
-		// Token: 0x06000C23 RID: 3107 RVA: 0x0006BAFC File Offset: 0x00069EFC
+		// Token: 0x06000C27 RID: 3111 RVA: 0x0006BC4C File Offset: 0x0006A04C
 		public IEnumerable<ThingDef> AllGeneratableThingsDebug()
 		{
 			return this.AllGeneratableThingsDebug(default(ThingSetMakerParams));
 		}
 
-		// Token: 0x06000C24 RID: 3108 RVA: 0x0006BB20 File Offset: 0x00069F20
+		// Token: 0x06000C28 RID: 3112 RVA: 0x0006BC70 File Offset: 0x0006A070
 		public IEnumerable<ThingDef> AllGeneratableThingsDebug(ThingSetMakerParams parms)
 		{
 			if (!this.CanGenerate(parms))
@@ -90,10 +90,10 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000C25 RID: 3109
+		// Token: 0x06000C29 RID: 3113
 		protected abstract IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms);
 
-		// Token: 0x06000C26 RID: 3110 RVA: 0x0006BB54 File Offset: 0x00069F54
+		// Token: 0x06000C2A RID: 3114 RVA: 0x0006BCA4 File Offset: 0x0006A0A4
 		private void PostProcess(List<Thing> things)
 		{
 			if (things.RemoveAll((Thing x) => x == null) != 0)
@@ -124,7 +124,7 @@ namespace RimWorld
 			this.Minify(things);
 		}
 
-		// Token: 0x06000C27 RID: 3111 RVA: 0x0006BC78 File Offset: 0x0006A078
+		// Token: 0x06000C2B RID: 3115 RVA: 0x0006BDC8 File Offset: 0x0006A1C8
 		private void Minify(List<Thing> things)
 		{
 			for (int i = 0; i < things.Count; i++)
@@ -140,7 +140,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C28 RID: 3112 RVA: 0x0006BCF0 File Offset: 0x0006A0F0
+		// Token: 0x06000C2C RID: 3116 RVA: 0x0006BE40 File Offset: 0x0006A240
 		private void ChangeDeadPawnsToTheirCorpses(List<Thing> things)
 		{
 			for (int i = 0; i < things.Count; i++)
@@ -152,7 +152,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C29 RID: 3113 RVA: 0x0006BD48 File Offset: 0x0006A148
+		// Token: 0x06000C2D RID: 3117 RVA: 0x0006BE98 File Offset: 0x0006A298
 		private ThingSetMakerParams ApplyFixedParams(ThingSetMakerParams parms)
 		{
 			ThingSetMakerParams result = this.fixedParams;
@@ -160,7 +160,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000C2A RID: 3114 RVA: 0x0006BD6D File Offset: 0x0006A16D
+		// Token: 0x06000C2E RID: 3118 RVA: 0x0006BEBD File Offset: 0x0006A2BD
 		public virtual void ResolveReferences()
 		{
 			if (this.fixedParams.filter != null)

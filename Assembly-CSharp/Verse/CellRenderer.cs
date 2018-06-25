@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C09 RID: 3081
+	// Token: 0x02000C0B RID: 3083
 	public static class CellRenderer
 	{
 		// Token: 0x04002E15 RID: 11797
@@ -12,7 +12,7 @@ namespace Verse
 		// Token: 0x04002E16 RID: 11798
 		private static CellRect viewRect;
 
-		// Token: 0x0600435D RID: 17245 RVA: 0x002399F2 File Offset: 0x00237DF2
+		// Token: 0x06004360 RID: 17248 RVA: 0x00239ACE File Offset: 0x00237ECE
 		private static void InitFrame()
 		{
 			if (Time.frameCount != CellRenderer.lastCameraUpdateFrame)
@@ -22,7 +22,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600435E RID: 17246 RVA: 0x00239A20 File Offset: 0x00237E20
+		// Token: 0x06004361 RID: 17249 RVA: 0x00239AFC File Offset: 0x00237EFC
 		private static Material MatFromColorPct(float colorPct, bool transparent)
 		{
 			int num = Mathf.RoundToInt(colorPct * 100f);
@@ -30,13 +30,13 @@ namespace Verse
 			return DebugMatsSpectrum.Mat(num, transparent);
 		}
 
-		// Token: 0x0600435F RID: 17247 RVA: 0x00239A52 File Offset: 0x00237E52
+		// Token: 0x06004362 RID: 17250 RVA: 0x00239B2E File Offset: 0x00237F2E
 		public static void RenderCell(IntVec3 c, float colorPct = 0.5f)
 		{
 			CellRenderer.RenderCell(c, CellRenderer.MatFromColorPct(colorPct, true));
 		}
 
-		// Token: 0x06004360 RID: 17248 RVA: 0x00239A64 File Offset: 0x00237E64
+		// Token: 0x06004363 RID: 17251 RVA: 0x00239B40 File Offset: 0x00237F40
 		public static void RenderCell(IntVec3 c, Material mat)
 		{
 			CellRenderer.InitFrame();
@@ -47,13 +47,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004361 RID: 17249 RVA: 0x00239AA8 File Offset: 0x00237EA8
+		// Token: 0x06004364 RID: 17252 RVA: 0x00239B84 File Offset: 0x00237F84
 		public static void RenderSpot(Vector3 loc, float colorPct = 0.5f)
 		{
 			CellRenderer.RenderSpot(loc, CellRenderer.MatFromColorPct(colorPct, false), 0.15f);
 		}
 
-		// Token: 0x06004362 RID: 17250 RVA: 0x00239AC0 File Offset: 0x00237EC0
+		// Token: 0x06004365 RID: 17253 RVA: 0x00239B9C File Offset: 0x00237F9C
 		public static void RenderSpot(Vector3 loc, Material mat, float scale = 0.15f)
 		{
 			CellRenderer.InitFrame();

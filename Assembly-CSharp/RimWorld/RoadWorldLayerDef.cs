@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002C8 RID: 712
+	// Token: 0x020002CA RID: 714
 	public class RoadWorldLayerDef : Def
 	{
 		// Token: 0x04000700 RID: 1792

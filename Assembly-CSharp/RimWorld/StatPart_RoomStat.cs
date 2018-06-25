@@ -3,28 +3,28 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009B5 RID: 2485
+	// Token: 0x020009B7 RID: 2487
 	public class StatPart_RoomStat : StatPart
 	{
-		// Token: 0x040023B9 RID: 9145
+		// Token: 0x040023BA RID: 9146
 		private RoomStatDef roomStat = null;
 
-		// Token: 0x040023BA RID: 9146
+		// Token: 0x040023BB RID: 9147
 		[MustTranslate]
 		private string customLabel = null;
 
-		// Token: 0x040023BB RID: 9147
+		// Token: 0x040023BC RID: 9148
 		[Unsaved]
 		[TranslationHandle(Priority = 100)]
 		public string untranslatedCustomLabel = null;
 
-		// Token: 0x060037AF RID: 14255 RVA: 0x001DA918 File Offset: 0x001D8D18
+		// Token: 0x060037B3 RID: 14259 RVA: 0x001DAA58 File Offset: 0x001D8E58
 		public void PostLoad()
 		{
 			this.untranslatedCustomLabel = this.customLabel;
 		}
 
-		// Token: 0x060037B0 RID: 14256 RVA: 0x001DA928 File Offset: 0x001D8D28
+		// Token: 0x060037B4 RID: 14260 RVA: 0x001DAA68 File Offset: 0x001D8E68
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing)
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037B1 RID: 14257 RVA: 0x001DA96C File Offset: 0x001D8D6C
+		// Token: 0x060037B5 RID: 14261 RVA: 0x001DAAAC File Offset: 0x001D8EAC
 		public override string ExplanationPart(StatRequest req)
 		{
 			if (req.HasThing)

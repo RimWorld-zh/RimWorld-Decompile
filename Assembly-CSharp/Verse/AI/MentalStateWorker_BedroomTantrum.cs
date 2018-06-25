@@ -4,13 +4,13 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A65 RID: 2661
+	// Token: 0x02000A67 RID: 2663
 	public class MentalStateWorker_BedroomTantrum : MentalStateWorker
 	{
-		// Token: 0x0400255A RID: 9562
+		// Token: 0x0400255B RID: 9563
 		private static List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x06003B3A RID: 15162 RVA: 0x001F69D0 File Offset: 0x001F4DD0
+		// Token: 0x06003B3E RID: 15166 RVA: 0x001F6AFC File Offset: 0x001F4EFC
 		public override bool StateCanOccur(Pawn pawn)
 		{
 			bool result;

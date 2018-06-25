@@ -8,7 +8,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000863 RID: 2147
+	// Token: 0x02000865 RID: 2149
 	public static class ThingSelectionUtility
 	{
 		// Token: 0x04001A5E RID: 6750
@@ -28,7 +28,7 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static Func<Pawn, bool> <>f__mg$cache1;
 
-		// Token: 0x060030B7 RID: 12471 RVA: 0x001A7114 File Offset: 0x001A5514
+		// Token: 0x060030BB RID: 12475 RVA: 0x001A7264 File Offset: 0x001A5664
 		public static bool SelectableByMapClick(Thing t)
 		{
 			bool result;
@@ -60,13 +60,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060030B8 RID: 12472 RVA: 0x001A71E4 File Offset: 0x001A55E4
+		// Token: 0x060030BC RID: 12476 RVA: 0x001A7334 File Offset: 0x001A5734
 		public static bool SelectableByHotkey(Thing t)
 		{
 			return t.def.selectable && t.Spawned;
 		}
 
-		// Token: 0x060030B9 RID: 12473 RVA: 0x001A7214 File Offset: 0x001A5614
+		// Token: 0x060030BD RID: 12477 RVA: 0x001A7364 File Offset: 0x001A5764
 		public static IEnumerable<Thing> MultiSelectableThingsInScreenRectDistinct(Rect rect)
 		{
 			CellRect mapRect = ThingSelectionUtility.GetMapRect(rect);
@@ -93,7 +93,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060030BA RID: 12474 RVA: 0x001A7240 File Offset: 0x001A5640
+		// Token: 0x060030BE RID: 12478 RVA: 0x001A7390 File Offset: 0x001A5790
 		public static IEnumerable<Zone> MultiSelectableZonesInScreenRectDistinct(Rect rect)
 		{
 			CellRect mapRect = ThingSelectionUtility.GetMapRect(rect);
@@ -119,7 +119,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060030BB RID: 12475 RVA: 0x001A726C File Offset: 0x001A566C
+		// Token: 0x060030BF RID: 12479 RVA: 0x001A73BC File Offset: 0x001A57BC
 		private static CellRect GetMapRect(Rect rect)
 		{
 			Vector2 screenLoc = new Vector2(rect.x, (float)UI.screenHeight - rect.y);
@@ -135,7 +135,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060030BC RID: 12476 RVA: 0x001A7330 File Offset: 0x001A5730
+		// Token: 0x060030C0 RID: 12480 RVA: 0x001A7480 File Offset: 0x001A5880
 		public static void SelectNextColonist()
 		{
 			ThingSelectionUtility.tmpColonists.Clear();
@@ -170,7 +170,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030BD RID: 12477 RVA: 0x001A746C File Offset: 0x001A586C
+		// Token: 0x060030C1 RID: 12481 RVA: 0x001A75BC File Offset: 0x001A59BC
 		public static void SelectPreviousColonist()
 		{
 			ThingSelectionUtility.tmpColonists.Clear();

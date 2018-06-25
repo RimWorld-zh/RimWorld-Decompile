@@ -4,10 +4,10 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200075E RID: 1886
+	// Token: 0x02000760 RID: 1888
 	public class CompUseEffect_Artifact : CompUseEffect
 	{
-		// Token: 0x060029B5 RID: 10677 RVA: 0x001621B4 File Offset: 0x001605B4
+		// Token: 0x060029B9 RID: 10681 RVA: 0x00162304 File Offset: 0x00160704
 		public override void DoEffect(Pawn usedBy)
 		{
 			base.DoEffect(usedBy);

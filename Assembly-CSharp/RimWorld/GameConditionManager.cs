@@ -7,7 +7,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200030A RID: 778
+	// Token: 0x0200030C RID: 780
 	public sealed class GameConditionManager : IExposable
 	{
 		// Token: 0x04000865 RID: 2149
@@ -16,19 +16,19 @@ namespace RimWorld
 		// Token: 0x04000866 RID: 2150
 		private List<GameCondition> activeConditions = new List<GameCondition>();
 
-		// Token: 0x06000D06 RID: 3334 RVA: 0x000716B7 File Offset: 0x0006FAB7
+		// Token: 0x06000D0A RID: 3338 RVA: 0x00071807 File Offset: 0x0006FC07
 		public GameConditionManager(Map map)
 		{
 			this.ownerMap = map;
 		}
 
-		// Token: 0x06000D07 RID: 3335 RVA: 0x000716D2 File Offset: 0x0006FAD2
+		// Token: 0x06000D0B RID: 3339 RVA: 0x00071822 File Offset: 0x0006FC22
 		public GameConditionManager(World world)
 		{
 		}
 
 		// Token: 0x170001FA RID: 506
-		// (get) Token: 0x06000D08 RID: 3336 RVA: 0x000716E8 File Offset: 0x0006FAE8
+		// (get) Token: 0x06000D0C RID: 3340 RVA: 0x00071838 File Offset: 0x0006FC38
 		public List<GameCondition> ActiveConditions
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001FB RID: 507
-		// (get) Token: 0x06000D09 RID: 3337 RVA: 0x00071704 File Offset: 0x0006FB04
+		// (get) Token: 0x06000D0D RID: 3341 RVA: 0x00071854 File Offset: 0x0006FC54
 		public GameConditionManager Parent
 		{
 			get
@@ -47,7 +47,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D0A RID: 3338 RVA: 0x00071734 File Offset: 0x0006FB34
+		// Token: 0x06000D0E RID: 3342 RVA: 0x00071884 File Offset: 0x0006FC84
 		public void RegisterCondition(GameCondition cond)
 		{
 			this.activeConditions.Add(cond);
@@ -55,7 +55,7 @@ namespace RimWorld
 			cond.Init();
 		}
 
-		// Token: 0x06000D0B RID: 3339 RVA: 0x00071750 File Offset: 0x0006FB50
+		// Token: 0x06000D0F RID: 3343 RVA: 0x000718A0 File Offset: 0x0006FCA0
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<GameCondition>(ref this.activeConditions, "activeConditions", LookMode.Deep, new object[0]);
@@ -68,7 +68,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D0C RID: 3340 RVA: 0x000717B4 File Offset: 0x0006FBB4
+		// Token: 0x06000D10 RID: 3344 RVA: 0x00071904 File Offset: 0x0006FD04
 		public void GameConditionManagerTick()
 		{
 			for (int i = this.activeConditions.Count - 1; i >= 0; i--)
@@ -85,7 +85,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D0D RID: 3341 RVA: 0x0007180C File Offset: 0x0006FC0C
+		// Token: 0x06000D11 RID: 3345 RVA: 0x0007195C File Offset: 0x0006FD5C
 		public void GameConditionManagerDraw(Map map)
 		{
 			for (int i = this.activeConditions.Count - 1; i >= 0; i--)
@@ -98,7 +98,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D0E RID: 3342 RVA: 0x00071864 File Offset: 0x0006FC64
+		// Token: 0x06000D12 RID: 3346 RVA: 0x000719B4 File Offset: 0x0006FDB4
 		public void DoSteadyEffects(IntVec3 c, Map map)
 		{
 			for (int i = 0; i < this.activeConditions.Count; i++)
@@ -111,13 +111,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D0F RID: 3343 RVA: 0x000718BC File Offset: 0x0006FCBC
+		// Token: 0x06000D13 RID: 3347 RVA: 0x00071A0C File Offset: 0x0006FE0C
 		public bool ConditionIsActive(GameConditionDef def)
 		{
 			return this.GetActiveCondition(def) != null;
 		}
 
-		// Token: 0x06000D10 RID: 3344 RVA: 0x000718E0 File Offset: 0x0006FCE0
+		// Token: 0x06000D14 RID: 3348 RVA: 0x00071A30 File Offset: 0x0006FE30
 		public GameCondition GetActiveCondition(GameConditionDef def)
 		{
 			for (int i = 0; i < this.activeConditions.Count; i++)
@@ -134,7 +134,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06000D11 RID: 3345 RVA: 0x0007195C File Offset: 0x0006FD5C
+		// Token: 0x06000D15 RID: 3349 RVA: 0x00071AAC File Offset: 0x0006FEAC
 		public T GetActiveCondition<T>() where T : GameCondition
 		{
 			for (int i = 0; i < this.activeConditions.Count; i++)
@@ -152,7 +152,7 @@ namespace RimWorld
 			return (T)((object)null);
 		}
 
-		// Token: 0x06000D12 RID: 3346 RVA: 0x000719DC File Offset: 0x0006FDDC
+		// Token: 0x06000D16 RID: 3350 RVA: 0x00071B2C File Offset: 0x0006FF2C
 		public void GetChildren(List<GameConditionManager> outChildren)
 		{
 			if (this == Find.World.gameConditionManager)
@@ -165,7 +165,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D13 RID: 3347 RVA: 0x00071A30 File Offset: 0x0006FE30
+		// Token: 0x06000D17 RID: 3351 RVA: 0x00071B80 File Offset: 0x0006FF80
 		public float TotalHeightAt(float width)
 		{
 			float num = 0f;
@@ -180,7 +180,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06000D14 RID: 3348 RVA: 0x00071AA0 File Offset: 0x0006FEA0
+		// Token: 0x06000D18 RID: 3352 RVA: 0x00071BF0 File Offset: 0x0006FFF0
 		public void DoConditionsUI(Rect rect)
 		{
 			GUI.BeginGroup(rect);
@@ -205,7 +205,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D15 RID: 3349 RVA: 0x00071BA0 File Offset: 0x0006FFA0
+		// Token: 0x06000D19 RID: 3353 RVA: 0x00071CF0 File Offset: 0x000700F0
 		internal float AggregateSkyTargetLerpFactor(Map map)
 		{
 			float num = 0f;
@@ -220,7 +220,7 @@ namespace RimWorld
 			return Mathf.Clamp01(num);
 		}
 
-		// Token: 0x06000D16 RID: 3350 RVA: 0x00071C18 File Offset: 0x00070018
+		// Token: 0x06000D1A RID: 3354 RVA: 0x00071D68 File Offset: 0x00070168
 		internal SkyTarget? AggregateSkyTarget(Map map)
 		{
 			SkyTarget value = default(SkyTarget);
@@ -238,7 +238,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000D17 RID: 3351 RVA: 0x00071C68 File Offset: 0x00070068
+		// Token: 0x06000D1B RID: 3355 RVA: 0x00071DB8 File Offset: 0x000701B8
 		private void AggregateSkyTargetWorker(ref SkyTarget total, ref float lfTotal, Map map)
 		{
 			for (int i = 0; i < this.activeConditions.Count; i++)
@@ -265,7 +265,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000D18 RID: 3352 RVA: 0x00071D28 File Offset: 0x00070128
+		// Token: 0x06000D1C RID: 3356 RVA: 0x00071E78 File Offset: 0x00070278
 		internal float AggregateTemperatureOffset()
 		{
 			float num = 0f;
@@ -280,7 +280,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06000D19 RID: 3353 RVA: 0x00071D90 File Offset: 0x00070190
+		// Token: 0x06000D1D RID: 3357 RVA: 0x00071EE0 File Offset: 0x000702E0
 		internal float AggregateAnimalDensityFactor(Map map)
 		{
 			float num = 1f;
@@ -295,7 +295,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06000D1A RID: 3354 RVA: 0x00071DFC File Offset: 0x000701FC
+		// Token: 0x06000D1E RID: 3358 RVA: 0x00071F4C File Offset: 0x0007034C
 		internal float AggregatePlantDensityFactor(Map map)
 		{
 			float num = 1f;
@@ -310,7 +310,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06000D1B RID: 3355 RVA: 0x00071E68 File Offset: 0x00070268
+		// Token: 0x06000D1F RID: 3359 RVA: 0x00071FB8 File Offset: 0x000703B8
 		internal float AggregateSkyGazeJoyGainFactor(Map map)
 		{
 			float num = 1f;
@@ -325,7 +325,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06000D1C RID: 3356 RVA: 0x00071ED4 File Offset: 0x000702D4
+		// Token: 0x06000D20 RID: 3360 RVA: 0x00072024 File Offset: 0x00070424
 		internal float AggregateSkyGazeChanceFactor(Map map)
 		{
 			float num = 1f;
@@ -340,14 +340,14 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06000D1D RID: 3357 RVA: 0x00071F40 File Offset: 0x00070340
+		// Token: 0x06000D21 RID: 3361 RVA: 0x00072090 File Offset: 0x00070490
 		internal bool AllowEnjoyableOutsideNow(Map map)
 		{
 			GameConditionDef gameConditionDef;
 			return this.AllowEnjoyableOutsideNow(map, out gameConditionDef);
 		}
 
-		// Token: 0x06000D1E RID: 3358 RVA: 0x00071F60 File Offset: 0x00070360
+		// Token: 0x06000D22 RID: 3362 RVA: 0x000720B0 File Offset: 0x000704B0
 		internal bool AllowEnjoyableOutsideNow(Map map, out GameConditionDef reason)
 		{
 			for (int i = 0; i < this.activeConditions.Count; i++)
@@ -363,7 +363,7 @@ namespace RimWorld
 			return this.Parent == null || this.Parent.AllowEnjoyableOutsideNow(map, out reason);
 		}
 
-		// Token: 0x06000D1F RID: 3359 RVA: 0x00071FE0 File Offset: 0x000703E0
+		// Token: 0x06000D23 RID: 3363 RVA: 0x00072130 File Offset: 0x00070530
 		public string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

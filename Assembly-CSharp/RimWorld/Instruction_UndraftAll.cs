@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008C8 RID: 2248
+	// Token: 0x020008CA RID: 2250
 	public class Instruction_UndraftAll : Lesson_Instruction
 	{
 		// Token: 0x17000830 RID: 2096
-		// (get) Token: 0x06003370 RID: 13168 RVA: 0x001B958C File Offset: 0x001B798C
+		// (get) Token: 0x06003374 RID: 13172 RVA: 0x001B96CC File Offset: 0x001B7ACC
 		protected override float ProgressPercent
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003371 RID: 13169 RVA: 0x001B95C8 File Offset: 0x001B79C8
+		// Token: 0x06003375 RID: 13173 RVA: 0x001B9708 File Offset: 0x001B7B08
 		private IEnumerable<Pawn> DraftedPawns()
 		{
 			return from p in base.Map.mapPawns.FreeColonistsSpawned
@@ -26,7 +26,7 @@ namespace RimWorld
 			select p;
 		}
 
-		// Token: 0x06003372 RID: 13170 RVA: 0x001B9610 File Offset: 0x001B7A10
+		// Token: 0x06003376 RID: 13174 RVA: 0x001B9750 File Offset: 0x001B7B50
 		public override void LessonUpdate()
 		{
 			foreach (Pawn pawn in this.DraftedPawns())

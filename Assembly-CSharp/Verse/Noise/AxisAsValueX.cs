@@ -2,15 +2,15 @@
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F71 RID: 3953
+	// Token: 0x02000F75 RID: 3957
 	public class AxisAsValueX : ModuleBase
 	{
-		// Token: 0x06005F7B RID: 24443 RVA: 0x0030AE11 File Offset: 0x00309211
+		// Token: 0x06005F85 RID: 24453 RVA: 0x0030B491 File Offset: 0x00309891
 		public AxisAsValueX() : base(0)
 		{
 		}
 
-		// Token: 0x06005F7C RID: 24444 RVA: 0x0030AE1C File Offset: 0x0030921C
+		// Token: 0x06005F86 RID: 24454 RVA: 0x0030B49C File Offset: 0x0030989C
 		public override double GetValue(double x, double y, double z)
 		{
 			return x;

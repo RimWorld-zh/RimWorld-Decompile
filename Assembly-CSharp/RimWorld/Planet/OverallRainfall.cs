@@ -2,7 +2,7 @@
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000576 RID: 1398
+	// Token: 0x02000578 RID: 1400
 	public enum OverallRainfall
 	{
 		// Token: 0x04000F8C RID: 3980

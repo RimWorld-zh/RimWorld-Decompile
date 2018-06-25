@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A4A RID: 2634
+	// Token: 0x02000A4C RID: 2636
 	public static class Toils_General
 	{
-		// Token: 0x06003AB2 RID: 15026 RVA: 0x001F249C File Offset: 0x001F089C
+		// Token: 0x06003AB6 RID: 15030 RVA: 0x001F25C8 File Offset: 0x001F09C8
 		public static Toil Wait(int ticks)
 		{
 			Toil toil = new Toil();
@@ -19,7 +19,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AB3 RID: 15027 RVA: 0x001F24F8 File Offset: 0x001F08F8
+		// Token: 0x06003AB7 RID: 15031 RVA: 0x001F2624 File Offset: 0x001F0A24
 		public static Toil WaitWith(TargetIndex targetInd, int ticks, bool useProgressBar = false, bool maintainPosture = false)
 		{
 			Toil toil = new Toil();
@@ -53,7 +53,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AB4 RID: 15028 RVA: 0x001F25B0 File Offset: 0x001F09B0
+		// Token: 0x06003AB8 RID: 15032 RVA: 0x001F26DC File Offset: 0x001F0ADC
 		public static Toil RemoveDesignationsOnThing(TargetIndex ind, DesignationDef def)
 		{
 			Toil toil = new Toil();
@@ -64,7 +64,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AB5 RID: 15029 RVA: 0x001F25FC File Offset: 0x001F09FC
+		// Token: 0x06003AB9 RID: 15033 RVA: 0x001F2728 File Offset: 0x001F0B28
 		public static Toil ClearTarget(TargetIndex ind)
 		{
 			Toil toil = new Toil();
@@ -75,7 +75,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AB6 RID: 15030 RVA: 0x001F2648 File Offset: 0x001F0A48
+		// Token: 0x06003ABA RID: 15034 RVA: 0x001F2774 File Offset: 0x001F0B74
 		public static Toil PutCarriedThingInInventory()
 		{
 			Toil toil = new Toil();
@@ -94,7 +94,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AB7 RID: 15031 RVA: 0x001F268C File Offset: 0x001F0A8C
+		// Token: 0x06003ABB RID: 15035 RVA: 0x001F27B8 File Offset: 0x001F0BB8
 		public static Toil Do(Action action)
 		{
 			return new Toil
@@ -103,7 +103,7 @@ namespace Verse.AI
 			};
 		}
 
-		// Token: 0x06003AB8 RID: 15032 RVA: 0x001F26B0 File Offset: 0x001F0AB0
+		// Token: 0x06003ABC RID: 15036 RVA: 0x001F27DC File Offset: 0x001F0BDC
 		public static Toil DoAtomic(Action action)
 		{
 			return new Toil
@@ -113,7 +113,7 @@ namespace Verse.AI
 			};
 		}
 
-		// Token: 0x06003AB9 RID: 15033 RVA: 0x001F26DC File Offset: 0x001F0ADC
+		// Token: 0x06003ABD RID: 15037 RVA: 0x001F2808 File Offset: 0x001F0C08
 		public static Toil Open(TargetIndex openableInd)
 		{
 			Toil open = new Toil();
@@ -137,7 +137,7 @@ namespace Verse.AI
 			return open;
 		}
 
-		// Token: 0x06003ABA RID: 15034 RVA: 0x001F2734 File Offset: 0x001F0B34
+		// Token: 0x06003ABE RID: 15038 RVA: 0x001F2860 File Offset: 0x001F0C60
 		public static Toil Label()
 		{
 			return new Toil

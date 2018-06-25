@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C12 RID: 3090
+	// Token: 0x02000C14 RID: 3092
 	public class GlowFlooder
 	{
 		// Token: 0x04002E2A RID: 11818
@@ -83,7 +83,7 @@ namespace Verse
 			}
 		};
 
-		// Token: 0x0600439D RID: 17309 RVA: 0x0023BB08 File Offset: 0x00239F08
+		// Token: 0x060043A0 RID: 17312 RVA: 0x0023BBE4 File Offset: 0x00239FE4
 		public GlowFlooder(Map map)
 		{
 			this.map = map;
@@ -93,7 +93,7 @@ namespace Verse
 			this.openSet = new FastPriorityQueue<int>(new GlowFlooder.CompareGlowFlooderLightSquares(this.calcGrid));
 		}
 
-		// Token: 0x0600439E RID: 17310 RVA: 0x0023BB9C File Offset: 0x00239F9C
+		// Token: 0x060043A1 RID: 17313 RVA: 0x0023BC78 File Offset: 0x0023A078
 		public void AddFloodGlowFor(CompGlower theGlower, Color32[] glowGrid)
 		{
 			this.cellIndices = this.map.cellIndices;
@@ -199,7 +199,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600439F RID: 17311 RVA: 0x0023BF70 File Offset: 0x0023A370
+		// Token: 0x060043A2 RID: 17314 RVA: 0x0023C04C File Offset: 0x0023A44C
 		private void InitStatusesAndPushStartNode(ref int curIndex, IntVec3 start)
 		{
 			this.statusUnseenValue += 3u;
@@ -212,7 +212,7 @@ namespace Verse
 			this.openSet.Push(curIndex);
 		}
 
-		// Token: 0x060043A0 RID: 17312 RVA: 0x0023BFF0 File Offset: 0x0023A3F0
+		// Token: 0x060043A3 RID: 17315 RVA: 0x0023C0CC File Offset: 0x0023A4CC
 		private void SetGlowGridFromDist(int index)
 		{
 			float num = (float)this.calcGrid[index].intDist / 100f;
@@ -238,7 +238,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000C13 RID: 3091
+		// Token: 0x02000C15 RID: 3093
 		private struct GlowFloodCell
 		{
 			// Token: 0x04002E38 RID: 11832
@@ -248,19 +248,19 @@ namespace Verse
 			public uint status;
 		}
 
-		// Token: 0x02000C14 RID: 3092
+		// Token: 0x02000C16 RID: 3094
 		private class CompareGlowFlooderLightSquares : IComparer<int>
 		{
 			// Token: 0x04002E3A RID: 11834
 			private GlowFlooder.GlowFloodCell[] grid;
 
-			// Token: 0x060043A2 RID: 17314 RVA: 0x0023C11D File Offset: 0x0023A51D
+			// Token: 0x060043A5 RID: 17317 RVA: 0x0023C1F9 File Offset: 0x0023A5F9
 			public CompareGlowFlooderLightSquares(GlowFlooder.GlowFloodCell[] grid)
 			{
 				this.grid = grid;
 			}
 
-			// Token: 0x060043A3 RID: 17315 RVA: 0x0023C130 File Offset: 0x0023A530
+			// Token: 0x060043A6 RID: 17318 RVA: 0x0023C20C File Offset: 0x0023A60C
 			public int Compare(int a, int b)
 			{
 				return this.grid[a].intDist.CompareTo(this.grid[b].intDist);

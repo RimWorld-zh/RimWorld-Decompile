@@ -4,7 +4,7 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000CDD RID: 3293
+	// Token: 0x02000CDF RID: 3295
 	public class PatchOperationFindMod : PatchOperation
 	{
 		// Token: 0x0400311A RID: 12570
@@ -16,7 +16,7 @@ namespace Verse
 		// Token: 0x0400311C RID: 12572
 		private PatchOperation nomatch;
 
-		// Token: 0x0600489C RID: 18588 RVA: 0x00261F64 File Offset: 0x00260364
+		// Token: 0x0600489F RID: 18591 RVA: 0x00262040 File Offset: 0x00260440
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
 			bool flag = false;
@@ -42,7 +42,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x0600489D RID: 18589 RVA: 0x00262004 File Offset: 0x00260404
+		// Token: 0x060048A0 RID: 18592 RVA: 0x002620E0 File Offset: 0x002604E0
 		public override string ToString()
 		{
 			return string.Format("{0}({1})", base.ToString(), this.mods.ToCommaList(false));

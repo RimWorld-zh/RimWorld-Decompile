@@ -2,23 +2,23 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000A70 RID: 2672
+	// Token: 0x02000A72 RID: 2674
 	public class MentalState_CorpseObsession : MentalState
 	{
-		// Token: 0x0400256A RID: 9578
+		// Token: 0x0400256B RID: 9579
 		public Corpse corpse;
 
-		// Token: 0x0400256B RID: 9579
+		// Token: 0x0400256C RID: 9580
 		private const int AnyCorpseStillValidCheckInterval = 500;
 
-		// Token: 0x06003B72 RID: 15218 RVA: 0x001F763A File Offset: 0x001F5A3A
+		// Token: 0x06003B76 RID: 15222 RVA: 0x001F7766 File Offset: 0x001F5B66
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_References.Look<Corpse>(ref this.corpse, "corpse", false);
 		}
 
-		// Token: 0x06003B73 RID: 15219 RVA: 0x001F7654 File Offset: 0x001F5A54
+		// Token: 0x06003B77 RID: 15223 RVA: 0x001F7780 File Offset: 0x001F5B80
 		public override void MentalStateTick()
 		{
 			bool flag = false;
@@ -37,14 +37,14 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B74 RID: 15220 RVA: 0x001F76C4 File Offset: 0x001F5AC4
+		// Token: 0x06003B78 RID: 15224 RVA: 0x001F77F0 File Offset: 0x001F5BF0
 		public override void PostStart(string reason)
 		{
 			base.PostStart(reason);
 			this.corpse = CorpseObsessionMentalStateUtility.GetClosestCorpseToDigUp(this.pawn);
 		}
 
-		// Token: 0x06003B75 RID: 15221 RVA: 0x001F76DF File Offset: 0x001F5ADF
+		// Token: 0x06003B79 RID: 15225 RVA: 0x001F780B File Offset: 0x001F5C0B
 		public void Notify_CorpseHauled()
 		{
 			base.RecoverFromState();

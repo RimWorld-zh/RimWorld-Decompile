@@ -2,16 +2,16 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B83 RID: 2947
+	// Token: 0x02000B85 RID: 2949
 	[EditorShowClassName]
 	[EditorReplaceable]
 	public abstract class SoundParamSource
 	{
-		// Token: 0x170009C4 RID: 2500
-		// (get) Token: 0x06004029 RID: 16425
+		// Token: 0x170009C3 RID: 2499
+		// (get) Token: 0x0600402C RID: 16428
 		public abstract string Label { get; }
 
-		// Token: 0x0600402A RID: 16426
+		// Token: 0x0600402D RID: 16429
 		public abstract float ValueFor(Sample samp);
 	}
 }

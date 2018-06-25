@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200055D RID: 1373
+	// Token: 0x0200055F RID: 1375
 	public class FactionTacticalMemory : IExposable
 	{
 		// Token: 0x04000F36 RID: 3894
@@ -13,26 +13,26 @@ namespace RimWorld
 		// Token: 0x04000F37 RID: 3895
 		private const float TrapRememberChance = 0.2f;
 
-		// Token: 0x060019EE RID: 6638 RVA: 0x000E16F9 File Offset: 0x000DFAF9
+		// Token: 0x060019F2 RID: 6642 RVA: 0x000E1849 File Offset: 0x000DFC49
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<TrapMemory>(ref this.traps, "traps", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x060019EF RID: 6639 RVA: 0x000E1714 File Offset: 0x000DFB14
+		// Token: 0x060019F3 RID: 6643 RVA: 0x000E1864 File Offset: 0x000DFC64
 		public void Notify_MapRemoved(Map map)
 		{
 			this.traps.RemoveAll((TrapMemory x) => x.map == map);
 		}
 
-		// Token: 0x060019F0 RID: 6640 RVA: 0x000E1748 File Offset: 0x000DFB48
+		// Token: 0x060019F4 RID: 6644 RVA: 0x000E1898 File Offset: 0x000DFC98
 		public List<TrapMemory> TrapMemories()
 		{
 			this.traps.RemoveAll((TrapMemory tl) => tl.Expired);
 			return this.traps;
 		}
 
-		// Token: 0x060019F1 RID: 6641 RVA: 0x000E178C File Offset: 0x000DFB8C
+		// Token: 0x060019F5 RID: 6645 RVA: 0x000E18DC File Offset: 0x000DFCDC
 		public void TrapRevealed(IntVec3 c, Map map)
 		{
 			if (Rand.Value < 0.2f)

@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200068A RID: 1674
+	// Token: 0x0200068C RID: 1676
 	internal class Building_ShipReactor : Building
 	{
-		// Token: 0x06002375 RID: 9077 RVA: 0x00130E44 File Offset: 0x0012F244
+		// Token: 0x06002379 RID: 9081 RVA: 0x00130F94 File Offset: 0x0012F394
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())

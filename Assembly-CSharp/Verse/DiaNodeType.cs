@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000EBF RID: 3775
+	// Token: 0x02000EC1 RID: 3777
 	public enum DiaNodeType : byte
 	{
 		// Token: 0x04003B9D RID: 15261

@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000708 RID: 1800
+	// Token: 0x0200070A RID: 1802
 	public static class DeepDrillUtility
 	{
-		// Token: 0x06002779 RID: 10105 RVA: 0x00152CCC File Offset: 0x001510CC
+		// Token: 0x0600277D RID: 10109 RVA: 0x00152E1C File Offset: 0x0015121C
 		public static ThingDef GetNextResource(IntVec3 p, Map map)
 		{
 			ThingDef result;
@@ -17,7 +17,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600277A RID: 10106 RVA: 0x00152CF0 File Offset: 0x001510F0
+		// Token: 0x0600277E RID: 10110 RVA: 0x00152E40 File Offset: 0x00151240
 		public static bool GetNextResource(IntVec3 p, Map map, out ThingDef resDef, out int countPresent, out IntVec3 cell)
 		{
 			for (int i = 0; i < 9; i++)
@@ -41,7 +41,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600277B RID: 10107 RVA: 0x00152D94 File Offset: 0x00151194
+		// Token: 0x0600277F RID: 10111 RVA: 0x00152EE4 File Offset: 0x001512E4
 		public static ThingDef GetBaseResource(Map map)
 		{
 			ThingDef result;

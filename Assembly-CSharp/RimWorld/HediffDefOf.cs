@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000923 RID: 2339
+	// Token: 0x02000925 RID: 2341
 	[DefOf]
 	public static class HediffDefOf
 	{
@@ -145,7 +145,7 @@ namespace RimWorld
 		// Token: 0x04001FE2 RID: 8162
 		public static HediffDef PowerClaw;
 
-		// Token: 0x0600362B RID: 13867 RVA: 0x001D09C3 File Offset: 0x001CEDC3
+		// Token: 0x0600362F RID: 13871 RVA: 0x001D0B03 File Offset: 0x001CEF03
 		static HediffDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(HediffDefOf));

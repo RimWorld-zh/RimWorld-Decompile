@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A3B RID: 2619
+	// Token: 0x02000A3D RID: 2621
 	public class JobDriver_CastVerbOnce : JobDriver
 	{
-		// Token: 0x06003A20 RID: 14880 RVA: 0x001EC24C File Offset: 0x001EA64C
+		// Token: 0x06003A24 RID: 14884 RVA: 0x001EC378 File Offset: 0x001EA778
 		public override string GetReport()
 		{
 			string text;
@@ -25,13 +25,13 @@ namespace Verse.AI
 			});
 		}
 
-		// Token: 0x06003A21 RID: 14881 RVA: 0x001EC2BC File Offset: 0x001EA6BC
+		// Token: 0x06003A25 RID: 14885 RVA: 0x001EC3E8 File Offset: 0x001EA7E8
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x06003A22 RID: 14882 RVA: 0x001EC2D4 File Offset: 0x001EA6D4
+		// Token: 0x06003A26 RID: 14886 RVA: 0x001EC400 File Offset: 0x001EA800
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);

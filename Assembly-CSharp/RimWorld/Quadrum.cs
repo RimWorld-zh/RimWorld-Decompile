@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200090A RID: 2314
+	// Token: 0x0200090C RID: 2316
 	public enum Quadrum : byte
 	{
 		// Token: 0x04001D21 RID: 7457

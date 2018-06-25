@@ -2,15 +2,15 @@
 
 namespace Verse
 {
-	// Token: 0x02000976 RID: 2422
+	// Token: 0x02000978 RID: 2424
 	public class SubEffecter_DrifterEmoteTriggered : SubEffecter_DrifterEmote
 	{
-		// Token: 0x06003681 RID: 13953 RVA: 0x001D12A2 File Offset: 0x001CF6A2
+		// Token: 0x06003685 RID: 13957 RVA: 0x001D13E2 File Offset: 0x001CF7E2
 		public SubEffecter_DrifterEmoteTriggered(SubEffecterDef def, Effecter parent) : base(def, parent)
 		{
 		}
 
-		// Token: 0x06003682 RID: 13954 RVA: 0x001D12AD File Offset: 0x001CF6AD
+		// Token: 0x06003686 RID: 13958 RVA: 0x001D13ED File Offset: 0x001CF7ED
 		public override void SubTrigger(TargetInfo A, TargetInfo B)
 		{
 			base.MakeMote(A);

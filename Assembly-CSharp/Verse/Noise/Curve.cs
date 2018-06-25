@@ -5,25 +5,25 @@ using UnityEngine;
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F89 RID: 3977
+	// Token: 0x02000F8D RID: 3981
 	public class Curve : ModuleBase
 	{
-		// Token: 0x04003F15 RID: 16149
+		// Token: 0x04003F18 RID: 16152
 		private List<KeyValuePair<double, double>> m_data = new List<KeyValuePair<double, double>>();
 
-		// Token: 0x06006020 RID: 24608 RVA: 0x0030D6A5 File Offset: 0x0030BAA5
+		// Token: 0x0600602A RID: 24618 RVA: 0x0030DD25 File Offset: 0x0030C125
 		public Curve() : base(1)
 		{
 		}
 
-		// Token: 0x06006021 RID: 24609 RVA: 0x0030D6BA File Offset: 0x0030BABA
+		// Token: 0x0600602B RID: 24619 RVA: 0x0030DD3A File Offset: 0x0030C13A
 		public Curve(ModuleBase input) : base(1)
 		{
 			this.modules[0] = input;
 		}
 
-		// Token: 0x17000F75 RID: 3957
-		// (get) Token: 0x06006022 RID: 24610 RVA: 0x0030D6D8 File Offset: 0x0030BAD8
+		// Token: 0x17000F74 RID: 3956
+		// (get) Token: 0x0600602C RID: 24620 RVA: 0x0030DD58 File Offset: 0x0030C158
 		public int ControlPointCount
 		{
 			get
@@ -32,8 +32,8 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F76 RID: 3958
-		// (get) Token: 0x06006023 RID: 24611 RVA: 0x0030D6F8 File Offset: 0x0030BAF8
+		// Token: 0x17000F75 RID: 3957
+		// (get) Token: 0x0600602D RID: 24621 RVA: 0x0030DD78 File Offset: 0x0030C178
 		public List<KeyValuePair<double, double>> ControlPoints
 		{
 			get
@@ -42,7 +42,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06006024 RID: 24612 RVA: 0x0030D714 File Offset: 0x0030BB14
+		// Token: 0x0600602E RID: 24622 RVA: 0x0030DD94 File Offset: 0x0030C194
 		public void Add(double input, double output)
 		{
 			KeyValuePair<double, double> item = new KeyValuePair<double, double>(input, output);
@@ -53,13 +53,13 @@ namespace Verse.Noise
 			this.m_data.Sort((KeyValuePair<double, double> lhs, KeyValuePair<double, double> rhs) => lhs.Key.CompareTo(rhs.Key));
 		}
 
-		// Token: 0x06006025 RID: 24613 RVA: 0x0030D772 File Offset: 0x0030BB72
+		// Token: 0x0600602F RID: 24623 RVA: 0x0030DDF2 File Offset: 0x0030C1F2
 		public void Clear()
 		{
 			this.m_data.Clear();
 		}
 
-		// Token: 0x06006026 RID: 24614 RVA: 0x0030D780 File Offset: 0x0030BB80
+		// Token: 0x06006030 RID: 24624 RVA: 0x0030DE00 File Offset: 0x0030C200
 		public override double GetValue(double x, double y, double z)
 		{
 			System.Diagnostics.Debug.Assert(this.modules[0] != null);

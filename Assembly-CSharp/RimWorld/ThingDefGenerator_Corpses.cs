@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000238 RID: 568
+	// Token: 0x0200023A RID: 570
 	public static class ThingDefGenerator_Corpses
 	{
 		// Token: 0x040003F0 RID: 1008
@@ -20,7 +20,7 @@ namespace RimWorld
 		// Token: 0x040003F3 RID: 1011
 		private const float DessicatedDamagePerDay = 0.7f;
 
-		// Token: 0x06000A44 RID: 2628 RVA: 0x0005C6A4 File Offset: 0x0005AAA4
+		// Token: 0x06000A48 RID: 2632 RVA: 0x0005C7F4 File Offset: 0x0005ABF4
 		public static IEnumerable<ThingDef> ImpliedCorpseDefs()
 		{
 			foreach (ThingDef raceDef in DefDatabase<ThingDef>.AllDefs.ToList<ThingDef>())

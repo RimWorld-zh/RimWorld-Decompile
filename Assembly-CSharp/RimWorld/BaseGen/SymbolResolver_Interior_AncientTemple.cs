@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003D5 RID: 981
+	// Token: 0x020003D7 RID: 983
 	public class SymbolResolver_Interior_AncientTemple : SymbolResolver
 	{
 		// Token: 0x04000A48 RID: 2632
@@ -19,7 +19,7 @@ namespace RimWorld.BaseGen
 		// Token: 0x04000A4B RID: 2635
 		private static readonly IntRange HivesCountRange = new IntRange(1, 2);
 
-		// Token: 0x060010E5 RID: 4325 RVA: 0x000902DC File Offset: 0x0008E6DC
+		// Token: 0x060010E9 RID: 4329 RVA: 0x0009042C File Offset: 0x0008E82C
 		public override void Resolve(ResolveParams rp)
 		{
 			List<Thing> list = ThingSetMakerDefOf.MapGen_AncientTempleContents.root.Generate();

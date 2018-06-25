@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E22 RID: 3618
+	// Token: 0x02000E24 RID: 3620
 	public class DebugTool
 	{
 		// Token: 0x0400380C RID: 14348
@@ -15,7 +15,7 @@ namespace Verse
 		// Token: 0x0400380E RID: 14350
 		private Action onGUIAction = null;
 
-		// Token: 0x060054F4 RID: 21748 RVA: 0x002B9C83 File Offset: 0x002B8083
+		// Token: 0x060054F8 RID: 21752 RVA: 0x002B9DAF File Offset: 0x002B81AF
 		public DebugTool(string label, Action clickAction, Action onGUIAction = null)
 		{
 			this.label = label;
@@ -23,7 +23,7 @@ namespace Verse
 			this.onGUIAction = onGUIAction;
 		}
 
-		// Token: 0x060054F5 RID: 21749 RVA: 0x002B9CB0 File Offset: 0x002B80B0
+		// Token: 0x060054F9 RID: 21753 RVA: 0x002B9DDC File Offset: 0x002B81DC
 		public DebugTool(string label, Action clickAction, IntVec3 firstRectCorner)
 		{
 			this.label = label;
@@ -59,7 +59,7 @@ namespace Verse
 			};
 		}
 
-		// Token: 0x060054F6 RID: 21750 RVA: 0x002B9D00 File Offset: 0x002B8100
+		// Token: 0x060054FA RID: 21754 RVA: 0x002B9E2C File Offset: 0x002B822C
 		public void DebugToolOnGUI()
 		{
 			if (Event.current.type == EventType.MouseDown)

@@ -3,13 +3,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009D1 RID: 2513
+	// Token: 0x020009D3 RID: 2515
 	public class Verb_Bombardment : Verb
 	{
-		// Token: 0x04002408 RID: 9224
+		// Token: 0x04002409 RID: 9225
 		private const int DurationTicks = 450;
 
-		// Token: 0x06003860 RID: 14432 RVA: 0x001E1B68 File Offset: 0x001DFF68
+		// Token: 0x06003864 RID: 14436 RVA: 0x001E1C8C File Offset: 0x001E008C
 		protected override bool TryCastShot()
 		{
 			bool result;
@@ -33,7 +33,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003861 RID: 14433 RVA: 0x001E1C44 File Offset: 0x001E0044
+		// Token: 0x06003865 RID: 14437 RVA: 0x001E1D68 File Offset: 0x001E0168
 		public override float HighlightFieldRadiusAroundTarget(out bool needLOSToCenter)
 		{
 			needLOSToCenter = false;

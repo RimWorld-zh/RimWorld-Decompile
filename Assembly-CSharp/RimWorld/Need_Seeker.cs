@@ -4,19 +4,19 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000504 RID: 1284
+	// Token: 0x02000506 RID: 1286
 	public abstract class Need_Seeker : Need
 	{
 		// Token: 0x04000DB4 RID: 3508
 		private const float GUIArrowTolerance = 0.05f;
 
-		// Token: 0x06001718 RID: 5912 RVA: 0x000C98DE File Offset: 0x000C7CDE
+		// Token: 0x0600171C RID: 5916 RVA: 0x000C9A2E File Offset: 0x000C7E2E
 		public Need_Seeker(Pawn pawn) : base(pawn)
 		{
 		}
 
 		// Token: 0x1700032F RID: 815
-		// (get) Token: 0x06001719 RID: 5913 RVA: 0x000C98E8 File Offset: 0x000C7CE8
+		// (get) Token: 0x0600171D RID: 5917 RVA: 0x000C9A38 File Offset: 0x000C7E38
 		public override int GUIChangeArrow
 		{
 			get
@@ -46,7 +46,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600171A RID: 5914 RVA: 0x000C9950 File Offset: 0x000C7D50
+		// Token: 0x0600171E RID: 5918 RVA: 0x000C9AA0 File Offset: 0x000C7EA0
 		public override void NeedInterval()
 		{
 			if (!base.IsFrozen)

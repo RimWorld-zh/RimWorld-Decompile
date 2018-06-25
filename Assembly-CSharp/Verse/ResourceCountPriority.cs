@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000BA7 RID: 2983
+	// Token: 0x02000BA9 RID: 2985
 	public enum ResourceCountPriority : byte
 	{
 		// Token: 0x04002B9B RID: 11163

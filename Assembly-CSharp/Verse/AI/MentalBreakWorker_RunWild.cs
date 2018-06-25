@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A5A RID: 2650
+	// Token: 0x02000A5C RID: 2652
 	public class MentalBreakWorker_RunWild : MentalBreakWorker
 	{
-		// Token: 0x06003AFE RID: 15102 RVA: 0x001F501C File Offset: 0x001F341C
+		// Token: 0x06003B02 RID: 15106 RVA: 0x001F5148 File Offset: 0x001F3548
 		public override bool BreakCanOccur(Pawn pawn)
 		{
 			bool result;
@@ -26,7 +26,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003AFF RID: 15103 RVA: 0x001F50E4 File Offset: 0x001F34E4
+		// Token: 0x06003B03 RID: 15107 RVA: 0x001F5210 File Offset: 0x001F3610
 		public override bool TryStart(Pawn pawn, Thought reason, bool causedByMood)
 		{
 			base.TrySendLetter(pawn, "LetterRunWildMentalBreak", reason);

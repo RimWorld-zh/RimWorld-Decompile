@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002B8 RID: 696
+	// Token: 0x020002BA RID: 698
 	public class PawnTableDef : Def
 	{
 		// Token: 0x040006C3 RID: 1731

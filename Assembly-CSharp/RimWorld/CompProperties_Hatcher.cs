@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000715 RID: 1813
+	// Token: 0x02000717 RID: 1815
 	public class CompProperties_Hatcher : CompProperties
 	{
 		// Token: 0x040015E0 RID: 5600
@@ -12,7 +12,7 @@ namespace RimWorld
 		// Token: 0x040015E1 RID: 5601
 		public PawnKindDef hatcherPawn = null;
 
-		// Token: 0x060027DF RID: 10207 RVA: 0x0015537A File Offset: 0x0015377A
+		// Token: 0x060027E3 RID: 10211 RVA: 0x001554CA File Offset: 0x001538CA
 		public CompProperties_Hatcher()
 		{
 			this.compClass = typeof(CompHatcher);

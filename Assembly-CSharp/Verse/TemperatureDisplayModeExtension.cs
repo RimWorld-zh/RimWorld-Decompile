@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000FA6 RID: 4006
+	// Token: 0x02000FAA RID: 4010
 	public static class TemperatureDisplayModeExtension
 	{
-		// Token: 0x060060F8 RID: 24824 RVA: 0x0031038C File Offset: 0x0030E78C
+		// Token: 0x06006102 RID: 24834 RVA: 0x00310A0C File Offset: 0x0030EE0C
 		public static string ToStringHuman(this TemperatureDisplayMode mode)
 		{
 			string result;

@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000D9C RID: 3484
+	// Token: 0x02000D9E RID: 3486
 	public enum LookMode : byte
 	{
 		// Token: 0x040033F7 RID: 13303

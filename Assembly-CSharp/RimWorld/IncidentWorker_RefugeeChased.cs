@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200033B RID: 827
+	// Token: 0x0200033D RID: 829
 	public class IncidentWorker_RefugeeChased : IncidentWorker
 	{
 		// Token: 0x040008E3 RID: 2275
@@ -17,7 +17,7 @@ namespace RimWorld
 		// Token: 0x040008E5 RID: 2277
 		private const float RelationWithColonistWeight = 20f;
 
-		// Token: 0x06000E20 RID: 3616 RVA: 0x000783F4 File Offset: 0x000767F4
+		// Token: 0x06000E24 RID: 3620 RVA: 0x00078544 File Offset: 0x00076944
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -35,7 +35,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E21 RID: 3617 RVA: 0x00078444 File Offset: 0x00076844
+		// Token: 0x06000E25 RID: 3621 RVA: 0x00078594 File Offset: 0x00076994
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -110,13 +110,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E22 RID: 3618 RVA: 0x000786D8 File Offset: 0x00076AD8
+		// Token: 0x06000E26 RID: 3622 RVA: 0x00078828 File Offset: 0x00076C28
 		private bool TryFindSpawnSpot(Map map, out IntVec3 spawnSpot)
 		{
 			return CellFinder.TryFindRandomEdgeCellWith((IntVec3 c) => map.reachability.CanReachColony(c), map, CellFinder.EdgeRoadChance_Neutral, out spawnSpot);
 		}
 
-		// Token: 0x06000E23 RID: 3619 RVA: 0x00078718 File Offset: 0x00076B18
+		// Token: 0x06000E27 RID: 3623 RVA: 0x00078868 File Offset: 0x00076C68
 		private bool TryFindEnemyFaction(out Faction enemyFac)
 		{
 			return (from f in Find.FactionManager.AllFactions

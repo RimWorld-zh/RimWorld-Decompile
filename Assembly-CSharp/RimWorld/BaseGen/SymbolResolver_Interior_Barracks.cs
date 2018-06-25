@@ -2,10 +2,10 @@
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003D6 RID: 982
+	// Token: 0x020003D8 RID: 984
 	public class SymbolResolver_Interior_Barracks : SymbolResolver
 	{
-		// Token: 0x060010E8 RID: 4328 RVA: 0x00090482 File Offset: 0x0008E882
+		// Token: 0x060010EC RID: 4332 RVA: 0x000905D2 File Offset: 0x0008E9D2
 		public override void Resolve(ResolveParams rp)
 		{
 			InteriorSymbolResolverUtility.PushBedroomHeatersCoolersAndLightSourcesSymbols(rp, true);

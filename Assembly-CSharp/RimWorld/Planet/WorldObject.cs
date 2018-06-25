@@ -7,7 +7,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000617 RID: 1559
+	// Token: 0x02000619 RID: 1561
 	[StaticConstructorOnStartup]
 	public class WorldObject : IExposable, ILoadReferenceable, ISelectable
 	{
@@ -36,7 +36,7 @@ namespace RimWorld.Planet
 		private const float BaseDrawSize = 0.7f;
 
 		// Token: 0x170004A6 RID: 1190
-		// (get) Token: 0x06001F81 RID: 8065 RVA: 0x000F8728 File Offset: 0x000F6B28
+		// (get) Token: 0x06001F85 RID: 8069 RVA: 0x000F8878 File Offset: 0x000F6C78
 		public List<WorldObjectComp> AllComps
 		{
 			get
@@ -46,8 +46,8 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004A7 RID: 1191
-		// (get) Token: 0x06001F82 RID: 8066 RVA: 0x000F8744 File Offset: 0x000F6B44
-		// (set) Token: 0x06001F83 RID: 8067 RVA: 0x000F8760 File Offset: 0x000F6B60
+		// (get) Token: 0x06001F86 RID: 8070 RVA: 0x000F8894 File Offset: 0x000F6C94
+		// (set) Token: 0x06001F87 RID: 8071 RVA: 0x000F88B0 File Offset: 0x000F6CB0
 		public int Tile
 		{
 			get
@@ -72,7 +72,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004A8 RID: 1192
-		// (get) Token: 0x06001F84 RID: 8068 RVA: 0x000F87B8 File Offset: 0x000F6BB8
+		// (get) Token: 0x06001F88 RID: 8072 RVA: 0x000F8908 File Offset: 0x000F6D08
 		public bool Spawned
 		{
 			get
@@ -82,7 +82,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004A9 RID: 1193
-		// (get) Token: 0x06001F85 RID: 8069 RVA: 0x000F87D8 File Offset: 0x000F6BD8
+		// (get) Token: 0x06001F89 RID: 8073 RVA: 0x000F8928 File Offset: 0x000F6D28
 		public virtual Vector3 DrawPos
 		{
 			get
@@ -92,7 +92,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004AA RID: 1194
-		// (get) Token: 0x06001F86 RID: 8070 RVA: 0x000F8800 File Offset: 0x000F6C00
+		// (get) Token: 0x06001F8A RID: 8074 RVA: 0x000F8950 File Offset: 0x000F6D50
 		public Faction Faction
 		{
 			get
@@ -102,7 +102,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004AB RID: 1195
-		// (get) Token: 0x06001F87 RID: 8071 RVA: 0x000F881C File Offset: 0x000F6C1C
+		// (get) Token: 0x06001F8B RID: 8075 RVA: 0x000F896C File Offset: 0x000F6D6C
 		public virtual string Label
 		{
 			get
@@ -112,7 +112,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004AC RID: 1196
-		// (get) Token: 0x06001F88 RID: 8072 RVA: 0x000F883C File Offset: 0x000F6C3C
+		// (get) Token: 0x06001F8C RID: 8076 RVA: 0x000F898C File Offset: 0x000F6D8C
 		public string LabelCap
 		{
 			get
@@ -122,7 +122,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004AD RID: 1197
-		// (get) Token: 0x06001F89 RID: 8073 RVA: 0x000F885C File Offset: 0x000F6C5C
+		// (get) Token: 0x06001F8D RID: 8077 RVA: 0x000F89AC File Offset: 0x000F6DAC
 		public virtual string LabelShort
 		{
 			get
@@ -132,7 +132,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004AE RID: 1198
-		// (get) Token: 0x06001F8A RID: 8074 RVA: 0x000F8878 File Offset: 0x000F6C78
+		// (get) Token: 0x06001F8E RID: 8078 RVA: 0x000F89C8 File Offset: 0x000F6DC8
 		public virtual string LabelShortCap
 		{
 			get
@@ -142,7 +142,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004AF RID: 1199
-		// (get) Token: 0x06001F8B RID: 8075 RVA: 0x000F8898 File Offset: 0x000F6C98
+		// (get) Token: 0x06001F8F RID: 8079 RVA: 0x000F89E8 File Offset: 0x000F6DE8
 		public virtual Material Material
 		{
 			get
@@ -152,7 +152,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004B0 RID: 1200
-		// (get) Token: 0x06001F8C RID: 8076 RVA: 0x000F88B8 File Offset: 0x000F6CB8
+		// (get) Token: 0x06001F90 RID: 8080 RVA: 0x000F8A08 File Offset: 0x000F6E08
 		public virtual bool SelectableNow
 		{
 			get
@@ -162,7 +162,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004B1 RID: 1201
-		// (get) Token: 0x06001F8D RID: 8077 RVA: 0x000F88D8 File Offset: 0x000F6CD8
+		// (get) Token: 0x06001F91 RID: 8081 RVA: 0x000F8A28 File Offset: 0x000F6E28
 		public virtual bool NeverMultiSelect
 		{
 			get
@@ -172,7 +172,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004B2 RID: 1202
-		// (get) Token: 0x06001F8E RID: 8078 RVA: 0x000F88F8 File Offset: 0x000F6CF8
+		// (get) Token: 0x06001F92 RID: 8082 RVA: 0x000F8A48 File Offset: 0x000F6E48
 		public virtual Texture2D ExpandingIcon
 		{
 			get
@@ -182,7 +182,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004B3 RID: 1203
-		// (get) Token: 0x06001F8F RID: 8079 RVA: 0x000F8930 File Offset: 0x000F6D30
+		// (get) Token: 0x06001F93 RID: 8083 RVA: 0x000F8A80 File Offset: 0x000F6E80
 		public virtual Color ExpandingIconColor
 		{
 			get
@@ -192,7 +192,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004B4 RID: 1204
-		// (get) Token: 0x06001F90 RID: 8080 RVA: 0x000F8950 File Offset: 0x000F6D50
+		// (get) Token: 0x06001F94 RID: 8084 RVA: 0x000F8AA0 File Offset: 0x000F6EA0
 		public virtual float ExpandingIconPriority
 		{
 			get
@@ -202,7 +202,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004B5 RID: 1205
-		// (get) Token: 0x06001F91 RID: 8081 RVA: 0x000F8970 File Offset: 0x000F6D70
+		// (get) Token: 0x06001F95 RID: 8085 RVA: 0x000F8AC0 File Offset: 0x000F6EC0
 		public virtual bool ExpandMore
 		{
 			get
@@ -212,7 +212,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004B6 RID: 1206
-		// (get) Token: 0x06001F92 RID: 8082 RVA: 0x000F8990 File Offset: 0x000F6D90
+		// (get) Token: 0x06001F96 RID: 8086 RVA: 0x000F8AE0 File Offset: 0x000F6EE0
 		public virtual bool AppendFactionToInspectString
 		{
 			get
@@ -222,7 +222,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004B7 RID: 1207
-		// (get) Token: 0x06001F93 RID: 8083 RVA: 0x000F89A8 File Offset: 0x000F6DA8
+		// (get) Token: 0x06001F97 RID: 8087 RVA: 0x000F8AF8 File Offset: 0x000F6EF8
 		public IThingHolder ParentHolder
 		{
 			get
@@ -232,7 +232,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004B8 RID: 1208
-		// (get) Token: 0x06001F94 RID: 8084 RVA: 0x000F89D4 File Offset: 0x000F6DD4
+		// (get) Token: 0x06001F98 RID: 8088 RVA: 0x000F8B24 File Offset: 0x000F6F24
 		public virtual IEnumerable<StatDrawEntry> SpecialDisplayStats
 		{
 			get
@@ -242,7 +242,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004B9 RID: 1209
-		// (get) Token: 0x06001F95 RID: 8085 RVA: 0x000F89F8 File Offset: 0x000F6DF8
+		// (get) Token: 0x06001F99 RID: 8089 RVA: 0x000F8B48 File Offset: 0x000F6F48
 		public BiomeDef Biome
 		{
 			get
@@ -251,7 +251,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001F96 RID: 8086 RVA: 0x000F8A34 File Offset: 0x000F6E34
+		// Token: 0x06001F9A RID: 8090 RVA: 0x000F8B84 File Offset: 0x000F6F84
 		public virtual IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
 		{
 			if (this.def.incidentTargetTypes != null)
@@ -271,7 +271,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001F97 RID: 8087 RVA: 0x000F8A60 File Offset: 0x000F6E60
+		// Token: 0x06001F9B RID: 8091 RVA: 0x000F8BB0 File Offset: 0x000F6FB0
 		public virtual void ExposeData()
 		{
 			Scribe_Defs.Look<WorldObjectDef>(ref this.def, "def");
@@ -289,7 +289,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001F98 RID: 8088 RVA: 0x000F8B08 File Offset: 0x000F6F08
+		// Token: 0x06001F9C RID: 8092 RVA: 0x000F8C58 File Offset: 0x000F7058
 		private void InitializeComps()
 		{
 			for (int i = 0; i < this.def.comps.Count; i++)
@@ -301,7 +301,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001F99 RID: 8089 RVA: 0x000F8B84 File Offset: 0x000F6F84
+		// Token: 0x06001F9D RID: 8093 RVA: 0x000F8CD4 File Offset: 0x000F70D4
 		public virtual void SetFaction(Faction newFaction)
 		{
 			if (!this.def.canHaveFaction && newFaction != null)
@@ -321,7 +321,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001F9A RID: 8090 RVA: 0x000F8BE8 File Offset: 0x000F6FE8
+		// Token: 0x06001F9E RID: 8094 RVA: 0x000F8D38 File Offset: 0x000F7138
 		public virtual string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -349,7 +349,7 @@ namespace RimWorld.Planet
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06001F9B RID: 8091 RVA: 0x000F8CF0 File Offset: 0x000F70F0
+		// Token: 0x06001F9F RID: 8095 RVA: 0x000F8E40 File Offset: 0x000F7240
 		public virtual void Tick()
 		{
 			for (int i = 0; i < this.comps.Count; i++)
@@ -358,33 +358,33 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001F9C RID: 8092 RVA: 0x000F8D2D File Offset: 0x000F712D
+		// Token: 0x06001FA0 RID: 8096 RVA: 0x000F8E7D File Offset: 0x000F727D
 		public virtual void ExtraSelectionOverlaysOnGUI()
 		{
 		}
 
-		// Token: 0x06001F9D RID: 8093 RVA: 0x000F8D30 File Offset: 0x000F7130
+		// Token: 0x06001FA1 RID: 8097 RVA: 0x000F8E80 File Offset: 0x000F7280
 		public virtual void DrawExtraSelectionOverlays()
 		{
 		}
 
-		// Token: 0x06001F9E RID: 8094 RVA: 0x000F8D33 File Offset: 0x000F7133
+		// Token: 0x06001FA2 RID: 8098 RVA: 0x000F8E83 File Offset: 0x000F7283
 		public virtual void PostMake()
 		{
 			this.InitializeComps();
 		}
 
-		// Token: 0x06001F9F RID: 8095 RVA: 0x000F8D3C File Offset: 0x000F713C
+		// Token: 0x06001FA3 RID: 8099 RVA: 0x000F8E8C File Offset: 0x000F728C
 		public virtual void PostAdd()
 		{
 		}
 
-		// Token: 0x06001FA0 RID: 8096 RVA: 0x000F8D3F File Offset: 0x000F713F
+		// Token: 0x06001FA4 RID: 8100 RVA: 0x000F8E8F File Offset: 0x000F728F
 		protected virtual void PositionChanged()
 		{
 		}
 
-		// Token: 0x06001FA1 RID: 8097 RVA: 0x000F8D42 File Offset: 0x000F7142
+		// Token: 0x06001FA5 RID: 8101 RVA: 0x000F8E92 File Offset: 0x000F7292
 		public virtual void SpawnSetup()
 		{
 			if (!this.def.useDynamicDrawer)
@@ -397,7 +397,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001FA2 RID: 8098 RVA: 0x000F8D80 File Offset: 0x000F7180
+		// Token: 0x06001FA6 RID: 8102 RVA: 0x000F8ED0 File Offset: 0x000F72D0
 		public virtual void PostRemove()
 		{
 			if (!this.def.useDynamicDrawer)
@@ -415,14 +415,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001FA3 RID: 8099 RVA: 0x000F8E04 File Offset: 0x000F7204
+		// Token: 0x06001FA7 RID: 8103 RVA: 0x000F8F54 File Offset: 0x000F7354
 		public virtual void Print(LayerSubMesh subMesh)
 		{
 			float averageTileSize = Find.WorldGrid.averageTileSize;
 			WorldRendererUtility.PrintQuadTangentialToPlanet(this.DrawPos, 0.7f * averageTileSize, 0.015f, subMesh, false, true, true);
 		}
 
-		// Token: 0x06001FA4 RID: 8100 RVA: 0x000F8E38 File Offset: 0x000F7238
+		// Token: 0x06001FA8 RID: 8104 RVA: 0x000F8F88 File Offset: 0x000F7388
 		public virtual void Draw()
 		{
 			float averageTileSize = Find.WorldGrid.averageTileSize;
@@ -445,7 +445,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001FA5 RID: 8101 RVA: 0x000F8F18 File Offset: 0x000F7318
+		// Token: 0x06001FA9 RID: 8105 RVA: 0x000F9068 File Offset: 0x000F7468
 		public T GetComponent<T>() where T : WorldObjectComp
 		{
 			for (int i = 0; i < this.comps.Count; i++)
@@ -459,7 +459,7 @@ namespace RimWorld.Planet
 			return (T)((object)null);
 		}
 
-		// Token: 0x06001FA6 RID: 8102 RVA: 0x000F8F7C File Offset: 0x000F737C
+		// Token: 0x06001FAA RID: 8106 RVA: 0x000F90CC File Offset: 0x000F74CC
 		public WorldObjectComp GetComponent(Type type)
 		{
 			for (int i = 0; i < this.comps.Count; i++)
@@ -472,7 +472,7 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		// Token: 0x06001FA7 RID: 8103 RVA: 0x000F8FE0 File Offset: 0x000F73E0
+		// Token: 0x06001FAB RID: 8107 RVA: 0x000F9130 File Offset: 0x000F7530
 		public virtual IEnumerable<Gizmo> GetGizmos()
 		{
 			for (int i = 0; i < this.comps.Count; i++)
@@ -485,7 +485,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001FA8 RID: 8104 RVA: 0x000F900C File Offset: 0x000F740C
+		// Token: 0x06001FAC RID: 8108 RVA: 0x000F915C File Offset: 0x000F755C
 		public virtual IEnumerable<Gizmo> GetCaravanGizmos(Caravan caravan)
 		{
 			for (int i = 0; i < this.comps.Count; i++)
@@ -498,7 +498,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001FA9 RID: 8105 RVA: 0x000F9040 File Offset: 0x000F7440
+		// Token: 0x06001FAD RID: 8109 RVA: 0x000F9190 File Offset: 0x000F7590
 		public virtual IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
 			for (int i = 0; i < this.comps.Count; i++)
@@ -511,7 +511,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001FAA RID: 8106 RVA: 0x000F9074 File Offset: 0x000F7474
+		// Token: 0x06001FAE RID: 8110 RVA: 0x000F91C4 File Offset: 0x000F75C4
 		public virtual IEnumerable<FloatMenuOption> GetTransportPodsFloatMenuOptions(IEnumerable<IThingHolder> pods, CompLaunchable representative)
 		{
 			for (int i = 0; i < this.comps.Count; i++)
@@ -524,7 +524,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001FAB RID: 8107 RVA: 0x000F90AC File Offset: 0x000F74AC
+		// Token: 0x06001FAF RID: 8111 RVA: 0x000F91FC File Offset: 0x000F75FC
 		public virtual IEnumerable<InspectTabBase> GetInspectTabs()
 		{
 			IEnumerable<InspectTabBase> result;
@@ -539,13 +539,13 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001FAC RID: 8108 RVA: 0x000F90E8 File Offset: 0x000F74E8
+		// Token: 0x06001FB0 RID: 8112 RVA: 0x000F9238 File Offset: 0x000F7638
 		public virtual bool AllMatchingObjectsOnScreenMatchesWith(WorldObject other)
 		{
 			return this.Faction == other.Faction;
 		}
 
-		// Token: 0x06001FAD RID: 8109 RVA: 0x000F910C File Offset: 0x000F750C
+		// Token: 0x06001FB1 RID: 8113 RVA: 0x000F925C File Offset: 0x000F765C
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -559,19 +559,19 @@ namespace RimWorld.Planet
 			});
 		}
 
-		// Token: 0x06001FAE RID: 8110 RVA: 0x000F916C File Offset: 0x000F756C
+		// Token: 0x06001FB2 RID: 8114 RVA: 0x000F92BC File Offset: 0x000F76BC
 		public override int GetHashCode()
 		{
 			return this.ID;
 		}
 
-		// Token: 0x06001FAF RID: 8111 RVA: 0x000F9188 File Offset: 0x000F7588
+		// Token: 0x06001FB3 RID: 8115 RVA: 0x000F92D8 File Offset: 0x000F76D8
 		public string GetUniqueLoadID()
 		{
 			return "WorldObject_" + this.ID;
 		}
 
-		// Token: 0x06001FB0 RID: 8112 RVA: 0x000F91B4 File Offset: 0x000F75B4
+		// Token: 0x06001FB4 RID: 8116 RVA: 0x000F9304 File Offset: 0x000F7704
 		public virtual string GetDescription()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

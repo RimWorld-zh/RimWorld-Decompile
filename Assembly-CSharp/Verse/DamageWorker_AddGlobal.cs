@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000CF9 RID: 3321
+	// Token: 0x02000CFB RID: 3323
 	public class DamageWorker_AddGlobal : DamageWorker
 	{
-		// Token: 0x06004931 RID: 18737 RVA: 0x002679EC File Offset: 0x00265DEC
+		// Token: 0x06004934 RID: 18740 RVA: 0x00267AC8 File Offset: 0x00265EC8
 		public override DamageWorker.DamageResult Apply(DamageInfo dinfo, Thing thing)
 		{
 			Pawn pawn = thing as Pawn;

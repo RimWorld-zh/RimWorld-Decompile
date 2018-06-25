@@ -4,17 +4,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000477 RID: 1143
+	// Token: 0x02000479 RID: 1145
 	public class PawnCapacityWorker_Sight : PawnCapacityWorker
 	{
-		// Token: 0x06001414 RID: 5140 RVA: 0x000AED50 File Offset: 0x000AD150
+		// Token: 0x06001418 RID: 5144 RVA: 0x000AEEA0 File Offset: 0x000AD2A0
 		public override float CalculateCapacityLevel(HediffSet diffSet, List<PawnCapacityUtility.CapacityImpactor> impactors = null)
 		{
 			BodyPartTagDef sightSource = BodyPartTagDefOf.SightSource;
 			return PawnCapacityUtility.CalculateTagEfficiency(diffSet, sightSource, float.MaxValue, default(FloatRange), impactors);
 		}
 
-		// Token: 0x06001415 RID: 5141 RVA: 0x000AED88 File Offset: 0x000AD188
+		// Token: 0x06001419 RID: 5145 RVA: 0x000AEED8 File Offset: 0x000AD2D8
 		public override bool CanHaveCapacity(BodyDef body)
 		{
 			return body.HasPartWithTag(BodyPartTagDefOf.SightSource);

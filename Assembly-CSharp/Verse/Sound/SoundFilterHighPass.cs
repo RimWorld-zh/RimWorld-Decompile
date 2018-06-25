@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B80 RID: 2944
+	// Token: 0x02000B82 RID: 2946
 	public class SoundFilterHighPass : SoundFilter
 	{
 		// Token: 0x04002B0D RID: 11021
@@ -16,7 +16,7 @@ namespace Verse.Sound
 		[Description("The resonance Q value.")]
 		private float highpassResonanceQ = 1f;
 
-		// Token: 0x06004023 RID: 16419 RVA: 0x0021CA44 File Offset: 0x0021AE44
+		// Token: 0x06004026 RID: 16422 RVA: 0x0021CB20 File Offset: 0x0021AF20
 		public override void SetupOn(AudioSource source)
 		{
 			AudioHighPassFilter orMakeFilterOn = SoundFilter.GetOrMakeFilterOn<AudioHighPassFilter>(source);

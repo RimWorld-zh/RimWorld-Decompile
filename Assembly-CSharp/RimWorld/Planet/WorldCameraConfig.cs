@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200057A RID: 1402
+	// Token: 0x0200057C RID: 1404
 	public abstract class WorldCameraConfig
 	{
 		// Token: 0x04000FA9 RID: 4009
@@ -30,12 +30,12 @@ namespace RimWorld.Planet
 		// Token: 0x04000FB0 RID: 4016
 		public bool smoothZoom;
 
-		// Token: 0x06001AD4 RID: 6868 RVA: 0x000E6E95 File Offset: 0x000E5295
+		// Token: 0x06001AD8 RID: 6872 RVA: 0x000E6FE5 File Offset: 0x000E53E5
 		public virtual void ConfigFixedUpdate_60(ref Vector2 rotationVelocity)
 		{
 		}
 
-		// Token: 0x06001AD5 RID: 6869 RVA: 0x000E6E98 File Offset: 0x000E5298
+		// Token: 0x06001AD9 RID: 6873 RVA: 0x000E6FE8 File Offset: 0x000E53E8
 		public virtual void ConfigOnGUI()
 		{
 		}

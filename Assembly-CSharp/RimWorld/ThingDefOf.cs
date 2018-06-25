@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000912 RID: 2322
+	// Token: 0x02000914 RID: 2324
 	[DefOf]
 	public static class ThingDefOf
 	{
@@ -571,7 +571,7 @@ namespace RimWorld
 		// Token: 0x04001DFC RID: 7676
 		public static ThingDef Gas_Smoke;
 
-		// Token: 0x0600361A RID: 13850 RVA: 0x001D0891 File Offset: 0x001CEC91
+		// Token: 0x0600361E RID: 13854 RVA: 0x001D09D1 File Offset: 0x001CEDD1
 		static ThingDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ThingDefOf));

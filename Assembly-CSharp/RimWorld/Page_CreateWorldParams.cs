@@ -8,7 +8,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200082F RID: 2095
+	// Token: 0x02000831 RID: 2097
 	public class Page_CreateWorldParams : Page
 	{
 		// Token: 0x0400198C RID: 6540
@@ -44,7 +44,7 @@ namespace RimWorld
 		};
 
 		// Token: 0x17000783 RID: 1923
-		// (get) Token: 0x06002F4F RID: 12111 RVA: 0x00194B68 File Offset: 0x00192F68
+		// (get) Token: 0x06002F53 RID: 12115 RVA: 0x00194CB8 File Offset: 0x001930B8
 		public override string PageTitle
 		{
 			get
@@ -53,7 +53,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F50 RID: 12112 RVA: 0x00194B87 File Offset: 0x00192F87
+		// Token: 0x06002F54 RID: 12116 RVA: 0x00194CD7 File Offset: 0x001930D7
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -64,14 +64,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F51 RID: 12113 RVA: 0x00194BAA File Offset: 0x00192FAA
+		// Token: 0x06002F55 RID: 12117 RVA: 0x00194CFA File Offset: 0x001930FA
 		public override void PostOpen()
 		{
 			base.PostOpen();
 			TutorSystem.Notify_Event("PageStart-CreateWorldParams");
 		}
 
-		// Token: 0x06002F52 RID: 12114 RVA: 0x00194BC4 File Offset: 0x00192FC4
+		// Token: 0x06002F56 RID: 12118 RVA: 0x00194D14 File Offset: 0x00193114
 		public void Reset()
 		{
 			this.seedString = GenText.RandomSeedString();
@@ -80,7 +80,7 @@ namespace RimWorld
 			this.temperature = OverallTemperature.Normal;
 		}
 
-		// Token: 0x06002F53 RID: 12115 RVA: 0x00194C14 File Offset: 0x00193014
+		// Token: 0x06002F57 RID: 12119 RVA: 0x00194D64 File Offset: 0x00193164
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DrawPageTitle(rect);
@@ -140,7 +140,7 @@ namespace RimWorld
 			base.DoBottomButtons(rect, "WorldGenerate".Translate(), "Reset".Translate(), new Action(this.Reset), true);
 		}
 
-		// Token: 0x06002F54 RID: 12116 RVA: 0x00194F80 File Offset: 0x00193380
+		// Token: 0x06002F58 RID: 12120 RVA: 0x001950D0 File Offset: 0x001934D0
 		protected override bool CanDoNext()
 		{
 			bool result;

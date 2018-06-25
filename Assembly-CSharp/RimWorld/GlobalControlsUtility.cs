@@ -4,13 +4,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200083F RID: 2111
+	// Token: 0x02000841 RID: 2113
 	public static class GlobalControlsUtility
 	{
 		// Token: 0x040019D5 RID: 6613
 		private const int VisibilityControlsPerRow = 5;
 
-		// Token: 0x06002FCB RID: 12235 RVA: 0x0019EB40 File Offset: 0x0019CF40
+		// Token: 0x06002FCF RID: 12239 RVA: 0x0019EC90 File Offset: 0x0019D090
 		public static void DoPlaySettings(WidgetRow rowVisibility, bool worldView, ref float curBaseY)
 		{
 			float y = curBaseY - TimeControls.TimeButSize.y;
@@ -19,7 +19,7 @@ namespace RimWorld
 			curBaseY = rowVisibility.FinalY;
 		}
 
-		// Token: 0x06002FCC RID: 12236 RVA: 0x0019EB8C File Offset: 0x0019CF8C
+		// Token: 0x06002FD0 RID: 12240 RVA: 0x0019ECDC File Offset: 0x0019D0DC
 		public static void DoTimespeedControls(float leftX, float width, ref float curBaseY)
 		{
 			leftX += Mathf.Max(0f, width - 150f);
@@ -30,7 +30,7 @@ namespace RimWorld
 			curBaseY -= timerRect.height;
 		}
 
-		// Token: 0x06002FCD RID: 12237 RVA: 0x0019EBF0 File Offset: 0x0019CFF0
+		// Token: 0x06002FD1 RID: 12241 RVA: 0x0019ED40 File Offset: 0x0019D140
 		public static void DoDate(float leftX, float width, ref float curBaseY)
 		{
 			Rect dateRect = new Rect(leftX, curBaseY - DateReadout.Height, width, DateReadout.Height);
@@ -38,7 +38,7 @@ namespace RimWorld
 			curBaseY -= dateRect.height;
 		}
 
-		// Token: 0x06002FCE RID: 12238 RVA: 0x0019EC28 File Offset: 0x0019D028
+		// Token: 0x06002FD2 RID: 12242 RVA: 0x0019ED78 File Offset: 0x0019D178
 		public static void DoRealtimeClock(float leftX, float width, ref float curBaseY)
 		{
 			Rect rect = new Rect(leftX - 20f, curBaseY - 26f, width + 20f - 7f, 26f);

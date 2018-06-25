@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000655 RID: 1621
+	// Token: 0x02000657 RID: 1623
 	public class MusicManagerEntry
 	{
 		// Token: 0x0400132F RID: 4911
@@ -14,7 +14,7 @@ namespace RimWorld
 		private const string SourceGameObjectName = "MusicAudioSourceDummy";
 
 		// Token: 0x170004F8 RID: 1272
-		// (get) Token: 0x060021DA RID: 8666 RVA: 0x0011F4CC File Offset: 0x0011D8CC
+		// (get) Token: 0x060021DE RID: 8670 RVA: 0x0011F61C File Offset: 0x0011DA1C
 		private float CurVolume
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170004F9 RID: 1273
-		// (get) Token: 0x060021DB RID: 8667 RVA: 0x0011F4F4 File Offset: 0x0011D8F4
+		// (get) Token: 0x060021DF RID: 8671 RVA: 0x0011F644 File Offset: 0x0011DA44
 		public float CurSanitizedVolume
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021DC RID: 8668 RVA: 0x0011F519 File Offset: 0x0011D919
+		// Token: 0x060021E0 RID: 8672 RVA: 0x0011F669 File Offset: 0x0011DA69
 		public void MusicManagerEntryUpdate()
 		{
 			if (this.audioSource == null || !this.audioSource.isPlaying)
@@ -43,7 +43,7 @@ namespace RimWorld
 			this.audioSource.volume = this.CurSanitizedVolume;
 		}
 
-		// Token: 0x060021DD RID: 8669 RVA: 0x0011F554 File Offset: 0x0011D954
+		// Token: 0x060021E1 RID: 8673 RVA: 0x0011F6A4 File Offset: 0x0011DAA4
 		private void StartPlaying()
 		{
 			if (this.audioSource != null && !this.audioSource.isPlaying)

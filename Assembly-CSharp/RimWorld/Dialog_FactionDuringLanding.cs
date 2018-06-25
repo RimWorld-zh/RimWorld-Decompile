@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007F6 RID: 2038
+	// Token: 0x020007F8 RID: 2040
 	public class Dialog_FactionDuringLanding : Window
 	{
 		// Token: 0x040017CA RID: 6090
@@ -13,7 +13,7 @@ namespace RimWorld
 		// Token: 0x040017CB RID: 6091
 		private float scrollViewHeight;
 
-		// Token: 0x06002D36 RID: 11574 RVA: 0x0017C28F File Offset: 0x0017A68F
+		// Token: 0x06002D3A RID: 11578 RVA: 0x0017C3DF File Offset: 0x0017A7DF
 		public Dialog_FactionDuringLanding()
 		{
 			this.doCloseButton = true;
@@ -22,7 +22,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700072A RID: 1834
-		// (get) Token: 0x06002D37 RID: 11575 RVA: 0x0017C2B8 File Offset: 0x0017A6B8
+		// (get) Token: 0x06002D3B RID: 11579 RVA: 0x0017C408 File Offset: 0x0017A808
 		public override Vector2 InitialSize
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D38 RID: 11576 RVA: 0x0017C2DC File Offset: 0x0017A6DC
+		// Token: 0x06002D3C RID: 11580 RVA: 0x0017C42C File Offset: 0x0017A82C
 		public override void DoWindowContents(Rect inRect)
 		{
 			FactionUIUtility.DoWindowContents(new Rect(inRect.x, inRect.y, inRect.width, inRect.height - this.CloseButSize.y), ref this.scrollPosition, ref this.scrollViewHeight);

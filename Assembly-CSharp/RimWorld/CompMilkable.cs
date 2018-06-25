@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000720 RID: 1824
+	// Token: 0x02000722 RID: 1826
 	public class CompMilkable : CompHasGatherableBodyResource
 	{
 		// Token: 0x17000625 RID: 1573
-		// (get) Token: 0x06002835 RID: 10293 RVA: 0x00157B00 File Offset: 0x00155F00
+		// (get) Token: 0x06002839 RID: 10297 RVA: 0x00157C50 File Offset: 0x00156050
 		protected override int GatherResourcesIntervalDays
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000626 RID: 1574
-		// (get) Token: 0x06002836 RID: 10294 RVA: 0x00157B20 File Offset: 0x00155F20
+		// (get) Token: 0x0600283A RID: 10298 RVA: 0x00157C70 File Offset: 0x00156070
 		protected override int ResourceAmount
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000627 RID: 1575
-		// (get) Token: 0x06002837 RID: 10295 RVA: 0x00157B40 File Offset: 0x00155F40
+		// (get) Token: 0x0600283B RID: 10299 RVA: 0x00157C90 File Offset: 0x00156090
 		protected override ThingDef ResourceDef
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000628 RID: 1576
-		// (get) Token: 0x06002838 RID: 10296 RVA: 0x00157B60 File Offset: 0x00155F60
+		// (get) Token: 0x0600283C RID: 10300 RVA: 0x00157CB0 File Offset: 0x001560B0
 		protected override string SaveKey
 		{
 			get
@@ -47,7 +47,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000629 RID: 1577
-		// (get) Token: 0x06002839 RID: 10297 RVA: 0x00157B7C File Offset: 0x00155F7C
+		// (get) Token: 0x0600283D RID: 10301 RVA: 0x00157CCC File Offset: 0x001560CC
 		public CompProperties_Milkable Props
 		{
 			get
@@ -57,7 +57,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700062A RID: 1578
-		// (get) Token: 0x0600283A RID: 10298 RVA: 0x00157B9C File Offset: 0x00155F9C
+		// (get) Token: 0x0600283E RID: 10302 RVA: 0x00157CEC File Offset: 0x001560EC
 		protected override bool Active
 		{
 			get
@@ -83,7 +83,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600283B RID: 10299 RVA: 0x00157C20 File Offset: 0x00156020
+		// Token: 0x0600283F RID: 10303 RVA: 0x00157D70 File Offset: 0x00156170
 		public override string CompInspectStringExtra()
 		{
 			string result;

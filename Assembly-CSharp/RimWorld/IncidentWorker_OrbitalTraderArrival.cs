@@ -4,13 +4,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000334 RID: 820
+	// Token: 0x02000336 RID: 822
 	public class IncidentWorker_OrbitalTraderArrival : IncidentWorker
 	{
 		// Token: 0x040008DD RID: 2269
 		private const int MaxShips = 5;
 
-		// Token: 0x06000E07 RID: 3591 RVA: 0x00077AE8 File Offset: 0x00075EE8
+		// Token: 0x06000E0B RID: 3595 RVA: 0x00077C38 File Offset: 0x00076038
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -26,7 +26,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E08 RID: 3592 RVA: 0x00077B3C File Offset: 0x00075F3C
+		// Token: 0x06000E0C RID: 3596 RVA: 0x00077C8C File Offset: 0x0007608C
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;

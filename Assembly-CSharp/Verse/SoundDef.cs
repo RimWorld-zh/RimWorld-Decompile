@@ -5,7 +5,7 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000B7A RID: 2938
+	// Token: 0x02000B7C RID: 2940
 	public class SoundDef : Def
 	{
 		// Token: 0x04002AEF RID: 10991
@@ -74,8 +74,8 @@ namespace Verse
 		// Token: 0x04002AFC RID: 11004
 		private static Dictionary<string, SoundDef> undefinedSoundDefs = new Dictionary<string, SoundDef>();
 
-		// Token: 0x170009C1 RID: 2497
-		// (get) Token: 0x0600400D RID: 16397 RVA: 0x0021BC88 File Offset: 0x0021A088
+		// Token: 0x170009C0 RID: 2496
+		// (get) Token: 0x06004010 RID: 16400 RVA: 0x0021BD64 File Offset: 0x0021A164
 		private bool HasSubSoundsOnCamera
 		{
 			get
@@ -91,8 +91,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009C2 RID: 2498
-		// (get) Token: 0x0600400E RID: 16398 RVA: 0x0021BCDC File Offset: 0x0021A0DC
+		// Token: 0x170009C1 RID: 2497
+		// (get) Token: 0x06004011 RID: 16401 RVA: 0x0021BDB8 File Offset: 0x0021A1B8
 		public bool HasSubSoundsInWorld
 		{
 			get
@@ -108,8 +108,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009C3 RID: 2499
-		// (get) Token: 0x0600400F RID: 16399 RVA: 0x0021BD30 File Offset: 0x0021A130
+		// Token: 0x170009C2 RID: 2498
+		// (get) Token: 0x06004012 RID: 16402 RVA: 0x0021BE0C File Offset: 0x0021A20C
 		public int MaxSimultaneousSamples
 		{
 			get
@@ -118,7 +118,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004010 RID: 16400 RVA: 0x0021BD58 File Offset: 0x0021A158
+		// Token: 0x06004013 RID: 16403 RVA: 0x0021BE34 File Offset: 0x0021A234
 		public override void ResolveReferences()
 		{
 			for (int i = 0; i < this.subSounds.Count; i++)
@@ -128,7 +128,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004011 RID: 16401 RVA: 0x0021BDA8 File Offset: 0x0021A1A8
+		// Token: 0x06004014 RID: 16404 RVA: 0x0021BE84 File Offset: 0x0021A284
 		public override IEnumerable<string> ConfigErrors()
 		{
 			if (this.slot != "" && !this.HasSubSoundsOnCamera)
@@ -178,7 +178,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004012 RID: 16402 RVA: 0x0021BDD4 File Offset: 0x0021A1D4
+		// Token: 0x06004015 RID: 16405 RVA: 0x0021BEB0 File Offset: 0x0021A2B0
 		public void DoEditWidgets(WidgetRow widgetRow)
 		{
 			if (this.testSustainer == null)
@@ -222,7 +222,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004013 RID: 16403 RVA: 0x0021BED8 File Offset: 0x0021A2D8
+		// Token: 0x06004016 RID: 16406 RVA: 0x0021BFB4 File Offset: 0x0021A3B4
 		public static SoundDef Named(string defName)
 		{
 			SoundDef namedSilentFail = DefDatabase<SoundDef>.GetNamedSilentFail(defName);
@@ -263,7 +263,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004014 RID: 16404 RVA: 0x0021BFDC File Offset: 0x0021A3DC
+		// Token: 0x06004017 RID: 16407 RVA: 0x0021C0B8 File Offset: 0x0021A4B8
 		private static SoundDef UndefinedDefNamed(string defName)
 		{
 			SoundDef soundDef;

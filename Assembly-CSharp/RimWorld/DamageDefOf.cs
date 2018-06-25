@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200091F RID: 2335
+	// Token: 0x02000921 RID: 2337
 	[DefOf]
 	public static class DamageDefOf
 	{
@@ -73,7 +73,7 @@ namespace RimWorld
 		// Token: 0x04001F71 RID: 8049
 		public static DamageDef Rotting;
 
-		// Token: 0x06003627 RID: 13863 RVA: 0x001D097B File Offset: 0x001CED7B
+		// Token: 0x0600362B RID: 13867 RVA: 0x001D0ABB File Offset: 0x001CEEBB
 		static DamageDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(DamageDefOf));

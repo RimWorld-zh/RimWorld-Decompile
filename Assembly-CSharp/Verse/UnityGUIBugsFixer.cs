@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EAA RID: 3754
+	// Token: 0x02000EAC RID: 3756
 	public static class UnityGUIBugsFixer
 	{
 		// Token: 0x04003AFE RID: 15102
@@ -13,8 +13,8 @@ namespace Verse
 		// Token: 0x04003AFF RID: 15103
 		private const float ScrollFactor = -6f;
 
-		// Token: 0x17000DFA RID: 3578
-		// (get) Token: 0x06005891 RID: 22673 RVA: 0x002D6B94 File Offset: 0x002D4F94
+		// Token: 0x17000DF9 RID: 3577
+		// (get) Token: 0x06005895 RID: 22677 RVA: 0x002D6CC0 File Offset: 0x002D50C0
 		public static List<Resolution> ScreenResolutionsWithoutDuplicates
 		{
 			get
@@ -41,14 +41,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005892 RID: 22674 RVA: 0x002D6C63 File Offset: 0x002D5063
+		// Token: 0x06005896 RID: 22678 RVA: 0x002D6D8F File Offset: 0x002D518F
 		public static void OnGUI()
 		{
 			UnityGUIBugsFixer.FixScrolling();
 			UnityGUIBugsFixer.FixShift();
 		}
 
-		// Token: 0x06005893 RID: 22675 RVA: 0x002D6C70 File Offset: 0x002D5070
+		// Token: 0x06005897 RID: 22679 RVA: 0x002D6D9C File Offset: 0x002D519C
 		private static void FixScrolling()
 		{
 			if (Event.current.type == EventType.ScrollWheel && (Application.platform == RuntimePlatform.LinuxEditor || Application.platform == RuntimePlatform.LinuxPlayer))
@@ -58,7 +58,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005894 RID: 22676 RVA: 0x002D6CD8 File Offset: 0x002D50D8
+		// Token: 0x06005898 RID: 22680 RVA: 0x002D6E04 File Offset: 0x002D5204
 		private static void FixShift()
 		{
 			if (Application.platform == RuntimePlatform.LinuxEditor || Application.platform == RuntimePlatform.LinuxPlayer)

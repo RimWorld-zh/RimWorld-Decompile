@@ -4,7 +4,7 @@ using Verse.Noise;
 
 namespace RimWorld
 {
-	// Token: 0x020003E9 RID: 1001
+	// Token: 0x020003EB RID: 1003
 	public class GenStep_CavesTerrain : GenStep
 	{
 		// Token: 0x04000A7A RID: 2682
@@ -20,7 +20,7 @@ namespace RimWorld
 		private const float GravelThreshold = 0.55f;
 
 		// Token: 0x1700024B RID: 587
-		// (get) Token: 0x06001135 RID: 4405 RVA: 0x00093D2C File Offset: 0x0009212C
+		// (get) Token: 0x06001139 RID: 4409 RVA: 0x00093E7C File Offset: 0x0009227C
 		public override int SeedPart
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001136 RID: 4406 RVA: 0x00093D48 File Offset: 0x00092148
+		// Token: 0x0600113A RID: 4410 RVA: 0x00093E98 File Offset: 0x00092298
 		public override void Generate(Map map)
 		{
 			if (Find.World.HasCaves(map.Tile))

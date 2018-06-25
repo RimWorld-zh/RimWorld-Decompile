@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020008CE RID: 2254
+	// Token: 0x020008D0 RID: 2256
 	public enum KnowledgeAmount : byte
 	{
 		// Token: 0x04001BB6 RID: 7094

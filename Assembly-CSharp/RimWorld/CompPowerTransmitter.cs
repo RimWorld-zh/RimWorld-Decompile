@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000420 RID: 1056
+	// Token: 0x02000422 RID: 1058
 	public class CompPowerTransmitter : CompPower
 	{
 	}

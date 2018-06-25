@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E8E RID: 3726
+	// Token: 0x02000E90 RID: 3728
 	[StaticConstructorOnStartup]
 	public class ActiveTip
 	{
@@ -25,13 +25,13 @@ namespace Verse
 		// Token: 0x04003A34 RID: 14900
 		public static readonly Texture2D TooltipBGAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/TooltipBG", true);
 
-		// Token: 0x06005801 RID: 22529 RVA: 0x002D2628 File Offset: 0x002D0A28
+		// Token: 0x06005805 RID: 22533 RVA: 0x002D2754 File Offset: 0x002D0B54
 		public ActiveTip(TipSignal signal)
 		{
 			this.signal = signal;
 		}
 
-		// Token: 0x06005802 RID: 22530 RVA: 0x002D2647 File Offset: 0x002D0A47
+		// Token: 0x06005806 RID: 22534 RVA: 0x002D2773 File Offset: 0x002D0B73
 		public ActiveTip(ActiveTip cloneSource)
 		{
 			this.signal = cloneSource.signal;
@@ -39,8 +39,8 @@ namespace Verse
 			this.lastTriggerFrame = cloneSource.lastTriggerFrame;
 		}
 
-		// Token: 0x17000DF2 RID: 3570
-		// (get) Token: 0x06005803 RID: 22531 RVA: 0x002D2684 File Offset: 0x002D0A84
+		// Token: 0x17000DF1 RID: 3569
+		// (get) Token: 0x06005807 RID: 22535 RVA: 0x002D27B0 File Offset: 0x002D0BB0
 		private string FinalText
 		{
 			get
@@ -66,8 +66,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DF3 RID: 3571
-		// (get) Token: 0x06005804 RID: 22532 RVA: 0x002D270C File Offset: 0x002D0B0C
+		// Token: 0x17000DF2 RID: 3570
+		// (get) Token: 0x06005808 RID: 22536 RVA: 0x002D2838 File Offset: 0x002D0C38
 		public Rect TipRect
 		{
 			get
@@ -85,7 +85,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005805 RID: 22533 RVA: 0x002D2790 File Offset: 0x002D0B90
+		// Token: 0x06005809 RID: 22537 RVA: 0x002D28BC File Offset: 0x002D0CBC
 		public float DrawTooltip(Vector2 pos)
 		{
 			Text.Font = GameFont.Small;

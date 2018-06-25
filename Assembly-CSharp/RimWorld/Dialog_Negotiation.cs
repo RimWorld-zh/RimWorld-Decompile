@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000808 RID: 2056
+	// Token: 0x0200080A RID: 2058
 	public class Dialog_Negotiation : Dialog_NodeTree
 	{
 		// Token: 0x0400185C RID: 6236
@@ -19,7 +19,7 @@ namespace RimWorld
 		// Token: 0x0400185F RID: 6239
 		private const float InfoHeight = 60f;
 
-		// Token: 0x06002DEC RID: 11756 RVA: 0x00182D54 File Offset: 0x00181154
+		// Token: 0x06002DF0 RID: 11760 RVA: 0x00182EA4 File Offset: 0x001812A4
 		public Dialog_Negotiation(Pawn negotiator, ICommunicable commTarget, DiaNode startNode, bool radioMode) : base(startNode, radioMode, false, null)
 		{
 			this.negotiator = negotiator;
@@ -27,7 +27,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000754 RID: 1876
-		// (get) Token: 0x06002DED RID: 11757 RVA: 0x00182D70 File Offset: 0x00181170
+		// (get) Token: 0x06002DF1 RID: 11761 RVA: 0x00182EC0 File Offset: 0x001812C0
 		public override Vector2 InitialSize
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DEE RID: 11758 RVA: 0x00182D94 File Offset: 0x00181194
+		// Token: 0x06002DF2 RID: 11762 RVA: 0x00182EE4 File Offset: 0x001812E4
 		public override void DoWindowContents(Rect inRect)
 		{
 			GUI.BeginGroup(inRect);

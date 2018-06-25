@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000485 RID: 1157
+	// Token: 0x02000487 RID: 1159
 	public static class PawnAddictionHediffsGenerator
 	{
 		// Token: 0x04000C42 RID: 3138
@@ -20,7 +20,7 @@ namespace RimWorld
 		// Token: 0x04000C45 RID: 3141
 		private static readonly FloatRange GeneratedToleranceSeverityRange = new FloatRange(0.1f, 0.9f);
 
-		// Token: 0x0600146F RID: 5231 RVA: 0x000B3188 File Offset: 0x000B1588
+		// Token: 0x06001473 RID: 5235 RVA: 0x000B32D8 File Offset: 0x000B16D8
 		public static void GenerateAddictionsAndTolerancesFor(Pawn pawn)
 		{
 			if (pawn.RaceProps.IsFlesh && pawn.RaceProps.Humanlike)
@@ -70,13 +70,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001470 RID: 5232 RVA: 0x000B33B4 File Offset: 0x000B17B4
+		// Token: 0x06001474 RID: 5236 RVA: 0x000B3504 File Offset: 0x000B1904
 		private static bool PossibleWithTechLevel(ChemicalDef chemical, Faction faction)
 		{
 			return faction == null || PawnAddictionHediffsGenerator.allDrugs.Any((ThingDef x) => x.GetCompProperties<CompProperties_Drug>().chemical == chemical && x.techLevel <= faction.def.techLevel);
 		}
 
-		// Token: 0x06001471 RID: 5233 RVA: 0x000B3408 File Offset: 0x000B1808
+		// Token: 0x06001475 RID: 5237 RVA: 0x000B3558 File Offset: 0x000B1958
 		private static void DoIngestionOutcomeDoers(Pawn pawn, ChemicalDef chemical)
 		{
 			for (int i = 0; i < PawnAddictionHediffsGenerator.allDrugs.Count; i++)

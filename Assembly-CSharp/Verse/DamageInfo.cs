@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EE5 RID: 3813
+	// Token: 0x02000EE7 RID: 3815
 	public struct DamageInfo
 	{
 		// Token: 0x04003C86 RID: 15494
@@ -48,7 +48,7 @@ namespace Verse
 		// Token: 0x04003C93 RID: 15507
 		private bool allowDamagePropagationInt;
 
-		// Token: 0x06005A82 RID: 23170 RVA: 0x002E71BC File Offset: 0x002E55BC
+		// Token: 0x06005A85 RID: 23173 RVA: 0x002E72DC File Offset: 0x002E56DC
 		public DamageInfo(DamageDef def, float amount, float angle = -1f, Thing instigator = null, BodyPartRecord hitPart = null, ThingDef weapon = null, DamageInfo.SourceCategory category = DamageInfo.SourceCategory.ThingOrUnknown, Thing intendedTarget = null)
 		{
 			this.defInt = def;
@@ -74,7 +74,7 @@ namespace Verse
 			this.intendedTargetInt = intendedTarget;
 		}
 
-		// Token: 0x06005A83 RID: 23171 RVA: 0x002E7254 File Offset: 0x002E5654
+		// Token: 0x06005A86 RID: 23174 RVA: 0x002E7374 File Offset: 0x002E5774
 		public DamageInfo(DamageInfo cloneSource)
 		{
 			this.defInt = cloneSource.defInt;
@@ -93,9 +93,9 @@ namespace Verse
 			this.intendedTargetInt = cloneSource.intendedTargetInt;
 		}
 
-		// Token: 0x17000E44 RID: 3652
-		// (get) Token: 0x06005A84 RID: 23172 RVA: 0x002E7318 File Offset: 0x002E5718
-		// (set) Token: 0x06005A85 RID: 23173 RVA: 0x002E7333 File Offset: 0x002E5733
+		// Token: 0x17000E43 RID: 3651
+		// (get) Token: 0x06005A87 RID: 23175 RVA: 0x002E7438 File Offset: 0x002E5838
+		// (set) Token: 0x06005A88 RID: 23176 RVA: 0x002E7453 File Offset: 0x002E5853
 		public DamageDef Def
 		{
 			get
@@ -108,8 +108,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E45 RID: 3653
-		// (get) Token: 0x06005A86 RID: 23174 RVA: 0x002E7340 File Offset: 0x002E5740
+		// Token: 0x17000E44 RID: 3652
+		// (get) Token: 0x06005A89 RID: 23177 RVA: 0x002E7460 File Offset: 0x002E5860
 		public float Amount
 		{
 			get
@@ -127,8 +127,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E46 RID: 3654
-		// (get) Token: 0x06005A87 RID: 23175 RVA: 0x002E7370 File Offset: 0x002E5770
+		// Token: 0x17000E45 RID: 3653
+		// (get) Token: 0x06005A8A RID: 23178 RVA: 0x002E7490 File Offset: 0x002E5890
 		public Thing Instigator
 		{
 			get
@@ -137,8 +137,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E47 RID: 3655
-		// (get) Token: 0x06005A88 RID: 23176 RVA: 0x002E738C File Offset: 0x002E578C
+		// Token: 0x17000E46 RID: 3654
+		// (get) Token: 0x06005A8B RID: 23179 RVA: 0x002E74AC File Offset: 0x002E58AC
 		public DamageInfo.SourceCategory Category
 		{
 			get
@@ -147,8 +147,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E48 RID: 3656
-		// (get) Token: 0x06005A89 RID: 23177 RVA: 0x002E73A8 File Offset: 0x002E57A8
+		// Token: 0x17000E47 RID: 3655
+		// (get) Token: 0x06005A8C RID: 23180 RVA: 0x002E74C8 File Offset: 0x002E58C8
 		public Thing IntendedTarget
 		{
 			get
@@ -157,8 +157,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E49 RID: 3657
-		// (get) Token: 0x06005A8A RID: 23178 RVA: 0x002E73C4 File Offset: 0x002E57C4
+		// Token: 0x17000E48 RID: 3656
+		// (get) Token: 0x06005A8D RID: 23181 RVA: 0x002E74E4 File Offset: 0x002E58E4
 		public float Angle
 		{
 			get
@@ -167,8 +167,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E4A RID: 3658
-		// (get) Token: 0x06005A8B RID: 23179 RVA: 0x002E73E0 File Offset: 0x002E57E0
+		// Token: 0x17000E49 RID: 3657
+		// (get) Token: 0x06005A8E RID: 23182 RVA: 0x002E7500 File Offset: 0x002E5900
 		public BodyPartRecord HitPart
 		{
 			get
@@ -177,8 +177,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E4B RID: 3659
-		// (get) Token: 0x06005A8C RID: 23180 RVA: 0x002E73FC File Offset: 0x002E57FC
+		// Token: 0x17000E4A RID: 3658
+		// (get) Token: 0x06005A8F RID: 23183 RVA: 0x002E751C File Offset: 0x002E591C
 		public BodyPartHeight Height
 		{
 			get
@@ -187,8 +187,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E4C RID: 3660
-		// (get) Token: 0x06005A8D RID: 23181 RVA: 0x002E7418 File Offset: 0x002E5818
+		// Token: 0x17000E4B RID: 3659
+		// (get) Token: 0x06005A90 RID: 23184 RVA: 0x002E7538 File Offset: 0x002E5938
 		public BodyPartDepth Depth
 		{
 			get
@@ -197,8 +197,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E4D RID: 3661
-		// (get) Token: 0x06005A8E RID: 23182 RVA: 0x002E7434 File Offset: 0x002E5834
+		// Token: 0x17000E4C RID: 3660
+		// (get) Token: 0x06005A91 RID: 23185 RVA: 0x002E7554 File Offset: 0x002E5954
 		public ThingDef Weapon
 		{
 			get
@@ -207,8 +207,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E4E RID: 3662
-		// (get) Token: 0x06005A8F RID: 23183 RVA: 0x002E7450 File Offset: 0x002E5850
+		// Token: 0x17000E4D RID: 3661
+		// (get) Token: 0x06005A92 RID: 23186 RVA: 0x002E7570 File Offset: 0x002E5970
 		public BodyPartGroupDef WeaponBodyPartGroup
 		{
 			get
@@ -217,8 +217,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E4F RID: 3663
-		// (get) Token: 0x06005A90 RID: 23184 RVA: 0x002E746C File Offset: 0x002E586C
+		// Token: 0x17000E4E RID: 3662
+		// (get) Token: 0x06005A93 RID: 23187 RVA: 0x002E758C File Offset: 0x002E598C
 		public HediffDef WeaponLinkedHediff
 		{
 			get
@@ -227,8 +227,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E50 RID: 3664
-		// (get) Token: 0x06005A91 RID: 23185 RVA: 0x002E7488 File Offset: 0x002E5888
+		// Token: 0x17000E4F RID: 3663
+		// (get) Token: 0x06005A94 RID: 23188 RVA: 0x002E75A8 File Offset: 0x002E59A8
 		public bool InstantPermanentInjury
 		{
 			get
@@ -237,8 +237,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E51 RID: 3665
-		// (get) Token: 0x06005A92 RID: 23186 RVA: 0x002E74A4 File Offset: 0x002E58A4
+		// Token: 0x17000E50 RID: 3664
+		// (get) Token: 0x06005A95 RID: 23189 RVA: 0x002E75C4 File Offset: 0x002E59C4
 		public bool AllowDamagePropagation
 		{
 			get
@@ -247,50 +247,50 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005A93 RID: 23187 RVA: 0x002E74D1 File Offset: 0x002E58D1
+		// Token: 0x06005A96 RID: 23190 RVA: 0x002E75F1 File Offset: 0x002E59F1
 		public void SetAmount(float newAmount)
 		{
 			this.amountInt = newAmount;
 		}
 
-		// Token: 0x06005A94 RID: 23188 RVA: 0x002E74DB File Offset: 0x002E58DB
+		// Token: 0x06005A97 RID: 23191 RVA: 0x002E75FB File Offset: 0x002E59FB
 		public void SetBodyRegion(BodyPartHeight height = BodyPartHeight.Undefined, BodyPartDepth depth = BodyPartDepth.Undefined)
 		{
 			this.heightInt = height;
 			this.depthInt = depth;
 		}
 
-		// Token: 0x06005A95 RID: 23189 RVA: 0x002E74EC File Offset: 0x002E58EC
+		// Token: 0x06005A98 RID: 23192 RVA: 0x002E760C File Offset: 0x002E5A0C
 		public void SetHitPart(BodyPartRecord forceHitPart)
 		{
 			this.hitPartInt = forceHitPart;
 		}
 
-		// Token: 0x06005A96 RID: 23190 RVA: 0x002E74F6 File Offset: 0x002E58F6
+		// Token: 0x06005A99 RID: 23193 RVA: 0x002E7616 File Offset: 0x002E5A16
 		public void SetInstantPermanentInjury(bool val)
 		{
 			this.instantPermanentInjuryInt = val;
 		}
 
-		// Token: 0x06005A97 RID: 23191 RVA: 0x002E7500 File Offset: 0x002E5900
+		// Token: 0x06005A9A RID: 23194 RVA: 0x002E7620 File Offset: 0x002E5A20
 		public void SetWeaponBodyPartGroup(BodyPartGroupDef gr)
 		{
 			this.weaponBodyPartGroupInt = gr;
 		}
 
-		// Token: 0x06005A98 RID: 23192 RVA: 0x002E750A File Offset: 0x002E590A
+		// Token: 0x06005A9B RID: 23195 RVA: 0x002E762A File Offset: 0x002E5A2A
 		public void SetWeaponHediff(HediffDef hd)
 		{
 			this.weaponHediffInt = hd;
 		}
 
-		// Token: 0x06005A99 RID: 23193 RVA: 0x002E7514 File Offset: 0x002E5914
+		// Token: 0x06005A9C RID: 23196 RVA: 0x002E7634 File Offset: 0x002E5A34
 		public void SetAllowDamagePropagation(bool val)
 		{
 			this.allowDamagePropagationInt = val;
 		}
 
-		// Token: 0x06005A9A RID: 23194 RVA: 0x002E7520 File Offset: 0x002E5920
+		// Token: 0x06005A9D RID: 23197 RVA: 0x002E7640 File Offset: 0x002E5A40
 		public void SetAngle(Vector3 vec)
 		{
 			if (vec.x != 0f || vec.z != 0f)
@@ -303,7 +303,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005A9B RID: 23195 RVA: 0x002E7584 File Offset: 0x002E5984
+		// Token: 0x06005A9E RID: 23198 RVA: 0x002E76A4 File Offset: 0x002E5AA4
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -320,7 +320,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x02000EE6 RID: 3814
+		// Token: 0x02000EE8 RID: 3816
 		public enum SourceCategory
 		{
 			// Token: 0x04003C95 RID: 15509

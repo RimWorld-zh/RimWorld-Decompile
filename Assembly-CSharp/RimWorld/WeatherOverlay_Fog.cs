@@ -4,14 +4,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200044B RID: 1099
+	// Token: 0x0200044D RID: 1101
 	[StaticConstructorOnStartup]
 	public class WeatherOverlay_Fog : SkyOverlay
 	{
 		// Token: 0x04000BAB RID: 2987
 		private static readonly Material FogOverlayWorld = MatLoader.LoadMat("Weather/FogOverlayWorld", -1);
 
-		// Token: 0x0600132F RID: 4911 RVA: 0x000A5478 File Offset: 0x000A3878
+		// Token: 0x06001333 RID: 4915 RVA: 0x000A55C8 File Offset: 0x000A39C8
 		public WeatherOverlay_Fog()
 		{
 			this.worldOverlayMat = WeatherOverlay_Fog.FogOverlayWorld;

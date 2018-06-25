@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000252 RID: 594
+	// Token: 0x02000254 RID: 596
 	public class CompProperties_SnowExpand : CompProperties
 	{
 		// Token: 0x040004AE RID: 1198
@@ -15,7 +15,7 @@ namespace RimWorld
 		// Token: 0x040004B0 RID: 1200
 		public float maxRadius = 55f;
 
-		// Token: 0x06000A8F RID: 2703 RVA: 0x0005FD60 File Offset: 0x0005E160
+		// Token: 0x06000A93 RID: 2707 RVA: 0x0005FEB0 File Offset: 0x0005E2B0
 		public CompProperties_SnowExpand()
 		{
 			this.compClass = typeof(CompSnowExpand);

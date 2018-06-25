@@ -2,7 +2,7 @@
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005A2 RID: 1442
+	// Token: 0x020005A4 RID: 1444
 	public enum Hilliness : byte
 	{
 		// Token: 0x0400105A RID: 4186

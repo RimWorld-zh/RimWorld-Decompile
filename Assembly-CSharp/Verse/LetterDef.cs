@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B4B RID: 2891
+	// Token: 0x02000B4D RID: 2893
 	public class LetterDef : Def
 	{
 		// Token: 0x040029D9 RID: 10713
@@ -36,8 +36,8 @@ namespace Verse
 		[Unsaved]
 		private Texture2D iconTex;
 
-		// Token: 0x1700099F RID: 2463
-		// (get) Token: 0x06003F60 RID: 16224 RVA: 0x002168FC File Offset: 0x00214CFC
+		// Token: 0x1700099E RID: 2462
+		// (get) Token: 0x06003F63 RID: 16227 RVA: 0x002169D8 File Offset: 0x00214DD8
 		public Texture2D Icon
 		{
 			get
@@ -50,7 +50,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F61 RID: 16225 RVA: 0x0021694A File Offset: 0x00214D4A
+		// Token: 0x06003F64 RID: 16228 RVA: 0x00216A26 File Offset: 0x00214E26
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();

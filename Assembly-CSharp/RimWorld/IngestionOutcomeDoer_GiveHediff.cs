@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200026E RID: 622
+	// Token: 0x02000270 RID: 624
 	public class IngestionOutcomeDoer_GiveHediff : IngestionOutcomeDoer
 	{
 		// Token: 0x0400051D RID: 1309
@@ -19,7 +19,7 @@ namespace RimWorld
 		// Token: 0x04000520 RID: 1312
 		private bool divideByBodySize = false;
 
-		// Token: 0x06000AB5 RID: 2741 RVA: 0x00060E88 File Offset: 0x0005F288
+		// Token: 0x06000AB9 RID: 2745 RVA: 0x00060FD8 File Offset: 0x0005F3D8
 		protected override void DoIngestionOutcomeSpecial(Pawn pawn, Thing ingested)
 		{
 			Hediff hediff = HediffMaker.MakeHediff(this.hediffDef, pawn, null);
@@ -41,7 +41,7 @@ namespace RimWorld
 			pawn.health.AddHediff(hediff, null, null, null);
 		}
 
-		// Token: 0x06000AB6 RID: 2742 RVA: 0x00060F0C File Offset: 0x0005F30C
+		// Token: 0x06000ABA RID: 2746 RVA: 0x0006105C File Offset: 0x0005F45C
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
 			if (parentDef.IsDrug && this.chance >= 1f)

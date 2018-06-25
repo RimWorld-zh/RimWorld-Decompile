@@ -5,7 +5,7 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200071D RID: 1821
+	// Token: 0x0200071F RID: 1823
 	public class CompMannable : ThingComp
 	{
 		// Token: 0x040015F9 RID: 5625
@@ -15,7 +15,7 @@ namespace RimWorld
 		private Pawn lastManPawn = null;
 
 		// Token: 0x17000622 RID: 1570
-		// (get) Token: 0x0600282C RID: 10284 RVA: 0x0015762C File Offset: 0x00155A2C
+		// (get) Token: 0x06002830 RID: 10288 RVA: 0x0015777C File Offset: 0x00155B7C
 		public bool MannedNow
 		{
 			get
@@ -25,7 +25,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000623 RID: 1571
-		// (get) Token: 0x0600282D RID: 10285 RVA: 0x00157674 File Offset: 0x00155A74
+		// (get) Token: 0x06002831 RID: 10289 RVA: 0x001577C4 File Offset: 0x00155BC4
 		public Pawn ManningPawn
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000624 RID: 1572
-		// (get) Token: 0x0600282E RID: 10286 RVA: 0x001576A4 File Offset: 0x00155AA4
+		// (get) Token: 0x06002832 RID: 10290 RVA: 0x001577F4 File Offset: 0x00155BF4
 		public CompProperties_Mannable Props
 		{
 			get
@@ -53,7 +53,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600282F RID: 10287 RVA: 0x001576C4 File Offset: 0x00155AC4
+		// Token: 0x06002833 RID: 10291 RVA: 0x00157814 File Offset: 0x00155C14
 		public void ManForATick(Pawn pawn)
 		{
 			this.lastManTick = Find.TickManager.TicksGame;
@@ -61,7 +61,7 @@ namespace RimWorld
 			pawn.mindState.lastMannedThing = this.parent;
 		}
 
-		// Token: 0x06002830 RID: 10288 RVA: 0x001576F0 File Offset: 0x00155AF0
+		// Token: 0x06002834 RID: 10292 RVA: 0x00157840 File Offset: 0x00155C40
 		public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn pawn)
 		{
 			if (!pawn.RaceProps.ToolUser)

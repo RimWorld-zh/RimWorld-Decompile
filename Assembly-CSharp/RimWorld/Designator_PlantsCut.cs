@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007EF RID: 2031
+	// Token: 0x020007F1 RID: 2033
 	public class Designator_PlantsCut : Designator_Plants
 	{
-		// Token: 0x06002D19 RID: 11545 RVA: 0x0017B0B4 File Offset: 0x001794B4
+		// Token: 0x06002D1D RID: 11549 RVA: 0x0017B204 File Offset: 0x00179604
 		public Designator_PlantsCut()
 		{
 			this.defaultLabel = "DesignatorCutPlants".Translate();
@@ -21,7 +21,7 @@ namespace RimWorld
 			this.designationDef = DesignationDefOf.CutPlant;
 		}
 
-		// Token: 0x06002D1A RID: 11546 RVA: 0x0017B138 File Offset: 0x00179538
+		// Token: 0x06002D1E RID: 11550 RVA: 0x0017B288 File Offset: 0x00179688
 		public override Texture2D IconReverseDesignating(Thing t, out float angle, out Vector2 offset)
 		{
 			Texture2D result;
@@ -38,7 +38,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D1B RID: 11547 RVA: 0x0017B188 File Offset: 0x00179588
+		// Token: 0x06002D1F RID: 11551 RVA: 0x0017B2D8 File Offset: 0x001796D8
 		public override string LabelCapReverseDesignating(Thing t)
 		{
 			string result;
@@ -53,7 +53,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D1C RID: 11548 RVA: 0x0017B1CC File Offset: 0x001795CC
+		// Token: 0x06002D20 RID: 11552 RVA: 0x0017B31C File Offset: 0x0017971C
 		public override string DescReverseDesignating(Thing t)
 		{
 			string result;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DD5 RID: 3541
+	// Token: 0x02000DD7 RID: 3543
 	public class Graphic_Flicker : Graphic_Collection
 	{
 		// Token: 0x040034B6 RID: 13494
@@ -16,8 +16,8 @@ namespace Verse
 		// Token: 0x040034B8 RID: 13496
 		private const float MaxOffset = 0.05f;
 
-		// Token: 0x17000CD5 RID: 3285
-		// (get) Token: 0x06004F57 RID: 20311 RVA: 0x002955B0 File Offset: 0x002939B0
+		// Token: 0x17000CD4 RID: 3284
+		// (get) Token: 0x06004F5B RID: 20315 RVA: 0x002956DC File Offset: 0x00293ADC
 		public override Material MatSingle
 		{
 			get
@@ -26,7 +26,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F58 RID: 20312 RVA: 0x002955E0 File Offset: 0x002939E0
+		// Token: 0x06004F5C RID: 20316 RVA: 0x0029570C File Offset: 0x00293B0C
 		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
 			if (thingDef == null)
@@ -82,7 +82,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F59 RID: 20313 RVA: 0x002957C0 File Offset: 0x00293BC0
+		// Token: 0x06004F5D RID: 20317 RVA: 0x002958EC File Offset: 0x00293CEC
 		public override string ToString()
 		{
 			return string.Concat(new object[]

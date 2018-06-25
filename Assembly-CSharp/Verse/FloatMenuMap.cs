@@ -5,19 +5,19 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E55 RID: 3669
+	// Token: 0x02000E57 RID: 3671
 	public class FloatMenuMap : FloatMenu
 	{
 		// Token: 0x0400393C RID: 14652
 		private Vector3 clickPos;
 
-		// Token: 0x06005689 RID: 22153 RVA: 0x002CA133 File Offset: 0x002C8533
+		// Token: 0x0600568D RID: 22157 RVA: 0x002CA25F File Offset: 0x002C865F
 		public FloatMenuMap(List<FloatMenuOption> options, string title, Vector3 clickPos) : base(options, title, false)
 		{
 			this.clickPos = clickPos;
 		}
 
-		// Token: 0x0600568A RID: 22154 RVA: 0x002CA148 File Offset: 0x002C8548
+		// Token: 0x0600568E RID: 22158 RVA: 0x002CA274 File Offset: 0x002C8674
 		public override void DoWindowContents(Rect inRect)
 		{
 			Pawn pawn = Find.Selector.SingleSelectedThing as Pawn;
@@ -41,7 +41,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600568B RID: 22155 RVA: 0x002CA208 File Offset: 0x002C8608
+		// Token: 0x0600568F RID: 22159 RVA: 0x002CA334 File Offset: 0x002C8734
 		private static bool StillValid(FloatMenuOption opt, List<FloatMenuOption> curOpts, Pawn forPawn, ref List<FloatMenuOption> cachedChoices, ref Vector3 cachedChoicesForPos)
 		{
 			if (opt.revalidateClickTarget == null)
@@ -83,7 +83,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x0600568C RID: 22156 RVA: 0x002CA2FC File Offset: 0x002C86FC
+		// Token: 0x06005690 RID: 22160 RVA: 0x002CA428 File Offset: 0x002C8828
 		private static bool OptionsMatch(FloatMenuOption a, FloatMenuOption b)
 		{
 			return a.Label == b.Label;

@@ -7,7 +7,7 @@ using Verse.Grammar;
 
 namespace Verse
 {
-	// Token: 0x02000BB8 RID: 3000
+	// Token: 0x02000BBA RID: 3002
 	public class Battle : IExposable, ILoadReferenceable
 	{
 		// Token: 0x04002C75 RID: 11381
@@ -31,8 +31,8 @@ namespace Verse
 		// Token: 0x04002C7B RID: 11387
 		private int creationTimestamp;
 
-		// Token: 0x17000A28 RID: 2600
-		// (get) Token: 0x06004108 RID: 16648 RVA: 0x00225670 File Offset: 0x00223A70
+		// Token: 0x17000A27 RID: 2599
+		// (get) Token: 0x0600410B RID: 16651 RVA: 0x0022574C File Offset: 0x00223B4C
 		public int Importance
 		{
 			get
@@ -41,8 +41,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A29 RID: 2601
-		// (get) Token: 0x06004109 RID: 16649 RVA: 0x00225690 File Offset: 0x00223A90
+		// Token: 0x17000A28 RID: 2600
+		// (get) Token: 0x0600410C RID: 16652 RVA: 0x0022576C File Offset: 0x00223B6C
 		public int CreationTimestamp
 		{
 			get
@@ -51,8 +51,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A2A RID: 2602
-		// (get) Token: 0x0600410A RID: 16650 RVA: 0x002256AC File Offset: 0x00223AAC
+		// Token: 0x17000A29 RID: 2601
+		// (get) Token: 0x0600410D RID: 16653 RVA: 0x00225788 File Offset: 0x00223B88
 		public int LastEntryTimestamp
 		{
 			get
@@ -61,8 +61,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A2B RID: 2603
-		// (get) Token: 0x0600410B RID: 16651 RVA: 0x002256F8 File Offset: 0x00223AF8
+		// Token: 0x17000A2A RID: 2602
+		// (get) Token: 0x0600410E RID: 16654 RVA: 0x002257D4 File Offset: 0x00223BD4
 		public Battle AbsorbedBy
 		{
 			get
@@ -71,8 +71,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A2C RID: 2604
-		// (get) Token: 0x0600410C RID: 16652 RVA: 0x00225714 File Offset: 0x00223B14
+		// Token: 0x17000A2B RID: 2603
+		// (get) Token: 0x0600410F RID: 16655 RVA: 0x002257F0 File Offset: 0x00223BF0
 		public List<LogEntry> Entries
 		{
 			get
@@ -81,7 +81,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600410D RID: 16653 RVA: 0x00225730 File Offset: 0x00223B30
+		// Token: 0x06004110 RID: 16656 RVA: 0x0022580C File Offset: 0x00223C0C
 		public static Battle Create()
 		{
 			return new Battle
@@ -91,7 +91,7 @@ namespace Verse
 			};
 		}
 
-		// Token: 0x0600410E RID: 16654 RVA: 0x0022576C File Offset: 0x00223B6C
+		// Token: 0x06004111 RID: 16657 RVA: 0x00225848 File Offset: 0x00223C48
 		public string GetName()
 		{
 			if (this.battleName.NullOrEmpty())
@@ -135,7 +135,7 @@ namespace Verse
 			return this.battleName;
 		}
 
-		// Token: 0x0600410F RID: 16655 RVA: 0x00225970 File Offset: 0x00223D70
+		// Token: 0x06004112 RID: 16658 RVA: 0x00225A4C File Offset: 0x00223E4C
 		public void Add(LogEntry entry)
 		{
 			this.entries.Insert(0, entry);
@@ -149,7 +149,7 @@ namespace Verse
 			this.battleName = null;
 		}
 
-		// Token: 0x06004110 RID: 16656 RVA: 0x002259F8 File Offset: 0x00223DF8
+		// Token: 0x06004113 RID: 16659 RVA: 0x00225AD4 File Offset: 0x00223ED4
 		public void Absorb(Battle battle)
 		{
 			this.creationTimestamp = Mathf.Min(this.creationTimestamp, battle.creationTimestamp);
@@ -164,13 +164,13 @@ namespace Verse
 			this.battleName = null;
 		}
 
-		// Token: 0x06004111 RID: 16657 RVA: 0x00225A98 File Offset: 0x00223E98
+		// Token: 0x06004114 RID: 16660 RVA: 0x00225B74 File Offset: 0x00223F74
 		public bool Concerns(Pawn pawn)
 		{
 			return this.concerns.Contains(pawn);
 		}
 
-		// Token: 0x06004112 RID: 16658 RVA: 0x00225ABC File Offset: 0x00223EBC
+		// Token: 0x06004115 RID: 16661 RVA: 0x00225B98 File Offset: 0x00223F98
 		public void Notify_PawnDiscarded(Pawn p, bool silentlyRemoveReferences)
 		{
 			if (this.concerns.Contains(p))
@@ -197,7 +197,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004113 RID: 16659 RVA: 0x00225B74 File Offset: 0x00223F74
+		// Token: 0x06004116 RID: 16662 RVA: 0x00225C50 File Offset: 0x00224050
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.loadID, "loadID", 0, false);
@@ -214,7 +214,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004114 RID: 16660 RVA: 0x00225C6C File Offset: 0x0022406C
+		// Token: 0x06004117 RID: 16663 RVA: 0x00225D48 File Offset: 0x00224148
 		public string GetUniqueLoadID()
 		{
 			return "Battle_" + this.loadID;

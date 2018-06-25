@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B9F RID: 2975
+	// Token: 0x02000BA1 RID: 2977
 	public class SubSoundDef : Editable
 	{
 		// Token: 0x04002B47 RID: 11079
@@ -129,7 +129,7 @@ namespace Verse.Sound
 		[Unsaved]
 		private Queue<ResolvedGrain> recentlyPlayedResolvedGrains = new Queue<ResolvedGrain>();
 
-		// Token: 0x06004065 RID: 16485 RVA: 0x0021D620 File Offset: 0x0021BA20
+		// Token: 0x06004068 RID: 16488 RVA: 0x0021D6FC File Offset: 0x0021BAFC
 		public virtual void TryPlay(SoundInfo info)
 		{
 			if (this.resolvedGrains.Count == 0)
@@ -176,7 +176,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004066 RID: 16486 RVA: 0x0021D764 File Offset: 0x0021BB64
+		// Token: 0x06004069 RID: 16489 RVA: 0x0021D840 File Offset: 0x0021BC40
 		public ResolvedGrain RandomizedResolvedGrain()
 		{
 			ResolvedGrain chosenGrain = null;
@@ -211,14 +211,14 @@ namespace Verse.Sound
 			return chosenGrain;
 		}
 
-		// Token: 0x06004067 RID: 16487 RVA: 0x0021D814 File Offset: 0x0021BC14
+		// Token: 0x0600406A RID: 16490 RVA: 0x0021D8F0 File Offset: 0x0021BCF0
 		public float RandomizedVolume()
 		{
 			float randomInRange = this.volumeRange.RandomInRange;
 			return randomInRange / 100f;
 		}
 
-		// Token: 0x06004068 RID: 16488 RVA: 0x0021D83E File Offset: 0x0021BC3E
+		// Token: 0x0600406B RID: 16491 RVA: 0x0021D91A File Offset: 0x0021BD1A
 		public override void ResolveReferences()
 		{
 			LongEventHandler.ExecuteWhenFinished(delegate
@@ -240,7 +240,7 @@ namespace Verse.Sound
 			});
 		}
 
-		// Token: 0x06004069 RID: 16489 RVA: 0x0021D854 File Offset: 0x0021BC54
+		// Token: 0x0600406C RID: 16492 RVA: 0x0021D930 File Offset: 0x0021BD30
 		public override IEnumerable<string> ConfigErrors()
 		{
 			if (this.resolvedGrains.Count == 0)
@@ -279,7 +279,7 @@ namespace Verse.Sound
 			yield break;
 		}
 
-		// Token: 0x0600406A RID: 16490 RVA: 0x0021D880 File Offset: 0x0021BC80
+		// Token: 0x0600406D RID: 16493 RVA: 0x0021D95C File Offset: 0x0021BD5C
 		public override string ToString()
 		{
 			return this.name;

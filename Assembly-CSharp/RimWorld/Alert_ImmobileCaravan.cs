@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200078E RID: 1934
+	// Token: 0x02000790 RID: 1936
 	public class Alert_ImmobileCaravan : Alert_Critical
 	{
-		// Token: 0x06002AED RID: 10989 RVA: 0x0016AF60 File Offset: 0x00169360
+		// Token: 0x06002AF1 RID: 10993 RVA: 0x0016B0B0 File Offset: 0x001694B0
 		public Alert_ImmobileCaravan()
 		{
 			this.defaultLabel = "ImmobileCaravan".Translate();
@@ -16,7 +16,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006B0 RID: 1712
-		// (get) Token: 0x06002AEE RID: 10990 RVA: 0x0016AF8C File Offset: 0x0016938C
+		// (get) Token: 0x06002AF2 RID: 10994 RVA: 0x0016B0DC File Offset: 0x001694DC
 		private IEnumerable<Caravan> ImmobileCaravans
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002AEF RID: 10991 RVA: 0x0016AFB0 File Offset: 0x001693B0
+		// Token: 0x06002AF3 RID: 10995 RVA: 0x0016B100 File Offset: 0x00169500
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.ImmobileCaravans);

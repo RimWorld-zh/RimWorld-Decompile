@@ -6,11 +6,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006AE RID: 1710
+	// Token: 0x020006B0 RID: 1712
 	internal class Building_SunLamp : Building
 	{
 		// Token: 0x1700058B RID: 1419
-		// (get) Token: 0x060024B8 RID: 9400 RVA: 0x0013A6BC File Offset: 0x00138ABC
+		// (get) Token: 0x060024BC RID: 9404 RVA: 0x0013A80C File Offset: 0x00138C0C
 		public IEnumerable<IntVec3> GrowableCells
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024B9 RID: 9401 RVA: 0x0013A6E8 File Offset: 0x00138AE8
+		// Token: 0x060024BD RID: 9405 RVA: 0x0013A838 File Offset: 0x00138C38
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo baseGizmo in this.<GetGizmos>__BaseCallProxy0())
@@ -40,7 +40,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060024BA RID: 9402 RVA: 0x0013A714 File Offset: 0x00138B14
+		// Token: 0x060024BE RID: 9406 RVA: 0x0013A864 File Offset: 0x00138C64
 		private void MakeMatchingGrowZone()
 		{
 			Designator designator = DesignatorUtility.FindAllowedDesignator<Designator_ZoneAdd_Growing>();

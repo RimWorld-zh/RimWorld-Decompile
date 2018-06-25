@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000E84 RID: 3716
+	// Token: 0x02000E86 RID: 3718
 	public static class TreeOpenMasks
 	{
 		// Token: 0x040039FC RID: 14844

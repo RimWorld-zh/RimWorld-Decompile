@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DC9 RID: 3529
+	// Token: 0x02000DCB RID: 3531
 	public class Graphic
 	{
 		// Token: 0x04003490 RID: 13456
@@ -28,8 +28,8 @@ namespace Verse
 		// Token: 0x04003496 RID: 13462
 		private Graphic cachedShadowlessGraphicInt;
 
-		// Token: 0x17000CC8 RID: 3272
-		// (get) Token: 0x06004F10 RID: 20240 RVA: 0x0012CE54 File Offset: 0x0012B254
+		// Token: 0x17000CC7 RID: 3271
+		// (get) Token: 0x06004F14 RID: 20244 RVA: 0x0012CFA4 File Offset: 0x0012B3A4
 		public Shader Shader
 		{
 			get
@@ -48,8 +48,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CC9 RID: 3273
-		// (get) Token: 0x06004F11 RID: 20241 RVA: 0x0012CE90 File Offset: 0x0012B290
+		// Token: 0x17000CC8 RID: 3272
+		// (get) Token: 0x06004F15 RID: 20245 RVA: 0x0012CFE0 File Offset: 0x0012B3E0
 		public Graphic_Shadow ShadowGraphic
 		{
 			get
@@ -62,8 +62,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CCA RID: 3274
-		// (get) Token: 0x06004F12 RID: 20242 RVA: 0x0012CEE8 File Offset: 0x0012B2E8
+		// Token: 0x17000CC9 RID: 3273
+		// (get) Token: 0x06004F16 RID: 20246 RVA: 0x0012D038 File Offset: 0x0012B438
 		public Color Color
 		{
 			get
@@ -72,8 +72,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CCB RID: 3275
-		// (get) Token: 0x06004F13 RID: 20243 RVA: 0x0012CF04 File Offset: 0x0012B304
+		// Token: 0x17000CCA RID: 3274
+		// (get) Token: 0x06004F17 RID: 20247 RVA: 0x0012D054 File Offset: 0x0012B454
 		public Color ColorTwo
 		{
 			get
@@ -82,8 +82,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CCC RID: 3276
-		// (get) Token: 0x06004F14 RID: 20244 RVA: 0x0012CF20 File Offset: 0x0012B320
+		// Token: 0x17000CCB RID: 3275
+		// (get) Token: 0x06004F18 RID: 20248 RVA: 0x0012D070 File Offset: 0x0012B470
 		public virtual Material MatSingle
 		{
 			get
@@ -92,8 +92,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CCD RID: 3277
-		// (get) Token: 0x06004F15 RID: 20245 RVA: 0x0012CF3C File Offset: 0x0012B33C
+		// Token: 0x17000CCC RID: 3276
+		// (get) Token: 0x06004F19 RID: 20249 RVA: 0x0012D08C File Offset: 0x0012B48C
 		public virtual Material MatWest
 		{
 			get
@@ -102,8 +102,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CCE RID: 3278
-		// (get) Token: 0x06004F16 RID: 20246 RVA: 0x0012CF58 File Offset: 0x0012B358
+		// Token: 0x17000CCD RID: 3277
+		// (get) Token: 0x06004F1A RID: 20250 RVA: 0x0012D0A8 File Offset: 0x0012B4A8
 		public virtual Material MatSouth
 		{
 			get
@@ -112,8 +112,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CCF RID: 3279
-		// (get) Token: 0x06004F17 RID: 20247 RVA: 0x0012CF74 File Offset: 0x0012B374
+		// Token: 0x17000CCE RID: 3278
+		// (get) Token: 0x06004F1B RID: 20251 RVA: 0x0012D0C4 File Offset: 0x0012B4C4
 		public virtual Material MatEast
 		{
 			get
@@ -122,8 +122,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CD0 RID: 3280
-		// (get) Token: 0x06004F18 RID: 20248 RVA: 0x0012CF90 File Offset: 0x0012B390
+		// Token: 0x17000CCF RID: 3279
+		// (get) Token: 0x06004F1C RID: 20252 RVA: 0x0012D0E0 File Offset: 0x0012B4E0
 		public virtual Material MatNorth
 		{
 			get
@@ -132,8 +132,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CD1 RID: 3281
-		// (get) Token: 0x06004F19 RID: 20249 RVA: 0x0012CFAC File Offset: 0x0012B3AC
+		// Token: 0x17000CD0 RID: 3280
+		// (get) Token: 0x06004F1D RID: 20253 RVA: 0x0012D0FC File Offset: 0x0012B4FC
 		public virtual bool WestFlipped
 		{
 			get
@@ -142,8 +142,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CD2 RID: 3282
-		// (get) Token: 0x06004F1A RID: 20250 RVA: 0x0012CFE0 File Offset: 0x0012B3E0
+		// Token: 0x17000CD1 RID: 3281
+		// (get) Token: 0x06004F1E RID: 20254 RVA: 0x0012D130 File Offset: 0x0012B530
 		public virtual bool ShouldDrawRotated
 		{
 			get
@@ -152,13 +152,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F1B RID: 20251 RVA: 0x0012CFF6 File Offset: 0x0012B3F6
+		// Token: 0x06004F1F RID: 20255 RVA: 0x0012D146 File Offset: 0x0012B546
 		public virtual void Init(GraphicRequest req)
 		{
 			Log.ErrorOnce("Cannot init Graphic of class " + base.GetType().ToString(), 658928, false);
 		}
 
-		// Token: 0x06004F1C RID: 20252 RVA: 0x0012D01C File Offset: 0x0012B41C
+		// Token: 0x06004F20 RID: 20256 RVA: 0x0012D16C File Offset: 0x0012B56C
 		public virtual Material MatAt(Rot4 rot, Thing thing = null)
 		{
 			Material result;
@@ -183,7 +183,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004F1D RID: 20253 RVA: 0x0012D08C File Offset: 0x0012B48C
+		// Token: 0x06004F21 RID: 20257 RVA: 0x0012D1DC File Offset: 0x0012B5DC
 		public virtual Mesh MeshAt(Rot4 rot)
 		{
 			Mesh result;
@@ -210,25 +210,25 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004F1E RID: 20254 RVA: 0x0012D108 File Offset: 0x0012B508
+		// Token: 0x06004F22 RID: 20258 RVA: 0x0012D258 File Offset: 0x0012B658
 		public virtual Material MatSingleFor(Thing thing)
 		{
 			return this.MatSingle;
 		}
 
-		// Token: 0x06004F1F RID: 20255 RVA: 0x0012D123 File Offset: 0x0012B523
+		// Token: 0x06004F23 RID: 20259 RVA: 0x0012D273 File Offset: 0x0012B673
 		public void Draw(Vector3 loc, Rot4 rot, Thing thing, float extraRotation = 0f)
 		{
 			this.DrawWorker(loc, rot, thing.def, thing, extraRotation);
 		}
 
-		// Token: 0x06004F20 RID: 20256 RVA: 0x0012D137 File Offset: 0x0012B537
+		// Token: 0x06004F24 RID: 20260 RVA: 0x0012D287 File Offset: 0x0012B687
 		public void DrawFromDef(Vector3 loc, Rot4 rot, ThingDef thingDef, float extraRotation = 0f)
 		{
 			this.DrawWorker(loc, rot, thingDef, null, extraRotation);
 		}
 
-		// Token: 0x06004F21 RID: 20257 RVA: 0x0012D148 File Offset: 0x0012B548
+		// Token: 0x06004F25 RID: 20261 RVA: 0x0012D298 File Offset: 0x0012B698
 		public virtual void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
 			Mesh mesh = this.MeshAt(rot);
@@ -245,7 +245,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F22 RID: 20258 RVA: 0x0012D1BC File Offset: 0x0012B5BC
+		// Token: 0x06004F26 RID: 20262 RVA: 0x0012D30C File Offset: 0x0012B70C
 		public virtual void Print(SectionLayer layer, Thing thing)
 		{
 			Vector2 size;
@@ -283,20 +283,20 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F23 RID: 20259 RVA: 0x0012D2B8 File Offset: 0x0012B6B8
+		// Token: 0x06004F27 RID: 20263 RVA: 0x0012D408 File Offset: 0x0012B808
 		public virtual Graphic GetColoredVersion(Shader newShader, Color newColor, Color newColorTwo)
 		{
 			Log.ErrorOnce("CloneColored not implemented on this subclass of Graphic: " + base.GetType().ToString(), 66300, false);
 			return BaseContent.BadGraphic;
 		}
 
-		// Token: 0x06004F24 RID: 20260 RVA: 0x0012D2F4 File Offset: 0x0012B6F4
+		// Token: 0x06004F28 RID: 20264 RVA: 0x0012D444 File Offset: 0x0012B844
 		public virtual Graphic GetCopy(Vector2 newDrawSize)
 		{
 			return GraphicDatabase.Get(base.GetType(), this.path, this.Shader, newDrawSize, this.color, this.colorTwo);
 		}
 
-		// Token: 0x06004F25 RID: 20261 RVA: 0x0012D330 File Offset: 0x0012B730
+		// Token: 0x06004F29 RID: 20265 RVA: 0x0012D480 File Offset: 0x0012B880
 		public virtual Graphic GetShadowlessGraphic()
 		{
 			Graphic result;
@@ -318,7 +318,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004F26 RID: 20262 RVA: 0x0012D3A0 File Offset: 0x0012B7A0
+		// Token: 0x06004F2A RID: 20266 RVA: 0x0012D4F0 File Offset: 0x0012B8F0
 		protected Quaternion QuatFromRot(Rot4 rot)
 		{
 			Quaternion result;

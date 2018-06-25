@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000D51 RID: 3409
+	// Token: 0x02000D53 RID: 3411
 	public static class StrippableUtility
 	{
-		// Token: 0x06004C0D RID: 19469 RVA: 0x0027B460 File Offset: 0x00279860
+		// Token: 0x06004C11 RID: 19473 RVA: 0x0027B58C File Offset: 0x0027998C
 		public static bool CanBeStrippedByColony(Thing th)
 		{
 			IStrippable strippable = th as IStrippable;

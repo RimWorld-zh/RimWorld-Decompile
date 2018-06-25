@@ -9,11 +9,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E1C RID: 3612
+	// Token: 0x02000E1E RID: 3614
 	[HasDebugOutput]
 	internal static class DebugOutputsMisc
 	{
-		// Token: 0x0600530E RID: 21262 RVA: 0x002AA800 File Offset: 0x002A8C00
+		// Token: 0x06005312 RID: 21266 RVA: 0x002AA92C File Offset: 0x002A8D2C
 		[DebugOutput]
 		public static void MiningResourceGeneration()
 		{
@@ -83,7 +83,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x0600530F RID: 21263 RVA: 0x002AA9AC File Offset: 0x002A8DAC
+		// Token: 0x06005313 RID: 21267 RVA: 0x002AAAD8 File Offset: 0x002A8ED8
 		[DebugOutput]
 		public static void DefaultStuffs()
 		{
@@ -99,7 +99,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005310 RID: 21264 RVA: 0x002AAA94 File Offset: 0x002A8E94
+		// Token: 0x06005314 RID: 21268 RVA: 0x002AABC0 File Offset: 0x002A8FC0
 		[DebugOutput]
 		public static void Beauties()
 		{
@@ -129,7 +129,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<BuildableDef>(dataSources, array);
 		}
 
-		// Token: 0x06005311 RID: 21265 RVA: 0x002AAC08 File Offset: 0x002A9008
+		// Token: 0x06005315 RID: 21269 RVA: 0x002AAD34 File Offset: 0x002A9134
 		[DebugOutput]
 		public static void ThingsPowerAndHeat()
 		{
@@ -171,7 +171,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005312 RID: 21266 RVA: 0x002AADC4 File Offset: 0x002A91C4
+		// Token: 0x06005316 RID: 21270 RVA: 0x002AAEF0 File Offset: 0x002A92F0
 		[DebugOutput]
 		public static void FoodPoisonChances()
 		{
@@ -206,7 +206,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005313 RID: 21267 RVA: 0x002AAE84 File Offset: 0x002A9284
+		// Token: 0x06005317 RID: 21271 RVA: 0x002AAFB0 File Offset: 0x002A93B0
 		[DebugOutput]
 		public static void TechLevels()
 		{
@@ -222,7 +222,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005314 RID: 21268 RVA: 0x002AAF88 File Offset: 0x002A9388
+		// Token: 0x06005318 RID: 21272 RVA: 0x002AB0B4 File Offset: 0x002A94B4
 		[DebugOutput]
 		public static void Stuffs()
 		{
@@ -278,7 +278,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005315 RID: 21269 RVA: 0x002AB360 File Offset: 0x002A9760
+		// Token: 0x06005319 RID: 21273 RVA: 0x002AB48C File Offset: 0x002A988C
 		[DebugOutput]
 		public static void Drugs()
 		{
@@ -292,7 +292,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005316 RID: 21270 RVA: 0x002AB420 File Offset: 0x002A9820
+		// Token: 0x0600531A RID: 21274 RVA: 0x002AB54C File Offset: 0x002A994C
 		[DebugOutput]
 		public static void Medicines()
 		{
@@ -312,7 +312,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<float>(list, array);
 		}
 
-		// Token: 0x06005317 RID: 21271 RVA: 0x002AB538 File Offset: 0x002A9938
+		// Token: 0x0600531B RID: 21275 RVA: 0x002AB664 File Offset: 0x002A9A64
 		[DebugOutput]
 		public static void ShootingAccuracy()
 		{
@@ -361,7 +361,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<int>(dataSources, array);
 		}
 
-		// Token: 0x06005318 RID: 21272 RVA: 0x002AB794 File Offset: 0x002A9B94
+		// Token: 0x0600531C RID: 21276 RVA: 0x002AB8C0 File Offset: 0x002A9CC0
 		[DebugOutput]
 		[ModeRestrictionPlay]
 		public static void TemperatureData()
@@ -369,7 +369,7 @@ namespace Verse
 			Find.CurrentMap.mapTemperature.DebugLogTemps();
 		}
 
-		// Token: 0x06005319 RID: 21273 RVA: 0x002AB7A6 File Offset: 0x002A9BA6
+		// Token: 0x0600531D RID: 21277 RVA: 0x002AB8D2 File Offset: 0x002A9CD2
 		[DebugOutput]
 		[ModeRestrictionPlay]
 		public static void WeatherChances()
@@ -377,7 +377,7 @@ namespace Verse
 			Find.CurrentMap.weatherDecider.LogWeatherChances();
 		}
 
-		// Token: 0x0600531A RID: 21274 RVA: 0x002AB7B8 File Offset: 0x002A9BB8
+		// Token: 0x0600531E RID: 21278 RVA: 0x002AB8E4 File Offset: 0x002A9CE4
 		[DebugOutput]
 		[ModeRestrictionPlay]
 		public static void CelestialGlow()
@@ -385,7 +385,7 @@ namespace Verse
 			GenCelestial.LogSunGlowForYear();
 		}
 
-		// Token: 0x0600531B RID: 21275 RVA: 0x002AB7C0 File Offset: 0x002A9BC0
+		// Token: 0x0600531F RID: 21279 RVA: 0x002AB8EC File Offset: 0x002A9CEC
 		[DebugOutput]
 		[ModeRestrictionPlay]
 		public static void FallColor()
@@ -393,7 +393,7 @@ namespace Verse
 			GenPlant.LogFallColorForYear();
 		}
 
-		// Token: 0x0600531C RID: 21276 RVA: 0x002AB7C8 File Offset: 0x002A9BC8
+		// Token: 0x06005320 RID: 21280 RVA: 0x002AB8F4 File Offset: 0x002A9CF4
 		[DebugOutput]
 		[ModeRestrictionPlay]
 		public static void PawnsListAllOnMap()
@@ -401,7 +401,7 @@ namespace Verse
 			Find.CurrentMap.mapPawns.LogListedPawns();
 		}
 
-		// Token: 0x0600531D RID: 21277 RVA: 0x002AB7DA File Offset: 0x002A9BDA
+		// Token: 0x06005321 RID: 21281 RVA: 0x002AB906 File Offset: 0x002A9D06
 		[DebugOutput]
 		[ModeRestrictionPlay]
 		public static void WindSpeeds()
@@ -409,7 +409,7 @@ namespace Verse
 			Find.CurrentMap.windManager.LogWindSpeeds();
 		}
 
-		// Token: 0x0600531E RID: 21278 RVA: 0x002AB7EC File Offset: 0x002A9BEC
+		// Token: 0x06005322 RID: 21282 RVA: 0x002AB918 File Offset: 0x002A9D18
 		[DebugOutput]
 		[ModeRestrictionPlay]
 		public static void MapPawnsList()
@@ -417,14 +417,14 @@ namespace Verse
 			Find.CurrentMap.mapPawns.LogListedPawns();
 		}
 
-		// Token: 0x0600531F RID: 21279 RVA: 0x002AB7FE File Offset: 0x002A9BFE
+		// Token: 0x06005323 RID: 21283 RVA: 0x002AB92A File Offset: 0x002A9D2A
 		[DebugOutput]
 		public static void Lords()
 		{
 			Find.CurrentMap.lordManager.LogLords();
 		}
 
-		// Token: 0x06005320 RID: 21280 RVA: 0x002AB810 File Offset: 0x002A9C10
+		// Token: 0x06005324 RID: 21284 RVA: 0x002AB93C File Offset: 0x002A9D3C
 		[DebugOutput]
 		public static void DamageTest()
 		{
@@ -523,7 +523,7 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06005321 RID: 21281 RVA: 0x002ABC80 File Offset: 0x002AA080
+		// Token: 0x06005325 RID: 21285 RVA: 0x002ABDAC File Offset: 0x002AA1AC
 		[DebugOutput]
 		public static void BodyPartTagGroups()
 		{
@@ -559,7 +559,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06005322 RID: 21282 RVA: 0x002ABD28 File Offset: 0x002AA128
+		// Token: 0x06005326 RID: 21286 RVA: 0x002ABE54 File Offset: 0x002AA254
 		[DebugOutput]
 		public static void MinifiableTags()
 		{
@@ -580,7 +580,7 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06005323 RID: 21283 RVA: 0x002ABDE4 File Offset: 0x002AA1E4
+		// Token: 0x06005327 RID: 21287 RVA: 0x002ABF10 File Offset: 0x002AA310
 		[DebugOutput]
 		public static void ListSolidBackstories()
 		{
@@ -614,7 +614,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06005324 RID: 21284 RVA: 0x002ABEB4 File Offset: 0x002AA2B4
+		// Token: 0x06005328 RID: 21288 RVA: 0x002ABFE0 File Offset: 0x002AA3E0
 		[DebugOutput]
 		public static void ThingSetMakerTest()
 		{
@@ -708,7 +708,7 @@ namespace Verse
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
 
-		// Token: 0x06005325 RID: 21285 RVA: 0x002ABF54 File Offset: 0x002AA354
+		// Token: 0x06005329 RID: 21289 RVA: 0x002AC080 File Offset: 0x002AA480
 		[DebugOutput]
 		public static void ThingSetMakerPossibleDefs()
 		{
@@ -733,7 +733,7 @@ namespace Verse
 			select d, list.ToArray());
 		}
 
-		// Token: 0x06005326 RID: 21286 RVA: 0x002AC150 File Offset: 0x002AA550
+		// Token: 0x0600532A RID: 21290 RVA: 0x002AC27C File Offset: 0x002AA67C
 		[DebugOutput]
 		public static void ThingSetMakerSampled()
 		{
@@ -816,7 +816,7 @@ namespace Verse
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
 
-		// Token: 0x06005327 RID: 21287 RVA: 0x002AC1F0 File Offset: 0x002AA5F0
+		// Token: 0x0600532B RID: 21291 RVA: 0x002AC31C File Offset: 0x002AA71C
 		[DebugOutput]
 		public static void WorkDisables()
 		{
@@ -937,7 +937,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06005328 RID: 21288 RVA: 0x002AC2D0 File Offset: 0x002AA6D0
+		// Token: 0x0600532C RID: 21292 RVA: 0x002AC3FC File Offset: 0x002AA7FC
 		[DebugOutput]
 		public static void KeyStrings()
 		{
@@ -963,7 +963,7 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06005329 RID: 21289 RVA: 0x002AC374 File Offset: 0x002AA774
+		// Token: 0x0600532D RID: 21293 RVA: 0x002AC4A0 File Offset: 0x002AA8A0
 		[DebugOutput]
 		public static void SocialPropernessMatters()
 		{
@@ -979,7 +979,7 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x0600532A RID: 21290 RVA: 0x002AC40C File Offset: 0x002AA80C
+		// Token: 0x0600532E RID: 21294 RVA: 0x002AC538 File Offset: 0x002AA938
 		[DebugOutput]
 		public static void FoodPreferability()
 		{
@@ -995,7 +995,7 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x0600532B RID: 21291 RVA: 0x002AC4EC File Offset: 0x002AA8EC
+		// Token: 0x0600532F RID: 21295 RVA: 0x002AC618 File Offset: 0x002AAA18
 		[DebugOutput]
 		public static void MapDanger()
 		{
@@ -1008,7 +1008,7 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x0600532C RID: 21292 RVA: 0x002AC584 File Offset: 0x002AA984
+		// Token: 0x06005330 RID: 21296 RVA: 0x002AC6B0 File Offset: 0x002AAAB0
 		[DebugOutput]
 		public static void DefNames()
 		{
@@ -1044,7 +1044,7 @@ namespace Verse
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
 
-		// Token: 0x0600532D RID: 21293 RVA: 0x002AC644 File Offset: 0x002AAA44
+		// Token: 0x06005331 RID: 21297 RVA: 0x002AC770 File Offset: 0x002AAB70
 		[DebugOutput]
 		public static void DefNamesAll()
 		{
@@ -1073,7 +1073,7 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x0600532E RID: 21294 RVA: 0x002AC7B0 File Offset: 0x002AABB0
+		// Token: 0x06005332 RID: 21298 RVA: 0x002AC8DC File Offset: 0x002AACDC
 		[DebugOutput]
 		public static void DefLabels()
 		{
@@ -1109,7 +1109,7 @@ namespace Verse
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
 
-		// Token: 0x0600532F RID: 21295 RVA: 0x002AC870 File Offset: 0x002AAC70
+		// Token: 0x06005333 RID: 21299 RVA: 0x002AC99C File Offset: 0x002AAD9C
 		[DebugOutput]
 		public static void Bodies()
 		{
@@ -1136,7 +1136,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06005330 RID: 21296 RVA: 0x002AC914 File Offset: 0x002AAD14
+		// Token: 0x06005334 RID: 21300 RVA: 0x002ACA40 File Offset: 0x002AAE40
 		[DebugOutput]
 		public static void BodyParts()
 		{
@@ -1188,7 +1188,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<BodyPartDef>(allDefs, array);
 		}
 
-		// Token: 0x06005331 RID: 21297 RVA: 0x002ACC08 File Offset: 0x002AB008
+		// Token: 0x06005335 RID: 21301 RVA: 0x002ACD34 File Offset: 0x002AB134
 		[DebugOutput]
 		public static void TraderKinds()
 		{
@@ -1199,7 +1199,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<TraderKindDef>(allDefs, array);
 		}
 
-		// Token: 0x06005332 RID: 21298 RVA: 0x002ACC7C File Offset: 0x002AB07C
+		// Token: 0x06005336 RID: 21302 RVA: 0x002ACDA8 File Offset: 0x002AB1A8
 		[DebugOutput]
 		public static void TraderKindThings()
 		{
@@ -1224,7 +1224,7 @@ namespace Verse
 			select d, list.ToArray());
 		}
 
-		// Token: 0x06005333 RID: 21299 RVA: 0x002ACE28 File Offset: 0x002AB228
+		// Token: 0x06005337 RID: 21303 RVA: 0x002ACF54 File Offset: 0x002AB354
 		[DebugOutput]
 		public static void Surgeries()
 		{
@@ -1256,7 +1256,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<RecipeDef>(dataSources, array);
 		}
 
-		// Token: 0x06005334 RID: 21300 RVA: 0x002ACF88 File Offset: 0x002AB388
+		// Token: 0x06005338 RID: 21304 RVA: 0x002AD0B4 File Offset: 0x002AB4B4
 		[DebugOutput]
 		public static void HitsToKill()
 		{
@@ -1313,7 +1313,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005335 RID: 21301 RVA: 0x002AD0E8 File Offset: 0x002AB4E8
+		// Token: 0x06005339 RID: 21305 RVA: 0x002AD214 File Offset: 0x002AB614
 		[DebugOutput]
 		public static void Terrains()
 		{
@@ -1352,7 +1352,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<TerrainDef>(allDefs, array);
 		}
 
-		// Token: 0x06005336 RID: 21302 RVA: 0x002AD3B0 File Offset: 0x002AB7B0
+		// Token: 0x0600533A RID: 21306 RVA: 0x002AD4DC File Offset: 0x002AB8DC
 		[DebugOutput]
 		public static void TerrainAffordances()
 		{
@@ -1366,7 +1366,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<BuildableDef>(dataSources, array);
 		}
 
-		// Token: 0x06005337 RID: 21303 RVA: 0x002AD484 File Offset: 0x002AB884
+		// Token: 0x0600533B RID: 21307 RVA: 0x002AD5B0 File Offset: 0x002AB9B0
 		[DebugOutput]
 		public static void MentalBreaks()
 		{
@@ -1390,7 +1390,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<MentalBreakDef>(dataSources, array);
 		}
 
-		// Token: 0x06005338 RID: 21304 RVA: 0x002AD6B8 File Offset: 0x002ABAB8
+		// Token: 0x0600533C RID: 21308 RVA: 0x002AD7E4 File Offset: 0x002ABBE4
 		[DebugOutput]
 		public static void Traits()
 		{
@@ -1426,7 +1426,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<TraitDegreeData>(dataSources, array);
 		}
 
-		// Token: 0x06005339 RID: 21305 RVA: 0x002AD85C File Offset: 0x002ABC5C
+		// Token: 0x0600533D RID: 21309 RVA: 0x002AD988 File Offset: 0x002ABD88
 		[DebugOutput]
 		public static void BestThingRequestGroup()
 		{
@@ -1501,7 +1501,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x0600533A RID: 21306 RVA: 0x002AD93C File Offset: 0x002ABD3C
+		// Token: 0x0600533E RID: 21310 RVA: 0x002ADA68 File Offset: 0x002ABE68
 		[DebugOutput]
 		public static void Prosthetics()
 		{
@@ -1584,7 +1584,7 @@ namespace Verse
 			Messages.Clear();
 		}
 
-		// Token: 0x0600533B RID: 21307 RVA: 0x002ADC2C File Offset: 0x002AC02C
+		// Token: 0x0600533F RID: 21311 RVA: 0x002ADD58 File Offset: 0x002AC158
 		[DebugOutput]
 		public static void JoyGivers()
 		{
@@ -1643,7 +1643,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<JoyGiverDef>(allDefs, array);
 		}
 
-		// Token: 0x0600533C RID: 21308 RVA: 0x002ADE1C File Offset: 0x002AC21C
+		// Token: 0x06005340 RID: 21312 RVA: 0x002ADF48 File Offset: 0x002AC348
 		[DebugOutput]
 		public static void JoyJobs()
 		{
@@ -1661,7 +1661,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<JobDef>(dataSources, array);
 		}
 
-		// Token: 0x0600533D RID: 21309 RVA: 0x002ADF84 File Offset: 0x002AC384
+		// Token: 0x06005341 RID: 21313 RVA: 0x002AE0B0 File Offset: 0x002AC4B0
 		[DebugOutput]
 		public static void Thoughts()
 		{
@@ -1750,7 +1750,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThoughtDef>(allDefs, array);
 		}
 
-		// Token: 0x0600533E RID: 21310 RVA: 0x002AE2B8 File Offset: 0x002AC6B8
+		// Token: 0x06005342 RID: 21314 RVA: 0x002AE3E4 File Offset: 0x002AC7E4
 		[DebugOutput]
 		public static void GenSteps()
 		{
@@ -1765,7 +1765,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<GenStepDef>(dataSources, array);
 		}
 
-		// Token: 0x0600533F RID: 21311 RVA: 0x002AE3C4 File Offset: 0x002AC7C4
+		// Token: 0x06005343 RID: 21315 RVA: 0x002AE4F0 File Offset: 0x002AC8F0
 		[DebugOutput]
 		public static void WorldGenSteps()
 		{

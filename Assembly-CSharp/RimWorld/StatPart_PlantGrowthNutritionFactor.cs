@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009B1 RID: 2481
+	// Token: 0x020009B3 RID: 2483
 	public class StatPart_PlantGrowthNutritionFactor : StatPart
 	{
-		// Token: 0x0600379F RID: 14239 RVA: 0x001DA378 File Offset: 0x001D8778
+		// Token: 0x060037A3 RID: 14243 RVA: 0x001DA4B8 File Offset: 0x001D88B8
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			float num;
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037A0 RID: 14240 RVA: 0x001DA39C File Offset: 0x001D879C
+		// Token: 0x060037A4 RID: 14244 RVA: 0x001DA4DC File Offset: 0x001D88DC
 		public override string ExplanationPart(StatRequest req)
 		{
 			float f;
@@ -42,7 +42,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037A1 RID: 14241 RVA: 0x001DA434 File Offset: 0x001D8834
+		// Token: 0x060037A5 RID: 14245 RVA: 0x001DA574 File Offset: 0x001D8974
 		private bool TryGetFactor(StatRequest req, out float factor)
 		{
 			bool result;

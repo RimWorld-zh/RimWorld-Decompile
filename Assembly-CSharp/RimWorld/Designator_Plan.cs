@@ -4,13 +4,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007D1 RID: 2001
+	// Token: 0x020007D3 RID: 2003
 	public abstract class Designator_Plan : Designator
 	{
 		// Token: 0x040017A2 RID: 6050
 		private DesignateMode mode;
 
-		// Token: 0x06002C6A RID: 11370 RVA: 0x00176A80 File Offset: 0x00174E80
+		// Token: 0x06002C6E RID: 11374 RVA: 0x00176BD0 File Offset: 0x00174FD0
 		public Designator_Plan(DesignateMode mode)
 		{
 			this.mode = mode;
@@ -21,7 +21,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006FA RID: 1786
-		// (get) Token: 0x06002C6B RID: 11371 RVA: 0x00176AB8 File Offset: 0x00174EB8
+		// (get) Token: 0x06002C6F RID: 11375 RVA: 0x00176C08 File Offset: 0x00175008
 		public override int DraggableDimensions
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006FB RID: 1787
-		// (get) Token: 0x06002C6C RID: 11372 RVA: 0x00176AD0 File Offset: 0x00174ED0
+		// (get) Token: 0x06002C70 RID: 11376 RVA: 0x00176C20 File Offset: 0x00175020
 		public override bool DragDrawMeasurements
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006FC RID: 1788
-		// (get) Token: 0x06002C6D RID: 11373 RVA: 0x00176AE8 File Offset: 0x00174EE8
+		// (get) Token: 0x06002C71 RID: 11377 RVA: 0x00176C38 File Offset: 0x00175038
 		protected override DesignationDef Designation
 		{
 			get
@@ -50,7 +50,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C6E RID: 11374 RVA: 0x00176B04 File Offset: 0x00174F04
+		// Token: 0x06002C72 RID: 11378 RVA: 0x00176C54 File Offset: 0x00175054
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -83,7 +83,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C6F RID: 11375 RVA: 0x00176BD4 File Offset: 0x00174FD4
+		// Token: 0x06002C73 RID: 11379 RVA: 0x00176D24 File Offset: 0x00175124
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			if (this.mode == DesignateMode.Add)
@@ -96,14 +96,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C70 RID: 11376 RVA: 0x00176C3B File Offset: 0x0017503B
+		// Token: 0x06002C74 RID: 11380 RVA: 0x00176D8B File Offset: 0x0017518B
 		public override void SelectedUpdate()
 		{
 			GenUI.RenderMouseoverBracket();
 			GenDraw.DrawNoBuildEdgeLines();
 		}
 
-		// Token: 0x06002C71 RID: 11377 RVA: 0x00176C48 File Offset: 0x00175048
+		// Token: 0x06002C75 RID: 11381 RVA: 0x00176D98 File Offset: 0x00175198
 		public override void RenderHighlight(List<IntVec3> dragCells)
 		{
 			DesignatorUtility.RenderHighlightOverSelectableCells(this, dragCells);

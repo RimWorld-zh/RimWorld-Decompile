@@ -4,7 +4,7 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000D5E RID: 3422
+	// Token: 0x02000D60 RID: 3424
 	public class Stance_Warmup : Stance_Busy
 	{
 		// Token: 0x04003330 RID: 13104
@@ -13,12 +13,12 @@ namespace Verse
 		// Token: 0x04003331 RID: 13105
 		private bool targetStartedDowned;
 
-		// Token: 0x06004CC2 RID: 19650 RVA: 0x0028006D File Offset: 0x0027E46D
+		// Token: 0x06004CC6 RID: 19654 RVA: 0x00280199 File Offset: 0x0027E599
 		public Stance_Warmup()
 		{
 		}
 
-		// Token: 0x06004CC3 RID: 19651 RVA: 0x00280078 File Offset: 0x0027E478
+		// Token: 0x06004CC7 RID: 19655 RVA: 0x002801A4 File Offset: 0x0027E5A4
 		public Stance_Warmup(int ticks, LocalTargetInfo focusTarg, Verb verb) : base(ticks, focusTarg, verb)
 		{
 			if (focusTarg.HasThing && focusTarg.Thing is Pawn)
@@ -49,14 +49,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004CC4 RID: 19652 RVA: 0x00280183 File Offset: 0x0027E583
+		// Token: 0x06004CC8 RID: 19656 RVA: 0x002802AF File Offset: 0x0027E6AF
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.targetStartedDowned, "targetStartDowned", false, false);
 		}
 
-		// Token: 0x06004CC5 RID: 19653 RVA: 0x002801A0 File Offset: 0x0027E5A0
+		// Token: 0x06004CC9 RID: 19657 RVA: 0x002802CC File Offset: 0x0027E6CC
 		public override void StanceDraw()
 		{
 			if (Find.Selector.IsSelected(this.stanceTracker.pawn))
@@ -65,7 +65,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004CC6 RID: 19654 RVA: 0x002801F4 File Offset: 0x0027E5F4
+		// Token: 0x06004CCA RID: 19658 RVA: 0x00280320 File Offset: 0x0027E720
 		public override void StanceTick()
 		{
 			if (this.sustainer != null && !this.sustainer.Ended)
@@ -95,7 +95,7 @@ namespace Verse
 			base.StanceTick();
 		}
 
-		// Token: 0x06004CC7 RID: 19655 RVA: 0x00280323 File Offset: 0x0027E723
+		// Token: 0x06004CCB RID: 19659 RVA: 0x0028044F File Offset: 0x0027E84F
 		protected override void Expire()
 		{
 			this.verb.WarmupComplete();

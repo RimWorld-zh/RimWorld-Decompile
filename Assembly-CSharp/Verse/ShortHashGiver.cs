@@ -5,13 +5,13 @@ using System.Reflection;
 
 namespace Verse
 {
-	// Token: 0x02000AF4 RID: 2804
+	// Token: 0x02000AF6 RID: 2806
 	public static class ShortHashGiver
 	{
-		// Token: 0x04002747 RID: 10055
+		// Token: 0x04002748 RID: 10056
 		private static Dictionary<Type, HashSet<ushort>> takenHashesPerDeftype = new Dictionary<Type, HashSet<ushort>>();
 
-		// Token: 0x06003E27 RID: 15911 RVA: 0x0020C9D0 File Offset: 0x0020ADD0
+		// Token: 0x06003E2B RID: 15915 RVA: 0x0020CAFC File Offset: 0x0020AEFC
 		public static void GiveAllShortHashes()
 		{
 			ShortHashGiver.takenHashesPerDeftype.Clear();
@@ -52,7 +52,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E28 RID: 15912 RVA: 0x0020CB3C File Offset: 0x0020AF3C
+		// Token: 0x06003E2C RID: 15916 RVA: 0x0020CC68 File Offset: 0x0020B068
 		private static void GiveShortHash(Def def, Type defType)
 		{
 			if (def.shortHash != 0)

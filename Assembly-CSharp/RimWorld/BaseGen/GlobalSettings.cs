@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x02000390 RID: 912
+	// Token: 0x02000392 RID: 914
 	public class GlobalSettings
 	{
 		// Token: 0x040009AF RID: 2479
@@ -42,7 +42,7 @@ namespace RimWorld.BaseGen
 		// Token: 0x040009BA RID: 2490
 		public float basePart_breweriesCoverage;
 
-		// Token: 0x06000FF2 RID: 4082 RVA: 0x00085CD0 File Offset: 0x000840D0
+		// Token: 0x06000FF6 RID: 4086 RVA: 0x00085E20 File Offset: 0x00084220
 		public void Clear()
 		{
 			this.map = null;

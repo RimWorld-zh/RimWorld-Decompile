@@ -7,11 +7,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E16 RID: 3606
+	// Token: 0x02000E18 RID: 3608
 	[HasDebugOutput]
 	internal static class DebugOutputsEconomy
 	{
-		// Token: 0x06005211 RID: 21009 RVA: 0x002A07CC File Offset: 0x0029EBCC
+		// Token: 0x06005215 RID: 21013 RVA: 0x002A08F8 File Offset: 0x0029ECF8
 		[DebugOutput]
 		[Category("Economy")]
 		public static void RecipeSkills()
@@ -43,7 +43,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<RecipeDef>(allDefs, array);
 		}
 
-		// Token: 0x06005212 RID: 21010 RVA: 0x002A08BC File Offset: 0x0029ECBC
+		// Token: 0x06005216 RID: 21014 RVA: 0x002A09E8 File Offset: 0x0029EDE8
 		[DebugOutput]
 		[Category("Economy")]
 		public static void Drugs()
@@ -66,7 +66,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005213 RID: 21011 RVA: 0x002A0A68 File Offset: 0x0029EE68
+		// Token: 0x06005217 RID: 21015 RVA: 0x002A0B94 File Offset: 0x0029EF94
 		[DebugOutput]
 		[Category("Economy")]
 		public static void Wool()
@@ -88,7 +88,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005214 RID: 21012 RVA: 0x002A0BA4 File Offset: 0x0029EFA4
+		// Token: 0x06005218 RID: 21016 RVA: 0x002A0CD0 File Offset: 0x0029F0D0
 		[DebugOutput]
 		[Category("Economy")]
 		public static void AnimalGrowth()
@@ -165,7 +165,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005215 RID: 21013 RVA: 0x002A0F0C File Offset: 0x0029F30C
+		// Token: 0x06005219 RID: 21017 RVA: 0x002A1038 File Offset: 0x0029F438
 		[DebugOutput]
 		[Category("Economy")]
 		public static void AnimalBreeding()
@@ -198,7 +198,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005216 RID: 21014 RVA: 0x002A106C File Offset: 0x0029F46C
+		// Token: 0x0600521A RID: 21018 RVA: 0x002A1198 File Offset: 0x0029F598
 		private static float GestationDaysEach(ThingDef d)
 		{
 			float result;
@@ -214,7 +214,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005217 RID: 21015 RVA: 0x002A10F0 File Offset: 0x0029F4F0
+		// Token: 0x0600521B RID: 21019 RVA: 0x002A121C File Offset: 0x0029F61C
 		[DebugOutput]
 		[Category("Economy")]
 		public static void BuildingSkills()
@@ -228,7 +228,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<BuildableDef>(dataSources, array);
 		}
 
-		// Token: 0x06005218 RID: 21016 RVA: 0x002A1198 File Offset: 0x0029F598
+		// Token: 0x0600521C RID: 21020 RVA: 0x002A12C4 File Offset: 0x0029F6C4
 		[DebugOutput]
 		[Category("Economy")]
 		public static void Crops()
@@ -261,7 +261,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x06005219 RID: 21017 RVA: 0x002A1444 File Offset: 0x0029F844
+		// Token: 0x0600521D RID: 21021 RVA: 0x002A1570 File Offset: 0x0029F970
 		[DebugOutput]
 		[Category("Economy")]
 		public static void ItemAndBuildingAcquisition()
@@ -384,7 +384,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x0600521A RID: 21018 RVA: 0x002A178C File Offset: 0x0029FB8C
+		// Token: 0x0600521E RID: 21022 RVA: 0x002A18B8 File Offset: 0x0029FCB8
 		[DebugOutput]
 		[Category("Economy")]
 		public static void ItemAccessibility()
@@ -402,7 +402,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x0600521B RID: 21019 RVA: 0x002A18C8 File Offset: 0x0029FCC8
+		// Token: 0x0600521F RID: 21023 RVA: 0x002A19F4 File Offset: 0x0029FDF4
 		[DebugOutput]
 		[Category("Economy")]
 		public static void ThingSmeltProducts()
@@ -424,7 +424,7 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x0600521C RID: 21020 RVA: 0x002A19D8 File Offset: 0x0029FDD8
+		// Token: 0x06005220 RID: 21024 RVA: 0x002A1B04 File Offset: 0x0029FF04
 		[DebugOutput]
 		[Category("Economy")]
 		public static void Recipes()
@@ -449,7 +449,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<RecipeDef>(dataSources, array);
 		}
 
-		// Token: 0x0600521D RID: 21021 RVA: 0x002A1C14 File Offset: 0x002A0014
+		// Token: 0x06005221 RID: 21025 RVA: 0x002A1D40 File Offset: 0x002A0140
 		private static bool Producible(BuildableDef b)
 		{
 			ThingDef d = b as ThingDef;
@@ -472,7 +472,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x0600521E RID: 21022 RVA: 0x002A1CB4 File Offset: 0x002A00B4
+		// Token: 0x06005222 RID: 21026 RVA: 0x002A1DE0 File Offset: 0x002A01E0
 		public static string CostListString(BuildableDef d, bool divideByVolume, bool starIfOnlyBuyable)
 		{
 			string result;
@@ -509,14 +509,14 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600521F RID: 21023 RVA: 0x002A1DD0 File Offset: 0x002A01D0
+		// Token: 0x06005223 RID: 21027 RVA: 0x002A1EFC File Offset: 0x002A02FC
 		private static float TrueWorkWithCarryTime(RecipeDef d)
 		{
 			ThingDef stuffDef = DebugOutputsEconomy.CheapestNonDerpStuff(d);
 			return (float)d.ingredients.Count * 90f + d.WorkAmountTotal(stuffDef) + 90f;
 		}
 
-		// Token: 0x06005220 RID: 21024 RVA: 0x002A1E0C File Offset: 0x002A020C
+		// Token: 0x06005224 RID: 21028 RVA: 0x002A1F38 File Offset: 0x002A0338
 		private static float CheapestIngredientValue(RecipeDef d)
 		{
 			float num = 0f;
@@ -527,7 +527,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06005221 RID: 21025 RVA: 0x002A1E88 File Offset: 0x002A0288
+		// Token: 0x06005225 RID: 21029 RVA: 0x002A1FB4 File Offset: 0x002A03B4
 		private static IEnumerable<Pair<ThingDef, float>> CheapestIngredients(RecipeDef d)
 		{
 			foreach (IngredientCount ing in d.ingredients)
@@ -540,13 +540,13 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005222 RID: 21026 RVA: 0x002A1EB4 File Offset: 0x002A02B4
+		// Token: 0x06005226 RID: 21030 RVA: 0x002A1FE0 File Offset: 0x002A03E0
 		private static float WorkValueEstimate(RecipeDef d)
 		{
 			return DebugOutputsEconomy.TrueWorkWithCarryTime(d) * 0.01f;
 		}
 
-		// Token: 0x06005223 RID: 21027 RVA: 0x002A1ED8 File Offset: 0x002A02D8
+		// Token: 0x06005227 RID: 21031 RVA: 0x002A2004 File Offset: 0x002A0404
 		private static ThingDef CheapestNonDerpStuff(RecipeDef d)
 		{
 			ThingDef productDef = d.products[0].thingDef;
@@ -564,7 +564,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005224 RID: 21028 RVA: 0x002A1F6C File Offset: 0x002A036C
+		// Token: 0x06005228 RID: 21032 RVA: 0x002A2098 File Offset: 0x002A0498
 		private static float CheapestProductsValue(RecipeDef d)
 		{
 			float num = 0f;
@@ -575,7 +575,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06005225 RID: 21029 RVA: 0x002A1FF4 File Offset: 0x002A03F4
+		// Token: 0x06005229 RID: 21033 RVA: 0x002A2120 File Offset: 0x002A0520
 		private static string CostToMakeString(ThingDef d, bool real = false)
 		{
 			string result;
@@ -590,7 +590,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005226 RID: 21030 RVA: 0x002A2034 File Offset: 0x002A0434
+		// Token: 0x0600522A RID: 21034 RVA: 0x002A2160 File Offset: 0x002A0560
 		private static float CostToMake(ThingDef d, bool real = false)
 		{
 			float result;
@@ -623,7 +623,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005227 RID: 21031 RVA: 0x002A2130 File Offset: 0x002A0530
+		// Token: 0x0600522B RID: 21035 RVA: 0x002A225C File Offset: 0x002A065C
 		private static bool RequiresBuying(ThingDef def)
 		{
 			bool result;
@@ -645,7 +645,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005228 RID: 21032 RVA: 0x002A21EC File Offset: 0x002A05EC
+		// Token: 0x0600522C RID: 21036 RVA: 0x002A2318 File Offset: 0x002A0718
 		public static float WorkToProduceBest(BuildableDef d)
 		{
 			float num = float.MaxValue;

@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000751 RID: 1873
+	// Token: 0x02000753 RID: 1875
 	public class CompTargetEffect_BrainDamageChance : CompTargetEffect
 	{
 		// Token: 0x1700066A RID: 1642
-		// (get) Token: 0x06002985 RID: 10629 RVA: 0x00161440 File Offset: 0x0015F840
+		// (get) Token: 0x06002989 RID: 10633 RVA: 0x00161590 File Offset: 0x0015F990
 		protected CompProperties_TargetEffect_BrainDamageChance PropsBrainDamageChance
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002986 RID: 10630 RVA: 0x00161460 File Offset: 0x0015F860
+		// Token: 0x0600298A RID: 10634 RVA: 0x001615B0 File Offset: 0x0015F9B0
 		public override void DoEffectOn(Pawn user, Thing target)
 		{
 			Pawn pawn = (Pawn)target;

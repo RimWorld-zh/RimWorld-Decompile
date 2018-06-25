@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B99 RID: 2969
+	// Token: 0x02000B9B RID: 2971
 	public class SoundParamTarget_PropertyReverb : SoundParamTarget
 	{
 		// Token: 0x04002B33 RID: 11059
@@ -14,8 +14,8 @@ namespace Verse.Sound
 		[Description("The interpolation target setup for this filter.\n\nWhen the interpolant parameter is at 1, these settings will be active.")]
 		private ReverbSetup targetSetup = new ReverbSetup();
 
-		// Token: 0x170009D8 RID: 2520
-		// (get) Token: 0x0600405E RID: 16478 RVA: 0x0021D2F4 File Offset: 0x0021B6F4
+		// Token: 0x170009D7 RID: 2519
+		// (get) Token: 0x06004061 RID: 16481 RVA: 0x0021D3D0 File Offset: 0x0021B7D0
 		public override string Label
 		{
 			get
@@ -24,8 +24,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x170009D9 RID: 2521
-		// (get) Token: 0x0600405F RID: 16479 RVA: 0x0021D310 File Offset: 0x0021B710
+		// Token: 0x170009D8 RID: 2520
+		// (get) Token: 0x06004062 RID: 16482 RVA: 0x0021D3EC File Offset: 0x0021B7EC
 		public override Type NeededFilterType
 		{
 			get
@@ -34,7 +34,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004060 RID: 16480 RVA: 0x0021D330 File Offset: 0x0021B730
+		// Token: 0x06004063 RID: 16483 RVA: 0x0021D40C File Offset: 0x0021B80C
 		public override void SetOn(Sample sample, float value)
 		{
 			AudioReverbFilter audioReverbFilter = sample.source.GetComponent<AudioReverbFilter>();

@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000660 RID: 1632
+	// Token: 0x02000662 RID: 1634
 	public static class TaleRecorder
 	{
-		// Token: 0x06002235 RID: 8757 RVA: 0x00122790 File Offset: 0x00120B90
+		// Token: 0x06002239 RID: 8761 RVA: 0x001228E0 File Offset: 0x00120CE0
 		public static void RecordTale(TaleDef def, params object[] args)
 		{
 			bool flag = Rand.Value < def.ignoreChance;

@@ -6,20 +6,20 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000497 RID: 1175
+	// Token: 0x02000499 RID: 1177
 	public static class PawnsArrivalModeWorkerUtility
 	{
 		// Token: 0x04000C98 RID: 3224
 		private const int MaxGroupsCount = 3;
 
-		// Token: 0x06001509 RID: 5385 RVA: 0x000B9410 File Offset: 0x000B7810
+		// Token: 0x0600150D RID: 5389 RVA: 0x000B9560 File Offset: 0x000B7960
 		public static void DropInDropPodsNearSpawnCenter(IncidentParms parms, List<Pawn> pawns)
 		{
 			Map map = (Map)parms.target;
 			DropPodUtility.DropThingsNear(parms.spawnCenter, map, pawns.Cast<Thing>(), parms.podOpenDelay, false, true, true, false);
 		}
 
-		// Token: 0x0600150A RID: 5386 RVA: 0x000B9448 File Offset: 0x000B7848
+		// Token: 0x0600150E RID: 5390 RVA: 0x000B9598 File Offset: 0x000B7998
 		public static List<Pair<List<Pawn>, IntVec3>> SplitIntoRandomGroupsNearMapEdge(List<Pawn> pawns, Map map, bool arriveInPods)
 		{
 			List<Pair<List<Pawn>, IntVec3>> list = new List<Pair<List<Pawn>, IntVec3>>();
@@ -52,7 +52,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600150B RID: 5387 RVA: 0x000B951C File Offset: 0x000B791C
+		// Token: 0x0600150F RID: 5391 RVA: 0x000B966C File Offset: 0x000B7A6C
 		private static IntVec3 FindNewMapEdgeGroupCenter(Map map, List<Pair<List<Pawn>, IntVec3>> groups, bool arriveInPods)
 		{
 			IntVec3 result = IntVec3.Invalid;
@@ -91,7 +91,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600150C RID: 5388 RVA: 0x000B95FC File Offset: 0x000B79FC
+		// Token: 0x06001510 RID: 5392 RVA: 0x000B974C File Offset: 0x000B7B4C
 		private static int GetMaxGroupsCount(int pawnsCount)
 		{
 			int result;
@@ -106,7 +106,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600150D RID: 5389 RVA: 0x000B962C File Offset: 0x000B7A2C
+		// Token: 0x06001511 RID: 5393 RVA: 0x000B977C File Offset: 0x000B7B7C
 		public static void SetPawnGroupsInfo(IncidentParms parms, List<Pair<List<Pawn>, IntVec3>> groups)
 		{
 			parms.pawnGroups = new Dictionary<Pawn, int>();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000CE2 RID: 3298
+	// Token: 0x02000CE4 RID: 3300
 	internal struct PawnStatusEffecters
 	{
 		// Token: 0x04003138 RID: 12600
@@ -12,14 +12,14 @@ namespace Verse
 		// Token: 0x04003139 RID: 12601
 		private List<PawnStatusEffecters.LiveEffecter> pairs;
 
-		// Token: 0x060048B5 RID: 18613 RVA: 0x00262BA0 File Offset: 0x00260FA0
+		// Token: 0x060048B8 RID: 18616 RVA: 0x00262C7C File Offset: 0x0026107C
 		public PawnStatusEffecters(Pawn pawn)
 		{
 			this.pawn = pawn;
 			this.pairs = new List<PawnStatusEffecters.LiveEffecter>();
 		}
 
-		// Token: 0x060048B6 RID: 18614 RVA: 0x00262BB8 File Offset: 0x00260FB8
+		// Token: 0x060048B9 RID: 18617 RVA: 0x00262C94 File Offset: 0x00261094
 		public void EffectersTick()
 		{
 			List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
@@ -57,7 +57,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048B7 RID: 18615 RVA: 0x00262CE4 File Offset: 0x002610E4
+		// Token: 0x060048BA RID: 18618 RVA: 0x00262DC0 File Offset: 0x002611C0
 		private void AddOrMaintain(EffecterDef def)
 		{
 			for (int i = 0; i < this.pairs.Count; i++)
@@ -74,7 +74,7 @@ namespace Verse
 			this.pairs.Add(liveEffecter);
 		}
 
-		// Token: 0x02000CE3 RID: 3299
+		// Token: 0x02000CE5 RID: 3301
 		private class LiveEffecter : IFullPoolable
 		{
 			// Token: 0x0400313A RID: 12602
@@ -86,8 +86,8 @@ namespace Verse
 			// Token: 0x0400313C RID: 12604
 			public int lastMaintainTick;
 
-			// Token: 0x17000B7C RID: 2940
-			// (get) Token: 0x060048B9 RID: 18617 RVA: 0x00262D68 File Offset: 0x00261168
+			// Token: 0x17000B7B RID: 2939
+			// (get) Token: 0x060048BC RID: 18620 RVA: 0x00262E44 File Offset: 0x00261244
 			public bool Expired
 			{
 				get
@@ -96,7 +96,7 @@ namespace Verse
 				}
 			}
 
-			// Token: 0x060048BA RID: 18618 RVA: 0x00262D8F File Offset: 0x0026118F
+			// Token: 0x060048BD RID: 18621 RVA: 0x00262E6B File Offset: 0x0026126B
 			public void Cleanup()
 			{
 				if (this.effecter != null)
@@ -106,7 +106,7 @@ namespace Verse
 				FullPool<PawnStatusEffecters.LiveEffecter>.Return(this);
 			}
 
-			// Token: 0x060048BB RID: 18619 RVA: 0x00262DAE File Offset: 0x002611AE
+			// Token: 0x060048BE RID: 18622 RVA: 0x00262E8A File Offset: 0x0026128A
 			public void Reset()
 			{
 				this.def = null;
@@ -114,13 +114,13 @@ namespace Verse
 				this.lastMaintainTick = -1;
 			}
 
-			// Token: 0x060048BC RID: 18620 RVA: 0x00262DC6 File Offset: 0x002611C6
+			// Token: 0x060048BF RID: 18623 RVA: 0x00262EA2 File Offset: 0x002612A2
 			public void Maintain()
 			{
 				this.lastMaintainTick = Find.TickManager.TicksGame;
 			}
 
-			// Token: 0x060048BD RID: 18621 RVA: 0x00262DD9 File Offset: 0x002611D9
+			// Token: 0x060048C0 RID: 18624 RVA: 0x00262EB5 File Offset: 0x002612B5
 			public void Tick(Pawn pawn)
 			{
 				if (this.effecter == null)

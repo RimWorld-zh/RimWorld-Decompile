@@ -5,7 +5,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000722 RID: 1826
+	// Token: 0x02000724 RID: 1828
 	[StaticConstructorOnStartup]
 	public class CompOrbitalBeam : ThingComp
 	{
@@ -43,7 +43,7 @@ namespace RimWorld
 		private static readonly MaterialPropertyBlock MatPropertyBlock = new MaterialPropertyBlock();
 
 		// Token: 0x1700062C RID: 1580
-		// (get) Token: 0x06002844 RID: 10308 RVA: 0x001583F0 File Offset: 0x001567F0
+		// (get) Token: 0x06002848 RID: 10312 RVA: 0x00158540 File Offset: 0x00156940
 		public CompProperties_OrbitalBeam Props
 		{
 			get
@@ -53,7 +53,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700062D RID: 1581
-		// (get) Token: 0x06002845 RID: 10309 RVA: 0x00158410 File Offset: 0x00156810
+		// (get) Token: 0x06002849 RID: 10313 RVA: 0x00158560 File Offset: 0x00156960
 		private int TicksPassed
 		{
 			get
@@ -63,7 +63,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700062E RID: 1582
-		// (get) Token: 0x06002846 RID: 10310 RVA: 0x00158438 File Offset: 0x00156838
+		// (get) Token: 0x0600284A RID: 10314 RVA: 0x00158588 File Offset: 0x00156988
 		private int TicksLeft
 		{
 			get
@@ -73,7 +73,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700062F RID: 1583
-		// (get) Token: 0x06002847 RID: 10311 RVA: 0x0015845C File Offset: 0x0015685C
+		// (get) Token: 0x0600284B RID: 10315 RVA: 0x001585AC File Offset: 0x001569AC
 		private float BeamEndHeight
 		{
 			get
@@ -82,7 +82,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002848 RID: 10312 RVA: 0x00158484 File Offset: 0x00156884
+		// Token: 0x0600284C RID: 10316 RVA: 0x001585D4 File Offset: 0x001569D4
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -92,7 +92,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.angle, "angle", 0f, false);
 		}
 
-		// Token: 0x06002849 RID: 10313 RVA: 0x001584E4 File Offset: 0x001568E4
+		// Token: 0x0600284D RID: 10317 RVA: 0x00158634 File Offset: 0x00156A34
 		public void StartAnimation(int totalDuration, int fadeOutDuration, float angle)
 		{
 			this.startTick = Find.TickManager.TicksGame;
@@ -102,14 +102,14 @@ namespace RimWorld
 			this.CheckSpawnSustainer();
 		}
 
-		// Token: 0x0600284A RID: 10314 RVA: 0x00158512 File Offset: 0x00156912
+		// Token: 0x0600284E RID: 10318 RVA: 0x00158662 File Offset: 0x00156A62
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
 			this.CheckSpawnSustainer();
 		}
 
-		// Token: 0x0600284B RID: 10315 RVA: 0x00158524 File Offset: 0x00156924
+		// Token: 0x0600284F RID: 10319 RVA: 0x00158674 File Offset: 0x00156A74
 		public override void CompTick()
 		{
 			base.CompTick();
@@ -124,7 +124,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600284C RID: 10316 RVA: 0x00158578 File Offset: 0x00156978
+		// Token: 0x06002850 RID: 10320 RVA: 0x001586C8 File Offset: 0x00156AC8
 		public override void PostDraw()
 		{
 			base.PostDraw();
@@ -156,7 +156,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600284D RID: 10317 RVA: 0x00158795 File Offset: 0x00156B95
+		// Token: 0x06002851 RID: 10321 RVA: 0x001588E5 File Offset: 0x00156CE5
 		private void CheckSpawnSustainer()
 		{
 			if (this.TicksLeft >= this.fadeOutDuration && this.Props.sound != null)

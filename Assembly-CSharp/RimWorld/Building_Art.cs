@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200066E RID: 1646
+	// Token: 0x02000670 RID: 1648
 	public class Building_Art : Building
 	{
-		// Token: 0x06002288 RID: 8840 RVA: 0x0012A210 File Offset: 0x00128610
+		// Token: 0x0600228C RID: 8844 RVA: 0x0012A360 File Offset: 0x00128760
 		public override string GetInspectString()
 		{
 			string inspectString = base.GetInspectString();

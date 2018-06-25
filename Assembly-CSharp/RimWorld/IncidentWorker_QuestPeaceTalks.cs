@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000354 RID: 852
+	// Token: 0x02000356 RID: 854
 	public class IncidentWorker_QuestPeaceTalks : IncidentWorker
 	{
 		// Token: 0x0400090B RID: 2315
@@ -18,7 +18,7 @@ namespace RimWorld
 		// Token: 0x0400090D RID: 2317
 		private static readonly IntRange TimeoutDaysRange = new IntRange(21, 23);
 
-		// Token: 0x06000EB9 RID: 3769 RVA: 0x0007C89C File Offset: 0x0007AC9C
+		// Token: 0x06000EBD RID: 3773 RVA: 0x0007C9EC File Offset: 0x0007ADEC
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Faction faction;
@@ -26,7 +26,7 @@ namespace RimWorld
 			return base.CanFireNowSub(parms) && this.TryFindFaction(out faction) && this.TryFindTile(out num);
 		}
 
-		// Token: 0x06000EBA RID: 3770 RVA: 0x0007C8DC File Offset: 0x0007ACDC
+		// Token: 0x06000EBE RID: 3774 RVA: 0x0007CA2C File Offset: 0x0007AE2C
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Faction faction;
@@ -55,7 +55,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000EBB RID: 3771 RVA: 0x0007C9D0 File Offset: 0x0007ADD0
+		// Token: 0x06000EBF RID: 3775 RVA: 0x0007CB20 File Offset: 0x0007AF20
 		private bool TryFindFaction(out Faction faction)
 		{
 			return (from x in Find.FactionManager.AllFactions
@@ -63,13 +63,13 @@ namespace RimWorld
 			select x).TryRandomElement(out faction);
 		}
 
-		// Token: 0x06000EBC RID: 3772 RVA: 0x0007CA08 File Offset: 0x0007AE08
+		// Token: 0x06000EC0 RID: 3776 RVA: 0x0007CB58 File Offset: 0x0007AF58
 		private bool TryFindTile(out int tile)
 		{
 			return TileFinder.TryFindNewSiteTile(out tile, 5, 13, false, false, -1);
 		}
 
-		// Token: 0x06000EBD RID: 3773 RVA: 0x0007CA2C File Offset: 0x0007AE2C
+		// Token: 0x06000EC1 RID: 3777 RVA: 0x0007CB7C File Offset: 0x0007AF7C
 		private bool PeaceTalksExist(Faction faction)
 		{
 			List<PeaceTalks> peaceTalks = Find.WorldObjects.PeaceTalks;

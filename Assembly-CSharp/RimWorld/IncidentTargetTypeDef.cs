@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002A4 RID: 676
+	// Token: 0x020002A6 RID: 678
 	public class IncidentTargetTypeDef : Def
 	{
 	}

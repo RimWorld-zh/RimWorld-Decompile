@@ -4,7 +4,7 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020004EA RID: 1258
+	// Token: 0x020004EC RID: 1260
 	public class Pawn_GuestTracker : IExposable
 	{
 		// Token: 0x04000D22 RID: 3362
@@ -46,19 +46,19 @@ namespace RimWorld
 		// Token: 0x04000D2E RID: 3374
 		private const int CheckInitiatePrisonBreakIntervalTicks = 2500;
 
-		// Token: 0x06001682 RID: 5762 RVA: 0x000C7B90 File Offset: 0x000C5F90
+		// Token: 0x06001686 RID: 5766 RVA: 0x000C7CE0 File Offset: 0x000C60E0
 		public Pawn_GuestTracker()
 		{
 		}
 
-		// Token: 0x06001683 RID: 5763 RVA: 0x000C7BE8 File Offset: 0x000C5FE8
+		// Token: 0x06001687 RID: 5767 RVA: 0x000C7D38 File Offset: 0x000C6138
 		public Pawn_GuestTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
 		// Token: 0x170002F4 RID: 756
-		// (get) Token: 0x06001684 RID: 5764 RVA: 0x000C7C48 File Offset: 0x000C6048
+		// (get) Token: 0x06001688 RID: 5768 RVA: 0x000C7D98 File Offset: 0x000C6198
 		public Faction HostFaction
 		{
 			get
@@ -68,8 +68,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002F5 RID: 757
-		// (get) Token: 0x06001685 RID: 5765 RVA: 0x000C7C64 File Offset: 0x000C6064
-		// (set) Token: 0x06001686 RID: 5766 RVA: 0x000C7C9D File Offset: 0x000C609D
+		// (get) Token: 0x06001689 RID: 5769 RVA: 0x000C7DB4 File Offset: 0x000C61B4
+		// (set) Token: 0x0600168A RID: 5770 RVA: 0x000C7DED File Offset: 0x000C61ED
 		public bool GetsFood
 		{
 			get
@@ -93,7 +93,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002F6 RID: 758
-		// (get) Token: 0x06001687 RID: 5767 RVA: 0x000C7CA8 File Offset: 0x000C60A8
+		// (get) Token: 0x0600168B RID: 5771 RVA: 0x000C7DF8 File Offset: 0x000C61F8
 		public bool CanBeBroughtFood
 		{
 			get
@@ -103,7 +103,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002F7 RID: 759
-		// (get) Token: 0x06001688 RID: 5768 RVA: 0x000C7CFC File Offset: 0x000C60FC
+		// (get) Token: 0x0600168C RID: 5772 RVA: 0x000C7E4C File Offset: 0x000C624C
 		public bool IsPrisoner
 		{
 			get
@@ -113,7 +113,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002F8 RID: 760
-		// (get) Token: 0x06001689 RID: 5769 RVA: 0x000C7D18 File Offset: 0x000C6118
+		// (get) Token: 0x0600168D RID: 5773 RVA: 0x000C7E68 File Offset: 0x000C6268
 		public bool ScheduledForInteraction
 		{
 			get
@@ -123,8 +123,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002F9 RID: 761
-		// (get) Token: 0x0600168A RID: 5770 RVA: 0x000C7D50 File Offset: 0x000C6150
-		// (set) Token: 0x0600168B RID: 5771 RVA: 0x000C7D6B File Offset: 0x000C616B
+		// (get) Token: 0x0600168E RID: 5774 RVA: 0x000C7EA0 File Offset: 0x000C62A0
+		// (set) Token: 0x0600168F RID: 5775 RVA: 0x000C7EBB File Offset: 0x000C62BB
 		public bool Released
 		{
 			get
@@ -145,7 +145,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002FA RID: 762
-		// (get) Token: 0x0600168C RID: 5772 RVA: 0x000C7DAC File Offset: 0x000C61AC
+		// (get) Token: 0x06001690 RID: 5776 RVA: 0x000C7EFC File Offset: 0x000C62FC
 		public bool PrisonerIsSecure
 		{
 			get
@@ -183,7 +183,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002FB RID: 763
-		// (get) Token: 0x0600168D RID: 5773 RVA: 0x000C7E64 File Offset: 0x000C6264
+		// (get) Token: 0x06001691 RID: 5777 RVA: 0x000C7FB4 File Offset: 0x000C63B4
 		public bool ShouldWaitInsteadOfEscaping
 		{
 			get
@@ -202,7 +202,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600168E RID: 5774 RVA: 0x000C7ED0 File Offset: 0x000C62D0
+		// Token: 0x06001692 RID: 5778 RVA: 0x000C8020 File Offset: 0x000C6420
 		public void GuestTrackerTick()
 		{
 			if (this.pawn.IsHashIntervalTick(2500))
@@ -215,7 +215,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600168F RID: 5775 RVA: 0x000C7F2C File Offset: 0x000C632C
+		// Token: 0x06001693 RID: 5779 RVA: 0x000C807C File Offset: 0x000C647C
 		public void ExposeData()
 		{
 			Scribe_References.Look<Faction>(ref this.hostFactionInt, "hostFaction", false);
@@ -229,7 +229,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.everParticipatedInPrisonBreak, "everParticipatedInPrisonBreak", false, false);
 		}
 
-		// Token: 0x06001690 RID: 5776 RVA: 0x000C7FE4 File Offset: 0x000C63E4
+		// Token: 0x06001694 RID: 5780 RVA: 0x000C8134 File Offset: 0x000C6534
 		public void SetGuestStatus(Faction newHost, bool prisoner = false)
 		{
 			if (newHost != null)
@@ -302,7 +302,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001691 RID: 5777 RVA: 0x000C823C File Offset: 0x000C663C
+		// Token: 0x06001695 RID: 5781 RVA: 0x000C838C File Offset: 0x000C678C
 		public void CapturedBy(Faction by, Pawn byPawn = null)
 		{
 			if (this.pawn.Faction != null)
@@ -321,13 +321,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001692 RID: 5778 RVA: 0x000C82B9 File Offset: 0x000C66B9
+		// Token: 0x06001696 RID: 5782 RVA: 0x000C8409 File Offset: 0x000C6809
 		public void WaitInsteadOfEscapingForDefaultTicks()
 		{
 			this.WaitInsteadOfEscapingFor(25000);
 		}
 
-		// Token: 0x06001693 RID: 5779 RVA: 0x000C82C7 File Offset: 0x000C66C7
+		// Token: 0x06001697 RID: 5783 RVA: 0x000C8417 File Offset: 0x000C6817
 		public void WaitInsteadOfEscapingFor(int ticks)
 		{
 			if (this.IsPrisoner)
@@ -337,7 +337,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001694 RID: 5780 RVA: 0x000C82F8 File Offset: 0x000C66F8
+		// Token: 0x06001698 RID: 5784 RVA: 0x000C8448 File Offset: 0x000C6848
 		internal void Notify_PawnUndowned()
 		{
 			if (this.pawn.RaceProps.Humanlike && this.HostFaction == Faction.OfPlayer && (this.pawn.Faction == null || this.pawn.Faction.def.rescueesCanJoin) && !this.IsPrisoner && this.pawn.SpawnedOrAnyParentSpawned)

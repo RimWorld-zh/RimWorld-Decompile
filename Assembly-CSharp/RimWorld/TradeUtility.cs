@@ -7,7 +7,7 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x0200077E RID: 1918
+	// Token: 0x02000780 RID: 1920
 	public static class TradeUtility
 	{
 		// Token: 0x040016DB RID: 5851
@@ -22,13 +22,13 @@ namespace RimWorld
 		// Token: 0x040016DE RID: 5854
 		public const float PriceFactorSell_Global = 0.5f;
 
-		// Token: 0x06002A68 RID: 10856 RVA: 0x00167584 File Offset: 0x00165984
+		// Token: 0x06002A6C RID: 10860 RVA: 0x001676D4 File Offset: 0x00165AD4
 		public static bool EverPlayerSellable(ThingDef def)
 		{
 			return def.tradeability.PlayerCanSell() && def.GetStatValueAbstract(StatDefOf.MarketValue, null) > 0f && (def.category == ThingCategory.Item || def.category == ThingCategory.Pawn || def.category == ThingCategory.Building) && (def.category != ThingCategory.Building || def.Minifiable);
 		}
 
-		// Token: 0x06002A69 RID: 10857 RVA: 0x00167618 File Offset: 0x00165A18
+		// Token: 0x06002A6D RID: 10861 RVA: 0x00167768 File Offset: 0x00165B68
 		public static bool PlayerSellableNow(Thing t)
 		{
 			t = t.GetInnerIfMinified();
@@ -49,7 +49,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002A6A RID: 10858 RVA: 0x00167680 File Offset: 0x00165A80
+		// Token: 0x06002A6E RID: 10862 RVA: 0x001677D0 File Offset: 0x00165BD0
 		public static void SpawnDropPod(IntVec3 dropSpot, Map map, Thing t)
 		{
 			DropPodUtility.MakeDropPodAt(dropSpot, map, new ActiveDropPodInfo
@@ -59,7 +59,7 @@ namespace RimWorld
 			}, false);
 		}
 
-		// Token: 0x06002A6B RID: 10859 RVA: 0x001676AC File Offset: 0x00165AAC
+		// Token: 0x06002A6F RID: 10863 RVA: 0x001677FC File Offset: 0x00165BFC
 		public static IEnumerable<Thing> AllLaunchableThingsForTrade(Map map)
 		{
 			HashSet<Thing> yieldedThings = new HashSet<Thing>();
@@ -82,7 +82,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002A6C RID: 10860 RVA: 0x001676D8 File Offset: 0x00165AD8
+		// Token: 0x06002A70 RID: 10864 RVA: 0x00167828 File Offset: 0x00165C28
 		public static IEnumerable<Pawn> AllSellableColonyPawns(Map map)
 		{
 			foreach (Pawn p in map.mapPawns.PrisonersOfColonySpawned)
@@ -102,7 +102,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002A6D RID: 10861 RVA: 0x00167704 File Offset: 0x00165B04
+		// Token: 0x06002A71 RID: 10865 RVA: 0x00167854 File Offset: 0x00165C54
 		public static Thing ThingFromStockToMergeWith(ITrader trader, Thing thing)
 		{
 			Thing result;
@@ -124,7 +124,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002A6E RID: 10862 RVA: 0x001677A8 File Offset: 0x00165BA8
+		// Token: 0x06002A72 RID: 10866 RVA: 0x001678F8 File Offset: 0x00165CF8
 		public static void LaunchThingsOfType(ThingDef resDef, int debt, Map map, TradeShip trader)
 		{
 			while (debt > 0)
@@ -163,13 +163,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A6F RID: 10863 RVA: 0x0016791C File Offset: 0x00165D1C
+		// Token: 0x06002A73 RID: 10867 RVA: 0x00167A6C File Offset: 0x00165E6C
 		public static void LaunchSilver(Map map, int fee)
 		{
 			TradeUtility.LaunchThingsOfType(ThingDefOf.Silver, fee, map, null);
 		}
 
-		// Token: 0x06002A70 RID: 10864 RVA: 0x0016792C File Offset: 0x00165D2C
+		// Token: 0x06002A74 RID: 10868 RVA: 0x00167A7C File Offset: 0x00165E7C
 		public static Map PlayerHomeMapWithMostLaunchableSilver()
 		{
 			return (from x in Find.Maps
@@ -179,7 +179,7 @@ namespace RimWorld
 			select t).Sum((Thing t) => t.stackCount));
 		}
 
-		// Token: 0x06002A71 RID: 10865 RVA: 0x0016798C File Offset: 0x00165D8C
+		// Token: 0x06002A75 RID: 10869 RVA: 0x00167ADC File Offset: 0x00165EDC
 		public static bool ColonyHasEnoughSilver(Map map, int fee)
 		{
 			return (from t in TradeUtility.AllLaunchableThingsForTrade(map)
@@ -187,7 +187,7 @@ namespace RimWorld
 			select t).Sum((Thing t) => t.stackCount) >= fee;
 		}
 
-		// Token: 0x06002A72 RID: 10866 RVA: 0x001679F4 File Offset: 0x00165DF4
+		// Token: 0x06002A76 RID: 10870 RVA: 0x00167B44 File Offset: 0x00165F44
 		public static void CheckInteractWithTradersTeachOpportunity(Pawn pawn)
 		{
 			if (!pawn.Dead)
@@ -200,7 +200,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A73 RID: 10867 RVA: 0x00167A40 File Offset: 0x00165E40
+		// Token: 0x06002A77 RID: 10871 RVA: 0x00167B90 File Offset: 0x00165F90
 		public static float GetPricePlayerSell(Thing thing, float priceFactorSell_TraderPriceType, float priceGain_PlayerNegotiator, float priceGain_FactionBase)
 		{
 			float statValue = thing.GetStatValue(StatDefOf.SellPriceFactor, true);
@@ -214,7 +214,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06002A74 RID: 10868 RVA: 0x00167AB4 File Offset: 0x00165EB4
+		// Token: 0x06002A78 RID: 10872 RVA: 0x00167C04 File Offset: 0x00166004
 		public static float GetPricePlayerBuy(Thing thing, float priceFactorBuy_TraderPriceType, float priceGain_PlayerNegotiator, float priceGain_FactionBase)
 		{
 			float num = thing.MarketValue * 1.5f * priceFactorBuy_TraderPriceType * (1f + Find.Storyteller.difficulty.tradePriceFactorLoss);

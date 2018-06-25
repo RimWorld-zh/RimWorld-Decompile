@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000411 RID: 1041
+	// Token: 0x02000413 RID: 1043
 	public static class SiteGenStepUtility
 	{
-		// Token: 0x060011EB RID: 4587 RVA: 0x0009BA08 File Offset: 0x00099E08
+		// Token: 0x060011EF RID: 4591 RVA: 0x0009BB58 File Offset: 0x00099F58
 		public static bool TryFindRootToSpawnAroundRectOfInterest(out CellRect rectToDefend, out IntVec3 singleCellToSpawnNear, Map map)
 		{
 			singleCellToSpawnNear = IntVec3.Invalid;
@@ -21,7 +21,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x060011EC RID: 4588 RVA: 0x0009BA78 File Offset: 0x00099E78
+		// Token: 0x060011F0 RID: 4592 RVA: 0x0009BBC8 File Offset: 0x00099FC8
 		public static bool TryFindSpawnCellAroundOrNear(CellRect around, IntVec3 near, Map map, out IntVec3 spawnCell)
 		{
 			if (near.IsValid)

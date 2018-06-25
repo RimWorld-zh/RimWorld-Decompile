@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000C94 RID: 3220
+	// Token: 0x02000C96 RID: 3222
 	[Flags]
 	public enum RegionType
 	{

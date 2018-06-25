@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000587 RID: 1415
+	// Token: 0x02000589 RID: 1417
 	[StaticConstructorOnStartup]
 	public static class WorldDebugMatsSpectrum
 	{
@@ -20,7 +20,7 @@ namespace RimWorld.Planet
 		// Token: 0x04000FF3 RID: 4083
 		private static readonly Color[] DebugSpectrum = DebugMatsSpectrum.DebugSpectrum;
 
-		// Token: 0x06001B09 RID: 6921 RVA: 0x000E8600 File Offset: 0x000E6A00
+		// Token: 0x06001B0D RID: 6925 RVA: 0x000E8750 File Offset: 0x000E6B50
 		static WorldDebugMatsSpectrum()
 		{
 			for (int i = 0; i < 100; i++)
@@ -30,7 +30,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B0A RID: 6922 RVA: 0x000E8668 File Offset: 0x000E6A68
+		// Token: 0x06001B0E RID: 6926 RVA: 0x000E87B8 File Offset: 0x000E6BB8
 		public static Material Mat(int ind)
 		{
 			ind = Mathf.Clamp(ind, 0, 99);

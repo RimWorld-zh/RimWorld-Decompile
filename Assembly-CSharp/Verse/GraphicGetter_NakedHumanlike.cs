@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DD0 RID: 3536
+	// Token: 0x02000DD2 RID: 3538
 	public static class GraphicGetter_NakedHumanlike
 	{
 		// Token: 0x040034AF RID: 13487
 		private const string NakedBodyTextureFolderPath = "Things/Pawn/Humanlike/Bodies/";
 
-		// Token: 0x06004F43 RID: 20291 RVA: 0x00294DDC File Offset: 0x002931DC
+		// Token: 0x06004F47 RID: 20295 RVA: 0x00294F08 File Offset: 0x00293308
 		public static Graphic GetNakedBodyGraphic(BodyTypeDef bodyType, Shader shader, Color skinColor)
 		{
 			if (bodyType == null)

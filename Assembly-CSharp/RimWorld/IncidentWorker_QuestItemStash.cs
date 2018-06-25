@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000351 RID: 849
+	// Token: 0x02000353 RID: 851
 	public class IncidentWorker_QuestItemStash : IncidentWorker
 	{
 		// Token: 0x04000904 RID: 2308
@@ -21,7 +21,7 @@ namespace RimWorld
 		// Token: 0x04000907 RID: 2311
 		private static readonly string ItemStashQuestThreatTag = "ItemStashQuestThreat";
 
-		// Token: 0x06000EA8 RID: 3752 RVA: 0x0007C154 File Offset: 0x0007A554
+		// Token: 0x06000EAC RID: 3756 RVA: 0x0007C2A4 File Offset: 0x0007A6A4
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			int num;
@@ -29,7 +29,7 @@ namespace RimWorld
 			return base.CanFireNowSub(parms) && (Find.FactionManager.RandomNonHostileFaction(false, false, false, TechLevel.Undefined) != null && TileFinder.TryFindNewSiteTile(out num, 7, 27, false, true, -1)) && SiteMakerHelper.TryFindRandomFactionFor(SiteCoreDefOf.ItemStash, null, out faction, true, null);
 		}
 
-		// Token: 0x06000EA9 RID: 3753 RVA: 0x0007C1B4 File Offset: 0x0007A5B4
+		// Token: 0x06000EAD RID: 3757 RVA: 0x0007C304 File Offset: 0x0007A704
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Faction faction = parms.faction;
@@ -66,7 +66,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000EAA RID: 3754 RVA: 0x0007C2B8 File Offset: 0x0007A6B8
+		// Token: 0x06000EAE RID: 3758 RVA: 0x0007C408 File Offset: 0x0007A808
 		private string GetSitePartInfo(SitePartDef sitePart, string leaderLabel)
 		{
 			string result;
@@ -88,13 +88,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000EAB RID: 3755 RVA: 0x0007C318 File Offset: 0x0007A718
+		// Token: 0x06000EAF RID: 3759 RVA: 0x0007C468 File Offset: 0x0007A868
 		protected virtual List<Thing> GenerateItems(Faction siteFaction)
 		{
 			return ThingSetMakerDefOf.Reward_ItemStashQuestContents.root.Generate();
 		}
 
-		// Token: 0x06000EAC RID: 3756 RVA: 0x0007C33C File Offset: 0x0007A73C
+		// Token: 0x06000EB0 RID: 3760 RVA: 0x0007C48C File Offset: 0x0007A88C
 		public static Site CreateSite(int tile, SitePartDef sitePart, int days, Faction siteFaction, IList<Thing> items, bool sitePartsKnown)
 		{
 			Site site = (Site)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Site);
@@ -112,7 +112,7 @@ namespace RimWorld
 			return site;
 		}
 
-		// Token: 0x06000EAD RID: 3757 RVA: 0x0007C3C8 File Offset: 0x0007A7C8
+		// Token: 0x06000EB1 RID: 3761 RVA: 0x0007C518 File Offset: 0x0007A918
 		private string GetLetterText(Faction alliedFaction, List<Thing> items, int days, SitePartDef sitePart, bool sitePartsKnown)
 		{
 			string text;

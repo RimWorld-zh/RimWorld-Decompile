@@ -3,16 +3,16 @@ using RimWorld.Planet;
 
 namespace RimWorld
 {
-	// Token: 0x02000807 RID: 2055
+	// Token: 0x02000809 RID: 2057
 	public static class NamePlayerFactionBaseDialogUtility
 	{
-		// Token: 0x06002DEA RID: 11754 RVA: 0x00182964 File Offset: 0x00180D64
+		// Token: 0x06002DEE RID: 11758 RVA: 0x00182AB4 File Offset: 0x00180EB4
 		public static bool IsValidName(string s)
 		{
 			return s.Length != 0;
 		}
 
-		// Token: 0x06002DEB RID: 11755 RVA: 0x0018298C File Offset: 0x00180D8C
+		// Token: 0x06002DEF RID: 11759 RVA: 0x00182ADC File Offset: 0x00180EDC
 		public static void Named(FactionBase factionBase, string s)
 		{
 			factionBase.Name = s;

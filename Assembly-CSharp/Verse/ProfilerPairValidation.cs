@@ -7,20 +7,20 @@ using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000F18 RID: 3864
+	// Token: 0x02000F1C RID: 3868
 	public static class ProfilerPairValidation
 	{
-		// Token: 0x04003D8E RID: 15758
+		// Token: 0x04003D91 RID: 15761
 		public static Stack<StackTrace> profilerSignatures = new Stack<StackTrace>();
 
-		// Token: 0x06005CBD RID: 23741 RVA: 0x002F0C43 File Offset: 0x002EF043
+		// Token: 0x06005CC7 RID: 23751 RVA: 0x002F12C3 File Offset: 0x002EF6C3
 		public static void BeginSample(string token)
 		{
 			Profiler.BeginSample(token);
 			ProfilerPairValidation.profilerSignatures.Push(new StackTrace(1, true));
 		}
 
-		// Token: 0x06005CBE RID: 23742 RVA: 0x002F0C60 File Offset: 0x002EF060
+		// Token: 0x06005CC8 RID: 23752 RVA: 0x002F12E0 File Offset: 0x002EF6E0
 		public static void EndSample()
 		{
 			StackTrace stackTrace = ProfilerPairValidation.profilerSignatures.Pop();

@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000B42 RID: 2882
+	// Token: 0x02000B44 RID: 2884
 	public class MentalStateGiver
 	{
 		// Token: 0x04002999 RID: 10649

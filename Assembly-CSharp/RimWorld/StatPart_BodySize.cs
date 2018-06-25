@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009A3 RID: 2467
+	// Token: 0x020009A5 RID: 2469
 	public class StatPart_BodySize : StatPart
 	{
-		// Token: 0x0600375A RID: 14170 RVA: 0x001D9254 File Offset: 0x001D7654
+		// Token: 0x0600375E RID: 14174 RVA: 0x001D9394 File Offset: 0x001D7794
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			float num;
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600375B RID: 14171 RVA: 0x001D9278 File Offset: 0x001D7678
+		// Token: 0x0600375F RID: 14175 RVA: 0x001D93B8 File Offset: 0x001D77B8
 		public override string ExplanationPart(StatRequest req)
 		{
 			float f;
@@ -35,7 +35,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600375C RID: 14172 RVA: 0x001D92D4 File Offset: 0x001D76D4
+		// Token: 0x06003760 RID: 14176 RVA: 0x001D9414 File Offset: 0x001D7814
 		private bool TryGetBodySize(StatRequest req, out float bodySize)
 		{
 			return PawnOrCorpseStatUtility.TryGetPawnOrCorpseStat(req, (Pawn x) => x.BodySize, (ThingDef x) => x.race.baseBodySize, out bodySize);

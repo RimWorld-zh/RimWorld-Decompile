@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000508 RID: 1288
+	// Token: 0x0200050A RID: 1290
 	public static class NeedTunings
 	{
 		// Token: 0x04000DBC RID: 3516

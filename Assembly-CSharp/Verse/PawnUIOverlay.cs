@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CE6 RID: 3302
+	// Token: 0x02000CE8 RID: 3304
 	public class PawnUIOverlay
 	{
 		// Token: 0x04003143 RID: 12611
@@ -22,13 +22,13 @@ namespace Verse
 		// Token: 0x04003147 RID: 12615
 		private const float ActivityIconOffsetY = 12f;
 
-		// Token: 0x060048C9 RID: 18633 RVA: 0x00263630 File Offset: 0x00261A30
+		// Token: 0x060048CC RID: 18636 RVA: 0x0026370C File Offset: 0x00261B0C
 		public PawnUIOverlay(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x060048CA RID: 18634 RVA: 0x00263640 File Offset: 0x00261A40
+		// Token: 0x060048CD RID: 18637 RVA: 0x0026371C File Offset: 0x00261B1C
 		public void DrawPawnGUIOverlay()
 		{
 			if (this.pawn.Spawned && !this.pawn.Map.fogGrid.IsFogged(this.pawn.Position))

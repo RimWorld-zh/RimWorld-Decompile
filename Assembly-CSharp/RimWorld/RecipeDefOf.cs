@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000926 RID: 2342
+	// Token: 0x02000928 RID: 2344
 	[DefOf]
 	public static class RecipeDefOf
 	{
@@ -16,7 +16,7 @@ namespace RimWorld
 		// Token: 0x04001FEC RID: 8172
 		public static RecipeDef InstallPegLeg;
 
-		// Token: 0x0600362E RID: 13870 RVA: 0x001D09F9 File Offset: 0x001CEDF9
+		// Token: 0x06003632 RID: 13874 RVA: 0x001D0B39 File Offset: 0x001CEF39
 		static RecipeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(RecipeDefOf));

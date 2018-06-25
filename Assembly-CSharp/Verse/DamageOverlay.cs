@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000C41 RID: 3137
+	// Token: 0x02000C43 RID: 3139
 	public enum DamageOverlay
 	{
 		// Token: 0x04002F4D RID: 12109

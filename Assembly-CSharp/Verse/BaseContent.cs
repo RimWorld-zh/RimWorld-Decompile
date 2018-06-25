@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000ECE RID: 3790
+	// Token: 0x02000ED0 RID: 3792
 	[StaticConstructorOnStartup]
 	public static class BaseContent
 	{
@@ -43,13 +43,13 @@ namespace Verse
 		// Token: 0x04003C11 RID: 15377
 		public static readonly Material ClearMat = SolidColorMaterials.SimpleSolidColorMaterial(Color.clear, false);
 
-		// Token: 0x060059E9 RID: 23017 RVA: 0x002E30A8 File Offset: 0x002E14A8
+		// Token: 0x060059EC RID: 23020 RVA: 0x002E31C8 File Offset: 0x002E15C8
 		public static bool NullOrBad(this Material mat)
 		{
 			return mat == null || mat == BaseContent.BadMat;
 		}
 
-		// Token: 0x060059EA RID: 23018 RVA: 0x002E30D8 File Offset: 0x002E14D8
+		// Token: 0x060059ED RID: 23021 RVA: 0x002E31F8 File Offset: 0x002E15F8
 		public static bool NullOrBad(this Texture2D tex)
 		{
 			return tex == null || tex == BaseContent.BadTex;

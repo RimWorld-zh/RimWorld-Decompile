@@ -3,19 +3,19 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000F45 RID: 3909
+	// Token: 0x02000F49 RID: 3913
 	public static class GenMorphology
 	{
-		// Token: 0x04003E21 RID: 15905
+		// Token: 0x04003E24 RID: 15908
 		private static HashSet<IntVec3> tmpOutput = new HashSet<IntVec3>();
 
-		// Token: 0x04003E22 RID: 15906
+		// Token: 0x04003E25 RID: 15909
 		private static HashSet<IntVec3> cellsSet = new HashSet<IntVec3>();
 
-		// Token: 0x04003E23 RID: 15907
+		// Token: 0x04003E26 RID: 15910
 		private static List<IntVec3> tmpEdgeCells = new List<IntVec3>();
 
-		// Token: 0x06005E95 RID: 24213 RVA: 0x0030122C File Offset: 0x002FF62C
+		// Token: 0x06005E9F RID: 24223 RVA: 0x003018AC File Offset: 0x002FFCAC
 		public static void Erode(List<IntVec3> cells, int count, Map map, Predicate<IntVec3> extraPredicate = null)
 		{
 			if (count > 0)
@@ -67,7 +67,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005E96 RID: 24214 RVA: 0x00301398 File Offset: 0x002FF798
+		// Token: 0x06005EA0 RID: 24224 RVA: 0x00301A18 File Offset: 0x002FFE18
 		public static void Dilate(List<IntVec3> cells, int count, Map map, Predicate<IntVec3> extraPredicate = null)
 		{
 			if (count > 0)
@@ -102,14 +102,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005E97 RID: 24215 RVA: 0x00301422 File Offset: 0x002FF822
+		// Token: 0x06005EA1 RID: 24225 RVA: 0x00301AA2 File Offset: 0x002FFEA2
 		public static void Open(List<IntVec3> cells, int count, Map map)
 		{
 			GenMorphology.Erode(cells, count, map, null);
 			GenMorphology.Dilate(cells, count, map, null);
 		}
 
-		// Token: 0x06005E98 RID: 24216 RVA: 0x00301437 File Offset: 0x002FF837
+		// Token: 0x06005EA2 RID: 24226 RVA: 0x00301AB7 File Offset: 0x002FFEB7
 		public static void Close(List<IntVec3> cells, int count, Map map)
 		{
 			GenMorphology.Dilate(cells, count, map, null);

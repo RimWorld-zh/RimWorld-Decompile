@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000D56 RID: 3414
+	// Token: 0x02000D58 RID: 3416
 	public enum PawnHealthState : byte
 	{
 		// Token: 0x04003308 RID: 13064

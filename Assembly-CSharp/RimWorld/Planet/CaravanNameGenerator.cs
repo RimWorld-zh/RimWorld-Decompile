@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005F4 RID: 1524
+	// Token: 0x020005F6 RID: 1526
 	public static class CaravanNameGenerator
 	{
-		// Token: 0x06001E5E RID: 7774 RVA: 0x00106FA0 File Offset: 0x001053A0
+		// Token: 0x06001E62 RID: 7778 RVA: 0x001070F0 File Offset: 0x001054F0
 		public static string GenerateCaravanName(Caravan caravan)
 		{
 			Pawn pawn;
@@ -36,7 +36,7 @@ namespace RimWorld.Planet
 			return caravan.def.label;
 		}
 
-		// Token: 0x06001E5F RID: 7775 RVA: 0x001070A8 File Offset: 0x001054A8
+		// Token: 0x06001E63 RID: 7779 RVA: 0x001071F8 File Offset: 0x001055F8
 		private static bool CaravanNameInUse(string name)
 		{
 			List<Caravan> caravans = Find.WorldObjects.Caravans;

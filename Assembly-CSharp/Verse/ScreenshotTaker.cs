@@ -4,13 +4,13 @@ using Steamworks;
 
 namespace Verse
 {
-	// Token: 0x02000FAF RID: 4015
+	// Token: 0x02000FB3 RID: 4019
 	public static class ScreenshotTaker
 	{
-		// Token: 0x04003F8A RID: 16266
+		// Token: 0x04003F8D RID: 16269
 		private static bool takeScreenshot;
 
-		// Token: 0x06006132 RID: 24882 RVA: 0x00311A2B File Offset: 0x0030FE2B
+		// Token: 0x0600613C RID: 24892 RVA: 0x003120AB File Offset: 0x003104AB
 		public static void Update()
 		{
 			if (!LongEventHandler.ShouldWaitForEvent)
@@ -23,13 +23,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06006133 RID: 24883 RVA: 0x00311A63 File Offset: 0x0030FE63
+		// Token: 0x0600613D RID: 24893 RVA: 0x003120E3 File Offset: 0x003104E3
 		public static void QueueSilentScreenshot()
 		{
 			ScreenshotTaker.takeScreenshot = true;
 		}
 
-		// Token: 0x06006134 RID: 24884 RVA: 0x00311A6C File Offset: 0x0030FE6C
+		// Token: 0x0600613E RID: 24894 RVA: 0x003120EC File Offset: 0x003104EC
 		private static void TakeShot()
 		{
 			SteamScreenshots.TriggerScreenshot();

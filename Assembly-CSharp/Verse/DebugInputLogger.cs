@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E95 RID: 3733
+	// Token: 0x02000E97 RID: 3735
 	internal static class DebugInputLogger
 	{
-		// Token: 0x06005822 RID: 22562 RVA: 0x002D3268 File Offset: 0x002D1668
+		// Token: 0x06005826 RID: 22566 RVA: 0x002D3394 File Offset: 0x002D1794
 		public static void InputLogOnGUI()
 		{
 			if (DebugViewSettings.logInput)
@@ -24,7 +24,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005823 RID: 22563 RVA: 0x002D3314 File Offset: 0x002D1714
+		// Token: 0x06005827 RID: 22567 RVA: 0x002D3440 File Offset: 0x002D1840
 		public static string ToStringFull(this Event ev)
 		{
 			return string.Concat(new object[]

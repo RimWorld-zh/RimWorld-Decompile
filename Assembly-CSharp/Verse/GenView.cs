@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DE4 RID: 3556
+	// Token: 0x02000DE6 RID: 3558
 	public static class GenView
 	{
 		// Token: 0x040034D4 RID: 13524
@@ -12,13 +12,13 @@ namespace Verse
 		// Token: 0x040034D5 RID: 13525
 		private const int ViewRectMargin = 5;
 
-		// Token: 0x06004FB5 RID: 20405 RVA: 0x0029716C File Offset: 0x0029556C
+		// Token: 0x06004FB9 RID: 20409 RVA: 0x00297298 File Offset: 0x00295698
 		public static bool ShouldSpawnMotesAt(this Vector3 loc, Map map)
 		{
 			return loc.ToIntVec3().ShouldSpawnMotesAt(map);
 		}
 
-		// Token: 0x06004FB6 RID: 20406 RVA: 0x00297190 File Offset: 0x00295590
+		// Token: 0x06004FBA RID: 20410 RVA: 0x002972BC File Offset: 0x002956BC
 		public static bool ShouldSpawnMotesAt(this IntVec3 loc, Map map)
 		{
 			bool result;
@@ -39,7 +39,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004FB7 RID: 20407 RVA: 0x002971F4 File Offset: 0x002955F4
+		// Token: 0x06004FBB RID: 20411 RVA: 0x00297320 File Offset: 0x00295720
 		public static Vector3 RandomPositionOnOrNearScreen()
 		{
 			GenView.viewRect = Find.CameraDriver.CurrentViewRect;

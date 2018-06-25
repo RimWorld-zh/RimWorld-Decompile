@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002B9 RID: 697
+	// Token: 0x020002BB RID: 699
 	public class PawnsArrivalModeDef : Def
 	{
 		// Token: 0x040006C6 RID: 1734
@@ -34,7 +34,7 @@ namespace RimWorld
 		private PawnsArrivalModeWorker workerInt;
 
 		// Token: 0x170001BE RID: 446
-		// (get) Token: 0x06000BB1 RID: 2993 RVA: 0x000691A4 File Offset: 0x000675A4
+		// (get) Token: 0x06000BB5 RID: 2997 RVA: 0x000692F4 File Offset: 0x000676F4
 		public PawnsArrivalModeWorker Worker
 		{
 			get

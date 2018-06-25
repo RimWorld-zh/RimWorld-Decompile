@@ -5,10 +5,10 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020006A8 RID: 1704
+	// Token: 0x020006AA RID: 1706
 	public static class MarriageSpotUtility
 	{
-		// Token: 0x0600248B RID: 9355 RVA: 0x00138F54 File Offset: 0x00137354
+		// Token: 0x0600248F RID: 9359 RVA: 0x001390A4 File Offset: 0x001374A4
 		public static bool IsValidMarriageSpot(IntVec3 cell, Map map, StringBuilder outFailReason = null)
 		{
 			bool result;
@@ -34,7 +34,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600248C RID: 9356 RVA: 0x00138FB8 File Offset: 0x001373B8
+		// Token: 0x06002490 RID: 9360 RVA: 0x00139108 File Offset: 0x00137508
 		public static bool IsValidMarriageSpotFor(IntVec3 cell, Pawn firstFiance, Pawn secondFiance, StringBuilder outFailReason = null)
 		{
 			bool result;

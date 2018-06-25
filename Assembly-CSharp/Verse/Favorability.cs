@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000BAF RID: 2991
+	// Token: 0x02000BB1 RID: 2993
 	public enum Favorability : byte
 	{
 		// Token: 0x04002C1E RID: 11294

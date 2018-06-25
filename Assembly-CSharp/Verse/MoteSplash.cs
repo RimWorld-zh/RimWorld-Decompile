@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DEA RID: 3562
+	// Token: 0x02000DEC RID: 3564
 	public class MoteSplash : Mote
 	{
 		// Token: 0x040034EB RID: 13547
@@ -30,8 +30,8 @@ namespace Verse
 		// Token: 0x040034F2 RID: 13554
 		private float velocity;
 
-		// Token: 0x17000CF9 RID: 3321
-		// (get) Token: 0x06004FE0 RID: 20448 RVA: 0x002976D0 File Offset: 0x00295AD0
+		// Token: 0x17000CF8 RID: 3320
+		// (get) Token: 0x06004FE4 RID: 20452 RVA: 0x002977FC File Offset: 0x00295BFC
 		protected override bool EndOfLife
 		{
 			get
@@ -40,8 +40,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CFA RID: 3322
-		// (get) Token: 0x06004FE1 RID: 20449 RVA: 0x00297700 File Offset: 0x00295B00
+		// Token: 0x17000CF9 RID: 3321
+		// (get) Token: 0x06004FE5 RID: 20453 RVA: 0x0029782C File Offset: 0x00295C2C
 		public override float Alpha
 		{
 			get
@@ -53,7 +53,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FE2 RID: 20450 RVA: 0x00297757 File Offset: 0x00295B57
+		// Token: 0x06004FE6 RID: 20454 RVA: 0x00297883 File Offset: 0x00295C83
 		public void Initialize(Vector3 position, float size, float velocity)
 		{
 			this.exactPosition = position;
@@ -62,7 +62,7 @@ namespace Verse
 			base.Scale = 0f;
 		}
 
-		// Token: 0x06004FE3 RID: 20451 RVA: 0x0029777C File Offset: 0x00295B7C
+		// Token: 0x06004FE7 RID: 20455 RVA: 0x002978A8 File Offset: 0x00295CA8
 		protected override void TimeInterval(float deltaTime)
 		{
 			base.TimeInterval(deltaTime);
@@ -74,13 +74,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FE4 RID: 20452 RVA: 0x002977E4 File Offset: 0x00295BE4
+		// Token: 0x06004FE8 RID: 20456 RVA: 0x00297910 File Offset: 0x00295D10
 		public float CalculatedIntensity()
 		{
 			return Mathf.Sqrt(this.targetSize) / 10f;
 		}
 
-		// Token: 0x06004FE5 RID: 20453 RVA: 0x0029780C File Offset: 0x00295C0C
+		// Token: 0x06004FE9 RID: 20457 RVA: 0x00297938 File Offset: 0x00295D38
 		public float CalculatedShockwaveSpan()
 		{
 			float num = Mathf.Sqrt(this.targetSize) * 0.8f;

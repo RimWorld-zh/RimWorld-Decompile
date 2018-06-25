@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000BA9 RID: 2985
+	// Token: 0x02000BAB RID: 2987
 	public class DamageMultiplier
 	{
 		// Token: 0x04002BA3 RID: 11171

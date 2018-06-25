@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020004F9 RID: 1273
+	// Token: 0x020004FB RID: 1275
 	public static class JoyTunings
 	{
 		// Token: 0x04000D72 RID: 3442

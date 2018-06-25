@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D2C RID: 3372
+	// Token: 0x02000D2E RID: 3374
 	public class Hediff_Pregnant : HediffWithComps
 	{
 		// Token: 0x04003241 RID: 12865
@@ -22,9 +22,9 @@ namespace Verse
 		// Token: 0x04003244 RID: 12868
 		private const float MTBMiscarryWoundedDays = 0.5f;
 
-		// Token: 0x17000BE7 RID: 3047
-		// (get) Token: 0x06004A69 RID: 19049 RVA: 0x0026CF7C File Offset: 0x0026B37C
-		// (set) Token: 0x06004A6A RID: 19050 RVA: 0x0026CF97 File Offset: 0x0026B397
+		// Token: 0x17000BE6 RID: 3046
+		// (get) Token: 0x06004A6D RID: 19053 RVA: 0x0026D0A8 File Offset: 0x0026B4A8
+		// (set) Token: 0x06004A6E RID: 19054 RVA: 0x0026D0C3 File Offset: 0x0026B4C3
 		public float GestationProgress
 		{
 			get
@@ -37,8 +37,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BE8 RID: 3048
-		// (get) Token: 0x06004A6B RID: 19051 RVA: 0x0026CFA4 File Offset: 0x0026B3A4
+		// Token: 0x17000BE7 RID: 3047
+		// (get) Token: 0x06004A6F RID: 19055 RVA: 0x0026D0D0 File Offset: 0x0026B4D0
 		private bool IsSeverelyWounded
 		{
 			get
@@ -64,7 +64,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A6C RID: 19052 RVA: 0x0026D0A0 File Offset: 0x0026B4A0
+		// Token: 0x06004A70 RID: 19056 RVA: 0x0026D1CC File Offset: 0x0026B5CC
 		public override void Tick()
 		{
 			this.ageTicks++;
@@ -110,13 +110,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A6D RID: 19053 RVA: 0x0026D2FB File Offset: 0x0026B6FB
+		// Token: 0x06004A71 RID: 19057 RVA: 0x0026D427 File Offset: 0x0026B827
 		private void Miscarry()
 		{
 			this.pawn.health.RemoveHediff(this);
 		}
 
-		// Token: 0x06004A6E RID: 19054 RVA: 0x0026D310 File Offset: 0x0026B710
+		// Token: 0x06004A72 RID: 19058 RVA: 0x0026D43C File Offset: 0x0026B83C
 		public static void DoBirthSpawn(Pawn mother, Pawn father)
 		{
 			int num = (mother.RaceProps.litterSizeCurve == null) ? 1 : Mathf.RoundToInt(Rand.ByCurve(mother.RaceProps.litterSizeCurve));
@@ -168,14 +168,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A6F RID: 19055 RVA: 0x0026D4CB File Offset: 0x0026B8CB
+		// Token: 0x06004A73 RID: 19059 RVA: 0x0026D5F7 File Offset: 0x0026B9F7
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_References.Look<Pawn>(ref this.father, "father", false);
 		}
 
-		// Token: 0x06004A70 RID: 19056 RVA: 0x0026D4E8 File Offset: 0x0026B8E8
+		// Token: 0x06004A74 RID: 19060 RVA: 0x0026D614 File Offset: 0x0026BA14
 		public override string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

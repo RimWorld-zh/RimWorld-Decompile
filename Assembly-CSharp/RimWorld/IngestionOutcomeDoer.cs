@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200026D RID: 621
+	// Token: 0x0200026F RID: 623
 	public abstract class IngestionOutcomeDoer
 	{
 		// Token: 0x0400051B RID: 1307
@@ -13,7 +13,7 @@ namespace RimWorld
 		// Token: 0x0400051C RID: 1308
 		public bool doToGeneratedPawnIfAddicted;
 
-		// Token: 0x06000AB1 RID: 2737 RVA: 0x00060D8B File Offset: 0x0005F18B
+		// Token: 0x06000AB5 RID: 2741 RVA: 0x00060EDB File Offset: 0x0005F2DB
 		public void DoIngestionOutcome(Pawn pawn, Thing ingested)
 		{
 			if (Rand.Value < this.chance)
@@ -22,10 +22,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000AB2 RID: 2738
+		// Token: 0x06000AB6 RID: 2742
 		protected abstract void DoIngestionOutcomeSpecial(Pawn pawn, Thing ingested);
 
-		// Token: 0x06000AB3 RID: 2739 RVA: 0x00060DA8 File Offset: 0x0005F1A8
+		// Token: 0x06000AB7 RID: 2743 RVA: 0x00060EF8 File Offset: 0x0005F2F8
 		public virtual IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
 			yield break;

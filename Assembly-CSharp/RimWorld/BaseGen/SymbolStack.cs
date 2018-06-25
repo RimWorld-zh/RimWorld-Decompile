@@ -4,14 +4,14 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003E2 RID: 994
+	// Token: 0x020003E4 RID: 996
 	public class SymbolStack
 	{
 		// Token: 0x04000A55 RID: 2645
 		private Stack<Pair<string, ResolveParams>> stack = new Stack<Pair<string, ResolveParams>>();
 
 		// Token: 0x17000244 RID: 580
-		// (get) Token: 0x06001102 RID: 4354 RVA: 0x00091A48 File Offset: 0x0008FE48
+		// (get) Token: 0x06001106 RID: 4358 RVA: 0x00091B98 File Offset: 0x0008FF98
 		public bool Empty
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld.BaseGen
 		}
 
 		// Token: 0x17000245 RID: 581
-		// (get) Token: 0x06001103 RID: 4355 RVA: 0x00091A6C File Offset: 0x0008FE6C
+		// (get) Token: 0x06001107 RID: 4359 RVA: 0x00091BBC File Offset: 0x0008FFBC
 		public int Count
 		{
 			get
@@ -30,13 +30,13 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06001104 RID: 4356 RVA: 0x00091A8C File Offset: 0x0008FE8C
+		// Token: 0x06001108 RID: 4360 RVA: 0x00091BDC File Offset: 0x0008FFDC
 		public void Push(string symbol, ResolveParams resolveParams)
 		{
 			this.stack.Push(new Pair<string, ResolveParams>(symbol, resolveParams));
 		}
 
-		// Token: 0x06001105 RID: 4357 RVA: 0x00091AA4 File Offset: 0x0008FEA4
+		// Token: 0x06001109 RID: 4361 RVA: 0x00091BF4 File Offset: 0x0008FFF4
 		public void Push(string symbol, CellRect rect)
 		{
 			this.Push(symbol, new ResolveParams
@@ -45,7 +45,7 @@ namespace RimWorld.BaseGen
 			});
 		}
 
-		// Token: 0x06001106 RID: 4358 RVA: 0x00091ACC File Offset: 0x0008FECC
+		// Token: 0x0600110A RID: 4362 RVA: 0x00091C1C File Offset: 0x0009001C
 		public void PushMany(ResolveParams resolveParams, params string[] symbols)
 		{
 			for (int i = 0; i < symbols.Length; i++)
@@ -54,7 +54,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06001107 RID: 4359 RVA: 0x00091AFC File Offset: 0x0008FEFC
+		// Token: 0x0600110B RID: 4363 RVA: 0x00091C4C File Offset: 0x0009004C
 		public void PushMany(CellRect rect, params string[] symbols)
 		{
 			for (int i = 0; i < symbols.Length; i++)
@@ -63,13 +63,13 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06001108 RID: 4360 RVA: 0x00091B2C File Offset: 0x0008FF2C
+		// Token: 0x0600110C RID: 4364 RVA: 0x00091C7C File Offset: 0x0009007C
 		public Pair<string, ResolveParams> Pop()
 		{
 			return this.stack.Pop();
 		}
 
-		// Token: 0x06001109 RID: 4361 RVA: 0x00091B4C File Offset: 0x0008FF4C
+		// Token: 0x0600110D RID: 4365 RVA: 0x00091C9C File Offset: 0x0009009C
 		public void Clear()
 		{
 			this.stack.Clear();

@@ -5,10 +5,10 @@ using RimWorld;
 
 namespace Verse.Grammar
 {
-	// Token: 0x02000BE3 RID: 3043
+	// Token: 0x02000BE5 RID: 3045
 	public static class GrammarUtility
 	{
-		// Token: 0x06004278 RID: 17016 RVA: 0x0022FB58 File Offset: 0x0022DF58
+		// Token: 0x0600427B RID: 17019 RVA: 0x0022FC34 File Offset: 0x0022E034
 		public static IEnumerable<Rule> RulesForPawn(string pawnSymbol, Pawn pawn, Dictionary<string, string> constants = null)
 		{
 			IEnumerable<Rule> result;
@@ -24,7 +24,7 @@ namespace Verse.Grammar
 			return result;
 		}
 
-		// Token: 0x06004279 RID: 17017 RVA: 0x0022FBD0 File Offset: 0x0022DFD0
+		// Token: 0x0600427C RID: 17020 RVA: 0x0022FCAC File Offset: 0x0022E0AC
 		public static IEnumerable<Rule> RulesForPawn(string pawnSymbol, Name name, string title, PawnKindDef kind, Gender gender, Faction faction, Dictionary<string, string> constants = null)
 		{
 			string nameFull;
@@ -87,7 +87,7 @@ namespace Verse.Grammar
 			yield break;
 		}
 
-		// Token: 0x0600427A RID: 17018 RVA: 0x0022FC28 File Offset: 0x0022E028
+		// Token: 0x0600427D RID: 17021 RVA: 0x0022FD04 File Offset: 0x0022E104
 		public static IEnumerable<Rule> RulesForDef(string prefix, Def def)
 		{
 			if (def == null)
@@ -102,7 +102,7 @@ namespace Verse.Grammar
 			yield break;
 		}
 
-		// Token: 0x0600427B RID: 17019 RVA: 0x0022FC5C File Offset: 0x0022E05C
+		// Token: 0x0600427E RID: 17022 RVA: 0x0022FD38 File Offset: 0x0022E138
 		public static IEnumerable<Rule> RulesForBodyPartRecord(string prefix, BodyPartRecord part)
 		{
 			if (part == null)
@@ -117,7 +117,7 @@ namespace Verse.Grammar
 			yield break;
 		}
 
-		// Token: 0x0600427C RID: 17020 RVA: 0x0022FC90 File Offset: 0x0022E090
+		// Token: 0x0600427F RID: 17023 RVA: 0x0022FD6C File Offset: 0x0022E16C
 		public static IEnumerable<Rule> RulesForHediffDef(string prefix, HediffDef def, BodyPartRecord part)
 		{
 			foreach (Rule rule in GrammarUtility.RulesForDef(prefix, def))
@@ -138,7 +138,7 @@ namespace Verse.Grammar
 			yield break;
 		}
 
-		// Token: 0x0600427D RID: 17021 RVA: 0x0022FCC8 File Offset: 0x0022E0C8
+		// Token: 0x06004280 RID: 17024 RVA: 0x0022FDA4 File Offset: 0x0022E1A4
 		public static IEnumerable<Rule> RulesForFaction(string prefix, Faction faction)
 		{
 			if (faction == null)

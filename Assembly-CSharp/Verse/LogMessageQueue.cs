@@ -3,20 +3,20 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000F16 RID: 3862
+	// Token: 0x02000F1A RID: 3866
 	public class LogMessageQueue
 	{
-		// Token: 0x04003D89 RID: 15753
+		// Token: 0x04003D8C RID: 15756
 		public int maxMessages = 200;
 
-		// Token: 0x04003D8A RID: 15754
+		// Token: 0x04003D8D RID: 15757
 		private Queue<LogMessage> messages = new Queue<LogMessage>();
 
-		// Token: 0x04003D8B RID: 15755
+		// Token: 0x04003D8E RID: 15758
 		private LogMessage lastMessage = null;
 
-		// Token: 0x17000EE4 RID: 3812
-		// (get) Token: 0x06005CB3 RID: 23731 RVA: 0x002F09AC File Offset: 0x002EEDAC
+		// Token: 0x17000EE3 RID: 3811
+		// (get) Token: 0x06005CBD RID: 23741 RVA: 0x002F102C File Offset: 0x002EF42C
 		public IEnumerable<LogMessage> Messages
 		{
 			get
@@ -25,7 +25,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005CB4 RID: 23732 RVA: 0x002F09C8 File Offset: 0x002EEDC8
+		// Token: 0x06005CBE RID: 23742 RVA: 0x002F1048 File Offset: 0x002EF448
 		public void Enqueue(LogMessage msg)
 		{
 			if (this.lastMessage != null && msg.CanCombineWith(this.lastMessage))
@@ -44,7 +44,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005CB5 RID: 23733 RVA: 0x002F0A48 File Offset: 0x002EEE48
+		// Token: 0x06005CBF RID: 23743 RVA: 0x002F10C8 File Offset: 0x002EF4C8
 		internal void Clear()
 		{
 			this.messages.Clear();

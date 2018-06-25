@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200079D RID: 1949
+	// Token: 0x0200079F RID: 1951
 	public class Alert_PasteDispenserNeedsHopper : Alert
 	{
-		// Token: 0x06002B32 RID: 11058 RVA: 0x0016D342 File Offset: 0x0016B742
+		// Token: 0x06002B36 RID: 11062 RVA: 0x0016D492 File Offset: 0x0016B892
 		public Alert_PasteDispenserNeedsHopper()
 		{
 			this.defaultLabel = "NeedFoodHopper".Translate();
@@ -16,7 +16,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006B7 RID: 1719
-		// (get) Token: 0x06002B33 RID: 11059 RVA: 0x0016D374 File Offset: 0x0016B774
+		// (get) Token: 0x06002B37 RID: 11063 RVA: 0x0016D4C4 File Offset: 0x0016B8C4
 		private IEnumerable<Thing> BadDispensers
 		{
 			get
@@ -53,7 +53,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B34 RID: 11060 RVA: 0x0016D398 File Offset: 0x0016B798
+		// Token: 0x06002B38 RID: 11064 RVA: 0x0016D4E8 File Offset: 0x0016B8E8
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.BadDispensers);

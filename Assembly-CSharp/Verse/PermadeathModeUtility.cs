@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000FA2 RID: 4002
+	// Token: 0x02000FA6 RID: 4006
 	public static class PermadeathModeUtility
 	{
-		// Token: 0x060060B9 RID: 24761 RVA: 0x0030FB0C File Offset: 0x0030DF0C
+		// Token: 0x060060C3 RID: 24771 RVA: 0x0031018C File Offset: 0x0030E58C
 		public static string GeneratePermadeathSaveName()
 		{
 			string text = NameGenerator.GenerateName(Faction.OfPlayer.def.factionNameMaker, null, false, null, null);
@@ -14,14 +14,14 @@ namespace Verse
 			return PermadeathModeUtility.NewPermadeathSaveNameWithAppendedNumberIfNecessary(text, null);
 		}
 
-		// Token: 0x060060BA RID: 24762 RVA: 0x0030FB48 File Offset: 0x0030DF48
+		// Token: 0x060060C4 RID: 24772 RVA: 0x003101C8 File Offset: 0x0030E5C8
 		public static string GeneratePermadeathSaveNameBasedOnPlayerInput(string factionName, string acceptedNameEvenIfTaken = null)
 		{
 			string name = GenFile.SanitizedFileName(factionName);
 			return PermadeathModeUtility.NewPermadeathSaveNameWithAppendedNumberIfNecessary(name, acceptedNameEvenIfTaken);
 		}
 
-		// Token: 0x060060BB RID: 24763 RVA: 0x0030FB6C File Offset: 0x0030DF6C
+		// Token: 0x060060C5 RID: 24773 RVA: 0x003101EC File Offset: 0x0030E5EC
 		public static void CheckUpdatePermadeathModeUniqueNameOnGameLoad(string filename)
 		{
 			if (Current.Game.Info.permadeathMode && Current.Game.Info.permadeathModeUniqueName != filename)
@@ -31,7 +31,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060060BC RID: 24764 RVA: 0x0030FBC8 File Offset: 0x0030DFC8
+		// Token: 0x060060C6 RID: 24774 RVA: 0x00310248 File Offset: 0x0030E648
 		private static string NewPermadeathSaveNameWithAppendedNumberIfNecessary(string name, string acceptedNameEvenIfTaken = null)
 		{
 			int num = 0;
@@ -50,7 +50,7 @@ namespace Verse
 			return text;
 		}
 
-		// Token: 0x060060BD RID: 24765 RVA: 0x0030FC1C File Offset: 0x0030E01C
+		// Token: 0x060060C7 RID: 24775 RVA: 0x0031029C File Offset: 0x0030E69C
 		private static string AppendedPermadeathModeSuffix(string str)
 		{
 			return str + " " + "PermadeathModeSaveSuffix".Translate();

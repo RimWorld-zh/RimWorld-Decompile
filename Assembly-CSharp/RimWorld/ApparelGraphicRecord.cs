@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000CE8 RID: 3304
+	// Token: 0x02000CEA RID: 3306
 	public struct ApparelGraphicRecord
 	{
 		// Token: 0x04003151 RID: 12625
@@ -12,7 +12,7 @@ namespace RimWorld
 		// Token: 0x04003152 RID: 12626
 		public Apparel sourceApparel;
 
-		// Token: 0x060048D5 RID: 18645 RVA: 0x00263A50 File Offset: 0x00261E50
+		// Token: 0x060048D8 RID: 18648 RVA: 0x00263B2C File Offset: 0x00261F2C
 		public ApparelGraphicRecord(Graphic graphic, Apparel sourceApparel)
 		{
 			this.graphic = graphic;

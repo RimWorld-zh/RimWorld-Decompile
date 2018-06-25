@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200026F RID: 623
+	// Token: 0x02000271 RID: 625
 	public class IngestionOutcomeDoer_OffsetNeed : IngestionOutcomeDoer
 	{
 		// Token: 0x04000521 RID: 1313
@@ -16,7 +16,7 @@ namespace RimWorld
 		// Token: 0x04000523 RID: 1315
 		public ChemicalDef toleranceChemical = null;
 
-		// Token: 0x06000AB8 RID: 2744 RVA: 0x0006116C File Offset: 0x0005F56C
+		// Token: 0x06000ABC RID: 2748 RVA: 0x000612BC File Offset: 0x0005F6BC
 		protected override void DoIngestionOutcomeSpecial(Pawn pawn, Thing ingested)
 		{
 			if (pawn.needs != null)
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000AB9 RID: 2745 RVA: 0x000611CC File Offset: 0x0005F5CC
+		// Token: 0x06000ABD RID: 2749 RVA: 0x0006131C File Offset: 0x0005F71C
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
 			yield return new StatDrawEntry(StatCategoryDefOf.Basics, this.need.LabelCap, this.offset.ToStringPercent(), 0, "");

@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000505 RID: 1285
+	// Token: 0x02000507 RID: 1287
 	public class PawnObserver
 	{
 		// Token: 0x04000DB5 RID: 3509
@@ -19,14 +19,14 @@ namespace RimWorld
 		// Token: 0x04000DB8 RID: 3512
 		private const float SampleNumCells = 100f;
 
-		// Token: 0x0600171B RID: 5915 RVA: 0x000CBAC8 File Offset: 0x000C9EC8
+		// Token: 0x0600171F RID: 5919 RVA: 0x000CBC18 File Offset: 0x000CA018
 		public PawnObserver(Pawn pawn)
 		{
 			this.pawn = pawn;
 			this.intervalsUntilObserve = Rand.Range(0, 4);
 		}
 
-		// Token: 0x0600171C RID: 5916 RVA: 0x000CBAE8 File Offset: 0x000C9EE8
+		// Token: 0x06001720 RID: 5920 RVA: 0x000CBC38 File Offset: 0x000CA038
 		public void ObserverInterval()
 		{
 			if (this.pawn.Spawned)
@@ -40,7 +40,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600171D RID: 5917 RVA: 0x000CBB3C File Offset: 0x000C9F3C
+		// Token: 0x06001721 RID: 5921 RVA: 0x000CBC8C File Offset: 0x000CA08C
 		private void ObserveSurroundingThings()
 		{
 			if (this.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Sight))

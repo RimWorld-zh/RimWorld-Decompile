@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020008A5 RID: 2213
+	// Token: 0x020008A7 RID: 2215
 	public enum BuySellMode : byte
 	{
 		// Token: 0x04001B3F RID: 6975

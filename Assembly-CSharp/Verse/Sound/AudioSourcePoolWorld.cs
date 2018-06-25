@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DBC RID: 3516
+	// Token: 0x02000DBE RID: 3518
 	public class AudioSourcePoolWorld
 	{
 		// Token: 0x0400344A RID: 13386
@@ -13,7 +13,7 @@ namespace Verse.Sound
 		// Token: 0x0400344B RID: 13387
 		private const int NumSourcesWorld = 32;
 
-		// Token: 0x06004E8F RID: 20111 RVA: 0x00290E74 File Offset: 0x0028F274
+		// Token: 0x06004E93 RID: 20115 RVA: 0x00290FA0 File Offset: 0x0028F3A0
 		public AudioSourcePoolWorld()
 		{
 			GameObject gameObject = new GameObject("OneShotSourcesWorldContainer");
@@ -27,7 +27,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E90 RID: 20112 RVA: 0x00290F14 File Offset: 0x0028F314
+		// Token: 0x06004E94 RID: 20116 RVA: 0x00291040 File Offset: 0x0028F440
 		public AudioSource GetSourceWorld()
 		{
 			foreach (AudioSource audioSource in this.sourcesWorld)

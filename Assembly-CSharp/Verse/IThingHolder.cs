@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000DF6 RID: 3574
+	// Token: 0x02000DF8 RID: 3576
 	public interface IThingHolder
 	{
-		// Token: 0x17000D34 RID: 3380
-		// (get) Token: 0x06005099 RID: 20633
+		// Token: 0x17000D33 RID: 3379
+		// (get) Token: 0x0600509D RID: 20637
 		IThingHolder ParentHolder { get; }
 
-		// Token: 0x0600509A RID: 20634
+		// Token: 0x0600509E RID: 20638
 		void GetChildHolders(List<IThingHolder> outChildren);
 
-		// Token: 0x0600509B RID: 20635
+		// Token: 0x0600509F RID: 20639
 		ThingOwner GetDirectlyHeldThings();
 	}
 }

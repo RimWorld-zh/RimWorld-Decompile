@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020004F2 RID: 1266
+	// Token: 0x020004F4 RID: 1268
 	public enum DrugDesireCategory : byte
 	{
 		// Token: 0x04000D55 RID: 3413

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A34 RID: 2612
+	// Token: 0x02000A36 RID: 2614
 	public class JobDriver_TakeInventory : JobDriver
 	{
-		// Token: 0x06003A04 RID: 14852 RVA: 0x001EAE54 File Offset: 0x001E9254
+		// Token: 0x06003A08 RID: 14856 RVA: 0x001EAF80 File Offset: 0x001E9380
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
 		}
 
-		// Token: 0x06003A05 RID: 14853 RVA: 0x001EAE88 File Offset: 0x001E9288
+		// Token: 0x06003A09 RID: 14857 RVA: 0x001EAFB4 File Offset: 0x001E93B4
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);

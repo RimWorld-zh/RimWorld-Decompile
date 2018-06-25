@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200033C RID: 828
+	// Token: 0x0200033E RID: 830
 	public class IncidentWorker_RefugeePodCrash : IncidentWorker
 	{
-		// Token: 0x06000E27 RID: 3623 RVA: 0x000788E8 File Offset: 0x00076CE8
+		// Token: 0x06000E2B RID: 3627 RVA: 0x00078A38 File Offset: 0x00076E38
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -33,7 +33,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06000E28 RID: 3624 RVA: 0x000789E8 File Offset: 0x00076DE8
+		// Token: 0x06000E2C RID: 3628 RVA: 0x00078B38 File Offset: 0x00076F38
 		private Pawn FindPawn(List<Thing> things)
 		{
 			int i = 0;

@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000DA0 RID: 3488
+	// Token: 0x02000DA2 RID: 3490
 	public static class Scribe
 	{
 		// Token: 0x0400340B RID: 13323
@@ -14,7 +14,7 @@ namespace Verse
 		// Token: 0x0400340D RID: 13325
 		public static LoadSaveMode mode = LoadSaveMode.Inactive;
 
-		// Token: 0x06004DFF RID: 19967 RVA: 0x0028C37C File Offset: 0x0028A77C
+		// Token: 0x06004E03 RID: 19971 RVA: 0x0028C4A8 File Offset: 0x0028A8A8
 		public static void ForceStop()
 		{
 			Scribe.mode = LoadSaveMode.Inactive;
@@ -22,7 +22,7 @@ namespace Verse
 			Scribe.loader.ForceStop();
 		}
 
-		// Token: 0x06004E00 RID: 19968 RVA: 0x0028C39C File Offset: 0x0028A79C
+		// Token: 0x06004E04 RID: 19972 RVA: 0x0028C4C8 File Offset: 0x0028A8C8
 		public static bool EnterNode(string nodeName)
 		{
 			bool result;
@@ -41,7 +41,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004E01 RID: 19969 RVA: 0x0028C414 File Offset: 0x0028A814
+		// Token: 0x06004E05 RID: 19973 RVA: 0x0028C540 File Offset: 0x0028A940
 		public static void ExitNode()
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)

@@ -7,10 +7,10 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000BEB RID: 3051
+	// Token: 0x02000BED RID: 3053
 	public static class BackstoryTranslationUtility
 	{
-		// Token: 0x06004299 RID: 17049 RVA: 0x0023132C File Offset: 0x0022F72C
+		// Token: 0x0600429C RID: 17052 RVA: 0x00231408 File Offset: 0x0022F808
 		private static IEnumerable<XElement> BackstoryTranslationElements(IEnumerable<string> folderPaths, List<string> loadErrors)
 		{
 			foreach (string folderPath in folderPaths)
@@ -48,7 +48,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0600429A RID: 17050 RVA: 0x00231360 File Offset: 0x0022F760
+		// Token: 0x0600429D RID: 17053 RVA: 0x0023143C File Offset: 0x0022F83C
 		public static void LoadAndInjectBackstoryData(IEnumerable<string> folderPaths, List<string> loadErrors)
 		{
 			foreach (XElement xelement in BackstoryTranslationUtility.BackstoryTranslationElements(folderPaths, loadErrors))
@@ -107,7 +107,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600429B RID: 17051 RVA: 0x002315DC File Offset: 0x0022F9DC
+		// Token: 0x0600429E RID: 17054 RVA: 0x002316B8 File Offset: 0x0022FAB8
 		public static List<string> MissingBackstoryTranslations(LoadedLanguage lang)
 		{
 			List<KeyValuePair<string, Backstory>> list = BackstoryDatabase.allBackstories.ToList<KeyValuePair<string, Backstory>>();
@@ -172,7 +172,7 @@ namespace Verse
 			return list2;
 		}
 
-		// Token: 0x0600429C RID: 17052 RVA: 0x00231934 File Offset: 0x0022FD34
+		// Token: 0x0600429F RID: 17055 RVA: 0x00231A10 File Offset: 0x0022FE10
 		public static List<string> BackstoryTranslationsMatchingEnglish(LoadedLanguage lang)
 		{
 			List<string> list = new List<string>();

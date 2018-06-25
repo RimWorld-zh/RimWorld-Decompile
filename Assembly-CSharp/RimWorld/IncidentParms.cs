@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000317 RID: 791
+	// Token: 0x02000319 RID: 793
 	public class IncidentParms : IExposable
 	{
 		// Token: 0x04000898 RID: 2200
@@ -61,7 +61,7 @@ namespace RimWorld
 		// Token: 0x040008A9 RID: 2217
 		private List<int> tmpGroups;
 
-		// Token: 0x06000D6B RID: 3435 RVA: 0x00073494 File Offset: 0x00071894
+		// Token: 0x06000D6F RID: 3439 RVA: 0x000735E4 File Offset: 0x000719E4
 		public void ExposeData()
 		{
 			Scribe_References.Look<IIncidentTarget>(ref this.target, "target", false);
@@ -82,7 +82,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.podOpenDelay, "podOpenDelay", 140, false);
 		}
 
-		// Token: 0x06000D6C RID: 3436 RVA: 0x000735E0 File Offset: 0x000719E0
+		// Token: 0x06000D70 RID: 3440 RVA: 0x00073730 File Offset: 0x00071B30
 		public override string ToString()
 		{
 			string text = "(";

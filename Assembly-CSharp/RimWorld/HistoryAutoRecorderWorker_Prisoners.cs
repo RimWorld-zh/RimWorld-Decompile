@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002FD RID: 765
+	// Token: 0x020002FF RID: 767
 	public class HistoryAutoRecorderWorker_Prisoners : HistoryAutoRecorderWorker
 	{
-		// Token: 0x06000CC1 RID: 3265 RVA: 0x0007037C File Offset: 0x0006E77C
+		// Token: 0x06000CC5 RID: 3269 RVA: 0x000704CC File Offset: 0x0006E8CC
 		public override float PullRecord()
 		{
 			return (float)PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_PrisonersOfColony.Count<Pawn>();

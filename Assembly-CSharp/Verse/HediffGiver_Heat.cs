@@ -5,7 +5,7 @@ using Verse.AI.Group;
 
 namespace Verse
 {
-	// Token: 0x02000D33 RID: 3379
+	// Token: 0x02000D35 RID: 3381
 	public class HediffGiver_Heat : HediffGiver
 	{
 		// Token: 0x04003252 RID: 12882
@@ -47,7 +47,7 @@ namespace Verse
 			}
 		};
 
-		// Token: 0x06004A86 RID: 19078 RVA: 0x0026DD74 File Offset: 0x0026C174
+		// Token: 0x06004A8A RID: 19082 RVA: 0x0026DEA0 File Offset: 0x0026C2A0
 		public override void OnIntervalPassed(Pawn pawn, Hediff cause)
 		{
 			float ambientTemperature = pawn.AmbientTemperature;

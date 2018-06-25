@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000B6C RID: 2924
+	// Token: 0x02000B6E RID: 2926
 	public class RoomStatScoreStage
 	{
 		// Token: 0x04002ACE RID: 10958
@@ -16,7 +16,7 @@ namespace Verse
 		[TranslationHandle]
 		public string untranslatedLabel = null;
 
-		// Token: 0x06003FE8 RID: 16360 RVA: 0x0021AFBB File Offset: 0x002193BB
+		// Token: 0x06003FEB RID: 16363 RVA: 0x0021B097 File Offset: 0x00219497
 		public void PostLoad()
 		{
 			this.untranslatedLabel = this.label;

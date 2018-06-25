@@ -2,27 +2,27 @@
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F7E RID: 3966
+	// Token: 0x02000F82 RID: 3970
 	public class Voronoi : ModuleBase
 	{
-		// Token: 0x04003EEA RID: 16106
+		// Token: 0x04003EED RID: 16109
 		private double m_displacement = 1.0;
 
-		// Token: 0x04003EEB RID: 16107
+		// Token: 0x04003EEE RID: 16110
 		private double m_frequency = 1.0;
 
-		// Token: 0x04003EEC RID: 16108
+		// Token: 0x04003EEF RID: 16111
 		private int m_seed = 0;
 
-		// Token: 0x04003EED RID: 16109
+		// Token: 0x04003EF0 RID: 16112
 		private bool m_distance = false;
 
-		// Token: 0x06005FC9 RID: 24521 RVA: 0x0030BC20 File Offset: 0x0030A020
+		// Token: 0x06005FD3 RID: 24531 RVA: 0x0030C2A0 File Offset: 0x0030A6A0
 		public Voronoi() : base(0)
 		{
 		}
 
-		// Token: 0x06005FCA RID: 24522 RVA: 0x0030BC58 File Offset: 0x0030A058
+		// Token: 0x06005FD4 RID: 24532 RVA: 0x0030C2D8 File Offset: 0x0030A6D8
 		public Voronoi(double frequency, double displacement, int seed, bool distance) : base(0)
 		{
 			this.Frequency = frequency;
@@ -32,9 +32,9 @@ namespace Verse.Noise
 			this.Seed = seed;
 		}
 
-		// Token: 0x17000F5F RID: 3935
-		// (get) Token: 0x06005FCB RID: 24523 RVA: 0x0030BCC0 File Offset: 0x0030A0C0
-		// (set) Token: 0x06005FCC RID: 24524 RVA: 0x0030BCDB File Offset: 0x0030A0DB
+		// Token: 0x17000F5E RID: 3934
+		// (get) Token: 0x06005FD5 RID: 24533 RVA: 0x0030C340 File Offset: 0x0030A740
+		// (set) Token: 0x06005FD6 RID: 24534 RVA: 0x0030C35B File Offset: 0x0030A75B
 		public double Displacement
 		{
 			get
@@ -47,9 +47,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F60 RID: 3936
-		// (get) Token: 0x06005FCD RID: 24525 RVA: 0x0030BCE8 File Offset: 0x0030A0E8
-		// (set) Token: 0x06005FCE RID: 24526 RVA: 0x0030BD03 File Offset: 0x0030A103
+		// Token: 0x17000F5F RID: 3935
+		// (get) Token: 0x06005FD7 RID: 24535 RVA: 0x0030C368 File Offset: 0x0030A768
+		// (set) Token: 0x06005FD8 RID: 24536 RVA: 0x0030C383 File Offset: 0x0030A783
 		public double Frequency
 		{
 			get
@@ -62,9 +62,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F61 RID: 3937
-		// (get) Token: 0x06005FCF RID: 24527 RVA: 0x0030BD10 File Offset: 0x0030A110
-		// (set) Token: 0x06005FD0 RID: 24528 RVA: 0x0030BD2B File Offset: 0x0030A12B
+		// Token: 0x17000F60 RID: 3936
+		// (get) Token: 0x06005FD9 RID: 24537 RVA: 0x0030C390 File Offset: 0x0030A790
+		// (set) Token: 0x06005FDA RID: 24538 RVA: 0x0030C3AB File Offset: 0x0030A7AB
 		public int Seed
 		{
 			get
@@ -77,9 +77,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F62 RID: 3938
-		// (get) Token: 0x06005FD1 RID: 24529 RVA: 0x0030BD38 File Offset: 0x0030A138
-		// (set) Token: 0x06005FD2 RID: 24530 RVA: 0x0030BD53 File Offset: 0x0030A153
+		// Token: 0x17000F61 RID: 3937
+		// (get) Token: 0x06005FDB RID: 24539 RVA: 0x0030C3B8 File Offset: 0x0030A7B8
+		// (set) Token: 0x06005FDC RID: 24540 RVA: 0x0030C3D3 File Offset: 0x0030A7D3
 		public bool UseDistance
 		{
 			get
@@ -92,7 +92,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06005FD3 RID: 24531 RVA: 0x0030BD60 File Offset: 0x0030A160
+		// Token: 0x06005FDD RID: 24541 RVA: 0x0030C3E0 File Offset: 0x0030A7E0
 		public override double GetValue(double x, double y, double z)
 		{
 			x *= this.m_frequency;

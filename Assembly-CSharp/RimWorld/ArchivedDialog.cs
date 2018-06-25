@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002F4 RID: 756
+	// Token: 0x020002F6 RID: 758
 	public class ArchivedDialog : IArchivable, IExposable
 	{
 		// Token: 0x04000838 RID: 2104
@@ -19,12 +19,12 @@ namespace RimWorld
 		// Token: 0x0400083B RID: 2107
 		public int createdTick;
 
-		// Token: 0x06000C90 RID: 3216 RVA: 0x0006F4F6 File Offset: 0x0006D8F6
+		// Token: 0x06000C94 RID: 3220 RVA: 0x0006F646 File Offset: 0x0006DA46
 		public ArchivedDialog()
 		{
 		}
 
-		// Token: 0x06000C91 RID: 3217 RVA: 0x0006F4FF File Offset: 0x0006D8FF
+		// Token: 0x06000C95 RID: 3221 RVA: 0x0006F64F File Offset: 0x0006DA4F
 		public ArchivedDialog(string text, string title = null, Faction relatedFaction = null)
 		{
 			this.text = text;
@@ -34,7 +34,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001DE RID: 478
-		// (get) Token: 0x06000C92 RID: 3218 RVA: 0x0006F528 File Offset: 0x0006D928
+		// (get) Token: 0x06000C96 RID: 3222 RVA: 0x0006F678 File Offset: 0x0006DA78
 		Texture IArchivable.ArchivedIcon
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001DF RID: 479
-		// (get) Token: 0x06000C93 RID: 3219 RVA: 0x0006F540 File Offset: 0x0006D940
+		// (get) Token: 0x06000C97 RID: 3223 RVA: 0x0006F690 File Offset: 0x0006DA90
 		Color IArchivable.ArchivedIconColor
 		{
 			get
@@ -54,7 +54,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001E0 RID: 480
-		// (get) Token: 0x06000C94 RID: 3220 RVA: 0x0006F55C File Offset: 0x0006D95C
+		// (get) Token: 0x06000C98 RID: 3224 RVA: 0x0006F6AC File Offset: 0x0006DAAC
 		string IArchivable.ArchivedLabel
 		{
 			get
@@ -64,7 +64,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001E1 RID: 481
-		// (get) Token: 0x06000C95 RID: 3221 RVA: 0x0006F57C File Offset: 0x0006D97C
+		// (get) Token: 0x06000C99 RID: 3225 RVA: 0x0006F6CC File Offset: 0x0006DACC
 		string IArchivable.ArchivedTooltip
 		{
 			get
@@ -74,7 +74,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001E2 RID: 482
-		// (get) Token: 0x06000C96 RID: 3222 RVA: 0x0006F598 File Offset: 0x0006D998
+		// (get) Token: 0x06000C9A RID: 3226 RVA: 0x0006F6E8 File Offset: 0x0006DAE8
 		int IArchivable.CreatedTicksGame
 		{
 			get
@@ -84,7 +84,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001E3 RID: 483
-		// (get) Token: 0x06000C97 RID: 3223 RVA: 0x0006F5B4 File Offset: 0x0006D9B4
+		// (get) Token: 0x06000C9B RID: 3227 RVA: 0x0006F704 File Offset: 0x0006DB04
 		bool IArchivable.CanCullArchivedNow
 		{
 			get
@@ -94,7 +94,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001E4 RID: 484
-		// (get) Token: 0x06000C98 RID: 3224 RVA: 0x0006F5CC File Offset: 0x0006D9CC
+		// (get) Token: 0x06000C9C RID: 3228 RVA: 0x0006F71C File Offset: 0x0006DB1C
 		LookTargets IArchivable.LookTargets
 		{
 			get
@@ -103,7 +103,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C99 RID: 3225 RVA: 0x0006F5E4 File Offset: 0x0006D9E4
+		// Token: 0x06000C9D RID: 3229 RVA: 0x0006F734 File Offset: 0x0006DB34
 		void IArchivable.OpenArchived()
 		{
 			DiaNode diaNode = new DiaNode(this.text);
@@ -117,7 +117,7 @@ namespace RimWorld
 			windowStack.Add(new Dialog_NodeTreeWithFactionInfo(nodeRoot, faction, false, false, text));
 		}
 
-		// Token: 0x06000C9A RID: 3226 RVA: 0x0006F648 File Offset: 0x0006DA48
+		// Token: 0x06000C9E RID: 3230 RVA: 0x0006F798 File Offset: 0x0006DB98
 		public void ExposeData()
 		{
 			Scribe_Values.Look<string>(ref this.text, "text", null, false);

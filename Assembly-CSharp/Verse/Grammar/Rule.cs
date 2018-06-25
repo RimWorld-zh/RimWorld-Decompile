@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Verse.Grammar
 {
-	// Token: 0x02000BE5 RID: 3045
+	// Token: 0x02000BE7 RID: 3047
 	public abstract class Rule
 	{
 		// Token: 0x04002D7D RID: 11645
@@ -13,19 +13,19 @@ namespace Verse.Grammar
 		// Token: 0x04002D7E RID: 11646
 		public List<Rule.ConstantConstraint> constantConstraints;
 
-		// Token: 0x17000A77 RID: 2679
-		// (get) Token: 0x06004281 RID: 17025
+		// Token: 0x17000A76 RID: 2678
+		// (get) Token: 0x06004284 RID: 17028
 		public abstract float BaseSelectionWeight { get; }
 
-		// Token: 0x06004282 RID: 17026
+		// Token: 0x06004285 RID: 17029
 		public abstract string Generate();
 
-		// Token: 0x06004283 RID: 17027 RVA: 0x00230CF8 File Offset: 0x0022F0F8
+		// Token: 0x06004286 RID: 17030 RVA: 0x00230DD4 File Offset: 0x0022F1D4
 		public virtual void Init()
 		{
 		}
 
-		// Token: 0x06004284 RID: 17028 RVA: 0x00230CFC File Offset: 0x0022F0FC
+		// Token: 0x06004287 RID: 17031 RVA: 0x00230DD8 File Offset: 0x0022F1D8
 		public void AddConstantConstraint(string key, string value, bool equality)
 		{
 			if (this.constantConstraints == null)
@@ -40,7 +40,7 @@ namespace Verse.Grammar
 			});
 		}
 
-		// Token: 0x02000BE6 RID: 3046
+		// Token: 0x02000BE8 RID: 3048
 		public struct ConstantConstraint
 		{
 			// Token: 0x04002D7F RID: 11647

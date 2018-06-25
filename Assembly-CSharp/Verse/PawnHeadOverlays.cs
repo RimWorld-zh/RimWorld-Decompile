@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CDF RID: 3295
+	// Token: 0x02000CE1 RID: 3297
 	[StaticConstructorOnStartup]
 	public class PawnHeadOverlays
 	{
@@ -22,13 +22,13 @@ namespace Verse
 		// Token: 0x04003128 RID: 12584
 		private static readonly Material MentalStateImminentMat = MaterialPool.MatFrom("Things/Pawn/Effects/MentalStateImminent");
 
-		// Token: 0x060048A9 RID: 18601 RVA: 0x0026258A File Offset: 0x0026098A
+		// Token: 0x060048AC RID: 18604 RVA: 0x00262666 File Offset: 0x00260A66
 		public PawnHeadOverlays(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x060048AA RID: 18602 RVA: 0x0026259C File Offset: 0x0026099C
+		// Token: 0x060048AD RID: 18605 RVA: 0x00262678 File Offset: 0x00260A78
 		public void RenderStatusOverlays(Vector3 bodyLoc, Quaternion quat, Mesh headMesh)
 		{
 			if (this.pawn.IsColonistPlayerControlled)
@@ -54,7 +54,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048AB RID: 18603 RVA: 0x00262691 File Offset: 0x00260A91
+		// Token: 0x060048AE RID: 18606 RVA: 0x0026276D File Offset: 0x00260B6D
 		private void DrawHeadGlow(Vector3 headLoc, Material mat)
 		{
 			Graphics.DrawMesh(MeshPool.plane20, headLoc, Quaternion.identity, mat, 0);

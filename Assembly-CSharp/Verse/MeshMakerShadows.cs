@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D75 RID: 3445
+	// Token: 0x02000D77 RID: 3447
 	internal static class MeshMakerShadows
 	{
 		// Token: 0x04003381 RID: 13185
@@ -19,7 +19,7 @@ namespace Verse
 		// Token: 0x04003384 RID: 13188
 		private static readonly Color32 LowVertexColor = new Color32(0, 0, 0, 0);
 
-		// Token: 0x06004D46 RID: 19782 RVA: 0x00284230 File Offset: 0x00282630
+		// Token: 0x06004D4A RID: 19786 RVA: 0x0028435C File Offset: 0x0028275C
 		public static Mesh NewShadowMesh(float baseWidth, float baseHeight, float tallness)
 		{
 			Color32 item = new Color32(byte.MaxValue, 0, 0, (byte)(255f * tallness));

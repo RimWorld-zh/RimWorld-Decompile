@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000D28 RID: 3368
+	// Token: 0x02000D2A RID: 3370
 	public class Hediff_HeartAttack : HediffWithComps
 	{
 		// Token: 0x0400323A RID: 12858
@@ -18,21 +18,21 @@ namespace RimWorld
 		// Token: 0x0400323D RID: 12861
 		private const float TendSeverityReduction = 0.3f;
 
-		// Token: 0x06004A3F RID: 19007 RVA: 0x0026C0C6 File Offset: 0x0026A4C6
+		// Token: 0x06004A43 RID: 19011 RVA: 0x0026C1F2 File Offset: 0x0026A5F2
 		public override void PostMake()
 		{
 			base.PostMake();
 			this.intervalFactor = Rand.Range(0.1f, 2f);
 		}
 
-		// Token: 0x06004A40 RID: 19008 RVA: 0x0026C0E4 File Offset: 0x0026A4E4
+		// Token: 0x06004A44 RID: 19012 RVA: 0x0026C210 File Offset: 0x0026A610
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.intervalFactor, "intervalFactor", 0f, false);
 		}
 
-		// Token: 0x06004A41 RID: 19009 RVA: 0x0026C104 File Offset: 0x0026A504
+		// Token: 0x06004A45 RID: 19013 RVA: 0x0026C230 File Offset: 0x0026A630
 		public override void Tick()
 		{
 			base.Tick();
@@ -42,7 +42,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06004A42 RID: 19010 RVA: 0x0026C154 File Offset: 0x0026A554
+		// Token: 0x06004A46 RID: 19014 RVA: 0x0026C280 File Offset: 0x0026A680
 		public override void Tended(float quality, int batchPosition = 0)
 		{
 			base.Tended(quality, 0);

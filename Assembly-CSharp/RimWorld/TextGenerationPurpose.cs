@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000662 RID: 1634
+	// Token: 0x02000664 RID: 1636
 	public enum TextGenerationPurpose
 	{
 		// Token: 0x04001375 RID: 4981

@@ -7,7 +7,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000490 RID: 1168
+	// Token: 0x02000492 RID: 1170
 	[HasDebugOutput]
 	public class PawnGroupMakerUtility
 	{
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x060014B6 RID: 5302 RVA: 0x000B6244 File Offset: 0x000B4644
+		// Token: 0x060014BA RID: 5306 RVA: 0x000B6394 File Offset: 0x000B4794
 		public static IEnumerable<Pawn> GeneratePawns(PawnGroupMakerParms parms, bool warnOnZeroResults = true)
 		{
 			if (parms.groupKind == null)
@@ -72,7 +72,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060014B7 RID: 5303 RVA: 0x000B6278 File Offset: 0x000B4678
+		// Token: 0x060014BB RID: 5307 RVA: 0x000B63C8 File Offset: 0x000B47C8
 		public static IEnumerable<PawnGenOption> ChoosePawnGenOptionsByPoints(float pointsTotal, List<PawnGenOption> options, PawnGroupMakerParms groupParms)
 		{
 			float num = PawnGroupMakerUtility.MaxPawnCost(groupParms.faction, pointsTotal, groupParms.raidStrategy, groupParms.groupKind);
@@ -143,7 +143,7 @@ namespace RimWorld
 			return list2;
 		}
 
-		// Token: 0x060014B8 RID: 5304 RVA: 0x000B64A0 File Offset: 0x000B48A0
+		// Token: 0x060014BC RID: 5308 RVA: 0x000B65F0 File Offset: 0x000B49F0
 		public static float MaxPawnCost(Faction faction, float totalPoints, RaidStrategyDef raidStrategy, PawnGroupKindDef groupKind)
 		{
 			float num = faction.def.maxPawnCostPerTotalPointsCurve.Evaluate(totalPoints);
@@ -159,7 +159,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x060014B9 RID: 5305 RVA: 0x000B6518 File Offset: 0x000B4918
+		// Token: 0x060014BD RID: 5309 RVA: 0x000B6668 File Offset: 0x000B4A68
 		public static bool CanGenerateAnyNormalGroup(Faction faction, float points)
 		{
 			bool result;
@@ -188,7 +188,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014BA RID: 5306 RVA: 0x000B65B8 File Offset: 0x000B49B8
+		// Token: 0x060014BE RID: 5310 RVA: 0x000B6708 File Offset: 0x000B4B08
 		[DebugOutput]
 		public static void PawnGroupsMade()
 		{
@@ -270,7 +270,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060014BB RID: 5307 RVA: 0x000B6634 File Offset: 0x000B4A34
+		// Token: 0x060014BF RID: 5311 RVA: 0x000B6784 File Offset: 0x000B4B84
 		public static bool TryGetRandomFactionForCombatPawnGroup(float points, out Faction faction, Predicate<Faction> validator = null, bool allowNonHostileToPlayer = false, bool allowHidden = false, bool allowDefeated = false, bool allowNonHumanlike = true)
 		{
 			List<Faction> source = Find.FactionManager.AllFactions.Where(delegate(Faction f)

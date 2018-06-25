@@ -5,13 +5,13 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020009D4 RID: 2516
+	// Token: 0x020009D6 RID: 2518
 	public abstract class Verb_MeleeAttack : Verb
 	{
-		// Token: 0x04002409 RID: 9225
+		// Token: 0x0400240A RID: 9226
 		private const int TargetCooldown = 50;
 
-		// Token: 0x06003868 RID: 14440 RVA: 0x001E1CE8 File Offset: 0x001E00E8
+		// Token: 0x0600386C RID: 14444 RVA: 0x001E1E0C File Offset: 0x001E020C
 		protected override bool TryCastShot()
 		{
 			Pawn casterPawn = base.CasterPawn;
@@ -120,7 +120,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003869 RID: 14441 RVA: 0x001E203C File Offset: 0x001E043C
+		// Token: 0x0600386D RID: 14445 RVA: 0x001E2160 File Offset: 0x001E0560
 		public BattleLogEntry_MeleeCombat CreateCombatLog(Func<ManeuverDef, RulePackDef> rulePackGetter, bool alwaysShow)
 		{
 			BattleLogEntry_MeleeCombat result;
@@ -141,7 +141,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600386A RID: 14442 RVA: 0x001E2114 File Offset: 0x001E0514
+		// Token: 0x0600386E RID: 14446 RVA: 0x001E2238 File Offset: 0x001E0638
 		private float GetNonMissChance(LocalTargetInfo target)
 		{
 			float result;
@@ -160,7 +160,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600386B RID: 14443 RVA: 0x001E2168 File Offset: 0x001E0568
+		// Token: 0x0600386F RID: 14447 RVA: 0x001E228C File Offset: 0x001E068C
 		private float GetDodgeChance(LocalTargetInfo target)
 		{
 			float result;
@@ -195,7 +195,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600386C RID: 14444 RVA: 0x001E2218 File Offset: 0x001E0618
+		// Token: 0x06003870 RID: 14448 RVA: 0x001E233C File Offset: 0x001E073C
 		private bool IsTargetImmobile(LocalTargetInfo target)
 		{
 			Thing thing = target.Thing;
@@ -203,10 +203,10 @@ namespace RimWorld
 			return thing.def.category != ThingCategory.Pawn || pawn.Downed || pawn.GetPosture() != PawnPosture.Standing;
 		}
 
-		// Token: 0x0600386D RID: 14445
+		// Token: 0x06003871 RID: 14449
 		protected abstract DamageWorker.DamageResult ApplyMeleeDamageToTarget(LocalTargetInfo target);
 
-		// Token: 0x0600386E RID: 14446 RVA: 0x001E2268 File Offset: 0x001E0668
+		// Token: 0x06003872 RID: 14450 RVA: 0x001E238C File Offset: 0x001E078C
 		private SoundDef SoundHitPawn()
 		{
 			if (this.ownerEquipment != null && this.ownerEquipment.Stuff != null)
@@ -233,7 +233,7 @@ namespace RimWorld
 			return SoundDefOf.Pawn_Melee_Punch_HitPawn;
 		}
 
-		// Token: 0x0600386F RID: 14447 RVA: 0x001E2380 File Offset: 0x001E0780
+		// Token: 0x06003873 RID: 14451 RVA: 0x001E24A4 File Offset: 0x001E08A4
 		private SoundDef SoundHitBuilding()
 		{
 			if (this.ownerEquipment != null && this.ownerEquipment.Stuff != null)
@@ -260,7 +260,7 @@ namespace RimWorld
 			return SoundDefOf.Pawn_Melee_Punch_HitBuilding;
 		}
 
-		// Token: 0x06003870 RID: 14448 RVA: 0x001E2498 File Offset: 0x001E0898
+		// Token: 0x06003874 RID: 14452 RVA: 0x001E25BC File Offset: 0x001E09BC
 		private SoundDef SoundMiss()
 		{
 			if (base.CasterPawn != null)

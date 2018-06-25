@@ -2,7 +2,7 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B9C RID: 2972
+	// Token: 0x02000B9E RID: 2974
 	public enum VoicePriorityMode : byte
 	{
 		// Token: 0x04002B3D RID: 11069

@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200026C RID: 620
+	// Token: 0x0200026E RID: 622
 	public class IngestibleProperties
 	{
 		// Token: 0x04000500 RID: 1280
@@ -94,7 +94,7 @@ namespace RimWorld
 		private float cachedNutrition = -1f;
 
 		// Token: 0x17000187 RID: 391
-		// (get) Token: 0x06000AAA RID: 2730 RVA: 0x0006070C File Offset: 0x0005EB0C
+		// (get) Token: 0x06000AAE RID: 2734 RVA: 0x0006085C File Offset: 0x0005EC5C
 		public JoyKindDef JoyKind
 		{
 			get
@@ -104,7 +104,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000188 RID: 392
-		// (get) Token: 0x06000AAB RID: 2731 RVA: 0x0006073C File Offset: 0x0005EB3C
+		// (get) Token: 0x06000AAF RID: 2735 RVA: 0x0006088C File Offset: 0x0005EC8C
 		public bool HumanEdible
 		{
 			get
@@ -114,7 +114,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000189 RID: 393
-		// (get) Token: 0x06000AAC RID: 2732 RVA: 0x00060764 File Offset: 0x0005EB64
+		// (get) Token: 0x06000AB0 RID: 2736 RVA: 0x000608B4 File Offset: 0x0005ECB4
 		public bool IsMeal
 		{
 			get
@@ -124,7 +124,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700018A RID: 394
-		// (get) Token: 0x06000AAD RID: 2733 RVA: 0x00060798 File Offset: 0x0005EB98
+		// (get) Token: 0x06000AB1 RID: 2737 RVA: 0x000608E8 File Offset: 0x0005ECE8
 		public float CachedNutrition
 		{
 			get
@@ -137,7 +137,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000AAE RID: 2734 RVA: 0x000607DC File Offset: 0x0005EBDC
+		// Token: 0x06000AB2 RID: 2738 RVA: 0x0006092C File Offset: 0x0005ED2C
 		public IEnumerable<string> ConfigErrors()
 		{
 			if (this.preferability == FoodPreferability.Undefined)
@@ -169,7 +169,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000AAF RID: 2735 RVA: 0x00060808 File Offset: 0x0005EC08
+		// Token: 0x06000AB3 RID: 2739 RVA: 0x00060958 File Offset: 0x0005ED58
 		internal IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			if (this.joy > 0f)

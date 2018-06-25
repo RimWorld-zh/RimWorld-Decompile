@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000ED3 RID: 3795
+	// Token: 0x02000ED5 RID: 3797
 	public static class ColorLibrary
 	{
 		// Token: 0x04003C16 RID: 15382

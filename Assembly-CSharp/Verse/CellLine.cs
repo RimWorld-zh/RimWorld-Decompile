@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000ED2 RID: 3794
+	// Token: 0x02000ED4 RID: 3796
 	public struct CellLine
 	{
 		// Token: 0x04003C14 RID: 15380
@@ -11,22 +11,22 @@ namespace Verse
 		// Token: 0x04003C15 RID: 15381
 		private float slope;
 
-		// Token: 0x060059F6 RID: 23030 RVA: 0x002E3321 File Offset: 0x002E1721
+		// Token: 0x060059F9 RID: 23033 RVA: 0x002E3441 File Offset: 0x002E1841
 		public CellLine(float zIntercept, float slope)
 		{
 			this.zIntercept = zIntercept;
 			this.slope = slope;
 		}
 
-		// Token: 0x060059F7 RID: 23031 RVA: 0x002E3332 File Offset: 0x002E1732
+		// Token: 0x060059FA RID: 23034 RVA: 0x002E3452 File Offset: 0x002E1852
 		public CellLine(IntVec3 cell, float slope)
 		{
 			this.slope = slope;
 			this.zIntercept = (float)cell.z - (float)cell.x * slope;
 		}
 
-		// Token: 0x17000E28 RID: 3624
-		// (get) Token: 0x060059F8 RID: 23032 RVA: 0x002E3358 File Offset: 0x002E1758
+		// Token: 0x17000E27 RID: 3623
+		// (get) Token: 0x060059FB RID: 23035 RVA: 0x002E3478 File Offset: 0x002E1878
 		public float ZIntercept
 		{
 			get
@@ -35,8 +35,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E29 RID: 3625
-		// (get) Token: 0x060059F9 RID: 23033 RVA: 0x002E3374 File Offset: 0x002E1774
+		// Token: 0x17000E28 RID: 3624
+		// (get) Token: 0x060059FC RID: 23036 RVA: 0x002E3494 File Offset: 0x002E1894
 		public float Slope
 		{
 			get
@@ -45,7 +45,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060059FA RID: 23034 RVA: 0x002E3390 File Offset: 0x002E1790
+		// Token: 0x060059FD RID: 23037 RVA: 0x002E34B0 File Offset: 0x002E18B0
 		public static CellLine Between(IntVec3 a, IntVec3 b)
 		{
 			float num;
@@ -61,7 +61,7 @@ namespace Verse
 			return new CellLine(num2, num);
 		}
 
-		// Token: 0x060059FB RID: 23035 RVA: 0x002E3400 File Offset: 0x002E1800
+		// Token: 0x060059FE RID: 23038 RVA: 0x002E3520 File Offset: 0x002E1920
 		public bool CellIsAbove(IntVec3 c)
 		{
 			return (float)c.z > this.slope * (float)c.x + this.zIntercept;

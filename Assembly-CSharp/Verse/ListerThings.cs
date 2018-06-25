@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C2C RID: 3116
+	// Token: 0x02000C2E RID: 3118
 	public sealed class ListerThings
 	{
 		// Token: 0x04002E82 RID: 11906
@@ -18,7 +18,7 @@ namespace Verse
 		// Token: 0x04002E85 RID: 11909
 		private static readonly List<Thing> EmptyList = new List<Thing>();
 
-		// Token: 0x06004485 RID: 17541 RVA: 0x00240980 File Offset: 0x0023ED80
+		// Token: 0x06004488 RID: 17544 RVA: 0x00240A5C File Offset: 0x0023EE5C
 		public ListerThings(ListerThingsUse use)
 		{
 			this.use = use;
@@ -26,8 +26,8 @@ namespace Verse
 			this.listsByGroup[2] = new List<Thing>();
 		}
 
-		// Token: 0x17000AB8 RID: 2744
-		// (get) Token: 0x06004486 RID: 17542 RVA: 0x002409D4 File Offset: 0x0023EDD4
+		// Token: 0x17000AB7 RID: 2743
+		// (get) Token: 0x06004489 RID: 17545 RVA: 0x00240AB0 File Offset: 0x0023EEB0
 		public List<Thing> AllThings
 		{
 			get
@@ -36,19 +36,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004487 RID: 17543 RVA: 0x002409F4 File Offset: 0x0023EDF4
+		// Token: 0x0600448A RID: 17546 RVA: 0x00240AD0 File Offset: 0x0023EED0
 		public List<Thing> ThingsInGroup(ThingRequestGroup group)
 		{
 			return this.ThingsMatching(ThingRequest.ForGroup(group));
 		}
 
-		// Token: 0x06004488 RID: 17544 RVA: 0x00240A18 File Offset: 0x0023EE18
+		// Token: 0x0600448B RID: 17547 RVA: 0x00240AF4 File Offset: 0x0023EEF4
 		public List<Thing> ThingsOfDef(ThingDef def)
 		{
 			return this.ThingsMatching(ThingRequest.ForDef(def));
 		}
 
-		// Token: 0x06004489 RID: 17545 RVA: 0x00240A3C File Offset: 0x0023EE3C
+		// Token: 0x0600448C RID: 17548 RVA: 0x00240B18 File Offset: 0x0023EF18
 		public List<Thing> ThingsMatching(ThingRequest req)
 		{
 			List<Thing> result;
@@ -84,13 +84,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600448A RID: 17546 RVA: 0x00240B18 File Offset: 0x0023EF18
+		// Token: 0x0600448D RID: 17549 RVA: 0x00240BF4 File Offset: 0x0023EFF4
 		public bool Contains(Thing t)
 		{
 			return this.AllThings.Contains(t);
 		}
 
-		// Token: 0x0600448B RID: 17547 RVA: 0x00240B3C File Offset: 0x0023EF3C
+		// Token: 0x0600448E RID: 17550 RVA: 0x00240C18 File Offset: 0x0023F018
 		public void Add(Thing t)
 		{
 			if (ListerThings.EverListable(t.def, this.use))
@@ -121,7 +121,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600448C RID: 17548 RVA: 0x00240C1C File Offset: 0x0023F01C
+		// Token: 0x0600448F RID: 17551 RVA: 0x00240CF8 File Offset: 0x0023F0F8
 		public void Remove(Thing t)
 		{
 			if (ListerThings.EverListable(t.def, this.use))
@@ -142,13 +142,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600448D RID: 17549 RVA: 0x00240CBC File Offset: 0x0023F0BC
+		// Token: 0x06004490 RID: 17552 RVA: 0x00240D98 File Offset: 0x0023F198
 		public static bool EverListable(ThingDef def, ListerThingsUse use)
 		{
 			return (def.category != ThingCategory.Mote || (def.drawGUIOverlay && use != ListerThingsUse.Region)) && (def.category != ThingCategory.Projectile || use != ListerThingsUse.Region) && def.category != ThingCategory.Gas;
 		}
 
-		// Token: 0x0600448E RID: 17550 RVA: 0x00240D28 File Offset: 0x0023F128
+		// Token: 0x06004491 RID: 17553 RVA: 0x00240E04 File Offset: 0x0023F204
 		public void Clear()
 		{
 			this.listsByDef.Clear();

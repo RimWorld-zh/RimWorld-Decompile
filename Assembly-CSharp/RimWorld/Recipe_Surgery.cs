@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200046B RID: 1131
+	// Token: 0x0200046D RID: 1133
 	public class Recipe_Surgery : RecipeWorker
 	{
 		// Token: 0x04000BF5 RID: 3061
@@ -33,7 +33,7 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x060013DF RID: 5087 RVA: 0x000ABE34 File Offset: 0x000AA234
+		// Token: 0x060013E3 RID: 5091 RVA: 0x000ABF84 File Offset: 0x000AA384
 		protected bool CheckSurgeryFail(Pawn surgeon, Pawn patient, List<Thing> ingredients, BodyPartRecord part, Bill bill)
 		{
 			float num = 1f;
@@ -115,7 +115,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060013E0 RID: 5088 RVA: 0x000AC08D File Offset: 0x000AA48D
+		// Token: 0x060013E4 RID: 5092 RVA: 0x000AC1DD File Offset: 0x000AA5DD
 		private void TryGainBotchedSurgeryThought(Pawn patient, Pawn surgeon)
 		{
 			if (patient.RaceProps.Humanlike)
@@ -124,7 +124,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060013E1 RID: 5089 RVA: 0x000AC0C8 File Offset: 0x000AA4C8
+		// Token: 0x060013E5 RID: 5093 RVA: 0x000AC218 File Offset: 0x000AA618
 		private float GetAverageMedicalPotency(List<Thing> ingredients, Bill bill)
 		{
 			Bill_Medical bill_Medical = bill as Bill_Medical;

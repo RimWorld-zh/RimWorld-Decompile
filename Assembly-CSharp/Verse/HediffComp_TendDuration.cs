@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D1A RID: 3354
+	// Token: 0x02000D1C RID: 3356
 	[StaticConstructorOnStartup]
 	public class HediffComp_TendDuration : HediffComp_SeverityPerDay
 	{
@@ -33,8 +33,8 @@ namespace Verse
 		// Token: 0x04003229 RID: 12841
 		private static readonly Texture2D TendedIcon_Well_Injury;
 
-		// Token: 0x17000BB3 RID: 2995
-		// (get) Token: 0x060049EA RID: 18922 RVA: 0x0026AA74 File Offset: 0x00268E74
+		// Token: 0x17000BB2 RID: 2994
+		// (get) Token: 0x060049ED RID: 18925 RVA: 0x0026AB50 File Offset: 0x00268F50
 		public HediffCompProperties_TendDuration TProps
 		{
 			get
@@ -43,8 +43,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BB4 RID: 2996
-		// (get) Token: 0x060049EB RID: 18923 RVA: 0x0026AA94 File Offset: 0x00268E94
+		// Token: 0x17000BB3 RID: 2995
+		// (get) Token: 0x060049EE RID: 18926 RVA: 0x0026AB70 File Offset: 0x00268F70
 		private int FullTendDurationTicks
 		{
 			get
@@ -53,8 +53,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BB5 RID: 2997
-		// (get) Token: 0x060049EC RID: 18924 RVA: 0x0026AACC File Offset: 0x00268ECC
+		// Token: 0x17000BB4 RID: 2996
+		// (get) Token: 0x060049EF RID: 18927 RVA: 0x0026ABA8 File Offset: 0x00268FA8
 		private int BaseTendDurationTicks
 		{
 			get
@@ -63,8 +63,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BB6 RID: 2998
-		// (get) Token: 0x060049ED RID: 18925 RVA: 0x0026AAF8 File Offset: 0x00268EF8
+		// Token: 0x17000BB5 RID: 2997
+		// (get) Token: 0x060049F0 RID: 18928 RVA: 0x0026ABD4 File Offset: 0x00268FD4
 		public override bool CompShouldRemove
 		{
 			get
@@ -73,8 +73,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BB7 RID: 2999
-		// (get) Token: 0x060049EE RID: 18926 RVA: 0x0026AB4C File Offset: 0x00268F4C
+		// Token: 0x17000BB6 RID: 2998
+		// (get) Token: 0x060049F1 RID: 18929 RVA: 0x0026AC28 File Offset: 0x00269028
 		public bool IsTended
 		{
 			get
@@ -96,8 +96,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BB8 RID: 3000
-		// (get) Token: 0x060049EF RID: 18927 RVA: 0x0026ABB4 File Offset: 0x00268FB4
+		// Token: 0x17000BB7 RID: 2999
+		// (get) Token: 0x060049F2 RID: 18930 RVA: 0x0026AC90 File Offset: 0x00269090
 		public bool AllowTend
 		{
 			get
@@ -115,8 +115,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BB9 RID: 3001
-		// (get) Token: 0x060049F0 RID: 18928 RVA: 0x0026AC08 File Offset: 0x00269008
+		// Token: 0x17000BB8 RID: 3000
+		// (get) Token: 0x060049F3 RID: 18931 RVA: 0x0026ACE4 File Offset: 0x002690E4
 		public override string CompTipStringExtra
 		{
 			get
@@ -204,8 +204,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BBA RID: 3002
-		// (get) Token: 0x060049F1 RID: 18929 RVA: 0x0026AEC4 File Offset: 0x002692C4
+		// Token: 0x17000BB9 RID: 3001
+		// (get) Token: 0x060049F4 RID: 18932 RVA: 0x0026AFA0 File Offset: 0x002693A0
 		public override TextureAndColor CompStateIcon
 		{
 			get
@@ -234,7 +234,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049F2 RID: 18930 RVA: 0x0026AFB0 File Offset: 0x002693B0
+		// Token: 0x060049F5 RID: 18933 RVA: 0x0026B08C File Offset: 0x0026948C
 		public override void CompExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.tendTick, "tendTick", -999999, false);
@@ -242,7 +242,7 @@ namespace Verse
 			Scribe_Values.Look<float>(ref this.totalTendQuality, "totalTendQuality", 0f, false);
 		}
 
-		// Token: 0x060049F3 RID: 18931 RVA: 0x0026B000 File Offset: 0x00269400
+		// Token: 0x060049F6 RID: 18934 RVA: 0x0026B0DC File Offset: 0x002694DC
 		protected override float SeverityChangePerDay()
 		{
 			float result;
@@ -257,7 +257,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060049F4 RID: 18932 RVA: 0x0026B040 File Offset: 0x00269440
+		// Token: 0x060049F7 RID: 18935 RVA: 0x0026B11C File Offset: 0x0026951C
 		public override void CompTended(float quality, int batchPosition = 0)
 		{
 			this.tendQuality = Mathf.Clamp01(quality + Rand.Range(-0.25f, 0.25f));
@@ -281,7 +281,7 @@ namespace Verse
 			base.Pawn.health.Notify_HediffChanged(this.parent);
 		}
 
-		// Token: 0x060049F5 RID: 18933 RVA: 0x0026B140 File Offset: 0x00269540
+		// Token: 0x060049F8 RID: 18936 RVA: 0x0026B21C File Offset: 0x0026961C
 		public override string CompDebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -313,7 +313,7 @@ namespace Verse
 			return stringBuilder.ToString().Trim();
 		}
 
-		// Token: 0x060049F6 RID: 18934 RVA: 0x0026B28C File Offset: 0x0026968C
+		// Token: 0x060049F9 RID: 18937 RVA: 0x0026B368 File Offset: 0x00269768
 		// Note: this type is marked as 'beforefieldinit'.
 		static HediffComp_TendDuration()
 		{

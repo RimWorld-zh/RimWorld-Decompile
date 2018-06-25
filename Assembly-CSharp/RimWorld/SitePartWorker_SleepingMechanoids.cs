@@ -6,10 +6,10 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x0200060B RID: 1547
+	// Token: 0x0200060D RID: 1549
 	public class SitePartWorker_SleepingMechanoids : SitePartWorker
 	{
-		// Token: 0x06001F2C RID: 7980 RVA: 0x0010EC74 File Offset: 0x0010D074
+		// Token: 0x06001F30 RID: 7984 RVA: 0x0010EDC4 File Offset: 0x0010D1C4
 		public override string GetArrivedLetterPart(Map map, out string preferredLabel, out LetterDef preferredLetterDef, out LookTargets lookTargets)
 		{
 			string arrivedLetterPart = base.GetArrivedLetterPart(map, out preferredLabel, out preferredLetterDef, out lookTargets);

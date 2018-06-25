@@ -3,13 +3,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007BE RID: 1982
+	// Token: 0x020007C0 RID: 1984
 	public abstract class Designator_AreaHome : Designator_Area
 	{
 		// Token: 0x04001797 RID: 6039
 		private DesignateMode mode;
 
-		// Token: 0x06002BEE RID: 11246 RVA: 0x00174426 File Offset: 0x00172826
+		// Token: 0x06002BF2 RID: 11250 RVA: 0x00174576 File Offset: 0x00172976
 		public Designator_AreaHome(DesignateMode mode)
 		{
 			this.mode = mode;
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006DE RID: 1758
-		// (get) Token: 0x06002BEF RID: 11247 RVA: 0x00174460 File Offset: 0x00172860
+		// (get) Token: 0x06002BF3 RID: 11251 RVA: 0x001745B0 File Offset: 0x001729B0
 		public override int DraggableDimensions
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006DF RID: 1759
-		// (get) Token: 0x06002BF0 RID: 11248 RVA: 0x00174478 File Offset: 0x00172878
+		// (get) Token: 0x06002BF4 RID: 11252 RVA: 0x001745C8 File Offset: 0x001729C8
 		public override bool DragDrawMeasurements
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BF1 RID: 11249 RVA: 0x00174490 File Offset: 0x00172890
+		// Token: 0x06002BF5 RID: 11253 RVA: 0x001745E0 File Offset: 0x001729E0
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -62,7 +62,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002BF2 RID: 11250 RVA: 0x001744FC File Offset: 0x001728FC
+		// Token: 0x06002BF6 RID: 11254 RVA: 0x0017464C File Offset: 0x00172A4C
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			if (this.mode == DesignateMode.Add)
@@ -75,14 +75,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BF3 RID: 11251 RVA: 0x00174548 File Offset: 0x00172948
+		// Token: 0x06002BF7 RID: 11255 RVA: 0x00174698 File Offset: 0x00172A98
 		protected override void FinalizeDesignationSucceeded()
 		{
 			base.FinalizeDesignationSucceeded();
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.HomeArea, KnowledgeAmount.Total);
 		}
 
-		// Token: 0x06002BF4 RID: 11252 RVA: 0x0017455C File Offset: 0x0017295C
+		// Token: 0x06002BF8 RID: 11256 RVA: 0x001746AC File Offset: 0x00172AAC
 		public override void SelectedUpdate()
 		{
 			GenUI.RenderMouseoverBracket();

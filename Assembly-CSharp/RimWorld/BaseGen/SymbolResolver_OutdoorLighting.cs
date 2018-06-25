@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003CD RID: 973
+	// Token: 0x020003CF RID: 975
 	public class SymbolResolver_OutdoorLighting : SymbolResolver
 	{
 		// Token: 0x04000A3A RID: 2618
@@ -13,7 +13,7 @@ namespace RimWorld.BaseGen
 		// Token: 0x04000A3B RID: 2619
 		private const float Margin = 2f;
 
-		// Token: 0x060010C7 RID: 4295 RVA: 0x0008EFBC File Offset: 0x0008D3BC
+		// Token: 0x060010CB RID: 4299 RVA: 0x0008F10C File Offset: 0x0008D50C
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -53,7 +53,7 @@ namespace RimWorld.BaseGen
 			SymbolResolver_OutdoorLighting.nearbyGlowers.Clear();
 		}
 
-		// Token: 0x060010C8 RID: 4296 RVA: 0x0008F130 File Offset: 0x0008D530
+		// Token: 0x060010CC RID: 4300 RVA: 0x0008F280 File Offset: 0x0008D680
 		private void FindNearbyGlowers(CellRect rect)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -80,7 +80,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010C9 RID: 4297 RVA: 0x0008F200 File Offset: 0x0008D600
+		// Token: 0x060010CD RID: 4301 RVA: 0x0008F350 File Offset: 0x0008D750
 		private bool AnyGlowerNearby(IntVec3 c)
 		{
 			for (int i = 0; i < SymbolResolver_OutdoorLighting.nearbyGlowers.Count; i++)

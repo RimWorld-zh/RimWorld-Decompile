@@ -3,28 +3,28 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000ACE RID: 2766
+	// Token: 0x02000AD0 RID: 2768
 	public abstract class JobGiver_Wander : ThinkNode_JobGiver
 	{
-		// Token: 0x040026B9 RID: 9913
+		// Token: 0x040026BA RID: 9914
 		protected float wanderRadius;
 
-		// Token: 0x040026BA RID: 9914
+		// Token: 0x040026BB RID: 9915
 		protected Func<Pawn, IntVec3, IntVec3, bool> wanderDestValidator = null;
 
-		// Token: 0x040026BB RID: 9915
+		// Token: 0x040026BC RID: 9916
 		protected IntRange ticksBetweenWandersRange = new IntRange(20, 100);
 
-		// Token: 0x040026BC RID: 9916
+		// Token: 0x040026BD RID: 9917
 		protected LocomotionUrgency locomotionUrgency = LocomotionUrgency.Walk;
 
-		// Token: 0x040026BD RID: 9917
+		// Token: 0x040026BE RID: 9918
 		protected Danger maxDanger = Danger.None;
 
-		// Token: 0x040026BE RID: 9918
+		// Token: 0x040026BF RID: 9919
 		protected int expiryInterval = -1;
 
-		// Token: 0x06003D7A RID: 15738 RVA: 0x0003088C File Offset: 0x0002EC8C
+		// Token: 0x06003D7E RID: 15742 RVA: 0x0003088C File Offset: 0x0002EC8C
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_Wander jobGiver_Wander = (JobGiver_Wander)base.DeepCopy(resolve);
@@ -37,7 +37,7 @@ namespace Verse.AI
 			return jobGiver_Wander;
 		}
 
-		// Token: 0x06003D7B RID: 15739 RVA: 0x000308F8 File Offset: 0x0002ECF8
+		// Token: 0x06003D7F RID: 15743 RVA: 0x000308F8 File Offset: 0x0002ECF8
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			bool flag = pawn.CurJob != null && pawn.CurJob.def == JobDefOf.GotoWander;
@@ -75,14 +75,14 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003D7C RID: 15740 RVA: 0x000309EC File Offset: 0x0002EDEC
+		// Token: 0x06003D80 RID: 15744 RVA: 0x000309EC File Offset: 0x0002EDEC
 		protected virtual IntVec3 GetExactWanderDest(Pawn pawn)
 		{
 			IntVec3 wanderRoot = this.GetWanderRoot(pawn);
 			return RCellFinder.RandomWanderDestFor(pawn, wanderRoot, this.wanderRadius, this.wanderDestValidator, PawnUtility.ResolveMaxDanger(pawn, this.maxDanger));
 		}
 
-		// Token: 0x06003D7D RID: 15741
+		// Token: 0x06003D81 RID: 15745
 		protected abstract IntVec3 GetWanderRoot(Pawn pawn);
 	}
 }

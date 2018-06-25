@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200076F RID: 1903
+	// Token: 0x02000771 RID: 1905
 	public class StockGenerator_Category : StockGenerator
 	{
 		// Token: 0x040016B1 RID: 5809
@@ -20,7 +20,7 @@ namespace RimWorld
 		// Token: 0x040016B4 RID: 5812
 		private List<ThingCategoryDef> excludedCategories = null;
 
-		// Token: 0x06002A13 RID: 10771 RVA: 0x00164900 File Offset: 0x00162D00
+		// Token: 0x06002A17 RID: 10775 RVA: 0x00164A50 File Offset: 0x00162E50
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
 			List<ThingDef> generatedDefs = new List<ThingDef>();
@@ -43,7 +43,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002A14 RID: 10772 RVA: 0x0016492C File Offset: 0x00162D2C
+		// Token: 0x06002A18 RID: 10776 RVA: 0x00164A7C File Offset: 0x00162E7C
 		public override bool HandlesThingDef(ThingDef t)
 		{
 			return this.categoryDef.DescendantThingDefs.Contains(t) && t.tradeability != Tradeability.None && t.techLevel <= this.maxTechLevelBuy && (this.excludedThingDefs == null || !this.excludedThingDefs.Contains(t)) && (this.excludedCategories == null || !this.excludedCategories.Any((ThingCategoryDef c) => c.DescendantThingDefs.Contains(t)));

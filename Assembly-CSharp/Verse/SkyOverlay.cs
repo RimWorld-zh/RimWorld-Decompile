@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CB0 RID: 3248
+	// Token: 0x02000CB2 RID: 3250
 	public abstract class SkyOverlay
 	{
 		// Token: 0x0400309F RID: 12447
@@ -24,7 +24,7 @@ namespace Verse
 		// Token: 0x040030A4 RID: 12452
 		protected Vector2 worldPanDir2;
 
-		// Token: 0x060047A3 RID: 18339 RVA: 0x000A51E7 File Offset: 0x000A35E7
+		// Token: 0x060047A6 RID: 18342 RVA: 0x000A5337 File Offset: 0x000A3737
 		public SkyOverlay()
 		{
 			LongEventHandler.ExecuteWhenFinished(delegate
@@ -33,8 +33,8 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x17000B4D RID: 2893
-		// (set) Token: 0x060047A4 RID: 18340 RVA: 0x000A520F File Offset: 0x000A360F
+		// Token: 0x17000B4C RID: 2892
+		// (set) Token: 0x060047A7 RID: 18343 RVA: 0x000A535F File Offset: 0x000A375F
 		public Color OverlayColor
 		{
 			set
@@ -50,7 +50,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047A5 RID: 18341 RVA: 0x000A524C File Offset: 0x000A364C
+		// Token: 0x060047A8 RID: 18344 RVA: 0x000A539C File Offset: 0x000A379C
 		public virtual void TickOverlay(Map map)
 		{
 			if (this.worldOverlayMat != null)
@@ -63,7 +63,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047A6 RID: 18342 RVA: 0x000A5334 File Offset: 0x000A3734
+		// Token: 0x060047A9 RID: 18345 RVA: 0x000A5484 File Offset: 0x000A3884
 		public void DrawOverlay(Map map)
 		{
 			if (this.worldOverlayMat != null)
@@ -83,7 +83,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047A7 RID: 18343 RVA: 0x000A540C File Offset: 0x000A380C
+		// Token: 0x060047AA RID: 18346 RVA: 0x000A555C File Offset: 0x000A395C
 		public override string ToString()
 		{
 			string result;

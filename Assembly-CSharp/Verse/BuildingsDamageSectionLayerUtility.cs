@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C42 RID: 3138
+	// Token: 0x02000C44 RID: 3140
 	[StaticConstructorOnStartup]
 	public static class BuildingsDamageSectionLayerUtility
 	{
@@ -26,7 +26,7 @@ namespace Verse
 		// Token: 0x04002F59 RID: 12121
 		private static List<DamageOverlay> overlays = new List<DamageOverlay>();
 
-		// Token: 0x0600452D RID: 17709 RVA: 0x00246B30 File Offset: 0x00244F30
+		// Token: 0x06004530 RID: 17712 RVA: 0x00246C0C File Offset: 0x0024500C
 		public static void Notify_BuildingHitPointsChanged(Building b, int oldHitPoints)
 		{
 			if (b.Spawned && b.def.useHitPoints && b.HitPoints != oldHitPoints && b.def.drawDamagedOverlay && BuildingsDamageSectionLayerUtility.GetDamageOverlaysCount(b, b.HitPoints) != BuildingsDamageSectionLayerUtility.GetDamageOverlaysCount(b, oldHitPoints))
@@ -35,13 +35,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600452E RID: 17710 RVA: 0x00246BB0 File Offset: 0x00244FB0
+		// Token: 0x06004531 RID: 17713 RVA: 0x00246C8C File Offset: 0x0024508C
 		public static bool UsesLinkableCornersAndEdges(Building b)
 		{
 			return b.def.size.x == 1 && b.def.size.z == 1 && b.def.Fillage == FillCategory.Full;
 		}
 
-		// Token: 0x0600452F RID: 17711 RVA: 0x00246C04 File Offset: 0x00245004
+		// Token: 0x06004532 RID: 17714 RVA: 0x00246CE0 File Offset: 0x002450E0
 		public static IList<Material> GetScratchMats(Building b)
 		{
 			IList<Material> result = BuildingsDamageSectionLayerUtility.DefaultScratchMats;
@@ -52,7 +52,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004530 RID: 17712 RVA: 0x00246C78 File Offset: 0x00245078
+		// Token: 0x06004533 RID: 17715 RVA: 0x00246D54 File Offset: 0x00245154
 		public static List<DamageOverlay> GetAvailableOverlays(Building b)
 		{
 			BuildingsDamageSectionLayerUtility.availableOverlays.Clear();
@@ -137,7 +137,7 @@ namespace Verse
 			return BuildingsDamageSectionLayerUtility.availableOverlays;
 		}
 
-		// Token: 0x06004531 RID: 17713 RVA: 0x002470E8 File Offset: 0x002454E8
+		// Token: 0x06004534 RID: 17716 RVA: 0x002471C4 File Offset: 0x002455C4
 		public static void GetCornerMats(out Material topLeft, out Material topRight, out Material botRight, out Material botLeft, Building b)
 		{
 			if (b.def.graphicData == null || b.def.graphicData.damageData == null)
@@ -181,7 +181,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004532 RID: 17714 RVA: 0x0024721C File Offset: 0x0024561C
+		// Token: 0x06004535 RID: 17717 RVA: 0x002472F8 File Offset: 0x002456F8
 		public static List<DamageOverlay> GetOverlays(Building b)
 		{
 			BuildingsDamageSectionLayerUtility.overlays.Clear();
@@ -213,7 +213,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004533 RID: 17715 RVA: 0x002472EC File Offset: 0x002456EC
+		// Token: 0x06004536 RID: 17718 RVA: 0x002473C8 File Offset: 0x002457C8
 		public static Rect GetDamageRect(Building b)
 		{
 			DamageGraphicData damageGraphicData = null;
@@ -281,7 +281,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004534 RID: 17716 RVA: 0x002476D8 File Offset: 0x00245AD8
+		// Token: 0x06004537 RID: 17719 RVA: 0x002477B4 File Offset: 0x00245BB4
 		private static int GetDamageOverlaysCount(Building b, int hp)
 		{
 			float num = (float)hp / (float)b.MaxHitPoints;
@@ -289,7 +289,7 @@ namespace Verse
 			return count - Mathf.FloorToInt((float)count * num);
 		}
 
-		// Token: 0x06004535 RID: 17717 RVA: 0x00247710 File Offset: 0x00245B10
+		// Token: 0x06004538 RID: 17720 RVA: 0x002477EC File Offset: 0x00245BEC
 		private static bool DifferentAt(Building b, int x, int z)
 		{
 			IntVec3 c = new IntVec3(x, 0, z);
@@ -313,7 +313,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004536 RID: 17718 RVA: 0x0024778C File Offset: 0x00245B8C
+		// Token: 0x06004539 RID: 17721 RVA: 0x00247868 File Offset: 0x00245C68
 		private static bool SameAndDamagedAt(Building b, int x, int z)
 		{
 			IntVec3 c = new IntVec3(x, 0, z);

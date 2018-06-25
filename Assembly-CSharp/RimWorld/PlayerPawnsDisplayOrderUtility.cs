@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007B3 RID: 1971
+	// Token: 0x020007B5 RID: 1973
 	public static class PlayerPawnsDisplayOrderUtility
 	{
 		// Token: 0x04001782 RID: 6018
@@ -14,13 +14,13 @@ namespace RimWorld
 		// Token: 0x04001783 RID: 6019
 		private static Func<Pawn, int> thingIDNumberGetter = (Pawn x) => x.thingIDNumber;
 
-		// Token: 0x06002BB3 RID: 11187 RVA: 0x00172995 File Offset: 0x00170D95
+		// Token: 0x06002BB7 RID: 11191 RVA: 0x00172AE5 File Offset: 0x00170EE5
 		public static void Sort(List<Pawn> pawns)
 		{
 			pawns.SortBy(PlayerPawnsDisplayOrderUtility.displayOrderGetter, PlayerPawnsDisplayOrderUtility.thingIDNumberGetter);
 		}
 
-		// Token: 0x06002BB4 RID: 11188 RVA: 0x001729A8 File Offset: 0x00170DA8
+		// Token: 0x06002BB8 RID: 11192 RVA: 0x00172AF8 File Offset: 0x00170EF8
 		public static IEnumerable<Pawn> InOrder(IEnumerable<Pawn> pawns)
 		{
 			return pawns.OrderBy(PlayerPawnsDisplayOrderUtility.displayOrderGetter).ThenBy(PlayerPawnsDisplayOrderUtility.thingIDNumberGetter);

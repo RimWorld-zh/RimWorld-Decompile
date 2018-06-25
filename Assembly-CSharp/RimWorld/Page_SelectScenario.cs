@@ -9,7 +9,7 @@ using Verse.Steam;
 
 namespace RimWorld
 {
-	// Token: 0x02000833 RID: 2099
+	// Token: 0x02000835 RID: 2101
 	[StaticConstructorOnStartup]
 	public class Page_SelectScenario : Page
 	{
@@ -32,7 +32,7 @@ namespace RimWorld
 		private float totalScenarioListHeight;
 
 		// Token: 0x17000789 RID: 1929
-		// (get) Token: 0x06002F86 RID: 12166 RVA: 0x00196FB4 File Offset: 0x001953B4
+		// (get) Token: 0x06002F8A RID: 12170 RVA: 0x00197104 File Offset: 0x00195504
 		public override string PageTitle
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F87 RID: 12167 RVA: 0x00196FD3 File Offset: 0x001953D3
+		// Token: 0x06002F8B RID: 12171 RVA: 0x00197123 File Offset: 0x00195523
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -50,7 +50,7 @@ namespace RimWorld
 			this.EnsureValidSelection();
 		}
 
-		// Token: 0x06002F88 RID: 12168 RVA: 0x00196FF4 File Offset: 0x001953F4
+		// Token: 0x06002F8C RID: 12172 RVA: 0x00197144 File Offset: 0x00195544
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DrawPageTitle(rect);
@@ -65,13 +65,13 @@ namespace RimWorld
 			base.DoBottomButtons(rect, null, midLabel, new Action(this.GoToScenarioEditor), true);
 		}
 
-		// Token: 0x06002F89 RID: 12169 RVA: 0x001970C4 File Offset: 0x001954C4
+		// Token: 0x06002F8D RID: 12173 RVA: 0x00197214 File Offset: 0x00195614
 		private bool CanEditScenario(Scenario scen)
 		{
 			return scen.Category == ScenarioCategory.CustomLocal || scen.CanToUploadToWorkshop();
 		}
 
-		// Token: 0x06002F8A RID: 12170 RVA: 0x00197100 File Offset: 0x00195500
+		// Token: 0x06002F8E RID: 12174 RVA: 0x00197250 File Offset: 0x00195650
 		private void GoToScenarioEditor()
 		{
 			Scenario scen = (!this.CanEditScenario(this.curScen)) ? this.curScen.CopyForEditing() : this.curScen;
@@ -81,7 +81,7 @@ namespace RimWorld
 			this.Close(true);
 		}
 
-		// Token: 0x06002F8B RID: 12171 RVA: 0x00197158 File Offset: 0x00195558
+		// Token: 0x06002F8F RID: 12175 RVA: 0x001972A8 File Offset: 0x001956A8
 		private void DoScenarioSelectionList(Rect rect)
 		{
 			rect.xMax += 2f;
@@ -111,7 +111,7 @@ namespace RimWorld
 			Widgets.EndScrollView();
 		}
 
-		// Token: 0x06002F8C RID: 12172 RVA: 0x00197298 File Offset: 0x00195698
+		// Token: 0x06002F90 RID: 12176 RVA: 0x001973E8 File Offset: 0x001957E8
 		private void ListScenariosOnListing(Listing_Standard listing, IEnumerable<Scenario> scenarios)
 		{
 			bool flag = false;
@@ -134,7 +134,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F8D RID: 12173 RVA: 0x0019736C File Offset: 0x0019576C
+		// Token: 0x06002F91 RID: 12177 RVA: 0x001974BC File Offset: 0x001958BC
 		private void DoScenarioListEntry(Rect rect, Scenario scen)
 		{
 			bool flag = this.curScen == scen;
@@ -204,7 +204,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F8E RID: 12174 RVA: 0x001975E8 File Offset: 0x001959E8
+		// Token: 0x06002F92 RID: 12178 RVA: 0x00197738 File Offset: 0x00195B38
 		protected override bool CanDoNext()
 		{
 			bool result;
@@ -224,7 +224,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002F8F RID: 12175 RVA: 0x00197630 File Offset: 0x00195A30
+		// Token: 0x06002F93 RID: 12179 RVA: 0x00197780 File Offset: 0x00195B80
 		public static void BeginScenarioConfiguration(Scenario scen, Page originPage)
 		{
 			Current.Game = new Game();
@@ -243,7 +243,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F90 RID: 12176 RVA: 0x001976A0 File Offset: 0x00195AA0
+		// Token: 0x06002F94 RID: 12180 RVA: 0x001977F0 File Offset: 0x00195BF0
 		private void EnsureValidSelection()
 		{
 			if (this.curScen == null || !ScenarioLister.ScenarioIsListedAnywhere(this.curScen))
@@ -252,7 +252,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F91 RID: 12177 RVA: 0x001976D0 File Offset: 0x00195AD0
+		// Token: 0x06002F95 RID: 12181 RVA: 0x00197820 File Offset: 0x00195C20
 		internal void Notify_ScenarioListChanged()
 		{
 			PublishedFileId_t selModId = this.curScen.GetPublishedFileId();
@@ -260,7 +260,7 @@ namespace RimWorld
 			this.EnsureValidSelection();
 		}
 
-		// Token: 0x06002F92 RID: 12178 RVA: 0x00197717 File Offset: 0x00195B17
+		// Token: 0x06002F96 RID: 12182 RVA: 0x00197867 File Offset: 0x00195C67
 		internal void Notify_SteamItemUnsubscribed(PublishedFileId_t pfid)
 		{
 			if (this.curScen != null && this.curScen.GetPublishedFileId() == pfid)

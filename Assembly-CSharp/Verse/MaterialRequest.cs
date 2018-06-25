@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D71 RID: 3441
+	// Token: 0x02000D73 RID: 3443
 	public struct MaterialRequest : IEquatable<MaterialRequest>
 	{
 		// Token: 0x04003377 RID: 13175
@@ -28,7 +28,7 @@ namespace Verse
 		// Token: 0x0400337D RID: 13181
 		public List<ShaderParameter> shaderParameters;
 
-		// Token: 0x06004D2F RID: 19759 RVA: 0x002837D9 File Offset: 0x00281BD9
+		// Token: 0x06004D33 RID: 19763 RVA: 0x00283905 File Offset: 0x00281D05
 		public MaterialRequest(Texture2D tex)
 		{
 			this.shader = ShaderDatabase.Cutout;
@@ -40,7 +40,7 @@ namespace Verse
 			this.shaderParameters = null;
 		}
 
-		// Token: 0x06004D30 RID: 19760 RVA: 0x00283819 File Offset: 0x00281C19
+		// Token: 0x06004D34 RID: 19764 RVA: 0x00283945 File Offset: 0x00281D45
 		public MaterialRequest(Texture2D tex, Shader shader)
 		{
 			this.shader = shader;
@@ -52,7 +52,7 @@ namespace Verse
 			this.shaderParameters = null;
 		}
 
-		// Token: 0x06004D31 RID: 19761 RVA: 0x00283855 File Offset: 0x00281C55
+		// Token: 0x06004D35 RID: 19765 RVA: 0x00283981 File Offset: 0x00281D81
 		public MaterialRequest(Texture2D tex, Shader shader, Color color)
 		{
 			this.shader = shader;
@@ -64,8 +64,8 @@ namespace Verse
 			this.shaderParameters = null;
 		}
 
-		// Token: 0x17000C85 RID: 3205
-		// (set) Token: 0x06004D32 RID: 19762 RVA: 0x0028388D File Offset: 0x00281C8D
+		// Token: 0x17000C84 RID: 3204
+		// (set) Token: 0x06004D36 RID: 19766 RVA: 0x002839B9 File Offset: 0x00281DB9
 		public string BaseTexPath
 		{
 			set
@@ -74,7 +74,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D33 RID: 19763 RVA: 0x002838A0 File Offset: 0x00281CA0
+		// Token: 0x06004D37 RID: 19767 RVA: 0x002839CC File Offset: 0x00281DCC
 		public override int GetHashCode()
 		{
 			int seed = 0;
@@ -87,31 +87,31 @@ namespace Verse
 			return Gen.HashCombine<List<ShaderParameter>>(seed, this.shaderParameters);
 		}
 
-		// Token: 0x06004D34 RID: 19764 RVA: 0x00283914 File Offset: 0x00281D14
+		// Token: 0x06004D38 RID: 19768 RVA: 0x00283A40 File Offset: 0x00281E40
 		public override bool Equals(object obj)
 		{
 			return obj is MaterialRequest && this.Equals((MaterialRequest)obj);
 		}
 
-		// Token: 0x06004D35 RID: 19765 RVA: 0x00283948 File Offset: 0x00281D48
+		// Token: 0x06004D39 RID: 19769 RVA: 0x00283A74 File Offset: 0x00281E74
 		public bool Equals(MaterialRequest other)
 		{
 			return other.shader == this.shader && other.mainTex == this.mainTex && other.color == this.color && other.colorTwo == this.colorTwo && other.maskTex == this.maskTex && other.renderQueue == this.renderQueue && other.shaderParameters == this.shaderParameters;
 		}
 
-		// Token: 0x06004D36 RID: 19766 RVA: 0x002839F4 File Offset: 0x00281DF4
+		// Token: 0x06004D3A RID: 19770 RVA: 0x00283B20 File Offset: 0x00281F20
 		public static bool operator ==(MaterialRequest lhs, MaterialRequest rhs)
 		{
 			return lhs.Equals(rhs);
 		}
 
-		// Token: 0x06004D37 RID: 19767 RVA: 0x00283A14 File Offset: 0x00281E14
+		// Token: 0x06004D3B RID: 19771 RVA: 0x00283B40 File Offset: 0x00281F40
 		public static bool operator !=(MaterialRequest lhs, MaterialRequest rhs)
 		{
 			return !(lhs == rhs);
 		}
 
-		// Token: 0x06004D38 RID: 19768 RVA: 0x00283A34 File Offset: 0x00281E34
+		// Token: 0x06004D3C RID: 19772 RVA: 0x00283B60 File Offset: 0x00281F60
 		public override string ToString()
 		{
 			return string.Concat(new string[]

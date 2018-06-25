@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000CBC RID: 3260
+	// Token: 0x02000CBE RID: 3262
 	public static class LoadedModManager
 	{
 		// Token: 0x040030C6 RID: 12486
@@ -16,8 +16,8 @@ namespace Verse
 		// Token: 0x040030C7 RID: 12487
 		private static Dictionary<Type, Mod> runningModClasses = new Dictionary<Type, Mod>();
 
-		// Token: 0x17000B5D RID: 2909
-		// (get) Token: 0x060047F0 RID: 18416 RVA: 0x0025E05C File Offset: 0x0025C45C
+		// Token: 0x17000B5C RID: 2908
+		// (get) Token: 0x060047F3 RID: 18419 RVA: 0x0025E138 File Offset: 0x0025C538
 		public static List<ModContentPack> RunningModsListForReading
 		{
 			get
@@ -26,8 +26,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B5E RID: 2910
-		// (get) Token: 0x060047F1 RID: 18417 RVA: 0x0025E078 File Offset: 0x0025C478
+		// Token: 0x17000B5D RID: 2909
+		// (get) Token: 0x060047F4 RID: 18420 RVA: 0x0025E154 File Offset: 0x0025C554
 		public static IEnumerable<ModContentPack> RunningMods
 		{
 			get
@@ -36,8 +36,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B5F RID: 2911
-		// (get) Token: 0x060047F2 RID: 18418 RVA: 0x0025E094 File Offset: 0x0025C494
+		// Token: 0x17000B5E RID: 2910
+		// (get) Token: 0x060047F5 RID: 18421 RVA: 0x0025E170 File Offset: 0x0025C570
 		public static IEnumerable<Mod> ModHandles
 		{
 			get
@@ -46,7 +46,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047F3 RID: 18419 RVA: 0x0025E0B4 File Offset: 0x0025C4B4
+		// Token: 0x060047F6 RID: 18422 RVA: 0x0025E190 File Offset: 0x0025C590
 		public static void LoadAllActiveMods()
 		{
 			XmlInheritance.Clear();
@@ -62,7 +62,7 @@ namespace Verse
 			XmlInheritance.Clear();
 		}
 
-		// Token: 0x060047F4 RID: 18420 RVA: 0x0025E104 File Offset: 0x0025C504
+		// Token: 0x060047F7 RID: 18423 RVA: 0x0025E1E0 File Offset: 0x0025C5E0
 		public static void InitializeMods()
 		{
 			int num = 0;
@@ -93,7 +93,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047F5 RID: 18421 RVA: 0x0025E208 File Offset: 0x0025C608
+		// Token: 0x060047F8 RID: 18424 RVA: 0x0025E2E4 File Offset: 0x0025C6E4
 		public static void LoadModContent()
 		{
 			for (int i = 0; i < LoadedModManager.runningMods.Count; i++)
@@ -105,7 +105,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047F6 RID: 18422 RVA: 0x0025E260 File Offset: 0x0025C660
+		// Token: 0x060047F9 RID: 18425 RVA: 0x0025E33C File Offset: 0x0025C73C
 		public static void CreateModClasses()
 		{
 			using (IEnumerator<Type> enumerator = typeof(Mod).InstantiableDescendantsAndSelf().GetEnumerator())
@@ -127,7 +127,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047F7 RID: 18423 RVA: 0x0025E32C File Offset: 0x0025C72C
+		// Token: 0x060047FA RID: 18426 RVA: 0x0025E408 File Offset: 0x0025C808
 		public static List<LoadableXmlAsset> LoadModXML()
 		{
 			List<LoadableXmlAsset> list = new List<LoadableXmlAsset>();
@@ -141,7 +141,7 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x060047F8 RID: 18424 RVA: 0x0025E394 File Offset: 0x0025C794
+		// Token: 0x060047FB RID: 18427 RVA: 0x0025E470 File Offset: 0x0025C870
 		public static void ApplyPatches(XmlDocument xmlDoc, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
 		{
 			foreach (PatchOperation patchOperation in LoadedModManager.runningMods.SelectMany((ModContentPack rm) => rm.Patches))
@@ -150,7 +150,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047F9 RID: 18425 RVA: 0x0025E414 File Offset: 0x0025C814
+		// Token: 0x060047FC RID: 18428 RVA: 0x0025E4F0 File Offset: 0x0025C8F0
 		public static XmlDocument CombineIntoUnifiedXML(List<LoadableXmlAsset> xmls, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
 		{
 			XmlDocument xmlDocument = new XmlDocument();
@@ -192,7 +192,7 @@ namespace Verse
 			return xmlDocument;
 		}
 
-		// Token: 0x060047FA RID: 18426 RVA: 0x0025E5C0 File Offset: 0x0025C9C0
+		// Token: 0x060047FD RID: 18429 RVA: 0x0025E69C File Offset: 0x0025CA9C
 		public static void ParseAndProcessXML(XmlDocument xmlDoc, Dictionary<XmlNode, LoadableXmlAsset> assetlookup)
 		{
 			XmlNodeList childNodes = xmlDoc.DocumentElement.ChildNodes;
@@ -235,7 +235,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047FB RID: 18427 RVA: 0x0025E718 File Offset: 0x0025CB18
+		// Token: 0x060047FE RID: 18430 RVA: 0x0025E7F4 File Offset: 0x0025CBF4
 		public static void ClearCachedPatches()
 		{
 			foreach (ModContentPack modContentPack in LoadedModManager.runningMods)
@@ -248,7 +248,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047FC RID: 18428 RVA: 0x0025E7C8 File Offset: 0x0025CBC8
+		// Token: 0x060047FF RID: 18431 RVA: 0x0025E8A4 File Offset: 0x0025CCA4
 		public static void ClearDestroy()
 		{
 			foreach (ModContentPack modContentPack in LoadedModManager.runningMods)
@@ -258,13 +258,13 @@ namespace Verse
 			LoadedModManager.runningMods.Clear();
 		}
 
-		// Token: 0x060047FD RID: 18429 RVA: 0x0025E830 File Offset: 0x0025CC30
+		// Token: 0x06004800 RID: 18432 RVA: 0x0025E90C File Offset: 0x0025CD0C
 		public static T GetMod<T>() where T : Mod
 		{
 			return LoadedModManager.GetMod(typeof(T)) as T;
 		}
 
-		// Token: 0x060047FE RID: 18430 RVA: 0x0025E860 File Offset: 0x0025CC60
+		// Token: 0x06004801 RID: 18433 RVA: 0x0025E93C File Offset: 0x0025CD3C
 		public static Mod GetMod(Type type)
 		{
 			Mod result;
@@ -281,13 +281,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060047FF RID: 18431 RVA: 0x0025E8D0 File Offset: 0x0025CCD0
+		// Token: 0x06004802 RID: 18434 RVA: 0x0025E9AC File Offset: 0x0025CDAC
 		private static string GetSettingsFilename(string modIdentifier, string modHandleName)
 		{
 			return Path.Combine(GenFilePaths.ConfigFolderPath, GenText.SanitizeFilename(string.Format("Mod_{0}_{1}.xml", modIdentifier, modHandleName)));
 		}
 
-		// Token: 0x06004800 RID: 18432 RVA: 0x0025E900 File Offset: 0x0025CD00
+		// Token: 0x06004803 RID: 18435 RVA: 0x0025E9DC File Offset: 0x0025CDDC
 		public static T ReadModSettings<T>(string modIdentifier, string modHandleName) where T : ModSettings, new()
 		{
 			string settingsFilename = LoadedModManager.GetSettingsFilename(modIdentifier, modHandleName);
@@ -313,7 +313,7 @@ namespace Verse
 			return t;
 		}
 
-		// Token: 0x06004801 RID: 18433 RVA: 0x0025E9A8 File Offset: 0x0025CDA8
+		// Token: 0x06004804 RID: 18436 RVA: 0x0025EA84 File Offset: 0x0025CE84
 		public static void WriteModSettings(string modIdentifier, string modHandleName, ModSettings settings)
 		{
 			Scribe.saver.InitSaving(LoadedModManager.GetSettingsFilename(modIdentifier, modHandleName), "SettingsBlock");

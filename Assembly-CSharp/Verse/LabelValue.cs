@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000EB9 RID: 3769
+	// Token: 0x02000EBB RID: 3771
 	public struct LabelValue
 	{
 		// Token: 0x04003B77 RID: 15223
@@ -11,7 +11,7 @@ namespace Verse
 		// Token: 0x04003B78 RID: 15224
 		private string value;
 
-		// Token: 0x06005937 RID: 22839 RVA: 0x002DC585 File Offset: 0x002DA985
+		// Token: 0x0600593B RID: 22843 RVA: 0x002DC6B1 File Offset: 0x002DAAB1
 		public LabelValue(string label, string value)
 		{
 			this = default(LabelValue);
@@ -19,8 +19,8 @@ namespace Verse
 			this.value = value;
 		}
 
-		// Token: 0x17000E04 RID: 3588
-		// (get) Token: 0x06005938 RID: 22840 RVA: 0x002DC5A0 File Offset: 0x002DA9A0
+		// Token: 0x17000E03 RID: 3587
+		// (get) Token: 0x0600593C RID: 22844 RVA: 0x002DC6CC File Offset: 0x002DAACC
 		public string Label
 		{
 			get
@@ -29,8 +29,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E05 RID: 3589
-		// (get) Token: 0x06005939 RID: 22841 RVA: 0x002DC5BC File Offset: 0x002DA9BC
+		// Token: 0x17000E04 RID: 3588
+		// (get) Token: 0x0600593D RID: 22845 RVA: 0x002DC6E8 File Offset: 0x002DAAE8
 		public string Value
 		{
 			get
@@ -39,7 +39,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600593A RID: 22842 RVA: 0x002DC5D8 File Offset: 0x002DA9D8
+		// Token: 0x0600593E RID: 22846 RVA: 0x002DC704 File Offset: 0x002DAB04
 		public override string ToString()
 		{
 			return this.label;

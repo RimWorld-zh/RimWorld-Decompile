@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200040B RID: 1035
+	// Token: 0x0200040D RID: 1037
 	public class GenStep_ManhunterPack : GenStep
 	{
 		// Token: 0x04000AD5 RID: 2773
@@ -14,7 +14,7 @@ namespace RimWorld
 		private int MinRoomCells = 225;
 
 		// Token: 0x17000260 RID: 608
-		// (get) Token: 0x060011CC RID: 4556 RVA: 0x0009AB80 File Offset: 0x00098F80
+		// (get) Token: 0x060011D0 RID: 4560 RVA: 0x0009ACD0 File Offset: 0x000990D0
 		public override int SeedPart
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011CD RID: 4557 RVA: 0x0009AB9C File Offset: 0x00098F9C
+		// Token: 0x060011D1 RID: 4561 RVA: 0x0009ACEC File Offset: 0x000990EC
 		public override void Generate(Map map)
 		{
 			TraverseParms traverseParams = TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false);

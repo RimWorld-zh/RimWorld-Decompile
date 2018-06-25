@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B94 RID: 2964
+	// Token: 0x02000B96 RID: 2966
 	public class SoundParamTarget_PropertyLowPass : SoundParamTarget
 	{
 		// Token: 0x04002B28 RID: 11048
 		private LowPassFilterProperty filterProperty;
 
-		// Token: 0x170009D2 RID: 2514
-		// (get) Token: 0x06004052 RID: 16466 RVA: 0x0021D0A8 File Offset: 0x0021B4A8
+		// Token: 0x170009D1 RID: 2513
+		// (get) Token: 0x06004055 RID: 16469 RVA: 0x0021D184 File Offset: 0x0021B584
 		public override string Label
 		{
 			get
@@ -19,8 +19,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x170009D3 RID: 2515
-		// (get) Token: 0x06004053 RID: 16467 RVA: 0x0021D0D4 File Offset: 0x0021B4D4
+		// Token: 0x170009D2 RID: 2514
+		// (get) Token: 0x06004056 RID: 16470 RVA: 0x0021D1B0 File Offset: 0x0021B5B0
 		public override Type NeededFilterType
 		{
 			get
@@ -29,7 +29,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004054 RID: 16468 RVA: 0x0021D0F4 File Offset: 0x0021B4F4
+		// Token: 0x06004057 RID: 16471 RVA: 0x0021D1D0 File Offset: 0x0021B5D0
 		public override void SetOn(Sample sample, float value)
 		{
 			AudioLowPassFilter audioLowPassFilter = sample.source.GetComponent<AudioLowPassFilter>();

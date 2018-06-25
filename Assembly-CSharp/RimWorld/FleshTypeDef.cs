@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000296 RID: 662
+	// Token: 0x02000298 RID: 664
 	public class FleshTypeDef : Def
 	{
 		// Token: 0x040005F5 RID: 1525
@@ -27,7 +27,7 @@ namespace RimWorld
 		// Token: 0x040005FA RID: 1530
 		private List<Material> woundsResolved = null;
 
-		// Token: 0x06000B35 RID: 2869 RVA: 0x00065BDC File Offset: 0x00063FDC
+		// Token: 0x06000B39 RID: 2873 RVA: 0x00065D2C File Offset: 0x0006412C
 		public Material ChooseWoundOverlay()
 		{
 			Material result;
@@ -47,7 +47,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x02000297 RID: 663
+		// Token: 0x02000299 RID: 665
 		public class Wound
 		{
 			// Token: 0x040005FC RID: 1532
@@ -57,7 +57,7 @@ namespace RimWorld
 			// Token: 0x040005FD RID: 1533
 			public Color color = Color.white;
 
-			// Token: 0x06000B38 RID: 2872 RVA: 0x00065C80 File Offset: 0x00064080
+			// Token: 0x06000B3C RID: 2876 RVA: 0x00065DD0 File Offset: 0x000641D0
 			public Material GetMaterial()
 			{
 				return MaterialPool.MatFrom(this.texture, ShaderDatabase.Cutout, this.color);

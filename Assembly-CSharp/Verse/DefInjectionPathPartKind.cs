@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000BEC RID: 3052
+	// Token: 0x02000BEE RID: 3054
 	internal enum DefInjectionPathPartKind
 	{
 		// Token: 0x04002D8C RID: 11660

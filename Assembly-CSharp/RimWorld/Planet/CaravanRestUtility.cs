@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005E0 RID: 1504
+	// Token: 0x020005E2 RID: 1506
 	public static class CaravanRestUtility
 	{
 		// Token: 0x040011A1 RID: 4513
@@ -13,26 +13,26 @@ namespace RimWorld.Planet
 		// Token: 0x040011A2 RID: 4514
 		public const float RestStartHour = 22f;
 
-		// Token: 0x06001DC5 RID: 7621 RVA: 0x00100BF8 File Offset: 0x000FEFF8
+		// Token: 0x06001DC9 RID: 7625 RVA: 0x00100D48 File Offset: 0x000FF148
 		public static bool RestingNowAt(int tile)
 		{
 			return CaravanRestUtility.WouldBeRestingAt(tile, (long)GenTicks.TicksAbs);
 		}
 
-		// Token: 0x06001DC6 RID: 7622 RVA: 0x00100C1C File Offset: 0x000FF01C
+		// Token: 0x06001DCA RID: 7626 RVA: 0x00100D6C File Offset: 0x000FF16C
 		public static bool WouldBeRestingAt(int tile, long ticksAbs)
 		{
 			float num = GenDate.HourFloat(ticksAbs, Find.WorldGrid.LongLatOf(tile).x);
 			return num < 6f || num > 22f;
 		}
 
-		// Token: 0x06001DC7 RID: 7623 RVA: 0x00100C64 File Offset: 0x000FF064
+		// Token: 0x06001DCB RID: 7627 RVA: 0x00100DB4 File Offset: 0x000FF1B4
 		public static int LeftRestTicksAt(int tile)
 		{
 			return CaravanRestUtility.LeftRestTicksAt(tile, (long)GenTicks.TicksAbs);
 		}
 
-		// Token: 0x06001DC8 RID: 7624 RVA: 0x00100C88 File Offset: 0x000FF088
+		// Token: 0x06001DCC RID: 7628 RVA: 0x00100DD8 File Offset: 0x000FF1D8
 		public static int LeftRestTicksAt(int tile, long ticksAbs)
 		{
 			int result;
@@ -55,13 +55,13 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DC9 RID: 7625 RVA: 0x00100D08 File Offset: 0x000FF108
+		// Token: 0x06001DCD RID: 7629 RVA: 0x00100E58 File Offset: 0x000FF258
 		public static int LeftNonRestTicksAt(int tile)
 		{
 			return CaravanRestUtility.LeftNonRestTicksAt(tile, (long)GenTicks.TicksAbs);
 		}
 
-		// Token: 0x06001DCA RID: 7626 RVA: 0x00100D2C File Offset: 0x000FF12C
+		// Token: 0x06001DCE RID: 7630 RVA: 0x00100E7C File Offset: 0x000FF27C
 		public static int LeftNonRestTicksAt(int tile, long ticksAbs)
 		{
 			int result;

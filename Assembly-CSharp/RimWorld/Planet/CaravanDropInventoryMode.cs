@@ -2,7 +2,7 @@
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005D7 RID: 1495
+	// Token: 0x020005D9 RID: 1497
 	public enum CaravanDropInventoryMode
 	{
 		// Token: 0x0400117D RID: 4477

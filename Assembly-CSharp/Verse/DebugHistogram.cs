@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E24 RID: 3620
+	// Token: 0x02000E26 RID: 3622
 	public class DebugHistogram
 	{
 		// Token: 0x04003811 RID: 14353
@@ -14,14 +14,14 @@ namespace Verse
 		// Token: 0x04003812 RID: 14354
 		private int[] counts;
 
-		// Token: 0x06005505 RID: 21765 RVA: 0x002BA41A File Offset: 0x002B881A
+		// Token: 0x06005509 RID: 21769 RVA: 0x002BA546 File Offset: 0x002B8946
 		public DebugHistogram(float[] buckets)
 		{
 			this.buckets = buckets.Concat(float.PositiveInfinity).ToArray<float>();
 			this.counts = new int[this.buckets.Length];
 		}
 
-		// Token: 0x06005506 RID: 21766 RVA: 0x002BA44C File Offset: 0x002B884C
+		// Token: 0x0600550A RID: 21770 RVA: 0x002BA578 File Offset: 0x002B8978
 		public void Add(float val)
 		{
 			for (int i = 0; i < this.buckets.Length; i++)
@@ -34,7 +34,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005507 RID: 21767 RVA: 0x002BA49C File Offset: 0x002B889C
+		// Token: 0x0600550B RID: 21771 RVA: 0x002BA5C8 File Offset: 0x002B89C8
 		public void Display()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -42,7 +42,7 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06005508 RID: 21768 RVA: 0x002BA4C4 File Offset: 0x002B88C4
+		// Token: 0x0600550C RID: 21772 RVA: 0x002BA5F0 File Offset: 0x002B89F0
 		public void Display(StringBuilder sb)
 		{
 			int num = Mathf.Max(this.counts.Max(), 1);

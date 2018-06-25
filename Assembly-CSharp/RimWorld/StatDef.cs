@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002D6 RID: 726
+	// Token: 0x020002D8 RID: 728
 	public class StatDef : Def
 	{
 		// Token: 0x0400073A RID: 1850
@@ -119,7 +119,7 @@ namespace RimWorld
 		private StatWorker workerInt = null;
 
 		// Token: 0x170001C9 RID: 457
-		// (get) Token: 0x06000BFE RID: 3070 RVA: 0x0006A7DC File Offset: 0x00068BDC
+		// (get) Token: 0x06000C02 RID: 3074 RVA: 0x0006A92C File Offset: 0x00068D2C
 		public StatWorker Worker
 		{
 			get
@@ -141,7 +141,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001CA RID: 458
-		// (get) Token: 0x06000BFF RID: 3071 RVA: 0x0006A864 File Offset: 0x00068C64
+		// (get) Token: 0x06000C03 RID: 3075 RVA: 0x0006A9B4 File Offset: 0x00068DB4
 		public ToStringStyle ToStringStyleUnfinalized
 		{
 			get
@@ -151,7 +151,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C00 RID: 3072 RVA: 0x0006A8A4 File Offset: 0x00068CA4
+		// Token: 0x06000C04 RID: 3076 RVA: 0x0006A9F4 File Offset: 0x00068DF4
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -188,19 +188,19 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000C01 RID: 3073 RVA: 0x0006A8D0 File Offset: 0x00068CD0
+		// Token: 0x06000C05 RID: 3077 RVA: 0x0006AA20 File Offset: 0x00068E20
 		public string ValueToString(float val, ToStringNumberSense numberSense = ToStringNumberSense.Absolute)
 		{
 			return this.Worker.ValueToString(val, true, numberSense);
 		}
 
-		// Token: 0x06000C02 RID: 3074 RVA: 0x0006A8F4 File Offset: 0x00068CF4
+		// Token: 0x06000C06 RID: 3078 RVA: 0x0006AA44 File Offset: 0x00068E44
 		public static StatDef Named(string defName)
 		{
 			return DefDatabase<StatDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x06000C03 RID: 3075 RVA: 0x0006A910 File Offset: 0x00068D10
+		// Token: 0x06000C07 RID: 3079 RVA: 0x0006AA60 File Offset: 0x00068E60
 		public override void PostLoad()
 		{
 			base.PostLoad();
@@ -211,7 +211,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C04 RID: 3076 RVA: 0x0006A97C File Offset: 0x00068D7C
+		// Token: 0x06000C08 RID: 3080 RVA: 0x0006AACC File Offset: 0x00068ECC
 		public T GetStatPart<T>() where T : StatPart
 		{
 			return this.parts.OfType<T>().FirstOrDefault<T>();

@@ -5,7 +5,7 @@ using Verse.Profile;
 
 namespace Verse
 {
-	// Token: 0x02000D8A RID: 3466
+	// Token: 0x02000D8C RID: 3468
 	public static class GameDataSaveLoader
 	{
 		// Token: 0x040033C8 RID: 13256
@@ -35,8 +35,8 @@ namespace Verse
 		// Token: 0x040033D0 RID: 13264
 		public const string AutostartSaveName = "autostart";
 
-		// Token: 0x17000C88 RID: 3208
-		// (get) Token: 0x06004D94 RID: 19860 RVA: 0x002882E0 File Offset: 0x002866E0
+		// Token: 0x17000C87 RID: 3207
+		// (get) Token: 0x06004D98 RID: 19864 RVA: 0x0028840C File Offset: 0x0028680C
 		public static bool CurrentGameStateIsValuable
 		{
 			get
@@ -45,7 +45,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D95 RID: 19861 RVA: 0x0028830C File Offset: 0x0028670C
+		// Token: 0x06004D99 RID: 19865 RVA: 0x00288438 File Offset: 0x00286838
 		public static void SaveScenario(Scenario scen, string absFilePath)
 		{
 			try
@@ -63,7 +63,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D96 RID: 19862 RVA: 0x00288384 File Offset: 0x00286784
+		// Token: 0x06004D9A RID: 19866 RVA: 0x002884B0 File Offset: 0x002868B0
 		public static bool TryLoadScenario(string absPath, ScenarioCategory category, out Scenario scen)
 		{
 			scen = null;
@@ -93,7 +93,7 @@ namespace Verse
 			return scen != null;
 		}
 
-		// Token: 0x06004D97 RID: 19863 RVA: 0x0028844C File Offset: 0x0028684C
+		// Token: 0x06004D9B RID: 19867 RVA: 0x00288578 File Offset: 0x00286978
 		public static void SaveGame(string fileName)
 		{
 			try
@@ -113,7 +113,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D98 RID: 19864 RVA: 0x002884C8 File Offset: 0x002868C8
+		// Token: 0x06004D9C RID: 19868 RVA: 0x002885F4 File Offset: 0x002869F4
 		public static void CheckVersionAndLoadGame(string saveFileName)
 		{
 			PreLoadUtility.CheckVersionAndLoad(GenFilePaths.FilePathForSavedGame(saveFileName), ScribeMetaHeaderUtility.ScribeHeaderMode.Map, delegate
@@ -122,7 +122,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06004D99 RID: 19865 RVA: 0x00288500 File Offset: 0x00286900
+		// Token: 0x06004D9D RID: 19869 RVA: 0x0028862C File Offset: 0x00286A2C
 		public static void LoadGame(string saveFileName)
 		{
 			Action preLoadLevelAction = delegate()
@@ -135,7 +135,7 @@ namespace Verse
 			LongEventHandler.QueueLongEvent(preLoadLevelAction, "Play", "LoadingLongEvent", true, null);
 		}
 
-		// Token: 0x06004D9A RID: 19866 RVA: 0x0028853A File Offset: 0x0028693A
+		// Token: 0x06004D9E RID: 19870 RVA: 0x00288666 File Offset: 0x00286A66
 		public static void LoadGame(FileInfo saveFile)
 		{
 			GameDataSaveLoader.LoadGame(Path.GetFileNameWithoutExtension(saveFile.Name));

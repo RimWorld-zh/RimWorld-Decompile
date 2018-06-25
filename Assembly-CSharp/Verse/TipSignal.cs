@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000E90 RID: 3728
+	// Token: 0x02000E92 RID: 3730
 	public struct TipSignal
 	{
 		// Token: 0x04003A38 RID: 14904
@@ -17,7 +17,7 @@ namespace Verse
 		// Token: 0x04003A3B RID: 14907
 		public TooltipPriority priority;
 
-		// Token: 0x06005807 RID: 22535 RVA: 0x002D2879 File Offset: 0x002D0C79
+		// Token: 0x0600580B RID: 22539 RVA: 0x002D29A5 File Offset: 0x002D0DA5
 		public TipSignal(string text, int uniqueId)
 		{
 			this.text = text;
@@ -26,7 +26,7 @@ namespace Verse
 			this.priority = TooltipPriority.Default;
 		}
 
-		// Token: 0x06005808 RID: 22536 RVA: 0x002D2898 File Offset: 0x002D0C98
+		// Token: 0x0600580C RID: 22540 RVA: 0x002D29C4 File Offset: 0x002D0DC4
 		public TipSignal(string text, int uniqueId, TooltipPriority priority)
 		{
 			this.text = text;
@@ -35,7 +35,7 @@ namespace Verse
 			this.priority = priority;
 		}
 
-		// Token: 0x06005809 RID: 22537 RVA: 0x002D28B7 File Offset: 0x002D0CB7
+		// Token: 0x0600580D RID: 22541 RVA: 0x002D29E3 File Offset: 0x002D0DE3
 		public TipSignal(string text)
 		{
 			if (text == null)
@@ -48,7 +48,7 @@ namespace Verse
 			this.priority = TooltipPriority.Default;
 		}
 
-		// Token: 0x0600580A RID: 22538 RVA: 0x002D28E8 File Offset: 0x002D0CE8
+		// Token: 0x0600580E RID: 22542 RVA: 0x002D2A14 File Offset: 0x002D0E14
 		public TipSignal(Func<string> textGetter, int uniqueId)
 		{
 			this.text = "";
@@ -57,7 +57,7 @@ namespace Verse
 			this.priority = TooltipPriority.Default;
 		}
 
-		// Token: 0x0600580B RID: 22539 RVA: 0x002D290B File Offset: 0x002D0D0B
+		// Token: 0x0600580F RID: 22543 RVA: 0x002D2A37 File Offset: 0x002D0E37
 		public TipSignal(TipSignal cloneSource)
 		{
 			this.text = cloneSource.text;
@@ -66,13 +66,13 @@ namespace Verse
 			this.uniqueId = cloneSource.uniqueId;
 		}
 
-		// Token: 0x0600580C RID: 22540 RVA: 0x002D293C File Offset: 0x002D0D3C
+		// Token: 0x06005810 RID: 22544 RVA: 0x002D2A68 File Offset: 0x002D0E68
 		public static implicit operator TipSignal(string str)
 		{
 			return new TipSignal(str);
 		}
 
-		// Token: 0x0600580D RID: 22541 RVA: 0x002D2958 File Offset: 0x002D0D58
+		// Token: 0x06005811 RID: 22545 RVA: 0x002D2A84 File Offset: 0x002D0E84
 		public override string ToString()
 		{
 			return string.Concat(new object[]

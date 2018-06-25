@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000829 RID: 2089
+	// Token: 0x0200082B RID: 2091
 	public enum TransferAsOneMode
 	{
 		// Token: 0x04001957 RID: 6487

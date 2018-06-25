@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003AA RID: 938
+	// Token: 0x020003AC RID: 940
 	public class SymbolResolver_EdgeSandbags : SymbolResolver
 	{
 		// Token: 0x04000A14 RID: 2580
@@ -12,7 +12,7 @@ namespace RimWorld.BaseGen
 		// Token: 0x04000A15 RID: 2581
 		private static readonly IntRange GapLengthRange = new IntRange(1, 5);
 
-		// Token: 0x06001047 RID: 4167 RVA: 0x000891E4 File Offset: 0x000875E4
+		// Token: 0x0600104B RID: 4171 RVA: 0x00089334 File Offset: 0x00087734
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;

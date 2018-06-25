@@ -4,32 +4,32 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C64 RID: 3172
+	// Token: 0x02000C66 RID: 3174
 	public abstract class PlaceWorker
 	{
-		// Token: 0x060045C7 RID: 17863 RVA: 0x0024D75C File Offset: 0x0024BB5C
+		// Token: 0x060045CA RID: 17866 RVA: 0x0024D838 File Offset: 0x0024BC38
 		public virtual AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Map map, Thing thingToIgnore = null)
 		{
 			return AcceptanceReport.WasAccepted;
 		}
 
-		// Token: 0x060045C8 RID: 17864 RVA: 0x0024D776 File Offset: 0x0024BB76
+		// Token: 0x060045CB RID: 17867 RVA: 0x0024D852 File Offset: 0x0024BC52
 		public virtual void PostPlace(Map map, BuildableDef def, IntVec3 loc, Rot4 rot)
 		{
 		}
 
-		// Token: 0x060045C9 RID: 17865 RVA: 0x0024D779 File Offset: 0x0024BB79
+		// Token: 0x060045CC RID: 17868 RVA: 0x0024D855 File Offset: 0x0024BC55
 		public virtual void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot, Color ghostCol)
 		{
 		}
 
-		// Token: 0x060045CA RID: 17866 RVA: 0x0024D77C File Offset: 0x0024BB7C
+		// Token: 0x060045CD RID: 17869 RVA: 0x0024D858 File Offset: 0x0024BC58
 		public virtual bool ForceAllowPlaceOver(BuildableDef other)
 		{
 			return false;
 		}
 
-		// Token: 0x060045CB RID: 17867 RVA: 0x0024D794 File Offset: 0x0024BB94
+		// Token: 0x060045CE RID: 17870 RVA: 0x0024D870 File Offset: 0x0024BC70
 		public virtual IEnumerable<TerrainAffordanceDef> DisplayAffordances()
 		{
 			yield break;

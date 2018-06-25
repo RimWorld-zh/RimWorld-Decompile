@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000D19 RID: 3353
+	// Token: 0x02000D1B RID: 3355
 	public class HediffCompProperties_TendDuration : HediffCompProperties
 	{
 		// Token: 0x04003219 RID: 12825
@@ -35,7 +35,7 @@ namespace Verse
 		[LoadAlias("labelSolidTreatedWell")]
 		public string labelSolidTendedWell = null;
 
-		// Token: 0x060049E8 RID: 18920 RVA: 0x0026A9DC File Offset: 0x00268DDC
+		// Token: 0x060049EB RID: 18923 RVA: 0x0026AAB8 File Offset: 0x00268EB8
 		public HediffCompProperties_TendDuration()
 		{
 			this.compClass = typeof(HediffComp_TendDuration);

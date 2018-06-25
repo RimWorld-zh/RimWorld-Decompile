@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000216 RID: 534
+	// Token: 0x02000218 RID: 536
 	public class ThoughtWorker_Hediff : ThoughtWorker
 	{
-		// Token: 0x060009F8 RID: 2552 RVA: 0x00058F34 File Offset: 0x00057334
+		// Token: 0x060009FC RID: 2556 RVA: 0x000590B4 File Offset: 0x000574B4
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			Hediff firstHediffOfDef = p.health.hediffSet.GetFirstHediffOfDef(this.def.hediff, false);

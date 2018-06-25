@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000BB3 RID: 2995
+	// Token: 0x02000BB5 RID: 2997
 	[Flags]
 	public enum WorkTags
 	{

@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004AE RID: 1198
+	// Token: 0x020004B0 RID: 1200
 	public static class ChildRelationUtility
 	{
 		// Token: 0x04000CA1 RID: 3233
@@ -28,7 +28,7 @@ namespace RimWorld
 		// Token: 0x04000CA7 RID: 3239
 		public const float ChanceForChildToHaveNameOfAnyParent = 0.99f;
 
-		// Token: 0x06001561 RID: 5473 RVA: 0x000BDEB0 File Offset: 0x000BC2B0
+		// Token: 0x06001565 RID: 5477 RVA: 0x000BE000 File Offset: 0x000BC400
 		public static float ChanceOfBecomingChildOf(Pawn child, Pawn father, Pawn mother, PawnGenerationRequest? childGenerationRequest, PawnGenerationRequest? fatherGenerationRequest, PawnGenerationRequest? motherGenerationRequest)
 		{
 			float result;
@@ -125,7 +125,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001562 RID: 5474 RVA: 0x000BE1D0 File Offset: 0x000BC5D0
+		// Token: 0x06001566 RID: 5478 RVA: 0x000BE320 File Offset: 0x000BC720
 		private static float GetParentAgeFactor(Pawn parent, Pawn child, float minAgeToHaveChildren, float usualAgeToHaveChildren, float maxAgeToHaveChildren)
 		{
 			float num = PawnRelationUtility.MaxPossibleBioAgeAt(parent.ageTracker.AgeBiologicalYearsFloat, parent.ageTracker.AgeChronologicalYearsFloat, child.ageTracker.AgeChronologicalYearsFloat);
@@ -163,13 +163,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001563 RID: 5475 RVA: 0x000BE2D4 File Offset: 0x000BC6D4
+		// Token: 0x06001567 RID: 5479 RVA: 0x000BE424 File Offset: 0x000BC824
 		public static bool ChildWantsNameOfAnyParent(Pawn child)
 		{
 			return Rand.ValueSeeded(child.thingIDNumber ^ 88271612) < 0.99f;
 		}
 
-		// Token: 0x06001564 RID: 5476 RVA: 0x000BE304 File Offset: 0x000BC704
+		// Token: 0x06001568 RID: 5480 RVA: 0x000BE454 File Offset: 0x000BC854
 		private static int NumberOfChildrenFemaleWantsEver(Pawn female)
 		{
 			Rand.PushState();
@@ -179,7 +179,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001565 RID: 5477 RVA: 0x000BE33C File Offset: 0x000BC73C
+		// Token: 0x06001569 RID: 5481 RVA: 0x000BE48C File Offset: 0x000BC88C
 		private static float? GetMelanin(Pawn pawn, PawnGenerationRequest? request)
 		{
 			float? result;
@@ -198,13 +198,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001566 RID: 5478 RVA: 0x000BE398 File Offset: 0x000BC798
+		// Token: 0x0600156A RID: 5482 RVA: 0x000BE4E8 File Offset: 0x000BC8E8
 		private static float GetAgeFactor(float ageAtBirth, float min, float max, float mid)
 		{
 			return GenMath.GetFactorInInterval(min, mid, max, 1.6f, ageAtBirth);
 		}
 
-		// Token: 0x06001567 RID: 5479 RVA: 0x000BE3BC File Offset: 0x000BC7BC
+		// Token: 0x0600156B RID: 5483 RVA: 0x000BE50C File Offset: 0x000BC90C
 		private static float GetSkinColorFactor(float? childMelanin, float? fatherMelanin, float? motherMelanin, bool fatherIsNew, bool motherIsNew)
 		{
 			if (childMelanin != null && fatherMelanin != null && motherMelanin != null)
@@ -232,7 +232,7 @@ namespace RimWorld
 			return num3;
 		}
 
-		// Token: 0x06001568 RID: 5480 RVA: 0x000BE4A8 File Offset: 0x000BC8A8
+		// Token: 0x0600156C RID: 5484 RVA: 0x000BE5F8 File Offset: 0x000BC9F8
 		private static float GetNewParentSkinColorFactor(float? newParentMelanin, float? otherParentMelanin, float? childMelanin)
 		{
 			float result;
@@ -283,13 +283,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001569 RID: 5481 RVA: 0x000BE5E0 File Offset: 0x000BC9E0
+		// Token: 0x0600156D RID: 5485 RVA: 0x000BE730 File Offset: 0x000BCB30
 		public static float GetReflectedSkin(float value, float mirror)
 		{
 			return Mathf.Clamp01(GenMath.Reflection(value, mirror));
 		}
 
-		// Token: 0x0600156A RID: 5482 RVA: 0x000BE604 File Offset: 0x000BCA04
+		// Token: 0x0600156E RID: 5486 RVA: 0x000BE754 File Offset: 0x000BCB54
 		public static float GetMelaninSimilarityFactor(float melanin1, float melanin2)
 		{
 			float min = Mathf.Clamp01(melanin1 - 0.15f);
@@ -297,7 +297,7 @@ namespace RimWorld
 			return GenMath.GetFactorInInterval(min, melanin1, max, 2.5f, melanin2);
 		}
 
-		// Token: 0x0600156B RID: 5483 RVA: 0x000BE644 File Offset: 0x000BCA44
+		// Token: 0x0600156F RID: 5487 RVA: 0x000BE794 File Offset: 0x000BCB94
 		public static float GetRandomChildSkinColor(float fatherMelanin, float motherMelanin)
 		{
 			float clampMin = Mathf.Min(fatherMelanin, motherMelanin);
@@ -306,7 +306,7 @@ namespace RimWorld
 			return PawnSkinColors.GetRandomMelaninSimilarTo(value, clampMin, clampMax);
 		}
 
-		// Token: 0x0600156C RID: 5484 RVA: 0x000BE67C File Offset: 0x000BCA7C
+		// Token: 0x06001570 RID: 5488 RVA: 0x000BE7CC File Offset: 0x000BCBCC
 		public static bool DefinitelyHasNotBirthName(Pawn pawn)
 		{
 			Pawn spouse = pawn.GetSpouse();

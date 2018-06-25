@@ -4,16 +4,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000818 RID: 2072
+	// Token: 0x0200081A RID: 2074
 	public static class PawnNeedsUIUtility
 	{
-		// Token: 0x06002E56 RID: 11862 RVA: 0x0018AC47 File Offset: 0x00189047
+		// Token: 0x06002E5A RID: 11866 RVA: 0x0018AD97 File Offset: 0x00189197
 		public static void SortInDisplayOrder(List<Need> needs)
 		{
 			needs.Sort((Need a, Need b) => b.def.listPriority.CompareTo(a.def.listPriority));
 		}
 
-		// Token: 0x06002E57 RID: 11863 RVA: 0x0018AC70 File Offset: 0x00189070
+		// Token: 0x06002E5B RID: 11867 RVA: 0x0018ADC0 File Offset: 0x001891C0
 		public static Thought GetLeadingThoughtInGroup(List<Thought> thoughtsInGroup)
 		{
 			Thought result = null;
@@ -29,7 +29,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002E58 RID: 11864 RVA: 0x0018ACCC File Offset: 0x001890CC
+		// Token: 0x06002E5C RID: 11868 RVA: 0x0018AE1C File Offset: 0x0018921C
 		public static void GetThoughtGroupsInDisplayOrder(Need_Mood mood, List<Thought> outThoughtGroupsPresent)
 		{
 			mood.thoughts.GetDistinctMoodThoughtGroups(outThoughtGroupsPresent);

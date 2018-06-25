@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200058B RID: 1419
+	// Token: 0x0200058D RID: 1421
 	public class WorldLayer_Glow : WorldLayer
 	{
 		// Token: 0x04000FFA RID: 4090
@@ -15,7 +15,7 @@ namespace RimWorld.Planet
 		// Token: 0x04000FFB RID: 4091
 		public const float GlowRadius = 8f;
 
-		// Token: 0x06001B22 RID: 6946 RVA: 0x000E9124 File Offset: 0x000E7524
+		// Token: 0x06001B26 RID: 6950 RVA: 0x000E9274 File Offset: 0x000E7674
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();

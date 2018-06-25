@@ -4,7 +4,7 @@ using Verse.Noise;
 
 namespace RimWorld
 {
-	// Token: 0x02000404 RID: 1028
+	// Token: 0x02000406 RID: 1030
 	internal static class BeachMaker
 	{
 		// Token: 0x04000AC4 RID: 2756
@@ -25,7 +25,7 @@ namespace RimWorld
 		// Token: 0x04000AC9 RID: 2761
 		private static readonly FloatRange CoastWidthRange = new FloatRange(20f, 60f);
 
-		// Token: 0x060011AF RID: 4527 RVA: 0x00099F00 File Offset: 0x00098300
+		// Token: 0x060011B3 RID: 4531 RVA: 0x0009A050 File Offset: 0x00098450
 		public static void Init(Map map)
 		{
 			Rot4 a = Find.World.CoastDirectionAt(map.Tile);
@@ -60,13 +60,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011B0 RID: 4528 RVA: 0x0009A100 File Offset: 0x00098500
+		// Token: 0x060011B4 RID: 4532 RVA: 0x0009A250 File Offset: 0x00098650
 		public static void Cleanup()
 		{
 			BeachMaker.beachNoise = null;
 		}
 
-		// Token: 0x060011B1 RID: 4529 RVA: 0x0009A10C File Offset: 0x0009850C
+		// Token: 0x060011B5 RID: 4533 RVA: 0x0009A25C File Offset: 0x0009865C
 		public static TerrainDef BeachTerrainAt(IntVec3 loc, BiomeDef biome)
 		{
 			TerrainDef result;

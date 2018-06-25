@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000B4F RID: 2895
+	// Token: 0x02000B51 RID: 2897
 	public enum MentalBreakIntensity : byte
 	{
 		// Token: 0x040029F1 RID: 10737

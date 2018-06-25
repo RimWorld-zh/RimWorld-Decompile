@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200087D RID: 2173
+	// Token: 0x0200087F RID: 2175
 	public class PawnColumnWorker_Hunt : PawnColumnWorker_Designator
 	{
 		// Token: 0x170007FB RID: 2043
-		// (get) Token: 0x0600319F RID: 12703 RVA: 0x001AE45C File Offset: 0x001AC85C
+		// (get) Token: 0x060031A3 RID: 12707 RVA: 0x001AE5A4 File Offset: 0x001AC9A4
 		protected override DesignationDef DesignationType
 		{
 			get
@@ -16,19 +16,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060031A0 RID: 12704 RVA: 0x001AE478 File Offset: 0x001AC878
+		// Token: 0x060031A4 RID: 12708 RVA: 0x001AE5C0 File Offset: 0x001AC9C0
 		protected override string GetTip(Pawn pawn)
 		{
 			return "DesignatorHuntDesc".Translate();
 		}
 
-		// Token: 0x060031A1 RID: 12705 RVA: 0x001AE498 File Offset: 0x001AC898
+		// Token: 0x060031A5 RID: 12709 RVA: 0x001AE5E0 File Offset: 0x001AC9E0
 		protected override bool HasCheckbox(Pawn pawn)
 		{
-			return pawn.RaceProps.Animal && pawn.RaceProps.IsFlesh && pawn.Faction == null && pawn.SpawnedOrAnyParentSpawned;
+			return pawn.AnimalOrWildMan() && pawn.RaceProps.IsFlesh && pawn.Faction == null && pawn.SpawnedOrAnyParentSpawned;
 		}
 
-		// Token: 0x060031A2 RID: 12706 RVA: 0x001AE4E1 File Offset: 0x001AC8E1
+		// Token: 0x060031A6 RID: 12710 RVA: 0x001AE624 File Offset: 0x001ACA24
 		protected override void Notify_DesignationAdded(Pawn pawn)
 		{
 			pawn.MapHeld.designationManager.TryRemoveDesignationOn(pawn, DesignationDefOf.Tame);

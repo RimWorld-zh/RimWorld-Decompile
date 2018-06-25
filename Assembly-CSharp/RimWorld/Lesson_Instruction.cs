@@ -5,7 +5,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020008CC RID: 2252
+	// Token: 0x020008CE RID: 2254
 	public abstract class Lesson_Instruction : Lesson
 	{
 		// Token: 0x04001BA8 RID: 7080
@@ -18,7 +18,7 @@ namespace RimWorld
 		private const float BarHeight = 30f;
 
 		// Token: 0x1700083A RID: 2106
-		// (get) Token: 0x06003394 RID: 13204 RVA: 0x001B7174 File Offset: 0x001B5574
+		// (get) Token: 0x06003398 RID: 13208 RVA: 0x001B72B4 File Offset: 0x001B56B4
 		protected Map Map
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700083B RID: 2107
-		// (get) Token: 0x06003395 RID: 13205 RVA: 0x001B7190 File Offset: 0x001B5590
+		// (get) Token: 0x06003399 RID: 13209 RVA: 0x001B72D0 File Offset: 0x001B56D0
 		protected virtual float ProgressPercent
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700083C RID: 2108
-		// (get) Token: 0x06003396 RID: 13206 RVA: 0x001B71AC File Offset: 0x001B55AC
+		// (get) Token: 0x0600339A RID: 13210 RVA: 0x001B72EC File Offset: 0x001B56EC
 		protected virtual bool ShowProgressBar
 		{
 			get
@@ -48,7 +48,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700083D RID: 2109
-		// (get) Token: 0x06003397 RID: 13207 RVA: 0x001B71D4 File Offset: 0x001B55D4
+		// (get) Token: 0x0600339B RID: 13211 RVA: 0x001B7314 File Offset: 0x001B5714
 		public override string DefaultRejectInputMessage
 		{
 			get
@@ -58,7 +58,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700083E RID: 2110
-		// (get) Token: 0x06003398 RID: 13208 RVA: 0x001B71F4 File Offset: 0x001B55F4
+		// (get) Token: 0x0600339C RID: 13212 RVA: 0x001B7334 File Offset: 0x001B5734
 		public override InstructionDef Instruction
 		{
 			get
@@ -67,14 +67,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003399 RID: 13209 RVA: 0x001B720F File Offset: 0x001B560F
+		// Token: 0x0600339D RID: 13213 RVA: 0x001B734F File Offset: 0x001B574F
 		public override void ExposeData()
 		{
 			Scribe_Defs.Look<InstructionDef>(ref this.def, "def");
 			base.ExposeData();
 		}
 
-		// Token: 0x0600339A RID: 13210 RVA: 0x001B7228 File Offset: 0x001B5628
+		// Token: 0x0600339E RID: 13214 RVA: 0x001B7368 File Offset: 0x001B5768
 		public override void OnActivated()
 		{
 			base.OnActivated();
@@ -100,7 +100,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600339B RID: 13211 RVA: 0x001B7358 File Offset: 0x001B5758
+		// Token: 0x0600339F RID: 13215 RVA: 0x001B7498 File Offset: 0x001B5898
 		public override void LessonOnGUI()
 		{
 			Text.Font = GameFont.Small;
@@ -179,7 +179,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600339C RID: 13212 RVA: 0x001B75CB File Offset: 0x001B59CB
+		// Token: 0x060033A0 RID: 13216 RVA: 0x001B770B File Offset: 0x001B5B0B
 		public override void Notify_Event(EventPack ep)
 		{
 			if (this.def.eventTagsEnd != null && this.def.eventTagsEnd.Contains(ep.Tag))
@@ -188,13 +188,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600339D RID: 13213 RVA: 0x001B7604 File Offset: 0x001B5A04
+		// Token: 0x060033A1 RID: 13217 RVA: 0x001B7744 File Offset: 0x001B5B44
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
 			return this.def.actionTagsAllowed != null && this.def.actionTagsAllowed.Contains(ep.Tag);
 		}
 
-		// Token: 0x0600339E RID: 13214 RVA: 0x001B7648 File Offset: 0x001B5A48
+		// Token: 0x060033A2 RID: 13218 RVA: 0x001B7788 File Offset: 0x001B5B88
 		public override void PostDeactivated()
 		{
 			SoundDefOf.CommsWindow_Close.PlayOneShotOnCamera(null);

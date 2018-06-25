@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EA8 RID: 3752
+	// Token: 0x02000EAA RID: 3754
 	[StaticConstructorOnStartup]
 	public static class TexUI
 	{
@@ -85,7 +85,7 @@ namespace Verse
 		// Token: 0x04003AFB RID: 15099
 		public static readonly Material GrayscaleGUI;
 
-		// Token: 0x06005883 RID: 22659 RVA: 0x002D6648 File Offset: 0x002D4A48
+		// Token: 0x06005887 RID: 22663 RVA: 0x002D6774 File Offset: 0x002D4B74
 		// Note: this type is marked as 'beforefieldinit'.
 		static TexUI()
 		{

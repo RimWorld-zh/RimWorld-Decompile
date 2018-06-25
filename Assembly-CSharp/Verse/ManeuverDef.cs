@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000B4D RID: 2893
+	// Token: 0x02000B4F RID: 2895
 	public class ManeuverDef : Def
 	{
 		// Token: 0x040029E8 RID: 10728

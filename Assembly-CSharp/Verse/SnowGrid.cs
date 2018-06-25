@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C23 RID: 3107
+	// Token: 0x02000C25 RID: 3109
 	public sealed class SnowGrid : IExposable
 	{
 		// Token: 0x04002E67 RID: 11879
@@ -18,15 +18,15 @@ namespace Verse
 		// Token: 0x04002E6A RID: 11882
 		public const float MaxDepth = 1f;
 
-		// Token: 0x06004434 RID: 17460 RVA: 0x0023E81B File Offset: 0x0023CC1B
+		// Token: 0x06004437 RID: 17463 RVA: 0x0023E8F7 File Offset: 0x0023CCF7
 		public SnowGrid(Map map)
 		{
 			this.map = map;
 			this.depthGrid = new float[map.cellIndices.NumGridCells];
 		}
 
-		// Token: 0x17000AB3 RID: 2739
-		// (get) Token: 0x06004435 RID: 17461 RVA: 0x0023E850 File Offset: 0x0023CC50
+		// Token: 0x17000AB2 RID: 2738
+		// (get) Token: 0x06004438 RID: 17464 RVA: 0x0023E92C File Offset: 0x0023CD2C
 		internal float[] DepthGridDirect_Unsafe
 		{
 			get
@@ -35,8 +35,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AB4 RID: 2740
-		// (get) Token: 0x06004436 RID: 17462 RVA: 0x0023E86C File Offset: 0x0023CC6C
+		// Token: 0x17000AB3 RID: 2739
+		// (get) Token: 0x06004439 RID: 17465 RVA: 0x0023E948 File Offset: 0x0023CD48
 		public float TotalDepth
 		{
 			get
@@ -45,7 +45,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004437 RID: 17463 RVA: 0x0023E888 File Offset: 0x0023CC88
+		// Token: 0x0600443A RID: 17466 RVA: 0x0023E964 File Offset: 0x0023CD64
 		public void ExposeData()
 		{
 			MapExposeUtility.ExposeUshort(this.map, (IntVec3 c) => SnowGrid.SnowFloatToShort(this.GetDepth(c)), delegate(IntVec3 c, ushort val)
@@ -54,7 +54,7 @@ namespace Verse
 			}, "depthGrid");
 		}
 
-		// Token: 0x06004438 RID: 17464 RVA: 0x0023E8B4 File Offset: 0x0023CCB4
+		// Token: 0x0600443B RID: 17467 RVA: 0x0023E990 File Offset: 0x0023CD90
 		private static ushort SnowFloatToShort(float depth)
 		{
 			depth = Mathf.Clamp(depth, 0f, 1f);
@@ -62,13 +62,13 @@ namespace Verse
 			return (ushort)Mathf.RoundToInt(depth);
 		}
 
-		// Token: 0x06004439 RID: 17465 RVA: 0x0023E8EC File Offset: 0x0023CCEC
+		// Token: 0x0600443C RID: 17468 RVA: 0x0023E9C8 File Offset: 0x0023CDC8
 		private static float SnowShortToFloat(ushort depth)
 		{
 			return (float)depth / 65535f;
 		}
 
-		// Token: 0x0600443A RID: 17466 RVA: 0x0023E90C File Offset: 0x0023CD0C
+		// Token: 0x0600443D RID: 17469 RVA: 0x0023E9E8 File Offset: 0x0023CDE8
 		private bool CanHaveSnow(int ind)
 		{
 			Building building = this.map.edificeGrid[ind];
@@ -85,13 +85,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600443B RID: 17467 RVA: 0x0023E97C File Offset: 0x0023CD7C
+		// Token: 0x0600443E RID: 17470 RVA: 0x0023EA58 File Offset: 0x0023CE58
 		public static bool CanCoexistWithSnow(ThingDef def)
 		{
 			return def.category != ThingCategory.Building || def.Fillage != FillCategory.Full;
 		}
 
-		// Token: 0x0600443C RID: 17468 RVA: 0x0023E9B4 File Offset: 0x0023CDB4
+		// Token: 0x0600443F RID: 17471 RVA: 0x0023EA90 File Offset: 0x0023CE90
 		public void AddDepth(IntVec3 c, float depthToAdd)
 		{
 			int num = this.map.cellIndices.CellToIndex(c);
@@ -120,7 +120,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600443D RID: 17469 RVA: 0x0023EA80 File Offset: 0x0023CE80
+		// Token: 0x06004440 RID: 17472 RVA: 0x0023EB5C File Offset: 0x0023CF5C
 		public void SetDepth(IntVec3 c, float newDepth)
 		{
 			int num = this.map.cellIndices.CellToIndex(c);
@@ -139,7 +139,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600443E RID: 17470 RVA: 0x0023EB00 File Offset: 0x0023CF00
+		// Token: 0x06004441 RID: 17473 RVA: 0x0023EBDC File Offset: 0x0023CFDC
 		private void CheckVisualOrPathCostChange(IntVec3 c, float oldDepth, float newDepth)
 		{
 			if (!Mathf.Approximately(oldDepth, newDepth))
@@ -160,7 +160,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600443F RID: 17471 RVA: 0x0023EBB4 File Offset: 0x0023CFB4
+		// Token: 0x06004442 RID: 17474 RVA: 0x0023EC90 File Offset: 0x0023D090
 		public float GetDepth(IntVec3 c)
 		{
 			float result;
@@ -175,7 +175,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004440 RID: 17472 RVA: 0x0023EC00 File Offset: 0x0023D000
+		// Token: 0x06004443 RID: 17475 RVA: 0x0023ECDC File Offset: 0x0023D0DC
 		public SnowCategory GetCategory(IntVec3 c)
 		{
 			return SnowUtility.GetSnowCategory(this.GetDepth(c));

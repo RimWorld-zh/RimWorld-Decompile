@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000598 RID: 1432
+	// Token: 0x0200059A RID: 1434
 	public class WorldLayer_UngeneratedPlanetParts : WorldLayer
 	{
 		// Token: 0x04001022 RID: 4130
@@ -15,7 +15,7 @@ namespace RimWorld.Planet
 		// Token: 0x04001023 RID: 4131
 		private const float ViewAngleOffset = 10f;
 
-		// Token: 0x06001B5A RID: 7002 RVA: 0x000EC2A0 File Offset: 0x000EA6A0
+		// Token: 0x06001B5E RID: 7006 RVA: 0x000EC3F0 File Offset: 0x000EA7F0
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();

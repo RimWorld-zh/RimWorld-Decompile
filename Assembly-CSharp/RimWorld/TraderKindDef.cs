@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002E6 RID: 742
+	// Token: 0x020002E8 RID: 744
 	public class TraderKindDef : Def
 	{
 		// Token: 0x040007CD RID: 1997
@@ -23,7 +23,7 @@ namespace RimWorld
 		public SimpleCurve commonalityMultFromPopulationIntent;
 
 		// Token: 0x170001D5 RID: 469
-		// (get) Token: 0x06000C3F RID: 3135 RVA: 0x0006CA54 File Offset: 0x0006AE54
+		// (get) Token: 0x06000C43 RID: 3139 RVA: 0x0006CBA4 File Offset: 0x0006AFA4
 		public float CalculatedCommonality
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C40 RID: 3136 RVA: 0x0006CA9C File Offset: 0x0006AE9C
+		// Token: 0x06000C44 RID: 3140 RVA: 0x0006CBEC File Offset: 0x0006AFEC
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -47,7 +47,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C41 RID: 3137 RVA: 0x0006CB04 File Offset: 0x0006AF04
+		// Token: 0x06000C45 RID: 3141 RVA: 0x0006CC54 File Offset: 0x0006B054
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -64,7 +64,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000C42 RID: 3138 RVA: 0x0006CB30 File Offset: 0x0006AF30
+		// Token: 0x06000C46 RID: 3142 RVA: 0x0006CC80 File Offset: 0x0006B080
 		public bool WillTrade(ThingDef td)
 		{
 			for (int i = 0; i < this.stockGenerators.Count; i++)
@@ -77,7 +77,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000C43 RID: 3139 RVA: 0x0006CB84 File Offset: 0x0006AF84
+		// Token: 0x06000C47 RID: 3143 RVA: 0x0006CCD4 File Offset: 0x0006B0D4
 		public PriceType PriceTypeFor(ThingDef thingDef, TradeAction action)
 		{
 			PriceType result;

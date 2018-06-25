@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C4E RID: 3150
+	// Token: 0x02000C50 RID: 3152
 	public static class Printer_Plane
 	{
 		// Token: 0x04002F72 RID: 12146
@@ -34,7 +34,7 @@ namespace Verse
 			new Vector2(0f, 0f)
 		};
 
-		// Token: 0x0600456B RID: 17771 RVA: 0x0024B634 File Offset: 0x00249A34
+		// Token: 0x0600456E RID: 17774 RVA: 0x0024B710 File Offset: 0x00249B10
 		public static void PrintPlane(SectionLayer layer, Vector3 center, Vector2 size, Material mat, float rot = 0f, bool flipUv = false, Vector2[] uvs = null, Color32[] colors = null, float topVerticesAltitudeBias = 0.01f, float uvzPayload = 0f)
 		{
 			if (colors == null)

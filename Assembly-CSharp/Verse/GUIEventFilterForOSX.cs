@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E62 RID: 3682
+	// Token: 0x02000E64 RID: 3684
 	internal static class GUIEventFilterForOSX
 	{
 		// Token: 0x04003979 RID: 14713
@@ -13,7 +13,7 @@ namespace Verse
 		// Token: 0x0400397A RID: 14714
 		private static int lastRecordedFrame = -1;
 
-		// Token: 0x060056C6 RID: 22214 RVA: 0x002CBAB8 File Offset: 0x002C9EB8
+		// Token: 0x060056CA RID: 22218 RVA: 0x002CBBE4 File Offset: 0x002C9FE4
 		public static void CheckRejectGUIEvent()
 		{
 			if (UnityData.platform == RuntimePlatform.OSXPlayer)
@@ -37,13 +37,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056C7 RID: 22215 RVA: 0x002CBB6C File Offset: 0x002C9F6C
+		// Token: 0x060056CB RID: 22219 RVA: 0x002CBC98 File Offset: 0x002CA098
 		private static bool EventsAreEquivalent(Event A, Event B)
 		{
 			return A.button == B.button && A.keyCode == B.keyCode && A.type == B.type;
 		}
 
-		// Token: 0x060056C8 RID: 22216 RVA: 0x002CBBB4 File Offset: 0x002C9FB4
+		// Token: 0x060056CC RID: 22220 RVA: 0x002CBCE0 File Offset: 0x002CA0E0
 		private static void RejectEvent()
 		{
 			if (DebugViewSettings.logInput)

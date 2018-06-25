@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200056E RID: 1390
+	// Token: 0x02000570 RID: 1392
 	public class FeatureWorker_Peninsula : FeatureWorker_Protrusion
 	{
-		// Token: 0x06001A54 RID: 6740 RVA: 0x000E47FC File Offset: 0x000E2BFC
+		// Token: 0x06001A58 RID: 6744 RVA: 0x000E494C File Offset: 0x000E2D4C
 		protected override bool IsRoot(int tile)
 		{
 			BiomeDef biome = Find.WorldGrid[tile].biome;

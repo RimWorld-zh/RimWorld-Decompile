@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000704 RID: 1796
+	// Token: 0x02000706 RID: 1798
 	public class CompCameraShaker : ThingComp
 	{
 		// Token: 0x170005E6 RID: 1510
-		// (get) Token: 0x06002759 RID: 10073 RVA: 0x00152490 File Offset: 0x00150890
+		// (get) Token: 0x0600275D RID: 10077 RVA: 0x001525E0 File Offset: 0x001509E0
 		public CompProperties_CameraShaker Props
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600275A RID: 10074 RVA: 0x001524B0 File Offset: 0x001508B0
+		// Token: 0x0600275E RID: 10078 RVA: 0x00152600 File Offset: 0x00150A00
 		public override void CompTick()
 		{
 			base.CompTick();

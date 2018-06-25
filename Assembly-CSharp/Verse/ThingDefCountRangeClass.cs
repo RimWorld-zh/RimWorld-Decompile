@@ -3,34 +3,34 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000F04 RID: 3844
+	// Token: 0x02000F08 RID: 3848
 	public sealed class ThingDefCountRangeClass : IExposable
 	{
-		// Token: 0x04003CEA RID: 15594
+		// Token: 0x04003CED RID: 15597
 		public ThingDef thingDef;
 
-		// Token: 0x04003CEB RID: 15595
+		// Token: 0x04003CEE RID: 15598
 		public IntRange countRange;
 
-		// Token: 0x06005C51 RID: 23633 RVA: 0x002EE848 File Offset: 0x002ECC48
+		// Token: 0x06005C5B RID: 23643 RVA: 0x002EEEC8 File Offset: 0x002ED2C8
 		public ThingDefCountRangeClass()
 		{
 		}
 
-		// Token: 0x06005C52 RID: 23634 RVA: 0x002EE851 File Offset: 0x002ECC51
+		// Token: 0x06005C5C RID: 23644 RVA: 0x002EEED1 File Offset: 0x002ED2D1
 		public ThingDefCountRangeClass(ThingDef thingDef, int min, int max) : this(thingDef, new IntRange(min, max))
 		{
 		}
 
-		// Token: 0x06005C53 RID: 23635 RVA: 0x002EE862 File Offset: 0x002ECC62
+		// Token: 0x06005C5D RID: 23645 RVA: 0x002EEEE2 File Offset: 0x002ED2E2
 		public ThingDefCountRangeClass(ThingDef thingDef, IntRange countRange)
 		{
 			this.thingDef = thingDef;
 			this.countRange = countRange;
 		}
 
-		// Token: 0x17000ED2 RID: 3794
-		// (get) Token: 0x06005C54 RID: 23636 RVA: 0x002EE87C File Offset: 0x002ECC7C
+		// Token: 0x17000ED1 RID: 3793
+		// (get) Token: 0x06005C5E RID: 23646 RVA: 0x002EEEFC File Offset: 0x002ED2FC
 		public int Min
 		{
 			get
@@ -39,8 +39,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000ED3 RID: 3795
-		// (get) Token: 0x06005C55 RID: 23637 RVA: 0x002EE89C File Offset: 0x002ECC9C
+		// Token: 0x17000ED2 RID: 3794
+		// (get) Token: 0x06005C5F RID: 23647 RVA: 0x002EEF1C File Offset: 0x002ED31C
 		public int Max
 		{
 			get
@@ -49,8 +49,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000ED4 RID: 3796
-		// (get) Token: 0x06005C56 RID: 23638 RVA: 0x002EE8BC File Offset: 0x002ECCBC
+		// Token: 0x17000ED3 RID: 3795
+		// (get) Token: 0x06005C60 RID: 23648 RVA: 0x002EEF3C File Offset: 0x002ED33C
 		public int TrueMin
 		{
 			get
@@ -59,8 +59,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000ED5 RID: 3797
-		// (get) Token: 0x06005C57 RID: 23639 RVA: 0x002EE8DC File Offset: 0x002ECCDC
+		// Token: 0x17000ED4 RID: 3796
+		// (get) Token: 0x06005C61 RID: 23649 RVA: 0x002EEF5C File Offset: 0x002ED35C
 		public int TrueMax
 		{
 			get
@@ -69,14 +69,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005C58 RID: 23640 RVA: 0x002EE8FC File Offset: 0x002ECCFC
+		// Token: 0x06005C62 RID: 23650 RVA: 0x002EEF7C File Offset: 0x002ED37C
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<ThingDef>(ref this.thingDef, "thingDef");
 			Scribe_Values.Look<IntRange>(ref this.countRange, "countRange", default(IntRange), false);
 		}
 
-		// Token: 0x06005C59 RID: 23641 RVA: 0x002EE934 File Offset: 0x002ECD34
+		// Token: 0x06005C63 RID: 23651 RVA: 0x002EEFB4 File Offset: 0x002ED3B4
 		public void LoadDataFromXmlCustom(XmlNode xmlRoot)
 		{
 			if (xmlRoot.ChildNodes.Count != 1)
@@ -90,7 +90,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005C5A RID: 23642 RVA: 0x002EE9A8 File Offset: 0x002ECDA8
+		// Token: 0x06005C64 RID: 23652 RVA: 0x002EF028 File Offset: 0x002ED428
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -103,19 +103,19 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06005C5B RID: 23643 RVA: 0x002EEA14 File Offset: 0x002ECE14
+		// Token: 0x06005C65 RID: 23653 RVA: 0x002EF094 File Offset: 0x002ED494
 		public static implicit operator ThingDefCountRangeClass(ThingDefCountRange t)
 		{
 			return new ThingDefCountRangeClass(t.ThingDef, t.CountRange);
 		}
 
-		// Token: 0x06005C5C RID: 23644 RVA: 0x002EEA3C File Offset: 0x002ECE3C
+		// Token: 0x06005C66 RID: 23654 RVA: 0x002EF0BC File Offset: 0x002ED4BC
 		public static explicit operator ThingDefCountRangeClass(ThingDefCount t)
 		{
 			return new ThingDefCountRangeClass(t.ThingDef, t.Count, t.Count);
 		}
 
-		// Token: 0x06005C5D RID: 23645 RVA: 0x002EEA6C File Offset: 0x002ECE6C
+		// Token: 0x06005C67 RID: 23655 RVA: 0x002EF0EC File Offset: 0x002ED4EC
 		public static explicit operator ThingDefCountRangeClass(ThingDefCountClass t)
 		{
 			return new ThingDefCountRangeClass(t.thingDef, t.count, t.count);

@@ -5,29 +5,29 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DF5 RID: 3573
+	// Token: 0x02000DF7 RID: 3575
 	public class ThingOwner<T> : ThingOwner, IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable where T : Thing
 	{
 		// Token: 0x04003532 RID: 13618
 		private List<T> innerList = new List<T>();
 
-		// Token: 0x06005077 RID: 20599 RVA: 0x0029951D File Offset: 0x0029791D
+		// Token: 0x0600507B RID: 20603 RVA: 0x00299649 File Offset: 0x00297A49
 		public ThingOwner()
 		{
 		}
 
-		// Token: 0x06005078 RID: 20600 RVA: 0x00299531 File Offset: 0x00297931
+		// Token: 0x0600507C RID: 20604 RVA: 0x0029965D File Offset: 0x00297A5D
 		public ThingOwner(IThingHolder owner) : base(owner)
 		{
 		}
 
-		// Token: 0x06005079 RID: 20601 RVA: 0x00299546 File Offset: 0x00297946
+		// Token: 0x0600507D RID: 20605 RVA: 0x00299672 File Offset: 0x00297A72
 		public ThingOwner(IThingHolder owner, bool oneStackOnly, LookMode contentsLookMode = LookMode.Deep) : base(owner, oneStackOnly, contentsLookMode)
 		{
 		}
 
-		// Token: 0x17000D31 RID: 3377
-		// (get) Token: 0x0600507A RID: 20602 RVA: 0x00299560 File Offset: 0x00297960
+		// Token: 0x17000D30 RID: 3376
+		// (get) Token: 0x0600507E RID: 20606 RVA: 0x0029968C File Offset: 0x00297A8C
 		public List<T> InnerListForReading
 		{
 			get
@@ -36,7 +36,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D32 RID: 3378
+		// Token: 0x17000D31 RID: 3377
 		public new T this[int index]
 		{
 			get
@@ -45,8 +45,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D33 RID: 3379
-		// (get) Token: 0x0600507C RID: 20604 RVA: 0x002995A0 File Offset: 0x002979A0
+		// Token: 0x17000D32 RID: 3378
+		// (get) Token: 0x06005080 RID: 20608 RVA: 0x002996CC File Offset: 0x00297ACC
 		public override int Count
 		{
 			get
@@ -55,7 +55,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D2F RID: 3375
+		// Token: 0x17000D2E RID: 3374
 		T IList<T>.this[int index]
 		{
 			get
@@ -68,8 +68,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D30 RID: 3376
-		// (get) Token: 0x0600507F RID: 20607 RVA: 0x002995F0 File Offset: 0x002979F0
+		// Token: 0x17000D2F RID: 3375
+		// (get) Token: 0x06005083 RID: 20611 RVA: 0x0029971C File Offset: 0x00297B1C
 		bool ICollection<T>.IsReadOnly
 		{
 			get
@@ -78,7 +78,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005080 RID: 20608 RVA: 0x00299608 File Offset: 0x00297A08
+		// Token: 0x06005084 RID: 20612 RVA: 0x00299734 File Offset: 0x00297B34
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -99,13 +99,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005081 RID: 20609 RVA: 0x002996D0 File Offset: 0x00297AD0
+		// Token: 0x06005085 RID: 20613 RVA: 0x002997FC File Offset: 0x00297BFC
 		public List<T>.Enumerator GetEnumerator()
 		{
 			return this.innerList.GetEnumerator();
 		}
 
-		// Token: 0x06005082 RID: 20610 RVA: 0x002996F0 File Offset: 0x00297AF0
+		// Token: 0x06005086 RID: 20614 RVA: 0x0029981C File Offset: 0x00297C1C
 		public override int GetCountCanAccept(Thing item, bool canMergeWithExistingStacks = true)
 		{
 			int result;
@@ -120,7 +120,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005083 RID: 20611 RVA: 0x00299720 File Offset: 0x00297B20
+		// Token: 0x06005087 RID: 20615 RVA: 0x0029984C File Offset: 0x00297C4C
 		public override int TryAdd(Thing item, int count, bool canMergeWithExistingStacks = true)
 		{
 			int result;
@@ -184,7 +184,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005084 RID: 20612 RVA: 0x00299884 File Offset: 0x00297C84
+		// Token: 0x06005088 RID: 20616 RVA: 0x002999B0 File Offset: 0x00297DB0
 		public override bool TryAdd(Thing item, bool canMergeWithExistingStacks = true)
 		{
 			bool result;
@@ -266,7 +266,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005085 RID: 20613 RVA: 0x00299AAC File Offset: 0x00297EAC
+		// Token: 0x06005089 RID: 20617 RVA: 0x00299BD8 File Offset: 0x00297FD8
 		public void TryAddRangeOrTransfer(IEnumerable<T> things, bool canMergeWithExistingStacks = true, bool destroyLeftover = false)
 		{
 			if (things != this)
@@ -308,7 +308,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005086 RID: 20614 RVA: 0x00299BC4 File Offset: 0x00297FC4
+		// Token: 0x0600508A RID: 20618 RVA: 0x00299CF0 File Offset: 0x002980F0
 		public override int IndexOf(Thing item)
 		{
 			T t = item as T;
@@ -324,7 +324,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005087 RID: 20615 RVA: 0x00299C04 File Offset: 0x00298004
+		// Token: 0x0600508B RID: 20619 RVA: 0x00299D30 File Offset: 0x00298130
 		public override bool Remove(Thing item)
 		{
 			bool result;
@@ -346,7 +346,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005088 RID: 20616 RVA: 0x00299C68 File Offset: 0x00298068
+		// Token: 0x0600508C RID: 20620 RVA: 0x00299D94 File Offset: 0x00298194
 		public int RemoveAll(Predicate<T> predicate)
 		{
 			int num = 0;
@@ -361,13 +361,13 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06005089 RID: 20617 RVA: 0x00299CD8 File Offset: 0x002980D8
+		// Token: 0x0600508D RID: 20621 RVA: 0x00299E04 File Offset: 0x00298204
 		protected override Thing GetAt(int index)
 		{
 			return this.innerList[index];
 		}
 
-		// Token: 0x0600508A RID: 20618 RVA: 0x00299D00 File Offset: 0x00298100
+		// Token: 0x0600508E RID: 20622 RVA: 0x00299E2C File Offset: 0x0029822C
 		public int TryTransferToContainer(Thing item, ThingOwner otherContainer, int stackCount, out T resultingTransferredItem, bool canMergeWithExistingStacks = true)
 		{
 			Thing thing;
@@ -376,19 +376,19 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600508B RID: 20619 RVA: 0x00299D34 File Offset: 0x00298134
+		// Token: 0x0600508F RID: 20623 RVA: 0x00299E60 File Offset: 0x00298260
 		public new T Take(Thing thing, int count)
 		{
 			return (T)((object)base.Take(thing, count));
 		}
 
-		// Token: 0x0600508C RID: 20620 RVA: 0x00299D58 File Offset: 0x00298158
+		// Token: 0x06005090 RID: 20624 RVA: 0x00299E84 File Offset: 0x00298284
 		public new T Take(Thing thing)
 		{
 			return (T)((object)base.Take(thing));
 		}
 
-		// Token: 0x0600508D RID: 20621 RVA: 0x00299D7C File Offset: 0x0029817C
+		// Token: 0x06005091 RID: 20625 RVA: 0x00299EA8 File Offset: 0x002982A8
 		public bool TryDrop(Thing thing, IntVec3 dropLoc, Map map, ThingPlaceMode mode, int count, out T resultingThing, Action<T, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null)
 		{
 			Action<Thing, int> placedAction2 = null;
@@ -405,7 +405,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600508E RID: 20622 RVA: 0x00299DDC File Offset: 0x002981DC
+		// Token: 0x06005092 RID: 20626 RVA: 0x00299F08 File Offset: 0x00298308
 		public bool TryDrop(Thing thing, ThingPlaceMode mode, out T lastResultingThing, Action<T, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null)
 		{
 			Action<Thing, int> placedAction2 = null;
@@ -422,7 +422,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600508F RID: 20623 RVA: 0x00299E38 File Offset: 0x00298238
+		// Token: 0x06005093 RID: 20627 RVA: 0x00299F64 File Offset: 0x00298364
 		public bool TryDrop(Thing thing, IntVec3 dropLoc, Map map, ThingPlaceMode mode, out T lastResultingThing, Action<T, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null)
 		{
 			Action<Thing, int> placedAction2 = null;
@@ -439,49 +439,49 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005090 RID: 20624 RVA: 0x00299E98 File Offset: 0x00298298
+		// Token: 0x06005094 RID: 20628 RVA: 0x00299FC4 File Offset: 0x002983C4
 		int IList<T>.IndexOf(T item)
 		{
 			return this.innerList.IndexOf(item);
 		}
 
-		// Token: 0x06005091 RID: 20625 RVA: 0x00299EB9 File Offset: 0x002982B9
+		// Token: 0x06005095 RID: 20629 RVA: 0x00299FE5 File Offset: 0x002983E5
 		void IList<T>.Insert(int index, T item)
 		{
 			throw new InvalidOperationException("ThingOwner doesn't allow inserting individual elements at any position.");
 		}
 
-		// Token: 0x06005092 RID: 20626 RVA: 0x00299EC6 File Offset: 0x002982C6
+		// Token: 0x06005096 RID: 20630 RVA: 0x00299FF2 File Offset: 0x002983F2
 		void ICollection<T>.Add(T item)
 		{
 			this.TryAdd(item, true);
 		}
 
-		// Token: 0x06005093 RID: 20627 RVA: 0x00299ED7 File Offset: 0x002982D7
+		// Token: 0x06005097 RID: 20631 RVA: 0x0029A003 File Offset: 0x00298403
 		void ICollection<T>.CopyTo(T[] array, int arrayIndex)
 		{
 			this.innerList.CopyTo(array, arrayIndex);
 		}
 
-		// Token: 0x06005094 RID: 20628 RVA: 0x00299EE8 File Offset: 0x002982E8
+		// Token: 0x06005098 RID: 20632 RVA: 0x0029A014 File Offset: 0x00298414
 		bool ICollection<T>.Contains(T item)
 		{
 			return this.innerList.Contains(item);
 		}
 
-		// Token: 0x06005095 RID: 20629 RVA: 0x00299F0C File Offset: 0x0029830C
+		// Token: 0x06005099 RID: 20633 RVA: 0x0029A038 File Offset: 0x00298438
 		bool ICollection<T>.Remove(T item)
 		{
 			return this.Remove(item);
 		}
 
-		// Token: 0x06005096 RID: 20630 RVA: 0x00299F30 File Offset: 0x00298330
+		// Token: 0x0600509A RID: 20634 RVA: 0x0029A05C File Offset: 0x0029845C
 		IEnumerator<T> IEnumerable<T>.GetEnumerator()
 		{
 			return this.innerList.GetEnumerator();
 		}
 
-		// Token: 0x06005097 RID: 20631 RVA: 0x00299F58 File Offset: 0x00298358
+		// Token: 0x0600509B RID: 20635 RVA: 0x0029A084 File Offset: 0x00298484
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return this.innerList.GetEnumerator();

@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000294 RID: 660
+	// Token: 0x02000296 RID: 662
 	public class FeatureDef : Def
 	{
 		// Token: 0x040005DA RID: 1498
@@ -60,7 +60,7 @@ namespace RimWorld
 		private FeatureWorker workerInt;
 
 		// Token: 0x170001A1 RID: 417
-		// (get) Token: 0x06000B28 RID: 2856 RVA: 0x0006573C File Offset: 0x00063B3C
+		// (get) Token: 0x06000B2C RID: 2860 RVA: 0x0006588C File Offset: 0x00063C8C
 		public FeatureWorker Worker
 		{
 			get

@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000372 RID: 882
+	// Token: 0x02000374 RID: 884
 	public class StorytellerComp_ShipChunkDrop : StorytellerComp
 	{
 		// Token: 0x04000959 RID: 2393
@@ -29,7 +29,7 @@ namespace RimWorld
 		};
 
 		// Token: 0x17000224 RID: 548
-		// (get) Token: 0x06000F43 RID: 3907 RVA: 0x00081498 File Offset: 0x0007F898
+		// (get) Token: 0x06000F47 RID: 3911 RVA: 0x000815E8 File Offset: 0x0007F9E8
 		private float ShipChunkDropMTBDays
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F44 RID: 3908 RVA: 0x000814CC File Offset: 0x0007F8CC
+		// Token: 0x06000F48 RID: 3912 RVA: 0x0008161C File Offset: 0x0007FA1C
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			if (Rand.MTBEventOccurs(this.ShipChunkDropMTBDays, 60000f, 1000f))

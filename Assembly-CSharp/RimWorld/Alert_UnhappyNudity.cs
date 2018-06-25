@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007AB RID: 1963
+	// Token: 0x020007AD RID: 1965
 	public class Alert_UnhappyNudity : Alert_Thought
 	{
-		// Token: 0x06002B69 RID: 11113 RVA: 0x0016F0CA File Offset: 0x0016D4CA
+		// Token: 0x06002B6D RID: 11117 RVA: 0x0016F21A File Offset: 0x0016D61A
 		public Alert_UnhappyNudity()
 		{
 			this.defaultLabel = "AlertUnhappyNudity".Translate();
@@ -14,7 +14,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006C1 RID: 1729
-		// (get) Token: 0x06002B6A RID: 11114 RVA: 0x0016F0F0 File Offset: 0x0016D4F0
+		// (get) Token: 0x06002B6E RID: 11118 RVA: 0x0016F240 File Offset: 0x0016D640
 		protected override ThoughtDef Thought
 		{
 			get

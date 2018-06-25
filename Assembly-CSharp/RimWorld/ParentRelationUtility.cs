@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004BC RID: 1212
+	// Token: 0x020004BE RID: 1214
 	public static class ParentRelationUtility
 	{
-		// Token: 0x060015B1 RID: 5553 RVA: 0x000C13A4 File Offset: 0x000BF7A4
+		// Token: 0x060015B5 RID: 5557 RVA: 0x000C14F4 File Offset: 0x000BF8F4
 		public static Pawn GetFather(this Pawn pawn)
 		{
 			Pawn result;
@@ -32,7 +32,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015B2 RID: 5554 RVA: 0x000C142C File Offset: 0x000BF82C
+		// Token: 0x060015B6 RID: 5558 RVA: 0x000C157C File Offset: 0x000BF97C
 		public static Pawn GetMother(this Pawn pawn)
 		{
 			Pawn result;
@@ -56,7 +56,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015B3 RID: 5555 RVA: 0x000C14B4 File Offset: 0x000BF8B4
+		// Token: 0x060015B7 RID: 5559 RVA: 0x000C1604 File Offset: 0x000BFA04
 		public static void SetFather(this Pawn pawn, Pawn newFather)
 		{
 			if (newFather != null && newFather.gender == Gender.Female)
@@ -89,7 +89,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060015B4 RID: 5556 RVA: 0x000C1560 File Offset: 0x000BF960
+		// Token: 0x060015B8 RID: 5560 RVA: 0x000C16B0 File Offset: 0x000BFAB0
 		public static void SetMother(this Pawn pawn, Pawn newMother)
 		{
 			if (newMother != null && newMother.gender != Gender.Female)
@@ -122,7 +122,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060015B5 RID: 5557 RVA: 0x000C160C File Offset: 0x000BFA0C
+		// Token: 0x060015B9 RID: 5561 RVA: 0x000C175C File Offset: 0x000BFB5C
 		public static float GetRandomSecondParentSkinColor(float otherParentSkin, float childSkin, float? secondChildSkin = null)
 		{
 			float mirror;

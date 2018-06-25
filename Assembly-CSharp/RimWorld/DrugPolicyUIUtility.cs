@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200088F RID: 2191
+	// Token: 0x02000891 RID: 2193
 	public static class DrugPolicyUIUtility
 	{
 		// Token: 0x04001AD6 RID: 6870
@@ -16,7 +16,7 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static Func<Pawn, IEnumerable<Widgets.DropdownMenuElement<DrugPolicy>>> <>f__mg$cache0;
 
-		// Token: 0x0600320A RID: 12810 RVA: 0x001AF654 File Offset: 0x001ADA54
+		// Token: 0x0600320E RID: 12814 RVA: 0x001AF794 File Offset: 0x001ADB94
 		public static void DoAssignDrugPolicyButtons(Rect rect, Pawn pawn)
 		{
 			int num = Mathf.FloorToInt((rect.width - 4f) * 0.714285731f);
@@ -57,7 +57,7 @@ namespace RimWorld
 			num3 += (float)num2;
 		}
 
-		// Token: 0x0600320B RID: 12811 RVA: 0x001AF840 File Offset: 0x001ADC40
+		// Token: 0x0600320F RID: 12815 RVA: 0x001AF980 File Offset: 0x001ADD80
 		private static IEnumerable<Widgets.DropdownMenuElement<DrugPolicy>> Button_GenerateMenu(Pawn pawn)
 		{
 			using (List<DrugPolicy>.Enumerator enumerator = Current.Game.drugPolicyDatabase.AllPolicies.GetEnumerator())

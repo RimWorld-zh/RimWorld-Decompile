@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000649 RID: 1609
+	// Token: 0x0200064B RID: 1611
 	public class ScenPart_ConfigPage_ConfigureStartingPawns : ScenPart_ConfigPage
 	{
 		// Token: 0x04001305 RID: 4869
@@ -25,7 +25,7 @@ namespace RimWorld
 		// Token: 0x0400130A RID: 4874
 		private const int MaxPawnChoiceCount = 10;
 
-		// Token: 0x06002173 RID: 8563 RVA: 0x0011BDC8 File Offset: 0x0011A1C8
+		// Token: 0x06002177 RID: 8567 RVA: 0x0011BF18 File Offset: 0x0011A318
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			base.DoEditInterface(listing);
@@ -41,7 +41,7 @@ namespace RimWorld
 			Widgets.TextFieldNumeric<int>(scenPartRect, ref this.pawnChoiceCount, ref this.pawnCountChoiceBuffer, (float)this.pawnCount, 10f);
 		}
 
-		// Token: 0x06002174 RID: 8564 RVA: 0x0011BEA5 File Offset: 0x0011A2A5
+		// Token: 0x06002178 RID: 8568 RVA: 0x0011BFF5 File Offset: 0x0011A3F5
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -49,7 +49,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.pawnChoiceCount, "pawnChoiceCount", 0, false);
 		}
 
-		// Token: 0x06002175 RID: 8565 RVA: 0x0011BED4 File Offset: 0x0011A2D4
+		// Token: 0x06002179 RID: 8569 RVA: 0x0011C024 File Offset: 0x0011A424
 		public override string Summary(Scenario scen)
 		{
 			return "ScenPart_StartWithPawns".Translate(new object[]
@@ -59,14 +59,14 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002176 RID: 8566 RVA: 0x0011BF15 File Offset: 0x0011A315
+		// Token: 0x0600217A RID: 8570 RVA: 0x0011C065 File Offset: 0x0011A465
 		public override void Randomize()
 		{
 			this.pawnCount = Rand.RangeInclusive(1, 6);
 			this.pawnChoiceCount = 10;
 		}
 
-		// Token: 0x06002177 RID: 8567 RVA: 0x0011BF30 File Offset: 0x0011A330
+		// Token: 0x0600217B RID: 8571 RVA: 0x0011C080 File Offset: 0x0011A480
 		public override void PostWorldGenerate()
 		{
 			Find.GameInitData.startingPawnCount = this.pawnCount;

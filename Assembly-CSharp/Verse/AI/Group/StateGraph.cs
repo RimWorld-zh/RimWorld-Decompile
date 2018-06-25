@@ -4,21 +4,21 @@ using System.Linq;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x020009FA RID: 2554
+	// Token: 0x020009FC RID: 2556
 	public class StateGraph
 	{
-		// Token: 0x0400247D RID: 9341
+		// Token: 0x0400247E RID: 9342
 		public List<LordToil> lordToils = new List<LordToil>();
 
-		// Token: 0x0400247E RID: 9342
+		// Token: 0x0400247F RID: 9343
 		public List<Transition> transitions = new List<Transition>();
 
-		// Token: 0x0400247F RID: 9343
+		// Token: 0x04002480 RID: 9344
 		private static HashSet<LordToil> checkedToils;
 
 		// Token: 0x170008E1 RID: 2273
-		// (get) Token: 0x06003958 RID: 14680 RVA: 0x001E7028 File Offset: 0x001E5428
-		// (set) Token: 0x06003959 RID: 14681 RVA: 0x001E7049 File Offset: 0x001E5449
+		// (get) Token: 0x0600395C RID: 14684 RVA: 0x001E7154 File Offset: 0x001E5554
+		// (set) Token: 0x0600395D RID: 14685 RVA: 0x001E7175 File Offset: 0x001E5575
 		public LordToil StartingToil
 		{
 			get
@@ -35,19 +35,19 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x0600395A RID: 14682 RVA: 0x001E7077 File Offset: 0x001E5477
+		// Token: 0x0600395E RID: 14686 RVA: 0x001E71A3 File Offset: 0x001E55A3
 		public void AddToil(LordToil toil)
 		{
 			this.lordToils.Add(toil);
 		}
 
-		// Token: 0x0600395B RID: 14683 RVA: 0x001E7086 File Offset: 0x001E5486
+		// Token: 0x0600395F RID: 14687 RVA: 0x001E71B2 File Offset: 0x001E55B2
 		public void AddTransition(Transition transition)
 		{
 			this.transitions.Add(transition);
 		}
 
-		// Token: 0x0600395C RID: 14684 RVA: 0x001E7098 File Offset: 0x001E5498
+		// Token: 0x06003960 RID: 14688 RVA: 0x001E71C4 File Offset: 0x001E55C4
 		public StateGraph AttachSubgraph(StateGraph subGraph)
 		{
 			for (int i = 0; i < subGraph.lordToils.Count; i++)
@@ -61,7 +61,7 @@ namespace Verse.AI.Group
 			return subGraph;
 		}
 
-		// Token: 0x0600395D RID: 14685 RVA: 0x001E7118 File Offset: 0x001E5518
+		// Token: 0x06003961 RID: 14689 RVA: 0x001E7244 File Offset: 0x001E5644
 		public void ErrorCheck()
 		{
 			if (this.lordToils.Count == 0)
@@ -115,7 +115,7 @@ namespace Verse.AI.Group
 			StateGraph.checkedToils = null;
 		}
 
-		// Token: 0x0600395E RID: 14686 RVA: 0x001E72CC File Offset: 0x001E56CC
+		// Token: 0x06003962 RID: 14690 RVA: 0x001E73F8 File Offset: 0x001E57F8
 		private void CheckForUnregisteredLinkedToilsRecursive(LordToil toil)
 		{
 			if (!this.lordToils.Contains(toil))

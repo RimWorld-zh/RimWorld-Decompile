@@ -3,29 +3,29 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A79 RID: 2681
+	// Token: 0x02000A7B RID: 2683
 	public class MentalState_Manhunter : MentalState
 	{
-		// Token: 0x06003B9B RID: 15259 RVA: 0x001F7F32 File Offset: 0x001F6332
+		// Token: 0x06003B9F RID: 15263 RVA: 0x001F805E File Offset: 0x001F645E
 		public override void PostStart(string reason)
 		{
 			base.PostStart(reason);
 			LessonAutoActivator.TeachOpportunity(ConceptDefOf.AnimalsDontAttackDoors, OpportunityType.Critical);
 		}
 
-		// Token: 0x06003B9C RID: 15260 RVA: 0x001F7F48 File Offset: 0x001F6348
+		// Token: 0x06003BA0 RID: 15264 RVA: 0x001F8074 File Offset: 0x001F6474
 		public override bool ForceHostileTo(Thing t)
 		{
 			return t.Faction != null && this.ForceHostileTo(t.Faction);
 		}
 
-		// Token: 0x06003B9D RID: 15261 RVA: 0x001F7F78 File Offset: 0x001F6378
+		// Token: 0x06003BA1 RID: 15265 RVA: 0x001F80A4 File Offset: 0x001F64A4
 		public override bool ForceHostileTo(Faction f)
 		{
 			return true;
 		}
 
-		// Token: 0x06003B9E RID: 15262 RVA: 0x001F7F90 File Offset: 0x001F6390
+		// Token: 0x06003BA2 RID: 15266 RVA: 0x001F80BC File Offset: 0x001F64BC
 		public override RandomSocialMode SocialModeMax()
 		{
 			return RandomSocialMode.Off;

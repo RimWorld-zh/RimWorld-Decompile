@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DBF RID: 3519
+	// Token: 0x02000DC1 RID: 3521
 	public class SubSustainer
 	{
 		// Token: 0x04003452 RID: 13394
@@ -32,7 +32,7 @@ namespace Verse.Sound
 		// Token: 0x04003459 RID: 13401
 		private const float MinSampleStartInterval = 0.01f;
 
-		// Token: 0x06004E95 RID: 20117 RVA: 0x00291004 File Offset: 0x0028F404
+		// Token: 0x06004E99 RID: 20121 RVA: 0x00291130 File Offset: 0x0028F530
 		public SubSustainer(Sustainer parent, SubSoundDef subSoundDef)
 		{
 			this.parent = parent;
@@ -56,8 +56,8 @@ namespace Verse.Sound
 			});
 		}
 
-		// Token: 0x17000CB2 RID: 3250
-		// (get) Token: 0x06004E96 RID: 20118 RVA: 0x0029105C File Offset: 0x0028F45C
+		// Token: 0x17000CB1 RID: 3249
+		// (get) Token: 0x06004E9A RID: 20122 RVA: 0x00291188 File Offset: 0x0028F588
 		public SoundInfo Info
 		{
 			get
@@ -66,8 +66,8 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x17000CB3 RID: 3251
-		// (get) Token: 0x06004E97 RID: 20119 RVA: 0x0029107C File Offset: 0x0028F47C
+		// Token: 0x17000CB2 RID: 3250
+		// (get) Token: 0x06004E9B RID: 20123 RVA: 0x002911A8 File Offset: 0x0028F5A8
 		public SoundParams ExternalParams
 		{
 			get
@@ -76,7 +76,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E98 RID: 20120 RVA: 0x0029109C File Offset: 0x0028F49C
+		// Token: 0x06004E9C RID: 20124 RVA: 0x002911C8 File Offset: 0x0028F5C8
 		private void StartSample()
 		{
 			ResolvedGrain resolvedGrain = this.subDef.RandomizedResolvedGrain();
@@ -124,7 +124,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E99 RID: 20121 RVA: 0x002911E4 File Offset: 0x0028F5E4
+		// Token: 0x06004E9D RID: 20125 RVA: 0x00291310 File Offset: 0x0028F710
 		public void SubSustainerUpdate()
 		{
 			for (int i = this.samples.Count - 1; i >= 0; i--)
@@ -144,14 +144,14 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E9A RID: 20122 RVA: 0x00291284 File Offset: 0x0028F684
+		// Token: 0x06004E9E RID: 20126 RVA: 0x002913B0 File Offset: 0x0028F7B0
 		private void EndSample(SampleSustainer samp)
 		{
 			this.samples.Remove(samp);
 			samp.SampleCleanup();
 		}
 
-		// Token: 0x06004E9B RID: 20123 RVA: 0x0029129A File Offset: 0x0028F69A
+		// Token: 0x06004E9F RID: 20127 RVA: 0x002913C6 File Offset: 0x0028F7C6
 		public virtual void Cleanup()
 		{
 			while (this.samples.Count > 0)
@@ -160,19 +160,19 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E9C RID: 20124 RVA: 0x002912C8 File Offset: 0x0028F6C8
+		// Token: 0x06004EA0 RID: 20128 RVA: 0x002913F4 File Offset: 0x0028F7F4
 		public override string ToString()
 		{
 			return this.subDef.name + "_" + this.creationFrame;
 		}
 
-		// Token: 0x06004E9D RID: 20125 RVA: 0x00291300 File Offset: 0x0028F700
+		// Token: 0x06004EA1 RID: 20129 RVA: 0x0029142C File Offset: 0x0028F82C
 		public override int GetHashCode()
 		{
 			return Gen.HashCombine<SubSoundDef>(this.creationRealTime.GetHashCode(), this.subDef);
 		}
 
-		// Token: 0x06004E9E RID: 20126 RVA: 0x00291334 File Offset: 0x0028F734
+		// Token: 0x06004EA2 RID: 20130 RVA: 0x00291460 File Offset: 0x0028F860
 		public string SamplesDebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

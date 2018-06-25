@@ -2,10 +2,10 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000AD9 RID: 2777
+	// Token: 0x02000ADB RID: 2779
 	public static class WanderUtility
 	{
-		// Token: 0x06003D95 RID: 15765 RVA: 0x00206598 File Offset: 0x00204998
+		// Token: 0x06003D99 RID: 15769 RVA: 0x002066C4 File Offset: 0x00204AC4
 		public static IntVec3 BestCloseWanderRoot(IntVec3 trueWanderRoot, Pawn pawn)
 		{
 			for (int i = 0; i < 50; i++)
@@ -27,7 +27,7 @@ namespace Verse.AI
 			return IntVec3.Invalid;
 		}
 
-		// Token: 0x06003D96 RID: 15766 RVA: 0x0020664C File Offset: 0x00204A4C
+		// Token: 0x06003D9A RID: 15770 RVA: 0x00206778 File Offset: 0x00204B78
 		public static bool InSameRoom(IntVec3 locA, IntVec3 locB, Map map)
 		{
 			Room room = locA.GetRoom(map, RegionType.Set_All);

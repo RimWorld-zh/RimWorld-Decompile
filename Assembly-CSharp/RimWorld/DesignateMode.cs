@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020007BD RID: 1981
+	// Token: 0x020007BF RID: 1983
 	public enum DesignateMode : byte
 	{
 		// Token: 0x04001795 RID: 6037

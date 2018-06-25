@@ -2,20 +2,20 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000956 RID: 2390
+	// Token: 0x02000958 RID: 2392
 	[DefOf]
 	public static class BillRepeatModeDefOf
 	{
-		// Token: 0x0400229F RID: 8863
+		// Token: 0x040022A0 RID: 8864
 		public static BillRepeatModeDef RepeatCount;
 
-		// Token: 0x040022A0 RID: 8864
+		// Token: 0x040022A1 RID: 8865
 		public static BillRepeatModeDef TargetCount;
 
-		// Token: 0x040022A1 RID: 8865
+		// Token: 0x040022A2 RID: 8866
 		public static BillRepeatModeDef Forever;
 
-		// Token: 0x0600365E RID: 13918 RVA: 0x001D0D59 File Offset: 0x001CF159
+		// Token: 0x06003662 RID: 13922 RVA: 0x001D0E99 File Offset: 0x001CF299
 		static BillRepeatModeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(BillRepeatModeDefOf));

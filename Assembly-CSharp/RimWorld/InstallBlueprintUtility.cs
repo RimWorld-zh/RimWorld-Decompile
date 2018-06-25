@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000676 RID: 1654
+	// Token: 0x02000678 RID: 1656
 	public static class InstallBlueprintUtility
 	{
-		// Token: 0x060022CF RID: 8911 RVA: 0x0012BCF8 File Offset: 0x0012A0F8
+		// Token: 0x060022D3 RID: 8915 RVA: 0x0012BE48 File Offset: 0x0012A248
 		public static void CancelBlueprintsFor(Thing th)
 		{
 			Blueprint_Install blueprint_Install = InstallBlueprintUtility.ExistingBlueprintFor(th);
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060022D0 RID: 8912 RVA: 0x0012BD1C File Offset: 0x0012A11C
+		// Token: 0x060022D4 RID: 8916 RVA: 0x0012BE6C File Offset: 0x0012A26C
 		public static Blueprint_Install ExistingBlueprintFor(Thing th)
 		{
 			ThingDef installBlueprintDef = th.GetInnerIfMinified().def.installBlueprintDef;

@@ -6,11 +6,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200049E RID: 1182
+	// Token: 0x020004A0 RID: 1184
 	public static class PawnsFinder
 	{
 		// Token: 0x170002C1 RID: 705
-		// (get) Token: 0x06001522 RID: 5410 RVA: 0x000B9AFC File Offset: 0x000B7EFC
+		// (get) Token: 0x06001526 RID: 5414 RVA: 0x000B9C4C File Offset: 0x000B804C
 		public static IEnumerable<Pawn> AllMapsWorldAndTemporary_AliveOrDead
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002C2 RID: 706
-		// (get) Token: 0x06001523 RID: 5411 RVA: 0x000B9B20 File Offset: 0x000B7F20
+		// (get) Token: 0x06001527 RID: 5415 RVA: 0x000B9C70 File Offset: 0x000B8070
 		public static IEnumerable<Pawn> AllMapsWorldAndTemporary_Alive
 		{
 			get
@@ -60,7 +60,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002C3 RID: 707
-		// (get) Token: 0x06001524 RID: 5412 RVA: 0x000B9B44 File Offset: 0x000B7F44
+		// (get) Token: 0x06001528 RID: 5416 RVA: 0x000B9C94 File Offset: 0x000B8094
 		public static IEnumerable<Pawn> AllMaps
 		{
 			get
@@ -81,7 +81,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002C4 RID: 708
-		// (get) Token: 0x06001525 RID: 5413 RVA: 0x000B9B68 File Offset: 0x000B7F68
+		// (get) Token: 0x06001529 RID: 5417 RVA: 0x000B9CB8 File Offset: 0x000B80B8
 		public static IEnumerable<Pawn> AllMaps_Spawned
 		{
 			get
@@ -103,7 +103,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002C5 RID: 709
-		// (get) Token: 0x06001526 RID: 5414 RVA: 0x000B9B8C File Offset: 0x000B7F8C
+		// (get) Token: 0x0600152A RID: 5418 RVA: 0x000B9CDC File Offset: 0x000B80DC
 		public static IEnumerable<Pawn> All_AliveOrDead
 		{
 			get
@@ -121,7 +121,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002C6 RID: 710
-		// (get) Token: 0x06001527 RID: 5415 RVA: 0x000B9BB0 File Offset: 0x000B7FB0
+		// (get) Token: 0x0600152B RID: 5419 RVA: 0x000B9D00 File Offset: 0x000B8100
 		public static IEnumerable<Pawn> Temporary
 		{
 			get
@@ -164,7 +164,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002C7 RID: 711
-		// (get) Token: 0x06001528 RID: 5416 RVA: 0x000B9BD4 File Offset: 0x000B7FD4
+		// (get) Token: 0x0600152C RID: 5420 RVA: 0x000B9D24 File Offset: 0x000B8124
 		public static IEnumerable<Pawn> Temporary_Alive
 		{
 			get
@@ -181,7 +181,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002C8 RID: 712
-		// (get) Token: 0x06001529 RID: 5417 RVA: 0x000B9BF8 File Offset: 0x000B7FF8
+		// (get) Token: 0x0600152D RID: 5421 RVA: 0x000B9D48 File Offset: 0x000B8148
 		public static IEnumerable<Pawn> Temporary_Dead
 		{
 			get
@@ -198,7 +198,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002C9 RID: 713
-		// (get) Token: 0x0600152A RID: 5418 RVA: 0x000B9C1C File Offset: 0x000B801C
+		// (get) Token: 0x0600152E RID: 5422 RVA: 0x000B9D6C File Offset: 0x000B816C
 		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive
 		{
 			get
@@ -216,7 +216,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002CA RID: 714
-		// (get) Token: 0x0600152B RID: 5419 RVA: 0x000B9C40 File Offset: 0x000B8040
+		// (get) Token: 0x0600152F RID: 5423 RVA: 0x000B9D90 File Offset: 0x000B8190
 		public static IEnumerable<Pawn> AllCaravansAndTravelingTransportPods_Alive
 		{
 			get
@@ -233,7 +233,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002CB RID: 715
-		// (get) Token: 0x0600152C RID: 5420 RVA: 0x000B9C64 File Offset: 0x000B8064
+		// (get) Token: 0x06001530 RID: 5424 RVA: 0x000B9DB4 File Offset: 0x000B81B4
 		public static IEnumerable<Pawn> AllCaravansAndTravelingTransportPods_AliveOrDead
 		{
 			get
@@ -263,7 +263,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002CC RID: 716
-		// (get) Token: 0x0600152D RID: 5421 RVA: 0x000B9C88 File Offset: 0x000B8088
+		// (get) Token: 0x06001531 RID: 5425 RVA: 0x000B9DD8 File Offset: 0x000B81D8
 		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_Colonists
 		{
 			get
@@ -280,7 +280,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002CD RID: 717
-		// (get) Token: 0x0600152E RID: 5422 RVA: 0x000B9CAC File Offset: 0x000B80AC
+		// (get) Token: 0x06001532 RID: 5426 RVA: 0x000B9DFC File Offset: 0x000B81FC
 		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists
 		{
 			get
@@ -297,7 +297,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002CE RID: 718
-		// (get) Token: 0x0600152F RID: 5423 RVA: 0x000B9CD0 File Offset: 0x000B80D0
+		// (get) Token: 0x06001533 RID: 5427 RVA: 0x000B9E20 File Offset: 0x000B8220
 		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoCryptosleep
 		{
 			get
@@ -314,7 +314,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002CF RID: 719
-		// (get) Token: 0x06001530 RID: 5424 RVA: 0x000B9CF4 File Offset: 0x000B80F4
+		// (get) Token: 0x06001534 RID: 5428 RVA: 0x000B9E44 File Offset: 0x000B8244
 		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_OfPlayerFaction
 		{
 			get
@@ -332,7 +332,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002D0 RID: 720
-		// (get) Token: 0x06001531 RID: 5425 RVA: 0x000B9D18 File Offset: 0x000B8118
+		// (get) Token: 0x06001535 RID: 5429 RVA: 0x000B9E68 File Offset: 0x000B8268
 		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_OfPlayerFaction_NoCryptosleep
 		{
 			get
@@ -350,7 +350,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002D1 RID: 721
-		// (get) Token: 0x06001532 RID: 5426 RVA: 0x000B9D3C File Offset: 0x000B813C
+		// (get) Token: 0x06001536 RID: 5430 RVA: 0x000B9E8C File Offset: 0x000B828C
 		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_PrisonersOfColony
 		{
 			get
@@ -367,7 +367,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002D2 RID: 722
-		// (get) Token: 0x06001533 RID: 5427 RVA: 0x000B9D60 File Offset: 0x000B8160
+		// (get) Token: 0x06001537 RID: 5431 RVA: 0x000B9EB0 File Offset: 0x000B82B0
 		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonistsAndPrisoners
 		{
 			get
@@ -377,7 +377,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002D3 RID: 723
-		// (get) Token: 0x06001534 RID: 5428 RVA: 0x000B9D84 File Offset: 0x000B8184
+		// (get) Token: 0x06001538 RID: 5432 RVA: 0x000B9ED4 File Offset: 0x000B82D4
 		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonistsAndPrisoners_NoCryptosleep
 		{
 			get
@@ -394,7 +394,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002D4 RID: 724
-		// (get) Token: 0x06001535 RID: 5429 RVA: 0x000B9DA8 File Offset: 0x000B81A8
+		// (get) Token: 0x06001539 RID: 5433 RVA: 0x000B9EF8 File Offset: 0x000B82F8
 		public static IEnumerable<Pawn> AllMaps_PrisonersOfColonySpawned
 		{
 			get
@@ -416,7 +416,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002D5 RID: 725
-		// (get) Token: 0x06001536 RID: 5430 RVA: 0x000B9DCC File Offset: 0x000B81CC
+		// (get) Token: 0x0600153A RID: 5434 RVA: 0x000B9F1C File Offset: 0x000B831C
 		public static IEnumerable<Pawn> AllMaps_PrisonersOfColony
 		{
 			get
@@ -437,7 +437,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002D6 RID: 726
-		// (get) Token: 0x06001537 RID: 5431 RVA: 0x000B9DF0 File Offset: 0x000B81F0
+		// (get) Token: 0x0600153B RID: 5435 RVA: 0x000B9F40 File Offset: 0x000B8340
 		public static IEnumerable<Pawn> AllMaps_FreeColonists
 		{
 			get
@@ -458,7 +458,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002D7 RID: 727
-		// (get) Token: 0x06001538 RID: 5432 RVA: 0x000B9E14 File Offset: 0x000B8214
+		// (get) Token: 0x0600153C RID: 5436 RVA: 0x000B9F64 File Offset: 0x000B8364
 		public static IEnumerable<Pawn> AllMaps_FreeColonistsSpawned
 		{
 			get
@@ -479,7 +479,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002D8 RID: 728
-		// (get) Token: 0x06001539 RID: 5433 RVA: 0x000B9E38 File Offset: 0x000B8238
+		// (get) Token: 0x0600153D RID: 5437 RVA: 0x000B9F88 File Offset: 0x000B8388
 		public static IEnumerable<Pawn> AllMaps_FreeColonistsAndPrisonersSpawned
 		{
 			get
@@ -500,7 +500,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002D9 RID: 729
-		// (get) Token: 0x0600153A RID: 5434 RVA: 0x000B9E5C File Offset: 0x000B825C
+		// (get) Token: 0x0600153E RID: 5438 RVA: 0x000B9FAC File Offset: 0x000B83AC
 		public static IEnumerable<Pawn> AllMaps_FreeColonistsAndPrisoners
 		{
 			get
@@ -517,7 +517,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600153B RID: 5435 RVA: 0x000B9E80 File Offset: 0x000B8280
+		// Token: 0x0600153F RID: 5439 RVA: 0x000B9FD0 File Offset: 0x000B83D0
 		public static IEnumerable<Pawn> AllMaps_SpawnedPawnsInFaction(Faction faction)
 		{
 			List<Map> maps = Find.Maps;

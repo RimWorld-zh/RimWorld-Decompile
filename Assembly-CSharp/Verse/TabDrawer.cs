@@ -6,7 +6,7 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000EA6 RID: 3750
+	// Token: 0x02000EA8 RID: 3752
 	public static class TabDrawer
 	{
 		// Token: 0x04003A9A RID: 15002
@@ -21,7 +21,7 @@ namespace Verse
 		// Token: 0x04003A9D RID: 15005
 		private static List<TabRecord> tmpTabs = new List<TabRecord>();
 
-		// Token: 0x0600587D RID: 22653 RVA: 0x002D5E10 File Offset: 0x002D4210
+		// Token: 0x06005881 RID: 22657 RVA: 0x002D5F3C File Offset: 0x002D433C
 		public static TabRecord DrawTabs(Rect baseRect, List<TabRecord> tabs, int rows)
 		{
 			TabRecord result;
@@ -61,7 +61,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600587E RID: 22654 RVA: 0x002D5F30 File Offset: 0x002D4330
+		// Token: 0x06005882 RID: 22658 RVA: 0x002D605C File Offset: 0x002D445C
 		public static TabRecord DrawTabs(Rect baseRect, List<TabRecord> tabs, float maxTabWidth = 200f)
 		{
 			TabRecord tabRecord = null;

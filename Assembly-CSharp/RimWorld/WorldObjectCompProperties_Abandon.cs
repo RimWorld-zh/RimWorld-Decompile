@@ -4,16 +4,16 @@ using RimWorld.Planet;
 
 namespace RimWorld
 {
-	// Token: 0x02000278 RID: 632
+	// Token: 0x0200027A RID: 634
 	public class WorldObjectCompProperties_Abandon : WorldObjectCompProperties
 	{
-		// Token: 0x06000ADC RID: 2780 RVA: 0x000624B0 File Offset: 0x000608B0
+		// Token: 0x06000AE0 RID: 2784 RVA: 0x00062600 File Offset: 0x00060A00
 		public WorldObjectCompProperties_Abandon()
 		{
 			this.compClass = typeof(AbandonComp);
 		}
 
-		// Token: 0x06000ADD RID: 2781 RVA: 0x000624CC File Offset: 0x000608CC
+		// Token: 0x06000AE1 RID: 2785 RVA: 0x0006261C File Offset: 0x00060A1C
 		public override IEnumerable<string> ConfigErrors(WorldObjectDef parentDef)
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))

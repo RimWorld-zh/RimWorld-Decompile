@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200023B RID: 571
+	// Token: 0x0200023D RID: 573
 	public class BuildingProperties
 	{
 		// Token: 0x04000406 RID: 1030
@@ -249,7 +249,7 @@ namespace RimWorld
 		public int haulToContainerDuration;
 
 		// Token: 0x1700017F RID: 383
-		// (get) Token: 0x06000A5B RID: 2651 RVA: 0x0005DD94 File Offset: 0x0005C194
+		// (get) Token: 0x06000A5F RID: 2655 RVA: 0x0005DEE4 File Offset: 0x0005C2E4
 		public bool SupportsPlants
 		{
 			get
@@ -259,7 +259,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000180 RID: 384
-		// (get) Token: 0x06000A5C RID: 2652 RVA: 0x0005DDB8 File Offset: 0x0005C1B8
+		// (get) Token: 0x06000A60 RID: 2656 RVA: 0x0005DF08 File Offset: 0x0005C308
 		public bool IsTurret
 		{
 			get
@@ -269,7 +269,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000181 RID: 385
-		// (get) Token: 0x06000A5D RID: 2653 RVA: 0x0005DDDC File Offset: 0x0005C1DC
+		// (get) Token: 0x06000A61 RID: 2657 RVA: 0x0005DF2C File Offset: 0x0005C32C
 		public bool IsDeconstructible
 		{
 			get
@@ -279,7 +279,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000182 RID: 386
-		// (get) Token: 0x06000A5E RID: 2654 RVA: 0x0005DE14 File Offset: 0x0005C214
+		// (get) Token: 0x06000A62 RID: 2658 RVA: 0x0005DF64 File Offset: 0x0005C364
 		public bool IsMortar
 		{
 			get
@@ -319,7 +319,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000A5F RID: 2655 RVA: 0x0005DF74 File Offset: 0x0005C374
+		// Token: 0x06000A63 RID: 2659 RVA: 0x0005E0C4 File Offset: 0x0005C4C4
 		public IEnumerable<string> ConfigErrors(ThingDef parent)
 		{
 			if (this.isTrap && !this.isEdifice)
@@ -337,12 +337,12 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000A60 RID: 2656 RVA: 0x0005DFA5 File Offset: 0x0005C3A5
+		// Token: 0x06000A64 RID: 2660 RVA: 0x0005E0F5 File Offset: 0x0005C4F5
 		public void PostLoadSpecial(ThingDef parent)
 		{
 		}
 
-		// Token: 0x06000A61 RID: 2657 RVA: 0x0005DFA8 File Offset: 0x0005C3A8
+		// Token: 0x06000A65 RID: 2661 RVA: 0x0005E0F8 File Offset: 0x0005C4F8
 		public void ResolveReferencesSpecial()
 		{
 			if (this.soundDoorOpenPowered == null)
@@ -386,7 +386,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000A62 RID: 2658 RVA: 0x0005E09C File Offset: 0x0005C49C
+		// Token: 0x06000A66 RID: 2662 RVA: 0x0005E1EC File Offset: 0x0005C5EC
 		public static void FinalizeInit()
 		{
 			List<ThingDef> allDefsListForReading = DefDatabase<ThingDef>.AllDefsListForReading;
@@ -415,7 +415,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000A63 RID: 2659 RVA: 0x0005E174 File Offset: 0x0005C574
+		// Token: 0x06000A67 RID: 2663 RVA: 0x0005E2C4 File Offset: 0x0005C6C4
 		public IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
 			if (this.joyKind != null)

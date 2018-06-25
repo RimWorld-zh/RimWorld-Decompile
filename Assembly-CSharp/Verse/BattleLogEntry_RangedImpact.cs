@@ -6,7 +6,7 @@ using Verse.Grammar;
 
 namespace Verse
 {
-	// Token: 0x02000BBF RID: 3007
+	// Token: 0x02000BC1 RID: 3009
 	public class BattleLogEntry_RangedImpact : LogEntry_DamageResult
 	{
 		// Token: 0x04002CA5 RID: 11429
@@ -43,12 +43,12 @@ namespace Verse
 		[TweakValue("LogFilter", 0f, 1f)]
 		private static float DisplayChanceOnMiss = 0.25f;
 
-		// Token: 0x0600415E RID: 16734 RVA: 0x002280E0 File Offset: 0x002264E0
+		// Token: 0x06004161 RID: 16737 RVA: 0x002281BC File Offset: 0x002265BC
 		public BattleLogEntry_RangedImpact() : base(null)
 		{
 		}
 
-		// Token: 0x0600415F RID: 16735 RVA: 0x002280EC File Offset: 0x002264EC
+		// Token: 0x06004162 RID: 16738 RVA: 0x002281C8 File Offset: 0x002265C8
 		public BattleLogEntry_RangedImpact(Thing initiator, Thing recipient, Thing originalTarget, ThingDef weaponDef, ThingDef projectileDef, ThingDef coverDef) : base(null)
 		{
 			if (initiator is Pawn)
@@ -81,8 +81,8 @@ namespace Verse
 			this.coverDef = coverDef;
 		}
 
-		// Token: 0x17000A37 RID: 2615
-		// (get) Token: 0x06004160 RID: 16736 RVA: 0x002281DC File Offset: 0x002265DC
+		// Token: 0x17000A36 RID: 2614
+		// (get) Token: 0x06004163 RID: 16739 RVA: 0x002282B8 File Offset: 0x002266B8
 		private string InitiatorName
 		{
 			get
@@ -104,8 +104,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A38 RID: 2616
-		// (get) Token: 0x06004161 RID: 16737 RVA: 0x00228230 File Offset: 0x00226630
+		// Token: 0x17000A37 RID: 2615
+		// (get) Token: 0x06004164 RID: 16740 RVA: 0x0022830C File Offset: 0x0022670C
 		private string RecipientName
 		{
 			get
@@ -127,13 +127,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004162 RID: 16738 RVA: 0x00228284 File Offset: 0x00226684
+		// Token: 0x06004165 RID: 16741 RVA: 0x00228360 File Offset: 0x00226760
 		public override bool Concerns(Thing t)
 		{
 			return t == this.initiatorPawn || t == this.recipientPawn || t == this.originalTargetPawn;
 		}
 
-		// Token: 0x06004163 RID: 16739 RVA: 0x002282C0 File Offset: 0x002266C0
+		// Token: 0x06004166 RID: 16742 RVA: 0x0022839C File Offset: 0x0022679C
 		public override IEnumerable<Thing> GetConcerns()
 		{
 			if (this.initiatorPawn != null)
@@ -151,7 +151,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004164 RID: 16740 RVA: 0x002282EC File Offset: 0x002266EC
+		// Token: 0x06004167 RID: 16743 RVA: 0x002283C8 File Offset: 0x002267C8
 		public override void ClickedFromPOV(Thing pov)
 		{
 			if (this.recipientPawn != null)
@@ -171,7 +171,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004165 RID: 16741 RVA: 0x00228354 File Offset: 0x00226754
+		// Token: 0x06004168 RID: 16744 RVA: 0x00228430 File Offset: 0x00226830
 		public override Texture2D IconFromPOV(Thing pov)
 		{
 			Texture2D result;
@@ -198,13 +198,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004166 RID: 16742 RVA: 0x002283C8 File Offset: 0x002267C8
+		// Token: 0x06004169 RID: 16745 RVA: 0x002284A4 File Offset: 0x002268A4
 		protected override BodyDef DamagedBody()
 		{
 			return (this.recipientPawn == null) ? null : this.recipientPawn.RaceProps.body;
 		}
 
-		// Token: 0x06004167 RID: 16743 RVA: 0x00228400 File Offset: 0x00226800
+		// Token: 0x0600416A RID: 16746 RVA: 0x002284DC File Offset: 0x002268DC
 		protected override GrammarRequest GenerateGrammarRequest()
 		{
 			GrammarRequest result = base.GenerateGrammarRequest();
@@ -265,7 +265,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004168 RID: 16744 RVA: 0x0022868C File Offset: 0x00226A8C
+		// Token: 0x0600416B RID: 16747 RVA: 0x00228768 File Offset: 0x00226B68
 		public override bool ShowInCompactView()
 		{
 			if (!this.deflected)
@@ -287,7 +287,7 @@ namespace Verse
 			return Rand.ChanceSeeded(BattleLogEntry_RangedImpact.DisplayChanceOnMiss / (float)num, this.logID);
 		}
 
-		// Token: 0x06004169 RID: 16745 RVA: 0x00228730 File Offset: 0x00226B30
+		// Token: 0x0600416C RID: 16748 RVA: 0x0022880C File Offset: 0x00226C0C
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -303,7 +303,7 @@ namespace Verse
 			Scribe_Defs.Look<ThingDef>(ref this.coverDef, "coverDef");
 		}
 
-		// Token: 0x0600416A RID: 16746 RVA: 0x002287EC File Offset: 0x00226BEC
+		// Token: 0x0600416D RID: 16749 RVA: 0x002288C8 File Offset: 0x00226CC8
 		public override string ToString()
 		{
 			return "BattleLogEntry_RangedImpact: " + this.InitiatorName + "->" + this.RecipientName;

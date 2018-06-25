@@ -4,21 +4,21 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200067B RID: 1659
+	// Token: 0x0200067D RID: 1661
 	public class Graphic_LinkedTransmitter : Graphic_Linked
 	{
-		// Token: 0x060022F2 RID: 8946 RVA: 0x0012D5FE File Offset: 0x0012B9FE
+		// Token: 0x060022F6 RID: 8950 RVA: 0x0012D74E File Offset: 0x0012BB4E
 		public Graphic_LinkedTransmitter(Graphic subGraphic) : base(subGraphic)
 		{
 		}
 
-		// Token: 0x060022F3 RID: 8947 RVA: 0x0012D608 File Offset: 0x0012BA08
+		// Token: 0x060022F7 RID: 8951 RVA: 0x0012D758 File Offset: 0x0012BB58
 		public override bool ShouldLinkWith(IntVec3 c, Thing parent)
 		{
 			return c.InBounds(parent.Map) && (base.ShouldLinkWith(c, parent) || parent.Map.powerNetGrid.TransmittedPowerNetAt(c) != null);
 		}
 
-		// Token: 0x060022F4 RID: 8948 RVA: 0x0012D660 File Offset: 0x0012BA60
+		// Token: 0x060022F8 RID: 8952 RVA: 0x0012D7B0 File Offset: 0x0012BBB0
 		public override void Print(SectionLayer layer, Thing thing)
 		{
 			base.Print(layer, thing);

@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200091C RID: 2332
+	// Token: 0x0200091E RID: 2334
 	[DefOf]
 	public static class ScenPartDefOf
 	{
@@ -36,7 +36,7 @@ namespace RimWorld
 		// Token: 0x04001ED9 RID: 7897
 		public static ScenPartDef GameStartDialog;
 
-		// Token: 0x06003624 RID: 13860 RVA: 0x001D0945 File Offset: 0x001CED45
+		// Token: 0x06003628 RID: 13864 RVA: 0x001D0A85 File Offset: 0x001CEE85
 		static ScenPartDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ScenPartDefOf));

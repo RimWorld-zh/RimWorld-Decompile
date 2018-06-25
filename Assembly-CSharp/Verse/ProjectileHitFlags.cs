@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000DEE RID: 3566
+	// Token: 0x02000DF0 RID: 3568
 	[Flags]
 	public enum ProjectileHitFlags
 	{

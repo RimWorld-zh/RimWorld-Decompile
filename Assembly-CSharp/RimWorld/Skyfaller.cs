@@ -7,7 +7,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020006E4 RID: 1764
+	// Token: 0x020006E6 RID: 1766
 	[StaticConstructorOnStartup]
 	public class Skyfaller : Thing, IThingHolder
 	{
@@ -41,14 +41,14 @@ namespace RimWorld
 		// Token: 0x04001572 RID: 5490
 		private const int LeaveMapAfterTicks = 220;
 
-		// Token: 0x06002668 RID: 9832 RVA: 0x001489D2 File Offset: 0x00146DD2
+		// Token: 0x0600266C RID: 9836 RVA: 0x00148B22 File Offset: 0x00146F22
 		public Skyfaller()
 		{
 			this.innerContainer = new ThingOwner<Thing>(this);
 		}
 
 		// Token: 0x170005D9 RID: 1497
-		// (get) Token: 0x06002669 RID: 9833 RVA: 0x001489E8 File Offset: 0x00146DE8
+		// (get) Token: 0x0600266D RID: 9837 RVA: 0x00148B38 File Offset: 0x00146F38
 		public override Graphic Graphic
 		{
 			get
@@ -68,7 +68,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005DA RID: 1498
-		// (get) Token: 0x0600266A RID: 9834 RVA: 0x00148A28 File Offset: 0x00146E28
+		// (get) Token: 0x0600266E RID: 9838 RVA: 0x00148B78 File Offset: 0x00146F78
 		public override Vector3 DrawPos
 		{
 			get
@@ -95,7 +95,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005DB RID: 1499
-		// (get) Token: 0x0600266B RID: 9835 RVA: 0x00148B44 File Offset: 0x00146F44
+		// (get) Token: 0x0600266F RID: 9839 RVA: 0x00148C94 File Offset: 0x00147094
 		private Material ShadowMaterial
 		{
 			get
@@ -108,7 +108,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600266C RID: 9836 RVA: 0x00148BAC File Offset: 0x00146FAC
+		// Token: 0x06002670 RID: 9840 RVA: 0x00148CFC File Offset: 0x001470FC
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -121,7 +121,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.shrapnelDirection, "shrapnelDirection", 0f, false);
 		}
 
-		// Token: 0x0600266D RID: 9837 RVA: 0x00148C18 File Offset: 0x00147018
+		// Token: 0x06002671 RID: 9841 RVA: 0x00148D68 File Offset: 0x00147168
 		public override void PostMake()
 		{
 			base.PostMake();
@@ -131,7 +131,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600266E RID: 9838 RVA: 0x00148C4C File Offset: 0x0014704C
+		// Token: 0x06002672 RID: 9842 RVA: 0x00148D9C File Offset: 0x0014719C
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -161,14 +161,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600266F RID: 9839 RVA: 0x00148D39 File Offset: 0x00147139
+		// Token: 0x06002673 RID: 9843 RVA: 0x00148E89 File Offset: 0x00147289
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
 			base.Destroy(mode);
 			this.innerContainer.ClearAndDestroyContents(DestroyMode.Vanish);
 		}
 
-		// Token: 0x06002670 RID: 9840 RVA: 0x00148D50 File Offset: 0x00147150
+		// Token: 0x06002674 RID: 9844 RVA: 0x00148EA0 File Offset: 0x001472A0
 		public override void DrawAt(Vector3 drawLoc, bool flip = false)
 		{
 			Thing thingForGraphic = this.GetThingForGraphic();
@@ -177,7 +177,7 @@ namespace RimWorld
 			this.DrawDropSpotShadow();
 		}
 
-		// Token: 0x06002671 RID: 9841 RVA: 0x00148DC0 File Offset: 0x001471C0
+		// Token: 0x06002675 RID: 9845 RVA: 0x00148F10 File Offset: 0x00147310
 		public override void Tick()
 		{
 			this.innerContainer.ThingOwnerTick(true);
@@ -223,7 +223,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002672 RID: 9842 RVA: 0x00148F7C File Offset: 0x0014737C
+		// Token: 0x06002676 RID: 9846 RVA: 0x001490CC File Offset: 0x001474CC
 		protected virtual void HitRoof()
 		{
 			if (this.def.skyfaller.hitRoof)
@@ -262,7 +262,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002673 RID: 9843 RVA: 0x0014907C File Offset: 0x0014747C
+		// Token: 0x06002677 RID: 9847 RVA: 0x001491CC File Offset: 0x001475CC
 		protected virtual void Impact()
 		{
 			if (this.def.skyfaller.CausesExplosion)
@@ -297,25 +297,25 @@ namespace RimWorld
 			this.Destroy(DestroyMode.Vanish);
 		}
 
-		// Token: 0x06002674 RID: 9844 RVA: 0x001492C5 File Offset: 0x001476C5
+		// Token: 0x06002678 RID: 9848 RVA: 0x00149415 File Offset: 0x00147815
 		protected virtual void LeaveMap()
 		{
 			this.Destroy(DestroyMode.Vanish);
 		}
 
-		// Token: 0x06002675 RID: 9845 RVA: 0x001492D0 File Offset: 0x001476D0
+		// Token: 0x06002679 RID: 9849 RVA: 0x00149420 File Offset: 0x00147820
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.innerContainer;
 		}
 
-		// Token: 0x06002676 RID: 9846 RVA: 0x001492EB File Offset: 0x001476EB
+		// Token: 0x0600267A RID: 9850 RVA: 0x0014943B File Offset: 0x0014783B
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
-		// Token: 0x06002677 RID: 9847 RVA: 0x001492FC File Offset: 0x001476FC
+		// Token: 0x0600267B RID: 9851 RVA: 0x0014944C File Offset: 0x0014784C
 		private Thing GetThingForGraphic()
 		{
 			Thing result;
@@ -330,7 +330,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002678 RID: 9848 RVA: 0x00149344 File Offset: 0x00147744
+		// Token: 0x0600267C RID: 9852 RVA: 0x00149494 File Offset: 0x00147894
 		private void DrawDropSpotShadow()
 		{
 			Material shadowMaterial = this.ShadowMaterial;
@@ -340,7 +340,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002679 RID: 9849 RVA: 0x00149394 File Offset: 0x00147794
+		// Token: 0x0600267D RID: 9853 RVA: 0x001494E4 File Offset: 0x001478E4
 		public static void DrawDropSpotShadow(Vector3 center, Rot4 rot, Material material, Vector2 shadowSize, int ticksToImpact)
 		{
 			if (rot.IsHorizontal)

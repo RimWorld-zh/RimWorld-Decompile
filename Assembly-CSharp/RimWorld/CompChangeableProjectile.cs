@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000705 RID: 1797
+	// Token: 0x02000707 RID: 1799
 	public class CompChangeableProjectile : ThingComp, IStoreSettingsParent
 	{
 		// Token: 0x040015C2 RID: 5570
@@ -17,7 +17,7 @@ namespace RimWorld
 		public StorageSettings allowedShellsSettings;
 
 		// Token: 0x170005E7 RID: 1511
-		// (get) Token: 0x0600275C RID: 10076 RVA: 0x0015250C File Offset: 0x0015090C
+		// (get) Token: 0x06002760 RID: 10080 RVA: 0x0015265C File Offset: 0x00150A5C
 		public CompProperties_ChangeableProjectile Props
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005E8 RID: 1512
-		// (get) Token: 0x0600275D RID: 10077 RVA: 0x0015252C File Offset: 0x0015092C
+		// (get) Token: 0x06002761 RID: 10081 RVA: 0x0015267C File Offset: 0x00150A7C
 		public ThingDef LoadedShell
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005E9 RID: 1513
-		// (get) Token: 0x0600275E RID: 10078 RVA: 0x0015255C File Offset: 0x0015095C
+		// (get) Token: 0x06002762 RID: 10082 RVA: 0x001526AC File Offset: 0x00150AAC
 		public ThingDef Projectile
 		{
 			get
@@ -47,7 +47,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005EA RID: 1514
-		// (get) Token: 0x0600275F RID: 10079 RVA: 0x00152590 File Offset: 0x00150990
+		// (get) Token: 0x06002763 RID: 10083 RVA: 0x001526E0 File Offset: 0x00150AE0
 		public bool Loaded
 		{
 			get
@@ -57,7 +57,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005EB RID: 1515
-		// (get) Token: 0x06002760 RID: 10080 RVA: 0x001525B4 File Offset: 0x001509B4
+		// (get) Token: 0x06002764 RID: 10084 RVA: 0x00152704 File Offset: 0x00150B04
 		public bool StorageTabVisible
 		{
 			get
@@ -66,7 +66,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002761 RID: 10081 RVA: 0x001525CA File Offset: 0x001509CA
+		// Token: 0x06002765 RID: 10085 RVA: 0x0015271A File Offset: 0x00150B1A
 		public override void PostExposeData()
 		{
 			Scribe_Defs.Look<ThingDef>(ref this.loadedShell, "loadedShell");
@@ -74,7 +74,7 @@ namespace RimWorld
 			Scribe_Deep.Look<StorageSettings>(ref this.allowedShellsSettings, "allowedShellsSettings", new object[0]);
 		}
 
-		// Token: 0x06002762 RID: 10082 RVA: 0x00152608 File Offset: 0x00150A08
+		// Token: 0x06002766 RID: 10086 RVA: 0x00152758 File Offset: 0x00150B58
 		public override void Initialize(CompProperties props)
 		{
 			base.Initialize(props);
@@ -85,7 +85,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002763 RID: 10083 RVA: 0x00152663 File Offset: 0x00150A63
+		// Token: 0x06002767 RID: 10087 RVA: 0x001527B3 File Offset: 0x00150BB3
 		public virtual void Notify_ProjectileLaunched()
 		{
 			if (this.loadedCount > 0)
@@ -98,14 +98,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002764 RID: 10084 RVA: 0x00152693 File Offset: 0x00150A93
+		// Token: 0x06002768 RID: 10088 RVA: 0x001527E3 File Offset: 0x00150BE3
 		public void LoadShell(ThingDef shell, int count)
 		{
 			this.loadedCount = Mathf.Max(count, 0);
 			this.loadedShell = ((count <= 0) ? null : shell);
 		}
 
-		// Token: 0x06002765 RID: 10085 RVA: 0x001526B8 File Offset: 0x00150AB8
+		// Token: 0x06002769 RID: 10089 RVA: 0x00152808 File Offset: 0x00150C08
 		public Thing RemoveShell()
 		{
 			Thing thing = ThingMaker.MakeThing(this.loadedShell, null);
@@ -115,13 +115,13 @@ namespace RimWorld
 			return thing;
 		}
 
-		// Token: 0x06002766 RID: 10086 RVA: 0x001526F8 File Offset: 0x00150AF8
+		// Token: 0x0600276A RID: 10090 RVA: 0x00152848 File Offset: 0x00150C48
 		public StorageSettings GetStoreSettings()
 		{
 			return this.allowedShellsSettings;
 		}
 
-		// Token: 0x06002767 RID: 10087 RVA: 0x00152714 File Offset: 0x00150B14
+		// Token: 0x0600276B RID: 10091 RVA: 0x00152864 File Offset: 0x00150C64
 		public StorageSettings GetParentStoreSettings()
 		{
 			return this.parent.def.building.fixedStorageSettings;

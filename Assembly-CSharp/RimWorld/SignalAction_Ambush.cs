@@ -8,7 +8,7 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020006BB RID: 1723
+	// Token: 0x020006BD RID: 1725
 	public class SignalAction_Ambush : SignalAction
 	{
 		// Token: 0x04001484 RID: 5252
@@ -32,7 +32,7 @@ namespace RimWorld
 		// Token: 0x0400148A RID: 5258
 		private const int PawnsDelayAfterSpawnTicks = 120;
 
-		// Token: 0x0600251F RID: 9503 RVA: 0x0013E704 File Offset: 0x0013CB04
+		// Token: 0x06002523 RID: 9507 RVA: 0x0013E854 File Offset: 0x0013CC54
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -44,7 +44,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.spawnPawnsOnEdge, "spawnPawnsOnEdge", false, false);
 		}
 
-		// Token: 0x06002520 RID: 9504 RVA: 0x0013E798 File Offset: 0x0013CB98
+		// Token: 0x06002524 RID: 9508 RVA: 0x0013E8E8 File Offset: 0x0013CCE8
 		protected override void DoAction(object[] args)
 		{
 			if (this.points > 0f)
@@ -106,7 +106,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002521 RID: 9505 RVA: 0x0013EA14 File Offset: 0x0013CE14
+		// Token: 0x06002525 RID: 9509 RVA: 0x0013EB64 File Offset: 0x0013CF64
 		private IEnumerable<Pawn> GenerateAmbushPawns()
 		{
 			IEnumerable<Pawn> result;

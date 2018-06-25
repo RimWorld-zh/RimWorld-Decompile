@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F6F RID: 3951
+	// Token: 0x02000F73 RID: 3955
 	public static class NoiseRenderer
 	{
-		// Token: 0x04003EC9 RID: 16073
+		// Token: 0x04003ECC RID: 16076
 		public static IntVec2 renderSize = new IntVec2(200, 200);
 
-		// Token: 0x04003ECA RID: 16074
+		// Token: 0x04003ECD RID: 16077
 		private static Color[] spectrum = new Color[]
 		{
 			Color.black,
@@ -18,13 +18,13 @@ namespace Verse.Noise
 			Color.white
 		};
 
-		// Token: 0x06005F74 RID: 24436 RVA: 0x0030A9C8 File Offset: 0x00308DC8
+		// Token: 0x06005F7E RID: 24446 RVA: 0x0030B048 File Offset: 0x00309448
 		public static Texture2D NoiseRendered(ModuleBase noise)
 		{
 			return NoiseRenderer.NoiseRendered(new CellRect(0, 0, NoiseRenderer.renderSize.x, NoiseRenderer.renderSize.z), noise);
 		}
 
-		// Token: 0x06005F75 RID: 24437 RVA: 0x0030AA00 File Offset: 0x00308E00
+		// Token: 0x06005F7F RID: 24447 RVA: 0x0030B080 File Offset: 0x00309480
 		public static Texture2D NoiseRendered(CellRect rect, ModuleBase noise)
 		{
 			Texture2D texture2D = new Texture2D(rect.Width, rect.Height);
@@ -37,7 +37,7 @@ namespace Verse.Noise
 			return texture2D;
 		}
 
-		// Token: 0x06005F76 RID: 24438 RVA: 0x0030AAA4 File Offset: 0x00308EA4
+		// Token: 0x06005F80 RID: 24448 RVA: 0x0030B124 File Offset: 0x00309524
 		private static Color ColorForValue(float val)
 		{
 			val = val * 0.5f + 0.5f;

@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000D84 RID: 3460
+	// Token: 0x02000D86 RID: 3462
 	public static class DirectXmlToObject
 	{
 		// Token: 0x040033AA RID: 13226
@@ -36,7 +36,7 @@ namespace Verse
 		// Token: 0x040033B2 RID: 13234
 		private static Dictionary<Type, Dictionary<string, FieldInfo>> fieldInfoLookup = new Dictionary<Type, Dictionary<string, FieldInfo>>();
 
-		// Token: 0x06004D77 RID: 19831 RVA: 0x0028659C File Offset: 0x0028499C
+		// Token: 0x06004D7B RID: 19835 RVA: 0x002866C8 File Offset: 0x00284AC8
 		public static T ObjectFromXml<T>(XmlNode xmlRoot, bool doPostLoad) where T : new()
 		{
 			MethodInfo methodInfo = DirectXmlToObject.CustomDataLoadMethodOf(typeof(T));
@@ -314,7 +314,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004D78 RID: 19832 RVA: 0x00286E90 File Offset: 0x00285290
+		// Token: 0x06004D7C RID: 19836 RVA: 0x00286FBC File Offset: 0x002853BC
 		private static Type ClassTypeOf<T>(XmlNode xmlRoot)
 		{
 			XmlAttribute xmlAttribute = xmlRoot.Attributes["Class"];
@@ -339,7 +339,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004D79 RID: 19833 RVA: 0x00286F14 File Offset: 0x00285314
+		// Token: 0x06004D7D RID: 19837 RVA: 0x00287040 File Offset: 0x00285440
 		private static void TryDoPostLoad(object obj)
 		{
 			try
@@ -362,7 +362,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D7A RID: 19834 RVA: 0x00286F90 File Offset: 0x00285390
+		// Token: 0x06004D7E RID: 19838 RVA: 0x002870BC File Offset: 0x002854BC
 		private static List<T> ListFromXml<T>(XmlNode listRootNode) where T : new()
 		{
 			List<T> list = new List<T>();
@@ -411,7 +411,7 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x06004D7B RID: 19835 RVA: 0x002870B0 File Offset: 0x002854B0
+		// Token: 0x06004D7F RID: 19839 RVA: 0x002871DC File Offset: 0x002855DC
 		private static Dictionary<K, V> DictionaryFromXml<K, V>(XmlNode dictRootNode) where K : new() where V : new()
 		{
 			Dictionary<K, V> dictionary = new Dictionary<K, V>();
@@ -483,13 +483,13 @@ namespace Verse
 			return dictionary;
 		}
 
-		// Token: 0x06004D7C RID: 19836 RVA: 0x002872AC File Offset: 0x002856AC
+		// Token: 0x06004D80 RID: 19840 RVA: 0x002873D8 File Offset: 0x002857D8
 		private static MethodInfo CustomDataLoadMethodOf(Type type)
 		{
 			return type.GetMethod("LoadDataFromXmlCustom", BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
 		}
 
-		// Token: 0x06004D7D RID: 19837 RVA: 0x002872D0 File Offset: 0x002856D0
+		// Token: 0x06004D81 RID: 19841 RVA: 0x002873FC File Offset: 0x002857FC
 		private static bool ValidateListNode(XmlNode listEntryNode, XmlNode listRootNode, Type listItemType)
 		{
 			bool result;
@@ -514,7 +514,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004D7E RID: 19838 RVA: 0x00287360 File Offset: 0x00285760
+		// Token: 0x06004D82 RID: 19842 RVA: 0x0028748C File Offset: 0x0028588C
 		private static FieldInfo GetFieldInfoForType(Type type, string token, XmlNode debugXmlNode)
 		{
 			Dictionary<string, FieldInfo> dictionary = DirectXmlToObject.fieldInfoLookup.TryGetValue(type, null);
@@ -545,7 +545,7 @@ namespace Verse
 			return fieldInfo;
 		}
 
-		// Token: 0x06004D7F RID: 19839 RVA: 0x00287424 File Offset: 0x00285824
+		// Token: 0x06004D83 RID: 19843 RVA: 0x00287550 File Offset: 0x00285950
 		private static FieldInfo SearchTypeHierarchy(Type type, string token, BindingFlags extraFlags)
 		{
 			FieldInfo field;

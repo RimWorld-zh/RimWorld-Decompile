@@ -2,10 +2,10 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000AC9 RID: 2761
+	// Token: 0x02000ACB RID: 2763
 	public struct JobIssueParams
 	{
-		// Token: 0x040026AC RID: 9900
+		// Token: 0x040026AD RID: 9901
 		public float maxDistToSquadFlag;
 	}
 }

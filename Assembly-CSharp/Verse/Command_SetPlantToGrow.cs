@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E65 RID: 3685
+	// Token: 0x02000E67 RID: 3687
 	[StaticConstructorOnStartup]
 	public class Command_SetPlantToGrow : Command
 	{
@@ -21,7 +21,7 @@ namespace Verse
 		// Token: 0x0400398D RID: 14733
 		private static readonly Texture2D SetPlantToGrowTex = ContentFinder<Texture2D>.Get("UI/Commands/SetPlantToGrow", true);
 
-		// Token: 0x060056DB RID: 22235 RVA: 0x002CBC40 File Offset: 0x002CA040
+		// Token: 0x060056DF RID: 22239 RVA: 0x002CBD6C File Offset: 0x002CA16C
 		public Command_SetPlantToGrow()
 		{
 			this.tutorTag = "GrowingZoneSetPlant";
@@ -57,7 +57,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056DC RID: 22236 RVA: 0x002CBD54 File Offset: 0x002CA154
+		// Token: 0x060056E0 RID: 22240 RVA: 0x002CBE80 File Offset: 0x002CA280
 		public override void ProcessInput(Event ev)
 		{
 			base.ProcessInput(ev);
@@ -130,7 +130,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x060056DD RID: 22237 RVA: 0x002CBF54 File Offset: 0x002CA354
+		// Token: 0x060056E1 RID: 22241 RVA: 0x002CC080 File Offset: 0x002CA480
 		public override bool InheritInteractionsFrom(Gizmo other)
 		{
 			if (this.settables == null)
@@ -141,7 +141,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x060056DE RID: 22238 RVA: 0x002CBF98 File Offset: 0x002CA398
+		// Token: 0x060056E2 RID: 22242 RVA: 0x002CC0C4 File Offset: 0x002CA4C4
 		private void WarnAsAppropriate(ThingDef plantDef)
 		{
 			if (plantDef.plant.sowMinSkill > 0)
@@ -187,7 +187,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056DF RID: 22239 RVA: 0x002CC1DC File Offset: 0x002CA5DC
+		// Token: 0x060056E3 RID: 22243 RVA: 0x002CC308 File Offset: 0x002CA708
 		private bool IsPlantAvailable(ThingDef plantDef, Map map)
 		{
 			List<ResearchProjectDef> sowResearchPrerequisites = plantDef.plant.sowResearchPrerequisites;
@@ -210,7 +210,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060056E0 RID: 22240 RVA: 0x002CC26C File Offset: 0x002CA66C
+		// Token: 0x060056E4 RID: 22244 RVA: 0x002CC398 File Offset: 0x002CA798
 		private float GetPlantListPriority(ThingDef plantDef)
 		{
 			float result;

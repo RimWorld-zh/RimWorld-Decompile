@@ -2,10 +2,10 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200036E RID: 878
+	// Token: 0x02000370 RID: 880
 	public class StorytellerCompProperties_JourneyOffer : StorytellerCompProperties
 	{
-		// Token: 0x06000F38 RID: 3896 RVA: 0x00080FEC File Offset: 0x0007F3EC
+		// Token: 0x06000F3C RID: 3900 RVA: 0x0008113C File Offset: 0x0007F53C
 		public StorytellerCompProperties_JourneyOffer()
 		{
 			this.compClass = typeof(StorytellerComp_JourneyOffer);

@@ -6,46 +6,46 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F3D RID: 3901
+	// Token: 0x02000F41 RID: 3905
 	public static class GenFilePaths
 	{
-		// Token: 0x04003DFF RID: 15871
+		// Token: 0x04003E02 RID: 15874
 		private static string saveDataPath = null;
 
-		// Token: 0x04003E00 RID: 15872
+		// Token: 0x04003E03 RID: 15875
 		private static string coreModsFolderPath = null;
 
-		// Token: 0x04003E01 RID: 15873
+		// Token: 0x04003E04 RID: 15876
 		public const string SoundsFolder = "Sounds/";
 
-		// Token: 0x04003E02 RID: 15874
+		// Token: 0x04003E05 RID: 15877
 		public const string TexturesFolder = "Textures/";
 
-		// Token: 0x04003E03 RID: 15875
+		// Token: 0x04003E06 RID: 15878
 		public const string StringsFolder = "Strings/";
 
-		// Token: 0x04003E04 RID: 15876
+		// Token: 0x04003E07 RID: 15879
 		public const string DefsFolder = "Defs/";
 
-		// Token: 0x04003E05 RID: 15877
+		// Token: 0x04003E08 RID: 15880
 		public const string PatchesFolder = "Patches/";
 
-		// Token: 0x04003E06 RID: 15878
+		// Token: 0x04003E09 RID: 15881
 		public const string BackstoriesPath = "Backstories";
 
-		// Token: 0x04003E07 RID: 15879
+		// Token: 0x04003E0A RID: 15882
 		public const string SavedGameExtension = ".rws";
 
-		// Token: 0x04003E08 RID: 15880
+		// Token: 0x04003E0B RID: 15883
 		public const string ScenarioExtension = ".rsc";
 
-		// Token: 0x04003E09 RID: 15881
+		// Token: 0x04003E0C RID: 15884
 		public const string ExternalHistoryFileExtension = ".rwh";
 
-		// Token: 0x04003E0A RID: 15882
+		// Token: 0x04003E0D RID: 15885
 		private const string SaveDataFolderCommand = "savedatafolder";
 
-		// Token: 0x04003E0B RID: 15883
+		// Token: 0x04003E0E RID: 15886
 		private static readonly string[] FilePathRaw = new string[]
 		{
 			"Ž",
@@ -123,7 +123,7 @@ namespace Verse
 			"ÿ"
 		};
 
-		// Token: 0x04003E0C RID: 15884
+		// Token: 0x04003E0F RID: 15887
 		private static readonly string[] FilePathSafe = new string[]
 		{
 			"%8E",
@@ -201,8 +201,8 @@ namespace Verse
 			"%FF"
 		};
 
-		// Token: 0x17000F29 RID: 3881
-		// (get) Token: 0x06005E16 RID: 24086 RVA: 0x002FDDA0 File Offset: 0x002FC1A0
+		// Token: 0x17000F28 RID: 3880
+		// (get) Token: 0x06005E20 RID: 24096 RVA: 0x002FE420 File Offset: 0x002FC820
 		public static string SaveDataFolderPath
 		{
 			get
@@ -256,8 +256,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F2A RID: 3882
-		// (get) Token: 0x06005E17 RID: 24087 RVA: 0x002FDEF8 File Offset: 0x002FC2F8
+		// Token: 0x17000F29 RID: 3881
+		// (get) Token: 0x06005E21 RID: 24097 RVA: 0x002FE578 File Offset: 0x002FC978
 		public static string ScenarioPreviewImagePath
 		{
 			get
@@ -275,8 +275,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F2B RID: 3883
-		// (get) Token: 0x06005E18 RID: 24088 RVA: 0x002FDF5C File Offset: 0x002FC35C
+		// Token: 0x17000F2A RID: 3882
+		// (get) Token: 0x06005E22 RID: 24098 RVA: 0x002FE5DC File Offset: 0x002FC9DC
 		private static DirectoryInfo ExecutableDir
 		{
 			get
@@ -285,8 +285,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F2C RID: 3884
-		// (get) Token: 0x06005E19 RID: 24089 RVA: 0x002FDF80 File Offset: 0x002FC380
+		// Token: 0x17000F2B RID: 3883
+		// (get) Token: 0x06005E23 RID: 24099 RVA: 0x002FE600 File Offset: 0x002FCA00
 		public static string CoreModsFolderPath
 		{
 			get
@@ -322,8 +322,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F2D RID: 3885
-		// (get) Token: 0x06005E1A RID: 24090 RVA: 0x002FE040 File Offset: 0x002FC440
+		// Token: 0x17000F2C RID: 3884
+		// (get) Token: 0x06005E24 RID: 24100 RVA: 0x002FE6C0 File Offset: 0x002FCAC0
 		public static string ConfigFolderPath
 		{
 			get
@@ -332,8 +332,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F2E RID: 3886
-		// (get) Token: 0x06005E1B RID: 24091 RVA: 0x002FE060 File Offset: 0x002FC460
+		// Token: 0x17000F2D RID: 3885
+		// (get) Token: 0x06005E25 RID: 24101 RVA: 0x002FE6E0 File Offset: 0x002FCAE0
 		private static string SavedGamesFolderPath
 		{
 			get
@@ -342,8 +342,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F2F RID: 3887
-		// (get) Token: 0x06005E1C RID: 24092 RVA: 0x002FE080 File Offset: 0x002FC480
+		// Token: 0x17000F2E RID: 3886
+		// (get) Token: 0x06005E26 RID: 24102 RVA: 0x002FE700 File Offset: 0x002FCB00
 		private static string ScenariosFolderPath
 		{
 			get
@@ -352,8 +352,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F30 RID: 3888
-		// (get) Token: 0x06005E1D RID: 24093 RVA: 0x002FE0A0 File Offset: 0x002FC4A0
+		// Token: 0x17000F2F RID: 3887
+		// (get) Token: 0x06005E27 RID: 24103 RVA: 0x002FE720 File Offset: 0x002FCB20
 		private static string ExternalHistoryFolderPath
 		{
 			get
@@ -362,8 +362,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F31 RID: 3889
-		// (get) Token: 0x06005E1E RID: 24094 RVA: 0x002FE0C0 File Offset: 0x002FC4C0
+		// Token: 0x17000F30 RID: 3888
+		// (get) Token: 0x06005E28 RID: 24104 RVA: 0x002FE740 File Offset: 0x002FCB40
 		public static string ScreenshotFolderPath
 		{
 			get
@@ -372,8 +372,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F32 RID: 3890
-		// (get) Token: 0x06005E1F RID: 24095 RVA: 0x002FE0E0 File Offset: 0x002FC4E0
+		// Token: 0x17000F31 RID: 3889
+		// (get) Token: 0x06005E29 RID: 24105 RVA: 0x002FE760 File Offset: 0x002FCB60
 		public static string DevOutputFolderPath
 		{
 			get
@@ -382,8 +382,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F33 RID: 3891
-		// (get) Token: 0x06005E20 RID: 24096 RVA: 0x002FE100 File Offset: 0x002FC500
+		// Token: 0x17000F32 RID: 3890
+		// (get) Token: 0x06005E2A RID: 24106 RVA: 0x002FE780 File Offset: 0x002FCB80
 		public static string ModsConfigFilePath
 		{
 			get
@@ -392,8 +392,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F34 RID: 3892
-		// (get) Token: 0x06005E21 RID: 24097 RVA: 0x002FE124 File Offset: 0x002FC524
+		// Token: 0x17000F33 RID: 3891
+		// (get) Token: 0x06005E2B RID: 24107 RVA: 0x002FE7A4 File Offset: 0x002FCBA4
 		public static string ConceptKnowledgeFilePath
 		{
 			get
@@ -402,8 +402,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F35 RID: 3893
-		// (get) Token: 0x06005E22 RID: 24098 RVA: 0x002FE148 File Offset: 0x002FC548
+		// Token: 0x17000F34 RID: 3892
+		// (get) Token: 0x06005E2C RID: 24108 RVA: 0x002FE7C8 File Offset: 0x002FCBC8
 		public static string PrefsFilePath
 		{
 			get
@@ -412,8 +412,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F36 RID: 3894
-		// (get) Token: 0x06005E23 RID: 24099 RVA: 0x002FE16C File Offset: 0x002FC56C
+		// Token: 0x17000F35 RID: 3893
+		// (get) Token: 0x06005E2D RID: 24109 RVA: 0x002FE7EC File Offset: 0x002FCBEC
 		public static string KeyPrefsFilePath
 		{
 			get
@@ -422,8 +422,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F37 RID: 3895
-		// (get) Token: 0x06005E24 RID: 24100 RVA: 0x002FE190 File Offset: 0x002FC590
+		// Token: 0x17000F36 RID: 3894
+		// (get) Token: 0x06005E2E RID: 24110 RVA: 0x002FE810 File Offset: 0x002FCC10
 		public static string LastPlayedVersionFilePath
 		{
 			get
@@ -432,8 +432,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F38 RID: 3896
-		// (get) Token: 0x06005E25 RID: 24101 RVA: 0x002FE1B4 File Offset: 0x002FC5B4
+		// Token: 0x17000F37 RID: 3895
+		// (get) Token: 0x06005E2F RID: 24111 RVA: 0x002FE834 File Offset: 0x002FCC34
 		public static string DevModePermanentlyDisabledFilePath
 		{
 			get
@@ -442,8 +442,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F39 RID: 3897
-		// (get) Token: 0x06005E26 RID: 24102 RVA: 0x002FE1D8 File Offset: 0x002FC5D8
+		// Token: 0x17000F38 RID: 3896
+		// (get) Token: 0x06005E30 RID: 24112 RVA: 0x002FE858 File Offset: 0x002FCC58
 		public static string BackstoryOutputFilePath
 		{
 			get
@@ -452,8 +452,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F3A RID: 3898
-		// (get) Token: 0x06005E27 RID: 24103 RVA: 0x002FE1FC File Offset: 0x002FC5FC
+		// Token: 0x17000F39 RID: 3897
+		// (get) Token: 0x06005E31 RID: 24113 RVA: 0x002FE87C File Offset: 0x002FCC7C
 		public static string TempFolderPath
 		{
 			get
@@ -462,8 +462,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F3B RID: 3899
-		// (get) Token: 0x06005E28 RID: 24104 RVA: 0x002FE218 File Offset: 0x002FC618
+		// Token: 0x17000F3A RID: 3898
+		// (get) Token: 0x06005E32 RID: 24114 RVA: 0x002FE898 File Offset: 0x002FCC98
 		public static IEnumerable<FileInfo> AllSavedGameFiles
 		{
 			get
@@ -480,8 +480,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F3C RID: 3900
-		// (get) Token: 0x06005E29 RID: 24105 RVA: 0x002FE294 File Offset: 0x002FC694
+		// Token: 0x17000F3B RID: 3899
+		// (get) Token: 0x06005E33 RID: 24115 RVA: 0x002FE914 File Offset: 0x002FCD14
 		public static IEnumerable<FileInfo> AllCustomScenarioFiles
 		{
 			get
@@ -498,8 +498,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F3D RID: 3901
-		// (get) Token: 0x06005E2A RID: 24106 RVA: 0x002FE310 File Offset: 0x002FC710
+		// Token: 0x17000F3C RID: 3900
+		// (get) Token: 0x06005E34 RID: 24116 RVA: 0x002FE990 File Offset: 0x002FCD90
 		public static IEnumerable<FileInfo> AllExternalHistoryFiles
 		{
 			get
@@ -516,7 +516,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005E2B RID: 24107 RVA: 0x002FE38C File Offset: 0x002FC78C
+		// Token: 0x06005E35 RID: 24117 RVA: 0x002FEA0C File Offset: 0x002FCE0C
 		private static string FolderUnderSaveData(string folderName)
 		{
 			string text = Path.Combine(GenFilePaths.SaveDataFolderPath, folderName);
@@ -528,19 +528,19 @@ namespace Verse
 			return text;
 		}
 
-		// Token: 0x06005E2C RID: 24108 RVA: 0x002FE3C8 File Offset: 0x002FC7C8
+		// Token: 0x06005E36 RID: 24118 RVA: 0x002FEA48 File Offset: 0x002FCE48
 		public static string FilePathForSavedGame(string gameName)
 		{
 			return Path.Combine(GenFilePaths.SavedGamesFolderPath, gameName + ".rws");
 		}
 
-		// Token: 0x06005E2D RID: 24109 RVA: 0x002FE3F4 File Offset: 0x002FC7F4
+		// Token: 0x06005E37 RID: 24119 RVA: 0x002FEA74 File Offset: 0x002FCE74
 		public static string AbsPathForScenario(string scenarioName)
 		{
 			return Path.Combine(GenFilePaths.ScenariosFolderPath, scenarioName + ".rsc");
 		}
 
-		// Token: 0x06005E2E RID: 24110 RVA: 0x002FE420 File Offset: 0x002FC820
+		// Token: 0x06005E38 RID: 24120 RVA: 0x002FEAA0 File Offset: 0x002FCEA0
 		public static string ContentPath<T>()
 		{
 			string result;
@@ -563,7 +563,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E2F RID: 24111 RVA: 0x002FE4A4 File Offset: 0x002FC8A4
+		// Token: 0x06005E39 RID: 24121 RVA: 0x002FEB24 File Offset: 0x002FCF24
 		public static string FolderPathRelativeToDefsFolder(string fullFolderPath, ModContentPack mod)
 		{
 			fullFolderPath = Path.GetFullPath(fullFolderPath).Replace('/', Path.DirectorySeparatorChar).Replace('\\', Path.DirectorySeparatorChar);
@@ -609,7 +609,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E30 RID: 24112 RVA: 0x002FE620 File Offset: 0x002FCA20
+		// Token: 0x06005E3A RID: 24122 RVA: 0x002FECA0 File Offset: 0x002FD0A0
 		public static string SafeURIForUnityWWWFromPath(string rawPath)
 		{
 			string text = rawPath;

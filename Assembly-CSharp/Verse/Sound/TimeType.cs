@@ -2,7 +2,7 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B8A RID: 2954
+	// Token: 0x02000B8C RID: 2956
 	public enum TimeType : byte
 	{
 		// Token: 0x04002B17 RID: 11031

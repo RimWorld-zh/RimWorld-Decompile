@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200047E RID: 1150
+	// Token: 0x02000480 RID: 1152
 	public enum NeededWarmth : byte
 	{
 		// Token: 0x04000C10 RID: 3088

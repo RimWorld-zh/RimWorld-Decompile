@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000F56 RID: 3926
+	// Token: 0x02000F5A RID: 3930
 	public static class TitleCaseHelper
 	{
-		// Token: 0x04003E65 RID: 15973
+		// Token: 0x04003E68 RID: 15976
 		private static HashSet<string> NonUppercaseWords = new HashSet<string>
 		{
 			"a",
@@ -104,7 +104,7 @@ namespace Verse
 			"yet"
 		};
 
-		// Token: 0x06005F2A RID: 24362 RVA: 0x00307EC0 File Offset: 0x003062C0
+		// Token: 0x06005F34 RID: 24372 RVA: 0x00308540 File Offset: 0x00306940
 		public static bool IsUppercaseTitleWord(string word)
 		{
 			return word.Length > 1 && !TitleCaseHelper.NonUppercaseWords.Contains(word);

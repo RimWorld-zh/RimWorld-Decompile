@@ -3,27 +3,27 @@ using System.Diagnostics;
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F88 RID: 3976
+	// Token: 0x02000F8C RID: 3980
 	public class Clamp : ModuleBase
 	{
-		// Token: 0x04003F13 RID: 16147
+		// Token: 0x04003F16 RID: 16150
 		private double m_min = -1.0;
 
-		// Token: 0x04003F14 RID: 16148
+		// Token: 0x04003F17 RID: 16151
 		private double m_max = 1.0;
 
-		// Token: 0x06006017 RID: 24599 RVA: 0x0030D509 File Offset: 0x0030B909
+		// Token: 0x06006021 RID: 24609 RVA: 0x0030DB89 File Offset: 0x0030BF89
 		public Clamp() : base(1)
 		{
 		}
 
-		// Token: 0x06006018 RID: 24600 RVA: 0x0030D531 File Offset: 0x0030B931
+		// Token: 0x06006022 RID: 24610 RVA: 0x0030DBB1 File Offset: 0x0030BFB1
 		public Clamp(ModuleBase input) : base(1)
 		{
 			this.modules[0] = input;
 		}
 
-		// Token: 0x06006019 RID: 24601 RVA: 0x0030D562 File Offset: 0x0030B962
+		// Token: 0x06006023 RID: 24611 RVA: 0x0030DBE2 File Offset: 0x0030BFE2
 		public Clamp(double min, double max, ModuleBase input) : base(1)
 		{
 			this.Minimum = min;
@@ -31,9 +31,9 @@ namespace Verse.Noise
 			this.modules[0] = input;
 		}
 
-		// Token: 0x17000F73 RID: 3955
-		// (get) Token: 0x0600601A RID: 24602 RVA: 0x0030D5A4 File Offset: 0x0030B9A4
-		// (set) Token: 0x0600601B RID: 24603 RVA: 0x0030D5BF File Offset: 0x0030B9BF
+		// Token: 0x17000F72 RID: 3954
+		// (get) Token: 0x06006024 RID: 24612 RVA: 0x0030DC24 File Offset: 0x0030C024
+		// (set) Token: 0x06006025 RID: 24613 RVA: 0x0030DC3F File Offset: 0x0030C03F
 		public double Maximum
 		{
 			get
@@ -46,9 +46,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F74 RID: 3956
-		// (get) Token: 0x0600601C RID: 24604 RVA: 0x0030D5CC File Offset: 0x0030B9CC
-		// (set) Token: 0x0600601D RID: 24605 RVA: 0x0030D5E7 File Offset: 0x0030B9E7
+		// Token: 0x17000F73 RID: 3955
+		// (get) Token: 0x06006026 RID: 24614 RVA: 0x0030DC4C File Offset: 0x0030C04C
+		// (set) Token: 0x06006027 RID: 24615 RVA: 0x0030DC67 File Offset: 0x0030C067
 		public double Minimum
 		{
 			get
@@ -61,7 +61,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x0600601E RID: 24606 RVA: 0x0030D5F1 File Offset: 0x0030B9F1
+		// Token: 0x06006028 RID: 24616 RVA: 0x0030DC71 File Offset: 0x0030C071
 		public void SetBounds(double min, double max)
 		{
 			Debug.Assert(min < max);
@@ -69,7 +69,7 @@ namespace Verse.Noise
 			this.m_max = max;
 		}
 
-		// Token: 0x0600601F RID: 24607 RVA: 0x0030D60C File Offset: 0x0030BA0C
+		// Token: 0x06006029 RID: 24617 RVA: 0x0030DC8C File Offset: 0x0030C08C
 		public override double GetValue(double x, double y, double z)
 		{
 			Debug.Assert(this.modules[0] != null);

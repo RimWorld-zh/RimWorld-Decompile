@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020004F4 RID: 1268
+	// Token: 0x020004F6 RID: 1270
 	public enum ComfortCategory : byte
 	{
 		// Token: 0x04000D5B RID: 3419

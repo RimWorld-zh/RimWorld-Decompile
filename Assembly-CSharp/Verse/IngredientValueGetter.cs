@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000B61 RID: 2913
+	// Token: 0x02000B63 RID: 2915
 	public abstract class IngredientValueGetter
 	{
-		// Token: 0x06003FB3 RID: 16307
+		// Token: 0x06003FB6 RID: 16310
 		public abstract float ValuePerUnitOf(ThingDef t);
 
-		// Token: 0x06003FB4 RID: 16308
+		// Token: 0x06003FB7 RID: 16311
 		public abstract string BillRequirementsDescription(RecipeDef r, IngredientCount ing);
 
-		// Token: 0x06003FB5 RID: 16309 RVA: 0x00219C10 File Offset: 0x00218010
+		// Token: 0x06003FB8 RID: 16312 RVA: 0x00219CEC File Offset: 0x002180EC
 		public virtual string ExtraDescriptionLine(RecipeDef r)
 		{
 			return null;

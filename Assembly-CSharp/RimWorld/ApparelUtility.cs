@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200050E RID: 1294
+	// Token: 0x02000510 RID: 1296
 	public static class ApparelUtility
 	{
-		// Token: 0x06001767 RID: 5991 RVA: 0x000CD44C File Offset: 0x000CB84C
+		// Token: 0x0600176B RID: 5995 RVA: 0x000CD59C File Offset: 0x000CB99C
 		public static bool CanWearTogether(ThingDef A, ThingDef B, BodyDef body)
 		{
 			bool flag = false;
@@ -60,7 +60,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001768 RID: 5992 RVA: 0x000CD5A0 File Offset: 0x000CB9A0
+		// Token: 0x0600176C RID: 5996 RVA: 0x000CD6F0 File Offset: 0x000CBAF0
 		public static void GenerateLayerGroupPairs(BodyDef body, ThingDef td, Action<ApparelUtility.LayerGroupPair> callback)
 		{
 			for (int i = 0; i < td.apparel.layers.Count; i++)
@@ -74,7 +74,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001769 RID: 5993 RVA: 0x000CD618 File Offset: 0x000CBA18
+		// Token: 0x0600176D RID: 5997 RVA: 0x000CD768 File Offset: 0x000CBB68
 		public static bool HasPartsToWear(Pawn p, ThingDef apparel)
 		{
 			List<Hediff> hediffs = p.health.hediffSet.hediffs;
@@ -109,7 +109,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0200050F RID: 1295
+		// Token: 0x02000511 RID: 1297
 		public struct LayerGroupPair
 		{
 			// Token: 0x04000DD7 RID: 3543
@@ -118,14 +118,14 @@ namespace RimWorld
 			// Token: 0x04000DD8 RID: 3544
 			private readonly BodyPartGroupDef group;
 
-			// Token: 0x0600176A RID: 5994 RVA: 0x000CD715 File Offset: 0x000CBB15
+			// Token: 0x0600176E RID: 5998 RVA: 0x000CD865 File Offset: 0x000CBC65
 			public LayerGroupPair(ApparelLayerDef layer, BodyPartGroupDef group)
 			{
 				this.layer = layer;
 				this.group = group;
 			}
 
-			// Token: 0x0600176B RID: 5995 RVA: 0x000CD728 File Offset: 0x000CBB28
+			// Token: 0x0600176F RID: 5999 RVA: 0x000CD878 File Offset: 0x000CBC78
 			public override bool Equals(object rhs)
 			{
 				bool result;
@@ -141,7 +141,7 @@ namespace RimWorld
 				return result;
 			}
 
-			// Token: 0x0600176C RID: 5996 RVA: 0x000CD77C File Offset: 0x000CBB7C
+			// Token: 0x06001770 RID: 6000 RVA: 0x000CD8CC File Offset: 0x000CBCCC
 			public override int GetHashCode()
 			{
 				int num = 17;

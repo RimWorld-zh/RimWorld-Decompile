@@ -5,31 +5,31 @@ using UnityEngine;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A3C RID: 2620
+	// Token: 0x02000A3E RID: 2622
 	public class JobDriver_DoBill : JobDriver
 	{
-		// Token: 0x04002502 RID: 9474
+		// Token: 0x04002503 RID: 9475
 		public float workLeft;
 
-		// Token: 0x04002503 RID: 9475
+		// Token: 0x04002504 RID: 9476
 		public int billStartTick;
 
-		// Token: 0x04002504 RID: 9476
+		// Token: 0x04002505 RID: 9477
 		public int ticksSpentDoingRecipeWork;
 
-		// Token: 0x04002505 RID: 9477
+		// Token: 0x04002506 RID: 9478
 		public const PathEndMode GotoIngredientPathEndMode = PathEndMode.ClosestTouch;
 
-		// Token: 0x04002506 RID: 9478
+		// Token: 0x04002507 RID: 9479
 		public const TargetIndex BillGiverInd = TargetIndex.A;
 
-		// Token: 0x04002507 RID: 9479
+		// Token: 0x04002508 RID: 9480
 		public const TargetIndex IngredientInd = TargetIndex.B;
 
-		// Token: 0x04002508 RID: 9480
+		// Token: 0x04002509 RID: 9481
 		public const TargetIndex IngredientPlaceCellInd = TargetIndex.C;
 
-		// Token: 0x06003A24 RID: 14884 RVA: 0x001EC444 File Offset: 0x001EA844
+		// Token: 0x06003A28 RID: 14888 RVA: 0x001EC570 File Offset: 0x001EA970
 		public override string GetReport()
 		{
 			string result;
@@ -45,7 +45,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x170008EA RID: 2282
-		// (get) Token: 0x06003A25 RID: 14885 RVA: 0x001EC48C File Offset: 0x001EA88C
+		// (get) Token: 0x06003A29 RID: 14889 RVA: 0x001EC5B8 File Offset: 0x001EA9B8
 		public IBillGiver BillGiver
 		{
 			get
@@ -59,7 +59,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A26 RID: 14886 RVA: 0x001EC4D0 File Offset: 0x001EA8D0
+		// Token: 0x06003A2A RID: 14890 RVA: 0x001EC5FC File Offset: 0x001EA9FC
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -68,14 +68,14 @@ namespace Verse.AI
 			Scribe_Values.Look<int>(ref this.ticksSpentDoingRecipeWork, "ticksSpentDoingRecipeWork", 0, false);
 		}
 
-		// Token: 0x06003A27 RID: 14887 RVA: 0x001EC520 File Offset: 0x001EA920
+		// Token: 0x06003A2B RID: 14891 RVA: 0x001EC64C File Offset: 0x001EAA4C
 		public override bool TryMakePreToilReservations()
 		{
 			this.pawn.ReserveAsManyAsPossible(this.job.GetTargetQueue(TargetIndex.B), this.job, 1, -1, null);
 			return this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, 1, -1, null);
 		}
 
-		// Token: 0x06003A28 RID: 14888 RVA: 0x001EC578 File Offset: 0x001EA978
+		// Token: 0x06003A2C RID: 14892 RVA: 0x001EC6A4 File Offset: 0x001EAAA4
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			base.AddEndCondition(delegate
@@ -160,7 +160,7 @@ namespace Verse.AI
 			yield break;
 		}
 
-		// Token: 0x06003A29 RID: 14889 RVA: 0x001EC5A4 File Offset: 0x001EA9A4
+		// Token: 0x06003A2D RID: 14893 RVA: 0x001EC6D0 File Offset: 0x001EAAD0
 		private static Toil JumpToCollectNextIntoHandsForBill(Toil gotoGetTargetToil, TargetIndex ind)
 		{
 			Toil toil = new Toil();

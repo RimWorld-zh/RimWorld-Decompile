@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200035C RID: 860
+	// Token: 0x0200035E RID: 862
 	public class StoryWatcher_RampUp : IExposable
 	{
 		// Token: 0x0400092B RID: 2347
@@ -29,7 +29,7 @@ namespace RimWorld
 		private const float LongFactor_DaysToDouble = 360f;
 
 		// Token: 0x17000216 RID: 534
-		// (get) Token: 0x06000EEC RID: 3820 RVA: 0x0007DDE8 File Offset: 0x0007C1E8
+		// (get) Token: 0x06000EF0 RID: 3824 RVA: 0x0007DF38 File Offset: 0x0007C338
 		public float TotalThreatPointsFactor
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000217 RID: 535
-		// (get) Token: 0x06000EED RID: 3821 RVA: 0x0007DE0C File Offset: 0x0007C20C
+		// (get) Token: 0x06000EF1 RID: 3825 RVA: 0x0007DF5C File Offset: 0x0007C35C
 		public float ShortTermFactor
 		{
 			get
@@ -49,7 +49,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000218 RID: 536
-		// (get) Token: 0x06000EEE RID: 3822 RVA: 0x0007DE28 File Offset: 0x0007C228
+		// (get) Token: 0x06000EF2 RID: 3826 RVA: 0x0007DF78 File Offset: 0x0007C378
 		public float LongTermFactor
 		{
 			get
@@ -58,7 +58,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000EEF RID: 3823 RVA: 0x0007DE44 File Offset: 0x0007C244
+		// Token: 0x06000EF3 RID: 3827 RVA: 0x0007DF94 File Offset: 0x0007C394
 		public void Notify_ColonistViolentlyDownedOrKilled(Pawn p)
 		{
 			if (p.RaceProps.Humanlike)
@@ -142,7 +142,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000EF0 RID: 3824 RVA: 0x0007E084 File Offset: 0x0007C484
+		// Token: 0x06000EF4 RID: 3828 RVA: 0x0007E1D4 File Offset: 0x0007C5D4
 		public void RampUpWatcherTick()
 		{
 			if (Find.TickManager.TicksGame % 5000 == 0)
@@ -158,7 +158,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000EF1 RID: 3825 RVA: 0x0007E0ED File Offset: 0x0007C4ED
+		// Token: 0x06000EF5 RID: 3829 RVA: 0x0007E23D File Offset: 0x0007C63D
 		public void ExposeData()
 		{
 			Scribe_Values.Look<float>(ref this.shortTermFactor, "shortTermFactor", 0f, false);

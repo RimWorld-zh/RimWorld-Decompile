@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000E53 RID: 3667
+	// Token: 0x02000E55 RID: 3669
 	public enum FloatMenuSizeMode
 	{
 		// Token: 0x04003929 RID: 14633

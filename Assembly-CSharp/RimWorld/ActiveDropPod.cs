@@ -5,7 +5,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020006DF RID: 1759
+	// Token: 0x020006E1 RID: 1761
 	public class ActiveDropPod : Thing, IActiveDropPod, IThingHolder
 	{
 		// Token: 0x04001558 RID: 5464
@@ -15,8 +15,8 @@ namespace RimWorld
 		private ActiveDropPodInfo contents;
 
 		// Token: 0x170005D4 RID: 1492
-		// (get) Token: 0x06002649 RID: 9801 RVA: 0x00148698 File Offset: 0x00146A98
-		// (set) Token: 0x0600264A RID: 9802 RVA: 0x001486B3 File Offset: 0x00146AB3
+		// (get) Token: 0x0600264D RID: 9805 RVA: 0x001487E8 File Offset: 0x00146BE8
+		// (set) Token: 0x0600264E RID: 9806 RVA: 0x00148803 File Offset: 0x00146C03
 		public ActiveDropPodInfo Contents
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600264B RID: 9803 RVA: 0x001486E1 File Offset: 0x00146AE1
+		// Token: 0x0600264F RID: 9807 RVA: 0x00148831 File Offset: 0x00146C31
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -48,13 +48,13 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x0600264C RID: 9804 RVA: 0x00148718 File Offset: 0x00146B18
+		// Token: 0x06002650 RID: 9808 RVA: 0x00148868 File Offset: 0x00146C68
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return null;
 		}
 
-		// Token: 0x0600264D RID: 9805 RVA: 0x0014872E File Offset: 0x00146B2E
+		// Token: 0x06002651 RID: 9809 RVA: 0x0014887E File Offset: 0x00146C7E
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
@@ -64,7 +64,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600264E RID: 9806 RVA: 0x00148754 File Offset: 0x00146B54
+		// Token: 0x06002652 RID: 9810 RVA: 0x001488A4 File Offset: 0x00146CA4
 		public override void Tick()
 		{
 			if (this.contents != null)
@@ -81,7 +81,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600264F RID: 9807 RVA: 0x001487BC File Offset: 0x00146BBC
+		// Token: 0x06002653 RID: 9811 RVA: 0x0014890C File Offset: 0x00146D0C
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
 			if (this.contents != null)
@@ -100,7 +100,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002650 RID: 9808 RVA: 0x00148830 File Offset: 0x00146C30
+		// Token: 0x06002654 RID: 9812 RVA: 0x00148980 File Offset: 0x00146D80
 		private void PodOpen()
 		{
 			for (int i = this.contents.innerContainer.Count - 1; i >= 0; i--)

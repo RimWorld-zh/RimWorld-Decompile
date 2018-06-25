@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002C2 RID: 706
+	// Token: 0x020002C4 RID: 708
 	public class RiverDef : Def
 	{
 		// Token: 0x040006E5 RID: 1765
@@ -31,7 +31,7 @@ namespace RimWorld
 		// Token: 0x040006EC RID: 1772
 		public float debugOpacity = 0f;
 
-		// Token: 0x020002C3 RID: 707
+		// Token: 0x020002C5 RID: 709
 		public class Branch
 		{
 			// Token: 0x040006ED RID: 1773

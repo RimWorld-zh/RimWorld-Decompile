@@ -2,10 +2,10 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000A37 RID: 2615
+	// Token: 0x02000A39 RID: 2617
 	public class JobDriver_WaitMaintainPosture : JobDriver_Wait
 	{
-		// Token: 0x06003A11 RID: 14865 RVA: 0x001EB74A File Offset: 0x001E9B4A
+		// Token: 0x06003A15 RID: 14869 RVA: 0x001EB876 File Offset: 0x001E9C76
 		public override void SetInitialPosture()
 		{
 		}

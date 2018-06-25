@@ -4,7 +4,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000BCE RID: 3022
+	// Token: 0x02000BD0 RID: 3024
 	public sealed class PlaySettings : IExposable
 	{
 		// Token: 0x04002CFB RID: 11515
@@ -64,7 +64,7 @@ namespace RimWorld
 		// Token: 0x04002D0D RID: 11533
 		public MedicalCareCategory defaultCareForHostileFaction = MedicalCareCategory.HerbalOrWorse;
 
-		// Token: 0x060041E8 RID: 16872 RVA: 0x0022BC34 File Offset: 0x0022A034
+		// Token: 0x060041EB RID: 16875 RVA: 0x0022BD10 File Offset: 0x0022A110
 		public void ExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.showLearningHelper, "showLearningHelper", false, false);
@@ -92,7 +92,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060041E9 RID: 16873 RVA: 0x0022BDAC File Offset: 0x0022A1AC
+		// Token: 0x060041EC RID: 16876 RVA: 0x0022BE88 File Offset: 0x0022A288
 		public void DoPlaySettingsGlobalControls(WidgetRow row, bool worldView)
 		{
 			bool flag = this.showColonistBar;
@@ -138,7 +138,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060041EA RID: 16874 RVA: 0x0022C01F File Offset: 0x0022A41F
+		// Token: 0x060041ED RID: 16877 RVA: 0x0022C0FB File Offset: 0x0022A4FB
 		private void CheckKeyBindingToggle(KeyBindingDef keyBinding, ref bool value)
 		{
 			if (keyBinding.KeyDownEvent)

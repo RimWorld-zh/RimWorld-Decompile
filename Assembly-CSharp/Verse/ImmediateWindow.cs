@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EC8 RID: 3784
+	// Token: 0x02000ECA RID: 3786
 	public class ImmediateWindow : Window
 	{
 		// Token: 0x04003BCA RID: 15306
 		public Action doWindowFunc;
 
-		// Token: 0x06005983 RID: 22915 RVA: 0x002DDE58 File Offset: 0x002DC258
+		// Token: 0x06005986 RID: 22918 RVA: 0x002DDF78 File Offset: 0x002DC378
 		public ImmediateWindow()
 		{
 			this.doCloseButton = false;
@@ -23,8 +23,8 @@ namespace Verse
 			this.preventCameraMotion = false;
 		}
 
-		// Token: 0x17000E16 RID: 3606
-		// (get) Token: 0x06005984 RID: 22916 RVA: 0x002DDEAC File Offset: 0x002DC2AC
+		// Token: 0x17000E15 RID: 3605
+		// (get) Token: 0x06005987 RID: 22919 RVA: 0x002DDFCC File Offset: 0x002DC3CC
 		public override Vector2 InitialSize
 		{
 			get
@@ -33,8 +33,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E17 RID: 3607
-		// (get) Token: 0x06005985 RID: 22917 RVA: 0x002DDECC File Offset: 0x002DC2CC
+		// Token: 0x17000E16 RID: 3606
+		// (get) Token: 0x06005988 RID: 22920 RVA: 0x002DDFEC File Offset: 0x002DC3EC
 		protected override float Margin
 		{
 			get
@@ -43,7 +43,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005986 RID: 22918 RVA: 0x002DDEE6 File Offset: 0x002DC2E6
+		// Token: 0x06005989 RID: 22921 RVA: 0x002DE006 File Offset: 0x002DC406
 		public override void DoWindowContents(Rect inRect)
 		{
 			this.doWindowFunc();

@@ -4,14 +4,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020003E4 RID: 996
+	// Token: 0x020003E6 RID: 998
 	public class GenStep_FactionBase : GenStep_Scatterer
 	{
 		// Token: 0x04000A58 RID: 2648
 		private static readonly IntRange FactionBaseSizeRange = new IntRange(34, 38);
 
 		// Token: 0x17000247 RID: 583
-		// (get) Token: 0x06001110 RID: 4368 RVA: 0x00092314 File Offset: 0x00090714
+		// (get) Token: 0x06001114 RID: 4372 RVA: 0x00092464 File Offset: 0x00090864
 		public override int SeedPart
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001111 RID: 4369 RVA: 0x00092330 File Offset: 0x00090730
+		// Token: 0x06001115 RID: 4373 RVA: 0x00092480 File Offset: 0x00090880
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			bool result;
@@ -49,7 +49,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001112 RID: 4370 RVA: 0x00092408 File Offset: 0x00090808
+		// Token: 0x06001116 RID: 4374 RVA: 0x00092558 File Offset: 0x00090958
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)
 		{
 			int randomInRange = GenStep_FactionBase.FactionBaseSizeRange.RandomInRange;

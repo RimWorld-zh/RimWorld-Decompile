@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200048B RID: 1163
+	// Token: 0x0200048D RID: 1165
 	public static class PawnWeaponGenerator
 	{
 		// Token: 0x04000C55 RID: 3157
@@ -14,7 +14,7 @@ namespace RimWorld
 		// Token: 0x04000C56 RID: 3158
 		private static List<ThingStuffPair> workingWeapons = new List<ThingStuffPair>();
 
-		// Token: 0x06001489 RID: 5257 RVA: 0x000B4A48 File Offset: 0x000B2E48
+		// Token: 0x0600148D RID: 5261 RVA: 0x000B4B98 File Offset: 0x000B2F98
 		public static void Reset()
 		{
 			Predicate<ThingDef> isWeapon = (ThingDef td) => td.equipmentType == EquipmentType.Primary && !td.weaponTags.NullOrEmpty<string>();
@@ -45,7 +45,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600148A RID: 5258 RVA: 0x000B4BB8 File Offset: 0x000B2FB8
+		// Token: 0x0600148E RID: 5262 RVA: 0x000B4D08 File Offset: 0x000B3108
 		public static void TryGenerateWeaponFor(Pawn pawn)
 		{
 			PawnWeaponGenerator.workingWeapons.Clear();
@@ -95,7 +95,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600148B RID: 5259 RVA: 0x000B4DD4 File Offset: 0x000B31D4
+		// Token: 0x0600148F RID: 5263 RVA: 0x000B4F24 File Offset: 0x000B3324
 		public static bool IsDerpWeapon(ThingDef thing, ThingDef stuff)
 		{
 			bool result;
@@ -127,7 +127,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600148C RID: 5260 RVA: 0x000B4E68 File Offset: 0x000B3268
+		// Token: 0x06001490 RID: 5264 RVA: 0x000B4FB8 File Offset: 0x000B33B8
 		public static float CheapestNonDerpPriceFor(ThingDef weaponDef)
 		{
 			float num = 9999999f;
@@ -145,7 +145,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x0600148D RID: 5261 RVA: 0x000B4EEC File Offset: 0x000B32EC
+		// Token: 0x06001491 RID: 5265 RVA: 0x000B503C File Offset: 0x000B343C
 		[DebugOutput]
 		internal static void WeaponPairs()
 		{
@@ -163,7 +163,7 @@ namespace RimWorld
 			DebugTables.MakeTablesDialog<ThingStuffPair>(dataSources, array);
 		}
 
-		// Token: 0x0600148E RID: 5262 RVA: 0x000B5052 File Offset: 0x000B3452
+		// Token: 0x06001492 RID: 5266 RVA: 0x000B51A2 File Offset: 0x000B35A2
 		[DebugOutput]
 		internal static void WeaponPairsByThing()
 		{

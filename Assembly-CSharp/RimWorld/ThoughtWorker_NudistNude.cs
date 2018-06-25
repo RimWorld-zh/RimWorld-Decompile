@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000219 RID: 537
+	// Token: 0x0200021B RID: 539
 	public class ThoughtWorker_NudistNude : ThoughtWorker
 	{
-		// Token: 0x060009FE RID: 2558 RVA: 0x000590CC File Offset: 0x000574CC
+		// Token: 0x06000A02 RID: 2562 RVA: 0x0005924C File Offset: 0x0005764C
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			List<Apparel> wornApparel = p.apparel.WornApparel;

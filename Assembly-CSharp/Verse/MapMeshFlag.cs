@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000C3B RID: 3131
+	// Token: 0x02000C3D RID: 3133
 	[Flags]
 	public enum MapMeshFlag
 	{

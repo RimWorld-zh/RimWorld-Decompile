@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002A9 RID: 681
+	// Token: 0x020002AB RID: 683
 	public class JoyGiverDef : Def
 	{
 		// Token: 0x04000659 RID: 1625
@@ -41,7 +41,7 @@ namespace RimWorld
 		private JoyGiver workerInt = null;
 
 		// Token: 0x170001AB RID: 427
-		// (get) Token: 0x06000B67 RID: 2919 RVA: 0x00066E18 File Offset: 0x00065218
+		// (get) Token: 0x06000B6B RID: 2923 RVA: 0x00066F68 File Offset: 0x00065368
 		public JoyGiver Worker
 		{
 			get
@@ -55,7 +55,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B68 RID: 2920 RVA: 0x00066E64 File Offset: 0x00065264
+		// Token: 0x06000B6C RID: 2924 RVA: 0x00066FB4 File Offset: 0x000653B4
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())

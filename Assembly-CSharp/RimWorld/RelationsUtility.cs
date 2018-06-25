@@ -5,16 +5,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200052A RID: 1322
+	// Token: 0x0200052C RID: 1324
 	public static class RelationsUtility
 	{
-		// Token: 0x06001867 RID: 6247 RVA: 0x000D65BC File Offset: 0x000D49BC
+		// Token: 0x0600186B RID: 6251 RVA: 0x000D670C File Offset: 0x000D4B0C
 		public static bool PawnsKnowEachOther(Pawn p1, Pawn p2)
 		{
 			return (p1.Faction != null && p1.Faction == p2.Faction) || (p1.RaceProps.IsFlesh && p1.relations.DirectRelations.Find((DirectPawnRelation x) => x.otherPawn == p2) != null) || (p2.RaceProps.IsFlesh && p2.relations.DirectRelations.Find((DirectPawnRelation x) => x.otherPawn == p1) != null) || RelationsUtility.HasAnySocialMemoryWith(p1, p2) || RelationsUtility.HasAnySocialMemoryWith(p2, p1);
 		}
 
-		// Token: 0x06001868 RID: 6248 RVA: 0x000D66D8 File Offset: 0x000D4AD8
+		// Token: 0x0600186C RID: 6252 RVA: 0x000D6828 File Offset: 0x000D4C28
 		public static bool IsDisfigured(Pawn pawn)
 		{
 			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
@@ -31,7 +31,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06001869 RID: 6249 RVA: 0x000D6778 File Offset: 0x000D4B78
+		// Token: 0x0600186D RID: 6253 RVA: 0x000D68C8 File Offset: 0x000D4CC8
 		public static bool TryDevelopBondRelation(Pawn humanlike, Pawn animal, float baseChance)
 		{
 			bool result;
@@ -133,7 +133,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600186A RID: 6250 RVA: 0x000D6A78 File Offset: 0x000D4E78
+		// Token: 0x0600186E RID: 6254 RVA: 0x000D6BC8 File Offset: 0x000D4FC8
 		public static string LabelWithBondInfo(Pawn humanlike, Pawn animal)
 		{
 			string text = humanlike.LabelShort;
@@ -144,7 +144,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x0600186B RID: 6251 RVA: 0x000D6AC4 File Offset: 0x000D4EC4
+		// Token: 0x0600186F RID: 6255 RVA: 0x000D6C14 File Offset: 0x000D5014
 		private static bool HasAnySocialMemoryWith(Pawn p, Pawn otherPawn)
 		{
 			bool result;

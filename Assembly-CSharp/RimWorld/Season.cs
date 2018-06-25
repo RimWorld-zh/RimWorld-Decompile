@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200090C RID: 2316
+	// Token: 0x0200090E RID: 2318
 	public enum Season : byte
 	{
 		// Token: 0x04001D27 RID: 7463

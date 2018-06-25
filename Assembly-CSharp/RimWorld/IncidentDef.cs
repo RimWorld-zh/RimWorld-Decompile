@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002A2 RID: 674
+	// Token: 0x020002A4 RID: 676
 	public class IncidentDef : Def
 	{
 		// Token: 0x04000617 RID: 1559
@@ -105,7 +105,7 @@ namespace RimWorld
 		private List<IncidentDef> cachedRefireCheckIncidents = null;
 
 		// Token: 0x170001A4 RID: 420
-		// (get) Token: 0x06000B48 RID: 2888 RVA: 0x00065F54 File Offset: 0x00064354
+		// (get) Token: 0x06000B4C RID: 2892 RVA: 0x000660A4 File Offset: 0x000644A4
 		public bool NeedsParmsPoints
 		{
 			get
@@ -115,7 +115,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001A5 RID: 421
-		// (get) Token: 0x06000B49 RID: 2889 RVA: 0x00065F74 File Offset: 0x00064374
+		// (get) Token: 0x06000B4D RID: 2893 RVA: 0x000660C4 File Offset: 0x000644C4
 		public IncidentWorker Worker
 		{
 			get
@@ -130,7 +130,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001A6 RID: 422
-		// (get) Token: 0x06000B4A RID: 2890 RVA: 0x00065FC0 File Offset: 0x000643C0
+		// (get) Token: 0x06000B4E RID: 2894 RVA: 0x00066110 File Offset: 0x00064510
 		public List<IncidentDef> RefireCheckIncidents
 		{
 			get
@@ -160,13 +160,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B4B RID: 2891 RVA: 0x00066048 File Offset: 0x00064448
+		// Token: 0x06000B4F RID: 2895 RVA: 0x00066198 File Offset: 0x00064598
 		public static IncidentDef Named(string defName)
 		{
 			return DefDatabase<IncidentDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x06000B4C RID: 2892 RVA: 0x00066064 File Offset: 0x00064464
+		// Token: 0x06000B50 RID: 2896 RVA: 0x000661B4 File Offset: 0x000645B4
 		private bool ShouldDoRefireCheckWith(IncidentDef other)
 		{
 			bool result;
@@ -195,7 +195,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000B4D RID: 2893 RVA: 0x00066100 File Offset: 0x00064500
+		// Token: 0x06000B51 RID: 2897 RVA: 0x00066250 File Offset: 0x00064650
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string c in this.<ConfigErrors>__BaseCallProxy0())
@@ -224,13 +224,13 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000B4E RID: 2894 RVA: 0x0006612C File Offset: 0x0006452C
+		// Token: 0x06000B52 RID: 2898 RVA: 0x0006627C File Offset: 0x0006467C
 		public bool TargetTypeAllowed(IncidentTargetTypeDef target)
 		{
 			return this.targetTypes.Contains(target);
 		}
 
-		// Token: 0x06000B4F RID: 2895 RVA: 0x00066150 File Offset: 0x00064550
+		// Token: 0x06000B53 RID: 2899 RVA: 0x000662A0 File Offset: 0x000646A0
 		public bool TargetAllowed(IIncidentTarget target)
 		{
 			return this.targetTypes.Intersect(target.AcceptedTypes()).Any<IncidentTargetTypeDef>();

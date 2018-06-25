@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000412 RID: 1042
+	// Token: 0x02000414 RID: 1044
 	public static class MapGenTuning
 	{
 		// Token: 0x04000AE9 RID: 2793

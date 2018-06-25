@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C4D RID: 3149
+	// Token: 0x02000C4F RID: 3151
 	public static class Printer_Mesh
 	{
-		// Token: 0x0600456A RID: 17770 RVA: 0x0024B4F0 File Offset: 0x002498F0
+		// Token: 0x0600456D RID: 17773 RVA: 0x0024B5CC File Offset: 0x002499CC
 		public static void PrintMesh(SectionLayer layer, Vector3 center, Mesh mesh, Material mat)
 		{
 			LayerSubMesh subMesh = layer.GetSubMesh(mat);

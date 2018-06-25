@@ -6,7 +6,7 @@ using Verse.Grammar;
 
 namespace Verse
 {
-	// Token: 0x02000BC0 RID: 3008
+	// Token: 0x02000BC2 RID: 3010
 	public class BattleLogEntry_StateTransition : LogEntry
 	{
 		// Token: 0x04002CB0 RID: 11440
@@ -30,12 +30,12 @@ namespace Verse
 		// Token: 0x04002CB6 RID: 11446
 		private BodyPartRecord culpritTargetPart;
 
-		// Token: 0x0600416C RID: 16748 RVA: 0x002289B0 File Offset: 0x00226DB0
+		// Token: 0x0600416F RID: 16751 RVA: 0x00228A8C File Offset: 0x00226E8C
 		public BattleLogEntry_StateTransition() : base(null)
 		{
 		}
 
-		// Token: 0x0600416D RID: 16749 RVA: 0x002289BC File Offset: 0x00226DBC
+		// Token: 0x06004170 RID: 16752 RVA: 0x00228A98 File Offset: 0x00226E98
 		public BattleLogEntry_StateTransition(Thing subject, RulePackDef transitionDef, Pawn initiator, Hediff culpritHediff, BodyPartRecord culpritTargetDef) : base(null)
 		{
 			if (subject is Pawn)
@@ -59,8 +59,8 @@ namespace Verse
 			this.culpritTargetPart = culpritTargetDef;
 		}
 
-		// Token: 0x17000A39 RID: 2617
-		// (get) Token: 0x0600416E RID: 16750 RVA: 0x00228A44 File Offset: 0x00226E44
+		// Token: 0x17000A38 RID: 2616
+		// (get) Token: 0x06004171 RID: 16753 RVA: 0x00228B20 File Offset: 0x00226F20
 		private string SubjectName
 		{
 			get
@@ -69,13 +69,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600416F RID: 16751 RVA: 0x00228A7C File Offset: 0x00226E7C
+		// Token: 0x06004172 RID: 16754 RVA: 0x00228B58 File Offset: 0x00226F58
 		public override bool Concerns(Thing t)
 		{
 			return t == this.subjectPawn || t == this.initiator;
 		}
 
-		// Token: 0x06004170 RID: 16752 RVA: 0x00228AAC File Offset: 0x00226EAC
+		// Token: 0x06004173 RID: 16755 RVA: 0x00228B88 File Offset: 0x00226F88
 		public override IEnumerable<Thing> GetConcerns()
 		{
 			if (this.initiator != null)
@@ -89,7 +89,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004171 RID: 16753 RVA: 0x00228AD8 File Offset: 0x00226ED8
+		// Token: 0x06004174 RID: 16756 RVA: 0x00228BB4 File Offset: 0x00226FB4
 		public override void ClickedFromPOV(Thing pov)
 		{
 			if (pov == this.subjectPawn)
@@ -106,7 +106,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004172 RID: 16754 RVA: 0x00228B30 File Offset: 0x00226F30
+		// Token: 0x06004175 RID: 16757 RVA: 0x00228C0C File Offset: 0x0022700C
 		public override Texture2D IconFromPOV(Thing pov)
 		{
 			Texture2D result;
@@ -125,7 +125,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004173 RID: 16755 RVA: 0x00228BB0 File Offset: 0x00226FB0
+		// Token: 0x06004176 RID: 16758 RVA: 0x00228C8C File Offset: 0x0022708C
 		protected override GrammarRequest GenerateGrammarRequest()
 		{
 			GrammarRequest result = base.GenerateGrammarRequest();
@@ -157,7 +157,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004174 RID: 16756 RVA: 0x00228CE4 File Offset: 0x002270E4
+		// Token: 0x06004177 RID: 16759 RVA: 0x00228DC0 File Offset: 0x002271C0
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -170,7 +170,7 @@ namespace Verse
 			Scribe_BodyParts.Look(ref this.culpritTargetPart, "culpritTargetPart", null);
 		}
 
-		// Token: 0x06004175 RID: 16757 RVA: 0x00228D6C File Offset: 0x0022716C
+		// Token: 0x06004178 RID: 16760 RVA: 0x00228E48 File Offset: 0x00227248
 		public override string ToString()
 		{
 			return this.transitionDef.defName + ": " + this.subjectPawn;

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000FB8 RID: 4024
+	// Token: 0x02000FBC RID: 4028
 	public static class FullPool<T> where T : IFullPoolable, new()
 	{
-		// Token: 0x04003FB1 RID: 16305
+		// Token: 0x04003FB9 RID: 16313
 		private static List<T> freeItems = new List<T>();
 
-		// Token: 0x06006158 RID: 24920 RVA: 0x00312C6C File Offset: 0x0031106C
+		// Token: 0x06006168 RID: 24936 RVA: 0x0031374C File Offset: 0x00311B4C
 		public static T Get()
 		{
 			T result;
@@ -26,7 +26,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06006159 RID: 24921 RVA: 0x00312CCB File Offset: 0x003110CB
+		// Token: 0x06006169 RID: 24937 RVA: 0x003137AB File Offset: 0x00311BAB
 		public static void Return(T item)
 		{
 			item.Reset();

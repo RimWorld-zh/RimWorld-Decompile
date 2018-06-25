@@ -2,7 +2,7 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DBE RID: 3518
+	// Token: 0x02000DC0 RID: 3520
 	public enum MaintenanceType : byte
 	{
 		// Token: 0x0400344F RID: 13391

@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000458 RID: 1112
+	// Token: 0x0200045A RID: 1114
 	public static class ZonePresetNames
 	{
-		// Token: 0x0600138A RID: 5002 RVA: 0x000A900C File Offset: 0x000A740C
+		// Token: 0x0600138E RID: 5006 RVA: 0x000A915C File Offset: 0x000A755C
 		public static string PresetName(this StorageSettingsPreset preset)
 		{
 			string result;

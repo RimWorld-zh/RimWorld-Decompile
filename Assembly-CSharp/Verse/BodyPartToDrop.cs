@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000B5A RID: 2906
+	// Token: 0x02000B5C RID: 2908
 	public class BodyPartToDrop
 	{
 		// Token: 0x04002A38 RID: 10808

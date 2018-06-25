@@ -4,13 +4,13 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003D1 RID: 977
+	// Token: 0x020003D3 RID: 979
 	public class SymbolResolver_Refuel : SymbolResolver
 	{
 		// Token: 0x04000A40 RID: 2624
 		private static List<CompRefuelable> refuelables = new List<CompRefuelable>();
 
-		// Token: 0x060010D6 RID: 4310 RVA: 0x0008F814 File Offset: 0x0008DC14
+		// Token: 0x060010DA RID: 4314 RVA: 0x0008F964 File Offset: 0x0008DD64
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;

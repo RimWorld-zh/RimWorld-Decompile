@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006D0 RID: 1744
+	// Token: 0x020006D2 RID: 1746
 	[StaticConstructorOnStartup]
 	public class MoteProgressBar : MoteDualAttached
 	{
@@ -21,7 +21,7 @@ namespace RimWorld
 		// Token: 0x0400151E RID: 5406
 		private static readonly Material FilledMat = SolidColorMaterials.NewSolidColorMaterial(new Color(0.9f, 0.85f, 0.2f, 0.65f), ShaderDatabase.MetaOverlay);
 
-		// Token: 0x060025E5 RID: 9701 RVA: 0x00144AE8 File Offset: 0x00142EE8
+		// Token: 0x060025E9 RID: 9705 RVA: 0x00144C38 File Offset: 0x00143038
 		public override void Draw()
 		{
 			base.UpdatePositionAndRotation();
@@ -43,7 +43,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025E6 RID: 9702 RVA: 0x00144BD8 File Offset: 0x00142FD8
+		// Token: 0x060025EA RID: 9706 RVA: 0x00144D28 File Offset: 0x00143128
 		private bool AnyThingWithQualityHere()
 		{
 			IntVec3 c = this.exactPosition.ToIntVec3();

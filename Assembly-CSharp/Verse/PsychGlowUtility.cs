@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000C16 RID: 3094
+	// Token: 0x02000C18 RID: 3096
 	public static class PsychGlowUtility
 	{
-		// Token: 0x060043A4 RID: 17316 RVA: 0x0023C16C File Offset: 0x0023A56C
+		// Token: 0x060043A7 RID: 17319 RVA: 0x0023C248 File Offset: 0x0023A648
 		public static string GetLabel(this PsychGlow gl)
 		{
 			string result;

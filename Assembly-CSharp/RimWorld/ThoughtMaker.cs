@@ -2,10 +2,10 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000530 RID: 1328
+	// Token: 0x02000532 RID: 1330
 	public static class ThoughtMaker
 	{
-		// Token: 0x0600189F RID: 6303 RVA: 0x000D808C File Offset: 0x000D648C
+		// Token: 0x060018A3 RID: 6307 RVA: 0x000D81DC File Offset: 0x000D65DC
 		public static Thought MakeThought(ThoughtDef def)
 		{
 			Thought thought = (Thought)Activator.CreateInstance(def.ThoughtClass);
@@ -14,7 +14,7 @@ namespace RimWorld
 			return thought;
 		}
 
-		// Token: 0x060018A0 RID: 6304 RVA: 0x000D80C0 File Offset: 0x000D64C0
+		// Token: 0x060018A4 RID: 6308 RVA: 0x000D8210 File Offset: 0x000D6610
 		public static Thought_Memory MakeThought(ThoughtDef def, int forcedStage)
 		{
 			Thought_Memory thought_Memory = (Thought_Memory)Activator.CreateInstance(def.ThoughtClass);

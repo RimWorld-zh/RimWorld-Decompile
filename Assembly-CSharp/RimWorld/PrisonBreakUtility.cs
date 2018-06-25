@@ -9,7 +9,7 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020004EB RID: 1259
+	// Token: 0x020004ED RID: 1261
 	public static class PrisonBreakUtility
 	{
 		// Token: 0x04000D2F RID: 3375
@@ -53,7 +53,7 @@ namespace RimWorld
 		// Token: 0x04000D37 RID: 3383
 		private static List<Pawn> escapingPrisonersGroup = new List<Pawn>();
 
-		// Token: 0x06001695 RID: 5781 RVA: 0x000C843C File Offset: 0x000C683C
+		// Token: 0x06001699 RID: 5785 RVA: 0x000C858C File Offset: 0x000C698C
 		public static float InitiatePrisonBreakMtbDays(Pawn pawn)
 		{
 			float result;
@@ -87,20 +87,20 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001696 RID: 5782 RVA: 0x000C8510 File Offset: 0x000C6910
+		// Token: 0x0600169A RID: 5786 RVA: 0x000C8660 File Offset: 0x000C6A60
 		public static bool CanParticipateInPrisonBreak(Pawn pawn)
 		{
 			return !pawn.Downed && pawn.IsPrisoner && !PrisonBreakUtility.IsPrisonBreaking(pawn);
 		}
 
-		// Token: 0x06001697 RID: 5783 RVA: 0x000C855C File Offset: 0x000C695C
+		// Token: 0x0600169B RID: 5787 RVA: 0x000C86AC File Offset: 0x000C6AAC
 		public static bool IsPrisonBreaking(Pawn pawn)
 		{
 			Lord lord = pawn.GetLord();
 			return lord != null && lord.LordJob is LordJob_PrisonBreak;
 		}
 
-		// Token: 0x06001698 RID: 5784 RVA: 0x000C8590 File Offset: 0x000C6990
+		// Token: 0x0600169C RID: 5788 RVA: 0x000C86E0 File Offset: 0x000C6AE0
 		public static void StartPrisonBreak(Pawn initiator)
 		{
 			string text;
@@ -113,7 +113,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001699 RID: 5785 RVA: 0x000C85CC File Offset: 0x000C69CC
+		// Token: 0x0600169D RID: 5789 RVA: 0x000C871C File Offset: 0x000C6B1C
 		public static void StartPrisonBreak(Pawn initiator, out string letterText, out string letterLabel, out LetterDef letterDef)
 		{
 			PrisonBreakUtility.participatingRooms.Clear();
@@ -163,7 +163,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600169A RID: 5786 RVA: 0x000C87B4 File Offset: 0x000C6BB4
+		// Token: 0x0600169E RID: 5790 RVA: 0x000C8904 File Offset: 0x000C6D04
 		private static void RemoveRandomRooms(HashSet<Room> participatingRooms, Pawn initiator)
 		{
 			Room room = initiator.GetRoom(RegionType.Set_Passable);
@@ -185,7 +185,7 @@ namespace RimWorld
 			PrisonBreakUtility.tmpToRemove.Clear();
 		}
 
-		// Token: 0x0600169B RID: 5787 RVA: 0x000C8880 File Offset: 0x000C6C80
+		// Token: 0x0600169F RID: 5791 RVA: 0x000C89D0 File Offset: 0x000C6DD0
 		private static void StartPrisonBreakIn(Room room, List<Pawn> outAllEscapingPrisoners, int sapperThingID, HashSet<Room> participatingRooms)
 		{
 			PrisonBreakUtility.escapingPrisonersGroup.Clear();
@@ -230,7 +230,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600169C RID: 5788 RVA: 0x000C8A24 File Offset: 0x000C6E24
+		// Token: 0x060016A0 RID: 5792 RVA: 0x000C8B74 File Offset: 0x000C6F74
 		private static void AddPrisonersFrom(Room room, List<Pawn> outEscapingPrisoners)
 		{
 			foreach (Thing thing in room.ContainedAndAdjacentThings)
@@ -243,7 +243,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600169D RID: 5789 RVA: 0x000C8AA4 File Offset: 0x000C6EA4
+		// Token: 0x060016A1 RID: 5793 RVA: 0x000C8BF4 File Offset: 0x000C6FF4
 		private static bool TryFindGroupUpLoc(List<Pawn> escapingPrisoners, IntVec3 exitPoint, out IntVec3 groupUpLoc)
 		{
 			groupUpLoc = IntVec3.Invalid;
@@ -278,7 +278,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x0600169E RID: 5790 RVA: 0x000C8C28 File Offset: 0x000C7028
+		// Token: 0x060016A2 RID: 5794 RVA: 0x000C8D78 File Offset: 0x000C7178
 		private static bool RoomsAreCloseToEachOther(Room a, Room b)
 		{
 			IntVec3 anyCell = a.Regions[0].AnyCell;

@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000B2D RID: 2861
+	// Token: 0x02000B2F RID: 2863
 	public enum VerbCategory : byte
 	{
-		// Token: 0x040028F0 RID: 10480
-		Undefined,
 		// Token: 0x040028F1 RID: 10481
-		BeatFire,
+		Undefined,
 		// Token: 0x040028F2 RID: 10482
-		Ignite,
+		BeatFire,
 		// Token: 0x040028F3 RID: 10483
+		Ignite,
+		// Token: 0x040028F4 RID: 10484
 		Nonnative
 	}
 }

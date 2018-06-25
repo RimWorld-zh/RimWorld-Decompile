@@ -8,7 +8,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200086E RID: 2158
+	// Token: 0x02000870 RID: 2160
 	[StaticConstructorOnStartup]
 	public class MainTabWindow_History : MainTabWindow
 	{
@@ -58,7 +58,7 @@ namespace RimWorld
 		private static List<CurveMark> marks = new List<CurveMark>();
 
 		// Token: 0x170007DC RID: 2012
-		// (get) Token: 0x06003115 RID: 12565 RVA: 0x001AA69C File Offset: 0x001A8A9C
+		// (get) Token: 0x06003119 RID: 12569 RVA: 0x001AA7EC File Offset: 0x001A8BEC
 		public override Vector2 RequestedTabSize
 		{
 			get
@@ -67,7 +67,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003116 RID: 12566 RVA: 0x001AA6C0 File Offset: 0x001A8AC0
+		// Token: 0x0600311A RID: 12570 RVA: 0x001AA810 File Offset: 0x001A8C10
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -83,7 +83,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003117 RID: 12567 RVA: 0x001AA748 File Offset: 0x001A8B48
+		// Token: 0x0600311B RID: 12571 RVA: 0x001AA898 File Offset: 0x001A8C98
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);
@@ -124,7 +124,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003118 RID: 12568 RVA: 0x001AA878 File Offset: 0x001A8C78
+		// Token: 0x0600311C RID: 12572 RVA: 0x001AA9C8 File Offset: 0x001A8DC8
 		private void DoStatisticsPage(Rect rect)
 		{
 			rect.yMin += 17f;
@@ -176,7 +176,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06003119 RID: 12569 RVA: 0x001AABFC File Offset: 0x001A8FFC
+		// Token: 0x0600311D RID: 12573 RVA: 0x001AAD4C File Offset: 0x001A914C
 		private void DoMessagesPage(Rect rect)
 		{
 			rect.yMin += 10f;
@@ -212,7 +212,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600311A RID: 12570 RVA: 0x001AAE08 File Offset: 0x001A9208
+		// Token: 0x0600311E RID: 12574 RVA: 0x001AAF58 File Offset: 0x001A9358
 		private void DoArchivableRow(Rect rect, IArchivable archivable, int index)
 		{
 			if (index % 2 == 1)
@@ -315,7 +315,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600311B RID: 12571 RVA: 0x001AB174 File Offset: 0x001A9574
+		// Token: 0x0600311F RID: 12575 RVA: 0x001AB2C4 File Offset: 0x001A96C4
 		private void DoGraphPage(Rect rect)
 		{
 			rect.yMin += 17f;
@@ -375,7 +375,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x0200086F RID: 2159
+		// Token: 0x02000871 RID: 2161
 		private enum HistoryTab : byte
 		{
 			// Token: 0x04001A98 RID: 6808

@@ -7,20 +7,20 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x0200031F RID: 799
+	// Token: 0x02000321 RID: 801
 	public class IncidentWorker_CaravanMeeting : IncidentWorker
 	{
 		// Token: 0x040008BA RID: 2234
 		private const int MapSize = 100;
 
-		// Token: 0x06000DA5 RID: 3493 RVA: 0x00074B6C File Offset: 0x00072F6C
+		// Token: 0x06000DA9 RID: 3497 RVA: 0x00074CBC File Offset: 0x000730BC
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Faction faction;
 			return parms.target is Map || (CaravanIncidentUtility.CanFireIncidentWhichWantsToGenerateMapAt(parms.target.Tile) && this.TryFindFaction(out faction));
 		}
 
-		// Token: 0x06000DA6 RID: 3494 RVA: 0x00074BB8 File Offset: 0x00072FB8
+		// Token: 0x06000DAA RID: 3498 RVA: 0x00074D08 File Offset: 0x00073108
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			bool result;
@@ -119,7 +119,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DA7 RID: 3495 RVA: 0x00074DFC File Offset: 0x000731FC
+		// Token: 0x06000DAB RID: 3499 RVA: 0x00074F4C File Offset: 0x0007334C
 		private bool TryFindFaction(out Faction faction)
 		{
 			return (from x in Find.FactionManager.AllFactionsListForReading
@@ -127,7 +127,7 @@ namespace RimWorld
 			select x).TryRandomElement(out faction);
 		}
 
-		// Token: 0x06000DA8 RID: 3496 RVA: 0x00074E44 File Offset: 0x00073244
+		// Token: 0x06000DAC RID: 3500 RVA: 0x00074F94 File Offset: 0x00073394
 		private List<Pawn> GenerateCaravanPawns(Faction faction)
 		{
 			return PawnGroupMakerUtility.GeneratePawns(new PawnGroupMakerParms
@@ -139,7 +139,7 @@ namespace RimWorld
 			}, true).ToList<Pawn>();
 		}
 
-		// Token: 0x06000DA9 RID: 3497 RVA: 0x00074E90 File Offset: 0x00073290
+		// Token: 0x06000DAD RID: 3501 RVA: 0x00074FE0 File Offset: 0x000733E0
 		private void RemoveAllPawnsAndPassToWorld(Caravan caravan)
 		{
 			List<Pawn> pawnsListForReading = caravan.PawnsListForReading;

@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200055B RID: 1371
+	// Token: 0x0200055D RID: 1373
 	public static class FactionRelationKindUtility
 	{
-		// Token: 0x060019E7 RID: 6631 RVA: 0x000E1458 File Offset: 0x000DF858
+		// Token: 0x060019EB RID: 6635 RVA: 0x000E15A8 File Offset: 0x000DF9A8
 		public static string GetLabel(this FactionRelationKind kind)
 		{
 			string result;
@@ -29,7 +29,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060019E8 RID: 6632 RVA: 0x000E14BC File Offset: 0x000DF8BC
+		// Token: 0x060019EC RID: 6636 RVA: 0x000E160C File Offset: 0x000DFA0C
 		public static Color GetColor(this FactionRelationKind kind)
 		{
 			Color result;

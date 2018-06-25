@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000CED RID: 3309
+	// Token: 0x02000CEF RID: 3311
 	public enum RotDrawMode : byte
 	{
 		// Token: 0x04003162 RID: 12642

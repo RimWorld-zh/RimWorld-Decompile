@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200091B RID: 2331
+	// Token: 0x0200091D RID: 2333
 	[DefOf]
 	public static class WorkTypeDefOf
 	{
@@ -37,7 +37,7 @@ namespace RimWorld
 		// Token: 0x04001ECF RID: 7887
 		public static WorkTypeDef Hauling;
 
-		// Token: 0x06003623 RID: 13859 RVA: 0x001D0933 File Offset: 0x001CED33
+		// Token: 0x06003627 RID: 13863 RVA: 0x001D0A73 File Offset: 0x001CEE73
 		static WorkTypeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(WorkTypeDefOf));

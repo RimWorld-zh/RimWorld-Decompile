@@ -5,7 +5,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000448 RID: 1096
+	// Token: 0x0200044A RID: 1098
 	public class WeatherEvent_LightningFlash : WeatherEvent
 	{
 		// Token: 0x04000B98 RID: 2968
@@ -32,7 +32,7 @@ namespace RimWorld
 		// Token: 0x04000B9F RID: 2975
 		private static readonly SkyColorSet LightningFlashColors = new SkyColorSet(new Color(0.9f, 0.95f, 1f), new Color(0.784313738f, 0.8235294f, 0.847058833f), new Color(0.9f, 0.95f, 1f), 1.15f);
 
-		// Token: 0x0600130F RID: 4879 RVA: 0x000A4794 File Offset: 0x000A2B94
+		// Token: 0x06001313 RID: 4883 RVA: 0x000A48E4 File Offset: 0x000A2CE4
 		public WeatherEvent_LightningFlash(Map map) : base(map)
 		{
 			this.duration = Rand.Range(15, 60);
@@ -40,7 +40,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000291 RID: 657
-		// (get) Token: 0x06001310 RID: 4880 RVA: 0x000A47E8 File Offset: 0x000A2BE8
+		// (get) Token: 0x06001314 RID: 4884 RVA: 0x000A4938 File Offset: 0x000A2D38
 		public override bool Expired
 		{
 			get
@@ -50,7 +50,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000292 RID: 658
-		// (get) Token: 0x06001311 RID: 4881 RVA: 0x000A480C File Offset: 0x000A2C0C
+		// (get) Token: 0x06001315 RID: 4885 RVA: 0x000A495C File Offset: 0x000A2D5C
 		public override SkyTarget SkyTarget
 		{
 			get
@@ -60,7 +60,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000293 RID: 659
-		// (get) Token: 0x06001312 RID: 4882 RVA: 0x000A483C File Offset: 0x000A2C3C
+		// (get) Token: 0x06001316 RID: 4886 RVA: 0x000A498C File Offset: 0x000A2D8C
 		public override Vector2? OverrideShadowVector
 		{
 			get
@@ -70,7 +70,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000294 RID: 660
-		// (get) Token: 0x06001313 RID: 4883 RVA: 0x000A485C File Offset: 0x000A2C5C
+		// (get) Token: 0x06001317 RID: 4887 RVA: 0x000A49AC File Offset: 0x000A2DAC
 		public override float SkyTargetLerpFactor
 		{
 			get
@@ -80,7 +80,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000295 RID: 661
-		// (get) Token: 0x06001314 RID: 4884 RVA: 0x000A4878 File Offset: 0x000A2C78
+		// (get) Token: 0x06001318 RID: 4888 RVA: 0x000A49C8 File Offset: 0x000A2DC8
 		protected float LightningBrightness
 		{
 			get
@@ -98,13 +98,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001315 RID: 4885 RVA: 0x000A48C3 File Offset: 0x000A2CC3
+		// Token: 0x06001319 RID: 4889 RVA: 0x000A4A13 File Offset: 0x000A2E13
 		public override void FireEvent()
 		{
 			SoundDefOf.Thunder_OffMap.PlayOneShotOnCamera(this.map);
 		}
 
-		// Token: 0x06001316 RID: 4886 RVA: 0x000A48D6 File Offset: 0x000A2CD6
+		// Token: 0x0600131A RID: 4890 RVA: 0x000A4A26 File Offset: 0x000A2E26
 		public override void WeatherEventTick()
 		{
 			this.age++;

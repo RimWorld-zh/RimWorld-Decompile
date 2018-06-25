@@ -6,13 +6,13 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000599 RID: 1433
+	// Token: 0x0200059B RID: 1435
 	public abstract class WorldLayer_WorldObjects : WorldLayer
 	{
-		// Token: 0x06001B5D RID: 7005
+		// Token: 0x06001B61 RID: 7009
 		protected abstract bool ShouldSkip(WorldObject worldObject);
 
-		// Token: 0x06001B5E RID: 7006 RVA: 0x000EC584 File Offset: 0x000EA984
+		// Token: 0x06001B62 RID: 7010 RVA: 0x000EC6D4 File Offset: 0x000EAAD4
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();

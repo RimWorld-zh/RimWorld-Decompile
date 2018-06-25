@@ -6,7 +6,7 @@ using Verse.Sound;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005F5 RID: 1525
+	// Token: 0x020005F7 RID: 1527
 	public static class SettleInEmptyTileUtility
 	{
 		// Token: 0x0400120A RID: 4618
@@ -23,7 +23,7 @@ namespace RimWorld.Planet
 		[CompilerGenerated]
 		private static Action<Exception> <>f__mg$cache1;
 
-		// Token: 0x06001E60 RID: 7776 RVA: 0x00107128 File Offset: 0x00105528
+		// Token: 0x06001E64 RID: 7780 RVA: 0x00107278 File Offset: 0x00105678
 		public static void Settle(Caravan caravan)
 		{
 			Faction faction = caravan.Faction;
@@ -62,7 +62,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E61 RID: 7777 RVA: 0x001071EC File Offset: 0x001055EC
+		// Token: 0x06001E65 RID: 7781 RVA: 0x0010733C File Offset: 0x0010573C
 		public static Command SettleCommand(Caravan caravan)
 		{
 			Command_Settle command_Settle = new Command_Settle();

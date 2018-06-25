@@ -9,7 +9,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000864 RID: 2148
+	// Token: 0x02000866 RID: 2150
 	public class Selector
 	{
 		// Token: 0x04001A63 RID: 6755
@@ -25,7 +25,7 @@ namespace RimWorld
 		private const int MaxNumSelected = 80;
 
 		// Token: 0x170007CB RID: 1995
-		// (get) Token: 0x060030C0 RID: 12480 RVA: 0x001A7B38 File Offset: 0x001A5F38
+		// (get) Token: 0x060030C4 RID: 12484 RVA: 0x001A7C88 File Offset: 0x001A6088
 		private bool ShiftIsHeld
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007CC RID: 1996
-		// (get) Token: 0x060030C1 RID: 12481 RVA: 0x001A7B6C File Offset: 0x001A5F6C
+		// (get) Token: 0x060030C5 RID: 12485 RVA: 0x001A7CBC File Offset: 0x001A60BC
 		public List<object> SelectedObjects
 		{
 			get
@@ -45,7 +45,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007CD RID: 1997
-		// (get) Token: 0x060030C2 RID: 12482 RVA: 0x001A7B88 File Offset: 0x001A5F88
+		// (get) Token: 0x060030C6 RID: 12486 RVA: 0x001A7CD8 File Offset: 0x001A60D8
 		public List<object> SelectedObjectsListForReading
 		{
 			get
@@ -55,7 +55,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007CE RID: 1998
-		// (get) Token: 0x060030C3 RID: 12483 RVA: 0x001A7BA4 File Offset: 0x001A5FA4
+		// (get) Token: 0x060030C7 RID: 12487 RVA: 0x001A7CF4 File Offset: 0x001A60F4
 		public Thing SingleSelectedThing
 		{
 			get
@@ -78,7 +78,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007CF RID: 1999
-		// (get) Token: 0x060030C4 RID: 12484 RVA: 0x001A7C00 File Offset: 0x001A6000
+		// (get) Token: 0x060030C8 RID: 12488 RVA: 0x001A7D50 File Offset: 0x001A6150
 		public object FirstSelectedObject
 		{
 			get
@@ -97,7 +97,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007D0 RID: 2000
-		// (get) Token: 0x060030C5 RID: 12485 RVA: 0x001A7C38 File Offset: 0x001A6038
+		// (get) Token: 0x060030C9 RID: 12489 RVA: 0x001A7D88 File Offset: 0x001A6188
 		public object SingleSelectedObject
 		{
 			get
@@ -116,7 +116,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007D1 RID: 2001
-		// (get) Token: 0x060030C6 RID: 12486 RVA: 0x001A7C74 File Offset: 0x001A6074
+		// (get) Token: 0x060030CA RID: 12490 RVA: 0x001A7DC4 File Offset: 0x001A61C4
 		public int NumSelected
 		{
 			get
@@ -126,8 +126,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007D2 RID: 2002
-		// (get) Token: 0x060030C7 RID: 12487 RVA: 0x001A7C94 File Offset: 0x001A6094
-		// (set) Token: 0x060030C8 RID: 12488 RVA: 0x001A7CD1 File Offset: 0x001A60D1
+		// (get) Token: 0x060030CB RID: 12491 RVA: 0x001A7DE4 File Offset: 0x001A61E4
+		// (set) Token: 0x060030CC RID: 12492 RVA: 0x001A7E21 File Offset: 0x001A6221
 		public Zone SelectedZone
 		{
 			get
@@ -153,7 +153,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030C9 RID: 12489 RVA: 0x001A7CEC File Offset: 0x001A60EC
+		// Token: 0x060030CD RID: 12493 RVA: 0x001A7E3C File Offset: 0x001A623C
 		public void SelectorOnGUI()
 		{
 			this.HandleMapClicks();
@@ -171,7 +171,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030CA RID: 12490 RVA: 0x001A7D6C File Offset: 0x001A616C
+		// Token: 0x060030CE RID: 12494 RVA: 0x001A7EBC File Offset: 0x001A62BC
 		private void HandleMapClicks()
 		{
 			if (Event.current.type == EventType.MouseDown)
@@ -233,20 +233,20 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030CB RID: 12491 RVA: 0x001A7F18 File Offset: 0x001A6318
+		// Token: 0x060030CF RID: 12495 RVA: 0x001A8068 File Offset: 0x001A6468
 		public bool IsSelected(object obj)
 		{
 			return this.selected.Contains(obj);
 		}
 
-		// Token: 0x060030CC RID: 12492 RVA: 0x001A7F39 File Offset: 0x001A6339
+		// Token: 0x060030D0 RID: 12496 RVA: 0x001A8089 File Offset: 0x001A6489
 		public void ClearSelection()
 		{
 			SelectionDrawer.Clear();
 			this.selected.Clear();
 		}
 
-		// Token: 0x060030CD RID: 12493 RVA: 0x001A7F4C File Offset: 0x001A634C
+		// Token: 0x060030D1 RID: 12497 RVA: 0x001A809C File Offset: 0x001A649C
 		public void Deselect(object obj)
 		{
 			if (this.selected.Contains(obj))
@@ -255,7 +255,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030CE RID: 12494 RVA: 0x001A7F70 File Offset: 0x001A6370
+		// Token: 0x060030D2 RID: 12498 RVA: 0x001A80C0 File Offset: 0x001A64C0
 		public void Select(object obj, bool playSound = true, bool forceDesignatorDeselect = true)
 		{
 			if (obj == null)
@@ -328,13 +328,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030CF RID: 12495 RVA: 0x001A8188 File Offset: 0x001A6588
+		// Token: 0x060030D3 RID: 12499 RVA: 0x001A82D8 File Offset: 0x001A66D8
 		public void Notify_DialogOpened()
 		{
 			this.dragBox.active = false;
 		}
 
-		// Token: 0x060030D0 RID: 12496 RVA: 0x001A8198 File Offset: 0x001A6598
+		// Token: 0x060030D4 RID: 12500 RVA: 0x001A82E8 File Offset: 0x001A66E8
 		private void PlaySelectionSoundFor(object obj)
 		{
 			if (obj is Pawn && ((Pawn)obj).Faction == Faction.OfPlayer && ((Pawn)obj).RaceProps.Humanlike)
@@ -355,7 +355,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030D1 RID: 12497 RVA: 0x001A8234 File Offset: 0x001A6634
+		// Token: 0x060030D5 RID: 12501 RVA: 0x001A8384 File Offset: 0x001A6784
 		private void SelectInsideDragBox()
 		{
 			if (!this.ShiftIsHeld)
@@ -431,7 +431,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030D2 RID: 12498 RVA: 0x001A84E4 File Offset: 0x001A68E4
+		// Token: 0x060030D6 RID: 12502 RVA: 0x001A8634 File Offset: 0x001A6A34
 		private IEnumerable<object> SelectableObjectsUnderMouse()
 		{
 			Vector2 mousePos = UI.MousePositionOnUIInverted;
@@ -478,7 +478,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060030D3 RID: 12499 RVA: 0x001A8508 File Offset: 0x001A6908
+		// Token: 0x060030D7 RID: 12503 RVA: 0x001A8658 File Offset: 0x001A6A58
 		public static IEnumerable<object> SelectableObjectsAt(IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);
@@ -498,7 +498,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060030D4 RID: 12500 RVA: 0x001A853C File Offset: 0x001A693C
+		// Token: 0x060030D8 RID: 12504 RVA: 0x001A868C File Offset: 0x001A6A8C
 		private void SelectUnderMouse()
 		{
 			Caravan caravan = Find.ColonistBar.CaravanMemberCaravanAt(UI.MousePositionOnUIInverted);
@@ -581,7 +581,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030D5 RID: 12501 RVA: 0x001A8740 File Offset: 0x001A6B40
+		// Token: 0x060030D9 RID: 12505 RVA: 0x001A8890 File Offset: 0x001A6C90
 		public void SelectNextAt(IntVec3 c, Map map)
 		{
 			if (this.SelectedObjects.Count<object>() != 1)
@@ -601,7 +601,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030D6 RID: 12502 RVA: 0x001A87B8 File Offset: 0x001A6BB8
+		// Token: 0x060030DA RID: 12506 RVA: 0x001A8908 File Offset: 0x001A6D08
 		private void SelectAllMatchingObjectUnderMouseOnScreen()
 		{
 			List<object> list = this.SelectableObjectsUnderMouse().ToList<object>();
@@ -684,7 +684,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030D7 RID: 12503 RVA: 0x001A89D8 File Offset: 0x001A6DD8
+		// Token: 0x060030DB RID: 12507 RVA: 0x001A8B28 File Offset: 0x001A6F28
 		private static void MassTakeFirstAutoTakeableOption(Pawn pawn, IntVec3 dest)
 		{
 			FloatMenuOption floatMenuOption = null;

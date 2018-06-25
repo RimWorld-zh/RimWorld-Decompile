@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000521 RID: 1313
+	// Token: 0x02000523 RID: 1315
 	public class Pawn_SkillTracker : IExposable
 	{
 		// Token: 0x04000E3C RID: 3644
@@ -16,7 +16,7 @@ namespace RimWorld
 		// Token: 0x04000E3E RID: 3646
 		private int lastXpSinceMidnightResetTimestamp = -1;
 
-		// Token: 0x060017FB RID: 6139 RVA: 0x000D1B30 File Offset: 0x000CFF30
+		// Token: 0x060017FF RID: 6143 RVA: 0x000D1C80 File Offset: 0x000D0080
 		public Pawn_SkillTracker(Pawn newPawn)
 		{
 			this.pawn = newPawn;
@@ -26,7 +26,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017FC RID: 6140 RVA: 0x000D1BBC File Offset: 0x000CFFBC
+		// Token: 0x06001800 RID: 6144 RVA: 0x000D1D0C File Offset: 0x000D010C
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<SkillRecord>(ref this.skills, "skills", LookMode.Deep, new object[]
@@ -36,7 +36,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.lastXpSinceMidnightResetTimestamp, "lastXpSinceMidnightResetTimestamp", 0, false);
 		}
 
-		// Token: 0x060017FD RID: 6141 RVA: 0x000D1BF4 File Offset: 0x000CFFF4
+		// Token: 0x06001801 RID: 6145 RVA: 0x000D1D44 File Offset: 0x000D0144
 		public SkillRecord GetSkill(SkillDef skillDef)
 		{
 			for (int i = 0; i < this.skills.Count; i++)
@@ -56,7 +56,7 @@ namespace RimWorld
 			return this.skills[0];
 		}
 
-		// Token: 0x060017FE RID: 6142 RVA: 0x000D1C90 File Offset: 0x000D0090
+		// Token: 0x06001802 RID: 6146 RVA: 0x000D1DE0 File Offset: 0x000D01E0
 		public void SkillsTick()
 		{
 			if (this.pawn.IsHashIntervalTick(200))
@@ -76,13 +76,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017FF RID: 6143 RVA: 0x000D1D61 File Offset: 0x000D0161
+		// Token: 0x06001803 RID: 6147 RVA: 0x000D1EB1 File Offset: 0x000D02B1
 		public void Learn(SkillDef sDef, float xp, bool direct = false)
 		{
 			this.GetSkill(sDef).Learn(xp, direct);
 		}
 
-		// Token: 0x06001800 RID: 6144 RVA: 0x000D1D74 File Offset: 0x000D0174
+		// Token: 0x06001804 RID: 6148 RVA: 0x000D1EC4 File Offset: 0x000D02C4
 		public float AverageOfRelevantSkillsFor(WorkTypeDef workDef)
 		{
 			float result;
@@ -103,7 +103,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001801 RID: 6145 RVA: 0x000D1DF4 File Offset: 0x000D01F4
+		// Token: 0x06001805 RID: 6149 RVA: 0x000D1F44 File Offset: 0x000D0344
 		public Passion MaxPassionOfRelevantSkillsFor(WorkTypeDef workDef)
 		{
 			Passion result;
@@ -127,7 +127,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001802 RID: 6146 RVA: 0x000D1E64 File Offset: 0x000D0264
+		// Token: 0x06001806 RID: 6150 RVA: 0x000D1FB4 File Offset: 0x000D03B4
 		public void Notify_SkillDisablesChanged()
 		{
 			for (int i = 0; i < this.skills.Count; i++)

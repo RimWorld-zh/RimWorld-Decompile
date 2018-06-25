@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006AD RID: 1709
+	// Token: 0x020006AF RID: 1711
 	public class Building_Sarcophagus : Building_Grave
 	{
 		// Token: 0x0400143F RID: 5183
@@ -12,14 +12,14 @@ namespace RimWorld
 		// Token: 0x04001440 RID: 5184
 		private bool thisIsFirstBodyEver = false;
 
-		// Token: 0x060024B4 RID: 9396 RVA: 0x0013A566 File Offset: 0x00138966
+		// Token: 0x060024B8 RID: 9400 RVA: 0x0013A6B6 File Offset: 0x00138AB6
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.everNonEmpty, "everNonEmpty", false, false);
 		}
 
-		// Token: 0x060024B5 RID: 9397 RVA: 0x0013A584 File Offset: 0x00138984
+		// Token: 0x060024B9 RID: 9401 RVA: 0x0013A6D4 File Offset: 0x00138AD4
 		public override bool TryAcceptThing(Thing thing, bool allowSpecialEffects = true)
 		{
 			bool result;
@@ -36,7 +36,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060024B6 RID: 9398 RVA: 0x0013A5C8 File Offset: 0x001389C8
+		// Token: 0x060024BA RID: 9402 RVA: 0x0013A718 File Offset: 0x00138B18
 		public override void Notify_CorpseBuried(Pawn worker)
 		{
 			base.Notify_CorpseBuried(worker);

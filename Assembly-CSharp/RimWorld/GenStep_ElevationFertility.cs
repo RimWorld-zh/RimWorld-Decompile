@@ -6,7 +6,7 @@ using Verse.Noise;
 
 namespace RimWorld
 {
-	// Token: 0x020003F7 RID: 1015
+	// Token: 0x020003F9 RID: 1017
 	public class GenStep_ElevationFertility : GenStep
 	{
 		// Token: 0x04000A9D RID: 2717
@@ -19,7 +19,7 @@ namespace RimWorld
 		private const float EdgeMountainSpan = 0.42f;
 
 		// Token: 0x17000253 RID: 595
-		// (get) Token: 0x0600117A RID: 4474 RVA: 0x000974E4 File Offset: 0x000958E4
+		// (get) Token: 0x0600117E RID: 4478 RVA: 0x00097634 File Offset: 0x00095A34
 		public override int SeedPart
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600117B RID: 4475 RVA: 0x00097500 File Offset: 0x00095900
+		// Token: 0x0600117F RID: 4479 RVA: 0x00097650 File Offset: 0x00095A50
 		public override void Generate(Map map)
 		{
 			NoiseRenderer.renderSize = new IntVec2(map.Size.x, map.Size.z);

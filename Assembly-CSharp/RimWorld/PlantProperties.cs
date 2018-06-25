@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000271 RID: 625
+	// Token: 0x02000273 RID: 627
 	public class PlantProperties
 	{
 		// Token: 0x04000529 RID: 1321
@@ -137,7 +137,7 @@ namespace RimWorld
 		public const int MaxMaxMeshCount = 25;
 
 		// Token: 0x1700018B RID: 395
-		// (get) Token: 0x06000ABB RID: 2747 RVA: 0x00061488 File Offset: 0x0005F888
+		// (get) Token: 0x06000ABF RID: 2751 RVA: 0x000615D8 File Offset: 0x0005F9D8
 		public bool Sowable
 		{
 			get
@@ -147,7 +147,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700018C RID: 396
-		// (get) Token: 0x06000ABC RID: 2748 RVA: 0x000614AC File Offset: 0x0005F8AC
+		// (get) Token: 0x06000AC0 RID: 2752 RVA: 0x000615FC File Offset: 0x0005F9FC
 		public bool Harvestable
 		{
 			get
@@ -157,7 +157,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700018D RID: 397
-		// (get) Token: 0x06000ABD RID: 2749 RVA: 0x000614D0 File Offset: 0x0005F8D0
+		// (get) Token: 0x06000AC1 RID: 2753 RVA: 0x00061620 File Offset: 0x0005FA20
 		public bool HarvestDestroys
 		{
 			get
@@ -167,7 +167,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700018E RID: 398
-		// (get) Token: 0x06000ABE RID: 2750 RVA: 0x000614F8 File Offset: 0x0005F8F8
+		// (get) Token: 0x06000AC2 RID: 2754 RVA: 0x00061648 File Offset: 0x0005FA48
 		public bool IsTree
 		{
 			get
@@ -177,7 +177,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700018F RID: 399
-		// (get) Token: 0x06000ABF RID: 2751 RVA: 0x00061520 File Offset: 0x0005F920
+		// (get) Token: 0x06000AC3 RID: 2755 RVA: 0x00061670 File Offset: 0x0005FA70
 		public float LifespanDays
 		{
 			get
@@ -187,7 +187,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000190 RID: 400
-		// (get) Token: 0x06000AC0 RID: 2752 RVA: 0x00061544 File Offset: 0x0005F944
+		// (get) Token: 0x06000AC4 RID: 2756 RVA: 0x00061694 File Offset: 0x0005FA94
 		public int LifespanTicks
 		{
 			get
@@ -197,7 +197,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000191 RID: 401
-		// (get) Token: 0x06000AC1 RID: 2753 RVA: 0x00061568 File Offset: 0x0005F968
+		// (get) Token: 0x06000AC5 RID: 2757 RVA: 0x000616B8 File Offset: 0x0005FAB8
 		public bool LimitedLifespan
 		{
 			get
@@ -207,7 +207,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000192 RID: 402
-		// (get) Token: 0x06000AC2 RID: 2754 RVA: 0x0006158C File Offset: 0x0005F98C
+		// (get) Token: 0x06000AC6 RID: 2758 RVA: 0x000616DC File Offset: 0x0005FADC
 		public bool Blightable
 		{
 			get
@@ -217,7 +217,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000193 RID: 403
-		// (get) Token: 0x06000AC3 RID: 2755 RVA: 0x000615C4 File Offset: 0x0005F9C4
+		// (get) Token: 0x06000AC7 RID: 2759 RVA: 0x00061714 File Offset: 0x0005FB14
 		public bool GrowsInClusters
 		{
 			get
@@ -226,7 +226,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000AC4 RID: 2756 RVA: 0x000615E4 File Offset: 0x0005F9E4
+		// Token: 0x06000AC8 RID: 2760 RVA: 0x00061734 File Offset: 0x0005FB34
 		public void PostLoadSpecial(ThingDef parentDef)
 		{
 			if (!this.leaflessGraphicPath.NullOrEmpty())
@@ -245,7 +245,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000AC5 RID: 2757 RVA: 0x0006164C File Offset: 0x0005FA4C
+		// Token: 0x06000AC9 RID: 2761 RVA: 0x0006179C File Offset: 0x0005FB9C
 		public IEnumerable<string> ConfigErrors()
 		{
 			if (this.maxMeshCount > 25)
@@ -255,7 +255,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000AC6 RID: 2758 RVA: 0x00061678 File Offset: 0x0005FA78
+		// Token: 0x06000ACA RID: 2762 RVA: 0x000617C8 File Offset: 0x0005FBC8
 		internal IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			if (this.sowMinSkill > 0)

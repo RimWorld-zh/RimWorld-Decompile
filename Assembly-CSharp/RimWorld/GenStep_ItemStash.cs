@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200040A RID: 1034
+	// Token: 0x0200040C RID: 1036
 	public class GenStep_ItemStash : GenStep_Scatterer
 	{
 		// Token: 0x04000AD3 RID: 2771
@@ -15,7 +15,7 @@ namespace RimWorld
 		private const int Size = 7;
 
 		// Token: 0x1700025F RID: 607
-		// (get) Token: 0x060011C8 RID: 4552 RVA: 0x0009A9CC File Offset: 0x00098DCC
+		// (get) Token: 0x060011CC RID: 4556 RVA: 0x0009AB1C File Offset: 0x00098F1C
 		public override int SeedPart
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011C9 RID: 4553 RVA: 0x0009A9E8 File Offset: 0x00098DE8
+		// Token: 0x060011CD RID: 4557 RVA: 0x0009AB38 File Offset: 0x00098F38
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			bool result;
@@ -56,7 +56,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060011CA RID: 4554 RVA: 0x0009AAA0 File Offset: 0x00098EA0
+		// Token: 0x060011CE RID: 4558 RVA: 0x0009ABF0 File Offset: 0x00098FF0
 		protected override void ScatterAt(IntVec3 loc, Map map, int count = 1)
 		{
 			CellRect cellRect = CellRect.CenteredOn(loc, 7, 7).ClipInsideMap(map);

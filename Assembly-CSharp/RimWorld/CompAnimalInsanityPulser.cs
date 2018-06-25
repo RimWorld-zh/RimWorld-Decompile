@@ -6,14 +6,14 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020006FE RID: 1790
+	// Token: 0x02000700 RID: 1792
 	public class CompAnimalInsanityPulser : ThingComp
 	{
 		// Token: 0x040015B4 RID: 5556
 		private int ticksToInsanityPulse;
 
 		// Token: 0x170005DE RID: 1502
-		// (get) Token: 0x0600272D RID: 10029 RVA: 0x00151A04 File Offset: 0x0014FE04
+		// (get) Token: 0x06002731 RID: 10033 RVA: 0x00151B54 File Offset: 0x0014FF54
 		public CompProperties_AnimalInsanityPulser Props
 		{
 			get
@@ -22,7 +22,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600272E RID: 10030 RVA: 0x00151A24 File Offset: 0x0014FE24
+		// Token: 0x06002732 RID: 10034 RVA: 0x00151B74 File Offset: 0x0014FF74
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
@@ -32,14 +32,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600272F RID: 10031 RVA: 0x00151A4A File Offset: 0x0014FE4A
+		// Token: 0x06002733 RID: 10035 RVA: 0x00151B9A File Offset: 0x0014FF9A
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_Values.Look<int>(ref this.ticksToInsanityPulse, "ticksToInsanityPulse", 0, false);
 		}
 
-		// Token: 0x06002730 RID: 10032 RVA: 0x00151A68 File Offset: 0x0014FE68
+		// Token: 0x06002734 RID: 10036 RVA: 0x00151BB8 File Offset: 0x0014FFB8
 		public override void CompTick()
 		{
 			if (this.parent.Spawned)
@@ -53,7 +53,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002731 RID: 10033 RVA: 0x00151AC4 File Offset: 0x0014FEC4
+		// Token: 0x06002735 RID: 10037 RVA: 0x00151C14 File Offset: 0x00150014
 		private void DoAnimalInsanityPulse()
 		{
 			IEnumerable<Pawn> enumerable = from p in this.parent.Map.mapPawns.AllPawnsSpawned

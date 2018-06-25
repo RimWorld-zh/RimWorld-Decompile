@@ -2,10 +2,10 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000A4B RID: 2635
+	// Token: 0x02000A4D RID: 2637
 	internal class Toils_Interact
 	{
-		// Token: 0x06003ABC RID: 15036 RVA: 0x001F29BC File Offset: 0x001F0DBC
+		// Token: 0x06003AC0 RID: 15040 RVA: 0x001F2AE8 File Offset: 0x001F0EE8
 		public static Toil DestroyThing(TargetIndex ind)
 		{
 			Toil toil = new Toil();

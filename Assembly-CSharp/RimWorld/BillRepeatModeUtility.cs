@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006B3 RID: 1715
+	// Token: 0x020006B5 RID: 1717
 	public static class BillRepeatModeUtility
 	{
-		// Token: 0x060024E2 RID: 9442 RVA: 0x0013BBFC File Offset: 0x00139FFC
+		// Token: 0x060024E6 RID: 9446 RVA: 0x0013BD4C File Offset: 0x0013A14C
 		public static void MakeConfigFloatMenu(Bill_Production bill)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();

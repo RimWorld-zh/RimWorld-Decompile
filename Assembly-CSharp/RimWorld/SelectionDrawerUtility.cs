@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000862 RID: 2146
+	// Token: 0x02000864 RID: 2148
 	[StaticConstructorOnStartup]
 	public static class SelectionDrawerUtility
 	{
@@ -18,7 +18,7 @@ namespace RimWorld
 		// Token: 0x04001A5D RID: 6749
 		public static readonly Texture2D SelectedTexGUI = ContentFinder<Texture2D>.Get("UI/Overlays/SelectionBracketGUI", true);
 
-		// Token: 0x060030B4 RID: 12468 RVA: 0x001A6E80 File Offset: 0x001A5280
+		// Token: 0x060030B8 RID: 12472 RVA: 0x001A6FD0 File Offset: 0x001A53D0
 		public static void CalculateSelectionBracketPositionsUI<T>(Vector2[] bracketLocs, T obj, Rect rect, Dictionary<T, float> selectTimes, Vector2 textureSize, float jumpDistanceFactor = 1f)
 		{
 			float num;
@@ -40,7 +40,7 @@ namespace RimWorld
 			bracketLocs[3] = new Vector2(rect.center.x - num4, rect.center.y + num5);
 		}
 
-		// Token: 0x060030B5 RID: 12469 RVA: 0x001A6FDC File Offset: 0x001A53DC
+		// Token: 0x060030B9 RID: 12473 RVA: 0x001A712C File Offset: 0x001A552C
 		public static void CalculateSelectionBracketPositionsWorld<T>(Vector3[] bracketLocs, T obj, Vector3 worldPos, Vector2 worldSize, Dictionary<T, float> selectTimes, Vector2 textureSize, float jumpDistanceFactor = 1f)
 		{
 			float num;

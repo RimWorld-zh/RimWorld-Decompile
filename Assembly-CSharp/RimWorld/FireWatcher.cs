@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000385 RID: 901
+	// Token: 0x02000387 RID: 903
 	public class FireWatcher
 	{
 		// Token: 0x04000992 RID: 2450
@@ -19,14 +19,14 @@ namespace RimWorld
 		// Token: 0x04000995 RID: 2453
 		private const float BaseDangerPerFire = 0.5f;
 
-		// Token: 0x06000F9B RID: 3995 RVA: 0x00083C34 File Offset: 0x00082034
+		// Token: 0x06000F9F RID: 3999 RVA: 0x00083D84 File Offset: 0x00082184
 		public FireWatcher(Map map)
 		{
 			this.map = map;
 		}
 
 		// Token: 0x1700023D RID: 573
-		// (get) Token: 0x06000F9C RID: 3996 RVA: 0x00083C50 File Offset: 0x00082050
+		// (get) Token: 0x06000FA0 RID: 4000 RVA: 0x00083DA0 File Offset: 0x000821A0
 		public float FireDanger
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700023E RID: 574
-		// (get) Token: 0x06000F9D RID: 3997 RVA: 0x00083C6C File Offset: 0x0008206C
+		// (get) Token: 0x06000FA1 RID: 4001 RVA: 0x00083DBC File Offset: 0x000821BC
 		public bool LargeFireDangerPresent
 		{
 			get
@@ -49,7 +49,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F9E RID: 3998 RVA: 0x00083CA4 File Offset: 0x000820A4
+		// Token: 0x06000FA2 RID: 4002 RVA: 0x00083DF4 File Offset: 0x000821F4
 		public void FireWatcherTick()
 		{
 			if (Find.TickManager.TicksGame % 426 == 0)
@@ -58,7 +58,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F9F RID: 3999 RVA: 0x00083CC4 File Offset: 0x000820C4
+		// Token: 0x06000FA3 RID: 4003 RVA: 0x00083E14 File Offset: 0x00082214
 		private void UpdateObservations()
 		{
 			this.fireDanger = 0f;

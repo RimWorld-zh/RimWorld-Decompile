@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004B2 RID: 1202
+	// Token: 0x020004B4 RID: 1204
 	public class InteractionWorker_DeepTalk : InteractionWorker
 	{
 		// Token: 0x04000CAC RID: 3244
@@ -34,7 +34,7 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x06001578 RID: 5496 RVA: 0x000BECA8 File Offset: 0x000BD0A8
+		// Token: 0x0600157C RID: 5500 RVA: 0x000BEDF8 File Offset: 0x000BD1F8
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
 			float num = 0.075f;

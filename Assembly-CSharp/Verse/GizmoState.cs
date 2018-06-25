@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000E6A RID: 3690
+	// Token: 0x02000E6C RID: 3692
 	public enum GizmoState : byte
 	{
 		// Token: 0x04003998 RID: 14744

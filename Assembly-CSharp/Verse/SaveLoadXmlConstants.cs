@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000D90 RID: 3472
+	// Token: 0x02000D92 RID: 3474
 	public static class SaveLoadXmlConstants
 	{
 		// Token: 0x040033D9 RID: 13273

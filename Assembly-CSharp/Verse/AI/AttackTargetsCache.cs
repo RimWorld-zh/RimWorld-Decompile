@@ -4,7 +4,7 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000C27 RID: 3111
+	// Token: 0x02000C29 RID: 3113
 	public class AttackTargetsCache
 	{
 		// Token: 0x04002E71 RID: 11889
@@ -31,14 +31,14 @@ namespace Verse.AI
 		// Token: 0x04002E78 RID: 11896
 		private static List<IAttackTarget> tmpToUpdate = new List<IAttackTarget>();
 
-		// Token: 0x06004465 RID: 17509 RVA: 0x0023FB10 File Offset: 0x0023DF10
+		// Token: 0x06004468 RID: 17512 RVA: 0x0023FBEC File Offset: 0x0023DFEC
 		public AttackTargetsCache(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x17000AB7 RID: 2743
-		// (get) Token: 0x06004466 RID: 17510 RVA: 0x0023FB44 File Offset: 0x0023DF44
+		// Token: 0x17000AB6 RID: 2742
+		// (get) Token: 0x06004469 RID: 17513 RVA: 0x0023FC20 File Offset: 0x0023E020
 		public HashSet<IAttackTarget> TargetsHostileToColony
 		{
 			get
@@ -47,13 +47,13 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06004467 RID: 17511 RVA: 0x0023FB64 File Offset: 0x0023DF64
+		// Token: 0x0600446A RID: 17514 RVA: 0x0023FC40 File Offset: 0x0023E040
 		public static void AttackTargetsCacheStaticUpdate()
 		{
 			AttackTargetsCache.targets.Clear();
 		}
 
-		// Token: 0x06004468 RID: 17512 RVA: 0x0023FB74 File Offset: 0x0023DF74
+		// Token: 0x0600446B RID: 17515 RVA: 0x0023FC50 File Offset: 0x0023E050
 		public void UpdateTarget(IAttackTarget t)
 		{
 			if (this.allTargets.Contains(t))
@@ -67,7 +67,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06004469 RID: 17513 RVA: 0x0023FBCC File Offset: 0x0023DFCC
+		// Token: 0x0600446C RID: 17516 RVA: 0x0023FCA8 File Offset: 0x0023E0A8
 		public List<IAttackTarget> GetPotentialTargetsFor(IAttackTargetSearcher th)
 		{
 			Thing thing = th.Thing;
@@ -110,7 +110,7 @@ namespace Verse.AI
 			return AttackTargetsCache.targets;
 		}
 
-		// Token: 0x0600446A RID: 17514 RVA: 0x0023FD70 File Offset: 0x0023E170
+		// Token: 0x0600446D RID: 17517 RVA: 0x0023FE4C File Offset: 0x0023E24C
 		public HashSet<IAttackTarget> TargetsHostileToFaction(Faction f)
 		{
 			HashSet<IAttackTarget> result;
@@ -130,7 +130,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x0600446B RID: 17515 RVA: 0x0023FDCC File Offset: 0x0023E1CC
+		// Token: 0x0600446E RID: 17518 RVA: 0x0023FEA8 File Offset: 0x0023E2A8
 		public void Notify_ThingSpawned(Thing th)
 		{
 			IAttackTarget attackTarget = th as IAttackTarget;
@@ -140,7 +140,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x0600446C RID: 17516 RVA: 0x0023FDF0 File Offset: 0x0023E1F0
+		// Token: 0x0600446F RID: 17519 RVA: 0x0023FECC File Offset: 0x0023E2CC
 		public void Notify_ThingDespawned(Thing th)
 		{
 			IAttackTarget attackTarget = th as IAttackTarget;
@@ -150,7 +150,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x0600446D RID: 17517 RVA: 0x0023FE14 File Offset: 0x0023E214
+		// Token: 0x06004470 RID: 17520 RVA: 0x0023FEF0 File Offset: 0x0023E2F0
 		public void Notify_FactionHostilityChanged(Faction f1, Faction f2)
 		{
 			AttackTargetsCache.tmpTargets.Clear();
@@ -169,7 +169,7 @@ namespace Verse.AI
 			AttackTargetsCache.tmpTargets.Clear();
 		}
 
-		// Token: 0x0600446E RID: 17518 RVA: 0x0023FEDC File Offset: 0x0023E2DC
+		// Token: 0x06004471 RID: 17521 RVA: 0x0023FFB8 File Offset: 0x0023E3B8
 		private void RegisterTarget(IAttackTarget target)
 		{
 			if (this.allTargets.Contains(target))
@@ -223,7 +223,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x0600446F RID: 17519 RVA: 0x00240064 File Offset: 0x0023E464
+		// Token: 0x06004472 RID: 17522 RVA: 0x00240140 File Offset: 0x0023E540
 		private void DeregisterTarget(IAttackTarget target)
 		{
 			if (!this.allTargets.Contains(target))
@@ -252,7 +252,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06004470 RID: 17520 RVA: 0x0024013C File Offset: 0x0023E53C
+		// Token: 0x06004473 RID: 17523 RVA: 0x00240218 File Offset: 0x0023E618
 		private void Debug_AssertHostile(Faction f, HashSet<IAttackTarget> targets)
 		{
 			AttackTargetsCache.tmpToUpdate.Clear();
@@ -280,13 +280,13 @@ namespace Verse.AI
 			AttackTargetsCache.tmpToUpdate.Clear();
 		}
 
-		// Token: 0x06004471 RID: 17521 RVA: 0x00240244 File Offset: 0x0023E644
+		// Token: 0x06004474 RID: 17524 RVA: 0x00240320 File Offset: 0x0023E720
 		public bool Debug_CheckIfInAllTargets(IAttackTarget t)
 		{
 			return t != null && this.allTargets.Contains(t);
 		}
 
-		// Token: 0x06004472 RID: 17522 RVA: 0x00240270 File Offset: 0x0023E670
+		// Token: 0x06004475 RID: 17525 RVA: 0x0024034C File Offset: 0x0023E74C
 		public bool Debug_CheckIfHostileToFaction(Faction f, IAttackTarget t)
 		{
 			return f != null && t != null && this.targetsHostileToFaction[f].Contains(t);

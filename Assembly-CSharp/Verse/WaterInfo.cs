@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C37 RID: 3127
+	// Token: 0x02000C39 RID: 3129
 	public class WaterInfo : MapComponent
 	{
 		// Token: 0x04002F1B RID: 12059
@@ -26,18 +26,18 @@ namespace Verse
 		// Token: 0x04002F20 RID: 12064
 		public const int RiverOffsetMapBorder = 2;
 
-		// Token: 0x060044FD RID: 17661 RVA: 0x00244CF5 File Offset: 0x002430F5
+		// Token: 0x06004500 RID: 17664 RVA: 0x00244DD1 File Offset: 0x002431D1
 		public WaterInfo(Map map) : base(map)
 		{
 		}
 
-		// Token: 0x060044FE RID: 17662 RVA: 0x00244D0A File Offset: 0x0024310A
+		// Token: 0x06004501 RID: 17665 RVA: 0x00244DE6 File Offset: 0x002431E6
 		public override void MapRemoved()
 		{
 			UnityEngine.Object.Destroy(this.riverOffsetTexture);
 		}
 
-		// Token: 0x060044FF RID: 17663 RVA: 0x00244D18 File Offset: 0x00243118
+		// Token: 0x06004502 RID: 17666 RVA: 0x00244DF4 File Offset: 0x002431F4
 		public void SetTextures()
 		{
 			Camera subcamera = Current.SubcameraDriver.GetSubcamera(SubcameraDefOf.WaterDepth);
@@ -52,7 +52,7 @@ namespace Verse
 			Shader.SetGlobalTexture(ShaderPropertyIDs.WaterOffsetTex, this.riverOffsetTexture);
 		}
 
-		// Token: 0x06004500 RID: 17664 RVA: 0x00244DE4 File Offset: 0x002431E4
+		// Token: 0x06004503 RID: 17667 RVA: 0x00244EC0 File Offset: 0x002432C0
 		public Vector3 GetWaterMovement(Vector3 position)
 		{
 			Vector3 result;
@@ -86,7 +86,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004501 RID: 17665 RVA: 0x00244F94 File Offset: 0x00243394
+		// Token: 0x06004504 RID: 17668 RVA: 0x00245070 File Offset: 0x00243470
 		public void GenerateRiverFlowMap()
 		{
 			if (this.riverOffsetMap != null)
@@ -120,7 +120,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004502 RID: 17666 RVA: 0x00245235 File Offset: 0x00243635
+		// Token: 0x06004505 RID: 17669 RVA: 0x00245311 File Offset: 0x00243711
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -128,7 +128,7 @@ namespace Verse
 			this.GenerateRiverFlowMap();
 		}
 
-		// Token: 0x06004503 RID: 17667 RVA: 0x00245254 File Offset: 0x00243654
+		// Token: 0x06004506 RID: 17670 RVA: 0x00245330 File Offset: 0x00243730
 		public void DebugDrawRiver()
 		{
 			for (int i = 0; i < this.riverDebugData.Count; i += 2)

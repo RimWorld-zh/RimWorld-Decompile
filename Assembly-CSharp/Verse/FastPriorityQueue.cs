@@ -3,29 +3,29 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000F27 RID: 3879
+	// Token: 0x02000F2B RID: 3883
 	public class FastPriorityQueue<T>
 	{
-		// Token: 0x04003D9E RID: 15774
+		// Token: 0x04003DA1 RID: 15777
 		protected List<T> innerList = new List<T>();
 
-		// Token: 0x04003D9F RID: 15775
+		// Token: 0x04003DA2 RID: 15778
 		protected IComparer<T> comparer;
 
-		// Token: 0x06005CE7 RID: 23783 RVA: 0x002F1ABA File Offset: 0x002EFEBA
+		// Token: 0x06005CF1 RID: 23793 RVA: 0x002F213A File Offset: 0x002F053A
 		public FastPriorityQueue()
 		{
 			this.comparer = Comparer<T>.Default;
 		}
 
-		// Token: 0x06005CE8 RID: 23784 RVA: 0x002F1AD9 File Offset: 0x002EFED9
+		// Token: 0x06005CF2 RID: 23794 RVA: 0x002F2159 File Offset: 0x002F0559
 		public FastPriorityQueue(IComparer<T> comparer)
 		{
 			this.comparer = comparer;
 		}
 
-		// Token: 0x17000EE5 RID: 3813
-		// (get) Token: 0x06005CE9 RID: 23785 RVA: 0x002F1AF4 File Offset: 0x002EFEF4
+		// Token: 0x17000EE4 RID: 3812
+		// (get) Token: 0x06005CF3 RID: 23795 RVA: 0x002F2174 File Offset: 0x002F0574
 		public int Count
 		{
 			get
@@ -34,7 +34,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005CEA RID: 23786 RVA: 0x002F1B14 File Offset: 0x002EFF14
+		// Token: 0x06005CF4 RID: 23796 RVA: 0x002F2194 File Offset: 0x002F0594
 		public void Push(T item)
 		{
 			int num = this.innerList.Count;
@@ -51,7 +51,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005CEB RID: 23787 RVA: 0x002F1B74 File Offset: 0x002EFF74
+		// Token: 0x06005CF5 RID: 23797 RVA: 0x002F21F4 File Offset: 0x002F05F4
 		public T Pop()
 		{
 			T result = this.innerList[0];
@@ -82,13 +82,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005CEC RID: 23788 RVA: 0x002F1C3A File Offset: 0x002F003A
+		// Token: 0x06005CF6 RID: 23798 RVA: 0x002F22BA File Offset: 0x002F06BA
 		public void Clear()
 		{
 			this.innerList.Clear();
 		}
 
-		// Token: 0x06005CED RID: 23789 RVA: 0x002F1C48 File Offset: 0x002F0048
+		// Token: 0x06005CF7 RID: 23799 RVA: 0x002F22C8 File Offset: 0x002F06C8
 		protected void SwapElements(int i, int j)
 		{
 			T value = this.innerList[i];
@@ -96,7 +96,7 @@ namespace Verse
 			this.innerList[j] = value;
 		}
 
-		// Token: 0x06005CEE RID: 23790 RVA: 0x002F1C88 File Offset: 0x002F0088
+		// Token: 0x06005CF8 RID: 23800 RVA: 0x002F2308 File Offset: 0x002F0708
 		protected int CompareElements(int i, int j)
 		{
 			return this.comparer.Compare(this.innerList[i], this.innerList[j]);

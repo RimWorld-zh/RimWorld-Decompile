@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000645 RID: 1605
+	// Token: 0x02000647 RID: 1607
 	public class ScenPart_StartingAnimal : ScenPart
 	{
 		// Token: 0x040012F5 RID: 4853
@@ -40,7 +40,7 @@ namespace RimWorld
 			new Pair<int, float>(14, 0.1f)
 		};
 
-		// Token: 0x0600214D RID: 8525 RVA: 0x0011AD5C File Offset: 0x0011915C
+		// Token: 0x06002151 RID: 8529 RVA: 0x0011AEAC File Offset: 0x001192AC
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -49,7 +49,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.bondToRandomPlayerPawnChance, "bondToRandomPlayerPawnChance", 0f, false);
 		}
 
-		// Token: 0x0600214E RID: 8526 RVA: 0x0011ADA8 File Offset: 0x001191A8
+		// Token: 0x06002152 RID: 8530 RVA: 0x0011AEF8 File Offset: 0x001192F8
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 2f);
@@ -77,7 +77,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600214F RID: 8527 RVA: 0x0011AF04 File Offset: 0x00119304
+		// Token: 0x06002153 RID: 8531 RVA: 0x0011B054 File Offset: 0x00119454
 		private IEnumerable<PawnKindDef> PossibleAnimals()
 		{
 			return from td in DefDatabase<PawnKindDef>.AllDefs
@@ -85,7 +85,7 @@ namespace RimWorld
 			select td;
 		}
 
-		// Token: 0x06002150 RID: 8528 RVA: 0x0011AF40 File Offset: 0x00119340
+		// Token: 0x06002154 RID: 8532 RVA: 0x0011B090 File Offset: 0x00119490
 		private IEnumerable<PawnKindDef> RandomPets()
 		{
 			return from td in this.PossibleAnimals()
@@ -93,19 +93,19 @@ namespace RimWorld
 			select td;
 		}
 
-		// Token: 0x06002151 RID: 8529 RVA: 0x0011AF80 File Offset: 0x00119380
+		// Token: 0x06002155 RID: 8533 RVA: 0x0011B0D0 File Offset: 0x001194D0
 		private string CurrentAnimalLabel()
 		{
 			return (this.animalKind == null) ? "RandomPet".Translate() : this.animalKind.label;
 		}
 
-		// Token: 0x06002152 RID: 8530 RVA: 0x0011AFBC File Offset: 0x001193BC
+		// Token: 0x06002156 RID: 8534 RVA: 0x0011B10C File Offset: 0x0011950C
 		public override string Summary(Scenario scen)
 		{
 			return ScenSummaryList.SummaryWithList(scen, "PlayerStartsWith", ScenPart_StartingThing_Defined.PlayerStartWithIntro);
 		}
 
-		// Token: 0x06002153 RID: 8531 RVA: 0x0011AFE4 File Offset: 0x001193E4
+		// Token: 0x06002157 RID: 8535 RVA: 0x0011B134 File Offset: 0x00119534
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
 			if (tag == "PlayerStartsWith")
@@ -115,7 +115,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002154 RID: 8532 RVA: 0x0011B018 File Offset: 0x00119418
+		// Token: 0x06002158 RID: 8536 RVA: 0x0011B168 File Offset: 0x00119568
 		public override void Randomize()
 		{
 			if (Rand.Value < 0.5f)
@@ -130,7 +130,7 @@ namespace RimWorld
 			this.bondToRandomPlayerPawnChance = 0f;
 		}
 
-		// Token: 0x06002155 RID: 8533 RVA: 0x0011B094 File Offset: 0x00119494
+		// Token: 0x06002159 RID: 8537 RVA: 0x0011B1E4 File Offset: 0x001195E4
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_StartingAnimal scenPart_StartingAnimal = other as ScenPart_StartingAnimal;
@@ -147,7 +147,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002156 RID: 8534 RVA: 0x0011B0E4 File Offset: 0x001194E4
+		// Token: 0x0600215A RID: 8538 RVA: 0x0011B234 File Offset: 0x00119634
 		public override IEnumerable<Thing> PlayerStartingThings()
 		{
 			for (int i = 0; i < this.count; i++)

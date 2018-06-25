@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200051B RID: 1307
+	// Token: 0x0200051D RID: 1309
 	public enum HostilityResponseMode
 	{
 		// Token: 0x04000E0A RID: 3594

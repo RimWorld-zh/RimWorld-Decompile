@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B65 RID: 2917
+	// Token: 0x02000B67 RID: 2919
 	public class ResearchProjectDef : Def
 	{
 		// Token: 0x04002AAE RID: 10926
@@ -57,8 +57,8 @@ namespace Verse
 		[Unsaved]
 		private bool positionModified = false;
 
-		// Token: 0x170009B0 RID: 2480
-		// (get) Token: 0x06003FC1 RID: 16321 RVA: 0x00219F94 File Offset: 0x00218394
+		// Token: 0x170009AF RID: 2479
+		// (get) Token: 0x06003FC4 RID: 16324 RVA: 0x0021A070 File Offset: 0x00218470
 		public float ResearchViewX
 		{
 			get
@@ -67,8 +67,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009B1 RID: 2481
-		// (get) Token: 0x06003FC2 RID: 16322 RVA: 0x00219FB0 File Offset: 0x002183B0
+		// Token: 0x170009B0 RID: 2480
+		// (get) Token: 0x06003FC5 RID: 16325 RVA: 0x0021A08C File Offset: 0x0021848C
 		public float ResearchViewY
 		{
 			get
@@ -77,8 +77,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009B2 RID: 2482
-		// (get) Token: 0x06003FC3 RID: 16323 RVA: 0x00219FCC File Offset: 0x002183CC
+		// Token: 0x170009B1 RID: 2481
+		// (get) Token: 0x06003FC6 RID: 16326 RVA: 0x0021A0A8 File Offset: 0x002184A8
 		public float CostApparent
 		{
 			get
@@ -87,8 +87,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009B3 RID: 2483
-		// (get) Token: 0x06003FC4 RID: 16324 RVA: 0x0021A000 File Offset: 0x00218400
+		// Token: 0x170009B2 RID: 2482
+		// (get) Token: 0x06003FC7 RID: 16327 RVA: 0x0021A0DC File Offset: 0x002184DC
 		public float ProgressReal
 		{
 			get
@@ -97,8 +97,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009B4 RID: 2484
-		// (get) Token: 0x06003FC5 RID: 16325 RVA: 0x0021A020 File Offset: 0x00218420
+		// Token: 0x170009B3 RID: 2483
+		// (get) Token: 0x06003FC8 RID: 16328 RVA: 0x0021A0FC File Offset: 0x002184FC
 		public float ProgressApparent
 		{
 			get
@@ -107,8 +107,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009B5 RID: 2485
-		// (get) Token: 0x06003FC6 RID: 16326 RVA: 0x0021A054 File Offset: 0x00218454
+		// Token: 0x170009B4 RID: 2484
+		// (get) Token: 0x06003FC9 RID: 16329 RVA: 0x0021A130 File Offset: 0x00218530
 		public float ProgressPercent
 		{
 			get
@@ -117,8 +117,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009B6 RID: 2486
-		// (get) Token: 0x06003FC7 RID: 16327 RVA: 0x0021A07C File Offset: 0x0021847C
+		// Token: 0x170009B5 RID: 2485
+		// (get) Token: 0x06003FCA RID: 16330 RVA: 0x0021A158 File Offset: 0x00218558
 		public bool IsFinished
 		{
 			get
@@ -127,8 +127,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009B7 RID: 2487
-		// (get) Token: 0x06003FC8 RID: 16328 RVA: 0x0021A0A4 File Offset: 0x002184A4
+		// Token: 0x170009B6 RID: 2486
+		// (get) Token: 0x06003FCB RID: 16331 RVA: 0x0021A180 File Offset: 0x00218580
 		public bool CanStartNow
 		{
 			get
@@ -137,8 +137,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009B8 RID: 2488
-		// (get) Token: 0x06003FC9 RID: 16329 RVA: 0x0021A0E8 File Offset: 0x002184E8
+		// Token: 0x170009B7 RID: 2487
+		// (get) Token: 0x06003FCC RID: 16332 RVA: 0x0021A1C4 File Offset: 0x002185C4
 		public bool PrerequisitesCompleted
 		{
 			get
@@ -157,8 +157,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009B9 RID: 2489
-		// (get) Token: 0x06003FCA RID: 16330 RVA: 0x0021A148 File Offset: 0x00218548
+		// Token: 0x170009B8 RID: 2488
+		// (get) Token: 0x06003FCD RID: 16333 RVA: 0x0021A224 File Offset: 0x00218624
 		public string DescriptionDiscovered
 		{
 			get
@@ -176,8 +176,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x170009BA RID: 2490
-		// (get) Token: 0x06003FCB RID: 16331 RVA: 0x0021A17C File Offset: 0x0021857C
+		// Token: 0x170009B9 RID: 2489
+		// (get) Token: 0x06003FCE RID: 16334 RVA: 0x0021A258 File Offset: 0x00218658
 		private bool PlayerHasAnyAppropriateResearchBench
 		{
 			get
@@ -199,7 +199,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FCC RID: 16332 RVA: 0x0021A209 File Offset: 0x00218609
+		// Token: 0x06003FCF RID: 16335 RVA: 0x0021A2E5 File Offset: 0x002186E5
 		public override void ResolveReferences()
 		{
 			if (this.tab == null)
@@ -208,7 +208,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FCD RID: 16333 RVA: 0x0021A224 File Offset: 0x00218624
+		// Token: 0x06003FD0 RID: 16336 RVA: 0x0021A300 File Offset: 0x00218700
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -245,7 +245,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003FCE RID: 16334 RVA: 0x0021A250 File Offset: 0x00218650
+		// Token: 0x06003FD1 RID: 16337 RVA: 0x0021A32C File Offset: 0x0021872C
 		public float CostFactor(TechLevel researcherTechLevel)
 		{
 			float result;
@@ -261,13 +261,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FCF RID: 16335 RVA: 0x0021A290 File Offset: 0x00218690
+		// Token: 0x06003FD2 RID: 16338 RVA: 0x0021A36C File Offset: 0x0021876C
 		public bool HasTag(ResearchProjectTagDef tag)
 		{
 			return this.tags != null && this.tags.Contains(tag);
 		}
 
-		// Token: 0x06003FD0 RID: 16336 RVA: 0x0021A2C4 File Offset: 0x002186C4
+		// Token: 0x06003FD3 RID: 16339 RVA: 0x0021A3A0 File Offset: 0x002187A0
 		public bool CanBeResearchedAt(Building_ResearchBench bench, bool ignoreResearchBenchPowerStatus)
 		{
 			bool result;
@@ -309,7 +309,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FD1 RID: 16337 RVA: 0x0021A3D4 File Offset: 0x002187D4
+		// Token: 0x06003FD4 RID: 16340 RVA: 0x0021A4B0 File Offset: 0x002188B0
 		public void ReapplyAllMods()
 		{
 			if (this.researchMods != null)
@@ -334,13 +334,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FD2 RID: 16338 RVA: 0x0021A46C File Offset: 0x0021886C
+		// Token: 0x06003FD5 RID: 16341 RVA: 0x0021A548 File Offset: 0x00218948
 		public static ResearchProjectDef Named(string defName)
 		{
 			return DefDatabase<ResearchProjectDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x06003FD3 RID: 16339 RVA: 0x0021A488 File Offset: 0x00218888
+		// Token: 0x06003FD6 RID: 16342 RVA: 0x0021A564 File Offset: 0x00218964
 		public static void GenerateNonOverlappingCoordinates()
 		{
 			foreach (ResearchProjectDef researchProjectDef in DefDatabase<ResearchProjectDef>.AllDefsListForReading)
@@ -408,7 +408,7 @@ namespace Verse
 			Log.Error("Couldn't relax research project coordinates apart after " + 200 + " passes.", false);
 		}
 
-		// Token: 0x06003FD4 RID: 16340 RVA: 0x0021A790 File Offset: 0x00218B90
+		// Token: 0x06003FD7 RID: 16343 RVA: 0x0021A86C File Offset: 0x00218C6C
 		private static void ClampInCoordinateLimits(ResearchProjectDef rp)
 		{
 			if (rp.x < 0f)
@@ -425,7 +425,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FD5 RID: 16341 RVA: 0x0021A7EF File Offset: 0x00218BEF
+		// Token: 0x06003FD8 RID: 16344 RVA: 0x0021A8CB File Offset: 0x00218CCB
 		public void Debug_ApplyPositionDelta(Vector2 delta)
 		{
 			this.x += delta.x;
@@ -433,7 +433,7 @@ namespace Verse
 			this.positionModified = true;
 		}
 
-		// Token: 0x06003FD6 RID: 16342 RVA: 0x0021A824 File Offset: 0x00218C24
+		// Token: 0x06003FD9 RID: 16345 RVA: 0x0021A900 File Offset: 0x00218D00
 		public bool Debug_IsPositionModified()
 		{
 			return this.positionModified;

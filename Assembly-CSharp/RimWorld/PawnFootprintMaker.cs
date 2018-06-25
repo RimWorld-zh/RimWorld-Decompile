@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200045C RID: 1116
+	// Token: 0x0200045E RID: 1118
 	public class PawnFootprintMaker
 	{
 		// Token: 0x04000BE2 RID: 3042
@@ -28,13 +28,13 @@ namespace RimWorld
 		// Token: 0x04000BE8 RID: 3048
 		private const float FootprintSplashSize = 2f;
 
-		// Token: 0x06001397 RID: 5015 RVA: 0x000A937B File Offset: 0x000A777B
+		// Token: 0x0600139B RID: 5019 RVA: 0x000A94CB File Offset: 0x000A78CB
 		public PawnFootprintMaker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x06001398 RID: 5016 RVA: 0x000A9394 File Offset: 0x000A7794
+		// Token: 0x0600139C RID: 5020 RVA: 0x000A94E4 File Offset: 0x000A78E4
 		public void FootprintMakerTick()
 		{
 			if (!this.pawn.RaceProps.makesFootprints)
@@ -51,7 +51,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001399 RID: 5017 RVA: 0x000A941C File Offset: 0x000A781C
+		// Token: 0x0600139D RID: 5021 RVA: 0x000A956C File Offset: 0x000A796C
 		private void TryPlaceFootprint()
 		{
 			Vector3 drawPos = this.pawn.Drawer.DrawPos;

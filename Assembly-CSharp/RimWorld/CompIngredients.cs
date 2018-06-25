@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000717 RID: 1815
+	// Token: 0x02000719 RID: 1817
 	public class CompIngredients : ThingComp
 	{
 		// Token: 0x040015E6 RID: 5606
@@ -14,7 +14,7 @@ namespace RimWorld
 		// Token: 0x040015E7 RID: 5607
 		private const int MaxNumIngredients = 3;
 
-		// Token: 0x060027ED RID: 10221 RVA: 0x0015580C File Offset: 0x00153C0C
+		// Token: 0x060027F1 RID: 10225 RVA: 0x0015595C File Offset: 0x00153D5C
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027EE RID: 10222 RVA: 0x0015585A File Offset: 0x00153C5A
+		// Token: 0x060027F2 RID: 10226 RVA: 0x001559AA File Offset: 0x00153DAA
 		public void RegisterIngredient(ThingDef def)
 		{
 			if (!this.ingredients.Contains(def))
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027EF RID: 10223 RVA: 0x0015587C File Offset: 0x00153C7C
+		// Token: 0x060027F3 RID: 10227 RVA: 0x001559CC File Offset: 0x00153DCC
 		public override void PostSplitOff(Thing piece)
 		{
 			base.PostSplitOff(piece);
@@ -51,7 +51,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027F0 RID: 10224 RVA: 0x001558DC File Offset: 0x00153CDC
+		// Token: 0x060027F4 RID: 10228 RVA: 0x00155A2C File Offset: 0x00153E2C
 		public override void PreAbsorbStack(Thing otherStack, int count)
 		{
 			base.PreAbsorbStack(otherStack, count);
@@ -74,7 +74,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027F1 RID: 10225 RVA: 0x0015599C File Offset: 0x00153D9C
+		// Token: 0x060027F5 RID: 10229 RVA: 0x00155AEC File Offset: 0x00153EEC
 		public override string CompInspectStringExtra()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

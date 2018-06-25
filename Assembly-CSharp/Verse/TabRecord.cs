@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EA5 RID: 3749
+	// Token: 0x02000EA7 RID: 3751
 	[StaticConstructorOnStartup]
 	public class TabRecord
 	{
@@ -28,7 +28,7 @@ namespace Verse
 		// Token: 0x04003A99 RID: 15001
 		private static readonly Texture2D TabAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/TabAtlas", true);
 
-		// Token: 0x06005878 RID: 22648 RVA: 0x002D5B52 File Offset: 0x002D3F52
+		// Token: 0x0600587C RID: 22652 RVA: 0x002D5C7E File Offset: 0x002D407E
 		public TabRecord(string label, Action clickedAction, bool selected)
 		{
 			this.label = label;
@@ -36,7 +36,7 @@ namespace Verse
 			this.selected = selected;
 		}
 
-		// Token: 0x06005879 RID: 22649 RVA: 0x002D5B89 File Offset: 0x002D3F89
+		// Token: 0x0600587D RID: 22653 RVA: 0x002D5CB5 File Offset: 0x002D40B5
 		public TabRecord(string label, Action clickedAction, Func<bool> selected)
 		{
 			this.label = label;
@@ -44,8 +44,8 @@ namespace Verse
 			this.selectedGetter = selected;
 		}
 
-		// Token: 0x17000DF6 RID: 3574
-		// (get) Token: 0x0600587A RID: 22650 RVA: 0x002D5BC0 File Offset: 0x002D3FC0
+		// Token: 0x17000DF5 RID: 3573
+		// (get) Token: 0x0600587E RID: 22654 RVA: 0x002D5CEC File Offset: 0x002D40EC
 		public bool Selected
 		{
 			get
@@ -54,7 +54,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600587B RID: 22651 RVA: 0x002D5BF8 File Offset: 0x002D3FF8
+		// Token: 0x0600587F RID: 22655 RVA: 0x002D5D24 File Offset: 0x002D4124
 		public void Draw(Rect rect)
 		{
 			Rect drawRect = new Rect(rect);

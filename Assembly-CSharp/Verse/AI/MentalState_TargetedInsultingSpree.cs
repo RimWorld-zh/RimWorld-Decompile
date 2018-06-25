@@ -4,14 +4,14 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A6E RID: 2670
+	// Token: 0x02000A70 RID: 2672
 	public class MentalState_TargetedInsultingSpree : MentalState_InsultingSpree
 	{
-		// Token: 0x04002564 RID: 9572
+		// Token: 0x04002565 RID: 9573
 		private static List<Pawn> candidates = new List<Pawn>();
 
 		// Token: 0x17000910 RID: 2320
-		// (get) Token: 0x06003B59 RID: 15193 RVA: 0x001F739C File Offset: 0x001F579C
+		// (get) Token: 0x06003B5D RID: 15197 RVA: 0x001F74C8 File Offset: 0x001F58C8
 		public override string InspectLine
 		{
 			get
@@ -21,7 +21,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000911 RID: 2321
-		// (get) Token: 0x06003B5A RID: 15194 RVA: 0x001F73CC File Offset: 0x001F57CC
+		// (get) Token: 0x06003B5E RID: 15198 RVA: 0x001F74F8 File Offset: 0x001F58F8
 		protected override bool CanEndBeforeMaxDurationNow
 		{
 			get
@@ -30,7 +30,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B5B RID: 15195 RVA: 0x001F73E8 File Offset: 0x001F57E8
+		// Token: 0x06003B5F RID: 15199 RVA: 0x001F7514 File Offset: 0x001F5914
 		public override void MentalStateTick()
 		{
 			if (this.target != null && (!this.target.Spawned || !this.pawn.CanReach(this.target, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn)))
@@ -61,14 +61,14 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B5C RID: 15196 RVA: 0x001F74EB File Offset: 0x001F58EB
+		// Token: 0x06003B60 RID: 15200 RVA: 0x001F7617 File Offset: 0x001F5A17
 		public override void PostStart(string reason)
 		{
 			base.PostStart(reason);
 			this.TryFindNewTarget();
 		}
 
-		// Token: 0x06003B5D RID: 15197 RVA: 0x001F74FC File Offset: 0x001F58FC
+		// Token: 0x06003B61 RID: 15201 RVA: 0x001F7628 File Offset: 0x001F5A28
 		private bool TryFindNewTarget()
 		{
 			InsultingSpreeMentalStateUtility.GetInsultCandidatesFor(this.pawn, MentalState_TargetedInsultingSpree.candidates, false);
@@ -77,7 +77,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003B5E RID: 15198 RVA: 0x001F7540 File Offset: 0x001F5940
+		// Token: 0x06003B62 RID: 15202 RVA: 0x001F766C File Offset: 0x001F5A6C
 		public override void PostEnd()
 		{
 			base.PostEnd();
@@ -91,7 +91,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B5F RID: 15199 RVA: 0x001F75B4 File Offset: 0x001F59B4
+		// Token: 0x06003B63 RID: 15203 RVA: 0x001F76E0 File Offset: 0x001F5AE0
 		public override string GetBeginLetterText()
 		{
 			string result;

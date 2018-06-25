@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000788 RID: 1928
+	// Token: 0x0200078A RID: 1930
 	public abstract class Alert_Critical : Alert
 	{
 		// Token: 0x04001721 RID: 5921
@@ -19,14 +19,14 @@ namespace RimWorld
 		// Token: 0x04001724 RID: 5924
 		private const float PulseAmpTutorial = 0.2f;
 
-		// Token: 0x06002AD4 RID: 10964 RVA: 0x0016A286 File Offset: 0x00168686
+		// Token: 0x06002AD8 RID: 10968 RVA: 0x0016A3D6 File Offset: 0x001687D6
 		public Alert_Critical()
 		{
 			this.defaultPriority = AlertPriority.Critical;
 		}
 
 		// Token: 0x170006AB RID: 1707
-		// (get) Token: 0x06002AD5 RID: 10965 RVA: 0x0016A2A0 File Offset: 0x001686A0
+		// (get) Token: 0x06002AD9 RID: 10969 RVA: 0x0016A3F0 File Offset: 0x001687F0
 		protected override Color BGColor
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002AD6 RID: 10966 RVA: 0x0016A2E4 File Offset: 0x001686E4
+		// Token: 0x06002ADA RID: 10970 RVA: 0x0016A434 File Offset: 0x00168834
 		public override void AlertActiveUpdate()
 		{
 			if (this.lastActiveFrame < Time.frameCount - 1)

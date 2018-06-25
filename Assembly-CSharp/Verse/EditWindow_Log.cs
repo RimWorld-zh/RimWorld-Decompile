@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E4B RID: 3659
+	// Token: 0x02000E4D RID: 3661
 	[StaticConstructorOnStartup]
 	public class EditWindow_Log : EditWindow
 	{
@@ -69,14 +69,14 @@ namespace Verse
 		// Token: 0x04003910 RID: 14608
 		private static readonly string MessageDetailsControlName = "MessageDetailsTextArea";
 
-		// Token: 0x0600564D RID: 22093 RVA: 0x002C7C47 File Offset: 0x002C6047
+		// Token: 0x06005651 RID: 22097 RVA: 0x002C7D73 File Offset: 0x002C6173
 		public EditWindow_Log()
 		{
 			this.optionalTitle = "Debug log";
 		}
 
-		// Token: 0x17000D81 RID: 3457
-		// (get) Token: 0x0600564E RID: 22094 RVA: 0x002C7C64 File Offset: 0x002C6064
+		// Token: 0x17000D80 RID: 3456
+		// (get) Token: 0x06005652 RID: 22098 RVA: 0x002C7D90 File Offset: 0x002C6190
 		public override Vector2 InitialSize
 		{
 			get
@@ -85,8 +85,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D82 RID: 3458
-		// (get) Token: 0x0600564F RID: 22095 RVA: 0x002C7C98 File Offset: 0x002C6098
+		// Token: 0x17000D81 RID: 3457
+		// (get) Token: 0x06005653 RID: 22099 RVA: 0x002C7DC4 File Offset: 0x002C61C4
 		public override bool IsDebug
 		{
 			get
@@ -95,9 +95,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D83 RID: 3459
-		// (get) Token: 0x06005650 RID: 22096 RVA: 0x002C7CB0 File Offset: 0x002C60B0
-		// (set) Token: 0x06005651 RID: 22097 RVA: 0x002C7CCA File Offset: 0x002C60CA
+		// Token: 0x17000D82 RID: 3458
+		// (get) Token: 0x06005654 RID: 22100 RVA: 0x002C7DDC File Offset: 0x002C61DC
+		// (set) Token: 0x06005655 RID: 22101 RVA: 0x002C7DF6 File Offset: 0x002C61F6
 		private static LogMessage SelectedMessage
 		{
 			get
@@ -117,7 +117,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005652 RID: 22098 RVA: 0x002C7D06 File Offset: 0x002C6106
+		// Token: 0x06005656 RID: 22102 RVA: 0x002C7E32 File Offset: 0x002C6232
 		public static void TryAutoOpen()
 		{
 			if (EditWindow_Log.canAutoOpen)
@@ -126,14 +126,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005653 RID: 22099 RVA: 0x002C7D19 File Offset: 0x002C6119
+		// Token: 0x06005657 RID: 22103 RVA: 0x002C7E45 File Offset: 0x002C6245
 		public static void ClearSelectedMessage()
 		{
 			EditWindow_Log.SelectedMessage = null;
 			EditWindow_Log.detailsScrollPosition = Vector2.zero;
 		}
 
-		// Token: 0x06005654 RID: 22100 RVA: 0x002C7D2C File Offset: 0x002C612C
+		// Token: 0x06005658 RID: 22104 RVA: 0x002C7E58 File Offset: 0x002C6258
 		public static void SelectLastMessage(bool expandDetailsPane = false)
 		{
 			EditWindow_Log.ClearSelectedMessage();
@@ -145,21 +145,21 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005655 RID: 22101 RVA: 0x002C7D79 File Offset: 0x002C6179
+		// Token: 0x06005659 RID: 22105 RVA: 0x002C7EA5 File Offset: 0x002C62A5
 		public static void ClearAll()
 		{
 			EditWindow_Log.ClearSelectedMessage();
 			EditWindow_Log.messagesScrollPosition = Vector2.zero;
 		}
 
-		// Token: 0x06005656 RID: 22102 RVA: 0x002C7D8B File Offset: 0x002C618B
+		// Token: 0x0600565A RID: 22106 RVA: 0x002C7EB7 File Offset: 0x002C62B7
 		public override void PostClose()
 		{
 			base.PostClose();
 			EditWindow_Log.wantsToOpen = false;
 		}
 
-		// Token: 0x06005657 RID: 22103 RVA: 0x002C7D9C File Offset: 0x002C619C
+		// Token: 0x0600565B RID: 22107 RVA: 0x002C7EC8 File Offset: 0x002C62C8
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Font = GameFont.Tiny;
@@ -216,7 +216,7 @@ namespace Verse
 			EditWindow_Log.detailsPaneHeight = Mathf.Min(EditWindow_Log.detailsPaneHeight, inRect.height - 80f);
 		}
 
-		// Token: 0x06005658 RID: 22104 RVA: 0x002C7F8C File Offset: 0x002C638C
+		// Token: 0x0600565C RID: 22108 RVA: 0x002C80B8 File Offset: 0x002C64B8
 		public static void Notify_MessageDequeued(LogMessage oldMessage)
 		{
 			if (EditWindow_Log.SelectedMessage == oldMessage)
@@ -225,7 +225,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005659 RID: 22105 RVA: 0x002C7FA0 File Offset: 0x002C63A0
+		// Token: 0x0600565D RID: 22109 RVA: 0x002C80CC File Offset: 0x002C64CC
 		private void DoMessagesListing(Rect listingRect)
 		{
 			Rect viewRect = new Rect(0f, 0f, listingRect.width - 16f, this.listingViewHeight + 100f);
@@ -271,7 +271,7 @@ namespace Verse
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x0600565A RID: 22106 RVA: 0x002C8168 File Offset: 0x002C6568
+		// Token: 0x0600565E RID: 22110 RVA: 0x002C8294 File Offset: 0x002C6694
 		private void DoMessageDetails(Rect detailsRect, Rect outRect)
 		{
 			if (EditWindow_Log.selectedMessage != null)
@@ -305,7 +305,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600565B RID: 22107 RVA: 0x002C827C File Offset: 0x002C667C
+		// Token: 0x0600565F RID: 22111 RVA: 0x002C83A8 File Offset: 0x002C67A8
 		private void CopyAllMessagesToClipboard()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

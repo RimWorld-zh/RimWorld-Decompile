@@ -4,7 +4,7 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000B5F RID: 2911
+	// Token: 0x02000B61 RID: 2913
 	public class SkillGain
 	{
 		// Token: 0x04002A7A RID: 10874
@@ -13,19 +13,19 @@ namespace Verse
 		// Token: 0x04002A7B RID: 10875
 		public int xp;
 
-		// Token: 0x06003F97 RID: 16279 RVA: 0x0021856F File Offset: 0x0021696F
+		// Token: 0x06003F9A RID: 16282 RVA: 0x0021864B File Offset: 0x00216A4B
 		public SkillGain()
 		{
 		}
 
-		// Token: 0x06003F98 RID: 16280 RVA: 0x00218578 File Offset: 0x00216978
+		// Token: 0x06003F9B RID: 16283 RVA: 0x00218654 File Offset: 0x00216A54
 		public SkillGain(SkillDef skill, int xp)
 		{
 			this.skill = skill;
 			this.xp = xp;
 		}
 
-		// Token: 0x06003F99 RID: 16281 RVA: 0x00218590 File Offset: 0x00216990
+		// Token: 0x06003F9C RID: 16284 RVA: 0x0021866C File Offset: 0x00216A6C
 		public void LoadDataFromXmlCustom(XmlNode xmlRoot)
 		{
 			if (xmlRoot.ChildNodes.Count != 1)

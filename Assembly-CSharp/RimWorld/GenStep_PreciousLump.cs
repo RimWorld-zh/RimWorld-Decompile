@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200040D RID: 1037
+	// Token: 0x0200040F RID: 1039
 	public class GenStep_PreciousLump : GenStep_ScatterLumpsMineable
 	{
 		// Token: 0x04000AD9 RID: 2777
@@ -16,7 +16,7 @@ namespace RimWorld
 		public FloatRange totalValueRange = new FloatRange(1000f, 2000f);
 
 		// Token: 0x17000262 RID: 610
-		// (get) Token: 0x060011D4 RID: 4564 RVA: 0x0009AFD4 File Offset: 0x000993D4
+		// (get) Token: 0x060011D8 RID: 4568 RVA: 0x0009B124 File Offset: 0x00099524
 		public override int SeedPart
 		{
 			get
@@ -25,7 +25,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011D5 RID: 4565 RVA: 0x0009AFF0 File Offset: 0x000993F0
+		// Token: 0x060011D9 RID: 4569 RVA: 0x0009B140 File Offset: 0x00099540
 		public override void Generate(Map map)
 		{
 			this.forcedDefToScatter = this.mineables.RandomElementByWeight((ThingOption x) => x.weight).thingDef;
@@ -36,13 +36,13 @@ namespace RimWorld
 			base.Generate(map);
 		}
 
-		// Token: 0x060011D6 RID: 4566 RVA: 0x0009B088 File Offset: 0x00099488
+		// Token: 0x060011DA RID: 4570 RVA: 0x0009B1D8 File Offset: 0x000995D8
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			return map.reachability.CanReachMapEdge(c, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false));
 		}
 
-		// Token: 0x060011D7 RID: 4567 RVA: 0x0009B0B4 File Offset: 0x000994B4
+		// Token: 0x060011DB RID: 4571 RVA: 0x0009B204 File Offset: 0x00099604
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)
 		{
 			base.ScatterAt(c, map, stackCount);

@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002E9 RID: 745
+	// Token: 0x020002EB RID: 747
 	public class TraitDef : Def
 	{
 		// Token: 0x040007ED RID: 2029
@@ -35,13 +35,13 @@ namespace RimWorld
 		// Token: 0x040007F5 RID: 2037
 		public bool allowOnHostileSpawn = true;
 
-		// Token: 0x06000C4D RID: 3149 RVA: 0x0006D3A4 File Offset: 0x0006B7A4
+		// Token: 0x06000C51 RID: 3153 RVA: 0x0006D4F4 File Offset: 0x0006B8F4
 		public static TraitDef Named(string defName)
 		{
 			return DefDatabase<TraitDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x06000C4E RID: 3150 RVA: 0x0006D3C0 File Offset: 0x0006B7C0
+		// Token: 0x06000C52 RID: 3154 RVA: 0x0006D510 File Offset: 0x0006B910
 		public TraitDegreeData DataAtDegree(int degree)
 		{
 			for (int i = 0; i < this.degreeDatas.Count; i++)
@@ -61,7 +61,7 @@ namespace RimWorld
 			return this.degreeDatas[0];
 		}
 
-		// Token: 0x06000C4F RID: 3151 RVA: 0x0006D45C File Offset: 0x0006B85C
+		// Token: 0x06000C53 RID: 3155 RVA: 0x0006D5AC File Offset: 0x0006B9AC
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -89,7 +89,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000C50 RID: 3152 RVA: 0x0006D488 File Offset: 0x0006B888
+		// Token: 0x06000C54 RID: 3156 RVA: 0x0006D5D8 File Offset: 0x0006B9D8
 		public bool ConflictsWith(Trait other)
 		{
 			if (other.def.conflictingTraits != null)
@@ -105,7 +105,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000C51 RID: 3153 RVA: 0x0006D4F4 File Offset: 0x0006B8F4
+		// Token: 0x06000C55 RID: 3157 RVA: 0x0006D644 File Offset: 0x0006BA44
 		public float GetGenderSpecificCommonality(Gender gender)
 		{
 			float result;

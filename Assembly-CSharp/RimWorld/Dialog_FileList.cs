@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200080C RID: 2060
+	// Token: 0x0200080E RID: 2062
 	public abstract class Dialog_FileList : Window
 	{
 		// Token: 0x04001872 RID: 6258
@@ -60,7 +60,7 @@ namespace RimWorld
 		// Token: 0x04001882 RID: 6274
 		protected const float NameTextFieldButtonSpace = 20f;
 
-		// Token: 0x06002E0A RID: 11786 RVA: 0x00184538 File Offset: 0x00182938
+		// Token: 0x06002E0E RID: 11790 RVA: 0x00184688 File Offset: 0x00182A88
 		public Dialog_FileList()
 		{
 			this.doCloseButton = true;
@@ -72,7 +72,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000756 RID: 1878
-		// (get) Token: 0x06002E0B RID: 11787 RVA: 0x001845B4 File Offset: 0x001829B4
+		// (get) Token: 0x06002E0F RID: 11791 RVA: 0x00184704 File Offset: 0x00182B04
 		public override Vector2 InitialSize
 		{
 			get
@@ -82,7 +82,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000757 RID: 1879
-		// (get) Token: 0x06002E0C RID: 11788 RVA: 0x001845D8 File Offset: 0x001829D8
+		// (get) Token: 0x06002E10 RID: 11792 RVA: 0x00184728 File Offset: 0x00182B28
 		protected virtual bool ShouldDoTypeInField
 		{
 			get
@@ -91,7 +91,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E0D RID: 11789 RVA: 0x001845F0 File Offset: 0x001829F0
+		// Token: 0x06002E11 RID: 11793 RVA: 0x00184740 File Offset: 0x00182B40
 		public override void DoWindowContents(Rect inRect)
 		{
 			Vector2 vector = new Vector2(inRect.width - 16f, 36f);
@@ -160,13 +160,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E0E RID: 11790
+		// Token: 0x06002E12 RID: 11794
 		protected abstract void DoFileInteraction(string fileName);
 
-		// Token: 0x06002E0F RID: 11791
+		// Token: 0x06002E13 RID: 11795
 		protected abstract void ReloadFiles();
 
-		// Token: 0x06002E10 RID: 11792 RVA: 0x00184984 File Offset: 0x00182D84
+		// Token: 0x06002E14 RID: 11796 RVA: 0x00184AD4 File Offset: 0x00182ED4
 		protected virtual void DoTypeInField(Rect rect)
 		{
 			GUI.BeginGroup(rect);
@@ -202,13 +202,13 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002E11 RID: 11793 RVA: 0x00184AC0 File Offset: 0x00182EC0
+		// Token: 0x06002E15 RID: 11797 RVA: 0x00184C10 File Offset: 0x00183010
 		protected virtual Color FileNameColor(SaveFileInfo sfi)
 		{
 			return Dialog_FileList.DefaultFileTextColor;
 		}
 
-		// Token: 0x06002E12 RID: 11794 RVA: 0x00184ADC File Offset: 0x00182EDC
+		// Token: 0x06002E16 RID: 11798 RVA: 0x00184C2C File Offset: 0x0018302C
 		public static void DrawDateAndVersion(SaveFileInfo sfi, Rect rect)
 		{
 			GUI.BeginGroup(rect);

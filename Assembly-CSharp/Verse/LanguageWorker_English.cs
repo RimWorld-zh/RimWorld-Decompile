@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000BF4 RID: 3060
+	// Token: 0x02000BF6 RID: 3062
 	public class LanguageWorker_English : LanguageWorker
 	{
-		// Token: 0x060042D7 RID: 17111 RVA: 0x00235F04 File Offset: 0x00234304
+		// Token: 0x060042DA RID: 17114 RVA: 0x00235FE0 File Offset: 0x002343E0
 		public override string WithIndefiniteArticle(string str)
 		{
 			if (str.NullOrEmpty())
@@ -15,7 +15,7 @@ namespace Verse
 			return "a " + str;
 		}
 
-		// Token: 0x060042D8 RID: 17112 RVA: 0x00235F38 File Offset: 0x00234338
+		// Token: 0x060042DB RID: 17115 RVA: 0x00236014 File Offset: 0x00234414
 		public override string WithDefiniteArticle(string str)
 		{
 			if (str.NullOrEmpty())
@@ -25,7 +25,7 @@ namespace Verse
 			return "the " + str;
 		}
 
-		// Token: 0x060042D9 RID: 17113 RVA: 0x00235F6C File Offset: 0x0023436C
+		// Token: 0x060042DC RID: 17116 RVA: 0x00236048 File Offset: 0x00234448
 		public override string PostProcessed(string str)
 		{
 			str = base.PostProcessed(str);
@@ -51,7 +51,7 @@ namespace Verse
 			return str;
 		}
 
-		// Token: 0x060042DA RID: 17114 RVA: 0x002360F0 File Offset: 0x002344F0
+		// Token: 0x060042DD RID: 17117 RVA: 0x002361CC File Offset: 0x002345CC
 		public override string ToTitleCase(string str)
 		{
 			str = base.ToTitleCase(str);
@@ -64,7 +64,7 @@ namespace Verse
 			return str;
 		}
 
-		// Token: 0x060042DB RID: 17115 RVA: 0x0023617C File Offset: 0x0023457C
+		// Token: 0x060042DE RID: 17118 RVA: 0x00236258 File Offset: 0x00234658
 		public override string OrdinalNumber(int number)
 		{
 			int num = number % 10;
@@ -87,7 +87,7 @@ namespace Verse
 			return number + "th";
 		}
 
-		// Token: 0x060042DC RID: 17116 RVA: 0x00236210 File Offset: 0x00234610
+		// Token: 0x060042DF RID: 17119 RVA: 0x002362EC File Offset: 0x002346EC
 		public override string Pluralize(string str, int count = -1)
 		{
 			string result;

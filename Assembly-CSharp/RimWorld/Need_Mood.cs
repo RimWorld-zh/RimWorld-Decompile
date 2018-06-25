@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004FC RID: 1276
+	// Token: 0x020004FE RID: 1278
 	public class Need_Mood : Need_Seeker
 	{
 		// Token: 0x04000D85 RID: 3461
@@ -18,7 +18,7 @@ namespace RimWorld
 		// Token: 0x04000D87 RID: 3463
 		public PawnRecentMemory recentMemory;
 
-		// Token: 0x060016F9 RID: 5881 RVA: 0x000CAC66 File Offset: 0x000C9066
+		// Token: 0x060016FD RID: 5885 RVA: 0x000CADB6 File Offset: 0x000C91B6
 		public Need_Mood(Pawn pawn) : base(pawn)
 		{
 			this.thoughts = new ThoughtHandler(pawn);
@@ -27,7 +27,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000321 RID: 801
-		// (get) Token: 0x060016FA RID: 5882 RVA: 0x000CAC94 File Offset: 0x000C9094
+		// (get) Token: 0x060016FE RID: 5886 RVA: 0x000CADE4 File Offset: 0x000C91E4
 		public override float CurInstantLevel
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000322 RID: 802
-		// (get) Token: 0x060016FB RID: 5883 RVA: 0x000CAD00 File Offset: 0x000C9100
+		// (get) Token: 0x060016FF RID: 5887 RVA: 0x000CAE50 File Offset: 0x000C9250
 		public string MoodString
 		{
 			get
@@ -84,7 +84,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060016FC RID: 5884 RVA: 0x000CAE00 File Offset: 0x000C9200
+		// Token: 0x06001700 RID: 5888 RVA: 0x000CAF50 File Offset: 0x000C9350
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -98,7 +98,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060016FD RID: 5885 RVA: 0x000CAE52 File Offset: 0x000C9252
+		// Token: 0x06001701 RID: 5889 RVA: 0x000CAFA2 File Offset: 0x000C93A2
 		public override void NeedInterval()
 		{
 			base.NeedInterval();
@@ -107,7 +107,7 @@ namespace RimWorld
 			this.observer.ObserverInterval();
 		}
 
-		// Token: 0x060016FE RID: 5886 RVA: 0x000CAE7C File Offset: 0x000C927C
+		// Token: 0x06001702 RID: 5890 RVA: 0x000CAFCC File Offset: 0x000C93CC
 		public override string GetTipString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -119,7 +119,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060016FF RID: 5887 RVA: 0x000CAF50 File Offset: 0x000C9350
+		// Token: 0x06001703 RID: 5891 RVA: 0x000CB0A0 File Offset: 0x000C94A0
 		public override void DrawOnGUI(Rect rect, int maxThresholdMarkers = 2147483647, float customMargin = -1f, bool drawArrows = true, bool doTooltip = true)
 		{
 			if (this.threshPercents == null)

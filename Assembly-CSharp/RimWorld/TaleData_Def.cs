@@ -5,7 +5,7 @@ using Verse.Grammar;
 
 namespace RimWorld
 {
-	// Token: 0x02000659 RID: 1625
+	// Token: 0x0200065B RID: 1627
 	public class TaleData_Def : TaleData
 	{
 		// Token: 0x04001345 RID: 4933
@@ -17,7 +17,7 @@ namespace RimWorld
 		// Token: 0x04001347 RID: 4935
 		private Type tmpDefType;
 
-		// Token: 0x060021F7 RID: 8695 RVA: 0x00120268 File Offset: 0x0011E668
+		// Token: 0x060021FB RID: 8699 RVA: 0x001203B8 File Offset: 0x0011E7B8
 		public override void ExposeData()
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
@@ -33,7 +33,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021F8 RID: 8696 RVA: 0x0012031C File Offset: 0x0011E71C
+		// Token: 0x060021FC RID: 8700 RVA: 0x0012046C File Offset: 0x0011E86C
 		public override IEnumerable<Rule> GetRules(string prefix)
 		{
 			if (this.def != null)
@@ -45,7 +45,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060021F9 RID: 8697 RVA: 0x00120350 File Offset: 0x0011E750
+		// Token: 0x060021FD RID: 8701 RVA: 0x001204A0 File Offset: 0x0011E8A0
 		public static TaleData_Def GenerateFrom(Def def)
 		{
 			return new TaleData_Def

@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000B6A RID: 2922
+	// Token: 0x02000B6C RID: 2924
 	public abstract class RoomRoleWorker
 	{
-		// Token: 0x06003FE1 RID: 16353
+		// Token: 0x06003FE4 RID: 16356
 		public abstract float GetScore(Room room);
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020002DD RID: 733
+	// Token: 0x020002DF RID: 735
 	public enum TaleType
 	{
 		// Token: 0x0400077F RID: 1919

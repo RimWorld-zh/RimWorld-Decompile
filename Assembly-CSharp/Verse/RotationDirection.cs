@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000EF3 RID: 3827
+	// Token: 0x02000EF5 RID: 3829
 	public enum RotationDirection : byte
 	{
 		// Token: 0x04003CA8 RID: 15528

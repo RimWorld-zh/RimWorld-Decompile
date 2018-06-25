@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000691 RID: 1681
+	// Token: 0x02000693 RID: 1683
 	public enum StoragePriority : byte
 	{
 		// Token: 0x040013ED RID: 5101

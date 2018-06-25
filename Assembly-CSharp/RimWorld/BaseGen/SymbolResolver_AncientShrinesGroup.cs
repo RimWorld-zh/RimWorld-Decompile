@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003BE RID: 958
+	// Token: 0x020003C0 RID: 960
 	public class SymbolResolver_AncientShrinesGroup : SymbolResolver
 	{
 		// Token: 0x04000A29 RID: 2601
@@ -18,7 +18,7 @@ namespace RimWorld.BaseGen
 		// Token: 0x04000A2C RID: 2604
 		public const int MarginCells = 1;
 
-		// Token: 0x06001098 RID: 4248 RVA: 0x0008CB24 File Offset: 0x0008AF24
+		// Token: 0x0600109C RID: 4252 RVA: 0x0008CC74 File Offset: 0x0008B074
 		public override void Resolve(ResolveParams rp)
 		{
 			int num = (rp.rect.Width + 1) / (SymbolResolver_AncientShrinesGroup.StandardAncientShrineSize.x + 1);

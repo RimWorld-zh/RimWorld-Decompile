@@ -6,28 +6,28 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000984 RID: 2436
+	// Token: 0x02000986 RID: 2438
 	public static class GenWorld
 	{
-		// Token: 0x04002370 RID: 9072
+		// Token: 0x04002371 RID: 9073
 		private static int cachedTile_noSnap = -1;
 
-		// Token: 0x04002371 RID: 9073
+		// Token: 0x04002372 RID: 9074
 		private static int cachedFrame_noSnap = -1;
 
-		// Token: 0x04002372 RID: 9074
+		// Token: 0x04002373 RID: 9075
 		private static int cachedTile_snap = -1;
 
-		// Token: 0x04002373 RID: 9075
+		// Token: 0x04002374 RID: 9076
 		private static int cachedFrame_snap = -1;
 
-		// Token: 0x04002374 RID: 9076
+		// Token: 0x04002375 RID: 9077
 		public const float MaxRayLength = 1500f;
 
-		// Token: 0x04002375 RID: 9077
+		// Token: 0x04002376 RID: 9078
 		private static List<WorldObject> tmpWorldObjectsUnderMouse = new List<WorldObject>();
 
-		// Token: 0x060036E8 RID: 14056 RVA: 0x001D5BF8 File Offset: 0x001D3FF8
+		// Token: 0x060036EC RID: 14060 RVA: 0x001D5D38 File Offset: 0x001D4138
 		public static int MouseTile(bool snapToExpandableWorldObjects = false)
 		{
 			int result;
@@ -57,7 +57,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036E9 RID: 14057 RVA: 0x001D5C90 File Offset: 0x001D4090
+		// Token: 0x060036ED RID: 14061 RVA: 0x001D5DD0 File Offset: 0x001D41D0
 		public static int TileAt(Vector2 clickPos, bool snapToExpandableWorldObjects = false)
 		{
 			Camera worldCamera = Find.WorldCamera;

@@ -7,11 +7,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E19 RID: 3609
+	// Token: 0x02000E1B RID: 3611
 	[HasDebugOutput]
 	internal static class DebugOutputsInfection
 	{
-		// Token: 0x060052FC RID: 21244 RVA: 0x002A8FF0 File Offset: 0x002A73F0
+		// Token: 0x06005300 RID: 21248 RVA: 0x002A911C File Offset: 0x002A751C
 		private static List<Pawn> GenerateDoctorArray()
 		{
 			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.Colonist, Faction.OfPlayer, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, false, false, false, (Pawn p) => !p.story.WorkTypeIsDisabled(WorkTypeDefOf.Doctor) && p.health.hediffSet.hediffs.Count == 0, null, null, null, null, null, null, null);
@@ -25,7 +25,7 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x060052FD RID: 21245 RVA: 0x002A90C0 File Offset: 0x002A74C0
+		// Token: 0x06005301 RID: 21249 RVA: 0x002A91EC File Offset: 0x002A75EC
 		private static IEnumerable<HediffDef> InfectionList()
 		{
 			return from hediff in DefDatabase<HediffDef>.AllDefs
@@ -33,7 +33,7 @@ namespace Verse
 			select hediff;
 		}
 
-		// Token: 0x060052FE RID: 21246 RVA: 0x002A90FC File Offset: 0x002A74FC
+		// Token: 0x06005302 RID: 21250 RVA: 0x002A9228 File Offset: 0x002A7628
 		[DebugOutput]
 		public static void Infections()
 		{
@@ -138,14 +138,14 @@ namespace Verse
 			DebugTables.MakeTablesDialog<HediffDef>(DebugOutputsInfection.InfectionList(), list.ToArray());
 		}
 
-		// Token: 0x060052FF RID: 21247 RVA: 0x002A9500 File Offset: 0x002A7900
+		// Token: 0x06005303 RID: 21251 RVA: 0x002A962C File Offset: 0x002A7A2C
 		[DebugOutput]
 		public static void InfectionSimulator()
 		{
 			LongEventHandler.QueueLongEvent(DebugOutputsInfection.InfectionSimulatorWorker(), "Simulating . . .", null);
 		}
 
-		// Token: 0x06005300 RID: 21248 RVA: 0x002A9514 File Offset: 0x002A7914
+		// Token: 0x06005304 RID: 21252 RVA: 0x002A9640 File Offset: 0x002A7A40
 		private static IEnumerable InfectionSimulatorWorker()
 		{
 			int trials = 2;
@@ -235,7 +235,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x02000E1A RID: 3610
+		// Token: 0x02000E1C RID: 3612
 		private enum InfectionLuck
 		{
 			// Token: 0x04003679 RID: 13945
@@ -246,7 +246,7 @@ namespace Verse
 			Good
 		}
 
-		// Token: 0x02000E1B RID: 3611
+		// Token: 0x02000E1D RID: 3613
 		private struct InfectionSimRow
 		{
 			// Token: 0x0400367C RID: 13948

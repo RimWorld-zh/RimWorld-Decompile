@@ -7,7 +7,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007AD RID: 1965
+	// Token: 0x020007AF RID: 1967
 	public class AlertsReadout
 	{
 		// Token: 0x0400173F RID: 5951
@@ -37,7 +37,7 @@ namespace RimWorld
 		// Token: 0x04001747 RID: 5959
 		private readonly List<AlertPriority> PriosInDrawOrder = null;
 
-		// Token: 0x06002B70 RID: 11120 RVA: 0x0016F9D0 File Offset: 0x0016DDD0
+		// Token: 0x06002B74 RID: 11124 RVA: 0x0016FB20 File Offset: 0x0016DF20
 		public AlertsReadout()
 		{
 			this.AllAlerts.Clear();
@@ -70,7 +70,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B71 RID: 11121 RVA: 0x0016FB18 File Offset: 0x0016DF18
+		// Token: 0x06002B75 RID: 11125 RVA: 0x0016FC68 File Offset: 0x0016E068
 		public void AlertsReadoutUpdate()
 		{
 			if (Mathf.Max(Find.TickManager.TicksGame, Find.TutorialState.endTick) >= 600)
@@ -149,7 +149,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B72 RID: 11122 RVA: 0x0016FDE8 File Offset: 0x0016E1E8
+		// Token: 0x06002B76 RID: 11126 RVA: 0x0016FF38 File Offset: 0x0016E338
 		public void AlertsReadoutOnGUI()
 		{
 			if (Event.current.type != EventType.Layout && Event.current.type != EventType.MouseDrag)

@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200067D RID: 1661
+	// Token: 0x0200067F RID: 1663
 	public class Mineable : Building
 	{
 		// Token: 0x0400139F RID: 5023
@@ -13,14 +13,14 @@ namespace RimWorld
 		// Token: 0x040013A0 RID: 5024
 		private const float YieldChanceOnNonMiningKill = 0.2f;
 
-		// Token: 0x060022FA RID: 8954 RVA: 0x0012D80C File Offset: 0x0012BC0C
+		// Token: 0x060022FE RID: 8958 RVA: 0x0012D95C File Offset: 0x0012BD5C
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.yieldPct, "yieldPct", 0f, false);
 		}
 
-		// Token: 0x060022FB RID: 8955 RVA: 0x0012D82C File Offset: 0x0012BC2C
+		// Token: 0x060022FF RID: 8959 RVA: 0x0012D97C File Offset: 0x0012BD7C
 		public override void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
 		{
 			base.PreApplyDamage(ref dinfo, out absorbed);
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060022FC RID: 8956 RVA: 0x0012D8C4 File Offset: 0x0012BCC4
+		// Token: 0x06002300 RID: 8960 RVA: 0x0012DA14 File Offset: 0x0012BE14
 		public void DestroyMined(Pawn pawn)
 		{
 			Map map = base.Map;
@@ -45,7 +45,7 @@ namespace RimWorld
 			this.TrySpawnYield(map, this.yieldPct, true, pawn);
 		}
 
-		// Token: 0x060022FD RID: 8957 RVA: 0x0012D8F0 File Offset: 0x0012BCF0
+		// Token: 0x06002301 RID: 8961 RVA: 0x0012DA40 File Offset: 0x0012BE40
 		public override void Destroy(DestroyMode mode)
 		{
 			Map map = base.Map;
@@ -56,7 +56,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060022FE RID: 8958 RVA: 0x0012D924 File Offset: 0x0012BD24
+		// Token: 0x06002302 RID: 8962 RVA: 0x0012DA74 File Offset: 0x0012BE74
 		private void TrySpawnYield(Map map, float yieldChance, bool moteOnWaste, Pawn pawn)
 		{
 			if (this.def.building.mineableThing != null)
@@ -82,7 +82,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060022FF RID: 8959 RVA: 0x0012DA14 File Offset: 0x0012BE14
+		// Token: 0x06002303 RID: 8963 RVA: 0x0012DB64 File Offset: 0x0012BF64
 		public void Notify_TookMiningDamage(int amount, Pawn miner)
 		{
 			int num = Mathf.Min(amount, this.HitPoints);

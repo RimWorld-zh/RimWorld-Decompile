@@ -9,7 +9,7 @@ using Verse.Steam;
 
 namespace Verse
 {
-	// Token: 0x02000CC5 RID: 3269
+	// Token: 0x02000CC7 RID: 3271
 	public class ModMetaData : WorkshopUploadable
 	{
 		// Token: 0x040030E9 RID: 12521
@@ -36,7 +36,7 @@ namespace Verse
 		// Token: 0x040030F0 RID: 12528
 		private const string AboutFolderName = "About";
 
-		// Token: 0x06004841 RID: 18497 RVA: 0x002606F4 File Offset: 0x0025EAF4
+		// Token: 0x06004844 RID: 18500 RVA: 0x002607D0 File Offset: 0x0025EBD0
 		public ModMetaData(string localAbsPath)
 		{
 			this.rootDirInt = new DirectoryInfo(localAbsPath);
@@ -44,7 +44,7 @@ namespace Verse
 			this.Init();
 		}
 
-		// Token: 0x06004842 RID: 18498 RVA: 0x00260748 File Offset: 0x0025EB48
+		// Token: 0x06004845 RID: 18501 RVA: 0x00260824 File Offset: 0x0025EC24
 		public ModMetaData(WorkshopItem workshopItem)
 		{
 			this.rootDirInt = workshopItem.Directory;
@@ -52,8 +52,8 @@ namespace Verse
 			this.Init();
 		}
 
-		// Token: 0x17000B6B RID: 2923
-		// (get) Token: 0x06004843 RID: 18499 RVA: 0x0026079C File Offset: 0x0025EB9C
+		// Token: 0x17000B6A RID: 2922
+		// (get) Token: 0x06004846 RID: 18502 RVA: 0x00260878 File Offset: 0x0025EC78
 		public string Identifier
 		{
 			get
@@ -62,8 +62,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B6C RID: 2924
-		// (get) Token: 0x06004844 RID: 18500 RVA: 0x002607BC File Offset: 0x0025EBBC
+		// Token: 0x17000B6B RID: 2923
+		// (get) Token: 0x06004847 RID: 18503 RVA: 0x00260898 File Offset: 0x0025EC98
 		public DirectoryInfo RootDir
 		{
 			get
@@ -72,8 +72,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B6D RID: 2925
-		// (get) Token: 0x06004845 RID: 18501 RVA: 0x002607D8 File Offset: 0x0025EBD8
+		// Token: 0x17000B6C RID: 2924
+		// (get) Token: 0x06004848 RID: 18504 RVA: 0x002608B4 File Offset: 0x0025ECB4
 		public bool IsCoreMod
 		{
 			get
@@ -82,9 +82,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B6E RID: 2926
-		// (get) Token: 0x06004846 RID: 18502 RVA: 0x00260800 File Offset: 0x0025EC00
-		// (set) Token: 0x06004847 RID: 18503 RVA: 0x0026081B File Offset: 0x0025EC1B
+		// Token: 0x17000B6D RID: 2925
+		// (get) Token: 0x06004849 RID: 18505 RVA: 0x002608DC File Offset: 0x0025ECDC
+		// (set) Token: 0x0600484A RID: 18506 RVA: 0x002608F7 File Offset: 0x0025ECF7
 		public bool Active
 		{
 			get
@@ -97,8 +97,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B6F RID: 2927
-		// (get) Token: 0x06004848 RID: 18504 RVA: 0x00260828 File Offset: 0x0025EC28
+		// Token: 0x17000B6E RID: 2926
+		// (get) Token: 0x0600484B RID: 18507 RVA: 0x00260904 File Offset: 0x0025ED04
 		public bool VersionCompatible
 		{
 			get
@@ -107,9 +107,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B70 RID: 2928
-		// (get) Token: 0x06004849 RID: 18505 RVA: 0x00260890 File Offset: 0x0025EC90
-		// (set) Token: 0x0600484A RID: 18506 RVA: 0x002608B0 File Offset: 0x0025ECB0
+		// Token: 0x17000B6F RID: 2927
+		// (get) Token: 0x0600484C RID: 18508 RVA: 0x0026096C File Offset: 0x0025ED6C
+		// (set) Token: 0x0600484D RID: 18509 RVA: 0x0026098C File Offset: 0x0025ED8C
 		public string Name
 		{
 			get
@@ -122,8 +122,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B71 RID: 2929
-		// (get) Token: 0x0600484B RID: 18507 RVA: 0x002608C0 File Offset: 0x0025ECC0
+		// Token: 0x17000B70 RID: 2928
+		// (get) Token: 0x0600484E RID: 18510 RVA: 0x0026099C File Offset: 0x0025ED9C
 		public string Author
 		{
 			get
@@ -132,8 +132,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B72 RID: 2930
-		// (get) Token: 0x0600484C RID: 18508 RVA: 0x002608E0 File Offset: 0x0025ECE0
+		// Token: 0x17000B71 RID: 2929
+		// (get) Token: 0x0600484F RID: 18511 RVA: 0x002609BC File Offset: 0x0025EDBC
 		public string Url
 		{
 			get
@@ -142,8 +142,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B73 RID: 2931
-		// (get) Token: 0x0600484D RID: 18509 RVA: 0x00260900 File Offset: 0x0025ED00
+		// Token: 0x17000B72 RID: 2930
+		// (get) Token: 0x06004850 RID: 18512 RVA: 0x002609DC File Offset: 0x0025EDDC
 		public string TargetVersion
 		{
 			get
@@ -152,8 +152,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B74 RID: 2932
-		// (get) Token: 0x0600484E RID: 18510 RVA: 0x00260920 File Offset: 0x0025ED20
+		// Token: 0x17000B73 RID: 2931
+		// (get) Token: 0x06004851 RID: 18513 RVA: 0x002609FC File Offset: 0x0025EDFC
 		public string Description
 		{
 			get
@@ -162,8 +162,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B75 RID: 2933
-		// (get) Token: 0x0600484F RID: 18511 RVA: 0x00260940 File Offset: 0x0025ED40
+		// Token: 0x17000B74 RID: 2932
+		// (get) Token: 0x06004852 RID: 18514 RVA: 0x00260A1C File Offset: 0x0025EE1C
 		public string PreviewImagePath
 		{
 			get
@@ -179,8 +179,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B76 RID: 2934
-		// (get) Token: 0x06004850 RID: 18512 RVA: 0x00260998 File Offset: 0x0025ED98
+		// Token: 0x17000B75 RID: 2933
+		// (get) Token: 0x06004853 RID: 18515 RVA: 0x00260A74 File Offset: 0x0025EE74
 		public ContentSource Source
 		{
 			get
@@ -189,7 +189,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004851 RID: 18513 RVA: 0x002609B4 File Offset: 0x0025EDB4
+		// Token: 0x06004854 RID: 18516 RVA: 0x00260A90 File Offset: 0x0025EE90
 		private void Init()
 		{
 			this.meta = DirectXmlLoader.ItemFromXmlFile<ModMetaData.ModMetaDataInternal>(string.Concat(new object[]
@@ -248,15 +248,15 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004852 RID: 18514 RVA: 0x00260B37 File Offset: 0x0025EF37
+		// Token: 0x06004855 RID: 18517 RVA: 0x00260C13 File Offset: 0x0025F013
 		internal void DeleteContent()
 		{
 			this.rootDirInt.Delete(true);
 			ModLister.RebuildModList();
 		}
 
-		// Token: 0x17000B77 RID: 2935
-		// (get) Token: 0x06004853 RID: 18515 RVA: 0x00260B4C File Offset: 0x0025EF4C
+		// Token: 0x17000B76 RID: 2934
+		// (get) Token: 0x06004856 RID: 18518 RVA: 0x00260C28 File Offset: 0x0025F028
 		public bool OnSteamWorkshop
 		{
 			get
@@ -265,8 +265,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B78 RID: 2936
-		// (get) Token: 0x06004854 RID: 18516 RVA: 0x00260B6C File Offset: 0x0025EF6C
+		// Token: 0x17000B77 RID: 2935
+		// (get) Token: 0x06004857 RID: 18519 RVA: 0x00260C48 File Offset: 0x0025F048
 		private string PublishedFileIdPath
 		{
 			get
@@ -282,24 +282,24 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004855 RID: 18517 RVA: 0x00260BC4 File Offset: 0x0025EFC4
+		// Token: 0x06004858 RID: 18520 RVA: 0x00260CA0 File Offset: 0x0025F0A0
 		public void PrepareForWorkshopUpload()
 		{
 		}
 
-		// Token: 0x06004856 RID: 18518 RVA: 0x00260BC8 File Offset: 0x0025EFC8
+		// Token: 0x06004859 RID: 18521 RVA: 0x00260CA4 File Offset: 0x0025F0A4
 		public bool CanToUploadToWorkshop()
 		{
 			return !this.IsCoreMod && this.Source == ContentSource.LocalFolder && !this.GetWorkshopItemHook().MayHaveAuthorNotCurrentUser;
 		}
 
-		// Token: 0x06004857 RID: 18519 RVA: 0x00260C1C File Offset: 0x0025F01C
+		// Token: 0x0600485A RID: 18522 RVA: 0x00260CF8 File Offset: 0x0025F0F8
 		public PublishedFileId_t GetPublishedFileId()
 		{
 			return this.publishedFileIdInt;
 		}
 
-		// Token: 0x06004858 RID: 18520 RVA: 0x00260C37 File Offset: 0x0025F037
+		// Token: 0x0600485B RID: 18523 RVA: 0x00260D13 File Offset: 0x0025F113
 		public void SetPublishedFileId(PublishedFileId_t newPfid)
 		{
 			if (!(this.publishedFileIdInt == newPfid))
@@ -309,25 +309,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004859 RID: 18521 RVA: 0x00260C70 File Offset: 0x0025F070
+		// Token: 0x0600485C RID: 18524 RVA: 0x00260D4C File Offset: 0x0025F14C
 		public string GetWorkshopName()
 		{
 			return this.Name;
 		}
 
-		// Token: 0x0600485A RID: 18522 RVA: 0x00260C8C File Offset: 0x0025F08C
+		// Token: 0x0600485D RID: 18525 RVA: 0x00260D68 File Offset: 0x0025F168
 		public string GetWorkshopDescription()
 		{
 			return this.Description;
 		}
 
-		// Token: 0x0600485B RID: 18523 RVA: 0x00260CA8 File Offset: 0x0025F0A8
+		// Token: 0x0600485E RID: 18526 RVA: 0x00260D84 File Offset: 0x0025F184
 		public string GetWorkshopPreviewImagePath()
 		{
 			return this.PreviewImagePath;
 		}
 
-		// Token: 0x0600485C RID: 18524 RVA: 0x00260CC4 File Offset: 0x0025F0C4
+		// Token: 0x0600485F RID: 18527 RVA: 0x00260DA0 File Offset: 0x0025F1A0
 		public IList<string> GetWorkshopTags()
 		{
 			return new List<string>
@@ -336,13 +336,13 @@ namespace Verse
 			};
 		}
 
-		// Token: 0x0600485D RID: 18525 RVA: 0x00260CEC File Offset: 0x0025F0EC
+		// Token: 0x06004860 RID: 18528 RVA: 0x00260DC8 File Offset: 0x0025F1C8
 		public DirectoryInfo GetWorkshopUploadDirectory()
 		{
 			return this.RootDir;
 		}
 
-		// Token: 0x0600485E RID: 18526 RVA: 0x00260D08 File Offset: 0x0025F108
+		// Token: 0x06004861 RID: 18529 RVA: 0x00260DE4 File Offset: 0x0025F1E4
 		public WorkshopItemHook GetWorkshopItemHook()
 		{
 			if (this.workshopHookInt == null)
@@ -352,13 +352,13 @@ namespace Verse
 			return this.workshopHookInt;
 		}
 
-		// Token: 0x0600485F RID: 18527 RVA: 0x00260D3C File Offset: 0x0025F13C
+		// Token: 0x06004862 RID: 18530 RVA: 0x00260E18 File Offset: 0x0025F218
 		public override int GetHashCode()
 		{
 			return this.Identifier.GetHashCode();
 		}
 
-		// Token: 0x06004860 RID: 18528 RVA: 0x00260D5C File Offset: 0x0025F15C
+		// Token: 0x06004863 RID: 18531 RVA: 0x00260E38 File Offset: 0x0025F238
 		public override string ToString()
 		{
 			return string.Concat(new string[]
@@ -371,13 +371,13 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06004861 RID: 18529 RVA: 0x00260DA8 File Offset: 0x0025F1A8
+		// Token: 0x06004864 RID: 18532 RVA: 0x00260E84 File Offset: 0x0025F284
 		public string ToStringLong()
 		{
 			return this.Identifier + "(" + this.RootDir.ToString() + ")";
 		}
 
-		// Token: 0x02000CC6 RID: 3270
+		// Token: 0x02000CC8 RID: 3272
 		private class ModMetaDataInternal
 		{
 			// Token: 0x040030F1 RID: 12529

@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002F9 RID: 761
+	// Token: 0x020002FB RID: 763
 	public class HistoryAutoRecorder : IExposable
 	{
 		// Token: 0x0400084C RID: 2124
@@ -13,13 +13,13 @@ namespace RimWorld
 		// Token: 0x0400084D RID: 2125
 		public List<float> records;
 
-		// Token: 0x06000CB2 RID: 3250 RVA: 0x0006FDD8 File Offset: 0x0006E1D8
+		// Token: 0x06000CB6 RID: 3254 RVA: 0x0006FF28 File Offset: 0x0006E328
 		public HistoryAutoRecorder()
 		{
 			this.records = new List<float>();
 		}
 
-		// Token: 0x06000CB3 RID: 3251 RVA: 0x0006FDF4 File Offset: 0x0006E1F4
+		// Token: 0x06000CB7 RID: 3255 RVA: 0x0006FF44 File Offset: 0x0006E344
 		public void Tick()
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000CB4 RID: 3252 RVA: 0x0006FE50 File Offset: 0x0006E250
+		// Token: 0x06000CB8 RID: 3256 RVA: 0x0006FFA0 File Offset: 0x0006E3A0
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<HistoryAutoRecorderDef>(ref this.def, "def");

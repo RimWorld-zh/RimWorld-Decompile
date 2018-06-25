@@ -2,17 +2,17 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000A51 RID: 2641
+	// Token: 0x02000A53 RID: 2643
 	public static class JobFailReason
 	{
-		// Token: 0x0400253B RID: 9531
+		// Token: 0x0400253C RID: 9532
 		private static string lastReason;
 
-		// Token: 0x0400253C RID: 9532
+		// Token: 0x0400253D RID: 9533
 		private static string lastCustomJobString;
 
 		// Token: 0x170008FC RID: 2300
-		// (get) Token: 0x06003AD7 RID: 15063 RVA: 0x001F4144 File Offset: 0x001F2544
+		// (get) Token: 0x06003ADB RID: 15067 RVA: 0x001F4270 File Offset: 0x001F2670
 		public static string Reason
 		{
 			get
@@ -22,7 +22,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x170008FD RID: 2301
-		// (get) Token: 0x06003AD8 RID: 15064 RVA: 0x001F4160 File Offset: 0x001F2560
+		// (get) Token: 0x06003ADC RID: 15068 RVA: 0x001F428C File Offset: 0x001F268C
 		public static bool HaveReason
 		{
 			get
@@ -32,7 +32,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x170008FE RID: 2302
-		// (get) Token: 0x06003AD9 RID: 15065 RVA: 0x001F4180 File Offset: 0x001F2580
+		// (get) Token: 0x06003ADD RID: 15069 RVA: 0x001F42AC File Offset: 0x001F26AC
 		public static string CustomJobString
 		{
 			get
@@ -41,14 +41,14 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003ADA RID: 15066 RVA: 0x001F419A File Offset: 0x001F259A
+		// Token: 0x06003ADE RID: 15070 RVA: 0x001F42C6 File Offset: 0x001F26C6
 		public static void Is(string reason, string customJobString = null)
 		{
 			JobFailReason.lastReason = reason;
 			JobFailReason.lastCustomJobString = customJobString;
 		}
 
-		// Token: 0x06003ADB RID: 15067 RVA: 0x001F41A9 File Offset: 0x001F25A9
+		// Token: 0x06003ADF RID: 15071 RVA: 0x001F42D5 File Offset: 0x001F26D5
 		public static void Clear()
 		{
 			JobFailReason.lastReason = null;

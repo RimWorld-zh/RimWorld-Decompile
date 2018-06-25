@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000257 RID: 599
+	// Token: 0x02000259 RID: 601
 	public class CompProperties_Usable : CompProperties
 	{
 		// Token: 0x040004BB RID: 1211
@@ -16,7 +16,7 @@ namespace RimWorld
 		// Token: 0x040004BD RID: 1213
 		public int useDuration = 100;
 
-		// Token: 0x06000A94 RID: 2708 RVA: 0x0005FE67 File Offset: 0x0005E267
+		// Token: 0x06000A98 RID: 2712 RVA: 0x0005FFB7 File Offset: 0x0005E3B7
 		public CompProperties_Usable()
 		{
 			this.compClass = typeof(CompUsable);

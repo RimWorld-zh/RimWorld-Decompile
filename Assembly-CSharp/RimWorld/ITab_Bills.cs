@@ -7,7 +7,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000847 RID: 2119
+	// Token: 0x02000849 RID: 2121
 	public class ITab_Bills : ITab
 	{
 		// Token: 0x040019F5 RID: 6645
@@ -34,7 +34,7 @@ namespace RimWorld
 		[TweakValue("Interface", 0f, 32f)]
 		private static float PasteSize = 24f;
 
-		// Token: 0x06003002 RID: 12290 RVA: 0x001A186C File Offset: 0x0019FC6C
+		// Token: 0x06003006 RID: 12294 RVA: 0x001A19BC File Offset: 0x0019FDBC
 		public ITab_Bills()
 		{
 			this.size = ITab_Bills.WinSize;
@@ -43,7 +43,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007A8 RID: 1960
-		// (get) Token: 0x06003003 RID: 12291 RVA: 0x001A18BC File Offset: 0x0019FCBC
+		// (get) Token: 0x06003007 RID: 12295 RVA: 0x001A1A0C File Offset: 0x0019FE0C
 		protected Building_WorkTable SelTable
 		{
 			get
@@ -52,7 +52,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003004 RID: 12292 RVA: 0x001A18DC File Offset: 0x0019FCDC
+		// Token: 0x06003008 RID: 12296 RVA: 0x001A1A2C File Offset: 0x0019FE2C
 		protected override void FillTab()
 		{
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.BillsTab, KnowledgeAmount.FrameDisplayed);
@@ -126,7 +126,7 @@ namespace RimWorld
 			this.mouseoverBill = this.SelTable.billStack.DoListing(rect2, recipeOptionsMaker, ref this.scrollPosition, ref this.viewHeight);
 		}
 
-		// Token: 0x06003005 RID: 12293 RVA: 0x001A1B16 File Offset: 0x0019FF16
+		// Token: 0x06003009 RID: 12297 RVA: 0x001A1C66 File Offset: 0x001A0066
 		public override void TabUpdate()
 		{
 			if (this.mouseoverBill != null)

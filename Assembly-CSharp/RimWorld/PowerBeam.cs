@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006B9 RID: 1721
+	// Token: 0x020006BB RID: 1723
 	public class PowerBeam : OrbitalStrike
 	{
 		// Token: 0x0400147E RID: 5246
@@ -24,14 +24,14 @@ namespace RimWorld
 		// Token: 0x04001482 RID: 5250
 		private static List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x06002514 RID: 9492 RVA: 0x0013E440 File Offset: 0x0013C840
+		// Token: 0x06002518 RID: 9496 RVA: 0x0013E590 File Offset: 0x0013C990
 		public override void StartStrike()
 		{
 			base.StartStrike();
 			MoteMaker.MakePowerBeamMote(base.Position, base.Map);
 		}
 
-		// Token: 0x06002515 RID: 9493 RVA: 0x0013E45C File Offset: 0x0013C85C
+		// Token: 0x06002519 RID: 9497 RVA: 0x0013E5AC File Offset: 0x0013C9AC
 		public override void Tick()
 		{
 			base.Tick();
@@ -44,7 +44,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002516 RID: 9494 RVA: 0x0013E49C File Offset: 0x0013C89C
+		// Token: 0x0600251A RID: 9498 RVA: 0x0013E5EC File Offset: 0x0013C9EC
 		private void StartRandomFireAndDoFlameDamage()
 		{
 			IntVec3 c = (from x in GenRadial.RadialCellsAround(base.Position, 15f, true)

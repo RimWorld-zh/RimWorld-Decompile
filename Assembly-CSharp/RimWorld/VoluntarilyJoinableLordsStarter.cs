@@ -4,7 +4,7 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000442 RID: 1090
+	// Token: 0x02000444 RID: 1092
 	public class VoluntarilyJoinableLordsStarter : IExposable
 	{
 		// Token: 0x04000B75 RID: 2933
@@ -22,13 +22,13 @@ namespace RimWorld
 		// Token: 0x04000B79 RID: 2937
 		private const float StartPartyMTBDays = 40f;
 
-		// Token: 0x060012E6 RID: 4838 RVA: 0x000A34E4 File Offset: 0x000A18E4
+		// Token: 0x060012EA RID: 4842 RVA: 0x000A3634 File Offset: 0x000A1A34
 		public VoluntarilyJoinableLordsStarter(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x060012E7 RID: 4839 RVA: 0x000A3508 File Offset: 0x000A1908
+		// Token: 0x060012EB RID: 4843 RVA: 0x000A3658 File Offset: 0x000A1A58
 		public bool TryStartMarriageCeremony(Pawn firstFiance, Pawn secondFiance)
 		{
 			IntVec3 intVec;
@@ -51,7 +51,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060012E8 RID: 4840 RVA: 0x000A35A0 File Offset: 0x000A19A0
+		// Token: 0x060012EC RID: 4844 RVA: 0x000A36F0 File Offset: 0x000A1AF0
 		public bool TryStartParty()
 		{
 			Pawn pawn = PartyUtility.FindRandomPartyOrganizer(Faction.OfPlayer, this.map);
@@ -79,20 +79,20 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060012E9 RID: 4841 RVA: 0x000A365F File Offset: 0x000A1A5F
+		// Token: 0x060012ED RID: 4845 RVA: 0x000A37AF File Offset: 0x000A1BAF
 		public void VoluntarilyJoinableLordsStarterTick()
 		{
 			this.Tick_TryStartParty();
 		}
 
-		// Token: 0x060012EA RID: 4842 RVA: 0x000A3668 File Offset: 0x000A1A68
+		// Token: 0x060012EE RID: 4846 RVA: 0x000A37B8 File Offset: 0x000A1BB8
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.lastLordStartTick, "lastLordStartTick", 0, false);
 			Scribe_Values.Look<bool>(ref this.startPartyASAP, "startPartyASAP", false, false);
 		}
 
-		// Token: 0x060012EB RID: 4843 RVA: 0x000A3690 File Offset: 0x000A1A90
+		// Token: 0x060012EF RID: 4847 RVA: 0x000A37E0 File Offset: 0x000A1BE0
 		private void Tick_TryStartParty()
 		{
 			if (this.map.IsPlayerHome)

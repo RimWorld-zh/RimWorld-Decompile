@@ -6,11 +6,11 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000E1E RID: 3614
+	// Token: 0x02000E20 RID: 3616
 	[HasDebugOutput]
 	internal static class DebugOutputsSystem
 	{
-		// Token: 0x060054BD RID: 21693 RVA: 0x002B7E14 File Offset: 0x002B6214
+		// Token: 0x060054C1 RID: 21697 RVA: 0x002B7F40 File Offset: 0x002B6340
 		[DebugOutput]
 		[Category("System")]
 		public static void LoadedAssets()
@@ -67,7 +67,7 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x060054BE RID: 21694 RVA: 0x002B8024 File Offset: 0x002B6424
+		// Token: 0x060054C2 RID: 21698 RVA: 0x002B8150 File Offset: 0x002B6550
 		private static long TotalBytes(UnityEngine.Object[] arr)
 		{
 			long num = 0L;
@@ -78,7 +78,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x060054BF RID: 21695 RVA: 0x002B8065 File Offset: 0x002B6465
+		// Token: 0x060054C3 RID: 21699 RVA: 0x002B8191 File Offset: 0x002B6591
 		[DebugOutput]
 		[ModeRestrictionPlay]
 		[Category("System")]
@@ -87,7 +87,7 @@ namespace Verse
 			Find.CurrentMap.dynamicDrawManager.LogDynamicDrawThings();
 		}
 
-		// Token: 0x060054C0 RID: 21696 RVA: 0x002B8078 File Offset: 0x002B6478
+		// Token: 0x060054C4 RID: 21700 RVA: 0x002B81A4 File Offset: 0x002B65A4
 		[DebugOutput]
 		[Category("System")]
 		public static void RandByCurveTests()

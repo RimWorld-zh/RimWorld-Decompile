@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200032B RID: 811
+	// Token: 0x0200032D RID: 813
 	public class IncidentWorker_FarmAnimalsWanderIn : IncidentWorker
 	{
 		// Token: 0x040008CF RID: 2255
@@ -14,7 +14,7 @@ namespace RimWorld
 		// Token: 0x040008D0 RID: 2256
 		private const float TotalBodySizeToSpawn = 2.5f;
 
-		// Token: 0x06000DE0 RID: 3552 RVA: 0x000768C4 File Offset: 0x00074CC4
+		// Token: 0x06000DE4 RID: 3556 RVA: 0x00076A14 File Offset: 0x00074E14
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -32,7 +32,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DE1 RID: 3553 RVA: 0x00076918 File Offset: 0x00074D18
+		// Token: 0x06000DE5 RID: 3557 RVA: 0x00076A68 File Offset: 0x00074E68
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -69,7 +69,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DE2 RID: 3554 RVA: 0x00076A30 File Offset: 0x00074E30
+		// Token: 0x06000DE6 RID: 3558 RVA: 0x00076B80 File Offset: 0x00074F80
 		private bool TryFindRandomPawnKind(Map map, out PawnKindDef kind)
 		{
 			return (from x in DefDatabase<PawnKindDef>.AllDefs

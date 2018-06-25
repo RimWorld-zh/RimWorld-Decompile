@@ -7,7 +7,7 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000878 RID: 2168
+	// Token: 0x0200087A RID: 2170
 	public class MapInterface
 	{
 		// Token: 0x04001AC2 RID: 6850
@@ -37,7 +37,7 @@ namespace RimWorld
 		// Token: 0x04001ACA RID: 6858
 		public ColonistBar colonistBar = new ColonistBar();
 
-		// Token: 0x0600317D RID: 12669 RVA: 0x001AD9EC File Offset: 0x001ABDEC
+		// Token: 0x06003181 RID: 12673 RVA: 0x001ADB34 File Offset: 0x001ABF34
 		public void MapInterfaceOnGUI_BeforeMainTabs()
 		{
 			if (Find.CurrentMap != null)
@@ -101,7 +101,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600317E RID: 12670 RVA: 0x001ADB94 File Offset: 0x001ABF94
+		// Token: 0x06003182 RID: 12674 RVA: 0x001ADCDC File Offset: 0x001AC0DC
 		public void MapInterfaceOnGUI_AfterMainTabs()
 		{
 			if (Find.CurrentMap != null)
@@ -125,7 +125,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600317F RID: 12671 RVA: 0x001ADC24 File Offset: 0x001AC024
+		// Token: 0x06003183 RID: 12675 RVA: 0x001ADD6C File Offset: 0x001AC16C
 		public void HandleMapClicks()
 		{
 			if (Find.CurrentMap != null)
@@ -142,7 +142,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003180 RID: 12672 RVA: 0x001ADC84 File Offset: 0x001AC084
+		// Token: 0x06003184 RID: 12676 RVA: 0x001ADDCC File Offset: 0x001AC1CC
 		public void HandleLowPriorityInput()
 		{
 			if (Find.CurrentMap != null)
@@ -159,7 +159,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003181 RID: 12673 RVA: 0x001ADCE8 File Offset: 0x001AC0E8
+		// Token: 0x06003185 RID: 12677 RVA: 0x001ADE30 File Offset: 0x001AC230
 		public void MapInterfaceUpdate()
 		{
 			if (Find.CurrentMap != null)
@@ -219,7 +219,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003182 RID: 12674 RVA: 0x001ADE78 File Offset: 0x001AC278
+		// Token: 0x06003186 RID: 12678 RVA: 0x001ADFC0 File Offset: 0x001AC3C0
 		public void Notify_SwitchedMap()
 		{
 			this.designatorManager.Deselect();

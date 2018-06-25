@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020008A7 RID: 2215
+	// Token: 0x020008A9 RID: 2217
 	public enum PriceType : byte
 	{
 		// Token: 0x04001B72 RID: 7026

@@ -5,18 +5,18 @@ using System.Xml.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000F5A RID: 3930
+	// Token: 0x02000F5E RID: 3934
 	public class KeyPrefs
 	{
-		// Token: 0x04003E68 RID: 15976
+		// Token: 0x04003E6B RID: 15979
 		private static KeyPrefsData data;
 
-		// Token: 0x04003E69 RID: 15977
+		// Token: 0x04003E6C RID: 15980
 		private static Dictionary<string, KeyBindingData> unresolvedBindings;
 
-		// Token: 0x17000F46 RID: 3910
-		// (get) Token: 0x06005F35 RID: 24373 RVA: 0x00308A44 File Offset: 0x00306E44
-		// (set) Token: 0x06005F36 RID: 24374 RVA: 0x00308A5E File Offset: 0x00306E5E
+		// Token: 0x17000F45 RID: 3909
+		// (get) Token: 0x06005F3F RID: 24383 RVA: 0x003090C4 File Offset: 0x003074C4
+		// (set) Token: 0x06005F40 RID: 24384 RVA: 0x003090DE File Offset: 0x003074DE
 		public static KeyPrefsData KeyPrefsData
 		{
 			get
@@ -29,7 +29,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005F37 RID: 24375 RVA: 0x00308A68 File Offset: 0x00306E68
+		// Token: 0x06005F41 RID: 24385 RVA: 0x003090E8 File Offset: 0x003074E8
 		public static void Init()
 		{
 			bool flag = !new FileInfo(GenFilePaths.KeyPrefsFilePath).Exists;
@@ -60,7 +60,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005F38 RID: 24376 RVA: 0x00308B70 File Offset: 0x00306F70
+		// Token: 0x06005F42 RID: 24386 RVA: 0x003091F0 File Offset: 0x003075F0
 		public static void Save()
 		{
 			try
@@ -96,12 +96,12 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000F5B RID: 3931
+		// Token: 0x02000F5F RID: 3935
 		public enum BindingSlot : byte
 		{
-			// Token: 0x04003E6B RID: 15979
+			// Token: 0x04003E6E RID: 15982
 			A,
-			// Token: 0x04003E6C RID: 15980
+			// Token: 0x04003E6F RID: 15983
 			B
 		}
 	}

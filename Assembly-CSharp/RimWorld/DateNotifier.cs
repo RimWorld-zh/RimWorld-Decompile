@@ -4,19 +4,19 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002F0 RID: 752
+	// Token: 0x020002F2 RID: 754
 	public class DateNotifier : IExposable
 	{
 		// Token: 0x0400082C RID: 2092
 		private Season lastSeason = Season.Undefined;
 
-		// Token: 0x06000C74 RID: 3188 RVA: 0x0006EAAD File Offset: 0x0006CEAD
+		// Token: 0x06000C78 RID: 3192 RVA: 0x0006EBFD File Offset: 0x0006CFFD
 		public void ExposeData()
 		{
 			Scribe_Values.Look<Season>(ref this.lastSeason, "lastSeason", Season.Undefined, false);
 		}
 
-		// Token: 0x06000C75 RID: 3189 RVA: 0x0006EAC4 File Offset: 0x0006CEC4
+		// Token: 0x06000C79 RID: 3193 RVA: 0x0006EC14 File Offset: 0x0006D014
 		public void DateNotifierTick()
 		{
 			Map map = this.FindPlayerHomeWithMinTimezone();
@@ -43,7 +43,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C76 RID: 3190 RVA: 0x0006EC0C File Offset: 0x0006D00C
+		// Token: 0x06000C7A RID: 3194 RVA: 0x0006ED5C File Offset: 0x0006D15C
 		private Map FindPlayerHomeWithMinTimezone()
 		{
 			List<Map> maps = Find.Maps;
@@ -64,7 +64,7 @@ namespace RimWorld
 			return map;
 		}
 
-		// Token: 0x06000C77 RID: 3191 RVA: 0x0006ECA0 File Offset: 0x0006D0A0
+		// Token: 0x06000C7B RID: 3195 RVA: 0x0006EDF0 File Offset: 0x0006D1F0
 		private bool AnyPlayerHomeSeasonsAreMeaningful()
 		{
 			List<Map> maps = Find.Maps;
@@ -78,7 +78,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000C78 RID: 3192 RVA: 0x0006ED04 File Offset: 0x0006D104
+		// Token: 0x06000C7C RID: 3196 RVA: 0x0006EE54 File Offset: 0x0006D254
 		private bool AnyPlayerHomeAvgTempIsLowInWinter()
 		{
 			List<Map> maps = Find.Maps;

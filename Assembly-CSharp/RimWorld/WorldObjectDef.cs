@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002EE RID: 750
+	// Token: 0x020002F0 RID: 752
 	public class WorldObjectDef : Def
 	{
 		// Token: 0x04000815 RID: 2069
@@ -78,7 +78,7 @@ namespace RimWorld
 		public bool blockExitGridUntilBattleIsWon;
 
 		// Token: 0x170001DA RID: 474
-		// (get) Token: 0x06000C65 RID: 3173 RVA: 0x0006E1DC File Offset: 0x0006C5DC
+		// (get) Token: 0x06000C69 RID: 3177 RVA: 0x0006E32C File Offset: 0x0006C72C
 		public Material Material
 		{
 			get
@@ -101,7 +101,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001DB RID: 475
-		// (get) Token: 0x06000C66 RID: 3174 RVA: 0x0006E23C File Offset: 0x0006C63C
+		// (get) Token: 0x06000C6A RID: 3178 RVA: 0x0006E38C File Offset: 0x0006C78C
 		public Texture2D ExpandingIconTexture
 		{
 			get
@@ -118,7 +118,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C67 RID: 3175 RVA: 0x0006E294 File Offset: 0x0006C694
+		// Token: 0x06000C6B RID: 3179 RVA: 0x0006E3E4 File Offset: 0x0006C7E4
 		public override void PostLoad()
 		{
 			base.PostLoad();
@@ -148,7 +148,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C68 RID: 3176 RVA: 0x0006E358 File Offset: 0x0006C758
+		// Token: 0x06000C6C RID: 3180 RVA: 0x0006E4A8 File Offset: 0x0006C8A8
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -158,7 +158,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C69 RID: 3177 RVA: 0x0006E39C File Offset: 0x0006C79C
+		// Token: 0x06000C6D RID: 3181 RVA: 0x0006E4EC File Offset: 0x0006C8EC
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())

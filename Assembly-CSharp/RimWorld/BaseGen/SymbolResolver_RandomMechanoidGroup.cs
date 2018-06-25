@@ -5,13 +5,13 @@ using Verse.AI.Group;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003CF RID: 975
+	// Token: 0x020003D1 RID: 977
 	public class SymbolResolver_RandomMechanoidGroup : SymbolResolver
 	{
 		// Token: 0x04000A3D RID: 2621
 		private static readonly IntRange DefaultMechanoidCountRange = new IntRange(1, 5);
 
-		// Token: 0x060010CF RID: 4303 RVA: 0x0008F514 File Offset: 0x0008D914
+		// Token: 0x060010D3 RID: 4307 RVA: 0x0008F664 File Offset: 0x0008DA64
 		public override void Resolve(ResolveParams rp)
 		{
 			int? mechanoidsCount = rp.mechanoidsCount;

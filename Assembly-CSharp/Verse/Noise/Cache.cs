@@ -3,36 +3,36 @@ using System.Diagnostics;
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F87 RID: 3975
+	// Token: 0x02000F8B RID: 3979
 	public class Cache : ModuleBase
 	{
-		// Token: 0x04003F0E RID: 16142
+		// Token: 0x04003F11 RID: 16145
 		private double m_value = 0.0;
 
-		// Token: 0x04003F0F RID: 16143
+		// Token: 0x04003F12 RID: 16146
 		private bool m_cached = false;
 
-		// Token: 0x04003F10 RID: 16144
+		// Token: 0x04003F13 RID: 16147
 		private double m_x = 0.0;
 
-		// Token: 0x04003F11 RID: 16145
+		// Token: 0x04003F14 RID: 16148
 		private double m_y = 0.0;
 
-		// Token: 0x04003F12 RID: 16146
+		// Token: 0x04003F15 RID: 16149
 		private double m_z = 0.0;
 
-		// Token: 0x06006012 RID: 24594 RVA: 0x0030D38C File Offset: 0x0030B78C
+		// Token: 0x0600601C RID: 24604 RVA: 0x0030DA0C File Offset: 0x0030BE0C
 		public Cache() : base(1)
 		{
 		}
 
-		// Token: 0x06006013 RID: 24595 RVA: 0x0030D3E4 File Offset: 0x0030B7E4
+		// Token: 0x0600601D RID: 24605 RVA: 0x0030DA64 File Offset: 0x0030BE64
 		public Cache(ModuleBase input) : base(1)
 		{
 			this.modules[0] = input;
 		}
 
-		// Token: 0x17000F72 RID: 3954
+		// Token: 0x17000F71 RID: 3953
 		public override ModuleBase this[int index]
 		{
 			get
@@ -46,7 +46,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06006016 RID: 24598 RVA: 0x0030D478 File Offset: 0x0030B878
+		// Token: 0x06006020 RID: 24608 RVA: 0x0030DAF8 File Offset: 0x0030BEF8
 		public override double GetValue(double x, double y, double z)
 		{
 			Debug.Assert(this.modules[0] != null);

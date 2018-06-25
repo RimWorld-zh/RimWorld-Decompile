@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C44 RID: 3140
+	// Token: 0x02000C46 RID: 3142
 	internal class SectionLayer_EdgeShadows : SectionLayer
 	{
 		// Token: 0x04002F5B RID: 12123
@@ -18,14 +18,14 @@ namespace Verse
 		// Token: 0x04002F5E RID: 12126
 		private static readonly Color32 Lit = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue);
 
-		// Token: 0x06004542 RID: 17730 RVA: 0x0024836A File Offset: 0x0024676A
+		// Token: 0x06004545 RID: 17733 RVA: 0x00248446 File Offset: 0x00246846
 		public SectionLayer_EdgeShadows(Section section) : base(section)
 		{
 			this.relevantChangeTypes = MapMeshFlag.Buildings;
 		}
 
-		// Token: 0x17000AEB RID: 2795
-		// (get) Token: 0x06004543 RID: 17731 RVA: 0x0024837C File Offset: 0x0024677C
+		// Token: 0x17000AEA RID: 2794
+		// (get) Token: 0x06004546 RID: 17734 RVA: 0x00248458 File Offset: 0x00246858
 		public override bool Visible
 		{
 			get
@@ -34,7 +34,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004544 RID: 17732 RVA: 0x00248398 File Offset: 0x00246798
+		// Token: 0x06004547 RID: 17735 RVA: 0x00248474 File Offset: 0x00246874
 		public override void Regenerate()
 		{
 			Building[] innerArray = base.Map.edificeGrid.InnerArray;

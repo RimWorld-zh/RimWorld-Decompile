@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000B59 RID: 2905
+	// Token: 0x02000B5B RID: 2907
 	public class PawnInventoryOption
 	{
 		// Token: 0x04002A32 RID: 10802
@@ -24,7 +24,7 @@ namespace Verse
 		// Token: 0x04002A37 RID: 10807
 		public List<PawnInventoryOption> subOptionsChooseOne = null;
 
-		// Token: 0x06003F86 RID: 16262 RVA: 0x00217534 File Offset: 0x00215934
+		// Token: 0x06003F89 RID: 16265 RVA: 0x00217610 File Offset: 0x00215A10
 		public IEnumerable<Thing> GenerateThings()
 		{
 			if (Rand.Value < this.skipChance)

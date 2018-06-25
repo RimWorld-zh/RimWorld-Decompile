@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E8C RID: 3724
+	// Token: 0x02000E8E RID: 3726
 	public static class Text
 	{
 		// Token: 0x04003A24 RID: 14884
@@ -40,7 +40,7 @@ namespace Verse
 		// Token: 0x04003A2E RID: 14894
 		private const int NumFonts = 3;
 
-		// Token: 0x060057EF RID: 22511 RVA: 0x002D1ED8 File Offset: 0x002D02D8
+		// Token: 0x060057F3 RID: 22515 RVA: 0x002D2004 File Offset: 0x002D0404
 		static Text()
 		{
 			Font font = (Font)Resources.Load("Fonts/Calibri_tiny");
@@ -104,9 +104,9 @@ namespace Verse
 			Text.Font = GameFont.Small;
 		}
 
-		// Token: 0x17000DE9 RID: 3561
-		// (get) Token: 0x060057F0 RID: 22512 RVA: 0x002D2204 File Offset: 0x002D0604
-		// (set) Token: 0x060057F1 RID: 22513 RVA: 0x002D221E File Offset: 0x002D061E
+		// Token: 0x17000DE8 RID: 3560
+		// (get) Token: 0x060057F4 RID: 22516 RVA: 0x002D2330 File Offset: 0x002D0730
+		// (set) Token: 0x060057F5 RID: 22517 RVA: 0x002D234A File Offset: 0x002D074A
 		public static GameFont Font
 		{
 			get
@@ -126,9 +126,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DEA RID: 3562
-		// (get) Token: 0x060057F2 RID: 22514 RVA: 0x002D2258 File Offset: 0x002D0658
-		// (set) Token: 0x060057F3 RID: 22515 RVA: 0x002D2272 File Offset: 0x002D0672
+		// Token: 0x17000DE9 RID: 3561
+		// (get) Token: 0x060057F6 RID: 22518 RVA: 0x002D2384 File Offset: 0x002D0784
+		// (set) Token: 0x060057F7 RID: 22519 RVA: 0x002D239E File Offset: 0x002D079E
 		public static TextAnchor Anchor
 		{
 			get
@@ -141,9 +141,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DEB RID: 3563
-		// (get) Token: 0x060057F4 RID: 22516 RVA: 0x002D227C File Offset: 0x002D067C
-		// (set) Token: 0x060057F5 RID: 22517 RVA: 0x002D2296 File Offset: 0x002D0696
+		// Token: 0x17000DEA RID: 3562
+		// (get) Token: 0x060057F8 RID: 22520 RVA: 0x002D23A8 File Offset: 0x002D07A8
+		// (set) Token: 0x060057F9 RID: 22521 RVA: 0x002D23C2 File Offset: 0x002D07C2
 		public static bool WordWrap
 		{
 			get
@@ -156,8 +156,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DEC RID: 3564
-		// (get) Token: 0x060057F6 RID: 22518 RVA: 0x002D22A0 File Offset: 0x002D06A0
+		// Token: 0x17000DEB RID: 3563
+		// (get) Token: 0x060057FA RID: 22522 RVA: 0x002D23CC File Offset: 0x002D07CC
 		public static float LineHeight
 		{
 			get
@@ -166,8 +166,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DED RID: 3565
-		// (get) Token: 0x060057F7 RID: 22519 RVA: 0x002D22C0 File Offset: 0x002D06C0
+		// Token: 0x17000DEC RID: 3564
+		// (get) Token: 0x060057FB RID: 22523 RVA: 0x002D23EC File Offset: 0x002D07EC
 		public static float SpaceBetweenLines
 		{
 			get
@@ -176,8 +176,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DEE RID: 3566
-		// (get) Token: 0x060057F8 RID: 22520 RVA: 0x002D22E0 File Offset: 0x002D06E0
+		// Token: 0x17000DED RID: 3565
+		// (get) Token: 0x060057FC RID: 22524 RVA: 0x002D240C File Offset: 0x002D080C
 		internal static GUIStyle CurFontStyle
 		{
 			get
@@ -203,8 +203,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DEF RID: 3567
-		// (get) Token: 0x060057F9 RID: 22521 RVA: 0x002D2358 File Offset: 0x002D0758
+		// Token: 0x17000DEE RID: 3566
+		// (get) Token: 0x060057FD RID: 22525 RVA: 0x002D2484 File Offset: 0x002D0884
 		public static GUIStyle CurTextFieldStyle
 		{
 			get
@@ -234,8 +234,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DF0 RID: 3568
-		// (get) Token: 0x060057FA RID: 22522 RVA: 0x002D23B4 File Offset: 0x002D07B4
+		// Token: 0x17000DEF RID: 3567
+		// (get) Token: 0x060057FE RID: 22526 RVA: 0x002D24E0 File Offset: 0x002D08E0
 		public static GUIStyle CurTextAreaStyle
 		{
 			get
@@ -265,8 +265,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DF1 RID: 3569
-		// (get) Token: 0x060057FB RID: 22523 RVA: 0x002D2410 File Offset: 0x002D0810
+		// Token: 0x17000DF0 RID: 3568
+		// (get) Token: 0x060057FF RID: 22527 RVA: 0x002D253C File Offset: 0x002D093C
 		public static GUIStyle CurTextAreaReadOnlyStyle
 		{
 			get
@@ -296,21 +296,21 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057FC RID: 22524 RVA: 0x002D246C File Offset: 0x002D086C
+		// Token: 0x06005800 RID: 22528 RVA: 0x002D2598 File Offset: 0x002D0998
 		public static float CalcHeight(string text, float width)
 		{
 			Text.tmpTextGUIContent.text = text;
 			return Text.CurFontStyle.CalcHeight(Text.tmpTextGUIContent, width);
 		}
 
-		// Token: 0x060057FD RID: 22525 RVA: 0x002D249C File Offset: 0x002D089C
+		// Token: 0x06005801 RID: 22529 RVA: 0x002D25C8 File Offset: 0x002D09C8
 		public static Vector2 CalcSize(string text)
 		{
 			Text.tmpTextGUIContent.text = text;
 			return Text.CurFontStyle.CalcSize(Text.tmpTextGUIContent);
 		}
 
-		// Token: 0x060057FE RID: 22526 RVA: 0x002D24CC File Offset: 0x002D08CC
+		// Token: 0x06005802 RID: 22530 RVA: 0x002D25F8 File Offset: 0x002D09F8
 		internal static void StartOfOnGUI()
 		{
 			if (!Text.WordWrap)

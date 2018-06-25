@@ -8,7 +8,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020006A3 RID: 1699
+	// Token: 0x020006A5 RID: 1701
 	public class Building_Door : Building
 	{
 		// Token: 0x04001419 RID: 5145
@@ -51,7 +51,7 @@ namespace RimWorld
 		private const float VisualDoorOffsetEnd = 0.45f;
 
 		// Token: 0x17000569 RID: 1385
-		// (get) Token: 0x06002433 RID: 9267 RVA: 0x0013693C File Offset: 0x00134D3C
+		// (get) Token: 0x06002437 RID: 9271 RVA: 0x00136A8C File Offset: 0x00134E8C
 		public bool Open
 		{
 			get
@@ -61,7 +61,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700056A RID: 1386
-		// (get) Token: 0x06002434 RID: 9268 RVA: 0x00136958 File Offset: 0x00134D58
+		// (get) Token: 0x06002438 RID: 9272 RVA: 0x00136AA8 File Offset: 0x00134EA8
 		public bool HoldOpen
 		{
 			get
@@ -71,7 +71,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700056B RID: 1387
-		// (get) Token: 0x06002435 RID: 9269 RVA: 0x00136974 File Offset: 0x00134D74
+		// (get) Token: 0x06002439 RID: 9273 RVA: 0x00136AC4 File Offset: 0x00134EC4
 		public bool FreePassage
 		{
 			get
@@ -81,7 +81,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700056C RID: 1388
-		// (get) Token: 0x06002436 RID: 9270 RVA: 0x001369B4 File Offset: 0x00134DB4
+		// (get) Token: 0x0600243A RID: 9274 RVA: 0x00136B04 File Offset: 0x00134F04
 		public bool WillCloseSoon
 		{
 			get
@@ -131,7 +131,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700056D RID: 1389
-		// (get) Token: 0x06002437 RID: 9271 RVA: 0x00136B1C File Offset: 0x00134F1C
+		// (get) Token: 0x0600243B RID: 9275 RVA: 0x00136C6C File Offset: 0x0013506C
 		public bool BlockedOpenMomentary
 		{
 			get
@@ -150,7 +150,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700056E RID: 1390
-		// (get) Token: 0x06002438 RID: 9272 RVA: 0x00136B90 File Offset: 0x00134F90
+		// (get) Token: 0x0600243C RID: 9276 RVA: 0x00136CE0 File Offset: 0x001350E0
 		public bool DoorPowerOn
 		{
 			get
@@ -160,7 +160,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700056F RID: 1391
-		// (get) Token: 0x06002439 RID: 9273 RVA: 0x00136BC0 File Offset: 0x00134FC0
+		// (get) Token: 0x0600243D RID: 9277 RVA: 0x00136D10 File Offset: 0x00135110
 		public bool SlowsPawns
 		{
 			get
@@ -170,7 +170,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000570 RID: 1392
-		// (get) Token: 0x0600243A RID: 9274 RVA: 0x00136BF0 File Offset: 0x00134FF0
+		// (get) Token: 0x0600243E RID: 9278 RVA: 0x00136D40 File Offset: 0x00135140
 		public int TicksToOpenNow
 		{
 			get
@@ -185,7 +185,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000571 RID: 1393
-		// (get) Token: 0x0600243B RID: 9275 RVA: 0x00136C34 File Offset: 0x00135034
+		// (get) Token: 0x0600243F RID: 9279 RVA: 0x00136D84 File Offset: 0x00135184
 		private bool CanCloseAutomatically
 		{
 			get
@@ -195,7 +195,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000572 RID: 1394
-		// (get) Token: 0x0600243C RID: 9276 RVA: 0x00136C60 File Offset: 0x00135060
+		// (get) Token: 0x06002440 RID: 9280 RVA: 0x00136DB0 File Offset: 0x001351B0
 		private bool FriendlyTouchedRecently
 		{
 			get
@@ -205,7 +205,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000573 RID: 1395
-		// (get) Token: 0x0600243D RID: 9277 RVA: 0x00136C90 File Offset: 0x00135090
+		// (get) Token: 0x06002441 RID: 9281 RVA: 0x00136DE0 File Offset: 0x001351E0
 		private int VisualTicksToOpen
 		{
 			get
@@ -215,7 +215,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000574 RID: 1396
-		// (get) Token: 0x0600243E RID: 9278 RVA: 0x00136CAC File Offset: 0x001350AC
+		// (get) Token: 0x06002442 RID: 9282 RVA: 0x00136DFC File Offset: 0x001351FC
 		public override bool FireBulwark
 		{
 			get
@@ -224,14 +224,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600243F RID: 9279 RVA: 0x00136CD5 File Offset: 0x001350D5
+		// Token: 0x06002443 RID: 9283 RVA: 0x00136E25 File Offset: 0x00135225
 		public override void PostMake()
 		{
 			base.PostMake();
 			this.powerComp = base.GetComp<CompPowerTrader>();
 		}
 
-		// Token: 0x06002440 RID: 9280 RVA: 0x00136CEA File Offset: 0x001350EA
+		// Token: 0x06002444 RID: 9284 RVA: 0x00136E3A File Offset: 0x0013523A
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -243,7 +243,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002441 RID: 9281 RVA: 0x00136D20 File Offset: 0x00135120
+		// Token: 0x06002445 RID: 9285 RVA: 0x00136E70 File Offset: 0x00135270
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			Map map = base.Map;
@@ -251,7 +251,7 @@ namespace RimWorld
 			this.ClearReachabilityCache(map);
 		}
 
-		// Token: 0x06002442 RID: 9282 RVA: 0x00136D44 File Offset: 0x00135144
+		// Token: 0x06002446 RID: 9286 RVA: 0x00136E94 File Offset: 0x00135294
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -267,7 +267,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002443 RID: 9283 RVA: 0x00136DB2 File Offset: 0x001351B2
+		// Token: 0x06002447 RID: 9287 RVA: 0x00136F02 File Offset: 0x00135302
 		public override void SetFaction(Faction newFaction, Pawn recruiter = null)
 		{
 			base.SetFaction(newFaction, recruiter);
@@ -277,7 +277,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002444 RID: 9284 RVA: 0x00136DD4 File Offset: 0x001351D4
+		// Token: 0x06002448 RID: 9288 RVA: 0x00136F24 File Offset: 0x00135324
 		public override void Tick()
 		{
 			base.Tick();
@@ -324,13 +324,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002445 RID: 9285 RVA: 0x00136F17 File Offset: 0x00135317
+		// Token: 0x06002449 RID: 9289 RVA: 0x00137067 File Offset: 0x00135467
 		public void FriendlyTouched()
 		{
 			this.lastFriendlyTouchTick = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06002446 RID: 9286 RVA: 0x00136F2C File Offset: 0x0013532C
+		// Token: 0x0600244A RID: 9290 RVA: 0x0013707C File Offset: 0x0013547C
 		public void Notify_PawnApproaching(Pawn p)
 		{
 			if (!p.HostileTo(this))
@@ -347,26 +347,26 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002447 RID: 9287 RVA: 0x00136F84 File Offset: 0x00135384
+		// Token: 0x0600244B RID: 9291 RVA: 0x001370D4 File Offset: 0x001354D4
 		public bool CanPhysicallyPass(Pawn p)
 		{
 			return this.FreePassage || this.PawnCanOpen(p);
 		}
 
-		// Token: 0x06002448 RID: 9288 RVA: 0x00136FB0 File Offset: 0x001353B0
+		// Token: 0x0600244C RID: 9292 RVA: 0x00137100 File Offset: 0x00135500
 		public virtual bool PawnCanOpen(Pawn p)
 		{
 			Lord lord = p.GetLord();
 			return (lord != null && lord.LordJob != null && lord.LordJob.CanOpenAnyDoor(p)) || (p.IsWildMan() && !p.mindState.wildManEverReachedOutside) || base.Faction == null || (p.guest != null && p.guest.Released) || GenAI.MachinesLike(base.Faction, p);
 		}
 
-		// Token: 0x06002449 RID: 9289 RVA: 0x00137058 File Offset: 0x00135458
+		// Token: 0x0600244D RID: 9293 RVA: 0x001371A8 File Offset: 0x001355A8
 		public override bool BlocksPawn(Pawn p)
 		{
 			return !this.openInt && !this.PawnCanOpen(p);
 		}
 
-		// Token: 0x0600244A RID: 9290 RVA: 0x0013708C File Offset: 0x0013548C
+		// Token: 0x0600244E RID: 9294 RVA: 0x001371DC File Offset: 0x001355DC
 		protected void DoorOpen(int ticksToClose = 60)
 		{
 			this.ticksUntilClose = ticksToClose;
@@ -384,7 +384,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600244B RID: 9291 RVA: 0x00137120 File Offset: 0x00135520
+		// Token: 0x0600244F RID: 9295 RVA: 0x00137270 File Offset: 0x00135670
 		protected void DoorTryClose()
 		{
 			if (!this.holdOpenInt && !this.BlockedOpenMomentary)
@@ -401,19 +401,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600244C RID: 9292 RVA: 0x001371B8 File Offset: 0x001355B8
+		// Token: 0x06002450 RID: 9296 RVA: 0x00137308 File Offset: 0x00135708
 		public void StartManualOpenBy(Pawn opener)
 		{
 			this.DoorOpen(60);
 		}
 
-		// Token: 0x0600244D RID: 9293 RVA: 0x001371C3 File Offset: 0x001355C3
+		// Token: 0x06002451 RID: 9297 RVA: 0x00137313 File Offset: 0x00135713
 		public void StartManualCloseBy(Pawn closer)
 		{
 			this.DoorTryClose();
 		}
 
-		// Token: 0x0600244E RID: 9294 RVA: 0x001371CC File Offset: 0x001355CC
+		// Token: 0x06002452 RID: 9298 RVA: 0x0013731C File Offset: 0x0013571C
 		public override void Draw()
 		{
 			base.Rotation = Building_Door.DoorRotationAt(base.Position, base.Map);
@@ -444,7 +444,7 @@ namespace RimWorld
 			base.Comps_PostDraw();
 		}
 
-		// Token: 0x0600244F RID: 9295 RVA: 0x001372E8 File Offset: 0x001356E8
+		// Token: 0x06002453 RID: 9299 RVA: 0x00137438 File Offset: 0x00135838
 		private static int AlignQualityAgainst(IntVec3 c, Map map)
 		{
 			int result;
@@ -484,7 +484,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002450 RID: 9296 RVA: 0x001373CC File Offset: 0x001357CC
+		// Token: 0x06002454 RID: 9300 RVA: 0x0013751C File Offset: 0x0013591C
 		public static Rot4 DoorRotationAt(IntVec3 loc, Map map)
 		{
 			int num = 0;
@@ -505,7 +505,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002451 RID: 9297 RVA: 0x0013744C File Offset: 0x0013584C
+		// Token: 0x06002455 RID: 9301 RVA: 0x0013759C File Offset: 0x0013599C
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
@@ -530,7 +530,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002452 RID: 9298 RVA: 0x00137476 File Offset: 0x00135876
+		// Token: 0x06002456 RID: 9302 RVA: 0x001375C6 File Offset: 0x001359C6
 		private void ClearReachabilityCache(Map map)
 		{
 			map.reachability.ClearCache();

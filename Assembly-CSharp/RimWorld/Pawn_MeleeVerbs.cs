@@ -6,7 +6,7 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000511 RID: 1297
+	// Token: 0x02000513 RID: 1299
 	public class Pawn_MeleeVerbs : IExposable
 	{
 		// Token: 0x04000DDE RID: 3550
@@ -30,14 +30,14 @@ namespace RimWorld
 		// Token: 0x04000DE4 RID: 3556
 		private const int BestMeleeVerbUpdateInterval = 60;
 
-		// Token: 0x06001777 RID: 6007 RVA: 0x000CDD67 File Offset: 0x000CC167
+		// Token: 0x0600177B RID: 6011 RVA: 0x000CDEB7 File Offset: 0x000CC2B7
 		public Pawn_MeleeVerbs(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
 		// Token: 0x1700033B RID: 827
-		// (get) Token: 0x06001778 RID: 6008 RVA: 0x000CDD94 File Offset: 0x000CC194
+		// (get) Token: 0x0600177C RID: 6012 RVA: 0x000CDEE4 File Offset: 0x000CC2E4
 		public Pawn Pawn
 		{
 			get
@@ -46,13 +46,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001779 RID: 6009 RVA: 0x000CDDAF File Offset: 0x000CC1AF
+		// Token: 0x0600177D RID: 6013 RVA: 0x000CDEFF File Offset: 0x000CC2FF
 		public static void PawnMeleeVerbsStaticUpdate()
 		{
 			Pawn_MeleeVerbs.meleeVerbs.Clear();
 		}
 
-		// Token: 0x0600177A RID: 6010 RVA: 0x000CDDBC File Offset: 0x000CC1BC
+		// Token: 0x0600177E RID: 6014 RVA: 0x000CDF0C File Offset: 0x000CC30C
 		public Verb TryGetMeleeVerb(Thing target)
 		{
 			if (this.curMeleeVerb == null || this.curMeleeVerbTarget != target || Find.TickManager.TicksGame >= this.curMeleeVerbUpdateTick + 60 || !this.curMeleeVerb.IsStillUsableBy(this.pawn) || !this.curMeleeVerb.IsUsableOn(target))
@@ -62,7 +62,7 @@ namespace RimWorld
 			return this.curMeleeVerb;
 		}
 
-		// Token: 0x0600177B RID: 6011 RVA: 0x000CDE38 File Offset: 0x000CC238
+		// Token: 0x0600177F RID: 6015 RVA: 0x000CDF88 File Offset: 0x000CC388
 		private void ChooseMeleeVerb(Thing target)
 		{
 			List<VerbEntry> updatedAvailableVerbsList = this.GetUpdatedAvailableVerbsList();
@@ -93,7 +93,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600177C RID: 6012 RVA: 0x000CDF6C File Offset: 0x000CC36C
+		// Token: 0x06001780 RID: 6016 RVA: 0x000CE0BC File Offset: 0x000CC4BC
 		public bool TryMeleeAttack(Thing target, Verb verbToUse = null, bool surpriseAttack = false)
 		{
 			bool result;
@@ -146,7 +146,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600177D RID: 6013 RVA: 0x000CE044 File Offset: 0x000CC444
+		// Token: 0x06001781 RID: 6017 RVA: 0x000CE194 File Offset: 0x000CC594
 		public List<VerbEntry> GetUpdatedAvailableVerbsList()
 		{
 			Profiler.BeginSample("GetUpdatedAvailableVerbsList");
@@ -233,19 +233,19 @@ namespace RimWorld
 			return Pawn_MeleeVerbs.meleeVerbs;
 		}
 
-		// Token: 0x0600177E RID: 6014 RVA: 0x000CE3B8 File Offset: 0x000CC7B8
+		// Token: 0x06001782 RID: 6018 RVA: 0x000CE508 File Offset: 0x000CC908
 		public void Notify_PawnKilled()
 		{
 			this.SetCurMeleeVerb(null, null);
 		}
 
-		// Token: 0x0600177F RID: 6015 RVA: 0x000CE3C3 File Offset: 0x000CC7C3
+		// Token: 0x06001783 RID: 6019 RVA: 0x000CE513 File Offset: 0x000CC913
 		public void Notify_PawnDespawned()
 		{
 			this.SetCurMeleeVerb(null, null);
 		}
 
-		// Token: 0x06001780 RID: 6016 RVA: 0x000CE3CE File Offset: 0x000CC7CE
+		// Token: 0x06001784 RID: 6020 RVA: 0x000CE51E File Offset: 0x000CC91E
 		private void SetCurMeleeVerb(Verb v, Thing target)
 		{
 			this.curMeleeVerb = v;
@@ -260,7 +260,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001781 RID: 6017 RVA: 0x000CE408 File Offset: 0x000CC808
+		// Token: 0x06001785 RID: 6021 RVA: 0x000CE558 File Offset: 0x000CC958
 		public void ExposeData()
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)

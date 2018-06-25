@@ -3,22 +3,22 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B0B RID: 2827
+	// Token: 0x02000B0D RID: 2829
 	public class ColorOption
 	{
-		// Token: 0x040027E2 RID: 10210
+		// Token: 0x040027E3 RID: 10211
 		public float weight = 10f;
 
-		// Token: 0x040027E3 RID: 10211
+		// Token: 0x040027E4 RID: 10212
 		public Color min = new Color(-1f, -1f, -1f, -1f);
 
-		// Token: 0x040027E4 RID: 10212
+		// Token: 0x040027E5 RID: 10213
 		public Color max = new Color(-1f, -1f, -1f, -1f);
 
-		// Token: 0x040027E5 RID: 10213
+		// Token: 0x040027E6 RID: 10214
 		public Color only = new Color(-1f, -1f, -1f, -1f);
 
-		// Token: 0x06003E93 RID: 16019 RVA: 0x0020F7DC File Offset: 0x0020DBDC
+		// Token: 0x06003E97 RID: 16023 RVA: 0x0020F908 File Offset: 0x0020DD08
 		public Color RandomizedColor()
 		{
 			Color result;
@@ -33,19 +33,19 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003E94 RID: 16020 RVA: 0x0020F884 File Offset: 0x0020DC84
+		// Token: 0x06003E98 RID: 16024 RVA: 0x0020F9B0 File Offset: 0x0020DDB0
 		public void SetSingle(Color color)
 		{
 			this.only = color;
 		}
 
-		// Token: 0x06003E95 RID: 16021 RVA: 0x0020F88E File Offset: 0x0020DC8E
+		// Token: 0x06003E99 RID: 16025 RVA: 0x0020F9BA File Offset: 0x0020DDBA
 		public void SetMin(Color color)
 		{
 			this.min = color;
 		}
 
-		// Token: 0x06003E96 RID: 16022 RVA: 0x0020F898 File Offset: 0x0020DC98
+		// Token: 0x06003E9A RID: 16026 RVA: 0x0020F9C4 File Offset: 0x0020DDC4
 		public void SetMax(Color color)
 		{
 			this.max = color;

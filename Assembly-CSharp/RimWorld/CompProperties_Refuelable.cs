@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000728 RID: 1832
+	// Token: 0x0200072A RID: 1834
 	public class CompProperties_Refuelable : CompProperties
 	{
 		// Token: 0x04001615 RID: 5653
@@ -71,14 +71,14 @@ namespace RimWorld
 		// Token: 0x04001629 RID: 5673
 		private Texture2D fuelIcon;
 
-		// Token: 0x06002862 RID: 10338 RVA: 0x00158CEC File Offset: 0x001570EC
+		// Token: 0x06002866 RID: 10342 RVA: 0x00158E3C File Offset: 0x0015723C
 		public CompProperties_Refuelable()
 		{
 			this.compClass = typeof(CompRefuelable);
 		}
 
 		// Token: 0x17000634 RID: 1588
-		// (get) Token: 0x06002863 RID: 10339 RVA: 0x00158D68 File Offset: 0x00157168
+		// (get) Token: 0x06002867 RID: 10343 RVA: 0x00158EB8 File Offset: 0x001572B8
 		public string FuelLabel
 		{
 			get
@@ -88,7 +88,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000635 RID: 1589
-		// (get) Token: 0x06002864 RID: 10340 RVA: 0x00158DA4 File Offset: 0x001571A4
+		// (get) Token: 0x06002868 RID: 10344 RVA: 0x00158EF4 File Offset: 0x001572F4
 		public string FuelGizmoLabel
 		{
 			get
@@ -98,7 +98,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000636 RID: 1590
-		// (get) Token: 0x06002865 RID: 10341 RVA: 0x00158DE0 File Offset: 0x001571E0
+		// (get) Token: 0x06002869 RID: 10345 RVA: 0x00158F30 File Offset: 0x00157330
 		public Texture2D FuelIcon
 		{
 			get
@@ -127,14 +127,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002866 RID: 10342 RVA: 0x00158E6A File Offset: 0x0015726A
+		// Token: 0x0600286A RID: 10346 RVA: 0x00158FBA File Offset: 0x001573BA
 		public override void ResolveReferences(ThingDef parentDef)
 		{
 			base.ResolveReferences(parentDef);
 			this.fuelFilter.ResolveReferences();
 		}
 
-		// Token: 0x06002867 RID: 10343 RVA: 0x00158E80 File Offset: 0x00157280
+		// Token: 0x0600286B RID: 10347 RVA: 0x00158FD0 File Offset: 0x001573D0
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0(parentDef))

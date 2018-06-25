@@ -5,7 +5,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020007B7 RID: 1975
+	// Token: 0x020007B9 RID: 1977
 	public static class CopyPasteUI
 	{
 		// Token: 0x04001790 RID: 6032
@@ -17,7 +17,7 @@ namespace RimWorld
 		// Token: 0x04001792 RID: 6034
 		public const float CopyPasteColumnWidth = 36f;
 
-		// Token: 0x06002BD5 RID: 11221 RVA: 0x00173268 File Offset: 0x00171668
+		// Token: 0x06002BD9 RID: 11225 RVA: 0x001733B8 File Offset: 0x001717B8
 		public static void DoCopyPasteButtons(Rect rect, Action copyAction, Action pasteAction)
 		{
 			Rect rect2 = new Rect(rect.x, rect.y + (rect.height / 2f - 12f), 18f, 24f);

@@ -4,15 +4,15 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200070F RID: 1807
+	// Token: 0x02000711 RID: 1809
 	public class CompFoodPoisonable : ThingComp
 	{
 		// Token: 0x040015DB RID: 5595
 		private float poisonPct;
 
 		// Token: 0x170005FC RID: 1532
-		// (get) Token: 0x060027B4 RID: 10164 RVA: 0x001543B0 File Offset: 0x001527B0
-		// (set) Token: 0x060027B5 RID: 10165 RVA: 0x001543CB File Offset: 0x001527CB
+		// (get) Token: 0x060027B8 RID: 10168 RVA: 0x00154500 File Offset: 0x00152900
+		// (set) Token: 0x060027B9 RID: 10169 RVA: 0x0015451B File Offset: 0x0015291B
 		public float PoisonPercent
 		{
 			get
@@ -25,14 +25,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027B6 RID: 10166 RVA: 0x001543DA File Offset: 0x001527DA
+		// Token: 0x060027BA RID: 10170 RVA: 0x0015452A File Offset: 0x0015292A
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_Values.Look<float>(ref this.poisonPct, "poisonPct", 0f, false);
 		}
 
-		// Token: 0x060027B7 RID: 10167 RVA: 0x001543FC File Offset: 0x001527FC
+		// Token: 0x060027BB RID: 10171 RVA: 0x0015454C File Offset: 0x0015294C
 		public override void PostSplitOff(Thing piece)
 		{
 			base.PostSplitOff(piece);
@@ -40,7 +40,7 @@ namespace RimWorld
 			compFoodPoisonable.poisonPct = this.poisonPct;
 		}
 
-		// Token: 0x060027B8 RID: 10168 RVA: 0x00154424 File Offset: 0x00152824
+		// Token: 0x060027BC RID: 10172 RVA: 0x00154574 File Offset: 0x00152974
 		public override void PreAbsorbStack(Thing otherStack, int count)
 		{
 			base.PreAbsorbStack(otherStack, count);
@@ -48,7 +48,7 @@ namespace RimWorld
 			this.poisonPct = GenMath.WeightedAverage(this.poisonPct, (float)this.parent.stackCount, compFoodPoisonable.poisonPct, (float)count);
 		}
 
-		// Token: 0x060027B9 RID: 10169 RVA: 0x00154466 File Offset: 0x00152866
+		// Token: 0x060027BD RID: 10173 RVA: 0x001545B6 File Offset: 0x001529B6
 		public override void PostIngested(Pawn ingester)
 		{
 			if (Rand.Chance(this.poisonPct * Find.Storyteller.difficulty.foodPoisonChanceFactor))

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B6B RID: 2923
+	// Token: 0x02000B6D RID: 2925
 	public class RoomStatDef : Def
 	{
 		// Token: 0x04002AC5 RID: 10949
@@ -35,8 +35,8 @@ namespace Verse
 		[Unsaved]
 		private RoomStatWorker workerInt = null;
 
-		// Token: 0x170009BD RID: 2493
-		// (get) Token: 0x06003FE3 RID: 16355 RVA: 0x0021AE54 File Offset: 0x00219254
+		// Token: 0x170009BC RID: 2492
+		// (get) Token: 0x06003FE6 RID: 16358 RVA: 0x0021AF30 File Offset: 0x00219330
 		public RoomStatWorker Worker
 		{
 			get
@@ -50,7 +50,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FE4 RID: 16356 RVA: 0x0021AEA0 File Offset: 0x002192A0
+		// Token: 0x06003FE7 RID: 16359 RVA: 0x0021AF7C File Offset: 0x0021937C
 		public RoomStatScoreStage GetScoreStage(float score)
 		{
 			RoomStatScoreStage result;
@@ -65,7 +65,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FE5 RID: 16357 RVA: 0x0021AEE0 File Offset: 0x002192E0
+		// Token: 0x06003FE8 RID: 16360 RVA: 0x0021AFBC File Offset: 0x002193BC
 		public int GetScoreStageIndex(float score)
 		{
 			if (this.scoreStages.NullOrEmpty<RoomStatScoreStage>())
@@ -84,7 +84,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FE6 RID: 16358 RVA: 0x0021AF54 File Offset: 0x00219354
+		// Token: 0x06003FE9 RID: 16361 RVA: 0x0021B030 File Offset: 0x00219430
 		public string ScoreToString(float score)
 		{
 			string result;

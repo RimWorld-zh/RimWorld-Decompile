@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000732 RID: 1842
+	// Token: 0x02000734 RID: 1844
 	public class CompShearable : CompHasGatherableBodyResource
 	{
 		// Token: 0x17000648 RID: 1608
-		// (get) Token: 0x060028AC RID: 10412 RVA: 0x0015B420 File Offset: 0x00159820
+		// (get) Token: 0x060028B0 RID: 10416 RVA: 0x0015B570 File Offset: 0x00159970
 		protected override int GatherResourcesIntervalDays
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000649 RID: 1609
-		// (get) Token: 0x060028AD RID: 10413 RVA: 0x0015B440 File Offset: 0x00159840
+		// (get) Token: 0x060028B1 RID: 10417 RVA: 0x0015B590 File Offset: 0x00159990
 		protected override int ResourceAmount
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700064A RID: 1610
-		// (get) Token: 0x060028AE RID: 10414 RVA: 0x0015B460 File Offset: 0x00159860
+		// (get) Token: 0x060028B2 RID: 10418 RVA: 0x0015B5B0 File Offset: 0x001599B0
 		protected override ThingDef ResourceDef
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700064B RID: 1611
-		// (get) Token: 0x060028AF RID: 10415 RVA: 0x0015B480 File Offset: 0x00159880
+		// (get) Token: 0x060028B3 RID: 10419 RVA: 0x0015B5D0 File Offset: 0x001599D0
 		protected override string SaveKey
 		{
 			get
@@ -47,7 +47,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700064C RID: 1612
-		// (get) Token: 0x060028B0 RID: 10416 RVA: 0x0015B49C File Offset: 0x0015989C
+		// (get) Token: 0x060028B4 RID: 10420 RVA: 0x0015B5EC File Offset: 0x001599EC
 		public CompProperties_Shearable Props
 		{
 			get
@@ -57,7 +57,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700064D RID: 1613
-		// (get) Token: 0x060028B1 RID: 10417 RVA: 0x0015B4BC File Offset: 0x001598BC
+		// (get) Token: 0x060028B5 RID: 10421 RVA: 0x0015B60C File Offset: 0x00159A0C
 		protected override bool Active
 		{
 			get
@@ -76,7 +76,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028B2 RID: 10418 RVA: 0x0015B514 File Offset: 0x00159914
+		// Token: 0x060028B6 RID: 10422 RVA: 0x0015B664 File Offset: 0x00159A64
 		public override string CompInspectStringExtra()
 		{
 			string result;

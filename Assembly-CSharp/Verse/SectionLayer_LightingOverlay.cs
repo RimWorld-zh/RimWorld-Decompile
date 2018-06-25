@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C47 RID: 3143
+	// Token: 0x02000C49 RID: 3145
 	public class SectionLayer_LightingOverlay : SectionLayer
 	{
 		// Token: 0x04002F61 RID: 12129
@@ -19,14 +19,14 @@ namespace Verse
 		// Token: 0x04002F64 RID: 12132
 		private const byte RoofedAreaMinSkyCover = 100;
 
-		// Token: 0x0600454D RID: 17741 RVA: 0x00249672 File Offset: 0x00247A72
+		// Token: 0x06004550 RID: 17744 RVA: 0x0024974E File Offset: 0x00247B4E
 		public SectionLayer_LightingOverlay(Section section) : base(section)
 		{
 			this.relevantChangeTypes = MapMeshFlag.GroundGlow;
 		}
 
-		// Token: 0x17000AEE RID: 2798
-		// (get) Token: 0x0600454E RID: 17742 RVA: 0x00249684 File Offset: 0x00247A84
+		// Token: 0x17000AED RID: 2797
+		// (get) Token: 0x06004551 RID: 17745 RVA: 0x00249760 File Offset: 0x00247B60
 		public override bool Visible
 		{
 			get
@@ -35,7 +35,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600454F RID: 17743 RVA: 0x002496A0 File Offset: 0x00247AA0
+		// Token: 0x06004552 RID: 17746 RVA: 0x0024977C File Offset: 0x00247B7C
 		public string GlowReportAt(IntVec3 c)
 		{
 			Color32[] colors = base.GetSubMesh(MatBases.LightOverlay).mesh.colors32;
@@ -54,7 +54,7 @@ namespace Verse
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06004550 RID: 17744 RVA: 0x002497AC File Offset: 0x00247BAC
+		// Token: 0x06004553 RID: 17747 RVA: 0x00249888 File Offset: 0x00247C88
 		public override void Regenerate()
 		{
 			LayerSubMesh subMesh = base.GetSubMesh(MatBases.LightOverlay);
@@ -177,7 +177,7 @@ namespace Verse
 			subMesh.mesh.colors32 = array;
 		}
 
-		// Token: 0x06004551 RID: 17745 RVA: 0x00249CA4 File Offset: 0x002480A4
+		// Token: 0x06004554 RID: 17748 RVA: 0x00249D80 File Offset: 0x00248180
 		private void MakeBaseGeometry(LayerSubMesh sm)
 		{
 			this.glowGrid = base.Map.glowGrid.glowGrid;
@@ -229,7 +229,7 @@ namespace Verse
 			sm.FinalizeMesh(MeshParts.Verts | MeshParts.Tris);
 		}
 
-		// Token: 0x06004552 RID: 17746 RVA: 0x00249F68 File Offset: 0x00248368
+		// Token: 0x06004555 RID: 17749 RVA: 0x0024A044 File Offset: 0x00248444
 		private void CalculateVertexIndices(int worldX, int worldZ, out int botLeft, out int topLeft, out int topRight, out int botRight, out int center)
 		{
 			int num = worldX - this.sectRect.minX;

@@ -4,26 +4,26 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F52 RID: 3922
+	// Token: 0x02000F56 RID: 3926
 	public static class RealTime
 	{
-		// Token: 0x04003E46 RID: 15942
+		// Token: 0x04003E49 RID: 15945
 		public static float deltaTime;
 
-		// Token: 0x04003E47 RID: 15943
+		// Token: 0x04003E4A RID: 15946
 		public static float realDeltaTime;
 
-		// Token: 0x04003E48 RID: 15944
+		// Token: 0x04003E4B RID: 15947
 		public static RealtimeMoteList moteList = new RealtimeMoteList();
 
-		// Token: 0x04003E49 RID: 15945
+		// Token: 0x04003E4C RID: 15948
 		public static int frameCount;
 
-		// Token: 0x04003E4A RID: 15946
+		// Token: 0x04003E4D RID: 15949
 		private static float lastRealTime = 0f;
 
-		// Token: 0x17000F44 RID: 3908
-		// (get) Token: 0x06005ED7 RID: 24279 RVA: 0x0030573C File Offset: 0x00303B3C
+		// Token: 0x17000F43 RID: 3907
+		// (get) Token: 0x06005EE1 RID: 24289 RVA: 0x00305DBC File Offset: 0x003041BC
 		public static float LastRealTime
 		{
 			get
@@ -32,7 +32,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005ED8 RID: 24280 RVA: 0x00305758 File Offset: 0x00303B58
+		// Token: 0x06005EE2 RID: 24290 RVA: 0x00305DD8 File Offset: 0x003041D8
 		public static void Update()
 		{
 			RealTime.frameCount = Time.frameCount;

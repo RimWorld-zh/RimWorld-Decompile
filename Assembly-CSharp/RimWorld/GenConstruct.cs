@@ -5,23 +5,23 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200097B RID: 2427
+	// Token: 0x0200097D RID: 2429
 	public static class GenConstruct
 	{
-		// Token: 0x0400233F RID: 9023
+		// Token: 0x04002340 RID: 9024
 		private static string ConstructionSkillTooLowTrans;
 
-		// Token: 0x04002340 RID: 9024
+		// Token: 0x04002341 RID: 9025
 		private static string IncapableOfDeconstruction;
 
-		// Token: 0x06003699 RID: 13977 RVA: 0x001D1B05 File Offset: 0x001CFF05
+		// Token: 0x0600369D RID: 13981 RVA: 0x001D1C45 File Offset: 0x001D0045
 		public static void Reset()
 		{
 			GenConstruct.ConstructionSkillTooLowTrans = "ConstructionSkillTooLow".Translate();
 			GenConstruct.IncapableOfDeconstruction = "IncapableOfDeconstruction".Translate();
 		}
 
-		// Token: 0x0600369A RID: 13978 RVA: 0x001D1B28 File Offset: 0x001CFF28
+		// Token: 0x0600369E RID: 13982 RVA: 0x001D1C68 File Offset: 0x001D0068
 		public static Blueprint_Build PlaceBlueprintForBuild(BuildableDef sourceDef, IntVec3 center, Map map, Rot4 rotation, Faction faction, ThingDef stuff)
 		{
 			Blueprint_Build blueprint_Build = (Blueprint_Build)ThingMaker.MakeThing(sourceDef.blueprintDef, null);
@@ -31,7 +31,7 @@ namespace RimWorld
 			return blueprint_Build;
 		}
 
-		// Token: 0x0600369B RID: 13979 RVA: 0x001D1B6C File Offset: 0x001CFF6C
+		// Token: 0x0600369F RID: 13983 RVA: 0x001D1CAC File Offset: 0x001D00AC
 		public static Blueprint_Install PlaceBlueprintForInstall(MinifiedThing itemToInstall, IntVec3 center, Map map, Rot4 rotation, Faction faction)
 		{
 			Blueprint_Install blueprint_Install = (Blueprint_Install)ThingMaker.MakeThing(itemToInstall.InnerThing.def.installBlueprintDef, null);
@@ -41,7 +41,7 @@ namespace RimWorld
 			return blueprint_Install;
 		}
 
-		// Token: 0x0600369C RID: 13980 RVA: 0x001D1BBC File Offset: 0x001CFFBC
+		// Token: 0x060036A0 RID: 13984 RVA: 0x001D1CFC File Offset: 0x001D00FC
 		public static Blueprint_Install PlaceBlueprintForReinstall(Building buildingToReinstall, IntVec3 center, Map map, Rot4 rotation, Faction faction)
 		{
 			Blueprint_Install blueprint_Install = (Blueprint_Install)ThingMaker.MakeThing(buildingToReinstall.def.installBlueprintDef, null);
@@ -51,7 +51,7 @@ namespace RimWorld
 			return blueprint_Install;
 		}
 
-		// Token: 0x0600369D RID: 13981 RVA: 0x001D1C04 File Offset: 0x001D0004
+		// Token: 0x060036A1 RID: 13985 RVA: 0x001D1D44 File Offset: 0x001D0144
 		public static bool CanBuildOnTerrain(BuildableDef entDef, IntVec3 c, Map map, Rot4 rot, Thing thingToIgnore = null)
 		{
 			TerrainDef terrainDef = entDef as TerrainDef;
@@ -89,7 +89,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x0600369E RID: 13982 RVA: 0x001D1D38 File Offset: 0x001D0138
+		// Token: 0x060036A2 RID: 13986 RVA: 0x001D1E78 File Offset: 0x001D0278
 		public static Thing MiniToInstallOrBuildingToReinstall(Blueprint b)
 		{
 			Blueprint_Install blueprint_Install = b as Blueprint_Install;
@@ -105,7 +105,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600369F RID: 13983 RVA: 0x001D1D68 File Offset: 0x001D0168
+		// Token: 0x060036A3 RID: 13987 RVA: 0x001D1EA8 File Offset: 0x001D02A8
 		public static bool CanConstruct(Thing t, Pawn p, bool checkConstructionSkill = true, bool forced = false)
 		{
 			bool result;
@@ -139,7 +139,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036A0 RID: 13984 RVA: 0x001D1E20 File Offset: 0x001D0220
+		// Token: 0x060036A4 RID: 13988 RVA: 0x001D1F60 File Offset: 0x001D0360
 		public static int AmountNeededByOf(IConstructible c, ThingDef resDef)
 		{
 			foreach (ThingDefCountClass thingDefCountClass in c.MaterialsNeeded())
@@ -152,7 +152,7 @@ namespace RimWorld
 			return 0;
 		}
 
-		// Token: 0x060036A1 RID: 13985 RVA: 0x001D1E9C File Offset: 0x001D029C
+		// Token: 0x060036A5 RID: 13989 RVA: 0x001D1FDC File Offset: 0x001D03DC
 		public static AcceptanceReport CanPlaceBlueprintAt(BuildableDef entDef, IntVec3 center, Rot4 rot, Map map, bool godMode = false, Thing thingToIgnore = null)
 		{
 			CellRect cellRect = GenAdj.OccupiedRect(center, rot, entDef.Size);
@@ -328,13 +328,13 @@ namespace RimWorld
 			return AcceptanceReport.WasAccepted;
 		}
 
-		// Token: 0x060036A2 RID: 13986 RVA: 0x001D245C File Offset: 0x001D085C
+		// Token: 0x060036A6 RID: 13990 RVA: 0x001D259C File Offset: 0x001D099C
 		public static BuildableDef BuiltDefOf(ThingDef def)
 		{
 			return (def.entityDefToBuild == null) ? def : def.entityDefToBuild;
 		}
 
-		// Token: 0x060036A3 RID: 13987 RVA: 0x001D2488 File Offset: 0x001D0888
+		// Token: 0x060036A7 RID: 13991 RVA: 0x001D25C8 File Offset: 0x001D09C8
 		public static bool CanPlaceBlueprintOver(BuildableDef newDef, ThingDef oldDef)
 		{
 			bool result;
@@ -398,7 +398,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036A4 RID: 13988 RVA: 0x001D2710 File Offset: 0x001D0B10
+		// Token: 0x060036A8 RID: 13992 RVA: 0x001D2850 File Offset: 0x001D0C50
 		public static Thing FirstBlockingThing(Thing constructible, Pawn pawnToIgnore)
 		{
 			Blueprint blueprint = constructible as Blueprint;
@@ -428,7 +428,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x060036A5 RID: 13989 RVA: 0x001D27D0 File Offset: 0x001D0BD0
+		// Token: 0x060036A9 RID: 13993 RVA: 0x001D2910 File Offset: 0x001D0D10
 		public static Job HandleBlockingThingJob(Thing constructible, Pawn worker, bool forced = false)
 		{
 			Thing thing = GenConstruct.FirstBlockingThing(constructible, worker);
@@ -488,7 +488,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036A6 RID: 13990 RVA: 0x001D2968 File Offset: 0x001D0D68
+		// Token: 0x060036AA RID: 13994 RVA: 0x001D2AA8 File Offset: 0x001D0EA8
 		public static bool BlocksConstruction(Thing constructible, Thing t)
 		{
 			bool result;
@@ -550,7 +550,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036A7 RID: 13991 RVA: 0x001D2B64 File Offset: 0x001D0F64
+		// Token: 0x060036AB RID: 13995 RVA: 0x001D2CA4 File Offset: 0x001D10A4
 		public static bool TerrainCanSupport(CellRect rect, Map map, ThingDef thing)
 		{
 			CellRect.CellRectIterator iterator = rect.GetIterator();

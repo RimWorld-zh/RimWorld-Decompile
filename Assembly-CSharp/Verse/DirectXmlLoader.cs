@@ -8,10 +8,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D7E RID: 3454
+	// Token: 0x02000D80 RID: 3456
 	public static class DirectXmlLoader
 	{
-		// Token: 0x06004D68 RID: 19816 RVA: 0x002850E8 File Offset: 0x002834E8
+		// Token: 0x06004D6C RID: 19820 RVA: 0x00285214 File Offset: 0x00283614
 		public static IEnumerable<LoadableXmlAsset> XmlAssetsInModFolder(ModContentPack mod, string folderPath)
 		{
 			DirectoryInfo di = new DirectoryInfo(Path.Combine(mod.RootDir, folderPath));
@@ -30,7 +30,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004D69 RID: 19817 RVA: 0x0028511C File Offset: 0x0028351C
+		// Token: 0x06004D6D RID: 19821 RVA: 0x00285248 File Offset: 0x00283648
 		public static IEnumerable<T> LoadXmlDataInResourcesFolder<T>(string folderPath) where T : new()
 		{
 			XmlInheritance.Clear();
@@ -54,7 +54,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004D6A RID: 19818 RVA: 0x00285148 File Offset: 0x00283548
+		// Token: 0x06004D6E RID: 19822 RVA: 0x00285274 File Offset: 0x00283674
 		public static T ItemFromXmlFile<T>(string filePath, bool resolveCrossRefs = true) where T : new()
 		{
 			if (resolveCrossRefs && DirectXmlCrossRefLoader.LoadingInProgress)
@@ -89,7 +89,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004D6B RID: 19819 RVA: 0x00285204 File Offset: 0x00283604
+		// Token: 0x06004D6F RID: 19823 RVA: 0x00285330 File Offset: 0x00283730
 		public static Def DefFromNode(XmlNode node, LoadableXmlAsset loadingAsset)
 		{
 			Def result;
@@ -148,7 +148,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004D6C RID: 19820 RVA: 0x00285348 File Offset: 0x00283748
+		// Token: 0x06004D70 RID: 19824 RVA: 0x00285474 File Offset: 0x00283874
 		public static IEnumerable<T> AllGameItemsFromAsset<T>(LoadableXmlAsset asset) where T : new()
 		{
 			if (asset.xmlDoc == null)

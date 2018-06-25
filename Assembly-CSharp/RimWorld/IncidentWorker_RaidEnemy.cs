@@ -5,16 +5,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000346 RID: 838
+	// Token: 0x02000348 RID: 840
 	public class IncidentWorker_RaidEnemy : IncidentWorker_Raid
 	{
-		// Token: 0x06000E5C RID: 3676 RVA: 0x0007A8F0 File Offset: 0x00078CF0
+		// Token: 0x06000E60 RID: 3680 RVA: 0x0007AA40 File Offset: 0x00078E40
 		protected override bool FactionCanBeGroupSource(Faction f, Map map, bool desperate = false)
 		{
 			return base.FactionCanBeGroupSource(f, map, desperate) && f.HostileTo(Faction.OfPlayer) && (desperate || (float)GenDate.DaysPassed >= f.def.earliestRaidDays);
 		}
 
-		// Token: 0x06000E5D RID: 3677 RVA: 0x0007A948 File Offset: 0x00078D48
+		// Token: 0x06000E61 RID: 3681 RVA: 0x0007AA98 File Offset: 0x00078E98
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			bool result;
@@ -31,7 +31,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E5E RID: 3678 RVA: 0x0007A998 File Offset: 0x00078D98
+		// Token: 0x06000E62 RID: 3682 RVA: 0x0007AAE8 File Offset: 0x00078EE8
 		protected override bool TryResolveRaidFaction(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -52,7 +52,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E5F RID: 3679 RVA: 0x0007AA46 File Offset: 0x00078E46
+		// Token: 0x06000E63 RID: 3683 RVA: 0x0007AB96 File Offset: 0x00078F96
 		protected override void ResolveRaidPoints(IncidentParms parms)
 		{
 			if (parms.points <= 0f)
@@ -62,7 +62,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000E60 RID: 3680 RVA: 0x0007AA78 File Offset: 0x00078E78
+		// Token: 0x06000E64 RID: 3684 RVA: 0x0007ABC8 File Offset: 0x00078FC8
 		protected override void ResolveRaidStrategy(IncidentParms parms, PawnGroupKindDef groupKind)
 		{
 			if (parms.raidStrategy == null)
@@ -91,13 +91,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000E61 RID: 3681 RVA: 0x0007AB7C File Offset: 0x00078F7C
+		// Token: 0x06000E65 RID: 3685 RVA: 0x0007ACCC File Offset: 0x000790CC
 		protected override string GetLetterLabel(IncidentParms parms)
 		{
 			return parms.raidStrategy.letterLabelEnemy;
 		}
 
-		// Token: 0x06000E62 RID: 3682 RVA: 0x0007AB9C File Offset: 0x00078F9C
+		// Token: 0x06000E66 RID: 3686 RVA: 0x0007ACEC File Offset: 0x000790EC
 		protected override string GetLetterText(IncidentParms parms, List<Pawn> pawns)
 		{
 			string text = string.Format(parms.raidArrivalMode.textEnemy, parms.faction.def.pawnsPlural, parms.faction.Name);
@@ -116,13 +116,13 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x06000E63 RID: 3683 RVA: 0x0007AC68 File Offset: 0x00079068
+		// Token: 0x06000E67 RID: 3687 RVA: 0x0007ADB8 File Offset: 0x000791B8
 		protected override LetterDef GetLetterDef()
 		{
 			return LetterDefOf.ThreatBig;
 		}
 
-		// Token: 0x06000E64 RID: 3684 RVA: 0x0007AC84 File Offset: 0x00079084
+		// Token: 0x06000E68 RID: 3688 RVA: 0x0007ADD4 File Offset: 0x000791D4
 		protected override string GetRelatedPawnsInfoLetterText(IncidentParms parms)
 		{
 			return "LetterRelatedPawnsRaidEnemy".Translate(new object[]

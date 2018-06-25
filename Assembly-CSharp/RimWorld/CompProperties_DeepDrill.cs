@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000261 RID: 609
+	// Token: 0x02000263 RID: 611
 	public class CompProperties_DeepDrill : CompProperties
 	{
-		// Token: 0x06000AA0 RID: 2720 RVA: 0x00060244 File Offset: 0x0005E644
+		// Token: 0x06000AA4 RID: 2724 RVA: 0x00060394 File Offset: 0x0005E794
 		public CompProperties_DeepDrill()
 		{
 			this.compClass = typeof(CompDeepDrill);

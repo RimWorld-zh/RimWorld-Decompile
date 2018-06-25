@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DE7 RID: 3559
+	// Token: 0x02000DE9 RID: 3561
 	public struct MoteAttachLink
 	{
 		// Token: 0x040034E2 RID: 13538
@@ -12,7 +12,7 @@ namespace Verse
 		// Token: 0x040034E3 RID: 13539
 		private Vector3 lastDrawPosInt;
 
-		// Token: 0x06004FCD RID: 20429 RVA: 0x002972C3 File Offset: 0x002956C3
+		// Token: 0x06004FD1 RID: 20433 RVA: 0x002973EF File Offset: 0x002957EF
 		public MoteAttachLink(TargetInfo target)
 		{
 			this.targetInt = target;
@@ -23,8 +23,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CF2 RID: 3314
-		// (get) Token: 0x06004FCE RID: 20430 RVA: 0x002972EC File Offset: 0x002956EC
+		// Token: 0x17000CF1 RID: 3313
+		// (get) Token: 0x06004FD2 RID: 20434 RVA: 0x00297418 File Offset: 0x00295818
 		public bool Linked
 		{
 			get
@@ -33,8 +33,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CF3 RID: 3315
-		// (get) Token: 0x06004FCF RID: 20431 RVA: 0x0029730C File Offset: 0x0029570C
+		// Token: 0x17000CF2 RID: 3314
+		// (get) Token: 0x06004FD3 RID: 20435 RVA: 0x00297438 File Offset: 0x00295838
 		public TargetInfo Target
 		{
 			get
@@ -43,8 +43,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CF4 RID: 3316
-		// (get) Token: 0x06004FD0 RID: 20432 RVA: 0x00297328 File Offset: 0x00295728
+		// Token: 0x17000CF3 RID: 3315
+		// (get) Token: 0x06004FD4 RID: 20436 RVA: 0x00297454 File Offset: 0x00295854
 		public Vector3 LastDrawPos
 		{
 			get
@@ -53,8 +53,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CF5 RID: 3317
-		// (get) Token: 0x06004FD1 RID: 20433 RVA: 0x00297344 File Offset: 0x00295744
+		// Token: 0x17000CF4 RID: 3316
+		// (get) Token: 0x06004FD5 RID: 20437 RVA: 0x00297470 File Offset: 0x00295870
 		public static MoteAttachLink Invalid
 		{
 			get
@@ -63,7 +63,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FD2 RID: 20434 RVA: 0x00297364 File Offset: 0x00295764
+		// Token: 0x06004FD6 RID: 20438 RVA: 0x00297490 File Offset: 0x00295890
 		public void UpdateDrawPos()
 		{
 			if (this.targetInt.HasThing)

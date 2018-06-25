@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000243 RID: 579
+	// Token: 0x02000245 RID: 581
 	public class CompProperties_EggLayer : CompProperties
 	{
 		// Token: 0x04000468 RID: 1128
@@ -27,7 +27,7 @@ namespace RimWorld
 		// Token: 0x0400046E RID: 1134
 		public float eggProgressUnfertilizedMax = 1f;
 
-		// Token: 0x06000A72 RID: 2674 RVA: 0x0005EDEC File Offset: 0x0005D1EC
+		// Token: 0x06000A76 RID: 2678 RVA: 0x0005EF3C File Offset: 0x0005D33C
 		public CompProperties_EggLayer()
 		{
 			this.compClass = typeof(CompEggLayer);

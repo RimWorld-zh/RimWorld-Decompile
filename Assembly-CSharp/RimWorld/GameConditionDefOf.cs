@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000918 RID: 2328
+	// Token: 0x0200091A RID: 2330
 	[DefOf]
 	public static class GameConditionDefOf
 	{
@@ -37,7 +37,7 @@ namespace RimWorld
 		// Token: 0x04001EB3 RID: 7859
 		public static GameConditionDef Aurora;
 
-		// Token: 0x06003620 RID: 13856 RVA: 0x001D08FD File Offset: 0x001CECFD
+		// Token: 0x06003624 RID: 13860 RVA: 0x001D0A3D File Offset: 0x001CEE3D
 		static GameConditionDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(GameConditionDefOf));

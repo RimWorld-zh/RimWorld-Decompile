@@ -4,19 +4,19 @@ using System.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000E2C RID: 3628
+	// Token: 0x02000E2E RID: 3630
 	public class Dialog_DebugOptionListLister : Dialog_DebugOptionLister
 	{
 		// Token: 0x040038D6 RID: 14550
 		protected List<DebugMenuOption> options;
 
-		// Token: 0x06005609 RID: 22025 RVA: 0x002C5D36 File Offset: 0x002C4136
+		// Token: 0x0600560D RID: 22029 RVA: 0x002C5E62 File Offset: 0x002C4262
 		public Dialog_DebugOptionListLister(IEnumerable<DebugMenuOption> options)
 		{
 			this.options = options.ToList<DebugMenuOption>();
 		}
 
-		// Token: 0x0600560A RID: 22026 RVA: 0x002C5D4C File Offset: 0x002C414C
+		// Token: 0x0600560E RID: 22030 RVA: 0x002C5E78 File Offset: 0x002C4278
 		protected override void DoListingItems()
 		{
 			foreach (DebugMenuOption debugMenuOption in this.options)
@@ -32,7 +32,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600560B RID: 22027 RVA: 0x002C5DE8 File Offset: 0x002C41E8
+		// Token: 0x0600560F RID: 22031 RVA: 0x002C5F14 File Offset: 0x002C4314
 		public static void ShowSimpleDebugMenu<T>(IEnumerable<T> elements, Func<T, string> label, Action<T> chosen)
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();

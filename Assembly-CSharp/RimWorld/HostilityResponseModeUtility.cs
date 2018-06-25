@@ -7,7 +7,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200051C RID: 1308
+	// Token: 0x0200051E RID: 1310
 	[StaticConstructorOnStartup]
 	public static class HostilityResponseModeUtility
 	{
@@ -28,7 +28,7 @@ namespace RimWorld
 		[CompilerGenerated]
 		private static Func<Pawn, IEnumerable<Widgets.DropdownMenuElement<HostilityResponseMode>>> <>f__mg$cache1;
 
-		// Token: 0x060017D9 RID: 6105 RVA: 0x000D08BC File Offset: 0x000CECBC
+		// Token: 0x060017DD RID: 6109 RVA: 0x000D0A0C File Offset: 0x000CEE0C
 		public static Texture2D GetIcon(this HostilityResponseMode response)
 		{
 			Texture2D result;
@@ -50,7 +50,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060017DA RID: 6106 RVA: 0x000D0910 File Offset: 0x000CED10
+		// Token: 0x060017DE RID: 6110 RVA: 0x000D0A60 File Offset: 0x000CEE60
 		public static HostilityResponseMode GetNextResponse(Pawn pawn)
 		{
 			HostilityResponseMode result;
@@ -79,13 +79,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060017DB RID: 6107 RVA: 0x000D0984 File Offset: 0x000CED84
+		// Token: 0x060017DF RID: 6111 RVA: 0x000D0AD4 File Offset: 0x000CEED4
 		public static string GetLabel(this HostilityResponseMode response)
 		{
 			return ("HostilityResponseMode_" + response).Translate();
 		}
 
-		// Token: 0x060017DC RID: 6108 RVA: 0x000D09B0 File Offset: 0x000CEDB0
+		// Token: 0x060017E0 RID: 6112 RVA: 0x000D0B00 File Offset: 0x000CEF00
 		public static void DrawResponseButton(Rect rect, Pawn pawn, bool paintable)
 		{
 			if (HostilityResponseModeUtility.<>f__mg$cache0 == null)
@@ -114,13 +114,13 @@ namespace RimWorld
 			}));
 		}
 
-		// Token: 0x060017DD RID: 6109 RVA: 0x000D0A9C File Offset: 0x000CEE9C
+		// Token: 0x060017E1 RID: 6113 RVA: 0x000D0BEC File Offset: 0x000CEFEC
 		private static HostilityResponseMode DrawResponseButton_GetResponse(Pawn pawn)
 		{
 			return pawn.playerSettings.hostilityResponse;
 		}
 
-		// Token: 0x060017DE RID: 6110 RVA: 0x000D0ABC File Offset: 0x000CEEBC
+		// Token: 0x060017E2 RID: 6114 RVA: 0x000D0C0C File Offset: 0x000CF00C
 		private static IEnumerable<Widgets.DropdownMenuElement<HostilityResponseMode>> DrawResponseButton_GenerateMenu(Pawn p)
 		{
 			IEnumerator enumerator = Enum.GetValues(typeof(HostilityResponseMode)).GetEnumerator();

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D73 RID: 3443
+	// Token: 0x02000D75 RID: 3445
 	internal static class MeshMakerPlanes
 	{
 		// Token: 0x0400337E RID: 13182
@@ -12,31 +12,31 @@ namespace Verse
 		// Token: 0x0400337F RID: 13183
 		private const float TwistAmount = 0.001171875f;
 
-		// Token: 0x06004D3B RID: 19771 RVA: 0x00283DA0 File Offset: 0x002821A0
+		// Token: 0x06004D3F RID: 19775 RVA: 0x00283ECC File Offset: 0x002822CC
 		public static Mesh NewPlaneMesh(float size)
 		{
 			return MeshMakerPlanes.NewPlaneMesh(size, false);
 		}
 
-		// Token: 0x06004D3C RID: 19772 RVA: 0x00283DBC File Offset: 0x002821BC
+		// Token: 0x06004D40 RID: 19776 RVA: 0x00283EE8 File Offset: 0x002822E8
 		public static Mesh NewPlaneMesh(float size, bool flipped)
 		{
 			return MeshMakerPlanes.NewPlaneMesh(size, flipped, false);
 		}
 
-		// Token: 0x06004D3D RID: 19773 RVA: 0x00283DDC File Offset: 0x002821DC
+		// Token: 0x06004D41 RID: 19777 RVA: 0x00283F08 File Offset: 0x00282308
 		public static Mesh NewPlaneMesh(float size, bool flipped, bool backLift)
 		{
 			return MeshMakerPlanes.NewPlaneMesh(new Vector2(size, size), flipped, backLift, false);
 		}
 
-		// Token: 0x06004D3E RID: 19774 RVA: 0x00283E00 File Offset: 0x00282200
+		// Token: 0x06004D42 RID: 19778 RVA: 0x00283F2C File Offset: 0x0028232C
 		public static Mesh NewPlaneMesh(float size, bool flipped, bool backLift, bool twist)
 		{
 			return MeshMakerPlanes.NewPlaneMesh(new Vector2(size, size), flipped, backLift, twist);
 		}
 
-		// Token: 0x06004D3F RID: 19775 RVA: 0x00283E24 File Offset: 0x00282224
+		// Token: 0x06004D43 RID: 19779 RVA: 0x00283F50 File Offset: 0x00282350
 		public static Mesh NewPlaneMesh(Vector2 size, bool flipped, bool backLift, bool twist)
 		{
 			Vector3[] array = new Vector3[4];
@@ -89,7 +89,7 @@ namespace Verse
 			return mesh;
 		}
 
-		// Token: 0x06004D40 RID: 19776 RVA: 0x002840CC File Offset: 0x002824CC
+		// Token: 0x06004D44 RID: 19780 RVA: 0x002841F8 File Offset: 0x002825F8
 		public static Mesh NewWholeMapPlane()
 		{
 			Mesh mesh = MeshMakerPlanes.NewPlaneMesh(2000f, false, false);

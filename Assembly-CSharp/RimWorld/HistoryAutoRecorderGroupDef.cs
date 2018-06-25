@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200029E RID: 670
+	// Token: 0x020002A0 RID: 672
 	public class HistoryAutoRecorderGroupDef : Def
 	{
 		// Token: 0x0400060D RID: 1549
@@ -20,7 +20,7 @@ namespace RimWorld
 		// Token: 0x04000610 RID: 1552
 		public List<HistoryAutoRecorderDef> historyAutoRecorderDefs = new List<HistoryAutoRecorderDef>();
 
-		// Token: 0x06000B43 RID: 2883 RVA: 0x00065DF4 File Offset: 0x000641F4
+		// Token: 0x06000B47 RID: 2887 RVA: 0x00065F44 File Offset: 0x00064344
 		public static HistoryAutoRecorderGroupDef Named(string defName)
 		{
 			return DefDatabase<HistoryAutoRecorderGroupDef>.GetNamed(defName, true);

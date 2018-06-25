@@ -5,7 +5,7 @@ using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000B50 RID: 2896
+	// Token: 0x02000B52 RID: 2898
 	public class MentalBreakDef : Def
 	{
 		// Token: 0x040029F5 RID: 10741
@@ -29,8 +29,8 @@ namespace Verse
 		// Token: 0x040029FB RID: 10747
 		private MentalBreakWorker workerInt = null;
 
-		// Token: 0x170009A0 RID: 2464
-		// (get) Token: 0x06003F68 RID: 16232 RVA: 0x00216A70 File Offset: 0x00214E70
+		// Token: 0x1700099F RID: 2463
+		// (get) Token: 0x06003F6B RID: 16235 RVA: 0x00216B4C File Offset: 0x00214F4C
 		public MentalBreakWorker Worker
 		{
 			get
@@ -47,7 +47,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F69 RID: 16233 RVA: 0x00216AC8 File Offset: 0x00214EC8
+		// Token: 0x06003F6C RID: 16236 RVA: 0x00216BA4 File Offset: 0x00214FA4
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())

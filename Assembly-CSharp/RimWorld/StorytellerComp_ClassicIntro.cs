@@ -5,11 +5,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000365 RID: 869
+	// Token: 0x02000367 RID: 871
 	public class StorytellerComp_ClassicIntro : StorytellerComp
 	{
 		// Token: 0x1700021D RID: 541
-		// (get) Token: 0x06000F21 RID: 3873 RVA: 0x0007FF40 File Offset: 0x0007E340
+		// (get) Token: 0x06000F25 RID: 3877 RVA: 0x00080090 File Offset: 0x0007E490
 		protected int IntervalsPassed
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F22 RID: 3874 RVA: 0x0007FF68 File Offset: 0x0007E368
+		// Token: 0x06000F26 RID: 3878 RVA: 0x000800B8 File Offset: 0x0007E4B8
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			if (target != Find.Maps.Find((Map x) => x.IsPlayerHome))

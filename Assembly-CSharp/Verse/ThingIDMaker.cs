@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000CAB RID: 3243
+	// Token: 0x02000CAD RID: 3245
 	public static class ThingIDMaker
 	{
-		// Token: 0x06004786 RID: 18310 RVA: 0x0025BB04 File Offset: 0x00259F04
+		// Token: 0x06004789 RID: 18313 RVA: 0x0025BBE0 File Offset: 0x00259FE0
 		public static void GiveIDTo(Thing t)
 		{
 			if (t.def.HasThingIDNumber)

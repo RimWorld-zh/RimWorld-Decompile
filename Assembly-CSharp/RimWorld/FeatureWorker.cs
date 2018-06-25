@@ -7,7 +7,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000295 RID: 661
+	// Token: 0x02000297 RID: 663
 	public abstract class FeatureWorker
 	{
 		// Token: 0x040005EB RID: 1515
@@ -34,10 +34,10 @@ namespace RimWorld
 		// Token: 0x040005F2 RID: 1522
 		private static List<Pair<int, int>> tmpTraversedTiles = new List<Pair<int, int>>();
 
-		// Token: 0x06000B2A RID: 2858
+		// Token: 0x06000B2E RID: 2862
 		public abstract void GenerateWhereAppropriate();
 
-		// Token: 0x06000B2B RID: 2859 RVA: 0x00065790 File Offset: 0x00063B90
+		// Token: 0x06000B2F RID: 2863 RVA: 0x000658E0 File Offset: 0x00063CE0
 		protected void AddFeature(List<int> members, List<int> tilesForTextDrawPosCalculation)
 		{
 			WorldFeature worldFeature = new WorldFeature();
@@ -54,7 +54,7 @@ namespace RimWorld
 			Find.WorldFeatures.features.Add(worldFeature);
 		}
 
-		// Token: 0x06000B2C RID: 2860 RVA: 0x00065854 File Offset: 0x00063C54
+		// Token: 0x06000B30 RID: 2864 RVA: 0x000659A4 File Offset: 0x00063DA4
 		private void AssignBestDrawPos(WorldFeature newFeature, List<int> tilesForTextDrawPosCalculation)
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
@@ -122,25 +122,25 @@ namespace RimWorld
 			newFeature.maxDrawSizeInTiles = maxDrawSizeInTiles;
 		}
 
-		// Token: 0x06000B2D RID: 2861 RVA: 0x00065AA1 File Offset: 0x00063EA1
+		// Token: 0x06000B31 RID: 2865 RVA: 0x00065BF1 File Offset: 0x00063FF1
 		protected static void ClearVisited()
 		{
 			FeatureWorker.ClearOrCreate<bool>(ref FeatureWorker.visited);
 		}
 
-		// Token: 0x06000B2E RID: 2862 RVA: 0x00065AAE File Offset: 0x00063EAE
+		// Token: 0x06000B32 RID: 2866 RVA: 0x00065BFE File Offset: 0x00063FFE
 		protected static void ClearGroupSizes()
 		{
 			FeatureWorker.ClearOrCreate<int>(ref FeatureWorker.groupSize);
 		}
 
-		// Token: 0x06000B2F RID: 2863 RVA: 0x00065ABB File Offset: 0x00063EBB
+		// Token: 0x06000B33 RID: 2867 RVA: 0x00065C0B File Offset: 0x0006400B
 		protected static void ClearGroupIDs()
 		{
 			FeatureWorker.ClearOrCreate<int>(ref FeatureWorker.groupID);
 		}
 
-		// Token: 0x06000B30 RID: 2864 RVA: 0x00065AC8 File Offset: 0x00063EC8
+		// Token: 0x06000B34 RID: 2868 RVA: 0x00065C18 File Offset: 0x00064018
 		private static void ClearOrCreate<T>(ref T[] array)
 		{
 			int tilesCount = Find.WorldGrid.TilesCount;

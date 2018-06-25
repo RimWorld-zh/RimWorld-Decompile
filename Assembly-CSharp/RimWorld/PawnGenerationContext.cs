@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000634 RID: 1588
+	// Token: 0x02000636 RID: 1590
 	public enum PawnGenerationContext
 	{
 		// Token: 0x040012C9 RID: 4809

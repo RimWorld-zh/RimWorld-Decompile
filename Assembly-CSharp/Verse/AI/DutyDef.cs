@@ -3,7 +3,7 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000B37 RID: 2871
+	// Token: 0x02000B39 RID: 2873
 	public class DutyDef : Def
 	{
 		// Token: 0x04002944 RID: 10564

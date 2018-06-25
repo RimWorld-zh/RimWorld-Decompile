@@ -4,13 +4,13 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A87 RID: 2695
+	// Token: 0x02000A89 RID: 2697
 	public static class SlaughtererMentalStateUtility
 	{
-		// Token: 0x04002585 RID: 9605
+		// Token: 0x04002586 RID: 9606
 		private static List<Pawn> tmpAnimals = new List<Pawn>();
 
-		// Token: 0x06003BD6 RID: 15318 RVA: 0x001F8B7C File Offset: 0x001F6F7C
+		// Token: 0x06003BDA RID: 15322 RVA: 0x001F8CA8 File Offset: 0x001F70A8
 		public static Pawn FindAnimal(Pawn pawn)
 		{
 			Pawn result;

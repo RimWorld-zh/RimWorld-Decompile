@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008EB RID: 2283
+	// Token: 0x020008ED RID: 2285
 	public class WorldInterface
 	{
 		// Token: 0x04001C71 RID: 7281
@@ -27,8 +27,8 @@ namespace RimWorld
 		public bool everReset;
 
 		// Token: 0x1700087F RID: 2175
-		// (get) Token: 0x060034A2 RID: 13474 RVA: 0x001C1CE8 File Offset: 0x001C00E8
-		// (set) Token: 0x060034A3 RID: 13475 RVA: 0x001C1D08 File Offset: 0x001C0108
+		// (get) Token: 0x060034A6 RID: 13478 RVA: 0x001C1E28 File Offset: 0x001C0228
+		// (set) Token: 0x060034A7 RID: 13479 RVA: 0x001C1E48 File Offset: 0x001C0248
 		public int SelectedTile
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060034A4 RID: 13476 RVA: 0x001C1D18 File Offset: 0x001C0118
+		// Token: 0x060034A8 RID: 13480 RVA: 0x001C1E58 File Offset: 0x001C0258
 		public void Reset()
 		{
 			this.everReset = true;
@@ -82,7 +82,7 @@ namespace RimWorld
 			Find.WorldCameraDriver.ResetAltitude();
 		}
 
-		// Token: 0x060034A5 RID: 13477 RVA: 0x001C1E38 File Offset: 0x001C0238
+		// Token: 0x060034A9 RID: 13481 RVA: 0x001C1F78 File Offset: 0x001C0378
 		public void WorldInterfaceUpdate()
 		{
 			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
@@ -107,7 +107,7 @@ namespace RimWorld
 			Profiler.EndSample();
 		}
 
-		// Token: 0x060034A6 RID: 13478 RVA: 0x001C1EC8 File Offset: 0x001C02C8
+		// Token: 0x060034AA RID: 13482 RVA: 0x001C2008 File Offset: 0x001C0408
 		public void WorldInterfaceOnGUI()
 		{
 			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
@@ -150,7 +150,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060034A7 RID: 13479 RVA: 0x001C1FF0 File Offset: 0x001C03F0
+		// Token: 0x060034AB RID: 13483 RVA: 0x001C2130 File Offset: 0x001C0530
 		public void HandleLowPriorityInput()
 		{
 			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
@@ -165,7 +165,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060034A8 RID: 13480 RVA: 0x001C2040 File Offset: 0x001C0440
+		// Token: 0x060034AC RID: 13484 RVA: 0x001C2180 File Offset: 0x001C0580
 		private void CheckOpenOrCloseInspectPane()
 		{
 			if (this.selector.AnyObjectOrTileSelected && WorldRendererUtility.WorldRenderedNow && (Current.ProgramState != ProgramState.Playing || Find.MainTabsRoot.OpenTab == null))

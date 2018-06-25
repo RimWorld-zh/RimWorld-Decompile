@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000553 RID: 1363
+	// Token: 0x02000555 RID: 1365
 	public static class DiplomacyTuning
 	{
 		// Token: 0x04000ED7 RID: 3799

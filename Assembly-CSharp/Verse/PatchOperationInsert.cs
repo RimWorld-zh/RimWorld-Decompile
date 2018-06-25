@@ -4,7 +4,7 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000CD1 RID: 3281
+	// Token: 0x02000CD3 RID: 3283
 	public class PatchOperationInsert : PatchOperationPathed
 	{
 		// Token: 0x0400310C RID: 12556
@@ -13,7 +13,7 @@ namespace Verse
 		// Token: 0x0400310D RID: 12557
 		private PatchOperationInsert.Order order = PatchOperationInsert.Order.Prepend;
 
-		// Token: 0x06004884 RID: 18564 RVA: 0x00261798 File Offset: 0x0025FB98
+		// Token: 0x06004887 RID: 18567 RVA: 0x00261874 File Offset: 0x0025FC74
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
 			XmlNode node = this.value.node;
@@ -54,7 +54,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x02000CD2 RID: 3282
+		// Token: 0x02000CD4 RID: 3284
 		private enum Order
 		{
 			// Token: 0x0400310F RID: 12559

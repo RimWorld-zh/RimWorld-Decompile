@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002AB RID: 683
+	// Token: 0x020002AD RID: 685
 	public class LifeStageDef : Def
 	{
 		// Token: 0x04000664 RID: 1636
@@ -60,7 +60,7 @@ namespace RimWorld
 		public float meleeDamageFactor = 1f;
 
 		// Token: 0x170001AC RID: 428
-		// (get) Token: 0x06000B6C RID: 2924 RVA: 0x000671CC File Offset: 0x000655CC
+		// (get) Token: 0x06000B70 RID: 2928 RVA: 0x0006731C File Offset: 0x0006571C
 		public string Adjective
 		{
 			get
@@ -69,7 +69,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B6D RID: 2925 RVA: 0x000671F4 File Offset: 0x000655F4
+		// Token: 0x06000B71 RID: 2929 RVA: 0x00067344 File Offset: 0x00065744
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();

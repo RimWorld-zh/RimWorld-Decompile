@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000935 RID: 2357
+	// Token: 0x02000937 RID: 2359
 	[DefOf]
 	public static class TimeAssignmentDefOf
 	{
@@ -18,7 +18,7 @@ namespace RimWorld
 		// Token: 0x04002052 RID: 8274
 		public static TimeAssignmentDef Sleep;
 
-		// Token: 0x0600363D RID: 13885 RVA: 0x001D0B07 File Offset: 0x001CEF07
+		// Token: 0x06003641 RID: 13889 RVA: 0x001D0C47 File Offset: 0x001CF047
 		static TimeAssignmentDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(TimeAssignmentDefOf));

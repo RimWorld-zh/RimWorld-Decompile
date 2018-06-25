@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000E0E RID: 3598
+	// Token: 0x02000E10 RID: 3600
 	public static class DelayedErrorWindowRequest
 	{
 		// Token: 0x04003575 RID: 13685
 		private static List<DelayedErrorWindowRequest.Request> requests = new List<DelayedErrorWindowRequest.Request>();
 
-		// Token: 0x0600519D RID: 20893 RVA: 0x0029E600 File Offset: 0x0029CA00
+		// Token: 0x060051A1 RID: 20897 RVA: 0x0029E72C File Offset: 0x0029CB2C
 		public static void DelayedErrorWindowRequestOnGUI()
 		{
 			try
@@ -29,7 +29,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600519E RID: 20894 RVA: 0x0029E6A0 File Offset: 0x0029CAA0
+		// Token: 0x060051A2 RID: 20898 RVA: 0x0029E7CC File Offset: 0x0029CBCC
 		public static void Add(string text, string title = null)
 		{
 			DelayedErrorWindowRequest.Request item = default(DelayedErrorWindowRequest.Request);
@@ -38,7 +38,7 @@ namespace Verse
 			DelayedErrorWindowRequest.requests.Add(item);
 		}
 
-		// Token: 0x02000E0F RID: 3599
+		// Token: 0x02000E11 RID: 3601
 		private struct Request
 		{
 			// Token: 0x04003576 RID: 13686

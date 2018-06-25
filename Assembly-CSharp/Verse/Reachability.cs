@@ -5,7 +5,7 @@ using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000C80 RID: 3200
+	// Token: 0x02000C82 RID: 3202
 	public class Reachability
 	{
 		// Token: 0x04002FC6 RID: 12230
@@ -38,13 +38,13 @@ namespace Verse
 		// Token: 0x04002FCF RID: 12239
 		private RegionGrid regionGrid;
 
-		// Token: 0x0600461A RID: 17946 RVA: 0x0024EC64 File Offset: 0x0024D064
+		// Token: 0x0600461D RID: 17949 RVA: 0x0024ED40 File Offset: 0x0024D140
 		public Reachability(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x0600461B RID: 17947 RVA: 0x0024ECB9 File Offset: 0x0024D0B9
+		// Token: 0x0600461E RID: 17950 RVA: 0x0024ED95 File Offset: 0x0024D195
 		public void ClearCache()
 		{
 			if (this.cache.Count > 0)
@@ -53,7 +53,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600461C RID: 17948 RVA: 0x0024ECDC File Offset: 0x0024D0DC
+		// Token: 0x0600461F RID: 17951 RVA: 0x0024EDB8 File Offset: 0x0024D1B8
 		private void QueueNewOpenRegion(Region region)
 		{
 			if (region == null)
@@ -72,37 +72,37 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600461D RID: 17949 RVA: 0x0024ED60 File Offset: 0x0024D160
+		// Token: 0x06004620 RID: 17952 RVA: 0x0024EE3C File Offset: 0x0024D23C
 		private uint NewReachedIndex()
 		{
 			return this.reachedIndex++;
 		}
 
-		// Token: 0x0600461E RID: 17950 RVA: 0x0024ED86 File Offset: 0x0024D186
+		// Token: 0x06004621 RID: 17953 RVA: 0x0024EE62 File Offset: 0x0024D262
 		private void FinalizeCheck()
 		{
 			this.working = false;
 		}
 
-		// Token: 0x0600461F RID: 17951 RVA: 0x0024ED90 File Offset: 0x0024D190
+		// Token: 0x06004622 RID: 17954 RVA: 0x0024EE6C File Offset: 0x0024D26C
 		public bool CanReachNonLocal(IntVec3 start, TargetInfo dest, PathEndMode peMode, TraverseMode traverseMode, Danger maxDanger)
 		{
 			return (dest.Map == null || dest.Map == this.map) && this.CanReach(start, (LocalTargetInfo)dest, peMode, traverseMode, maxDanger);
 		}
 
-		// Token: 0x06004620 RID: 17952 RVA: 0x0024EDDC File Offset: 0x0024D1DC
+		// Token: 0x06004623 RID: 17955 RVA: 0x0024EEB8 File Offset: 0x0024D2B8
 		public bool CanReachNonLocal(IntVec3 start, TargetInfo dest, PathEndMode peMode, TraverseParms traverseParams)
 		{
 			return (dest.Map == null || dest.Map == this.map) && this.CanReach(start, (LocalTargetInfo)dest, peMode, traverseParams);
 		}
 
-		// Token: 0x06004621 RID: 17953 RVA: 0x0024EE28 File Offset: 0x0024D228
+		// Token: 0x06004624 RID: 17956 RVA: 0x0024EF04 File Offset: 0x0024D304
 		public bool CanReach(IntVec3 start, LocalTargetInfo dest, PathEndMode peMode, TraverseMode traverseMode, Danger maxDanger)
 		{
 			return this.CanReach(start, dest, peMode, TraverseParms.For(traverseMode, maxDanger, false));
 		}
 
-		// Token: 0x06004622 RID: 17954 RVA: 0x0024EE50 File Offset: 0x0024D250
+		// Token: 0x06004625 RID: 17957 RVA: 0x0024EF2C File Offset: 0x0024D32C
 		public bool CanReach(IntVec3 start, LocalTargetInfo dest, PathEndMode peMode, TraverseParms traverseParams)
 		{
 			bool result;
@@ -250,7 +250,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004623 RID: 17955 RVA: 0x0024F288 File Offset: 0x0024D688
+		// Token: 0x06004626 RID: 17958 RVA: 0x0024F364 File Offset: 0x0024D764
 		private void DetermineStartRegions(IntVec3 start)
 		{
 			this.startingRegions.Clear();
@@ -281,7 +281,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004624 RID: 17956 RVA: 0x0024F368 File Offset: 0x0024D768
+		// Token: 0x06004627 RID: 17959 RVA: 0x0024F444 File Offset: 0x0024D844
 		private BoolUnknown GetCachedResult(TraverseParms traverseParams)
 		{
 			bool flag = false;
@@ -311,7 +311,7 @@ namespace Verse
 			return BoolUnknown.Unknown;
 		}
 
-		// Token: 0x06004625 RID: 17957 RVA: 0x0024F438 File Offset: 0x0024D838
+		// Token: 0x06004628 RID: 17960 RVA: 0x0024F514 File Offset: 0x0024D914
 		private bool CheckRegionBasedReachability(TraverseParms traverseParams)
 		{
 			while (this.openQueue.Count > 0)
@@ -356,7 +356,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004626 RID: 17958 RVA: 0x0024F5DC File Offset: 0x0024D9DC
+		// Token: 0x06004629 RID: 17961 RVA: 0x0024F6B8 File Offset: 0x0024DAB8
 		private bool CheckCellBasedReachability(IntVec3 start, LocalTargetInfo dest, PathEndMode peMode, TraverseParms traverseParams)
 		{
 			IntVec3 foundCell = IntVec3.Invalid;
@@ -441,13 +441,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004627 RID: 17959 RVA: 0x0024F7A8 File Offset: 0x0024DBA8
+		// Token: 0x0600462A RID: 17962 RVA: 0x0024F884 File Offset: 0x0024DC84
 		public bool CanReachColony(IntVec3 c)
 		{
 			return this.CanReachFactionBase(c, Faction.OfPlayer);
 		}
 
-		// Token: 0x06004628 RID: 17960 RVA: 0x0024F7CC File Offset: 0x0024DBCC
+		// Token: 0x0600462B RID: 17963 RVA: 0x0024F8A8 File Offset: 0x0024DCA8
 		public bool CanReachFactionBase(IntVec3 c, Faction factionBaseFaction)
 		{
 			bool result;
@@ -498,7 +498,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004629 RID: 17961 RVA: 0x0024F970 File Offset: 0x0024DD70
+		// Token: 0x0600462C RID: 17964 RVA: 0x0024FA4C File Offset: 0x0024DE4C
 		public bool CanReachBiggestMapEdgeRoom(IntVec3 c)
 		{
 			Room room = null;
@@ -516,7 +516,7 @@ namespace Verse
 			return room != null && this.CanReach(c, room.Regions[0].AnyCell, PathEndMode.OnCell, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false));
 		}
 
-		// Token: 0x0600462A RID: 17962 RVA: 0x0024FA24 File Offset: 0x0024DE24
+		// Token: 0x0600462D RID: 17965 RVA: 0x0024FB00 File Offset: 0x0024DF00
 		public bool CanReachMapEdge(IntVec3 c, TraverseParms traverseParms)
 		{
 			if (traverseParms.pawn != null)
@@ -573,7 +573,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600462B RID: 17963 RVA: 0x0024FB54 File Offset: 0x0024DF54
+		// Token: 0x0600462E RID: 17966 RVA: 0x0024FC30 File Offset: 0x0024E030
 		public bool CanReachUnfogged(IntVec3 c, TraverseParms traverseParms)
 		{
 			if (traverseParms.pawn != null)
@@ -637,7 +637,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600462C RID: 17964 RVA: 0x0024FCA4 File Offset: 0x0024E0A4
+		// Token: 0x0600462F RID: 17967 RVA: 0x0024FD80 File Offset: 0x0024E180
 		private bool CanUseCache(TraverseMode mode)
 		{
 			return mode != TraverseMode.PassAllDestroyableThingsNotWater && mode != TraverseMode.NoPassClosedDoorsOrWater;

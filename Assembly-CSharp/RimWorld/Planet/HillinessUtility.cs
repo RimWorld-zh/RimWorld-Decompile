@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005A3 RID: 1443
+	// Token: 0x020005A5 RID: 1445
 	public static class HillinessUtility
 	{
-		// Token: 0x06001B8F RID: 7055 RVA: 0x000EE0C8 File Offset: 0x000EC4C8
+		// Token: 0x06001B93 RID: 7059 RVA: 0x000EE218 File Offset: 0x000EC618
 		public static string GetLabel(this Hilliness h)
 		{
 			string result;
@@ -35,7 +35,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001B90 RID: 7056 RVA: 0x000EE180 File Offset: 0x000EC580
+		// Token: 0x06001B94 RID: 7060 RVA: 0x000EE2D0 File Offset: 0x000EC6D0
 		public static string GetLabelCap(this Hilliness h)
 		{
 			return h.GetLabel().CapitalizeFirst();

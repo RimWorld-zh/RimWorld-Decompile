@@ -7,67 +7,67 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200097E RID: 2430
+	// Token: 0x02000980 RID: 2432
 	[HasDebugOutput]
 	public static class GenPlant
 	{
-		// Token: 0x0400234E RID: 9038
+		// Token: 0x0400234F RID: 9039
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallColorBegin = 0.55f;
 
-		// Token: 0x0400234F RID: 9039
+		// Token: 0x04002350 RID: 9040
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallColorEnd = 0.45f;
 
-		// Token: 0x04002350 RID: 9040
+		// Token: 0x04002351 RID: 9041
 		[TweakValue("Graphics", 0f, 30f)]
 		private static float FallSlopeComponent = 15f;
 
-		// Token: 0x04002351 RID: 9041
+		// Token: 0x04002352 RID: 9042
 		[TweakValue("Graphics", 0f, 100f)]
 		private static bool FallIntensityOverride = false;
 
-		// Token: 0x04002352 RID: 9042
+		// Token: 0x04002353 RID: 9043
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallIntensity = 0f;
 
-		// Token: 0x04002353 RID: 9043
+		// Token: 0x04002354 RID: 9044
 		[TweakValue("Graphics", 0f, 100f)]
 		private static bool FallGlobalControls = false;
 
-		// Token: 0x04002354 RID: 9044
+		// Token: 0x04002355 RID: 9045
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallSrcR = 0.3803f;
 
-		// Token: 0x04002355 RID: 9045
+		// Token: 0x04002356 RID: 9046
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallSrcG = 0.4352f;
 
-		// Token: 0x04002356 RID: 9046
+		// Token: 0x04002357 RID: 9047
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallSrcB = 0.1451f;
 
-		// Token: 0x04002357 RID: 9047
+		// Token: 0x04002358 RID: 9048
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallDstR = 0.4392f;
 
-		// Token: 0x04002358 RID: 9048
+		// Token: 0x04002359 RID: 9049
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallDstG = 0.3254f;
 
-		// Token: 0x04002359 RID: 9049
+		// Token: 0x0400235A RID: 9050
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallDstB = 0.1765f;
 
-		// Token: 0x0400235A RID: 9050
+		// Token: 0x0400235B RID: 9051
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallRangeBegin = 0.02f;
 
-		// Token: 0x0400235B RID: 9051
+		// Token: 0x0400235C RID: 9052
 		[TweakValue("Graphics", 0f, 1f)]
 		private static float FallRangeEnd = 0.1f;
 
-		// Token: 0x060036B9 RID: 14009 RVA: 0x001D35F4 File Offset: 0x001D19F4
+		// Token: 0x060036BD RID: 14013 RVA: 0x001D3734 File Offset: 0x001D1B34
 		public static bool GrowthSeasonNow(IntVec3 c, Map map, bool forSowing = false)
 		{
 			Room roomOrAdjacent = c.GetRoomOrAdjacent(map, RegionType.Set_All);
@@ -95,13 +95,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036BA RID: 14010 RVA: 0x001D3680 File Offset: 0x001D1A80
+		// Token: 0x060036BE RID: 14014 RVA: 0x001D37C0 File Offset: 0x001D1BC0
 		public static bool SnowAllowsPlanting(IntVec3 c, Map map)
 		{
 			return c.GetSnowDepth(map) < 0.2f;
 		}
 
-		// Token: 0x060036BB RID: 14011 RVA: 0x001D36A4 File Offset: 0x001D1AA4
+		// Token: 0x060036BF RID: 14015 RVA: 0x001D37E4 File Offset: 0x001D1BE4
 		public static bool CanEverPlantAt(this ThingDef plantDef, IntVec3 c, Map map)
 		{
 			if (plantDef.category != ThingCategory.Plant)
@@ -155,7 +155,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036BC RID: 14012 RVA: 0x001D3828 File Offset: 0x001D1C28
+		// Token: 0x060036C0 RID: 14016 RVA: 0x001D3968 File Offset: 0x001D1D68
 		public static void LogPlantProportions()
 		{
 			Dictionary<ThingDef, float> dictionary = new Dictionary<ThingDef, float>();
@@ -198,7 +198,7 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x060036BD RID: 14013 RVA: 0x001D3A80 File Offset: 0x001D1E80
+		// Token: 0x060036C1 RID: 14017 RVA: 0x001D3BC0 File Offset: 0x001D1FC0
 		private static Dictionary<ThingDef, float> CalculateDesiredPlantProportions(BiomeDef biome)
 		{
 			Dictionary<ThingDef, float> dictionary = new Dictionary<ThingDef, float>();
@@ -221,7 +221,7 @@ namespace RimWorld
 			return dictionary;
 		}
 
-		// Token: 0x060036BE RID: 14014 RVA: 0x001D3B74 File Offset: 0x001D1F74
+		// Token: 0x060036C2 RID: 14018 RVA: 0x001D3CB4 File Offset: 0x001D20B4
 		public static IEnumerable<ThingDef> ValidPlantTypesForGrowers(List<IPlantToGrowSettable> sel)
 		{
 			using (IEnumerator<ThingDef> enumerator = (from def in DefDatabase<ThingDef>.AllDefs
@@ -240,7 +240,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060036BF RID: 14015 RVA: 0x001D3BA0 File Offset: 0x001D1FA0
+		// Token: 0x060036C3 RID: 14019 RVA: 0x001D3CE0 File Offset: 0x001D20E0
 		public static bool CanSowOnGrower(ThingDef plantDef, object obj)
 		{
 			bool result;
@@ -256,7 +256,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036C0 RID: 14016 RVA: 0x001D3C20 File Offset: 0x001D2020
+		// Token: 0x060036C4 RID: 14020 RVA: 0x001D3D60 File Offset: 0x001D2160
 		public static Thing AdjacentSowBlocker(ThingDef plantDef, IntVec3 c, Map map)
 		{
 			for (int i = 0; i < 8; i++)
@@ -274,20 +274,20 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x060036C1 RID: 14017 RVA: 0x001D3CB8 File Offset: 0x001D20B8
+		// Token: 0x060036C5 RID: 14021 RVA: 0x001D3DF8 File Offset: 0x001D21F8
 		public static byte GetWindExposure(Plant plant)
 		{
 			return (byte)Mathf.Min(255f * plant.def.plant.topWindExposure, 255f);
 		}
 
-		// Token: 0x060036C2 RID: 14018 RVA: 0x001D3CF0 File Offset: 0x001D20F0
+		// Token: 0x060036C6 RID: 14022 RVA: 0x001D3E30 File Offset: 0x001D2230
 		public static void SetWindExposureColors(Color32[] colors, Plant plant)
 		{
 			colors[1].a = (colors[2].a = GenPlant.GetWindExposure(plant));
 			colors[0].a = (colors[3].a = 0);
 		}
 
-		// Token: 0x060036C3 RID: 14019 RVA: 0x001D3D3C File Offset: 0x001D213C
+		// Token: 0x060036C7 RID: 14023 RVA: 0x001D3E7C File Offset: 0x001D227C
 		public static float GetFallColorFactor(float latitude, int dayOfYear)
 		{
 			float a = GenCelestial.AverageGlow(latitude, dayOfYear);
@@ -296,7 +296,7 @@ namespace RimWorld
 			return GenMath.LerpDoubleClamped(GenPlant.FallColorBegin, GenPlant.FallColorEnd, 0f, 1f, x);
 		}
 
-		// Token: 0x060036C4 RID: 14020 RVA: 0x001D3D8C File Offset: 0x001D218C
+		// Token: 0x060036C8 RID: 14024 RVA: 0x001D3ECC File Offset: 0x001D22CC
 		public static void SetFallShaderGlobals(Map map)
 		{
 			if (GenPlant.FallIntensityOverride)
@@ -317,7 +317,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060036C5 RID: 14021 RVA: 0x001D3E74 File Offset: 0x001D2274
+		// Token: 0x060036C9 RID: 14025 RVA: 0x001D3FB4 File Offset: 0x001D23B4
 		public static void LogFallColorForYear()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

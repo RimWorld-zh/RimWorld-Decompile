@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B4C RID: 2892
+	// Token: 0x02000B4E RID: 2894
 	public class LogEntryDef : Def
 	{
 		// Token: 0x040029E2 RID: 10722
@@ -30,7 +30,7 @@ namespace Verse
 		[Unsaved]
 		public Texture2D iconDamagedFromInstigatorTex = null;
 
-		// Token: 0x06003F63 RID: 16227 RVA: 0x0021699B File Offset: 0x00214D9B
+		// Token: 0x06003F66 RID: 16230 RVA: 0x00216A77 File Offset: 0x00214E77
 		public override void PostLoad()
 		{
 			base.PostLoad();

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005B6 RID: 1462
+	// Token: 0x020005B8 RID: 1464
 	public static class SphereGenerator
 	{
 		// Token: 0x040010D9 RID: 4313
@@ -16,7 +16,7 @@ namespace RimWorld.Planet
 		// Token: 0x040010DB RID: 4315
 		private static Dictionary<long, int> middlePointsCache = new Dictionary<long, int>();
 
-		// Token: 0x06001C1D RID: 7197 RVA: 0x000F2168 File Offset: 0x000F0568
+		// Token: 0x06001C21 RID: 7201 RVA: 0x000F22B8 File Offset: 0x000F06B8
 		public static void Generate(int subdivisionsCount, float radius, Vector3 viewCenter, float viewAngle, out List<Vector3> outVerts, out List<int> outIndices)
 		{
 			SphereGenerator.middlePointsCache.Clear();
@@ -56,7 +56,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C1E RID: 7198 RVA: 0x000F2364 File Offset: 0x000F0764
+		// Token: 0x06001C22 RID: 7202 RVA: 0x000F24B4 File Offset: 0x000F08B4
 		private static int GetMiddlePoint(int p1, int p2, List<Vector3> verts, float radius)
 		{
 			long key = ((long)Mathf.Min(p1, p2) << 32) + (long)Mathf.Max(p1, p2);

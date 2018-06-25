@@ -3,13 +3,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000752 RID: 1874
+	// Token: 0x02000754 RID: 1876
 	public class CompProperties_TargetEffect_GoodwillImpact : CompProperties
 	{
 		// Token: 0x04001698 RID: 5784
 		public int goodwillImpact = -200;
 
-		// Token: 0x06002987 RID: 10631 RVA: 0x001614F1 File Offset: 0x0015F8F1
+		// Token: 0x0600298B RID: 10635 RVA: 0x00161641 File Offset: 0x0015FA41
 		public CompProperties_TargetEffect_GoodwillImpact()
 		{
 			this.compClass = typeof(CompTargetEffect_GoodwillImpact);

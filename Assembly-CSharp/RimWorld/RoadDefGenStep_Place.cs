@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020003F1 RID: 1009
+	// Token: 0x020003F3 RID: 1011
 	public class RoadDefGenStep_Place : RoadDefGenStep_Bulldoze
 	{
 		// Token: 0x04000A97 RID: 2711
@@ -18,7 +18,7 @@ namespace RimWorld
 		// Token: 0x04000A9A RID: 2714
 		public string suppressOnTerrainTag;
 
-		// Token: 0x06001165 RID: 4453 RVA: 0x00096CA8 File Offset: 0x000950A8
+		// Token: 0x06001169 RID: 4457 RVA: 0x00096DF8 File Offset: 0x000951F8
 		public override void Place(Map map, IntVec3 position, TerrainDef rockDef, IntVec3 origin, GenStep_Roads.DistanceElement[,] distance)
 		{
 			if (this.onlyIfOriginAllows)

@@ -7,7 +7,7 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x020004AD RID: 1197
+	// Token: 0x020004AF RID: 1199
 	public static class ResurrectionUtility
 	{
 		// Token: 0x04000C9D RID: 3229
@@ -49,7 +49,7 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x0600155D RID: 5469 RVA: 0x000BD9C8 File Offset: 0x000BBDC8
+		// Token: 0x06001561 RID: 5473 RVA: 0x000BDB18 File Offset: 0x000BBF18
 		public static void Resurrect(Pawn pawn)
 		{
 			if (!pawn.Dead)
@@ -113,7 +113,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600155E RID: 5470 RVA: 0x000BDBAC File Offset: 0x000BBFAC
+		// Token: 0x06001562 RID: 5474 RVA: 0x000BDCFC File Offset: 0x000BC0FC
 		public static void ResurrectWithSideEffects(Pawn pawn)
 		{
 			Corpse corpse = pawn.Corpse;

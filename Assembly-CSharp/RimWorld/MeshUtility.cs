@@ -6,16 +6,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200098C RID: 2444
+	// Token: 0x0200098E RID: 2446
 	public static class MeshUtility
 	{
-		// Token: 0x0400237C RID: 9084
+		// Token: 0x0400237D RID: 9085
 		private static List<int> offsets = new List<int>();
 
-		// Token: 0x0400237D RID: 9085
+		// Token: 0x0400237E RID: 9086
 		private static List<bool> vertIsUsed = new List<bool>();
 
-		// Token: 0x060036FD RID: 14077 RVA: 0x001D62B4 File Offset: 0x001D46B4
+		// Token: 0x06003701 RID: 14081 RVA: 0x001D63F4 File Offset: 0x001D47F4
 		public static void RemoveVertices(List<Vector3> verts, List<TriangleIndices> tris, Predicate<Vector3> predicate)
 		{
 			int i = 0;
@@ -33,7 +33,7 @@ namespace RimWorld
 			MeshUtility.RemoveUnusedVertices(verts, tris);
 		}
 
-		// Token: 0x060036FE RID: 14078 RVA: 0x001D6368 File Offset: 0x001D4768
+		// Token: 0x06003702 RID: 14082 RVA: 0x001D64A8 File Offset: 0x001D48A8
 		public static void RemoveUnusedVertices(List<Vector3> verts, List<TriangleIndices> tris)
 		{
 			MeshUtility.vertIsUsed.Clear();
@@ -78,13 +78,13 @@ namespace RimWorld
 			verts.RemoveAll((Vector3 elem, int index) => !MeshUtility.vertIsUsed[index]);
 		}
 
-		// Token: 0x060036FF RID: 14079 RVA: 0x001D64F8 File Offset: 0x001D48F8
+		// Token: 0x06003703 RID: 14083 RVA: 0x001D6638 File Offset: 0x001D4A38
 		public static bool Visible(Vector3 point, float radius, Vector3 viewCenter, float viewAngle)
 		{
 			return viewAngle >= 180f || Vector3.Angle(viewCenter * radius, point) <= viewAngle;
 		}
 
-		// Token: 0x06003700 RID: 14080 RVA: 0x001D6534 File Offset: 0x001D4934
+		// Token: 0x06003704 RID: 14084 RVA: 0x001D6674 File Offset: 0x001D4A74
 		public static bool VisibleForWorldgen(Vector3 point, float radius, Vector3 viewCenter, float viewAngle)
 		{
 			bool result;
@@ -104,7 +104,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003701 RID: 14081 RVA: 0x001D65A0 File Offset: 0x001D49A0
+		// Token: 0x06003705 RID: 14085 RVA: 0x001D66E0 File Offset: 0x001D4AE0
 		public static Color32 MutateAlpha(this Color32 input, byte newAlpha)
 		{
 			input.a = newAlpha;

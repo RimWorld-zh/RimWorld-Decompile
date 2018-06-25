@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002E4 RID: 740
+	// Token: 0x020002E6 RID: 742
 	public class ThoughtDef : Def
 	{
 		// Token: 0x040007AF RID: 1967
@@ -89,7 +89,7 @@ namespace RimWorld
 		private Texture2D iconInt;
 
 		// Token: 0x170001CB RID: 459
-		// (get) Token: 0x06000C30 RID: 3120 RVA: 0x0006C2A8 File Offset: 0x0006A6A8
+		// (get) Token: 0x06000C34 RID: 3124 RVA: 0x0006C3F8 File Offset: 0x0006A7F8
 		public string Label
 		{
 			get
@@ -120,7 +120,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001CC RID: 460
-		// (get) Token: 0x06000C31 RID: 3121 RVA: 0x0006C36C File Offset: 0x0006A76C
+		// (get) Token: 0x06000C35 RID: 3125 RVA: 0x0006C4BC File Offset: 0x0006A8BC
 		public int DurationTicks
 		{
 			get
@@ -130,7 +130,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001CD RID: 461
-		// (get) Token: 0x06000C32 RID: 3122 RVA: 0x0006C390 File Offset: 0x0006A790
+		// (get) Token: 0x06000C36 RID: 3126 RVA: 0x0006C4E0 File Offset: 0x0006A8E0
 		public bool IsMemory
 		{
 			get
@@ -140,7 +140,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001CE RID: 462
-		// (get) Token: 0x06000C33 RID: 3123 RVA: 0x0006C3D0 File Offset: 0x0006A7D0
+		// (get) Token: 0x06000C37 RID: 3127 RVA: 0x0006C520 File Offset: 0x0006A920
 		public bool IsSituational
 		{
 			get
@@ -150,7 +150,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001CF RID: 463
-		// (get) Token: 0x06000C34 RID: 3124 RVA: 0x0006C3F4 File Offset: 0x0006A7F4
+		// (get) Token: 0x06000C38 RID: 3128 RVA: 0x0006C544 File Offset: 0x0006A944
 		public bool IsSocial
 		{
 			get
@@ -160,7 +160,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001D0 RID: 464
-		// (get) Token: 0x06000C35 RID: 3125 RVA: 0x0006C420 File Offset: 0x0006A820
+		// (get) Token: 0x06000C39 RID: 3129 RVA: 0x0006C570 File Offset: 0x0006A970
 		public bool RequiresSpecificTraitsDegree
 		{
 			get
@@ -170,7 +170,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001D1 RID: 465
-		// (get) Token: 0x06000C36 RID: 3126 RVA: 0x0006C448 File Offset: 0x0006A848
+		// (get) Token: 0x06000C3A RID: 3130 RVA: 0x0006C598 File Offset: 0x0006A998
 		public ThoughtWorker Worker
 		{
 			get
@@ -185,7 +185,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001D2 RID: 466
-		// (get) Token: 0x06000C37 RID: 3127 RVA: 0x0006C4A0 File Offset: 0x0006A8A0
+		// (get) Token: 0x06000C3B RID: 3131 RVA: 0x0006C5F0 File Offset: 0x0006A9F0
 		public Type ThoughtClass
 		{
 			get
@@ -208,7 +208,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001D3 RID: 467
-		// (get) Token: 0x06000C38 RID: 3128 RVA: 0x0006C4F4 File Offset: 0x0006A8F4
+		// (get) Token: 0x06000C3C RID: 3132 RVA: 0x0006C644 File Offset: 0x0006AA44
 		public Texture2D Icon
 		{
 			get
@@ -225,7 +225,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C39 RID: 3129 RVA: 0x0006C548 File Offset: 0x0006A948
+		// Token: 0x06000C3D RID: 3133 RVA: 0x0006C698 File Offset: 0x0006AA98
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string error in this.<ConfigErrors>__BaseCallProxy0())
@@ -261,7 +261,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000C3A RID: 3130 RVA: 0x0006C574 File Offset: 0x0006A974
+		// Token: 0x06000C3E RID: 3134 RVA: 0x0006C6C4 File Offset: 0x0006AAC4
 		public static ThoughtDef Named(string defName)
 		{
 			return DefDatabase<ThoughtDef>.GetNamed(defName, true);

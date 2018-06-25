@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008E8 RID: 2280
+	// Token: 0x020008EA RID: 2282
 	public class WorldGlobalControls
 	{
 		// Token: 0x04001C67 RID: 7271
@@ -17,7 +17,7 @@ namespace RimWorld.Planet
 		// Token: 0x04001C69 RID: 7273
 		private WidgetRow rowVisibility = new WidgetRow();
 
-		// Token: 0x0600347F RID: 13439 RVA: 0x001C130C File Offset: 0x001BF70C
+		// Token: 0x06003483 RID: 13443 RVA: 0x001C144C File Offset: 0x001BF84C
 		public void WorldGlobalControlsOnGUI()
 		{
 			if (Event.current.type != EventType.Layout)

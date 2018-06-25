@@ -3,26 +3,26 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B78 RID: 2936
+	// Token: 0x02000B7A RID: 2938
 	public class ResolvedGrain_Clip : ResolvedGrain
 	{
 		// Token: 0x04002AED RID: 10989
 		public AudioClip clip;
 
-		// Token: 0x06004004 RID: 16388 RVA: 0x0021BA9C File Offset: 0x00219E9C
+		// Token: 0x06004007 RID: 16391 RVA: 0x0021BB78 File Offset: 0x00219F78
 		public ResolvedGrain_Clip(AudioClip clip)
 		{
 			this.clip = clip;
 			this.duration = clip.length;
 		}
 
-		// Token: 0x06004005 RID: 16389 RVA: 0x0021BAB8 File Offset: 0x00219EB8
+		// Token: 0x06004008 RID: 16392 RVA: 0x0021BB94 File Offset: 0x00219F94
 		public override string ToString()
 		{
 			return "Clip:" + this.clip.name;
 		}
 
-		// Token: 0x06004006 RID: 16390 RVA: 0x0021BAE4 File Offset: 0x00219EE4
+		// Token: 0x06004009 RID: 16393 RVA: 0x0021BBC0 File Offset: 0x00219FC0
 		public override bool Equals(object obj)
 		{
 			bool result;
@@ -38,7 +38,7 @@ namespace Verse.Sound
 			return result;
 		}
 
-		// Token: 0x06004007 RID: 16391 RVA: 0x0021BB2C File Offset: 0x00219F2C
+		// Token: 0x0600400A RID: 16394 RVA: 0x0021BC08 File Offset: 0x0021A008
 		public override int GetHashCode()
 		{
 			int result;

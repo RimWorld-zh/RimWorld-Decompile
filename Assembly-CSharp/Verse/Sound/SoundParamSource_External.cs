@@ -2,7 +2,7 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B84 RID: 2948
+	// Token: 0x02000B86 RID: 2950
 	public class SoundParamSource_External : SoundParamSource
 	{
 		// Token: 0x04002B14 RID: 11028
@@ -13,8 +13,8 @@ namespace Verse.Sound
 		[Description("If the code has never set this parameter on a sustainer, it will use this value.")]
 		private float defaultValue = 1f;
 
-		// Token: 0x170009C5 RID: 2501
-		// (get) Token: 0x0600402C RID: 16428 RVA: 0x0021CB40 File Offset: 0x0021AF40
+		// Token: 0x170009C4 RID: 2500
+		// (get) Token: 0x0600402F RID: 16431 RVA: 0x0021CC1C File Offset: 0x0021B01C
 		public override string Label
 		{
 			get
@@ -32,7 +32,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x0600402D RID: 16429 RVA: 0x0021CB7C File Offset: 0x0021AF7C
+		// Token: 0x06004030 RID: 16432 RVA: 0x0021CC58 File Offset: 0x0021B058
 		public override float ValueFor(Sample samp)
 		{
 			float num;

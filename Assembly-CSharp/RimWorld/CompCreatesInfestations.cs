@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000706 RID: 1798
+	// Token: 0x02000708 RID: 1800
 	public class CompCreatesInfestations : ThingComp
 	{
 		// Token: 0x040015C5 RID: 5573
@@ -17,7 +17,7 @@ namespace RimWorld
 		private const float PreventInfestationsDist = 10f;
 
 		// Token: 0x170005EC RID: 1516
-		// (get) Token: 0x06002769 RID: 10089 RVA: 0x00152754 File Offset: 0x00150B54
+		// (get) Token: 0x0600276D RID: 10093 RVA: 0x001528A4 File Offset: 0x00150CA4
 		public bool CanCreateInfestationNow
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005ED RID: 1517
-		// (get) Token: 0x0600276A RID: 10090 RVA: 0x001527B4 File Offset: 0x00150BB4
+		// (get) Token: 0x0600276E RID: 10094 RVA: 0x00152904 File Offset: 0x00150D04
 		public bool CantFireBecauseCreatedInfestationRecently
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005EE RID: 1518
-		// (get) Token: 0x0600276B RID: 10091 RVA: 0x001527E4 File Offset: 0x00150BE4
+		// (get) Token: 0x0600276F RID: 10095 RVA: 0x00152934 File Offset: 0x00150D34
 		public bool CantFireBecauseSomethingElseCreatedInfestationRecently
 		{
 			get
@@ -67,13 +67,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600276C RID: 10092 RVA: 0x001528A0 File Offset: 0x00150CA0
+		// Token: 0x06002770 RID: 10096 RVA: 0x001529F0 File Offset: 0x00150DF0
 		public override void PostExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.lastCreatedInfestationTick, "lastCreatedInfestationTick", -999999, false);
 		}
 
-		// Token: 0x0600276D RID: 10093 RVA: 0x001528B9 File Offset: 0x00150CB9
+		// Token: 0x06002771 RID: 10097 RVA: 0x00152A09 File Offset: 0x00150E09
 		public void Notify_CreatedInfestation()
 		{
 			this.lastCreatedInfestationTick = Find.TickManager.TicksGame;

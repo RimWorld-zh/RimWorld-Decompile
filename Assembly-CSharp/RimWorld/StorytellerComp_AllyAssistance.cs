@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200035F RID: 863
+	// Token: 0x02000361 RID: 865
 	public class StorytellerComp_AllyAssistance : StorytellerComp
 	{
 		// Token: 0x1700021A RID: 538
-		// (get) Token: 0x06000F13 RID: 3859 RVA: 0x0007F5D8 File Offset: 0x0007D9D8
+		// (get) Token: 0x06000F17 RID: 3863 RVA: 0x0007F728 File Offset: 0x0007DB28
 		private StorytellerCompProperties_AllyAssistance Props
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F14 RID: 3860 RVA: 0x0007F5F8 File Offset: 0x0007D9F8
+		// Token: 0x06000F18 RID: 3864 RVA: 0x0007F748 File Offset: 0x0007DB48
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			Map map = target as Map;

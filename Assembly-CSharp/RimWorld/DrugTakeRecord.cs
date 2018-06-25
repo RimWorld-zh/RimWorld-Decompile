@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004E7 RID: 1255
+	// Token: 0x020004E9 RID: 1257
 	public class DrugTakeRecord : IExposable
 	{
 		// Token: 0x04000D1A RID: 3354
@@ -19,7 +19,7 @@ namespace RimWorld
 		private int thisDay;
 
 		// Token: 0x170002EF RID: 751
-		// (get) Token: 0x0600166F RID: 5743 RVA: 0x000C7120 File Offset: 0x000C5520
+		// (get) Token: 0x06001673 RID: 5747 RVA: 0x000C7270 File Offset: 0x000C5670
 		public int LastTakenDays
 		{
 			get
@@ -29,8 +29,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002F0 RID: 752
-		// (get) Token: 0x06001670 RID: 5744 RVA: 0x000C7140 File Offset: 0x000C5540
-		// (set) Token: 0x06001671 RID: 5745 RVA: 0x000C7172 File Offset: 0x000C5572
+		// (get) Token: 0x06001674 RID: 5748 RVA: 0x000C7290 File Offset: 0x000C5690
+		// (set) Token: 0x06001675 RID: 5749 RVA: 0x000C72C2 File Offset: 0x000C56C2
 		public int TimesTakenThisDay
 		{
 			get
@@ -53,7 +53,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001672 RID: 5746 RVA: 0x000C7188 File Offset: 0x000C5588
+		// Token: 0x06001676 RID: 5750 RVA: 0x000C72D8 File Offset: 0x000C56D8
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<ThingDef>(ref this.drug, "drug");

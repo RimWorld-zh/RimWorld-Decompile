@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000344 RID: 836
+	// Token: 0x02000346 RID: 838
 	public class IncidentWorker_WildManWandersIn : IncidentWorker
 	{
-		// Token: 0x06000E48 RID: 3656 RVA: 0x000793F0 File Offset: 0x000777F0
+		// Token: 0x06000E4C RID: 3660 RVA: 0x00079540 File Offset: 0x00077940
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -28,7 +28,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E49 RID: 3657 RVA: 0x0007947C File Offset: 0x0007787C
+		// Token: 0x06000E4D RID: 3661 RVA: 0x000795CC File Offset: 0x000779CC
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -57,13 +57,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E4A RID: 3658 RVA: 0x00079550 File Offset: 0x00077950
+		// Token: 0x06000E4E RID: 3662 RVA: 0x000796A0 File Offset: 0x00077AA0
 		private bool TryFindEntryCell(Map map, out IntVec3 cell)
 		{
 			return CellFinder.TryFindRandomEdgeCellWith((IntVec3 c) => map.reachability.CanReachColony(c), map, CellFinder.EdgeRoadChance_Ignore, out cell);
 		}
 
-		// Token: 0x06000E4B RID: 3659 RVA: 0x00079590 File Offset: 0x00077990
+		// Token: 0x06000E4F RID: 3663 RVA: 0x000796E0 File Offset: 0x00077AE0
 		private bool TryFindFormerFaction(out Faction formerFaction)
 		{
 			return Find.FactionManager.TryGetRandomNonColonyHumanlikeFaction(out formerFaction, false, true, TechLevel.Undefined);

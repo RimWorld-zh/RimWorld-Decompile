@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000EC1 RID: 3777
+	// Token: 0x02000EC3 RID: 3779
 	public class DiaNodeList
 	{
 		// Token: 0x04003BA8 RID: 15272
@@ -15,7 +15,7 @@ namespace Verse
 		// Token: 0x04003BAA RID: 15274
 		public List<string> NodeNames = new List<string>();
 
-		// Token: 0x06005963 RID: 22883 RVA: 0x002DD248 File Offset: 0x002DB648
+		// Token: 0x06005966 RID: 22886 RVA: 0x002DD368 File Offset: 0x002DB768
 		public DiaNodeMold RandomNodeFromList()
 		{
 			List<DiaNodeMold> list = this.Nodes.ListFullCopy<DiaNodeMold>();

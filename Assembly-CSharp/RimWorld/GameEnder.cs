@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002F1 RID: 753
+	// Token: 0x020002F3 RID: 755
 	public sealed class GameEnder : IExposable
 	{
 		// Token: 0x0400082D RID: 2093
@@ -17,14 +17,14 @@ namespace RimWorld
 		// Token: 0x0400082F RID: 2095
 		private const int GameEndCountdownDuration = 400;
 
-		// Token: 0x06000C7A RID: 3194 RVA: 0x0006EDA7 File Offset: 0x0006D1A7
+		// Token: 0x06000C7E RID: 3198 RVA: 0x0006EEF7 File Offset: 0x0006D2F7
 		public void ExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.gameEnding, "gameEnding", false, false);
 			Scribe_Values.Look<int>(ref this.ticksToGameOver, "ticksToGameOver", -1, false);
 		}
 
-		// Token: 0x06000C7B RID: 3195 RVA: 0x0006EDD0 File Offset: 0x0006D1D0
+		// Token: 0x06000C7F RID: 3199 RVA: 0x0006EF20 File Offset: 0x0006D320
 		public void CheckOrUpdateGameOver()
 		{
 			if (Find.TickManager.TicksGame >= 300)
@@ -80,7 +80,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C7C RID: 3196 RVA: 0x0006EF89 File Offset: 0x0006D389
+		// Token: 0x06000C80 RID: 3200 RVA: 0x0006F0D9 File Offset: 0x0006D4D9
 		public void GameEndTick()
 		{
 			if (this.gameEnding)
@@ -93,7 +93,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C7D RID: 3197 RVA: 0x0006EFC4 File Offset: 0x0006D3C4
+		// Token: 0x06000C81 RID: 3201 RVA: 0x0006F114 File Offset: 0x0006D514
 		private bool IsPlayerControlledWithFreeColonist(Caravan caravan)
 		{
 			bool result;

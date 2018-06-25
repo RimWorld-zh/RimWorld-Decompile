@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000B39 RID: 2873
+	// Token: 0x02000B3B RID: 2875
 	public enum MoteSpawnLocType : byte
 	{
 		// Token: 0x0400294E RID: 10574

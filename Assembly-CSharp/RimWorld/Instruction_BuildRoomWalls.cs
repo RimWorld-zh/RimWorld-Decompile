@@ -5,15 +5,15 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008BA RID: 2234
+	// Token: 0x020008BC RID: 2236
 	public class Instruction_BuildRoomWalls : Lesson_Instruction
 	{
 		// Token: 0x04001B8E RID: 7054
 		private List<IntVec3> cachedEdgeCells = new List<IntVec3>();
 
 		// Token: 0x17000822 RID: 2082
-		// (get) Token: 0x0600331C RID: 13084 RVA: 0x001B8128 File Offset: 0x001B6528
-		// (set) Token: 0x0600331D RID: 13085 RVA: 0x001B8147 File Offset: 0x001B6547
+		// (get) Token: 0x06003320 RID: 13088 RVA: 0x001B8268 File Offset: 0x001B6668
+		// (set) Token: 0x06003321 RID: 13089 RVA: 0x001B8287 File Offset: 0x001B6687
 		private CellRect RoomRect
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000823 RID: 2083
-		// (get) Token: 0x0600331E RID: 13086 RVA: 0x001B8158 File Offset: 0x001B6558
+		// (get) Token: 0x06003322 RID: 13090 RVA: 0x001B8298 File Offset: 0x001B6698
 		protected override float ProgressPercent
 		{
 			get
@@ -46,21 +46,21 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600331F RID: 13087 RVA: 0x001B81E8 File Offset: 0x001B65E8
+		// Token: 0x06003323 RID: 13091 RVA: 0x001B8328 File Offset: 0x001B6728
 		public override void OnActivated()
 		{
 			base.OnActivated();
 			this.RoomRect = TutorUtility.FindUsableRect(12, 8, base.Map, 0f, false);
 		}
 
-		// Token: 0x06003320 RID: 13088 RVA: 0x001B820B File Offset: 0x001B660B
+		// Token: 0x06003324 RID: 13092 RVA: 0x001B834B File Offset: 0x001B674B
 		public override void LessonOnGUI()
 		{
 			TutorUtility.DrawCellRectOnGUI(this.RoomRect, this.def.onMapInstruction);
 			base.LessonOnGUI();
 		}
 
-		// Token: 0x06003321 RID: 13089 RVA: 0x001B822C File Offset: 0x001B662C
+		// Token: 0x06003325 RID: 13093 RVA: 0x001B836C File Offset: 0x001B676C
 		public override void LessonUpdate()
 		{
 			this.cachedEdgeCells.Clear();
@@ -77,7 +77,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003322 RID: 13090 RVA: 0x001B82C4 File Offset: 0x001B66C4
+		// Token: 0x06003326 RID: 13094 RVA: 0x001B8404 File Offset: 0x001B6804
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
 			AcceptanceReport result;

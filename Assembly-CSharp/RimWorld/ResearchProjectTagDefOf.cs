@@ -3,14 +3,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000965 RID: 2405
+	// Token: 0x02000967 RID: 2407
 	[DefOf]
 	public static class ResearchProjectTagDefOf
 	{
-		// Token: 0x040022F2 RID: 8946
+		// Token: 0x040022F3 RID: 8947
 		public static ResearchProjectTagDef ShipRelated;
 
-		// Token: 0x0600366D RID: 13933 RVA: 0x001D0E67 File Offset: 0x001CF267
+		// Token: 0x06003671 RID: 13937 RVA: 0x001D0FA7 File Offset: 0x001CF3A7
 		static ResearchProjectTagDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ResearchProjectTagDefOf));

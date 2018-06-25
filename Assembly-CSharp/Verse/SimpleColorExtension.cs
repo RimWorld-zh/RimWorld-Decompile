@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F38 RID: 3896
+	// Token: 0x02000F3C RID: 3900
 	public static class SimpleColorExtension
 	{
-		// Token: 0x06005DEA RID: 24042 RVA: 0x002FC370 File Offset: 0x002FA770
+		// Token: 0x06005DF4 RID: 24052 RVA: 0x002FC9F0 File Offset: 0x002FADF0
 		public static Color ToUnityColor(this SimpleColor color)
 		{
 			Color result;

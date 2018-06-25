@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000845 RID: 2117
+	// Token: 0x02000847 RID: 2119
 	public abstract class ITab : InspectTabBase
 	{
 		// Token: 0x170007A0 RID: 1952
-		// (get) Token: 0x06002FF6 RID: 12278 RVA: 0x001A15E0 File Offset: 0x0019F9E0
+		// (get) Token: 0x06002FFA RID: 12282 RVA: 0x001A1730 File Offset: 0x0019FB30
 		protected object SelObject
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007A1 RID: 1953
-		// (get) Token: 0x06002FF7 RID: 12279 RVA: 0x001A1600 File Offset: 0x0019FA00
+		// (get) Token: 0x06002FFB RID: 12283 RVA: 0x001A1750 File Offset: 0x0019FB50
 		protected Thing SelThing
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007A2 RID: 1954
-		// (get) Token: 0x06002FF8 RID: 12280 RVA: 0x001A1620 File Offset: 0x0019FA20
+		// (get) Token: 0x06002FFC RID: 12284 RVA: 0x001A1770 File Offset: 0x0019FB70
 		protected Pawn SelPawn
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007A3 RID: 1955
-		// (get) Token: 0x06002FF9 RID: 12281 RVA: 0x001A1640 File Offset: 0x0019FA40
+		// (get) Token: 0x06002FFD RID: 12285 RVA: 0x001A1790 File Offset: 0x0019FB90
 		private MainTabWindow_Inspect InspectPane
 		{
 			get
@@ -48,7 +48,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007A4 RID: 1956
-		// (get) Token: 0x06002FFA RID: 12282 RVA: 0x001A1664 File Offset: 0x0019FA64
+		// (get) Token: 0x06002FFE RID: 12286 RVA: 0x001A17B4 File Offset: 0x0019FBB4
 		protected override bool StillValid
 		{
 			get
@@ -58,7 +58,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007A5 RID: 1957
-		// (get) Token: 0x06002FFB RID: 12283 RVA: 0x001A16B0 File Offset: 0x0019FAB0
+		// (get) Token: 0x06002FFF RID: 12287 RVA: 0x001A1800 File Offset: 0x0019FC00
 		protected override float PaneTopY
 		{
 			get
@@ -67,7 +67,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FFC RID: 12284 RVA: 0x001A16D0 File Offset: 0x0019FAD0
+		// Token: 0x06003000 RID: 12288 RVA: 0x001A1820 File Offset: 0x0019FC20
 		protected override void CloseTab()
 		{
 			this.InspectPane.CloseOpenTab();

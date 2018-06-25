@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008A2 RID: 2210
+	// Token: 0x020008A4 RID: 2212
 	[StaticConstructorOnStartup]
 	public static class TexCommand
 	{

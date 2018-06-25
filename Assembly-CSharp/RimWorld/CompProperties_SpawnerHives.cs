@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000739 RID: 1849
+	// Token: 0x0200073B RID: 1851
 	public class CompProperties_SpawnerHives : CompProperties
 	{
 		// Token: 0x0400165E RID: 5726
@@ -15,7 +15,7 @@ namespace RimWorld
 		// Token: 0x04001660 RID: 5728
 		public FloatRange HiveSpawnIntervalDays = new FloatRange(1.6f, 2.1f);
 
-		// Token: 0x060028E0 RID: 10464 RVA: 0x0015CC9C File Offset: 0x0015B09C
+		// Token: 0x060028E4 RID: 10468 RVA: 0x0015CDEC File Offset: 0x0015B1EC
 		public CompProperties_SpawnerHives()
 		{
 			this.compClass = typeof(CompSpawnerHives);

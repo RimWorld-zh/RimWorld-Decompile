@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000B51 RID: 2897
+	// Token: 0x02000B53 RID: 2899
 	public enum MentalStateCategory
 	{
 		// Token: 0x040029FD RID: 10749

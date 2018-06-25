@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000E48 RID: 3656
+	// Token: 0x02000E4A RID: 3658
 	[AttributeUsage(AttributeTargets.Class, Inherited = true)]
 	public class EditorShowClassNameAttribute : Attribute
 	{

@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006CF RID: 1743
+	// Token: 0x020006D1 RID: 1745
 	public static class MoteMaker
 	{
 		// Token: 0x0400151A RID: 5402
@@ -17,7 +17,7 @@ namespace RimWorld
 			new IntVec3(1, 0, 1)
 		};
 
-		// Token: 0x060025BF RID: 9663 RVA: 0x00143774 File Offset: 0x00141B74
+		// Token: 0x060025C3 RID: 9667 RVA: 0x001438C4 File Offset: 0x00141CC4
 		public static Mote ThrowMetaIcon(IntVec3 cell, Map map, ThingDef moteDef)
 		{
 			Mote result;
@@ -40,13 +40,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060025C0 RID: 9664 RVA: 0x0014385A File Offset: 0x00141C5A
+		// Token: 0x060025C4 RID: 9668 RVA: 0x001439AA File Offset: 0x00141DAA
 		public static void MakeStaticMote(IntVec3 cell, Map map, ThingDef moteDef, float scale = 1f)
 		{
 			MoteMaker.MakeStaticMote(cell.ToVector3Shifted(), map, moteDef, scale);
 		}
 
-		// Token: 0x060025C1 RID: 9665 RVA: 0x00143870 File Offset: 0x00141C70
+		// Token: 0x060025C5 RID: 9669 RVA: 0x001439C0 File Offset: 0x00141DC0
 		public static Mote MakeStaticMote(Vector3 loc, Map map, ThingDef moteDef, float scale = 1f)
 		{
 			Mote result;
@@ -65,13 +65,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060025C2 RID: 9666 RVA: 0x001438D3 File Offset: 0x00141CD3
+		// Token: 0x060025C6 RID: 9670 RVA: 0x00143A23 File Offset: 0x00141E23
 		public static void ThrowText(Vector3 loc, Map map, string text, float timeBeforeStartFadeout = -1f)
 		{
 			MoteMaker.ThrowText(loc, map, text, Color.white, timeBeforeStartFadeout);
 		}
 
-		// Token: 0x060025C3 RID: 9667 RVA: 0x001438E4 File Offset: 0x00141CE4
+		// Token: 0x060025C7 RID: 9671 RVA: 0x00143A34 File Offset: 0x00141E34
 		public static void ThrowText(Vector3 loc, Map map, string text, Color color, float timeBeforeStartFadeout = -1f)
 		{
 			IntVec3 intVec = loc.ToIntVec3();
@@ -90,7 +90,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025C4 RID: 9668 RVA: 0x0014396C File Offset: 0x00141D6C
+		// Token: 0x060025C8 RID: 9672 RVA: 0x00143ABC File Offset: 0x00141EBC
 		public static void ThrowMetaPuffs(CellRect rect, Map map)
 		{
 			if (!Find.TickManager.Paused)
@@ -105,7 +105,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025C5 RID: 9669 RVA: 0x001439E0 File Offset: 0x00141DE0
+		// Token: 0x060025C9 RID: 9673 RVA: 0x00143B30 File Offset: 0x00141F30
 		public static void ThrowMetaPuffs(TargetInfo targ)
 		{
 			Vector3 a = (!targ.HasThing) ? targ.Cell.ToVector3Shifted() : targ.Thing.TrueCenter();
@@ -117,7 +117,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025C6 RID: 9670 RVA: 0x00143A78 File Offset: 0x00141E78
+		// Token: 0x060025CA RID: 9674 RVA: 0x00143BC8 File Offset: 0x00141FC8
 		public static void ThrowMetaPuff(Vector3 loc, Map map)
 		{
 			if (loc.ShouldSpawnMotesAt(map))
@@ -131,7 +131,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025C7 RID: 9671 RVA: 0x00143AFC File Offset: 0x00141EFC
+		// Token: 0x060025CB RID: 9675 RVA: 0x00143C4C File Offset: 0x0014204C
 		private static MoteThrown NewBaseAirPuff()
 		{
 			MoteThrown moteThrown = (MoteThrown)ThingMaker.MakeThing(ThingDefOf.Mote_AirPuff, null);
@@ -140,7 +140,7 @@ namespace RimWorld
 			return moteThrown;
 		}
 
-		// Token: 0x060025C8 RID: 9672 RVA: 0x00143B44 File Offset: 0x00141F44
+		// Token: 0x060025CC RID: 9676 RVA: 0x00143C94 File Offset: 0x00142094
 		public static void ThrowAirPuffUp(Vector3 loc, Map map)
 		{
 			if (loc.ToIntVec3().ShouldSpawnMotesAt(map) && !map.moteCounter.SaturatedLowPriority)
@@ -153,7 +153,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025C9 RID: 9673 RVA: 0x00143BEC File Offset: 0x00141FEC
+		// Token: 0x060025CD RID: 9677 RVA: 0x00143D3C File Offset: 0x0014213C
 		internal static void ThrowBreathPuff(Vector3 loc, Map map, float throwAngle, Vector3 inheritVelocity)
 		{
 			if (loc.ToIntVec3().ShouldSpawnMotesAt(map) && !map.moteCounter.SaturatedLowPriority)
@@ -168,14 +168,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025CA RID: 9674 RVA: 0x00143CC8 File Offset: 0x001420C8
+		// Token: 0x060025CE RID: 9678 RVA: 0x00143E18 File Offset: 0x00142218
 		public static void ThrowDustPuff(IntVec3 cell, Map map, float scale)
 		{
 			Vector3 loc = cell.ToVector3() + new Vector3(Rand.Value, 0f, Rand.Value);
 			MoteMaker.ThrowDustPuff(loc, map, scale);
 		}
 
-		// Token: 0x060025CB RID: 9675 RVA: 0x00143D00 File Offset: 0x00142100
+		// Token: 0x060025CF RID: 9679 RVA: 0x00143E50 File Offset: 0x00142250
 		public static void ThrowDustPuff(Vector3 loc, Map map, float scale)
 		{
 			if (loc.ShouldSpawnMotesAt(map) && !map.moteCounter.SaturatedLowPriority)
@@ -189,7 +189,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025CC RID: 9676 RVA: 0x00143D94 File Offset: 0x00142194
+		// Token: 0x060025D0 RID: 9680 RVA: 0x00143EE4 File Offset: 0x001422E4
 		public static void ThrowDustPuffThick(Vector3 loc, Map map, float scale, Color color)
 		{
 			if (loc.ShouldSpawnMotesAt(map) && !map.moteCounter.SaturatedLowPriority)
@@ -204,7 +204,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025CD RID: 9677 RVA: 0x00143E2C File Offset: 0x0014222C
+		// Token: 0x060025D1 RID: 9681 RVA: 0x00143F7C File Offset: 0x0014237C
 		public static void ThrowTornadoDustPuff(Vector3 loc, Map map, float scale, Color color)
 		{
 			if (loc.ShouldSpawnMotesAt(map) && !map.moteCounter.SaturatedLowPriority)
@@ -219,7 +219,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025CE RID: 9678 RVA: 0x00143EC8 File Offset: 0x001422C8
+		// Token: 0x060025D2 RID: 9682 RVA: 0x00144018 File Offset: 0x00142418
 		public static void ThrowSmoke(Vector3 loc, Map map, float size)
 		{
 			if (loc.ShouldSpawnMotesAt(map) && !map.moteCounter.SaturatedLowPriority)
@@ -233,7 +233,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025CF RID: 9679 RVA: 0x00143F6C File Offset: 0x0014236C
+		// Token: 0x060025D3 RID: 9683 RVA: 0x001440BC File Offset: 0x001424BC
 		public static void ThrowFireGlow(IntVec3 c, Map map, float size)
 		{
 			Vector3 vector = c.ToVector3Shifted();
@@ -252,7 +252,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025D0 RID: 9680 RVA: 0x0014404C File Offset: 0x0014244C
+		// Token: 0x060025D4 RID: 9684 RVA: 0x0014419C File Offset: 0x0014259C
 		public static void ThrowHeatGlow(IntVec3 c, Map map, float size)
 		{
 			Vector3 vector = c.ToVector3Shifted();
@@ -271,7 +271,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025D1 RID: 9681 RVA: 0x0014412C File Offset: 0x0014252C
+		// Token: 0x060025D5 RID: 9685 RVA: 0x0014427C File Offset: 0x0014267C
 		public static void ThrowMicroSparks(Vector3 loc, Map map)
 		{
 			if (loc.ShouldSpawnMotesAt(map) && !map.moteCounter.SaturatedLowPriority)
@@ -287,7 +287,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025D2 RID: 9682 RVA: 0x0014420C File Offset: 0x0014260C
+		// Token: 0x060025D6 RID: 9686 RVA: 0x0014435C File Offset: 0x0014275C
 		public static void ThrowLightningGlow(Vector3 loc, Map map, float size)
 		{
 			if (loc.ShouldSpawnMotesAt(map) && !map.moteCounter.SaturatedLowPriority)
@@ -301,7 +301,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025D3 RID: 9683 RVA: 0x001442D0 File Offset: 0x001426D0
+		// Token: 0x060025D7 RID: 9687 RVA: 0x00144420 File Offset: 0x00142820
 		public static void PlaceFootprint(Vector3 loc, Map map, float rot)
 		{
 			if (loc.ShouldSpawnMotesAt(map) && !map.moteCounter.SaturatedLowPriority)
@@ -314,19 +314,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025D4 RID: 9684 RVA: 0x00144338 File Offset: 0x00142738
+		// Token: 0x060025D8 RID: 9688 RVA: 0x00144488 File Offset: 0x00142888
 		public static void ThrowHorseshoe(Pawn thrower, IntVec3 targetCell)
 		{
 			MoteMaker.ThrowObjectAt(thrower, targetCell, ThingDefOf.Mote_Horseshoe);
 		}
 
-		// Token: 0x060025D5 RID: 9685 RVA: 0x00144347 File Offset: 0x00142747
+		// Token: 0x060025D9 RID: 9689 RVA: 0x00144497 File Offset: 0x00142897
 		public static void ThrowStone(Pawn thrower, IntVec3 targetCell)
 		{
 			MoteMaker.ThrowObjectAt(thrower, targetCell, ThingDefOf.Mote_Stone);
 		}
 
-		// Token: 0x060025D6 RID: 9686 RVA: 0x00144358 File Offset: 0x00142758
+		// Token: 0x060025DA RID: 9690 RVA: 0x001444A8 File Offset: 0x001428A8
 		private static void ThrowObjectAt(Pawn thrower, IntVec3 targetCell, ThingDef mote)
 		{
 			if (thrower.Position.ShouldSpawnMotesAt(thrower.Map) && !thrower.Map.moteCounter.Saturated)
@@ -344,7 +344,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025D7 RID: 9687 RVA: 0x0014447C File Offset: 0x0014287C
+		// Token: 0x060025DB RID: 9691 RVA: 0x001445CC File Offset: 0x001429CC
 		public static Mote MakeStunOverlay(Thing stunnedThing)
 		{
 			Mote mote = (Mote)ThingMaker.MakeThing(ThingDefOf.Mote_Stun, null);
@@ -353,7 +353,7 @@ namespace RimWorld
 			return mote;
 		}
 
-		// Token: 0x060025D8 RID: 9688 RVA: 0x001444C4 File Offset: 0x001428C4
+		// Token: 0x060025DC RID: 9692 RVA: 0x00144614 File Offset: 0x00142A14
 		public static MoteDualAttached MakeInteractionOverlay(ThingDef moteDef, TargetInfo A, TargetInfo B)
 		{
 			MoteDualAttached moteDualAttached = (MoteDualAttached)ThingMaker.MakeThing(moteDef, null);
@@ -363,7 +363,7 @@ namespace RimWorld
 			return moteDualAttached;
 		}
 
-		// Token: 0x060025D9 RID: 9689 RVA: 0x00144520 File Offset: 0x00142920
+		// Token: 0x060025DD RID: 9693 RVA: 0x00144670 File Offset: 0x00142A70
 		public static void MakeColonistActionOverlay(Pawn pawn, ThingDef moteDef)
 		{
 			MoteThrownAttached moteThrownAttached = (MoteThrownAttached)ThingMaker.MakeThing(moteDef, null);
@@ -373,7 +373,7 @@ namespace RimWorld
 			GenSpawn.Spawn(moteThrownAttached, pawn.Position, pawn.Map, WipeMode.Vanish);
 		}
 
-		// Token: 0x060025DA RID: 9690 RVA: 0x00144580 File Offset: 0x00142980
+		// Token: 0x060025DE RID: 9694 RVA: 0x001446D0 File Offset: 0x00142AD0
 		private static MoteBubble ExistingMoteBubbleOn(Pawn pawn)
 		{
 			MoteBubble result;
@@ -405,7 +405,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060025DB RID: 9691 RVA: 0x00144688 File Offset: 0x00142A88
+		// Token: 0x060025DF RID: 9695 RVA: 0x001447D8 File Offset: 0x00142BD8
 		public static MoteBubble MakeMoodThoughtBubble(Pawn pawn, Thought thought)
 		{
 			MoteBubble result;
@@ -449,7 +449,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060025DC RID: 9692 RVA: 0x00144784 File Offset: 0x00142B84
+		// Token: 0x060025E0 RID: 9696 RVA: 0x001448D4 File Offset: 0x00142CD4
 		public static MoteBubble MakeInteractionBubble(Pawn initiator, Pawn recipient, ThingDef interactionMote, Texture2D symbol)
 		{
 			MoteBubble moteBubble = MoteMaker.ExistingMoteBubbleOn(initiator);
@@ -471,7 +471,7 @@ namespace RimWorld
 			return moteBubble2;
 		}
 
-		// Token: 0x060025DD RID: 9693 RVA: 0x0014481C File Offset: 0x00142C1C
+		// Token: 0x060025E1 RID: 9697 RVA: 0x0014496C File Offset: 0x00142D6C
 		public static void ThrowExplosionCell(IntVec3 cell, Map map, ThingDef moteDef, Color color)
 		{
 			if (cell.ShouldSpawnMotesAt(map))
@@ -488,7 +488,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025DE RID: 9694 RVA: 0x00144894 File Offset: 0x00142C94
+		// Token: 0x060025E2 RID: 9698 RVA: 0x001449E4 File Offset: 0x00142DE4
 		public static void ThrowExplosionInteriorMote(Vector3 loc, Map map, ThingDef moteDef)
 		{
 			if (loc.ShouldSpawnMotesAt(map) && !map.moteCounter.SaturatedLowPriority)
@@ -502,7 +502,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025DF RID: 9695 RVA: 0x00144934 File Offset: 0x00142D34
+		// Token: 0x060025E3 RID: 9699 RVA: 0x00144A84 File Offset: 0x00142E84
 		public static void MakeWaterSplash(Vector3 loc, Map map, float size, float velocity)
 		{
 			if (loc.ShouldSpawnMotesAt(map) && !map.moteCounter.SaturatedLowPriority)
@@ -513,7 +513,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025E0 RID: 9696 RVA: 0x0014498C File Offset: 0x00142D8C
+		// Token: 0x060025E4 RID: 9700 RVA: 0x00144ADC File Offset: 0x00142EDC
 		public static void MakeBombardmentMote(IntVec3 cell, Map map)
 		{
 			Mote mote = (Mote)ThingMaker.MakeThing(ThingDefOf.Mote_Bombardment, null);
@@ -523,7 +523,7 @@ namespace RimWorld
 			GenSpawn.Spawn(mote, cell, map, WipeMode.Vanish);
 		}
 
-		// Token: 0x060025E1 RID: 9697 RVA: 0x001449E4 File Offset: 0x00142DE4
+		// Token: 0x060025E5 RID: 9701 RVA: 0x00144B34 File Offset: 0x00142F34
 		public static void MakePowerBeamMote(IntVec3 cell, Map map)
 		{
 			Mote mote = (Mote)ThingMaker.MakeThing(ThingDefOf.Mote_PowerBeam, null);
@@ -533,7 +533,7 @@ namespace RimWorld
 			GenSpawn.Spawn(mote, cell, map, WipeMode.Vanish);
 		}
 
-		// Token: 0x060025E2 RID: 9698 RVA: 0x00144A30 File Offset: 0x00142E30
+		// Token: 0x060025E6 RID: 9702 RVA: 0x00144B80 File Offset: 0x00142F80
 		public static void PlaceTempRoof(IntVec3 cell, Map map)
 		{
 			if (cell.ShouldSpawnMotesAt(map))

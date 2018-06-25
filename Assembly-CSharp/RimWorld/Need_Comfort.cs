@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004F5 RID: 1269
+	// Token: 0x020004F7 RID: 1271
 	public class Need_Comfort : Need_Seeker
 	{
 		// Token: 0x04000D61 RID: 3425
@@ -32,7 +32,7 @@ namespace RimWorld
 		// Token: 0x04000D68 RID: 3432
 		public const int ComfortUseInterval = 10;
 
-		// Token: 0x060016D6 RID: 5846 RVA: 0x000CA1C0 File Offset: 0x000C85C0
+		// Token: 0x060016DA RID: 5850 RVA: 0x000CA310 File Offset: 0x000C8710
 		public Need_Comfort(Pawn pawn) : base(pawn)
 		{
 			this.threshPercents = new List<float>();
@@ -44,7 +44,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700030E RID: 782
-		// (get) Token: 0x060016D7 RID: 5847 RVA: 0x000CA230 File Offset: 0x000C8630
+		// (get) Token: 0x060016DB RID: 5851 RVA: 0x000CA380 File Offset: 0x000C8780
 		public override float CurInstantLevel
 		{
 			get
@@ -67,7 +67,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700030F RID: 783
-		// (get) Token: 0x060016D8 RID: 5848 RVA: 0x000CA290 File Offset: 0x000C8690
+		// (get) Token: 0x060016DC RID: 5852 RVA: 0x000CA3E0 File Offset: 0x000C87E0
 		public ComfortCategory CurCategory
 		{
 			get
@@ -101,7 +101,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060016D9 RID: 5849 RVA: 0x000CA319 File Offset: 0x000C8719
+		// Token: 0x060016DD RID: 5853 RVA: 0x000CA469 File Offset: 0x000C8869
 		public void ComfortUsed(float comfort)
 		{
 			this.lastComfortUsed = comfort;

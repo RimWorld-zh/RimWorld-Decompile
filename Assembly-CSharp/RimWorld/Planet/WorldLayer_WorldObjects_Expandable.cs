@@ -2,11 +2,11 @@
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200059A RID: 1434
+	// Token: 0x0200059C RID: 1436
 	public class WorldLayer_WorldObjects_Expandable : WorldLayer_WorldObjects
 	{
 		// Token: 0x17000408 RID: 1032
-		// (get) Token: 0x06001B61 RID: 7009 RVA: 0x000EC8B0 File Offset: 0x000EACB0
+		// (get) Token: 0x06001B65 RID: 7013 RVA: 0x000ECA00 File Offset: 0x000EAE00
 		protected override float Alpha
 		{
 			get
@@ -15,7 +15,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B62 RID: 7010 RVA: 0x000EC8D0 File Offset: 0x000EACD0
+		// Token: 0x06001B66 RID: 7014 RVA: 0x000ECA20 File Offset: 0x000EAE20
 		protected override bool ShouldSkip(WorldObject worldObject)
 		{
 			return !worldObject.def.expandingIcon;

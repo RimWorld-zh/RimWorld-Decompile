@@ -5,19 +5,19 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000980 RID: 2432
+	// Token: 0x02000982 RID: 2434
 	public static class GenThing
 	{
-		// Token: 0x0400235E RID: 9054
+		// Token: 0x0400235F RID: 9055
 		private static List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x0400235F RID: 9055
+		// Token: 0x04002360 RID: 9056
 		private static List<string> tmpThingLabels = new List<string>();
 
-		// Token: 0x04002360 RID: 9056
+		// Token: 0x04002361 RID: 9057
 		private static List<Pair<string, int>> tmpThingCounts = new List<Pair<string, int>>();
 
-		// Token: 0x060036D1 RID: 14033 RVA: 0x001D48F4 File Offset: 0x001D2CF4
+		// Token: 0x060036D5 RID: 14037 RVA: 0x001D4A34 File Offset: 0x001D2E34
 		public static Vector3 TrueCenter(this Thing t)
 		{
 			Pawn pawn = t as Pawn;
@@ -33,7 +33,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036D2 RID: 14034 RVA: 0x001D4950 File Offset: 0x001D2D50
+		// Token: 0x060036D6 RID: 14038 RVA: 0x001D4A90 File Offset: 0x001D2E90
 		public static Vector3 TrueCenter(IntVec3 loc, Rot4 rotation, IntVec2 thingSize, float altitude)
 		{
 			Vector3 result = loc.ToVector3ShiftedWithAltitude(altitude);
@@ -92,7 +92,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036D3 RID: 14035 RVA: 0x001D4AF8 File Offset: 0x001D2EF8
+		// Token: 0x060036D7 RID: 14039 RVA: 0x001D4C38 File Offset: 0x001D3038
 		public static bool TryDropAndSetForbidden(Thing th, IntVec3 pos, Map map, ThingPlaceMode mode, out Thing resultingThing, bool forbidden)
 		{
 			bool result;
@@ -112,7 +112,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036D4 RID: 14036 RVA: 0x001D4B40 File Offset: 0x001D2F40
+		// Token: 0x060036D8 RID: 14040 RVA: 0x001D4C80 File Offset: 0x001D3080
 		public static string ThingsToCommaList(IList<Thing> things, bool useAnd = false, bool aggregate = true, int maxCount = -1)
 		{
 			GenThing.tmpThings.Clear();
@@ -162,7 +162,7 @@ namespace RimWorld
 			return GenThing.tmpThingLabels.ToCommaList(useAnd);
 		}
 
-		// Token: 0x060036D5 RID: 14037 RVA: 0x001D4D70 File Offset: 0x001D3170
+		// Token: 0x060036D9 RID: 14041 RVA: 0x001D4EB0 File Offset: 0x001D32B0
 		public static float GetMarketValue(IList<Thing> things)
 		{
 			float num = 0f;

@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000782 RID: 1922
+	// Token: 0x02000784 RID: 1924
 	public enum TraderCaravanRole
 	{
 		// Token: 0x040016F9 RID: 5881

@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000FD4 RID: 4052
+	// Token: 0x02000FD8 RID: 4056
 	public class Verb_LaunchProjectile : Verb
 	{
 		// Token: 0x17000FEA RID: 4074
-		// (get) Token: 0x0600622B RID: 25131 RVA: 0x001E2E50 File Offset: 0x001E1250
+		// (get) Token: 0x0600623A RID: 25146 RVA: 0x001E2F74 File Offset: 0x001E1374
 		public virtual ThingDef Projectile
 		{
 			get
@@ -25,14 +25,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600622C RID: 25132 RVA: 0x001E2EA8 File Offset: 0x001E12A8
+		// Token: 0x0600623B RID: 25147 RVA: 0x001E2FCC File Offset: 0x001E13CC
 		public override void WarmupComplete()
 		{
 			base.WarmupComplete();
 			Find.BattleLog.Add(new BattleLogEntry_RangedFire(this.caster, (!this.currentTarget.HasThing) ? null : this.currentTarget.Thing, (this.ownerEquipment == null) ? null : this.ownerEquipment.def, this.Projectile, this.ShotsPerBurst > 1));
 		}
 
-		// Token: 0x0600622D RID: 25133 RVA: 0x001E2F20 File Offset: 0x001E1320
+		// Token: 0x0600623C RID: 25148 RVA: 0x001E3044 File Offset: 0x001E1444
 		protected override bool TryCastShot()
 		{
 			bool result;
@@ -104,9 +104,9 @@ namespace Verse
 						ShotReport shotReport = ShotReport.HitReportFor(this.caster, this, this.currentTarget);
 						Thing randomCoverToMissInto = shotReport.GetRandomCoverToMissInto();
 						ThingDef targetCoverDef = (randomCoverToMissInto == null) ? null : randomCoverToMissInto.def;
-						if (!Rand.Chance(shotReport.ChanceToNotGoWild_IgnoringPosture))
+						if (!Rand.Chance(shotReport.AimOnTargetChance_IgnoringPosture))
 						{
-							shootLine.ChangeDestToMissWild();
+							shootLine.ChangeDestToMissWild(shotReport.AimOnTargetChance_StandardTarget);
 							this.ThrowDebugText("ToWild" + ((!this.canHitNonTargetPawnsNow) ? "" : "\nchntp"));
 							this.ThrowDebugText("Wild\nDest", shootLine.Dest);
 							ProjectileHitFlags projectileHitFlags2 = ProjectileHitFlags.NonTargetWorld;
@@ -117,7 +117,7 @@ namespace Verse
 							projectile2.Launch(launcher, drawPos, shootLine.Dest, this.currentTarget, projectileHitFlags2, equipment, targetCoverDef);
 							result = true;
 						}
-						else if (this.currentTarget.Thing != null && this.currentTarget.Thing.def.category == ThingCategory.Pawn && !Rand.Chance(shotReport.ChanceToNotHitCover))
+						else if (this.currentTarget.Thing != null && this.currentTarget.Thing.def.category == ThingCategory.Pawn && !Rand.Chance(shotReport.PassCoverChance))
 						{
 							this.ThrowDebugText("ToCover" + ((!this.canHitNonTargetPawnsNow) ? "" : "\nchntp"));
 							this.ThrowDebugText("Cover\nDest", randomCoverToMissInto.Position);
@@ -159,7 +159,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600622E RID: 25134 RVA: 0x001E33BF File Offset: 0x001E17BF
+		// Token: 0x0600623D RID: 25149 RVA: 0x001E34EA File Offset: 0x001E18EA
 		private void ThrowDebugText(string text)
 		{
 			if (DebugViewSettings.drawShooting)
@@ -168,7 +168,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600622F RID: 25135 RVA: 0x001E33ED File Offset: 0x001E17ED
+		// Token: 0x0600623E RID: 25150 RVA: 0x001E3518 File Offset: 0x001E1918
 		private void ThrowDebugText(string text, IntVec3 c)
 		{
 			if (DebugViewSettings.drawShooting)
@@ -177,7 +177,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06006230 RID: 25136 RVA: 0x001E3418 File Offset: 0x001E1818
+		// Token: 0x0600623F RID: 25151 RVA: 0x001E3544 File Offset: 0x001E1944
 		public override float HighlightFieldRadiusAroundTarget(out bool needLOSToCenter)
 		{
 			needLOSToCenter = true;
@@ -194,7 +194,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06006231 RID: 25137 RVA: 0x001E3454 File Offset: 0x001E1854
+		// Token: 0x06006240 RID: 25152 RVA: 0x001E3580 File Offset: 0x001E1980
 		public override bool Available()
 		{
 			return base.Available() && this.Projectile != null;

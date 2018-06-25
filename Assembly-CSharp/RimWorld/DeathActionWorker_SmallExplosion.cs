@@ -3,11 +3,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200045A RID: 1114
+	// Token: 0x0200045C RID: 1116
 	public class DeathActionWorker_SmallExplosion : DeathActionWorker
 	{
 		// Token: 0x170002AF RID: 687
-		// (get) Token: 0x06001390 RID: 5008 RVA: 0x000A9164 File Offset: 0x000A7564
+		// (get) Token: 0x06001394 RID: 5012 RVA: 0x000A92B4 File Offset: 0x000A76B4
 		public override RulePackDef DeathRules
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002B0 RID: 688
-		// (get) Token: 0x06001391 RID: 5009 RVA: 0x000A9180 File Offset: 0x000A7580
+		// (get) Token: 0x06001395 RID: 5013 RVA: 0x000A92D0 File Offset: 0x000A76D0
 		public override bool DangerousInMelee
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001392 RID: 5010 RVA: 0x000A9198 File Offset: 0x000A7598
+		// Token: 0x06001396 RID: 5014 RVA: 0x000A92E8 File Offset: 0x000A76E8
 		public override void PawnDied(Corpse corpse)
 		{
 			GenExplosion.DoExplosion(corpse.Position, corpse.Map, 1.9f, DamageDefOf.Flame, corpse.InnerPawn, -1, null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);

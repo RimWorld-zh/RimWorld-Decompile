@@ -9,7 +9,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200081A RID: 2074
+	// Token: 0x0200081C RID: 2076
 	public static class SocialCardUtility
 	{
 		// Token: 0x040018CF RID: 6351
@@ -54,7 +54,7 @@ namespace RimWorld
 		// Token: 0x040018DC RID: 6364
 		private static HashSet<Pawn> tmpToCache = new HashSet<Pawn>();
 
-		// Token: 0x06002E5F RID: 11871 RVA: 0x0018B12C File Offset: 0x0018952C
+		// Token: 0x06002E63 RID: 11875 RVA: 0x0018B27C File Offset: 0x0018967C
 		public static void DrawSocialCard(Rect rect, Pawn pawn)
 		{
 			GUI.BeginGroup(rect);
@@ -79,7 +79,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002E60 RID: 11872 RVA: 0x0018B250 File Offset: 0x00189650
+		// Token: 0x06002E64 RID: 11876 RVA: 0x0018B3A0 File Offset: 0x001897A0
 		private static void CheckRecache(Pawn selPawnForSocialInfo)
 		{
 			if (SocialCardUtility.cachedForPawn != selPawnForSocialInfo || Time.frameCount % 20 == 0)
@@ -88,7 +88,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E61 RID: 11873 RVA: 0x0018B274 File Offset: 0x00189674
+		// Token: 0x06002E65 RID: 11877 RVA: 0x0018B3C4 File Offset: 0x001897C4
 		private static void Recache(Pawn selPawnForSocialInfo)
 		{
 			SocialCardUtility.cachedForPawn = selPawnForSocialInfo;
@@ -147,13 +147,13 @@ namespace RimWorld
 			SocialCardUtility.cachedEntries.Sort(SocialCardUtility.CachedEntriesComparer);
 		}
 
-		// Token: 0x06002E62 RID: 11874 RVA: 0x0018B514 File Offset: 0x00189914
+		// Token: 0x06002E66 RID: 11878 RVA: 0x0018B664 File Offset: 0x00189A64
 		private static bool ShouldShowPawnRelations(Pawn pawn, Pawn selPawnForSocialInfo)
 		{
 			return SocialCardUtility.showAllRelations || pawn.relations.everSeenByPlayer;
 		}
 
-		// Token: 0x06002E63 RID: 11875 RVA: 0x0018B554 File Offset: 0x00189954
+		// Token: 0x06002E67 RID: 11879 RVA: 0x0018B6A4 File Offset: 0x00189AA4
 		private static void RecacheEntry(SocialCardUtility.CachedSocialTabEntry entry, Pawn selPawnForSocialInfo)
 		{
 			entry.opinionOfMe = entry.otherPawn.relations.OpinionOf(selPawnForSocialInfo);
@@ -166,7 +166,7 @@ namespace RimWorld
 			entry.relations.Sort((PawnRelationDef a, PawnRelationDef b) => b.importance.CompareTo(a.importance));
 		}
 
-		// Token: 0x06002E64 RID: 11876 RVA: 0x0018B620 File Offset: 0x00189A20
+		// Token: 0x06002E68 RID: 11880 RVA: 0x0018B770 File Offset: 0x00189B70
 		public static void DrawRelationsAndOpinions(Rect rect, Pawn selPawnForSocialInfo)
 		{
 			SocialCardUtility.CheckRecache(selPawnForSocialInfo);
@@ -214,7 +214,7 @@ namespace RimWorld
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x06002E65 RID: 11877 RVA: 0x0018B7F0 File Offset: 0x00189BF0
+		// Token: 0x06002E69 RID: 11881 RVA: 0x0018B940 File Offset: 0x00189D40
 		private static void DrawPawnRow(float y, float width, SocialCardUtility.CachedSocialTabEntry entry, Pawn selPawnForSocialInfo)
 		{
 			float rowHeight = SocialCardUtility.GetRowHeight(entry, width, selPawnForSocialInfo);
@@ -277,7 +277,7 @@ namespace RimWorld
 			SocialCardUtility.DrawPawnSituationLabel(entry.otherPawn, rect6, selPawnForSocialInfo);
 		}
 
-		// Token: 0x06002E66 RID: 11878 RVA: 0x0018BA78 File Offset: 0x00189E78
+		// Token: 0x06002E6A RID: 11882 RVA: 0x0018BBC8 File Offset: 0x00189FC8
 		private static float GetRowHeight(SocialCardUtility.CachedSocialTabEntry entry, float rowWidth, Pawn selPawnForSocialInfo)
 		{
 			float width;
@@ -292,7 +292,7 @@ namespace RimWorld
 			return num4 + 3f;
 		}
 
-		// Token: 0x06002E67 RID: 11879 RVA: 0x0018BAE0 File Offset: 0x00189EE0
+		// Token: 0x06002E6B RID: 11883 RVA: 0x0018BC30 File Offset: 0x0018A030
 		private static void CalculateColumnsWidths(float rowWidth, out float relationsWidth, out float pawnLabelWidth, out float myOpinionWidth, out float hisOpinionWidth, out float pawnSituationLabelWidth)
 		{
 			float num = rowWidth - 10f;
@@ -313,7 +313,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E68 RID: 11880 RVA: 0x0018BB6C File Offset: 0x00189F6C
+		// Token: 0x06002E6C RID: 11884 RVA: 0x0018BCBC File Offset: 0x0018A0BC
 		private static void DrawRelationLabel(SocialCardUtility.CachedSocialTabEntry entry, Rect rect, Pawn selPawnForSocialInfo)
 		{
 			string relationsString = SocialCardUtility.GetRelationsString(entry, selPawnForSocialInfo);
@@ -324,14 +324,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E69 RID: 11881 RVA: 0x0018BBA0 File Offset: 0x00189FA0
+		// Token: 0x06002E6D RID: 11885 RVA: 0x0018BCF0 File Offset: 0x0018A0F0
 		private static void DrawPawnLabel(Pawn pawn, Rect rect)
 		{
 			GUI.color = SocialCardUtility.PawnLabelColor;
 			Widgets.Label(rect, SocialCardUtility.GetPawnLabel(pawn));
 		}
 
-		// Token: 0x06002E6A RID: 11882 RVA: 0x0018BBBC File Offset: 0x00189FBC
+		// Token: 0x06002E6E RID: 11886 RVA: 0x0018BD0C File Offset: 0x0018A10C
 		private static void DrawMyOpinion(SocialCardUtility.CachedSocialTabEntry entry, Rect rect, Pawn selPawnForSocialInfo)
 		{
 			if (entry.otherPawn.RaceProps.Humanlike && selPawnForSocialInfo.RaceProps.Humanlike)
@@ -342,7 +342,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E6B RID: 11883 RVA: 0x0018BC14 File Offset: 0x0018A014
+		// Token: 0x06002E6F RID: 11887 RVA: 0x0018BD64 File Offset: 0x0018A164
 		private static void DrawHisOpinion(SocialCardUtility.CachedSocialTabEntry entry, Rect rect, Pawn selPawnForSocialInfo)
 		{
 			if (entry.otherPawn.RaceProps.Humanlike && selPawnForSocialInfo.RaceProps.Humanlike)
@@ -354,7 +354,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E6C RID: 11884 RVA: 0x0018BC9C File Offset: 0x0018A09C
+		// Token: 0x06002E70 RID: 11888 RVA: 0x0018BDEC File Offset: 0x0018A1EC
 		private static void DrawPawnSituationLabel(Pawn pawn, Rect rect, Pawn selPawnForSocialInfo)
 		{
 			GUI.color = Color.gray;
@@ -362,7 +362,7 @@ namespace RimWorld
 			Widgets.Label(rect, label);
 		}
 
-		// Token: 0x06002E6D RID: 11885 RVA: 0x0018BCD0 File Offset: 0x0018A0D0
+		// Token: 0x06002E71 RID: 11889 RVA: 0x0018BE20 File Offset: 0x0018A220
 		private static Color OpinionLabelColor(int opinion)
 		{
 			Color result;
@@ -381,7 +381,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002E6E RID: 11886 RVA: 0x0018BD14 File Offset: 0x0018A114
+		// Token: 0x06002E72 RID: 11890 RVA: 0x0018BE64 File Offset: 0x0018A264
 		private static string GetPawnLabel(Pawn pawn)
 		{
 			string result;
@@ -396,7 +396,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002E6F RID: 11887 RVA: 0x0018BD4C File Offset: 0x0018A14C
+		// Token: 0x06002E73 RID: 11891 RVA: 0x0018BE9C File Offset: 0x0018A29C
 		public static string GetPawnSituationLabel(Pawn pawn, Pawn fromPOV)
 		{
 			string result;
@@ -456,7 +456,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002E70 RID: 11888 RVA: 0x0018BEB8 File Offset: 0x0018A2B8
+		// Token: 0x06002E74 RID: 11892 RVA: 0x0018C008 File Offset: 0x0018A408
 		private static string GetRelationsString(SocialCardUtility.CachedSocialTabEntry entry, Pawn selPawnForSocialInfo)
 		{
 			string text = "";
@@ -495,7 +495,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002E71 RID: 11889 RVA: 0x0018BF94 File Offset: 0x0018A394
+		// Token: 0x06002E75 RID: 11893 RVA: 0x0018C0E4 File Offset: 0x0018A4E4
 		private static string GetPawnRowTooltip(SocialCardUtility.CachedSocialTabEntry entry, Pawn selPawnForSocialInfo)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -530,7 +530,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06002E72 RID: 11890 RVA: 0x0018C104 File Offset: 0x0018A504
+		// Token: 0x06002E76 RID: 11894 RVA: 0x0018C254 File Offset: 0x0018A654
 		private static void DrawDebugOptions(Rect rect, Pawn pawn)
 		{
 			GUI.BeginGroup(rect);
@@ -773,7 +773,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x0200081B RID: 2075
+		// Token: 0x0200081D RID: 2077
 		private class CachedSocialTabEntry
 		{
 			// Token: 0x040018DF RID: 6367
@@ -789,10 +789,10 @@ namespace RimWorld
 			public List<PawnRelationDef> relations = new List<PawnRelationDef>();
 		}
 
-		// Token: 0x0200081C RID: 2076
+		// Token: 0x0200081E RID: 2078
 		private class CachedSocialTabEntryComparer : IComparer<SocialCardUtility.CachedSocialTabEntry>
 		{
-			// Token: 0x06002E78 RID: 11896 RVA: 0x0018C378 File Offset: 0x0018A778
+			// Token: 0x06002E7C RID: 11900 RVA: 0x0018C4C8 File Offset: 0x0018A8C8
 			public int Compare(SocialCardUtility.CachedSocialTabEntry a, SocialCardUtility.CachedSocialTabEntry b)
 			{
 				bool flag = a.relations.Any<PawnRelationDef>();

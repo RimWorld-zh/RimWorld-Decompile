@@ -4,13 +4,13 @@ using System.Text;
 
 namespace Verse
 {
-	// Token: 0x02000DFD RID: 3581
+	// Token: 0x02000DFF RID: 3583
 	public class CompAttachBase : ThingComp
 	{
 		// Token: 0x0400354B RID: 13643
 		public List<AttachableThing> attachments = null;
 
-		// Token: 0x06005132 RID: 20786 RVA: 0x0029B848 File Offset: 0x00299C48
+		// Token: 0x06005136 RID: 20790 RVA: 0x0029B974 File Offset: 0x00299D74
 		public override void CompTick()
 		{
 			if (this.attachments != null)
@@ -22,7 +22,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005133 RID: 20787 RVA: 0x0029B8A0 File Offset: 0x00299CA0
+		// Token: 0x06005137 RID: 20791 RVA: 0x0029B9CC File Offset: 0x00299DCC
 		public override void PostDestroy(DestroyMode mode, Map previousMap)
 		{
 			base.PostDestroy(mode, previousMap);
@@ -35,7 +35,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005134 RID: 20788 RVA: 0x0029B8F8 File Offset: 0x00299CF8
+		// Token: 0x06005138 RID: 20792 RVA: 0x0029BA24 File Offset: 0x00299E24
 		public override string CompInspectStringExtra()
 		{
 			string result;
@@ -55,7 +55,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005135 RID: 20789 RVA: 0x0029B968 File Offset: 0x00299D68
+		// Token: 0x06005139 RID: 20793 RVA: 0x0029BA94 File Offset: 0x00299E94
 		public Thing GetAttachment(ThingDef def)
 		{
 			if (this.attachments != null)
@@ -71,13 +71,13 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06005136 RID: 20790 RVA: 0x0029B9D4 File Offset: 0x00299DD4
+		// Token: 0x0600513A RID: 20794 RVA: 0x0029BB00 File Offset: 0x00299F00
 		public bool HasAttachment(ThingDef def)
 		{
 			return this.GetAttachment(def) != null;
 		}
 
-		// Token: 0x06005137 RID: 20791 RVA: 0x0029B9F6 File Offset: 0x00299DF6
+		// Token: 0x0600513B RID: 20795 RVA: 0x0029BB22 File Offset: 0x00299F22
 		public void AddAttachment(AttachableThing t)
 		{
 			if (this.attachments == null)
@@ -87,7 +87,7 @@ namespace Verse
 			this.attachments.Add(t);
 		}
 
-		// Token: 0x06005138 RID: 20792 RVA: 0x0029BA1B File Offset: 0x00299E1B
+		// Token: 0x0600513C RID: 20796 RVA: 0x0029BB47 File Offset: 0x00299F47
 		public void RemoveAttachment(AttachableThing t)
 		{
 			this.attachments.Remove(t);

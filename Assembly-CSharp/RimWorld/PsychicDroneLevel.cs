@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000726 RID: 1830
+	// Token: 0x02000728 RID: 1832
 	public enum PsychicDroneLevel : byte
 	{
 		// Token: 0x0400160D RID: 5645

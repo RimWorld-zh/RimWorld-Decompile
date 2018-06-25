@@ -3,20 +3,20 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000E83 RID: 3715
+	// Token: 0x02000E85 RID: 3717
 	public class TreeNode_ThingCategory : TreeNode
 	{
 		// Token: 0x040039FB RID: 14843
 		public ThingCategoryDef catDef;
 
-		// Token: 0x060057B9 RID: 22457 RVA: 0x002D09E8 File Offset: 0x002CEDE8
+		// Token: 0x060057BD RID: 22461 RVA: 0x002D0B14 File Offset: 0x002CEF14
 		public TreeNode_ThingCategory(ThingCategoryDef def)
 		{
 			this.catDef = def;
 		}
 
-		// Token: 0x17000DD6 RID: 3542
-		// (get) Token: 0x060057BA RID: 22458 RVA: 0x002D09F8 File Offset: 0x002CEDF8
+		// Token: 0x17000DD5 RID: 3541
+		// (get) Token: 0x060057BE RID: 22462 RVA: 0x002D0B24 File Offset: 0x002CEF24
 		public string Label
 		{
 			get
@@ -25,8 +25,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DD7 RID: 3543
-		// (get) Token: 0x060057BB RID: 22459 RVA: 0x002D0A18 File Offset: 0x002CEE18
+		// Token: 0x17000DD6 RID: 3542
+		// (get) Token: 0x060057BF RID: 22463 RVA: 0x002D0B44 File Offset: 0x002CEF44
 		public string LabelCap
 		{
 			get
@@ -35,8 +35,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DD8 RID: 3544
-		// (get) Token: 0x060057BC RID: 22460 RVA: 0x002D0A38 File Offset: 0x002CEE38
+		// Token: 0x17000DD7 RID: 3543
+		// (get) Token: 0x060057C0 RID: 22464 RVA: 0x002D0B64 File Offset: 0x002CEF64
 		public IEnumerable<TreeNode_ThingCategory> ChildCategoryNodesAndThis
 		{
 			get
@@ -49,8 +49,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DD9 RID: 3545
-		// (get) Token: 0x060057BD RID: 22461 RVA: 0x002D0A64 File Offset: 0x002CEE64
+		// Token: 0x17000DD8 RID: 3544
+		// (get) Token: 0x060057C1 RID: 22465 RVA: 0x002D0B90 File Offset: 0x002CEF90
 		public IEnumerable<TreeNode_ThingCategory> ChildCategoryNodes
 		{
 			get
@@ -63,7 +63,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057BE RID: 22462 RVA: 0x002D0A90 File Offset: 0x002CEE90
+		// Token: 0x060057C2 RID: 22466 RVA: 0x002D0BBC File Offset: 0x002CEFBC
 		public override string ToString()
 		{
 			return this.catDef.defName;

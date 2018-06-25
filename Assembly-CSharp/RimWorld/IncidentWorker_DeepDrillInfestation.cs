@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000326 RID: 806
+	// Token: 0x02000328 RID: 808
 	public class IncidentWorker_DeepDrillInfestation : IncidentWorker
 	{
 		// Token: 0x040008C6 RID: 2246
@@ -20,7 +20,7 @@ namespace RimWorld
 		// Token: 0x040008C9 RID: 2249
 		private const float MaxPoints = 530f;
 
-		// Token: 0x06000DC7 RID: 3527 RVA: 0x00075E9C File Offset: 0x0007429C
+		// Token: 0x06000DCB RID: 3531 RVA: 0x00075FEC File Offset: 0x000743EC
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -38,7 +38,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DC8 RID: 3528 RVA: 0x00075EF0 File Offset: 0x000742F0
+		// Token: 0x06000DCC RID: 3532 RVA: 0x00076040 File Offset: 0x00074440
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;

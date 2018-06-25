@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000376 RID: 886
+	// Token: 0x02000378 RID: 888
 	public class StorytellerCompProperties_ThreatCycle : StorytellerCompProperties
 	{
 		// Token: 0x0400095C RID: 2396
@@ -29,14 +29,14 @@ namespace RimWorld
 		// Token: 0x04000963 RID: 2403
 		public IncidentCategoryDef threatBigCategory;
 
-		// Token: 0x06000F4C RID: 3916 RVA: 0x0008198C File Offset: 0x0007FD8C
+		// Token: 0x06000F50 RID: 3920 RVA: 0x00081ADC File Offset: 0x0007FEDC
 		public StorytellerCompProperties_ThreatCycle()
 		{
 			this.compClass = typeof(StorytellerComp_ThreatCycle);
 		}
 
 		// Token: 0x17000226 RID: 550
-		// (get) Token: 0x06000F4D RID: 3917 RVA: 0x000819B0 File Offset: 0x0007FDB0
+		// (get) Token: 0x06000F51 RID: 3921 RVA: 0x00081B00 File Offset: 0x0007FF00
 		public float ThreatCycleTotalDays
 		{
 			get
@@ -45,7 +45,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F4E RID: 3918 RVA: 0x000819D2 File Offset: 0x0007FDD2
+		// Token: 0x06000F52 RID: 3922 RVA: 0x00081B22 File Offset: 0x0007FF22
 		public override void ResolveReferences(StorytellerDef parentDef)
 		{
 			base.ResolveReferences(parentDef);

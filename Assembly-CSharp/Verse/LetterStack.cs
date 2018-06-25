@@ -6,7 +6,7 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000E71 RID: 3697
+	// Token: 0x02000E73 RID: 3699
 	public sealed class LetterStack : IExposable
 	{
 		// Token: 0x040039BB RID: 14779
@@ -24,8 +24,8 @@ namespace Verse
 		// Token: 0x040039BF RID: 14783
 		public const float LetterSpacing = 12f;
 
-		// Token: 0x17000DAD RID: 3501
-		// (get) Token: 0x0600570F RID: 22287 RVA: 0x002CD3B0 File Offset: 0x002CB7B0
+		// Token: 0x17000DAC RID: 3500
+		// (get) Token: 0x06005713 RID: 22291 RVA: 0x002CD4DC File Offset: 0x002CB8DC
 		public List<Letter> LettersListForReading
 		{
 			get
@@ -34,8 +34,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DAE RID: 3502
-		// (get) Token: 0x06005710 RID: 22288 RVA: 0x002CD3CC File Offset: 0x002CB7CC
+		// Token: 0x17000DAD RID: 3501
+		// (get) Token: 0x06005714 RID: 22292 RVA: 0x002CD4F8 File Offset: 0x002CB8F8
 		public float LastTopY
 		{
 			get
@@ -44,21 +44,21 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005711 RID: 22289 RVA: 0x002CD3E8 File Offset: 0x002CB7E8
+		// Token: 0x06005715 RID: 22293 RVA: 0x002CD514 File Offset: 0x002CB914
 		public void ReceiveLetter(string label, string text, LetterDef textLetterDef, LookTargets lookTargets, Faction relatedFaction = null, string debugInfo = null)
 		{
 			ChoiceLetter let = LetterMaker.MakeLetter(label, text, textLetterDef, lookTargets, relatedFaction);
 			this.ReceiveLetter(let, debugInfo);
 		}
 
-		// Token: 0x06005712 RID: 22290 RVA: 0x002CD40C File Offset: 0x002CB80C
+		// Token: 0x06005716 RID: 22294 RVA: 0x002CD538 File Offset: 0x002CB938
 		public void ReceiveLetter(string label, string text, LetterDef textLetterDef, string debugInfo = null)
 		{
 			ChoiceLetter let = LetterMaker.MakeLetter(label, text, textLetterDef);
 			this.ReceiveLetter(let, debugInfo);
 		}
 
-		// Token: 0x06005713 RID: 22291 RVA: 0x002CD42C File Offset: 0x002CB82C
+		// Token: 0x06005717 RID: 22295 RVA: 0x002CD558 File Offset: 0x002CB958
 		public void ReceiveLetter(Letter let, string debugInfo = null)
 		{
 			if (let.CanShowInLetterStack)
@@ -77,14 +77,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005714 RID: 22292 RVA: 0x002CD4CE File Offset: 0x002CB8CE
+		// Token: 0x06005718 RID: 22296 RVA: 0x002CD5FA File Offset: 0x002CB9FA
 		public void RemoveLetter(Letter let)
 		{
 			this.letters.Remove(let);
 			let.Removed();
 		}
 
-		// Token: 0x06005715 RID: 22293 RVA: 0x002CD4E4 File Offset: 0x002CB8E4
+		// Token: 0x06005719 RID: 22297 RVA: 0x002CD610 File Offset: 0x002CBA10
 		public void LettersOnGUI(float baseY)
 		{
 			float num = baseY - 30f;
@@ -105,7 +105,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005716 RID: 22294 RVA: 0x002CD590 File Offset: 0x002CB990
+		// Token: 0x0600571A RID: 22298 RVA: 0x002CD6BC File Offset: 0x002CBABC
 		public void LetterStackTick()
 		{
 			int num = Find.TickManager.TicksGame + 1;
@@ -120,7 +120,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005717 RID: 22295 RVA: 0x002CD608 File Offset: 0x002CBA08
+		// Token: 0x0600571B RID: 22299 RVA: 0x002CD734 File Offset: 0x002CBB34
 		public void LetterStackUpdate()
 		{
 			if (this.mouseoverLetterIndex >= 0 && this.mouseoverLetterIndex < this.letters.Count)
@@ -137,13 +137,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005718 RID: 22296 RVA: 0x002CD6A5 File Offset: 0x002CBAA5
+		// Token: 0x0600571C RID: 22300 RVA: 0x002CD7D1 File Offset: 0x002CBBD1
 		public void Notify_LetterMouseover(Letter let)
 		{
 			this.mouseoverLetterIndex = this.letters.IndexOf(let);
 		}
 
-		// Token: 0x06005719 RID: 22297 RVA: 0x002CD6BC File Offset: 0x002CBABC
+		// Token: 0x0600571D RID: 22301 RVA: 0x002CD7E8 File Offset: 0x002CBBE8
 		public void Notify_MapRemoved(Map map)
 		{
 			for (int i = 0; i < this.letters.Count; i++)
@@ -152,7 +152,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600571A RID: 22298 RVA: 0x002CD6FC File Offset: 0x002CBAFC
+		// Token: 0x0600571E RID: 22302 RVA: 0x002CD828 File Offset: 0x002CBC28
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Letter>(ref this.letters, "letters", LookMode.Reference, new object[0]);

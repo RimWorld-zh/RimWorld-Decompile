@@ -5,7 +5,7 @@ using Verse.Grammar;
 
 namespace RimWorld
 {
-	// Token: 0x02000666 RID: 1638
+	// Token: 0x02000668 RID: 1640
 	public class Tale_DoublePawn : Tale
 	{
 		// Token: 0x04001381 RID: 4993
@@ -14,12 +14,12 @@ namespace RimWorld
 		// Token: 0x04001382 RID: 4994
 		public TaleData_Pawn secondPawnData;
 
-		// Token: 0x06002254 RID: 8788 RVA: 0x00123951 File Offset: 0x00121D51
+		// Token: 0x06002258 RID: 8792 RVA: 0x00123AA1 File Offset: 0x00121EA1
 		public Tale_DoublePawn()
 		{
 		}
 
-		// Token: 0x06002255 RID: 8789 RVA: 0x0012395C File Offset: 0x00121D5C
+		// Token: 0x06002259 RID: 8793 RVA: 0x00123AAC File Offset: 0x00121EAC
 		public Tale_DoublePawn(Pawn firstPawn, Pawn secondPawn)
 		{
 			this.firstPawnData = TaleData_Pawn.GenerateFrom(firstPawn);
@@ -34,7 +34,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700050A RID: 1290
-		// (get) Token: 0x06002256 RID: 8790 RVA: 0x001239B0 File Offset: 0x00121DB0
+		// (get) Token: 0x0600225A RID: 8794 RVA: 0x00123B00 File Offset: 0x00121F00
 		public override Pawn DominantPawn
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700050B RID: 1291
-		// (get) Token: 0x06002257 RID: 8791 RVA: 0x001239D0 File Offset: 0x00121DD0
+		// (get) Token: 0x0600225B RID: 8795 RVA: 0x00123B20 File Offset: 0x00121F20
 		public override string ShortSummary
 		{
 			get
@@ -58,13 +58,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002258 RID: 8792 RVA: 0x00123A2C File Offset: 0x00121E2C
+		// Token: 0x0600225C RID: 8796 RVA: 0x00123B7C File Offset: 0x00121F7C
 		public override bool Concerns(Thing th)
 		{
 			return (this.secondPawnData != null && this.secondPawnData.pawn == th) || base.Concerns(th) || this.firstPawnData.pawn == th;
 		}
 
-		// Token: 0x06002259 RID: 8793 RVA: 0x00123A81 File Offset: 0x00121E81
+		// Token: 0x0600225D RID: 8797 RVA: 0x00123BD1 File Offset: 0x00121FD1
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -72,7 +72,7 @@ namespace RimWorld
 			Scribe_Deep.Look<TaleData_Pawn>(ref this.secondPawnData, "secondPawnData", new object[0]);
 		}
 
-		// Token: 0x0600225A RID: 8794 RVA: 0x00123AB8 File Offset: 0x00121EB8
+		// Token: 0x0600225E RID: 8798 RVA: 0x00123C08 File Offset: 0x00122008
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
 			if (this.def.firstPawnSymbol.NullOrEmpty() || this.def.secondPawnSymbol.NullOrEmpty())
@@ -101,7 +101,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600225B RID: 8795 RVA: 0x00123AE2 File Offset: 0x00121EE2
+		// Token: 0x0600225F RID: 8799 RVA: 0x00123C32 File Offset: 0x00122032
 		public override void GenerateTestData()
 		{
 			base.GenerateTestData();

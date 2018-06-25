@@ -5,14 +5,14 @@ using System.Linq;
 
 namespace Verse.Profile
 {
-	// Token: 0x02000D60 RID: 3424
+	// Token: 0x02000D62 RID: 3426
 	[HasDebugOutput]
 	public static class CollectionsTracker
 	{
 		// Token: 0x04003334 RID: 13108
 		private static Dictionary<WeakReference, int> collections = new Dictionary<WeakReference, int>();
 
-		// Token: 0x06004CCB RID: 19659 RVA: 0x002803C4 File Offset: 0x0027E7C4
+		// Token: 0x06004CCF RID: 19663 RVA: 0x002804F0 File Offset: 0x0027E8F0
 		[DebugOutput]
 		private static void GrownCollectionsStart()
 		{
@@ -35,7 +35,7 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CCC RID: 19660 RVA: 0x0028048C File Offset: 0x0027E88C
+		// Token: 0x06004CD0 RID: 19664 RVA: 0x002805B8 File Offset: 0x0027E9B8
 		[DebugOutput]
 		private static void GrownCollectionsLog()
 		{

@@ -2,14 +2,14 @@
 
 namespace Verse
 {
-	// Token: 0x02000D5B RID: 3419
+	// Token: 0x02000D5D RID: 3421
 	public abstract class Stance : IExposable
 	{
 		// Token: 0x0400332A RID: 13098
 		public Pawn_StanceTracker stanceTracker;
 
-		// Token: 0x17000C7E RID: 3198
-		// (get) Token: 0x06004CB4 RID: 19636 RVA: 0x0027FE8C File Offset: 0x0027E28C
+		// Token: 0x17000C7D RID: 3197
+		// (get) Token: 0x06004CB8 RID: 19640 RVA: 0x0027FFB8 File Offset: 0x0027E3B8
 		public virtual bool StanceBusy
 		{
 			get
@@ -18,8 +18,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C7F RID: 3199
-		// (get) Token: 0x06004CB5 RID: 19637 RVA: 0x0027FEA4 File Offset: 0x0027E2A4
+		// Token: 0x17000C7E RID: 3198
+		// (get) Token: 0x06004CB9 RID: 19641 RVA: 0x0027FFD0 File Offset: 0x0027E3D0
 		protected Pawn Pawn
 		{
 			get
@@ -28,17 +28,17 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004CB6 RID: 19638 RVA: 0x0027FEC4 File Offset: 0x0027E2C4
+		// Token: 0x06004CBA RID: 19642 RVA: 0x0027FFF0 File Offset: 0x0027E3F0
 		public virtual void StanceTick()
 		{
 		}
 
-		// Token: 0x06004CB7 RID: 19639 RVA: 0x0027FEC7 File Offset: 0x0027E2C7
+		// Token: 0x06004CBB RID: 19643 RVA: 0x0027FFF3 File Offset: 0x0027E3F3
 		public virtual void StanceDraw()
 		{
 		}
 
-		// Token: 0x06004CB8 RID: 19640 RVA: 0x0027FECA File Offset: 0x0027E2CA
+		// Token: 0x06004CBC RID: 19644 RVA: 0x0027FFF6 File Offset: 0x0027E3F6
 		public virtual void ExposeData()
 		{
 		}

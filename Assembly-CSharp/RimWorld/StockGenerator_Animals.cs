@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000772 RID: 1906
+	// Token: 0x02000774 RID: 1908
 	[HasDebugOutput]
 	public class StockGenerator_Animals : StockGenerator
 	{
@@ -55,7 +55,7 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x06002A1C RID: 10780 RVA: 0x001654CC File Offset: 0x001638CC
+		// Token: 0x06002A20 RID: 10784 RVA: 0x0016561C File Offset: 0x00163A1C
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
 			int numKinds = this.kindCountRange.RandomInRange;
@@ -87,19 +87,19 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002A1D RID: 10781 RVA: 0x00165500 File Offset: 0x00163900
+		// Token: 0x06002A21 RID: 10785 RVA: 0x00165650 File Offset: 0x00163A50
 		private float SelectionChance(PawnKindDef k)
 		{
 			return StockGenerator_Animals.SelectionChanceFromWildnessCurve.Evaluate(k.RaceProps.wildness);
 		}
 
-		// Token: 0x06002A1E RID: 10782 RVA: 0x0016552C File Offset: 0x0016392C
+		// Token: 0x06002A22 RID: 10786 RVA: 0x0016567C File Offset: 0x00163A7C
 		public override bool HandlesThingDef(ThingDef thingDef)
 		{
 			return thingDef.category == ThingCategory.Pawn && thingDef.race.Animal && thingDef.tradeability != Tradeability.None && (this.tradeTagsSell.Any((string tag) => thingDef.tradeTags.Contains(tag)) || this.tradeTagsBuy.Any((string tag) => thingDef.tradeTags.Contains(tag)));
 		}
 
-		// Token: 0x06002A1F RID: 10783 RVA: 0x001655C0 File Offset: 0x001639C0
+		// Token: 0x06002A23 RID: 10787 RVA: 0x00165710 File Offset: 0x00163B10
 		private bool PawnKindAllowed(PawnKindDef kind, int forTile)
 		{
 			bool result;
@@ -126,7 +126,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002A20 RID: 10784 RVA: 0x0016570C File Offset: 0x00163B0C
+		// Token: 0x06002A24 RID: 10788 RVA: 0x0016585C File Offset: 0x00163C5C
 		public void LogAnimalChances()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -137,7 +137,7 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06002A21 RID: 10785 RVA: 0x001657A0 File Offset: 0x00163BA0
+		// Token: 0x06002A25 RID: 10789 RVA: 0x001658F0 File Offset: 0x00163CF0
 		[DebugOutput]
 		private static void StockGenerationAnimals()
 		{

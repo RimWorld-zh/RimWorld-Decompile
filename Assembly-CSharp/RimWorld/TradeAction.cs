@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200077F RID: 1919
+	// Token: 0x02000781 RID: 1921
 	public enum TradeAction : byte
 	{
 		// Token: 0x040016E6 RID: 5862

@@ -6,31 +6,31 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200097D RID: 2429
+	// Token: 0x0200097F RID: 2431
 	public static class GenLeaving
 	{
-		// Token: 0x04002342 RID: 9026
+		// Token: 0x04002343 RID: 9027
 		private const float LeaveFraction_Kill = 0.5f;
 
-		// Token: 0x04002343 RID: 9027
+		// Token: 0x04002344 RID: 9028
 		private const float LeaveFraction_Cancel = 1f;
 
-		// Token: 0x04002344 RID: 9028
+		// Token: 0x04002345 RID: 9029
 		public const float LeaveFraction_DeconstructDefault = 0.75f;
 
-		// Token: 0x04002345 RID: 9029
+		// Token: 0x04002346 RID: 9030
 		private const float LeaveFraction_FailConstruction = 0.5f;
 
-		// Token: 0x04002346 RID: 9030
+		// Token: 0x04002347 RID: 9031
 		private static List<IntVec3> tmpCellsCandidates = new List<IntVec3>();
 
-		// Token: 0x060036AB RID: 13995 RVA: 0x001D2CA5 File Offset: 0x001D10A5
+		// Token: 0x060036AF RID: 13999 RVA: 0x001D2DE5 File Offset: 0x001D11E5
 		public static void DoLeavingsFor(Thing diedThing, Map map, DestroyMode mode)
 		{
 			GenLeaving.DoLeavingsFor(diedThing, map, mode, diedThing.OccupiedRect(), null);
 		}
 
-		// Token: 0x060036AC RID: 13996 RVA: 0x001D2CB8 File Offset: 0x001D10B8
+		// Token: 0x060036B0 RID: 14000 RVA: 0x001D2DF8 File Offset: 0x001D11F8
 		public static void DoLeavingsFor(Thing diedThing, Map map, DestroyMode mode, CellRect leavingsRect, Predicate<IntVec3> nearPlaceValidator = null)
 		{
 			if ((Current.ProgramState == ProgramState.Playing || mode == DestroyMode.Refund) && mode != DestroyMode.Vanish)
@@ -134,7 +134,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060036AD RID: 13997 RVA: 0x001D308C File Offset: 0x001D148C
+		// Token: 0x060036B1 RID: 14001 RVA: 0x001D31CC File Offset: 0x001D15CC
 		public static void DoLeavingsFor(TerrainDef terrain, IntVec3 cell, Map map)
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -170,7 +170,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060036AE RID: 13998 RVA: 0x001D317C File Offset: 0x001D157C
+		// Token: 0x060036B2 RID: 14002 RVA: 0x001D32BC File Offset: 0x001D16BC
 		public static bool CanBuildingLeaveResources(Thing diedThing, DestroyMode mode)
 		{
 			bool result;
@@ -214,7 +214,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036AF RID: 13999 RVA: 0x001D3240 File Offset: 0x001D1640
+		// Token: 0x060036B3 RID: 14003 RVA: 0x001D3380 File Offset: 0x001D1780
 		public static Func<int, int> GetBuildingResourcesLeaveCalculator(Thing diedThing, DestroyMode mode)
 		{
 			if (GenLeaving.CanBuildingLeaveResources(diedThing, mode))
@@ -239,7 +239,7 @@ namespace RimWorld
 			return (int count) => 0;
 		}
 
-		// Token: 0x060036B0 RID: 14000 RVA: 0x001D3390 File Offset: 0x001D1790
+		// Token: 0x060036B4 RID: 14004 RVA: 0x001D34D0 File Offset: 0x001D18D0
 		public static void DropFilthDueToDamage(Thing t, float damageDealt)
 		{
 			if (t.def.useHitPoints && t.Spawned && t.def.filthLeaving != null)

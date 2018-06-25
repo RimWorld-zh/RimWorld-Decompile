@@ -3,7 +3,7 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D07 RID: 3335
+	// Token: 0x02000D09 RID: 3337
 	public class HediffComp_DrugEffectFactor : HediffComp
 	{
 		// Token: 0x040031F2 RID: 12786
@@ -19,8 +19,8 @@ namespace Verse
 			}
 		};
 
-		// Token: 0x17000BA6 RID: 2982
-		// (get) Token: 0x060049AC RID: 18860 RVA: 0x00269888 File Offset: 0x00267C88
+		// Token: 0x17000BA5 RID: 2981
+		// (get) Token: 0x060049AF RID: 18863 RVA: 0x00269964 File Offset: 0x00267D64
 		public HediffCompProperties_DrugEffectFactor Props
 		{
 			get
@@ -29,8 +29,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BA7 RID: 2983
-		// (get) Token: 0x060049AD RID: 18861 RVA: 0x002698A8 File Offset: 0x00267CA8
+		// Token: 0x17000BA6 RID: 2982
+		// (get) Token: 0x060049B0 RID: 18864 RVA: 0x00269984 File Offset: 0x00267D84
 		private float CurrentFactor
 		{
 			get
@@ -39,8 +39,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BA8 RID: 2984
-		// (get) Token: 0x060049AE RID: 18862 RVA: 0x002698D4 File Offset: 0x00267CD4
+		// Token: 0x17000BA7 RID: 2983
+		// (get) Token: 0x060049B1 RID: 18865 RVA: 0x002699B0 File Offset: 0x00267DB0
 		public override string CompTipStringExtra
 		{
 			get
@@ -53,7 +53,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049AF RID: 18863 RVA: 0x0026991F File Offset: 0x00267D1F
+		// Token: 0x060049B2 RID: 18866 RVA: 0x002699FB File Offset: 0x00267DFB
 		public override void CompModifyChemicalEffect(ChemicalDef chem, ref float effect)
 		{
 			if (this.Props.chemical == chem)

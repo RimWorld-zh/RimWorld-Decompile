@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000542 RID: 1346
+	// Token: 0x02000544 RID: 1348
 	public class WorldPathPool
 	{
 		// Token: 0x04000ECC RID: 3788
@@ -14,7 +14,7 @@ namespace RimWorld.Planet
 		private static readonly WorldPath notFoundPathInt = WorldPath.NewNotFound();
 
 		// Token: 0x17000390 RID: 912
-		// (get) Token: 0x06001935 RID: 6453 RVA: 0x000DB624 File Offset: 0x000D9A24
+		// (get) Token: 0x06001939 RID: 6457 RVA: 0x000DB774 File Offset: 0x000D9B74
 		public static WorldPath NotFoundPath
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001936 RID: 6454 RVA: 0x000DB640 File Offset: 0x000D9A40
+		// Token: 0x0600193A RID: 6458 RVA: 0x000DB790 File Offset: 0x000D9B90
 		public WorldPath GetEmptyWorldPath()
 		{
 			for (int i = 0; i < this.paths.Count; i++)

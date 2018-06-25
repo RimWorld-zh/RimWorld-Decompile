@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000BDD RID: 3037
+	// Token: 0x02000BDF RID: 3039
 	public static class UnityData
 	{
 		// Token: 0x04002D5F RID: 11615
@@ -28,7 +28,7 @@ namespace Verse
 		// Token: 0x04002D65 RID: 11621
 		private static int mainThreadId;
 
-		// Token: 0x06004258 RID: 16984 RVA: 0x0022E970 File Offset: 0x0022CD70
+		// Token: 0x0600425B RID: 16987 RVA: 0x0022EA4C File Offset: 0x0022CE4C
 		static UnityData()
 		{
 			if (!UnityData.initialized && !UnityDataInitializer.initializing)
@@ -37,8 +37,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A6F RID: 2671
-		// (get) Token: 0x06004259 RID: 16985 RVA: 0x0022E994 File Offset: 0x0022CD94
+		// Token: 0x17000A6E RID: 2670
+		// (get) Token: 0x0600425C RID: 16988 RVA: 0x0022EA70 File Offset: 0x0022CE70
 		public static bool IsInMainThread
 		{
 			get
@@ -47,7 +47,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600425A RID: 16986 RVA: 0x0022E9BC File Offset: 0x0022CDBC
+		// Token: 0x0600425D RID: 16989 RVA: 0x0022EA98 File Offset: 0x0022CE98
 		public static void CopyUnityData()
 		{
 			UnityData.mainThreadId = Thread.CurrentThread.ManagedThreadId;

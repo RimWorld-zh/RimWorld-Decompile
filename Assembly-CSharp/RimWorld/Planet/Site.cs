@@ -7,7 +7,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000606 RID: 1542
+	// Token: 0x02000608 RID: 1544
 	public class Site : MapParent
 	{
 		// Token: 0x04001230 RID: 4656
@@ -41,7 +41,7 @@ namespace RimWorld.Planet
 		private static List<SiteDefBase> tmpUsedDefs = new List<SiteDefBase>();
 
 		// Token: 0x17000497 RID: 1175
-		// (get) Token: 0x06001F00 RID: 7936 RVA: 0x0010D0A8 File Offset: 0x0010B4A8
+		// (get) Token: 0x06001F04 RID: 7940 RVA: 0x0010D1F8 File Offset: 0x0010B5F8
 		public override string Label
 		{
 			get
@@ -64,7 +64,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000498 RID: 1176
-		// (get) Token: 0x06001F01 RID: 7937 RVA: 0x0010D11C File Offset: 0x0010B51C
+		// (get) Token: 0x06001F05 RID: 7941 RVA: 0x0010D26C File Offset: 0x0010B66C
 		public override Texture2D ExpandingIcon
 		{
 			get
@@ -74,7 +74,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000499 RID: 1177
-		// (get) Token: 0x06001F02 RID: 7938 RVA: 0x0010D13C File Offset: 0x0010B53C
+		// (get) Token: 0x06001F06 RID: 7942 RVA: 0x0010D28C File Offset: 0x0010B68C
 		public override Material Material
 		{
 			get
@@ -97,7 +97,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700049A RID: 1178
-		// (get) Token: 0x06001F03 RID: 7939 RVA: 0x0010D1C0 File Offset: 0x0010B5C0
+		// (get) Token: 0x06001F07 RID: 7943 RVA: 0x0010D310 File Offset: 0x0010B710
 		public override bool AppendFactionToInspectString
 		{
 			get
@@ -107,7 +107,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700049B RID: 1179
-		// (get) Token: 0x06001F04 RID: 7940 RVA: 0x0010D1F4 File Offset: 0x0010B5F4
+		// (get) Token: 0x06001F08 RID: 7944 RVA: 0x0010D344 File Offset: 0x0010B744
 		private SiteDefBase MainSiteDef
 		{
 			get
@@ -126,7 +126,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700049C RID: 1180
-		// (get) Token: 0x06001F05 RID: 7941 RVA: 0x0010D244 File Offset: 0x0010B644
+		// (get) Token: 0x06001F09 RID: 7945 RVA: 0x0010D394 File Offset: 0x0010B794
 		public override IEnumerable<GenStepDef> ExtraGenStepDefs
 		{
 			get
@@ -153,7 +153,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700049D RID: 1181
-		// (get) Token: 0x06001F06 RID: 7942 RVA: 0x0010D270 File Offset: 0x0010B670
+		// (get) Token: 0x06001F0A RID: 7946 RVA: 0x0010D3C0 File Offset: 0x0010B7C0
 		public string ApproachOrderString
 		{
 			get
@@ -166,7 +166,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700049E RID: 1182
-		// (get) Token: 0x06001F07 RID: 7943 RVA: 0x0010D2D0 File Offset: 0x0010B6D0
+		// (get) Token: 0x06001F0B RID: 7947 RVA: 0x0010D420 File Offset: 0x0010B820
 		public string ApproachingReportString
 		{
 			get
@@ -178,7 +178,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001F08 RID: 7944 RVA: 0x0010D330 File Offset: 0x0010B730
+		// Token: 0x06001F0C RID: 7948 RVA: 0x0010D480 File Offset: 0x0010B880
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -191,7 +191,7 @@ namespace RimWorld.Planet
 			Scribe_Values.Look<bool>(ref this.factionMustRemainHostile, "factionMustRemainHostile", false, false);
 		}
 
-		// Token: 0x06001F09 RID: 7945 RVA: 0x0010D3C8 File Offset: 0x0010B7C8
+		// Token: 0x06001F0D RID: 7949 RVA: 0x0010D518 File Offset: 0x0010B918
 		public override void Tick()
 		{
 			base.Tick();
@@ -206,7 +206,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001F0A RID: 7946 RVA: 0x0010D434 File Offset: 0x0010B834
+		// Token: 0x06001F0E RID: 7950 RVA: 0x0010D584 File Offset: 0x0010B984
 		public override void PostMapGenerate()
 		{
 			base.PostMapGenerate();
@@ -266,14 +266,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001F0B RID: 7947 RVA: 0x0010D64C File Offset: 0x0010BA4C
+		// Token: 0x06001F0F RID: 7951 RVA: 0x0010D79C File Offset: 0x0010BB9C
 		public override bool ShouldRemoveMapNow(out bool alsoRemoveWorldObject)
 		{
 			alsoRemoveWorldObject = true;
 			return !base.Map.mapPawns.AnyPawnBlockingMapRemoval;
 		}
 
-		// Token: 0x06001F0C RID: 7948 RVA: 0x0010D678 File Offset: 0x0010BA78
+		// Token: 0x06001F10 RID: 7952 RVA: 0x0010D7C8 File Offset: 0x0010BBC8
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
 			foreach (FloatMenuOption f in this.<GetFloatMenuOptions>__BaseCallProxy1(caravan))
@@ -287,7 +287,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001F0D RID: 7949 RVA: 0x0010D6AC File Offset: 0x0010BAAC
+		// Token: 0x06001F11 RID: 7953 RVA: 0x0010D7FC File Offset: 0x0010BBFC
 		public override IEnumerable<FloatMenuOption> GetTransportPodsFloatMenuOptions(IEnumerable<IThingHolder> pods, CompLaunchable representative)
 		{
 			foreach (FloatMenuOption o in this.<GetTransportPodsFloatMenuOptions>__BaseCallProxy2(pods, representative))
@@ -301,7 +301,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001F0E RID: 7950 RVA: 0x0010D6E4 File Offset: 0x0010BAE4
+		// Token: 0x06001F12 RID: 7954 RVA: 0x0010D834 File Offset: 0x0010BC34
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy3())
@@ -315,7 +315,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001F0F RID: 7951 RVA: 0x0010D710 File Offset: 0x0010BB10
+		// Token: 0x06001F13 RID: 7955 RVA: 0x0010D860 File Offset: 0x0010BC60
 		private void CheckStartForceExitAndRemoveMapCountdown()
 		{
 			if (!this.startedCountdown)
@@ -341,14 +341,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001F10 RID: 7952 RVA: 0x0010D7EC File Offset: 0x0010BBEC
+		// Token: 0x06001F14 RID: 7956 RVA: 0x0010D93C File Offset: 0x0010BD3C
 		public override bool AllMatchingObjectsOnScreenMatchesWith(WorldObject other)
 		{
 			Site site = other as Site;
 			return site != null && site.MainSiteDef == this.MainSiteDef;
 		}
 
-		// Token: 0x06001F11 RID: 7953 RVA: 0x0010D820 File Offset: 0x0010BC20
+		// Token: 0x06001F15 RID: 7957 RVA: 0x0010D970 File Offset: 0x0010BD70
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -383,7 +383,7 @@ namespace RimWorld.Planet
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06001F12 RID: 7954 RVA: 0x0010D91C File Offset: 0x0010BD1C
+		// Token: 0x06001F16 RID: 7958 RVA: 0x0010DA6C File Offset: 0x0010BE6C
 		public override string GetDescription()
 		{
 			string text = this.MainSiteDef.description;

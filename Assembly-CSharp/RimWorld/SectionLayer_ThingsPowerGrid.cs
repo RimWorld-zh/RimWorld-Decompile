@@ -3,17 +3,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200038D RID: 909
+	// Token: 0x0200038F RID: 911
 	public class SectionLayer_ThingsPowerGrid : SectionLayer_Things
 	{
-		// Token: 0x06000FDD RID: 4061 RVA: 0x000853B4 File Offset: 0x000837B4
+		// Token: 0x06000FE1 RID: 4065 RVA: 0x00085504 File Offset: 0x00083904
 		public SectionLayer_ThingsPowerGrid(Section section) : base(section)
 		{
 			this.requireAddToMapMesh = false;
 			this.relevantChangeTypes = MapMeshFlag.PowerGrid;
 		}
 
-		// Token: 0x06000FDE RID: 4062 RVA: 0x000853D0 File Offset: 0x000837D0
+		// Token: 0x06000FE2 RID: 4066 RVA: 0x00085520 File Offset: 0x00083920
 		public override void DrawLayer()
 		{
 			if (OverlayDrawHandler.ShouldDrawPowerGrid)
@@ -22,7 +22,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000FDF RID: 4063 RVA: 0x000853E4 File Offset: 0x000837E4
+		// Token: 0x06000FE3 RID: 4067 RVA: 0x00085534 File Offset: 0x00083934
 		protected override void TakePrintFrom(Thing t)
 		{
 			if (t.Faction == null || t.Faction == Faction.OfPlayer)

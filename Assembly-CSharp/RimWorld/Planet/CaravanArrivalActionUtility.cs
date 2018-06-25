@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005C8 RID: 1480
+	// Token: 0x020005CA RID: 1482
 	public static class CaravanArrivalActionUtility
 	{
-		// Token: 0x06001CBF RID: 7359 RVA: 0x000F6CC4 File Offset: 0x000F50C4
+		// Token: 0x06001CC3 RID: 7363 RVA: 0x000F6E14 File Offset: 0x000F5214
 		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions<T>(Func<FloatMenuAcceptanceReport> acceptanceReportGetter, Func<T> arrivalActionGetter, string label, Caravan caravan, int pathDestination, WorldObject revalidateWorldClickTarget) where T : CaravanArrivalAction
 		{
 			FloatMenuAcceptanceReport rep = acceptanceReportGetter();

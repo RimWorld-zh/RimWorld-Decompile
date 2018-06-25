@@ -3,13 +3,13 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003CA RID: 970
+	// Token: 0x020003CC RID: 972
 	public class SymbolResolver_IndoorLighting : SymbolResolver
 	{
 		// Token: 0x04000A36 RID: 2614
 		private const float NeverSpawnTorchesIfTemperatureAbove = 18f;
 
-		// Token: 0x060010BC RID: 4284 RVA: 0x0008E6E8 File Offset: 0x0008CAE8
+		// Token: 0x060010C0 RID: 4288 RVA: 0x0008E838 File Offset: 0x0008CC38
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;

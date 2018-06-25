@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000664 RID: 1636
+	// Token: 0x02000666 RID: 1638
 	public static class TaleUtility
 	{
 		// Token: 0x04001378 RID: 4984
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x0600223F RID: 8767 RVA: 0x00122BC0 File Offset: 0x00120FC0
+		// Token: 0x06002243 RID: 8771 RVA: 0x00122D10 File Offset: 0x00121110
 		public static void Notify_PawnDied(Pawn victim, DamageInfo? dinfo)
 		{
 			if (Current.ProgramState == ProgramState.Playing && dinfo != null)

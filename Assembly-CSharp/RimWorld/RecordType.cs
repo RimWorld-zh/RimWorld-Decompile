@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020002BF RID: 703
+	// Token: 0x020002C1 RID: 705
 	public enum RecordType
 	{
 		// Token: 0x040006E1 RID: 1761

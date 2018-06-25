@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000315 RID: 789
+	// Token: 0x02000317 RID: 791
 	public class FiringIncident : IExposable
 	{
 		// Token: 0x04000895 RID: 2197
@@ -15,12 +15,12 @@ namespace RimWorld
 		// Token: 0x04000897 RID: 2199
 		public StorytellerComp source;
 
-		// Token: 0x06000D5F RID: 3423 RVA: 0x00073387 File Offset: 0x00071787
+		// Token: 0x06000D63 RID: 3427 RVA: 0x000734D7 File Offset: 0x000718D7
 		public FiringIncident()
 		{
 		}
 
-		// Token: 0x06000D60 RID: 3424 RVA: 0x0007339B File Offset: 0x0007179B
+		// Token: 0x06000D64 RID: 3428 RVA: 0x000734EB File Offset: 0x000718EB
 		public FiringIncident(IncidentDef def, StorytellerComp source, IncidentParms parms = null)
 		{
 			this.def = def;
@@ -31,14 +31,14 @@ namespace RimWorld
 			this.source = source;
 		}
 
-		// Token: 0x06000D61 RID: 3425 RVA: 0x000733CA File Offset: 0x000717CA
+		// Token: 0x06000D65 RID: 3429 RVA: 0x0007351A File Offset: 0x0007191A
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<IncidentDef>(ref this.def, "def");
 			Scribe_Deep.Look<IncidentParms>(ref this.parms, "parms", new object[0]);
 		}
 
-		// Token: 0x06000D62 RID: 3426 RVA: 0x000733F4 File Offset: 0x000717F4
+		// Token: 0x06000D66 RID: 3430 RVA: 0x00073544 File Offset: 0x00071944
 		public override string ToString()
 		{
 			string text = this.def.ToString();

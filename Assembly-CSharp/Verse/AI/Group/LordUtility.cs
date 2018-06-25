@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x020009F9 RID: 2553
+	// Token: 0x020009FB RID: 2555
 	public static class LordUtility
 	{
-		// Token: 0x06003956 RID: 14678 RVA: 0x001E6FB4 File Offset: 0x001E53B4
+		// Token: 0x0600395A RID: 14682 RVA: 0x001E70E0 File Offset: 0x001E54E0
 		public static Lord GetLord(this Pawn p)
 		{
 			List<Map> maps = Find.Maps;

@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006B8 RID: 1720
+	// Token: 0x020006BA RID: 1722
 	public class OrbitalStrike : ThingWithComps
 	{
 		// Token: 0x04001475 RID: 5237
@@ -34,7 +34,7 @@ namespace RimWorld
 		private const int OrbitalBeamFadeOutTicks = 10;
 
 		// Token: 0x1700059A RID: 1434
-		// (get) Token: 0x0600250C RID: 9484 RVA: 0x0013E0D0 File Offset: 0x0013C4D0
+		// (get) Token: 0x06002510 RID: 9488 RVA: 0x0013E220 File Offset: 0x0013C620
 		protected int TicksPassed
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700059B RID: 1435
-		// (get) Token: 0x0600250D RID: 9485 RVA: 0x0013E0F8 File Offset: 0x0013C4F8
+		// (get) Token: 0x06002511 RID: 9489 RVA: 0x0013E248 File Offset: 0x0013C648
 		protected int TicksLeft
 		{
 			get
@@ -53,7 +53,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600250E RID: 9486 RVA: 0x0013E11C File Offset: 0x0013C51C
+		// Token: 0x06002512 RID: 9490 RVA: 0x0013E26C File Offset: 0x0013C66C
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -64,13 +64,13 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.startTick, "startTick", 0, false);
 		}
 
-		// Token: 0x0600250F RID: 9487 RVA: 0x0013E18B File Offset: 0x0013C58B
+		// Token: 0x06002513 RID: 9491 RVA: 0x0013E2DB File Offset: 0x0013C6DB
 		public override void Draw()
 		{
 			base.Comps_PostDraw();
 		}
 
-		// Token: 0x06002510 RID: 9488 RVA: 0x0013E194 File Offset: 0x0013C594
+		// Token: 0x06002514 RID: 9492 RVA: 0x0013E2E4 File Offset: 0x0013C6E4
 		public virtual void StartStrike()
 		{
 			if (!base.Spawned)
@@ -86,7 +86,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002511 RID: 9489 RVA: 0x0013E21A File Offset: 0x0013C61A
+		// Token: 0x06002515 RID: 9493 RVA: 0x0013E36A File Offset: 0x0013C76A
 		public override void Tick()
 		{
 			base.Tick();

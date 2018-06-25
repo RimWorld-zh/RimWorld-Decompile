@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200055A RID: 1370
+	// Token: 0x0200055C RID: 1372
 	public enum FactionRelationKind
 	{
 		// Token: 0x04000F30 RID: 3888

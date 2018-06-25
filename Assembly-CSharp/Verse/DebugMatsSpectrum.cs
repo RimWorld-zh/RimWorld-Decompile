@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C07 RID: 3079
+	// Token: 0x02000C09 RID: 3081
 	[StaticConstructorOnStartup]
 	public static class DebugMatsSpectrum
 	{
@@ -26,7 +26,7 @@ namespace Verse
 			new Color(0.7f, 0f, 1f)
 		};
 
-		// Token: 0x06004358 RID: 17240 RVA: 0x00239784 File Offset: 0x00237B84
+		// Token: 0x0600435B RID: 17243 RVA: 0x00239860 File Offset: 0x00237C60
 		static DebugMatsSpectrum()
 		{
 			for (int i = 0; i < 100; i++)
@@ -36,7 +36,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004359 RID: 17241 RVA: 0x002398A8 File Offset: 0x00237CA8
+		// Token: 0x0600435C RID: 17244 RVA: 0x00239984 File Offset: 0x00237D84
 		private static Color[] DebugSpectrumWithOpacity(float opacity)
 		{
 			Color[] array = new Color[DebugMatsSpectrum.DebugSpectrum.Length];
@@ -47,7 +47,7 @@ namespace Verse
 			return array;
 		}
 
-		// Token: 0x0600435A RID: 17242 RVA: 0x00239928 File Offset: 0x00237D28
+		// Token: 0x0600435D RID: 17245 RVA: 0x00239A04 File Offset: 0x00237E04
 		public static Material Mat(int ind, bool transparent)
 		{
 			if (ind >= 100)

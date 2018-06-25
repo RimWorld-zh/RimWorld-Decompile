@@ -3,33 +3,33 @@ using System.Diagnostics;
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F8C RID: 3980
+	// Token: 0x02000F90 RID: 3984
 	public class Exponent : ModuleBase
 	{
-		// Token: 0x04003F18 RID: 16152
+		// Token: 0x04003F1B RID: 16155
 		private double m_exponent = 1.0;
 
-		// Token: 0x06006033 RID: 24627 RVA: 0x0030DB2E File Offset: 0x0030BF2E
+		// Token: 0x0600603D RID: 24637 RVA: 0x0030E1AE File Offset: 0x0030C5AE
 		public Exponent() : base(1)
 		{
 		}
 
-		// Token: 0x06006034 RID: 24628 RVA: 0x0030DB47 File Offset: 0x0030BF47
+		// Token: 0x0600603E RID: 24638 RVA: 0x0030E1C7 File Offset: 0x0030C5C7
 		public Exponent(ModuleBase input) : base(1)
 		{
 			this.modules[0] = input;
 		}
 
-		// Token: 0x06006035 RID: 24629 RVA: 0x0030DB69 File Offset: 0x0030BF69
+		// Token: 0x0600603F RID: 24639 RVA: 0x0030E1E9 File Offset: 0x0030C5E9
 		public Exponent(double exponent, ModuleBase input) : base(1)
 		{
 			this.modules[0] = input;
 			this.Value = exponent;
 		}
 
-		// Token: 0x17000F7A RID: 3962
-		// (get) Token: 0x06006036 RID: 24630 RVA: 0x0030DB94 File Offset: 0x0030BF94
-		// (set) Token: 0x06006037 RID: 24631 RVA: 0x0030DBAF File Offset: 0x0030BFAF
+		// Token: 0x17000F79 RID: 3961
+		// (get) Token: 0x06006040 RID: 24640 RVA: 0x0030E214 File Offset: 0x0030C614
+		// (set) Token: 0x06006041 RID: 24641 RVA: 0x0030E22F File Offset: 0x0030C62F
 		public double Value
 		{
 			get
@@ -42,7 +42,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06006038 RID: 24632 RVA: 0x0030DBBC File Offset: 0x0030BFBC
+		// Token: 0x06006042 RID: 24642 RVA: 0x0030E23C File Offset: 0x0030C63C
 		public override double GetValue(double x, double y, double z)
 		{
 			Debug.Assert(this.modules[0] != null);

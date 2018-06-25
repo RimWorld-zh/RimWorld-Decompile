@@ -3,13 +3,13 @@ using System.Text;
 
 namespace Verse
 {
-	// Token: 0x02000EDD RID: 3805
+	// Token: 0x02000EDF RID: 3807
 	public static class DataExposeUtility
 	{
 		// Token: 0x04003C73 RID: 15475
 		private const int NewlineInterval = 100;
 
-		// Token: 0x06005A17 RID: 23063 RVA: 0x002E3E90 File Offset: 0x002E2290
+		// Token: 0x06005A1A RID: 23066 RVA: 0x002E3FB0 File Offset: 0x002E23B0
 		public static void ByteArray(ref byte[] arr, string label)
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
@@ -52,7 +52,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005A18 RID: 23064 RVA: 0x002E3F78 File Offset: 0x002E2378
+		// Token: 0x06005A1B RID: 23067 RVA: 0x002E4098 File Offset: 0x002E2498
 		public static void BoolArray(ref bool[] arr, int elements, string label)
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
@@ -129,7 +129,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005A19 RID: 23065 RVA: 0x002E40FC File Offset: 0x002E24FC
+		// Token: 0x06005A1C RID: 23068 RVA: 0x002E421C File Offset: 0x002E261C
 		public static string AddLineBreaksToLongString(string str)
 		{
 			StringBuilder stringBuilder = new StringBuilder(str.Length + (str.Length / 100 + 3) * 2 + 1);
@@ -146,7 +146,7 @@ namespace Verse
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06005A1A RID: 23066 RVA: 0x002E4180 File Offset: 0x002E2580
+		// Token: 0x06005A1D RID: 23069 RVA: 0x002E42A0 File Offset: 0x002E26A0
 		public static string RemoveLineBreaks(string str)
 		{
 			return str.Replace("\n", "").Replace("\r", "");

@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000988 RID: 2440
+	// Token: 0x0200098A RID: 2442
 	public static class InventoryCalculatorsUtility
 	{
-		// Token: 0x060036ED RID: 14061 RVA: 0x001D5EB8 File Offset: 0x001D42B8
+		// Token: 0x060036F1 RID: 14065 RVA: 0x001D5FF8 File Offset: 0x001D43F8
 		public static bool ShouldIgnoreInventoryOf(Pawn pawn, IgnorePawnsInventoryMode ignoreMode)
 		{
 			bool result;

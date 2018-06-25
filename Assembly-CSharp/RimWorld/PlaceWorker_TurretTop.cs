@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000C7A RID: 3194
+	// Token: 0x02000C7C RID: 3196
 	public class PlaceWorker_TurretTop : PlaceWorker
 	{
-		// Token: 0x06004601 RID: 17921 RVA: 0x0024E73C File Offset: 0x0024CB3C
+		// Token: 0x06004604 RID: 17924 RVA: 0x0024E818 File Offset: 0x0024CC18
 		public override void DrawGhost(ThingDef def, IntVec3 loc, Rot4 rot, Color ghostCol)
 		{
 			Graphic baseGraphic = GraphicDatabase.Get<Graphic_Single>(def.building.turretTopGraphicPath, ShaderDatabase.Cutout, new Vector2(def.building.turretTopDrawSize, def.building.turretTopDrawSize), Color.white);

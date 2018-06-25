@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000748 RID: 1864
+	// Token: 0x0200074A RID: 1866
 	public enum QualityCategory : byte
 	{
 		// Token: 0x04001684 RID: 5764

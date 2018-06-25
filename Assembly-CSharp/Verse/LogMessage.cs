@@ -3,22 +3,22 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F15 RID: 3861
+	// Token: 0x02000F19 RID: 3865
 	public class LogMessage
 	{
-		// Token: 0x04003D85 RID: 15749
+		// Token: 0x04003D88 RID: 15752
 		public string text;
 
-		// Token: 0x04003D86 RID: 15750
+		// Token: 0x04003D89 RID: 15753
 		public LogMessageType type = LogMessageType.Message;
 
-		// Token: 0x04003D87 RID: 15751
+		// Token: 0x04003D8A RID: 15754
 		public int repeats = 1;
 
-		// Token: 0x04003D88 RID: 15752
+		// Token: 0x04003D8B RID: 15755
 		private string stackTrace = null;
 
-		// Token: 0x06005CAC RID: 23724 RVA: 0x002F07FD File Offset: 0x002EEBFD
+		// Token: 0x06005CB6 RID: 23734 RVA: 0x002F0E7D File Offset: 0x002EF27D
 		public LogMessage(string text)
 		{
 			this.text = text;
@@ -26,7 +26,7 @@ namespace Verse
 			this.stackTrace = null;
 		}
 
-		// Token: 0x06005CAD RID: 23725 RVA: 0x002F0830 File Offset: 0x002EEC30
+		// Token: 0x06005CB7 RID: 23735 RVA: 0x002F0EB0 File Offset: 0x002EF2B0
 		public LogMessage(LogMessageType type, string text, string stackTrace)
 		{
 			this.text = text;
@@ -34,8 +34,8 @@ namespace Verse
 			this.stackTrace = stackTrace;
 		}
 
-		// Token: 0x17000EE2 RID: 3810
-		// (get) Token: 0x06005CAE RID: 23726 RVA: 0x002F0864 File Offset: 0x002EEC64
+		// Token: 0x17000EE1 RID: 3809
+		// (get) Token: 0x06005CB8 RID: 23736 RVA: 0x002F0EE4 File Offset: 0x002EF2E4
 		public Color Color
 		{
 			get
@@ -68,8 +68,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000EE3 RID: 3811
-		// (get) Token: 0x06005CAF RID: 23727 RVA: 0x002F08C0 File Offset: 0x002EECC0
+		// Token: 0x17000EE2 RID: 3810
+		// (get) Token: 0x06005CB9 RID: 23737 RVA: 0x002F0F40 File Offset: 0x002EF340
 		public string StackTrace
 		{
 			get
@@ -87,7 +87,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005CB0 RID: 23728 RVA: 0x002F08F4 File Offset: 0x002EECF4
+		// Token: 0x06005CBA RID: 23738 RVA: 0x002F0F74 File Offset: 0x002EF374
 		public override string ToString()
 		{
 			string result;
@@ -102,7 +102,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005CB1 RID: 23729 RVA: 0x002F0948 File Offset: 0x002EED48
+		// Token: 0x06005CBB RID: 23739 RVA: 0x002F0FC8 File Offset: 0x002EF3C8
 		public bool CanCombineWith(LogMessage other)
 		{
 			return this.text == other.text && this.type == other.type;

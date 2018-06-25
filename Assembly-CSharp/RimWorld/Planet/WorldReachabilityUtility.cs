@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000544 RID: 1348
+	// Token: 0x02000546 RID: 1350
 	public static class WorldReachabilityUtility
 	{
-		// Token: 0x0600193E RID: 6462 RVA: 0x000DB97C File Offset: 0x000D9D7C
+		// Token: 0x06001942 RID: 6466 RVA: 0x000DBACC File Offset: 0x000D9ECC
 		public static bool CanReach(this Caravan c, int tile)
 		{
 			return Find.WorldReachability.CanReach(c, tile);

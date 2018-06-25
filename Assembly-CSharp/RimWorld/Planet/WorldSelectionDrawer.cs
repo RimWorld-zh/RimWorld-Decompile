@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008EE RID: 2286
+	// Token: 0x020008F0 RID: 2288
 	public static class WorldSelectionDrawer
 	{
 		// Token: 0x04001C85 RID: 7301
@@ -27,7 +27,7 @@ namespace RimWorld.Planet
 		private static Vector2[] bracketLocs = new Vector2[4];
 
 		// Token: 0x17000885 RID: 2181
-		// (get) Token: 0x060034C5 RID: 13509 RVA: 0x001C3720 File Offset: 0x001C1B20
+		// (get) Token: 0x060034C9 RID: 13513 RVA: 0x001C3860 File Offset: 0x001C1C60
 		public static Dictionary<WorldObject, float> SelectTimes
 		{
 			get
@@ -36,19 +36,19 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034C6 RID: 13510 RVA: 0x001C373A File Offset: 0x001C1B3A
+		// Token: 0x060034CA RID: 13514 RVA: 0x001C387A File Offset: 0x001C1C7A
 		public static void Notify_Selected(WorldObject t)
 		{
 			WorldSelectionDrawer.selectTimes[t] = Time.realtimeSinceStartup;
 		}
 
-		// Token: 0x060034C7 RID: 13511 RVA: 0x001C374D File Offset: 0x001C1B4D
+		// Token: 0x060034CB RID: 13515 RVA: 0x001C388D File Offset: 0x001C1C8D
 		public static void Clear()
 		{
 			WorldSelectionDrawer.selectTimes.Clear();
 		}
 
-		// Token: 0x060034C8 RID: 13512 RVA: 0x001C375C File Offset: 0x001C1B5C
+		// Token: 0x060034CC RID: 13516 RVA: 0x001C389C File Offset: 0x001C1C9C
 		public static void SelectionOverlaysOnGUI()
 		{
 			List<WorldObject> selectedObjects = Find.WorldSelector.SelectedObjects;
@@ -60,7 +60,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034C9 RID: 13513 RVA: 0x001C37A4 File Offset: 0x001C1BA4
+		// Token: 0x060034CD RID: 13517 RVA: 0x001C38E4 File Offset: 0x001C1CE4
 		public static void DrawSelectionOverlays()
 		{
 			List<WorldObject> selectedObjects = Find.WorldSelector.SelectedObjects;
@@ -71,7 +71,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034CA RID: 13514 RVA: 0x001C37E4 File Offset: 0x001C1BE4
+		// Token: 0x060034CE RID: 13518 RVA: 0x001C3924 File Offset: 0x001C1D24
 		private static void DrawSelectionBracketOnGUIFor(WorldObject obj)
 		{
 			Vector2 vector = obj.ScreenPos();

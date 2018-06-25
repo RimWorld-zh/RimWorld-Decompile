@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B72 RID: 2930
+	// Token: 0x02000B74 RID: 2932
 	public class SongDef : Def
 	{
 		// Token: 0x04002AE1 RID: 10977
@@ -34,7 +34,7 @@ namespace Verse
 		[Unsaved]
 		public AudioClip clip;
 
-		// Token: 0x06003FF7 RID: 16375 RVA: 0x0021B4D8 File Offset: 0x002198D8
+		// Token: 0x06003FFA RID: 16378 RVA: 0x0021B5B4 File Offset: 0x002199B4
 		public override void PostLoad()
 		{
 			base.PostLoad();
@@ -49,7 +49,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FF8 RID: 16376 RVA: 0x0021B52C File Offset: 0x0021992C
+		// Token: 0x06003FFB RID: 16379 RVA: 0x0021B608 File Offset: 0x00219A08
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();

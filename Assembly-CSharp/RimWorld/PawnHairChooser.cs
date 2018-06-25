@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000488 RID: 1160
+	// Token: 0x0200048A RID: 1162
 	public static class PawnHairChooser
 	{
-		// Token: 0x06001480 RID: 5248 RVA: 0x000B40C0 File Offset: 0x000B24C0
+		// Token: 0x06001484 RID: 5252 RVA: 0x000B4210 File Offset: 0x000B2610
 		public static HairDef RandomHairDefFor(Pawn pawn, FactionDef factionType)
 		{
 			IEnumerable<HairDef> source = from hair in DefDatabase<HairDef>.AllDefs
@@ -17,7 +17,7 @@ namespace RimWorld
 			return source.RandomElementByWeight((HairDef hair) => PawnHairChooser.HairChoiceLikelihoodFor(hair, pawn));
 		}
 
-		// Token: 0x06001481 RID: 5249 RVA: 0x000B4114 File Offset: 0x000B2514
+		// Token: 0x06001485 RID: 5253 RVA: 0x000B4264 File Offset: 0x000B2664
 		private static float HairChoiceLikelihoodFor(HairDef hair, Pawn pawn)
 		{
 			float result;

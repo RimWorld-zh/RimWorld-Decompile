@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000E85 RID: 3717
+	// Token: 0x02000E87 RID: 3719
 	public class TreeNode
 	{
 		// Token: 0x04003A04 RID: 14852
@@ -18,13 +18,13 @@ namespace Verse
 		// Token: 0x04003A07 RID: 14855
 		private int openBits;
 
-		// Token: 0x060057C0 RID: 22464 RVA: 0x002CE714 File Offset: 0x002CCB14
+		// Token: 0x060057C4 RID: 22468 RVA: 0x002CE840 File Offset: 0x002CCC40
 		public bool IsOpen(int mask)
 		{
 			return (this.openBits & mask) != 0;
 		}
 
-		// Token: 0x060057C1 RID: 22465 RVA: 0x002CE737 File Offset: 0x002CCB37
+		// Token: 0x060057C5 RID: 22469 RVA: 0x002CE863 File Offset: 0x002CCC63
 		public void SetOpen(int mask, bool val)
 		{
 			if (val)
@@ -37,8 +37,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DDA RID: 3546
-		// (get) Token: 0x060057C2 RID: 22466 RVA: 0x002CE764 File Offset: 0x002CCB64
+		// Token: 0x17000DD9 RID: 3545
+		// (get) Token: 0x060057C6 RID: 22470 RVA: 0x002CE890 File Offset: 0x002CCC90
 		public virtual bool Openable
 		{
 			get

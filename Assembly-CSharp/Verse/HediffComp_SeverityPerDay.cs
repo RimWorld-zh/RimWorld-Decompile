@@ -3,14 +3,14 @@ using System.Text;
 
 namespace Verse
 {
-	// Token: 0x02000D20 RID: 3360
+	// Token: 0x02000D22 RID: 3362
 	public class HediffComp_SeverityPerDay : HediffComp
 	{
 		// Token: 0x04003235 RID: 12853
 		protected const int SeverityUpdateInterval = 200;
 
-		// Token: 0x17000BC5 RID: 3013
-		// (get) Token: 0x06004A11 RID: 18961 RVA: 0x00269DD8 File Offset: 0x002681D8
+		// Token: 0x17000BC4 RID: 3012
+		// (get) Token: 0x06004A14 RID: 18964 RVA: 0x00269EB4 File Offset: 0x002682B4
 		private HediffCompProperties_SeverityPerDay Props
 		{
 			get
@@ -19,7 +19,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A12 RID: 18962 RVA: 0x00269DF8 File Offset: 0x002681F8
+		// Token: 0x06004A15 RID: 18965 RVA: 0x00269ED4 File Offset: 0x002682D4
 		public override void CompPostTick(ref float severityAdjustment)
 		{
 			base.CompPostTick(ref severityAdjustment);
@@ -31,13 +31,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A13 RID: 18963 RVA: 0x00269E3C File Offset: 0x0026823C
+		// Token: 0x06004A16 RID: 18966 RVA: 0x00269F18 File Offset: 0x00268318
 		protected virtual float SeverityChangePerDay()
 		{
 			return this.Props.severityPerDay;
 		}
 
-		// Token: 0x06004A14 RID: 18964 RVA: 0x00269E5C File Offset: 0x0026825C
+		// Token: 0x06004A17 RID: 18967 RVA: 0x00269F38 File Offset: 0x00268338
 		public override string CompDebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

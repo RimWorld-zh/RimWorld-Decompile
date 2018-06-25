@@ -4,11 +4,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D25 RID: 3365
+	// Token: 0x02000D27 RID: 3367
 	public class Hediff_AddedPart : HediffWithComps
 	{
-		// Token: 0x17000BCF RID: 3023
-		// (get) Token: 0x06004A35 RID: 18997 RVA: 0x0026BDF4 File Offset: 0x0026A1F4
+		// Token: 0x17000BCE RID: 3022
+		// (get) Token: 0x06004A39 RID: 19001 RVA: 0x0026BF20 File Offset: 0x0026A320
 		public override bool ShouldRemove
 		{
 			get
@@ -17,8 +17,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BD0 RID: 3024
-		// (get) Token: 0x06004A36 RID: 18998 RVA: 0x0026BE0C File Offset: 0x0026A20C
+		// Token: 0x17000BCF RID: 3023
+		// (get) Token: 0x06004A3A RID: 19002 RVA: 0x0026BF38 File Offset: 0x0026A338
 		public override string TipStringExtra
 		{
 			get
@@ -30,7 +30,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A37 RID: 18999 RVA: 0x0026BE6C File Offset: 0x0026A26C
+		// Token: 0x06004A3B RID: 19003 RVA: 0x0026BF98 File Offset: 0x0026A398
 		public override void PostAdd(DamageInfo? dinfo)
 		{
 			if (base.Part == null)
@@ -51,7 +51,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A38 RID: 19000 RVA: 0x0026BF44 File Offset: 0x0026A344
+		// Token: 0x06004A3C RID: 19004 RVA: 0x0026C070 File Offset: 0x0026A470
 		public override void ExposeData()
 		{
 			base.ExposeData();

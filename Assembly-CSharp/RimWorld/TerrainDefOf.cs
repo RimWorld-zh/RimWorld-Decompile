@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000917 RID: 2327
+	// Token: 0x02000919 RID: 2329
 	[DefOf]
 	public static class TerrainDefOf
 	{
@@ -61,7 +61,7 @@ namespace RimWorld
 		// Token: 0x04001EA9 RID: 7849
 		public static TerrainDef Bridge;
 
-		// Token: 0x0600361F RID: 13855 RVA: 0x001D08EB File Offset: 0x001CECEB
+		// Token: 0x06003623 RID: 13859 RVA: 0x001D0A2B File Offset: 0x001CEE2B
 		static TerrainDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(TerrainDefOf));

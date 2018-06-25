@@ -7,11 +7,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000378 RID: 888
+	// Token: 0x0200037A RID: 890
 	public static class StorytellerUtility
 	{
 		// Token: 0x04000964 RID: 2404
-		private const float PointsPer1000Wealth = 7.8f;
+		private const float PointsPer1000Wealth = 7.5f;
 
 		// Token: 0x04000965 RID: 2405
 		public const float BuildingWealthFactor = 0.5f;
@@ -70,7 +70,7 @@ namespace RimWorld
 		// Token: 0x0400096D RID: 2413
 		private static Dictionary<IIncidentTarget, StoryState> tmpOldStoryStates = new Dictionary<IIncidentTarget, StoryState>();
 
-		// Token: 0x06000F55 RID: 3925 RVA: 0x00081EA4 File Offset: 0x000802A4
+		// Token: 0x06000F59 RID: 3929 RVA: 0x00081FF4 File Offset: 0x000803F4
 		public static IncidentParms DefaultParmsNow(IncidentCategoryDef incCat, IIncidentTarget target)
 		{
 			if (incCat == null)
@@ -112,12 +112,12 @@ namespace RimWorld
 			return incidentParms;
 		}
 
-		// Token: 0x06000F56 RID: 3926 RVA: 0x00081FCC File Offset: 0x000803CC
+		// Token: 0x06000F5A RID: 3930 RVA: 0x0008211C File Offset: 0x0008051C
 		public static float DefaultThreatPointsNow(IIncidentTarget target)
 		{
 			float num = target.PlayerWealthForStoryteller;
 			num = Mathf.Max(num, 0f);
-			float num2 = num / 1000f * 7.8f;
+			float num2 = num / 1000f * 7.5f;
 			float num3 = 0f;
 			foreach (Pawn pawn in target.PlayerPawnsForStoryteller)
 			{
@@ -147,7 +147,7 @@ namespace RimWorld
 			return StorytellerUtility.PostProcessCurve.Evaluate(num5);
 		}
 
-		// Token: 0x06000F57 RID: 3927 RVA: 0x00082180 File Offset: 0x00080580
+		// Token: 0x06000F5B RID: 3931 RVA: 0x000822D0 File Offset: 0x000806D0
 		public static float AllyIncidentMTBMultiplier(bool enoughIfNonHostile)
 		{
 			List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;
@@ -180,7 +180,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000F58 RID: 3928 RVA: 0x00082264 File Offset: 0x00080664
+		// Token: 0x06000F5C RID: 3932 RVA: 0x000823B4 File Offset: 0x000807B4
 		public static void ShowFutureIncidentsDebugLogFloatMenu(bool currentMapOnly)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
@@ -200,7 +200,7 @@ namespace RimWorld
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06000F59 RID: 3929 RVA: 0x0008232C File Offset: 0x0008072C
+		// Token: 0x06000F5D RID: 3933 RVA: 0x0008247C File Offset: 0x0008087C
 		public static void DebugLogTestFutureIncidents(bool currentMapOnly, StorytellerComp onlyThisComp = null)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -279,7 +279,7 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06000F5A RID: 3930 RVA: 0x00082718 File Offset: 0x00080B18
+		// Token: 0x06000F5E RID: 3934 RVA: 0x00082868 File Offset: 0x00080C68
 		public static void DebugGetFutureIncidents(int numTestDays, bool currentMapOnly, out Dictionary<IIncidentTarget, int> incCountsForTarget, out int[] incCountsForComp, out List<Pair<IncidentDef, IncidentParms>> allIncidents, out int threatBigCount, StringBuilder incDebugInfo = null, StorytellerComp onlyThisComp = null)
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -349,7 +349,7 @@ namespace RimWorld
 			StorytellerUtility.tmpOldStoryStates.Clear();
 		}
 
-		// Token: 0x06000F5B RID: 3931 RVA: 0x00082A6C File Offset: 0x00080E6C
+		// Token: 0x06000F5F RID: 3935 RVA: 0x00082BBC File Offset: 0x00080FBC
 		public static void DebugLogTestIncidentTargets()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

@@ -6,7 +6,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020007FA RID: 2042
+	// Token: 0x020007FC RID: 2044
 	public class Dialog_KeyBindings : Window
 	{
 		// Token: 0x04001808 RID: 6152
@@ -30,7 +30,7 @@ namespace RimWorld
 		// Token: 0x0400180E RID: 6158
 		private static List<KeyBindingDef> keyBindingsWorkingList = new List<KeyBindingDef>();
 
-		// Token: 0x06002D7A RID: 11642 RVA: 0x0017ED08 File Offset: 0x0017D108
+		// Token: 0x06002D7E RID: 11646 RVA: 0x0017EE58 File Offset: 0x0017D258
 		public Dialog_KeyBindings()
 		{
 			this.forcePause = true;
@@ -52,7 +52,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700073E RID: 1854
-		// (get) Token: 0x06002D7B RID: 11643 RVA: 0x0017EE00 File Offset: 0x0017D200
+		// (get) Token: 0x06002D7F RID: 11647 RVA: 0x0017EF50 File Offset: 0x0017D350
 		public override Vector2 InitialSize
 		{
 			get
@@ -62,7 +62,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700073F RID: 1855
-		// (get) Token: 0x06002D7C RID: 11644 RVA: 0x0017EE1C File Offset: 0x0017D21C
+		// (get) Token: 0x06002D80 RID: 11648 RVA: 0x0017EF6C File Offset: 0x0017D36C
 		protected override float Margin
 		{
 			get
@@ -71,7 +71,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D7D RID: 11645 RVA: 0x0017EE38 File Offset: 0x0017D238
+		// Token: 0x06002D81 RID: 11649 RVA: 0x0017EF88 File Offset: 0x0017D388
 		public override void DoWindowContents(Rect inRect)
 		{
 			Vector2 vector = new Vector2(120f, 40f);
@@ -140,7 +140,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002D7E RID: 11646 RVA: 0x0017F230 File Offset: 0x0017D630
+		// Token: 0x06002D82 RID: 11650 RVA: 0x0017F380 File Offset: 0x0017D780
 		private void DrawCategoryEntry(KeyBindingCategoryDef category, float width, ref float curY, bool skipDrawing)
 		{
 			if (!skipDrawing)
@@ -165,7 +165,7 @@ namespace RimWorld
 			curY += 4f;
 		}
 
-		// Token: 0x06002D7F RID: 11647 RVA: 0x0017F2EC File Offset: 0x0017D6EC
+		// Token: 0x06002D83 RID: 11651 RVA: 0x0017F43C File Offset: 0x0017D83C
 		private void DrawKeyEntry(KeyBindingDef keyDef, Rect parentRect, ref float curY, bool skipDrawing)
 		{
 			if (!skipDrawing)
@@ -192,7 +192,7 @@ namespace RimWorld
 			curY += 34f;
 		}
 
-		// Token: 0x06002D80 RID: 11648 RVA: 0x0017F458 File Offset: 0x0017D858
+		// Token: 0x06002D84 RID: 11652 RVA: 0x0017F5A8 File Offset: 0x0017D9A8
 		private void SettingButtonClicked(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
 			if (Event.current.button == 0)

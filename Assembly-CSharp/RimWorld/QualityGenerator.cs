@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020002E0 RID: 736
+	// Token: 0x020002E2 RID: 738
 	public enum QualityGenerator
 	{
 		// Token: 0x04000793 RID: 1939

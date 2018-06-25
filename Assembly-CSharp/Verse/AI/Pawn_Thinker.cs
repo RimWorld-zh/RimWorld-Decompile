@@ -2,20 +2,20 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000AA0 RID: 2720
+	// Token: 0x02000AA2 RID: 2722
 	public class Pawn_Thinker
 	{
-		// Token: 0x0400266C RID: 9836
+		// Token: 0x0400266D RID: 9837
 		public Pawn pawn;
 
-		// Token: 0x06003CAC RID: 15532 RVA: 0x002023A7 File Offset: 0x002007A7
+		// Token: 0x06003CB0 RID: 15536 RVA: 0x002024D3 File Offset: 0x002008D3
 		public Pawn_Thinker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
 		// Token: 0x1700092E RID: 2350
-		// (get) Token: 0x06003CAD RID: 15533 RVA: 0x002023B8 File Offset: 0x002007B8
+		// (get) Token: 0x06003CB1 RID: 15537 RVA: 0x002024E4 File Offset: 0x002008E4
 		public ThinkTreeDef MainThinkTree
 		{
 			get
@@ -25,7 +25,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x1700092F RID: 2351
-		// (get) Token: 0x06003CAE RID: 15534 RVA: 0x002023E0 File Offset: 0x002007E0
+		// (get) Token: 0x06003CB2 RID: 15538 RVA: 0x0020250C File Offset: 0x0020090C
 		public ThinkNode MainThinkNodeRoot
 		{
 			get
@@ -35,7 +35,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000930 RID: 2352
-		// (get) Token: 0x06003CAF RID: 15535 RVA: 0x0020240C File Offset: 0x0020080C
+		// (get) Token: 0x06003CB3 RID: 15539 RVA: 0x00202538 File Offset: 0x00200938
 		public ThinkTreeDef ConstantThinkTree
 		{
 			get
@@ -45,7 +45,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000931 RID: 2353
-		// (get) Token: 0x06003CB0 RID: 15536 RVA: 0x00202434 File Offset: 0x00200834
+		// (get) Token: 0x06003CB4 RID: 15540 RVA: 0x00202560 File Offset: 0x00200960
 		public ThinkNode ConstantThinkNodeRoot
 		{
 			get
@@ -54,7 +54,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003CB1 RID: 15537 RVA: 0x00202460 File Offset: 0x00200860
+		// Token: 0x06003CB5 RID: 15541 RVA: 0x0020258C File Offset: 0x0020098C
 		public T TryGetMainTreeThinkNode<T>() where T : ThinkNode
 		{
 			foreach (ThinkNode thinkNode in this.MainThinkNodeRoot.ChildrenRecursive)
@@ -68,7 +68,7 @@ namespace Verse.AI
 			return (T)((object)null);
 		}
 
-		// Token: 0x06003CB2 RID: 15538 RVA: 0x002024E8 File Offset: 0x002008E8
+		// Token: 0x06003CB6 RID: 15542 RVA: 0x00202614 File Offset: 0x00200A14
 		public T GetMainTreeThinkNode<T>() where T : ThinkNode
 		{
 			T t = this.TryGetMainTreeThinkNode<T>();

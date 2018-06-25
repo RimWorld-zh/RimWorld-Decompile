@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200088A RID: 2186
+	// Token: 0x0200088C RID: 2188
 	public class PawnColumnWorker_Gap : PawnColumnWorker
 	{
 		// Token: 0x17000802 RID: 2050
-		// (get) Token: 0x060031EA RID: 12778 RVA: 0x001AF08C File Offset: 0x001AD48C
+		// (get) Token: 0x060031EE RID: 12782 RVA: 0x001AF1CC File Offset: 0x001AD5CC
 		protected virtual int Width
 		{
 			get
@@ -17,24 +17,24 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060031EB RID: 12779 RVA: 0x001AF0AC File Offset: 0x001AD4AC
+		// Token: 0x060031EF RID: 12783 RVA: 0x001AF1EC File Offset: 0x001AD5EC
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 		}
 
-		// Token: 0x060031EC RID: 12780 RVA: 0x001AF0B0 File Offset: 0x001AD4B0
+		// Token: 0x060031F0 RID: 12784 RVA: 0x001AF1F0 File Offset: 0x001AD5F0
 		public override int GetMinWidth(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinWidth(table), this.Width);
 		}
 
-		// Token: 0x060031ED RID: 12781 RVA: 0x001AF0D8 File Offset: 0x001AD4D8
+		// Token: 0x060031F1 RID: 12785 RVA: 0x001AF218 File Offset: 0x001AD618
 		public override int GetMaxWidth(PawnTable table)
 		{
 			return Mathf.Min(base.GetMaxWidth(table), this.Width);
 		}
 
-		// Token: 0x060031EE RID: 12782 RVA: 0x001AF100 File Offset: 0x001AD500
+		// Token: 0x060031F2 RID: 12786 RVA: 0x001AF240 File Offset: 0x001AD640
 		public override int GetMinCellHeight(Pawn pawn)
 		{
 			return 0;

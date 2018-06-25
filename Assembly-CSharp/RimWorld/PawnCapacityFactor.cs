@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002D7 RID: 727
+	// Token: 0x020002D9 RID: 729
 	public class PawnCapacityFactor
 	{
 		// Token: 0x0400075F RID: 1887
@@ -25,7 +25,7 @@ namespace RimWorld
 		// Token: 0x04000764 RID: 1892
 		private const float MaxReciprocalFactor = 5f;
 
-		// Token: 0x06000C08 RID: 3080 RVA: 0x0006AE74 File Offset: 0x00069274
+		// Token: 0x06000C0C RID: 3084 RVA: 0x0006AFC4 File Offset: 0x000693C4
 		public float GetFactor(float capacityEfficiency)
 		{
 			float num = capacityEfficiency;

@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008F5 RID: 2293
+	// Token: 0x020008F7 RID: 2295
 	public static class Autotests_RandomNumbers
 	{
-		// Token: 0x0600351A RID: 13594 RVA: 0x001C6716 File Offset: 0x001C4B16
+		// Token: 0x0600351E RID: 13598 RVA: 0x001C6856 File Offset: 0x001C4C56
 		public static void Run()
 		{
 			Log.Message("Running random numbers tests.", false);
@@ -19,7 +19,7 @@ namespace RimWorld
 			Log.Message("Finished.", false);
 		}
 
-		// Token: 0x0600351B RID: 13595 RVA: 0x001C6744 File Offset: 0x001C4B44
+		// Token: 0x0600351F RID: 13599 RVA: 0x001C6884 File Offset: 0x001C4C84
 		private static void CheckSimpleFloats()
 		{
 			List<float> list = Autotests_RandomNumbers.RandomFloats(500).ToList<float>();
@@ -46,7 +46,7 @@ namespace RimWorld
 			Log.Message("< 0.0001 count (should be ~0.01%): " + (float)num / (float)list.Count<float>() * 100f + "%", false);
 		}
 
-		// Token: 0x0600351C RID: 13596 RVA: 0x001C68C4 File Offset: 0x001C4CC4
+		// Token: 0x06003520 RID: 13600 RVA: 0x001C6A04 File Offset: 0x001C4E04
 		private static IEnumerable<float> RandomFloats(int count)
 		{
 			for (int i = 0; i < count; i++)
@@ -56,7 +56,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600351D RID: 13597 RVA: 0x001C68F0 File Offset: 0x001C4CF0
+		// Token: 0x06003521 RID: 13601 RVA: 0x001C6A30 File Offset: 0x001C4E30
 		private static void CheckIntsRange()
 		{
 			int num = -7;
@@ -116,7 +116,7 @@ namespace RimWorld
 			Log.Error("Failed to find all numbers in a range.", false);
 		}
 
-		// Token: 0x0600351E RID: 13598 RVA: 0x001C6A40 File Offset: 0x001C4E40
+		// Token: 0x06003522 RID: 13602 RVA: 0x001C6B80 File Offset: 0x001C4F80
 		private static void CheckIntsDistribution()
 		{
 			List<int> list = new List<int>();
@@ -139,7 +139,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600351F RID: 13599 RVA: 0x001C6B10 File Offset: 0x001C4F10
+		// Token: 0x06003523 RID: 13603 RVA: 0x001C6C50 File Offset: 0x001C5050
 		private static void CheckSeed()
 		{
 			int seed = 10;
@@ -161,7 +161,7 @@ namespace RimWorld
 			Autotests_RandomNumbers.TestPushSeed(455, 648023);
 		}
 
-		// Token: 0x06003520 RID: 13600 RVA: 0x001C6BB0 File Offset: 0x001C4FB0
+		// Token: 0x06003524 RID: 13604 RVA: 0x001C6CF0 File Offset: 0x001C50F0
 		private static void TestPushSeed(int seed1, int seed2)
 		{
 			Rand.Seed = seed1;

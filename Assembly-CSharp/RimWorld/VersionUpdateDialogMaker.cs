@@ -3,13 +3,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009CF RID: 2511
+	// Token: 0x020009D1 RID: 2513
 	public static class VersionUpdateDialogMaker
 	{
-		// Token: 0x04002406 RID: 9222
+		// Token: 0x04002407 RID: 9223
 		private static bool dialogDone = false;
 
-		// Token: 0x0600385A RID: 14426 RVA: 0x001E07B4 File Offset: 0x001DEBB4
+		// Token: 0x0600385E RID: 14430 RVA: 0x001E08F8 File Offset: 0x001DECF8
 		public static void CreateVersionUpdateDialogIfNecessary()
 		{
 			if (!VersionUpdateDialogMaker.dialogDone && LastPlayedVersion.Version != null && (VersionControl.CurrentMajor != LastPlayedVersion.Version.Major || VersionControl.CurrentMinor != LastPlayedVersion.Version.Minor))
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600385B RID: 14427 RVA: 0x001E080C File Offset: 0x001DEC0C
+		// Token: 0x0600385F RID: 14431 RVA: 0x001E0950 File Offset: 0x001DED50
 		private static void CreateNewVersionDialog()
 		{
 			string text = LastPlayedVersion.Version.Major + "." + LastPlayedVersion.Version.Minor;

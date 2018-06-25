@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Verse.Grammar
 {
-	// Token: 0x02000BE4 RID: 3044
+	// Token: 0x02000BE6 RID: 3046
 	public class RulePack
 	{
 		// Token: 0x04002D79 RID: 11641
@@ -23,8 +23,8 @@ namespace Verse.Grammar
 		[Unsaved]
 		private List<Rule> rulesResolved = null;
 
-		// Token: 0x17000A76 RID: 2678
-		// (get) Token: 0x0600427F RID: 17023 RVA: 0x00230AA8 File Offset: 0x0022EEA8
+		// Token: 0x17000A75 RID: 2677
+		// (get) Token: 0x06004282 RID: 17026 RVA: 0x00230B84 File Offset: 0x0022EF84
 		public List<Rule> Rules
 		{
 			get

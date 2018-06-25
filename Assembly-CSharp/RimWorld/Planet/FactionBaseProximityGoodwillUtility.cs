@@ -7,14 +7,14 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000555 RID: 1365
+	// Token: 0x02000557 RID: 1367
 	public static class FactionBaseProximityGoodwillUtility
 	{
 		// Token: 0x04000F15 RID: 3861
 		private static List<Pair<FactionBase, int>> tmpGoodwillOffsets = new List<Pair<FactionBase, int>>();
 
 		// Token: 0x1700039E RID: 926
-		// (get) Token: 0x0600199D RID: 6557 RVA: 0x000DE83C File Offset: 0x000DCC3C
+		// (get) Token: 0x060019A1 RID: 6561 RVA: 0x000DE98C File Offset: 0x000DCD8C
 		public static int MaxDist
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x0600199E RID: 6558 RVA: 0x000DE868 File Offset: 0x000DCC68
+		// Token: 0x060019A2 RID: 6562 RVA: 0x000DE9B8 File Offset: 0x000DCDB8
 		public static void CheckFactionBaseProximityGoodwillChange()
 		{
 			if (Find.TickManager.TicksGame != 0 && Find.TickManager.TicksGame % 900000 == 0)
@@ -73,7 +73,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x0600199F RID: 6559 RVA: 0x000DEA48 File Offset: 0x000DCE48
+		// Token: 0x060019A3 RID: 6563 RVA: 0x000DEB98 File Offset: 0x000DCF98
 		public static void AppendProximityGoodwillOffsets(int tile, List<Pair<FactionBase, int>> outOffsets, bool ignoreIfAlreadyMinGoodwill, bool ignorePermanentlyHostile)
 		{
 			int maxDist = FactionBaseProximityGoodwillUtility.MaxDist;
@@ -105,13 +105,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060019A0 RID: 6560 RVA: 0x000DEB38 File Offset: 0x000DCF38
+		// Token: 0x060019A4 RID: 6564 RVA: 0x000DEC88 File Offset: 0x000DD088
 		public static void SortProximityGoodwillOffsets(List<Pair<FactionBase, int>> offsets)
 		{
 			offsets.SortBy((Pair<FactionBase, int> x) => x.First.Faction.loadID, (Pair<FactionBase, int> x) => -Mathf.Abs(x.Second));
 		}
 
-		// Token: 0x060019A1 RID: 6561 RVA: 0x000DEB88 File Offset: 0x000DCF88
+		// Token: 0x060019A5 RID: 6565 RVA: 0x000DECD8 File Offset: 0x000DD0D8
 		public static string ProximityGoodwillOffsetsToString(List<Pair<FactionBase, int>> offsets)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -130,7 +130,7 @@ namespace RimWorld.Planet
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060019A2 RID: 6562 RVA: 0x000DEC48 File Offset: 0x000DD048
+		// Token: 0x060019A6 RID: 6566 RVA: 0x000DED98 File Offset: 0x000DD198
 		public static void CheckConfirmSettle(int tile, Action settleAction)
 		{
 			FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets.Clear();

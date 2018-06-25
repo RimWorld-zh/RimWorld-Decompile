@@ -6,7 +6,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000693 RID: 1683
+	// Token: 0x02000695 RID: 1685
 	public static class StorageSettingsClipboard
 	{
 		// Token: 0x040013F3 RID: 5107
@@ -16,7 +16,7 @@ namespace RimWorld
 		private static bool copied = false;
 
 		// Token: 0x17000554 RID: 1364
-		// (get) Token: 0x060023B0 RID: 9136 RVA: 0x00132424 File Offset: 0x00130824
+		// (get) Token: 0x060023B4 RID: 9140 RVA: 0x00132574 File Offset: 0x00130974
 		public static bool HasCopiedSettings
 		{
 			get
@@ -25,20 +25,20 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023B1 RID: 9137 RVA: 0x0013243E File Offset: 0x0013083E
+		// Token: 0x060023B5 RID: 9141 RVA: 0x0013258E File Offset: 0x0013098E
 		public static void Copy(StorageSettings s)
 		{
 			StorageSettingsClipboard.clipboard.CopyFrom(s);
 			StorageSettingsClipboard.copied = true;
 		}
 
-		// Token: 0x060023B2 RID: 9138 RVA: 0x00132452 File Offset: 0x00130852
+		// Token: 0x060023B6 RID: 9142 RVA: 0x001325A2 File Offset: 0x001309A2
 		public static void PasteInto(StorageSettings s)
 		{
 			s.CopyFrom(StorageSettingsClipboard.clipboard);
 		}
 
-		// Token: 0x060023B3 RID: 9139 RVA: 0x00132460 File Offset: 0x00130860
+		// Token: 0x060023B7 RID: 9143 RVA: 0x001325B0 File Offset: 0x001309B0
 		public static IEnumerable<Gizmo> CopyPasteGizmosFor(StorageSettings s)
 		{
 			yield return new Command_Action

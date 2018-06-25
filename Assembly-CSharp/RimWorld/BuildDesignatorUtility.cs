@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007E1 RID: 2017
+	// Token: 0x020007E3 RID: 2019
 	public static class BuildDesignatorUtility
 	{
-		// Token: 0x06002CD6 RID: 11478 RVA: 0x00179F0C File Offset: 0x0017830C
+		// Token: 0x06002CDA RID: 11482 RVA: 0x0017A05C File Offset: 0x0017845C
 		public static void TryDrawPowerGridAndAnticipatedConnection(BuildableDef def, Rot4 rotation)
 		{
 			ThingDef thingDef = def as ThingDef;

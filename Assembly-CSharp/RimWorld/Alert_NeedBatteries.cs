@@ -4,17 +4,17 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007A1 RID: 1953
+	// Token: 0x020007A3 RID: 1955
 	public class Alert_NeedBatteries : Alert
 	{
-		// Token: 0x06002B42 RID: 11074 RVA: 0x0016DCB2 File Offset: 0x0016C0B2
+		// Token: 0x06002B46 RID: 11078 RVA: 0x0016DE02 File Offset: 0x0016C202
 		public Alert_NeedBatteries()
 		{
 			this.defaultLabel = "NeedBatteries".Translate();
 			this.defaultExplanation = "NeedBatteriesDesc".Translate();
 		}
 
-		// Token: 0x06002B43 RID: 11075 RVA: 0x0016DCDC File Offset: 0x0016C0DC
+		// Token: 0x06002B47 RID: 11079 RVA: 0x0016DE2C File Offset: 0x0016C22C
 		public override AlertReport GetReport()
 		{
 			List<Map> maps = Find.Maps;
@@ -28,7 +28,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06002B44 RID: 11076 RVA: 0x0016DD34 File Offset: 0x0016C134
+		// Token: 0x06002B48 RID: 11080 RVA: 0x0016DE84 File Offset: 0x0016C284
 		private bool NeedBatteries(Map map)
 		{
 			bool result;

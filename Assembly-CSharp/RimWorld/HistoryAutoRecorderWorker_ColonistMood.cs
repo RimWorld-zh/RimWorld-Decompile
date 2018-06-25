@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002FB RID: 763
+	// Token: 0x020002FD RID: 765
 	public class HistoryAutoRecorderWorker_ColonistMood : HistoryAutoRecorderWorker
 	{
-		// Token: 0x06000CBC RID: 3260 RVA: 0x000702CC File Offset: 0x0006E6CC
+		// Token: 0x06000CC0 RID: 3264 RVA: 0x0007041C File Offset: 0x0006E81C
 		public override float PullRecord()
 		{
 			IEnumerable<Pawn> allMaps_FreeColonists = PawnsFinder.AllMaps_FreeColonists;

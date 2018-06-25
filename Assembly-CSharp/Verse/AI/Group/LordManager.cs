@@ -5,22 +5,22 @@ using UnityEngine;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x020009EB RID: 2539
+	// Token: 0x020009ED RID: 2541
 	public sealed class LordManager : IExposable
 	{
-		// Token: 0x04002468 RID: 9320
+		// Token: 0x04002469 RID: 9321
 		public Map map;
 
-		// Token: 0x04002469 RID: 9321
+		// Token: 0x0400246A RID: 9322
 		public List<Lord> lords = new List<Lord>();
 
-		// Token: 0x06003910 RID: 14608 RVA: 0x001E6678 File Offset: 0x001E4A78
+		// Token: 0x06003914 RID: 14612 RVA: 0x001E67A4 File Offset: 0x001E4BA4
 		public LordManager(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x06003911 RID: 14609 RVA: 0x001E6694 File Offset: 0x001E4A94
+		// Token: 0x06003915 RID: 14613 RVA: 0x001E67C0 File Offset: 0x001E4BC0
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Lord>(ref this.lords, "lords", LookMode.Deep, new object[0]);
@@ -33,7 +33,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x06003912 RID: 14610 RVA: 0x001E66F8 File Offset: 0x001E4AF8
+		// Token: 0x06003916 RID: 14614 RVA: 0x001E6824 File Offset: 0x001E4C24
 		public void LordManagerTick()
 		{
 			for (int i = 0; i < this.lords.Count; i++)
@@ -50,7 +50,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x06003913 RID: 14611 RVA: 0x001E6784 File Offset: 0x001E4B84
+		// Token: 0x06003917 RID: 14615 RVA: 0x001E68B0 File Offset: 0x001E4CB0
 		public void LordManagerUpdate()
 		{
 			if (DebugViewSettings.drawLords)
@@ -62,7 +62,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x06003914 RID: 14612 RVA: 0x001E67D0 File Offset: 0x001E4BD0
+		// Token: 0x06003918 RID: 14616 RVA: 0x001E68FC File Offset: 0x001E4CFC
 		public void LordManagerOnGUI()
 		{
 			if (DebugViewSettings.drawLords)
@@ -97,21 +97,21 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x06003915 RID: 14613 RVA: 0x001E692C File Offset: 0x001E4D2C
+		// Token: 0x06003919 RID: 14617 RVA: 0x001E6A58 File Offset: 0x001E4E58
 		public void AddLord(Lord newLord)
 		{
 			this.lords.Add(newLord);
 			newLord.lordManager = this;
 		}
 
-		// Token: 0x06003916 RID: 14614 RVA: 0x001E6942 File Offset: 0x001E4D42
+		// Token: 0x0600391A RID: 14618 RVA: 0x001E6A6E File Offset: 0x001E4E6E
 		public void RemoveLord(Lord oldLord)
 		{
 			this.lords.Remove(oldLord);
 			oldLord.Cleanup();
 		}
 
-		// Token: 0x06003917 RID: 14615 RVA: 0x001E6958 File Offset: 0x001E4D58
+		// Token: 0x0600391B RID: 14619 RVA: 0x001E6A84 File Offset: 0x001E4E84
 		public Lord LordOf(Pawn p)
 		{
 			for (int i = 0; i < this.lords.Count; i++)
@@ -128,7 +128,7 @@ namespace Verse.AI.Group
 			return null;
 		}
 
-		// Token: 0x06003918 RID: 14616 RVA: 0x001E69D0 File Offset: 0x001E4DD0
+		// Token: 0x0600391C RID: 14620 RVA: 0x001E6AFC File Offset: 0x001E4EFC
 		public void LogLords()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

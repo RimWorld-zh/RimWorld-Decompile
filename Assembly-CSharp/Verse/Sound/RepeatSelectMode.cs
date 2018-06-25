@@ -2,7 +2,7 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B9D RID: 2973
+	// Token: 0x02000B9F RID: 2975
 	public enum RepeatSelectMode : byte
 	{
 		// Token: 0x04002B40 RID: 11072

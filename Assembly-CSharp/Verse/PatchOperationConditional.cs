@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000CDC RID: 3292
+	// Token: 0x02000CDE RID: 3294
 	public class PatchOperationConditional : PatchOperationPathed
 	{
 		// Token: 0x04003118 RID: 12568
@@ -12,7 +12,7 @@ namespace Verse
 		// Token: 0x04003119 RID: 12569
 		private PatchOperation nomatch;
 
-		// Token: 0x0600489A RID: 18586 RVA: 0x00261EF0 File Offset: 0x002602F0
+		// Token: 0x0600489D RID: 18589 RVA: 0x00261FCC File Offset: 0x002603CC
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
 			if (xml.SelectSingleNode(this.xpath) != null)

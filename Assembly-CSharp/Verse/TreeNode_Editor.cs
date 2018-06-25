@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E7A RID: 3706
+	// Token: 0x02000E7C RID: 3708
 	public class TreeNode_Editor : TreeNode
 	{
 		// Token: 0x040039D9 RID: 14809
@@ -27,13 +27,13 @@ namespace Verse
 		// Token: 0x040039DE RID: 14814
 		private int indexToDelete = -1;
 
-		// Token: 0x06005757 RID: 22359 RVA: 0x002CE77A File Offset: 0x002CCB7A
+		// Token: 0x0600575B RID: 22363 RVA: 0x002CE8A6 File Offset: 0x002CCCA6
 		private TreeNode_Editor()
 		{
 		}
 
-		// Token: 0x17000DC5 RID: 3525
-		// (get) Token: 0x06005758 RID: 22360 RVA: 0x002CE798 File Offset: 0x002CCB98
+		// Token: 0x17000DC4 RID: 3524
+		// (get) Token: 0x0600575C RID: 22364 RVA: 0x002CE8C4 File Offset: 0x002CCCC4
 		public object ParentObj
 		{
 			get
@@ -42,8 +42,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DC6 RID: 3526
-		// (get) Token: 0x06005759 RID: 22361 RVA: 0x002CE7C0 File Offset: 0x002CCBC0
+		// Token: 0x17000DC5 RID: 3525
+		// (get) Token: 0x0600575D RID: 22365 RVA: 0x002CE8EC File Offset: 0x002CCCEC
 		public Type ObjectType
 		{
 			get
@@ -69,9 +69,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DC7 RID: 3527
-		// (get) Token: 0x0600575A RID: 22362 RVA: 0x002CE830 File Offset: 0x002CCC30
-		// (set) Token: 0x0600575B RID: 22363 RVA: 0x002CE8AC File Offset: 0x002CCCAC
+		// Token: 0x17000DC6 RID: 3526
+		// (get) Token: 0x0600575E RID: 22366 RVA: 0x002CE95C File Offset: 0x002CCD5C
+		// (set) Token: 0x0600575F RID: 22367 RVA: 0x002CE9D8 File Offset: 0x002CCDD8
 		public object Value
 		{
 			get
@@ -110,8 +110,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DC8 RID: 3528
-		// (get) Token: 0x0600575C RID: 22364 RVA: 0x002CE918 File Offset: 0x002CCD18
+		// Token: 0x17000DC7 RID: 3527
+		// (get) Token: 0x06005760 RID: 22368 RVA: 0x002CEA44 File Offset: 0x002CCE44
 		public bool IsListItem
 		{
 			get
@@ -120,8 +120,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DC9 RID: 3529
-		// (get) Token: 0x0600575D RID: 22365 RVA: 0x002CE93C File Offset: 0x002CCD3C
+		// Token: 0x17000DC8 RID: 3528
+		// (get) Token: 0x06005761 RID: 22369 RVA: 0x002CEA68 File Offset: 0x002CCE68
 		private object ListRootObject
 		{
 			get
@@ -130,8 +130,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DCA RID: 3530
-		// (get) Token: 0x0600575E RID: 22366 RVA: 0x002CE958 File Offset: 0x002CCD58
+		// Token: 0x17000DC9 RID: 3529
+		// (get) Token: 0x06005762 RID: 22370 RVA: 0x002CEA84 File Offset: 0x002CCE84
 		public override bool Openable
 		{
 			get
@@ -160,8 +160,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DCB RID: 3531
-		// (get) Token: 0x0600575F RID: 22367 RVA: 0x002CE9D8 File Offset: 0x002CCDD8
+		// Token: 0x17000DCA RID: 3530
+		// (get) Token: 0x06005763 RID: 22371 RVA: 0x002CEB04 File Offset: 0x002CCF04
 		public bool HasContentLines
 		{
 			get
@@ -170,8 +170,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DCC RID: 3532
-		// (get) Token: 0x06005760 RID: 22368 RVA: 0x002CE9FC File Offset: 0x002CCDFC
+		// Token: 0x17000DCB RID: 3531
+		// (get) Token: 0x06005764 RID: 22372 RVA: 0x002CEB28 File Offset: 0x002CCF28
 		public bool HasNewButton
 		{
 			get
@@ -187,8 +187,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DCD RID: 3533
-		// (get) Token: 0x06005761 RID: 22369 RVA: 0x002CEA58 File Offset: 0x002CCE58
+		// Token: 0x17000DCC RID: 3532
+		// (get) Token: 0x06005765 RID: 22373 RVA: 0x002CEB84 File Offset: 0x002CCF84
 		public bool HasDeleteButton
 		{
 			get
@@ -197,8 +197,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DCE RID: 3534
-		// (get) Token: 0x06005762 RID: 22370 RVA: 0x002CEAA8 File Offset: 0x002CCEA8
+		// Token: 0x17000DCD RID: 3533
+		// (get) Token: 0x06005766 RID: 22374 RVA: 0x002CEBD4 File Offset: 0x002CCFD4
 		public string ExtraInfoText
 		{
 			get
@@ -232,8 +232,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DCF RID: 3535
-		// (get) Token: 0x06005763 RID: 22371 RVA: 0x002CEBB8 File Offset: 0x002CCFB8
+		// Token: 0x17000DCE RID: 3534
+		// (get) Token: 0x06005767 RID: 22375 RVA: 0x002CECE4 File Offset: 0x002CD0E4
 		public string LabelText
 		{
 			get
@@ -255,7 +255,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005764 RID: 22372 RVA: 0x002CEC18 File Offset: 0x002CD018
+		// Token: 0x06005768 RID: 22376 RVA: 0x002CED44 File Offset: 0x002CD144
 		public static TreeNode_Editor NewRootNode(object rootObj)
 		{
 			if (rootObj.GetType().IsValueEditable())
@@ -271,7 +271,7 @@ namespace Verse
 			return treeNode_Editor;
 		}
 
-		// Token: 0x06005765 RID: 22373 RVA: 0x002CEC6C File Offset: 0x002CD06C
+		// Token: 0x06005769 RID: 22377 RVA: 0x002CED98 File Offset: 0x002CD198
 		public static TreeNode_Editor NewChildNodeFromField(TreeNode_Editor parent, FieldInfo fieldInfo)
 		{
 			TreeNode_Editor treeNode_Editor = new TreeNode_Editor();
@@ -287,7 +287,7 @@ namespace Verse
 			return treeNode_Editor;
 		}
 
-		// Token: 0x06005766 RID: 22374 RVA: 0x002CECDC File Offset: 0x002CD0DC
+		// Token: 0x0600576A RID: 22378 RVA: 0x002CEE08 File Offset: 0x002CD208
 		private static TreeNode_Editor NewChildNodeFromListItem(TreeNode_Editor parent, int listIndex)
 		{
 			TreeNode_Editor treeNode_Editor = new TreeNode_Editor();
@@ -310,7 +310,7 @@ namespace Verse
 			return treeNode_Editor;
 		}
 
-		// Token: 0x06005767 RID: 22375 RVA: 0x002CED78 File Offset: 0x002CD178
+		// Token: 0x0600576B RID: 22379 RVA: 0x002CEEA4 File Offset: 0x002CD2A4
 		private void InitiallyCacheData()
 		{
 			if (this.obj != null && this.obj.GetType().IsGenericType && this.obj.GetType().GetGenericTypeDefinition() == typeof(List<>))
@@ -331,7 +331,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005768 RID: 22376 RVA: 0x002CEE24 File Offset: 0x002CD224
+		// Token: 0x0600576C RID: 22380 RVA: 0x002CEF50 File Offset: 0x002CD350
 		public void RebuildChildNodes()
 		{
 			if (this.obj != null)
@@ -363,7 +363,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005769 RID: 22377 RVA: 0x002CEFA4 File Offset: 0x002CD3A4
+		// Token: 0x0600576D RID: 22381 RVA: 0x002CF0D0 File Offset: 0x002CD4D0
 		private int InheritanceDistanceBetween(Type childType, Type parentType)
 		{
 			Type type = childType;
@@ -381,7 +381,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x0600576A RID: 22378 RVA: 0x002CEFF8 File Offset: 0x002CD3F8
+		// Token: 0x0600576E RID: 22382 RVA: 0x002CF124 File Offset: 0x002CD524
 		public void CheckLatentDelete()
 		{
 			if (this.indexToDelete >= 0)
@@ -395,7 +395,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600576B RID: 22379 RVA: 0x002CF058 File Offset: 0x002CD458
+		// Token: 0x0600576F RID: 22383 RVA: 0x002CF184 File Offset: 0x002CD584
 		public void Delete()
 		{
 			if (this.owningField != null)
@@ -412,7 +412,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600576C RID: 22380 RVA: 0x002CF0B8 File Offset: 0x002CD4B8
+		// Token: 0x06005770 RID: 22384 RVA: 0x002CF1E4 File Offset: 0x002CD5E4
 		public void DoSpecialPreElements(Listing_TreeDefs listing)
 		{
 			if (this.obj != null)
@@ -438,7 +438,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600576D RID: 22381 RVA: 0x002CF1A0 File Offset: 0x002CD5A0
+		// Token: 0x06005771 RID: 22385 RVA: 0x002CF2CC File Offset: 0x002CD6CC
 		public override string ToString()
 		{
 			string text = "EditTreeNode(";

@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002E7 RID: 743
+	// Token: 0x020002E9 RID: 745
 	public class TrainableDef : Def
 	{
 		// Token: 0x040007D2 RID: 2002
@@ -46,7 +46,7 @@ namespace RimWorld
 		private Texture2D iconTex;
 
 		// Token: 0x170001D6 RID: 470
-		// (get) Token: 0x06000C46 RID: 3142 RVA: 0x0006CFB4 File Offset: 0x0006B3B4
+		// (get) Token: 0x06000C4A RID: 3146 RVA: 0x0006D104 File Offset: 0x0006B504
 		public Texture2D Icon
 		{
 			get
@@ -59,7 +59,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C47 RID: 3143 RVA: 0x0006CFF4 File Offset: 0x0006B3F4
+		// Token: 0x06000C4B RID: 3147 RVA: 0x0006D144 File Offset: 0x0006B544
 		public bool MatchesTag(string tag)
 		{
 			bool result;
@@ -81,7 +81,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000C48 RID: 3144 RVA: 0x0006D060 File Offset: 0x0006B460
+		// Token: 0x06000C4C RID: 3148 RVA: 0x0006D1B0 File Offset: 0x0006B5B0
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())

@@ -9,7 +9,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020008A6 RID: 2214
+	// Token: 0x020008A8 RID: 2216
 	[StaticConstructorOnStartup]
 	public class Dialog_Trade : Window
 	{
@@ -130,7 +130,7 @@ namespace RimWorld
 		// Token: 0x04001B67 RID: 7015
 		private static readonly Texture2D TradeModeIcon = ContentFinder<Texture2D>.Get("UI/Buttons/TradeMode", true);
 
-		// Token: 0x060032AA RID: 12970 RVA: 0x001B4C20 File Offset: 0x001B3020
+		// Token: 0x060032AE RID: 12974 RVA: 0x001B4D60 File Offset: 0x001B3160
 		public Dialog_Trade(Pawn playerNegotiator, ITrader trader, bool giftsOnly = false)
 		{
 			this.giftsOnly = giftsOnly;
@@ -149,7 +149,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700080F RID: 2063
-		// (get) Token: 0x060032AB RID: 12971 RVA: 0x001B4CDC File Offset: 0x001B30DC
+		// (get) Token: 0x060032AF RID: 12975 RVA: 0x001B4E1C File Offset: 0x001B321C
 		public override Vector2 InitialSize
 		{
 			get
@@ -159,7 +159,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000810 RID: 2064
-		// (get) Token: 0x060032AC RID: 12972 RVA: 0x001B4D04 File Offset: 0x001B3104
+		// (get) Token: 0x060032B0 RID: 12976 RVA: 0x001B4E44 File Offset: 0x001B3244
 		private int Tile
 		{
 			get
@@ -169,7 +169,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000811 RID: 2065
-		// (get) Token: 0x060032AD RID: 12973 RVA: 0x001B4D24 File Offset: 0x001B3124
+		// (get) Token: 0x060032B1 RID: 12977 RVA: 0x001B4E64 File Offset: 0x001B3264
 		private BiomeDef Biome
 		{
 			get
@@ -179,7 +179,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000812 RID: 2066
-		// (get) Token: 0x060032AE RID: 12974 RVA: 0x001B4D50 File Offset: 0x001B3150
+		// (get) Token: 0x060032B2 RID: 12978 RVA: 0x001B4E90 File Offset: 0x001B3290
 		private float MassUsage
 		{
 			get
@@ -202,7 +202,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000813 RID: 2067
-		// (get) Token: 0x060032AF RID: 12975 RVA: 0x001B4DCC File Offset: 0x001B31CC
+		// (get) Token: 0x060032B3 RID: 12979 RVA: 0x001B4F0C File Offset: 0x001B330C
 		private float MassCapacity
 		{
 			get
@@ -227,7 +227,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000814 RID: 2068
-		// (get) Token: 0x060032B0 RID: 12976 RVA: 0x001B4E58 File Offset: 0x001B3258
+		// (get) Token: 0x060032B4 RID: 12980 RVA: 0x001B4F98 File Offset: 0x001B3398
 		private float TilesPerDay
 		{
 			get
@@ -245,7 +245,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000815 RID: 2069
-		// (get) Token: 0x060032B1 RID: 12977 RVA: 0x001B4EF8 File Offset: 0x001B32F8
+		// (get) Token: 0x060032B5 RID: 12981 RVA: 0x001B5038 File Offset: 0x001B3438
 		private Pair<float, float> DaysWorthOfFood
 		{
 			get
@@ -261,7 +261,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000816 RID: 2070
-		// (get) Token: 0x060032B2 RID: 12978 RVA: 0x001B4F6C File Offset: 0x001B336C
+		// (get) Token: 0x060032B6 RID: 12982 RVA: 0x001B50AC File Offset: 0x001B34AC
 		private Pair<ThingDef, float> ForagedFoodPerDay
 		{
 			get
@@ -278,7 +278,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000817 RID: 2071
-		// (get) Token: 0x060032B3 RID: 12979 RVA: 0x001B4FD0 File Offset: 0x001B33D0
+		// (get) Token: 0x060032B7 RID: 12983 RVA: 0x001B5110 File Offset: 0x001B3510
 		private float Visibility
 		{
 			get
@@ -294,7 +294,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060032B4 RID: 12980 RVA: 0x001B502C File Offset: 0x001B342C
+		// Token: 0x060032B8 RID: 12984 RVA: 0x001B516C File Offset: 0x001B356C
 		public override void PostOpen()
 		{
 			base.PostOpen();
@@ -327,7 +327,7 @@ namespace RimWorld
 			this.CacheTradeables();
 		}
 
-		// Token: 0x060032B5 RID: 12981 RVA: 0x001B5110 File Offset: 0x001B3510
+		// Token: 0x060032B9 RID: 12985 RVA: 0x001B5250 File Offset: 0x001B3650
 		private void CacheTradeables()
 		{
 			this.cachedCurrencyTradeable = (from x in TradeSession.deal.AllTradeables
@@ -352,7 +352,7 @@ namespace RimWorld
 			}).ThenBy((Tradeable tr) => tr.AnyThing.HitPoints).ToList<Tradeable>();
 		}
 
-		// Token: 0x060032B6 RID: 12982 RVA: 0x001B5290 File Offset: 0x001B3690
+		// Token: 0x060032BA RID: 12986 RVA: 0x001B53D0 File Offset: 0x001B37D0
 		public override void DoWindowContents(Rect inRect)
 		{
 			if (this.playerIsCaravan)
@@ -507,14 +507,14 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x060032B7 RID: 12983 RVA: 0x001B5A2E File Offset: 0x001B3E2E
+		// Token: 0x060032BB RID: 12987 RVA: 0x001B5B6E File Offset: 0x001B3F6E
 		public override void Close(bool doCloseSound = true)
 		{
 			DragSliderManager.ForceStop();
 			base.Close(doCloseSound);
 		}
 
-		// Token: 0x060032B8 RID: 12984 RVA: 0x001B5A40 File Offset: 0x001B3E40
+		// Token: 0x060032BC RID: 12988 RVA: 0x001B5B80 File Offset: 0x001B3F80
 		private void FillMainRect(Rect mainRect)
 		{
 			Text.Font = GameFont.Small;
@@ -543,19 +543,19 @@ namespace RimWorld
 			Widgets.EndScrollView();
 		}
 
-		// Token: 0x060032B9 RID: 12985 RVA: 0x001B5B74 File Offset: 0x001B3F74
+		// Token: 0x060032BD RID: 12989 RVA: 0x001B5CB4 File Offset: 0x001B40B4
 		public void FlashSilver()
 		{
 			Dialog_Trade.lastCurrencyFlashTime = Time.time;
 		}
 
-		// Token: 0x060032BA RID: 12986 RVA: 0x001B5B84 File Offset: 0x001B3F84
+		// Token: 0x060032BE RID: 12990 RVA: 0x001B5CC4 File Offset: 0x001B40C4
 		public override bool CausesMessageBackground()
 		{
 			return true;
 		}
 
-		// Token: 0x060032BB RID: 12987 RVA: 0x001B5B9C File Offset: 0x001B3F9C
+		// Token: 0x060032BF RID: 12991 RVA: 0x001B5CDC File Offset: 0x001B40DC
 		private void SetupPlayerCaravanVariables()
 		{
 			Caravan caravan = TradeSession.playerNegotiator.GetCaravan();
@@ -577,7 +577,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060032BC RID: 12988 RVA: 0x001B5C24 File Offset: 0x001B4024
+		// Token: 0x060032C0 RID: 12992 RVA: 0x001B5D64 File Offset: 0x001B4164
 		private void CountToTransferChanged()
 		{
 			this.massUsageDirty = true;

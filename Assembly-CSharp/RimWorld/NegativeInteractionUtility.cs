@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004B4 RID: 1204
+	// Token: 0x020004B6 RID: 1206
 	public static class NegativeInteractionUtility
 	{
 		// Token: 0x04000CAF RID: 3247
@@ -71,7 +71,7 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x0600157B RID: 5499 RVA: 0x000BED0C File Offset: 0x000BD10C
+		// Token: 0x0600157F RID: 5503 RVA: 0x000BEE5C File Offset: 0x000BD25C
 		public static float NegativeInteractionChanceFactor(Pawn initiator, Pawn recipient)
 		{
 			float result;

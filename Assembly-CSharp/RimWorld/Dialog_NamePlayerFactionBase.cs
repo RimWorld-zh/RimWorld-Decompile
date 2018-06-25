@@ -4,13 +4,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000806 RID: 2054
+	// Token: 0x02000808 RID: 2056
 	public class Dialog_NamePlayerFactionBase : Dialog_GiveName
 	{
 		// Token: 0x0400185A RID: 6234
 		private FactionBase factionBase;
 
-		// Token: 0x06002DE5 RID: 11749 RVA: 0x00182830 File Offset: 0x00180C30
+		// Token: 0x06002DE9 RID: 11753 RVA: 0x00182980 File Offset: 0x00180D80
 		public Dialog_NamePlayerFactionBase(FactionBase factionBase)
 		{
 			this.factionBase = factionBase;
@@ -25,7 +25,7 @@ namespace RimWorld
 			this.invalidNameMessageKey = "PlayerFactionBaseNameIsInvalid";
 		}
 
-		// Token: 0x06002DE6 RID: 11750 RVA: 0x001828DB File Offset: 0x00180CDB
+		// Token: 0x06002DEA RID: 11754 RVA: 0x00182A2B File Offset: 0x00180E2B
 		public override void PostOpen()
 		{
 			base.PostOpen();
@@ -35,13 +35,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DE7 RID: 11751 RVA: 0x0018290C File Offset: 0x00180D0C
+		// Token: 0x06002DEB RID: 11755 RVA: 0x00182A5C File Offset: 0x00180E5C
 		protected override bool IsValidName(string s)
 		{
 			return NamePlayerFactionBaseDialogUtility.IsValidName(s);
 		}
 
-		// Token: 0x06002DE8 RID: 11752 RVA: 0x00182927 File Offset: 0x00180D27
+		// Token: 0x06002DEC RID: 11756 RVA: 0x00182A77 File Offset: 0x00180E77
 		protected override void Named(string s)
 		{
 			NamePlayerFactionBaseDialogUtility.Named(this.factionBase, s);

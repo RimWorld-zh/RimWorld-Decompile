@@ -7,7 +7,7 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000519 RID: 1305
+	// Token: 0x0200051B RID: 1307
 	public class Pawn_TraderTracker : IExposable
 	{
 		// Token: 0x04000DFB RID: 3579
@@ -19,14 +19,14 @@ namespace RimWorld
 		// Token: 0x04000DFD RID: 3581
 		private List<Pawn> soldPrisoners = new List<Pawn>();
 
-		// Token: 0x060017B8 RID: 6072 RVA: 0x000CF279 File Offset: 0x000CD679
+		// Token: 0x060017BC RID: 6076 RVA: 0x000CF3C9 File Offset: 0x000CD7C9
 		public Pawn_TraderTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
 		// Token: 0x17000349 RID: 841
-		// (get) Token: 0x060017B9 RID: 6073 RVA: 0x000CF294 File Offset: 0x000CD694
+		// (get) Token: 0x060017BD RID: 6077 RVA: 0x000CF3E4 File Offset: 0x000CD7E4
 		public IEnumerable<Thing> Goods
 		{
 			get
@@ -70,7 +70,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700034A RID: 842
-		// (get) Token: 0x060017BA RID: 6074 RVA: 0x000CF2C0 File Offset: 0x000CD6C0
+		// (get) Token: 0x060017BE RID: 6078 RVA: 0x000CF410 File Offset: 0x000CD810
 		public int RandomPriceFactorSeed
 		{
 			get
@@ -80,7 +80,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700034B RID: 843
-		// (get) Token: 0x060017BB RID: 6075 RVA: 0x000CF2EC File Offset: 0x000CD6EC
+		// (get) Token: 0x060017BF RID: 6079 RVA: 0x000CF43C File Offset: 0x000CD83C
 		public string TraderName
 		{
 			get
@@ -90,7 +90,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700034C RID: 844
-		// (get) Token: 0x060017BC RID: 6076 RVA: 0x000CF30C File Offset: 0x000CD70C
+		// (get) Token: 0x060017C0 RID: 6080 RVA: 0x000CF45C File Offset: 0x000CD85C
 		public bool CanTradeNow
 		{
 			get
@@ -99,7 +99,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017BD RID: 6077 RVA: 0x000CF3E0 File Offset: 0x000CD7E0
+		// Token: 0x060017C1 RID: 6081 RVA: 0x000CF530 File Offset: 0x000CD930
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<TraderKindDef>(ref this.traderKind, "traderKind");
@@ -110,7 +110,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017BE RID: 6078 RVA: 0x000CF44C File Offset: 0x000CD84C
+		// Token: 0x060017C2 RID: 6082 RVA: 0x000CF59C File Offset: 0x000CD99C
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
 			IEnumerable<Thing> items = from x in this.pawn.Map.listerThings.AllThings
@@ -133,7 +133,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060017BF RID: 6079 RVA: 0x000CF478 File Offset: 0x000CD878
+		// Token: 0x060017C3 RID: 6083 RVA: 0x000CF5C8 File Offset: 0x000CD9C8
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			if (this.Goods.Contains(toGive))
@@ -168,7 +168,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017C0 RID: 6080 RVA: 0x000CF52C File Offset: 0x000CD92C
+		// Token: 0x060017C4 RID: 6084 RVA: 0x000CF67C File Offset: 0x000CDA7C
 		public void GiveSoldThingToPlayer(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			Pawn pawn = toGive as Pawn;
@@ -213,7 +213,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017C1 RID: 6081 RVA: 0x000CF62C File Offset: 0x000CDA2C
+		// Token: 0x060017C5 RID: 6085 RVA: 0x000CF77C File Offset: 0x000CDB7C
 		private void AddPawnToStock(Pawn newPawn)
 		{
 			if (!newPawn.Spawned)
@@ -253,7 +253,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017C2 RID: 6082 RVA: 0x000CF734 File Offset: 0x000CDB34
+		// Token: 0x060017C6 RID: 6086 RVA: 0x000CF884 File Offset: 0x000CDC84
 		private void AddThingToRandomInventory(Thing thing)
 		{
 			Lord lord = this.pawn.GetLord();
@@ -277,7 +277,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017C3 RID: 6083 RVA: 0x000CF7E0 File Offset: 0x000CDBE0
+		// Token: 0x060017C7 RID: 6087 RVA: 0x000CF930 File Offset: 0x000CDD30
 		private bool ReachableForTrade(Thing thing)
 		{
 			return this.pawn.Map == thing.Map && this.pawn.Map.reachability.CanReach(this.pawn.Position, thing, PathEndMode.Touch, TraverseMode.PassDoors, Danger.Some);

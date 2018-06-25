@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000C5C RID: 3164
+	// Token: 0x02000C5E RID: 3166
 	public class ScattererValidator_Buildable : ScattererValidator
 	{
 		// Token: 0x04002F9F RID: 12191
@@ -11,7 +11,7 @@ namespace Verse
 		// Token: 0x04002FA0 RID: 12192
 		public TerrainAffordanceDef affordance;
 
-		// Token: 0x060045A7 RID: 17831 RVA: 0x0024CD10 File Offset: 0x0024B110
+		// Token: 0x060045AA RID: 17834 RVA: 0x0024CDEC File Offset: 0x0024B1EC
 		public override bool Allows(IntVec3 c, Map map)
 		{
 			CellRect cellRect = CellRect.CenteredOn(c, this.radius);

@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200059D RID: 1437
+	// Token: 0x0200059F RID: 1439
 	[StaticConstructorOnStartup]
 	public static class WorldMaterials
 	{
@@ -153,7 +153,7 @@ namespace RimWorld.Planet
 			GenColor.FromBytes(5, 112, 94, 255)
 		};
 
-		// Token: 0x06001B70 RID: 7024 RVA: 0x000ECD84 File Offset: 0x000EB184
+		// Token: 0x06001B74 RID: 7028 RVA: 0x000ECED4 File Offset: 0x000EB2D4
 		static WorldMaterials()
 		{
 			WorldMaterials.GenerateMats(ref WorldMaterials.matsFertility, WorldMaterials.FertilitySpectrum, WorldMaterials.NumMatsPerMode);
@@ -163,7 +163,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700040B RID: 1035
-		// (get) Token: 0x06001B71 RID: 7025 RVA: 0x000ED354 File Offset: 0x000EB754
+		// (get) Token: 0x06001B75 RID: 7029 RVA: 0x000ED4A4 File Offset: 0x000EB8A4
 		public static Material CurTargetingMat
 		{
 			get
@@ -173,7 +173,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B72 RID: 7026 RVA: 0x000ED380 File Offset: 0x000EB780
+		// Token: 0x06001B76 RID: 7030 RVA: 0x000ED4D0 File Offset: 0x000EB8D0
 		private static void GenerateMats(ref Material[] mats, Color[] colorSpectrum, int numMats)
 		{
 			mats = new Material[numMats];
@@ -183,14 +183,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B73 RID: 7027 RVA: 0x000ED3BC File Offset: 0x000EB7BC
+		// Token: 0x06001B77 RID: 7031 RVA: 0x000ED50C File Offset: 0x000EB90C
 		public static Material MatForFertilityOverlay(float fert)
 		{
 			int value = Mathf.FloorToInt(fert * (float)WorldMaterials.NumMatsPerMode);
 			return WorldMaterials.matsFertility[Mathf.Clamp(value, 0, WorldMaterials.NumMatsPerMode - 1)];
 		}
 
-		// Token: 0x06001B74 RID: 7028 RVA: 0x000ED3F8 File Offset: 0x000EB7F8
+		// Token: 0x06001B78 RID: 7032 RVA: 0x000ED548 File Offset: 0x000EB948
 		public static Material MatForTemperature(float temp)
 		{
 			float num = Mathf.InverseLerp(-50f, 50f, temp);
@@ -198,7 +198,7 @@ namespace RimWorld.Planet
 			return WorldMaterials.matsTemperature[Mathf.Clamp(value, 0, WorldMaterials.NumMatsPerMode - 1)];
 		}
 
-		// Token: 0x06001B75 RID: 7029 RVA: 0x000ED440 File Offset: 0x000EB840
+		// Token: 0x06001B79 RID: 7033 RVA: 0x000ED590 File Offset: 0x000EB990
 		public static Material MatForElevation(float elev)
 		{
 			float num = Mathf.InverseLerp(0f, 5000f, elev);
@@ -206,7 +206,7 @@ namespace RimWorld.Planet
 			return WorldMaterials.matsElevation[Mathf.Clamp(value, 0, WorldMaterials.NumMatsPerMode - 1)];
 		}
 
-		// Token: 0x06001B76 RID: 7030 RVA: 0x000ED488 File Offset: 0x000EB888
+		// Token: 0x06001B7A RID: 7034 RVA: 0x000ED5D8 File Offset: 0x000EB9D8
 		public static Material MatForRainfallOverlay(float rain)
 		{
 			float num = Mathf.InverseLerp(0f, 5000f, rain);

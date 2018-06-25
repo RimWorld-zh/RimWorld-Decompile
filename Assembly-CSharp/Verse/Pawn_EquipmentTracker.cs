@@ -4,7 +4,7 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D55 RID: 3413
+	// Token: 0x02000D57 RID: 3415
 	public class Pawn_EquipmentTracker : IThingHolder, IExposable
 	{
 		// Token: 0x04003305 RID: 13061
@@ -13,16 +13,16 @@ namespace Verse
 		// Token: 0x04003306 RID: 13062
 		private ThingOwner<ThingWithComps> equipment;
 
-		// Token: 0x06004C48 RID: 19528 RVA: 0x0027C5F1 File Offset: 0x0027A9F1
+		// Token: 0x06004C4C RID: 19532 RVA: 0x0027C71D File Offset: 0x0027AB1D
 		public Pawn_EquipmentTracker(Pawn newPawn)
 		{
 			this.pawn = newPawn;
 			this.equipment = new ThingOwner<ThingWithComps>(this);
 		}
 
-		// Token: 0x17000C6E RID: 3182
-		// (get) Token: 0x06004C49 RID: 19529 RVA: 0x0027C610 File Offset: 0x0027AA10
-		// (set) Token: 0x06004C4A RID: 19530 RVA: 0x0027C674 File Offset: 0x0027AA74
+		// Token: 0x17000C6D RID: 3181
+		// (get) Token: 0x06004C4D RID: 19533 RVA: 0x0027C73C File Offset: 0x0027AB3C
+		// (set) Token: 0x06004C4E RID: 19534 RVA: 0x0027C7A0 File Offset: 0x0027ABA0
 		public ThingWithComps Primary
 		{
 			get
@@ -63,8 +63,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C6F RID: 3183
-		// (get) Token: 0x06004C4B RID: 19531 RVA: 0x0027C70C File Offset: 0x0027AB0C
+		// Token: 0x17000C6E RID: 3182
+		// (get) Token: 0x06004C4F RID: 19535 RVA: 0x0027C838 File Offset: 0x0027AC38
 		public CompEquippable PrimaryEq
 		{
 			get
@@ -73,8 +73,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C70 RID: 3184
-		// (get) Token: 0x06004C4C RID: 19532 RVA: 0x0027C740 File Offset: 0x0027AB40
+		// Token: 0x17000C6F RID: 3183
+		// (get) Token: 0x06004C50 RID: 19536 RVA: 0x0027C86C File Offset: 0x0027AC6C
 		public List<ThingWithComps> AllEquipmentListForReading
 		{
 			get
@@ -83,8 +83,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C71 RID: 3185
-		// (get) Token: 0x06004C4D RID: 19533 RVA: 0x0027C760 File Offset: 0x0027AB60
+		// Token: 0x17000C70 RID: 3184
+		// (get) Token: 0x06004C51 RID: 19537 RVA: 0x0027C88C File Offset: 0x0027AC8C
 		public IEnumerable<Verb> AllEquipmentVerbs
 		{
 			get
@@ -103,8 +103,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C72 RID: 3186
-		// (get) Token: 0x06004C4E RID: 19534 RVA: 0x0027C78C File Offset: 0x0027AB8C
+		// Token: 0x17000C71 RID: 3185
+		// (get) Token: 0x06004C52 RID: 19538 RVA: 0x0027C8B8 File Offset: 0x0027ACB8
 		public IThingHolder ParentHolder
 		{
 			get
@@ -113,7 +113,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C4F RID: 19535 RVA: 0x0027C7A8 File Offset: 0x0027ABA8
+		// Token: 0x06004C53 RID: 19539 RVA: 0x0027C8D4 File Offset: 0x0027ACD4
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<ThingOwner<ThingWithComps>>(ref this.equipment, "equipment", new object[]
@@ -135,7 +135,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C50 RID: 19536 RVA: 0x0027C86C File Offset: 0x0027AC6C
+		// Token: 0x06004C54 RID: 19540 RVA: 0x0027C998 File Offset: 0x0027AD98
 		public void EquipmentTrackerTick()
 		{
 			List<ThingWithComps> allEquipmentListForReading = this.AllEquipmentListForReading;
@@ -146,13 +146,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C51 RID: 19537 RVA: 0x0027C8B4 File Offset: 0x0027ACB4
+		// Token: 0x06004C55 RID: 19541 RVA: 0x0027C9E0 File Offset: 0x0027ADE0
 		public bool HasAnything()
 		{
 			return this.equipment.Any;
 		}
 
-		// Token: 0x06004C52 RID: 19538 RVA: 0x0027C8D4 File Offset: 0x0027ACD4
+		// Token: 0x06004C56 RID: 19542 RVA: 0x0027CA00 File Offset: 0x0027AE00
 		public void MakeRoomFor(ThingWithComps eq)
 		{
 			if (eq.def.equipmentType == EquipmentType.Primary && this.Primary != null)
@@ -172,13 +172,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C53 RID: 19539 RVA: 0x0027C94B File Offset: 0x0027AD4B
+		// Token: 0x06004C57 RID: 19543 RVA: 0x0027CA77 File Offset: 0x0027AE77
 		public void Remove(ThingWithComps eq)
 		{
 			this.equipment.Remove(eq);
 		}
 
-		// Token: 0x06004C54 RID: 19540 RVA: 0x0027C95C File Offset: 0x0027AD5C
+		// Token: 0x06004C58 RID: 19544 RVA: 0x0027CA88 File Offset: 0x0027AE88
 		public bool TryDropEquipment(ThingWithComps eq, out ThingWithComps resultingEq, IntVec3 pos, bool forbid = true)
 		{
 			bool result;
@@ -209,7 +209,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004C55 RID: 19541 RVA: 0x0027C9F4 File Offset: 0x0027ADF4
+		// Token: 0x06004C59 RID: 19545 RVA: 0x0027CB20 File Offset: 0x0027AF20
 		public void DropAllEquipment(IntVec3 pos, bool forbid = true)
 		{
 			for (int i = this.equipment.Count - 1; i >= 0; i--)
@@ -219,13 +219,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C56 RID: 19542 RVA: 0x0027CA3C File Offset: 0x0027AE3C
+		// Token: 0x06004C5A RID: 19546 RVA: 0x0027CB68 File Offset: 0x0027AF68
 		public bool TryTransferEquipmentToContainer(ThingWithComps eq, ThingOwner container)
 		{
 			return this.equipment.TryTransferToContainer(eq, container, true);
 		}
 
-		// Token: 0x06004C57 RID: 19543 RVA: 0x0027CA5F File Offset: 0x0027AE5F
+		// Token: 0x06004C5B RID: 19547 RVA: 0x0027CB8B File Offset: 0x0027AF8B
 		public void DestroyEquipment(ThingWithComps eq)
 		{
 			if (!this.equipment.Contains(eq))
@@ -239,19 +239,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C58 RID: 19544 RVA: 0x0027CA9D File Offset: 0x0027AE9D
+		// Token: 0x06004C5C RID: 19548 RVA: 0x0027CBC9 File Offset: 0x0027AFC9
 		public void DestroyAllEquipment(DestroyMode mode = DestroyMode.Vanish)
 		{
 			this.equipment.ClearAndDestroyContents(mode);
 		}
 
-		// Token: 0x06004C59 RID: 19545 RVA: 0x0027CAAC File Offset: 0x0027AEAC
+		// Token: 0x06004C5D RID: 19549 RVA: 0x0027CBD8 File Offset: 0x0027AFD8
 		public bool Contains(Thing eq)
 		{
 			return this.equipment.Contains(eq);
 		}
 
-		// Token: 0x06004C5A RID: 19546 RVA: 0x0027CACD File Offset: 0x0027AECD
+		// Token: 0x06004C5E RID: 19550 RVA: 0x0027CBF9 File Offset: 0x0027AFF9
 		internal void Notify_PrimaryDestroyed()
 		{
 			if (this.Primary != null)
@@ -264,7 +264,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C5B RID: 19547 RVA: 0x0027CB08 File Offset: 0x0027AF08
+		// Token: 0x06004C5F RID: 19551 RVA: 0x0027CC34 File Offset: 0x0027B034
 		public void AddEquipment(ThingWithComps newEq)
 		{
 			if (newEq.def.equipmentType == EquipmentType.Primary && this.Primary != null)
@@ -285,7 +285,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C5C RID: 19548 RVA: 0x0027CB8C File Offset: 0x0027AF8C
+		// Token: 0x06004C60 RID: 19552 RVA: 0x0027CCB8 File Offset: 0x0027B0B8
 		public IEnumerable<Gizmo> GetGizmos()
 		{
 			if (PawnAttackGizmoUtility.CanShowEquipmentGizmos())
@@ -321,7 +321,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004C5D RID: 19549 RVA: 0x0027CBB8 File Offset: 0x0027AFB8
+		// Token: 0x06004C61 RID: 19553 RVA: 0x0027CCE4 File Offset: 0x0027B0E4
 		public void Notify_EquipmentAdded(ThingWithComps eq)
 		{
 			foreach (Verb verb in eq.GetComp<CompEquippable>().AllVerbs)
@@ -331,19 +331,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004C5E RID: 19550 RVA: 0x0027CC28 File Offset: 0x0027B028
+		// Token: 0x06004C62 RID: 19554 RVA: 0x0027CD54 File Offset: 0x0027B154
 		public void Notify_EquipmentRemoved(ThingWithComps eq)
 		{
 			eq.GetComp<CompEquippable>().Notify_EquipmentLost();
 		}
 
-		// Token: 0x06004C5F RID: 19551 RVA: 0x0027CC38 File Offset: 0x0027B038
+		// Token: 0x06004C63 RID: 19555 RVA: 0x0027CD64 File Offset: 0x0027B164
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.equipment;
 		}
 
-		// Token: 0x06004C60 RID: 19552 RVA: 0x0027CC53 File Offset: 0x0027B053
+		// Token: 0x06004C64 RID: 19556 RVA: 0x0027CD7F File Offset: 0x0027B17F
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());

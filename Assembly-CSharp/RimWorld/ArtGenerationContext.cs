@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020006FF RID: 1791
+	// Token: 0x02000701 RID: 1793
 	public enum ArtGenerationContext : byte
 	{
 		// Token: 0x040015B6 RID: 5558

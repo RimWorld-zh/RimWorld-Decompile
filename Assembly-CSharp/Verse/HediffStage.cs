@@ -4,7 +4,7 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000B43 RID: 2883
+	// Token: 0x02000B45 RID: 2885
 	public class HediffStage
 	{
 		// Token: 0x0400299B RID: 10651
@@ -90,8 +90,8 @@ namespace Verse
 		// Token: 0x040029B5 RID: 10677
 		public bool destroyPart;
 
-		// Token: 0x17000997 RID: 2455
-		// (get) Token: 0x06003F4A RID: 16202 RVA: 0x00215664 File Offset: 0x00213A64
+		// Token: 0x17000996 RID: 2454
+		// (get) Token: 0x06003F4D RID: 16205 RVA: 0x00215740 File Offset: 0x00213B40
 		public bool AffectsMemory
 		{
 			get
@@ -100,8 +100,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000998 RID: 2456
-		// (get) Token: 0x06003F4B RID: 16203 RVA: 0x0021569C File Offset: 0x00213A9C
+		// Token: 0x17000997 RID: 2455
+		// (get) Token: 0x06003F4E RID: 16206 RVA: 0x00215778 File Offset: 0x00213B78
 		public bool AffectsSocialInteractions
 		{
 			get
@@ -110,13 +110,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F4C RID: 16204 RVA: 0x002156C1 File Offset: 0x00213AC1
+		// Token: 0x06003F4F RID: 16207 RVA: 0x0021579D File Offset: 0x00213B9D
 		public void PostLoad()
 		{
 			this.untranslatedLabel = this.label;
 		}
 
-		// Token: 0x06003F4D RID: 16205 RVA: 0x002156D0 File Offset: 0x00213AD0
+		// Token: 0x06003F50 RID: 16208 RVA: 0x002157AC File Offset: 0x00213BAC
 		public IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			return HediffStatsUtility.SpecialDisplayStats(this, null);

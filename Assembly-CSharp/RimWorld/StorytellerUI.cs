@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000837 RID: 2103
+	// Token: 0x02000839 RID: 2105
 	[StaticConstructorOnStartup]
 	public static class StorytellerUI
 	{
@@ -15,7 +15,7 @@ namespace RimWorld
 		// Token: 0x040019BA RID: 6586
 		private static readonly Texture2D StorytellerHighlightTex = ContentFinder<Texture2D>.Get("UI/HeroArt/Storytellers/Highlight", true);
 
-		// Token: 0x06002FA0 RID: 12192 RVA: 0x00197CD8 File Offset: 0x001960D8
+		// Token: 0x06002FA4 RID: 12196 RVA: 0x00197E28 File Offset: 0x00196228
 		internal static void DrawStorytellerSelectionInterface(Rect rect, ref StorytellerDef chosenStoryteller, ref DifficultyDef difficulty, Listing_Standard selectedStorytellerInfoListing)
 		{
 			GUI.BeginGroup(rect);

@@ -2,13 +2,13 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000ABB RID: 2747
+	// Token: 0x02000ABD RID: 2749
 	public class ThinkNode_Tagger : ThinkNode_Priority
 	{
-		// Token: 0x0400269D RID: 9885
+		// Token: 0x0400269E RID: 9886
 		private JobTag tagToGive = JobTag.Misc;
 
-		// Token: 0x06003D35 RID: 15669 RVA: 0x00205284 File Offset: 0x00203684
+		// Token: 0x06003D39 RID: 15673 RVA: 0x002053B0 File Offset: 0x002037B0
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode_Tagger thinkNode_Tagger = (ThinkNode_Tagger)base.DeepCopy(resolve);
@@ -16,7 +16,7 @@ namespace Verse.AI
 			return thinkNode_Tagger;
 		}
 
-		// Token: 0x06003D36 RID: 15670 RVA: 0x002052B4 File Offset: 0x002036B4
+		// Token: 0x06003D3A RID: 15674 RVA: 0x002053E0 File Offset: 0x002037E0
 		public override float GetPriority(Pawn pawn)
 		{
 			float result;
@@ -36,7 +36,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003D37 RID: 15671 RVA: 0x0020532C File Offset: 0x0020372C
+		// Token: 0x06003D3B RID: 15675 RVA: 0x00205458 File Offset: 0x00203858
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			ThinkResult result = base.TryIssueJobPackage(pawn, jobParams);

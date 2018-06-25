@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002C9 RID: 713
+	// Token: 0x020002CB RID: 715
 	public class RuleDef : Def
 	{
 		// Token: 0x04000702 RID: 1794

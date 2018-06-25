@@ -2,17 +2,17 @@
 
 namespace Verse
 {
-	// Token: 0x02000C52 RID: 3154
+	// Token: 0x02000C54 RID: 3156
 	public class SectionLayer_ThingsGeneral : SectionLayer_Things
 	{
-		// Token: 0x06004578 RID: 17784 RVA: 0x0024BF6E File Offset: 0x0024A36E
+		// Token: 0x0600457B RID: 17787 RVA: 0x0024C04A File Offset: 0x0024A44A
 		public SectionLayer_ThingsGeneral(Section section) : base(section)
 		{
 			this.relevantChangeTypes = MapMeshFlag.Things;
 			this.requireAddToMapMesh = true;
 		}
 
-		// Token: 0x06004579 RID: 17785 RVA: 0x0024BF88 File Offset: 0x0024A388
+		// Token: 0x0600457C RID: 17788 RVA: 0x0024C064 File Offset: 0x0024A464
 		protected override void TakePrintFrom(Thing t)
 		{
 			try

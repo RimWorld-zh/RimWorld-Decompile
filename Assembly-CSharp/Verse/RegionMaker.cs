@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C8F RID: 3215
+	// Token: 0x02000C91 RID: 3217
 	public class RegionMaker
 	{
 		// Token: 0x04003011 RID: 12305
@@ -33,13 +33,13 @@ namespace Verse
 		// Token: 0x04003017 RID: 12311
 		private static HashSet<Thing> tmpProcessedThings = new HashSet<Thing>();
 
-		// Token: 0x0600469A RID: 18074 RVA: 0x00254230 File Offset: 0x00252630
+		// Token: 0x0600469D RID: 18077 RVA: 0x0025430C File Offset: 0x0025270C
 		public RegionMaker(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x0600469B RID: 18075 RVA: 0x00254284 File Offset: 0x00252684
+		// Token: 0x0600469E RID: 18078 RVA: 0x00254360 File Offset: 0x00252760
 		public Region TryGenerateRegionFrom(IntVec3 root)
 		{
 			RegionType expectedRegionType = root.GetExpectedRegionType(this.map);
@@ -78,7 +78,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600469C RID: 18076 RVA: 0x00254364 File Offset: 0x00252764
+		// Token: 0x0600469F RID: 18079 RVA: 0x00254440 File Offset: 0x00252840
 		private void FloodFillAndAddCells(IntVec3 root)
 		{
 			this.newRegCells.Clear();
@@ -95,7 +95,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600469D RID: 18077 RVA: 0x002543D4 File Offset: 0x002527D4
+		// Token: 0x060046A0 RID: 18080 RVA: 0x002544B0 File Offset: 0x002528B0
 		private void AddCell(IntVec3 c)
 		{
 			this.regionGrid.SetRegionAt(c, this.newReg);
@@ -122,7 +122,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600469E RID: 18078 RVA: 0x00254534 File Offset: 0x00252934
+		// Token: 0x060046A1 RID: 18081 RVA: 0x00254610 File Offset: 0x00252A10
 		private void CreateLinks()
 		{
 			for (int i = 0; i < this.linksProcessedAt.Length; i++)
@@ -139,7 +139,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600469F RID: 18079 RVA: 0x002545C8 File Offset: 0x002529C8
+		// Token: 0x060046A2 RID: 18082 RVA: 0x002546A4 File Offset: 0x00252AA4
 		private void SweepInTwoDirectionsAndTryToCreateLink(Rot4 potentialOtherRegionDir, IntVec3 c)
 		{
 			if (potentialOtherRegionDir.IsValid)
@@ -222,7 +222,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060046A0 RID: 18080 RVA: 0x002548AC File Offset: 0x00252CAC
+		// Token: 0x060046A3 RID: 18083 RVA: 0x00254988 File Offset: 0x00252D88
 		private void RegisterThingsInRegionListers()
 		{
 			CellRect cellRect = this.newReg.extentsClose;

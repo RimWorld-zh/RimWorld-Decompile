@@ -4,14 +4,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000534 RID: 1332
+	// Token: 0x02000536 RID: 1334
 	public class Thought_MemoryObservation : Thought_Memory
 	{
 		// Token: 0x04000EA2 RID: 3746
 		private int targetThingID;
 
 		// Token: 0x17000377 RID: 887
-		// (set) Token: 0x060018C2 RID: 6338 RVA: 0x000D8496 File Offset: 0x000D6896
+		// (set) Token: 0x060018C6 RID: 6342 RVA: 0x000D85E6 File Offset: 0x000D69E6
 		public Thing Target
 		{
 			set
@@ -20,14 +20,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018C3 RID: 6339 RVA: 0x000D84A5 File Offset: 0x000D68A5
+		// Token: 0x060018C7 RID: 6343 RVA: 0x000D85F5 File Offset: 0x000D69F5
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.targetThingID, "targetThingID", 0, false);
 		}
 
-		// Token: 0x060018C4 RID: 6340 RVA: 0x000D84C0 File Offset: 0x000D68C0
+		// Token: 0x060018C8 RID: 6344 RVA: 0x000D8610 File Offset: 0x000D6A10
 		public override bool TryMergeWithExistingMemory(out bool showBubble)
 		{
 			ThoughtHandler thoughts = this.pawn.needs.mood.thoughts;

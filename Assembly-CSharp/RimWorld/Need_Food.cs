@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004F8 RID: 1272
+	// Token: 0x020004FA RID: 1274
 	public class Need_Food : Need
 	{
 		// Token: 0x04000D6E RID: 3438
@@ -20,13 +20,13 @@ namespace RimWorld
 		// Token: 0x04000D71 RID: 3441
 		private const float BaseMalnutritionSeverityPerInterval = 0.00113333331f;
 
-		// Token: 0x060016DB RID: 5851 RVA: 0x000CA3A4 File Offset: 0x000C87A4
+		// Token: 0x060016DF RID: 5855 RVA: 0x000CA4F4 File Offset: 0x000C88F4
 		public Need_Food(Pawn pawn) : base(pawn)
 		{
 		}
 
 		// Token: 0x17000310 RID: 784
-		// (get) Token: 0x060016DC RID: 5852 RVA: 0x000CA3BC File Offset: 0x000C87BC
+		// (get) Token: 0x060016E0 RID: 5856 RVA: 0x000CA50C File Offset: 0x000C890C
 		public bool Starving
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000311 RID: 785
-		// (get) Token: 0x060016DD RID: 5853 RVA: 0x000CA3DC File Offset: 0x000C87DC
+		// (get) Token: 0x060016E1 RID: 5857 RVA: 0x000CA52C File Offset: 0x000C892C
 		public float PercentageThreshUrgentlyHungry
 		{
 			get
@@ -46,7 +46,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000312 RID: 786
-		// (get) Token: 0x060016DE RID: 5854 RVA: 0x000CA408 File Offset: 0x000C8808
+		// (get) Token: 0x060016E2 RID: 5858 RVA: 0x000CA558 File Offset: 0x000C8958
 		public float PercentageThreshHungry
 		{
 			get
@@ -56,7 +56,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000313 RID: 787
-		// (get) Token: 0x060016DF RID: 5855 RVA: 0x000CA434 File Offset: 0x000C8834
+		// (get) Token: 0x060016E3 RID: 5859 RVA: 0x000CA584 File Offset: 0x000C8984
 		public float NutritionBetweenHungryAndFed
 		{
 			get
@@ -66,7 +66,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000314 RID: 788
-		// (get) Token: 0x060016E0 RID: 5856 RVA: 0x000CA45C File Offset: 0x000C885C
+		// (get) Token: 0x060016E4 RID: 5860 RVA: 0x000CA5AC File Offset: 0x000C89AC
 		public HungerCategory CurCategory
 		{
 			get
@@ -93,7 +93,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000315 RID: 789
-		// (get) Token: 0x060016E1 RID: 5857 RVA: 0x000CA4BC File Offset: 0x000C88BC
+		// (get) Token: 0x060016E5 RID: 5861 RVA: 0x000CA60C File Offset: 0x000C8A0C
 		public float FoodFallPerTick
 		{
 			get
@@ -103,7 +103,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000316 RID: 790
-		// (get) Token: 0x060016E2 RID: 5858 RVA: 0x000CA4E0 File Offset: 0x000C88E0
+		// (get) Token: 0x060016E6 RID: 5862 RVA: 0x000CA630 File Offset: 0x000C8A30
 		public int TicksUntilHungryWhenFed
 		{
 			get
@@ -113,7 +113,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000317 RID: 791
-		// (get) Token: 0x060016E3 RID: 5859 RVA: 0x000CA508 File Offset: 0x000C8908
+		// (get) Token: 0x060016E7 RID: 5863 RVA: 0x000CA658 File Offset: 0x000C8A58
 		public override int GUIChangeArrow
 		{
 			get
@@ -123,7 +123,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000318 RID: 792
-		// (get) Token: 0x060016E4 RID: 5860 RVA: 0x000CA520 File Offset: 0x000C8920
+		// (get) Token: 0x060016E8 RID: 5864 RVA: 0x000CA670 File Offset: 0x000C8A70
 		public override float MaxLevel
 		{
 			get
@@ -133,7 +133,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000319 RID: 793
-		// (get) Token: 0x060016E5 RID: 5861 RVA: 0x000CA558 File Offset: 0x000C8958
+		// (get) Token: 0x060016E9 RID: 5865 RVA: 0x000CA6A8 File Offset: 0x000C8AA8
 		public float NutritionWanted
 		{
 			get
@@ -143,7 +143,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700031A RID: 794
-		// (get) Token: 0x060016E6 RID: 5862 RVA: 0x000CA57C File Offset: 0x000C897C
+		// (get) Token: 0x060016EA RID: 5866 RVA: 0x000CA6CC File Offset: 0x000C8ACC
 		private float HungerRate
 		{
 			get
@@ -153,7 +153,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700031B RID: 795
-		// (get) Token: 0x060016E7 RID: 5863 RVA: 0x000CA5E0 File Offset: 0x000C89E0
+		// (get) Token: 0x060016EB RID: 5867 RVA: 0x000CA730 File Offset: 0x000C8B30
 		public int TicksStarving
 		{
 			get
@@ -163,7 +163,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700031C RID: 796
-		// (get) Token: 0x060016E8 RID: 5864 RVA: 0x000CA60C File Offset: 0x000C8A0C
+		// (get) Token: 0x060016EC RID: 5868 RVA: 0x000CA75C File Offset: 0x000C8B5C
 		private float MalnutritionSeverityPerInterval
 		{
 			get
@@ -172,14 +172,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060016E9 RID: 5865 RVA: 0x000CA64C File Offset: 0x000C8A4C
+		// Token: 0x060016ED RID: 5869 RVA: 0x000CA79C File Offset: 0x000C8B9C
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.lastNonStarvingTick, "lastNonStarvingTick", -99999, false);
 		}
 
-		// Token: 0x060016EA RID: 5866 RVA: 0x000CA66C File Offset: 0x000C8A6C
+		// Token: 0x060016EE RID: 5870 RVA: 0x000CA7BC File Offset: 0x000C8BBC
 		private float FoodFallPerTickAssumingCategory(HungerCategory cat)
 		{
 			float result;
@@ -204,7 +204,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060016EB RID: 5867 RVA: 0x000CA6FC File Offset: 0x000C8AFC
+		// Token: 0x060016EF RID: 5871 RVA: 0x000CA84C File Offset: 0x000C8C4C
 		public override void NeedInterval()
 		{
 			if (!base.IsFrozen)
@@ -228,7 +228,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060016EC RID: 5868 RVA: 0x000CA794 File Offset: 0x000C8B94
+		// Token: 0x060016F0 RID: 5872 RVA: 0x000CA8E4 File Offset: 0x000C8CE4
 		public override void SetInitialLevel()
 		{
 			if (this.pawn.RaceProps.Humanlike)
@@ -245,7 +245,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060016ED RID: 5869 RVA: 0x000CA7F8 File Offset: 0x000C8BF8
+		// Token: 0x060016F1 RID: 5873 RVA: 0x000CA948 File Offset: 0x000C8D48
 		public override string GetTipString()
 		{
 			return string.Concat(new string[]
@@ -262,7 +262,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060016EE RID: 5870 RVA: 0x000CA88C File Offset: 0x000C8C8C
+		// Token: 0x060016F2 RID: 5874 RVA: 0x000CA9DC File Offset: 0x000C8DDC
 		public override void DrawOnGUI(Rect rect, int maxThresholdMarkers = 2147483647, float customMargin = -1f, bool drawArrows = true, bool doTooltip = true)
 		{
 			if (this.threshPercents == null)

@@ -5,37 +5,37 @@ using Steamworks;
 
 namespace Verse.Steam
 {
-	// Token: 0x02000FC4 RID: 4036
+	// Token: 0x02000FC8 RID: 4040
 	public interface WorkshopUploadable
 	{
-		// Token: 0x06006194 RID: 24980
+		// Token: 0x060061A4 RID: 24996
 		bool CanToUploadToWorkshop();
 
-		// Token: 0x06006195 RID: 24981
+		// Token: 0x060061A5 RID: 24997
 		void PrepareForWorkshopUpload();
 
-		// Token: 0x06006196 RID: 24982
+		// Token: 0x060061A6 RID: 24998
 		PublishedFileId_t GetPublishedFileId();
 
-		// Token: 0x06006197 RID: 24983
+		// Token: 0x060061A7 RID: 24999
 		void SetPublishedFileId(PublishedFileId_t pfid);
 
-		// Token: 0x06006198 RID: 24984
+		// Token: 0x060061A8 RID: 25000
 		string GetWorkshopName();
 
-		// Token: 0x06006199 RID: 24985
+		// Token: 0x060061A9 RID: 25001
 		string GetWorkshopDescription();
 
-		// Token: 0x0600619A RID: 24986
+		// Token: 0x060061AA RID: 25002
 		string GetWorkshopPreviewImagePath();
 
-		// Token: 0x0600619B RID: 24987
+		// Token: 0x060061AB RID: 25003
 		IList<string> GetWorkshopTags();
 
-		// Token: 0x0600619C RID: 24988
+		// Token: 0x060061AC RID: 25004
 		DirectoryInfo GetWorkshopUploadDirectory();
 
-		// Token: 0x0600619D RID: 24989
+		// Token: 0x060061AD RID: 25005
 		WorkshopItemHook GetWorkshopItemHook();
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000B57 RID: 2903
+	// Token: 0x02000B59 RID: 2905
 	public enum Gender : byte
 	{
 		// Token: 0x04002A2C RID: 10796

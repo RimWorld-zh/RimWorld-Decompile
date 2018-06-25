@@ -7,7 +7,7 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020003EB RID: 1003
+	// Token: 0x020003ED RID: 1005
 	public class GenStep_Power : GenStep
 	{
 		// Token: 0x04000A7E RID: 2686
@@ -44,7 +44,7 @@ namespace RimWorld
 		private static List<IntVec3> tmpTransmitterCells = new List<IntVec3>();
 
 		// Token: 0x1700024D RID: 589
-		// (get) Token: 0x0600113B RID: 4411 RVA: 0x00093FB0 File Offset: 0x000923B0
+		// (get) Token: 0x0600113F RID: 4415 RVA: 0x00094100 File Offset: 0x00092500
 		public override int SeedPart
 		{
 			get
@@ -53,7 +53,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600113C RID: 4412 RVA: 0x00093FCC File Offset: 0x000923CC
+		// Token: 0x06001140 RID: 4416 RVA: 0x0009411C File Offset: 0x0009251C
 		public override void Generate(Map map)
 		{
 			map.skyManager.ForceSetCurSkyGlow(1f);
@@ -65,7 +65,7 @@ namespace RimWorld
 			this.tmpThings.Clear();
 		}
 
-		// Token: 0x0600113D RID: 4413 RVA: 0x0009401C File Offset: 0x0009241C
+		// Token: 0x06001141 RID: 4417 RVA: 0x0009416C File Offset: 0x0009256C
 		private void UpdateDesiredPowerOutputForAllGenerators(Map map)
 		{
 			this.tmpThings.Clear();
@@ -83,7 +83,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600113E RID: 4414 RVA: 0x000940A8 File Offset: 0x000924A8
+		// Token: 0x06001142 RID: 4418 RVA: 0x000941F8 File Offset: 0x000925F8
 		private void EnsureBatteriesConnectedAndMakeSense(Map map)
 		{
 			this.tmpThings.Clear();
@@ -134,7 +134,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600113F RID: 4415 RVA: 0x00094290 File Offset: 0x00092690
+		// Token: 0x06001143 RID: 4419 RVA: 0x000943E0 File Offset: 0x000927E0
 		private void EnsurePowerUsersConnected(Map map)
 		{
 			this.tmpThings.Clear();
@@ -194,7 +194,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001140 RID: 4416 RVA: 0x00094554 File Offset: 0x00092954
+		// Token: 0x06001144 RID: 4420 RVA: 0x000946A4 File Offset: 0x00092AA4
 		private void EnsureGeneratorsConnectedAndMakeSense(Map map)
 		{
 			this.tmpThings.Clear();
@@ -219,14 +219,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001141 RID: 4417 RVA: 0x00094658 File Offset: 0x00092A58
+		// Token: 0x06001145 RID: 4421 RVA: 0x000947A8 File Offset: 0x00092BA8
 		private bool IsPowerUser(Thing thing)
 		{
 			CompPowerTrader compPowerTrader = thing.TryGetComp<CompPowerTrader>();
 			return compPowerTrader != null && (compPowerTrader.PowerOutput < 0f || (!compPowerTrader.PowerOn && compPowerTrader.Props.basePowerConsumption > 0f));
 		}
 
-		// Token: 0x06001142 RID: 4418 RVA: 0x000946B0 File Offset: 0x00092AB0
+		// Token: 0x06001146 RID: 4422 RVA: 0x00094800 File Offset: 0x00092C00
 		private bool IsPowerGenerator(Thing thing)
 		{
 			bool result;
@@ -242,7 +242,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001143 RID: 4419 RVA: 0x0009471C File Offset: 0x00092B1C
+		// Token: 0x06001147 RID: 4423 RVA: 0x0009486C File Offset: 0x00092C6C
 		private bool HasAnyPowerGenerator(PowerNet net)
 		{
 			List<CompPowerTrader> powerComps = net.powerComps;
@@ -256,7 +256,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06001144 RID: 4420 RVA: 0x00094770 File Offset: 0x00092B70
+		// Token: 0x06001148 RID: 4424 RVA: 0x000948C0 File Offset: 0x00092CC0
 		private bool HasAnyPowerUser(PowerNet net)
 		{
 			List<CompPowerTrader> powerComps = net.powerComps;
@@ -270,7 +270,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06001145 RID: 4421 RVA: 0x000947C4 File Offset: 0x00092BC4
+		// Token: 0x06001149 RID: 4425 RVA: 0x00094914 File Offset: 0x00092D14
 		private bool TryFindClosestReachableNet(IntVec3 root, Predicate<PowerNet> predicate, Map map, out PowerNet foundNet, out IntVec3 closestTransmitter)
 		{
 			this.tmpPowerNetPredicateResults.Clear();
@@ -323,7 +323,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001146 RID: 4422 RVA: 0x00094888 File Offset: 0x00092C88
+		// Token: 0x0600114A RID: 4426 RVA: 0x000949D8 File Offset: 0x00092DD8
 		private void SpawnTransmitters(List<IntVec3> cells, Map map, Faction faction)
 		{
 			for (int i = 0; i < cells.Count; i++)
@@ -336,7 +336,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001147 RID: 4423 RVA: 0x000948E4 File Offset: 0x00092CE4
+		// Token: 0x0600114B RID: 4427 RVA: 0x00094A34 File Offset: 0x00092E34
 		private void SpawnTransmitters(IntVec3 start, IntVec3 end, Map map, Faction faction)
 		{
 			bool foundPath = false;
@@ -361,7 +361,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001148 RID: 4424 RVA: 0x00094980 File Offset: 0x00092D80
+		// Token: 0x0600114C RID: 4428 RVA: 0x00094AD0 File Offset: 0x00092ED0
 		private bool TrySpawnPowerTransmittingBuildingNear(IntVec3 position, Map map, Faction faction, ThingDef def, out Building newBuilding, Predicate<IntVec3> extraValidator = null)
 		{
 			TraverseParms traverseParams = TraverseParms.For(TraverseMode.PassAllDestroyableThings, Danger.Deadly, false);
@@ -407,7 +407,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001149 RID: 4425 RVA: 0x00094A38 File Offset: 0x00092E38
+		// Token: 0x0600114D RID: 4429 RVA: 0x00094B88 File Offset: 0x00092F88
 		private bool TrySpawnPowerGeneratorNear(IntVec3 position, Map map, Faction faction, out Building newPowerGenerator)
 		{
 			bool result;
@@ -424,7 +424,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600114A RID: 4426 RVA: 0x00094A84 File Offset: 0x00092E84
+		// Token: 0x0600114E RID: 4430 RVA: 0x00094BD4 File Offset: 0x00092FD4
 		private bool TrySpawnBatteryNear(IntVec3 position, Map map, Faction faction, out Building newBattery)
 		{
 			Predicate<IntVec3> extraValidator = null;
@@ -473,7 +473,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600114B RID: 4427 RVA: 0x00094B14 File Offset: 0x00092F14
+		// Token: 0x0600114F RID: 4431 RVA: 0x00094C64 File Offset: 0x00093064
 		private bool TrySpawnPowerGeneratorAndBatteryIfCanAndConnect(Thing forThing, Map map)
 		{
 			bool result;
@@ -511,13 +511,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600114C RID: 4428 RVA: 0x00094BE8 File Offset: 0x00092FE8
+		// Token: 0x06001150 RID: 4432 RVA: 0x00094D38 File Offset: 0x00093138
 		private bool EverPossibleToTransmitPowerAt(IntVec3 c, Map map)
 		{
 			return c.GetTransmitter(map) != null || GenConstruct.CanBuildOnTerrain(ThingDefOf.PowerConduit, c, map, Rot4.North, null);
 		}
 
-		// Token: 0x0600114D RID: 4429 RVA: 0x00094C20 File Offset: 0x00093020
+		// Token: 0x06001151 RID: 4433 RVA: 0x00094D70 File Offset: 0x00093170
 		private void TryTurnOnImmediately(CompPowerTrader powerComp, Map map)
 		{
 			if (!powerComp.PowerOn)
@@ -530,7 +530,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600114E RID: 4430 RVA: 0x00094C70 File Offset: 0x00093070
+		// Token: 0x06001152 RID: 4434 RVA: 0x00094DC0 File Offset: 0x000931C0
 		private void SpawnRoofOver(Thing thing)
 		{
 			CellRect cellRect = thing.OccupiedRect();

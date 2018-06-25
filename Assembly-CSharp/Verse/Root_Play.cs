@@ -8,7 +8,7 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000BDC RID: 3036
+	// Token: 0x02000BDE RID: 3038
 	public class Root_Play : Root
 	{
 		// Token: 0x04002D58 RID: 11608
@@ -26,7 +26,7 @@ namespace Verse
 		[CompilerGenerated]
 		private static Action<Exception> <>f__mg$cache2;
 
-		// Token: 0x06004252 RID: 16978 RVA: 0x0022E5FC File Offset: 0x0022C9FC
+		// Token: 0x06004255 RID: 16981 RVA: 0x0022E6D8 File Offset: 0x0022CAD8
 		public override void Start()
 		{
 			Log.ResetMessageCount();
@@ -94,7 +94,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004253 RID: 16979 RVA: 0x0022E7A0 File Offset: 0x0022CBA0
+		// Token: 0x06004256 RID: 16982 RVA: 0x0022E87C File Offset: 0x0022CC7C
 		public override void Update()
 		{
 			base.Update();
@@ -122,7 +122,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004254 RID: 16980 RVA: 0x0022E85C File Offset: 0x0022CC5C
+		// Token: 0x06004257 RID: 16983 RVA: 0x0022E938 File Offset: 0x0022CD38
 		private static void SetupForQuickTestPlay()
 		{
 			Current.ProgramState = ProgramState.Entry;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000ED6 RID: 3798
+	// Token: 0x02000ED8 RID: 3800
 	[StaticConstructorOnStartup]
 	public static class ContentSourceUtility
 	{
@@ -16,7 +16,7 @@ namespace Verse
 		// Token: 0x04003C6A RID: 15466
 		private static readonly Texture2D ContentSourceIcon_SteamWorkshop = ContentFinder<Texture2D>.Get("UI/Icons/ContentSources/SteamWorkshop", true);
 
-		// Token: 0x060059FF RID: 23039 RVA: 0x002E3A14 File Offset: 0x002E1E14
+		// Token: 0x06005A02 RID: 23042 RVA: 0x002E3B34 File Offset: 0x002E1F34
 		public static Texture2D GetIcon(this ContentSource s)
 		{
 			Texture2D result;
@@ -42,7 +42,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005A00 RID: 23040 RVA: 0x002E3A64 File Offset: 0x002E1E64
+		// Token: 0x06005A03 RID: 23043 RVA: 0x002E3B84 File Offset: 0x002E1F84
 		public static void DrawContentSource(Rect r, ContentSource source, Action clickAction = null)
 		{
 			Rect rect = new Rect(r.x, r.y + r.height / 2f - 12f, 24f, 24f);
@@ -55,7 +55,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005A01 RID: 23041 RVA: 0x002E3B0C File Offset: 0x002E1F0C
+		// Token: 0x06005A04 RID: 23044 RVA: 0x002E3C2C File Offset: 0x002E202C
 		public static string HumanLabel(this ContentSource s)
 		{
 			return ("ContentSource_" + s.ToString()).Translate();

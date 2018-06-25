@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004E6 RID: 1254
+	// Token: 0x020004E8 RID: 1256
 	public class DrugPolicy : IExposable, ILoadReferenceable
 	{
 		// Token: 0x04000D16 RID: 3350
@@ -16,12 +16,12 @@ namespace RimWorld
 		// Token: 0x04000D18 RID: 3352
 		private List<DrugPolicyEntry> entriesInt;
 
-		// Token: 0x06001664 RID: 5732 RVA: 0x000C6EE8 File Offset: 0x000C52E8
+		// Token: 0x06001668 RID: 5736 RVA: 0x000C7038 File Offset: 0x000C5438
 		public DrugPolicy()
 		{
 		}
 
-		// Token: 0x06001665 RID: 5733 RVA: 0x000C6EF1 File Offset: 0x000C52F1
+		// Token: 0x06001669 RID: 5737 RVA: 0x000C7041 File Offset: 0x000C5441
 		public DrugPolicy(int uniqueId, string label)
 		{
 			this.uniqueId = uniqueId;
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002EC RID: 748
-		// (get) Token: 0x06001666 RID: 5734 RVA: 0x000C6F10 File Offset: 0x000C5310
+		// (get) Token: 0x0600166A RID: 5738 RVA: 0x000C7060 File Offset: 0x000C5460
 		public int Count
 		{
 			get
@@ -68,7 +68,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600166A RID: 5738 RVA: 0x000C6FC0 File Offset: 0x000C53C0
+		// Token: 0x0600166E RID: 5742 RVA: 0x000C7110 File Offset: 0x000C5510
 		public void InitializeIfNeeded()
 		{
 			if (this.entriesInt == null)
@@ -89,7 +89,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600166B RID: 5739 RVA: 0x000C707E File Offset: 0x000C547E
+		// Token: 0x0600166F RID: 5743 RVA: 0x000C71CE File Offset: 0x000C55CE
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.uniqueId, "uniqueId", 0, false);
@@ -97,7 +97,7 @@ namespace RimWorld
 			Scribe_Collections.Look<DrugPolicyEntry>(ref this.entriesInt, "drugs", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x0600166C RID: 5740 RVA: 0x000C70BC File Offset: 0x000C54BC
+		// Token: 0x06001670 RID: 5744 RVA: 0x000C720C File Offset: 0x000C560C
 		public string GetUniqueLoadID()
 		{
 			return "DrugPolicy_" + this.label + this.uniqueId.ToString();

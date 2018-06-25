@@ -3,7 +3,7 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x0200092B RID: 2347
+	// Token: 0x0200092D RID: 2349
 	[DefOf]
 	public static class DutyDefOf
 	{
@@ -100,7 +100,7 @@ namespace RimWorld
 		// Token: 0x04002022 RID: 8226
 		public static DutyDef PrepareCaravan_Pause;
 
-		// Token: 0x06003633 RID: 13875 RVA: 0x001D0A53 File Offset: 0x001CEE53
+		// Token: 0x06003637 RID: 13879 RVA: 0x001D0B93 File Offset: 0x001CEF93
 		static DutyDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(DutyDefOf));

@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008A9 RID: 2217
+	// Token: 0x020008AB RID: 2219
 	[StaticConstructorOnStartup]
 	public static class TradeUI
 	{
@@ -23,7 +23,7 @@ namespace RimWorld
 		// Token: 0x04001B7C RID: 7036
 		public static readonly Color NoTradeColor = new Color(0.5f, 0.5f, 0.5f);
 
-		// Token: 0x060032CC RID: 13004 RVA: 0x001B5F68 File Offset: 0x001B4368
+		// Token: 0x060032D0 RID: 13008 RVA: 0x001B60A8 File Offset: 0x001B44A8
 		public static void DrawTradeableRow(Rect rect, Tradeable trad, int index)
 		{
 			if (index % 2 == 1)
@@ -88,7 +88,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x060032CD RID: 13005 RVA: 0x001B61FC File Offset: 0x001B45FC
+		// Token: 0x060032D1 RID: 13009 RVA: 0x001B633C File Offset: 0x001B473C
 		private static void DrawPrice(Rect rect, Tradeable trad, TradeAction action)
 		{
 			if (!trad.IsCurrency && trad.TraderWillTrade)
@@ -159,7 +159,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060032CE RID: 13006 RVA: 0x001B64A4 File Offset: 0x001B48A4
+		// Token: 0x060032D2 RID: 13010 RVA: 0x001B65E4 File Offset: 0x001B49E4
 		private static void DrawWillNotTradeIndication(Rect rect, Tradeable trad)
 		{
 			rect = rect.Rounded();

@@ -3,7 +3,7 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D3C RID: 3388
+	// Token: 0x02000D3E RID: 3390
 	public class PawnCapacitiesHandler
 	{
 		// Token: 0x04003270 RID: 12912
@@ -12,14 +12,14 @@ namespace Verse
 		// Token: 0x04003271 RID: 12913
 		private DefMap<PawnCapacityDef, PawnCapacitiesHandler.CacheElement> cachedCapacityLevels = null;
 
-		// Token: 0x06004ACE RID: 19150 RVA: 0x00270D65 File Offset: 0x0026F165
+		// Token: 0x06004AD2 RID: 19154 RVA: 0x00270E91 File Offset: 0x0026F291
 		public PawnCapacitiesHandler(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x17000BEF RID: 3055
-		// (get) Token: 0x06004ACF RID: 19151 RVA: 0x00270D7C File Offset: 0x0026F17C
+		// Token: 0x17000BEE RID: 3054
+		// (get) Token: 0x06004AD3 RID: 19155 RVA: 0x00270EA8 File Offset: 0x0026F2A8
 		public bool CanBeAwake
 		{
 			get
@@ -28,13 +28,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004AD0 RID: 19152 RVA: 0x00270DA6 File Offset: 0x0026F1A6
+		// Token: 0x06004AD4 RID: 19156 RVA: 0x00270ED2 File Offset: 0x0026F2D2
 		public void Clear()
 		{
 			this.cachedCapacityLevels = null;
 		}
 
-		// Token: 0x06004AD1 RID: 19153 RVA: 0x00270DB0 File Offset: 0x0026F1B0
+		// Token: 0x06004AD5 RID: 19157 RVA: 0x00270EDC File Offset: 0x0026F2DC
 		public float GetLevel(PawnCapacityDef capacity)
 		{
 			float result;
@@ -74,13 +74,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004AD2 RID: 19154 RVA: 0x00270E84 File Offset: 0x0026F284
+		// Token: 0x06004AD6 RID: 19158 RVA: 0x00270FB0 File Offset: 0x0026F3B0
 		public bool CapableOf(PawnCapacityDef capacity)
 		{
 			return this.GetLevel(capacity) > capacity.minForCapable;
 		}
 
-		// Token: 0x06004AD3 RID: 19155 RVA: 0x00270EA8 File Offset: 0x0026F2A8
+		// Token: 0x06004AD7 RID: 19159 RVA: 0x00270FD4 File Offset: 0x0026F3D4
 		public void Notify_CapacityLevelsDirty()
 		{
 			if (this.cachedCapacityLevels == null)
@@ -93,7 +93,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000D3D RID: 3389
+		// Token: 0x02000D3F RID: 3391
 		private enum CacheStatus
 		{
 			// Token: 0x04003273 RID: 12915
@@ -104,7 +104,7 @@ namespace Verse
 			Cached
 		}
 
-		// Token: 0x02000D3E RID: 3390
+		// Token: 0x02000D40 RID: 3392
 		private class CacheElement
 		{
 			// Token: 0x04003276 RID: 12918

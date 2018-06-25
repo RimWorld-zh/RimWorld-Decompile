@@ -5,20 +5,20 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C4B RID: 3147
+	// Token: 0x02000C4D RID: 3149
 	public class SectionLayer_TerrainScatter : SectionLayer
 	{
 		// Token: 0x04002F6B RID: 12139
 		private List<SectionLayer_TerrainScatter.Scatterable> scats = new List<SectionLayer_TerrainScatter.Scatterable>();
 
-		// Token: 0x06004563 RID: 17763 RVA: 0x0024B152 File Offset: 0x00249552
+		// Token: 0x06004566 RID: 17766 RVA: 0x0024B22E File Offset: 0x0024962E
 		public SectionLayer_TerrainScatter(Section section) : base(section)
 		{
 			this.relevantChangeTypes = MapMeshFlag.Terrain;
 		}
 
-		// Token: 0x17000AF2 RID: 2802
-		// (get) Token: 0x06004564 RID: 17764 RVA: 0x0024B170 File Offset: 0x00249570
+		// Token: 0x17000AF1 RID: 2801
+		// (get) Token: 0x06004567 RID: 17767 RVA: 0x0024B24C File Offset: 0x0024964C
 		public override bool Visible
 		{
 			get
@@ -27,7 +27,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004565 RID: 17765 RVA: 0x0024B18C File Offset: 0x0024958C
+		// Token: 0x06004568 RID: 17768 RVA: 0x0024B268 File Offset: 0x00249668
 		public override void Regenerate()
 		{
 			base.ClearSubMeshes(MeshParts.All);
@@ -74,7 +74,7 @@ namespace Verse
 			base.FinalizeMesh(MeshParts.All);
 		}
 
-		// Token: 0x02000C4C RID: 3148
+		// Token: 0x02000C4E RID: 3150
 		private class Scatterable
 		{
 			// Token: 0x04002F6D RID: 12141
@@ -92,7 +92,7 @@ namespace Verse
 			// Token: 0x04002F71 RID: 12145
 			public float rotation;
 
-			// Token: 0x06004567 RID: 17767 RVA: 0x0024B3C0 File Offset: 0x002497C0
+			// Token: 0x0600456A RID: 17770 RVA: 0x0024B49C File Offset: 0x0024989C
 			public Scatterable(ScatterableDef def, Vector3 loc, Map map)
 			{
 				this.def = def;
@@ -102,14 +102,14 @@ namespace Verse
 				this.rotation = Rand.Range(0f, 360f);
 			}
 
-			// Token: 0x06004568 RID: 17768 RVA: 0x0024B418 File Offset: 0x00249818
+			// Token: 0x0600456B RID: 17771 RVA: 0x0024B4F4 File Offset: 0x002498F4
 			public void PrintOnto(SectionLayer layer)
 			{
 				Printer_Plane.PrintPlane(layer, this.loc, Vector2.one * this.size, this.def.mat, this.rotation, false, null, null, 0.01f, 0f);
 			}
 
-			// Token: 0x17000AF3 RID: 2803
-			// (get) Token: 0x06004569 RID: 17769 RVA: 0x0024B460 File Offset: 0x00249860
+			// Token: 0x17000AF2 RID: 2802
+			// (get) Token: 0x0600456C RID: 17772 RVA: 0x0024B53C File Offset: 0x0024993C
 			public bool IsOnValidTerrain
 			{
 				get

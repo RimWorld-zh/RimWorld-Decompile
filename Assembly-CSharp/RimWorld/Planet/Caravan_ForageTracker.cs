@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005E7 RID: 1511
+	// Token: 0x020005E9 RID: 1513
 	public class Caravan_ForageTracker : IExposable
 	{
 		// Token: 0x040011B1 RID: 4529
@@ -18,14 +18,14 @@ namespace RimWorld.Planet
 		// Token: 0x040011B3 RID: 4531
 		private const int UpdateProgressIntervalTicks = 10;
 
-		// Token: 0x06001DEA RID: 7658 RVA: 0x00101C55 File Offset: 0x00100055
+		// Token: 0x06001DEE RID: 7662 RVA: 0x00101DA5 File Offset: 0x001001A5
 		public Caravan_ForageTracker(Caravan caravan)
 		{
 			this.caravan = caravan;
 		}
 
 		// Token: 0x17000466 RID: 1126
-		// (get) Token: 0x06001DEB RID: 7659 RVA: 0x00101C68 File Offset: 0x00100068
+		// (get) Token: 0x06001DEF RID: 7663 RVA: 0x00101DB8 File Offset: 0x001001B8
 		public Pair<ThingDef, float> ForagedFoodPerDay
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000467 RID: 1127
-		// (get) Token: 0x06001DEC RID: 7660 RVA: 0x00101C8C File Offset: 0x0010008C
+		// (get) Token: 0x06001DF0 RID: 7664 RVA: 0x00101DDC File Offset: 0x001001DC
 		public string ForagedFoodPerDayExplanation
 		{
 			get
@@ -46,13 +46,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DED RID: 7661 RVA: 0x00101CBA File Offset: 0x001000BA
+		// Token: 0x06001DF1 RID: 7665 RVA: 0x00101E0A File Offset: 0x0010020A
 		public void ExposeData()
 		{
 			Scribe_Values.Look<float>(ref this.progress, "progress", 0f, false);
 		}
 
-		// Token: 0x06001DEE RID: 7662 RVA: 0x00101CD3 File Offset: 0x001000D3
+		// Token: 0x06001DF2 RID: 7666 RVA: 0x00101E23 File Offset: 0x00100223
 		public void ForageTrackerTick()
 		{
 			if (this.caravan.IsHashIntervalTick(10))
@@ -61,7 +61,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DEF RID: 7663 RVA: 0x00101CF0 File Offset: 0x001000F0
+		// Token: 0x06001DF3 RID: 7667 RVA: 0x00101E40 File Offset: 0x00100240
 		public IEnumerable<Gizmo> GetGizmos()
 		{
 			if (Prefs.DevMode)
@@ -75,7 +75,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001DF0 RID: 7664 RVA: 0x00101D1C File Offset: 0x0010011C
+		// Token: 0x06001DF4 RID: 7668 RVA: 0x00101E6C File Offset: 0x0010026C
 		private void UpdateProgressInterval()
 		{
 			float num = 10f * ForagedFoodPerDayCalculator.GetProgressPerTick(this.caravan, null);
@@ -87,7 +87,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DF1 RID: 7665 RVA: 0x00101D70 File Offset: 0x00100170
+		// Token: 0x06001DF5 RID: 7669 RVA: 0x00101EC0 File Offset: 0x001002C0
 		private void Forage()
 		{
 			ThingDef foragedFood = this.caravan.Biome.foragedFood;

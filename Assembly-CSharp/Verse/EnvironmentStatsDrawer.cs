@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E5D RID: 3677
+	// Token: 0x02000E5F RID: 3679
 	internal static class EnvironmentStatsDrawer
 	{
 		// Token: 0x04003967 RID: 14695
@@ -35,8 +35,8 @@ namespace Verse
 		// Token: 0x0400396F RID: 14703
 		private const float SpaceBetweenColumns = 35f;
 
-		// Token: 0x17000D9D RID: 3485
-		// (get) Token: 0x060056B0 RID: 22192 RVA: 0x002CAFE0 File Offset: 0x002C93E0
+		// Token: 0x17000D9C RID: 3484
+		// (get) Token: 0x060056B4 RID: 22196 RVA: 0x002CB10C File Offset: 0x002C950C
 		private static int DisplayedRoomStatsCount
 		{
 			get
@@ -54,13 +54,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056B1 RID: 22193 RVA: 0x002CB038 File Offset: 0x002C9438
+		// Token: 0x060056B5 RID: 22197 RVA: 0x002CB164 File Offset: 0x002C9564
 		private static bool ShouldShowWindowNow()
 		{
 			return (EnvironmentStatsDrawer.ShouldShowRoomStats() || EnvironmentStatsDrawer.ShouldShowBeauty()) && !Mouse.IsInputBlockedNow;
 		}
 
-		// Token: 0x060056B2 RID: 22194 RVA: 0x002CB07C File Offset: 0x002C947C
+		// Token: 0x060056B6 RID: 22198 RVA: 0x002CB1A8 File Offset: 0x002C95A8
 		private static bool ShouldShowRoomStats()
 		{
 			bool result;
@@ -80,13 +80,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060056B3 RID: 22195 RVA: 0x002CB100 File Offset: 0x002C9500
+		// Token: 0x060056B7 RID: 22199 RVA: 0x002CB22C File Offset: 0x002C962C
 		private static bool ShouldShowBeauty()
 		{
 			return Find.PlaySettings.showBeauty && UI.MouseCell().InBounds(Find.CurrentMap) && !UI.MouseCell().Fogged(Find.CurrentMap) && UI.MouseCell().GetRoom(Find.CurrentMap, RegionType.Set_Passable) != null;
 		}
 
-		// Token: 0x060056B4 RID: 22196 RVA: 0x002CB170 File Offset: 0x002C9570
+		// Token: 0x060056B8 RID: 22200 RVA: 0x002CB29C File Offset: 0x002C969C
 		public static void EnvironmentStatsOnGUI()
 		{
 			if (Event.current.type == EventType.Repaint && EnvironmentStatsDrawer.ShouldShowWindowNow())
@@ -95,7 +95,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056B5 RID: 22197 RVA: 0x002CB198 File Offset: 0x002C9598
+		// Token: 0x060056B9 RID: 22201 RVA: 0x002CB2C4 File Offset: 0x002C96C4
 		private static void DrawInfoWindow()
 		{
 			EnvironmentStatsDrawer.<DrawInfoWindow>c__AnonStorey0 <DrawInfoWindow>c__AnonStorey = new EnvironmentStatsDrawer.<DrawInfoWindow>c__AnonStorey0();
@@ -139,7 +139,7 @@ namespace Verse
 			}, true, false, 1f);
 		}
 
-		// Token: 0x060056B6 RID: 22198 RVA: 0x002CB338 File Offset: 0x002C9738
+		// Token: 0x060056BA RID: 22202 RVA: 0x002CB464 File Offset: 0x002C9864
 		private static void FillWindow(Rect windowRect)
 		{
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.InspectRoomStats, KnowledgeAmount.FrameDisplayed);
@@ -200,7 +200,7 @@ namespace Verse
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x060056B7 RID: 22199 RVA: 0x002CB5D0 File Offset: 0x002C99D0
+		// Token: 0x060056BB RID: 22203 RVA: 0x002CB6FC File Offset: 0x002C9AFC
 		public static void DrawRoomOverlays()
 		{
 			if (Find.PlaySettings.showBeauty && UI.MouseCell().InBounds(Find.CurrentMap))
@@ -217,7 +217,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056B8 RID: 22200 RVA: 0x002CB64C File Offset: 0x002C9A4C
+		// Token: 0x060056BC RID: 22204 RVA: 0x002CB778 File Offset: 0x002C9B78
 		private static string GetRoomRoleLabel(Room room)
 		{
 			Pawn pawn = null;

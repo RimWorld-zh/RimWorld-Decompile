@@ -5,7 +5,7 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000C9B RID: 3227
+	// Token: 0x02000C9D RID: 3229
 	public class RoofCollapseBufferResolver
 	{
 		// Token: 0x04003059 RID: 12377
@@ -17,13 +17,13 @@ namespace Verse
 		// Token: 0x0400305B RID: 12379
 		private HashSet<string> tmpCrushedNames = new HashSet<string>();
 
-		// Token: 0x0600471E RID: 18206 RVA: 0x00258553 File Offset: 0x00256953
+		// Token: 0x06004721 RID: 18209 RVA: 0x0025862F File Offset: 0x00256A2F
 		public RoofCollapseBufferResolver(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x0600471F RID: 18207 RVA: 0x0025857C File Offset: 0x0025697C
+		// Token: 0x06004722 RID: 18210 RVA: 0x00258658 File Offset: 0x00256A58
 		public void CollapseRoofsMarkedToCollapse()
 		{
 			RoofCollapseBuffer roofCollapseBuffer = this.map.roofCollapseBuffer;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B81 RID: 2945
+	// Token: 0x02000B83 RID: 2947
 	public class SoundFilterEcho : SoundFilter
 	{
 		// Token: 0x04002B0F RID: 11023
@@ -26,7 +26,7 @@ namespace Verse.Sound
 		[Description("The volume of the original signal to pass to output.")]
 		private float dryMix = 1f;
 
-		// Token: 0x06004025 RID: 16421 RVA: 0x0021CAA8 File Offset: 0x0021AEA8
+		// Token: 0x06004028 RID: 16424 RVA: 0x0021CB84 File Offset: 0x0021AF84
 		public override void SetupOn(AudioSource source)
 		{
 			AudioEchoFilter orMakeFilterOn = SoundFilter.GetOrMakeFilterOn<AudioEchoFilter>(source);

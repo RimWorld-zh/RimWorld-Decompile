@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200026B RID: 619
+	// Token: 0x0200026D RID: 621
 	public class HoldOffsetSet
 	{
 		// Token: 0x040004FC RID: 1276
@@ -18,7 +18,7 @@ namespace RimWorld
 		// Token: 0x040004FF RID: 1279
 		public HoldOffset west = null;
 
-		// Token: 0x06000AA8 RID: 2728 RVA: 0x000605A4 File Offset: 0x0005E9A4
+		// Token: 0x06000AAC RID: 2732 RVA: 0x000606F4 File Offset: 0x0005EAF4
 		public HoldOffset Pick(Rot4 rotation)
 		{
 			HoldOffset result;

@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000424 RID: 1060
+	// Token: 0x02000426 RID: 1062
 	[StaticConstructorOnStartup]
 	public static class PowerOverlayMats
 	{
@@ -29,7 +29,7 @@ namespace RimWorld
 		// Token: 0x04000B4F RID: 2895
 		public static readonly Material MatConnectorBaseAnticipated = MaterialPool.MatFrom("Things/Special/Power/OverlayBaseAnticipated", ShaderDatabase.MetaOverlay);
 
-		// Token: 0x06001285 RID: 4741 RVA: 0x000A0D04 File Offset: 0x0009F104
+		// Token: 0x06001289 RID: 4745 RVA: 0x000A0E54 File Offset: 0x0009F254
 		static PowerOverlayMats()
 		{
 			Graphic graphic = GraphicDatabase.Get<Graphic_Single>("Things/Special/Power/TransmitterAtlas", PowerOverlayMats.TransmitterShader);

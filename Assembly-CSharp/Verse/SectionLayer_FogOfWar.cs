@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C45 RID: 3141
+	// Token: 0x02000C47 RID: 3143
 	public class SectionLayer_FogOfWar : SectionLayer
 	{
 		// Token: 0x04002F5F RID: 12127
@@ -12,14 +12,14 @@ namespace Verse
 		// Token: 0x04002F60 RID: 12128
 		private const byte FogBrightness = 35;
 
-		// Token: 0x06004546 RID: 17734 RVA: 0x00248EFB File Offset: 0x002472FB
+		// Token: 0x06004549 RID: 17737 RVA: 0x00248FD7 File Offset: 0x002473D7
 		public SectionLayer_FogOfWar(Section section) : base(section)
 		{
 			this.relevantChangeTypes = MapMeshFlag.FogOfWar;
 		}
 
-		// Token: 0x17000AEC RID: 2796
-		// (get) Token: 0x06004547 RID: 17735 RVA: 0x00248F1C File Offset: 0x0024731C
+		// Token: 0x17000AEB RID: 2795
+		// (get) Token: 0x0600454A RID: 17738 RVA: 0x00248FF8 File Offset: 0x002473F8
 		public override bool Visible
 		{
 			get
@@ -28,7 +28,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004548 RID: 17736 RVA: 0x00248F38 File Offset: 0x00247338
+		// Token: 0x0600454B RID: 17739 RVA: 0x00249014 File Offset: 0x00247414
 		public override void Regenerate()
 		{
 			LayerSubMesh subMesh = base.GetSubMesh(MatBases.FogOfWar);

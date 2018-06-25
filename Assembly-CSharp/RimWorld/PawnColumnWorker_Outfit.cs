@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000894 RID: 2196
+	// Token: 0x02000896 RID: 2198
 	public class PawnColumnWorker_Outfit : PawnColumnWorker
 	{
 		// Token: 0x04001ADF RID: 6879
@@ -14,7 +14,7 @@ namespace RimWorld
 		// Token: 0x04001AE0 RID: 6880
 		private const int ManageOutfitsButtonHeight = 32;
 
-		// Token: 0x06003229 RID: 12841 RVA: 0x001B0130 File Offset: 0x001AE530
+		// Token: 0x0600322D RID: 12845 RVA: 0x001B0270 File Offset: 0x001AE670
 		public override void DoHeader(Rect rect, PawnTable table)
 		{
 			base.DoHeader(rect, table);
@@ -27,7 +27,7 @@ namespace RimWorld
 			UIHighlighter.HighlightOpportunity(rect2, "ManageOutfits");
 		}
 
-		// Token: 0x0600322A RID: 12842 RVA: 0x001B01C0 File Offset: 0x001AE5C0
+		// Token: 0x0600322E RID: 12846 RVA: 0x001B0300 File Offset: 0x001AE700
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 			if (pawn.outfits != null)
@@ -78,7 +78,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600322B RID: 12843 RVA: 0x001B0410 File Offset: 0x001AE810
+		// Token: 0x0600322F RID: 12847 RVA: 0x001B0550 File Offset: 0x001AE950
 		private IEnumerable<Widgets.DropdownMenuElement<Outfit>> Button_GenerateMenu(Pawn pawn)
 		{
 			using (List<Outfit>.Enumerator enumerator = Current.Game.outfitDatabase.AllOutfits.GetEnumerator())
@@ -99,31 +99,31 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600322C RID: 12844 RVA: 0x001B043C File Offset: 0x001AE83C
+		// Token: 0x06003230 RID: 12848 RVA: 0x001B057C File Offset: 0x001AE97C
 		public override int GetMinWidth(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinWidth(table), Mathf.CeilToInt(194f));
 		}
 
-		// Token: 0x0600322D RID: 12845 RVA: 0x001B0468 File Offset: 0x001AE868
+		// Token: 0x06003231 RID: 12849 RVA: 0x001B05A8 File Offset: 0x001AE9A8
 		public override int GetOptimalWidth(PawnTable table)
 		{
 			return Mathf.Clamp(Mathf.CeilToInt(354f), this.GetMinWidth(table), this.GetMaxWidth(table));
 		}
 
-		// Token: 0x0600322E RID: 12846 RVA: 0x001B049C File Offset: 0x001AE89C
+		// Token: 0x06003232 RID: 12850 RVA: 0x001B05DC File Offset: 0x001AE9DC
 		public override int GetMinHeaderHeight(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinHeaderHeight(table), 65);
 		}
 
-		// Token: 0x0600322F RID: 12847 RVA: 0x001B04C0 File Offset: 0x001AE8C0
+		// Token: 0x06003233 RID: 12851 RVA: 0x001B0600 File Offset: 0x001AEA00
 		public override int Compare(Pawn a, Pawn b)
 		{
 			return this.GetValueToCompare(a).CompareTo(this.GetValueToCompare(b));
 		}
 
-		// Token: 0x06003230 RID: 12848 RVA: 0x001B04EC File Offset: 0x001AE8EC
+		// Token: 0x06003234 RID: 12852 RVA: 0x001B062C File Offset: 0x001AEA2C
 		private int GetValueToCompare(Pawn pawn)
 		{
 			return (pawn.outfits != null && pawn.outfits.CurrentOutfit != null) ? pawn.outfits.CurrentOutfit.uniqueId : int.MinValue;

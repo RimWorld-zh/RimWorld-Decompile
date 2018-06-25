@@ -2,34 +2,34 @@
 
 namespace Verse.Noise
 {
-	// Token: 0x02000FA0 RID: 4000
+	// Token: 0x02000FA4 RID: 4004
 	internal static class Utils
 	{
-		// Token: 0x04003F47 RID: 16199
+		// Token: 0x04003F4A RID: 16202
 		internal const double DegToRad = 0.017453292519943295;
 
-		// Token: 0x04003F48 RID: 16200
+		// Token: 0x04003F4B RID: 16203
 		internal const double Sqrt3 = 1.7320508075688772;
 
-		// Token: 0x04003F49 RID: 16201
+		// Token: 0x04003F4C RID: 16204
 		internal const int OctavesMaximum = 30;
 
-		// Token: 0x04003F4A RID: 16202
+		// Token: 0x04003F4D RID: 16205
 		private const int GeneratorNoiseX = 1619;
 
-		// Token: 0x04003F4B RID: 16203
+		// Token: 0x04003F4E RID: 16206
 		private const int GeneratorNoiseY = 31337;
 
-		// Token: 0x04003F4C RID: 16204
+		// Token: 0x04003F4F RID: 16207
 		private const int GeneratorNoiseZ = 6971;
 
-		// Token: 0x04003F4D RID: 16205
+		// Token: 0x04003F50 RID: 16208
 		private const int GeneratorSeed = 1013;
 
-		// Token: 0x04003F4E RID: 16206
+		// Token: 0x04003F51 RID: 16209
 		private const int GeneratorShift = 8;
 
-		// Token: 0x04003F4F RID: 16207
+		// Token: 0x04003F52 RID: 16210
 		internal static double[] _randoms = new double[]
 		{
 			-0.763874,
@@ -1058,7 +1058,7 @@ namespace Verse.Noise
 			0.0
 		};
 
-		// Token: 0x060060A8 RID: 24744 RVA: 0x0030F520 File Offset: 0x0030D920
+		// Token: 0x060060B2 RID: 24754 RVA: 0x0030FBA0 File Offset: 0x0030DFA0
 		internal static double GradientCoherentNoise3D(double x, double y, double z, long seed, QualityMode quality)
 		{
 			int num = (x <= 0.0) ? ((int)x - 1) : ((int)x);
@@ -1111,7 +1111,7 @@ namespace Verse.Noise
 			return Utils.InterpolateLinear(a3, b3, position3);
 		}
 
-		// Token: 0x060060A9 RID: 24745 RVA: 0x0030F710 File Offset: 0x0030DB10
+		// Token: 0x060060B3 RID: 24755 RVA: 0x0030FD90 File Offset: 0x0030E190
 		internal static double GradientNoise3D(double fx, double fy, double fz, int ix, int iy, int iz, long seed)
 		{
 			long num = (long)(1619 * ix + 31337 * iy + 6971 * iz) + 1013L * seed & (long)((ulong)-1);
@@ -1132,7 +1132,7 @@ namespace Verse.Noise
 			return (num2 * num5 + num3 * num6 + num4 * num7) * 2.12;
 		}
 
-		// Token: 0x060060AA RID: 24746 RVA: 0x0030F7B4 File Offset: 0x0030DBB4
+		// Token: 0x060060B4 RID: 24756 RVA: 0x0030FE34 File Offset: 0x0030E234
 		internal static double InterpolateCubic(double a, double b, double c, double d, double position)
 		{
 			double num = d - c - (a - b);
@@ -1141,13 +1141,13 @@ namespace Verse.Noise
 			return num * position * position * position + num2 * position * position + num3 * position + b;
 		}
 
-		// Token: 0x060060AB RID: 24747 RVA: 0x0030F7F8 File Offset: 0x0030DBF8
+		// Token: 0x060060B5 RID: 24757 RVA: 0x0030FE78 File Offset: 0x0030E278
 		internal static double InterpolateLinear(double a, double b, double position)
 		{
 			return (1.0 - position) * a + position * b;
 		}
 
-		// Token: 0x060060AC RID: 24748 RVA: 0x0030F820 File Offset: 0x0030DC20
+		// Token: 0x060060B6 RID: 24758 RVA: 0x0030FEA0 File Offset: 0x0030E2A0
 		internal static double MakeInt32Range(double value)
 		{
 			double result;
@@ -1166,13 +1166,13 @@ namespace Verse.Noise
 			return result;
 		}
 
-		// Token: 0x060060AD RID: 24749 RVA: 0x0030F8AC File Offset: 0x0030DCAC
+		// Token: 0x060060B7 RID: 24759 RVA: 0x0030FF2C File Offset: 0x0030E32C
 		internal static double MapCubicSCurve(double value)
 		{
 			return value * value * (3.0 - 2.0 * value);
 		}
 
-		// Token: 0x060060AE RID: 24750 RVA: 0x0030F8DC File Offset: 0x0030DCDC
+		// Token: 0x060060B8 RID: 24760 RVA: 0x0030FF5C File Offset: 0x0030E35C
 		internal static double MapQuinticSCurve(double value)
 		{
 			double num = value * value * value;
@@ -1181,13 +1181,13 @@ namespace Verse.Noise
 			return 6.0 * num3 - 15.0 * num2 + 10.0 * num;
 		}
 
-		// Token: 0x060060AF RID: 24751 RVA: 0x0030F924 File Offset: 0x0030DD24
+		// Token: 0x060060B9 RID: 24761 RVA: 0x0030FFA4 File Offset: 0x0030E3A4
 		internal static double ValueNoise3D(int x, int y, int z, int seed)
 		{
 			return 1.0 - (double)Utils.ValueNoise3DInt(x, y, z, seed) / 1073741824.0;
 		}
 
-		// Token: 0x060060B0 RID: 24752 RVA: 0x0030F958 File Offset: 0x0030DD58
+		// Token: 0x060060BA RID: 24762 RVA: 0x0030FFD8 File Offset: 0x0030E3D8
 		internal static long ValueNoise3DInt(int x, int y, int z, int seed)
 		{
 			long num = (long)(1619 * x + 31337 * y + 6971 * z + 1013 * seed & int.MaxValue);

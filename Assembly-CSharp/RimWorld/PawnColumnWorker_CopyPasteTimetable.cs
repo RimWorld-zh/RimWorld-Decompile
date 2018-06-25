@@ -6,14 +6,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000881 RID: 2177
+	// Token: 0x02000883 RID: 2179
 	public class PawnColumnWorker_CopyPasteTimetable : PawnColumnWorker_CopyPaste
 	{
 		// Token: 0x04001ACC RID: 6860
 		private static List<TimeAssignmentDef> clipboard;
 
 		// Token: 0x170007FF RID: 2047
-		// (get) Token: 0x060031B5 RID: 12725 RVA: 0x001AE744 File Offset: 0x001ACB44
+		// (get) Token: 0x060031B9 RID: 12729 RVA: 0x001AE884 File Offset: 0x001ACC84
 		protected override bool AnythingInClipboard
 		{
 			get
@@ -22,7 +22,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060031B6 RID: 12726 RVA: 0x001AE764 File Offset: 0x001ACB64
+		// Token: 0x060031BA RID: 12730 RVA: 0x001AE8A4 File Offset: 0x001ACCA4
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 			if (pawn.timetable != null)
@@ -31,13 +31,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060031B7 RID: 12727 RVA: 0x001AE780 File Offset: 0x001ACB80
+		// Token: 0x060031BB RID: 12731 RVA: 0x001AE8C0 File Offset: 0x001ACCC0
 		protected override void CopyFrom(Pawn p)
 		{
 			PawnColumnWorker_CopyPasteTimetable.clipboard = p.timetable.times.ToList<TimeAssignmentDef>();
 		}
 
-		// Token: 0x060031B8 RID: 12728 RVA: 0x001AE798 File Offset: 0x001ACB98
+		// Token: 0x060031BC RID: 12732 RVA: 0x001AE8D8 File Offset: 0x001ACCD8
 		protected override void PasteTo(Pawn p)
 		{
 			for (int i = 0; i < 24; i++)

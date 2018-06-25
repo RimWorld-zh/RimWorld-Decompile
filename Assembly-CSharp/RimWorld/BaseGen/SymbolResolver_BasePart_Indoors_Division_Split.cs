@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x02000392 RID: 914
+	// Token: 0x02000394 RID: 916
 	public class SymbolResolver_BasePart_Indoors_Division_Split : SymbolResolver
 	{
 		// Token: 0x040009F3 RID: 2547
@@ -12,13 +12,13 @@ namespace RimWorld.BaseGen
 		// Token: 0x040009F4 RID: 2548
 		private const int MinWidthOrHeight = 9;
 
-		// Token: 0x06000FF9 RID: 4089 RVA: 0x00086AB4 File Offset: 0x00084EB4
+		// Token: 0x06000FFD RID: 4093 RVA: 0x00086C04 File Offset: 0x00085004
 		public override bool CanResolve(ResolveParams rp)
 		{
 			return base.CanResolve(rp) && (rp.rect.Width >= 9 || rp.rect.Height >= 9);
 		}
 
-		// Token: 0x06000FFA RID: 4090 RVA: 0x00086B04 File Offset: 0x00084F04
+		// Token: 0x06000FFE RID: 4094 RVA: 0x00086C54 File Offset: 0x00085054
 		public override void Resolve(ResolveParams rp)
 		{
 			if (rp.rect.Width < 9 && rp.rect.Height < 9)

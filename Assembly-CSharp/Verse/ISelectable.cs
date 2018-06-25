@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000EA4 RID: 3748
+	// Token: 0x02000EA6 RID: 3750
 	public interface ISelectable
 	{
-		// Token: 0x06005875 RID: 22645
+		// Token: 0x06005879 RID: 22649
 		IEnumerable<Gizmo> GetGizmos();
 
-		// Token: 0x06005876 RID: 22646
+		// Token: 0x0600587A RID: 22650
 		string GetInspectString();
 
-		// Token: 0x06005877 RID: 22647
+		// Token: 0x0600587B RID: 22651
 		IEnumerable<InspectTabBase> GetInspectTabs();
 	}
 }

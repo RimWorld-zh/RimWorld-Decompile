@@ -6,7 +6,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000416 RID: 1046
+	// Token: 0x02000418 RID: 1048
 	public class CompFlickable : ThingComp
 	{
 		// Token: 0x04000AF8 RID: 2808
@@ -31,7 +31,7 @@ namespace RimWorld
 		public const string FlickedOffSignal = "FlickedOff";
 
 		// Token: 0x1700026B RID: 619
-		// (get) Token: 0x06001209 RID: 4617 RVA: 0x0009D374 File Offset: 0x0009B774
+		// (get) Token: 0x0600120D RID: 4621 RVA: 0x0009D4C4 File Offset: 0x0009B8C4
 		private CompProperties_Flickable Props
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700026C RID: 620
-		// (get) Token: 0x0600120A RID: 4618 RVA: 0x0009D394 File Offset: 0x0009B794
+		// (get) Token: 0x0600120E RID: 4622 RVA: 0x0009D4E4 File Offset: 0x0009B8E4
 		private Texture2D CommandTex
 		{
 			get
@@ -55,8 +55,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700026D RID: 621
-		// (get) Token: 0x0600120B RID: 4619 RVA: 0x0009D3D8 File Offset: 0x0009B7D8
-		// (set) Token: 0x0600120C RID: 4620 RVA: 0x0009D3F4 File Offset: 0x0009B7F4
+		// (get) Token: 0x0600120F RID: 4623 RVA: 0x0009D528 File Offset: 0x0009B928
+		// (set) Token: 0x06001210 RID: 4624 RVA: 0x0009D544 File Offset: 0x0009B944
 		public bool SwitchIsOn
 		{
 			get
@@ -85,7 +85,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700026E RID: 622
-		// (get) Token: 0x0600120D RID: 4621 RVA: 0x0009D47C File Offset: 0x0009B87C
+		// (get) Token: 0x06001211 RID: 4625 RVA: 0x0009D5CC File Offset: 0x0009B9CC
 		public Graphic CurrentGraphic
 		{
 			get
@@ -107,7 +107,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600120E RID: 4622 RVA: 0x0009D545 File Offset: 0x0009B945
+		// Token: 0x06001212 RID: 4626 RVA: 0x0009D695 File Offset: 0x0009BA95
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -115,27 +115,27 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.wantSwitchOn, "wantSwitchOn", true, false);
 		}
 
-		// Token: 0x0600120F RID: 4623 RVA: 0x0009D574 File Offset: 0x0009B974
+		// Token: 0x06001213 RID: 4627 RVA: 0x0009D6C4 File Offset: 0x0009BAC4
 		public bool WantsFlick()
 		{
 			return this.wantSwitchOn != this.switchOnInt;
 		}
 
-		// Token: 0x06001210 RID: 4624 RVA: 0x0009D59A File Offset: 0x0009B99A
+		// Token: 0x06001214 RID: 4628 RVA: 0x0009D6EA File Offset: 0x0009BAEA
 		public void DoFlick()
 		{
 			this.SwitchIsOn = !this.SwitchIsOn;
 			SoundDefOf.FlickSwitch.PlayOneShot(new TargetInfo(this.parent.Position, this.parent.Map, false));
 		}
 
-		// Token: 0x06001211 RID: 4625 RVA: 0x0009D5D7 File Offset: 0x0009B9D7
+		// Token: 0x06001215 RID: 4629 RVA: 0x0009D727 File Offset: 0x0009BB27
 		public void ResetToOn()
 		{
 			this.switchOnInt = true;
 			this.wantSwitchOn = true;
 		}
 
-		// Token: 0x06001212 RID: 4626 RVA: 0x0009D5E8 File Offset: 0x0009B9E8
+		// Token: 0x06001216 RID: 4630 RVA: 0x0009D738 File Offset: 0x0009BB38
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			foreach (Gizmo c in this.<CompGetGizmosExtra>__BaseCallProxy0())

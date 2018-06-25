@@ -5,95 +5,95 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000C21 RID: 3105
+	// Token: 0x02000C23 RID: 3107
 	public static class GridsUtility
 	{
-		// Token: 0x06004406 RID: 17414 RVA: 0x0023DD24 File Offset: 0x0023C124
+		// Token: 0x06004409 RID: 17417 RVA: 0x0023DE00 File Offset: 0x0023C200
 		public static float GetTemperature(this IntVec3 loc, Map map)
 		{
 			return GenTemperature.GetTemperatureForCell(loc, map);
 		}
 
-		// Token: 0x06004407 RID: 17415 RVA: 0x0023DD40 File Offset: 0x0023C140
+		// Token: 0x0600440A RID: 17418 RVA: 0x0023DE1C File Offset: 0x0023C21C
 		public static Region GetRegion(this IntVec3 loc, Map map, RegionType allowedRegionTypes = RegionType.Set_Passable)
 		{
 			return RegionAndRoomQuery.RegionAt(loc, map, allowedRegionTypes);
 		}
 
-		// Token: 0x06004408 RID: 17416 RVA: 0x0023DD60 File Offset: 0x0023C160
+		// Token: 0x0600440B RID: 17419 RVA: 0x0023DE3C File Offset: 0x0023C23C
 		public static Room GetRoom(this IntVec3 loc, Map map, RegionType allowedRegionTypes = RegionType.Set_Passable)
 		{
 			return RegionAndRoomQuery.RoomAt(loc, map, allowedRegionTypes);
 		}
 
-		// Token: 0x06004409 RID: 17417 RVA: 0x0023DD80 File Offset: 0x0023C180
+		// Token: 0x0600440C RID: 17420 RVA: 0x0023DE5C File Offset: 0x0023C25C
 		public static RoomGroup GetRoomGroup(this IntVec3 loc, Map map)
 		{
 			return RegionAndRoomQuery.RoomGroupAt(loc, map);
 		}
 
-		// Token: 0x0600440A RID: 17418 RVA: 0x0023DD9C File Offset: 0x0023C19C
+		// Token: 0x0600440D RID: 17421 RVA: 0x0023DE78 File Offset: 0x0023C278
 		public static Room GetRoomOrAdjacent(this IntVec3 loc, Map map, RegionType allowedRegionTypes = RegionType.Set_Passable)
 		{
 			return RegionAndRoomQuery.RoomAtOrAdjacent(loc, map, allowedRegionTypes);
 		}
 
-		// Token: 0x0600440B RID: 17419 RVA: 0x0023DDBC File Offset: 0x0023C1BC
+		// Token: 0x0600440E RID: 17422 RVA: 0x0023DE98 File Offset: 0x0023C298
 		public static List<Thing> GetThingList(this IntVec3 c, Map map)
 		{
 			return map.thingGrid.ThingsListAt(c);
 		}
 
-		// Token: 0x0600440C RID: 17420 RVA: 0x0023DDE0 File Offset: 0x0023C1E0
+		// Token: 0x0600440F RID: 17423 RVA: 0x0023DEBC File Offset: 0x0023C2BC
 		public static float GetSnowDepth(this IntVec3 c, Map map)
 		{
 			return map.snowGrid.GetDepth(c);
 		}
 
-		// Token: 0x0600440D RID: 17421 RVA: 0x0023DE04 File Offset: 0x0023C204
+		// Token: 0x06004410 RID: 17424 RVA: 0x0023DEE0 File Offset: 0x0023C2E0
 		public static bool Fogged(this Thing t)
 		{
 			return t.Map.fogGrid.IsFogged(t.Position);
 		}
 
-		// Token: 0x0600440E RID: 17422 RVA: 0x0023DE30 File Offset: 0x0023C230
+		// Token: 0x06004411 RID: 17425 RVA: 0x0023DF0C File Offset: 0x0023C30C
 		public static bool Fogged(this IntVec3 c, Map map)
 		{
 			return map.fogGrid.IsFogged(c);
 		}
 
-		// Token: 0x0600440F RID: 17423 RVA: 0x0023DE54 File Offset: 0x0023C254
+		// Token: 0x06004412 RID: 17426 RVA: 0x0023DF30 File Offset: 0x0023C330
 		public static RoofDef GetRoof(this IntVec3 c, Map map)
 		{
 			return map.roofGrid.RoofAt(c);
 		}
 
-		// Token: 0x06004410 RID: 17424 RVA: 0x0023DE78 File Offset: 0x0023C278
+		// Token: 0x06004413 RID: 17427 RVA: 0x0023DF54 File Offset: 0x0023C354
 		public static bool Roofed(this IntVec3 c, Map map)
 		{
 			return map.roofGrid.Roofed(c);
 		}
 
-		// Token: 0x06004411 RID: 17425 RVA: 0x0023DE9C File Offset: 0x0023C29C
+		// Token: 0x06004414 RID: 17428 RVA: 0x0023DF78 File Offset: 0x0023C378
 		public static bool Filled(this IntVec3 c, Map map)
 		{
 			Building edifice = c.GetEdifice(map);
 			return edifice != null && edifice.def.Fillage == FillCategory.Full;
 		}
 
-		// Token: 0x06004412 RID: 17426 RVA: 0x0023DED0 File Offset: 0x0023C2D0
+		// Token: 0x06004415 RID: 17429 RVA: 0x0023DFAC File Offset: 0x0023C3AC
 		public static TerrainDef GetTerrain(this IntVec3 c, Map map)
 		{
 			return map.terrainGrid.TerrainAt(c);
 		}
 
-		// Token: 0x06004413 RID: 17427 RVA: 0x0023DEF4 File Offset: 0x0023C2F4
+		// Token: 0x06004416 RID: 17430 RVA: 0x0023DFD0 File Offset: 0x0023C3D0
 		public static Zone GetZone(this IntVec3 c, Map map)
 		{
 			return map.zoneManager.ZoneAt(c);
 		}
 
-		// Token: 0x06004414 RID: 17428 RVA: 0x0023DF18 File Offset: 0x0023C318
+		// Token: 0x06004417 RID: 17431 RVA: 0x0023DFF4 File Offset: 0x0023C3F4
 		public static Plant GetPlant(this IntVec3 c, Map map)
 		{
 			List<Thing> list = map.thingGrid.ThingsListAt(c);
@@ -107,7 +107,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004415 RID: 17429 RVA: 0x0023DF80 File Offset: 0x0023C380
+		// Token: 0x06004418 RID: 17432 RVA: 0x0023E05C File Offset: 0x0023C45C
 		public static Thing GetRoofHolderOrImpassable(this IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);
@@ -121,7 +121,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004416 RID: 17430 RVA: 0x0023DFF4 File Offset: 0x0023C3F4
+		// Token: 0x06004419 RID: 17433 RVA: 0x0023E0D0 File Offset: 0x0023C4D0
 		public static Thing GetFirstThing(this IntVec3 c, Map map, ThingDef def)
 		{
 			List<Thing> thingList = c.GetThingList(map);
@@ -135,7 +135,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004417 RID: 17431 RVA: 0x0023E04C File Offset: 0x0023C44C
+		// Token: 0x0600441A RID: 17434 RVA: 0x0023E128 File Offset: 0x0023C528
 		public static ThingWithComps GetFirstThing<TComp>(this IntVec3 c, Map map) where TComp : ThingComp
 		{
 			List<Thing> thingList = c.GetThingList(map);
@@ -149,7 +149,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004418 RID: 17432 RVA: 0x0023E0AC File Offset: 0x0023C4AC
+		// Token: 0x0600441B RID: 17435 RVA: 0x0023E188 File Offset: 0x0023C588
 		public static Thing GetFirstHaulable(this IntVec3 c, Map map)
 		{
 			List<Thing> list = map.thingGrid.ThingsListAt(c);
@@ -163,7 +163,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004419 RID: 17433 RVA: 0x0023E10C File Offset: 0x0023C50C
+		// Token: 0x0600441C RID: 17436 RVA: 0x0023E1E8 File Offset: 0x0023C5E8
 		public static Thing GetFirstItem(this IntVec3 c, Map map)
 		{
 			List<Thing> list = map.thingGrid.ThingsListAt(c);
@@ -177,7 +177,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x0600441A RID: 17434 RVA: 0x0023E16C File Offset: 0x0023C56C
+		// Token: 0x0600441D RID: 17437 RVA: 0x0023E248 File Offset: 0x0023C648
 		public static Building GetFirstBuilding(this IntVec3 c, Map map)
 		{
 			List<Thing> list = map.thingGrid.ThingsListAt(c);
@@ -192,7 +192,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x0600441B RID: 17435 RVA: 0x0023E1C4 File Offset: 0x0023C5C4
+		// Token: 0x0600441E RID: 17438 RVA: 0x0023E2A0 File Offset: 0x0023C6A0
 		public static Pawn GetFirstPawn(this IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);
@@ -207,7 +207,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x0600441C RID: 17436 RVA: 0x0023E218 File Offset: 0x0023C618
+		// Token: 0x0600441F RID: 17439 RVA: 0x0023E2F4 File Offset: 0x0023C6F4
 		public static Mineable GetFirstMineable(this IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);
@@ -222,7 +222,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x0600441D RID: 17437 RVA: 0x0023E26C File Offset: 0x0023C66C
+		// Token: 0x06004420 RID: 17440 RVA: 0x0023E348 File Offset: 0x0023C748
 		public static Blight GetFirstBlight(this IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);
@@ -237,7 +237,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x0600441E RID: 17438 RVA: 0x0023E2C0 File Offset: 0x0023C6C0
+		// Token: 0x06004421 RID: 17441 RVA: 0x0023E39C File Offset: 0x0023C79C
 		public static Skyfaller GetFirstSkyfaller(this IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);
@@ -252,7 +252,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x0600441F RID: 17439 RVA: 0x0023E314 File Offset: 0x0023C714
+		// Token: 0x06004422 RID: 17442 RVA: 0x0023E3F0 File Offset: 0x0023C7F0
 		public static IPlantToGrowSettable GetPlantToGrowSettable(this IntVec3 c, Map map)
 		{
 			IPlantToGrowSettable plantToGrowSettable = c.GetEdifice(map) as IPlantToGrowSettable;
@@ -263,7 +263,7 @@ namespace Verse
 			return plantToGrowSettable;
 		}
 
-		// Token: 0x06004420 RID: 17440 RVA: 0x0023E34C File Offset: 0x0023C74C
+		// Token: 0x06004423 RID: 17443 RVA: 0x0023E428 File Offset: 0x0023C828
 		public static Building GetTransmitter(this IntVec3 c, Map map)
 		{
 			List<Thing> list = map.thingGrid.ThingsListAt(c);
@@ -277,7 +277,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004421 RID: 17441 RVA: 0x0023E3B0 File Offset: 0x0023C7B0
+		// Token: 0x06004424 RID: 17444 RVA: 0x0023E48C File Offset: 0x0023C88C
 		public static Building_Door GetDoor(this IntVec3 c, Map map)
 		{
 			List<Thing> list = map.thingGrid.ThingsListAt(c);
@@ -292,19 +292,19 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004422 RID: 17442 RVA: 0x0023E408 File Offset: 0x0023C808
+		// Token: 0x06004425 RID: 17445 RVA: 0x0023E4E4 File Offset: 0x0023C8E4
 		public static Building GetEdifice(this IntVec3 c, Map map)
 		{
 			return map.edificeGrid[c];
 		}
 
-		// Token: 0x06004423 RID: 17443 RVA: 0x0023E42C File Offset: 0x0023C82C
+		// Token: 0x06004426 RID: 17446 RVA: 0x0023E508 File Offset: 0x0023C908
 		public static Thing GetCover(this IntVec3 c, Map map)
 		{
 			return map.coverGrid[c];
 		}
 
-		// Token: 0x06004424 RID: 17444 RVA: 0x0023E450 File Offset: 0x0023C850
+		// Token: 0x06004427 RID: 17447 RVA: 0x0023E52C File Offset: 0x0023C92C
 		public static Gas GetGas(this IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);
@@ -318,7 +318,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004425 RID: 17445 RVA: 0x0023E4B0 File Offset: 0x0023C8B0
+		// Token: 0x06004428 RID: 17448 RVA: 0x0023E58C File Offset: 0x0023C98C
 		public static bool IsInPrisonCell(this IntVec3 c, Map map)
 		{
 			Room roomOrAdjacent = c.GetRoomOrAdjacent(map, RegionType.Set_Passable);
@@ -335,7 +335,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004426 RID: 17446 RVA: 0x0023E500 File Offset: 0x0023C900
+		// Token: 0x06004429 RID: 17449 RVA: 0x0023E5DC File Offset: 0x0023C9DC
 		public static bool UsesOutdoorTemperature(this IntVec3 c, Map map)
 		{
 			Room room = c.GetRoom(map, RegionType.Set_All);

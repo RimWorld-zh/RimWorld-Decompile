@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000814 RID: 2068
+	// Token: 0x02000816 RID: 2070
 	public static class FactionUIUtility
 	{
 		// Token: 0x0400188E RID: 6286
@@ -35,7 +35,7 @@ namespace RimWorld
 		// Token: 0x04001896 RID: 6294
 		private const float NameLeftMargin = 15f;
 
-		// Token: 0x06002E29 RID: 11817 RVA: 0x00185DB4 File Offset: 0x001841B4
+		// Token: 0x06002E2D RID: 11821 RVA: 0x00185F04 File Offset: 0x00184304
 		public static void DoWindowContents(Rect fillRect, ref Vector2 scrollPosition, ref float scrollViewHeight)
 		{
 			Rect position = new Rect(0f, 0f, fillRect.width, fillRect.height);
@@ -72,7 +72,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002E2A RID: 11818 RVA: 0x00185F7C File Offset: 0x0018437C
+		// Token: 0x06002E2E RID: 11822 RVA: 0x001860CC File Offset: 0x001844CC
 		private static float DrawFactionRow(Faction faction, float rowY, Rect fillRect)
 		{
 			Rect rect = new Rect(35f, rowY, 250f, 80f);

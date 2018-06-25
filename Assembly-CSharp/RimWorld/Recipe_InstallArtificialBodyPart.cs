@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000465 RID: 1125
+	// Token: 0x02000467 RID: 1127
 	public class Recipe_InstallArtificialBodyPart : Recipe_Surgery
 	{
-		// Token: 0x060013CC RID: 5068 RVA: 0x000AC400 File Offset: 0x000AA800
+		// Token: 0x060013D0 RID: 5072 RVA: 0x000AC550 File Offset: 0x000AA950
 		public override IEnumerable<BodyPartRecord> GetPartsToApplyOn(Pawn pawn, RecipeDef recipe)
 		{
 			for (int i = 0; i < recipe.appliedOnFixedBodyParts.Count; i++)
@@ -39,7 +39,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060013CD RID: 5069 RVA: 0x000AC434 File Offset: 0x000AA834
+		// Token: 0x060013D1 RID: 5073 RVA: 0x000AC584 File Offset: 0x000AA984
 		public override void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients, Bill bill)
 		{
 			if (billDoer != null)

@@ -2,13 +2,13 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000AAE RID: 2734
+	// Token: 0x02000AB0 RID: 2736
 	public abstract class ThinkNode_Conditional : ThinkNode_Priority
 	{
-		// Token: 0x0400268A RID: 9866
+		// Token: 0x0400268B RID: 9867
 		public bool invert = false;
 
-		// Token: 0x06003D12 RID: 15634 RVA: 0x00055D70 File Offset: 0x00054170
+		// Token: 0x06003D16 RID: 15638 RVA: 0x00055D70 File Offset: 0x00054170
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode_Conditional thinkNode_Conditional = (ThinkNode_Conditional)base.DeepCopy(resolve);
@@ -16,7 +16,7 @@ namespace Verse.AI
 			return thinkNode_Conditional;
 		}
 
-		// Token: 0x06003D13 RID: 15635 RVA: 0x00055DA0 File Offset: 0x000541A0
+		// Token: 0x06003D17 RID: 15639 RVA: 0x00055DA0 File Offset: 0x000541A0
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			ThinkResult result;
@@ -31,7 +31,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003D14 RID: 15636
+		// Token: 0x06003D18 RID: 15640
 		protected abstract bool Satisfied(Pawn pawn);
 	}
 }

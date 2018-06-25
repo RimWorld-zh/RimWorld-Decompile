@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008E2 RID: 2274
+	// Token: 0x020008E4 RID: 2276
 	public class WITab_Caravan_Items : WITab
 	{
 		// Token: 0x04001C45 RID: 7237
@@ -36,13 +36,13 @@ namespace RimWorld.Planet
 		// Token: 0x04001C4D RID: 7245
 		private const float AssignDrugPoliciesButtonHeight = 27f;
 
-		// Token: 0x0600344C RID: 13388 RVA: 0x001BFB6A File Offset: 0x001BDF6A
+		// Token: 0x06003450 RID: 13392 RVA: 0x001BFCAA File Offset: 0x001BE0AA
 		public WITab_Caravan_Items()
 		{
 			this.labelKey = "TabCaravanItems";
 		}
 
-		// Token: 0x0600344D RID: 13389 RVA: 0x001BFB8C File Offset: 0x001BDF8C
+		// Token: 0x06003451 RID: 13393 RVA: 0x001BFCCC File Offset: 0x001BE0CC
 		protected override void FillTab()
 		{
 			this.CheckCreateSorters();
@@ -70,7 +70,7 @@ namespace RimWorld.Planet
 			GUI.EndGroup();
 		}
 
-		// Token: 0x0600344E RID: 13390 RVA: 0x001BFCB9 File Offset: 0x001BE0B9
+		// Token: 0x06003452 RID: 13394 RVA: 0x001BFDF9 File Offset: 0x001BE1F9
 		protected override void UpdateSize()
 		{
 			base.UpdateSize();
@@ -78,7 +78,7 @@ namespace RimWorld.Planet
 			this.size = CaravanItemsTabUtility.GetSize(this.cachedItems, this.PaneTopY, true);
 		}
 
-		// Token: 0x0600344F RID: 13391 RVA: 0x001BFCE0 File Offset: 0x001BE0E0
+		// Token: 0x06003453 RID: 13395 RVA: 0x001BFE20 File Offset: 0x001BE220
 		private void CheckCacheItems()
 		{
 			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(base.SelCaravan);
@@ -100,7 +100,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06003450 RID: 13392 RVA: 0x001BFD58 File Offset: 0x001BE158
+		// Token: 0x06003454 RID: 13396 RVA: 0x001BFE98 File Offset: 0x001BE298
 		private void CacheItems()
 		{
 			this.CheckCreateSorters();
@@ -123,7 +123,7 @@ namespace RimWorld.Planet
 			this.cachedItemsHash = seed;
 		}
 
-		// Token: 0x06003451 RID: 13393 RVA: 0x001BFE91 File Offset: 0x001BE291
+		// Token: 0x06003455 RID: 13397 RVA: 0x001BFFD1 File Offset: 0x001BE3D1
 		private void CheckCreateSorters()
 		{
 			if (this.sorter1 == null)

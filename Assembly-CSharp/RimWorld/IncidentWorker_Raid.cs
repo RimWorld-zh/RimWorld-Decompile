@@ -8,31 +8,31 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000348 RID: 840
+	// Token: 0x0200034A RID: 842
 	public abstract class IncidentWorker_Raid : IncidentWorker_PawnsArrive
 	{
-		// Token: 0x06000E6C RID: 3692
+		// Token: 0x06000E70 RID: 3696
 		protected abstract bool TryResolveRaidFaction(IncidentParms parms);
 
-		// Token: 0x06000E6D RID: 3693
+		// Token: 0x06000E71 RID: 3697
 		protected abstract void ResolveRaidStrategy(IncidentParms parms, PawnGroupKindDef groupKind);
 
-		// Token: 0x06000E6E RID: 3694
+		// Token: 0x06000E72 RID: 3698
 		protected abstract string GetLetterLabel(IncidentParms parms);
 
-		// Token: 0x06000E6F RID: 3695
+		// Token: 0x06000E73 RID: 3699
 		protected abstract string GetLetterText(IncidentParms parms, List<Pawn> pawns);
 
-		// Token: 0x06000E70 RID: 3696
+		// Token: 0x06000E74 RID: 3700
 		protected abstract LetterDef GetLetterDef();
 
-		// Token: 0x06000E71 RID: 3697
+		// Token: 0x06000E75 RID: 3701
 		protected abstract string GetRelatedPawnsInfoLetterText(IncidentParms parms);
 
-		// Token: 0x06000E72 RID: 3698
+		// Token: 0x06000E76 RID: 3702
 		protected abstract void ResolveRaidPoints(IncidentParms parms);
 
-		// Token: 0x06000E73 RID: 3699 RVA: 0x000797F4 File Offset: 0x00077BF4
+		// Token: 0x06000E77 RID: 3703 RVA: 0x00079944 File Offset: 0x00077D44
 		protected virtual void ResolveRaidArriveMode(IncidentParms parms)
 		{
 			if (parms.raidArrivalMode == null)
@@ -57,7 +57,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000E74 RID: 3700 RVA: 0x0007990C File Offset: 0x00077D0C
+		// Token: 0x06000E78 RID: 3704 RVA: 0x00079A5C File Offset: 0x00077E5C
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -152,7 +152,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000E75 RID: 3701 RVA: 0x00079CF8 File Offset: 0x000780F8
+		// Token: 0x06000E79 RID: 3705 RVA: 0x00079E48 File Offset: 0x00078248
 		public void DoTable_RaidFactionSampled()
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -189,7 +189,7 @@ namespace RimWorld
 			DebugTables.MakeTablesDialog<Faction>(Find.FactionManager.AllFactions, list.ToArray());
 		}
 
-		// Token: 0x06000E76 RID: 3702 RVA: 0x00079ED8 File Offset: 0x000782D8
+		// Token: 0x06000E7A RID: 3706 RVA: 0x0007A028 File Offset: 0x00078428
 		public void DoTable_RaidStrategySampled(Faction fac)
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -231,7 +231,7 @@ namespace RimWorld
 			DebugTables.MakeTablesDialog<RaidStrategyDef>(DefDatabase<RaidStrategyDef>.AllDefs, list.ToArray());
 		}
 
-		// Token: 0x06000E77 RID: 3703 RVA: 0x0007A0D4 File Offset: 0x000784D4
+		// Token: 0x06000E7B RID: 3707 RVA: 0x0007A224 File Offset: 0x00078624
 		public void DoTable_RaidArrivalModeSampled(Faction fac)
 		{
 			int ticksGame = Find.TickManager.TicksGame;

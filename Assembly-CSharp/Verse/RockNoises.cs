@@ -4,7 +4,7 @@ using Verse.Noise;
 
 namespace Verse
 {
-	// Token: 0x02000C60 RID: 3168
+	// Token: 0x02000C62 RID: 3170
 	public static class RockNoises
 	{
 		// Token: 0x04002FAF RID: 12207
@@ -13,7 +13,7 @@ namespace Verse
 		// Token: 0x04002FB0 RID: 12208
 		private const float RockNoiseFreq = 0.005f;
 
-		// Token: 0x060045BC RID: 17852 RVA: 0x0024D45C File Offset: 0x0024B85C
+		// Token: 0x060045BF RID: 17855 RVA: 0x0024D538 File Offset: 0x0024B938
 		public static void Init(Map map)
 		{
 			RockNoises.rockNoises = new List<RockNoises.RockNoise>();
@@ -27,13 +27,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060045BD RID: 17853 RVA: 0x0024D53C File Offset: 0x0024B93C
+		// Token: 0x060045C0 RID: 17856 RVA: 0x0024D618 File Offset: 0x0024BA18
 		public static void Reset()
 		{
 			RockNoises.rockNoises = null;
 		}
 
-		// Token: 0x02000C61 RID: 3169
+		// Token: 0x02000C63 RID: 3171
 		public class RockNoise
 		{
 			// Token: 0x04002FB1 RID: 12209

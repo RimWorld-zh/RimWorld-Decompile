@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000EFE RID: 3838
+	// Token: 0x02000F02 RID: 3842
 	public struct ThingCount : IEquatable<ThingCount>, IExposable
 	{
-		// Token: 0x04003CE0 RID: 15584
+		// Token: 0x04003CE3 RID: 15587
 		private Thing thing;
 
-		// Token: 0x04003CE1 RID: 15585
+		// Token: 0x04003CE4 RID: 15588
 		private int count;
 
-		// Token: 0x06005C14 RID: 23572 RVA: 0x002EDB74 File Offset: 0x002EBF74
+		// Token: 0x06005C1E RID: 23582 RVA: 0x002EE1F4 File Offset: 0x002EC5F4
 		public ThingCount(Thing thing, int count)
 		{
 			if (count < 0)
@@ -42,8 +42,8 @@ namespace Verse
 			this.count = count;
 		}
 
-		// Token: 0x17000EC6 RID: 3782
-		// (get) Token: 0x06005C15 RID: 23573 RVA: 0x002EDC24 File Offset: 0x002EC024
+		// Token: 0x17000EC5 RID: 3781
+		// (get) Token: 0x06005C1F RID: 23583 RVA: 0x002EE2A4 File Offset: 0x002EC6A4
 		public Thing Thing
 		{
 			get
@@ -52,8 +52,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000EC7 RID: 3783
-		// (get) Token: 0x06005C16 RID: 23574 RVA: 0x002EDC40 File Offset: 0x002EC040
+		// Token: 0x17000EC6 RID: 3782
+		// (get) Token: 0x06005C20 RID: 23584 RVA: 0x002EE2C0 File Offset: 0x002EC6C0
 		public int Count
 		{
 			get
@@ -62,50 +62,50 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005C17 RID: 23575 RVA: 0x002EDC5B File Offset: 0x002EC05B
+		// Token: 0x06005C21 RID: 23585 RVA: 0x002EE2DB File Offset: 0x002EC6DB
 		public void ExposeData()
 		{
 			Scribe_References.Look<Thing>(ref this.thing, "thing", false);
 			Scribe_Values.Look<int>(ref this.count, "count", 1, false);
 		}
 
-		// Token: 0x06005C18 RID: 23576 RVA: 0x002EDC84 File Offset: 0x002EC084
+		// Token: 0x06005C22 RID: 23586 RVA: 0x002EE304 File Offset: 0x002EC704
 		public ThingCount WithCount(int newCount)
 		{
 			return new ThingCount(this.thing, newCount);
 		}
 
-		// Token: 0x06005C19 RID: 23577 RVA: 0x002EDCA8 File Offset: 0x002EC0A8
+		// Token: 0x06005C23 RID: 23587 RVA: 0x002EE328 File Offset: 0x002EC728
 		public override bool Equals(object obj)
 		{
 			return obj is ThingCount && this.Equals((ThingCount)obj);
 		}
 
-		// Token: 0x06005C1A RID: 23578 RVA: 0x002EDCDC File Offset: 0x002EC0DC
+		// Token: 0x06005C24 RID: 23588 RVA: 0x002EE35C File Offset: 0x002EC75C
 		public bool Equals(ThingCount other)
 		{
 			return this == other;
 		}
 
-		// Token: 0x06005C1B RID: 23579 RVA: 0x002EDD00 File Offset: 0x002EC100
+		// Token: 0x06005C25 RID: 23589 RVA: 0x002EE380 File Offset: 0x002EC780
 		public static bool operator ==(ThingCount a, ThingCount b)
 		{
 			return a.thing == b.thing && a.count == b.count;
 		}
 
-		// Token: 0x06005C1C RID: 23580 RVA: 0x002EDD3C File Offset: 0x002EC13C
+		// Token: 0x06005C26 RID: 23590 RVA: 0x002EE3BC File Offset: 0x002EC7BC
 		public static bool operator !=(ThingCount a, ThingCount b)
 		{
 			return !(a == b);
 		}
 
-		// Token: 0x06005C1D RID: 23581 RVA: 0x002EDD5C File Offset: 0x002EC15C
+		// Token: 0x06005C27 RID: 23591 RVA: 0x002EE3DC File Offset: 0x002EC7DC
 		public override int GetHashCode()
 		{
 			return Gen.HashCombine<Thing>(this.count, this.thing);
 		}
 
-		// Token: 0x06005C1E RID: 23582 RVA: 0x002EDD84 File Offset: 0x002EC184
+		// Token: 0x06005C28 RID: 23592 RVA: 0x002EE404 File Offset: 0x002EC804
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -118,7 +118,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06005C1F RID: 23583 RVA: 0x002EDDF0 File Offset: 0x002EC1F0
+		// Token: 0x06005C29 RID: 23593 RVA: 0x002EE470 File Offset: 0x002EC870
 		public static implicit operator ThingCount(ThingCountClass t)
 		{
 			return new ThingCount(t.thing, t.Count);

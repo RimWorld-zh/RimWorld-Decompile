@@ -6,10 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200079C RID: 1948
+	// Token: 0x0200079E RID: 1950
 	public class Alert_Exhaustion : Alert
 	{
-		// Token: 0x06002B2D RID: 11053 RVA: 0x0016D1F9 File Offset: 0x0016B5F9
+		// Token: 0x06002B31 RID: 11057 RVA: 0x0016D349 File Offset: 0x0016B749
 		public Alert_Exhaustion()
 		{
 			this.defaultLabel = "Exhaustion".Translate();
@@ -17,7 +17,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006B6 RID: 1718
-		// (get) Token: 0x06002B2E RID: 11054 RVA: 0x0016D21C File Offset: 0x0016B61C
+		// (get) Token: 0x06002B32 RID: 11058 RVA: 0x0016D36C File Offset: 0x0016B76C
 		private IEnumerable<Pawn> ExhaustedColonists
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B2F RID: 11055 RVA: 0x0016D258 File Offset: 0x0016B658
+		// Token: 0x06002B33 RID: 11059 RVA: 0x0016D3A8 File Offset: 0x0016B7A8
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -39,7 +39,7 @@ namespace RimWorld
 			return string.Format("ExhaustionDesc".Translate(), stringBuilder.ToString());
 		}
 
-		// Token: 0x06002B30 RID: 11056 RVA: 0x0016D2E8 File Offset: 0x0016B6E8
+		// Token: 0x06002B34 RID: 11060 RVA: 0x0016D438 File Offset: 0x0016B838
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.ExhaustedColonists);

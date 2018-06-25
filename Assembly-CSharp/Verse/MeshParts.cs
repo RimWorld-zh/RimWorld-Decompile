@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000C39 RID: 3129
+	// Token: 0x02000C3B RID: 3131
 	[Flags]
 	public enum MeshParts : byte
 	{

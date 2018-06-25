@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000EC0 RID: 3776
+	// Token: 0x02000EC2 RID: 3778
 	public class DiaNodeMold
 	{
 		// Token: 0x04003BA1 RID: 15265
@@ -30,7 +30,7 @@ namespace Verse
 		[Unsaved]
 		public DiaNodeType nodeType = DiaNodeType.Undefined;
 
-		// Token: 0x06005961 RID: 22881 RVA: 0x002DD104 File Offset: 0x002DB504
+		// Token: 0x06005964 RID: 22884 RVA: 0x002DD224 File Offset: 0x002DB624
 		public void PostLoad()
 		{
 			int num = 0;

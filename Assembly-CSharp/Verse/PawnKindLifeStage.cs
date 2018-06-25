@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000B5B RID: 2907
+	// Token: 0x02000B5D RID: 2909
 	public class PawnKindLifeStage
 	{
 		// Token: 0x04002A3C RID: 10812
@@ -56,7 +56,7 @@ namespace Verse
 		// Token: 0x04002A48 RID: 10824
 		public BodyPartToDrop butcherBodyPart = null;
 
-		// Token: 0x06003F89 RID: 16265 RVA: 0x00217A32 File Offset: 0x00215E32
+		// Token: 0x06003F8C RID: 16268 RVA: 0x00217B0E File Offset: 0x00215F0E
 		public void PostLoad()
 		{
 			this.untranslatedLabel = this.label;
@@ -64,7 +64,7 @@ namespace Verse
 			this.untranslatedLabelFemale = this.labelFemale;
 		}
 
-		// Token: 0x06003F8A RID: 16266 RVA: 0x00217A5C File Offset: 0x00215E5C
+		// Token: 0x06003F8D RID: 16269 RVA: 0x00217B38 File Offset: 0x00215F38
 		public void ResolveReferences()
 		{
 			if (this.bodyGraphicData != null && this.bodyGraphicData.graphicClass == null)

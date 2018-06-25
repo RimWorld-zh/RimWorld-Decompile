@@ -5,7 +5,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200041F RID: 1055
+	// Token: 0x02000421 RID: 1057
 	public class CompPowerTrader : CompPower
 	{
 		// Token: 0x04000B29 RID: 2857
@@ -36,8 +36,8 @@ namespace RimWorld
 		public const string PowerTurnedOffSignal = "PowerTurnedOff";
 
 		// Token: 0x1700027B RID: 635
-		// (get) Token: 0x06001255 RID: 4693 RVA: 0x0009DC08 File Offset: 0x0009C008
-		// (set) Token: 0x06001256 RID: 4694 RVA: 0x0009DC23 File Offset: 0x0009C023
+		// (get) Token: 0x06001259 RID: 4697 RVA: 0x0009DD58 File Offset: 0x0009C158
+		// (set) Token: 0x0600125A RID: 4698 RVA: 0x0009DD73 File Offset: 0x0009C173
 		public float PowerOutput
 		{
 			get
@@ -59,7 +59,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700027C RID: 636
-		// (get) Token: 0x06001257 RID: 4695 RVA: 0x0009DC5C File Offset: 0x0009C05C
+		// (get) Token: 0x0600125B RID: 4699 RVA: 0x0009DDAC File Offset: 0x0009C1AC
 		public float EnergyOutputPerTick
 		{
 			get
@@ -69,8 +69,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700027D RID: 637
-		// (get) Token: 0x06001258 RID: 4696 RVA: 0x0009DC80 File Offset: 0x0009C080
-		// (set) Token: 0x06001259 RID: 4697 RVA: 0x0009DC9C File Offset: 0x0009C09C
+		// (get) Token: 0x0600125C RID: 4700 RVA: 0x0009DDD0 File Offset: 0x0009C1D0
+		// (set) Token: 0x0600125D RID: 4701 RVA: 0x0009DDEC File Offset: 0x0009C1EC
 		public bool PowerOn
 		{
 			get
@@ -131,7 +131,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700027E RID: 638
-		// (get) Token: 0x0600125A RID: 4698 RVA: 0x0009DE48 File Offset: 0x0009C248
+		// (get) Token: 0x0600125E RID: 4702 RVA: 0x0009DF98 File Offset: 0x0009C398
 		public string DebugString
 		{
 			get
@@ -144,7 +144,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600125B RID: 4699 RVA: 0x0009DEC0 File Offset: 0x0009C2C0
+		// Token: 0x0600125F RID: 4703 RVA: 0x0009E010 File Offset: 0x0009C410
 		public override void ReceiveCompSignal(string signal)
 		{
 			if (signal == "FlickedOff" || signal == "ScheduledOff" || signal == "Breakdown")
@@ -157,14 +157,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600125C RID: 4700 RVA: 0x0009DF27 File Offset: 0x0009C327
+		// Token: 0x06001260 RID: 4704 RVA: 0x0009E077 File Offset: 0x0009C477
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
 			this.flickableComp = this.parent.GetComp<CompFlickable>();
 		}
 
-		// Token: 0x0600125D RID: 4701 RVA: 0x0009DF42 File Offset: 0x0009C342
+		// Token: 0x06001261 RID: 4705 RVA: 0x0009E092 File Offset: 0x0009C492
 		public override void PostDeSpawn(Map map)
 		{
 			base.PostDeSpawn(map);
@@ -172,14 +172,14 @@ namespace RimWorld
 			this.powerOutputInt = 0f;
 		}
 
-		// Token: 0x0600125E RID: 4702 RVA: 0x0009DF5D File Offset: 0x0009C35D
+		// Token: 0x06001262 RID: 4706 RVA: 0x0009E0AD File Offset: 0x0009C4AD
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_Values.Look<bool>(ref this.powerOnInt, "powerOn", true, false);
 		}
 
-		// Token: 0x0600125F RID: 4703 RVA: 0x0009DF78 File Offset: 0x0009C378
+		// Token: 0x06001263 RID: 4707 RVA: 0x0009E0C8 File Offset: 0x0009C4C8
 		public override void PostDraw()
 		{
 			base.PostDraw();
@@ -199,7 +199,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001260 RID: 4704 RVA: 0x0009E01C File Offset: 0x0009C41C
+		// Token: 0x06001264 RID: 4708 RVA: 0x0009E16C File Offset: 0x0009C56C
 		public override void SetUpPowerVars()
 		{
 			base.SetUpPowerVars();
@@ -208,7 +208,7 @@ namespace RimWorld
 			this.powerLastOutputted = (props.basePowerConsumption <= 0f);
 		}
 
-		// Token: 0x06001261 RID: 4705 RVA: 0x0009E05F File Offset: 0x0009C45F
+		// Token: 0x06001265 RID: 4709 RVA: 0x0009E1AF File Offset: 0x0009C5AF
 		public override void ResetPowerVars()
 		{
 			base.ResetPowerVars();
@@ -222,14 +222,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001262 RID: 4706 RVA: 0x0009E09E File Offset: 0x0009C49E
+		// Token: 0x06001266 RID: 4710 RVA: 0x0009E1EE File Offset: 0x0009C5EE
 		public override void LostConnectParent()
 		{
 			base.LostConnectParent();
 			this.PowerOn = false;
 		}
 
-		// Token: 0x06001263 RID: 4707 RVA: 0x0009E0B0 File Offset: 0x0009C4B0
+		// Token: 0x06001267 RID: 4711 RVA: 0x0009E200 File Offset: 0x0009C600
 		public override string CompInspectStringExtra()
 		{
 			string str;
@@ -244,7 +244,7 @@ namespace RimWorld
 			return str + "\n" + base.CompInspectStringExtra();
 		}
 
-		// Token: 0x06001264 RID: 4708 RVA: 0x0009E144 File Offset: 0x0009C544
+		// Token: 0x06001268 RID: 4712 RVA: 0x0009E294 File Offset: 0x0009C694
 		private void StartSustainerPoweredIfInactive()
 		{
 			CompProperties_Power props = base.Props;
@@ -255,7 +255,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001265 RID: 4709 RVA: 0x0009E19A File Offset: 0x0009C59A
+		// Token: 0x06001269 RID: 4713 RVA: 0x0009E2EA File Offset: 0x0009C6EA
 		private void EndSustainerPoweredIfActive()
 		{
 			if (this.sustainerPowered != null)

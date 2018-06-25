@@ -8,13 +8,13 @@ using Verse.AI.Group;
 
 namespace Verse
 {
-	// Token: 0x02000F09 RID: 3849
+	// Token: 0x02000F0D RID: 3853
 	public static class ArenaUtility
 	{
-		// Token: 0x04003CFB RID: 15611
+		// Token: 0x04003CFE RID: 15614
 		private const int liveSimultaneous = 15;
 
-		// Token: 0x06005C84 RID: 23684 RVA: 0x002EF564 File Offset: 0x002ED964
+		// Token: 0x06005C8E RID: 23694 RVA: 0x002EFBE4 File Offset: 0x002EDFE4
 		public static bool ValidateArenaCapability()
 		{
 			bool result;
@@ -30,7 +30,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005C85 RID: 23685 RVA: 0x002EF5A8 File Offset: 0x002ED9A8
+		// Token: 0x06005C8F RID: 23695 RVA: 0x002EFC28 File Offset: 0x002EE028
 		public static void BeginArenaFight(List<PawnKindDef> lhs, List<PawnKindDef> rhs, Action<ArenaUtility.ArenaResult> callback)
 		{
 			MapParent mapParent = (MapParent)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Debug_Arena);
@@ -49,7 +49,7 @@ namespace Verse
 			component.callback = callback;
 		}
 
-		// Token: 0x06005C86 RID: 23686 RVA: 0x002EF67C File Offset: 0x002EDA7C
+		// Token: 0x06005C90 RID: 23696 RVA: 0x002EFCFC File Offset: 0x002EE0FC
 		public static List<Pawn> SpawnPawnSet(Map map, List<PawnKindDef> kinds, IntVec3 spot, Faction faction)
 		{
 			List<Pawn> list = new List<Pawn>();
@@ -64,7 +64,7 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x06005C87 RID: 23687 RVA: 0x002EF6F8 File Offset: 0x002EDAF8
+		// Token: 0x06005C91 RID: 23697 RVA: 0x002EFD78 File Offset: 0x002EE178
 		private static bool ArenaFightQueue(List<PawnKindDef> lhs, List<PawnKindDef> rhs, Action<ArenaUtility.ArenaResult> callback, ArenaUtility.ArenaSetState state)
 		{
 			bool result2;
@@ -89,7 +89,7 @@ namespace Verse
 			return result2;
 		}
 
-		// Token: 0x06005C88 RID: 23688 RVA: 0x002EF774 File Offset: 0x002EDB74
+		// Token: 0x06005C92 RID: 23698 RVA: 0x002EFDF4 File Offset: 0x002EE1F4
 		public static void BeginArenaFightSet(int count, List<PawnKindDef> lhs, List<PawnKindDef> rhs, Action<ArenaUtility.ArenaResult> callback, Action report)
 		{
 			if (ArenaUtility.ValidateArenaCapability())
@@ -111,7 +111,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005C89 RID: 23689 RVA: 0x002EF7F8 File Offset: 0x002EDBF8
+		// Token: 0x06005C93 RID: 23699 RVA: 0x002EFE78 File Offset: 0x002EE278
 		public static void PerformBattleRoyale(IEnumerable<PawnKindDef> kindsEnumerable)
 		{
 			if (ArenaUtility.ValidateArenaCapability())
@@ -186,31 +186,31 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000F0A RID: 3850
+		// Token: 0x02000F0E RID: 3854
 		public struct ArenaResult
 		{
-			// Token: 0x04003CFC RID: 15612
+			// Token: 0x04003CFF RID: 15615
 			public ArenaUtility.ArenaResult.Winner winner;
 
-			// Token: 0x04003CFD RID: 15613
+			// Token: 0x04003D00 RID: 15616
 			public int tickDuration;
 
-			// Token: 0x02000F0B RID: 3851
+			// Token: 0x02000F0F RID: 3855
 			public enum Winner
 			{
-				// Token: 0x04003CFF RID: 15615
+				// Token: 0x04003D02 RID: 15618
 				Other,
-				// Token: 0x04003D00 RID: 15616
+				// Token: 0x04003D03 RID: 15619
 				Lhs,
-				// Token: 0x04003D01 RID: 15617
+				// Token: 0x04003D04 RID: 15620
 				Rhs
 			}
 		}
 
-		// Token: 0x02000F0C RID: 3852
+		// Token: 0x02000F10 RID: 3856
 		private class ArenaSetState
 		{
-			// Token: 0x04003D02 RID: 15618
+			// Token: 0x04003D05 RID: 15621
 			public int live = 0;
 		}
 	}

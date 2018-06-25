@@ -7,7 +7,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000841 RID: 2113
+	// Token: 0x02000843 RID: 2115
 	[StaticConstructorOnStartup]
 	public class LearningReadout : IExposable
 	{
@@ -57,7 +57,7 @@ namespace RimWorld
 		public static readonly Texture2D ProgressBarBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.509803951f, 0.407843143f, 0.13333334f));
 
 		// Token: 0x17000794 RID: 1940
-		// (get) Token: 0x06002FD3 RID: 12243 RVA: 0x0019F05C File Offset: 0x0019D45C
+		// (get) Token: 0x06002FD7 RID: 12247 RVA: 0x0019F1AC File Offset: 0x0019D5AC
 		public int ActiveConceptsCount
 		{
 			get
@@ -67,7 +67,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000795 RID: 1941
-		// (get) Token: 0x06002FD4 RID: 12244 RVA: 0x0019F07C File Offset: 0x0019D47C
+		// (get) Token: 0x06002FD8 RID: 12248 RVA: 0x0019F1CC File Offset: 0x0019D5CC
 		public bool ShowAllMode
 		{
 			get
@@ -76,7 +76,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FD5 RID: 12245 RVA: 0x0019F098 File Offset: 0x0019D498
+		// Token: 0x06002FD9 RID: 12249 RVA: 0x0019F1E8 File Offset: 0x0019D5E8
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<ConceptDef>(ref this.activeConcepts, "activeConcepts", LookMode.Undefined, new object[0]);
@@ -87,7 +87,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FD6 RID: 12246 RVA: 0x0019F104 File Offset: 0x0019D504
+		// Token: 0x06002FDA RID: 12250 RVA: 0x0019F254 File Offset: 0x0019D654
 		public bool TryActivateConcept(ConceptDef conc)
 		{
 			bool result;
@@ -105,18 +105,18 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002FD7 RID: 12247 RVA: 0x0019F154 File Offset: 0x0019D554
+		// Token: 0x06002FDB RID: 12251 RVA: 0x0019F2A4 File Offset: 0x0019D6A4
 		public bool IsActive(ConceptDef conc)
 		{
 			return this.activeConcepts.Contains(conc);
 		}
 
-		// Token: 0x06002FD8 RID: 12248 RVA: 0x0019F175 File Offset: 0x0019D575
+		// Token: 0x06002FDC RID: 12252 RVA: 0x0019F2C5 File Offset: 0x0019D6C5
 		public void LearningReadoutUpdate()
 		{
 		}
 
-		// Token: 0x06002FD9 RID: 12249 RVA: 0x0019F178 File Offset: 0x0019D578
+		// Token: 0x06002FDD RID: 12253 RVA: 0x0019F2C8 File Offset: 0x0019D6C8
 		public void Notify_ConceptNewlyLearned(ConceptDef conc)
 		{
 			if (this.activeConcepts.Contains(conc) || this.selectedConcept == conc)
@@ -134,7 +134,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FDA RID: 12250 RVA: 0x0019F1EC File Offset: 0x0019D5EC
+		// Token: 0x06002FDE RID: 12254 RVA: 0x0019F33C File Offset: 0x0019D73C
 		private string FilterSearchStringInput(string input)
 		{
 			string result;
@@ -153,7 +153,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002FDB RID: 12251 RVA: 0x0019F234 File Offset: 0x0019D634
+		// Token: 0x06002FDF RID: 12255 RVA: 0x0019F384 File Offset: 0x0019D784
 		public void LearningReadoutOnGUI()
 		{
 			if (!TutorSystem.TutorialMode && TutorSystem.AdaptiveTrainingEnabled)
@@ -271,7 +271,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FDC RID: 12252 RVA: 0x0019F3D0 File Offset: 0x0019D7D0
+		// Token: 0x06002FE0 RID: 12256 RVA: 0x0019F520 File Offset: 0x0019D920
 		private int DisplayPriority(ConceptDef conc)
 		{
 			int num = 1;
@@ -282,13 +282,13 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06002FDD RID: 12253 RVA: 0x0019F3FC File Offset: 0x0019D7FC
+		// Token: 0x06002FE1 RID: 12257 RVA: 0x0019F54C File Offset: 0x0019D94C
 		private bool MatchesSearchString(ConceptDef conc)
 		{
 			return this.searchString != "" && conc.label.IndexOf(this.searchString, StringComparison.OrdinalIgnoreCase) >= 0;
 		}
 
-		// Token: 0x06002FDE RID: 12254 RVA: 0x0019F444 File Offset: 0x0019D844
+		// Token: 0x06002FE2 RID: 12258 RVA: 0x0019F594 File Offset: 0x0019D994
 		private Rect DrawConceptListRow(float x, float y, float width, ConceptDef conc)
 		{
 			float knowledge = PlayerKnowledgeDatabase.GetKnowledge(conc);
@@ -340,7 +340,7 @@ namespace RimWorld
 			return rect;
 		}
 
-		// Token: 0x06002FDF RID: 12255 RVA: 0x0019F5A0 File Offset: 0x0019D9A0
+		// Token: 0x06002FE3 RID: 12259 RVA: 0x0019F6F0 File Offset: 0x0019DAF0
 		private Rect DrawInfoPane(ConceptDef conc)
 		{
 			float knowledge = PlayerKnowledgeDatabase.GetKnowledge(conc);

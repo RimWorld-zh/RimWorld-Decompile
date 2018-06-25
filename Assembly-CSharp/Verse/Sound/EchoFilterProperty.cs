@@ -2,7 +2,7 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B97 RID: 2967
+	// Token: 0x02000B99 RID: 2969
 	public enum EchoFilterProperty : byte
 	{
 		// Token: 0x04002B2E RID: 11054

@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000472 RID: 1138
+	// Token: 0x02000474 RID: 1140
 	public class PawnCapacityWorker_Eating : PawnCapacityWorker
 	{
-		// Token: 0x06001405 RID: 5125 RVA: 0x000AEA6C File Offset: 0x000ACE6C
+		// Token: 0x06001409 RID: 5129 RVA: 0x000AEBBC File Offset: 0x000ACFBC
 		public override float CalculateCapacityLevel(HediffSet diffSet, List<PawnCapacityUtility.CapacityImpactor> impactors = null)
 		{
 			BodyPartTagDef tag = BodyPartTagDefOf.EatingSource;
@@ -17,7 +17,7 @@ namespace RimWorld
 			return num * PawnCapacityUtility.CalculateTagEfficiency(diffSet, tag, maximum, default(FloatRange), impactors) * base.CalculateCapacityAndRecord(diffSet, PawnCapacityDefOf.Consciousness, impactors);
 		}
 
-		// Token: 0x06001406 RID: 5126 RVA: 0x000AEAD8 File Offset: 0x000ACED8
+		// Token: 0x0600140A RID: 5130 RVA: 0x000AEC28 File Offset: 0x000AD028
 		public override bool CanHaveCapacity(BodyDef body)
 		{
 			return body.HasPartWithTag(BodyPartTagDefOf.EatingSource);

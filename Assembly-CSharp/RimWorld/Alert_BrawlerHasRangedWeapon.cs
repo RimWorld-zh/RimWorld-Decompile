@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007A4 RID: 1956
+	// Token: 0x020007A6 RID: 1958
 	public class Alert_BrawlerHasRangedWeapon : Alert
 	{
-		// Token: 0x06002B4E RID: 11086 RVA: 0x0016E070 File Offset: 0x0016C470
+		// Token: 0x06002B52 RID: 11090 RVA: 0x0016E1C0 File Offset: 0x0016C5C0
 		public Alert_BrawlerHasRangedWeapon()
 		{
 			this.defaultLabel = "BrawlerHasRangedWeapon".Translate();
@@ -15,7 +15,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006BA RID: 1722
-		// (get) Token: 0x06002B4F RID: 11087 RVA: 0x0016E09C File Offset: 0x0016C49C
+		// (get) Token: 0x06002B53 RID: 11091 RVA: 0x0016E1EC File Offset: 0x0016C5EC
 		private IEnumerable<Pawn> BrawlersWithRangedWeapon
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B50 RID: 11088 RVA: 0x0016E0C0 File Offset: 0x0016C4C0
+		// Token: 0x06002B54 RID: 11092 RVA: 0x0016E210 File Offset: 0x0016C610
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.BrawlersWithRangedWeapon);

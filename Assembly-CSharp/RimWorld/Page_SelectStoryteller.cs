@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000835 RID: 2101
+	// Token: 0x02000837 RID: 2103
 	public class Page_SelectStoryteller : Page
 	{
 		// Token: 0x040019B3 RID: 6579
@@ -18,7 +18,7 @@ namespace RimWorld
 		private Listing_Standard selectedStorytellerInfoListing = new Listing_Standard();
 
 		// Token: 0x1700078A RID: 1930
-		// (get) Token: 0x06002F97 RID: 12183 RVA: 0x00197A8C File Offset: 0x00195E8C
+		// (get) Token: 0x06002F9B RID: 12187 RVA: 0x00197BDC File Offset: 0x00195FDC
 		public override string PageTitle
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F98 RID: 12184 RVA: 0x00197AAC File Offset: 0x00195EAC
+		// Token: 0x06002F9C RID: 12188 RVA: 0x00197BFC File Offset: 0x00195FFC
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -37,7 +37,7 @@ namespace RimWorld
 			select d).First<StorytellerDef>();
 		}
 
-		// Token: 0x06002F99 RID: 12185 RVA: 0x00197B14 File Offset: 0x00195F14
+		// Token: 0x06002F9D RID: 12189 RVA: 0x00197C64 File Offset: 0x00196064
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DrawPageTitle(rect);
@@ -46,7 +46,7 @@ namespace RimWorld
 			base.DoBottomButtons(rect, null, null, null, true);
 		}
 
-		// Token: 0x06002F9A RID: 12186 RVA: 0x00197B5C File Offset: 0x00195F5C
+		// Token: 0x06002F9E RID: 12190 RVA: 0x00197CAC File Offset: 0x001960AC
 		protected override bool CanDoNext()
 		{
 			bool result;

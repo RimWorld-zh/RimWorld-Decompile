@@ -3,15 +3,15 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000669 RID: 1641
+	// Token: 0x0200066B RID: 1643
 	public class Tale_DoublePawnKilledBy : Tale_DoublePawn
 	{
-		// Token: 0x06002269 RID: 8809 RVA: 0x00124728 File Offset: 0x00122B28
+		// Token: 0x0600226D RID: 8813 RVA: 0x00124878 File Offset: 0x00122C78
 		public Tale_DoublePawnKilledBy()
 		{
 		}
 
-		// Token: 0x0600226A RID: 8810 RVA: 0x00124731 File Offset: 0x00122B31
+		// Token: 0x0600226E RID: 8814 RVA: 0x00124881 File Offset: 0x00122C81
 		public Tale_DoublePawnKilledBy(Pawn victim, DamageInfo dinfo) : base(victim, null)
 		{
 			if (dinfo.Instigator != null && dinfo.Instigator is Pawn)

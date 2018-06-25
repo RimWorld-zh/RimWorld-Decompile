@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007F0 RID: 2032
+	// Token: 0x020007F2 RID: 2034
 	public class Designator_PlantsHarvest : Designator_Plants
 	{
-		// Token: 0x06002D1D RID: 11549 RVA: 0x0017B210 File Offset: 0x00179610
+		// Token: 0x06002D21 RID: 11553 RVA: 0x0017B360 File Offset: 0x00179760
 		public Designator_PlantsHarvest()
 		{
 			this.defaultLabel = "DesignatorHarvest".Translate();
@@ -21,7 +21,7 @@ namespace RimWorld
 			this.designationDef = DesignationDefOf.HarvestPlant;
 		}
 
-		// Token: 0x06002D1E RID: 11550 RVA: 0x0017B294 File Offset: 0x00179694
+		// Token: 0x06002D22 RID: 11554 RVA: 0x0017B3E4 File Offset: 0x001797E4
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			AcceptanceReport acceptanceReport = base.CanDesignateThing(t);
@@ -45,7 +45,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D1F RID: 11551 RVA: 0x0017B310 File Offset: 0x00179710
+		// Token: 0x06002D23 RID: 11555 RVA: 0x0017B460 File Offset: 0x00179860
 		protected override bool RemoveAllDesignationsAffects(LocalTargetInfo target)
 		{
 			return target.Thing.def.plant.harvestTag == "Standard";

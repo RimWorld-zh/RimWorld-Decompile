@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DFF RID: 3583
+	// Token: 0x02000E01 RID: 3585
 	public class CompColorable : ThingComp
 	{
 		// Token: 0x0400354C RID: 13644
@@ -12,9 +12,9 @@ namespace Verse
 		// Token: 0x0400354D RID: 13645
 		private bool active = false;
 
-		// Token: 0x17000D4E RID: 3406
-		// (get) Token: 0x0600513C RID: 20796 RVA: 0x0029BA98 File Offset: 0x00299E98
-		// (set) Token: 0x0600513D RID: 20797 RVA: 0x0029BAD9 File Offset: 0x00299ED9
+		// Token: 0x17000D4D RID: 3405
+		// (get) Token: 0x06005140 RID: 20800 RVA: 0x0029BBC4 File Offset: 0x00299FC4
+		// (set) Token: 0x06005141 RID: 20801 RVA: 0x0029BC05 File Offset: 0x0029A005
 		public Color Color
 		{
 			get
@@ -41,8 +41,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D4F RID: 3407
-		// (get) Token: 0x0600513E RID: 20798 RVA: 0x0029BB0C File Offset: 0x00299F0C
+		// Token: 0x17000D4E RID: 3406
+		// (get) Token: 0x06005142 RID: 20802 RVA: 0x0029BC38 File Offset: 0x0029A038
 		public bool Active
 		{
 			get
@@ -51,7 +51,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600513F RID: 20799 RVA: 0x0029BB28 File Offset: 0x00299F28
+		// Token: 0x06005143 RID: 20803 RVA: 0x0029BC54 File Offset: 0x0029A054
 		public override void Initialize(CompProperties props)
 		{
 			base.Initialize(props);
@@ -61,7 +61,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005140 RID: 20800 RVA: 0x0029BB98 File Offset: 0x00299F98
+		// Token: 0x06005144 RID: 20804 RVA: 0x0029BCC4 File Offset: 0x0029A0C4
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -72,7 +72,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005141 RID: 20801 RVA: 0x0029BBF3 File Offset: 0x00299FF3
+		// Token: 0x06005145 RID: 20805 RVA: 0x0029BD1F File Offset: 0x0029A11F
 		public override void PostSplitOff(Thing piece)
 		{
 			base.PostSplitOff(piece);

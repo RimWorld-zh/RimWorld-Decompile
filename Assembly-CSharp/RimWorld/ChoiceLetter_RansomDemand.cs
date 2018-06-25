@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000842 RID: 2114
+	// Token: 0x02000844 RID: 2116
 	public class ChoiceLetter_RansomDemand : ChoiceLetter
 	{
 		// Token: 0x040019E8 RID: 6632
@@ -20,7 +20,7 @@ namespace RimWorld
 		public int fee;
 
 		// Token: 0x17000796 RID: 1942
-		// (get) Token: 0x06002FE3 RID: 12259 RVA: 0x001A098C File Offset: 0x0019ED8C
+		// (get) Token: 0x06002FE7 RID: 12263 RVA: 0x001A0ADC File Offset: 0x0019EEDC
 		public override IEnumerable<DiaOption> Choices
 		{
 			get
@@ -70,7 +70,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000797 RID: 1943
-		// (get) Token: 0x06002FE4 RID: 12260 RVA: 0x001A09B8 File Offset: 0x0019EDB8
+		// (get) Token: 0x06002FE8 RID: 12264 RVA: 0x001A0B08 File Offset: 0x0019EF08
 		public override bool CanShowInLetterStack
 		{
 			get
@@ -79,7 +79,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FE5 RID: 12261 RVA: 0x001A0A18 File Offset: 0x0019EE18
+		// Token: 0x06002FE9 RID: 12265 RVA: 0x001A0B68 File Offset: 0x0019EF68
 		public override void ExposeData()
 		{
 			base.ExposeData();

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E86 RID: 3718
+	// Token: 0x02000E88 RID: 3720
 	public class Message : IArchivable, IExposable
 	{
 		// Token: 0x04003A08 RID: 14856
@@ -40,12 +40,12 @@ namespace Verse
 		// Token: 0x04003A12 RID: 14866
 		private const float FadeoutDuration = 0.6f;
 
-		// Token: 0x060057C3 RID: 22467 RVA: 0x002D0E68 File Offset: 0x002CF268
+		// Token: 0x060057C7 RID: 22471 RVA: 0x002D0F94 File Offset: 0x002CF394
 		public Message()
 		{
 		}
 
-		// Token: 0x060057C4 RID: 22468 RVA: 0x002D0E88 File Offset: 0x002CF288
+		// Token: 0x060057C8 RID: 22472 RVA: 0x002D0FB4 File Offset: 0x002CF3B4
 		public Message(string text, MessageTypeDef def)
 		{
 			this.text = text;
@@ -56,14 +56,14 @@ namespace Verse
 			this.ID = Rand.Int;
 		}
 
-		// Token: 0x060057C5 RID: 22469 RVA: 0x002D0EEB File Offset: 0x002CF2EB
+		// Token: 0x060057C9 RID: 22473 RVA: 0x002D1017 File Offset: 0x002CF417
 		public Message(string text, MessageTypeDef def, LookTargets lookTargets) : this(text, def)
 		{
 			this.lookTargets = lookTargets;
 		}
 
-		// Token: 0x17000DE2 RID: 3554
-		// (get) Token: 0x060057C6 RID: 22470 RVA: 0x002D0F00 File Offset: 0x002CF300
+		// Token: 0x17000DE1 RID: 3553
+		// (get) Token: 0x060057CA RID: 22474 RVA: 0x002D102C File Offset: 0x002CF42C
 		protected float Age
 		{
 			get
@@ -72,8 +72,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DE3 RID: 3555
-		// (get) Token: 0x060057C7 RID: 22471 RVA: 0x002D0F24 File Offset: 0x002CF324
+		// Token: 0x17000DE2 RID: 3554
+		// (get) Token: 0x060057CB RID: 22475 RVA: 0x002D1050 File Offset: 0x002CF450
 		protected float TimeLeft
 		{
 			get
@@ -82,8 +82,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DE4 RID: 3556
-		// (get) Token: 0x060057C8 RID: 22472 RVA: 0x002D0F48 File Offset: 0x002CF348
+		// Token: 0x17000DE3 RID: 3555
+		// (get) Token: 0x060057CC RID: 22476 RVA: 0x002D1074 File Offset: 0x002CF474
 		public bool Expired
 		{
 			get
@@ -92,8 +92,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DE5 RID: 3557
-		// (get) Token: 0x060057C9 RID: 22473 RVA: 0x002D0F70 File Offset: 0x002CF370
+		// Token: 0x17000DE4 RID: 3556
+		// (get) Token: 0x060057CD RID: 22477 RVA: 0x002D109C File Offset: 0x002CF49C
 		public float Alpha
 		{
 			get
@@ -111,8 +111,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DE6 RID: 3558
-		// (get) Token: 0x060057CA RID: 22474 RVA: 0x002D0FAC File Offset: 0x002CF3AC
+		// Token: 0x17000DE5 RID: 3557
+		// (get) Token: 0x060057CE RID: 22478 RVA: 0x002D10D8 File Offset: 0x002CF4D8
 		private static bool ShouldDrawBackground
 		{
 			get
@@ -138,8 +138,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DDB RID: 3547
-		// (get) Token: 0x060057CB RID: 22475 RVA: 0x002D1010 File Offset: 0x002CF410
+		// Token: 0x17000DDA RID: 3546
+		// (get) Token: 0x060057CF RID: 22479 RVA: 0x002D113C File Offset: 0x002CF53C
 		Texture IArchivable.ArchivedIcon
 		{
 			get
@@ -148,8 +148,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DDC RID: 3548
-		// (get) Token: 0x060057CC RID: 22476 RVA: 0x002D1028 File Offset: 0x002CF428
+		// Token: 0x17000DDB RID: 3547
+		// (get) Token: 0x060057D0 RID: 22480 RVA: 0x002D1154 File Offset: 0x002CF554
 		Color IArchivable.ArchivedIconColor
 		{
 			get
@@ -158,8 +158,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DDD RID: 3549
-		// (get) Token: 0x060057CD RID: 22477 RVA: 0x002D1044 File Offset: 0x002CF444
+		// Token: 0x17000DDC RID: 3548
+		// (get) Token: 0x060057D1 RID: 22481 RVA: 0x002D1170 File Offset: 0x002CF570
 		string IArchivable.ArchivedLabel
 		{
 			get
@@ -168,8 +168,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DDE RID: 3550
-		// (get) Token: 0x060057CE RID: 22478 RVA: 0x002D1064 File Offset: 0x002CF464
+		// Token: 0x17000DDD RID: 3549
+		// (get) Token: 0x060057D2 RID: 22482 RVA: 0x002D1190 File Offset: 0x002CF590
 		string IArchivable.ArchivedTooltip
 		{
 			get
@@ -178,8 +178,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DDF RID: 3551
-		// (get) Token: 0x060057CF RID: 22479 RVA: 0x002D1080 File Offset: 0x002CF480
+		// Token: 0x17000DDE RID: 3550
+		// (get) Token: 0x060057D3 RID: 22483 RVA: 0x002D11AC File Offset: 0x002CF5AC
 		int IArchivable.CreatedTicksGame
 		{
 			get
@@ -188,8 +188,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DE0 RID: 3552
-		// (get) Token: 0x060057D0 RID: 22480 RVA: 0x002D109C File Offset: 0x002CF49C
+		// Token: 0x17000DDF RID: 3551
+		// (get) Token: 0x060057D4 RID: 22484 RVA: 0x002D11C8 File Offset: 0x002CF5C8
 		bool IArchivable.CanCullArchivedNow
 		{
 			get
@@ -198,8 +198,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DE1 RID: 3553
-		// (get) Token: 0x060057D1 RID: 22481 RVA: 0x002D10BC File Offset: 0x002CF4BC
+		// Token: 0x17000DE0 RID: 3552
+		// (get) Token: 0x060057D5 RID: 22485 RVA: 0x002D11E8 File Offset: 0x002CF5E8
 		LookTargets IArchivable.LookTargets
 		{
 			get
@@ -208,7 +208,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057D2 RID: 22482 RVA: 0x002D10D8 File Offset: 0x002CF4D8
+		// Token: 0x060057D6 RID: 22486 RVA: 0x002D1204 File Offset: 0x002CF604
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<MessageTypeDef>(ref this.def, "def");
@@ -220,7 +220,7 @@ namespace Verse
 			Scribe_Deep.Look<LookTargets>(ref this.lookTargets, "lookTargets", new object[0]);
 		}
 
-		// Token: 0x060057D3 RID: 22483 RVA: 0x002D116C File Offset: 0x002CF56C
+		// Token: 0x060057D7 RID: 22487 RVA: 0x002D1298 File Offset: 0x002CF698
 		public Rect CalculateRect(float x, float y)
 		{
 			Text.Font = GameFont.Small;
@@ -233,7 +233,7 @@ namespace Verse
 			return this.lastDrawRect;
 		}
 
-		// Token: 0x060057D4 RID: 22484 RVA: 0x002D11EC File Offset: 0x002CF5EC
+		// Token: 0x060057D8 RID: 22488 RVA: 0x002D1318 File Offset: 0x002CF718
 		public void Draw(int xOffset, int yOffset)
 		{
 			Rect rect = this.CalculateRect((float)xOffset, (float)yOffset);
@@ -274,7 +274,7 @@ namespace Verse
 			}, false, false, 0f);
 		}
 
-		// Token: 0x060057D5 RID: 22485 RVA: 0x002D124C File Offset: 0x002CF64C
+		// Token: 0x060057D9 RID: 22489 RVA: 0x002D1378 File Offset: 0x002CF778
 		void IArchivable.OpenArchived()
 		{
 			Find.WindowStack.Add(new Dialog_MessageBox(this.text, null, null, null, null, null, false, null, null));

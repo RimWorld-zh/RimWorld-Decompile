@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000EC9 RID: 3785
+	// Token: 0x02000ECB RID: 3787
 	public enum WindowLayer
 	{
 		// Token: 0x04003BCC RID: 15308

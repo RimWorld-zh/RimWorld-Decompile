@@ -4,7 +4,7 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000E09 RID: 3593
+	// Token: 0x02000E0B RID: 3595
 	public class Tool
 	{
 		// Token: 0x04003557 RID: 13655
@@ -50,8 +50,8 @@ namespace Verse
 		// Token: 0x04003563 RID: 13667
 		public bool ensureLinkedBodyPartsGroupAlwaysUsable;
 
-		// Token: 0x17000D5C RID: 3420
-		// (get) Token: 0x06005184 RID: 20868 RVA: 0x0029C2E0 File Offset: 0x0029A6E0
+		// Token: 0x17000D5B RID: 3419
+		// (get) Token: 0x06005188 RID: 20872 RVA: 0x0029C40C File Offset: 0x0029A80C
 		public string Id
 		{
 			get
@@ -69,7 +69,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005185 RID: 20869 RVA: 0x0029C318 File Offset: 0x0029A718
+		// Token: 0x06005189 RID: 20873 RVA: 0x0029C444 File Offset: 0x0029A844
 		public float AdjustedMeleeDamageAmount(Thing ownerEquipment, DamageDef damageDef)
 		{
 			float num = this.power;
@@ -84,19 +84,19 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06005186 RID: 20870 RVA: 0x0029C378 File Offset: 0x0029A778
+		// Token: 0x0600518A RID: 20874 RVA: 0x0029C4A4 File Offset: 0x0029A8A4
 		public float AdjustedCooldown(Thing ownerEquipment)
 		{
 			return this.cooldownTime * ((ownerEquipment != null) ? ownerEquipment.GetStatValue(StatDefOf.MeleeWeapon_CooldownMultiplier, true) : 1f);
 		}
 
-		// Token: 0x06005187 RID: 20871 RVA: 0x0029C3B0 File Offset: 0x0029A7B0
+		// Token: 0x0600518B RID: 20875 RVA: 0x0029C4DC File Offset: 0x0029A8DC
 		public override string ToString()
 		{
 			return this.label;
 		}
 
-		// Token: 0x06005188 RID: 20872 RVA: 0x0029C3CB File Offset: 0x0029A7CB
+		// Token: 0x0600518C RID: 20876 RVA: 0x0029C4F7 File Offset: 0x0029A8F7
 		public void PostLoad()
 		{
 			this.untranslatedLabel = this.label;

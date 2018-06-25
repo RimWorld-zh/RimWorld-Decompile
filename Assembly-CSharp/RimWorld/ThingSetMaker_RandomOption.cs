@@ -6,13 +6,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006EA RID: 1770
+	// Token: 0x020006EC RID: 1772
 	public class ThingSetMaker_RandomOption : ThingSetMaker
 	{
 		// Token: 0x0400157B RID: 5499
 		public List<ThingSetMaker_RandomOption.Option> options;
 
-		// Token: 0x06002693 RID: 9875 RVA: 0x0014A604 File Offset: 0x00148A04
+		// Token: 0x06002697 RID: 9879 RVA: 0x0014A754 File Offset: 0x00148B54
 		protected override bool CanGenerateSub(ThingSetMakerParams parms)
 		{
 			for (int i = 0; i < this.options.Count; i++)
@@ -25,7 +25,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06002694 RID: 9876 RVA: 0x0014A678 File Offset: 0x00148A78
+		// Token: 0x06002698 RID: 9880 RVA: 0x0014A7C8 File Offset: 0x00148BC8
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			ThingSetMaker_RandomOption.Option option;
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002695 RID: 9877 RVA: 0x0014A6E0 File Offset: 0x00148AE0
+		// Token: 0x06002699 RID: 9881 RVA: 0x0014A830 File Offset: 0x00148C30
 		private float GetSelectionWeight(ThingSetMaker_RandomOption.Option option)
 		{
 			float? weightIfPlayerHasNoSuchItem = option.weightIfPlayerHasNoSuchItem;
@@ -53,7 +53,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002696 RID: 9878 RVA: 0x0014A73C File Offset: 0x00148B3C
+		// Token: 0x0600269A RID: 9882 RVA: 0x0014A88C File Offset: 0x00148C8C
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -63,7 +63,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002697 RID: 9879 RVA: 0x0014A784 File Offset: 0x00148B84
+		// Token: 0x0600269B RID: 9883 RVA: 0x0014A8D4 File Offset: 0x00148CD4
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			for (int i = 0; i < this.options.Count; i++)
@@ -85,7 +85,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x020006EB RID: 1771
+		// Token: 0x020006ED RID: 1773
 		public class Option
 		{
 			// Token: 0x0400157C RID: 5500

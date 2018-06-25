@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000D48 RID: 3400
+	// Token: 0x02000D4A RID: 3402
 	public class NameTriple : Name
 	{
 		// Token: 0x04003280 RID: 12928
@@ -21,12 +21,12 @@ namespace Verse
 		// Token: 0x04003283 RID: 12931
 		private static NameTriple invalidInt = new NameTriple("Invalid", "Invalid", "Invalid");
 
-		// Token: 0x06004B03 RID: 19203 RVA: 0x00271ED6 File Offset: 0x002702D6
+		// Token: 0x06004B07 RID: 19207 RVA: 0x00272002 File Offset: 0x00270402
 		public NameTriple()
 		{
 		}
 
-		// Token: 0x06004B04 RID: 19204 RVA: 0x00271EDF File Offset: 0x002702DF
+		// Token: 0x06004B08 RID: 19208 RVA: 0x0027200B File Offset: 0x0027040B
 		public NameTriple(string first, string nick, string last)
 		{
 			this.firstInt = first.Trim();
@@ -34,8 +34,8 @@ namespace Verse
 			this.lastInt = last.Trim();
 		}
 
-		// Token: 0x17000C01 RID: 3073
-		// (get) Token: 0x06004B05 RID: 19205 RVA: 0x00271F0C File Offset: 0x0027030C
+		// Token: 0x17000C00 RID: 3072
+		// (get) Token: 0x06004B09 RID: 19209 RVA: 0x00272038 File Offset: 0x00270438
 		public string First
 		{
 			get
@@ -44,8 +44,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C02 RID: 3074
-		// (get) Token: 0x06004B06 RID: 19206 RVA: 0x00271F28 File Offset: 0x00270328
+		// Token: 0x17000C01 RID: 3073
+		// (get) Token: 0x06004B0A RID: 19210 RVA: 0x00272054 File Offset: 0x00270454
 		public string Nick
 		{
 			get
@@ -54,8 +54,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C03 RID: 3075
-		// (get) Token: 0x06004B07 RID: 19207 RVA: 0x00271F44 File Offset: 0x00270344
+		// Token: 0x17000C02 RID: 3074
+		// (get) Token: 0x06004B0B RID: 19211 RVA: 0x00272070 File Offset: 0x00270470
 		public string Last
 		{
 			get
@@ -64,8 +64,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C04 RID: 3076
-		// (get) Token: 0x06004B08 RID: 19208 RVA: 0x00271F60 File Offset: 0x00270360
+		// Token: 0x17000C03 RID: 3075
+		// (get) Token: 0x06004B0C RID: 19212 RVA: 0x0027208C File Offset: 0x0027048C
 		public override string ToStringFull
 		{
 			get
@@ -90,8 +90,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C05 RID: 3077
-		// (get) Token: 0x06004B09 RID: 19209 RVA: 0x00271FF4 File Offset: 0x002703F4
+		// Token: 0x17000C04 RID: 3076
+		// (get) Token: 0x06004B0D RID: 19213 RVA: 0x00272120 File Offset: 0x00270520
 		public override string ToStringShort
 		{
 			get
@@ -100,8 +100,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C06 RID: 3078
-		// (get) Token: 0x06004B0A RID: 19210 RVA: 0x00272010 File Offset: 0x00270410
+		// Token: 0x17000C05 RID: 3077
+		// (get) Token: 0x06004B0E RID: 19214 RVA: 0x0027213C File Offset: 0x0027053C
 		public override bool IsValid
 		{
 			get
@@ -110,8 +110,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C07 RID: 3079
-		// (get) Token: 0x06004B0B RID: 19211 RVA: 0x00272048 File Offset: 0x00270448
+		// Token: 0x17000C06 RID: 3078
+		// (get) Token: 0x06004B0F RID: 19215 RVA: 0x00272174 File Offset: 0x00270574
 		public override bool Numerical
 		{
 			get
@@ -120,8 +120,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C08 RID: 3080
-		// (get) Token: 0x06004B0C RID: 19212 RVA: 0x00272060 File Offset: 0x00270460
+		// Token: 0x17000C07 RID: 3079
+		// (get) Token: 0x06004B10 RID: 19216 RVA: 0x0027218C File Offset: 0x0027058C
 		public static NameTriple Invalid
 		{
 			get
@@ -130,7 +130,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B0D RID: 19213 RVA: 0x0027207A File Offset: 0x0027047A
+		// Token: 0x06004B11 RID: 19217 RVA: 0x002721A6 File Offset: 0x002705A6
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<string>(ref this.firstInt, "first", null, false);
@@ -138,7 +138,7 @@ namespace Verse
 			Scribe_Values.Look<string>(ref this.lastInt, "last", null, false);
 		}
 
-		// Token: 0x06004B0E RID: 19214 RVA: 0x002720B4 File Offset: 0x002704B4
+		// Token: 0x06004B12 RID: 19218 RVA: 0x002721E0 File Offset: 0x002705E0
 		public void PostLoad()
 		{
 			if (this.firstInt != null)
@@ -155,7 +155,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B0F RID: 19215 RVA: 0x00272118 File Offset: 0x00270518
+		// Token: 0x06004B13 RID: 19219 RVA: 0x00272244 File Offset: 0x00270644
 		public void ResolveMissingPieces(string overrideLastName = null)
 		{
 			if (this.First.NullOrEmpty() && this.Nick.NullOrEmpty() && this.Last.NullOrEmpty())
@@ -199,7 +199,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B10 RID: 19216 RVA: 0x00272240 File Offset: 0x00270640
+		// Token: 0x06004B14 RID: 19220 RVA: 0x0027236C File Offset: 0x0027076C
 		public override bool ConfusinglySimilarTo(Name other)
 		{
 			NameTriple nameTriple = other as NameTriple;
@@ -218,7 +218,7 @@ namespace Verse
 			return nameSingle != null && nameSingle.Name == this.Nick;
 		}
 
-		// Token: 0x06004B11 RID: 19217 RVA: 0x002722EC File Offset: 0x002706EC
+		// Token: 0x06004B15 RID: 19221 RVA: 0x00272418 File Offset: 0x00270818
 		public static NameTriple FromString(string rawName)
 		{
 			NameTriple result;
@@ -292,7 +292,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004B12 RID: 19218 RVA: 0x00272500 File Offset: 0x00270900
+		// Token: 0x06004B16 RID: 19222 RVA: 0x0027262C File Offset: 0x00270A2C
 		public void CapitalizeNick()
 		{
 			if (!this.nickInt.NullOrEmpty())
@@ -301,7 +301,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B13 RID: 19219 RVA: 0x00272540 File Offset: 0x00270940
+		// Token: 0x06004B17 RID: 19223 RVA: 0x0027266C File Offset: 0x00270A6C
 		public override string ToString()
 		{
 			return string.Concat(new string[]
@@ -314,7 +314,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06004B14 RID: 19220 RVA: 0x0027258C File Offset: 0x0027098C
+		// Token: 0x06004B18 RID: 19224 RVA: 0x002726B8 File Offset: 0x00270AB8
 		public override bool Equals(object obj)
 		{
 			bool result;
@@ -334,7 +334,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004B15 RID: 19221 RVA: 0x00272608 File Offset: 0x00270A08
+		// Token: 0x06004B19 RID: 19225 RVA: 0x00272734 File Offset: 0x00270B34
 		public override int GetHashCode()
 		{
 			int seed = 0;

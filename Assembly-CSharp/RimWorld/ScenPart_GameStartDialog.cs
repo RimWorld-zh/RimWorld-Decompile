@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200063E RID: 1598
+	// Token: 0x02000640 RID: 1600
 	public class ScenPart_GameStartDialog : ScenPart
 	{
 		// Token: 0x040012E3 RID: 4835
@@ -16,14 +16,14 @@ namespace RimWorld
 		// Token: 0x040012E5 RID: 4837
 		private SoundDef closeSound;
 
-		// Token: 0x06002120 RID: 8480 RVA: 0x0011A17C File Offset: 0x0011857C
+		// Token: 0x06002124 RID: 8484 RVA: 0x0011A2CC File Offset: 0x001186CC
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 5f);
 			this.text = Widgets.TextArea(scenPartRect, this.text, false);
 		}
 
-		// Token: 0x06002121 RID: 8481 RVA: 0x0011A1B0 File Offset: 0x001185B0
+		// Token: 0x06002125 RID: 8485 RVA: 0x0011A300 File Offset: 0x00118700
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -32,7 +32,7 @@ namespace RimWorld
 			Scribe_Defs.Look<SoundDef>(ref this.closeSound, "closeSound");
 		}
 
-		// Token: 0x06002122 RID: 8482 RVA: 0x0011A1F0 File Offset: 0x001185F0
+		// Token: 0x06002126 RID: 8486 RVA: 0x0011A340 File Offset: 0x00118740
 		public override void PostGameStart()
 		{
 			if (Find.GameInitData.startedFromEntry)

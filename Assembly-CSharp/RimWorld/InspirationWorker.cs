@@ -3,19 +3,19 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002A6 RID: 678
+	// Token: 0x020002A8 RID: 680
 	public class InspirationWorker
 	{
 		// Token: 0x0400064A RID: 1610
 		public InspirationDef def;
 
-		// Token: 0x06000B5D RID: 2909 RVA: 0x000669CC File Offset: 0x00064DCC
+		// Token: 0x06000B61 RID: 2913 RVA: 0x00066B1C File Offset: 0x00064F1C
 		public virtual float CommonalityFor(Pawn pawn)
 		{
 			return this.def.baseCommonality;
 		}
 
-		// Token: 0x06000B5E RID: 2910 RVA: 0x000669EC File Offset: 0x00064DEC
+		// Token: 0x06000B62 RID: 2914 RVA: 0x00066B3C File Offset: 0x00064F3C
 		public virtual bool InspirationCanOccur(Pawn pawn)
 		{
 			bool result;

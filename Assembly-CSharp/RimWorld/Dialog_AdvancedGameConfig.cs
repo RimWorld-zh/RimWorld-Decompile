@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007F3 RID: 2035
+	// Token: 0x020007F5 RID: 2037
 	public class Dialog_AdvancedGameConfig : Window
 	{
 		// Token: 0x040017BD RID: 6077
@@ -33,7 +33,7 @@ namespace RimWorld
 			400
 		};
 
-		// Token: 0x06002D2B RID: 11563 RVA: 0x0017B84A File Offset: 0x00179C4A
+		// Token: 0x06002D2F RID: 11567 RVA: 0x0017B99A File Offset: 0x00179D9A
 		public Dialog_AdvancedGameConfig(int selTile)
 		{
 			this.doCloseButton = true;
@@ -43,7 +43,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000727 RID: 1831
-		// (get) Token: 0x06002D2C RID: 11564 RVA: 0x0017B878 File Offset: 0x00179C78
+		// (get) Token: 0x06002D30 RID: 11568 RVA: 0x0017B9C8 File Offset: 0x00179DC8
 		public override Vector2 InitialSize
 		{
 			get
@@ -52,7 +52,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D2D RID: 11565 RVA: 0x0017B89C File Offset: 0x00179C9C
+		// Token: 0x06002D31 RID: 11569 RVA: 0x0017B9EC File Offset: 0x00179DEC
 		public override void DoWindowContents(Rect inRect)
 		{
 			Listing_Standard listing_Standard = new Listing_Standard();

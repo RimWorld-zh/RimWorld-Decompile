@@ -4,14 +4,14 @@ using System.Text;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DAB RID: 3499
+	// Token: 0x02000DAD RID: 3501
 	public static class DebugSoundEventsLog
 	{
 		// Token: 0x0400341F RID: 13343
 		private static LogMessageQueue queue = new LogMessageQueue();
 
-		// Token: 0x17000C8E RID: 3214
-		// (get) Token: 0x06004E2F RID: 20015 RVA: 0x0028EBFC File Offset: 0x0028CFFC
+		// Token: 0x17000C8D RID: 3213
+		// (get) Token: 0x06004E33 RID: 20019 RVA: 0x0028ED28 File Offset: 0x0028D128
 		public static string EventsListingDebugString
 		{
 			get
@@ -25,7 +25,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E30 RID: 20016 RVA: 0x0028EC7C File Offset: 0x0028D07C
+		// Token: 0x06004E34 RID: 20020 RVA: 0x0028EDA8 File Offset: 0x0028D1A8
 		public static void Notify_SoundEvent(SoundDef def, SoundInfo info)
 		{
 			if (DebugViewSettings.writeSoundEventsRecord)
@@ -49,14 +49,14 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E31 RID: 20017 RVA: 0x0028ED14 File Offset: 0x0028D114
+		// Token: 0x06004E35 RID: 20021 RVA: 0x0028EE40 File Offset: 0x0028D240
 		public static void Notify_SustainerEnded(Sustainer sustainer, SoundInfo info)
 		{
 			string str = "SustainerEnd: " + sustainer.def.defName + " - " + info.ToString();
 			DebugSoundEventsLog.CreateRecord(str);
 		}
 
-		// Token: 0x06004E32 RID: 20018 RVA: 0x0028ED50 File Offset: 0x0028D150
+		// Token: 0x06004E36 RID: 20022 RVA: 0x0028EE7C File Offset: 0x0028D27C
 		private static void CreateRecord(string str)
 		{
 			DebugSoundEventsLog.queue.Enqueue(new LogMessage(str));

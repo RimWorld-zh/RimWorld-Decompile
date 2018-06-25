@@ -3,19 +3,19 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009BB RID: 2491
+	// Token: 0x020009BD RID: 2493
 	public class StatPart_WorkTableTemperature : StatPart
 	{
-		// Token: 0x040023C1 RID: 9153
+		// Token: 0x040023C2 RID: 9154
 		public const float WorkRateFactor = 0.7f;
 
-		// Token: 0x040023C2 RID: 9154
+		// Token: 0x040023C3 RID: 9155
 		public const float MinTemp = 9f;
 
-		// Token: 0x040023C3 RID: 9155
+		// Token: 0x040023C4 RID: 9156
 		public const float MaxTemp = 35f;
 
-		// Token: 0x060037C7 RID: 14279 RVA: 0x001DAF0C File Offset: 0x001D930C
+		// Token: 0x060037CB RID: 14283 RVA: 0x001DB04C File Offset: 0x001D944C
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing && StatPart_WorkTableTemperature.Applies(req.Thing))
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037C8 RID: 14280 RVA: 0x001DAF38 File Offset: 0x001D9338
+		// Token: 0x060037CC RID: 14284 RVA: 0x001DB078 File Offset: 0x001D9478
 		public override string ExplanationPart(StatRequest req)
 		{
 			string result;
@@ -39,13 +39,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037C9 RID: 14281 RVA: 0x001DAF94 File Offset: 0x001D9394
+		// Token: 0x060037CD RID: 14285 RVA: 0x001DB0D4 File Offset: 0x001D94D4
 		public static bool Applies(Thing t)
 		{
 			return t.Spawned && StatPart_WorkTableTemperature.Applies(t.def, t.Map, t.Position);
 		}
 
-		// Token: 0x060037CA RID: 14282 RVA: 0x001DAFD4 File Offset: 0x001D93D4
+		// Token: 0x060037CE RID: 14286 RVA: 0x001DB114 File Offset: 0x001D9514
 		public static bool Applies(ThingDef tDef, Map map, IntVec3 c)
 		{
 			bool result;

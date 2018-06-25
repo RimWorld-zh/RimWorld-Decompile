@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200020C RID: 524
+	// Token: 0x0200020E RID: 526
 	public class ThoughtWorker_Tale : ThoughtWorker
 	{
-		// Token: 0x060009E4 RID: 2532 RVA: 0x00058938 File Offset: 0x00056D38
+		// Token: 0x060009E8 RID: 2536 RVA: 0x00058AB8 File Offset: 0x00056EB8
 		protected override ThoughtState CurrentSocialStateInternal(Pawn p, Pawn other)
 		{
 			ThoughtState result;

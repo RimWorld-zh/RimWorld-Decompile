@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000B19 RID: 2841
+	// Token: 0x02000B1B RID: 2843
 	public class HediffCompProperties
 	{
-		// Token: 0x04002844 RID: 10308
+		// Token: 0x04002845 RID: 10309
 		[TranslationHandle]
 		public Type compClass = null;
 
-		// Token: 0x06003EBD RID: 16061 RVA: 0x00210C3C File Offset: 0x0020F03C
+		// Token: 0x06003EC1 RID: 16065 RVA: 0x00210D68 File Offset: 0x0020F168
 		public virtual IEnumerable<string> ConfigErrors(HediffDef parentDef)
 		{
 			if (this.compClass == null)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C88 RID: 3208
+	// Token: 0x02000C8A RID: 3210
 	public class RegionDirtyer
 	{
 		// Token: 0x04002FFB RID: 12283
@@ -15,14 +15,14 @@ namespace Verse
 		// Token: 0x04002FFD RID: 12285
 		private List<Region> regionsToDirty = new List<Region>();
 
-		// Token: 0x0600466B RID: 18027 RVA: 0x002528DA File Offset: 0x00250CDA
+		// Token: 0x0600466E RID: 18030 RVA: 0x002529B6 File Offset: 0x00250DB6
 		public RegionDirtyer(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x17000B18 RID: 2840
-		// (get) Token: 0x0600466C RID: 18028 RVA: 0x00252900 File Offset: 0x00250D00
+		// Token: 0x17000B17 RID: 2839
+		// (get) Token: 0x0600466F RID: 18031 RVA: 0x002529DC File Offset: 0x00250DDC
 		public bool AnyDirty
 		{
 			get
@@ -31,8 +31,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B19 RID: 2841
-		// (get) Token: 0x0600466D RID: 18029 RVA: 0x00252924 File Offset: 0x00250D24
+		// Token: 0x17000B18 RID: 2840
+		// (get) Token: 0x06004670 RID: 18032 RVA: 0x00252A00 File Offset: 0x00250E00
 		public List<IntVec3> DirtyCells
 		{
 			get
@@ -41,7 +41,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600466E RID: 18030 RVA: 0x00252940 File Offset: 0x00250D40
+		// Token: 0x06004671 RID: 18033 RVA: 0x00252A1C File Offset: 0x00250E1C
 		internal void Notify_WalkabilityChanged(IntVec3 c)
 		{
 			this.regionsToDirty.Clear();
@@ -69,7 +69,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600466F RID: 18031 RVA: 0x00252A48 File Offset: 0x00250E48
+		// Token: 0x06004672 RID: 18034 RVA: 0x00252B24 File Offset: 0x00250F24
 		internal void Notify_ThingAffectingRegionsSpawned(Thing b)
 		{
 			this.regionsToDirty.Clear();
@@ -92,7 +92,7 @@ namespace Verse
 			this.regionsToDirty.Clear();
 		}
 
-		// Token: 0x06004670 RID: 18032 RVA: 0x00252B2C File Offset: 0x00250F2C
+		// Token: 0x06004673 RID: 18035 RVA: 0x00252C08 File Offset: 0x00251008
 		internal void Notify_ThingAffectingRegionsDespawned(Thing b)
 		{
 			this.regionsToDirty.Clear();
@@ -137,7 +137,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004671 RID: 18033 RVA: 0x00252D10 File Offset: 0x00251110
+		// Token: 0x06004674 RID: 18036 RVA: 0x00252DEC File Offset: 0x002511EC
 		internal void SetAllClean()
 		{
 			for (int i = 0; i < this.dirtyCells.Count; i++)
@@ -147,7 +147,7 @@ namespace Verse
 			this.dirtyCells.Clear();
 		}
 
-		// Token: 0x06004672 RID: 18034 RVA: 0x00252D64 File Offset: 0x00251164
+		// Token: 0x06004675 RID: 18037 RVA: 0x00252E40 File Offset: 0x00251240
 		private void SetRegionDirty(Region reg, bool addCellsToDirtyCells = true)
 		{
 			if (reg.valid)
@@ -173,7 +173,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004673 RID: 18035 RVA: 0x00252E4C File Offset: 0x0025124C
+		// Token: 0x06004676 RID: 18038 RVA: 0x00252F28 File Offset: 0x00251328
 		internal void SetAllDirty()
 		{
 			this.dirtyCells.Clear();

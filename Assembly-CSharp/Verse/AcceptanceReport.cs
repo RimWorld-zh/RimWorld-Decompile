@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000EDF RID: 3807
+	// Token: 0x02000EE1 RID: 3809
 	public struct AcceptanceReport
 	{
 		// Token: 0x04003C74 RID: 15476
@@ -11,15 +11,15 @@ namespace Verse
 		// Token: 0x04003C75 RID: 15477
 		private bool acceptedInt;
 
-		// Token: 0x06005A27 RID: 23079 RVA: 0x002E456F File Offset: 0x002E296F
+		// Token: 0x06005A2A RID: 23082 RVA: 0x002E468F File Offset: 0x002E2A8F
 		public AcceptanceReport(string reasonText)
 		{
 			this.acceptedInt = false;
 			this.reasonTextInt = reasonText;
 		}
 
-		// Token: 0x17000E2A RID: 3626
-		// (get) Token: 0x06005A28 RID: 23080 RVA: 0x002E4580 File Offset: 0x002E2980
+		// Token: 0x17000E29 RID: 3625
+		// (get) Token: 0x06005A2B RID: 23083 RVA: 0x002E46A0 File Offset: 0x002E2AA0
 		public string Reason
 		{
 			get
@@ -28,8 +28,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E2B RID: 3627
-		// (get) Token: 0x06005A29 RID: 23081 RVA: 0x002E459C File Offset: 0x002E299C
+		// Token: 0x17000E2A RID: 3626
+		// (get) Token: 0x06005A2C RID: 23084 RVA: 0x002E46BC File Offset: 0x002E2ABC
 		public bool Accepted
 		{
 			get
@@ -38,8 +38,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E2C RID: 3628
-		// (get) Token: 0x06005A2A RID: 23082 RVA: 0x002E45B8 File Offset: 0x002E29B8
+		// Token: 0x17000E2B RID: 3627
+		// (get) Token: 0x06005A2D RID: 23085 RVA: 0x002E46D8 File Offset: 0x002E2AD8
 		public static AcceptanceReport WasAccepted
 		{
 			get
@@ -51,8 +51,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E2D RID: 3629
-		// (get) Token: 0x06005A2B RID: 23083 RVA: 0x002E45E4 File Offset: 0x002E29E4
+		// Token: 0x17000E2C RID: 3628
+		// (get) Token: 0x06005A2E RID: 23086 RVA: 0x002E4704 File Offset: 0x002E2B04
 		public static AcceptanceReport WasRejected
 		{
 			get
@@ -64,7 +64,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005A2C RID: 23084 RVA: 0x002E4610 File Offset: 0x002E2A10
+		// Token: 0x06005A2F RID: 23087 RVA: 0x002E4730 File Offset: 0x002E2B30
 		public static implicit operator AcceptanceReport(bool value)
 		{
 			AcceptanceReport result;
@@ -79,7 +79,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005A2D RID: 23085 RVA: 0x002E463C File Offset: 0x002E2A3C
+		// Token: 0x06005A30 RID: 23088 RVA: 0x002E475C File Offset: 0x002E2B5C
 		public static implicit operator AcceptanceReport(string value)
 		{
 			return new AcceptanceReport(value);

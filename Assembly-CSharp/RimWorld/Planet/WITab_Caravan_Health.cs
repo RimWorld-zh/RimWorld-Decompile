@@ -6,7 +6,7 @@ using Verse.Sound;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008E1 RID: 2273
+	// Token: 0x020008E3 RID: 2275
 	public class WITab_Caravan_Health : WITab
 	{
 		// Token: 0x04001C3A RID: 7226
@@ -39,14 +39,14 @@ namespace RimWorld.Planet
 		// Token: 0x04001C43 RID: 7235
 		private const float PawnCapacityColumnWidth = 100f;
 
-		// Token: 0x0600343C RID: 13372 RVA: 0x001BF1CD File Offset: 0x001BD5CD
+		// Token: 0x06003440 RID: 13376 RVA: 0x001BF30D File Offset: 0x001BD70D
 		public WITab_Caravan_Health()
 		{
 			this.labelKey = "TabCaravanHealth";
 		}
 
 		// Token: 0x17000860 RID: 2144
-		// (get) Token: 0x0600343D RID: 13373 RVA: 0x001BF1E4 File Offset: 0x001BD5E4
+		// (get) Token: 0x06003441 RID: 13377 RVA: 0x001BF324 File Offset: 0x001BD724
 		private List<Pawn> Pawns
 		{
 			get
@@ -56,7 +56,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000861 RID: 2145
-		// (get) Token: 0x0600343E RID: 13374 RVA: 0x001BF204 File Offset: 0x001BD604
+		// (get) Token: 0x06003442 RID: 13378 RVA: 0x001BF344 File Offset: 0x001BD744
 		private List<PawnCapacityDef> CapacitiesToDisplay
 		{
 			get
@@ -76,7 +76,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000862 RID: 2146
-		// (get) Token: 0x0600343F RID: 13375 RVA: 0x001BF290 File Offset: 0x001BD690
+		// (get) Token: 0x06003443 RID: 13379 RVA: 0x001BF3D0 File Offset: 0x001BD7D0
 		private float SpecificHealthTabWidth
 		{
 			get
@@ -94,7 +94,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06003440 RID: 13376 RVA: 0x001BF2C0 File Offset: 0x001BD6C0
+		// Token: 0x06003444 RID: 13380 RVA: 0x001BF400 File Offset: 0x001BD800
 		protected override void FillTab()
 		{
 			Text.Font = GameFont.Small;
@@ -111,7 +111,7 @@ namespace RimWorld.Planet
 			Widgets.EndScrollView();
 		}
 
-		// Token: 0x06003441 RID: 13377 RVA: 0x001BF374 File Offset: 0x001BD774
+		// Token: 0x06003445 RID: 13381 RVA: 0x001BF4B4 File Offset: 0x001BD8B4
 		protected override void UpdateSize()
 		{
 			base.UpdateSize();
@@ -127,7 +127,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06003442 RID: 13378 RVA: 0x001BF3D4 File Offset: 0x001BD7D4
+		// Token: 0x06003446 RID: 13382 RVA: 0x001BF514 File Offset: 0x001BD914
 		protected override void ExtraOnGUI()
 		{
 			base.ExtraOnGUI();
@@ -153,7 +153,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06003443 RID: 13379 RVA: 0x001BF47C File Offset: 0x001BD87C
+		// Token: 0x06003447 RID: 13383 RVA: 0x001BF5BC File Offset: 0x001BD9BC
 		private void DoColumnHeaders(ref float curY)
 		{
 			if (!this.compactMode)
@@ -173,7 +173,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06003444 RID: 13380 RVA: 0x001BF530 File Offset: 0x001BD930
+		// Token: 0x06003448 RID: 13384 RVA: 0x001BF670 File Offset: 0x001BDA70
 		private void DoRows(ref float curY, Rect scrollViewRect, Rect scrollOutRect)
 		{
 			List<Pawn> pawns = this.Pawns;
@@ -211,7 +211,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06003445 RID: 13381 RVA: 0x001BF62C File Offset: 0x001BDA2C
+		// Token: 0x06003449 RID: 13385 RVA: 0x001BF76C File Offset: 0x001BDB6C
 		private Vector2 GetRawSize(bool compactMode)
 		{
 			float num = 100f;
@@ -226,7 +226,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06003446 RID: 13382 RVA: 0x001BF6A0 File Offset: 0x001BDAA0
+		// Token: 0x0600344A RID: 13386 RVA: 0x001BF7E0 File Offset: 0x001BDBE0
 		private void DoRow(ref float curY, Rect viewRect, Rect scrollOutRect, Pawn p)
 		{
 			float num = this.scrollPosition.y - 50f;
@@ -238,7 +238,7 @@ namespace RimWorld.Planet
 			curY += 50f;
 		}
 
-		// Token: 0x06003447 RID: 13383 RVA: 0x001BF710 File Offset: 0x001BDB10
+		// Token: 0x0600344B RID: 13387 RVA: 0x001BF850 File Offset: 0x001BDC50
 		private void DoRow(Rect rect, Pawn p)
 		{
 			GUI.BeginGroup(rect);
@@ -294,7 +294,7 @@ namespace RimWorld.Planet
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06003448 RID: 13384 RVA: 0x001BF9B8 File Offset: 0x001BDDB8
+		// Token: 0x0600344C RID: 13388 RVA: 0x001BFAF8 File Offset: 0x001BDEF8
 		private void DoPain(Rect rect, Pawn pawn)
 		{
 			Pair<string, Color> painLabel = HealthCardUtility.GetPainLabel(pawn);
@@ -311,7 +311,7 @@ namespace RimWorld.Planet
 			TooltipHandler.TipRegion(rect, painTip);
 		}
 
-		// Token: 0x06003449 RID: 13385 RVA: 0x001BFA20 File Offset: 0x001BDE20
+		// Token: 0x0600344D RID: 13389 RVA: 0x001BFB60 File Offset: 0x001BDF60
 		private void DoCapacity(Rect rect, Pawn pawn, PawnCapacityDef capacity)
 		{
 			Pair<string, Color> efficiencyLabel = HealthCardUtility.GetEfficiencyLabel(pawn, capacity);

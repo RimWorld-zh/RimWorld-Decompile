@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005D5 RID: 1493
+	// Token: 0x020005D7 RID: 1495
 	public static class CaravanDrugPolicyUtility
 	{
-		// Token: 0x06001D66 RID: 7526 RVA: 0x000FCD30 File Offset: 0x000FB130
+		// Token: 0x06001D6A RID: 7530 RVA: 0x000FCE80 File Offset: 0x000FB280
 		public static void TryTakeScheduledDrugs(Caravan caravan)
 		{
 			List<Pawn> pawnsListForReading = caravan.PawnsListForReading;
@@ -17,7 +17,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D67 RID: 7527 RVA: 0x000FCD6C File Offset: 0x000FB16C
+		// Token: 0x06001D6B RID: 7531 RVA: 0x000FCEBC File Offset: 0x000FB2BC
 		private static void TryTakeScheduledDrugs(Pawn pawn, Caravan caravan)
 		{
 			if (pawn.drugs != null)

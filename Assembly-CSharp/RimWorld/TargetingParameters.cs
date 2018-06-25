@@ -5,61 +5,61 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x020009C9 RID: 2505
+	// Token: 0x020009CB RID: 2507
 	public class TargetingParameters
 	{
-		// Token: 0x040023DD RID: 9181
+		// Token: 0x040023DE RID: 9182
 		public bool canTargetLocations = false;
 
-		// Token: 0x040023DE RID: 9182
+		// Token: 0x040023DF RID: 9183
 		public bool canTargetSelf = false;
 
-		// Token: 0x040023DF RID: 9183
+		// Token: 0x040023E0 RID: 9184
 		public bool canTargetPawns = true;
 
-		// Token: 0x040023E0 RID: 9184
+		// Token: 0x040023E1 RID: 9185
 		public bool canTargetFires = false;
 
-		// Token: 0x040023E1 RID: 9185
+		// Token: 0x040023E2 RID: 9186
 		public bool canTargetBuildings = true;
 
-		// Token: 0x040023E2 RID: 9186
+		// Token: 0x040023E3 RID: 9187
 		public bool canTargetItems = false;
 
-		// Token: 0x040023E3 RID: 9187
+		// Token: 0x040023E4 RID: 9188
 		public List<Faction> onlyTargetFactions = null;
 
-		// Token: 0x040023E4 RID: 9188
+		// Token: 0x040023E5 RID: 9189
 		public Predicate<TargetInfo> validator = null;
 
-		// Token: 0x040023E5 RID: 9189
+		// Token: 0x040023E6 RID: 9190
 		public bool onlyTargetFlammables = false;
 
-		// Token: 0x040023E6 RID: 9190
+		// Token: 0x040023E7 RID: 9191
 		public Thing targetSpecificThing = null;
 
-		// Token: 0x040023E7 RID: 9191
+		// Token: 0x040023E8 RID: 9192
 		public bool mustBeSelectable = false;
 
-		// Token: 0x040023E8 RID: 9192
+		// Token: 0x040023E9 RID: 9193
 		public bool neverTargetDoors = false;
 
-		// Token: 0x040023E9 RID: 9193
+		// Token: 0x040023EA RID: 9194
 		public bool neverTargetIncapacitated = false;
 
-		// Token: 0x040023EA RID: 9194
+		// Token: 0x040023EB RID: 9195
 		public bool onlyTargetThingsAffectingRegions = false;
 
-		// Token: 0x040023EB RID: 9195
+		// Token: 0x040023EC RID: 9196
 		public bool onlyTargetDamagedThings = false;
 
-		// Token: 0x040023EC RID: 9196
+		// Token: 0x040023ED RID: 9197
 		public bool mapObjectTargetsMustBeAutoAttackable = true;
 
-		// Token: 0x040023ED RID: 9197
+		// Token: 0x040023EE RID: 9198
 		public bool onlyTargetIncapacitatedPawns = false;
 
-		// Token: 0x0600382B RID: 14379 RVA: 0x001DF2D0 File Offset: 0x001DD6D0
+		// Token: 0x0600382F RID: 14383 RVA: 0x001DF414 File Offset: 0x001DD814
 		public bool CanTarget(TargetInfo targ)
 		{
 			bool result;
@@ -121,7 +121,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600382C RID: 14380 RVA: 0x001DF560 File Offset: 0x001DD960
+		// Token: 0x06003830 RID: 14384 RVA: 0x001DF6A4 File Offset: 0x001DDAA4
 		public static TargetingParameters ForSelf(Pawn p)
 		{
 			return new TargetingParameters
@@ -133,7 +133,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x0600382D RID: 14381 RVA: 0x001DF598 File Offset: 0x001DD998
+		// Token: 0x06003831 RID: 14385 RVA: 0x001DF6DC File Offset: 0x001DDADC
 		public static TargetingParameters ForArrest(Pawn arrester)
 		{
 			return new TargetingParameters
@@ -158,7 +158,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x0600382E RID: 14382 RVA: 0x001DF5E8 File Offset: 0x001DD9E8
+		// Token: 0x06003832 RID: 14386 RVA: 0x001DF72C File Offset: 0x001DDB2C
 		public static TargetingParameters ForAttackHostile()
 		{
 			TargetingParameters targetingParameters = new TargetingParameters();
@@ -187,7 +187,7 @@ namespace RimWorld
 			return targetingParameters;
 		}
 
-		// Token: 0x0600382F RID: 14383 RVA: 0x001DF644 File Offset: 0x001DDA44
+		// Token: 0x06003833 RID: 14387 RVA: 0x001DF788 File Offset: 0x001DDB88
 		public static TargetingParameters ForAttackAny()
 		{
 			return new TargetingParameters
@@ -199,7 +199,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06003830 RID: 14384 RVA: 0x001DF67C File Offset: 0x001DDA7C
+		// Token: 0x06003834 RID: 14388 RVA: 0x001DF7C0 File Offset: 0x001DDBC0
 		public static TargetingParameters ForRescue(Pawn p)
 		{
 			return new TargetingParameters
@@ -211,7 +211,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06003831 RID: 14385 RVA: 0x001DF6B4 File Offset: 0x001DDAB4
+		// Token: 0x06003835 RID: 14389 RVA: 0x001DF7F8 File Offset: 0x001DDBF8
 		public static TargetingParameters ForStrip(Pawn p)
 		{
 			TargetingParameters targetingParameters = new TargetingParameters();
@@ -222,7 +222,7 @@ namespace RimWorld
 			return targetingParameters;
 		}
 
-		// Token: 0x06003832 RID: 14386 RVA: 0x001DF708 File Offset: 0x001DDB08
+		// Token: 0x06003836 RID: 14390 RVA: 0x001DF84C File Offset: 0x001DDC4C
 		public static TargetingParameters ForTrade()
 		{
 			TargetingParameters targetingParameters = new TargetingParameters();
@@ -237,7 +237,7 @@ namespace RimWorld
 			return targetingParameters;
 		}
 
-		// Token: 0x06003833 RID: 14387 RVA: 0x001DF75C File Offset: 0x001DDB5C
+		// Token: 0x06003837 RID: 14391 RVA: 0x001DF8A0 File Offset: 0x001DDCA0
 		public static TargetingParameters ForDropPodsDestination()
 		{
 			TargetingParameters targetingParameters = new TargetingParameters();
@@ -251,7 +251,7 @@ namespace RimWorld
 			return targetingParameters;
 		}
 
-		// Token: 0x06003834 RID: 14388 RVA: 0x001DF7C8 File Offset: 0x001DDBC8
+		// Token: 0x06003838 RID: 14392 RVA: 0x001DF90C File Offset: 0x001DDD0C
 		public static TargetingParameters ForQuestPawnsWhoWillJoinColony(Pawn p)
 		{
 			TargetingParameters targetingParameters = new TargetingParameters();

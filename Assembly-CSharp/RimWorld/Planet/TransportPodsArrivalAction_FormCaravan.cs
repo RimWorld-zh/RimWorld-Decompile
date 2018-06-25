@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000610 RID: 1552
+	// Token: 0x02000612 RID: 1554
 	public class TransportPodsArrivalAction_FormCaravan : TransportPodsArrivalAction
 	{
 		// Token: 0x04001244 RID: 4676
@@ -13,7 +13,7 @@ namespace RimWorld.Planet
 		// Token: 0x04001245 RID: 4677
 		private static List<Thing> tmpContainedThings = new List<Thing>();
 
-		// Token: 0x06001F47 RID: 8007 RVA: 0x0010FB6C File Offset: 0x0010DF6C
+		// Token: 0x06001F4B RID: 8011 RVA: 0x0010FCBC File Offset: 0x0010E0BC
 		public override FloatMenuAcceptanceReport StillValid(IEnumerable<IThingHolder> pods, int destinationTile)
 		{
 			FloatMenuAcceptanceReport floatMenuAcceptanceReport = base.StillValid(pods, destinationTile);
@@ -29,7 +29,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001F48 RID: 8008 RVA: 0x0010FBA8 File Offset: 0x0010DFA8
+		// Token: 0x06001F4C RID: 8012 RVA: 0x0010FCF8 File Offset: 0x0010E0F8
 		public override void Arrived(List<ActiveDropPodInfo> pods, int tile)
 		{
 			TransportPodsArrivalAction_FormCaravan.tmpPawns.Clear();
@@ -67,7 +67,7 @@ namespace RimWorld.Planet
 			Messages.Message("MessageTransportPodsArrived".Translate(), caravan, MessageTypeDefOf.TaskCompletion, true);
 		}
 
-		// Token: 0x06001F49 RID: 8009 RVA: 0x0010FD10 File Offset: 0x0010E110
+		// Token: 0x06001F4D RID: 8013 RVA: 0x0010FE60 File Offset: 0x0010E260
 		public static bool CanFormCaravanAt(IEnumerable<IThingHolder> pods, int tile)
 		{
 			return TransportPodsArrivalActionUtility.AnyPotentialCaravanOwner(pods, Faction.OfPlayer) && !Find.World.Impassable(tile);

@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000325 RID: 805
+	// Token: 0x02000327 RID: 807
 	public class IncidentWorker_CropBlight : IncidentWorker
 	{
 		// Token: 0x040008C3 RID: 2243
@@ -14,14 +14,14 @@ namespace RimWorld
 		// Token: 0x040008C4 RID: 2244
 		private const float BaseBlightChance = 0.1f;
 
-		// Token: 0x06000DC1 RID: 3521 RVA: 0x00075CA0 File Offset: 0x000740A0
+		// Token: 0x06000DC5 RID: 3525 RVA: 0x00075DF0 File Offset: 0x000741F0
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Plant plant;
 			return this.TryFindRandomBlightablePlant((Map)parms.target, out plant);
 		}
 
-		// Token: 0x06000DC2 RID: 3522 RVA: 0x00075CC8 File Offset: 0x000740C8
+		// Token: 0x06000DC6 RID: 3526 RVA: 0x00075E18 File Offset: 0x00074218
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -59,7 +59,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DC3 RID: 3523 RVA: 0x00075DF0 File Offset: 0x000741F0
+		// Token: 0x06000DC7 RID: 3527 RVA: 0x00075F40 File Offset: 0x00074340
 		private bool TryFindRandomBlightablePlant(Map map, out Plant plant)
 		{
 			Thing thing;
@@ -70,7 +70,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DC4 RID: 3524 RVA: 0x00075E48 File Offset: 0x00074248
+		// Token: 0x06000DC8 RID: 3528 RVA: 0x00075F98 File Offset: 0x00074398
 		private float BlightChanceFactor(IntVec3 c, IntVec3 root)
 		{
 			return Mathf.InverseLerp(16f, 8f, c.DistanceTo(root));

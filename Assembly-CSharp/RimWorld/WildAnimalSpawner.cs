@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000451 RID: 1105
+	// Token: 0x02000453 RID: 1107
 	public class WildAnimalSpawner
 	{
 		// Token: 0x04000BB1 RID: 2993
@@ -18,14 +18,14 @@ namespace RimWorld
 		// Token: 0x04000BB3 RID: 2995
 		private const float BaseAnimalSpawnChancePerInterval = 0.0268888883f;
 
-		// Token: 0x0600133B RID: 4923 RVA: 0x000A578E File Offset: 0x000A3B8E
+		// Token: 0x0600133F RID: 4927 RVA: 0x000A58DE File Offset: 0x000A3CDE
 		public WildAnimalSpawner(Map map)
 		{
 			this.map = map;
 		}
 
 		// Token: 0x1700029D RID: 669
-		// (get) Token: 0x0600133C RID: 4924 RVA: 0x000A57A0 File Offset: 0x000A3BA0
+		// (get) Token: 0x06001340 RID: 4928 RVA: 0x000A58F0 File Offset: 0x000A3CF0
 		private float DesiredAnimalDensity
 		{
 			get
@@ -49,7 +49,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700029E RID: 670
-		// (get) Token: 0x0600133D RID: 4925 RVA: 0x000A5884 File Offset: 0x000A3C84
+		// (get) Token: 0x06001341 RID: 4929 RVA: 0x000A59D4 File Offset: 0x000A3DD4
 		private float DesiredTotalAnimalWeight
 		{
 			get
@@ -70,7 +70,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700029F RID: 671
-		// (get) Token: 0x0600133E RID: 4926 RVA: 0x000A58CC File Offset: 0x000A3CCC
+		// (get) Token: 0x06001342 RID: 4930 RVA: 0x000A5A1C File Offset: 0x000A3E1C
 		private float CurrentTotalAnimalWeight
 		{
 			get
@@ -89,7 +89,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002A0 RID: 672
-		// (get) Token: 0x0600133F RID: 4927 RVA: 0x000A5938 File Offset: 0x000A3D38
+		// (get) Token: 0x06001343 RID: 4931 RVA: 0x000A5A88 File Offset: 0x000A3E88
 		public bool AnimalEcosystemFull
 		{
 			get
@@ -98,7 +98,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001340 RID: 4928 RVA: 0x000A5960 File Offset: 0x000A3D60
+		// Token: 0x06001344 RID: 4932 RVA: 0x000A5AB0 File Offset: 0x000A3EB0
 		public void WildAnimalSpawnerTick()
 		{
 			if (Find.TickManager.TicksGame % 1210 == 0)
@@ -117,7 +117,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001341 RID: 4929 RVA: 0x000A59CC File Offset: 0x000A3DCC
+		// Token: 0x06001345 RID: 4933 RVA: 0x000A5B1C File Offset: 0x000A3F1C
 		public bool SpawnRandomWildAnimalAt(IntVec3 loc)
 		{
 			PawnKindDef pawnKindDef = (from a in this.map.Biome.AllWildAnimals
@@ -144,7 +144,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001342 RID: 4930 RVA: 0x000A5A94 File Offset: 0x000A3E94
+		// Token: 0x06001346 RID: 4934 RVA: 0x000A5BE4 File Offset: 0x000A3FE4
 		public string DebugString()
 		{
 			return string.Concat(new object[]

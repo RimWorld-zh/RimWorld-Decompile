@@ -6,11 +6,11 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007AC RID: 1964
+	// Token: 0x020007AE RID: 1966
 	public static class BreakRiskAlertUtility
 	{
 		// Token: 0x170006C2 RID: 1730
-		// (get) Token: 0x06002B6B RID: 11115 RVA: 0x0016F10C File Offset: 0x0016D50C
+		// (get) Token: 0x06002B6F RID: 11119 RVA: 0x0016F25C File Offset: 0x0016D65C
 		public static IEnumerable<Pawn> PawnsAtRiskExtreme
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006C3 RID: 1731
-		// (get) Token: 0x06002B6C RID: 11116 RVA: 0x0016F130 File Offset: 0x0016D530
+		// (get) Token: 0x06002B70 RID: 11120 RVA: 0x0016F280 File Offset: 0x0016D680
 		public static IEnumerable<Pawn> PawnsAtRiskMajor
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006C4 RID: 1732
-		// (get) Token: 0x06002B6D RID: 11117 RVA: 0x0016F154 File Offset: 0x0016D554
+		// (get) Token: 0x06002B71 RID: 11121 RVA: 0x0016F2A4 File Offset: 0x0016D6A4
 		public static IEnumerable<Pawn> PawnsAtRiskMinor
 		{
 			get
@@ -61,7 +61,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006C5 RID: 1733
-		// (get) Token: 0x06002B6E RID: 11118 RVA: 0x0016F178 File Offset: 0x0016D578
+		// (get) Token: 0x06002B72 RID: 11122 RVA: 0x0016F2C8 File Offset: 0x0016D6C8
 		public static string AlertLabel
 		{
 			get
@@ -94,7 +94,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006C6 RID: 1734
-		// (get) Token: 0x06002B6F RID: 11119 RVA: 0x0016F208 File Offset: 0x0016D608
+		// (get) Token: 0x06002B73 RID: 11123 RVA: 0x0016F358 File Offset: 0x0016D758
 		public static string AlertExplanation
 		{
 			get

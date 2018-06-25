@@ -5,14 +5,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000882 RID: 2178
+	// Token: 0x02000884 RID: 2180
 	public class PawnColumnWorker_CopyPasteWorkPriorities : PawnColumnWorker_CopyPaste
 	{
 		// Token: 0x04001ACD RID: 6861
 		private static DefMap<WorkTypeDef, int> clipboard;
 
 		// Token: 0x17000800 RID: 2048
-		// (get) Token: 0x060031BA RID: 12730 RVA: 0x001AE7E0 File Offset: 0x001ACBE0
+		// (get) Token: 0x060031BE RID: 12734 RVA: 0x001AE920 File Offset: 0x001ACD20
 		protected override bool AnythingInClipboard
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060031BB RID: 12731 RVA: 0x001AE800 File Offset: 0x001ACC00
+		// Token: 0x060031BF RID: 12735 RVA: 0x001AE940 File Offset: 0x001ACD40
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 			if (!pawn.Dead && pawn.workSettings != null && pawn.workSettings.EverWork)
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060031BC RID: 12732 RVA: 0x001AE838 File Offset: 0x001ACC38
+		// Token: 0x060031C0 RID: 12736 RVA: 0x001AE978 File Offset: 0x001ACD78
 		protected override void CopyFrom(Pawn p)
 		{
 			if (PawnColumnWorker_CopyPasteWorkPriorities.clipboard == null)
@@ -45,7 +45,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060031BD RID: 12733 RVA: 0x001AE8B0 File Offset: 0x001ACCB0
+		// Token: 0x060031C1 RID: 12737 RVA: 0x001AE9F0 File Offset: 0x001ACDF0
 		protected override void PasteTo(Pawn p)
 		{
 			List<WorkTypeDef> allDefsListForReading = DefDatabase<WorkTypeDef>.AllDefsListForReading;

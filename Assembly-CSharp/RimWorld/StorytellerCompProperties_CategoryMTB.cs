@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000364 RID: 868
+	// Token: 0x02000366 RID: 870
 	public class StorytellerCompProperties_CategoryMTB : StorytellerCompProperties
 	{
 		// Token: 0x04000949 RID: 2377
@@ -15,7 +15,7 @@ namespace RimWorld
 		// Token: 0x0400094B RID: 2379
 		public IncidentCategoryDef category;
 
-		// Token: 0x06000F1F RID: 3871 RVA: 0x0007FF0C File Offset: 0x0007E30C
+		// Token: 0x06000F23 RID: 3875 RVA: 0x0008005C File Offset: 0x0007E45C
 		public StorytellerCompProperties_CategoryMTB()
 		{
 			this.compClass = typeof(StorytellerComp_CategoryMTB);

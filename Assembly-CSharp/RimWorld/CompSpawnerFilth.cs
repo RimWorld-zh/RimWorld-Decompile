@@ -3,14 +3,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000736 RID: 1846
+	// Token: 0x02000738 RID: 1848
 	public class CompSpawnerFilth : ThingComp
 	{
 		// Token: 0x04001652 RID: 5714
 		private int nextSpawnTimestamp = -1;
 
 		// Token: 0x17000651 RID: 1617
-		// (get) Token: 0x060028CA RID: 10442 RVA: 0x0015C124 File Offset: 0x0015A524
+		// (get) Token: 0x060028CE RID: 10446 RVA: 0x0015C274 File Offset: 0x0015A674
 		private CompProperties_SpawnerFilth Props
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000652 RID: 1618
-		// (get) Token: 0x060028CB RID: 10443 RVA: 0x0015C144 File Offset: 0x0015A544
+		// (get) Token: 0x060028CF RID: 10447 RVA: 0x0015C294 File Offset: 0x0015A694
 		private bool CanSpawnFilth
 		{
 			get
@@ -40,14 +40,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028CC RID: 10444 RVA: 0x0015C1CF File Offset: 0x0015A5CF
+		// Token: 0x060028D0 RID: 10448 RVA: 0x0015C31F File Offset: 0x0015A71F
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_Values.Look<int>(ref this.nextSpawnTimestamp, "nextSpawnTimestamp", -1, false);
 		}
 
-		// Token: 0x060028CD RID: 10445 RVA: 0x0015C1EC File Offset: 0x0015A5EC
+		// Token: 0x060028D1 RID: 10449 RVA: 0x0015C33C File Offset: 0x0015A73C
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			if (!respawningAfterLoad)
@@ -59,7 +59,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028CE RID: 10446 RVA: 0x0015C228 File Offset: 0x0015A628
+		// Token: 0x060028D2 RID: 10450 RVA: 0x0015C378 File Offset: 0x0015A778
 		public override void CompTick()
 		{
 			base.CompTick();
@@ -80,7 +80,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028CF RID: 10447 RVA: 0x0015C2E4 File Offset: 0x0015A6E4
+		// Token: 0x060028D3 RID: 10451 RVA: 0x0015C434 File Offset: 0x0015A834
 		public void TrySpawnFilth()
 		{
 			if (this.parent.Map != null)

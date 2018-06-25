@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000816 RID: 2070
+	// Token: 0x02000818 RID: 2072
 	public static class InteractionCardUtility
 	{
 		// Token: 0x040018B8 RID: 6328
@@ -23,7 +23,7 @@ namespace RimWorld
 		// Token: 0x040018BC RID: 6332
 		private static List<Pair<string, int>> logStrings = new List<Pair<string, int>>();
 
-		// Token: 0x06002E4C RID: 11852 RVA: 0x0018A0FC File Offset: 0x001884FC
+		// Token: 0x06002E50 RID: 11856 RVA: 0x0018A24C File Offset: 0x0018864C
 		public static void DrawInteractionsLog(Rect rect, Pawn pawn, List<LogEntry> entries, int maxEntries)
 		{
 			float width = rect.width - 29f - 16f - 10f;

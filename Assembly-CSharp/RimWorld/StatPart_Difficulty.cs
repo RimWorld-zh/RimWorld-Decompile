@@ -5,25 +5,25 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009A6 RID: 2470
+	// Token: 0x020009A8 RID: 2472
 	public class StatPart_Difficulty : StatPart
 	{
-		// Token: 0x0400239C RID: 9116
+		// Token: 0x0400239D RID: 9117
 		private List<float> factorsPerDifficulty = new List<float>();
 
-		// Token: 0x06003767 RID: 14183 RVA: 0x001D94F4 File Offset: 0x001D78F4
+		// Token: 0x0600376B RID: 14187 RVA: 0x001D9634 File Offset: 0x001D7A34
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			val *= this.Multiplier(Find.Storyteller.difficulty);
 		}
 
-		// Token: 0x06003768 RID: 14184 RVA: 0x001D950C File Offset: 0x001D790C
+		// Token: 0x0600376C RID: 14188 RVA: 0x001D964C File Offset: 0x001D7A4C
 		public override string ExplanationPart(StatRequest req)
 		{
 			return "StatsReport_DifficultyMultiplier".Translate() + ": x" + this.Multiplier(Find.Storyteller.difficulty).ToStringPercent();
 		}
 
-		// Token: 0x06003769 RID: 14185 RVA: 0x001D954C File Offset: 0x001D794C
+		// Token: 0x0600376D RID: 14189 RVA: 0x001D968C File Offset: 0x001D7A8C
 		private float Multiplier(DifficultyDef d)
 		{
 			int num = d.difficulty;

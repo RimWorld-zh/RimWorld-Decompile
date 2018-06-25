@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000BF0 RID: 3056
+	// Token: 0x02000BF2 RID: 3058
 	public class LanguageInfo
 	{
 		// Token: 0x04002DA5 RID: 11685

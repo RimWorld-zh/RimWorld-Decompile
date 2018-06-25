@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200049D RID: 1181
+	// Token: 0x0200049F RID: 1183
 	public class PawnsArrivalModeWorker_RandomDrop : PawnsArrivalModeWorker
 	{
-		// Token: 0x06001520 RID: 5408 RVA: 0x000B9A78 File Offset: 0x000B7E78
+		// Token: 0x06001524 RID: 5412 RVA: 0x000B9BC8 File Offset: 0x000B7FC8
 		public override void Arrive(List<Pawn> pawns, IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001521 RID: 5409 RVA: 0x000B9AD0 File Offset: 0x000B7ED0
+		// Token: 0x06001525 RID: 5413 RVA: 0x000B9C20 File Offset: 0x000B8020
 		public override bool TryResolveRaidSpawnCenter(IncidentParms parms)
 		{
 			parms.podOpenDelay = 520;

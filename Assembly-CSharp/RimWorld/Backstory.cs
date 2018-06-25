@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004DA RID: 1242
+	// Token: 0x020004DC RID: 1244
 	[CaseInsensitiveXMLParsing]
 	public class Backstory
 	{
@@ -101,7 +101,7 @@ namespace RimWorld
 		public string untranslatedDesc;
 
 		// Token: 0x170002DC RID: 732
-		// (get) Token: 0x06001613 RID: 5651 RVA: 0x000C3D60 File Offset: 0x000C2160
+		// (get) Token: 0x06001617 RID: 5655 RVA: 0x000C3EB0 File Offset: 0x000C22B0
 		public IEnumerable<WorkTypeDef> DisabledWorkTypes
 		{
 			get
@@ -119,7 +119,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002DD RID: 733
-		// (get) Token: 0x06001614 RID: 5652 RVA: 0x000C3D8C File Offset: 0x000C218C
+		// (get) Token: 0x06001618 RID: 5656 RVA: 0x000C3EDC File Offset: 0x000C22DC
 		public IEnumerable<WorkGiverDef> DisabledWorkGivers
 		{
 			get
@@ -136,7 +136,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001615 RID: 5653 RVA: 0x000C3DB8 File Offset: 0x000C21B8
+		// Token: 0x06001619 RID: 5657 RVA: 0x000C3F08 File Offset: 0x000C2308
 		public bool DisallowsTrait(TraitDef def, int degree)
 		{
 			bool result;
@@ -158,7 +158,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001616 RID: 5654 RVA: 0x000C3E34 File Offset: 0x000C2234
+		// Token: 0x0600161A RID: 5658 RVA: 0x000C3F84 File Offset: 0x000C2384
 		public string TitleFor(Gender g)
 		{
 			string result;
@@ -173,13 +173,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001617 RID: 5655 RVA: 0x000C3E74 File Offset: 0x000C2274
+		// Token: 0x0600161B RID: 5659 RVA: 0x000C3FC4 File Offset: 0x000C23C4
 		public string TitleCapFor(Gender g)
 		{
 			return this.TitleFor(g).CapitalizeFirst();
 		}
 
-		// Token: 0x06001618 RID: 5656 RVA: 0x000C3E98 File Offset: 0x000C2298
+		// Token: 0x0600161C RID: 5660 RVA: 0x000C3FE8 File Offset: 0x000C23E8
 		public string TitleShortFor(Gender g)
 		{
 			string result;
@@ -198,13 +198,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001619 RID: 5657 RVA: 0x000C3EF4 File Offset: 0x000C22F4
+		// Token: 0x0600161D RID: 5661 RVA: 0x000C4044 File Offset: 0x000C2444
 		public string TitleShortCapFor(Gender g)
 		{
 			return this.TitleShortFor(g).CapitalizeFirst();
 		}
 
-		// Token: 0x0600161A RID: 5658 RVA: 0x000C3F18 File Offset: 0x000C2318
+		// Token: 0x0600161E RID: 5662 RVA: 0x000C4068 File Offset: 0x000C2468
 		public BodyTypeDef BodyTypeFor(Gender g)
 		{
 			BodyTypeDef result;
@@ -223,7 +223,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600161B RID: 5659 RVA: 0x000C3F64 File Offset: 0x000C2364
+		// Token: 0x0600161F RID: 5663 RVA: 0x000C40B4 File Offset: 0x000C24B4
 		public string FullDescriptionFor(Pawn p)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -258,19 +258,19 @@ namespace RimWorld
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
-		// Token: 0x0600161C RID: 5660 RVA: 0x000C4134 File Offset: 0x000C2534
+		// Token: 0x06001620 RID: 5664 RVA: 0x000C4284 File Offset: 0x000C2684
 		private bool AllowsWorkType(WorkTypeDef workType)
 		{
 			return (this.workDisables & workType.workTags) == WorkTags.None;
 		}
 
-		// Token: 0x0600161D RID: 5661 RVA: 0x000C415C File Offset: 0x000C255C
+		// Token: 0x06001621 RID: 5665 RVA: 0x000C42AC File Offset: 0x000C26AC
 		private bool AllowsWorkGiver(WorkGiverDef workGiver)
 		{
 			return (this.workDisables & workGiver.workTags) == WorkTags.None;
 		}
 
-		// Token: 0x0600161E RID: 5662 RVA: 0x000C4181 File Offset: 0x000C2581
+		// Token: 0x06001622 RID: 5666 RVA: 0x000C42D1 File Offset: 0x000C26D1
 		internal void AddForcedTrait(TraitDef traitDef, int degree = 0)
 		{
 			if (this.forcedTraits == null)
@@ -280,7 +280,7 @@ namespace RimWorld
 			this.forcedTraits.Add(new TraitEntry(traitDef, degree));
 		}
 
-		// Token: 0x0600161F RID: 5663 RVA: 0x000C41AC File Offset: 0x000C25AC
+		// Token: 0x06001623 RID: 5667 RVA: 0x000C42FC File Offset: 0x000C26FC
 		internal void AddDisallowedTrait(TraitDef traitDef, int degree = 0)
 		{
 			if (this.disallowedTraits == null)
@@ -290,7 +290,7 @@ namespace RimWorld
 			this.disallowedTraits.Add(new TraitEntry(traitDef, degree));
 		}
 
-		// Token: 0x06001620 RID: 5664 RVA: 0x000C41D8 File Offset: 0x000C25D8
+		// Token: 0x06001624 RID: 5668 RVA: 0x000C4328 File Offset: 0x000C2728
 		public void PostLoad()
 		{
 			this.untranslatedTitle = this.title;
@@ -301,7 +301,7 @@ namespace RimWorld
 			this.baseDesc = this.baseDesc.TrimEnd(new char[0]);
 		}
 
-		// Token: 0x06001621 RID: 5665 RVA: 0x000C423C File Offset: 0x000C263C
+		// Token: 0x06001625 RID: 5669 RVA: 0x000C438C File Offset: 0x000C278C
 		public void ResolveReferences()
 		{
 			int num = Mathf.Abs(GenText.StableStringHash(this.baseDesc) % 100);
@@ -343,7 +343,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001622 RID: 5666 RVA: 0x000C43EC File Offset: 0x000C27EC
+		// Token: 0x06001626 RID: 5670 RVA: 0x000C453C File Offset: 0x000C293C
 		public IEnumerable<string> ConfigErrors(bool ignoreNoSpawnCategories)
 		{
 			if (this.title.NullOrEmpty())
@@ -397,21 +397,21 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06001623 RID: 5667 RVA: 0x000C441D File Offset: 0x000C281D
+		// Token: 0x06001627 RID: 5671 RVA: 0x000C456D File Offset: 0x000C296D
 		public void SetTitle(string newTitle, string newTitleFemale)
 		{
 			this.title = newTitle;
 			this.titleFemale = newTitleFemale;
 		}
 
-		// Token: 0x06001624 RID: 5668 RVA: 0x000C442E File Offset: 0x000C282E
+		// Token: 0x06001628 RID: 5672 RVA: 0x000C457E File Offset: 0x000C297E
 		public void SetTitleShort(string newTitleShort, string newTitleShortFemale)
 		{
 			this.titleShort = newTitleShort;
 			this.titleShortFemale = newTitleShortFemale;
 		}
 
-		// Token: 0x06001625 RID: 5669 RVA: 0x000C4440 File Offset: 0x000C2840
+		// Token: 0x06001629 RID: 5673 RVA: 0x000C4590 File Offset: 0x000C2990
 		public override string ToString()
 		{
 			string result;
@@ -426,7 +426,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001626 RID: 5670 RVA: 0x000C4488 File Offset: 0x000C2888
+		// Token: 0x0600162A RID: 5674 RVA: 0x000C45D8 File Offset: 0x000C29D8
 		public override int GetHashCode()
 		{
 			return this.identifier.GetHashCode();

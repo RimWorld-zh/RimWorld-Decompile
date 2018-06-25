@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000BC6 RID: 3014
+	// Token: 0x02000BC8 RID: 3016
 	public sealed class GameInfo : IExposable
 	{
 		// Token: 0x04002CD6 RID: 11478
@@ -19,8 +19,8 @@ namespace Verse
 		// Token: 0x04002CD9 RID: 11481
 		private float lastInputRealTime = 0f;
 
-		// Token: 0x17000A42 RID: 2626
-		// (get) Token: 0x060041AB RID: 16811 RVA: 0x0022A4B8 File Offset: 0x002288B8
+		// Token: 0x17000A41 RID: 2625
+		// (get) Token: 0x060041AE RID: 16814 RVA: 0x0022A594 File Offset: 0x00228994
 		public float RealPlayTimeInteracting
 		{
 			get
@@ -29,7 +29,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041AC RID: 16812 RVA: 0x0022A4D3 File Offset: 0x002288D3
+		// Token: 0x060041AF RID: 16815 RVA: 0x0022A5AF File Offset: 0x002289AF
 		public void GameInfoOnGUI()
 		{
 			if (Event.current.type == EventType.MouseDown || Event.current.type == EventType.MouseMove || Event.current.type == EventType.KeyDown)
@@ -38,7 +38,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041AD RID: 16813 RVA: 0x0022A510 File Offset: 0x00228910
+		// Token: 0x060041B0 RID: 16816 RVA: 0x0022A5EC File Offset: 0x002289EC
 		public void GameInfoUpdate()
 		{
 			if (Time.realtimeSinceStartup < this.lastInputRealTime + 90f && Find.MainTabsRoot.OpenTab != MainButtonDefOf.Menu && Current.ProgramState == ProgramState.Playing && !Find.WindowStack.IsOpen<Dialog_Options>())
@@ -47,7 +47,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041AE RID: 16814 RVA: 0x0022A576 File Offset: 0x00228976
+		// Token: 0x060041B1 RID: 16817 RVA: 0x0022A652 File Offset: 0x00228A52
 		public void ExposeData()
 		{
 			Scribe_Values.Look<float>(ref this.realPlayTimeInteracting, "realPlayTimeInteracting", 0f, false);

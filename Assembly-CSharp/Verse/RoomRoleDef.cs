@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000B69 RID: 2921
+	// Token: 0x02000B6B RID: 2923
 	public class RoomRoleDef : Def
 	{
 		// Token: 0x04002AC2 RID: 10946
@@ -16,8 +16,8 @@ namespace Verse
 		[Unsaved]
 		private RoomRoleWorker workerInt = null;
 
-		// Token: 0x170009BC RID: 2492
-		// (get) Token: 0x06003FDE RID: 16350 RVA: 0x0021AD6C File Offset: 0x0021916C
+		// Token: 0x170009BB RID: 2491
+		// (get) Token: 0x06003FE1 RID: 16353 RVA: 0x0021AE48 File Offset: 0x00219248
 		public RoomRoleWorker Worker
 		{
 			get
@@ -30,7 +30,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FDF RID: 16351 RVA: 0x0021ADA8 File Offset: 0x002191A8
+		// Token: 0x06003FE2 RID: 16354 RVA: 0x0021AE84 File Offset: 0x00219284
 		public bool IsStatRelated(RoomStatDef def)
 		{
 			bool result;

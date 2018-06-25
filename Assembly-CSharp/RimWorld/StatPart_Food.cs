@@ -3,22 +3,22 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009A7 RID: 2471
+	// Token: 0x020009A9 RID: 2473
 	public class StatPart_Food : StatPart
 	{
-		// Token: 0x0400239D RID: 9117
+		// Token: 0x0400239E RID: 9118
 		public float factorStarving = 1f;
 
-		// Token: 0x0400239E RID: 9118
+		// Token: 0x0400239F RID: 9119
 		public float factorUrgentlyHungry = 1f;
 
-		// Token: 0x0400239F RID: 9119
+		// Token: 0x040023A0 RID: 9120
 		public float factorHungry = 1f;
 
-		// Token: 0x040023A0 RID: 9120
+		// Token: 0x040023A1 RID: 9121
 		public float factorFed = 1f;
 
-		// Token: 0x0600376B RID: 14187 RVA: 0x001D95EC File Offset: 0x001D79EC
+		// Token: 0x0600376F RID: 14191 RVA: 0x001D972C File Offset: 0x001D7B2C
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing)
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600376C RID: 14188 RVA: 0x001D9648 File Offset: 0x001D7A48
+		// Token: 0x06003770 RID: 14192 RVA: 0x001D9788 File Offset: 0x001D7B88
 		public override string ExplanationPart(StatRequest req)
 		{
 			if (req.HasThing)
@@ -45,7 +45,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x0600376D RID: 14189 RVA: 0x001D96D0 File Offset: 0x001D7AD0
+		// Token: 0x06003771 RID: 14193 RVA: 0x001D9810 File Offset: 0x001D7C10
 		private float FoodMultiplier(HungerCategory hunger)
 		{
 			float result;

@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000292 RID: 658
+	// Token: 0x02000294 RID: 660
 	public class PawnGenOption
 	{
 		// Token: 0x040005A7 RID: 1447
@@ -14,7 +14,7 @@ namespace RimWorld
 		public float selectionWeight;
 
 		// Token: 0x1700019E RID: 414
-		// (get) Token: 0x06000B19 RID: 2841 RVA: 0x00064C90 File Offset: 0x00063090
+		// (get) Token: 0x06000B1D RID: 2845 RVA: 0x00064DE0 File Offset: 0x000631E0
 		public float Cost
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B1A RID: 2842 RVA: 0x00064CB0 File Offset: 0x000630B0
+		// Token: 0x06000B1E RID: 2846 RVA: 0x00064E00 File Offset: 0x00063200
 		public override string ToString()
 		{
 			return string.Concat(new string[]
@@ -38,7 +38,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06000B1B RID: 2843 RVA: 0x00064D51 File Offset: 0x00063151
+		// Token: 0x06000B1F RID: 2847 RVA: 0x00064EA1 File Offset: 0x000632A1
 		public void LoadDataFromXmlCustom(XmlNode xmlRoot)
 		{
 			DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "kind", xmlRoot.Name);

@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000C56 RID: 3158
+	// Token: 0x02000C58 RID: 3160
 	public class RandomGenStepSelectorOption
 	{
 		// Token: 0x04002F7E RID: 12158

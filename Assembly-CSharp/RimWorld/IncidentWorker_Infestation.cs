@@ -4,13 +4,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000330 RID: 816
+	// Token: 0x02000332 RID: 818
 	public class IncidentWorker_Infestation : IncidentWorker
 	{
 		// Token: 0x040008D5 RID: 2261
 		private const float HivePoints = 250f;
 
-		// Token: 0x06000DF4 RID: 3572 RVA: 0x00077128 File Offset: 0x00075528
+		// Token: 0x06000DF8 RID: 3576 RVA: 0x00077278 File Offset: 0x00075678
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -18,7 +18,7 @@ namespace RimWorld
 			return base.CanFireNowSub(parms) && HivesUtility.TotalSpawnedHivesCount(map) < 30 && InfestationCellFinder.TryFindCell(out intVec, map);
 		}
 
-		// Token: 0x06000DF5 RID: 3573 RVA: 0x00077170 File Offset: 0x00075570
+		// Token: 0x06000DF9 RID: 3577 RVA: 0x000772C0 File Offset: 0x000756C0
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -34,7 +34,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06000DF6 RID: 3574 RVA: 0x000771F4 File Offset: 0x000755F4
+		// Token: 0x06000DFA RID: 3578 RVA: 0x00077344 File Offset: 0x00075744
 		private Thing SpawnTunnel(int hiveCount, Map map)
 		{
 			IntVec3 loc;

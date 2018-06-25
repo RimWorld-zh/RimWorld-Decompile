@@ -4,13 +4,13 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000CD9 RID: 3289
+	// Token: 0x02000CDB RID: 3291
 	public class PatchOperationAttributeSet : PatchOperationAttribute
 	{
 		// Token: 0x04003115 RID: 12565
 		protected string value;
 
-		// Token: 0x06004892 RID: 18578 RVA: 0x00261CC8 File Offset: 0x002600C8
+		// Token: 0x06004895 RID: 18581 RVA: 0x00261DA4 File Offset: 0x002601A4
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
 			bool result = false;

@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000379 RID: 889
+	// Token: 0x0200037B RID: 891
 	public enum TechLevel : byte
 	{
 		// Token: 0x04000973 RID: 2419

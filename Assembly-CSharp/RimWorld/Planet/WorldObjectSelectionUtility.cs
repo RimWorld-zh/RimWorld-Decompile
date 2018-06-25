@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008EC RID: 2284
+	// Token: 0x020008EE RID: 2286
 	public static class WorldObjectSelectionUtility
 	{
-		// Token: 0x060034A9 RID: 13481 RVA: 0x001C20CC File Offset: 0x001C04CC
+		// Token: 0x060034AD RID: 13485 RVA: 0x001C220C File Offset: 0x001C060C
 		public static IEnumerable<WorldObject> MultiSelectableWorldObjectsInScreenRectDistinct(Rect rect)
 		{
 			List<WorldObject> allObjects = Find.WorldObjects.AllWorldObjects;
@@ -35,20 +35,20 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x060034AA RID: 13482 RVA: 0x001C20F8 File Offset: 0x001C04F8
+		// Token: 0x060034AE RID: 13486 RVA: 0x001C2238 File Offset: 0x001C0638
 		public static bool HiddenBehindTerrainNow(this WorldObject o)
 		{
 			return WorldRendererUtility.HiddenBehindTerrainNow(o.DrawPos);
 		}
 
-		// Token: 0x060034AB RID: 13483 RVA: 0x001C2118 File Offset: 0x001C0518
+		// Token: 0x060034AF RID: 13487 RVA: 0x001C2258 File Offset: 0x001C0658
 		public static Vector2 ScreenPos(this WorldObject o)
 		{
 			Vector3 drawPos = o.DrawPos;
 			return GenWorldUI.WorldToUIPosition(drawPos);
 		}
 
-		// Token: 0x060034AC RID: 13484 RVA: 0x001C213C File Offset: 0x001C053C
+		// Token: 0x060034B0 RID: 13488 RVA: 0x001C227C File Offset: 0x001C067C
 		public static bool VisibleToCameraNow(this WorldObject o)
 		{
 			bool result;
@@ -69,7 +69,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x060034AD RID: 13485 RVA: 0x001C21A0 File Offset: 0x001C05A0
+		// Token: 0x060034B1 RID: 13489 RVA: 0x001C22E0 File Offset: 0x001C06E0
 		public static float DistanceToMouse(this WorldObject o, Vector2 mousePos)
 		{
 			Ray ray = Find.WorldCamera.ScreenPointToRay(mousePos * Prefs.UIScale);

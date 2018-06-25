@@ -7,7 +7,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020008F0 RID: 2288
+	// Token: 0x020008F2 RID: 2290
 	[StaticConstructorOnStartup]
 	public class WorldTargeter
 	{
@@ -33,7 +33,7 @@ namespace RimWorld
 		private const float BaseFeedbackTexSize = 0.8f;
 
 		// Token: 0x1700088C RID: 2188
-		// (get) Token: 0x060034EC RID: 13548 RVA: 0x001C47AC File Offset: 0x001C2BAC
+		// (get) Token: 0x060034F0 RID: 13552 RVA: 0x001C48EC File Offset: 0x001C2CEC
 		public bool IsTargeting
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060034ED RID: 13549 RVA: 0x001C47CD File Offset: 0x001C2BCD
+		// Token: 0x060034F1 RID: 13553 RVA: 0x001C490D File Offset: 0x001C2D0D
 		public void BeginTargeting(Func<GlobalTargetInfo, bool> action, bool canTargetTiles, Texture2D mouseAttachment = null, bool closeWorldTabWhenFinished = false, Action onUpdate = null, Func<GlobalTargetInfo, string> extraLabelGetter = null)
 		{
 			this.action = action;
@@ -53,7 +53,7 @@ namespace RimWorld
 			this.extraLabelGetter = extraLabelGetter;
 		}
 
-		// Token: 0x060034EE RID: 13550 RVA: 0x001C47FD File Offset: 0x001C2BFD
+		// Token: 0x060034F2 RID: 13554 RVA: 0x001C493D File Offset: 0x001C2D3D
 		public void StopTargeting()
 		{
 			if (this.closeWorldTabWhenFinished)
@@ -68,7 +68,7 @@ namespace RimWorld
 			this.extraLabelGetter = null;
 		}
 
-		// Token: 0x060034EF RID: 13551 RVA: 0x001C483C File Offset: 0x001C2C3C
+		// Token: 0x060034F3 RID: 13555 RVA: 0x001C497C File Offset: 0x001C2D7C
 		public void ProcessInputEvents()
 		{
 			if (Event.current.type == EventType.MouseDown)
@@ -104,7 +104,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060034F0 RID: 13552 RVA: 0x001C4920 File Offset: 0x001C2D20
+		// Token: 0x060034F4 RID: 13556 RVA: 0x001C4A60 File Offset: 0x001C2E60
 		public void TargeterOnGUI()
 		{
 			if (this.IsTargeting && !Mouse.IsInputBlockedNow)
@@ -132,7 +132,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060034F1 RID: 13553 RVA: 0x001C4A5C File Offset: 0x001C2E5C
+		// Token: 0x060034F5 RID: 13557 RVA: 0x001C4B9C File Offset: 0x001C2F9C
 		public void TargeterUpdate()
 		{
 			if (this.IsTargeting)
@@ -158,7 +158,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060034F2 RID: 13554 RVA: 0x001C4B10 File Offset: 0x001C2F10
+		// Token: 0x060034F6 RID: 13558 RVA: 0x001C4C50 File Offset: 0x001C3050
 		public bool IsTargetedNow(WorldObject o, List<WorldObject> worldObjectsUnderMouse = null)
 		{
 			bool result;
@@ -177,7 +177,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060034F3 RID: 13555 RVA: 0x001C4B68 File Offset: 0x001C2F68
+		// Token: 0x060034F7 RID: 13559 RVA: 0x001C4CA8 File Offset: 0x001C30A8
 		private GlobalTargetInfo CurrentTargetUnderMouse()
 		{
 			GlobalTargetInfo result;

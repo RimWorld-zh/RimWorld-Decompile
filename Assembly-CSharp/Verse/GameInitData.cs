@@ -6,7 +6,7 @@ using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x02000BC7 RID: 3015
+	// Token: 0x02000BC9 RID: 3017
 	public class GameInitData
 	{
 		// Token: 0x04002CDA RID: 11482
@@ -39,8 +39,8 @@ namespace Verse
 		// Token: 0x04002CE3 RID: 11491
 		public const int DefaultMapSize = 250;
 
-		// Token: 0x17000A43 RID: 2627
-		// (get) Token: 0x060041B0 RID: 16816 RVA: 0x0022A600 File Offset: 0x00228A00
+		// Token: 0x17000A42 RID: 2626
+		// (get) Token: 0x060041B3 RID: 16819 RVA: 0x0022A6DC File Offset: 0x00228ADC
 		public bool QuickStarted
 		{
 			get
@@ -49,13 +49,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041B1 RID: 16817 RVA: 0x0022A631 File Offset: 0x00228A31
+		// Token: 0x060041B4 RID: 16820 RVA: 0x0022A70D File Offset: 0x00228B0D
 		public void ChooseRandomStartingTile()
 		{
 			this.startingTile = TileFinder.RandomStartingTile();
 		}
 
-		// Token: 0x060041B2 RID: 16818 RVA: 0x0022A63F File Offset: 0x00228A3F
+		// Token: 0x060041B5 RID: 16821 RVA: 0x0022A71B File Offset: 0x00228B1B
 		public void ResetWorldRelatedMapInitData()
 		{
 			Current.Game.World = null;
@@ -64,7 +64,7 @@ namespace Verse
 			this.startingTile = -1;
 		}
 
-		// Token: 0x060041B3 RID: 16819 RVA: 0x0022A668 File Offset: 0x00228A68
+		// Token: 0x060041B6 RID: 16822 RVA: 0x0022A744 File Offset: 0x00228B44
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -76,7 +76,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x060041B4 RID: 16820 RVA: 0x0022A6BC File Offset: 0x00228ABC
+		// Token: 0x060041B7 RID: 16823 RVA: 0x0022A798 File Offset: 0x00228B98
 		public void PrepForMapGen()
 		{
 			while (this.startingAndOptionalPawns.Count > this.startingPawnCount)

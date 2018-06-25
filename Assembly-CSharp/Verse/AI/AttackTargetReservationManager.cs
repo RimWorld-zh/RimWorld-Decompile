@@ -4,22 +4,22 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000AA2 RID: 2722
+	// Token: 0x02000AA4 RID: 2724
 	public class AttackTargetReservationManager : IExposable
 	{
-		// Token: 0x04002672 RID: 9842
+		// Token: 0x04002673 RID: 9843
 		private Map map;
 
-		// Token: 0x04002673 RID: 9843
+		// Token: 0x04002674 RID: 9844
 		private List<AttackTargetReservationManager.AttackTargetReservation> reservations = new List<AttackTargetReservationManager.AttackTargetReservation>();
 
-		// Token: 0x06003CBD RID: 15549 RVA: 0x0020293B File Offset: 0x00200D3B
+		// Token: 0x06003CC1 RID: 15553 RVA: 0x00202A67 File Offset: 0x00200E67
 		public AttackTargetReservationManager(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x06003CBE RID: 15550 RVA: 0x00202958 File Offset: 0x00200D58
+		// Token: 0x06003CC2 RID: 15554 RVA: 0x00202A84 File Offset: 0x00200E84
 		public void Reserve(Pawn claimant, Job job, IAttackTarget target)
 		{
 			if (target == null)
@@ -36,7 +36,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003CBF RID: 15551 RVA: 0x002029BC File Offset: 0x00200DBC
+		// Token: 0x06003CC3 RID: 15555 RVA: 0x00202AE8 File Offset: 0x00200EE8
 		public void Release(Pawn claimant, Job job, IAttackTarget target)
 		{
 			if (target == null)
@@ -66,7 +66,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003CC0 RID: 15552 RVA: 0x00202A80 File Offset: 0x00200E80
+		// Token: 0x06003CC4 RID: 15556 RVA: 0x00202BAC File Offset: 0x00200FAC
 		public bool CanReserve(Pawn claimant, IAttackTarget target)
 		{
 			bool result;
@@ -83,7 +83,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003CC1 RID: 15553 RVA: 0x00202AC4 File Offset: 0x00200EC4
+		// Token: 0x06003CC5 RID: 15557 RVA: 0x00202BF0 File Offset: 0x00200FF0
 		public bool IsReservedBy(Pawn claimant, IAttackTarget target)
 		{
 			for (int i = 0; i < this.reservations.Count; i++)
@@ -97,13 +97,13 @@ namespace Verse.AI
 			return false;
 		}
 
-		// Token: 0x06003CC2 RID: 15554 RVA: 0x00202B24 File Offset: 0x00200F24
+		// Token: 0x06003CC6 RID: 15558 RVA: 0x00202C50 File Offset: 0x00201050
 		public void ReleaseAllForTarget(IAttackTarget target)
 		{
 			this.reservations.RemoveAll((AttackTargetReservationManager.AttackTargetReservation x) => x.target == target);
 		}
 
-		// Token: 0x06003CC3 RID: 15555 RVA: 0x00202B58 File Offset: 0x00200F58
+		// Token: 0x06003CC7 RID: 15559 RVA: 0x00202C84 File Offset: 0x00201084
 		public void ReleaseClaimedBy(Pawn claimant, Job job)
 		{
 			for (int i = this.reservations.Count - 1; i >= 0; i--)
@@ -115,7 +115,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003CC4 RID: 15556 RVA: 0x00202BC0 File Offset: 0x00200FC0
+		// Token: 0x06003CC8 RID: 15560 RVA: 0x00202CEC File Offset: 0x002010EC
 		public void ReleaseAllClaimedBy(Pawn claimant)
 		{
 			for (int i = this.reservations.Count - 1; i >= 0; i--)
@@ -127,7 +127,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003CC5 RID: 15557 RVA: 0x00202C14 File Offset: 0x00201014
+		// Token: 0x06003CC9 RID: 15561 RVA: 0x00202D40 File Offset: 0x00201140
 		public IAttackTarget FirstReservationFor(Pawn claimant)
 		{
 			for (int i = this.reservations.Count - 1; i >= 0; i--)
@@ -140,7 +140,7 @@ namespace Verse.AI
 			return null;
 		}
 
-		// Token: 0x06003CC6 RID: 15558 RVA: 0x00202C78 File Offset: 0x00201078
+		// Token: 0x06003CCA RID: 15562 RVA: 0x00202DA4 File Offset: 0x002011A4
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<AttackTargetReservationManager.AttackTargetReservation>(ref this.reservations, "reservations", LookMode.Deep, new object[0]);
@@ -154,7 +154,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003CC7 RID: 15559 RVA: 0x00202D0C File Offset: 0x0020110C
+		// Token: 0x06003CCB RID: 15563 RVA: 0x00202E38 File Offset: 0x00201238
 		private int GetReservationsCount(IAttackTarget target, Faction faction)
 		{
 			int num = 0;
@@ -169,7 +169,7 @@ namespace Verse.AI
 			return num;
 		}
 
-		// Token: 0x06003CC8 RID: 15560 RVA: 0x00202D70 File Offset: 0x00201170
+		// Token: 0x06003CCC RID: 15564 RVA: 0x00202E9C File Offset: 0x0020129C
 		private int GetMaxPreferredReservationsCount(IAttackTarget target)
 		{
 			int num = 0;
@@ -191,19 +191,19 @@ namespace Verse.AI
 			return num;
 		}
 
-		// Token: 0x02000AA3 RID: 2723
+		// Token: 0x02000AA5 RID: 2725
 		public class AttackTargetReservation : IExposable
 		{
-			// Token: 0x04002676 RID: 9846
+			// Token: 0x04002677 RID: 9847
 			public IAttackTarget target;
 
-			// Token: 0x04002677 RID: 9847
+			// Token: 0x04002678 RID: 9848
 			public Pawn claimant;
 
-			// Token: 0x04002678 RID: 9848
+			// Token: 0x04002679 RID: 9849
 			public Job job;
 
-			// Token: 0x06003CCC RID: 15564 RVA: 0x00202E6F File Offset: 0x0020126F
+			// Token: 0x06003CD0 RID: 15568 RVA: 0x00202F9B File Offset: 0x0020139B
 			public void ExposeData()
 			{
 				Scribe_References.Look<IAttackTarget>(ref this.target, "target", false);

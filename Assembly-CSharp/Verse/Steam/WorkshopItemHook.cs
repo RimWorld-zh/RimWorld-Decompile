@@ -5,19 +5,19 @@ using Steamworks;
 
 namespace Verse.Steam
 {
-	// Token: 0x02000FC5 RID: 4037
+	// Token: 0x02000FC9 RID: 4041
 	public class WorkshopItemHook
 	{
-		// Token: 0x04003FD0 RID: 16336
+		// Token: 0x04003FD8 RID: 16344
 		private WorkshopUploadable owner;
 
-		// Token: 0x04003FD1 RID: 16337
+		// Token: 0x04003FD9 RID: 16345
 		private CSteamID steamAuthor = CSteamID.Nil;
 
-		// Token: 0x04003FD2 RID: 16338
+		// Token: 0x04003FDA RID: 16346
 		private CallResult<SteamUGCRequestUGCDetailsResult_t> queryResult;
 
-		// Token: 0x0600619E RID: 24990 RVA: 0x003142E0 File Offset: 0x003126E0
+		// Token: 0x060061AE RID: 25006 RVA: 0x00314DC0 File Offset: 0x003131C0
 		public WorkshopItemHook(WorkshopUploadable owner)
 		{
 			this.owner = owner;
@@ -27,9 +27,9 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x17000FC9 RID: 4041
-		// (get) Token: 0x0600619F RID: 24991 RVA: 0x00314318 File Offset: 0x00312718
-		// (set) Token: 0x060061A0 RID: 24992 RVA: 0x00314338 File Offset: 0x00312738
+		// Token: 0x17000FCA RID: 4042
+		// (get) Token: 0x060061AF RID: 25007 RVA: 0x00314DF8 File Offset: 0x003131F8
+		// (set) Token: 0x060061B0 RID: 25008 RVA: 0x00314E18 File Offset: 0x00313218
 		public PublishedFileId_t PublishedFileId
 		{
 			get
@@ -42,8 +42,8 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x17000FCA RID: 4042
-		// (get) Token: 0x060061A1 RID: 24993 RVA: 0x00314348 File Offset: 0x00312748
+		// Token: 0x17000FCB RID: 4043
+		// (get) Token: 0x060061B1 RID: 25009 RVA: 0x00314E28 File Offset: 0x00313228
 		public string Name
 		{
 			get
@@ -52,8 +52,8 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x17000FCB RID: 4043
-		// (get) Token: 0x060061A2 RID: 24994 RVA: 0x00314368 File Offset: 0x00312768
+		// Token: 0x17000FCC RID: 4044
+		// (get) Token: 0x060061B2 RID: 25010 RVA: 0x00314E48 File Offset: 0x00313248
 		public string Description
 		{
 			get
@@ -62,8 +62,8 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x17000FCC RID: 4044
-		// (get) Token: 0x060061A3 RID: 24995 RVA: 0x00314388 File Offset: 0x00312788
+		// Token: 0x17000FCD RID: 4045
+		// (get) Token: 0x060061B3 RID: 25011 RVA: 0x00314E68 File Offset: 0x00313268
 		public string PreviewImagePath
 		{
 			get
@@ -72,8 +72,8 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x17000FCD RID: 4045
-		// (get) Token: 0x060061A4 RID: 24996 RVA: 0x003143A8 File Offset: 0x003127A8
+		// Token: 0x17000FCE RID: 4046
+		// (get) Token: 0x060061B4 RID: 25012 RVA: 0x00314E88 File Offset: 0x00313288
 		public IList<string> Tags
 		{
 			get
@@ -82,8 +82,8 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x17000FCE RID: 4046
-		// (get) Token: 0x060061A5 RID: 24997 RVA: 0x003143C8 File Offset: 0x003127C8
+		// Token: 0x17000FCF RID: 4047
+		// (get) Token: 0x060061B5 RID: 25013 RVA: 0x00314EA8 File Offset: 0x003132A8
 		public DirectoryInfo Directory
 		{
 			get
@@ -92,8 +92,8 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x17000FCF RID: 4047
-		// (get) Token: 0x060061A6 RID: 24998 RVA: 0x003143E8 File Offset: 0x003127E8
+		// Token: 0x17000FD0 RID: 4048
+		// (get) Token: 0x060061B6 RID: 25014 RVA: 0x00314EC8 File Offset: 0x003132C8
 		public bool MayHaveAuthorNotCurrentUser
 		{
 			get
@@ -102,13 +102,13 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x060061A7 RID: 24999 RVA: 0x00314445 File Offset: 0x00312845
+		// Token: 0x060061B7 RID: 25015 RVA: 0x00314F25 File Offset: 0x00313325
 		public void PrepareForWorkshopUpload()
 		{
 			this.owner.PrepareForWorkshopUpload();
 		}
 
-		// Token: 0x060061A8 RID: 25000 RVA: 0x00314454 File Offset: 0x00312854
+		// Token: 0x060061B8 RID: 25016 RVA: 0x00314F34 File Offset: 0x00313334
 		private void SendSteamDetailsQuery()
 		{
 			SteamAPICall_t hAPICall = SteamUGC.RequestUGCDetails(this.PublishedFileId, 999999u);
@@ -116,7 +116,7 @@ namespace Verse.Steam
 			this.queryResult.Set(hAPICall, null);
 		}
 
-		// Token: 0x060061A9 RID: 25001 RVA: 0x00314497 File Offset: 0x00312897
+		// Token: 0x060061B9 RID: 25017 RVA: 0x00314F77 File Offset: 0x00313377
 		private void OnDetailsQueryReturned(SteamUGCRequestUGCDetailsResult_t result, bool IOFailure)
 		{
 			this.steamAuthor = (CSteamID)result.m_details.m_ulSteamIDOwner;

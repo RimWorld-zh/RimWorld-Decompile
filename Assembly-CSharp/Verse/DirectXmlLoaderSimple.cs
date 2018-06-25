@@ -6,10 +6,10 @@ using System.Xml.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000D7F RID: 3455
+	// Token: 0x02000D81 RID: 3457
 	public static class DirectXmlLoaderSimple
 	{
-		// Token: 0x06004D6D RID: 19821 RVA: 0x00285B6C File Offset: 0x00283F6C
+		// Token: 0x06004D71 RID: 19825 RVA: 0x00285C98 File Offset: 0x00284098
 		public static IEnumerable<DirectXmlLoaderSimple.XmlKeyValuePair> ValuesFromXmlFile(FileInfo file)
 		{
 			XDocument doc = XDocument.Load(file.FullName, LoadOptions.SetLineInfo);
@@ -28,7 +28,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x02000D80 RID: 3456
+		// Token: 0x02000D82 RID: 3458
 		public struct XmlKeyValuePair
 		{
 			// Token: 0x040033A5 RID: 13221

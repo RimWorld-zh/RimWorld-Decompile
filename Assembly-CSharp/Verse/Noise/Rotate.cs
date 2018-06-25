@@ -3,67 +3,67 @@ using System.Diagnostics;
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F96 RID: 3990
+	// Token: 0x02000F9A RID: 3994
 	public class Rotate : ModuleBase
 	{
-		// Token: 0x04003F1D RID: 16157
+		// Token: 0x04003F20 RID: 16160
 		private double m_x = 0.0;
 
-		// Token: 0x04003F1E RID: 16158
+		// Token: 0x04003F21 RID: 16161
 		private double m_x1Matrix = 0.0;
 
-		// Token: 0x04003F1F RID: 16159
+		// Token: 0x04003F22 RID: 16162
 		private double m_x2Matrix = 0.0;
 
-		// Token: 0x04003F20 RID: 16160
+		// Token: 0x04003F23 RID: 16163
 		private double m_x3Matrix = 0.0;
 
-		// Token: 0x04003F21 RID: 16161
+		// Token: 0x04003F24 RID: 16164
 		private double m_y = 0.0;
 
-		// Token: 0x04003F22 RID: 16162
+		// Token: 0x04003F25 RID: 16165
 		private double m_y1Matrix = 0.0;
 
-		// Token: 0x04003F23 RID: 16163
+		// Token: 0x04003F26 RID: 16166
 		private double m_y2Matrix = 0.0;
 
-		// Token: 0x04003F24 RID: 16164
+		// Token: 0x04003F27 RID: 16167
 		private double m_y3Matrix = 0.0;
 
-		// Token: 0x04003F25 RID: 16165
+		// Token: 0x04003F28 RID: 16168
 		private double m_z = 0.0;
 
-		// Token: 0x04003F26 RID: 16166
+		// Token: 0x04003F29 RID: 16169
 		private double m_z1Matrix = 0.0;
 
-		// Token: 0x04003F27 RID: 16167
+		// Token: 0x04003F2A RID: 16170
 		private double m_z2Matrix = 0.0;
 
-		// Token: 0x04003F28 RID: 16168
+		// Token: 0x04003F2B RID: 16171
 		private double m_z3Matrix = 0.0;
 
-		// Token: 0x06006054 RID: 24660 RVA: 0x0030E0C0 File Offset: 0x0030C4C0
+		// Token: 0x0600605E RID: 24670 RVA: 0x0030E740 File Offset: 0x0030CB40
 		public Rotate() : base(1)
 		{
 			this.SetAngles(0.0, 0.0, 0.0);
 		}
 
-		// Token: 0x06006055 RID: 24661 RVA: 0x0030E1AC File Offset: 0x0030C5AC
+		// Token: 0x0600605F RID: 24671 RVA: 0x0030E82C File Offset: 0x0030CC2C
 		public Rotate(ModuleBase input) : base(1)
 		{
 			this.modules[0] = input;
 		}
 
-		// Token: 0x06006056 RID: 24662 RVA: 0x0030E280 File Offset: 0x0030C680
+		// Token: 0x06006060 RID: 24672 RVA: 0x0030E900 File Offset: 0x0030CD00
 		public Rotate(double x, double y, double z, ModuleBase input) : base(1)
 		{
 			this.modules[0] = input;
 			this.SetAngles(x, y, z);
 		}
 
-		// Token: 0x17000F7B RID: 3963
-		// (get) Token: 0x06006057 RID: 24663 RVA: 0x0030E35C File Offset: 0x0030C75C
-		// (set) Token: 0x06006058 RID: 24664 RVA: 0x0030E377 File Offset: 0x0030C777
+		// Token: 0x17000F7A RID: 3962
+		// (get) Token: 0x06006061 RID: 24673 RVA: 0x0030E9DC File Offset: 0x0030CDDC
+		// (set) Token: 0x06006062 RID: 24674 RVA: 0x0030E9F7 File Offset: 0x0030CDF7
 		public double X
 		{
 			get
@@ -76,9 +76,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F7C RID: 3964
-		// (get) Token: 0x06006059 RID: 24665 RVA: 0x0030E390 File Offset: 0x0030C790
-		// (set) Token: 0x0600605A RID: 24666 RVA: 0x0030E3AB File Offset: 0x0030C7AB
+		// Token: 0x17000F7B RID: 3963
+		// (get) Token: 0x06006063 RID: 24675 RVA: 0x0030EA10 File Offset: 0x0030CE10
+		// (set) Token: 0x06006064 RID: 24676 RVA: 0x0030EA2B File Offset: 0x0030CE2B
 		public double Y
 		{
 			get
@@ -91,9 +91,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F7D RID: 3965
-		// (get) Token: 0x0600605B RID: 24667 RVA: 0x0030E3C4 File Offset: 0x0030C7C4
-		// (set) Token: 0x0600605C RID: 24668 RVA: 0x0030E3DF File Offset: 0x0030C7DF
+		// Token: 0x17000F7C RID: 3964
+		// (get) Token: 0x06006065 RID: 24677 RVA: 0x0030EA44 File Offset: 0x0030CE44
+		// (set) Token: 0x06006066 RID: 24678 RVA: 0x0030EA5F File Offset: 0x0030CE5F
 		public double Z
 		{
 			get
@@ -106,7 +106,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x0600605D RID: 24669 RVA: 0x0030E3F8 File Offset: 0x0030C7F8
+		// Token: 0x06006067 RID: 24679 RVA: 0x0030EA78 File Offset: 0x0030CE78
 		private void SetAngles(double x, double y, double z)
 		{
 			double num = Math.Cos(x * 0.017453292519943295);
@@ -129,7 +129,7 @@ namespace Verse.Noise
 			this.m_z = z;
 		}
 
-		// Token: 0x0600605E RID: 24670 RVA: 0x0030E4F8 File Offset: 0x0030C8F8
+		// Token: 0x06006068 RID: 24680 RVA: 0x0030EB78 File Offset: 0x0030CF78
 		public override double GetValue(double x, double y, double z)
 		{
 			Debug.Assert(this.modules[0] != null);

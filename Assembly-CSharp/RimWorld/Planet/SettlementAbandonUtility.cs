@@ -8,14 +8,14 @@ using Verse.Sound;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000603 RID: 1539
+	// Token: 0x02000605 RID: 1541
 	[StaticConstructorOnStartup]
 	public static class SettlementAbandonUtility
 	{
 		// Token: 0x04001229 RID: 4649
 		private static readonly Texture2D AbandonCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/AbandonHome", true);
 
-		// Token: 0x06001EDF RID: 7903 RVA: 0x0010CA0C File Offset: 0x0010AE0C
+		// Token: 0x06001EE3 RID: 7907 RVA: 0x0010CB5C File Offset: 0x0010AF5C
 		public static Command AbandonCommand(MapParent settlement)
 		{
 			Command_Action command_Action = new Command_Action();
@@ -34,13 +34,13 @@ namespace RimWorld.Planet
 			return command_Action;
 		}
 
-		// Token: 0x06001EE0 RID: 7904 RVA: 0x0010CAA0 File Offset: 0x0010AEA0
+		// Token: 0x06001EE4 RID: 7908 RVA: 0x0010CBF0 File Offset: 0x0010AFF0
 		public static bool AllColonistsThere(MapParent settlement)
 		{
 			return !CaravanUtility.PlayerHasAnyCaravan() && !Find.Maps.Any((Map x) => x.info.parent != settlement && x.mapPawns.FreeColonistsSpawned.Any<Pawn>());
 		}
 
-		// Token: 0x06001EE1 RID: 7905 RVA: 0x0010CAE8 File Offset: 0x0010AEE8
+		// Token: 0x06001EE5 RID: 7909 RVA: 0x0010CC38 File Offset: 0x0010B038
 		public static void TryAbandonViaInterface(MapParent settlement)
 		{
 			Map map = settlement.Map;
@@ -87,7 +87,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EE2 RID: 7906 RVA: 0x0010CC8C File Offset: 0x0010B08C
+		// Token: 0x06001EE6 RID: 7910 RVA: 0x0010CDDC File Offset: 0x0010B1DC
 		private static void Abandon(MapParent settlement)
 		{
 			Find.WorldObjects.Remove(settlement);
@@ -99,7 +99,7 @@ namespace RimWorld.Planet
 			Find.GameEnder.CheckOrUpdateGameOver();
 		}
 
-		// Token: 0x06001EE3 RID: 7907 RVA: 0x0010CCC4 File Offset: 0x0010B0C4
+		// Token: 0x06001EE7 RID: 7911 RVA: 0x0010CE14 File Offset: 0x0010B214
 		private static void AddAbandonedBase(FactionBase factionBase)
 		{
 			WorldObject worldObject = WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.AbandonedBase);

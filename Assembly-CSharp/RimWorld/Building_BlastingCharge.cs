@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000681 RID: 1665
+	// Token: 0x02000683 RID: 1667
 	public class Building_BlastingCharge : Building
 	{
-		// Token: 0x06002319 RID: 8985 RVA: 0x0012E284 File Offset: 0x0012C684
+		// Token: 0x0600231D RID: 8989 RVA: 0x0012E3D4 File Offset: 0x0012C7D4
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			Command_Action com = new Command_Action();
@@ -24,7 +24,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600231A RID: 8986 RVA: 0x0012E2AE File Offset: 0x0012C6AE
+		// Token: 0x0600231E RID: 8990 RVA: 0x0012E3FE File Offset: 0x0012C7FE
 		private void Command_Detonate()
 		{
 			base.GetComp<CompExplosive>().StartWick(null);

@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000AEC RID: 2796
+	// Token: 0x02000AEE RID: 2798
 	public class SubcameraDriver : MonoBehaviour
 	{
-		// Token: 0x04002731 RID: 10033
+		// Token: 0x04002732 RID: 10034
 		private Camera[] subcameras;
 
-		// Token: 0x06003DF3 RID: 15859 RVA: 0x0020B000 File Offset: 0x00209400
+		// Token: 0x06003DF7 RID: 15863 RVA: 0x0020B12C File Offset: 0x0020952C
 		public void Init()
 		{
 			if (this.subcameras == null)
@@ -58,7 +58,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DF4 RID: 15860 RVA: 0x0020B1CC File Offset: 0x002095CC
+		// Token: 0x06003DF8 RID: 15864 RVA: 0x0020B2F8 File Offset: 0x002096F8
 		public void UpdatePositions(Camera camera)
 		{
 			if (this.subcameras != null)
@@ -85,7 +85,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DF5 RID: 15861 RVA: 0x0020B2AC File Offset: 0x002096AC
+		// Token: 0x06003DF9 RID: 15865 RVA: 0x0020B3D8 File Offset: 0x002097D8
 		public Camera GetSubcamera(SubcameraDef def)
 		{
 			Camera result;

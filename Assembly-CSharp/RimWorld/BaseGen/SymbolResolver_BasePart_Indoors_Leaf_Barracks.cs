@@ -2,10 +2,10 @@
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x02000393 RID: 915
+	// Token: 0x02000395 RID: 917
 	public class SymbolResolver_BasePart_Indoors_Leaf_Barracks : SymbolResolver
 	{
-		// Token: 0x06000FFC RID: 4092 RVA: 0x00086D04 File Offset: 0x00085104
+		// Token: 0x06001000 RID: 4096 RVA: 0x00086E54 File Offset: 0x00085254
 		public override void Resolve(ResolveParams rp)
 		{
 			BaseGen.symbolStack.Push("barracks", rp);

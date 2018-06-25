@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000515 RID: 1301
+	// Token: 0x02000517 RID: 1303
 	public class Pawn_Ownership : IExposable
 	{
 		// Token: 0x04000DED RID: 3565
@@ -13,15 +13,15 @@ namespace RimWorld
 		// Token: 0x04000DEE RID: 3566
 		private Building_Bed intOwnedBed;
 
-		// Token: 0x06001797 RID: 6039 RVA: 0x000CE968 File Offset: 0x000CCD68
+		// Token: 0x0600179B RID: 6043 RVA: 0x000CEAB8 File Offset: 0x000CCEB8
 		public Pawn_Ownership(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
 		// Token: 0x17000342 RID: 834
-		// (get) Token: 0x06001798 RID: 6040 RVA: 0x000CE978 File Offset: 0x000CCD78
-		// (set) Token: 0x06001799 RID: 6041 RVA: 0x000CE993 File Offset: 0x000CCD93
+		// (get) Token: 0x0600179C RID: 6044 RVA: 0x000CEAC8 File Offset: 0x000CCEC8
+		// (set) Token: 0x0600179D RID: 6045 RVA: 0x000CEAE3 File Offset: 0x000CCEE3
 		public Building_Bed OwnedBed
 		{
 			get
@@ -39,12 +39,12 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000343 RID: 835
-		// (get) Token: 0x0600179A RID: 6042 RVA: 0x000CE9B8 File Offset: 0x000CCDB8
-		// (set) Token: 0x0600179B RID: 6043 RVA: 0x000CE9D2 File Offset: 0x000CCDD2
+		// (get) Token: 0x0600179E RID: 6046 RVA: 0x000CEB08 File Offset: 0x000CCF08
+		// (set) Token: 0x0600179F RID: 6047 RVA: 0x000CEB22 File Offset: 0x000CCF22
 		public Building_Grave AssignedGrave { get; private set; }
 
 		// Token: 0x17000344 RID: 836
-		// (get) Token: 0x0600179C RID: 6044 RVA: 0x000CE9DC File Offset: 0x000CCDDC
+		// (get) Token: 0x060017A0 RID: 6048 RVA: 0x000CEB2C File Offset: 0x000CCF2C
 		public Room OwnedRoom
 		{
 			get
@@ -74,7 +74,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600179D RID: 6045 RVA: 0x000CEA3C File Offset: 0x000CCE3C
+		// Token: 0x060017A1 RID: 6049 RVA: 0x000CEB8C File Offset: 0x000CCF8C
 		public void ExposeData()
 		{
 			Building_Grave assignedGrave = this.AssignedGrave;
@@ -95,7 +95,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600179E RID: 6046 RVA: 0x000CEAD0 File Offset: 0x000CCED0
+		// Token: 0x060017A2 RID: 6050 RVA: 0x000CEC20 File Offset: 0x000CD020
 		public void ClaimBedIfNonMedical(Building_Bed newBed)
 		{
 			if (!newBed.owners.Contains(this.pawn) && !newBed.Medical)
@@ -116,7 +116,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600179F RID: 6047 RVA: 0x000CEB8E File Offset: 0x000CCF8E
+		// Token: 0x060017A3 RID: 6051 RVA: 0x000CECDE File Offset: 0x000CD0DE
 		public void UnclaimBed()
 		{
 			if (this.OwnedBed != null)
@@ -126,7 +126,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017A0 RID: 6048 RVA: 0x000CEBBC File Offset: 0x000CCFBC
+		// Token: 0x060017A4 RID: 6052 RVA: 0x000CED0C File Offset: 0x000CD10C
 		public void ClaimGrave(Building_Grave newGrave)
 		{
 			if (newGrave.assignedPawn != this.pawn)
@@ -142,7 +142,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017A1 RID: 6049 RVA: 0x000CEC20 File Offset: 0x000CD020
+		// Token: 0x060017A5 RID: 6053 RVA: 0x000CED70 File Offset: 0x000CD170
 		public void UnclaimGrave()
 		{
 			if (this.AssignedGrave != null)
@@ -153,14 +153,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017A2 RID: 6050 RVA: 0x000CEC54 File Offset: 0x000CD054
+		// Token: 0x060017A6 RID: 6054 RVA: 0x000CEDA4 File Offset: 0x000CD1A4
 		public void UnclaimAll()
 		{
 			this.UnclaimBed();
 			this.UnclaimGrave();
 		}
 
-		// Token: 0x060017A3 RID: 6051 RVA: 0x000CEC64 File Offset: 0x000CD064
+		// Token: 0x060017A7 RID: 6055 RVA: 0x000CEDB4 File Offset: 0x000CD1B4
 		public void Notify_ChangedGuestStatus()
 		{
 			if (this.OwnedBed != null)

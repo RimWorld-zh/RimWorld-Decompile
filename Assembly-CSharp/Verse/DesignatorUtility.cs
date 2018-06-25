@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E12 RID: 3602
+	// Token: 0x02000E14 RID: 3604
 	[StaticConstructorOnStartup]
 	public static class DesignatorUtility
 	{
@@ -21,7 +21,7 @@ namespace Verse
 		// Token: 0x0400358E RID: 13710
 		private static HashSet<Thing> selectedThings = new HashSet<Thing>();
 
-		// Token: 0x060051D0 RID: 20944 RVA: 0x0029EE00 File Offset: 0x0029D200
+		// Token: 0x060051D4 RID: 20948 RVA: 0x0029EF2C File Offset: 0x0029D32C
 		public static Designator FindAllowedDesignator<T>() where T : Designator
 		{
 			List<DesignationCategoryDef> allDefsListForReading = DefDatabase<DesignationCategoryDef>.AllDefsListForReading;
@@ -50,7 +50,7 @@ namespace Verse
 			return designator;
 		}
 
-		// Token: 0x060051D1 RID: 20945 RVA: 0x0029EF00 File Offset: 0x0029D300
+		// Token: 0x060051D5 RID: 20949 RVA: 0x0029F02C File Offset: 0x0029D42C
 		public static void RenderHighlightOverSelectableCells(Designator designator, List<IntVec3> dragCells)
 		{
 			for (int i = 0; i < dragCells.Count; i++)
@@ -61,7 +61,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060051D2 RID: 20946 RVA: 0x0029EF5C File Offset: 0x0029D35C
+		// Token: 0x060051D6 RID: 20950 RVA: 0x0029F088 File Offset: 0x0029D488
 		public static void RenderHighlightOverSelectableThings(Designator designator, List<IntVec3> dragCells)
 		{
 			DesignatorUtility.selectedThings.Clear();

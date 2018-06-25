@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000486 RID: 1158
+	// Token: 0x02000488 RID: 1160
 	public enum NameStyle
 	{
 		// Token: 0x04000C48 RID: 3144

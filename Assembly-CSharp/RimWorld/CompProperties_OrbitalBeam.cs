@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200024C RID: 588
+	// Token: 0x0200024E RID: 590
 	public class CompProperties_OrbitalBeam : CompProperties
 	{
 		// Token: 0x04000499 RID: 1177
@@ -17,13 +17,13 @@ namespace RimWorld
 		// Token: 0x0400049B RID: 1179
 		public SoundDef sound;
 
-		// Token: 0x06000A80 RID: 2688 RVA: 0x0005F3AE File Offset: 0x0005D7AE
+		// Token: 0x06000A84 RID: 2692 RVA: 0x0005F4FE File Offset: 0x0005D8FE
 		public CompProperties_OrbitalBeam()
 		{
 			this.compClass = typeof(CompOrbitalBeam);
 		}
 
-		// Token: 0x06000A81 RID: 2689 RVA: 0x0005F3E0 File Offset: 0x0005D7E0
+		// Token: 0x06000A85 RID: 2693 RVA: 0x0005F530 File Offset: 0x0005D930
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0(parentDef))

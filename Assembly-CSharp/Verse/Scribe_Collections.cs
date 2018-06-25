@@ -6,16 +6,16 @@ using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x02000DA4 RID: 3492
+	// Token: 0x02000DA6 RID: 3494
 	public static class Scribe_Collections
 	{
-		// Token: 0x06004E12 RID: 19986 RVA: 0x0028CD78 File Offset: 0x0028B178
+		// Token: 0x06004E16 RID: 19990 RVA: 0x0028CEA4 File Offset: 0x0028B2A4
 		public static void Look<T>(ref List<T> list, string label, LookMode lookMode = LookMode.Undefined, params object[] ctorArgs)
 		{
 			Scribe_Collections.Look<T>(ref list, false, label, lookMode, ctorArgs);
 		}
 
-		// Token: 0x06004E13 RID: 19987 RVA: 0x0028CD88 File Offset: 0x0028B188
+		// Token: 0x06004E17 RID: 19991 RVA: 0x0028CEB4 File Offset: 0x0028B2B4
 		public static void Look<T>(ref List<T> list, bool saveDestroyedThings, string label, LookMode lookMode = LookMode.Undefined, params object[] ctorArgs)
 		{
 			if (lookMode == LookMode.Undefined)
@@ -368,7 +368,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004E14 RID: 19988 RVA: 0x0028D824 File Offset: 0x0028BC24
+		// Token: 0x06004E18 RID: 19992 RVA: 0x0028D950 File Offset: 0x0028BD50
 		public static void Look<K, V>(ref Dictionary<K, V> dict, string label, LookMode keyLookMode = LookMode.Undefined, LookMode valueLookMode = LookMode.Undefined)
 		{
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
@@ -385,7 +385,7 @@ namespace Verse
 			Scribe_Collections.Look<K, V>(ref dict, label, keyLookMode, valueLookMode, ref list, ref list2);
 		}
 
-		// Token: 0x06004E15 RID: 19989 RVA: 0x0028D874 File Offset: 0x0028BC74
+		// Token: 0x06004E19 RID: 19993 RVA: 0x0028D9A0 File Offset: 0x0028BDA0
 		public static void Look<K, V>(ref Dictionary<K, V> dict, string label, LookMode keyLookMode, LookMode valueLookMode, ref List<K> keysWorkingList, ref List<V> valuesWorkingList)
 		{
 			if (Scribe.EnterNode(label))
@@ -530,13 +530,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004E16 RID: 19990 RVA: 0x0028DC70 File Offset: 0x0028C070
+		// Token: 0x06004E1A RID: 19994 RVA: 0x0028DD9C File Offset: 0x0028C19C
 		public static void Look<T>(ref HashSet<T> valueHashSet, string label, LookMode lookMode = LookMode.Undefined)
 		{
 			Scribe_Collections.Look<T>(ref valueHashSet, false, label, lookMode);
 		}
 
-		// Token: 0x06004E17 RID: 19991 RVA: 0x0028DC7C File Offset: 0x0028C07C
+		// Token: 0x06004E1B RID: 19995 RVA: 0x0028DDA8 File Offset: 0x0028C1A8
 		public static void Look<T>(ref HashSet<T> valueHashSet, bool saveDestroyedThings, string label, LookMode lookMode = LookMode.Undefined)
 		{
 			List<T> list = null;
@@ -569,7 +569,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004E18 RID: 19992 RVA: 0x0028DD6C File Offset: 0x0028C16C
+		// Token: 0x06004E1C RID: 19996 RVA: 0x0028DE98 File Offset: 0x0028C298
 		public static void Look<T>(ref Stack<T> valueStack, string label, LookMode lookMode = LookMode.Undefined)
 		{
 			List<T> list = null;

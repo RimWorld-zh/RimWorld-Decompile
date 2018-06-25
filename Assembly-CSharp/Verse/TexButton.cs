@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EA7 RID: 3751
+	// Token: 0x02000EA9 RID: 3753
 	[StaticConstructorOnStartup]
 	internal class TexButton
 	{

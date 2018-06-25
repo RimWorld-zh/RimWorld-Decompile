@@ -7,7 +7,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200028D RID: 653
+	// Token: 0x0200028F RID: 655
 	public class BiomeDef : Def
 	{
 		// Token: 0x0400056D RID: 1389
@@ -129,7 +129,7 @@ namespace RimWorld
 		private BiomeWorker workerInt;
 
 		// Token: 0x17000197 RID: 407
-		// (get) Token: 0x06000B02 RID: 2818 RVA: 0x00063D70 File Offset: 0x00062170
+		// (get) Token: 0x06000B06 RID: 2822 RVA: 0x00063EC0 File Offset: 0x000622C0
 		public BiomeWorker Worker
 		{
 			get
@@ -143,7 +143,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000198 RID: 408
-		// (get) Token: 0x06000B03 RID: 2819 RVA: 0x00063DAC File Offset: 0x000621AC
+		// (get) Token: 0x06000B07 RID: 2823 RVA: 0x00063EFC File Offset: 0x000622FC
 		public Material DrawMaterial
 		{
 			get
@@ -173,7 +173,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000199 RID: 409
-		// (get) Token: 0x06000B04 RID: 2820 RVA: 0x00063E70 File Offset: 0x00062270
+		// (get) Token: 0x06000B08 RID: 2824 RVA: 0x00063FC0 File Offset: 0x000623C0
 		public List<ThingDef> AllWildPlants
 		{
 			get
@@ -194,7 +194,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700019A RID: 410
-		// (get) Token: 0x06000B05 RID: 2821 RVA: 0x00063F18 File Offset: 0x00062318
+		// (get) Token: 0x06000B09 RID: 2825 RVA: 0x00064068 File Offset: 0x00062468
 		public int MaxWildAndCavePlantsClusterRadius
 		{
 			get
@@ -225,7 +225,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700019B RID: 411
-		// (get) Token: 0x06000B06 RID: 2822 RVA: 0x0006403C File Offset: 0x0006243C
+		// (get) Token: 0x06000B0A RID: 2826 RVA: 0x0006418C File Offset: 0x0006258C
 		public float LowestWildAndCavePlantOrder
 		{
 			get
@@ -253,7 +253,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700019C RID: 412
-		// (get) Token: 0x06000B07 RID: 2823 RVA: 0x0006414C File Offset: 0x0006254C
+		// (get) Token: 0x06000B0B RID: 2827 RVA: 0x0006429C File Offset: 0x0006269C
 		public IEnumerable<PawnKindDef> AllWildAnimals
 		{
 			get
@@ -270,7 +270,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700019D RID: 413
-		// (get) Token: 0x06000B08 RID: 2824 RVA: 0x00064178 File Offset: 0x00062578
+		// (get) Token: 0x06000B0C RID: 2828 RVA: 0x000642C8 File Offset: 0x000626C8
 		public float PlantCommonalitiesSum
 		{
 			get
@@ -280,7 +280,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B09 RID: 2825 RVA: 0x0006419C File Offset: 0x0006259C
+		// Token: 0x06000B0D RID: 2829 RVA: 0x000642EC File Offset: 0x000626EC
 		public float CommonalityOfAnimal(PawnKindDef animalDef)
 		{
 			if (this.cachedAnimalCommonalities == null)
@@ -317,7 +317,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000B0A RID: 2826 RVA: 0x000642F4 File Offset: 0x000626F4
+		// Token: 0x06000B0E RID: 2830 RVA: 0x00064444 File Offset: 0x00062844
 		public float CommonalityOfPlant(ThingDef plantDef)
 		{
 			this.CachePlantCommonalitiesIfShould();
@@ -334,13 +334,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000B0B RID: 2827 RVA: 0x00064330 File Offset: 0x00062730
+		// Token: 0x06000B0F RID: 2831 RVA: 0x00064480 File Offset: 0x00062880
 		public float CommonalityPctOfPlant(ThingDef plantDef)
 		{
 			return this.CommonalityOfPlant(plantDef) / this.PlantCommonalitiesSum;
 		}
 
-		// Token: 0x06000B0C RID: 2828 RVA: 0x00064354 File Offset: 0x00062754
+		// Token: 0x06000B10 RID: 2832 RVA: 0x000644A4 File Offset: 0x000628A4
 		public float CommonalityOfDisease(IncidentDef diseaseInc)
 		{
 			if (this.cachedDiseaseCommonalities == null)
@@ -377,19 +377,19 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000B0D RID: 2829 RVA: 0x000644A8 File Offset: 0x000628A8
+		// Token: 0x06000B11 RID: 2833 RVA: 0x000645F8 File Offset: 0x000629F8
 		public bool IsPackAnimalAllowed(ThingDef pawn)
 		{
 			return this.allowedPackAnimals.Contains(pawn);
 		}
 
-		// Token: 0x06000B0E RID: 2830 RVA: 0x000644CC File Offset: 0x000628CC
+		// Token: 0x06000B12 RID: 2834 RVA: 0x0006461C File Offset: 0x00062A1C
 		public static BiomeDef Named(string defName)
 		{
 			return DefDatabase<BiomeDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x06000B0F RID: 2831 RVA: 0x000644E8 File Offset: 0x000628E8
+		// Token: 0x06000B13 RID: 2835 RVA: 0x00064638 File Offset: 0x00062A38
 		private void CachePlantCommonalitiesIfShould()
 		{
 			if (this.cachedPlantCommonalities == null)
@@ -416,7 +416,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000B10 RID: 2832 RVA: 0x0006464C File Offset: 0x00062A4C
+		// Token: 0x06000B14 RID: 2836 RVA: 0x0006479C File Offset: 0x00062B9C
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())

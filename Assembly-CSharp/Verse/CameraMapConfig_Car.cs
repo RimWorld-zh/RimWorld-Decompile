@@ -4,25 +4,25 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000AE9 RID: 2793
+	// Token: 0x02000AEB RID: 2795
 	public class CameraMapConfig_Car : CameraMapConfig
 	{
-		// Token: 0x0400272C RID: 10028
+		// Token: 0x0400272D RID: 10029
 		private float targetAngle;
 
-		// Token: 0x0400272D RID: 10029
+		// Token: 0x0400272E RID: 10030
 		private float angle;
 
-		// Token: 0x0400272E RID: 10030
+		// Token: 0x0400272F RID: 10031
 		private float speed;
 
-		// Token: 0x0400272F RID: 10031
+		// Token: 0x04002730 RID: 10032
 		private const float SpeedChangeSpeed = 1.2f;
 
-		// Token: 0x04002730 RID: 10032
+		// Token: 0x04002731 RID: 10033
 		private const float AngleChangeSpeed = 0.72f;
 
-		// Token: 0x06003DEE RID: 15854 RVA: 0x0020AE6E File Offset: 0x0020926E
+		// Token: 0x06003DF2 RID: 15858 RVA: 0x0020AF9A File Offset: 0x0020939A
 		public CameraMapConfig_Car()
 		{
 			this.dollyRateKeys = 0f;
@@ -32,7 +32,7 @@ namespace Verse
 			this.moveSpeedScale = 1f;
 		}
 
-		// Token: 0x06003DEF RID: 15855 RVA: 0x0020AEB0 File Offset: 0x002092B0
+		// Token: 0x06003DF3 RID: 15859 RVA: 0x0020AFDC File Offset: 0x002093DC
 		public override void ConfigFixedUpdate_60(ref Vector3 velocity)
 		{
 			base.ConfigFixedUpdate_60(ref velocity);

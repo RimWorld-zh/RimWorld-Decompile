@@ -6,7 +6,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000684 RID: 1668
+	// Token: 0x02000686 RID: 1670
 	public class Building_TrapRearmable : Building_Trap
 	{
 		// Token: 0x040013C3 RID: 5059
@@ -25,7 +25,7 @@ namespace RimWorld
 		private static readonly IntRange DamageCount = new IntRange(1, 2);
 
 		// Token: 0x1700052B RID: 1323
-		// (get) Token: 0x0600232B RID: 9003 RVA: 0x0012E8EC File Offset: 0x0012CCEC
+		// (get) Token: 0x0600232F RID: 9007 RVA: 0x0012EA3C File Offset: 0x0012CE3C
 		public override bool Armed
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700052C RID: 1324
-		// (get) Token: 0x0600232C RID: 9004 RVA: 0x0012E908 File Offset: 0x0012CD08
+		// (get) Token: 0x06002330 RID: 9008 RVA: 0x0012EA58 File Offset: 0x0012CE58
 		public override Graphic Graphic
 		{
 			get
@@ -57,7 +57,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600232D RID: 9005 RVA: 0x0012E962 File Offset: 0x0012CD62
+		// Token: 0x06002331 RID: 9009 RVA: 0x0012EAB2 File Offset: 0x0012CEB2
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -65,7 +65,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.autoRearm, "autoRearm", false, false);
 		}
 
-		// Token: 0x0600232E RID: 9006 RVA: 0x0012E990 File Offset: 0x0012CD90
+		// Token: 0x06002332 RID: 9010 RVA: 0x0012EAE0 File Offset: 0x0012CEE0
 		protected override void SpringSub(Pawn p)
 		{
 			this.armedInt = false;
@@ -79,14 +79,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600232F RID: 9007 RVA: 0x0012E9DD File Offset: 0x0012CDDD
+		// Token: 0x06002333 RID: 9011 RVA: 0x0012EB2D File Offset: 0x0012CF2D
 		public void Rearm()
 		{
 			this.armedInt = true;
 			SoundDefOf.TrapArm.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 		}
 
-		// Token: 0x06002330 RID: 9008 RVA: 0x0012EA08 File Offset: 0x0012CE08
+		// Token: 0x06002334 RID: 9012 RVA: 0x0012EB58 File Offset: 0x0012CF58
 		private void DamagePawn(Pawn p)
 		{
 			BodyPartHeight height = (Rand.Value >= 0.666f) ? BodyPartHeight.Middle : BodyPartHeight.Top;
@@ -106,7 +106,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002331 RID: 9009 RVA: 0x0012EAC8 File Offset: 0x0012CEC8
+		// Token: 0x06002335 RID: 9013 RVA: 0x0012EC18 File Offset: 0x0012D018
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())

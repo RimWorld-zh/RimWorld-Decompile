@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002A5 RID: 677
+	// Token: 0x020002A7 RID: 679
 	public class InspirationDef : Def
 	{
 		// Token: 0x04000636 RID: 1590
@@ -73,7 +73,7 @@ namespace RimWorld
 		private InspirationWorker workerInt = null;
 
 		// Token: 0x170001A8 RID: 424
-		// (get) Token: 0x06000B5B RID: 2907 RVA: 0x00066978 File Offset: 0x00064D78
+		// (get) Token: 0x06000B5F RID: 2911 RVA: 0x00066AC8 File Offset: 0x00064EC8
 		public InspirationWorker Worker
 		{
 			get

@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002CB RID: 715
+	// Token: 0x020002CD RID: 717
 	public class ScenPartDef : Def
 	{
 		// Token: 0x0400070F RID: 1807
@@ -38,7 +38,7 @@ namespace RimWorld
 		public Type designatorType;
 
 		// Token: 0x170001C1 RID: 449
-		// (get) Token: 0x06000BD5 RID: 3029 RVA: 0x000696C8 File Offset: 0x00067AC8
+		// (get) Token: 0x06000BD9 RID: 3033 RVA: 0x00069818 File Offset: 0x00067C18
 		public bool PlayerAddRemovable
 		{
 			get
@@ -47,7 +47,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000BD6 RID: 3030 RVA: 0x000696EC File Offset: 0x00067AEC
+		// Token: 0x06000BDA RID: 3034 RVA: 0x0006983C File Offset: 0x00067C3C
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())

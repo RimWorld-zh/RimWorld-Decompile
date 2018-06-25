@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004A1 RID: 1185
+	// Token: 0x020004A3 RID: 1187
 	public class RecordWorker_TimeAsColonistOrColonyAnimal : RecordWorker
 	{
-		// Token: 0x06001544 RID: 5444 RVA: 0x000BD5B4 File Offset: 0x000BB9B4
+		// Token: 0x06001548 RID: 5448 RVA: 0x000BD704 File Offset: 0x000BBB04
 		public override bool ShouldMeasureTimeNow(Pawn pawn)
 		{
 			return pawn.Faction == Faction.OfPlayer;

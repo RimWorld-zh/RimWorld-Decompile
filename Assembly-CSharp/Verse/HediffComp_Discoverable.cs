@@ -3,14 +3,14 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D05 RID: 3333
+	// Token: 0x02000D07 RID: 3335
 	public class HediffComp_Discoverable : HediffComp
 	{
 		// Token: 0x040031F0 RID: 12784
 		private bool discovered = false;
 
-		// Token: 0x17000BA5 RID: 2981
-		// (get) Token: 0x060049A2 RID: 18850 RVA: 0x00269438 File Offset: 0x00267838
+		// Token: 0x17000BA4 RID: 2980
+		// (get) Token: 0x060049A5 RID: 18853 RVA: 0x00269514 File Offset: 0x00267914
 		public HediffCompProperties_Discoverable Props
 		{
 			get
@@ -19,19 +19,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049A3 RID: 18851 RVA: 0x00269458 File Offset: 0x00267858
+		// Token: 0x060049A6 RID: 18854 RVA: 0x00269534 File Offset: 0x00267934
 		public override void CompExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.discovered, "discovered", false, false);
 		}
 
-		// Token: 0x060049A4 RID: 18852 RVA: 0x00269470 File Offset: 0x00267870
+		// Token: 0x060049A7 RID: 18855 RVA: 0x0026954C File Offset: 0x0026794C
 		public override bool CompDisallowVisible()
 		{
 			return !this.discovered;
 		}
 
-		// Token: 0x060049A5 RID: 18853 RVA: 0x0026948E File Offset: 0x0026788E
+		// Token: 0x060049A8 RID: 18856 RVA: 0x0026956A File Offset: 0x0026796A
 		public override void CompPostTick(ref float severityAdjustment)
 		{
 			if (Find.TickManager.TicksGame % 103 == 0)
@@ -40,13 +40,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049A6 RID: 18854 RVA: 0x002694A9 File Offset: 0x002678A9
+		// Token: 0x060049A9 RID: 18857 RVA: 0x00269585 File Offset: 0x00267985
 		public override void CompPostPostAdd(DamageInfo? dinfo)
 		{
 			this.CheckDiscovered();
 		}
 
-		// Token: 0x060049A7 RID: 18855 RVA: 0x002694B4 File Offset: 0x002678B4
+		// Token: 0x060049AA RID: 18858 RVA: 0x00269590 File Offset: 0x00267990
 		private void CheckDiscovered()
 		{
 			if (!this.discovered)
@@ -126,13 +126,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049A8 RID: 18856 RVA: 0x00269833 File Offset: 0x00267C33
+		// Token: 0x060049AB RID: 18859 RVA: 0x0026990F File Offset: 0x00267D0F
 		public override void Notify_PawnDied()
 		{
 			this.CheckDiscovered();
 		}
 
-		// Token: 0x060049A9 RID: 18857 RVA: 0x0026983C File Offset: 0x00267C3C
+		// Token: 0x060049AC RID: 18860 RVA: 0x00269918 File Offset: 0x00267D18
 		public override string CompDebugString()
 		{
 			return "discovered: " + this.discovered;

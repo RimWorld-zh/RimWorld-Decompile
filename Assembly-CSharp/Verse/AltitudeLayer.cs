@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000BF9 RID: 3065
+	// Token: 0x02000BFB RID: 3067
 	public enum AltitudeLayer : byte
 	{
 		// Token: 0x04002DBC RID: 11708

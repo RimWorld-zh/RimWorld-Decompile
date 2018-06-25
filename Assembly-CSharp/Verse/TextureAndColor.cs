@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D23 RID: 3363
+	// Token: 0x02000D25 RID: 3365
 	public struct TextureAndColor
 	{
 		// Token: 0x04003236 RID: 12854
@@ -12,15 +12,15 @@ namespace Verse
 		// Token: 0x04003237 RID: 12855
 		private Color color;
 
-		// Token: 0x06004A1D RID: 18973 RVA: 0x0026BD3E File Offset: 0x0026A13E
+		// Token: 0x06004A21 RID: 18977 RVA: 0x0026BE69 File Offset: 0x0026A269
 		public TextureAndColor(Texture2D texture, Color color)
 		{
 			this.texture = texture;
 			this.color = color;
 		}
 
-		// Token: 0x17000BC6 RID: 3014
-		// (get) Token: 0x06004A1E RID: 18974 RVA: 0x0026BD50 File Offset: 0x0026A150
+		// Token: 0x17000BC5 RID: 3013
+		// (get) Token: 0x06004A22 RID: 18978 RVA: 0x0026BE7C File Offset: 0x0026A27C
 		public bool HasValue
 		{
 			get
@@ -29,8 +29,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BC7 RID: 3015
-		// (get) Token: 0x06004A1F RID: 18975 RVA: 0x0026BD74 File Offset: 0x0026A174
+		// Token: 0x17000BC6 RID: 3014
+		// (get) Token: 0x06004A23 RID: 18979 RVA: 0x0026BEA0 File Offset: 0x0026A2A0
 		public Texture2D Texture
 		{
 			get
@@ -39,8 +39,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BC8 RID: 3016
-		// (get) Token: 0x06004A20 RID: 18976 RVA: 0x0026BD90 File Offset: 0x0026A190
+		// Token: 0x17000BC7 RID: 3015
+		// (get) Token: 0x06004A24 RID: 18980 RVA: 0x0026BEBC File Offset: 0x0026A2BC
 		public Color Color
 		{
 			get
@@ -49,8 +49,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BC9 RID: 3017
-		// (get) Token: 0x06004A21 RID: 18977 RVA: 0x0026BDAC File Offset: 0x0026A1AC
+		// Token: 0x17000BC8 RID: 3016
+		// (get) Token: 0x06004A25 RID: 18981 RVA: 0x0026BED8 File Offset: 0x0026A2D8
 		public static TextureAndColor None
 		{
 			get
@@ -59,7 +59,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A22 RID: 18978 RVA: 0x0026BDCC File Offset: 0x0026A1CC
+		// Token: 0x06004A26 RID: 18982 RVA: 0x0026BEF8 File Offset: 0x0026A2F8
 		public static implicit operator TextureAndColor(Texture2D texture)
 		{
 			return new TextureAndColor(texture, Color.white);

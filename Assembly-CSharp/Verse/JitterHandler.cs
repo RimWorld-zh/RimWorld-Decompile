@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DE3 RID: 3555
+	// Token: 0x02000DE5 RID: 3557
 	public class JitterHandler
 	{
 		// Token: 0x040034CF RID: 13519
@@ -21,8 +21,8 @@ namespace Verse
 		// Token: 0x040034D3 RID: 13523
 		private float JitterMax = 0.35f;
 
-		// Token: 0x17000CEC RID: 3308
-		// (get) Token: 0x06004FB0 RID: 20400 RVA: 0x00297014 File Offset: 0x00295414
+		// Token: 0x17000CEB RID: 3307
+		// (get) Token: 0x06004FB4 RID: 20404 RVA: 0x00297140 File Offset: 0x00295540
 		public Vector3 CurrentOffset
 		{
 			get
@@ -31,7 +31,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FB1 RID: 20401 RVA: 0x00297030 File Offset: 0x00295430
+		// Token: 0x06004FB5 RID: 20405 RVA: 0x0029715C File Offset: 0x0029555C
 		public void JitterHandlerTick()
 		{
 			if (this.curOffset.sqrMagnitude < this.JitterDropPerTick * this.JitterDropPerTick)
@@ -44,7 +44,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FB2 RID: 20402 RVA: 0x002970A1 File Offset: 0x002954A1
+		// Token: 0x06004FB6 RID: 20406 RVA: 0x002971CD File Offset: 0x002955CD
 		public void Notify_DamageApplied(DamageInfo dinfo)
 		{
 			if (dinfo.Def.hasForcefulImpact)
@@ -53,7 +53,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FB3 RID: 20403 RVA: 0x002970C8 File Offset: 0x002954C8
+		// Token: 0x06004FB7 RID: 20407 RVA: 0x002971F4 File Offset: 0x002955F4
 		public void Notify_DamageDeflected(DamageInfo dinfo)
 		{
 			if (dinfo.Def.hasForcefulImpact)
@@ -62,7 +62,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FB4 RID: 20404 RVA: 0x002970F0 File Offset: 0x002954F0
+		// Token: 0x06004FB8 RID: 20408 RVA: 0x0029721C File Offset: 0x0029561C
 		public void AddOffset(float dist, float dir)
 		{
 			this.curOffset += Quaternion.AngleAxis(dir, Vector3.up) * Vector3.forward * dist;

@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020002CC RID: 716
+	// Token: 0x020002CE RID: 718
 	public enum ScenarioCategory
 	{
 		// Token: 0x0400071A RID: 1818

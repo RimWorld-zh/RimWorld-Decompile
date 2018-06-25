@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CC2 RID: 3266
+	// Token: 0x02000CC4 RID: 3268
 	public static class ModContentLoader<T> where T : class
 	{
 		// Token: 0x040030D3 RID: 12499
@@ -34,7 +34,7 @@ namespace Verse
 			".txt"
 		};
 
-		// Token: 0x06004817 RID: 18455 RVA: 0x0025F3E0 File Offset: 0x0025D7E0
+		// Token: 0x0600481A RID: 18458 RVA: 0x0025F4BC File Offset: 0x0025D8BC
 		private static bool IsAcceptableExtension(string extension)
 		{
 			string[] array;
@@ -65,7 +65,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004818 RID: 18456 RVA: 0x0025F4C0 File Offset: 0x0025D8C0
+		// Token: 0x0600481B RID: 18459 RVA: 0x0025F59C File Offset: 0x0025D99C
 		public static IEnumerable<LoadedContentItem<T>> LoadAllForMod(ModContentPack mod)
 		{
 			string contentDirPath = Path.Combine(mod.RootDir, GenFilePaths.ContentPath<T>());
@@ -96,7 +96,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004819 RID: 18457 RVA: 0x0025F4EC File Offset: 0x0025D8EC
+		// Token: 0x0600481C RID: 18460 RVA: 0x0025F5C8 File Offset: 0x0025D9C8
 		public static LoadedContentItem<T> LoadItem(string absFilePath, string contentDirPath = null)
 		{
 			string text = absFilePath;
@@ -169,7 +169,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600481A RID: 18458 RVA: 0x0025F70C File Offset: 0x0025DB0C
+		// Token: 0x0600481D RID: 18461 RVA: 0x0025F7E8 File Offset: 0x0025DBE8
 		private static bool ShouldStreamAudioClipFromPath(string absPath)
 		{
 			bool result;
@@ -185,7 +185,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600481B RID: 18459 RVA: 0x0025F748 File Offset: 0x0025DB48
+		// Token: 0x0600481E RID: 18462 RVA: 0x0025F824 File Offset: 0x0025DC24
 		private static Texture2D LoadPNG(string filePath)
 		{
 			Texture2D texture2D = null;

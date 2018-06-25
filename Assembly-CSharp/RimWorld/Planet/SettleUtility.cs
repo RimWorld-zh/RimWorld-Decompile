@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005F7 RID: 1527
+	// Token: 0x020005F9 RID: 1529
 	[StaticConstructorOnStartup]
 	public static class SettleUtility
 	{
@@ -13,7 +13,7 @@ namespace RimWorld.Planet
 		public static readonly Texture2D SettleCommandTex = ContentFinder<Texture2D>.Get("UI/Commands/Settle", true);
 
 		// Token: 0x17000475 RID: 1141
-		// (get) Token: 0x06001E67 RID: 7783 RVA: 0x001076AC File Offset: 0x00105AAC
+		// (get) Token: 0x06001E6B RID: 7787 RVA: 0x001077FC File Offset: 0x00105BFC
 		public static bool PlayerHomesCountLimitReached
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E68 RID: 7784 RVA: 0x00107704 File Offset: 0x00105B04
+		// Token: 0x06001E6C RID: 7788 RVA: 0x00107854 File Offset: 0x00105C54
 		public static FactionBase AddNewHome(int tile, Faction faction)
 		{
 			FactionBase factionBase = (FactionBase)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.FactionBase);

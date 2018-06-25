@@ -3,25 +3,25 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D59 RID: 3417
+	// Token: 0x02000D5B RID: 3419
 	public class Pawn_RotationTracker : IExposable
 	{
 		// Token: 0x04003321 RID: 13089
 		private Pawn pawn;
 
-		// Token: 0x06004C9E RID: 19614 RVA: 0x0027F639 File Offset: 0x0027DA39
+		// Token: 0x06004CA2 RID: 19618 RVA: 0x0027F765 File Offset: 0x0027DB65
 		public Pawn_RotationTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x06004C9F RID: 19615 RVA: 0x0027F649 File Offset: 0x0027DA49
+		// Token: 0x06004CA3 RID: 19619 RVA: 0x0027F775 File Offset: 0x0027DB75
 		public void Notify_Spawned()
 		{
 			this.UpdateRotation();
 		}
 
-		// Token: 0x06004CA0 RID: 19616 RVA: 0x0027F654 File Offset: 0x0027DA54
+		// Token: 0x06004CA4 RID: 19620 RVA: 0x0027F780 File Offset: 0x0027DB80
 		public void UpdateRotation()
 		{
 			if (!this.pawn.Destroyed)
@@ -66,13 +66,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004CA1 RID: 19617 RVA: 0x0027F7CC File Offset: 0x0027DBCC
+		// Token: 0x06004CA5 RID: 19621 RVA: 0x0027F8F8 File Offset: 0x0027DCF8
 		public void RotationTrackerTick()
 		{
 			this.UpdateRotation();
 		}
 
-		// Token: 0x06004CA2 RID: 19618 RVA: 0x0027F7D8 File Offset: 0x0027DBD8
+		// Token: 0x06004CA6 RID: 19622 RVA: 0x0027F904 File Offset: 0x0027DD04
 		private void FaceAdjacentCell(IntVec3 c)
 		{
 			if (!(c == this.pawn.Position))
@@ -97,7 +97,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004CA3 RID: 19619 RVA: 0x0027F88C File Offset: 0x0027DC8C
+		// Token: 0x06004CA7 RID: 19623 RVA: 0x0027F9B8 File Offset: 0x0027DDB8
 		public void FaceCell(IntVec3 c)
 		{
 			if (!(c == this.pawn.Position))
@@ -107,7 +107,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004CA4 RID: 19620 RVA: 0x0027F8E8 File Offset: 0x0027DCE8
+		// Token: 0x06004CA8 RID: 19624 RVA: 0x0027FA14 File Offset: 0x0027DE14
 		public void Face(Vector3 p)
 		{
 			if (!(p == this.pawn.DrawPos))
@@ -117,7 +117,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004CA5 RID: 19621 RVA: 0x0027F93C File Offset: 0x0027DD3C
+		// Token: 0x06004CA9 RID: 19625 RVA: 0x0027FA68 File Offset: 0x0027DE68
 		public void FaceTarget(LocalTargetInfo target)
 		{
 			if (target.HasThing)
@@ -182,7 +182,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004CA6 RID: 19622 RVA: 0x0027FBE0 File Offset: 0x0027DFE0
+		// Token: 0x06004CAA RID: 19626 RVA: 0x0027FD0C File Offset: 0x0027E10C
 		public static Rot4 RotFromAngleBiased(float angle)
 		{
 			Rot4 result;
@@ -209,7 +209,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004CA7 RID: 19623 RVA: 0x0027FC52 File Offset: 0x0027E052
+		// Token: 0x06004CAB RID: 19627 RVA: 0x0027FD7E File Offset: 0x0027E17E
 		public void ExposeData()
 		{
 		}

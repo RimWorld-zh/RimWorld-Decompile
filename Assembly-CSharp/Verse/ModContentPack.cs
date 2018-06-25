@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CC3 RID: 3267
+	// Token: 0x02000CC5 RID: 3269
 	public class ModContentPack
 	{
 		// Token: 0x040030D6 RID: 12502
@@ -43,7 +43,7 @@ namespace Verse
 		// Token: 0x040030E0 RID: 12512
 		public static readonly string CoreModIdentifier = "Core";
 
-		// Token: 0x0600481D RID: 18461 RVA: 0x0025FA48 File Offset: 0x0025DE48
+		// Token: 0x06004820 RID: 18464 RVA: 0x0025FB24 File Offset: 0x0025DF24
 		public ModContentPack(DirectoryInfo directory, int loadOrder, string name)
 		{
 			this.rootDirInt = directory;
@@ -55,8 +55,8 @@ namespace Verse
 			this.assemblies = new ModAssemblyHandler(this);
 		}
 
-		// Token: 0x17000B61 RID: 2913
-		// (get) Token: 0x0600481E RID: 18462 RVA: 0x0025FAAC File Offset: 0x0025DEAC
+		// Token: 0x17000B60 RID: 2912
+		// (get) Token: 0x06004821 RID: 18465 RVA: 0x0025FB88 File Offset: 0x0025DF88
 		public string RootDir
 		{
 			get
@@ -65,8 +65,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B62 RID: 2914
-		// (get) Token: 0x0600481F RID: 18463 RVA: 0x0025FACC File Offset: 0x0025DECC
+		// Token: 0x17000B61 RID: 2913
+		// (get) Token: 0x06004822 RID: 18466 RVA: 0x0025FBA8 File Offset: 0x0025DFA8
 		public string Identifier
 		{
 			get
@@ -75,8 +75,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B63 RID: 2915
-		// (get) Token: 0x06004820 RID: 18464 RVA: 0x0025FAEC File Offset: 0x0025DEEC
+		// Token: 0x17000B62 RID: 2914
+		// (get) Token: 0x06004823 RID: 18467 RVA: 0x0025FBC8 File Offset: 0x0025DFC8
 		public string Name
 		{
 			get
@@ -85,8 +85,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B64 RID: 2916
-		// (get) Token: 0x06004821 RID: 18465 RVA: 0x0025FB08 File Offset: 0x0025DF08
+		// Token: 0x17000B63 RID: 2915
+		// (get) Token: 0x06004824 RID: 18468 RVA: 0x0025FBE4 File Offset: 0x0025DFE4
 		public int OverwritePriority
 		{
 			get
@@ -95,8 +95,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B65 RID: 2917
-		// (get) Token: 0x06004822 RID: 18466 RVA: 0x0025FB30 File Offset: 0x0025DF30
+		// Token: 0x17000B64 RID: 2916
+		// (get) Token: 0x06004825 RID: 18469 RVA: 0x0025FC0C File Offset: 0x0025E00C
 		public bool IsCoreMod
 		{
 			get
@@ -105,8 +105,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B66 RID: 2918
-		// (get) Token: 0x06004823 RID: 18467 RVA: 0x0025FB5C File Offset: 0x0025DF5C
+		// Token: 0x17000B65 RID: 2917
+		// (get) Token: 0x06004826 RID: 18470 RVA: 0x0025FC38 File Offset: 0x0025E038
 		public IEnumerable<Def> AllDefs
 		{
 			get
@@ -115,8 +115,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B67 RID: 2919
-		// (get) Token: 0x06004824 RID: 18468 RVA: 0x0025FB9C File Offset: 0x0025DF9C
+		// Token: 0x17000B66 RID: 2918
+		// (get) Token: 0x06004827 RID: 18471 RVA: 0x0025FC78 File Offset: 0x0025E078
 		public bool LoadedAnyAssembly
 		{
 			get
@@ -125,8 +125,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B68 RID: 2920
-		// (get) Token: 0x06004825 RID: 18469 RVA: 0x0025FBC4 File Offset: 0x0025DFC4
+		// Token: 0x17000B67 RID: 2919
+		// (get) Token: 0x06004828 RID: 18472 RVA: 0x0025FCA0 File Offset: 0x0025E0A0
 		public IEnumerable<PatchOperation> Patches
 		{
 			get
@@ -139,14 +139,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004826 RID: 18470 RVA: 0x0025FBF0 File Offset: 0x0025DFF0
+		// Token: 0x06004829 RID: 18473 RVA: 0x0025FCCC File Offset: 0x0025E0CC
 		public void ClearDestroy()
 		{
 			this.audioClips.ClearDestroy();
 			this.textures.ClearDestroy();
 		}
 
-		// Token: 0x06004827 RID: 18471 RVA: 0x0025FC0C File Offset: 0x0025E00C
+		// Token: 0x0600482A RID: 18474 RVA: 0x0025FCE8 File Offset: 0x0025E0E8
 		public ModContentHolder<T> GetContentHolder<T>() where T : class
 		{
 			ModContentHolder<T> result;
@@ -170,7 +170,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004828 RID: 18472 RVA: 0x0025FCB6 File Offset: 0x0025E0B6
+		// Token: 0x0600482B RID: 18475 RVA: 0x0025FD92 File Offset: 0x0025E192
 		public void ReloadContent()
 		{
 			LongEventHandler.ExecuteWhenFinished(delegate
@@ -182,7 +182,7 @@ namespace Verse
 			this.assemblies.ReloadAll();
 		}
 
-		// Token: 0x06004829 RID: 18473 RVA: 0x0025FCD8 File Offset: 0x0025E0D8
+		// Token: 0x0600482C RID: 18476 RVA: 0x0025FDB4 File Offset: 0x0025E1B4
 		public IEnumerable<LoadableXmlAsset> LoadDefs()
 		{
 			if (this.defPackages.Count != 0)
@@ -199,7 +199,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0600482A RID: 18474 RVA: 0x0025FD04 File Offset: 0x0025E104
+		// Token: 0x0600482D RID: 18477 RVA: 0x0025FDE0 File Offset: 0x0025E1E0
 		public IEnumerable<DefPackage> GetDefPackagesInFolder(string relFolder)
 		{
 			string path = Path.Combine(Path.Combine(this.RootDir, "Defs/"), relFolder);
@@ -218,13 +218,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600482B RID: 18475 RVA: 0x0025FD76 File Offset: 0x0025E176
+		// Token: 0x0600482E RID: 18478 RVA: 0x0025FE52 File Offset: 0x0025E252
 		public void AddDefPackage(DefPackage defPackage)
 		{
 			this.defPackages.Add(defPackage);
 		}
 
-		// Token: 0x0600482C RID: 18476 RVA: 0x0025FD88 File Offset: 0x0025E188
+		// Token: 0x0600482F RID: 18479 RVA: 0x0025FE64 File Offset: 0x0025E264
 		private void LoadPatches()
 		{
 			DeepProfiler.Start("Loading all patches");
@@ -261,13 +261,13 @@ namespace Verse
 			DeepProfiler.End();
 		}
 
-		// Token: 0x0600482D RID: 18477 RVA: 0x0025FEC2 File Offset: 0x0025E2C2
+		// Token: 0x06004830 RID: 18480 RVA: 0x0025FF9E File Offset: 0x0025E39E
 		public void ClearPatchesCache()
 		{
 			this.patches = null;
 		}
 
-		// Token: 0x0600482E RID: 18478 RVA: 0x0025FECC File Offset: 0x0025E2CC
+		// Token: 0x06004831 RID: 18481 RVA: 0x0025FFA8 File Offset: 0x0025E3A8
 		public void AddImpliedDef(Def def)
 		{
 			if (this.impliedDefPackage == null)
@@ -278,7 +278,7 @@ namespace Verse
 			this.impliedDefPackage.AddDef(def);
 		}
 
-		// Token: 0x0600482F RID: 18479 RVA: 0x0025FF1C File Offset: 0x0025E31C
+		// Token: 0x06004832 RID: 18482 RVA: 0x0025FFF8 File Offset: 0x0025E3F8
 		public override string ToString()
 		{
 			return this.Identifier;

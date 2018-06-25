@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DD8 RID: 3544
+	// Token: 0x02000DDA RID: 3546
 	public class Graphic_LinkedCornerFiller : Graphic_Linked
 	{
 		// Token: 0x040034BC RID: 13500
@@ -24,13 +24,13 @@ namespace Verse
 		// Token: 0x040034C1 RID: 13505
 		private static readonly Vector2[] CornerFillUVs;
 
-		// Token: 0x06004F65 RID: 20325 RVA: 0x00295BA1 File Offset: 0x00293FA1
+		// Token: 0x06004F69 RID: 20329 RVA: 0x00295CCD File Offset: 0x002940CD
 		public Graphic_LinkedCornerFiller(Graphic subGraphic) : base(subGraphic)
 		{
 		}
 
-		// Token: 0x17000CD8 RID: 3288
-		// (get) Token: 0x06004F66 RID: 20326 RVA: 0x00295BAC File Offset: 0x00293FAC
+		// Token: 0x17000CD7 RID: 3287
+		// (get) Token: 0x06004F6A RID: 20330 RVA: 0x00295CD8 File Offset: 0x002940D8
 		public override LinkDrawerType LinkerType
 		{
 			get
@@ -39,7 +39,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F67 RID: 20327 RVA: 0x00295BC4 File Offset: 0x00293FC4
+		// Token: 0x06004F6B RID: 20331 RVA: 0x00295CF0 File Offset: 0x002940F0
 		public override Graphic GetColoredVersion(Shader newShader, Color newColor, Color newColorTwo)
 		{
 			return new Graphic_LinkedCornerFiller(this.subGraphic.GetColoredVersion(newShader, newColor, newColorTwo))
@@ -48,7 +48,7 @@ namespace Verse
 			};
 		}
 
-		// Token: 0x06004F68 RID: 20328 RVA: 0x00295BFC File Offset: 0x00293FFC
+		// Token: 0x06004F6C RID: 20332 RVA: 0x00295D28 File Offset: 0x00294128
 		public override void Print(SectionLayer layer, Thing thing)
 		{
 			base.Print(layer, thing);
@@ -126,7 +126,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F69 RID: 20329 RVA: 0x00295EFC File Offset: 0x002942FC
+		// Token: 0x06004F6D RID: 20333 RVA: 0x00296028 File Offset: 0x00294428
 		// Note: this type is marked as 'beforefieldinit'.
 		static Graphic_LinkedCornerFiller()
 		{

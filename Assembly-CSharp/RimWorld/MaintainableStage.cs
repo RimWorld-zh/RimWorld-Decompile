@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200071A RID: 1818
+	// Token: 0x0200071C RID: 1820
 	public enum MaintainableStage
 	{
 		// Token: 0x040015F2 RID: 5618

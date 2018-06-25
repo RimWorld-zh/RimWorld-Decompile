@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007A8 RID: 1960
+	// Token: 0x020007AA RID: 1962
 	public class Alert_HunterHasShieldAndRangedWeapon : Alert
 	{
-		// Token: 0x06002B5E RID: 11102 RVA: 0x0016EA51 File Offset: 0x0016CE51
+		// Token: 0x06002B62 RID: 11106 RVA: 0x0016EBA1 File Offset: 0x0016CFA1
 		public Alert_HunterHasShieldAndRangedWeapon()
 		{
 			this.defaultLabel = "HunterHasShieldAndRangedWeapon".Translate();
@@ -15,7 +15,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006BE RID: 1726
-		// (get) Token: 0x06002B5F RID: 11103 RVA: 0x0016EA7C File Offset: 0x0016CE7C
+		// (get) Token: 0x06002B63 RID: 11107 RVA: 0x0016EBCC File Offset: 0x0016CFCC
 		private IEnumerable<Pawn> BadHunters
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B60 RID: 11104 RVA: 0x0016EAA0 File Offset: 0x0016CEA0
+		// Token: 0x06002B64 RID: 11108 RVA: 0x0016EBF0 File Offset: 0x0016CFF0
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.BadHunters);

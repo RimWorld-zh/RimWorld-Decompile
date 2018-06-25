@@ -4,7 +4,7 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000B3B RID: 2875
+	// Token: 0x02000B3D RID: 2877
 	public class GameConditionDef : Def
 	{
 		// Token: 0x04002964 RID: 10596
@@ -26,19 +26,19 @@ namespace Verse
 		// Token: 0x04002969 RID: 10601
 		public bool preventRain = false;
 
-		// Token: 0x06003F2E RID: 16174 RVA: 0x002144EC File Offset: 0x002128EC
+		// Token: 0x06003F31 RID: 16177 RVA: 0x002145C8 File Offset: 0x002129C8
 		public bool CanCoexistWith(GameConditionDef other)
 		{
 			return this != other && (this.exclusiveConditions == null || !this.exclusiveConditions.Contains(other));
 		}
 
-		// Token: 0x06003F2F RID: 16175 RVA: 0x0021452C File Offset: 0x0021292C
+		// Token: 0x06003F32 RID: 16178 RVA: 0x00214608 File Offset: 0x00212A08
 		public static GameConditionDef Named(string defName)
 		{
 			return DefDatabase<GameConditionDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x06003F30 RID: 16176 RVA: 0x00214548 File Offset: 0x00212948
+		// Token: 0x06003F33 RID: 16179 RVA: 0x00214624 File Offset: 0x00212A24
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())

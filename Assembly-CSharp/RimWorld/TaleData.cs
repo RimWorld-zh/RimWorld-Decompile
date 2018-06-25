@@ -5,20 +5,20 @@ using Verse.Grammar;
 
 namespace RimWorld
 {
-	// Token: 0x02000658 RID: 1624
+	// Token: 0x0200065A RID: 1626
 	public abstract class TaleData : IExposable
 	{
-		// Token: 0x060021F3 RID: 8691
+		// Token: 0x060021F7 RID: 8695
 		public abstract void ExposeData();
 
-		// Token: 0x060021F4 RID: 8692 RVA: 0x0012006C File Offset: 0x0011E46C
+		// Token: 0x060021F8 RID: 8696 RVA: 0x001201BC File Offset: 0x0011E5BC
 		public virtual IEnumerable<Rule> GetRules(string prefix)
 		{
 			Log.Error(base.GetType() + " cannot do GetRules with a prefix.", false);
 			yield break;
 		}
 
-		// Token: 0x060021F5 RID: 8693 RVA: 0x00120098 File Offset: 0x0011E498
+		// Token: 0x060021F9 RID: 8697 RVA: 0x001201E8 File Offset: 0x0011E5E8
 		public virtual IEnumerable<Rule> GetRules()
 		{
 			Log.Error(base.GetType() + " cannot do GetRules without a prefix.", false);

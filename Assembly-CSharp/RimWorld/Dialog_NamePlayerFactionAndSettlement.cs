@@ -4,13 +4,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000805 RID: 2053
+	// Token: 0x02000807 RID: 2055
 	public class Dialog_NamePlayerFactionAndSettlement : Dialog_GiveName
 	{
 		// Token: 0x04001857 RID: 6231
 		private FactionBase factionBase;
 
-		// Token: 0x06002DDD RID: 11741 RVA: 0x0018265C File Offset: 0x00180A5C
+		// Token: 0x06002DE1 RID: 11745 RVA: 0x001827AC File Offset: 0x00180BAC
 		public Dialog_NamePlayerFactionAndSettlement(FactionBase factionBase)
 		{
 			this.factionBase = factionBase;
@@ -30,7 +30,7 @@ namespace RimWorld
 			this.gainedNameMessageKey = "PlayerFactionAndBaseGainsName";
 		}
 
-		// Token: 0x06002DDE RID: 11742 RVA: 0x00182758 File Offset: 0x00180B58
+		// Token: 0x06002DE2 RID: 11746 RVA: 0x001828A8 File Offset: 0x00180CA8
 		public override void PostOpen()
 		{
 			base.PostOpen();
@@ -40,25 +40,25 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DDF RID: 11743 RVA: 0x00182788 File Offset: 0x00180B88
+		// Token: 0x06002DE3 RID: 11747 RVA: 0x001828D8 File Offset: 0x00180CD8
 		protected override bool IsValidName(string s)
 		{
 			return NamePlayerFactionDialogUtility.IsValidName(s);
 		}
 
-		// Token: 0x06002DE0 RID: 11744 RVA: 0x001827A4 File Offset: 0x00180BA4
+		// Token: 0x06002DE4 RID: 11748 RVA: 0x001828F4 File Offset: 0x00180CF4
 		protected override bool IsValidSecondName(string s)
 		{
 			return NamePlayerFactionBaseDialogUtility.IsValidName(s);
 		}
 
-		// Token: 0x06002DE1 RID: 11745 RVA: 0x001827BF File Offset: 0x00180BBF
+		// Token: 0x06002DE5 RID: 11749 RVA: 0x0018290F File Offset: 0x00180D0F
 		protected override void Named(string s)
 		{
 			NamePlayerFactionDialogUtility.Named(s);
 		}
 
-		// Token: 0x06002DE2 RID: 11746 RVA: 0x001827C8 File Offset: 0x00180BC8
+		// Token: 0x06002DE6 RID: 11750 RVA: 0x00182918 File Offset: 0x00180D18
 		protected override void NamedSecond(string s)
 		{
 			NamePlayerFactionBaseDialogUtility.Named(this.factionBase, s);

@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000244 RID: 580
+	// Token: 0x02000246 RID: 582
 	public class CompProperties_Explosive : CompProperties
 	{
 		// Token: 0x0400046F RID: 1135
@@ -76,13 +76,13 @@ namespace RimWorld
 		// Token: 0x04000485 RID: 1157
 		public DamageDef requiredDamageTypeToExplode = null;
 
-		// Token: 0x06000A73 RID: 2675 RVA: 0x0005EE40 File Offset: 0x0005D240
+		// Token: 0x06000A77 RID: 2679 RVA: 0x0005EF90 File Offset: 0x0005D390
 		public CompProperties_Explosive()
 		{
 			this.compClass = typeof(CompExplosive);
 		}
 
-		// Token: 0x06000A74 RID: 2676 RVA: 0x0005EED3 File Offset: 0x0005D2D3
+		// Token: 0x06000A78 RID: 2680 RVA: 0x0005F023 File Offset: 0x0005D423
 		public override void ResolveReferences(ThingDef parentDef)
 		{
 			base.ResolveReferences(parentDef);
@@ -92,7 +92,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000A75 RID: 2677 RVA: 0x0005EEF4 File Offset: 0x0005D2F4
+		// Token: 0x06000A79 RID: 2681 RVA: 0x0005F044 File Offset: 0x0005D444
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))

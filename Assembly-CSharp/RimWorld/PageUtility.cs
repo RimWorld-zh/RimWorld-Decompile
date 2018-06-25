@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200082D RID: 2093
+	// Token: 0x0200082F RID: 2095
 	public static class PageUtility
 	{
-		// Token: 0x06002F37 RID: 12087 RVA: 0x00193DA8 File Offset: 0x001921A8
+		// Token: 0x06002F3B RID: 12091 RVA: 0x00193EF8 File Offset: 0x001922F8
 		public static Page StitchedPages(IEnumerable<Page> pages)
 		{
 			List<Page> list = pages.ToList<Page>();
@@ -35,7 +35,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002F38 RID: 12088 RVA: 0x00193E38 File Offset: 0x00192238
+		// Token: 0x06002F3C RID: 12092 RVA: 0x00193F88 File Offset: 0x00192388
 		public static void InitGameStart()
 		{
 			Action preLoadLevelAction = delegate()

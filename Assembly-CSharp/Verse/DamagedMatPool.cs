@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CEB RID: 3307
+	// Token: 0x02000CED RID: 3309
 	internal static class DamagedMatPool
 	{
 		// Token: 0x04003155 RID: 12629
@@ -13,8 +13,8 @@ namespace Verse
 		// Token: 0x04003156 RID: 12630
 		private static readonly Color DamagedMatStartingColor = Color.red;
 
-		// Token: 0x17000B82 RID: 2946
-		// (get) Token: 0x060048DC RID: 18652 RVA: 0x00263BF0 File Offset: 0x00261FF0
+		// Token: 0x17000B81 RID: 2945
+		// (get) Token: 0x060048DF RID: 18655 RVA: 0x00263CCC File Offset: 0x002620CC
 		public static int MatCount
 		{
 			get
@@ -23,7 +23,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048DD RID: 18653 RVA: 0x00263C10 File Offset: 0x00262010
+		// Token: 0x060048E0 RID: 18656 RVA: 0x00263CEC File Offset: 0x002620EC
 		public static Material GetDamageFlashMat(Material baseMat, float damPct)
 		{
 			Material result;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C08 RID: 3080
+	// Token: 0x02000C0A RID: 3082
 	[StaticConstructorOnStartup]
 	public static class DebugMatsRandom
 	{
@@ -16,7 +16,7 @@ namespace Verse
 		// Token: 0x04002E14 RID: 11796
 		private const float Opacity = 0.25f;
 
-		// Token: 0x0600435B RID: 17243 RVA: 0x0023996C File Offset: 0x00237D6C
+		// Token: 0x0600435E RID: 17246 RVA: 0x00239A48 File Offset: 0x00237E48
 		static DebugMatsRandom()
 		{
 			for (int i = 0; i < 100; i++)
@@ -25,7 +25,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600435C RID: 17244 RVA: 0x002399C4 File Offset: 0x00237DC4
+		// Token: 0x0600435F RID: 17247 RVA: 0x00239AA0 File Offset: 0x00237EA0
 		public static Material Mat(int ind)
 		{
 			ind %= 100;

@@ -3,27 +3,27 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005C7 RID: 1479
+	// Token: 0x020005C9 RID: 1481
 	public abstract class CaravanArrivalAction : IExposable
 	{
 		// Token: 0x1700042C RID: 1068
-		// (get) Token: 0x06001CBA RID: 7354
+		// (get) Token: 0x06001CBE RID: 7358
 		public abstract string Label { get; }
 
 		// Token: 0x1700042D RID: 1069
-		// (get) Token: 0x06001CBB RID: 7355
+		// (get) Token: 0x06001CBF RID: 7359
 		public abstract string ReportString { get; }
 
-		// Token: 0x06001CBC RID: 7356 RVA: 0x000F6CA4 File Offset: 0x000F50A4
+		// Token: 0x06001CC0 RID: 7360 RVA: 0x000F6DF4 File Offset: 0x000F51F4
 		public virtual FloatMenuAcceptanceReport StillValid(Caravan caravan, int destinationTile)
 		{
 			return true;
 		}
 
-		// Token: 0x06001CBD RID: 7357
+		// Token: 0x06001CC1 RID: 7361
 		public abstract void Arrived(Caravan caravan);
 
-		// Token: 0x06001CBE RID: 7358 RVA: 0x000F6CBF File Offset: 0x000F50BF
+		// Token: 0x06001CC2 RID: 7362 RVA: 0x000F6E0F File Offset: 0x000F520F
 		public virtual void ExposeData()
 		{
 		}

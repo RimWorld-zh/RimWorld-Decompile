@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020002A0 RID: 672
+	// Token: 0x020002A2 RID: 674
 	public enum IncidentPopulationEffect : byte
 	{
 		// Token: 0x04000613 RID: 1555

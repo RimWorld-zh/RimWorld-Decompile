@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D6D RID: 3437
+	// Token: 0x02000D6F RID: 3439
 	public static class MaterialAtlasPool
 	{
 		// Token: 0x04003372 RID: 13170
 		private static Dictionary<Material, MaterialAtlasPool.MaterialAtlas> atlasDict = new Dictionary<Material, MaterialAtlasPool.MaterialAtlas>();
 
-		// Token: 0x06004D1D RID: 19741 RVA: 0x00283158 File Offset: 0x00281558
+		// Token: 0x06004D21 RID: 19745 RVA: 0x00283284 File Offset: 0x00281684
 		public static Material SubMaterialFromAtlas(Material mat, LinkDirections LinkSet)
 		{
 			if (!MaterialAtlasPool.atlasDict.ContainsKey(mat))
@@ -20,7 +20,7 @@ namespace Verse
 			return MaterialAtlasPool.atlasDict[mat].SubMat(LinkSet);
 		}
 
-		// Token: 0x02000D6E RID: 3438
+		// Token: 0x02000D70 RID: 3440
 		private class MaterialAtlas
 		{
 			// Token: 0x04003373 RID: 13171
@@ -29,7 +29,7 @@ namespace Verse
 			// Token: 0x04003374 RID: 13172
 			private const float TexPadding = 0.03125f;
 
-			// Token: 0x06004D1F RID: 19743 RVA: 0x002831AC File Offset: 0x002815AC
+			// Token: 0x06004D23 RID: 19747 RVA: 0x002832D8 File Offset: 0x002816D8
 			public MaterialAtlas(Material newRootMat)
 			{
 				Vector2 mainTextureScale = new Vector2(0.1875f, 0.1875f);
@@ -46,7 +46,7 @@ namespace Verse
 				}
 			}
 
-			// Token: 0x06004D20 RID: 19744 RVA: 0x00283260 File Offset: 0x00281660
+			// Token: 0x06004D24 RID: 19748 RVA: 0x0028338C File Offset: 0x0028178C
 			public Material SubMat(LinkDirections linkSet)
 			{
 				Material result;

@@ -5,14 +5,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008C2 RID: 2242
+	// Token: 0x020008C4 RID: 2244
 	public class Instruction_FinishConstruction : Lesson_Instruction
 	{
 		// Token: 0x04001B97 RID: 7063
 		private int initialBlueprintsCount = -1;
 
 		// Token: 0x1700082C RID: 2092
-		// (get) Token: 0x0600334C RID: 13132 RVA: 0x001B8E58 File Offset: 0x001B7258
+		// (get) Token: 0x06003350 RID: 13136 RVA: 0x001B8F98 File Offset: 0x001B7398
 		protected override float ProgressPercent
 		{
 			get
@@ -34,7 +34,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600334D RID: 13133 RVA: 0x001B8EBC File Offset: 0x001B72BC
+		// Token: 0x06003351 RID: 13137 RVA: 0x001B8FFC File Offset: 0x001B73FC
 		private IEnumerable<Thing> ConstructionNeeders()
 		{
 			return from b in base.Map.listerThings.ThingsInGroup(ThingRequestGroup.Blueprint).Concat(base.Map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingFrame))
@@ -42,7 +42,7 @@ namespace RimWorld
 			select b;
 		}
 
-		// Token: 0x0600334E RID: 13134 RVA: 0x001B8F1C File Offset: 0x001B731C
+		// Token: 0x06003352 RID: 13138 RVA: 0x001B905C File Offset: 0x001B745C
 		public override void LessonUpdate()
 		{
 			base.LessonUpdate();

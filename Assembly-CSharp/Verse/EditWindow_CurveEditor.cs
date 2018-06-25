@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E37 RID: 3639
+	// Token: 0x02000E39 RID: 3641
 	public class EditWindow_CurveEditor : EditWindow
 	{
 		// Token: 0x040038E9 RID: 14569
@@ -29,15 +29,15 @@ namespace Verse
 		// Token: 0x040038EF RID: 14575
 		private const float PointClickDistanceLimit = 7f;
 
-		// Token: 0x0600562A RID: 22058 RVA: 0x002C69F6 File Offset: 0x002C4DF6
+		// Token: 0x0600562E RID: 22062 RVA: 0x002C6B22 File Offset: 0x002C4F22
 		public EditWindow_CurveEditor(SimpleCurve curve, string title)
 		{
 			this.curve = curve;
 			this.optionalTitle = title;
 		}
 
-		// Token: 0x17000D7B RID: 3451
-		// (get) Token: 0x0600562B RID: 22059 RVA: 0x002C6A24 File Offset: 0x002C4E24
+		// Token: 0x17000D7A RID: 3450
+		// (get) Token: 0x0600562F RID: 22063 RVA: 0x002C6B50 File Offset: 0x002C4F50
 		private bool DraggingView
 		{
 			get
@@ -46,8 +46,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D7C RID: 3452
-		// (get) Token: 0x0600562C RID: 22060 RVA: 0x002C6A48 File Offset: 0x002C4E48
+		// Token: 0x17000D7B RID: 3451
+		// (get) Token: 0x06005630 RID: 22064 RVA: 0x002C6B74 File Offset: 0x002C4F74
 		public override Vector2 InitialSize
 		{
 			get
@@ -56,8 +56,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D7D RID: 3453
-		// (get) Token: 0x0600562D RID: 22061 RVA: 0x002C6A6C File Offset: 0x002C4E6C
+		// Token: 0x17000D7C RID: 3452
+		// (get) Token: 0x06005631 RID: 22065 RVA: 0x002C6B98 File Offset: 0x002C4F98
 		public override bool IsDebug
 		{
 			get
@@ -66,7 +66,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600562E RID: 22062 RVA: 0x002C6A84 File Offset: 0x002C4E84
+		// Token: 0x06005632 RID: 22066 RVA: 0x002C6BB0 File Offset: 0x002C4FB0
 		public override void DoWindowContents(Rect inRect)
 		{
 			WidgetRow widgetRow = new WidgetRow(0f, 0f, UIDirection.RightThenUp, 99999f, 4f);
@@ -118,7 +118,7 @@ namespace Verse
 			this.DoCurveEditor(screenRect);
 		}
 
-		// Token: 0x0600562F RID: 22063 RVA: 0x002C6D8C File Offset: 0x002C518C
+		// Token: 0x06005633 RID: 22067 RVA: 0x002C6EB8 File Offset: 0x002C52B8
 		private void DoCurveEditor(Rect screenRect)
 		{
 			Widgets.DrawMenuSection(screenRect);
@@ -244,7 +244,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005630 RID: 22064 RVA: 0x002C74FC File Offset: 0x002C58FC
+		// Token: 0x06005634 RID: 22068 RVA: 0x002C7628 File Offset: 0x002C5A28
 		private IEnumerable<int> PointsNearMouse(Rect screenRect)
 		{
 			GUI.BeginGroup(screenRect);

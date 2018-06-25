@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Verse
 {
-	// Token: 0x02000D82 RID: 3458
+	// Token: 0x02000D84 RID: 3460
 	public static class DirectXmlSaveLoadUtility
 	{
 		// Token: 0x040033A8 RID: 13224

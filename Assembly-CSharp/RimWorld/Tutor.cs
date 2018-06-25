@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008D1 RID: 2257
+	// Token: 0x020008D3 RID: 2259
 	public class Tutor : IExposable
 	{
 		// Token: 0x04001BC1 RID: 7105
@@ -15,7 +15,7 @@ namespace RimWorld
 		// Token: 0x04001BC3 RID: 7107
 		public TutorialState tutorialState = new TutorialState();
 
-		// Token: 0x060033B4 RID: 13236 RVA: 0x001BA1A8 File Offset: 0x001B85A8
+		// Token: 0x060033B8 RID: 13240 RVA: 0x001BA2E8 File Offset: 0x001B86E8
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<ActiveLessonHandler>(ref this.activeLesson, "activeLesson", new object[0]);
@@ -23,14 +23,14 @@ namespace RimWorld
 			Scribe_Deep.Look<TutorialState>(ref this.tutorialState, "tutorialState", new object[0]);
 		}
 
-		// Token: 0x060033B5 RID: 13237 RVA: 0x001BA1F8 File Offset: 0x001B85F8
+		// Token: 0x060033B9 RID: 13241 RVA: 0x001BA338 File Offset: 0x001B8738
 		internal void TutorUpdate()
 		{
 			this.activeLesson.ActiveLessonUpdate();
 			this.learningReadout.LearningReadoutUpdate();
 		}
 
-		// Token: 0x060033B6 RID: 13238 RVA: 0x001BA211 File Offset: 0x001B8611
+		// Token: 0x060033BA RID: 13242 RVA: 0x001BA351 File Offset: 0x001B8751
 		internal void TutorOnGUI()
 		{
 			this.activeLesson.ActiveLessonOnGUI();

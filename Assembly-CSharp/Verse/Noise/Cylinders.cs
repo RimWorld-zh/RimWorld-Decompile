@@ -2,26 +2,26 @@
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F78 RID: 3960
+	// Token: 0x02000F7C RID: 3964
 	public class Cylinders : ModuleBase
 	{
-		// Token: 0x04003ED8 RID: 16088
+		// Token: 0x04003EDB RID: 16091
 		private double m_frequency = 1.0;
 
-		// Token: 0x06005F9B RID: 24475 RVA: 0x0030B37A File Offset: 0x0030977A
+		// Token: 0x06005FA5 RID: 24485 RVA: 0x0030B9FA File Offset: 0x00309DFA
 		public Cylinders() : base(0)
 		{
 		}
 
-		// Token: 0x06005F9C RID: 24476 RVA: 0x0030B393 File Offset: 0x00309793
+		// Token: 0x06005FA6 RID: 24486 RVA: 0x0030BA13 File Offset: 0x00309E13
 		public Cylinders(double frequency) : base(0)
 		{
 			this.Frequency = frequency;
 		}
 
-		// Token: 0x17000F52 RID: 3922
-		// (get) Token: 0x06005F9D RID: 24477 RVA: 0x0030B3B4 File Offset: 0x003097B4
-		// (set) Token: 0x06005F9E RID: 24478 RVA: 0x0030B3CF File Offset: 0x003097CF
+		// Token: 0x17000F51 RID: 3921
+		// (get) Token: 0x06005FA7 RID: 24487 RVA: 0x0030BA34 File Offset: 0x00309E34
+		// (set) Token: 0x06005FA8 RID: 24488 RVA: 0x0030BA4F File Offset: 0x00309E4F
 		public double Frequency
 		{
 			get
@@ -34,7 +34,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06005F9F RID: 24479 RVA: 0x0030B3DC File Offset: 0x003097DC
+		// Token: 0x06005FA9 RID: 24489 RVA: 0x0030BA5C File Offset: 0x00309E5C
 		public override double GetValue(double x, double y, double z)
 		{
 			x *= this.m_frequency;

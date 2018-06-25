@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000500 RID: 1280
+	// Token: 0x02000502 RID: 1282
 	public static class RestCategoryUtility
 	{
-		// Token: 0x06001707 RID: 5895 RVA: 0x000CB318 File Offset: 0x000C9718
+		// Token: 0x0600170B RID: 5899 RVA: 0x000CB468 File Offset: 0x000C9868
 		public static string GetLabel(this RestCategory fatigue)
 		{
 			string result;

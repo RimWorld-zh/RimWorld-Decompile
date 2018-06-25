@@ -6,20 +6,20 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000644 RID: 1604
+	// Token: 0x02000646 RID: 1606
 	public class ScenPart_PlayerPawnsArriveMethod : ScenPart
 	{
 		// Token: 0x040012F4 RID: 4852
 		private PlayerPawnsArriveMethod method = PlayerPawnsArriveMethod.Standing;
 
-		// Token: 0x06002146 RID: 8518 RVA: 0x0011A9E2 File Offset: 0x00118DE2
+		// Token: 0x0600214A RID: 8522 RVA: 0x0011AB32 File Offset: 0x00118F32
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<PlayerPawnsArriveMethod>(ref this.method, "method", PlayerPawnsArriveMethod.Standing, false);
 		}
 
-		// Token: 0x06002147 RID: 8519 RVA: 0x0011AA00 File Offset: 0x00118E00
+		// Token: 0x0600214B RID: 8523 RVA: 0x0011AB50 File Offset: 0x00118F50
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight);
@@ -52,7 +52,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002148 RID: 8520 RVA: 0x0011AAF0 File Offset: 0x00118EF0
+		// Token: 0x0600214C RID: 8524 RVA: 0x0011AC40 File Offset: 0x00119040
 		public override string Summary(Scenario scen)
 		{
 			string result;
@@ -67,13 +67,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002149 RID: 8521 RVA: 0x0011AB22 File Offset: 0x00118F22
+		// Token: 0x0600214D RID: 8525 RVA: 0x0011AC72 File Offset: 0x00119072
 		public override void Randomize()
 		{
 			this.method = ((Rand.Value >= 0.5f) ? PlayerPawnsArriveMethod.Standing : PlayerPawnsArriveMethod.DropPods);
 		}
 
-		// Token: 0x0600214A RID: 8522 RVA: 0x0011AB44 File Offset: 0x00118F44
+		// Token: 0x0600214E RID: 8526 RVA: 0x0011AC94 File Offset: 0x00119094
 		public override void GenerateIntoMap(Map map)
 		{
 			if (Find.GameInitData != null)
@@ -112,7 +112,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600214B RID: 8523 RVA: 0x0011ACF8 File Offset: 0x001190F8
+		// Token: 0x0600214F RID: 8527 RVA: 0x0011AE48 File Offset: 0x00119248
 		public override void PostMapGenerate(Map map)
 		{
 			if (Find.GameInitData != null)

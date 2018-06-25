@@ -3,19 +3,19 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C2A RID: 3114
+	// Token: 0x02000C2C RID: 3116
 	public class ThingDefComparer : IEqualityComparer<ThingDef>
 	{
 		// Token: 0x04002E7D RID: 11901
 		public static readonly ThingDefComparer Instance = new ThingDefComparer();
 
-		// Token: 0x06004482 RID: 17538 RVA: 0x0024090C File Offset: 0x0023ED0C
+		// Token: 0x06004485 RID: 17541 RVA: 0x002409E8 File Offset: 0x0023EDE8
 		public bool Equals(ThingDef x, ThingDef y)
 		{
 			return (x == null && y == null) || (x != null && y != null && x.shortHash == y.shortHash);
 		}
 
-		// Token: 0x06004483 RID: 17539 RVA: 0x00240958 File Offset: 0x0023ED58
+		// Token: 0x06004486 RID: 17542 RVA: 0x00240A34 File Offset: 0x0023EE34
 		public int GetHashCode(ThingDef obj)
 		{
 			return obj.GetHashCode();

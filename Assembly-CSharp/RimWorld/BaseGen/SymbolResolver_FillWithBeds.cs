@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003C6 RID: 966
+	// Token: 0x020003C8 RID: 968
 	public class SymbolResolver_FillWithBeds : SymbolResolver
 	{
-		// Token: 0x060010AE RID: 4270 RVA: 0x0008DFB8 File Offset: 0x0008C3B8
+		// Token: 0x060010B2 RID: 4274 RVA: 0x0008E108 File Offset: 0x0008C508
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;

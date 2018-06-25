@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000353 RID: 851
+	// Token: 0x02000355 RID: 853
 	public class IncidentWorker_QuestJourneyOffer : IncidentWorker
 	{
 		// Token: 0x04000908 RID: 2312
@@ -13,14 +13,14 @@ namespace RimWorld
 		// Token: 0x04000909 RID: 2313
 		private const int MaxTraversalDistance = 800;
 
-		// Token: 0x06000EB2 RID: 3762 RVA: 0x0007C5BC File Offset: 0x0007A9BC
+		// Token: 0x06000EB6 RID: 3766 RVA: 0x0007C70C File Offset: 0x0007AB0C
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			int num;
 			return this.TryFindRootTile(out num);
 		}
 
-		// Token: 0x06000EB3 RID: 3763 RVA: 0x0007C5DC File Offset: 0x0007A9DC
+		// Token: 0x06000EB7 RID: 3767 RVA: 0x0007C72C File Offset: 0x0007AB2C
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			int rootTile;
@@ -57,14 +57,14 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000EB4 RID: 3764 RVA: 0x0007C6F0 File Offset: 0x0007AAF0
+		// Token: 0x06000EB8 RID: 3768 RVA: 0x0007C840 File Offset: 0x0007AC40
 		private bool TryFindRootTile(out int tile)
 		{
 			int unused;
 			return TileFinder.TryFindRandomPlayerTile(out tile, false, (int x) => this.TryFindDestinationTileActual(x, 180, out unused));
 		}
 
-		// Token: 0x06000EB5 RID: 3765 RVA: 0x0007C728 File Offset: 0x0007AB28
+		// Token: 0x06000EB9 RID: 3769 RVA: 0x0007C878 File Offset: 0x0007AC78
 		private bool TryFindDestinationTile(int rootTile, out int tile)
 		{
 			int num = 800;
@@ -96,7 +96,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06000EB6 RID: 3766 RVA: 0x0007C7AC File Offset: 0x0007ABAC
+		// Token: 0x06000EBA RID: 3770 RVA: 0x0007C8FC File Offset: 0x0007ACFC
 		private bool TryFindDestinationTileActual(int rootTile, int minDist, out int tile)
 		{
 			return TileFinder.TryFindPassableTileWithTraversalDistance(rootTile, minDist, 800, out tile, (int x) => !Find.WorldObjects.AnyWorldObjectAt(x) && Find.WorldGrid[x].biome.canBuildBase && Find.WorldGrid[x].biome.canAutoChoose, true, true);

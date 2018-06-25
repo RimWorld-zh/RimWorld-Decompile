@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000D0A RID: 3338
+	// Token: 0x02000D0C RID: 3340
 	public class HediffCompProperties_GetsPermanent : HediffCompProperties
 	{
 		// Token: 0x040031F5 RID: 12789
@@ -14,7 +14,7 @@ namespace Verse
 		// Token: 0x040031F7 RID: 12791
 		public string instantlyPermanentLabel = null;
 
-		// Token: 0x060049B5 RID: 18869 RVA: 0x00269A59 File Offset: 0x00267E59
+		// Token: 0x060049B8 RID: 18872 RVA: 0x00269B35 File Offset: 0x00267F35
 		public HediffCompProperties_GetsPermanent()
 		{
 			this.compClass = typeof(HediffComp_GetsPermanent);

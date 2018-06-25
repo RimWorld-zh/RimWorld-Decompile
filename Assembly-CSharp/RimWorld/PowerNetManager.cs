@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000428 RID: 1064
+	// Token: 0x0200042A RID: 1066
 	public class PowerNetManager
 	{
 		// Token: 0x04000B59 RID: 2905
@@ -17,14 +17,14 @@ namespace RimWorld
 		// Token: 0x04000B5B RID: 2907
 		private List<PowerNetManager.DelayedAction> delayedActions = new List<PowerNetManager.DelayedAction>();
 
-		// Token: 0x06001294 RID: 4756 RVA: 0x000A15FA File Offset: 0x0009F9FA
+		// Token: 0x06001298 RID: 4760 RVA: 0x000A174A File Offset: 0x0009FB4A
 		public PowerNetManager(Map map)
 		{
 			this.map = map;
 		}
 
 		// Token: 0x17000283 RID: 643
-		// (get) Token: 0x06001295 RID: 4757 RVA: 0x000A1620 File Offset: 0x0009FA20
+		// (get) Token: 0x06001299 RID: 4761 RVA: 0x000A1770 File Offset: 0x0009FB70
 		public List<PowerNet> AllNetsListForReading
 		{
 			get
@@ -33,21 +33,21 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001296 RID: 4758 RVA: 0x000A163B File Offset: 0x0009FA3B
+		// Token: 0x0600129A RID: 4762 RVA: 0x000A178B File Offset: 0x0009FB8B
 		public void Notify_TransmitterSpawned(CompPower newTransmitter)
 		{
 			this.delayedActions.Add(new PowerNetManager.DelayedAction(PowerNetManager.DelayedActionType.RegisterTransmitter, newTransmitter));
 			this.NotifyDrawersForWireUpdate(newTransmitter.parent.Position);
 		}
 
-		// Token: 0x06001297 RID: 4759 RVA: 0x000A1661 File Offset: 0x0009FA61
+		// Token: 0x0600129B RID: 4763 RVA: 0x000A17B1 File Offset: 0x0009FBB1
 		public void Notify_TransmitterDespawned(CompPower oldTransmitter)
 		{
 			this.delayedActions.Add(new PowerNetManager.DelayedAction(PowerNetManager.DelayedActionType.DeregisterTransmitter, oldTransmitter));
 			this.NotifyDrawersForWireUpdate(oldTransmitter.parent.Position);
 		}
 
-		// Token: 0x06001298 RID: 4760 RVA: 0x000A1688 File Offset: 0x0009FA88
+		// Token: 0x0600129C RID: 4764 RVA: 0x000A17D8 File Offset: 0x0009FBD8
 		public void Notfiy_TransmitterTransmitsPowerNowChanged(CompPower transmitter)
 		{
 			if (transmitter.parent.Spawned)
@@ -58,7 +58,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001299 RID: 4761 RVA: 0x000A16E0 File Offset: 0x0009FAE0
+		// Token: 0x0600129D RID: 4765 RVA: 0x000A1830 File Offset: 0x0009FC30
 		public void Notify_ConnectorWantsConnect(CompPower wantingCon)
 		{
 			if (Scribe.mode == LoadSaveMode.Inactive)
@@ -71,21 +71,21 @@ namespace RimWorld
 			this.NotifyDrawersForWireUpdate(wantingCon.parent.Position);
 		}
 
-		// Token: 0x0600129A RID: 4762 RVA: 0x000A171E File Offset: 0x0009FB1E
+		// Token: 0x0600129E RID: 4766 RVA: 0x000A186E File Offset: 0x0009FC6E
 		public void Notify_ConnectorDespawned(CompPower oldCon)
 		{
 			this.delayedActions.Add(new PowerNetManager.DelayedAction(PowerNetManager.DelayedActionType.DeregisterConnector, oldCon));
 			this.NotifyDrawersForWireUpdate(oldCon.parent.Position);
 		}
 
-		// Token: 0x0600129B RID: 4763 RVA: 0x000A1744 File Offset: 0x0009FB44
+		// Token: 0x0600129F RID: 4767 RVA: 0x000A1894 File Offset: 0x0009FC94
 		public void NotifyDrawersForWireUpdate(IntVec3 root)
 		{
 			this.map.mapDrawer.MapMeshDirty(root, MapMeshFlag.Things, true, false);
 			this.map.mapDrawer.MapMeshDirty(root, MapMeshFlag.PowerGrid, true, false);
 		}
 
-		// Token: 0x0600129C RID: 4764 RVA: 0x000A1773 File Offset: 0x0009FB73
+		// Token: 0x060012A0 RID: 4768 RVA: 0x000A18C3 File Offset: 0x0009FCC3
 		public void RegisterPowerNet(PowerNet newNet)
 		{
 			this.allNets.Add(newNet);
@@ -94,14 +94,14 @@ namespace RimWorld
 			PowerNetMaker.UpdateVisualLinkagesFor(newNet);
 		}
 
-		// Token: 0x0600129D RID: 4765 RVA: 0x000A17A0 File Offset: 0x0009FBA0
+		// Token: 0x060012A1 RID: 4769 RVA: 0x000A18F0 File Offset: 0x0009FCF0
 		public void DeletePowerNet(PowerNet oldNet)
 		{
 			this.allNets.Remove(oldNet);
 			this.map.powerNetGrid.Notify_PowerNetDeleted(oldNet);
 		}
 
-		// Token: 0x0600129E RID: 4766 RVA: 0x000A17C4 File Offset: 0x0009FBC4
+		// Token: 0x060012A2 RID: 4770 RVA: 0x000A1914 File Offset: 0x0009FD14
 		public void PowerNetsTick()
 		{
 			for (int i = 0; i < this.allNets.Count; i++)
@@ -110,7 +110,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600129F RID: 4767 RVA: 0x000A1804 File Offset: 0x0009FC04
+		// Token: 0x060012A3 RID: 4771 RVA: 0x000A1954 File Offset: 0x0009FD54
 		public void UpdatePowerNetsAndConnections_First()
 		{
 			int count = this.delayedActions.Count;
@@ -185,7 +185,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060012A0 RID: 4768 RVA: 0x000A1B44 File Offset: 0x0009FF44
+		// Token: 0x060012A4 RID: 4772 RVA: 0x000A1C94 File Offset: 0x000A0094
 		private bool HasRegisterConnectorDuplicate(CompPower compPower)
 		{
 			for (int i = this.delayedActions.Count - 1; i >= 0; i--)
@@ -212,7 +212,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060012A1 RID: 4769 RVA: 0x000A1BDC File Offset: 0x0009FFDC
+		// Token: 0x060012A5 RID: 4773 RVA: 0x000A1D2C File Offset: 0x000A012C
 		private void TryCreateNetAt(IntVec3 cell)
 		{
 			if (cell.InBounds(this.map))
@@ -233,7 +233,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060012A2 RID: 4770 RVA: 0x000A1C78 File Offset: 0x000A0078
+		// Token: 0x060012A6 RID: 4774 RVA: 0x000A1DC8 File Offset: 0x000A01C8
 		private void TryDestroyNetAt(IntVec3 cell)
 		{
 			if (cell.InBounds(this.map))
@@ -246,7 +246,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060012A3 RID: 4771 RVA: 0x000A1CBC File Offset: 0x000A00BC
+		// Token: 0x060012A7 RID: 4775 RVA: 0x000A1E0C File Offset: 0x000A020C
 		private void DrawDebugPowerNets()
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -269,7 +269,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x02000429 RID: 1065
+		// Token: 0x0200042B RID: 1067
 		private enum DelayedActionType
 		{
 			// Token: 0x04000B5D RID: 2909
@@ -282,7 +282,7 @@ namespace RimWorld
 			DeregisterConnector
 		}
 
-		// Token: 0x0200042A RID: 1066
+		// Token: 0x0200042C RID: 1068
 		private struct DelayedAction
 		{
 			// Token: 0x04000B61 RID: 2913
@@ -297,7 +297,7 @@ namespace RimWorld
 			// Token: 0x04000B64 RID: 2916
 			public Rot4 rotation;
 
-			// Token: 0x060012A4 RID: 4772 RVA: 0x000A1DF4 File Offset: 0x000A01F4
+			// Token: 0x060012A8 RID: 4776 RVA: 0x000A1F44 File Offset: 0x000A0344
 			public DelayedAction(PowerNetManager.DelayedActionType type, CompPower compPower)
 			{
 				this.type = type;

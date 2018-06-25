@@ -4,7 +4,7 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000DC8 RID: 3528
+	// Token: 0x02000DCA RID: 3530
 	public class RectTrigger : Thing
 	{
 		// Token: 0x0400348C RID: 13452
@@ -19,9 +19,9 @@ namespace Verse
 		// Token: 0x0400348F RID: 13455
 		public string signalTag;
 
-		// Token: 0x17000CC7 RID: 3271
-		// (get) Token: 0x06004F09 RID: 20233 RVA: 0x00293CEC File Offset: 0x002920EC
-		// (set) Token: 0x06004F0A RID: 20234 RVA: 0x00293D07 File Offset: 0x00292107
+		// Token: 0x17000CC6 RID: 3270
+		// (get) Token: 0x06004F0D RID: 20237 RVA: 0x00293E18 File Offset: 0x00292218
+		// (set) Token: 0x06004F0E RID: 20238 RVA: 0x00293E33 File Offset: 0x00292233
 		public CellRect Rect
 		{
 			get
@@ -38,14 +38,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F0B RID: 20235 RVA: 0x00293D2E File Offset: 0x0029212E
+		// Token: 0x06004F0F RID: 20239 RVA: 0x00293E5A File Offset: 0x0029225A
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
 			this.rect.ClipInsideMap(base.Map);
 		}
 
-		// Token: 0x06004F0C RID: 20236 RVA: 0x00293D4C File Offset: 0x0029214C
+		// Token: 0x06004F10 RID: 20240 RVA: 0x00293E78 File Offset: 0x00292278
 		public override void Tick()
 		{
 			if (this.destroyIfUnfogged && !this.rect.CenterCell.Fogged(base.Map))
@@ -74,7 +74,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F0D RID: 20237 RVA: 0x00293E8D File Offset: 0x0029228D
+		// Token: 0x06004F11 RID: 20241 RVA: 0x00293FB9 File Offset: 0x002923B9
 		public void ActivatedBy(Pawn p)
 		{
 			Find.SignalManager.SendSignal(new Signal(this.signalTag, new object[]
@@ -87,7 +87,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F0E RID: 20238 RVA: 0x00293EC4 File Offset: 0x002922C4
+		// Token: 0x06004F12 RID: 20242 RVA: 0x00293FF0 File Offset: 0x002923F0
 		public override void ExposeData()
 		{
 			base.ExposeData();

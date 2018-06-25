@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D78 RID: 3448
+	// Token: 0x02000D7A RID: 3450
 	[StaticConstructorOnStartup]
 	[HasDebugOutput]
 	public static class MeshPool
@@ -76,7 +76,7 @@ namespace Verse
 		// Token: 0x0400339C RID: 13212
 		public static readonly Mesh[] pies = new Mesh[361];
 
-		// Token: 0x06004D50 RID: 19792 RVA: 0x00284728 File Offset: 0x00282B28
+		// Token: 0x06004D54 RID: 19796 RVA: 0x00284854 File Offset: 0x00282C54
 		static MeshPool()
 		{
 			for (int i = 0; i < 361; i++)
@@ -86,7 +86,7 @@ namespace Verse
 			MeshPool.wholeMapPlane = MeshMakerPlanes.NewWholeMapPlane();
 		}
 
-		// Token: 0x06004D51 RID: 19793 RVA: 0x0028486C File Offset: 0x00282C6C
+		// Token: 0x06004D55 RID: 19797 RVA: 0x00284998 File Offset: 0x00282D98
 		public static Mesh GridPlane(Vector2 size)
 		{
 			Mesh mesh;
@@ -98,7 +98,7 @@ namespace Verse
 			return mesh;
 		}
 
-		// Token: 0x06004D52 RID: 19794 RVA: 0x002848AC File Offset: 0x00282CAC
+		// Token: 0x06004D56 RID: 19798 RVA: 0x002849D8 File Offset: 0x00282DD8
 		public static Mesh GridPlaneFlip(Vector2 size)
 		{
 			Mesh mesh;
@@ -110,13 +110,13 @@ namespace Verse
 			return mesh;
 		}
 
-		// Token: 0x06004D53 RID: 19795 RVA: 0x002848EC File Offset: 0x00282CEC
+		// Token: 0x06004D57 RID: 19799 RVA: 0x00284A18 File Offset: 0x00282E18
 		private static Vector2 RoundedToHundredths(this Vector2 v)
 		{
 			return new Vector2((float)((int)(v.x * 100f)) / 100f, (float)((int)(v.y * 100f)) / 100f);
 		}
 
-		// Token: 0x06004D54 RID: 19796 RVA: 0x00284930 File Offset: 0x00282D30
+		// Token: 0x06004D58 RID: 19800 RVA: 0x00284A5C File Offset: 0x00282E5C
 		[DebugOutput]
 		[Category("System")]
 		public static void MeshPoolStats()

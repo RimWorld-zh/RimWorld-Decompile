@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002D0 RID: 720
+	// Token: 0x020002D2 RID: 722
 	public abstract class SiteDefBase : Def
 	{
 		// Token: 0x04000722 RID: 1826
@@ -67,7 +67,7 @@ namespace RimWorld
 		private List<GenStepDef> extraGenSteps;
 
 		// Token: 0x170001C4 RID: 452
-		// (get) Token: 0x06000BE9 RID: 3049 RVA: 0x00069C24 File Offset: 0x00068024
+		// (get) Token: 0x06000BED RID: 3053 RVA: 0x00069D74 File Offset: 0x00068174
 		public SiteWorkerBase Worker
 		{
 			get
@@ -82,7 +82,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001C5 RID: 453
-		// (get) Token: 0x06000BEA RID: 3050 RVA: 0x00069C64 File Offset: 0x00068064
+		// (get) Token: 0x06000BEE RID: 3054 RVA: 0x00069DB4 File Offset: 0x000681B4
 		public Texture2D ExpandingIconTexture
 		{
 			get
@@ -103,7 +103,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001C6 RID: 454
-		// (get) Token: 0x06000BEB RID: 3051 RVA: 0x00069CC4 File Offset: 0x000680C4
+		// (get) Token: 0x06000BEF RID: 3055 RVA: 0x00069E14 File Offset: 0x00068214
 		public List<GenStepDef> ExtraGenSteps
 		{
 			get
@@ -124,7 +124,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000BEC RID: 3052 RVA: 0x00069D3C File Offset: 0x0006813C
+		// Token: 0x06000BF0 RID: 3056 RVA: 0x00069E8C File Offset: 0x0006828C
 		public virtual bool FactionCanOwn(Faction faction)
 		{
 			bool result;
@@ -150,7 +150,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000BED RID: 3053
+		// Token: 0x06000BF1 RID: 3057
 		protected abstract SiteWorkerBase CreateWorker();
 	}
 }

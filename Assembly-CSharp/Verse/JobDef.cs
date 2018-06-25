@@ -4,7 +4,7 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000B48 RID: 2888
+	// Token: 0x02000B4A RID: 2890
 	public class JobDef : Def
 	{
 		// Token: 0x040029BD RID: 10685
@@ -68,7 +68,7 @@ namespace Verse
 		// Token: 0x040029D0 RID: 10704
 		public Rot4 faceDir = Rot4.Invalid;
 
-		// Token: 0x06003F52 RID: 16210 RVA: 0x002161E0 File Offset: 0x002145E0
+		// Token: 0x06003F55 RID: 16213 RVA: 0x002162BC File Offset: 0x002146BC
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())

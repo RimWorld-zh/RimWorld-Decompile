@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000D0D RID: 3341
+	// Token: 0x02000D0F RID: 3343
 	public class HediffCompProperties_GrowthMode : HediffCompProperties
 	{
 		// Token: 0x040031FE RID: 12798
@@ -17,7 +17,7 @@ namespace Verse
 		// Token: 0x04003201 RID: 12801
 		public FloatRange severityPerDayRemissionRandomFactor = new FloatRange(1f, 1f);
 
-		// Token: 0x060049BF RID: 18879 RVA: 0x00269D10 File Offset: 0x00268110
+		// Token: 0x060049C2 RID: 18882 RVA: 0x00269DEC File Offset: 0x002681EC
 		public HediffCompProperties_GrowthMode()
 		{
 			this.compClass = typeof(HediffComp_GrowthMode);

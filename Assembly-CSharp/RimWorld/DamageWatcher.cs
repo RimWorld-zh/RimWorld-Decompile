@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000380 RID: 896
+	// Token: 0x02000382 RID: 898
 	public class DamageWatcher : IExposable
 	{
 		// Token: 0x0400097D RID: 2429
@@ -31,7 +31,7 @@ namespace RimWorld
 		private const float SeriousDamageThreshold = 7500f;
 
 		// Token: 0x17000239 RID: 569
-		// (get) Token: 0x06000F8A RID: 3978 RVA: 0x000836F4 File Offset: 0x00081AF4
+		// (get) Token: 0x06000F8E RID: 3982 RVA: 0x00083844 File Offset: 0x00081C44
 		public float DamageTakenEver
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700023A RID: 570
-		// (get) Token: 0x06000F8B RID: 3979 RVA: 0x00083710 File Offset: 0x00081B10
+		// (get) Token: 0x06000F8F RID: 3983 RVA: 0x00083860 File Offset: 0x00081C60
 		public float DamageTakenRecently
 		{
 			get
@@ -51,7 +51,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700023B RID: 571
-		// (get) Token: 0x06000F8C RID: 3980 RVA: 0x0008372C File Offset: 0x00081B2C
+		// (get) Token: 0x06000F90 RID: 3984 RVA: 0x0008387C File Offset: 0x00081C7C
 		public float DaysSinceSeriousDamage
 		{
 			get
@@ -60,7 +60,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F8D RID: 3981 RVA: 0x0008375C File Offset: 0x00081B5C
+		// Token: 0x06000F91 RID: 3985 RVA: 0x000838AC File Offset: 0x00081CAC
 		public void Notify_DamageTaken(Thing damagee, float amount)
 		{
 			if (damagee.Faction == Faction.OfPlayer)
@@ -82,7 +82,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F8E RID: 3982 RVA: 0x00083808 File Offset: 0x00081C08
+		// Token: 0x06000F92 RID: 3986 RVA: 0x00083958 File Offset: 0x00081D58
 		public void DamageWatcherTick()
 		{
 			if (Find.TickManager.TicksGame % 2000 == 0)
@@ -95,7 +95,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F8F RID: 3983 RVA: 0x0008385C File Offset: 0x00081C5C
+		// Token: 0x06000F93 RID: 3987 RVA: 0x000839AC File Offset: 0x00081DAC
 		public void ExposeData()
 		{
 			Scribe_Values.Look<float>(ref this.everDamage, "everDamage", 0f, false);

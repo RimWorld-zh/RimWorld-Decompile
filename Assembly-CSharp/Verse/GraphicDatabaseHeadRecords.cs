@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DCD RID: 3533
+	// Token: 0x02000DCF RID: 3535
 	public static class GraphicDatabaseHeadRecords
 	{
 		// Token: 0x040034A5 RID: 13477
@@ -31,7 +31,7 @@ namespace Verse
 		// Token: 0x040034AA RID: 13482
 		private static readonly string StumpPath = "Things/Pawn/Humanlike/Heads/None_Average_Stump";
 
-		// Token: 0x06004F39 RID: 20281 RVA: 0x00294630 File Offset: 0x00292A30
+		// Token: 0x06004F3D RID: 20285 RVA: 0x0029475C File Offset: 0x00292B5C
 		public static void Reset()
 		{
 			GraphicDatabaseHeadRecords.heads.Clear();
@@ -39,7 +39,7 @@ namespace Verse
 			GraphicDatabaseHeadRecords.stump = null;
 		}
 
-		// Token: 0x06004F3A RID: 20282 RVA: 0x0029464C File Offset: 0x00292A4C
+		// Token: 0x06004F3E RID: 20286 RVA: 0x00294778 File Offset: 0x00292B78
 		private static void BuildDatabaseIfNecessary()
 		{
 			if (GraphicDatabaseHeadRecords.heads.Count <= 0 || GraphicDatabaseHeadRecords.skull == null || GraphicDatabaseHeadRecords.stump == null)
@@ -57,7 +57,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F3B RID: 20283 RVA: 0x00294734 File Offset: 0x00292B34
+		// Token: 0x06004F3F RID: 20287 RVA: 0x00294860 File Offset: 0x00292C60
 		public static Graphic_Multi GetHeadNamed(string graphicPath, Color skinColor)
 		{
 			GraphicDatabaseHeadRecords.BuildDatabaseIfNecessary();
@@ -73,21 +73,21 @@ namespace Verse
 			return GraphicDatabaseHeadRecords.heads.First<GraphicDatabaseHeadRecords.HeadGraphicRecord>().GetGraphic(skinColor);
 		}
 
-		// Token: 0x06004F3C RID: 20284 RVA: 0x002947BC File Offset: 0x00292BBC
+		// Token: 0x06004F40 RID: 20288 RVA: 0x002948E8 File Offset: 0x00292CE8
 		public static Graphic_Multi GetSkull()
 		{
 			GraphicDatabaseHeadRecords.BuildDatabaseIfNecessary();
 			return GraphicDatabaseHeadRecords.skull.GetGraphic(Color.white);
 		}
 
-		// Token: 0x06004F3D RID: 20285 RVA: 0x002947E8 File Offset: 0x00292BE8
+		// Token: 0x06004F41 RID: 20289 RVA: 0x00294914 File Offset: 0x00292D14
 		public static Graphic_Multi GetStump(Color skinColor)
 		{
 			GraphicDatabaseHeadRecords.BuildDatabaseIfNecessary();
 			return GraphicDatabaseHeadRecords.stump.GetGraphic(skinColor);
 		}
 
-		// Token: 0x06004F3E RID: 20286 RVA: 0x00294810 File Offset: 0x00292C10
+		// Token: 0x06004F42 RID: 20290 RVA: 0x0029493C File Offset: 0x00292D3C
 		public static Graphic_Multi GetHeadRandom(Gender gender, Color skinColor, CrownType crownType)
 		{
 			GraphicDatabaseHeadRecords.BuildDatabaseIfNecessary();
@@ -120,7 +120,7 @@ namespace Verse
 			return GraphicDatabaseHeadRecords.heads.First<GraphicDatabaseHeadRecords.HeadGraphicRecord>().GetGraphic(skinColor);
 		}
 
-		// Token: 0x02000DCE RID: 3534
+		// Token: 0x02000DD0 RID: 3536
 		private class HeadGraphicRecord
 		{
 			// Token: 0x040034AB RID: 13483
@@ -135,7 +135,7 @@ namespace Verse
 			// Token: 0x040034AE RID: 13486
 			private List<KeyValuePair<Color, Graphic_Multi>> graphics = new List<KeyValuePair<Color, Graphic_Multi>>();
 
-			// Token: 0x06004F40 RID: 20288 RVA: 0x00294968 File Offset: 0x00292D68
+			// Token: 0x06004F44 RID: 20292 RVA: 0x00294A94 File Offset: 0x00292E94
 			public HeadGraphicRecord(string graphicPath)
 			{
 				this.graphicPath = graphicPath;
@@ -157,7 +157,7 @@ namespace Verse
 				}
 			}
 
-			// Token: 0x06004F41 RID: 20289 RVA: 0x00294A3C File Offset: 0x00292E3C
+			// Token: 0x06004F45 RID: 20293 RVA: 0x00294B68 File Offset: 0x00292F68
 			public Graphic_Multi GetGraphic(Color color)
 			{
 				for (int i = 0; i < this.graphics.Count; i++)

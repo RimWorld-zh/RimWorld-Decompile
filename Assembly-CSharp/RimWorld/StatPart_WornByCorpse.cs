@@ -3,13 +3,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009B9 RID: 2489
+	// Token: 0x020009BB RID: 2491
 	public class StatPart_WornByCorpse : StatPart
 	{
-		// Token: 0x040023BF RID: 9151
+		// Token: 0x040023C0 RID: 9152
 		private const float Factor = 0.1f;
 
-		// Token: 0x060037BF RID: 14271 RVA: 0x001DAD48 File Offset: 0x001D9148
+		// Token: 0x060037C3 RID: 14275 RVA: 0x001DAE88 File Offset: 0x001D9288
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing)
@@ -22,7 +22,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037C0 RID: 14272 RVA: 0x001DAD8C File Offset: 0x001D918C
+		// Token: 0x060037C4 RID: 14276 RVA: 0x001DAECC File Offset: 0x001D92CC
 		public override string ExplanationPart(StatRequest req)
 		{
 			if (req.HasThing)

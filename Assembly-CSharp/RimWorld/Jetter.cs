@@ -4,7 +4,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020006C7 RID: 1735
+	// Token: 0x020006C9 RID: 1737
 	public class Jetter : Thing
 	{
 		// Token: 0x040014F5 RID: 5365
@@ -28,7 +28,7 @@ namespace RimWorld
 		// Token: 0x040014FB RID: 5371
 		private const int TicksBetweenMoves = 3;
 
-		// Token: 0x0600259D RID: 9629 RVA: 0x001425CC File Offset: 0x001409CC
+		// Token: 0x060025A1 RID: 9633 RVA: 0x0014271C File Offset: 0x00140B1C
 		public override void Tick()
 		{
 			if (this.JState == Jetter.JetterState.WickBurning)
@@ -51,7 +51,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600259E RID: 9630 RVA: 0x00142655 File Offset: 0x00140A55
+		// Token: 0x060025A2 RID: 9634 RVA: 0x001427A5 File Offset: 0x00140BA5
 		public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
 		{
 			base.PostApplyDamage(dinfo, totalDamageDealt);
@@ -61,7 +61,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600259F RID: 9631 RVA: 0x0014268F File Offset: 0x00140A8F
+		// Token: 0x060025A3 RID: 9635 RVA: 0x001427DF File Offset: 0x00140BDF
 		protected void StartWick()
 		{
 			this.JState = Jetter.JetterState.WickBurning;
@@ -70,7 +70,7 @@ namespace RimWorld
 			this.wickSoundSustainer = SoundDefOf.HissSmall.TrySpawnSustainer(this);
 		}
 
-		// Token: 0x060025A0 RID: 9632 RVA: 0x001426C7 File Offset: 0x00140AC7
+		// Token: 0x060025A4 RID: 9636 RVA: 0x00142817 File Offset: 0x00140C17
 		protected void StartJetting()
 		{
 			this.JState = Jetter.JetterState.Jetting;
@@ -80,7 +80,7 @@ namespace RimWorld
 			this.wickSoundSustainer = SoundDefOf.HissJet.TrySpawnSustainer(this);
 		}
 
-		// Token: 0x060025A1 RID: 9633 RVA: 0x00142700 File Offset: 0x00140B00
+		// Token: 0x060025A5 RID: 9637 RVA: 0x00142850 File Offset: 0x00140C50
 		protected void MoveJetter()
 		{
 			IntVec3 intVec = base.Position + base.Rotation.FacingCell;
@@ -95,7 +95,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025A2 RID: 9634 RVA: 0x001427B0 File Offset: 0x00140BB0
+		// Token: 0x060025A6 RID: 9638 RVA: 0x00142900 File Offset: 0x00140D00
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
 			base.Destroy(mode);
@@ -111,7 +111,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x020006C8 RID: 1736
+		// Token: 0x020006CA RID: 1738
 		private enum JetterState
 		{
 			// Token: 0x040014FD RID: 5373

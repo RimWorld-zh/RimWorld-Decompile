@@ -9,7 +9,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000824 RID: 2084
+	// Token: 0x02000826 RID: 2086
 	[StaticConstructorOnStartup]
 	public class TransferableOneWayWidget
 	{
@@ -156,7 +156,7 @@ namespace RimWorld
 		[TweakValue("Interface", 0f, 50f)]
 		private static float BondIconWidth = 30f;
 
-		// Token: 0x06002EE0 RID: 12000 RVA: 0x0018F784 File Offset: 0x0018DB84
+		// Token: 0x06002EE4 RID: 12004 RVA: 0x0018F8D4 File Offset: 0x0018DCD4
 		public TransferableOneWayWidget(IEnumerable<TransferableOneWay> transferables, string sourceLabel, string destinationLabel, string sourceCountDesc, bool drawMass = false, IgnorePawnsInventoryMode ignorePawnInventoryMass = IgnorePawnsInventoryMode.DontIgnore, bool includePawnsMassInMassUsage = false, Func<float> availableMassGetter = null, float extraHeaderSpace = 0f, bool ignoreSpawnedCorpseGearAndInventoryMass = false, int tile = -1, bool drawMarketValue = false, bool drawEquippedWeapon = false, bool drawNutritionEatenPerDay = false, bool drawItemNutrition = false, bool drawForagedFoodPerDay = false, bool drawDaysUntilRot = false, bool playerPawnsReadOnly = false)
 		{
 			if (transferables != null)
@@ -185,7 +185,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700077E RID: 1918
-		// (get) Token: 0x06002EE1 RID: 12001 RVA: 0x0018F880 File Offset: 0x0018DC80
+		// (get) Token: 0x06002EE5 RID: 12005 RVA: 0x0018F9D0 File Offset: 0x0018DDD0
 		public float TotalNumbersColumnsWidths
 		{
 			get
@@ -220,7 +220,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700077F RID: 1919
-		// (get) Token: 0x06002EE2 RID: 12002 RVA: 0x0018F910 File Offset: 0x0018DD10
+		// (get) Token: 0x06002EE6 RID: 12006 RVA: 0x0018FA60 File Offset: 0x0018DE60
 		private bool AnyTransferable
 		{
 			get
@@ -240,7 +240,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EE3 RID: 12003 RVA: 0x0018F97C File Offset: 0x0018DD7C
+		// Token: 0x06002EE7 RID: 12007 RVA: 0x0018FACC File Offset: 0x0018DECC
 		public void AddSection(string title, IEnumerable<TransferableOneWay> transferables)
 		{
 			TransferableOneWayWidget.Section item = default(TransferableOneWayWidget.Section);
@@ -251,7 +251,7 @@ namespace RimWorld
 			this.transferablesCached = false;
 		}
 
-		// Token: 0x06002EE4 RID: 12004 RVA: 0x0018F9C4 File Offset: 0x0018DDC4
+		// Token: 0x06002EE8 RID: 12008 RVA: 0x0018FB14 File Offset: 0x0018DF14
 		private void CacheTransferables()
 		{
 			this.transferablesCached = true;
@@ -263,14 +263,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EE5 RID: 12005 RVA: 0x0018FAB0 File Offset: 0x0018DEB0
+		// Token: 0x06002EE9 RID: 12009 RVA: 0x0018FC00 File Offset: 0x0018E000
 		public void OnGUI(Rect inRect)
 		{
 			bool flag;
 			this.OnGUI(inRect, out flag);
 		}
 
-		// Token: 0x06002EE6 RID: 12006 RVA: 0x0018FAC8 File Offset: 0x0018DEC8
+		// Token: 0x06002EEA RID: 12010 RVA: 0x0018FC18 File Offset: 0x0018E018
 		public void OnGUI(Rect inRect, out bool anythingChanged)
 		{
 			if (!this.transferablesCached)
@@ -314,7 +314,7 @@ namespace RimWorld
 			Profiler.EndSample();
 		}
 
-		// Token: 0x06002EE7 RID: 12007 RVA: 0x0018FC78 File Offset: 0x0018E078
+		// Token: 0x06002EEB RID: 12011 RVA: 0x0018FDC8 File Offset: 0x0018E1C8
 		private void FillMainRect(Rect mainRect, out bool anythingChanged)
 		{
 			anythingChanged = false;
@@ -376,7 +376,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EE8 RID: 12008 RVA: 0x0018FEFC File Offset: 0x0018E2FC
+		// Token: 0x06002EEC RID: 12012 RVA: 0x0019004C File Offset: 0x0018E44C
 		private void DoRow(Rect rect, TransferableOneWay trad, int index, float availableMass)
 		{
 			if (index % 2 == 1)
@@ -516,7 +516,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002EE9 RID: 12009 RVA: 0x001904CC File Offset: 0x0018E8CC
+		// Token: 0x06002EED RID: 12013 RVA: 0x0019061C File Offset: 0x0018EA1C
 		private bool ShouldShowCount(TransferableOneWay trad)
 		{
 			bool result;
@@ -532,7 +532,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002EEA RID: 12010 RVA: 0x00190524 File Offset: 0x0018E924
+		// Token: 0x06002EEE RID: 12014 RVA: 0x00190674 File Offset: 0x0018EA74
 		private void DrawDaysUntilRot(Rect rect, TransferableOneWay trad)
 		{
 			if (trad.HasAnyThing)
@@ -561,7 +561,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EEB RID: 12011 RVA: 0x00190604 File Offset: 0x0018EA04
+		// Token: 0x06002EEF RID: 12015 RVA: 0x00190754 File Offset: 0x0018EB54
 		private void DrawItemNutrition(Rect rect, TransferableOneWay trad)
 		{
 			if (trad.HasAnyThing)
@@ -580,7 +580,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EEC RID: 12012 RVA: 0x001906B8 File Offset: 0x0018EAB8
+		// Token: 0x06002EF0 RID: 12016 RVA: 0x00190808 File Offset: 0x0018EC08
 		private bool DrawGrazeability(Rect rect, TransferableOneWay trad)
 		{
 			bool result;
@@ -616,7 +616,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002EED RID: 12013 RVA: 0x0019078C File Offset: 0x0018EB8C
+		// Token: 0x06002EF1 RID: 12017 RVA: 0x001908DC File Offset: 0x0018ECDC
 		private void DrawForagedFoodPerDay(Rect rect, TransferableOneWay trad)
 		{
 			if (trad.HasAnyThing)
@@ -641,7 +641,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EEE RID: 12014 RVA: 0x00190864 File Offset: 0x0018EC64
+		// Token: 0x06002EF2 RID: 12018 RVA: 0x001909B4 File Offset: 0x0018EDB4
 		private void DrawNutritionEatenPerDay(Rect rect, TransferableOneWay trad)
 		{
 			if (trad.HasAnyThing)
@@ -683,7 +683,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EEF RID: 12015 RVA: 0x0019098C File Offset: 0x0018ED8C
+		// Token: 0x06002EF3 RID: 12019 RVA: 0x00190ADC File Offset: 0x0018EEDC
 		private void DrawMarketValue(Rect rect, TransferableOneWay trad)
 		{
 			if (trad.HasAnyThing)
@@ -694,7 +694,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EF0 RID: 12016 RVA: 0x001909DC File Offset: 0x0018EDDC
+		// Token: 0x06002EF4 RID: 12020 RVA: 0x00190B2C File Offset: 0x0018EF2C
 		private void DrawMass(Rect rect, TransferableOneWay trad, float availableMass)
 		{
 			if (trad.HasAnyThing)
@@ -758,7 +758,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EF1 RID: 12017 RVA: 0x00190C30 File Offset: 0x0018F030
+		// Token: 0x06002EF5 RID: 12021 RVA: 0x00190D80 File Offset: 0x0018F180
 		private void DrawEquippedWeapon(Rect rect, Rect iconRect, TransferableOneWay trad)
 		{
 			if (trad.HasAnyThing)
@@ -774,7 +774,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EF2 RID: 12018 RVA: 0x00190CB0 File Offset: 0x0018F0B0
+		// Token: 0x06002EF6 RID: 12022 RVA: 0x00190E00 File Offset: 0x0018F200
 		private string GetPawnMassTip(TransferableOneWay trad, float capacity, float pawnMass, float gearMass, float invMass)
 		{
 			string result;
@@ -808,7 +808,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002EF3 RID: 12019 RVA: 0x00190DA8 File Offset: 0x0018F1A8
+		// Token: 0x06002EF7 RID: 12023 RVA: 0x00190EF8 File Offset: 0x0018F2F8
 		private float GetMass(Thing thing)
 		{
 			float result;
@@ -840,7 +840,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x02000825 RID: 2085
+		// Token: 0x02000827 RID: 2087
 		private struct Section
 		{
 			// Token: 0x0400193D RID: 6461

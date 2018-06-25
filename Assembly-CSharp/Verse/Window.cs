@@ -6,7 +6,7 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000ECA RID: 3786
+	// Token: 0x02000ECC RID: 3788
 	public abstract class Window
 	{
 		// Token: 0x04003BD0 RID: 15312
@@ -102,15 +102,15 @@ namespace Verse
 		// Token: 0x04003BEE RID: 15342
 		private Rect resizeLaterRect;
 
-		// Token: 0x06005987 RID: 22919 RVA: 0x00067690 File Offset: 0x00065A90
+		// Token: 0x0600598A RID: 22922 RVA: 0x000677E0 File Offset: 0x00065BE0
 		public Window()
 		{
 			this.soundAppear = SoundDefOf.DialogBoxAppear;
 			this.soundClose = SoundDefOf.Click;
 		}
 
-		// Token: 0x17000E18 RID: 3608
-		// (get) Token: 0x06005988 RID: 22920 RVA: 0x0006771C File Offset: 0x00065B1C
+		// Token: 0x17000E17 RID: 3607
+		// (get) Token: 0x0600598B RID: 22923 RVA: 0x0006786C File Offset: 0x00065C6C
 		public virtual Vector2 InitialSize
 		{
 			get
@@ -119,8 +119,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E19 RID: 3609
-		// (get) Token: 0x06005989 RID: 22921 RVA: 0x00067740 File Offset: 0x00065B40
+		// Token: 0x17000E18 RID: 3608
+		// (get) Token: 0x0600598C RID: 22924 RVA: 0x00067890 File Offset: 0x00065C90
 		protected virtual float Margin
 		{
 			get
@@ -129,8 +129,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E1A RID: 3610
-		// (get) Token: 0x0600598A RID: 22922 RVA: 0x0006775C File Offset: 0x00065B5C
+		// Token: 0x17000E19 RID: 3609
+		// (get) Token: 0x0600598D RID: 22925 RVA: 0x000678AC File Offset: 0x00065CAC
 		public virtual bool IsDebug
 		{
 			get
@@ -139,8 +139,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E1B RID: 3611
-		// (get) Token: 0x0600598B RID: 22923 RVA: 0x00067774 File Offset: 0x00065B74
+		// Token: 0x17000E1A RID: 3610
+		// (get) Token: 0x0600598E RID: 22926 RVA: 0x000678C4 File Offset: 0x00065CC4
 		public bool IsOpen
 		{
 			get
@@ -149,7 +149,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600598C RID: 22924 RVA: 0x00067794 File Offset: 0x00065B94
+		// Token: 0x0600598F RID: 22927 RVA: 0x000678E4 File Offset: 0x00065CE4
 		public virtual void WindowUpdate()
 		{
 			if (this.sustainerAmbient != null)
@@ -158,15 +158,15 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600598D RID: 22925
+		// Token: 0x06005990 RID: 22928
 		public abstract void DoWindowContents(Rect inRect);
 
-		// Token: 0x0600598E RID: 22926 RVA: 0x000677AD File Offset: 0x00065BAD
+		// Token: 0x06005991 RID: 22929 RVA: 0x000678FD File Offset: 0x00065CFD
 		public virtual void ExtraOnGUI()
 		{
 		}
 
-		// Token: 0x0600598F RID: 22927 RVA: 0x000677B0 File Offset: 0x00065BB0
+		// Token: 0x06005992 RID: 22930 RVA: 0x00067900 File Offset: 0x00065D00
 		public virtual void PreOpen()
 		{
 			this.SetInitialSizeAndPosition();
@@ -185,7 +185,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005990 RID: 22928 RVA: 0x00067816 File Offset: 0x00065C16
+		// Token: 0x06005993 RID: 22931 RVA: 0x00067966 File Offset: 0x00065D66
 		public virtual void PostOpen()
 		{
 			if (this.soundAppear != null)
@@ -198,17 +198,17 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005991 RID: 22929 RVA: 0x00067852 File Offset: 0x00065C52
+		// Token: 0x06005994 RID: 22932 RVA: 0x000679A2 File Offset: 0x00065DA2
 		public virtual void PreClose()
 		{
 		}
 
-		// Token: 0x06005992 RID: 22930 RVA: 0x00067855 File Offset: 0x00065C55
+		// Token: 0x06005995 RID: 22933 RVA: 0x000679A5 File Offset: 0x00065DA5
 		public virtual void PostClose()
 		{
 		}
 
-		// Token: 0x06005993 RID: 22931 RVA: 0x00067858 File Offset: 0x00065C58
+		// Token: 0x06005996 RID: 22934 RVA: 0x000679A8 File Offset: 0x00065DA8
 		public virtual void WindowOnGUI()
 		{
 			if (this.resizeable)
@@ -328,26 +328,26 @@ namespace Verse
 			}, "", Widgets.EmptyStyle);
 		}
 
-		// Token: 0x06005994 RID: 22932 RVA: 0x00067905 File Offset: 0x00065D05
+		// Token: 0x06005997 RID: 22935 RVA: 0x00067A55 File Offset: 0x00065E55
 		public virtual void Close(bool doCloseSound = true)
 		{
 			Find.WindowStack.TryRemove(this, doCloseSound);
 		}
 
-		// Token: 0x06005995 RID: 22933 RVA: 0x00067918 File Offset: 0x00065D18
+		// Token: 0x06005998 RID: 22936 RVA: 0x00067A68 File Offset: 0x00065E68
 		public virtual bool CausesMessageBackground()
 		{
 			return false;
 		}
 
-		// Token: 0x06005996 RID: 22934 RVA: 0x00067930 File Offset: 0x00065D30
+		// Token: 0x06005999 RID: 22937 RVA: 0x00067A80 File Offset: 0x00065E80
 		protected virtual void SetInitialSizeAndPosition()
 		{
 			this.windowRect = new Rect(((float)UI.screenWidth - this.InitialSize.x) / 2f, ((float)UI.screenHeight - this.InitialSize.y) / 2f, this.InitialSize.x, this.InitialSize.y);
 			this.windowRect = this.windowRect.Rounded();
 		}
 
-		// Token: 0x06005997 RID: 22935 RVA: 0x000679AC File Offset: 0x00065DAC
+		// Token: 0x0600599A RID: 22938 RVA: 0x00067AFC File Offset: 0x00065EFC
 		public virtual void OnCancelKeyPressed()
 		{
 			if (this.closeOnCancel)
@@ -357,7 +357,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005998 RID: 22936 RVA: 0x000679CD File Offset: 0x00065DCD
+		// Token: 0x0600599B RID: 22939 RVA: 0x00067B1D File Offset: 0x00065F1D
 		public virtual void OnAcceptKeyPressed()
 		{
 			if (this.closeOnAccept)
@@ -367,7 +367,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005999 RID: 22937 RVA: 0x000679EE File Offset: 0x00065DEE
+		// Token: 0x0600599C RID: 22940 RVA: 0x00067B3E File Offset: 0x00065F3E
 		public virtual void Notify_ResolutionChanged()
 		{
 			this.SetInitialSizeAndPosition();

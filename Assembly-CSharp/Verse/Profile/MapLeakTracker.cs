@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse.Profile
 {
-	// Token: 0x02000D61 RID: 3425
+	// Token: 0x02000D63 RID: 3427
 	[HasDebugOutput]
 	internal static class MapLeakTracker
 	{
@@ -32,13 +32,13 @@ namespace Verse.Profile
 		// Token: 0x0400333F RID: 13119
 		private const float TimeBetweenUpdateGameDays = 1f;
 
-		// Token: 0x06004CD1 RID: 19665 RVA: 0x002805D7 File Offset: 0x0027E9D7
+		// Token: 0x06004CD5 RID: 19669 RVA: 0x00280703 File Offset: 0x0027EB03
 		public static void AddReference(Map element)
 		{
 			MapLeakTracker.references.Add(new WeakReference<Map>(element));
 		}
 
-		// Token: 0x06004CD2 RID: 19666 RVA: 0x002805EC File Offset: 0x0027E9EC
+		// Token: 0x06004CD6 RID: 19670 RVA: 0x00280718 File Offset: 0x0027EB18
 		public static void Update()
 		{
 			if (Current.Game != null && Find.TickManager.TicksGame < MapLeakTracker.lastUpdateTick)
@@ -88,7 +88,7 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CD3 RID: 19667 RVA: 0x00280838 File Offset: 0x0027EC38
+		// Token: 0x06004CD7 RID: 19671 RVA: 0x00280964 File Offset: 0x0027ED64
 		[DebugOutput]
 		[Category("System")]
 		public static void ForceLeakCheck()

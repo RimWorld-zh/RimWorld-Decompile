@@ -4,33 +4,33 @@ using RimWorld;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x020009FE RID: 2558
+	// Token: 0x02000A00 RID: 2560
 	public class TransitionAction_Message : TransitionAction
 	{
-		// Token: 0x04002489 RID: 9353
+		// Token: 0x0400248A RID: 9354
 		public string message;
 
-		// Token: 0x0400248A RID: 9354
+		// Token: 0x0400248B RID: 9355
 		public MessageTypeDef type;
 
-		// Token: 0x0400248B RID: 9355
+		// Token: 0x0400248C RID: 9356
 		public TargetInfo lookTarget;
 
-		// Token: 0x0400248C RID: 9356
+		// Token: 0x0400248D RID: 9357
 		public Func<TargetInfo> lookTargetGetter;
 
-		// Token: 0x0400248D RID: 9357
+		// Token: 0x0400248E RID: 9358
 		public string repeatAvoiderTag;
 
-		// Token: 0x0400248E RID: 9358
+		// Token: 0x0400248F RID: 9359
 		public float repeatAvoiderSeconds;
 
-		// Token: 0x06003970 RID: 14704 RVA: 0x001E788F File Offset: 0x001E5C8F
+		// Token: 0x06003974 RID: 14708 RVA: 0x001E79BB File Offset: 0x001E5DBB
 		public TransitionAction_Message(string message, string repeatAvoiderTag = null, float repeatAvoiderSeconds = 1f) : this(message, MessageTypeDefOf.NeutralEvent, repeatAvoiderTag, repeatAvoiderSeconds)
 		{
 		}
 
-		// Token: 0x06003971 RID: 14705 RVA: 0x001E78A0 File Offset: 0x001E5CA0
+		// Token: 0x06003975 RID: 14709 RVA: 0x001E79CC File Offset: 0x001E5DCC
 		public TransitionAction_Message(string message, MessageTypeDef messageType, string repeatAvoiderTag = null, float repeatAvoiderSeconds = 1f)
 		{
 			this.lookTarget = TargetInfo.Invalid;
@@ -41,7 +41,7 @@ namespace Verse.AI.Group
 			this.repeatAvoiderSeconds = repeatAvoiderSeconds;
 		}
 
-		// Token: 0x06003972 RID: 14706 RVA: 0x001E78D1 File Offset: 0x001E5CD1
+		// Token: 0x06003976 RID: 14710 RVA: 0x001E79FD File Offset: 0x001E5DFD
 		public TransitionAction_Message(string message, MessageTypeDef messageType, TargetInfo lookTarget, string repeatAvoiderTag = null, float repeatAvoiderSeconds = 1f)
 		{
 			this.lookTarget = TargetInfo.Invalid;
@@ -53,7 +53,7 @@ namespace Verse.AI.Group
 			this.repeatAvoiderSeconds = repeatAvoiderSeconds;
 		}
 
-		// Token: 0x06003973 RID: 14707 RVA: 0x001E790A File Offset: 0x001E5D0A
+		// Token: 0x06003977 RID: 14711 RVA: 0x001E7A36 File Offset: 0x001E5E36
 		public TransitionAction_Message(string message, MessageTypeDef messageType, Func<TargetInfo> lookTargetGetter, string repeatAvoiderTag = null, float repeatAvoiderSeconds = 1f)
 		{
 			this.lookTarget = TargetInfo.Invalid;
@@ -65,7 +65,7 @@ namespace Verse.AI.Group
 			this.repeatAvoiderSeconds = repeatAvoiderSeconds;
 		}
 
-		// Token: 0x06003974 RID: 14708 RVA: 0x001E7944 File Offset: 0x001E5D44
+		// Token: 0x06003978 RID: 14712 RVA: 0x001E7A70 File Offset: 0x001E5E70
 		public override void DoAction(Transition trans)
 		{
 			if (this.repeatAvoiderTag.NullOrEmpty() || MessagesRepeatAvoider.MessageShowAllowed(this.repeatAvoiderTag, this.repeatAvoiderSeconds))

@@ -3,19 +3,19 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007EE RID: 2030
+	// Token: 0x020007F0 RID: 2032
 	public abstract class Designator_Plants : Designator
 	{
 		// Token: 0x040017B7 RID: 6071
 		protected DesignationDef designationDef;
 
-		// Token: 0x06002D11 RID: 11537 RVA: 0x0017AF37 File Offset: 0x00179337
+		// Token: 0x06002D15 RID: 11541 RVA: 0x0017B087 File Offset: 0x00179487
 		public Designator_Plants()
 		{
 		}
 
 		// Token: 0x17000724 RID: 1828
-		// (get) Token: 0x06002D12 RID: 11538 RVA: 0x0017AF40 File Offset: 0x00179340
+		// (get) Token: 0x06002D16 RID: 11542 RVA: 0x0017B090 File Offset: 0x00179490
 		public override int DraggableDimensions
 		{
 			get
@@ -25,7 +25,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000725 RID: 1829
-		// (get) Token: 0x06002D13 RID: 11539 RVA: 0x0017AF58 File Offset: 0x00179358
+		// (get) Token: 0x06002D17 RID: 11543 RVA: 0x0017B0A8 File Offset: 0x001794A8
 		protected override DesignationDef Designation
 		{
 			get
@@ -34,7 +34,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D14 RID: 11540 RVA: 0x0017AF74 File Offset: 0x00179374
+		// Token: 0x06002D18 RID: 11544 RVA: 0x0017B0C4 File Offset: 0x001794C4
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			AcceptanceReport result;
@@ -53,7 +53,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D15 RID: 11541 RVA: 0x0017AFD4 File Offset: 0x001793D4
+		// Token: 0x06002D19 RID: 11545 RVA: 0x0017B124 File Offset: 0x00179524
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -84,20 +84,20 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D16 RID: 11542 RVA: 0x0017B060 File Offset: 0x00179460
+		// Token: 0x06002D1A RID: 11546 RVA: 0x0017B1B0 File Offset: 0x001795B0
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			this.DesignateThing(c.GetPlant(base.Map));
 		}
 
-		// Token: 0x06002D17 RID: 11543 RVA: 0x0017B075 File Offset: 0x00179475
+		// Token: 0x06002D1B RID: 11547 RVA: 0x0017B1C5 File Offset: 0x001795C5
 		public override void DesignateThing(Thing t)
 		{
 			base.Map.designationManager.RemoveAllDesignationsOn(t, false);
 			base.Map.designationManager.AddDesignation(new Designation(t, this.designationDef));
 		}
 
-		// Token: 0x06002D18 RID: 11544 RVA: 0x0017B0AB File Offset: 0x001794AB
+		// Token: 0x06002D1C RID: 11548 RVA: 0x0017B1FB File Offset: 0x001795FB
 		public override void SelectedUpdate()
 		{
 			GenUI.RenderMouseoverBracket();

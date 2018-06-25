@@ -7,11 +7,11 @@ using Verse.Steam;
 
 namespace Verse
 {
-	// Token: 0x02000E5B RID: 3675
+	// Token: 0x02000E5D RID: 3677
 	public class UIRoot_Entry : UIRoot
 	{
-		// Token: 0x17000D9C RID: 3484
-		// (get) Token: 0x060056A5 RID: 22181 RVA: 0x002CABEC File Offset: 0x002C8FEC
+		// Token: 0x17000D9B RID: 3483
+		// (get) Token: 0x060056A9 RID: 22185 RVA: 0x002CAD18 File Offset: 0x002C9118
 		private bool ShouldDoMainMenu
 		{
 			get
@@ -36,7 +36,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056A6 RID: 22182 RVA: 0x002CAC64 File Offset: 0x002C9064
+		// Token: 0x060056AA RID: 22186 RVA: 0x002CAD90 File Offset: 0x002C9190
 		public override void Init()
 		{
 			base.Init();
@@ -55,7 +55,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056A7 RID: 22183 RVA: 0x002CACF4 File Offset: 0x002C90F4
+		// Token: 0x060056AB RID: 22187 RVA: 0x002CAE20 File Offset: 0x002C9220
 		public override void UIRootOnGUI()
 		{
 			base.UIRootOnGUI();
@@ -86,7 +86,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056A8 RID: 22184 RVA: 0x002CADAA File Offset: 0x002C91AA
+		// Token: 0x060056AC RID: 22188 RVA: 0x002CAED6 File Offset: 0x002C92D6
 		public override void UIRootUpdate()
 		{
 			base.UIRootUpdate();
@@ -101,7 +101,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056A9 RID: 22185 RVA: 0x002CADE8 File Offset: 0x002C91E8
+		// Token: 0x060056AD RID: 22189 RVA: 0x002CAF14 File Offset: 0x002C9314
 		private void DoMainMenu()
 		{
 			if (!WorldRendererUtility.WorldRenderedNow)

@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020004DE RID: 1246
+	// Token: 0x020004E0 RID: 1248
 	public enum GenderPossibility : byte
 	{
 		// Token: 0x04000CF7 RID: 3319

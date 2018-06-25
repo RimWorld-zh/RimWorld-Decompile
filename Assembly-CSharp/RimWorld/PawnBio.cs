@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004E0 RID: 1248
+	// Token: 0x020004E2 RID: 1250
 	[CaseInsensitiveXMLParsing]
 	public class PawnBio
 	{
@@ -24,7 +24,7 @@ namespace RimWorld
 		public bool pirateKing = false;
 
 		// Token: 0x170002E9 RID: 745
-		// (get) Token: 0x06001646 RID: 5702 RVA: 0x000C5C84 File Offset: 0x000C4084
+		// (get) Token: 0x0600164A RID: 5706 RVA: 0x000C5DD4 File Offset: 0x000C41D4
 		public PawnBioType BioType
 		{
 			get
@@ -46,7 +46,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001647 RID: 5703 RVA: 0x000C5CBE File Offset: 0x000C40BE
+		// Token: 0x0600164B RID: 5707 RVA: 0x000C5E0E File Offset: 0x000C420E
 		public void PostLoad()
 		{
 			if (this.childhood != null)
@@ -59,7 +59,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001648 RID: 5704 RVA: 0x000C5CF0 File Offset: 0x000C40F0
+		// Token: 0x0600164C RID: 5708 RVA: 0x000C5E40 File Offset: 0x000C4240
 		public void ResolveReferences()
 		{
 			if (this.adulthood.spawnCategories.Count == 1 && this.adulthood.spawnCategories[0] == "Trader")
@@ -76,7 +76,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001649 RID: 5705 RVA: 0x000C5D78 File Offset: 0x000C4178
+		// Token: 0x0600164D RID: 5709 RVA: 0x000C5EC8 File Offset: 0x000C42C8
 		public IEnumerable<string> ConfigErrors()
 		{
 			if (this.childhood != null)
@@ -110,7 +110,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600164A RID: 5706 RVA: 0x000C5DA4 File Offset: 0x000C41A4
+		// Token: 0x0600164E RID: 5710 RVA: 0x000C5EF4 File Offset: 0x000C42F4
 		public override string ToString()
 		{
 			return "PawnBio(" + this.name + ")";

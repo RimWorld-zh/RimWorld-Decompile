@@ -4,7 +4,7 @@ using Verse.Noise;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B8C RID: 2956
+	// Token: 0x02000B8E RID: 2958
 	public class SoundParamSource_Perlin : SoundParamSource
 	{
 		// Token: 0x04002B1C RID: 11036
@@ -22,8 +22,8 @@ namespace Verse.Sound
 		// Token: 0x04002B1F RID: 11039
 		private static Perlin perlin = new Perlin(0.0099999997764825821, 2.0, 0.5, 4, Rand.Range(0, int.MaxValue), QualityMode.Medium);
 
-		// Token: 0x170009CB RID: 2507
-		// (get) Token: 0x0600403E RID: 16446 RVA: 0x0021CDA4 File Offset: 0x0021B1A4
+		// Token: 0x170009CA RID: 2506
+		// (get) Token: 0x06004041 RID: 16449 RVA: 0x0021CE80 File Offset: 0x0021B280
 		public override string Label
 		{
 			get
@@ -32,7 +32,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x0600403F RID: 16447 RVA: 0x0021CDC0 File Offset: 0x0021B1C0
+		// Token: 0x06004042 RID: 16450 RVA: 0x0021CE9C File Offset: 0x0021B29C
 		public override float ValueFor(Sample samp)
 		{
 			float num;

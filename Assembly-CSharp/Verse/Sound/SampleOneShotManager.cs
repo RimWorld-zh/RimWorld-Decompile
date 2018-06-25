@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DB0 RID: 3504
+	// Token: 0x02000DB2 RID: 3506
 	public class SampleOneShotManager
 	{
 		// Token: 0x04003432 RID: 13362
@@ -13,8 +13,8 @@ namespace Verse.Sound
 		// Token: 0x04003433 RID: 13363
 		private List<SampleOneShot> cleanupList = new List<SampleOneShot>();
 
-		// Token: 0x17000CA5 RID: 3237
-		// (get) Token: 0x06004E5C RID: 20060 RVA: 0x0028F964 File Offset: 0x0028DD64
+		// Token: 0x17000CA4 RID: 3236
+		// (get) Token: 0x06004E60 RID: 20064 RVA: 0x0028FA90 File Offset: 0x0028DE90
 		public IEnumerable<SampleOneShot> PlayingOneShots
 		{
 			get
@@ -23,19 +23,19 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E5D RID: 20061 RVA: 0x0028F980 File Offset: 0x0028DD80
+		// Token: 0x06004E61 RID: 20065 RVA: 0x0028FAAC File Offset: 0x0028DEAC
 		private float CameraDistanceSquaredOf(SoundInfo info)
 		{
 			return (float)(Find.CameraDriver.MapPosition - info.Maker.Cell).LengthHorizontalSquared;
 		}
 
-		// Token: 0x06004E5E RID: 20062 RVA: 0x0028F9BC File Offset: 0x0028DDBC
+		// Token: 0x06004E62 RID: 20066 RVA: 0x0028FAE8 File Offset: 0x0028DEE8
 		private float ImportanceOf(SampleOneShot sample)
 		{
 			return this.ImportanceOf(sample.subDef.parentDef, sample.info, sample.AgeRealTime);
 		}
 
-		// Token: 0x06004E5F RID: 20063 RVA: 0x0028F9F0 File Offset: 0x0028DDF0
+		// Token: 0x06004E63 RID: 20067 RVA: 0x0028FB1C File Offset: 0x0028DF1C
 		private float ImportanceOf(SoundDef def, SoundInfo info, float ageRealTime)
 		{
 			float result;
@@ -54,7 +54,7 @@ namespace Verse.Sound
 			return result;
 		}
 
-		// Token: 0x06004E60 RID: 20064 RVA: 0x0028FA48 File Offset: 0x0028DE48
+		// Token: 0x06004E64 RID: 20068 RVA: 0x0028FB74 File Offset: 0x0028DF74
 		public bool CanAddPlayingOneShot(SoundDef def, SoundInfo info)
 		{
 			bool result;
@@ -76,7 +76,7 @@ namespace Verse.Sound
 			return result;
 		}
 
-		// Token: 0x06004E61 RID: 20065 RVA: 0x0028FAFC File Offset: 0x0028DEFC
+		// Token: 0x06004E65 RID: 20069 RVA: 0x0028FC28 File Offset: 0x0028E028
 		public void TryAddPlayingOneShot(SampleOneShot newSample)
 		{
 			int num = (from s in this.samples
@@ -91,7 +91,7 @@ namespace Verse.Sound
 			this.samples.Add(newSample);
 		}
 
-		// Token: 0x06004E62 RID: 20066 RVA: 0x0028FB94 File Offset: 0x0028DF94
+		// Token: 0x06004E66 RID: 20070 RVA: 0x0028FCC0 File Offset: 0x0028E0C0
 		private SampleOneShot LeastImportantOf(SoundDef def)
 		{
 			SampleOneShot sampleOneShot = null;
@@ -109,7 +109,7 @@ namespace Verse.Sound
 			return sampleOneShot;
 		}
 
-		// Token: 0x06004E63 RID: 20067 RVA: 0x0028FC08 File Offset: 0x0028E008
+		// Token: 0x06004E67 RID: 20071 RVA: 0x0028FD34 File Offset: 0x0028E134
 		public void SampleOneShotManagerUpdate()
 		{
 			for (int i = 0; i < this.samples.Count; i++)

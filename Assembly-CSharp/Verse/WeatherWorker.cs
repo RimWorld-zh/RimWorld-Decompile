@@ -4,7 +4,7 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000CB4 RID: 3252
+	// Token: 0x02000CB6 RID: 3254
 	public class WeatherWorker
 	{
 		// Token: 0x040030A9 RID: 12457
@@ -16,7 +16,7 @@ namespace Verse
 		// Token: 0x040030AB RID: 12459
 		private WeatherWorker.SkyThreshold[] skyTargets = new WeatherWorker.SkyThreshold[4];
 
-		// Token: 0x060047B9 RID: 18361 RVA: 0x0025CC6C File Offset: 0x0025B06C
+		// Token: 0x060047BC RID: 18364 RVA: 0x0025CD48 File Offset: 0x0025B148
 		public WeatherWorker(WeatherDef def)
 		{
 			this.def = def;
@@ -31,7 +31,7 @@ namespace Verse
 			this.skyTargets[3] = new WeatherWorker.SkyThreshold(def.skyColorsDay, 1f);
 		}
 
-		// Token: 0x060047BA RID: 18362 RVA: 0x0025CD94 File Offset: 0x0025B194
+		// Token: 0x060047BD RID: 18365 RVA: 0x0025CE70 File Offset: 0x0025B270
 		public void DrawWeather(Map map)
 		{
 			for (int i = 0; i < this.overlays.Count; i++)
@@ -40,7 +40,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047BB RID: 18363 RVA: 0x0025CDD4 File Offset: 0x0025B1D4
+		// Token: 0x060047BE RID: 18366 RVA: 0x0025CEB0 File Offset: 0x0025B2B0
 		public void WeatherTick(Map map, float lerpFactor)
 		{
 			for (int i = 0; i < this.overlays.Count; i++)
@@ -53,7 +53,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047BC RID: 18364 RVA: 0x0025CE50 File Offset: 0x0025B250
+		// Token: 0x060047BF RID: 18367 RVA: 0x0025CF2C File Offset: 0x0025B32C
 		public SkyTarget CurSkyTarget(Map map)
 		{
 			float num = GenCelestial.CurCelestialSunGlow(map);
@@ -96,7 +96,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x02000CB5 RID: 3253
+		// Token: 0x02000CB7 RID: 3255
 		private struct SkyThreshold
 		{
 			// Token: 0x040030AC RID: 12460
@@ -105,7 +105,7 @@ namespace Verse
 			// Token: 0x040030AD RID: 12461
 			public float celGlowThreshold;
 
-			// Token: 0x060047BD RID: 18365 RVA: 0x0025CF82 File Offset: 0x0025B382
+			// Token: 0x060047C0 RID: 18368 RVA: 0x0025D05E File Offset: 0x0025B45E
 			public SkyThreshold(SkyColorSet colors, float celGlowThreshold)
 			{
 				this.colors = colors;

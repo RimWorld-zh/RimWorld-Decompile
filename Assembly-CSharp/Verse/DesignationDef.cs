@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000B34 RID: 2868
+	// Token: 0x02000B36 RID: 2870
 	public class DesignationDef : Def
 	{
 		// Token: 0x0400293B RID: 10555
@@ -23,7 +23,7 @@ namespace Verse
 		[Unsaved]
 		public Material iconMat;
 
-		// Token: 0x06003F25 RID: 16165 RVA: 0x002142F2 File Offset: 0x002126F2
+		// Token: 0x06003F28 RID: 16168 RVA: 0x002143CE File Offset: 0x002127CE
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();

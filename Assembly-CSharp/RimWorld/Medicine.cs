@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006C9 RID: 1737
+	// Token: 0x020006CB RID: 1739
 	public class Medicine : ThingWithComps
 	{
 		// Token: 0x04001500 RID: 5376
@@ -13,7 +13,7 @@ namespace RimWorld
 		// Token: 0x04001501 RID: 5377
 		private static List<Hediff> tmpHediffs = new List<Hediff>();
 
-		// Token: 0x060025A4 RID: 9636 RVA: 0x0014280C File Offset: 0x00140C0C
+		// Token: 0x060025A8 RID: 9640 RVA: 0x0014295C File Offset: 0x00140D5C
 		public static int GetMedicineCountToFullyHeal(Pawn pawn)
 		{
 			int num = 0;

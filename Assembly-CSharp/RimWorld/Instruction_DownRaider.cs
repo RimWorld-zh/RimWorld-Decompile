@@ -6,20 +6,20 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008BD RID: 2237
+	// Token: 0x020008BF RID: 2239
 	public class Instruction_DownRaider : Lesson_Instruction
 	{
 		// Token: 0x04001B91 RID: 7057
 		private List<IntVec3> coverCells;
 
-		// Token: 0x06003332 RID: 13106 RVA: 0x001B8792 File Offset: 0x001B6B92
+		// Token: 0x06003336 RID: 13110 RVA: 0x001B88D2 File Offset: 0x001B6CD2
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Collections.Look<IntVec3>(ref this.coverCells, "coverCells", LookMode.Undefined, new object[0]);
 		}
 
-		// Token: 0x06003333 RID: 13107 RVA: 0x001B87B4 File Offset: 0x001B6BB4
+		// Token: 0x06003337 RID: 13111 RVA: 0x001B88F4 File Offset: 0x001B6CF4
 		public override void OnActivated()
 		{
 			base.OnActivated();
@@ -42,7 +42,7 @@ namespace RimWorld
 			IncidentDefOf.RaidEnemy.Worker.TryExecute(incidentParms);
 		}
 
-		// Token: 0x06003334 RID: 13108 RVA: 0x001B88D0 File Offset: 0x001B6CD0
+		// Token: 0x06003338 RID: 13112 RVA: 0x001B8A10 File Offset: 0x001B6E10
 		private bool AllColonistsInCover()
 		{
 			foreach (Pawn pawn in base.Map.mapPawns.FreeColonistsSpawned)
@@ -55,7 +55,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06003335 RID: 13109 RVA: 0x001B8958 File Offset: 0x001B6D58
+		// Token: 0x06003339 RID: 13113 RVA: 0x001B8A98 File Offset: 0x001B6E98
 		public override void LessonOnGUI()
 		{
 			if (!this.AllColonistsInCover())
@@ -65,7 +65,7 @@ namespace RimWorld
 			base.LessonOnGUI();
 		}
 
-		// Token: 0x06003336 RID: 13110 RVA: 0x001B8988 File Offset: 0x001B6D88
+		// Token: 0x0600333A RID: 13114 RVA: 0x001B8AC8 File Offset: 0x001B6EC8
 		public override void LessonUpdate()
 		{
 			if (!this.AllColonistsInCover())

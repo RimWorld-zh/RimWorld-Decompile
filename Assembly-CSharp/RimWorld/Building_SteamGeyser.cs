@@ -4,7 +4,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020006CA RID: 1738
+	// Token: 0x020006CC RID: 1740
 	public class Building_SteamGeyser : Building
 	{
 		// Token: 0x04001502 RID: 5378
@@ -19,7 +19,7 @@ namespace RimWorld
 		// Token: 0x04001505 RID: 5381
 		private int spraySustainerStartTick = -999;
 
-		// Token: 0x060025A7 RID: 9639 RVA: 0x0014297C File Offset: 0x00140D7C
+		// Token: 0x060025AB RID: 9643 RVA: 0x00142ACC File Offset: 0x00140ECC
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -28,7 +28,7 @@ namespace RimWorld
 			this.steamSprayer.endSprayCallback = new Action(this.EndSpray);
 		}
 
-		// Token: 0x060025A8 RID: 9640 RVA: 0x001429CC File Offset: 0x00140DCC
+		// Token: 0x060025AC RID: 9644 RVA: 0x00142B1C File Offset: 0x00140F1C
 		private void StartSpray()
 		{
 			SnowUtility.AddSnowRadial(this.OccupiedRect().RandomCell, base.Map, 4f, -0.06f);
@@ -36,7 +36,7 @@ namespace RimWorld
 			this.spraySustainerStartTick = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x060025A9 RID: 9641 RVA: 0x00142A34 File Offset: 0x00140E34
+		// Token: 0x060025AD RID: 9645 RVA: 0x00142B84 File Offset: 0x00140F84
 		private void EndSpray()
 		{
 			if (this.spraySustainer != null)
@@ -46,7 +46,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025AA RID: 9642 RVA: 0x00142A58 File Offset: 0x00140E58
+		// Token: 0x060025AE RID: 9646 RVA: 0x00142BA8 File Offset: 0x00140FA8
 		public override void Tick()
 		{
 			if (this.harvester == null)

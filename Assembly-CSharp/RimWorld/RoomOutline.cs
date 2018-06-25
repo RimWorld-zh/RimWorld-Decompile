@@ -3,20 +3,20 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020003E5 RID: 997
+	// Token: 0x020003E7 RID: 999
 	public class RoomOutline
 	{
 		// Token: 0x04000A59 RID: 2649
 		public CellRect rect;
 
-		// Token: 0x06001114 RID: 4372 RVA: 0x000924F3 File Offset: 0x000908F3
+		// Token: 0x06001118 RID: 4376 RVA: 0x00092643 File Offset: 0x00090A43
 		public RoomOutline(CellRect rect)
 		{
 			this.rect = rect;
 		}
 
 		// Token: 0x17000248 RID: 584
-		// (get) Token: 0x06001115 RID: 4373 RVA: 0x00092504 File Offset: 0x00090904
+		// (get) Token: 0x06001119 RID: 4377 RVA: 0x00092654 File Offset: 0x00090A54
 		public int CellsCountIgnoringWalls
 		{
 			get

@@ -5,19 +5,19 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E58 RID: 3672
+	// Token: 0x02000E5A RID: 3674
 	public class FloatMenuWorld : FloatMenu
 	{
 		// Token: 0x04003961 RID: 14689
 		private Vector2 clickPos;
 
-		// Token: 0x0600569E RID: 22174 RVA: 0x002CAA0F File Offset: 0x002C8E0F
+		// Token: 0x060056A2 RID: 22178 RVA: 0x002CAB3B File Offset: 0x002C8F3B
 		public FloatMenuWorld(List<FloatMenuOption> options, string title, Vector2 clickPos) : base(options, title, false)
 		{
 			this.clickPos = clickPos;
 		}
 
-		// Token: 0x0600569F RID: 22175 RVA: 0x002CAA24 File Offset: 0x002C8E24
+		// Token: 0x060056A3 RID: 22179 RVA: 0x002CAB50 File Offset: 0x002C8F50
 		public override void DoWindowContents(Rect inRect)
 		{
 			Caravan caravan = Find.WorldSelector.SingleSelectedObject as Caravan;
@@ -39,7 +39,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056A0 RID: 22176 RVA: 0x002CAACC File Offset: 0x002C8ECC
+		// Token: 0x060056A4 RID: 22180 RVA: 0x002CABF8 File Offset: 0x002C8FF8
 		private static bool StillValid(FloatMenuOption opt, List<FloatMenuOption> curOpts)
 		{
 			if (opt.revalidateWorldClickTarget == null)
@@ -72,7 +72,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x060056A1 RID: 22177 RVA: 0x002CABB0 File Offset: 0x002C8FB0
+		// Token: 0x060056A5 RID: 22181 RVA: 0x002CACDC File Offset: 0x002C90DC
 		private static bool OptionsMatch(FloatMenuOption a, FloatMenuOption b)
 		{
 			return a.Label == b.Label;

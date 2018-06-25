@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003BD RID: 957
+	// Token: 0x020003BF RID: 959
 	public class SymbolResolver_AncientShrine : SymbolResolver
 	{
-		// Token: 0x06001096 RID: 4246 RVA: 0x0008C99C File Offset: 0x0008AD9C
+		// Token: 0x0600109A RID: 4250 RVA: 0x0008CAEC File Offset: 0x0008AEEC
 		public override void Resolve(ResolveParams rp)
 		{
 			IntVec3 bottomLeft = rp.rect.BottomLeft;

@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000AC1 RID: 2753
+	// Token: 0x02000AC3 RID: 2755
 	public class JobGiver_ExitMapNearDutyTarget : JobGiver_ExitMap
 	{
-		// Token: 0x06003D4A RID: 15690 RVA: 0x0020586C File Offset: 0x00203C6C
+		// Token: 0x06003D4E RID: 15694 RVA: 0x00205998 File Offset: 0x00203D98
 		protected override bool TryFindGoodExitDest(Pawn pawn, bool canDig, out IntVec3 spot)
 		{
 			TraverseMode mode = (!canDig) ? TraverseMode.ByPawn : TraverseMode.PassAllDestroyableThings;

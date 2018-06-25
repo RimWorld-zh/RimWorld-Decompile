@@ -4,10 +4,10 @@ using Verse.Grammar;
 
 namespace Verse
 {
-	// Token: 0x02000BCC RID: 3020
+	// Token: 0x02000BCE RID: 3022
 	public static class PlayLogEntryUtility
 	{
-		// Token: 0x060041D9 RID: 16857 RVA: 0x0022ACB8 File Offset: 0x002290B8
+		// Token: 0x060041DC RID: 16860 RVA: 0x0022AD94 File Offset: 0x00229194
 		public static IEnumerable<Rule> RulesForOptionalWeapon(string prefix, ThingDef weaponDef, ThingDef projectileDef)
 		{
 			if (weaponDef != null)
@@ -32,7 +32,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060041DA RID: 16858 RVA: 0x0022ACF0 File Offset: 0x002290F0
+		// Token: 0x060041DD RID: 16861 RVA: 0x0022ADCC File Offset: 0x002291CC
 		public static IEnumerable<Rule> RulesForDamagedParts(string prefix, BodyDef body, List<BodyPartRecord> bodyParts, List<bool> bodyPartsDestroyed, Dictionary<string, string> constants)
 		{
 			if (bodyParts != null)

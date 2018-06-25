@@ -4,11 +4,11 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005BD RID: 1469
+	// Token: 0x020005BF RID: 1471
 	public class WorldGenStep_Features : WorldGenStep
 	{
 		// Token: 0x1700041F RID: 1055
-		// (get) Token: 0x06001C39 RID: 7225 RVA: 0x000F2C1C File Offset: 0x000F101C
+		// (get) Token: 0x06001C3D RID: 7229 RVA: 0x000F2D6C File Offset: 0x000F116C
 		public override int SeedPart
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C3A RID: 7226 RVA: 0x000F2C38 File Offset: 0x000F1038
+		// Token: 0x06001C3E RID: 7230 RVA: 0x000F2D88 File Offset: 0x000F1188
 		public override void GenerateFresh(string seed)
 		{
 			Find.World.features = new WorldFeatures();

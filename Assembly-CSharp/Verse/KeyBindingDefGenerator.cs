@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F59 RID: 3929
+	// Token: 0x02000F5D RID: 3933
 	public static class KeyBindingDefGenerator
 	{
-		// Token: 0x06005F32 RID: 24370 RVA: 0x00308440 File Offset: 0x00306840
+		// Token: 0x06005F3C RID: 24380 RVA: 0x00308AC0 File Offset: 0x00306EC0
 		public static IEnumerable<KeyBindingCategoryDef> ImpliedKeyBindingCategoryDefs()
 		{
 			List<KeyBindingCategoryDef> gameUniversalCats = (from d in DefDatabase<KeyBindingCategoryDef>.AllDefs
@@ -33,7 +33,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005F33 RID: 24371 RVA: 0x00308464 File Offset: 0x00306864
+		// Token: 0x06005F3D RID: 24381 RVA: 0x00308AE4 File Offset: 0x00306EE4
 		public static IEnumerable<KeyBindingDef> ImpliedKeyBindingDefs()
 		{
 			foreach (MainButtonDef mainTab in from td in DefDatabase<MainButtonDef>.AllDefs

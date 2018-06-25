@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000802 RID: 2050
+	// Token: 0x02000804 RID: 2052
 	public class Dialog_ModSettings : Window
 	{
 		// Token: 0x0400184F RID: 6223
@@ -21,7 +21,7 @@ namespace RimWorld
 		// Token: 0x04001852 RID: 6226
 		private const float TopButtonWidth = 150f;
 
-		// Token: 0x06002DCF RID: 11727 RVA: 0x00182106 File Offset: 0x00180506
+		// Token: 0x06002DD3 RID: 11731 RVA: 0x00182256 File Offset: 0x00180656
 		public Dialog_ModSettings()
 		{
 			this.forcePause = true;
@@ -32,7 +32,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000753 RID: 1875
-		// (get) Token: 0x06002DD0 RID: 11728 RVA: 0x0018213C File Offset: 0x0018053C
+		// (get) Token: 0x06002DD4 RID: 11732 RVA: 0x0018228C File Offset: 0x0018068C
 		public override Vector2 InitialSize
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DD1 RID: 11729 RVA: 0x00182160 File Offset: 0x00180560
+		// Token: 0x06002DD5 RID: 11733 RVA: 0x001822B0 File Offset: 0x001806B0
 		public override void PreClose()
 		{
 			base.PreClose();
@@ -51,7 +51,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DD2 RID: 11730 RVA: 0x00182180 File Offset: 0x00180580
+		// Token: 0x06002DD6 RID: 11734 RVA: 0x001822D0 File Offset: 0x001806D0
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = new Rect(0f, 0f, 150f, 35f);
@@ -94,7 +94,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DD3 RID: 11731 RVA: 0x00182384 File Offset: 0x00180784
+		// Token: 0x06002DD7 RID: 11735 RVA: 0x001824D4 File Offset: 0x001808D4
 		public static bool HasSettings()
 		{
 			return LoadedModManager.ModHandles.Any((Mod mod) => !mod.SettingsCategory().NullOrEmpty());

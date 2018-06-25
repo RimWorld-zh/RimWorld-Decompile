@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020004EF RID: 1263
+	// Token: 0x020004F1 RID: 1265
 	public enum BeautyCategory : byte
 	{
 		// Token: 0x04000D42 RID: 3394

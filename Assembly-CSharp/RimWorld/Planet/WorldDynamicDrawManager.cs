@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000588 RID: 1416
+	// Token: 0x0200058A RID: 1418
 	public class WorldDynamicDrawManager
 	{
 		// Token: 0x04000FF4 RID: 4084
@@ -13,7 +13,7 @@ namespace RimWorld.Planet
 		// Token: 0x04000FF5 RID: 4085
 		private bool drawingNow;
 
-		// Token: 0x06001B0C RID: 6924 RVA: 0x000E86A4 File Offset: 0x000E6AA4
+		// Token: 0x06001B10 RID: 6928 RVA: 0x000E87F4 File Offset: 0x000E6BF4
 		public void RegisterDrawable(WorldObject o)
 		{
 			if (o.def.useDynamicDrawer)
@@ -26,7 +26,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B0D RID: 6925 RVA: 0x000E86F4 File Offset: 0x000E6AF4
+		// Token: 0x06001B11 RID: 6929 RVA: 0x000E8844 File Offset: 0x000E6C44
 		public void DeRegisterDrawable(WorldObject o)
 		{
 			if (o.def.useDynamicDrawer)
@@ -39,7 +39,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B0E RID: 6926 RVA: 0x000E8744 File Offset: 0x000E6B44
+		// Token: 0x06001B12 RID: 6930 RVA: 0x000E8894 File Offset: 0x000E6C94
 		public void DrawDynamicWorldObjects()
 		{
 			this.drawingNow = true;

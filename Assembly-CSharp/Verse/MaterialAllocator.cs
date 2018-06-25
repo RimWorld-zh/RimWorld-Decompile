@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D6B RID: 3435
+	// Token: 0x02000D6D RID: 3437
 	[HasDebugOutput]
 	internal static class MaterialAllocator
 	{
@@ -18,7 +18,7 @@ namespace Verse
 		// Token: 0x04003368 RID: 13160
 		private static Dictionary<string, int> snapshot = new Dictionary<string, int>();
 
-		// Token: 0x06004D0C RID: 19724 RVA: 0x00282B60 File Offset: 0x00280F60
+		// Token: 0x06004D10 RID: 19728 RVA: 0x00282C8C File Offset: 0x0028108C
 		public static Material Create(Material material)
 		{
 			Material material2 = new Material(material);
@@ -30,7 +30,7 @@ namespace Verse
 			return material2;
 		}
 
-		// Token: 0x06004D0D RID: 19725 RVA: 0x00282BB8 File Offset: 0x00280FB8
+		// Token: 0x06004D11 RID: 19729 RVA: 0x00282CE4 File Offset: 0x002810E4
 		public static Material Create(Shader shader)
 		{
 			Material material = new Material(shader);
@@ -42,7 +42,7 @@ namespace Verse
 			return material;
 		}
 
-		// Token: 0x06004D0E RID: 19726 RVA: 0x00282C0E File Offset: 0x0028100E
+		// Token: 0x06004D12 RID: 19730 RVA: 0x00282D3A File Offset: 0x0028113A
 		public static void Destroy(Material material)
 		{
 			if (!MaterialAllocator.references.ContainsKey(material))
@@ -53,7 +53,7 @@ namespace Verse
 			UnityEngine.Object.Destroy(material);
 		}
 
-		// Token: 0x06004D0F RID: 19727 RVA: 0x00282C44 File Offset: 0x00281044
+		// Token: 0x06004D13 RID: 19731 RVA: 0x00282D70 File Offset: 0x00281170
 		public static void TryReport()
 		{
 			if (MaterialAllocator.MaterialWarningThreshold() > MaterialAllocator.nextWarningThreshold)
@@ -71,13 +71,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D10 RID: 19728 RVA: 0x00282CC0 File Offset: 0x002810C0
+		// Token: 0x06004D14 RID: 19732 RVA: 0x00282DEC File Offset: 0x002811EC
 		public static int MaterialWarningThreshold()
 		{
 			return int.MaxValue;
 		}
 
-		// Token: 0x06004D11 RID: 19729 RVA: 0x00282CDC File Offset: 0x002810DC
+		// Token: 0x06004D15 RID: 19733 RVA: 0x00282E08 File Offset: 0x00281208
 		[DebugOutput]
 		[Category("System")]
 		public static void MaterialReport()
@@ -91,7 +91,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D12 RID: 19730 RVA: 0x00282DA8 File Offset: 0x002811A8
+		// Token: 0x06004D16 RID: 19734 RVA: 0x00282ED4 File Offset: 0x002812D4
 		[DebugOutput]
 		[Category("System")]
 		public static void MaterialSnapshot()
@@ -104,7 +104,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D13 RID: 19731 RVA: 0x00282E40 File Offset: 0x00281240
+		// Token: 0x06004D17 RID: 19735 RVA: 0x00282F6C File Offset: 0x0028136C
 		[DebugOutput]
 		[Category("System")]
 		public static void MaterialDelta()
@@ -128,7 +128,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000D6C RID: 3436
+		// Token: 0x02000D6E RID: 3438
 		private struct MaterialInfo
 		{
 			// Token: 0x04003371 RID: 13169

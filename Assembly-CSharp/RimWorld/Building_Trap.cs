@@ -7,7 +7,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000682 RID: 1666
+	// Token: 0x02000684 RID: 1668
 	public abstract class Building_Trap : Building
 	{
 		// Token: 0x040013BE RID: 5054
@@ -26,7 +26,7 @@ namespace RimWorld
 		private const float AnimalSpringChanceFactor = 0.1f;
 
 		// Token: 0x1700052A RID: 1322
-		// (get) Token: 0x0600231C RID: 8988 RVA: 0x0012E460 File Offset: 0x0012C860
+		// (get) Token: 0x06002320 RID: 8992 RVA: 0x0012E5B0 File Offset: 0x0012C9B0
 		public virtual bool Armed
 		{
 			get
@@ -35,14 +35,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600231D RID: 8989 RVA: 0x0012E476 File Offset: 0x0012C876
+		// Token: 0x06002321 RID: 8993 RVA: 0x0012E5C6 File Offset: 0x0012C9C6
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Collections.Look<Pawn>(ref this.touchingPawns, "testees", LookMode.Reference, new object[0]);
 		}
 
-		// Token: 0x0600231E RID: 8990 RVA: 0x0012E498 File Offset: 0x0012C898
+		// Token: 0x06002322 RID: 8994 RVA: 0x0012E5E8 File Offset: 0x0012C9E8
 		public override void Tick()
 		{
 			if (this.Armed)
@@ -69,7 +69,7 @@ namespace RimWorld
 			base.Tick();
 		}
 
-		// Token: 0x0600231F RID: 8991 RVA: 0x0012E57C File Offset: 0x0012C97C
+		// Token: 0x06002323 RID: 8995 RVA: 0x0012E6CC File Offset: 0x0012CACC
 		protected virtual float SpringChance(Pawn p)
 		{
 			float num;
@@ -89,7 +89,7 @@ namespace RimWorld
 			return Mathf.Clamp01(num);
 		}
 
-		// Token: 0x06002320 RID: 8992 RVA: 0x0012E5F8 File Offset: 0x0012C9F8
+		// Token: 0x06002324 RID: 8996 RVA: 0x0012E748 File Offset: 0x0012CB48
 		private void CheckSpring(Pawn p)
 		{
 			if (Rand.Value < this.SpringChance(p))
@@ -108,13 +108,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002321 RID: 8993 RVA: 0x0012E69C File Offset: 0x0012CA9C
+		// Token: 0x06002325 RID: 8997 RVA: 0x0012E7EC File Offset: 0x0012CBEC
 		public bool KnowsOfTrap(Pawn p)
 		{
 			return (p.Faction != null && !p.Faction.HostileTo(base.Faction)) || (p.Faction == null && p.RaceProps.Animal && !p.InAggroMentalState) || (p.guest != null && p.guest.Released) || (p.RaceProps.Humanlike && p.IsFormingCaravan());
 		}
 
-		// Token: 0x06002322 RID: 8994 RVA: 0x0012E74C File Offset: 0x0012CB4C
+		// Token: 0x06002326 RID: 8998 RVA: 0x0012E89C File Offset: 0x0012CC9C
 		public override ushort PathFindCostFor(Pawn p)
 		{
 			ushort result;
@@ -133,7 +133,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002323 RID: 8995 RVA: 0x0012E78C File Offset: 0x0012CB8C
+		// Token: 0x06002327 RID: 8999 RVA: 0x0012E8DC File Offset: 0x0012CCDC
 		public override ushort PathWalkCostFor(Pawn p)
 		{
 			ushort result;
@@ -152,13 +152,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002324 RID: 8996 RVA: 0x0012E7C8 File Offset: 0x0012CBC8
+		// Token: 0x06002328 RID: 9000 RVA: 0x0012E918 File Offset: 0x0012CD18
 		public override bool IsDangerousFor(Pawn p)
 		{
 			return this.Armed && this.KnowsOfTrap(p);
 		}
 
-		// Token: 0x06002325 RID: 8997 RVA: 0x0012E7F4 File Offset: 0x0012CBF4
+		// Token: 0x06002329 RID: 9001 RVA: 0x0012E944 File Offset: 0x0012CD44
 		public override string GetInspectString()
 		{
 			string text = base.GetInspectString();
@@ -177,7 +177,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x06002326 RID: 8998 RVA: 0x0012E85C File Offset: 0x0012CC5C
+		// Token: 0x0600232A RID: 9002 RVA: 0x0012E9AC File Offset: 0x0012CDAC
 		public void Spring(Pawn p)
 		{
 			SoundDefOf.DeadfallSpring.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
@@ -188,7 +188,7 @@ namespace RimWorld
 			this.SpringSub(p);
 		}
 
-		// Token: 0x06002327 RID: 8999
+		// Token: 0x0600232B RID: 9003
 		protected abstract void SpringSub(Pawn p);
 	}
 }

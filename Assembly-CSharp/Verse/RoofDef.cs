@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000B68 RID: 2920
+	// Token: 0x02000B6A RID: 2922
 	public class RoofDef : Def
 	{
 		// Token: 0x04002ABD RID: 10941
@@ -20,8 +20,8 @@ namespace Verse
 		// Token: 0x04002AC1 RID: 10945
 		public SoundDef soundPunchThrough;
 
-		// Token: 0x170009BB RID: 2491
-		// (get) Token: 0x06003FDC RID: 16348 RVA: 0x0021AD38 File Offset: 0x00219138
+		// Token: 0x170009BA RID: 2490
+		// (get) Token: 0x06003FDF RID: 16351 RVA: 0x0021AE14 File Offset: 0x00219214
 		public bool VanishOnCollapse
 		{
 			get

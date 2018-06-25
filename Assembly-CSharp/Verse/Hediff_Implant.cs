@@ -2,11 +2,11 @@
 
 namespace Verse
 {
-	// Token: 0x02000D29 RID: 3369
+	// Token: 0x02000D2B RID: 3371
 	public class Hediff_Implant : HediffWithComps
 	{
-		// Token: 0x17000BD2 RID: 3026
-		// (get) Token: 0x06004A44 RID: 19012 RVA: 0x0026C240 File Offset: 0x0026A640
+		// Token: 0x17000BD1 RID: 3025
+		// (get) Token: 0x06004A48 RID: 19016 RVA: 0x0026C36C File Offset: 0x0026A76C
 		public override bool ShouldRemove
 		{
 			get
@@ -15,7 +15,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A45 RID: 19013 RVA: 0x0026C256 File Offset: 0x0026A656
+		// Token: 0x06004A49 RID: 19017 RVA: 0x0026C382 File Offset: 0x0026A782
 		public override void PostAdd(DamageInfo? dinfo)
 		{
 			if (base.Part == null)
@@ -24,7 +24,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A46 RID: 19014 RVA: 0x0026C288 File Offset: 0x0026A688
+		// Token: 0x06004A4A RID: 19018 RVA: 0x0026C3B4 File Offset: 0x0026A7B4
 		public override void ExposeData()
 		{
 			base.ExposeData();

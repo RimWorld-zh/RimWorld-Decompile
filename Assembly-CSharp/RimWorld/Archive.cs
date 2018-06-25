@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002F3 RID: 755
+	// Token: 0x020002F5 RID: 757
 	public class Archive : IExposable
 	{
 		// Token: 0x04000832 RID: 2098
@@ -17,7 +17,7 @@ namespace RimWorld
 		public const int MaxNonPinnedArchivables = 200;
 
 		// Token: 0x170001DD RID: 477
-		// (get) Token: 0x06000C84 RID: 3204 RVA: 0x0006F1A8 File Offset: 0x0006D5A8
+		// (get) Token: 0x06000C88 RID: 3208 RVA: 0x0006F2F8 File Offset: 0x0006D6F8
 		public List<IArchivable> ArchivablesListForReading
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C85 RID: 3205 RVA: 0x0006F1C4 File Offset: 0x0006D5C4
+		// Token: 0x06000C89 RID: 3209 RVA: 0x0006F314 File Offset: 0x0006D714
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<IArchivable>(ref this.archivables, "archivables", LookMode.Deep, new object[0]);
@@ -38,7 +38,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C86 RID: 3206 RVA: 0x0006F25C File Offset: 0x0006D65C
+		// Token: 0x06000C8A RID: 3210 RVA: 0x0006F3AC File Offset: 0x0006D7AC
 		public bool Add(IArchivable archivable)
 		{
 			bool result;
@@ -61,7 +61,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000C87 RID: 3207 RVA: 0x0006F2D8 File Offset: 0x0006D6D8
+		// Token: 0x06000C8B RID: 3211 RVA: 0x0006F428 File Offset: 0x0006D828
 		public bool Remove(IArchivable archivable)
 		{
 			bool result;
@@ -78,13 +78,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000C88 RID: 3208 RVA: 0x0006F31C File Offset: 0x0006D71C
+		// Token: 0x06000C8C RID: 3212 RVA: 0x0006F46C File Offset: 0x0006D86C
 		public bool Contains(IArchivable archivable)
 		{
 			return this.archivables.Contains(archivable);
 		}
 
-		// Token: 0x06000C89 RID: 3209 RVA: 0x0006F33D File Offset: 0x0006D73D
+		// Token: 0x06000C8D RID: 3213 RVA: 0x0006F48D File Offset: 0x0006D88D
 		public void Pin(IArchivable archivable)
 		{
 			if (this.Contains(archivable))
@@ -96,7 +96,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C8A RID: 3210 RVA: 0x0006F36F File Offset: 0x0006D76F
+		// Token: 0x06000C8E RID: 3214 RVA: 0x0006F4BF File Offset: 0x0006D8BF
 		public void Unpin(IArchivable archivable)
 		{
 			if (this.Contains(archivable))
@@ -108,13 +108,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C8B RID: 3211 RVA: 0x0006F3A4 File Offset: 0x0006D7A4
+		// Token: 0x06000C8F RID: 3215 RVA: 0x0006F4F4 File Offset: 0x0006D8F4
 		public bool IsPinned(IArchivable archivable)
 		{
 			return this.pinnedArchivables.Contains(archivable);
 		}
 
-		// Token: 0x06000C8C RID: 3212 RVA: 0x0006F3C8 File Offset: 0x0006D7C8
+		// Token: 0x06000C90 RID: 3216 RVA: 0x0006F518 File Offset: 0x0006D918
 		private void CheckCullArchivables()
 		{
 			int num = 0;

@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000331 RID: 817
+	// Token: 0x02000333 RID: 819
 	[HasDebugOutput]
 	public class IncidentWorker_ManhunterPack : IncidentWorker
 	{
@@ -17,7 +17,7 @@ namespace RimWorld
 		// Token: 0x040008D8 RID: 2264
 		private const int AnimalsStayDurationMax = 135000;
 
-		// Token: 0x06000DF8 RID: 3576 RVA: 0x00077290 File Offset: 0x00075690
+		// Token: 0x06000DFC RID: 3580 RVA: 0x000773E0 File Offset: 0x000757E0
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			bool result;
@@ -35,7 +35,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000DF9 RID: 3577 RVA: 0x000772F0 File Offset: 0x000756F0
+		// Token: 0x06000DFD RID: 3581 RVA: 0x00077440 File Offset: 0x00075840
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;

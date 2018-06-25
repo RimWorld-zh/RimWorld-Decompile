@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C50 RID: 3152
+	// Token: 0x02000C52 RID: 3154
 	public static class Printer_Shadow
 	{
 		// Token: 0x04002F77 RID: 12151
@@ -21,13 +21,13 @@ namespace Verse
 		[TweakValue("Graphics_Shadow", -5f, 5f)]
 		private static float GlobalShadowSizeOffsetZ = 0f;
 
-		// Token: 0x06004571 RID: 17777 RVA: 0x0024BAEC File Offset: 0x00249EEC
+		// Token: 0x06004574 RID: 17780 RVA: 0x0024BBC8 File Offset: 0x00249FC8
 		public static void PrintShadow(SectionLayer layer, Vector3 center, ShadowData shadow, Rot4 rotation)
 		{
 			Printer_Shadow.PrintShadow(layer, center, shadow.volume, rotation);
 		}
 
-		// Token: 0x06004572 RID: 17778 RVA: 0x0024BB00 File Offset: 0x00249F00
+		// Token: 0x06004575 RID: 17781 RVA: 0x0024BBDC File Offset: 0x00249FDC
 		public static void PrintShadow(SectionLayer layer, Vector3 center, Vector3 volume, Rot4 rotation)
 		{
 			if (DebugViewSettings.drawShadows)

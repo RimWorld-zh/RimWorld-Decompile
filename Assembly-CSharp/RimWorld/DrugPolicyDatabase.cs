@@ -5,20 +5,20 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002EF RID: 751
+	// Token: 0x020002F1 RID: 753
 	public class DrugPolicyDatabase : IExposable
 	{
 		// Token: 0x0400082A RID: 2090
 		private List<DrugPolicy> policies = new List<DrugPolicy>();
 
-		// Token: 0x06000C6B RID: 3179 RVA: 0x0006E720 File Offset: 0x0006CB20
+		// Token: 0x06000C6F RID: 3183 RVA: 0x0006E870 File Offset: 0x0006CC70
 		public DrugPolicyDatabase()
 		{
 			this.GenerateStartingDrugPolicies();
 		}
 
 		// Token: 0x170001DC RID: 476
-		// (get) Token: 0x06000C6C RID: 3180 RVA: 0x0006E73C File Offset: 0x0006CB3C
+		// (get) Token: 0x06000C70 RID: 3184 RVA: 0x0006E88C File Offset: 0x0006CC8C
 		public List<DrugPolicy> AllPolicies
 		{
 			get
@@ -27,13 +27,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C6D RID: 3181 RVA: 0x0006E757 File Offset: 0x0006CB57
+		// Token: 0x06000C71 RID: 3185 RVA: 0x0006E8A7 File Offset: 0x0006CCA7
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<DrugPolicy>(ref this.policies, "policies", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x06000C6E RID: 3182 RVA: 0x0006E774 File Offset: 0x0006CB74
+		// Token: 0x06000C72 RID: 3186 RVA: 0x0006E8C4 File Offset: 0x0006CCC4
 		public DrugPolicy DefaultDrugPolicy()
 		{
 			if (this.policies.Count == 0)
@@ -43,7 +43,7 @@ namespace RimWorld
 			return this.policies[0];
 		}
 
-		// Token: 0x06000C6F RID: 3183 RVA: 0x0006E7AC File Offset: 0x0006CBAC
+		// Token: 0x06000C73 RID: 3187 RVA: 0x0006E8FC File Offset: 0x0006CCFC
 		public AcceptanceReport TryDelete(DrugPolicy policy)
 		{
 			foreach (Pawn pawn in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive)
@@ -67,7 +67,7 @@ namespace RimWorld
 			return AcceptanceReport.WasAccepted;
 		}
 
-		// Token: 0x06000C70 RID: 3184 RVA: 0x0006E8C8 File Offset: 0x0006CCC8
+		// Token: 0x06000C74 RID: 3188 RVA: 0x0006EA18 File Offset: 0x0006CE18
 		public DrugPolicy MakeNewDrugPolicy()
 		{
 			int num;
@@ -85,7 +85,7 @@ namespace RimWorld
 			return drugPolicy;
 		}
 
-		// Token: 0x06000C71 RID: 3185 RVA: 0x0006E954 File Offset: 0x0006CD54
+		// Token: 0x06000C75 RID: 3189 RVA: 0x0006EAA4 File Offset: 0x0006CEA4
 		private void GenerateStartingDrugPolicies()
 		{
 			DrugPolicy drugPolicy = this.MakeNewDrugPolicy();

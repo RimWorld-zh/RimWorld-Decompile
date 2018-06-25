@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CB6 RID: 3254
+	// Token: 0x02000CB8 RID: 3256
 	[StaticConstructorOnStartup]
 	public static class MapEdgeClipDrawer
 	{
@@ -16,7 +16,7 @@ namespace Verse
 		// Token: 0x040030B0 RID: 12464
 		private const float ClipWidth = 500f;
 
-		// Token: 0x060047BE RID: 18366 RVA: 0x0025CF94 File Offset: 0x0025B394
+		// Token: 0x060047C1 RID: 18369 RVA: 0x0025D070 File Offset: 0x0025B470
 		public static void DrawClippers(Map map)
 		{
 			IntVec3 size = map.Size;

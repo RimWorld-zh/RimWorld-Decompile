@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CBD RID: 3261
+	// Token: 0x02000CBF RID: 3263
 	public abstract class Mod
 	{
 		// Token: 0x040030C9 RID: 12489
@@ -12,14 +12,14 @@ namespace Verse
 		// Token: 0x040030CA RID: 12490
 		private ModContentPack intContent;
 
-		// Token: 0x06004804 RID: 18436 RVA: 0x0025EA76 File Offset: 0x0025CE76
+		// Token: 0x06004807 RID: 18439 RVA: 0x0025EB52 File Offset: 0x0025CF52
 		public Mod(ModContentPack content)
 		{
 			this.intContent = content;
 		}
 
-		// Token: 0x17000B60 RID: 2912
-		// (get) Token: 0x06004805 RID: 18437 RVA: 0x0025EA88 File Offset: 0x0025CE88
+		// Token: 0x17000B5F RID: 2911
+		// (get) Token: 0x06004808 RID: 18440 RVA: 0x0025EB64 File Offset: 0x0025CF64
 		public ModContentPack Content
 		{
 			get
@@ -28,7 +28,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004806 RID: 18438 RVA: 0x0025EAA4 File Offset: 0x0025CEA4
+		// Token: 0x06004809 RID: 18441 RVA: 0x0025EB80 File Offset: 0x0025CF80
 		public T GetSettings<T>() where T : ModSettings, new()
 		{
 			T result;
@@ -50,7 +50,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004807 RID: 18439 RVA: 0x0025EB79 File Offset: 0x0025CF79
+		// Token: 0x0600480A RID: 18442 RVA: 0x0025EC55 File Offset: 0x0025D055
 		public virtual void WriteSettings()
 		{
 			if (this.modSettings != null)
@@ -59,12 +59,12 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004808 RID: 18440 RVA: 0x0025EB92 File Offset: 0x0025CF92
+		// Token: 0x0600480B RID: 18443 RVA: 0x0025EC6E File Offset: 0x0025D06E
 		public virtual void DoSettingsWindowContents(Rect inRect)
 		{
 		}
 
-		// Token: 0x06004809 RID: 18441 RVA: 0x0025EB98 File Offset: 0x0025CF98
+		// Token: 0x0600480C RID: 18444 RVA: 0x0025EC74 File Offset: 0x0025D074
 		public virtual string SettingsCategory()
 		{
 			return "";

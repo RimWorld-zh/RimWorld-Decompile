@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C05 RID: 3077
+	// Token: 0x02000C07 RID: 3079
 	internal struct DebugLine
 	{
 		// Token: 0x04002E09 RID: 11785
@@ -18,7 +18,7 @@ namespace Verse
 		// Token: 0x04002E0C RID: 11788
 		private SimpleColor color;
 
-		// Token: 0x06004353 RID: 17235 RVA: 0x002396C0 File Offset: 0x00237AC0
+		// Token: 0x06004356 RID: 17238 RVA: 0x0023979C File Offset: 0x00237B9C
 		public DebugLine(Vector3 a, Vector3 b, int ticksLeft = 100, SimpleColor color = SimpleColor.White)
 		{
 			this.a = a;
@@ -27,8 +27,8 @@ namespace Verse
 			this.color = color;
 		}
 
-		// Token: 0x17000A92 RID: 2706
-		// (get) Token: 0x06004354 RID: 17236 RVA: 0x002396EC File Offset: 0x00237AEC
+		// Token: 0x17000A91 RID: 2705
+		// (get) Token: 0x06004357 RID: 17239 RVA: 0x002397C8 File Offset: 0x00237BC8
 		public bool Done
 		{
 			get
@@ -37,7 +37,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004355 RID: 17237 RVA: 0x00239716 File Offset: 0x00237B16
+		// Token: 0x06004358 RID: 17240 RVA: 0x002397F2 File Offset: 0x00237BF2
 		public void Draw()
 		{
 			GenDraw.DrawLineBetween(this.a, this.b, this.color);

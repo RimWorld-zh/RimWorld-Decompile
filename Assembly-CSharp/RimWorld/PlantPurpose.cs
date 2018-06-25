@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000270 RID: 624
+	// Token: 0x02000272 RID: 626
 	public enum PlantPurpose
 	{
 		// Token: 0x04000525 RID: 1317

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RimWorld
 {
-	// Token: 0x02000786 RID: 1926
+	// Token: 0x02000788 RID: 1928
 	internal class AlertBounce
 	{
 		// Token: 0x04001710 RID: 5904
@@ -36,7 +36,7 @@ namespace RimWorld
 		// Token: 0x04001719 RID: 5913
 		private const float MaxDelta = 0.05f;
 
-		// Token: 0x06002ABE RID: 10942 RVA: 0x00169D90 File Offset: 0x00168190
+		// Token: 0x06002AC2 RID: 10946 RVA: 0x00169EE0 File Offset: 0x001682E0
 		public void DoAlertStartEffect()
 		{
 			this.position = 300f;
@@ -45,7 +45,7 @@ namespace RimWorld
 			this.idle = false;
 		}
 
-		// Token: 0x06002ABF RID: 10943 RVA: 0x00169DBC File Offset: 0x001681BC
+		// Token: 0x06002AC3 RID: 10947 RVA: 0x00169F0C File Offset: 0x0016830C
 		public float CalculateHorizontalOffset()
 		{
 			float result;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EBC RID: 3772
+	// Token: 0x02000EBE RID: 3774
 	public class Dialog_MessageBox : Window
 	{
 		// Token: 0x04003B83 RID: 15235
@@ -57,7 +57,7 @@ namespace Verse
 		// Token: 0x04003B93 RID: 15251
 		private const float ButtonHeight = 35f;
 
-		// Token: 0x0600594C RID: 22860 RVA: 0x002DCAA4 File Offset: 0x002DAEA4
+		// Token: 0x0600594F RID: 22863 RVA: 0x002DCBC4 File Offset: 0x002DAFC4
 		public Dialog_MessageBox(string text, string buttonAText = null, Action buttonAAction = null, string buttonBText = null, Action buttonBAction = null, string title = null, bool buttonADestructive = false, Action acceptAction = null, Action cancelAction = null)
 		{
 			this.text = text;
@@ -83,8 +83,8 @@ namespace Verse
 			this.closeOnCancel = flag;
 		}
 
-		// Token: 0x17000E0A RID: 3594
-		// (get) Token: 0x0600594D RID: 22861 RVA: 0x002DCBA0 File Offset: 0x002DAFA0
+		// Token: 0x17000E09 RID: 3593
+		// (get) Token: 0x06005950 RID: 22864 RVA: 0x002DCCC0 File Offset: 0x002DB0C0
 		public override Vector2 InitialSize
 		{
 			get
@@ -93,8 +93,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E0B RID: 3595
-		// (get) Token: 0x0600594E RID: 22862 RVA: 0x002DCBC4 File Offset: 0x002DAFC4
+		// Token: 0x17000E0A RID: 3594
+		// (get) Token: 0x06005951 RID: 22865 RVA: 0x002DCCE4 File Offset: 0x002DB0E4
 		private float TimeUntilInteractive
 		{
 			get
@@ -103,8 +103,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E0C RID: 3596
-		// (get) Token: 0x0600594F RID: 22863 RVA: 0x002DCBEC File Offset: 0x002DAFEC
+		// Token: 0x17000E0B RID: 3595
+		// (get) Token: 0x06005952 RID: 22866 RVA: 0x002DCD0C File Offset: 0x002DB10C
 		private bool InteractionDelayExpired
 		{
 			get
@@ -113,7 +113,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005950 RID: 22864 RVA: 0x002DCC14 File Offset: 0x002DB014
+		// Token: 0x06005953 RID: 22867 RVA: 0x002DCD34 File Offset: 0x002DB134
 		public static Dialog_MessageBox CreateConfirmation(string text, Action confirmedAct, bool destructive = false, string title = null)
 		{
 			string text2 = "Confirm".Translate();
@@ -123,7 +123,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06005951 RID: 22865 RVA: 0x002DCC74 File Offset: 0x002DB074
+		// Token: 0x06005954 RID: 22868 RVA: 0x002DCD94 File Offset: 0x002DB194
 		public override void DoWindowContents(Rect inRect)
 		{
 			float num = inRect.y;
@@ -187,7 +187,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005952 RID: 22866 RVA: 0x002DCF34 File Offset: 0x002DB334
+		// Token: 0x06005955 RID: 22869 RVA: 0x002DD054 File Offset: 0x002DB454
 		public override void OnCancelKeyPressed()
 		{
 			if (this.cancelAction != null)
@@ -201,7 +201,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005953 RID: 22867 RVA: 0x002DCF61 File Offset: 0x002DB361
+		// Token: 0x06005956 RID: 22870 RVA: 0x002DD081 File Offset: 0x002DB481
 		public override void OnAcceptKeyPressed()
 		{
 			if (this.acceptAction != null)

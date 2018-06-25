@@ -6,58 +6,58 @@ using UnityEngine;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A8D RID: 2701
+	// Token: 0x02000A8F RID: 2703
 	public class PathFinder
 	{
-		// Token: 0x040025CC RID: 9676
+		// Token: 0x040025CD RID: 9677
 		private Map map;
 
-		// Token: 0x040025CD RID: 9677
+		// Token: 0x040025CE RID: 9678
 		private FastPriorityQueue<PathFinder.CostNode> openList;
 
-		// Token: 0x040025CE RID: 9678
+		// Token: 0x040025CF RID: 9679
 		private PathFinder.PathFinderNodeFast[] calcGrid;
 
-		// Token: 0x040025CF RID: 9679
+		// Token: 0x040025D0 RID: 9680
 		private ushort statusOpenValue = 1;
 
-		// Token: 0x040025D0 RID: 9680
+		// Token: 0x040025D1 RID: 9681
 		private ushort statusClosedValue = 2;
 
-		// Token: 0x040025D1 RID: 9681
+		// Token: 0x040025D2 RID: 9682
 		private RegionCostCalculatorWrapper regionCostCalculator;
 
-		// Token: 0x040025D2 RID: 9682
+		// Token: 0x040025D3 RID: 9683
 		private int mapSizeX;
 
-		// Token: 0x040025D3 RID: 9683
+		// Token: 0x040025D4 RID: 9684
 		private int mapSizeZ;
 
-		// Token: 0x040025D4 RID: 9684
+		// Token: 0x040025D5 RID: 9685
 		private PathGrid pathGrid;
 
-		// Token: 0x040025D5 RID: 9685
+		// Token: 0x040025D6 RID: 9686
 		private Building[] edificeGrid;
 
-		// Token: 0x040025D6 RID: 9686
+		// Token: 0x040025D7 RID: 9687
 		private List<Blueprint>[] blueprintGrid;
 
-		// Token: 0x040025D7 RID: 9687
+		// Token: 0x040025D8 RID: 9688
 		private CellIndices cellIndices;
 
-		// Token: 0x040025D8 RID: 9688
+		// Token: 0x040025D9 RID: 9689
 		private List<int> disallowedCornerIndices = new List<int>(4);
 
-		// Token: 0x040025D9 RID: 9689
+		// Token: 0x040025DA RID: 9690
 		public const int DefaultMoveTicksCardinal = 13;
 
-		// Token: 0x040025DA RID: 9690
+		// Token: 0x040025DB RID: 9691
 		private const int DefaultMoveTicksDiagonal = 18;
 
-		// Token: 0x040025DB RID: 9691
+		// Token: 0x040025DC RID: 9692
 		private const int SearchLimit = 160000;
 
-		// Token: 0x040025DC RID: 9692
+		// Token: 0x040025DD RID: 9693
 		private static readonly int[] Directions = new int[]
 		{
 			0,
@@ -78,37 +78,37 @@ namespace Verse.AI
 			-1
 		};
 
-		// Token: 0x040025DD RID: 9693
+		// Token: 0x040025DE RID: 9694
 		private const int Cost_DoorToBash = 300;
 
-		// Token: 0x040025DE RID: 9694
+		// Token: 0x040025DF RID: 9695
 		private const int Cost_BlockedWall = 70;
 
-		// Token: 0x040025DF RID: 9695
+		// Token: 0x040025E0 RID: 9696
 		private const float Cost_BlockedWallPerHitPoint = 0.11f;
 
-		// Token: 0x040025E0 RID: 9696
+		// Token: 0x040025E1 RID: 9697
 		private const int Cost_BlockedDoor = 50;
 
-		// Token: 0x040025E1 RID: 9697
+		// Token: 0x040025E2 RID: 9698
 		private const float Cost_BlockedDoorPerHitPoint = 0.11f;
 
-		// Token: 0x040025E2 RID: 9698
+		// Token: 0x040025E3 RID: 9699
 		public const int Cost_OutsideAllowedArea = 600;
 
-		// Token: 0x040025E3 RID: 9699
+		// Token: 0x040025E4 RID: 9700
 		private const int Cost_PawnCollision = 175;
 
-		// Token: 0x040025E4 RID: 9700
+		// Token: 0x040025E5 RID: 9701
 		private const int NodesToOpenBeforeRegionBasedPathing_NonColonist = 2000;
 
-		// Token: 0x040025E5 RID: 9701
+		// Token: 0x040025E6 RID: 9702
 		private const int NodesToOpenBeforeRegionBasedPathing_Colonist = 100000;
 
-		// Token: 0x040025E6 RID: 9702
+		// Token: 0x040025E7 RID: 9703
 		private const float NonRegionBasedHeuristicStrengthAnimal = 1.75f;
 
-		// Token: 0x040025E7 RID: 9703
+		// Token: 0x040025E8 RID: 9704
 		private static readonly SimpleCurve NonRegionBasedHeuristicStrengthHuman_DistanceCurve = new SimpleCurve
 		{
 			{
@@ -121,7 +121,7 @@ namespace Verse.AI
 			}
 		};
 
-		// Token: 0x040025E8 RID: 9704
+		// Token: 0x040025E9 RID: 9705
 		private static readonly SimpleCurve RegionHeuristicWeightByNodesOpened = new SimpleCurve
 		{
 			{
@@ -138,7 +138,7 @@ namespace Verse.AI
 			}
 		};
 
-		// Token: 0x06003BFC RID: 15356 RVA: 0x001FAD60 File Offset: 0x001F9160
+		// Token: 0x06003C00 RID: 15360 RVA: 0x001FAE8C File Offset: 0x001F928C
 		public PathFinder(Map map)
 		{
 			this.map = map;
@@ -149,7 +149,7 @@ namespace Verse.AI
 			this.regionCostCalculator = new RegionCostCalculatorWrapper(map);
 		}
 
-		// Token: 0x06003BFD RID: 15357 RVA: 0x001FADF4 File Offset: 0x001F91F4
+		// Token: 0x06003C01 RID: 15361 RVA: 0x001FAF20 File Offset: 0x001F9320
 		public PawnPath FindPath(IntVec3 start, LocalTargetInfo dest, Pawn pawn, PathEndMode peMode = PathEndMode.OnCell)
 		{
 			bool flag = false;
@@ -162,7 +162,7 @@ namespace Verse.AI
 			return this.FindPath(start, dest, TraverseParms.For(pawn, maxDanger, TraverseMode.ByPawn, canBash), peMode);
 		}
 
-		// Token: 0x06003BFE RID: 15358 RVA: 0x001FAE4C File Offset: 0x001F924C
+		// Token: 0x06003C02 RID: 15362 RVA: 0x001FAF78 File Offset: 0x001F9378
 		public PawnPath FindPath(IntVec3 start, LocalTargetInfo dest, TraverseParms traverseParms, PathEndMode peMode = PathEndMode.OnCell)
 		{
 			if (DebugSettings.pathThroughWalls)
@@ -622,7 +622,7 @@ namespace Verse.AI
 			return notFound;
 		}
 
-		// Token: 0x06003BFF RID: 15359 RVA: 0x001FBCA8 File Offset: 0x001FA0A8
+		// Token: 0x06003C03 RID: 15363 RVA: 0x001FBDD4 File Offset: 0x001FA1D4
 		public static int GetBuildingCost(Building b, TraverseParms traverseParms, Pawn pawn)
 		{
 			Building_Door building_Door = b as Building_Door;
@@ -693,7 +693,7 @@ namespace Verse.AI
 			return 0;
 		}
 
-		// Token: 0x06003C00 RID: 15360 RVA: 0x001FBE88 File Offset: 0x001FA288
+		// Token: 0x06003C04 RID: 15364 RVA: 0x001FBFB4 File Offset: 0x001FA3B4
 		public static int GetBlueprintCost(Blueprint b, Pawn pawn)
 		{
 			int result;
@@ -708,49 +708,49 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C01 RID: 15361 RVA: 0x001FBEB4 File Offset: 0x001FA2B4
+		// Token: 0x06003C05 RID: 15365 RVA: 0x001FBFE0 File Offset: 0x001FA3E0
 		public static bool IsDestroyable(Thing th)
 		{
 			return th.def.useHitPoints && th.def.destroyable;
 		}
 
-		// Token: 0x06003C02 RID: 15362 RVA: 0x001FBEE8 File Offset: 0x001FA2E8
+		// Token: 0x06003C06 RID: 15366 RVA: 0x001FC014 File Offset: 0x001FA414
 		private bool BlocksDiagonalMovement(int x, int z)
 		{
 			return PathFinder.BlocksDiagonalMovement(x, z, this.map);
 		}
 
-		// Token: 0x06003C03 RID: 15363 RVA: 0x001FBF0C File Offset: 0x001FA30C
+		// Token: 0x06003C07 RID: 15367 RVA: 0x001FC038 File Offset: 0x001FA438
 		private bool BlocksDiagonalMovement(int index)
 		{
 			return PathFinder.BlocksDiagonalMovement(index, this.map);
 		}
 
-		// Token: 0x06003C04 RID: 15364 RVA: 0x001FBF30 File Offset: 0x001FA330
+		// Token: 0x06003C08 RID: 15368 RVA: 0x001FC05C File Offset: 0x001FA45C
 		public static bool BlocksDiagonalMovement(int x, int z, Map map)
 		{
 			return PathFinder.BlocksDiagonalMovement(map.cellIndices.CellToIndex(x, z), map);
 		}
 
-		// Token: 0x06003C05 RID: 15365 RVA: 0x001FBF58 File Offset: 0x001FA358
+		// Token: 0x06003C09 RID: 15369 RVA: 0x001FC084 File Offset: 0x001FA484
 		public static bool BlocksDiagonalMovement(int index, Map map)
 		{
 			return !map.pathGrid.WalkableFast(index) || map.edificeGrid[index] is Building_Door;
 		}
 
-		// Token: 0x06003C06 RID: 15366 RVA: 0x001FBFA3 File Offset: 0x001FA3A3
+		// Token: 0x06003C0A RID: 15370 RVA: 0x001FC0CF File Offset: 0x001FA4CF
 		private void DebugFlash(IntVec3 c, float colorPct, string str)
 		{
 			PathFinder.DebugFlash(c, this.map, colorPct, str);
 		}
 
-		// Token: 0x06003C07 RID: 15367 RVA: 0x001FBFB4 File Offset: 0x001FA3B4
+		// Token: 0x06003C0B RID: 15371 RVA: 0x001FC0E0 File Offset: 0x001FA4E0
 		private static void DebugFlash(IntVec3 c, Map map, float colorPct, string str)
 		{
 			map.debugDrawer.FlashCell(c, colorPct, str, 50);
 		}
 
-		// Token: 0x06003C08 RID: 15368 RVA: 0x001FBFC8 File Offset: 0x001FA3C8
+		// Token: 0x06003C0C RID: 15372 RVA: 0x001FC0F4 File Offset: 0x001FA4F4
 		private PawnPath FinalizedPath(int finalIndex)
 		{
 			PawnPath emptyPawnPath = this.map.pawnPathPool.GetEmptyPawnPath();
@@ -770,7 +770,7 @@ namespace Verse.AI
 			return emptyPawnPath;
 		}
 
-		// Token: 0x06003C09 RID: 15369 RVA: 0x001FC054 File Offset: 0x001FA454
+		// Token: 0x06003C0D RID: 15373 RVA: 0x001FC180 File Offset: 0x001FA580
 		private void InitStatusesAndPushStartNode(ref int curIndex, IntVec3 start)
 		{
 			this.statusOpenValue += 2;
@@ -789,7 +789,7 @@ namespace Verse.AI
 			this.openList.Push(new PathFinder.CostNode(curIndex, 0));
 		}
 
-		// Token: 0x06003C0A RID: 15370 RVA: 0x001FC128 File Offset: 0x001FA528
+		// Token: 0x06003C0E RID: 15374 RVA: 0x001FC254 File Offset: 0x001FA654
 		private void ResetStatuses()
 		{
 			int num = this.calcGrid.Length;
@@ -801,19 +801,19 @@ namespace Verse.AI
 			this.statusClosedValue = 2;
 		}
 
-		// Token: 0x06003C0B RID: 15371 RVA: 0x001FC173 File Offset: 0x001FA573
+		// Token: 0x06003C0F RID: 15375 RVA: 0x001FC29F File Offset: 0x001FA69F
 		[Conditional("PFPROFILE")]
 		private void PfProfilerBeginSample(string s)
 		{
 		}
 
-		// Token: 0x06003C0C RID: 15372 RVA: 0x001FC176 File Offset: 0x001FA576
+		// Token: 0x06003C10 RID: 15376 RVA: 0x001FC2A2 File Offset: 0x001FA6A2
 		[Conditional("PFPROFILE")]
 		private void PfProfilerEndSample()
 		{
 		}
 
-		// Token: 0x06003C0D RID: 15373 RVA: 0x001FC17C File Offset: 0x001FA57C
+		// Token: 0x06003C11 RID: 15377 RVA: 0x001FC2A8 File Offset: 0x001FA6A8
 		private void DebugDrawRichData()
 		{
 			if (DebugViewSettings.drawPaths)
@@ -827,7 +827,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C0E RID: 15374 RVA: 0x001FC1F8 File Offset: 0x001FA5F8
+		// Token: 0x06003C12 RID: 15378 RVA: 0x001FC324 File Offset: 0x001FA724
 		private float DetermineHeuristicStrength(Pawn pawn, IntVec3 start, LocalTargetInfo dest)
 		{
 			float result;
@@ -843,7 +843,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C0F RID: 15375 RVA: 0x001FC258 File Offset: 0x001FA658
+		// Token: 0x06003C13 RID: 15379 RVA: 0x001FC384 File Offset: 0x001FA784
 		private CellRect CalculateDestinationRect(LocalTargetInfo dest, PathEndMode peMode)
 		{
 			CellRect result;
@@ -862,7 +862,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C10 RID: 15376 RVA: 0x001FC2B0 File Offset: 0x001FA6B0
+		// Token: 0x06003C14 RID: 15380 RVA: 0x001FC3DC File Offset: 0x001FA7DC
 		private Area GetAllowedArea(Pawn pawn)
 		{
 			Area result;
@@ -882,7 +882,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C11 RID: 15377 RVA: 0x001FC318 File Offset: 0x001FA718
+		// Token: 0x06003C15 RID: 15381 RVA: 0x001FC444 File Offset: 0x001FA844
 		private void CalculateAndAddDisallowedCorners(TraverseParms traverseParms, PathEndMode peMode, CellRect destinationRect)
 		{
 			this.disallowedCornerIndices.Clear();
@@ -911,22 +911,22 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C12 RID: 15378 RVA: 0x001FC434 File Offset: 0x001FA834
+		// Token: 0x06003C16 RID: 15382 RVA: 0x001FC560 File Offset: 0x001FA960
 		private bool IsCornerTouchAllowed(int cornerX, int cornerZ, int adjCardinal1X, int adjCardinal1Z, int adjCardinal2X, int adjCardinal2Z)
 		{
 			return TouchPathEndModeUtility.IsCornerTouchAllowed(cornerX, cornerZ, adjCardinal1X, adjCardinal1Z, adjCardinal2X, adjCardinal2Z, this.map);
 		}
 
-		// Token: 0x02000A8E RID: 2702
+		// Token: 0x02000A90 RID: 2704
 		internal struct CostNode
 		{
-			// Token: 0x040025E9 RID: 9705
+			// Token: 0x040025EA RID: 9706
 			public int index;
 
-			// Token: 0x040025EA RID: 9706
+			// Token: 0x040025EB RID: 9707
 			public int cost;
 
-			// Token: 0x06003C14 RID: 15380 RVA: 0x001FC50A File Offset: 0x001FA90A
+			// Token: 0x06003C18 RID: 15384 RVA: 0x001FC636 File Offset: 0x001FAA36
 			public CostNode(int index, int cost)
 			{
 				this.index = index;
@@ -934,29 +934,29 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x02000A8F RID: 2703
+		// Token: 0x02000A91 RID: 2705
 		private struct PathFinderNodeFast
 		{
-			// Token: 0x040025EB RID: 9707
+			// Token: 0x040025EC RID: 9708
 			public int knownCost;
 
-			// Token: 0x040025EC RID: 9708
+			// Token: 0x040025ED RID: 9709
 			public int heuristicCost;
 
-			// Token: 0x040025ED RID: 9709
+			// Token: 0x040025EE RID: 9710
 			public int parentIndex;
 
-			// Token: 0x040025EE RID: 9710
+			// Token: 0x040025EF RID: 9711
 			public int costNodeCost;
 
-			// Token: 0x040025EF RID: 9711
+			// Token: 0x040025F0 RID: 9712
 			public ushort status;
 		}
 
-		// Token: 0x02000A90 RID: 2704
+		// Token: 0x02000A92 RID: 2706
 		internal class CostNodeComparer : IComparer<PathFinder.CostNode>
 		{
-			// Token: 0x06003C16 RID: 15382 RVA: 0x001FC524 File Offset: 0x001FA924
+			// Token: 0x06003C1A RID: 15386 RVA: 0x001FC650 File Offset: 0x001FAA50
 			public int Compare(PathFinder.CostNode a, PathFinder.CostNode b)
 			{
 				return a.cost.CompareTo(b.cost);

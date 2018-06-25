@@ -5,14 +5,14 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000596 RID: 1430
+	// Token: 0x02000598 RID: 1432
 	public class WorldLayer_Sun : WorldLayer
 	{
 		// Token: 0x0400101E RID: 4126
 		private const float SunDrawSize = 15f;
 
 		// Token: 0x17000406 RID: 1030
-		// (get) Token: 0x06001B4F RID: 6991 RVA: 0x000EB218 File Offset: 0x000E9618
+		// (get) Token: 0x06001B53 RID: 6995 RVA: 0x000EB368 File Offset: 0x000E9768
 		protected override int Layer
 		{
 			get
@@ -22,7 +22,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000407 RID: 1031
-		// (get) Token: 0x06001B50 RID: 6992 RVA: 0x000EB234 File Offset: 0x000E9634
+		// (get) Token: 0x06001B54 RID: 6996 RVA: 0x000EB384 File Offset: 0x000E9784
 		protected override Quaternion Rotation
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B51 RID: 6993 RVA: 0x000EB254 File Offset: 0x000E9654
+		// Token: 0x06001B55 RID: 6997 RVA: 0x000EB3A4 File Offset: 0x000E97A4
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();

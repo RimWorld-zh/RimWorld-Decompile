@@ -8,7 +8,7 @@ using Verse.AI.Group;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000600 RID: 1536
+	// Token: 0x02000602 RID: 1538
 	[HasDebugOutput]
 	public class PeaceTalks : WorldObject
 	{
@@ -51,7 +51,7 @@ namespace RimWorld.Planet
 		private static List<Pair<Action, float>> tmpPossibleOutcomes = new List<Pair<Action, float>>();
 
 		// Token: 0x17000484 RID: 1156
-		// (get) Token: 0x06001EAC RID: 7852 RVA: 0x0010B928 File Offset: 0x00109D28
+		// (get) Token: 0x06001EB0 RID: 7856 RVA: 0x0010BA78 File Offset: 0x00109E78
 		public override Material Material
 		{
 			get
@@ -73,7 +73,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EAD RID: 7853 RVA: 0x0010B99C File Offset: 0x00109D9C
+		// Token: 0x06001EB1 RID: 7857 RVA: 0x0010BAEC File Offset: 0x00109EEC
 		public void Notify_CaravanArrived(Caravan caravan)
 		{
 			Pawn pawn = BestCaravanPawnUtility.FindBestDiplomat(caravan);
@@ -113,7 +113,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EAE RID: 7854 RVA: 0x0010BB14 File Offset: 0x00109F14
+		// Token: 0x06001EB2 RID: 7858 RVA: 0x0010BC64 File Offset: 0x0010A064
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
 			foreach (FloatMenuOption o in this.<GetFloatMenuOptions>__BaseCallProxy0(caravan))
@@ -127,7 +127,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001EAF RID: 7855 RVA: 0x0010BB48 File Offset: 0x00109F48
+		// Token: 0x06001EB3 RID: 7859 RVA: 0x0010BC98 File Offset: 0x0010A098
 		private void Outcome_Disaster(Caravan caravan)
 		{
 			LongEventHandler.QueueLongEvent(delegate()
@@ -163,7 +163,7 @@ namespace RimWorld.Planet
 			}, "GeneratingMapForNewEncounter", false, null);
 		}
 
-		// Token: 0x06001EB0 RID: 7856 RVA: 0x0010BB84 File Offset: 0x00109F84
+		// Token: 0x06001EB4 RID: 7860 RVA: 0x0010BCD4 File Offset: 0x0010A0D4
 		private void Outcome_Backfire(Caravan caravan)
 		{
 			FactionRelationKind playerRelationKind = base.Faction.PlayerRelationKind;
@@ -176,7 +176,7 @@ namespace RimWorld.Planet
 			}), caravan, playerRelationKind), LetterDefOf.NegativeEvent, caravan, base.Faction, null);
 		}
 
-		// Token: 0x06001EB1 RID: 7857 RVA: 0x0010BC20 File Offset: 0x0010A020
+		// Token: 0x06001EB5 RID: 7861 RVA: 0x0010BD70 File Offset: 0x0010A170
 		private void Outcome_TalksFlounder(Caravan caravan)
 		{
 			Find.LetterStack.ReceiveLetter("LetterLabelPeaceTalks_TalksFlounder".Translate(), this.GetLetterText("LetterPeaceTalks_TalksFlounder".Translate(new object[]
@@ -185,7 +185,7 @@ namespace RimWorld.Planet
 			}), caravan, base.Faction.PlayerRelationKind), LetterDefOf.NeutralEvent, caravan, base.Faction, null);
 		}
 
-		// Token: 0x06001EB2 RID: 7858 RVA: 0x0010BC84 File Offset: 0x0010A084
+		// Token: 0x06001EB6 RID: 7862 RVA: 0x0010BDD4 File Offset: 0x0010A1D4
 		private void Outcome_Success(Caravan caravan)
 		{
 			FactionRelationKind playerRelationKind = base.Faction.PlayerRelationKind;
@@ -198,7 +198,7 @@ namespace RimWorld.Planet
 			}), caravan, playerRelationKind), LetterDefOf.PositiveEvent, caravan, base.Faction, null);
 		}
 
-		// Token: 0x06001EB3 RID: 7859 RVA: 0x0010BD20 File Offset: 0x0010A120
+		// Token: 0x06001EB7 RID: 7863 RVA: 0x0010BE70 File Offset: 0x0010A270
 		private void Outcome_Triumph(Caravan caravan)
 		{
 			FactionRelationKind playerRelationKind = base.Faction.PlayerRelationKind;
@@ -217,7 +217,7 @@ namespace RimWorld.Planet
 			}), caravan, playerRelationKind), LetterDefOf.PositiveEvent, caravan, base.Faction, null);
 		}
 
-		// Token: 0x06001EB4 RID: 7860 RVA: 0x0010BE0C File Offset: 0x0010A20C
+		// Token: 0x06001EB8 RID: 7864 RVA: 0x0010BF5C File Offset: 0x0010A35C
 		private string GetLetterText(string baseText, Caravan caravan, FactionRelationKind previousRelationKind)
 		{
 			string text = baseText;
@@ -234,20 +234,20 @@ namespace RimWorld.Planet
 			return text;
 		}
 
-		// Token: 0x06001EB5 RID: 7861 RVA: 0x0010BE88 File Offset: 0x0010A288
+		// Token: 0x06001EB9 RID: 7865 RVA: 0x0010BFD8 File Offset: 0x0010A3D8
 		private static float GetBadOutcomeWeightFactor(Pawn diplomat)
 		{
 			float statValue = diplomat.GetStatValue(StatDefOf.DiplomacyPower, true);
 			return PeaceTalks.GetBadOutcomeWeightFactor(statValue);
 		}
 
-		// Token: 0x06001EB6 RID: 7862 RVA: 0x0010BEB0 File Offset: 0x0010A2B0
+		// Token: 0x06001EBA RID: 7866 RVA: 0x0010C000 File Offset: 0x0010A400
 		private static float GetBadOutcomeWeightFactor(float diplomacyPower)
 		{
 			return PeaceTalks.BadOutcomeFactorAtDiplomacyPower.Evaluate(diplomacyPower);
 		}
 
-		// Token: 0x06001EB7 RID: 7863 RVA: 0x0010BED0 File Offset: 0x0010A2D0
+		// Token: 0x06001EBB RID: 7867 RVA: 0x0010C020 File Offset: 0x0010A420
 		[DebugOutput]
 		[Category("Incidents")]
 		private static void PeaceTalksChances()
@@ -259,7 +259,7 @@ namespace RimWorld.Planet
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06001EB8 RID: 7864 RVA: 0x0010BF14 File Offset: 0x0010A314
+		// Token: 0x06001EBC RID: 7868 RVA: 0x0010C064 File Offset: 0x0010A464
 		private static void AppendDebugChances(StringBuilder sb, float diplomacyPower)
 		{
 			if (sb.Length > 0)

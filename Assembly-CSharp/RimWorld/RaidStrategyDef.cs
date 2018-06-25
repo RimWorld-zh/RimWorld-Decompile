@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002BC RID: 700
+	// Token: 0x020002BE RID: 702
 	public class RaidStrategyDef : Def
 	{
 		// Token: 0x040006D0 RID: 1744
@@ -45,7 +45,7 @@ namespace RimWorld
 		private RaidStrategyWorker workerInt;
 
 		// Token: 0x170001BF RID: 447
-		// (get) Token: 0x06000BBA RID: 3002 RVA: 0x0006931C File Offset: 0x0006771C
+		// (get) Token: 0x06000BBE RID: 3006 RVA: 0x0006946C File Offset: 0x0006786C
 		public RaidStrategyWorker Worker
 		{
 			get

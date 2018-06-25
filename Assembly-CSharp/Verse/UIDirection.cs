@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000EAB RID: 3755
+	// Token: 0x02000EAD RID: 3757
 	public enum UIDirection : byte
 	{
 		// Token: 0x04003B01 RID: 15105

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DDE RID: 3550
+	// Token: 0x02000DE0 RID: 3552
 	public class Graphic_Shadow : Graphic
 	{
 		// Token: 0x040034C7 RID: 13511
@@ -21,7 +21,7 @@ namespace Verse
 		[TweakValue("Graphics_Shadow", -5f, 5f)]
 		private static float GlobalShadowPosOffsetZ = 0f;
 
-		// Token: 0x06004F8F RID: 20367 RVA: 0x002969F4 File Offset: 0x00294DF4
+		// Token: 0x06004F93 RID: 20371 RVA: 0x00296B20 File Offset: 0x00294F20
 		public Graphic_Shadow(ShadowData shadowInfo)
 		{
 			this.shadowInfo = shadowInfo;
@@ -32,7 +32,7 @@ namespace Verse
 			this.shadowMesh = ShadowMeshPool.GetShadowMesh(shadowInfo);
 		}
 
-		// Token: 0x06004F90 RID: 20368 RVA: 0x00296A24 File Offset: 0x00294E24
+		// Token: 0x06004F94 RID: 20372 RVA: 0x00296B50 File Offset: 0x00294F50
 		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
 			if (this.shadowMesh != null)
@@ -46,7 +46,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F91 RID: 20369 RVA: 0x00296AD4 File Offset: 0x00294ED4
+		// Token: 0x06004F95 RID: 20373 RVA: 0x00296C00 File Offset: 0x00295000
 		public override void Print(SectionLayer layer, Thing thing)
 		{
 			Vector3 center = thing.TrueCenter() + (this.shadowInfo.offset + new Vector3(Graphic_Shadow.GlobalShadowPosOffsetX, 0f, Graphic_Shadow.GlobalShadowPosOffsetZ)).RotatedBy(thing.Rotation);
@@ -54,7 +54,7 @@ namespace Verse
 			Printer_Shadow.PrintShadow(layer, center, this.shadowInfo, thing.Rotation);
 		}
 
-		// Token: 0x06004F92 RID: 20370 RVA: 0x00296B40 File Offset: 0x00294F40
+		// Token: 0x06004F96 RID: 20374 RVA: 0x00296C6C File Offset: 0x0029506C
 		public override string ToString()
 		{
 			return "Graphic_Shadow(" + this.shadowInfo + ")";

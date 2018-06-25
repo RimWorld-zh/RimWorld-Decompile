@@ -7,7 +7,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006F9 RID: 1785
+	// Token: 0x020006FB RID: 1787
 	[HasDebugOutput]
 	public class ThingSetMaker_ResourcePod : ThingSetMaker
 	{
@@ -23,7 +23,7 @@ namespace RimWorld
 		// Token: 0x040015A9 RID: 5545
 		private const float MaxMoney = 600f;
 
-		// Token: 0x060026EA RID: 9962 RVA: 0x0014E488 File Offset: 0x0014C888
+		// Token: 0x060026EE RID: 9966 RVA: 0x0014E5D8 File Offset: 0x0014C9D8
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			ThingDef thingDef = ThingSetMaker_ResourcePod.RandomPodContentsDef();
@@ -51,7 +51,7 @@ namespace RimWorld
 			while (outThings.Count < 7 && num > thingDef.BaseMarketValue);
 		}
 
-		// Token: 0x060026EB RID: 9963 RVA: 0x0014E54C File Offset: 0x0014C94C
+		// Token: 0x060026EF RID: 9967 RVA: 0x0014E69C File Offset: 0x0014CA9C
 		private static IEnumerable<ThingDef> PossiblePodContentsDefs()
 		{
 			return from d in DefDatabase<ThingDef>.AllDefs
@@ -59,7 +59,7 @@ namespace RimWorld
 			select d;
 		}
 
-		// Token: 0x060026EC RID: 9964 RVA: 0x0014E588 File Offset: 0x0014C988
+		// Token: 0x060026F0 RID: 9968 RVA: 0x0014E6D8 File Offset: 0x0014CAD8
 		private static ThingDef RandomPodContentsDef()
 		{
 			int numMeats = (from x in ThingSetMaker_ResourcePod.PossiblePodContentsDefs()
@@ -71,7 +71,7 @@ namespace RimWorld
 			return ThingSetMaker_ResourcePod.PossiblePodContentsDefs().RandomElementByWeight((ThingDef d) => ThingSetMakerUtility.AdjustedBigCategoriesSelectionWeight(d, numMeats, numLeathers));
 		}
 
-		// Token: 0x060026ED RID: 9965 RVA: 0x0014E620 File Offset: 0x0014CA20
+		// Token: 0x060026F1 RID: 9969 RVA: 0x0014E770 File Offset: 0x0014CB70
 		[DebugOutput]
 		[Category("Incidents")]
 		private static void PodContentsPossibleDefs()
@@ -85,7 +85,7 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x060026EE RID: 9966 RVA: 0x0014E6A0 File Offset: 0x0014CAA0
+		// Token: 0x060026F2 RID: 9970 RVA: 0x0014E7F0 File Offset: 0x0014CBF0
 		[DebugOutput]
 		[Category("Incidents")]
 		private static void PodContentsTest()
@@ -98,7 +98,7 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x060026EF RID: 9967 RVA: 0x0014E6E8 File Offset: 0x0014CAE8
+		// Token: 0x060026F3 RID: 9971 RVA: 0x0014E838 File Offset: 0x0014CC38
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			return ThingSetMaker_ResourcePod.PossiblePodContentsDefs();

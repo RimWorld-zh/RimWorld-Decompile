@@ -3,7 +3,7 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D31 RID: 3377
+	// Token: 0x02000D33 RID: 3379
 	public class HediffGiver_BrainInjury : HediffGiver
 	{
 		// Token: 0x0400324E RID: 12878
@@ -15,7 +15,7 @@ namespace Verse
 		// Token: 0x04003250 RID: 12880
 		public string letter;
 
-		// Token: 0x06004A82 RID: 19074 RVA: 0x0026DC38 File Offset: 0x0026C038
+		// Token: 0x06004A86 RID: 19078 RVA: 0x0026DD64 File Offset: 0x0026C164
 		public override bool OnHediffAdded(Pawn pawn, Hediff hediff)
 		{
 			bool result;

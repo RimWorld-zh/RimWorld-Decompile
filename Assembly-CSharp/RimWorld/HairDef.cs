@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000299 RID: 665
+	// Token: 0x0200029B RID: 667
 	public class HairDef : Def
 	{
 		// Token: 0x04000604 RID: 1540

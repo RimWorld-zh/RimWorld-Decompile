@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x0200072F RID: 1839
+	// Token: 0x02000731 RID: 1841
 	public enum RotStage : byte
 	{
 		// Token: 0x0400163F RID: 5695

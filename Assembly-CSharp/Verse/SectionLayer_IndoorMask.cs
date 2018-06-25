@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C46 RID: 3142
+	// Token: 0x02000C48 RID: 3144
 	internal class SectionLayer_IndoorMask : SectionLayer
 	{
-		// Token: 0x06004549 RID: 17737 RVA: 0x0024929E File Offset: 0x0024769E
+		// Token: 0x0600454C RID: 17740 RVA: 0x0024937A File Offset: 0x0024777A
 		public SectionLayer_IndoorMask(Section section) : base(section)
 		{
 			this.relevantChangeTypes = (MapMeshFlag.FogOfWar | MapMeshFlag.Roofs);
 		}
 
-		// Token: 0x17000AED RID: 2797
-		// (get) Token: 0x0600454A RID: 17738 RVA: 0x002492B0 File Offset: 0x002476B0
+		// Token: 0x17000AEC RID: 2796
+		// (get) Token: 0x0600454D RID: 17741 RVA: 0x0024938C File Offset: 0x0024778C
 		public override bool Visible
 		{
 			get
@@ -22,7 +22,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600454B RID: 17739 RVA: 0x002492CC File Offset: 0x002476CC
+		// Token: 0x0600454E RID: 17742 RVA: 0x002493A8 File Offset: 0x002477A8
 		private bool HideRainPrimary(IntVec3 c)
 		{
 			bool result;
@@ -53,7 +53,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600454C RID: 17740 RVA: 0x00249378 File Offset: 0x00247778
+		// Token: 0x0600454F RID: 17743 RVA: 0x00249454 File Offset: 0x00247854
 		public override void Regenerate()
 		{
 			if (MatBases.SunShadow.shader.isSupported)

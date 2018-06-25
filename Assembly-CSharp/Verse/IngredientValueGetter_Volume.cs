@@ -3,10 +3,10 @@ using System.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000B62 RID: 2914
+	// Token: 0x02000B64 RID: 2916
 	public class IngredientValueGetter_Volume : IngredientValueGetter
 	{
-		// Token: 0x06003FB7 RID: 16311 RVA: 0x00219C30 File Offset: 0x00218030
+		// Token: 0x06003FBA RID: 16314 RVA: 0x00219D0C File Offset: 0x0021810C
 		public override float ValuePerUnitOf(ThingDef t)
 		{
 			float result;
@@ -21,7 +21,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FB8 RID: 16312 RVA: 0x00219C64 File Offset: 0x00218064
+		// Token: 0x06003FBB RID: 16315 RVA: 0x00219D40 File Offset: 0x00218140
 		public override string BillRequirementsDescription(RecipeDef r, IngredientCount ing)
 		{
 			string result;
@@ -44,7 +44,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FB9 RID: 16313 RVA: 0x00219D40 File Offset: 0x00218140
+		// Token: 0x06003FBC RID: 16316 RVA: 0x00219E1C File Offset: 0x0021821C
 		public override string ExtraDescriptionLine(RecipeDef r)
 		{
 			string result;

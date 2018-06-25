@@ -3,24 +3,24 @@ using UnityEngine;
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F7A RID: 3962
+	// Token: 0x02000F7E RID: 3966
 	public class DistanceFromPlanetViewCenter : ModuleBase
 	{
-		// Token: 0x04003EDA RID: 16090
+		// Token: 0x04003EDD RID: 16093
 		public Vector3 viewCenter;
 
-		// Token: 0x04003EDB RID: 16091
+		// Token: 0x04003EDE RID: 16094
 		public float viewAngle;
 
-		// Token: 0x04003EDC RID: 16092
+		// Token: 0x04003EDF RID: 16095
 		public bool invert;
 
-		// Token: 0x06005FA3 RID: 24483 RVA: 0x0030B489 File Offset: 0x00309889
+		// Token: 0x06005FAD RID: 24493 RVA: 0x0030BB09 File Offset: 0x00309F09
 		public DistanceFromPlanetViewCenter() : base(0)
 		{
 		}
 
-		// Token: 0x06005FA4 RID: 24484 RVA: 0x0030B493 File Offset: 0x00309893
+		// Token: 0x06005FAE RID: 24494 RVA: 0x0030BB13 File Offset: 0x00309F13
 		public DistanceFromPlanetViewCenter(Vector3 viewCenter, float viewAngle, bool invert = false) : base(0)
 		{
 			this.viewCenter = viewCenter;
@@ -28,7 +28,7 @@ namespace Verse.Noise
 			this.invert = invert;
 		}
 
-		// Token: 0x06005FA5 RID: 24485 RVA: 0x0030B4B4 File Offset: 0x003098B4
+		// Token: 0x06005FAF RID: 24495 RVA: 0x0030BB34 File Offset: 0x00309F34
 		public override double GetValue(double x, double y, double z)
 		{
 			float valueInt = this.GetValueInt(x, y, z);
@@ -44,7 +44,7 @@ namespace Verse.Noise
 			return result;
 		}
 
-		// Token: 0x06005FA6 RID: 24486 RVA: 0x0030B4F0 File Offset: 0x003098F0
+		// Token: 0x06005FB0 RID: 24496 RVA: 0x0030BB70 File Offset: 0x00309F70
 		private float GetValueInt(double x, double y, double z)
 		{
 			float result;

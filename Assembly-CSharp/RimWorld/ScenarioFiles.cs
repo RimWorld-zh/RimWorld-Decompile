@@ -6,7 +6,7 @@ using Verse.Steam;
 
 namespace RimWorld
 {
-	// Token: 0x02000651 RID: 1617
+	// Token: 0x02000653 RID: 1619
 	public static class ScenarioFiles
 	{
 		// Token: 0x04001328 RID: 4904
@@ -16,7 +16,7 @@ namespace RimWorld
 		private static List<Scenario> scenariosWorkshop = new List<Scenario>();
 
 		// Token: 0x170004F3 RID: 1267
-		// (get) Token: 0x060021C0 RID: 8640 RVA: 0x0011E0A8 File Offset: 0x0011C4A8
+		// (get) Token: 0x060021C4 RID: 8644 RVA: 0x0011E1F8 File Offset: 0x0011C5F8
 		public static IEnumerable<Scenario> AllScenariosLocal
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170004F4 RID: 1268
-		// (get) Token: 0x060021C1 RID: 8641 RVA: 0x0011E0C4 File Offset: 0x0011C4C4
+		// (get) Token: 0x060021C5 RID: 8645 RVA: 0x0011E214 File Offset: 0x0011C614
 		public static IEnumerable<Scenario> AllScenariosWorkshop
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021C2 RID: 8642 RVA: 0x0011E0E0 File Offset: 0x0011C4E0
+		// Token: 0x060021C6 RID: 8646 RVA: 0x0011E230 File Offset: 0x0011C630
 		public static void RecacheData()
 		{
 			ScenarioFiles.scenariosLocal.Clear();

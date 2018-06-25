@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200077A RID: 1914
+	// Token: 0x0200077C RID: 1916
 	public static class TradeSession
 	{
 		// Token: 0x040016CB RID: 5835
@@ -19,7 +19,7 @@ namespace RimWorld
 		public static bool giftMode;
 
 		// Token: 0x17000683 RID: 1667
-		// (get) Token: 0x06002A45 RID: 10821 RVA: 0x0016695C File Offset: 0x00164D5C
+		// (get) Token: 0x06002A49 RID: 10825 RVA: 0x00166AAC File Offset: 0x00164EAC
 		public static bool Active
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A46 RID: 10822 RVA: 0x0016697C File Offset: 0x00164D7C
+		// Token: 0x06002A4A RID: 10826 RVA: 0x00166ACC File Offset: 0x00164ECC
 		public static void SetupWith(ITrader newTrader, Pawn newPlayerNegotiator, bool giftMode)
 		{
 			if (!newTrader.CanTradeNow)
@@ -45,7 +45,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A47 RID: 10823 RVA: 0x00166A01 File Offset: 0x00164E01
+		// Token: 0x06002A4B RID: 10827 RVA: 0x00166B51 File Offset: 0x00164F51
 		public static void Close()
 		{
 			TradeSession.trader = null;

@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002BE RID: 702
+	// Token: 0x020002C0 RID: 704
 	public class RecordDef : Def
 	{
 		// Token: 0x040006DC RID: 1756
@@ -21,7 +21,7 @@ namespace RimWorld
 		private RecordWorker workerInt;
 
 		// Token: 0x170001C0 RID: 448
-		// (get) Token: 0x06000BC5 RID: 3013 RVA: 0x00069380 File Offset: 0x00067780
+		// (get) Token: 0x06000BC9 RID: 3017 RVA: 0x000694D0 File Offset: 0x000678D0
 		public RecordWorker Worker
 		{
 			get

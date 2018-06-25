@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000594 RID: 1428
+	// Token: 0x02000596 RID: 1430
 	public abstract class WorldLayer_SingleTile : WorldLayer
 	{
 		// Token: 0x04001016 RID: 4118
@@ -16,15 +16,15 @@ namespace RimWorld.Planet
 		private List<Vector3> verts = new List<Vector3>();
 
 		// Token: 0x170003FF RID: 1023
-		// (get) Token: 0x06001B41 RID: 6977
+		// (get) Token: 0x06001B45 RID: 6981
 		protected abstract int Tile { get; }
 
 		// Token: 0x17000400 RID: 1024
-		// (get) Token: 0x06001B42 RID: 6978
+		// (get) Token: 0x06001B46 RID: 6982
 		protected abstract Material Material { get; }
 
 		// Token: 0x17000401 RID: 1025
-		// (get) Token: 0x06001B43 RID: 6979 RVA: 0x000E8CEC File Offset: 0x000E70EC
+		// (get) Token: 0x06001B47 RID: 6983 RVA: 0x000E8E3C File Offset: 0x000E723C
 		public override bool ShouldRegenerate
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B44 RID: 6980 RVA: 0x000E8D20 File Offset: 0x000E7120
+		// Token: 0x06001B48 RID: 6984 RVA: 0x000E8E70 File Offset: 0x000E7270
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();

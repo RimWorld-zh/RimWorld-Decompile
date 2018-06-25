@@ -6,7 +6,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020007F4 RID: 2036
+	// Token: 0x020007F6 RID: 2038
 	public class Dialog_AssignBuildingOwner : Window
 	{
 		// Token: 0x040017C1 RID: 6081
@@ -18,7 +18,7 @@ namespace RimWorld
 		// Token: 0x040017C3 RID: 6083
 		private const float EntryHeight = 35f;
 
-		// Token: 0x06002D2F RID: 11567 RVA: 0x0017BCB7 File Offset: 0x0017A0B7
+		// Token: 0x06002D33 RID: 11571 RVA: 0x0017BE07 File Offset: 0x0017A207
 		public Dialog_AssignBuildingOwner(IAssignableBuilding assignable)
 		{
 			this.assignable = assignable;
@@ -29,7 +29,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000728 RID: 1832
-		// (get) Token: 0x06002D30 RID: 11568 RVA: 0x0017BCE4 File Offset: 0x0017A0E4
+		// (get) Token: 0x06002D34 RID: 11572 RVA: 0x0017BE34 File Offset: 0x0017A234
 		public override Vector2 InitialSize
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D31 RID: 11569 RVA: 0x0017BD08 File Offset: 0x0017A108
+		// Token: 0x06002D35 RID: 11573 RVA: 0x0017BE58 File Offset: 0x0017A258
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Font = GameFont.Small;

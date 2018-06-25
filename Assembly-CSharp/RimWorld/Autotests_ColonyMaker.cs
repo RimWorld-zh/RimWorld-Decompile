@@ -7,7 +7,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008F4 RID: 2292
+	// Token: 0x020008F6 RID: 2294
 	public static class Autotests_ColonyMaker
 	{
 		// Token: 0x04001CB6 RID: 7350
@@ -20,7 +20,7 @@ namespace RimWorld
 		private const int OverRectSize = 100;
 
 		// Token: 0x1700088F RID: 2191
-		// (get) Token: 0x06003503 RID: 13571 RVA: 0x001C513C File Offset: 0x001C353C
+		// (get) Token: 0x06003507 RID: 13575 RVA: 0x001C527C File Offset: 0x001C367C
 		private static Map Map
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003504 RID: 13572 RVA: 0x001C5156 File Offset: 0x001C3556
+		// Token: 0x06003508 RID: 13576 RVA: 0x001C5296 File Offset: 0x001C3696
 		public static void MakeColony_Full()
 		{
 			Autotests_ColonyMaker.MakeColony(new ColonyMakerFlag[]
@@ -52,13 +52,13 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06003505 RID: 13573 RVA: 0x001C5170 File Offset: 0x001C3570
+		// Token: 0x06003509 RID: 13577 RVA: 0x001C52B0 File Offset: 0x001C36B0
 		public static void MakeColony_Animals()
 		{
 			Autotests_ColonyMaker.MakeColony(new ColonyMakerFlag[1]);
 		}
 
-		// Token: 0x06003506 RID: 13574 RVA: 0x001C5180 File Offset: 0x001C3580
+		// Token: 0x0600350A RID: 13578 RVA: 0x001C52C0 File Offset: 0x001C36C0
 		public static void MakeColony(params ColonyMakerFlag[] flags)
 		{
 			bool godMode = DebugSettings.godMode;
@@ -375,7 +375,7 @@ namespace RimWorld
 			Thing.allowDestroyNonDestroyable = false;
 		}
 
-		// Token: 0x06003507 RID: 13575 RVA: 0x001C5F68 File Offset: 0x001C4368
+		// Token: 0x0600350B RID: 13579 RVA: 0x001C60A8 File Offset: 0x001C44A8
 		private static void FillWithItems(CellRect rect, List<ThingDef> itemDefs)
 		{
 			int num = 0;
@@ -394,7 +394,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003508 RID: 13576 RVA: 0x001C6000 File Offset: 0x001C4400
+		// Token: 0x0600350C RID: 13580 RVA: 0x001C6140 File Offset: 0x001C4540
 		private static Thing TryMakeBuilding(ThingDef def)
 		{
 			CellRect cellRect;
@@ -417,7 +417,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003509 RID: 13577 RVA: 0x001C60C8 File Offset: 0x001C44C8
+		// Token: 0x0600350D RID: 13581 RVA: 0x001C6208 File Offset: 0x001C4608
 		private static bool TryGetFreeRect(int width, int height, out CellRect result)
 		{
 			for (int i = Autotests_ColonyMaker.overRect.minZ; i <= Autotests_ColonyMaker.overRect.maxZ - height; i++)
@@ -464,7 +464,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600350A RID: 13578 RVA: 0x001C625C File Offset: 0x001C465C
+		// Token: 0x0600350E RID: 13582 RVA: 0x001C639C File Offset: 0x001C479C
 		private static void DoToColonists(float fraction, Action<Pawn> funcToDo)
 		{
 			int num = Rand.RangeInclusive(1, Mathf.RoundToInt((float)Autotests_ColonyMaker.Map.mapPawns.FreeColonistsCount * fraction));
@@ -480,7 +480,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600350B RID: 13579 RVA: 0x001C62F8 File Offset: 0x001C46F8
+		// Token: 0x0600350F RID: 13583 RVA: 0x001C6438 File Offset: 0x001C4838
 		private static void MakeColonists(int count, IntVec3 center)
 		{
 			for (int i = 0; i < count; i++)
@@ -499,7 +499,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600350C RID: 13580 RVA: 0x001C63BC File Offset: 0x001C47BC
+		// Token: 0x06003510 RID: 13584 RVA: 0x001C64FC File Offset: 0x001C48FC
 		private static void DeleteAllSpawnedPawns()
 		{
 			foreach (Pawn pawn in Autotests_ColonyMaker.Map.mapPawns.AllPawnsSpawned.ToList<Pawn>())
@@ -510,7 +510,7 @@ namespace RimWorld
 			Find.GameEnder.gameEnding = false;
 		}
 
-		// Token: 0x0600350D RID: 13581 RVA: 0x001C6440 File Offset: 0x001C4840
+		// Token: 0x06003511 RID: 13585 RVA: 0x001C6580 File Offset: 0x001C4980
 		private static void ClearAllHomeArea()
 		{
 			foreach (IntVec3 c in Autotests_ColonyMaker.Map.AllCells)
@@ -519,7 +519,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600350E RID: 13582 RVA: 0x001C64B0 File Offset: 0x001C48B0
+		// Token: 0x06003512 RID: 13586 RVA: 0x001C65F0 File Offset: 0x001C49F0
 		private static void FillWithHomeArea(CellRect r)
 		{
 			Designator_AreaHomeExpand designator_AreaHomeExpand = new Designator_AreaHomeExpand();

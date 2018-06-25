@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020004B7 RID: 1207
+	// Token: 0x020004B9 RID: 1209
 	public class InteractionWorker_RecruitAttempt : InteractionWorker
 	{
 		// Token: 0x04000CB5 RID: 3253
@@ -80,7 +80,7 @@ namespace RimWorld
 		// Token: 0x04000CBB RID: 3259
 		private const float WildManTameChanceFactor = 2f;
 
-		// Token: 0x06001586 RID: 5510 RVA: 0x000BF380 File Offset: 0x000BD780
+		// Token: 0x0600158A RID: 5514 RVA: 0x000BF4D0 File Offset: 0x000BD8D0
 		public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks, out string letterText, out string letterLabel, out LetterDef letterDef)
 		{
 			letterText = null;
@@ -158,7 +158,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001587 RID: 5511 RVA: 0x000BF5E8 File Offset: 0x000BD9E8
+		// Token: 0x0600158B RID: 5515 RVA: 0x000BF738 File Offset: 0x000BDB38
 		public static void DoRecruit(Pawn recruiter, Pawn recruitee, float recruitChance, bool useAudiovisualEffects = true)
 		{
 			string text = recruitee.LabelIndefinite();

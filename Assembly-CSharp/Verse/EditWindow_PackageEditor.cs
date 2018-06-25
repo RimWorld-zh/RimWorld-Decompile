@@ -7,7 +7,7 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000E4C RID: 3660
+	// Token: 0x02000E4E RID: 3662
 	public class EditWindow_PackageEditor<TNewDef> : EditWindow where TNewDef : Def, new()
 	{
 		// Token: 0x04003911 RID: 14609
@@ -28,7 +28,7 @@ namespace Verse
 		// Token: 0x04003916 RID: 14614
 		private const float EditButSize = 24f;
 
-		// Token: 0x0600565D RID: 22109 RVA: 0x002C83EC File Offset: 0x002C67EC
+		// Token: 0x06005661 RID: 22113 RVA: 0x002C8518 File Offset: 0x002C6918
 		public EditWindow_PackageEditor(string relFolder)
 		{
 			this.relFolder = relFolder;
@@ -36,8 +36,8 @@ namespace Verse
 			this.optionalTitle = "Package Editor: " + relFolder;
 		}
 
-		// Token: 0x17000D84 RID: 3460
-		// (get) Token: 0x0600565E RID: 22110 RVA: 0x002C8448 File Offset: 0x002C6848
+		// Token: 0x17000D83 RID: 3459
+		// (get) Token: 0x06005662 RID: 22114 RVA: 0x002C8574 File Offset: 0x002C6974
 		public override Vector2 InitialSize
 		{
 			get
@@ -46,8 +46,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D85 RID: 3461
-		// (get) Token: 0x0600565F RID: 22111 RVA: 0x002C846C File Offset: 0x002C686C
+		// Token: 0x17000D84 RID: 3460
+		// (get) Token: 0x06005663 RID: 22115 RVA: 0x002C8598 File Offset: 0x002C6998
 		public override bool IsDebug
 		{
 			get
@@ -56,7 +56,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005660 RID: 22112 RVA: 0x002C8484 File Offset: 0x002C6884
+		// Token: 0x06005664 RID: 22116 RVA: 0x002C85B0 File Offset: 0x002C69B0
 		public override void DoWindowContents(Rect selectorInner)
 		{
 			Profiler.BeginSample("PackageEditorOnGUI");

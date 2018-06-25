@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002EC RID: 748
+	// Token: 0x020002EE RID: 750
 	public class ConceptDef : Def
 	{
 		// Token: 0x040007F8 RID: 2040
@@ -34,7 +34,7 @@ namespace RimWorld
 		private static List<string> tmpParseErrors = new List<string>();
 
 		// Token: 0x170001D8 RID: 472
-		// (get) Token: 0x06000C58 RID: 3160 RVA: 0x0006D974 File Offset: 0x0006BD74
+		// (get) Token: 0x06000C5C RID: 3164 RVA: 0x0006DAC4 File Offset: 0x0006BEC4
 		public bool TriggeredDirect
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170001D9 RID: 473
-		// (get) Token: 0x06000C59 RID: 3161 RVA: 0x0006D99C File Offset: 0x0006BD9C
+		// (get) Token: 0x06000C5D RID: 3165 RVA: 0x0006DAEC File Offset: 0x0006BEEC
 		public string HelpTextAdjusted
 		{
 			get
@@ -53,7 +53,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C5A RID: 3162 RVA: 0x0006D9BE File Offset: 0x0006BDBE
+		// Token: 0x06000C5E RID: 3166 RVA: 0x0006DB0E File Offset: 0x0006BF0E
 		public override void PostLoad()
 		{
 			base.PostLoad();
@@ -63,7 +63,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000C5B RID: 3163 RVA: 0x0006D9F0 File Offset: 0x0006BDF0
+		// Token: 0x06000C5F RID: 3167 RVA: 0x0006DB40 File Offset: 0x0006BF40
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string str in this.<ConfigErrors>__BaseCallProxy0())
@@ -91,13 +91,13 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000C5C RID: 3164 RVA: 0x0006DA1C File Offset: 0x0006BE1C
+		// Token: 0x06000C60 RID: 3168 RVA: 0x0006DB6C File Offset: 0x0006BF6C
 		public static ConceptDef Named(string defName)
 		{
 			return DefDatabase<ConceptDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x06000C5D RID: 3165 RVA: 0x0006DA38 File Offset: 0x0006BE38
+		// Token: 0x06000C61 RID: 3169 RVA: 0x0006DB88 File Offset: 0x0006BF88
 		public void HighlightAllTags()
 		{
 			if (this.highlightTags != null)

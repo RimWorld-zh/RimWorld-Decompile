@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000242 RID: 578
+	// Token: 0x02000244 RID: 580
 	public class CompProperties_Drug : CompProperties
 	{
 		// Token: 0x0400045F RID: 1119
@@ -34,14 +34,14 @@ namespace RimWorld
 		// Token: 0x04000467 RID: 1127
 		public float listOrder = 0f;
 
-		// Token: 0x06000A6B RID: 2667 RVA: 0x0005E820 File Offset: 0x0005CC20
+		// Token: 0x06000A6F RID: 2671 RVA: 0x0005E970 File Offset: 0x0005CD70
 		public CompProperties_Drug()
 		{
 			this.compClass = typeof(CompDrug);
 		}
 
 		// Token: 0x17000183 RID: 387
-		// (get) Token: 0x06000A6C RID: 2668 RVA: 0x0005E8A0 File Offset: 0x0005CCA0
+		// (get) Token: 0x06000A70 RID: 2672 RVA: 0x0005E9F0 File Offset: 0x0005CDF0
 		public bool Addictive
 		{
 			get
@@ -51,7 +51,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000184 RID: 388
-		// (get) Token: 0x06000A6D RID: 2669 RVA: 0x0005E8C4 File Offset: 0x0005CCC4
+		// (get) Token: 0x06000A71 RID: 2673 RVA: 0x0005EA14 File Offset: 0x0005CE14
 		public bool CanCauseOverdose
 		{
 			get
@@ -60,7 +60,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000A6E RID: 2670 RVA: 0x0005E8EC File Offset: 0x0005CCEC
+		// Token: 0x06000A72 RID: 2674 RVA: 0x0005EA3C File Offset: 0x0005CE3C
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))
@@ -74,7 +74,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000A6F RID: 2671 RVA: 0x0005E920 File Offset: 0x0005CD20
+		// Token: 0x06000A73 RID: 2675 RVA: 0x0005EA70 File Offset: 0x0005CE70
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			foreach (StatDrawEntry s in this.<SpecialDisplayStats>__BaseCallProxy1())

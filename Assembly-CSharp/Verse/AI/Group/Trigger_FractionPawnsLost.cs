@@ -2,19 +2,19 @@
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A15 RID: 2581
+	// Token: 0x02000A17 RID: 2583
 	public class Trigger_FractionPawnsLost : Trigger
 	{
-		// Token: 0x040024A9 RID: 9385
+		// Token: 0x040024AA RID: 9386
 		private float fraction = 0.5f;
 
-		// Token: 0x060039A7 RID: 14759 RVA: 0x001E8347 File Offset: 0x001E6747
+		// Token: 0x060039AB RID: 14763 RVA: 0x001E8473 File Offset: 0x001E6873
 		public Trigger_FractionPawnsLost(float fraction)
 		{
 			this.fraction = fraction;
 		}
 
-		// Token: 0x060039A8 RID: 14760 RVA: 0x001E8364 File Offset: 0x001E6764
+		// Token: 0x060039AC RID: 14764 RVA: 0x001E8490 File Offset: 0x001E6890
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			return signal.type == TriggerSignalType.PawnLost && (float)lord.numPawnsLostViolently >= (float)lord.numPawnsEverGained * this.fraction;

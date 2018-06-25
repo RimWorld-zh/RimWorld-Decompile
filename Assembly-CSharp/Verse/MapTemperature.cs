@@ -6,7 +6,7 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000CA6 RID: 3238
+	// Token: 0x02000CA8 RID: 3240
 	public class MapTemperature
 	{
 		// Token: 0x04003072 RID: 12402
@@ -15,14 +15,14 @@ namespace Verse
 		// Token: 0x04003073 RID: 12403
 		private HashSet<RoomGroup> fastProcessedRoomGroups = new HashSet<RoomGroup>();
 
-		// Token: 0x0600476C RID: 18284 RVA: 0x0025AE3E File Offset: 0x0025923E
+		// Token: 0x0600476F RID: 18287 RVA: 0x0025AF1A File Offset: 0x0025931A
 		public MapTemperature(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x17000B49 RID: 2889
-		// (get) Token: 0x0600476D RID: 18285 RVA: 0x0025AE5C File Offset: 0x0025925C
+		// Token: 0x17000B48 RID: 2888
+		// (get) Token: 0x06004770 RID: 18288 RVA: 0x0025AF38 File Offset: 0x00259338
 		public float OutdoorTemp
 		{
 			get
@@ -31,8 +31,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B4A RID: 2890
-		// (get) Token: 0x0600476E RID: 18286 RVA: 0x0025AE8C File Offset: 0x0025928C
+		// Token: 0x17000B49 RID: 2889
+		// (get) Token: 0x06004771 RID: 18289 RVA: 0x0025AF68 File Offset: 0x00259368
 		public float SeasonalTemp
 		{
 			get
@@ -41,7 +41,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600476F RID: 18287 RVA: 0x0025AEBC File Offset: 0x002592BC
+		// Token: 0x06004772 RID: 18290 RVA: 0x0025AF98 File Offset: 0x00259398
 		public void MapTemperatureTick()
 		{
 			if (Find.TickManager.TicksGame % 120 == 7 || DebugSettings.fastEcology)
@@ -63,25 +63,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004770 RID: 18288 RVA: 0x0025AF70 File Offset: 0x00259370
+		// Token: 0x06004773 RID: 18291 RVA: 0x0025B04C File Offset: 0x0025944C
 		public bool SeasonAcceptableFor(ThingDef animalRace)
 		{
 			return Find.World.tileTemperatures.SeasonAcceptableFor(this.map.Tile, animalRace);
 		}
 
-		// Token: 0x06004771 RID: 18289 RVA: 0x0025AFA0 File Offset: 0x002593A0
+		// Token: 0x06004774 RID: 18292 RVA: 0x0025B07C File Offset: 0x0025947C
 		public bool OutdoorTemperatureAcceptableFor(ThingDef animalRace)
 		{
 			return Find.World.tileTemperatures.OutdoorTemperatureAcceptableFor(this.map.Tile, animalRace);
 		}
 
-		// Token: 0x06004772 RID: 18290 RVA: 0x0025AFD0 File Offset: 0x002593D0
+		// Token: 0x06004775 RID: 18293 RVA: 0x0025B0AC File Offset: 0x002594AC
 		public bool SeasonAndOutdoorTemperatureAcceptableFor(ThingDef animalRace)
 		{
 			return Find.World.tileTemperatures.SeasonAndOutdoorTemperatureAcceptableFor(this.map.Tile, animalRace);
 		}
 
-		// Token: 0x06004773 RID: 18291 RVA: 0x0025B000 File Offset: 0x00259400
+		// Token: 0x06004776 RID: 18294 RVA: 0x0025B0DC File Offset: 0x002594DC
 		public bool LocalSeasonsAreMeaningful()
 		{
 			bool flag = false;
@@ -101,7 +101,7 @@ namespace Verse
 			return flag2 && flag;
 		}
 
-		// Token: 0x06004774 RID: 18292 RVA: 0x0025B074 File Offset: 0x00259474
+		// Token: 0x06004777 RID: 18295 RVA: 0x0025B150 File Offset: 0x00259550
 		public void DebugLogTemps()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

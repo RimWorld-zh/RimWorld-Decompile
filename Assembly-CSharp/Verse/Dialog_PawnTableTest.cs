@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E35 RID: 3637
+	// Token: 0x02000E37 RID: 3639
 	[HasDebugOutput]
 	public class Dialog_PawnTableTest : Window
 	{
@@ -25,14 +25,14 @@ namespace Verse
 		// Token: 0x040038E6 RID: 14566
 		private const int TableTitleHeight = 30;
 
-		// Token: 0x0600561D RID: 22045 RVA: 0x002C6450 File Offset: 0x002C4850
+		// Token: 0x06005621 RID: 22049 RVA: 0x002C657C File Offset: 0x002C497C
 		public Dialog_PawnTableTest(PawnColumnDef singleColumn)
 		{
 			this.singleColumn = singleColumn;
 		}
 
-		// Token: 0x17000D77 RID: 3447
-		// (get) Token: 0x0600561E RID: 22046 RVA: 0x002C6460 File Offset: 0x002C4860
+		// Token: 0x17000D76 RID: 3446
+		// (get) Token: 0x06005622 RID: 22050 RVA: 0x002C658C File Offset: 0x002C498C
 		public override Vector2 InitialSize
 		{
 			get
@@ -41,8 +41,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D78 RID: 3448
-		// (get) Token: 0x0600561F RID: 22047 RVA: 0x002C6488 File Offset: 0x002C4888
+		// Token: 0x17000D77 RID: 3447
+		// (get) Token: 0x06005623 RID: 22051 RVA: 0x002C65B4 File Offset: 0x002C49B4
 		private List<Pawn> Pawns
 		{
 			get
@@ -51,7 +51,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005620 RID: 22048 RVA: 0x002C64B8 File Offset: 0x002C48B8
+		// Token: 0x06005624 RID: 22052 RVA: 0x002C65E4 File Offset: 0x002C49E4
 		public override void DoWindowContents(Rect inRect)
 		{
 			int num = ((int)inRect.height - 90) / 3;
@@ -98,7 +98,7 @@ namespace Verse
 			num2 += num;
 		}
 
-		// Token: 0x06005621 RID: 22049 RVA: 0x002C6784 File Offset: 0x002C4B84
+		// Token: 0x06005625 RID: 22053 RVA: 0x002C68B0 File Offset: 0x002C4CB0
 		[DebugOutput]
 		[Category("UI")]
 		private static void PawnColumnTest()

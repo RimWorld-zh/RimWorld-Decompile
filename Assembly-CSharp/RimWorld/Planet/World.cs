@@ -7,7 +7,7 @@ using Verse.Noise;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005AF RID: 1455
+	// Token: 0x020005B1 RID: 1457
 	public sealed class World : IThingHolder, IExposable, IIncidentTarget, ILoadReferenceable
 	{
 		// Token: 0x04001098 RID: 4248
@@ -80,7 +80,7 @@ namespace RimWorld.Planet
 		private static List<Rot4> tmpOceanDirs = new List<Rot4>();
 
 		// Token: 0x17000413 RID: 1043
-		// (get) Token: 0x06001BE1 RID: 7137 RVA: 0x000F036C File Offset: 0x000EE76C
+		// (get) Token: 0x06001BE5 RID: 7141 RVA: 0x000F04BC File Offset: 0x000EE8BC
 		public float PlanetCoverage
 		{
 			get
@@ -90,7 +90,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000414 RID: 1044
-		// (get) Token: 0x06001BE2 RID: 7138 RVA: 0x000F038C File Offset: 0x000EE78C
+		// (get) Token: 0x06001BE6 RID: 7142 RVA: 0x000F04DC File Offset: 0x000EE8DC
 		public IThingHolder ParentHolder
 		{
 			get
@@ -100,7 +100,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000415 RID: 1045
-		// (get) Token: 0x06001BE3 RID: 7139 RVA: 0x000F03A4 File Offset: 0x000EE7A4
+		// (get) Token: 0x06001BE7 RID: 7143 RVA: 0x000F04F4 File Offset: 0x000EE8F4
 		public int Tile
 		{
 			get
@@ -110,7 +110,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000416 RID: 1046
-		// (get) Token: 0x06001BE4 RID: 7140 RVA: 0x000F03BC File Offset: 0x000EE7BC
+		// (get) Token: 0x06001BE8 RID: 7144 RVA: 0x000F050C File Offset: 0x000EE90C
 		public StoryState StoryState
 		{
 			get
@@ -120,7 +120,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000417 RID: 1047
-		// (get) Token: 0x06001BE5 RID: 7141 RVA: 0x000F03D8 File Offset: 0x000EE7D8
+		// (get) Token: 0x06001BE9 RID: 7145 RVA: 0x000F0528 File Offset: 0x000EE928
 		public GameConditionManager GameConditionManager
 		{
 			get
@@ -130,7 +130,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000418 RID: 1048
-		// (get) Token: 0x06001BE6 RID: 7142 RVA: 0x000F03F4 File Offset: 0x000EE7F4
+		// (get) Token: 0x06001BEA RID: 7146 RVA: 0x000F0544 File Offset: 0x000EE944
 		public float PlayerWealthForStoryteller
 		{
 			get
@@ -151,7 +151,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000419 RID: 1049
-		// (get) Token: 0x06001BE7 RID: 7143 RVA: 0x000F0478 File Offset: 0x000EE878
+		// (get) Token: 0x06001BEB RID: 7147 RVA: 0x000F05C8 File Offset: 0x000EE9C8
 		public IEnumerable<Pawn> PlayerPawnsForStoryteller
 		{
 			get
@@ -161,7 +161,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700041A RID: 1050
-		// (get) Token: 0x06001BE8 RID: 7144 RVA: 0x000F0494 File Offset: 0x000EE894
+		// (get) Token: 0x06001BEC RID: 7148 RVA: 0x000F05E4 File Offset: 0x000EE9E4
 		public FloatRange IncidentPointsRandomFactorRange
 		{
 			get
@@ -170,14 +170,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001BE9 RID: 7145 RVA: 0x000F04B0 File Offset: 0x000EE8B0
+		// Token: 0x06001BED RID: 7149 RVA: 0x000F0600 File Offset: 0x000EEA00
 		public IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
 		{
 			yield return IncidentTargetTypeDefOf.World;
 			yield break;
 		}
 
-		// Token: 0x06001BEA RID: 7146 RVA: 0x000F04D4 File Offset: 0x000EE8D4
+		// Token: 0x06001BEE RID: 7150 RVA: 0x000F0624 File Offset: 0x000EEA24
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<WorldInfo>(ref this.info, "info", new object[0]);
@@ -199,7 +199,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001BEB RID: 7147 RVA: 0x000F0568 File Offset: 0x000EE968
+		// Token: 0x06001BEF RID: 7151 RVA: 0x000F06B8 File Offset: 0x000EEAB8
 		public void ExposeComponents()
 		{
 			Scribe_Deep.Look<FactionManager>(ref this.factionManager, "factionManager", new object[0]);
@@ -225,7 +225,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001BEC RID: 7148 RVA: 0x000F0634 File Offset: 0x000EEA34
+		// Token: 0x06001BF0 RID: 7152 RVA: 0x000F0784 File Offset: 0x000EEB84
 		public void ConstructComponents()
 		{
 			this.worldObjects = new WorldObjectsHolder();
@@ -246,7 +246,7 @@ namespace RimWorld.Planet
 			this.FillComponents();
 		}
 
-		// Token: 0x06001BED RID: 7149 RVA: 0x000F06F0 File Offset: 0x000EEAF0
+		// Token: 0x06001BF1 RID: 7153 RVA: 0x000F0840 File Offset: 0x000EEC40
 		private void FillComponents()
 		{
 			this.components.RemoveAll((WorldComponent component) => component == null);
@@ -265,7 +265,7 @@ namespace RimWorld.Planet
 			this.genData = this.GetComponent<WorldGenData>();
 		}
 
-		// Token: 0x06001BEE RID: 7150 RVA: 0x000F07C0 File Offset: 0x000EEBC0
+		// Token: 0x06001BF2 RID: 7154 RVA: 0x000F0910 File Offset: 0x000EED10
 		public void FinalizeInit()
 		{
 			this.pathGrid.RecalculateAllPerceivedPathCosts();
@@ -273,7 +273,7 @@ namespace RimWorld.Planet
 			WorldComponentUtility.FinalizeInit(this);
 		}
 
-		// Token: 0x06001BEF RID: 7151 RVA: 0x000F07DC File Offset: 0x000EEBDC
+		// Token: 0x06001BF3 RID: 7155 RVA: 0x000F092C File Offset: 0x000EED2C
 		public void WorldTick()
 		{
 			Profiler.BeginSample("WorldPawnsTick()");
@@ -296,7 +296,7 @@ namespace RimWorld.Planet
 			Profiler.EndSample();
 		}
 
-		// Token: 0x06001BF0 RID: 7152 RVA: 0x000F0884 File Offset: 0x000EEC84
+		// Token: 0x06001BF4 RID: 7156 RVA: 0x000F09D4 File Offset: 0x000EEDD4
 		public void WorldPostTick()
 		{
 			Profiler.BeginSample("GameConditionManager.GameConditionManagerTick()");
@@ -311,7 +311,7 @@ namespace RimWorld.Planet
 			Profiler.EndSample();
 		}
 
-		// Token: 0x06001BF1 RID: 7153 RVA: 0x000F08D8 File Offset: 0x000EECD8
+		// Token: 0x06001BF5 RID: 7157 RVA: 0x000F0A28 File Offset: 0x000EEE28
 		public void WorldUpdate()
 		{
 			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
@@ -339,7 +339,7 @@ namespace RimWorld.Planet
 			Profiler.EndSample();
 		}
 
-		// Token: 0x06001BF2 RID: 7154 RVA: 0x000F098C File Offset: 0x000EED8C
+		// Token: 0x06001BF6 RID: 7158 RVA: 0x000F0ADC File Offset: 0x000EEEDC
 		public T GetComponent<T>() where T : WorldComponent
 		{
 			for (int i = 0; i < this.components.Count; i++)
@@ -353,7 +353,7 @@ namespace RimWorld.Planet
 			return (T)((object)null);
 		}
 
-		// Token: 0x06001BF3 RID: 7155 RVA: 0x000F09F0 File Offset: 0x000EEDF0
+		// Token: 0x06001BF7 RID: 7159 RVA: 0x000F0B40 File Offset: 0x000EEF40
 		public WorldComponent GetComponent(Type type)
 		{
 			for (int i = 0; i < this.components.Count; i++)
@@ -366,7 +366,7 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		// Token: 0x06001BF4 RID: 7156 RVA: 0x000F0A54 File Offset: 0x000EEE54
+		// Token: 0x06001BF8 RID: 7160 RVA: 0x000F0BA4 File Offset: 0x000EEFA4
 		public Rot4 CoastDirectionAt(int tileID)
 		{
 			Tile tile = this.grid[tileID];
@@ -410,7 +410,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001BF5 RID: 7157 RVA: 0x000F0B74 File Offset: 0x000EEF74
+		// Token: 0x06001BF9 RID: 7161 RVA: 0x000F0CC4 File Offset: 0x000EF0C4
 		public bool HasCaves(int tile)
 		{
 			Tile tile2 = this.grid[tile];
@@ -430,7 +430,7 @@ namespace RimWorld.Planet
 			return Rand.ChanceSeeded(chance, Gen.HashCombineInt(Find.World.info.Seed, tile));
 		}
 
-		// Token: 0x06001BF6 RID: 7158 RVA: 0x000F0BE8 File Offset: 0x000EEFE8
+		// Token: 0x06001BFA RID: 7162 RVA: 0x000F0D38 File Offset: 0x000EF138
 		public IEnumerable<ThingDef> NaturalRockTypesIn(int tile)
 		{
 			Rand.PushState();
@@ -454,19 +454,19 @@ namespace RimWorld.Planet
 			return list2;
 		}
 
-		// Token: 0x06001BF7 RID: 7159 RVA: 0x000F0C8C File Offset: 0x000EF08C
+		// Token: 0x06001BFB RID: 7163 RVA: 0x000F0DDC File Offset: 0x000EF1DC
 		public bool Impassable(int tileID)
 		{
 			return !this.pathGrid.Passable(tileID);
 		}
 
-		// Token: 0x06001BF8 RID: 7160 RVA: 0x000F0CB0 File Offset: 0x000EF0B0
+		// Token: 0x06001BFC RID: 7164 RVA: 0x000F0E00 File Offset: 0x000EF200
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return null;
 		}
 
-		// Token: 0x06001BF9 RID: 7161 RVA: 0x000F0CC8 File Offset: 0x000EF0C8
+		// Token: 0x06001BFD RID: 7165 RVA: 0x000F0E18 File Offset: 0x000EF218
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
@@ -498,13 +498,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001BFA RID: 7162 RVA: 0x000F0DB0 File Offset: 0x000EF1B0
+		// Token: 0x06001BFE RID: 7166 RVA: 0x000F0F00 File Offset: 0x000EF300
 		public string GetUniqueLoadID()
 		{
 			return "World";
 		}
 
-		// Token: 0x06001BFB RID: 7163 RVA: 0x000F0DCC File Offset: 0x000EF1CC
+		// Token: 0x06001BFF RID: 7167 RVA: 0x000F0F1C File Offset: 0x000EF31C
 		public override string ToString()
 		{
 			return "(World-" + this.info.name + ")";

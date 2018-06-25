@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007C1 RID: 1985
+	// Token: 0x020007C3 RID: 1987
 	public class Designator_AreaIgnoreRoof : Designator_Area
 	{
-		// Token: 0x06002BF7 RID: 11255 RVA: 0x00174650 File Offset: 0x00172A50
+		// Token: 0x06002BFB RID: 11259 RVA: 0x001747A0 File Offset: 0x00172BA0
 		public Designator_AreaIgnoreRoof()
 		{
 			this.defaultLabel = "DesignatorAreaIgnoreRoofExpand".Translate();
@@ -21,7 +21,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006E0 RID: 1760
-		// (get) Token: 0x06002BF8 RID: 11256 RVA: 0x001746C4 File Offset: 0x00172AC4
+		// (get) Token: 0x06002BFC RID: 11260 RVA: 0x00174814 File Offset: 0x00172C14
 		public override int DraggableDimensions
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006E1 RID: 1761
-		// (get) Token: 0x06002BF9 RID: 11257 RVA: 0x001746DC File Offset: 0x00172ADC
+		// (get) Token: 0x06002BFD RID: 11261 RVA: 0x0017482C File Offset: 0x00172C2C
 		public override bool DragDrawMeasurements
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BFA RID: 11258 RVA: 0x001746F4 File Offset: 0x00172AF4
+		// Token: 0x06002BFE RID: 11262 RVA: 0x00174844 File Offset: 0x00172C44
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -59,14 +59,14 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002BFB RID: 11259 RVA: 0x0017477C File Offset: 0x00172B7C
+		// Token: 0x06002BFF RID: 11263 RVA: 0x001748CC File Offset: 0x00172CCC
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			base.Map.areaManager.BuildRoof[c] = false;
 			base.Map.areaManager.NoRoof[c] = false;
 		}
 
-		// Token: 0x06002BFC RID: 11260 RVA: 0x001747AD File Offset: 0x00172BAD
+		// Token: 0x06002C00 RID: 11264 RVA: 0x001748FD File Offset: 0x00172CFD
 		public override void SelectedUpdate()
 		{
 			GenUI.RenderMouseoverBracket();

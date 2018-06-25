@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000444 RID: 1092
+	// Token: 0x02000446 RID: 1094
 	public static class LightningBoltMeshPool
 	{
 		// Token: 0x04000B83 RID: 2947
@@ -15,7 +15,7 @@ namespace RimWorld
 		private const int NumBoltMeshesMax = 20;
 
 		// Token: 0x1700028E RID: 654
-		// (get) Token: 0x060012F7 RID: 4855 RVA: 0x000A3C2C File Offset: 0x000A202C
+		// (get) Token: 0x060012FB RID: 4859 RVA: 0x000A3D7C File Offset: 0x000A217C
 		public static Mesh RandomBoltMesh
 		{
 			get

@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200072A RID: 1834
+	// Token: 0x0200072C RID: 1836
 	[StaticConstructorOnStartup]
 	internal class Gizmo_RefuelableFuelStatus : Gizmo
 	{
@@ -23,19 +23,19 @@ namespace RimWorld
 		// Token: 0x04001638 RID: 5688
 		private const float ArrowScale = 0.5f;
 
-		// Token: 0x06002883 RID: 10371 RVA: 0x00159E67 File Offset: 0x00158267
+		// Token: 0x06002887 RID: 10375 RVA: 0x00159FB7 File Offset: 0x001583B7
 		public Gizmo_RefuelableFuelStatus()
 		{
 			this.order = -100f;
 		}
 
-		// Token: 0x06002884 RID: 10372 RVA: 0x00159E7C File Offset: 0x0015827C
+		// Token: 0x06002888 RID: 10376 RVA: 0x00159FCC File Offset: 0x001583CC
 		public override float GetWidth(float maxWidth)
 		{
 			return 140f;
 		}
 
-		// Token: 0x06002885 RID: 10373 RVA: 0x00159E98 File Offset: 0x00158298
+		// Token: 0x06002889 RID: 10377 RVA: 0x00159FE8 File Offset: 0x001583E8
 		public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth)
 		{
 			Rect overRect = new Rect(topLeft.x, topLeft.y, this.GetWidth(maxWidth), 75f);

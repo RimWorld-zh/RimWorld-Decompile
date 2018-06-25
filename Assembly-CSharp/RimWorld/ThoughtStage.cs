@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002E3 RID: 739
+	// Token: 0x020002E5 RID: 741
 	public class ThoughtStage
 	{
 		// Token: 0x040007A7 RID: 1959
@@ -38,14 +38,14 @@ namespace RimWorld
 		[TranslationHandle]
 		public string untranslatedLabelSocial = null;
 
-		// Token: 0x06000C2D RID: 3117 RVA: 0x0006C01B File Offset: 0x0006A41B
+		// Token: 0x06000C31 RID: 3121 RVA: 0x0006C16B File Offset: 0x0006A56B
 		public void PostLoad()
 		{
 			this.untranslatedLabel = this.label;
 			this.untranslatedLabelSocial = this.labelSocial;
 		}
 
-		// Token: 0x06000C2E RID: 3118 RVA: 0x0006C038 File Offset: 0x0006A438
+		// Token: 0x06000C32 RID: 3122 RVA: 0x0006C188 File Offset: 0x0006A588
 		public IEnumerable<string> ConfigErrors()
 		{
 			if (!this.labelSocial.NullOrEmpty() && this.labelSocial == this.label)

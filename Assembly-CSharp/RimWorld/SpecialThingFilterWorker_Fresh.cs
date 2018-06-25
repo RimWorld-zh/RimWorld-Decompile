@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000997 RID: 2455
+	// Token: 0x02000999 RID: 2457
 	public class SpecialThingFilterWorker_Fresh : SpecialThingFilterWorker
 	{
-		// Token: 0x06003727 RID: 14119 RVA: 0x001D8604 File Offset: 0x001D6A04
+		// Token: 0x0600372B RID: 14123 RVA: 0x001D8744 File Offset: 0x001D6B44
 		public override bool Matches(Thing t)
 		{
 			CompRottable compRottable = t.TryGetComp<CompRottable>();
@@ -22,13 +22,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003728 RID: 14120 RVA: 0x001D8650 File Offset: 0x001D6A50
+		// Token: 0x0600372C RID: 14124 RVA: 0x001D8790 File Offset: 0x001D6B90
 		public override bool CanEverMatch(ThingDef def)
 		{
 			return def.GetCompProperties<CompProperties_Rottable>() != null || def.IsIngestible;
 		}
 
-		// Token: 0x06003729 RID: 14121 RVA: 0x001D867C File Offset: 0x001D6A7C
+		// Token: 0x0600372D RID: 14125 RVA: 0x001D87BC File Offset: 0x001D6BBC
 		public override bool AlwaysMatches(ThingDef def)
 		{
 			CompProperties_Rottable compProperties = def.GetCompProperties<CompProperties_Rottable>();

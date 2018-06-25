@@ -6,7 +6,7 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000E11 RID: 3601
+	// Token: 0x02000E13 RID: 3603
 	public abstract class Designator : Command
 	{
 		// Token: 0x04003581 RID: 13697
@@ -39,15 +39,15 @@ namespace Verse
 		// Token: 0x0400358A RID: 13706
 		protected string cachedHighlightTag;
 
-		// Token: 0x060051AC RID: 20908 RVA: 0x00173334 File Offset: 0x00171734
+		// Token: 0x060051B0 RID: 20912 RVA: 0x00173484 File Offset: 0x00171884
 		public Designator()
 		{
 			this.activateSound = SoundDefOf.SelectDesignator;
 			this.designateAllLabel = "DesignateAll".Translate();
 		}
 
-		// Token: 0x17000D65 RID: 3429
-		// (get) Token: 0x060051AD RID: 20909 RVA: 0x0017338C File Offset: 0x0017178C
+		// Token: 0x17000D64 RID: 3428
+		// (get) Token: 0x060051B1 RID: 20913 RVA: 0x001734DC File Offset: 0x001718DC
 		public Map Map
 		{
 			get
@@ -56,8 +56,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D66 RID: 3430
-		// (get) Token: 0x060051AE RID: 20910 RVA: 0x001733A8 File Offset: 0x001717A8
+		// Token: 0x17000D65 RID: 3429
+		// (get) Token: 0x060051B2 RID: 20914 RVA: 0x001734F8 File Offset: 0x001718F8
 		public virtual int DraggableDimensions
 		{
 			get
@@ -66,8 +66,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D67 RID: 3431
-		// (get) Token: 0x060051AF RID: 20911 RVA: 0x001733C0 File Offset: 0x001717C0
+		// Token: 0x17000D66 RID: 3430
+		// (get) Token: 0x060051B3 RID: 20915 RVA: 0x00173510 File Offset: 0x00171910
 		public virtual bool DragDrawMeasurements
 		{
 			get
@@ -76,8 +76,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D68 RID: 3432
-		// (get) Token: 0x060051B0 RID: 20912 RVA: 0x001733D8 File Offset: 0x001717D8
+		// Token: 0x17000D67 RID: 3431
+		// (get) Token: 0x060051B4 RID: 20916 RVA: 0x00173528 File Offset: 0x00171928
 		protected override bool DoTooltip
 		{
 			get
@@ -86,8 +86,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D69 RID: 3433
-		// (get) Token: 0x060051B1 RID: 20913 RVA: 0x001733F0 File Offset: 0x001717F0
+		// Token: 0x17000D68 RID: 3432
+		// (get) Token: 0x060051B5 RID: 20917 RVA: 0x00173540 File Offset: 0x00171940
 		protected virtual DesignationDef Designation
 		{
 			get
@@ -96,8 +96,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D6A RID: 3434
-		// (get) Token: 0x060051B2 RID: 20914 RVA: 0x00173408 File Offset: 0x00171808
+		// Token: 0x17000D69 RID: 3433
+		// (get) Token: 0x060051B6 RID: 20918 RVA: 0x00173558 File Offset: 0x00171958
 		public virtual float PanelReadoutTitleExtraRightMargin
 		{
 			get
@@ -106,8 +106,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D6B RID: 3435
-		// (get) Token: 0x060051B3 RID: 20915 RVA: 0x00173424 File Offset: 0x00171824
+		// Token: 0x17000D6A RID: 3434
+		// (get) Token: 0x060051B7 RID: 20919 RVA: 0x00173574 File Offset: 0x00171974
 		public override string TutorTagSelect
 		{
 			get
@@ -129,8 +129,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D6C RID: 3436
-		// (get) Token: 0x060051B4 RID: 20916 RVA: 0x00173474 File Offset: 0x00171874
+		// Token: 0x17000D6B RID: 3435
+		// (get) Token: 0x060051B8 RID: 20920 RVA: 0x001735C4 File Offset: 0x001719C4
 		public string TutorTagDesignate
 		{
 			get
@@ -152,8 +152,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D6D RID: 3437
-		// (get) Token: 0x060051B5 RID: 20917 RVA: 0x001734C4 File Offset: 0x001718C4
+		// Token: 0x17000D6C RID: 3436
+		// (get) Token: 0x060051B9 RID: 20921 RVA: 0x00173614 File Offset: 0x00171A14
 		public override string HighlightTag
 		{
 			get
@@ -166,8 +166,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D6E RID: 3438
-		// (get) Token: 0x060051B6 RID: 20918 RVA: 0x0017350C File Offset: 0x0017190C
+		// Token: 0x17000D6D RID: 3437
+		// (get) Token: 0x060051BA RID: 20922 RVA: 0x0017365C File Offset: 0x00171A5C
 		public override IEnumerable<FloatMenuOption> RightClickFloatMenuOptions
 		{
 			get
@@ -250,13 +250,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060051B7 RID: 20919 RVA: 0x00173538 File Offset: 0x00171938
+		// Token: 0x060051BB RID: 20923 RVA: 0x00173688 File Offset: 0x00171A88
 		protected bool CheckCanInteract()
 		{
 			return !TutorSystem.TutorialMode || TutorSystem.AllowAction(this.TutorTagSelect);
 		}
 
-		// Token: 0x060051B8 RID: 20920 RVA: 0x00173574 File Offset: 0x00171974
+		// Token: 0x060051BC RID: 20924 RVA: 0x001736C4 File Offset: 0x00171AC4
 		public override void ProcessInput(Event ev)
 		{
 			if (this.CheckCanInteract())
@@ -266,22 +266,22 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060051B9 RID: 20921 RVA: 0x0017359C File Offset: 0x0017199C
+		// Token: 0x060051BD RID: 20925 RVA: 0x001736EC File Offset: 0x00171AEC
 		public virtual AcceptanceReport CanDesignateThing(Thing t)
 		{
 			return AcceptanceReport.WasRejected;
 		}
 
-		// Token: 0x060051BA RID: 20922 RVA: 0x001735B6 File Offset: 0x001719B6
+		// Token: 0x060051BE RID: 20926 RVA: 0x00173706 File Offset: 0x00171B06
 		public virtual void DesignateThing(Thing t)
 		{
 			throw new NotImplementedException();
 		}
 
-		// Token: 0x060051BB RID: 20923
+		// Token: 0x060051BF RID: 20927
 		public abstract AcceptanceReport CanDesignateCell(IntVec3 loc);
 
-		// Token: 0x060051BC RID: 20924 RVA: 0x001735C0 File Offset: 0x001719C0
+		// Token: 0x060051C0 RID: 20928 RVA: 0x00173710 File Offset: 0x00171B10
 		public virtual void DesignateMultiCell(IEnumerable<IntVec3> cells)
 		{
 			if (!TutorSystem.TutorialMode || TutorSystem.AllowAction(new EventPack(this.TutorTagDesignate, cells)))
@@ -308,19 +308,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060051BD RID: 20925 RVA: 0x0017368C File Offset: 0x00171A8C
+		// Token: 0x060051C1 RID: 20929 RVA: 0x001737DC File Offset: 0x00171BDC
 		public virtual void DesignateSingleCell(IntVec3 c)
 		{
 			throw new NotImplementedException();
 		}
 
-		// Token: 0x060051BE RID: 20926 RVA: 0x00173694 File Offset: 0x00171A94
+		// Token: 0x060051C2 RID: 20930 RVA: 0x001737E4 File Offset: 0x00171BE4
 		public virtual bool ShowWarningForCell(IntVec3 c)
 		{
 			return false;
 		}
 
-		// Token: 0x060051BF RID: 20927 RVA: 0x001736AA File Offset: 0x00171AAA
+		// Token: 0x060051C3 RID: 20931 RVA: 0x001737FA File Offset: 0x00171BFA
 		public void Finalize(bool somethingSucceeded)
 		{
 			if (somethingSucceeded)
@@ -333,7 +333,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060051C0 RID: 20928 RVA: 0x001736C4 File Offset: 0x00171AC4
+		// Token: 0x060051C4 RID: 20932 RVA: 0x00173814 File Offset: 0x00171C14
 		protected virtual void FinalizeDesignationSucceeded()
 		{
 			if (this.soundSucceeded != null)
@@ -342,7 +342,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060051C1 RID: 20929 RVA: 0x001736E0 File Offset: 0x00171AE0
+		// Token: 0x060051C5 RID: 20933 RVA: 0x00173830 File Offset: 0x00171C30
 		protected virtual void FinalizeDesignationFailed()
 		{
 			if (this.soundFailed != null)
@@ -355,19 +355,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060051C2 RID: 20930 RVA: 0x00173734 File Offset: 0x00171B34
+		// Token: 0x060051C6 RID: 20934 RVA: 0x00173884 File Offset: 0x00171C84
 		public virtual string LabelCapReverseDesignating(Thing t)
 		{
 			return this.LabelCap;
 		}
 
-		// Token: 0x060051C3 RID: 20931 RVA: 0x00173750 File Offset: 0x00171B50
+		// Token: 0x060051C7 RID: 20935 RVA: 0x001738A0 File Offset: 0x00171CA0
 		public virtual string DescReverseDesignating(Thing t)
 		{
 			return this.Desc;
 		}
 
-		// Token: 0x060051C4 RID: 20932 RVA: 0x0017376C File Offset: 0x00171B6C
+		// Token: 0x060051C8 RID: 20936 RVA: 0x001738BC File Offset: 0x00171CBC
 		public virtual Texture2D IconReverseDesignating(Thing t, out float angle, out Vector2 offset)
 		{
 			angle = this.iconAngle;
@@ -375,13 +375,13 @@ namespace Verse
 			return this.icon;
 		}
 
-		// Token: 0x060051C5 RID: 20933 RVA: 0x0017379C File Offset: 0x00171B9C
+		// Token: 0x060051C9 RID: 20937 RVA: 0x001738EC File Offset: 0x00171CEC
 		protected virtual bool RemoveAllDesignationsAffects(LocalTargetInfo target)
 		{
 			return true;
 		}
 
-		// Token: 0x060051C6 RID: 20934 RVA: 0x001737B4 File Offset: 0x00171BB4
+		// Token: 0x060051CA RID: 20938 RVA: 0x00173904 File Offset: 0x00171D04
 		public virtual void DrawMouseAttachments()
 		{
 			if (this.useMouseIcon)
@@ -390,43 +390,43 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060051C7 RID: 20935 RVA: 0x001737F2 File Offset: 0x00171BF2
+		// Token: 0x060051CB RID: 20939 RVA: 0x00173942 File Offset: 0x00171D42
 		public virtual void DrawPanelReadout(ref float curY, float width)
 		{
 		}
 
-		// Token: 0x060051C8 RID: 20936 RVA: 0x001737F5 File Offset: 0x00171BF5
+		// Token: 0x060051CC RID: 20940 RVA: 0x00173945 File Offset: 0x00171D45
 		public virtual void DoExtraGuiControls(float leftX, float bottomY)
 		{
 		}
 
-		// Token: 0x060051C9 RID: 20937 RVA: 0x001737F8 File Offset: 0x00171BF8
+		// Token: 0x060051CD RID: 20941 RVA: 0x00173948 File Offset: 0x00171D48
 		public virtual void SelectedUpdate()
 		{
 		}
 
-		// Token: 0x060051CA RID: 20938 RVA: 0x001737FB File Offset: 0x00171BFB
+		// Token: 0x060051CE RID: 20942 RVA: 0x0017394B File Offset: 0x00171D4B
 		public virtual void SelectedProcessInput(Event ev)
 		{
 		}
 
-		// Token: 0x060051CB RID: 20939 RVA: 0x001737FE File Offset: 0x00171BFE
+		// Token: 0x060051CF RID: 20943 RVA: 0x0017394E File Offset: 0x00171D4E
 		public virtual void Rotate(RotationDirection rotDir)
 		{
 		}
 
-		// Token: 0x060051CC RID: 20940 RVA: 0x00173804 File Offset: 0x00171C04
+		// Token: 0x060051D0 RID: 20944 RVA: 0x00173954 File Offset: 0x00171D54
 		public virtual bool CanRemainSelected()
 		{
 			return true;
 		}
 
-		// Token: 0x060051CD RID: 20941 RVA: 0x0017381A File Offset: 0x00171C1A
+		// Token: 0x060051D1 RID: 20945 RVA: 0x0017396A File Offset: 0x00171D6A
 		public virtual void Selected()
 		{
 		}
 
-		// Token: 0x060051CE RID: 20942 RVA: 0x0017381D File Offset: 0x00171C1D
+		// Token: 0x060051D2 RID: 20946 RVA: 0x0017396D File Offset: 0x00171D6D
 		public virtual void RenderHighlight(List<IntVec3> dragCells)
 		{
 			DesignatorUtility.RenderHighlightOverSelectableThings(this, dragCells);

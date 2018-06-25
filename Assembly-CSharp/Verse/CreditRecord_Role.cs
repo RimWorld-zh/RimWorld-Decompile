@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EDA RID: 3802
+	// Token: 0x02000EDC RID: 3804
 	public class CreditRecord_Role : CreditsEntry
 	{
 		// Token: 0x04003C6E RID: 15470
@@ -15,12 +15,12 @@ namespace Verse
 		// Token: 0x04003C70 RID: 15472
 		public string extra;
 
-		// Token: 0x06005A0E RID: 23054 RVA: 0x002E3C55 File Offset: 0x002E2055
+		// Token: 0x06005A11 RID: 23057 RVA: 0x002E3D75 File Offset: 0x002E2175
 		public CreditRecord_Role()
 		{
 		}
 
-		// Token: 0x06005A0F RID: 23055 RVA: 0x002E3C5E File Offset: 0x002E205E
+		// Token: 0x06005A12 RID: 23058 RVA: 0x002E3D7E File Offset: 0x002E217E
 		public CreditRecord_Role(string roleKey, string creditee, string extra = null)
 		{
 			this.roleKey = roleKey;
@@ -28,13 +28,13 @@ namespace Verse
 			this.extra = extra;
 		}
 
-		// Token: 0x06005A10 RID: 23056 RVA: 0x002E3C7C File Offset: 0x002E207C
+		// Token: 0x06005A13 RID: 23059 RVA: 0x002E3D9C File Offset: 0x002E219C
 		public override float DrawHeight(float width)
 		{
 			return 50f;
 		}
 
-		// Token: 0x06005A11 RID: 23057 RVA: 0x002E3C98 File Offset: 0x002E2098
+		// Token: 0x06005A14 RID: 23060 RVA: 0x002E3DB8 File Offset: 0x002E21B8
 		public override void Draw(Rect rect)
 		{
 			Text.Font = GameFont.Medium;

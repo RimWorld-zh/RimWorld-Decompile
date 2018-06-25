@@ -7,7 +7,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200084F RID: 2127
+	// Token: 0x02000851 RID: 2129
 	public class ITab_Pawn_Log : ITab
 	{
 		// Token: 0x04001A1B RID: 6683
@@ -72,7 +72,7 @@ namespace RimWorld
 		// Token: 0x04001A2C RID: 6700
 		private Vector2 scrollPosition = default(Vector2);
 
-		// Token: 0x0600303D RID: 12349 RVA: 0x001A4264 File Offset: 0x001A2664
+		// Token: 0x06003041 RID: 12353 RVA: 0x001A43B4 File Offset: 0x001A27B4
 		public ITab_Pawn_Log()
 		{
 			this.size = new Vector2(630f, 510f);
@@ -80,7 +80,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007B3 RID: 1971
-		// (get) Token: 0x0600303E RID: 12350 RVA: 0x001A42DC File Offset: 0x001A26DC
+		// (get) Token: 0x06003042 RID: 12354 RVA: 0x001A442C File Offset: 0x001A282C
 		private Pawn SelPawnForCombatInfo
 		{
 			get
@@ -103,7 +103,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600303F RID: 12351 RVA: 0x001A4338 File Offset: 0x001A2738
+		// Token: 0x06003043 RID: 12355 RVA: 0x001A4488 File Offset: 0x001A2888
 		protected override void FillTab()
 		{
 			Pawn selPawnForCombatInfo = this.SelPawnForCombatInfo;
@@ -183,13 +183,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003040 RID: 12352 RVA: 0x001A4798 File Offset: 0x001A2B98
+		// Token: 0x06003044 RID: 12356 RVA: 0x001A48E8 File Offset: 0x001A2CE8
 		public void SeekTo(LogEntry entry)
 		{
 			this.logSeek = entry;
 		}
 
-		// Token: 0x06003041 RID: 12353 RVA: 0x001A47A2 File Offset: 0x001A2BA2
+		// Token: 0x06003045 RID: 12357 RVA: 0x001A48F2 File Offset: 0x001A2CF2
 		public void Highlight(LogEntry entry)
 		{
 			this.data.highlightEntry = entry;

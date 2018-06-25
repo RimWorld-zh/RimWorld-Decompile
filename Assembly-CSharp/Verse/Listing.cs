@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E7B RID: 3707
+	// Token: 0x02000E7D RID: 3709
 	public abstract class Listing
 	{
 		// Token: 0x040039DF RID: 14815
@@ -30,8 +30,8 @@ namespace Verse
 		// Token: 0x040039E6 RID: 14822
 		private const float DefaultGap = 12f;
 
-		// Token: 0x17000DD0 RID: 3536
-		// (get) Token: 0x0600576F RID: 22383 RVA: 0x001B2AF4 File Offset: 0x001B0EF4
+		// Token: 0x17000DCF RID: 3535
+		// (get) Token: 0x06005773 RID: 22387 RVA: 0x001B2C34 File Offset: 0x001B1034
 		public float CurHeight
 		{
 			get
@@ -40,9 +40,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DD1 RID: 3537
-		// (get) Token: 0x06005771 RID: 22385 RVA: 0x001B2B20 File Offset: 0x001B0F20
-		// (set) Token: 0x06005770 RID: 22384 RVA: 0x001B2B0F File Offset: 0x001B0F0F
+		// Token: 0x17000DD0 RID: 3536
+		// (get) Token: 0x06005775 RID: 22389 RVA: 0x001B2C60 File Offset: 0x001B1060
+		// (set) Token: 0x06005774 RID: 22388 RVA: 0x001B2C4F File Offset: 0x001B104F
 		public float ColumnWidth
 		{
 			get
@@ -56,14 +56,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005772 RID: 22386 RVA: 0x001B2B3B File Offset: 0x001B0F3B
+		// Token: 0x06005776 RID: 22390 RVA: 0x001B2C7B File Offset: 0x001B107B
 		public void NewColumn()
 		{
 			this.curY = 0f;
 			this.curX += this.ColumnWidth + 17f;
 		}
 
-		// Token: 0x06005773 RID: 22387 RVA: 0x001B2B62 File Offset: 0x001B0F62
+		// Token: 0x06005777 RID: 22391 RVA: 0x001B2CA2 File Offset: 0x001B10A2
 		protected void NewColumnIfNeeded(float neededHeight)
 		{
 			if (this.curY + neededHeight > this.listingRect.height)
@@ -72,7 +72,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005774 RID: 22388 RVA: 0x001B2B84 File Offset: 0x001B0F84
+		// Token: 0x06005778 RID: 22392 RVA: 0x001B2CC4 File Offset: 0x001B10C4
 		public Rect GetRect(float height)
 		{
 			this.NewColumnIfNeeded(height);
@@ -81,13 +81,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005775 RID: 22389 RVA: 0x001B2BC9 File Offset: 0x001B0FC9
+		// Token: 0x06005779 RID: 22393 RVA: 0x001B2D09 File Offset: 0x001B1109
 		public void Gap(float gapHeight = 12f)
 		{
 			this.curY += gapHeight;
 		}
 
-		// Token: 0x06005776 RID: 22390 RVA: 0x001B2BDC File Offset: 0x001B0FDC
+		// Token: 0x0600577A RID: 22394 RVA: 0x001B2D1C File Offset: 0x001B111C
 		public void GapLine(float gapHeight = 12f)
 		{
 			float y = this.curY + gapHeight / 2f;
@@ -98,7 +98,7 @@ namespace Verse
 			this.curY += gapHeight;
 		}
 
-		// Token: 0x06005777 RID: 22391 RVA: 0x001B2C4C File Offset: 0x001B104C
+		// Token: 0x0600577B RID: 22395 RVA: 0x001B2D8C File Offset: 0x001B118C
 		public virtual void Begin(Rect rect)
 		{
 			this.listingRect = rect;
@@ -126,7 +126,7 @@ namespace Verse
 			GUI.BeginGroup(rect);
 		}
 
-		// Token: 0x06005778 RID: 22392 RVA: 0x001B2D13 File Offset: 0x001B1113
+		// Token: 0x0600577C RID: 22396 RVA: 0x001B2E53 File Offset: 0x001B1253
 		public virtual void End()
 		{
 			GUI.EndGroup();

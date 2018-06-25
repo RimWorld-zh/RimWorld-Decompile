@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000D93 RID: 3475
+	// Token: 0x02000D95 RID: 3477
 	public enum LoadSaveMode : byte
 	{
 		// Token: 0x040033DE RID: 13278

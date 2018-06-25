@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007A9 RID: 1961
+	// Token: 0x020007AB RID: 1963
 	public abstract class Alert_Thought : Alert
 	{
 		// Token: 0x0400173D RID: 5949
@@ -15,10 +15,10 @@ namespace RimWorld
 		private static List<Thought> tmpThoughts = new List<Thought>();
 
 		// Token: 0x170006BF RID: 1727
-		// (get) Token: 0x06002B62 RID: 11106
+		// (get) Token: 0x06002B66 RID: 11110
 		protected abstract ThoughtDef Thought { get; }
 
-		// Token: 0x06002B63 RID: 11107 RVA: 0x0016ECAC File Offset: 0x0016D0AC
+		// Token: 0x06002B67 RID: 11111 RVA: 0x0016EDFC File Offset: 0x0016D1FC
 		private IEnumerable<Pawn> AffectedPawns()
 		{
 			foreach (Pawn p in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoCryptosleep)
@@ -51,13 +51,13 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002B64 RID: 11108 RVA: 0x0016ECD8 File Offset: 0x0016D0D8
+		// Token: 0x06002B68 RID: 11112 RVA: 0x0016EE28 File Offset: 0x0016D228
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.AffectedPawns());
 		}
 
-		// Token: 0x06002B65 RID: 11109 RVA: 0x0016ECF8 File Offset: 0x0016D0F8
+		// Token: 0x06002B69 RID: 11113 RVA: 0x0016EE48 File Offset: 0x0016D248
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

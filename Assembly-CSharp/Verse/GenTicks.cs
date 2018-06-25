@@ -4,20 +4,20 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F4B RID: 3915
+	// Token: 0x02000F4F RID: 3919
 	public static class GenTicks
 	{
-		// Token: 0x04003E33 RID: 15923
+		// Token: 0x04003E36 RID: 15926
 		public const int TicksPerRealSecond = 60;
 
-		// Token: 0x04003E34 RID: 15924
+		// Token: 0x04003E37 RID: 15927
 		public const int TickRareInterval = 250;
 
-		// Token: 0x04003E35 RID: 15925
+		// Token: 0x04003E38 RID: 15928
 		public const int TickLongInterval = 2000;
 
-		// Token: 0x17000F3F RID: 3903
-		// (get) Token: 0x06005EB1 RID: 24241 RVA: 0x00303590 File Offset: 0x00301990
+		// Token: 0x17000F3E RID: 3902
+		// (get) Token: 0x06005EBB RID: 24251 RVA: 0x00303C10 File Offset: 0x00302010
 		public static int TicksAbs
 		{
 			get
@@ -39,8 +39,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F40 RID: 3904
-		// (get) Token: 0x06005EB2 RID: 24242 RVA: 0x00303600 File Offset: 0x00301A00
+		// Token: 0x17000F3F RID: 3903
+		// (get) Token: 0x06005EBC RID: 24252 RVA: 0x00303C80 File Offset: 0x00302080
 		public static int TicksGame
 		{
 			get
@@ -58,8 +58,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000F41 RID: 3905
-		// (get) Token: 0x06005EB3 RID: 24243 RVA: 0x0030363C File Offset: 0x00301A3C
+		// Token: 0x17000F40 RID: 3904
+		// (get) Token: 0x06005EBD RID: 24253 RVA: 0x00303CBC File Offset: 0x003020BC
 		public static int ConfiguredTicksAbsAtGameStart
 		{
 			get
@@ -105,25 +105,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005EB4 RID: 24244 RVA: 0x00303728 File Offset: 0x00301B28
+		// Token: 0x06005EBE RID: 24254 RVA: 0x00303DA8 File Offset: 0x003021A8
 		public static float TicksToSeconds(this int numTicks)
 		{
 			return (float)numTicks / 60f;
 		}
 
-		// Token: 0x06005EB5 RID: 24245 RVA: 0x00303748 File Offset: 0x00301B48
+		// Token: 0x06005EBF RID: 24255 RVA: 0x00303DC8 File Offset: 0x003021C8
 		public static int SecondsToTicks(this float numSeconds)
 		{
 			return Mathf.RoundToInt(60f * numSeconds);
 		}
 
-		// Token: 0x06005EB6 RID: 24246 RVA: 0x0030376C File Offset: 0x00301B6C
+		// Token: 0x06005EC0 RID: 24256 RVA: 0x00303DEC File Offset: 0x003021EC
 		public static string TicksToSecondsString(this int numTicks)
 		{
 			return numTicks.TicksToSeconds().ToString("F1") + " " + "SecondsLower".Translate();
 		}
 
-		// Token: 0x06005EB7 RID: 24247 RVA: 0x003037A8 File Offset: 0x00301BA8
+		// Token: 0x06005EC1 RID: 24257 RVA: 0x00303E28 File Offset: 0x00302228
 		public static string SecondsToTicksString(this float numSeconds)
 		{
 			return numSeconds.SecondsToTicks().ToString();

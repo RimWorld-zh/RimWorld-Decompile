@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000513 RID: 1299
+	// Token: 0x02000515 RID: 1301
 	public class Pawn_MeleeVerbs_TerrainSource : IExposable, IVerbOwner
 	{
 		// Token: 0x04000DE7 RID: 3559
@@ -17,7 +17,7 @@ namespace RimWorld
 		public VerbTracker tracker;
 
 		// Token: 0x1700033D RID: 829
-		// (get) Token: 0x06001788 RID: 6024 RVA: 0x000CE598 File Offset: 0x000CC998
+		// (get) Token: 0x0600178C RID: 6028 RVA: 0x000CE6E8 File Offset: 0x000CCAE8
 		public VerbTracker VerbTracker
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700033E RID: 830
-		// (get) Token: 0x06001789 RID: 6025 RVA: 0x000CE5B4 File Offset: 0x000CC9B4
+		// (get) Token: 0x0600178D RID: 6029 RVA: 0x000CE704 File Offset: 0x000CCB04
 		public List<VerbProperties> VerbProperties
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700033F RID: 831
-		// (get) Token: 0x0600178A RID: 6026 RVA: 0x000CE5CC File Offset: 0x000CC9CC
+		// (get) Token: 0x0600178E RID: 6030 RVA: 0x000CE71C File Offset: 0x000CCB1C
 		public List<Tool> Tools
 		{
 			get
@@ -46,7 +46,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600178B RID: 6027 RVA: 0x000CE5EC File Offset: 0x000CC9EC
+		// Token: 0x0600178F RID: 6031 RVA: 0x000CE73C File Offset: 0x000CCB3C
 		public static Pawn_MeleeVerbs_TerrainSource Create(Pawn_MeleeVerbs parent, TerrainDef terrainDef)
 		{
 			Pawn_MeleeVerbs_TerrainSource pawn_MeleeVerbs_TerrainSource = new Pawn_MeleeVerbs_TerrainSource();
@@ -56,7 +56,7 @@ namespace RimWorld
 			return pawn_MeleeVerbs_TerrainSource;
 		}
 
-		// Token: 0x0600178C RID: 6028 RVA: 0x000CE622 File Offset: 0x000CCA22
+		// Token: 0x06001790 RID: 6032 RVA: 0x000CE772 File Offset: 0x000CCB72
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<TerrainDef>(ref this.def, "def");
@@ -66,7 +66,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x0600178D RID: 6029 RVA: 0x000CE650 File Offset: 0x000CCA50
+		// Token: 0x06001791 RID: 6033 RVA: 0x000CE7A0 File Offset: 0x000CCBA0
 		public string UniqueVerbOwnerID()
 		{
 			return "TerrainVerbs_" + this.parent.Pawn.ThingID;

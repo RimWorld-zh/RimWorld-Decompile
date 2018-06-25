@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000273 RID: 627
+	// Token: 0x02000275 RID: 629
 	public class SkillNeed_BaseBonus : SkillNeed
 	{
 		// Token: 0x04000553 RID: 1363
@@ -13,7 +13,7 @@ namespace RimWorld
 		// Token: 0x04000554 RID: 1364
 		private float bonusPerLevel = 0.05f;
 
-		// Token: 0x06000ACB RID: 2763 RVA: 0x00061E18 File Offset: 0x00060218
+		// Token: 0x06000ACF RID: 2767 RVA: 0x00061F68 File Offset: 0x00060368
 		public override float ValueFor(Pawn pawn)
 		{
 			float result;
@@ -29,13 +29,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000ACC RID: 2764 RVA: 0x00061E64 File Offset: 0x00060264
+		// Token: 0x06000AD0 RID: 2768 RVA: 0x00061FB4 File Offset: 0x000603B4
 		private float ValueAtLevel(int level)
 		{
 			return this.baseValue + this.bonusPerLevel * (float)level;
 		}
 
-		// Token: 0x06000ACD RID: 2765 RVA: 0x00061E8C File Offset: 0x0006028C
+		// Token: 0x06000AD1 RID: 2769 RVA: 0x00061FDC File Offset: 0x000603DC
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string error in this.<ConfigErrors>__BaseCallProxy0())

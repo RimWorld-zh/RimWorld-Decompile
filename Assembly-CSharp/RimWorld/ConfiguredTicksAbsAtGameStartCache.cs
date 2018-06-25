@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000552 RID: 1362
+	// Token: 0x02000554 RID: 1364
 	public class ConfiguredTicksAbsAtGameStartCache
 	{
 		// Token: 0x04000ED4 RID: 3796
@@ -15,7 +15,7 @@ namespace RimWorld
 		// Token: 0x04000ED6 RID: 3798
 		private Season cachedForStartingSeason = Season.Undefined;
 
-		// Token: 0x0600195C RID: 6492 RVA: 0x000DC118 File Offset: 0x000DA518
+		// Token: 0x06001960 RID: 6496 RVA: 0x000DC268 File Offset: 0x000DA668
 		public bool TryGetCachedValue(GameInitData initData, out int ticksAbs)
 		{
 			bool result;
@@ -32,7 +32,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600195D RID: 6493 RVA: 0x000DC163 File Offset: 0x000DA563
+		// Token: 0x06001961 RID: 6497 RVA: 0x000DC2B3 File Offset: 0x000DA6B3
 		public void Cache(int ticksAbs, GameInitData initData)
 		{
 			this.cachedTicks = ticksAbs;

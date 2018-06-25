@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000915 RID: 2325
+	// Token: 0x02000917 RID: 2327
 	[DefOf]
 	public static class EffecterDefOf
 	{
@@ -64,7 +64,7 @@ namespace RimWorld
 		// Token: 0x04001E94 RID: 7828
 		public static EffecterDef PlayPoker;
 
-		// Token: 0x0600361D RID: 13853 RVA: 0x001D08C7 File Offset: 0x001CECC7
+		// Token: 0x06003621 RID: 13857 RVA: 0x001D0A07 File Offset: 0x001CEE07
 		static EffecterDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(EffecterDefOf));

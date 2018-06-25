@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008D4 RID: 2260
+	// Token: 0x020008D6 RID: 2262
 	public class TutorialState : IExposable
 	{
 		// Token: 0x04001BC4 RID: 7108
@@ -22,7 +22,7 @@ namespace RimWorld
 		// Token: 0x04001BC8 RID: 7112
 		public bool introDone = false;
 
-		// Token: 0x060033C7 RID: 13255 RVA: 0x001BAAA8 File Offset: 0x001B8EA8
+		// Token: 0x060033CB RID: 13259 RVA: 0x001BABE8 File Offset: 0x001B8FE8
 		public void ExposeData()
 		{
 			if (Scribe.mode == LoadSaveMode.Saving && this.startingItems != null)
@@ -40,7 +40,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060033C8 RID: 13256 RVA: 0x001BAB98 File Offset: 0x001B8F98
+		// Token: 0x060033CC RID: 13260 RVA: 0x001BACD8 File Offset: 0x001B90D8
 		public void Notify_TutorialEnding()
 		{
 			this.startingItems.Clear();
@@ -49,7 +49,7 @@ namespace RimWorld
 			this.endTick = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x060033C9 RID: 13257 RVA: 0x001BABDF File Offset: 0x001B8FDF
+		// Token: 0x060033CD RID: 13261 RVA: 0x001BAD1F File Offset: 0x001B911F
 		public void AddStartingItem(Thing t)
 		{
 			if (!this.startingItems.Contains(t))

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DBB RID: 3515
+	// Token: 0x02000DBD RID: 3517
 	public class AudioSourcePoolCamera
 	{
 		// Token: 0x04003447 RID: 13383
@@ -16,7 +16,7 @@ namespace Verse.Sound
 		// Token: 0x04003449 RID: 13385
 		private const int NumSourcesCamera = 16;
 
-		// Token: 0x06004E8D RID: 20109 RVA: 0x00290D40 File Offset: 0x0028F140
+		// Token: 0x06004E91 RID: 20113 RVA: 0x00290E6C File Offset: 0x0028F26C
 		public AudioSourcePoolCamera()
 		{
 			this.cameraSourcesContainer = new GameObject("OneShotSourcesCameraContainer");
@@ -37,7 +37,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E8E RID: 20110 RVA: 0x00290E10 File Offset: 0x0028F210
+		// Token: 0x06004E92 RID: 20114 RVA: 0x00290F3C File Offset: 0x0028F33C
 		public AudioSource GetSourceCamera()
 		{
 			for (int i = 0; i < this.sourcesCamera.Count; i++)

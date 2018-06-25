@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000BA6 RID: 2982
+	// Token: 0x02000BA8 RID: 2984
 	public enum DrawerType : byte
 	{
 		// Token: 0x04002B96 RID: 11158

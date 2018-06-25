@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000E42 RID: 3650
+	// Token: 0x02000E44 RID: 3652
 	[AttributeUsage(AttributeTargets.Field)]
 	public class DefaultEmptyListAttribute : DefaultValueAttribute
 	{
-		// Token: 0x06005640 RID: 22080 RVA: 0x002C797E File Offset: 0x002C5D7E
+		// Token: 0x06005644 RID: 22084 RVA: 0x002C7AAA File Offset: 0x002C5EAA
 		public DefaultEmptyListAttribute(Type type) : base(type)
 		{
 		}
 
-		// Token: 0x06005641 RID: 22081 RVA: 0x002C7988 File Offset: 0x002C5D88
+		// Token: 0x06005645 RID: 22085 RVA: 0x002C7AB4 File Offset: 0x002C5EB4
 		public override bool ObjIsDefault(object obj)
 		{
 			bool result;

@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000BD0 RID: 3024
+	// Token: 0x02000BD2 RID: 3026
 	public enum TimeSpeed : byte
 	{
 		// Token: 0x04002D13 RID: 11539

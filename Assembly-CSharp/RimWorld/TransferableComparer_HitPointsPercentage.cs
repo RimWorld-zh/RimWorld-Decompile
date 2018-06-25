@@ -3,16 +3,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020008AB RID: 2219
+	// Token: 0x020008AD RID: 2221
 	public class TransferableComparer_HitPointsPercentage : TransferableComparer
 	{
-		// Token: 0x060032D4 RID: 13012 RVA: 0x001B663C File Offset: 0x001B4A3C
+		// Token: 0x060032D8 RID: 13016 RVA: 0x001B677C File Offset: 0x001B4B7C
 		public override int Compare(Transferable lhs, Transferable rhs)
 		{
 			return this.GetValueFor(lhs).CompareTo(this.GetValueFor(rhs));
 		}
 
-		// Token: 0x060032D5 RID: 13013 RVA: 0x001B6668 File Offset: 0x001B4A68
+		// Token: 0x060032D9 RID: 13017 RVA: 0x001B67A8 File Offset: 0x001B4BA8
 		private float GetValueFor(Transferable t)
 		{
 			Thing anyThing = t.AnyThing;

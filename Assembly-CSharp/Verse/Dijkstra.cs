@@ -4,22 +4,22 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F19 RID: 3865
+	// Token: 0x02000F1D RID: 3869
 	public static class Dijkstra<T>
 	{
-		// Token: 0x04003D8F RID: 15759
+		// Token: 0x04003D92 RID: 15762
 		private static Dictionary<T, float> distances = new Dictionary<T, float>();
 
-		// Token: 0x04003D90 RID: 15760
+		// Token: 0x04003D93 RID: 15763
 		private static FastPriorityQueue<KeyValuePair<T, float>> queue = new FastPriorityQueue<KeyValuePair<T, float>>(new Dijkstra<T>.DistanceComparer());
 
-		// Token: 0x04003D91 RID: 15761
+		// Token: 0x04003D94 RID: 15764
 		private static List<T> singleNodeList = new List<T>();
 
-		// Token: 0x04003D92 RID: 15762
+		// Token: 0x04003D95 RID: 15765
 		private static List<KeyValuePair<T, float>> tmpResult = new List<KeyValuePair<T, float>>();
 
-		// Token: 0x06005CC0 RID: 23744 RVA: 0x002F0DB4 File Offset: 0x002EF1B4
+		// Token: 0x06005CCA RID: 23754 RVA: 0x002F1434 File Offset: 0x002EF834
 		public static void Run(T startingNode, Func<T, IEnumerable<T>> neighborsGetter, Func<T, T, float> distanceGetter, List<KeyValuePair<T, float>> outDistances, Dictionary<T, T> outParents = null)
 		{
 			Dijkstra<T>.singleNodeList.Clear();
@@ -27,7 +27,7 @@ namespace Verse
 			Dijkstra<T>.Run(Dijkstra<T>.singleNodeList, neighborsGetter, distanceGetter, outDistances, outParents);
 		}
 
-		// Token: 0x06005CC1 RID: 23745 RVA: 0x002F0DDC File Offset: 0x002EF1DC
+		// Token: 0x06005CCB RID: 23755 RVA: 0x002F145C File Offset: 0x002EF85C
 		public static void Run(IEnumerable<T> startingNodes, Func<T, IEnumerable<T>> neighborsGetter, Func<T, T, float> distanceGetter, List<KeyValuePair<T, float>> outDistances, Dictionary<T, T> outParents = null)
 		{
 			outDistances.Clear();
@@ -95,7 +95,7 @@ namespace Verse
 			Dijkstra<T>.distances.Clear();
 		}
 
-		// Token: 0x06005CC2 RID: 23746 RVA: 0x002F1064 File Offset: 0x002EF464
+		// Token: 0x06005CCC RID: 23756 RVA: 0x002F16E4 File Offset: 0x002EFAE4
 		public static void Run(T startingNode, Func<T, IEnumerable<T>> neighborsGetter, Func<T, T, float> distanceGetter, Dictionary<T, float> outDistances, Dictionary<T, T> outParents = null)
 		{
 			Dijkstra<T>.singleNodeList.Clear();
@@ -103,7 +103,7 @@ namespace Verse
 			Dijkstra<T>.Run(Dijkstra<T>.singleNodeList, neighborsGetter, distanceGetter, outDistances, outParents);
 		}
 
-		// Token: 0x06005CC3 RID: 23747 RVA: 0x002F108C File Offset: 0x002EF48C
+		// Token: 0x06005CCD RID: 23757 RVA: 0x002F170C File Offset: 0x002EFB0C
 		public static void Run(IEnumerable<T> startingNodes, Func<T, IEnumerable<T>> neighborsGetter, Func<T, T, float> distanceGetter, Dictionary<T, float> outDistances, Dictionary<T, T> outParents = null)
 		{
 			Dijkstra<T>.Run(startingNodes, neighborsGetter, distanceGetter, Dijkstra<T>.tmpResult, outParents);
@@ -115,7 +115,7 @@ namespace Verse
 			Dijkstra<T>.tmpResult.Clear();
 		}
 
-		// Token: 0x06005CC4 RID: 23748 RVA: 0x002F1104 File Offset: 0x002EF504
+		// Token: 0x06005CCE RID: 23758 RVA: 0x002F1784 File Offset: 0x002EFB84
 		private static void HandleNeighbor(T n, float nodeDist, KeyValuePair<T, float> node, Func<T, T, float> distanceGetter, Dictionary<T, T> outParents)
 		{
 			float num = nodeDist + Mathf.Max(distanceGetter(node.Key, n), 0f);
@@ -151,10 +151,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x02000F1A RID: 3866
+		// Token: 0x02000F1E RID: 3870
 		private class DistanceComparer : IComparer<KeyValuePair<T, float>>
 		{
-			// Token: 0x06005CC7 RID: 23751 RVA: 0x002F11F8 File Offset: 0x002EF5F8
+			// Token: 0x06005CD1 RID: 23761 RVA: 0x002F1878 File Offset: 0x002EFC78
 			public int Compare(KeyValuePair<T, float> a, KeyValuePair<T, float> b)
 			{
 				return a.Value.CompareTo(b.Value);

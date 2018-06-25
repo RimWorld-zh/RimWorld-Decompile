@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DFC RID: 3580
+	// Token: 0x02000DFE RID: 3582
 	public class CompAffectsSky : ThingComp
 	{
 		// Token: 0x04003546 RID: 13638
@@ -21,8 +21,8 @@ namespace Verse
 		// Token: 0x0400354A RID: 13642
 		private float autoAnimationTarget;
 
-		// Token: 0x17000D49 RID: 3401
-		// (get) Token: 0x0600512A RID: 20778 RVA: 0x0029B614 File Offset: 0x00299A14
+		// Token: 0x17000D48 RID: 3400
+		// (get) Token: 0x0600512E RID: 20782 RVA: 0x0029B740 File Offset: 0x00299B40
 		public CompProperties_AffectsSky Props
 		{
 			get
@@ -31,8 +31,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D4A RID: 3402
-		// (get) Token: 0x0600512B RID: 20779 RVA: 0x0029B634 File Offset: 0x00299A34
+		// Token: 0x17000D49 RID: 3401
+		// (get) Token: 0x0600512F RID: 20783 RVA: 0x0029B760 File Offset: 0x00299B60
 		public virtual float LerpFactor
 		{
 			get
@@ -64,8 +64,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D4B RID: 3403
-		// (get) Token: 0x0600512C RID: 20780 RVA: 0x0029B6F0 File Offset: 0x00299AF0
+		// Token: 0x17000D4A RID: 3402
+		// (get) Token: 0x06005130 RID: 20784 RVA: 0x0029B81C File Offset: 0x00299C1C
 		public bool HasAutoAnimation
 		{
 			get
@@ -74,8 +74,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D4C RID: 3404
-		// (get) Token: 0x0600512D RID: 20781 RVA: 0x0029B72C File Offset: 0x00299B2C
+		// Token: 0x17000D4B RID: 3403
+		// (get) Token: 0x06005131 RID: 20785 RVA: 0x0029B858 File Offset: 0x00299C58
 		public virtual SkyTarget SkyTarget
 		{
 			get
@@ -84,8 +84,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D4D RID: 3405
-		// (get) Token: 0x0600512E RID: 20782 RVA: 0x0029B774 File Offset: 0x00299B74
+		// Token: 0x17000D4C RID: 3404
+		// (get) Token: 0x06005132 RID: 20786 RVA: 0x0029B8A0 File Offset: 0x00299CA0
 		public virtual Vector2? OverrideShadowVector
 		{
 			get
@@ -94,7 +94,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600512F RID: 20783 RVA: 0x0029B794 File Offset: 0x00299B94
+		// Token: 0x06005133 RID: 20787 RVA: 0x0029B8C0 File Offset: 0x00299CC0
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -105,7 +105,7 @@ namespace Verse
 			Scribe_Values.Look<float>(ref this.autoAnimationTarget, "autoAnimationTarget", 0f, false);
 		}
 
-		// Token: 0x06005130 RID: 20784 RVA: 0x0029B806 File Offset: 0x00299C06
+		// Token: 0x06005134 RID: 20788 RVA: 0x0029B932 File Offset: 0x00299D32
 		public void StartFadeInHoldFadeOut(int fadeInDuration, int holdDuration, int fadeOutDuration, float target = 1f)
 		{
 			this.autoAnimationStartTick = Find.TickManager.TicksGame;

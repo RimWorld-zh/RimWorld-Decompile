@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020006F3 RID: 1779
+	// Token: 0x020006F5 RID: 1781
 	public enum PodContentsType
 	{
 		// Token: 0x0400158D RID: 5517

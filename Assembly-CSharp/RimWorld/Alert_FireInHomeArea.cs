@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200078D RID: 1933
+	// Token: 0x0200078F RID: 1935
 	public class Alert_FireInHomeArea : Alert_Critical
 	{
-		// Token: 0x06002AEA RID: 10986 RVA: 0x0016AE5D File Offset: 0x0016925D
+		// Token: 0x06002AEE RID: 10990 RVA: 0x0016AFAD File Offset: 0x001693AD
 		public Alert_FireInHomeArea()
 		{
 			this.defaultLabel = "FireInHomeArea".Translate();
@@ -15,7 +15,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006AF RID: 1711
-		// (get) Token: 0x06002AEB RID: 10987 RVA: 0x0016AE88 File Offset: 0x00169288
+		// (get) Token: 0x06002AEF RID: 10991 RVA: 0x0016AFD8 File Offset: 0x001693D8
 		private Fire FireInHomeArea
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002AEC RID: 10988 RVA: 0x0016AF40 File Offset: 0x00169340
+		// Token: 0x06002AF0 RID: 10992 RVA: 0x0016B090 File Offset: 0x00169490
 		public override AlertReport GetReport()
 		{
 			return this.FireInHomeArea;

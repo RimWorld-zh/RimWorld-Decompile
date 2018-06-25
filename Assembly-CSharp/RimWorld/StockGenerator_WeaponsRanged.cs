@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000774 RID: 1908
+	// Token: 0x02000776 RID: 1910
 	public class StockGenerator_WeaponsRanged : StockGenerator_MiscItems
 	{
 		// Token: 0x040016C0 RID: 5824
@@ -27,13 +27,13 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x06002A29 RID: 10793 RVA: 0x00165E8C File Offset: 0x0016428C
+		// Token: 0x06002A2D RID: 10797 RVA: 0x00165FDC File Offset: 0x001643DC
 		public override bool HandlesThingDef(ThingDef td)
 		{
 			return base.HandlesThingDef(td) && td.IsRangedWeapon;
 		}
 
-		// Token: 0x06002A2A RID: 10794 RVA: 0x00165EB8 File Offset: 0x001642B8
+		// Token: 0x06002A2E RID: 10798 RVA: 0x00166008 File Offset: 0x00164408
 		protected override float SelectionWeight(ThingDef thingDef)
 		{
 			return StockGenerator_WeaponsRanged.SelectionWeightMarketValueCurve.Evaluate(thingDef.BaseMarketValue);

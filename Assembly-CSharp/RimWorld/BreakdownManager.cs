@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000702 RID: 1794
+	// Token: 0x02000704 RID: 1796
 	public class BreakdownManager : MapComponent
 	{
 		// Token: 0x040015BF RID: 5567
@@ -16,12 +16,12 @@ namespace RimWorld
 		// Token: 0x040015C1 RID: 5569
 		public const int CheckIntervalTicks = 1041;
 
-		// Token: 0x06002751 RID: 10065 RVA: 0x00152376 File Offset: 0x00150776
+		// Token: 0x06002755 RID: 10069 RVA: 0x001524C6 File Offset: 0x001508C6
 		public BreakdownManager(Map map) : base(map)
 		{
 		}
 
-		// Token: 0x06002752 RID: 10066 RVA: 0x00152396 File Offset: 0x00150796
+		// Token: 0x06002756 RID: 10070 RVA: 0x001524E6 File Offset: 0x001508E6
 		public void Register(CompBreakdownable c)
 		{
 			this.comps.Add(c);
@@ -31,14 +31,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002753 RID: 10067 RVA: 0x001523C2 File Offset: 0x001507C2
+		// Token: 0x06002757 RID: 10071 RVA: 0x00152512 File Offset: 0x00150912
 		public void Deregister(CompBreakdownable c)
 		{
 			this.comps.Remove(c);
 			this.brokenDownThings.Remove(c.parent);
 		}
 
-		// Token: 0x06002754 RID: 10068 RVA: 0x001523E4 File Offset: 0x001507E4
+		// Token: 0x06002758 RID: 10072 RVA: 0x00152534 File Offset: 0x00150934
 		public override void MapComponentTick()
 		{
 			if (Find.TickManager.TicksGame % 1041 == 0)
@@ -50,13 +50,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002755 RID: 10069 RVA: 0x00152438 File Offset: 0x00150838
+		// Token: 0x06002759 RID: 10073 RVA: 0x00152588 File Offset: 0x00150988
 		public void Notify_BrokenDown(Thing thing)
 		{
 			this.brokenDownThings.Add(thing);
 		}
 
-		// Token: 0x06002756 RID: 10070 RVA: 0x00152448 File Offset: 0x00150848
+		// Token: 0x0600275A RID: 10074 RVA: 0x00152598 File Offset: 0x00150998
 		public void Notify_Repaired(Thing thing)
 		{
 			this.brokenDownThings.Remove(thing);

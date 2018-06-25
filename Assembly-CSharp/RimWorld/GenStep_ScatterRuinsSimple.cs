@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020003FF RID: 1023
+	// Token: 0x02000401 RID: 1025
 	public class GenStep_ScatterRuinsSimple : GenStep_Scatterer
 	{
 		// Token: 0x04000AAE RID: 2734
@@ -15,7 +15,7 @@ namespace RimWorld
 		public IntRange WallLengthRange = new IntRange(4, 14);
 
 		// Token: 0x17000259 RID: 601
-		// (get) Token: 0x06001195 RID: 4501 RVA: 0x000986F4 File Offset: 0x00096AF4
+		// (get) Token: 0x06001199 RID: 4505 RVA: 0x00098844 File Offset: 0x00096C44
 		public override int SeedPart
 		{
 			get
@@ -24,13 +24,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001196 RID: 4502 RVA: 0x00098710 File Offset: 0x00096B10
+		// Token: 0x0600119A RID: 4506 RVA: 0x00098860 File Offset: 0x00096C60
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			return base.CanScatterAt(c, map) && c.SupportsStructureType(map, TerrainAffordanceDefOf.Heavy);
 		}
 
-		// Token: 0x06001197 RID: 4503 RVA: 0x00098754 File Offset: 0x00096B54
+		// Token: 0x0600119B RID: 4507 RVA: 0x000988A4 File Offset: 0x00096CA4
 		protected bool CanPlaceAncientBuildingInRange(CellRect rect, Map map)
 		{
 			foreach (IntVec3 c in rect.Cells)
@@ -47,7 +47,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06001198 RID: 4504 RVA: 0x000987F8 File Offset: 0x00096BF8
+		// Token: 0x0600119C RID: 4508 RVA: 0x00098948 File Offset: 0x00096D48
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)
 		{
 			ThingDef stuffDef = BaseGenUtility.RandomCheapWallStuff(null, true);
@@ -74,7 +74,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001199 RID: 4505 RVA: 0x000988F4 File Offset: 0x00096CF4
+		// Token: 0x0600119D RID: 4509 RVA: 0x00098A44 File Offset: 0x00096E44
 		private void TrySetCellAsWall(IntVec3 c, Map map, ThingDef stuffDef)
 		{
 			List<Thing> thingList = c.GetThingList(map);
@@ -94,7 +94,7 @@ namespace RimWorld
 			GenSpawn.Spawn(newThing, c, map, WipeMode.Vanish);
 		}
 
-		// Token: 0x0600119A RID: 4506 RVA: 0x00098990 File Offset: 0x00096D90
+		// Token: 0x0600119E RID: 4510 RVA: 0x00098AE0 File Offset: 0x00096EE0
 		private void MakeLongWall(IntVec3 start, Map map, int extendDist, bool horizontal, ThingDef stuffDef)
 		{
 			TerrainDef newTerr = BaseGenUtility.CorrespondingTerrainDef(stuffDef, true);

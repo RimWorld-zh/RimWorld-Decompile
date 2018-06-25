@@ -6,7 +6,7 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
-	// Token: 0x02000383 RID: 899
+	// Token: 0x02000385 RID: 901
 	public class DangerWatcher
 	{
 		// Token: 0x04000989 RID: 2441
@@ -24,14 +24,14 @@ namespace RimWorld
 		// Token: 0x0400098D RID: 2445
 		private const int UpdateInterval = 101;
 
-		// Token: 0x06000F91 RID: 3985 RVA: 0x000838FC File Offset: 0x00081CFC
+		// Token: 0x06000F95 RID: 3989 RVA: 0x00083A4C File Offset: 0x00081E4C
 		public DangerWatcher(Map map)
 		{
 			this.map = map;
 		}
 
 		// Token: 0x1700023C RID: 572
-		// (get) Token: 0x06000F92 RID: 3986 RVA: 0x0008392C File Offset: 0x00081D2C
+		// (get) Token: 0x06000F96 RID: 3990 RVA: 0x00083A7C File Offset: 0x00081E7C
 		public StoryDanger DangerRating
 		{
 			get
@@ -45,7 +45,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000F93 RID: 3987 RVA: 0x00083980 File Offset: 0x00081D80
+		// Token: 0x06000F97 RID: 3991 RVA: 0x00083AD0 File Offset: 0x00081ED0
 		private StoryDanger CalculateDangerRating()
 		{
 			float num = (from x in this.map.attackTargetsCache.TargetsHostileToColony
@@ -88,7 +88,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000F94 RID: 3988 RVA: 0x00083B18 File Offset: 0x00081F18
+		// Token: 0x06000F98 RID: 3992 RVA: 0x00083C68 File Offset: 0x00082068
 		public void Notify_ColonistHarmedExternally()
 		{
 			this.lastColonistHarmedTick = Find.TickManager.TicksGame;

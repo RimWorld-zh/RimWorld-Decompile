@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200028F RID: 655
+	// Token: 0x02000291 RID: 657
 	public class BodyTypeDef : Def
 	{
 		// Token: 0x04000592 RID: 1426

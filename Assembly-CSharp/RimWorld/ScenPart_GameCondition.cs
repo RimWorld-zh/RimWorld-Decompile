@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200062E RID: 1582
+	// Token: 0x02000630 RID: 1584
 	public class ScenPart_GameCondition : ScenPart
 	{
 		// Token: 0x040012B7 RID: 4791
@@ -14,7 +14,7 @@ namespace RimWorld
 		private string durationDaysBuf;
 
 		// Token: 0x170004E2 RID: 1250
-		// (get) Token: 0x06002093 RID: 8339 RVA: 0x00117440 File Offset: 0x00115840
+		// (get) Token: 0x06002097 RID: 8343 RVA: 0x00117590 File Offset: 0x00115990
 		public override string Label
 		{
 			get
@@ -23,14 +23,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002094 RID: 8340 RVA: 0x00117465 File Offset: 0x00115865
+		// Token: 0x06002098 RID: 8344 RVA: 0x001175B5 File Offset: 0x001159B5
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.durationDays, "durationDayS", 0f, false);
 		}
 
-		// Token: 0x06002095 RID: 8341 RVA: 0x00117484 File Offset: 0x00115884
+		// Token: 0x06002099 RID: 8345 RVA: 0x001175D4 File Offset: 0x001159D4
 		public override string Summary(Scenario scen)
 		{
 			return string.Concat(new string[]
@@ -44,20 +44,20 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002096 RID: 8342 RVA: 0x001174FC File Offset: 0x001158FC
+		// Token: 0x0600209A RID: 8346 RVA: 0x0011764C File Offset: 0x00115A4C
 		public override void Randomize()
 		{
 			this.durationDays = Mathf.Round(this.def.durationRandomRange.RandomInRange);
 		}
 
-		// Token: 0x06002097 RID: 8343 RVA: 0x0011751C File Offset: 0x0011591C
+		// Token: 0x0600209B RID: 8347 RVA: 0x0011766C File Offset: 0x00115A6C
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight);
 			Widgets.TextFieldNumericLabeled<float>(scenPartRect, "durationDays".Translate(), ref this.durationDays, ref this.durationDaysBuf, 0f, 1E+09f);
 		}
 
-		// Token: 0x06002098 RID: 8344 RVA: 0x0011755D File Offset: 0x0011595D
+		// Token: 0x0600209C RID: 8348 RVA: 0x001176AD File Offset: 0x00115AAD
 		public override void GenerateIntoMap(Map map)
 		{
 			if (!this.def.gameConditionTargetsWorld)
@@ -66,7 +66,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002099 RID: 8345 RVA: 0x00117581 File Offset: 0x00115981
+		// Token: 0x0600209D RID: 8349 RVA: 0x001176D1 File Offset: 0x00115AD1
 		public override void PostWorldGenerate()
 		{
 			if (this.def.gameConditionTargetsWorld)
@@ -75,13 +75,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600209A RID: 8346 RVA: 0x001175AC File Offset: 0x001159AC
+		// Token: 0x0600209E RID: 8350 RVA: 0x001176FC File Offset: 0x00115AFC
 		private GameCondition MakeCondition()
 		{
 			return GameConditionMaker.MakeCondition(this.def.gameCondition, (int)(this.durationDays * 60000f), 0);
 		}
 
-		// Token: 0x0600209B RID: 8347 RVA: 0x001175E0 File Offset: 0x001159E0
+		// Token: 0x0600209F RID: 8351 RVA: 0x00117730 File Offset: 0x00115B30
 		public override bool CanCoexistWith(ScenPart other)
 		{
 			ScenPart_GameCondition scenPart_GameCondition = other as ScenPart_GameCondition;

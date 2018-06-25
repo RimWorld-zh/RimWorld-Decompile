@@ -5,13 +5,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020007C2 RID: 1986
+	// Token: 0x020007C4 RID: 1988
 	public class Designator_AreaNoRoof : Designator_Area
 	{
 		// Token: 0x04001798 RID: 6040
 		private static List<IntVec3> justAddedCells = new List<IntVec3>();
 
-		// Token: 0x06002BFD RID: 11261 RVA: 0x001747E0 File Offset: 0x00172BE0
+		// Token: 0x06002C01 RID: 11265 RVA: 0x00174930 File Offset: 0x00172D30
 		public Designator_AreaNoRoof()
 		{
 			this.defaultLabel = "DesignatorAreaNoRoofExpand".Translate();
@@ -25,7 +25,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006E2 RID: 1762
-		// (get) Token: 0x06002BFE RID: 11262 RVA: 0x00174854 File Offset: 0x00172C54
+		// (get) Token: 0x06002C02 RID: 11266 RVA: 0x001749A4 File Offset: 0x00172DA4
 		public override int DraggableDimensions
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006E3 RID: 1763
-		// (get) Token: 0x06002BFF RID: 11263 RVA: 0x0017486C File Offset: 0x00172C6C
+		// (get) Token: 0x06002C03 RID: 11267 RVA: 0x001749BC File Offset: 0x00172DBC
 		public override bool DragDrawMeasurements
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C00 RID: 11264 RVA: 0x00174884 File Offset: 0x00172C84
+		// Token: 0x06002C04 RID: 11268 RVA: 0x001749D4 File Offset: 0x00172DD4
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -72,14 +72,14 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C01 RID: 11265 RVA: 0x0017492B File Offset: 0x00172D2B
+		// Token: 0x06002C05 RID: 11269 RVA: 0x00174A7B File Offset: 0x00172E7B
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			base.Map.areaManager.NoRoof[c] = true;
 			Designator_AreaNoRoof.justAddedCells.Add(c);
 		}
 
-		// Token: 0x06002C02 RID: 11266 RVA: 0x00174950 File Offset: 0x00172D50
+		// Token: 0x06002C06 RID: 11270 RVA: 0x00174AA0 File Offset: 0x00172EA0
 		protected override void FinalizeDesignationSucceeded()
 		{
 			base.FinalizeDesignationSucceeded();
@@ -90,7 +90,7 @@ namespace RimWorld
 			Designator_AreaNoRoof.justAddedCells.Clear();
 		}
 
-		// Token: 0x06002C03 RID: 11267 RVA: 0x001749AC File Offset: 0x00172DAC
+		// Token: 0x06002C07 RID: 11271 RVA: 0x00174AFC File Offset: 0x00172EFC
 		public override void SelectedUpdate()
 		{
 			GenUI.RenderMouseoverBracket();

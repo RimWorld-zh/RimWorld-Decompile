@@ -2,10 +2,10 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000A60 RID: 2656
+	// Token: 0x02000A62 RID: 2658
 	public class MentalStateWorker_BingingFood : MentalStateWorker
 	{
-		// Token: 0x06003B2D RID: 15149 RVA: 0x001F67D0 File Offset: 0x001F4BD0
+		// Token: 0x06003B31 RID: 15153 RVA: 0x001F68FC File Offset: 0x001F4CFC
 		public override bool StateCanOccur(Pawn pawn)
 		{
 			return base.StateCanOccur(pawn) && (!pawn.Spawned || pawn.Map.resourceCounter.TotalHumanEdibleNutrition > 10f);

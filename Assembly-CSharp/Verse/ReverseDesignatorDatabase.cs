@@ -4,14 +4,14 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000E14 RID: 3604
+	// Token: 0x02000E16 RID: 3606
 	public class ReverseDesignatorDatabase
 	{
 		// Token: 0x04003591 RID: 13713
 		private List<Designator> desList;
 
-		// Token: 0x17000D71 RID: 3441
-		// (get) Token: 0x060051DE RID: 20958 RVA: 0x0029F324 File Offset: 0x0029D724
+		// Token: 0x17000D70 RID: 3440
+		// (get) Token: 0x060051E2 RID: 20962 RVA: 0x0029F450 File Offset: 0x0029D850
 		public List<Designator> AllDesignators
 		{
 			get
@@ -24,13 +24,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060051DF RID: 20959 RVA: 0x0029F350 File Offset: 0x0029D750
+		// Token: 0x060051E3 RID: 20963 RVA: 0x0029F47C File Offset: 0x0029D87C
 		public void Reinit()
 		{
 			this.desList = null;
 		}
 
-		// Token: 0x060051E0 RID: 20960 RVA: 0x0029F35C File Offset: 0x0029D75C
+		// Token: 0x060051E4 RID: 20964 RVA: 0x0029F488 File Offset: 0x0029D888
 		public T Get<T>() where T : Designator
 		{
 			if (this.desList == null)
@@ -48,7 +48,7 @@ namespace Verse
 			return (T)((object)null);
 		}
 
-		// Token: 0x060051E1 RID: 20961 RVA: 0x0029F3D0 File Offset: 0x0029D7D0
+		// Token: 0x060051E5 RID: 20965 RVA: 0x0029F4FC File Offset: 0x0029D8FC
 		private void InitDesignators()
 		{
 			this.desList = new List<Designator>();

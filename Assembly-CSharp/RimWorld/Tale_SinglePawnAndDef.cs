@@ -5,31 +5,31 @@ using Verse.Grammar;
 
 namespace RimWorld
 {
-	// Token: 0x0200066B RID: 1643
+	// Token: 0x0200066D RID: 1645
 	public class Tale_SinglePawnAndDef : Tale_SinglePawn
 	{
 		// Token: 0x04001386 RID: 4998
 		public TaleData_Def defData;
 
-		// Token: 0x06002273 RID: 8819 RVA: 0x00124B58 File Offset: 0x00122F58
+		// Token: 0x06002277 RID: 8823 RVA: 0x00124CA8 File Offset: 0x001230A8
 		public Tale_SinglePawnAndDef()
 		{
 		}
 
-		// Token: 0x06002274 RID: 8820 RVA: 0x00124B61 File Offset: 0x00122F61
+		// Token: 0x06002278 RID: 8824 RVA: 0x00124CB1 File Offset: 0x001230B1
 		public Tale_SinglePawnAndDef(Pawn pawn, Def def) : base(pawn)
 		{
 			this.defData = TaleData_Def.GenerateFrom(def);
 		}
 
-		// Token: 0x06002275 RID: 8821 RVA: 0x00124B77 File Offset: 0x00122F77
+		// Token: 0x06002279 RID: 8825 RVA: 0x00124CC7 File Offset: 0x001230C7
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Deep.Look<TaleData_Def>(ref this.defData, "defData", new object[0]);
 		}
 
-		// Token: 0x06002276 RID: 8822 RVA: 0x00124B98 File Offset: 0x00122F98
+		// Token: 0x0600227A RID: 8826 RVA: 0x00124CE8 File Offset: 0x001230E8
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
 			if (this.def.defSymbol.NullOrEmpty())
@@ -47,7 +47,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002277 RID: 8823 RVA: 0x00124BC2 File Offset: 0x00122FC2
+		// Token: 0x0600227B RID: 8827 RVA: 0x00124D12 File Offset: 0x00123112
 		public override void GenerateTestData()
 		{
 			base.GenerateTestData();

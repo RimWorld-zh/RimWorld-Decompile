@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DDA RID: 3546
+	// Token: 0x02000DDC RID: 3548
 	public class Graphic_MoteSplash : Graphic_Mote
 	{
-		// Token: 0x17000CDA RID: 3290
-		// (get) Token: 0x06004F71 RID: 20337 RVA: 0x00296190 File Offset: 0x00294590
+		// Token: 0x17000CD9 RID: 3289
+		// (get) Token: 0x06004F75 RID: 20341 RVA: 0x002962BC File Offset: 0x002946BC
 		protected override bool ForcePropertyBlock
 		{
 			get
@@ -17,7 +17,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F72 RID: 20338 RVA: 0x002961A8 File Offset: 0x002945A8
+		// Token: 0x06004F76 RID: 20342 RVA: 0x002962D4 File Offset: 0x002946D4
 		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
 			MoteSplash moteSplash = (MoteSplash)thing;
@@ -30,7 +30,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F73 RID: 20339 RVA: 0x00296224 File Offset: 0x00294624
+		// Token: 0x06004F77 RID: 20343 RVA: 0x00296350 File Offset: 0x00294750
 		public override string ToString()
 		{
 			return string.Concat(new object[]

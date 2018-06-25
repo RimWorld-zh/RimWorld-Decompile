@@ -4,7 +4,7 @@ using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x020005AD RID: 1453
+	// Token: 0x020005AF RID: 1455
 	public class WorldFloodFiller
 	{
 		// Token: 0x04001093 RID: 4243
@@ -19,7 +19,7 @@ namespace Verse
 		// Token: 0x04001096 RID: 4246
 		private List<int> visited = new List<int>();
 
-		// Token: 0x06001BD2 RID: 7122 RVA: 0x000EFAE0 File Offset: 0x000EDEE0
+		// Token: 0x06001BD6 RID: 7126 RVA: 0x000EFC30 File Offset: 0x000EE030
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Action<int> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
 			this.FloodFill(rootTile, passCheck, delegate(int tile, int traversalDistance)
@@ -29,7 +29,7 @@ namespace Verse
 			}, maxTilesToProcess, extraRootTiles);
 		}
 
-		// Token: 0x06001BD3 RID: 7123 RVA: 0x000EFB14 File Offset: 0x000EDF14
+		// Token: 0x06001BD7 RID: 7127 RVA: 0x000EFC64 File Offset: 0x000EE064
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Action<int, int> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
 			this.FloodFill(rootTile, passCheck, delegate(int tile, int traversalDistance)
@@ -39,13 +39,13 @@ namespace Verse
 			}, maxTilesToProcess, extraRootTiles);
 		}
 
-		// Token: 0x06001BD4 RID: 7124 RVA: 0x000EFB48 File Offset: 0x000EDF48
+		// Token: 0x06001BD8 RID: 7128 RVA: 0x000EFC98 File Offset: 0x000EE098
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Predicate<int> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
 			this.FloodFill(rootTile, passCheck, (int tile, int traversalDistance) => processor(tile), maxTilesToProcess, extraRootTiles);
 		}
 
-		// Token: 0x06001BD5 RID: 7125 RVA: 0x000EFB7C File Offset: 0x000EDF7C
+		// Token: 0x06001BD9 RID: 7129 RVA: 0x000EFCCC File Offset: 0x000EE0CC
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Func<int, int, bool> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
 			if (this.working)
@@ -138,7 +138,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06001BD6 RID: 7126 RVA: 0x000EFE88 File Offset: 0x000EE288
+		// Token: 0x06001BDA RID: 7130 RVA: 0x000EFFD8 File Offset: 0x000EE3D8
 		private void ClearVisited()
 		{
 			int i = 0;

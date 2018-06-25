@@ -3,26 +3,26 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A6F RID: 2671
+	// Token: 0x02000A71 RID: 2673
 	public class MentalState : IExposable
 	{
-		// Token: 0x04002565 RID: 9573
+		// Token: 0x04002566 RID: 9574
 		public Pawn pawn;
 
-		// Token: 0x04002566 RID: 9574
+		// Token: 0x04002567 RID: 9575
 		public MentalStateDef def;
 
-		// Token: 0x04002567 RID: 9575
+		// Token: 0x04002568 RID: 9576
 		private int age = 0;
 
-		// Token: 0x04002568 RID: 9576
+		// Token: 0x04002569 RID: 9577
 		public bool causedByMood = false;
 
-		// Token: 0x04002569 RID: 9577
+		// Token: 0x0400256A RID: 9578
 		private const int TickInterval = 150;
 
 		// Token: 0x17000912 RID: 2322
-		// (get) Token: 0x06003B62 RID: 15202 RVA: 0x001F6CD4 File Offset: 0x001F50D4
+		// (get) Token: 0x06003B66 RID: 15206 RVA: 0x001F6E00 File Offset: 0x001F5200
 		public int Age
 		{
 			get
@@ -32,7 +32,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000913 RID: 2323
-		// (get) Token: 0x06003B63 RID: 15203 RVA: 0x001F6CF0 File Offset: 0x001F50F0
+		// (get) Token: 0x06003B67 RID: 15207 RVA: 0x001F6E1C File Offset: 0x001F521C
 		public virtual string InspectLine
 		{
 			get
@@ -42,7 +42,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000914 RID: 2324
-		// (get) Token: 0x06003B64 RID: 15204 RVA: 0x001F6D10 File Offset: 0x001F5110
+		// (get) Token: 0x06003B68 RID: 15208 RVA: 0x001F6E3C File Offset: 0x001F523C
 		protected virtual bool CanEndBeforeMaxDurationNow
 		{
 			get
@@ -51,7 +51,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B65 RID: 15205 RVA: 0x001F6D26 File Offset: 0x001F5126
+		// Token: 0x06003B69 RID: 15209 RVA: 0x001F6E52 File Offset: 0x001F5252
 		public virtual void ExposeData()
 		{
 			Scribe_Defs.Look<MentalStateDef>(ref this.def, "def");
@@ -59,12 +59,12 @@ namespace Verse.AI
 			Scribe_Values.Look<bool>(ref this.causedByMood, "causedByMood", false, false);
 		}
 
-		// Token: 0x06003B66 RID: 15206 RVA: 0x001F6D5D File Offset: 0x001F515D
+		// Token: 0x06003B6A RID: 15210 RVA: 0x001F6E89 File Offset: 0x001F5289
 		public virtual void PostStart(string reason)
 		{
 		}
 
-		// Token: 0x06003B67 RID: 15207 RVA: 0x001F6D60 File Offset: 0x001F5160
+		// Token: 0x06003B6B RID: 15211 RVA: 0x001F6E8C File Offset: 0x001F528C
 		public virtual void PostEnd()
 		{
 			if (!this.def.recoveryMessage.NullOrEmpty() && PawnUtility.ShouldSendNotificationAbout(this.pawn))
@@ -85,7 +85,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B68 RID: 15208 RVA: 0x001F6E1C File Offset: 0x001F521C
+		// Token: 0x06003B6C RID: 15212 RVA: 0x001F6F48 File Offset: 0x001F5348
 		public virtual void MentalStateTick()
 		{
 			if (this.pawn.IsHashIntervalTick(150))
@@ -102,7 +102,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B69 RID: 15209 RVA: 0x001F6EE4 File Offset: 0x001F52E4
+		// Token: 0x06003B6D RID: 15213 RVA: 0x001F7010 File Offset: 0x001F5410
 		public void RecoverFromState()
 		{
 			if (this.pawn.MentalState != this)
@@ -130,31 +130,31 @@ namespace Verse.AI
 			this.PostEnd();
 		}
 
-		// Token: 0x06003B6A RID: 15210 RVA: 0x001F6FE8 File Offset: 0x001F53E8
+		// Token: 0x06003B6E RID: 15214 RVA: 0x001F7114 File Offset: 0x001F5514
 		public virtual bool ForceHostileTo(Thing t)
 		{
 			return false;
 		}
 
-		// Token: 0x06003B6B RID: 15211 RVA: 0x001F7000 File Offset: 0x001F5400
+		// Token: 0x06003B6F RID: 15215 RVA: 0x001F712C File Offset: 0x001F552C
 		public virtual bool ForceHostileTo(Faction f)
 		{
 			return false;
 		}
 
-		// Token: 0x06003B6C RID: 15212 RVA: 0x001F7018 File Offset: 0x001F5418
+		// Token: 0x06003B70 RID: 15216 RVA: 0x001F7144 File Offset: 0x001F5544
 		public EffecterDef CurrentStateEffecter()
 		{
 			return this.def.stateEffecter;
 		}
 
-		// Token: 0x06003B6D RID: 15213 RVA: 0x001F7038 File Offset: 0x001F5438
+		// Token: 0x06003B71 RID: 15217 RVA: 0x001F7164 File Offset: 0x001F5564
 		public virtual RandomSocialMode SocialModeMax()
 		{
 			return RandomSocialMode.SuperActive;
 		}
 
-		// Token: 0x06003B6E RID: 15214 RVA: 0x001F7050 File Offset: 0x001F5450
+		// Token: 0x06003B72 RID: 15218 RVA: 0x001F717C File Offset: 0x001F557C
 		public virtual string GetBeginLetterText()
 		{
 			string result;
@@ -169,12 +169,12 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003B6F RID: 15215 RVA: 0x001F70B1 File Offset: 0x001F54B1
+		// Token: 0x06003B73 RID: 15219 RVA: 0x001F71DD File Offset: 0x001F55DD
 		public virtual void Notify_AttackedTarget(LocalTargetInfo hitTarget)
 		{
 		}
 
-		// Token: 0x06003B70 RID: 15216 RVA: 0x001F70B4 File Offset: 0x001F54B4
+		// Token: 0x06003B74 RID: 15220 RVA: 0x001F71E0 File Offset: 0x001F55E0
 		public virtual void Notify_SlaughteredAnimal()
 		{
 		}

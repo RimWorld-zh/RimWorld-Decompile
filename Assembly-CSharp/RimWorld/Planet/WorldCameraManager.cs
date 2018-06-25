@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000583 RID: 1411
+	// Token: 0x02000585 RID: 1413
 	public static class WorldCameraManager
 	{
 		// Token: 0x04000FD6 RID: 4054
@@ -42,7 +42,7 @@ namespace RimWorld.Planet
 		// Token: 0x04000FDF RID: 4063
 		private static readonly Color SkyColor = new Color(0.0627451f, 0.09019608f, 0.117647059f);
 
-		// Token: 0x06001AEF RID: 6895 RVA: 0x000E7CC4 File Offset: 0x000E60C4
+		// Token: 0x06001AF3 RID: 6899 RVA: 0x000E7E14 File Offset: 0x000E6214
 		static WorldCameraManager()
 		{
 			WorldCameraManager.worldCameraInt = WorldCameraManager.CreateWorldCamera();
@@ -51,7 +51,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003EA RID: 1002
-		// (get) Token: 0x06001AF0 RID: 6896 RVA: 0x000E7D78 File Offset: 0x000E6178
+		// (get) Token: 0x06001AF4 RID: 6900 RVA: 0x000E7EC8 File Offset: 0x000E62C8
 		public static Camera WorldCamera
 		{
 			get
@@ -61,7 +61,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003EB RID: 1003
-		// (get) Token: 0x06001AF1 RID: 6897 RVA: 0x000E7D94 File Offset: 0x000E6194
+		// (get) Token: 0x06001AF5 RID: 6901 RVA: 0x000E7EE4 File Offset: 0x000E62E4
 		public static Camera WorldSkyboxCamera
 		{
 			get
@@ -71,7 +71,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003EC RID: 1004
-		// (get) Token: 0x06001AF2 RID: 6898 RVA: 0x000E7DB0 File Offset: 0x000E61B0
+		// (get) Token: 0x06001AF6 RID: 6902 RVA: 0x000E7F00 File Offset: 0x000E6300
 		public static WorldCameraDriver WorldCameraDriver
 		{
 			get
@@ -80,7 +80,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001AF3 RID: 6899 RVA: 0x000E7DCC File Offset: 0x000E61CC
+		// Token: 0x06001AF7 RID: 6903 RVA: 0x000E7F1C File Offset: 0x000E631C
 		private static Camera CreateWorldCamera()
 		{
 			GameObject gameObject = new GameObject("WorldCamera", new Type[]
@@ -103,7 +103,7 @@ namespace RimWorld.Planet
 			return component;
 		}
 
-		// Token: 0x06001AF4 RID: 6900 RVA: 0x000E7E70 File Offset: 0x000E6270
+		// Token: 0x06001AF8 RID: 6904 RVA: 0x000E7FC0 File Offset: 0x000E63C0
 		private static Camera CreateWorldSkyboxCamera(Camera parent)
 		{
 			GameObject gameObject = new GameObject("WorldSkyboxCamera", new Type[]

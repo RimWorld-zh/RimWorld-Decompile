@@ -8,7 +8,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x020006B4 RID: 1716
+	// Token: 0x020006B6 RID: 1718
 	public class Dialog_BillConfig : Window
 	{
 		// Token: 0x04001455 RID: 5205
@@ -45,7 +45,7 @@ namespace RimWorld
 		[TweakValue("Interface", 0f, 400f)]
 		private static int IngredientRadiusSubdialogHeight = 50;
 
-		// Token: 0x060024E3 RID: 9443 RVA: 0x0013BD36 File Offset: 0x0013A136
+		// Token: 0x060024E7 RID: 9447 RVA: 0x0013BE86 File Offset: 0x0013A286
 		public Dialog_BillConfig(Bill_Production bill, IntVec3 billGiverPos)
 		{
 			this.billGiverPos = billGiverPos;
@@ -57,7 +57,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000596 RID: 1430
-		// (get) Token: 0x060024E4 RID: 9444 RVA: 0x0013BD6C File Offset: 0x0013A16C
+		// (get) Token: 0x060024E8 RID: 9448 RVA: 0x0013BEBC File Offset: 0x0013A2BC
 		public override Vector2 InitialSize
 		{
 			get
@@ -66,7 +66,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024E5 RID: 9445 RVA: 0x0013BD90 File Offset: 0x0013A190
+		// Token: 0x060024E9 RID: 9449 RVA: 0x0013BEE0 File Offset: 0x0013A2E0
 		private void AdjustCount(int offset)
 		{
 			if (offset > 0)
@@ -84,13 +84,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024E6 RID: 9446 RVA: 0x0013BDF0 File Offset: 0x0013A1F0
+		// Token: 0x060024EA RID: 9450 RVA: 0x0013BF40 File Offset: 0x0013A340
 		public override void WindowUpdate()
 		{
 			this.bill.TryDrawIngredientSearchRadiusOnMap(this.billGiverPos);
 		}
 
-		// Token: 0x060024E7 RID: 9447 RVA: 0x0013BE04 File Offset: 0x0013A204
+		// Token: 0x060024EB RID: 9451 RVA: 0x0013BF54 File Offset: 0x0013A354
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Font = GameFont.Medium;
@@ -333,7 +333,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024E8 RID: 9448 RVA: 0x0013CCEC File Offset: 0x0013B0EC
+		// Token: 0x060024EC RID: 9452 RVA: 0x0013CE3C File Offset: 0x0013B23C
 		private IEnumerable<Widgets.DropdownMenuElement<Pawn>> GeneratePawnRestrictionOptions()
 		{
 			yield return new Widgets.DropdownMenuElement<Pawn>
@@ -438,7 +438,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060024E9 RID: 9449 RVA: 0x0013CD18 File Offset: 0x0013B118
+		// Token: 0x060024ED RID: 9453 RVA: 0x0013CE68 File Offset: 0x0013B268
 		private IEnumerable<Widgets.DropdownMenuElement<Zone_Stockpile>> GenerateStockpileInclusion()
 		{
 			yield return new Widgets.DropdownMenuElement<Zone_Stockpile>

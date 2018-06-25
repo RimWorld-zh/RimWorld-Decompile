@@ -3,16 +3,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200080E RID: 2062
+	// Token: 0x02000810 RID: 2064
 	public class Dialog_SaveFileList_Load : Dialog_SaveFileList
 	{
-		// Token: 0x06002E19 RID: 11801 RVA: 0x00184D11 File Offset: 0x00183111
+		// Token: 0x06002E1D RID: 11805 RVA: 0x00184E61 File Offset: 0x00183261
 		public Dialog_SaveFileList_Load()
 		{
 			this.interactButLabel = "LoadGameButton".Translate();
 		}
 
-		// Token: 0x06002E1A RID: 11802 RVA: 0x00184D2A File Offset: 0x0018312A
+		// Token: 0x06002E1E RID: 11806 RVA: 0x00184E7A File Offset: 0x0018327A
 		protected override void DoFileInteraction(string saveFileName)
 		{
 			GameDataSaveLoader.CheckVersionAndLoadGame(saveFileName);

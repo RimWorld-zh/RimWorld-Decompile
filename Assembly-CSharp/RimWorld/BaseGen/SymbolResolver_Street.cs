@@ -4,13 +4,13 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003D3 RID: 979
+	// Token: 0x020003D5 RID: 981
 	public class SymbolResolver_Street : SymbolResolver
 	{
 		// Token: 0x04000A43 RID: 2627
 		private static List<bool> street = new List<bool>();
 
-		// Token: 0x060010DC RID: 4316 RVA: 0x0008FD44 File Offset: 0x0008E144
+		// Token: 0x060010E0 RID: 4320 RVA: 0x0008FE94 File Offset: 0x0008E294
 		public override void Resolve(ResolveParams rp)
 		{
 			bool? streetHorizontal = rp.streetHorizontal;
@@ -23,7 +23,7 @@ namespace RimWorld.BaseGen
 			this.SpawnFloor(rp.rect, flag, floorDef);
 		}
 
-		// Token: 0x060010DD RID: 4317 RVA: 0x0008FE00 File Offset: 0x0008E200
+		// Token: 0x060010E1 RID: 4321 RVA: 0x0008FF50 File Offset: 0x0008E350
 		private void CalculateStreet(CellRect rect, bool horizontal, TerrainDef floorDef)
 		{
 			SymbolResolver_Street.street.Clear();
@@ -41,7 +41,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010DE RID: 4318 RVA: 0x0008FEF8 File Offset: 0x0008E2F8
+		// Token: 0x060010E2 RID: 4322 RVA: 0x00090048 File Offset: 0x0008E448
 		private void FillStreetGaps(bool horizontal, int width)
 		{
 			int num = -1;
@@ -69,7 +69,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010DF RID: 4319 RVA: 0x0008FFA8 File Offset: 0x0008E3A8
+		// Token: 0x060010E3 RID: 4323 RVA: 0x000900F8 File Offset: 0x0008E4F8
 		private void RemoveShortStreetParts(bool horizontal, int width)
 		{
 			for (int i = 0; i < SymbolResolver_Street.street.Count; i++)
@@ -103,7 +103,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010E0 RID: 4320 RVA: 0x0009007C File Offset: 0x0008E47C
+		// Token: 0x060010E4 RID: 4324 RVA: 0x000901CC File Offset: 0x0008E5CC
 		private void SpawnFloor(CellRect rect, bool horizontal, TerrainDef floorDef)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -120,7 +120,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x060010E1 RID: 4321 RVA: 0x00090118 File Offset: 0x0008E518
+		// Token: 0x060010E5 RID: 4325 RVA: 0x00090268 File Offset: 0x0008E668
 		private bool CausesStreet(IntVec3 c, TerrainDef floorDef)
 		{
 			Map map = BaseGen.globalSettings.map;

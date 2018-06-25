@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x020002AF RID: 687
+	// Token: 0x020002B1 RID: 689
 	public enum MainTabWindowAnchor
 	{
 		// Token: 0x04000688 RID: 1672

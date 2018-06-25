@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000838 RID: 2104
+	// Token: 0x0200083A RID: 2106
 	public class Screen_Credits : Window
 	{
 		// Token: 0x040019BC RID: 6588
@@ -45,12 +45,12 @@ namespace RimWorld
 		// Token: 0x040019C7 RID: 6599
 		private const GameFont Font = GameFont.Medium;
 
-		// Token: 0x06002FA3 RID: 12195 RVA: 0x00198116 File Offset: 0x00196516
+		// Token: 0x06002FA7 RID: 12199 RVA: 0x00198266 File Offset: 0x00196666
 		public Screen_Credits() : this("")
 		{
 		}
 
-		// Token: 0x06002FA4 RID: 12196 RVA: 0x00198124 File Offset: 0x00196524
+		// Token: 0x06002FA8 RID: 12200 RVA: 0x00198274 File Offset: 0x00196674
 		public Screen_Credits(string preCreditsMessage)
 		{
 			this.doWindowBackground = false;
@@ -70,7 +70,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700078C RID: 1932
-		// (get) Token: 0x06002FA5 RID: 12197 RVA: 0x0019821C File Offset: 0x0019661C
+		// (get) Token: 0x06002FA9 RID: 12201 RVA: 0x0019836C File Offset: 0x0019676C
 		public override Vector2 InitialSize
 		{
 			get
@@ -80,7 +80,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700078D RID: 1933
-		// (get) Token: 0x06002FA6 RID: 12198 RVA: 0x00198244 File Offset: 0x00196644
+		// (get) Token: 0x06002FAA RID: 12202 RVA: 0x00198394 File Offset: 0x00196794
 		protected override float Margin
 		{
 			get
@@ -90,7 +90,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700078E RID: 1934
-		// (get) Token: 0x06002FA7 RID: 12199 RVA: 0x00198260 File Offset: 0x00196660
+		// (get) Token: 0x06002FAB RID: 12203 RVA: 0x001983B0 File Offset: 0x001967B0
 		private float ViewWidth
 		{
 			get
@@ -100,7 +100,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700078F RID: 1935
-		// (get) Token: 0x06002FA8 RID: 12200 RVA: 0x0019827C File Offset: 0x0019667C
+		// (get) Token: 0x06002FAC RID: 12204 RVA: 0x001983CC File Offset: 0x001967CC
 		private float ViewHeight
 		{
 			get
@@ -114,7 +114,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000790 RID: 1936
-		// (get) Token: 0x06002FA9 RID: 12201 RVA: 0x001982C4 File Offset: 0x001966C4
+		// (get) Token: 0x06002FAD RID: 12205 RVA: 0x00198414 File Offset: 0x00196814
 		private float MaxScrollPosition
 		{
 			get
@@ -124,7 +124,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000791 RID: 1937
-		// (get) Token: 0x06002FAA RID: 12202 RVA: 0x001982F8 File Offset: 0x001966F8
+		// (get) Token: 0x06002FAE RID: 12206 RVA: 0x00198448 File Offset: 0x00196848
 		private float AutoScrollRate
 		{
 			get
@@ -143,7 +143,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FAB RID: 12203 RVA: 0x00198348 File Offset: 0x00196748
+		// Token: 0x06002FAF RID: 12207 RVA: 0x00198498 File Offset: 0x00196898
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -158,7 +158,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FAC RID: 12204 RVA: 0x00198384 File Offset: 0x00196784
+		// Token: 0x06002FB0 RID: 12208 RVA: 0x001984D4 File Offset: 0x001968D4
 		public override void WindowUpdate()
 		{
 			base.WindowUpdate();
@@ -177,7 +177,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FAD RID: 12205 RVA: 0x00198420 File Offset: 0x00196820
+		// Token: 0x06002FB1 RID: 12209 RVA: 0x00198570 File Offset: 0x00196970
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = new Rect(0f, 0f, (float)UI.screenWidth, (float)UI.screenHeight);
@@ -225,7 +225,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FAE RID: 12206 RVA: 0x00198650 File Offset: 0x00196A50
+		// Token: 0x06002FB2 RID: 12210 RVA: 0x001987A0 File Offset: 0x00196BA0
 		private void Scroll(float offset)
 		{
 			this.scrollPosition += offset;

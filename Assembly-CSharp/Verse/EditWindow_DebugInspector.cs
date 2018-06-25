@@ -13,7 +13,7 @@ using Verse.Steam;
 
 namespace Verse
 {
-	// Token: 0x02000E0A RID: 3594
+	// Token: 0x02000E0C RID: 3596
 	public class EditWindow_DebugInspector : EditWindow
 	{
 		// Token: 0x04003564 RID: 13668
@@ -25,14 +25,14 @@ namespace Verse
 		// Token: 0x04003566 RID: 13670
 		private float columnWidth = 360f;
 
-		// Token: 0x06005189 RID: 20873 RVA: 0x0029C5ED File Offset: 0x0029A9ED
+		// Token: 0x0600518D RID: 20877 RVA: 0x0029C719 File Offset: 0x0029AB19
 		public EditWindow_DebugInspector()
 		{
 			this.optionalTitle = "Debug inspector";
 		}
 
-		// Token: 0x17000D5D RID: 3421
-		// (get) Token: 0x0600518A RID: 20874 RVA: 0x0029C620 File Offset: 0x0029AA20
+		// Token: 0x17000D5C RID: 3420
+		// (get) Token: 0x0600518E RID: 20878 RVA: 0x0029C74C File Offset: 0x0029AB4C
 		public override Vector2 InitialSize
 		{
 			get
@@ -41,8 +41,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D5E RID: 3422
-		// (get) Token: 0x0600518B RID: 20875 RVA: 0x0029C644 File Offset: 0x0029AA44
+		// Token: 0x17000D5D RID: 3421
+		// (get) Token: 0x0600518F RID: 20879 RVA: 0x0029C770 File Offset: 0x0029AB70
 		public override bool IsDebug
 		{
 			get
@@ -51,7 +51,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600518C RID: 20876 RVA: 0x0029C65A File Offset: 0x0029AA5A
+		// Token: 0x06005190 RID: 20880 RVA: 0x0029C786 File Offset: 0x0029AB86
 		public override void WindowUpdate()
 		{
 			base.WindowUpdate();
@@ -61,7 +61,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600518D RID: 20877 RVA: 0x0029C674 File Offset: 0x0029AA74
+		// Token: 0x06005191 RID: 20881 RVA: 0x0029C7A0 File Offset: 0x0029ABA0
 		public override void DoWindowContents(Rect inRect)
 		{
 			if (KeyBindingDefOf.Dev_ToggleDebugInspector.KeyDownEvent)
@@ -108,13 +108,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600518E RID: 20878 RVA: 0x0029C873 File Offset: 0x0029AC73
+		// Token: 0x06005192 RID: 20882 RVA: 0x0029C99F File Offset: 0x0029AD9F
 		public void AppendDebugString(string str)
 		{
 			this.debugStringBuilder.AppendLine(str);
 		}
 
-		// Token: 0x0600518F RID: 20879 RVA: 0x0029C884 File Offset: 0x0029AC84
+		// Token: 0x06005193 RID: 20883 RVA: 0x0029C9B0 File Offset: 0x0029ADB0
 		private string CurrentDebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

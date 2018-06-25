@@ -7,14 +7,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000401 RID: 1025
+	// Token: 0x02000403 RID: 1027
 	public class GenStep_Terrain : GenStep
 	{
 		// Token: 0x04000AB4 RID: 2740
 		private static bool debug_WarnedMissingTerrain = false;
 
 		// Token: 0x1700025B RID: 603
-		// (get) Token: 0x060011A1 RID: 4513 RVA: 0x00098DAC File Offset: 0x000971AC
+		// (get) Token: 0x060011A5 RID: 4517 RVA: 0x00098EFC File Offset: 0x000972FC
 		public override int SeedPart
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011A2 RID: 4514 RVA: 0x00098DC8 File Offset: 0x000971C8
+		// Token: 0x060011A6 RID: 4518 RVA: 0x00098F18 File Offset: 0x00097318
 		public override void Generate(Map map)
 		{
 			BeachMaker.Init(map);
@@ -67,7 +67,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011A3 RID: 4515 RVA: 0x00098F70 File Offset: 0x00097370
+		// Token: 0x060011A7 RID: 4519 RVA: 0x000990C0 File Offset: 0x000974C0
 		private TerrainDef TerrainFrom(IntVec3 c, Map map, float elevation, float fertility, RiverMaker river, bool preferSolid)
 		{
 			TerrainDef terrainDef = null;
@@ -147,7 +147,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060011A4 RID: 4516 RVA: 0x00099120 File Offset: 0x00097520
+		// Token: 0x060011A8 RID: 4520 RVA: 0x00099270 File Offset: 0x00097670
 		private RiverMaker GenerateRiver(Map map)
 		{
 			Tile tile = Find.WorldGrid[map.Tile];
@@ -177,7 +177,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060011A5 RID: 4517 RVA: 0x00099270 File Offset: 0x00097670
+		// Token: 0x060011A9 RID: 4521 RVA: 0x000993C0 File Offset: 0x000977C0
 		private void UpdateRiverAnchorEntry(Dictionary<int, GenStep_Terrain.GRLT_Entry> entries, IntVec3 center, int entryId, float zValue)
 		{
 			float num = zValue - (float)entryId;
@@ -194,7 +194,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060011A6 RID: 4518 RVA: 0x000992D8 File Offset: 0x000976D8
+		// Token: 0x060011AA RID: 4522 RVA: 0x00099428 File Offset: 0x00097828
 		private void GenerateRiverLookupTexture(Map map, RiverMaker riverMaker)
 		{
 			int num = Mathf.CeilToInt((from rd in DefDatabase<RiverDef>.AllDefs
@@ -371,7 +371,7 @@ namespace RimWorld
 			map.waterInfo.GenerateRiverFlowMap();
 		}
 
-		// Token: 0x02000402 RID: 1026
+		// Token: 0x02000404 RID: 1028
 		private struct GRLT_Entry
 		{
 			// Token: 0x04000AB8 RID: 2744

@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000BD8 RID: 3032
+	// Token: 0x02000BDA RID: 3034
 	public enum ProgramState : byte
 	{
 		// Token: 0x04002D42 RID: 11586

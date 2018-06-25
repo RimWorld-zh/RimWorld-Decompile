@@ -2,11 +2,11 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B90 RID: 2960
+	// Token: 0x02000B92 RID: 2962
 	public class SoundParamTarget_Volume : SoundParamTarget
 	{
-		// Token: 0x170009D0 RID: 2512
-		// (get) Token: 0x0600404C RID: 16460 RVA: 0x0021D000 File Offset: 0x0021B400
+		// Token: 0x170009CF RID: 2511
+		// (get) Token: 0x0600404F RID: 16463 RVA: 0x0021D0DC File Offset: 0x0021B4DC
 		public override string Label
 		{
 			get
@@ -15,7 +15,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x0600404D RID: 16461 RVA: 0x0021D01A File Offset: 0x0021B41A
+		// Token: 0x06004050 RID: 16464 RVA: 0x0021D0F6 File Offset: 0x0021B4F6
 		public override void SetOn(Sample sample, float value)
 		{
 			sample.SignalMappedVolume(value, this);

@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000255 RID: 597
+	// Token: 0x02000257 RID: 599
 	public class CompProperties_TempControl : CompProperties
 	{
 		// Token: 0x040004B4 RID: 1204
@@ -21,7 +21,7 @@ namespace RimWorld
 		// Token: 0x040004B8 RID: 1208
 		public float lowPowerConsumptionFactor = 0.1f;
 
-		// Token: 0x06000A92 RID: 2706 RVA: 0x0005FDE8 File Offset: 0x0005E1E8
+		// Token: 0x06000A96 RID: 2710 RVA: 0x0005FF38 File Offset: 0x0005E338
 		public CompProperties_TempControl()
 		{
 			this.compClass = typeof(CompTempControl);

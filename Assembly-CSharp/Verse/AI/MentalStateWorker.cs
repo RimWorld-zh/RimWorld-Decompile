@@ -3,13 +3,13 @@ using RimWorld;
 
 namespace Verse.AI
 {
-	// Token: 0x02000A5E RID: 2654
+	// Token: 0x02000A60 RID: 2656
 	public class MentalStateWorker
 	{
-		// Token: 0x04002556 RID: 9558
+		// Token: 0x04002557 RID: 9559
 		public MentalStateDef def;
 
-		// Token: 0x06003B29 RID: 15145 RVA: 0x001F6640 File Offset: 0x001F4A40
+		// Token: 0x06003B2D RID: 15149 RVA: 0x001F676C File Offset: 0x001F4B6C
 		public virtual bool StateCanOccur(Pawn pawn)
 		{
 			bool result;

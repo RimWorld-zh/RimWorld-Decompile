@@ -7,7 +7,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200085A RID: 2138
+	// Token: 0x0200085C RID: 2140
 	public class ITab_Storage : ITab
 	{
 		// Token: 0x04001A3B RID: 6715
@@ -16,7 +16,7 @@ namespace RimWorld
 		// Token: 0x04001A3C RID: 6716
 		private static readonly Vector2 WinSize = new Vector2(300f, 480f);
 
-		// Token: 0x0600306A RID: 12394 RVA: 0x001A54D5 File Offset: 0x001A38D5
+		// Token: 0x0600306E RID: 12398 RVA: 0x001A5625 File Offset: 0x001A3A25
 		public ITab_Storage()
 		{
 			this.size = ITab_Storage.WinSize;
@@ -25,7 +25,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007BA RID: 1978
-		// (get) Token: 0x0600306B RID: 12395 RVA: 0x001A5500 File Offset: 0x001A3900
+		// (get) Token: 0x0600306F RID: 12399 RVA: 0x001A5650 File Offset: 0x001A3A50
 		protected virtual IStoreSettingsParent SelStoreSettingsParent
 		{
 			get
@@ -53,7 +53,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007BB RID: 1979
-		// (get) Token: 0x0600306C RID: 12396 RVA: 0x001A5550 File Offset: 0x001A3950
+		// (get) Token: 0x06003070 RID: 12400 RVA: 0x001A56A0 File Offset: 0x001A3AA0
 		public override bool IsVisible
 		{
 			get
@@ -63,7 +63,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007BC RID: 1980
-		// (get) Token: 0x0600306D RID: 12397 RVA: 0x001A5570 File Offset: 0x001A3970
+		// (get) Token: 0x06003071 RID: 12401 RVA: 0x001A56C0 File Offset: 0x001A3AC0
 		protected virtual bool IsPrioritySettingVisible
 		{
 			get
@@ -73,7 +73,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007BD RID: 1981
-		// (get) Token: 0x0600306E RID: 12398 RVA: 0x001A5588 File Offset: 0x001A3988
+		// (get) Token: 0x06003072 RID: 12402 RVA: 0x001A56D8 File Offset: 0x001A3AD8
 		private float TopAreaHeight
 		{
 			get
@@ -82,7 +82,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600306F RID: 12399 RVA: 0x001A55B4 File Offset: 0x001A39B4
+		// Token: 0x06003073 RID: 12403 RVA: 0x001A5704 File Offset: 0x001A3B04
 		protected override void FillTab()
 		{
 			IStoreSettingsParent storeSettingsParent = this.SelStoreSettingsParent;
@@ -152,7 +152,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06003070 RID: 12400 RVA: 0x001A58DC File Offset: 0x001A3CDC
+		// Token: 0x06003074 RID: 12404 RVA: 0x001A5A2C File Offset: 0x001A3E2C
 		protected IStoreSettingsParent GetThingOrThingCompStoreSettingsParent(Thing t)
 		{
 			IStoreSettingsParent storeSettingsParent = t as IStoreSettingsParent;

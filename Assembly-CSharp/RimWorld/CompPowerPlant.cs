@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000419 RID: 1049
+	// Token: 0x0200041B RID: 1051
 	public class CompPowerPlant : CompPowerTrader
 	{
 		// Token: 0x04000B07 RID: 2823
@@ -12,7 +12,7 @@ namespace RimWorld
 		protected CompBreakdownable breakdownableComp;
 
 		// Token: 0x17000275 RID: 629
-		// (get) Token: 0x06001232 RID: 4658 RVA: 0x0009E1C4 File Offset: 0x0009C5C4
+		// (get) Token: 0x06001236 RID: 4662 RVA: 0x0009E314 File Offset: 0x0009C714
 		protected virtual float DesiredPowerOutput
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001233 RID: 4659 RVA: 0x0009E1E8 File Offset: 0x0009C5E8
+		// Token: 0x06001237 RID: 4663 RVA: 0x0009E338 File Offset: 0x0009C738
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
@@ -33,14 +33,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001234 RID: 4660 RVA: 0x0009E25D File Offset: 0x0009C65D
+		// Token: 0x06001238 RID: 4664 RVA: 0x0009E3AD File Offset: 0x0009C7AD
 		public override void CompTick()
 		{
 			base.CompTick();
 			this.UpdateDesiredPowerOutput();
 		}
 
-		// Token: 0x06001235 RID: 4661 RVA: 0x0009E26C File Offset: 0x0009C66C
+		// Token: 0x06001239 RID: 4665 RVA: 0x0009E3BC File Offset: 0x0009C7BC
 		public void UpdateDesiredPowerOutput()
 		{
 			if ((this.breakdownableComp != null && this.breakdownableComp.BrokenDown) || (this.refuelableComp != null && !this.refuelableComp.HasFuel) || (this.flickableComp != null && !this.flickableComp.SwitchIsOn) || !base.PowerOn)

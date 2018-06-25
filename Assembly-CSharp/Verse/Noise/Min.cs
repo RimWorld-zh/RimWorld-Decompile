@@ -3,22 +3,22 @@ using System.Diagnostics;
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F91 RID: 3985
+	// Token: 0x02000F95 RID: 3989
 	public class Min : ModuleBase
 	{
-		// Token: 0x06006045 RID: 24645 RVA: 0x0030DE40 File Offset: 0x0030C240
+		// Token: 0x0600604F RID: 24655 RVA: 0x0030E4C0 File Offset: 0x0030C8C0
 		public Min() : base(2)
 		{
 		}
 
-		// Token: 0x06006046 RID: 24646 RVA: 0x0030DE4A File Offset: 0x0030C24A
+		// Token: 0x06006050 RID: 24656 RVA: 0x0030E4CA File Offset: 0x0030C8CA
 		public Min(ModuleBase lhs, ModuleBase rhs) : base(2)
 		{
 			this.modules[0] = lhs;
 			this.modules[1] = rhs;
 		}
 
-		// Token: 0x06006047 RID: 24647 RVA: 0x0030DE68 File Offset: 0x0030C268
+		// Token: 0x06006051 RID: 24657 RVA: 0x0030E4E8 File Offset: 0x0030C8E8
 		public override double GetValue(double x, double y, double z)
 		{
 			Debug.Assert(this.modules[0] != null);

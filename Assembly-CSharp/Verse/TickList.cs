@@ -4,7 +4,7 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000BCF RID: 3023
+	// Token: 0x02000BD1 RID: 3025
 	public class TickList
 	{
 		// Token: 0x04002D0E RID: 11534
@@ -19,7 +19,7 @@ namespace Verse
 		// Token: 0x04002D11 RID: 11537
 		private List<Thing> thingsToDeregister = new List<Thing>();
 
-		// Token: 0x060041EB RID: 16875 RVA: 0x0022C058 File Offset: 0x0022A458
+		// Token: 0x060041EE RID: 16878 RVA: 0x0022C134 File Offset: 0x0022A534
 		public TickList(TickerType tickType)
 		{
 			this.tickType = tickType;
@@ -29,8 +29,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A4C RID: 2636
-		// (get) Token: 0x060041EC RID: 16876 RVA: 0x0022C0C0 File Offset: 0x0022A4C0
+		// Token: 0x17000A4B RID: 2635
+		// (get) Token: 0x060041EF RID: 16879 RVA: 0x0022C19C File Offset: 0x0022A59C
 		private int TickInterval
 		{
 			get
@@ -63,7 +63,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041ED RID: 16877 RVA: 0x0022C114 File Offset: 0x0022A514
+		// Token: 0x060041F0 RID: 16880 RVA: 0x0022C1F0 File Offset: 0x0022A5F0
 		public void Reset()
 		{
 			for (int i = 0; i < this.thingLists.Count; i++)
@@ -74,7 +74,7 @@ namespace Verse
 			this.thingsToDeregister.Clear();
 		}
 
-		// Token: 0x060041EE RID: 16878 RVA: 0x0022C168 File Offset: 0x0022A568
+		// Token: 0x060041F1 RID: 16881 RVA: 0x0022C244 File Offset: 0x0022A644
 		public void RemoveWhere(Predicate<Thing> predicate)
 		{
 			for (int i = 0; i < this.thingLists.Count; i++)
@@ -85,19 +85,19 @@ namespace Verse
 			this.thingsToDeregister.RemoveAll(predicate);
 		}
 
-		// Token: 0x060041EF RID: 16879 RVA: 0x0022C1C1 File Offset: 0x0022A5C1
+		// Token: 0x060041F2 RID: 16882 RVA: 0x0022C29D File Offset: 0x0022A69D
 		public void RegisterThing(Thing t)
 		{
 			this.thingsToRegister.Add(t);
 		}
 
-		// Token: 0x060041F0 RID: 16880 RVA: 0x0022C1D0 File Offset: 0x0022A5D0
+		// Token: 0x060041F3 RID: 16883 RVA: 0x0022C2AC File Offset: 0x0022A6AC
 		public void DeregisterThing(Thing t)
 		{
 			this.thingsToDeregister.Add(t);
 		}
 
-		// Token: 0x060041F1 RID: 16881 RVA: 0x0022C1E0 File Offset: 0x0022A5E0
+		// Token: 0x060041F4 RID: 16884 RVA: 0x0022C2BC File Offset: 0x0022A6BC
 		public void Tick()
 		{
 			for (int i = 0; i < this.thingsToRegister.Count; i++)
@@ -184,7 +184,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041F2 RID: 16882 RVA: 0x0022C4DC File Offset: 0x0022A8DC
+		// Token: 0x060041F5 RID: 16885 RVA: 0x0022C5B8 File Offset: 0x0022A9B8
 		private List<Thing> BucketOf(Thing t)
 		{
 			int num = t.GetHashCode();

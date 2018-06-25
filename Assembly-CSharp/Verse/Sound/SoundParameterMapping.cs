@@ -2,7 +2,7 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B9B RID: 2971
+	// Token: 0x02000B9D RID: 2973
 	public class SoundParameterMapping
 	{
 		// Token: 0x04002B38 RID: 11064
@@ -21,7 +21,7 @@ namespace Verse.Sound
 		[EditorHidden]
 		public SimpleCurve curve;
 
-		// Token: 0x06004061 RID: 16481 RVA: 0x0021D3AC File Offset: 0x0021B7AC
+		// Token: 0x06004064 RID: 16484 RVA: 0x0021D488 File Offset: 0x0021B888
 		public SoundParameterMapping()
 		{
 			this.curve = new SimpleCurve();
@@ -29,7 +29,7 @@ namespace Verse.Sound
 			this.curve.Add(new CurvePoint(1f, 1f), true);
 		}
 
-		// Token: 0x06004062 RID: 16482 RVA: 0x0021D418 File Offset: 0x0021B818
+		// Token: 0x06004065 RID: 16485 RVA: 0x0021D4F4 File Offset: 0x0021B8F4
 		public void DoEditWidgets(WidgetRow widgetRow)
 		{
 			string title = ((this.inParam == null) ? "null" : this.inParam.Label) + " -> " + ((this.outParam == null) ? "null" : this.outParam.Label);
@@ -39,7 +39,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004063 RID: 16483 RVA: 0x0021D4A0 File Offset: 0x0021B8A0
+		// Token: 0x06004066 RID: 16486 RVA: 0x0021D57C File Offset: 0x0021B97C
 		public void Apply(Sample samp)
 		{
 			if (this.inParam != null && this.outParam != null)

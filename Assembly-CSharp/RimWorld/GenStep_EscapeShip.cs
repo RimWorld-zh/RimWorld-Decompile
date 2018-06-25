@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020003E3 RID: 995
+	// Token: 0x020003E5 RID: 997
 	public class GenStep_EscapeShip : GenStep_Scatterer
 	{
 		// Token: 0x04000A56 RID: 2646
@@ -15,7 +15,7 @@ namespace RimWorld
 		private static readonly IntRange EscapeShipSizeHeight = new IntRange(34, 42);
 
 		// Token: 0x17000246 RID: 582
-		// (get) Token: 0x0600110B RID: 4363 RVA: 0x00091FEC File Offset: 0x000903EC
+		// (get) Token: 0x0600110F RID: 4367 RVA: 0x0009213C File Offset: 0x0009053C
 		public override int SeedPart
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600110C RID: 4364 RVA: 0x00092008 File Offset: 0x00090408
+		// Token: 0x06001110 RID: 4368 RVA: 0x00092158 File Offset: 0x00090558
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
 			bool result;
@@ -67,7 +67,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600110D RID: 4365 RVA: 0x000921A0 File Offset: 0x000905A0
+		// Token: 0x06001111 RID: 4369 RVA: 0x000922F0 File Offset: 0x000906F0
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)
 		{
 			int randomInRange = GenStep_EscapeShip.EscapeShipSizeWidth.RandomInRange;

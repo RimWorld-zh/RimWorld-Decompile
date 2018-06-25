@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200024D RID: 589
+	// Token: 0x0200024F RID: 591
 	public class CompProperties_Power : CompProperties
 	{
 		// Token: 0x0400049C RID: 1180

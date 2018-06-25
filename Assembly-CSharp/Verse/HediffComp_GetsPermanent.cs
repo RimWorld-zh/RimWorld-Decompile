@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D0B RID: 3339
+	// Token: 0x02000D0D RID: 3341
 	public class HediffComp_GetsPermanent : HediffComp
 	{
 		// Token: 0x040031F8 RID: 12792
@@ -15,8 +15,8 @@ namespace Verse
 		// Token: 0x040031FA RID: 12794
 		public float painFactor = 1f;
 
-		// Token: 0x17000BAA RID: 2986
-		// (get) Token: 0x060049B7 RID: 18871 RVA: 0x00269AB0 File Offset: 0x00267EB0
+		// Token: 0x17000BA9 RID: 2985
+		// (get) Token: 0x060049BA RID: 18874 RVA: 0x00269B8C File Offset: 0x00267F8C
 		public HediffCompProperties_GetsPermanent Props
 		{
 			get
@@ -25,9 +25,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BAB RID: 2987
-		// (get) Token: 0x060049B8 RID: 18872 RVA: 0x00269AD0 File Offset: 0x00267ED0
-		// (set) Token: 0x060049B9 RID: 18873 RVA: 0x00269AEB File Offset: 0x00267EEB
+		// Token: 0x17000BAA RID: 2986
+		// (get) Token: 0x060049BB RID: 18875 RVA: 0x00269BAC File Offset: 0x00267FAC
+		// (set) Token: 0x060049BC RID: 18876 RVA: 0x00269BC7 File Offset: 0x00267FC7
 		public bool IsPermanent
 		{
 			get
@@ -47,8 +47,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BAC RID: 2988
-		// (get) Token: 0x060049BA RID: 18874 RVA: 0x00269B1C File Offset: 0x00267F1C
+		// Token: 0x17000BAB RID: 2987
+		// (get) Token: 0x060049BD RID: 18877 RVA: 0x00269BF8 File Offset: 0x00267FF8
 		private bool Active
 		{
 			get
@@ -57,7 +57,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049BB RID: 18875 RVA: 0x00269B40 File Offset: 0x00267F40
+		// Token: 0x060049BE RID: 18878 RVA: 0x00269C1C File Offset: 0x0026801C
 		public override void CompExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.isPermanentInt, "isPermanent", false, false);
@@ -69,7 +69,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049BC RID: 18876 RVA: 0x00269BA0 File Offset: 0x00267FA0
+		// Token: 0x060049BF RID: 18879 RVA: 0x00269C7C File Offset: 0x0026807C
 		public override void CompPostInjuryHeal(float amount)
 		{
 			if (this.Active && !this.IsPermanent)
@@ -96,7 +96,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049BD RID: 18877 RVA: 0x00269C70 File Offset: 0x00268070
+		// Token: 0x060049C0 RID: 18880 RVA: 0x00269D4C File Offset: 0x0026814C
 		public override string CompDebugString()
 		{
 			return string.Concat(new object[]

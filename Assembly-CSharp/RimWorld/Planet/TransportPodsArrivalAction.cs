@@ -4,25 +4,25 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200060D RID: 1549
+	// Token: 0x0200060F RID: 1551
 	public abstract class TransportPodsArrivalAction : IExposable
 	{
-		// Token: 0x06001F34 RID: 7988 RVA: 0x0010EE48 File Offset: 0x0010D248
+		// Token: 0x06001F38 RID: 7992 RVA: 0x0010EF98 File Offset: 0x0010D398
 		public virtual FloatMenuAcceptanceReport StillValid(IEnumerable<IThingHolder> pods, int destinationTile)
 		{
 			return true;
 		}
 
-		// Token: 0x06001F35 RID: 7989 RVA: 0x0010EE64 File Offset: 0x0010D264
+		// Token: 0x06001F39 RID: 7993 RVA: 0x0010EFB4 File Offset: 0x0010D3B4
 		public virtual bool ShouldUseLongEvent(List<ActiveDropPodInfo> pods, int tile)
 		{
 			return false;
 		}
 
-		// Token: 0x06001F36 RID: 7990
+		// Token: 0x06001F3A RID: 7994
 		public abstract void Arrived(List<ActiveDropPodInfo> pods, int tile);
 
-		// Token: 0x06001F37 RID: 7991 RVA: 0x0010EE7A File Offset: 0x0010D27A
+		// Token: 0x06001F3B RID: 7995 RVA: 0x0010EFCA File Offset: 0x0010D3CA
 		public virtual void ExposeData()
 		{
 		}

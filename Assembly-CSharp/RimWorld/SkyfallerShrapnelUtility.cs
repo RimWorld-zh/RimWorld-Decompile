@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006E7 RID: 1767
+	// Token: 0x020006E9 RID: 1769
 	public static class SkyfallerShrapnelUtility
 	{
 		// Token: 0x04001574 RID: 5492
@@ -84,7 +84,7 @@ namespace RimWorld
 			}
 		};
 
-		// Token: 0x06002688 RID: 9864 RVA: 0x0014A0DC File Offset: 0x001484DC
+		// Token: 0x0600268C RID: 9868 RVA: 0x0014A22C File Offset: 0x0014862C
 		public static void MakeShrapnel(IntVec3 center, Map map, float angle, float distanceFactor, int metalShrapnelCount, int rubbleShrapnelCount, bool spawnMotes)
 		{
 			angle -= 90f;
@@ -96,7 +96,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002689 RID: 9865 RVA: 0x0014A12C File Offset: 0x0014852C
+		// Token: 0x0600268D RID: 9869 RVA: 0x0014A27C File Offset: 0x0014867C
 		private static void SpawnShrapnel(ThingDef def, int quantity, IntVec3 center, Map map, float angle, float distanceFactor)
 		{
 			for (int i = 0; i < quantity; i++)
@@ -115,7 +115,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600268A RID: 9866 RVA: 0x0014A1A4 File Offset: 0x001485A4
+		// Token: 0x0600268E RID: 9870 RVA: 0x0014A2F4 File Offset: 0x001486F4
 		private static void ThrowShrapnelMotes(int count, IntVec3 center, Map map, float angle, float distanceFactor)
 		{
 			for (int i = 0; i < count; i++)
@@ -128,7 +128,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600268B RID: 9867 RVA: 0x0014A204 File Offset: 0x00148604
+		// Token: 0x0600268F RID: 9871 RVA: 0x0014A354 File Offset: 0x00148754
 		private static bool IsGoodShrapnelCell(IntVec3 c, Map map)
 		{
 			bool result;
@@ -148,7 +148,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600268C RID: 9868 RVA: 0x0014A268 File Offset: 0x00148668
+		// Token: 0x06002690 RID: 9872 RVA: 0x0014A3B8 File Offset: 0x001487B8
 		private static IntVec3 GenerateShrapnelLocation(IntVec3 center, float angleOffset, float distanceFactor)
 		{
 			float num = SkyfallerShrapnelUtility.ShrapnelAngleDistribution.Evaluate(Rand.Value);

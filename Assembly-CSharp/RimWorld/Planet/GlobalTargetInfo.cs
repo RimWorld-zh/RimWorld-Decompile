@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x02000575 RID: 1397
+	// Token: 0x02000577 RID: 1399
 	public struct GlobalTargetInfo : IEquatable<GlobalTargetInfo>
 	{
 		// Token: 0x04000F85 RID: 3973
@@ -24,7 +24,7 @@ namespace RimWorld.Planet
 		// Token: 0x04000F8A RID: 3978
 		public const char WorldObjectLoadIDMarker = '@';
 
-		// Token: 0x06001AAF RID: 6831 RVA: 0x000E5B98 File Offset: 0x000E3F98
+		// Token: 0x06001AB3 RID: 6835 RVA: 0x000E5CE8 File Offset: 0x000E40E8
 		public GlobalTargetInfo(Thing thing)
 		{
 			this.thingInt = thing;
@@ -34,7 +34,7 @@ namespace RimWorld.Planet
 			this.tileInt = -1;
 		}
 
-		// Token: 0x06001AB0 RID: 6832 RVA: 0x000E5BC4 File Offset: 0x000E3FC4
+		// Token: 0x06001AB4 RID: 6836 RVA: 0x000E5D14 File Offset: 0x000E4114
 		public GlobalTargetInfo(IntVec3 cell, Map map, bool allowNullMap = false)
 		{
 			if (!allowNullMap && cell.IsValid && map == null)
@@ -48,7 +48,7 @@ namespace RimWorld.Planet
 			this.tileInt = -1;
 		}
 
-		// Token: 0x06001AB1 RID: 6833 RVA: 0x000E5C28 File Offset: 0x000E4028
+		// Token: 0x06001AB5 RID: 6837 RVA: 0x000E5D78 File Offset: 0x000E4178
 		public GlobalTargetInfo(WorldObject worldObject)
 		{
 			this.thingInt = null;
@@ -58,7 +58,7 @@ namespace RimWorld.Planet
 			this.tileInt = -1;
 		}
 
-		// Token: 0x06001AB2 RID: 6834 RVA: 0x000E5C52 File Offset: 0x000E4052
+		// Token: 0x06001AB6 RID: 6838 RVA: 0x000E5DA2 File Offset: 0x000E41A2
 		public GlobalTargetInfo(int tile)
 		{
 			this.thingInt = null;
@@ -69,7 +69,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003D5 RID: 981
-		// (get) Token: 0x06001AB3 RID: 6835 RVA: 0x000E5C7C File Offset: 0x000E407C
+		// (get) Token: 0x06001AB7 RID: 6839 RVA: 0x000E5DCC File Offset: 0x000E41CC
 		public bool IsValid
 		{
 			get
@@ -79,7 +79,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003D6 RID: 982
-		// (get) Token: 0x06001AB4 RID: 6836 RVA: 0x000E5CC8 File Offset: 0x000E40C8
+		// (get) Token: 0x06001AB8 RID: 6840 RVA: 0x000E5E18 File Offset: 0x000E4218
 		public bool IsMapTarget
 		{
 			get
@@ -89,7 +89,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003D7 RID: 983
-		// (get) Token: 0x06001AB5 RID: 6837 RVA: 0x000E5CF8 File Offset: 0x000E40F8
+		// (get) Token: 0x06001AB9 RID: 6841 RVA: 0x000E5E48 File Offset: 0x000E4248
 		public bool IsWorldTarget
 		{
 			get
@@ -99,7 +99,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003D8 RID: 984
-		// (get) Token: 0x06001AB6 RID: 6838 RVA: 0x000E5D28 File Offset: 0x000E4128
+		// (get) Token: 0x06001ABA RID: 6842 RVA: 0x000E5E78 File Offset: 0x000E4278
 		public bool HasThing
 		{
 			get
@@ -109,7 +109,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003D9 RID: 985
-		// (get) Token: 0x06001AB7 RID: 6839 RVA: 0x000E5D4C File Offset: 0x000E414C
+		// (get) Token: 0x06001ABB RID: 6843 RVA: 0x000E5E9C File Offset: 0x000E429C
 		public Thing Thing
 		{
 			get
@@ -119,7 +119,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003DA RID: 986
-		// (get) Token: 0x06001AB8 RID: 6840 RVA: 0x000E5D68 File Offset: 0x000E4168
+		// (get) Token: 0x06001ABC RID: 6844 RVA: 0x000E5EB8 File Offset: 0x000E42B8
 		public bool ThingDestroyed
 		{
 			get
@@ -129,7 +129,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003DB RID: 987
-		// (get) Token: 0x06001AB9 RID: 6841 RVA: 0x000E5D98 File Offset: 0x000E4198
+		// (get) Token: 0x06001ABD RID: 6845 RVA: 0x000E5EE8 File Offset: 0x000E42E8
 		public bool HasWorldObject
 		{
 			get
@@ -139,7 +139,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003DC RID: 988
-		// (get) Token: 0x06001ABA RID: 6842 RVA: 0x000E5DBC File Offset: 0x000E41BC
+		// (get) Token: 0x06001ABE RID: 6846 RVA: 0x000E5F0C File Offset: 0x000E430C
 		public WorldObject WorldObject
 		{
 			get
@@ -149,7 +149,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003DD RID: 989
-		// (get) Token: 0x06001ABB RID: 6843 RVA: 0x000E5DD8 File Offset: 0x000E41D8
+		// (get) Token: 0x06001ABF RID: 6847 RVA: 0x000E5F28 File Offset: 0x000E4328
 		public static GlobalTargetInfo Invalid
 		{
 			get
@@ -159,7 +159,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003DE RID: 990
-		// (get) Token: 0x06001ABC RID: 6844 RVA: 0x000E5DFC File Offset: 0x000E41FC
+		// (get) Token: 0x06001AC0 RID: 6848 RVA: 0x000E5F4C File Offset: 0x000E434C
 		public IntVec3 Cell
 		{
 			get
@@ -178,7 +178,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003DF RID: 991
-		// (get) Token: 0x06001ABD RID: 6845 RVA: 0x000E5E34 File Offset: 0x000E4234
+		// (get) Token: 0x06001AC1 RID: 6849 RVA: 0x000E5F84 File Offset: 0x000E4384
 		public Map Map
 		{
 			get
@@ -197,7 +197,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003E0 RID: 992
-		// (get) Token: 0x06001ABE RID: 6846 RVA: 0x000E5E6C File Offset: 0x000E426C
+		// (get) Token: 0x06001AC2 RID: 6850 RVA: 0x000E5FBC File Offset: 0x000E43BC
 		public int Tile
 		{
 			get
@@ -227,7 +227,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001ABF RID: 6847 RVA: 0x000E5F10 File Offset: 0x000E4310
+		// Token: 0x06001AC3 RID: 6851 RVA: 0x000E6060 File Offset: 0x000E4460
 		public static implicit operator GlobalTargetInfo(TargetInfo target)
 		{
 			GlobalTargetInfo result;
@@ -242,19 +242,19 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001AC0 RID: 6848 RVA: 0x000E5F58 File Offset: 0x000E4358
+		// Token: 0x06001AC4 RID: 6852 RVA: 0x000E60A8 File Offset: 0x000E44A8
 		public static implicit operator GlobalTargetInfo(Thing t)
 		{
 			return new GlobalTargetInfo(t);
 		}
 
-		// Token: 0x06001AC1 RID: 6849 RVA: 0x000E5F74 File Offset: 0x000E4374
+		// Token: 0x06001AC5 RID: 6853 RVA: 0x000E60C4 File Offset: 0x000E44C4
 		public static implicit operator GlobalTargetInfo(WorldObject o)
 		{
 			return new GlobalTargetInfo(o);
 		}
 
-		// Token: 0x06001AC2 RID: 6850 RVA: 0x000E5F90 File Offset: 0x000E4390
+		// Token: 0x06001AC6 RID: 6854 RVA: 0x000E60E0 File Offset: 0x000E44E0
 		public static explicit operator LocalTargetInfo(GlobalTargetInfo targ)
 		{
 			LocalTargetInfo result;
@@ -283,7 +283,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001AC3 RID: 6851 RVA: 0x000E6054 File Offset: 0x000E4454
+		// Token: 0x06001AC7 RID: 6855 RVA: 0x000E61A4 File Offset: 0x000E45A4
 		public static explicit operator TargetInfo(GlobalTargetInfo targ)
 		{
 			TargetInfo result;
@@ -312,7 +312,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001AC4 RID: 6852 RVA: 0x000E6120 File Offset: 0x000E4520
+		// Token: 0x06001AC8 RID: 6856 RVA: 0x000E6270 File Offset: 0x000E4670
 		public static explicit operator IntVec3(GlobalTargetInfo targ)
 		{
 			if (targ.thingInt != null)
@@ -330,7 +330,7 @@ namespace RimWorld.Planet
 			return targ.Cell;
 		}
 
-		// Token: 0x06001AC5 RID: 6853 RVA: 0x000E61BC File Offset: 0x000E45BC
+		// Token: 0x06001AC9 RID: 6857 RVA: 0x000E630C File Offset: 0x000E470C
 		public static explicit operator Thing(GlobalTargetInfo targ)
 		{
 			if (targ.cellInt.IsValid)
@@ -348,7 +348,7 @@ namespace RimWorld.Planet
 			return targ.thingInt;
 		}
 
-		// Token: 0x06001AC6 RID: 6854 RVA: 0x000E6260 File Offset: 0x000E4660
+		// Token: 0x06001ACA RID: 6858 RVA: 0x000E63B0 File Offset: 0x000E47B0
 		public static explicit operator WorldObject(GlobalTargetInfo targ)
 		{
 			if (targ.thingInt != null)
@@ -366,7 +366,7 @@ namespace RimWorld.Planet
 			return targ.worldObjectInt;
 		}
 
-		// Token: 0x06001AC7 RID: 6855 RVA: 0x000E6304 File Offset: 0x000E4704
+		// Token: 0x06001ACB RID: 6859 RVA: 0x000E6454 File Offset: 0x000E4854
 		public static bool operator ==(GlobalTargetInfo a, GlobalTargetInfo b)
 		{
 			bool result;
@@ -389,25 +389,25 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001AC8 RID: 6856 RVA: 0x000E63FC File Offset: 0x000E47FC
+		// Token: 0x06001ACC RID: 6860 RVA: 0x000E654C File Offset: 0x000E494C
 		public static bool operator !=(GlobalTargetInfo a, GlobalTargetInfo b)
 		{
 			return !(a == b);
 		}
 
-		// Token: 0x06001AC9 RID: 6857 RVA: 0x000E641C File Offset: 0x000E481C
+		// Token: 0x06001ACD RID: 6861 RVA: 0x000E656C File Offset: 0x000E496C
 		public override bool Equals(object obj)
 		{
 			return obj is GlobalTargetInfo && this.Equals((GlobalTargetInfo)obj);
 		}
 
-		// Token: 0x06001ACA RID: 6858 RVA: 0x000E6450 File Offset: 0x000E4850
+		// Token: 0x06001ACE RID: 6862 RVA: 0x000E65A0 File Offset: 0x000E49A0
 		public bool Equals(GlobalTargetInfo other)
 		{
 			return this == other;
 		}
 
-		// Token: 0x06001ACB RID: 6859 RVA: 0x000E6474 File Offset: 0x000E4874
+		// Token: 0x06001ACF RID: 6863 RVA: 0x000E65C4 File Offset: 0x000E49C4
 		public override int GetHashCode()
 		{
 			int result;
@@ -434,7 +434,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001ACC RID: 6860 RVA: 0x000E650C File Offset: 0x000E490C
+		// Token: 0x06001AD0 RID: 6864 RVA: 0x000E665C File Offset: 0x000E4A5C
 		public override string ToString()
 		{
 			string result;

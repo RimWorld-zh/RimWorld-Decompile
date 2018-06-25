@@ -3,18 +3,18 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C51 RID: 3153
+	// Token: 0x02000C53 RID: 3155
 	public abstract class SectionLayer_Things : SectionLayer
 	{
 		// Token: 0x04002F7B RID: 12155
 		protected bool requireAddToMapMesh;
 
-		// Token: 0x06004574 RID: 17780 RVA: 0x0008521D File Offset: 0x0008361D
+		// Token: 0x06004577 RID: 17783 RVA: 0x0008536D File Offset: 0x0008376D
 		public SectionLayer_Things(Section section) : base(section)
 		{
 		}
 
-		// Token: 0x06004575 RID: 17781 RVA: 0x00085227 File Offset: 0x00083627
+		// Token: 0x06004578 RID: 17784 RVA: 0x00085377 File Offset: 0x00083777
 		public override void DrawLayer()
 		{
 			if (DebugViewSettings.drawThingsPrinted)
@@ -23,7 +23,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004576 RID: 17782 RVA: 0x00085240 File Offset: 0x00083640
+		// Token: 0x06004579 RID: 17785 RVA: 0x00085390 File Offset: 0x00083790
 		public override void Regenerate()
 		{
 			base.ClearSubMeshes(MeshParts.All);
@@ -52,7 +52,7 @@ namespace Verse
 			base.FinalizeMesh(MeshParts.All);
 		}
 
-		// Token: 0x06004577 RID: 17783
+		// Token: 0x0600457A RID: 17786
 		protected abstract void TakePrintFrom(Thing t);
 	}
 }

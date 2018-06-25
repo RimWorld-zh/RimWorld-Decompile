@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000EAD RID: 3757
+	// Token: 0x02000EAF RID: 3759
 	public enum MultiCheckboxState : byte
 	{
 		// Token: 0x04003B0F RID: 15119

@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000518 RID: 1304
+	// Token: 0x0200051A RID: 1306
 	public class Pawn_TimetableTracker : IExposable
 	{
 		// Token: 0x04000DF9 RID: 3577
@@ -13,7 +13,7 @@ namespace RimWorld
 		// Token: 0x04000DFA RID: 3578
 		public List<TimeAssignmentDef> times;
 
-		// Token: 0x060017B3 RID: 6067 RVA: 0x000CF17C File Offset: 0x000CD57C
+		// Token: 0x060017B7 RID: 6071 RVA: 0x000CF2CC File Offset: 0x000CD6CC
 		public Pawn_TimetableTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
@@ -34,7 +34,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000348 RID: 840
-		// (get) Token: 0x060017B4 RID: 6068 RVA: 0x000CF1E8 File Offset: 0x000CD5E8
+		// (get) Token: 0x060017B8 RID: 6072 RVA: 0x000CF338 File Offset: 0x000CD738
 		public TimeAssignmentDef CurrentAssignment
 		{
 			get
@@ -52,19 +52,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017B5 RID: 6069 RVA: 0x000CF22E File Offset: 0x000CD62E
+		// Token: 0x060017B9 RID: 6073 RVA: 0x000CF37E File Offset: 0x000CD77E
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<TimeAssignmentDef>(ref this.times, "times", LookMode.Undefined, new object[0]);
 		}
 
-		// Token: 0x060017B6 RID: 6070 RVA: 0x000CF248 File Offset: 0x000CD648
+		// Token: 0x060017BA RID: 6074 RVA: 0x000CF398 File Offset: 0x000CD798
 		public TimeAssignmentDef GetAssignment(int hour)
 		{
 			return this.times[hour];
 		}
 
-		// Token: 0x060017B7 RID: 6071 RVA: 0x000CF269 File Offset: 0x000CD669
+		// Token: 0x060017BB RID: 6075 RVA: 0x000CF3B9 File Offset: 0x000CD7B9
 		public void SetAssignment(int hour, TimeAssignmentDef ta)
 		{
 			this.times[hour] = ta;

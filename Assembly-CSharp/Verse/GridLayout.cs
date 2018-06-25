@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E6F RID: 3695
+	// Token: 0x02000E71 RID: 3697
 	public class GridLayout
 	{
 		// Token: 0x040039B3 RID: 14771
@@ -30,7 +30,7 @@ namespace Verse
 		// Token: 0x040039BA RID: 14778
 		private float rowHeight;
 
-		// Token: 0x06005707 RID: 22279 RVA: 0x002CD0C8 File Offset: 0x002CB4C8
+		// Token: 0x0600570B RID: 22283 RVA: 0x002CD1F4 File Offset: 0x002CB5F4
 		public GridLayout(Rect container, int cols = 1, int rows = 1, float outerPadding = 4f, float innerPadding = 4f)
 		{
 			this.container = new Rect(container);
@@ -45,7 +45,7 @@ namespace Verse
 			this.rowStride = this.rowHeight + innerPadding;
 		}
 
-		// Token: 0x06005708 RID: 22280 RVA: 0x002CD164 File Offset: 0x002CB564
+		// Token: 0x0600570C RID: 22284 RVA: 0x002CD290 File Offset: 0x002CB690
 		public GridLayout(float colWidth, float rowHeight, int cols, int rows, float outerPadding = 4f, float innerPadding = 4f)
 		{
 			this.colWidth = colWidth;
@@ -58,7 +58,7 @@ namespace Verse
 			this.container = new Rect(0f, 0f, outerPadding * 2f + colWidth * (float)cols + innerPadding * (float)cols - 1f, outerPadding * 2f + rowHeight * (float)rows + innerPadding * (float)rows - 1f);
 		}
 
-		// Token: 0x06005709 RID: 22281 RVA: 0x002CD1FC File Offset: 0x002CB5FC
+		// Token: 0x0600570D RID: 22285 RVA: 0x002CD328 File Offset: 0x002CB728
 		public Rect GetCellRectByIndex(int index, int colspan = 1, int rowspan = 1)
 		{
 			int col = index % this.cols;
@@ -66,7 +66,7 @@ namespace Verse
 			return this.GetCellRect(col, row, colspan, rowspan);
 		}
 
-		// Token: 0x0600570A RID: 22282 RVA: 0x002CD230 File Offset: 0x002CB630
+		// Token: 0x0600570E RID: 22286 RVA: 0x002CD35C File Offset: 0x002CB75C
 		public Rect GetCellRect(int col, int row, int colspan = 1, int rowspan = 1)
 		{
 			return new Rect(Mathf.Floor(this.container.x + this.outerPadding + (float)col * this.colStride), Mathf.Floor(this.container.y + this.outerPadding + (float)row * this.rowStride), Mathf.Ceil(this.colWidth) * (float)colspan + this.innerPadding * (float)(colspan - 1), Mathf.Ceil(this.rowHeight) * (float)rowspan + this.innerPadding * (float)(rowspan - 1));

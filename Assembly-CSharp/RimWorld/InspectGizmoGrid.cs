@@ -5,7 +5,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200085D RID: 2141
+	// Token: 0x0200085F RID: 2143
 	internal static class InspectGizmoGrid
 	{
 		// Token: 0x04001A45 RID: 6725
@@ -14,7 +14,7 @@ namespace RimWorld
 		// Token: 0x04001A46 RID: 6726
 		private static List<Gizmo> gizmoList = new List<Gizmo>();
 
-		// Token: 0x0600308B RID: 12427 RVA: 0x001A607C File Offset: 0x001A447C
+		// Token: 0x0600308F RID: 12431 RVA: 0x001A61CC File Offset: 0x001A45CC
 		public static void DrawInspectGizmoGridFor(IEnumerable<object> selectedObjects, out Gizmo mouseoverGizmo)
 		{
 			mouseoverGizmo = null;

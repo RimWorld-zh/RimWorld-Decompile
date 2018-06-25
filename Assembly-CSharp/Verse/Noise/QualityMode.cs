@@ -2,14 +2,14 @@
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F80 RID: 3968
+	// Token: 0x02000F84 RID: 3972
 	public enum QualityMode : byte
 	{
-		// Token: 0x04003EF4 RID: 16116
+		// Token: 0x04003EF7 RID: 16119
 		Low,
-		// Token: 0x04003EF5 RID: 16117
+		// Token: 0x04003EF8 RID: 16120
 		Medium,
-		// Token: 0x04003EF6 RID: 16118
+		// Token: 0x04003EF9 RID: 16121
 		High
 	}
 }

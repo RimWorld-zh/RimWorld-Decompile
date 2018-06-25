@@ -4,23 +4,23 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200099E RID: 2462
+	// Token: 0x020009A0 RID: 2464
 	public abstract class StatPart
 	{
-		// Token: 0x04002391 RID: 9105
+		// Token: 0x04002392 RID: 9106
 		public float priority;
 
-		// Token: 0x04002392 RID: 9106
+		// Token: 0x04002393 RID: 9107
 		[Unsaved]
 		public StatDef parentStat;
 
-		// Token: 0x06003741 RID: 14145
+		// Token: 0x06003745 RID: 14149
 		public abstract void TransformValue(StatRequest req, ref float val);
 
-		// Token: 0x06003742 RID: 14146
+		// Token: 0x06003746 RID: 14150
 		public abstract string ExplanationPart(StatRequest req);
 
-		// Token: 0x06003743 RID: 14147 RVA: 0x001D8A6C File Offset: 0x001D6E6C
+		// Token: 0x06003747 RID: 14151 RVA: 0x001D8BAC File Offset: 0x001D6FAC
 		public virtual IEnumerable<string> ConfigErrors()
 		{
 			yield break;

@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000B41 RID: 2881
+	// Token: 0x02000B43 RID: 2883
 	public class PawnCapacityModifier
 	{
 		// Token: 0x04002995 RID: 10645
@@ -17,8 +17,8 @@ namespace Verse
 		// Token: 0x04002998 RID: 10648
 		public float postFactor = 1f;
 
-		// Token: 0x17000996 RID: 2454
-		// (get) Token: 0x06003F47 RID: 16199 RVA: 0x00215530 File Offset: 0x00213930
+		// Token: 0x17000995 RID: 2453
+		// (get) Token: 0x06003F4A RID: 16202 RVA: 0x0021560C File Offset: 0x00213A0C
 		public bool SetMaxDefined
 		{
 			get

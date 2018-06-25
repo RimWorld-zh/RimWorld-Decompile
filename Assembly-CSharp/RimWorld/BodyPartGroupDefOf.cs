@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200092D RID: 2349
+	// Token: 0x0200092F RID: 2351
 	[DefOf]
 	public static class BodyPartGroupDefOf
 	{
@@ -28,7 +28,7 @@ namespace RimWorld
 		// Token: 0x0400202C RID: 8236
 		public static BodyPartGroupDef Eyes;
 
-		// Token: 0x06003635 RID: 13877 RVA: 0x001D0A77 File Offset: 0x001CEE77
+		// Token: 0x06003639 RID: 13881 RVA: 0x001D0BB7 File Offset: 0x001CEFB7
 		static BodyPartGroupDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(BodyPartGroupDefOf));

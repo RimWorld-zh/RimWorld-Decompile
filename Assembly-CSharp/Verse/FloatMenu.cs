@@ -7,7 +7,7 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000E54 RID: 3668
+	// Token: 0x02000E56 RID: 3670
 	public class FloatMenu : Window
 	{
 		// Token: 0x0400392C RID: 14636
@@ -55,7 +55,7 @@ namespace Verse
 		// Token: 0x0400393A RID: 14650
 		private const float FadeFinishMouseDist = 100f;
 
-		// Token: 0x06005672 RID: 22130 RVA: 0x002C9740 File Offset: 0x002C7B40
+		// Token: 0x06005676 RID: 22134 RVA: 0x002C986C File Offset: 0x002C7C6C
 		public FloatMenu(List<FloatMenuOption> options)
 		{
 			if (options.NullOrEmpty<FloatMenuOption>())
@@ -77,15 +77,15 @@ namespace Verse
 			SoundDefOf.FloatMenu_Open.PlayOneShotOnCamera(null);
 		}
 
-		// Token: 0x06005673 RID: 22131 RVA: 0x002C9821 File Offset: 0x002C7C21
+		// Token: 0x06005677 RID: 22135 RVA: 0x002C994D File Offset: 0x002C7D4D
 		public FloatMenu(List<FloatMenuOption> options, string title, bool needSelection = false) : this(options)
 		{
 			this.title = title;
 			this.needSelection = needSelection;
 		}
 
-		// Token: 0x17000D87 RID: 3463
-		// (get) Token: 0x06005674 RID: 22132 RVA: 0x002C983C File Offset: 0x002C7C3C
+		// Token: 0x17000D86 RID: 3462
+		// (get) Token: 0x06005678 RID: 22136 RVA: 0x002C9968 File Offset: 0x002C7D68
 		protected override float Margin
 		{
 			get
@@ -94,8 +94,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D88 RID: 3464
-		// (get) Token: 0x06005675 RID: 22133 RVA: 0x002C9858 File Offset: 0x002C7C58
+		// Token: 0x17000D87 RID: 3463
+		// (get) Token: 0x06005679 RID: 22137 RVA: 0x002C9984 File Offset: 0x002C7D84
 		public override Vector2 InitialSize
 		{
 			get
@@ -104,8 +104,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D89 RID: 3465
-		// (get) Token: 0x06005676 RID: 22134 RVA: 0x002C9880 File Offset: 0x002C7C80
+		// Token: 0x17000D88 RID: 3464
+		// (get) Token: 0x0600567A RID: 22138 RVA: 0x002C99AC File Offset: 0x002C7DAC
 		private float MaxWindowHeight
 		{
 			get
@@ -114,8 +114,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D8A RID: 3466
-		// (get) Token: 0x06005677 RID: 22135 RVA: 0x002C98A4 File Offset: 0x002C7CA4
+		// Token: 0x17000D89 RID: 3465
+		// (get) Token: 0x0600567B RID: 22139 RVA: 0x002C99D0 File Offset: 0x002C7DD0
 		private float TotalWindowHeight
 		{
 			get
@@ -124,8 +124,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D8B RID: 3467
-		// (get) Token: 0x06005678 RID: 22136 RVA: 0x002C98D0 File Offset: 0x002C7CD0
+		// Token: 0x17000D8A RID: 3466
+		// (get) Token: 0x0600567C RID: 22140 RVA: 0x002C99FC File Offset: 0x002C7DFC
 		private float MaxViewHeight
 		{
 			get
@@ -156,8 +156,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D8C RID: 3468
-		// (get) Token: 0x06005679 RID: 22137 RVA: 0x002C9964 File Offset: 0x002C7D64
+		// Token: 0x17000D8B RID: 3467
+		// (get) Token: 0x0600567D RID: 22141 RVA: 0x002C9A90 File Offset: 0x002C7E90
 		private float TotalViewHeight
 		{
 			get
@@ -185,8 +185,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D8D RID: 3469
-		// (get) Token: 0x0600567A RID: 22138 RVA: 0x002C99F4 File Offset: 0x002C7DF4
+		// Token: 0x17000D8C RID: 3468
+		// (get) Token: 0x0600567E RID: 22142 RVA: 0x002C9B20 File Offset: 0x002C7F20
 		private float TotalWidth
 		{
 			get
@@ -200,8 +200,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D8E RID: 3470
-		// (get) Token: 0x0600567B RID: 22139 RVA: 0x002C9A2C File Offset: 0x002C7E2C
+		// Token: 0x17000D8D RID: 3469
+		// (get) Token: 0x0600567F RID: 22143 RVA: 0x002C9B58 File Offset: 0x002C7F58
 		private float ColumnWidth
 		{
 			get
@@ -223,8 +223,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D8F RID: 3471
-		// (get) Token: 0x0600567C RID: 22140 RVA: 0x002C9A9C File Offset: 0x002C7E9C
+		// Token: 0x17000D8E RID: 3470
+		// (get) Token: 0x06005680 RID: 22144 RVA: 0x002C9BC8 File Offset: 0x002C7FC8
 		private int MaxColumns
 		{
 			get
@@ -233,8 +233,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D90 RID: 3472
-		// (get) Token: 0x0600567D RID: 22141 RVA: 0x002C9ACC File Offset: 0x002C7ECC
+		// Token: 0x17000D8F RID: 3471
+		// (get) Token: 0x06005681 RID: 22145 RVA: 0x002C9BF8 File Offset: 0x002C7FF8
 		private bool UsingScrollbar
 		{
 			get
@@ -243,8 +243,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D91 RID: 3473
-		// (get) Token: 0x0600567E RID: 22142 RVA: 0x002C9AF0 File Offset: 0x002C7EF0
+		// Token: 0x17000D90 RID: 3472
+		// (get) Token: 0x06005682 RID: 22146 RVA: 0x002C9C1C File Offset: 0x002C801C
 		private int ColumnCount
 		{
 			get
@@ -253,8 +253,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D92 RID: 3474
-		// (get) Token: 0x0600567F RID: 22143 RVA: 0x002C9B18 File Offset: 0x002C7F18
+		// Token: 0x17000D91 RID: 3473
+		// (get) Token: 0x06005683 RID: 22147 RVA: 0x002C9C44 File Offset: 0x002C8044
 		private int ColumnCountIfNoScrollbar
 		{
 			get
@@ -289,8 +289,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D93 RID: 3475
-		// (get) Token: 0x06005680 RID: 22144 RVA: 0x002C9BB4 File Offset: 0x002C7FB4
+		// Token: 0x17000D92 RID: 3474
+		// (get) Token: 0x06005684 RID: 22148 RVA: 0x002C9CE0 File Offset: 0x002C80E0
 		public FloatMenuSizeMode SizeMode
 		{
 			get
@@ -308,7 +308,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005681 RID: 22145 RVA: 0x002C9BE4 File Offset: 0x002C7FE4
+		// Token: 0x06005685 RID: 22149 RVA: 0x002C9D10 File Offset: 0x002C8110
 		protected override void SetInitialSizeAndPosition()
 		{
 			Vector2 vector = UI.MousePositionOnUIInverted + FloatMenu.InitialPositionShift;
@@ -323,7 +323,7 @@ namespace Verse
 			this.windowRect = new Rect(vector.x, vector.y, this.InitialSize.x, this.InitialSize.y);
 		}
 
-		// Token: 0x06005682 RID: 22146 RVA: 0x002C9CB4 File Offset: 0x002C80B4
+		// Token: 0x06005686 RID: 22150 RVA: 0x002C9DE0 File Offset: 0x002C81E0
 		public override void ExtraOnGUI()
 		{
 			base.ExtraOnGUI();
@@ -349,7 +349,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005683 RID: 22147 RVA: 0x002C9D94 File Offset: 0x002C8194
+		// Token: 0x06005687 RID: 22151 RVA: 0x002C9EC0 File Offset: 0x002C82C0
 		public override void DoWindowContents(Rect rect)
 		{
 			if (this.needSelection && Find.Selector.SingleSelectedThing == null)
@@ -400,7 +400,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005684 RID: 22148 RVA: 0x002C9F6C File Offset: 0x002C836C
+		// Token: 0x06005688 RID: 22152 RVA: 0x002CA098 File Offset: 0x002C8498
 		public override void PostClose()
 		{
 			base.PostClose();
@@ -410,14 +410,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005685 RID: 22149 RVA: 0x002C9F8B File Offset: 0x002C838B
+		// Token: 0x06005689 RID: 22153 RVA: 0x002CA0B7 File Offset: 0x002C84B7
 		public void Cancel()
 		{
 			SoundDefOf.FloatMenu_Cancel.PlayOneShotOnCamera(null);
 			Find.WindowStack.TryRemove(this, true);
 		}
 
-		// Token: 0x06005686 RID: 22150 RVA: 0x002C9FA8 File Offset: 0x002C83A8
+		// Token: 0x0600568A RID: 22154 RVA: 0x002CA0D4 File Offset: 0x002C84D4
 		private void UpdateBaseColor()
 		{
 			this.baseColor = Color.white;

@@ -2,7 +2,7 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000B36 RID: 2870
+	// Token: 0x02000B38 RID: 2872
 	public enum ThinkTreeDutyHook
 	{
 		// Token: 0x04002941 RID: 10561

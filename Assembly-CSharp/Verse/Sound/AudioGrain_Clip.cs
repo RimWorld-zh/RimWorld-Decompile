@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B74 RID: 2932
+	// Token: 0x02000B76 RID: 2934
 	public class AudioGrain_Clip : AudioGrain
 	{
 		// Token: 0x04002AE9 RID: 10985
 		public string clipPath = "";
 
-		// Token: 0x06003FFD RID: 16381 RVA: 0x0021B578 File Offset: 0x00219978
+		// Token: 0x06004000 RID: 16384 RVA: 0x0021B654 File Offset: 0x00219A54
 		public override IEnumerable<ResolvedGrain> GetResolvedGrains()
 		{
 			AudioClip clip = ContentFinder<AudioClip>.Get(this.clipPath, true);

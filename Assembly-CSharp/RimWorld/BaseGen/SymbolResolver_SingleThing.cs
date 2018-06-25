@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003B8 RID: 952
+	// Token: 0x020003BA RID: 954
 	public class SymbolResolver_SingleThing : SymbolResolver
 	{
 		// Token: 0x04000A25 RID: 2597
@@ -16,7 +16,7 @@ namespace RimWorld.BaseGen
 			Rot4.East
 		};
 
-		// Token: 0x06001083 RID: 4227 RVA: 0x0008BAD8 File Offset: 0x00089ED8
+		// Token: 0x06001087 RID: 4231 RVA: 0x0008BC28 File Offset: 0x0008A028
 		public override bool CanResolve(ResolveParams rp)
 		{
 			bool result;
@@ -45,7 +45,7 @@ namespace RimWorld.BaseGen
 			return result;
 		}
 
-		// Token: 0x06001084 RID: 4228 RVA: 0x0008BBC0 File Offset: 0x00089FC0
+		// Token: 0x06001088 RID: 4232 RVA: 0x0008BD10 File Offset: 0x0008A110
 		public override void Resolve(ResolveParams rp)
 		{
 			if (rp.singleThingToSpawn is Pawn)
@@ -150,7 +150,7 @@ namespace RimWorld.BaseGen
 			}
 		}
 
-		// Token: 0x06001085 RID: 4229 RVA: 0x0008BEAC File Offset: 0x0008A2AC
+		// Token: 0x06001089 RID: 4233 RVA: 0x0008BFFC File Offset: 0x0008A3FC
 		private bool TryFindSpawnCellForItem(CellRect rect, out IntVec3 result)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -177,7 +177,7 @@ namespace RimWorld.BaseGen
 			}, out result);
 		}
 
-		// Token: 0x06001086 RID: 4230 RVA: 0x0008BEEC File Offset: 0x0008A2EC
+		// Token: 0x0600108A RID: 4234 RVA: 0x0008C03C File Offset: 0x0008A43C
 		private IntVec3 FindBestSpawnCellForNonItem(CellRect rect, ThingDef thingDef, ref Rot4? rot, out bool hasToWipeBuilding, out bool doesntFit)
 		{
 			if (!thingDef.rotatable)
@@ -216,7 +216,7 @@ namespace RimWorld.BaseGen
 			return result3;
 		}
 
-		// Token: 0x06001087 RID: 4231 RVA: 0x0008C040 File Offset: 0x0008A440
+		// Token: 0x0600108B RID: 4235 RVA: 0x0008C190 File Offset: 0x0008A590
 		private IntVec3 FindBestSpawnCellForNonItem(CellRect rect, ThingDef thingDef, Rot4 rot, out bool hasToWipeBuilding, out bool doesntFit)
 		{
 			Map map = BaseGen.globalSettings.map;
@@ -285,7 +285,7 @@ namespace RimWorld.BaseGen
 			return centerCell;
 		}
 
-		// Token: 0x06001088 RID: 4232 RVA: 0x0008C3B4 File Offset: 0x0008A7B4
+		// Token: 0x0600108C RID: 4236 RVA: 0x0008C504 File Offset: 0x0008A904
 		private bool AnyNonStandableCellOrAnyBuildingInside(CellRect rect)
 		{
 			Map map = BaseGen.globalSettings.map;

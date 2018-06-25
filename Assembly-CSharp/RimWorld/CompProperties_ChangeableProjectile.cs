@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000241 RID: 577
+	// Token: 0x02000243 RID: 579
 	public class CompProperties_ChangeableProjectile : CompProperties
 	{
-		// Token: 0x06000A6A RID: 2666 RVA: 0x0005E806 File Offset: 0x0005CC06
+		// Token: 0x06000A6E RID: 2670 RVA: 0x0005E956 File Offset: 0x0005CD56
 		public CompProperties_ChangeableProjectile()
 		{
 			this.compClass = typeof(CompChangeableProjectile);

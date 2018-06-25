@@ -5,10 +5,10 @@ using Ionic.Zlib;
 
 namespace Verse
 {
-	// Token: 0x02000ED4 RID: 3796
+	// Token: 0x02000ED6 RID: 3798
 	public static class CompressUtility
 	{
-		// Token: 0x060059FD RID: 23037 RVA: 0x002E38E0 File Offset: 0x002E1CE0
+		// Token: 0x06005A00 RID: 23040 RVA: 0x002E3A00 File Offset: 0x002E1E00
 		public static byte[] Compress(byte[] input)
 		{
 			MemoryStream memoryStream = new MemoryStream();
@@ -18,7 +18,7 @@ namespace Verse
 			return memoryStream.ToArray();
 		}
 
-		// Token: 0x060059FE RID: 23038 RVA: 0x002E391C File Offset: 0x002E1D1C
+		// Token: 0x06005A01 RID: 23041 RVA: 0x002E3A3C File Offset: 0x002E1E3C
 		public static byte[] Decompress(byte[] input)
 		{
 			MemoryStream stream = new MemoryStream(input);

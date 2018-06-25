@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200023D RID: 573
+	// Token: 0x0200023F RID: 575
 	public class CompProperties_AnimalInsanityPulser : CompProperties
 	{
 		// Token: 0x04000455 RID: 1109
@@ -12,7 +12,7 @@ namespace RimWorld
 		// Token: 0x04000456 RID: 1110
 		public int radius = 25;
 
-		// Token: 0x06000A66 RID: 2662 RVA: 0x0005E719 File Offset: 0x0005CB19
+		// Token: 0x06000A6A RID: 2666 RVA: 0x0005E869 File Offset: 0x0005CC69
 		public CompProperties_AnimalInsanityPulser()
 		{
 			this.compClass = typeof(CompAnimalInsanityPulser);

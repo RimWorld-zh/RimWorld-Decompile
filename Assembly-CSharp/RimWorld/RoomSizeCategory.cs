@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000502 RID: 1282
+	// Token: 0x02000504 RID: 1284
 	public enum RoomSizeCategory : byte
 	{
 		// Token: 0x04000DAA RID: 3498

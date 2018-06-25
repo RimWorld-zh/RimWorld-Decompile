@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DBA RID: 3514
+	// Token: 0x02000DBC RID: 3516
 	public class AudioSourcePool
 	{
 		// Token: 0x04003445 RID: 13381
@@ -12,14 +12,14 @@ namespace Verse.Sound
 		// Token: 0x04003446 RID: 13382
 		public AudioSourcePoolWorld sourcePoolWorld;
 
-		// Token: 0x06004E8B RID: 20107 RVA: 0x00290CE6 File Offset: 0x0028F0E6
+		// Token: 0x06004E8F RID: 20111 RVA: 0x00290E12 File Offset: 0x0028F212
 		public AudioSourcePool()
 		{
 			this.sourcePoolCamera = new AudioSourcePoolCamera();
 			this.sourcePoolWorld = new AudioSourcePoolWorld();
 		}
 
-		// Token: 0x06004E8C RID: 20108 RVA: 0x00290D08 File Offset: 0x0028F108
+		// Token: 0x06004E90 RID: 20112 RVA: 0x00290E34 File Offset: 0x0028F234
 		public AudioSource GetSource(bool onCamera)
 		{
 			AudioSource result;

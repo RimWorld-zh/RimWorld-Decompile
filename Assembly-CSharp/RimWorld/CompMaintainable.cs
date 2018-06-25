@@ -3,14 +3,14 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200071B RID: 1819
+	// Token: 0x0200071D RID: 1821
 	public class CompMaintainable : ThingComp
 	{
 		// Token: 0x040015F5 RID: 5621
 		public int ticksSinceMaintain;
 
 		// Token: 0x1700061F RID: 1567
-		// (get) Token: 0x06002821 RID: 10273 RVA: 0x001573F8 File Offset: 0x001557F8
+		// (get) Token: 0x06002825 RID: 10277 RVA: 0x00157548 File Offset: 0x00155948
 		public CompProperties_Maintainable Props
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000620 RID: 1568
-		// (get) Token: 0x06002822 RID: 10274 RVA: 0x00157418 File Offset: 0x00155818
+		// (get) Token: 0x06002826 RID: 10278 RVA: 0x00157568 File Offset: 0x00155968
 		public MaintainableStage CurStage
 		{
 			get
@@ -43,7 +43,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000621 RID: 1569
-		// (get) Token: 0x06002823 RID: 10275 RVA: 0x00157474 File Offset: 0x00155874
+		// (get) Token: 0x06002827 RID: 10279 RVA: 0x001575C4 File Offset: 0x001559C4
 		private bool Active
 		{
 			get
@@ -53,13 +53,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002824 RID: 10276 RVA: 0x001574A4 File Offset: 0x001558A4
+		// Token: 0x06002828 RID: 10280 RVA: 0x001575F4 File Offset: 0x001559F4
 		public override void PostExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.ticksSinceMaintain, "ticksSinceMaintain", 0, false);
 		}
 
-		// Token: 0x06002825 RID: 10277 RVA: 0x001574BC File Offset: 0x001558BC
+		// Token: 0x06002829 RID: 10281 RVA: 0x0015760C File Offset: 0x00155A0C
 		public override void CompTick()
 		{
 			base.CompTick();
@@ -73,7 +73,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002826 RID: 10278 RVA: 0x00157509 File Offset: 0x00155909
+		// Token: 0x0600282A RID: 10282 RVA: 0x00157659 File Offset: 0x00155A59
 		public override void CompTickRare()
 		{
 			base.CompTickRare();
@@ -84,7 +84,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002827 RID: 10279 RVA: 0x0015753C File Offset: 0x0015593C
+		// Token: 0x0600282B RID: 10283 RVA: 0x0015768C File Offset: 0x00155A8C
 		private void CheckTakeDamage()
 		{
 			if (this.CurStage == MaintainableStage.Damaging)
@@ -93,13 +93,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002828 RID: 10280 RVA: 0x00157582 File Offset: 0x00155982
+		// Token: 0x0600282C RID: 10284 RVA: 0x001576D2 File Offset: 0x00155AD2
 		public void Maintained()
 		{
 			this.ticksSinceMaintain = 0;
 		}
 
-		// Token: 0x06002829 RID: 10281 RVA: 0x0015758C File Offset: 0x0015598C
+		// Token: 0x0600282D RID: 10285 RVA: 0x001576DC File Offset: 0x00155ADC
 		public override string CompInspectStringExtra()
 		{
 			MaintainableStage curStage = this.CurStage;

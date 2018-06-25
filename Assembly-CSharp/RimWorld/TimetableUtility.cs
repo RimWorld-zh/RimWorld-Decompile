@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000517 RID: 1303
+	// Token: 0x02000519 RID: 1305
 	public static class TimetableUtility
 	{
-		// Token: 0x060017B2 RID: 6066 RVA: 0x000CF144 File Offset: 0x000CD544
+		// Token: 0x060017B6 RID: 6070 RVA: 0x000CF294 File Offset: 0x000CD694
 		public static TimeAssignmentDef GetTimeAssignment(this Pawn pawn)
 		{
 			TimeAssignmentDef result;

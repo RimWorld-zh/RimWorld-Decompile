@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200041A RID: 1050
+	// Token: 0x0200041C RID: 1052
 	[StaticConstructorOnStartup]
 	public class CompPowerPlantSolar : CompPowerPlant
 	{
@@ -24,7 +24,7 @@ namespace RimWorld
 		private static readonly Material PowerPlantSolarBarUnfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.15f, 0.15f, 0.15f), false);
 
 		// Token: 0x17000276 RID: 630
-		// (get) Token: 0x06001237 RID: 4663 RVA: 0x0009E2FC File Offset: 0x0009C6FC
+		// (get) Token: 0x0600123B RID: 4667 RVA: 0x0009E44C File Offset: 0x0009C84C
 		protected override float DesiredPowerOutput
 		{
 			get
@@ -34,7 +34,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000277 RID: 631
-		// (get) Token: 0x06001238 RID: 4664 RVA: 0x0009E33C File Offset: 0x0009C73C
+		// (get) Token: 0x0600123C RID: 4668 RVA: 0x0009E48C File Offset: 0x0009C88C
 		private float RoofedPowerOutputFactor
 		{
 			get
@@ -53,7 +53,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001239 RID: 4665 RVA: 0x0009E3D4 File Offset: 0x0009C7D4
+		// Token: 0x0600123D RID: 4669 RVA: 0x0009E524 File Offset: 0x0009C924
 		public override void PostDraw()
 		{
 			base.PostDraw();

@@ -6,7 +6,7 @@ using Verse.Sound;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020005DE RID: 1502
+	// Token: 0x020005E0 RID: 1504
 	[StaticConstructorOnStartup]
 	public static class CaravanMergeUtility
 	{
@@ -20,7 +20,7 @@ namespace RimWorld.Planet
 		private static List<Caravan> tmpCaravansOnSameTile = new List<Caravan>();
 
 		// Token: 0x17000463 RID: 1123
-		// (get) Token: 0x06001DAB RID: 7595 RVA: 0x000FFF84 File Offset: 0x000FE384
+		// (get) Token: 0x06001DAF RID: 7599 RVA: 0x001000D4 File Offset: 0x000FE4D4
 		public static bool ShouldShowMergeCommand
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000464 RID: 1124
-		// (get) Token: 0x06001DAC RID: 7596 RVA: 0x000FFFAC File Offset: 0x000FE3AC
+		// (get) Token: 0x06001DB0 RID: 7600 RVA: 0x001000FC File Offset: 0x000FE4FC
 		public static bool CanMergeAnySelectedCaravans
 		{
 			get
@@ -56,7 +56,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000465 RID: 1125
-		// (get) Token: 0x06001DAD RID: 7597 RVA: 0x0010005C File Offset: 0x000FE45C
+		// (get) Token: 0x06001DB1 RID: 7601 RVA: 0x001001AC File Offset: 0x000FE5AC
 		public static bool AnySelectedCaravanCloseToAnyOtherMergeableCaravan
 		{
 			get
@@ -85,7 +85,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DAE RID: 7598 RVA: 0x00100118 File Offset: 0x000FE518
+		// Token: 0x06001DB2 RID: 7602 RVA: 0x00100268 File Offset: 0x000FE668
 		public static Command MergeCommand(Caravan caravan)
 		{
 			Command_Action command_Action = new Command_Action();
@@ -104,7 +104,7 @@ namespace RimWorld.Planet
 			return command_Action;
 		}
 
-		// Token: 0x06001DAF RID: 7599 RVA: 0x0010019C File Offset: 0x000FE59C
+		// Token: 0x06001DB3 RID: 7603 RVA: 0x001002EC File Offset: 0x000FE6EC
 		public static void TryMergeSelectedCaravans()
 		{
 			CaravanMergeUtility.tmpSelectedPlayerCaravans.Clear();
@@ -138,7 +138,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DB0 RID: 7600 RVA: 0x001002BC File Offset: 0x000FE6BC
+		// Token: 0x06001DB4 RID: 7604 RVA: 0x0010040C File Offset: 0x000FE80C
 		private static bool CloseToEachOther(Caravan c1, Caravan c2)
 		{
 			bool result;
@@ -156,7 +156,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DB1 RID: 7601 RVA: 0x00100328 File Offset: 0x000FE728
+		// Token: 0x06001DB5 RID: 7605 RVA: 0x00100478 File Offset: 0x000FE878
 		private static void MergeCaravans(List<Caravan> caravans)
 		{
 			Caravan caravan = caravans.MaxBy((Caravan x) => x.PawnsListForReading.Count);

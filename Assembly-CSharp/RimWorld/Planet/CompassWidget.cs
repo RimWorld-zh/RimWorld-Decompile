@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008D7 RID: 2263
+	// Token: 0x020008D9 RID: 2265
 	[StaticConstructorOnStartup]
 	public static class CompassWidget
 	{
@@ -18,7 +18,7 @@ namespace RimWorld.Planet
 		private static readonly Texture2D CompassTex = ContentFinder<Texture2D>.Get("UI/Misc/Compass", true);
 
 		// Token: 0x17000844 RID: 2116
-		// (get) Token: 0x060033D6 RID: 13270 RVA: 0x001BB8B4 File Offset: 0x001B9CB4
+		// (get) Token: 0x060033DA RID: 13274 RVA: 0x001BB9F4 File Offset: 0x001B9DF4
 		private static float Angle
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060033D7 RID: 13271 RVA: 0x001BB914 File Offset: 0x001B9D14
+		// Token: 0x060033DB RID: 13275 RVA: 0x001BBA54 File Offset: 0x001B9E54
 		public static void CompassOnGUI(ref float curBaseY)
 		{
 			Vector2 center = new Vector2((float)UI.screenWidth - 10f - 32f, curBaseY - 10f - 32f);
@@ -38,7 +38,7 @@ namespace RimWorld.Planet
 			curBaseY -= 84f;
 		}
 
-		// Token: 0x060033D8 RID: 13272 RVA: 0x001BB95C File Offset: 0x001B9D5C
+		// Token: 0x060033DC RID: 13276 RVA: 0x001BBA9C File Offset: 0x001B9E9C
 		private static void CompassOnGUI(Vector2 center)
 		{
 			Widgets.DrawTextureRotated(center, CompassWidget.CompassTex, CompassWidget.Angle, 1f);

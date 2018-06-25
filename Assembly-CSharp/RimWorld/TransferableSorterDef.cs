@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020002EA RID: 746
+	// Token: 0x020002EC RID: 748
 	public class TransferableSorterDef : Def
 	{
 		// Token: 0x040007F6 RID: 2038
@@ -14,7 +14,7 @@ namespace RimWorld
 		private TransferableComparer comparerInt;
 
 		// Token: 0x170001D7 RID: 471
-		// (get) Token: 0x06000C54 RID: 3156 RVA: 0x0006D8F0 File Offset: 0x0006BCF0
+		// (get) Token: 0x06000C58 RID: 3160 RVA: 0x0006DA40 File Offset: 0x0006BE40
 		public TransferableComparer Comparer
 		{
 			get

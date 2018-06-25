@@ -2,13 +2,13 @@
 
 namespace Verse.AI
 {
-	// Token: 0x02000ACC RID: 2764
+	// Token: 0x02000ACE RID: 2766
 	public abstract class ThinkNode_JobGiver : ThinkNode
 	{
-		// Token: 0x06003D74 RID: 15732
+		// Token: 0x06003D78 RID: 15736
 		protected abstract Job TryGiveJob(Pawn pawn);
 
-		// Token: 0x06003D75 RID: 15733 RVA: 0x0002FEA0 File Offset: 0x0002E2A0
+		// Token: 0x06003D79 RID: 15737 RVA: 0x0002FEA0 File Offset: 0x0002E2A0
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			Job job = this.TryGiveJob(pawn);

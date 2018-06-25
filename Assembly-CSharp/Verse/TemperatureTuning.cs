@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000CAA RID: 3242
+	// Token: 0x02000CAC RID: 3244
 	public static class TemperatureTuning
 	{
 		// Token: 0x0400307E RID: 12414

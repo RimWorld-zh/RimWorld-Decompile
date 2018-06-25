@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003E0 RID: 992
+	// Token: 0x020003E2 RID: 994
 	public class SymbolResolver_Ship_Spine : SymbolResolver
 	{
-		// Token: 0x060010FC RID: 4348 RVA: 0x00091444 File Offset: 0x0008F844
+		// Token: 0x06001100 RID: 4352 RVA: 0x00091594 File Offset: 0x0008F994
 		public override void Resolve(ResolveParams rp)
 		{
 			ThingDef ship_Beam = ThingDefOf.Ship_Beam;

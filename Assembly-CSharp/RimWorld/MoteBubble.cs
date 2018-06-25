@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020006CD RID: 1741
+	// Token: 0x020006CF RID: 1743
 	[StaticConstructorOnStartup]
 	public class MoteBubble : MoteDualAttached
 	{
@@ -17,14 +17,14 @@ namespace RimWorld
 		// Token: 0x04001517 RID: 5399
 		private static readonly Material InteractionArrowTex = MaterialPool.MatFrom("Things/Mote/InteractionArrow");
 
-		// Token: 0x060025B5 RID: 9653 RVA: 0x00143501 File Offset: 0x00141901
+		// Token: 0x060025B9 RID: 9657 RVA: 0x00143651 File Offset: 0x00141A51
 		public void SetupMoteBubble(Texture2D icon, Pawn target)
 		{
 			this.iconMat = MaterialPool.MatFrom(icon, ShaderDatabase.TransparentPostLight, Color.white);
 			this.arrowTarget = target;
 		}
 
-		// Token: 0x060025B6 RID: 9654 RVA: 0x00143524 File Offset: 0x00141924
+		// Token: 0x060025BA RID: 9658 RVA: 0x00143674 File Offset: 0x00141A74
 		public override void Draw()
 		{
 			base.Draw();

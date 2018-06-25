@@ -3,13 +3,13 @@ using Verse;
 
 namespace RimWorld.BaseGen
 {
-	// Token: 0x020003A8 RID: 936
+	// Token: 0x020003AA RID: 938
 	public class SymbolResolver_Doors : SymbolResolver
 	{
 		// Token: 0x04000A13 RID: 2579
 		private const float ExtraDoorChance = 0.25f;
 
-		// Token: 0x06001043 RID: 4163 RVA: 0x00088FBC File Offset: 0x000873BC
+		// Token: 0x06001047 RID: 4167 RVA: 0x0008910C File Offset: 0x0008750C
 		public override void Resolve(ResolveParams rp)
 		{
 			if (Rand.Chance(0.25f) || (rp.rect.Width >= 10 && rp.rect.Height >= 10 && Rand.Chance(0.8f)))

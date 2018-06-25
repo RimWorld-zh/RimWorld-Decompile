@@ -4,10 +4,10 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000CD3 RID: 3283
+	// Token: 0x02000CD5 RID: 3285
 	public class PatchOperationRemove : PatchOperationPathed
 	{
-		// Token: 0x06004886 RID: 18566 RVA: 0x002618E0 File Offset: 0x0025FCE0
+		// Token: 0x06004889 RID: 18569 RVA: 0x002619BC File Offset: 0x0025FDBC
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
 			bool result = false;

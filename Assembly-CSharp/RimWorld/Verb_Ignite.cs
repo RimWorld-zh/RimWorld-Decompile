@@ -3,16 +3,16 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009D2 RID: 2514
+	// Token: 0x020009D4 RID: 2516
 	public class Verb_Ignite : Verb
 	{
-		// Token: 0x06003862 RID: 14434 RVA: 0x001E1C61 File Offset: 0x001E0061
+		// Token: 0x06003866 RID: 14438 RVA: 0x001E1D85 File Offset: 0x001E0185
 		public Verb_Ignite()
 		{
 			this.verbProps = NativeVerbPropertiesDatabase.VerbWithCategory(VerbCategory.Ignite);
 		}
 
-		// Token: 0x06003863 RID: 14435 RVA: 0x001E1C78 File Offset: 0x001E0078
+		// Token: 0x06003867 RID: 14439 RVA: 0x001E1D9C File Offset: 0x001E019C
 		protected override bool TryCastShot()
 		{
 			Thing thing = this.currentTarget.Thing;

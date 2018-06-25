@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000DF4 RID: 3572
+	// Token: 0x02000DF6 RID: 3574
 	public static class ThingMaker
 	{
-		// Token: 0x06005076 RID: 20598 RVA: 0x00298124 File Offset: 0x00296524
+		// Token: 0x0600507A RID: 20602 RVA: 0x00298250 File Offset: 0x00296650
 		public static Thing MakeThing(ThingDef def, ThingDef stuff = null)
 		{
 			if (stuff != null && !stuff.IsStuff)

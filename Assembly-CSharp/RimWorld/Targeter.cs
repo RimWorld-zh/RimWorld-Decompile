@@ -8,7 +8,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x02000865 RID: 2149
+	// Token: 0x02000867 RID: 2151
 	public class Targeter
 	{
 		// Token: 0x04001A70 RID: 6768
@@ -33,7 +33,7 @@ namespace RimWorld
 		private Texture2D mouseAttachment;
 
 		// Token: 0x170007D3 RID: 2003
-		// (get) Token: 0x060030E3 RID: 12515 RVA: 0x001A92B4 File Offset: 0x001A76B4
+		// (get) Token: 0x060030E7 RID: 12519 RVA: 0x001A9404 File Offset: 0x001A7804
 		public bool IsTargeting
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030E4 RID: 12516 RVA: 0x001A92E4 File Offset: 0x001A76E4
+		// Token: 0x060030E8 RID: 12520 RVA: 0x001A9434 File Offset: 0x001A7834
 		public void BeginTargeting(Verb verb)
 		{
 			if (verb.verbProps.targetable)
@@ -63,7 +63,7 @@ namespace RimWorld
 			this.mouseAttachment = null;
 		}
 
-		// Token: 0x060030E5 RID: 12517 RVA: 0x001A9372 File Offset: 0x001A7772
+		// Token: 0x060030E9 RID: 12521 RVA: 0x001A94C2 File Offset: 0x001A78C2
 		public void BeginTargeting(TargetingParameters targetParams, Action<LocalTargetInfo> action, Pawn caster = null, Action actionWhenFinished = null, Texture2D mouseAttachment = null)
 		{
 			this.targetingVerb = null;
@@ -75,7 +75,7 @@ namespace RimWorld
 			this.mouseAttachment = mouseAttachment;
 		}
 
-		// Token: 0x060030E6 RID: 12518 RVA: 0x001A93A8 File Offset: 0x001A77A8
+		// Token: 0x060030EA RID: 12522 RVA: 0x001A94F8 File Offset: 0x001A78F8
 		public void StopTargeting()
 		{
 			if (this.actionWhenFinished != null)
@@ -88,7 +88,7 @@ namespace RimWorld
 			this.action = null;
 		}
 
-		// Token: 0x060030E7 RID: 12519 RVA: 0x001A93E8 File Offset: 0x001A77E8
+		// Token: 0x060030EB RID: 12523 RVA: 0x001A9538 File Offset: 0x001A7938
 		public void ProcessInputEvents()
 		{
 			this.ConfirmStillValid();
@@ -121,7 +121,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030E8 RID: 12520 RVA: 0x001A94D0 File Offset: 0x001A78D0
+		// Token: 0x060030EC RID: 12524 RVA: 0x001A9620 File Offset: 0x001A7A20
 		public void TargeterOnGUI()
 		{
 			if (this.targetingVerb != null)
@@ -151,7 +151,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030E9 RID: 12521 RVA: 0x001A956C File Offset: 0x001A796C
+		// Token: 0x060030ED RID: 12525 RVA: 0x001A96BC File Offset: 0x001A7ABC
 		public void TargeterUpdate()
 		{
 			if (this.targetingVerb != null)
@@ -192,7 +192,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030EA RID: 12522 RVA: 0x001A9680 File Offset: 0x001A7A80
+		// Token: 0x060030EE RID: 12526 RVA: 0x001A97D0 File Offset: 0x001A7BD0
 		public bool IsPawnTargeting(Pawn p)
 		{
 			bool result;
@@ -224,7 +224,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060030EB RID: 12523 RVA: 0x001A9718 File Offset: 0x001A7B18
+		// Token: 0x060030EF RID: 12527 RVA: 0x001A9868 File Offset: 0x001A7C68
 		private void ConfirmStillValid()
 		{
 			if (this.caster != null)
@@ -255,7 +255,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030EC RID: 12524 RVA: 0x001A9830 File Offset: 0x001A7C30
+		// Token: 0x060030F0 RID: 12528 RVA: 0x001A9980 File Offset: 0x001A7D80
 		private void OrderVerbForceTarget()
 		{
 			if (this.targetingVerb.CasterIsPawn)
@@ -286,7 +286,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030ED RID: 12525 RVA: 0x001A990C File Offset: 0x001A7D0C
+		// Token: 0x060030F1 RID: 12529 RVA: 0x001A9A5C File Offset: 0x001A7E5C
 		private void OrderPawnForceTarget(Verb verb)
 		{
 			LocalTargetInfo targetA = this.CurrentTargetUnderMouse(true);
@@ -314,7 +314,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030EE RID: 12526 RVA: 0x001A99E0 File Offset: 0x001A7DE0
+		// Token: 0x060030F2 RID: 12530 RVA: 0x001A9B30 File Offset: 0x001A7F30
 		private LocalTargetInfo CurrentTargetUnderMouse(bool mustBeHittableNowIfNotMelee)
 		{
 			LocalTargetInfo result;
@@ -363,7 +363,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060030EF RID: 12527 RVA: 0x001A9B74 File Offset: 0x001A7F74
+		// Token: 0x060030F3 RID: 12531 RVA: 0x001A9CC4 File Offset: 0x001A80C4
 		private Verb GetTargetingVerb(Pawn pawn)
 		{
 			return pawn.equipment.AllEquipmentVerbs.FirstOrDefault((Verb x) => x.verbProps == this.targetingVerb.verbProps);

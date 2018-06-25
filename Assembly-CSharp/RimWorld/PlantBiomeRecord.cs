@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000289 RID: 649
+	// Token: 0x0200028B RID: 651
 	public class PlantBiomeRecord
 	{
 		// Token: 0x04000564 RID: 1380
@@ -13,7 +13,7 @@ namespace RimWorld
 		// Token: 0x04000565 RID: 1381
 		public float commonality = 0f;
 
-		// Token: 0x06000AFB RID: 2811 RVA: 0x00063B80 File Offset: 0x00061F80
+		// Token: 0x06000AFF RID: 2815 RVA: 0x00063CD0 File Offset: 0x000620D0
 		public void LoadDataFromXmlCustom(XmlNode xmlRoot)
 		{
 			DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "biome", xmlRoot.Name);

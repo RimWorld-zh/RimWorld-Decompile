@@ -3,23 +3,23 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x020009BD RID: 2493
+	// Token: 0x020009BF RID: 2495
 	public struct StatRequest : IEquatable<StatRequest>
 	{
-		// Token: 0x040023C4 RID: 9156
+		// Token: 0x040023C5 RID: 9157
 		private Thing thingInt;
 
-		// Token: 0x040023C5 RID: 9157
+		// Token: 0x040023C6 RID: 9158
 		private BuildableDef defInt;
 
-		// Token: 0x040023C6 RID: 9158
+		// Token: 0x040023C7 RID: 9159
 		private ThingDef stuffDefInt;
 
-		// Token: 0x040023C7 RID: 9159
+		// Token: 0x040023C8 RID: 9160
 		private QualityCategory qualityCategoryInt;
 
 		// Token: 0x1700089C RID: 2204
-		// (get) Token: 0x060037CF RID: 14287 RVA: 0x001DB140 File Offset: 0x001D9540
+		// (get) Token: 0x060037D3 RID: 14291 RVA: 0x001DB280 File Offset: 0x001D9680
 		public Thing Thing
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700089D RID: 2205
-		// (get) Token: 0x060037D0 RID: 14288 RVA: 0x001DB15C File Offset: 0x001D955C
+		// (get) Token: 0x060037D4 RID: 14292 RVA: 0x001DB29C File Offset: 0x001D969C
 		public BuildableDef Def
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700089E RID: 2206
-		// (get) Token: 0x060037D1 RID: 14289 RVA: 0x001DB178 File Offset: 0x001D9578
+		// (get) Token: 0x060037D5 RID: 14293 RVA: 0x001DB2B8 File Offset: 0x001D96B8
 		public ThingDef StuffDef
 		{
 			get
@@ -49,7 +49,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700089F RID: 2207
-		// (get) Token: 0x060037D2 RID: 14290 RVA: 0x001DB194 File Offset: 0x001D9594
+		// (get) Token: 0x060037D6 RID: 14294 RVA: 0x001DB2D4 File Offset: 0x001D96D4
 		public QualityCategory QualityCategory
 		{
 			get
@@ -59,7 +59,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170008A0 RID: 2208
-		// (get) Token: 0x060037D3 RID: 14291 RVA: 0x001DB1B0 File Offset: 0x001D95B0
+		// (get) Token: 0x060037D7 RID: 14295 RVA: 0x001DB2F0 File Offset: 0x001D96F0
 		public bool HasThing
 		{
 			get
@@ -69,7 +69,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170008A1 RID: 2209
-		// (get) Token: 0x060037D4 RID: 14292 RVA: 0x001DB1D4 File Offset: 0x001D95D4
+		// (get) Token: 0x060037D8 RID: 14296 RVA: 0x001DB314 File Offset: 0x001D9714
 		public bool Empty
 		{
 			get
@@ -78,7 +78,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037D5 RID: 14293 RVA: 0x001DB1F4 File Offset: 0x001D95F4
+		// Token: 0x060037D9 RID: 14297 RVA: 0x001DB334 File Offset: 0x001D9734
 		public static StatRequest For(Thing thing)
 		{
 			StatRequest result;
@@ -99,7 +99,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037D6 RID: 14294 RVA: 0x001DB260 File Offset: 0x001D9660
+		// Token: 0x060037DA RID: 14298 RVA: 0x001DB3A0 File Offset: 0x001D97A0
 		public static StatRequest For(BuildableDef def, ThingDef stuffDef, QualityCategory quality = QualityCategory.Normal)
 		{
 			StatRequest result;
@@ -121,7 +121,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037D7 RID: 14295 RVA: 0x001DB2BC File Offset: 0x001D96BC
+		// Token: 0x060037DB RID: 14299 RVA: 0x001DB3FC File Offset: 0x001D97FC
 		public static StatRequest ForEmpty()
 		{
 			return new StatRequest
@@ -133,7 +133,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060037D8 RID: 14296 RVA: 0x001DB2FC File Offset: 0x001D96FC
+		// Token: 0x060037DC RID: 14300 RVA: 0x001DB43C File Offset: 0x001D983C
 		public override string ToString()
 		{
 			string result;
@@ -155,7 +155,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037D9 RID: 14297 RVA: 0x001DB388 File Offset: 0x001D9788
+		// Token: 0x060037DD RID: 14301 RVA: 0x001DB4C8 File Offset: 0x001D98C8
 		public override int GetHashCode()
 		{
 			int num = 0;
@@ -171,7 +171,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x060037DA RID: 14298 RVA: 0x001DB3EC File Offset: 0x001D97EC
+		// Token: 0x060037DE RID: 14302 RVA: 0x001DB52C File Offset: 0x001D992C
 		public override bool Equals(object obj)
 		{
 			bool result;
@@ -187,19 +187,19 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037DB RID: 14299 RVA: 0x001DB450 File Offset: 0x001D9850
+		// Token: 0x060037DF RID: 14303 RVA: 0x001DB590 File Offset: 0x001D9990
 		public bool Equals(StatRequest other)
 		{
 			return other.defInt == this.defInt && other.thingInt == this.thingInt && other.stuffDefInt == this.stuffDefInt;
 		}
 
-		// Token: 0x060037DC RID: 14300 RVA: 0x001DB49C File Offset: 0x001D989C
+		// Token: 0x060037E0 RID: 14304 RVA: 0x001DB5DC File Offset: 0x001D99DC
 		public static bool operator ==(StatRequest lhs, StatRequest rhs)
 		{
 			return lhs.Equals(rhs);
 		}
 
-		// Token: 0x060037DD RID: 14301 RVA: 0x001DB4BC File Offset: 0x001D98BC
+		// Token: 0x060037E1 RID: 14305 RVA: 0x001DB5FC File Offset: 0x001D99FC
 		public static bool operator !=(StatRequest lhs, StatRequest rhs)
 		{
 			return !(lhs == rhs);

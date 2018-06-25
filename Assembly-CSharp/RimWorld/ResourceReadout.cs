@@ -6,7 +6,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200089E RID: 2206
+	// Token: 0x020008A0 RID: 2208
 	public class ResourceReadout
 	{
 		// Token: 0x04001B06 RID: 6918
@@ -27,7 +27,7 @@ namespace RimWorld
 		// Token: 0x04001B0B RID: 6923
 		private const float DistFromScreenBottom = 200f;
 
-		// Token: 0x0600328A RID: 12938 RVA: 0x001B3485 File Offset: 0x001B1885
+		// Token: 0x0600328E RID: 12942 RVA: 0x001B35C5 File Offset: 0x001B19C5
 		public ResourceReadout()
 		{
 			this.RootThingCategories = (from cat in DefDatabase<ThingCategoryDef>.AllDefs
@@ -35,7 +35,7 @@ namespace RimWorld
 			select cat).ToList<ThingCategoryDef>();
 		}
 
-		// Token: 0x0600328B RID: 12939 RVA: 0x001B34C0 File Offset: 0x001B18C0
+		// Token: 0x0600328F RID: 12943 RVA: 0x001B3600 File Offset: 0x001B1A00
 		public void ResourceReadoutOnGUI()
 		{
 			if (Event.current.type != EventType.Layout)
@@ -79,7 +79,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600328C RID: 12940 RVA: 0x001B3618 File Offset: 0x001B1A18
+		// Token: 0x06003290 RID: 12944 RVA: 0x001B3758 File Offset: 0x001B1B58
 		private void DoReadoutCategorized(Rect rect)
 		{
 			Listing_ResourceReadout listing_ResourceReadout = new Listing_ResourceReadout(Find.CurrentMap);
@@ -95,7 +95,7 @@ namespace RimWorld
 			this.lastDrawnHeight = listing_ResourceReadout.CurHeight;
 		}
 
-		// Token: 0x0600328D RID: 12941 RVA: 0x001B36A8 File Offset: 0x001B1AA8
+		// Token: 0x06003291 RID: 12945 RVA: 0x001B37E8 File Offset: 0x001B1BE8
 		private void DoReadoutSimple(Rect rect, float outRectHeight)
 		{
 			GUI.BeginGroup(rect);
@@ -118,7 +118,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x0600328E RID: 12942 RVA: 0x001B37B0 File Offset: 0x001B1BB0
+		// Token: 0x06003292 RID: 12946 RVA: 0x001B38F0 File Offset: 0x001B1CF0
 		public void DrawResourceSimple(Rect rect, ThingDef thingDef)
 		{
 			this.DrawIcon(rect.x, rect.y, thingDef);
@@ -128,7 +128,7 @@ namespace RimWorld
 			Widgets.Label(rect2, count.ToStringCached());
 		}
 
-		// Token: 0x0600328F RID: 12943 RVA: 0x001B382C File Offset: 0x001B1C2C
+		// Token: 0x06003293 RID: 12947 RVA: 0x001B396C File Offset: 0x001B1D6C
 		private void DrawIcon(float x, float y, ThingDef thingDef)
 		{
 			Rect rect = new Rect(x, y, 27f, 27f);

@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000520 RID: 1312
+	// Token: 0x02000522 RID: 1314
 	public static class LearnRates
 	{
 		// Token: 0x04000E2B RID: 3627

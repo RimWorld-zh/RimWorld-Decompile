@@ -6,7 +6,7 @@ using Verse.Grammar;
 
 namespace RimWorld
 {
-	// Token: 0x020002DE RID: 734
+	// Token: 0x020002E0 RID: 736
 	public class TaleDef : Def
 	{
 		// Token: 0x04000782 RID: 1922
@@ -54,7 +54,7 @@ namespace RimWorld
 		// Token: 0x0400078F RID: 1935
 		public Color historyGraphColor = Color.white;
 
-		// Token: 0x06000C17 RID: 3095 RVA: 0x0006B5E8 File Offset: 0x000699E8
+		// Token: 0x06000C1B RID: 3099 RVA: 0x0006B738 File Offset: 0x00069B38
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -87,7 +87,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06000C18 RID: 3096 RVA: 0x0006B614 File Offset: 0x00069A14
+		// Token: 0x06000C1C RID: 3100 RVA: 0x0006B764 File Offset: 0x00069B64
 		public static TaleDef Named(string str)
 		{
 			return DefDatabase<TaleDef>.GetNamed(str, true);

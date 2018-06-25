@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000ECB RID: 3787
+	// Token: 0x02000ECD RID: 3789
 	public class WindowResizer
 	{
 		// Token: 0x04003BEF RID: 15343
@@ -18,7 +18,7 @@ namespace Verse
 		// Token: 0x04003BF2 RID: 15346
 		private const float ResizeButtonSize = 24f;
 
-		// Token: 0x0600599B RID: 22939 RVA: 0x002DDF34 File Offset: 0x002DC334
+		// Token: 0x0600599E RID: 22942 RVA: 0x002DE054 File Offset: 0x002DC454
 		public Rect DoResizeControl(Rect winRect)
 		{
 			Vector2 mousePosition = Event.current.mousePosition;

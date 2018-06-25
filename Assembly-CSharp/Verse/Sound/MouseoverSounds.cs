@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DAC RID: 3500
+	// Token: 0x02000DAE RID: 3502
 	public static class MouseoverSounds
 	{
 		// Token: 0x04003420 RID: 13344
@@ -20,19 +20,19 @@ namespace Verse.Sound
 		// Token: 0x04003423 RID: 13347
 		private static int forceSilenceUntilFrame = -1;
 
-		// Token: 0x06004E34 RID: 20020 RVA: 0x0028ED6F File Offset: 0x0028D16F
+		// Token: 0x06004E38 RID: 20024 RVA: 0x0028EE9B File Offset: 0x0028D29B
 		public static void SilenceForNextFrame()
 		{
 			MouseoverSounds.forceSilenceUntilFrame = Time.frameCount + 1;
 		}
 
-		// Token: 0x06004E35 RID: 20021 RVA: 0x0028ED7E File Offset: 0x0028D17E
+		// Token: 0x06004E39 RID: 20025 RVA: 0x0028EEAA File Offset: 0x0028D2AA
 		public static void DoRegion(Rect rect)
 		{
 			MouseoverSounds.DoRegion(rect, SoundDefOf.Mouseover_Standard);
 		}
 
-		// Token: 0x06004E36 RID: 20022 RVA: 0x0028ED8C File Offset: 0x0028D18C
+		// Token: 0x06004E3A RID: 20026 RVA: 0x0028EEB8 File Offset: 0x0028D2B8
 		public static void DoRegion(Rect rect, SoundDef sound)
 		{
 			if (sound != null)
@@ -48,7 +48,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E37 RID: 20023 RVA: 0x0028EDEC File Offset: 0x0028D1EC
+		// Token: 0x06004E3B RID: 20027 RVA: 0x0028EF18 File Offset: 0x0028D318
 		public static void ResolveFrame()
 		{
 			for (int i = 0; i < MouseoverSounds.frameCalls.Count; i++)
@@ -73,7 +73,7 @@ namespace Verse.Sound
 			MouseoverSounds.frameCalls.Clear();
 		}
 
-		// Token: 0x02000DAD RID: 3501
+		// Token: 0x02000DAF RID: 3503
 		private struct MouseoverRegionCall
 		{
 			// Token: 0x04003424 RID: 13348
@@ -85,8 +85,8 @@ namespace Verse.Sound
 			// Token: 0x04003426 RID: 13350
 			public SoundDef sound;
 
-			// Token: 0x17000C8F RID: 3215
-			// (get) Token: 0x06004E39 RID: 20025 RVA: 0x0028EEDC File Offset: 0x0028D2DC
+			// Token: 0x17000C8E RID: 3214
+			// (get) Token: 0x06004E3D RID: 20029 RVA: 0x0028F008 File Offset: 0x0028D408
 			public bool IsValid
 			{
 				get
@@ -95,8 +95,8 @@ namespace Verse.Sound
 				}
 			}
 
-			// Token: 0x17000C90 RID: 3216
-			// (get) Token: 0x06004E3A RID: 20026 RVA: 0x0028EF08 File Offset: 0x0028D308
+			// Token: 0x17000C8F RID: 3215
+			// (get) Token: 0x06004E3E RID: 20030 RVA: 0x0028F034 File Offset: 0x0028D434
 			public static MouseoverSounds.MouseoverRegionCall Invalid
 			{
 				get
@@ -108,13 +108,13 @@ namespace Verse.Sound
 				}
 			}
 
-			// Token: 0x06004E3B RID: 20027 RVA: 0x0028EF48 File Offset: 0x0028D348
+			// Token: 0x06004E3F RID: 20031 RVA: 0x0028F074 File Offset: 0x0028D474
 			public bool Matches(MouseoverSounds.MouseoverRegionCall other)
 			{
 				return this.rect.Equals(other.rect);
 			}
 
-			// Token: 0x06004E3C RID: 20028 RVA: 0x0028EF7C File Offset: 0x0028D37C
+			// Token: 0x06004E40 RID: 20032 RVA: 0x0028F0A8 File Offset: 0x0028D4A8
 			public override string ToString()
 			{
 				string result;

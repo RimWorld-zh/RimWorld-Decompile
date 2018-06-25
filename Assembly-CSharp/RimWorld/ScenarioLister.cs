@@ -4,13 +4,13 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000652 RID: 1618
+	// Token: 0x02000654 RID: 1620
 	public static class ScenarioLister
 	{
 		// Token: 0x0400132A RID: 4906
 		private static bool dirty = true;
 
-		// Token: 0x060021C4 RID: 8644 RVA: 0x0011E1E8 File Offset: 0x0011C5E8
+		// Token: 0x060021C8 RID: 8648 RVA: 0x0011E338 File Offset: 0x0011C738
 		public static IEnumerable<Scenario> AllScenarios()
 		{
 			ScenarioLister.RecacheIfDirty();
@@ -29,7 +29,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060021C5 RID: 8645 RVA: 0x0011E20C File Offset: 0x0011C60C
+		// Token: 0x060021C9 RID: 8649 RVA: 0x0011E35C File Offset: 0x0011C75C
 		public static IEnumerable<Scenario> ScenariosInCategory(ScenarioCategory cat)
 		{
 			ScenarioLister.RecacheIfDirty();
@@ -57,7 +57,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060021C6 RID: 8646 RVA: 0x0011E238 File Offset: 0x0011C638
+		// Token: 0x060021CA RID: 8650 RVA: 0x0011E388 File Offset: 0x0011C788
 		public static bool ScenarioIsListedAnywhere(Scenario scen)
 		{
 			ScenarioLister.RecacheIfDirty();
@@ -78,13 +78,13 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060021C7 RID: 8647 RVA: 0x0011E304 File Offset: 0x0011C704
+		// Token: 0x060021CB RID: 8651 RVA: 0x0011E454 File Offset: 0x0011C854
 		public static void MarkDirty()
 		{
 			ScenarioLister.dirty = true;
 		}
 
-		// Token: 0x060021C8 RID: 8648 RVA: 0x0011E30D File Offset: 0x0011C70D
+		// Token: 0x060021CC RID: 8652 RVA: 0x0011E45D File Offset: 0x0011C85D
 		private static void RecacheIfDirty()
 		{
 			if (ScenarioLister.dirty)
@@ -93,7 +93,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021C9 RID: 8649 RVA: 0x0011E320 File Offset: 0x0011C720
+		// Token: 0x060021CD RID: 8653 RVA: 0x0011E470 File Offset: 0x0011C870
 		private static void RecacheData()
 		{
 			ScenarioLister.dirty = false;
@@ -109,7 +109,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021CA RID: 8650 RVA: 0x0011E370 File Offset: 0x0011C770
+		// Token: 0x060021CE RID: 8654 RVA: 0x0011E4C0 File Offset: 0x0011C8C0
 		public static int ScenarioListHash()
 		{
 			int num = 9826121;

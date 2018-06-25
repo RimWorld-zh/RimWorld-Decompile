@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000B7D RID: 2941
+	// Token: 0x02000B7F RID: 2943
 	public class ReverbSetup
 	{
 		// Token: 0x04002AFD RID: 11005
@@ -50,7 +50,7 @@ namespace Verse.Sound
 		// Token: 0x04002B0A RID: 11018
 		public float density = 100f;
 
-		// Token: 0x0600401A RID: 16410 RVA: 0x0021C654 File Offset: 0x0021AA54
+		// Token: 0x0600401D RID: 16413 RVA: 0x0021C730 File Offset: 0x0021AB30
 		public void DoEditWidgets(WidgetRow widgetRow)
 		{
 			if (widgetRow.ButtonText("Setup from preset...", "Set up the reverb filter from a preset.", true, false))
@@ -85,7 +85,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x0600401B RID: 16411 RVA: 0x0021C740 File Offset: 0x0021AB40
+		// Token: 0x0600401E RID: 16414 RVA: 0x0021C81C File Offset: 0x0021AC1C
 		public void ApplyTo(AudioReverbFilter filter)
 		{
 			filter.dryLevel = this.dryLevel;
@@ -104,7 +104,7 @@ namespace Verse.Sound
 			filter.density = this.density;
 		}
 
-		// Token: 0x0600401C RID: 16412 RVA: 0x0021C7F8 File Offset: 0x0021ABF8
+		// Token: 0x0600401F RID: 16415 RVA: 0x0021C8D4 File Offset: 0x0021ACD4
 		public static ReverbSetup Lerp(ReverbSetup A, ReverbSetup B, float t)
 		{
 			return new ReverbSetup

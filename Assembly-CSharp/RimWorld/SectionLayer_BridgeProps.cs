@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200038C RID: 908
+	// Token: 0x0200038E RID: 910
 	[StaticConstructorOnStartup]
 	public class SectionLayer_BridgeProps : SectionLayer
 	{
@@ -14,14 +14,14 @@ namespace RimWorld
 		// Token: 0x040009A6 RID: 2470
 		private static readonly Material PropsRightMat = MaterialPool.MatFrom("Terrain/Misc/BridgeProps_Right", ShaderDatabase.Transparent);
 
-		// Token: 0x06000FD8 RID: 4056 RVA: 0x00084ED8 File Offset: 0x000832D8
+		// Token: 0x06000FDC RID: 4060 RVA: 0x00085028 File Offset: 0x00083428
 		public SectionLayer_BridgeProps(Section section) : base(section)
 		{
 			this.relevantChangeTypes = MapMeshFlag.Terrain;
 		}
 
 		// Token: 0x17000242 RID: 578
-		// (get) Token: 0x06000FD9 RID: 4057 RVA: 0x00084EEC File Offset: 0x000832EC
+		// (get) Token: 0x06000FDD RID: 4061 RVA: 0x0008503C File Offset: 0x0008343C
 		public override bool Visible
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06000FDA RID: 4058 RVA: 0x00084F08 File Offset: 0x00083308
+		// Token: 0x06000FDE RID: 4062 RVA: 0x00085058 File Offset: 0x00083458
 		public override void Regenerate()
 		{
 			base.ClearSubMeshes(MeshParts.All);
@@ -77,7 +77,7 @@ namespace RimWorld
 			base.FinalizeMesh(MeshParts.All);
 		}
 
-		// Token: 0x06000FDB RID: 4059 RVA: 0x0008514C File Offset: 0x0008354C
+		// Token: 0x06000FDF RID: 4063 RVA: 0x0008529C File Offset: 0x0008369C
 		private bool ShouldDrawPropsBelow(IntVec3 c, TerrainGrid terrGrid)
 		{
 			TerrainDef terrainDef = terrGrid.TerrainAt(c);

@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200091D RID: 2333
+	// Token: 0x0200091F RID: 2335
 	[DefOf]
 	public static class JobDefOf
 	{
@@ -346,7 +346,7 @@ namespace RimWorld
 		// Token: 0x04001F4A RID: 8010
 		public static JobDef PredatorHunt;
 
-		// Token: 0x06003625 RID: 13861 RVA: 0x001D0957 File Offset: 0x001CED57
+		// Token: 0x06003629 RID: 13865 RVA: 0x001D0A97 File Offset: 0x001CEE97
 		static JobDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(JobDefOf));

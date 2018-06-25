@@ -8,7 +8,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x0200047D RID: 1149
+	// Token: 0x0200047F RID: 1151
 	[HasDebugOutput]
 	internal static class AgeInjuryUtility
 	{
@@ -18,13 +18,13 @@ namespace RimWorld
 		// Token: 0x04000C0D RID: 3085
 		private static List<Thing> emptyIngredientsList = new List<Thing>();
 
-		// Token: 0x06001430 RID: 5168 RVA: 0x000B0520 File Offset: 0x000AE920
+		// Token: 0x06001434 RID: 5172 RVA: 0x000B0670 File Offset: 0x000AEA70
 		public static IEnumerable<HediffGiver_Birthday> RandomHediffsToGainOnBirthday(Pawn pawn, int age)
 		{
 			return AgeInjuryUtility.RandomHediffsToGainOnBirthday(pawn.def, age);
 		}
 
-		// Token: 0x06001431 RID: 5169 RVA: 0x000B0544 File Offset: 0x000AE944
+		// Token: 0x06001435 RID: 5173 RVA: 0x000B0694 File Offset: 0x000AEA94
 		private static IEnumerable<HediffGiver_Birthday> RandomHediffsToGainOnBirthday(ThingDef raceDef, int age)
 		{
 			List<HediffGiverSetDef> sets = raceDef.race.hediffGiverSets;
@@ -51,7 +51,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06001432 RID: 5170 RVA: 0x000B0578 File Offset: 0x000AE978
+		// Token: 0x06001436 RID: 5174 RVA: 0x000B06C8 File Offset: 0x000AEAC8
 		public static void GenerateRandomOldAgeInjuries(Pawn pawn, bool tryNotToKillPawn)
 		{
 			float num = (!pawn.RaceProps.IsMechanoid) ? pawn.RaceProps.lifeExpectancy : 2500f;
@@ -121,7 +121,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001433 RID: 5171 RVA: 0x000B0940 File Offset: 0x000AED40
+		// Token: 0x06001437 RID: 5175 RVA: 0x000B0A90 File Offset: 0x000AEE90
 		private static DamageDef RandomPermanentInjuryDamageType(bool allowFrostbite)
 		{
 			DamageDef result;
@@ -148,7 +148,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001434 RID: 5172 RVA: 0x000B09C4 File Offset: 0x000AEDC4
+		// Token: 0x06001438 RID: 5176 RVA: 0x000B0B14 File Offset: 0x000AEF14
 		[DebugOutput]
 		public static void PermanentInjuryCalculations()
 		{

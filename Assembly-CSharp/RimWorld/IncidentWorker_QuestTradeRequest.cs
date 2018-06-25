@@ -7,7 +7,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000357 RID: 855
+	// Token: 0x02000359 RID: 857
 	public class IncidentWorker_QuestTradeRequest : IncidentWorker
 	{
 		// Token: 0x04000913 RID: 2323
@@ -71,14 +71,14 @@ namespace RimWorld
 		// Token: 0x0400091D RID: 2333
 		private static List<Map> tmpAvailableMaps = new List<Map>();
 
-		// Token: 0x06000EC8 RID: 3784 RVA: 0x0007CE9C File Offset: 0x0007B29C
+		// Token: 0x06000ECC RID: 3788 RVA: 0x0007CFEC File Offset: 0x0007B3EC
 		protected override bool CanFireNowSub(IncidentParms parms)
 		{
 			Map map;
 			return base.CanFireNowSub(parms) && this.TryGetRandomAvailableTargetMap(out map) && IncidentWorker_QuestTradeRequest.RandomNearbyTradeableSettlement(map.Tile) != null;
 		}
 
-		// Token: 0x06000EC9 RID: 3785 RVA: 0x0007CEF4 File Offset: 0x0007B2F4
+		// Token: 0x06000ECD RID: 3789 RVA: 0x0007D044 File Offset: 0x0007B444
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map;
@@ -120,7 +120,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000ECA RID: 3786 RVA: 0x0007D034 File Offset: 0x0007B434
+		// Token: 0x06000ECE RID: 3790 RVA: 0x0007D184 File Offset: 0x0007B584
 		public bool TryGenerateTradeRequest(TradeRequestComp target, Map map)
 		{
 			int num = this.RandomOfferDurationTicks(map.Tile, target.parent.Tile);
@@ -143,7 +143,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000ECB RID: 3787 RVA: 0x0007D0D8 File Offset: 0x0007B4D8
+		// Token: 0x06000ECF RID: 3791 RVA: 0x0007D228 File Offset: 0x0007B628
 		public static Settlement RandomNearbyTradeableSettlement(int originTile)
 		{
 			return (from settlement in Find.WorldObjects.Settlements
@@ -151,7 +151,7 @@ namespace RimWorld
 			select settlement).RandomElementWithFallback(null);
 		}
 
-		// Token: 0x06000ECC RID: 3788 RVA: 0x0007D11C File Offset: 0x0007B51C
+		// Token: 0x06000ED0 RID: 3792 RVA: 0x0007D26C File Offset: 0x0007B66C
 		private static bool TryFindRandomRequestedThingDef(Map map, out ThingDef thingDef, out int count)
 		{
 			IncidentWorker_QuestTradeRequest.requestCountDict.Clear();
@@ -210,7 +210,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000ECD RID: 3789 RVA: 0x0007D198 File Offset: 0x0007B598
+		// Token: 0x06000ED1 RID: 3793 RVA: 0x0007D2E8 File Offset: 0x0007B6E8
 		private bool TryGetRandomAvailableTargetMap(out Map map)
 		{
 			IncidentWorker_QuestTradeRequest.tmpAvailableMaps.Clear();
@@ -227,7 +227,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000ECE RID: 3790 RVA: 0x0007D23C File Offset: 0x0007B63C
+		// Token: 0x06000ED2 RID: 3794 RVA: 0x0007D38C File Offset: 0x0007B78C
 		private static int RandomRequestCount(ThingDef thingDef, Map map)
 		{
 			float num = (float)IncidentWorker_QuestTradeRequest.BaseValueWantedRange.RandomInRange;
@@ -235,7 +235,7 @@ namespace RimWorld
 			return ThingUtility.RoundedResourceStackCount(Mathf.Max(1, Mathf.RoundToInt(num / thingDef.BaseMarketValue)));
 		}
 
-		// Token: 0x06000ECF RID: 3791 RVA: 0x0007D290 File Offset: 0x0007B690
+		// Token: 0x06000ED3 RID: 3795 RVA: 0x0007D3E0 File Offset: 0x0007B7E0
 		private static List<Thing> GenerateRewardsFor(ThingDef thingDef, int quantity, Faction faction, Map map)
 		{
 			ThingSetMakerParams parms = default(ThingSetMakerParams);
@@ -265,7 +265,7 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x06000ED0 RID: 3792 RVA: 0x0007D3D0 File Offset: 0x0007B7D0
+		// Token: 0x06000ED4 RID: 3796 RVA: 0x0007D520 File Offset: 0x0007B920
 		private int RandomOfferDurationTicks(int tileIdFrom, int tileIdTo)
 		{
 			int randomInRange = IncidentWorker_QuestTradeRequest.RandomDurationRangeDays.RandomInRange;
@@ -285,7 +285,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06000ED1 RID: 3793 RVA: 0x0007D444 File Offset: 0x0007B844
+		// Token: 0x06000ED5 RID: 3797 RVA: 0x0007D594 File Offset: 0x0007B994
 		private bool AtLeast2HealthyColonists(Map map)
 		{
 			List<Pawn> list = map.mapPawns.SpawnedPawnsInFaction(Faction.OfPlayer);

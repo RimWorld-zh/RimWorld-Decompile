@@ -2,7 +2,7 @@
 
 namespace RimWorld
 {
-	// Token: 0x02000266 RID: 614
+	// Token: 0x02000268 RID: 616
 	[Flags]
 	public enum FoodTypeFlags
 	{

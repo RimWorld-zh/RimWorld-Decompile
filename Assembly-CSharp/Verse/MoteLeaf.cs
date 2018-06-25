@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DE9 RID: 3561
+	// Token: 0x02000DEB RID: 3563
 	public class MoteLeaf : Mote
 	{
 		// Token: 0x040034E5 RID: 13541
@@ -25,8 +25,8 @@ namespace Verse
 		[TweakValue("Graphics", 0f, 5f)]
 		private static float FallSpeed = 0.5f;
 
-		// Token: 0x17000CF6 RID: 3318
-		// (get) Token: 0x06004FD8 RID: 20440 RVA: 0x002973C0 File Offset: 0x002957C0
+		// Token: 0x17000CF5 RID: 3317
+		// (get) Token: 0x06004FDC RID: 20444 RVA: 0x002974EC File Offset: 0x002958EC
 		protected override bool EndOfLife
 		{
 			get
@@ -35,8 +35,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CF7 RID: 3319
-		// (get) Token: 0x06004FD9 RID: 20441 RVA: 0x00297410 File Offset: 0x00295810
+		// Token: 0x17000CF6 RID: 3318
+		// (get) Token: 0x06004FDD RID: 20445 RVA: 0x0029753C File Offset: 0x0029593C
 		private float FallTime
 		{
 			get
@@ -45,8 +45,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CF8 RID: 3320
-		// (get) Token: 0x06004FDA RID: 20442 RVA: 0x00297438 File Offset: 0x00295838
+		// Token: 0x17000CF7 RID: 3319
+		// (get) Token: 0x06004FDE RID: 20446 RVA: 0x00297564 File Offset: 0x00295964
 		public override float Alpha
 		{
 			get
@@ -93,7 +93,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FDB RID: 20443 RVA: 0x00297562 File Offset: 0x00295962
+		// Token: 0x06004FDF RID: 20447 RVA: 0x0029768E File Offset: 0x00295A8E
 		public void Initialize(Vector3 position, float spawnDelay, bool front, float treeHeight)
 		{
 			this.startSpatialPosition = position;
@@ -103,7 +103,7 @@ namespace Verse
 			this.TimeInterval(0f);
 		}
 
-		// Token: 0x06004FDC RID: 20444 RVA: 0x00297590 File Offset: 0x00295990
+		// Token: 0x06004FE0 RID: 20448 RVA: 0x002976BC File Offset: 0x00295ABC
 		protected override void TimeInterval(float deltaTime)
 		{
 			base.TimeInterval(deltaTime);
@@ -122,7 +122,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FDD RID: 20445 RVA: 0x00297650 File Offset: 0x00295A50
+		// Token: 0x06004FE1 RID: 20449 RVA: 0x0029777C File Offset: 0x00295B7C
 		public override void Draw()
 		{
 			base.Draw((!this.front) ? this.def.altitudeLayer.AltitudeFor() : (this.def.altitudeLayer.AltitudeFor() + 0.1f * GenMath.InverseLerp(0f, this.treeHeight, this.currentSpatialPosition.y) * 2f));

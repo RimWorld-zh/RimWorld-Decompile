@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000989 RID: 2441
+	// Token: 0x0200098B RID: 2443
 	public class ShortcutKeys
 	{
-		// Token: 0x060036EF RID: 14063 RVA: 0x001D5F4C File Offset: 0x001D434C
+		// Token: 0x060036F3 RID: 14067 RVA: 0x001D608C File Offset: 0x001D448C
 		public void ShortcutKeysOnGUI()
 		{
 			if (Current.ProgramState == ProgramState.Playing)

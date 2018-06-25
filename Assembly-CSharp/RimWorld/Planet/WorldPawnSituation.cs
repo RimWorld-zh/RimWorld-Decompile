@@ -2,7 +2,7 @@
 
 namespace RimWorld.Planet
 {
-	// Token: 0x0200062A RID: 1578
+	// Token: 0x0200062C RID: 1580
 	public enum WorldPawnSituation
 	{
 		// Token: 0x04001296 RID: 4758

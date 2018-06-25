@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000245 RID: 581
+	// Token: 0x02000247 RID: 583
 	public class CompProperties_Facility : CompProperties
 	{
 		// Token: 0x04000486 RID: 1158
@@ -29,13 +29,13 @@ namespace RimWorld
 		// Token: 0x0400048C RID: 1164
 		public float maxDistance = 8f;
 
-		// Token: 0x06000A77 RID: 2679 RVA: 0x0005F168 File Offset: 0x0005D568
+		// Token: 0x06000A7B RID: 2683 RVA: 0x0005F2B8 File Offset: 0x0005D6B8
 		public CompProperties_Facility()
 		{
 			this.compClass = typeof(CompFacility);
 		}
 
-		// Token: 0x06000A78 RID: 2680 RVA: 0x0005F1C4 File Offset: 0x0005D5C4
+		// Token: 0x06000A7C RID: 2684 RVA: 0x0005F314 File Offset: 0x0005D714
 		public override void ResolveReferences(ThingDef parentDef)
 		{
 			this.linkableBuildings = new List<ThingDef>();

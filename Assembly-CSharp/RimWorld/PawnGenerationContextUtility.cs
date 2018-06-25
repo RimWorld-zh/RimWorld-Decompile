@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000635 RID: 1589
+	// Token: 0x02000637 RID: 1591
 	public static class PawnGenerationContextUtility
 	{
-		// Token: 0x060020CE RID: 8398 RVA: 0x00118CC8 File Offset: 0x001170C8
+		// Token: 0x060020D2 RID: 8402 RVA: 0x00118E18 File Offset: 0x00117218
 		public static string ToStringHuman(this PawnGenerationContext context)
 		{
 			string result;
@@ -32,20 +32,20 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060020CF RID: 8399 RVA: 0x00118D28 File Offset: 0x00117128
+		// Token: 0x060020D3 RID: 8403 RVA: 0x00118E78 File Offset: 0x00117278
 		public static bool Includes(this PawnGenerationContext includer, PawnGenerationContext other)
 		{
 			return includer == PawnGenerationContext.All || includer == other;
 		}
 
-		// Token: 0x060020D0 RID: 8400 RVA: 0x00118D50 File Offset: 0x00117150
+		// Token: 0x060020D4 RID: 8404 RVA: 0x00118EA0 File Offset: 0x001172A0
 		public static PawnGenerationContext GetRandom()
 		{
 			Array values = Enum.GetValues(typeof(PawnGenerationContext));
 			return (PawnGenerationContext)values.GetValue(Rand.Range(0, values.Length));
 		}
 
-		// Token: 0x060020D1 RID: 8401 RVA: 0x00118D8C File Offset: 0x0011718C
+		// Token: 0x060020D5 RID: 8405 RVA: 0x00118EDC File Offset: 0x001172DC
 		public static bool OverlapsWith(this PawnGenerationContext a, PawnGenerationContext b)
 		{
 			return a == PawnGenerationContext.All || b == PawnGenerationContext.All || a == b;

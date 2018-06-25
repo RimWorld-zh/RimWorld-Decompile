@@ -8,7 +8,7 @@ using Verse.Sound;
 
 namespace RimWorld.Planet
 {
-	// Token: 0x020008ED RID: 2285
+	// Token: 0x020008EF RID: 2287
 	[StaticConstructorOnStartup]
 	public class WorldRoutePlanner
 	{
@@ -55,7 +55,7 @@ namespace RimWorld.Planet
 		private const float BottomWindowEntryExtraBotMargin = 22f;
 
 		// Token: 0x17000880 RID: 2176
-		// (get) Token: 0x060034AF RID: 13487 RVA: 0x001C2484 File Offset: 0x001C0884
+		// (get) Token: 0x060034B3 RID: 13491 RVA: 0x001C25C4 File Offset: 0x001C09C4
 		public bool Active
 		{
 			get
@@ -65,7 +65,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000881 RID: 2177
-		// (get) Token: 0x060034B0 RID: 13488 RVA: 0x001C24A0 File Offset: 0x001C08A0
+		// (get) Token: 0x060034B4 RID: 13492 RVA: 0x001C25E0 File Offset: 0x001C09E0
 		private bool ShouldStop
 		{
 			get
@@ -75,7 +75,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000882 RID: 2178
-		// (get) Token: 0x060034B1 RID: 13489 RVA: 0x001C24FC File Offset: 0x001C08FC
+		// (get) Token: 0x060034B5 RID: 13493 RVA: 0x001C263C File Offset: 0x001C0A3C
 		private int CaravanTicksPerMove
 		{
 			get
@@ -95,7 +95,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000883 RID: 2179
-		// (get) Token: 0x060034B2 RID: 13490 RVA: 0x001C2558 File Offset: 0x001C0958
+		// (get) Token: 0x060034B6 RID: 13494 RVA: 0x001C2698 File Offset: 0x001C0A98
 		private CaravanTicksPerMoveUtility.CaravanInfo? CaravanInfo
 		{
 			get
@@ -122,7 +122,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000884 RID: 2180
-		// (get) Token: 0x060034B3 RID: 13491 RVA: 0x001C25AC File Offset: 0x001C09AC
+		// (get) Token: 0x060034B7 RID: 13495 RVA: 0x001C26EC File Offset: 0x001C0AEC
 		private Caravan CaravanAtTheFirstWaypoint
 		{
 			get
@@ -140,7 +140,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034B4 RID: 13492 RVA: 0x001C25F4 File Offset: 0x001C09F4
+		// Token: 0x060034B8 RID: 13496 RVA: 0x001C2734 File Offset: 0x001C0B34
 		public void Start()
 		{
 			if (this.active)
@@ -155,7 +155,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034B5 RID: 13493 RVA: 0x001C2644 File Offset: 0x001C0A44
+		// Token: 0x060034B9 RID: 13497 RVA: 0x001C2784 File Offset: 0x001C0B84
 		public void Start(Dialog_FormCaravan formCaravanDialog)
 		{
 			if (this.active)
@@ -171,7 +171,7 @@ namespace RimWorld.Planet
 			this.cantRemoveFirstWaypoint = true;
 		}
 
-		// Token: 0x060034B6 RID: 13494 RVA: 0x001C26AC File Offset: 0x001C0AAC
+		// Token: 0x060034BA RID: 13498 RVA: 0x001C27EC File Offset: 0x001C0BEC
 		public void Stop()
 		{
 			this.active = false;
@@ -192,7 +192,7 @@ namespace RimWorld.Planet
 			this.ReleasePaths();
 		}
 
-		// Token: 0x060034B7 RID: 13495 RVA: 0x001C2748 File Offset: 0x001C0B48
+		// Token: 0x060034BB RID: 13499 RVA: 0x001C2888 File Offset: 0x001C0C88
 		public void WorldRoutePlannerUpdate()
 		{
 			if (this.active && this.ShouldStop)
@@ -208,7 +208,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034B8 RID: 13496 RVA: 0x001C27B4 File Offset: 0x001C0BB4
+		// Token: 0x060034BC RID: 13500 RVA: 0x001C28F4 File Offset: 0x001C0CF4
 		public void WorldRoutePlannerOnGUI()
 		{
 			if (this.active)
@@ -272,7 +272,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034B9 RID: 13497 RVA: 0x001C29A4 File Offset: 0x001C0DA4
+		// Token: 0x060034BD RID: 13501 RVA: 0x001C2AE4 File Offset: 0x001C0EE4
 		private void DoRouteDetailsBox()
 		{
 			WorldRoutePlanner.<DoRouteDetailsBox>c__AnonStorey2 <DoRouteDetailsBox>c__AnonStorey = new WorldRoutePlanner.<DoRouteDetailsBox>c__AnonStorey2();
@@ -339,7 +339,7 @@ namespace RimWorld.Planet
 			}, true, false, 1f);
 		}
 
-		// Token: 0x060034BA RID: 13498 RVA: 0x001C2A64 File Offset: 0x001C0E64
+		// Token: 0x060034BE RID: 13502 RVA: 0x001C2BA4 File Offset: 0x001C0FA4
 		private bool DoChooseRouteButton()
 		{
 			bool result;
@@ -365,7 +365,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x060034BB RID: 13499 RVA: 0x001C2B5C File Offset: 0x001C0F5C
+		// Token: 0x060034BF RID: 13503 RVA: 0x001C2C9C File Offset: 0x001C109C
 		private void DoTileTooltips()
 		{
 			if (!Mouse.IsInputBlockedNow)
@@ -397,7 +397,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034BC RID: 13500 RVA: 0x001C2C68 File Offset: 0x001C1068
+		// Token: 0x060034C0 RID: 13504 RVA: 0x001C2DA8 File Offset: 0x001C11A8
 		private string GetTileTip(int tile, int pathIndex)
 		{
 			int num = this.paths[pathIndex].NodesReversed.IndexOf(tile);
@@ -441,7 +441,7 @@ namespace RimWorld.Planet
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060034BD RID: 13501 RVA: 0x001C2E9C File Offset: 0x001C129C
+		// Token: 0x060034C1 RID: 13505 RVA: 0x001C2FDC File Offset: 0x001C13DC
 		public void DoRoutePlannerButton(ref float curBaseY)
 		{
 			float num = (float)WorldRoutePlanner.ButtonTex.width;
@@ -464,13 +464,13 @@ namespace RimWorld.Planet
 			curBaseY -= num2 + 20f;
 		}
 
-		// Token: 0x060034BE RID: 13502 RVA: 0x001C2F68 File Offset: 0x001C1368
+		// Token: 0x060034C2 RID: 13506 RVA: 0x001C30A8 File Offset: 0x001C14A8
 		public int GetTicksToWaypoint(int index)
 		{
 			return this.cachedTicksToWaypoint[index];
 		}
 
-		// Token: 0x060034BF RID: 13503 RVA: 0x001C2F8C File Offset: 0x001C138C
+		// Token: 0x060034C3 RID: 13507 RVA: 0x001C30CC File Offset: 0x001C14CC
 		private void TryAddWaypoint(int tile, bool playSound = true)
 		{
 			if (Find.World.Impassable(tile))
@@ -502,7 +502,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034C0 RID: 13504 RVA: 0x001C30A0 File Offset: 0x001C14A0
+		// Token: 0x060034C4 RID: 13508 RVA: 0x001C31E0 File Offset: 0x001C15E0
 		public void TryRemoveWaypoint(RoutePlannerWaypoint point, bool playSound = true)
 		{
 			if (this.cantRemoveFirstWaypoint && this.waypoints.Any<RoutePlannerWaypoint>() && point == this.waypoints[0])
@@ -529,7 +529,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034C1 RID: 13505 RVA: 0x001C3194 File Offset: 0x001C1594
+		// Token: 0x060034C5 RID: 13509 RVA: 0x001C32D4 File Offset: 0x001C16D4
 		private void ReleasePaths()
 		{
 			for (int i = 0; i < this.paths.Count; i++)
@@ -539,7 +539,7 @@ namespace RimWorld.Planet
 			this.paths.Clear();
 		}
 
-		// Token: 0x060034C2 RID: 13506 RVA: 0x001C31DC File Offset: 0x001C15DC
+		// Token: 0x060034C6 RID: 13510 RVA: 0x001C331C File Offset: 0x001C171C
 		private void RecreatePaths()
 		{
 			this.ReleasePaths();
@@ -565,7 +565,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034C3 RID: 13507 RVA: 0x001C32F4 File Offset: 0x001C16F4
+		// Token: 0x060034C7 RID: 13511 RVA: 0x001C3434 File Offset: 0x001C1834
 		private RoutePlannerWaypoint MostRecentWaypointAt(int tile)
 		{
 			for (int i = this.waypoints.Count - 1; i >= 0; i--)

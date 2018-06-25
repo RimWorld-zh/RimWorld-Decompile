@@ -5,10 +5,10 @@ using RimWorld;
 
 namespace Verse.AI.Group
 {
-	// Token: 0x02000A04 RID: 2564
+	// Token: 0x02000A06 RID: 2566
 	public class TransitionAction_SetDefendTrader : TransitionAction
 	{
-		// Token: 0x06003980 RID: 14720 RVA: 0x001E7C00 File Offset: 0x001E6000
+		// Token: 0x06003984 RID: 14724 RVA: 0x001E7D2C File Offset: 0x001E612C
 		public override void DoAction(Transition trans)
 		{
 			LordToil_DefendPoint lordToil_DefendPoint = (LordToil_DefendPoint)trans.target;

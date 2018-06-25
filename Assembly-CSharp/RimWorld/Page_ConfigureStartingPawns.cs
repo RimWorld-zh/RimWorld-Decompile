@@ -8,7 +8,7 @@ using Verse.Sound;
 
 namespace RimWorld
 {
-	// Token: 0x0200082E RID: 2094
+	// Token: 0x02000830 RID: 2096
 	public class Page_ConfigureStartingPawns : Page
 	{
 		// Token: 0x04001980 RID: 6528
@@ -42,7 +42,7 @@ namespace RimWorld
 		private int SkillsPerColumn = -1;
 
 		// Token: 0x17000782 RID: 1922
-		// (get) Token: 0x06002F3B RID: 12091 RVA: 0x00193EA8 File Offset: 0x001922A8
+		// (get) Token: 0x06002F3F RID: 12095 RVA: 0x00193FF8 File Offset: 0x001923F8
 		public override string PageTitle
 		{
 			get
@@ -51,7 +51,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F3C RID: 12092 RVA: 0x00193EC7 File Offset: 0x001922C7
+		// Token: 0x06002F40 RID: 12096 RVA: 0x00194017 File Offset: 0x00192417
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -61,14 +61,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F3D RID: 12093 RVA: 0x00193EFB File Offset: 0x001922FB
+		// Token: 0x06002F41 RID: 12097 RVA: 0x0019404B File Offset: 0x0019244B
 		public override void PostOpen()
 		{
 			base.PostOpen();
 			TutorSystem.Notify_Event("PageStart-ConfigureStartingPawns");
 		}
 
-		// Token: 0x06002F3E RID: 12094 RVA: 0x00193F14 File Offset: 0x00192314
+		// Token: 0x06002F42 RID: 12098 RVA: 0x00194064 File Offset: 0x00192464
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DrawPageTitle(rect);
@@ -89,7 +89,7 @@ namespace RimWorld
 			this.DrawSkillSummaries(rect4);
 		}
 
-		// Token: 0x06002F3F RID: 12095 RVA: 0x00193FD8 File Offset: 0x001923D8
+		// Token: 0x06002F43 RID: 12099 RVA: 0x00194128 File Offset: 0x00192528
 		private void DrawPawnList(Rect rect)
 		{
 			Rect rect2 = rect;
@@ -157,7 +157,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F40 RID: 12096 RVA: 0x0019430C File Offset: 0x0019270C
+		// Token: 0x06002F44 RID: 12100 RVA: 0x0019445C File Offset: 0x0019285C
 		private void DrawPawnListLabelAbove(Rect rect, string label)
 		{
 			rect.yMax = rect.yMin;
@@ -170,7 +170,7 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 		}
 
-		// Token: 0x06002F41 RID: 12097 RVA: 0x00194370 File Offset: 0x00192770
+		// Token: 0x06002F45 RID: 12101 RVA: 0x001944C0 File Offset: 0x001928C0
 		private void DrawPortraitArea(Rect rect)
 		{
 			Widgets.DrawMenuSection(rect);
@@ -196,7 +196,7 @@ namespace RimWorld
 			SocialCardUtility.DrawRelationsAndOpinions(rect4, this.curPawn);
 		}
 
-		// Token: 0x06002F42 RID: 12098 RVA: 0x00194500 File Offset: 0x00192900
+		// Token: 0x06002F46 RID: 12102 RVA: 0x00194650 File Offset: 0x00192A50
 		private void DrawSkillSummaries(Rect rect)
 		{
 			rect.xMin += 10f;
@@ -234,7 +234,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F43 RID: 12099 RVA: 0x001946C0 File Offset: 0x00192AC0
+		// Token: 0x06002F47 RID: 12103 RVA: 0x00194810 File Offset: 0x00192C10
 		private Pawn FindBestSkillOwner(SkillDef skill)
 		{
 			Pawn pawn = Find.GameInitData.startingAndOptionalPawns[0];
@@ -251,7 +251,7 @@ namespace RimWorld
 			return pawn;
 		}
 
-		// Token: 0x06002F44 RID: 12100 RVA: 0x00194784 File Offset: 0x00192B84
+		// Token: 0x06002F48 RID: 12104 RVA: 0x001948D4 File Offset: 0x00192CD4
 		private void RandomizeCurPawn()
 		{
 			if (TutorSystem.AllowAction("RandomizePawn"))
@@ -271,7 +271,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F45 RID: 12101 RVA: 0x001947EC File Offset: 0x00192BEC
+		// Token: 0x06002F49 RID: 12105 RVA: 0x0019493C File Offset: 0x00192D3C
 		protected override bool CanDoNext()
 		{
 			bool result;
@@ -304,7 +304,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002F46 RID: 12102 RVA: 0x001948EC File Offset: 0x00192CEC
+		// Token: 0x06002F4A RID: 12106 RVA: 0x00194A3C File Offset: 0x00192E3C
 		protected override void DoNext()
 		{
 			this.CheckWarnRequiredWorkTypesDisabledForEveryone(delegate
@@ -321,7 +321,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002F47 RID: 12103 RVA: 0x00194904 File Offset: 0x00192D04
+		// Token: 0x06002F4B RID: 12107 RVA: 0x00194A54 File Offset: 0x00192E54
 		private void CheckWarnRequiredWorkTypesDisabledForEveryone(Action nextAction)
 		{
 			IEnumerable<WorkTypeDef> enumerable = StartingPawnUtility.RequiredWorkTypesDisabledForEveryone();
@@ -348,7 +348,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F48 RID: 12104 RVA: 0x001949D8 File Offset: 0x00192DD8
+		// Token: 0x06002F4C RID: 12108 RVA: 0x00194B28 File Offset: 0x00192F28
 		public void SelectPawn(Pawn c)
 		{
 			if (c != this.curPawn)
